@@ -909,7 +909,6 @@ sv:
   label_completed_versions: Klara versioner
   label_search_for_watchers: Sök efter bevakare att lägga till
   label_session_expiration: Sessionsutgång
-  label_show_closed_projects: Visa stängda projekt
   label_status_transitions: Statusövergångar
   label_fields_permissions: Fältbehörigheter
   label_readonly: Skrivskyddad

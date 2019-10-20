@@ -1111,7 +1111,6 @@ az:
   setting_session_timeout: Sessiyanın qeyri aktivlik müddəti
   label_session_expiration: Sessiyanın bitməsi
   permission_close_project: Layihəni bağla / yenidən aç
-  label_show_closed_projects: Bağlı layihələrə baxmaq
   button_close: Bağla
   button_reopen: Yenidən aç
   project_status_active: aktiv

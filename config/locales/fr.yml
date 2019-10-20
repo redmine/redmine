@@ -955,7 +955,6 @@ fr:
   label_completed_versions: Versions passées
   label_search_for_watchers: Rechercher des observateurs
   label_session_expiration: Expiration des sessions
-  label_show_closed_projects: Voir les projets fermés
   label_status_transitions: Changements de statut
   label_fields_permissions: Permissions sur les champs
   label_readonly: Lecture

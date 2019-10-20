@@ -946,7 +946,6 @@ fa:
   label_completed_versions: نسخه‌های کامل‌شده
   label_search_for_watchers: جست‌وجوی ناظرها برای افزودن
   label_session_expiration: انقضای نشست
-  label_show_closed_projects: مشاهده پروژه‌های بسته
   label_status_transitions: انتقال‌های وضعیت
   label_fields_permissions: مجوزهای بخش‌ها
   label_readonly: فقط‌خواندنی

@@ -1024,7 +1024,6 @@ uk:
   setting_session_timeout: Таймаут сеансу
   label_session_expiration: Термін закінчення сеансу
   permission_close_project: Закривати/відкривати проекти
-  label_show_closed_projects: Переглянути закриті проекти
   button_close: Закрити
   button_reopen: Відкрити
   project_status_active: Відкриті(ий)

@@ -1032,7 +1032,6 @@
   label_completed_versions: 已完成版本
   label_search_for_watchers: 搜尋可供加入的監看者
   label_session_expiration: 工作階段逾期
-  label_show_closed_projects: 檢視已關閉的專案
   label_status_transitions: 狀態轉換
   label_fields_permissions: 欄位權限
   label_readonly: 唯讀

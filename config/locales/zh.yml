@@ -1022,7 +1022,6 @@ zh:
   setting_session_timeout: 会话闲置超时
   label_session_expiration: 会话过期
   permission_close_project: 关闭/重开项目
-  label_show_closed_projects: 查看已关闭的项目
   button_close: 关闭
   button_reopen: 重开
   project_status_active: 已激活

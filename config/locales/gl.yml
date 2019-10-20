@@ -1029,7 +1029,6 @@ gl:
   setting_session_timeout: "Tempo de inactividade máximo das sesións"
   label_session_expiration: "Caducidade das sesións"
   permission_close_project: "Pechar ou volver abrir o proxecto"
-  label_show_closed_projects: "Ver os proxectos pechados"
   button_close: "Pechar"
   button_reopen: "Volver abrir"
   project_status_active: "activo"

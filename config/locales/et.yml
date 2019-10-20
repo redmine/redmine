@@ -1031,7 +1031,6 @@ et:
   setting_session_timeout: "Sessiooni aegumine jõudeoleku tõttu"
   label_session_expiration: "Sessiooni aegumine"
   permission_close_project: "Sule projekt/ava projekt uuesti"
-  label_show_closed_projects: "Näita ka suletud projekte"
   button_close: "Sulge"
   button_reopen: "Ava uuesti"
   project_status_active: "Aktiivne"

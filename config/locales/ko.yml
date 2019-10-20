@@ -1067,7 +1067,6 @@ ko:
   setting_session_timeout: 세션 비활성화 타임아웃
   label_session_expiration: 세션 만료
   permission_close_project: 프로젝트를 닫거나 다시 열기
-  label_show_closed_projects: 닫힌 프로젝트 보기
   button_close: 닫기
   button_reopen: 다시 열기
   project_status_active: 사용중

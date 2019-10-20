@@ -744,7 +744,6 @@ de:
   label_send_test_email: Test-E-Mail senden
   label_session_expiration: Ende einer Sitzung
   label_settings: Konfiguration
-  label_show_closed_projects: Geschlossene Projekte anzeigen
   label_show_completed_versions: Abgeschlossene Versionen anzeigen
   label_sort: Sortierung
   label_sort_by: "Sortiert nach %{value}"

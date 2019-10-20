@@ -1018,7 +1018,6 @@ ca:
   setting_session_timeout: "Temps màxim d'inactivitat de les sessions"
   label_session_expiration: "Expiració de les sessions"
   permission_close_project: "Tancar / reobrir el projecte"
-  label_show_closed_projects: "Veure projectes tancats"
   button_close: "Tancar"
   button_reopen: "Reobrir"
   project_status_active: "actiu"

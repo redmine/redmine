@@ -1120,7 +1120,6 @@ ru:
   setting_session_timeout: Таймаут сессии
   label_session_expiration: Срок истечения сессии
   permission_close_project: Закрывать / открывать проекты
-  label_show_closed_projects: Просматривать закрытые проекты
   button_close: Сделать закрытым
   button_reopen: Сделать открытым
   project_status_active: открытые

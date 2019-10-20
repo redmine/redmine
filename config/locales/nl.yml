@@ -1000,7 +1000,6 @@ nl:
   setting_session_timeout: Sessie-inactiviteit timeout
   label_session_expiration: Sessie verlopen
   permission_close_project: Project sluiten/heropenen
-  label_show_closed_projects: Gesloten projecten weergeven
   button_close: Sluiten
   button_reopen: Heropenen
   project_status_active: actief

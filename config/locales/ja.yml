@@ -1049,7 +1049,6 @@ ja:
   setting_session_timeout: 無操作タイムアウト
   label_session_expiration: セッション有効期間
   permission_close_project: プロジェクトの終了/再開
-  label_show_closed_projects: 終了したプロジェクトを表示
   button_close: 終了
   button_reopen: 再開
   project_status_active: 有効

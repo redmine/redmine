@@ -979,7 +979,6 @@ bg:
   label_completed_versions: Завършени версии
   label_search_for_watchers: Търсене на потребители за наблюдатели
   label_session_expiration: Изтичане на сесиите
-  label_show_closed_projects: Разглеждане на затворени проекти
   label_status_transitions: Преходи между състоянията
   label_fields_permissions: Видимост на полетата
   label_readonly: Само за четене

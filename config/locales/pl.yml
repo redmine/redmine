@@ -1032,7 +1032,6 @@ pl:
   setting_session_timeout: Maksymalny czas życia nieaktywnej sesji
   label_session_expiration: Przeterminowywanie sesji
   permission_close_project: Zamykanie / otwieranie projektów
-  label_show_closed_projects: Przeglądanie zamkniętych projektów
   button_close: Zamknij projekt
   button_reopen: Otwórz projekt
   project_status_active: aktywny

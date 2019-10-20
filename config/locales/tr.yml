@@ -1026,7 +1026,6 @@ tr:
   setting_session_timeout: Maksimum hareketsizlik zaman aşımı
   label_session_expiration: Oturum süre sonu
   permission_close_project: Projeyi kapat/yeniden aç
-  label_show_closed_projects: Kapatılmış projeleri göster
   button_close: Kapat
   button_reopen: Yeniden aç
   project_status_active: etkin

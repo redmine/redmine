@@ -1016,7 +1016,6 @@ it:
   setting_session_timeout: Timeout di inattività di una sessione
   label_session_expiration: Scadenza sessione
   permission_close_project: Chiusura / riapertura progetto
-  label_show_closed_projects: Vedi progetti chiusi
   button_close: Chiudi
   button_reopen: Riapri
   project_status_active: attivo

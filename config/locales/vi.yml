@@ -1069,7 +1069,6 @@ vi:
   setting_session_timeout: Thời gian vô hiệu hóa Session
   label_session_expiration: Phiên làm việc bị quá hạn
   permission_close_project: Đóng / Mở lại dự án
-  label_show_closed_projects: Xem các dự án đã đóng
   button_close: Đóng
   button_reopen: Mở lại
   project_status_active: Kích hoạt

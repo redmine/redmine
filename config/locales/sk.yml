@@ -1007,7 +1007,6 @@ sk:
   setting_session_timeout: Vypršanie relácie pri neaktivite
   label_session_expiration: Vypršanie relácie
   permission_close_project: Uzavretie / opätovné otvorenie projektu
-  label_show_closed_projects: Zobraziť uzavreté projekty
   button_close: Uzavrieť
   button_reopen: Opäť otvoriť
   project_status_active: aktívny

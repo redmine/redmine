@@ -1021,7 +1021,6 @@ cs:
   setting_session_timeout: Vypršení sezení bez aktivity
   label_session_expiration: Vypršení sezení
   permission_close_project: Zavřít / Otevřít projekt
-  label_show_closed_projects: Zobrazit zavřené projekty
   button_close: Zavřít
   button_reopen: Znovu otevřít
   project_status_active: aktivní

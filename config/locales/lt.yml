@@ -920,7 +920,6 @@ lt:
   label_completed_versions: Užbaigtos versijos
   label_search_for_watchers: Ieškoti vartotojų kuriuos įtraukti kaip stebėtojus
   label_session_expiration: Baigėsi sujungimo sesija
-  label_show_closed_projects: Matyti uždarytus projektus
   label_status_transitions: Darbų eiga
   label_fields_permissions: Leidimai
   label_readonly: Tik peržiūra
