@@ -24,7 +24,8 @@ class ProjectQueryTest < ActiveSupport::TestCase
            :members, :roles, :member_roles,
            :issue_categories, :enumerations,
            :groups_users,
-           :enabled_modules
+           :enabled_modules,
+           :custom_fields, :custom_values
 
   def test_filter_values_be_arrays
     q = ProjectQuery.new
