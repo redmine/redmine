@@ -532,7 +532,6 @@ Performance/RedundantBlockCall:
     - 'app/controllers/application_controller.rb'
     - 'lib/redmine/views/builders/structure.rb'
     - 'test/functional/repositories_git_controller_test.rb'
-    - 'test/unit/lib/redmine/views/builders/json_test.rb'
 
 # Cop supports --auto-correct.
 Performance/RedundantMatch:
