@@ -1170,16 +1170,14 @@ EXPECTED
   end
 
   def test_syntax_highlight_ampersand_in_textile
-    raw = <<-RAW
-<pre><code class="ruby">
-x = a & b
-</code></pre>
-RAW
-
-    expected = <<-EXPECTED
-<pre><code class=\"ruby syntaxhl\"><span class=\"n\">x</span> <span class=\"o\">=</span> <span class=\"n\">a</span> <span class=\"o\">&amp;</span> <span class=\"n\">b</span></code></pre>
-EXPECTED
-
+    raw = <<~RAW
+      <pre><code class="ruby">
+      x = a & b
+      </code></pre>
+    RAW
+    expected = <<~EXPECTED
+      <pre><code class=\"ruby syntaxhl\"><span class=\"n\">x</span> <span class=\"o\">=</span> <span class=\"n\">a</span> <span class=\"o\">&amp;</span> <span class=\"n\">b</span></code></pre>
+    EXPECTED
     with_settings :text_formatting => 'textile' do
       assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
     end
