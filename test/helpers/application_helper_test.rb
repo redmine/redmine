@@ -1316,17 +1316,15 @@ RAW
 
   def test_table_of_content_should_generate_unique_anchors
     set_language_if_valid 'en'
+    raw = <<~RAW
+      {{toc}}
 
-    raw = <<-RAW
-{{toc}}
+      h1. Title
 
-h1. Title
+      h2. Subtitle
 
-h2. Subtitle
-
-h2. Subtitle
-RAW
-
+      h2. Subtitle
+    RAW
     expected =  '<ul class="toc">' +
                   '<li><strong>Table of contents</strong></li>' +
                   '<li><a href="#Title">Title</a>' +
@@ -1336,7 +1334,6 @@ RAW
                     '</ul>' +
                   '</li>' +
                 '</ul>'
-
     @project = Project.find(1)
     result = textilizable(raw).gsub("\n", "")
     assert_include expected, result
