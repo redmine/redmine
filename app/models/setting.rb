@@ -302,7 +302,7 @@ class Setting < ActiveRecord::Base
   load_available_settings
   load_plugin_settings
 
-private
+  private
 
   def force_utf8_strings(arg)
     if arg.is_a?(String)

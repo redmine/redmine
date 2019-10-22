@@ -23,7 +23,6 @@ Layout/AccessModifierIndentation:
     - 'app/controllers/timelog_controller.rb'
     - 'app/controllers/wiki_controller.rb'
     - 'app/models/role.rb'
-    - 'app/models/setting.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, IndentationWidth.
