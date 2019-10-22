@@ -130,14 +130,13 @@ class ApplicationHelperTest < Redmine::HelperTest
   end
 
   def test_inline_images_inside_tags
-    raw = <<-RAW
-h1. !foo.png! Heading
+    raw = <<~RAW
+      h1. !foo.png! Heading
 
-Centered image:
+      Centered image:
 
-p=. !bar.gif!
-RAW
-
+      p=. !bar.gif!
+    RAW
     assert textilizable(raw).include?('<img src="foo.png" alt="" />')
     assert textilizable(raw).include?('<img src="bar.gif" alt="" />')
   end
