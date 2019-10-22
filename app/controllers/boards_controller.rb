@@ -110,7 +110,8 @@ class BoardsController < ApplicationController
     redirect_to_settings_in_projects
   end
 
-private
+  private
+
   def redirect_to_settings_in_projects
     redirect_to settings_project_path(@project, :tab => 'boards')
   end

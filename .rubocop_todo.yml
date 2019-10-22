@@ -18,7 +18,6 @@ Bundler/OrderedGems:
 # SupportedStyles: outdent, indent
 Layout/AccessModifierIndentation:
   Exclude:
-    - 'app/controllers/boards_controller.rb'
     - 'app/controllers/messages_controller.rb'
     - 'app/controllers/timelog_controller.rb'
     - 'app/controllers/wiki_controller.rb'
@@ -99,7 +98,6 @@ Layout/EmptyLines:
 # SupportedStyles: around, only_before
 Layout/EmptyLinesAroundAccessModifier:
   Exclude:
-    - 'app/controllers/boards_controller.rb'
     - 'app/controllers/messages_controller.rb'
     - 'app/controllers/previews_controller.rb'
     - 'app/controllers/timelog_controller.rb'
