@@ -689,7 +689,7 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
   def with_cache(&block)
     before = ActionController::Base.perform_caching
     ActionController::Base.perform_caching = true
-    block.call
+    yield
     ActionController::Base.perform_caching = before
   end
 end

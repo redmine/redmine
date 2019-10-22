@@ -530,7 +530,6 @@ Performance/FixedSize:
 Performance/RedundantBlockCall:
   Exclude:
     - 'app/controllers/application_controller.rb'
-    - 'test/functional/repositories_git_controller_test.rb'
 
 # Cop supports --auto-correct.
 Performance/RedundantMatch:
