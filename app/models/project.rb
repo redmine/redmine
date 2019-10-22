@@ -868,8 +868,8 @@ class Project < ActiveRecord::Base
       ancestors = projects.first.ancestors.to_a
     end
     projects.sort_by(&:lft).each do |project|
-      while (ancestors.any? &&
-             !project.is_descendant_of?(ancestors.last))
+      while ancestors.any? &&
+             !project.is_descendant_of?(ancestors.last)
         ancestors.pop
       end
       yield project, ancestors.size
