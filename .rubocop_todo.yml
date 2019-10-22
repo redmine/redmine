@@ -379,10 +379,6 @@ Lint/Loop:
   Exclude:
     - 'lib/redmine/helpers/gantt.rb'
 
-Lint/NestedMethodDefinition:
-  Exclude:
-    - 'test/unit/lib/redmine/menu_manager/menu_helper_test.rb'
-
 Lint/ParenthesesAsGroupedExpression:
   Exclude:
     - 'lib/redmine/field_format.rb'

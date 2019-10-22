@@ -29,8 +29,10 @@ class Redmine::MenuManager::MenuHelperTest < Redmine::HelperTest
   def setup
     setup_with_controller
     # Stub the current menu item in the controller
-    def current_menu_item
-      :index
+    self.class_eval do
+      def current_menu_item
+         :index
+      end
     end
   end
 
