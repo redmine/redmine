@@ -40,7 +40,7 @@
       :data => {:disables => "#columns, .block_columns input"} %></p>
 
 <% unless params[:gantt] %>
-  <p id="group_by"><label id="group_by" for="query_group_by"><%= l(:field_group_by) %></label>
+  <p id="group_by"><label for="query_group_by"><%= l(:field_group_by) %></label>
   <%= select 'query', 'group_by', @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, :include_blank => true %></p>
 
   <% unless @query.available_block_columns.empty? %>
