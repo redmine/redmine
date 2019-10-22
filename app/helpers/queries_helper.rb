@@ -124,7 +124,7 @@ module QueriesHelper
     tags = ''.html_safe
     query.available_display_types.each do |t|
       tags << radio_button_tag('display_type', t, @query.display_type == t, :id => "display_type_#{t}") +
-        content_tag('label', l(:"label_display_type_#{t}"), :for => "display_type_#{t}")
+        content_tag('label', l(:"label_display_type_#{t}"), :for => "display_type_#{t}", :class => "inline")
     end
     tags
   end

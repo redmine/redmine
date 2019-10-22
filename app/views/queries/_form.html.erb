@@ -107,13 +107,13 @@ $(document).ready(function(){
 });
 
 $(function ($) {
-  $('#display_type').change(function (e) {
-    var option = $(e.target).val()
+  $('input[name=display_type]').change(function () {
+    var option = $('input[name=display_type]:checked').val();
     if (option == 'board') {
       $('fieldset#columns, fieldset#sort, p#default_columns, p#group_by').hide();
     } else {
       $('fieldset#columns, fieldset#sort, p#default_columns, p#group_by').show();
     }
-  }).change()
+  }).change();
 });
 <% end %>
