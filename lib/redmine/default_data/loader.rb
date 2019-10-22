@@ -50,9 +50,10 @@ module Redmine
             manager.permissions = manager.setable_permissions.collect {|p| p.name}
             manager.save!
 
-            developer = Role.create!  :name => l(:default_role_developer),
-                                      :position => 2,
-                                      :permissions => [:manage_versions,
+            developer = Role.create!(
+                                     :name => l(:default_role_developer),
+                                     :position => 2,
+                                     :permissions => [:manage_versions,
                                                       :manage_categories,
                                                       :view_issues,
                                                       :add_issues,
@@ -82,11 +83,11 @@ module Redmine
                                                       :browse_repository,
                                                       :view_changesets,
                                                       :commit_access,
-                                                      :manage_related_issues]
-
-            reporter = Role.create! :name => l(:default_role_reporter),
-                                    :position => 3,
-                                    :permissions => [:view_issues,
+                                                      :manage_related_issues])
+            reporter = Role.create!(
+                                   :name => l(:default_role_reporter),
+                                   :position => 3,
+                                   :permissions => [:view_issues,
                                                     :add_issues,
                                                     :add_issue_notes,
                                                     :save_queries,
@@ -104,7 +105,7 @@ module Redmine
                                                     :edit_own_messages,
                                                     :view_files,
                                                     :browse_repository,
-                                                    :view_changesets]
+                                                    :view_changesets])
 
             Role.non_member.update_attribute :permissions, [:view_issues,
                                                             :add_issues,

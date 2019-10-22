@@ -32,11 +32,6 @@ Layout/AlignArguments:
   Enabled: false
 
 # Cop supports --auto-correct.
-Layout/AlignArray:
-  Exclude:
-    - 'lib/redmine/default_data/loader.rb'
-
-# Cop supports --auto-correct.
 # Configuration parameters: AllowMultipleStyles, EnforcedHashRocketStyle, EnforcedColonStyle, EnforcedLastArgumentHashStyle.
 # SupportedHashRocketStyles: key, separator, table
 # SupportedColonStyles: key, separator, table
