@@ -249,7 +249,6 @@ Layout/SpaceAroundOperators:
 Layout/SpaceBeforeComma:
   Exclude:
     - 'lib/redmine/export/pdf.rb'
-    - 'test/helpers/application_helper_test.rb'
     - 'test/mocks/open_id_authentication_mock.rb'
 
 # Cop supports --auto-correct.

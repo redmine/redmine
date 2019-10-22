@@ -691,7 +691,7 @@ class ApplicationHelperTest < Redmine::HelperTest
                                      :action     => 'revision',
                                      :id         => 'subproject1',
                                      :repository_id => r.id,
-                                     :rev        => '123' ,
+                                     :rev        => '123',
                                   },
                               :class => 'changeset', :title => 'test commit')
     changeset_link_commit = link_to('abcd',
@@ -700,7 +700,7 @@ class ApplicationHelperTest < Redmine::HelperTest
                                     :action     => 'revision',
                                     :id         => 'subproject1',
                                     :repository_id => r.id,
-                                    :rev        => 'abcd' ,
+                                    :rev        => 'abcd',
                                   },
                               :class => 'changeset', :title => 'test commit')
     to_test = {
@@ -740,7 +740,7 @@ class ApplicationHelperTest < Redmine::HelperTest
 
     with_settings :text_formatting => 'markdown' do
       raw = "attachment:image@2x.png should not be parsed in image@2x.png"
-      assert_match %r{<p><a class="attachment" href="/attachments/#{attachment.id}">image@2x.png</a> should not be parsed in image@2x.png</p>} ,
+      assert_match %r{<p><a class="attachment" href="/attachments/#{attachment.id}">image@2x.png</a> should not be parsed in image@2x.png</p>},
         textilizable(raw, :attachments => [attachment])
     end
   end
