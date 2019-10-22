@@ -19,7 +19,6 @@ Bundler/OrderedGems:
 Layout/AccessModifierIndentation:
   Exclude:
     - 'app/controllers/wiki_controller.rb'
-    - 'app/models/role.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, IndentationWidth.
