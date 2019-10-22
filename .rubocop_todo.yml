@@ -77,11 +77,6 @@ Layout/ClosingParenthesisIndentation:
   Enabled: false
 
 # Cop supports --auto-correct.
-Layout/CommentIndentation:
-  Exclude:
-    - 'test/unit/lib/redmine/wiki_formatting/markdown_formatter_test.rb'
-
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: leading, trailing
 Layout/DotPosition:
@@ -208,7 +203,6 @@ Layout/MultilineArrayBraceLayout:
     - 'app/helpers/projects_helper.rb'
     - 'app/helpers/settings_helper.rb'
     - 'app/helpers/users_helper.rb'
-    - 'test/unit/lib/redmine/wiki_formatting/markdown_formatter_test.rb'
 
 # Cop supports --auto-correct.
 Layout/MultilineBlockLayout:

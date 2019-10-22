@@ -125,33 +125,40 @@ EXPECTED
   end
 
   STR_WITH_PRE = [
-  # 0
-"# Title
+    # 0
+    <<~STR.chomp,
+      # Title
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.",
-  # 1
-"## Heading 2
+      Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.
+    STR
+    # 1
+    <<~STR.chomp,
+      ## Heading 2
 
-~~~ruby
-  def foo
-  end
-~~~
+      ~~~ruby
+        def foo
+        end
+      ~~~
 
-Morbi facilisis accumsan orci non pharetra.
+      Morbi facilisis accumsan orci non pharetra.
 
-```
-Pre Content:
+      ```
+      Pre Content:
 
-## Inside pre
+      ## Inside pre
 
-<tag> inside pre block
+      <tag> inside pre block
 
-Morbi facilisis accumsan orci non pharetra.
-```",
-  # 2
-"### Heading 3
+      Morbi facilisis accumsan orci non pharetra.
+      ```
+    STR
+    # 2
+    <<~STR.chomp,
+      ### Heading 3
 
-Nulla nunc nisi, egestas in ornare vel, posuere ac libero."]
+      Nulla nunc nisi, egestas in ornare vel, posuere ac libero.
+    STR
+  ]
 
   def test_get_section_should_ignore_pre_content
     text = STR_WITH_PRE.join("\n\n")
