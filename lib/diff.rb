@@ -13,14 +13,14 @@ module RedmineDiff
       mvector = []
 
       # First we prune off any common elements at the beginning
-      while (astart <= afinish && bstart <= afinish && a[astart] == b[bstart])
+      while (astart <= afinish) && (bstart <= afinish) && (a[astart] == b[bstart])
         mvector[astart] = bstart
         astart += 1
         bstart += 1
       end
 
       # now the end
-      while (astart <= afinish && bstart <= bfinish && a[afinish] == b[bfinish])
+      while (astart <= afinish) && (bstart <= bfinish) && (a[afinish] == b[bfinish])
         mvector[afinish] = bfinish
         afinish -= 1
         bfinish -= 1
