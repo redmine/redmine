@@ -43,7 +43,7 @@ class Setting < ActiveRecord::Base
     '%I:%M %p'
     ]
 
-  ENCODINGS = %w(US-ASCII
+  ENCODINGS =  %w(US-ASCII
                   windows-1250
                   windows-1251
                   windows-1252

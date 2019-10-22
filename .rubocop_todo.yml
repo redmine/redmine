@@ -34,7 +34,6 @@ Layout/AlignArguments:
 # Cop supports --auto-correct.
 Layout/AlignArray:
   Exclude:
-    - 'app/models/setting.rb'
     - 'lib/redmine/default_data/loader.rb'
 
 # Cop supports --auto-correct.
