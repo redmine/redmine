@@ -336,7 +336,7 @@ class WikiController < ApplicationController
     redirect_to :action => 'show', :id => @page.title, :project_id => @project
   end
 
-private
+  private
 
   def find_wiki
     @project = Project.find(params[:project_id])

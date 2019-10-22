@@ -15,13 +15,6 @@ Bundler/OrderedGems:
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, IndentationWidth.
-# SupportedStyles: outdent, indent
-Layout/AccessModifierIndentation:
-  Exclude:
-    - 'app/controllers/wiki_controller.rb'
-
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, IndentationWidth.
 # SupportedStyles: with_first_argument, with_fixed_indentation
 Layout/AlignArguments:
   Enabled: false
