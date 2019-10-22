@@ -1408,7 +1408,6 @@ Style/UnneededInterpolation:
     - 'app/views/common/feed.atom.builder'
     - 'app/views/journals/index.builder'
     - 'lib/redmine/helpers/time_report.rb'
-    - 'lib/redmine/scm/adapters/git_adapter.rb'
     - 'lib/redmine/scm/adapters/subversion_adapter.rb'
     - 'lib/redmine/wiki_formatting.rb'
     - 'test/functional/versions_controller_test.rb'

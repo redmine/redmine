@@ -199,7 +199,7 @@ module Redmine
           cmd_args = %w|log --no-color --encoding=UTF-8 --raw --date=iso --pretty=fuller --parents --stdin|
           cmd_args << '--no-renames' if self.class.client_version_above?([2, 9])
           cmd_args << "--reverse" if options[:reverse]
-          cmd_args << "-n" << "#{options[:limit].to_i}" if options[:limit]
+          cmd_args << "-n" << options[:limit].to_i.to_s if options[:limit]
           cmd_args << "--" << scm_iconv(@path_encoding, 'UTF-8', path) if path && !path.empty?
           revisions = []
           if identifier_from || identifier_to
@@ -210,7 +210,7 @@ module Redmine
             end
             if identifier_to
               git_identifier_to = scm_iconv(@path_encoding, 'UTF-8', identifier_to)
-              revisions[0] << "#{git_identifier_to}" if identifier_to
+              revisions[0] << git_identifier_to.to_s if identifier_to
             end
           else
             unless options[:includes].blank?
