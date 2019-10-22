@@ -287,7 +287,10 @@ class Role < ActiveRecord::Base
   end
 
   def allowed_actions
-    @actions_allowed ||= allowed_permissions.inject([]) { |actions, permission| actions += Redmine::AccessControl.allowed_actions(permission) }.flatten
+    @actions_allowed ||=
+      allowed_permissions.inject([]) {|actions, permission|
+        actions += Redmine::AccessControl.allowed_actions(permission)
+      }.flatten
   end
 
   def check_deletable
