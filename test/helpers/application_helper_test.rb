@@ -1130,15 +1130,13 @@ class ApplicationHelperTest < Redmine::HelperTest
   end
 
   def test_non_closing_pre_blocks_should_be_closed
-    raw = <<-RAW
-<pre><code>
-RAW
-
-    expected = <<-EXPECTED
-<pre><code>
-</code></pre>
-EXPECTED
-
+    raw = <<~RAW
+      <pre><code>
+    RAW
+    expected = <<~EXPECTED
+      <pre><code>
+      </code></pre>
+    EXPECTED
     @project = Project.find(1)
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
   end
