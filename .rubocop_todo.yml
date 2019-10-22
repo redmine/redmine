@@ -527,11 +527,6 @@ Performance/FixedSize:
     - 'test/integration/attachments_test.rb'
 
 # Cop supports --auto-correct.
-Performance/RedundantBlockCall:
-  Exclude:
-    - 'app/controllers/application_controller.rb'
-
-# Cop supports --auto-correct.
 Performance/RedundantMatch:
   Exclude:
     - 'app/models/issue_relation.rb'
