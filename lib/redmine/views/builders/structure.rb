@@ -32,7 +32,7 @@ module Redmine
 
         def array(tag, options={}, &block)
           @struct << []
-          block.call(self)
+          yield(self)
           ret = @struct.pop
           @struct.last[tag] = ret
           @struct.last.merge!(options) if options
@@ -72,7 +72,7 @@ module Redmine
 
           if block
             @struct << (args.first.is_a?(Hash) ? args.first : {})
-            block.call(self)
+            yield(self)
             ret = @struct.pop
             if @struct.last.is_a?(Array)
               @struct.last << ret
