@@ -70,7 +70,7 @@ module Redmine
           Redmine::WikiFormatting.to_html(Setting.text_formatting, text)
         end
 
-        def RDMCell(w ,h=0, txt='', border=0, ln=0, align='', fill=0, link='')
+        def RDMCell(w, h=0, txt='', border=0, ln=0, align='', fill=0, link='')
           cell(w, h, txt, border, ln, align, fill, link)
         end
 
