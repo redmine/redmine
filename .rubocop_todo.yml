@@ -1144,7 +1144,6 @@ Style/ParallelAssignment:
 Style/ParenthesesAroundCondition:
   Exclude:
     - 'app/models/repository/subversion.rb'
-    - 'app/models/wiki_page.rb'
     - 'lib/diff.rb'
     - 'lib/redmine/helpers/gantt.rb'
     - 'lib/redmine/scm/adapters/cvs_adapter.rb'

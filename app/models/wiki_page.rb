@@ -304,7 +304,7 @@ class WikiAnnotate
     @lines = current_lines.collect {|t| [nil, nil, t]}
     positions = []
     current_lines.size.times {|i| positions << i}
-    while (current.previous)
+    while current.previous
       d = current.previous.text.split(/\r?\n/).diff(current.text.split(/\r?\n/)).diffs.flatten
       d.each_slice(3) do |s|
         sign, line = s[0], s[1]
