@@ -67,7 +67,7 @@ module ApplicationHelper
   def link_to_group(group, options={})
     if group.is_a?(Group)
       name = h(group.name)
-      if (User.current.admin?)
+      if User.current.admin?
         only_path = options[:only_path].nil? ? true : options[:only_path]
         link_to name, edit_group_path(group, :only_path => only_path)
       else
@@ -377,12 +377,12 @@ module ApplicationHelper
       projects.sort_by(&:lft).each do |project|
         # set the project environment to please macros.
         @project = project
-        if (ancestors.empty? || project.is_descendant_of?(ancestors.last))
+        if ancestors.empty? || project.is_descendant_of?(ancestors.last)
           s << "<ul class='projects #{ ancestors.empty? ? 'root' : nil}'>\n"
         else
           ancestors.pop
           s << "</li>"
-          while (ancestors.any? && !project.is_descendant_of?(ancestors.last))
+          while ancestors.any? && !project.is_descendant_of?(ancestors.last)
             ancestors.pop
             s << "</ul></li>\n"
           end

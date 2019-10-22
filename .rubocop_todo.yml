@@ -1161,7 +1161,6 @@ Style/ParallelAssignment:
 # Configuration parameters: AllowSafeAssignment, AllowInMultilineConditions.
 Style/ParenthesesAroundCondition:
   Exclude:
-    - 'app/helpers/application_helper.rb'
     - 'app/models/project.rb'
     - 'app/models/query.rb'
     - 'app/models/repository/subversion.rb'
