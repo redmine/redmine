@@ -530,7 +530,6 @@ Performance/FixedSize:
 Performance/RedundantBlockCall:
   Exclude:
     - 'app/controllers/application_controller.rb'
-    - 'lib/redmine/scm/adapters/abstract_adapter.rb'
 
 # Cop supports --auto-correct.
 Performance/RedundantMatch:
