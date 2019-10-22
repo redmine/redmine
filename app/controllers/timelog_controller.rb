@@ -242,7 +242,8 @@ class TimelogController < ApplicationController
     end
   end
 
-private
+  private
+
   def find_time_entry
     @time_entry = TimeEntry.find(params[:id])
     @project = @time_entry.project
