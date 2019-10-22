@@ -1346,21 +1346,18 @@ RAW
 
   def test_table_of_content_should_contain_included_page_headings
     set_language_if_valid 'en'
+    raw = <<~RAW
+      {{toc}}
 
-    raw = <<-RAW
-{{toc}}
+      h1. Included
 
-h1. Included
-
-{{include(Child_1)}}
-RAW
-
+      {{include(Child_1)}}
+    RAW
     expected = '<ul class="toc">' +
                '<li><strong>Table of contents</strong></li>' +
                '<li><a href="#Included">Included</a></li>' +
                '<li><a href="#Child-page-1">Child page 1</a></li>' +
                '</ul>'
-
     @project = Project.find(1)
     assert textilizable(raw).gsub("\n", "").include?(expected)
   end
