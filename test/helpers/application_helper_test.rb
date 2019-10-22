@@ -1252,38 +1252,36 @@ EXPECTED
 
   def test_table_of_content
     set_language_if_valid 'en'
+    raw = <<~RAW
+      {{toc}}
 
-    raw = <<-RAW
-{{toc}}
+      h1. Title
 
-h1. Title
+      Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.
+      h2. Subtitle with a [[Wiki]] link
 
-h2. Subtitle with a [[Wiki]] link
+      Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
 
-Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
+      h2. Subtitle with [[Wiki|another Wiki]] link
 
-h2. Subtitle with [[Wiki|another Wiki]] link
+      h2. Subtitle with %{color:red}red text%
 
-h2. Subtitle with %{color:red}red text%
+      <pre>
+      some code
+      </pre>
 
-<pre>
-some code
-</pre>
+      h3. Subtitle with *some* _modifiers_
 
-h3. Subtitle with *some* _modifiers_
+      h3. Subtitle with @inline code@
 
-h3. Subtitle with @inline code@
+      h1. Another title
 
-h1. Another title
+      h3. An "Internet link":http://www.redmine.org/ inside subtitle
 
-h3. An "Internet link":http://www.redmine.org/ inside subtitle
+      h2. "Project Name !/attachments/1234/logo_small.gif! !/attachments/5678/logo_2.png!":/projects/projectname/issues
 
-h2. "Project Name !/attachments/1234/logo_small.gif! !/attachments/5678/logo_2.png!":/projects/projectname/issues
-
-RAW
-
+    RAW
     expected =  '<ul class="toc">' +
                   '<li><strong>Table of contents</strong></li>' +
                   '<li><a href="#Title">Title</a>' +
