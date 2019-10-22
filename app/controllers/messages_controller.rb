@@ -132,7 +132,8 @@ class MessagesController < ApplicationController
     render :partial => 'common/preview'
   end
 
-private
+  private
+
   def find_message
     return unless find_board
     @message = @board.messages.includes(:parent).find(params[:id])
