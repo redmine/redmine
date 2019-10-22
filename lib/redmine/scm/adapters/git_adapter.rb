@@ -235,7 +235,7 @@ module Redmine
                 key = "commit"
                 value = $1
                 parents_str = $2
-                if (parsing_descr == 1 || parsing_descr == 2)
+                if [1, 2].include?(parsing_descr)
                   parsing_descr = 0
                   revision = Revision.new({
                     :identifier => changeset[:commit],
@@ -269,15 +269,15 @@ module Redmine
               elsif (parsing_descr == 0) && line.chomp.to_s == ""
                 parsing_descr = 1
                 changeset[:description] = +""
-              elsif (parsing_descr == 1 || parsing_descr == 2) \
-                  && line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\t(.+)$/
+              elsif [1, 2].include?(parsing_descr) &&
+                      line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\t(.+)$/
                 parsing_descr = 2
                 fileaction    = $1
                 filepath      = $2
                 p = scm_iconv('UTF-8', @path_encoding, filepath)
                 files << {:action => fileaction, :path => p}
-              elsif (parsing_descr == 1 || parsing_descr == 2) \
-                  && line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\d+\s+(\S+)\t(.+)$/
+              elsif [1, 2].include?(parsing_descr) &&
+                      line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\d+\s+(\S+)\t(.+)$/
                 parsing_descr = 2
                 fileaction    = $1
                 filepath      = $3

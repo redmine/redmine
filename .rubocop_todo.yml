@@ -1088,7 +1088,6 @@ Style/MultipleComparison:
     - 'app/models/version.rb'
     - 'app/models/wiki_page.rb'
     - 'app/models/workflow_transition.rb'
-    - 'lib/redmine/scm/adapters/git_adapter.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
