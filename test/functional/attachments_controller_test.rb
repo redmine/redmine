@@ -470,6 +470,8 @@ class AttachmentsControllerTest < Redmine::ControllerTest
 
   if gs_installed?
     def test_thumbnail_for_pdf_should_be_png
+      skip unless convert_installed?
+
       Attachment.clear_thumbnails
       @request.session[:user_id] = 2
       get :thumbnail, :params => {
