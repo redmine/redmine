@@ -69,8 +69,7 @@ module Redmine
               end
             end
           end
-
-          if block
+          if block_given?
             @struct << (args.first.is_a?(Hash) ? args.first : {})
             yield(self)
             ret = @struct.pop
