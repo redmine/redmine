@@ -1098,18 +1098,17 @@ class ApplicationHelperTest < Redmine::HelperTest
   end
 
   def test_pre_content_should_not_parse_wiki_and_redmine_links
-    raw = <<-RAW
-[[CookBook documentation]]
+    raw = <<~RAW
+      [[CookBook documentation]]
 
-#1
+      #1
 
-<pre>
-[[CookBook documentation]]
+      <pre>
+      [[CookBook documentation]]
 
-#1
-</pre>
-RAW
-
+      #1
+      </pre>
+    RAW
     result1 = link_to("CookBook documentation",
                       "/projects/ecookbook/wiki/CookBook_documentation",
                       :class => "wiki-page")
@@ -1117,17 +1116,15 @@ RAW
                       "/issues/1",
                       :class => Issue.find(1).css_classes,
                       :title => "Bug: Cannot print recipes (New)")
+    expected = <<~EXPECTED
+      <p>#{result1}</p>
+      <p>#{result2}</p>
+      <pre>
+      [[CookBook documentation]]
 
-    expected = <<-EXPECTED
-<p>#{result1}</p>
-<p>#{result2}</p>
-<pre>
-[[CookBook documentation]]
-
-#1
-</pre>
-EXPECTED
-
+      #1
+      </pre>
+    EXPECTED
     @project = Project.find(1)
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
   end
