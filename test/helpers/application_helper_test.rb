@@ -1384,28 +1384,27 @@ RAW
   end
 
   def test_section_edit_links
-    raw = <<-RAW
-h1. Title
+    raw = <<~RAW
+      h1. Title
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.
+      Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.
 
-h2. Subtitle with a [[Wiki]] link
+      h2. Subtitle with a [[Wiki]] link
 
-h2. Subtitle with *some* _modifiers_
+      h2. Subtitle with *some* _modifiers_
 
-h2. Subtitle with @inline code@
+      h2. Subtitle with @inline code@
 
-<pre>
-some code
+      <pre>
+      some code
 
-h2. heading inside pre
+      h2. heading inside pre
 
-<h2>html heading inside pre</h2>
-</pre>
+      <h2>html heading inside pre</h2>
+      </pre>
 
-h2. Subtitle after pre tag
-RAW
-
+      h2. Subtitle after pre tag
+    RAW
     @project = Project.find(1)
     set_language_if_valid 'en'
     result = textilizable(raw, :edit_section_links => {:controller => 'wiki', :action => 'edit', :project_id => '1', :id => 'Test'}).gsub("\n", "")
