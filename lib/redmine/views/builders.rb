@@ -31,7 +31,7 @@ module Redmine
           else
             raise "No builder for format #{format}"
           end
-        if block
+        if block_given?
           block.call(builder)
         else
           builder
