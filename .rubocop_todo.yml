@@ -1421,7 +1421,6 @@ Style/UnneededSort:
     - 'lib/redmine/scm/adapters/abstract_adapter.rb'
     - 'test/functional/issues_controller_test.rb'
     - 'test/unit/member_test.rb'
-    - 'test/unit/repository_git_test.rb'
 
 # Cop supports --auto-correct.
 Style/VariableInterpolation:

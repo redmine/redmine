@@ -138,7 +138,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert_equal Time.gm(2007, 12, 14, 9, 22, 52), commit.committed_on
       assert_equal "2007-12-14".to_date, commit.commit_date
       assert_equal 3, commit.filechanges.count
-      change = commit.filechanges.sort_by(&:path).first
+      change = commit.filechanges.min_by(&:path)
       assert_equal "README", change.path
       assert_nil change.from_path
       assert_equal "A", change.action
