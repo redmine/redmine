@@ -210,7 +210,6 @@ Layout/MultilineArrayBraceLayout:
     - 'app/helpers/projects_helper.rb'
     - 'app/helpers/settings_helper.rb'
     - 'app/helpers/users_helper.rb'
-    - 'app/models/setting.rb'
     - 'test/unit/lib/redmine/wiki_formatting/markdown_formatter_test.rb'
 
 # Cop supports --auto-correct.
