@@ -39,14 +39,14 @@ class HookTest < Redmine::IntegrationTest
   Redmine::Hook.clear_listeners
 
   class ContentForInsideHook < Redmine::Hook::ViewListener
-    render_on :view_welcome_index_left, :inline => <<-VIEW
-<% content_for :header_tags do %>
-  <%= javascript_include_tag 'test_plugin.js', :plugin => 'test_plugin' %>
-  <%= stylesheet_link_tag 'test_plugin.css', :plugin => 'test_plugin' %>
-<% end %>
+    render_on :view_welcome_index_left, :inline => <<~VIEW
+      <% content_for :header_tags do %>
+        <%= javascript_include_tag 'test_plugin.js', :plugin => 'test_plugin' %>
+        <%= stylesheet_link_tag 'test_plugin.css', :plugin => 'test_plugin' %>
+      <% end %>
 
-<p>ContentForInsideHook content</p>
-VIEW
+      <p>ContentForInsideHook content</p>
+    VIEW
   end
 
   class SingleRenderOn < Redmine::Hook::ViewListener
