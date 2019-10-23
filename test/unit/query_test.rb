@@ -128,7 +128,7 @@ class QueryTest < ActiveSupport::TestCase
     q.available_filters.each do |name, filter|
       values = filter.values
       assert (values.nil? || values.is_a?(Array)),
-        "#values for #{name} filter returned a #{values.class.name}"
+             "#values for #{name} filter returned a #{values.class.name}"
     end
   end
 
@@ -139,7 +139,7 @@ class QueryTest < ActiveSupport::TestCase
     q.available_filters.each do |name, filter|
       values = filter.values
       assert (values.nil? || values.is_a?(Array)),
-        "#values for #{name} filter returned a #{values.class.name}"
+             "#values for #{name} filter returned a #{values.class.name}"
     end
   end
 
@@ -539,7 +539,7 @@ class QueryTest < ActiveSupport::TestCase
     query = IssueQuery.new(:name => '_')
     query.add_filter('due_date', '=', ['2011-07-10'])
     assert_match /issues\.due_date > '#{quoted_date "2011-07-09"} 23:59:59(\.\d+)?' AND issues\.due_date <= '#{quoted_date "2011-07-10"} 23:59:59(\.\d+)?/,
-      query.statement
+                 query.statement
     find_issues_with_query(query)
   end
 
@@ -575,7 +575,7 @@ class QueryTest < ActiveSupport::TestCase
     query = IssueQuery.new(:name => '_')
     query.add_filter('due_date', '><', ['2011-06-23', '2011-07-10'])
     assert_match /issues\.due_date > '#{quoted_date "2011-06-22"} 23:59:59(\.\d+)?' AND issues\.due_date <= '#{quoted_date "2011-07-10"} 23:59:59(\.\d+)?'/,
-      query.statement
+                 query.statement
     find_issues_with_query(query)
   end
 
@@ -726,7 +726,7 @@ class QueryTest < ActiveSupport::TestCase
     query = IssueQuery.new(:project => Project.find(1), :name => '_')
     query.add_filter('due_date', 'w', [''])
     assert_match /issues\.due_date > '#{quoted_date "2011-04-24"} 23:59:59(\.\d+)?' AND issues\.due_date <= '#{quoted_date "2011-05-01"} 23:59:59(\.\d+)?/,
-      query.statement
+                 query.statement
     I18n.locale = :en
   end
 
@@ -739,7 +739,7 @@ class QueryTest < ActiveSupport::TestCase
     query = IssueQuery.new(:project => Project.find(1), :name => '_')
     query.add_filter('due_date', 'w', [''])
     assert_match /issues\.due_date > '#{quoted_date "2011-04-23"} 23:59:59(\.\d+)?' AND issues\.due_date <= '#{quoted_date "2011-04-30"} 23:59:59(\.\d+)?/,
-      query.statement
+                 query.statement
   end
 
   def test_range_for_next_week_with_week_starting_on_monday
@@ -751,7 +751,7 @@ class QueryTest < ActiveSupport::TestCase
     query = IssueQuery.new(:project => Project.find(1), :name => '_')
     query.add_filter('due_date', 'nw', [''])
     assert_match /issues\.due_date > '#{quoted_date "2011-05-01"} 23:59:59(\.\d+)?' AND issues\.due_date <= '#{quoted_date "2011-05-08"} 23:59:59(\.\d+)?/,
-      query.statement
+                 query.statement
     I18n.locale = :en
   end
 
@@ -764,7 +764,7 @@ class QueryTest < ActiveSupport::TestCase
     query = IssueQuery.new(:project => Project.find(1), :name => '_')
     query.add_filter('due_date', 'nw', [''])
     assert_match /issues\.due_date > '#{quoted_date "2011-04-30"} 23:59:59(\.\d+)?' AND issues\.due_date <= '#{quoted_date "2011-05-07"} 23:59:59(\.\d+)?/,
-      query.statement
+                 query.statement
   end
 
   def test_range_for_next_month
@@ -773,7 +773,7 @@ class QueryTest < ActiveSupport::TestCase
     query = IssueQuery.new(:project => Project.find(1), :name => '_')
     query.add_filter('due_date', 'nm', [''])
     assert_match /issues\.due_date > '#{quoted_date "2011-04-30"} 23:59:59(\.\d+)?' AND issues\.due_date <= '#{quoted_date "2011-05-31"} 23:59:59(\.\d+)?/,
-      query.statement
+                 query.statement
   end
 
   def test_filter_assigned_to_me
@@ -2068,7 +2068,7 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal :list_optional, query.available_filters["member_of_group"][:type]
     assert query.available_filters["member_of_group"][:values].present?
     assert_equal Group.givable.sort.map {|g| [g.name, g.id.to_s]},
-      query.available_filters["member_of_group"][:values].sort
+                 query.available_filters["member_of_group"][:values].sort
   end
 
   test "#available_filters should include 'assigned_to_role' filter" do
