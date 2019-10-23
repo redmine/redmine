@@ -36,8 +36,10 @@ Layout/EmptyLineBetweenDefs:
 Layout/SpaceBeforeBlockBraces:
   Enabled: false
 
+# You can see results by "rubocop --only Layout/SpaceInsideBlockBraces"
 Layout/SpaceInsideBlockBraces:
-  Enabled: false
+  EnforcedStyle: no_space
+  SpaceBeforeBlockParameters: false
 
 Layout/SpaceInsideHashLiteralBraces:
   Enabled: false
