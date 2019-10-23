@@ -42,8 +42,9 @@ Layout/SpaceInsideBlockBraces:
   EnforcedStyle: no_space
   SpaceBeforeBlockParameters: false
 
+# You can see results by "rubocop --only Layout/SpaceInsideHashLiteralBraces"
 Layout/SpaceInsideHashLiteralBraces:
-  Enabled: false
+  EnforcedStyle: no_space
 
 Layout/TrailingWhitespace:
   AllowInHeredoc: true
