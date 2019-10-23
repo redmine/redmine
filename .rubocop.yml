@@ -23,6 +23,9 @@ require:
 
 # Rules for Redmine
 
+Bundler/OrderedGems:
+  Enabled: false
+
 Layout/EmptyLineBetweenDefs:
   AllowAdjacentOneLineDefs: true
 
