@@ -21,14 +21,14 @@ require File.expand_path('../../test_helper', __FILE__)
 
 class UserTest < ActiveSupport::TestCase
   fixtures :users, :email_addresses, :members, :projects, :roles, :member_roles, :auth_sources,
-            :trackers, :issue_statuses,
-            :projects_trackers,
-            :watchers,
-            :issue_categories, :enumerations, :issues,
-            :journals, :journal_details,
-            :groups_users,
-            :enabled_modules,
-            :tokens
+           :trackers, :issue_statuses,
+           :projects_trackers,
+           :watchers,
+           :issue_categories, :enumerations, :issues,
+           :journals, :journal_details,
+           :groups_users,
+           :enabled_modules,
+           :tokens
 
   include Redmine::I18n
 
