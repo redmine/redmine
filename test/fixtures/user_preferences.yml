@@ -11,6 +11,7 @@ user_preferences_001:
       - issuesassignedtome
       top:
       - calendar
+    :bookmarked_project_ids: "1,5"
 
   id: 1
   user_id: 1

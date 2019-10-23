@@ -840,6 +840,13 @@ class User < Principal
     end
   end
 
+  def bookmarked_project_ids
+    project_ids = []
+    bookmarked_project_ids = self.pref[:bookmarked_project_ids]
+    project_ids = bookmarked_project_ids.split(',') unless bookmarked_project_ids.nil?
+    project_ids.map(&:to_i)
+  end
+
   protected
 
   def validate_password_length

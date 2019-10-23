@@ -1280,6 +1280,13 @@ class UserTest < ActiveSupport::TestCase
     assert_equal user, User.try_to_login(user.login, "unsalted")
   end
 
+  def test_bookmarked_project_ids
+    # User with bookmarked projects
+    assert_equal [1, 5], User.find(1).bookmarked_project_ids
+    # User without bookmarked projects
+    assert_equal [], User.find(2).bookmarked_project_ids
+  end
+
   if Object.const_defined?(:OpenID)
     def test_setting_identity_url
       normalized_open_id_url = 'http://example.com/'

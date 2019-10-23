@@ -528,8 +528,9 @@ class Query < ActiveRecord::Base
 
   def project_values
     project_values = []
-    if User.current.logged? && User.current.memberships.any?
-      project_values << ["<< #{l(:label_my_projects).downcase} >>", "mine"]
+    if User.current.logged?
+      project_values << ["<< #{l(:label_my_projects).downcase} >>", "mine"] if User.current.memberships.any?
+      project_values << ["<< #{l(:label_my_bookmarks).downcase} >>", "bookmarks"] if User.current.bookmarked_project_ids.any?
     end
     project_values += all_projects_values
     project_values
@@ -914,6 +915,9 @@ class Query < ActiveRecord::Base
       if field == 'project_id' || (self.type == 'ProjectQuery' && field == 'id')
         if v.delete('mine')
           v += User.current.memberships.map(&:project_id).map(&:to_s)
+        end
+        if v.delete('bookmarks')
+          v += User.current.bookmarked_project_ids
         end
       end
 

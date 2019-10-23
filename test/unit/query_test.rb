@@ -922,6 +922,27 @@ class QueryTest < ActiveSupport::TestCase
     assert_nil result.detect {|issue| !User.current.member_of?(issue.project)}
   end
 
+  def test_filter_my_bookmarks
+    User.current = User.find(1)
+    query = ProjectQuery.new(:name => '_')
+    filter = query.available_filters['id']
+    assert_not_nil filter
+    assert_include 'bookmarks', filter[:values].map{|v| v[1]}
+
+    query.filters = { 'id' => {:operator => '=', :values => ['bookmarks']}}
+    result = query.results_scope
+
+    assert_equal [1,5], result.map(&:id).sort
+  end
+
+  def test_filter_my_bookmarks_for_user_without_bookmarked_projects
+    User.current = User.find(2)
+    query = ProjectQuery.new(:name => '_')
+    filter = query.available_filters['id']
+
+    assert_not_include 'bookmarks', filter[:values].map{|v| v[1]}
+  end
+
   def test_filter_watched_issues
     User.current = User.find(1)
     query = IssueQuery.new(:name => '_', :filters => { 'watcher_id' => {:operator => '=', :values => ['me']}})
