@@ -309,7 +309,7 @@ class RepositoryTest < ActiveSupport::TestCase
     assert repository.save
     repository.reload
     assert_equal ':pserver:login:password@host:/path/to/the/repository',
-                  repository.url
+                 repository.url
     assert_equal 'foo', repository.root_url
   end
 
