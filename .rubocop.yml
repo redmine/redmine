@@ -33,8 +33,9 @@ Layout/AlignArguments:
 Layout/EmptyLineBetweenDefs:
   AllowAdjacentOneLineDefs: true
 
+# You can see results by "rubocop --only Layout/SpaceBeforeBlockBraces"
 Layout/SpaceBeforeBlockBraces:
-  Enabled: false
+  EnforcedStyle: space
 
 # You can see results by "rubocop --only Layout/SpaceInsideBlockBraces"
 Layout/SpaceInsideBlockBraces:
