@@ -41,7 +41,7 @@ class TimeEntryQueryTest < ActiveSupport::TestCase
     q.available_filters.each do |name, filter|
       values = filter.values
       assert (values.nil? || values.is_a?(Array)),
-        "#values for #{name} filter returned a #{values.class.name}"
+             "#values for #{name} filter returned a #{values.class.name}"
     end
   end
 
@@ -52,7 +52,7 @@ class TimeEntryQueryTest < ActiveSupport::TestCase
     q.available_filters.each do |name, filter|
       values = filter.values
       assert (values.nil? || values.is_a?(Array)),
-        "#values for #{name} filter returned a #{values.class.name}"
+             "#values for #{name} filter returned a #{values.class.name}"
     end
   end
 
