@@ -1283,23 +1283,23 @@ cs:
   label_optgroup_recents: Nedávno použité
   button_project_bookmark: Přidat záložku
   button_project_bookmark_delete: Odstranit záložku
-  field_history_default_tab: Issue's history default tab
-  label_issue_history_properties: Property changes
-  label_issue_history_notes: Notes
-  label_last_tab_visited: Last visited tab
-  field_unique_id: Unique ID
-  text_no_subject: no subject
-  setting_password_required_char_classes: Required character classes for passwords
-  label_password_char_class_uppercase: uppercase letters
-  label_password_char_class_lowercase: lowercase letters
-  label_password_char_class_digits: digits
-  label_password_char_class_special_chars: special characters
-  text_characters_must_contain: Must contain %{character_classes}.
-  label_starts_with: starts with
-  label_ends_with: ends with
-  label_issue_fixed_version_updated: Target version updated
-  setting_project_list_defaults: Projects list defaults
-  label_display_type: Display results as
-  label_display_type_list: List
-  label_display_type_board: Board
-  label_my_bookmarks: My bookmarks
+  field_history_default_tab: Výchozí karta historie úkolů
+  label_issue_history_properties: Změny vlastností
+  label_issue_history_notes: Poznámky
+  label_last_tab_visited: Poslední zobrazená karta
+  field_unique_id: Unikátní ID
+  text_no_subject: bez předmětu
+  setting_password_required_char_classes: Vyžadované třídy znaků pro hesla
+  label_password_char_class_uppercase: velká písmena
+  label_password_char_class_lowercase: malá písmena
+  label_password_char_class_digits: číslice
+  label_password_char_class_special_chars: speciální znaky
+  text_characters_must_contain: Musí obsahovat %{character_classes}.
+  label_starts_with: začíná
+  label_ends_with: končí
+  label_issue_fixed_version_updated: Cílová verze aktualizována
+  setting_project_list_defaults: Výchozí nastavení seznamu projektů
+  label_display_type: Zobrazit výsledky jako
+  label_display_type_list: Seznam
+  label_display_type_board: Fórum
+  label_my_bookmarks: Moje záložky
