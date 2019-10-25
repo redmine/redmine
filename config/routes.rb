@@ -317,7 +317,8 @@ Rails.application.routes.draw do
   end
   resources :roles do
     collection do
-      match 'permissions', :via => [:get, :post]
+      get 'permissions'
+      post 'permissions', :to => 'roles#update_permissions'
     end
   end
   resources :enumerations, :except => :show

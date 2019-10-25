@@ -109,14 +109,16 @@ class RolesController < ApplicationController
     end
     @roles = scope.to_a
     @permissions = Redmine::AccessControl.permissions.select { |p| !p.public? }
-    if request.post?
-      @roles.each do |role|
-        role.permissions = params[:permissions][role.id.to_s]
-        role.save
-      end
-      flash[:notice] = l(:notice_successful_update)
-      redirect_to roles_path
+  end
+
+  def update_permissions
+    @roles = Role.where(:id => params[:permissions].keys)
+    @roles.each do |role|
+      role.permissions = params[:permissions][role.id.to_s]
+      role.save
     end
+    flash[:notice] = l(:notice_successful_update)
+    redirect_to roles_path
   end
 
   private

@@ -21,8 +21,9 @@
 </div>
 
 <%= form_tag(permissions_roles_path, :id => 'permissions_form') do %>
-<%= hidden_field_tag 'permissions[0]', '', :id => nil %>
-<%= hidden_field_tag 'ids[]', @roles.map(&:id) %>
+<% @roles.each do |role| %>
+    <%= hidden_field_tag "permissions[#{role.id}][]", '', :id => nil %>
+<% end %>
 <div class="autoscroll">
 <table class="list permissions">
 <thead>

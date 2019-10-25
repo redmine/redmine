@@ -30,6 +30,6 @@ class RoutingRolesTest < Redmine::RoutingTest
     should_route 'DELETE /roles/2' => 'roles#destroy', :id => '2'
 
     should_route 'GET /roles/permissions' => 'roles#permissions'
-    should_route 'POST /roles/permissions' => 'roles#permissions'
+    should_route 'POST /roles/permissions' => 'roles#update_permissions'
   end
 end
