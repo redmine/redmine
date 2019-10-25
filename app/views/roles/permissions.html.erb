@@ -1,7 +1,28 @@
 <%= title [l(:label_role_plural), roles_path], l(:label_permissions_report) %>
 
+<div class="hide-when-print">
+  <fieldset id="filters" class="collapsible collapsed">
+    <legend onclick="toggleFieldset(this);" class="icon icon-collapsed"><%= l(:label_filter_plural) %></legend>
+    <div style="display: none;">
+      <%= form_tag({}, :method => :get) do %>
+        <% Role.sorted.to_a.each do |role| %>
+          <label>
+            <%= check_box_tag "ids[]", role.id, @roles.include?(role) %>
+            <%= role.name %>
+          </label>
+        <% end %>
+        <p>
+          <%= submit_tag l(:button_apply), :name => nil %>
+          <%= link_to l(:button_clear), permissions_roles_path, :class => 'icon icon-reload' %>
+        </p>
+      <% end %>
+    </div>
+  </fieldset>
+</div>
+
 <%= form_tag(permissions_roles_path, :id => 'permissions_form') do %>
 <%= hidden_field_tag 'permissions[0]', '', :id => nil %>
+<%= hidden_field_tag 'ids[]', @roles.map(&:id) %>
 <div class="autoscroll">
 <table class="list permissions">
 <thead>

@@ -103,7 +103,11 @@ class RolesController < ApplicationController
   end
 
   def permissions
-    @roles = Role.sorted.to_a
+    scope = Role.sorted
+    if params[:ids].present?
+      scope = scope.where(:id => params[:ids])
+    end
+    @roles = scope.to_a
     @permissions = Redmine::AccessControl.permissions.select { |p| !p.public? }
     if request.post?
       @roles.each do |role|

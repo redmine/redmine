@@ -236,6 +236,17 @@ class RolesControllerTest < Redmine::ControllerTest
     assert_select 'input[name=?][type=checkbox][value=delete_issues]:not([checked])', 'permissions[3][]'
   end
 
+  def test_get_permissions_with_filter
+    get :permissions, :params => {
+        :ids => ['2', '3']
+      }
+    assert_response :success
+
+    assert_select 'table.permissions thead th', 3
+    assert_select 'input[name=?][type=checkbox][value=add_issues][checked=checked]', 'permissions[3][]'
+    assert_select 'input[name=?][type=checkbox][value=delete_issues]:not([checked])', 'permissions[3][]'
+  end
+
   def test_post_permissions
     post :permissions, :params => {
       :permissions => {
