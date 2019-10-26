@@ -33,9 +33,11 @@ Layout/AlignArguments:
 Layout/EmptyLineBetweenDefs:
   AllowAdjacentOneLineDefs: true
 
-# You can see results by "rubocop --only Layout/SpaceBeforeBlockBraces"
 Layout/SpaceBeforeBlockBraces:
-  EnforcedStyle: space
+  # "space" is used more than "no_space".
+  # But "no_space" is more natural in one liner.
+  #   str = path.to_s.split(%r{[/\\]}).select{|p| !p.blank?}.join("/")
+  Enabled: false
 
 # You can see results by "rubocop --only Layout/SpaceInsideBlockBraces"
 Layout/SpaceInsideBlockBraces:

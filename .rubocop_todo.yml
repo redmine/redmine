@@ -267,13 +267,6 @@ Layout/SpaceAroundOperators:
   Enabled: false
 
 # Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: space, no_space
-# SupportedStylesForEmptyBraces: space, no_space
-Layout/SpaceBeforeBlockBraces:
-  EnforcedStyleForEmptyBraces: no_space
-
-# Cop supports --auto-correct.
 Layout/SpaceBeforeComma:
   Exclude:
     - 'test/mocks/open_id_authentication_mock.rb'
