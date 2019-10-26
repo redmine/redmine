@@ -4,13 +4,13 @@
                       :method => :put) do |f| %>
   <p>
     <% @roles.each do |role| %>
-    <label>
+    <label class="block">
       <%= check_box_tag('membership[role_ids][]',
                         role.id, @member.roles.to_a.include?(role),
                         :id => nil,
                         :disabled => !@member.role_editable?(role)) %> <%= role %>
       <%= render_role_inheritance(@member, role) %>
-    </label><br />
+    </label>
     <% end %>
   </p>
   <%= hidden_field_tag 'membership[role_ids][]', '', :id => nil %>

@@ -47,7 +47,7 @@ module MembersHelper
     end.compact.uniq
 
     if content.present?
-      content_tag('span', content.join(", "), :class => "info")
+      content_tag('em', content.join(", "), :class => "info")
     end
   end
 end
