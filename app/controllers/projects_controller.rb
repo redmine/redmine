@@ -52,9 +52,14 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       format.html {
-        @entry_count = scope.count
-        @entry_pages = Paginator.new @entry_count, per_page_option, params['page']
-        @entries = scope.offset(@entry_pages.offset).limit(@entry_pages.per_page).to_a
+        # TODO: see what to do with the board view and pagination
+        if @query.display_type == 'board'
+          @entries = scope.to_a
+        else
+          @entry_count = scope.count
+          @entry_pages = Paginator.new @entry_count, per_page_option, params['page']
+          @entries = scope.offset(@entry_pages.offset).limit(@entry_pages.per_page).to_a
+        end
       }
       format.api  {
         @offset, @limit = api_offset_and_limit
