@@ -486,6 +486,7 @@ bg:
   setting_timelog_max_hours_per_day: Максимум часове, които могат да бъдат записани за ден и за потребител
   setting_timelog_accept_future_dates: Разрешено отчитане на изразходвано време на дата в бъдещето
   setting_show_status_changes_in_mail_subject: Показване на промените на състоянието на задачите в поле Относно на имейлите
+  setting_project_list_defaults: Проектен списък
 
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
@@ -590,6 +591,7 @@ bg:
   label_issue_status_updated: Обновено състояние
   label_issue_assigned_to_updated: Задачата е с назначен нов изпълнител
   label_issue_priority_updated: Обновен приоритет
+  label_issue_fixed_version_updated: Променена версия
   label_document: Документ
   label_document_new: Нов документ
   label_document_plural: Документи
@@ -1073,6 +1075,10 @@ bg:
   label_password_char_class_lowercase: малки букви
   label_password_char_class_digits: цифри
   label_password_char_class_special_chars: специални символи
+  label_display_type: Показване на резултатите като
+  label_display_type_list: Списък
+  label_display_type_board: Таблица
+  label_my_bookmarks: Моите отметки
 
   button_login: Вход
   button_submit: Изпращане
@@ -1281,9 +1287,3 @@ bg:
   label_login_required_no: Не, разрешаване на анонимен достъп до публичните проекти.
   text_project_is_public_non_member: Публичните проекти са достъпни за всички влезли в Redmine потребители.
   text_project_is_public_anonymous: Публичните проекти са достъпнии тяхното съдържание са видими без ограничения в мрежата.
-  label_issue_fixed_version_updated: Target version updated
-  setting_project_list_defaults: Projects list defaults
-  label_display_type: Display results as
-  label_display_type_list: List
-  label_display_type_board: Board
-  label_my_bookmarks: My bookmarks
