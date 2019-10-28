@@ -132,6 +132,7 @@ Redmine::AccessControl.map do |map|
     map.permission :edit_own_time_entries, {:timelog => [:edit, :update, :destroy,:bulk_edit, :bulk_update]}, :require => :loggedin
     map.permission :manage_project_activities, {:projects => :settings, :project_enumerations => [:update, :destroy]}, :require => :member
     map.permission :log_time_for_other_users, :require => :member
+    map.permission :import_time_entries, {}
   end
 
   map.project_module :news do |map|

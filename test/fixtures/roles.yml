@@ -36,6 +36,7 @@ roles_001:
     - :view_time_entries
     - :edit_time_entries
     - :delete_time_entries
+    - :import_time_entries
     - :view_news
     - :manage_news
     - :comment_news
@@ -215,4 +216,3 @@ roles_005:
     - :view_changesets
 
   position: 1
-
