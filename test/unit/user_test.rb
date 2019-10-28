@@ -28,7 +28,8 @@ class UserTest < ActiveSupport::TestCase
            :journals, :journal_details,
            :groups_users,
            :enabled_modules,
-           :tokens
+           :tokens,
+           :user_preferences
 
   include Redmine::I18n
 
