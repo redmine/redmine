@@ -245,7 +245,7 @@ it:
   field_attr_mail: Attributo email
   field_onthefly: Creazione utente "al volo"
   field_start_date: Inizio
-  field_done_ratio: "% completato"
+  field_done_ratio: "% Completato"
   field_auth_source: Modalità di autenticazione
   field_hide_mail: Nascondi il mio indirizzo email
   field_comments: Commento
@@ -492,12 +492,12 @@ it:
   label_loading: Caricamento...
   label_relation_new: Nuova relazione
   label_relation_delete: Elimina relazione
-  label_relates_to: correlata a
-  label_duplicates: duplica
-  label_blocks: blocca
-  label_blocked_by: bloccata da
-  label_precedes: precede
-  label_follows: segue
+  label_relates_to: Correlata a
+  label_duplicates: Duplica
+  label_blocks: Blocca
+  label_blocked_by: Bloccata da
+  label_precedes: Precede
+  label_follows: Segue
   label_stay_logged_in: Rimani collegato
   label_disabled: disabilitato
   label_show_completed_versions: Mostra versioni completate
