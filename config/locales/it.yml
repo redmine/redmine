@@ -164,10 +164,10 @@ it:
   notice_can_t_change_password: Questo utente utilizza un metodo di autenticazione esterno. Impossibile cambiare la password.
   notice_account_lost_email_sent: Ti è stata spedita una email con le istruzioni per cambiare la password.
   notice_account_activated: Il tuo account è stato attivato. Ora puoi effettuare l'accesso.
-  notice_successful_create: Creazione effettuata.
-  notice_successful_update: Modifica effettuata.
-  notice_successful_delete: Eliminazione effettuata.
-  notice_successful_connection: Connessione effettuata.
+  notice_successful_create: Creazione effettuata con successo.
+  notice_successful_update: Modifica effettuata con successo.
+  notice_successful_delete: Eliminazione effettuata con successo.
+  notice_successful_connection: Connessione con successo.
   notice_file_not_found: La pagina desiderata non esiste o è stata rimossa.
   notice_locking_conflict: Le informazioni sono state modificate da un altro utente.
   notice_not_authorized: Non sei autorizzato ad accedere a questa pagina.
