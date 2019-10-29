@@ -90,7 +90,7 @@ module Redmine
           inside_pre = false
           @text.split(/(^(?:.+\r?\n\r?(?:\=+|\-+)|#+.+|(?:~~~|```).*)\s*$)/).each do |part|
             level = nil
-            if part =~ /\A(~{3,}|`{3,})(\S+)?\s*$/
+            if part =~ /\A(~{3,}|`{3,})(\s*\S+)?\s*$/
               if !inside_pre
                 inside_pre = true
               elsif !$2

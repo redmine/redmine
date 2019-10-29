@@ -142,6 +142,11 @@ EXPECTED
 
       Morbi facilisis accumsan orci non pharetra.
 
+      ~~~ ruby
+      def foo
+      end
+      ~~~
+
       ```
       Pre Content:
 
