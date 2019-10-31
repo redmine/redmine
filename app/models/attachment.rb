@@ -201,7 +201,9 @@ class Attachment < ActiveRecord::Base
   end
 
   def thumbnailable?
-    image? || (is_pdf? && Redmine::Thumbnail.gs_available?)
+    Redmine::Thumbnail.convert_available? && (
+      image? || (is_pdf? && Redmine::Thumbnail.gs_available?)
+    )
   end
 
   # Returns the full path the attachment thumbnail, or nil

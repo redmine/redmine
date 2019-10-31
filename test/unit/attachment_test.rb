@@ -420,7 +420,12 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal true, Attachment.new(:filename => 'test.jpg').thumbnailable?
   end
 
-  def test_thumbnailable_should_be_true_for_non_images
+  def test_thumbnailable_should_be_false_for_images_if_convert_is_unavailable
+    Redmine::Thumbnail.stubs(:convert_available?).returns(false)
+    assert_equal false, Attachment.new(:filename => 'test.jpg').thumbnailable?
+  end
+
+  def test_thumbnailable_should_be_false_for_non_images
     assert_equal false, Attachment.new(:filename => 'test.txt').thumbnailable?
   end
 
