@@ -1277,7 +1277,7 @@ fr:
   permission_import_time_entries: "Importer des temps passés"
   label_import_notifications: "Envoyer les notifications durant l'import"
   text_gs_available: "Support PDF ImageMagick disponible (optionnel)"
-  field_recently_used_projects: "Nombre de projets récemment utilisés dans le menu"
+  field_recently_used_projects: "Nombre de projets consultés récemment affichés dans le menu"
   label_optgroup_bookmarks: "Favoris"
   label_optgroup_others: "Autres projets"
   label_optgroup_recents: "Consultés récemment"
