@@ -1259,49 +1259,47 @@ fr:
   permission_log_time_for_other_users: "Saisir le temps passé pour d'autres utilisateurs"
   label_inherited_from_parent_project: "Hérité du projet parent"
   label_inherited_from_group: "Hérité du groupe %{name}"
-  label_tomorrow: tomorrow
-  label_next_week: next week
-  label_next_month: next month
-  text_role_no_workflow: No workflow defined for this role
-  text_status_no_workflow: No tracker uses this status in the workflows
-  setting_mail_handler_preferred_body_part: Preferred part of multipart (HTML) emails
-  setting_show_status_changes_in_mail_subject: Show status changes in issue mail notifications
-    subject
-  label_preferred_body_part_text: Text
-  label_preferred_body_part_html: HTML (experimental)
-  field_parent_issue_subject: Parent task subject
-  permission_edit_own_issues: Edit own issues
-  text_select_apply_tracker: Select tracker
-  label_updated_issues: Updated issues
-  text_avatar_server_config_html: The current avatar server is <a href="%{url}">%{url}</a>.
-    You can configure it in config/configuration.yml.
-  setting_gantt_months_limit: Maximum number of months displayed on the gantt chart
-  label_import_time_entries: Import time entries
-  label_import_notifications: Send email notifications during the import
-  text_gs_available: ImageMagick PDF support available (optional)
-  field_recently_used_projects: Number of recently used projects in jump box
-  label_optgroup_bookmarks: Bookmarks
-  label_optgroup_others: Other projects
-  label_optgroup_recents: Recently used
-  button_project_bookmark: Add bookmark
-  button_project_bookmark_delete: Remove bookmark
-  field_history_default_tab: Issue's history default tab
-  label_issue_history_properties: Property changes
-  label_issue_history_notes: Notes
-  label_last_tab_visited: Last visited tab
-  field_unique_id: Unique ID
-  text_no_subject: no subject
-  setting_password_required_char_classes: Required character classes for passwords
-  label_password_char_class_uppercase: uppercase letters
-  label_password_char_class_lowercase: lowercase letters
-  label_password_char_class_digits: digits
-  label_password_char_class_special_chars: special characters
-  text_characters_must_contain: Must contain %{character_classes}.
-  label_starts_with: starts with
-  label_ends_with: ends with
-  label_issue_fixed_version_updated: Target version updated
-  setting_project_list_defaults: Projects list defaults
-  label_display_type: Display results as
-  label_display_type_list: List
-  label_display_type_board: Board
-  label_my_bookmarks: My bookmarks
+  label_tomorrow: demain
+  label_next_week: semaine prochaine
+  label_next_month: mois prochain
+  text_role_no_workflow: "Aucun workflow défini pour ce rôle"
+  text_status_no_workflow: "Aucun tracker n'utilise ce statut dans le workflow"
+  setting_mail_handler_preferred_body_part: "Partie privilégiée des messages multipart (HTML)"
+  setting_show_status_changes_in_mail_subject: "Inclure les changements de statut des demandes dans le sujet des notifications"
+  label_preferred_body_part_text: "Texte"
+  label_preferred_body_part_html: "HTML (expérimental)"
+  field_parent_issue_subject: "Sujet de la demande parent"
+  permission_edit_own_issues: "Modifier ses propres demandes"
+  text_select_apply_tracker: "Sélectionner un tracker"
+  label_updated_issues: "Demandes mises à jour"
+  text_avatar_server_config_html: "Le serveur d'avatars actuel est <a href=\"%{url}\">%{url}</a>. Vous pouvez le configurer dans config/configuration.yml."
+  setting_gantt_months_limit: "Nombre maximum de mois affichés sur le gantt"
+  label_import_time_entries: "Importer des temps passés"
+  label_import_notifications: "Envoyer les notifications durant l'import"
+  text_gs_available: "Support PDF ImageMagick disponible (optionnel)"
+  field_recently_used_projects: "Nombre de projets récemment utilisés dans le menu"
+  label_optgroup_bookmarks: "Favoris"
+  label_optgroup_others: "Autres projets"
+  label_optgroup_recents: "Consultés récemment"
+  button_project_bookmark: "Ajouter aux favoris"
+  button_project_bookmark_delete: "Retirer des favoris"
+  field_history_default_tab: "Onglet par défaut de l'historique d'une demande"
+  label_issue_history_properties: "Changements"
+  label_issue_history_notes: "Notes"
+  label_last_tab_visited: "Dernier onglet visité"
+  field_unique_id: "ID unique"
+  text_no_subject: "sans sujet"
+  setting_password_required_char_classes: "Caractères requis pour les mots de passe"
+  label_password_char_class_uppercase: "lettres majuscules"
+  label_password_char_class_lowercase: "lettres miniscules"
+  label_password_char_class_digits: "chiffres"
+  label_password_char_class_special_chars: "caractères spéciaux"
+  text_characters_must_contain: "Doit contenir : %{character_classes}."
+  label_starts_with: "commence par"
+  label_ends_with: "se termine par"
+  label_issue_fixed_version_updated: "Version cible mise à jour"
+  setting_project_list_defaults: "Affichage par défaut de la liste des projets"
+  label_display_type: "Affichage"
+  label_display_type_list: "Liste"
+  label_display_type_board: "Tableau"
+  label_my_bookmarks: "Favoris"
