@@ -160,6 +160,55 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert_equal ['Name', 'Description', 'Status'], columns_in_list
   end
 
+  def test_index_as_board_should_not_include_csv_export
+    @request.session[:user_id] = 1
+
+    get :index
+
+    assert_response :success
+    assert_select 'p.other-formats a.csv', 0
+    assert_select '#csv-export-options', 0
+  end
+
+  def test_index_as_list_should_include_csv_export
+    @request.session[:user_id] = 1
+
+    get :index, :params => {
+      :display_type => 'list',
+      :f => ['parent_id'],
+      :op => {'parent_id' => '='},
+      :v => {'parent_id' => ['1']}
+    }
+    assert_response :success
+
+    # Assert CSV export link
+    assert_select 'p.other-formats a.csv'
+
+    # Assert export modal
+    assert_select '#csv-export-options' do
+      assert_select 'form[action=?][method=get]', '/projects.csv' do
+        # filter
+        assert_select 'input[name=?][value=?]', 'f[]', 'parent_id'
+        assert_select 'input[name=?][value=?]', 'op[parent_id]', '='
+        assert_select 'input[name=?][value=?]', 'v[parent_id][]', '1'
+        # columns
+        assert_select 'input[name=?][type=hidden][value=?]', 'c[]', 'name'
+        assert_select 'input[name=?][type=hidden][value=?]', 'c[]', 'identifier'
+        assert_select 'input[name=?][type=hidden][value=?]', 'c[]', 'short_description'
+        assert_select 'input[name=?][type=hidden]', 'c[]', 3
+        assert_select 'input[name=?][value=?]', 'c[]', 'all_inline'
+      end
+    end
+  end
+
+  def test_index_csv
+    with_settings :date_format => '%m/%d/%Y' do
+      get :index, :params => {:format => 'csv'}
+      assert_response :success
+      assert_equal 'text/csv', response.content_type
+    end
+  end
+
   def test_autocomplete_js
     get :autocomplete, :params => {
         :format => 'js',

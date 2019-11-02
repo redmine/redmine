@@ -29,6 +29,9 @@
 <% end %>
 
 <% other_formats_links do |f| %>
+  <% if @query.display_type == 'list' %>
+    <%= f.link_to_with_query_parameters 'CSV', {}, :onclick => "showModal('csv-export-options', '350px'); return false;" %>
+  <% end %>
   <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
 <% end %>
 

@@ -38,16 +38,17 @@ module ProjectsQueriesHelper
     end
   end
 
-  def csv_content(column, item)
-    if item.is_a?(Project)
+  def csv_value(column, object, value)
+    if object.is_a?(Project)
       case column.name
       when :status
-        get_project_status_label[column.value_object(item)]
+        get_project_status_label[column.value_object(object)]
       when :parent_id
-        return item.parent.name unless item.parent.nil?
+        object.parent.name unless object.parent.nil?
+      else
+        super
       end
     end
-    super
   end
 
   private
