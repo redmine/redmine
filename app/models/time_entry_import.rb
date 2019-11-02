@@ -86,7 +86,11 @@ class TimeEntryImport < Import
 
     user_id = nil
     if User.current.allowed_to?(:log_time_for_other_users, project)
-      user_id = user_value || row_value(row, 'user_id')
+      if user_value
+        user_id = user_value
+      elsif user_name = row_value(row, 'user_id')
+        user_id = Principal.detect_by_keyword(allowed_target_users, user_name).try(:id)
+      end
     else
       user_id = user.id
     end
