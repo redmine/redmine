@@ -1274,7 +1274,7 @@ fr:
   label_updated_issues: "Demandes mises à jour"
   text_avatar_server_config_html: "Le serveur d'avatars actuel est <a href=\"%{url}\">%{url}</a>. Vous pouvez le configurer dans config/configuration.yml."
   setting_gantt_months_limit: "Nombre maximum de mois affichés sur le gantt"
-  label_import_time_entries: "Importer des temps passés"
+  permission_import_time_entries: "Importer des temps passés"
   label_import_notifications: "Envoyer les notifications durant l'import"
   text_gs_available: "Support PDF ImageMagick disponible (optionnel)"
   field_recently_used_projects: "Nombre de projets récemment utilisés dans le menu"

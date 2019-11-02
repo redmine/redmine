@@ -1286,7 +1286,7 @@ id:
   text_avatar_server_config_html: The current avatar server is <a href="%{url}">%{url}</a>.
     You can configure it in config/configuration.yml.
   setting_gantt_months_limit: Maximum number of months displayed on the gantt chart
-  label_import_time_entries: Import time entries
+  permission_import_time_entries: Import time entries
   label_import_notifications: Send email notifications during the import
   text_gs_available: ImageMagick PDF support available (optional)
   field_recently_used_projects: Number of recently used projects in jump box

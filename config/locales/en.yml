@@ -1033,7 +1033,7 @@ en:
   label_member_management_all_roles: All roles
   label_member_management_selected_roles_only: Only these roles
   label_import_issues: Import issues
-  label_import_time_entries: Import time entries
+  permission_import_time_entries: Import time entries
   label_select_file_to_import: Select the file to import
   label_fields_separator: Field separator
   label_fields_wrapper: Field wrapper

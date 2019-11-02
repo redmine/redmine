@@ -1276,7 +1276,7 @@ de:
   text_avatar_server_config_html: Der aktuelle Avatar-Server ist <a href="%{url}">%{url}</a>.
     Die URL kann in config/configuration.yml angepasst werden.
   setting_gantt_months_limit: Maximal anzeigbare Monate im Gantt-Diagramm
-  label_import_time_entries: Zeitbuchungen importieren
+  permission_import_time_entries: Zeitbuchungen importieren
   label_import_notifications: Versende E-Mail-Benachrichtigungen während des Imports
   field_recently_used_projects: Anzahl kürzlich verwendeter Projekte in der Projekt-Jump-Box
   label_optgroup_bookmarks: Lesezeichen

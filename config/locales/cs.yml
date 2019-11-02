@@ -1274,7 +1274,7 @@ cs:
   text_avatar_server_config_html: Aktuální avatar server je <a href="%{url}">%{url}</a>.
     Nastavení lze změnit v config/configuration.yml.
   setting_gantt_months_limit: Maximální počet měsíců zobrazených v ganttově diagramu
-  label_import_time_entries: Import stráveného času
+  permission_import_time_entries: Import stráveného času
   label_import_notifications: Odeslat emailové notifikace během importu
   text_gs_available: ImageMagick PDF podpora k dispozici (volitelné)
   field_recently_used_projects: Počet nedávno použitých projektů v rychlém výběru

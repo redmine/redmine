@@ -1035,7 +1035,7 @@ bg:
   label_member_management_all_roles: Всички роли
   label_member_management_selected_roles_only: Само тези роли
   label_import_issues: Импорт на задачи
-  label_import_time_entries: Импортиране на записи за използвано време
+  permission_import_time_entries: Импортиране на записи за използвано време
   label_select_file_to_import: Файл за импортиране
   label_fields_separator: Разделител между полетата
   label_fields_wrapper: Разделител в полетата (wrapper)
