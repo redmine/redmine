@@ -1294,7 +1294,7 @@ fr:
   label_password_char_class_lowercase: "lettres miniscules"
   label_password_char_class_digits: "chiffres"
   label_password_char_class_special_chars: "caractères spéciaux"
-  text_characters_must_contain: "Doit contenir : %{character_classes}."
+  text_characters_must_contain: "Doit contenir les types de caractères suivants : %{character_classes}."
   label_starts_with: "commence par"
   label_ends_with: "se termine par"
   label_issue_fixed_version_updated: "Version cible mise à jour"
