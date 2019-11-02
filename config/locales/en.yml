@@ -1284,3 +1284,4 @@ en:
   label_login_required_no: "No, allow anonymous access to public projects"
   text_project_is_public_non_member: Public projects and their contents are available to all logged-in users.
   text_project_is_public_anonymous: Public projects and their contents are openly available on the network.
+  label_import_time_entries: Import time entries
