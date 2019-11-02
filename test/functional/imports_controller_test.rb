@@ -187,6 +187,41 @@ class ImportsControllerTest < Redmine::ControllerTest
     assert_equal '0', mapping['subject']
   end
 
+  def test_get_mapping_time_entry
+    Role.find(1).add_permission! :log_time_for_other_users
+    import = generate_time_entry_import
+    import.settings = {'separator' => ";", 'wrapper' => '"', 'encoding' => "ISO-8859-1"}
+    import.save!
+
+    get :mapping, :params => {
+        :id => import.to_param
+      }
+
+    assert_response :success
+
+    # 'user_id' field should be available because User#2 has both
+    # 'import_time_entries' and 'log_time_for_other_users' permissions
+    assert_select 'select[name=?]', 'import_settings[mapping][user_id]' do
+      # Current user should be the default value
+      assert_select 'option[value="value:2"][selected]', :text => User.find(2).name
+      assert_select 'option[value="value:3"]', :text => User.find(3).name
+    end
+  end
+
+  def test_get_mapping_time_entry_for_user_without_log_time_for_other_users_permission
+    import = generate_time_entry_import
+    import.settings = {'separator' => ";", 'wrapper' => '"', 'encoding' => "ISO-8859-1"}
+    import.save!
+
+    get :mapping, :params => {
+        :id => import.to_param
+      }
+
+    assert_response :success
+
+    assert_select 'select[name=?]', 'import_settings[mapping][user_id]', 0
+  end
+
   def test_get_run
     import = generate_import_with_mapping
 

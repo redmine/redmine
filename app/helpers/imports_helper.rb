@@ -33,7 +33,7 @@ module ImportsHelper
     tags << options_for_select(import.columns_options, import.mapping[field])
     if values = options[:values]
       tags << content_tag('option', '--', :disabled => true)
-      tags << options_for_select(values.map {|text, value| [text, "value:#{value}"]}, import.mapping[field])
+      tags << options_for_select(values.map {|text, value| [text, "value:#{value}"]}, import.mapping[field] || options[:default_value])
     end
     tags
   end

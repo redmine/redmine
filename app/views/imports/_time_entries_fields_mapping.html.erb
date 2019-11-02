@@ -10,9 +10,15 @@
         :values => @import.allowed_target_activities.sorted.map {|t| [t.name, t.id]} %>
 </p>
 
-
 <div class="splitcontent">
 <div class="splitcontentleft">
+<% if User.current.allowed_to?(:log_time_for_other_users, @import.project) %>
+  <p>
+    <label for="import_mapping_user_id"><%= l(:field_user) %></label>
+    <%= mapping_select_tag @import, 'user_id', :required => true,
+          :values => @import.allowed_target_users.map {|u| [u.name, u.id]}, :default_value => "value:#{User.current.id}" %>
+  </p>
+<% end %>
 <p>
   <label for="import_mapping_issue_id"><%= l(:field_issue) %></label>
   <%= mapping_select_tag @import, 'issue_id' %>

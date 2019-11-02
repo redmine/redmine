@@ -1,5 +1,5 @@
-row;issue_id;date;hours;comment;activity;overtime
-1;;2020-01-01;1;Some Design;Design;yes
-2;;2020-01-02;2;Some Development;Development;yes
-3;1;2020-01-03;3;Some QA;QA;no
-4;2;2020-01-04;4;Some Inactivity;Inactive Activity;no
+row;issue_id;date;hours;comment;activity;overtime;user_id
+1;;2020-01-01;1;Some Design;Design;yes;2
+2;;2020-01-02;2;Some Development;Development;yes;2
+3;1;2020-01-03;3;Some QA;QA;no;3
+4;2;2020-01-04;4;Some Inactivity;Inactive Activity;no;2

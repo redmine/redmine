@@ -259,6 +259,14 @@ module ObjectHelpers
     import.save!
     import
   end
+
+  def generate_time_entry_import(fixture_name='import_time_entries.csv')
+    import = TimeEntryImport.new
+    import.user_id = 2
+    import.file = uploaded_test_file(fixture_name, 'text/csv')
+    import.save!
+    import
+  end
 end
 
 module TrackerObjectHelpers

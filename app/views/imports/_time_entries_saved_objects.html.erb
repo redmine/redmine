@@ -2,6 +2,7 @@
   <thead>
   <tr>
     <th><%= t(:field_project) %></th>
+    <th><%= t(:field_user) %></th>
     <th><%= t(:field_activity) %></th>
     <th><%= t(:field_issue) %></th>
     <th><%= t(:field_spent_on) %></th>
@@ -13,6 +14,7 @@
   <% saved_objects.each do |time_entry| %>
   <tr>
     <td><%= link_to_project(time_entry.project, :jump => 'time_entries') if time_entry.project %></td>
+    <td><%= link_to_user time_entry.user %></td>
     <td><%= time_entry.activity.name if time_entry.activity %></td>
     <td><%= link_to_issue time_entry.issue if time_entry.issue %></td>
     <td><%= format_date(time_entry.spent_on) %></td>

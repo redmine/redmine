@@ -36,6 +36,7 @@ class TimeEntryImportTest < ActiveSupport::TestCase
 
   def setup
     set_language_if_valid 'en'
+    User.current = nil
   end
 
   def test_authorized
@@ -125,6 +126,43 @@ class TimeEntryImportTest < ActiveSupport::TestCase
     assert_equal '0', fourth.custom_field_value(overtime_cf)
   end
 
+  def test_maps_user_id_for_user_with_permissions
+    User.current = User.find(1)
+    import = generate_import_with_mapping
+    first, second, third, fourth = new_records(TimeEntry, 4) { import.run }
+
+    assert_equal 2, first.user_id
+    assert_equal 2, second.user_id
+    assert_equal 3, third.user_id
+    assert_equal 2, fourth.user_id
+  end
+
+  def test_maps_user_to_column_value
+    User.current = User.find(1)
+    import = generate_import_with_mapping
+    import.mapping.merge!('user_id' => 'value:1')
+    import.save!
+    first, second, third, fourth = new_records(TimeEntry, 4) { import.run }
+
+    assert_equal 1, first.user_id
+    assert_equal 1, second.user_id
+    assert_equal 1, third.user_id
+    assert_equal 1, fourth.user_id
+  end
+
+  def test_maps_user_id_for_user_without_permissions
+    # User 2 doesn't have log_time_for_other_users permission
+    User.current = User.find(2)
+    import = generate_import_with_mapping
+    first, second, third, fourth = new_records(TimeEntry, 4) { import.run }
+
+    assert_equal 2, first.user_id
+    assert_equal 2, second.user_id
+    # user_id value from CSV should be ignored
+    assert_equal 2, third.user_id
+    assert_equal 2, fourth.user_id
+  end
+
   protected
 
   def generate_import(fixture_name='import_time_entries.csv')
@@ -146,7 +184,8 @@ class TimeEntryImportTest < ActiveSupport::TestCase
         'issue_id'   => '1',
         'spent_on'   => '2',
         'hours'      => '3',
-        'comments'   => '4'
+        'comments'   => '4',
+        'user_id'    => '7'
       }
     }
     import.save!
