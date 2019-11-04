@@ -805,7 +805,6 @@ mk:
   button_update: Ажурирај
   button_configure: Конфигурирај
   button_quote: Цитирај
-  button_duplicate: Копирај
   button_show: Show
 
   status_active: активни

@@ -860,7 +860,6 @@ gl:
   label_version_sharing_tree: "Coa árbore de proxectos"
   label_version_sharing_none: "Non compartir"
   error_can_not_archive_project: "Non é posíbel arquivar este proxecto."
-  button_duplicate: "Duplicado"
   button_copy_and_follow: "Copiar e seguir"
   label_copy_source: "Fonte"
   setting_issue_done_ratio: "Calcular a proporción de peticións completadas mediante"

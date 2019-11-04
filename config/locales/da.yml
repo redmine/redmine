@@ -863,7 +863,6 @@ da:
   label_version_sharing_tree: Med projekttræ
   label_version_sharing_none: Ikke delt
   error_can_not_archive_project: Dette projekt kan ikke arkiveres
-  button_duplicate: Duplikér
   button_copy_and_follow: Kopiér og overvåg
   label_copy_source: Kilde
   setting_issue_done_ratio: Beregn sagsløsning ratio

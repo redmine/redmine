@@ -970,7 +970,6 @@ ru:
   label_version_sharing_tree: С деревом проектов
   label_version_sharing_none: Без совместного использования
   error_can_not_archive_project: Этот проект не может быть заархивирован
-  button_duplicate: Дублировать
   button_copy_and_follow: Копировать и продолжить
   label_copy_source: Источник
   setting_issue_done_ratio:  Рассчитывать готовность задачи с помощью поля

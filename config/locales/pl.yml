@@ -848,7 +848,6 @@ pl:
   field_active: Aktywne
   enumeration_system_activity: Aktywność systemowa
   button_copy_and_follow: Kopiuj i przejdź do kopii zagadnienia
-  button_duplicate: Duplikuj
   button_move_and_follow: Przenieś i przejdź do zagadnienia
   button_show: Pokaż
   error_can_not_archive_project: Ten projekt nie może zostać zarchiwizowany

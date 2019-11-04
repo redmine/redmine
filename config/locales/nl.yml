@@ -829,7 +829,6 @@ nl:
   label_version_sharing_tree: Met projectboom
   label_version_sharing_none: Niet gedeeld
   error_can_not_archive_project: Dit project kan niet worden gearchiveerd
-  button_duplicate: Dupliceer
   button_copy_and_follow: Kopiëren en volgen
   label_copy_source: Bron
   setting_issue_done_ratio: Bereken voltooiingspercentage voor issue met

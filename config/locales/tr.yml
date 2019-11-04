@@ -859,7 +859,6 @@ tr:
   label_version_sharing_tree: Proje ağacı ile
   label_version_sharing_none: Paylaşılmamış
   error_can_not_archive_project: Bu proje arşivlenemez
-  button_duplicate: Yinele
   button_copy_and_follow: Kopyala ve takip et
   label_copy_source: Kaynak
   setting_issue_done_ratio: İş tamamlanma oranını şununla hesapla

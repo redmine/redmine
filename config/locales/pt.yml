@@ -852,7 +852,6 @@ pt:
   label_version_sharing_tree: Com árvore do projeto
   label_version_sharing_none: Não partilhado
   error_can_not_archive_project: Não é possível arquivar este projeto
-  button_duplicate: Duplicar
   button_copy_and_follow: Copiar e seguir
   label_copy_source: Origem
   setting_issue_done_ratio: Calcular a percentagem de progresso da tarefa

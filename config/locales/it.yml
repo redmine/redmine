@@ -847,7 +847,6 @@ it:
   label_version_sharing_tree: Con progetto padre
   label_version_sharing_none: Nessuna condivisione
   error_can_not_archive_project: Questo progetto non può essere archiviato
-  button_duplicate: Duplica
   button_copy_and_follow: Copia e segui
   label_copy_source: Sorgente
   setting_issue_done_ratio: Calcola la percentuale di segnalazioni completate con

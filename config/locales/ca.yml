@@ -809,7 +809,6 @@ ca:
   button_update: "Actualitzar"
   button_configure: "Configurar"
   button_quote: "Citar"
-  button_duplicate: "Duplicar"
   button_show: "Mostrar"
 
   status_active: "actiu"

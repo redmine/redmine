@@ -843,7 +843,6 @@ th:
   label_version_sharing_tree: With project tree
   label_version_sharing_none: Not shared
   error_can_not_archive_project: This project can not be archived
-  button_duplicate: Duplicate
   button_copy_and_follow: Copy and follow
   label_copy_source: Source
   setting_issue_done_ratio: Calculate the issue done ratio with

@@ -844,7 +844,6 @@ sl:
   label_version_sharing_tree: Z drevesom projekta
   label_version_sharing_none: Ni deljeno
   error_can_not_archive_project: Ta projekt ne more biti arhiviran
-  button_duplicate: Podvoji
   button_copy_and_follow: Kopiraj in sledi
   label_copy_source: Vir
   setting_issue_done_ratio: Izračunaj razmerje opravljenega zahtevka z

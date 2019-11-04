@@ -960,7 +960,6 @@ az:
   label_version_sharing_tree: Layihələrin iyerarxiyası ilə
   label_version_sharing_none: Birgə istifadə olmadan
   error_can_not_archive_project: Bu layihə arxivləşdirilə bilməz
-  button_duplicate: Təkrarlamaq
   button_copy_and_follow: Surətini çıxarmaq və davam etmək
   label_copy_source: Mənbə
   setting_issue_done_ratio: Sahənin köməyi ilə tapşırığın hazırlığını nəzərə almaq

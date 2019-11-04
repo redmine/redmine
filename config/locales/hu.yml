@@ -866,7 +866,6 @@
   label_version_sharing_tree: Projekt fával
   label_version_sharing_none: Nincs megosztva
   error_can_not_archive_project: A projektet nem lehet archiválni
-  button_duplicate: Duplikálás
   button_copy_and_follow: Másolás és követés
   label_copy_source: Forrás
   setting_issue_done_ratio: Feladat készültségi szint számolása a következő alapján

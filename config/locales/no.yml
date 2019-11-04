@@ -834,7 +834,6 @@
   label_version_sharing_tree: Med prosjekt-tre
   label_version_sharing_none: Ikke delt
   error_can_not_archive_project: Dette prosjektet kan ikke arkiveres
-  button_duplicate: Duplikat
   button_copy_and_follow: Kopier og følg etter
   label_copy_source: Kilde
   setting_issue_done_ratio: Kalkuler ferdigstillingsprosent ut i fra

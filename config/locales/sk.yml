@@ -843,7 +843,6 @@ sk:
   label_version_sharing_tree: S projektovým stromom
   label_version_sharing_none: Nezdieľané
   error_can_not_archive_project: Tento projekt nemôže byť archivovaný
-  button_duplicate: Duplikovať
   button_copy_and_follow: Kopírovať a sledovať
   label_copy_source: Zdroj
   setting_issue_done_ratio: Vyrátať mieru vypracovania úlohy pomocou

@@ -858,7 +858,6 @@ uk:
   label_version_sharing_tree: З деревом проектів
   label_version_sharing_none: Без спільного доступу
   error_can_not_archive_project: Цей проект не може бути заархівований
-  button_duplicate: Дублювати
   button_copy_and_follow: Скопіювати та продовжити
   label_copy_source: Джерело
   setting_issue_done_ratio: Розраховувати готовність задачі з допомогою поля

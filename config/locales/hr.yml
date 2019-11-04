@@ -776,7 +776,6 @@ hr:
   button_update: Promijeni
   button_configure: Konfiguracija
   button_quote: Navod
-  button_duplicate: Duplicate
   button_show: Show
 
   status_active: aktivan

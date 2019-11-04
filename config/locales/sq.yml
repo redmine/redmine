@@ -875,7 +875,6 @@ sq:
   button_update: Update
   button_configure: Configure
   button_quote: Quote
-  button_duplicate: Duplicate
   button_show: Show
   button_edit_section: Edit this section
   button_export: Export

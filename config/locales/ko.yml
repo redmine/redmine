@@ -894,7 +894,6 @@ ko:
   label_version_sharing_tree: 최상위 및 모든 하위 프로젝트
   label_version_sharing_none: 공유없음
   error_can_not_archive_project: 이 프로젝트를 잠금보관할 수 없습니다.
-  button_duplicate: 복제
   button_copy_and_follow: 복사하고 따라가기
   label_copy_source: 원본
   setting_issue_done_ratio: 일감의 진척도 계산방법

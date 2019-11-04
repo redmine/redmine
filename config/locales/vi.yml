@@ -898,7 +898,6 @@ vi:
   label_version_sharing_tree: Với cây dự án
   label_version_sharing_none: Không chia sẻ
   error_can_not_archive_project: Dựa án này không thể lưu trữ được
-  button_duplicate: Nhân đôi
   button_copy_and_follow: Sao chép và theo
   label_copy_source: Nguồn
   setting_issue_done_ratio: Tính toán tỷ lệ hoàn thành vấn đề với

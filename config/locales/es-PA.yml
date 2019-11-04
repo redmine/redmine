@@ -888,7 +888,6 @@ es-PA:
   label_version_sharing_descendants: Con proyectos hijo
   label_version_sharing_system: Con todos los proyectos
   label_version_sharing_none: No compartir
-  button_duplicate: Duplicar
   error_can_not_archive_project: Este proyecto no puede ser archivado
   label_copy_source: Fuente
   setting_issue_done_ratio: Calcular el ratio de tareas realizadas con

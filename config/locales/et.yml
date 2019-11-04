@@ -894,7 +894,6 @@ et:
   button_update: "Muuda"
   button_configure: "Konfigureeri"
   button_quote: "Tsiteeri"
-  button_duplicate: "Duplitseeri"
   button_show: "Näita"
   button_edit_section: "Muuda seda sektsiooni"
   button_export: "Ekspordi"
