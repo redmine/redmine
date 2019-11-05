@@ -33,8 +33,15 @@ class Message < ActiveRecord::Base
                 :description => :content,
                 :group => :parent,
                 :type => Proc.new {|o| o.parent_id.nil? ? 'message' : 'reply'},
-                :url => Proc.new {|o| {:controller => 'messages', :action => 'show', :board_id => o.board_id}.merge(o.parent_id.nil? ? {:id => o.id} :
-                                                                                                                                       {:id => o.parent_id, :r => o.id, :anchor => "message-#{o.id}"})}
+                :url => Proc.new {|o|
+                  {:controller => 'messages', :action => 'show',
+                   :board_id => o.board_id}.
+                     merge(
+                       if o.parent_id.nil?
+                         {:id => o.id}
+                       else
+                         {:id => o.parent_id, :r => o.id, :anchor => "message-#{o.id}"}
+                       end)}
 
   acts_as_activity_provider :scope => preload({:board => :project}, :author),
                             :author_key => :author_id
