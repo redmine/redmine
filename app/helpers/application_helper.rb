@@ -636,9 +636,9 @@ module ApplicationHelper
       :reorder_param => options[:param] || object.class.name.underscore
     }
     content_tag('span', '',
-      :class => "icon-only icon-sort-handle sort-handle",
-      :data => data,
-      :title => l(:button_sort))
+                :class => "icon-only icon-sort-handle sort-handle",
+                :data => data,
+                :title => l(:button_sort))
   end
 
   def breadcrumb(*args)
