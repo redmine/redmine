@@ -482,7 +482,8 @@ module ApplicationHelper
       padding = level * 16
       text = content_tag('span', project.name, :style => "padding-left:#{padding}px;")
       s << link_to(text, project_path(project, :jump => jump),
-              :title => project.name, :class => (project == selected ? 'selected' : nil))
+                   :title => project.name,
+                   :class => (project == selected ? 'selected' : nil))
     }
     [
       [bookmarked, :label_optgroup_bookmarks, true],
