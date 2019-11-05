@@ -1193,9 +1193,13 @@ module ApplicationHelper
       heading, level = $1, $2
       @current_section += 1
       if @current_section > 1
-        content_tag('div',
-          link_to(l(:button_edit_section), options[:edit_section_links].merge(:section => @current_section),
-                  :class => 'icon-only icon-edit'),
+        content_tag(
+          'div',
+          link_to(
+            l(:button_edit_section),
+            options[:edit_section_links].merge(
+              :section => @current_section),
+            :class => 'icon-only icon-edit'),
           :class => "contextual heading-#{level}",
           :title => l(:button_edit_section),
           :id => "section-#{@current_section}") + heading.html_safe
