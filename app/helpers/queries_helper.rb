@@ -198,7 +198,8 @@ module QueriesHelper
       if options[:sort_link_options]
         link_options.merge! options[:sort_link_options]
       end
-      content = link_to(column.caption,
+      content = link_to(
+          column.caption,
           {:params => request.query_parameters.deep_merge(sort_param)},
           link_options
         )
