@@ -167,8 +167,8 @@ module ApplicationHelper
       h(project.name)
     else
       link_to project.name,
-        project_url(project, {:only_path => true}.merge(options)),
-        html_options
+              project_url(project, {:only_path => true}.merge(options)),
+              html_options
     end
   end
 
