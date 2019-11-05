@@ -505,17 +505,17 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
     issue2 = Issue.generate!(:subject => "test", :project => project,
                              :start_date => (today - 2))
     issue1_child1 =
-             Issue.generate!(:parent_issue_id => issue1.id, :subject => 'child',
-                             :project => project)
+      Issue.generate!(:parent_issue_id => issue1.id, :subject => 'child',
+                      :project => project)
     issue1_child2 =
-             Issue.generate!(:parent_issue_id => issue1.id, :subject => 'child',
-                             :project => project, :start_date => (today - 10))
+      Issue.generate!(:parent_issue_id => issue1.id, :subject => 'child',
+                      :project => project, :start_date => (today - 10))
     issue1_child1_child1 =
-             Issue.generate!(:parent_issue_id => issue1_child1.id, :subject => 'child',
-                             :project => project, :start_date => (today - 8))
+      Issue.generate!(:parent_issue_id => issue1_child1.id, :subject => 'child',
+                      :project => project, :start_date => (today - 8))
     issue1_child1_child2 =
-             Issue.generate!(:parent_issue_id => issue1_child1.id, :subject => 'child',
-                             :project => project, :start_date => (today - 9))
+      Issue.generate!(:parent_issue_id => issue1_child1.id, :subject => 'child',
+                      :project => project, :start_date => (today - 9))
     issue1_child1_child1_logic = Redmine::Helpers::Gantt.sort_issue_logic(issue1_child1_child1)
     assert_equal [[today - 10, issue1.id], [today - 9, issue1_child1.id],
                   [today - 8, issue1_child1_child1.id]],

@@ -118,12 +118,6 @@ Layout/ExtraSpacing:
   Enabled: false
 
 # Cop supports --auto-correct.
-# Configuration parameters: IndentationWidth.
-Layout/IndentAssignment:
-  Exclude:
-    - 'test/unit/lib/redmine/helpers/gantt_test.rb'
-
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, IndentationWidth.
 # SupportedStyles: consistent, consistent_relative_to_receiver, special_for_inner_method_call, special_for_inner_method_call_in_parentheses
 Layout/IndentFirstArgument:
