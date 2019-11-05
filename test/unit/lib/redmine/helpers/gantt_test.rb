@@ -482,7 +482,7 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
     issues = [child3, child2, child1, issue2, issue1]
     Redmine::Helpers::Gantt.sort_issues!(issues)
     assert_equal [issue1.id, child1.id, child3.id, child2.id, issue2.id],
-                  issues.map{|v| v.id}
+                 issues.map{|v| v.id}
   end
 
   def test_sort_issues_root_only
@@ -496,7 +496,7 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
     issues = [issue4, issue3, issue2, issue1]
     Redmine::Helpers::Gantt.sort_issues!(issues)
     assert_equal [issue1.id, issue2.id, issue4.id, issue3.id],
-                  issues.map{|v| v.id}
+                 issues.map{|v| v.id}
   end
 
   def test_sort_issues_tree
