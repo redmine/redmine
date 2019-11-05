@@ -233,7 +233,8 @@ module QueriesHelper
     when :done_ratio
       progress_bar(value)
     when :relations
-      content_tag('span',
+      content_tag(
+        'span',
         value.to_s(item) {|other| link_to_issue(other, :subject => false, :tracker => false)}.html_safe,
         :class => value.css_classes_for(item))
     when :hours, :estimated_hours
