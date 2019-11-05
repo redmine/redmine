@@ -397,7 +397,8 @@ module QueriesHelper
     url_params = controller_name == 'issues' ? {:controller => 'issues', :action => 'index', :project_id => @project} : {}
 
     content_tag('h3', title) + "\n" +
-      content_tag('ul',
+      content_tag(
+        'ul',
         queries.collect {|query|
             css = +'query'
             clear_link = +''
