@@ -44,9 +44,11 @@ class MailHandlerTest < ActiveSupport::TestCase
 
   def test_add_issue_with_specific_overrides
     issue = submit_email('ticket_on_given_project.eml',
-      :allow_override => ['status', 'start_date', 'due_date', 'assigned_to',
-                          'fixed_version', 'estimated_hours', 'done_ratio', 'parent_issue']
-    )
+                         :allow_override =>
+                           ['status', 'start_date', 'due_date', 'assigned_to',
+                            'fixed_version', 'estimated_hours', 'done_ratio',
+                            'parent_issue']
+                         )
     assert issue.is_a?(Issue)
     assert !issue.new_record?
     issue.reload
@@ -243,8 +245,9 @@ class MailHandlerTest < ActiveSupport::TestCase
                                          :possible_values => ['Linux', 'Windows', 'Mac OS X'])
 
     issue = submit_email('ticket_with_custom_fields.eml',
-      :issue => {:project => 'onlinestore'}, :allow_override => ['database', 'Searchable_field', 'OS']
-    )
+                         :issue => {:project => 'onlinestore'},
+                         :allow_override => ['database', 'Searchable_field', 'OS']
+                         )
     assert issue.is_a?(Issue)
     assert !issue.new_record?
     issue.reload
@@ -260,12 +263,12 @@ class MailHandlerTest < ActiveSupport::TestCase
                                      :field_format => 'version',
                                      :is_for_all => true,
                                      :tracker_ids => [1,2,3])
-
     issue = submit_email('ticket_with_custom_fields.eml',
-      :issue => {:project => 'ecookbook'}, :allow_override => ['affected version']
-    ) do |email|
-      email << "Affected version: 1.0\n"
-    end
+                         :issue => {:project => 'ecookbook'},
+                         :allow_override => ['affected version']
+                         ) do |email|
+                             email << "Affected version: 1.0\n"
+                         end
     assert issue.is_a?(Issue)
     assert !issue.new_record?
     issue.reload
@@ -797,11 +800,11 @@ class MailHandlerTest < ActiveSupport::TestCase
       with_settings :mail_from => addr do
         assert_no_difference 'User.count' do
           assert_equal false,
-                      submit_email(
+                       submit_email(
                         'ticket_from_emission_address.eml',
                         :issue => {:project => 'ecookbook'},
                         :unknown_user => 'create'
-                      )
+                       )
         end
       end
     end
