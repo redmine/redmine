@@ -121,7 +121,6 @@ Layout/ExtraSpacing:
 # Configuration parameters: IndentationWidth.
 Layout/IndentAssignment:
   Exclude:
-    - 'app/helpers/application_helper.rb'
     - 'test/unit/lib/redmine/helpers/gantt_test.rb'
 
 # Cop supports --auto-correct.

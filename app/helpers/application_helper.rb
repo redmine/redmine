@@ -1162,7 +1162,7 @@ module ApplicationHelper
   end
 
   LINKS_RE =
-      %r{
+    %r{
             <a( [^>]+?)?>(?<tag_content>.*?)</a>|
             (?<leading>[\s\(,\-\[\>]|^)
             (?<esc>!)?
@@ -1199,7 +1199,7 @@ module ApplicationHelper
               \]|
               <|
               $)
-      }x
+    }x
   HEADING_RE = /(<h(\d)( [^>]+)?>(.+?)<\/h(\d)>)/i unless const_defined?(:HEADING_RE)
 
   def parse_sections(text, project, obj, attr, only_path, options)
