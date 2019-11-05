@@ -611,8 +611,8 @@ class MailerTest < ActiveSupport::TestCase
       assert Mailer.deliver_wiki_content_added(content)
       assert_select_email do
         assert_select 'a[href=?]',
-          'http://localhost:3000/projects/ecookbook/wiki/CookBook_documentation',
-          :text => 'CookBook documentation'
+                      'http://localhost:3000/projects/ecookbook/wiki/CookBook_documentation',
+                      :text => 'CookBook documentation'
       end
     end
   end
@@ -622,8 +622,8 @@ class MailerTest < ActiveSupport::TestCase
     assert Mailer.deliver_wiki_content_updated(content)
     assert_select_email do
       assert_select 'a[href=?]',
-        'http://localhost:3000/projects/ecookbook/wiki/CookBook_documentation',
-        :text => 'CookBook documentation'
+                    'http://localhost:3000/projects/ecookbook/wiki/CookBook_documentation',
+                    :text => 'CookBook documentation'
     end
   end
 
@@ -816,10 +816,11 @@ class MailerTest < ActiveSupport::TestCase
   def test_security_notification_should_include_title
     set_language_if_valid User.find(2).language
     with_settings :emails_footer => "footer without link" do
-      assert Mailer.deliver_security_notification(User.find(2), User.find(2),
-        message: :notice_account_password_updated,
-        title: :label_my_account
-      )
+      assert Mailer.deliver_security_notification(
+               User.find(2), User.find(2),
+               message: :notice_account_password_updated,
+               title: :label_my_account
+             )
       assert_select_email do
         assert_select "a", false
         assert_select "h1", :text => I18n.t(:label_my_account)
@@ -830,11 +831,12 @@ class MailerTest < ActiveSupport::TestCase
   def test_security_notification_should_include_link
     set_language_if_valid User.find(3).language
     with_settings :emails_footer => "footer without link" do
-      assert Mailer.deliver_security_notification(User.find(3), User.find(3),
-      message: :notice_account_password_updated,
-      title: :label_my_account,
-      url: {controller: 'my', action: 'account'}
-      )
+      assert Mailer.deliver_security_notification(
+               User.find(3), User.find(3),
+               message: :notice_account_password_updated,
+               title: :label_my_account,
+               url: {controller: 'my', action: 'account'}
+             )
       assert_select_email do
         assert_select "h1", false
         assert_select 'a[href=?]', 'http://localhost:3000/my/account', :text => I18n.t(:label_my_account)
@@ -868,7 +870,7 @@ class MailerTest < ActiveSupport::TestCase
   def test_token_for_should_strip_trailing_gt_from_address_with_full_name
     with_settings :mail_from => "Redmine Mailer<no-reply@redmine.org>" do
       assert_match /\Aredmine.issue-\d+\.\d+\.3@redmine.org\z/,
-        Mailer.token_for(Issue.generate!, User.find(3))
+                   Mailer.token_for(Issue.generate!, User.find(3))
     end
   end
 
@@ -978,26 +980,23 @@ class MailerTest < ActiveSupport::TestCase
 
   def test_email_addresses_should_keep_addresses
     assert_equal ["foo@example.net"],
-      Mailer.email_addresses("foo@example.net")
-
+                 Mailer.email_addresses("foo@example.net")
     assert_equal ["foo@example.net", "bar@example.net"],
-      Mailer.email_addresses(["foo@example.net", "bar@example.net"])
+                 Mailer.email_addresses(["foo@example.net", "bar@example.net"])
   end
 
   def test_email_addresses_should_replace_users_with_their_email_addresses
     assert_equal ["admin@somenet.foo"],
-      Mailer.email_addresses(User.find(1))
-
+                 Mailer.email_addresses(User.find(1))
     assert_equal ["admin@somenet.foo", "jsmith@somenet.foo"],
-      Mailer.email_addresses(User.where(:id => [1,2])).sort
+                 Mailer.email_addresses(User.where(:id => [1,2])).sort
   end
 
   def test_email_addresses_should_include_notified_emails_addresses_only
     EmailAddress.create!(:user_id => 2, :address => "another@somenet.foo", :notify => false)
     EmailAddress.create!(:user_id => 2, :address => "another2@somenet.foo")
-
     assert_equal ["another2@somenet.foo", "jsmith@somenet.foo"],
-      Mailer.email_addresses(User.find(2)).sort
+                 Mailer.email_addresses(User.find(2)).sort
   end
 
   private
