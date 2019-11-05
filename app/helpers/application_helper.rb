@@ -1104,19 +1104,29 @@ module ApplicationHelper
                 end
                 if prefix == 'commit'
                   if repository && (changeset = Changeset.visible.where("repository_id = ? AND scmid LIKE ?", repository.id, "#{name}%").first)
-                    link = link_to h("#{project_prefix}#{repo_prefix}#{name}"), {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :repository_id => repository.identifier_param, :rev => changeset.identifier},
-                                                 :class => 'changeset',
-                                                 :title => truncate_single_line_raw(changeset.comments, 100)
+                    link = link_to(
+                             h("#{project_prefix}#{repo_prefix}#{name}"),
+                             {:only_path => only_path, :controller => 'repositories',
+                              :action => 'revision', :id => project,
+                              :repository_id => repository.identifier_param,
+                              :rev => changeset.identifier},
+                             :class => 'changeset',
+                             :title => truncate_single_line_raw(changeset.comments, 100))
                   end
                 else
                   if repository && User.current.allowed_to?(:browse_repository, project)
                     name =~ %r{^[/\\]*(.*?)(@([^/\\@]+?))?(#(L\d+))?$}
                     path, rev, anchor = $1, $3, $5
-                    link = link_to h("#{project_prefix}#{prefix}:#{repo_prefix}#{name}"), {:only_path => only_path, :controller => 'repositories', :action => (prefix == 'export' ? 'raw' : 'entry'), :id => project, :repository_id => repository.identifier_param,
-                                                            :path => to_path_param(path),
-                                                            :rev => rev,
-                                                            :anchor => anchor},
-                                                           :class => (prefix == 'export' ? 'source download' : 'source')
+                    link =
+                      link_to(
+                        h("#{project_prefix}#{prefix}:#{repo_prefix}#{name}"),
+                        {:only_path => only_path, :controller => 'repositories',
+                         :action => (prefix == 'export' ? 'raw' : 'entry'),
+                         :id => project, :repository_id => repository.identifier_param,
+                         :path => to_path_param(path),
+                         :rev => rev,
+                         :anchor => anchor},
+                        :class => (prefix == 'export' ? 'source download' : 'source'))
                   end
                 end
                 repo_prefix = nil
