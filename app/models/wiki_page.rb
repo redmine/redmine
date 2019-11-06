@@ -62,13 +62,13 @@ class WikiPage < ActiveRecord::Base
   DEFAULT_PROTECTED_PAGES = %w(sidebar)
 
   safe_attributes 'parent_id', 'parent_title', 'title', 'redirect_existing_links', 'wiki_id',
-    :if => lambda {|page, user| page.new_record? || user.allowed_to?(:rename_wiki_pages, page.project)}
+                  :if => lambda {|page, user| page.new_record? || user.allowed_to?(:rename_wiki_pages, page.project)}
 
   safe_attributes 'is_start_page',
-    :if => lambda {|page, user| user.allowed_to?(:manage_wiki, page.project)}
+                  :if => lambda {|page, user| user.allowed_to?(:manage_wiki, page.project)}
 
   safe_attributes 'deleted_attachment_ids',
-    :if => lambda {|page, user| page.attachments_deletable?(user)}
+                  :if => lambda {|page, user| page.attachments_deletable?(user)}
 
   def initialize(attributes=nil, *args)
     super
