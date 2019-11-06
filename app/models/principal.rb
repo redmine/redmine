@@ -58,7 +58,8 @@ class Principal < ActiveRecord::Base
         active
       else
         # self and members of visible projects
-        active.where("#{table_name}.id = ? OR #{table_name}.id IN (SELECT user_id FROM #{Member.table_name} WHERE project_id IN (?))",
+        active.where(
+          "#{table_name}.id = ? OR #{table_name}.id IN (SELECT user_id FROM #{Member.table_name} WHERE project_id IN (?))",
           user.id, user.visible_project_ids
         )
       end
