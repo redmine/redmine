@@ -999,10 +999,10 @@ class RedCloth3 < String
     end
 
     def no_textile( text )
-        text.gsub!( /(^|\s)==([^=]+.*?)==(\s|$)?/,
-            '\1<notextile>\2</notextile>\3' )
-        text.gsub!( /^ *==([^=]+.*?)==/m,
-            '\1<notextile>\2</notextile>\3' )
+        text.gsub!(/(^|\s)==([^=]+.*?)==(\s|$)?/,
+                   '\1<notextile>\2</notextile>\3')
+        text.gsub!(/^ *==([^=]+.*?)==/m,
+                   '\1<notextile>\2</notextile>\3')
     end
 
     def clean_white_space( text )
@@ -1032,8 +1032,8 @@ class RedCloth3 < String
     end
 
     def footnote_ref( text )
-        text.gsub!( /\b\[([0-9]+?)\](\s)?/,
-            '<sup><a href="#fn\1">\1</a></sup>\2' )
+        text.gsub!(/\b\[([0-9]+?)\](\s)?/,
+                   '<sup><a href="#fn\1">\1</a></sup>\2')
     end
 
     OFFTAGS = /(code|pre|kbd|notextile)/
