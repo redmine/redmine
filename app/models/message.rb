@@ -63,9 +63,9 @@ class Message < ActiveRecord::Base
 
   safe_attributes 'subject', 'content'
   safe_attributes 'locked', 'sticky', 'board_id',
-    :if => lambda {|message, user|
-      user.allowed_to?(:edit_messages, message.project)
-    }
+                  :if => lambda {|message, user|
+                    user.allowed_to?(:edit_messages, message.project)
+                  }
 
   def visible?(user=User.current)
     !user.nil? && user.allowed_to?(:view_messages, project)
