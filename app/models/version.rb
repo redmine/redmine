@@ -153,15 +153,15 @@ class Version < ActiveRecord::Base
   }
 
   safe_attributes 'name',
-    'description',
-    'effective_date',
-    'due_date',
-    'wiki_page_title',
-    'status',
-    'sharing',
-    'default_project_version',
-    'custom_field_values',
-    'custom_fields'
+                  'description',
+                  'effective_date',
+                  'due_date',
+                  'wiki_page_title',
+                  'status',
+                  'sharing',
+                  'default_project_version',
+                  'custom_field_values',
+                  'custom_fields'
 
   def safe_attributes=(attrs, user=User.current)
     if attrs.respond_to?(:to_unsafe_hash)
