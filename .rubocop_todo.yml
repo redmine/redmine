@@ -191,7 +191,6 @@ Layout/MultilineBlockLayout:
   Exclude:
     - 'app/controllers/auth_sources_controller.rb'
     - 'app/controllers/auto_completes_controller.rb'
-    - 'app/models/message.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
