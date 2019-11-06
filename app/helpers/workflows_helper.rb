@@ -76,22 +76,23 @@ module WorkflowsHelper
 
   def transition_tag(transition_count, old_status, new_status, name)
     w = transition_count
-
     tag_name = "transitions[#{ old_status.try(:id) || 0 }][#{new_status.id}][#{name}]"
     if old_status == new_status
       check_box_tag(tag_name, "1", true,
-        {:disabled => true, :class => "old-status-#{old_status.try(:id) || 0} new-status-#{new_status.id}"})
+                    {:disabled => true, :class => "old-status-#{old_status.try(:id) || 0} new-status-#{new_status.id}"})
     elsif w == 0 || w == @roles.size * @trackers.size
       hidden_field_tag(tag_name, "0", :id => nil) +
       check_box_tag(tag_name, "1", w != 0,
-            :class => "old-status-#{old_status.try(:id) || 0} new-status-#{new_status.id}")
+                    :class => "old-status-#{old_status.try(:id) || 0} new-status-#{new_status.id}")
     else
-      select_tag tag_name,
+      select_tag(
+        tag_name,
         options_for_select([
             [l(:general_text_Yes), "1"],
             [l(:general_text_No), "0"],
             [l(:label_no_change_option), "no_change"]
           ], "no_change")
+      )
     end
   end
 end
