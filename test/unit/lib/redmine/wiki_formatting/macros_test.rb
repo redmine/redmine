@@ -28,12 +28,12 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
   extend ActionView::Helpers::SanitizeHelper::ClassMethods
 
   fixtures :projects, :roles, :enabled_modules, :users,
-                      :repositories, :changesets,
-                      :trackers, :issue_statuses, :issues,
-                      :versions, :documents,
-                      :wikis, :wiki_pages, :wiki_contents,
-                      :boards, :messages,
-                      :attachments
+           :repositories, :changesets,
+           :trackers, :issue_statuses, :issues,
+           :versions, :documents,
+           :wikis, :wiki_pages, :wiki_contents,
+           :boards, :messages,
+           :attachments
 
   def setup
     super
@@ -346,7 +346,7 @@ RAW
 
   def test_macro_thumbnail_with_invalid_filename_should_fail
     assert_include 'test.png not found',
-      textilizable("{{thumbnail(test.png)}}", :object => Issue.find(14))
+                   textilizable("{{thumbnail(test.png)}}", :object => Issue.find(14))
   end
 
   def test_macros_should_not_be_executed_in_pre_tags
