@@ -50,9 +50,10 @@ class WorkflowsControllerTest < Redmine::ControllerTest
 
     # used status only
     statuses = IssueStatus.where(:id => [2, 3, 5]).sorted.pluck(:name)
-    assert_equal ["New issue"] + statuses,
+    assert_equal(
+      ["New issue"] + statuses,
       css_select('table.workflows.transitions-always tbody tr td:first').map(&:text).map(&:strip)
-
+    )
     # allowed transitions
     assert_select 'input[type=checkbox][name=?][value="1"][checked=checked]', 'transitions[3][5][always]'
     # not allowed
@@ -76,8 +77,10 @@ class WorkflowsControllerTest < Redmine::ControllerTest
 
     # statuses 1 and 5 not displayed
     statuses = IssueStatus.where(:id => [2, 3]).sorted.pluck(:name)
-    assert_equal ["New issue"] + statuses,
+    assert_equal(
+      ["New issue"] + statuses,
       css_select('table.workflows.transitions-always tbody tr td:first').map(&:text).map(&:strip)
+    )
   end
 
   def test_get_edit_should_include_allowed_statuses_for_new_issues
@@ -109,9 +112,10 @@ class WorkflowsControllerTest < Redmine::ControllerTest
     assert_response :success
 
     statuses = IssueStatus.all.sorted.pluck(:name)
-    assert_equal ["New issue"] + statuses,
+    assert_equal(
+      ["New issue"] + statuses,
       css_select('table.workflows.transitions-always tbody tr td:first').map(&:text).map(&:strip)
-
+    )
     assert_select 'input[type=checkbox][name=?]', 'transitions[0][1][always]'
   end
 
@@ -321,8 +325,10 @@ class WorkflowsControllerTest < Redmine::ControllerTest
     assert_response :success
 
     statuses = IssueStatus.all.sorted.pluck(:name)
-    assert_equal statuses,
+    assert_equal(
+      statuses,
       css_select('table.workflows.fields_permissions thead tr:nth-child(2) td:not(:first-child)').map(&:text).map(&:strip)
+    )
   end
 
   def test_get_permissions_should_set_css_class
