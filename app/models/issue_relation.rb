@@ -80,8 +80,8 @@ class IssueRelation < ActiveRecord::Base
   after_destroy :call_issues_relation_removed_callback
 
   safe_attributes 'relation_type',
-    'delay',
-    'issue_to_id'
+                  'delay',
+                  'issue_to_id'
 
   def safe_attributes=(attrs, user=User.current)
     if attrs.respond_to?(:to_unsafe_hash)
