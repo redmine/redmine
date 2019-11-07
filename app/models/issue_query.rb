@@ -221,11 +221,13 @@ class IssueQuery < Query
         " JOIN #{Project.table_name} ON #{Project.table_name}.id = #{TimeEntry.table_name}.project_id" +
         " WHERE (#{TimeEntry.visible_condition(User.current)}) AND #{TimeEntry.table_name}.issue_id = #{Issue.table_name}.id"
 
-      @available_columns.insert index, QueryColumn.new(:spent_hours,
-        :sortable => "COALESCE((#{subselect}), 0)",
-        :default_order => 'desc',
-        :caption => :label_spent_time,
-        :totalable => true
+      @available_columns.insert(
+        index,
+        QueryColumn.new(:spent_hours,
+                        :sortable => "COALESCE((#{subselect}), 0)",
+                        :default_order => 'desc',
+                        :caption => :label_spent_time,
+                        :totalable => true)
       )
 
       subselect = "SELECT SUM(hours) FROM #{TimeEntry.table_name}" +
@@ -234,10 +236,12 @@ class IssueQuery < Query
         " WHERE (#{TimeEntry.visible_condition(User.current)})" +
         " AND subtasks.root_id = #{Issue.table_name}.root_id AND subtasks.lft >= #{Issue.table_name}.lft AND subtasks.rgt <= #{Issue.table_name}.rgt"
 
-      @available_columns.insert index+1, QueryColumn.new(:total_spent_hours,
-        :sortable => "COALESCE((#{subselect}), 0)",
-        :default_order => 'desc',
-        :caption => :label_total_spent_time
+      @available_columns.insert(
+        index + 1,
+        QueryColumn.new(:total_spent_hours,
+                        :sortable => "COALESCE((#{subselect}), 0)",
+                        :default_order => 'desc',
+                        :caption => :label_total_spent_time)
       )
     end
 
