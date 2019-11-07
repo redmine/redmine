@@ -94,20 +94,21 @@ class Redmine::MenuManager::MenuHelperTest < Redmine::HelperTest
 
   def test_render_menu_node_with_children
     User.current = User.find(2)
-
-    parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
-                                                     '/test',
-                                                     {
-                                                       :children => Proc.new {|p|
-                                                         children = []
-                                                         3.times do |time|
-                                                           children << Redmine::MenuManager::MenuItem.new("test_child_#{time}",
-                                                                                                             {:controller => 'issues', :action => 'index'},
-                                                                                                             {})
-                                                         end
-                                                         children
-                                                       }
-                                                     })
+    parent_node = Redmine::MenuManager::MenuItem.new(
+                    :parent_node,
+                    '/test',
+                    {
+                      :children => Proc.new {|p|
+                        children = []
+                        3.times do |time|
+                          children << Redmine::MenuManager::MenuItem.new(
+                            "test_child_#{time}",
+                            {:controller => 'issues', :action => 'index'},
+                            {})
+                        end
+                        children
+                      }
+                    })
     @output_buffer = render_menu_node(parent_node, Project.find(1))
 
     assert_select("li") do
@@ -135,18 +136,20 @@ class Redmine::MenuManager::MenuHelperTest < Redmine::HelperTest
                                                        }
                                                      })
 
-    parent_node << Redmine::MenuManager::MenuItem.new(:child_node,
-                                                     {:controller => 'issues', :action => 'index'},
-                                                     {
-                                                       :children => Proc.new {|p|
-                                                         children = []
-                                                         6.times do |time|
-                                                            children << Redmine::MenuManager::MenuItem.new("test_dynamic_child_#{time}", {:controller => 'issues', :action => 'index'}, {})
-                                                         end
-                                                         children
-                                                       }
-                                                     })
-
+    parent_node << Redmine::MenuManager::MenuItem.new(
+                     :child_node,
+                     {:controller => 'issues', :action => 'index'},
+                     {
+                       :children =>
+                         Proc.new {|p|
+                           children = []
+                           6.times do |time|
+                             children << Redmine::MenuManager::MenuItem.new(
+                               "test_dynamic_child_#{time}", {:controller => 'issues', :action => 'index'}, {})
+                           end
+                           children
+                         }
+                     })
     @output_buffer = render_menu_node(parent_node, Project.find(1))
 
     assert_select("li") do
