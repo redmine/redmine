@@ -1199,7 +1199,6 @@ Style/MethodCallWithoutArgsParentheses:
     - 'lib/redmine/helpers/gantt.rb'
     - 'lib/redmine/scm/adapters/cvs_adapter.rb'
     - 'lib/redmine/scm/adapters/filesystem_adapter.rb'
-    - 'test/unit/activity_test.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.

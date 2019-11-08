@@ -171,7 +171,7 @@ class ActivityTest < ActiveSupport::TestCase
 
   def test_event_types_should_include_activity_provider_with_nil_permission
     Redmine::Activity.register 'test', :class_name => 'ActivityTest::TestActivityProviderWithNilPermission'
-    user = MockUser.new()
+    user = MockUser.new
     f = Redmine::Activity::Fetcher.new(user, :project => Project.find(1))
     assert_include 'test', f.event_types
   ensure
@@ -181,7 +181,7 @@ class ActivityTest < ActiveSupport::TestCase
   def test_event_types_should_use_default_permission_for_activity_provider_without_permission
     Redmine::Activity.register 'test', :class_name => 'ActivityTest::TestActivityProviderWithoutPermission'
 
-    user = MockUser.new()
+    user = MockUser.new
     f = Redmine::Activity::Fetcher.new(user, :project => Project.find(1))
     assert_not_include 'test', f.event_types
 
