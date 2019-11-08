@@ -409,7 +409,7 @@ module QueriesHelper
               clear_link += link_to_clear_query
             end
             content_tag('li', link_to(query.name, url_params.merge(:query_id => query), :class => css) + clear_link.html_safe)
-          }.join("\n").html_safe,
+        }.join("\n").html_safe,
         :class => 'queries'
       ) + "\n"
   end

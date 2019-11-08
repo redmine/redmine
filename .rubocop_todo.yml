@@ -19,7 +19,6 @@ Layout/AlignHash:
 # SupportedStylesAlignWith: either, start_of_block, start_of_line
 Layout/BlockAlignment:
   Exclude:
-    - 'app/helpers/queries_helper.rb'
     - 'app/models/principal.rb'
     - 'app/models/project.rb'
     - 'app/models/time_entry.rb'
