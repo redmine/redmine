@@ -309,15 +309,15 @@ DIFF
   end
 
   def test_offset_range_ascii_2
-    raw = <<-DIFF
---- a.txt	2013-04-05 14:19:39.000000000 +0900
-+++ b.txt	2013-04-05 14:19:51.000000000 +0900
-@@ -1,3 +1,3 @@
- aaaa
--abc
-+zabc
- bbbb
-DIFF
+    raw = <<~DIFF
+      --- a.txt	2013-04-05 14:19:39.000000000 +0900
+      +++ b.txt	2013-04-05 14:19:51.000000000 +0900
+      @@ -1,3 +1,3 @@
+       aaaa
+      -abc
+      +zabc
+       bbbb
+    DIFF
     diff = Redmine::UnifiedDiff.new(raw, :type => 'sbs')
     assert_equal 1, diff.size
     assert_equal 3, diff.first.size
