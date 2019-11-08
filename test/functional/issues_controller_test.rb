@@ -516,21 +516,18 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_index_with_query_grouped_by_tracker_in_normal_order
     3.times {|i| Issue.generate!(:tracker_id => (i + 1))}
-
     get :index, :params => {
         :set_filter => 1,
         :group_by => 'tracker',
         :sort => 'id:desc'
       }
     assert_response :success
-
     assert_equal ["Bug", "Feature request", "Support request"],
-      css_select("tr.issue td.tracker").map(&:text).uniq
+                 css_select("tr.issue td.tracker").map(&:text).uniq
   end
 
   def test_index_with_query_grouped_by_tracker_in_reverse_order
     3.times {|i| Issue.generate!(:tracker_id => (i + 1))}
-
     get :index, :params => {
         :set_filter => 1,
         :group_by => 'tracker',
@@ -538,9 +535,8 @@ class IssuesControllerTest < Redmine::ControllerTest
         :sort => 'id:desc,tracker:desc'
       }
     assert_response :success
-
     assert_equal ["Bug", "Feature request", "Support request"].reverse,
-      css_select("tr.issue td.tracker").map(&:text).uniq
+                 css_select("tr.issue td.tracker").map(&:text).uniq
   end
 
   def test_index_with_query_id_and_project_id_should_set_session_query
@@ -3360,7 +3356,8 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_redirected_to :controller => 'issues', :action => 'new', :project_id => 'ecookbook', :issue => {:tracker_id => 3}
     assert_not_nil flash[:notice], "flash was not set"
     assert_select_in flash[:notice],
-      'a[href=?][title=?]', "/issues/#{issue.id}", "This is first issue", :text => "##{issue.id}"
+                     'a[href=?][title=?]', "/issues/#{issue.id}",
+                     "This is first issue", :text => "##{issue.id}"
   end
 
   def test_post_create_without_custom_fields_param
@@ -6276,12 +6273,10 @@ class IssuesControllerTest < Redmine::ControllerTest
         }
       }
     assert_response :success
-
     assert_select '#errorExplanation span',
                   :text => "Failed to save 2 issue(s) on 3 selected: ##{issue1.id}, ##{issue2.id}."
     assert_select '#errorExplanation ul li',
-                   :text => "Due date must be greater than start date: ##{issue1.id}, ##{issue2.id}"
-
+                  :text => "Due date must be greater than start date: ##{issue1.id}, ##{issue2.id}"
     assert_select '#bulk-selection li', 2
   end
 
