@@ -33,22 +33,22 @@ class Redmine::SyntaxHighlighting::RougeTest < ActiveSupport::TestCase
   end
 
   def test_highlight_by_filename_should_distinguish_perl_and_prolog
-    raw_perl = <<'RAW_PERL'
-#!/usr/bin/perl
-print "Hello, world!\n";
-RAW_PERL
-    expected_perl = <<'EXPECTED_PERL'
-<span class="c1">#!/usr/bin/perl</span>
-<span class="k">print</span> <span class="p">"</span><span class="s2">Hello, world!</span><span class="se">\n</span><span class="p">";</span>
-EXPECTED_PERL
-    raw_prolog = <<'RAW_PROLOG'
-#!/usr/bin/swipl
-:- writeln('Hello, world!'),halt.
-RAW_PROLOG
-    expected_prolog = <<'EXPECTED_PROLOG'
-<span class="c1">#!/usr/bin/swipl</span>
-<span class="p">:-</span> <span class="ss">writeln</span><span class="p">(</span><span class="ss">'Hello, world!'</span><span class="p">),</span><span class="ss">halt</span><span class="p">.</span>
-EXPECTED_PROLOG
+    raw_perl = <<~'RAW_PERL'
+      #!/usr/bin/perl
+      print "Hello, world!\n";
+    RAW_PERL
+    expected_perl = <<~'EXPECTED_PERL'
+      <span class="c1">#!/usr/bin/perl</span>
+      <span class="k">print</span> <span class="p">"</span><span class="s2">Hello, world!</span><span class="se">\n</span><span class="p">";</span>
+    EXPECTED_PERL
+    raw_prolog = <<~'RAW_PROLOG'
+      #!/usr/bin/swipl
+      :- writeln('Hello, world!'),halt.
+    RAW_PROLOG
+    expected_prolog = <<~'EXPECTED_PROLOG'
+      <span class="c1">#!/usr/bin/swipl</span>
+      <span class="p">:-</span> <span class="ss">writeln</span><span class="p">(</span><span class="ss">'Hello, world!'</span><span class="p">),</span><span class="ss">halt</span><span class="p">.</span>
+    EXPECTED_PROLOG
 
     filename = 'hello.pl'
 

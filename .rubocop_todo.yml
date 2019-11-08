@@ -157,7 +157,6 @@ Layout/IndentFirstHashElement:
 # SupportedStyles: squiggly, active_support, powerpack, unindent
 Layout/IndentHeredoc:
   Exclude:
-    - 'test/unit/lib/redmine/syntax_highlighting/rouge_test.rb'
     - 'test/unit/lib/redmine/unified_diff_test.rb'
     - 'test/unit/lib/redmine/wiki_formatting/macros_test.rb'
     - 'test/unit/lib/redmine/wiki_formatting/markdown_formatter_test.rb'
