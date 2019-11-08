@@ -325,7 +325,6 @@ Layout/SpaceInsideParens:
     - 'lib/redmine/scm/adapters/abstract_adapter.rb'
     - 'lib/redmine/scm/adapters/cvs_adapter.rb'
     - 'lib/redmine/scm/adapters/git_adapter.rb'
-    - 'lib/redmine/scm/adapters/mercurial_adapter.rb'
     - 'lib/redmine/sudo_mode.rb'
     - 'lib/redmine/wiki_formatting/textile/formatter.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'

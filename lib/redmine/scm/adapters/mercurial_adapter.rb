@@ -206,7 +206,7 @@ module Redmine
             end
             cpmap = Hash[*cpalist.flatten]
             paths = as_ary(le['paths']['path']).map do |e|
-              p = scm_iconv('UTF-8', @path_encoding, CGI.unescape(e['__content__']) )
+              p = scm_iconv('UTF-8', @path_encoding, CGI.unescape(e['__content__']))
               {:action        => e['action'],
                :path          => with_leading_slash(p),
                :from_path     => (cpmap.member?(p) ? with_leading_slash(cpmap[p]) : nil),
