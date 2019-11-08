@@ -23,7 +23,7 @@ class IssueCustomField < CustomField
   has_many :issues, :through => :issue_custom_values
 
   safe_attributes 'project_ids',
-    'tracker_ids'
+                  'tracker_ids'
 
   def type_name
     :label_issue_plural
