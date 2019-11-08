@@ -113,28 +113,27 @@ DIFF
   end
 
   def test_line_starting_with_dashes
-    diff = Redmine::UnifiedDiff.new(<<-DIFF
---- old.txt Wed Nov 11 14:24:58 2009
-+++ new.txt Wed Nov 11 14:25:02 2009
-@@ -1,8 +1,4 @@
--Lines that starts with dashes:
--
--------------------------
---- file.c
--------------------------
-+A line that starts with dashes:
+    diff = Redmine::UnifiedDiff.new(<<~DIFF)
+      --- old.txt Wed Nov 11 14:24:58 2009
+      +++ new.txt Wed Nov 11 14:25:02 2009
+      @@ -1,8 +1,4 @@
+      -Lines that starts with dashes:
+      -
+      -------------------------
+      --- file.c
+      -------------------------
+      +A line that starts with dashes:
 
- and removed.
+       and removed.
 
-@@ -23,4 +19,4 @@
+      @@ -23,4 +19,4 @@
 
 
 
--Another chunk of change
-+Another chunk of changes
+      -Another chunk of change
+      +Another chunk of changes
 
-DIFF
-    )
+    DIFF
     assert_equal 1, diff.size
   end
 
