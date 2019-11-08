@@ -41,7 +41,7 @@ class MercurialAdapterTest < ActiveSupport::TestCase
                             nil,
                             nil,
                             nil,
-                           'ISO-8859-1')
+                            'ISO-8859-1')
       @diff_c_support = true
       @char_1        = 'Ü'
       @tag_char_1    = 'tag-Ü-00'
