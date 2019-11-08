@@ -159,7 +159,7 @@ class Repository::Mercurial < Repository
       # But, it is very heavy.
       # Mercurial does not treat directory.
       # So, "hg log DIR" is very heavy.
-      branch_limit = path.blank? ? limit : ( limit * 5 )
+      branch_limit = path.blank? ? limit : (limit * 5)
       args << nodes_in_branch(rev, branch_limit)
     elsif last = rev ? find_changeset_by_name(tag_scmid(rev) || rev) : nil
       cond << "#{Changeset.table_name}.id <= ?"

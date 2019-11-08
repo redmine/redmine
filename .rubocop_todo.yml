@@ -322,7 +322,6 @@ Layout/SpaceInsideParens:
     - 'app/helpers/issues_helper.rb'
     - 'app/models/auth_source_ldap.rb'
     - 'app/models/repository/cvs.rb'
-    - 'app/models/repository/mercurial.rb'
     - 'lib/redmine/scm/adapters/abstract_adapter.rb'
     - 'lib/redmine/scm/adapters/cvs_adapter.rb'
     - 'lib/redmine/scm/adapters/git_adapter.rb'
