@@ -1216,10 +1216,6 @@ Style/MixinUsage:
   Exclude:
     - 'test/test_helper.rb'
 
-Style/MultilineBlockChain:
-  Exclude:
-    - 'lib/redmine/scm/adapters/mercurial_adapter.rb'
-
 # Cop supports --auto-correct.
 Style/MultilineIfModifier:
   Exclude:
