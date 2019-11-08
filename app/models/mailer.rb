@@ -421,7 +421,8 @@ class Mailer < ActionMailer::Base
     # TODO: maybe not the best way to handle this
     return if user.admin? && user.login == 'admin' && user.mail == 'admin@example.net'
 
-    deliver_security_notification(user,
+    deliver_security_notification(
+      user,
       sender,
       message: :mail_body_password_updated,
       title: :button_change_password,
@@ -458,10 +459,10 @@ class Mailer < ActionMailer::Base
   def security_notification(user, sender, options={})
     @sender = sender
     redmine_headers 'Sender' => sender.login
-    @message = l(options[:message],
-      field: (options[:field] && l(options[:field])),
-      value: options[:value]
-    )
+    @message =
+      l(options[:message],
+        field: (options[:field] && l(options[:field])),
+        value: options[:value])
     @title = options[:title] && l(options[:title])
     @remote_ip = options[:remote_ip] || @sender.remote_ip
     @url = options[:url] && (options[:url].is_a?(Hash) ? url_for(options[:url]) : options[:url])
