@@ -1194,7 +1194,6 @@ Style/LineEndConcatenation:
 # Configuration parameters: IgnoredMethods.
 Style/MethodCallWithoutArgsParentheses:
   Exclude:
-    - 'app/models/repository/cvs.rb'
     - 'lib/redmine/export/pdf.rb'
     - 'lib/redmine/helpers/gantt.rb'
     - 'lib/redmine/scm/adapters/cvs_adapter.rb'
