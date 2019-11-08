@@ -755,7 +755,8 @@ class User < Principal
       (!admin? || User.active.admin.where("id <> ?", id).exists?)
   end
 
-  safe_attributes 'firstname',
+  safe_attributes(
+    'firstname',
     'lastname',
     'mail',
     'mail_notification',
@@ -763,21 +764,21 @@ class User < Principal
     'language',
     'custom_field_values',
     'custom_fields',
-    'identity_url'
-
-  safe_attributes 'login',
-    :if => lambda {|user, current_user| user.new_record?}
-
-  safe_attributes 'status',
+    'identity_url')
+  safe_attributes(
+    'login',
+    :if => lambda {|user, current_user| user.new_record?})
+  safe_attributes(
+    'status',
     'auth_source_id',
     'generate_password',
     'must_change_passwd',
     'login',
     'admin',
-    :if => lambda {|user, current_user| current_user.admin?}
-
-  safe_attributes 'group_ids',
-    :if => lambda {|user, current_user| current_user.admin? && !user.new_record?}
+    :if => lambda {|user, current_user| current_user.admin?})
+  safe_attributes(
+    'group_ids',
+    :if => lambda {|user, current_user| current_user.admin? && !user.new_record?})
 
   # Utility method to help check if a user should be notified about an
   # event.
