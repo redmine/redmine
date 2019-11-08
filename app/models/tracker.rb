@@ -66,14 +66,15 @@ class Tracker < ActiveRecord::Base
     joins(:projects).where(condition).distinct
   }
 
-  safe_attributes 'name',
+  safe_attributes(
+    'name',
     'default_status_id',
     'is_in_roadmap',
     'core_fields',
     'position',
     'custom_field_ids',
     'project_ids',
-    'description'
+    'description')
 
   def to_s; name end
 
