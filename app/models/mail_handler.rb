@@ -344,10 +344,12 @@ class MailHandler < ActionMailer::Base
       @keywords[attr]
     else
       @keywords[attr] = begin
-        override = options.key?(:override) ?
-          options[:override] :
-          (handler_options[:allow_override] & [attr.to_s.downcase.gsub(/\s+/, '_'), 'all']).present?
-
+        override =
+          if options.key?(:override)
+            options[:override]
+          else
+            (handler_options[:allow_override] & [attr.to_s.downcase.gsub(/\s+/, '_'), 'all']).present?
+          end
         if override && (v = extract_keyword!(cleaned_up_text_body, attr, options[:format]))
           v
         elsif !handler_options[:issue][attr].blank?
@@ -503,11 +505,13 @@ class MailHandler < ActionMailer::Base
     parts.reject! do |part|
       part.attachment?
     end
-
     parts.map do |p|
-      body_charset = Mail::RubyVer.respond_to?(:pick_encoding) ?
-                       Mail::RubyVer.pick_encoding(p.charset).to_s : p.charset
-
+      body_charset =
+        if Mail::RubyVer.respond_to?(:pick_encoding)
+          Mail::RubyVer.pick_encoding(p.charset).to_s
+        else
+          p.charset
+        end
       body = Redmine::CodesetUtil.to_utf8(p.body.decoded, body_charset)
       # convert html parts to text
       p.mime_type == 'text/html' ? self.class.html_body_to_text(body) : self.class.plain_text_body_to_text(body)
