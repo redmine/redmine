@@ -3353,7 +3353,9 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
 
     issue = Issue.order('id DESC').first
-    assert_redirected_to :controller => 'issues', :action => 'new', :project_id => 'ecookbook', :issue => {:tracker_id => 3}
+    assert_redirected_to :controller => 'issues',
+                         :action => 'new', :project_id => 'ecookbook',
+                         :issue => {:tracker_id => 3}
     assert_not_nil flash[:notice], "flash was not set"
     assert_select_in flash[:notice],
                      'a[href=?][title=?]', "/issues/#{issue.id}",
