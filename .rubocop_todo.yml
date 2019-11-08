@@ -1487,7 +1487,6 @@ Style/RescueModifier:
     - 'app/models/repository.rb'
     - 'lib/redmine/export/csv.rb'
     - 'lib/redmine/field_format.rb'
-    - 'lib/redmine/scm/adapters/mercurial_adapter.rb'
     - 'lib/redmine/search.rb'
     - 'lib/redmine/wiki_formatting.rb'
     - 'test/unit/lib/redmine/wiki_formatting/markdown_formatter_test.rb'
