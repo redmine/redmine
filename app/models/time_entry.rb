@@ -136,8 +136,11 @@ class TimeEntry < ActiveRecord::Base
       if hours_changed? && max_hours > 0.0
         logged_hours = other_hours_with_same_user_and_day
         if logged_hours + hours > max_hours
-          errors.add :base, I18n.t(:error_exceeds_maximum_hours_per_day,
-            :logged_hours => format_hours(logged_hours), :max_hours => format_hours(max_hours))
+          errors.add(
+            :base,
+            I18n.t(:error_exceeds_maximum_hours_per_day,
+                   :logged_hours => format_hours(logged_hours),
+                   :max_hours => format_hours(max_hours)))
         end
       end
     end
