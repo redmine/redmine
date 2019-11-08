@@ -341,15 +341,16 @@ class Query < ActiveRecord::Base
     if user.admin?
       scope.where("#{table_name}.visibility <> ? OR #{table_name}.user_id = ?", VISIBILITY_PRIVATE, user.id)
     elsif user.memberships.any?
-      scope.where("#{table_name}.visibility = ?" +
-        " OR (#{table_name}.visibility = ? AND #{table_name}.id IN (" +
+      scope.where(
+        "#{table_name}.visibility = ?" +
+          " OR (#{table_name}.visibility = ? AND #{table_name}.id IN (" +
           "SELECT DISTINCT q.id FROM #{table_name} q" +
           " INNER JOIN #{table_name_prefix}queries_roles#{table_name_suffix} qr on qr.query_id = q.id" +
           " INNER JOIN #{MemberRole.table_name} mr ON mr.role_id = qr.role_id" +
           " INNER JOIN #{Member.table_name} m ON m.id = mr.member_id AND m.user_id = ?" +
           " INNER JOIN #{Project.table_name} p ON p.id = m.project_id AND p.status <> ?" +
           " WHERE q.project_id IS NULL OR q.project_id = m.project_id))" +
-        " OR #{table_name}.user_id = ?",
+          " OR #{table_name}.user_id = ?",
         VISIBILITY_PUBLIC, VISIBILITY_ROLES, user.id, Project::STATUS_ARCHIVED, user.id)
     elsif user.logged?
       scope.where("#{table_name}.visibility = ? OR #{table_name}.user_id = ?", VISIBILITY_PUBLIC, user.id)
@@ -1309,8 +1310,9 @@ class Query < ActiveRecord::Base
     prefix = '%' if options[:ends_with]
     suffix = '%' if options[:starts_with]
     prefix = suffix = '%' if prefix.nil? && suffix.nil?
-    queried_class.send :sanitize_sql_for_conditions,
-      [Redmine::Database.like(db_field, '?', :match => options[:match]), "#{prefix}#{value}#{suffix}"]
+    queried_class.send(
+      :sanitize_sql_for_conditions,
+      [Redmine::Database.like(db_field, '?', :match => options[:match]), "#{prefix}#{value}#{suffix}"])
   end
 
   # Adds a filter for the given custom field
@@ -1356,18 +1358,18 @@ class Query < ActiveRecord::Base
       add_custom_field_filter(field, assoc)
       if assoc.nil?
         add_chained_custom_field_filters(field)
-
         if field.format.target_class && field.format.target_class == Version
-          add_available_filter "cf_#{field.id}.due_date",
+          add_available_filter(
+            "cf_#{field.id}.due_date",
             :type => :date,
             :field => field,
-            :name => l(:label_attribute_of_object, :name => l(:field_effective_date), :object_name => field.name)
-
-          add_available_filter "cf_#{field.id}.status",
+            :name => l(:label_attribute_of_object, :name => l(:field_effective_date), :object_name => field.name))
+          add_available_filter(
+            "cf_#{field.id}.status",
             :type => :list,
             :field => field,
             :name => l(:label_attribute_of_object, :name => l(:field_status), :object_name => field.name),
-            :values => Version::VERSION_STATUSES.map{|s| [l("version_status_#{s}"), s] }
+            :values => Version::VERSION_STATUSES.map{|s| [l("version_status_#{s}"), s]})
         end
       end
     end
