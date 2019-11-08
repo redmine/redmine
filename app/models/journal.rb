@@ -55,10 +55,12 @@ class Journal < ActiveRecord::Base
       where(Journal.visible_notes_condition(user, :skip_pre_condition => true))
   }
 
-  safe_attributes 'notes',
-    :if => lambda {|journal, user| journal.new_record? || journal.editable_by?(user)}
-  safe_attributes 'private_notes',
-    :if => lambda {|journal, user| user.allowed_to?(:set_notes_private, journal.project)}
+  safe_attributes(
+    'notes',
+    :if => lambda {|journal, user| journal.new_record? || journal.editable_by?(user)})
+  safe_attributes(
+    'private_notes',
+    :if => lambda {|journal, user| user.allowed_to?(:set_notes_private, journal.project)})
 
   # Returns a SQL condition to filter out journals with notes that are not visible to user
   def self.visible_notes_condition(user=User.current, options={})
