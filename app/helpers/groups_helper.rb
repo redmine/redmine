@@ -31,16 +31,14 @@ module GroupsHelper
     principal_count = scope.count
     principal_pages = Redmine::Pagination::Paginator.new principal_count, limit, params['page']
     principals = scope.offset(principal_pages.offset).limit(principal_pages.per_page).to_a
-
-    s = content_tag('div',
+    s = content_tag(
+      'div',
       content_tag('div', principals_check_box_tags('user_ids[]', principals), :id => 'principals'),
       :class => 'objects-selection'
     )
-
     links = pagination_links_full(principal_pages, principal_count, :per_page_links => false) {|text, parameters, options|
       link_to text, autocomplete_for_user_group_path(group, parameters.merge(:q => params[:q], :format => 'js')), :remote => true
     }
-
     s + content_tag('span', links, :class => 'pagination')
   end
 end
