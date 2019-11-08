@@ -336,7 +336,8 @@ class IssuesController < ApplicationController
     @issues.each do |orig_issue|
       orig_issue.reload
       if @copy
-        issue = orig_issue.copy({},
+        issue = orig_issue.copy(
+          {},
           :attachments => copy_attachments,
           :subtasks => copy_subtasks,
           :watchers => copy_watchers,
