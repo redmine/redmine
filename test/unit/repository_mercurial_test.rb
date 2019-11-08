@@ -174,7 +174,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_equal "0885933ad4f68d77c2649cd11f8311276e7ef7ce", rev0.scmid
       first_rev = @repository.changesets.first
       last_rev  = @repository.changesets.last
-      assert_equal "#{NUM_REV - 1}", first_rev.revision
+      assert_equal (NUM_REV - 1).to_s, first_rev.revision
       assert_equal "0", last_rev.revision
     end
 
@@ -253,7 +253,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
 
       # with_limit
       changesets = @repository.latest_changesets('', nil, 2)
-      assert_equal ["#{NUM_REV - 1}", "#{NUM_REV - 2}"], changesets.collect(&:revision)
+      assert_equal [(NUM_REV - 1).to_s, (NUM_REV - 2).to_s], changesets.collect(&:revision)
 
       # with_filepath
       changesets = @repository.latest_changesets(
@@ -590,7 +590,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      ["#{NUM_REV - 1}", "2e6d54642923", "2e6d5"].each do |r1|
+      [(NUM_REV - 1).to_s, "2e6d54642923", "2e6d5"].each do |r1|
         changeset = @repository.find_changeset_by_name(r1)
         assert_nil changeset.next
       end

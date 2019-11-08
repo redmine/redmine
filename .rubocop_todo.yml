@@ -1419,7 +1419,6 @@ Style/RedundantInterpolation:
     - 'lib/redmine/wiki_formatting.rb'
     - 'test/functional/versions_controller_test.rb'
     - 'test/functional/watchers_controller_test.rb'
-    - 'test/unit/repository_mercurial_test.rb'
 
 # Cop supports --auto-correct.
 Style/RedundantParentheses:
