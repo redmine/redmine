@@ -454,7 +454,8 @@ class Issue < ActiveRecord::Base
     write_attribute :estimated_hours, (h.is_a?(String) ? (h.to_hours || h) : h)
   end
 
-  safe_attributes 'project_id',
+  safe_attributes(
+    'project_id',
     'tracker_id',
     'status_id',
     'category_id',
@@ -471,31 +472,31 @@ class Issue < ActiveRecord::Base
     'custom_fields',
     'lock_version',
     'notes',
-    :if => lambda {|issue, user| issue.new_record? || issue.attributes_editable?(user) }
-
-  safe_attributes 'notes',
-    :if => lambda {|issue, user| issue.notes_addable?(user)}
-
-  safe_attributes 'private_notes',
-    :if => lambda {|issue, user| !issue.new_record? && user.allowed_to?(:set_notes_private, issue.project)}
-
-  safe_attributes 'watcher_user_ids',
-    :if => lambda {|issue, user| issue.new_record? && user.allowed_to?(:add_issue_watchers, issue.project)}
-
-  safe_attributes 'is_private',
+    :if => lambda {|issue, user| issue.new_record? || issue.attributes_editable?(user)})
+  safe_attributes(
+    'notes',
+    :if => lambda {|issue, user| issue.notes_addable?(user)})
+  safe_attributes(
+    'private_notes',
+    :if => lambda {|issue, user| !issue.new_record? && user.allowed_to?(:set_notes_private, issue.project)})
+  safe_attributes(
+    'watcher_user_ids',
+    :if => lambda {|issue, user| issue.new_record? && user.allowed_to?(:add_issue_watchers, issue.project)})
+  safe_attributes(
+    'is_private',
     :if => lambda {|issue, user|
       user.allowed_to?(:set_issues_private, issue.project) ||
         (issue.author_id == user.id && user.allowed_to?(:set_own_issues_private, issue.project))
-    }
-
-  safe_attributes 'parent_issue_id',
+    })
+  safe_attributes(
+    'parent_issue_id',
     :if => lambda {|issue, user|
       (issue.new_record? || issue.attributes_editable?(user)) &&
         user.allowed_to?(:manage_subtasks, issue.project)
-    }
-
-  safe_attributes 'deleted_attachment_ids',
-    :if => lambda {|issue, user| issue.attachments_deletable?(user)}
+    })
+  safe_attributes(
+    'deleted_attachment_ids',
+    :if => lambda {|issue, user| issue.attachments_deletable?(user)})
 
   def safe_attribute_names(user=nil)
     names = super
