@@ -1245,7 +1245,6 @@ Style/MultilineTernaryOperator:
     - 'app/controllers/workflows_controller.rb'
     - 'app/helpers/settings_helper.rb'
     - 'app/models/issue_query.rb'
-    - 'app/models/issue_relation.rb'
     - 'lib/redmine/ciphering.rb'
     - 'lib/redmine/scm/adapters/filesystem_adapter.rb'
     - 'lib/redmine/scm/adapters/git_adapter.rb'
@@ -1298,7 +1297,6 @@ Style/NestedParenthesizedCalls:
 Style/NestedTernaryOperator:
   Exclude:
     - 'app/helpers/queries_helper.rb'
-    - 'app/models/issue_relation.rb'
     - 'app/models/journal.rb'
 
 # Cop supports --auto-correct.

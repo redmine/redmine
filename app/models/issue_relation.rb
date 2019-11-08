@@ -152,9 +152,11 @@ class IssueRelation < ActiveRecord::Base
   end
 
   def label_for(issue)
-    TYPES[relation_type] ?
-        TYPES[relation_type][(self.issue_from_id == issue.id) ? :name : :sym_name] :
-        :unknow
+    if TYPES[relation_type]
+      TYPES[relation_type][(self.issue_from_id == issue.id) ? :name : :sym_name]
+    else
+      :unknow
+    end
   end
 
   def to_s(issue=nil)
