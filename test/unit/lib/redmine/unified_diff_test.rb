@@ -139,33 +139,32 @@ DIFF
   end
 
   def test_one_line_new_files
-    diff = Redmine::UnifiedDiff.new(<<-DIFF
-diff -r 000000000000 -r ea98b14f75f0 README1
---- /dev/null
-+++ b/README1
-@@ -0,0 +1,1 @@
-+test1
-diff -r 000000000000 -r ea98b14f75f0 README2
---- /dev/null
-+++ b/README2
-@@ -0,0 +1,1 @@
-+test2
-diff -r 000000000000 -r ea98b14f75f0 README3
---- /dev/null
-+++ b/README3
-@@ -0,0 +1,3 @@
-+test4
-+test5
-+test6
-diff -r 000000000000 -r ea98b14f75f0 README4
---- /dev/null
-+++ b/README4
-@@ -0,0 +1,3 @@
-+test4
-+test5
-+test6
-DIFF
-    )
+    diff = Redmine::UnifiedDiff.new(<<~DIFF)
+      diff -r 000000000000 -r ea98b14f75f0 README1
+      --- /dev/null
+      +++ b/README1
+      @@ -0,0 +1,1 @@
+      +test1
+      diff -r 000000000000 -r ea98b14f75f0 README2
+      --- /dev/null
+      +++ b/README2
+      @@ -0,0 +1,1 @@
+      +test2
+      diff -r 000000000000 -r ea98b14f75f0 README3
+      --- /dev/null
+      +++ b/README3
+      @@ -0,0 +1,3 @@
+      +test4
+      +test5
+      +test6
+      diff -r 000000000000 -r ea98b14f75f0 README4
+      --- /dev/null
+      +++ b/README4
+      @@ -0,0 +1,3 @@
+      +test4
+      +test5
+      +test6
+    DIFF
     assert_equal 4, diff.size
     assert_equal "README1", diff[0].file_name
   end
