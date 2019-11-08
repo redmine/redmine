@@ -240,33 +240,30 @@ DIFF
   end
 
   def test_include_a_b_slash
-    diff = Redmine::UnifiedDiff.new(<<-DIFF
---- test1.txt
-+++ b/test02.txt
-@@ -1 +0,0 @@
--modify test1
-DIFF
-    )
+    diff = Redmine::UnifiedDiff.new(<<~DIFF)
+      --- test1.txt
+      +++ b/test02.txt
+      @@ -1 +0,0 @@
+      -modify test1
+    DIFF
     assert_equal 1, diff.size
     assert_equal "b/test02.txt", diff[0].file_name
 
-    diff = Redmine::UnifiedDiff.new(<<-DIFF
---- a/test1.txt
-+++ a/test02.txt
-@@ -1 +0,0 @@
--modify test1
-DIFF
-    )
+    diff = Redmine::UnifiedDiff.new(<<~DIFF)
+      --- a/test1.txt
+      +++ a/test02.txt
+      @@ -1 +0,0 @@
+      -modify test1
+    DIFF
     assert_equal 1, diff.size
     assert_equal "a/test02.txt", diff[0].file_name
 
-    diff = Redmine::UnifiedDiff.new(<<-DIFF
---- a/test1.txt
-+++ test02.txt
-@@ -1 +0,0 @@
--modify test1
-DIFF
-    )
+    diff = Redmine::UnifiedDiff.new(<<~DIFF)
+      --- a/test1.txt
+      +++ test02.txt
+      @@ -1 +0,0 @@
+      -modify test1
+    DIFF
     assert_equal 1, diff.size
     assert_equal "test02.txt", diff[0].file_name
   end
