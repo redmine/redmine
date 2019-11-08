@@ -65,7 +65,7 @@ class MyPageTest < ApplicationSystemTestCase
 
     assert page.has_css?('#block-issueswatched')
     assert_equal({'top' => ['issueswatched', 'issuesassignedtome']},
-      preferences.reload.my_page_layout)
+                 preferences.reload.my_page_layout)
   end
 
   def test_add_issue_query_block
