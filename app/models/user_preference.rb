@@ -27,14 +27,15 @@ class UserPreference < ActiveRecord::Base
 
   before_save :set_others_hash, :clear_unused_block_settings
 
-  safe_attributes 'hide_mail',
+  safe_attributes(
+    'hide_mail',
     'time_zone',
     'comments_sorting',
     'warn_on_leaving_unsaved',
     'no_self_notified',
     'textarea_font',
     'recently_used_projects',
-    'history_default_tab'
+    'history_default_tab')
 
   TEXTAREA_FONT_OPTIONS = ['monospace', 'proportional']
 
