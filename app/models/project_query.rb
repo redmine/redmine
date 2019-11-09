@@ -39,19 +39,25 @@ class ProjectQuery < Query
   end
 
   def initialize_available_filters
-    add_available_filter "status",
+    add_available_filter(
+      "status",
       :type => :list, :values => lambda { project_statuses_values }
-    add_available_filter("id",
+    )
+    add_available_filter(
+      "id",
       :type => :list, :values => lambda { project_values }, :label => :field_project
     )
     add_available_filter "name", :type => :text
     add_available_filter "description", :type => :text
-    add_available_filter("parent_id",
+    add_available_filter(
+      "parent_id",
       :type => :list_subprojects, :values => lambda { project_values }, :label => :field_parent
     )
-    add_available_filter "is_public",
+    add_available_filter(
+      "is_public",
       :type => :list,
       :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]]
+    )
     add_available_filter "created_on", :type => :date_past
     add_custom_fields_filters(project_custom_fields)
   end
