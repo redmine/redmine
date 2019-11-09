@@ -34,14 +34,15 @@ class Redmine::ApiTest::MyTest < Redmine::ApiTest::Base
   end
 
   test "PUT /my/account.xml with valid parameters should update the user" do
-    put '/my/account.xml',
+    put(
+      '/my/account.xml',
       :params => {
         :user => {
           :firstname => 'Dave', :lastname => 'Renamed',
           :mail => 'dave@somenet.foo'
         }
       },
-      :headers => credentials('dlopper', 'foo')
+      :headers => credentials('dlopper', 'foo'))
     assert_response :no_content
     assert_equal '', @response.body
 
@@ -53,14 +54,15 @@ class Redmine::ApiTest::MyTest < Redmine::ApiTest::Base
   end
 
   test "PUT /my/account.json with valid parameters should update the user" do
-    put '/my/account.xml',
+    put(
+      '/my/account.xml',
       :params => {
         :user => {
           :firstname => 'Dave', :lastname => 'Renamed',
           :mail => 'dave@somenet.foo'
         }
       },
-      :headers => credentials('dlopper', 'foo')
+      :headers => credentials('dlopper', 'foo'))
     assert_response :no_content
     assert_equal '', @response.body
     assert user = User.find_by_lastname('Renamed')
@@ -71,28 +73,28 @@ class Redmine::ApiTest::MyTest < Redmine::ApiTest::Base
   end
 
   test "PUT /my/account.xml with invalid parameters" do
-    put '/my/account.xml',
+    put(
+      '/my/account.xml',
       :params => {
         :user => {
           :login => 'dlopper', :firstname => '', :lastname => 'Lastname'
         }
       },
-      :headers => credentials('dlopper', 'foo')
-
+      :headers => credentials('dlopper', 'foo'))
     assert_response :unprocessable_entity
     assert_equal 'application/xml', @response.content_type
     assert_select 'errors error', :text => "First name cannot be blank"
   end
 
   test "PUT /my/account.json with invalid parameters" do
-    put '/my/account.json',
+    put(
+      '/my/account.json',
       :params => {
         :user => {
           :login => 'dlopper', :firstname => '', :lastname => 'Lastname'
         }
       },
-      :headers => credentials('dlopper', 'foo')
-
+      :headers => credentials('dlopper', 'foo'))
     assert_response :unprocessable_entity
     assert_equal 'application/json', @response.content_type
     json = ActiveSupport::JSON.decode(response.body)
