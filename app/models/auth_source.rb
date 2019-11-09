@@ -33,7 +33,8 @@ class AuthSource < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 60
 
-  safe_attributes 'name',
+  safe_attributes(
+    'name',
     'host',
     'port',
     'account',
@@ -47,7 +48,7 @@ class AuthSource < ActiveRecord::Base
     'tls',
     'verify_peer',
     'filter',
-    'timeout'
+    'timeout')
 
   def authenticate(login, password)
   end
