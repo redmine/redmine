@@ -29,10 +29,18 @@ module MembersHelper
       :class => 'objects-selection'
     )
 
-    links = pagination_links_full(principal_pages, principal_count, :per_page_links => false) {|text, parameters, options|
-      link_to text, autocomplete_project_memberships_path(project, parameters.merge(:q => params[:q], :format => 'js')), :remote => true
-    }
-
+    links =
+      pagination_links_full(principal_pages,
+                            principal_count,
+                            :per_page_links => false) {|text, parameters, options|
+        link_to(
+          text,
+          autocomplete_project_memberships_path(
+            project,
+            parameters.merge(:q => params[:q], :format => 'js')
+          ),
+          :remote => true)
+      }
     s + content_tag('span', links, :class => 'pagination')
   end
 
