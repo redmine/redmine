@@ -61,23 +61,23 @@ class Redmine::WikiFormatting::MarkdownFormatterTest < ActionView::TestCase
   end
 
   def test_should_support_syntax_highlight
-    text = <<-STR
-~~~ruby
-def foo
-end
-~~~
-STR
+    text = <<~STR
+      ~~~ruby
+      def foo
+      end
+      ~~~
+    STR
     assert_select_in @formatter.new(text).to_html, 'pre code.ruby.syntaxhl' do
       assert_select 'span.k', :text => 'def'
     end
   end
 
   def test_should_not_allow_invalid_language_for_code_blocks
-    text = <<-STR
-~~~foo
-test
-~~~
-STR
+    text = <<~STR
+      ~~~foo
+      test
+      ~~~
+    STR
     assert_equal "<pre>test\n</pre>", @formatter.new(text).to_html
   end
 
@@ -92,35 +92,33 @@ STR
   end
 
   def test_markdown_should_not_require_surrounded_empty_line
-    text = <<-STR
-This is a list:
-* One
-* Two
-STR
+    text = <<~STR
+      This is a list:
+      * One
+      * Two
+    STR
     assert_equal "<p>This is a list:</p>\n\n<ul>\n<li>One</li>\n<li>Two</li>\n</ul>", @formatter.new(text).to_html.strip
   end
 
   def test_footnotes
-    text = <<-STR
-This is some text[^1].
+    text = <<~STR
+      This is some text[^1].
 
-[^1]: This is the foot note
-STR
+      [^1]: This is the foot note
+    STR
+    expected = <<~EXPECTED
+      <p>This is some text<sup id="fnref1"><a href="#fn1">1</a></sup>.</p>
+      <div class="footnotes">
+      <hr>
+      <ol>
 
-    expected = <<-EXPECTED
-<p>This is some text<sup id="fnref1"><a href="#fn1">1</a></sup>.</p>
-<div class="footnotes">
-<hr>
-<ol>
+      <li id="fn1">
+      <p>This is the foot note&nbsp;<a href="#fnref1">&#8617;</a></p>
+      </li>
 
-<li id="fn1">
-<p>This is the foot note&nbsp;<a href="#fnref1">&#8617;</a></p>
-</li>
-
-</ol>
-</div>
-EXPECTED
-
+      </ol>
+      </div>
+    EXPECTED
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), @formatter.new(text).to_html.gsub(%r{[\r\n\t]}, '')
   end
 
