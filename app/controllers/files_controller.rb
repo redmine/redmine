@@ -62,7 +62,8 @@ class FilesController < ApplicationController
       respond_to do |format|
         format.html {
           flash[:notice] = l(:label_file_added)
-          redirect_to project_files_path(@project) }
+          redirect_to project_files_path(@project)
+        }
         format.api { render_api_ok }
       end
     else
@@ -70,7 +71,8 @@ class FilesController < ApplicationController
         format.html {
           flash.now[:error] = l(:label_attachment) + " " + l('activerecord.errors.messages.invalid')
           new
-          render :action => 'new' }
+          render :action => 'new'
+        }
         format.api { render :status => :bad_request }
       end
     end
