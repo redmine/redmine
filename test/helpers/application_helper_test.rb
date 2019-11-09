@@ -1611,17 +1611,22 @@ class ApplicationHelperTest < Redmine::HelperTest
 
   def test_link_to_attachment
     a = Attachment.find(3)
-    assert_equal '<a href="/attachments/3">logo.gif</a>',
-      link_to_attachment(a)
-    assert_equal '<a href="/attachments/3">Text</a>',
-      link_to_attachment(a, :text => 'Text')
+    assert_equal(
+      '<a href="/attachments/3">logo.gif</a>',
+      link_to_attachment(a))
+    assert_equal(
+      '<a href="/attachments/3">Text</a>',
+      link_to_attachment(a, :text => 'Text'))
     result = link_to("logo.gif", "/attachments/3", :class => "foo")
-    assert_equal result,
-      link_to_attachment(a, :class => 'foo')
-    assert_equal '<a href="/attachments/download/3/logo.gif">logo.gif</a>',
-      link_to_attachment(a, :download => true)
-    assert_equal '<a href="http://test.host/attachments/3">logo.gif</a>',
-      link_to_attachment(a, :only_path => false)
+    assert_equal(
+      result,
+      link_to_attachment(a, :class => 'foo'))
+    assert_equal(
+      '<a href="/attachments/download/3/logo.gif">logo.gif</a>',
+      link_to_attachment(a, :download => true))
+    assert_equal(
+      '<a href="http://test.host/attachments/3">logo.gif</a>',
+      link_to_attachment(a, :only_path => false))
   end
 
   def test_thumbnail_tag
