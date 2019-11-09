@@ -87,11 +87,13 @@ module WorkflowsHelper
     else
       select_tag(
         tag_name,
-        options_for_select([
+        options_for_select(
+          [
             [l(:general_text_Yes), "1"],
             [l(:general_text_No), "0"],
             [l(:label_no_change_option), "no_change"]
-          ], "no_change")
+          ],
+          "no_change")
       )
     end
   end
