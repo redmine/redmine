@@ -25,7 +25,6 @@ Layout/BlockAlignment:
 # Cop supports --auto-correct.
 Layout/BlockEndNewline:
   Exclude:
-    - 'app/controllers/auth_sources_controller.rb'
     - 'app/controllers/files_controller.rb'
     - 'app/models/message.rb'
 
