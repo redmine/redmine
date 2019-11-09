@@ -106,7 +106,6 @@ Layout/IndentFirstArgument:
 # SupportedStyles: special_inside_parentheses, consistent, align_brackets
 Layout/IndentFirstArrayElement:
   Exclude:
-    - 'app/models/project.rb'
     - 'app/models/setting.rb'
     - 'lib/redmine/nested_set/issue_nested_set.rb'
     - 'lib/redmine/nested_set/project_nested_set.rb'

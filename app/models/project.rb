@@ -633,20 +633,22 @@ class Project < ActiveRecord::Base
 
   # The earliest start date of a project, based on it's issues and versions
   def start_date
-    @start_date ||= [
-     issues.minimum('start_date'),
-     shared_versions.minimum('effective_date'),
-     Issue.fixed_version(shared_versions).minimum('start_date')
-    ].compact.min
+    @start_date ||=
+      [
+        issues.minimum('start_date'),
+        shared_versions.minimum('effective_date'),
+        Issue.fixed_version(shared_versions).minimum('start_date')
+      ].compact.min
   end
 
   # The latest due date of an issue or version
   def due_date
-    @due_date ||= [
-     issues.maximum('due_date'),
-     shared_versions.maximum('effective_date'),
-     Issue.fixed_version(shared_versions).maximum('due_date')
-    ].compact.max
+    @due_date ||=
+      [
+        issues.maximum('due_date'),
+        shared_versions.maximum('effective_date'),
+        Issue.fixed_version(shared_versions).maximum('due_date')
+      ].compact.max
   end
 
   def overdue?
