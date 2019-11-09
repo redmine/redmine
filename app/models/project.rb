@@ -754,7 +754,8 @@ class Project < ActiveRecord::Base
 
   safe_attributes(
     'enabled_module_names',
-    :if => lambda {|project, user|
+    :if =>
+      lambda {|project, user|
         if project.new_record?
           if user.admin?
             true
