@@ -88,13 +88,13 @@ module CustomFieldsHelper
         :issues_url => auto_complete_issues_path(:project_id => custom_value.customized.project, :q => '')
       } if custom_value.customized && custom_value.customized.project
     end
-
-    custom_value.custom_field.format.edit_tag self,
+    custom_value.custom_field.format.edit_tag(
+      self,
       custom_field_tag_id(prefix, custom_value.custom_field),
       custom_field_tag_name(prefix, custom_value.custom_field),
       custom_value,
       :class => css,
-      :data => data
+      :data => data)
   end
 
   # Return custom field name tag
@@ -109,10 +109,10 @@ module CustomFieldsHelper
     required = options[:required] || custom_value.custom_field.is_required?
     for_tag_id = options.fetch(:for_tag_id, "#{name}_custom_field_values_#{custom_value.custom_field.id}")
     content = custom_field_name_tag custom_value.custom_field
-
-    content_tag "label", content +
+    content_tag(
+      "label", content +
       (required ? " <span class=\"required\">*</span>".html_safe : ""),
-      :for => for_tag_id
+      :for => for_tag_id)
   end
 
   # Return custom field tag with its label tag
@@ -128,13 +128,14 @@ module CustomFieldsHelper
 
   # Returns the custom field tag for when bulk editing objects
   def custom_field_tag_for_bulk_edit(prefix, custom_field, objects=nil, value='')
-    custom_field.format.bulk_edit_tag self,
+    custom_field.format.bulk_edit_tag(
+      self,
       custom_field_tag_id(prefix, custom_field),
       custom_field_tag_name(prefix, custom_field),
       custom_field,
       objects,
       value,
-      :class => "#{custom_field.field_format}_cf"
+      :class => "#{custom_field.field_format}_cf")
   end
 
   # Returns custom field value tag
