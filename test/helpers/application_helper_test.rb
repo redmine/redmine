@@ -597,8 +597,16 @@ class ApplicationHelperTest < Redmine::HelperTest
     hg_changeset_link = link_to('hg1|abcd', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :repository_id => 'hg1', :rev => 'abcd'},
                                     :class => 'changeset', :title => '')
 
-    source_link = link_to('source:some/file', {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :repository_id => 10, :path => ['some', 'file']}, :class => 'source')
-    hg_source_link = link_to('source:hg1|some/file', {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :repository_id => 'hg1', :path => ['some', 'file']}, :class => 'source')
+    source_link = link_to('source:some/file',
+                          {:controller => 'repositories', :action => 'entry',
+                           :id => 'ecookbook', :repository_id => 10,
+                           :path => ['some', 'file']},
+                          :class => 'source')
+    hg_source_link = link_to('source:hg1|some/file',
+                             {:controller => 'repositories', :action => 'entry',
+                              :id => 'ecookbook', :repository_id => 'hg1',
+                              :path => ['some', 'file']},
+                             :class => 'source')
 
     to_test = {
       'r2'                          => changeset_link,
