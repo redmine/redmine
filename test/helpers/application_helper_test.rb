@@ -446,13 +446,15 @@ class ApplicationHelperTest < Redmine::HelperTest
 
       # user link format: @jsmith@somenet.foo
       raw = "@jsmith@somenet.foo should not be parsed in jsmith@somenet.foo"
-      assert_match %r{<p><a class="user active".*>#{u.name}</a> should not be parsed in <a class="email" href="mailto:jsmith@somenet.foo">jsmith@somenet.foo</a></p>},
-        textilizable(raw, :project => Project.find(1))
+      assert_match(
+        %r{<p><a class="user active".*>#{u.name}</a> should not be parsed in <a class="email" href="mailto:jsmith@somenet.foo">jsmith@somenet.foo</a></p>},
+        textilizable(raw, :project => Project.find(1)))
 
       # user link format: user:jsmith@somenet.foo
       raw = "user:jsmith@somenet.foo should not be parsed in jsmith@somenet.foo"
-      assert_match %r{<p><a class="user active".*>#{u.name}</a> should not be parsed in <a class="email" href="mailto:jsmith@somenet.foo">jsmith@somenet.foo</a></p>},
-        textilizable(raw, :project => Project.find(1))
+      assert_match(
+        %r{<p><a class="user active".*>#{u.name}</a> should not be parsed in <a class="email" href="mailto:jsmith@somenet.foo">jsmith@somenet.foo</a></p>},
+        textilizable(raw, :project => Project.find(1)))
     end
   end
 
