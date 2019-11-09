@@ -19,7 +19,7 @@
 
 require File.expand_path('../../application_system_test_case', __FILE__)
 
-class IssuesTest < ApplicationSystemTestCase
+class IssuesSystemTest < ApplicationSystemTestCase
   fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
            :trackers, :projects_trackers, :enabled_modules, :issue_statuses, :issues,
            :enumerations, :custom_fields, :custom_values, :custom_fields_trackers,

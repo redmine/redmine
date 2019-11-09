@@ -19,7 +19,7 @@
 
 require File.expand_path('../../application_system_test_case', __FILE__)
 
-class SudoModeTest < ApplicationSystemTestCase
+class SudoModeSystemTest < ApplicationSystemTestCase
   fixtures :users, :email_addresses
 
   def setup
