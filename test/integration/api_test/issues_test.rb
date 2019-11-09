@@ -20,7 +20,8 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
 class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
-  fixtures :projects,
+  fixtures(
+    :projects,
     :users,
     :roles,
     :members,
@@ -44,7 +45,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     :journals,
     :journal_details,
     :queries,
-    :attachments
+    :attachments)
 
   test "GET /issues.xml should contain metadata" do
     get '/issues.xml'
@@ -109,14 +110,14 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
   end
 
   test "GET /issues.xml with custom field filter" do
-    get '/issues.xml',
-      :params => {:set_filter => 1, :f => ['cf_1'], :op => {:cf_1 => '='}, :v => {:cf_1 => ['MySQL']}}
-
+    get(
+      '/issues.xml',
+      :params => {:set_filter => 1, :f => ['cf_1'],
+                  :op => {:cf_1 => '='}, :v => {:cf_1 => ['MySQL']}})
     expected_ids = Issue.visible.
         joins(:custom_values).
         where(:custom_values => {:custom_field_id => 1, :value => 'MySQL'}).map(&:id)
     assert expected_ids.any?
-
     assert_select 'issues > issue > id', :count => expected_ids.count do |ids|
        ids.each { |id| assert expected_ids.delete(id.children.first.content.to_i) }
     end
@@ -493,9 +494,10 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
       </issue>
     XML
     assert_difference('Issue.count') do
-      post '/issues.xml',
+      post(
+        '/issues.xml',
         :params => payload,
-        :headers => {"CONTENT_TYPE" => 'application/xml'}.merge(credentials('jsmith'))
+        :headers => {"CONTENT_TYPE" => 'application/xml'}.merge(credentials('jsmith')))
     end
     issue = Issue.order('id DESC').first
     assert_equal 1, issue.project_id
@@ -511,14 +513,15 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
 
   test "POST /issues.xml with watcher_user_ids should create issue with watchers" do
     assert_difference('Issue.count') do
-      post '/issues.xml',
+      post(
+        '/issues.xml',
         :params => {
           :issue => {
             :project_id => 1, :subject => 'Watchers',
             :tracker_id => 2, :status_id => 3, :watcher_user_ids => [3, 1]
           }
         },
-        :headers => credentials('jsmith')
+        :headers => credentials('jsmith'))
       assert_response :created
     end
     issue = Issue.order('id desc').first
@@ -528,9 +531,10 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
 
   test "POST /issues.xml with failure should return errors" do
     assert_no_difference('Issue.count') do
-      post '/issues.xml',
+      post(
+        '/issues.xml',
         :params => {:issue => {:project_id => 1}},
-        :headers => credentials('jsmith')
+        :headers => credentials('jsmith'))
     end
 
     assert_select 'errors error', :text => "Subject cannot be blank"
@@ -549,9 +553,10 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
       }
     JSON
     assert_difference('Issue.count') do
-      post '/issues.json',
+      post(
+        '/issues.json',
         :params => payload,
-        :headers => {"CONTENT_TYPE" => 'application/json'}.merge(credentials('jsmith'))
+        :headers => {"CONTENT_TYPE" => 'application/json'}.merge(credentials('jsmith')))
     end
 
     issue = Issue.order('id DESC').first
@@ -564,10 +569,10 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
 
   test "POST /issues.json should accept project identifier as project_id" do
     assert_difference('Issue.count') do
-      post '/issues.json',
+      post(
+        '/issues.json',
         :params => {:issue => {:project_id => 'subproject1', :tracker_id => 2, :subject => 'Foo'}},
-        :headers => credentials('jsmith')
-
+        :headers => credentials('jsmith'))
       assert_response :created
     end
   end
@@ -591,9 +596,10 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
       }
     JSON
     assert_difference('Issue.count') do
-      post '/issues.json',
+      post(
+        '/issues.json',
         :params => payload,
-        :headers => {"CONTENT_TYPE" => 'application/json'}.merge(credentials('jsmith'))
+        :headers => {"CONTENT_TYPE" => 'application/json'}.merge(credentials('jsmith')))
     end
     assert_response :created
     issue = Issue.order('id DESC').first
@@ -602,51 +608,58 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
 
   test "POST /issues.json with omitted custom field should set default value" do
     field = IssueCustomField.generate!(:default_value => "Default")
-
     issue = new_record(Issue) do
-      post '/issues.json',
-        :params => {:issue => {:project_id => 1, :subject => 'API', :custom_field_values => {}}},
-        :headers => credentials('jsmith')
+      post(
+        '/issues.json',
+        :params => {
+          :issue => {:project_id => 1, :subject => 'API',
+                     :custom_field_values => {}}
+        },
+        :headers => credentials('jsmith'))
     end
     assert_equal "Default", issue.custom_field_value(field)
   end
 
   test "POST /issues.json with custom field set to blank should not set default value" do
     field = IssueCustomField.generate!(:default_value => "Default")
-
     issue = new_record(Issue) do
-      post '/issues.json',
-        :params => {:issue => {:project_id => 1, :subject => 'API', :custom_field_values => {field.id.to_s => ""}}},
-        :headers => credentials('jsmith')
+      post(
+        '/issues.json',
+        :params => {
+           :issue => {:project_id => 1, :subject => 'API',
+                      :custom_field_values => {field.id.to_s => ""}}
+        },
+        :headers => credentials('jsmith'))
     end
     assert_equal "", issue.custom_field_value(field)
   end
 
   test "POST /issues.json with failure should return errors" do
     assert_no_difference('Issue.count') do
-      post '/issues.json',
+      post(
+        '/issues.json',
         :params => {:issue => {:project_id => 1}},
-        :headers => credentials('jsmith')
+        :headers => credentials('jsmith'))
     end
-
     json = ActiveSupport::JSON.decode(response.body)
     assert json['errors'].include?("Subject cannot be blank")
   end
 
   test "POST /issues.json with invalid project_id should respond with 422" do
-    post '/issues.json',
+    post(
+      '/issues.json',
       :params => {:issue => {:project_id => 999, :subject => "API"}},
-      :headers => credentials('jsmith')
+      :headers => credentials('jsmith'))
     assert_response 422
   end
 
   test "PUT /issues/:id.xml" do
     assert_difference('Journal.count') do
-      put '/issues/6.xml',
+      put(
+        '/issues/6.xml',
         :params => {:issue => {:subject => 'API update', :notes => 'A new note'}},
-        :headers => credentials('jsmith')
+        :headers => credentials('jsmith'))
     end
-
     issue = Issue.find(6)
     assert_equal "API update", issue.subject
     journal = Journal.last
@@ -654,14 +667,18 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
   end
 
   test "PUT /issues/:id.xml with custom fields" do
-    put '/issues/3.xml',
-      :params => {:issue => {:custom_fields => [
-        {'id' => '1', 'value' => 'PostgreSQL' },
-        {'id' => '2', 'value' => '150'}
-        ]}
-      },
-      :headers => credentials('jsmith')
-
+    put(
+      '/issues/3.xml',
+      :params =>
+        {
+           :issue => {
+             :custom_fields => [
+               {'id' => '1', 'value' => 'PostgreSQL' },
+               {'id' => '2', 'value' => '150'}
+             ]
+           }
+        },
+      :headers => credentials('jsmith'))
     issue = Issue.find(3)
     assert_equal '150', issue.custom_value_for(2).value
     assert_equal 'PostgreSQL', issue.custom_value_for(1).value
@@ -670,25 +687,28 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
   test "PUT /issues/:id.xml with multi custom fields" do
     field = CustomField.find(1)
     field.update_attribute :multiple, true
-
-    put '/issues/3.xml',
-      :params => {:issue => {:custom_fields => [
-        {'id' => '1', 'value' => ['MySQL', 'PostgreSQL'] },
-        {'id' => '2', 'value' => '150'}
-        ]}
-      },
-      :headers => credentials('jsmith')
-
+    put(
+      '/issues/3.xml',
+      :params =>
+        {
+          :issue => {
+              :custom_fields => [
+                {'id' => '1', 'value' => ['MySQL', 'PostgreSQL']},
+                {'id' => '2', 'value' => '150'}
+              ]
+            }
+        },
+      :headers => credentials('jsmith'))
     issue = Issue.find(3)
     assert_equal '150', issue.custom_value_for(2).value
     assert_equal ['MySQL', 'PostgreSQL'], issue.custom_field_value(1).sort
   end
 
   test "PUT /issues/:id.xml with project change" do
-    put '/issues/3.xml',
+    put(
+      '/issues/3.xml',
       :params => {:issue => {:project_id => 2, :subject => 'Project changed'}},
-      :headers => credentials('jsmith')
-
+      :headers => credentials('jsmith'))
     issue = Issue.find(3)
     assert_equal 2, issue.project_id
     assert_equal 'Project changed', issue.subject
@@ -696,11 +716,11 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
 
   test "PUT /issues/:id.xml with notes only" do
     assert_difference('Journal.count') do
-      put '/issues/6.xml',
+      put(
+        '/issues/6.xml',
         :params => {:issue => {:notes => 'Notes only'}},
-        :headers => credentials('jsmith')
+        :headers => credentials('jsmith'))
     end
-
     journal = Journal.last
     assert_equal "Notes only", journal.notes
   end
@@ -709,13 +729,12 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     field = IssueCustomField.generate!(:default_value => "Default")
     issue = Issue.generate!(:project_id => 1, :tracker_id => 1, :custom_field_values => {field.id.to_s => ""})
     assert_equal "", issue.reload.custom_field_value(field)
-
     assert_difference('Journal.count') do
-      put "/issues/#{issue.id}.json",
+      put(
+        "/issues/#{issue.id}.json",
         :params => {:issue => {:custom_field_values => {}, :notes => 'API'}},
-        :headers => credentials('jsmith')
+        :headers => credentials('jsmith'))
     end
-
     assert_equal "", issue.reload.custom_field_value(field)
   end
 
@@ -723,26 +742,24 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     field = IssueCustomField.generate!(:default_value => "Default")
     issue = Issue.generate!(:project_id => 1, :tracker_id => 1, :custom_field_values => {field.id.to_s => ""})
     assert_equal "", issue.reload.custom_field_value(field)
-
     assert_difference('Journal.count') do
-      put "/issues/#{issue.id}.json",
+      put(
+        "/issues/#{issue.id}.json",
         :params => {:issue => {:custom_field_values => {field.id.to_s => ""}, :notes => 'API'}},
-        :headers => credentials('jsmith')
+        :headers => credentials('jsmith'))
     end
-
     assert_equal "", issue.reload.custom_field_value(field)
   end
 
   test "PUT /issues/:id.json with tracker change and omitted custom field specific to that tracker should set default value" do
     field = IssueCustomField.generate!(:default_value => "Default", :tracker_ids => [2])
     issue = Issue.generate!(:project_id => 1, :tracker_id => 1)
-
     assert_difference('Journal.count') do
-      put "/issues/#{issue.id}.json",
+      put(
+        "/issues/#{issue.id}.json",
         :params => {:issue => {:tracker_id => 2, :custom_field_values => {}, :notes => 'API'}},
-        :headers => credentials('jsmith')
+        :headers => credentials('jsmith'))
     end
-
     assert_equal 2, issue.reload.tracker_id
     assert_equal "Default", issue.reload.custom_field_value(field)
   end
@@ -750,42 +767,41 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
   test "PUT /issues/:id.json with tracker change and custom field specific to that tracker set to blank should not set default value" do
     field = IssueCustomField.generate!(:default_value => "Default", :tracker_ids => [2])
     issue = Issue.generate!(:project_id => 1, :tracker_id => 1)
-
     assert_difference('Journal.count') do
-      put "/issues/#{issue.id}.json",
+      put(
+        "/issues/#{issue.id}.json",
         :params => {:issue => {:tracker_id => 2, :custom_field_values => {field.id.to_s => ""}, :notes => 'API'}},
-        :headers => credentials('jsmith')
+        :headers => credentials('jsmith'))
     end
-
     assert_equal 2, issue.reload.tracker_id
     assert_equal "", issue.reload.custom_field_value(field)
   end
 
   test "PUT /issues/:id.xml with failed update" do
-    put '/issues/6.xml',
+    put(
+      '/issues/6.xml',
       :params => {:issue => {:subject => ''}},
-      :headers => credentials('jsmith')
-
+      :headers => credentials('jsmith'))
     assert_response :unprocessable_entity
     assert_select 'errors error', :text => "Subject cannot be blank"
   end
 
   test "PUT /issues/:id.xml with invalid assignee should return error" do
     user = User.generate!
-    put '/issues/6.xml',
+    put(
+      '/issues/6.xml',
       :params => {:issue => {:assigned_to_id => user.id}},
-      :headers => credentials('jsmith')
-
+      :headers => credentials('jsmith'))
     assert_response :unprocessable_entity
     assert_select 'errors error', :text => "Assignee is invalid"
   end
 
   test "PUT /issues/:id.json" do
     assert_difference('Journal.count') do
-      put '/issues/6.json',
+      put(
+        '/issues/6.json',
         :params => {:issue => {:subject => 'API update', :notes => 'A new note'}},
-        :headers => credentials('jsmith')
-
+        :headers => credentials('jsmith'))
       assert_response :no_content
       assert_equal '', response.body
     end
@@ -797,10 +813,10 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
   end
 
   test "PUT /issues/:id.json with failed update" do
-    put '/issues/6.json',
+    put(
+      '/issues/6.json',
       :params => {:issue => {:subject => ''}},
-      :headers => credentials('jsmith')
-
+      :headers => credentials('jsmith'))
     assert_response :unprocessable_entity
     json = ActiveSupport::JSON.decode(response.body)
     assert json['errors'].include?("Subject cannot be blank")
@@ -828,10 +844,10 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
 
   test "POST /issues/:id/watchers.xml should add watcher" do
     assert_difference 'Watcher.count' do
-      post '/issues/1/watchers.xml',
+      post(
+        '/issues/1/watchers.xml',
         :params => {:user_id => 3},
-        :headers => credentials('jsmith')
-
+        :headers => credentials('jsmith'))
       assert_response :no_content
       assert_equal '', response.body
     end
@@ -858,11 +874,14 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
 
     # create the issue with the upload's token
     assert_difference 'Issue.count' do
-      post '/issues.xml',
-        :params => {:issue => {:project_id => 1, :subject => 'Uploaded file',
-                       :uploads => [{:token => token, :filename => 'test.txt',
-                                     :content_type => 'text/plain'}]}},
-        :headers => credentials('jsmith')
+      post(
+        '/issues.xml',
+        :params =>
+          {:issue =>
+            {:project_id => 1, :subject => 'Uploaded file',
+             :uploads => [{:token => token, :filename => 'test.txt',
+                           :content_type => 'text/plain'}]}},
+        :headers => credentials('jsmith'))
       assert_response :created
     end
     issue = Issue.order('id DESC').first
@@ -913,9 +932,10 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
       </issue>
     XML
     assert_difference 'Issue.count' do
-      post '/issues.xml',
+      post(
+        '/issues.xml',
         :params => payload,
-        :headers => {"CONTENT_TYPE" => 'application/xml'}.merge(credentials('jsmith'))
+        :headers => {"CONTENT_TYPE" => 'application/xml'}.merge(credentials('jsmith')))
       assert_response :created
     end
     issue = Issue.order('id DESC').first
@@ -939,9 +959,10 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
       }
     JSON
     assert_difference 'Issue.count' do
-      post '/issues.json',
+      post(
+        '/issues.json',
         :params => payload,
-        :headers => {"CONTENT_TYPE" => 'application/json'}.merge(credentials('jsmith'))
+        :headers => {"CONTENT_TYPE" => 'application/json'}.merge(credentials('jsmith')))
       assert_response :created
     end
     issue = Issue.order('id DESC').first
@@ -954,11 +975,15 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
 
     # update the issue with the upload's token
     assert_difference 'Journal.count' do
-      put '/issues/1.xml',
-        :params => {:issue => {:notes => 'Attachment added',
-                      :uploads => [{:token => token, :filename => 'test.txt',
-                                    :content_type => 'text/plain'}]}},
-        :headers => credentials('jsmith')
+      put(
+        '/issues/1.xml',
+        :params =>
+           {:issue =>
+              {:notes => 'Attachment added',
+               :uploads =>
+                  [{:token => token, :filename => 'test.txt',
+                    :content_type => 'text/plain'}]}},
+        :headers => credentials('jsmith'))
       assert_response :no_content
       assert_equal '', @response.body
     end
