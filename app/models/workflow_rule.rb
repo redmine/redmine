@@ -42,9 +42,9 @@ class WorkflowRule < ActiveRecord::Base
     target_trackers.each do |target_tracker|
       target_roles.each do |target_role|
         copy_one(source_tracker || target_tracker,
-                   source_role || target_role,
-                   target_tracker,
-                   target_role)
+                 source_role || target_role,
+                 target_tracker,
+                 target_role)
       end
     end
   end
