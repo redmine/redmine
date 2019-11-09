@@ -125,11 +125,11 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
         <description>This is the description</description>
       </news>
     XML
-
     assert_difference('News.count') do
-      post '/projects/1/news.xml',
+      post(
+        '/projects/1/news.xml',
         :params => payload,
-        :headers => {"CONTENT_TYPE" => 'application/xml'}.merge(credentials('jsmith'))
+        :headers => {"CONTENT_TYPE" => 'application/xml'}.merge(credentials('jsmith')))
     end
     news = News.find_by(:title => 'NewsXmlApiTest')
     assert_not_nil news
@@ -142,9 +142,10 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
 
   test "POST /project/:project_id/news.xml with failure should return errors" do
     assert_no_difference('News.count') do
-      post '/projects/1/news.xml',
+      post(
+        '/projects/1/news.xml',
         :params => {:news => {:title => ''}},
-        :headers => credentials('jsmith')
+        :headers => credentials('jsmith'))
     end
     assert_select 'errors error', :text => "Title cannot be blank"
   end
@@ -159,11 +160,11 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
         }
       }
     JSON
-
     assert_difference('News.count') do
-      post '/projects/1/news.json',
+      post(
+        '/projects/1/news.json',
         :params => payload,
-        :headers => {"CONTENT_TYPE" => 'application/json'}.merge(credentials('jsmith'))
+        :headers => {"CONTENT_TYPE" => 'application/json'}.merge(credentials('jsmith')))
     end
     news = News.find_by(:title => 'NewsJsonApiTest')
     assert_not_nil news
@@ -176,9 +177,10 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
 
   test "POST /project/:project_id/news.json with failure should return errors" do
     assert_no_difference('News.count') do
-      post '/projects/1/news.json',
+      post(
+        '/projects/1/news.json',
         :params => {:news => {:title => ''}},
-        :headers => credentials('jsmith')
+        :headers => credentials('jsmith'))
     end
     json = ActiveSupport::JSON.decode(response.body)
     assert json['errors'].include?("Title cannot be blank")
@@ -187,14 +189,14 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
   test "POST /project/:project_id/news.xml with attachment should create a news with attachment" do
     token = xml_upload('test_create_with_attachment', credentials('jsmith'))
     attachment = Attachment.find_by_token(token)
-
     assert_difference 'News.count' do
-      post '/projects/1/news.xml',
+      post(
+        '/projects/1/news.xml',
         :params => {:news => {:title => 'News XML-API with Attachment',
                               :description => 'desc'},
                     :attachments => [{:token => token, :filename => 'test.txt',
                                       :content_type => 'text/plain'}]},
-        :headers => credentials('jsmith')
+        :headers => credentials('jsmith'))
       assert_response :no_content
     end
     news = News.find_by(:title => 'News XML-API with Attachment')
@@ -227,11 +229,11 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
         </uploads>
       </news>
     XML
-
     assert_difference('News.count') do
-      post '/projects/1/news.xml',
+      post(
+        '/projects/1/news.xml',
         :params => payload,
-        :headers => {"CONTENT_TYPE" => 'application/xml'}.merge(credentials('jsmith'))
+        :headers => {"CONTENT_TYPE" => 'application/xml'}.merge(credentials('jsmith')))
       assert_response :no_content
     end
     news = News.find_by(:title => 'News XML-API with attachments')
@@ -253,11 +255,11 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
         }
       }
     JSON
-
     assert_difference('News.count') do
-      post '/projects/1/news.json',
+      post(
+        '/projects/1/news.json',
         :params => payload,
-        :headers => {"CONTENT_TYPE" => 'application/json'}.merge(credentials('jsmith'))
+        :headers => {"CONTENT_TYPE" => 'application/json'}.merge(credentials('jsmith')))
       assert_response :no_content
     end
     news = News.find_by(:title => 'News JSON-API with attachments')
@@ -273,10 +275,10 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
         <description>update description via xml api</description>
       </news>
     XML
-    put '/news/1.xml',
+    put(
+      '/news/1.xml',
       :params => payload,
-      :headers => {"CONTENT_TYPE" => 'application/xml'}.merge(credentials('jsmith'))
-
+      :headers => {"CONTENT_TYPE" => 'application/xml'}.merge(credentials('jsmith')))
     news = News.find(1)
     assert_equal 'NewsUpdateXmlApiTest', news.title
     assert_equal 'News Update XML-API Test', news.summary
@@ -293,11 +295,10 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
         }
       }
     JSON
-
-    put '/news/1.json',
+    put(
+      '/news/1.json',
       :params => payload,
-      :headers => {"CONTENT_TYPE" => 'application/json'}.merge(credentials('jsmith'))
-
+      :headers => {"CONTENT_TYPE" => 'application/json'}.merge(credentials('jsmith')))
     news = News.find(1)
     assert_equal 'NewsUpdateJsonApiTest', news.title
     assert_equal 'News Update JSON-API Test', news.summary
@@ -305,19 +306,19 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
   end
 
   test "PUT /news/:id.xml with failed update" do
-    put '/news/1.xml',
+    put(
+      '/news/1.xml',
       :params => {:news => {:title => ''}},
-      :headers => credentials('jsmith')
-
+      :headers => credentials('jsmith'))
     assert_response :unprocessable_entity
     assert_select 'errors error', :text => "Title cannot be blank"
   end
 
   test "PUT /news/:id.json with failed update" do
-    put '/news/1.json',
+    put(
+      '/news/1.json',
       :params => {:news => {:title => ''}},
-      :headers => credentials('jsmith')
-
+      :headers => credentials('jsmith'))
     assert_response :unprocessable_entity
     json = ActiveSupport::JSON.decode(response.body)
     assert json['errors'].include?("Title cannot be blank")
@@ -342,12 +343,11 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
         </uploads>
       </news>
     XML
-
-    put '/news/1.xml',
+    put(
+      '/news/1.xml',
       :params => payload,
-      :headers => {"CONTENT_TYPE" => 'application/xml'}.merge(credentials('jsmith'))
+      :headers => {"CONTENT_TYPE" => 'application/xml'}.merge(credentials('jsmith')))
     assert_response :no_content
-
     news = News.find_by(:title => 'News Update XML-API with attachments')
     assert_equal 2, news.attachments.count
   end
@@ -366,12 +366,11 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
         }
       }
     JSON
-
-    put '/news/1.json',
+    put(
+      '/news/1.json',
       :params => payload,
-      :headers => {"CONTENT_TYPE" => 'application/json'}.merge(credentials('jsmith'))
+      :headers => {"CONTENT_TYPE" => 'application/json'}.merge(credentials('jsmith')))
     assert_response :no_content
-
     news = News.find_by(:title => 'News Update JSON-API with attachments')
     assert_equal 2, news.attachments.count
   end
