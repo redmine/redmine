@@ -31,8 +31,15 @@ class Redmine::WikiFormatting::TextileHtmlParserTest < ActiveSupport::TestCase
 
     assert_equal 'foo "bar":http://example.com/ baz',
       @parser.to_text('foo<a href="http://example.com/">bar</a>baz')
+
     assert_equal 'foo http://example.com/ baz',
       @parser.to_text('foo<a href="http://example.com/"></a>baz')
+
+    assert_equal 'foobarbaz',
+      @parser.to_text('foo<a name="Header-one">bar</a>baz')
+
+    assert_equal 'foobaz',
+      @parser.to_text('foo<a name="Header-one"/>baz')
   end
 
   def test_html_tables_conversion
