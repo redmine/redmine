@@ -236,7 +236,7 @@ class IssuesHelperTest < Redmine::HelperTest
     assert_equal "Precedes Bug #1: Cannot print recipes added", show_detail(detail, true)
     str = link_to("Bug #1", "/issues/1", :class => Issue.find(1).css_classes)
     assert_equal "<strong>Precedes</strong> <i>#{str}: Cannot print recipes</i> added",
-                  show_detail(detail, false)
+                 show_detail(detail, false)
   end
 
   def test_show_detail_relation_added_with_inexistant_issue
