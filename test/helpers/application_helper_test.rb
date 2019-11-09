@@ -1631,9 +1631,10 @@ class ApplicationHelperTest < Redmine::HelperTest
 
   def test_thumbnail_tag
     a = Attachment.find(3)
-    assert_select_in thumbnail_tag(a),
+    assert_select_in(
+      thumbnail_tag(a),
       'a[href=?][title=?] img[src=?]',
-      "/attachments/3", "logo.gif", "/attachments/thumbnail/3"
+      "/attachments/3", "logo.gif", "/attachments/thumbnail/3")
   end
 
   def test_link_to_project
