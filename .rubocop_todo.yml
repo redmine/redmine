@@ -7,6 +7,32 @@
 # versions of RuboCop, may require this file to be generated again.
 
 # Cop supports --auto-correct.
+# Configuration parameters: EnforcedStyle, IndentationWidth.
+# SupportedStyles: with_first_argument, with_fixed_indentation
+Layout/AlignArguments:
+  Exclude:
+    - 'config/application.rb'
+    - 'lib/redmine/scm/adapters/bazaar_adapter.rb'
+    - 'lib/redmine/scm/adapters/subversion_adapter.rb'
+    - 'test/functional/journals_controller_test.rb'
+    - 'test/functional/my_controller_test.rb'
+    - 'test/functional/roles_controller_test.rb'
+    - 'test/integration/api_test/attachments_test.rb'
+    - 'test/integration/api_test/groups_test.rb'
+    - 'test/integration/api_test/issue_relations_test.rb'
+    - 'test/integration/api_test/memberships_test.rb'
+    - 'test/integration/api_test/projects_test.rb'
+    - 'test/integration/api_test/wiki_pages_test.rb'
+    - 'test/test_helper.rb'
+    - 'test/unit/changeset_test.rb'
+    - 'test/unit/lib/redmine/field_format/version_field_format_test.rb'
+    - 'test/unit/lib/redmine/wiki_formatting/html_parser_test.rb'
+    - 'test/unit/lib/redmine/wiki_formatting/markdown_formatter_test.rb'
+    - 'test/unit/lib/redmine/wiki_formatting/markdown_html_parser_test.rb'
+    - 'test/unit/lib/redmine/wiki_formatting/textile_formatter_test.rb'
+    - 'test/unit/lib/redmine/wiki_formatting/textile_html_parser_test.rb'
+
+# Cop supports --auto-correct.
 # Configuration parameters: AllowMultipleStyles, EnforcedHashRocketStyle, EnforcedColonStyle, EnforcedLastArgumentHashStyle.
 # SupportedHashRocketStyles: key, separator, table
 # SupportedColonStyles: key, separator, table

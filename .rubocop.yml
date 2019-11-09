@@ -26,10 +26,6 @@ require:
 Bundler/OrderedGems:
   Enabled: false
 
-# You can see results by changing "Enabled: true" and "rubocop --only Layout/AlignArguments"
-Layout/AlignArguments:
-  Enabled: false
-
 Layout/EmptyLineBetweenDefs:
   AllowAdjacentOneLineDefs: true
 
