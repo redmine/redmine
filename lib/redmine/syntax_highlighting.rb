@@ -115,6 +115,7 @@ module Redmine
         end
 
         private
+
         # Alias names used by CodeRay and not supported by Rouge
         LANG_ALIASES = {
           'delphi' => 'pascal',

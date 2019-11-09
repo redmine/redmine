@@ -55,7 +55,6 @@ Layout/EmptyLines:
 Layout/EmptyLinesAroundAccessModifier:
   Exclude:
     - 'config/initializers/10-patches.rb'
-    - 'lib/redmine/syntax_highlighting.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
