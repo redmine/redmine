@@ -39,11 +39,12 @@ class Group < Principal
   scope :named, lambda {|arg| where("LOWER(#{table_name}.lastname) = LOWER(?)", arg.to_s.strip)}
   scope :givable, lambda {where(:type => 'Group')}
 
-  safe_attributes 'name',
+  safe_attributes(
+    'name',
     'user_ids',
     'custom_field_values',
     'custom_fields',
-    :if => lambda {|group, user| user.admin? && !group.builtin?}
+    :if => lambda {|group, user| user.admin? && !group.builtin?})
 
   def to_s
     name.to_s
