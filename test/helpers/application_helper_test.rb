@@ -629,9 +629,14 @@ class ApplicationHelperTest < Redmine::HelperTest
     hg_changeset_link = link_to('ecookbook:hg1|abcd', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :repository_id => 'hg1', :rev => 'abcd'},
                                     :class => 'changeset', :title => '')
 
-    source_link = link_to('ecookbook:source:some/file', {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :repository_id => 10, :path => ['some', 'file']}, :class => 'source')
-    hg_source_link = link_to('ecookbook:source:hg1|some/file', {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :repository_id => 'hg1', :path => ['some', 'file']}, :class => 'source')
-
+    source_link = link_to('ecookbook:source:some/file',
+                          {:controller => 'repositories', :action => 'entry',
+                           :id => 'ecookbook', :repository_id => 10,
+                           :path => ['some', 'file']}, :class => 'source')
+    hg_source_link = link_to('ecookbook:source:hg1|some/file',
+                             {:controller => 'repositories', :action => 'entry',
+                              :id => 'ecookbook', :repository_id => 'hg1',
+                              :path => ['some', 'file']}, :class => 'source')
     to_test = {
       'ecookbook:r2'                           => changeset_link,
       'ecookbook:svn1|r123'                    => svn_changeset_link,
@@ -645,7 +650,6 @@ class ApplicationHelperTest < Redmine::HelperTest
       'ecookbook:source:invalid|some/file'     => 'ecookbook:source:invalid|some/file',
       'invalid:source:invalid|some/file'       => 'invalid:source:invalid|some/file',
     }
-
     @project = Project.find(3)
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed" }
   end
@@ -1387,8 +1391,12 @@ class ApplicationHelperTest < Redmine::HelperTest
     RAW
     @project = Project.find(1)
     set_language_if_valid 'en'
-    result = textilizable(raw, :edit_section_links => {:controller => 'wiki', :action => 'edit', :project_id => '1', :id => 'Test'}).gsub("\n", "")
-
+    result = textilizable(
+               raw,
+               :edit_section_links =>
+                 {:controller => 'wiki', :action => 'edit',
+                  :project_id => '1', :id => 'Test'}
+             ).gsub("\n", "")
     # heading that contains inline code
     assert_match Regexp.new('<div class="contextual heading-2" title="Edit this section" id="section-4">' +
       '<a class="icon-only icon-edit" href="/projects/1/wiki/Test/edit\?section=4">Edit this section</a></div>' +
@@ -1446,8 +1454,14 @@ class ApplicationHelperTest < Redmine::HelperTest
     child_page = WikiPage.find_by(parent_id: parent_page.id)
     pages_by_parent_id = { nil => [parent_page], parent_page.id => [child_page] }
     result = render_page_hierarchy(pages_by_parent_id, nil)
-    assert_select_in result, 'ul.pages-hierarchy li a[href=?]', project_wiki_page_path(project_id: parent_page.project, id: parent_page.title, version: nil )
-    assert_select_in result, 'ul.pages-hierarchy li ul.pages-hierarchy a[href=?]', project_wiki_page_path(project_id: child_page.project, id: child_page.title, version: nil )
+    assert_select_in(
+      result, 'ul.pages-hierarchy li a[href=?]',
+      project_wiki_page_path(project_id: parent_page.project,
+                             id: parent_page.title, version: nil))
+    assert_select_in(
+      result, 'ul.pages-hierarchy li ul.pages-hierarchy a[href=?]',
+      project_wiki_page_path(project_id: child_page.project,
+                             id: child_page.title, version: nil))
   end
 
   def test_render_page_hierarchy_with_timestamp
@@ -1455,8 +1469,14 @@ class ApplicationHelperTest < Redmine::HelperTest
     child_page = WikiPage.find_by(parent_id: parent_page.id)
     pages_by_parent_id = { nil => [parent_page], parent_page.id => [child_page] }
     result = render_page_hierarchy(pages_by_parent_id, nil, :timestamp => true)
-    assert_select_in result, 'ul.pages-hierarchy li a[title=?]', l(:label_updated_time, distance_of_time_in_words(Time.now, parent_page.updated_on))
-    assert_select_in result, 'ul.pages-hierarchy li ul.pages-hierarchy a[title=?]', l(:label_updated_time, distance_of_time_in_words(Time.now, child_page.updated_on))
+    assert_select_in(
+      result, 'ul.pages-hierarchy li a[title=?]',
+      l(:label_updated_time,
+        distance_of_time_in_words(Time.now, parent_page.updated_on)))
+    assert_select_in(
+      result, 'ul.pages-hierarchy li ul.pages-hierarchy a[title=?]',
+      l(:label_updated_time,
+        distance_of_time_in_words(Time.now, child_page.updated_on)))
   end
 
   def test_render_page_hierarchy_when_action_is_export
