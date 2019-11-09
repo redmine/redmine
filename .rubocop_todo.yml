@@ -153,7 +153,6 @@ Layout/IndentationWidth:
 # SupportedStyles: symmetrical, new_line, same_line
 Layout/MultilineArrayBraceLayout:
   Exclude:
-    - 'app/helpers/projects_helper.rb'
     - 'app/helpers/settings_helper.rb'
     - 'app/helpers/users_helper.rb'
 

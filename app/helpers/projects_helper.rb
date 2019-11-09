@@ -19,16 +19,28 @@
 
 module ProjectsHelper
   def project_settings_tabs
-    tabs = [{:name => 'info', :action => :edit_project, :partial => 'projects/edit', :label => :label_project},
-            {:name => 'members', :action => :manage_members, :partial => 'projects/settings/members', :label => :label_member_plural},
-            {:name => 'issues', :action => :edit_project, :module => :issue_tracking, :partial => 'projects/settings/issues', :label => :label_issue_tracking},
-            {:name => 'versions', :action => :manage_versions, :partial => 'projects/settings/versions', :label => :label_version_plural,
-              :url => {:tab => 'versions', :version_status => params[:version_status], :version_name => params[:version_name]}},
-            {:name => 'categories', :action => :manage_categories, :partial => 'projects/settings/issue_categories', :label => :label_issue_category_plural},
-            {:name => 'repositories', :action => :manage_repository, :partial => 'projects/settings/repositories', :label => :label_repository_plural},
-            {:name => 'boards', :action => :manage_boards, :partial => 'projects/settings/boards', :label => :label_board_plural},
-            {:name => 'activities', :action => :manage_project_activities, :partial => 'projects/settings/activities', :label => :label_time_tracking}
-            ]
+    tabs =
+      [
+        {:name => 'info', :action => :edit_project,
+         :partial => 'projects/edit', :label => :label_project},
+        {:name => 'members', :action => :manage_members,
+         :partial => 'projects/settings/members', :label => :label_member_plural},
+        {:name => 'issues', :action => :edit_project, :module => :issue_tracking,
+         :partial => 'projects/settings/issues', :label => :label_issue_tracking},
+        {:name => 'versions', :action => :manage_versions,
+         :partial => 'projects/settings/versions', :label => :label_version_plural,
+         :url => {:tab => 'versions', :version_status => params[:version_status],
+                  :version_name => params[:version_name]}},
+        {:name => 'categories', :action => :manage_categories,
+         :partial => 'projects/settings/issue_categories',
+         :label => :label_issue_category_plural},
+        {:name => 'repositories', :action => :manage_repository,
+         :partial => 'projects/settings/repositories', :label => :label_repository_plural},
+        {:name => 'boards', :action => :manage_boards,
+         :partial => 'projects/settings/boards', :label => :label_board_plural},
+        {:name => 'activities', :action => :manage_project_activities,
+         :partial => 'projects/settings/activities', :label => :label_time_tracking}
+      ]
     tabs.
       select {|tab| User.current.allowed_to?(tab[:action], @project)}.
       select {|tab| tab[:module].nil? || @project.module_enabled?(tab[:module])}
