@@ -55,10 +55,11 @@ class CustomField < ActiveRecord::Base
     if user.admin?
       # nop
     elsif user.memberships.any?
-      where("#{table_name}.visible = ? OR #{table_name}.id IN (SELECT DISTINCT cfr.custom_field_id FROM #{Member.table_name} m" +
-        " INNER JOIN #{MemberRole.table_name} mr ON mr.member_id = m.id" +
-        " INNER JOIN #{table_name_prefix}custom_fields_roles#{table_name_suffix} cfr ON cfr.role_id = mr.role_id" +
-        " WHERE m.user_id = ?)",
+      where(
+        "#{table_name}.visible = ? OR #{table_name}.id IN (SELECT DISTINCT cfr.custom_field_id FROM #{Member.table_name} m" +
+          " INNER JOIN #{MemberRole.table_name} mr ON mr.member_id = m.id" +
+          " INNER JOIN #{table_name_prefix}custom_fields_roles#{table_name_suffix} cfr ON cfr.role_id = mr.role_id" +
+          " WHERE m.user_id = ?)",
         true, user.id)
     else
       where(:visible => true)
@@ -68,7 +69,8 @@ class CustomField < ActiveRecord::Base
     visible? || user.admin?
   end
 
-  safe_attributes 'name',
+  safe_attributes(
+    'name',
     'field_format',
     'possible_values',
     'regexp',
@@ -91,7 +93,7 @@ class CustomField < ActiveRecord::Base
     'user_role',
     'version_status',
     'extensions_allowed',
-    'full_width_layout'
+    'full_width_layout')
 
   def format
     @format ||= Redmine::FieldFormat.find(field_format)
