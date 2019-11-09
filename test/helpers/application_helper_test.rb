@@ -302,33 +302,70 @@ class ApplicationHelperTest < Redmine::HelperTest
     u_email_id = user_with_email_login.id
     u_email_id_2 = user_with_email_login_2.id
 
-    issue_link = link_to('#3', {:controller => 'issues', :action => 'show', :id => 3},
-                               :class => Issue.find(3).css_classes, :title => 'Bug: Error 281 when updating a recipe (New)')
-    ext_issue_link = link_to('Bug #3', {:controller => 'issues', :action => 'show', :id => 3},
-                               :class => Issue.find(3).css_classes, :title => 'Bug: Error 281 when updating a recipe (New)') + ": Error 281 when updating a recipe"
-    note_link = link_to('#3-14', {:controller => 'issues', :action => 'show', :id => 3, :anchor => 'note-14'},
-                               :class => Issue.find(3).css_classes, :title => 'Bug: Error 281 when updating a recipe (New)')
-    ext_note_link = link_to('Bug #3-14', {:controller => 'issues', :action => 'show', :id => 3, :anchor => 'note-14'},
-                               :class => Issue.find(3).css_classes, :title => 'Bug: Error 281 when updating a recipe (New)') + ": Error 281 when updating a recipe"
-    note_link2 = link_to('#3#note-14', {:controller => 'issues', :action => 'show', :id => 3, :anchor => 'note-14'},
-                               :class => Issue.find(3).css_classes, :title => 'Bug: Error 281 when updating a recipe (New)')
-    ext_note_link2 = link_to('Bug #3#note-14', {:controller => 'issues', :action => 'show', :id => 3, :anchor => 'note-14'},
-                               :class => Issue.find(3).css_classes, :title => 'Bug: Error 281 when updating a recipe (New)') + ": Error 281 when updating a recipe"
+    issue_link = link_to('#3',
+                         {:controller => 'issues', :action => 'show', :id => 3},
+                         :class => Issue.find(3).css_classes,
+                         :title => 'Bug: Error 281 when updating a recipe (New)')
+    ext_issue_link = link_to(
+                         'Bug #3',
+                         {:controller => 'issues', :action => 'show', :id => 3},
+                         :class => Issue.find(3).css_classes,
+                         :title => 'Bug: Error 281 when updating a recipe (New)') +
+                           ": Error 281 when updating a recipe"
+    note_link = link_to(
+                         '#3-14',
+                         {:controller => 'issues', :action => 'show',
+                          :id => 3, :anchor => 'note-14'},
+                         :class => Issue.find(3).css_classes,
+                         :title => 'Bug: Error 281 when updating a recipe (New)')
+    ext_note_link = link_to(
+                         'Bug #3-14',
+                         {:controller => 'issues', :action => 'show',
+                          :id => 3, :anchor => 'note-14'},
+                         :class => Issue.find(3).css_classes,
+                         :title => 'Bug: Error 281 when updating a recipe (New)') +
+                           ": Error 281 when updating a recipe"
+    note_link2 = link_to(
+                         '#3#note-14',
+                         {:controller => 'issues', :action => 'show',
+                          :id => 3, :anchor => 'note-14'},
+                         :class => Issue.find(3).css_classes,
+                         :title => 'Bug: Error 281 when updating a recipe (New)')
+    ext_note_link2 = link_to(
+                         'Bug #3#note-14',
+                         {:controller => 'issues', :action => 'show',
+                          :id => 3, :anchor => 'note-14'},
+                         :class => Issue.find(3).css_classes,
+                         :title => 'Bug: Error 281 when updating a recipe (New)') +
+                           ": Error 281 when updating a recipe"
 
-    revision_link = link_to('r1', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :repository_id => 10, :rev => 1},
-                                   :class => 'changeset', :title => 'My very first commit do not escaping #<>&')
-    revision_link2 = link_to('r2', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :repository_id => 10, :rev => 2},
-                                    :class => 'changeset', :title => 'This commit fixes #1, #2 and references #1 & #3')
+    revision_link = link_to(
+                         'r1',
+                         {:controller => 'repositories', :action => 'revision',
+                          :id => 'ecookbook', :repository_id => 10, :rev => 1},
+                         :class => 'changeset',
+                         :title => 'My very first commit do not escaping #<>&')
+    revision_link2 = link_to(
+                         'r2',
+                         {:controller => 'repositories', :action => 'revision',
+                          :id => 'ecookbook', :repository_id => 10, :rev => 2},
+                         :class => 'changeset',
+                         :title => 'This commit fixes #1, #2 and references #1 & #3')
 
-    changeset_link2 = link_to('691322a8eb01e11fd7',
-                              {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :repository_id => 10, :rev => 1},
-                               :class => 'changeset', :title => 'My very first commit do not escaping #<>&')
+    changeset_link2 = link_to(
+                         '691322a8eb01e11fd7',
+                         {:controller => 'repositories', :action => 'revision',
+                          :id => 'ecookbook', :repository_id => 10, :rev => 1},
+                         :class => 'changeset', :title => 'My very first commit do not escaping #<>&')
 
-    document_link = link_to('Test document', {:controller => 'documents', :action => 'show', :id => 1},
-                                             :class => 'document')
+    document_link = link_to(
+                         'Test document',
+                         {:controller => 'documents', :action => 'show', :id => 1},
+                         :class => 'document')
 
-    version_link = link_to('1.0', {:controller => 'versions', :action => 'show', :id => 2},
-                                  :class => 'version')
+    version_link = link_to('1.0',
+                           {:controller => 'versions', :action => 'show', :id => 2},
+                           :class => 'version')
 
     board_url = {:controller => 'boards', :action => 'show', :id => 2, :project_id => 'ecookbook'}
 
