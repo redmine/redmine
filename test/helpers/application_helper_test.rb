@@ -595,13 +595,22 @@ class ApplicationHelperTest < Redmine::HelperTest
     hg = Repository::Mercurial.create!(:project_id => 1, :identifier => 'hg1', :url => '/foo/hg')
     Changeset.create!(:repository => hg, :committed_on => Time.now, :revision => '123', :scmid => 'abcd')
 
-    changeset_link = link_to('r2', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :repository_id => 10, :rev => 2},
-                                    :class => 'changeset', :title => 'This commit fixes #1, #2 and references #1 & #3')
-    svn_changeset_link = link_to('svn_repo-1|r123', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :repository_id => 'svn_repo-1', :rev => 123},
-                                    :class => 'changeset', :title => '')
-    hg_changeset_link = link_to('hg1|abcd', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :repository_id => 'hg1', :rev => 'abcd'},
-                                    :class => 'changeset', :title => '')
-
+    changeset_link = link_to(
+                       'r2',
+                       {:controller => 'repositories', :action => 'revision',
+                        :id => 'ecookbook', :repository_id => 10, :rev => 2},
+                       :class => 'changeset',
+                       :title => 'This commit fixes #1, #2 and references #1 & #3')
+    svn_changeset_link = link_to(
+                           'svn_repo-1|r123',
+                           {:controller => 'repositories', :action => 'revision',
+                            :id => 'ecookbook', :repository_id => 'svn_repo-1', :rev => 123},
+                           :class => 'changeset', :title => '')
+    hg_changeset_link = link_to(
+                          'hg1|abcd',
+                          {:controller => 'repositories', :action => 'revision',
+                           :id => 'ecookbook', :repository_id => 'hg1', :rev => 'abcd'},
+                          :class => 'changeset', :title => '')
     source_link = link_to('source:some/file',
                           {:controller => 'repositories', :action => 'entry',
                            :id => 'ecookbook', :repository_id => 10,
