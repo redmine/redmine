@@ -15,13 +15,6 @@ Layout/AlignHash:
   Enabled: false
 
 # Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleAlignWith.
-# SupportedStylesAlignWith: either, start_of_block, start_of_line
-Layout/BlockAlignment:
-  Exclude:
-    - 'app/models/time_entry.rb'
-
-# Cop supports --auto-correct.
 Layout/BlockEndNewline:
   Exclude:
     - 'app/models/message.rb'

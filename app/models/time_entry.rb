@@ -28,11 +28,12 @@ class TimeEntry < ActiveRecord::Base
   belongs_to :activity, :class_name => 'TimeEntryActivity'
 
   acts_as_customizable
-  acts_as_event :title => Proc.new { |o|
-                  related   = o.issue if o.issue && o.issue.visible?
-                  related ||= o.project
-                  "#{l_hours(o.hours)} (#{related.event_title})"
-                },
+  acts_as_event :title =>
+                  Proc.new {|o|
+                    related   = o.issue if o.issue && o.issue.visible?
+                    related ||= o.project
+                    "#{l_hours(o.hours)} (#{related.event_title})"
+                  },
                 :url => Proc.new {|o| {:controller => 'timelog', :action => 'index', :project_id => o.project, :issue_id => o.issue}},
                 :author => :user,
                 :group => :issue,
