@@ -53,10 +53,11 @@ class AutoCompletesController < ApplicationController
   end
 
   def format_issues_json(issues)
-    issues.map {|issue| {
-      'id' => issue.id,
-      'label' => "#{issue.tracker} ##{issue.id}: #{issue.subject.to_s.truncate(60)}",
-      'value' => issue.id
+    issues.map {|issue|
+      {
+        'id' => issue.id,
+        'label' => "#{issue.tracker} ##{issue.id}: #{issue.subject.to_s.truncate(60)}",
+        'value' => issue.id
       }
     }
   end
