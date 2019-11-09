@@ -42,9 +42,10 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
 
   test "POST /projects/:project_id/issue_categories.xml should return create issue category" do
     assert_difference 'IssueCategory.count' do
-      post '/projects/1/issue_categories.xml',
+      post(
+        '/projects/1/issue_categories.xml',
         :params => {:issue_category => {:name => 'API'}},
-        :headers => credentials('jsmith')
+        :headers => credentials('jsmith'))
     end
     assert_response :created
     assert_equal 'application/xml', @response.content_type
@@ -56,9 +57,10 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
 
   test "POST /projects/:project_id/issue_categories.xml with invalid parameters should return errors" do
     assert_no_difference 'IssueCategory.count' do
-      post '/projects/1/issue_categories.xml',
+      post(
+        '/projects/1/issue_categories.xml',
         :params => {:issue_category => {:name => ''}},
-        :headers => credentials('jsmith')
+        :headers => credentials('jsmith'))
     end
     assert_response :unprocessable_entity
     assert_equal 'application/xml', @response.content_type
@@ -68,9 +70,10 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
 
   test "PUT /issue_categories/:id.xml with valid parameters should update the issue category" do
     assert_no_difference 'IssueCategory.count' do
-      put '/issue_categories/2.xml',
+      put(
+        '/issue_categories/2.xml',
         :params => {:issue_category => {:name => 'API Update'}},
-        :headers => credentials('jsmith')
+        :headers => credentials('jsmith'))
     end
     assert_response :no_content
     assert_equal '', @response.body
@@ -79,9 +82,10 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
 
   test "PUT /issue_categories/:id.xml with invalid parameters should return errors" do
     assert_no_difference 'IssueCategory.count' do
-      put '/issue_categories/2.xml',
+      put(
+        '/issue_categories/2.xml',
         :params => {:issue_category => {:name => ''}},
-        :headers => credentials('jsmith')
+        :headers => credentials('jsmith'))
     end
     assert_response :unprocessable_entity
     assert_equal 'application/xml', @response.content_type
@@ -104,9 +108,10 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
 
     assert_difference 'IssueCategory.count', -1 do
       assert_difference 'Issue.where(:category_id => 2).count', 3 do
-        delete '/issue_categories/1.xml',
+        delete(
+          '/issue_categories/1.xml',
           :params => {:reassign_to_id => 2},
-          :headers => credentials('jsmith')
+          :headers => credentials('jsmith'))
       end
     end
     assert_response :no_content
