@@ -15,11 +15,6 @@ Layout/AlignHash:
   Enabled: false
 
 # Cop supports --auto-correct.
-Layout/BlockEndNewline:
-  Exclude:
-    - 'app/models/message.rb'
-
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, IndentOneStep, IndentationWidth.
 # SupportedStyles: case, end
 Layout/CaseIndentation:
