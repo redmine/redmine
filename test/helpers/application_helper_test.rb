@@ -1726,9 +1726,10 @@ class ApplicationHelperTest < Redmine::HelperTest
     User.current = nil
     set_language_if_valid 'en'
     users = [User.find(2), Group.find(11), User.find(4), Group.find(10)]
-    assert_equal %(<option value="2">John Smith</option><option value="4">Robert Hill</option>) +
+    assert_equal(
+      %(<option value="2">John Smith</option><option value="4">Robert Hill</option>) +
       %(<optgroup label="Groups"><option value="10">A Team</option><option value="11">B Team</option></optgroup>),
-      principals_options_for_select(users)
+      principals_options_for_select(users))
   end
 
   def test_principals_options_for_select_with_empty_collection
