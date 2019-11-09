@@ -795,7 +795,7 @@ module Redmine
         params[:pdf].RDMCell(params[:subject_width] - 15, 5,
                              (" " * params[:indent]) +
                                subject.to_s.sub(/^(.{#{char_limit}}[^\s]*\s).*$/, '\1 (...)'),
-                              "LR")
+                             "LR")
         params[:pdf].SetY(params[:top])
         params[:pdf].SetX(params[:subject_width])
         params[:pdf].RDMCell(params[:g_width], 5, "", "LR")
