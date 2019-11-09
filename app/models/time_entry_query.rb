@@ -45,49 +45,53 @@ class TimeEntryQuery < Query
 
   def initialize_available_filters
     add_available_filter "spent_on", :type => :date_past
-
-    add_available_filter("project_id",
+    add_available_filter(
+      "project_id",
       :type => :list, :values => lambda { project_values }
     ) if project.nil?
-
     if project && !project.leaf?
-      add_available_filter "subproject_id",
+      add_available_filter(
+        "subproject_id",
         :type => :list_subprojects,
-        :values => lambda { subproject_values }
+        :values => lambda { subproject_values })
     end
-
     add_available_filter("issue_id", :type => :tree, :label => :label_issue)
-    add_available_filter("issue.tracker_id",
+    add_available_filter(
+      "issue.tracker_id",
       :type => :list,
       :name => l("label_attribute_of_issue", :name => l(:field_tracker)),
       :values => lambda { trackers.map {|t| [t.name, t.id.to_s]} })
-    add_available_filter("issue.status_id",
+    add_available_filter(
+      "issue.status_id",
       :type => :list,
       :name => l("label_attribute_of_issue", :name => l(:field_status)),
       :values => lambda { issue_statuses_values })
-    add_available_filter("issue.fixed_version_id",
+    add_available_filter(
+      "issue.fixed_version_id",
       :type => :list,
       :name => l("label_attribute_of_issue", :name => l(:field_fixed_version)),
       :values => lambda { fixed_version_values })
-    add_available_filter "issue.category_id",
+    add_available_filter(
+      "issue.category_id",
       :type => :list_optional,
       :name => l("label_attribute_of_issue", :name => l(:field_category)),
-      :values => lambda { project.issue_categories.collect{|s| [s.name, s.id.to_s] } } if project
-
-    add_available_filter("user_id",
+      :values => lambda { project.issue_categories.collect{|s| [s.name, s.id.to_s] } }
+    ) if project
+    add_available_filter(
+      "user_id",
       :type => :list_optional, :values => lambda { author_values }
     )
-
-    add_available_filter("author_id",
+    add_available_filter(
+      "author_id",
       :type => :list_optional, :values => lambda { author_values }
     )
-
     activities = (project ? project.activities : TimeEntryActivity.shared)
-    add_available_filter("activity_id",
+    add_available_filter(
+      "activity_id",
       :type => :list, :values => activities.map {|a| [a.name, a.id.to_s]}
     )
-
-    add_available_filter("project.status",
+    add_available_filter(
+      "project.status",
       :type => :list,
       :name => l(:label_attribute_of_project, :name => l(:field_status)),
       :values => lambda { project_statuses_values }
