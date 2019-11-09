@@ -1709,8 +1709,9 @@ class ApplicationHelperTest < Redmine::HelperTest
   def test_principals_options_for_select_with_users
     User.current = nil
     users = [User.find(2), User.find(4)]
-    assert_equal %(<option value="2">John Smith</option><option value="4">Robert Hill</option>),
-      principals_options_for_select(users)
+    assert_equal(
+      %(<option value="2">John Smith</option><option value="4">Robert Hill</option>),
+      principals_options_for_select(users))
   end
 
   def test_principals_options_for_select_with_selected
