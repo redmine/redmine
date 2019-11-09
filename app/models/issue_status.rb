@@ -36,10 +36,11 @@ class IssueStatus < ActiveRecord::Base
   scope :sorted, lambda { order(:position) }
   scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
 
-  safe_attributes 'name',
+  safe_attributes(
+    'name',
     'is_closed',
     'position',
-    'default_done_ratio'
+    'default_done_ratio')
 
   # Update all the +Issues+ setting their done_ratio to the value of their +IssueStatus+
   def self.update_issue_done_ratios
