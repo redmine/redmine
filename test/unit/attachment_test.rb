@@ -296,7 +296,8 @@ class AttachmentTest < ActiveSupport::TestCase
   test "Attachmnet.attach_files should attach the file" do
     issue = Issue.first
     assert_difference 'Attachment.count' do
-      Attachment.attach_files(issue,
+      Attachment.attach_files(
+        issue,
         '1' => {
           'file' => uploaded_test_file('testfile.txt', 'text/plain'),
           'description' => 'test'
@@ -516,8 +517,9 @@ class AttachmentTest < ActiveSupport::TestCase
         [101, 150],
       ].each do |size, generated_size|
         thumbnail = attachment.thumbnail(size: size)
-        assert_equal "8e0294de2441577c529f170b6fb8f638_2654_#{generated_size}.thumb",
-          File.basename(thumbnail)
+        assert_equal(
+          "8e0294de2441577c529f170b6fb8f638_2654_#{generated_size}.thumb",
+          File.basename(thumbnail))
       end
     ensure
       set_tmp_attachments_directory
