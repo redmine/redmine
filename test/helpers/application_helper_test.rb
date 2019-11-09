@@ -44,8 +44,9 @@ class ApplicationHelperTest < Redmine::HelperTest
     User.current = User.find_by_login('admin')
 
     @project = Issue.first.project # Used by helper
-    response = link_to_if_authorized('By controller/actionr',
-                                    {:controller => 'issues', :action => 'edit', :id => Issue.first.id})
+    response = link_to_if_authorized(
+                 'By controller/actionr',
+                 {:controller => 'issues', :action => 'edit', :id => Issue.first.id})
     assert_match /href/, response
   end
 
@@ -54,9 +55,9 @@ class ApplicationHelperTest < Redmine::HelperTest
     @project = Project.find('private-child')
     issue = @project.issues.first
     assert !issue.visible?
-
-    response = link_to_if_authorized('Never displayed',
-                                    {:controller => 'issues', :action => 'show', :id => issue})
+    response = link_to_if_authorized(
+                 'Never displayed',
+                 {:controller => 'issues', :action => 'show', :id => issue})
     assert_nil response
   end
 
