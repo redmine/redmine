@@ -232,7 +232,8 @@ class GitAdapterTest < ActiveSupport::TestCase
         puts JRUBY_SKIP_STR
       else
         revs1 = []
-        @adapter.revisions('',
+        @adapter.revisions(
+                         '',
                          "latin-1-branch-#{@char_1}-01",
                          "latin-1-branch-#{@char_1}-02",
                          {:reverse => true}) do |rev|
@@ -248,7 +249,8 @@ class GitAdapterTest < ActiveSupport::TestCase
       assert_equal [], @adapter.revisions('', '1234abcd', "master")
       assert_raise Redmine::Scm::Adapters::CommandFailed do
         revs1 = []
-        @adapter.revisions('',
+        @adapter.revisions(
+                         '',
                          '1234abcd',
                          "master",
                          {:reverse => true}) do |rev|
@@ -381,15 +383,18 @@ class GitAdapterTest < ActiveSupport::TestCase
     end
 
     def test_getting_revisions_with_leading_and_trailing_spaces_in_filename
-      assert_equal " filename with a leading space.txt ",
+      assert_equal(
+         " filename with a leading space.txt ",
          @adapter.revisions(" filename with a leading space.txt ",
-                             nil, "master")[0].paths[0][:path]
+                            nil, "master")[0].paths[0][:path])
     end
 
     def test_getting_entries_with_leading_and_trailing_spaces_in_filename
-      assert_equal " filename with a leading space.txt ",
-         @adapter.entries('',
-                 '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c')[3].name
+      assert_equal(
+         " filename with a leading space.txt ",
+         @adapter.entries(
+                 '',
+                 '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c')[3].name)
     end
 
     def test_annotate
