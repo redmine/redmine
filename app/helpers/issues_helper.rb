@@ -531,9 +531,12 @@ module IssuesHelper
     elsif show_diff
       s = l(:text_journal_changed_no_detail, :label => label)
       unless no_html
-        diff_link = link_to 'diff',
-          diff_journal_url(detail.journal_id, :detail_id => detail.id, :only_path => options[:only_path]),
-          :title => l(:label_view_diff)
+        diff_link =
+          link_to(
+            'diff',
+            diff_journal_url(detail.journal_id, :detail_id => detail.id,
+                             :only_path => options[:only_path]),
+            :title => l(:label_view_diff))
         s << " (#{diff_link})"
       end
       s.html_safe
