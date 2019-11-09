@@ -474,8 +474,9 @@ class ApplicationHelperTest < Redmine::HelperTest
 
   def test_should_not_parse_redmine_links_inside_link
     raw = "r1 should not be parsed in http://example.com/url-r1/"
-    assert_match %r{<p><a class="changeset".*>r1</a> should not be parsed in <a class="external" href="http://example.com/url-r1/">http://example.com/url-r1/</a></p>},
-      textilizable(raw, :project => Project.find(1))
+    assert_match(
+      %r{<p><a class="changeset".*>r1</a> should not be parsed in <a class="external" href="http://example.com/url-r1/">http://example.com/url-r1/</a></p>},
+      textilizable(raw, :project => Project.find(1)))
   end
 
   def test_redmine_links_with_a_different_project_before_current_project
