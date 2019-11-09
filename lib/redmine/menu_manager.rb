@@ -124,7 +124,7 @@ module Redmine
         else
           caption, url, selected = extract_node_details(node, project)
           return content_tag('li',
-                               render_single_menu_node(node, caption, url, selected))
+                             render_single_menu_node(node, caption, url, selected))
         end
       end
 
