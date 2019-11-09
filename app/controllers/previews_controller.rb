@@ -42,6 +42,7 @@ class PreviewsController < ApplicationController
     @text = params[:text] ? params[:text] : nil
     render :partial => 'common/preview'
   end
+
   private
 
   def find_project

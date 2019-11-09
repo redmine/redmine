@@ -59,7 +59,6 @@ Layout/EmptyLines:
 # SupportedStyles: around, only_before
 Layout/EmptyLinesAroundAccessModifier:
   Exclude:
-    - 'app/controllers/previews_controller.rb'
     - 'config/initializers/10-patches.rb'
     - 'lib/redmine/syntax_highlighting.rb'
 
