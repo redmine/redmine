@@ -714,29 +714,31 @@ class ApplicationHelperTest < Redmine::HelperTest
   def test_redmine_links_mercurial_commit
     @project = Project.find(3)
     r = Repository::Mercurial.create!(:project => @project, :url => '/tmp/test')
-    c = Changeset.create!(:repository => r,
+    c = Changeset.create!(
+                      :repository => r,
                       :committed_on => Time.now,
                       :revision => '123',
                       :scmid => 'abcd',
                       :comments => 'test commit')
-
-    changeset_link_rev = link_to('r123',
-                                  {
+    changeset_link_rev = link_to(
+                              'r123',
+                              {
                                      :controller => 'repositories',
                                      :action     => 'revision',
                                      :id         => 'subproject1',
                                      :repository_id => r.id,
                                      :rev        => '123',
-                                  },
+                              },
                               :class => 'changeset', :title => 'test commit')
-    changeset_link_commit = link_to('abcd',
-                                  {
+    changeset_link_commit = link_to(
+                              'abcd',
+                              {
                                     :controller => 'repositories',
                                     :action     => 'revision',
                                     :id         => 'subproject1',
                                     :repository_id => r.id,
                                     :rev        => 'abcd',
-                                  },
+                              },
                               :class => 'changeset', :title => 'test commit')
     to_test = {
       'r123' => changeset_link_rev,
