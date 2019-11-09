@@ -24,12 +24,12 @@ class Redmine::ApiTest::CustomFieldsAttributeTest < Redmine::ApiTest::Base
 
   def test_integer_custom_fields_should_accept_strings
     field = GroupCustomField.generate!(:field_format => 'int')
-
-    post '/groups.json',
+    post(
+      '/groups.json',
       :params => %({"group":{"name":"Foo","custom_field_values":{"#{field.id}":"52"}}}),
       :headers => {
         'CONTENT_TYPE' => 'application/json'
-      }.merge(credentials('admin'))
+      }.merge(credentials('admin')))
     assert_response :created
     group = Group.order('id DESC').first
     assert_equal "52", group.custom_field_value(field)
@@ -37,12 +37,12 @@ class Redmine::ApiTest::CustomFieldsAttributeTest < Redmine::ApiTest::Base
 
   def test_integer_custom_fields_should_accept_integers
     field = GroupCustomField.generate!(:field_format => 'int')
-
-    post '/groups.json',
+    post(
+      '/groups.json',
       :params => %({"group":{"name":"Foo","custom_field_values":{"#{field.id}":52}}}),
       :headers => {
         'CONTENT_TYPE' => 'application/json'
-      }.merge(credentials('admin'))
+      }.merge(credentials('admin')))
     assert_response :created
     group = Group.order('id DESC').first
     assert_equal "52", group.custom_field_value(field)
@@ -50,12 +50,12 @@ class Redmine::ApiTest::CustomFieldsAttributeTest < Redmine::ApiTest::Base
 
   def test_boolean_custom_fields_should_accept_strings
     field = GroupCustomField.generate!(:field_format => 'bool')
-
-    post '/groups.json',
+    post(
+      '/groups.json',
       :params => %({"group":{"name":"Foo","custom_field_values":{"#{field.id}": "1"}}}),
       :headers => {
         'CONTENT_TYPE' => 'application/json'
-      }.merge(credentials('admin'))
+      }.merge(credentials('admin')))
     assert_response :created
     group = Group.order('id DESC').first
     assert_equal "1", group.custom_field_value(field)
@@ -63,12 +63,12 @@ class Redmine::ApiTest::CustomFieldsAttributeTest < Redmine::ApiTest::Base
 
   def test_boolean_custom_fields_should_accept_integers
     field = GroupCustomField.generate!(:field_format => 'bool')
-
-    post '/groups.json',
+    post(
+      '/groups.json',
       :params => %({"group":{"name":"Foo","custom_field_values":{"#{field.id}": 1}}}),
       :headers => {
         'CONTENT_TYPE' => 'application/json'
-      }.merge(credentials('admin'))
+      }.merge(credentials('admin')))
     assert_response :created
     group = Group.order('id DESC').first
     assert_equal "1", group.custom_field_value(field)
@@ -87,11 +87,12 @@ class Redmine::ApiTest::CustomFieldsAttributeTest < Redmine::ApiTest::Base
       }
       }
     JSON
-    post '/groups.json',
+    post(
+      '/groups.json',
       :params => payload,
       :headers => {
         'CONTENT_TYPE' => 'application/json'
-      }.merge(credentials('admin'))
+      }.merge(credentials('admin')))
     assert_response :created
     group = Group.order('id DESC').first
     assert_equal ["V1", "V3"], group.custom_field_value(field).sort
