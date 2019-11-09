@@ -25,13 +25,14 @@ class Redmine::ApiTest::ApiTest < Redmine::ApiTest::Base
   def test_api_should_work_with_protect_from_forgery
     ActionController::Base.allow_forgery_protection = true
     assert_difference('User.count') do
-      post '/users.xml',
+      post(
+        '/users.xml',
         :params => {
           :user => {
             :login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname',
             :mail => 'foo@example.net', :password => 'secret123'}
           },
-        :headers => credentials('admin')
+        :headers => credentials('admin'))
       assert_response 201
     end
   ensure
