@@ -94,7 +94,10 @@ module IssuesHelper
   def render_descendants_tree(issue)
     manage_relations = User.current.allowed_to?(:manage_subtasks, issue.project)
     s = +'<table class="list issues odd-even">'
-    issue_list(issue.descendants.visible.preload(:status, :priority, :tracker, :assigned_to).sort_by(&:lft)) do |child, level|
+    issue_list(
+      issue.descendants.visible.
+        preload(:status, :priority, :tracker,
+                :assigned_to).sort_by(&:lft)) do |child, level|
       css = +"issue issue-#{child.id} hascontextmenu #{child.css_classes}"
       css << " idnt idnt-#{level}" if level > 0
       buttons =
