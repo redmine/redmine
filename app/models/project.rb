@@ -738,7 +738,8 @@ class Project < ActiveRecord::Base
     target.destroy unless target.blank?
   end
 
-  safe_attributes 'name',
+  safe_attributes(
+    'name',
     'description',
     'homepage',
     'is_public',
@@ -749,9 +750,10 @@ class Project < ActiveRecord::Base
     'issue_custom_field_ids',
     'parent_id',
     'default_version_id',
-    'default_assigned_to_id'
+    'default_assigned_to_id')
 
-  safe_attributes 'enabled_module_names',
+  safe_attributes(
+    'enabled_module_names',
     :if => lambda {|project, user|
         if project.new_record?
           if user.admin?
@@ -762,10 +764,11 @@ class Project < ActiveRecord::Base
         else
           user.allowed_to?(:select_project_modules, project)
         end
-      }
+      })
 
-  safe_attributes 'inherit_members',
-    :if => lambda {|project, user| project.parent.nil? || project.parent.visible?(user)}
+  safe_attributes(
+    'inherit_members',
+    :if => lambda {|project, user| project.parent.nil? || project.parent.visible?(user)})
 
   def safe_attributes=(attrs, user=User.current)
     if attrs.respond_to?(:to_unsafe_hash)
