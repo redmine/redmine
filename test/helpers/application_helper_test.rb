@@ -807,17 +807,17 @@ class ApplicationHelperTest < Redmine::HelperTest
 
   def test_attachment_links_to_images_with_email_format_should_not_be_parsed
     attachment = Attachment.generate!(:filename => 'image@2x.png')
-
     with_settings :text_formatting => 'textile' do
       raw = "attachment:image@2x.png should not be parsed in image@2x.png"
-      assert_match %r{<p><a class="attachment" href="/attachments/#{attachment.id}">image@2x.png</a> should not be parsed in image@2x.png</p>},
-        textilizable(raw, :attachments => [attachment])
+      assert_match(
+        %r{<p><a class="attachment" href="/attachments/#{attachment.id}">image@2x.png</a> should not be parsed in image@2x.png</p>},
+        textilizable(raw, :attachments => [attachment]))
     end
-
     with_settings :text_formatting => 'markdown' do
       raw = "attachment:image@2x.png should not be parsed in image@2x.png"
-      assert_match %r{<p><a class="attachment" href="/attachments/#{attachment.id}">image@2x.png</a> should not be parsed in image@2x.png</p>},
-        textilizable(raw, :attachments => [attachment])
+      assert_match(
+        %r{<p><a class="attachment" href="/attachments/#{attachment.id}">image@2x.png</a> should not be parsed in image@2x.png</p>},
+        textilizable(raw, :attachments => [attachment]))
     end
   end
 
