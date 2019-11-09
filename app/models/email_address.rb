@@ -98,7 +98,8 @@ class EmailAddress < ActiveRecord::Base
 
   # generic method to send security notifications for email addresses
   def deliver_security_notification(options={})
-    Mailer.deliver_security_notification(user,
+    Mailer.deliver_security_notification(
+      user,
       User.current,
       options.merge(
         title: :label_my_account,
