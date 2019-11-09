@@ -305,8 +305,12 @@ module Redmine
         if custom_field.is_required?
           ''.html_safe
         else
-          view.content_tag('label',
-            view.check_box_tag(tag_name, '__none__', (value == '__none__'), :id => nil, :data => {:disables => "##{tag_id}"}) + l(:button_clear),
+          view.content_tag(
+            'label',
+            view.check_box_tag(
+              tag_name,
+              '__none__', (value == '__none__'), :id => nil,
+              :data => {:disables => "##{tag_id}"}) + l(:button_clear),
             :class => 'inline'
           )
         end
