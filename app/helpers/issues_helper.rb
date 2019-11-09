@@ -269,9 +269,11 @@ module IssuesHelper
 
     def cells(label, text, options={})
       options[:class] = [options[:class] || "", 'attribute'].join(' ')
-      content_tag 'div',
-        content_tag('div', label + ":", :class => 'label') + content_tag('div', text, :class => 'value'),
-        options
+      content_tag(
+        'div',
+        content_tag('div', label + ":", :class => 'label') +
+          content_tag('div', text, :class => 'value'),
+        options)
     end
   end
 
