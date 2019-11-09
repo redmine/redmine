@@ -181,7 +181,6 @@ Layout/MultilineArrayBraceLayout:
 # Cop supports --auto-correct.
 Layout/MultilineBlockLayout:
   Exclude:
-    - 'app/controllers/auth_sources_controller.rb'
     - 'app/controllers/auto_completes_controller.rb'
 
 # Cop supports --auto-correct.
