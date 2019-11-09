@@ -1026,16 +1026,18 @@ class IssueTest < ActiveSupport::TestCase
 
     issue = Issue.new(:project_id => 1, :tracker_id => 1, :status_id => 1)
 
-    issue.send :safe_attributes=, {'start_date' => '2012-07-12',
-                                   'due_date' => '2012-07-14'},
-                                   user
+    issue.send(:safe_attributes=,
+               {'start_date' => '2012-07-12',
+                'due_date' => '2012-07-14'},
+               user)
     assert_equal Date.parse('2012-07-12'), issue.start_date
     assert_nil issue.due_date
 
-    issue.send :safe_attributes=, {'start_date' => '2012-07-15',
-                                    'due_date' => '2012-07-16',
-                                    'status_id' => 2},
-                                  user
+    issue.send(:safe_attributes=,
+               {'start_date' => '2012-07-15',
+                'due_date' => '2012-07-16',
+                'status_id' => 2},
+               user)
     assert_equal Date.parse('2012-07-12'), issue.start_date
     assert_equal Date.parse('2012-07-16'), issue.due_date
   end
@@ -1070,7 +1072,7 @@ class IssueTest < ActiveSupport::TestCase
                  issue.required_attribute_names(user).sort
     assert !issue.save, "Issue was saved"
     assert_equal ["Category cannot be blank", "Due date cannot be blank", "Foo cannot be blank"],
-                  issue.errors.full_messages.sort
+                 issue.errors.full_messages.sort
 
     issue.tracker_id = 2
     assert_equal [cf.id.to_s, "start_date"], issue.required_attribute_names(user).sort
@@ -1854,8 +1856,9 @@ class IssueTest < ActiveSupport::TestCase
     parent.reload
     parent.project_id = project.id
     assert !parent.save
-    assert_include "Subtask ##{child.id} could not be moved to the new project: Tracker is not included in the list",
-      parent.errors[:base]
+    assert_include(
+      "Subtask ##{child.id} could not be moved to the new project: Tracker is not included in the list",
+      parent.errors[:base])
   end
 
   def test_copy_to_the_same_project
