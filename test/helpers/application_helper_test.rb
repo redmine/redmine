@@ -689,22 +689,21 @@ class ApplicationHelperTest < Redmine::HelperTest
   def test_redmine_links_git_commit
     @project = Project.find(3)
     r = Repository::Git.create!(:project => @project, :url => '/tmp/test/git')
-
-    c = Changeset.create!(:repository => r,
+    c = Changeset.create!(
+                      :repository => r,
                       :committed_on => Time.now,
                       :revision => 'abcd',
                       :scmid => 'abcd',
                       :comments => 'test commit')
-
     changeset_link = link_to('abcd',
-                               {
+                             {
                                  :controller => 'repositories',
                                  :action     => 'revision',
                                  :id         => 'subproject1',
                                  :repository_id => r.id,
                                  :rev        => 'abcd',
-                                },
-                              :class => 'changeset', :title => 'test commit')
+                              },
+                             :class => 'changeset', :title => 'test commit')
     to_test = {
       'commit:abcd' => changeset_link,
      }
