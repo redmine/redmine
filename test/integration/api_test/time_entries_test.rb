@@ -68,9 +68,13 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
 
   test "POST /time_entries.xml with issue_id should create time entry" do
     assert_difference 'TimeEntry.count' do
-      post '/time_entries.xml',
-        :params => {:time_entry => {:issue_id => '1', :spent_on => '2010-12-02', :hours => '3.5', :activity_id => '11'}},
-        :headers => credentials('jsmith')
+      post(
+        '/time_entries.xml',
+        :params =>
+          {:time_entry =>
+            {:issue_id => '1', :spent_on => '2010-12-02',
+             :hours => '3.5', :activity_id => '11'}},
+        :headers => credentials('jsmith'))
     end
     assert_response :created
     assert_equal 'application/xml', @response.content_type
@@ -88,11 +92,15 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
     field = TimeEntryCustomField.create!(:name => 'Test', :field_format => 'string')
 
     assert_difference 'TimeEntry.count' do
-      post '/time_entries.xml',
-        :params => {:time_entry => {
-          :issue_id => '1', :spent_on => '2010-12-02', :hours => '3.5', :activity_id => '11', :custom_fields => [{:id => field.id.to_s, :value => 'accepted'}]
+      post(
+        '/time_entries.xml',
+        :params =>
+          {:time_entry =>
+            {:issue_id => '1', :spent_on => '2010-12-02',
+             :hours => '3.5', :activity_id => '11',
+             :custom_fields => [{:id => field.id.to_s, :value => 'accepted'}]
         }},
-        :headers => credentials('jsmith')
+        :headers => credentials('jsmith'))
     end
     assert_response :created
     assert_equal 'application/xml', @response.content_type
@@ -103,9 +111,13 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
 
   test "POST /time_entries.xml with project_id should create time entry" do
     assert_difference 'TimeEntry.count' do
-      post '/time_entries.xml',
-        :params => {:time_entry => {:project_id => '1', :spent_on => '2010-12-02', :hours => '3.5', :activity_id => '11'}},
-        :headers => credentials('jsmith')
+      post(
+        '/time_entries.xml',
+        :params =>
+          {:time_entry =>
+            {:project_id => '1', :spent_on => '2010-12-02',
+             :hours => '3.5', :activity_id => '11'}},
+        :headers => credentials('jsmith'))
     end
     assert_response :created
     assert_equal 'application/xml', @response.content_type
@@ -121,9 +133,10 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
 
   test "POST /time_entries.xml with invalid parameters should return errors" do
     assert_no_difference 'TimeEntry.count' do
-      post '/time_entries.xml',
+      post(
+        '/time_entries.xml',
         :params => {:time_entry => {:project_id => '1', :spent_on => '2010-12-02', :activity_id => '11'}},
-        :headers => credentials('jsmith')
+        :headers => credentials('jsmith'))
     end
     assert_response :unprocessable_entity
     assert_equal 'application/xml', @response.content_type
@@ -133,9 +146,10 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
 
   test "PUT /time_entries/:id.xml with valid parameters should update time entry" do
     assert_no_difference 'TimeEntry.count' do
-      put '/time_entries/2.xml',
+      put(
+        '/time_entries/2.xml',
         :params => {:time_entry => {:comments => 'API Update'}},
-        :headers => credentials('jsmith')
+        :headers => credentials('jsmith'))
     end
     assert_response :no_content
     assert_equal '', @response.body
@@ -144,9 +158,10 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
 
   test "PUT /time_entries/:id.xml with invalid parameters should return errors" do
     assert_no_difference 'TimeEntry.count' do
-      put '/time_entries/2.xml',
+      put(
+        '/time_entries/2.xml',
         :params => {:time_entry => {:hours => '', :comments => 'API Update'}},
-        :headers => credentials('jsmith')
+        :headers => credentials('jsmith'))
     end
     assert_response :unprocessable_entity
     assert_equal 'application/xml', @response.content_type
@@ -155,10 +170,10 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
   end
 
   test "PUT /time_entries/:id.xml without permissions should fail" do
-    put '/time_entries/2.xml',
+    put(
+      '/time_entries/2.xml',
       :params => {:time_entry => {:hours => '2.3', :comments => 'API Update'}},
-      :headers => credentials('dlopper')
-
+      :headers => credentials('dlopper'))
     assert_response 403
   end
 
