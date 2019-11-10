@@ -1418,4 +1418,18 @@ class TimelogControllerTest < Redmine::ControllerTest
       assert_select '+ span.count', :text => '2'
     end
   end
+
+  def test_index_grouped_by_issue
+    get :index, :params => {
+        :set_filter => 1,
+        :group_by => 'issue'
+      }
+    assert_response :success
+
+    assert_select 'tr.group span.name' do |elements|
+      target_element = elements[1]
+      assert_equal "Bug #1: Cannot print recipes", target_element.text
+      assert_select target_element, '+ span.count', :text => '2'
+    end
+  end
 end

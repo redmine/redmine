@@ -30,7 +30,7 @@ class TimeEntryQuery < Query
     QueryColumn.new(:author, :sortable => lambda {User.fields_for_order_statement}),
     QueryColumn.new(:user, :sortable => lambda {User.fields_for_order_statement}, :groupable => true),
     QueryColumn.new(:activity, :sortable => "#{TimeEntryActivity.table_name}.position", :groupable => true),
-    QueryColumn.new(:issue, :sortable => "#{Issue.table_name}.id"),
+    QueryColumn.new(:issue, :sortable => "#{Issue.table_name}.id", :groupable => true),
     QueryAssociationColumn.new(:issue, :tracker, :caption => :field_tracker, :sortable => "#{Tracker.table_name}.position"),
     QueryAssociationColumn.new(:issue, :status, :caption => :field_status, :sortable => "#{IssueStatus.table_name}.position"),
     QueryAssociationColumn.new(:issue, :category, :caption => :field_category, :sortable => "#{IssueCategory.table_name}.name"),
