@@ -567,6 +567,7 @@ class Query < ActiveRecord::Base
     author_values = []
     author_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
     author_values += users.sort_by(&:status).collect{|s| [s.name, s.id.to_s, l("status_#{User::LABEL_BY_STATUS[s.status]}")] }
+    author_values << [l(:label_user_anonymous), User.anonymous.id.to_s]
     author_values
   end
 

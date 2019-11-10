@@ -756,11 +756,12 @@ class QueriesControllerTest < Redmine::ControllerTest
     assert_equal 'application/json', response.content_type
     json = ActiveSupport::JSON.decode(response.body)
 
-    assert_equal 6, json.count
+    assert_equal 7, json.count
     # "me" value should not be grouped
     assert_include ["<< me >>", "me"], json
     assert_include ["Dave Lopper", "3", "active"], json
     assert_include ["Dave2 Lopper2", "5", "locked"], json
+    assert_include ["Anonymous", "#{User.anonymous.id}"], json
   end
 
   def test_user_filter_should_return_active_and_locked_users_grouped_by_status
