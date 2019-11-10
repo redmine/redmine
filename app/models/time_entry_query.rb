@@ -34,6 +34,7 @@ class TimeEntryQuery < Query
     QueryAssociationColumn.new(:issue, :tracker, :caption => :field_tracker, :sortable => "#{Tracker.table_name}.position"),
     QueryAssociationColumn.new(:issue, :status, :caption => :field_status, :sortable => "#{IssueStatus.table_name}.position"),
     QueryAssociationColumn.new(:issue, :category, :caption => :field_category, :sortable => "#{IssueCategory.table_name}.name"),
+    QueryAssociationColumn.new(:issue, :fixed_version, :caption => :field_fixed_version, :sortable => Version.fields_for_order_statement),
     QueryColumn.new(:comments),
     QueryColumn.new(:hours, :sortable => "#{TimeEntry.table_name}.hours", :totalable => true),
   ]
@@ -250,6 +251,9 @@ class TimeEntryQuery < Query
       end
       if order_options.include?('issue_categories')
         joins << "LEFT OUTER JOIN #{IssueCategory.table_name} ON #{IssueCategory.table_name}.id = #{Issue.table_name}.category_id"
+      end
+      if order_options.include?('versions')
+        joins << "LEFT OUTER JOIN #{Version.table_name} ON #{Version.table_name}.id = #{Issue.table_name}.fixed_version_id"
       end
     end
 

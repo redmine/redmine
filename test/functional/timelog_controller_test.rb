@@ -1193,6 +1193,20 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_select 'td.issue-category', :text => 'Printing'
   end
 
+  def test_index_with_issue_fixed_version_column
+    issue = Issue.find(1)
+    issue.fixed_version = Version.find(3)
+    issue.save!
+
+    get :index, :params => {
+      :project_id => 'ecookbook',
+      :c => %w(project spent_on issue comments hours issue.fixed_version)
+    }
+
+    assert_response :success
+    assert_select 'td.issue-fixed_version', :text => '2.0'
+  end
+
   def test_index_with_author_filter
     get :index, :params => {
       :project_id => 'ecookbook',
@@ -1228,6 +1242,25 @@ class TimelogControllerTest < Redmine::ControllerTest
     # Make sure that values are properly sorted
     values = css_select("td.issue-category").map(&:text).reject(&:blank?)
     assert_equal ['Printing', 'Printing', 'Recipes'], values
+  end
+
+  def test_index_with_issue_fixed_version_sort
+    issue = Issue.find(1)
+    issue.fixed_version = Version.find(3)
+    issue.save!
+
+    TimeEntry.generate!(:issue => Issue.find(12))
+
+    get :index, :params => {
+      :project_id => 'ecookbook',
+      :c => ["hours", 'issue.fixed_version'],
+      :sort => 'issue.fixed_version'
+    }
+
+    assert_response :success
+    # Make sure that values are properly sorted
+    values = css_select("td.issue-fixed_version").map(&:text).reject(&:blank?)
+    assert_equal ['1.0', '2.0', '2.0'], values
   end
 
   def test_index_with_filter_on_issue_custom_field
