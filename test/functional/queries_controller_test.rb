@@ -761,7 +761,7 @@ class QueriesControllerTest < Redmine::ControllerTest
     assert_include ["<< me >>", "me"], json
     assert_include ["Dave Lopper", "3", "active"], json
     assert_include ["Dave2 Lopper2", "5", "locked"], json
-    assert_include ["Anonymous", "#{User.anonymous.id}"], json
+    assert_include ["Anonymous", User.anonymous.id.to_s], json
   end
 
   def test_user_filter_should_return_active_and_locked_users_grouped_by_status
