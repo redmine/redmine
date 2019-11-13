@@ -33,7 +33,7 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
            :versions, :documents,
            :wikis, :wiki_pages, :wiki_contents,
            :boards, :messages,
-           :attachments
+           :attachments, :enumerations
 
   def setup
     super
