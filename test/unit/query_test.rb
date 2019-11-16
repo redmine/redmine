@@ -1820,4 +1820,21 @@ class QueryTest < ActiveSupport::TestCase
     ActiveRecord::Base.default_timezone = :local # restore Redmine default
   end
 
+  def test_filter_on_subprojects
+    query = IssueQuery.new(:name => '_', :project => Project.find(1))
+    filter_name = "subproject_id"
+    assert_include filter_name, query.available_filters.keys
+
+    # "is" operator should include issues of parent project + issues of the selected subproject
+    query.filters = {filter_name => {:operator => '=', :values => ['3']}}
+    issues = find_issues_with_query(query)
+    assert_equal [1, 2, 3, 5, 7, 8, 11, 12, 13, 14], issues.map(&:id).sort
+
+    # "is not" operator should include issues of parent project + issues of all active subprojects - issues of the selected subprojects
+    query = IssueQuery.new(:name => '_', :project => Project.find(1))
+    query.filters = {filter_name => {:operator => '!', :values => ['3']}}
+    issues = find_issues_with_query(query)
+    assert_equal [1, 2, 3, 6, 7, 8, 9, 10, 11, 12], issues.map(&:id).sort
+  end
+
 end

@@ -213,7 +213,7 @@ class Query < ActiveRecord::Base
     :list => [ "=", "!" ],
     :list_status => [ "o", "=", "!", "c", "*" ],
     :list_optional => [ "=", "!", "!*", "*" ],
-    :list_subprojects => [ "*", "!*", "=" ],
+    :list_subprojects => [ "*", "!*", "=", "!" ],
     :date => [ "=", ">=", "<=", "><", "<t+", ">t+", "><t+", "t+", "t", "ld", "w", "lw", "l2w", "m", "lm", "y", ">t-", "<t-", "><t-", "t-", "!*", "*" ],
     :date_past => [ "=", ">=", "<=", "><", ">t-", "<t-", "><t-", "t-", "t", "ld", "w", "lw", "l2w", "m", "lm", "y", "!*", "*" ],
     :string => [ "=", "~", "!", "!~", "!*", "*" ],
@@ -573,12 +573,19 @@ class Query < ActiveRecord::Base
 
   def project_statement
     project_clauses = []
-    if project && !project.descendants.active.empty?
+    active_subprojects_ids = []
+
+    active_subprojects_ids = project.descendants.active.map(&:id) if project
+    if active_subprojects_ids.any?
       if has_filter?("subproject_id")
         case operator_for("subproject_id")
         when '='
           # include the selected subprojects
-          ids = [project.id] + values_for("subproject_id").each(&:to_i)
+          ids = [project.id] + values_for("subproject_id").map(&:to_i)
+          project_clauses << "#{Project.table_name}.id IN (%s)" % ids.join(',')
+        when '!'
+          # exclude the selected subprojects
+          ids = [project.id] + active_subprojects_ids - values_for("subproject_id").map(&:to_i)
           project_clauses << "#{Project.table_name}.id IN (%s)" % ids.join(',')
         when '!*'
           # main project only
