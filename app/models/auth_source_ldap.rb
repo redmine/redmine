@@ -244,10 +244,13 @@ class AuthSourceLdap < AuthSource
     attrs
   end
 
-  def self.get_attr(entry, attr_name)
-    if !attr_name.blank?
-      value = entry[attr_name].is_a?(Array) ? entry[attr_name].first : entry[attr_name]
-      value.to_s.force_encoding('UTF-8')
+  # Singleton class method is public
+  class << self
+    def get_attr(entry, attr_name)
+      if !attr_name.blank?
+        value = entry[attr_name].is_a?(Array) ? entry[attr_name].first : entry[attr_name]
+        value.to_s.force_encoding('UTF-8')
+      end
     end
   end
 end

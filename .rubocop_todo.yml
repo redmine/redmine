@@ -390,10 +390,6 @@ Lint/HandleExceptions:
     - 'lib/redmine/scm/adapters/cvs_adapter.rb'
     - 'lib/redmine/scm/adapters/subversion_adapter.rb'
 
-Lint/IneffectiveAccessModifier:
-  Exclude:
-    - 'app/models/auth_source_ldap.rb'
-
 Lint/InterpolationCheck:
   Exclude:
     - 'app/models/user.rb'
