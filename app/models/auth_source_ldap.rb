@@ -250,5 +250,4 @@ class AuthSourceLdap < AuthSource
       value.to_s.force_encoding('UTF-8')
     end
   end
-  private_class_method :get_attr
 end
