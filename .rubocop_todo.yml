@@ -228,7 +228,6 @@ Layout/SpaceAfterNot:
     - 'test/functional/repositories_git_controller_test.rb'
     - 'test/functional/timelog_controller_test.rb'
     - 'test/functional/workflows_controller_test.rb'
-    - 'test/helpers/application_helper_test.rb'
     - 'test/unit/attachment_test.rb'
     - 'test/unit/lib/redmine/export/pdf_test.rb'
     - 'test/unit/project_copy_test.rb'
@@ -412,7 +411,6 @@ Lint/ParenthesesAsGroupedExpression:
     - 'test/functional/my_controller_test.rb'
     - 'test/functional/settings_controller_test.rb'
     - 'test/functional/users_controller_test.rb'
-    - 'test/helpers/application_helper_test.rb'
     - 'test/unit/attachment_test.rb'
     - 'test/unit/lib/redmine/export/pdf_test.rb'
 
@@ -1423,7 +1421,6 @@ Style/RedundantParentheses:
     - 'lib/redmine/platform.rb'
     - 'lib/redmine/scm/adapters/cvs_adapter.rb'
     - 'lib/redmine/scm/adapters/filesystem_adapter.rb'
-    - 'test/helpers/application_helper_test.rb'
     - 'test/unit/attachment_test.rb'
     - 'test/unit/lib/redmine/export/pdf_test.rb'
     - 'test/unit/project_test.rb'
