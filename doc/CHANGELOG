@@ -4,6 +4,25 @@ Redmine - project management software
 Copyright (C) 2006-2017  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2018-11-18 v3.3.10
+
+=== [Gems support]
+
+* Patch #32294: Update ruby-openid to 2.9.2
+
+=== [Issues filter]
+
+* Feature #15773: Filtering out specific subprojects (using 'is not' operator)
+
+=== [Rails support]
+
+* Feature #31027: Upgrade to Rails 4.2.11.1
+
+=== [Security]
+
+* Defect #31520: Persistent XSS in textile formatting
+* Defect #32374: SQL injection vulnerability in Redmine < 3.4.0
+
 == 2018-12-09 v3.3.9
 
 === [Custom fields]
