@@ -1054,10 +1054,7 @@ Style/EmptyCaseCondition:
 # SupportedStyles: empty, nil, both
 Style/EmptyElse:
   Exclude:
-    - 'app/helpers/avatars_helper.rb'
-    - 'app/models/import.rb'
     - 'app/models/mail_handler.rb'
-    - 'app/models/query.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.

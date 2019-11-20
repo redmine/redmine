@@ -80,6 +80,9 @@ Style/AsciiComments:
     # We can not change nor remove it.
     - 'app/models/repository/git.rb'
 
+Style/EmptyElse:
+  EnforcedStyle: empty
+
 Style/FormatStringToken:
   Enabled: false
 
