@@ -495,7 +495,7 @@ class QueriesControllerTest < Redmine::ControllerTest
   end
 
   def test_create_public_project_query
-    @request.session[:user_id] = 2
+    @request.session[:user_id] = 1
 
     q = new_record(ProjectQuery) do
       post :create, :params => {
