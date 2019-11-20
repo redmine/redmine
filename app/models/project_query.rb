@@ -22,6 +22,11 @@ class ProjectQuery < Query
   self.queried_class = Project
   self.view_permission = :search_project
 
+  validate do |query|
+    # project must be blank for ProjectQuery
+    errors.add(:project_id, :exclusion) if query.project_id.present?
+  end
+
   self.available_columns = [
     QueryColumn.new(:name, :sortable => "#{Project.table_name}.name"),
     QueryColumn.new(:status, :sortable => "#{Project.table_name}.status"),
