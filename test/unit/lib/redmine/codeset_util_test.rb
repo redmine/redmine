@@ -20,7 +20,6 @@
 require File.expand_path('../../../../test_helper', __FILE__)
 
 class Redmine::CodesetUtilTest < ActiveSupport::TestCase
-
   def test_to_utf8_by_setting_from_latin1
     with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
       s1 = 'Texte encodé'
