@@ -18,7 +18,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Setting < ActiveRecord::Base
-
   PASSWORD_CHAR_CLASSES = {
         'uppercase'     => /[A-Z]/,
         'lowercase'     => /[a-z]/,
