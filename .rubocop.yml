@@ -74,7 +74,6 @@ Rails/BulkChangeTable:
 Rails/HelperInstanceVariable:
   Enabled: false
 
-# Configuration parameters: AllowedChars.
 Style/AsciiComments:
   Exclude:
     # Copyright credit has non ascii character.
