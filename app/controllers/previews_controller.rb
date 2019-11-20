@@ -51,5 +51,4 @@ class PreviewsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-
 end
