@@ -18,7 +18,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class ProjectQuery < Query
-
   self.queried_class = Project
   self.view_permission = :search_project
 
