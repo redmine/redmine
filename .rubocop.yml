@@ -26,6 +26,10 @@ require:
 Bundler/OrderedGems:
   Enabled: false
 
+Layout/CaseIndentation:
+  Exclude:
+    - 'config/initializers/10-patches.rb'
+
 Layout/EmptyLineBetweenDefs:
   AllowAdjacentOneLineDefs: true
 

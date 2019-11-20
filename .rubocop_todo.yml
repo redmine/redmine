@@ -41,13 +41,6 @@ Layout/AlignHash:
   Enabled: false
 
 # Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, IndentOneStep, IndentationWidth.
-# SupportedStyles: case, end
-Layout/CaseIndentation:
-  Exclude:
-    - 'config/initializers/10-patches.rb'
-
-# Cop supports --auto-correct.
 Layout/ClosingHeredocIndentation:
   Exclude:
     - 'test/unit/lib/redmine/wiki_formatting/textile_formatter_test.rb'
