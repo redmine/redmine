@@ -85,7 +85,6 @@ class QueryColumn
 end
 
 class TimestampQueryColumn < QueryColumn
-
   def groupable
     if @groupable
       Redmine::Database.timestamp_to_date(sortable, User.current.time_zone)
@@ -100,7 +99,6 @@ class TimestampQueryColumn < QueryColumn
 end
 
 class QueryAssociationColumn < QueryColumn
-
   def initialize(association, attribute, options={})
     @association = association
     @attribute = attribute
@@ -120,7 +118,6 @@ class QueryAssociationColumn < QueryColumn
 end
 
 class QueryCustomFieldColumn < QueryColumn
-
   def initialize(custom_field, options={})
     self.name = "cf_#{custom_field.id}".to_sym
     self.sortable = custom_field.order_statement || false
@@ -164,7 +161,6 @@ class QueryCustomFieldColumn < QueryColumn
 end
 
 class QueryAssociationCustomFieldColumn < QueryCustomFieldColumn
-
   def initialize(association, custom_field, options={})
     super(custom_field, options)
     self.name = "#{association}.cf_#{custom_field.id}".to_sym
