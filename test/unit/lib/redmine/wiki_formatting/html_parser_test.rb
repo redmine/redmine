@@ -20,7 +20,6 @@
 require File.expand_path('../../../../../test_helper', __FILE__)
 
 class Redmine::WikiFormatting::HtmlParserTest < ActiveSupport::TestCase
-
   def setup
     @parser = Redmine::WikiFormatting::HtmlParser
   end
