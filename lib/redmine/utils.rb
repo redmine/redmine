@@ -68,7 +68,6 @@ module Redmine
     end
 
     module Shell
-
       module_function
 
       def shell_quote(str)
