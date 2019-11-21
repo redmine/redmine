@@ -13,7 +13,6 @@ Layout/AlignArguments:
   Exclude:
     - 'config/application.rb'
     - 'lib/redmine/scm/adapters/bazaar_adapter.rb'
-    - 'lib/redmine/scm/adapters/subversion_adapter.rb'
     - 'test/functional/journals_controller_test.rb'
     - 'test/functional/my_controller_test.rb'
     - 'test/functional/roles_controller_test.rb'

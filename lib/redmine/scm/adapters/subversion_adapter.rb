@@ -228,12 +228,14 @@ module Redmine
             io.each_line do |line|
               next unless line =~ %r{^\s*(\d+)\s*(\S+)\s(.*)$}
               rev = $1
-              blame.add_line($3.rstrip,
-                   Revision.new(
-                      :identifier => rev,
-                      :revision   => rev,
-                      :author     => $2.strip
-                      ))
+              blame.add_line(
+                $3.rstrip,
+                Revision.new(
+                  :identifier => rev,
+                  :revision   => rev,
+                  :author     => $2.strip
+                )
+              )
             end
           end
           return nil if $? && $?.exitstatus != 0
