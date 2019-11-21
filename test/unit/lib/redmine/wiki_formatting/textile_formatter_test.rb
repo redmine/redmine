@@ -22,7 +22,6 @@ require File.expand_path('../../../../../test_helper', __FILE__)
 require 'digest/md5'
 
 class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
-
   def setup
     @formatter = Redmine::WikiFormatting::Textile::Formatter
   end
