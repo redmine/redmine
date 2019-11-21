@@ -20,7 +20,6 @@
 require File.expand_path('../../../../../test_helper', __FILE__)
 
 class CalendarTest < ActiveSupport::TestCase
-
   def test_monthly
     c = Redmine::Helpers::Calendar.new(Date.today, :fr, :month)
     assert_equal [1, 7], [c.startdt.cwday, c.enddt.cwday]
