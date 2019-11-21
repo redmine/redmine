@@ -19,7 +19,6 @@
 
 module Redmine
   module SyntaxHighlighting
-
     class << self
       attr_reader :highlighter
 
