@@ -23,7 +23,6 @@ module Redmine
   module Scm
     module Adapters
       class GitAdapter < AbstractAdapter
-
         # Git executable name
         GIT_BIN = Redmine::Configuration['scm_git_command'] || "git"
 
