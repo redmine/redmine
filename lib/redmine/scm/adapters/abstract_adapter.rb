@@ -31,7 +31,6 @@ module Redmine
         class ScmCommandAborted < ::Redmine::Scm::Adapters::CommandFailed; end
 
         class << self
-
           def client_command
             ""
           end
@@ -68,7 +67,6 @@ module Redmine
           def client_available
             true
           end
-
         end
 
         def initialize(url, root_url=nil, login=nil, password=nil,
