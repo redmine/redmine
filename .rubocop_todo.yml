@@ -177,7 +177,6 @@ Layout/IndentFirstArrayElement:
     - 'test/unit/lib/redmine/scm/adapters/git_adapter_test.rb'
     - 'test/unit/lib/redmine/scm/adapters/mercurial_adapter_test.rb'
     - 'test/unit/project_test.rb'
-    - 'test/unit/repository_git_test.rb'
     - 'test/unit/version_test.rb'
 
 # Cop supports --auto-correct.
