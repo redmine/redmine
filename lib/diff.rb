@@ -2,7 +2,6 @@
 
 module RedmineDiff
   class Diff
-
     VERSION = 0.3
 
     def Diff.lcs(a, b)
@@ -145,7 +144,6 @@ module RedmineDiff
     def inspect
       @diffs.inspect
     end
-
   end
 end
 
