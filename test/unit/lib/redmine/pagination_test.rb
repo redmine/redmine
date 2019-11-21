@@ -20,7 +20,6 @@
 require File.expand_path('../../../../test_helper', __FILE__)
 
 class Redmine::PaginationTest < ActiveSupport::TestCase
-
   def setup
     @klass = Redmine::Pagination::Paginator
   end
