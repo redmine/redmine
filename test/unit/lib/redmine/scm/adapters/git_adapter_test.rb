@@ -49,13 +49,15 @@ class GitAdapterTest < ActiveSupport::TestCase
       assert_equal true, adapter_class.client_version_above?([1])
       assert_equal true, adapter_class.client_version_above?([1, 0])
 
-      @adapter = Redmine::Scm::Adapters::GitAdapter.new(
-                    REPOSITORY_PATH,
-                    nil,
-                    nil,
-                    nil,
-                    'ISO-8859-1'
-                 )
+      @adapter =
+        Redmine::Scm::Adapters::GitAdapter.
+          new(
+            REPOSITORY_PATH,
+            nil,
+            nil,
+            nil,
+            'ISO-8859-1'
+          )
       assert @adapter
       @char_1 = 'Ü'
       @str_felix_hex  = "Felix Sch\xC3\xA4fer".b
@@ -516,13 +518,15 @@ class GitAdapterTest < ActiveSupport::TestCase
     end
 
     def test_entries_wrong_path_encoding
-      adpt = Redmine::Scm::Adapters::GitAdapter.new(
-                    REPOSITORY_PATH,
-                    nil,
-                    nil,
-                    nil,
-                    'EUC-JP'
-                 )
+      adpt =
+        Redmine::Scm::Adapters::GitAdapter.
+          new(
+            REPOSITORY_PATH,
+            nil,
+            nil,
+            nil,
+            'EUC-JP'
+          )
       entries1 = adpt.entries('latin-1-dir', '64f1f3e8')
       assert entries1
       assert_equal 3, entries1.size
