@@ -20,7 +20,6 @@
 require File.expand_path('../../../../../../test_helper', __FILE__)
 
 class SubversionAdapterTest < ActiveSupport::TestCase
-
   if repository_configured?('subversion')
     def setup
       @adapter = Redmine::Scm::Adapters::SubversionAdapter.new(self.class.subversion_repository_url)
