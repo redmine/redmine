@@ -20,7 +20,6 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class ProjectNestedSetTest < ActiveSupport::TestCase
-
   def setup
     User.current = nil
     Project.delete_all
