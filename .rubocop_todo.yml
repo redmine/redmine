@@ -878,7 +878,27 @@ Security/YAMLLoad:
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: inline, group
 Style/AccessModifierDeclarations:
-  Enabled: false
+  Exclude:
+    - 'app/controllers/application_controller.rb'
+    - 'app/controllers/repositories_controller.rb'
+    - 'app/models/group_builtin.rb'
+    - 'app/models/issue.rb'
+    - 'app/models/query.rb'
+    - 'app/models/repository.rb'
+    - 'app/models/repository/bazaar.rb'
+    - 'app/models/repository/cvs.rb'
+    - 'app/models/repository/git.rb'
+    - 'app/models/repository/mercurial.rb'
+    - 'app/models/user.rb'
+    - 'app/models/user_preference.rb'
+    - 'app/models/wiki_page.rb'
+    - 'lib/redmine/field_format.rb'
+    - 'lib/redmine/plugin.rb'
+    - 'lib/redmine/scm/adapters/bazaar_adapter.rb'
+    - 'lib/redmine/scm/adapters/cvs_adapter.rb'
+    - 'lib/redmine/scm/adapters/mercurial_adapter.rb'
+    - 'test/functional/issues_controller_test.rb'
+    - 'test/unit/lib/redmine/helpers/gantt_test.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
