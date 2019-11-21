@@ -23,7 +23,6 @@ module Redmine
   module Views
     module Builders
       class Structure < BlankSlate
-
         def initialize(request, response)
           @struct = [{}]
           @request = request
