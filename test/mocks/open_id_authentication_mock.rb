@@ -4,7 +4,6 @@
 #
 # http://www.northpub.com/articles/2007/04/02/testing-openid-support
 module OpenIdAuthentication
-
   EXTENSION_FIELDS = {'email'    => 'user@somedomain.com',
                       'nickname' => 'cool_user',
                       'country'  => 'US',
