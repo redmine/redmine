@@ -19,7 +19,6 @@
 
 module Redmine
   module Themes
-
     # Return an array of installed themes
     def self.themes
       @@installed_themes ||= scan_themes
