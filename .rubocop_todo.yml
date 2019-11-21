@@ -126,7 +126,27 @@ Layout/EmptyLinesAroundMethodBody:
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: empty_lines, empty_lines_except_namespace, empty_lines_special, no_empty_lines
 Layout/EmptyLinesAroundModuleBody:
-  Enabled: false
+  Exclude:
+    - 'app/helpers/attachments_helper.rb'
+    - 'app/helpers/custom_fields_helper.rb'
+    - 'app/helpers/email_addresses_helper.rb'
+    - 'app/helpers/gantt_helper.rb'
+    - 'app/helpers/issues_helper.rb'
+    - 'app/helpers/journals_helper.rb'
+    - 'app/helpers/reports_helper.rb'
+    - 'app/helpers/routes_helper.rb'
+    - 'app/helpers/timelog_helper.rb'
+    - 'app/helpers/trackers_helper.rb'
+    - 'app/helpers/versions_helper.rb'
+    - 'app/helpers/watchers_helper.rb'
+    - 'lib/redmine/access_control.rb'
+    - 'lib/redmine/activity.rb'
+    - 'lib/redmine/codeset_util.rb'
+    - 'lib/redmine/configuration.rb'
+    - 'lib/redmine/helpers/calendar.rb'
+    - 'lib/redmine/mime_type.rb'
+    - 'lib/redmine/plugin.rb'
+    - 'lib/redmine/search.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: AllowForAlignment, AllowBeforeTrailingComments, ForceEqualSignAlignment.
