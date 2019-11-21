@@ -18,7 +18,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class RedminePluginModelGenerator < Rails::Generators::NamedBase
-
   source_root File.expand_path("../templates", __FILE__)
   argument :model, :type => :string
   argument :attributes, :type => :array, :default => [], :banner => "field[:type][:index] field[:type][:index]"
