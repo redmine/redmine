@@ -20,7 +20,6 @@
 require File.expand_path('../../../../test_helper', __FILE__)
 
 class Redmine::MimeTypeTest < ActiveSupport::TestCase
-
   def test_of
     to_test = {'test.txt' => 'text/plain',
                'test.c' => 'text/x-c',
