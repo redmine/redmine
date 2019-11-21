@@ -155,15 +155,15 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert_equal NUM_HEAD, extra_info_heads.size
       extra_info_heads.delete_if { |x| x == "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c" }
       assert_equal NUM_HEAD - 2, extra_info_heads.size
-
-      del_revs = [
+      del_revs =
+        [
           "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c",
           "ed5bb786bbda2dee66a2d50faf51429dbc043a7b",
           "4f26664364207fa8b1af9f8722647ab2d4ac5d43",
           "deff712f05a90d96edbd70facc47d944be5897e3",
           "32ae898b720c2f7eec2723d5bdd558b4cb2d3ddf",
           "7e61ac704deecde634b51e59daa8110435dcb3da",
-         ]
+        ]
       @repository.changesets.each do |rev|
         rev.destroy if del_revs.detect {|r| r == rev.scmid.to_s }
       end
