@@ -394,6 +394,8 @@ module Redmine
           end
         end
 
+        private
+
         def git_cmd(args, options = {}, &block)
           repo_path = root_url || url
           full_args = ['--git-dir', repo_path]
@@ -412,7 +414,6 @@ module Redmine
           end
           ret
         end
-        private :git_cmd
       end
     end
   end
