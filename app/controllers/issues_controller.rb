@@ -62,11 +62,13 @@ class IssuesController < ApplicationController
         }
         format.atom {
           @issues = @query.issues(:limit => Setting.feeds_limit.to_i)
-          render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}")
+          render_feed(@issues,
+                      :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}")
         }
         format.csv  {
           @issues = @query.issues(:limit => Setting.issues_export_limit.to_i)
-          send_data(query_to_csv(@issues, @query, params[:csv]), :type => 'text/csv; header=present', :filename => 'issues.csv')
+          send_data(query_to_csv(@issues, @query, params[:csv]),
+                    :type => 'text/csv; header=present', :filename => 'issues.csv')
         }
         format.pdf  {
           @issues = @query.issues(:limit => Setting.issues_export_limit.to_i)
