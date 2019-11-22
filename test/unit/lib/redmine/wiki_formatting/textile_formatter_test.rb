@@ -133,32 +133,30 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
   end
 
   def test_nested_lists
-    raw = <<-RAW
-# Item 1
-# Item 2
-** Item 2a
-** Item 2b
-# Item 3
-** Item 3a
-RAW
-
-    expected = <<-EXPECTED
-<ol>
-  <li>Item 1</li>
-  <li>Item 2
-    <ul>
-      <li>Item 2a</li>
-      <li>Item 2b</li>
-    </ul>
-  </li>
-  <li>Item 3
-    <ul>
-      <li>Item 3a</li>
-    </ul>
-  </li>
-</ol>
-EXPECTED
-
+    raw = <<~RAW
+      # Item 1
+      # Item 2
+      ** Item 2a
+      ** Item 2b
+      # Item 3
+      ** Item 3a
+    RAW
+    expected = <<~EXPECTED
+      <ol>
+        <li>Item 1</li>
+        <li>Item 2
+          <ul>
+            <li>Item 2a</li>
+            <li>Item 2b</li>
+          </ul>
+        </li>
+        <li>Item 3
+          <ul>
+            <li>Item 3a</li>
+          </ul>
+        </li>
+      </ol>
+    EXPECTED
     assert_equal expected.gsub(%r{\s+}, ''), to_html(raw).gsub(%r{\s+}, '')
   end
 
