@@ -505,11 +505,11 @@ class IssuesController < ApplicationController
     if params[:time_entry]
       @time_entry.safe_attributes = params[:time_entry]
     end
-
     @issue.init_journal(User.current)
-
     issue_attributes = params[:issue]
-    issue_attributes[:assigned_to_id] = User.current.id if issue_attributes && issue_attributes[:assigned_to_id] == 'me'
+    if issue_attributes && issue_attributes[:assigned_to_id] == 'me'
+      issue_attributes[:assigned_to_id] = User.current.id
+    end
     if issue_attributes && params[:conflict_resolution]
       case params[:conflict_resolution]
       when 'overwrite'
