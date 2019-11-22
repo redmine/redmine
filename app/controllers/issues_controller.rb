@@ -144,10 +144,16 @@ class IssuesController < ApplicationController
       respond_to do |format|
         format.html {
           render_attachment_warning_if_needed(@issue)
-          flash[:notice] = l(:notice_issue_successful_create, :id => view_context.link_to("##{@issue.id}", issue_path(@issue), :title => @issue.subject))
+          flash[:notice] =
+            l(:notice_issue_successful_create,
+              :id => view_context.link_to("##{@issue.id}", issue_path(@issue),
+                                          :title => @issue.subject))
           redirect_after_create
         }
-        format.api  { render :action => 'show', :status => :created, :location => issue_url(@issue) }
+        format.api  {
+          render :action => 'show', :status => :created,
+          :location => issue_url(@issue)
+        }
       end
       return
     else
