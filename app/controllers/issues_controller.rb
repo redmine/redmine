@@ -137,6 +137,7 @@ class IssuesController < ApplicationController
     unless User.current.allowed_to?(:add_issues, @issue.project, :global => true)
       raise ::Unauthorized
     end
+
     call_hook(:controller_issues_new_before_save, { :params => params, :issue => @issue })
     @issue.save_attachments(params[:attachments] || (params[:issue] && params[:issue][:uploads]))
     if @issue.save
@@ -181,6 +182,7 @@ class IssuesController < ApplicationController
 
   def update
     return unless update_issue_from_params
+
     @issue.save_attachments(params[:attachments] ||
                              (params[:issue] && params[:issue][:uploads]))
     saved = false
@@ -219,6 +221,7 @@ class IssuesController < ApplicationController
 
   def issue_tab
     return render_error :status => 422 unless request.xhr?
+
     tab = params[:name]
 
     case tab
@@ -332,6 +335,7 @@ class IssuesController < ApplicationController
       unless User.current.allowed_to?(:copy_issues, @projects)
         raise ::Unauthorized
       end
+
       target_projects = @projects
       if attributes['project_id'].present?
         target_projects = Project.where(:id => attributes['project_id']).to_a
@@ -339,6 +343,7 @@ class IssuesController < ApplicationController
       unless User.current.allowed_to?(:add_issues, target_projects)
         raise ::Unauthorized
       end
+
       unless User.current.allowed_to?(:add_issue_watchers, @projects)
         copy_watchers = false
       end
@@ -539,6 +544,7 @@ class IssuesController < ApplicationController
         unless User.current.allowed_to?(:copy_issues, @copy_from.project)
           raise ::Unauthorized
         end
+
         @link_copy = link_copy?(params[:link_copy]) || request.get?
         @copy_attachments = params[:copy_attachments].present? || request.get?
         @copy_subtasks = params[:copy_subtasks].present? || request.get?
