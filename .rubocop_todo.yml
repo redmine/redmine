@@ -42,7 +42,6 @@ Layout/AlignHash:
 # Cop supports --auto-correct.
 Layout/ClosingHeredocIndentation:
   Exclude:
-    - 'test/unit/lib/redmine/wiki_formatting/textile_formatter_test.rb'
     - 'test/unit/lib/redmine/wiki_formatting_test.rb'
 
 # Cop supports --auto-correct.
@@ -190,7 +189,6 @@ Layout/IndentFirstHashElement:
 # SupportedStyles: squiggly, active_support, powerpack, unindent
 Layout/IndentHeredoc:
   Exclude:
-    - 'test/unit/lib/redmine/wiki_formatting/textile_formatter_test.rb'
     - 'test/unit/lib/redmine/wiki_formatting_test.rb'
 
 # Cop supports --auto-correct.
