@@ -599,7 +599,9 @@ class IssuesController < ApplicationController
   # Saves @issue and a time_entry from the parameters
   def save_issue_with_child_records
     Issue.transaction do
-      if params[:time_entry] && (params[:time_entry][:hours].present? || params[:time_entry][:comments].present?) && User.current.allowed_to?(:log_time, @issue.project)
+      if params[:time_entry] &&
+           (params[:time_entry][:hours].present? || params[:time_entry][:comments].present?) &&
+           User.current.allowed_to?(:log_time, @issue.project)
         time_entry = @time_entry || TimeEntry.new
         time_entry.project = @issue.project
         time_entry.issue = @issue
@@ -608,10 +610,19 @@ class IssuesController < ApplicationController
         time_entry.safe_attributes = params[:time_entry]
         @issue.time_entries << time_entry
       end
-
-      call_hook(:controller_issues_edit_before_save, { :params => params, :issue => @issue, :time_entry => time_entry, :journal => @issue.current_journal})
+      call_hook(
+        :controller_issues_edit_before_save,
+        {:params => params, :issue => @issue,
+         :time_entry => time_entry,
+         :journal => @issue.current_journal}
+      )
       if @issue.save
-        call_hook(:controller_issues_edit_after_save, { :params => params, :issue => @issue, :time_entry => time_entry, :journal => @issue.current_journal})
+        call_hook(
+          :controller_issues_edit_after_save,
+          {:params => params, :issue => @issue,
+           :time_entry => time_entry,
+           :journal => @issue.current_journal}
+        )
       else
         raise ActiveRecord::Rollback
       end
