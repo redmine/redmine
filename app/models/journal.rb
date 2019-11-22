@@ -229,6 +229,7 @@ class Journal < ActiveRecord::Base
         before = @attributes_before_change[attribute]
         after = journalized.send(attribute)
         next if before == after || (before.blank? && after.blank?)
+
         add_attribute_detail(attribute, before, after)
       end
     end
