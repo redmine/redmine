@@ -298,7 +298,7 @@ class IssuesController < ApplicationController
         end
       end
     end
-    @values_by_custom_field.delete_if {|k,v| v.blank?}
+    @values_by_custom_field.delete_if {|k, v| v.blank?}
     @custom_fields =
       edited_issues.map{|i| i.editable_custom_fields}.
         reduce(:&).select {|field| field.format.bulk_edit_supported}
@@ -495,7 +495,7 @@ class IssuesController < ApplicationController
       :next_issue_id => params[:next_issue_id],
       :issue_position => params[:issue_position],
       :issue_count => params[:issue_count]
-    }.reject {|k,v| k.blank?}
+    }.reject {|k, v| k.blank?}
   end
 
   # Used by #edit and #update to set some common instance variables
@@ -646,7 +646,11 @@ class IssuesController < ApplicationController
   def redirect_after_create
     if params[:continue]
       url_params = {}
-      url_params[:issue] = {:tracker_id => @issue.tracker, :parent_issue_id => @issue.parent_issue_id}.reject {|k,v| v.nil?}
+      url_params[:issue] =
+        {
+          :tracker_id => @issue.tracker,
+          :parent_issue_id => @issue.parent_issue_id
+        }.reject {|k, v| v.nil?}
       url_params[:back_url] = params[:back_url].presence
 
       if params[:project_id]
