@@ -43,8 +43,10 @@ class Repository::Git < Repository
 
   def report_last_commit
     return false if extra_info.nil?
+
     v = extra_info["extra_report_last_commit"]
     return false if v.nil?
+
     v.to_s != '0'
   end
 
@@ -244,11 +246,13 @@ class Repository::Git < Repository
   def latest_changesets(path,rev,limit=10)
     revisions = scm.revisions(path, nil, rev, :limit => limit, :all => false)
     return [] if revisions.nil? || revisions.empty?
+
     changesets.where(:scmid => revisions.map {|c| c.scmid}).to_a
   end
 
   def clear_extra_info_of_changesets
     return if extra_info.nil?
+
     v = extra_info["extra_report_last_commit"]
     write_attribute(:extra_info, nil)
     h = {}
