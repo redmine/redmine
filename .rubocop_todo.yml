@@ -15,7 +15,6 @@ Layout/AlignArguments:
     - 'lib/redmine/scm/adapters/bazaar_adapter.rb'
     - 'test/functional/journals_controller_test.rb'
     - 'test/functional/my_controller_test.rb'
-    - 'test/functional/roles_controller_test.rb'
     - 'test/integration/api_test/attachments_test.rb'
     - 'test/integration/api_test/groups_test.rb'
     - 'test/integration/api_test/issue_relations_test.rb'

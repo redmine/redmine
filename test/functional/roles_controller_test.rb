@@ -69,8 +69,10 @@ class RolesControllerTest < Redmine::ControllerTest
 
     get :new
     assert_response :success
-    assert_equal %w(view_documents view_issues),
+    assert_equal(
+      %w(view_documents view_issues),
       css_select('input[name="role[permissions][]"][checked=checked]').map {|e| e.attr('value')}.sort
+    )
   end
 
   def test_new_with_copy
