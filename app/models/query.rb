@@ -358,7 +358,9 @@ class Query < ActiveRecord::Base
   # Returns true if the query is visible to +user+ or the current user.
   def visible?(user=User.current)
     return true if user.admin?
+
     return false unless project.nil? || user.allowed_to?(self.class.view_permission, project)
+
     case visibility
     when VISIBILITY_PUBLIC
       true
@@ -472,8 +474,10 @@ class Query < ActiveRecord::Base
 
   def editable_by?(user)
     return false unless user
+
     # Admin can edit them all and regular users can edit their private queries
     return true if user.admin? || (is_private? && self.user_id == user.id)
+
     # Members can not edit public queries that are for all project (only admin is allowed to)
     is_public? && !is_global? && user.allowed_to?(:manage_public_queries, project)
   end
@@ -654,6 +658,7 @@ class Query < ActiveRecord::Base
   def add_filter(field, operator, values=nil)
     # values must be an array
     return unless values.nil? || values.is_a?(Array)
+
     # check if field is defined as an available filter
     if available_filters.has_key? field
       filters[field] = {:operator => operator, :values => (values || [''])}
@@ -662,9 +667,11 @@ class Query < ActiveRecord::Base
 
   def add_short_filter(field, expression)
     return unless expression && available_filters.has_key?(field)
+
     field_type = available_filters[field][:type]
     operators_by_filter_type[field_type].sort.reverse.detect do |operator|
       next unless expression =~ /^#{Regexp.escape(operator)}(.*)$/
+
       values = $1
       add_filter field, operator, values.present? ? values.split('|') : ['']
     end || add_filter(field, '=', expression.to_s.split('|'))
@@ -723,6 +730,7 @@ class Query < ActiveRecord::Base
 
   def columns
     return [] if available_columns.empty?
+
     # preserve the column_names order
     cols = (has_default_columns? ? default_columns_names : column_names).collect do |name|
        available_columns.find { |col| col.name == name }
@@ -894,8 +902,10 @@ class Query < ActiveRecord::Base
     filters_clauses = []
     filters.each_key do |field|
       next if field == "subproject_id"
+
       v = values_for(field).clone
       next unless v and !v.empty?
+
       operator = operator_for(field)
 
       # "me" value substitution
@@ -1062,6 +1072,7 @@ class Query < ActiveRecord::Base
     db_field = 'value'
     filter = @available_filters[field]
     return nil unless filter
+
     if filter[:field].format.target_class && filter[:field].format.target_class <= User
       if value.delete('me')
         value.push User.current.id.to_s
