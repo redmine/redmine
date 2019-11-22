@@ -45,9 +45,8 @@ class SubversionAdapterTest < ActiveSupport::TestCase
     end
 
     def test_info_nil
-      adpt = Redmine::Scm::Adapters::SubversionAdapter.new(
-                "file:///invalid/invalid/"
-                )
+      adpt = Redmine::Scm::Adapters::SubversionAdapter.
+               new("file:///invalid/invalid/")
       assert_nil adpt.info
     end
 
