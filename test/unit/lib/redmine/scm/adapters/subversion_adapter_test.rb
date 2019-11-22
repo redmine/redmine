@@ -31,10 +31,10 @@ class SubversionAdapterTest < ActiveSupport::TestCase
     end
 
     def test_scm_version
-      to_test = { "svn, version 1.6.13 (r1002816)\n"  => [1,6,13],
-                  "svn, versione 1.6.13 (r1002816)\n" => [1,6,13],
-                  "1.6.1\n1.7\n1.8"                   => [1,6,1],
-                  "1.6.2\r\n1.8.1\r\n1.9.1"           => [1,6,2]}
+      to_test = {"svn, version 1.6.13 (r1002816)\n"  => [1, 6, 13],
+                 "svn, versione 1.6.13 (r1002816)\n" => [1, 6, 13],
+                 "1.6.1\n1.7\n1.8"                   => [1, 6, 1],
+                 "1.6.2\r\n1.8.1\r\n1.9.1"           => [1, 6, 2]}
       to_test.each do |s, v|
         test_scm_version_for(s, v)
       end
