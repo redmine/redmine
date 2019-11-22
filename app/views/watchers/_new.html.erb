@@ -14,12 +14,21 @@
   <%= hidden_field_tag 'project_id', @project.id if @project %>
 
   <p><%= label_tag 'user_search', l(:label_user_search) %><%= text_field_tag 'user_search', nil %></p>
-  <%= javascript_tag "observeSearchfield('user_search', 'users_for_watcher', '#{ escape_javascript url_for(:controller => 'watchers',
+  <%= javascript_tag(
+        "observeSearchfield(
+          'user_search',
+          'users_for_watcher',
+          '#{escape_javascript(
+               url_for(
+                 :controller => 'watchers',
                  :action => 'autocomplete_for_user',
                  :object_type => (watchables.present? ? watchables.first.class.name.underscore : nil),
                  :object_id => (watchables.present? && watchables.size == 1 ? watchables.first.id : nil),
-                 :project_id => @project) }')" %>
-
+                 :project_id => @project
+               )
+             )}'
+         )"
+       ) %>
   <div id="users_for_watcher">
     <%= principals_check_box_tags('watcher[user_ids][]', users) %>
   </div>
