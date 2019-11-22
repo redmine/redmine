@@ -40,11 +40,6 @@ Layout/AlignHash:
   Enabled: false
 
 # Cop supports --auto-correct.
-Layout/ClosingHeredocIndentation:
-  Exclude:
-    - 'test/unit/lib/redmine/wiki_formatting_test.rb'
-
-# Cop supports --auto-correct.
 Layout/ClosingParenthesisIndentation:
   Enabled: false
 

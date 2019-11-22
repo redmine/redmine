@@ -37,16 +37,14 @@ class Redmine::WikiFormattingTest < ActiveSupport::TestCase
   end
 
   def test_should_link_urls_and_email_addresses
-    raw = <<-DIFF
-This is a sample *text* with a link: http://www.redmine.org
-and an email address foo@example.net
-DIFF
-
-    expected = <<-EXPECTED
-<p>This is a sample *text* with a link: <a class="external" href="http://www.redmine.org">http://www.redmine.org</a><br />
-and an email address <a class="email" href="mailto:foo@example.net">foo@example.net</a></p>
-EXPECTED
-
+    raw = <<~DIFF
+      This is a sample *text* with a link: http://www.redmine.org
+      and an email address foo@example.net
+    DIFF
+    expected = <<~EXPECTED
+      <p>This is a sample *text* with a link: <a class="external" href="http://www.redmine.org">http://www.redmine.org</a><br />
+      and an email address <a class="email" href="mailto:foo@example.net">foo@example.net</a></p>
+    EXPECTED
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), Redmine::WikiFormatting::NullFormatter::Formatter.new(raw).to_html.gsub(%r{[\r\n\t]}, '')
   end
 
@@ -57,16 +55,14 @@ EXPECTED
   end
 
   def test_links_separated_with_line_break_should_link
-    raw = <<-DIFF
-link: https://www.redmine.org
-http://www.redmine.org
-DIFF
-
-    expected = <<-EXPECTED
-<p>link: <a class="external" href="https://www.redmine.org">https://www.redmine.org</a><br />
-<a class="external" href="http://www.redmine.org">http://www.redmine.org</a></p>
-EXPECTED
-
+    raw = <<~DIFF
+      link: https://www.redmine.org
+      http://www.redmine.org
+    DIFF
+    expected = <<~EXPECTED
+      <p>link: <a class="external" href="https://www.redmine.org">https://www.redmine.org</a><br />
+      <a class="external" href="http://www.redmine.org">http://www.redmine.org</a></p>
+    EXPECTED
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), Redmine::WikiFormatting::NullFormatter::Formatter.new(raw).to_html.gsub(%r{[\r\n\t]}, '')
   end
 
