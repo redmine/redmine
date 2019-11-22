@@ -236,24 +236,22 @@ EXPECTED
   end
 
   def test_table
-    raw = <<-RAW
-This is a table with empty cells:
+    raw = <<~RAW
+      This is a table with empty cells:
 
-|cell11|cell12||
-|cell21||cell23|
-|cell31|cell32|cell33|
-RAW
+      |cell11|cell12||
+      |cell21||cell23|
+      |cell31|cell32|cell33|
+    RAW
+    expected = <<~EXPECTED
+      <p>This is a table with empty cells:</p>
 
-    expected = <<-EXPECTED
-<p>This is a table with empty cells:</p>
-
-<table>
-  <tr><td>cell11</td><td>cell12</td><td></td></tr>
-  <tr><td>cell21</td><td></td><td>cell23</td></tr>
-  <tr><td>cell31</td><td>cell32</td><td>cell33</td></tr>
-</table>
-EXPECTED
-
+      <table>
+        <tr><td>cell11</td><td>cell12</td><td></td></tr>
+        <tr><td>cell21</td><td></td><td>cell23</td></tr>
+        <tr><td>cell31</td><td>cell32</td><td>cell33</td></tr>
+      </table>
+    EXPECTED
     assert_equal expected.gsub(%r{\s+}, ''), to_html(raw).gsub(%r{\s+}, '')
   end
 
