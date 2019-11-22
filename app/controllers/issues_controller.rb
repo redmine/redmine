@@ -89,8 +89,11 @@ class IssuesController < ApplicationController
   def show
     @journals = @issue.visible_journals_with_index
     @has_changesets = @issue.changesets.visible.preload(:repository, :user).exists?
-    @relations = @issue.relations.select {|r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
-
+    @relations =
+      @issue.relations.
+        select {|r|
+          r.other_issue(@issue) && r.other_issue(@issue).visible?
+        }
     @journals.reverse! if User.current.wants_comments_in_reverse_order?
 
     if User.current.allowed_to?(:view_time_entries, @project)
@@ -112,9 +115,13 @@ class IssuesController < ApplicationController
         @changesets = @issue.changesets.visible.preload(:repository, :user).to_a
         @changesets.reverse! if User.current.wants_comments_in_reverse_order?
       }
-      format.atom { render :template => 'journals/index', :layout => false, :content_type => 'application/atom+xml' }
+      format.atom {
+        render :template => 'journals/index', :layout => false,
+        :content_type => 'application/atom+xml'
+      }
       format.pdf  {
-        send_file_headers! :type => 'application/pdf', :filename => "#{@project.identifier}-#{@issue.id}.pdf"
+        send_file_headers!(:type => 'application/pdf',
+                           :filename => "#{@project.identifier}-#{@issue.id}.pdf")
       }
     end
   end
