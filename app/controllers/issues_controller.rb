@@ -166,7 +166,8 @@ class IssuesController < ApplicationController
 
   def update
     return unless update_issue_from_params
-    @issue.save_attachments(params[:attachments] || (params[:issue] && params[:issue][:uploads]))
+    @issue.save_attachments(params[:attachments] ||
+                             (params[:issue] && params[:issue][:uploads]))
     saved = false
     begin
       saved = save_issue_with_child_records
@@ -174,16 +175,23 @@ class IssuesController < ApplicationController
       @conflict = true
       if params[:last_journal_id]
         @conflict_journals = @issue.journals_after(params[:last_journal_id]).to_a
-        @conflict_journals.reject!(&:private_notes?) unless User.current.allowed_to?(:view_private_notes, @issue.project)
+        unless User.current.allowed_to?(:view_private_notes, @issue.project)
+          @conflict_journals.reject!(&:private_notes?)
+        end
       end
     end
 
     if saved
       render_attachment_warning_if_needed(@issue)
-      flash[:notice] = l(:notice_successful_update) unless @issue.current_journal.new_record? || params[:no_flash]
-
+      unless @issue.current_journal.new_record? || params[:no_flash]
+        flash[:notice] = l(:notice_successful_update)
+      end
       respond_to do |format|
-        format.html { redirect_back_or_default issue_path(@issue, previous_and_next_issue_ids_params) }
+        format.html {
+          redirect_back_or_default(
+            issue_path(@issue, previous_and_next_issue_ids_params)
+          )
+        }
         format.api  { render_api_ok }
       end
     else
