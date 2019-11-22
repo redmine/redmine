@@ -276,24 +276,22 @@ EXPECTED
   end
 
   def test_table_with_trailing_whitespace
-    raw = <<-RAW
-This is a table with trailing whitespace in one row:
+    raw = <<~RAW
+      This is a table with trailing whitespace in one row:
 
-|cell11|cell12|
-|cell21|cell22|
-|cell31|cell32|
-RAW
+      |cell11|cell12|
+      |cell21|cell22|
+      |cell31|cell32|
+    RAW
+    expected = <<~EXPECTED
+      <p>This is a table with trailing whitespace in one row:</p>
 
-    expected = <<-EXPECTED
-<p>This is a table with trailing whitespace in one row:</p>
-
-<table>
-  <tr><td>cell11</td><td>cell12</td></tr>
-  <tr><td>cell21</td><td>cell22</td></tr>
-  <tr><td>cell31</td><td>cell32</td></tr>
-</table>
-EXPECTED
-
+      <table>
+        <tr><td>cell11</td><td>cell12</td></tr>
+        <tr><td>cell21</td><td>cell22</td></tr>
+        <tr><td>cell31</td><td>cell32</td></tr>
+      </table>
+    EXPECTED
     assert_equal expected.gsub(%r{\s+}, ''), to_html(raw).gsub(%r{\s+}, '')
   end
 
