@@ -578,6 +578,7 @@ class Mailer < ActionMailer::Base
     if options[:version] && target_version_id.blank?
       raise ActiveRecord::RecordNotFound.new("Couldn't find Version named #{options[:version]}")
     end
+
     user_ids = options[:users]
 
     scope = Issue.open.where("#{Issue.table_name}.assigned_to_id IS NOT NULL" +
@@ -704,6 +705,7 @@ class Mailer < ActionMailer::Base
 
   def self.deliver_mail(mail)
     return false if mail.to.blank? && mail.cc.blank? && mail.bcc.blank?
+
     begin
       # Log errors when raise_delivery_errors is set to false, Rails does not
       mail.raise_delivery_errors = true
