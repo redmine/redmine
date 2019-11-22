@@ -622,18 +622,16 @@ EXPECTED
   end
 
   def test_should_not_handle_as_preformatted_text_tags_that_starts_with_pre
-    text = <<-STR
-<pree>
-  This is some text
-</pree>
-STR
-
-    expected = <<-EXPECTED
-<p>&lt;pree&gt;<br />
-  This is some text<br />
-&lt;/pree&gt;</p>
-EXPECTED
-
+    text = <<~STR
+      <pree>
+        This is some text
+      </pree>
+    STR
+    expected = <<~EXPECTED
+      <p>&lt;pree&gt;<br />
+        This is some text<br />
+      &lt;/pree&gt;</p>
+    EXPECTED
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), to_html(text).gsub(%r{[\r\n\t]}, '')
   end
 
