@@ -197,41 +197,39 @@ EXPECTED
 
   def test_blockquote
     # orig raw text
-    raw = <<-RAW
-John said:
-> Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.
-> Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
-> * Donec odio lorem,
-> * sagittis ac,
-> * malesuada in,
-> * adipiscing eu, dolor.
->
-> >Nulla varius pulvinar diam. Proin id arcu id lorem scelerisque condimentum. Proin vehicula turpis vitae lacus.
-> Proin a tellus. Nam vel neque.
+    raw = <<~RAW
+      John said:
+      > Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.
+      > Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
+      > * Donec odio lorem,
+      > * sagittis ac,
+      > * malesuada in,
+      > * adipiscing eu, dolor.
+      >
+      > >Nulla varius pulvinar diam. Proin id arcu id lorem scelerisque condimentum. Proin vehicula turpis vitae lacus.
+      > Proin a tellus. Nam vel neque.
 
-He's right.
-RAW
-
+      He's right.
+    RAW
     # expected html
-    expected = <<-EXPECTED
-<p>John said:</p>
-<blockquote>
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.<br />
-Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
-<ul>
-  <li>Donec odio lorem,</li>
-  <li>sagittis ac,</li>
-  <li>malesuada in,</li>
-  <li>adipiscing eu, dolor.</li>
-</ul>
-<blockquote>
-<p>Nulla varius pulvinar diam. Proin id arcu id lorem scelerisque condimentum. Proin vehicula turpis vitae lacus.</p>
-</blockquote>
-<p>Proin a tellus. Nam vel neque.</p>
-</blockquote>
-<p>He's right.</p>
-EXPECTED
-
+    expected = <<~EXPECTED
+      <p>John said:</p>
+      <blockquote>
+      Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.<br />
+      Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
+      <ul>
+        <li>Donec odio lorem,</li>
+        <li>sagittis ac,</li>
+        <li>malesuada in,</li>
+        <li>adipiscing eu, dolor.</li>
+      </ul>
+      <blockquote>
+      <p>Nulla varius pulvinar diam. Proin id arcu id lorem scelerisque condimentum. Proin vehicula turpis vitae lacus.</p>
+      </blockquote>
+      <p>Proin a tellus. Nam vel neque.</p>
+      </blockquote>
+      <p>He's right.</p>
+    EXPECTED
     assert_equal expected.gsub(%r{\s+}, ''), to_html(raw).gsub(%r{\s+}, '')
   end
 
