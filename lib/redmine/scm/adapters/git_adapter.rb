@@ -76,12 +76,14 @@ module Redmine
 
         def branches
           return @branches if @branches
+
           @branches = []
           cmd_args = %w|branch --no-color --verbose --no-abbrev|
           git_cmd(cmd_args) do |io|
             io.each_line do |line|
               branch_rev = line.match('\s*(\*?)\s*(.*?)\s*([0-9a-f]{40}).*$')
               next unless branch_rev
+
               bran = GitBranch.new(scm_iconv('UTF-8', @path_encoding, branch_rev[2]))
               bran.revision =  branch_rev[3]
               bran.scmid    =  branch_rev[3]
@@ -96,6 +98,7 @@ module Redmine
 
         def tags
           return @tags if @tags
+
           @tags = []
           cmd_args = %w|tag|
           git_cmd(cmd_args) do |io|
@@ -109,8 +112,10 @@ module Redmine
         def default_branch
           bras = self.branches
           return unless bras
+
           default_bras = bras.detect{|x| x.is_default == true}
           return default_bras.to_s if default_bras
+
           master_bras = bras.detect{|x| x.to_s == 'master'}
           master_bras ? 'master' : bras.first.to_s
         end
@@ -177,6 +182,7 @@ module Redmine
 
         def lastrev(path, rev)
           return nil if path.nil?
+
           cmd_args = %w|log --no-color --encoding=UTF-8 --date=iso --pretty=fuller --no-merges -n 1|
           cmd_args << '--no-renames' if self.class.client_version_above?([2, 9])
           cmd_args << rev if rev
@@ -369,6 +375,7 @@ module Redmine
           git_cmd(cmd_args) {|io| io.binmode; content = io.read}
           # git annotates binary files
           return nil if ScmData.binary?(content)
+
           identifier = ''
           # git shows commit author on the first occurrence only
           authors_by_commit = {}
@@ -437,6 +444,7 @@ module Redmine
           if $? && $?.exitstatus != 0
             raise ScmCommandAborted, "git exited with non-zero status: #{$?.exitstatus}"
           end
+
           ret
         end
       end
