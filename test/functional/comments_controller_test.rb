@@ -28,12 +28,15 @@ class CommentsControllerTest < Redmine::ControllerTest
 
   def test_add_comment
     @request.session[:user_id] = 2
-    post :create, :params => {
+    post(
+      :create,
+      :params => {
         :id => 1,
         :comment => {
           :comments => 'This is a test comment'
         }
       }
+    )
     assert_redirected_to '/news/1'
 
     comment = News.find(1).comments.last
@@ -45,12 +48,15 @@ class CommentsControllerTest < Redmine::ControllerTest
   def test_empty_comment_should_not_be_added
     @request.session[:user_id] = 2
     assert_no_difference 'Comment.count' do
-      post :create, :params => {
+      post(
+        :create,
+        :params => {
           :id => 1,
           :comment => {
             :comments => ''
           }
         }
+      )
       assert_response :redirect
       assert_redirected_to '/news/1'
     end
@@ -60,12 +66,15 @@ class CommentsControllerTest < Redmine::ControllerTest
     News.any_instance.stubs(:commentable?).returns(false)
     @request.session[:user_id] = 2
     assert_no_difference 'Comment.count' do
-      post :create, :params => {
+      post(
+        :create,
+        :params => {
           :id => 1,
           :comment => {
             :comments => 'This is a test comment'
           }
         }
+      )
       assert_response 403
     end
   end
@@ -73,10 +82,13 @@ class CommentsControllerTest < Redmine::ControllerTest
   def test_destroy_comment
     comments_count = News.find(1).comments.size
     @request.session[:user_id] = 2
-    delete :destroy, :params => {
+    delete(
+      :destroy,
+      :params => {
         :id => 1,
         :comment_id => 2
       }
+    )
     assert_redirected_to '/news/1'
     assert_nil Comment.find_by_id(2)
     assert_equal comments_count - 1, News.find(1).comments.size
