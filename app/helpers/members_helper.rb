@@ -29,7 +29,7 @@ module MembersHelper
             'div',
             principals_check_box_tags('membership[user_ids][]', principals), :id => 'principals'),
           :class => 'objects-selection'
-    )
+        )
     links =
       pagination_links_full(principal_pages,
                             principal_count,
