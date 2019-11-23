@@ -108,12 +108,16 @@ class ChangesetTest < ActiveSupport::TestCase
       assert_equal 1, time.issue_id
       assert_equal 1, time.project_id
       assert_equal 2, time.user_id
-      assert_equal expected_hours, time.hours,
-          "@#{syntax} should be logged as #{expected_hours} hours but was #{time.hours}"
+      assert_equal(
+        expected_hours, time.hours,
+        "@#{syntax} should be logged as #{expected_hours} hours but was #{time.hours}"
+      )
       assert_equal Date.yesterday, time.spent_on
       assert time.activity.is_default?
-      assert time.comments.include?('r520'),
-            "r520 was expected in time_entry comments: #{time.comments}"
+      assert(
+        time.comments.include?('r520'),
+        "r520 was expected in time_entry comments: #{time.comments}"
+      )
     end
   end
 
