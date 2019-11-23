@@ -54,7 +54,7 @@ module QueriesHelper
     end
     s = options_for_select([[]] + ungrouped)
     if grouped.present?
-      localized_grouped = grouped.map {|k,v| [k.is_a?(Symbol) ? l(k) : k.to_s, v]}
+      localized_grouped = grouped.map {|k, v| [k.is_a?(Symbol) ? l(k) : k.to_s, v]}
       s << grouped_options_for_select(localized_grouped)
     end
     s
