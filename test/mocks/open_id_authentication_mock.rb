@@ -15,7 +15,7 @@ module OpenIdAuthentication
 
   protected
 
-    def authenticate_with_open_id(identity_url = params[:openid_url], options = {})
+  def authenticate_with_open_id(identity_url = params[:openid_url], options = {})
       if User.find_by_identity_url(identity_url) || identity_url.include?('good')
         extension_response_fields = {}
 
@@ -38,12 +38,12 @@ module OpenIdAuthentication
         logger.info "OpenID authentication failed: #{identity_url}"
         yield Result[:failed], identity_url, nil
       end
-    end
+  end
 
   private
 
-    def add_simple_registration_fields(open_id_response, fields)
+  def add_simple_registration_fields(open_id_response, fields)
       open_id_response.add_extension_arg('sreg', 'required', [ fields[:required] ].flatten * ',') if fields[:required]
       open_id_response.add_extension_arg('sreg', 'optional', [ fields[:optional] ].flatten * ',') if fields[:optional]
-    end
+  end
 end
