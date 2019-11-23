@@ -138,7 +138,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       # with limit
       changesets = @repository.latest_changesets('', nil, 2)
       assert_equal 2, changesets.size
-      assert_equal @repository.latest_changesets('', nil).slice(0,2), changesets
+      assert_equal @repository.latest_changesets('', nil).slice(0, 2), changesets
 
       # with path
       changesets = @repository.latest_changesets('subversion_test/folder', nil)
