@@ -176,15 +176,17 @@ module Redmine
               id = lines[0].split[1]
               author = lines[1].match('Author:\s+(.*)$')[1]
               time = Time.parse(lines[4].match('CommitDate:\s+(.*)$')[1])
-
-              Revision.new({
-                :identifier => id,
-                :scmid      => id,
-                :author     => author,
-                :time       => time,
-                :message    => nil,
-                :paths      => nil
-                })
+              Revision.
+                new(
+                  {
+                    :identifier => id,
+                    :scmid      => id,
+                    :author     => author,
+                    :time       => time,
+                    :message    => nil,
+                    :paths      => nil
+                  }
+                )
           rescue NoMethodError => e
               logger.error("The revision '#{path}' has a wrong format")
               return nil
@@ -236,15 +238,19 @@ module Redmine
                 parents_str = $2
                 if [1, 2].include?(parsing_descr)
                   parsing_descr = 0
-                  revision = Revision.new({
-                    :identifier => changeset[:commit],
-                    :scmid      => changeset[:commit],
-                    :author     => changeset[:author],
-                    :time       => Time.parse(changeset[:date]),
-                    :message    => changeset[:description],
-                    :paths      => files,
-                    :parents    => changeset[:parents]
-                  })
+                  revision =
+                    Revision.
+                      new(
+                        {
+                          :identifier => changeset[:commit],
+                          :scmid      => changeset[:commit],
+                          :author     => changeset[:author],
+                          :time       => Time.parse(changeset[:date]),
+                          :message    => changeset[:description],
+                          :paths      => files,
+                          :parents    => changeset[:parents]
+                        }
+                      )
                   if block_given?
                     yield revision
                   else
@@ -290,15 +296,19 @@ module Redmine
             end
 
             if changeset[:commit]
-              revision = Revision.new({
-                :identifier => changeset[:commit],
-                :scmid      => changeset[:commit],
-                :author     => changeset[:author],
-                :time       => Time.parse(changeset[:date]),
-                :message    => changeset[:description],
-                :paths      => files,
-                :parents    => changeset[:parents]
-                 })
+              revision =
+                Revision.
+                  new(
+                    {
+                      :identifier => changeset[:commit],
+                      :scmid      => changeset[:commit],
+                      :author     => changeset[:author],
+                      :time       => Time.parse(changeset[:date]),
+                      :message    => changeset[:description],
+                      :paths      => files,
+                      :parents    => changeset[:parents]
+                    }
+                  )
               if block_given?
                 yield revision
               else
