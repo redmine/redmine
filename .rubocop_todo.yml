@@ -52,7 +52,6 @@ Layout/EmptyLines:
     - 'config/routes.rb'
     - 'db/migrate/001_setup.rb'
     - 'lib/redmine/sudo_mode.rb'
-    - 'test/helpers/application_helper_test.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.

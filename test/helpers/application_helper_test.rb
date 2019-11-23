@@ -1893,7 +1893,6 @@ class ApplicationHelperTest < Redmine::HelperTest
     assert_match(/name="new_issue-[a-z0-9]{8}"/, labelled_form_for(Issue.new){})
   end
 
-
   private
 
   def wiki_links_with_special_characters
