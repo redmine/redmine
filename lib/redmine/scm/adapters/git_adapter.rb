@@ -55,7 +55,7 @@ module Redmine
           end
 
           def scm_version_from_command_line
-            shellout("#{sq_bin} --version") { |io| io.read }.to_s
+            shellout("#{sq_bin} --version") {|io| io.read}.to_s
           end
         end
 
@@ -171,7 +171,7 @@ module Redmine
           cmd_args << rev if rev
           cmd_args << "--" << path unless path.empty?
           lines = []
-          git_cmd(cmd_args) { |io| lines = io.readlines }
+          git_cmd(cmd_args) {|io| lines = io.readlines}
           begin
               id = lines[0].split[1]
               author = lines[1].match('Author:\s+(.*)$')[1]
@@ -345,7 +345,7 @@ module Redmine
           cmd_args << "-p" << git_identifier << "--" <<  scm_iconv(@path_encoding, 'UTF-8', path)
           blame = Annotate.new
           content = nil
-          git_cmd(cmd_args) { |io| io.binmode; content = io.read }
+          git_cmd(cmd_args) {|io| io.binmode; content = io.read}
           # git annotates binary files
           return nil if ScmData.binary?(content)
           identifier = ''
@@ -409,7 +409,7 @@ module Redmine
           full_args += args
           ret =
             shellout(
-              self.class.sq_bin + ' ' + full_args.map { |e| shell_quote e.to_s }.join(' '),
+              self.class.sq_bin + ' ' + full_args.map {|e| shell_quote e.to_s}.join(' '),
               options,
               &block
             )
