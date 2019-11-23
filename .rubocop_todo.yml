@@ -266,11 +266,6 @@ Layout/SpaceAroundOperators:
   Enabled: false
 
 # Cop supports --auto-correct.
-Layout/SpaceBeforeComma:
-  Exclude:
-    - 'test/mocks/open_id_authentication_mock.rb'
-
-# Cop supports --auto-correct.
 # Configuration parameters: AllowForAlignment.
 Layout/SpaceBeforeFirstArg:
   Exclude:
