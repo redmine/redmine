@@ -2436,9 +2436,11 @@ class IssueTest < ActiveSupport::TestCase
     assert !Issue.new(:due_date => today).overdue?
     assert !Issue.new(:due_date => (today + 1.day).to_date).overdue?
     assert !Issue.new(:due_date => nil).overdue?
-    assert !Issue.new(:due_date => (today - 1.day).to_date,
-                      :status => IssueStatus.where(:is_closed => true).first
-                      ).overdue?
+    assert !Issue.
+              new(
+                :due_date => (today - 1.day).to_date,
+                :status => IssueStatus.where(:is_closed => true).first
+              ).overdue?
   end
 
   test "#behind_schedule? should be false if the issue has no start_date" do
