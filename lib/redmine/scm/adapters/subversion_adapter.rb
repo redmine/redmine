@@ -79,6 +79,7 @@ module Redmine
             end
           end
           return nil if $? && $?.exitstatus != 0
+
           info
         rescue CommandFailed
           return nil
@@ -102,6 +103,7 @@ module Redmine
                 # Skip directory if there is no commit date (usually that
                 # means that we don't have read access to it)
                 next if entry['kind'] == 'dir' && commit_date.nil?
+
                 name = entry['name']['__content__']
                 entries << Entry.new({:name => URI.unescape(name),
                             :path => ((path.empty? ? "" : "#{path}/") + name),
@@ -120,6 +122,7 @@ module Redmine
             end
           end
           return nil if $? && $?.exitstatus != 0
+
           logger.debug("Found #{entries.size} entries in the repository for #{target(path)}") if logger && logger.debug?
           entries.sort_by_name
         end
@@ -143,6 +146,7 @@ module Redmine
             end
           end
           return nil if $? && $?.exitstatus != 0
+
           properties
         end
 
@@ -182,6 +186,7 @@ module Redmine
             end
           end
           return nil if $? && $?.exitstatus != 0
+
           revisions
         end
 
@@ -203,6 +208,7 @@ module Redmine
             end
           end
           return nil if $? && $?.exitstatus != 0
+
           diff
         end
 
@@ -216,6 +222,7 @@ module Redmine
             cat = io.read
           end
           return nil if $? && $?.exitstatus != 0
+
           cat
         end
 
@@ -227,6 +234,7 @@ module Redmine
           shellout(cmd) do |io|
             io.each_line do |line|
               next unless line =~ %r{^\s*(\d+)\s*(\S+)\s(.*)$}
+
               rev = $1
               blame.add_line(
                 $3.rstrip,
@@ -239,6 +247,7 @@ module Redmine
             end
           end
           return nil if $? && $?.exitstatus != 0
+
           blame
         end
 
