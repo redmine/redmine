@@ -188,19 +188,19 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
                                    :parent_issue_id => @issue.id,
                                    :start_date => (today - 1),
                                    :due_date => (today + 2))
-                      )
+                     )
     @child2 = Issue.generate!(
                        attrs.merge(:subject => 'child2',
                                    :parent_issue_id => @issue.id,
                                    :start_date => today,
                                    :due_date => (today + 7))
-                       )
+                     )
     @grandchild = Issue.generate!(
                           attrs.merge(:subject => 'grandchild',
                                       :parent_issue_id => @child1.id,
                                       :start_date => (today - 1),
                                       :due_date => (today + 2))
-                          )
+                        )
     @output_buffer = @gantt.subjects
     # parent task 44px
     assert_select 'div.issue-subject[style*="left:44px"]', /#{@issue.subject}/
