@@ -172,7 +172,8 @@ module Redmine
       # Builtin macros
       desc "Sample macro."
       macro :hello_world do |obj, args, text|
-        h("Hello world! Object: #{obj.class.name}, " +
+        h(
+          "Hello world! Object: #{obj.class.name}, " +
           (args.empty? ? "Called with no argument" : "Arguments: #{args.join(', ')}") +
           " and " + (text.present? ? "a #{text.size} bytes long block of text." : "no block of text.")
         )
