@@ -151,11 +151,12 @@ class IssuesTest < Redmine::IntegrationTest
   end
 
   def test_next_and_previous_links_should_be_displayed_after_saved_query
-    query = IssueQuery.create!(:name => 'Calendar Query',
-      :visibility => IssueQuery::VISIBILITY_PUBLIC,
-      :filters => {'tracker_id' => {:operator => '=', :values => ['1']}}
-    )
-
+    query =
+      IssueQuery.create!(
+        :name => 'Calendar Query',
+        :visibility => IssueQuery::VISIBILITY_PUBLIC,
+        :filters => {'tracker_id' => {:operator => '=', :values => ['1']}}
+      )
     with_settings :default_language => 'en' do
       get "/projects/ecookbook/issues?set_filter=1&query_id=#{query.id}"
       assert_response :success
