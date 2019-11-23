@@ -69,11 +69,14 @@ module Redmine
               doc = parse_xml(output)
               # root_url = doc.elements["info/entry/repository/root"].text
               info = Info.new({:root_url => doc['info']['entry']['repository']['root']['__content__'],
-                               :lastrev => Revision.new({
-                                 :identifier => doc['info']['entry']['commit']['revision'],
-                                 :time => Time.parse(doc['info']['entry']['commit']['date']['__content__']).localtime,
-                                 :author => (doc['info']['entry']['commit']['author'] ? doc['info']['entry']['commit']['author']['__content__'] : "")
-                               })
+                               :lastrev =>
+                                 Revision.new(
+                                   {
+                                     :identifier => doc['info']['entry']['commit']['revision'],
+                                     :time => Time.parse(doc['info']['entry']['commit']['date']['__content__']).localtime,
+                                     :author => (doc['info']['entry']['commit']['author'] ? doc['info']['entry']['commit']['author']['__content__'] : "")
+                                   }
+                                 )
                              })
             rescue
             end
@@ -109,11 +112,14 @@ module Redmine
                             :path => ((path.empty? ? "" : "#{path}/") + name),
                             :kind => entry['kind'],
                             :size => ((s = entry['size']) ? s['__content__'].to_i : nil),
-                            :lastrev => Revision.new({
-                              :identifier => commit['revision'],
-                              :time => Time.parse(commit_date['__content__'].to_s).localtime,
-                              :author => ((a = commit['author']) ? a['__content__'] : nil)
-                              })
+                            :lastrev =>
+                              Revision.new(
+                                {
+                                  :identifier => commit['revision'],
+                                  :time => Time.parse(commit_date['__content__'].to_s).localtime,
+                                  :author => ((a = commit['author']) ? a['__content__'] : nil)
+                                }
+                              )
                             })
               end
             rescue => e
