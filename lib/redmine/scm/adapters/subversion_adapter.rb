@@ -172,13 +172,17 @@ module Redmine
               doc = parse_xml(output)
               each_xml_element(doc['log'], 'logentry') do |logentry|
                 paths = []
-                each_xml_element(logentry['paths'], 'path') do |path|
-                  paths << {:action => path['action'],
-                            :path => path['__content__'],
-                            :from_path => path['copyfrom-path'],
-                            :from_revision => path['copyfrom-rev']
-                            }
-                end if logentry['paths'] && logentry['paths']['path']
+                if logentry['paths'] && logentry['paths']['path']
+                  each_xml_element(logentry['paths'], 'path') do |path|
+                    paths <<
+                      {
+                        :action => path['action'],
+                        :path => path['__content__'],
+                        :from_path => path['copyfrom-path'],
+                        :from_revision => path['copyfrom-rev']
+                      }
+                  end
+                end
                 paths.sort_by! {|e| e[:path]}
 
                 revisions << Revision.new({:identifier => logentry['revision'],
