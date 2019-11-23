@@ -1258,7 +1258,6 @@ Style/MultilineIfModifier:
     - 'app/views/common/feed.atom.builder'
     - 'lib/redmine/access_keys.rb'
     - 'lib/redmine/helpers/gantt.rb'
-    - 'lib/redmine/scm/adapters/git_adapter.rb'
     - 'lib/redmine/wiki_formatting.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
     - 'test/mocks/open_id_authentication_mock.rb'
@@ -1270,7 +1269,6 @@ Style/MultilineTernaryOperator:
     - 'app/models/issue_query.rb'
     - 'lib/redmine/ciphering.rb'
     - 'lib/redmine/scm/adapters/filesystem_adapter.rb'
-    - 'lib/redmine/scm/adapters/git_adapter.rb'
 
 Style/MultipleComparison:
   Exclude:

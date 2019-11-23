@@ -149,13 +149,24 @@ module Redmine
                 full_path = p.empty? ? name : "#{p}/#{name}"
                 n      = scm_iconv('UTF-8', @path_encoding, name)
                 full_p = scm_iconv('UTF-8', @path_encoding, full_path)
-                entries << Entry.new({:name => n,
-                 :path => full_p,
-                 :kind => (type == "tree") ? 'dir' : 'file',
-                 :size => (type == "tree") ? nil : size,
-                 :lastrev => options[:report_last_commit] ?
-                                 lastrev(full_path, identifier) : Revision.new
-                }) unless entries.detect{|entry| entry.name == name}
+                unless entries.detect{|entry| entry.name == name}
+                  entries <<
+                    Entry.
+                      new(
+                        {
+                          :name => n,
+                          :path => full_p,
+                          :kind => (type == "tree") ? 'dir' : 'file',
+                          :size => (type == "tree") ? nil : size,
+                          :lastrev =>
+                            if options[:report_last_commit]
+                              lastrev(full_path, identifier)
+                            else
+                              Revision.new
+                            end
+                        }
+                      )
+                end
               end
             end
           end
