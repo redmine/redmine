@@ -13,7 +13,6 @@ Layout/AlignArguments:
   Exclude:
     - 'config/application.rb'
     - 'lib/redmine/scm/adapters/bazaar_adapter.rb'
-    - 'test/functional/journals_controller_test.rb'
     - 'test/integration/api_test/attachments_test.rb'
     - 'test/integration/api_test/groups_test.rb'
     - 'test/integration/api_test/issue_relations_test.rb'
