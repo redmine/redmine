@@ -1246,7 +1246,6 @@ Style/MultilineIfModifier:
     - 'app/models/issue_query.rb'
     - 'app/models/query.rb'
     - 'app/models/repository/bazaar.rb'
-    - 'app/models/repository/subversion.rb'
     - 'app/models/time_entry_query.rb'
     - 'app/views/common/feed.atom.builder'
     - 'lib/redmine/access_keys.rb'
