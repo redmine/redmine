@@ -69,7 +69,7 @@ module Redmine
         end
 
         def info
-          Info.new(:root_url => url, :lastrev => lastrev('',nil))
+          Info.new(:root_url => url, :lastrev => lastrev('', nil))
         rescue
           nil
         end
@@ -421,7 +421,7 @@ module Redmine
         class Revision < Redmine::Scm::Adapters::Revision
           # Returns the readable identifier
           def format_identifier
-            identifier[0,8]
+            identifier[0, 8]
           end
         end
 
