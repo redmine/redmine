@@ -170,7 +170,7 @@ class ChangesetTest < ActiveSupport::TestCase
                       :comments     => '[#1 #2, #3] Worked on these',
                       :revision     => '12345')
     assert c.save
-    assert_equal [1,2,3], c.issue_ids.sort
+    assert_equal [1, 2, 3], c.issue_ids.sort
   end
 
   def test_ref_keywords_with_large_number_should_not_error
@@ -190,7 +190,11 @@ class ChangesetTest < ActiveSupport::TestCase
 
     with_settings :commit_update_keywords => [{'keywords' => 'fixes', 'status_id' => '3'}] do
       assert_difference 'Journal.count' do
-        c = Changeset.generate!(:repository => Project.find(1).repository,:comments => "Fixes ##{issue.id}")
+        c = Changeset.
+              generate!(
+                :repository => Project.find(1).repository,
+                :comments => "Fixes ##{issue.id}"
+              )
         assert_include c.id, issue.reload.changeset_ids
         journal = Journal.order('id DESC').first
         assert_equal 1, journal.details.count
@@ -200,10 +204,13 @@ class ChangesetTest < ActiveSupport::TestCase
 
   def test_update_keywords_without_change_should_not_create_journal
     issue = Issue.generate!(:project_id => 1, :status_id => 3)
-
     with_settings :commit_update_keywords => [{'keywords' => 'fixes', 'status_id' => '3'}] do
       assert_no_difference 'Journal.count' do
-        c = Changeset.generate!(:repository => Project.find(1).repository,:comments => "Fixes ##{issue.id}")
+        c = Changeset.
+              generate!(
+                :repository => Project.find(1).repository,
+                :comments => "Fixes ##{issue.id}"
+              )
         assert_include c.id, issue.reload.changeset_ids
       end
     end
