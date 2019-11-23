@@ -243,7 +243,7 @@ class Repository::Git < Repository
     h['branches'].map{|br, hs| hs['last_scmid']}
   end
 
-  def latest_changesets(path,rev,limit=10)
+  def latest_changesets(path, rev, limit=10)
     revisions = scm.revisions(path, nil, rev, :limit => limit, :all => false)
     return [] if revisions.nil? || revisions.empty?
 
