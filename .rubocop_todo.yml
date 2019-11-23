@@ -24,7 +24,6 @@ Layout/AlignArguments:
     - 'test/unit/lib/redmine/wiki_formatting/markdown_formatter_test.rb'
     - 'test/unit/lib/redmine/wiki_formatting/markdown_html_parser_test.rb'
     - 'test/unit/lib/redmine/wiki_formatting/textile_formatter_test.rb'
-    - 'test/unit/lib/redmine/wiki_formatting/textile_html_parser_test.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: AllowMultipleStyles, EnforcedHashRocketStyle, EnforcedColonStyle, EnforcedLastArgumentHashStyle.
