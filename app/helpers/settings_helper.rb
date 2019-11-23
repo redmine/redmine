@@ -78,7 +78,7 @@ module SettingsHelper
              :id => nil
            ) + text.to_s,
           :class => (options[:inline] ? 'inline' : 'block')
-         )
+        )
       end.join.html_safe
   end
 
