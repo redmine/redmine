@@ -6874,8 +6874,10 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_destroy_parent_and_child_issues
-    parent = Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1, :subject => 'Parent Issue')
-    child = Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1, :subject => 'Child Issue', :parent_issue_id => parent.id)
+    parent = Issue.create!(:project_id => 1, :author_id => 1,
+                           :tracker_id => 1, :subject => 'Parent Issue')
+    child = Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1,
+                          :subject => 'Child Issue', :parent_issue_id => parent.id)
     assert child.is_descendant_of?(parent.reload)
 
     @request.session[:user_id] = 2
