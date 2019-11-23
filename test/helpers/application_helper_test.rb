@@ -1017,7 +1017,7 @@ class ApplicationHelperTest < Redmine::HelperTest
   end
 
   def test_wiki_links_within_wiki_page_context
-    page = WikiPage.find_by_title('Another_page' )
+    page = WikiPage.find_by_title('Another_page')
     to_test = {
       '[[CookBook documentation]]' =>
          link_to("CookBook documentation",
@@ -1073,7 +1073,7 @@ class ApplicationHelperTest < Redmine::HelperTest
     @project = Project.find(1)
     to_test.each do |text, result|
       assert_equal "<p>#{result}</p>",
-                   textilizable(WikiContent.new( :text => text, :page => page ), :text)
+                   textilizable(WikiContent.new(:text => text, :page => page), :text)
     end
   end
 
@@ -1306,12 +1306,10 @@ class ApplicationHelperTest < Redmine::HelperTest
   end
 
   def test_headings_in_wiki_single_page_export_should_be_prepended_with_page_title
-    page = WikiPage.new( :title => 'Page Title', :wiki_id => 1 )
-    content = WikiContent.new( :text => 'h1. Some heading', :page => page )
-
+    page = WikiPage.new(:title => 'Page Title', :wiki_id => 1)
+    content = WikiContent.new(:text => 'h1. Some heading', :page => page)
     expected = %|<a name="Page_Title_Some-heading"></a>\n<h1 >Some heading<a href="#Page_Title_Some-heading" class="wiki-anchor">&para;</a></h1>|
-
-    assert_equal expected, textilizable(content, :text, :wiki_links => :anchor )
+    assert_equal expected, textilizable(content, :text, :wiki_links => :anchor)
   end
 
   def test_table_of_content
