@@ -77,14 +77,12 @@ class Redmine::WikiFormattingTest < ActiveSupport::TestCase
   end
 
   def test_hires_images_should_not_be_recognized_as_email_addresses
-    raw = <<-DIFF
-Image: logo@2x.png
+    raw = <<~DIFF
+      Image: logo@2x.png
     DIFF
-
-    expected = <<-EXPECTED
-<p>Image: logo@2x.png</p>
+    expected = <<~EXPECTED
+      <p>Image: logo@2x.png</p>
     EXPECTED
-
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), Redmine::WikiFormatting::NullFormatter::Formatter.new(raw).to_html.gsub(%r{[\r\n\t]}, '')
   end
 
