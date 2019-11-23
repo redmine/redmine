@@ -343,8 +343,8 @@ module ApplicationHelper
   end
 
   def format_activity_description(text)
-    h(text.to_s.truncate(120).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')
-       ).gsub(/[\r\n]+/, "<br />").html_safe
+    h(text.to_s.truncate(120).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')).
+      gsub(/[\r\n]+/, "<br />").html_safe
   end
 
   def format_version_name(version)
@@ -524,8 +524,7 @@ module ApplicationHelper
                     content_tag('div', render_projects_for_jump_box(projects, @project),
                                 :class => 'drdn-items projects selection') +
                     content_tag('div', all, :class => 'drdn-items all-projects selection'),
-                  :class => 'drdn-content'
-      )
+                  :class => 'drdn-content')
     content_tag('div', trigger + content, :id => "project-jump", :class => "drdn")
   end
 
