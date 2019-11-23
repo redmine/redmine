@@ -1255,7 +1255,6 @@ Style/MultilineIfModifier:
     - 'lib/redmine/helpers/gantt.rb'
     - 'lib/redmine/wiki_formatting.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
-    - 'test/mocks/open_id_authentication_mock.rb'
 
 Style/MultilineTernaryOperator:
   Exclude:

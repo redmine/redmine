@@ -21,14 +21,16 @@ module OpenIdAuthentication
 
         # Don't process registration fields unless it is requested.
         unless identity_url.include?('blank') || (options[:required].nil? && options[:optional].nil?)
-
-          options[:required].each do |field|
-            extension_response_fields[field.to_s] = EXTENSION_FIELDS[field.to_s]
-          end unless options[:required].nil?
-
-          options[:optional].each do |field|
-            extension_response_fields[field.to_s] = EXTENSION_FIELDS[field.to_s]
-          end unless options[:optional].nil?
+          unless options[:required].nil?
+            options[:required].each do |field|
+              extension_response_fields[field.to_s] = EXTENSION_FIELDS[field.to_s]
+            end
+          end
+          unless options[:optional].nil?
+            options[:optional].each do |field|
+              extension_response_fields[field.to_s] = EXTENSION_FIELDS[field.to_s]
+            end
+          end
         end
 
         yield Result[:successful], identity_url, extension_response_fields
