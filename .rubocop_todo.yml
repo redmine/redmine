@@ -21,7 +21,6 @@ Layout/AlignArguments:
     - 'test/integration/api_test/wiki_pages_test.rb'
     - 'test/test_helper.rb'
     - 'test/unit/changeset_test.rb'
-    - 'test/unit/lib/redmine/wiki_formatting/html_parser_test.rb'
     - 'test/unit/lib/redmine/wiki_formatting/markdown_formatter_test.rb'
     - 'test/unit/lib/redmine/wiki_formatting/markdown_html_parser_test.rb'
     - 'test/unit/lib/redmine/wiki_formatting/textile_formatter_test.rb'
