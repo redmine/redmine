@@ -91,6 +91,7 @@ class Repository::Subversion < Repository
 
   def load_entries_changesets(entries)
     return unless entries
+
     entries_with_identifier =
       entries.select {|entry| entry.lastrev && entry.lastrev.identifier.present?}
     identifiers = entries_with_identifier.map {|entry| entry.lastrev.identifier}.compact.uniq
