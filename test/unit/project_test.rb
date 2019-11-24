@@ -1061,10 +1061,17 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 'value1', project.custom_field_value(cf1)
     assert_nil project.custom_field_value(cf2)
 
-    project.send :safe_attributes=, {'custom_fields' => [
-                                      {'id' => cf1.id.to_s, 'value' => 'valuea'},
-                                      {'id' => cf2.id.to_s, 'value' => 'valueb'}
-                                    ]}, user
+    project.send(
+      :safe_attributes=,
+      {
+        'custom_fields' =>
+          [
+            {'id' => cf1.id.to_s, 'value' => 'valuea'},
+            {'id' => cf2.id.to_s, 'value' => 'valueb'}
+          ]
+      },
+      user
+   )
     assert_equal 'valuea', project.custom_field_value(cf1)
     assert_nil project.custom_field_value(cf2)
   end
