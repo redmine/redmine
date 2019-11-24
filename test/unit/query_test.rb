@@ -1851,7 +1851,7 @@ class QueryTest < ActiveSupport::TestCase
     p = Project.generate! do |project|
       project.status = Project::STATUS_ARCHIVED
     end
-    i = Issue.generate!( :project => p, :tracker => p.trackers.first )
+    i = Issue.generate!(:project => p, :tracker => p.trackers.first)
     assert !i.visible?
 
     test_issue_count
