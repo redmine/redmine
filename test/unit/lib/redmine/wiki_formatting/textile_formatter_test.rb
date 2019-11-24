@@ -603,8 +603,8 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
 
   # TODO: Remove this test after migrating to RedCloth 4
   def test_should_not_crash_with_special_input
-    assert_nothing_raised { to_html(" \f") }
-    assert_nothing_raised { to_html(" \v") }
+    assert_nothing_raised {to_html(" \f")}
+    assert_nothing_raised {to_html(" \v")}
   end
 
   def test_should_not_handle_as_preformatted_text_tags_that_starts_with_pre
