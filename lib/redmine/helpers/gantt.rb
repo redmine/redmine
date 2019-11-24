@@ -675,7 +675,7 @@ module Redmine
         end
 
         def sort_issue_logic(issue)
-          julian_date = Date.new()
+          julian_date = Date.new
           ancesters_start_date = []
           current_issue = issue
           begin
@@ -938,7 +938,7 @@ module Redmine
       end
 
       def pdf_task(params, coords, markers, label, object)
-        cell_height_ratio = params[:pdf].get_cell_height_ratio()
+        cell_height_ratio = params[:pdf].get_cell_height_ratio
         params[:pdf].set_cell_height_ratio(0.1)
 
         height = 2
