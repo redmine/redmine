@@ -146,24 +146,33 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     Issue.generate!(:subject => '1').update_column(:updated_on, Time.parse("2014-01-02T10:25:00Z"))
     Issue.generate!(:subject => '2').update_column(:updated_on, Time.parse("2014-01-02T12:13:00Z"))
 
-    get '/issues.xml', :params => {
+    get(
+      '/issues.xml',
+      :params => {
         :set_filter => 1, :f => ['updated_on'], :op => {:updated_on => '<='},
         :v => {:updated_on => ['2014-01-02T12:00:00Z']}
       }
+    )
     assert_select 'issues>issue', :count => 1
     assert_select 'issues>issue>subject', :text => '1'
 
-    get '/issues.xml', :params => {
+    get(
+      '/issues.xml',
+      :params => {
         :set_filter => 1, :f => ['updated_on'], :op => {:updated_on => '>='},
         :v => {:updated_on => ['2014-01-02T12:00:00Z']}
       }
+    )
     assert_select 'issues>issue', :count => 1
     assert_select 'issues>issue>subject', :text => '2'
 
-    get '/issues.xml', :params => {
+    get(
+      '/issues.xml',
+      :params => {
         :set_filter => 1, :f => ['updated_on'], :op => {:updated_on => '>='},
         :v => {:updated_on => ['2014-01-02T08:00:00Z']}
       }
+    )
     assert_select 'issues>issue', :count => 2
   end
 
@@ -626,10 +635,11 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
       post(
         '/issues.json',
         :params => {
-           :issue => {:project_id => 1, :subject => 'API',
-                      :custom_field_values => {field.id.to_s => ""}}
+          :issue => {:project_id => 1, :subject => 'API',
+                     :custom_field_values => {field.id.to_s => ""}}
         },
-        :headers => credentials('jsmith'))
+        :headers => credentials('jsmith')
+      )
     end
     assert_equal "", issue.custom_field_value(field)
   end
@@ -671,12 +681,12 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
       '/issues/3.xml',
       :params =>
         {
-           :issue => {
-             :custom_fields => [
-               {'id' => '1', 'value' => 'PostgreSQL' },
-               {'id' => '2', 'value' => '150'}
-             ]
-           }
+          :issue => {
+            :custom_fields => [
+              {'id' => '1', 'value' => 'PostgreSQL'},
+              {'id' => '2', 'value' => '150'}
+            ]
+          }
         },
       :headers => credentials('jsmith'))
     issue = Issue.find(3)
@@ -692,11 +702,11 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
       :params =>
         {
           :issue => {
-              :custom_fields => [
-                {'id' => '1', 'value' => ['MySQL', 'PostgreSQL']},
-                {'id' => '2', 'value' => '150'}
-              ]
-            }
+            :custom_fields => [
+              {'id' => '1', 'value' => ['MySQL', 'PostgreSQL']},
+              {'id' => '2', 'value' => '150'}
+            ]
+          }
         },
       :headers => credentials('jsmith'))
     issue = Issue.find(3)
