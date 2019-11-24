@@ -36,10 +36,13 @@ class AttachmentsControllerTest < Redmine::ControllerTest
   def test_show_diff
     ['inline', 'sbs'].each do |dt|
       # 060719210727_changeset_utf8.diff
-      get :show, :params => {
+      get(
+        :show,
+        :params => {
           :id => 14,
           :type => dt
         }
+      )
       assert_response :success
 
       assert_equal 'text/html', @response.content_type
@@ -52,10 +55,13 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     with_settings :repositories_encodings => 'UTF-8' do
       ['inline', 'sbs'].each do |dt|
         # 060719210727_changeset_iso8859-1.diff
-        get :show, :params => {
+        get(
+          :show,
+          :params => {
             :id => 5,
             :type => dt
           }
+        )
         assert_response :success
 
         assert_equal 'text/html', @response.content_type
@@ -69,10 +75,13 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
       ['inline', 'sbs'].each do |dt|
         # 060719210727_changeset_iso8859-1.diff
-        get :show, :params => {
+        get(
+          :show,
+          :params => {
             :id => 5,
             :type => dt
           }
+        )
         assert_response :success
 
         assert_equal 'text/html', @response.content_type
@@ -90,17 +99,23 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_nil user.pref[:diff_type]
     @request.session[:user_id] = 1 # admin
 
-    get :show, :params => {
+    get(
+      :show,
+      :params => {
         :id => 5
       }
+    )
     assert_response :success
     user.reload
     assert_equal "inline", user.pref[:diff_type]
 
-    get :show, :params => {
+    get(
+      :show,
+      :params => {
         :id => 5,
         :type => 'sbs'
       }
+    )
     assert_response :success
     user.reload
     assert_equal "sbs", user.pref[:diff_type]
@@ -113,20 +128,20 @@ class AttachmentsControllerTest < Redmine::ControllerTest
                        :author => User.find(1))
     assert a.save
     assert_equal 'hg-export.diff', a.filename
-
-    get :show, :params => {
+    get(
+      :show,
+      :params => {
         :id => a.id,
         :type => 'inline'
       }
+    )
     assert_response :success
     assert_equal 'text/html', @response.content_type
     assert_select 'th.filename', :text => 'test1.txt'
   end
 
   def test_show_text_file
-    get :show, :params => {
-        :id => 4
-      }
+    get(:show, :params => {:id => 4})
     assert_response :success
     assert_equal 'text/html', @response.content_type
   end
@@ -138,10 +153,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
                        :author => User.find(1))
     assert a.save
     assert_equal 'japanese-utf-8.txt', a.filename
-
-    get :show, :params => {
-        :id => a.id
-      }
+    get(:show, :params => {:id => a.id})
     assert_response :success
     assert_equal 'text/html', @response.content_type
     assert_select 'tr#L1' do
@@ -158,10 +170,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
                          :author => User.find(1))
       assert a.save
       assert_equal 'iso8859-1.txt', a.filename
-
-      get :show, :params => {
-          :id => a.id
-        }
+      get(:show, :params => {:id => a.id})
       assert_response :success
       assert_equal 'text/html', @response.content_type
       assert_select 'tr#L7' do
@@ -179,10 +188,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
                          :author => User.find(1))
       assert a.save
       assert_equal 'iso8859-1.txt', a.filename
-
-      get :show, :params => {
-          :id => a.id
-        }
+      get(:show, :params => {:id => a.id})
       assert_response :success
       assert_equal 'text/html', @response.content_type
       assert_select 'tr#L7' do
@@ -196,9 +202,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     with_settings :file_max_size_displayed => 512 do
       Attachment.find(4).update_attribute :filesize, 754.kilobyte
-      get :show, :params => {
-          :id => 4
-        }
+      get(:show, :params => {:id => 4})
       assert_response :success
       assert_equal 'text/html', @response.content_type
       assert_select '.nodata', :text => 'No preview available. Download the file instead.'
@@ -212,10 +216,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
                        :author => User.find(1))
     assert a.save
     assert_equal 'testfile.md', a.filename
-
-    get :show, :params => {
-        :id => a.id
-      }
+    get(:show, :params => {:id => a.id})
     assert_response :success
     assert_equal 'text/html', @response.content_type
     assert_select 'div.wiki', :html => "<h1>Header 1</h1>\n\n<h2>Header 2</h2>\n\n<h3>Header 3</h3>"
@@ -228,10 +229,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
                        :author => User.find(1))
     assert a.save
     assert_equal 'testfile.textile', a.filename
-
-    get :show, :params => {
-        :id => a.id
-      }
+    get(:show, :params => {:id => a.id})
     assert_response :success
     assert_equal 'text/html', @response.content_type
     assert_select 'div.wiki', :html => "<h1>Header 1</h1>\n\n\n\t<h2>Header 2</h2>\n\n\n\t<h3>Header 3</h3>"
@@ -239,9 +237,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
 
   def test_show_image
     @request.session[:user_id] = 2
-    get :show, :params => {
-        :id => 16
-      }
+    get(:show, :params => {:id => 16})
     assert_response :success
     assert_equal 'text/html', @response.content_type
     assert_select 'img.filecontent', :src => attachments(:attachments_010).filename
@@ -249,25 +245,19 @@ class AttachmentsControllerTest < Redmine::ControllerTest
 
   def test_show_other_with_no_preview
     @request.session[:user_id] = 2
-    get :show, :params => {
-        :id => 6
-      }
+    get(:show, :params => {:id => 6})
     assert_equal 'text/html', @response.content_type
     assert_select '.nodata', :text => 'No preview available. Download the file instead.'
   end
 
   def test_show_file_from_private_issue_without_permission
-    get :show, :params => {
-        :id => 15
-      }
+    get(:show, :params => {:id => 15})
     assert_redirected_to '/login?back_url=http%3A%2F%2Ftest.host%2Fattachments%2F15'
   end
 
   def test_show_file_from_private_issue_with_permission
     @request.session[:user_id] = 2
-    get :show, :params => {
-        :id => 15
-      }
+    get(:show, :params => {:id => 15})
     assert_response :success
     assert_select 'h2', :text => /private.diff/
   end
@@ -275,11 +265,8 @@ class AttachmentsControllerTest < Redmine::ControllerTest
   def test_show_file_without_container_should_be_allowed_to_author
     set_tmp_attachments_directory
     attachment = Attachment.create!(:file => uploaded_test_file("testfile.txt", "text/plain"), :author_id => 2)
-
     @request.session[:user_id] = 2
-    get :show, :params => {
-        :id => attachment.id
-      }
+    get(:show, :params => {:id => attachment.id})
     assert_response 200
   end
 
@@ -288,24 +275,18 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     attachment = Attachment.create!(:file => uploaded_test_file("testfile.txt", "text/plain"), :author_id => 2)
 
     @request.session[:user_id] = 3
-    get :show, :params => {
-        :id => attachment.id
-      }
+    get(:show, :params => {:id => attachment.id})
     assert_response 403
   end
 
   def test_show_issue_attachment_should_highlight_issues_menu_item
-    get :show, :params => {
-        :id => 4
-      }
+    get(:show, :params => {:id => 4})
     assert_response :success
     assert_select '#main-menu a.issues.selected'
   end
 
   def test_show_invalid_should_respond_with_404
-    get :show, :params => {
-        :id => 999
-      }
+    get(:show, :params => {:id => 999})
     assert_response 404
   end
 
@@ -318,18 +299,14 @@ class AttachmentsControllerTest < Redmine::ControllerTest
   end
 
   def test_download_text_file
-    get :download, :params => {
-        :id => 4
-      }
+    get(:download, :params => {:id => 4})
     assert_response :success
     assert_equal 'application/x-ruby', @response.content_type
     etag = @response.etag
     assert_not_nil etag
 
     @request.env["HTTP_IF_NONE_MATCH"] = etag
-    get :download, :params => {
-        :id => 4
-      }
+    get(:download, :params => {:id => 4})
     assert_response 304
   end
 
@@ -341,61 +318,45 @@ class AttachmentsControllerTest < Redmine::ControllerTest
       :container => Issue.find(1)
     )
 
-    get :download, :params => {
-        :id => attachment.id
-      }
+    get(:download, :params => {:id => attachment.id})
     assert_response :success
     assert_equal 'text/javascript', @response.content_type
   end
 
   def test_download_version_file_with_issue_tracking_disabled
     Project.find(1).disable_module! :issue_tracking
-    get :download, :params => {
-        :id => 9
-      }
+    get(:download, :params => {:id => 9})
     assert_response :success
   end
 
   def test_download_should_assign_content_type_if_blank
     Attachment.find(4).update_attribute(:content_type, '')
-
-    get :download, :params => {
-        :id => 4
-      }
+    get(:download, :params => {:id => 4})
     assert_response :success
     assert_equal 'text/x-ruby', @response.content_type
   end
 
   def test_download_should_assign_better_content_type_than_application_octet_stream
     Attachment.find(4).update! :content_type => "application/octet-stream"
-
-    get :download, :params => {
-        :id => 4
-      }
+    get(:download, :params => {:id => 4})
     assert_response :success
     assert_equal 'text/x-ruby', @response.content_type
   end
 
   def test_download_should_assign_application_octet_stream_if_content_type_is_not_determined
-    get :download, :params => {
-        :id => 22
-      }
+    get(:download, :params => {:id => 22})
     assert_response :success
     assert_nil Redmine::MimeType.of(attachments(:attachments_022).filename)
     assert_equal 'application/octet-stream', @response.content_type
   end
 
   def test_download_missing_file
-    get :download, :params => {
-        :id => 2
-      }
+    get(:download, :params => {:id => 2})
     assert_response 404
   end
 
   def test_download_should_be_denied_without_permission
-    get :download, :params => {
-        :id => 7
-      }
+    get(:download, :params => {:id => 7})
     assert_redirected_to '/login?back_url=http%3A%2F%2Ftest.host%2Fattachments%2Fdownload%2F7'
   end
 
@@ -403,9 +364,12 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     def test_thumbnail
       Attachment.clear_thumbnails
       @request.session[:user_id] = 2
-      get :thumbnail, :params => {
+      get(
+        :thumbnail,
+        :params => {
           :id => 16
         }
+      )
       assert_response :success
       assert_equal 'image/png', response.content_type
 
@@ -413,55 +377,69 @@ class AttachmentsControllerTest < Redmine::ControllerTest
       assert_not_nil etag
 
       @request.env["HTTP_IF_NONE_MATCH"] = etag
-      get :thumbnail, :params => {
+      get(
+        :thumbnail,
+        :params => {
           :id => 16
         }
+      )
       assert_response 304
     end
 
     def test_thumbnail_should_not_exceed_maximum_size
       Redmine::Thumbnail.expects(:generate).with {|source, target, size| size == 800}
-
       @request.session[:user_id] = 2
-      get :thumbnail, :params => {
+      get(
+        :thumbnail,
+        :params => {
           :id => 16,
           :size => 2000
         }
+      )
     end
 
     def test_thumbnail_should_round_size
       Redmine::Thumbnail.expects(:generate).with {|source, target, size| size == 300}
-
       @request.session[:user_id] = 2
-      get :thumbnail, :params => {
+      get(
+        :thumbnail,
+        :params => {
           :id => 16,
           :size => 260
         }
+      )
     end
 
     def test_thumbnail_should_return_404_for_non_image_attachment
       @request.session[:user_id] = 2
-
-      get :thumbnail, :params => {
+      get(
+        :thumbnail,
+        :params => {
           :id => 15
         }
+      )
       assert_response 404
     end
 
     def test_thumbnail_should_return_404_if_thumbnail_generation_failed
       Attachment.any_instance.stubs(:thumbnail).returns(nil)
       @request.session[:user_id] = 2
-
-      get :thumbnail, :params => {
+      get(
+        :thumbnail,
+        :params => {
           :id => 16
         }
+      )
       assert_response 404
     end
 
     def test_thumbnail_should_be_denied_without_permission
-      get :thumbnail, :params => {
+      get(
+        :thumbnail,
+        :params => {
           :id => 16
         }
+      )
       assert_redirected_to '/login?back_url=http%3A%2F%2Ftest.host%2Fattachments%2Fthumbnail%2F16'
     end
   else
@@ -474,9 +452,12 @@ class AttachmentsControllerTest < Redmine::ControllerTest
 
       Attachment.clear_thumbnails
       @request.session[:user_id] = 2
-      get :thumbnail, :params => {
+      get(
+        :thumbnail,
+        :params => {
           :id => 23   # ecookbook-gantt.pdf
         }
+      )
       assert_response :success
       assert_equal 'image/png', response.content_type
     end
@@ -486,10 +467,13 @@ class AttachmentsControllerTest < Redmine::ControllerTest
 
   def test_edit_all
     @request.session[:user_id] = 2
-    get :edit_all, :params => {
+    get(
+      :edit_all,
+      :params => {
         :object_type => 'issues',
         :object_id => '2'
       }
+    )
     assert_response :success
 
     assert_select 'form[action=?]', '/attachments/issues/2' do
@@ -508,32 +492,43 @@ class AttachmentsControllerTest < Redmine::ControllerTest
   end
 
   def test_edit_all_with_invalid_container_class_should_return_404
-    get :edit_all, :params => {
+    get(
+      :edit_all,
+      :params => {
         :object_type => 'nuggets',
         :object_id => '3'
       }
+    )
     assert_response 404
   end
 
   def test_edit_all_with_invalid_object_should_return_404
-    get :edit_all, :params => {
+    get(
+      :edit_all,
+      :params => {
         :object_type => 'issues',
         :object_id => '999'
       }
+    )
     assert_response 404
   end
 
   def test_edit_all_for_object_that_is_not_visible_should_return_403
-    get :edit_all, :params => {
+    get(
+      :edit_all,
+      :params => {
         :object_type => 'issues',
         :object_id => '4'
       }
+    )
     assert_response 403
   end
 
   def test_update_all
     @request.session[:user_id] = 2
-    patch :update_all, :params => {
+    patch(
+      :update_all,
+      :params => {
         :object_type => 'issues',
         :object_id => '2',
         :attachments => {
@@ -541,14 +536,13 @@ class AttachmentsControllerTest < Redmine::ControllerTest
             :filename => 'newname.text',
             :description => ''
           },
-                  '4' => {
+          '4' => {
             :filename => 'newname.rb',
             :description => 'Renamed'
           },
-
         }
       }
-
+    )
     assert_response 302
     attachment = Attachment.find(4)
     assert_equal 'newname.rb', attachment.filename
@@ -557,7 +551,9 @@ class AttachmentsControllerTest < Redmine::ControllerTest
 
   def test_update_all_with_failure
     @request.session[:user_id] = 2
-    patch :update_all, :params => {
+    patch(
+      :update_all,
+      :params => {
         :object_type => 'issues',
         :object_id => '3',
         :attachments => {
@@ -565,14 +561,13 @@ class AttachmentsControllerTest < Redmine::ControllerTest
             :filename => '',
             :description => ''
           },
-                  '4' => {
+          '4' => {
             :filename => 'newname.rb',
             :description => 'Renamed'
           },
-
         }
       }
-
+    )
     assert_response :success
     assert_select_error /file cannot be blank/i
 
@@ -586,12 +581,14 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     set_tmp_attachments_directory
     issue = Issue.find(3)
     @request.session[:user_id] = 2
-
     assert_difference 'issue.attachments.count', -1 do
       assert_difference 'Journal.count' do
-        delete :destroy, :params => {
+        delete(
+          :destroy,
+          :params => {
             :id => 1
           }
+        )
         assert_redirected_to '/projects/ecookbook'
       end
     end
@@ -608,9 +605,12 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     set_tmp_attachments_directory
     @request.session[:user_id] = 2
     assert_difference 'Attachment.count', -1 do
-      delete :destroy, :params => {
+      delete(
+        :destroy,
+        :params => {
           :id => 3
         }
+      )
       assert_response 302
     end
   end
@@ -619,9 +619,12 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     set_tmp_attachments_directory
     @request.session[:user_id] = 2
     assert_difference 'Attachment.count', -1 do
-      delete :destroy, :params => {
+      delete(
+        :destroy,
+        :params => {
           :id => 8
         }
+      )
       assert_response 302
     end
   end
@@ -630,9 +633,12 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     set_tmp_attachments_directory
     @request.session[:user_id] = 2
     assert_difference 'Attachment.count', -1 do
-      delete :destroy, :params => {
+      delete(
+        :destroy,
+        :params => {
           :id => 9
         }
+      )
       assert_response 302
     end
   end
@@ -642,9 +648,12 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     set_tmp_attachments_directory
     @request.session[:user_id] = 2
     assert_difference 'Attachment.count', -1 do
-      delete :destroy, :params => {
+      delete(
+        :destroy,
+        :params => {
           :id => 9
         }
+      )
       assert_response 302
     end
   end
@@ -652,9 +661,12 @@ class AttachmentsControllerTest < Redmine::ControllerTest
   def test_destroy_without_permission
     set_tmp_attachments_directory
     assert_no_difference 'Attachment.count' do
-      delete :destroy, :params => {
+      delete(
+        :destroy,
+        :params => {
           :id => 3
         }
+      )
     end
     assert_response 302
     assert Attachment.find_by_id(3)
