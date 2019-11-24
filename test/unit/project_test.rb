@@ -153,13 +153,13 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_members_should_be_active_users
     Project.all.each do |project|
-      assert_nil project.members.detect {|m| !(m.user.is_a?(User) && m.user.active?) }
+      assert_nil project.members.detect {|m| !(m.user.is_a?(User) && m.user.active?)}
     end
   end
 
   def test_users_should_be_active_users
     Project.all.each do |project|
-      assert_nil project.users.detect {|u| !(u.is_a?(User) && u.active?) }
+      assert_nil project.users.detect {|u| !(u.is_a?(User) && u.active?)}
     end
   end
 
@@ -235,7 +235,7 @@ class ProjectTest < ActiveSupport::TestCase
 
     @ecookbook.destroy
     # make sure that the project non longer exists
-    assert_raise(ActiveRecord::RecordNotFound) { Project.find(@ecookbook.id) }
+    assert_raise(ActiveRecord::RecordNotFound) {Project.find(@ecookbook.id)}
     # make sure related data was removed
     assert_nil Member.where(:project_id => @ecookbook.id).first
     assert_nil Board.where(:project_id => @ecookbook.id).first
