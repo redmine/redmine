@@ -42,7 +42,9 @@ class ProjectEnumerationsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2 # manager
     billable_field = TimeEntryActivityCustomField.find_by_name("Billable")
 
-    put :update, :params => {
+    put(
+      :update,
+      :params => {
         :project_id => 1,
         :enumerations => {
           "9"=> {"parent_id"=>"9", "custom_field_values"=> {"7" => "1"}, "active"=>"0"}, # Design, De-activate
@@ -51,7 +53,7 @@ class ProjectEnumerationsControllerTest < Redmine::ControllerTest
           "11"=>{"parent_id"=>"11", "custom_field_values"=>{"7"=>"1"}, "active"=>"1"} # QA, no changes
         }
       }
-
+    )
     assert_response :redirect
     assert_redirected_to '/projects/ecookbook/settings/activities'
 
@@ -109,14 +111,22 @@ class ProjectEnumerationsControllerTest < Redmine::ControllerTest
                                                  })
     assert project_activity_two.save
 
-    put :update, :params => {
+    put(
+      :update,
+      :params => {
         :project_id => 1,
         :enumerations => {
-          project_activity.id => {"custom_field_values"=> {"7" => "1"}, "active"=>"0"}, # De-activate
-          project_activity_two.id => {"custom_field_values"=>{"7" => "1"}, "active"=>"0"} # De-activate
+          project_activity.id => {
+            "custom_field_values"=> {"7" => "1"},
+            "active"=>"0"
+          }, # De-activate
+          project_activity_two.id => {
+            "custom_field_values"=>{"7" => "1"},
+            "active"=>"0"
+          } # De-activate
         }
       }
-
+    )
     assert_response :redirect
     assert_redirected_to '/projects/ecookbook/settings/activities'
 
@@ -139,15 +149,21 @@ class ProjectEnumerationsControllerTest < Redmine::ControllerTest
     assert_equal 3, TimeEntry.where(:activity_id => 9, :project_id => 1).count
 
     @request.session[:user_id] = 2 # manager
-    put :update, :params => {
+    put(
+      :update,
+      :params => {
         :project_id => 1,
         :enumerations => {
           "9"=> {
-            "parent_id"=>"9", "custom_field_values"=> {
-            "7" => "1"}, "active"=>"0"} # Design, De-activate
-
-          }
+            "parent_id"=>"9",
+              "custom_field_values"=> {
+                "7" => "1"
+              },
+            "active"=>"0"
+          } # Design, De-activate
+        }
       }
+    )
     assert_response :redirect
 
     # No more TimeEntries using the system activity
@@ -174,7 +190,8 @@ class ProjectEnumerationsControllerTest < Redmine::ControllerTest
     assert_equal 1, TimeEntry.where(:activity_id => 10, :project_id => 1).count
 
     @request.session[:user_id] = 2 # manager
-    put :update, :params => {
+    put(
+      :update, :params => {
         :project_id => 1,
         :enumerations => {
           # Design
@@ -183,6 +200,7 @@ class ProjectEnumerationsControllerTest < Redmine::ControllerTest
           "10"=> {"parent_id"=>"10", "custom_field_values"=>{"7"=>"0"}, "active"=>"1"}
         }
       }
+    )
     assert_response :redirect
 
     # TimeEntries shouldn't have been reassigned on the failed record
@@ -212,9 +230,7 @@ class ProjectEnumerationsControllerTest < Redmine::ControllerTest
                                                  })
     assert project_activity_two.save
 
-    delete :destroy, :params => {
-        :project_id => 1
-      }
+    delete(:destroy, :params => {:project_id => 1})
     assert_response :redirect
     assert_redirected_to '/projects/ecookbook/settings/activities'
 
@@ -235,9 +251,7 @@ class ProjectEnumerationsControllerTest < Redmine::ControllerTest
              update_all("activity_id = '#{project_activity.id}'")
     assert_equal 3, TimeEntry.where(:activity_id => project_activity.id,
                                     :project_id => 1).count
-    delete :destroy, :params => {
-        :project_id => 1
-      }
+    delete(:destroy, :params => {:project_id => 1})
     assert_response :redirect
     assert_redirected_to '/projects/ecookbook/settings/activities'
 
