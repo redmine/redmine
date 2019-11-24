@@ -423,7 +423,7 @@ module ApplicationHelper
   # Renders flash messages
   def render_flash_messages
     s = +''
-    flash.each do |k,v|
+    flash.each do |k, v|
       s << content_tag('div', v.html_safe, :class => "flash #{k}", :id => "flash_#{k}")
     end
     s.html_safe
@@ -1629,7 +1629,7 @@ module ApplicationHelper
     # TODO: use #image_url introduced in Rails4
     path = favicon_path
     base = url_for(:controller => 'welcome', :action => 'index', :only_path => false)
-    base.sub(%r{/+$},'') + '/' + path.sub(%r{^/+},'')
+    base.sub(%r{/+$}, '') + '/' + path.sub(%r{^/+}, '')
   end
 
   def robot_exclusion_tag
