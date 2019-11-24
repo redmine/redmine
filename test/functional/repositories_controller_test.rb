@@ -440,13 +440,14 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
   def test_get_committers
     @request.session[:user_id] = 2
     # add a commit with an unknown user
-    Changeset.create!(
+    Changeset.
+      create!(
         :repository => Project.find(1).repository,
         :committer  => 'foo',
         :committed_on => Time.now,
         :revision => 100,
         :comments => 'Committed by foo.'
-     )
+      )
     get(:committers, :params => {:id => 10})
     assert_response :success
     assert_select 'input[value=dlopper] + select option[value="3"][selected=selected]', :text => 'Dave Lopper'
@@ -463,7 +464,8 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
   def test_post_committers
     @request.session[:user_id] = 2
     # add a commit with an unknown user
-    c = Changeset.create!(
+    c = Changeset.
+          create!(
             :repository => Project.find(1).repository,
             :committer  => 'foo',
             :committed_on => Time.now,
