@@ -742,7 +742,7 @@ class Mailer < ActionMailer::Base
 
   # Appends a Redmine header field (name is prepended with 'X-Redmine-')
   def redmine_headers(h)
-    h.each { |k,v| headers["X-Redmine-#{k}"] = v.to_s }
+    h.each {|k, v| headers["X-Redmine-#{k}"] = v.to_s}
   end
 
   # Singleton class method is public
