@@ -411,9 +411,11 @@ module Redmine
       def upload(format, content, credentials)
         set_tmp_attachments_directory
         assert_difference 'Attachment.count' do
-          post "/uploads.#{format}",
+          post(
+            "/uploads.#{format}",
             :params => content,
             :headers => {"CONTENT_TYPE" => 'application/octet-stream'}.merge(credentials)
+          )
           assert_response :created
         end
         data = response_data

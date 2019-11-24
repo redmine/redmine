@@ -19,7 +19,6 @@ Layout/AlignArguments:
     - 'test/integration/api_test/memberships_test.rb'
     - 'test/integration/api_test/projects_test.rb'
     - 'test/integration/api_test/wiki_pages_test.rb'
-    - 'test/test_helper.rb'
     - 'test/unit/lib/redmine/wiki_formatting/markdown_html_parser_test.rb'
     - 'test/unit/lib/redmine/wiki_formatting/textile_formatter_test.rb'
 
