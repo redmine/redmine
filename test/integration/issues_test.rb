@@ -44,7 +44,9 @@ class IssuesTest < Redmine::IntegrationTest
     assert_response :success
 
     issue = new_record(Issue) do
-      post '/projects/ecookbook/issues', :params => {
+      post(
+        '/projects/ecookbook/issues',
+        :params => {
           :issue => {
             :tracker_id => "1",
             :start_date => "2006-12-26",
@@ -58,6 +60,7 @@ class IssuesTest < Redmine::IntegrationTest
             :custom_field_values => {'2' => 'Value for field 2'}
           }
         }
+      )
     end
     # check redirection
     assert_redirected_to :controller => 'issues', :action => 'show', :id => issue
@@ -73,12 +76,15 @@ class IssuesTest < Redmine::IntegrationTest
     Role.anonymous.remove_permission! :add_issues
 
     assert_no_difference 'Issue.count' do
-      post '/projects/1/issues', :params => {
+      post(
+        '/projects/1/issues',
+        :params => {
           :issue => {
             :tracker_id => "1",
             :subject => "new test issue"
           }
         }
+      )
     end
     assert_response 302
   end
@@ -88,12 +94,15 @@ class IssuesTest < Redmine::IntegrationTest
     Member.create!(:project_id => 1, :principal => Group.anonymous, :role_ids => [3])
 
     issue = new_record(Issue) do
-      post '/projects/1/issues', :params => {
+      post(
+        '/projects/1/issues',
+        :params => {
           :issue => {
             :tracker_id => "1",
             :subject => "new test issue"
           }
         }
+      )
       assert_response 302
     end
     assert_equal User.anonymous, issue.author
@@ -104,13 +113,18 @@ class IssuesTest < Redmine::IntegrationTest
     log_user('jsmith', 'jsmith')
     set_tmp_attachments_directory
     attachment = new_record(Attachment) do
-      put '/issues/1', :params => {
+      put(
+        '/issues/1',
+        :params => {
           :issue => {:notes => 'Some notes'},
           :attachments => {
-            '1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain'),
-                    'description' => 'This is an attachment'}
+            '1' => {
+              'file' => uploaded_test_file('testfile.txt', 'text/plain'),
+              'description' => 'This is an attachment'
+            }
           }
         }
+      )
       assert_redirected_to "/issues/1"
     end
     assert_equal Issue.find(1), attachment.container
@@ -177,10 +191,7 @@ class IssuesTest < Redmine::IntegrationTest
   end
 
   def test_other_formats_links_on_index_without_project_id_in_url
-    get '/issues', :params => {
-        :project_id => 'ecookbook'
-      }
-
+    get('/issues', :params => {:project_id => 'ecookbook'})
     %w(Atom PDF CSV).each do |format|
       assert_select 'a[rel=nofollow][href=?]', "/issues.#{format.downcase}?project_id=ecookbook", :text => format
     end
@@ -244,7 +255,9 @@ class IssuesTest < Redmine::IntegrationTest
 
     # Create issue
     issue = new_record(Issue) do
-      post '/projects/ecookbook/issues', :params => {
+      post(
+        '/projects/ecookbook/issues',
+        :params => {
           :issue => {
             :tracker_id => '1',
             :priority_id => '4',
@@ -252,6 +265,7 @@ class IssuesTest < Redmine::IntegrationTest
             :custom_field_values => {@field.id.to_s => users.first.id.to_s}
           }
         }
+      )
       assert_response 302
     end
 
@@ -270,12 +284,15 @@ class IssuesTest < Redmine::IntegrationTest
     with_settings :default_language => 'en' do
       # Update issue
       assert_difference 'Journal.count' do
-        put "/issues/#{issue.id}", :params => {
+        put(
+          "/issues/#{issue.id}",
+          :params => {
             :issue => {
               :notes => 'Updating custom field',
               :custom_field_values => {@field.id.to_s => new_tester.id.to_s}
             }
           }
+        )
         assert_redirected_to "/issues/#{issue.id}"
       end
       # Issue view
