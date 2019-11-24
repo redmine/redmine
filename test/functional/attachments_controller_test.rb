@@ -310,7 +310,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
   end
 
   def test_show_renders_pagination
-    get :show, :params => { :id => 5, :type => 'inline' }
+    get(:show, :params => {:id => 5, :type => 'inline'})
     assert_response :success
 
     assert_select 'ul.pages li.next', :text => /next/i
