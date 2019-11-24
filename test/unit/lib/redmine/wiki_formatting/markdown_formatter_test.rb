@@ -173,9 +173,10 @@ class Redmine::WikiFormatting::MarkdownFormatterTest < ActionView::TestCase
   def test_update_section_should_not_escape_pre_content_outside_section
     text = STR_WITH_PRE.join("\n\n")
     replacement = "New text"
-
-    assert_equal [STR_WITH_PRE[0..1], "New text"].flatten.join("\n\n"),
+    assert_equal(
+      [STR_WITH_PRE[0..1], "New text"].flatten.join("\n\n"),
       @formatter.new(text).update_section(3, replacement)
+    )
   end
 
   def test_should_support_underlined_text
