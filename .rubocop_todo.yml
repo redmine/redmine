@@ -318,7 +318,6 @@ Layout/SpaceInsideParens:
     - 'test/unit/changeset_test.rb'
     - 'test/unit/issue_subtasking_test.rb'
     - 'test/unit/lib/redmine/export/pdf_test.rb'
-    - 'test/unit/lib/redmine/wiki_formatting/textile_formatter_test.rb'
     - 'test/unit/query_test.rb'
     - 'test/unit/repository_test.rb'
 

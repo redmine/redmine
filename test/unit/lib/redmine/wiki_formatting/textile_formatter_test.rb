@@ -621,7 +621,11 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
 
   def assert_html_output(to_test, expect_paragraph = true)
     to_test.each do |text, expected|
-      assert_equal(( expect_paragraph ? "<p>#{expected}</p>" : expected ), @formatter.new(text).to_html, "Formatting the following text failed:\n===\n#{text}\n===\n")
+      assert_equal(
+        (expect_paragraph ? "<p>#{expected}</p>" : expected),
+        @formatter.new(text).to_html,
+        "Formatting the following text failed:\n===\n#{text}\n===\n"
+      )
     end
   end
 
