@@ -547,7 +547,7 @@ class AccountControllerTest < Redmine::ControllerTest
     user.reload
     assert user.check_password?('newpass123')
     assert_nil Token.find_by_id(token.id), "Token was not deleted"
-    assert_not_nil (mail = ActionMailer::Base.deliveries.last)
+    assert_not_nil ActionMailer::Base.deliveries.last
     assert_select_email do
       assert_select 'a[href^=?]', 'http://localhost:3000/my/password', :text => 'Change password'
     end
