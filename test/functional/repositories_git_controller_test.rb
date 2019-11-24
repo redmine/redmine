@@ -36,11 +36,13 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
 
     User.current = nil
     @project    = Project.find(PRJ_ID)
-    @repository = Repository::Git.create(
-                      :project       => @project,
-                      :url           => REPOSITORY_PATH,
-                      :path_encoding => 'ISO-8859-1'
-                      )
+    @repository =
+      Repository::Git.
+        create(
+          :project       => @project,
+          :url           => REPOSITORY_PATH,
+          :path_encoding => 'ISO-8859-1'
+        )
     assert @repository
   end
 
@@ -391,12 +393,14 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
     end
 
     def test_diff_path_in_subrepo
-      repo = Repository::Git.create(
-                      :project       => @project,
-                      :url           => REPOSITORY_PATH,
-                      :identifier => 'test-diff-path',
-                      :path_encoding => 'ISO-8859-1'
-                      )
+      repo =
+        Repository::Git.
+          create(
+            :project       => @project,
+            :url           => REPOSITORY_PATH,
+            :identifier => 'test-diff-path',
+            :path_encoding => 'ISO-8859-1'
+          )
       assert repo
       assert_equal false, repo.is_default
       assert_equal 'test-diff-path', repo.identifier
@@ -653,11 +657,13 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
     def test_destroy_invalid_repository
       @request.session[:user_id] = 1 # admin
       @project.repository.destroy
-      @repository = Repository::Git.create!(
-                      :project       => @project,
-                      :url           => "/invalid",
-                      :path_encoding => 'ISO-8859-1'
-                      )
+      @repository =
+        Repository::Git.
+          create!(
+            :project       => @project,
+            :url           => "/invalid",
+            :path_encoding => 'ISO-8859-1'
+          )
       @repository.fetch_changesets
       @repository.reload
       assert_equal 0, @repository.changesets.count
