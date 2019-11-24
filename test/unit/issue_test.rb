@@ -959,10 +959,16 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal 'value1', issue.custom_field_value(cf1)
     assert_nil issue.custom_field_value(cf2)
 
-    issue.send :safe_attributes=, {'custom_fields' => [
-                                      {'id' => cf1.id.to_s, 'value' => 'valuea'},
-                                      {'id' => cf2.id.to_s, 'value' => 'valueb'}
-                                    ]}, user
+    issue.send(
+      :safe_attributes=,
+      {
+        'custom_fields' =>
+          [
+            {'id' => cf1.id.to_s, 'value' => 'valuea'},
+            {'id' => cf2.id.to_s, 'value' => 'valueb'}
+          ]
+      }, user
+    )
     assert_equal 'valuea', issue.custom_field_value(cf1)
     assert_nil issue.custom_field_value(cf2)
   end
@@ -2986,9 +2992,7 @@ class IssueTest < ActiveSupport::TestCase
   def test_save_attachments_with_array_should_warn_about_missing_tokens
     set_tmp_attachments_directory
     issue = Issue.generate!
-    issue.save_attachments([
-      {'token' => 'missing'}
-    ])
+    issue.save_attachments([{'token' => 'missing'}])
     assert !issue.save
     assert issue.errors[:base].present?
     assert_equal 0, issue.reload.attachments.count
