@@ -281,7 +281,6 @@ Layout/SpaceInsideArrayLiteralBrackets:
     - 'app/models/query.rb'
     - 'lib/diff.rb'
     - 'lib/redmine/i18n.rb'
-    - 'test/mocks/open_id_authentication_mock.rb'
     - 'test/unit/mailer_localisation_test.rb'
     - 'test/unit/mailer_test.rb'
     - 'test/unit/search_test.rb'

@@ -43,7 +43,7 @@ module OpenIdAuthentication
   private
 
   def add_simple_registration_fields(open_id_response, fields)
-      open_id_response.add_extension_arg('sreg', 'required', [ fields[:required] ].flatten * ',') if fields[:required]
-      open_id_response.add_extension_arg('sreg', 'optional', [ fields[:optional] ].flatten * ',') if fields[:optional]
+      open_id_response.add_extension_arg('sreg', 'required', [fields[:required]].flatten * ',') if fields[:required]
+      open_id_response.add_extension_arg('sreg', 'optional', [fields[:optional]].flatten * ',') if fields[:optional]
   end
 end
