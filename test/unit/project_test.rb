@@ -1055,9 +1055,15 @@ class ProjectTest < ActiveSupport::TestCase
     user = User.find(2)
     project = Project.find(1)
 
-    project.send :safe_attributes=, {'custom_field_values' => {
-                                       cf1.id.to_s => 'value1', cf2.id.to_s => 'value2'
-                                     }}, user
+    project.send(
+      :safe_attributes=,
+      {
+        'custom_field_values' => {
+          cf1.id.to_s => 'value1', cf2.id.to_s => 'value2'
+        }
+      },
+      user
+    )
     assert_equal 'value1', project.custom_field_value(cf1)
     assert_nil project.custom_field_value(cf2)
 
