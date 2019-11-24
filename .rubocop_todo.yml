@@ -307,11 +307,6 @@ Layout/SpaceInsideParens:
     - 'test/unit/lib/redmine/export/pdf_test.rb'
 
 # Cop supports --auto-correct.
-Layout/SpaceInsidePercentLiteralDelimiters:
-  Exclude:
-    - 'app/models/project.rb'
-
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: space, no_space
 Layout/SpaceInsideStringInterpolation:

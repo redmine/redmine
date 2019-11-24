@@ -77,7 +77,7 @@ class Project < ActiveRecord::Base
   # downcase letters, digits, dashes but not digits only
   validates_format_of :identifier, :with => /\A(?!\d+$)[a-z0-9\-_]*\z/, :if => Proc.new { |p| p.identifier_changed? }
   # reserved words
-  validates_exclusion_of :identifier, :in => %w( new )
+  validates_exclusion_of :identifier, :in => %w(new)
   validate :validate_parent
 
   after_save :update_inherited_members, :if => Proc.new {|project| project.saved_change_to_inherit_members?}
