@@ -141,10 +141,14 @@ class SettingsControllerTest < Redmine::ControllerTest
       }
     }
     assert_redirected_to '/settings'
-    assert_equal([
-      {"keywords" => "resolves", "status_id" => "3"},
-      {"keywords" => "closes", "status_id" => "5", "done_ratio" => "100", "if_tracker_id" => "2"}
-    ], Setting.commit_update_keywords)
+    assert_equal(
+      [
+        {"keywords" => "resolves", "status_id" => "3"},
+        {"keywords" => "closes", "status_id" => "5",
+         "done_ratio" => "100", "if_tracker_id" => "2"}
+      ],
+      Setting.commit_update_keywords
+    )
   end
 
   def test_post_edit_with_invalid_setting_should_not_error
