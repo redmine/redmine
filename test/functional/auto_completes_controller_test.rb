@@ -31,73 +31,92 @@ class AutoCompletesControllerTest < Redmine::ControllerTest
            :journals, :journal_details
 
   def test_issues_should_not_be_case_sensitive
-    get :issues, :params => {
+    get(
+      :issues,
+      :params => {
         :project_id => 'ecookbook',
         :q => 'ReCiPe'
       }
+    )
     assert_response :success
     assert_include "recipe", response.body
   end
 
   def test_issues_should_accept_term_param
-    get :issues, :params => {
+    get(
+      :issues,
+      :params => {
         :project_id => 'ecookbook',
         :term => 'ReCiPe'
       }
+    )
     assert_response :success
     assert_include "recipe", response.body
   end
 
   def test_issues_should_return_issue_with_given_id
-    get :issues, :params => {
+    get(
+      :issues,
+      :params => {
         :project_id => 'subproject1',
         :q => '13'
       }
+    )
     assert_response :success
     assert_include "Bug #13", response.body
   end
 
   def test_issues_should_return_issue_with_given_id_preceded_with_hash
-    get :issues, :params => {
+    get(
+      :issues,
+      :params => {
         :project_id => 'subproject1',
         :q => '#13'
       }
+    )
     assert_response :success
     assert_include "Bug #13", response.body
   end
 
   def test_auto_complete_with_scope_all_should_search_other_projects
-    get :issues, :params => {
+    get(
+      :issues,
+      :params => {
         :project_id => 'ecookbook',
         :q => '13',
         :scope => 'all'
       }
+    )
     assert_response :success
     assert_include "Bug #13", response.body
   end
 
   def test_auto_complete_without_project_should_search_all_projects
-    get :issues, :params => {
-        :q => '13'
-      }
+    get(:issues, :params => {:q => '13'})
     assert_response :success
     assert_include "Bug #13", response.body
   end
 
   def test_auto_complete_without_scope_all_should_not_search_other_projects
-    get :issues, :params => {
+    get(
+      :issues,
+      :params => {
         :project_id => 'ecookbook',
         :q => '13'
       }
+    )
     assert_response :success
     assert_not_include "Bug #13", response.body
   end
 
   def test_issues_should_return_json
-    get :issues, :params => {
+    get(
+      :issues,
+      :params => {
         :project_id => 'subproject1',
         :q => '13'
       }
+    )
     assert_response :success
     json = ActiveSupport::JSON.decode(response.body)
     assert_kind_of Array, json
@@ -109,44 +128,55 @@ class AutoCompletesControllerTest < Redmine::ControllerTest
   end
 
   def test_auto_complete_with_status_o_should_return_open_issues_only
-    get :issues, :params => {
+    get(
+      :issues,
+      :params => {
         :project_id => 'ecookbook',
         :q => 'issue',
         :status => 'o'
       }
+    )
     assert_response :success
     assert_include "Issue due today", response.body
     assert_not_include "closed", response.body
   end
 
   def test_auto_complete_with_status_c_should_return_closed_issues_only
-    get :issues, :params => {
+    get(
+      :issues,
+      :params => {
         :project_id => 'ecookbook',
         :q => 'issue',
         :status => 'c'
       }
+    )
     assert_response :success
     assert_include "closed", response.body
     assert_not_include "Issue due today", response.body
   end
 
   def test_auto_complete_with_issue_id_should_not_return_that_issue
-    get :issues, :params => {
+    get(
+      :issues,
+      :params => {
         :project_id => 'ecookbook',
         :q => 'issue',
         :issue_id => '12'
       }
+    )
     assert_response :success
     assert_include "issue", response.body
     assert_not_include "Bug #12: Closed issue on a locked version", response.body
   end
 
   def test_auto_complete_should_return_json_content_type_response
-    get :issues, :params => {
+    get(
+      :issues,
+      :params => {
         :project_id => 'subproject1',
         :q => '#13'
       }
-
+    )
     assert_response :success
     assert_include 'application/json', response.headers['Content-Type']
   end
