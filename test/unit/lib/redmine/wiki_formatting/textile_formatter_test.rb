@@ -66,50 +66,62 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
 
   def test_styles
     # single style
-    assert_html_output({
-      'p{color:red}. text'           => '<p style="color:red;">text</p>',
-      'p{color:red;}. text'          => '<p style="color:red;">text</p>',
-      'p{color: red}. text'          => '<p style="color: red;">text</p>',
-      'p{color:#f00}. text'          => '<p style="color:#f00;">text</p>',
-      'p{color:#ff0000}. text'       => '<p style="color:#ff0000;">text</p>',
-      'p{border:10px}. text'         => '<p style="border:10px;">text</p>',
-      'p{border:10}. text'           => '<p style="border:10;">text</p>',
-      'p{border:10%}. text'          => '<p style="border:10%;">text</p>',
-      'p{border:10em}. text'         => '<p style="border:10em;">text</p>',
-      'p{border:1.5em}. text'        => '<p style="border:1.5em;">text</p>',
-      'p{border-left:1px}. text'     => '<p style="border-left:1px;">text</p>',
-      'p{border-right:1px}. text'    => '<p style="border-right:1px;">text</p>',
-      'p{border-top:1px}. text'      => '<p style="border-top:1px;">text</p>',
-      'p{border-bottom:1px}. text'   => '<p style="border-bottom:1px;">text</p>',
-      'p{width:50px}. text'          => '<p style="width:50px;">text</p>',
-      'p{max-width:100px}. text'     => '<p style="max-width:100px;">text</p>',
-      'p{height:40px}. text'         => '<p style="height:40px;">text</p>',
-      'p{max-height:80px}. text'     => '<p style="max-height:80px;">text</p>',
-      }, false)
+    assert_html_output(
+      {
+        'p{color:red}. text'           => '<p style="color:red;">text</p>',
+        'p{color:red;}. text'          => '<p style="color:red;">text</p>',
+        'p{color: red}. text'          => '<p style="color: red;">text</p>',
+        'p{color:#f00}. text'          => '<p style="color:#f00;">text</p>',
+        'p{color:#ff0000}. text'       => '<p style="color:#ff0000;">text</p>',
+        'p{border:10px}. text'         => '<p style="border:10px;">text</p>',
+        'p{border:10}. text'           => '<p style="border:10;">text</p>',
+        'p{border:10%}. text'          => '<p style="border:10%;">text</p>',
+        'p{border:10em}. text'         => '<p style="border:10em;">text</p>',
+        'p{border:1.5em}. text'        => '<p style="border:1.5em;">text</p>',
+        'p{border-left:1px}. text'     => '<p style="border-left:1px;">text</p>',
+        'p{border-right:1px}. text'    => '<p style="border-right:1px;">text</p>',
+        'p{border-top:1px}. text'      => '<p style="border-top:1px;">text</p>',
+        'p{border-bottom:1px}. text'   => '<p style="border-bottom:1px;">text</p>',
+        'p{width:50px}. text'          => '<p style="width:50px;">text</p>',
+        'p{max-width:100px}. text'     => '<p style="max-width:100px;">text</p>',
+        'p{height:40px}. text'         => '<p style="height:40px;">text</p>',
+        'p{max-height:80px}. text'     => '<p style="max-height:80px;">text</p>',
+      },
+      false
+    )
 
     # multiple styles
-    assert_html_output({
-      'p{color:red; border-top:1px}. text'   => '<p style="color:red;border-top:1px;">text</p>',
-      'p{color:red ; border-top:1px}. text'  => '<p style="color:red;border-top:1px;">text</p>',
-      'p{color:red;border-top:1px}. text'    => '<p style="color:red;border-top:1px;">text</p>',
-      }, false)
+    assert_html_output(
+      {
+        'p{color:red; border-top:1px}. text'   => '<p style="color:red;border-top:1px;">text</p>',
+        'p{color:red ; border-top:1px}. text'  => '<p style="color:red;border-top:1px;">text</p>',
+        'p{color:red;border-top:1px}. text'    => '<p style="color:red;border-top:1px;">text</p>',
+      },
+      false
+    )
 
     # styles with multiple values
-    assert_html_output({
-      'p{border:1px solid red;}. text'             => '<p style="border:1px solid red;">text</p>',
-      'p{border-top-left-radius: 10px 5px;}. text' => '<p style="border-top-left-radius: 10px 5px;">text</p>',
-      }, false)
+    assert_html_output(
+      {
+        'p{border:1px solid red;}. text'             => '<p style="border:1px solid red;">text</p>',
+        'p{border-top-left-radius: 10px 5px;}. text' => '<p style="border-top-left-radius: 10px 5px;">text</p>',
+      },
+      false
+    )
   end
 
   def test_invalid_styles_should_be_filtered
-    assert_html_output({
-      'p{invalid}. text'                     => '<p>text</p>',
-      'p{invalid:red}. text'                 => '<p>text</p>',
-      'p{color:(red)}. text'                 => '<p>text</p>',
-      'p{color:red;invalid:blue}. text'      => '<p style="color:red;">text</p>',
-      'p{invalid:blue;color:red}. text'      => '<p style="color:red;">text</p>',
-      'p{color:"}. text'                     => '<p>p{color:"}. text</p>',
-      }, false)
+    assert_html_output(
+      {
+        'p{invalid}. text'                     => '<p>text</p>',
+        'p{invalid:red}. text'                 => '<p>text</p>',
+        'p{color:(red)}. text'                 => '<p>text</p>',
+        'p{color:red;invalid:blue}. text'      => '<p style="color:red;">text</p>',
+        'p{invalid:blue;color:red}. text'      => '<p style="color:red;">text</p>',
+        'p{color:"}. text'                     => '<p>p{color:"}. text</p>',
+      },
+      false
+    )
   end
 
   def test_inline_code
@@ -168,15 +180,21 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
   end
 
   def test_kbd
-    assert_html_output({
-      '<kbd>test</kbd>'         => '<kbd>test</kbd>'
-    }, false)
+    assert_html_output(
+      {
+        '<kbd>test</kbd>'         => '<kbd>test</kbd>'
+      },
+      false
+    )
   end
 
   def test_use_of_backslashes_followed_by_numbers_in_headers
-    assert_html_output({
-      'h1. 2009\02\09'      => '<h1>2009\02\09</h1>'
-    }, false)
+    assert_html_output(
+      {
+        'h1. 2009\02\09'      => '<h1>2009\02\09</h1>'
+      },
+      false
+    )
   end
 
   def test_double_dashes_should_not_strikethrough
@@ -565,27 +583,39 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
   end
 
   def test_should_prefix_class_attribute_on_tags
-    assert_html_output({
-      '!(foo)test.png!' => "<p><img src=\"test.png\" class=\"wiki-class-foo\" alt=\"\" /></p>",
-      '%(foo)test%'     => "<p><span class=\"wiki-class-foo\">test</span></p>",
-      'p(foo). test'    => "<p class=\"wiki-class-foo\">test</p>",
-      '|(foo). test|'   => "<table>\n\t\t<tr>\n\t\t\t<td class=\"wiki-class-foo\">test</td>\n\t\t</tr>\n\t</table>",
-    }, false)
+    assert_html_output(
+      {
+        '!(foo)test.png!' => "<p><img src=\"test.png\" class=\"wiki-class-foo\" alt=\"\" /></p>",
+        '%(foo)test%'     => "<p><span class=\"wiki-class-foo\">test</span></p>",
+        'p(foo). test'    => "<p class=\"wiki-class-foo\">test</p>",
+        '|(foo). test|'   =>
+           "<table>\n\t\t<tr>\n\t\t\t<td class=\"wiki-class-foo\">test</td>\n\t\t</tr>\n\t</table>",
+      },
+      false
+    )
   end
 
   def test_should_prefix_id_attribute_on_tags
-    assert_html_output({
-      '!(#foo)test.png!' => "<p><img src=\"test.png\" id=\"wiki-id-foo\" alt=\"\" /></p>",
-      '%(#foo)test%'     => "<p><span id=\"wiki-id-foo\">test</span></p>",
-      'p(#foo). test'    => "<p id=\"wiki-id-foo\">test</p>",
-      '|(#foo). test|'   => "<table>\n\t\t<tr>\n\t\t\t<td id=\"wiki-id-foo\">test</td>\n\t\t</tr>\n\t</table>",
-    }, false)
+    assert_html_output(
+      {
+        '!(#foo)test.png!' => "<p><img src=\"test.png\" id=\"wiki-id-foo\" alt=\"\" /></p>",
+        '%(#foo)test%'     => "<p><span id=\"wiki-id-foo\">test</span></p>",
+        'p(#foo). test'    => "<p id=\"wiki-id-foo\">test</p>",
+        '|(#foo). test|'   =>
+           "<table>\n\t\t<tr>\n\t\t\t<td id=\"wiki-id-foo\">test</td>\n\t\t</tr>\n\t</table>",
+      },
+      false
+    )
   end
 
   def test_should_not_prefix_class_and_id_attributes_already_prefixed
-    assert_html_output({
-      '!(wiki-class-foo#wiki-id-bar)test.png!' => "<p><img src=\"test.png\" class=\"wiki-class-foo\" id=\"wiki-id-bar\" alt=\"\" /></p>",
-    }, false)
+    assert_html_output(
+      {
+        '!(wiki-class-foo#wiki-id-bar)test.png!' =>
+           "<p><img src=\"test.png\" class=\"wiki-class-foo\" id=\"wiki-id-bar\" alt=\"\" /></p>",
+      },
+      false
+    )
   end
 
   def test_footnotes
