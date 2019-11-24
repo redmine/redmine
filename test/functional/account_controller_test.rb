@@ -37,10 +37,12 @@ class AccountControllerTest < Redmine::ControllerTest
   def test_get_login_while_logged_in_should_redirect_to_back_url_if_present
     @request.session[:user_id] = 2
     @request.env["HTTP_REFERER"] = 'http://test.host/issues/show/1'
-
-    get :login, :params => {
+    get(
+      :login,
+      :params => {
         :back_url => 'http://test.host/issues/show/1'
       }
+    )
     assert_redirected_to '/issues/show/1'
     assert_equal 2, @request.session[:user_id]
   end
@@ -70,11 +72,14 @@ class AccountControllerTest < Redmine::ControllerTest
       '/'
     ]
     back_urls.each do |back_url|
-      post :login, :params => {
+      post(
+        :login,
+        :params => {
           :username => 'jsmith',
           :password => 'jsmith',
           :back_url => back_url
         }
+      )
       assert_redirected_to back_url
     end
   end
@@ -88,11 +93,14 @@ class AccountControllerTest < Redmine::ControllerTest
       '/redmine'
     ]
     back_urls.each do |back_url|
-      post :login, :params => {
+      post(
+        :login,
+        :params => {
           :username => 'jsmith',
           :password => 'jsmith',
           :back_url => back_url
         }
+      )
       assert_redirected_to back_url
     end
   ensure
@@ -105,11 +113,13 @@ class AccountControllerTest < Redmine::ControllerTest
       '//test.foo/fake'
     ]
     back_urls.each do |back_url|
-      post :login, :params => {
+      post(
+        :login, :params => {
           :username => 'jsmith',
           :password => 'jsmith',
           :back_url => back_url
         }
+      )
       assert_redirected_to '/my/page'
     end
   end
@@ -117,7 +127,6 @@ class AccountControllerTest < Redmine::ControllerTest
   def test_login_with_suburi_should_not_redirect_to_another_suburi
     @relative_url_root = Redmine::Utils.relative_url_root
     Redmine::Utils.relative_url_root = '/redmine'
-
     back_urls = [
       'http://test.host/',
       'http://test.host/fake',
@@ -136,11 +145,14 @@ class AccountControllerTest < Redmine::ControllerTest
       '.test.foo'
     ]
     back_urls.each do |back_url|
-      post :login, :params => {
+      post(
+        :login,
+        :params => {
           :username => 'jsmith',
           :password => 'jsmith',
           :back_url => back_url
         }
+      )
       assert_redirected_to '/my/page'
     end
   ensure
@@ -148,12 +160,14 @@ class AccountControllerTest < Redmine::ControllerTest
   end
 
   def test_login_with_wrong_password
-    post :login, :params => {
+    post(
+      :login,
+      :params => {
         :username => 'admin',
         :password => 'bad'
       }
+    )
     assert_response :success
-
     assert_select 'div.flash.error', :text => /Invalid user or password/
     assert_select 'input[name=username][value=admin]'
     assert_select 'input[name=password]'
@@ -162,11 +176,13 @@ class AccountControllerTest < Redmine::ControllerTest
 
   def test_login_with_locked_account_should_fail
     User.find(2).update_attribute :status, User::STATUS_LOCKED
-
-    post :login, :params => {
+    post(
+      :login,
+      :params => {
         :username => 'jsmith',
         :password => 'jsmith'
       }
+    )
     assert_redirected_to '/login'
     assert_include 'locked', flash[:error]
     assert_nil @request.session[:user_id]
@@ -174,12 +190,14 @@ class AccountControllerTest < Redmine::ControllerTest
 
   def test_login_as_registered_user_with_manual_activation_should_inform_user
     User.find(2).update_attribute :status, User::STATUS_REGISTERED
-
     with_settings :self_registration => '2', :default_language => 'en' do
-      post :login, :params => {
+      post(
+        :login,
+        :params => {
           :username => 'jsmith',
           :password => 'jsmith'
         }
+      )
       assert_redirected_to '/login'
       assert_include 'pending administrator approval', flash[:error]
     end
@@ -187,12 +205,14 @@ class AccountControllerTest < Redmine::ControllerTest
 
   def test_login_as_registered_user_with_email_activation_should_propose_new_activation_email
     User.find(2).update_attribute :status, User::STATUS_REGISTERED
-
     with_settings :self_registration => '1', :default_language => 'en' do
-      post :login, :params => {
+      post(
+        :login,
+        :params => {
           :username => 'jsmith',
           :password => 'jsmith'
         }
+      )
       assert_redirected_to '/login'
       assert_equal 2, @request.session[:registered_user_id]
       assert_include 'new activation email', flash[:error]
@@ -203,30 +223,37 @@ class AccountControllerTest < Redmine::ControllerTest
     source = AuthSource.create!(:name => 'Test')
     User.find(2).update_attribute :auth_source_id, source.id
     AuthSource.any_instance.stubs(:authenticate).raises(AuthSourceException.new("Something wrong"))
-
-    post :login, :params => {
+    post(
+      :login,
+      :params => {
         :username => 'jsmith',
         :password => 'jsmith'
       }
+    )
     assert_response 500
     assert_select_error /Something wrong/
   end
 
   def test_login_should_reset_session
     @controller.expects(:reset_session).once
-
-    post :login, :params => {
+    post(
+      :login,
+      :params => {
         :username => 'jsmith',
         :password => 'jsmith'
       }
+    )
     assert_response 302
   end
 
   def test_login_should_strip_whitespaces_from_user_name
-    post :login, :params => {
+    post(
+      :login,
+      :params => {
         :username => ' jsmith ',
         :password => 'jsmith'
       }
+    )
     assert_response 302
     assert_equal 2, @request.session[:user_id]
   end
@@ -304,7 +331,9 @@ class AccountControllerTest < Redmine::ControllerTest
   def test_post_register_with_registration_on
     with_settings :self_registration => '3' do
       assert_difference 'User.count' do
-        post :register, :params => {
+        post(
+          :register,
+          :params => {
             :user => {
               :login => 'register',
               :password => 'secret123',
@@ -312,9 +341,9 @@ class AccountControllerTest < Redmine::ControllerTest
               :firstname => 'John',
               :lastname => 'Doe',
               :mail => 'register@example.com'
-
             }
           }
+        )
         assert_redirected_to '/my/account'
       end
       user = User.order('id DESC').first
@@ -330,7 +359,9 @@ class AccountControllerTest < Redmine::ControllerTest
   def test_post_register_with_registration_off_should_redirect
     with_settings :self_registration => '0' do
       assert_no_difference 'User.count' do
-        post :register, :params => {
+        post(
+          :register,
+          :params => {
             :user => {
               :login => 'register',
               :password => 'test',
@@ -338,9 +369,9 @@ class AccountControllerTest < Redmine::ControllerTest
               :firstname => 'John',
               :lastname => 'Doe',
               :mail => 'register@example.com'
-
             }
           }
+        )
         assert_redirected_to '/'
       end
     end
@@ -349,7 +380,9 @@ class AccountControllerTest < Redmine::ControllerTest
   def test_post_register_should_create_user_with_hide_mail_preference
     with_settings :default_users_hide_mail => '0' do
       user = new_record(User) do
-        post :register, :params => {
+        post(
+          :register,
+          :params => {
             :user => {
               :login => 'register',
               :password => 'secret123',
@@ -357,13 +390,12 @@ class AccountControllerTest < Redmine::ControllerTest
               :firstname => 'John',
               :lastname => 'Doe',
               :mail => 'register@example.com'
-
             },
             :pref => {
               :hide_mail => '1'
-
             }
           }
+        )
       end
       assert_equal true, user.pref.hide_mail
     end
@@ -380,13 +412,15 @@ class AccountControllerTest < Redmine::ControllerTest
     ActionMailer::Base.deliveries.clear
     assert_difference 'ActionMailer::Base.deliveries.size' do
       assert_difference 'Token.count' do
-        post :lost_password, :params => {
+        post(
+          :lost_password,
+          :params => {
             :mail => 'JSmith@somenet.foo'
           }
+        )
         assert_redirected_to '/login'
       end
     end
-
     token = Token.order('id DESC').first
     assert_equal User.find(2), token.user
     assert_equal 'recovery', token.action
@@ -401,9 +435,12 @@ class AccountControllerTest < Redmine::ControllerTest
 
     assert_difference 'ActionMailer::Base.deliveries.size' do
       assert_difference 'Token.count' do
-        post :lost_password, params: {
-          mail: ' JSmith@somenet.foo  '
-        }
+        post(
+          :lost_password,
+          :params => {
+            :mail => ' JSmith@somenet.foo  '
+          }
+        )
         assert_redirected_to '/login'
       end
     end
@@ -414,12 +451,14 @@ class AccountControllerTest < Redmine::ControllerTest
   def test_lost_password_using_additional_email_address_should_send_email_to_the_address
     EmailAddress.create!(:user_id => 2, :address => 'anotherAddress@foo.bar')
     Token.delete_all
-
     assert_difference 'ActionMailer::Base.deliveries.size' do
       assert_difference 'Token.count' do
-        post :lost_password, :params => {
+        post(
+          :lost_password,
+          :params => {
             :mail => 'ANOTHERaddress@foo.bar'
           }
+        )
         assert_redirected_to '/login'
       end
     end
@@ -430,9 +469,12 @@ class AccountControllerTest < Redmine::ControllerTest
   def test_lost_password_for_unknown_user_should_fail
     Token.delete_all
     assert_no_difference 'Token.count' do
-      post :lost_password, :params => {
+      post(
+        :lost_password,
+        :params => {
           :mail => 'invalid@somenet.foo'
         }
+      )
       assert_response :success
     end
   end
@@ -440,22 +482,26 @@ class AccountControllerTest < Redmine::ControllerTest
   def test_lost_password_for_non_active_user_should_fail
     Token.delete_all
     assert User.find(2).lock!
-
     assert_no_difference 'Token.count' do
-      post :lost_password, :params => {
+      post(
+        :lost_password,
+        :params => {
           :mail => 'JSmith@somenet.foo'
         }
+      )
       assert_redirected_to '/account/lost_password'
     end
   end
 
   def test_lost_password_for_user_who_cannot_change_password_should_fail
     User.any_instance.stubs(:change_password_allowed?).returns(false)
-
     assert_no_difference 'Token.count' do
-      post :lost_password, :params => {
+      post(
+        :lost_password,
+        :params => {
           :mail => 'JSmith@somenet.foo'
         }
+      )
       assert_response :success
     end
   end
@@ -463,10 +509,7 @@ class AccountControllerTest < Redmine::ControllerTest
   def test_get_lost_password_with_token_should_redirect_with_token_in_session
     user = User.find(2)
     token = Token.create!(:action => 'recovery', :user => user)
-
-    get :lost_password, :params => {
-        :token => token.value
-      }
+    get(:lost_password, :params => {:token => token.value})
     assert_redirected_to '/account/lost_password'
 
     assert_equal token.value, request.session[:password_recovery_token]
@@ -484,9 +527,7 @@ class AccountControllerTest < Redmine::ControllerTest
   end
 
   def test_get_lost_password_with_invalid_token_should_redirect
-    get :lost_password, :params => {
-        :token => "abcdef"
-      }
+    get(:lost_password, :params => {:token => "abcdef"})
     assert_redirected_to '/'
   end
 
@@ -494,12 +535,14 @@ class AccountControllerTest < Redmine::ControllerTest
     ActionMailer::Base.deliveries.clear
     user = User.find(2)
     token = Token.create!(:action => 'recovery', :user => user)
-
-    post :lost_password, :params => {
+    post(
+      :lost_password,
+      :params => {
         :token => token.value,
         :new_password => 'newpass123',
         :new_password_confirmation => 'newpass123'
       }
+    )
     assert_redirected_to '/login'
     user.reload
     assert user.check_password?('newpass123')
@@ -514,12 +557,14 @@ class AccountControllerTest < Redmine::ControllerTest
     user = User.find(2)
     token = Token.create!(:action => 'recovery', :user => user)
     user.lock!
-
-    post :lost_password, :params => {
+    post(
+      :lost_password,
+      :params => {
         :token => token.value,
         :new_password => 'newpass123',
         :new_password_confirmation => 'newpass123'
       }
+    )
     assert_redirected_to '/'
     assert ! user.check_password?('newpass123')
   end
@@ -527,12 +572,13 @@ class AccountControllerTest < Redmine::ControllerTest
   def test_post_lost_password_with_token_and_password_confirmation_failure_should_redisplay_the_form
     user = User.find(2)
     token = Token.create!(:action => 'recovery', :user => user)
-
-    post :lost_password, :params => {
+    post(
+      :lost_password, :params => {
         :token => token.value,
         :new_password => 'newpass',
         :new_password_confirmation => 'wrongpass'
       }
+    )
     assert_response :success
     assert_not_nil Token.find_by_id(token.id), "Token was deleted"
 
@@ -545,12 +591,14 @@ class AccountControllerTest < Redmine::ControllerTest
     user.must_change_passwd = true
     user.save!
     token = Token.create!(:action => 'recovery', :user => user)
-
-    post :lost_password, :params => {
+    post(
+      :lost_password,
+      :params => {
         :token => token.value,
         :new_password => 'originalpassword',
         :new_password_confirmation => 'originalpassword'
       }
+    )
     assert_response :success
     assert_not_nil Token.find_by_id(token.id), "Token was deleted"
 
@@ -564,23 +612,28 @@ class AccountControllerTest < Redmine::ControllerTest
     user.must_change_passwd = true
     user.save!
     token = Token.create!(:action => 'recovery', :user => user)
-
-    post :lost_password, :params => {
+    post(
+      :lost_password,
+      :params => {
         :token => token.value,
         :new_password => 'newpassword',
         :new_password_confirmation => 'newpassword'
       }
+    )
     assert_redirected_to '/login'
 
     assert_equal false, user.reload.must_change_passwd
   end
 
   def test_post_lost_password_with_invalid_token_should_redirect
-    post :lost_password, :params => {
+    post(
+      :lost_password,
+      :params => {
         :token => "abcdef",
         :new_password => 'newpass',
         :new_password_confirmation => 'newpass'
       }
+    )
     assert_redirected_to '/'
   end
 
