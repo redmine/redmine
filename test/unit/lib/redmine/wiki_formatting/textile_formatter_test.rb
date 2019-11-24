@@ -434,9 +434,11 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
 
   def test_update_section_with_hash_should_update_the_requested_section
     replacement = "New text"
-
-    assert_equal [STR_WITHOUT_PRE[0], replacement, STR_WITHOUT_PRE[2..4]].flatten.join("\n\n"),
-      @formatter.new(TEXT_WITHOUT_PRE).update_section(2, replacement, Digest::MD5.hexdigest(STR_WITHOUT_PRE[1]))
+    assert_equal(
+      [STR_WITHOUT_PRE[0], replacement, STR_WITHOUT_PRE[2..4]].flatten.join("\n\n"),
+      @formatter.new(TEXT_WITHOUT_PRE).
+        update_section(2, replacement, Digest::MD5.hexdigest(STR_WITHOUT_PRE[1]))
+    )
   end
 
   def test_update_section_with_wrong_hash_should_raise_an_error
@@ -496,9 +498,10 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
   def test_update_section_should_not_escape_pre_content_outside_section
     text = STR_WITH_PRE.join("\n\n")
     replacement = "New text"
-
-    assert_equal [STR_WITH_PRE[0..1], "New text"].flatten.join("\n\n"),
+    assert_equal(
+      [STR_WITH_PRE[0..1], "New text"].flatten.join("\n\n"),
       @formatter.new(text).update_section(3, replacement)
+    )
   end
 
   def test_get_section_should_support_lines_with_spaces_before_heading
