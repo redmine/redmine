@@ -318,14 +318,20 @@ class IssuesHelperTest < Redmine::HelperTest
     details << JournalDetail.new(:property => 'cf', :prop_key => field.id.to_s, :old_value => '2', :value => nil)
     details << JournalDetail.new(:property => 'cf', :prop_key => field.id.to_s, :old_value => '3', :value => nil)
 
-    assert_equal [
-      "User Redmine Admin added",
-      "User deleted (Dave Lopper, John Smith)"
-      ], details_to_strings(details, true)
-    assert_equal [
-      "<strong>User</strong> <i>Redmine Admin</i> added",
-      "<strong>User</strong> deleted (<del><i>Dave Lopper, John Smith</i></del>)"
-      ], details_to_strings(details, false)
+    assert_equal(
+      [
+        "User Redmine Admin added",
+        "User deleted (Dave Lopper, John Smith)"
+      ],
+      details_to_strings(details, true)
+    )
+    assert_equal(
+      [
+        "<strong>User</strong> <i>Redmine Admin</i> added",
+        "<strong>User</strong> deleted (<del><i>Dave Lopper, John Smith</i></del>)"
+      ],
+      details_to_strings(details, false)
+    )
   end
 
   def test_find_name_by_reflection_should_return_nil_for_missing_record
