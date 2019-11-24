@@ -565,9 +565,12 @@ class RepositoriesSubversionControllerTest < Redmine::RepositoryControllerTest
     def test_destroy_invalid_repository
       @request.session[:user_id] = 1 # admin
       @project.repository.destroy
-      @repository = Repository::Subversion.create!(
-                       :project => @project,
-                       :url     => "file:///invalid")
+      @repository =
+        Repository::Subversion.
+          create!(
+            :project => @project,
+            :url     => "file:///invalid"
+          )
       @repository.fetch_changesets
       assert_equal 0, @repository.changesets.count
 
