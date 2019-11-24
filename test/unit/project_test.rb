@@ -1077,7 +1077,7 @@ class ProjectTest < ActiveSupport::TestCase
           ]
       },
       user
-   )
+    )
     assert_equal 'valuea', project.custom_field_value(cf1)
     assert_nil project.custom_field_value(cf2)
   end
