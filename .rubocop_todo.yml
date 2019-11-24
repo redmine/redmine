@@ -156,7 +156,6 @@ Layout/IndentFirstArrayElement:
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
     - 'test/functional/auth_sources_controller_test.rb'
     - 'test/functional/repositories_mercurial_controller_test.rb'
-    - 'test/helpers/activities_helper_test.rb'
     - 'test/helpers/issues_helper_test.rb'
     - 'test/unit/issue_test.rb'
     - 'test/unit/lib/redmine/scm/adapters/git_adapter_test.rb'
