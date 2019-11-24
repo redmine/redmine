@@ -52,6 +52,7 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
     MODIFIERS.each do |m1, tag1|
       MODIFIERS.each do |m2, tag2|
         next if m1 == m2
+
         text = "#{m2}#{m1}Phrase modifiers#{m1}#{m2}"
         html = "<#{tag2}><#{tag1}>Phrase modifiers</#{tag1}></#{tag2}>"
         assert_html_output text => html
