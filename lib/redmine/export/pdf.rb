@@ -127,7 +127,7 @@ module Redmine
             RDMCell(0, 5, @footer_date, 0, 0, 'L')
           end
           set_x(-30)
-          RDMCell(0, 5, get_alias_num_page() + '/' + get_alias_nb_pages(), 0, 0, 'C')
+          RDMCell(0, 5, get_alias_num_page + '/' + get_alias_nb_pages, 0, 0, 'C')
         end
       end
 
