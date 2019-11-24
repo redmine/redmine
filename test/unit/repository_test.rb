@@ -401,19 +401,23 @@ class RepositoryTest < ActiveSupport::TestCase
     h1 = {"test_1" => {"test_11" => "test_value_11"}}
     repo.merge_extra_info(h1)
     assert_equal h1, repo.extra_info
-    h2 = {"test_2" => {
-                   "test_21" => "test_value_21",
-                   "test_22" => "test_value_22",
-                  }}
+    h2 = {
+      "test_2" => {
+        "test_21" => "test_value_21",
+        "test_22" => "test_value_22",
+      }
+    }
     repo.merge_extra_info(h2)
     assert_equal (h = {"test_11" => "test_value_11"}),
                  repo.extra_info["test_1"]
     assert_equal "test_value_21",
                  repo.extra_info["test_2"]["test_21"]
-    h3 = {"test_2" => {
-                   "test_23" => "test_value_23",
-                   "test_24" => "test_value_24",
-                  }}
+    h3 = {
+      "test_2" => {
+        "test_23" => "test_value_23",
+        "test_24" => "test_value_24",
+      }
+    }
     repo.merge_extra_info(h3)
     assert_equal (h = {"test_11" => "test_value_11"}),
                  repo.extra_info["test_1"]
