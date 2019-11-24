@@ -25,24 +25,32 @@ class Redmine::WikiFormatting::MarkdownHtmlParserTest < ActiveSupport::TestCase
   end
 
   def test_should_convert_tags
-    assert_equal 'A **simple** html snippet.',
+    assert_equal(
+      'A **simple** html snippet.',
       @parser.to_text('<p>A <b>simple</b> html snippet.</p>')
-
-    assert_equal 'foo [bar](http://example.com/) baz',
+    )
+    assert_equal(
+      'foo [bar](http://example.com/) baz',
       @parser.to_text('foo<a href="http://example.com/">bar</a>baz')
-
-    assert_equal 'foo http://example.com/ baz',
+    )
+    assert_equal(
+      'foo http://example.com/ baz',
       @parser.to_text('foo<a href="http://example.com/"></a>baz')
-
-    assert_equal 'foobarbaz',
+    )
+    assert_equal(
+      'foobarbaz',
       @parser.to_text('foo<a name="Header-one">bar</a>baz')
-
-    assert_equal 'foobaz',
+    )
+    assert_equal(
+      'foobaz',
       @parser.to_text('foo<a name="Header-one"/>baz')
+    )
   end
 
   def test_html_tables_conversion
-    assert_equal "*th1*\n*th2*\n\ntd1\ntd2",
+    assert_equal(
+      "*th1*\n*th2*\n\ntd1\ntd2",
       @parser.to_text('<table><tr><th>th1</th><th>th2</th></tr><tr><td>td1</td><td>td2</td></tr></table>')
+    )
   end
 end
