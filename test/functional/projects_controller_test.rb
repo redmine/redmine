@@ -1169,7 +1169,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
 
   def test_bookmark_should_create_bookmark
     @request.session[:user_id] = 3
-    post :bookmark, params: { id: 'ecookbook' }
+    post(:bookmark, :params => {:id => 'ecookbook'})
     assert_redirected_to controller: 'projects', action: 'show', id: 'ecookbook'
     jb = Redmine::ProjectJumpBox.new(User.find(3))
     assert jb.bookmark?(Project.find('ecookbook'))
@@ -1181,7 +1181,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
     jb = Redmine::ProjectJumpBox.new(User.find(3))
     project = Project.find('ecookbook')
     jb.bookmark_project project
-    delete :bookmark, params: { id: 'ecookbook' }
+    delete(:bookmark, :params => {:id => 'ecookbook'})
     assert_redirected_to controller: 'projects', action: 'show', id: 'ecookbook'
 
     jb = Redmine::ProjectJumpBox.new(User.find(3))
