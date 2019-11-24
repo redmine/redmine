@@ -294,7 +294,6 @@ Layout/SpaceInsideHashLiteralBraces:
 # SupportedStyles: space, no_space
 Layout/SpaceInsideParens:
   Exclude:
-    - 'app/controllers/application_controller.rb'
     - 'app/helpers/issues_helper.rb'
     - 'app/models/auth_source_ldap.rb'
     - 'app/models/repository/cvs.rb'

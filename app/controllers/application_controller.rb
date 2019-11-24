@@ -365,7 +365,7 @@ class ApplicationController < ActionController::Base
   def find_attachments
     if (attachments = params[:attachments]).present?
       att = attachments.values.collect do |attachment|
-        Attachment.find_by_token( attachment[:token] ) if attachment[:token].present?
+        Attachment.find_by_token(attachment[:token]) if attachment[:token].present?
       end
       att.compact!
     end
