@@ -487,7 +487,7 @@ class Mailer < ActionMailer::Base
   def self.deliver_security_notification(users, sender, options={})
     # Symbols cannot be serialized:
     # ActiveJob::SerializationError: Unsupported argument type: Symbol
-    options = options.transform_values {|v| v.is_a?(Symbol) ? v.to_s : v }
+    options = options.transform_values {|v| v.is_a?(Symbol) ? v.to_s : v}
     # sender's remote_ip would be lost on serialization/deserialization
     # we have to pass it with options
     options[:remote_ip] ||= sender.remote_ip
