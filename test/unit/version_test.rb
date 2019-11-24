@@ -319,10 +319,16 @@ class VersionTest < ActiveSupport::TestCase
     )
     assert_equal 'value1', version.custom_field_value(cf1)
     assert_nil version.custom_field_value(cf2)
-    version.send :safe_attributes=, {'custom_fields' => [
-                                     {'id' => cf1.id.to_s, 'value' => 'valuea'},
-                                     {'id' => cf2.id.to_s, 'value' => 'valueb'}
-                                   ]}, user
+    version.send(
+      :safe_attributes=,
+      {'custom_fields' =>
+        [
+          {'id' => cf1.id.to_s, 'value' => 'valuea'},
+          {'id' => cf2.id.to_s, 'value' => 'valueb'}
+        ]
+      },
+      user
+    )
     assert_equal 'valuea', version.custom_field_value(cf1)
     assert_nil version.custom_field_value(cf2)
   end
