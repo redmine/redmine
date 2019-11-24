@@ -384,7 +384,6 @@ Lint/Loop:
 
 Lint/ParenthesesAsGroupedExpression:
   Exclude:
-    - 'lib/redmine/field_format.rb'
     - 'test/functional/account_controller_test.rb'
     - 'test/functional/email_addresses_controller_test.rb'
     - 'test/functional/my_controller_test.rb'
