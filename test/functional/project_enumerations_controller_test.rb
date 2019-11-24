@@ -256,15 +256,23 @@ class ProjectEnumerationsControllerTest < Redmine::ControllerTest
     assert_redirected_to '/projects/ecookbook/settings/activities'
 
     assert_nil TimeEntryActivity.find_by_id(project_activity.id)
-    assert_equal 0, TimeEntry.where(
-                      :activity_id => project_activity.id,
-                      :project_id => 1
-                    ).count,
-                 "TimeEntries still assigned to project specific activity"
-    assert_equal 3, TimeEntry.where(
-                      :activity_id => 9,
-                      :project_id => 1
-                    ).count,
-                 "TimeEntries still assigned to project specific activity"
+    assert_equal(
+      0,
+      TimeEntry.
+        where(
+          :activity_id => project_activity.id,
+          :project_id => 1
+        ).count,
+      "TimeEntries still assigned to project specific activity"
+    )
+    assert_equal(
+      3,
+      TimeEntry.
+        where(
+          :activity_id => 9,
+          :project_id => 1
+        ).count,
+      "TimeEntries still assigned to project specific activity"
+    )
   end
 end
