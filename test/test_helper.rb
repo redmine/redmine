@@ -63,7 +63,8 @@ class ActiveSupport::TestCase
   end
 
   def mock_file(options=nil)
-    options ||= {
+    options ||=
+      {
         :original_filename => 'a_file.png',
         :content_type => 'image/png',
         :size => 32
@@ -373,10 +374,13 @@ module Redmine
       assert_nil session[:user_id]
       assert_response :success
 
-      post "/login", :params => {
+      post(
+        "/login",
+        :params => {
           :username => login,
           :password => password
         }
+      )
       assert_equal login, User.find(session[:user_id]).login
     end
 
