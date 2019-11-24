@@ -384,7 +384,6 @@ Lint/Loop:
 
 Lint/ParenthesesAsGroupedExpression:
   Exclude:
-    - 'test/functional/email_addresses_controller_test.rb'
     - 'test/functional/my_controller_test.rb'
     - 'test/functional/settings_controller_test.rb'
     - 'test/functional/users_controller_test.rb'

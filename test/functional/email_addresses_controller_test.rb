@@ -127,8 +127,8 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
           :address => 'something@example.fr'
         }
       }
-
-    assert_not_nil (mail = ActionMailer::Base.deliveries.last)
+    mail = ActionMailer::Base.deliveries.last
+    assert_not_nil mail
     assert_mail_body_match '0.0.0.0', mail
     assert_mail_body_match I18n.t(:mail_body_security_notification_add, field: I18n.t(:field_mail), value: 'something@example.fr'), mail
     assert_select_email do
@@ -179,8 +179,8 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
         :notify => '0'
       },
       :xhr => true
-
-    assert_not_nil (mail = ActionMailer::Base.deliveries.last)
+    mail = ActionMailer::Base.deliveries.last
+    assert_not_nil mail
     assert_mail_body_match I18n.t(:mail_body_security_notification_notify_disabled, value: 'another@somenet.foo'), mail
 
     # The changed address should be notified for security purposes
@@ -237,8 +237,8 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
         :id => email.id
       },
       :xhr => true
-
-    assert_not_nil (mail = ActionMailer::Base.deliveries.last)
+    mail = ActionMailer::Base.deliveries.last
+    assert_not_nil mail
     assert_mail_body_match I18n.t(:mail_body_security_notification_remove, field: I18n.t(:field_mail), value: 'another@somenet.foo'), mail
 
     # The removed address should be notified for security purposes
