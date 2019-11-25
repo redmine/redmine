@@ -186,7 +186,6 @@ Layout/MultilineHashBraceLayout:
     - 'lib/redmine/scm/adapters/subversion_adapter.rb'
     - 'test/functional/documents_controller_test.rb'
     - 'test/functional/imports_controller_test.rb'
-    - 'test/functional/issues_controller_test.rb'
     - 'test/functional/issues_controller_transaction_test.rb'
     - 'test/functional/my_controller_test.rb'
     - 'test/functional/queries_controller_test.rb'
