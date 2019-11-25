@@ -1104,15 +1104,16 @@ class IssuesControllerTest < Redmine::ControllerTest
     CustomValue.create!(:custom_field => cf, :customized => Issue.find(2), :value => '3')
     CustomValue.create!(:custom_field => cf, :customized => Issue.find(3), :value => '3')
     CustomValue.create!(:custom_field => cf, :customized => Issue.find(5), :value => '')
-
     get :index, :params => {
         :project_id => 1,
         :set_filter => 1,
       :sort => "cf_#{cf.id},id"
       }
     assert_response :success
-
-    assert_equal [2, 3, 1], issues_in_list.select {|issue| issue.custom_field_value(cf).present?}.map(&:id)
+    assert_equal(
+      [2, 3, 1],
+      issues_in_list.select {|issue| issue.custom_field_value(cf).present?}.map(&:id)
+    )
   end
 
   def test_index_with_columns
@@ -2064,8 +2065,13 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_show_should_not_display_prev_link_for_first_issue
-    @request.session[:issue_query] = {:filters => {'status_id' => {:values => [''], :operator => 'o'}}, :project_id => 1, :sort => [['id', 'asc']]}
-
+    @request.session[:issue_query] =
+      {
+        :filters => {
+          'status_id' => {:values => [''], :operator => 'o'}
+        },
+        :project_id => 1, :sort => [['id', 'asc']]
+      }
     with_settings :display_subprojects_issues => '0' do
       get :show, :params => {
           :id => 1
@@ -2080,8 +2086,14 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_show_should_not_display_prev_next_links_for_issue_not_in_query_results
-    @request.session[:issue_query] = {:filters => {'status_id' => {:values => [''], :operator => 'c'}}, :project_id => 1, :sort => [['id', 'asc']]}
-
+    @request.session[:issue_query] =
+      {
+        :filters => {
+          'status_id' => {:values => [''], :operator => 'c'}
+        },
+        :project_id => 1,
+        :sort => [['id', 'asc']]
+      }
     get :show, :params => {
         :id => 1
       }
@@ -2097,9 +2109,13 @@ class IssuesControllerTest < Redmine::ControllerTest
     CustomValue.create!(:custom_field => cf, :customized => Issue.find(2), :value => '3')
     CustomValue.create!(:custom_field => cf, :customized => Issue.find(3), :value => '3')
     CustomValue.create!(:custom_field => cf, :customized => Issue.find(5), :value => '')
-
-    query = IssueQuery.create!(:name => 'test', :visibility => IssueQuery::VISIBILITY_PUBLIC,  :user_id => 1, :filters => {},
-      :sort_criteria => [["cf_#{cf.id}", 'asc'], ['id', 'asc']])
+    query =
+      IssueQuery.create!(
+        :name => 'test',
+        :visibility => IssueQuery::VISIBILITY_PUBLIC,
+        :user_id => 1, :filters => {},
+        :sort_criteria => [["cf_#{cf.id}", 'asc'], ['id', 'asc']]
+      )
     @request.session[:issue_query] = {:id => query.id, :project_id => nil}
 
     get :show, :params => {
@@ -3022,7 +3038,14 @@ class IssuesControllerTest < Redmine::ControllerTest
   def test_new_with_tracker_set_as_readonly_should_accept_status
     WorkflowPermission.delete_all
     [1, 2].each do |status_id|
-      WorkflowPermission.create!(:tracker_id => 1, :old_status_id => status_id, :role_id => 1, :field_name => 'tracker_id', :rule => 'readonly')
+      WorkflowPermission.
+        create!(
+          :tracker_id => 1,
+          :old_status_id => status_id,
+          :role_id => 1,
+          :field_name => 'tracker_id',
+          :rule => 'readonly'
+        )
     end
     @request.session[:user_id] = 2
 
@@ -3163,11 +3186,15 @@ class IssuesControllerTest < Redmine::ControllerTest
   def test_update_form_for_new_issue_should_propose_transitions_based_on_initial_status
     @request.session[:user_id] = 2
     WorkflowTransition.delete_all
-    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 0, :new_status_id => 2)
-    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 0, :new_status_id => 5)
-    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 5, :new_status_id => 4)
-
-    post :new, :params => {
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1,
+                               :old_status_id => 0, :new_status_id => 2)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1,
+                               :old_status_id => 0, :new_status_id => 5)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1,
+                               :old_status_id => 5, :new_status_id => 4)
+    post(
+      :new,
+      :params => {
         :project_id => 1,
         :issue => {
           :tracker_id => 1,
@@ -3175,7 +3202,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           :subject => 'This is an issue'
         }
       }
-
+    )
     assert_select 'select[name=?]', 'issue[status_id]' do
       assert_select 'option[value=?][selected=selected]', '5'
       assert_select 'option[value=?]', '2'
@@ -6246,7 +6273,10 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
 
     assert_response :redirect
-    assert_redirected_to :controller => 'issues', :action => 'index', :project_id => Project.find(1).identifier
+    assert_redirected_to(
+      :controller => 'issues', :action => 'index',
+      :project_id => Project.find(1).identifier
+    )
   end
 
   def test_bulk_update_with_all_failures_should_show_errors
