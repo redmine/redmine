@@ -393,14 +393,25 @@ class UsersControllerTest < Redmine::ControllerTest
 
     assert_not_nil (mail = ActionMailer::Base.deliveries.last)
     assert_mail_body_match '0.0.0.0', mail
-    assert_mail_body_match I18n.t(:mail_body_security_notification_add, field: I18n.t(:field_admin), value: 'eschmoe'), mail
+    assert_mail_body_match(
+      I18n.t(
+        :mail_body_security_notification_add,
+        field: I18n.t(:field_admin),
+        value: 'eschmoe'
+      ),
+      mail
+    )
     assert_select_email do
       assert_select 'a[href^=?]', 'http://localhost:3000/users', :text => 'Users'
     end
 
     # All admins should receive this
     User.where(admin: true, status: Principal::STATUS_ACTIVE).each do |admin|
-      assert_not_nil ActionMailer::Base.deliveries.detect{|mail| [mail.bcc, mail.cc].flatten.include?(admin.mail) }
+      assert_not_nil(
+        ActionMailer::Base.deliveries.detect do |mail|
+          [mail.bcc, mail.cc].flatten.include?(admin.mail)
+        end
+      )
     end
   end
 
@@ -611,11 +622,21 @@ class UsersControllerTest < Redmine::ControllerTest
     }
 
     assert_not_nil (mail = ActionMailer::Base.deliveries.last)
-    assert_mail_body_match I18n.t(:mail_body_security_notification_add, field: I18n.t(:field_admin), value: User.find(2).login), mail
-
+    assert_mail_body_match(
+      I18n.t(
+        :mail_body_security_notification_add,
+        field: I18n.t(:field_admin),
+        value: User.find(2).login
+      ),
+      mail
+    )
     # All admins should receive this
     User.where(admin: true, status: Principal::STATUS_ACTIVE).each do |admin|
-      assert_not_nil ActionMailer::Base.deliveries.detect{|mail| [mail.bcc, mail.cc].flatten.include?(admin.mail) }
+      assert_not_nil(
+        ActionMailer::Base.deliveries.detect do |mail|
+          [mail.bcc, mail.cc].flatten.include?(admin.mail)
+        end
+      )
     end
   end
 
@@ -631,11 +652,21 @@ class UsersControllerTest < Redmine::ControllerTest
     }
 
     assert_not_nil (mail = ActionMailer::Base.deliveries.last)
-    assert_mail_body_match I18n.t(:mail_body_security_notification_remove, field: I18n.t(:field_admin), value: user.login), mail
-
+    assert_mail_body_match(
+      I18n.t(
+        :mail_body_security_notification_remove,
+        field: I18n.t(:field_admin),
+        value: user.login
+      ),
+      mail
+    )
     # All admins should receive this
     User.where(admin: true, status: Principal::STATUS_ACTIVE).each do |admin|
-      assert_not_nil ActionMailer::Base.deliveries.detect{|mail| [mail.bcc, mail.cc].flatten.include?(admin.mail) }
+      assert_not_nil(
+        ActionMailer::Base.deliveries.detect do |mail|
+          [mail.bcc, mail.cc].flatten.include?(admin.mail)
+        end
+      )
     end
   end
 
@@ -651,11 +682,21 @@ class UsersControllerTest < Redmine::ControllerTest
     }
 
     assert_not_nil (mail = ActionMailer::Base.deliveries.last)
-    assert_mail_body_match I18n.t(:mail_body_security_notification_remove, field: I18n.t(:field_admin), value: User.find(2).login), mail
-
+    assert_mail_body_match(
+      I18n.t(
+        :mail_body_security_notification_remove,
+        field: I18n.t(:field_admin),
+        value: User.find(2).login
+      ),
+      mail
+    )
     # All admins should receive this
     User.where(admin: true, status: Principal::STATUS_ACTIVE).each do |admin|
-      assert_not_nil ActionMailer::Base.deliveries.detect{|mail| [mail.bcc, mail.cc].flatten.include?(admin.mail) }
+      assert_not_nil(
+        ActionMailer::Base.deliveries.detect do |mail|
+          [mail.bcc, mail.cc].flatten.include?(admin.mail)
+        end
+      )
     end
 
     # if user is already locked, destroying should not send a second mail
@@ -677,11 +718,21 @@ class UsersControllerTest < Redmine::ControllerTest
     }
 
     assert_not_nil (mail = ActionMailer::Base.deliveries.last)
-    assert_mail_body_match I18n.t(:mail_body_security_notification_add, field: I18n.t(:field_admin), value: user.login), mail
-
+    assert_mail_body_match(
+      I18n.t(
+        :mail_body_security_notification_add,
+        field: I18n.t(:field_admin),
+        value: user.login
+      ),
+      mail
+    )
     # All admins should receive this
     User.where(admin: true, status: Principal::STATUS_ACTIVE).each do |admin|
-      assert_not_nil ActionMailer::Base.deliveries.detect{|mail| [mail.bcc, mail.cc].flatten.include?(admin.mail) }
+      assert_not_nil(
+        ActionMailer::Base.deliveries.detect do |mail|
+          [mail.bcc, mail.cc].flatten.include?(admin.mail)
+        end
+      )
     end
   end
 
@@ -740,11 +791,21 @@ class UsersControllerTest < Redmine::ControllerTest
     delete :destroy, :params => {:id => user.id}
 
     assert_not_nil (mail = ActionMailer::Base.deliveries.last)
-    assert_mail_body_match I18n.t(:mail_body_security_notification_remove, field: I18n.t(:field_admin), value: user.login), mail
-
+    assert_mail_body_match(
+      I18n.t(
+        :mail_body_security_notification_remove,
+        field: I18n.t(:field_admin),
+        value: user.login
+      ),
+      mail
+    )
     # All admins should receive this
     User.where(admin: true, status: Principal::STATUS_ACTIVE).each do |admin|
-      assert_not_nil ActionMailer::Base.deliveries.detect{|mail| [mail.bcc, mail.cc].flatten.include?(admin.mail) }
+      assert_not_nil(
+        ActionMailer::Base.deliveries.detect do |mail|
+          [mail.bcc, mail.cc].flatten.include?(admin.mail)
+        end
+      )
     end
   end
 end
