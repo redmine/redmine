@@ -766,9 +766,12 @@ class UserTest < ActiveSupport::TestCase
     anon1 = User.anonymous
     assert !anon1.new_record?
     assert_kind_of AnonymousUser, anon1
-    anon2 = AnonymousUser.create(
-                :lastname => 'Anonymous', :firstname => '',
-                :login => '', :status => 0)
+    anon2 =
+      AnonymousUser.
+        create(
+          :lastname => 'Anonymous', :firstname => '',
+          :login => '', :status => 0
+        )
     assert_equal 1, anon2.errors.count
   end
 
