@@ -168,54 +168,61 @@ class IssuesControllerTest < Redmine::ControllerTest
   def test_index_with_short_filters
     to_test = {
       'status_id' => {
-        'o' => { :op => 'o', :values => [''] },
-        'c' => { :op => 'c', :values => [''] },
-        '7' => { :op => '=', :values => ['7'] },
-        '7|3|4' => { :op => '=', :values => ['7', '3', '4'] },
-        '=7' => { :op => '=', :values => ['7'] },
-        '!3' => { :op => '!', :values => ['3'] },
-        '!7|3|4' => { :op => '!', :values => ['7', '3', '4'] }},
+        'o' => {:op => 'o', :values => ['']},
+        'c' => {:op => 'c', :values => ['']},
+        '7' => {:op => '=', :values => ['7']},
+        '7|3|4' => {:op => '=', :values => ['7', '3', '4']},
+        '=7' => {:op => '=', :values => ['7']},
+        '!3' => {:op => '!', :values => ['3']},
+        '!7|3|4' => {:op => '!', :values => ['7', '3', '4']}
+      },
       'subject' => {
-        'This is a subject' => { :op => '=', :values => ['This is a subject'] },
-        'o' => { :op => '=', :values => ['o'] },
-        '~This is part of a subject' => { :op => '~', :values => ['This is part of a subject'] },
-        '!~This is part of a subject' => { :op => '!~', :values => ['This is part of a subject'] }},
+        'This is a subject' => {:op => '=', :values => ['This is a subject']},
+        'o' => {:op => '=', :values => ['o']},
+        '~This is part of a subject' => {:op => '~', :values => ['This is part of a subject']},
+        '!~This is part of a subject' => {:op => '!~', :values => ['This is part of a subject']}
+      },
       'tracker_id' => {
-        '3' => { :op => '=', :values => ['3'] },
-        '=3' => { :op => '=', :values => ['3'] }},
+        '3' => {:op => '=', :values => ['3']},
+        '=3' => {:op => '=', :values => ['3']}
+      },
       'start_date' => {
-        '2011-10-12' => { :op => '=', :values => ['2011-10-12'] },
-        '=2011-10-12' => { :op => '=', :values => ['2011-10-12'] },
-        '>=2011-10-12' => { :op => '>=', :values => ['2011-10-12'] },
-        '<=2011-10-12' => { :op => '<=', :values => ['2011-10-12'] },
-        '><2011-10-01|2011-10-30' => { :op => '><', :values => ['2011-10-01', '2011-10-30'] },
-        '<t+2' => { :op => '<t+', :values => ['2'] },
-        '>t+2' => { :op => '>t+', :values => ['2'] },
-        't+2' => { :op => 't+', :values => ['2'] },
-        't' => { :op => 't', :values => [''] },
-        'w' => { :op => 'w', :values => [''] },
-        '>t-2' => { :op => '>t-', :values => ['2'] },
-        '<t-2' => { :op => '<t-', :values => ['2'] },
-        't-2' => { :op => 't-', :values => ['2'] }},
+        '2011-10-12' => {:op => '=', :values => ['2011-10-12']},
+        '=2011-10-12' => {:op => '=', :values => ['2011-10-12']},
+        '>=2011-10-12' => {:op => '>=', :values => ['2011-10-12']},
+        '<=2011-10-12' => {:op => '<=', :values => ['2011-10-12']},
+        '><2011-10-01|2011-10-30' => {:op => '><', :values => ['2011-10-01', '2011-10-30']},
+        '<t+2' => {:op => '<t+', :values => ['2']},
+        '>t+2' => {:op => '>t+', :values => ['2']},
+        't+2' => {:op => 't+', :values => ['2']},
+        't' => {:op => 't', :values => ['']},
+        'w' => {:op => 'w', :values => ['']},
+        '>t-2' => {:op => '>t-', :values => ['2']},
+        '<t-2' => {:op => '<t-', :values => ['2']},
+        't-2' => {:op => 't-', :values => ['2']}
+      },
       'created_on' => {
-        '>=2011-10-12' => { :op => '>=', :values => ['2011-10-12'] },
-        '<t-2' => { :op => '<t-', :values => ['2'] },
-        '>t-2' => { :op => '>t-', :values => ['2'] },
-        't-2' => { :op => 't-', :values => ['2'] }},
+        '>=2011-10-12' => {:op => '>=', :values => ['2011-10-12']},
+        '<t-2' => {:op => '<t-', :values => ['2']},
+        '>t-2' => {:op => '>t-', :values => ['2']},
+        't-2' => {:op => 't-', :values => ['2']}
+      },
       'cf_1' => {
-        'c' => { :op => '=', :values => ['c'] },
-        '!c' => { :op => '!', :values => ['c'] },
-        '!*' => { :op => '!*', :values => [''] },
-        '*' => { :op => '*', :values => [''] }},
+        'c' => {:op => '=', :values => ['c']},
+        '!c' => {:op => '!', :values => ['c']},
+        '!*' => {:op => '!*', :values => ['']},
+        '*' => {:op => '*', :values => ['']}
+      },
       'estimated_hours' => {
-        '=13.4' => { :op => '=', :values => ['13.4'] },
-        '>=45' => { :op => '>=', :values => ['45'] },
-        '<=125' => { :op => '<=', :values => ['125'] },
-        '><10.5|20.5' => { :op => '><', :values => ['10.5', '20.5'] },
-        '!*' => { :op => '!*', :values => [''] },
-        '*' => { :op => '*', :values => [''] }}
+        '=13.4' => {:op => '=', :values => ['13.4']},
+        '>=45' => {:op => '>=', :values => ['45']},
+        '<=125' => {:op => '<=', :values => ['125']},
+        '><10.5|20.5' => {:op => '><', :values => ['10.5', '20.5']},
+        '!*' => {:op => '!*', :values => ['']},
+        '*' => {:op => '*', :values => ['']}
+      }
     }
-    default_filter = { 'status_id' => {:operator => 'o', :values => [''] }}
+    default_filter = {'status_id' => {:operator => 'o', :values => ['']}}
     to_test.each do |field, expression_and_expected|
       expression_and_expected.each do |filter_expression, expected|
         get :index, :params => {
@@ -2759,7 +2766,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   def test_new_with_me_assigned_to_id
     @request.session[:user_id] = 2
     get :new, :params => {
-      :issue => { :assigned_to_id => 'me' }
+      :issue => {:assigned_to_id => 'me'}
     }
     assert_response :success
     assert_select 'select[name=?]', 'issue[assigned_to_id]' do
@@ -3175,7 +3182,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     t = Tracker.find(3)
     assert !t.disabled_core_fields.include?('parent_issue_id')
     get :new, :params => {
-        :project_id => 1, :issue => { parent_issue_id: 1 }
+        :project_id => 1, :issue => {:parent_issue_id => 1}
       }
     assert_response :success
     assert_select 'option', text: /#{t.name}/, count: 1
@@ -3184,7 +3191,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     t.save!
     assert t.disabled_core_fields.include?('parent_issue_id')
     get :new, :params => {
-        :project_id => 1, :issue => { parent_issue_id: 1 }
+        :project_id => 1, :issue => {:parent_issue_id => 1}
       }
     assert_response :success
     assert_select 'option', text: /#{t.name}/, count: 0
@@ -4866,7 +4873,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get :edit, :params => {
       :id => 1,
-      :issue => { :assigned_to_id => 'me' }
+      :issue => {:assigned_to_id => 'me'}
     }
     assert_response :success
     assert_select 'select[name=?]', 'issue[assigned_to_id]' do
@@ -5105,7 +5112,7 @@ class IssuesControllerTest < Redmine::ControllerTest
                 :subject => 'Custom field change',
                 :priority_id => '6',
                 :category_id => '1', # no change
-                :custom_field_values => { '2' => 'New custom value' }
+                :custom_field_values => {'2' => 'New custom value'}
               }
             }
         end
@@ -6028,7 +6035,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   def test_bulk_update_on_different_projects_without_rights
     @request.session[:user_id] = 3
     user = User.find(3)
-    action = { :controller => "issues", :action => "bulk_update" }
+    action = {:controller => "issues", :action => "bulk_update"}
     assert user.allowed_to?(action, Issue.find(1).project)
     assert ! user.allowed_to?(action, Issue.find(6).project)
     post :bulk_update, :params => {
