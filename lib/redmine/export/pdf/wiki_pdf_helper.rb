@@ -46,9 +46,11 @@ module Redmine
           pdf.footer_date = format_date(User.current.today)
           pdf.add_page
           pdf.SetFontStyle('B',11)
-          pdf.RDMMultiCell(
-                190,5,
-                "#{project} - #{page.title} - # #{page.content.version}")
+          pdf.
+            RDMMultiCell(
+              190, 5,
+              "#{project} - #{page.title} - # #{page.content.version}"
+            )
           pdf.ln
           # Set resize image scale
           pdf.set_image_scale(1.6)
