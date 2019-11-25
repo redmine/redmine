@@ -229,8 +229,12 @@ class IssuesControllerTest < Redmine::ControllerTest
             :set_filter => 1, field => filter_expression
           }
         assert_response :success
-        expected_with_default = default_filter.merge({field => {:operator => expected[:op], :values => expected[:values]}})
-        assert_query_filters expected_with_default.map {|f, v| [f, v[:operator], v[:values]]}
+        expected_with_default =
+          default_filter.
+            merge({field => {:operator => expected[:op], :values => expected[:values]}})
+        assert_query_filters(
+          expected_with_default.map {|f, v| [f, v[:operator], v[:values]]}
+        )
       end
     end
   end
@@ -248,7 +252,9 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_index_with_project_custom_field_filter
-    field = ProjectCustomField.create!(:name => 'Client', :is_filter => true, :field_format => 'string')
+    field =
+      ProjectCustomField.
+        create!(:name => 'Client', :is_filter => true, :field_format => 'string')
     CustomValue.create!(:custom_field => field, :customized => Project.find(3), :value => 'Foo')
     CustomValue.create!(:custom_field => field, :customized => Project.find(5), :value => 'Foo')
     filter_name = "project.cf_#{field.id}"
@@ -300,11 +306,20 @@ class IssuesControllerTest < Redmine::ControllerTest
       # assert only query is selected in sidebar
       assert_select 'a.query.selected', 1
       # assert link properties
-      assert_select 'a.query.selected[href=?]', '/projects/ecookbook/issues?query_id=5', :text => "Open issues by priority and tracker"
+      assert_select(
+        'a.query.selected[href=?]',
+        '/projects/ecookbook/issues?query_id=5',
+        :text => "Open issues by priority and tracker"
+      )
       # assert only one clear link exists
       assert_select 'a.icon-clear-query', 1
       # assert clear link properties
-      assert_select 'a.icon-clear-query[title=?][href=?]', 'Clear', '/projects/ecookbook/issues?set_filter=1&sort=', 1
+      assert_select(
+        'a.icon-clear-query[title=?][href=?]',
+        'Clear',
+        '/projects/ecookbook/issues?set_filter=1&sort=',
+        1
+      )
     end
   end
 
@@ -591,7 +606,11 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_index_with_cross_project_query_in_session_should_show_project_issues
-    q = IssueQuery.create!(:name => "cross_project_query", :user_id => 2, :project => nil, :column_names => ['project'])
+    q = IssueQuery.
+          create!(
+            :name => "cross_project_query", :user_id => 2,
+            :project => nil, :column_names => ['project']
+          )
     @request.session[:issue_query] = {:id => q.id, :project_id => 1}
 
     with_settings :display_subprojects_issues => '0' do
@@ -606,7 +625,12 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_private_query_should_not_be_available_to_other_users
-    q = IssueQuery.create!(:name => "private", :user => User.find(2), :visibility => IssueQuery::VISIBILITY_PRIVATE, :project => nil)
+    q = IssueQuery.
+          create!(
+            :name => "private", :user => User.find(2),
+            :visibility => IssueQuery::VISIBILITY_PRIVATE,
+            :project => nil
+          )
     @request.session[:user_id] = 3
 
     get :index, :params => {
@@ -616,7 +640,12 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_private_query_should_be_available_to_its_user
-    q = IssueQuery.create!(:name => "private", :user => User.find(2), :visibility => IssueQuery::VISIBILITY_PRIVATE, :project => nil)
+    q = IssueQuery.
+          create!(
+            :name => "private", :user => User.find(2),
+            :visibility => IssueQuery::VISIBILITY_PRIVATE,
+            :project => nil
+          )
     @request.session[:user_id] = 2
 
     get :index, :params => {
@@ -626,7 +655,12 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_public_query_should_be_available_to_other_users
-    q = IssueQuery.create!(:name => "public", :user => User.find(2), :visibility => IssueQuery::VISIBILITY_PUBLIC, :project => nil)
+    q = IssueQuery.
+          create!(
+            :name => "public", :user => User.find(2),
+            :visibility => IssueQuery::VISIBILITY_PUBLIC,
+            :project => nil
+          )
     @request.session[:user_id] = 3
 
     get :index, :params => {
@@ -718,7 +752,11 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_index_csv_without_any_filters
     @request.session[:user_id] = 1
-    Issue.create!(:project_id => 1, :tracker_id => 1, :status_id => 5, :subject => 'Closed issue', :author_id => 1)
+    Issue.
+      create!(
+        :project_id => 1, :tracker_id => 1,
+        :status_id => 5, :subject => 'Closed issue', :author_id => 1
+      )
     get :index, :params => {
         :set_filter => 1,
         :f => [''],
@@ -745,9 +783,18 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_index_csv_with_spent_time_column
-    issue = Issue.create!(:project_id => 1, :tracker_id => 1, :subject => 'test_index_csv_with_spent_time_column', :author_id => 2)
-    TimeEntry.create!(:project => issue.project, :issue => issue, :hours => 7.33, :user => User.find(2), :spent_on => Date.today)
-
+    issue = Issue.
+              create!(
+                :project_id => 1, :tracker_id => 1,
+                :subject => 'test_index_csv_with_spent_time_column',
+                :author_id => 2
+              )
+    TimeEntry.
+      create!(
+        :project => issue.project, :issue => issue,
+        :hours => 7.33, :user => User.find(2),
+        :spent_on => Date.today
+      )
     get :index, :params => {
         :format => 'csv',
         :set_filter => '1',
@@ -788,16 +835,30 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_index_csv_should_format_float_custom_fields_with_csv_decimal_separator
-    field = IssueCustomField.create!(:name => 'Float', :is_for_all => true, :tracker_ids => [1], :field_format => 'float')
-    issue = Issue.generate!(:project_id => 1, :tracker_id => 1, :custom_field_values => {field.id => '185.6'})
-
+    field =
+      IssueCustomField.
+        create!(
+          :name => 'Float',
+          :is_for_all => true,
+          :tracker_ids => [1],
+          :field_format => 'float'
+        )
+    issue =
+      Issue.
+        generate!(
+          :project_id => 1, :tracker_id => 1,
+          :custom_field_values => {field.id => '185.6'}
+        )
     with_settings :default_language => 'fr' do
       get :index, :params => {
           :format => 'csv',
         :c => ['id', 'tracker', "cf_#{field.id}"]
         }
       assert_response :success
-      issue_line = response.body.chomp.split("\n").map {|line| line.split(';')}.detect {|line| line[0]==issue.id.to_s}
+      issue_line =
+        response.body.chomp.split("\n").
+          map {|line| line.split(';')}.
+            detect {|line| line[0]==issue.id.to_s}
       assert_include '185,60', issue_line
     end
 
@@ -807,7 +868,9 @@ class IssuesControllerTest < Redmine::ControllerTest
         :c => ['id', 'tracker', "cf_#{field.id}"]
         }
       assert_response :success
-      issue_line = response.body.chomp.split("\n").map {|line| line.split(',')}.detect {|line| line[0]==issue.id.to_s}
+      issue_line = response.body.chomp.
+                     split("\n").map {|line| line.split(',')}.
+                       detect {|line| line[0]==issue.id.to_s}
       assert_include '185.60', issue_line
     end
   end
@@ -996,8 +1059,10 @@ class IssuesControllerTest < Redmine::ControllerTest
         :sort => 'tracker,id:desc'
       }
     assert_response :success
-
-    assert_equal issues_in_list.sort_by {|issue| [issue.tracker.position, -issue.id]}, issues_in_list
+    assert_equal(
+      issues_in_list.sort_by {|issue| [issue.tracker.position, -issue.id]},
+      issues_in_list
+    )
     assert_select 'table.issues.sort-by-tracker.sort-asc'
   end
 
@@ -1262,8 +1327,13 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_index_with_multi_user_custom_field_column
-    field = IssueCustomField.create!(:name => 'Multi user', :field_format => 'user', :multiple => true,
-      :tracker_ids => [1], :is_for_all => true)
+    field =
+      IssueCustomField.
+        create!(
+          :name => 'Multi user', :field_format => 'user',
+          :multiple => true,
+          :tracker_ids => [1], :is_for_all => true
+        )
     issue = Issue.find(1)
     issue.custom_field_values = {field.id => ['2', '3']}
     issue.save!
@@ -1355,11 +1425,26 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_index_with_relations_column
     IssueRelation.delete_all
-    IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(1), :issue_to => Issue.find(7))
-    IssueRelation.create!(:relation_type => "relates", :issue_from => Issue.find(8), :issue_to => Issue.find(1))
-    IssueRelation.create!(:relation_type => "blocks", :issue_from => Issue.find(1), :issue_to => Issue.find(11))
-    IssueRelation.create!(:relation_type => "blocks", :issue_from => Issue.find(12), :issue_to => Issue.find(2))
-
+    IssueRelation.
+      create!(
+        :relation_type => "relates",
+        :issue_from => Issue.find(1), :issue_to => Issue.find(7)
+      )
+    IssueRelation.
+      create!(
+        :relation_type => "relates",
+        :issue_from => Issue.find(8), :issue_to => Issue.find(1)
+      )
+    IssueRelation.
+      create!(
+        :relation_type => "blocks",
+        :issue_from => Issue.find(1), :issue_to => Issue.find(11)
+      )
+    IssueRelation.
+      create!(
+        :relation_type => "blocks", :issue_from => Issue.find(12),
+        :issue_to => Issue.find(2)
+      )
     get :index, :params => {
         :set_filter => 1,
         :c => %w(subject relations)
@@ -1428,8 +1513,10 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'table.issues thead th', 4 # columns: chekbox + id + subject
 
     assert_select 'td.last_notes[colspan="4"]', :text => 'Some notes with Redmine links: #2, r2.'
-    assert_select 'td.last_notes[colspan="4"]', :text => 'A comment with inline image:  and a reference to #1 and r2.'
-
+    assert_select(
+      'td.last_notes[colspan="4"]',
+      :text => 'A comment with inline image:  and a reference to #1 and r2.'
+    )
     get :index, :params => {
         :set_filter => 1,
         :c => %w(subject last_notes),
@@ -1440,8 +1527,17 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_index_with_last_notes_column_should_display_private_notes_with_permission_only
-    journal = Journal.create!(:journalized => Issue.find(2), :notes => 'Public notes', :user_id => 1)
-    journal = Journal.create!(:journalized => Issue.find(2), :notes => 'Privates notes', :private_notes => true, :user_id => 1)
+    journal = Journal.
+                create!(
+                  :journalized => Issue.find(2),
+                  :notes => 'Public notes', :user_id => 1
+                )
+    journal = Journal.
+                create!(
+                  :journalized => Issue.find(2),
+                  :notes => 'Privates notes', :private_notes => true,
+                  :user_id => 1
+                )
     @request.session[:user_id] = 2
 
     get :index, :params => {
@@ -1473,8 +1569,12 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_index_with_full_width_layout_custom_field_column_should_show_column_as_block_column
-    field = IssueCustomField.create!(:name => 'Long text', :field_format => 'text', :full_width_layout => '1',
-      :tracker_ids => [1], :is_for_all => true)
+    field = IssueCustomField.
+              create!(
+                :name => 'Long text', :field_format => 'text',
+                :full_width_layout => '1',
+                :tracker_ids => [1], :is_for_all => true
+              )
     issue = Issue.find(1)
     issue.custom_field_values = {field.id => 'This is a long text'}
     issue.save!
@@ -1665,7 +1765,10 @@ class IssuesControllerTest < Redmine::ControllerTest
     get :index, :params => {
         :project_id => 1
       }
-    assert_select '#content a.new-issue[href="/projects/ecookbook/issues/new"]', :text => 'New issue'
+    assert_select(
+      '#content a.new-issue[href="/projects/ecookbook/issues/new"]',
+      :text => 'New issue'
+    )
   end
 
   def test_index_should_not_include_new_issue_link_for_project_without_trackers
@@ -1712,7 +1815,10 @@ class IssuesControllerTest < Redmine::ControllerTest
       get :index, :params => {
           :project_id => 1
         }
-      assert_select '#main-menu a.new-issue[href="/projects/ecookbook/issues/new"]', :text => 'New issue'
+      assert_select(
+        '#main-menu a.new-issue[href="/projects/ecookbook/issues/new"]',
+        :text => 'New issue'
+      )
     end
   end
 
@@ -1974,8 +2080,11 @@ class IssuesControllerTest < Redmine::ControllerTest
   def test_show_should_format_related_issues_dates
     with_settings :date_format => '%d/%m/%Y' do
       issue = Issue.generate!(:start_date => '2018-11-29', :due_date => '2018-12-01')
-      IssueRelation.create!(:issue_from => Issue.find(1), :issue_to => issue, :relation_type => 'relates')
-
+      IssueRelation.
+        create!(
+          :issue_from => Issue.find(1), :issue_to => issue,
+          :relation_type => 'relates'
+        )
       get :show, :params => {
           :id => 1
         }
@@ -1988,10 +2097,19 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_show_should_not_disclose_relations_to_invisible_issues
     Setting.cross_project_issue_relations = '1'
-    IssueRelation.create!(:issue_from => Issue.find(1), :issue_to => Issue.find(2), :relation_type => 'relates')
+    IssueRelation.
+      create!(
+        :issue_from => Issue.find(1),
+        :issue_to => Issue.find(2),
+        :relation_type => 'relates'
+      )
     # Relation to a private project issue
-    IssueRelation.create!(:issue_from => Issue.find(1), :issue_to => Issue.find(4), :relation_type => 'relates')
-
+    IssueRelation.
+      create!(
+        :issue_from => Issue.find(1),
+        :issue_to => Issue.find(4),
+        :relation_type => 'relates'
+      )
     get :show, :params => {
         :id => 1
       }
@@ -2004,8 +2122,11 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_show_should_list_subtasks
-    Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1, :parent_issue_id => 1, :subject => 'Child Issue')
-
+    Issue.
+      create!(
+        :project_id => 1, :author_id => 1, :tracker_id => 1,
+        :parent_issue_id => 1, :subject => 'Child Issue'
+      )
     get :show, :params => {
         :id => 1
       }
@@ -2017,7 +2138,12 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_show_should_list_parents
-    issue = Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1, :parent_issue_id => 1, :subject => 'Child Issue')
+    issue = Issue.
+              create!(
+                :project_id => 1, :author_id => 1,
+                :tracker_id => 1, :parent_issue_id => 1,
+                :subject => 'Child Issue'
+              )
 
     get :show, :params => {
         :id => issue.id
@@ -2040,8 +2166,16 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_show_should_display_prev_next_links_with_query_in_session
-    @request.session[:issue_query] = {:filters => {'status_id' => {:values => [''], :operator => 'o'}}, :project_id => nil, :sort => [['id', 'asc']]}
-
+    @request.session[:issue_query] =
+      {
+        :filters => {
+          'status_id' => {
+            :values => [''], :operator => 'o'
+          }
+        },
+        :project_id => nil,
+        :sort => [['id', 'asc']]
+      }
     with_settings :display_subprojects_issues => '0' do
       get :show, :params => {
           :id => 3
@@ -2060,9 +2194,14 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_show_should_display_prev_next_links_with_saved_query_in_session
-    query = IssueQuery.create!(:name => 'test', :visibility => IssueQuery::VISIBILITY_PUBLIC,  :user_id => 1,
-      :filters => {'status_id' => {:values => ['5'], :operator => '='}},
-      :sort_criteria => [['id', 'asc']])
+    query =
+      IssueQuery.create!(
+        :name => 'test',
+        :visibility => IssueQuery::VISIBILITY_PUBLIC,
+        :user_id => 1,
+        :filters => {'status_id' => {:values => ['5'], :operator => '='}},
+        :sort_criteria => [['id', 'asc']]
+      )
     @request.session[:issue_query] = {:id => query.id, :project_id => nil}
 
     get :show, :params => {
@@ -2078,9 +2217,17 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_show_should_display_prev_next_links_with_query_and_sort_on_association
-    @request.session[:issue_query] = {:filters => {'status_id' => {:values => [''], :operator => 'o'}}, :project_id => nil}
-
-    %w(project tracker status priority author assigned_to category fixed_version).each do |assoc_sort|
+    @request.session[:issue_query] =
+      {
+        :filters => {
+          'status_id' => {
+            :values => [''], :operator => 'o'
+          }
+        },
+        :project_id => nil
+      }
+    %w(project tracker status priority author assigned_to category fixed_version).
+        each do |assoc_sort|
       @request.session[:issue_query][:sort] = [[assoc_sort, 'asc']]
 
       get :show, :params => {
@@ -2333,8 +2480,13 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_show_with_full_width_layout_custom_field_should_show_field_under_description
-    field = IssueCustomField.create!(:name => 'Long text', :field_format => 'text', :full_width_layout => '1',
-      :tracker_ids => [1], :is_for_all => true)
+    field =
+      IssueCustomField.
+        create!(
+          :name => 'Long text',
+          :field_format => 'text', :full_width_layout => '1',
+          :tracker_ids => [1], :is_for_all => true
+        )
     issue = Issue.find(1)
     issue.custom_field_values = {field.id => 'This is a long text'}
     issue.save!
@@ -2346,21 +2498,37 @@ class IssuesControllerTest < Redmine::ControllerTest
 
     # long text custom field should not be render in the attributes div
     assert_select "div.attributes div.attribute.cf_#{field.id} p strong", 0, :text => 'Long text'
-    assert_select "div.attributes div.attribute.cf_#{field.id} div.value", 0, :text => 'This is a long text'
-
+    assert_select(
+      "div.attributes div.attribute.cf_#{field.id} div.value",
+      0,
+      :text => 'This is a long text'
+    )
     # long text custom field should be render under description field
     assert_select "div.description ~ div.attribute.cf_#{field.id} p strong", :text => 'Long text'
-    assert_select "div.description ~ div.attribute.cf_#{field.id} div.value", :text => 'This is a long text'
+    assert_select(
+      "div.description ~ div.attribute.cf_#{field.id} div.value",
+      :text => 'This is a long text'
+    )
   end
 
   def test_show_custom_fields_with_full_text_formatting_should_be_rendered_using_wiki_class
-    half_field = IssueCustomField.create!(:name => 'Half width field', :field_format => 'text', :tracker_ids => [1],
-      :is_for_all => true, :text_formatting => 'full')
-    full_field = IssueCustomField.create!(:name => 'Full width field', :field_format => 'text', :full_width_layout => '1',
-      :tracker_ids => [1], :is_for_all => true, :text_formatting => 'full')
-
+    half_field =
+      IssueCustomField.
+        create!(
+          :name => 'Half width field', :field_format => 'text',
+          :tracker_ids => [1], :is_for_all => true, :text_formatting => 'full'
+        )
+    full_field =
+      IssueCustomField.
+        create!(
+          :name => 'Full width field',
+          :field_format => 'text', :full_width_layout => '1',
+          :tracker_ids => [1], :is_for_all => true, :text_formatting => 'full'
+        )
     issue = Issue.find(1)
-    issue.custom_field_values = {full_field.id => 'This is a long text', half_field.id => 'This is a short text'}
+    issue.custom_field_values =
+      {full_field.id => 'This is a long text',
+       half_field.id => 'This is a short text'}
     issue.save!
 
     get :show, :params => {
@@ -2373,8 +2541,13 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_show_with_multi_user_custom_field
-    field = IssueCustomField.create!(:name => 'Multi user', :field_format => 'user', :multiple => true,
-      :tracker_ids => [1], :is_for_all => true)
+    field =
+      IssueCustomField.
+        create!(
+          :name => 'Multi user',
+          :field_format => 'user', :multiple => true,
+          :tracker_ids => [1], :is_for_all => true
+        )
     issue = Issue.find(1)
     issue.custom_field_values = {field.id => ['2', '3']}
     issue.save!
@@ -2392,7 +2565,12 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_show_should_not_display_default_value_for_new_custom_field
     prior = Issue.generate!
-    field = IssueCustomField.generate!(:name => 'WithDefault', :field_format => 'string', :default_value => 'DEFAULT')
+    field =
+      IssueCustomField.
+        generate!(
+          :name => 'WithDefault', :field_format => 'string',
+          :default_value => 'DEFAULT'
+        )
     after = Issue.generate!
 
     get :show, :params => {:id => prior.id}
@@ -2405,7 +2583,14 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_show_should_display_private_notes_with_permission_only
-    journal = Journal.create!(:journalized => Issue.find(2), :notes => 'Privates notes', :private_notes => true, :user_id => 1)
+    journal =
+      Journal.
+        create!(
+          :journalized => Issue.find(2),
+          :notes => 'Privates notes',
+          :private_notes => true,
+          :user_id => 1
+        )
     @request.session[:user_id] = 2
 
     get :show, :params => {
@@ -2426,8 +2611,19 @@ class IssuesControllerTest < Redmine::ControllerTest
     User.find(3).roles_for_project(Project.find(1)).each do |role|
       role.remove_permission! :view_private_notes
     end
-    visible = Journal.create!(:journalized => Issue.find(2), :notes => 'Private notes', :private_notes => true, :user_id => 3)
-    not_visible = Journal.create!(:journalized => Issue.find(2), :notes => 'Private notes', :private_notes => true, :user_id => 1)
+    visible =
+      Journal.
+        create!(
+          :journalized => Issue.find(2),
+          :notes => 'Private notes',
+          :private_notes => true, :user_id => 3
+        )
+    not_visible =
+      Journal.create!(
+        :journalized => Issue.find(2),
+        :notes => 'Private notes',
+        :private_notes => true, :user_id => 1
+      )
     @request.session[:user_id] = 3
 
     get :show, :params => {
@@ -2446,7 +2642,10 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_equal 'application/atom+xml', response.content_type
     # Inline image
-    assert_select 'content', :text => Regexp.new(Regexp.quote('http://test.host/attachments/download/10'))
+    assert_select(
+      'content',
+      :text => Regexp.new(Regexp.quote('http://test.host/attachments/download/10'))
+    )
   end
 
   def test_show_export_to_pdf
@@ -2585,9 +2784,13 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_show_display_only_all_and_history_tabs_for_issue_with_history_changes_only
     journal = Journal.create!(:journalized => Issue.find(5), :user_id => 1)
-    detail = JournalDetail.create!(:journal => journal, :property => 'attr', :prop_key => 'description',
-      :old_value => 'Foo', :value => 'Bar')
-
+    detail =
+      JournalDetail.
+        create!(
+          :journal => journal, :property => 'attr',
+          :prop_key => 'description',
+          :old_value => 'Foo', :value => 'Bar'
+        )
     @request.session[:user_id] = 1
 
     get :show, :params => {:id => 5}
@@ -2601,9 +2804,13 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_show_display_all_notes_and_history_tabs_for_issue_with_notes_and_history_changes
     journal = Journal.create!(:journalized => Issue.find(6), :user_id => 1)
-    detail = JournalDetail.create!(:journal => journal, :property => 'attr', :prop_key => 'description',
-      :old_value => 'Foo', :value => 'Bar')
-
+    detail =
+      JournalDetail.
+        create!(
+          :journal => journal, :property => 'attr',
+          :prop_key => 'description',
+          :old_value => 'Foo', :value => 'Bar'
+        )
     @request.session[:user_id] = 1
 
     get :show, :params => {:id => 6}
