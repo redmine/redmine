@@ -423,7 +423,13 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_index_with_query_grouped_by_key_value_custom_field
-    cf = IssueCustomField.create!(:name => 'Key', :is_for_all => true, :tracker_ids => [1,2,3], :field_format => 'enumeration')
+    cf = IssueCustomField.
+           create!(
+             :name => 'Key',
+             :is_for_all => true,
+             :tracker_ids => [1, 2, 3],
+             :field_format => 'enumeration'
+           )
     cf.enumerations << valueb = CustomFieldEnumeration.new(:name => 'Value B', :position => 1)
     cf.enumerations << valuea = CustomFieldEnumeration.new(:name => 'Value A', :position => 2)
     CustomValue.create!(:custom_field => cf, :customized => Issue.find(1), :value => valueb.id)
@@ -450,7 +456,13 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_index_with_query_grouped_by_user_custom_field
-    cf = IssueCustomField.create!(:name => 'User', :is_for_all => true, :tracker_ids => [1,2,3], :field_format => 'user')
+    cf = IssueCustomField.
+           create!(
+             :name => 'User',
+             :is_for_all => true,
+             :tracker_ids => [1, 2, 3],
+             :field_format => 'user'
+           )
     CustomValue.create!(:custom_field => cf, :customized => Issue.find(1), :value => '2')
     CustomValue.create!(:custom_field => cf, :customized => Issue.find(2), :value => '3')
     CustomValue.create!(:custom_field => cf, :customized => Issue.find(3), :value => '3')
@@ -475,7 +487,13 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_index_grouped_by_boolean_custom_field_should_distinguish_blank_and_false_values
-    cf = IssueCustomField.create!(:name => 'Bool', :is_for_all => true, :tracker_ids => [1,2,3], :field_format => 'bool')
+    cf = IssueCustomField.
+           create!(
+             :name => 'Bool',
+             :is_for_all => true,
+             :tracker_ids => [1, 2, 3],
+             :field_format => 'bool'
+           )
     CustomValue.create!(:custom_field => cf, :customized => Issue.find(1), :value => '1')
     CustomValue.create!(:custom_field => cf, :customized => Issue.find(2), :value => '0')
     CustomValue.create!(:custom_field => cf, :customized => Issue.find(3), :value => '')
@@ -496,7 +514,14 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_index_grouped_by_boolean_custom_field_with_false_group_in_first_position_should_show_the_group
-    cf = IssueCustomField.create!(:name => 'Bool', :is_for_all => true, :tracker_ids => [1,2,3], :field_format => 'bool', :is_filter => true)
+    cf = IssueCustomField.
+           create!(
+             :name => 'Bool',
+             :is_for_all => true,
+             :tracker_ids => [1, 2, 3],
+             :field_format => 'bool',
+             :is_filter => true
+           )
     CustomValue.create!(:custom_field => cf, :customized => Issue.find(1), :value => '0')
     CustomValue.create!(:custom_field => cf, :customized => Issue.find(2), :value => '0')
 
@@ -1066,14 +1091,23 @@ class IssuesControllerTest < Redmine::ControllerTest
     TimeEntry.delete_all
     TimeEntry.generate!(:issue => Issue.generate!(:project_id => 1), :hours => 3)
     TimeEntry.generate!(:issue => Issue.generate!(:project_id => 3), :hours => 4)
-
-    get :index, :params => {:sort => "spent_hours:desc", :c => ['subject','spent_hours']}
+    get(
+      :index,
+      :params => {
+        :sort => "spent_hours:desc",
+        :c => ['subject', 'spent_hours']
+      }
+    )
     assert_response :success
     assert_equal ['4.00', '3.00', '0.00'], columns_values_in_list('spent_hours')[0..2]
-
     Project.find(3).disable_module!(:time_tracking)
-
-    get :index, :params => {:sort => "spent_hours:desc", :c => ['subject','spent_hours']}
+    get(
+      :index,
+      :params => {
+        :sort => "spent_hours:desc",
+        :c => ['subject', 'spent_hours']
+      }
+    )
     assert_response :success
     assert_equal ['3.00', '0.00', '0.00'], columns_values_in_list('spent_hours')[0..2]
   end
@@ -1099,7 +1133,13 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_index_sort_by_user_custom_field
-    cf = IssueCustomField.create!(:name => 'User', :is_for_all => true, :tracker_ids => [1,2,3], :field_format => 'user')
+    cf = IssueCustomField.
+           create!(
+             :name => 'User',
+             :is_for_all => true,
+             :tracker_ids => [1, 2, 3],
+             :field_format => 'user'
+           )
     CustomValue.create!(:custom_field => cf, :customized => Issue.find(1), :value => '2')
     CustomValue.create!(:custom_field => cf, :customized => Issue.find(2), :value => '3')
     CustomValue.create!(:custom_field => cf, :customized => Issue.find(3), :value => '3')
@@ -2048,8 +2088,13 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_show_should_display_prev_next_links_with_project_query_in_session
-    @request.session[:issue_query] = {:filters => {'status_id' => {:values => [''], :operator => 'o'}}, :project_id => 1, :sort => [['id','asc']]}
-
+    @request.session[:issue_query] =
+      {
+        :filters => {
+          'status_id' => {:values => [''], :operator => 'o'}
+        },
+        :project_id => 1, :sort => [['id', 'asc']]
+      }
     with_settings :display_subprojects_issues => '0' do
       get :show, :params => {
           :id => 3
@@ -2104,7 +2149,13 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_show_show_should_display_prev_next_links_with_query_sort_by_user_custom_field
-    cf = IssueCustomField.create!(:name => 'User', :is_for_all => true, :tracker_ids => [1,2,3], :field_format => 'user')
+    cf = IssueCustomField.
+           create!(
+             :name => 'User',
+             :is_for_all => true,
+             :tracker_ids => [1, 2, 3],
+             :field_format => 'user'
+           )
     CustomValue.create!(:custom_field => cf, :customized => Issue.find(1), :value => '2')
     CustomValue.create!(:custom_field => cf, :customized => Issue.find(2), :value => '3')
     CustomValue.create!(:custom_field => cf, :customized => Issue.find(3), :value => '3')
@@ -5709,8 +5760,14 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_get_bulk_edit_with_user_custom_field
-    field = IssueCustomField.create!(:name => 'Tester', :field_format => 'user', :is_for_all => true, :tracker_ids => [1,2,3])
-
+    field =
+      IssueCustomField.
+        create!(
+          :name => 'Tester',
+          :field_format => 'user',
+          :is_for_all => true,
+          :tracker_ids => [1, 2, 3]
+        )
     @request.session[:user_id] = 2
     get :bulk_edit, :params => {
         :ids => [1, 2]
@@ -5723,8 +5780,14 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_get_bulk_edit_with_version_custom_field
-    field = IssueCustomField.create!(:name => 'Affected version', :field_format => 'version', :is_for_all => true, :tracker_ids => [1,2,3])
-
+    field =
+      IssueCustomField.
+        create!(
+          :name => 'Affected version',
+          :field_format => 'version',
+          :is_for_all => true,
+          :tracker_ids => [1, 2, 3]
+        )
     @request.session[:user_id] = 2
     get :bulk_edit, :params => {
         :ids => [1, 2]
@@ -5954,7 +6017,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 
     assert_response 302
     # check that the issues were updated
-    assert_equal [7, 7, 7], Issue.find([1,2,6]).map(&:priority_id)
+    assert_equal [7, 7, 7], Issue.find([1, 2, 6]).map(&:priority_id)
 
     issue = Issue.find(1)
     journal = issue.journals.reorder('created_on DESC').first
@@ -6257,14 +6320,14 @@ class IssuesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
 
     post :bulk_update, :params => {
-        :ids => [1,2],
+        :ids => [1, 2],
         :issue => {
           :fixed_version_id => 4
         }
       }
 
     assert_response :redirect
-    issues = Issue.find([1,2])
+    issues = Issue.find([1, 2])
     issues.each do |issue|
       assert_equal 4, issue.fixed_version_id
       assert_not_equal issue.project_id, issue.fixed_version.project_id
@@ -6274,7 +6337,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   def test_post_bulk_update_should_redirect_back_using_the_back_url_parameter
     @request.session[:user_id] = 2
     post :bulk_update, :params => {
-        :ids => [1,2],
+        :ids => [1, 2],
         :back_url => '/issues'
       }
 
@@ -6285,7 +6348,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   def test_post_bulk_update_should_not_redirect_back_using_the_back_url_parameter_off_the_host
     @request.session[:user_id] = 2
     post :bulk_update, :params => {
-        :ids => [1,2],
+        :ids => [1, 2],
         :back_url => 'http://google.com'
       }
 
