@@ -179,7 +179,6 @@ Layout/MultilineArrayBraceLayout:
 Layout/MultilineHashBraceLayout:
   Exclude:
     - 'app/controllers/context_menus_controller.rb'
-    - 'app/models/auth_source_ldap.rb'
     - 'lib/redmine/access_keys.rb'
     - 'lib/redmine/helpers/time_report.rb'
     - 'lib/redmine/scm/adapters/bazaar_adapter.rb'
