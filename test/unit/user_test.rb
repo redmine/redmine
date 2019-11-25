@@ -446,16 +446,20 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_nullify_changesets
-    changeset = Changeset.create!(
-      :repository => Repository::Subversion.create!(
-        :project_id => 1,
-        :url => 'file:///tmp',
-        :identifier => 'tmp'
-      ),
-      :revision => '12',
-      :committed_on => Time.now,
-      :committer => 'jsmith'
-      )
+    changeset =
+      Changeset.
+        create!(
+          :repository =>
+            Repository::Subversion.
+              create!(
+                :project_id => 1,
+                :url => 'file:///tmp',
+                :identifier => 'tmp'
+              ),
+          :revision => '12',
+          :committed_on => Time.now,
+          :committer => 'jsmith'
+        )
     assert_equal 2, changeset.user_id
 
     User.find(2).destroy
