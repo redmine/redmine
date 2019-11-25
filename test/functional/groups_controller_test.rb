@@ -40,19 +40,14 @@ class GroupsControllerTest < Redmine::ControllerTest
 
   def test_index_with_name_filter
     Group.generate!(:name => "Clients")
-
-    get :index, :params => {
-        :name => "cli"
-      }
+    get(:index, :params => {:name => "cli"})
     assert_response :success
     assert_select 'table.groups tbody tr', 1
     assert_select 'table.groups tbody td.name', :text => 'Clients'
   end
 
   def test_show
-    get :show, :params => {
-        :id => 10
-      }
+    get(:show, :params => {:id => 10})
     assert_response :success
   end
 
@@ -71,9 +66,7 @@ class GroupsControllerTest < Redmine::ControllerTest
   end
 
   def test_show_invalid_should_return_404
-    get :show, :params => {
-        :id => 99
-      }
+    get(:show, :params => {:id => 99})
     assert_response 404
   end
 
@@ -85,11 +78,13 @@ class GroupsControllerTest < Redmine::ControllerTest
 
   def test_create
     assert_difference 'Group.count' do
-      post :create, :params => {
+      post(
+        :create, :params => {
           :group => {
             :name => 'New group'
           }
         }
+      )
     end
     assert_redirected_to '/groups'
     group = Group.order('id DESC').first
@@ -99,12 +94,15 @@ class GroupsControllerTest < Redmine::ControllerTest
 
   def test_create_and_continue
     assert_difference 'Group.count' do
-      post :create, :params => {
+      post(
+        :create,
+        :params => {
           :group => {
             :name => 'New group'
           },
           :continue => 'Create and continue'
         }
+      )
     end
     assert_redirected_to '/groups/new'
     group = Group.order('id DESC').first
@@ -113,20 +111,26 @@ class GroupsControllerTest < Redmine::ControllerTest
 
   def test_create_with_failure
     assert_no_difference 'Group.count' do
-      post :create, :params => {
+      post(
+        :create,
+        :params => {
           :group => {
             :name => ''
           }
         }
+      )
     end
     assert_response :success
     assert_select_error /Name cannot be blank/i
   end
 
   def test_edit
-    get :edit, :params => {
+    get(
+      :edit,
+      :params => {
         :id => 10
       }
+    )
     assert_response :success
 
     assert_select 'div#tab-content-users'
@@ -137,70 +141,81 @@ class GroupsControllerTest < Redmine::ControllerTest
 
   def test_update
     new_name = 'New name'
-    put :update, :params => {
+    put(
+      :update,
+      :params => {
         :id => 10,
         :group => {
           :name => new_name
         }
       }
+    )
     assert_redirected_to '/groups'
     group = Group.find(10)
     assert_equal new_name, group.name
   end
 
   def test_update_with_failure
-    put :update, :params => {
+    put(
+      :update,
+      :params => {
         :id => 10,
         :group => {
           :name => ''
         }
       }
+    )
     assert_response :success
     assert_select_error /Name cannot be blank/i
   end
 
   def test_destroy
     assert_difference 'Group.count', -1 do
-      post :destroy, :params => {
-          :id => 10
-        }
+      post(:destroy, :params => {:id => 10})
     end
     assert_redirected_to '/groups'
   end
 
   def test_new_users
-    get :new_users, :params => {
-        :id => 10
-      }
+    get(:new_users, :params => {:id => 10})
     assert_response :success
     assert_select 'input[name=?]', 'user_search'
   end
 
   def test_xhr_new_users
-    get :new_users, :params => {
+    get(
+      :new_users,
+      :params => {
         :id => 10
       },
       :xhr => true
+    )
     assert_response :success
     assert_equal 'text/javascript', response.content_type
   end
 
   def test_add_users
     assert_difference 'Group.find(10).users.count', 2 do
-      post :add_users, :params => {
+      post(
+        :add_users,
+        :params => {
           :id => 10,
           :user_ids => ['2', '3']
         }
+      )
     end
   end
 
   def test_xhr_add_users
     assert_difference 'Group.find(10).users.count', 2 do
-      post :add_users, :params => {
+      post(
+        :add_users,
+        :params => {
           :id => 10,
           :user_ids => ['2', '3']
         },
         :xhr => true
+      )
       assert_response :success
       assert_equal 'text/javascript', response.content_type
     end
@@ -209,32 +224,41 @@ class GroupsControllerTest < Redmine::ControllerTest
 
   def test_remove_user
     assert_difference 'Group.find(10).users.count', -1 do
-      delete :remove_user, :params => {
+      delete(
+        :remove_user,
+        :params => {
           :id => 10,
           :user_id => '8'
         }
+      )
     end
   end
 
   def test_xhr_remove_user
     assert_difference 'Group.find(10).users.count', -1 do
-      delete :remove_user, :params => {
+      delete(
+        :remove_user,
+        :params => {
           :id => 10,
           :user_id => '8'
         },
         :xhr => true
+      )
       assert_response :success
       assert_equal 'text/javascript', response.content_type
     end
   end
 
   def test_autocomplete_for_user
-    get :autocomplete_for_user, :params => {
+    get(
+      :autocomplete_for_user,
+      :params => {
         :id => 10,
         :q => 'smi',
         :format => 'js'
       },
       :xhr => true
+    )
     assert_response :success
     assert_include 'John Smith', response.body
   end
