@@ -589,7 +589,10 @@ class User < Principal
   end
 
   def roles
-    @roles ||= Role.joins(members: :project).where(["#{Project.table_name}.status <> ?", Project::STATUS_ARCHIVED]).where(Member.arel_table[:user_id].eq(id)).distinct
+    @roles ||=
+      Role.joins(members: :project).
+        where(["#{Project.table_name}.status <> ?", Project::STATUS_ARCHIVED]).
+          where(Member.arel_table[:user_id].eq(id)).distinct
   end
 
   # Returns the user's bult-in role
