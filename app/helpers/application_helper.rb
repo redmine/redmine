@@ -1112,7 +1112,13 @@ module ApplicationHelper
                   repository = project.repository
                 end
                 if prefix == 'commit'
-                  if repository && (changeset = Changeset.visible.where("repository_id = ? AND scmid LIKE ?", repository.id, "#{name}%").first)
+                  if repository &&
+                       (changeset =
+                          Changeset.visible.
+                            where(
+                              "repository_id = ? AND scmid LIKE ?",
+                              repository.id, "#{name}%"
+                            ).first)
                     link = link_to(
                              h("#{project_prefix}#{repo_prefix}#{name}"),
                              {:only_path => only_path, :controller => 'repositories',
