@@ -127,6 +127,7 @@ class Setting < ActiveRecord::Base
   # Updates multiple settings from params and sends a security notification if needed
   def self.set_all_from_params(settings)
     return nil unless settings.is_a?(Hash)
+
     settings = settings.dup.symbolize_keys
 
     errors = validate_all_from_params(settings)
@@ -135,6 +136,7 @@ class Setting < ActiveRecord::Base
     changes = []
     settings.each do |name, value|
       next unless available_settings[name.to_s]
+
       previous_value = Setting[name]
       set_from_params name, value
       if available_settings[name.to_s]['security_notifications'] && Setting[name] != previous_value
@@ -210,6 +212,7 @@ class Setting < ActiveRecord::Base
       attributes = params.except(:keywords).keys
       params[:keywords].each_with_index do |keywords, i|
         next if keywords.blank?
+
         s << attributes.inject({}) {|h, a|
           value = params[a][i].to_s
           h[a.to_s] = value if value.present?
@@ -231,10 +234,12 @@ class Setting < ActiveRecord::Base
     if commit_update_keywords.is_a?(Array)
       commit_update_keywords.each do |rule|
         next unless rule.is_a?(Hash)
+
         rule = rule.dup
         rule.delete_if {|k, v| v.blank?}
         keywords = rule['keywords'].to_s.downcase.split(",").map(&:strip).reject(&:blank?)
         next if keywords.empty?
+
         a << rule.merge('keywords' => keywords)
       end
     end
@@ -331,6 +336,7 @@ class Setting < ActiveRecord::Base
   def self.find_or_default(name)
     name = name.to_s
     raise "There's no setting named #{name}" unless available_settings.has_key?(name)
+
     setting = where(:name => name).order(:id => :desc).first
     unless setting
       setting = new
