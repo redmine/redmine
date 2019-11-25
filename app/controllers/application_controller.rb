@@ -352,7 +352,9 @@ class ApplicationController < ActionController::Base
   def find_issues
     @issues = Issue.
       where(:id => (params[:id] || params[:ids])).
-      preload(:project, :status, :tracker, :priority, :author, :assigned_to, :relations_to, {:custom_values => :custom_field}).
+      preload(:project, :status, :tracker, :priority,
+              :author, :assigned_to, :relations_to,
+              {:custom_values => :custom_field}).
       to_a
     raise ActiveRecord::RecordNotFound if @issues.empty?
     raise Unauthorized unless @issues.all?(&:visible?)
