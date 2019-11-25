@@ -159,69 +159,85 @@ module RepositoriesHelper
                        :disabled => !repository.safe_attribute?('url')) +
                        scm_path_info_tag(repository)) +
       content_tag('p', form.text_field(:login, :size => 30)) +
-      content_tag('p', form.password_field(
-                            :password, :size => 30, :name => 'ignore',
-                            :value => ((repository.new_record? || repository.password.blank?) ? '' : ('x'*15)),
-                            :onfocus => "this.value=''; this.name='repository[password]';",
-                            :onchange => "this.name='repository[password]';"))
+      content_tag(
+        'p',
+        form.password_field(
+          :password, :size => 30, :name => 'ignore',
+          :value => ((repository.new_record? || repository.password.blank?) ? '' : ('x'*15)),
+          :onfocus => "this.value=''; this.name='repository[password]';",
+          :onchange => "this.name='repository[password]';")
+      )
   end
 
   def mercurial_field_tags(form, repository)
-    content_tag('p', form.text_field(
-                       :url, :label => l(:field_path_to_repository),
-                       :size => 60, :required => true,
-                       :disabled => !repository.safe_attribute?('url')
-                     ) +
-                       scm_path_info_tag(repository)) +
-    scm_path_encoding_tag(form, repository)
+    content_tag(
+      'p',
+      form.text_field(
+        :url, :label => l(:field_path_to_repository),
+        :size => 60, :required => true,
+        :disabled => !repository.safe_attribute?('url')
+      ) + scm_path_info_tag(repository)
+    ) + scm_path_encoding_tag(form, repository)
   end
 
   def git_field_tags(form, repository)
-    content_tag('p', form.text_field(
-                       :url, :label => l(:field_path_to_repository),
-                       :size => 60, :required => true,
-                       :disabled => !repository.safe_attribute?('url')
-                     ) +
-                       scm_path_info_tag(repository)) +
+    content_tag(
+      'p',
+      form.text_field(
+        :url, :label => l(:field_path_to_repository),
+        :size => 60, :required => true,
+        :disabled => !repository.safe_attribute?('url')
+      ) + scm_path_info_tag(repository)) +
     scm_path_encoding_tag(form, repository) +
-    content_tag('p', form.check_box(
-                        :report_last_commit,
-                        :label => l(:label_git_report_last_commit)
-                      ))
+    content_tag('p',
+                form.check_box(
+                  :report_last_commit,
+                  :label => l(:label_git_report_last_commit)
+                ))
   end
 
   def cvs_field_tags(form, repository)
-    content_tag('p', form.text_field(
-                     :root_url,
-                     :label => l(:field_cvsroot),
-                     :size => 60, :required => true,
-                     :disabled => !repository.safe_attribute?('root_url')) +
-                     scm_path_info_tag(repository)) +
-    content_tag('p', form.text_field(
-                     :url,
-                     :label => l(:field_cvs_module),
-                     :size => 30, :required => true,
-                     :disabled => !repository.safe_attribute?('url'))) +
-    scm_log_encoding_tag(form, repository) +
-    scm_path_encoding_tag(form, repository)
+    content_tag(
+      'p',
+      form.text_field(
+        :root_url,
+        :label => l(:field_cvsroot),
+        :size => 60, :required => true,
+        :disabled => !repository.safe_attribute?('root_url')
+      ) + scm_path_info_tag(repository)
+    ) +
+    content_tag(
+      'p',
+      form.text_field(
+        :url,
+        :label => l(:field_cvs_module),
+        :size => 30, :required => true,
+        :disabled => !repository.safe_attribute?('url')
+      )
+    ) + scm_log_encoding_tag(form, repository) +
+          scm_path_encoding_tag(form, repository)
   end
 
   def bazaar_field_tags(form, repository)
-    content_tag('p', form.text_field(
-                     :url, :label => l(:field_path_to_repository),
-                     :size => 60, :required => true,
-                     :disabled => !repository.safe_attribute?('url')) +
-                     scm_path_info_tag(repository)) +
-    scm_log_encoding_tag(form, repository)
+    content_tag(
+      'p',
+      form.text_field(
+        :url, :label => l(:field_path_to_repository),
+        :size => 60, :required => true,
+        :disabled => !repository.safe_attribute?('url')
+      ) + scm_path_info_tag(repository)
+    ) + scm_log_encoding_tag(form, repository)
   end
 
   def filesystem_field_tags(form, repository)
-    content_tag('p', form.text_field(
-                     :url, :label => l(:field_root_directory),
-                     :size => 60, :required => true,
-                     :disabled => !repository.safe_attribute?('url')) +
-                     scm_path_info_tag(repository)) +
-    scm_path_encoding_tag(form, repository)
+    content_tag(
+      'p',
+      form.text_field(
+        :url, :label => l(:field_root_directory),
+        :size => 60, :required => true,
+        :disabled => !repository.safe_attribute?('url')
+      ) + scm_path_info_tag(repository)
+    ) + scm_path_encoding_tag(form, repository)
   end
 
   def scm_path_info_tag(repository)
