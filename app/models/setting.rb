@@ -19,11 +19,11 @@
 
 class Setting < ActiveRecord::Base
   PASSWORD_CHAR_CLASSES = {
-        'uppercase'     => /[A-Z]/,
-        'lowercase'     => /[a-z]/,
-        'digits'        => /[0-9]/,
-        'special_chars' => /[[:ascii:]&&[:graph:]&&[:^alnum:]]/
-    }
+    'uppercase'     => /[A-Z]/,
+    'lowercase'     => /[a-z]/,
+    'digits'        => /[0-9]/,
+    'special_chars' => /[[:ascii:]&&[:graph:]&&[:^alnum:]]/
+  }
 
   DATE_FORMATS = [
     '%Y-%m-%d',
