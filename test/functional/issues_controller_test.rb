@@ -2890,9 +2890,8 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_new_without_enabled_trackers_on_projects_should_respond_with_403
-    Project.all.each {|p| p.trackers.clear }
+    Project.all.each {|p| p.trackers.clear}
     @request.session[:user_id] = 2
-
     get :new
     assert_response 403
     assert_select_error /no projects/
