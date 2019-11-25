@@ -2419,8 +2419,9 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_show_export_to_pdf_with_ancestors
-    issue = Issue.generate!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'child', :parent_issue_id => 1)
-
+    issue = Issue.generate!(:project_id => 1, :author_id => 2,
+                            :tracker_id => 1, :subject => 'child',
+                            :parent_issue_id => 1)
     get :show, :params => {
         :id => issue.id,
         :format => 'pdf'
@@ -2431,10 +2432,12 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_show_export_to_pdf_with_descendants
-    c1 = Issue.generate!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'child', :parent_issue_id => 1)
-    c2 = Issue.generate!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'child', :parent_issue_id => 1)
-    c3 = Issue.generate!(:project_id => 1, :author_id => 2, :tracker_id => 1, :subject => 'child', :parent_issue_id => c1.id)
-
+    c1 = Issue.generate!(:project_id => 1, :author_id => 2, :tracker_id => 1,
+                         :subject => 'child', :parent_issue_id => 1)
+    c2 = Issue.generate!(:project_id => 1, :author_id => 2, :tracker_id => 1,
+                         :subject => 'child', :parent_issue_id => 1)
+    c3 = Issue.generate!(:project_id => 1, :author_id => 2, :tracker_id => 1,
+                         :subject => 'child', :parent_issue_id => c1.id)
     get :show, :params => {
         :id => 1,
         :format => 'pdf'
@@ -2728,8 +2731,10 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_new_should_propose_allowed_statuses
     WorkflowTransition.delete_all
-    WorkflowTransition.create!(:tracker_id => 1, :role_id => 1, :old_status_id => 0, :new_status_id => 1)
-    WorkflowTransition.create!(:tracker_id => 1, :role_id => 1, :old_status_id => 0, :new_status_id => 3)
+    WorkflowTransition.create!(:tracker_id => 1, :role_id => 1,
+                               :old_status_id => 0, :new_status_id => 1)
+    WorkflowTransition.create!(:tracker_id => 1, :role_id => 1,
+                               :old_status_id => 0, :new_status_id => 3)
     @request.session[:user_id] = 2
 
     get :new, :params => {
@@ -2746,7 +2751,8 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_new_should_propose_allowed_statuses_without_default_status_allowed
     WorkflowTransition.delete_all
-    WorkflowTransition.create!(:tracker_id => 1, :role_id => 1, :old_status_id => 0, :new_status_id => 2)
+    WorkflowTransition.create!(:tracker_id => 1, :role_id => 1,
+                               :old_status_id => 0, :new_status_id => 2)
     assert_equal 1, Tracker.find(1).default_status_id
     @request.session[:user_id] = 2
 
@@ -2888,9 +2894,12 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_get_new_with_multi_user_custom_field
-    field = IssueCustomField.create!(:name => 'Multi user', :field_format => 'user', :multiple => true,
-      :tracker_ids => [1], :is_for_all => true)
-
+    field =
+      IssueCustomField.
+        create!(
+          :name => 'Multi user', :field_format => 'user', :multiple => true,
+          :tracker_ids => [1], :is_for_all => true
+        )
     @request.session[:user_id] = 2
     get :new, :params => {
         :project_id => 1,
@@ -2906,8 +2915,8 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_get_new_with_date_custom_field
-    field = IssueCustomField.create!(:name => 'Date', :field_format => 'date', :tracker_ids => [1], :is_for_all => true)
-
+    field = IssueCustomField.create!(:name => 'Date', :field_format => 'date',
+                                     :tracker_ids => [1], :is_for_all => true)
     @request.session[:user_id] = 2
     get :new, :params => {
         :project_id => 1,
@@ -2919,8 +2928,8 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_get_new_with_text_custom_field
-    field = IssueCustomField.create!(:name => 'Text', :field_format => 'text', :tracker_ids => [1], :is_for_all => true)
-
+    field = IssueCustomField.create!(:name => 'Text', :field_format => 'text',
+                                     :tracker_ids => [1], :is_for_all => true)
     @request.session[:user_id] = 2
     get :new, :params => {
         :project_id => 1,
@@ -2990,11 +2999,15 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_get_new_should_mark_required_fields
-    cf1 = IssueCustomField.create!(:name => 'Foo', :field_format => 'string', :is_for_all => true, :tracker_ids => [1, 2])
-    cf2 = IssueCustomField.create!(:name => 'Bar', :field_format => 'string', :is_for_all => true, :tracker_ids => [1, 2])
+    cf1 = IssueCustomField.create!(:name => 'Foo', :field_format => 'string',
+                                   :is_for_all => true, :tracker_ids => [1, 2])
+    cf2 = IssueCustomField.create!(:name => 'Bar', :field_format => 'string',
+                                   :is_for_all => true, :tracker_ids => [1, 2])
     WorkflowPermission.delete_all
-    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1, :role_id => 1, :field_name => 'due_date', :rule => 'required')
-    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1, :role_id => 1, :field_name => cf2.id.to_s, :rule => 'required')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1, :role_id => 1,
+                               :field_name => 'due_date', :rule => 'required')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1, :role_id => 1,
+                               :field_name => cf2.id.to_s, :rule => 'required')
     @request.session[:user_id] = 2
 
     get :new, :params => {
@@ -3017,11 +3030,15 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_get_new_should_not_display_readonly_fields
-    cf1 = IssueCustomField.create!(:name => 'Foo', :field_format => 'string', :is_for_all => true, :tracker_ids => [1, 2])
-    cf2 = IssueCustomField.create!(:name => 'Bar', :field_format => 'string', :is_for_all => true, :tracker_ids => [1, 2])
+    cf1 = IssueCustomField.create!(:name => 'Foo', :field_format => 'string',
+                                   :is_for_all => true, :tracker_ids => [1, 2])
+    cf2 = IssueCustomField.create!(:name => 'Bar', :field_format => 'string',
+                                   :is_for_all => true, :tracker_ids => [1, 2])
     WorkflowPermission.delete_all
-    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1, :role_id => 1, :field_name => 'due_date', :rule => 'readonly')
-    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1, :role_id => 1, :field_name => cf2.id.to_s, :rule => 'readonly')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1,
+                               :role_id => 1, :field_name => 'due_date', :rule => 'readonly')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 1,
+                               :role_id => 1, :field_name => cf2.id.to_s, :rule => 'readonly')
     @request.session[:user_id] = 2
 
     get :new, :params => {
