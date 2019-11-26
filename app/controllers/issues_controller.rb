@@ -138,10 +138,10 @@ class IssuesController < ApplicationController
       raise ::Unauthorized
     end
 
-    call_hook(:controller_issues_new_before_save, { :params => params, :issue => @issue })
+    call_hook(:controller_issues_new_before_save, {:params => params, :issue => @issue})
     @issue.save_attachments(params[:attachments] || (params[:issue] && params[:issue][:uploads]))
     if @issue.save
-      call_hook(:controller_issues_new_after_save, { :params => params, :issue => @issue})
+      call_hook(:controller_issues_new_after_save, {:params => params, :issue => @issue})
       respond_to do |format|
         format.html {
           render_attachment_warning_if_needed(@issue)
@@ -377,7 +377,7 @@ class IssuesController < ApplicationController
       end
       journal = issue.init_journal(User.current, params[:notes])
       issue.safe_attributes = attributes
-      call_hook(:controller_issues_bulk_edit_before_save, { :params => params, :issue => issue })
+      call_hook(:controller_issues_bulk_edit_before_save, {:params => params, :issue => issue})
       if issue.save
         saved_issues << issue
       else
