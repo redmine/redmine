@@ -48,7 +48,7 @@ class TokenTest < ActiveSupport::TestCase
 
     ["autologin", "session"].each do |action|
       assert_difference 'Token.count', 10 do
-        10.times { Token.create!(:user => user, :action => action) }
+        10.times {Token.create!(:user => user, :action => action)}
       end
 
       assert_no_difference 'Token.count' do
