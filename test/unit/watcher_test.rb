@@ -42,7 +42,7 @@ class WatcherTest < ActiveSupport::TestCase
   def test_watch
     assert @issue.add_watcher(@user)
     @issue.reload
-    assert @issue.watchers.detect { |w| w.user == @user }
+    assert @issue.watchers.detect {|w| w.user == @user}
   end
 
   def test_cant_watch_twice
