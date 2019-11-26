@@ -47,33 +47,33 @@ class IssuesController < ApplicationController
 
     if @query.valid?
       respond_to do |format|
-        format.html {
+        format.html do
           @issue_count = @query.issue_count
           @issue_pages = Paginator.new @issue_count, per_page_option, params['page']
           @issues = @query.issues(:offset => @issue_pages.offset, :limit => @issue_pages.per_page)
           render :layout => !request.xhr?
-        }
-        format.api  {
+        end
+        format.api do
           @offset, @limit = api_offset_and_limit
           @query.column_names = %w(author)
           @issue_count = @query.issue_count
           @issues = @query.issues(:offset => @offset, :limit => @limit)
           Issue.load_visible_relations(@issues) if include_in_api_response?('relations')
-        }
-        format.atom {
+        end
+        format.atom do
           @issues = @query.issues(:limit => Setting.feeds_limit.to_i)
           render_feed(@issues,
                       :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}")
-        }
-        format.csv  {
+        end
+        format.csv do
           @issues = @query.issues(:limit => Setting.issues_export_limit.to_i)
           send_data(query_to_csv(@issues, @query, params[:csv]),
                     :type => 'text/csv; header=present', :filename => 'issues.csv')
-        }
-        format.pdf  {
+        end
+        format.pdf do
           @issues = @query.issues(:limit => Setting.issues_export_limit.to_i)
           send_file_headers! :type => 'application/pdf', :filename => 'issues.pdf'
-        }
+        end
       end
     else
       respond_to do |format|
@@ -91,9 +91,9 @@ class IssuesController < ApplicationController
     @has_changesets = @issue.changesets.visible.preload(:repository, :user).exists?
     @relations =
       @issue.relations.
-        select {|r|
+        select do |r|
           r.other_issue(@issue) && r.other_issue(@issue).visible?
-        }
+        end
     @journals.reverse! if User.current.wants_comments_in_reverse_order?
 
     if User.current.allowed_to?(:view_time_entries, @project)
@@ -102,7 +102,7 @@ class IssuesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html {
+      format.html do
         @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
         @priorities = IssuePriority.active
         @time_entry = TimeEntry.new(:issue => @issue, :project => @issue.project)
@@ -110,19 +110,19 @@ class IssuesController < ApplicationController
         @relation = IssueRelation.new
         retrieve_previous_and_next_issue_ids
         render :template => 'issues/show'
-      }
-      format.api {
+      end
+      format.api do
         @changesets = @issue.changesets.visible.preload(:repository, :user).to_a
         @changesets.reverse! if User.current.wants_comments_in_reverse_order?
-      }
-      format.atom {
+      end
+      format.atom do
         render :template => 'journals/index', :layout => false,
         :content_type => 'application/atom+xml'
-      }
-      format.pdf  {
+      end
+      format.pdf do
         send_file_headers!(:type => 'application/pdf',
                            :filename => "#{@project.identifier}-#{@issue.id}.pdf")
-      }
+      end
     end
   end
 
@@ -143,29 +143,29 @@ class IssuesController < ApplicationController
     if @issue.save
       call_hook(:controller_issues_new_after_save, {:params => params, :issue => @issue})
       respond_to do |format|
-        format.html {
+        format.html do
           render_attachment_warning_if_needed(@issue)
           flash[:notice] =
             l(:notice_issue_successful_create,
               :id => view_context.link_to("##{@issue.id}", issue_path(@issue),
                                           :title => @issue.subject))
           redirect_after_create
-        }
-        format.api  {
+        end
+        format.api do
           render :action => 'show', :status => :created,
           :location => issue_url(@issue)
-        }
+        end
       end
       return
     else
       respond_to do |format|
-        format.html {
+        format.html do
           if @issue.project.nil?
             render_error :status => 422
           else
             render :action => 'new'
           end
-        }
+        end
         format.api  {render_validation_errors(@issue)}
       end
     end
@@ -204,11 +204,11 @@ class IssuesController < ApplicationController
         flash[:notice] = l(:notice_successful_update)
       end
       respond_to do |format|
-        format.html {
+        format.html do
           redirect_back_or_default(
             issue_path(@issue, previous_and_next_issue_ids_params)
           )
-        }
+        end
         format.api  {render_api_ok}
       end
     else
