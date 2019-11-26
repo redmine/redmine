@@ -93,28 +93,28 @@ class PrincipalTest < ActiveSupport::TestCase
     results = Principal.like('jsmi')
 
     assert results.any?
-    assert results.all? {|u| u.login.match(/jsmi/i) }
+    assert results.all? {|u| u.login.match(/jsmi/i)}
   end
 
   test "like scope should search firstname" do
     results = Principal.like('john')
 
     assert results.any?
-    assert results.all? {|u| u.firstname.match(/john/i) }
+    assert results.all? {|u| u.firstname.match(/john/i)}
   end
 
   test "like scope should search lastname" do
     results = Principal.like('smi')
 
     assert results.any?
-    assert results.all? {|u| u.lastname.match(/smi/i) }
+    assert results.all? {|u| u.lastname.match(/smi/i)}
   end
 
   test "like scope should search mail" do
     results = Principal.like('somenet')
 
     assert results.any?
-    assert results.all? {|u| u.mail.match(/somenet/i) }
+    assert results.all? {|u| u.mail.match(/somenet/i)}
   end
 
   test "like scope should search firstname and lastname" do
