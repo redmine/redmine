@@ -77,9 +77,9 @@ class IssuesController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html { render :layout => !request.xhr? }
-        format.any(:atom, :csv, :pdf) { head 422 }
-        format.api { render_validation_errors(@query) }
+        format.html {render :layout => !request.xhr?}
+        format.any(:atom, :csv, :pdf) {head 422}
+        format.api {render_validation_errors(@query)}
       end
     end
   rescue ActiveRecord::RecordNotFound
@@ -128,7 +128,7 @@ class IssuesController < ApplicationController
 
   def new
     respond_to do |format|
-      format.html { render :action => 'new', :layout => !request.xhr? }
+      format.html {render :action => 'new', :layout => !request.xhr?}
       format.js
     end
   end
@@ -166,7 +166,7 @@ class IssuesController < ApplicationController
             render :action => 'new'
           end
         }
-        format.api  { render_validation_errors(@issue) }
+        format.api  {render_validation_errors(@issue)}
       end
     end
   end
@@ -175,7 +175,7 @@ class IssuesController < ApplicationController
     return unless update_issue_from_params
 
     respond_to do |format|
-      format.html { }
+      format.html {}
       format.js
     end
   end
@@ -209,12 +209,12 @@ class IssuesController < ApplicationController
             issue_path(@issue, previous_and_next_issue_ids_params)
           )
         }
-        format.api  { render_api_ok }
+        format.api  {render_api_ok}
       end
     else
       respond_to do |format|
-        format.html { render :action => 'edit' }
-        format.api  { render_validation_errors(@issue) }
+        format.html {render :action => 'edit'}
+        format.api  {render_validation_errors(@issue)}
       end
     end
   end
@@ -273,7 +273,7 @@ class IssuesController < ApplicationController
     end
     target_projects ||= @projects
 
-    @trackers = target_projects.map {|p| Issue.allowed_target_trackers(p) }.reduce(:&)
+    @trackers = target_projects.map {|p| Issue.allowed_target_trackers(p)}.reduce(:&)
     if params[:issue]
       @target_tracker = @trackers.detect {|t| t.id.to_s == params[:issue][:tracker_id].to_s}
       if @target_tracker
@@ -448,8 +448,8 @@ class IssuesController < ApplicationController
       end
     end
     respond_to do |format|
-      format.html { redirect_back_or_default _project_issues_path(@project) }
-      format.api  { render_api_ok }
+      format.html {redirect_back_or_default _project_issues_path(@project)}
+      format.api  {render_api_ok}
     end
   end
 
