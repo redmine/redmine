@@ -48,11 +48,11 @@ Layout/SpaceInsideBlockBraces:
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
 
+Lint/SuppressedException:
+  AllowComments: true
+
 Layout/TrailingWhitespace:
   AllowInHeredoc: true
-
-Lint/HandleExceptions:
-  AllowComments: true
 
 Metrics:
   Enabled: false
