@@ -578,6 +578,19 @@ Rails/ActiveRecordOverride:
     - 'app/models/member.rb'
 
 # Cop supports --auto-correct.
+Rails/ApplicationController:
+  Exclude:
+    - 'app/controllers/mail_handler_controller.rb'
+    - 'app/controllers/sys_controller.rb'
+    - 'test/unit/lib/redmine/hook_test.rb'
+
+# Cop supports --auto-correct.
+Rails/ApplicationMailer:
+  Exclude:
+    - 'app/models/mail_handler.rb'
+    - 'app/models/mailer.rb'
+
+# Cop supports --auto-correct.
 Rails/ApplicationRecord:
   Enabled: false
 
@@ -650,7 +663,24 @@ Rails/Exit:
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: slashes, arguments
 Rails/FilePath:
-  Enabled: false
+  Exclude:
+    - 'app/models/attachment.rb'
+    - 'app/models/import.rb'
+    - 'app/models/setting.rb'
+    - 'config/environment.rb'
+    - 'config/initializers/00-core_plugins.rb'
+    - 'config/initializers/10-patches.rb'
+    - 'lib/redmine/configuration.rb'
+    - 'lib/redmine/export/pdf.rb'
+    - 'lib/redmine/plugin.rb'
+    - 'lib/redmine/version.rb'
+    - 'test/application_system_test_case.rb'
+    - 'test/functional/custom_fields_controller_test.rb'
+    - 'test/functional/settings_controller_test.rb'
+    - 'test/test_helper.rb'
+    - 'test/unit/lib/redmine/configuration_test.rb'
+    - 'test/unit/lib/redmine/i18n_test.rb'
+    - 'test/unit/lib/redmine/plugin_test.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: Include.
