@@ -29,42 +29,42 @@
 <% end %>
 
 <% unless params[:calendar] %>
-<fieldset id="options"><legend><%= l(:label_options) %></legend>
-  <% if @query.available_display_types.size > 1 %>
-  <p><label for='display_type'><%= l(:label_display_type) %></label>
-    <%= available_display_types_tags(@query) %>
-  </p>
+  <fieldset id="options"><legend><%= l(:label_options) %></legend>
+    <% if @query.available_display_types.size > 1 %>
+      <p><label for='display_type'><%= l(:label_display_type) %></label>
+        <%= available_display_types_tags(@query) %>
+      </p>
+    <% end %>
+
+    <p id ="default_columns"><label for="query_default_columns"><%=l(:label_default_columns)%></label>
+    <%= check_box_tag 'default_columns', 1, @query.has_default_columns?, :id => 'query_default_columns',
+          :data => {:disables => "#columns, .block_columns input"} %></p>
+
+    <% unless params[:gantt] %>
+      <p id="group_by"><label for="query_group_by"><%= l(:field_group_by) %></label>
+      <%= select 'query', 'group_by', @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, :include_blank => true %></p>
+
+      <% unless @query.available_block_columns.empty? %>
+        <p class="block_columns"><label><%= l(:button_show) %></label>
+        <%= available_block_columns_tags(@query) %></p>
+      <% end %>
+
+      <% unless @query.available_totalable_columns.empty? %>
+        <p class="totable_columns"><label><%= l(:label_total_plural) %></label>
+        <%= available_totalable_columns_tags(@query) %></p>
+      <% end %>
+    <% else %>
+      <p><label><%= l(:button_show) %></label>
+      <%= hidden_field_tag 'query[draw_relations]', '0' %>
+      <%= hidden_field_tag 'query[draw_progress_line]', '0' %>
+      <%= hidden_field_tag 'query[draw_selected_columns]', '0' %>
+      <label class="inline"><%= check_box_tag "query[draw_relations]", "1", @query.draw_relations %> <%= l(:label_related_issues) %></label>
+      <label class="inline"><%= check_box_tag "query[draw_progress_line]", "1", @query.draw_progress_line %> <%= l(:label_gantt_progress_line) %></label>
+      <label class="inline"><%= check_box_tag "query[draw_selected_columns]", "1", @query.draw_selected_columns, :data => { :enables => 'span.query-columns select, span.query-columns input'} %> <%= l(:description_selected_columns) %></label>
+      </p>
+    <% end %>
+  </fieldset>
 <% end %>
-
-<p id ="default_columns"><label for="query_default_columns"><%=l(:label_default_columns)%></label>
-<%= check_box_tag 'default_columns', 1, @query.has_default_columns?, :id => 'query_default_columns',
-      :data => {:disables => "#columns, .block_columns input"} %></p>
-
-<% unless params[:gantt] %>
-  <p id="group_by"><label for="query_group_by"><%= l(:field_group_by) %></label>
-  <%= select 'query', 'group_by', @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, :include_blank => true %></p>
-
-  <% unless @query.available_block_columns.empty? %>
-    <p class="block_columns"><label><%= l(:button_show) %></label>
-    <%= available_block_columns_tags(@query) %></p>
-  <% end %>
-
-  <% unless @query.available_totalable_columns.empty? %>
-    <p class="totable_columns"><label><%= l(:label_total_plural) %></label>
-    <%= available_totalable_columns_tags(@query) %></p>
-  <% end %>
-<% else %>
-  <p><label><%= l(:button_show) %></label>
-  <%= hidden_field_tag 'query[draw_relations]', '0' %>
-  <%= hidden_field_tag 'query[draw_progress_line]', '0' %>
-  <%= hidden_field_tag 'query[draw_selected_columns]', '0' %>
-  <label class="inline"><%= check_box_tag "query[draw_relations]", "1", @query.draw_relations %> <%= l(:label_related_issues) %></label>
-  <label class="inline"><%= check_box_tag "query[draw_progress_line]", "1", @query.draw_progress_line %> <%= l(:label_gantt_progress_line) %></label>
-  <label class="inline"><%= check_box_tag "query[draw_selected_columns]", "1", @query.draw_selected_columns, :data => { :enables => 'span.query-columns select, span.query-columns input'} %> <%= l(:description_selected_columns) %></label>
-  </p>
-<% end # unless params[:gantt] %>
-</fieldset>
-<% end # unless params[:calendar] %>
 </div>
 
 <fieldset id="filters"><legend><%= l(:label_filter_plural) %></legend>
@@ -72,29 +72,29 @@
 </fieldset>
 
 <% if params[:calendar].nil? && params[:gantt].nil? %>
-<fieldset id="sort"><legend><%= l(:label_sort) %></legend>
-<% 3.times do |i| %>
-<%= content_tag(:span, "#{i+1}:", :class => 'query_sort_criteria_count')%>
-<%= label_tag "query_sort_criteria_attribute_" + i.to_s,
-              l(:description_query_sort_criteria_attribute), :class => "hidden-for-sighted" %>
-<%= select_tag("query[sort_criteria][#{i}][]",
-               options_for_select([[]] + query.available_columns.select(&:sortable?).collect {|column| [column.caption, column.name.to_s]}, @query.sort_criteria_key(i)),
-               :id => "query_sort_criteria_attribute_" + i.to_s)%>
-<%= label_tag "query_sort_criteria_direction_" + i.to_s,
-              l(:description_query_sort_criteria_direction), :class => "hidden-for-sighted" %>
-<%= select_tag("query[sort_criteria][#{i}][]",
-                options_for_select([[], [l(:label_ascending), 'asc'], [l(:label_descending), 'desc']], @query.sort_criteria_order(i)),
-                :id => "query_sort_criteria_direction_" + i.to_s) %>
-<br />
-<% end %>
-</fieldset>
+  <fieldset id="sort"><legend><%= l(:label_sort) %></legend>
+    <% 3.times do |i| %>
+    <%= content_tag(:span, "#{i+1}:", :class => 'query_sort_criteria_count')%>
+    <%= label_tag "query_sort_criteria_attribute_" + i.to_s,
+                  l(:description_query_sort_criteria_attribute), :class => "hidden-for-sighted" %>
+    <%= select_tag("query[sort_criteria][#{i}][]",
+                  options_for_select([[]] + query.available_columns.select(&:sortable?).collect {|column| [column.caption, column.name.to_s]}, @query.sort_criteria_key(i)),
+                  :id => "query_sort_criteria_attribute_" + i.to_s)%>
+    <%= label_tag "query_sort_criteria_direction_" + i.to_s,
+                  l(:description_query_sort_criteria_direction), :class => "hidden-for-sighted" %>
+    <%= select_tag("query[sort_criteria][#{i}][]",
+                    options_for_select([[], [l(:label_ascending), 'asc'], [l(:label_descending), 'desc']], @query.sort_criteria_order(i)),
+                    :id => "query_sort_criteria_direction_" + i.to_s) %>
+    <br />
+    <% end %>
+  </fieldset>
 <% end %>
 
 <% unless params[:calendar] %>
-<%= content_tag 'fieldset', :id => 'columns' do %>
-<legend><%= l(:field_column_names) %></legend>
-<%= render_query_columns_selection(query) %>
-<% end %>
+  <%= content_tag 'fieldset', :id => 'columns' do %>
+  <legend><%= l(:field_column_names) %></legend>
+  <%= render_query_columns_selection(query) %>
+  <% end %>
 <% end %>
 
 </div>
