@@ -147,6 +147,12 @@ class QueriesController < ApplicationController
       else
         redirect_to issues_gantt_path(options)
       end
+    elsif params[:calendar]
+      if @project
+        redirect_to project_calendar_path(@project, options)
+      else
+        redirect_to issues_calendar_path(options)
+      end
     else
       redirect_to _project_issues_path(@project, options)
     end
