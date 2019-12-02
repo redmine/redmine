@@ -477,8 +477,9 @@ module ApplicationHelper
 
   def render_projects_for_jump_box(projects, selected=nil)
     jump_box = Redmine::ProjectJumpBox.new User.current
-    bookmarked = jump_box.bookmarked_projects(params[:q])
-    recents = jump_box.recently_used_projects(params[:q])
+    query = params[:q] if request.format.js?
+    bookmarked = jump_box.bookmarked_projects(query)
+    recents = jump_box.recently_used_projects(query)
     projects = projects - (recents + bookmarked)
     projects_label = (bookmarked.any? || recents.any?) ? :label_optgroup_others : :label_project_plural
     jump = params[:jump].presence || current_menu_item
