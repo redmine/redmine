@@ -25,7 +25,7 @@ class TimelogControllerTest < Redmine::ControllerTest
            :trackers, :enumerations, :issue_statuses,
            :custom_fields, :custom_values,
            :projects_trackers, :custom_fields_trackers,
-           :custom_fields_projects, :issue_categories
+           :custom_fields_projects, :issue_categories, :versions
 
   include Redmine::I18n
 
