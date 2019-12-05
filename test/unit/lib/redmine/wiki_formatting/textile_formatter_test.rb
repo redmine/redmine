@@ -557,9 +557,17 @@ STR
   def test_should_not_allow_arbitrary_class_attribute_on_offtags
     %w(code pre kbd).each do |tag|
       assert_html_output({"<#{tag} class=\"foo\">test</#{tag}>" => "<#{tag}>test</#{tag}>"}, false)
+      assert_html_output({"<#{tag} class='foo'>test</#{tag}>" => "<#{tag}>test</#{tag}>"}, false)
+      assert_html_output({"<#{tag} class=\"ruby foo\">test</#{tag}>" => "<#{tag}>test</#{tag}>"}, false)
+      assert_html_output({"<#{tag} class='ruby foo'>test</#{tag}>" => "<#{tag}>test</#{tag}>"}, false)
+      assert_html_output({"<#{tag} class=\"ruby \"foo\" bar\">test</#{tag}>" => "<#{tag}>test</#{tag}>"}, false)
     end
 
     assert_html_output({"<notextile class=\"foo\">test</notextile>" => "test"}, false)
+    assert_html_output({"<notextile class='foo'>test</notextile>" => "test"}, false)
+    assert_html_output({"<notextile class=\"ruby foo\">test</notextile>" => "test"}, false)
+    assert_html_output({"<notextile class='ruby foo'>test</notextile>" => "test"}, false)
+    assert_html_output({"<notextile class=\"ruby \"foo\" bar\">test</notextile>" => "test"}, false)
   end
 
   def test_should_allow_valid_language_class_attribute_on_code_tags
