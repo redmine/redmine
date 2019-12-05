@@ -121,9 +121,10 @@ module Redmine
             ## replace <pre> content
             text.gsub!(/<redpre#(\d+)>/) do
               content = @pre_list[$1.to_i]
-              if content.match(/<code\s+class=["'](\w+)["']>\s?(.+)/m)
-                language = $1
-                text = $2
+              # This regex must match any data produced by RedCloth3#rip_offtags
+              if content.match(/<code\s+class=(?:"([^"]+)"|'([^']+)')>\s?(.*)/m)
+                language = $1 || $2
+                text = $3
                 if Redmine::SyntaxHighlighting.language_supported?(language)
                   text.gsub!(/x%x%/, '&')
                   content = "<code class=\"#{language} syntaxhl\">" +
