@@ -79,7 +79,7 @@ module TimelogHelper
   def report_to_csv(report)
     Redmine::Export::CSV.generate(:encoding => params[:encoding]) do |csv|
       # Column headers
-      headers = report.criteria.collect {|criteria| l(report.available_criteria[criteria][:label]) }
+      headers = report.criteria.collect {|criteria| l_or_humanize(report.available_criteria[criteria][:label]) }
       headers += report.periods
       headers << l(:label_total_time)
       csv << headers
