@@ -247,14 +247,14 @@ class TimelogReportTest < Redmine::ControllerTest
       :columns => 'month',
       :from => "2007-01-01",
       :to => "2007-06-30",
-      :criteria => ["project", "user", "activity"],
+      :criteria => ["project", "user", "cf_10"],
       :format => "csv"
     }
     assert_response :success
     assert_equal 'text/csv', @response.content_type
     lines = @response.body.chomp.split("\n")
     # Headers
-    assert_equal 'Project,User,Activity,2007-3,2007-4,Total time', lines.first
+    assert_equal 'Project,User,Overtime,2007-3,2007-4,Total time', lines.first
     # Total row
     assert_equal 'Total time,"","",154.25,8.65,162.90', lines.last
   end
