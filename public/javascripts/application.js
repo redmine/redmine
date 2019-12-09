@@ -412,7 +412,7 @@ function getRemoteTab(name, remote_url, url, load_always) {
 //replaces current URL with the "href" attribute of the current link
 //(only triggered if supported by browser)
 function replaceInHistory(url) {
-  if ("replaceState" in window.history) {
+  if ("replaceState" in window.history && url !== undefined) {
     window.history.replaceState(null, document.title, url);
   }
 }
