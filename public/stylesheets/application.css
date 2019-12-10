@@ -770,7 +770,9 @@ input#months { width: 30px; }
 .tabular.settings .wiki-preview, .tabular.settings .jstTabs { width: 99%; }
 .tabular .wiki-preview p {
   min-height: initial;
-  padding: 1em 0 1em 0 !important;
+  padding: 0;
+  padding-top: 1em !important;
+  padding-bottom: 1em !important;
   overflow: initial;
 }
 
