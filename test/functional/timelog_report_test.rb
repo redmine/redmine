@@ -232,7 +232,7 @@ class TimelogReportTest < Redmine::ControllerTest
       :format => "csv"
     }
     assert_response :success
-    assert_equal 'text/csv', @response.content_type
+    assert_equal 'text/csv', @response.media_type
     lines = @response.body.chomp.split("\n")
     # Headers
     assert_equal 'Project,User,Activity,2007-3,2007-4,Total time', lines.first
@@ -250,7 +250,7 @@ class TimelogReportTest < Redmine::ControllerTest
       :format => "csv"
     }
     assert_response :success
-    assert_equal 'text/csv', @response.content_type
+    assert_equal 'text/csv', @response.media_type
     lines = @response.body.chomp.split("\n")
     # Headers
     assert_equal 'Project,User,Overtime,2007-3,2007-4,Total time', lines.first
@@ -289,7 +289,7 @@ class TimelogReportTest < Redmine::ControllerTest
       }
     end
     assert_response :success
-    assert_equal 'text/csv', @response.content_type
+    assert_equal 'text/csv', @response.media_type
     lines = @response.body.chomp.split("\n")
     # Headers
     s1 = "\xa5\xce\xa4\xe1,2011-11-11,\xa4u\xae\xc9\xc1`\xadp".force_encoding('Big5')
@@ -336,7 +336,7 @@ class TimelogReportTest < Redmine::ControllerTest
       }
     end
     assert_response :success
-    assert_equal 'text/csv', @response.content_type
+    assert_equal 'text/csv', @response.media_type
     lines = @response.body.chomp.split("\n")
     # Headers
     s1 = "\xa5\xce\xa4\xe1,2011-11-11,\xa4u\xae\xc9\xc1`\xadp".force_encoding('Big5')
@@ -371,7 +371,7 @@ class TimelogReportTest < Redmine::ControllerTest
         :format => "csv"
       }
       assert_response :success
-      assert_equal 'text/csv', @response.content_type
+      assert_equal 'text/csv', @response.media_type
       lines = @response.body.chomp.split("\n")
       # Headers
       s1 = "Utilisateur;2011-11-11;Temps total".force_encoding('ISO-8859-1')

@@ -72,7 +72,7 @@ class UsersControllerTest < Redmine::ControllerTest
       assert_equal User.logged.status(1).count, response.body.chomp.split("\n").size - 1
       assert_include 'active', response.body
       assert_not_include 'locked', response.body
-      assert_equal 'text/csv', @response.content_type
+      assert_equal 'text/csv', @response.media_type
     end
   end
 
@@ -84,7 +84,7 @@ class UsersControllerTest < Redmine::ControllerTest
       assert_equal User.logged.status(3).count, response.body.chomp.split("\n").size - 1
       assert_include 'locked', response.body
       assert_not_include 'active', response.body
-      assert_equal 'text/csv', @response.content_type
+      assert_equal 'text/csv', @response.media_type
     end
   end
 
@@ -94,7 +94,7 @@ class UsersControllerTest < Redmine::ControllerTest
 
     assert_equal User.logged.like('John').count, response.body.chomp.split("\n").size - 1
     assert_include 'John', response.body
-    assert_equal 'text/csv', @response.content_type
+    assert_equal 'text/csv', @response.media_type
   end
 
   def test_index_csv_with_group_filter
@@ -102,7 +102,7 @@ class UsersControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_equal Group.find(10).users.count, response.body.chomp.split("\n").size - 1
-    assert_equal 'text/csv', @response.content_type
+    assert_equal 'text/csv', @response.media_type
   end
 
   def test_show
