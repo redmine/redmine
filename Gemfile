@@ -83,7 +83,7 @@ end
 
 group :test do
   gem "rails-dom-testing"
-  gem "mocha"
+  gem 'mocha', '>= 1.4.0'
   gem "simplecov", "~> 0.14.1", :require => false
   # For running system tests
   gem 'puma', '~> 3.7'
