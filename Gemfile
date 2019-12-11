@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem "bundler", ">= 1.5.0"
 
 gem "rails", "5.2.4"
-gem "rouge", "~> 3.13.0"
+gem "rouge", "~> 3.14.0"
 gem "request_store", "1.0.5"
 gem "mini_mime", "~> 1.0.1"
 gem "actionpack-xml_parser"
