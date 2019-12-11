@@ -35,7 +35,7 @@ require File.expand_path(File.dirname(__FILE__) + '/object_helpers')
 include ObjectHelpers
 
 require 'net/ldap'
-require 'mocha/setup'
+require 'mocha/minitest'
 require 'fileutils'
 
 Redmine::SudoMode.disable!
