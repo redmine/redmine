@@ -159,12 +159,12 @@ gl:
         circular_dependency: "Esta relación podería crear unha dependencia circular"
         cant_link_an_issue_with_a_descendant: "As peticións non poden estar ligadas coas súas subtarefas"
         earlier_than_minimum_start_date: "Non pode ser antes de %{date} por mor de peticións anteriores"
-        not_a_regexp: "is not a valid regular expression"
-        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
-        must_contain_uppercase: "must contain uppercase letters (A-Z)"
-        must_contain_lowercase: "must contain lowercase letters (a-z)"
-        must_contain_digits: "must contain digits (0-9)"
-        must_contain_special_chars: "must contain special characters (!, $, %, ...)"
+        not_a_regexp: "non é unha expresión regular válida"
+        open_issue_with_closed_parent: "Unha petición aberta non pode ser asignada a unha tarefa pai pechada"
+        must_contain_uppercase: "debe conter letras maiúsculas (A-Z)"
+        must_contain_lowercase: "debe conter letras minúsculas (a-z)"
+        must_contain_digits: "debe conter díxitos (0-9)"
+        must_contain_special_chars: "debe conter caracteres especiais (!, $, %, ...)"
 
   actionview_instancetag_blank_option: Por favor seleccione
 
@@ -1305,18 +1305,18 @@ gl:
   label_last_tab_visited: Última lapela visitada
   field_unique_id: ID único
   text_no_subject: sen asunto
-  setting_password_required_char_classes: Required character classes for passwords
-  label_password_char_class_uppercase: uppercase letters
-  label_password_char_class_lowercase: lowercase letters
-  label_password_char_class_digits: digits
-  label_password_char_class_special_chars: special characters
-  text_characters_must_contain: Must contain %{character_classes}.
-  label_starts_with: starts with
-  label_ends_with: ends with
-  label_issue_fixed_version_updated: Target version updated
-  setting_project_list_defaults: Projects list defaults
-  label_display_type: Display results as
-  label_display_type_list: List
-  label_display_type_board: Board
-  label_my_bookmarks: My bookmarks
+  setting_password_required_char_classes: Clases de caracteres requeridos para as contrasinais
+  label_password_char_class_uppercase: letras maiúsculas
+  label_password_char_class_lowercase: letras minúsculas
+  label_password_char_class_digits: díxitos
+  label_password_char_class_special_chars: caracteres especiais
+  text_characters_must_contain: Debe conter %{character_classes}.
+  label_starts_with: comeza con
+  label_ends_with: finaliza con
+  label_issue_fixed_version_updated: Versión destino actualizada
+  setting_project_list_defaults: Listaxes por defecto dos proxectos
+  label_display_type: Amosar os resultados coma
+  label_display_type_list: Listaxe
+  label_display_type_board: Taboleiro
+  label_my_bookmarks: Meus favoritos
   label_import_time_entries: Importar tempos dedicados
