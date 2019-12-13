@@ -255,7 +255,7 @@ function copyImageFromClipboard(e) {
   if (!$(e.target).hasClass('wiki-edit')) { return; }
   var clipboardData = e.clipboardData || e.originalEvent.clipboardData
   if (!clipboardData) { return; }
-  if (clipboardData.types.some(t => /^text/.test(t))) { return; }
+  if (clipboardData.types.some(function(t){ return /^text/.test(t); })) { return; }
 
   var items = clipboardData.items
   for (var i = 0 ; i < items.length ; i++) {
