@@ -44,11 +44,9 @@ class Redmine::ApiTest::DisabledRestApiTest < Redmine::ApiTest::Base
 
     get "/news.xml?key=#{@token.value}"
     assert_response :forbidden
-    assert_equal User.anonymous, User.current
 
     get "/news.json?key=#{@token.value}"
     assert_response :forbidden
-    assert_equal User.anonymous, User.current
   end
 
   def test_with_valid_username_password_http_authentication
@@ -58,11 +56,9 @@ class Redmine::ApiTest::DisabledRestApiTest < Redmine::ApiTest::Base
 
     get "/news.xml", :headers => credentials(@user.login, 'my_password')
     assert_response :forbidden
-    assert_equal User.anonymous, User.current
 
     get "/news.json", :headers => credentials(@user.login, 'my_password')
     assert_response :forbidden
-    assert_equal User.anonymous, User.current
   end
 
   def test_with_valid_token_http_authentication
@@ -71,10 +67,8 @@ class Redmine::ApiTest::DisabledRestApiTest < Redmine::ApiTest::Base
 
     get "/news.xml", :headers => credentials(@token.value, 'X')
     assert_response :forbidden
-    assert_equal User.anonymous, User.current
 
     get "/news.json", :headers => credentials(@token.value, 'X')
     assert_response :forbidden
-    assert_equal User.anonymous, User.current
   end
 end
