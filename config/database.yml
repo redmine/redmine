@@ -1,0 +1,17 @@
+# Default setup is given for MySQL 5.7.7 or later.
+# Examples for PostgreSQL, SQLite3 and SQL Server can be found at the end.
+# Line indentation must be 2 spaces (no tabs).
+
+
+# SQLite3 configuration example
+production:
+  adapter: sqlite3
+  database: db/redmine.sqlite3
+
+# SQL Server configuration example
+#production:
+#  adapter: sqlserver
+#  database: redmine
+#  host: localhost
+#  username: jenkins
+#  password: jenkins
