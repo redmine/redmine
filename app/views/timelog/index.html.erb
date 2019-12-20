@@ -4,7 +4,7 @@
             :class => 'icon icon-time-add' if User.current.allowed_to?(:log_time, @project, :global => true) %>
 <%= actions_dropdown do %>
   <% if User.current.allowed_to?(:import_time_entries, @project, :global => true) %>
-    <%= link_to l(:button_import), new_time_entries_import_path %>
+    <%= link_to l(:button_import), new_time_entries_import_path(:project_id => @project) %>
   <% end %>
 
   <%= link_to_if_authorized l(:label_settings),

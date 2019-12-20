@@ -36,7 +36,7 @@ class ImportsController < ApplicationController
     @import = import_type.new
     @import.user = User.current
     @import.file = params[:file]
-    @import.set_default_settings
+    @import.set_default_settings(:project_id => params[:project_id])
 
     if @import.save
       redirect_to import_settings_path(@import)

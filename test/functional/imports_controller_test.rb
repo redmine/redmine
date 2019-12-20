@@ -44,9 +44,10 @@ class ImportsControllerTest < Redmine::ControllerTest
   end
 
   def test_new_should_display_the_upload_form
-    get :new, :params => { :type => 'IssueImport' }
+    get :new, :params => { :type => 'IssueImport', :project_id => 'subproject1' }
     assert_response :success
     assert_select 'input[name=?]', 'file'
+    assert_select 'input[name=?][type=?][value=?]', 'project_id', 'hidden', 'subproject1'
   end
 
   def test_create_should_save_the_file

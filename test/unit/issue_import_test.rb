@@ -266,4 +266,32 @@ class IssueImportTest < ActiveSupport::TestCase
     issues = new_records(Issue, 3) { import.run }
     assert [nil, 3, system_version.id], issues.map(&:fixed_version_id)
   end
+
+  def test_set_default_settings_with_project_id
+    import = Import.new
+    import.set_default_settings(:project_id => 3)
+
+    assert_equal 3, import.mapping['project_id']
+  end
+
+  def test_set_default_settings_with_project_identifier
+    import = Import.new
+    import.set_default_settings(:project_id => 'ecookbook')
+
+    assert_equal 1, import.mapping['project_id']
+  end
+
+  def test_set_default_settings_without_project_id
+    import = Import.new
+    import.set_default_settings
+
+    assert_empty import.mapping
+  end
+
+  def test_set_default_settings_with_invalid_project_should_not_fail
+    import = Import.new
+    import.set_default_settings(:project_id => 'abc')
+
+    assert_empty import.mapping
+  end
 end

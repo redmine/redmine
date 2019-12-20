@@ -2,6 +2,7 @@
 
 <%= form_tag(imports_path, :multipart => true) do %>
   <%= hidden_field_tag 'type', @import.type %>
+  <%= hidden_field_tag 'project_id', params[:project_id] %>
   <fieldset class="box">
     <legend><%= l(:label_select_file_to_import) %> (CSV)</legend>
     <p>
