@@ -458,7 +458,7 @@ div.square {
 
 form {display: inline;}
 input, select {vertical-align: middle; margin-top: 1px; margin-bottom: 1px; height: 24px; padding: 0 7px;}
-input, select, textarea { color: #333; background-color: #fff; border:1px solid #ccc; border-radius:3px; box-sizing: border-box;}
+input, select, textarea, button { color: #333; background-color: #fff; border:1px solid #ccc; border-radius:3px; box-sizing: border-box;}
 select {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -472,7 +472,7 @@ select {
   padding-right: 20px;
 }
 input[type="file"] {border: 0; padding-left: 0; padding-right: 0; background-color: initial; }
-input[type="submit"] {
+input[type="submit"], button[type="submit"] {
   -webkit-appearance: button;
   cursor: pointer;
   background-color: #fff;
@@ -482,7 +482,7 @@ input[type="submit"] {
   -o-transition: background-color 100ms linear;
   transition: background-color 100ms linear;
 }
-input[type="submit"]:hover {
+input[type="submit"]:hover, button[type="submit"]:hover {
   background-color: #ddd;
 }
 
