@@ -1,8 +1,10 @@
 <div class="contextual">
+  <%= bookmark_link @project %>
+
+  <%= actions_dropdown do %>
   <% if User.current.allowed_to?(:add_subprojects, @project) %>
     <%= link_to l(:label_subproject_new), new_project_path(:parent_id => @project), :class => 'icon icon-add' %>
   <% end %>
-  <%= bookmark_link @project %>
   <% if User.current.allowed_to?(:close_project, @project) %>
     <% if @project.active? %>
       <%= link_to l(:button_close), close_project_path(@project), :data => {:confirm => l(:text_are_you_sure)}, :method => :post, :class => 'icon icon-lock' %>
@@ -13,7 +15,7 @@
   <%= link_to_if_authorized l(:label_settings),
               {:controller => 'projects', :action => 'settings', :id => @project},
               :class => 'icon icon-settings' if User.current.allowed_to?(:edit_project, @project) %>
-
+  <% end %>
 </div>
 
 <h2><%=l(:label_overview)%></h2>

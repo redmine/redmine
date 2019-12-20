@@ -2,9 +2,6 @@
   <% if User.current.allowed_to?(:add_issues, @project, :global => true) && (@project.nil? || Issue.allowed_target_trackers(@project).any?) %>
     <%= link_to l(:label_issue_new), _new_project_issue_path(@project), :class => 'icon icon-add new-issue' %>
   <% end %>
-  <%= link_to_if_authorized l(:label_settings),
-              {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'issues'},
-              :class => 'icon icon-settings' if User.current.allowed_to?(:manage_categories, @project) %>
   <%= actions_dropdown do %>
     <% if @project %>
       <%= link_to l(:field_summary), project_issues_report_path(@project) %>
@@ -13,6 +10,10 @@
     <% if User.current.allowed_to?(:import_issues, @project, :global => true) %>
       <%= link_to l(:button_import), new_issues_import_path(:project_id => @project) %>
     <% end %>
+
+    <%= link_to_if_authorized l(:label_settings),
+              {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'issues'},
+              :class => 'icon icon-settings' if User.current.allowed_to?(:manage_categories, @project) %>
   <% end %>
 </div>
 

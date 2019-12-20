@@ -2,13 +2,14 @@
 <%= link_to l(:button_log_time),
             _new_time_entry_path(@project, @query.filtered_issue_id),
             :class => 'icon icon-time-add' if User.current.allowed_to?(:log_time, @project, :global => true) %>
-<%= link_to_if_authorized l(:label_settings),
-            {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'activities'},
-            :class => 'icon icon-settings' if User.current.allowed_to?(:manage_project_activities, @project) %>
 <%= actions_dropdown do %>
   <% if User.current.allowed_to?(:import_time_entries, @project, :global => true) %>
     <%= link_to l(:button_import), new_time_entries_import_path(:project_id => @project) %>
   <% end %>
+
+  <%= link_to_if_authorized l(:label_settings),
+            {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'activities'},
+            :class => 'icon icon-settings' if User.current.allowed_to?(:manage_project_activities, @project) %>
 <% end %>
 </div>
 
