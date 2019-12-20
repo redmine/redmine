@@ -29,7 +29,6 @@ class Redmine::ApiTest::AuthenticationTest < Redmine::ApiTest::Base
   def test_api_should_deny_without_credentials
     get '/users/current.xml'
     assert_response 401
-    assert_equal User.anonymous, User.current
     assert response.headers.has_key?('WWW-Authenticate')
   end
 
@@ -39,7 +38,6 @@ class Redmine::ApiTest::AuthenticationTest < Redmine::ApiTest::Base
     end
     get '/users/current.xml', :headers => credentials(user.login, 'my_password')
     assert_response 200
-    assert_equal user, User.current
   end
 
   def test_api_should_deny_http_basic_auth_using_username_and_wrong_password
@@ -48,7 +46,6 @@ class Redmine::ApiTest::AuthenticationTest < Redmine::ApiTest::Base
     end
     get '/users/current.xml', :headers => credentials(user.login, 'wrong_password')
     assert_response 401
-    assert_equal User.anonymous, User.current
   end
 
   def test_api_should_accept_http_basic_auth_using_api_key
@@ -56,7 +53,6 @@ class Redmine::ApiTest::AuthenticationTest < Redmine::ApiTest::Base
     token = Token.create!(:user => user, :action => 'api')
     get '/users/current.xml', :headers => credentials(token.value, 'X')
     assert_response 200
-    assert_equal user, User.current
   end
 
   def test_api_should_deny_http_basic_auth_using_wrong_api_key
@@ -64,7 +60,6 @@ class Redmine::ApiTest::AuthenticationTest < Redmine::ApiTest::Base
     token = Token.create!(:user => user, :action => 'feeds') # not the API key
     get '/users/current.xml', :headers => credentials(token.value, 'X')
     assert_response 401
-    assert_equal User.anonymous, User.current
   end
 
   def test_api_should_accept_auth_using_api_key_as_parameter
@@ -72,7 +67,6 @@ class Redmine::ApiTest::AuthenticationTest < Redmine::ApiTest::Base
     token = Token.create!(:user => user, :action => 'api')
     get "/users/current.xml?key=#{token.value}"
     assert_response 200
-    assert_equal user, User.current
   end
 
   def test_api_should_deny_auth_using_wrong_api_key_as_parameter
@@ -80,7 +74,6 @@ class Redmine::ApiTest::AuthenticationTest < Redmine::ApiTest::Base
     token = Token.create!(:user => user, :action => 'feeds') # not the API key
     get "/users/current.xml?key=#{token.value}"
     assert_response 401
-    assert_equal User.anonymous, User.current
   end
 
   def test_api_should_accept_auth_using_api_key_as_request_header
@@ -88,7 +81,6 @@ class Redmine::ApiTest::AuthenticationTest < Redmine::ApiTest::Base
     token = Token.create!(:user => user, :action => 'api')
     get "/users/current.xml", :headers => {'X-Redmine-API-Key' => token.value.to_s}
     assert_response 200
-    assert_equal user, User.current
   end
 
   def test_api_should_deny_auth_using_wrong_api_key_as_request_header
@@ -96,7 +88,6 @@ class Redmine::ApiTest::AuthenticationTest < Redmine::ApiTest::Base
     token = Token.create!(:user => user, :action => 'feeds') # not the API key
     get "/users/current.xml", :headers => {'X-Redmine-API-Key' => token.value.to_s}
     assert_response 401
-    assert_equal User.anonymous, User.current
   end
 
   def test_api_should_trigger_basic_http_auth_with_basic_authorization_header
@@ -136,7 +127,6 @@ class Redmine::ApiTest::AuthenticationTest < Redmine::ApiTest::Base
     get '/users/current', :headers => {'X-Redmine-API-Key' => user.api_key, 'X-Redmine-Switch-User' => su.login}
     assert_response :success
     assert_select 'h2', :text => su.name
-    assert_equal su, User.current
   end
 
   def test_api_should_respond_with_412_when_trying_to_switch_to_a_invalid_user
@@ -159,6 +149,5 @@ class Redmine::ApiTest::AuthenticationTest < Redmine::ApiTest::Base
     get '/users/current', :headers => {'X-Redmine-API-Key' => user.api_key, 'X-Redmine-Switch-User' => su.login}
     assert_response :success
     assert_select 'h2', :text => user.name
-    assert_equal user, User.current
   end
 end
