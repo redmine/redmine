@@ -4,6 +4,369 @@ Redmine - project management software
 Copyright (C) 2006-2019  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2019-12-20 v4.1.0
+
+=== [Accounts / authentication]
+
+* Feature #4221: Force passwords to contain specified character classes
+* Feature #9112: Libravatar and Gravatar-compatible servers support
+* Feature #26127: Display user logins on profiles
+
+=== [Administration]
+
+* Defect #29601: Redmine::VERSION::revision may return wrong value
+* Feature #8343: Add wiki toolbar to "Email header" and "Email footer" in "Email notifications" admin tab
+* Feature #30853: Show warning when no workflow is defined for the role
+* Feature #30916: Show warning when no tracker uses the status in the workflows
+* Feature #31154: Reject setting RFC non-compliant emission email addresses
+* Feature #31361: Include a reason in the error message when an issue status cannot be deleted
+* Feature #32343: Ability to filter roles that are displayed on the permissions report
+* Patch #29589: Set the first status as a default status in "New tracker" form
+
+=== [Attachments]
+
+* Defect #32289: Don't try to generate thumbnails if convert command is not available
+* Feature #3816: Allow pasting screenshots from clipboard
+* Feature #22481: Show thumbnails for PDF attachments
+* Feature #29752: Render Textile and Markdown attachments on the preview page
+* Feature #31553: Preview .webm as video instead of audio
+* Feature #32249: Show attachment thumbnails by default
+* Patch #13688: Chosen thumbnail has to be bigger than requested one and not smaller
+* Patch #30177: Thumbnail lifecycle: reuse thumbs from identical files, delete thumbs when diskfile is deleted
+
+=== [Calendar]
+
+* Feature #27096: Mark non-working days in calendar view
+
+=== [Code cleanup/refactoring]
+
+* Defect #30474: IssuesControllerTest#test_index_sort_by_total_estimated_hours tests practically nothing
+* Defect #30806: TimeEntryTest#test_create_should_validate_user_id occasionally fails
+* Defect #31053: Some issue fixtures are set inconsistent tracker id which is not available in the project
+* Defect #31074: TimelogTest#test_default_query_setting fails depending on the language of the browser
+* Defect #31093: Duplicate method definition: ProjectsControllerTest#test_jump_should_not_redirect_to_unknown_tab
+* Defect #31387: Don't rescue Exception class
+* Defect #31388: ApiTest fails if config.time_zone is set
+* Defect #31510: Fix missing closing tags in workflows/permissions.html.erb
+* Defect #31929: MarkdownFormatterTest#test_should_support_underlined_text is declared as private
+* Patch #29441: Remove code related to JRuby and unsupported Ruby versions
+* Patch #30163: Remove unnecessary tests in test/unit/initializers/patches_test.rb
+* Patch #30276: Add missing fixtures to several tests
+* Patch #30347: test_links_separated_with_line_break_should_link tests nothing
+* Patch #30445: Remove unnecessary bgl and bgr wrappers from the footer
+* Patch #30466: Remove unused i18n key "label_all_time"
+* Patch #30994: Refactor custom field css classes
+* Patch #31004: Decode hexadecimal-encoded literals in order to be frozen string literals friendly
+* Patch #31034: Remove encoding magic comments
+* Patch #31046: Remove unused method ApplicationHelper#generate_csv
+* Patch #31059: Use #b shortcut instead of #force_encoding
+* Patch #31088: Remove useless code in TimeEntryQuery#sql_for_activity_id_field
+* Patch #31131: CalendarsControllerTest#test_show fails depending on the date
+* Patch #31205: Replace jquery-rails with vanilla javascript ujs
+* Patch #31344: Remove unused i18n key "label_please_login"
+* Patch #31391: Small refactorization of avatar methods
+* Patch #31402: Add support for customization by block to IssueCustomField.generate!
+* Patch #31433: Use "icon icon-*" classes for sort-handler, collapsible fieldsets and collapsible versions
+* Patch #31506: Remove trailing whitespaces
+* Patch #31509: Add Rubocop to enforce some styles
+* Patch #31555: Use Redmine::Database.mysql? instead of a regular expression
+* Patch #31705: Add missing fixtures to AttachmentFormatVisibilityTest
+* Patch #31865: Add missing fixtures to ImportsControllerTest
+* Patch #31941: ThemesTest may fail if a third-party theme with a favicon is installed
+* Patch #31965: Add missing fixtures to Redmine::ApiTest::VersionsTest
+* Patch #31966: Add missing fixtures to Redmine::Helpers::GanttHelperTest
+* Patch #31967: IssueCustomFieldTest randomly fails
+* Patch #32023: Add missing fixtures to IssueStatusesControllerTest
+* Patch #32025: mail_body method in test/test_helper.rb raises an exception if the message is not multipart
+* Patch #32094: Remove unnecessary call to set_tmp_attachments_directory
+* Patch #32122: Fix test failure due to missing call to set_tmp_attachments_directory
+* Patch #32297: Remove code for unsupported versions of Rails from open_id_authentication
+* Patch #32400: Remove unused i18n key "button_duplicate"
+* Patch #32431: Invalid association IssueCustomField#issue_custom_values
+* Patch #32432: Avoid class name overlap that causes TypeError on `rake test:system test`
+
+=== [Custom fields]
+
+* Defect #29209: Long text custom fields don't accept values longer than 64KB if backend database is MySQL
+* Feature #23997: Per role visibility settings for version custom fields
+* Feature #29712: Preview and wiki toolbar for full width custom fields
+* Feature #31159: "Create and continue" button for custom fields
+* Feature #31444: Add  "<< me >>" option to user format issue custom fields
+* Feature #31859: Per role visibility settings for spent time custom fields
+* Feature #31925: Per role visibility settings for project custom fields
+* Patch #31320: Set an appropriate default type in New custom field page depending on the current tab
+
+=== [Database]
+
+* Feature #31921: Changes to properly support 4 byte characters (emoji) when database is MySQL
+
+=== [Documentation]
+
+* Feature #32119: Add TOC to wiki formatting help
+* Feature #32123: Add "Highlighted code" section in Wiki Syntax Quick Reference
+* Feature #32169: Add links to the detailed Wiki formatting help in Quick Reference
+* Patch #30970: Small improvements in appearance of the code coverage index page
+* Patch #31169: Wiki syntax help for document image pasting and drag/drop embedding
+* Patch #31327: Update CONTRIBUTING.md
+
+=== [Documents]
+
+* Feature #29725: Show recent documents first when sorting documents by date
+
+=== [Email notifications]
+
+* Defect #13888: Daylight savings causes inconsistency of Message-Id in emails
+* Defect #14792: Don't add a display name and extra angle brackets in List-Id header field
+* Defect #17096: Issue emails cannot be threaded by some mailers due to inconsistent Message-ID and References field
+* Defect #31501: reminder.rake should ignore blank parameters
+* Feature #5913: Authors name in from  address of email notifications
+* Feature #10378: Don't show empty fields in email notifications
+* Feature #13111: New setting to include the status changes in issue mail notifications subject
+* Feature #13307: Start date and due date in email notifications
+* Feature #17840: Option to send email notification on "Target version updated"
+* Feature #22771: Option to send email notifications while importing issues from CSV files
+* Feature #31104: Show the total number of open issues in a reminder
+* Feature #31225: Show the number of days left until the due date in reminders
+* Feature #31910: Add additional mail headers for issue tracker
+
+=== [Email receiving]
+
+* Defect #31232: Text may unexpectedly be enclosed in pre tags when an issue is created via HTML email
+* Defect #31549: LF line terminators cause misparse of a multi-part email when rdm-mailhandler.rb is invoked from /etc/aliases
+* Defect #31695: Convert HTML links to Textile/Markdown links when creating an issue from an email
+* Defect #31946: No log message when MailHandler ignored a reply to a nonexistent issue, journal, or message
+* Feature #17699: Parse author's name enclosed in parentheses in the From field when creating a user account from an email
+* Feature #19903: Change textfield to textarea for "Exclude attachments by name"
+* Feature #30838: Option to parse HTML part of multipart (HTML) emails first
+* Feature #31231: Better handling of HTML tables when creating an issue from an email
+* Patch #31324: Allow to set is_private flag through a keyword in emails
+* Patch #31899: Improve MailHandler logging for unauthorized attempts
+
+=== [Gantt]
+
+* Feature #6417: Allow collapse/expand in gantt chart
+* Feature #14654: Allow a bigger range for the gantt timeline
+* Feature #27672: Show selected columns in gantt chart
+* Feature #31373: Previous and next month links in gantt
+
+=== [Gems support]
+
+* Defect #31657: Update capybara (~> 3.25.0)
+* Defect #32223: Disable sprockets to avoid Sprockets::Railtie::ManifestNeededError raised by sprockets 4.0.0
+* Feature #29946: Update i18n gem (~> 1.6.0)
+* Feature #30492: Replace RMagick with MiniMagick
+* Feature #30963: Update simplecov gem (~> 0.17.0)
+* Feature #31911: Update request_store gem to 1.4
+* Patch #31126: Update sqlite3 gem (~> 1.4.0)
+* Patch #31556: Update Rouge to 3.12.0
+* Patch #31611: Update csv gem (~> 3.1.1)
+* Patch #31847: Update redcarpet to 3.5.0
+* Patch #31877: Update rbpdf (~> 1.20.0)
+* Patch #31919: Update roadie-rails gem (~> 2.1.0)
+
+=== [Groups]
+
+* Feature #12796: Display user's groups on profile
+
+=== [Hook requests]
+
+* Patch #7975: Hook for adding content to the side bar of Wiki page
+
+=== [I18n]
+
+* Defect #5820: Hard-coded string "no subject" in app/models/mail_handler.rb
+
+=== [Importers]
+
+* Defect #21766: CSV import does not keep the project it was clicked from
+* Feature #28213: Support external ID when importing issues
+* Feature #28234: Add CSV Import for Time Entries
+* Feature #31450: Support "YYYY/MM/DD" date format when importing issues
+
+=== [Issues]
+
+* Defect #28502: Support issue[assigned_to_id]=me when prefilling issues
+* Feature #442: Add a description for trackers
+* Feature #3058: Show issue history using tabs
+* Feature #22368: Ability to add private comments from the issue bulk edit page
+* Feature #25540: Unify fields of subtasks and related issues on issue page
+* Feature #31418: Stacked bar charts in the issue details report
+* Feature #31427: Insert a link to the source to the attribution line when quoting a note or a message
+* Feature #31499: Show "Due in X days" in issue details page
+* Patch #28138: Add link to add a new issue on the version page
+* Patch #31493: Add a link to project_issues_report from project_issues_report_details
+* Patch #31994: Allow issue auto complete to return 10 issues when there is not search term provided
+
+=== [Issues filter]
+
+* Defect #32546: Issue relations filter lacks "is not"
+* Feature #13803: Implement grouping issues by date (start, due, creation, update, closing dates)
+* Feature #16904: Add anonymous user to users list in query filters
+* Feature #26826: Issue filtering by spent time
+* Feature #30482: Multiple issue ids in "Parent task" filter
+* Feature #30808: Multiple issue ids in "Subtasks" filter
+* Feature #31328: Change the "+" button in the issues filter to a larger one
+* Feature #31879: "starts with" and "ends with" filter operators for string values
+* Patch #4502: New date filter operators: tomorrow, next week, next month
+* Patch #25265: QueriesController can not handle subclass of IssueQuery
+
+=== [Issues list]
+
+* Defect #29581: Issues in paginated views may be lost because sorting criteria are not unique
+* Feature #19371: Add a new query column for the parent task subject
+* Feature #26081: Allow full_width_layout long-text custom fields to appear in the issue list like 'Description' (as a block column)
+* Patch #31280: Left align long text custom fields in the issues list
+
+=== [My page]
+
+* Feature #30975: New My page block: Updated issues
+
+=== [PDF export]
+
+* Patch #30162: Wiki page collapse block image is not displayed in exported PDF
+
+=== [Performance]
+
+* Feature #26561: Enable frozen string literals
+* Patch #28940: Use Regexp#match? to reduce allocations of MatchData object
+* Patch #30249: Performance improvement when rendering news or calendar block on My page
+* Patch #30828: Refactor GitAdapter#default_branch not to unnecessarily iterate through all elements
+* Patch #31855: Speed up workflow edit page rendering
+
+=== [Permissions and roles]
+
+* Defect #17219: Rename label for "Issues can be assigned to this role"
+* Defect #30431: Useless "Delete issues" tracker permission is shown on the role page for Anonymous and Non-member
+* Feature #1248: New Permission:  Edit own issues
+* Patch #27625: Increase maximum size for role name
+
+=== [Plugin API]
+
+* Patch #27659: redmine_plugin_model_generator improvements(fixes and timestamps)
+* Patch #31110: Raise an exception if the plugin directory name differs from the plugin id
+* Patch #31457: Add support for reloading plugin assets automatically in development mode
+* Patch #31485: Add support for :sql ActiveRecord::Base.schema_format in redmine:plugins:migrate
+* Patch #31498: Add redmine_plugin_migration generator
+* Patch #31746: Add redmine:plugins:test:system task
+
+=== [Project settings]
+
+* Defect #27101: Project identifier model constraint doesn't match with text_project_identifier_info and JS-generated identifiers
+* Feature #22090: Make project settings more accessible
+* Feature #31032: Display details about inheritance when editing a member roles
+* Patch #30203: Add links to administration pages in project settings
+
+=== [Projects]
+
+* Feature #29482: Query system for Projects page
+* Feature #31355: Bookmarks and recently used projects for the project jump box
+* Feature #32306: Add a link to projects administration page on projects page
+* Patch #31356: replace icon-fav with icon-user for 'my projects'
+* Patch #31465: Add an icon linked to trackers detail report on the project overview page
+
+=== [REST API]
+
+* Defect #30073: Ajax Request Returns 200 but an error event is fired instead of success
+* Feature #26237: Support wiki_page_title attribute in Versions REST API
+* Feature #30086: Use HTTP status code 403 instead of 401 when REST API is disabled
+* Feature #31559: Support "active" attribute in Enumerations REST API
+* Feature #32002: Add inherit_members to projects API response
+* Feature #32242: Add estimated hours and spent hours to Versions API
+* Patch #13468: REST API for News
+* Patch #31399: make /my/account endpoint accessible through API
+
+=== [Roadmap]
+
+* Defect #30949: Roadmap shows 100%, but one of its tasks is still set to 90%
+* Patch #28510: Show issue assignee gravatar in roadmap and version page
+* Patch #29391: Show version status in Roadmap and Version pages
+* Patch #31424: Add issue css classes to issue rows in Roadmap and Version pages
+
+=== [Ruby support]
+
+* Defect #30967: "rake test:coverage" fails in Ruby 2.5 and 2.6
+* Feature #30356: Drop Ruby 2.2 support
+
+=== [SCM]
+
+* Defect #16881: Git: repository page crashes when non-ascii character in tag or branch name
+
+=== [Text formatting]
+
+* Defect #30259: URLs end with "-" are rendered incorrectly in Textile
+* Feature #29489: Issue macro for flexible linking to issues
+* Feature #30829: Simpler link syntax "#note-123" to make a link to a note of the current issue
+* Patch #32359: Markdown: Fix sections parsing with code blocks
+
+=== [Third-party libraries]
+
+* Feature #31196: Updates jQuery to 2.2.4 and adds jQuery Migrate library
+* Feature #31434: Update Chart.js to 2.8.0
+* Feature #31436: Update raphael.js to 2.3.0
+
+=== [Time tracking]
+
+* Feature #3322: Setting to restrict spent times on future dates
+* Feature #3848: Permission to log time for another user
+* Feature #5061: Show time log entries in issue history
+* Feature #30233: Allow grouping of time entries by creation date
+* Feature #30346: Add "Target Version" to the list of "Available columns" in "Spent time" Tab
+* Feature #30464: Show estimated hours on the overview page as well as spent hours
+
+=== [Translations]
+
+* Defect #31269: Fix Japanese translation for status_locked
+* Defect #32354: Fix inconsistent capitalization in Italian translation
+* Patch #10702: Change "Create and Continue" translation to "Create and add another"
+* Patch #29142: Japanese translation change for "lost password"
+* Patch #29151: Add honorific suffixes ("san") in Japanese translation
+* Patch #30170: Change Japanese translation for "note"
+* Patch #31256: german translation for missing parts
+* Patch #31260: Improvement of Japanese translation for permission names
+* Patch #32358: Fix incomplete Italian translation for notice_successful keys
+
+=== [UI]
+
+* Defect #27330: "Name" field in the 'edit version' form has no "maxlength"
+* Defect #30467: Footer is not placed at the bottom on pages with little content
+* Defect #31496: Switch between toggle plus and minus icons for toggle multi select
+* Feature #6831: Add different style for group names in the New member modal window
+* Feature #23392: Link to remove a subtask from its parent task
+* Feature #30207: Hide menu item in the cross-project menu if the module is not enabled in any project
+* Feature #31294: Add "robohash" to "Default Gravatar image" options
+* Feature #31989: Inline issue auto complete (#) in fields with text-formatting enabled
+* Feature #32052: Auto-complete issues #id in search form
+* Patch #5899: Display user's gravatar when editing profile
+* Patch #26604: Set a random name attribute on all forms to prevent overwritten values after soft reload with Firefox
+* Patch #26646: Remove hardcoded width in query column selects
+* Patch #29289: Wrap subprojects in the overview section with an unordered list to improve customisation
+* Patch #30168: Wrap "splitcontentright" and "splitcontentleft" containers with a flexbox
+* Patch #30294: Move the links (View all issues, Summary, Import) from the Issues section of the issues list sidebar under a dropdown
+* Patch #30421: Issue tracking table on user profile page
+* Patch #30435: Replace float rules with flexbox for content and sidebar block
+* Patch #31022: Always use HTTPS when accessing gravatar.com
+* Patch #31066: Show projects using a table instead of an unordered list in the user profile page
+* Patch #31147: Add custom styles for all fields
+* Patch #31204: Add hover styles to buttons
+* Patch #31343: Visually distinguishable style for code tag
+* Patch #31441: Show elements titles using jQuery UI tooltips
+* Patch #31598: Move the links (All time entries, Import) from Spent time section of the spent time list sidebar under a dropdown
+* Patch #31640: Add clear query icon next to selected query in sidebar
+* Patch #31697: Show closed date in a tooltip if the issue is closed
+* Patch #31950: Add CSS class to "journal" and "reply" headers
+* Patch #31971: Change the color of the input field frame when in focus
+* Patch #32013: Rounded corners of the main menu
+* Patch #32014: Rounded corners on table.list elements
+* Patch #32015: Rounded corners of "my page" blocks
+* Patch #32037: Constrain sidebar width on different resolutions
+* Patch #32165: Rounded corners on table.cal
+
+=== [Wiki]
+
+* Defect #11359: Wiki diff doesn't keep spaces
+* Defect #20910: Hierarchy in TOC is not preserved when Wiki index is exported to HTML
+* Feature #9634: Show locked badge for locked wiki pages
+
 == 2019-12-20 v4.0.6
 
 === [Attachments]
