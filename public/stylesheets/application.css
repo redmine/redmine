@@ -104,6 +104,7 @@ div#wrapper, div#wrapper2, div#wrapper3 { min-height: inherit; }
 #sidebar div.wiki ul li {list-style-type:inherit;}
 #sidebar a.icon-only {opacity: 0.4; margin-left: 5px;}
 #sidebar a.icon-only:hover {opacity: 1;}
+#sidebar li input[type=checkbox] {height: 20px;}
 
 #content { flex-grow: 1; background-color: #fff; margin: 0px; padding: 6px 10px 10px 10px; overflow-x: auto;}
 html>body #content { min-height: 600px; }
