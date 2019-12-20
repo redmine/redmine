@@ -1,9 +1,11 @@
 <div class="contextual">
   <%= link_to(l(:label_version_new), new_project_version_path(@project),
               :class => 'icon icon-add') if User.current.allowed_to?(:manage_versions, @project) %>
+  <%= actions_dropdown do %>
   <%= link_to_if_authorized l(:label_settings),
               {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'versions'},
               :class => 'icon icon-settings' if User.current.allowed_to?(:manage_versions, @project) %>
+  <% end %>
 </div>
 
 <h2><%=l(:label_roadmap)%></h2>
