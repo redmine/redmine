@@ -62,7 +62,7 @@ class Import < ActiveRecord::Base
     Redmine::Utils.save_upload(arg, filepath)
   end
 
-  def set_default_settings
+  def set_default_settings(options={})
     separator = lu(user, :general_csv_separator)
     if file_exists?
       begin
@@ -84,6 +84,14 @@ class Import < ActiveRecord::Base
       'date_format' => date_format,
       'notifications' => '0'
     )
+
+    if options.key?(:project_id) && !options[:project_id].blank?
+      # Do not fail if project doesn't exist
+      begin
+        project = Project.find(options[:project_id])
+        self.settings.merge!('mapping' => {'project_id' => project.id})
+      rescue; end
+    end
   end
 
   def to_param

@@ -7,7 +7,7 @@
             :class => 'icon icon-settings' if User.current.allowed_to?(:manage_project_activities, @project) %>
 <%= actions_dropdown do %>
   <% if User.current.allowed_to?(:import_time_entries, @project, :global => true) %>
-    <%= link_to l(:button_import), new_time_entries_import_path %>
+    <%= link_to l(:button_import), new_time_entries_import_path(:project_id => @project) %>
   <% end %>
 <% end %>
 </div>
