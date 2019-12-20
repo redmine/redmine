@@ -4,6 +4,29 @@ Redmine - project management software
 Copyright (C) 2006-2019  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2019-12-20 v4.0.6
+
+=== [Attachments]
+
+* Defect #20277: "Couldn't find template for digesting" error in the log when sending a thumbnail or an attachment
+
+=== [Gems support]
+
+* Patch #32592: Require 'mocha/minitest' instead of deprecated 'mocha/setup'
+
+=== [Rails support]
+
+* Feature #32526: Update Rails to 5.2.4.1
+
+=== [Text formatting]
+
+* Defect #32422: Textile indentation does not work in the preview tab
+* Patch #25742: Improper markup sanitization in user content for space separated attribute values and different quoting styles
+
+=== [Time tracking]
+
+* Defect #32500: Spent time report csv shows translation missing text if custom fields are involved
+
 == 2019-10-19 v4.0.5
 
 === [Code cleanup/refactoring]
