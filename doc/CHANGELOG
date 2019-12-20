@@ -4,6 +4,20 @@ Redmine - project management software
 Copyright (C) 2006-2017  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2019-12-20 v3.4.13
+
+=== [Attachments]
+
+* Defect #20277: "Couldn't find template for digesting" error in the log when sending a thumbnail or an attachment
+
+=== [Gems support]
+
+* Patch #32592: Require 'mocha/minitest' instead of deprecated 'mocha/setup'
+
+=== [Text formatting]
+
+* Patch #25742: Improper markup sanitization in user content for space separated attribute values and different quoting styles
+
 == 2019-10-19 v3.4.12
 
 === [Code cleanup/refactoring]
