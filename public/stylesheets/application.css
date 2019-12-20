@@ -210,7 +210,9 @@ div + .drdn-items {border-top:1px solid #ccc;}
 .drdn-items>span {color:#999;}
 
 .contextual .drdn-content {top:18px;}
-.contextual .drdn-items {padding:2px;}
+.contextual .drdn-items {padding:2px; min-width: 160px;}
+.contextual .drdn-items>a {padding: 5px 8px;}
+.contextual .drdn-items>a.icon {padding-left: 24px; background-position-x: 4px;}
 .contextual .drdn-items>a:hover {color:#2A5685; border:1px solid #628db6; background-color:#eef5fd; border-radius:3px;}
 
 #project-jump.drdn {width:200px;display:inline-block;}
@@ -1533,6 +1535,7 @@ td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
 .icon-toggle-plus { background-image: url(../images/bullet_toggle_plus.png) }
 .icon-toggle-minus { background-image: url(../images/bullet_toggle_minus.png) }
 .icon-clear-query { background-image: url(../images/close_hl.png); }
+.icon-import { background-image: url(../images/database_go.png); }
 
 .icon-file { background-image: url(../images/files/default.png); }
 .icon-file.text-plain { background-image: url(../images/files/text.png); }
