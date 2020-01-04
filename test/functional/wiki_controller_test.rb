@@ -467,6 +467,7 @@ class WikiControllerTest < Redmine::ControllerTest
   end
 
   def test_update_with_deleted_attachment_ids
+    set_tmp_attachments_directory
     @request.session[:user_id] = 2
     page = WikiPage.find(4)
     attachment = page.attachments.first
@@ -486,6 +487,7 @@ class WikiControllerTest < Redmine::ControllerTest
   end
 
   def test_update_with_deleted_attachment_ids_and_failure_should_preserve_selected_attachments
+    set_tmp_attachments_directory
     @request.session[:user_id] = 2
     page = WikiPage.find(4)
     attachment = page.attachments.first
