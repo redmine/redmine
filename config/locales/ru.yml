@@ -1343,61 +1343,59 @@ ru:
   label_ldaps_verify_peer: LDAPS
   label_ldaps_warning: Рекомендуется использовать зашифрованное соединение LDAPS с проверкой сертификата для предотвращения любых посторонних вмешательств в процессе аутентификации.
   label_nothing_to_preview: Нет данных для предварительного просмотра
-  error_token_expired: This password recovery link has expired, please try again.
-  error_spent_on_future_date: Cannot log time on a future date
-  setting_timelog_accept_future_dates: Accept time logs on future dates
+  error_token_expired: Срок действия этой ссылки восстановления пароля истёк. Пожалуйста, попробуйте снова.
+  error_spent_on_future_date: Нельзя учитывать время в будущие даты
+  setting_timelog_accept_future_dates: Принимать трудозатраты на будущие даты
   label_delete_link_to_subtask: Удалить связь
-  error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
-    for other users
-  permission_log_time_for_other_users: Log spent time for other users
-  label_tomorrow: tomorrow
-  label_next_week: next week
-  label_next_month: next month
-  text_role_no_workflow: No workflow defined for this role
-  text_status_no_workflow: No tracker uses this status in the workflows
-  setting_mail_handler_preferred_body_part: Preferred part of multipart (HTML) emails
-  setting_show_status_changes_in_mail_subject: Show status changes in issue mail notifications
-    subject
-  label_inherited_from_parent_project: Inherited from parent project
-  label_inherited_from_group: Inherited from group %{name}
-  label_trackers_description: Trackers description
-  label_open_trackers_description: View all trackers description
-  label_preferred_body_part_text: Text
-  label_preferred_body_part_html: HTML (experimental)
-  field_parent_issue_subject: Parent task subject
-  permission_edit_own_issues: Edit own issues
-  text_select_apply_tracker: Select tracker
-  label_updated_issues: Updated issues
-  text_avatar_server_config_html: The current avatar server is <a href="%{url}">%{url}</a>.
-    You can configure it in config/configuration.yml.
-  setting_gantt_months_limit: Maximum number of months displayed on the gantt chart
-  permission_import_time_entries: Import time entries
-  label_import_notifications: Send email notifications during the import
-  text_gs_available: ImageMagick PDF support available (optional)
-  field_recently_used_projects: Number of recently used projects in jump box
-  label_optgroup_bookmarks: Bookmarks
-  label_optgroup_others: Other projects
-  label_optgroup_recents: Recently used
-  button_project_bookmark: Add bookmark
-  button_project_bookmark_delete: Remove bookmark
-  field_history_default_tab: Issue's history default tab
-  label_issue_history_properties: Property changes
-  label_issue_history_notes: Notes
-  label_last_tab_visited: Last visited tab
-  field_unique_id: Unique ID
+  error_not_allowed_to_log_time_for_other_users: Вам не разрешено учитывать время для других пользователей
+  permission_log_time_for_other_users: Учитывать время других пользователей
+  label_tomorrow: завтра
+  label_next_week: следующая неделя
+  label_next_month: следующий месяц
+  text_role_no_workflow: Эта роль не имеет заданных последовательностей действий
+  text_status_no_workflow: Ни один трекер не использует этот стутус в последовательностях действий
+  setting_mail_handler_preferred_body_part: Предпочитаемая часть multipart (HTML) писем
+  setting_show_status_changes_in_mail_subject: Включать изменения статуса задачи в уведомления по email
+  label_inherited_from_parent_project: Наследуется из родительского проекта
+  label_inherited_from_group: Наследуется из группы %{name}
+  label_trackers_description: Описание трекеров
+  label_open_trackers_description: Показать описания трекеров
+  label_preferred_body_part_text: Текст
+  label_preferred_body_part_html: HTML (экспериментально)
+  field_parent_issue_subject: Тема родительской задачи
+  permission_edit_own_issues: Редактировать свои задачи
+  text_select_apply_tracker: Выбор этого трекера
+  label_updated_issues: Обновленные задачи
+  text_avatar_server_config_html: Текущий сервер аватар — <a href="%{url}">%{url}</a>.
+    Вы можете изменить его в config/configuration.yml.
+  setting_gantt_months_limit: Максимальное число месяцев на диаграмме Ганта
+  permission_import_time_entries: Импорт трудозатрат
+  label_import_notifications: Послать уведомления по email в течение импорта
+  text_gs_available: Доступно использование ImageMagick PDF (опционально)
+  field_recently_used_projects: Число последних проектов в выпадающем списке
+  label_optgroup_bookmarks: Закладки
+  label_optgroup_others: Другие проекты
+  label_optgroup_recents: Последние
+  button_project_bookmark: Добавить закладку
+  button_project_bookmark_delete: Удалить закладку
+  field_history_default_tab: Вкладка истории задачи по умолчанию
+  label_issue_history_properties: Изменения свойств
+  label_issue_history_notes: Примечания
+  label_last_tab_visited: Последняя посещённая вкладка
+  field_unique_id: Уникальный идентификатор
   text_no_subject: Нет темы
-  setting_password_required_char_classes: Required character classes for passwords
-  label_password_char_class_uppercase: uppercase letters
-  label_password_char_class_lowercase: lowercase letters
-  label_password_char_class_digits: digits
-  label_password_char_class_special_chars: special characters
-  text_characters_must_contain: Must contain %{character_classes}.
-  label_starts_with: starts with
-  label_ends_with: ends with
-  label_issue_fixed_version_updated: Target version updated
-  setting_project_list_defaults: Projects list defaults
-  label_display_type: Display results as
-  label_display_type_list: List
-  label_display_type_board: Board
-  label_my_bookmarks: My bookmarks
-  label_import_time_entries: Import time entries
+  setting_password_required_char_classes: Требуемые классы символов для паролей
+  label_password_char_class_uppercase: заглавные буквы
+  label_password_char_class_lowercase: строчные буквы
+  label_password_char_class_digits: цифры
+  label_password_char_class_special_chars: специальные символы
+  text_characters_must_contain: Должен содержать %{character_classes}.
+  label_starts_with: начинается с
+  label_ends_with: заканчивается на
+  label_issue_fixed_version_updated: Версии обновлены
+  setting_project_list_defaults: Опции списка проектов по умолчанию
+  label_display_type: Отображать как
+  label_display_type_list: Список
+  label_display_type_board: Панель
+  label_my_bookmarks: Мои закладки
+  label_import_time_entries: Импорт трудозатрат
