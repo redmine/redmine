@@ -31,7 +31,7 @@ end
 
 # Optional gem for exporting the gantt to a PNG file
 group :minimagick do
-  gem "mini_magick", "~> 4.9.5"
+  gem 'mini_magick', '~> 4.10.1'
 end
 
 # Optional Markdown support, not for JRuby
