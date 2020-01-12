@@ -1418,4 +1418,19 @@ class TimelogControllerTest < Redmine::ControllerTest
       assert_select '+ span.count', :text => '2'
     end
   end
+
+  def test_index_with_inline_issue_long_text_custom_field_column
+    field = IssueCustomField.create!(:name => 'Long text', :field_format => 'text', :full_width_layout => '1',
+      :tracker_ids => [1], :is_for_all => true)
+    issue = Issue.find(1)
+    issue.custom_field_values = {field.id => 'This is a long text'}
+    issue.save!
+
+    get :index, :params => {
+        :set_filter => 1,
+        :c => ['subject', 'description', "issue.cf_#{field.id}"]
+      }
+    assert_response :success
+    assert_select "td.issue_cf_#{field.id}", :text => 'This is a long text'
+  end
 end
