@@ -98,7 +98,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
 
   def test_index_as_list_should_format_column_value
     get :index, :params => {
-      :c => ['name', 'status', 'short_description', 'homepage', 'parent_id', 'identifier', 'is_public', 'created_on', 'project.cf_3'],
+      :c => ['name', 'status', 'short_description', 'homepage', 'parent_id', 'identifier', 'is_public', 'created_on', 'cf_3'],
       :display_type => 'list'
     }
     assert_response :success
@@ -113,7 +113,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
         assert_select 'td.identifier', :text => 'ecookbook'
         assert_select 'td.is_public', :text => 'Yes'
         assert_select 'td.created_on', :text => format_time(project.created_on)
-        assert_select 'td.project_cf_3.list', :text => 'Stable'
+        assert_select 'td.cf_3.list', :text => 'Stable'
       end
       assert_select 'tr[id=?]', 'project-4' do
         assert_select 'td.parent_id a[href=?]', '/projects/ecookbook', :text => 'eCookbook'
@@ -207,6 +207,29 @@ class ProjectsControllerTest < Redmine::ControllerTest
       assert_response :success
       assert_equal 'text/csv', response.media_type
     end
+  end
+
+  def test_index_sort_by_custom_field
+    @request.session[:user_id] = 1
+
+    cf = ProjectCustomField.find(3)
+    CustomValue.create!(:custom_field => cf, :customized => Project.find(2), :value => 'Beta')
+
+    get(
+      :index,
+      :params => {
+        :display_type => 'list',
+        :c => ['name', 'identifier', 'cf_3'],
+        :set_filter => 1,
+        :sort => "cf_#{cf.id}:asc"
+      }
+    )
+    assert_response :success
+
+    assert_equal(
+      ['Beta', 'Stable'],
+      columns_values_in_list('cf_3').reject {|p| p.empty?}
+    )
   end
 
   def test_autocomplete_js
