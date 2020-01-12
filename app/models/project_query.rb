@@ -70,7 +70,7 @@ class ProjectQuery < Query
     return @available_columns if @available_columns
     @available_columns = self.class.available_columns.dup
     @available_columns += ProjectCustomField.visible.
-                            map {|cf| QueryAssociationCustomFieldColumn.new(:project, cf) }
+                            map {|cf| QueryCustomFieldColumn.new(cf) }
     @available_columns
   end
 

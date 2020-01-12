@@ -58,6 +58,6 @@ class ProjectQueryTest < ActiveSupport::TestCase
 
   def test_available_columns_should_include_project_custom_fields
     query = ProjectQuery.new
-    assert_include :"project.cf_3", query.available_columns.map(&:name)
+    assert_include :cf_3, query.available_columns.map(&:name)
   end
 end
