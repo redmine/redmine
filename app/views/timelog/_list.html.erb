@@ -50,11 +50,12 @@
         <%= link_to_context_menu %>
     </td>
   </tr>
+
   <% @query.block_columns.each do |column|
-       if (text = column_content(column, issue)) && text.present? -%>
+       if (text = column_content(column, entry)) && text.present? -%>
   <tr class="<%= current_cycle %>">
     <td colspan="<%= @query.inline_columns.size + 1 %>" class="<%= column.css_classes %>">
-    <% if query.block_columns.count > 1 %>
+    <% if @query.block_columns.count > 1 %>
       <span><%= column.caption %></span>
     <% end %>
     <%= text %>
