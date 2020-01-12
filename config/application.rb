@@ -51,7 +51,7 @@ module RedmineApp
     config.active_record.sqlite3.represent_boolean_as_integer = true
 
     # Sets the Content-Length header on responses with fixed-length bodies
-    config.middleware.insert_after Rack::Sendfile, Rack::ContentLength
+    config.middleware.insert_before Rack::Sendfile, Rack::ContentLength
 
     # Verify validity of user sessions
     config.redmine_verify_sessions = true
