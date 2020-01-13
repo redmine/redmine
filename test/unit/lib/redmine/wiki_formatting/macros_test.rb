@@ -215,8 +215,8 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
 
       assert_select_in result, 'div.collapsed-text'
       assert_select_in result, 'strong', :text => 'Collapsed'
-      assert_select_in result, 'a.collapsible.collapsed', :text => 'Show'
-      assert_select_in result, 'a.collapsible', :text => 'Hide'
+      assert_select_in result, 'a.collapsible.icon-collapsed', :text => 'Show'
+      assert_select_in result, 'a.collapsible.icon-expended', :text => 'Hide'
     end
   end
 
@@ -226,8 +226,8 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
 
     assert_select_in result, 'div.collapsed-text'
     assert_select_in result, 'strong', :text => 'Collapsed'
-    assert_select_in result, 'a.collapsible.collapsed', :text => 'Example'
-    assert_select_in result, 'a.collapsible', :text => 'Example'
+    assert_select_in result, 'a.collapsible.icon-collapsed', :text => 'Example'
+    assert_select_in result, 'a.collapsible.icon-expended', :text => 'Example'
   end
 
   def test_macro_collapse_with_two_args
@@ -236,8 +236,8 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
 
     assert_select_in result, 'div.collapsed-text'
     assert_select_in result, 'strong', :text => 'Collapsed'
-    assert_select_in result, 'a.collapsible.collapsed', :text => 'Show example'
-    assert_select_in result, 'a.collapsible', :text => 'Hide example'
+    assert_select_in result, 'a.collapsible.icon-collapsed', :text => 'Show example'
+    assert_select_in result, 'a.collapsible.icon-expended', :text => 'Hide example'
   end
 
   def test_macro_collapse_should_not_break_toc
