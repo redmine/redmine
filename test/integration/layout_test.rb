@@ -66,6 +66,7 @@ class LayoutTest < Redmine::IntegrationTest
 
     get '/projects/ecookbook/issues/new'
     assert_select 'head script[src^=?]', '/javascripts/jstoolbar/jstoolbar.js?'
+    assert_include "var userHlLanguages = #{UserPreference::DEFAULT_TOOLBAR_LANGUAGE_OPTIONS.to_json};", response.body
   end
 
   def test_calendar_header_tags

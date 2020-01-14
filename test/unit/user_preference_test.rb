@@ -110,4 +110,11 @@ class UserPreferenceTest < ActiveSupport::TestCase
     up.save!
     assert_equal ['documents'], up.my_page_settings.keys
   end
+
+  def test_toolbar_language_options_setter_should_remove_except_supported_languages
+    up = User.find(2).pref
+    # bar is not a supported language
+    up.toolbar_language_options = 'ruby,cpp,bar,c'
+    assert_equal 'ruby,cpp,c', up.toolbar_language_options
+  end
 end
