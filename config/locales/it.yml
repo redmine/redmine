@@ -1306,3 +1306,4 @@ it:
   label_display_type_board: Board
   label_my_bookmarks: I miei segnalibri
   label_import_time_entries: Importa tempo impiegato
+  field_toolbar_language_options: Code highlighting toolbar languages

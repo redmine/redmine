@@ -1320,3 +1320,4 @@ gl:
   label_display_type_board: Taboleiro
   label_my_bookmarks: Meus favoritos
   label_import_time_entries: Importar tempos dedicados
+  field_toolbar_language_options: Code highlighting toolbar languages

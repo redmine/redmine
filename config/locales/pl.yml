@@ -1326,3 +1326,4 @@ pl:
   label_display_type_board: Board
   label_my_bookmarks: My bookmarks
   label_import_time_entries: Import time entries
+  field_toolbar_language_options: Code highlighting toolbar languages
