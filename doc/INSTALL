@@ -8,7 +8,6 @@ http://www.redmine.org/
 == Requirements
 
 * Ruby 2.3, 2.4, 2.5, 2.6
-* RubyGems
 * Bundler >= 1.5.0
 
 * A database:
