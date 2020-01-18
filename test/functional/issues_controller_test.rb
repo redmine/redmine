@@ -895,7 +895,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_index_pdf
-    ["en", "zh", "zh-TW", "ja", "ko"].each do |lang|
+    ["en", "zh", "zh-TW", "ja", "ko", "ar"].each do |lang|
       with_settings :default_language => lang do
         get :index
         assert_response :success
@@ -2388,7 +2388,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_export_to_pdf_with_utf8_u_fffd
     issue = Issue.generate!(:subject => "�")
-    ["en", "zh", "zh-TW", "ja", "ko"].each do |lang|
+    ["en", "zh", "zh-TW", "ja", "ko", "ar"].each do |lang|
       with_settings :default_language => lang do
         get :show, :params => {
             :id => issue.id,
