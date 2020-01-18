@@ -52,6 +52,7 @@ module Redmine
         end
 
         def SetFont(family, style='', size=0, fontfile='')
+          style = +style
           # FreeSerif Bold Thai font has problem.
           style.delete!('B') if family.to_s.casecmp('freeserif') == 0
           # DejaVuSans Italic Arabic and Persian font has problem.
