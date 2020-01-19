@@ -1034,7 +1034,7 @@ p.progress-info {clear: left; font-size: 80%; margin-top:-4px; color:#777;}
 
 /***** Tabs *****/
 #content .tabs {height: 2.6em; margin-bottom:1.2em; position:relative; overflow:hidden;}
-#content .tabs ul {margin:0; position:absolute; bottom:0; padding-left:0.5em; width: 2000px; border-bottom: 1px solid #bbbbbb;}
+#content .tabs ul {margin:0; position:absolute; bottom:0; padding-left:0.5em; min-width: 2000px; width: 100%;  border-bottom: 1px solid #bbbbbb;}
 #content .tabs ul li {
   float:left;
   list-style-type:none;
