@@ -1456,7 +1456,7 @@ td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
   vertical-align: middle;
 }
 .icon-only::after {
-  content: "&nbsp;";
+  content: "\a0";
 }
 
 .icon-add { background-image: url(../images/add.png); }
