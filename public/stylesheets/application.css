@@ -1295,7 +1295,7 @@ div.wiki img {vertical-align:middle; max-width:100%;}
   vertical-align: middle;
 }
 .icon-only::after {
-  content: "&nbsp;";
+  content: "\a0";
 }
 
 .icon-add { background-image: url(../images/add.png); }
