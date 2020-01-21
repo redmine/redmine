@@ -54,6 +54,14 @@ class IssuePriority < Enumeration
     end
   end
 
+  def high?
+    position > self.class.default_or_middle.position
+  end
+
+  def low?
+    position < self.class.default_or_middle.position
+  end
+
   # Updates position_name for active priorities
   # Called from migration 20121026003537_populate_enumerations_position_name
   def self.compute_position_names

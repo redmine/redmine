@@ -90,6 +90,43 @@ class IssuePriorityTest < ActiveSupport::TestCase
     assert_equal %w(lowest low2 default high2 highest), IssuePriority.active.to_a.sort.map(&:position_name)
   end
 
+  def test_low_high_helpers
+    IssuePriority.delete_all
+
+    priorities = [1, 2, 3, 4, 5, 6].map {|i| IssuePriority.create!(:name => "P#{i}")}
+
+    middle = IssuePriority.find_by_position(3)
+
+    [1, 2].each do |p|
+      assert IssuePriority.find_by_position(p).low?
+      assert !IssuePriority.find_by_position(p).high?
+    end
+
+    assert !middle.high?
+    assert !middle.low?
+
+    [4, 5, 6].each do |p|
+      assert IssuePriority.find_by_position(p).high?
+      assert !IssuePriority.find_by_position(p).low?
+    end
+
+    default = IssuePriority.find_by_position(5)
+    default.update_attributes is_default: true
+
+    [1, 2, 3, 4].each do |p|
+      assert IssuePriority.find_by_position(p).low?
+      assert !IssuePriority.find_by_position(p).high?
+    end
+
+    assert !default.high?
+    assert !default.low?
+
+    [6].each do |p|
+      assert IssuePriority.find_by_position(p).high?
+      assert !IssuePriority.find_by_position(p).low?
+    end
+  end
+
   def test_adding_a_priority_should_update_position_names
     priority = IssuePriority.create!(:name => 'New')
     assert_equal %w(lowest default high4 high3 high2 highest), IssuePriority.active.to_a.sort.map(&:position_name)
