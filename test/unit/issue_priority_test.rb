@@ -39,6 +39,15 @@ class IssuePriorityTest < ActiveSupport::TestCase
     assert_nil IssuePriority.default
   end
 
+  def test_default_or_middle_should_return_the_default_priority
+    assert_equal Enumeration.find_by_name('Normal'), IssuePriority.default_or_middle
+  end
+
+  def test_default_or_middle_should_return_middle_when_no_default_priority
+    IssuePriority.update_all :is_default => false
+    assert_equal Enumeration.find_by_name('High'), IssuePriority.default_or_middle
+  end
+
   def test_should_be_an_enumeration
     assert IssuePriority.ancestors.include?(Enumeration)
   end
