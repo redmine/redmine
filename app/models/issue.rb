@@ -1042,6 +1042,7 @@ class Issue < ActiveRecord::Base
     notified = notified.select {|u| u.active? && u.notify_about?(self)}
 
     notified += project.notified_users
+    notified += project.users.preload(:preference).select(&:notify_about_high_priority_issues?) if priority.high?
     notified.uniq!
     # Remove users that can not view the issue
     notified.reject! {|user| !visible?(user)}

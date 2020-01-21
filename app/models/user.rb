@@ -811,6 +811,10 @@ class User < Principal
     end
   end
 
+  def notify_about_high_priority_issues?
+    self.pref.notify_about_high_priority_issues
+  end
+
   def self.current=(user)
     RequestStore.store[:current_user] = user
   end

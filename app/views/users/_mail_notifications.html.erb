@@ -10,7 +10,7 @@
 <%= content_tag 'fieldset', :id => 'notified-projects', :style => (@user.mail_notification == 'selected' ? '' : 'display:none;') do %>
   <legend><%= toggle_checkboxes_link("#notified-projects input[type=checkbox]") %><%=l(:label_project_plural)%></legend>
   <%= render_project_nested_lists(@user.projects) do |project|
-        content_tag('label', 
+        content_tag('label',
           check_box_tag(
             'user[notified_project_ids][]',
              project.id,
@@ -24,6 +24,13 @@
 <% end %>
 
 <%= fields_for :pref, @user.pref do |pref_fields| %>
+
+<% if IssuePriority.default_or_middle and high_priority = IssuePriority.where(['position > ?', IssuePriority.default_or_middle.position]).first %>
+<p>
+  <%= pref_fields.check_box :notify_about_high_priority_issues %>
+  <label for="pref_notify_about_high_priority_issues"><%= t(:label_user_mail_notify_about_high_priority_issues_html, prio: high_priority.name.downcase) %></label>
+</p>
+<% end %>
 <p>
   <%= pref_fields.check_box :no_self_notified %>
   <label for="pref_no_self_notified"><%= l(:label_user_mail_no_self_notified) %></label>

@@ -33,6 +33,7 @@ class UserPreference < ActiveRecord::Base
     'comments_sorting',
     'warn_on_leaving_unsaved',
     'no_self_notified',
+    'notify_about_high_priority_issues',
     'textarea_font',
     'recently_used_projects',
     'history_default_tab',
@@ -88,6 +89,9 @@ class UserPreference < ActiveRecord::Base
 
   def no_self_notified; (self[:no_self_notified] == true || self[:no_self_notified] == '1'); end
   def no_self_notified=(value); self[:no_self_notified]=value; end
+
+  def notify_about_high_priority_issues; (self[:notify_about_high_priority_issues] == true || self[:notify_about_high_priority_issues] == '1'); end
+  def notify_about_high_priority_issues=(value); self[:notify_about_high_priority_issues]=value; end
 
   def activity_scope; Array(self[:activity_scope]) ; end
   def activity_scope=(value); self[:activity_scope]=value ; end

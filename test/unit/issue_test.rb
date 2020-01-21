@@ -2928,6 +2928,47 @@ class IssueTest < ActiveSupport::TestCase
     assert !issue.recipients.include?(issue.assigned_to.mail)
   end
 
+  test "Issue#recipients should include users who want to be notified about high issues but only when issue has high priority" do
+    user = User.generate!
+    user.pref.update! notify_about_high_priority_issues: true
+    Member.create!(:project_id => 1, :principal => user, :role_ids => [1])
+
+    # creation with high prio
+    issue = Issue.generate!(priority: IssuePriority.find(6))
+    assert issue.recipients.include?(user.mail)
+
+    # creation with default prio
+    issue = Issue.generate!
+    assert !issue.recipients.include?(user.mail)
+
+    # update prio to high
+    issue.update! priority: IssuePriority.find(6)
+    assert issue.recipients.include?(user.mail)
+
+    # update prio to low
+    issue.update! priority: IssuePriority.find(4)
+    assert !issue.recipients.include?(user.mail)
+  end
+
+  test "Authors who don't want to be self-notified should not receive emails even when issue has high priority" do
+    user = User.generate!
+    user.pref.update! notify_about_high_priority_issues: true
+    user.pref.update! no_self_notified: true
+
+    project = Project.find(1)
+    project.memberships.destroy_all
+    Member.create!(:project_id => 1, :principal => user, :role_ids => [1])
+
+    ActionMailer::Base.deliveries.clear
+    Issue.create(author: user,
+                 priority: IssuePriority.find(6),
+                 subject: 'test create',
+                 project: project,
+                 tracker: Tracker.first,
+                 status: IssueStatus.first)
+    assert ActionMailer::Base.deliveries.empty?
+  end
+
   def test_last_journal_id_with_journals_should_return_the_journal_id
     assert_equal 2, Issue.find(1).last_journal_id
   end

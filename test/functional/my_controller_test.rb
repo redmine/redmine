@@ -428,6 +428,43 @@ class MyControllerTest < Redmine::ControllerTest
     assert [mail.bcc, mail.cc].flatten.include?('foobar@example.com')
   end
 
+  def test_my_account_notify_about_high_priority_issues_preference
+
+    # normally, preference should be shown
+    get :account
+    assert_select 'label[for="pref_notify_about_high_priority_issues"]'
+
+    # preference should be persisted
+    put :account, :params => {
+        :pref => {
+          notify_about_high_priority_issues: '1'
+        }
+      }
+    assert User.find(2).notify_about_high_priority_issues?
+
+    # preference should be hidden if there aren't any priorities
+    Issue.destroy_all
+    IssuePriority.destroy_all
+    get :account
+    assert_select 'label[for="pref_notify_about_high_priority_issues"]', false
+
+    # preference should be hidden if there isn't a "high" priority
+    a = IssuePriority.create! name: 'A'
+    get :account
+    assert_select 'label[for="pref_notify_about_high_priority_issues"]', false
+
+    # preference should be shown if there are at least two priorities (one low, one high)
+    b = IssuePriority.create! name: 'B'
+    get :account
+    assert_select 'label[for="pref_notify_about_high_priority_issues"]'
+
+    # preference should be hidden if the highest priority is the default one,
+    # because that means that there is no "high" priority
+    b.update! is_default: true
+    get :account
+    assert_select 'label[for="pref_notify_about_high_priority_issues"]', false
+  end
+
   def test_my_account_should_show_destroy_link
     get :account
     assert_select 'a[href="/my/account/destroy"]'
