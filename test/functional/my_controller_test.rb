@@ -429,7 +429,6 @@ class MyControllerTest < Redmine::ControllerTest
   end
 
   def test_my_account_notify_about_high_priority_issues_preference
-
     # normally, preference should be shown
     get :account
     assert_select 'label[for="pref_notify_about_high_priority_issues"]'
