@@ -368,11 +368,11 @@ it:
   label_attachment_plural: File
   label_report: Report
   label_report_plural: Report
-  label_news: Notizia
-  label_news_new: Aggiungi notizia
-  label_news_plural: Notizie
-  label_news_latest: Utime notizie
-  label_news_view_all: Tutte le notizie
+  label_news: News
+  label_news_new: Aggiungi news
+  label_news_plural: News
+  label_news_latest: Utime news
+  label_news_view_all: Tutte le news
   label_settings: Impostazioni
   label_overview: Panoramica
   label_version: Versione
@@ -668,14 +668,14 @@ it:
   label_document_added: Documenti aggiunti
   label_message_posted: Messaggi aggiunti
   label_file_added: File aggiunti
-  label_news_added: Notizie aggiunte
+  label_news_added: News aggiunte
   project_module_boards: Forum
   project_module_issue_tracking: Tracking delle segnalazioni
   project_module_wiki: Wiki
   project_module_files: File
   project_module_documents: Documenti
   project_module_repository: Repository
-  project_module_news: Notizie
+  project_module_news: News
   project_module_time_tracking: Time tracking
   text_file_repository_writable: Repository dei file scrivibile
   text_default_administrator_account_changed: L'account amministrativo predefinito è stato modificato
@@ -742,7 +742,7 @@ it:
   permission_manage_wiki: Gestisci wiki
   permission_manage_categories: Gestisci categorie segnalazioni
   permission_protect_wiki_pages: Proteggi pagine wiki
-  permission_comment_news: Commenta notizie
+  permission_comment_news: Commenta news
   permission_delete_messages: Elimina messaggi
   permission_select_project_modules: Seleziona moduli progetto
   permission_edit_wiki_pages: Modifica pagine wiki
@@ -757,7 +757,7 @@ it:
   permission_view_messages: Vedi messaggi
   permission_manage_files: Gestisci files
   permission_edit_issue_notes: Modifica note
-  permission_manage_news: Gestisci notizie
+  permission_manage_news: Gestisci news
   permission_view_calendar: Vedi calendario
   permission_manage_members: Gestisci membri
   permission_edit_messages: Modifica messaggi
@@ -924,7 +924,7 @@ it:
   text_warn_on_leaving_unsaved: La pagina corrente contiene del testo non salvato che verrà perso se lasci questa pagina.
   label_my_queries: Le mie queries personalizzate
   text_journal_changed_no_detail: "%{label} aggiornato"
-  label_news_comment_added: Commento aggiunto a una notizia
+  label_news_comment_added: Commento aggiunto a una news
   button_expand_all: Espandi tutto
   button_collapse_all: Comprimi tutto
   label_additional_workflow_transitions_for_assignee: Transizioni supplementari consentite quando l'utente è l'assegnatario
