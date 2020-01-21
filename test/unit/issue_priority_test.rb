@@ -111,7 +111,7 @@ class IssuePriorityTest < ActiveSupport::TestCase
     end
 
     default = IssuePriority.find_by_position(5)
-    default.update_attributes is_default: true
+    default.update is_default: true
 
     [1, 2, 3, 4].each do |p|
       assert IssuePriority.find_by_position(p).low?
