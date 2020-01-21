@@ -1400,3 +1400,5 @@ ru:
   label_my_bookmarks: Мои закладки
   label_import_time_entries: Импорт трудозатрат
   field_toolbar_language_options: Code highlighting toolbar languages
+  label_user_mail_notify_about_high_priority_issues_html: Also notify me about issues
+    with a priority of <em>%{prio}</em> or higher
