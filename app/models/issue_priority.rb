@@ -50,7 +50,7 @@ class IssuePriority < Enumeration
   # Updates position_name for active priorities
   # Called from migration 20121026003537_populate_enumerations_position_name
   def self.compute_position_names
-    priorities = where(:active => true).sort_by(&:position)
+    priorities = active
     if priorities.any?
       default = priorities.detect(&:is_default?) || priorities[(priorities.size - 1) / 2]
       priorities.each_with_index do |priority, index|
