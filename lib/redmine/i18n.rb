@@ -29,7 +29,7 @@ module Redmine
         ::I18n.t(*args)
       when 2
         if args.last.is_a?(Hash)
-          ::I18n.t(*args)
+          ::I18n.t(*args.first, **args.last)
         elsif args.last.is_a?(String)
           ::I18n.t(args.first, :value => args.last)
         else
@@ -57,7 +57,7 @@ module Redmine
     def ll(lang, str, arg=nil)
       options = arg.is_a?(Hash) ? arg : {:value => arg}
       locale = lang.to_s.gsub(%r{(.+)\-(.+)$}) { "#{$1}-#{$2.upcase}" }
-      ::I18n.t(str.to_s, options.merge(:locale => locale))
+      ::I18n.t(str.to_s, **options, locale: locale)
     end
 
     # Localizes the given args with user's language
@@ -70,7 +70,7 @@ module Redmine
       return nil unless date
       options = {}
       options[:format] = Setting.date_format unless Setting.date_format.blank?
-      ::I18n.l(date.to_date, options)
+      ::I18n.l(date.to_date, **options)
     end
 
     def format_time(time, include_date=true, user=nil)
@@ -80,7 +80,7 @@ module Redmine
       options[:format] = (Setting.time_format.blank? ? :time : Setting.time_format)
       time = time.to_time if time.is_a?(String)
       local = user.convert_time_to_user_timezone(time)
-      (include_date ? "#{format_date(local)} " : "") + ::I18n.l(local, options)
+      (include_date ? "#{format_date(local)} " : "") + ::I18n.l(local, **options)
     end
 
     def format_hours(hours)
