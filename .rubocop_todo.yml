@@ -441,12 +441,6 @@ Lint/UnusedBlockArgument:
 Lint/UnusedMethodArgument:
   Enabled: false
 
-Lint/UriEscapeUnescape:
-  Exclude:
-    - 'lib/redmine/field_format.rb'
-    - 'lib/redmine/scm/adapters/subversion_adapter.rb'
-    - 'test/functional/wiki_controller_test.rb'
-
 Lint/UselessAssignment:
   Enabled: false
 

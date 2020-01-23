@@ -108,7 +108,7 @@ module Redmine
                 next if entry['kind'] == 'dir' && commit_date.nil?
 
                 name = entry['name']['__content__']
-                entries << Entry.new({:name => URI.unescape(name),
+                entries << Entry.new({:name => CGI.unescape(name),
                             :path => ((path.empty? ? "" : "#{path}/") + name),
                             :kind => entry['kind'],
                             :size => ((s = entry['size']) ? s['__content__'].to_i : nil),
@@ -289,7 +289,7 @@ module Redmine
         def target(path = '')
           base = /^\//.match?(path) ? root_url : url
           uri = "#{base}/#{path}"
-          uri = URI.escape(URI.escape(uri), '[]')
+          uri = Addressable::URI.encode(uri)
           shell_quote(uri.gsub(/[?<>\*]/, ''))
         end
       end

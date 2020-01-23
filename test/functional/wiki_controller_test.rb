@@ -1149,7 +1149,7 @@ class WikiControllerTest < Redmine::ControllerTest
       @request.user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36 Edge/15.15063'
       get :show, :params => {:project_id => 1, :id => title, :format => format}
       assert_response :success
-      filename = URI.encode("#{title}.#{format}")
+      filename = Addressable::URI.encode("#{title}.#{format}")
       assert_equal "attachment; filename=\"#{filename}\"",
                    @response.headers['Content-Disposition']
     end
