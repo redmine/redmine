@@ -4,7 +4,7 @@
   <%= render :partial => 'navigation' %>
 </div>
 
-<h2><%= render :partial => 'breadcrumbs',
+<h2 class="breadcrumbs"><%= render :partial => 'breadcrumbs',
                :locals => { :path => @path, :kind => 'dir', :revision => @rev } %></h2>
 
 <% if !@entries.nil? && authorize_for('repositories', 'browse') %>

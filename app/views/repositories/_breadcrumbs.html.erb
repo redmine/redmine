@@ -1,31 +1,36 @@
-<%= link_to(@repository.identifier.present? ? @repository.identifier : 'root',
-      :action => 'show', :id => @project,
-      :repository_id => @repository.identifier_param,
-      :path => nil, :rev => @rev) %>
 <%
 dirs = path.split('/')
 if 'file' == kind
     filename = dirs.pop
 end
+
+breadcrumbs = []
+breadcrumbs << link_to(
+  @repository.identifier.presence || 'root', :action => 'show',
+  :id => @project, :repository_id => @repository.identifier_param,
+  :path => nil, :rev => @rev)
 link_path = ''
+
 dirs.each do |dir|
     next if dir.blank?
+
     link_path << '/' unless link_path.empty?
     link_path << "#{dir}"
-    %>
-    / <%= link_to dir, :action => 'show', :id => @project, :repository_id => @repository.identifier_param,
-                :path => to_path_param(link_path), :rev => @rev %>
-<% end %>
-<% if filename %>
-    / <%= link_to filename,
-                   :action => 'entry', :id => @project, :repository_id => @repository.identifier_param,
-                   :path => to_path_param("#{link_path}/#{filename}"), :rev => @rev %>
-<% end %>
+    breadcrumbs << link_to(dir, :action => 'show', :id => @project,
+      :repository_id => @repository.identifier_param,
+      :path => to_path_param(link_path), :rev => @rev)
+end
+if filename
+    breadcrumbs << link_to(filename, :action => 'entry', :id => @project,
+      :repository_id => @repository.identifier_param,
+      :path => to_path_param("#{link_path}/#{filename}"), :rev => @rev)
+end
+%>
+<%= breadcrumbs.join(tag.span('/', :class => 'separator')).html_safe -%>
 <%
   # @rev is revsion or Git and Mercurial branch or tag.
   # For Mercurial *tip*, @rev and @changeset are nil.
   rev_text = @changeset.nil? ? @rev : format_revision(@changeset)
 %>
-<%= "@ #{rev_text}" unless rev_text.blank? %>
-
-<% html_title(with_leading_slash(path)) -%>
+<%= " @ #{rev_text}" unless rev_text.blank? -%>
+<% html_title(with_leading_slash(path)) %>

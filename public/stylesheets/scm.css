@@ -116,3 +116,7 @@ table.annotate td.line-code { background-color: #fafafa; }
 div.action_M { background: #fd8 }
 div.action_D { background: #f88 }
 div.action_A { background: #bfb }
+
+.breadcrumbs>.separator::before, .breadcrumbs>.separator::after {
+    content: " ";
+}
