@@ -212,7 +212,7 @@ module Redmine
             assoc[:journals].each do |journal|
               pdf.SetFontStyle('B',8)
               title = "##{journal.indice} - #{format_time(journal.created_on)} - #{journal.user}"
-              title << " (#{l(:field_private_notes)})" if journal.private_notes?
+              title += " (#{l(:field_private_notes)})" if journal.private_notes?
               pdf.RDMCell(190,5, title)
               pdf.ln
               pdf.SetFontStyle('I',8)

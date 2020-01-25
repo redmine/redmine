@@ -2437,6 +2437,26 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert @response.body.starts_with?('%PDF')
   end
 
+  def test_show_export_to_pdf_with_private_journal
+    Journal.create!(
+      :journalized => Issue.find(1),
+      :notes => 'Private notes',
+      :private_notes => true,
+      :user_id => 3
+    )
+    @request.session[:user_id] = 3
+    get(
+      :show,
+      :params => {
+        :id => 1,
+        :format => 'pdf'
+      }
+    )
+    assert_response :success
+    assert_equal 'application/pdf', @response.content_type
+    assert @response.body.starts_with?('%PDF')
+  end
+
   def test_show_export_to_pdf_with_changesets
     [[100], [100, 101], [100, 101, 102]].each do |cs|
       issue1 = Issue.find(3)
