@@ -279,8 +279,8 @@ module Redmine
             table_width = col_width.inject(0, :+)
           end
 
-          # use full width if the description or last_notes are displayed
-          if table_width > 0 && (query.has_column?(:description) || query.has_column?(:last_notes))
+          # use full width if the query has block columns (description, last_notes or full width custom fieds)
+          if table_width > 0 && query.block_columns.any?
             col_width = col_width.map {|w| w * (page_width - right_margin - left_margin) / table_width}
             table_width = col_width.inject(0, :+)
           end
@@ -336,18 +336,22 @@ module Redmine
             issues_to_pdf_write_cells(pdf, col_values, col_width, max_height)
             pdf.set_y(base_y + max_height)
 
-            if query.has_column?(:description) && issue.description?
-              pdf.set_x(10)
-              pdf.set_auto_page_break(true, bottom_margin)
-              pdf.RDMwriteHTMLCell(0, 5, 10, '', issue.description.to_s, issue.attachments, "LRBT")
-              pdf.set_auto_page_break(false)
+            query.block_columns.each do |column|
+            if column.is_a?(QueryCustomFieldColumn)
+              cv = issue.visible_custom_field_values.detect {|v| v.custom_field_id == column.custom_field.id}
+              text = show_value(cv, false)
+            else
+              text = issue.send(column.name)
             end
+            next if text.blank?
 
-            if query.has_column?(:last_notes) && issue.last_notes.present?
-              pdf.set_x(10)
-              pdf.set_auto_page_break(true, bottom_margin)
-              pdf.RDMwriteHTMLCell(0, 5, 10, '', issue.last_notes.to_s, [], "LRBT")
-              pdf.set_auto_page_break(false)
+            pdf.set_x(10)
+            pdf.set_auto_page_break(true, bottom_margin)
+            pdf.SetFontStyle('B',9)
+            pdf.RDMCell(0, 5, column.caption, "LRT", 1)
+            pdf.SetFontStyle('',9)
+            pdf.RDMwriteHTMLCell(0, 5, '', '', text, [], "LRB")
+            pdf.set_auto_page_break(false)
             end
           end
 
