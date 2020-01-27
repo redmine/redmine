@@ -26,7 +26,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     get '/users.xml', :headers => credentials('admin')
 
     assert_response :success
-    assert_equal 'application/xml', response.content_type
+    assert_equal 'application/xml', response.media_type
     assert_select 'users' do
       assert_select 'user', User.active.count
     end
@@ -36,7 +36,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     get '/users.json', :headers => credentials('admin')
 
     assert_response :success
-    assert_equal 'application/json', response.content_type
+    assert_equal 'application/json', response.media_type
     json = ActiveSupport::JSON.decode(response.body)
     assert json.key?('users')
     assert_equal User.active.count, json['users'].size
@@ -157,7 +157,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     assert user.check_password?('secret123')
 
     assert_response :created
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
     assert_select 'user id', :text => user.id.to_s
   end
 
@@ -200,7 +200,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     assert !user.admin?
 
     assert_response :created
-    assert_equal 'application/json', @response.content_type
+    assert_equal 'application/json', @response.media_type
     json = ActiveSupport::JSON.decode(response.body)
     assert_kind_of Hash, json
     assert_kind_of Hash, json['user']
@@ -220,7 +220,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     end
 
     assert_response :unprocessable_entity
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
     assert_select 'errors error', :text => "First name cannot be blank"
   end
 
@@ -237,7 +237,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     end
 
     assert_response :unprocessable_entity
-    assert_equal 'application/json', @response.content_type
+    assert_equal 'application/json', @response.media_type
     json = ActiveSupport::JSON.decode(response.body)
     assert_kind_of Hash, json
     assert json.has_key?('errors')
@@ -306,7 +306,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     end
 
     assert_response :unprocessable_entity
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
     assert_select 'errors error', :text => "First name cannot be blank"
   end
 
@@ -324,7 +324,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     end
 
     assert_response :unprocessable_entity
-    assert_equal 'application/json', @response.content_type
+    assert_equal 'application/json', @response.media_type
     json = ActiveSupport::JSON.decode(response.body)
     assert_kind_of Hash, json
     assert json.has_key?('errors')

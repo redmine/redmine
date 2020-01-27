@@ -45,7 +45,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
       )
       assert_response :success
 
-      assert_equal 'text/html', @response.content_type
+      assert_equal 'text/html', @response.media_type
       assert_select 'th.filename', :text => /issues_controller.rb\t\(révision 1484\)/
       assert_select 'td.line-code', :text => /Demande créée avec succès/
     end
@@ -64,7 +64,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
         )
         assert_response :success
 
-        assert_equal 'text/html', @response.content_type
+        assert_equal 'text/html', @response.media_type
         assert_select 'th.filename', :text => /issues_controller.rb\t\(r\?vision 1484\)/
         assert_select 'td.line-code', :text => /Demande cr\?\?e avec succ\?s/
       end
@@ -84,7 +84,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
         )
         assert_response :success
 
-        assert_equal 'text/html', @response.content_type
+        assert_equal 'text/html', @response.media_type
         assert_select 'th.filename', :text => /issues_controller.rb\t\(révision 1484\)/
         assert_select 'td.line-code', :text => /Demande créée avec succès/
       end
@@ -136,14 +136,14 @@ class AttachmentsControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
-    assert_equal 'text/html', @response.content_type
+    assert_equal 'text/html', @response.media_type
     assert_select 'th.filename', :text => 'test1.txt'
   end
 
   def test_show_text_file
     get(:show, :params => {:id => 4})
     assert_response :success
-    assert_equal 'text/html', @response.content_type
+    assert_equal 'text/html', @response.media_type
   end
 
   def test_show_text_file_utf_8
@@ -155,7 +155,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_equal 'japanese-utf-8.txt', a.filename
     get(:show, :params => {:id => a.id})
     assert_response :success
-    assert_equal 'text/html', @response.content_type
+    assert_equal 'text/html', @response.media_type
     assert_select 'tr#L1' do
       assert_select 'th.line-num', :text => '1'
       assert_select 'td', :text => /日本語/
@@ -172,7 +172,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
       assert_equal 'iso8859-1.txt', a.filename
       get(:show, :params => {:id => a.id})
       assert_response :success
-      assert_equal 'text/html', @response.content_type
+      assert_equal 'text/html', @response.media_type
       assert_select 'tr#L7' do
         assert_select 'th.line-num', :text => '7'
         assert_select 'td', :text => /Demande cr\?\?e avec succ\?s/
@@ -190,7 +190,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
       assert_equal 'iso8859-1.txt', a.filename
       get(:show, :params => {:id => a.id})
       assert_response :success
-      assert_equal 'text/html', @response.content_type
+      assert_equal 'text/html', @response.media_type
       assert_select 'tr#L7' do
         assert_select 'th.line-num', :text => '7'
         assert_select 'td', :text => /Demande créée avec succès/
@@ -204,7 +204,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
       Attachment.find(4).update_attribute :filesize, 754.kilobyte
       get(:show, :params => {:id => 4})
       assert_response :success
-      assert_equal 'text/html', @response.content_type
+      assert_equal 'text/html', @response.media_type
       assert_select '.nodata', :text => 'No preview available. Download the file instead.'
     end
   end
@@ -218,7 +218,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_equal 'testfile.md', a.filename
     get(:show, :params => {:id => a.id})
     assert_response :success
-    assert_equal 'text/html', @response.content_type
+    assert_equal 'text/html', @response.media_type
     assert_select 'div.wiki', :html => "<h1>Header 1</h1>\n\n<h2>Header 2</h2>\n\n<h3>Header 3</h3>"
   end
 
@@ -231,7 +231,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_equal 'testfile.textile', a.filename
     get(:show, :params => {:id => a.id})
     assert_response :success
-    assert_equal 'text/html', @response.content_type
+    assert_equal 'text/html', @response.media_type
     assert_select 'div.wiki', :html => "<h1>Header 1</h1>\n\n\n\t<h2>Header 2</h2>\n\n\n\t<h3>Header 3</h3>"
   end
 
@@ -239,14 +239,14 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get(:show, :params => {:id => 16})
     assert_response :success
-    assert_equal 'text/html', @response.content_type
+    assert_equal 'text/html', @response.media_type
     assert_select 'img.filecontent', :src => attachments(:attachments_010).filename
   end
 
   def test_show_other_with_no_preview
     @request.session[:user_id] = 2
     get(:show, :params => {:id => 6})
-    assert_equal 'text/html', @response.content_type
+    assert_equal 'text/html', @response.media_type
     assert_select '.nodata', :text => 'No preview available. Download the file instead.'
   end
 
@@ -301,7 +301,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
   def test_download_text_file
     get(:download, :params => {:id => 4})
     assert_response :success
-    assert_equal 'application/x-ruby', @response.content_type
+    assert_equal 'application/x-ruby', @response.media_type
     etag = @response.etag
     assert_not_nil etag
 
@@ -320,7 +320,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
 
     get(:download, :params => {:id => attachment.id})
     assert_response :success
-    assert_equal 'text/javascript', @response.content_type
+    assert_equal 'text/javascript', @response.media_type
   end
 
   def test_download_version_file_with_issue_tracking_disabled
@@ -333,21 +333,21 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     Attachment.find(4).update_attribute(:content_type, '')
     get(:download, :params => {:id => 4})
     assert_response :success
-    assert_equal 'text/x-ruby', @response.content_type
+    assert_equal 'text/x-ruby', @response.media_type
   end
 
   def test_download_should_assign_better_content_type_than_application_octet_stream
     Attachment.find(4).update! :content_type => "application/octet-stream"
     get(:download, :params => {:id => 4})
     assert_response :success
-    assert_equal 'text/x-ruby', @response.content_type
+    assert_equal 'text/x-ruby', @response.media_type
   end
 
   def test_download_should_assign_application_octet_stream_if_content_type_is_not_determined
     get(:download, :params => {:id => 22})
     assert_response :success
     assert_nil Redmine::MimeType.of(attachments(:attachments_022).filename)
-    assert_equal 'application/octet-stream', @response.content_type
+    assert_equal 'application/octet-stream', @response.media_type
   end
 
   def test_download_missing_file
@@ -371,7 +371,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
         }
       )
       assert_response :success
-      assert_equal 'image/png', response.content_type
+      assert_equal 'image/png', response.media_type
 
       etag = @response.etag
       assert_not_nil etag
@@ -459,7 +459,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
         }
       )
       assert_response :success
-      assert_equal 'image/png', response.content_type
+      assert_equal 'image/png', response.media_type
     end
   else
     puts '(GhostScript convert not available)'

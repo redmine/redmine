@@ -191,7 +191,7 @@ class GroupsControllerTest < Redmine::ControllerTest
       :xhr => true
     )
     assert_response :success
-    assert_equal 'text/javascript', response.content_type
+    assert_equal 'text/javascript', response.media_type
   end
 
   def test_add_users
@@ -217,7 +217,7 @@ class GroupsControllerTest < Redmine::ControllerTest
         :xhr => true
       )
       assert_response :success
-      assert_equal 'text/javascript', response.content_type
+      assert_equal 'text/javascript', response.media_type
     end
     assert_match /John Smith/, response.body
   end
@@ -245,7 +245,7 @@ class GroupsControllerTest < Redmine::ControllerTest
         :xhr => true
       )
       assert_response :success
-      assert_equal 'text/javascript', response.content_type
+      assert_equal 'text/javascript', response.media_type
     end
   end
 

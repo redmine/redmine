@@ -95,7 +95,7 @@ class RepositoriesFilesystemControllerTest < Redmine::RepositoryControllerTest
           :path => repository_path_hash(['test'])[:param]
         }
       assert_response :success
-      assert_equal 'application/octet-stream', @response.content_type
+      assert_equal 'application/octet-stream', @response.media_type
     end
 
     def test_show_non_ascii_contents
@@ -138,7 +138,7 @@ class RepositoriesFilesystemControllerTest < Redmine::RepositoryControllerTest
             :path => repository_path_hash(['japanese', 'big-file.txt'])[:param]
           }
         assert_response :success
-        assert_equal 'text/html', @response.content_type
+        assert_equal 'text/html', @response.media_type
         assert_select 'p.nodata'
       end
     end

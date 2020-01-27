@@ -26,7 +26,7 @@ class Redmine::ApiTest::IssueStatusesTest < Redmine::ApiTest::Base
     get '/issue_statuses.xml'
 
     assert_response :success
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
     assert_select 'issue_statuses[type=array] issue_status id', :text => '2' do
       assert_select '~ name', :text => 'Assigned'
     end

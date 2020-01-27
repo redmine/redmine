@@ -463,7 +463,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
-    assert_equal 'application/pdf', response.content_type
+    assert_equal 'application/pdf', response.media_type
   end
 
   def test_index_with_query_grouped_by_list_custom_field
@@ -1081,7 +1081,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 
         get(:index, :params => {:format => 'pdf'})
         assert_response :success
-        assert_equal 'application/pdf', @response.content_type
+        assert_equal 'application/pdf', @response.media_type
 
         get(
           :index,
@@ -1091,7 +1091,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           }
         )
         assert_response :success
-        assert_equal 'application/pdf', @response.content_type
+        assert_equal 'application/pdf', @response.media_type
 
         get(
           :index,
@@ -1102,7 +1102,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           }
         )
         assert_response :success
-        assert_equal 'application/pdf', @response.content_type
+        assert_equal 'application/pdf', @response.media_type
       end
     end
   end
@@ -1117,7 +1117,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
-    assert_equal 'application/pdf', @response.content_type
+    assert_equal 'application/pdf', @response.media_type
   end
 
   def test_index_atom
@@ -1129,7 +1129,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
-    assert_equal 'application/atom+xml', response.content_type
+    assert_equal 'application/atom+xml', response.media_type
 
     assert_select 'feed' do
       assert_select 'link[rel=self][href=?]', 'http://test.host/projects/ecookbook/issues.atom'
@@ -1612,7 +1612,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
-    assert_equal 'application/pdf', response.content_type
+    assert_equal 'application/pdf', response.media_type
   end
 
   def test_index_with_description_column
@@ -1635,7 +1635,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
-    assert_equal 'application/pdf', response.content_type
+    assert_equal 'application/pdf', response.media_type
   end
 
   def test_index_with_last_notes_column
@@ -1663,7 +1663,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
-    assert_equal 'application/pdf', response.content_type
+    assert_equal 'application/pdf', response.media_type
   end
 
   def test_index_with_last_notes_column_should_display_private_notes_with_permission_only
@@ -1887,7 +1887,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         }
       }
     )
-    assert_equal 'text/html', @response.content_type
+    assert_equal 'text/html', @response.media_type
     assert_select_error /Start date cannot be blank/i
   end
 
@@ -1902,7 +1902,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         :format => 'csv'
       }
     )
-    assert_equal 'text/csv', @response.content_type
+    assert_equal 'text/csv', @response.media_type
     assert @response.body.blank?
   end
 
@@ -2649,7 +2649,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
-    assert_equal 'application/atom+xml', response.content_type
+    assert_equal 'application/atom+xml', response.media_type
     # Inline image
     assert_select(
       'content',
@@ -2668,7 +2668,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
-    assert_equal 'application/pdf', @response.content_type
+    assert_equal 'application/pdf', @response.media_type
     assert @response.body.starts_with?('%PDF')
   end
 
@@ -2684,7 +2684,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           }
         )
         assert_response :success
-        assert_equal 'application/pdf', @response.content_type
+        assert_equal 'application/pdf', @response.media_type
         assert @response.body.starts_with?('%PDF')
       end
     end
@@ -2702,7 +2702,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
-    assert_equal 'application/pdf', @response.content_type
+    assert_equal 'application/pdf', @response.media_type
     assert @response.body.starts_with?('%PDF')
   end
 
@@ -2721,7 +2721,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
-    assert_equal 'application/pdf', @response.content_type
+    assert_equal 'application/pdf', @response.media_type
     assert @response.body.starts_with?('%PDF')
   end
 
@@ -2734,7 +2734,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
-    assert_equal 'application/pdf', @response.content_type
+    assert_equal 'application/pdf', @response.media_type
     assert @response.body.starts_with?('%PDF')
   end
 
@@ -2754,7 +2754,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
-    assert_equal 'application/pdf', @response.content_type
+    assert_equal 'application/pdf', @response.media_type
     assert @response.body.starts_with?('%PDF')
   end
 
@@ -2773,7 +2773,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         }
       )
       assert_response :success
-      assert_equal 'application/pdf', @response.content_type
+      assert_equal 'application/pdf', @response.media_type
       assert @response.body.starts_with?('%PDF')
     end
   end
@@ -3526,7 +3526,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       :xhr => true
     )
     assert_response :success
-    assert_equal 'text/javascript', response.content_type
+    assert_equal 'text/javascript', response.media_type
     assert_include 'This is the test_new issue', response.body
   end
 
@@ -5343,7 +5343,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       :xhr => true
     )
     assert_response :success
-    assert_equal 'text/javascript', response.content_type
+    assert_equal 'text/javascript', response.media_type
 
     assert_include 'This is the test_new issue', response.body
   end

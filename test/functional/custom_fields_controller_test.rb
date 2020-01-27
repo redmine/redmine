@@ -263,7 +263,7 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
       },
       :xhr => true
     assert_response :success
-    assert_equal 'text/javascript', response.content_type
+    assert_equal 'text/javascript', response.media_type
 
     assert_include '<option selected=\"selected\" value=\"list\">List<\/option>', response.body
   end

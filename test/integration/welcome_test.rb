@@ -26,7 +26,7 @@ class WelcomeTest < Redmine::IntegrationTest
   def test_robots
     get '/robots.txt'
     assert_response :success
-    assert_equal 'text/plain', @response.content_type
+    assert_equal 'text/plain', @response.media_type
     # Redmine::Utils.relative_url_root does not effect on Rails 5.1.4.
     assert @response.body.match(%r{^Disallow: /projects/ecookbook/issues\r?$})
   end

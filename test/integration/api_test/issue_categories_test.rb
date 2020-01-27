@@ -29,14 +29,14 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
   test "GET /projects/:project_id/issue_categories.xml should return the issue categories" do
     get '/projects/1/issue_categories.xml', :headers => credentials('jsmith')
     assert_response :success
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
     assert_select 'issue_categories issue_category id', :text => '2'
   end
 
   test "GET /issue_categories/:id.xml should return the issue category" do
     get '/issue_categories/2.xml', :headers => credentials('jsmith')
     assert_response :success
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
     assert_select 'issue_category id', :text => '2'
   end
 
@@ -48,7 +48,7 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
         :headers => credentials('jsmith'))
     end
     assert_response :created
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
 
     category = IssueCategory.order('id DESC').first
     assert_equal 'API', category.name
@@ -63,7 +63,7 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
         :headers => credentials('jsmith'))
     end
     assert_response :unprocessable_entity
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
 
     assert_select 'errors error', :text => "Name cannot be blank"
   end
@@ -88,7 +88,7 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
         :headers => credentials('jsmith'))
     end
     assert_response :unprocessable_entity
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
 
     assert_select 'errors error', :text => "Name cannot be blank"
   end

@@ -249,7 +249,7 @@ class RepositoriesSubversionControllerTest < Redmine::RepositoryControllerTest
           }
         )
         assert_response :success
-        assert_equal 'text/html', @response.content_type
+        assert_equal 'text/html', @response.media_type
         assert_select 'p.nodata'
       end
     end
@@ -470,7 +470,7 @@ class RepositoriesSubversionControllerTest < Redmine::RepositoryControllerTest
         }
       )
       assert_response :success
-      assert_equal 'text/x-patch', @response.content_type
+      assert_equal 'text/x-patch', @response.media_type
       assert_equal 'Index: subversion_test/folder/greeter.rb', @response.body.split(/\r?\n/).first
     end
 

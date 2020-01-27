@@ -32,21 +32,21 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
   test "GET /time_entries.xml should return time entries" do
     get '/time_entries.xml', :headers => credentials('jsmith')
     assert_response :success
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
     assert_select 'time_entries[type=array] time_entry id', :text => '2'
   end
 
   test "GET /time_entries.xml with limit should return limited results" do
     get '/time_entries.xml?limit=2', :headers => credentials('jsmith')
     assert_response :success
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
     assert_select 'time_entries[type=array] time_entry', 2
   end
 
   test "GET /time_entries/:id.xml should return the time entry" do
     get '/time_entries/2.xml', :headers => credentials('jsmith')
     assert_response :success
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
     assert_select 'time_entry id', :text => '2'
   end
 
@@ -57,7 +57,7 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
 
     get '/time_entries/2.xml', :headers => credentials('jsmith')
     assert_response :success
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
     assert_select 'time_entry id', :text => '2'
   end
 
@@ -77,7 +77,7 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
         :headers => credentials('jsmith'))
     end
     assert_response :created
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
 
     entry = TimeEntry.order('id DESC').first
     assert_equal 'jsmith', entry.user.login
@@ -103,7 +103,7 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
         :headers => credentials('jsmith'))
     end
     assert_response :created
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
 
     entry = TimeEntry.order('id DESC').first
     assert_equal 'accepted', entry.custom_field_value(field)
@@ -120,7 +120,7 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
         :headers => credentials('jsmith'))
     end
     assert_response :created
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
 
     entry = TimeEntry.order('id DESC').first
     assert_equal 'jsmith', entry.user.login
@@ -139,7 +139,7 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
         :headers => credentials('jsmith'))
     end
     assert_response :unprocessable_entity
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
 
     assert_select 'errors error', :text => "Hours cannot be blank"
   end
@@ -164,7 +164,7 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
         :headers => credentials('jsmith'))
     end
     assert_response :unprocessable_entity
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
 
     assert_select 'errors error', :text => "Hours cannot be blank"
   end
@@ -193,7 +193,7 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
       delete '/time_entries/2.xml', :headers => credentials('jsmith')
     end
     assert_response :unprocessable_entity
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
     assert_select 'errors'
   end
 end

@@ -1341,7 +1341,7 @@ class TimelogControllerTest < Redmine::ControllerTest
   def test_index_atom_feed
     get :index, :params => {:project_id => 1, :format => 'atom'}
     assert_response :success
-    assert_equal 'application/atom+xml', @response.content_type
+    assert_equal 'application/atom+xml', @response.media_type
     assert_select 'entry > title', :text => /7\.65 hours/
   end
 

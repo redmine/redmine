@@ -197,7 +197,7 @@ class AuthSourcesControllerTest < Redmine::ControllerTest
         :term => 'foo'
       }
     assert_response :success
-    assert_equal 'application/json', response.content_type
+    assert_equal 'application/json', response.media_type
     json = ActiveSupport::JSON.decode(response.body)
     assert_kind_of Array, json
     assert_equal 2, json.size

@@ -266,7 +266,7 @@ class MessagesControllerTest < Redmine::ControllerTest
       },
       :xhr => true
     assert_response :success
-    assert_equal 'text/javascript', response.content_type
+    assert_equal 'text/javascript', response.media_type
 
     assert_include 'RE: First post', response.body
     assert_include "Redmine Admin wrote:", response.body
@@ -281,7 +281,7 @@ class MessagesControllerTest < Redmine::ControllerTest
       },
       :xhr => true
     assert_response :success
-    assert_equal 'text/javascript', response.content_type
+    assert_equal 'text/javascript', response.media_type
 
     assert_include 'RE: First post', response.body
     assert_include 'John Smith wrote in message#3:', response.body

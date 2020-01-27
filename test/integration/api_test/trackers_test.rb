@@ -26,7 +26,7 @@ class Redmine::ApiTest::TrackersTest < Redmine::ApiTest::Base
     get '/trackers.xml'
 
     assert_response :success
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
 
     assert_select 'trackers[type=array] tracker id', :text => '2' do
       assert_select '~ name', :text => 'Feature request'

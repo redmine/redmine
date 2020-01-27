@@ -25,7 +25,7 @@ class Redmine::ApiTest::CustomFieldsTest < Redmine::ApiTest::Base
   test "GET /custom_fields.xml should return custom fields" do
     get '/custom_fields.xml', :headers => credentials('admin')
     assert_response :success
-    assert_equal 'application/xml', response.content_type
+    assert_equal 'application/xml', response.media_type
 
     assert_select 'custom_fields' do
       assert_select 'custom_field' do

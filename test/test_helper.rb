@@ -348,7 +348,7 @@ module Redmine
 
     # Saves the generated PDF in tmp/test/pdf
     def save_pdf
-      assert_equal 'application/pdf', response.content_type
+      assert_equal 'application/pdf', response.media_type
       filename = "#{self.class.name.underscore}__#{method_name}.pdf"
       File.open(File.join($redmine_tmp_pdf_directory, filename), "wb") do |f|
         f.write response.body
@@ -431,8 +431,8 @@ module Redmine
 
       # Parses the response body based on its content type
       def response_data
-        unless response.content_type.to_s =~ /^application\/(.+)/
-          raise "Unexpected response type: #{response.content_type}"
+        unless response.media_type.to_s =~ /^application\/(.+)/
+          raise "Unexpected response type: #{response.media_type}"
         end
 
         format = $1

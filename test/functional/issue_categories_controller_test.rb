@@ -45,7 +45,7 @@ class IssueCategoriesControllerTest < Redmine::ControllerTest
       :xhr => true
     )
     assert_response :success
-    assert_equal 'text/javascript', response.content_type
+    assert_equal 'text/javascript', response.media_type
   end
 
   def test_create
@@ -100,7 +100,7 @@ class IssueCategoriesControllerTest < Redmine::ControllerTest
     assert_equal 'New category', category.name
 
     assert_response :success
-    assert_equal 'text/javascript', response.content_type
+    assert_equal 'text/javascript', response.media_type
   end
 
   def test_create_from_issue_form_with_failure
@@ -119,7 +119,7 @@ class IssueCategoriesControllerTest < Redmine::ControllerTest
     end
 
     assert_response :success
-    assert_equal 'text/javascript', response.content_type
+    assert_equal 'text/javascript', response.media_type
     assert_include 'Name cannot be blank', response.body
   end
 

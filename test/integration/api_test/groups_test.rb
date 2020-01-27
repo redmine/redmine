@@ -30,7 +30,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
   test "GET /groups.xml should return givable groups" do
     get '/groups.xml', :headers => credentials('admin')
     assert_response :success
-    assert_equal 'application/xml', response.content_type
+    assert_equal 'application/xml', response.media_type
 
     assert_select 'groups' do
       assert_select 'group', Group.givable.count
@@ -44,7 +44,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
   test "GET /groups.xml?builtin=1 should return all groups" do
     get '/groups.xml?builtin=1', :headers => credentials('admin')
     assert_response :success
-    assert_equal 'application/xml', response.content_type
+    assert_equal 'application/xml', response.media_type
 
     assert_select 'groups' do
       assert_select 'group', Group.givable.count + 2
@@ -67,7 +67,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
   test "GET /groups.json should return groups" do
     get '/groups.json', :headers => credentials('admin')
     assert_response :success
-    assert_equal 'application/json', response.content_type
+    assert_equal 'application/json', response.media_type
 
     json = ActiveSupport::JSON.decode(response.body)
     groups = json['groups']
@@ -80,7 +80,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
   test "GET /groups/:id.xml should return the group" do
     get '/groups/10.xml', :headers => credentials('admin')
     assert_response :success
-    assert_equal 'application/xml', response.content_type
+    assert_equal 'application/xml', response.media_type
 
     assert_select 'group' do
       assert_select 'name', :text => 'A Team'
@@ -91,7 +91,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
   test "GET /groups/:id.xml should return the builtin group" do
     get '/groups/12.xml', :headers => credentials('admin')
     assert_response :success
-    assert_equal 'application/xml', response.content_type
+    assert_equal 'application/xml', response.media_type
 
     assert_select 'group' do
       assert_select 'builtin', :text => 'non_member'
@@ -102,7 +102,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
   test "GET /groups/:id.xml should include users if requested" do
     get '/groups/10.xml?include=users', :headers => credentials('admin')
     assert_response :success
-    assert_equal 'application/xml', response.content_type
+    assert_equal 'application/xml', response.media_type
 
     assert_select 'group' do
       assert_select 'users' do
@@ -115,7 +115,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
   test "GET /groups/:id.xml include memberships if requested" do
     get '/groups/10.xml?include=memberships', :headers => credentials('admin')
     assert_response :success
-    assert_equal 'application/xml', response.content_type
+    assert_equal 'application/xml', response.media_type
 
     assert_select 'group' do
       assert_select 'memberships'
@@ -128,7 +128,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
         :params => {:group => {:name => 'Test', :user_ids => [2, 3]}},
         :headers => credentials('admin')
       assert_response :created
-      assert_equal 'application/xml', response.content_type
+      assert_equal 'application/xml', response.media_type
     end
 
     group = Group.order('id DESC').first
@@ -147,7 +147,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
         :headers => credentials('admin')
     end
     assert_response :unprocessable_entity
-    assert_equal 'application/xml', response.content_type
+    assert_equal 'application/xml', response.media_type
 
     assert_select 'errors' do
       assert_select 'error', :text => /Name cannot be blank/
@@ -172,7 +172,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
       :params => {:group => {:name => ''}},
       :headers => credentials('admin')
     assert_response :unprocessable_entity
-    assert_equal 'application/xml', response.content_type
+    assert_equal 'application/xml', response.media_type
 
     assert_select 'errors' do
       assert_select 'error', :text => /Name cannot be blank/

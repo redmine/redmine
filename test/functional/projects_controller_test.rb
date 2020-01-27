@@ -240,7 +240,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
       :xhr => true
     )
     assert_response :success
-    assert_equal 'text/javascript', response.content_type
+    assert_equal 'text/javascript', response.media_type
   end
 
   def test_autocomplete_js_with_blank_search_term
@@ -253,7 +253,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
       :xhr => true
     )
     assert_response :success
-    assert_equal 'text/javascript', response.content_type
+    assert_equal 'text/javascript', response.media_type
   end
 
   test "#index by non-admin user with view_time_entries permission should show overall spent time link" do

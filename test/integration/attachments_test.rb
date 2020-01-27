@@ -167,7 +167,7 @@ class AttachmentsTest < Redmine::IntegrationTest
         :params => content,
         :headers => {"CONTENT_TYPE" => 'application/octet-stream'})
       assert_response :success
-      assert_equal 'text/javascript', response.content_type
+      assert_equal 'text/javascript', response.media_type
     end
 
     token = response.body.match(/\.val\('(\d+\.[0-9a-f]+)'\)/)[1]

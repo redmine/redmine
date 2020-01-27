@@ -36,7 +36,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
 
     get '/projects.xml'
     assert_response :success
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
 
     assert_select 'projects>project:first-child' do
       assert_select '>id', :text => '1'
@@ -49,7 +49,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
   test "GET /projects.json should return projects" do
     get '/projects.json'
     assert_response :success
-    assert_equal 'application/json', @response.content_type
+    assert_equal 'application/json', @response.media_type
 
     json = ActiveSupport::JSON.decode(response.body)
     assert_kind_of Hash, json
@@ -62,7 +62,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
   test "GET /projects.xml with include=issue_categories should return categories" do
     get '/projects.xml?include=issue_categories'
     assert_response :success
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
 
     assert_select 'issue_categories[type=array] issue_category[id="2"][name=Recipes]'
   end
@@ -70,7 +70,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
   test "GET /projects.xml with include=trackers should return trackers" do
     get '/projects.xml?include=trackers'
     assert_response :success
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
 
     assert_select 'trackers[type=array] tracker[id="2"][name="Feature request"]'
   end
@@ -78,7 +78,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
   test "GET /projects.xml with include=enabled_modules should return enabled modules" do
     get '/projects.xml?include=enabled_modules'
     assert_response :success
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
 
     assert_select 'enabled_modules[type=array] enabled_module[name=issue_tracking]'
   end
@@ -88,7 +88,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
 
     get '/projects/1.xml'
     assert_response :success
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
 
     assert_select 'project>id', :text => '1'
     assert_select 'project>status', :text => '1'
@@ -115,7 +115,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
 
     get '/projects/1.xml'
     assert_response :success
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
 
     assert_select 'custom_field[name=?]', 'Development status', 0
   end
@@ -123,7 +123,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
   test "GET /projects/:id.xml with include=issue_categories should return categories" do
     get '/projects/1.xml?include=issue_categories'
     assert_response :success
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
 
     assert_select 'issue_categories[type=array] issue_category[id="2"][name=Recipes]'
   end
@@ -131,7 +131,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
   test "GET /projects/:id.xml with include=time_entry_activities should return activities" do
     get '/projects/1.xml?include=time_entry_activities'
     assert_response :success
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
 
     assert_select 'time_entry_activities[type=array] time_entry_activity[id="10"][name=Development]'
   end
@@ -139,7 +139,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
   test "GET /projects/:id.xml with include=trackers should return trackers" do
     get '/projects/1.xml?include=trackers'
     assert_response :success
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
 
     assert_select 'trackers[type=array] tracker[id="2"][name="Feature request"]'
   end
@@ -147,7 +147,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
   test "GET /projects/:id.xml with include=enabled_modules should return enabled modules" do
     get '/projects/1.xml?include=enabled_modules'
     assert_response :success
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
 
     assert_select 'enabled_modules[type=array] enabled_module[name=issue_tracking]'
   end
@@ -168,7 +168,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_equal Tracker.all.size, project.trackers.size
 
     assert_response :created
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
     assert_select 'project id', :text => project.id.to_s
   end
 
@@ -202,7 +202,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     end
 
     assert_response :unprocessable_entity
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
     assert_select 'errors error', :text => "Identifier cannot be blank"
   end
 
@@ -214,7 +214,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     end
     assert_response :no_content
     assert_equal '', @response.body
-    assert_nil @response.content_type
+    assert_nil @response.media_type
     project = Project.find(2)
     assert_equal 'API update', project.name
   end
@@ -251,7 +251,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     end
 
     assert_response :unprocessable_entity
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
     assert_select 'errors error', :text => "Name cannot be blank"
   end
 

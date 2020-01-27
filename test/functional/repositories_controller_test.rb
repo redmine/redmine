@@ -331,7 +331,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
         :xhr => true
       )
       assert_response :success
-      assert_equal 'text/javascript', response.content_type
+      assert_equal 'text/javascript', response.media_type
     end
     assert_equal [2], Changeset.find(103).issue_ids
     assert_include 'related-issues', response.body
@@ -371,7 +371,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
         :xhr => true
       )
       assert_response :success
-      assert_equal 'text/javascript', response.content_type
+      assert_equal 'text/javascript', response.media_type
     end
     assert_include 'alert("Issue is invalid")', response.body
   end
@@ -393,7 +393,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
         :xhr => true
       )
       assert_response :success
-      assert_equal 'text/javascript', response.content_type
+      assert_equal 'text/javascript', response.media_type
     end
     assert_equal [1], Changeset.find(103).issue_ids
     assert_include 'related-issue-2', response.body
@@ -413,7 +413,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
       }
     )
     assert_response :success
-    assert_equal 'application/json', response.content_type
+    assert_equal 'application/json', response.media_type
     data = ActiveSupport::JSON.decode(response.body)
     assert_not_nil data['labels']
     assert_not_nil data['commits']
@@ -430,7 +430,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
       }
     )
     assert_response :success
-    assert_equal 'application/json', response.content_type
+    assert_equal 'application/json', response.media_type
     data = ActiveSupport::JSON.decode(response.body)
     assert_not_nil data['labels']
     assert_not_nil data['commits']

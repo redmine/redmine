@@ -228,7 +228,7 @@ class VersionsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get :new, :params => {:project_id => '1'}, :xhr => true
     assert_response :success
-    assert_equal 'text/javascript', response.content_type
+    assert_equal 'text/javascript', response.media_type
   end
 
   def test_create
@@ -252,7 +252,7 @@ class VersionsControllerTest < Redmine::ControllerTest
     assert_equal 1, version.project_id
 
     assert_response :success
-    assert_equal 'text/javascript', response.content_type
+    assert_equal 'text/javascript', response.media_type
     assert_include 'test_add_version_from_issue_form', response.body
   end
 
@@ -262,7 +262,7 @@ class VersionsControllerTest < Redmine::ControllerTest
       post :create, :params => {:project_id => '1', :version => {:name => ''}}, :xhr => true
     end
     assert_response :success
-    assert_equal 'text/javascript', response.content_type
+    assert_equal 'text/javascript', response.media_type
   end
 
   def test_get_edit

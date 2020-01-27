@@ -32,14 +32,14 @@ class Redmine::ApiTest::SearchTest < Redmine::ApiTest::Base
     get '/search.xml'
 
     assert_response :success
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
   end
 
   test "GET /search.json should return json content" do
     get '/search.json'
 
     assert_response :success
-    assert_equal 'application/json', @response.content_type
+    assert_equal 'application/json', @response.media_type
 
     json = ActiveSupport::JSON.decode(response.body)
     assert_kind_of Hash, json

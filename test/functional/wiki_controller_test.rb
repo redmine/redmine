@@ -1009,7 +1009,7 @@ class WikiControllerTest < Redmine::ControllerTest
     get :export, :params => {:project_id => 'ecookbook'}
 
     assert_response :success
-    assert_equal "text/html", @response.content_type
+    assert_equal "text/html", @response.media_type
 
     assert_select "a[name=?]", "CookBook_documentation"
     assert_select "a[name=?]", "Another_page"
@@ -1021,7 +1021,7 @@ class WikiControllerTest < Redmine::ControllerTest
     get :export, :params => {:project_id => 'ecookbook', :format => 'pdf'}
 
     assert_response :success
-    assert_equal 'application/pdf', @response.content_type
+    assert_equal 'application/pdf', @response.media_type
     assert_equal 'attachment; filename="ecookbook.pdf"', @response.headers['Content-Disposition']
     assert @response.body.starts_with?('%PDF')
   end
@@ -1086,7 +1086,7 @@ class WikiControllerTest < Redmine::ControllerTest
     get :show, :params => {:project_id => 1, :format => 'pdf'}
     assert_response :success
 
-    assert_equal 'application/pdf', @response.content_type
+    assert_equal 'application/pdf', @response.media_type
     assert_equal 'attachment; filename="CookBook_documentation.pdf"',
                  @response.headers['Content-Disposition']
   end
@@ -1096,7 +1096,7 @@ class WikiControllerTest < Redmine::ControllerTest
     get :show, :params => {:project_id => 1, :format => 'html'}
     assert_response :success
 
-    assert_equal 'text/html', @response.content_type
+    assert_equal 'text/html', @response.media_type
     assert_equal 'attachment; filename="CookBook_documentation.html"',
                  @response.headers['Content-Disposition']
     assert_select 'h1', :text => /CookBook documentation/
@@ -1107,7 +1107,7 @@ class WikiControllerTest < Redmine::ControllerTest
     get :show, :params => {:project_id => 1, :format => 'html', :version => 2}
     assert_response :success
 
-    assert_equal 'text/html', @response.content_type
+    assert_equal 'text/html', @response.media_type
     assert_equal 'attachment; filename="CookBook_documentation.html"',
                  @response.headers['Content-Disposition']
     assert_select 'h1', :text => /CookBook documentation v2/
@@ -1118,7 +1118,7 @@ class WikiControllerTest < Redmine::ControllerTest
     get :show, :params => {:project_id => 1, :format => 'txt'}
     assert_response :success
 
-    assert_equal 'text/plain', @response.content_type
+    assert_equal 'text/plain', @response.media_type
     assert_equal 'attachment; filename="CookBook_documentation.txt"',
                  @response.headers['Content-Disposition']
     assert_include 'h1. CookBook documentation', @response.body
@@ -1129,7 +1129,7 @@ class WikiControllerTest < Redmine::ControllerTest
     get :show, :params => {:project_id => 1, :format => 'txt', :version => 2}
     assert_response :success
 
-    assert_equal 'text/plain', @response.content_type
+    assert_equal 'text/plain', @response.media_type
     assert_equal 'attachment; filename="CookBook_documentation.txt"',
                  @response.headers['Content-Disposition']
     assert_include 'h1. CookBook documentation v2', @response.body

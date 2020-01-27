@@ -142,7 +142,7 @@ class GanttsControllerTest < Redmine::ControllerTest
         :format => 'pdf'
       }
     assert_response :success
-    assert_equal 'application/pdf', @response.content_type
+    assert_equal 'application/pdf', @response.media_type
     assert @response.body.starts_with?('%PDF')
   end
 
@@ -151,7 +151,7 @@ class GanttsControllerTest < Redmine::ControllerTest
         :format => 'pdf'
       }
     assert_response :success
-    assert_equal 'application/pdf', @response.content_type
+    assert_equal 'application/pdf', @response.media_type
     assert @response.body.starts_with?('%PDF')
   end
 
@@ -162,7 +162,7 @@ class GanttsControllerTest < Redmine::ControllerTest
           :format => 'png'
         }
       assert_response :success
-      assert_equal 'image/png', @response.content_type
+      assert_equal 'image/png', @response.media_type
     end
   end
 

@@ -72,7 +72,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     get '/issues.xml?include=relations'
 
     assert_response :success
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
 
     assert_select 'issue id', :text => '3' do
       assert_select '~ relations relation', 1
@@ -89,7 +89,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     get '/issues.xml?include=attachments'
 
     assert_response :success
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
 
     assert_select 'issue id', :text => '3' do
       assert_select '~ attachments attachment', 4
@@ -105,7 +105,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     get '/issues.xml', :params => {:f => ['start_date'], :op => {:start_date => '='}}
 
     assert_response :unprocessable_entity
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
     assert_select 'errors error', :text => "Start date cannot be blank"
   end
 
@@ -371,7 +371,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     get '/issues/1.xml?include=watchers', :headers => credentials('jsmith')
 
     assert_response :ok
-    assert_equal 'application/xml', response.content_type
+    assert_equal 'application/xml', response.media_type
     assert_select 'issue' do
       assert_select 'watchers', Issue.find(1).watchers.count
       assert_select 'watchers' do
@@ -402,7 +402,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
                       :hours => '2.5', :comments => '', :activity_id => TimeEntryActivity.first.id)
     get '/issues/3.xml'
 
-    assert_equal 'application/xml', response.content_type
+    assert_equal 'application/xml', response.media_type
     assert_select 'issue' do
       assert_select 'estimated_hours',       parent.estimated_hours.to_s
       assert_select 'total_estimated_hours', (parent.estimated_hours.to_f + 3.0).to_s
@@ -418,7 +418,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     Role.anonymous.remove_permission! :view_time_entries
     get '/issues/3.xml'
 
-    assert_equal 'application/xml', response.content_type
+    assert_equal 'application/xml', response.media_type
     assert_select 'issue' do
       assert_select 'estimated_hours',       parent.estimated_hours.to_s
       assert_select 'total_estimated_hours', (parent.estimated_hours.to_f + 3.0).to_s
@@ -437,7 +437,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     TimeEntry.generate!(:user => User.find(1), :hours => 100, :issue_id => child.id)
     get '/issues/3.xml', :headers => credentials(user.login)
 
-    assert_equal 'application/xml', response.content_type
+    assert_equal 'application/xml', response.media_type
     assert_select 'issue' do
       assert_select 'spent_hours',           '5.5'
       assert_select 'total_spent_hours',     '7.5'
@@ -452,7 +452,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
                       :hours => '2.5', :comments => '', :activity_id => TimeEntryActivity.first.id)
     get '/issues/3.json'
 
-    assert_equal 'application/json', response.content_type
+    assert_equal 'application/json', response.media_type
     json = ActiveSupport::JSON.decode(response.body)
     assert_equal parent.estimated_hours, json['issue']['estimated_hours']
     assert_equal (parent.estimated_hours.to_f + 3.0), json['issue']['total_estimated_hours']
@@ -467,7 +467,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     Role.anonymous.remove_permission! :view_time_entries
     get '/issues/3.json'
 
-    assert_equal 'application/json', response.content_type
+    assert_equal 'application/json', response.media_type
     json = ActiveSupport::JSON.decode(response.body)
     assert_equal parent.estimated_hours, json['issue']['estimated_hours']
     assert_equal (parent.estimated_hours.to_f + 3.0), json['issue']['total_estimated_hours']
@@ -485,7 +485,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     TimeEntry.generate!(:user => User.find(1), :hours => 100, :issue_id => child.id)
     get '/issues/3.json', :headers => credentials(user.login)
 
-    assert_equal 'application/json', response.content_type
+    assert_equal 'application/json', response.media_type
     json = ActiveSupport::JSON.decode(response.body)
     assert_equal 5.5, json['issue']['spent_hours']
     assert_equal 7.5, json['issue']['total_spent_hours']
@@ -516,7 +516,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     assert_equal 'API test', issue.subject
 
     assert_response :created
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
     assert_select 'issue > id', :text => issue.id.to_s
   end
 

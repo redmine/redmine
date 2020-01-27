@@ -25,7 +25,7 @@ class Redmine::ApiTest::EnumerationsTest < Redmine::ApiTest::Base
   test "GET /enumerations/issue_priorities.xml should return priorities" do
     get '/enumerations/issue_priorities.xml'
     assert_response :success
-    assert_equal 'application/xml', response.content_type
+    assert_equal 'application/xml', response.media_type
     assert_select 'issue_priorities[type=array]' do
       assert_select 'issue_priority:nth-of-type(3)' do
         assert_select 'id', :text => '6'
@@ -43,6 +43,6 @@ class Redmine::ApiTest::EnumerationsTest < Redmine::ApiTest::Base
   test "GET /enumerations/invalid_subclass.xml should return 404" do
     get '/enumerations/invalid_subclass.xml'
     assert_response 404
-    assert_equal 'application/xml', response.content_type
+    assert_equal 'application/xml', response.media_type
   end
 end

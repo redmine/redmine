@@ -35,7 +35,7 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
     get '/projects/1/versions.xml'
 
     assert_response :success
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
 
     assert_select 'versions[type=array] version id', :text => '2' do
       assert_select '~ name', :text => '1.0'
@@ -53,7 +53,7 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
     assert_equal 'API test', version.name
 
     assert_response :created
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
     assert_select 'version id', :text => version.id.to_s
   end
 
@@ -69,7 +69,7 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
     assert_equal Date.parse('2012-01-24'), version.due_date
 
     assert_response :created
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
     assert_select 'version id', :text => version.id.to_s
   end
 
@@ -85,7 +85,7 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
     assert_equal WikiPage.first, version.wiki_page
 
     assert_response :created
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
     assert_select 'version id', :text => version.id.to_s
   end
 
@@ -109,7 +109,7 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
     assert_equal 'Some value', version.custom_field_value(field)
 
     assert_response :created
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
     assert_select 'version>custom_fields>custom_field[id=?]>value', field.id.to_s, 'Some value'
   end
 
@@ -132,7 +132,7 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
     get '/versions/2.xml'
 
     assert_response :success
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
     assert_select 'version' do
       assert_select 'id', :text => '2'
       assert_select 'name', :text => '1.0'

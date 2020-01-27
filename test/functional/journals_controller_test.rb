@@ -34,7 +34,7 @@ class JournalsControllerTest < Redmine::ControllerTest
         :project_id => 1
       }
     assert_response :success
-    assert_equal 'application/atom+xml', @response.content_type
+    assert_equal 'application/atom+xml', @response.media_type
   end
 
   def test_index_with_invalid_query_id
@@ -166,7 +166,7 @@ class JournalsControllerTest < Redmine::ControllerTest
       :xhr => true
     assert_response :success
 
-    assert_equal 'text/javascript', response.content_type
+    assert_equal 'text/javascript', response.media_type
     assert_include '> This is an issue', response.body
   end
 
@@ -188,7 +188,7 @@ class JournalsControllerTest < Redmine::ControllerTest
       },
       :xhr => true
     assert_response :success
-    assert_equal 'text/javascript', response.content_type
+    assert_equal 'text/javascript', response.media_type
     assert_include 'Redmine Admin wrote in #note-1:', response.body
     assert_include '> A comment with a private version', response.body
   end
@@ -203,7 +203,7 @@ class JournalsControllerTest < Redmine::ControllerTest
       },
       :xhr => true
     assert_response :success
-    assert_equal 'text/javascript', response.content_type
+    assert_equal 'text/javascript', response.media_type
     assert_include '> Privates notes', response.body
 
     Role.find(1).remove_permission! :view_private_notes
@@ -222,7 +222,7 @@ class JournalsControllerTest < Redmine::ControllerTest
       },
       :xhr => true
     assert_response :success
-    assert_equal 'text/javascript', response.content_type
+    assert_equal 'text/javascript', response.media_type
     assert_include 'textarea', response.body
   end
 
@@ -236,7 +236,7 @@ class JournalsControllerTest < Redmine::ControllerTest
       },
       :xhr => true
     assert_response :success
-    assert_equal 'text/javascript', response.content_type
+    assert_equal 'text/javascript', response.media_type
     assert_include 'textarea', response.body
 
     Role.find(1).remove_permission! :view_private_notes
@@ -257,7 +257,7 @@ class JournalsControllerTest < Redmine::ControllerTest
       },
       :xhr => true
     assert_response :success
-    assert_equal 'text/javascript', response.content_type
+    assert_equal 'text/javascript', response.media_type
     assert_equal 'Updated notes', Journal.find(2).notes
     assert_include 'journal-2-notes', response.body
     # response should include journal_indice param for quote link
@@ -274,7 +274,7 @@ class JournalsControllerTest < Redmine::ControllerTest
       },
       :xhr => true
     assert_response :success
-    assert_equal 'text/javascript', response.content_type
+    assert_equal 'text/javascript', response.media_type
     assert_equal true, Journal.find(2).private_notes
     assert_include 'change-2', response.body
     assert_include 'journal-2-private_notes', response.body
@@ -291,7 +291,7 @@ class JournalsControllerTest < Redmine::ControllerTest
       },
       :xhr => true
     assert_response :success
-    assert_equal 'text/javascript', response.content_type
+    assert_equal 'text/javascript', response.media_type
     assert_equal false, Journal.find(2).private_notes
     assert_include 'change-2', response.body
     assert_include 'journal-2-private_notes', response.body
@@ -325,7 +325,7 @@ class JournalsControllerTest < Redmine::ControllerTest
         },
         :xhr => true
       assert_response :success
-      assert_equal 'text/javascript', response.content_type
+      assert_equal 'text/javascript', response.media_type
     end
     assert_nil Journal.find_by_id(2)
     assert_include 'change-2', response.body
