@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
-ruby '>= 2.3.0', '< 2.7.0' if Bundler::VERSION >= '1.12.0'
-gem "bundler", ">= 1.5.0"
+ruby '>= 2.3.0', '< 2.7.0'
+gem 'bundler', '>= 1.12.0'
 
 gem "rails", "5.2.4.1"
 gem 'sprockets', '~> 3.7.2' if RUBY_VERSION < '2.5'
