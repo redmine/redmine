@@ -318,8 +318,8 @@ div.wiki pre {
 }
 
 div.wiki ul.toc {
-  margin-right:0px; margin-left:12px;
-  margin-left:0;    margin-right:0;
+  margin-left:0;
+  margin-right:0;
 }
 
 div.wiki ul.toc.right { float: left; margin-left:0; margin-right:12px;}
