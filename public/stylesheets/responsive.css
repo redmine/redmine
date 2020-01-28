@@ -261,7 +261,7 @@
 
   /* search magnifier icon */
   .search-magnifier {
-    font-family: Verdana;
+    font-family: Verdana, sans-serif;
     color: #bbb;
 
     cursor: pointer;
