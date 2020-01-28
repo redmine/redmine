@@ -25,7 +25,7 @@ class Member < ActiveRecord::Base
   belongs_to :project
 
   validates_presence_of :principal, :project
-  validates_uniqueness_of :user_id, :scope => :project_id
+  validates_uniqueness_of :user_id, :scope => :project_id, :case_sensitive => false
   validate :validate_role
 
   before_destroy :set_issue_category_nil, :remove_from_project_default_assigned_to

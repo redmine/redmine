@@ -70,7 +70,7 @@ class Project < ActiveRecord::Base
                 :author => nil
 
   validates_presence_of :name, :identifier
-  validates_uniqueness_of :identifier, :if => Proc.new {|p| p.identifier_changed?}
+  validates_uniqueness_of :identifier, :if => Proc.new {|p| p.identifier_changed?}, :case_sensitive => false
   validates_length_of :name, :maximum => 255
   validates_length_of :homepage, :maximum => 255
   validates_length_of :identifier, :maximum => IDENTIFIER_MAX_LENGTH
