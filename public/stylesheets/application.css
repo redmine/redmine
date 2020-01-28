@@ -680,7 +680,7 @@ ul.projects div.description li {list-style-type:initial;}
 
 ul.subprojects {list-style: none; display: inline-block; padding: 0; margin: 0;}
 ul.subprojects li {float: left;}
-ul.subprojects li:not(:last-child)::after {content: ', '; white-space: pre; white-space: pre;}
+ul.subprojects li:not(:last-child)::after {content: ', '; white-space: pre;}
 
 #related-issues li img {vertical-align:middle;}
 
