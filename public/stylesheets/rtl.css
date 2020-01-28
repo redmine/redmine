@@ -374,8 +374,6 @@ td.username img.gravatar {margin:0 0 0 0.5em; }
 .ui-datepicker-title select {margin-left:4px !important; margin-right:0 !important;}
 
 /***** Media print specific styles *****/
-@media print {
-}
 
 /* Accessibility specific styles */
 .hidden-for-sighted {
