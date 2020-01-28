@@ -405,7 +405,8 @@ div.table-list.boards .table-list-cell.name {width: 30%;}
 .query-totals {text-align:right;}
 .query-totals>span:not(:first-child) {margin-left:0.6em;}
 .query-totals .value {font-weight:bold;}
-body.controller-issues .query-totals {margin-top:-2.3em;}
+.query-totals {margin-top:-2.3em;}
+body.controller-timelog .query-totals {margin-top:initial;}
 
 td.center {text-align:center;}
 
