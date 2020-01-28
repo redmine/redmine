@@ -1615,7 +1615,7 @@ img.filecontent.image {background-image: url(../images/transparent.png);}
 /* Custom JQuery styles */
 .ui-datepicker-title select {width:70px !important; margin-top:-2px !important; margin-right:4px !important;}
 .ui-menu.ui-widget-content {background:#fff;}
-.ui-menu .ui-menu-item:hover {font-weight:normal; color:#555; background:#759FCF; color:#fff !important; border:1px solid #759FCF;}
+.ui-menu .ui-menu-item:hover {font-weight:normal; background:#759FCF; color:#fff !important; border:1px solid #759FCF;}
 .ui-menu .ui-menu-item.ui-state-focus {font-weight:normal; color:#555; border-color:#759FCF;}
 
 /* Custom tribute styles */
