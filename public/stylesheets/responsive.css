@@ -799,6 +799,7 @@
   #issue_tree .issue > td.subject, #relations .issue > td.subject {
     width: 100% !important; /* let subject have one full width column */
     word-break: break-word; /* break word if subject is too long */
+    padding-right: 25px; /* this is the spaces that .buttons uses next to subject */
   }
 
   #issue_tree .issue > td:not(.checkbox), #relations .issue > td:not(.checkbox) {
@@ -823,11 +824,6 @@
   #issue_tree .issue .buttons a,
   #relations .issue .buttons a {
     vertical-align: middle;
-  }
-
-  #issue_tree .issue > td.subject,
-  #relations .issue > td.subject {
-    padding-right: 25px; /* this is the spaces that .buttons uses next to subject */
   }
 
   /* attachment upload form */
