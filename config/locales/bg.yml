@@ -391,6 +391,7 @@ bg:
   field_recently_used_projects: Брой на последно използваните проекти в списъка за бърз избор на проекти
   field_history_default_tab: Таб по подразбиране в историята на задачите
   field_unique_id: Уникален ID
+  field_toolbar_language_options: Езици за избор в <pre><code class="..."> бутон
 
   setting_app_title: Заглавие
   setting_welcome_text: Допълнителен текст
@@ -910,6 +911,7 @@ bg:
   label_user_mail_option_only_assigned: Само за неща, които наблюдавам или са назначени на мен
   label_user_mail_option_only_owner: Само за неща, които наблюдавам или съм техен собственик
   label_user_mail_no_self_notified: "Не искам известия за извършени от мен промени"
+  label_user_mail_notify_about_high_priority_issues_html: Известявайте ме и за задачи с приоритет <em>%{prio}</em> или по-голям
   label_registration_activation_by_email: активиране на профила по email
   label_registration_manual_activation: ръчно активиране
   label_registration_automatic_activation: автоматично активиране
@@ -1287,6 +1289,3 @@ bg:
   text_project_is_public_non_member: Публичните проекти са достъпни за всички влезли в Redmine потребители.
   text_project_is_public_anonymous: Публичните проекти са достъпни и тяхното съдържание е видимо без ограничения в мрежата.
   label_import_time_entries: Импортиране на записи за използвано време
-  field_toolbar_language_options: Code highlighting toolbar languages
-  label_user_mail_notify_about_high_priority_issues_html: Also notify me about issues
-    with a priority of <em>%{prio}</em> or higher
