@@ -137,10 +137,10 @@ cs:
         earlier_than_minimum_start_date: "nemůže být dříve než %{date} kvůli předřazeným úkolům"
         not_a_regexp: "není platný regulární výraz"
         open_issue_with_closed_parent: "Otevřený úkol nemůže být přiřazen pod uzavřený rodičovský úkol"
-        must_contain_uppercase: "must contain uppercase letters (A-Z)"
-        must_contain_lowercase: "must contain lowercase letters (a-z)"
-        must_contain_digits: "must contain digits (0-9)"
-        must_contain_special_chars: "must contain special characters (!, $, %, ...)"
+        must_contain_uppercase: "musí obsahovat velká písmena (A-Z)"
+        must_contain_lowercase: "musí obsahovat malá písmena (a-z)"
+        must_contain_digits: "musí obsahovat čísla (0-9)"
+        must_contain_special_chars: "musí obsahovat speciální znaky (!, $, %, ...)"
 
   actionview_instancetag_blank_option: Prosím vyberte
 
