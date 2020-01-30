@@ -32,7 +32,7 @@ class CustomField < ActiveRecord::Base
   store :format_store
 
   validates_presence_of :name, :field_format
-  validates_uniqueness_of :name, :scope => :type, :case_sensitive => false
+  validates_uniqueness_of :name, :scope => :type
   validates_length_of :name, :maximum => 30
   validates_length_of :regexp, maximum: 255
   validates_inclusion_of :field_format, :in => Proc.new { Redmine::FieldFormat.available_formats }

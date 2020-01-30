@@ -22,7 +22,7 @@ class EnabledModule < ActiveRecord::Base
   acts_as_watchable
 
   validates_presence_of :name
-  validates_uniqueness_of :name, :scope => :project_id, :case_sensitive => false
+  validates_uniqueness_of :name, :scope => :project_id
 
   after_create :module_enabled
 

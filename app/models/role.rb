@@ -76,7 +76,7 @@ class Role < ActiveRecord::Base
   store :settings, :accessors => [:permissions_all_trackers, :permissions_tracker_ids]
 
   validates_presence_of :name
-  validates_uniqueness_of :name, :case_sensitive => false
+  validates_uniqueness_of :name
   validates_length_of :name, :maximum => 255
   validates_inclusion_of(
     :issues_visibility,

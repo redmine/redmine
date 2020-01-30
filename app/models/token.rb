@@ -19,7 +19,7 @@
 
 class Token < ActiveRecord::Base
   belongs_to :user
-  validates_uniqueness_of :value, :case_sensitive => false
+  validates_uniqueness_of :value
 
   before_create :delete_previous_tokens, :generate_new_token
 
