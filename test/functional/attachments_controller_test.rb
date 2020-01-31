@@ -20,9 +20,9 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class AttachmentsControllerTest < Redmine::ControllerTest
-  fixtures :users, :projects, :roles, :members, :member_roles,
+  fixtures :users, :user_preferences, :projects, :roles, :members, :member_roles,
            :enabled_modules, :issues, :trackers, :attachments,
-           :versions, :wiki_pages, :wikis, :documents
+           :versions, :wiki_pages, :wikis, :documents, :enumerations
 
   def setup
     User.current = nil
