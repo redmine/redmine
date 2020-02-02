@@ -480,11 +480,13 @@ class ApplicationController < ActionController::Base
     return path
   end
   private :validate_back_url
+  helper_method :validate_back_url
 
   def valid_back_url?(back_url)
     !!validate_back_url(back_url)
   end
   private :valid_back_url?
+  helper_method :valid_back_url?
 
   # Redirects to the request referer if present, redirects to args or call block otherwise.
   def redirect_to_referer_or(*args, &block)
