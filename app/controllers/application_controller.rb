@@ -428,9 +428,8 @@ class ApplicationController < ActionController::Base
   helper_method :back_url
 
   def redirect_back_or_default(default, options={})
-    back_url = params[:back_url].to_s
-    if back_url.present? && valid_url = validate_back_url(back_url)
-      redirect_to(valid_url)
+    if back_url = validate_back_url(params[:back_url].to_s)
+      redirect_to(back_url)
       return
     elsif options[:referer]
       redirect_to_referer_or default
@@ -443,6 +442,8 @@ class ApplicationController < ActionController::Base
   # Returns a validated URL string if back_url is a valid url for redirection,
   # otherwise false
   def validate_back_url(back_url)
+    return false if back_url.blank?
+
     if CGI.unescape(back_url).include?('..')
       return false
     end

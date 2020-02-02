@@ -1426,12 +1426,12 @@ module ApplicationHelper
   end
 
   def back_url_hidden_field_tag
-    url = back_url
+    url = validate_back_url(back_url)
     hidden_field_tag('back_url', url, :id => nil) unless url.blank?
   end
 
   def cancel_button_tag(fallback_url)
-    url = back_url.blank? ? fallback_url : back_url
+    url = validate_back_url(back_url) || fallback_url
     link_to l(:button_cancel), url
   end
 

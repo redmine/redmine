@@ -173,6 +173,19 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_select 'select[name=?]', 'time_entry[project_id]'
   end
 
+  def test_get_edit_should_validate_back_url
+    @request.session[:user_id] = 2
+
+    get :edit, :params => {:id => 2, :project_id => nil, :back_url => '/valid'}
+    assert_response :success
+    assert_select 'a[href=?]', '/valid', {:text => 'Cancel'}
+
+    get :edit, :params => {:id => 2, :project_id => nil, :back_url => 'invalid'}
+    assert_response :success
+    assert_select 'a[href=?]', 'invalid', {:text => 'Cancel', :count => 0}
+    assert_select 'a[href=?]', '/projects/ecookbook/time_entries', {:text => 'Cancel'}
+  end
+
   def test_post_create
     @request.session[:user_id] = 3
     assert_difference 'TimeEntry.count' do
