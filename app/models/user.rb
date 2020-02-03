@@ -634,7 +634,7 @@ class User < Principal
     Project.unscoped do
       return @project_ids_by_role if @project_ids_by_role
 
-      group_class = anonymous? ? GroupAnonymous : GroupNonMember
+      group_class = anonymous? ? GroupAnonymous.unscoped : GroupNonMember.unscoped
       group_id = group_class.pluck(:id).first
 
       members = Member.joins(:project, :member_roles).
@@ -970,7 +970,7 @@ class AnonymousUser < User
 
   def validate_anonymous_uniqueness
     # There should be only one AnonymousUser in the database
-    errors.add :base, 'An anonymous user already exists.' if AnonymousUser.exists?
+    errors.add :base, 'An anonymous user already exists.' if AnonymousUser.unscoped.exists?
   end
 
   def available_custom_fields

@@ -66,7 +66,7 @@ module Redmine
             h[column] = yield(column)
             h
           end
-          self.class.where(condition_hash)
+          self.class.unscoped.where(condition_hash)
         end
 
         def set_default_position
