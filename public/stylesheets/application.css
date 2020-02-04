@@ -809,6 +809,14 @@ label.block {
   width: auto;
 }
 
+.tabular label.error {
+  color: #bb0000;
+}
+
+.tabular label.error + * {
+  border: 1px solid #bb0000;
+}
+
 label.no-css {
   font-weight: inherit;
   float:none;
