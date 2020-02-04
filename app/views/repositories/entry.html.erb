@@ -9,11 +9,7 @@
 <%= render :partial => 'link_to_functions' %>
 
 <% if Redmine::MimeType.is_type?('image', @path) %>
-  <%= render :partial => 'common/image', :locals => {:path => url_for(:action => 'raw',
-                                                                      :id     => @project,
-                                                                      :repository_id => @repository.identifier_param,
-                                                                      :path   => @path,
-                                                                      :rev    => @rev), :alt => @path} %>
+  <%= render :partial => 'common/image', :locals => {:path => @raw_url, :alt => @path} %>
 <% elsif @content %>
   <%= render :partial => 'common/file', :locals => {:filename => @path, :content => @content} %>
 <% else %>
@@ -24,14 +20,11 @@
      end %>
   <%= render :partial => 'common/other',
              :locals => {
-               :path => (url_for(params.merge(:action => 'raw')) if @allow_download),
+               :path => (@raw_url if @repository.supports_cat?),
                :kind => kind,
                :download_link => @repository.supports_cat? ? link_to(
                  l(:label_no_preview_download),
-                 { :action => 'raw', :id => @project,
-                   :repository_id => @repository.identifier_param,
-                   :path => to_path_param(@path),
-                   :rev => @rev },
+                 @raw_url,
                 :class => 'icon icon-download') : nil } %>
 <% end %>
 

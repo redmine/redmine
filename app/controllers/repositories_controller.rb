@@ -131,6 +131,12 @@ class RepositoriesController < ApplicationController
 
   def entry
     entry_and_raw(false)
+    @raw_url = url_for(:action => 'raw',
+                       :id     => @project,
+                       :repository_id => @repository.identifier_param,
+                       :path   => @path,
+                       :rev    => @rev,
+                       :only_path => true)
   end
 
   def entry_and_raw(is_raw)

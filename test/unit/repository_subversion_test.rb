@@ -24,7 +24,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
 
   include Redmine::I18n
 
-  NUM_REV = 11
+  NUM_REV = 12
 
   def setup
     User.current = nil
@@ -98,7 +98,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       @project.reload
 
       assert_equal NUM_REV, @repository.changesets.count
-      assert_equal 20, @repository.filechanges.count
+      assert_equal 21, @repository.filechanges.count
       assert_equal 'Initial import.', @repository.changesets.find_by_revision('1').comments
     end
 
@@ -142,7 +142,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
 
       # with path
       changesets = @repository.latest_changesets('subversion_test/folder', nil)
-      assert_equal ["10", "9", "7", "6", "5", "2"], changesets.collect(&:revision)
+      assert_equal ["12", "10", "9", "7", "6", "5", "2"], changesets.collect(&:revision)
 
       # with path and revision
       changesets = @repository.latest_changesets('subversion_test/folder', 8)
@@ -278,7 +278,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      changeset = @repository.find_changeset_by_name('11')
+      changeset = @repository.find_changeset_by_name('12')
       assert_nil changeset.next
     end
   else
