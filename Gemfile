@@ -80,7 +80,7 @@ end
 group :test do
   gem "rails-dom-testing"
   gem 'mocha', '>= 1.4.0'
-  gem "simplecov", "~> 0.17.0", :require => false
+  gem 'simplecov', (RUBY_VERSION < '2.4' ? '~> 0.17.0' : '~> 0.18.1'), :require => false
   gem "ffi", platforms: [:mingw, :x64_mingw, :mswin]
   # For running system tests
   gem 'puma'
