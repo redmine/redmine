@@ -421,8 +421,6 @@ class QueryTest < ActiveSupport::TestCase
     issues = find_issues_with_query(query)
     assert issues.any?
     assert_nil issues.detect {|issue| !issue.is_private?}
-  ensure
-    User.current = nil
   end
 
   def test_operator_is_not_on_is_private_field
@@ -436,8 +434,6 @@ class QueryTest < ActiveSupport::TestCase
     issues = find_issues_with_query(query)
     assert issues.any?
     assert_nil issues.detect {|issue| issue.is_private?}
-  ensure
-    User.current = nil
   end
 
   def test_operator_greater_than
@@ -950,7 +946,20 @@ class QueryTest < ActiveSupport::TestCase
     assert_not_nil result
     assert !result.empty?
     assert_equal Issue.visible.watched_by(User.current).sort_by(&:id), result.sort_by(&:id)
-    User.current = nil
+  end
+
+  def test_filter_watched_issues_with_groups_also
+    user = User.find(2)
+    group = Group.find(10)
+    group.users << user
+    Issue.find(3).add_watcher(user)
+    Issue.find(7).add_watcher(group)
+    User.current = user
+    query = IssueQuery.new(:name => '_', :filters => { 'watcher_id' => {:operator => '=', :values => ['me']}})
+    result = find_issues_with_query(query)
+    assert_not_nil result
+    assert !result.empty?
+    assert_equal [3, 7], result.sort_by(&:id).pluck(:id)
   end
 
   def test_filter_unwatched_issues
@@ -960,7 +969,6 @@ class QueryTest < ActiveSupport::TestCase
     assert_not_nil result
     assert !result.empty?
     assert_equal((Issue.visible - Issue.watched_by(User.current)).sort_by(&:id).size, result.sort_by(&:id).size)
-    User.current = nil
   end
 
   def test_filter_on_watched_issues_with_view_issue_watchers_permission
@@ -974,9 +982,6 @@ class QueryTest < ActiveSupport::TestCase
     result = find_issues_with_query(query)
     assert_includes result, Issue.find(1)
     assert_includes result, Issue.find(3)
-  ensure
-    User.current.reload
-    User.current = nil
   end
 
   def test_filter_on_watched_issues_without_view_issue_watchers_permission
@@ -990,9 +995,6 @@ class QueryTest < ActiveSupport::TestCase
     result = find_issues_with_query(query)
     assert_includes result, Issue.find(1)
     assert_not_includes result, Issue.find(3)
-  ensure
-    User.current.reload
-    User.current = nil
   end
 
   def test_filter_on_custom_field_should_ignore_projects_with_field_disabled

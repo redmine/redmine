@@ -189,6 +189,19 @@ class WatchersControllerTest < Redmine::ControllerTest
     assert Issue.find(2).watched_by?(User.find(4))
   end
 
+  def test_create_group_as_html
+    @request.session[:user_id] = 2
+    assert_difference('Watcher.count') do
+      post :create, :params => {
+        :object_type => 'issue', :object_id => '2',
+        :watcher => {:user_id => '10'}
+      }
+      assert_response :success
+      assert_include 'Watcher added', response.body
+    end
+    assert Issue.find(2).watched_by?(Group.find(10))
+  end
+
   def test_create
     @request.session[:user_id] = 2
     assert_difference('Watcher.count') do
@@ -205,45 +218,56 @@ class WatchersControllerTest < Redmine::ControllerTest
 
   def test_create_with_mutiple_users
     @request.session[:user_id] = 2
-    assert_difference('Watcher.count', 2) do
+    assert_difference('Watcher.count', 3) do
       post :create, :params => {
         :object_type => 'issue', :object_id => '2',
-        :watcher => {:user_ids => ['4', '7']}
+        :watcher => {:user_ids => ['4', '7', '10']}
       }, :xhr => true
       assert_response :success
       assert_match /watchers/, response.body
       assert_match /ajax-modal/, response.body
     end
-    assert Issue.find(2).watched_by?(User.find(4))
-    assert Issue.find(2).watched_by?(User.find(7))
+    issue = Issue.find(2)
+    assert issue.watched_by?(User.find(4))
+    assert issue.watched_by?(User.find(7))
+    assert issue.watched_by?(Group.find(10))
   end
 
   def test_create_with_mutiple_objects
     @request.session[:user_id] = 2
-    assert_difference('Watcher.count', 4) do
+    assert_difference('Watcher.count', 6) do
       post :create, :params => {
         :object_type => 'issue', :object_id => ['1', '2'],
-        :watcher => {:user_ids => ['4', '7']}
+        :watcher => {:user_ids => ['4', '7', '10']}
       }, :xhr => true
       assert_response :success
       assert_match /watchers/, response.body
       assert_match /ajax-modal/, response.body
     end
-    assert Issue.find(1).watched_by?(User.find(4))
-    assert Issue.find(2).watched_by?(User.find(4))
-    assert Issue.find(1).watched_by?(User.find(7))
-    assert Issue.find(2).watched_by?(User.find(7))
+    issue1 = Issue.find(1)
+    issue2 = Issue.find(2)
+    user4 = User.find(4)
+    user7 = User.find(7)
+    group10 = Group.find(10)
+    assert issue1.watched_by?(user4)
+    assert issue2.watched_by?(user4)
+    assert issue1.watched_by?(user7)
+    assert issue2.watched_by?(user7)
+    assert issue1.watched_by?(group10)
+    assert issue2.watched_by?(group10)
   end
 
   def test_autocomplete_on_watchable_creation
     @request.session[:user_id] = 2
+    group = Group.generate!(:name => 'Group Minimum')
     get :autocomplete_for_user, :params => {:q => 'mi', :project_id => 'ecookbook'}, :xhr => true
     assert_response :success
-    assert_select 'input', :count => 4
+    assert_select 'input', :count => 5
     assert_select 'input[name=?][value="1"]', 'watcher[user_ids][]'
     assert_select 'input[name=?][value="2"]', 'watcher[user_ids][]'
     assert_select 'input[name=?][value="8"]', 'watcher[user_ids][]'
     assert_select 'input[name=?][value="9"]', 'watcher[user_ids][]'
+    assert_select %(input[name=?][value="#{group.id}"]), 'watcher[user_ids][]'
   end
 
   def test_search_non_member_on_create
@@ -340,6 +364,23 @@ class WatchersControllerTest < Redmine::ControllerTest
       assert_include 'Watcher removed', response.body
     end
     assert !Issue.find(2).watched_by?(User.find(3))
+  end
+
+  def test_destroy_group_as_html
+    @request.session[:user_id] = 2
+    issue = Issue.find(2)
+    group = Group.find(10)
+    issue.add_watcher(group)
+    assert issue.watched_by?(group)
+    assert_difference('Watcher.count', -1) do
+      delete :destroy, :params => {
+        :object_type => 'issue', :object_id => '2', :user_id => '10'
+      }
+      assert_response :success
+      assert_include 'Watcher removed', response.body
+    end
+    issue.reload
+    assert !issue.watched_by?(group)
   end
 
   def test_destroy

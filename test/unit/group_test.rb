@@ -23,10 +23,9 @@ class GroupTest < ActiveSupport::TestCase
   fixtures :projects, :trackers, :issue_statuses, :issues,
            :enumerations, :users,
            :projects_trackers,
-           :roles,
-           :member_roles,
-           :members,
-           :groups_users
+           :roles, :member_roles, :members,
+           :groups_users,
+           :watchers
 
   include Redmine::I18n
 
@@ -128,14 +127,21 @@ class GroupTest < ActiveSupport::TestCase
     assert !User.find(8).member_of?(Project.find(5))
   end
 
-  def test_destroy_should_unassign_issues
+  def test_destroy_should_unassign_and_unwatch_issues
     group = Group.find(10)
     Issue.where(:id => 1).update_all(["assigned_to_id = ?", group.id])
+    issue = Issue.find(2)
+    issue.set_watcher(group)
+    issue.save
+    issue.reload
+    assert issue.watcher_user_ids.include?(10)
 
     assert group.destroy
     assert group.destroyed?
 
     assert_nil Issue.find(1).assigned_to_id
+    issue.reload
+    assert !issue.watcher_user_ids.include?(10)
   end
 
   def test_builtin_groups_should_be_created_if_missing

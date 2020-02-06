@@ -600,7 +600,7 @@ class Query < ActiveRecord::Base
 
   def watcher_values
     watcher_values = [["<< #{l(:label_me)} >>", "me"]]
-    watcher_values += users.sort_by(&:status).collect{|s| [s.name, s.id.to_s, l("status_#{User::LABEL_BY_STATUS[s.status]}")] } if User.current.allowed_to?(:view_issue_watchers, self.project)
+    watcher_values += principals.sort_by(&:status).collect{|s| [s.name, s.id.to_s, l("status_#{User::LABEL_BY_STATUS[s.status]}")] } if User.current.allowed_to?(:view_issue_watchers, self.project)
     watcher_values
   end
 
@@ -913,7 +913,7 @@ class Query < ActiveRecord::Base
         if v.delete("me")
           if User.current.logged?
             v.push(User.current.id.to_s)
-            v += User.current.group_ids.map(&:to_s) if field == 'assigned_to_id'
+            v += User.current.group_ids.map(&:to_s) if %w(assigned_to_id watcher_id).include?(field)
           else
             v.push("0")
           end

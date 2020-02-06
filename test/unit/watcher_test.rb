@@ -40,9 +40,12 @@ class WatcherTest < ActiveSupport::TestCase
   end
 
   def test_watch
+    group = Group.find(10)
+    assert @issue.add_watcher(group)
     assert @issue.add_watcher(@user)
     @issue.reload
     assert @issue.watchers.detect {|w| w.user == @user}
+    assert @issue.watchers.detect {|w| w.user == group}
   end
 
   def test_cant_watch_twice
@@ -103,12 +106,14 @@ class WatcherTest < ActiveSupport::TestCase
   def test_addable_watcher_users
     addable_watcher_users = @issue.addable_watcher_users
     assert_kind_of Array, addable_watcher_users
-    assert_kind_of User, addable_watcher_users.first
+    addable_watcher_users.each do |addable_watcher|
+      assert_equal true, addable_watcher.is_a?(User) || addable_watcher.is_a?(Group)
+    end
   end
 
   def test_addable_watcher_users_should_not_include_user_that_cannot_view_the_object
     issue = Issue.new(:project => Project.find(1), :is_private => true)
-    assert_nil issue.addable_watcher_users.detect {|user| !issue.visible?(user)}
+    assert_nil issue.addable_watcher_users.detect {|user| user.is_a?(User) && !issue.visible?(user)}
   end
 
   def test_any_watched_should_return_false_if_no_object_is_watched
@@ -147,9 +152,12 @@ class WatcherTest < ActiveSupport::TestCase
   end
 
   def test_unwatch
+    group = Group.find(10)
+    assert @issue.add_watcher(group)
     assert @issue.add_watcher(@user)
     @issue.reload
     assert_equal 1, @issue.remove_watcher(@user)
+    assert_equal 1, @issue.remove_watcher(group)
   end
 
   def test_prune_with_user

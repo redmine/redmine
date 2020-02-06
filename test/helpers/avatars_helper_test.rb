@@ -43,7 +43,7 @@ class AvatarsHelperTest < Redmine::HelperTest
   end
 
   def test_avatar_with_group
-    assert_nil avatar(Group.first)
+    assert_match %r{src="/images/group.png(\?\d+)?"}, avatar(Group.first)
   end
 
   def test_avatar_with_invalid_arg_should_return_nil

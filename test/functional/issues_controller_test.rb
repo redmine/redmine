@@ -2443,11 +2443,17 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_show_should_display_watchers
     @request.session[:user_id] = 2
-    Issue.find(1).add_watcher User.find(2)
+    issue = Issue.find(1)
+    issue.add_watcher User.find(2)
+    issue.add_watcher Group.find(10)
     get(:show, :params => {:id => 1})
     assert_select 'div#watchers ul' do
-      assert_select 'li' do
+      assert_select 'li.user-2' do
         assert_select 'a[href="/users/2"]'
+        assert_select 'a[class*=delete]'
+      end
+      assert_select "li.user-10" do
+        assert_select 'a[href="/users/10"]', false
         assert_select 'a[class*=delete]'
       end
     end
@@ -2455,14 +2461,21 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_show_should_display_watchers_with_gravatars
     @request.session[:user_id] = 2
-    Issue.find(1).add_watcher User.find(2)
+    issue = Issue.find(1)
+    issue.add_watcher User.find(2)
+    issue.add_watcher Group.find(10)
     with_settings :gravatar_enabled => '1' do
       get(:show, :params => {:id => 1})
     end
     assert_select 'div#watchers ul' do
-      assert_select 'li' do
-        assert_select 'img.gravatar'
+      assert_select 'li.user-2' do
+        assert_select 'img.gravatar[title=?]', 'John Smith'
         assert_select 'a[href="/users/2"]'
+        assert_select 'a[class*=delete]'
+      end
+      assert_select "li.user-10" do
+        assert_select 'img.gravatar[title=?]', 'A Team'
+        assert_select 'a[href="/users/10"]', false
         assert_select 'a[class*=delete]'
       end
     end
@@ -3995,7 +4008,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     ActionMailer::Base.deliveries.clear
 
     with_settings :notified_events => %w(issue_added) do
-      assert_difference 'Watcher.count', 2 do
+      assert_difference 'Watcher.count', 3 do
         post(
           :create,
           :params => {
@@ -4005,7 +4018,7 @@ class IssuesControllerTest < Redmine::ControllerTest
               :subject => 'This is a new issue with watchers',
               :description => 'This is the description',
               :priority_id => 5,
-              :watcher_user_ids => ['2', '3']
+              :watcher_user_ids => ['2', '3', '10']
             }
           }
         )
@@ -4016,12 +4029,15 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_redirected_to :controller => 'issues', :action => 'show', :id => issue
 
     # Watchers added
-    assert_equal [2, 3], issue.watcher_user_ids.sort
+    assert_equal [2, 3, 10], issue.watcher_user_ids.sort
     assert issue.watched_by?(User.find(3))
+    assert issue.watched_by?(Group.find(10))
     # Watchers notified
-    mail = ActionMailer::Base.deliveries.last
-    assert_not_nil mail
+    assert_equal 3, ActionMailer::Base.deliveries.size
+    mail = ActionMailer::Base.deliveries[1]
     assert [mail.bcc, mail.cc].flatten.include?(User.find(3).mail)
+    mail = ActionMailer::Base.deliveries[2]
+    assert [mail.bcc, mail.cc].flatten.include?(User.find(8).mail)
   end
 
   def test_post_create_subissue
@@ -4740,8 +4756,10 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_new_as_copy_should_preserve_watchers
     @request.session[:user_id] = 2
+    issue = Issue.find(1)
     user = User.generate!
-    Watcher.create!(:watchable => Issue.find(1), :user => user)
+    Watcher.create!(:watchable => issue, :user => user)
+    Watcher.create!(:watchable => issue, :user => Group.find(10))
     get(
       :new,
       :params => {
@@ -4749,8 +4767,9 @@ class IssuesControllerTest < Redmine::ControllerTest
         :copy_from => 1
       }
     )
-    assert_select 'input[type=checkbox][name=?][checked=checked]', 'issue[watcher_user_ids][]', 1
+    assert_select 'input[type=checkbox][name=?][checked=checked]', 'issue[watcher_user_ids][]', 2
     assert_select 'input[type=checkbox][name=?][checked=checked][value=?]', 'issue[watcher_user_ids][]', user.id.to_s
+    assert_select 'input[type=checkbox][name=?][checked=checked][value=?]', 'issue[watcher_user_ids][]', '10'
     assert_select 'input[type=hidden][name=?][value=?]', 'issue[watcher_user_ids][]', '', 1
   end
 
@@ -5174,13 +5193,13 @@ class IssuesControllerTest < Redmine::ControllerTest
           :copy_from => copied.id,
           :issue => {
             :subject => 'Copy cleared watchers',
-            :watcher_user_ids => ['', '3']
+            :watcher_user_ids => ['', '3', '10']
           }
         }
       )
     end
     issue = Issue.order('id DESC').first
-    assert_equal [3], issue.watcher_user_ids
+    assert_equal [3, 10], issue.watcher_user_ids
   end
 
   def test_create_as_copy_without_watcher_user_ids_should_not_copy_watchers
@@ -7329,7 +7348,9 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   test "issue bulk copy copy watcher" do
-    Watcher.create!(:watchable => Issue.find(1), :user => User.find(3))
+    issue = Issue.find(1)
+    Watcher.create!(:watchable => issue, :user => User.find(3))
+    Watcher.create!(:watchable => issue, :user => Group.find(10))
     @request.session[:user_id] = 2
     assert_difference 'Issue.count' do
       post(
@@ -7345,7 +7366,8 @@ class IssuesControllerTest < Redmine::ControllerTest
       )
     end
     copy = Issue.order(:id => :desc).first
-    assert_equal 1, copy.watchers.count
+    assert_equal 2, copy.watchers.count
+    assert_equal [3, 10], copy.watcher_user_ids
   end
 
   def test_bulk_copy_should_not_copy_selected_subtasks_twice

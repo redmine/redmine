@@ -51,6 +51,8 @@ module AvatarsHelper
         gravatar(email.to_s.downcase, options) rescue nil
       elsif user.is_a?(AnonymousUser)
         anonymous_avatar(options)
+      elsif user.is_a?(Group)
+        group_avatar(options)
       else
         nil
       end
@@ -71,5 +73,9 @@ module AvatarsHelper
 
   def anonymous_avatar(options={})
     image_tag 'anonymous.png', GravatarHelper::DEFAULT_OPTIONS.except(:default, :rating, :ssl).merge(options)
+  end
+
+  def group_avatar(options={})
+    image_tag 'group.png', GravatarHelper::DEFAULT_OPTIONS.except(:default, :rating, :ssl).merge(options)
   end
 end

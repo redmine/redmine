@@ -31,9 +31,9 @@ module Redmine
 
         # Returns an array of users that are proposed as watchers
         def addable_watcher_users
-          users = self.project.users.sort - self.watcher_users
+          users = (self.project.users.sort + self.project.principals.merge(Group.givable).sort) - self.watcher_users
           if respond_to?(:visible?)
-            users.reject! {|user| !visible?(user)}
+            users.reject! {|user| user.is_a?(User) && !visible?(user)}
           end
           users
         end
@@ -47,7 +47,7 @@ module Redmine
 
         # Removes user from the watchers list
         def remove_watcher(user)
-          return nil unless user && user.is_a?(User)
+          return nil unless user && (user.is_a?(User) || user.is_a?(Group))
           # Rails does not reset the has_many :through association
           watcher_users.reset
           watchers.where(:user_id => user.id).delete_all
@@ -73,6 +73,8 @@ module Redmine
 
         def notified_watchers
           notified = watcher_users.active.to_a
+          notified = notified.map {|n| n.is_a?(Group) ? n.users : n}.flatten
+          notified.uniq!
           notified.reject! {|user| user.mail.blank? || user.mail_notification == 'none'}
           if respond_to?(:visible?)
             notified.reject! {|user| !visible?(user)}
