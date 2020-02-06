@@ -241,10 +241,11 @@ class GitAdapterTest < ActiveSupport::TestCase
                          {:reverse => true}) do |rev|
           revs1 << rev
         end
+
+        assert_equal 2, revs1.length
+        assert_equal '64f1f3e89ad1cb57976ff0ad99a107012ba3481d', revs1[0].identifier
+        assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', revs1[1].identifier
       end
-      assert_equal 2, revs1.length
-      assert_equal '64f1f3e89ad1cb57976ff0ad99a107012ba3481d', revs1[0].identifier
-      assert_equal '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127', revs1[1].identifier
     end
 
     def test_revisions_invalid_rev
