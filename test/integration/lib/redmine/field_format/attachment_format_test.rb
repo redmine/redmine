@@ -81,7 +81,7 @@ class AttachmentFieldFormatTest < Redmine::IntegrationTest
     assert_response :success
 
     # link to the attachment
-    link = css_select(".cf_#{@field.id} .value a")
+    link = css_select(".cf_#{@field.id} .value a:not(.icon-download)")
     assert_equal 1, link.size
     assert_equal "testfile.txt", link.text
 

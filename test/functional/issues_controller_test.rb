@@ -1784,8 +1784,14 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'td.attachments'
     assert_select 'tr#issue-2' do
       assert_select 'td.attachments' do
-        assert_select 'a', :text => 'source.rb'
-        assert_select 'a', :text => 'picture.jpg'
+        assert_select 'span:nth-of-type(1)' do
+          assert_select 'a[href=?]', '/attachments/4', :text => 'source.rb'
+          assert_select 'a[href=?].icon-download', '/attachments/download/4/source.rb'
+        end
+        assert_select 'span:nth-of-type(2)' do
+          assert_select 'a[href=?]', '/attachments/10', :text => 'picture.jpg'
+          assert_select 'a[href=?].icon-download', '/attachments/download/10/picture.jpg'
+        end
       end
     end
   end

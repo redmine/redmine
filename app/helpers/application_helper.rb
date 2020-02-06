@@ -253,7 +253,20 @@ module ApplicationHelper
     when 'Issue'
       object.visible? && html ? link_to_issue(object) : "##{object.id}"
     when 'Attachment'
-      html ? link_to_attachment(object) : object.filename
+      if html
+        content_tag(
+          :span,
+          link_to_attachment(object) +
+          link_to_attachment(
+            object,
+            :class => ['icon-only', 'icon-download'],
+            :title => l(:button_download),
+            :download => true
+          )
+        )
+      else
+        object.filename
+      end
     when 'CustomValue', 'CustomFieldValue'
       if object.custom_field
         f = object.custom_field.format.formatted_custom_value(self, object, html)
