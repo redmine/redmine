@@ -5,12 +5,15 @@
     <legend onclick="toggleFieldset(this);" class="icon icon-collapsed"><%= l(:label_filter_plural) %></legend>
     <div style="display: none;">
       <%= form_tag({}, :method => :get) do %>
-        <% Role.sorted.to_a.each do |role| %>
-          <label>
-            <%= check_box_tag "ids[]", role.id, @roles.include?(role) %>
-            <%= role.name %>
-          </label>
-        <% end %>
+        <fieldset>
+          <legend><%= toggle_checkboxes_link('#filters input[type=checkbox]:enabled') %></legend>
+          <% Role.sorted.to_a.each do |role| %>
+            <label>
+              <%= check_box_tag "ids[]", role.id, @roles.include?(role) %>
+              <%= role.name %>
+            </label>
+          <% end %>
+        </fieldset>
         <p>
           <%= submit_tag l(:button_apply), :name => nil %>
           <%= link_to l(:button_clear), permissions_roles_path, :class => 'icon icon-reload' %>
