@@ -1458,4 +1458,19 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_select "td.issue_cf_#{field.id}", :text => 'This is a long text'
   end
+
+  def test_edit_for_other_user
+    Role.find_by_name('Manager').add_permission! :log_time_for_other_users
+    @request.session[:user_id] = 2
+
+    get :edit, :params => {
+      :id => 1
+    }
+
+    assert_response :success
+
+    assert_select 'select[name=?]', 'time_entry[user_id]' do
+      assert_select 'option[value="2"][selected=selected]'
+    end
+  end
 end
