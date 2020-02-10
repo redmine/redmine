@@ -402,10 +402,9 @@ div.table-list.boards .table-list-cell.name {width: 30%;}
   min-width:150px;
 }
 
-.query-totals {text-align:right;}
+.query-totals {text-align:right; margin-top:-2.3em;}
 .query-totals>span:not(:first-child) {margin-left:0.6em;}
 .query-totals .value {font-weight:bold;}
-.query-totals {margin-top:-2.3em;}
 body.controller-timelog .query-totals {margin-top:initial;}
 
 td.center {text-align:center;}
