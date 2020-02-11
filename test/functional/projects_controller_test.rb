@@ -994,6 +994,30 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert_equal ['documents', 'issue_tracking', 'repository'], Project.find(1).enabled_module_names.sort
   end
 
+  def test_update_custom_field_should_update_updated_on
+    @request.session[:user_id] = 2
+    project = Project.find(1)
+    project.update_attribute :updated_on, nil
+    assert_equal 'Stable', project.custom_value_for(3).value
+
+    travel_to Time.current do
+      post(
+        :update,
+        :params => {
+          :id => 1,
+          :project => {
+            :custom_field_values => {'3' => 'Alpha'}
+          }
+        }
+      )
+      assert_redirected_to '/projects/ecookbook/settings'
+      assert_equal 'Successful update.', flash[:notice]
+      project.reload
+      assert_equal 'Alpha', project.custom_value_for(3).value
+      assert_equal Time.current, project.updated_on
+    end
+  end
+
   def test_destroy_leaf_project_without_confirmation_should_show_confirmation
     @request.session[:user_id] = 1 # admin
 
