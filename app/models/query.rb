@@ -766,6 +766,10 @@ class Query < ActiveRecord::Base
     []
   end
 
+  def default_display_type
+    self.available_display_types.first
+  end
+
   def column_names=(names)
     if names
       names = names.select {|n| n.is_a?(Symbol) || !n.blank? }
@@ -997,7 +1001,7 @@ class Query < ActiveRecord::Base
   end
 
   def display_type
-    options[:display_type] || self.available_display_types.first
+    options[:display_type] || self.default_display_type
   end
 
   def display_type=(type)

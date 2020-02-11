@@ -230,6 +230,8 @@ time_entry_list_defaults:
     - hours
     totalable_names:
     - hours
+project_list_display_type:
+  default: board
 project_list_defaults:
   serialized: true
   default:

@@ -19,6 +19,13 @@
 <fieldset class="box">
   <legend><%= l(:setting_project_list_defaults) %></legend>
   <% query = ProjectQuery.new(Setting.project_list_defaults) %>
+  <p>
+    <label><%= l(:label_display_type) %></label>
+    <% query.available_display_types.each do |t| %>
+      <%= radio_button_tag('settings[project_list_display_type]', t, Setting.project_list_display_type == t, :id => "setting_project_list_display_type_#{t}") %>
+      <%= content_tag('label', l(:"label_display_type_#{t}"), :for => "settings_project_list_display_type_#{t}", :class => "inline") %>
+    <% end %>
+  </p>
   <%= render_query_columns_selection(query,
         :name => 'settings[project_list_defaults][column_names]') %>
 </fieldset>

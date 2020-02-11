@@ -82,6 +82,10 @@ class ProjectQuery < Query
     @default_columns_names = Setting.project_list_defaults.symbolize_keys[:column_names].map(&:to_sym)
   end
 
+  def default_display_type
+    Setting.project_list_display_type
+  end
+
   def default_sort_criteria
     [[]]
   end
