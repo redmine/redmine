@@ -145,9 +145,7 @@ module Redmine
             end
           end
           self.custom_values = target_custom_values
-          custom_values_changed = custom_values.any?(&:changed?)
           custom_values.each(&:save)
-          touch if persisted? && custom_values_changed
           @custom_field_values_changed = false
           true
         end
