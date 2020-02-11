@@ -295,6 +295,15 @@ class Project < ActiveRecord::Base
     end
   end
 
+  # returns the time log activity to be used when logging time via a changeset
+  def commit_logtime_activity
+    activity_id = Setting.commit_logtime_activity_id.to_i
+    if activity_id > 0
+      activities
+        .find_by('id = ? OR parent_id = ?', activity_id, activity_id)
+    end
+  end
+
   # Returns a :conditions SQL string that can be used to find the issues associated with this project.
   #
   # Examples:

@@ -75,9 +75,38 @@ class ChangesetTest < ActiveSupport::TestCase
     assert_equal [1, 2], c.issue_ids.sort
   end
 
+  def test_project_specific_activity
+    project = Project.find 1
+    activity = TimeEntryActivity.find 9
+
+    Setting.commit_ref_keywords = '*'
+    Setting.commit_logtime_enabled = '1'
+    Setting.commit_logtime_activity_id = activity.id
+
+    project_specific_activity = TimeEntryActivity.create!(
+      name: activity.name,
+      parent_id: activity.id,
+      position: activity.position,
+      project_id: project.id
+    )
+
+    c = Changeset.new(:repository   => project.repository,
+                      :committed_on => 24.hours.ago,
+                      :comments     => "Worked on this issue #1 @8h",
+                      :revision     => '520',
+                      :user         => User.find(2))
+    assert_difference 'TimeEntry.count' do
+      c.scan_comment_for_issue_ids
+    end
+
+    time = TimeEntry.order('id desc').first
+    assert_equal project_specific_activity, time.activity
+  end
+
   def test_ref_keywords_any_with_timelog
     Setting.commit_ref_keywords = '*'
     Setting.commit_logtime_enabled = '1'
+    Setting.commit_logtime_activity_id = 9
 
     {
       '2' => 2.0,
@@ -113,7 +142,7 @@ class ChangesetTest < ActiveSupport::TestCase
         "@#{syntax} should be logged as #{expected_hours} hours but was #{time.hours}"
       )
       assert_equal Date.yesterday, time.spent_on
-      assert time.activity.is_default?
+      assert_equal 9, time.activity_id
       assert(
         time.comments.include?('r520'),
         "r520 was expected in time_entry comments: #{time.comments}"

@@ -259,18 +259,14 @@ class Changeset < ActiveRecord::Base
       :comments => l(:text_time_logged_by_changeset, :value => text_tag(issue.project),
                      :locale => Setting.default_language)
       )
-    time_entry.activity = log_time_activity unless log_time_activity.nil?
+    if activity = issue.project.commit_logtime_activity
+      time_entry.activity = activity
+    end
 
     unless time_entry.save
       logger.warn("TimeEntry could not be created by changeset #{id}: #{time_entry.errors.full_messages}") if logger
     end
     time_entry
-  end
-
-  def log_time_activity
-    if Setting.commit_logtime_activity_id.to_i > 0
-      TimeEntryActivity.find_by_id(Setting.commit_logtime_activity_id.to_i)
-    end
   end
 
   def split_comments
