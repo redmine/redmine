@@ -334,6 +334,7 @@ class MailerTest < ActiveSupport::TestCase
 
   def test_message_posted_message_id
     message = Message.find(1)
+    attachment = message.attachments.first
     Mailer.deliver_message_posted(message)
     mail = last_email
     uid = destination_user(mail).id
@@ -344,11 +345,22 @@ class MailerTest < ActiveSupport::TestCase
       assert_select "a[href=?]",
                     "http://localhost:3000/boards/#{message.board.id}/topics/#{message.id}",
                     :text => message.subject
+      # link to the attachments download
+      assert_select 'fieldset.attachments' do
+        assert_select 'a[href=?]',
+                      "http://localhost:3000/attachments/download/#{attachment.id}/#{attachment.filename}",
+                      :text => attachment.filename
+      end
     end
   end
 
   def test_reply_posted_message_id
+    set_tmp_attachments_directory
     message = Message.find(3)
+    attachment = Attachment.generate!(
+      :container => message,
+      :file => uploaded_test_file('testfile.txt', 'text/plain')
+    )
     Mailer.deliver_message_posted(message)
     mail = last_email
     uid = destination_user(mail).id
@@ -359,6 +371,12 @@ class MailerTest < ActiveSupport::TestCase
       assert_select "a[href=?]",
                     "http://localhost:3000/boards/#{message.board.id}/topics/#{message.root.id}?r=#{message.id}#message-#{message.id}",
                     :text => message.subject
+      # link to the attachments download
+      assert_select 'fieldset.attachments' do
+        assert_select 'a[href=?]',
+                      "http://localhost:3000/attachments/download/#{attachment.id}/testfile.txt",
+                      :text => 'testfile.txt'
+      end
     end
   end
 
