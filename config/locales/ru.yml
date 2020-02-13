@@ -200,11 +200,11 @@ ru:
         equal_to: "может иметь лишь значение, равное %{count}"
         less_than: "может иметь значение меньшее чем %{count}"
         less_than_or_equal_to: "может иметь значение меньшее или равное %{count}"
-        odd: "может иметь лишь нечетное значение"
-        even: "может иметь лишь четное значение"
+        odd: "может иметь лишь нечётное значение"
+        even: "может иметь лишь чётное значение"
         greater_than_start_date: "должна быть позднее даты начала"
         not_same_project: "не относится к одному проекту"
-        circular_dependency: "Такая связь приведет к циклической зависимости"
+        circular_dependency: "Такая связь приведёт к циклической зависимости"
         cant_link_an_issue_with_a_descendant: "Задача не может быть связана со своей подзадачей"
         earlier_than_minimum_start_date: "не может быть раньше %{date} из-за предыдущих задач"
         not_a_regexp: "не является допустимым регулярным выражением"
@@ -920,7 +920,7 @@ ru:
   text_tip_issue_begin_end_day: начало задачи и окончание её в этот же день
   text_tip_issue_end_day: дата завершения задачи
   text_tracker_no_workflow: Для этого трекера последовательность действий не определена
-  text_unallowed_characters: Запрещенные символы
+  text_unallowed_characters: Запрещённые символы
   text_user_mail_option: "Для невыбранных проектов, Вы будете получать уведомления только о том, что просматриваете или в чем участвуете (например, задачи, автором которых Вы являетесь, или которые Вам назначены)."
   text_user_wrote: "%{value} писал(а):"
   text_user_wrote_in: "%{value} писал(а) (%{link}):"
@@ -1099,21 +1099,21 @@ ru:
   label_copy_attachments: Копировать вложения
   label_item_position: "%{position}/%{count}"
   label_completed_versions: Завершенные версии
-  text_project_identifier_info: Допускаются только строчные латинские буквы (a-z), цифры, тире и подчеркивания.<br />После сохранения идентификатор изменить нельзя.
+  text_project_identifier_info: Допускаются только строчные латинские буквы (a-z), цифры, дефисы и подчёркивания.<br />После сохранения идентификатор изменить нельзя.
   field_multiple: Множественные значения
   setting_commit_cross_project_ref: Разрешить ссылаться и исправлять задачи во всех остальных проектах
   text_issue_conflict_resolution_add_notes: Добавить мои примечания и отказаться от моих изменений
   text_issue_conflict_resolution_overwrite: Применить мои изменения (все предыдущие замечания будут сохранены, но некоторые изменения могут быть перезаписаны)
-  notice_issue_update_conflict: Кто-то изменил задачу, пока вы ее редактировали.
+  notice_issue_update_conflict: Кто-то изменил задачу, пока вы её редактировали.
   text_issue_conflict_resolution_cancel: Отменить мои изменения и показать задачу заново %{link}
   permission_manage_related_issues: Управление связанными задачами
   field_auth_source_ldap_filter: Фильтр LDAP
   label_search_for_watchers: Найти наблюдателей
-  notice_account_deleted: "Ваша учетная запись полностью удалена"
-  setting_unsubscribe: "Разрешить пользователям удалять свои учетные записи"
-  button_delete_my_account: "Удалить мою учетную запись"
-  text_account_destroy_confirmation: "Ваша учетная запись будет полностью удалена без возможности восстановления.\nВы уверены, что хотите продолжить?"
-  error_session_expired: Срок вашей сессии истек. Пожалуйста войдите еще раз
+  notice_account_deleted: "Ваша учётная запись полностью удалена"
+  setting_unsubscribe: "Разрешить пользователям удалять свои учётные записи"
+  button_delete_my_account: "Удалить мою учётную запись"
+  text_account_destroy_confirmation: "Ваша учётная запись будет полностью удалена без возможности восстановления.\nВы уверены, что хотите продолжить?"
+  error_session_expired: Срок вашей сессии истёк. Пожалуйста войдите ещё раз
   text_session_expiration_settings: "Внимание! Изменение этих настроек может привести к завершению текущих сессий, включая вашу."
   setting_session_lifetime: Максимальная продолжительность сессии
   setting_session_timeout: Таймаут сессии
@@ -1134,7 +1134,7 @@ ru:
   label_fields_permissions: Права на изменения полей
   label_readonly: Не изменяется
   label_required: Обязательное
-  text_repository_identifier_info: Допускаются только строчные латинские буквы (a-z), цифры, тире и подчеркивания.<br />После сохранения идентификатор изменить нельзя.
+  text_repository_identifier_info: Допускаются только строчные латинские буквы (a-z), цифры, дефисы и подчёркивания.<br />После сохранения идентификатор изменить нельзя.
   field_board_parent: Родительский форум
   label_attribute_of_project: Проект %{name}
   label_attribute_of_author: Имя автора %{name}
@@ -1177,9 +1177,9 @@ ru:
   field_generate_password: Создание пароля
   setting_default_projects_tracker_ids: Трекеры по умолчанию для новых проектов
   label_total_time: Общее время
-  notice_account_not_activated_yet: Вы пока не имеете активированных учетных записей.
+  notice_account_not_activated_yet: Вы пока не имеете активированных учётных записей.
     Чтобы получить письмо с активацией, перейдите по <a href="%{url}">ссылке</a>.
-  notice_account_locked: Ваша учетная запись заблокирована.
+  notice_account_locked: Ваша учётная запись заблокирована.
   label_hidden: Скрытый
   label_visibility_private: только мне
   label_visibility_roles: только этим ролям
