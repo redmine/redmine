@@ -209,10 +209,10 @@ ru:
         earlier_than_minimum_start_date: "не может быть раньше %{date} из-за предыдущих задач"
         not_a_regexp: "не является допустимым регулярным выражением"
         open_issue_with_closed_parent: "Открытая задача не может быть добавлена к закрытой родительской задаче"
-        must_contain_uppercase: "must contain uppercase letters (A-Z)"
-        must_contain_lowercase: "must contain lowercase letters (a-z)"
-        must_contain_digits: "must contain digits (0-9)"
-        must_contain_special_chars: "must contain special characters (!, $, %, ...)"
+        must_contain_uppercase: "должен содержать заглавные латинские буквы (A-Z)"
+        must_contain_lowercase: "должен содержать строчные латинские буквы (a-z)"
+        must_contain_digits: "должен содержать цифры (0-9)"
+        must_contain_special_chars: "должен содержать специальные символы (!, $, %, ...)"
 
   support:
     array:
