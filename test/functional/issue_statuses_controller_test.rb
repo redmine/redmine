@@ -54,7 +54,7 @@ class IssueStatusesControllerTest < Redmine::ControllerTest
       assert_select 'tr:not(:last-of-type) span.icon-warning', :count => 0
       assert_select 'tr:last-of-type' do
         assert_select 'td.name', :text => status.name
-        assert_select 'td:nth-of-type(3) span.icon-warning',
+        assert_select 'td span.icon-warning',
                       :text => /#{I18n.t(:text_status_no_workflow)}/
       end
     end
