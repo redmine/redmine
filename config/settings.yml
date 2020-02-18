@@ -293,7 +293,7 @@ openid:
   default: 0
   security_notifications: 1
 gravatar_default:
-  default: ''
+  default: 'identicon'
 start_of_week:
   default: ''
 rest_api_enabled:
