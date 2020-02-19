@@ -96,9 +96,18 @@ Style/FrozenStringLiteralComment:
     - 'config.ru'
     - 'config/additional_environment.rb'
 
+Style/HashEachMethods:
+  Enabled: true
+
 Style/HashSyntax:
   Enabled: true
   EnforcedStyle: no_mixed_keys
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
 
 Style/IdenticalConditionalBranches:
   Exclude:
