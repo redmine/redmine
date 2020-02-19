@@ -421,6 +421,7 @@ span.add_attachment a {padding-left:16px; background: url(../images/bullet_add.p
 input:disabled, select:disabled, textarea:disabled {
   cursor: not-allowed;
   color: graytext;
+  background-color: #ebebe4;
 }
 
 
