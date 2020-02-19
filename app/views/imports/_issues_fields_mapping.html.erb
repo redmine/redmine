@@ -7,7 +7,7 @@
         :id => 'import_mapping_project_id' %>
 </p>
 <p>
-  <label for="import_mapping_tracker"><%= l(:label_tracker) %></label>
+  <label for="import_mapping_tracker"><%= l(:field_tracker) %></label>
   <%= mapping_select_tag @import, 'tracker', :required => true,
         :values => @import.allowed_target_trackers.sorted.map {|t| [t.name, t.id]} %>
 </p>
@@ -99,4 +99,3 @@
 </p>
 </div>
 </div>
-

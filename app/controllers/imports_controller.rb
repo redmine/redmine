@@ -66,7 +66,9 @@ class ImportsController < ApplicationController
   def mapping
     @custom_fields = @import.mappable_custom_fields
 
-    if request.post?
+    if request.get?
+      auto_map_fields
+    elsif request.post?
       respond_to do |format|
         format.html {
           if params[:previous]
@@ -158,5 +160,35 @@ class ImportsController < ApplicationController
         type = Object.const_get(params[:type]) rescue nil
         type && type < Import ? type : nil
       end
+  end
+
+  def auto_map_fields
+    # Try to auto map fields only when settings['enconding'] is present
+    # otherwhise, the import fails for non UTF-8 files because the headers
+    # cannot be retrieved (Invalid byte sequence in UTF-8)
+    return if @import.settings['encoding'].blank?
+
+    mappings = @import.settings['mapping'] ||= {}
+    headers = @import.headers.map(&:downcase)
+
+    # Core fields
+    import_type::AUTO_MAPPABLE_FIELDS.each do |field_nm, label_nm|
+      next if mappings.include?(field_nm)
+      index = headers.index(field_nm) || headers.index(l(label_nm).downcase)
+      if index
+        mappings[field_nm] = index
+      end
+    end
+
+    # Custom fields
+    @custom_fields.each do |field|
+      field_nm = "cf_#{field.id}"
+      next if mappings.include?(field_nm)
+      index = headers.index(field_nm) || headers.index(field.name.downcase)
+      if index
+        mappings[field_nm] = index
+      end
+    end
+    mappings
   end
 end

@@ -167,6 +167,55 @@ class ImportsControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_get_mapping_should_auto_map_fields_by_internal_field_name_or_by_label
+    import = generate_import('import_issues_auto_mapping.csv')
+    import.settings = {'separator' => ';', 'wrapper'=> '"', 'encoding' => 'ISO-8859-1'}
+    import.save!
+
+    get :mapping, :params => {
+        :id => import.to_param
+      }
+    assert_response :success
+
+    # 'subject' should be auto selected because
+    #  - 'Subject' exists in the import file
+    #  - mapping is case insensitive
+    assert_select 'select[name=?]', 'import_settings[mapping][subject]' do
+      assert_select 'option[value="1"][selected="selected"]', :text => 'Subject'
+    end
+
+    # 'estimated_hours' should be auto selected because
+    #  - 'estimated_hours' exists in the import file
+    assert_select 'select[name=?]', 'import_settings[mapping][estimated_hours]' do
+      assert_select 'option[value="10"][selected="selected"]', :text => 'estimated_hours'
+    end
+
+    # 'fixed_version' should be auto selected because
+    #  - the translation 'Target version' exists in the import file
+    assert_select 'select[name=?]', 'import_settings[mapping][fixed_version]' do
+      assert_select 'option[value="7"][selected="selected"]', :text => 'target version'
+    end
+
+    # 'assigned_to' should not be auto selected because
+    #  - 'assigned_to' does not exist in the import file
+    assert_select 'select[name=?]', 'import_settings[mapping][assigned_to]' do
+      assert_select 'option[selected="selected"]', 0
+    end
+
+    # Custom field 'Float field' should be auto selected because
+    #  - the internal field name ('cf_6') exists in the import file
+    assert_select 'select[name=?]', 'import_settings[mapping][cf_6]' do
+      assert_select 'option[value="14"][selected="selected"]', :text => 'cf_6'
+    end
+
+    # Custom field 'Database' should be auto selected because
+    #  - field name 'database' exists in the import file
+    #  - mapping is case insensitive
+    assert_select 'select[name=?]', 'import_settings[mapping][cf_1]' do
+      assert_select 'option[value="13"][selected="selected"]', :text => 'database'
+    end
+  end
+
   def test_post_mapping_should_update_mapping
     import = generate_import('import_iso8859-1.csv')
 
@@ -200,10 +249,38 @@ class ImportsControllerTest < Redmine::ControllerTest
 
     assert_response :success
 
-    # 'user_id' field should be available because User#2 has both
+    # Assert auto mapped fields
+    assert_select 'select[name=?]', 'import_settings[mapping][activity]' do
+      assert_select 'option[value="5"][selected="selected"]', :text => 'activity'
+    end
+    # 'user' should be mapped to column 'user' from import file
+    # and not to current user because the auto map has priority
+    assert_select 'select[name=?]', 'import_settings[mapping][user]' do
+      assert_select 'option[value="7"][selected="selected"]', :text => 'user'
+    end
+    assert_select 'select[name=?]', 'import_settings[mapping][cf_10]' do
+      assert_select 'option[value="6"][selected="selected"]', :text => 'overtime'
+    end
+  end
+
+  def test_get_mapping_time_entry_for_user_with_log_time_for_other_users_permission
+    Role.find(1).add_permission! :log_time_for_other_users
+    import = generate_time_entry_import
+    import.settings = {
+      'separator' => ";", 'wrapper' => '"', 'encoding' => "ISO-8859-1",
+      # Do not auto map user in order to allow current user to be auto selected
+      'mapping' => {'user' => nil}
+    }
+    import.save!
+
+    get :mapping, :params => {
+        :id => import.to_param
+      }
+
+    # 'user' field should be available because User#2 has both
     # 'import_time_entries' and 'log_time_for_other_users' permissions
     assert_select 'select[name=?]', 'import_settings[mapping][user]' do
-      # Current user should be the default value
+      # Current user should be the default value if there is not auto map present
       assert_select 'option[value="value:2"][selected]', :text => User.find(2).name
       assert_select 'option[value="value:3"]', :text => User.find(3).name
     end

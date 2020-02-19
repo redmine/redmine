@@ -18,6 +18,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class TimeEntryImport < Import
+  AUTO_MAPPABLE_FIELDS = {
+    'activity' => 'field_activity',
+    'user' => 'field_user',
+    'issue_id' => 'field_issue',
+    'spent_on' => 'field_spent_on',
+    'hours' => 'field_hours',
+    'comments' => 'field_comments'
+  }
+
   def self.menu_item
     :time_entries
   end

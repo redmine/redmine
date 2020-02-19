@@ -18,6 +18,23 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class IssueImport < Import
+  AUTO_MAPPABLE_FIELDS = {
+    'tracker' => 'field_tracker',
+    'subject' => 'field_subject',
+    'description' => 'field_description',
+    'status' => 'field_status',
+    'priority' => 'field_priority',
+    'category' => 'field_category',
+    'assigned_to' => 'field_assigned_to',
+    'fixed_version' => 'field_fixed_version',
+    'is_private' => 'field_is_private',
+    'parent_issue_id' => 'field_parent_issue',
+    'start_date' => 'field_start_date',
+    'due_date' => 'field_due_date',
+    'estimated_hours' => 'field_estimated_hours',
+    'done_ratio' => 'field_done_ratio'
+  }
+
   def self.menu_item
     :issues
   end

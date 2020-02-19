@@ -37,6 +37,7 @@ class Import < ActiveRecord::Base
     '%d.%m.%Y',
     '%d-%m-%Y'
   ]
+  AUTO_MAPPABLE_FIELDS = {}
 
   def self.menu_item
     nil
