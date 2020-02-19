@@ -1,4 +1,4 @@
-row;issue_id;date;hours;comment;activity;overtime;user_id
+row;issue_id;date;hours;comment;activity;overtime;user
 1;;2020-01-01;1;Some Design;Design;yes;jsmith@somenet.foo
 2;;2020-01-02;2;Some Development;Development;yes;jsmith@somenet.foo
 3;1;2020-01-03;3;Some QA;QA;no;dlopper@somenet.foo

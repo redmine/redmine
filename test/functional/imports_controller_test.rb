@@ -202,7 +202,7 @@ class ImportsControllerTest < Redmine::ControllerTest
 
     # 'user_id' field should be available because User#2 has both
     # 'import_time_entries' and 'log_time_for_other_users' permissions
-    assert_select 'select[name=?]', 'import_settings[mapping][user_id]' do
+    assert_select 'select[name=?]', 'import_settings[mapping][user]' do
       # Current user should be the default value
       assert_select 'option[value="value:2"][selected]', :text => User.find(2).name
       assert_select 'option[value="value:3"]', :text => User.find(3).name

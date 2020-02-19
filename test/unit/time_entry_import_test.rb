@@ -140,7 +140,7 @@ class TimeEntryImportTest < ActiveSupport::TestCase
   def test_maps_user_to_column_value
     User.current = User.find(1)
     import = generate_import_with_mapping
-    import.mapping.merge!('user_id' => 'value:1')
+    import.mapping.merge!('user' => 'value:1')
     import.save!
     first, second, third, fourth = new_records(TimeEntry, 4) { import.run }
 
@@ -185,7 +185,7 @@ class TimeEntryImportTest < ActiveSupport::TestCase
         'spent_on'   => '2',
         'hours'      => '3',
         'comments'   => '4',
-        'user_id'    => '7'
+        'user'       => '7'
       }
     }
     import.save!

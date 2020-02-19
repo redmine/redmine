@@ -66,7 +66,7 @@ class TimeEntryImport < Import
   end
 
   def user_value
-    if mapping['user_id'].to_s =~ /\Avalue:(\d+)\z/
+    if mapping['user'].to_s =~ /\Avalue:(\d+)\z/
       $1.to_i
     end
   end
@@ -88,7 +88,7 @@ class TimeEntryImport < Import
     if User.current.allowed_to?(:log_time_for_other_users, project)
       if user_value
         user_id = user_value
-      elsif user_name = row_value(row, 'user_id')
+      elsif user_name = row_value(row, 'user')
         user_id = Principal.detect_by_keyword(allowed_target_users, user_name).try(:id)
       end
     else
