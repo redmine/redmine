@@ -46,7 +46,7 @@ class IssuesControllerTest < Redmine::ControllerTest
            :queries,
            :repositories,
            :changesets,
-           :watchers
+           :watchers, :groups_users
 
   include Redmine::I18n
 
