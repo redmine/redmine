@@ -11,37 +11,38 @@
 </p>
 
 <div class="splitcontent">
-<div class="splitcontentleft">
-<% if User.current.allowed_to?(:log_time_for_other_users, @import.project) %>
+  <div class="splitcontentleft">
+  <% if User.current.allowed_to?(:log_time_for_other_users, @import.project) %>
+    <p>
+      <label for="import_mapping_user"><%= l(:field_user) %></label>
+      <%= mapping_select_tag @import, 'user', :required => true,
+            :values => @import.allowed_target_users.map {|u| [u.name, u.id]}, :default_value => "value:#{User.current.id}" %>
+    </p>
+  <% end %>
   <p>
-    <label for="import_mapping_user"><%= l(:field_user) %></label>
-    <%= mapping_select_tag @import, 'user', :required => true,
-          :values => @import.allowed_target_users.map {|u| [u.name, u.id]}, :default_value => "value:#{User.current.id}" %>
+    <label for="import_mapping_issue_id"><%= l(:field_issue) %></label>
+    <%= mapping_select_tag @import, 'issue_id' %>
   </p>
-<% end %>
-<p>
-  <label for="import_mapping_issue_id"><%= l(:field_issue) %></label>
-  <%= mapping_select_tag @import, 'issue_id' %>
-</p>
-<p>
-  <label for="import_mapping_spent_on"><%= l(:field_spent_on) %></label>
-  <%= mapping_select_tag @import, 'spent_on', :required => true %>
-</p>
-<p>
-  <label for="import_mapping_hours"><%= l(:field_hours) %></label>
-  <%= mapping_select_tag @import, 'hours', :required => true %>
-</p>
-<p>
-  <label for="import_mapping_comments"><%= l(:field_comments) %></label>
-  <%= mapping_select_tag @import, 'comments' %>
-</p>
-</div>
+  <p>
+    <label for="import_mapping_spent_on"><%= l(:field_spent_on) %></label>
+    <%= mapping_select_tag @import, 'spent_on', :required => true %>
+  </p>
+  <p>
+    <label for="import_mapping_hours"><%= l(:field_hours) %></label>
+    <%= mapping_select_tag @import, 'hours', :required => true %>
+  </p>
+  <p>
+    <label for="import_mapping_comments"><%= l(:field_comments) %></label>
+    <%= mapping_select_tag @import, 'comments' %>
+  </p>
+  </div>
 
-<div class="splitcontentright">
-<% @custom_fields.each do |field| %>
-  <p>
-    <label for="import_mapping_cf_<%= field.id %>"><%= field.name %></label>
-    <%= mapping_select_tag @import, "cf_#{field.id}", :required => field.is_required? %>
-  </p>
-<% end %>
+  <div class="splitcontentright">
+  <% @custom_fields.each do |field| %>
+    <p>
+      <label for="import_mapping_cf_<%= field.id %>"><%= field.name %></label>
+      <%= mapping_select_tag @import, "cf_#{field.id}", :required => field.is_required? %>
+    </p>
+  <% end %>
+  </div>
 </div>
