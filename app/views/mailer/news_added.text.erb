@@ -3,3 +3,10 @@
 <%= @news.author.name %>
 
 <%= @news.description %>
+
+<% if @news.attachments.any? -%>
+---<%= l(:label_attachment_plural).ljust(37, '-') %>
+<% @news.attachments.each do |attachment| -%>
+<%= attachment.filename %> (<%= number_to_human_size(attachment.filesize) %>)
+<% end -%>
+<% end -%>

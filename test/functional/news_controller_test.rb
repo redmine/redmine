@@ -123,29 +123,40 @@ class NewsControllerTest < Redmine::ControllerTest
 
   def test_post_create_with_attachment
     set_tmp_attachments_directory
+    ActionMailer::Base.deliveries.clear
     @request.session[:user_id] = 2
     assert_difference 'News.count' do
       assert_difference 'Attachment.count' do
-        post(
-          :create,
-          :params => {
-            :project_id => 1,
-            :news => {
-              :title => 'Test',
-              :description => 'This is the description'
-            },
-            :attachments => {
-              '1' => {
-                'file' => uploaded_test_file('testfile.txt', 'text/plain')
+        with_settings :notified_events => %w(news_added) do
+          post(
+            :create,
+            :params => {
+              :project_id => 1,
+              :news => {
+                :title => 'Test',
+                :description => 'This is the description'
+              },
+              :attachments => {
+                '1' => {
+                  'file' => uploaded_test_file('testfile.txt', 'text/plain')
+                }
               }
             }
-          }
-        )
+          )
+        end
       end
     end
     attachment = Attachment.order('id DESC').first
     news = News.order('id DESC').first
     assert_equal news, attachment.container
+    assert_select_email do
+      # link to the attachments download
+      assert_select 'fieldset.attachments' do
+        assert_select 'a[href=?]',
+                      "http://localhost:3000/attachments/download/#{attachment.id}/testfile.txt",
+                      :text => 'testfile.txt'
+      end
+    end
   end
 
   def test_post_create_with_validation_failure

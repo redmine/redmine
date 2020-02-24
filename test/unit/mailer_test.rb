@@ -613,14 +613,27 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_news_added_should_notify_project_news_watchers
+    set_tmp_attachments_directory
     user1 = User.generate!
     user2 = User.generate!
     news = News.find(1)
     news.project.enabled_module('news').add_watcher(user1)
+    attachment = Attachment.generate!(
+      :container => news,
+      :file => uploaded_test_file('testfile.txt', 'text/plain')
+    )
 
     Mailer.deliver_news_added(news)
     assert_include user1.mail, recipients
     assert_not_include user2.mail, recipients
+    assert_select_email do
+      # link to the attachments download
+      assert_select 'fieldset.attachments' do
+        assert_select 'a[href=?]',
+                      "http://localhost:3000/attachments/download/#{attachment.id}/testfile.txt",
+                      :text => 'testfile.txt'
+      end
+    end
   end
 
   def test_wiki_content_added
