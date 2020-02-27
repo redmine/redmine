@@ -233,6 +233,36 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
       end
     end
 
+    def test_browse_latin_1_dir
+      if @not_utf8_external
+        puts_pass_on_not_utf8
+      elsif WINDOWS_PASS
+        puts WINDOWS_SKIP_STR
+      else
+        assert_equal 0, @repository.changesets.count
+        @repository.fetch_changesets
+        @project.reload
+        assert_equal NUM_REV, @repository.changesets.count
+        get(
+          :show,
+          :params => {
+            :id => PRJ_ID,
+            :repository_id => @repository.id,
+            :path => repository_path_hash(['latin-1-dir', 'test-Ü-subdir'])[:param],
+            :rev => '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127'
+          }
+        )
+        assert_response :success
+
+        assert_select 'table.entries tbody' do
+          assert_select 'tr', 3
+          assert_select 'tr.file td.filename_no_report a', :text => 'test-Ü-1.txt'
+          assert_select 'tr.file td.filename_no_report a', :text => 'test-Ü-2.txt'
+          assert_select 'tr.file td.filename_no_report a', :text => 'test-Ü.txt'
+        end
+      end
+    end
+
     def test_changes
       get(
         :changes,
