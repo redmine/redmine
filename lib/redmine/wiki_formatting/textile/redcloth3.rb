@@ -1025,7 +1025,7 @@ class RedCloth3 < String
         end
         if /^ +\S/.match?(text)
             indt = 0
-            indt += 1 while !/^ {#{indt}}\S/.match?(text)
+            indt += 1 until /^ {#{indt}}\S/.match?(text)
             if indt.nonzero?
                 text.gsub!( /^ {#{indt}}/, '' )
             end
