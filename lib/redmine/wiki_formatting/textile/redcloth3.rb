@@ -1020,11 +1020,12 @@ class RedCloth3 < String
     end
 
     def flush_left( text )
-        indt = 0
-        if text =~ /^ /
-            unless text.empty?
-                indt += 1 while text !~ /^ {#{indt}}[^ ]/
-            end
+        if /(?![\r\n\t ])[[:cntrl:]]/.match?(text)
+            text.gsub!(/(?![\r\n\t ])[[:cntrl:]]/, '')
+        end
+        if /^ +\S/.match?(text)
+            indt = 0
+            indt += 1 until /^ {#{indt}}\S/.match?(text)
             if indt.nonzero?
                 text.gsub!( /^ {#{indt}}/, '' )
             end

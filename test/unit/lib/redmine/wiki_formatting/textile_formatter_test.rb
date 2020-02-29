@@ -161,6 +161,24 @@ RAW
 EXPECTED
 
     assert_equal expected.gsub(%r{\s+}, ''), to_html(raw).gsub(%r{\s+}, '')
+
+    raw = <<~RAW
+      * Item-1
+
+        * Item-1a
+        * Item-1b
+    RAW
+    expected = <<~EXPECTED
+      <ul>
+        <li>Item-1
+          <ul>
+            <li>Item-1a</li>
+            <li>Item-1b</li>
+          </ul>
+        </li>
+      </ul>
+    EXPECTED
+    assert_equal expected.gsub(%r{\s+}, ''), to_html(raw).gsub(%r{\s+}, '')
   end
 
   def test_escaping
