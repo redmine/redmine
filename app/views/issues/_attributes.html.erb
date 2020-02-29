@@ -15,8 +15,13 @@
 <% end %>
 
 <% if @issue.safe_attribute? 'assigned_to_id' %>
-<p><%= f.select :assigned_to_id, principals_options_for_select(@issue.assignable_users, @issue.assigned_to),
-                :include_blank => true, :required => @issue.required_attribute?('assigned_to_id') %></p>
+<p>
+  <%= f.select :assigned_to_id, principals_options_for_select(@issue.assignable_users, @issue.assigned_to),
+                  :include_blank => true, :required => @issue.required_attribute?('assigned_to_id') %>
+  <% if @issue.assignable_users.include?(User.current) %>
+    <a class="assign-to-me-link<%= ' hidden' if @issue.assigned_to_id == User.current.id %>" href="#" data-id="<%= User.current.id %>"><%= l(:label_assign_to_me) %></a>
+  <% end %>
+</p>
 <% end %>
 
 <% if @issue.safe_attribute?('category_id') && @issue.project.issue_categories.any? %>

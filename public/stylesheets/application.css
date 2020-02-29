@@ -540,6 +540,8 @@ div.issue.overdue .due-date .value { color: #c22; }
 #trackers_description dt {font-weight: bold; text-decoration: underline;}
 #trackers_description dd {margin: 0; padding: 0 0 1em 0;}
 
+#issue-form .assign-to-me-link { padding-left: 5px; }
+
 fieldset.collapsible {border-width: 1px 0 0 0;}
 fieldset.collapsible>legend { cursor:pointer; padding-left: 18px; background-position: 4px;}
 

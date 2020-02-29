@@ -1079,6 +1079,7 @@ en:
   label_display_type_list: List
   label_display_type_board: Board
   label_my_bookmarks: My bookmarks
+  label_assign_to_me: Assign to me
 
   button_login: Login
   button_submit: Submit

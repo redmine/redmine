@@ -2105,6 +2105,43 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_update_form_should_render_assign_to_me_link_when_issue_can_be_assigned_to_the_current_user
+    @request.session[:user_id] = 1
+    get :show, :params => {
+        :id => 10
+      }
+
+    assert_select 'form#issue-form #attributes' do
+      assert_select 'a[class=?][data-id=?]', 'assign-to-me-link', '1', 1
+    end
+  end
+
+  def test_update_form_should_not_render_assign_to_me_link_when_issue_cannot_be_assigned_to_the_current_user
+    @request.session[:user_id] = 1
+    get :show, :params => {
+        :id => 2
+      }
+
+    assert_select 'form#issue-form #attributes' do
+      assert_select 'a[class=?]', 'assign-to-me-link', 0
+    end
+  end
+
+  def test_update_form_should_not_show_assign_to_me_link_when_issue_is_assigned_to_the_current_user
+    issue = Issue.find(10)
+    issue.assigned_to_id = 1
+    issue.save!
+
+    @request.session[:user_id] = 1
+    get :show, :params => {
+        :id => 10
+      }
+
+    assert_select 'form#issue-form #attributes' do
+      assert_select 'a[class=?]', 'assign-to-me-link hidden', 1
+    end
+  end
+
   def test_show_should_deny_anonymous_access_without_permission
     Role.anonymous.remove_permission!(:view_issues)
     get(:show, :params => {:id => 1})
