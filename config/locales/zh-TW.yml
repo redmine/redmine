@@ -1371,3 +1371,4 @@
   label_import_time_entries: 匯入工時項目紀錄
   field_toolbar_language_options: 程式碼反白工具可用語言
   label_user_mail_notify_about_high_priority_issues_html: "同時通知我關於議題之優先權等級為 <em>%{prio}</em> 或以上等級之事物"
+  label_assign_to_me: Assign to me

@@ -1306,3 +1306,4 @@ cs:
   field_toolbar_language_options: Jazyky zvýrazňování syntaxe kódu
   label_user_mail_notify_about_high_priority_issues_html: Notifikuj mě o úkolech
     s prioritou <em>%{prio}</em> nebo vyšší
+  label_assign_to_me: Assign to me
