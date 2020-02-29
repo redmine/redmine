@@ -28,8 +28,6 @@ module Redmine
         attr_accessor :footer_date
 
         def initialize(lang, orientation='P')
-          @@k_path_cache = Rails.root.join('tmp', 'pdf')
-          FileUtils.mkdir_p @@k_path_cache unless File::exist?(@@k_path_cache)
           set_language_if_valid lang
           super(orientation, 'mm', 'A4')
           set_print_header(false)
