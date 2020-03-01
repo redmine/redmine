@@ -136,10 +136,10 @@ zh:
         earlier_than_minimum_start_date: "不能早于 %{date} 由于有前置问题"
         not_a_regexp: "不是一个合法的正则表达式"
         open_issue_with_closed_parent: "无法将一个打开的问题关联至一个被关闭的父任务"
-        must_contain_uppercase: "must contain uppercase letters (A-Z)"
-        must_contain_lowercase: "must contain lowercase letters (a-z)"
-        must_contain_digits: "must contain digits (0-9)"
-        must_contain_special_chars: "must contain special characters (!, $, %, ...)"
+        must_contain_uppercase: "必须包含大写字母 (A-Z)"
+        must_contain_lowercase: "必须包含小写字母 (a-z)"
+        must_contain_digits: "必须包含数字 (0-9)"
+        must_contain_special_chars: "必须包含特殊字符 (!, $, %, ...)"
 
   actionview_instancetag_blank_option: 请选择
 
@@ -1222,82 +1222,72 @@ zh:
   setting_timelog_accept_0_hours: 允许计入0小时工时
   setting_timelog_max_hours_per_day: 每用户每天最大可计入工时上限
   label_x_revisions: "%{count} 修订"
-  error_can_not_delete_auth_source: This authentication mode is in use and cannot be
-    deleted.
-  button_actions: Actions
-  mail_body_lost_password_validity: Please be aware that you may change the password
-    only once using this link.
-  text_login_required_html: When not requiring authentication, public projects and their
-    contents are openly available on the network. You can <a href="%{anonymous_role_path}">edit
-    the applicable permissions</a>.
-  label_login_required_yes: 'Yes'
-  label_login_required_no: No, allow anonymous access to public projects
-  text_project_is_public_non_member: Public projects and their contents are available
-    to all logged-in users.
-  text_project_is_public_anonymous: Public projects and their contents are openly available
-    on the network.
-  label_version_and_files: Versions (%{count}) and Files
+  error_can_not_delete_auth_source: 此认证模式正在使用，不能删除。
+  button_actions: 行为
+  mail_body_lost_password_validity: 请注意您只能使用此链接更改一次密码。
+  text_login_required_html: 当不需要认证时，公开项目和它们的内容将会在网络上公开访问。你可以<a href="%{anonymous_role_path}">编辑合适的权限</a>。
+  label_login_required_yes: '是'
+  label_login_required_no: 否，允许任何人访问公开项目
+  text_project_is_public_non_member: 所有已登录的用户都可以访问公共项目和内容。
+  text_project_is_public_anonymous: 公共项目及其内容将在网络上公开。
+  label_version_and_files: 版本 (%{count}) 文件
   label_ldap: LDAP
-  label_ldaps_verify_none: LDAPS (without certificate check)
+  label_ldaps_verify_none: LDAPS (无证书检查)
   label_ldaps_verify_peer: LDAPS
-  label_ldaps_warning: It is recommended to use an encrypted LDAPS connection with certificate
-    check to prevent any manipulation during the authentication process.
-  label_nothing_to_preview: Nothing to preview
-  error_token_expired: This password recovery link has expired, please try again.
-  error_spent_on_future_date: Cannot log time on a future date
-  setting_timelog_accept_future_dates: Accept time logs on future dates
+  label_ldaps_warning: 建议使用带有证书检查的加密LDAPS连接，以防止在身份验证过程中的任何篡改伪造。
+  label_nothing_to_preview: 无预览
+  error_token_expired: 此密码恢复链接已过期，请再试一次。
+  error_spent_on_future_date: 无法记录为将来的工时。
+  setting_timelog_accept_future_dates: 接受将来工时。
   label_delete_link_to_subtask: 删除关联
-  error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
-    for other users
-  permission_log_time_for_other_users: Log spent time for other users
+  error_not_allowed_to_log_time_for_other_users: 不允许为其他用户记录时间
+  permission_log_time_for_other_users: 记录其他用户的工时
   label_tomorrow: 明天
   label_next_week: 下周
   label_next_month: 下月
-  text_role_no_workflow: No workflow defined for this role
-  text_status_no_workflow: No tracker uses this status in the workflows
+  text_role_no_workflow: 没有为此角色定义工作流程
+  text_status_no_workflow: 在工作流程中没有跟踪程序使用此状态
   setting_mail_handler_preferred_body_part: Preferred part of multipart (HTML) emails
-  setting_show_status_changes_in_mail_subject: Show status changes in issue mail notifications
-    subject
-  label_inherited_from_parent_project: Inherited from parent project
-  label_inherited_from_group: Inherited from group %{name}
-  label_trackers_description: Trackers description
-  label_open_trackers_description: View all trackers description
+  setting_show_status_changes_in_mail_subject: 邮件通知的标题中显示更改状态
+  label_inherited_from_parent_project: 继承自父项目
+  label_inherited_from_group: 继承自 %{name} 组
+  label_trackers_description: 工作描述
+  label_open_trackers_description: 查看全部跟踪标签描述
   label_preferred_body_part_text: Text
-  label_preferred_body_part_html: HTML (experimental)
-  field_parent_issue_subject: Parent task subject
+  label_preferred_body_part_html: HTML (实验功能)
+  field_parent_issue_subject: 父任务主题
   permission_edit_own_issues: 更新自己的问题
-  text_select_apply_tracker: Select tracker
-  label_updated_issues: Updated issues
-  text_avatar_server_config_html: The current avatar server is <a href="%{url}">%{url}</a>.
-    You can configure it in config/configuration.yml.
-  setting_gantt_months_limit: Maximum number of months displayed on the gantt chart
-  permission_import_time_entries: Import time entries
-  label_import_notifications: Send email notifications during the import
-  text_gs_available: ImageMagick PDF support available (optional)
-  field_recently_used_projects: Number of recently used projects in jump box
-  label_optgroup_bookmarks: Bookmarks
-  label_optgroup_others: Other projects
-  label_optgroup_recents: Recently used
-  button_project_bookmark: Add bookmark
-  button_project_bookmark_delete: Remove bookmark
-  field_history_default_tab: Issue's history default tab
-  label_issue_history_properties: Property changes
-  label_issue_history_notes: Notes
-  label_last_tab_visited: Last visited tab
-  field_unique_id: Unique ID
-  text_no_subject: no subject
-  setting_password_required_char_classes: Required character classes for passwords
-  label_password_char_class_uppercase: uppercase letters
-  label_password_char_class_lowercase: lowercase letters
-  label_password_char_class_digits: digits
-  label_password_char_class_special_chars: special characters
-  text_characters_must_contain: Must contain %{character_classes}.
-  label_starts_with: starts with
-  label_ends_with: ends with
-  label_issue_fixed_version_updated: Target version updated
-  setting_project_list_defaults: Projects list defaults
-  label_display_type: Display results as
-  label_display_type_list: List
-  label_display_type_board: Board
-  label_my_bookmarks: My bookmarks
-  label_import_time_entries: Import time entries
+  text_select_apply_tracker: 选择跟踪标签
+  label_updated_issues: 更新的问题
+  text_avatar_server_config_html: 当前的Gravatar头像服务器是 <a href="%{url}">%{url}</a> 。您可以在 config/configuration.yml 配置它。
+  setting_gantt_months_limit: 甘特图上显示的最大月数
+  permission_import_time_entries: 导入工时条目
+  label_import_notifications: 在导入期间发送电子邮件通知
+  text_gs_available: ImageMagick PDF 支持 (可选)
+  field_recently_used_projects: 跳转框中最近使用的项目数量
+  label_optgroup_bookmarks: 书签
+  label_optgroup_others: 其他项目
+  label_optgroup_recents: 最近使用
+  button_project_bookmark: 添加书签
+  button_project_bookmark_delete: 移除书签
+  field_history_default_tab: 问题的历史默认标签
+  label_issue_history_properties: 更改属性
+  label_issue_history_notes: 说明
+  label_last_tab_visited: 最近访问标签
+  field_unique_id: 唯一ID
+  text_no_subject: 无主题
+  setting_password_required_char_classes: 密码需要这些特征
+  label_password_char_class_uppercase: 大写字母
+  label_password_char_class_lowercase: 小写字母
+  label_password_char_class_digits: 数字
+  label_password_char_class_special_chars: 特殊字符
+  text_characters_must_contain: 必须包含字符 %{character_classes}。
+  label_starts_with: 开始于
+  label_ends_with: 结束于
+  label_issue_fixed_version_updated: 更新目标版本
+  setting_project_list_defaults: 项目列表默认值
+  label_display_type: 显示结果到
+  label_display_type_list: 列表
+  label_display_type_board: 面板
+  label_my_bookmarks: 我的书签
+  label_import_time_entries: 导入工时条目
