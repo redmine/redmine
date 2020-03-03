@@ -1,5 +1,5 @@
 /* Redmine - project management software
-   Copyright (C) 2006-2019  Jean-Philippe Lang */
+   Copyright (C) 2006-2020  Jean-Philippe Lang */
 
 /* Fix for CVE-2015-9251, to be removed with JQuery >= 3.0 */
 $.ajaxPrefilter(function (s) {
