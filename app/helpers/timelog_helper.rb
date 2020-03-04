@@ -68,7 +68,15 @@ module TimelogHelper
       "[#{l(:label_none)}]"
     elsif k = criteria_options[:klass]
       obj = k.find_by_id(value.to_i)
-      format_object(obj, html)
+      if obj.is_a?(Issue)
+        if obj.visible?
+          html ? link_to_issue(obj) : "#{obj.tracker} ##{obj.id}: #{obj.subject}"
+        else
+          "##{obj.id}"
+        end
+      else
+        format_object(obj, html)
+      end
     elsif cf = criteria_options[:custom_field]
       format_value(value, cf)
     else
