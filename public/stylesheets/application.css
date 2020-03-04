@@ -1308,9 +1308,9 @@ table.gantt-table td {
 }
 .gantt_subjects_container:not(.draw_selected_columns) .gantt_hdr,
 .last_gantt_selected_column .gantt_hdr {
-  z-index: 10;
   border-right: 1px solid #c0c0c0;
 }
+.last_gantt_selected_column .gantt_selected_column_container,
 .gantt_subjects_container .gantt_subjects * {
   z-index: 10;
 }
