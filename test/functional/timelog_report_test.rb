@@ -258,6 +258,21 @@ class TimelogReportTest < Redmine::ControllerTest
     assert_equal 'Total time,"","",154.25,8.65,162.90', lines.last
   end
 
+  def test_report_csv_should_fill_issue_criteria_with_tracker_id_and_subject
+    get :report, :params => {
+      :project_id => 1,
+      :columns => 'month',
+      :from => "2007-01-01",
+      :to => "2007-06-30",
+      :criteria => ["issue"],
+      :format => "csv"
+    }
+
+    assert_response :success
+    lines = @response.body.chomp.split("\n")
+    assert lines.detect {|line| line.include?('Bug #1: Cannot print recipes')}
+  end
+
   def test_csv_big_5
     str_utf8  = "\xe4\xb8\x80\xe6\x9c\x88".force_encoding('UTF-8')
     str_big5  = "\xa4@\xa4\xeb".force_encoding('Big5')
