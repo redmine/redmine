@@ -471,3 +471,38 @@ jsToolBar.prototype.precodeMenu = function(fn){
   });
   return false;
 };
+
+/* Table generator */
+jsToolBar.prototype.tableMenu = function(fn){
+  var alphabets = "ABCDEFGHIJ".split('');
+  var menu = $("<table class='table-generator'></table>");
+
+  for (var r = 1;  r <= 5;  r++) {
+    var row = $("<tr></tr>").appendTo(menu);
+    for (var c = 1;  c <= 10;  c++) {
+      $("<td data-row="+r+" data-col="+c+" title="+(c)+'&times;'+(r)+"></td>").mousedown(function(){
+        fn(alphabets.slice(0, $(this).data('col')), $(this).data('row'));
+      }).hover(function(){
+        var hoverRow = $(this).data('row');
+        var hoverCol = $(this).data('col');
+        $(this).closest('table').find('td').each(function(_index, element){
+          if ($(element).data('row') <= hoverRow && $(element).data('col') <= hoverCol){
+            $(element).addClass('selected-cell');
+          } else {
+            $(element).removeClass('selected-cell');
+          }
+        });
+      }).appendTo(row);
+    }
+  }
+  $("body").append(menu);
+  menu.position({
+    my: "left top",
+    at: "left bottom",
+    of: this.toolNodes['table']
+  });
+  $(document).on("mousedown", function() {
+    menu.remove();
+  });
+  return false;
+};

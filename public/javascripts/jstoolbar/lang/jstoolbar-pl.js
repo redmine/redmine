@@ -13,6 +13,7 @@ jsToolBar.strings['Unordered list'] = 'Nieposortowana lista';
 jsToolBar.strings['Ordered list'] = 'Posortowana lista';
 jsToolBar.strings['Quote'] = 'Cytat';
 jsToolBar.strings['Unquote'] = 'Usuń cytat';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'Sformatowany tekst';
 jsToolBar.strings['Wiki link'] = 'Odnośnik do strony Wiki';
 jsToolBar.strings['Image'] = 'Obraz';

@@ -12,6 +12,7 @@ jsToolBar.strings['Unordered list'] = 'Unummereret liste';
 jsToolBar.strings['Ordered list'] = 'Nummereret liste';
 jsToolBar.strings['Quote'] = 'Citér';
 jsToolBar.strings['Unquote'] = 'Fjern citér';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'Præformateret tekst';
 jsToolBar.strings['Wiki link'] = 'Link til en wiki-side';
 jsToolBar.strings['Image'] = 'Billede';

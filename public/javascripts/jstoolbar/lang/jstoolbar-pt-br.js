@@ -14,6 +14,7 @@ jsToolBar.strings['Unordered list'] = 'Lista não ordenada';
 jsToolBar.strings['Ordered list'] = 'Lista ordenada';
 jsToolBar.strings['Quote'] = 'Identar';
 jsToolBar.strings['Unquote'] = 'Remover identação';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'Texto pré-formatado';
 jsToolBar.strings['Wiki link'] = 'Link para uma página Wiki';
 jsToolBar.strings['Image'] = 'Imagem';

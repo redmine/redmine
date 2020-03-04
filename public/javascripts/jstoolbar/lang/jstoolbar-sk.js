@@ -12,6 +12,7 @@ jsToolBar.strings['Unordered list'] = 'Odrážkový zoznam';
 jsToolBar.strings['Ordered list'] = 'Číslovaný zoznam';
 jsToolBar.strings['Quote'] = 'Odsadenie';
 jsToolBar.strings['Unquote'] = 'Zrušiť odsadenie';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'Predformátovaný text';
 jsToolBar.strings['Wiki link'] = 'Odkaz na wikistránku';
 jsToolBar.strings['Image'] = 'Obrázok';

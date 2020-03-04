@@ -12,6 +12,7 @@ jsToolBar.strings['Unordered list'] = 'Daftar tak terurut';
 jsToolBar.strings['Ordered list'] = 'Daftar terurut';
 jsToolBar.strings['Quote'] = 'Kutipan';
 jsToolBar.strings['Unquote'] = 'Hapus kutipan';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'Teks terformat';
 jsToolBar.strings['Wiki link'] = 'Tautkan ke halaman wiki';
 jsToolBar.strings['Image'] = 'Gambar';

@@ -12,6 +12,7 @@ jsToolBar.strings['Unordered list'] = 'Danh sách không thứ tự';
 jsToolBar.strings['Ordered list'] = 'Danh sách có thứ tự';
 jsToolBar.strings['Quote'] = 'Trích dẫn';
 jsToolBar.strings['Unquote'] = 'Bỏ trích dẫn';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'Mã nguồn';
 jsToolBar.strings['Wiki link'] = 'Liên kết đến trang wiki';
 jsToolBar.strings['Image'] = 'Ảnh';

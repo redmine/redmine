@@ -12,6 +12,7 @@ jsToolBar.strings['Unordered list'] = '順不同リスト';
 jsToolBar.strings['Ordered list'] = '番号つきリスト';
 jsToolBar.strings['Quote'] = '引用';
 jsToolBar.strings['Unquote'] = '引用解除';
+jsToolBar.strings['Table'] = 'テーブル';
 jsToolBar.strings['Preformatted text'] = '整形済みテキスト';
 jsToolBar.strings['Wiki link'] = 'Wikiページへのリンク';
 jsToolBar.strings['Image'] = '画像';

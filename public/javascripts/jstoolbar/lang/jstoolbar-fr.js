@@ -12,6 +12,7 @@ jsToolBar.strings['Unordered list'] = 'Liste à puces';
 jsToolBar.strings['Ordered list'] = 'Liste numérotée';
 jsToolBar.strings['Quote'] = 'Indenté';
 jsToolBar.strings['Unquote'] = 'Supprimer indentation';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'Texte préformaté';
 jsToolBar.strings['Wiki link'] = 'Lien vers une page Wiki';
 jsToolBar.strings['Image'] = 'Image';

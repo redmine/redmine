@@ -12,6 +12,7 @@ jsToolBar.strings['Unordered list'] = 'Felsorolás';
 jsToolBar.strings['Ordered list'] = 'Számozott lista';
 jsToolBar.strings['Quote'] = 'Quote';
 jsToolBar.strings['Unquote'] = 'Remove Quote';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'Előreformázott szöveg';
 jsToolBar.strings['Wiki link'] = 'Link egy Wiki oldalra';
 jsToolBar.strings['Image'] = 'Kép';

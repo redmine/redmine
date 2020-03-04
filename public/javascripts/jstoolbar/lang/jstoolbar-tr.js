@@ -10,6 +10,7 @@ jsToolBar.strings['Heading 3'] = 'Başlık 3';
 jsToolBar.strings['Highlighted code'] = 'Highlighted code';
 jsToolBar.strings['Unordered list'] = 'Sırasız liste';
 jsToolBar.strings['Ordered list'] = 'Sıralı liste';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'Preformatted text';
 jsToolBar.strings['Wiki link'] = 'Wiki sayfasına bağlantı';
 jsToolBar.strings['Image'] = 'Resim';

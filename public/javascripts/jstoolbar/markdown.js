@@ -170,6 +170,24 @@ jsToolBar.prototype.elements.unbq = {
   }
 }
 
+// table
+jsToolBar.prototype.elements.table = {
+  type: 'button',
+  title: 'Table',
+  fn: {
+    wiki: function() {
+      var This = this;
+      this.tableMenu(function(cols, rowCount){
+        This.encloseLineSelection(
+          '|'+cols.join(' |')+' |\n' +                                   // header
+          Array(cols.length+1).join('|--')+'|\n' +                       // second line
+          Array(rowCount+1).join(Array(cols.length+1).join('|  ')+'|\n') // cells
+        );
+      });
+    }
+  }
+}
+
 // pre
 jsToolBar.prototype.elements.pre = {
   type: 'button',

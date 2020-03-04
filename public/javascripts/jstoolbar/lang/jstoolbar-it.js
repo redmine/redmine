@@ -15,6 +15,7 @@ jsToolBar.strings['Unordered list'] = 'Elenco puntato';
 jsToolBar.strings['Ordered list'] = 'Elenco numerato';
 jsToolBar.strings['Quote'] = 'Aumenta rientro';
 jsToolBar.strings['Unquote'] = 'Riduci rientro';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'Testo preformattato';
 jsToolBar.strings['Wiki link'] = 'Collegamento a pagina Wiki';
 jsToolBar.strings['Image'] = 'Immagine';

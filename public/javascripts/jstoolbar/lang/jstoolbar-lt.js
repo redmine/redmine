@@ -12,6 +12,7 @@ jsToolBar.strings['Unordered list'] = 'Nenumeruotas sąrašas';
 jsToolBar.strings['Ordered list'] = 'Numeruotas sąrašas';
 jsToolBar.strings['Quote'] = 'Cituoti';
 jsToolBar.strings['Unquote'] = 'Pašalinti citavimą';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'Preformatuotas tekstas';
 jsToolBar.strings['Wiki link'] = 'Nuoroda į Wiki puslapį';
 jsToolBar.strings['Image'] = 'Paveikslas';

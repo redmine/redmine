@@ -12,6 +12,7 @@ jsToolBar.strings['Unordered list'] = 'Неподредена листа';
 jsToolBar.strings['Ordered list'] = 'Подредена листа';
 jsToolBar.strings['Quote'] = 'Цитат';
 jsToolBar.strings['Unquote'] = 'Отстрани цитат';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'Форматиран текст';
 jsToolBar.strings['Wiki link'] = 'Врска до вики страна';
 jsToolBar.strings['Image'] = 'Слика';

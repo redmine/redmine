@@ -12,6 +12,7 @@ jsToolBar.strings['Unordered list'] = 'Llista sense ordre';
 jsToolBar.strings['Ordered list'] = 'Llista ordenada';
 jsToolBar.strings['Quote'] = 'Cometes';
 jsToolBar.strings['Unquote'] = 'Sense cometes';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'Text formatat';
 jsToolBar.strings['Wiki link'] = 'Enllaça a una pàgina Wiki';
 jsToolBar.strings['Image'] = 'Imatge';

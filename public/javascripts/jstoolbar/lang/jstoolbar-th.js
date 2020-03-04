@@ -12,6 +12,7 @@ jsToolBar.strings['Unordered list'] = 'รายการ';
 jsToolBar.strings['Ordered list'] = 'ลำดับเลข';
 jsToolBar.strings['Quote'] = 'Quote';
 jsToolBar.strings['Unquote'] = 'Remove Quote';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'รูปแบบข้อความคงที่';
 jsToolBar.strings['Wiki link'] = 'เชื่อมโยงไปหน้า Wiki อื่น';
 jsToolBar.strings['Image'] = 'รูปภาพ';

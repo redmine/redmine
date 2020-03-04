@@ -12,6 +12,7 @@ jsToolBar.strings['Unordered list'] = 'Seznam';
 jsToolBar.strings['Ordered list'] = 'Uspořádaný seznam';
 jsToolBar.strings['Quote'] = 'Quote';
 jsToolBar.strings['Unquote'] = 'Remove Quote';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'Předformátovaný text';
 jsToolBar.strings['Wiki link'] = 'Vložit odkaz na Wiki stránku';
 jsToolBar.strings['Image'] = 'Vložit obrázek';

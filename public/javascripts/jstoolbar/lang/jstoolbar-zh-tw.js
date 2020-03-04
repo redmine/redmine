@@ -12,6 +12,7 @@ jsToolBar.strings['Unordered list'] = '項目清單';
 jsToolBar.strings['Ordered list'] = '編號清單';
 jsToolBar.strings['Quote'] = '引文';
 jsToolBar.strings['Unquote'] = '取消引文';
+jsToolBar.strings['Table'] = '表格';
 jsToolBar.strings['Preformatted text'] = '已格式文字';
 jsToolBar.strings['Wiki link'] = '連結至 Wiki 頁面';
 jsToolBar.strings['Image'] = '圖片';

@@ -10,6 +10,7 @@ jsToolBar.strings['Heading 3'] = 'Heading 3';
 jsToolBar.strings['Highlighted code'] = 'Highlighted code';
 jsToolBar.strings['Unordered list'] = 'Unordered list';
 jsToolBar.strings['Ordered list'] = 'Ordered list';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'Preformatted text';
 jsToolBar.strings['Wiki link'] = 'Link na Wiki stranicu';
 jsToolBar.strings['Image'] = 'Slika';

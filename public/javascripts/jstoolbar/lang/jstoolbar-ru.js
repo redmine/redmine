@@ -12,6 +12,7 @@ jsToolBar.strings['Unordered list'] = 'Маркированный список';
 jsToolBar.strings['Ordered list'] = 'Нумерованный список';
 jsToolBar.strings['Quote'] = 'Цитата';
 jsToolBar.strings['Unquote'] = 'Удалить цитату';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'Заранее форматированный текст';
 jsToolBar.strings['Wiki link'] = 'Ссылка на страницу в Wiki';
 jsToolBar.strings['Image'] = 'Вставка изображения';

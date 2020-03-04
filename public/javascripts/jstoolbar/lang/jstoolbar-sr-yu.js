@@ -12,6 +12,7 @@ jsToolBar.strings['Unordered list'] = 'Lista nabrajanja';
 jsToolBar.strings['Ordered list'] = 'Uređena lista';
 jsToolBar.strings['Quote'] = 'Pod navodnicima';
 jsToolBar.strings['Unquote'] = 'Ukloni navodnike';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'Prethodno formatiran tekst';
 jsToolBar.strings['Wiki link'] = 'Veza prema Wiki strani';
 jsToolBar.strings['Image'] = 'Slika';

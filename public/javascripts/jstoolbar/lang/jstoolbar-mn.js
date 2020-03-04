@@ -12,6 +12,7 @@ jsToolBar.strings['Unordered list'] = 'Эрэмбэгүй жагсаалт';
 jsToolBar.strings['Ordered list'] = 'Эрэмбэтэй жагсаалт';
 jsToolBar.strings['Quote'] = 'Ишлэл';
 jsToolBar.strings['Unquote'] = 'Ишлэлийг устгах';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'Өмнө нь хэлбэржсэн текст';
 jsToolBar.strings['Wiki link'] = 'Вики хуудас руу холбох';
 jsToolBar.strings['Image'] = 'Зураг';

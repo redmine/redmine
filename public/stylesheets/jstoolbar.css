@@ -80,6 +80,22 @@
 .jstElements .help { float: right; margin-right: 0.5em; padding-top: 8px; font-size: 0.9em; }
 .jstElements .help a {padding: 2px 0 2px 20px; background: url(../images/help.png) no-repeat 0 50%;}
 
+.table-generator td {
+    border: 2px solid #ccc;
+    background-color: white;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.table-generator td.selected-cell, .table-generator td:hover {
+    background-color: #759FCF;
+}
+
+.table-generator {
+    position: absolute;
+    border-collapse: collapse;
+}
+
 /* Buttons
 -------------------------------------------------------- */
 .jstb_strong {
@@ -129,6 +145,9 @@
 }
 .jstb_img {
     background-image: url(../images/jstoolbar/bt_img.png);
+}
+.jstb_table {
+    background-image: url(../images/jstoolbar/bt_table.png);
 }
 .jstb_help {
     background-image: url(../images/help.png);

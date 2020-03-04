@@ -12,6 +12,7 @@ jsToolBar.strings['Unordered list'] = 'فهرست بدون شماره';
 jsToolBar.strings['Ordered list'] = 'فهرست با شماره';
 jsToolBar.strings['Quote'] = 'تو بردن';
 jsToolBar.strings['Unquote'] = 'بیرون آوردن';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'نوشته قالب بندی شده';
 jsToolBar.strings['Wiki link'] = 'پیوند به برگ ویکی';
 jsToolBar.strings['Image'] = 'عکس';

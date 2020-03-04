@@ -12,6 +12,7 @@ jsToolBar.strings['Unordered list'] = 'Unordered list';
 jsToolBar.strings['Ordered list'] = 'Ordered list';
 jsToolBar.strings['Quote'] = 'Quote';
 jsToolBar.strings['Unquote'] = 'Remove Quote';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'Preformatted text';
 jsToolBar.strings['Wiki link'] = 'Link to a Wiki page';
 jsToolBar.strings['Image'] = 'Image';

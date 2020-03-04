@@ -12,6 +12,7 @@ jsToolBar.strings['Unordered list'] = 'Listă pe puncte';
 jsToolBar.strings['Ordered list'] = 'Listă ordonată';
 jsToolBar.strings['Quote'] = 'Citează';
 jsToolBar.strings['Unquote'] = 'Fără citat';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'Text preformatat';
 jsToolBar.strings['Wiki link'] = 'Trimitere către o pagină wiki';
 jsToolBar.strings['Image'] = 'Imagine';

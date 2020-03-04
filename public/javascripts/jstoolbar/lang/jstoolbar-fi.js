@@ -12,6 +12,7 @@ jsToolBar.strings['Unordered list'] = 'Järjestämätön lista';
 jsToolBar.strings['Ordered list'] = 'Järjestetty lista';
 jsToolBar.strings['Quote'] = 'Quote';
 jsToolBar.strings['Unquote'] = 'Remove Quote';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'Ennaltamuotoiltu teksti';
 jsToolBar.strings['Wiki link'] = 'Linkki Wiki sivulle';
 jsToolBar.strings['Image'] = 'Kuva';

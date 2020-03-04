@@ -12,6 +12,7 @@ jsToolBar.strings['Unordered list'] = 'قائمة غير مرتبة';
 jsToolBar.strings['Ordered list'] = 'قائمة مرتبة';
 jsToolBar.strings['Quote'] = 'اقتباس';
 jsToolBar.strings['Unquote'] = 'إزالة الاقتباس';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'نص مسبق التنسيق';
 jsToolBar.strings['Wiki link'] = 'رابط الى صفحة ويكي';
 jsToolBar.strings['Image'] = 'صورة';

@@ -13,6 +13,7 @@ jsToolBar.strings['Unordered list'] = 'Nesakārtots saraksts';
 jsToolBar.strings['Ordered list'] = 'Sakārtots saraksts';
 jsToolBar.strings['Quote'] = 'Citēt';
 jsToolBar.strings['Unquote'] = 'Noņemt citātu';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'Iepriekš formatēts teksts';
 jsToolBar.strings['Wiki link'] = 'Saite uz Wiki lapu';
 jsToolBar.strings['Image'] = 'Attēls';

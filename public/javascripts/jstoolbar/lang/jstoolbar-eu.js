@@ -16,6 +16,7 @@ jsToolBar.strings['Unordered list'] = 'Ordenatu gabeko zerrenda';
 jsToolBar.strings['Ordered list'] = 'Ordenatutako zerrenda';
 jsToolBar.strings['Quote'] = 'Aipamena';
 jsToolBar.strings['Unquote'] = 'Aipamena kendu';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'Aurrez formateatutako testua';
 jsToolBar.strings['Wiki link'] = 'Wiki orri baterako esteka';
 jsToolBar.strings['Image'] = 'Irudia';

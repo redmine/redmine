@@ -12,6 +12,7 @@ jsToolBar.strings['Unordered list'] = '无序列表';
 jsToolBar.strings['Ordered list'] = '排序列表';
 jsToolBar.strings['Quote'] = '引用';
 jsToolBar.strings['Unquote'] = '删除引用';
+jsToolBar.strings['Table'] = '表格';
 jsToolBar.strings['Preformatted text'] = '格式化文本';
 jsToolBar.strings['Wiki link'] = '连接到 Wiki 页面';
 jsToolBar.strings['Image'] = '图片';

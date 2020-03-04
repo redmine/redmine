@@ -12,6 +12,7 @@ jsToolBar.strings['Unordered list'] = 'Graficke oznake';
 jsToolBar.strings['Ordered list'] = 'Numeriranje';
 jsToolBar.strings['Quote'] = 'Citat';
 jsToolBar.strings['Unquote'] = 'Ukloni citat';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'Izveden tekst';
 jsToolBar.strings['Wiki link'] = 'Link na Wiki stranicu';
 jsToolBar.strings['Image'] = 'Slika';

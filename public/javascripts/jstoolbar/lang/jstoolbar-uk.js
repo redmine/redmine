@@ -12,6 +12,7 @@ jsToolBar.strings['Unordered list'] = 'Ненумерованний список
 jsToolBar.strings['Ordered list'] = 'Нумерований список';
 jsToolBar.strings['Quote'] = 'Цитування';
 jsToolBar.strings['Unquote'] = 'Видалити цитування';
+jsToolBar.strings['Table'] = 'Table';
 jsToolBar.strings['Preformatted text'] = 'Попередньо відформатований текст';
 jsToolBar.strings['Wiki link'] = 'Посилання на сторінку Wiki';
 jsToolBar.strings['Image'] = 'Зображення';
