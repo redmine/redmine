@@ -5242,7 +5242,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       )
     end
     issue = Issue.order('id DESC').first
-    assert_equal [3, 10], issue.watcher_user_ids
+    assert_equal [3, 10], issue.watcher_user_ids.sort
   end
 
   def test_create_as_copy_without_watcher_user_ids_should_not_copy_watchers
