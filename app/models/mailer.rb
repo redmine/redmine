@@ -553,9 +553,15 @@ class Mailer < ActionMailer::Base
   def reminder(user, issues, days)
     @issues = issues
     @days = days
-    @issues_url = url_for(:controller => 'issues', :action => 'index',
+    @open_issues_url = url_for(:controller => 'issues', :action => 'index',
                                 :set_filter => 1, :assigned_to_id => 'me',
                                 :sort => 'due_date:asc')
+    @reminder_issues_url = url_for(:controller => 'issues', :action => 'index',
+      :set_filter => 1, :sort => 'due_date:asc',
+      :f => ['status_id', 'assigned_to_id', "due_date"],
+      :op => {'status_id' => 'o', 'assigned_to_id' => '=', 'due_date' => '<t+'},
+      :v =>{'assigned_to_id' => ['me'], 'due_date' => [days]})
+
     query = IssueQuery.new(:name => '_')
     query.add_filter('assigned_to_id', '=', ['me'])
     @open_issues_count = query.issue_count

@@ -676,7 +676,8 @@ class MailerTest < ActiveSupport::TestCase
 
   def test_reminders
     users(:users_003).pref.update_attribute :time_zone, 'UTC' # dlopper
-    Mailer.reminders(:days => 42)
+    days = 42
+    Mailer.reminders(:days => days)
     assert_equal 1, ActionMailer::Base.deliveries.size
     mail = last_email
     assert mail.bcc.include?('dlopper@somenet.foo')
@@ -684,11 +685,14 @@ class MailerTest < ActiveSupport::TestCase
     assert_mail_body_match 'View all issues (2 open)', mail
     assert_select_email do
       assert_select 'a[href=?]',
+                    "http://localhost:3000/issues?f%5B%5D=status_id&f%5B%5D=assigned_to_id&f%5B%5D=due_date&op%5Bassigned_to_id%5D=%3D&op%5Bdue_date%5D=%3Ct%2B&op%5Bstatus_id%5D=o&set_filter=1&sort=due_date%3Aasc&v%5Bassigned_to_id%5D%5B%5D=me&v%5Bdue_date%5D%5B%5D=#{days}",
+                    :text => '1'
+      assert_select 'a[href=?]',
                     'http://localhost:3000/issues?assigned_to_id=me&set_filter=1&sort=due_date%3Aasc',
                     :text => 'View all issues'
       assert_select '/p:nth-last-of-type(1)', :text => 'View all issues (2 open)'
     end
-    assert_equal '1 issue(s) due in the next 42 days', mail.subject
+    assert_equal "1 issue(s) due in the next #{days} days", mail.subject
   end
 
   def test_reminders_language_auto

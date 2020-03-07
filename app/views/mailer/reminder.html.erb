@@ -1,4 +1,4 @@
-<p><%= l(:mail_body_reminder, :count => @issues.size, :days => @days) %></p>
+<p><%= l(:mail_body_reminder, :count => link_to(@issues.size, @reminder_issues_url), :days => @days).html_safe %></p>
 
 <ul>
 <% @issues.each do |issue| -%>
@@ -6,4 +6,4 @@
 <% end -%>
 </ul>
 
-<p><%= link_to l(:label_issue_view_all), @issues_url %> (<%= l(:label_x_open_issues_abbr, :count => @open_issues_count) %>)</p>
+<p><%= link_to l(:label_issue_view_all), @open_issues_url %> (<%= l(:label_x_open_issues_abbr, :count => @open_issues_count) %>)</p>
