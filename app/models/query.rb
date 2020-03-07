@@ -924,7 +924,7 @@ class Query < ActiveRecord::Base
         end
       end
 
-      if field == 'project_id' || (self.type == 'ProjectQuery' && (field == 'id' || field == 'parent_id'))
+      if field == 'project_id' || (self.type == 'ProjectQuery' && %w[id parent_id].include?(field))
         if v.delete('mine')
           v += User.current.memberships.map(&:project_id).map(&:to_s)
         end
