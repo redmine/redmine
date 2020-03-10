@@ -1304,8 +1304,8 @@ de:
   label_display_type_board: Karte
   label_my_bookmarks: Meine Lesezeichen
   label_import_time_entries: Zeitbuchungen importieren
-  field_toolbar_language_options: Code highlighting toolbar languages
-  label_assign_to_me: Assign to me
+  field_toolbar_language_options: Sprachen für Code-Hervorhebung, Editor-Symbolleiste
+  label_assign_to_me: Mir zuweisen
   notice_issue_not_closable_by_open_tasks: This issue cannot be closed because it has
     at least one open subtask.
   notice_issue_not_closable_by_blocking_issue: This issue cannot be closed because it
