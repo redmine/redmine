@@ -1306,3 +1306,9 @@ de:
   label_import_time_entries: Zeitbuchungen importieren
   field_toolbar_language_options: Code highlighting toolbar languages
   label_assign_to_me: Assign to me
+  notice_issue_not_closable_by_open_tasks: This issue cannot be closed because it has
+    at least one open subtask.
+  notice_issue_not_closable_by_blocking_issue: This issue cannot be closed because it
+    is blocked by at least one open issue.
+  notice_issue_not_reopenable_by_closed_parent_issue: This issue cannot be reopened
+    because its parent issue is closed.

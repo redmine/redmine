@@ -1355,3 +1355,9 @@ ko:
   label_user_mail_notify_about_high_priority_issues_html: Also notify me about issues
     with a priority of <em>%{prio}</em> or higher
   label_assign_to_me: Assign to me
+  notice_issue_not_closable_by_open_tasks: This issue cannot be closed because it has
+    at least one open subtask.
+  notice_issue_not_closable_by_blocking_issue: This issue cannot be closed because it
+    is blocked by at least one open issue.
+  notice_issue_not_reopenable_by_closed_parent_issue: This issue cannot be reopened
+    because its parent issue is closed.
