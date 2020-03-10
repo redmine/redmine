@@ -25,6 +25,8 @@ class AttachmentsController < ApplicationController
   before_action :delete_authorize, :only => :destroy
   before_action :authorize_global, :only => :upload
 
+  require_sudo_mode :destroy
+
   # Disable check for same origin requests for JS files, i.e. attachments with
   # MIME type text/javascript.
   skip_after_action :verify_same_origin_request, :only => :download

@@ -39,6 +39,8 @@ class WikiController < ApplicationController
   before_action :find_attachments, :only => [:preview]
   accept_api_auth :index, :show, :update, :destroy
 
+  require_sudo_mode :destroy, :destroy_version
+
   helper :attachments
   include AttachmentsHelper
   helper :watchers

@@ -28,6 +28,8 @@ class NewsController < ApplicationController
   accept_rss_auth :index
   accept_api_auth :index, :show, :create, :update, :destroy
 
+  require_sudo_mode :destroy
+
   helper :watchers
   helper :attachments
 

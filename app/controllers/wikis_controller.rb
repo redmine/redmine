@@ -21,6 +21,8 @@ class WikisController < ApplicationController
   menu_item :settings
   before_action :find_project, :authorize
 
+  require_sudo_mode :destroy, only: :post
+
   # Delete a project's wiki
   def destroy
     if request.post? && params[:confirm] && @project.wiki

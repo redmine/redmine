@@ -24,6 +24,8 @@ class CommentsController < ApplicationController
   before_action :find_project_from_association
   before_action :authorize
 
+  require_sudo_mode :destroy
+
   def create
     raise Unauthorized unless @news.commentable?
 

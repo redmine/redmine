@@ -22,6 +22,8 @@ class BoardsController < ApplicationController
   before_action :find_project_by_project_id, :find_board_if_available, :authorize
   accept_rss_auth :index, :show
 
+  require_sudo_mode :destroy
+
   helper :sort
   include SortHelper
   helper :watchers

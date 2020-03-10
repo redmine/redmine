@@ -25,6 +25,8 @@ class DocumentsController < ApplicationController
   before_action :find_project_from_association, :except => [:index, :new, :create]
   before_action :authorize
 
+  require_sudo_mode :destroy
+
   helper :attachments
   helper :custom_fields
 

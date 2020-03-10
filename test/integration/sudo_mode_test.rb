@@ -3,7 +3,9 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class SudoModeTest < Redmine::IntegrationTest
-  fixtures :projects, :members, :member_roles, :roles, :users, :email_addresses
+  fixtures :projects, :members, :member_roles, :roles, :users,
+           :email_addresses, :trackers, :projects_trackers, :enabled_modules,
+           :issue_statuses, :issues, :enumerations
 
   def setup
     Redmine::SudoMode.stubs(:enabled?).returns(true)
@@ -189,6 +191,24 @@ class SudoModeTest < Redmine::IntegrationTest
 
         assert_response :created
       end
+    end
+  end
+
+  def test_destroy_issue
+    log_user 'dlopper', 'foo'
+    expire_sudo_mode!
+    delete '/issues/2'
+    assert_response :success
+    assert_select 'h2', 'Confirm your password to continue'
+    assert_select 'form[action="/issues/2"]'
+    assert_select '#flash_error', 0
+
+    delete '/issues/2', :params => {:sudo_password => 'wrong'}
+    assert_response :success
+    assert_select 'h2', 'Confirm your password to continue'
+
+    assert_difference 'Issue.count', -1 do
+      delete '/issues/2', :params => {:sudo_password => 'foo'}
     end
   end
 
