@@ -148,10 +148,10 @@ de:
         earlier_than_minimum_start_date: "kann wegen eines Vorgängertickets nicht vor %{date} liegen"
         not_a_regexp: "ist kein gültiger regulärer Ausdruck"
         open_issue_with_closed_parent: "Ein offenes Ticket kann nicht an einen geschlossenen Vater gehängt werden"
-        must_contain_uppercase: "must contain uppercase letters (A-Z)"
-        must_contain_lowercase: "must contain lowercase letters (a-z)"
-        must_contain_digits: "must contain digits (0-9)"
-        must_contain_special_chars: "must contain special characters (!, $, %, ...)"
+        must_contain_uppercase: "muss Großbuchstaben (A-Z) enthalten"
+        must_contain_lowercase: "muss Kleinbuchstaben (a-z) enthalten"
+        must_contain_digits: "muss Zahlen (0-9) enthalten"
+        must_contain_special_chars: "muss Sonderzeichen (!, $, %, ...) enthalten"
 
   actionview_instancetag_blank_option: Bitte auswählen
 
@@ -1289,20 +1289,20 @@ de:
   label_issue_history_notes: Notizen
   label_last_tab_visited: Zuletzt geöffneter Tab
   text_no_subject: kein Thema
-  setting_password_required_char_classes: Required character classes for passwords
-  label_password_char_class_uppercase: uppercase letters
-  label_password_char_class_lowercase: lowercase letters
-  label_password_char_class_digits: digits
-  label_password_char_class_special_chars: special characters
-  text_characters_must_contain: Must contain %{character_classes}.
-  label_starts_with: starts with
-  label_ends_with: ends with
-  label_issue_fixed_version_updated: Target version updated
-  setting_project_list_defaults: Projects list defaults
-  label_display_type: Display results as
-  label_display_type_list: List
-  label_display_type_board: Board
-  label_my_bookmarks: My bookmarks
+  setting_password_required_char_classes: Für Passwörter benötigte Zeichenklassen
+  label_password_char_class_uppercase: Großbuchstaben
+  label_password_char_class_lowercase: Kleinbuchstaben
+  label_password_char_class_digits: Ziffern
+  label_password_char_class_special_chars: Sonderzeichen
+  text_characters_must_contain: Muss enthalten %{character_classes}.
+  label_starts_with: beginnt mit
+  label_ends_with: endet mit
+  label_issue_fixed_version_updated: Zielversion aktualisiert
+  setting_project_list_defaults: Voreinstellungen Projektliste
+  label_display_type: Ergebnisse anzeigen als
+  label_display_type_list: Liste
+  label_display_type_board: Karte
+  label_my_bookmarks: Meine Lesezeichen
   label_import_time_entries: Zeitbuchungen importieren
   field_toolbar_language_options: Code highlighting toolbar languages
   label_assign_to_me: Assign to me
