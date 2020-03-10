@@ -2104,6 +2104,10 @@ class IssueTest < ActiveSupport::TestCase
     child = Issue.generate!(:parent_issue_id => parent.id)
 
     allowed_statuses = parent.reload.new_statuses_allowed_to(users(:users_002))
+
+    assert !parent.closable?
+    assert_equal l(:notice_issue_not_closable_by_open_tasks), parent.transition_warning
+
     assert allowed_statuses.any?
     assert_equal [], allowed_statuses.select(&:is_closed?)
   end
@@ -2113,6 +2117,9 @@ class IssueTest < ActiveSupport::TestCase
     child = Issue.generate!(:parent_issue_id => parent.id, :status_id => 5)
 
     allowed_statuses = parent.reload.new_statuses_allowed_to(users(:users_002))
+
+    assert parent.closable?
+    assert_nil parent.transition_warning
     assert allowed_statuses.any?
     assert allowed_statuses.select(&:is_closed?).any?
   end
@@ -3284,5 +3291,24 @@ class IssueTest < ActiveSupport::TestCase
     # March 21st and the issue should be marked overdue
     User.current = user_in_asia
     assert issue.overdue?
+  end
+
+  def test_closable
+    issue10 = Issue.find(10)
+    assert issue10.closable?
+    assert_nil issue10.transition_warning
+
+    # Issue blocked by another issue
+    issue9 = Issue.find(9)
+    assert !issue9.closable?
+    assert_equal l(:notice_issue_not_closable_by_blocking_issue), issue9.transition_warning
+  end
+
+  def test_reopenable
+    parent = Issue.generate!(:status_id => 5)
+    child = parent.generate_child!(:status_id => 5)
+
+    assert !child.reopenable?
+    assert_equal l(:notice_issue_not_reopenable_by_closed_parent_issue), child.transition_warning
   end
 end

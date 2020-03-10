@@ -56,6 +56,7 @@ class Issue < ActiveRecord::Base
 
   DONE_RATIO_OPTIONS = %w(issue_field issue_status)
 
+  attr_reader :transition_warning
   attr_writer :deleted_attachment_ids
   delegate :notes, :notes=, :private_notes, :private_notes=, :to => :current_journal, :allow_nil => true
 
@@ -969,6 +970,28 @@ class Issue < ActiveRecord::Base
     !relations_to.detect {|ir| ir.relation_type == 'blocks' && !ir.issue_from.closed?}.nil?
   end
 
+  # Returns true if this issue can be closed and if not, returns false and populates the reason
+  def closable?
+    if descendants.open.any?
+      @transition_warning = l(:notice_issue_not_closable_by_open_tasks)
+      return false
+    end
+    if blocked?
+      @transition_warning = l(:notice_issue_not_closable_by_blocking_issue)
+      return false
+    end
+    return true
+  end
+
+  # Returns true if this issue can be reopen and if not, returns false and populates the reason
+  def reopenable?
+    if ancestors.open(false).any?
+      @transition_warning = l(:notice_issue_not_reopenable_by_closed_parent_issue)
+      return false
+    end
+    return true
+  end
+
   # Returns the default status of the issue based on its tracker
   # Returns nil if tracker is nil
   def default_status
@@ -1008,11 +1031,11 @@ class Issue < ActiveRecord::Base
     statuses << default_status if include_default || (new_record? && statuses.empty?)
 
     statuses = statuses.compact.uniq.sort
-    if blocked? || descendants.open.any?
+    unless closable?
       # cannot close a blocked issue or a parent with open subtasks
       statuses.reject!(&:is_closed?)
     end
-    if ancestors.open(false).any?
+    unless reopenable?
       # cannot reopen a subtask of a closed parent
       statuses.select!(&:is_closed?)
     end

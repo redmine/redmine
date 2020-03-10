@@ -5278,6 +5278,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'select[name=?]', 'issue[priority_id]' do
       assert_select 'option[value="15"]', 0
     end
+    assert_select 'span.icon-warning', 0
   end
 
   def test_edit_should_hide_project_if_user_is_not_allowed_to_change_project
@@ -5387,6 +5388,21 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'select[name=?]', 'issue[assigned_to_id]' do
       assert_select 'option[value="2"][selected=selected]'
     end
+  end
+
+  def test_get_edit_for_issue_with_transition_warning_should_show_the_warning
+    @request.session[:user_id] = 2
+
+    get(
+      :edit,
+      :params => {
+        :id => 9,
+      }
+    )
+
+    assert_response :success
+    reason = l(:notice_issue_not_closable_by_blocking_issue)
+    assert_select 'span.icon-warning[title=?]', reason, :text => reason
   end
 
   def test_update_form_for_existing_issue
