@@ -194,6 +194,10 @@ bg:
   notice_new_password_must_be_different: Новата парола трябва да бъде различна от сегашната парола
   notice_import_finished: "%{count} обекта бяха импортирани"
   notice_import_finished_with_errors: "%{count} от общо %{total} обекта не бяха инпортирани"
+  notice_issue_not_closable_by_open_tasks: Тази задача не може да бъде затворена, понеже има поне една отворена подзадача.
+  notice_issue_not_closable_by_blocking_issue: Тази задача не може да бъде затворена, понеже е блокирана от поне една отворена задача.
+  notice_issue_not_reopenable_by_closed_parent_issue: Тази задача не може да бъде отворена отново, понеже нейната родителска задача е затворена.
+
   error_can_t_load_default_data: "Грешка при зареждане на началната информация: %{value}"
   error_scm_not_found: Несъществуващ обект в хранилището.
   error_scm_command_failed: "Грешка при опит за комуникация с хранилище: %{value}"
@@ -1081,6 +1085,7 @@ bg:
   label_display_type_list: Списък
   label_display_type_board: Таблица
   label_my_bookmarks: Моите отметки
+  label_assign_to_me: Назначи на мен
 
   button_login: Вход
   button_submit: Изпращане
@@ -1289,10 +1294,3 @@ bg:
   text_project_is_public_non_member: Публичните проекти са достъпни за всички влезли в Redmine потребители.
   text_project_is_public_anonymous: Публичните проекти са достъпни и тяхното съдържание е видимо без ограничения в мрежата.
   label_import_time_entries: Импортиране на записи за използвано време
-  label_assign_to_me: Assign to me
-  notice_issue_not_closable_by_open_tasks: This issue cannot be closed because it has
-    at least one open subtask.
-  notice_issue_not_closable_by_blocking_issue: This issue cannot be closed because it
-    is blocked by at least one open issue.
-  notice_issue_not_reopenable_by_closed_parent_issue: This issue cannot be reopened
-    because its parent issue is closed.
