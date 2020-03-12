@@ -1320,13 +1320,13 @@ gl:
   label_display_type_board: Taboleiro
   label_my_bookmarks: Meus favoritos
   label_import_time_entries: Importar tempos dedicados
-  field_toolbar_language_options: Code highlighting toolbar languages
-  label_user_mail_notify_about_high_priority_issues_html: Also notify me about issues
-    with a priority of <em>%{prio}</em> or higher
-  label_assign_to_me: Assign to me
-  notice_issue_not_closable_by_open_tasks: This issue cannot be closed because it has
-    at least one open subtask.
-  notice_issue_not_closable_by_blocking_issue: This issue cannot be closed because it
-    is blocked by at least one open issue.
-  notice_issue_not_reopenable_by_closed_parent_issue: This issue cannot be reopened
-    because its parent issue is closed.
+  field_toolbar_language_options: Idiomas da barra de ferramentas de resaltado de código
+  label_user_mail_notify_about_high_priority_issues_html: Tamén notifícame sobre as tarefas
+    cunha prioridade <em>%{prio}</em> ou maior
+  label_assign_to_me: Asignar a min
+  notice_issue_not_closable_by_open_tasks: Esta tarefa non pode ser pechada porque ten
+    polo menos unha subtarefa aberta.
+  notice_issue_not_closable_by_blocking_issue: Esta tarefa non pode ser pechada porque
+    está bloqueada polo menos por unha tarefa aberta.
+  notice_issue_not_reopenable_by_closed_parent_issue: Esta tarefa non pode ser reaberta
+    porque a súa tarefa pai está pechada.
