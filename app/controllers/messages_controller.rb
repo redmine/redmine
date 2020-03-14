@@ -25,8 +25,6 @@ class MessagesController < ApplicationController
   before_action :find_message, :except => [:new, :preview]
   before_action :authorize, :except => [:preview, :edit, :destroy]
 
-  require_sudo_mode :destroy
-
   helper :boards
   helper :watchers
   helper :attachments

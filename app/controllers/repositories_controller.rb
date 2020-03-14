@@ -36,8 +36,6 @@ class RepositoriesController < ApplicationController
   before_action :authorize
   accept_rss_auth :revisions
 
-  require_sudo_mode :destroy
-
   rescue_from Redmine::Scm::Adapters::CommandFailed, :with => :show_error_command_failed
 
   def new
