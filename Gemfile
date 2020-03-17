@@ -28,7 +28,7 @@ gem "recaptcha"
 gem "unicorn"
 gem "mimemagic"
 gem "thread_safe"
-gem "byebug"
+gem "byebug", "< 11.1.1"
 gem 'activerecord-deprecated_finders', require: 'active_record/deprecated_finders'
 
 gem "nokogiri", "~> 1.6.8"
