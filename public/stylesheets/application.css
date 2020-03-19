@@ -239,7 +239,7 @@ table.list, .table-list { border: 1px solid #e4e4e4; width: 100%; margin-bottom:
 table.list th, .table-list-header { background-color:#EEEEEE; padding: 4px; white-space:nowrap; font-weight:bold; }
 table.list td {text-align:center; vertical-align:middle; padding-right:10px;}
 table.list td.id { width: 2%; text-align: center;}
-table.list td.name, table.list td.description, table.list td.subject, table.list td.comments, table.list td.roles, table.list td.attachments, table.list td.text,  table.list td.short_description {text-align: left;}
+table.list td.name, table.list td.description, table.list td.subject, table.list td.parent-subject, table.list td.comments, table.list td.roles, table.list td.attachments, table.list td.text,  table.list td.short_description {text-align: left;}
 
 table.list td.attachments span {display: block; height: 16px;}
 table.list td.attachments span a.icon-download {display: inline-block; visibility: hidden;}
@@ -265,7 +265,7 @@ tr.project.closed, tr.project.archived { color: #aaa; }
 tr.project.closed a, tr.project.archived a { color: #aaa; }
 
 tr.issue { text-align: center; white-space: nowrap; }
-tr.issue td.subject, tr.issue td.category, td.assigned_to, td.last_updated_by, tr.issue td.string, tr.issue td.text, tr.issue td.list, tr.issue td.relations, tr.issue td.parent { white-space: normal; }
+tr.issue td.subject, tr.issue td.parent-subject, tr.issue td.category, td.assigned_to, td.last_updated_by, tr.issue td.string, tr.issue td.text, tr.issue td.list, tr.issue td.relations, tr.issue td.parent { white-space: normal; }
 tr.issue td.relations { text-align: left; }
 tr.issue td.done_ratio table.progress { margin-left:auto; margin-right: auto;}
 tr.issue td.relations span {white-space: nowrap;}
