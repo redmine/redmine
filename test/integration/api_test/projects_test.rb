@@ -94,6 +94,8 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_kind_of Hash, json
     assert_kind_of Hash, json['project']
     assert_equal 1, json['project']['id']
+    assert_equal false, json['project'].has_key?('default_version')
+    assert_equal false, json['project'].has_key?('default_assignee')
   end
 
   test "GET /projects/:id.xml with hidden custom fields should not display hidden custom fields" do
@@ -136,6 +138,29 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_equal 'application/xml', @response.content_type
 
     assert_select 'enabled_modules[type=array] enabled_module[name=issue_tracking]'
+  end
+
+  def test_get_project_with_default_version_and_assignee
+    user = User.find(3)
+    version = Version.find(1)
+    Project.find(1).update!(default_assigned_to_id: user.id, default_version_id: version.id)
+
+    get '/projects/1.json'
+
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_kind_of Hash, json
+    assert_kind_of Hash, json['project']
+    assert_equal 1, json['project']['id']
+
+    assert json['project'].has_key?('default_assignee')
+    assert_equal 2, json['project']['default_assignee'].length
+    assert_equal user.id, json['project']['default_assignee']['id']
+    assert_equal user.name, json['project']['default_assignee']['name']
+
+    assert json['project'].has_key?('default_version')
+    assert_equal 2, json['project']['default_version'].length
+    assert_equal version.id, json['project']['default_version']['id']
+    assert_equal version.name, json['project']['default_version']['name']
   end
 
   test "POST /projects.xml with valid parameters should create the project" do

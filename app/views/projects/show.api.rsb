@@ -7,6 +7,8 @@ api.project do
   api.parent(:id => @project.parent.id, :name => @project.parent.name) if @project.parent && @project.parent.visible?
   api.status      @project.status
   api.is_public   @project.is_public?
+  api.default_version(:id => @project.default_version.id, :name => @project.default_version.name) if @project.default_version
+  api.default_assignee(:id => @project.project.default_assigned_to.id, :name => @project.project.default_assigned_to.name) if @project.default_assigned_to
 
   render_api_custom_values @project.visible_custom_field_values, api
   render_api_includes(@project, api)
