@@ -581,7 +581,7 @@ module Redmine
             coords[:bar_start] = 0
           end
           if end_date < self.date_to
-            coords[:end] = end_date - self.date_from
+            coords[:end] = end_date - self.date_from + 1
             coords[:bar_end] = end_date - self.date_from + 1
           else
             coords[:bar_end] = self.date_to - self.date_from + 1
@@ -820,7 +820,7 @@ module Redmine
           if coords[:end]
             style = ""
             style << "top:#{params[:top]}px;"
-            style << "left:#{coords[:end] + params[:zoom]}px;"
+            style << "left:#{coords[:end]}px;"
             style << "width:15px;"
             output << view.content_tag(:div, '&nbsp;'.html_safe,
                                        :style => style,
@@ -943,7 +943,7 @@ module Redmine
             params[:image].polygon(x - 4, y, x, y - 4, x + 4, y, x, y + 4)
           end
           if coords[:end]
-            x = params[:subject_width] + coords[:end] + params[:zoom]
+            x = params[:subject_width] + coords[:end]
             y = params[:top] - height / 2
             params[:image].fill('blue')
             params[:image].polygon(x - 4, y, x, y - 4, x + 4, y, x, y + 4)
