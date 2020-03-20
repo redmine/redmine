@@ -84,6 +84,21 @@ class EnumerationsControllerTest < Redmine::ControllerTest
     assert_equal "sample", Enumeration.find_by(:name => 'Sample').custom_field_values.last.value
   end
 
+  def test_create_with_multiple_select_list_custom_fields
+    custom_field = IssuePriorityCustomField.generate!(:field_format => 'list', :multiple => true, :possible_values => ['1', '2', '3', '4'])
+    assert_difference 'IssuePriority.count' do
+      post :create, :params => {
+          :enumeration => {
+            :type => 'IssuePriority',
+            :name => 'Sample',
+            :custom_field_values => {custom_field.id.to_s => ['1', '2']}
+          }
+        }
+    end
+    assert_redirected_to '/enumerations'
+    assert_equal ['1', '2'].sort, Enumeration.find_by(:name => 'Sample').custom_field_values.last.value.sort
+  end
+
   def test_create_with_failure
     assert_no_difference 'IssuePriority.count' do
       post :create, :params => {
