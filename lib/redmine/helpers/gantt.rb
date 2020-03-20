@@ -945,21 +945,24 @@ module Redmine
         height /= 2 if markers
         # Renders the task bar, with progress and late
         if coords[:bar_start] && coords[:bar_end]
+          width = [1, coords[:bar_end] - coords[:bar_start]].max
           params[:pdf].SetY(params[:top] + 1.5)
           params[:pdf].SetX(params[:subject_width] + coords[:bar_start])
           params[:pdf].SetFillColor(200, 200, 200)
-          params[:pdf].RDMCell(coords[:bar_end] - coords[:bar_start], height, "", 0, 0, "", 1)
+          params[:pdf].RDMCell(width, height, "", 0, 0, "", 1)
           if coords[:bar_late_end]
+            width = [1, coords[:bar_late_end] - coords[:bar_start]].max
             params[:pdf].SetY(params[:top] + 1.5)
             params[:pdf].SetX(params[:subject_width] + coords[:bar_start])
             params[:pdf].SetFillColor(255, 100, 100)
-            params[:pdf].RDMCell(coords[:bar_late_end] - coords[:bar_start], height, "", 0, 0, "", 1)
+            params[:pdf].RDMCell(width, height, "", 0, 0, "", 1)
           end
           if coords[:bar_progress_end]
+            width = [1, coords[:bar_progress_end] - coords[:bar_start]].max
             params[:pdf].SetY(params[:top] + 1.5)
             params[:pdf].SetX(params[:subject_width] + coords[:bar_start])
             params[:pdf].SetFillColor(90, 200, 90)
-            params[:pdf].RDMCell(coords[:bar_progress_end] - coords[:bar_start], height, "", 0, 0, "", 1)
+            params[:pdf].RDMCell(width, height, "", 0, 0, "", 1)
           end
         end
         # Renders the markers
