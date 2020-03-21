@@ -5,6 +5,11 @@
               :title => l(:label_edit_attachments),
               :class => 'icon-only icon-edit'
              ) if options[:editable] %>
+  <%= link_to(l(:label_download_all_attachments),
+              container_attachments_download_path(container),
+              :title => l(:label_download_all_attachments),
+              :class => 'icon-only icon-download'
+             ) if attachments.size > 1 %>
 </div>
 <table>
 <% for attachment in attachments %>

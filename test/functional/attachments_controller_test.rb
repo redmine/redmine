@@ -577,6 +577,50 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_equal 'This is a Ruby source file', attachment.description
   end
 
+  def test_download_all_with_valid_container
+    @request.session[:user_id] = 2
+    get :download_all, :params => {
+        :object_type => 'issues',
+        :object_id => '2'
+      }
+    assert_response 200
+    assert_equal response.headers['Content-Type'], 'application/zip'
+    assert_match /issue-2-attachments.zip/, response.headers['Content-Disposition']
+    assert_not_includes Dir.entries(Rails.root.join('tmp')), /attachments_zip/
+  end
+
+  def test_download_all_with_invalid_container
+    @request.session[:user_id] = 2
+    get :download_all, :params => {
+        :object_type => 'issues',
+        :object_id => '999'
+      }
+    assert_response 404
+  end
+
+  def test_download_all_without_readable_attachments
+    @request.session[:user_id] = 2
+    get :download_all, :params => {
+        :object_type => 'issues',
+        :object_id => '1'
+      }
+    assert_equal Issue.find(1).attachments, []
+    assert_response 404
+  end
+
+  def test_download_all_with_maximum_bulk_download_size_larger_than_attachments
+    with_settings :bulk_download_max_size => 0 do
+      @request.session[:user_id] = 2
+      get :download_all, :params => {
+          :object_type => 'issues',
+          :object_id => '2',
+          :back_url => '/issues/2'
+      }
+      assert_redirected_to '/issues/2'
+      assert_equal flash[:error], 'These attachments cannot be bulk downloaded because the total file size exceeds the maximum allowed size (0)'
+    end
+  end
+
   def test_destroy_issue_attachment
     set_tmp_attachments_directory
     issue = Issue.find(3)

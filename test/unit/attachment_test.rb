@@ -278,6 +278,32 @@ class AttachmentTest < ActiveSupport::TestCase
     end
   end
 
+  def test_archive_attachments
+    attachment = Attachment.create!(:file => uploaded_test_file("testfile.txt", ""), :author_id => 1)
+    Tempfile.create('attachments_zip', Rails.root.join('tmp')) do |tempfile|
+      zip_file = Attachment.archive_attachments(tempfile, [attachment])
+      assert_instance_of File, zip_file
+    end
+  end
+
+  def test_archive_attachments_without_attachments
+    Tempfile.create('attachments_zip', Rails.root.join('tmp')) do |tempfile|
+      zip_file = Attachment.archive_attachments(tempfile, [])
+      assert_nil zip_file
+    end
+  end
+
+  def test_archive_attachments_should_rename_duplicate_file_names
+    attachment1 = Attachment.create!(:file => uploaded_test_file("testfile.txt", ""), :author_id => 1)
+    attachment2 = Attachment.create!(:file => uploaded_test_file("testfile.txt", ""), :author_id => 1)
+    Tempfile.create('attachments_zip', Rails.root.join('tmp')) do |tempfile|
+      zip_file = Attachment.archive_attachments(tempfile, [attachment1, attachment2])
+      Zip::File.open(zip_file.path) do |z|
+        assert_equal ['testfile.txt', 'testfile(1).txt'], z.map(&:name)
+      end
+    end
+  end
+
   def test_move_from_root_to_target_directory_should_move_root_files
     a = Attachment.find(20)
     assert a.disk_directory.blank?

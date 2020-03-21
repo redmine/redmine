@@ -3,6 +3,8 @@
 <div class="box tabular settings">
 <p><%= setting_text_field :attachment_max_size, :size => 6 %> <%= l(:"number.human.storage_units.units.kb") %></p>
 
+<p><%= setting_text_field :bulk_download_max_size, :size => 6 %> <%= l(:"number.human.storage_units.units.kb") %></p>
+
 <p><%= setting_text_area :attachment_extensions_allowed %>
 <em class="info"><%= l(:text_comma_separated) %> <%= l(:label_example) %>: txt, png</em></p>
 

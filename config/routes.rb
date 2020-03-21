@@ -289,6 +289,7 @@ Rails.application.routes.draw do
   resources :attachments, :only => [:show, :update, :destroy]
   get 'attachments/:object_type/:object_id/edit', :to => 'attachments#edit_all', :as => :object_attachments_edit
   patch 'attachments/:object_type/:object_id', :to => 'attachments#update_all', :as => :object_attachments
+  get 'attachments/:object_type/:object_id/download', :to => 'attachments#download_all', :as => :object_attachments_download
 
   resources :groups do
     resources :memberships, :controller => 'principal_memberships'

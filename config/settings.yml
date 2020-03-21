@@ -66,6 +66,9 @@ session_timeout:
 attachment_max_size:
   format: int
   default: 5120
+bulk_download_max_size:
+  format: int
+  default: 102400
 attachment_extensions_allowed:
   default:
 attachment_extensions_denied:

@@ -27,6 +27,10 @@ module AttachmentsHelper
     object_attachments_path container.class.name.underscore.pluralize, container.id
   end
 
+  def container_attachments_download_path(container)
+    object_attachments_download_path container.class.name.underscore.pluralize, container.id
+  end
+
   # Displays view/delete links to the attachments of the given object
   # Options:
   #   :author -- author names are not displayed if set to false

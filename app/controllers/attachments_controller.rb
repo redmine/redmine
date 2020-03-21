@@ -19,6 +19,8 @@
 
 class AttachmentsController < ApplicationController
   before_action :find_attachment, :only => [:show, :download, :thumbnail, :update, :destroy]
+  before_action :find_container, :only => [:edit_all, :update_all, :download_all]
+  before_action :find_downloadable_attachments, :only => :download_all
   before_action :find_editable_attachments, :only => [:edit_all, :update_all]
   before_action :file_readable, :read_authorize, :only => [:show, :download, :thumbnail]
   before_action :update_authorize, :only => :update
@@ -132,6 +134,20 @@ class AttachmentsController < ApplicationController
     render :action => 'edit_all'
   end
 
+  def download_all
+    Tempfile.create('attachments_zip-', Rails.root.join('tmp')) do |tempfile|
+      zip_file = Attachment.archive_attachments(tempfile, @attachments)
+      if zip_file
+        send_data(
+          File.read(zip_file.path),
+          :type => 'application/zip',
+          :filename => "#{@container.class.to_s.downcase}-#{@container.id}-attachments.zip")
+      else
+        render_404
+      end
+    end
+  end
+
   def update
     @attachment.safe_attributes = params[:attachment]
     saved = @attachment.save
@@ -195,6 +211,11 @@ class AttachmentsController < ApplicationController
   end
 
   def find_editable_attachments
+    @attachments = @container.attachments.select(&:editable?)
+    render_404 if @attachments.empty?
+  end
+
+  def find_container
     klass = params[:object_type].to_s.singularize.classify.constantize rescue nil
     unless klass && klass.reflect_on_association(:attachments)
       render_404
@@ -206,13 +227,22 @@ class AttachmentsController < ApplicationController
       render_403
       return
     end
-    @attachments = @container.attachments.select(&:editable?)
     if @container.respond_to?(:project)
       @project = @container.project
     end
-    render_404 if @attachments.empty?
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def find_downloadable_attachments
+    @attachments = @container.attachments.select{|a| File.readable?(a.diskfile) }
+    bulk_download_max_size = Setting.bulk_download_max_size.to_i.kilobytes
+    if @attachments.sum(&:filesize) > bulk_download_max_size
+      flash[:error] = l(:error_bulk_download_size_too_big,
+                        :max_size => bulk_download_max_size.to_i.kilobytes)
+      redirect_to back_url
+      return
+    end
   end
 
   # Checks that the file exists and is readable
