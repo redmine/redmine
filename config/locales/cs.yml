@@ -1313,3 +1313,7 @@ cs:
     je blokován alespoň jedním otevřeným úkolem.
   notice_issue_not_reopenable_by_closed_parent_issue: Tento úkol nemůže být znovu otevřen, protože
     jeho rodičovský úkol je uzavřen.
+  error_bulk_download_size_too_big: These attachments cannot be bulk downloaded because
+    the total file size exceeds the maximum allowed size (%{max_size})
+  setting_bulk_download_max_size: Maximum total size for bulk download
+  label_download_all_attachments: Download all files

@@ -1330,3 +1330,7 @@ gl:
     está bloqueada polo menos por unha tarefa aberta.
   notice_issue_not_reopenable_by_closed_parent_issue: Esta tarefa non pode ser reaberta
     porque a súa tarefa pai está pechada.
+  error_bulk_download_size_too_big: These attachments cannot be bulk downloaded because
+    the total file size exceeds the maximum allowed size (%{max_size})
+  setting_bulk_download_max_size: Maximum total size for bulk download
+  label_download_all_attachments: Download all files

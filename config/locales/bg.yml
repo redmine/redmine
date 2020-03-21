@@ -1294,3 +1294,7 @@ bg:
   text_project_is_public_non_member: Публичните проекти са достъпни за всички влезли в Redmine потребители.
   text_project_is_public_anonymous: Публичните проекти са достъпни и тяхното съдържание е видимо без ограничения в мрежата.
   label_import_time_entries: Импортиране на записи за използвано време
+  error_bulk_download_size_too_big: These attachments cannot be bulk downloaded because
+    the total file size exceeds the maximum allowed size (%{max_size})
+  setting_bulk_download_max_size: Maximum total size for bulk download
+  label_download_all_attachments: Download all files
