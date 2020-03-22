@@ -103,6 +103,13 @@ class MercurialAdapterTest < ActiveSupport::TestCase
       assert_equal '400bb86721098697c7d17b3724c794c57636de70', revisions[0].scmid
     end
 
+    def test_ctrl_character
+      revisions = @adapter.revisions(nil, '619ebf674dab', '619ebf674dab')
+      assert_equal 1, revisions.size
+      assert_equal "ctrl-s\u0013user", revisions[0].author
+      assert_equal "ctrl-s\u0013message", revisions[0].message
+    end
+
     def test_parents
       revs1 = @adapter.revisions(nil, 0, 0)
       assert_equal 1, revs1.size
