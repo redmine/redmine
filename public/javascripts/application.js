@@ -120,10 +120,6 @@ function initFilters() {
   $('#filters-table').on('click', 'td.field input[type=checkbox]', function() {
     toggleFilter($(this).val());
   });
-  $('#filters-table').on('click', '.toggle-multiselect', function() {
-    toggleMultiSelect($(this).siblings('select'))
-    $(this).toggleClass('icon-toggle-plus icon-toggle-minus')
-  });
   $('#filters-table').on('keypress', 'input[type=text]', function(e) {
     if (e.keyCode == 13) $(this).closest('form').submit();
   });
@@ -151,6 +147,7 @@ function addFilter(field, operator, values) {
   }
   $('#cb_'+fieldId).prop('checked', true);
   toggleFilter(field);
+  toggleMultiSelectIconInit();
   $('#add_filter_select').val('').find('option').each(function() {
     if ($(this).attr('value') == field) {
       $(this).attr('disabled', true);
@@ -189,7 +186,7 @@ function buildFilterRow(field, operator, values) {
   case "list_subprojects":
     tr.find('td.values').append(
       '<span style="display:none;"><select class="value" id="values_'+fieldId+'_1" name="v['+field+'][]"></select>' +
-      ' <span class="toggle-multiselect icon-only icon-toggle-plus">&nbsp;</span></span>'
+      ' <span class="toggle-multiselect icon-only '+(values.length > 1 ? 'icon-toggle-minus' : 'icon-toggle-plus')+'">&nbsp;</span></span>'
     );
     select = tr.find('td.values select');
     if (values.length > 1) { select.attr('multiple', true); }
@@ -336,11 +333,14 @@ function toggleOperator(field) {
 }
 
 function toggleMultiSelect(el) {
+  var isWorkflow = el.closest('.controller-workflows');
   if (el.attr('multiple')) {
     el.removeAttr('multiple');
+    if (isWorkflow) { el.find("option[value=all]").show(); }
     el.attr('size', 1);
   } else {
     el.attr('multiple', true);
+    if (isWorkflow) { el.find("option[value=all]").attr("selected", false).hide(); }
     if (el.children().length > 10)
       el.attr('size', 10);
     else
@@ -891,6 +891,15 @@ function toggleDisabledOnChange() {
 function toggleDisabledInit() {
   $('input[data-disables], input[data-enables], input[data-shows]').each(toggleDisabledOnChange);
 }
+function toggleMultiSelectIconInit() {
+  $('.toggle-multiselect:not(.icon-toggle-minus), .toggle-multiselect:not(.icon-toggle-plus)').each(function(){
+    if ($(this).siblings('select').find('option:selected').size() > 1){
+      $(this).addClass('icon-toggle-minus');
+    } else {
+      $(this).addClass('icon-toggle-plus');
+    }
+  });
+}
 
 function toggleNewObjectDropdown() {
   var dropdown = $('#new-object + ul.menu-children');
@@ -930,6 +939,12 @@ function toggleNewObjectDropdown() {
 $(document).ready(function(){
   $('#content').on('change', 'input[data-disables], input[data-enables], input[data-shows]', toggleDisabledOnChange);
   toggleDisabledInit();
+
+  $('#content').on('click', '.toggle-multiselect', function() {
+    toggleMultiSelect($(this).siblings('select'));
+    $(this).toggleClass('icon-toggle-plus icon-toggle-minus');
+  });
+  toggleMultiSelectIconInit();
 
   $('#history .tabs').on('click', 'a', function(e){
     var tab = $(e.target).attr('id').replace('tab-','');

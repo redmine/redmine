@@ -15,13 +15,13 @@
 <p>
   <label><%=l(:label_role)%>:
   <%= options_for_workflow_select 'role_id[]', Role.sorted.select(&:consider_workflow?), @roles, :id => 'role_id', :class => 'expandable' %>
+  <span class="toggle-multiselect icon-only"></span>
   </label>
-  <a href="#" data-expands="#role_id"><span class="toggle-multiselect icon-only icon-toggle-plus"></span></a>
 
   <label><%=l(:label_tracker)%>:
   <%= options_for_workflow_select 'tracker_id[]', Tracker.sorted, @trackers, :id => 'tracker_id', :class => 'expandable' %>
+  <span class="toggle-multiselect icon-only"></span>
   </label>
-  <a href="#" data-expands="#tracker_id"><span class="toggle-multiselect icon-only icon-toggle-plus"></span></a>
 
   <%= submit_tag l(:button_edit), :name => nil %>
 
@@ -57,21 +57,4 @@
     </div>
     <%= submit_tag l(:button_save) %>
   <% end %>
-<% end %>
-
-<%= javascript_tag do %>
-$("a[data-expands]").click(function(e){
-  e.preventDefault();
-  var target = $($(this).attr("data-expands"));
-  if (target.attr("multiple")) {
-    $(this).find('span').switchClass('icon-toggle-minus', 'icon-toggle-plus');
-    target.attr("multiple", false);
-    target.find("option[value=all]").show();
-  } else {
-    $(this).find('span').switchClass('icon-toggle-plus', 'icon-toggle-minus');
-    target.attr("multiple", true);
-    target.find("option[value=all]").attr("selected", false).hide();
-  }
-});
-
 <% end %>
