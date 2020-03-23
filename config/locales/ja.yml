@@ -1315,7 +1315,6 @@ ja:
   notice_issue_not_closable_by_open_tasks: 未完了の子チケットがあるためこのチケットは完了にできません。
   notice_issue_not_closable_by_blocking_issue: 未完了のブロック元チケットがあるためこのチケットは完了にできません。
   notice_issue_not_reopenable_by_closed_parent_issue: 親チケットが完了しているためこのチケットは未完了に戻せません。
-  error_bulk_download_size_too_big: These attachments cannot be bulk downloaded because
-    the total file size exceeds the maximum allowed size (%{max_size})
-  setting_bulk_download_max_size: Maximum total size for bulk download
-  label_download_all_attachments: Download all files
+  error_bulk_download_size_too_big: これらの添付ファイルは一括ダウンロードできません。ファイルサイズの合計が上限(%{max_size})を超えています。
+  setting_bulk_download_max_size: 一括ダウンロードの合計ファイルサイズの上限
+  label_download_all_attachments: 一括ダウンロード
