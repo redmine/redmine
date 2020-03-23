@@ -617,7 +617,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
           :back_url => '/issues/2'
       }
       assert_redirected_to '/issues/2'
-      assert_equal flash[:error], 'These attachments cannot be bulk downloaded because the total file size exceeds the maximum allowed size (0)'
+      assert_equal flash[:error], 'These attachments cannot be bulk downloaded because the total file size exceeds the maximum allowed size (0 Bytes)'
     end
   end
 

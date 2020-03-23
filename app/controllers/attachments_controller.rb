@@ -18,6 +18,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AttachmentsController < ApplicationController
+  include ActionView::Helpers::NumberHelper
+
   before_action :find_attachment, :only => [:show, :download, :thumbnail, :update, :destroy]
   before_action :find_container, :only => [:edit_all, :update_all, :download_all]
   before_action :find_downloadable_attachments, :only => :download_all
@@ -239,7 +241,7 @@ class AttachmentsController < ApplicationController
     bulk_download_max_size = Setting.bulk_download_max_size.to_i.kilobytes
     if @attachments.sum(&:filesize) > bulk_download_max_size
       flash[:error] = l(:error_bulk_download_size_too_big,
-                        :max_size => bulk_download_max_size.to_i.kilobytes)
+                        :max_size => number_to_human_size(bulk_download_max_size.to_i))
       redirect_to back_url
       return
     end
