@@ -86,7 +86,7 @@ module CustomFieldsHelper
       data = {
         :auto_complete => true,
         :issues_url => auto_complete_issues_path(:project_id => custom_value.customized.project, :q => '')
-      } if custom_value.customized && custom_value.customized.project
+      } if custom_value.customized&.try(:project)
     end
     custom_value.custom_field.format.edit_tag(
       self,
