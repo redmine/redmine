@@ -443,6 +443,14 @@ class UsersControllerTest < Redmine::ControllerTest
     assert_response 404
   end
 
+  def test_edit_user_with_full_text_formatting_custom_field_should_not_fail
+    field = UserCustomField.find(4)
+    field.update_attribute :text_formatting, 'full'
+
+    get :edit, :params => {:id => 2}
+    assert_response :success
+  end
+
   def test_update
     ActionMailer::Base.deliveries.clear
     put :update, :params => {
