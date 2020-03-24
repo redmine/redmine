@@ -36,4 +36,15 @@ class IssuesPdfHelperTest < ActiveSupport::TestCase
     results = fetch_row_values(issue, query, 0)
     assert_equal ["2", "Add ingredients categories", "4.34"], results
   end
+
+  def test_fetch_row_values_should_be_able_to_handle_parent_issue_subject
+    query = IssueQuery.new(:project => Project.find(1), :name => '_')
+    query.column_names = [:subject, 'parent.subject']
+    issue = Issue.find(2)
+    issue.parent = Issue.find(1)
+    issue.save!
+
+    results = fetch_row_values(issue, query, 0)
+    assert_equal ['2', 'Add ingredients categories', 'Cannot print recipes'], results
+  end
 end
