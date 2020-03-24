@@ -36,7 +36,7 @@ de:
 
   datetime:
     distance_in_words:
-      half_a_minute: 'eine halbe Minute'
+      half_a_minute: 'einer halben Minute'
       less_than_x_seconds:
         one: 'weniger als 1 Sekunde'
         other: 'weniger als %{count} Sekunden'
@@ -141,13 +141,13 @@ de:
         less_than_or_equal_to: "muss kleiner oder gleich %{count} sein"
         odd: "muss ungerade sein"
         even: "muss gerade sein"
-        greater_than_start_date: "muss größer als Anfangsdatum sein"
+        greater_than_start_date: "muss größer als der Beginn sein"
         not_same_project: "gehört nicht zum selben Projekt"
         circular_dependency: "Diese Beziehung würde eine zyklische Abhängigkeit erzeugen"
-        cant_link_an_issue_with_a_descendant: "Ein Ticket kann nicht mit einer Ihrer Unteraufgaben verlinkt werden"
+        cant_link_an_issue_with_a_descendant: "Ein Ticket kann nicht mit einem seiner untergeordneten Tickets verlinkt werden"
         earlier_than_minimum_start_date: "kann wegen eines Vorgängertickets nicht vor %{date} liegen"
         not_a_regexp: "ist kein gültiger regulärer Ausdruck"
-        open_issue_with_closed_parent: "Ein offenes Ticket kann nicht an einen geschlossenen Vater gehängt werden"
+        open_issue_with_closed_parent: "Ein offenes Ticket kann nicht an ein geschlossenes übergeordnetes Ticket angehängt werden"
         must_contain_uppercase: "muss Großbuchstaben (A-Z) enthalten"
         must_contain_lowercase: "muss Kleinbuchstaben (a-z) enthalten"
         must_contain_digits: "muss Zahlen (0-9) enthalten"
@@ -243,8 +243,8 @@ de:
   description_search: Suchfeld
   description_selected_columns: Ausgewählte Spalten
 
-  description_user_mail_notification: Mailbenachrichtigungseinstellung
-  description_wiki_subpages_reassign: Neue Elternseite wählen
+  description_user_mail_notification: Einstellungen für E-Mail-Benachrichtigung
+  description_wiki_subpages_reassign: Neue übergeordnete Seite wählen
 
   enumeration_activities: Aktivitäten (Zeiterfassung)
   enumeration_doc_categories: Dokumentenkategorien
@@ -263,16 +263,16 @@ de:
   error_no_default_issue_status: Es ist kein Status als Standard definiert. Bitte überprüfen Sie Ihre Konfiguration (unter "Administration -> Ticket-Status").
   error_no_tracker_in_project: Diesem Projekt ist kein Tracker zugeordnet. Bitte überprüfen Sie die Projekteinstellungen.
   error_scm_annotate: "Der Eintrag existiert nicht oder kann nicht annotiert werden."
-  error_scm_annotate_big_text_file: Der Eintrag kann nicht umgesetzt werden, da er die maximale Textlänge überschreitet.
+  error_scm_annotate_big_text_file: Der Eintrag kann nicht annotiert werden, da er die maximale Textlänge überschreitet.
   error_scm_command_failed: "Beim Zugriff auf das Repository ist ein Fehler aufgetreten: %{value}"
   error_scm_not_found: Eintrag und/oder Revision existiert nicht im Repository.
   error_session_expired: Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.
-  error_token_expired: "Dieser Link zum Passwort zurücksetzen ist nicht mehr gültig. Bitte versuchen Sie es erneut."
+  error_token_expired: "Dieser Link zum Zurücksetzen des Passworts ist nicht mehr gültig. Bitte versuchen Sie es erneut."
   error_unable_delete_issue_status: "Der Ticket-Status konnte nicht gelöscht werden. (%{value})"
   error_unable_to_connect: Fehler beim Verbinden (%{value})
   error_workflow_copy_source: Bitte wählen Sie einen Quell-Tracker und eine Quell-Rolle.
   error_workflow_copy_target: Bitte wählen Sie die Ziel-Tracker und -Rollen.
-  error_move_of_child_not_possible: "Unteraufgabe %{child} konnte nicht in das neue Projekt verschoben werden: %{errors}"
+  error_move_of_child_not_possible: "Untergeordnetes Ticket %{child} konnte nicht in das neue Projekt verschoben werden: %{errors}"
 
   field_account: Konto
   field_active: Aktiv
@@ -346,13 +346,13 @@ de:
   field_member_of_group: Zuständigkeitsgruppe
   field_min_length: Minimale Länge
   field_multiple: Mehrere Werte
-  field_must_change_passwd: Passwort beim nächsten Login ändern
+  field_must_change_passwd: Passwort bei der nächsten Anmeldung ändern
   field_name: Name
   field_new_password: Neues Passwort
   field_notes: Kommentare
   field_onthefly: On-the-fly-Benutzererstellung
   field_parent: Unterprojekt von
-  field_parent_issue: Übergeordnete Aufgabe
+  field_parent_issue: Übergeordnetes Ticket
   field_parent_title: Übergeordnete Seite
   field_password: Passwort
   field_password_confirmation: Bestätigung
@@ -415,8 +415,8 @@ de:
   label_add_projects: Projekt hinzufügen
   label_added: hinzugefügt
   label_added_time_by: "Von %{author} vor %{age} hinzugefügt"
-  label_additional_workflow_transitions_for_assignee: Zusätzliche Berechtigungen wenn der Benutzer der Zugewiesene ist
-  label_additional_workflow_transitions_for_author: Zusätzliche Berechtigungen wenn der Benutzer der Autor ist
+  label_additional_workflow_transitions_for_assignee: Zusätzliche Berechtigungen, wenn der Benutzer der Zugewiesene ist
+  label_additional_workflow_transitions_for_author: Zusätzliche Berechtigungen, wenn der Benutzer der Autor ist
   label_administration: Administration
   label_age: Geändert vor
   label_ago: vor
@@ -481,8 +481,8 @@ de:
   label_comment_added: Kommentar hinzugefügt
   label_comment_delete: Kommentar löschen
   label_comment_plural: Kommentare
-  label_commits_per_author: Übertragungen pro Autor
-  label_commits_per_month: Übertragungen pro Monat
+  label_commits_per_author: Commits pro Autor
+  label_commits_per_month: Commits pro Monat
   label_completed_versions: Abgeschlossene Versionen
   label_confirmation: Bestätigung
   label_contains: enthält
@@ -492,7 +492,7 @@ de:
   label_copy_attachments: Anhänge kopieren
   label_copy_same_as_target: So wie das Ziel
   label_copy_source: Quelle
-  label_copy_subtasks: Unteraufgaben kopieren
+  label_copy_subtasks: Untergeordnetes Ticket kopieren
   label_copy_target: Ziel
   label_copy_workflow_from: Workflow kopieren von
   label_cross_project_descendants: Mit Unterprojekten
@@ -516,7 +516,7 @@ de:
   label_deleted: gelöscht
   label_descending: Absteigend
   label_details: Details
-  label_diff: diff
+  label_diff: Vergleich
   label_diff_inline: einspaltig
   label_diff_side_by_side: nebeneinander
   label_disabled: gesperrt
@@ -555,7 +555,7 @@ de:
   label_gantt_progress_line: Fortschrittslinie
   label_general: Allgemein
   label_generate_key: Generieren
-  label_git_report_last_commit: Bericht des letzten Commits für Dateien und Verzeichnisse
+  label_git_report_last_commit: Letzte Commit-Nachricht für Dateien und Verzeichnisse anzeigen
   label_greater_or_equal: ">="
   label_group: Gruppe
   label_group_anonymous: Anonyme Benutzer
@@ -598,7 +598,7 @@ de:
   label_issue_watchers: Beobachter
   label_issues_by: "Tickets pro %{value}"
   label_issues_visibility_all: Alle Tickets
-  label_issues_visibility_own: Tickets die folgender Benutzer erstellt hat oder die ihm zugewiesen sind
+  label_issues_visibility_own: Tickets, die der Benutzer erstellt hat oder die ihm zugewiesen sind
   label_issues_visibility_public: Alle öffentlichen Tickets
   label_item_position: "%{position}/%{count}"
   label_jump_to_a_project: Zu einem Projekt springen...
@@ -757,7 +757,7 @@ de:
   label_string: Text
   label_subproject_new: Neues Unterprojekt
   label_subproject_plural: Unterprojekte
-  label_subtask_plural: Unteraufgaben
+  label_subtask_plural: Untergeordnete Tickets
   label_tag: Markierung
   label_text: Langer Text
   label_theme: Design-Stil
@@ -785,7 +785,7 @@ de:
   label_user_mail_notify_about_high_priority_issues_html: "Benachrichtige mich über Aufgaben mit einer Priorität von <em>%{prio}</em> oder höher"
   label_user_mail_option_all: "Für alle Ereignisse in all meinen Projekten"
   label_user_mail_option_none: Keine Ereignisse
-  label_user_mail_option_only_my_events: Nur für Aufgaben die ich beobachte oder an welchen ich mitarbeite
+  label_user_mail_option_only_my_events: Nur für Angelegenheiten, die ich beobachte oder an denen ich beteiligt bin
   label_user_mail_option_selected: "Für alle Ereignisse in den ausgewählten Projekten"
   label_user_new: Neuer Benutzer
   label_user_plural: Benutzer
@@ -858,7 +858,7 @@ de:
   mail_subject_wiki_content_updated: "Wiki-Seite '%{id}' erfolgreich aktualisiert"
   mail_subject_security_notification: "Sicherheitshinweis"
   mail_body_security_notification_change: "%{field} wurde geändert."
-  mail_body_security_notification_change_to: "%{field} wurde geändert zu %{value}."
+  mail_body_security_notification_change_to: "%{field} wurde zu %{value} geändert."
   mail_body_security_notification_add: "%{field} %{value} wurde hinzugefügt."
   mail_body_security_notification_remove: "%{field} %{value} wurde entfernt."
   mail_body_security_notification_notify_enabled: "E-Mail-Adresse %{value} erhält nun Benachrichtigungen."
@@ -869,15 +869,15 @@ de:
   notice_account_invalid_credentials: Benutzer oder Passwort ist ungültig.
   notice_account_lost_email_sent: Eine E-Mail mit Anweisungen, ein neues Passwort zu wählen, wurde Ihnen geschickt.
   notice_account_locked: Ihr Konto ist gesperrt.
-  notice_account_not_activated_yet: Sie haben Ihr Konto noch nicht aktiviert. Wenn Sie die Aktivierungsmail erneut erhalten wollen, <a href="%{url}">klicken Sie bitte hier</a>.
+  notice_account_not_activated_yet: Sie haben Ihr Konto noch nicht aktiviert. Wenn Sie die Aktivierungs-E-Mail erneut erhalten wollen, <a href="%{url}">klicken Sie bitte hier</a>.
   notice_account_password_updated: Passwort wurde erfolgreich aktualisiert.
   notice_account_pending: "Ihr Konto wurde erstellt und wartet jetzt auf die Genehmigung des Administrators."
-  notice_account_register_done: Konto wurde erfolgreich angelegt. Eine E-Mail mit weiteren Instruktionen zur Kontoaktivierung wurde an %{email} gesendet.
+  notice_account_register_done: Konto wurde erfolgreich angelegt. Eine E-Mail mit Hinweisen zur Kontoaktivierung wurde an %{email} gesendet.
   notice_account_unknown_email: Unbekannter Benutzer.
   notice_account_updated: Konto wurde erfolgreich aktualisiert.
   notice_account_wrong_password: Falsches Passwort.
   notice_api_access_key_reseted: Ihr API-Zugriffsschlüssel wurde zurückgesetzt.
-  notice_can_t_change_password: Dieses Konto verwendet eine externe Authentifizierungs-Quelle. Unmöglich, das Passwort zu ändern.
+  notice_can_t_change_password: Dieses Konto verwendet eine externe Authentifizierungs-Quelle. Das Passwort kann nicht geändert werden.
   notice_default_data_loaded: Die Standard-Konfiguration wurde erfolgreich geladen.
   notice_email_error: "Beim Senden einer E-Mail ist ein Fehler aufgetreten (%{value})."
   notice_email_sent: "Eine E-Mail wurde an %{value} gesendet."
@@ -886,12 +886,12 @@ de:
   notice_failed_to_save_time_entries: "%{count} von %{total} ausgewählten Zeiteinträgen konnte(n) nicht gespeichert werden: %{ids}"
   notice_feeds_access_key_reseted: Ihr Atom-Zugriffsschlüssel wurde zurückgesetzt.
   notice_file_not_found: Die angefragte Seite existiert nicht oder wurde entfernt.
-  notice_gantt_chart_truncated: Die Grafik ist unvollständig, da das Maximum der anzeigbaren Aufgaben überschritten wurde (%{max})
+  notice_gantt_chart_truncated: Die Grafik ist unvollständig, da das Maximum der anzeigbaren Tickets überschritten wurde (%{max})
   notice_issue_done_ratios_updated: Der Ticket-Fortschritt wurde aktualisiert.
   notice_issue_successful_create: Ticket %{id} erstellt.
-  notice_issue_update_conflict: Das Ticket wurde während Ihrer Bearbeitung von einem anderen Nutzer überarbeitet.
-  notice_locking_conflict: Datum wurde von einem anderen Benutzer geändert.
-  notice_new_password_must_be_different: Das neue Passwort muss sich vom dem Aktuellen unterscheiden
+  notice_issue_update_conflict: Das Ticket wurde während Ihrer Bearbeitung von einem anderen Nutzer aktualisiert.
+  notice_locking_conflict: Die Daten wurden von einem anderen Benutzer geändert.
+  notice_new_password_must_be_different: Das neue Passwort muss sich vom dem aktuellen unterscheiden
   notice_no_issue_selected: "Kein Ticket ausgewählt! Bitte wählen Sie die Tickets, die Sie bearbeiten möchten."
   notice_not_authorized: Sie sind nicht berechtigt, auf diese Seite zuzugreifen.
   notice_not_authorized_archived_project: Das Projekt wurde archiviert und ist daher nicht verfügbar.
@@ -899,7 +899,7 @@ de:
   notice_successful_create: Erfolgreich angelegt
   notice_successful_delete: Erfolgreich gelöscht.
   notice_successful_update: Erfolgreich aktualisiert.
-  notice_unable_delete_time_entry: Der Zeiterfassungseintrag konnte nicht gelöscht werden.
+  notice_unable_delete_time_entry: Der Aufwand konnte nicht gelöscht werden.
   notice_unable_delete_version: Die Version konnte nicht gelöscht werden.
   notice_user_successful_create: Benutzer %{id} angelegt.
 
@@ -944,16 +944,16 @@ de:
   permission_manage_public_queries: Öffentliche Filter verwalten
   permission_manage_related_issues: Zugehörige Tickets verwalten
   permission_manage_repository: Repository verwalten
-  permission_manage_subtasks: Unteraufgaben verwalten
+  permission_manage_subtasks: Untergeordnete Tickets verwalten
   permission_manage_versions: Versionen verwalten
   permission_manage_wiki: Wiki verwalten
   permission_protect_wiki_pages: Wiki-Seiten schützen
   permission_rename_wiki_pages: Wiki-Seiten umbenennen
   permission_save_queries: Filter speichern
   permission_select_project_modules: Projektmodule auswählen
-  permission_set_issues_private: Tickets privat oder öffentlich markieren
+  permission_set_issues_private: Tickets als privat oder öffentlich markieren
   permission_set_notes_private: Kommentar als privat markieren
-  permission_set_own_issues_private: Eigene Tickets privat oder öffentlich markieren
+  permission_set_own_issues_private: Eigene Tickets als privat oder öffentlich markieren
   permission_view_calendar: Kalender ansehen
   permission_view_changesets: Changesets ansehen
   permission_view_documents: Dokumente ansehen
@@ -983,18 +983,18 @@ de:
 
   setting_activity_days_default: Anzahl Tage pro Seite der Projekt-Aktivität
   setting_app_title: Applikationstitel
-  setting_attachment_max_size: Max. Dateigröße
+  setting_attachment_max_size: Maximale Dateigröße
   setting_autofetch_changesets: Changesets automatisch abrufen
   setting_autologin: Automatische Anmeldung läuft ab nach
   setting_bcc_recipients: E-Mails als Blindkopie (BCC) senden
   setting_cache_formatted_text: Formatierten Text im Cache speichern
-  setting_commit_cross_project_ref: Erlauben Tickets aller anderen Projekte zu referenzieren
+  setting_commit_cross_project_ref: Erlauben, Tickets aller anderen Projekte zu referenzieren
   setting_commit_fix_keywords: Schlüsselwörter (Status)
   setting_commit_logtime_activity_id: Aktivität für die Zeiterfassung
   setting_commit_logtime_enabled: Aktiviere Zeiterfassung via Commit-Nachricht
   setting_commit_ref_keywords: Schlüsselwörter (Beziehungen)
   setting_cross_project_issue_relations: Ticket-Beziehungen zwischen Projekten erlauben
-  setting_cross_project_subtasks: Projektübergreifende Unteraufgaben erlauben
+  setting_cross_project_subtasks: Projektübergreifende untergeordnete Tickets erlauben
   setting_date_format: Datumsformat
   setting_default_issue_start_date_to_creation_date: Aktuelles Datum als Beginn für neue Tickets verwenden
   setting_default_language: Standardsprache
@@ -1007,11 +1007,11 @@ de:
   setting_emails_footer: E-Mail-Fußzeile
   setting_emails_header: E-Mail-Kopfzeile
   setting_enabled_scm: Aktivierte Versionskontrollsysteme
-  setting_feeds_limit: Max. Anzahl Einträge pro Atom-Feed
+  setting_feeds_limit: Maximale Anzahl Einträge pro Atom-Feed
   setting_file_max_size_displayed: Maximale Größe inline angezeigter Textdateien
   setting_force_default_language_for_anonymous: Standardsprache für anonyme Benutzer erzwingen
   setting_force_default_language_for_loggedin: Standardsprache für angemeldete Benutzer erzwingen
-  setting_gantt_items_limit: Maximale Anzahl von Aufgaben die im Gantt-Chart angezeigt werden
+  setting_gantt_items_limit: Maximale Anzahl von Tickets, die im Gantt-Diagramm angezeigt werden
   setting_gravatar_default: Standard-Gravatar-Bild
   setting_gravatar_enabled: Gravatar-Benutzerbilder benutzen
   setting_host_name: Hostname
@@ -1020,7 +1020,7 @@ de:
   setting_issue_done_ratio_issue_status: Ticket-Status
   setting_issue_group_assignment: Ticketzuweisung an Gruppen erlauben
   setting_issue_list_default_columns: Standard-Spalten in der Ticket-Auflistung
-  setting_issues_export_limit: Max. Anzahl Tickets bei CSV/PDF-Export
+  setting_issues_export_limit: Maximale Anzahl Tickets bei CSV/PDF-Export
   setting_jsonp_enabled: JSONP Unterstützung aktivieren
   setting_link_copied_issue: Tickets beim Kopieren verlinken
   setting_login_required: Authentifizierung erforderlich
@@ -1035,7 +1035,7 @@ de:
   setting_openid: Erlaube OpenID-Anmeldung und -Registrierung
   setting_password_min_length: Mindestlänge des Passworts
   setting_password_max_age: Erzwinge Passwortwechsel nach
-  setting_lost_password: Erlaube Passwort-Zurücksetzen per E-Mail
+  setting_lost_password: Zurücksetzen des Passworts per E-Mail erlauben
   setting_per_page_options: Objekte pro Seite
   setting_plain_text_mail: Nur reinen Text (kein HTML) senden
   setting_protocol: Protokoll
@@ -1051,10 +1051,10 @@ de:
   setting_sys_api_enabled: Webservice zur Verwaltung der Repositories benutzen
   setting_text_formatting: Textformatierung
   setting_thumbnails_enabled: Vorschaubilder von Dateianhängen anzeigen
-  setting_thumbnails_size: Größe der Vorschaubilder (in Pixel)
+  setting_thumbnails_size: Größe der Vorschaubilder (in Pixeln)
   setting_time_format: Zeitformat
   setting_timespan_format: Format für Zeitspannen
-  setting_unsubscribe: Erlaubt Benutzern das eigene Benutzerkonto zu löschen
+  setting_unsubscribe: Benutzern erlauben, das eigene Benutzerkonto zu löschen
   setting_user_format: Benutzer-Anzeigeformat
   setting_welcome_text: Willkommenstext
   setting_wiki_compression: Wiki-Historie komprimieren
@@ -1080,17 +1080,17 @@ de:
   text_enumeration_category_reassign_to: 'Die Objekte stattdessen diesem Wert zuordnen:'
   text_enumeration_destroy_question: "%{count} Objekt(e) sind diesem Wert zugeordnet."
   text_file_repository_writable: Verzeichnis für Dateien beschreibbar
-  text_git_repository_note: Repository steht für sich alleine (bare) und liegt lokal (z.B. /gitrepo, c:\gitrepo)
+  text_git_repository_note: Repository hat kein Arbeitsverzeichnis (bare) und liegt lokal (z.B. /gitrepo, C:\gitrepo)
   text_issue_added: "Ticket %{id} wurde erstellt von %{author}."
   text_issue_category_destroy_assignments: Kategorie-Zuordnung entfernen
   text_issue_category_destroy_question: "Einige Tickets (%{count}) sind dieser Kategorie zugeordnet. Was möchten Sie tun?"
   text_issue_category_reassign_to: Tickets dieser Kategorie zuordnen
-  text_issue_conflict_resolution_add_notes: Nur meine Kommentare hinzufügen, meine übrigen Änderungen verwerfen
+  text_issue_conflict_resolution_add_notes: Nur meine Kommentare hinzufügen und meine übrigen Änderungen verwerfen
   text_issue_conflict_resolution_cancel: Meine Kommentare und Änderungen verwerfen und %{link} neu anzeigen
   text_issue_conflict_resolution_overwrite: Meine Änderungen trotzdem übernehmen (bisherige Kommentare bleiben bestehen, weitere Änderungen werden möglicherweise überschrieben)
   text_issue_updated: "Ticket %{id} wurde aktualisiert von %{author}."
   text_issues_destroy_confirmation: 'Sind Sie sicher, dass Sie die ausgewählten Tickets löschen möchten?'
-  text_issues_destroy_descendants_confirmation: Dies wird auch %{count} Unteraufgabe/n löschen.
+  text_issues_destroy_descendants_confirmation: Dies wird auch %{count} untergeordnete Tickets(s) löschen.
   text_issues_ref_in_commit_messages: Ticket-Beziehungen und -Status in Commit-Nachrichten
   text_journal_added: "%{label} %{value} wurde hinzugefügt"
   text_journal_changed: "%{label} wurde von %{old} zu %{new} geändert"
@@ -1100,7 +1100,7 @@ de:
   text_length_between: "Länge zwischen %{min} und %{max} Zeichen."
   text_line_separated: Mehrere Werte sind erlaubt (eine Zeile pro Wert).
   text_load_default_configuration: Standard-Konfiguration laden
-  text_mercurial_repository_note: Lokales Repository (e.g. /hgrepo, c:\hgrepo)
+  text_mercurial_repository_note: Lokales Repository (z. B. /hgrepo, C:\hgrepo)
   text_min_max_length_info: 0 heißt keine Beschränkung
   text_no_configuration_data: "Rollen, Tracker, Ticket-Status und Workflows wurden noch nicht konfiguriert.\nEs ist sehr zu empfehlen, die Standard-Konfiguration zu laden. Sobald sie geladen ist, können Sie diese abändern."
   text_own_membership_delete_confirmation: "Sie sind dabei, einige oder alle Ihre Berechtigungen zu entfernen. Es ist möglich, dass Sie danach das Projekt nicht mehr ansehen oder bearbeiten dürfen.\nSind Sie sicher, dass Sie dies tun möchten?"
@@ -1116,19 +1116,19 @@ de:
   text_scm_command: Kommando
   text_scm_command_not_available: SCM-Kommando ist nicht verfügbar. Bitte prüfen Sie die Einstellungen im Administrationspanel.
   text_scm_command_version: Version
-  text_scm_config: Die SCM-Kommandos können in der in config/configuration.yml konfiguriert werden. Redmine muss anschließend neu gestartet werden.
+  text_scm_config: Die SCM-Kommandos können in config/configuration.yml festgelegt werden. Bitte starten Sie die Applikation danach neu.
   text_scm_path_encoding_note: "Standard: UTF-8"
-  text_select_mail_notifications: Bitte wählen Sie die Aktionen aus, für die eine Mailbenachrichtigung gesendet werden soll.
+  text_select_mail_notifications: Bitte wählen Sie die Aktionen aus, für die eine E-Mail-Benachrichtigung gesendet werden soll.
   text_select_project_modules: 'Bitte wählen Sie die Module aus, die in diesem Projekt aktiviert sein sollen:'
   text_session_expiration_settings: "Achtung: Änderungen können aktuelle Sitzungen beenden, Ihre eingeschlossen!"
   text_status_changed_by_changeset: "Status geändert durch Changeset %{value}."
   text_subprojects_destroy_warning: "Dessen Unterprojekte (%{value}) werden ebenfalls gelöscht."
   text_subversion_repository_note: 'Beispiele: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
-  text_time_entries_destroy_confirmation: Sind Sie sicher, dass Sie die ausgewählten Zeitaufwände löschen möchten?
+  text_time_entries_destroy_confirmation: Sind Sie sicher, dass Sie die ausgewählten Aufwände löschen möchten?
   text_time_logged_by_changeset: Angewendet in Changeset %{value}.
-  text_tip_issue_begin_day: Aufgabe, die an diesem Tag beginnt
-  text_tip_issue_begin_end_day: Aufgabe, die an diesem Tag beginnt und endet
-  text_tip_issue_end_day: Aufgabe, die an diesem Tag endet
+  text_tip_issue_begin_day: Ticket, das an diesem Tag beginnt
+  text_tip_issue_begin_end_day: Ticket, das an diesem Tag beginnt und endet
+  text_tip_issue_end_day: Ticket, das an diesem Tag endet
   text_tracker_no_workflow: Kein Workflow für diesen Tracker definiert.
   text_turning_multiple_off: Wenn Sie die Mehrfachauswahl deaktivieren, werden Felder mit Mehrfachauswahl bereinigt.
     Dadurch wird sichergestellt, dass lediglich ein Wert pro Feld ausgewählt ist.
@@ -1156,9 +1156,9 @@ de:
   label_search_attachments_only: Nur Anhänge suchen
   label_search_open_issues_only: Nur offene Tickets
   field_address: E-Mail
-  setting_max_additional_emails: Maximale Anzahl zusätzlicher E-Mailadressen
+  setting_max_additional_emails: Maximale Anzahl zusätzlicher E-Mail-Adressen
   label_email_address_plural: E-Mails
-  label_email_address_add: E-Mailadresse hinzufügen
+  label_email_address_add: E-Mail-Adresse hinzufügen
   label_enable_notifications: Benachrichtigungen aktivieren
   label_disable_notifications: Benachrichtigungen deaktivieren
   setting_search_results_per_page: Suchergebnisse pro Seite
@@ -1167,9 +1167,9 @@ de:
   error_password_expired: Ihr Passwort ist abgelaufen oder der Administrator verlangt eine Passwortänderung.
   field_time_entries_visibility: Zeiten-Sichtbarkeit
   field_remote_ip: IP-Adresse
-  label_parent_task_attributes: Eigenschaften übergeordneter Aufgaben
-  label_parent_task_attributes_derived: Abgeleitet von Unteraufgaben
-  label_parent_task_attributes_independent: Unabhängig von Unteraufgaben
+  label_parent_task_attributes: Eigenschaften übergeordneter Tickets
+  label_parent_task_attributes_derived: Abgeleitet von untergeordneten Tickets
+  label_parent_task_attributes_independent: Unabhängig von untergeordneten Tickets
   label_time_entries_visibility_all: Alle Zeitaufwände
   label_time_entries_visibility_own: Nur eigene Aufwände
   label_member_management: Mitglieder verwalten
@@ -1178,8 +1178,8 @@ de:
   label_total_spent_time: Aufgewendete Zeit aller Projekte anzeigen
   notice_import_finished: "%{count} Einträge wurden importiert"
   notice_import_finished_with_errors: "%{count} von %{total} Einträgen konnten nicht importiert werden"
-  error_invalid_file_encoding: Die Datei ist keine gültige %{encoding} kodierte Datei
-  error_invalid_csv_file_or_settings: Die Datei ist keine CSV-Datei oder entspricht nicht den Einstellungen unten
+  error_invalid_file_encoding: Die Datei ist keine gültige %{encoding}-kodierte Datei
+  error_invalid_csv_file_or_settings: Die Datei ist keine CSV-Datei oder entspricht nicht den unten stehenden Einstellungen
   error_can_not_read_import_file: Beim Einlesen der Datei ist ein Fehler aufgetreten
   permission_import_issues: Tickets importieren
   label_import_issues: Tickets importieren
@@ -1208,7 +1208,7 @@ de:
   label_any_open_issues: irgendein offenes Ticket
   label_no_open_issues: kein offenes Ticket
   label_default_values_for_new_users: Standardwerte für neue Benutzer
-  error_ldap_bind_credentials: Ungültiges LDAP Konto/Passwort
+  error_ldap_bind_credentials: Ungültiges LDAP-Konto oder -Passwort
   mail_body_settings_updated: ! 'Die folgenden Einstellungen wurden geändert:'
   label_relations: Beziehungen
   button_filter: Filter
@@ -1219,24 +1219,24 @@ de:
   setting_new_item_menu_tab: Menü zum Anlegen neuer Objekte
   label_new_object_tab_enabled: Dropdown-Menü "+" anzeigen
   label_table_of_contents: Inhaltsverzeichnis
-  error_no_projects_with_tracker_allowed_for_new_issue: Es gibt keine Projekte mit Trackern, für welche sie Tickets erzeugen können
+  error_no_projects_with_tracker_allowed_for_new_issue: Es gibt keine Projekte mit Trackern, für die sie Tickets erzeugen können
   field_textarea_font: Schriftart für Textbereiche
   label_font_default: Standardschrift
   label_font_monospace: Nichtproportionale Schrift
   label_font_proportional: Proportionale Schrift
-  setting_commit_logs_formatting: Textformatierung für Commit Nachrichten
+  setting_commit_logs_formatting: Textformatierung für Commit-Nachrichten
   setting_mail_handler_enable_regex: Reguläre Ausdrücke verwenden
   error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Zeitbuchungen für Tickets, die gelöscht werden sind nicht möglich
   setting_timelog_required_fields: Erforderliche Felder für Zeitbuchungen
   label_attribute_of_object: '%{object_name}''s %{name}'
   label_user_mail_option_only_assigned: Nur für Dinge, die ich beobachte oder die mir zugewiesen sind
   label_user_mail_option_only_owner: Nur für Dinge, die ich beobachte oder die mir gehören
-  warning_fields_cleared_on_bulk_edit: Diese Änderungen werden eine automatische Löschung von ein oder mehreren Werten auf den selektierten Objekten zur Folge haben
+  warning_fields_cleared_on_bulk_edit: Diese Änderungen werden eine automatische Löschung von ein oder mehreren Werten der ausgewählten Objekte zur Folge haben
   field_updated_by: Geändert von
   field_last_updated_by: Zuletzt geändert von
   field_full_width_layout: Layout mit voller Breite
   label_last_notes: Letzte Kommentare
-  field_digest: Checksumme
+  field_digest: Prüfsumme
   setting_close_duplicate_issues: Duplikate automatisch schließen
   error_exceeds_maximum_hours_per_day: Es können nicht mehr als %{max_hours} Stunden am selben Tag gebucht werden (%{logged_hours} Stunden wurden bereits gebucht)
   setting_time_entry_list_defaults: Standard-Spalten in der Zeiten-Auflistung
@@ -1261,14 +1261,14 @@ de:
   text_role_no_workflow: Für diese Rolle ist kein Workflow definiert
   text_status_no_workflow: Kein Tracker verwendet diesen Status in den Workflows
   setting_mail_handler_preferred_body_part: Bevorzugter Teil von E-Mails im Multipart-Format
-  setting_show_status_changes_in_mail_subject: Zeige Statusänderungen im Betreff der Mailbenachrichtigung für Tickets
+  setting_show_status_changes_in_mail_subject: Zeige Statusänderungen im Betreff der E-Mail-Benachrichtigung für Tickets
   label_inherited_from_parent_project: Vom Hauptprojekt geerbt
   label_inherited_from_group: Von der Gruppe %{name} geerbt
   label_trackers_description: Beschreibung des Trackers
   label_open_trackers_description: Beschreibung aller Tracker anzeigen
   label_preferred_body_part_text: Text
   label_preferred_body_part_html: HTML (experimentell)
-  field_parent_issue_subject: Thema der übergeordneten Aufgabe
+  field_parent_issue_subject: Thema des übergeordneten Tickets
 
   permission_edit_own_issues: Eigene Tickets bearbeiten
   text_select_apply_tracker: Tracker wählen
