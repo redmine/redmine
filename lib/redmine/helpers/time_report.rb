@@ -124,7 +124,7 @@ module Redmine
                                               :label => :label_tracker},
                                  'activity' => {:sql => "#{TimeEntry.table_name}.activity_id",
                                                :klass => TimeEntryActivity,
-                                               :label => :label_activity},
+                                               :label => :field_activity},
                                  'issue' => {:sql => "#{TimeEntry.table_name}.issue_id",
                                              :klass => Issue,
                                              :label => :label_issue}
