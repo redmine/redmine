@@ -1318,3 +1318,5 @@ ja:
   error_bulk_download_size_too_big: これらの添付ファイルは一括ダウンロードできません。ファイルサイズの合計が上限(%{max_size})を超えています。
   setting_bulk_download_max_size: 一括ダウンロードの合計ファイルサイズの上限
   label_download_all_attachments: 一括ダウンロード
+  error_attachments_too_many: This file cannot be uploaded because it exceeds the maximum
+    number of files that can be attached simultaneously (%{max_number_of_files})

@@ -1340,3 +1340,5 @@ pl:
     the total file size exceeds the maximum allowed size (%{max_size})
   setting_bulk_download_max_size: Maximum total size for bulk download
   label_download_all_attachments: Download all files
+  error_attachments_too_many: This file cannot be uploaded because it exceeds the maximum
+    number of files that can be attached simultaneously (%{max_number_of_files})
