@@ -29,6 +29,8 @@ function addFile(inputEl, file, eagerUpload) {
 
     addAttachment.toggle(attachmentsFields.children().length < maxFiles);
     return attachmentId;
+  } else {
+    alert($('input.file_selector').data('max-number-of-files-message'));
   }
   return null;
 }

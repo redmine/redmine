@@ -30,6 +30,7 @@
         :multiple => multiple,
         :onchange => 'addInputFiles(this);',
         :data => {
+          :max_number_of_files_message => l(:error_attachments_too_many, :max_number_of_files => 10),
           :max_file_size => Setting.attachment_max_size.to_i.kilobytes,
           :max_file_size_message => l(:error_attachment_too_big, :max_size => number_to_human_size(Setting.attachment_max_size.to_i.kilobytes)),
           :max_concurrent_uploads => Redmine::Configuration['max_concurrent_ajax_uploads'].to_i,

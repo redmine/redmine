@@ -213,6 +213,7 @@ en:
   error_workflow_copy_target: 'Please select target tracker(s) and role(s)'
   error_unable_delete_issue_status: 'Unable to delete issue status (%{value})'
   error_unable_to_connect: "Unable to connect (%{value})"
+  error_attachments_too_many: "This file cannot be uploaded because it exceeds the maximum number of files that can be attached simultaneously (%{max_number_of_files})"
   error_attachment_too_big: "This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})"
   error_bulk_download_size_too_big: "These attachments cannot be bulk downloaded because the total file size exceeds the maximum allowed size (%{max_size})"
   error_session_expired: "Your session has expired. Please login again."
