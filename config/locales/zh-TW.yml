@@ -1371,16 +1371,11 @@
   label_import_time_entries: 匯入工時項目紀錄
   field_toolbar_language_options: 程式碼反白工具可用語言
   label_user_mail_notify_about_high_priority_issues_html: "同時通知我關於議題之優先權等級為 <em>%{prio}</em> 或以上等級之事物"
-  label_assign_to_me: Assign to me
-  notice_issue_not_closable_by_open_tasks: This issue cannot be closed because it has
-    at least one open subtask.
-  notice_issue_not_closable_by_blocking_issue: This issue cannot be closed because it
-    is blocked by at least one open issue.
-  notice_issue_not_reopenable_by_closed_parent_issue: This issue cannot be reopened
-    because its parent issue is closed.
-  error_bulk_download_size_too_big: These attachments cannot be bulk downloaded because
-    the total file size exceeds the maximum allowed size (%{max_size})
-  setting_bulk_download_max_size: Maximum total size for bulk download
-  label_download_all_attachments: Download all files
-  error_attachments_too_many: This file cannot be uploaded because it exceeds the maximum
-    number of files that can be attached simultaneously (%{max_number_of_files})
+  label_assign_to_me: 分派給我
+  notice_issue_not_closable_by_open_tasks: 此議題無法被結束，因為它至少還有一個尚在進行中的子任務。
+  notice_issue_not_closable_by_blocking_issue: 此議題無法被結束，因為它被至少一個尚在進行中的議題所阻斷。
+  notice_issue_not_reopenable_by_closed_parent_issue: 此議題無法被重新開啟，因為它的父議題已結束。
+  error_bulk_download_size_too_big: 這些附件無法被大量下載，因為其檔案大小總計超過允許的最大值 (%{max_size}) 。
+  setting_bulk_download_max_size: 大量下載檔案大小總計最大值
+  label_download_all_attachments: 下載所有檔案
+  error_attachments_too_many: 此檔案無法被上傳，因為已經超出允許同時上傳之附加檔案數量的最大值 (%{max_number_of_files}) 。
