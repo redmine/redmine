@@ -579,7 +579,10 @@ module ApplicationHelper
   def principals_check_box_tags(name, principals)
     s = +''
     principals.each do |principal|
-      s << "<label>#{ check_box_tag name, principal.id, false, :id => nil } <span class='name icon icon-#{principal.class.name.downcase}'></span>#{h principal}</label>\n"
+      s << content_tag('label',
+                       check_box_tag(name, principal.id, false, :id => nil) +
+                       (avatar(principal, :size => 16).presence || content_tag('span', nil, :class => "name icon icon-#{principal.class.name.downcase}")) +
+                       principal)
     end
     s.html_safe
   end

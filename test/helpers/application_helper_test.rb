@@ -22,6 +22,7 @@ require File.expand_path('../../test_helper', __FILE__)
 class ApplicationHelperTest < Redmine::HelperTest
   include ERB::Util
   include Rails.application.routes.url_helpers
+  include AvatarsHelper
 
   fixtures :projects, :enabled_modules,
            :users, :email_addresses,
@@ -1701,6 +1702,31 @@ class ApplicationHelperTest < Redmine::HelperTest
       [attachments(:attachments_003),   '<a href="/projects/ecookbook/wiki/Page_with_an_inline_image">Page with an inline image</a>'],
     ].each do |attachment, link|
       assert_equal link, link_to_attachment_container(attachment.container)
+    end
+  end
+
+  def test_principals_check_box_tag_with_avatar
+    principals = [User.find(1), Group.find(10)]
+    with_settings :gravatar_enabled => '1' do
+      tags = principals_check_box_tags("watcher[user_ids][]", principals)
+      principals.each do |principal|
+        assert_include avatar(principal, :size => 16), tags
+        assert_not_include content_tag('span', nil, :class => "name icon icon-#{principal.class.name.downcase}"), tags
+      end
+    end
+  end
+
+  def test_principals_check_box_tag_without_avatar
+    principals = [User.find(1), Group.find(10)]
+    Setting.gravatar_enabled = '1'
+    avatar_tags = principals.collect{|p| avatar(p, :size => 16) }
+
+    with_settings :gravatar_enabled => '0' do
+      tags = principals_check_box_tags(name, principals)
+      principals.each_with_index do |principal, i|
+        assert_not_include avatar_tags[i], tags
+        assert_include content_tag('span', nil, :class => "name icon icon-#{principal.class.name.downcase}"), tags
+      end
     end
   end
 

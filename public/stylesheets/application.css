@@ -415,6 +415,7 @@ td.center {text-align:center;}
 
 #watchers select {width: 95%; display: block;}
 #watchers img.gravatar {margin: 0 4px 2px 0;}
+#users_for_watcher img.gravatar {padding-bottom: 2px; margin-right: 4px;}
 
 span#watchers_inputs {overflow:auto; display:block;}
 span.search_for_watchers {display:block;}
