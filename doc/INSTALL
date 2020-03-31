@@ -33,10 +33,6 @@ Optional:
 4. Install the required gems by running:
      bundle install --without development test
 
-   If ImageMagick is not installed on your system, you should skip the
-   installation of the rmagick gem using:
-     bundle install --without development test rmagick
-
    Only the gems that are needed by the adapters you've specified in your
    database configuration file are actually installed (eg. if your
    config/database.yml uses the 'mysql2' adapter, then only the mysql2 gem
