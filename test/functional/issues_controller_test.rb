@@ -661,6 +661,23 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select '#csv-export-form input[name=?][value=?]', 'f[]', ''
   end
 
+  def test_index_should_show_block_columns_in_csv_export_form
+    field = IssueCustomField.
+              create!(
+                :name => 'Long text', :field_format => 'text',
+                :full_width_layout => '1',
+                :tracker_ids => [1], :is_for_all => true
+              )
+    get :index
+
+    assert_response :success
+    assert_select '#csv-export-form' do
+      assert_select 'input[value=?]', 'description'
+      assert_select 'input[value=?]', 'last_notes'
+      assert_select 'input[value=?]', "cf_#{field.id}"
+    end
+  end
+
   def test_index_csv
     get :index, :params => {
         :format => 'csv'
