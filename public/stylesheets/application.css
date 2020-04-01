@@ -336,7 +336,7 @@ tr.user.locked, tr.user.registered { color: #aaa; }
 tr.user.locked a, tr.user.registered a { color: #aaa; }
 
 table.permissions td.role {color:#999;font-size:90%;font-weight:normal !important;text-align:center;vertical-align:bottom;}
-table.permissions tr.group>td:nth-of-type(1), 
+table.permissions tr.group>td:nth-of-type(1),
 table.tracker-summary tr.group>td:nth-of-type(1) {font-weight: bold;}
 
 tr.wiki-page-version td.updated_on, tr.wiki-page-version td.author {text-align:center;}
@@ -765,6 +765,7 @@ span.pagination>span {white-space:nowrap;}
 }
 
 #search-form fieldset p {margin:0.2em 0;}
+#csv-export-options fieldset {padding: 0;}
 
 /***** Tabular forms ******/
 .tabular p{
