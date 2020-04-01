@@ -347,7 +347,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def self.archive_attachments(out_file, attachments)
-    attachments = attachments.select{|attachment| File.readable?(attachment.diskfile) }
+    attachments = attachments.select(&:readable?)
     return nil if attachments.blank?
 
     Zip.unicode_names = true
