@@ -40,6 +40,11 @@
     <label><%= radio_button_tag 'c[]', '', true %> <%= l(:description_selected_columns) %></label><br />
     <label><%= radio_button_tag 'c[]', 'all_inline' %> <%= l(:description_all_columns) %></label>
   </p>
+  <p>
+    <% @query.available_block_columns.each do |column| %>
+      <label><%= check_box_tag 'c[]', column.name, @query.has_column?(:column) %> <%= column.caption %></label>
+    <% end %>
+  </p>
   <%= export_csv_encoding_select_tag %>
   <p class="buttons">
     <%= submit_tag l(:button_export), :name => nil, :onclick => "hideModal(this);", :data => { :disable_with => false } %>

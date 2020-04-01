@@ -48,8 +48,9 @@
     <label><%= radio_button_tag 'c[]', 'all_inline' %> <%= l(:description_all_columns) %></label>
   </p>
   <p>
-    <label><%= check_box_tag 'c[]', 'description', @query.has_column?(:description) %> <%= l(:field_description) %></label>
-    <label><%= check_box_tag 'c[]', 'last_notes', @query.has_column?(:last_notes) %> <%= l(:label_last_notes) %></label>
+    <% @query.available_block_columns.each do |column| %>
+      <label><%= check_box_tag 'c[]', column.name, @query.has_column?(column) %> <%= column.caption %></label>
+    <% end %>
   </p>
   <%= export_csv_encoding_select_tag %>
   <% if @issue_count > Setting.issues_export_limit.to_i %>
