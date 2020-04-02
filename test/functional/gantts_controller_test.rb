@@ -155,7 +155,7 @@ class GanttsControllerTest < Redmine::ControllerTest
     assert @response.body.starts_with?('%PDF')
   end
 
-  if Object.const_defined?(:MiniMagick)
+  if Object.const_defined?(:MiniMagick) && convert_installed?
     def test_gantt_should_export_to_png
       get :show, :params => {
           :project_id => 1,

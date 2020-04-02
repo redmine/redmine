@@ -444,6 +444,7 @@ class AttachmentTest < ActiveSupport::TestCase
   end
 
   def test_thumbnailable_should_be_true_for_images
+    skip unless convert_installed?
     assert_equal true, Attachment.new(:filename => 'test.jpg').thumbnailable?
   end
 

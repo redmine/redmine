@@ -50,6 +50,7 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
   end
 
   test "GET /attachments/:id.xml for image should include thumbnail_url" do
+    skip unless convert_installed?
     get '/attachments/16.xml', :headers => credentials('jsmith')
     assert_response :success
     assert_equal 'application/xml', @response.media_type

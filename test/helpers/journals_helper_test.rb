@@ -32,6 +32,7 @@ class JournalsHelperTest < Redmine::HelperTest
            :versions
 
   def test_journal_thumbnail_attachments_should_return_thumbnailable_attachments
+    skip unless convert_installed?
     set_tmp_attachments_directory
     issue = Issue.generate!
 
