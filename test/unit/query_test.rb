@@ -1640,12 +1640,12 @@ class QueryTest < ActiveSupport::TestCase
   def test_sort_criteria_should_have_only_first_three_elements
     q = IssueQuery.new
     q.sort_criteria = [['priority', 'desc'], ['tracker', 'asc'], ['priority', 'asc'], ['id', 'asc'], ['project', 'asc'], ['subject', 'asc']]
-    assert_equal [['priority', 'desc'], ['tracker', 'asc'], ['priority', 'asc']], q.sort_criteria
+    assert_equal [['priority', 'desc'], ['tracker', 'asc'], ['id', 'asc']], q.sort_criteria
   end
 
-  def test_sort_criteria_should_remove_blank_keys
+  def test_sort_criteria_should_remove_blank_or_duplicate_keys
     q = IssueQuery.new
-    q.sort_criteria = [['priority', 'desc'], [nil, 'desc'], ['', 'asc'], ['project', 'asc']]
+    q.sort_criteria = [['priority', 'desc'], [nil, 'desc'], ['', 'asc'], ['priority', 'asc'], ['project', 'asc']]
     assert_equal [['priority', 'desc'], ['project', 'asc']], q.sort_criteria
   end
 

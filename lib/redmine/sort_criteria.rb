@@ -90,6 +90,7 @@ module Redmine
 
     def normalize!
       self.reject! {|s| s.first.blank? }
+      self.uniq! {|s| s.first }
       self.collect! {|s| s = Array(s); [s.first, (s.last == false || s.last.to_s == 'desc') ? 'desc' : 'asc']}
       self.replace self.first(3)
     end
