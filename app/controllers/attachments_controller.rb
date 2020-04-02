@@ -237,7 +237,7 @@ class AttachmentsController < ApplicationController
   end
 
   def find_downloadable_attachments
-    @attachments = @container.attachments.select{|a| File.readable?(a.diskfile) }
+    @attachments = @container.attachments.select(&:readable?)
     bulk_download_max_size = Setting.bulk_download_max_size.to_i.kilobytes
     if @attachments.sum(&:filesize) > bulk_download_max_size
       flash[:error] = l(:error_bulk_download_size_too_big,
