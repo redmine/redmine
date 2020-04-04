@@ -82,16 +82,24 @@ module UsersHelper
         'last_login_on',
         'status'
       ]
+      user_custom_fields = UserCustomField.all
 
       # csv header fields
-      csv << columns.map{|column| l('field_' + column)}
+      csv << columns.map {|column| l('field_' + column)} + user_custom_fields.pluck(:name)
       # csv lines
+      users = users.preload(:custom_values)
       users.each do |user|
-        csv << columns.map do |column|
-          if column == 'status'
-            l(("status_#{User::LABEL_BY_STATUS[user.status]}"))
-          else
-            format_object(user.send(column), false)
+        values = columns.map {|c| c == 'status' ? l("status_#{User::LABEL_BY_STATUS[user.status]}") : user.send(c)} +
+                 user_custom_fields.map {|custom_field| user.custom_value_for(custom_field)}
+
+        csv << values.map do |value|
+          format_object(value, false) do |v|
+            case v.class.name
+            when 'Float'
+              sprintf('%.2f', v).gsub('.', l(:general_csv_decimal_separator))
+            else
+              v
+            end
           end
         end
       end
