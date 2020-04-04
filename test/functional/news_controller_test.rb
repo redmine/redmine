@@ -243,6 +243,7 @@ class NewsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     delete(:destroy, :params => {:id => 1})
     assert_redirected_to '/projects/ecookbook/news'
+    assert_equal 'Successful deletion.', flash[:notice]
     assert_nil News.find_by_id(1)
   end
 end

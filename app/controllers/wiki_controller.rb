@@ -284,7 +284,10 @@ class WikiController < ApplicationController
     end
     @page.destroy
     respond_to do |format|
-      format.html { redirect_to project_wiki_index_path(@project) }
+      format.html {
+        flash[:notice] = l(:notice_successful_delete)
+        redirect_to project_wiki_index_path(@project)
+      }
       format.api { render_api_ok }
     end
   end

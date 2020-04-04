@@ -240,6 +240,7 @@ class DocumentsControllerTest < Redmine::ControllerTest
         }
     end
     assert_redirected_to '/projects/ecookbook/documents'
+    assert_equal 'Successful deletion.', flash[:notice]
     assert_nil Document.find_by_id(1)
   end
 

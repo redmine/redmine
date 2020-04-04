@@ -7509,6 +7509,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       delete(:destroy, :params => {:id => 2})
     end
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+    assert_equal 'Successful deletion.', flash[:notice]
     assert_nil Issue.find_by_id(2)
   end
 
@@ -7588,6 +7589,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       end
     end
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+    assert_equal 'Successful deletion.', flash[:notice]
     assert !(Issue.find_by_id(1) || Issue.find_by_id(3))
     assert_nil TimeEntry.find_by_id([1, 2])
   end
@@ -7609,6 +7611,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
     end
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+    assert_equal 'Successful deletion.', flash[:notice]
     assert !(Issue.find_by_id(1) || Issue.find_by_id(3))
     assert_nil TimeEntry.find(1).issue_id
     assert_nil TimeEntry.find(2).issue_id
@@ -7630,6 +7633,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       end
     end
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+    assert_equal 'Successful deletion.', flash[:notice]
     assert !(Issue.find_by_id(1) || Issue.find_by_id(3))
     assert_equal 2, TimeEntry.find(1).issue_id
     assert_equal 2, TimeEntry.find(2).issue_id
@@ -7654,6 +7658,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           }
         )
         assert_response 302
+        assert_equal 'Successful deletion.', flash[:notice]
       end
     end
     assert_equal 3, target.time_entries.count
@@ -7730,6 +7735,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       )
     end
     assert_redirected_to :controller => 'issues', :action => 'index'
+    assert_equal 'Successful deletion.', flash[:notice]
     assert !(Issue.find_by_id(1) || Issue.find_by_id(2) || Issue.find_by_id(6))
   end
 
@@ -7750,6 +7756,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       )
     end
     assert_response 302
+    assert_equal 'Successful deletion.', flash[:notice]
   end
 
   def test_destroy_invalid_should_respond_with_404
@@ -7770,6 +7777,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       delete(:destroy, :params => {:id => issue.id})
     end
     assert_response 302
+    assert_equal 'Successful deletion.', flash[:notice]
   end
 
   def test_destroy_without_permission_on_tracker_should_be_denied

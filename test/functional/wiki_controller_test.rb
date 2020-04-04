@@ -914,6 +914,7 @@ class WikiControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     delete :destroy, :params => {:project_id => 1, :id => 'Child_2'}
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+    assert_equal 'Successful deletion.', flash[:notice]
   end
 
   def test_destroy_parent_should_ask_confirmation
@@ -935,6 +936,7 @@ class WikiControllerTest < Redmine::ControllerTest
       delete :destroy, :params => {:project_id => 1, :id => 'Another_page', :todo => 'nullify'}
     end
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+    assert_equal 'Successful deletion.', flash[:notice]
     assert_nil WikiPage.find_by_id(2)
   end
 
@@ -944,6 +946,7 @@ class WikiControllerTest < Redmine::ControllerTest
       delete :destroy, :params => {:project_id => 1, :id => 'Another_page', :todo => 'destroy'}
     end
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+    assert_equal 'Successful deletion.', flash[:notice]
     assert_nil WikiPage.find_by_id(2)
     assert_nil WikiPage.find_by_id(5)
   end
@@ -954,6 +957,7 @@ class WikiControllerTest < Redmine::ControllerTest
       delete :destroy, :params => {:project_id => 1, :id => 'Another_page', :todo => 'reassign', :reassign_to_id => 1}
     end
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+    assert_equal 'Successful deletion.', flash[:notice]
     assert_nil WikiPage.find_by_id(2)
     assert_equal WikiPage.find(1), WikiPage.find_by_id(5).parent
   end
