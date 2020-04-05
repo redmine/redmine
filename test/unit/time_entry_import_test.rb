@@ -127,7 +127,8 @@ class TimeEntryImportTest < ActiveSupport::TestCase
   end
 
   def test_maps_user_id_for_user_with_permissions
-    User.current = User.find(1)
+    Role.find_by_name('Manager').add_permission! :log_time_for_other_users
+
     import = generate_import_with_mapping
     first, second, third, fourth = new_records(TimeEntry, 4) { import.run }
 
@@ -138,16 +139,17 @@ class TimeEntryImportTest < ActiveSupport::TestCase
   end
 
   def test_maps_user_to_column_value
-    User.current = User.find(1)
+    Role.find_by_name('Manager').add_permission! :log_time_for_other_users
+
     import = generate_import_with_mapping
-    import.mapping.merge!('user' => 'value:1')
+    import.mapping.merge!('user' => 'value:3')
     import.save!
     first, second, third, fourth = new_records(TimeEntry, 4) { import.run }
 
-    assert_equal 1, first.user_id
-    assert_equal 1, second.user_id
-    assert_equal 1, third.user_id
-    assert_equal 1, fourth.user_id
+    assert_equal 3, first.user_id
+    assert_equal 3, second.user_id
+    assert_equal 3, third.user_id
+    assert_equal 3, fourth.user_id
   end
 
   def test_maps_user_id_for_user_without_permissions

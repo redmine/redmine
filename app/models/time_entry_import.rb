@@ -94,7 +94,7 @@ class TimeEntryImport < Import
     end
 
     user_id = nil
-    if User.current.allowed_to?(:log_time_for_other_users, project)
+    if user.allowed_to?(:log_time_for_other_users, project)
       if user_value
         user_id = user_value
       elsif user_name = row_value(row, 'user')
@@ -107,6 +107,7 @@ class TimeEntryImport < Import
     attributes = {
       :project_id  => project.id,
       :activity_id => activity_id,
+      :author_id   => user.id,
       :user_id     => user_id,
 
       :issue_id    => row_value(row, 'issue_id'),
