@@ -124,7 +124,7 @@ module IssuesHelper
                          link_to_issue(
                            child,
                            :project => (issue.project_id != child.project_id)),
-                         :class => 'subject', :style => 'width: 50%') +
+                         :class => 'subject') +
              content_tag('td', h(child.status), :class => 'status') +
              content_tag('td', format_date(child.start_date), :class => 'start_date') +
              content_tag('td', format_date(child.due_date), :class => 'due_date') +
@@ -179,8 +179,7 @@ module IssuesHelper
                              other,
                              :project => Setting.cross_project_issue_relations?)
                          }.html_safe,
-                         :class => 'subject',
-                         :style => 'width: 50%') +
+                         :class => 'subject') +
              content_tag('td', other_issue.status, :class => 'status') +
              content_tag('td', format_date(other_issue.start_date), :class => 'start_date') +
              content_tag('td', format_date(other_issue.due_date), :class => 'due_date') +

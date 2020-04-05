@@ -535,7 +535,8 @@ div.issue.overdue .due-date .value { color: #c22; }
 
 #issue_tree table.issues, #relations table.issues { border: 0; }
 #issue_tree td.checkbox, #relations td.checkbox {display:none;}
-#relations td.buttons, #issue_tree td.buttons {padding:0;}
+#issue_tree td.subject, #relations td.subject {width: 50%;}
+#issue_tree td.buttons, #relations td.buttons {padding:0;}
 
 #trackers_description {display:none;}
 #trackers_description dt {font-weight: bold; text-decoration: underline;}
