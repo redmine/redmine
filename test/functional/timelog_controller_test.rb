@@ -711,7 +711,7 @@ class TimelogControllerTest < Redmine::ControllerTest
 
     assert_select 'ul#bulk-selection' do
       assert_select 'li', 2
-      assert_select 'li a', :text => '03/23/2007 - eCookbook: 4.25 hours'
+      assert_select 'li a', :text => '03/23/2007 - eCookbook: 4.25 hours (John Smith)'
     end
 
     assert_select 'form#bulk_edit_form[action=?]', '/time_entries/bulk_update' do
