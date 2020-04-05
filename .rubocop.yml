@@ -83,6 +83,9 @@ Style/AsciiComments:
 Style/EmptyElse:
   EnforcedStyle: empty
 
+Style/FormatString:
+  EnforcedStyle: sprintf
+
 Style/FormatStringToken:
   Enabled: false
 
