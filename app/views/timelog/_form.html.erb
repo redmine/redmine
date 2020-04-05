@@ -16,8 +16,14 @@
       <%=  link_to_issue(@time_entry.issue) if @time_entry.issue.try(:visible?) %>
     </span>
   </p>
+
   <% if User.current.allowed_to?(:log_time_for_other_users, @project) %>
     <p><%= f.select :user_id, user_collection_for_select_options(@time_entry), :required => true %></p>
+  <% elsif !@time_entry.new_record? %>
+    <p>
+      <%= f.label_for_field :user_id %>
+      <span><%= link_to_user(@time_entry.user) %></span>
+    </p>
   <% end %>
   <p><%= f.date_field :spent_on, :size => 10, :required => true %><%= calendar_for('time_entry_spent_on') %></p>
   <p><%= f.hours_field :hours, :size => 6, :required => true %></p>

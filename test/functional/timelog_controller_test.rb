@@ -46,6 +46,8 @@ class TimelogControllerTest < Redmine::ControllerTest
       # blank option for project
       assert_select 'option[value=""]'
     end
+    assert_select 'label[for=?]', 'time_entry_user_id', 0
+    assert_select 'select[name=?]', 'time_entry[user_id]', 0
   end
 
   def test_new_with_project_id
@@ -150,6 +152,11 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_select 'form[action=?]', '/time_entries/2'
+
+    # Time entry user should be shown as text
+    # for user without permission to log time for other users
+    assert_select 'label[for=?]', 'time_entry_user_id', 1
+    assert_select 'a.user.active', :text => 'Redmine Admin'
   end
 
   def test_get_edit_with_an_existing_time_entry_with_inactive_activity
@@ -704,7 +711,7 @@ class TimelogControllerTest < Redmine::ControllerTest
 
     assert_select 'ul#bulk-selection' do
       assert_select 'li', 2
-      assert_select 'li a', :text => '03/23/2007 - eCookbook: 4.25 hours'
+      assert_select 'li a', :text => '03/23/2007 - eCookbook: 4.25 hours (John Smith)'
     end
 
     assert_select 'form#bulk_edit_form[action=?]', '/time_entries/bulk_update' do

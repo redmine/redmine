@@ -18,8 +18,13 @@
 
 <ul id="bulk-selection">
 <% @time_entries.each do |entry| %>
-  <%= content_tag 'li',
-        link_to("#{format_date(entry.spent_on)} - #{entry.project}: #{l(:label_f_hour_plural, :value => entry.hours)}", edit_time_entry_path(entry)) %>
+  <%=
+    content_tag 'li',
+      link_to(
+        "#{format_date(entry.spent_on)} - #{entry.project}: #{l(:label_f_hour_plural, :value => entry.hours)} (#{entry.user})",
+        edit_time_entry_path(entry)
+      )
+  %>
 <% end %>
 </ul>
 
