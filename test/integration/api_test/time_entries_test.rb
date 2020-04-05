@@ -144,6 +144,27 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
     assert_select 'errors error', :text => "Hours cannot be blank"
   end
 
+  test "POST /time_entries.xml for other user" do
+    Role.find_by_name('Manager').add_permission! :log_time_for_other_users
+
+    assert_difference 'TimeEntry.count' do
+      post(
+        '/time_entries.xml',
+        :params =>
+          {:time_entry =>
+            {:project_id => '1', :spent_on => '2010-12-02', :user_id => '3',
+             :hours => '3.5', :activity_id => '11'}},
+        :headers => credentials('jsmith'))
+    end
+    assert_response :created
+
+    assert_equal 'application/xml', @response.content_type
+
+    entry = TimeEntry.order('id DESC').first
+    assert_equal 3, entry.user_id
+    assert_equal 2, entry.author_id
+  end
+
   test "PUT /time_entries/:id.xml with valid parameters should update time entry" do
     assert_no_difference 'TimeEntry.count' do
       put(
