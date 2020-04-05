@@ -1703,6 +1703,34 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal values.sort, values
   end
 
+  def test_sort_with_group_by_timestamp_query_column_should_sort_after_date_value
+    User.current = User.find(1)
+
+    # Touch Issue#10 in order to be the last updated issue
+    Issue.find(10).update_attribute(:updated_on, Issue.find(10).updated_on + 1)
+
+    q = IssueQuery.new(
+      :name => '_',
+      :filters => { 'updated_on' => {:operator => 't', :values => ['']} },
+      :group_by => 'updated_on',
+      :sort_criteria => [['subject', 'asc']]
+    )
+
+    # The following 3 issues are updated today (ordered by updated_on):
+    #   Issue#10: Issue Doing the Blocking
+    #   Issue#9: Blocked Issue
+    #   Issue#6: Issue of a private subproject
+
+    # When we group by a timestamp query column, all the issues in the group have the same date value (today)
+    # and the time of the value should not be taken into consideration when sorting
+    #
+    # For the same issues after subject ascending should return the following:
+    # Issue#9: Blocked Issue
+    # Issue#10: Issue Doing the Blocking
+    # Issue#6: Issue of a private subproject
+    assert_equal [9, 10, 6], q.issues.map(&:id)
+  end
+
   def test_sort_by_total_for_estimated_hours
     # Prepare issues
     parent = issues(:issues_001)
