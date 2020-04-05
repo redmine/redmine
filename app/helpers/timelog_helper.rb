@@ -44,6 +44,7 @@ module TimelogHelper
 
   def user_collection_for_select_options(time_entry)
     collection = time_entry.assignable_users
+    collection << time_entry.user unless time_entry.user.nil? && !collection.include?(time_entry.user)
     principals_options_for_select(collection, time_entry.user_id.to_s)
   end
 
