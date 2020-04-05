@@ -848,8 +848,12 @@ class RedCloth3 < String
               url=url[0..-2] # discard closing parenth from url
               post = ")"+post # add closing parenth to post
             end
+
+            url = htmlesc(url.dup)
+            next all if url.downcase.start_with?('javascript:')
+
             atts = pba( atts )
-            atts = " href=\"#{ htmlesc url }#{ slash }\"#{ atts }"
+            atts = " href=\"#{ url }#{ slash }\"#{ atts }"
             atts << " title=\"#{ htmlesc title }\"" if title
             atts = shelve( atts ) if atts
             
@@ -970,6 +974,10 @@ class RedCloth3 < String
             url, url_title = check_refs( url )
 
             next m unless uri_with_safe_scheme?(url)
+            if href
+              href = htmlesc(href.dup)
+              next m if href.downcase.start_with?('javascript:')
+            end
 
             out = ''
             out << "<a#{ shelve( " href=\"#{ href }\"" ) }>" if href
