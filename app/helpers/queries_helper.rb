@@ -273,7 +273,7 @@ module QueriesHelper
           value.to_s(object)
         when 'Issue'
           if object.is_a?(TimeEntry)
-            "#{value.tracker} ##{value.id}: #{value.subject}"
+            value.visible? ? "#{value.tracker} ##{value.id}: #{value.subject}" : "##{value.id}"
           else
             value.id
           end
