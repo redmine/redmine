@@ -279,22 +279,13 @@ class TimelogController < ApplicationController
   end
 
   def find_optional_issue
-    if params[:issue_id].present? || params[:time_entry].present? && params[:time_entry][:issue_id].present?
-      issue_id = params[:issue_id] ||  params[:time_entry][:issue_id]
-      @issue = Issue.find(issue_id)
+    if params[:issue_id].present?
+      @issue = Issue.find(params[:issue_id])
       @project = @issue.project
       authorize
     else
       find_optional_project
     end
-  end
-
-  def find_optional_project
-    if params[:project_id].present? || params[:time_entry].present? && params[:time_entry][:project_id].present?
-      project_id = params[:project_id] || params[:time_entry][:project_id]
-      find_project(project_id)
-    end
-    authorize_global
   end
 
   # Returns the TimeEntry scope for index and report actions
