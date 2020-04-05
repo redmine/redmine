@@ -850,7 +850,12 @@ class Query < ActiveRecord::Base
   def group_by_sort_order
     if column = group_by_column
       order = (sort_criteria.order_for(column.name) || column.default_order || 'asc').try(:upcase)
-      Array(column.sortable).map {|s| Arel.sql("#{s} #{order}")}
+
+      column_sortable = column.sortable
+      if column.is_a?(TimestampQueryColumn)
+        column_sortable = Redmine::Database.timestamp_to_date(column.sortable, User.current.time_zone)
+      end
+      Array(column_sortable).map {|s| Arel.sql("#{s} #{order}")}
     end
   end
 
