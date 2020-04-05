@@ -1270,4 +1270,17 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_not_nil line
     assert_include "#{issue.tracker} #1: #{issue.subject}", line
   end
+
+  def test_index_csv_should_fill_issue_column_with_issue_id_if_issue_that_is_not_visible
+    @request.session[:user_id] = 3
+    issue = Issue.generate!(:author_id => 1, :is_private => true)
+    entry = TimeEntry.generate!(:issue => issue, :comments => "Issue column content test")
+
+    get :index, :params => {:format => 'csv'}
+    assert_not issue.visible?
+    line = response.body.split("\n").detect {|l| l.include?(entry.comments)}
+    assert_not_nil line
+    assert_not_include "#{issue.tracker} ##{issue.id}: #{issue.subject}", line
+    assert_include "##{issue.id}", line
+  end
 end
