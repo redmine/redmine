@@ -146,7 +146,9 @@ class TimeEntry < ActiveRecord::Base
       end
     end
     errors.add :project_id, :invalid if project.nil?
-    errors.add :user_id, :invalid if user_id != author_id && !self.assignable_users.map(&:id).include?(user_id)
+    if user_id_changed? && user_id != author_id && !self.assignable_users.map(&:id).include?(user_id)
+      errors.add :user_id, :invalid
+    end
     errors.add :issue_id, :invalid if (issue_id && !issue) || (issue && project!=issue.project) || @invalid_issue_id
     errors.add :activity_id, :inclusion if activity_id_changed? && project && !project.activities.include?(activity)
     if spent_on_changed? && user
