@@ -803,7 +803,7 @@
   }
 
   #issue_tree .issue > td:not(.subject), #relations .issue > td:not(.subject) {
-    width: 33.33%; /* three columns for all cells that are not subject */
+    width: 20%; /* three columns for all cells that are not subject */
   }
 
   #issue_tree .issues, #issue_tree .issue,
