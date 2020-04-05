@@ -415,14 +415,19 @@ class ApplicationController < ActionController::Base
     url = params[:back_url]
     if url.nil? && referer = request.env['HTTP_REFERER']
       url = CGI.unescape(referer.to_s)
+      # URLs that contains the utf8=[checkmark] parameter added by Rails are
+      # parsed as invalid by URI.parse so the redirect to the back URL would
+      # not be accepted (ApplicationController#validate_back_url would return
+      # false)
+      url.gsub!(/(\?|&)utf8=\u2713&?/, '\1')
     end
     url
   end
+  helper_method :back_url
 
   def redirect_back_or_default(default, options={})
-    back_url = params[:back_url].to_s
-    if back_url.present? && valid_url = validate_back_url(back_url)
-      redirect_to(valid_url)
+    if back_url = validate_back_url(params[:back_url].to_s)
+      redirect_to(back_url)
       return
     elsif options[:referer]
       redirect_to_referer_or default
@@ -435,6 +440,8 @@ class ApplicationController < ActionController::Base
   # Returns a validated URL string if back_url is a valid url for redirection,
   # otherwise false
   def validate_back_url(back_url)
+    return false if back_url.blank?
+
     if CGI.unescape(back_url).include?('..')
       return false
     end
@@ -472,11 +479,13 @@ class ApplicationController < ActionController::Base
     return path
   end
   private :validate_back_url
+  helper_method :validate_back_url
 
   def valid_back_url?(back_url)
     !!validate_back_url(back_url)
   end
   private :valid_back_url?
+  helper_method :valid_back_url?
 
   # Redirects to the request referer if present, redirects to args or call block otherwise.
   def redirect_to_referer_or(*args, &block)

@@ -1415,26 +1415,13 @@ module ApplicationHelper
     arg.to_json.to_s.gsub('/', '\/').html_safe
   end
 
-  def back_url
-    url = params[:back_url]
-    if url.nil? && referer = request.env['HTTP_REFERER']
-      url = CGI.unescape(referer.to_s)
-      # URLs that contains the utf8=[checkmark] parameter added by Rails are
-      # parsed as invalid by URI.parse so the redirect to the back URL would
-      # not be accepted (ApplicationController#validate_back_url would return
-      # false)
-      url.gsub!(/(\?|&)utf8=\u2713&?/, '\1')
-    end
-    url
-  end
-
   def back_url_hidden_field_tag
-    url = back_url
+    url = validate_back_url(back_url)
     hidden_field_tag('back_url', url, :id => nil) unless url.blank?
   end
 
   def cancel_button_tag(fallback_url)
-    url = back_url.blank? ? fallback_url : back_url
+    url = validate_back_url(back_url) || fallback_url
     link_to l(:button_cancel), url
   end
 
