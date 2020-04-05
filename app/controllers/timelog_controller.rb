@@ -28,8 +28,6 @@ class TimelogController < ApplicationController
   before_action :find_optional_issue, :only => [:new, :create]
   before_action :find_optional_project, :only => [:index, :report]
 
-  before_action :authorize_logging_time_for_other_users, :only => [:create, :update]
-
   accept_rss_auth :index
   accept_api_auth :index, :show, :create, :update, :destroy
 
@@ -254,13 +252,6 @@ class TimelogController < ApplicationController
   def check_editability
     unless @time_entry.editable_by?(User.current)
       render_403
-      return false
-    end
-  end
-
-  def authorize_logging_time_for_other_users
-    if !User.current.allowed_to?(:log_time_for_other_users, @project) && params['time_entry'].present? && params['time_entry']['user_id'].present? && params['time_entry']['user_id'].to_i != User.current.id
-      render_error :message => l(:error_not_allowed_to_log_time_for_other_users), :status => 403
       return false
     end
   end
