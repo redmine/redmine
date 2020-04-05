@@ -350,7 +350,7 @@ class RedCloth3 < String
     PUNCT = Regexp::quote( '!"#$%&\'*+,-./:;=?@\\^_`|~' )
     PUNCT_NOQ = Regexp::quote( '!"#$&\',./:;=?@\\`|' )
     PUNCT_Q = Regexp::quote( '*-_+^~%' )
-    HYPERLINK = '(?=\/|https?:\/\/|s?ftps?:\/\/|www\.|mailto:)(\S+?)([^\w\s/;=\?]*?)(?=\s|<|$)'
+    HYPERLINK = '(\S+?)([^\w\s/;=\?]*?)(?=\s|<|$)'
 
     # Text markup tags, don't conflict with block tags
     SIMPLE_HTML_TAGS = [
@@ -815,7 +815,7 @@ class RedCloth3 < String
             (?:\(([^)]+?)\)(?="))?     # $title
             ":
             (                          # $url
-            (\/|https?:\/\/|s?ftps?:\/\/|www\.|mailto:)  # $proto
+            (\/|[a-zA-Z]+:\/\/|www\.|mailto:)  # $proto
             [[:alnum:]_\/]\S+?
             )
             (\/)?                      # $slash
