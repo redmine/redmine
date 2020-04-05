@@ -1059,10 +1059,10 @@ module ApplicationHelper
                 url = issue_url(issue, :only_path => only_path, :anchor => anchor)
                 link =
                   if sep == '##'
-                    link_to("#{issue.tracker.name} ##{oid}#{comment_suffix}",
+                    link_to("#{issue.tracker.name} ##{oid}#{comment_suffix}: #{issue.subject}",
                             url,
                             :class => issue.css_classes,
-                            :title => "#{issue.tracker.name}: #{issue.subject.truncate(100)} (#{issue.status.name})") + ": #{issue.subject}"
+                            :title => "#{l(:field_status)}: #{issue.status.name}")
                   else
                     link_to("##{oid}#{comment_suffix}",
                             url,
