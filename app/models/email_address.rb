@@ -20,7 +20,7 @@
 class EmailAddress < ActiveRecord::Base
   include Redmine::SafeAttributes
 
-  EMAIL_REGEXP = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+  EMAIL_REGEXP = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+(?:(?:xn--[-a-z0-9]+)|(?:[a-z]{2,})))\z/i
 
   belongs_to :user
 
