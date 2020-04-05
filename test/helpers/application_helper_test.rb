@@ -309,11 +309,10 @@ class ApplicationHelperTest < Redmine::HelperTest
                          :class => Issue.find(3).css_classes,
                          :title => 'Bug: Error 281 when updating a recipe (New)')
     ext_issue_link = link_to(
-                         'Bug #3',
+                         'Bug #3: Error 281 when updating a recipe',
                          {:controller => 'issues', :action => 'show', :id => 3},
                          :class => Issue.find(3).css_classes,
-                         :title => 'Bug: Error 281 when updating a recipe (New)') +
-                           ": Error 281 when updating a recipe"
+                         :title => 'Status: New')
     note_link = link_to(
                          '#3-14',
                          {:controller => 'issues', :action => 'show',
@@ -321,12 +320,11 @@ class ApplicationHelperTest < Redmine::HelperTest
                          :class => Issue.find(3).css_classes,
                          :title => 'Bug: Error 281 when updating a recipe (New)')
     ext_note_link = link_to(
-                         'Bug #3-14',
+                         'Bug #3-14: Error 281 when updating a recipe',
                          {:controller => 'issues', :action => 'show',
                           :id => 3, :anchor => 'note-14'},
                          :class => Issue.find(3).css_classes,
-                         :title => 'Bug: Error 281 when updating a recipe (New)') +
-                           ": Error 281 when updating a recipe"
+                         :title => 'Status: New')
     note_link2 = link_to(
                          '#3#note-14',
                          {:controller => 'issues', :action => 'show',
@@ -334,12 +332,11 @@ class ApplicationHelperTest < Redmine::HelperTest
                          :class => Issue.find(3).css_classes,
                          :title => 'Bug: Error 281 when updating a recipe (New)')
     ext_note_link2 = link_to(
-                         'Bug #3#note-14',
+                         'Bug #3#note-14: Error 281 when updating a recipe',
                          {:controller => 'issues', :action => 'show',
                           :id => 3, :anchor => 'note-14'},
                          :class => Issue.find(3).css_classes,
-                         :title => 'Bug: Error 281 when updating a recipe (New)') +
-                           ": Error 281 when updating a recipe"
+                         :title => 'Status: New')
 
     revision_link = link_to(
                          'r1',
@@ -398,10 +395,10 @@ class ApplicationHelperTest < Redmine::HelperTest
       # should not ignore leading zero
       '#03'                         => '#03',
       # tickets with more info
-      '##3, [##3], (##3) and ##3.'      => "#{ext_issue_link}, [#{ext_issue_link}], (#{ext_issue_link}) and #{ext_issue_link}.",
-      '##3-14'                       => ext_note_link,
-      '##3#note-14'                  => ext_note_link2,
-      '##03'                         => '##03',
+      '##3, [##3], (##3) and ##3.'  => "#{ext_issue_link}, [#{ext_issue_link}], (#{ext_issue_link}) and #{ext_issue_link}.",
+      '##3-14'                      => ext_note_link,
+      '##3#note-14'                 => ext_note_link2,
+      '##03'                        => '##03',
       # changesets
       'r1'                          => revision_link,
       'r1.'                         => "#{revision_link}.",
