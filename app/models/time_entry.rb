@@ -50,6 +50,7 @@ class TimeEntry < ActiveRecord::Base
   validates_length_of :comments, :maximum => 1024, :allow_nil => true
   validates :spent_on, :date => true
   before_validation :set_project_if_nil
+  #TODO: remove this, author should be always explicitly set
   before_validation :set_author_if_nil
   validate :validate_time_entry
 
@@ -116,6 +117,11 @@ class TimeEntry < ActiveRecord::Base
           @invalid_issue_id = issue_id
         end
       end
+      if user_id_changed? && user_id != author_id && !user.allowed_to?(:log_time_for_other_users, project)
+        @invalid_user_id = user_id
+      else
+        @invalid_user_id = nil
+      end
     end
     attrs
   end
@@ -146,7 +152,7 @@ class TimeEntry < ActiveRecord::Base
       end
     end
     errors.add :project_id, :invalid if project.nil?
-    if user_id_changed? && user_id != author_id && !self.assignable_users.map(&:id).include?(user_id)
+    if @invalid_user_id || (user_id_changed? && user_id != author_id && !self.assignable_users.map(&:id).include?(user_id))
       errors.add :user_id, :invalid
     end
     errors.add :issue_id, :invalid if (issue_id && !issue) || (issue && project!=issue.project) || @invalid_issue_id

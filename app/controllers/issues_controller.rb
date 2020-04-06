@@ -577,6 +577,7 @@ class IssuesController < ApplicationController
         time_entry = @time_entry || TimeEntry.new
         time_entry.project = @issue.project
         time_entry.issue = @issue
+        time_entry.author = User.current
         time_entry.user = User.current
         time_entry.spent_on = User.current.today
         time_entry.safe_attributes = params[:time_entry]

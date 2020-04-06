@@ -383,7 +383,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_equal 2, t.author_id
   end
 
-  def test_create_for_other_user_should_deny_for_user_without_permission
+  def test_create_for_other_user_should_fail_without_permission
     Role.find_by_name('Manager').remove_permission! :log_time_for_other_users
     @request.session[:user_id] = 2
 
@@ -399,8 +399,8 @@ class TimelogControllerTest < Redmine::ControllerTest
       }
     }
 
-    assert_response 403
-    assert_select 'p[id=?]', 'errorExplanation', :text => I18n.t(:error_not_allowed_to_log_time_for_other_users)
+    assert_response :success
+    assert_select_error /User is invalid/
   end
 
   def test_create_and_continue_at_project_level
@@ -668,7 +668,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_select_error /Issue is invalid/
   end
 
-  def test_update_should_deny_changing_user_for_user_without_permission
+  def test_update_should_fail_when_changing_user_without_permission
     Role.find_by_name('Manager').remove_permission! :log_time_for_other_users
     @request.session[:user_id] = 2
 
@@ -679,8 +679,8 @@ class TimelogControllerTest < Redmine::ControllerTest
       }
     }
 
-    assert_response 403
-    assert_select 'p[id=?]', 'errorExplanation', :text => I18n.t(:error_not_allowed_to_log_time_for_other_users)
+    assert_response :success
+    assert_select_error /User is invalid/
   end
 
   def test_update_should_allow_updating_existing_entry_logged_on_a_locked_user
