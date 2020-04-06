@@ -4,6 +4,74 @@ Redmine - project management software
 Copyright (C) 2006-2017  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2020-04-06 v4.0.7
+
+=== [Attachments]
+
+* Defect #32656: Drag and drop objects from Outlook to Redmine deletes the objects
+* Defect #32785: X-Sendfile header field is not set if rack 2.1.0 is installed
+
+=== [Custom fields]
+
+* Defect #33085: Unable to update the values of a custom field for enumerations when multiple values option is enabled
+
+=== [Database]
+
+* Defect #30285: Microsoft SQL server support is broken
+
+=== [Documentation]
+
+* Patch #32787: Redmine 4.0 no longer supports Ruby 2.2
+
+=== [Gantt]
+
+* Defect #19248: End markers in gantt PDF are misaligned
+* Defect #23645: Gantt bars for single-day tasks may be rendered wrongly in PDF
+
+=== [Issues workflow]
+
+* Defect #33059: "Role" dropdown in Workflow page is unexpectedly expanded  when selecting "all"
+
+=== [REST API]
+
+* Defect #33113: Default version and assignee are not exposed via projects API
+
+=== [Rails support]
+
+* Patch #33196: Update Rails to 5.2.4.2
+
+=== [Ruby support]
+
+* Patch #32788: Specify supported Ruby version in Gemfile and doc/INSTALL
+
+=== [SCM]
+
+* Defect #32449: Diff view for .js files in repositories is broken
+
+=== [Security]
+
+* Defect #32850: XSS vulnerability due to missing back_url validation
+* Defect #32934: XSS vulnerabilities in textile inline links
+* Defect #33075: Time entries csv export should check issue visibility
+
+=== [Time tracking]
+
+* Defect #33052: Missing subject and tracker name in CSV export of time entries report
+
+=== [Translations]
+
+* Patch #32917: Bulgarian translation
+
+=== [UI]
+
+* Defect #32772: Tabs are displayed on two lines when the total width of the tabs is greater than 2000px
+* Defect #32829: HTML entity is used in CSS string
+* Patch #33068: Update copyright year in the footer to 2020
+
+=== [UI - Responsive]
+
+* Feature #33156: Allow zooming on mobile devices
+
 == 2019-12-20 v4.0.6
 
 === [Attachments]
