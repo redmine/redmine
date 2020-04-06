@@ -4,6 +4,137 @@ Redmine - project management software
 Copyright (C) 2006-2020  Jean-Philippe Lang
 http://www.redmine.org/
 
+== 2020-04-06 v4.1.1
+
+=== [Accounts / authentication]
+
+* Defect #32793: Email address with Punycode top-level domain is not accepted
+
+=== [Administration]
+
+* Defect #33176: Sort order icon is missing in users index
+* Feature #32945: Show module names in bold in permission report
+
+=== [Attachments]
+
+* Defect #32656: Drag and drop objects from Outlook to Redmine deletes the objects
+* Defect #32785: X-Sendfile header field is not set if rack 2.1.0 is installed
+
+=== [Custom fields]
+
+* Defect #33085: Unable to update the values of a custom field for enumerations when multiple values option is enabled
+* Defect #33183: Unable to edit user or group that has custom fields with text formatting enabled
+
+=== [Database]
+
+* Defect #30285: Microsoft SQL server support is broken
+
+=== [Gantt]
+
+* Defect #19248: End markers in gantt PDF are misaligned
+* Defect #23645: Gantt bars for single-day tasks may be rendered wrongly in PDF
+* Defect #32812: Clicking on a parent object in gantt wrongly collapses objects at the same level
+* Defect #33082: Links in the last column in gantt are unclickable
+
+=== [Gems support]
+
+* Defect #32839: Redmine 4.1 installation fails due to an attempt to install sprockets 4.0.0 if bundler prior to 1.15.2 is used on Ruby prior to 2.5
+
+=== [Importers]
+
+* Defect #33027: Fix missing closing div in _time_entries_fields_mapping.html.erb
+
+=== [Issues]
+
+* Defect #32737: Duplicate sort keys for issue query cause SQL error with SQL Server
+* Defect #33169: Issues CSV export does not include custom fields with "Full width layout" enabled
+
+=== [Issues list]
+
+* Defect #33110: Sort does not work with group by datetime columns
+* Defect #33163: Parent task subject column should be in the same style as Subject column
+
+=== [Issues workflow]
+
+* Defect #33059: "Role" dropdown in Workflow page is unexpectedly expanded  when selecting "all"
+
+=== [PDF export]
+
+* Defect #32477: Right-aligned TOC tag is displayed in exported PDF if the text formatting setting is Markdown
+* Defect #32832: FrozenError when exporting content to PDF in some languages
+* Defect #32858: Exporting issue as PDF fails when the issue has private journal
+* Defect #32859: Issue list: long text custom field missing in PDF export
+* Defect #33103: Export to PDF fails when subject of parent task is included in issue list
+
+=== [Projects]
+
+* Defect #32769: Unable to sort projects table by custom field
+* Defect #32891: Bookmark link on project page should not use full path with hostname
+* Defect #32896: Totals not working in projects list view
+* Defect #33083: Projects filter "Subproject of" does not work when the given value is "My projects" or "My bookmarks"
+
+=== [REST API]
+
+* Defect #33113: Default version and assignee are not exposed via projects API
+
+=== [Rails support]
+
+* Patch #33196: Update Rails to 5.2.4.2
+
+=== [Ruby support]
+
+* Patch #32788: Specify supported Ruby version in Gemfile and doc/INSTALL
+
+=== [SCM]
+
+* Defect #32449: Diff view for .js files in repositories is broken
+
+=== [Security]
+
+* Defect #32850: XSS vulnerability due to missing back_url validation
+* Defect #32934: XSS vulnerabilities in textile inline links
+* Defect #33075: Time entries csv export should check issue visibility
+
+=== [Text formatting]
+
+* Defect #32754: Fix missing arrow icon of collapse macro
+* Defect #32765: ##123 syntax for linking to issues: Title cannot be distinguished from following text
+* Defect #32971: New line between list items break a list
+
+=== [Time tracking]
+
+* Defect #32768: Internal Error when issue text custom field is shown in Spent time query results
+* Defect #32774: Creating time tracking entry for other user through rest API fails with 403
+* Defect #32959: Fix selected user on log time edit page when user has permissions to log time for another user
+* Defect #32973: Editing a time entry for a locked user changes the user to the current user
+* Defect #33052: Missing subject and tracker name in CSV export of time entries report
+* Feature #3800: Editing time entries should show the person involved
+
+=== [Translations]
+
+* Patch #32659: Russian translation update for 4.1-stable
+* Patch #32746: Italian translation update for 4.1-stable
+* Patch #32917: Bulgarian translation
+* Patch #32928: Czech translation for 4.1-stable
+* Patch #32995: Russian translation update for 4.1-stable
+* Patch #33070: Simplified Chinese translation update for 4.1-stable
+* Patch #33122: German translation update for 4.1-stable
+* Patch #33219: Persian translation update for 4.1-stable
+
+=== [UI]
+
+* Defect #32772: Tabs are displayed on two lines when the total width of the tabs is greater than 2000px
+* Defect #32829: HTML entity is used in CSS string
+* Defect #32838: Typo in application.css: s/paddin-bottom/padding-bottom/
+* Defect #32981: Unable to distinguish disabled input fields
+* Patch #32991: Make group names bold on tracker summary view
+* Patch #33068: Update copyright year in the footer to 2020
+
+=== [UI - Responsive]
+
+* Defect #32889: Responsive layout for issue tree and issue relation on issue page is broken
+* Feature #33156: Allow zooming on mobile devices
+
 == 2019-12-20 v4.1.0
 
 === [Accounts / authentication]
