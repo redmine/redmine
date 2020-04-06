@@ -39,40 +39,40 @@ fa:
     distance_in_words:
       half_a_minute: "نیم دقیقه"
       less_than_x_seconds:
-        one:   "کم‌تر از 1 ثانیه"
+        one:   "کم‌تر از ۱ ثانیه"
         other: "کم‌تر از %{count} ثانیه"
       x_seconds:
-        one:   "1 ثانیه"
+        one:   "۱ ثانیه"
         other: "%{count} ثانیه"
       less_than_x_minutes:
-        one:   "کم‌تر از 1 دقیقه"
+        one:   "کم‌تر از ۱ دقیقه"
         other: "کم‌تر از %{count} دقیقه"
       x_minutes:
-        one:   "1 دقیقه"
+        one:   "۱ دقیقه"
         other: "%{count} دقیقه"
       about_x_hours:
-        one:   "حدود 1 ساعت"
+        one:   "حدود ۱ ساعت"
         other: "حدود %{count} ساعت"
       x_hours:
-        one:   "1 ساعت"
+        one:   "۱ ساعت"
         other: "%{count} ساعت"
       x_days:
-        one:   "1 روز"
+        one:   "۱ روز"
         other: "%{count} روز"
       about_x_months:
-        one:   "حدود 1 ماه"
+        one:   "حدود ۱ ماه"
         other: "حدود %{count} ماه"
       x_months:
-        one:   "1 ماه"
+        one:   "۱ ماه"
         other: "%{count} ماه"
       about_x_years:
-        one:   "حدود 1 سال"
+        one:   "حدود ۱ سال"
         other: "حدود %{count} سال"
       over_x_years:
-        one:   "بیش از 1 سال"
+        one:   "بیش از ۱ سال"
         other: "بیش از %{count} سال"
       almost_x_years:
-        one:   "حدود 1 سال"
+        one:   "حدود ۱ سال"
         other: "حدود %{count} سال"
 
   number:
@@ -106,7 +106,7 @@ fa:
     errors:
       template:
         header:
-          one:    "1 ایراد از ذخیره‌سازی این %{model} جلوگیری کرد"
+          one:    "یک ایراد از ذخیره‌سازی این %{model} جلوگیری کرد"
           other:  "%{count} ایراد از ذخیره‌سازی این %{model} جلوگیری کرد"
       messages:
         inclusion: "در فهرست نیامده است"
@@ -135,11 +135,11 @@ fa:
         cant_link_an_issue_with_a_descendant: "یک مسأله نمی‌تواند به یکی از زیر کارهایش پیوند بخورد"
         earlier_than_minimum_start_date: "به خاطر مسائل مقدم، نمی‌تواند قبل از %{date} باشد"
         not_a_regexp: "یک عبارت منظم معتبر نیست"
-        open_issue_with_closed_parent: "یم مسأله باز نمی‌تواند به یک مسأله پدر بسته ضمیمه شود"
-        must_contain_uppercase: "must contain uppercase letters (A-Z)"
-        must_contain_lowercase: "must contain lowercase letters (a-z)"
-        must_contain_digits: "must contain digits (0-9)"
-        must_contain_special_chars: "must contain special characters (!, $, %, ...)"
+        open_issue_with_closed_parent: "یک مسأله باز نمی‌تواند به یک مسأله پدر بسته ضمیمه شود"
+        must_contain_uppercase: "باید شامل حروف بزرگ باشد (A-Z)"
+        must_contain_lowercase: "باید شامل حروف کوچک باشد (a-z)"
+        must_contain_digits: "باید شامل عدد باشد (0-9)"
+        must_contain_special_chars: "باید شامل نویسه‌های خاص باشد (!, $, %, ...)"
 
   actionview_instancetag_blank_option: انتخاب کنید
 
@@ -187,7 +187,7 @@ fa:
   notice_unable_delete_version: نسخه را نمی‌توان حذف کرد.
   notice_unable_delete_time_entry: زمان گزارش شده را نمی‌توان حذف کرد.
   notice_issue_done_ratios_updated: اندازه انجام شده مسأله به‌روز شد.
-  notice_gantt_chart_truncated: "نمودار بریده شد چون از بیشترین شماری که می‌توان نشان داد بزگتر است (%{max})."
+  notice_gantt_chart_truncated: "نمودار بریده شد چون از بیشترین شماری که می‌توان نشان داد بزرگتر است (%{max})."
   notice_issue_successful_create: مسأله &#x200E;%{id} ساخته شد.
   notice_issue_update_conflict: "در حالی که شما مشغول ویرایش مسأله بودید کاربر دیگری آن را به‌روز کرده است."
   notice_account_deleted: "حساب شما به طور دائمی حذف شده است."
@@ -206,7 +206,7 @@ fa:
   error_no_default_issue_status: 'هیچ وضعیت مسأله پیش‌فرض‌ای مشخص نشده است. تنظیمات را بررسی کنید (به «تنظیمات -> وضعیت‌های مسأله» بروید).'
   error_can_not_delete_custom_field: بخش سفارشی را نمی‌توان حذف کرد.
   error_can_not_delete_tracker: "این نوع مسأله دارای مسأله است و نمی‌توان آن را حذف کرد."
-  error_can_not_remove_role: "این نقش به کار گرفته شده است و نمی‌توان آن را حذف کرد."
+  error_can_not_remove_role: "از این نقش استفاده شده است و نمی‌توان آن را حذف کرد."
   error_can_not_reopen_issue_on_closed_version: 'یک مسأله که به یک نسخه بسته‌شده متعلق است را نمی‌توان باز کرد.'
   error_can_not_archive_project: این پروژه را نمی‌توان بایگانی کرد.
   error_issue_done_ratios_not_updated: "اندازه انجام شده مسأله به‌روز نشد."
@@ -273,7 +273,7 @@ fa:
   field_possible_values: مقادیر ممکن
   field_regexp: عبارت منظم
   field_min_length: کم‌ترین اندازه
-  field_max_length: بیشترین اندازه
+  field_max_length: بیش‌ترین اندازه
   field_value: مقدار
   field_category: دسته
   field_title: عنوان
@@ -331,7 +331,7 @@ fa:
   field_is_filter: غربال‌پذیر
   field_issue_to: مسأله مرتبط
   field_delay: دیرکرد
-  field_assignable: مسأله‌ها می‌توانند به این نقش واگذار شوند
+  field_assignable: مسأله‌ها می‌توانند به کاربرانی که این نقش را دارند، واگذار شوند
   field_redirect_existing_links: پیوندهای موجود به پیوند جدید منتقل شوند
   field_estimated_hours: زمان برآوردشده
   field_column_names: ستون‌ها
@@ -519,7 +519,7 @@ fa:
   permission_view_wiki_edits: مشاهده سابقه دانش‌نامه
   permission_edit_wiki_pages: ویرایش صفحه‌های دانش‌نامه
   permission_delete_wiki_pages_attachments: حذف کردن پیوست‌های صفحه دانش‌نامه
-  permission_protect_wiki_pages: نگه‌داری صفحه‌های دانش‌نامه
+  permission_protect_wiki_pages: محافظت صفحه‌های دانش‌نامه
   permission_manage_repository: مدیریت مخزن
   permission_browse_repository: مرور مخزن
   permission_view_changesets: مشاهده تغییرات
@@ -556,7 +556,7 @@ fa:
   label_project_plural: پروژه‌ها
   label_x_projects:
     zero:  بدون پروژه
-    one:   "1 پروژه"
+    one:   "۱ پروژه"
     other: "%{count} پروژه"
   label_project_all: همه پروژه‌ها
   label_project_latest: آخرین پروژه‌ها
@@ -713,7 +713,7 @@ fa:
   label_comment_plural: نظرات
   label_x_comments:
     zero: بدون نظر
-    one: 1 نظر
+    one: ۱ نظر
     other: "%{count} نظر"
   label_comment_add: افزودن نظر
   label_comment_added: نظر افزوده شد
@@ -794,7 +794,7 @@ fa:
   label_wiki_page_new: صفحه دانش‌نامه جدید
   label_index_by_title: فهرست بر اساس عنوان
   label_index_by_date: فهرست بر اساس تاریخ
-  label_current_version: نسخه کنونی
+  label_current_version: نسخه فعلی
   label_preview: پیش‌نمایش
   label_feed_plural: خوراک‌ها
   label_changes_details: جزئیات همه تغییرات
@@ -896,7 +896,7 @@ fa:
   label_preferences: ترجیح‌ها
   label_chronological_order: به ترتیب تاریخ
   label_reverse_chronological_order: برعکس ترتیب تاریخ
-  label_incoming_emails: رایانامه‌های آمده
+  label_incoming_emails: رایانامه‌های دریافتی
   label_generate_key: ساخت کلید
   label_issue_watchers: ناظرها
   label_example: نمونه
@@ -925,7 +925,7 @@ fa:
   label_display_used_statuses_only: تنها وضعیت‌هایی نشان داده شوند که در این نوع مسأله به کار رفته‌اند
   label_api_access_key: کلید دست‌رسی API
   label_missing_api_access_key: کلید دست‌رسی API در دست‌رس نیست
-  label_api_access_key_created_on: "کلید دست‌رسی API %{value} پیش ساخته شده است"
+  label_api_access_key_created_on: "کلید دست‌رسی API در %{value} پیش ساخته شده است"
   label_profile: نمایه
   label_subtask_plural: زیرکار
   label_project_copy_notifications: در هنگام رونویسی پروژه رایانامه‌های آگاه‌سازی را بفرست
@@ -934,7 +934,7 @@ fa:
   label_additional_workflow_transitions_for_author: وقتی که کاربر همان نویسنده باشد، انتقال‌های اضافی که مجاز است
   label_additional_workflow_transitions_for_assignee: وقتی که کاربر همان مسئول باشد، انتقال‌های اضافی که مجاز است
   label_issues_visibility_all: همه مسأله‌ها
-  label_issues_visibility_public: همه مسأله‌های غیرخصوصی
+  label_issues_visibility_public: همه مسأله‌های غیرمحرمانه
   label_issues_visibility_own: مسأله‌هایی که کاربر، سازنده یا مسئول آن‌ها است
   label_git_report_last_commit: گزارش تثبیت‌های اخیر برای پرونده‌ها و پوشه‌ها
   label_parent_revision: پدر
@@ -1106,8 +1106,8 @@ fa:
   text_tip_issue_begin_day: روز آغاز مسأله
   text_tip_issue_end_day: روز پایان مسأله
   text_tip_issue_begin_end_day: روز آغاز و پایان مسأله
-  text_project_identifier_info: 'تنها حروف کوچک (a-z)، ارقام، خط تیره (-) و زیرخط (_) مجاز است و باید با یک حرف کوچک شروع شود.<br />پس از ذخیره‌سازی، شناسه نمی‌تواند تغییر کند.'
-  text_caracters_maximum: "بیشترین اندازه %{count} است."
+  text_project_identifier_info: 'تنها حروف کوچک (a-z)، ارقام، خط تیره (-) و زیرخط (_) مجاز است.<br />پس از ذخیره‌سازی، شناسه نمی‌تواند تغییر کند.'
+  text_caracters_maximum: "بیش‌ترین اندازه %{count} است."
   text_caracters_minimum: "کم‌ترین اندازه %{count} است."
   text_length_between: "باید میان %{min} و %{max} نویسه باشد."
   text_tracker_no_workflow: هیچ گردش کاری برای این نوع مسأله مشخص نشده است
@@ -1117,7 +1117,7 @@ fa:
   text_issues_ref_in_commit_messages: ارجاع به مسأله‌ها و بستن مسأله‌ها در پیام‌های تثبیت
   text_issue_added: "مسأله %{id} توسط %{author} گزارش شد."
   text_issue_updated: "مسأله %{id} توسط %{author} به‌روز شد."
-  text_wiki_destroy_confirmation: آیا واقعاً می‌خواهید این دانش‌نامه و همه محتوای آن را حذف کنید؟
+  text_wiki_destroy_confirmation: آیا واقعاً می‌خواهید دانش‌نامه و همه محتوای آن را حذف کنید؟
   text_issue_category_destroy_question: "برخی مسأله‌ها (%{count}) به این دسته واگذار شده‌اند. می‌خواهید چه کنید؟"
   text_issue_category_destroy_assignments: حذف واگذاری به دسته
   text_issue_category_reassign_to: واگذاری دوباره مسأله‌ها به این دسته
@@ -1126,7 +1126,7 @@ fa:
   text_load_default_configuration: بارگذاری تنظیمات پیش‌فرض
   text_status_changed_by_changeset: "در تغییر %{value} به‌روزشده است."
   text_time_logged_by_changeset: "در تغییر %{value} نوشته شده است."
-  text_issues_destroy_confirmation: 'آیا مطمئن هستید که می‌خواهید مسأله‌های انتخاب‌شده را حذف کنید؟'
+  text_issues_destroy_confirmation: 'آیا مطمئن هستید که می‌خواهید مسأله(‌های) انتخاب‌شده را حذف کنید؟'
   text_issues_destroy_descendants_confirmation: این همچنین %{count} زیرکار را حذف خواهد کرد.
   text_time_entries_destroy_confirmation: آیا مطمئنید که می‌خواهید ورودی(های) زمان انتخاب‌شده را حذف کنید؟
   text_select_project_modules: 'ابزارهایی که باید برای این پروژه فعال شوند را انتخاب کنید:'
@@ -1140,12 +1140,12 @@ fa:
   text_assign_time_entries_to_project: ساعت‌های گزارش شده به پروژه واگذار شوند
   text_reassign_time_entries: 'ساعت‌های گزارش شده به این مسأله واگذار شوند:'
   text_user_wrote: "%{value} نوشت:"
-  text_user_wrote_in: "%{value} نوشت (%{link}):"
+  text_user_wrote_in: "%{value} نوشت در %{link}:"
   text_enumeration_destroy_question: "%{count} مورد از مقدار «%{name}» استفاده کرده‌اند."
   text_enumeration_category_reassign_to: 'به این مقدار تغییر کنند:'
   text_email_delivery_not_configured: "دریافت رایانامه تنظیمات نشده است و آگاه‌سازی‌ها غیر فعال هستند.\nکارگزار SMTP خود را در config/email.yml تنظیمات کنید و برنامه را بازنشانی کنید تا فعال شوند."
   text_repository_usernames_mapping: "حساب کاربری پی‌گیری که به هر نام کاربری مورد استفاده در پیام‌های تثبیت نگاشته می‌شود را انتخاب کنید.\nکاربرانی که نام کاربری یا رایانامه همسان دارند، خود به خود نگاشت می‌شوند."
-  text_diff_truncated: '... این تفاوت بریده شده چون بیشتر از بیشترین اندازه نمایش دادنی است.'
+  text_diff_truncated: '... این تفاوت بریده شده چون بیشتر از بیش‌ترین اندازه نمایش دادنی است.'
   text_custom_field_possible_values_info: 'یک خط برای هر مقدار'
   text_wiki_page_destroy_question: "این صفحه %{descendants} زیرصفحه دارد.می‌خواهید چه کنید؟"
   text_wiki_page_nullify_children: "زیرصفحه‌ها صفحه ریشه شوند"
@@ -1212,89 +1212,78 @@ fa:
   description_issue_category_reassign: انتخاب دسته مسأله
   description_wiki_subpages_reassign: انتخاب صفحه پدر جدید
   text_repository_identifier_info: 'تنها حروف کوچک (a-z)، ارقام، خط تیره (-) و زیرخط (_) مجاز است و باید با یک حرف کوچک شروع شود.<br />پس از ذخیره‌سازی، شناسه نمی‌تواند تغییر کند.'
-  error_exceeds_maximum_hours_per_day: Cannot log more than %{max_hours} hours on the
-    same day (%{logged_hours} hours have already been logged)
-  error_can_not_delete_auth_source: This authentication mode is in use and cannot be
-    deleted.
-  setting_close_duplicate_issues: Close duplicate issues automatically
-  setting_time_entry_list_defaults: Timelog list defaults
-  setting_timelog_accept_0_hours: Accept time logs with 0 hours
-  setting_timelog_max_hours_per_day: Maximum hours that can be logged per day and user
-  label_x_revisions: "%{count} revisions"
-  button_actions: Actions
-  mail_body_lost_password_validity: Please be aware that you may change the password
-    only once using this link.
-  text_login_required_html: When not requiring authentication, public projects and their
-    contents are openly available on the network. You can <a href="%{anonymous_role_path}">edit
-    the applicable permissions</a>.
-  label_login_required_yes: 'Yes'
-  label_login_required_no: No, allow anonymous access to public projects
-  text_project_is_public_non_member: Public projects and their contents are available
-    to all logged-in users.
-  text_project_is_public_anonymous: Public projects and their contents are openly available
-    on the network.
-  label_version_and_files: Versions (%{count}) and Files
+  error_exceeds_maximum_hours_per_day: "نمی‌توان بیش از %{max_hours} ساعت در یک روز زمان ثبت کرد. (%{logged_hours} ساعت تا کنون زمان ثبت شده است)"
+  error_can_not_delete_auth_source: "این شیوه احراز هویت در حال استفاده است و حذف آن امکان‌‌پذیر نیست."
+  setting_close_duplicate_issues: بستن مسأله‌های تکراری بصورت خودکار
+  setting_time_entry_list_defaults: ستون‌های پیش‌فرض ثبت ساعت
+  setting_timelog_accept_0_hours: پذیرفتن ثبت ساعت با صفر ساعت
+  setting_timelog_max_hours_per_day: بیش‌ترین ساعتی که می‌توان در یک روز برای هر کاربر ثبت کرد
+  label_x_revisions: "%{count} بازبینی"
+  button_actions: فعالیت‌ها
+  mail_body_lost_password_validity: 'توجه داشته باشید که شما فقط یک‌بار بوسیله این پیوند می‌توانند گذرواژه خود را تغییر دهید.'
+  text_login_required_html: زمانی که نیاز به احرازهویت نباشد، پروژه‌های عمومی و محتوای آن‌ها در دسترس خواهند بود. شما می‌توانید <a href="%{anonymous_role_path}">دسترسی افراد ناشناس را ویرایش کنید</a>
+  label_login_required_yes: "بله"
+  label_login_required_no: "خیر، اجازه دسترسی ناشناس به پروژه‌های عمومی داده شود"
+  text_project_is_public_non_member: پروژه‌های عمومی و محتوای آنان برای همه کاربران وارد شده قابل دسترسی خواهد بود.
+  text_project_is_public_anonymous: پروژه‌های عمومی و محتوای آنان برای همگان باز خواهد بود.
+  label_version_and_files: نسخه‌ها (%{count}) و پرونده‌ها
   label_ldap: LDAP
-  label_ldaps_verify_none: LDAPS (without certificate check)
+  label_ldaps_verify_none: LDAPS (بدون بررسی گواهی‌نامه)
   label_ldaps_verify_peer: LDAPS
-  label_ldaps_warning: It is recommended to use an encrypted LDAPS connection with certificate
-    check to prevent any manipulation during the authentication process.
-  label_nothing_to_preview: Nothing to preview
-  error_token_expired: This password recovery link has expired, please try again.
-  error_spent_on_future_date: Cannot log time on a future date
-  setting_timelog_accept_future_dates: Accept time logs on future dates
-  label_delete_link_to_subtask: حذف ارتباط
-  error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
-    for other users
-  permission_log_time_for_other_users: Log spent time for other users
-  label_tomorrow: tomorrow
-  label_next_week: next week
-  label_next_month: next month
-  text_role_no_workflow: No workflow defined for this role
-  text_status_no_workflow: No tracker uses this status in the workflows
-  setting_mail_handler_preferred_body_part: Preferred part of multipart (HTML) emails
-  setting_show_status_changes_in_mail_subject: Show status changes in issue mail notifications
-    subject
-  label_inherited_from_parent_project: Inherited from parent project
-  label_inherited_from_group: Inherited from group %{name}
-  label_trackers_description: Trackers description
-  label_open_trackers_description: View all trackers description
-  label_preferred_body_part_text: Text
-  label_preferred_body_part_html: HTML (experimental)
-  field_parent_issue_subject: Parent task subject
-  permission_edit_own_issues: Edit own issues
-  text_select_apply_tracker: Select tracker
-  label_updated_issues: Updated issues
-  text_avatar_server_config_html: The current avatar server is <a href="%{url}">%{url}</a>.
-    You can configure it in config/configuration.yml.
-  setting_gantt_months_limit: Maximum number of months displayed on the gantt chart
-  permission_import_time_entries: Import time entries
-  label_import_notifications: Send email notifications during the import
-  text_gs_available: ImageMagick PDF support available (optional)
-  field_recently_used_projects: Number of recently used projects in jump box
-  label_optgroup_bookmarks: Bookmarks
-  label_optgroup_others: Other projects
-  label_optgroup_recents: Recently used
-  button_project_bookmark: Add bookmark
-  button_project_bookmark_delete: Remove bookmark
-  field_history_default_tab: Issue's history default tab
-  label_issue_history_properties: Property changes
-  label_issue_history_notes: Notes
-  label_last_tab_visited: Last visited tab
-  field_unique_id: Unique ID
-  text_no_subject: no subject
-  setting_password_required_char_classes: Required character classes for passwords
-  label_password_char_class_uppercase: uppercase letters
-  label_password_char_class_lowercase: lowercase letters
-  label_password_char_class_digits: digits
-  label_password_char_class_special_chars: special characters
-  text_characters_must_contain: Must contain %{character_classes}.
-  label_starts_with: starts with
-  label_ends_with: ends with
-  label_issue_fixed_version_updated: Target version updated
-  setting_project_list_defaults: Projects list defaults
-  label_display_type: Display results as
-  label_display_type_list: List
-  label_display_type_board: Board
-  label_my_bookmarks: My bookmarks
-  label_import_time_entries: Import time entries
+  label_ldaps_warning: پیش‌نهاد می‌شود که از یک ارتباط رمزنگاری‌شده LDAPS با بررسی گواهی‌نامه استفاده کنید تا از هر گونه دستکاری اطلاعات در زمان احراز هویت جلوگیری کنید.
+  label_nothing_to_preview: محتوایی برای مشاهده وجود ندارد
+  error_token_expired: "پیوند بازیابی گذرواژه شما منقضی شده است. لطفاً دوباره سعی کنید."
+  error_spent_on_future_date: "ثبت زمان برای روزهای آینده امکان‌پذیر نیست"
+  setting_timelog_accept_future_dates: پذیرفتن ثبت زمان برای روزهای آینده
+  label_delete_link_to_subtask: حذف پیوند به زیرکار
+  error_not_allowed_to_log_time_for_other_users: "شما اجازه ثبت زمان برای سایر کاربران را ندارید"
+  permission_log_time_for_other_users: ثبت زمان برای سایر کاربران
+  label_tomorrow: فردا
+  label_next_week: هفته آینده
+  label_next_month: ماه آینده
+  text_role_no_workflow: گردش کاری برای این نقش تعریف نشده‌است
+  text_status_no_workflow: هیچ نوع مسأله‌ای از این وضعیت در گردش کار استفاده نکرده‌است
+  setting_mail_handler_preferred_body_part: قسمتی از رایانامه‌های چند بخشی (HTML) ترجیح داده شود
+  setting_show_status_changes_in_mail_subject: نمایش تغییر وضعیت در موضوع آگاه‌سازی رایانامه‌ای
+  label_inherited_from_parent_project: "ارث‌بری از پروژه پدر"
+  label_inherited_from_group: "ارث‌بری از گروه %{name}"
+  label_trackers_description: توضیحات انواع مسأله
+  label_open_trackers_description: نمایش توضیحات تمامی انواع مسأله
+  label_preferred_body_part_text: متن
+  label_preferred_body_part_html: HTML (آزمایشی)
+  field_parent_issue_subject: موضوع کار پدر
+  permission_edit_own_issues: ویرایش مسأله‌های خود
+  text_select_apply_tracker: "انتخاب نوع مسأله"
+  label_updated_issues: مسائل به‌روزشده
+  text_avatar_server_config_html: خادم فعلی آواتار  <a href="%{url}">%{url}</a> می‌باشد. شما می‌توانید آن را در config/configuration.yml تغییر دهید.
+  setting_gantt_months_limit: بیش‌ترین تعداد ماه نمایش داده‌شده در نمودار گانت
+  permission_import_time_entries: ورود زمان‌ها
+  label_import_notifications: در هنگام وارد کردن ، رایانامه‌های آگاه‌سازی را بفرست
+  text_gs_available: پشتیبانی ImageMagick PDF موجود است (اختیاری)
+  field_recently_used_projects: تعداد پروژه‌های اخیر در پنجره انتخاب پروژه
+  label_optgroup_bookmarks: منتخب
+  label_optgroup_others: سایر پروژه‌ها
+  label_optgroup_recents: اخیراً دیده‌شده
+  button_project_bookmark: افزودن منتخب
+  button_project_bookmark_delete: حذف منتخب
+  field_history_default_tab: برگه پیش‌فرض در سابقه مسأله
+  label_issue_history_properties: تغییرات بخش‌ها
+  label_issue_history_notes: یادداشت
+  label_last_tab_visited: آخرین برگه مشاهده‌شده
+  field_unique_id: شناسه یکتا
+  text_no_subject: بدون موضوع
+  setting_password_required_char_classes : مواردی که برای پسورد الزامی است
+  label_password_char_class_uppercase: حروف بزرگ
+  label_password_char_class_lowercase: حروف کوچک
+  label_password_char_class_digits: اعداد
+  label_password_char_class_special_chars: نویسه‌های خاص
+  text_characters_must_contain: "موارد الزامی %{character_classes}."
+  label_starts_with: شروع با
+  label_ends_with: پایان با
+  label_issue_fixed_version_updated: نسخه هدف به‌روز شد
+  setting_project_list_defaults: ستون‌های پیش‌فرض نمایش داده‌شده در پروژه‌ها
+  label_display_type: نمایش نتایج بصورت
+  label_display_type_list: جدول
+  label_display_type_board: فهرست
+  label_my_bookmarks: منتخبین من
+  label_import_time_entries: ورود زمان‌ها
