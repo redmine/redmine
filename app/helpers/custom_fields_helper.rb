@@ -129,8 +129,13 @@ module CustomFieldsHelper
   # Returns the custom field tag for when bulk editing objects
   def custom_field_tag_for_bulk_edit(prefix, custom_field, objects=nil, value='')
     css =  custom_field.css_classes
+    data = nil
     if custom_field.full_text_formatting?
       css += ' wiki-edit'
+      data = {
+        :auto_complete => true,
+        :issues_url => auto_complete_issues_path(:q => '')
+      }
     end
     custom_field.format.bulk_edit_tag(
       self,
@@ -139,7 +144,8 @@ module CustomFieldsHelper
       custom_field,
       objects,
       value,
-      :class => css)
+      :class => css,
+      :data => data)
   end
 
   # Returns custom field value tag
