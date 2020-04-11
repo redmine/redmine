@@ -137,16 +137,16 @@ class AttachmentsController < ApplicationController
   end
 
   def download_all
-    Tempfile.create('attachments_zip-', Rails.root.join('tmp')) do |tempfile|
-      zip_file = Attachment.archive_attachments(tempfile, @attachments)
-      if zip_file
-        send_data(
-          File.read(zip_file.path),
-          :type => 'application/zip',
-          :filename => "#{@container.class.to_s.downcase}-#{@container.id}-attachments.zip")
-      else
-        render_404
-      end
+    zip_data = Attachment.archive_attachments(@attachments)
+    if zip_data
+      file_name = "#{@container.class.to_s.downcase}-#{@container.id}-attachments.zip"
+      send_data(
+        zip_data,
+        :type => Redmine::MimeType.of(file_name),
+        :filename => file_name
+      )
+    else
+      render_404
     end
   end
 
