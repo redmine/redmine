@@ -94,13 +94,6 @@
 </p>
 <% end %>
 
-<% @custom_fields.each do |custom_field| %>
-  <p>
-    <label><%= custom_field.name %></label>
-    <%= custom_field_tag_for_bulk_edit('issue', custom_field, @issues, @issue_params[:custom_field_values][custom_field.id.to_s]) %>
-  </p>
-<% end %>
-
 <% if @copy && Setting.link_copied_issue == 'ask' %>
 <p>
   <label for='link_copy'><%= l(:label_link_copied_issue) %></label>
@@ -190,6 +183,37 @@
 <% end %>
 </div>
 </div>
+
+<% custom_fields = @custom_fields %>
+<% custom_fields_full_width = custom_fields.select { |value| value.full_width_layout? } %>
+<% custom_fields -= custom_fields_full_width %>
+
+<% if custom_fields.present? %>
+<div class="splitcontent">
+  <div class="splitcontentleft">
+   <% i = 0 %>
+   <% split_on = (custom_fields.size / 2.0).ceil - 1 %>
+   <% custom_fields.each do |custom_field| %>
+     <p>
+       <label><%= custom_field.name %></label>
+       <%= custom_field_tag_for_bulk_edit('issue', custom_field, @issues, @issue_params[:custom_field_values][custom_field.id.to_s]) %>
+     </p>
+     <% if i == split_on %>
+       </div><div class="splitcontentright">
+     <% end %>
+     <% i += 1 %>
+   <% end %>
+  </div>
+</div>
+<% end %>
+
+<% custom_fields_full_width.each do |custom_field| %>
+  <p>
+    <label><%= custom_field.name %></label>
+    <%= custom_field_tag_for_bulk_edit('issue', custom_field, @issues, @issue_params[:custom_field_values][custom_field.id.to_s]) %>
+  </p>
+<% end %>
+
 </fieldset>
 
 <fieldset>
