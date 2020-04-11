@@ -141,7 +141,7 @@ class UsersControllerTest < Redmine::ControllerTest
     get :show, :params => {:id => 2}
     assert_response :success
 
-    assert_select 'li[class=?]', 'cf_4', :text => /Phone number/
+    assert_select 'li.cf_4.string_cf', :text => /Phone number/
   end
 
   def test_show_should_not_display_hidden_custom_fields

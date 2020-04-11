@@ -306,7 +306,7 @@ class CustomField < ActiveRecord::Base
   end
 
   def css_classes
-    "cf_#{id}"
+    "#{field_format}_cf cf_#{id}"
   end
 
   protected

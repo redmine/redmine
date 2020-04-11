@@ -93,7 +93,7 @@ class CustomFieldsHelperTest < Redmine::HelperTest
     field = IssueCustomField.create!(:name => 'Long text', :field_format => 'text', :text_formatting => 'full')
     value = CustomValue.new(:value => 'bar', :custom_field => field)
 
-    assert_select_in custom_field_tag('object', value), 'textarea[class=?]', 'text_cf wiki-edit'
+    assert_select_in custom_field_tag('object', value), "textarea.text_cf.wiki-edit.cf_#{field.id}"
   end
 
   def test_select_type_radio_buttons

@@ -677,7 +677,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
     ProjectCustomField.find_by_name('Development status').update_attribute :visible, true
     get(:show, :params => {:id => 'ecookbook'})
     assert_response :success
-    assert_select 'li[class=?]', 'cf_3', :text => /Development status/
+    assert_select 'li.list_cf.cf_3', :text => /Development status/
   end
 
   def test_show_should_not_display_hidden_custom_fields
