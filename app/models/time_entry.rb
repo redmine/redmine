@@ -50,7 +50,7 @@ class TimeEntry < ActiveRecord::Base
   validates_length_of :comments, :maximum => 1024, :allow_nil => true
   validates :spent_on, :date => true
   before_validation :set_project_if_nil
-  #TODO: remove this, author should be always explicitly set
+  # TODO: remove this, author should be always explicitly set
   before_validation :set_author_if_nil
   validate :validate_time_entry
 
