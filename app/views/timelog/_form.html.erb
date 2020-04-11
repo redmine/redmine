@@ -31,6 +31,9 @@
   <p><%= f.select :activity_id, activity_collection_for_select_options(@time_entry), :required => true %></p>
   <% @time_entry.editable_custom_field_values.each do |value| %>
     <p><%= custom_field_tag_with_label :time_entry, value %></p>
+    <% if value.custom_field.full_text_formatting? %>
+      <%= wikitoolbar_for "time_entry_custom_field_values_#{value.custom_field_id}", preview_issue_path(:project_id => @project) %>
+    <% end %>
   <% end %>
   <%= call_hook(:view_timelog_edit_form_bottom, { :time_entry => @time_entry, :form => f }) %>
 </div>
