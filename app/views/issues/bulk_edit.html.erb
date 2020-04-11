@@ -212,6 +212,7 @@
     <label><%= custom_field.name %></label>
     <%= custom_field_tag_for_bulk_edit('issue', custom_field, @issues, @issue_params[:custom_field_values][custom_field.id.to_s]) %>
   </p>
+  <%= wikitoolbar_for "issue_custom_field_values_#{custom_field.id}", preview_issue_path(:project_id => @project, :issue_id => nil) if custom_field.full_text_formatting? %>
 <% end %>
 
 </fieldset>
