@@ -605,7 +605,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       repo.fetch_changesets
       @project.reload
       assert_equal 1, repo.changesets.count
-      changeset = repo.find_changeset_by_name('9da6b5c6748cc62ee26616718c9bb0e9acfb3e15')
+      changeset = repo.find_changeset_by_name('d37ec5b2c54b6d1b875888f07571e372acd638c9')
       assert_equal "U+1F603\u{1F603} <none@none>", changeset.committer
       assert_equal "U+1F603\u{1F603}", changeset.comments
     end
