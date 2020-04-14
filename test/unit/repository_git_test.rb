@@ -27,6 +27,9 @@ class RepositoryGitTest < ActiveSupport::TestCase
   REPOSITORY_PATH = Rails.root.join('tmp/test/git_repository').to_s
   REPOSITORY_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
 
+  REPOSITORY_UTF8_PATH = Rails.root.join('tmp/test/git_utf8_repository').to_s
+  REPOSITORY_UTF8_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
+
   NUM_REV = 28
   NUM_HEAD = 8
 
@@ -586,5 +589,33 @@ class RepositoryGitTest < ActiveSupport::TestCase
   else
     puts "Git test repository NOT FOUND. Skipping unit tests !!!"
     def test_fake; assert true end
+  end
+
+  if File.directory?(REPOSITORY_UTF8_PATH) &&
+      !(Redmine::Database::mysql? && !is_mysql_utf8mb4)
+    def test_utf8_emoji
+      repo = Repository::Git.create(
+                          :project      => @project,
+                          :url          => REPOSITORY_UTF8_PATH,
+                          :identifier   => 'utf8',
+                          :path_encoding => 'UTF-8'
+                        )
+      assert repo
+      assert_equal 0, repo.changesets.count
+      repo.fetch_changesets
+      @project.reload
+      assert_equal 1, repo.changesets.count
+      changeset = repo.find_changeset_by_name('9da6b5c6748cc62ee26616718c9bb0e9acfb3e15')
+      assert_equal "U+1F603\u{1F603} <none@none>", changeset.committer
+      assert_equal "U+1F603\u{1F603}", changeset.comments
+    end
+  elsif !File.directory?(REPOSITORY_UTF8_PATH)
+    puts "Git UTF-8 test repository NOT FOUND. Skipping unit tests !!!"
+    def test_fake; assert true end
+  else
+    puts "Git UTF-8 test repository contains Emoji."
+    puts "Tests connot run on NOT utf8mb4 MySQL."
+    puts "Skipping unit tests !!!"
+   def test_fake; assert true end
   end
 end
