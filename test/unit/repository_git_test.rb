@@ -616,6 +616,6 @@ class RepositoryGitTest < ActiveSupport::TestCase
     puts "Git UTF-8 test repository contains Emoji."
     puts "Tests connot run on NOT utf8mb4 MySQL."
     puts "Skipping unit tests !!!"
-   def test_fake; assert true end
+    def test_fake; assert true end
   end
 end
