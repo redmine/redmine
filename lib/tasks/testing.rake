@@ -26,7 +26,7 @@ namespace :test do
         FileUtils.mkdir_p Rails.root + '/tmp/test'
       end
 
-      supported_scms = [:subversion, :cvs, :bazaar, :mercurial, :git, :filesystem]
+      supported_scms = [:subversion, :cvs, :bazaar, :mercurial, :git, :git_utf8, :filesystem]
 
       desc "Creates a test subversion repository"
       task :subversion => :create_dir do
