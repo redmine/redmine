@@ -278,7 +278,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      changeset = @repository.find_changeset_by_name('12')
+      changeset = @repository.find_changeset_by_name(NUM_REV.to_s)
       assert_nil changeset.next
     end
   else
