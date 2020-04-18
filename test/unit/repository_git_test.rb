@@ -592,7 +592,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
   end
 
   if File.directory?(REPOSITORY_UTF8_PATH) &&
-      !(Redmine::Database::mysql? && !is_mysql_utf8mb4)
+      !(Redmine::Database.mysql? && !is_mysql_utf8mb4)
     def test_utf8_emoji
       repo = Repository::Git.create(
                           :project      => @project,
