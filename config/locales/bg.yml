@@ -216,7 +216,9 @@ bg:
   error_workflow_copy_target: Моля изберете тракер(и) и роля (роли).
   error_unable_delete_issue_status: Невъзможност за изтриване на състояние на задача (%{value})
   error_unable_to_connect: Невъзможност за свързване с (%{value})
+  error_attachments_too_many: Този файл не може да бъде качен, понеже с него се надхвърля максималният брой файлове, които могат да бъдат качени заедно (%{max_number_of_files})
   error_attachment_too_big: Този файл не може да бъде качен, понеже надхвърля максималната възможна големина (%{max_size})
+  error_bulk_download_size_too_big: Тези файлове не могат да бъдат изтеглени заедно, понеже общият им обем надхвърля максимално позволения обем (%{max_size})
   error_session_expired: Вашата сесия е изтекла. Моля влезете в Redmine отново.
   error_token_expired: Връзката за възстановяване на паролата вече е невалидна. Опитайте отново.
   warning_attachments_not_saved: "%{count} файла не бяха записани."
@@ -404,6 +406,7 @@ bg:
   setting_self_registration: Регистрация от потребители
   setting_show_custom_fields_on_registration: Показване на потребителските полета при регистрацията
   setting_attachment_max_size: Максимална големина на прикачен файл
+  setting_bulk_download_max_size: Максимален обем за групово изтегляне
   setting_issues_export_limit: Максимален брой задачи за експорт
   setting_mail_from: E-mail адрес за емисии
   setting_bcc_recipients: Получатели на скрито копие (bcc)
@@ -1021,6 +1024,7 @@ bg:
   label_users_visibility_all: Всички активни потребители
   label_users_visibility_members_of_visible_projects: Членовете на видимите проекти
   label_edit_attachments: Редактиране на прикачените файлове
+  label_download_all_attachments: Изтегляне на всички файлове
   label_link_copied_issue: Създаване на връзка между задачите
   label_ask: Питане преди копиране
   label_search_attachments_yes: Търсене на имената на прикачените файлове и техните описания
@@ -1294,9 +1298,3 @@ bg:
   text_project_is_public_non_member: Публичните проекти са достъпни за всички влезли в Redmine потребители.
   text_project_is_public_anonymous: Публичните проекти са достъпни и тяхното съдържание е видимо без ограничения в мрежата.
   label_import_time_entries: Импортиране на записи за използвано време
-  error_bulk_download_size_too_big: These attachments cannot be bulk downloaded because
-    the total file size exceeds the maximum allowed size (%{max_size})
-  setting_bulk_download_max_size: Maximum total size for bulk download
-  label_download_all_attachments: Download all files
-  error_attachments_too_many: This file cannot be uploaded because it exceeds the maximum
-    number of files that can be attached simultaneously (%{max_number_of_files})
