@@ -164,7 +164,7 @@ class ActiveSupport::TestCase
   end
 
   def self.is_mysql_utf8mb4
-    return false unless Redmine::Database::mysql?
+    return false unless Redmine::Database.mysql?
     character_sets = %w[
       character_set_connection
       character_set_database
