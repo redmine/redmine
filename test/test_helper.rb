@@ -190,11 +190,11 @@ class ActiveSupport::TestCase
   end
 
   def mysql?
-    ActiveRecord::Base.connection.adapter_name =~ /mysql/i
+    Redmine::Database.mysql?
   end
 
   def postgresql?
-    ActiveRecord::Base.connection.adapter_name =~ /postgresql/i
+    Redmine::Database.postgresql?
   end
 
   def quoted_date(date)
