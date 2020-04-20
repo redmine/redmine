@@ -21,6 +21,11 @@ module Redmine
   # Helper module to get information about the Redmine database
   module Database
     class << self
+      # Returns true if the database is SQLite
+      def sqlite?
+        ActiveRecord::Base.connection.adapter_name =~ /sqlite/i
+      end
+
       # Returns true if the database is PostgreSQL
       def postgresql?
         /postgresql/i.match?(ActiveRecord::Base.connection.adapter_name)

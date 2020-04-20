@@ -186,7 +186,7 @@ class ActiveSupport::TestCase
   end
 
   def sqlite?
-    ActiveRecord::Base.connection.adapter_name =~ /sqlite/i
+    Redmine::Database.sqlite?
   end
 
   def mysql?
