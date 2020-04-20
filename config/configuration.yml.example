@@ -179,6 +179,10 @@ default:
   # the ImageMagick's `convert` binary. Used to generate attachment thumbnails.
   #imagemagick_convert_command:
 
+  # Absolute path (e.g. /usr/bin/gs, c:/ghostscript/gs.exe) to
+  # the `gs` binary. Used to generate attachment thumbnails of PDF files.
+  #gs_command:
+
   # Configuration of MiniMagick font.
   #
   # Redmine uses MiniMagick in order to export a gantt chart to a PNG image.
