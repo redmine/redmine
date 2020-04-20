@@ -238,7 +238,7 @@ class ActiveSupport::TestCase
   end
 
   def assert_select_in(text, *args, &block)
-    d = Nokogiri::HTML(CGI::unescapeHTML(String.new(text))).root
+    d = Nokogiri::HTML(CGI.unescapeHTML(String.new(text))).root
     assert_select(d, *args, &block)
   end
 
