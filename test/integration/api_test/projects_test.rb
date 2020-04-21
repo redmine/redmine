@@ -83,6 +83,14 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_select 'enabled_modules[type=array] enabled_module[name=issue_tracking]'
   end
 
+  test "GET /projects.xml with include=issue_custom_fields should return custom fields" do
+    get '/projects.xml?include=issue_custom_fields'
+    assert_response :success
+    assert_equal 'application/xml', @response.media_type
+
+    assert_select 'issue_custom_fields[type=array] custom_field[name="Project 1 cf"]'
+  end
+
   test "GET /projects/:id.xml should return the project" do
     Project.find(1).update!(:inherit_members => '1')
 

@@ -152,6 +152,12 @@ module ProjectsHelper
         api.enabled_module(:id => enabled_module.id, :name => enabled_module.name)
       end
     end if include_in_api_response?('enabled_modules')
+
+    api.array :issue_custom_fields do
+      project.issue_custom_fields.each do |custom_field|
+        api.custom_field(:id => custom_field.id, :name => custom_field.name)
+      end
+    end if include_in_api_response?('issue_custom_fields')
   end
 
   def bookmark_link(project, user = User.current)
