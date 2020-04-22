@@ -455,12 +455,16 @@ class ProjectTest < ActiveSupport::TestCase
     assert Project.find(3).allowed_parents.include?(nil)
   end
 
-  def test_users_by_role
-    users_by_role = Project.find(1).users_by_role
-    assert_kind_of Hash, users_by_role
+  def test_principals_by_role
+    group = Group.find(10)
+    Member.create!(:principal => group, :project_id => 1, :role_ids => [1])
+
+    principals_by_role = Project.find(1).principals_by_role
+    assert_kind_of Hash, principals_by_role
     role = Role.find(1)
-    assert_kind_of Array, users_by_role[role]
-    assert users_by_role[role].include?(User.find(2))
+    assert_kind_of Array, principals_by_role[role]
+    assert principals_by_role[role].include?(User.find(2))
+    assert principals_by_role[role].include?(group)
   end
 
   def test_rolled_up_trackers

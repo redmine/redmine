@@ -162,7 +162,7 @@ class ProjectsController < ApplicationController
       return
     end
 
-    @users_by_role = @project.users_by_role
+    @principals_by_role = @project.principals_by_role
     @subprojects = @project.children.visible.to_a
     @news = @project.news.limit(5).includes(:author, :project).reorder("#{News.table_name}.created_on DESC").to_a
     @trackers = @project.rolled_up_trackers.visible

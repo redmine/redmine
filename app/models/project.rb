@@ -507,15 +507,21 @@ class Project < ActiveRecord::Base
     end
   end
 
-  # Returns a hash of project users grouped by role
-  def users_by_role
-    members.includes(:user, :roles).inject({}) do |h, m|
+  # Returns a hash of project users/groups grouped by role
+  def principals_by_role
+    memberships.includes(:principal, :roles).inject({}) do |h, m|
       m.roles.each do |r|
         h[r] ||= []
-        h[r] << m.user
+        h[r] << m.principal
       end
       h
     end
+  end
+
+  # TODO: Remove this method in Redmine 5.0
+  def members_by_role
+    ActiveSupport::Deprecation.warn "Project#members_by_role will be removed. Use Project#principals_by_role instead."
+    principals_by_role
   end
 
   # Adds user as a project member with the default role
