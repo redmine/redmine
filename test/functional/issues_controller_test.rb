@@ -2995,6 +2995,20 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_show_should_display_open_badge_for_open_issue
+    get :show, params: {id: 1}
+
+    assert_response :success
+    assert_select 'span.badge.badge-status-open', text: 'open'
+  end
+
+  def test_show_should_display_closed_badge_for_closed_issue
+    get :show, params: {id: 8}
+
+    assert_response :success
+    assert_select 'span.badge.badge-status-closed', text: 'closed'
+  end
+
   def test_get_new
     @request.session[:user_id] = 2
     get(

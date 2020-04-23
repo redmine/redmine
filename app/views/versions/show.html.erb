@@ -7,7 +7,7 @@
 </div>
 
 <div id="roadmap" class="<%= @version.css_classes %>">
-  <h2><%= @version.name %></h2>
+  <h2 class="inline-flex"><%= @version.name %></h2>
   <span class="badge badge-status-<%= @version.status %>"><%= l("version_status_#{@version.status}") %></span>
 
 <%= render :partial => 'versions/overview', :locals => {:version => @version} %>

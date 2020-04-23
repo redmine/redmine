@@ -132,6 +132,7 @@ div.modal .box p {margin: 0.3em 0;}
 
 .mobile-show {display: none;}
 .hidden {display: none;}
+.inline-flex {display: inline-flex;}
 
 /***** Links *****/
 a, a:link, a:visited{ color: #169; text-decoration: none; }
@@ -532,6 +533,7 @@ div.issue .attributes .attribute {padding-left:180px; clear:left; min-height: 1.
 div.issue .attributes .attribute .label {width: 170px; margin-left:-180px; font-weight:bold; float:left;  overflow:hidden; text-overflow: ellipsis;}
 div.issue .attribute .value {overflow:auto; text-overflow: ellipsis;}
 div.issue.overdue .due-date .value { color: #c22; }
+body.controller-issues h2.inline-flex {padding-right: 0}
 
 #issue_tree table.issues, #relations table.issues { border: 0; }
 #issue_tree td.checkbox, #relations td.checkbox {display:none;}
@@ -614,7 +616,7 @@ div#roadmap .related-issues td.assigned_to img { padding-left: 4px; padding-righ
 div#roadmap .wiki h1:first-child { display: none; }
 div#roadmap .wiki h1 { font-size: 120%; }
 div#roadmap .wiki h2 { font-size: 110%; }
-div#roadmap h2, div#roadmap h3 { display: inline; padding-right: 0;}
+div#roadmap h2, div#roadmap h3 {padding-right: 0;}
 body.controller-versions.action-show div#roadmap .related-issues {width:70%;}
 
 div#version-summary { float:right; width:28%; margin-left: 16px; margin-bottom: 16px; background-color: #fff; }

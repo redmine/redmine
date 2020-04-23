@@ -1,6 +1,7 @@
 <%= render :partial => 'action_menu' %>
 
-<h2><%= issue_heading(@issue) %></h2>
+<h2 class="inline-flex"><%= issue_heading(@issue) %></h2>
+<%= issue_status_type_badge(@issue.status) %>
 
 <div class="<%= @issue.css_classes %> details">
   <% if @prev_issue_id || @next_issue_id %>
