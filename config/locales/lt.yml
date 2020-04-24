@@ -600,7 +600,6 @@ lt:
   label_last_login: Paskutinis prisijungimas
   label_registered_on: Užregistruota
   label_activity: Veikla
-  label_overall_activity: Visa veikla
   label_user_activity: "%{value} veikla"
   label_new: Naujas
   label_logged_as: Prisijungęs kaip
@@ -777,7 +776,6 @@ lt:
   label_issue_tracking: Darbų sekimas
   label_spent_time: Dirbtas laikas
   label_total_spent_time: Visas dirbtas laikas
-  label_overall_spent_time: Visas dirbtas laikas
   label_f_hour: "%{value} valanda"
   label_f_hour_plural: "%{value} valandų(-os)"
   label_f_hour_short: "%{value} h"

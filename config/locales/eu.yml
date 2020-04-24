@@ -476,7 +476,6 @@ eu:
   label_last_login: Azken konexioa
   label_registered_on: Noiz erregistratuta
   label_activity: Jarduerak
-  label_overall_activity: Jarduera guztiak
   label_user_activity: "%{value}-(r)en jarduerak"
   label_new: Berria
   label_logged_as: "Sartutako erabiltzailea:"
@@ -900,7 +899,6 @@ eu:
   text_zoom_out: Zooma txikiagotu
   text_zoom_in: Zooma handiagotu
   notice_unable_delete_time_entry: "Ezin da hautatutako denbora erregistroa ezabatu."
-  label_overall_spent_time: Igarotako denbora guztira
   field_time_entries: "Denbora erregistratu"
   project_module_gantt: Gantt
   project_module_calendar: Egutegia

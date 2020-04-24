@@ -433,7 +433,6 @@ sl:
   label_last_login: Zadnja povezava
   label_registered_on: Registriran
   label_activity: Aktivnosti
-  label_overall_activity: Celotna aktivnost
   label_user_activity: "Aktivnost %{value}"
   label_new: Nov
   label_logged_as: Prijavljen(a) kot
@@ -896,7 +895,6 @@ sl:
   text_zoom_out: Približaj
   text_zoom_in: Oddalji
   notice_unable_delete_time_entry: Brisanje dnevnika porabljenaga časa ni mogoče.
-  label_overall_spent_time: Skupni porabljeni čas
   field_time_entries: Beleži porabljeni čas
   project_module_gantt: Gantogram
   project_module_calendar: Koledear

@@ -504,7 +504,6 @@ zh:
   label_last_login: 最后登录
   label_registered_on: 注册于
   label_activity: 活动
-  label_overall_activity: 活动概览
   label_user_activity: "%{value} 的活动"
   label_new: 新建
   label_logged_as: 登录为
@@ -661,7 +660,6 @@ zh:
   label_changes_details: 所有变更的详情
   label_issue_tracking: 问题跟踪
   label_spent_time: 耗时
-  label_overall_spent_time: 总体耗时
   label_f_hour: "%{value} 小时"
   label_f_hour_plural: "%{value} 小时"
   label_time_tracking: 时间跟踪

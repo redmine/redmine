@@ -392,7 +392,6 @@ pt:
   label_last_login: Último acesso
   label_registered_on: Registado em
   label_activity: Atividade
-  label_overall_activity: Atividade geral
   label_new: Novo
   label_logged_as: Ligado como
   label_environment: Ambiente
@@ -904,7 +903,6 @@ pt:
   text_zoom_out: Reduzir
   text_zoom_in: Ampliar
   notice_unable_delete_time_entry: Não foi possível apagar a entrada de tempo registado.
-  label_overall_spent_time: Total de tempo registado
   field_time_entries: Tempo registado
   project_module_gantt: Gantt
   project_module_calendar: Calendário

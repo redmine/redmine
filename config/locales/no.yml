@@ -369,7 +369,6 @@
   label_last_login: Sist innlogget
   label_registered_on: Registrert
   label_activity: Aktivitet
-  label_overall_activity: All aktivitet
   label_new: Ny
   label_logged_as: Innlogget som
   label_environment: Miljø
@@ -886,7 +885,6 @@
   text_zoom_out: Zoom ut
   text_zoom_in: Zoom inn
   notice_unable_delete_time_entry: Kan ikke slette oppføring fra timeliste.
-  label_overall_spent_time: All tidsbruk
   field_time_entries: Loggfør tid
   project_module_gantt: Gantt
   project_module_calendar: Kalender

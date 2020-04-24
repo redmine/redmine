@@ -489,7 +489,6 @@ sr-YU:
   label_last_login: Poslednje povezivanje
   label_registered_on: Registrovan
   label_activity: Aktivnost
-  label_overall_activity: Celokupna aktivnost
   label_user_activity: "Aktivnost korisnika %{value}"
   label_new: Novo
   label_logged_as: Prijavljeni ste kao
@@ -646,7 +645,6 @@ sr-YU:
   label_changes_details: Detalji svih promena
   label_issue_tracking: Praćenje problema
   label_spent_time: Utrošeno vreme
-  label_overall_spent_time: Celokupno utrošeno vreme
   label_f_hour: "%{value} sat"
   label_f_hour_plural: "%{value} sati"
   label_time_tracking: Praćenje vremena

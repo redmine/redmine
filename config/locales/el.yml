@@ -455,7 +455,6 @@ el:
   label_last_login: Τελευταία σύνδεση
   label_registered_on: Εγγράφηκε την
   label_activity: Δραστηριότητα
-  label_overall_activity: Συνολική δραστηριότητα
   label_user_activity: "δραστηριότητα του %{value}"
   label_new: Νέο
   label_logged_as: Σύνδεδεμένος ως
@@ -899,7 +898,6 @@ el:
   text_zoom_out: Zoom out
   text_zoom_in: Zoom in
   notice_unable_delete_time_entry: Unable to delete time log entry.
-  label_overall_spent_time: Overall spent time
   field_time_entries: Log time
   project_module_gantt: Gantt
   project_module_calendar: Calendar

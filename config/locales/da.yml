@@ -718,7 +718,6 @@ da:
   text_reassign_time_entries: 'Tildel registrerede timer til denne sag igen'
   label_reverse_chronological_order: I omvendt kronologisk rækkefølge
   label_preferences: Præferencer
-  label_overall_activity: Overordnet aktivitet
   setting_default_projects_public: Nye projekter er offentlige som standard
   error_scm_annotate: "Filen findes ikke, eller kunne ikke annoteres."
   text_subprojects_destroy_warning: "Dets underprojekter(er): %{value} vil også blive slettet."
@@ -915,7 +914,6 @@ da:
   text_zoom_out: Zoom ud
   text_zoom_in: Zoom ind
   notice_unable_delete_time_entry: Kan ikke slette tidsregistrering.
-  label_overall_spent_time: Overordnet forbrug af tid
   field_time_entries: Log tid
   project_module_gantt: Gantt
   project_module_calendar: Kalender

@@ -705,7 +705,6 @@
   label_last_login: 最近一次連線
   label_registered_on: 註冊於
   label_activity: 活動
-  label_overall_activity: 整體活動
   label_user_activity: "%{value} 的活動"
   label_new: 建立新的...
   label_logged_as: 目前登入
@@ -887,7 +886,6 @@
   label_issue_tracking: 議題追蹤
   label_spent_time: 耗用工時
   label_total_spent_time: 耗用工時總計
-  label_overall_spent_time: 整體耗用工時
   label_f_hour: "%{value} 小時"
   label_f_hour_plural: "%{value} 小時"
   label_f_hour_short: "%{value} 小時"

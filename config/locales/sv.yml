@@ -596,7 +596,6 @@ sv:
   label_last_login: Senaste inloggning
   label_registered_on: Registrerad
   label_activity: Aktivitet
-  label_overall_activity: All aktivitet
   label_user_activity: "Aktiviteter för %{value}"
   label_new: Ny
   label_logged_as: Inloggad som
@@ -769,7 +768,6 @@ sv:
   label_changes_details: Detaljer om alla ändringar
   label_issue_tracking: Ärendeuppföljning
   label_spent_time: Spenderad tid
-  label_overall_spent_time: Total tid spenderad
   label_f_hour: "%{value} timme"
   label_f_hour_plural: "%{value} timmar"
   label_time_tracking: Tidsuppföljning

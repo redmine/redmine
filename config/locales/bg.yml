@@ -650,7 +650,6 @@ bg:
   label_last_login: Последно свързване
   label_registered_on: Регистрация
   label_activity: Дейност
-  label_overall_activity: Цялостна дейност
   label_user_activity: "Активност на %{value}"
   label_new: Нов
   label_logged_as: Здравейте,
@@ -838,7 +837,6 @@ bg:
   label_issue_tracking: Тракинг
   label_spent_time: Отделено време
   label_total_spent_time: Общо употребено време
-  label_overall_spent_time: Общо употребено време
   label_f_hour: "%{value} час"
   label_f_hour_plural: "%{value} часа"
   label_f_hour_short: '%{value} час'

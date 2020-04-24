@@ -522,7 +522,6 @@ ar:
   label_last_login: آخر اتصال
   label_registered_on: مسجل على
   label_activity: النشاط
-  label_overall_activity: النشاط العام
   label_user_activity: "قيمة النشاط"
   label_new: جديدة
   label_logged_as: تم تسجيل دخولك
@@ -682,7 +681,6 @@ ar:
   label_changes_details: تفاصيل جميع التغييرات
   label_issue_tracking: تعقب بنود العمل
   label_spent_time: ما تم إنفاقه من الوقت
-  label_overall_spent_time: الوقت الذي تم انفاقه كاملا
   label_f_hour: "%{value} ساعة"
   label_f_hour_plural: "%{value} ساعات"
   label_time_tracking: تعقب الوقت

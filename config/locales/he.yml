@@ -497,7 +497,6 @@ he:
   label_last_login: התחברות אחרונה
   label_registered_on: נרשם בתאריך
   label_activity: פעילות
-  label_overall_activity: פעילות כוללת
   label_user_activity: "הפעילות של %{value}"
   label_new: חדש
   label_logged_as: מחובר כ
@@ -654,7 +653,6 @@ he:
   label_changes_details: פירוט כל השינויים
   label_issue_tracking: מעקב אחר נושאים
   label_spent_time: זמן שהושקע
-  label_overall_spent_time: זמן שהושקע סה"כ
   label_f_hour: "%{value} שעה"
   label_f_hour_plural: "%{value} שעות"
   label_time_tracking: מעקב זמנים

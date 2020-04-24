@@ -390,7 +390,6 @@ tr:
   label_last_login: Son bağlantı
   label_registered_on: Kayıt tarihi
   label_activity: Faaliyet
-  label_overall_activity: Tüm faaliyetler
   label_new: Yeni
   label_logged_as: "Kullanıcı :"
   label_environment: Çevre
@@ -909,7 +908,6 @@ tr:
   text_zoom_out: Uzaklaş
   text_zoom_in: Yakınlaş
   notice_unable_delete_time_entry: Zaman kayıt girdisi silinemiyor.
-  label_overall_spent_time: Toplam harcanan zaman
   field_time_entries: Zaman Kayıtları
   project_module_gantt: İş-Zaman Çizelgesi
   project_module_calendar: Takvim

@@ -498,7 +498,6 @@ ko:
   label_last_login: 마지막 접속
   label_registered_on: 등록시각
   label_activity: 작업내역
-  label_overall_activity: 전체 작업내역
   label_user_activity: "%{value}의 작업내역"
   label_new: 새로 만들기
   label_logged_as: '로그인계정:'
@@ -946,7 +945,6 @@ ko:
   text_zoom_out: 더 작게
   text_zoom_in: 더 크게
   notice_unable_delete_time_entry: 시간 기록 항목을 삭제할 수 없습니다.
-  label_overall_spent_time: 총 소요시간
   field_time_entries: 기록된 시간
   project_module_gantt: Gantt 챠트
   project_module_calendar: 달력

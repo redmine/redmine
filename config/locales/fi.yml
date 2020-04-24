@@ -726,7 +726,6 @@ fi:
   label_reverse_chronological_order: Käänteisessä aikajärjestyksessä
   label_preferences: Asetukset
   setting_default_projects_public: Uudet projektit ovat oletuksena julkisia
-  label_overall_activity: Kokonaishistoria
   error_scm_annotate: "Merkintää ei ole tai siihen ei voi lisätä selityksiä."
   text_subprojects_destroy_warning: "Tämän aliprojekti(t): %{value} tullaan myös poistamaan."
   label_and_its_subprojects: "%{value} ja aliprojektit"
@@ -920,7 +919,6 @@ fi:
   text_zoom_out: Zoom out
   text_zoom_in: Zoom in
   notice_unable_delete_time_entry: Unable to delete time log entry.
-  label_overall_spent_time: Overall spent time
   field_time_entries: Log time
   project_module_gantt: Gantt
   project_module_calendar: Calendar

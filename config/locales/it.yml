@@ -704,7 +704,6 @@ it:
   label_reverse_chronological_order: In ordine cronologico inverso
   label_preferences: Preferenze
   setting_display_subprojects_issues: Mostra le segnalazioni dei sottoprogetti nel progetto principale in modo predefinito
-  label_overall_activity: Attività generale
   setting_default_projects_public: I nuovi progetti sono pubblici in modo predefinito
   error_scm_annotate: "L'oggetto non esiste o non può essere annotato."
   text_subprojects_destroy_warning: "Anche i suoi sottoprogetti: %{value} verranno eliminati."
@@ -899,7 +898,6 @@ it:
   text_zoom_out: Riduci ingrandimento
   text_zoom_in: Aumenta ingrandimento
   notice_unable_delete_time_entry: Impossibile eliminare il valore time log.
-  label_overall_spent_time: Totale tempo impiegato
   field_time_entries: Tempo di collegamento
   project_module_gantt: Gantt
   project_module_calendar: Calendario

@@ -620,7 +620,6 @@ fa:
   label_last_login: آخرین ورود
   label_registered_on: ثبت‌نام‌شده در
   label_activity: خط زمان
-  label_overall_activity: خط زمان
   label_user_activity: "خط زمان %{value}"
   label_new: جدید
   label_logged_as: "وارد‌شده به نام "
@@ -801,7 +800,6 @@ fa:
   label_issue_tracking: پی‌گیری مسأله‌ها
   label_spent_time: زمان صرف‌شده
   label_total_spent_time: کل زمان صرف‌شده
-  label_overall_spent_time: مجموع زمان صرف‌شده
   label_f_hour: "%{value} ساعت"
   label_f_hour_plural: "%{value} ساعت"
   label_f_hour_short: "%{value} س"

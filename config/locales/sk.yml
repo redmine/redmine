@@ -374,7 +374,6 @@ sk:
   label_last_login: Posledné prihlásenie
   label_registered_on: Dátum registrácie
   label_activity: Aktivita
-  label_overall_activity: Celková aktivita
   label_new: Nový
   label_logged_as: Prihlásený ako
   label_environment: Prostredie
@@ -893,7 +892,6 @@ sk:
   text_zoom_out: Oddialiť
   text_zoom_in: Priblížiť
   notice_unable_delete_time_entry: Nie je možné vymazať časový záznam.
-  label_overall_spent_time: Celkový strávený čas
   field_time_entries: Zaznamenaný čas
   project_module_gantt: Ganttov graf
   project_module_calendar: Kalendár

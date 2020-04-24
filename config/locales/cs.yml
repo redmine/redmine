@@ -504,7 +504,6 @@ cs:
   label_last_login: Poslední přihlášení
   label_registered_on: Registrován
   label_activity: Aktivita
-  label_overall_activity: Celková aktivita
   label_user_activity: "Aktivita uživatele: %{value}"
   label_new: Nový
   label_logged_as: Přihlášen jako
@@ -661,7 +660,6 @@ cs:
   label_changes_details: Detail všech změn
   label_issue_tracking: Sledování úkolů
   label_spent_time: Strávený čas
-  label_overall_spent_time: Celkem strávený čas
   label_f_hour: "%{value} hodina"
   label_f_hour_plural: "%{value} hodin"
   label_time_tracking: Sledování času

@@ -520,7 +520,6 @@ gl:
   label_open_issues_plural: abertas
   label_optional_description: Descrición opcional
   label_options: Opcións
-  label_overall_activity: Actividade global
   label_overview: Vistazo
   label_password_lost: "Esqueceu o contrasinal?"
   label_permissions: Permisos
@@ -913,7 +912,6 @@ gl:
   text_zoom_out: "Afastar"
   text_zoom_in: "Achegar"
   notice_unable_delete_time_entry: "Non foi posíbel eliminar a entrada do historial."
-  label_overall_spent_time: "Tempo total empregado"
   field_time_entries: "Rexistrar tempo"
   project_module_gantt: "Gantt"
   project_module_calendar: "Calendario"

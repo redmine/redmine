@@ -633,7 +633,6 @@ fr:
   label_last_login: Dernière connexion
   label_registered_on: Inscrit le
   label_activity: Activité
-  label_overall_activity: Activité globale
   label_user_activity: "Activité de %{value}"
   label_new: Nouveau
   label_logged_as: Connecté en tant que
@@ -812,7 +811,6 @@ fr:
   label_issue_tracking: Suivi des demandes
   label_spent_time: Temps passé
   label_total_spent_time: Temps passé total
-  label_overall_spent_time: Temps passé global
   label_f_hour: "%{value} heure"
   label_f_hour_plural: "%{value} heures"
   label_f_hour_short: "%{value} h"

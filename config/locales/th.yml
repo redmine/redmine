@@ -375,7 +375,6 @@ th:
   label_registered_on: ลงทะเบียนเมื่อ
   label_activity: กิจกรรม
   label_activity_plural: กิจกรรม
-  label_overall_activity: กิจกรรมโดยรวม
   label_new: ใหม่
   label_logged_as: เข้าระบบในชื่อ
   label_environment: สภาพแวดล้อม
@@ -895,7 +894,6 @@ th:
   text_zoom_out: Zoom out
   text_zoom_in: Zoom in
   notice_unable_delete_time_entry: Unable to delete time log entry.
-  label_overall_spent_time: Overall spent time
   field_time_entries: Log time
   project_module_gantt: Gantt
   project_module_calendar: Calendar

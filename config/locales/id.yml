@@ -461,7 +461,6 @@ id:
   label_last_login: Terakhir login
   label_registered_on: Terdaftar pada
   label_activity: Kegiatan
-  label_overall_activity: Kegiatan umum
   label_user_activity: "kegiatan %{value}"
   label_new: Baru
   label_logged_as: Login sebagai
@@ -901,7 +900,6 @@ id:
   text_zoom_out: Zoom out
   text_zoom_in: Zoom in
   notice_unable_delete_time_entry: Unable to delete time log entry.
-  label_overall_spent_time: Overall spent time
   field_time_entries: Log time
   project_module_gantt: Gantt
   project_module_calendar: Calendar

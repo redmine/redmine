@@ -457,7 +457,6 @@ bs:
   label_registered_on: Registrovan na
   label_activity_plural: Promjene
   label_activity: Operacija
-  label_overall_activity: Pregled svih promjena
   label_user_activity: "Promjene izvršene od: %{value}"
   label_new: Novi
   label_logged_as: Prijavljen kao
@@ -912,7 +911,6 @@ bs:
   text_zoom_out: Zoom out
   text_zoom_in: Zoom in
   notice_unable_delete_time_entry: Unable to delete time log entry.
-  label_overall_spent_time: Overall spent time
   field_time_entries: Log time
   project_module_gantt: Gantt
   project_module_calendar: Calendar

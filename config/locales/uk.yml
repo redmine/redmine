@@ -715,7 +715,6 @@ uk:
   label_reverse_chronological_order: В зворотньому порядку
   label_preferences: Переваги
   setting_display_subprojects_issues: Відображення підпроектів по замовчуванню
-  label_overall_activity: Зведений звіт дій
   setting_default_projects_public: Нові проекти є загальнодоступними
   error_scm_annotate: "Коментар неможливий через перевищення максимального розміру текстового файлу."
   text_subprojects_destroy_warning: "Підпроекти: %{value} також будуть видалені."
@@ -910,7 +909,6 @@ uk:
   text_zoom_out: Віддалити
   text_zoom_in: Наблизити
   notice_unable_delete_time_entry: Неможливо видалити запис журналу.
-  label_overall_spent_time: Всього витраченого часу (трудовитрати)
   field_time_entries: Видимість трудовитрат
   project_module_gantt: Діаграма Ганта
   project_module_calendar: Календар

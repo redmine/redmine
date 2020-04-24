@@ -489,7 +489,6 @@ mk:
   label_last_login: Последна најава
   label_registered_on: Регистриран на
   label_activity: Активност
-  label_overall_activity: Севкупна активност
   label_user_activity: "Активност на %{value}"
   label_new: Нова
   label_logged_as: Најавени сте како
@@ -646,7 +645,6 @@ mk:
   label_changes_details: Детали за сите промени
   label_issue_tracking: Следење на задачи
   label_spent_time: Потрошено време
-  label_overall_spent_time: Вкупно потрошено време
   label_f_hour: "%{value} час"
   label_f_hour_plural: "%{value} часа"
   label_time_tracking: Следење на време

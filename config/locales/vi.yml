@@ -436,7 +436,6 @@ vi:
   label_last_login: Kết nối cuối
   label_registered_on: Ngày tham gia
   label_activity: Hoạt động
-  label_overall_activity: Tất cả hoạt động
   label_new: Mới
   label_logged_as: Tài khoản &raquo;
   label_environment: Môi trường
@@ -950,7 +949,6 @@ vi:
   text_zoom_out: Thu nhỏ
   text_zoom_in: Phóng to
   notice_unable_delete_time_entry: Không thể xóa mục time log.
-  label_overall_spent_time: Tổng thời gian sử dụng
   field_time_entries: Log time
   project_module_gantt: Biểu đồ Gantt
   project_module_calendar: Lịch

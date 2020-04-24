@@ -547,7 +547,6 @@ es-PA:
   label_open_issues_plural: abiertas
   label_optional_description: Descripción opcional
   label_options: Opciones
-  label_overall_activity: Actividad global
   label_overview: Vistazo
   label_password_lost: ¿Olvidaste la contraseña?
   label_permissions: Permisos
@@ -940,7 +939,6 @@ es-PA:
   text_zoom_out: Alejar
   text_zoom_in: Acercar
   notice_unable_delete_time_entry: Fue imposible eliminar la entrada de tiempo dedicado.
-  label_overall_spent_time: Tiempo total dedicado
   field_time_entries: Log time
   project_module_gantt: Gantt
   project_module_calendar: Calendario

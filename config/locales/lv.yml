@@ -471,7 +471,6 @@ lv:
   label_last_login: Pēdējā pieslēgšanās
   label_registered_on: Reģistrējies
   label_activity: Aktivitāte
-  label_overall_activity: Kopējās aktivitātes
   label_user_activity: "Lietotāja %{value} aktivitātes"
   label_new: Jauns
   label_logged_as: Pieslēdzies kā
@@ -893,7 +892,6 @@ lv:
   text_zoom_out: Zoom out
   text_zoom_in: Zoom in
   notice_unable_delete_time_entry: Unable to delete time log entry.
-  label_overall_spent_time: Overall spent time
   field_time_entries: Log time
   project_module_gantt: Gantt
   project_module_calendar: Calendar

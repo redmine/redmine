@@ -439,7 +439,6 @@ ro:
   label_last_login: Ultima conectare
   label_registered_on: Înregistrat la
   label_activity: Activitate
-  label_overall_activity: Activitate - vedere de ansamblu
   label_user_activity: "Activitate %{value}"
   label_new: Nou
   label_logged_as: Autentificat ca
@@ -894,7 +893,6 @@ ro:
   text_zoom_out: Zoom out
   text_zoom_in: Zoom in
   notice_unable_delete_time_entry: Unable to delete time log entry.
-  label_overall_spent_time: Overall spent time
   field_time_entries: Log time
   project_module_gantt: Gantt
   project_module_calendar: Calendar

@@ -409,7 +409,6 @@ pt-BR:
   label_last_login: Última conexão
   label_registered_on: Registrado em
   label_activity: Atividade
-  label_overall_activity: Atividades gerais
   label_new: Novo
   label_logged_as: "Acessando como:"
   label_environment: Ambiente
@@ -920,7 +919,6 @@ pt-BR:
   text_zoom_out: Afastar zoom
   text_zoom_in: Aproximar zoom
   notice_unable_delete_time_entry: Não foi possível excluir a entrada no registro de horas trabalhadas.
-  label_overall_spent_time: Tempo gasto geral
   field_time_entries: Registro de horas
   project_module_gantt: Gantt
   project_module_calendar: Calendário

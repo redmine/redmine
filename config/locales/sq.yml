@@ -529,7 +529,6 @@ sq:
   label_last_login: Hyrja e fundit
   label_registered_on: Regjistruar me
   label_activity: Aktiviteti
-  label_overall_activity: Aktiviteti i pergjithshem
   label_user_activity: "Aktiviteti i %{value}"
   label_new: Shto
   label_logged_as: Lidhur si
@@ -694,7 +693,6 @@ sq:
   label_changes_details: Details of all changes
   label_issue_tracking: Issue tracking
   label_spent_time: Spent time
-  label_overall_spent_time: Overall spent time
   label_f_hour: "%{value} ore"
   label_f_hour_plural: "%{value} ore"
   label_time_tracking: Time tracking

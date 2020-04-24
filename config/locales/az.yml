@@ -590,7 +590,6 @@ az:
   label_open_issues_plural5: açıqdır
   label_optional_description: Təsvir (vacib deyil)
   label_options: Opsiyalar
-  label_overall_activity: Görülən işlərin toplu hesabatı
   label_overview: Baxış
   label_password_lost: Parolun bərpası
   label_permissions_report: Giriş hüquqları üzrə hesabat 
@@ -998,7 +997,6 @@ az:
   text_zoom_out: Uzaqlaşdırmaq
   text_zoom_in: Yaxınlaşdırmaq
   notice_unable_delete_time_entry: Jurnalın qeydini silmək mümkün deyildir.
-  label_overall_spent_time: Cəmi sərf olunan vaxt
   label_user_mail_option_none: Hadisə yoxdur
   field_member_of_group: Təyin olunmuş qrup 
   field_assigned_to_role: Təyin olunmuş rol

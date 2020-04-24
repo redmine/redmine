@@ -510,7 +510,6 @@ en-GB:
   label_last_login: Last connection
   label_registered_on: Registered on
   label_activity: Activity
-  label_overall_activity: Overall activity
   label_user_activity: "%{value}'s activity"
   label_new: New
   label_logged_as: Logged in as
@@ -671,7 +670,6 @@ en-GB:
   label_changes_details: Details of all changes
   label_issue_tracking: Issue tracking
   label_spent_time: Spent time
-  label_overall_spent_time: Overall spent time
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
   label_time_tracking: Time tracking
