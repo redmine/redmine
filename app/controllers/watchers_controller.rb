@@ -43,8 +43,7 @@ class WatchersController < ApplicationController
       user_ids << params[:user_id]
     end
     user_ids = user_ids.flatten.compact.uniq
-    users = User.active.visible.where(:id => user_ids).to_a
-    users += Group.givable.active.visible.where(:id => user_ids).to_a
+    users = Principal.active.visible.where(:id => user_ids).where(:users => {:type => ['User', 'Group']}).to_a
     users.each do |user|
       @watchables.each do |watchable|
         Watcher.create(:watchable => watchable, :user => user)
@@ -60,8 +59,7 @@ class WatchersController < ApplicationController
   def append
     if params[:watcher]
       user_ids = params[:watcher][:user_ids] || [params[:watcher][:user_id]]
-      @users = User.active.visible.where(:id => user_ids).to_a
-      @users += Group.givable.active.visible.where(:id => user_ids).to_a
+      @users = Principal.active.visible.where(:id => user_ids).where(:users => {:type => ['User', 'Group']}).to_a
     end
     if @users.blank?
       head 200
@@ -122,16 +120,13 @@ class WatchersController < ApplicationController
   end
 
   def users_for_new_watcher
-    scope, scope_groups = nil
+    scope = nil
     if params[:q].blank? && @project.present?
-      scope = @project.users
-      scope_groups = @project.principals.merge(Group.givable)
+      scope = @project.principals.where(:users => {:type => ['User', 'Group']})
     else
-      scope = User.all.limit(100)
-      scope_groups = Group.givable.limit(100)
+      scope = Principal.where(:users => {:type => ['User', 'Group']}).limit(100)
     end
     users = scope.active.visible.sorted.like(params[:q]).to_a
-    users += scope_groups.active.visible.sorted.like(params[:q]).to_a
     if @watchables && @watchables.size == 1
       users -= @watchables.first.watcher_users
     end
