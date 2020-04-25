@@ -365,9 +365,9 @@ module IssuesHelper
   # on the new issue form
   def users_for_new_issue_watchers(issue)
     users = issue.watcher_users.select{|u| u.status == User::STATUS_ACTIVE}
-    project_principals = issue.project.principals.where(:users => {:type => ['User', 'Group']}).limit(21)
-    if project_principals.size <= 20
-      users += project_principals.sort
+    assignable_watchers = issue.project.principals.assignable_watchers.limit(21)
+    if assignable_watchers.size <= 20
+      users += assignable_watchers.sort
     end
     users.uniq
   end

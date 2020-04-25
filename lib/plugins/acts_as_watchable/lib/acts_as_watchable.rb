@@ -31,7 +31,7 @@ module Redmine
 
         # Returns an array of users that are proposed as watchers
         def addable_watcher_users
-          users = self.project.principals.where(:users => {:type => ['User', 'Group']}).sort - self.watcher_users
+          users = self.project.principals.assignable_watchers.sort - self.watcher_users
           if respond_to?(:visible?)
             users.reject! {|user| user.is_a?(User) && !visible?(user)}
           end

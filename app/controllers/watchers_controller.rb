@@ -43,7 +43,7 @@ class WatchersController < ApplicationController
       user_ids << params[:user_id]
     end
     user_ids = user_ids.flatten.compact.uniq
-    users = Principal.active.visible.where(:id => user_ids).where(:users => {:type => ['User', 'Group']}).to_a
+    users = Principal.assignable_watchers.where(:id => user_ids).to_a
     users.each do |user|
       @watchables.each do |watchable|
         Watcher.create(:watchable => watchable, :user => user)
@@ -59,7 +59,7 @@ class WatchersController < ApplicationController
   def append
     if params[:watcher]
       user_ids = params[:watcher][:user_ids] || [params[:watcher][:user_id]]
-      @users = Principal.active.visible.where(:id => user_ids).where(:users => {:type => ['User', 'Group']}).to_a
+      @users = Principal.assignable_watchers.where(:id => user_ids).to_a
     end
     if @users.blank?
       head 200
@@ -122,11 +122,11 @@ class WatchersController < ApplicationController
   def users_for_new_watcher
     scope = nil
     if params[:q].blank? && @project.present?
-      scope = @project.principals.where(:users => {:type => ['User', 'Group']})
+      scope = @project.principals.assignable_watchers
     else
-      scope = Principal.where(:users => {:type => ['User', 'Group']}).limit(100)
+      scope = Principal.assignable_watchers.limit(100)
     end
-    users = scope.active.visible.sorted.like(params[:q]).to_a
+    users = scope.sorted.like(params[:q]).to_a
     if @watchables && @watchables.size == 1
       users -= @watchables.first.watcher_users
     end

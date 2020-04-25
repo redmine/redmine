@@ -114,6 +114,9 @@ class Principal < ActiveRecord::Base
   }
   scope :sorted, lambda { order(*Principal.fields_for_order_statement)}
 
+  # Principals that can be added as watchers
+  scope :assignable_watchers, lambda { active.visible.where(:type => ['User', 'Group']) }
+
   before_create :set_default_empty_values
   before_destroy :nullify_projects_default_assigned_to
 
