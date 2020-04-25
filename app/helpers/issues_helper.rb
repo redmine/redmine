@@ -365,13 +365,11 @@ module IssuesHelper
   # on the new issue form
   def users_for_new_issue_watchers(issue)
     users = issue.watcher_users.select{|u| u.status == User::STATUS_ACTIVE}
-    project = issue.project
-    scope_users = project.users
-    scope_groups = project.principals.merge(Group.givable)
-    if scope_users.count + scope_groups.count <= 20
-      users = (users + scope_users.sort + scope_groups.sort).uniq
+    project_principals = issue.project.principals.where(:users => {:type => ['User', 'Group']}).limit(21)
+    if project_principals.size <= 20
+      users += project_principals.sort
     end
-    users
+    users.uniq
   end
 
   def email_issue_attributes(issue, user, html)
