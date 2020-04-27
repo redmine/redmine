@@ -226,7 +226,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_select 'select[name=?]', 'time_entry[user_id]' do
-      assert_select 'option[value="2"][selected=selected]'
+      assert_select 'option[value="2"][selected=selected]', 1
     end
   end
 
