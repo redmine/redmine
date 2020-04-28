@@ -31,7 +31,8 @@ module Redmine
           !Role.where(:builtin => 0).exists? &&
             !Tracker.exists? &&
             !IssueStatus.exists? &&
-            !Enumeration.exists?
+            !Enumeration.exists? &&
+            !Query.exists?
         end
 
         # Loads the default data
@@ -191,6 +192,85 @@ module Redmine
 
             TimeEntryActivity.create!(:name => l(:default_activity_design), :position => 1)
             TimeEntryActivity.create!(:name => l(:default_activity_development), :position => 2)
+
+            # Issue queries
+            IssueQuery.create!(
+              :name => l(:label_assigned_to_me_issues),
+              :filters =>
+                {
+                  'status_id' => {:operator => 'o', :values => ['']},
+                  'assigned_to_id' => {:operator => '=', :values => ['me']},
+                  'project.status' => {:operator => '=', :values => ['1']}
+                },
+              :sort_criteria => [['priority', 'desc'], ['updated_on', 'desc']],
+              :visibility => Query::VISIBILITY_PUBLIC
+            )
+            IssueQuery.create!(
+              :name => l(:label_reported_issues),
+              :filters =>
+                {
+                  'status_id' => {:operator => 'o', :values => ['']},
+                  'author_id' => {:operator => '=', :values => ['me']},
+                  'project.status' => {:operator => '=', :values => ['1']}
+                },
+              :sort_criteria => [['updated_on', 'desc']],
+              :visibility => Query::VISIBILITY_PUBLIC
+            )
+            IssueQuery.create!(
+              :name => l(:label_updated_issues),
+              :filters =>
+                {
+                  'status_id' => {:operator => 'o', :values => ['']},
+                  'updated_by' => {:operator => '=', :values => ['me']},
+                  'project.status' => {:operator => '=', :values => ['1']}
+                },
+              :sort_criteria => [['updated_on', 'desc']],
+              :visibility => Query::VISIBILITY_PUBLIC
+            )
+            IssueQuery.create!(
+              :name => l(:label_watched_issues),
+              :filters =>
+                {
+                  'status_id' => {:operator => 'o', :values => ['']},
+                  'watcher_id' => {:operator => '=', :values => ['me']},
+                  'project.status' => {:operator => '=', :values => ['1']},
+                },
+              :sort_criteria => [['updated_on', 'desc']],
+              :visibility => Query::VISIBILITY_PUBLIC
+            )
+
+            # Project queries
+            ProjectQuery.create!(
+              :name => l(:label_my_projects),
+              :filters =>
+                {
+                  'status' => {:operator => '=', :values => ['1']},
+                  'id' => {:operator => '=', :values => ['mine']}
+                },
+              :visibility => Query::VISIBILITY_PUBLIC
+            )
+            ProjectQuery.create!(
+              :name => l(:label_my_bookmarks),
+              :filters =>
+                {
+                  'status' => {:operator => '=', :values => ['1']},
+                  'id' => {:operator => '=', :values => ['bookmarks']}
+                },
+              :visibility => Query::VISIBILITY_PUBLIC
+            )
+
+            # Time entry queries
+            TimeEntryQuery.create!(
+              :name => l(:label_spent_time),
+              :filters =>
+                {
+                  'spent_on' => {:operator => '*', :values => ['']},
+                  'user_id' => {:operator => '=', :values => ['me']}
+                },
+              :sort_criteria => [['spent_on', 'desc']],
+              :options => {:totalable_names => [:hours]},
+              :visibility => Query::VISIBILITY_PUBLIC
+            )
           end
           true
         end
