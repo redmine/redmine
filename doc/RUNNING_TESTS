@@ -80,3 +80,16 @@ Checking with RuboCop is recommended when you write patches.
 
 You can run RuboCop with:
 `bundle exec rubocop [file ...]`
+
+Running Stylelint, a static code analyzer for CSS files
+=======================================
+
+You need to have NodeJS and Yarn installed and available in your PATH:
+https://nodejs.org/en/download/package-manager/
+https://legacy.yarnpkg.com/lang/en/docs/install/#mac-stable
+
+Install Stylelint:
+`yarn install`
+
+You can run Stylelint with:
+`node_modules/.bin/stylelint "public/stylesheets/**/*.css"`
