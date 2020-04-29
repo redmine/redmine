@@ -1,9 +1,7 @@
 = Redmine
 
-Redmine is a flexible project management web application written using Ruby on Rails framework.
+{Redmine}[http://www.redmine.org] is a flexible project management web application written using Ruby on Rails framework.
 
-More details can be found in the doc directory or on the official website http://www.redmine.org
-
-- This is a fork of Redmine for the Open Source Brain repository (http://www.opensourcebrain.org)
+<b>This is a fork of Redmine for the {Open Source Brain repository}[http://www.opensourcebrain.org]. For technical details see the Supplemental Information of {Gleeson et al. 2019}[https://www.cell.com/neuron/fulltext/S0896-6273(19)30444-1].</b>
 
 This code is released under GNU General Public License v2 as outlined here: https://github.com/OpenSourceBrain/redmine/blob/master/doc/COPYING

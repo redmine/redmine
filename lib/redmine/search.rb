@@ -105,7 +105,7 @@ module Redmine
         if @scope.include? "neuroml_DB" and @nmlDBcache.nil?
           summaryUrlBase = "https://neuroml-db.org/api/search?q=" + @question
           uri = URI.parse(summaryUrlBase)
-          response = Net::HTTP.get_response(uri)
+          response = Net::HTTP.get_response(uri) rescue Net::HTTPResponse.new(nil,nil,nil)
           if response.code_type.to_s == "Net::HTTPOK"
             @nmlDBcache = JSON.parse(response.body).sort_by { |hash| hash['Name'] }
           else

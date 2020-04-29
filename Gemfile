@@ -13,6 +13,7 @@ if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.5.0')
 end
 
 gem "rails", "4.2.7.1"
+gem "sprockets-rails", "3.2.1"
 gem "addressable", "2.4.0" if RUBY_VERSION < "2.0"
 gem "jquery-rails", "~> 3.1.4"
 gem "coderay", "~> 1.1.1"
@@ -27,7 +28,7 @@ gem "recaptcha"
 gem "unicorn"
 gem "mimemagic"
 gem "thread_safe"
-gem "byebug"
+gem "byebug", "< 11.1.0"
 gem 'activerecord-deprecated_finders', require: 'active_record/deprecated_finders'
 
 gem "nokogiri", "~> 1.6.8"
