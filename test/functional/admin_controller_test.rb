@@ -166,5 +166,6 @@ class AdminControllerTest < Redmine::ControllerTest
     Tracker.delete_all
     IssueStatus.delete_all
     Enumeration.delete_all
+    Query.delete_all
   end
 end

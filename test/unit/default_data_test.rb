@@ -40,6 +40,7 @@ class DefaultDataTest < ActiveSupport::TestCase
     assert_not_nil IssuePriority.first
     assert_not_nil TimeEntryActivity.first
     assert_not_nil WorkflowTransition.first
+    assert_not_nil Query.first
   end
 
   def test_load_for_all_language
@@ -50,6 +51,7 @@ class DefaultDataTest < ActiveSupport::TestCase
         assert_not_nil DocumentCategory.first
         assert_not_nil IssuePriority.first
         assert_not_nil TimeEntryActivity.first
+        assert_not_nil Query.first
       rescue ActiveRecord::RecordInvalid => e
         assert false, ":#{lang} default data is invalid (#{e.message})."
       end
@@ -62,5 +64,6 @@ class DefaultDataTest < ActiveSupport::TestCase
     IssueStatus.delete_all
     Enumeration.delete_all
     WorkflowRule.delete_all
+    Query.delete_all
   end
 end
