@@ -1317,5 +1317,5 @@ ja:
   setting_bulk_download_max_size: 一括ダウンロードの合計ファイルサイズの上限
   label_download_all_attachments: 一括ダウンロード
   error_attachments_too_many: このファイルはアップロードできません。同時にアップロードできるファイル数の上限(%{max_number_of_files})を超えています。
-  setting_email_domains_allowed: Allowed email domains
-  setting_email_domains_denied: Disallowed email domains
+  setting_email_domains_allowed: 許可するメールアドレスのドメイン
+  setting_email_domains_denied: 禁止するメールアドレスのドメイン
