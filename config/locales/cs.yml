@@ -1317,3 +1317,5 @@ cs:
   label_download_all_attachments: Stáhnout všechny soubory
   error_attachments_too_many: Tento soubor nemůže být nahrán, protože byl překročen maximální
     počet souborů, které mohou být současně přiloženy (%{max_number_of_files})
+  setting_email_domains_allowed: Allowed email domains
+  setting_email_domains_denied: Disallowed email domains

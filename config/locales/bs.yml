@@ -1340,3 +1340,5 @@ bs:
   label_download_all_attachments: Download all files
   error_attachments_too_many: This file cannot be uploaded because it exceeds the maximum
     number of files that can be attached simultaneously (%{max_number_of_files})
+  setting_email_domains_allowed: Allowed email domains
+  setting_email_domains_denied: Disallowed email domains

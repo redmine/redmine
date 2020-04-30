@@ -1377,3 +1377,5 @@
   setting_bulk_download_max_size: 大量下載檔案大小總計最大值
   label_download_all_attachments: 下載所有檔案
   error_attachments_too_many: 此檔案無法被上傳，因為已經超出允許同時上傳之附加檔案數量的最大值 (%{max_number_of_files}) 。
+  setting_email_domains_allowed: Allowed email domains
+  setting_email_domains_denied: Disallowed email domains
