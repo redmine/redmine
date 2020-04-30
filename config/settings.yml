@@ -53,6 +53,10 @@ password_max_age:
 max_additional_emails:
   format: int
   default: 5
+email_domains_allowed:
+  default:
+email_domains_denied:
+  default:
 # Maximum lifetime of user sessions in minutes
 session_lifetime:
   format: int

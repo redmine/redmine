@@ -118,6 +118,36 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_create_with_disallowed_domain_should_fail
+    @request.session[:user_id] = 2
+
+    with_settings :email_domains_denied => 'black.example' do
+      assert_no_difference 'EmailAddress.count' do
+        post :create, :params => {
+            :user_id => 2,
+            :email_address => {
+              :address => 'another@black.example'
+            }
+          }
+        assert_response :success
+        assert_select_error 'Email is invalid'
+      end
+    end
+
+    with_settings :email_domains_allowed => 'white.example' do
+      assert_no_difference 'EmailAddress.count' do
+        post :create, :params => {
+            :user_id => 2,
+            :email_address => {
+              :address => 'something@example.fr'
+            }
+          }
+        assert_response :success
+        assert_select_error 'Email is invalid'
+      end
+    end
+  end
+
   def test_create_should_send_security_notification
     @request.session[:user_id] = 2
     ActionMailer::Base.deliveries.clear

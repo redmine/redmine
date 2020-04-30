@@ -3,6 +3,12 @@
   <div class="box tabular settings">
     <p><%= setting_text_field :max_additional_emails, :size => 6 %></p>
 
+    <p><%= setting_text_area :email_domains_allowed %>
+    <em class="info"><%= l(:text_comma_separated) %> <%= l(:label_example) %>: example.com, example.org</em></p>
+
+    <p><%= setting_text_area :email_domains_denied %>
+    <em class="info"><%= l(:text_comma_separated) %> <%= l(:label_example) %>: .example.com, foo.example.org, example.net</em></p>
+
     <p><%= setting_check_box :unsubscribe %></p>
   </div>
 

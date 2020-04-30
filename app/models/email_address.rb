@@ -36,6 +36,7 @@ class EmailAddress < ActiveRecord::Base
   validates_length_of :address, :maximum => User::MAIL_LENGTH_LIMIT, :allow_nil => true
   validates_uniqueness_of :address, :case_sensitive => false,
     :if => Proc.new {|email| email.address_changed? && email.address.present?}
+  validate :validate_email_domain, :if => proc {|email| email.address.present?}
 
   safe_attributes 'address'
 
@@ -48,6 +49,28 @@ class EmailAddress < ActiveRecord::Base
       false
     else
       super
+    end
+  end
+
+  # Returns true if the email domain is allowed regarding allowed/denied
+  # domains defined in application settings, otherwise false
+  def self.valid_domain?(domain_or_email)
+    denied, allowed =
+      [:email_domains_denied, :email_domains_allowed].map do |setting|
+        Setting.__send__(setting)
+      end
+    domain = domain_or_email.split('@').last
+    return false if denied.present? && domain_in?(domain, denied)
+    return false if allowed.present? && !domain_in?(domain, allowed)
+    true
+  end
+
+  # Returns true if domain belongs to domains list.
+  def self.domain_in?(domain, domains)
+    domain = domain.downcase
+    domains = domains.to_s.split(/[\s,]+/) unless domains.is_a?(Array)
+    domains.reject(&:blank?).map(&:downcase).any? do |s|
+      s.start_with?('.') ? domain.end_with?(s) : domain == s
     end
   end
 
@@ -116,5 +139,9 @@ class EmailAddress < ActiveRecord::Base
       tokens = ['recovery']
       Token.where(:user_id => user_id, :action => tokens).delete_all
     end
+  end
+
+  def validate_email_domain
+    errors.add(:address, :invalid) unless self.class.valid_domain?(address)
   end
 end
