@@ -375,6 +375,46 @@ class Redmine::UnifiedDiffTest < ActiveSupport::TestCase
     end
   end
 
+  def test_keep_similar_git_footer_line
+    raw = <<~DIFF
+      diff --git a/test1.txt b/test1.txt
+      --- a/test1.txt
+      +++ b/test1.txt
+      @@ -1,11 +1,6 @@
+       $ git init --bare git_utf8_repository
+       $ hg init git_utf8_repository_hg
+       $ cd git_utf8_repository_hg
+      --
+      -Next line has white space after '-'
+      -- 
+      ---
+      --
+       $ touch test.txt
+       $ hg add test.txt
+       $ hg commit -m `echo -e "U+1F603\U1F603"` -u `echo -e "U+1F603\U1F603"`
+      diff --git a/test2.txt b/test2.txt
+      --- a/test2.txt
+      +++ b/test2.txt
+      @@ -5,9 +5,4 @@
+       $ hg add test.txt
+       $ hg commit -m `echo -e "U+1F603\U1F603"` -u `echo -e "U+1F603\U1F603"`
+       $ hg bookmark master
+      --
+      -Next line has white space after '-'
+      -- 
+      ---
+      --
+       $ hg push ../git_utf8_repository
+    DIFF
+    lines = raw.split("\n")
+    assert_equal '-- ', lines[9]
+    assert_equal '-- ', lines[24]
+    diff = Redmine::UnifiedDiff.new(raw, :type => 'sbs')
+    assert_equal 2, diff.size
+    assert_equal 11, diff[0].size
+    assert_equal 9, diff[1].size
+  end
+
   private
 
   def read_diff_fixture(filename)
