@@ -22,7 +22,10 @@ require File.expand_path('../../test_helper', __FILE__)
 class VersionsHelperTest < Redmine::HelperTest
   include Rails.application.routes.url_helpers
 
-  fixtures :projects, :versions
+  fixtures :projects, :versions, :enabled_modules,
+           :users, :members, :roles, :member_roles,
+           :trackers, :projects_trackers,
+           :issue_statuses
 
   def test_version_filtered_issues_path_sharing_none
     version = Version.new(:name => 'test', :sharing => 'none')
