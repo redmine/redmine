@@ -78,9 +78,11 @@ module UsersHelper
         'lastname',
         'mail',
         'admin',
+        'status',
         'created_on',
+        'updated_on',
         'last_login_on',
-        'status'
+        'passwd_changed_on'
       ]
       user_custom_fields = UserCustomField.all
 
