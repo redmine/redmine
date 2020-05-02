@@ -1342,3 +1342,4 @@ bs:
     number of files that can be attached simultaneously (%{max_number_of_files})
   setting_email_domains_allowed: Allowed email domains
   setting_email_domains_denied: Disallowed email domains
+  field_passwd_changed_on: Password last changed
