@@ -38,7 +38,7 @@ function drawRelations() {
   $.each(arr, function(index_issue, element_issue) {
     var issue_from = $("#task-todo-issue-" + element_issue["issue_from"]);
     var issue_to   = $("#task-todo-issue-" + element_issue["issue_to"]);
-    if (issue_from.size() == 0 || issue_to.size() == 0) {
+    if (issue_from.length == 0 || issue_to.length == 0) {
       return;
     }
     var issue_height = issue_from.height();
@@ -124,7 +124,7 @@ function getProgressLinesArray() {
       if (is_over_end) {
         arr.push({left: draw_right, top: element_top_upper, is_right_edge: true});
         arr.push({left: draw_right, top: element_top_lower, is_right_edge: true, none_stroke: true});
-      } else if (issue_done.size() > 0) {
+      } else if (issue_done.length > 0) {
         var done_left = issue_done.first().position().left +
                            issue_done.first().width();
         arr.push({left: done_left, top: element_top_center});
@@ -134,7 +134,7 @@ function getProgressLinesArray() {
       } else {
         var todo_left = today_left;
         var issue_todo = $("#task-todo-" + $(element).attr("id"));
-        if (issue_todo.size() > 0){
+        if (issue_todo.length > 0){
           todo_left = issue_todo.first().position().left;
         }
         arr.push({left: Math.min(today_left, todo_left), top: element_top_center});

@@ -726,12 +726,12 @@ function beforeShowDatePicker(input, inst) {
   var default_date = null;
   switch ($(input).attr("id")) {
     case "issue_start_date" :
-      if ($("#issue_due_date").size() > 0) {
+      if ($("#issue_due_date").length > 0) {
         default_date = $("#issue_due_date").val();
       }
       break;
     case "issue_due_date" :
-      if ($("#issue_start_date").size() > 0) {
+      if ($("#issue_start_date").length > 0) {
         var start_date = $("#issue_start_date").val();
         if (start_date != "") {
           start_date = new Date(Date.parse(start_date));
@@ -893,7 +893,7 @@ function toggleDisabledInit() {
 }
 function toggleMultiSelectIconInit() {
   $('.toggle-multiselect:not(.icon-toggle-minus), .toggle-multiselect:not(.icon-toggle-plus)').each(function(){
-    if ($(this).siblings('select').find('option:selected').size() > 1){
+    if ($(this).siblings('select').find('option:selected').length > 1){
       $(this).addClass('icon-toggle-minus');
     } else {
       $(this).addClass('icon-toggle-plus');
