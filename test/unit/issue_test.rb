@@ -248,14 +248,14 @@ class IssueTest < ActiveSupport::TestCase
   def test_anonymous_should_not_see_private_issues_with_issues_visibility_set_to_default
     Role.anonymous.update!(:issues_visibility => 'default')
     issue = Issue.generate!(:author => User.anonymous, :is_private => true)
-    assert_nil Issue.where(:id => issue.id).visible(User.anonymous).first
+    assert_not Issue.where(:id => issue.id).visible(User.anonymous).exists?
     assert !issue.visible?(User.anonymous)
   end
 
   def test_anonymous_should_not_see_private_issues_with_issues_visibility_set_to_own
     assert Role.anonymous.update!(:issues_visibility => 'own')
     issue = Issue.generate!(:author => User.anonymous, :is_private => true)
-    assert_nil Issue.where(:id => issue.id).visible(User.anonymous).first
+    assert_not Issue.where(:id => issue.id).visible(User.anonymous).exists?
     assert !issue.visible?(User.anonymous)
   end
 

@@ -40,14 +40,14 @@ class DocumentCategoryTest < ActiveSupport::TestCase
   end
 
   def test_default
-    assert_nil DocumentCategory.where(:is_default => true).first
+    assert_not DocumentCategory.where(:is_default => true).exists?
     e = Enumeration.find_by_name('Technical documentation')
     e.update(:is_default => true)
     assert_equal 3, DocumentCategory.default.id
   end
 
   def test_force_default
-    assert_nil DocumentCategory.where(:is_default => true).first
+    assert_not DocumentCategory.where(:is_default => true).exists?
     assert_equal 1, DocumentCategory.default.id
   end
 end

@@ -92,7 +92,7 @@ class EnumerationTest < ActiveSupport::TestCase
 
   def test_destroy_with_reassign
     Enumeration.find(4).destroy(Enumeration.find(6))
-    assert_nil Issue.where(:priority_id => 4).first
+    assert_not Issue.where(:priority_id => 4).exists?
     assert_equal 6, Enumeration.find(6).objects_count
   end
 

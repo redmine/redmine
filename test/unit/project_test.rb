@@ -237,9 +237,9 @@ class ProjectTest < ActiveSupport::TestCase
     # make sure that the project non longer exists
     assert_raise(ActiveRecord::RecordNotFound) {Project.find(@ecookbook.id)}
     # make sure related data was removed
-    assert_nil Member.where(:project_id => @ecookbook.id).first
-    assert_nil Board.where(:project_id => @ecookbook.id).first
-    assert_nil Issue.where(:project_id => @ecookbook.id).first
+    assert_not Member.where(:project_id => @ecookbook.id).exists?
+    assert_not Board.where(:project_id => @ecookbook.id).exists?
+    assert_not Issue.where(:project_id => @ecookbook.id).exists?
   end
 
   def test_destroy_should_destroy_subtasks

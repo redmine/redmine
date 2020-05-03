@@ -95,6 +95,6 @@ class WikiRedirectTest < ActiveSupport::TestCase
     assert WikiRedirect.create(:wiki => @wiki, :title => 'An_old_page', :redirects_to => 'Original_title')
 
     @original.destroy
-    assert_nil @wiki.redirects.first
+    assert_not @wiki.redirects.exists?
   end
 end

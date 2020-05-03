@@ -145,8 +145,8 @@ class WorkflowsControllerTest < Redmine::ControllerTest
     assert_response 302
 
     assert_equal 3, WorkflowTransition.where(:tracker_id => 1, :role_id => 2).count
-    assert_not_nil  WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 2).first
-    assert_nil      WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 5, :new_status_id => 4).first
+    assert          WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 2).exists?
+    assert_not      WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 5, :new_status_id => 4).exists?
   end
 
   def test_post_edit_with_allowed_statuses_for_new_issues

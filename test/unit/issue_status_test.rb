@@ -49,8 +49,8 @@ class IssueStatusTest < ActiveSupport::TestCase
     assert_difference 'IssueStatus.count', -1 do
       assert status.destroy
     end
-    assert_nil WorkflowTransition.where(:old_status_id => status.id).first
-    assert_nil WorkflowTransition.where(:new_status_id => status.id).first
+    assert_not WorkflowTransition.where(:old_status_id => status.id).exists?
+    assert_not WorkflowTransition.where(:new_status_id => status.id).exists?
   end
 
   def test_destroy_status_in_use
