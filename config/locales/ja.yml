@@ -1319,4 +1319,4 @@ ja:
   error_attachments_too_many: このファイルはアップロードできません。同時にアップロードできるファイル数の上限(%{max_number_of_files})を超えています。
   setting_email_domains_allowed: 許可するメールアドレスのドメイン
   setting_email_domains_denied: 禁止するメールアドレスのドメイン
-  field_passwd_changed_on: Password last changed
+  field_passwd_changed_on: パスワード更新日
