@@ -179,7 +179,6 @@ bs:
   notice_feeds_access_key_reseted: Vaš Atom pristup je resetovan.
   notice_file_not_found: Stranica kojoj pokušavate da pristupite ne postoji ili je uklonjena.
   notice_locking_conflict: "Konflikt: podaci su izmjenjeni od strane drugog korisnika."
-  notice_no_issue_selected: "Nijedna aktivnost nije izabrana! Molim, izaberite aktivnosti koje želite za ispravljate."
   notice_not_authorized: Niste ovlašćeni da pristupite ovoj stranici.
   notice_successful_connection: Uspješna konekcija.
   notice_successful_create: Uspješno kreiranje.

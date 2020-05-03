@@ -174,7 +174,6 @@ eu:
   notice_feeds_access_key_reseted: Zure Atom atzipen giltza berrezarri da.
   notice_api_access_key_reseted: Zure API atzipen giltza berrezarri da.
   notice_failed_to_save_issues: "Hautatutako %{total} zereginetatik %{count} ezin izan dira konpondu: %{ids}."
-  notice_no_issue_selected: "Ez da zereginik hautatu! Mesedez, editatu nahi dituzun arazoak markatu."
   notice_account_pending: "Zure kontua sortu da, orain kudeatzailearen onarpenaren zain dago."
   notice_default_data_loaded: Lehenetsitako konfigurazioa ongi kargatu da.
   notice_unable_delete_version: Ezin da bertsioa ezabatu.

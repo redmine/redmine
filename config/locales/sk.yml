@@ -170,7 +170,6 @@ sk:
   notice_email_error: "Pri odosielaní emailu sa vyskytla chyba (%{value})"
   notice_feeds_access_key_reseted: Váš prístupový kľúč k Atomu bol resetovaný.
   notice_failed_to_save_issues: "Nepodarilo sa uložiť %{count} úloh z %{total} vybraných: %{ids}."
-  notice_no_issue_selected: "Nebola vybraná žiadna úloha. Označte prosím úlohy, ktoré chcete upraviť."
   notice_account_pending: "Váš účet bol vytvorený a čaká na schválenie administrátorom."
   notice_default_data_loaded: Predvolená konfigurácia bola úspešne nahraná.
 

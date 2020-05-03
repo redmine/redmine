@@ -261,7 +261,6 @@
   notice_failed_to_save_issues: "無法儲存 %{count} 議題到下列所選取的 %{total} 個項目中： %{ids}。"
   notice_failed_to_save_time_entries: "無法儲存 %{count} 個工時到下列所選取的 %{total} 個項目中： %{ids}。"
   notice_failed_to_save_members: "成員儲存失敗: %{errors}."
-  notice_no_issue_selected: "未選擇任何議題！請勾選您想要編輯的議題。"
   notice_account_pending: "您的帳號已經建立，正在等待管理員的審核。"
   notice_default_data_loaded: 預設組態已載入成功。
   notice_unable_delete_version: 無法刪除版本。

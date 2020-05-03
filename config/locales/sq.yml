@@ -175,7 +175,6 @@ sq:
   notice_failed_to_save_issues: "Deshtoi ne ruajtjen e %{count} ceshtje(ve) ne %{total} te zgjedhura: %{ids}."
   notice_failed_to_save_time_entries: "Deshtoi ne ruajtjen e %{count} time entrie(s) ne %{total} te zgjedhura: %{ids}."
   notice_failed_to_save_members: "Deshtoi ne ruajtjen e member(s): %{errors}."
-  notice_no_issue_selected: "Nuk eshte zgjedhur asnje Ceshtje! Zgjidh Ceshtjen qe deshironi te modifikoni."
   notice_account_pending: "Llogaria juaj u krijua dhe eshte ne pritje te aprovimit nga nje administrator."
   notice_default_data_loaded: Konfigurimi i paracaktuar u ngarkua me sukses.
   notice_unable_delete_version: E pamundur te fshije versionin.

@@ -179,7 +179,6 @@ cs:
   notice_api_access_key_reseted: Váš API přístupový klíč byl resetován.
   notice_failed_to_save_issues: "Chyba při uložení %{count} úkolu(ů) z %{total} vybraných: %{ids}."
   notice_failed_to_save_members: "Nepodařilo se uložit člena(y): %{errors}."
-  notice_no_issue_selected: "Nebyl zvolen žádný úkol. Prosím, zvolte úkoly, které chcete editovat"
   notice_account_pending: "Váš účet byl vytvořen, nyní čeká na schválení administrátorem."
   notice_default_data_loaded: Výchozí konfigurace úspěšně nahrána.
   notice_unable_delete_version: Nemohu odstanit verzi

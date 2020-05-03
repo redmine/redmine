@@ -166,7 +166,6 @@ lv:
   notice_feeds_access_key_reseted: Jūsu Atom pieejas atslēga tika iestatīta sākuma stāvoklī.
   notice_api_access_key_reseted: Jūsu API pieejas atslēga tika iestatīta sākuma stāvoklī.
   notice_failed_to_save_issues: "Neizdevās saglabāt %{count} uzdevumu(us) no %{total} izvēlēti: %{ids}."
-  notice_no_issue_selected: "Nav izvēlēts uzdevums! Lūdzu, atzīmējiet uzdevumus, kurus vēlaties rediģēt!"
   notice_account_pending: "Jūsu konts tika izveidots un šobrīd gaida administratora apstiprinājumu."
   notice_default_data_loaded: Noklusētā konfigurācija tika veiksmīgi ielādēta.
   notice_unable_delete_version: Neizdevās dzēst versiju.

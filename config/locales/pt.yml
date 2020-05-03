@@ -179,7 +179,6 @@ pt:
   notice_email_error: "Ocorreu um erro ao enviar o e-mail (%{value})"
   notice_feeds_access_key_reseted: A sua chave de Atom foi inicializada.
   notice_failed_to_save_issues: "Não foi possível guardar %{count} tarefa(s) das %{total} selecionadas: %{ids}."
-  notice_no_issue_selected: "Nenhuma tarefa selecionada! Por favor, selecione as tarefas que deseja editar."
   notice_account_pending: "A sua conta foi criada e está agora à espera de aprovação do administrador."
   notice_default_data_loaded: Configuração padrão carregada com sucesso.
   notice_unable_delete_version: Não foi possível apagar a versão.

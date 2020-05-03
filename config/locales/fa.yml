@@ -181,7 +181,6 @@ fa:
   notice_failed_to_save_issues: "ذخیره %{count} مسأله از %{total} مورد انتخاب‌شده شکست خورد: %{ids}."
   notice_failed_to_save_time_entries: "ذخیره %{count} ورودی زمان روی %{total} مورد انتخاب‌شده شکست خورد: %{ids}."
   notice_failed_to_save_members: "ذخیره‌سازی اعضا شکست خورد: %{errors}."
-  notice_no_issue_selected: "هیچ مسأله‌ای انتخاب نشده است. لطفاً مسأله‌هایی که می‌خواهید ویرایش کنید را علامت بزنید."
   notice_account_pending: "حساب شما ساخته شد و اکنون منتظر تأیید راه‌بر است."
   notice_default_data_loaded: تنظیمات پیش‌فرض با موفقیت بارگذاری شد.
   notice_unable_delete_version: نسخه را نمی‌توان حذف کرد.

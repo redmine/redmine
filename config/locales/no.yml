@@ -161,7 +161,6 @@
   notice_email_error: "En feil oppstod under sending av e-post (%{value})"
   notice_feeds_access_key_reseted: Din Atom-tilgangsnøkkel er nullstilt.
   notice_failed_to_save_issues: "Lykkes ikke å lagre %{count} sak(er) på %{total} valgt: %{ids}."
-  notice_no_issue_selected: "Ingen sak valgt! Vennligst merk sakene du vil endre."
   notice_account_pending: "Din konto ble opprettet og avventer nå administrativ godkjenning."
   notice_default_data_loaded: Standardkonfigurasjonen lastet inn.
 

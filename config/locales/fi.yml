@@ -196,7 +196,6 @@ fi:
   notice_email_error: "Sähköpostilähetyksessä tapahtui virhe (%{value})"
   notice_feeds_access_key_reseted: Atom salasana on nollaantunut.
   notice_failed_to_save_issues: "%{count} Tapahtum(an/ien) tallennus epäonnistui %{total} valitut: %{ids}."
-  notice_no_issue_selected: "Tapahtumia ei ole valittu! Valitse tapahtumat joita haluat muokata."
   notice_account_pending: "Tilisi on luotu ja odottaa ylläpitäjän hyväksyntää."
   notice_default_data_loaded: Vakioasetusten palautus onnistui.
 

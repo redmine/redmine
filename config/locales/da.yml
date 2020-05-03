@@ -188,7 +188,6 @@ da:
   notice_email_error: "En fejl opstod under afsendelse af email (%{value})"
   notice_feeds_access_key_reseted: Din adgangsnøgle til Atom er nulstillet.
   notice_failed_to_save_issues: "Det mislykkedes at gemme %{count} sage(r) på %{total} valgt: %{ids}."
-  notice_no_issue_selected: "Ingen sag er valgt! Vælg venligst hvilke emner du vil rette."
   notice_account_pending: "Din konto er oprettet, og afventer administrators godkendelse."
   notice_default_data_loaded: Standardopsætningen er indlæst.
 

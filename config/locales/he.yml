@@ -179,7 +179,6 @@ he:
   notice_api_access_key_reseted: מפתח הגישה שלך ל־API אופס.
   notice_failed_to_save_issues: "נכשרת בשמירת %{count} נושאים ב %{total} נבחרו: %{ids}."
   notice_failed_to_save_members: "כשלון בשמירת חבר(ים): %{errors}."
-  notice_no_issue_selected: "לא נבחר אף נושא! בחר בבקשה את הנושאים שברצונך לערוך."
   notice_account_pending: "החשבון שלך נוצר ועתה מחכה לאישור מנהל המערכת."
   notice_default_data_loaded: אפשרויות ברירת מחדל מופעלות.
   notice_unable_delete_version: לא ניתן למחוק גירסה

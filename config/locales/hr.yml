@@ -167,7 +167,6 @@ hr:
   notice_feeds_access_key_reseted: Vaš Atom pristup je resetovan.
   notice_api_access_key_reseted: Vaš API pristup je resetovan.
   notice_failed_to_save_issues: "Neuspjelo spremanje %{count} predmeta na %{total} odabrane: %{ids}."
-  notice_no_issue_selected: "Niti jedan predmet nije odabran! Molim, odaberite predmete koje želite urediti."
   notice_account_pending: "Vaš korisnicki račun je otvoren, čeka odobrenje administratora."
   notice_default_data_loaded: Konfiguracija je uspješno učitana.
   notice_unable_delete_version: Nije moguće izbrisati verziju.

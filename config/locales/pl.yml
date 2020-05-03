@@ -652,7 +652,6 @@ pl:
   notice_feeds_access_key_reseted: Twój klucz dostępu do kanału Atom został zresetowany.
   notice_file_not_found: Strona do której próbujesz się dostać nie istnieje lub została usunięta.
   notice_locking_conflict: Dane poprawione przez innego użytkownika.
-  notice_no_issue_selected: "Nie wybrano zagadnienia! Zaznacz zagadnienie, które chcesz edytować."
   notice_not_authorized: Nie posiadasz autoryzacji do oglądania tej strony.
   notice_successful_connection: Udane nawiązanie połączenia.
   notice_successful_create: Utworzenie zakończone pomyślnie.

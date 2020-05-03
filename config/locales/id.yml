@@ -171,7 +171,6 @@ id:
   notice_email_error: "Terjadi kesalahan pada saat pengiriman email (%{value})"
   notice_feeds_access_key_reseted: Atom access key anda sudah direset.
   notice_failed_to_save_issues: "Gagal menyimpan %{count} masalah dari %{total} yang dipilih: %{ids}."
-  notice_no_issue_selected: "Tidak ada masalah yang dipilih! Silakan pilih masalah yang akan anda sunting."
   notice_account_pending: "Akun anda sudah dibuat dan sekarang sedang menunggu persetujuan administrator."
   notice_default_data_loaded: Konfigurasi default sudah berhasil dimuat.
   notice_unable_delete_version: Tidak bisa menghapus versi.

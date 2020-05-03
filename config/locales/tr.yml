@@ -185,7 +185,6 @@ tr:
   notice_email_error: "E-posta gönderilirken bir hata oluştu (%{value})"
   notice_feeds_access_key_reseted: Atom erişim anahtarınız sıfırlandı.
   notice_failed_to_save_issues: "Failed to save %{count} issue(s) on %{total} selected: %{ids}."
-  notice_no_issue_selected: "Seçili iş yok! Lütfen, düzenlemek istediğiniz işleri işaretleyin."
   notice_account_pending: "Hesabınız oluşturuldu ve yönetici onayı bekliyor."
   notice_default_data_loaded: Varasayılan konfigürasyon başarılıyla yüklendi.
 

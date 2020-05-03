@@ -182,7 +182,6 @@ lt:
   notice_failed_to_save_issues: "Nepavyko išsaugoti %{count} darbo(ų) iš %{total} pasirinktų: %{ids}."
   notice_failed_to_save_time_entries: "Nepavyko išsaugoti %{count} laiko įrašo(ų) iš %{total} pasirinktų: %{ids}."
   notice_failed_to_save_members: "Nepavyko išsaugoti nario(ių): %{errors}."
-  notice_no_issue_selected: "Nepasirinktas nei vienas darbas! Prašom pažymėti darbus, kuriuos norite redaguoti"
   notice_account_pending: "Jūsų paskyra buvo sukurta ir dabar laukiama administratoriaus patvirtinimo."
   notice_default_data_loaded: Numatytoji konfigūracija sėkmingai įkrauta.
   notice_unable_delete_version: Neįmanoma ištrinti versijos.

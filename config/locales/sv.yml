@@ -217,7 +217,6 @@ sv:
   notice_failed_to_save_issues: "Misslyckades med att spara %{count} ärende(n) på %{total} valda: %{ids}."
   notice_failed_to_save_time_entries: "Misslyckades med att spara %{count} tidloggning(ar) på %{total} valda: %{ids}."
   notice_failed_to_save_members: "Misslyckades med att spara medlem(mar): %{errors}."
-  notice_no_issue_selected: "Inget ärende är markerat! Var vänlig, markera de ärenden du vill ändra."
   notice_account_pending: "Ditt konto skapades och avvaktar nu administratörens godkännande."
   notice_default_data_loaded: Standardkonfiguration inläst.
   notice_unable_delete_version: Denna version var inte möjlig att ta bort.

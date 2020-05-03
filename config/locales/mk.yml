@@ -174,7 +174,6 @@ mk:
   notice_api_access_key_reseted: Вашиот API клуч за пристап е reset.
   notice_failed_to_save_issues: "Failed to save %{count} issue(s) on %{total} selected: %{ids}."
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
-  notice_no_issue_selected: "No issue is selected! Please, check the issues you want to edit."
   notice_account_pending: "Your account was created and is now pending administrator approval."
   notice_default_data_loaded: Default configuration successfully loaded.
   notice_unable_delete_version: Unable to delete version.

@@ -614,7 +614,6 @@ it:
   field_column_names: Colonne
   label_default_columns: Colonne predefinite
   setting_issue_list_default_columns: Colonne predefinite mostrate nell'elenco segnalazioni
-  notice_no_issue_selected: "Nessuna segnalazione selezionata! Seleziona le segnalazioni che intendi modificare."
   label_bulk_edit_selected_issues: Modifica massiva delle segnalazioni selezionate
   label_no_change_option: (Nessuna modifica)
   notice_failed_to_save_issues: "Impossibile salvare %{count} segnalazioni su %{total} selezionate: %{ids}."

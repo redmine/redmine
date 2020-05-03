@@ -192,7 +192,6 @@ et:
   notice_failed_to_save_issues: "%{count} teemat %{total}-st ei õnnestunud salvestada: %{ids}."
   notice_failed_to_save_time_entries: "%{count} ajakulu kannet %{total}-st ei õnnestunud salvestada: %{ids}."
   notice_failed_to_save_members: "Liiget/liikmeid ei õnnestunud salvestada: %{errors}."
-  notice_no_issue_selected: "Ühtegi teemat ei ole valitud! Palun vali teema(d), mida soovid muuta."
   notice_account_pending: "Sinu konto on loodud ja ootab nüüd administraatori kinnitust."
   notice_default_data_loaded: "Algseadistuste laadimine õnnestus."
   notice_unable_delete_version: "Versiooni kustutamine ei õnnestunud."

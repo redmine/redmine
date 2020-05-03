@@ -174,7 +174,6 @@ sr:
   notice_api_access_key_reseted: Ваш API приступни кључ је поништен.
   notice_failed_to_save_issues: "Неуспешно снимање %{count} проблема од %{total} одабраних: %{ids}."
   notice_failed_to_save_members: "Неуспешно снимање члана(ова): %{errors}."
-  notice_no_issue_selected: "Ни један проблем није одабран! Молимо, одаберите проблем који желите да мењате."
   notice_account_pending: "Ваш налог је креиран и чека на одобрење администратора."
   notice_default_data_loaded: Подразумевано конфигурисање је успешно учитано.
   notice_unable_delete_version: Верзију је немогуће избрисати.

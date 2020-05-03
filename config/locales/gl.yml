@@ -652,7 +652,6 @@ gl:
   notice_feeds_access_key_reseted: A súa chave de acceso para Atom reiniciouse.
   notice_file_not_found: A páxina á que tenta acceder non existe.
   notice_locking_conflict: Os datos modificáronse por outro usuario.
-  notice_no_issue_selected: "Ningunha petición seleccionada. Por favor, comprobe a petición que quere modificar"
   notice_not_authorized: Non ten autorización para acceder a esta páxina.
   notice_successful_connection: "Accedeu correctamente."
   notice_successful_create: Creación correcta.

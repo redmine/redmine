@@ -173,7 +173,6 @@ ar:
   notice_api_access_key_reseted:  كلمة الدخولAPIلقد تم تعديل .
   notice_failed_to_save_issues: "فشل في حفظ الملف"
   notice_failed_to_save_members: "فشل في حفظ الاعضاء: %{errors}."
-  notice_no_issue_selected: "لم يتم تحديد شيء، الرجاء تحديد المسألة التي تريد"
   notice_account_pending: "لقد تم انشاء حسابك، الرجاء الانتظار حتى تتم الموافقة"
   notice_default_data_loaded: تم تحميل التكوين الافتراضي بنجاح
   notice_unable_delete_version: غير قادر على مسح النسخة.

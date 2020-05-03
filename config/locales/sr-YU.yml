@@ -176,7 +176,6 @@ sr-YU:
   notice_api_access_key_reseted: Vaš API pristupni ključ je poništen.
   notice_failed_to_save_issues: "Neuspešno snimanje %{count} problema od %{total} odabranih: %{ids}."
   notice_failed_to_save_members: "Neuspešno snimanje člana(ova): %{errors}."
-  notice_no_issue_selected: "Ni jedan problem nije odabran! Molimo, odaberite problem koji želite da menjate."
   notice_account_pending: "Vaš nalog je kreiran i čeka na odobrenje administratora."
   notice_default_data_loaded: Podrazumevano konfigurisanje je uspešno učitano.
   notice_unable_delete_version: Verziju je nemoguće izbrisati.

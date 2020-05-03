@@ -224,7 +224,6 @@ vi:
   notice_email_error: "Lỗi xảy ra khi gửi email (%{value})"
   notice_feeds_access_key_reseted: Mã số chứng thực Atom đã được tạo lại.
   notice_failed_to_save_issues: "Thất bại khi lưu %{count} vấn đề trong %{total} lựa chọn: %{ids}."
-  notice_no_issue_selected: "Không có vấn đề được chọn! Vui lòng kiểm tra các vấn đề bạn cần chỉnh sửa."
   notice_account_pending: "Thông tin tài khoản đã được tạo ra và đang chờ chứng thực từ ban quản trị."
   notice_default_data_loaded: Đã nạp cấu hình mặc định.
   notice_unable_delete_version: Không thể xóa phiên bản.

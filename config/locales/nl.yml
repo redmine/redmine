@@ -620,7 +620,6 @@ nl:
   notice_feeds_access_key_reseted: Uw Atom-toegangssleutel werd opnieuw ingesteld.
   notice_file_not_found: De pagina, die u probeerde te benaderen, bestaat niet of is verwijderd.
   notice_locking_conflict: De gegevens werden reeds eerder gewijzigd door een andere gebruiker.
-  notice_no_issue_selected: "Er is geen issue geselecteerd. Selecteer het issue dat u wil bewerken."
   notice_not_authorized: U heeft niet de juiste machtigingen om deze pagina te raadplegen.
   notice_successful_connection: Verbinding succesvol.
   notice_successful_create: Succesvol aangemaakt.

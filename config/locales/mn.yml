@@ -172,7 +172,6 @@ mn:
   notice_feeds_access_key_reseted: Таны Atom хандалтын түлхүүрийг дахин эхлүүллээ.
   notice_api_access_key_reseted: Your API access key was reset.
   notice_failed_to_save_issues: "%{total} асуудал сонгогдсоноос %{count} асуудлыг нь хадгалахад алдаа гарлаа: %{ids}."
-  notice_no_issue_selected: "Ямар ч асуудал сонгогдоогүй байна! Засварлах асуудлуудаа сонгоно уу."
   notice_account_pending: "Таны дансыг үүсгэж дууслаа, администратор баталгаажуулах хүртэл хүлээнэ үү."
   notice_default_data_loaded: Стандарт тохиргоог амжилттай ачааллаа.
   notice_unable_delete_version: Хувилбарыг устгах боломжгүй.

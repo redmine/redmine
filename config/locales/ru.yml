@@ -762,7 +762,6 @@ ru:
   notice_feeds_access_key_reseted: Ваш ключ доступа Atom был сброшен.
   notice_file_not_found: Страница, на которую Вы пытаетесь зайти, не существует или удалена.
   notice_locking_conflict: Информация обновлена другим пользователем.
-  notice_no_issue_selected: "Не выбрано ни одной задачи! Пожалуйста, отметьте задачи, которые Вы хотите отредактировать."
   notice_not_authorized: У Вас нет прав для посещения данной страницы.
   notice_successful_connection: Подключение успешно установлено.
   notice_successful_create: Создание успешно.

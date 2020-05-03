@@ -192,7 +192,6 @@
   notice_email_error: "Hiba történt a levél küldése közben (%{value})"
   notice_feeds_access_key_reseted: Az Atom hozzáférési kulcsát újra generáltuk.
   notice_failed_to_save_issues: "Nem sikerült a %{count} feladat(ok) mentése a %{total} -ban kiválasztva: %{ids}."
-  notice_no_issue_selected: "Nincs feladat kiválasztva! Kérem jelölje meg melyik feladatot szeretné szerkeszteni!"
   notice_account_pending: "A fiókja létrejött, és adminisztrátori jóváhagyásra vár."
   notice_default_data_loaded: Az alapértelmezett konfiguráció betöltése sikeresen megtörtént.
 

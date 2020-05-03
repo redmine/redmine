@@ -218,7 +218,6 @@ ko:
   notice_email_error: "메일을 전송하는 과정에 오류가 발생했습니다. (%{value})"
   notice_feeds_access_key_reseted: Atom에 접근가능한 열쇠(key)가 생성되었습니다.
   notice_failed_to_save_issues: "저장에 실패하였습니다: 실패 %{count}(선택 %{total}): %{ids}."
-  notice_no_issue_selected: "일감이 선택되지 않았습니다. 수정하기 원하는 일감을 선택하세요"
   notice_account_pending: "계정이 만들어졌으며 관리자 승인 대기중입니다."
   notice_default_data_loaded: 기본값을 성공적으로 읽어들였습니다.
   notice_unable_delete_version: 삭제할 수 없는 버전입니다.

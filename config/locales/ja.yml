@@ -195,7 +195,6 @@ ja:
   notice_api_access_key_reseted: APIアクセスキーを初期化しました。
   notice_failed_to_save_issues: "全%{total}件中%{count}件のチケットが保存できませんでした: %{ids}。"
   notice_failed_to_save_members: "メンバーの保存に失敗しました: %{errors}。"
-  notice_no_issue_selected: "チケットが選択されていません! 更新対象のチケットを選択してください。"
   notice_account_pending: アカウントを作成しました。システム管理者の承認待ちです。
   notice_default_data_loaded: デフォルト設定をロードしました。
   notice_unable_delete_version: バージョンを削除できません

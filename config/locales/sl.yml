@@ -170,7 +170,6 @@ sl:
   notice_email_error: "Ob pošiljanju e-sporočila je prišlo do napake (%{value})"
   notice_feeds_access_key_reseted: Vaš Atom dostopni ključ je bil ponastavljen.
   notice_failed_to_save_issues: "Neuspelo shranjevanje %{count} zahtevka na %{total} izbranem: %{ids}."
-  notice_no_issue_selected: "Izbran ni noben zahtevek! Prosimo preverite zahtevke, ki jih želite urediti."
   notice_account_pending: "Vaš račun je bil ustvarjen in čaka na potrditev s strani administratorja."
   notice_default_data_loaded: Privzete nastavitve so bile uspešno naložene.
   notice_unable_delete_version: Verzije ni bilo mogoče izbrisati.

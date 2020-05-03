@@ -177,7 +177,6 @@ ca:
   notice_api_access_key_reseted: "S'ha reiniciat la clau d'accés a l'API."
   notice_failed_to_save_issues: "No s'han pogut desar %{count} assumptes de %{total} seleccionats: %{ids}."
   notice_failed_to_save_members: "No s'han pogut desar els membres: %{errors}."
-  notice_no_issue_selected: "No s'ha seleccionat cap assumpte. Activeu els assumptes que voleu editar."
   notice_account_pending: "S'ha creat el compte i ara està pendent de l'aprovació de l'administrador."
   notice_default_data_loaded: "S'ha carregat correctament la configuració predeterminada."
   notice_unable_delete_version: "No s'ha pogut suprimir la versió."

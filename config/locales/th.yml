@@ -169,7 +169,6 @@ th:
   notice_email_error: "เกิดความผิดพลาดขณะกำส่งอีเมล์ (%{value})"
   notice_feeds_access_key_reseted: Atom access key ของคุณถูก reset แล้ว.
   notice_failed_to_save_issues: "%{count} ปัญหาจาก %{total} ปัญหาที่ถูกเลือกไม่สามารถจัดเก็บ: %{ids}."
-  notice_no_issue_selected: "ไม่มีปัญหาที่ถูกเลือก! กรุณาเลือกปัญหาที่คุณต้องการแก้ไข."
   notice_account_pending: "บัญชีของคุณสร้างเสร็จแล้ว ขณะนี้รอการอนุมัติจากผู้บริหารจัดการ."
   notice_default_data_loaded: ค่าเริ่มต้นโหลดเสร็จแล้ว.
 

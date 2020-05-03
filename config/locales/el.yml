@@ -172,7 +172,6 @@ el:
   notice_email_error: "Σφάλμα κατά την αποστολή του μηνύματος στο (%{value})"
   notice_feeds_access_key_reseted:  Έγινε επαναφορά στο κλειδί πρόσβασης Atom.
   notice_failed_to_save_issues: "Αποτυχία αποθήκευσης %{count} θεμα(των) από τα %{total} επιλεγμένα: %{ids}."
-  notice_no_issue_selected: "Κανένα θέμα δεν είναι επιλεγμένο! Παρακαλούμε, ελέγξτε τα θέματα που θέλετε να επεξεργαστείτε."
   notice_account_pending: "Ο λογαριασμός σας έχει δημιουργηθεί και είναι σε στάδιο έγκρισης από τον διαχειριστή."
   notice_default_data_loaded: Οι προεπιλεγμένες ρυθμίσεις φορτώθηκαν επιτυχώς.
   notice_unable_delete_version: Αδύνατον να διαγραφεί η έκδοση.

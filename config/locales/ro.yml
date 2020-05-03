@@ -166,7 +166,6 @@ ro:
   notice_email_error: "A intervenit o eroare la trimiterea de email (%{value})"
   notice_feeds_access_key_reseted: Cheia de acces Atom a fost resetată.
   notice_failed_to_save_issues: "Nu s-au putut salva %{count} tichete din cele %{total} selectate: %{ids}."
-  notice_no_issue_selected: "Niciun tichet selectat! Vă rugăm să selectați tichetele pe care doriți să le editați."
   notice_account_pending: "Contul dumneavoastră a fost creat și așteaptă aprobarea administratorului."
   notice_default_data_loaded: S-a încărcat configurația implicită.
   notice_unable_delete_version: Nu se poate șterge versiunea.

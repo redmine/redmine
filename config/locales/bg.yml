@@ -180,7 +180,6 @@ bg:
   notice_failed_to_save_issues: "Неуспешен запис на %{count} задачи от %{total} избрани: %{ids}."
   notice_failed_to_save_time_entries: "Невъзможност за запис на %{count} записа за използвано време от %{total} избрани: %{ids}."
   notice_failed_to_save_members: "Невъзможност за запис на член(ове): %{errors}."
-  notice_no_issue_selected: "Няма избрани задачи."
   notice_account_pending: "Профилът Ви е създаден и очаква одобрение от администратор."
   notice_default_data_loaded: Примерната информация е заредена успешно.
   notice_unable_delete_version: Невъзможност за изтриване на версия

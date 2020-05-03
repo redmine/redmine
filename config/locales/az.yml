@@ -752,7 +752,6 @@ az:
   notice_feeds_access_key_reseted: Sizin Atom giriş açarınız sıfırlanmışdır.
   notice_file_not_found: Daxil olmağa çalışdığınız səhifə mövcud deyildir və ya silinib.
   notice_locking_conflict: İnformasiya digər istifadəçi tərəfindən yenilənib.
-  notice_no_issue_selected: "Heç bir tapşırıq seçilməyib! Xahiş edirik, redaktə etmək istədiyiniz tapşırığı qeyd edin."
   notice_not_authorized: Sizin bu səhifəyə daxil olmaq hüququnuz yoxdur.
   notice_successful_connection: Qoşulma müvəffəqiyyətlə yerinə yetirilib.
   notice_successful_create: Yaratma müvəffəqiyyətlə yerinə yetirildi.

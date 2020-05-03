@@ -178,7 +178,6 @@ zh:
   notice_api_access_key_reseted: 您的API访问键已被重置。
   notice_failed_to_save_issues: "%{count} 个问题保存失败（共选择 %{total} 个问题）：%{ids}."
   notice_failed_to_save_members: "成员保存失败: %{errors}."
-  notice_no_issue_selected: "未选择任何问题！请选择您要编辑的问题。"
   notice_account_pending: "您的帐号已被成功创建，正在等待管理员的审核。"
   notice_default_data_loaded: 成功载入默认设置。
   notice_unable_delete_version: 无法删除版本

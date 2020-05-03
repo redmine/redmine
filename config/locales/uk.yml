@@ -185,7 +185,6 @@ uk:
   notice_email_error: "Під час відправки листа відбулася помилка (%{value})"
   notice_feeds_access_key_reseted: Ваш ключ доступу Atom було скинуто.
   notice_failed_to_save_issues: "Не вдалося зберегти %{count} пункт(ів) з %{total} вибраних: %{ids}."
-  notice_no_issue_selected: "Не вибрано жодної задачі! Будь ласка, відзначте задачу, яку ви хочете відредагувати."
   notice_account_pending: "Ваш обліковий запис створено і він чекає на підтвердження адміністратором."
 
   mail_subject_lost_password: "Ваш %{value} пароль"
