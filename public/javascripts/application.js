@@ -467,7 +467,7 @@ function displayTabsButtons() {
         numHidden++;
       }
     });
-    var bw = $(el).parents('div.tabs-buttons').outerWidth(true);
+    var bw = $(el).find('div.tabs-buttons').outerWidth(true);
     if ((tabsWidth < el.width() - bw) && (lis.length === 0 || lis.first().is(':visible'))) {
       el.find('div.tabs-buttons').hide();
     } else {
