@@ -51,7 +51,7 @@ class CustomFieldsController < ApplicationController
       if params[:continue]
         redirect_to new_custom_field_path({:type => @custom_field.type})
       else
-        redirect_to edit_custom_field_path(@custom_field)
+        redirect_to custom_fields_path({:tab => @custom_field.type})
       end
     else
       render :action => 'new'

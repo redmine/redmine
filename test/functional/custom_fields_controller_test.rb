@@ -297,7 +297,7 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
           }
         }
     end
-    assert_redirected_to "/custom_fields/#{field.id}/edit"
+    assert_redirected_to "/custom_fields?tab=IssueCustomField"
     assert_equal "test_post_new_list", field.name
     assert_equal ["0.1", "0.2"], field.possible_values
     assert_equal 1, field.trackers.size
