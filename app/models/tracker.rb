@@ -98,7 +98,7 @@ class Tracker < ActiveRecord::Base
 
   def disabled_core_fields
     i = -1
-    @disabled_core_fields ||= CORE_FIELDS.select { i += 1; (fields_bits || 0) & (2 ** i) != 0}
+    @disabled_core_fields ||= CORE_FIELDS.select { i += 1; (fields_bits || 0) & (1 << i) != 0}
   end
 
   def core_fields
@@ -111,7 +111,7 @@ class Tracker < ActiveRecord::Base
     bits = 0
     CORE_FIELDS.each_with_index do |field, i|
       unless fields.include?(field)
-        bits |= 2 ** i
+        bits |= 1 << i
       end
     end
     self.fields_bits = bits
