@@ -449,8 +449,24 @@ class Redmine::UnifiedDiffTest < ActiveSupport::TestCase
     assert_equal '-- ', footer_lines[0]
     assert_equal '', footer_lines[-1]
     diff = Redmine::UnifiedDiff.new(body_lines.join("\n") + "\n", :type => 'sbs')
-    assert_equal 1, diff.size
-    assert_equal 5, diff[0].size
+
+    diff_size = diff.size
+    diff_0_size = diff[0].size
+    assert_equal 1, diff_size
+    assert_equal 5, diff_0_size
+
+    diff = Redmine::UnifiedDiff.new("test\n", :type => 'sbs')
+    assert_equal 0, diff.size
+    diff = Redmine::UnifiedDiff.new("test\ntest\n", :type => 'sbs')
+    assert_equal 0, diff.size
+
+    diff = Redmine::UnifiedDiff.new(raw, :type => 'sbs')
+    assert_equal diff_size, diff.size
+    assert_equal diff_0_size, diff[0].size
+
+    diff = Redmine::UnifiedDiff.new(raw + "\n\n\n\n", :type => 'sbs')
+    assert_equal diff_size, diff.size
+    assert_equal diff_0_size, diff[0].size
   end
 
   private

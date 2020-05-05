@@ -27,6 +27,12 @@ module Redmine
       diff = diff.split("\n") if diff.is_a?(String)
       @diff_type = options[:type] || 'inline'
       @diff_style = options[:style]
+      # remove git footer
+      if diff.length > 1 &&
+           diff[-2] =~ /^--/ &&
+           diff[-1] =~ /^[0-9]/
+        diff.pop(2)
+      end
       lines = 0
       @truncated = false
       diff_table = DiffTable.new(diff_type, diff_style)
