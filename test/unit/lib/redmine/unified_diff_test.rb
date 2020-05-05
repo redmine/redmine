@@ -415,6 +415,44 @@ class Redmine::UnifiedDiffTest < ActiveSupport::TestCase
     assert_equal 9, diff[1].size
   end
 
+  def test_git_footer_line
+    raw = <<~DIFF
+      From 1ed13eda266a3e0a5a8624e79ae28874ebcdeb5c Mon Sep 17 00:00:00 2001
+      From: test <none@none>
+      Date: Thu, 30 Apr 2020 11:40:20 +0900
+      Subject: [PATCH] add 'rpm -q git' and its result
+      
+      ---
+       test.txt | 2 ++
+       1 file changed, 2 insertions(+)
+
+      diff --git a/test.txt b/test.txt
+      index 0a406b9..c39ee31 100644
+      --- a/test.txt
+      +++ b/test.txt
+      @@ -6,3 +6,5 @@ $ hg add test.txt
+       $ hg commit -m `echo -e "U+1F603\U1F603"` -u `echo -e "U+1F603\U1F603"`
+       $ hg bookmark master
+       $ hg push ../git_utf8_repository
+      +$ rpm -q git
+      +git-1.8.3.1-21.el7_7.x86_64
+      -- 
+      1.8.3.1
+      
+    DIFF
+    lines = raw.split("\n")
+    lines << ""
+    assert_equal '', lines[-1]
+    body_lines = lines[0..-4]
+    footer_lines = lines[-3..-1]
+    assert_equal '+git-1.8.3.1-21.el7_7.x86_64', body_lines[-1]
+    assert_equal '-- ', footer_lines[0]
+    assert_equal '', footer_lines[-1]
+    diff = Redmine::UnifiedDiff.new(body_lines.join("\n") + "\n", :type => 'sbs')
+    assert_equal 1, diff.size
+    assert_equal 5, diff[0].size
+  end
+
   private
 
   def read_diff_fixture(filename)
