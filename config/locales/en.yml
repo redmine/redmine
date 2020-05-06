@@ -1052,6 +1052,7 @@ en:
   label_quote_char: Quote
   label_double_quote_char: Double quote
   label_fields_mapping: Fields mapping
+  label_relations_mapping: Relations mapping
   label_file_content_preview: File content preview
   label_create_missing_values: Create missing values
   label_api: API

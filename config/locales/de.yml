@@ -1189,6 +1189,7 @@ de:
   label_quote_char: Anführungszeichen
   label_double_quote_char: Doppelte Anführungszeichen
   label_fields_mapping: Zuordnung der Felder
+  label_relations_mapping: Zuordnung von Beziehungen
   label_file_content_preview: Inhaltsvorschau
   label_create_missing_values: Ergänze fehlende Werte
   button_import: Importieren

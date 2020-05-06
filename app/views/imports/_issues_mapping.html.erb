@@ -5,6 +5,13 @@
   </div>
 </fieldset>
 
+<fieldset class="box tabular collapsible collapsed">
+  <legend onclick="toggleFieldset(this);" class="icon icon-collapsed"><%= l(:label_relations_mapping) %></legend>
+  <div id="relations-mapping" style="display: none;">
+    <%= render :partial => 'issues_relations_mapping' %>
+  </div>
+</fieldset>
+
 <%= javascript_tag do %>
   $('#fields-mapping').on('change', '#import_mapping_project_id, #import_mapping_tracker', function(){
     $.ajax({

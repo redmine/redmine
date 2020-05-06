@@ -230,6 +230,117 @@ class IssueImport < Import
     issue
   end
 
+  def extend_object(row, item, issue)
+    build_relations(row, item, issue)
+  end
+
+  def build_relations(row, item, issue)
+    IssueRelation::TYPES.each_key do |type|
+      has_delay = [IssueRelation::TYPE_PRECEDES, IssueRelation::TYPE_FOLLOWS].include?(type)
+
+      if decls = relation_values(row, "relation_#{type}")
+        decls.each do |decl|
+          unless decl[:matches]
+            # Invalid relation syntax - doesn't match regexp
+            next
+          end
+
+          if decl[:delay] && !has_delay
+            # Invalid relation syntax - delay for relation that doesn't support delays
+            next
+          end
+
+          relation = IssueRelation.new(
+            "relation_type" => type,
+            "issue_from_id" => issue.id
+          )
+
+          if decl[:other_id]
+            relation.issue_to_id = decl[:other_id]
+          elsif decl[:other_pos]
+            if use_unique_id?
+              issue_id = items.where(:unique_id => decl[:other_pos]).first.try(:obj_id)
+              if issue_id
+                relation.issue_to_id = issue_id
+              else
+                add_callback(decl[:other_pos], 'set_relation', item.position, type, decl[:delay])
+                next
+              end
+            elsif decl[:other_pos] > item.position
+              add_callback(decl[:other_pos], 'set_relation', item.position, type, decl[:delay])
+              next
+            elsif issue_id = items.where(:position => decl[:other_pos]).first.try(:obj_id)
+              relation.issue_to_id = issue_id
+            end
+          end
+
+          relation.delay = decl[:delay] if decl[:delay]
+
+          relation.save!
+        end
+      end
+    end
+
+    issue
+  end
+
+  def relation_values(row, name)
+    content = row_value(row, name)
+
+    return if content.blank?
+
+    content.split(",").map do |declaration|
+      declaration = declaration.strip
+
+      # Valid expression:
+      #
+      # 123  => row 123 within the CSV
+      # #123 => issue with ID 123
+      #
+      # For precedes and follows
+      #
+      # 123 7d    => row 123 within CSV with 7 day delay
+      # #123  7d  => issue with ID 123 with 7 day delay
+      # 123 -3d   => negative delay allowed
+      #
+      #
+      # Invalid expression:
+      #
+      # No. 123 => Invalid leading letters
+      # # 123   => Invalid space between # and issue number
+      # 123 8h  => No other time units allowed (just days)
+      #
+      # Please note: If unique_id mapping is present, the whole line - but the
+      # trailing delay expression - is considered unique_id.
+      #
+      # See examples at Rubular http://rubular.com/r/mgXM5Rp6zK
+      #
+      match = declaration.match(/\A(?<unique_id>(?<is_id>#)?(?<id>\d+)|.+?)(?:\s+(?<delay>-?\d+)d)?\z/)
+
+      result = {
+        :matches     => false,
+        :declaration => declaration
+      }
+
+      if match
+        result[:matches] = true
+        result[:delay]   = match[:delay]
+
+        if match[:is_id] && match[:id]
+          result[:other_id] = match[:id]
+        elsif use_unique_id? && match[:unique_id]
+          result[:other_pos] = match[:unique_id]
+        elsif match[:id]
+          result[:other_pos] = match[:id].to_i
+        else
+          result[:matches] = false
+        end
+      end
+
+      result
+    end
+  end
+
   # Callback that sets issue as the parent of a previously imported issue
   def set_as_parent_callback(issue, child_position)
     child_id = items.where(:position => child_position).first.try(:obj_id)
@@ -241,5 +352,20 @@ class IssueImport < Import
     child.parent_issue_id = issue.id
     child.save!
     issue.reload
+  end
+
+  def set_relation_callback(to_issue, from_position, type, delay)
+    return if to_issue.new_record?
+
+    from_id = items.where(:position => from_position).first.try(:obj_id)
+    return unless from_id
+
+    IssueRelation.create!(
+      'relation_type' => type,
+      'issue_from_id' => from_id,
+      'issue_to_id'   => to_issue.id,
+      'delay'         => delay
+    )
+    to_issue.reload
   end
 end

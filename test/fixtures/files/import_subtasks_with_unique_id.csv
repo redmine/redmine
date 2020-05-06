@@ -1,5 +1,10 @@
-id;tracker;subject;parent
-RED-I;bug;Root;
-RED-II;bug;Child 1;RED-I
-RED-III;bug;Grand-child;RED-IV
-RED-IV;bug;Child 2;RED-I
+id;tracker;subject;parent;follows
+RED-IV;bug;Grand-child;RED-III;
+RED-III;bug;Child 2;RED-I;RED-II 1d
+RED-II;bug;Child 1;RED-I;
+RED-I;bug;Root;;
+BLUE-I;bug;Root;;
+BLUE-II;bug;Child 1;BLUE-I;
+BLUE-III;bug;Child 2;BLUE-I;BLUE-II 1d
+BLUE-IV;bug;Grand-child;BLUE-III;
+GREEN-II;bug;Thing;#1;#2 3d;

@@ -1,0 +1,60 @@
+<div class="splitcontent">
+  <div class="splitcontentleft">
+    <p>
+      <label for="import_mapping_unique_id"><%= l(:field_unique_id) %></label>
+      <%= mapping_select_tag @import, 'unique_id' %>
+    </p>
+    <p>
+      <label for="import_settings_mapping_parent_issue_id"><%= l(:field_parent_issue) %></label>
+      <%= mapping_select_tag @import, 'parent_issue_id' %>
+    </p>
+
+    <p>
+      <label for="import_settings_mapping_relation_duplicates"><%= l(:label_duplicates) %></label>
+      <%= mapping_select_tag @import, 'relation_duplicates' %>
+    </p>
+
+    <p>
+      <label for="import_settings_mapping_relation_duplicated"><%= l(:label_duplicated_by) %></label>
+      <%= mapping_select_tag @import, 'relation_duplicated' %>
+    </p>
+
+    <p>
+      <label for="import_settings_mapping_relation_blocks"><%= l(:label_blocks) %></label>
+      <%= mapping_select_tag @import, 'relation_blocks' %>
+    </p>
+
+    <p>
+      <label for="import_settings_mapping_relation_blocked"><%= l(:label_blocked_by) %></label>
+      <%= mapping_select_tag @import, 'relation_blocked' %>
+    </p>
+  </div>
+
+  <div class="splitcontentright">
+    <p></p>
+    <p>
+      <label for="import_settings_mapping_relation_relates"><%= l(:label_relates_to) %></label>
+      <%= mapping_select_tag @import, 'relation_relates' %>
+    </p>
+
+    <p>
+      <label for="import_settings_mapping_relation_precedes"><%= l(:label_precedes) %></label>
+      <%= mapping_select_tag @import, 'relation_precedes' %>
+    </p>
+
+    <p>
+      <label for="import_settings_mapping_relation_follows"><%= l(:label_follows) %></label>
+      <%= mapping_select_tag @import, 'relation_follows' %>
+    </p>
+
+    <p>
+      <label for="import_settings_mapping_relation_copied_to"><%= l(:label_copied_to) %></label>
+      <%= mapping_select_tag @import, 'relation_copied_to' %>
+    </p>
+
+    <p>
+      <label for="import_settings_mapping_relation_copied_from"><%= l(:label_copied_from) %></label>
+      <%= mapping_select_tag @import, 'relation_copied_from' %>
+    </p>
+  </div>
+</div>

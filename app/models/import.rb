@@ -212,6 +212,7 @@ class Import < ActiveRecord::Base
         item.save!
         imported += 1
 
+        extend_object(row, item, object) if object.persisted?
         do_callbacks(use_unique_id? ? item.unique_id : item.position, object)
       end
       current = position
@@ -270,7 +271,12 @@ class Import < ActiveRecord::Base
 
   # Builds a record for the given row and returns it
   # To be implemented by subclasses
-  def build_object(row)
+  def build_object(row, item)
+  end
+
+  # Extends object with properties, that may only be handled after it's been
+  # persisted.
+  def extend_object(row, item, object)
   end
 
   # Generates a filename used to store the import file

@@ -146,14 +146,131 @@ class IssueImportTest < ActiveSupport::TestCase
     assert_equal child2, grandchild.parent
   end
 
-  def test_backward_and_forward_reference_with_unique_id
+  def test_references_with_unique_id
     import = generate_import_with_mapping('import_subtasks_with_unique_id.csv')
-    import.settings['mapping'] = {'project_id' => '1', 'unique_id' => '0', 'tracker' => '1', 'subject' => '2', 'parent_issue_id' => '3'}
+    import.settings['mapping'] = {'project_id' => '1', 'unique_id' => '0', 'tracker' => '1', 'subject' => '2', 'parent_issue_id' => '3', 'relation_follows' => '4'}
     import.save!
 
-    root, child1, grandchild, child2 = new_records(Issue, 4) { import.run }
-    assert_equal root, child1.parent
-    assert_equal child2, grandchild.parent
+    red4, red3, red2, red1, blue1, blue2, blue3, blue4, green = new_records(Issue, 9) { import.run }
+
+    # future references
+    assert_equal red1, red2.parent
+    assert_equal red3, red4.parent
+
+    assert IssueRelation.where('issue_from_id' => red2.id, 'issue_to_id' => red3.id, 'delay' => 1, 'relation_type' => 'precedes').present?
+
+    # past references
+    assert_equal blue1, blue2.parent
+    assert_equal blue3, blue4.parent
+
+    assert IssueRelation.where('issue_from_id' => blue2.id, 'issue_to_id' => blue3.id, 'delay' => 1, 'relation_type' => 'precedes').present?
+
+    assert_equal issues(:issues_001), green.parent
+    assert IssueRelation.where('issue_from_id' => issues(:issues_002).id, 'issue_to_id' => green.id, 'delay' => 3, 'relation_type' => 'precedes').present?
+  end
+
+  def test_follow_relation
+    import = generate_import_with_mapping('import_subtasks.csv')
+    import.settings['mapping'] = {'project_id' => '1', 'tracker' => '1', 'subject' => '2', 'relation_relates' => '4'}
+    import.save!
+
+    one, one_one, one_two_one, one_two = new_records(Issue, 4) { import.run }
+    assert_equal 2, one.relations.count
+    assert one.relations.all? { |r| r.relation_type == 'relates' }
+    assert one.relations.any? { |r| r.other_issue(one) == one_one }
+    assert one.relations.any? { |r| r.other_issue(one) == one_two }
+
+    assert_equal 2, one_one.relations.count
+    assert one_one.relations.all? { |r| r.relation_type == 'relates' }
+    assert one_one.relations.any? { |r| r.other_issue(one_one) == one }
+    assert one_one.relations.any? { |r| r.other_issue(one_one) == one_two }
+
+    assert_equal 3, one_two.relations.count
+    assert one_two.relations.all? { |r| r.relation_type == 'relates' }
+    assert one_two.relations.any? { |r| r.other_issue(one_two) == one }
+    assert one_two.relations.any? { |r| r.other_issue(one_two) == one_one }
+    assert one_two.relations.any? { |r| r.other_issue(one_two) == one_two_one }
+
+    assert_equal 1, one_two_one.relations.count
+    assert one_two_one.relations.all? { |r| r.relation_type == 'relates' }
+    assert one_two_one.relations.any? { |r| r.other_issue(one_two_one) == one_two }
+  end
+
+  def test_delayed_relation
+    import = generate_import_with_mapping('import_subtasks.csv')
+    import.settings['mapping'] = {'project_id' => '1', 'tracker' => '1', 'subject' => '2', 'relation_precedes' => '5'}
+    import.save!
+
+    one, one_one, one_two_one, one_two = new_records(Issue, 4) { import.run }
+
+    assert_equal 2, one.relations_to.count
+    assert one.relations_to.all? { |r| r.relation_type == 'precedes' }
+    assert one.relations_to.any? { |r| r.issue_from == one_one && r.delay == 2 }
+    assert one.relations_to.any? { |r| r.issue_from == one_two && r.delay == 1 }
+
+    assert_equal 1, one_one.relations_from.count
+    assert one_one.relations_from.all? { |r| r.relation_type == 'precedes' }
+    assert one_one.relations_from.any? { |r| r.issue_to == one && r.delay == 2 }
+
+    assert_equal 1, one_two.relations_to.count
+    assert one_two.relations_to.all? { |r| r.relation_type == 'precedes' }
+    assert one_two.relations_to.any? { |r| r.issue_from == one_two_one && r.delay == -1 }
+
+    assert_equal 1, one_two.relations_from.count
+    assert one_two.relations_from.all? { |r| r.relation_type == 'precedes' }
+    assert one_two.relations_from.any? { |r| r.issue_to == one && r.delay == 1 }
+
+    assert_equal 1, one_two_one.relations_from.count
+    assert one_two_one.relations_from.all? { |r| r.relation_type == 'precedes' }
+    assert one_two_one.relations_from.any? { |r| r.issue_to == one_two && r.delay == -1 }
+  end
+
+  def test_parent_and_follows_relation
+    import = generate_import_with_mapping('import_subtasks_with_relations.csv')
+    import.settings['mapping'] = {
+      'project_id'       => '1',
+      'tracker'          => '1',
+
+      'subject'          => '2',
+      'start_date'       => '3',
+      'due_date'         => '4',
+      'parent_issue_id'  => '5',
+      'relation_follows' => '6'
+    }
+    import.save!
+
+    second, first, parent, third = assert_difference('IssueRelation.count', 2) { new_records(Issue, 4) { import.run } }
+
+    # Parent relations
+    assert_equal parent, first.parent
+    assert_equal parent, second.parent
+    assert_equal parent, third.parent
+
+    # Issue relations
+    assert IssueRelation.where(
+      :issue_from_id => first.id,
+      :issue_to_id   => second.id,
+      :relation_type => 'precedes',
+      :delay         => 1).present?
+
+    assert IssueRelation.where(
+      :issue_from_id => second.id,
+      :issue_to_id   => third.id,
+      :relation_type => 'precedes',
+      :delay         => 1).present?
+
+    # Checking dates, because they might act weird, when relations are added
+    assert_equal Date.new(2020, 1, 1), parent.start_date
+    assert_equal Date.new(2020, 2, 3), parent.due_date
+
+    assert_equal Date.new(2020, 1, 1), first.start_date
+    assert_equal Date.new(2020, 1, 10), first.due_date
+
+    assert_equal Date.new(2020, 1, 14), second.start_date
+    assert_equal Date.new(2020, 1, 21), second.due_date
+
+    assert_equal Date.new(2020, 1, 23), third.start_date
+    assert_equal Date.new(2020, 2, 3), third.due_date
   end
 
   def test_assignee_should_be_set

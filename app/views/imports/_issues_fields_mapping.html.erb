@@ -1,5 +1,3 @@
-<div class="splitcontent">
-<div class="splitcontentleft">
 <p>
   <label for="import_mapping_project_id"><%= l(:label_project) %></label>
   <%= select_tag 'import_settings[mapping][project_id]',
@@ -15,16 +13,6 @@
   <label for="import_mapping_status"><%= l(:field_status) %></label>
   <%= mapping_select_tag @import, 'status' %>
 </p>
-</div>
-
-<div class="splitcontentright">
-<p></p>
-<p>
-  <label for="import_mapping_unique_id"><%= l(:field_unique_id) %></label>
-  <%= mapping_select_tag @import, 'unique_id' %>
-</p>
-</div>
-</div>
 
 <div class="splitcontent">
 <div class="splitcontentleft">
@@ -64,22 +52,12 @@
     </label>
   <% end %>
 </p>
-<% @custom_fields.each do |field| %>
-  <p>
-    <label for="import_mapping_cf_<%= field.id %>"><%= field.name %></label>
-    <%= mapping_select_tag @import, "cf_#{field.id}" %>
-  </p>
-<% end %>
 </div>
 
 <div class="splitcontentright">
 <p>
   <label for="import_mapping_is_private"><%= l(:field_is_private) %></label>
   <%= mapping_select_tag @import, 'is_private' %>
-</p>
-<p>
-  <label for="import_mapping_parent_issue_id"><%= l(:field_parent_issue) %></label>
-  <%= mapping_select_tag @import, 'parent_issue_id' %>
 </p>
 <p>
   <label for="import_mapping_start_date"><%= l(:field_start_date) %></label>
@@ -97,5 +75,11 @@
   <label for="import_mapping_done_ratio"><%= l(:field_done_ratio) %></label>
   <%= mapping_select_tag @import, 'done_ratio' %>
 </p>
+<% @custom_fields.each do |field| %>
+  <p>
+    <label for="import_mapping_cf_<%= field.id %>"><%= field.name %></label>
+    <%= mapping_select_tag @import, "cf_#{field.id}" %>
+  </p>
+<% end %>
 </div>
 </div>

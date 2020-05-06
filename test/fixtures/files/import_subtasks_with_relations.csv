@@ -1,0 +1,5 @@
+row;tracker;subject;start;due;parent;follows
+1;bug;2nd Child;2020-01-12;2020-01-20;3;2 1d
+2;bug;1st Child;2020-01-01;2020-01-10;3;
+3;bug;Parent;2020-01-01;2020-01-31;;
+4;bug;3rd Child;2020-01-22;2020-01-31;3;1 1d
