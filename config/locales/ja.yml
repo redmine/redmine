@@ -1319,3 +1319,4 @@ ja:
   setting_email_domains_allowed: 許可するメールアドレスのドメイン
   setting_email_domains_denied: 禁止するメールアドレスのドメイン
   field_passwd_changed_on: パスワード更新日
+  label_relations_mapping: Relations mapping
