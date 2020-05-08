@@ -345,45 +345,45 @@ class MercurialAdapterTest < ActiveSupport::TestCase
       end
       assert_equal 8, branches.length
 
-      branch_ctrl = branches[0]
-      assert_equal 'issue-23055-ctrl-char', branch_ctrl.to_s
-      assert_equal '35', branch_ctrl.revision
-      assert_equal '3e998343166a1b8273973bcd46dd2bad74344d74', branch_ctrl.scmid
+      branch = branches[-8]
+      assert_equal 'issue-23055-ctrl-char', branch.to_s
+      assert_equal '35', branch.revision
+      assert_equal '3e998343166a1b8273973bcd46dd2bad74344d74', branch.scmid
 
-      branch_default = branches[1]
-      assert_equal 'default', branch_default.to_s
-      assert_equal '31', branch_default.revision
-      assert_equal '31eeee7395c8c78e66dd54c50addd078d10b2355', branch_default.scmid
+      branch = branches[-7]
+      assert_equal 'default', branch.to_s
+      assert_equal '31', branch.revision
+      assert_equal '31eeee7395c8c78e66dd54c50addd078d10b2355', branch.scmid
 
-      branch_test01 = branches[2]
-      assert_equal 'test-branch-01', branch_test01.to_s
-      assert_equal '30', branch_test01.revision
-      assert_equal 'ad4dc4f80284a4f9168b77e0b6de288e5d207ee7', branch_test01.scmid
+      branch = branches[-6]
+      assert_equal 'test-branch-01', branch.to_s
+      assert_equal '30', branch.revision
+      assert_equal 'ad4dc4f80284a4f9168b77e0b6de288e5d207ee7', branch.scmid
 
-      branch_char_1 = branches[3]
-      assert_equal @branch_char_1, branch_char_1.to_s
-      assert_equal '27', branch_char_1.revision
-      assert_equal '7bbf4c738e7145149d2e5eb1eed1d3a8ddd3b914', branch_char_1.scmid
+      branch = branches[-5]
+      assert_equal @branch_char_1, branch.to_s
+      assert_equal '27', branch.revision
+      assert_equal '7bbf4c738e7145149d2e5eb1eed1d3a8ddd3b914', branch.scmid
 
-      branch_bracket = branches[4]
-      assert_equal 'branch (1)[2]&,%.-3_4', branch_bracket.to_s
-      assert_equal '25', branch_bracket.revision
-      assert_equal 'afc61e85bde74de930e5846c8451bd55b5bafc9c', branch_bracket.scmid
+      branch = branches[-4]
+      assert_equal 'branch (1)[2]&,%.-3_4', branch.to_s
+      assert_equal '25', branch.revision
+      assert_equal 'afc61e85bde74de930e5846c8451bd55b5bafc9c', branch.scmid
 
-      branch_char_0 = branches[5]
-      assert_equal @branch_char_0, branch_char_0.to_s
-      assert_equal '23', branch_char_0.revision
-      assert_equal 'c8d3e4887474af6a589190140508037ebaa9d9c3', branch_char_0.scmid
+      branch = branches[-3]
+      assert_equal @branch_char_0, branch.to_s
+      assert_equal '23', branch.revision
+      assert_equal 'c8d3e4887474af6a589190140508037ebaa9d9c3', branch.scmid
 
-      branch_latin1 = branches[6]
-      assert_equal 'test_branch.latin-1', branch_latin1.to_s
-      assert_equal '22', branch_latin1.revision
-      assert_equal 'c2ffe7da686aa3d956e59f2a2854cf8980a8b768', branch_latin1.scmid
+      branch = branches[-2]
+      assert_equal 'test_branch.latin-1', branch.to_s
+      assert_equal '22', branch.revision
+      assert_equal 'c2ffe7da686aa3d956e59f2a2854cf8980a8b768', branch.scmid
 
-      branch_test00 = branches[7]
-      assert_equal 'test-branch-00',branch_test00.to_s
-      assert_equal '13', branch_test00.revision
-      assert_equal '3a330eb329586ea2adb3f83237c23310e744ebe9', branch_test00.scmid
+      branch = branches[-1]
+      assert_equal 'test-branch-00',branch.to_s
+      assert_equal '13', branch.revision
+      assert_equal '3a330eb329586ea2adb3f83237c23310e744ebe9', branch.scmid
     end
 
     def test_branchmap
