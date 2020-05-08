@@ -177,14 +177,17 @@
     <% end %>
   <% end %>
 </td>
-<% @query.columns.each do |column| %>
-  <% next if Redmine::Helpers::Gantt::UNAVAILABLE_COLUMNS.include?(column.name) %>
-  <td class="gantt_<%= column.name %>_column gantt_selected_column <%= 'last_gantt_selected_column' if @query.columns.last == column %>" id="<%= column.name %>">
+<%
+  @query.columns.each do |column|
+    next if Redmine::Helpers::Gantt::UNAVAILABLE_COLUMNS.include?(column.name)
+    column_name = column.name.to_s.tr('.', '_')
+%>
+  <td class="gantt_<%= column_name %>_column gantt_selected_column <%= 'last_gantt_selected_column' if @query.columns.last == column %>" id="<%= column_name %>">
     <%
       style = "position: relative;"
       style += "height: #{t_height + 24}px;"
     %>
-    <%= content_tag(:div, :style => style, :class => "gantt_#{column.name}_container gantt_selected_column_container") do %>
+    <%= content_tag(:div, :style => style, :class => "gantt_#{column_name}_container gantt_selected_column_container") do %>
       <%
         style = "height: #{t_height}px;"
         style += 'overflow: hidden;'
@@ -195,7 +198,7 @@
         style += 'background: #eee;'
       %>
       <%= content_tag(:div, content_tag(:p, column.caption, :class => 'gantt_hdr_selected_column_name'), :style => style, :class => "gantt_hdr") %>
-      <%= content_tag(:div, :class => "gantt_#{column.name} gantt_selected_column_content") do %>
+      <%= content_tag(:div, :class => "gantt_#{column_name} gantt_selected_column_content") do %>
         <%= @gantt.selected_column_content({:column => column, :top => headers_height + 8, :zoom => zoom, :g_width => g_width}).html_safe %>
       <% end %>
     <% end %>
