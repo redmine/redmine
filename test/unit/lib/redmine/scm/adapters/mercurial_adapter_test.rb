@@ -425,14 +425,14 @@ class MercurialAdapterTest < ActiveSupport::TestCase
     end
 
     def test_nodes_in_branch
-       [
-          'default',
-          @branch_char_1,
-          'branch (1)[2]&,%.-3_4',
-          @branch_char_0,
-          'test_branch.latin-1',
-          'test-branch-00',
-       ]
+      [
+        'default',
+        @branch_char_1,
+        'branch (1)[2]&,%.-3_4',
+        @branch_char_0,
+        'test_branch.latin-1',
+        'test-branch-00',
+      ]
       .each do |branch|
         nib0 = @adapter.nodes_in_branch(branch)
         assert nib0
