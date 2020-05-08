@@ -213,12 +213,12 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
       [
-          'default',
-          'branch-Ü-01',
-          'branch (1)[2]&,%.-3_4',
-          'branch-Ü-00',
-          'test_branch.latin-1',
-          'test-branch-00',
+        'default',
+        'branch-Ü-01',
+        'branch (1)[2]&,%.-3_4',
+        'branch-Ü-00',
+        'test_branch.latin-1',
+        'test-branch-00',
       ].each do |bra|
         get :show, :params => {
             :id => PRJ_ID,
