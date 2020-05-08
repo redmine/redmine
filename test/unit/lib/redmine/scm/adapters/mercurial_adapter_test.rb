@@ -84,8 +84,8 @@ class MercurialAdapterTest < ActiveSupport::TestCase
         adp = Redmine::Scm::Adapters::MercurialAdapter.new(repo)
         repo_path =  adp.info.root_url.gsub(/\\/, "/")
         assert_equal REPOSITORY_PATH, repo_path
-        assert_equal '35', adp.info.lastrev.revision
-        assert_equal '3e998343166a1b8273973bcd46dd2bad74344d74',adp.info.lastrev.scmid
+        assert_equal '39', adp.info.lastrev.revision
+        assert_equal '04aed9840e9266e535f5f20f7e42c9f9f84f9cf4',adp.info.lastrev.scmid
       end
     end
 
@@ -326,11 +326,13 @@ class MercurialAdapterTest < ActiveSupport::TestCase
     end
 
     def test_tags
-      assert_equal [@tag_char_1, 'tag_test.00', 'tag-init-revision'], @adapter.tags
+      tags = ['double"quote"tag', @tag_char_1, 'tag_test.00', 'tag-init-revision']
+      assert_equal tags, @adapter.tags
     end
 
     def test_tagmap
       tm = {
+        'double"quote"tag'  => 'cf5f7c556f5a643e1ec7cb01775be539f64eeefb', 
         @tag_char_1         => 'adf805632193500ad3b615cd04f58f9b0769f576',
         'tag_test.00'       => '6987191f453a5f6557018d522feea2c450d5588d',
         'tag-init-revision' => '0885933ad4f68d77c2649cd11f8311276e7ef7ce',
@@ -343,7 +345,12 @@ class MercurialAdapterTest < ActiveSupport::TestCase
       @adapter.branches.each do |b|
         branches << b
       end
-      assert_equal 8, branches.length
+      assert_equal 9, branches.length
+
+      branch = branches[-9]
+      assert_equal 'double"quote"branch', branch.to_s
+      assert_equal '39', branch.revision
+      assert_equal '04aed9840e9266e535f5f20f7e42c9f9f84f9cf4', branch.scmid
 
       branch = branches[-8]
       assert_equal 'issue-23055-ctrl-char', branch.to_s
@@ -388,6 +395,7 @@ class MercurialAdapterTest < ActiveSupport::TestCase
 
     def test_branchmap
       bm = {
+         'double"quote"branch'   => '04aed9840e9266e535f5f20f7e42c9f9f84f9cf4',
          'issue-23055-ctrl-char' => '3e998343166a1b8273973bcd46dd2bad74344d74',
          'default'               => '31eeee7395c8c78e66dd54c50addd078d10b2355',
          'test_branch.latin-1'   => 'c2ffe7da686aa3d956e59f2a2854cf8980a8b768',
