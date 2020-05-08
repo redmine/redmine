@@ -24,7 +24,6 @@ module Redmine
   module Scm
     module Adapters
       class MercurialAdapter < AbstractAdapter
-
         # Mercurial executable name
         HG_BIN = Redmine::Configuration['scm_mercurial_command'] || "hg"
         HELPERS_DIR = File.dirname(__FILE__) + "/mercurial"
