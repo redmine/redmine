@@ -97,21 +97,22 @@ module Redmine
         end
 
         def tags
-          as_ary(summary['repository']['tag']).map { |e| e['name'] }
+          as_ary(summary['repository']['tag']).map {|e| CGI.unescape(e['name'])}
         end
 
         # Returns map of {'tag' => 'nodeid', ...}
         def tagmap
-          alist = as_ary(summary['repository']['tag']).map do |e|
-            e.values_at('name', 'node')
+          map = {}
+          as_ary(summary['repository']['tag']).each do |e|
+            map[CGI.unescape(e['name'])] = e['node']
           end
-          Hash[*alist.flatten]
+          map
         end
 
         def branches
           brs = []
           as_ary(summary['repository']['branch']).each do |e|
-            br = Branch.new(e['name'])
+            br = Branch.new(CGI.unescape(e['name']))
             br.revision =  e['revision']
             br.scmid    =  e['node']
             brs << br
@@ -121,10 +122,11 @@ module Redmine
 
         # Returns map of {'branch' => 'nodeid', ...}
         def branchmap
-          alist = as_ary(summary['repository']['branch']).map do |e|
-            e.values_at('name', 'node')
+          map = {}
+          branches.each do |b|
+            map[b.to_s] = b.scmid
           end
-          Hash[*alist.flatten]
+          map
         end
 
         def summary
