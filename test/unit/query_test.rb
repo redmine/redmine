@@ -1800,6 +1800,37 @@ class QueryTest < ActiveSupport::TestCase
     assert_include "cf_#{field.id}".to_sym, q.available_totalable_columns.map(&:name)
   end
 
+  def test_available_totalable_columns_should_sort_in_position_order_for_custom_field
+    ProjectCustomField.delete_all
+    cf_pos3 = ProjectCustomField.generate!(:position => 3, :is_for_all => true, :field_format => 'int')
+    cf_pos4 = ProjectCustomField.generate!(:position => 4, :is_for_all => true, :field_format => 'float')
+    cf_pos1 = ProjectCustomField.generate!(:position => 1, :is_for_all => true, :field_format => 'float')
+    cf_pos2 = ProjectCustomField.generate!(:position => 2, :is_for_all => true, :field_format => 'int')
+    q = ProjectQuery.new
+    custom_field_columns = q.available_totalable_columns.select{|column| column.is_a?(QueryCustomFieldColumn)}
+    assert_equal [cf_pos1, cf_pos2, cf_pos3, cf_pos4], custom_field_columns.collect(&:custom_field)
+
+    IssueCustomField.delete_all
+    cf_pos3 = IssueCustomField.generate!(:position => 3, :is_for_all => true, :field_format => 'int')
+    cf_pos4 = IssueCustomField.generate!(:position => 4, :is_for_all => true, :field_format => 'float')
+    cf_pos1 = IssueCustomField.generate!(:position => 1, :is_for_all => true, :field_format => 'float')
+    cf_pos2 = IssueCustomField.generate!(:position => 2, :is_for_all => true, :field_format => 'int')
+    q = IssueQuery.new
+    custom_field_columns = q.available_totalable_columns.select{|column| column.is_a?(QueryCustomFieldColumn)}
+    assert_equal [cf_pos1, cf_pos2, cf_pos3, cf_pos4], custom_field_columns.collect(&:custom_field)
+
+    ProjectCustomField.delete_all
+    IssueCustomField.delete_all
+    TimeEntryCustomField.delete_all
+    cf_pos3 = TimeEntryCustomField.generate!(:position => 3, :is_for_all => true, :field_format => 'int')
+    cf_pos4 = TimeEntryCustomField.generate!(:position => 4, :is_for_all => true, :field_format => 'float')
+    cf_pos1 = TimeEntryCustomField.generate!(:position => 1, :is_for_all => true, :field_format => 'float')
+    cf_pos2 = TimeEntryCustomField.generate!(:position => 2, :is_for_all => true, :field_format => 'int')
+    q = TimeEntryQuery.new
+    custom_field_columns = q.available_totalable_columns.select{|column| column.is_a?(QueryCustomFieldColumn)}
+    assert_equal [cf_pos1, cf_pos2, cf_pos3, cf_pos4], custom_field_columns.collect(&:custom_field)
+  end
+
   def test_total_for_estimated_hours
     Issue.delete_all
     Issue.generate!(:estimated_hours => 5.5)

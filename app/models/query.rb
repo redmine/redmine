@@ -609,13 +609,18 @@ class Query < ActiveRecord::Base
     if project
       project.rolled_up_custom_fields
     else
-      IssueCustomField.all
+      IssueCustomField.sorted
     end
   end
 
   # Returns a scope of project custom fields that are available as columns or filters
   def project_custom_fields
-    ProjectCustomField.all
+    ProjectCustomField.sorted
+  end
+
+  # Returns a scope of time entry custom fields that are available as columns or filters
+  def time_entry_custom_fields
+    TimeEntryCustomField.sorted
   end
 
   # Returns a scope of project statuses that are available as columns or filters

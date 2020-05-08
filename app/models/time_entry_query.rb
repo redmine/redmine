@@ -101,7 +101,7 @@ class TimeEntryQuery < Query
     add_available_filter "comments", :type => :text
     add_available_filter "hours", :type => :float
 
-    add_custom_fields_filters(TimeEntryCustomField)
+    add_custom_fields_filters(time_entry_custom_fields)
     add_associations_custom_fields_filters :project
     add_custom_fields_filters(issue_custom_fields, :issue)
     add_associations_custom_fields_filters :user
@@ -110,11 +110,11 @@ class TimeEntryQuery < Query
   def available_columns
     return @available_columns if @available_columns
     @available_columns = self.class.available_columns.dup
-    @available_columns += TimeEntryCustomField.visible.
+    @available_columns += time_entry_custom_fields.visible.
                             map {|cf| QueryCustomFieldColumn.new(cf) }
     @available_columns += issue_custom_fields.visible.
                             map {|cf| QueryAssociationCustomFieldColumn.new(:issue, cf, :totalable => false) }
-    @available_columns += ProjectCustomField.visible.
+    @available_columns += project_custom_fields.visible.
                             map {|cf| QueryAssociationCustomFieldColumn.new(:project, cf) }
     @available_columns
   end
