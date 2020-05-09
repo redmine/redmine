@@ -332,7 +332,7 @@ class MercurialAdapterTest < ActiveSupport::TestCase
 
     def test_tagmap
       tm = {
-        'double"quote"tag'  => 'cf5f7c556f5a643e1ec7cb01775be539f64eeefb', 
+        'double"quote"tag'  => 'cf5f7c556f5a643e1ec7cb01775be539f64eeefb',
         @tag_char_1         => 'adf805632193500ad3b615cd04f58f9b0769f576',
         'tag_test.00'       => '6987191f453a5f6557018d522feea2c450d5588d',
         'tag-init-revision' => '0885933ad4f68d77c2649cd11f8311276e7ef7ce',
