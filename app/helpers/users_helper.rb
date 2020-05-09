@@ -84,7 +84,7 @@ module UsersHelper
         'last_login_on',
         'passwd_changed_on'
       ]
-      user_custom_fields = UserCustomField.all
+      user_custom_fields = UserCustomField.sorted
 
       # csv header fields
       csv << columns.map {|column| l('field_' + column)} + user_custom_fields.pluck(:name)
