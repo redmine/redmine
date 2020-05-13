@@ -1638,6 +1638,7 @@ img.filecontent.image {background-image: url(../images/transparent.png);}
 }
 .ui-autocomplete .ui-menu-item > div {
   padding: 4px 8px;
+  max-width: 500px;
 }
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
   border-color: #759FCF;
