@@ -56,7 +56,7 @@ class AutoCompletesController < ApplicationController
     issues.map {|issue|
       {
         'id' => issue.id,
-        'label' => "#{issue.tracker} ##{issue.id}: #{issue.subject.to_s.truncate(255)}",
+        'label' => "#{issue.tracker} ##{issue.id}: #{issue.subject.to_s.truncate(60)}",
         'value' => issue.id
       }
     }
