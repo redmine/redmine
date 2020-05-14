@@ -1450,6 +1450,7 @@ td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
 .ui-tooltip {
   background: #000;
   color: #fff;
+  font-size: 0.9em;
   border-radius: 3px;
   border: 0;
   box-shadow: none
@@ -1632,21 +1633,10 @@ color: #555; text-shadow: 1px 1px 0 #fff;
 img.filecontent.image {background-image: url(../images/transparent.png);}
 
 /* Custom JQuery styles */
-.ui-autocomplete {
-  border-radius: 2px;
-  border: 1px solid #ccc;
-}
-.ui-autocomplete .ui-menu-item > div {
-  padding: 4px 8px;
-}
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
-  border-color: #759FCF;
-  background: #759FCF;
-}
-.ui-widget-overlay {
-    background: #000;
-    opacity: 70%;
-}
+.ui-datepicker-title select {width:70px !important; margin-top:-2px !important; margin-right:4px !important;}
+.ui-menu.ui-widget-content {background:#fff;}
+.ui-menu .ui-menu-item:hover {font-weight:normal; background:#759FCF; color:#fff !important; border:1px solid #759FCF;}
+.ui-menu .ui-menu-item.ui-state-focus {font-weight:normal; color:#555; border-color:#759FCF;}
 
 /* Custom tribute styles */
 .tribute-container ul {
