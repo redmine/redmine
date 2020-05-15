@@ -155,7 +155,7 @@ class ContextMenusControllerTest < Redmine::ControllerTest
       assert_select 'a[href="#"]', :text => 'List'
       assert_select 'ul' do
         assert_select 'a', 3
-        assert_select 'a.icon-checked', :text => 'Bar'
+        assert_select 'a.icon.icon-checked', :text => 'Bar'
       end
     end
   end
