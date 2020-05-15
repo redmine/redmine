@@ -722,7 +722,7 @@ class Issue < ActiveRecord::Base
       errors.add :start_date, :earlier_than_minimum_start_date, :date => format_date(soonest_start)
     end
 
-    if fixed_version
+    if project && fixed_version
       if !assignable_versions.include?(fixed_version)
         errors.add :fixed_version_id, :inclusion
       elsif reopening? && fixed_version.closed?
@@ -737,7 +737,7 @@ class Issue < ActiveRecord::Base
       end
     end
 
-    if assigned_to_id_changed? && assigned_to_id.present?
+    if project && assigned_to_id_changed? && assigned_to_id.present?
       unless assignable_users.include?(assigned_to)
         errors.add :assigned_to_id, :invalid
       end
@@ -937,6 +937,8 @@ class Issue < ActiveRecord::Base
 
   # Users the issue can be assigned to
   def assignable_users
+    return [] if project.nil?
+
     users = project.assignable_users(tracker).to_a
     users << author if author && author.active?
     if assigned_to_id_was.present? && assignee = Principal.find_by_id(assigned_to_id_was)
@@ -948,6 +950,7 @@ class Issue < ActiveRecord::Base
   # Versions that the issue can be assigned to
   def assignable_versions
     return @assignable_versions if @assignable_versions
+    return [] if project.nil?
 
     versions = project.shared_versions.open.to_a
     if fixed_version

@@ -653,6 +653,34 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     assert_response 422
   end
 
+  test "POST /issues.json with invalid project_id and any assigned_to_id should respond with 422" do
+    post(
+      '/issues.json',
+      :params => {
+        :issue => {
+          :project_id => 999,
+          :assigned_to_id => 1,
+          :subject => 'API'
+        }
+      },
+      :headers => credentials('jsmith'))
+    assert_response 422
+  end
+
+  test "POST /issues.json with invalid project_id and any fixed_version_id should respond with 422" do
+    post(
+      '/issues.json',
+      :params => {
+        :issue => {
+          :project_id => 999,
+          :fixed_version_id => 1,
+          :subject => 'API'
+        }
+      },
+      :headers => credentials('jsmith'))
+    assert_response 422
+  end
+
   test "PUT /issues/:id.xml" do
     assert_difference('Journal.count') do
       put(
