@@ -551,7 +551,7 @@ module IssuesHelper
       unless no_html
         diff_link =
           link_to(
-            'diff',
+            l(:label_diff),
             diff_journal_url(detail.journal_id, :detail_id => detail.id,
                              :only_path => options[:only_path]),
             :title => l(:label_view_diff))
