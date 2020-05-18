@@ -456,7 +456,8 @@ jsToolBar.prototype.precodeMenu = function(fn){
   var hlLanguages = window.userHlLanguages;
   var menu = $("<ul style='position:absolute;'></ul>");
   for (var i = 0; i < hlLanguages.length; i++) {
-    $("<li></li>").text(hlLanguages[i]).appendTo(menu).mousedown(function(){
+    var langItem = $('<div></div>').text(hlLanguages[i]);
+    $("<li></li>").html(langItem).appendTo(menu).mousedown(function(){
       fn($(this).text());
     });
   }
