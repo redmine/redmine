@@ -17,6 +17,13 @@
     <div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb" target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="Identifier will be automatically generated from project name although it can be eventually changed. Only lower case letter, numbers, dashes and underscores are allowed." data-original-title="Project Identifier"></icon></div>
   </div>
   <div class="form-group">
+    <%= label_tag 'URL', 'URL', class: 'col-sm-2 control-label' %>
+    <div class="col-sm-3">
+      <%= text_field_tag 'project_url', '', maxlength: Project::IDENTIFIER_MAX_LENGTH , disabled: true, class: 'input-xlarge disabledinput form-control'%>
+    </div>
+    <div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb" target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="The URL for your project generated based on the identifier." data-original-title="Project URL"></icon></div>
+  </div>
+  <div class="form-group">
     <%= label :project, :description, :class => 'col-sm-2 control-label' %>
     <div class="col-sm-3">
       <%= f.text_area :description, :class=>'input-xxlarge form-control', :rows=>'5' %>

@@ -76,6 +76,27 @@ function autoFillProjectIdentifier() {
   });
 }
 
+// Update the URL to match the identifier
+function autoFillProjectURL() {
+  // If the project_name is changed, the identifier is, and so should the URL
+  $('#project_name').keyup(function(){
+    {
+      document_url = $(location).attr('host');
+      new_project_url = document_url + "/projects/" + $('#project_identifier').val()
+      $('#project_url').val(new_project_url);
+    }
+  });
+  // If the user modifies the identifier, the URL should also be updated
+  $('#project_identifier').keyup(function(){
+    {
+      document_url = $(location).attr('host');
+      new_project_url = document_url + "/projects/" + $('#project_identifier').val()
+      $('#project_url').val(new_project_url);
+    }
+  });
+}
+
 $(document).ready(function(){
   autoFillProjectIdentifier();
+  autoFillProjectURL();
 });
