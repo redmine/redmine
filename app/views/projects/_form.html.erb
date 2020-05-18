@@ -1,58 +1,58 @@
 <%= error_messages_for 'project' %>
 
 <div class="view">
-    <!--[form:project]-->
-    <div class="form-group">
-        <%= label :project, :name, :class => 'col-sm-2 control-label' %>
-        <div class="col-sm-3">
-            <%= f.text_field :name, :required => true, :class=>'input-xlarge form-control' %>
-        </div>
-        <div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb" target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="Pick a project name that reflects the hosted model. Separate eventual author with a dash, e.g. 'Purkinje Cell - De Schutter and Bower 1994'." data-original-title="Project Name"></icon></div>
+  <!--[form:project]-->
+  <div class="form-group">
+    <%= label :project, :name, :class => 'col-sm-2 control-label' %>
+    <div class="col-sm-3">
+      <%= f.text_field :name, :required => true, :class=>'input-xlarge form-control' %>
     </div>
-    <div class="form-group">
-        <%= label :project, :identifier, :class => 'col-sm-2 control-label' %>
-        <div class="col-sm-3">
-	    <%= f.text_field :identifier, :maxlength => Project::IDENTIFIER_MAX_LENGTH , :class=>'input-xlarge disabledinput form-control'%>
-        </div>
-	<div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb" target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="Identifier will be automatically generated from project name although it can be eventually changed. Only lower case letter, numbers, dashes and underscores are allowed." data-original-title="Project Identifier"></icon></div>		
+    <div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb" target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="Pick a project name that reflects the hosted model. Separate eventual author with a dash, e.g. 'Purkinje Cell - De Schutter and Bower 1994'." data-original-title="Project Name"></icon></div>
+  </div>
+  <div class="form-group">
+    <%= label :project, :identifier, :class => 'col-sm-2 control-label' %>
+    <div class="col-sm-3">
+      <%= f.text_field :identifier, :maxlength => Project::IDENTIFIER_MAX_LENGTH , :class=>'input-xlarge disabledinput form-control'%>
     </div>
-    <div class="form-group">
-        <%= label :project, :description, :class => 'col-sm-2 control-label' %>
-        <div class="col-sm-3">
-	    <%= f.text_area :description, :class=>'input-xxlarge form-control', :rows=>'5' %>
-        </div>
-	<div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb" target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="The description will appear on the overview page of the project. Use this field to detail the purpose of the model. If the entry for project description is: 'github:README.md' then the README.md file from the GitHub repository, where your code is hosted, should be retrieved and used for the description." data-original-title="Project Description"></icon></div>
+    <div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb" target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="Identifier will be automatically generated from project name although it can be eventually changed. Only lower case letter, numbers, dashes and underscores are allowed." data-original-title="Project Identifier"></icon></div>
+  </div>
+  <div class="form-group">
+    <%= label :project, :description, :class => 'col-sm-2 control-label' %>
+    <div class="col-sm-3">
+      <%= f.text_area :description, :class=>'input-xxlarge form-control', :rows=>'5' %>
     </div>
-    <div class="form-group" <% if hiddenNonRequiredFields == true %>style="display: none"<% end %>>
-	<% tags = getCustomField(@project,'Tags') %>
-	<% roles = User.current.roles_for_project(@project).collect(&:name) %>
-	<%= render :partial=>'tags', :locals=>{:tags=>tags, :roles=>roles} %>
-    </div>
-    <% @project.custom_field_values.each do |value| %>
-	<% unless ['Endorsement', 'Tags', 'Metadata', 'Category'].include? value.custom_field.name %>
-	    <div class="form-group" <% if hiddenNonRequiredFields == true && value.custom_field.name != 'GitHub repository' %>style="display: none"<% end %>>
-                <%= custom_field_tag_with_label :project, value %>
-                
-		<% if value.custom_field.name == 'GitHub repository' %>
-		    <div class="popoverform"><a class="popoverlink" href="https://github.com/new" target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="To create a new project on OSB you need a Git repository to host your code: paste here its URL (e.g. https://github.com/user/myProject.git). If you don't have one click on the Octocat to create a new one on GitHub (you may need to be logged in)! Alternatively, leave this field blank and specify a repository later via your project's settings page." data-original-title="Project Repository"><icon class="icon-2x icon-github"></icon></a></div>
-		<% end %>
-	    </div>
-	<% end %>
+    <div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb" target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="The description will appear on the overview page of the project. Use this field to detail the purpose of the model. If the entry for project description is: 'github:README.md' then the README.md file from the GitHub repository, where your code is hosted, should be retrieved and used for the description." data-original-title="Project Description"></icon></div>
+  </div>
+  <div class="form-group" <% if hiddenNonRequiredFields == true %>style="display: none"<% end %>>
+    <% tags = getCustomField(@project,'Tags') %>
+    <% roles = User.current.roles_for_project(@project).collect(&:name) %>
+    <%= render :partial=>'tags', :locals=>{:tags=>tags, :roles=>roles} %>
+  </div>
+  <% @project.custom_field_values.each do |value| %>
+    <% unless ['Endorsement', 'Tags', 'Metadata', 'Category'].include? value.custom_field.name %>
+      <div class="form-group" <% if hiddenNonRequiredFields == true && value.custom_field.name != 'GitHub repository' %>style="display: none"<% end %>>
+        <%= custom_field_tag_with_label :project, value %>
+
+        <% if value.custom_field.name == 'GitHub repository' %>
+          <div class="popoverform"><a class="popoverlink" href="https://github.com/new" target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="To create a new project on OSB you need a Git repository to host your code: paste here its URL (e.g. https://github.com/user/myProject.git). If you don't have one click on the Octocat to create a new one on GitHub (you may need to be logged in)! Alternatively, leave this field blank and specify a repository later via your project's settings page." data-original-title="Project Repository"><icon class="icon-2x icon-github"></icon></a></div>
+        <% end %>
+      </div>
     <% end %>
+  <% end %>
 
-        <div class="nolabelcontrols">
-	    <%= submit_tag l(:button_create), :class=>"btn btn-success btn-large"%>
-            <a href="/docs#Creating_Your_Own_Project" target="_blank" class="btn"><icon class="icon-3x icon-question-sign"/></a>
-	</div>
+  <div class="nolabelcontrols">
+    <%= submit_tag l(:button_create), :class=>"btn btn-success btn-large"%>
+    <a href="/docs#Creating_Your_Own_Project" target="_blank" class="btn"><icon class="icon-3x icon-question-sign"/></a>
+  </div>
 
-    <%= call_hook(:view_projects_form, :project => @project, :form => f) %>
+  <%= call_hook(:view_projects_form, :project => @project, :form => f) %>
 </div>
 
 
 <!--[eoform:project]-->
 
 <% unless @project.identifier_frozen? %>
-    <% content_for :header_tags do %>
-        <%= javascript_include_tag 'project_identifier' %>
-    <% end %>
+  <% content_for :header_tags do %>
+    <%= javascript_include_tag 'project_identifier' %>
+  <% end %>
 <% end %>
