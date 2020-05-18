@@ -1063,6 +1063,9 @@ function inlineAutoComplete(element) {
       requireLeadingSpace: true,
       selectTemplate: function (issue) {
         return '#' + issue.original.id;
+      },
+      noMatchTemplate: function () {
+        return '<span style:"visibility: hidden;"></span>';
       }
     });
 
