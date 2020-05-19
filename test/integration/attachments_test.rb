@@ -130,6 +130,30 @@ class AttachmentsTest < Redmine::IntegrationTest
     assert_equal 'File content'.length, attachment.filesize
   end
 
+  def test_upload_filename_with_plus
+    log_user('jsmith', 'jsmith')
+    filename = 'a+b.txt'
+    token = ajax_upload(filename, 'File content')
+    assert_difference 'Issue.count' do
+      post(
+        '/projects/ecookbook/issues',
+        :params => {
+          :issue => {:tracker_id => 1, :subject => 'Issue with upload'},
+          :attachments => {'p0' => {:filename => filename, :token => token}}
+        }
+      )
+      assert_response 302
+    end
+    issue = Issue.order('id DESC').first
+    assert_equal 'Issue with upload', issue.subject
+    assert_equal 1, issue.attachments.count
+
+    attachment = issue.attachments.first
+    assert_equal filename, attachment.filename
+    assert_equal '', attachment.description
+    assert_equal 'File content'.length, attachment.filesize
+  end
+
   def test_upload_as_js_and_destroy
     log_user('jsmith', 'jsmith')
 
