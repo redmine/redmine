@@ -7,14 +7,14 @@
     <div class="col-sm-3">
       <%= f.text_field :name, :required => true, :class=>'input-xlarge form-control' %>
     </div>
-    <div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb" target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="Pick a project name that reflects the hosted model. Separate eventual author with a dash, e.g. 'Purkinje Cell - De Schutter and Bower 1994'." data-original-title="Project Name"></icon></div>
+    <div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb" target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="Pick a project name that reflects the hosted model. Separate publication info with a dash, e.g. 'Purkinje Cell - De Schutter and Bower 1994'." data-original-title="Project Name"></icon></div>
   </div>
   <div class="form-group">
     <%= label :project, :identifier, :class => 'col-sm-2 control-label' %>
     <div class="col-sm-3">
       <%= f.text_field :identifier, :maxlength => Project::IDENTIFIER_MAX_LENGTH , :class=>'input-xlarge disabledinput form-control'%>
     </div>
-    <div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb" target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="Identifier will be automatically generated from project name although it can be eventually changed. Only lower case letter, numbers, dashes and underscores are allowed." data-original-title="Project Identifier"></icon></div>
+    <div class="popoverform"><icon class="popoverlink icon-2x icon-lightbulb" target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="Identifier will be automatically generated from project name although it can be changed/shortened here if required. Only lower case letters, numbers, dashes and underscores are allowed." data-original-title="Project Identifier"></icon></div>
   </div>
   <div class="form-group">
     <%= label_tag 'URL', 'URL', class: 'col-sm-2 control-label' %>
@@ -41,7 +41,7 @@
         <%= custom_field_tag_with_label :project, value %>
 
         <% if value.custom_field.name == 'GitHub repository' %>
-          <div class="popoverform"><a class="popoverlink" href="https://github.com/new" target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="To create a new project on OSB you need a Git repository to host your code: paste here its URL (e.g. https://github.com/user/myProject.git). If you don't have one click on the Octocat to create a new one on GitHub (you may need to be logged in)! Alternatively, leave this field blank and specify a repository later via your project's settings page." data-original-title="Project Repository"><icon class="icon-2x icon-github"></icon></a></div>
+          <div class="popoverform"><a class="popoverlink" href="https://github.com/new" target="_blank" data-toggle="popover" data-trigger="hover" title="" data-content="To create a new project on OSB you need a Git repository to host your code: paste here its URL (e.g. https://github.com/user/myProject.git). If you don't have one click on the Octocat to create a new one on GitHub (you may need to be logged in)!" data-original-title="Project Repository"><icon class="icon-2x icon-github"></icon></a></div>
         <% end %>
       </div>
     <% end %>
