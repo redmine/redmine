@@ -446,18 +446,15 @@ module Redmine
           if show_days
             left = subject_width
             height = g_height + header_height - 1
-            wday = @date_from.cwday
-            (date_to - @date_from + 1).to_i.times do
+            (@date_from..date_to).each do |g_date|
               width =  zoom
-              gc.fill(non_working_week_days.include?(wday) ? '#eee' : 'white')
+              gc.fill(non_working_week_days.include?(g_date.cwday) ? '#eee' : 'white')
               gc.stroke('#ddd')
               gc.strokewidth(1)
               gc.draw('rectangle %d,%d %d,%d' % [
                 left, 2 * header_height, left + width, 2 * header_height + g_height - 1
               ])
               left = left + width
-              wday = wday + 1
-              wday = 1 if wday > 7
             end
           end
           # border
