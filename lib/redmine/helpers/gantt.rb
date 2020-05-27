@@ -520,7 +520,7 @@ module Redmine
           end
         end
         g_width = PDF.right_pane_width
-        zoom = (g_width) / (self.date_to - self.date_from + 1)
+        zoom = g_width / (self.date_to - self.date_from + 1)
         g_height = 120
         t_height = g_height + headers_height
         y_start = pdf.GetY
