@@ -173,6 +173,7 @@ class GanttsControllerTest < Redmine::ControllerTest
         :show,
         :params => {
           :project_id => 1,
+          :zoom => 4,
           :format => 'png'
         }
       )
