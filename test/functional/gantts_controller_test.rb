@@ -52,8 +52,14 @@ class GanttsControllerTest < Redmine::ControllerTest
         end
         assert_select 'p.contextual' do
           prev_month, next_month = User.current.today.prev_month, User.current.today.next_month
-          assert_select 'a[accesskey="p"][href=?]', project_gantt_path(:project_id => 1, :month => prev_month.month, :year => prev_month.year)
-          assert_select 'a[accesskey="n"][href=?]', project_gantt_path(:project_id => 1, :month => next_month.month, :year => next_month.year)
+          assert_select(
+            'a[accesskey="p"][href=?]',
+            project_gantt_path(:project_id => 1, :month => prev_month.month, :year => prev_month.year)
+          )
+          assert_select(
+            'a[accesskey="n"][href=?]',
+            project_gantt_path(:project_id => 1, :month => next_month.month, :year => next_month.year)
+          )
         end
         assert_select 'p.buttons'
       end
