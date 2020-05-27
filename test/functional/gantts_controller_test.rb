@@ -150,6 +150,7 @@ class GanttsControllerTest < Redmine::ControllerTest
       :show,
       :params => {
         :project_id => 1,
+        :months => 1,
         :format => 'pdf'
       }
     )
