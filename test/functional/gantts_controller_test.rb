@@ -169,10 +169,13 @@ class GanttsControllerTest < Redmine::ControllerTest
 
   if Object.const_defined?(:MiniMagick) && convert_installed?
     def test_gantt_should_export_to_png
-      get :show, :params => {
+      get(
+        :show,
+        :params => {
           :project_id => 1,
           :format => 'png'
         }
+      )
       assert_response :success
       assert_equal 'image/png', @response.media_type
     end
