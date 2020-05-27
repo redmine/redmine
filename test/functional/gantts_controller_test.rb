@@ -34,9 +34,12 @@ class GanttsControllerTest < Redmine::ControllerTest
     i2 = Issue.find(2)
     i2.update_attribute(:due_date, 1.month.from_now)
     with_settings :gravatar_enabled => '1' do
-      get :show, :params => {
+      get(
+        :show,
+        :params => {
           :project_id => 1
         }
+      )
     end
     assert_response :success
 
