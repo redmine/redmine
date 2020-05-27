@@ -563,35 +563,29 @@ module Redmine
           left = subject_width
           height = header_height
           day_num = self.date_from
-          wday = self.date_from.cwday
           pdf.SetFontStyle('B', 7)
-          (self.date_to - self.date_from + 1).to_i.times do
+          (self.date_from..self.date_to).each do |g_date|
             width = zoom
             pdf.SetY(y_start + header_height * 2)
             pdf.SetX(left)
-            pdf.SetTextColor(non_working_week_days.include?(wday) ? 150 : 0)
+            pdf.SetTextColor(non_working_week_days.include?(g_date.cwday) ? 150 : 0)
             pdf.RDMCell(width, height, day_num.day.to_s, "LTR", 0, "C")
             left = left + width
             day_num = day_num + 1
-            wday = wday + 1
-            wday = 1 if wday > 7
           end
         end
         # Days headers
         if show_days
           left = subject_width
           height = header_height
-          wday = self.date_from.cwday
           pdf.SetFontStyle('B', 7)
-          (self.date_to - self.date_from + 1).to_i.times do
+          (self.date_from..self.date_to).each do |g_date|
             width = zoom
             pdf.SetY(y_start + header_height * (show_day_num ? 3 : 2))
             pdf.SetX(left)
-            pdf.SetTextColor(non_working_week_days.include?(wday) ? 150 : 0)
-            pdf.RDMCell(width, height, day_name(wday).first, "LTR", 0, "C")
+            pdf.SetTextColor(non_working_week_days.include?(g_date.cwday) ? 150 : 0)
+            pdf.RDMCell(width, height, day_name(g_date.cwday).first, "LTR", 0, "C")
             left = left + width
-            wday = wday + 1
-            wday = 1 if wday > 7
           end
         end
         pdf.SetY(y_start)
