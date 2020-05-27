@@ -326,9 +326,8 @@
     left = 0
     height = g_height + header_height - 1
     top = (show_day_num ? 55 : 37)
-    wday = @gantt.date_from.cwday
   %>
-  <% (@gantt.date_to - @gantt.date_from + 1).to_i.times do %>
+  <% (@gantt.date_from..@gantt.date_to).each do |g_date| %>
     <%
       width =  zoom - 1
       style  = ""
@@ -338,15 +337,13 @@
       style += "height: #{height}px;"
       style += "font-size:0.7em;"
       clss = "gantt_hdr"
-      clss << " nwday" if @gantt.non_working_week_days.include?(wday)
+      clss << " nwday" if @gantt.non_working_week_days.include?(g_date.cwday)
     %>
     <%= content_tag(:div, :style => style, :class => clss) do %>
-      <%= day_letter(wday) %>
+      <%= day_letter(g_date.cwday) %>
     <% end %>
     <%
       left = left + width + 1
-      wday = wday + 1
-      wday = 1 if wday > 7
     %>
   <% end %>
 <% end %>
