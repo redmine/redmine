@@ -146,10 +146,13 @@ class GanttsControllerTest < Redmine::ControllerTest
   end
 
   def test_gantt_should_export_to_pdf
-    get :show, :params => {
+    get(
+      :show,
+      :params => {
         :project_id => 1,
         :format => 'pdf'
       }
+    )
     assert_response :success
     assert_equal 'application/pdf', @response.media_type
     assert @response.body.starts_with?('%PDF')
