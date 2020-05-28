@@ -15,7 +15,7 @@ div#wrapper, div#wrapper2, div#wrapper3 { min-height: inherit; }
 #wrapper {background: white;overflow: hidden;}
 #wrapper3 { display: flex; flex-direction: column; }
 
-#top-menu {background: #3E5B76; color: #fff; height:1.8em; font-size: 0.8em; padding: 2px 2px 0px 6px;}
+#top-menu {background: #3E5B76; color: #fff; height:1.8em; font-size: 0.8em; padding: 2px 10px 0px 12px;}
 #top-menu ul {margin: 0;  padding: 0;}
 #top-menu li {
   float:left;
@@ -29,7 +29,7 @@ div#wrapper, div#wrapper2, div#wrapper3 { min-height: inherit; }
 
 #account {float:right;}
 
-#header {min-height:5.3em;margin:0;background-color:#628DB6;color:#f8f8f8; padding: 4px 8px 20px 6px; position:relative;}
+#header {min-height:5.3em;margin:0;background-color:#628DB6;color:#f8f8f8; padding: 4px 16px 20px 16px; position:relative;}
 #header a {color:#f8f8f8;}
 #header h1 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
 #header h1 .breadcrumbs { display:block; font-size: .5em; font-weight: normal; }
@@ -37,7 +37,7 @@ div#wrapper, div#wrapper2, div#wrapper3 { min-height: inherit; }
 #quick-search {float:right;}
 #quick-search #q {width:130px; height:24px; box-sizing:border-box; vertical-align:middle; border:1px solid #ccc; border-radius:3px;}
 
-#main-menu {position: absolute;  bottom: 0px;  left:6px; margin-right: -500px; width: 100%;}
+#main-menu {position: absolute;  bottom: 0px;  left: 10px; margin-right: -500px; width: 100%;}
 #main-menu ul {margin: 0;  padding: 0; width: 100%; white-space: nowrap;}
 #main-menu li {
   float:none;
@@ -87,7 +87,7 @@ div#wrapper, div#wrapper2, div#wrapper3 { min-height: inherit; }
 
 #main {flex-grow: 2; display: flex; flex-direction: row-reverse;}
 
-#sidebar{ flex-shrink: 0; padding-left: 20px; background: #EEEEEE; border-left: 1px solid #ddd}
+#sidebar{ flex-shrink: 0; padding-left: 20px; padding-right: 8px; background: #EEEEEE; border-left: 1px solid #ddd}
 @media screen and (min-width: 0px) and (max-width: 1089px) {#sidebar{width: 22%;}}
 @media screen and (min-width: 1090px) and (max-width: 1279px) {#sidebar{width: 240px;}}
 @media screen and (min-width: 1280px) and (max-width: 1599px) {#sidebar{width: 280px;}}
@@ -106,7 +106,7 @@ div#wrapper, div#wrapper2, div#wrapper3 { min-height: inherit; }
 #sidebar a.icon-only:hover {opacity: 1;}
 #sidebar li input[type=checkbox] {height: 20px;}
 
-#content { flex-grow: 1; background-color: #fff; margin: 0px; padding: 6px 10px 10px 10px; overflow-x: auto;}
+#content { flex-grow: 1; background-color: #fff; margin: 0px; padding: 10px 16px 10px 16px; overflow-x: auto;}
 html>body #content { min-height: 600px; }
 * html body #content { height: 600px; } /* IE */
 
@@ -1161,7 +1161,7 @@ button.tab-left, button.tab-right {
   border-bottom: 1px solid #bbbbbb;
   position:absolute;
   padding:4px;
-  width: 20px;
+  width: 24px;
   bottom: -1px;
 }
 button.tab-left:hover, button.tab-right:hover {
@@ -1172,13 +1172,13 @@ button.tab-left:focus, button.tab-right:focus {
 }
 
 button.tab-left {
-  right: 20px;
+  right: 28px;
   background: #eeeeee url(../images/arrow_left.png) no-repeat 50% 50%;
   border-top-left-radius:3px;
 }
 
 button.tab-right {
-  right: 0;
+  right: 4px;
   background: #eeeeee url(../images/arrow_right.png) no-repeat 50% 50%;
   border-top-right-radius:3px;
 }
