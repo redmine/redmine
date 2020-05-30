@@ -23,7 +23,7 @@
   </p>
 <% end %>
 
-<%= render :partial => "#{import_partial_prefix}_sidebar" %>
+<%= render_if_exist :partial => "#{import_partial_prefix}_sidebar" %>
 
 <%= javascript_tag do %>
 $(document).ready(function() {

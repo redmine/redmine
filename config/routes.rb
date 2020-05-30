@@ -66,6 +66,7 @@ Rails.application.routes.draw do
 
   get   '/issues/imports/new', :to => 'imports#new', :defaults => { :type => 'IssueImport' }, :as => 'new_issues_import'
   get   '/time_entries/imports/new', :to => 'imports#new', :defaults => { :type => 'TimeEntryImport' }, :as => 'new_time_entries_import'
+  get   '/users/imports/new', :to => 'imports#new', :defaults => { :type => 'UserImport' }, :as => 'new_users_import'
   post  '/imports', :to => 'imports#create', :as => 'imports'
   get   '/imports/:id', :to => 'imports#show', :as => 'import'
   match '/imports/:id/settings', :to => 'imports#settings', :via => [:get, :post], :as => 'import_settings'

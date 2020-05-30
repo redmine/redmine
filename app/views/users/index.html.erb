@@ -1,5 +1,10 @@
 <div class="contextual">
 <%= link_to l(:label_user_new), new_user_path, :class => 'icon icon-add' %>
+  <%= actions_dropdown do %>
+    <% if User.current.allowed_to?(:import_users, nil, :global => true) %>
+      <%= link_to l(:button_import), new_users_import_path, :class => 'icon icon-import' %>
+    <% end %>
+  <% end %>
 </div>
 
 <h2><%=l(:label_user_plural)%></h2>

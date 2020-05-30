@@ -31,4 +31,4 @@
   <p><%= submit_tag l(:label_next).html_safe + " &#187;".html_safe, :name => nil %></p>
 <% end %>
 
-<%= render :partial => "#{import_partial_prefix}_sidebar" %>
+<%= render_if_exist :partial => "#{import_partial_prefix}_sidebar" %>

@@ -1,0 +1,53 @@
+<div class="splitcontent">
+  <div class="splitcontentleft">
+  <p>
+    <label for="import_mapping_login"><%= l(:field_login) %></label>
+    <%= mapping_select_tag @import, 'login', :required => true %>
+  </p>
+  <p>
+    <label for="import_mapping_firstname"><%= l(:field_firstname) %></label>
+    <%= mapping_select_tag @import, 'firstname', :required => true %>
+  </p>
+  <p>
+    <label for="import_mapping_lastname"><%= l(:field_lastname) %></label>
+    <%= mapping_select_tag @import, 'lastname', :required => true %>
+  </p>
+  <p>
+    <label for="import_mapping_mail"><%= l(:field_mail) %></label>
+    <%= mapping_select_tag @import, 'mail' %>
+  </p>
+  <p>
+    <label for="import_mapping_language"><%= l(:field_language) %></label>
+    <%= mapping_select_tag @import, 'language' %>
+  </p>
+  <p>
+    <label for="import_mapping_admin"><%= l(:field_admin) %></label>
+    <%= mapping_select_tag @import, 'admin' %>
+  </p>
+  <p>
+    <label for="import_mapping_auth_source_id"><%= l(:field_auth_source) %></label>
+    <%= mapping_select_tag @import, 'auth_source' %>
+  </p>
+  <p>
+    <label for="import_mapping_password"><%= l(:field_password) %></label>
+    <%= mapping_select_tag @import, 'password' %>
+  </p>
+  <p>
+    <label for="import_mapping_must_change_passwd"><%= l(:field_must_change_passwd) %></label>
+    <%= mapping_select_tag @import, 'must_change_passwd' %>
+  </p>
+  <p>
+    <label for="import_mapping_status"><%= l(:field_status) %></label>
+    <%= mapping_select_tag @import, 'status' %>
+  </p>
+  </div>
+
+  <div class="splitcontentright">
+  <% @custom_fields.each do |field| %>
+    <p>
+      <label for="import_mapping_cf_<%= field.id %>"><%= field.name %></label>
+      <%= mapping_select_tag @import, "cf_#{field.id}", :required => field.is_required? %>
+    </p>
+  <% end %>
+  </div>
+</div>

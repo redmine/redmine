@@ -1700,6 +1700,16 @@ module ApplicationHelper
     }
   end
 
+  def render_if_exist(options = {}, locals = {}, &block)
+    if options[:partial]
+      if lookup_context.exists?(options[:partial], lookup_context.prefixes, true)
+        render(options, locals, &block)
+      end
+    else
+      render(options, locals, &block)
+    end
+  end
+
   private
 
   def wiki_helper

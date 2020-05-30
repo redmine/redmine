@@ -1911,6 +1911,16 @@ class ApplicationHelperTest < Redmine::HelperTest
     assert_match(/name="new_issue-[a-z0-9]{8}"/, labelled_form_for(Issue.new){})
   end
 
+  def test_redner_if_exist_should_be_render_partial
+    controller.prepend_view_path "test/fixtures/views"
+    assert_equal "partial html\n", render_if_exist(:partial => 'partial')
+  end
+
+  def test_redner_if_exist_should_be_render_nil
+    controller.prepend_view_path "test/fixtures/views"
+    assert_nil render_if_exist(:partial => 'non_exist_partial')
+  end
+
   private
 
   def wiki_links_with_special_characters

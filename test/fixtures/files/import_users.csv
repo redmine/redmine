@@ -1,0 +1,4 @@
+row;login;firstname;lastname;mail;language;admin;auth_source;password;must_change_passwd;status;phone_number
+1;user1;One;CSV;user1@somenet.foo;en;yes;;password;yes;active;000-1111-2222
+2;user2;Two;Import;user2@somenet.foo;ja;no;;password;no;locked;333-4444-5555
+3;user3;Three;User;user3@somenet.foo;-;no;LDAP test server;password;no;registered;666-7777-8888

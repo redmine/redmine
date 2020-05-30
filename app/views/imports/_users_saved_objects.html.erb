@@ -1,0 +1,24 @@
+<table id="saved-items" class="list">
+  <thead>
+  <tr>
+    <th><%= t(:field_login) %></th>
+    <th><%= t(:field_firstname) %></th>
+    <th><%= t(:field_lastname) %></th>
+    <th><%= t(:field_mail) %></th>
+    <th><%= t(:field_admin) %></th>
+    <th><%= t(:field_status) %></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% saved_objects.each do |user| %>
+  <tr>
+    <td><%= avatar(user, :size => "14") %><%= link_to user.login, edit_user_path(user) %></td>
+    <td><%= user.firstname %></td>
+    <td><%= user.lastname %></td>
+    <td><%= mail_to(user.mail) %></td>
+    <td><%= checked_image user.admin? %></td>
+    <td><%= l(("status_#{User::LABEL_BY_STATUS[user.status]}")) %>
+  </tr>
+  <% end %>
+  </tbody>
+</table>
