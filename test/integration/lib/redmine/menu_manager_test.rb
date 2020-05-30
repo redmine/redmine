@@ -112,4 +112,20 @@ class MenuManagerTest < Redmine::IntegrationTest
       assert_select 'a.project',      :count => 4
     end
   end
+
+  def test_project_menu_should_show_roadmap_if_subprojects_have_versions
+    Version.delete_all
+    # Create a version in the project "eCookbook Subproject 1"
+    version = Version.generate!(project_id: 3)
+
+    with_settings :display_subprojects_issues => '1' do
+      get '/projects/ecookbook'
+      assert_select '#main-menu a.roadmap'
+    end
+
+    with_settings :display_subprojects_issues => '0' do
+      get '/projects/ecookbook'
+      assert_select '#main-menu a.roadmap', 0
+    end
+  end
 end
