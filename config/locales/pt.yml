@@ -1323,3 +1323,4 @@ pt:
   setting_email_domains_denied: Disallowed email domains
   field_passwd_changed_on: Password last changed
   label_relations_mapping: Relations mapping
+  label_import_users: Import users
