@@ -1290,21 +1290,21 @@ zh:
   label_import_time_entries: 导入工时条目
   field_toolbar_language_options: 代码工具栏语言突出显示
   label_user_mail_notify_about_high_priority_issues_html: 请通知我优先级高于<em>%{prio}</em>的问题
-  label_assign_to_me: Assign to me
-  notice_issue_not_closable_by_open_tasks: This issue cannot be closed because it has
-    at least one open subtask.
-  notice_issue_not_closable_by_blocking_issue: This issue cannot be closed because it
-    is blocked by at least one open issue.
-  notice_issue_not_reopenable_by_closed_parent_issue: This issue cannot be reopened
-    because its parent issue is closed.
-  error_bulk_download_size_too_big: These attachments cannot be bulk downloaded because
-    the total file size exceeds the maximum allowed size (%{max_size})
-  setting_bulk_download_max_size: Maximum total size for bulk download
-  label_download_all_attachments: Download all files
-  error_attachments_too_many: This file cannot be uploaded because it exceeds the maximum
-    number of files that can be attached simultaneously (%{max_number_of_files})
-  setting_email_domains_allowed: Allowed email domains
-  setting_email_domains_denied: Disallowed email domains
-  field_passwd_changed_on: Password last changed
-  label_relations_mapping: Relations mapping
-  label_import_users: Import users
+  label_assign_to_me: 分配给我
+  notice_issue_not_closable_by_open_tasks: 无法关闭该问题因为它有
+    至少一个子问题。
+  notice_issue_not_closable_by_blocking_issue: 无法关闭该问题因为它
+    被至少一个打开的问题阻止了。
+  notice_issue_not_reopenable_by_closed_parent_issue: 无法重新打开该问题
+    因为它的父问题是关闭的。
+  error_bulk_download_size_too_big: 这些附件无法批量下载因为
+    文件总的大小超过了允许的最大大小 (%{max_size})
+  setting_bulk_download_max_size: 批量下载的最大总大小
+  label_download_all_attachments: 下载所有文件
+  error_attachments_too_many: 无法上传该文件因为它超出了可同时附加的
+    文件数的上线 (%{max_number_of_files})
+  setting_email_domains_allowed: 允许电子邮件域名
+  setting_email_domains_denied: 不允许电子邮件域名
+  field_passwd_changed_on: 上次修改密码
+  label_relations_mapping: 关系映射
+  label_import_users: 导入用户
