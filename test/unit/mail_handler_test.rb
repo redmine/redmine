@@ -1277,7 +1277,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_safe_receive_should_rescue_exceptions_and_return_false
-    MailHandler.stubs(:receive).raises(StandardError.new "Something went wrong")
+    MailHandler.stubs(:receive).raises(StandardError.new("Something went wrong"))
 
     assert_equal false, MailHandler.safe_receive
   end
