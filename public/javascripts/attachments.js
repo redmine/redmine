@@ -198,8 +198,7 @@ function dragOutHandler(e) {
 function setupFileDrop() {
   if (window.File && window.FileList && window.ProgressEvent && window.FormData) {
 
-    $.event.fixHooks.dragover = { props: [ 'dataTransfer' ] };
-    $.event.fixHooks.drop = { props: [ 'dataTransfer' ] };
+    $.event.addProp('dataTransfer');
 
     $('form div.box:not(.filedroplistner)').has('input:file.filedrop').each(function() {
       $(this).on({
