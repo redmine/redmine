@@ -1282,6 +1282,22 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal false, MailHandler.safe_receive
   end
 
+  def test_smine_signature
+    issue = submit_email('smime_signature.eml', :issue => {:project => 'onlinestore'})
+    assert issue.is_a?(Issue)
+    assert !issue.new_record?
+    issue.reload
+    assert_equal 'Self-Signed S/MIME signature', issue.subject
+    assert_equal User.find_by_login('jsmith'), issue.author
+    assert_equal Project.find(2), issue.project
+    assert_equal 'smime.sh.txt describes how to create Self-Signed S/MIME Certs.', issue.description
+    assert_equal 2, issue.attachments.size
+    assert_equal 'smime.sh.txt', issue.attachments[0].filename
+    assert_equal 'text/plain', issue.attachments[0].content_type
+    assert_equal 'smime.p7s', issue.attachments[1].filename
+    assert_equal 'application/x-pkcs7-signature', issue.attachments[1].content_type
+  end
+
   private
 
   def submit_email(filename, options={})
