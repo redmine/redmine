@@ -254,14 +254,14 @@ de:
   error_attachment_too_big: Diese Datei kann nicht hochgeladen werden, da sie die maximale Dateigröße von (%{max_size}) überschreitet.
   error_can_not_archive_project: Dieses Projekt kann nicht archiviert werden.
   error_can_not_delete_custom_field: Kann das benutzerdefinierte Feld nicht löschen.
-  error_can_not_delete_tracker: Dieser Tracker enthält Tickets und kann nicht gelöscht werden.
+  error_can_not_delete_tracker: Dieses Feld enthält Tickets und kann nicht gelöscht werden.
   error_can_not_remove_role: Diese Rolle wird verwendet und kann nicht gelöscht werden.
   error_can_not_reopen_issue_on_closed_version: Das Ticket ist einer abgeschlossenen Version zugeordnet und kann daher nicht wieder geöffnet werden.
   error_can_t_load_default_data: "Die Standard-Konfiguration konnte nicht geladen werden: %{value}"
   error_issue_done_ratios_not_updated: Der Ticket-Fortschritt wurde nicht aktualisiert.
   error_issue_not_found_in_project: 'Das Ticket wurde nicht gefunden oder gehört nicht zu diesem Projekt.'
   error_no_default_issue_status: Es ist kein Status als Standard definiert. Bitte überprüfen Sie Ihre Konfiguration (unter "Administration -> Ticket-Status").
-  error_no_tracker_in_project: Diesem Projekt ist kein Tracker zugeordnet. Bitte überprüfen Sie die Projekteinstellungen.
+  error_no_tracker_in_project: Diesem Projekt ist kein Feld zugeordnet. Bitte überprüfen Sie die Projekteinstellungen.
   error_scm_annotate: "Der Eintrag existiert nicht oder kann nicht annotiert werden."
   error_scm_annotate_big_text_file: Der Eintrag kann nicht annotiert werden, da er die maximale Textlänge überschreitet.
   error_scm_command_failed: "Beim Zugriff auf das Repository ist ein Fehler aufgetreten: %{value}"
@@ -383,7 +383,7 @@ de:
   field_time_zone: Zeitzone
   field_timeout: Auszeit (in Sekunden)
   field_title: Titel
-  field_tracker: Tracker
+  field_tracker: Felder
   field_type: Typ
   field_updated_on: Aktualisiert
   field_url: URL
@@ -768,9 +768,9 @@ de:
   label_topic_plural: Themen
   label_total: Gesamtzahl
   label_total_time: Gesamtzeit
-  label_tracker: Tracker
-  label_tracker_new: Neuer Tracker
-  label_tracker_plural: Tracker
+  label_tracker: Felder
+  label_tracker_new: Neues Feld
+  label_tracker_plural: Felder
   label_unknown_plugin: Unbekanntes Plugin
   label_update_issue_done_ratios: Ticket-Fortschritt aktualisieren
   label_updated_time: "Vor %{value} aktualisiert"
@@ -998,7 +998,7 @@ de:
   setting_default_notification_option: Standard Benachrichtigungsoptionen
   setting_default_projects_modules: Standardmäßig aktivierte Module für neue Projekte
   setting_default_projects_public: Neue Projekte sind standardmäßig öffentlich
-  setting_default_projects_tracker_ids: Standardmäßig aktivierte Tracker für neue Projekte
+  setting_default_projects_tracker_ids: Standardmäßig aktivierte Felder für neue Projekte
   setting_diff_max_lines_displayed: Maximale Anzahl anzuzeigender Diff-Zeilen
   setting_display_subprojects_issues: Tickets von Unterprojekten im Hauptprojekt anzeigen
   setting_emails_footer: E-Mail-Fußzeile
@@ -1099,7 +1099,7 @@ de:
   text_load_default_configuration: Standard-Konfiguration laden
   text_mercurial_repository_note: Lokales Repository (z. B. /hgrepo, C:\hgrepo)
   text_min_max_length_info: 0 heißt keine Beschränkung
-  text_no_configuration_data: "Rollen, Tracker, Ticket-Status und Workflows wurden noch nicht konfiguriert.\nEs ist sehr zu empfehlen, die Standard-Konfiguration zu laden. Sobald sie geladen ist, können Sie diese abändern."
+  text_no_configuration_data: "Rollen, Felder, Ticket-Status und Workflows wurden noch nicht konfiguriert.\nEs ist sehr zu empfehlen, die Standard-Konfiguration zu laden. Sobald sie geladen ist, können Sie diese abändern."
   text_own_membership_delete_confirmation: "Sie sind dabei, einige oder alle Ihre Berechtigungen zu entfernen. Es ist möglich, dass Sie danach das Projekt nicht mehr ansehen oder bearbeiten dürfen.\nSind Sie sicher, dass Sie dies tun möchten?"
   text_plugin_assets_writable: Verzeichnis für Plugin-Assets beschreibbar
   text_project_closed: Dieses Projekt ist geschlossen und kann nicht bearbeitet werden.
@@ -1211,13 +1211,13 @@ de:
   label_relations: Beziehungen
   button_filter: Filter
   mail_body_password_updated: Ihr Passwort wurde geändert.
-  error_no_tracker_allowed_for_new_issue_in_project: Für dieses Projekt wurden keine Tracker aktiviert.
-  label_tracker_all: Alle Tracker
+  error_no_tracker_allowed_for_new_issue_in_project: Für dieses Projekt wurden keine Felder aktiviert.
+  label_tracker_all: Alle Felder
   label_new_project_issue_tab_enabled: Tab "Neues Ticket" anzeigen
   setting_new_item_menu_tab: Menü zum Anlegen neuer Objekte
   label_new_object_tab_enabled: Dropdown-Menü "+" anzeigen
   label_table_of_contents: Inhaltsverzeichnis
-  error_no_projects_with_tracker_allowed_for_new_issue: Es gibt keine Projekte mit Trackern, für die sie Tickets erzeugen können
+  error_no_projects_with_tracker_allowed_for_new_issue: Es gibt keine Projekte mit Feldern, für welche sie Tickets erzeugen können
   field_textarea_font: Schriftart für Textbereiche
   label_font_default: Standardschrift
   label_font_monospace: Nichtproportionale Schrift
@@ -1257,19 +1257,19 @@ de:
   label_next_week: nächste Woche
   label_next_month: nächster Monat
   text_role_no_workflow: Für diese Rolle ist kein Workflow definiert
-  text_status_no_workflow: Kein Tracker verwendet diesen Status in den Workflows
+  text_status_no_workflow: Kein Feld verwendet diesen Status in den Workflows
   setting_mail_handler_preferred_body_part: Bevorzugter Teil von E-Mails im Multipart-Format
   setting_show_status_changes_in_mail_subject: Zeige Statusänderungen im Betreff der E-Mail-Benachrichtigung für Tickets
   label_inherited_from_parent_project: Vom Hauptprojekt geerbt
   label_inherited_from_group: Von der Gruppe %{name} geerbt
-  label_trackers_description: Beschreibung des Trackers
-  label_open_trackers_description: Beschreibung aller Tracker anzeigen
+  label_trackers_description: Beschreibung des Feldes
+  label_open_trackers_description: Beschreibung aller Felder anzeigen
   label_preferred_body_part_text: Text
   label_preferred_body_part_html: HTML (experimentell)
   field_parent_issue_subject: Thema des übergeordneten Tickets
 
   permission_edit_own_issues: Eigene Tickets bearbeiten
-  text_select_apply_tracker: Tracker wählen
+  text_select_apply_tracker: Feld wählen
   label_updated_issues: Aktualisierte Tickets
   text_avatar_server_config_html: Der aktuelle Avatar-Server ist <a href="%{url}">%{url}</a>.
     Die URL kann in config/configuration.yml angepasst werden.
@@ -1284,7 +1284,7 @@ de:
   button_project_bookmark_delete: Lesezeichen entfernen
   field_history_default_tab: Standard-Tab für Tickethistorie
   label_issue_history_properties: Eigenschaftsänderungen
-  label_issue_history_notes: Notizen
+  label_issue_history_notes: Tagebuch
   label_last_tab_visited: Zuletzt geöffneter Tab
   text_no_subject: kein Thema
   setting_password_required_char_classes: Für Passwörter benötigte Zeichenklassen
@@ -1302,21 +1302,3 @@ de:
   label_display_type_board: Karte
   label_my_bookmarks: Meine Lesezeichen
   label_import_time_entries: Zeitbuchungen importieren
-  field_toolbar_language_options: Sprachen für Code-Hervorhebung, Editor-Symbolleiste
-  label_assign_to_me: Mir zuweisen
-  notice_issue_not_closable_by_open_tasks: This issue cannot be closed because it has
-    at least one open subtask.
-  notice_issue_not_closable_by_blocking_issue: This issue cannot be closed because it
-    is blocked by at least one open issue.
-  notice_issue_not_reopenable_by_closed_parent_issue: This issue cannot be reopened
-    because its parent issue is closed.
-  error_bulk_download_size_too_big: These attachments cannot be bulk downloaded because
-    the total file size exceeds the maximum allowed size (%{max_size})
-  setting_bulk_download_max_size: Maximum total size for bulk download
-  label_download_all_attachments: Download all files
-  error_attachments_too_many: This file cannot be uploaded because it exceeds the maximum
-    number of files that can be attached simultaneously (%{max_number_of_files})
-  setting_email_domains_allowed: Allowed email domains
-  setting_email_domains_denied: Disallowed email domains
-  field_passwd_changed_on: Password last changed
-  label_import_users: Import users
