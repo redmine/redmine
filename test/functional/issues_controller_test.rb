@@ -1138,20 +1138,22 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_index_atom
-    get(
-      :index,
-      :params => {
-        :project_id => 'ecookbook',
-        :format => 'atom'
-      }
-    )
+    with_settings :protocol => 'https', :host_name => 'example.net' do
+      get(
+        :index,
+        :params => {
+          :project_id => 'ecookbook',
+          :format => 'atom'
+        }
+      )
+    end
     assert_response :success
     assert_equal 'application/atom+xml', response.media_type
 
     assert_select 'feed' do
-      assert_select 'link[rel=self][href=?]', 'http://test.host/projects/ecookbook/issues.atom'
-      assert_select 'link[rel=alternate][href=?]', 'http://test.host/projects/ecookbook/issues'
-      assert_select 'entry link[href=?]', 'http://test.host/issues/1'
+      assert_select 'link[rel=self][href=?]', 'https://example.net/projects/ecookbook/issues.atom'
+      assert_select 'link[rel=alternate][href=?]', 'https://example.net/projects/ecookbook/issues'
+      assert_select 'entry link[href=?]', 'https://example.net/issues/1'
     end
   end
 
