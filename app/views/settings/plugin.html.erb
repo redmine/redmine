@@ -1,6 +1,6 @@
 <%= title [l(:label_plugins), {:controller => 'admin', :action => 'plugins'}], @plugin.name %>
 
-<div id="settings">
+<div id="settings" class="plugin plugin-<%= @plugin.id %>">
 <%= form_tag({:action => 'plugin'}) do %>
 <div class="box tabular settings">
 <%= render :partial => @partial, :locals => {:settings => @settings}%>

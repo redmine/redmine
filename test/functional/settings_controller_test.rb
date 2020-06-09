@@ -211,8 +211,10 @@ class SettingsControllerTest < Redmine::ControllerTest
     get :plugin, :params => {:id => 'foo'}
     assert_response :success
 
-    assert_select 'form[action="/settings/plugin/foo"]' do
-      assert_select 'input[name=?][value=?]', 'settings[sample_setting]', 'Plugin setting value'
+    assert_select '#settings.plugin.plugin-foo' do
+      assert_select 'form[action="/settings/plugin/foo"]' do
+        assert_select 'input[name=?][value=?]', 'settings[sample_setting]', 'Plugin setting value'
+      end
     end
   ensure
     Redmine::Plugin.unregister(:foo)
