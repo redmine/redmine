@@ -192,7 +192,7 @@ bg:
   notice_user_successful_create: Потребител %{id} е създаден.
   notice_new_password_must_be_different: Новата парола трябва да бъде различна от сегашната парола
   notice_import_finished: "%{count} обекта бяха импортирани"
-  notice_import_finished_with_errors: "%{count} от общо %{total} обекта не бяха инпортирани"
+  notice_import_finished_with_errors: "%{count} от общо %{total} обекта не бяха импортирани"
   notice_issue_not_closable_by_open_tasks: Тази задача не може да бъде затворена, понеже има поне една отворена подзадача.
   notice_issue_not_closable_by_blocking_issue: Тази задача не може да бъде затворена, понеже е блокирана от поне една отворена задача.
   notice_issue_not_reopenable_by_closed_parent_issue: Тази задача не може да бъде отворена отново, понеже нейната родителска задача е затворена.
@@ -1299,4 +1299,4 @@ bg:
   text_project_is_public_non_member: Публичните проекти са достъпни за всички влезли в Redmine потребители.
   text_project_is_public_anonymous: Публичните проекти са достъпни и тяхното съдържание е видимо без ограничения в мрежата.
   label_import_time_entries: Импортиране на записи за използвано време
-  label_import_users: Import users
+  label_import_users: Импортиране на потребители
