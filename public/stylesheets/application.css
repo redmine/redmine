@@ -464,7 +464,7 @@ div.square {
 .splitcontenttop {flex: 2; flex-basis: 100%;}
 
 form {display: inline;}
-input, select, button {vertical-align: middle; margin-top: 1px; margin-bottom: 1px; height: 24px; padding: 0 7px;}
+input:not([type="file"]), select, button {vertical-align: middle; margin-top: 1px; margin-bottom: 1px; height: 24px; padding: 0 7px;}
 input, select, textarea, button { color: #333; background-color: #fff; border:1px solid #ccc; border-radius:3px; box-sizing: border-box;}
 select {
   -webkit-appearance: none;
