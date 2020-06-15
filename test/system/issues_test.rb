@@ -273,7 +273,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
     visit '/issues'
     assert page.has_css?('tr#issue-1')
     find('tr#issue-1 td.updated_on').click
-    page.execute_script "$('tr#issue-1 td.updated_on').trigger('contextmenu');"
+    find('tr#issue-1 td.updated_on').right_click
     assert_difference 'Watcher.count' do
       within('#context-menu') do
         click_link 'Watch'
@@ -292,7 +292,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
     assert page.has_css?('tr#issue-4')
     find('tr#issue-1 input[type=checkbox]').click
     find('tr#issue-4 input[type=checkbox]').click
-    page.execute_script "$('tr#issue-1 td.updated_on').trigger('contextmenu');"
+    find('tr#issue-1 td.updated_on').right_click
     assert_difference 'Watcher.count', 2 do
       within('#context-menu') do
         click_link 'Watch'
