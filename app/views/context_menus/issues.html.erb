@@ -14,8 +14,16 @@
     <a href="#" class="submenu"><%= l(:field_status) %></a>
     <ul>
     <% @allowed_statuses.each do |s| -%>
-        <li><%= context_menu_link s.name, bulk_update_issues_path(:ids => @issue_ids, :issue => {:status_id => s}, :back_url => @back), :method => :post,
-                                  :selected => (@issue && s == @issue.status), :disabled => !@can[:edit] %></li>
+        <li>
+          <%= context_menu_link(
+                s.name,
+                bulk_update_issues_path(
+                  :ids => @issue_ids, :issue => {:status_id => s}, :back_url => @back
+                ),
+                :method => :post,
+                :selected => (@issue && s == @issue.status), :disabled => !@can[:edit]
+              ) %>
+        </li>
     <% end -%>
     </ul>
   </li>
