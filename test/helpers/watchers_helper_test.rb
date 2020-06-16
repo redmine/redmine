@@ -34,7 +34,7 @@ class WatchersHelperTest < Redmine::HelperTest
     assert_equal expected, watcher_link(Issue.find(1), User.find(1))
   end
 
-  test '#watcher_link with a single objet array' do
+  test '#watcher_link with a single object array' do
     expected = link_to(
       "Watch",
       "/watchers/watch?object_id=1&object_type=issue",
@@ -43,7 +43,7 @@ class WatchersHelperTest < Redmine::HelperTest
     assert_equal expected, watcher_link([Issue.find(1)], User.find(1))
   end
 
-  test '#watcher_link with a multiple objets array' do
+  test '#watcher_link with a multiple objects array' do
     expected = link_to(
       "Watch",
       "/watchers/watch?object_id%5B%5D=1&object_id%5B%5D=3&object_type=issue",
