@@ -89,7 +89,7 @@ class WatchersController < ApplicationController
 
   def find_project
     if params[:object_type] && params[:object_id]
-      @watchables = find_objets_from_params
+      @watchables = find_objects_from_params
       @projects = @watchables.map(&:project).uniq
       if @projects.size == 1
         @project = @projects.first
@@ -100,7 +100,7 @@ class WatchersController < ApplicationController
   end
 
   def find_watchables
-    @watchables = find_objets_from_params
+    @watchables = find_objects_from_params
     unless @watchables.present?
       render_404
     end
@@ -133,7 +133,7 @@ class WatchersController < ApplicationController
     users
   end
 
-  def find_objets_from_params
+  def find_objects_from_params
     klass = Object.const_get(params[:object_type].camelcase) rescue nil
     return unless klass && klass.respond_to?('watched_by')
 
