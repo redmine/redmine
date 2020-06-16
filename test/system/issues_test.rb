@@ -238,7 +238,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
     log_user('jsmith', 'jsmith')
     visit '/issues/1'
     page.accept_confirm /Are you sure/ do
-      page.first('#content a.icon-del').click
+      first('#content a.icon-del').click
     end
   end
 
