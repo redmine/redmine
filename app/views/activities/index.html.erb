@@ -32,6 +32,10 @@
 <% content_for :sidebar do %>
 <%= form_tag({}, :method => :get, :id => 'activity_scope_form') do %>
 <h3><%= l(:label_activity) %></h3>
+<p>
+  <%= t(:label_days_to_html, :days => @days, :date => date_field_tag('from', '', :value => (@date_to - 1), :size => 10)) %>
+  <%= calendar_for('from') %>
+</p>
 <ul>
 <% @activity.event_types.each do |t| %>
   <li>
@@ -48,7 +52,6 @@
     <p><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label></p>
 <% end %>
 <%= hidden_field_tag('user_id', params[:user_id]) unless params[:user_id].blank? %>
-<%= hidden_field_tag('from', params[:from]) unless params[:from].blank? %>
 <p><%= submit_tag l(:button_apply), :class => 'button-small', :name => 'submit' %></p>
 <% end %>
 <% end %>

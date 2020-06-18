@@ -793,6 +793,7 @@ ja:
   label_ascending: 昇順
   label_descending: 降順
   label_date_from_to: "%{start}から%{end}まで"
+  label_days_to_html: "%{date} までの%{days}日間"
   label_wiki_content_added: Wikiページの追加
   label_wiki_content_updated: Wikiページの更新
   label_group: グループ
