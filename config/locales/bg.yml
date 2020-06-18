@@ -1300,3 +1300,4 @@ bg:
   text_project_is_public_anonymous: Публичните проекти са достъпни и тяхното съдържание е видимо без ограничения в мрежата.
   label_import_time_entries: Импортиране на записи за използвано време
   label_import_users: Импортиране на потребители
+  label_days_to_html: "%{days} days up to %{date}"

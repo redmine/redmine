@@ -1306,3 +1306,4 @@ nl:
   field_passwd_changed_on: Password last changed
   label_relations_mapping: Relations mapping
   label_import_users: Import users
+  label_days_to_html: "%{days} days up to %{date}"
