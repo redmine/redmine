@@ -995,11 +995,11 @@ class WikiControllerTest < Redmine::ControllerTest
     end
 
     assert_select 'ul.pages-hierarchy' do
-      assert_select 'li' do
-        assert_select 'a[href=?]', '/projects/ecookbook/wiki/CookBook_documentation', :text => 'CookBook documentation'
+      assert_select 'li:nth-child(1) > a[href=?]', '/projects/ecookbook/wiki/Another_page', :text => 'Another page'
+      assert_select 'li:nth-child(2)' do
+        assert_select '> a[href=?]', '/projects/ecookbook/wiki/CookBook_documentation', :text => 'CookBook documentation'
         assert_select 'ul li a[href=?]', '/projects/ecookbook/wiki/Page_with_an_inline_image', :text => 'Page with an inline image'
       end
-      assert_select 'li a[href=?]', '/projects/ecookbook/wiki/Another_page', :text => 'Another page'
     end
   end
 
@@ -1015,6 +1015,11 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_equal "text/html", @response.media_type
 
+    assert_select 'ul.pages-hierarchy' do
+      assert_select 'li:nth-child(1) > a[href=?]', '#Another_page', :text => 'Another page'
+      assert_select 'li:nth-child(2) > a[href=?]', '#CookBook_documentation', :text => 'CookBook documentation'
+      assert_select 'li:nth-child(3) > a[href=?]', '#Page_with_sections', :text => 'Page with sections'
+    end
     assert_select "a[name=?]", "CookBook_documentation"
     assert_select "a[name=?]", "Another_page"
     assert_select "a[name=?]", "Page_with_an_inline_image"

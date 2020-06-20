@@ -52,6 +52,16 @@ class WikiTest < ActiveSupport::TestCase
     assert_equal page, wiki.find_page('ANOTHER page')
   end
 
+  def test_ordering_pages_should_not_be_case_sensitive
+    wiki = Wiki.find(1)
+    wiki.pages.destroy_all
+    %w(ABc ACd Aac Acc).each do |title|
+      wiki.pages.create(:title => title)
+    end
+    wiki.reload
+    assert_equal %w(Aac ABc Acc ACd), wiki.pages.pluck(:title)
+  end
+
   def test_find_page_with_cyrillic_characters
     wiki = Wiki.find(1)
     page = WikiPage.find(10)

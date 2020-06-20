@@ -306,7 +306,6 @@ class WikiController < ApplicationController
   # Export wiki to a single pdf or html file
   def export
     @pages = @wiki.pages.
-                      order('title').
                       includes([:content, {:attachments => :author}]).
                       to_a
     respond_to do |format|
@@ -391,7 +390,6 @@ class WikiController < ApplicationController
 
   def load_pages_for_index
     @pages = @wiki.pages.with_updated_on.
-                reorder("#{WikiPage.table_name}.title").
                 includes(:wiki => :project).
                 includes(:parent).
                 to_a
