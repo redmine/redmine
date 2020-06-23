@@ -948,6 +948,7 @@ bg:
   label_ascending: Нарастващ
   label_descending: Намаляващ
   label_date_from_to: От %{start} до %{end}
+  label_days_to_html: "%{days} дена до %{date} включително"
   label_wiki_content_added: Wiki страница беше добавена
   label_wiki_content_updated: Wiki страница беше обновена
   label_group: Група
@@ -1300,4 +1301,3 @@ bg:
   text_project_is_public_anonymous: Публичните проекти са достъпни и тяхното съдържание е видимо без ограничения в мрежата.
   label_import_time_entries: Импортиране на записи за използвано време
   label_import_users: Импортиране на потребители
-  label_days_to_html: "%{days} days up to %{date}"
