@@ -969,6 +969,7 @@ $(document).ready(function(){
       data: "text=" + element + '&' + attachments,
       success: function(data){
         jstBlock.find('.wiki-preview').html(data);
+        setupWikiTableSortableHeader();
       }
     });
   });
@@ -1010,6 +1011,17 @@ function setupAttachmentDetail() {
   $(window).resize(setFilecontentContainerHeight);
 }
 
+function setupWikiTableSortableHeader() {
+  $('div.wiki table').each(function(i, table){
+    if (table.rows.length < 3) return true;
+    var tr = $(table.rows).first();
+    if (tr.find("TH").length > 0) {
+      tr.attr('data-sort-method', 'none');
+      tr.find("TD").attr('data-sort-method', 'none');
+      new Tablesort(table);
+    }
+  });
+}
 
 $(function () {
     $('[title]').tooltip({
@@ -1080,6 +1092,7 @@ $(document).ready(defaultFocus);
 $(document).ready(setupAttachmentDetail);
 $(document).ready(setupTabs);
 $(document).ready(setupFilePreviewNavigation);
+$(document).ready(setupWikiTableSortableHeader);
 $(document).on('focus', '[data-auto-complete=true]', function(event) {
   inlineAutoComplete(event.target);
 });
