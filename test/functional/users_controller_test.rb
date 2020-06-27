@@ -255,6 +255,20 @@ class UsersControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_show_should_list_all_emails
+    EmailAddress.create!(user_id: 3, address: 'dlopper@example.net')
+    EmailAddress.create!(user_id: 3, address: 'dlopper@example.org')
+
+    @request.session[:user_id] = 1
+    get :show, params: {id: 3}
+
+    assert_select 'li', text: /Email:/ do
+      assert_select 'a:nth-of-type(1)', text: 'dlopper@somenet.foo'
+      assert_select 'a:nth-of-type(2)', text: 'dlopper@example.net'
+      assert_select 'a:nth-of-type(3)', text: 'dlopper@example.org'
+    end
+  end
+
   def test_new
     get :new
     assert_response :success

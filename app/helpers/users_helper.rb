@@ -60,6 +60,12 @@ module UsersHelper
     end
   end
 
+  def user_emails(user)
+    emails = [user.mail]
+    emails += user.email_addresses.order(:id).where(:is_default => false).pluck(:address)
+    emails.map {|email| mail_to(email, nil)}.join(', ').html_safe
+  end
+
   def user_settings_tabs
     tabs = [{:name => 'general', :partial => 'users/general', :label => :label_general},
             {:name => 'memberships', :partial => 'users/memberships', :label => :label_project_plural}
