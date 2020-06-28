@@ -1544,8 +1544,9 @@ module ApplicationHelper
         # Redmine uses 1..7 (monday..sunday) in settings and locales
         # JQuery uses 0..6 (sunday..saturday), 7 needs to be changed to 0
         start_of_week = start_of_week.to_i % 7
-        tags << javascript_tag(
-                   "var datepickerOptions={dateFormat: 'yy-mm-dd', firstDay: #{start_of_week}, " +
+        tags <<
+          javascript_tag(
+            "var datepickerOptions={dateFormat: 'yy-mm-dd', firstDay: #{start_of_week}, " +
                      "showOn: 'button', buttonImageOnly: true, buttonImage: '" +
                      path_to_image('/images/calendar.png') +
                      "', showButtonPanel: true, showWeek: true, showOtherMonths: true, " +
