@@ -135,11 +135,13 @@ module ApplicationHelper
     text = options.delete(:text) || format_revision(revision)
     rev = revision.respond_to?(:identifier) ? revision.identifier : revision
     link_to(
-        h(text),
-        {:controller => 'repositories', :action => 'revision', :id => repository.project, :repository_id => repository.identifier_param, :rev => rev},
-        :title => l(:label_revision_id, format_revision(revision)),
-        :accesskey => options[:accesskey]
-      )
+      h(text),
+      {:controller => 'repositories', :action => 'revision',
+       :id => repository.project,
+       :repository_id => repository.identifier_param, :rev => rev},
+      :title => l(:label_revision_id, format_revision(revision)),
+      :accesskey => options[:accesskey]
+    )
   end
 
   # Generates a link to a message
