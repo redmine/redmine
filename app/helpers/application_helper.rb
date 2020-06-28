@@ -1145,14 +1145,16 @@ module ApplicationHelper
                               "repository_id = ? AND scmid LIKE ?",
                               repository.id, "#{name}%"
                             ).first)
-                    link = link_to(
-                             h("#{project_prefix}#{repo_prefix}#{name}"),
-                             {:only_path => only_path, :controller => 'repositories',
-                              :action => 'revision', :id => project,
-                              :repository_id => repository.identifier_param,
-                              :rev => changeset.identifier},
-                             :class => 'changeset',
-                             :title => truncate_single_line_raw(changeset.comments, 100))
+                    link =
+                      link_to(
+                        h("#{project_prefix}#{repo_prefix}#{name}"),
+                        {:only_path => only_path, :controller => 'repositories',
+                         :action => 'revision', :id => project,
+                         :repository_id => repository.identifier_param,
+                        :rev => changeset.identifier},
+                        :class => 'changeset',
+                        :title => truncate_single_line_raw(changeset.comments, 100)
+                      )
                   end
                 else
                   if repository && User.current.allowed_to?(:browse_repository, project)
