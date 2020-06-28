@@ -351,6 +351,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
     log_user('admin', 'admin')
 
     visit '/issues/1'
+    assert page.first('#journal-2-notes').has_content?('Some notes with Redmine links')
     # Click on the edit button
     page.first('#change-2 a.icon-edit').click
     # Check that the textarea is displayed
@@ -365,7 +366,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
     # Save
     click_on 'Save'
 
-    sleep 0.2
+    assert page.first('#journal-2-notes').has_content?('Updated notes')
     assert_equal 'Updated notes', Journal.find(2).notes
   end
 
