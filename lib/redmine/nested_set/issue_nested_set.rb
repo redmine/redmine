@@ -56,11 +56,13 @@ module Redmine
         self.root_id = parent.root_id
         self.lft = target_lft
         self.rgt = lft + 1
-        self.class.where(:root_id => root_id).where("lft >= ? OR rgt >= ?", lft, lft).update_all([
-          "lft = CASE WHEN lft >= :lft THEN lft + 2 ELSE lft END, " +
-          "rgt = CASE WHEN rgt >= :lft THEN rgt + 2 ELSE rgt END",
-          {:lft => lft}
-        ])
+        self.class.where(:root_id => root_id).where("lft >= ? OR rgt >= ?", lft, lft).update_all(
+          [
+            "lft = CASE WHEN lft >= :lft THEN lft + 2 ELSE lft END, " +
+              "rgt = CASE WHEN rgt >= :lft THEN rgt + 2 ELSE rgt END",
+            {:lft => lft}
+          ]
+        )
       end
 
       def add_as_root
@@ -88,17 +90,19 @@ module Redmine
           self.root_id = parent.root_id
 
           lft_after_move = target_lft
-          self.class.where(:root_id => parent.root_id).update_all([
-            "lft = CASE WHEN lft >= :lft THEN lft + :shift ELSE lft END, " +
-            "rgt = CASE WHEN rgt >= :lft THEN rgt + :shift ELSE rgt END",
-            {:lft => lft_after_move, :shift => (rgt - lft + 1)}
-          ])
-
-          self.class.where(:root_id => previous_root_id).update_all([
-            "root_id = :root_id, lft = lft + :shift, rgt = rgt + :shift",
-            {:root_id => parent.root_id, :shift => lft_after_move - lft}
-          ])
-
+          self.class.where(:root_id => parent.root_id).update_all(
+            [
+              "lft = CASE WHEN lft >= :lft THEN lft + :shift ELSE lft END, " +
+                "rgt = CASE WHEN rgt >= :lft THEN rgt + :shift ELSE rgt END",
+              {:lft => lft_after_move, :shift => (rgt - lft + 1)}
+            ]
+          )
+          self.class.where(:root_id => previous_root_id).update_all(
+            [
+              "root_id = :root_id, lft = lft + :shift, rgt = rgt + :shift",
+              {:root_id => parent.root_id, :shift => lft_after_move - lft}
+            ]
+          )
           self.lft, self.rgt = lft_after_move, (rgt - lft + lft_after_move)
           parent.send :reload_nested_set_values
         end
@@ -108,11 +112,13 @@ module Redmine
         self.class.where(:root_id => root_id).where("lft >= ? AND rgt <= ?", lft, rgt).
           update_all(["root_id = :id, lft = lft - :shift, rgt = rgt - :shift", {:id => id, :shift => lft - 1}])
 
-        self.class.where(:root_id => root_id).update_all([
-          "lft = CASE WHEN lft >= :lft THEN lft - :shift ELSE lft END, " +
-          "rgt = CASE WHEN rgt >= :lft THEN rgt - :shift ELSE rgt END",
-          {:lft => lft, :shift => rgt - lft + 1}
-        ])
+        self.class.where(:root_id => root_id).update_all(
+          [
+            "lft = CASE WHEN lft >= :lft THEN lft - :shift ELSE lft END, " +
+              "rgt = CASE WHEN rgt >= :lft THEN rgt - :shift ELSE rgt END",
+            {:lft => lft, :shift => rgt - lft + 1}
+          ]
+        )
         self.root_id = id
         self.lft, self.rgt = 1, (rgt - lft + 1)
       end
@@ -125,11 +131,13 @@ module Redmine
         children.each {|c| c.send :destroy_without_nested_set_update}
         reload
         unless @without_nested_set_update
-          self.class.where(:root_id => root_id).where("lft > ? OR rgt > ?", lft, lft).update_all([
-            "lft = CASE WHEN lft > :lft THEN lft - :shift ELSE lft END, " +
-            "rgt = CASE WHEN rgt > :lft THEN rgt - :shift ELSE rgt END",
-            {:lft => lft, :shift => rgt - lft + 1}
-          ])
+          self.class.where(:root_id => root_id).where("lft > ? OR rgt > ?", lft, lft).update_all(
+            [
+              "lft = CASE WHEN lft > :lft THEN lft - :shift ELSE lft END, " +
+                "rgt = CASE WHEN rgt > :lft THEN rgt - :shift ELSE rgt END",
+              {:lft => lft, :shift => rgt - lft + 1}
+            ]
+          )
         end
       end
 
