@@ -354,22 +354,22 @@ class RedCloth3 < String
 
     # Text markup tags, don't conflict with block tags
     SIMPLE_HTML_TAGS = [
-        'tt', 'b', 'i', 'big', 'small', 'em', 'strong', 'dfn', 'code',
-        'samp', 'kbd', 'var', 'cite', 'abbr', 'acronym', 'a', 'img', 'br',
-        'br', 'map', 'q', 'sub', 'sup', 'span', 'bdo'
+      'tt', 'b', 'i', 'big', 'small', 'em', 'strong', 'dfn', 'code',
+      'samp', 'kbd', 'var', 'cite', 'abbr', 'acronym', 'a', 'img', 'br',
+      'br', 'map', 'q', 'sub', 'sup', 'span', 'bdo'
     ]
 
     QTAGS = [
-        ['**', 'b', :limit],
-        ['*', 'strong', :limit],
-        ['??', 'cite', :limit],
-        ['-', 'del', :limit],
-        ['__', 'i', :limit],
-        ['_', 'em', :limit],
-        ['%', 'span', :limit],
-        ['+', 'ins', :limit],
-        ['^', 'sup', :limit],
-        ['~', 'sub', :limit]
+      ['**', 'b', :limit],
+      ['*', 'strong', :limit],
+      ['??', 'cite', :limit],
+      ['-', 'del', :limit],
+      ['__', 'i', :limit],
+      ['_', 'em', :limit],
+      ['%', 'span', :limit],
+      ['+', 'ins', :limit],
+      ['^', 'sup', :limit],
+      ['~', 'sub', :limit]
     ]
     QTAGS_JOIN = QTAGS.map {|rc, ht, rtype| Regexp::quote rc}.join('|')
 
