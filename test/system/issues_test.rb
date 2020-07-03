@@ -274,6 +274,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
     assert page.has_css?('tr#issue-1')
     find('tr#issue-1 td.updated_on').click
     find('tr#issue-1 td.updated_on').right_click
+    assert page.has_css?('#context-menu .issue-1-watcher.icon-fav-off')
     assert_difference 'Watcher.count' do
       within('#context-menu') do
         click_link 'Watch'
