@@ -294,6 +294,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
     find('tr#issue-1 input[type=checkbox]').click
     find('tr#issue-4 input[type=checkbox]').click
     find('tr#issue-1 td.updated_on').right_click
+    assert page.has_css?('#context-menu .issue-bulk-watcher.icon-fav-off')
     assert_difference 'Watcher.count', 2 do
       within('#context-menu') do
         click_link 'Watch'
