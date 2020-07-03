@@ -50,7 +50,7 @@ class WorkflowTransition < WorkflowRule
                 end
                 w = w.first
 
-                if transition == "1" || transition == true
+                if ["1", true].include?(transition)
                   unless w
                     w = WorkflowTransition.
                           new(
