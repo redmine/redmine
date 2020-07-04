@@ -110,9 +110,12 @@ module SettingsHelper
 
   # Renders a notification field for a Redmine::Notifiable option
   def notification_field(notifiable)
-    tag_data = notifiable.parent.present? ?
-      {:parent_notifiable => notifiable.parent} :
-      {:disables => "input[data-parent-notifiable=#{notifiable.name}]"}
+    tag_data =
+      if notifiable.parent.present?
+        {:parent_notifiable => notifiable.parent}
+      else
+        {:disables => "input[data-parent-notifiable=#{notifiable.name}]"}
+      end
     tag = check_box_tag('settings[notified_events][]',
                         notifiable.name,
                         setting_value('notified_events').include?(notifiable.name),
