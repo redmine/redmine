@@ -92,10 +92,18 @@ class WorkflowsController < ApplicationController
     else
       @source_role = Role.find_by_id(params[:source_role_id].to_i)
     end
-    @target_trackers = params[:target_tracker_ids].blank? ?
-        nil : Tracker.where(:id => params[:target_tracker_ids]).to_a
-    @target_roles = params[:target_role_ids].blank? ?
-        nil : Role.where(:id => params[:target_role_ids]).to_a
+    @target_trackers =
+      if params[:target_tracker_ids].blank?
+        nil
+      else
+        Tracker.where(:id => params[:target_tracker_ids]).to_a
+      end
+    @target_roles =
+      if params[:target_role_ids].blank?
+        nil
+      else
+        Role.where(:id => params[:target_role_ids]).to_a
+      end
     if request.post?
       if params[:source_tracker_id].blank? || params[:source_role_id].blank? ||
            (@source_tracker.nil? && @source_role.nil?)
