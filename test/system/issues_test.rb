@@ -271,6 +271,9 @@ class IssuesSystemTest < ApplicationSystemTestCase
   def test_watch_issue_via_context_menu
     log_user('jsmith', 'jsmith')
     visit '/issues'
+    jsmith = User.find_by_login('jsmith')
+    issue1 = Issue.find(1)
+    assert_not issue1.reload.watched_by?(jsmith)
     assert page.has_css?('tr#issue-1')
     find('tr#issue-1 td.updated_on').click
     find('tr#issue-1 td.updated_on').right_click
@@ -283,7 +286,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
       assert page.has_css?('#context-menu .issue-1-watcher.icon-fav')
       assert page.has_css?('tr#issue-1')
     end
-    assert Issue.find(1).watched_by?(User.find_by_login('jsmith'))
+    assert issue1.reload.watched_by?(jsmith)
   end
 
   def test_bulk_watch_issues_via_context_menu
