@@ -67,9 +67,11 @@ module UsersHelper
   end
 
   def user_settings_tabs
-    tabs = [{:name => 'general', :partial => 'users/general', :label => :label_general},
-            {:name => 'memberships', :partial => 'users/memberships', :label => :label_project_plural}
-            ]
+    tabs =
+      [
+        {:name => 'general', :partial => 'users/general', :label => :label_general},
+        {:name => 'memberships', :partial => 'users/memberships', :label => :label_project_plural}
+      ]
     if Group.givable.any?
       tabs.insert 1, {:name => 'groups', :partial => 'users/groups', :label => :label_group_plural}
     end
