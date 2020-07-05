@@ -292,6 +292,11 @@ class IssuesSystemTest < ApplicationSystemTestCase
   def test_bulk_watch_issues_via_context_menu
     log_user('jsmith', 'jsmith')
     visit '/issues'
+    jsmith = User.find_by_login('jsmith')
+    issue1 = Issue.find(1)
+    issue4 = Issue.find(4)
+    assert_not issue1.reload.watched_by?(jsmith)
+    assert_not issue4.reload.watched_by?(jsmith)
     assert page.has_css?('tr#issue-1')
     assert page.has_css?('tr#issue-4')
     find('tr#issue-1 input[type=checkbox]').click
@@ -307,8 +312,8 @@ class IssuesSystemTest < ApplicationSystemTestCase
       assert page.has_css?('tr#issue-1')
       assert page.has_css?('tr#issue-4')
     end
-    assert Issue.find(1).watched_by?(User.find_by_login('jsmith'))
-    assert Issue.find(4).watched_by?(User.find_by_login('jsmith'))
+    assert issue1.reload.watched_by?(jsmith)
+    assert issue4.reload.watched_by?(jsmith)
   end
 
   def test_bulk_update_issues
