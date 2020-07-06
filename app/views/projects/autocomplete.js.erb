@@ -1,7 +1,7 @@
 <%
   s = ''
   if @projects.any?
-    s = render_projects_for_jump_box(@projects)
+    s = render_projects_for_jump_box(@projects, query: params[:q])
   elsif params[:q].present?
     s = content_tag('span', l(:label_no_data))
   end

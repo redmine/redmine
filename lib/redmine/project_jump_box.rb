@@ -28,24 +28,16 @@ module Redmine
       @user.pref.recently_used_projects
     end
 
-    def recently_used_projects(query = nil)
+    def recently_used_projects
       project_ids = recently_used_project_ids
-      projects = Project.where(id: project_ids)
-      if query
-        projects = projects.like(query)
-      end
-      projects.
+      Project.where(id: project_ids).
         index_by(&:id).
         values_at(*project_ids). # sort according to stored order
         compact
     end
 
-    def bookmarked_projects(query = nil)
-      projects = Project.where(id: bookmarked_project_ids).visible
-      if query
-        projects = projects.like(query)
-      end
-      projects.to_a
+    def bookmarked_projects
+      Project.where(id: bookmarked_project_ids).visible.to_a
     end
 
     def project_used(project)

@@ -499,13 +499,15 @@ module ApplicationHelper
     end
   end
 
-  def render_projects_for_jump_box(projects, selected=nil)
-    jump_box = Redmine::ProjectJumpBox.new User.current
-    query = params[:q] if request.format.js?
-    bookmarked = jump_box.bookmarked_projects(query)
-    recents = jump_box.recently_used_projects(query)
-    projects = projects - (recents + bookmarked)
-    projects_label = (bookmarked.any? || recents.any?) ? :label_optgroup_others : :label_project_plural
+  def render_projects_for_jump_box(projects, selected: nil, query: nil)
+    if query.blank?
+      jump_box = Redmine::ProjectJumpBox.new User.current
+      bookmarked = jump_box.bookmarked_projects
+      recents = jump_box.recently_used_projects
+      projects_label = :label_project_all
+    else
+      projects_label = :label_result_plural
+    end
     jump = params[:jump].presence || current_menu_item
     s = (+'').html_safe
     build_project_link = ->(project, level = 0){
@@ -551,7 +553,7 @@ module ApplicationHelper
     content =
       content_tag('div',
                   content_tag('div', q, :class => 'quick-search') +
-                    content_tag('div', render_projects_for_jump_box(projects, @project),
+                    content_tag('div', render_projects_for_jump_box(projects, selected: @project),
                                 :class => 'drdn-items projects selection') +
                     content_tag('div', all, :class => 'drdn-items all-projects selection'),
                   :class => 'drdn-content')
