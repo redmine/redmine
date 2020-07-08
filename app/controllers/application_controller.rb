@@ -106,7 +106,12 @@ class ApplicationController < ActionController::Base
     unless api_request?
       if session[:user_id]
         # existing session
-        user = (User.active.find(session[:user_id]) rescue nil)
+        user =
+          begin
+            User.active.find(session[:user_id])
+          rescue
+            nil
+          end
       elsif autologin_user = try_to_autologin
         user = autologin_user
       elsif params[:format] == 'atom' && params[:key] && request.get? && accept_rss_auth?
