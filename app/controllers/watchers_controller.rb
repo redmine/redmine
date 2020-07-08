@@ -134,7 +134,12 @@ class WatchersController < ApplicationController
   end
 
   def find_objects_from_params
-    klass = Object.const_get(params[:object_type].camelcase) rescue nil
+    klass =
+      begin
+        Object.const_get(params[:object_type].camelcase)
+      rescue
+        nil
+      end
     return unless klass && klass.respond_to?('watched_by')
 
     scope = klass.where(:id => Array.wrap(params[:object_id]))
