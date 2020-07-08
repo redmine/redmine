@@ -337,6 +337,36 @@ class IssuesSystemTest < ApplicationSystemTestCase
     assert_equal 5, issue4.reload.status.id
   end
 
+  def test_bulk_edit
+    log_user('jsmith', 'jsmith')
+    visit '/issues'
+    issue1 = Issue.find(1)
+    issue4 = Issue.find(4)
+    assert_equal 1, issue1.reload.status.id
+    assert_equal 1, issue4.reload.status.id
+    assert page.has_css?('tr#issue-1')
+    assert page.has_css?('tr#issue-4')
+    find('tr#issue-1 input[type=checkbox]').click
+    find('tr#issue-4 input[type=checkbox]').click
+    find('tr#issue-1 td.updated_on').right_click
+    within('#context-menu') do
+      click_link 'Edit'
+    end
+    assert_current_path '/issues/bulk_edit', :ignore_query => true
+    submit_buttons = page.all('input[type=submit]')
+    assert_equal 1, submit_buttons.size
+    assert_equal 'Submit', submit_buttons[0].value
+
+    page.find('#issue_status_id').select('Assigned')
+    assert_no_difference 'Issue.count' do
+      submit_buttons[0].click
+    end
+    assert_current_path '/issues', :ignore_query => true
+    assert page.has_css?('#flash_notice')
+    assert_equal 2, issue1.reload.status.id
+    assert_equal 2, issue4.reload.status.id
+  end
+
   def test_issue_list_with_default_totalable_columns
     log_user('admin', 'admin')
     with_settings :issue_list_default_totals => ['estimated_hours'] do
