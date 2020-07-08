@@ -218,7 +218,12 @@ class AttachmentsController < ApplicationController
   end
 
   def find_container
-    klass = params[:object_type].to_s.singularize.classify.constantize rescue nil
+    klass =
+      begin
+        params[:object_type].to_s.singularize.classify.constantize
+      rescue
+        nil
+      end
     unless klass && klass.reflect_on_association(:attachments)
       render_404
       return
