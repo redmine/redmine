@@ -157,7 +157,12 @@ class ImportsController < ApplicationController
       if @import
         @import.class
       else
-        type = Object.const_get(params[:type]) rescue nil
+        type =
+          begin
+            Object.const_get(params[:type])
+          rescue
+            nil
+          end
         type && type < Import ? type : nil
       end
   end
