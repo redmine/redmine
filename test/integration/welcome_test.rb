@@ -31,5 +31,7 @@ class WelcomeTest < Redmine::IntegrationTest
     assert @response.body.match(%r{^Disallow: /projects/ecookbook/issues\r?$})
     assert @response.body.match(%r{^Disallow: /issues\?sort=\r?$})
     assert @response.body.match(%r{^Disallow: /issues\?\*set_filter=\r?$})
+    assert @response.body.match(%r{^Disallow: /issues/\*\.pdf\$\r?$})
+    assert @response.body.match(%r{^Disallow: /projects/\*\.pdf\$\r?$})
   end
 end
