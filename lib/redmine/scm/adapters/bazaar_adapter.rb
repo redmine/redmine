@@ -102,6 +102,7 @@ module Redmine
             re = %r{^V\s+(#{Regexp.escape(prefix)})?(\/?)([^\/]+)(\/?)\s+(\S+)\r?$}
             io.each_line do |line|
               next unless line =~ re
+
               name_locale, slash, revision = $3.strip, $4, $5.strip
               name = scm_iconv('UTF-8', @path_encoding, name_locale)
               entries << Entry.new({:name => name,
@@ -138,6 +139,7 @@ module Redmine
                 parsing = nil
               else
                 next unless revision
+
                 if line =~ /^revno: (\d+)($|\s\[merge\]$)/
                   revision.identifier = $1.to_i
                 elsif line =~ /^committer: (.+)$/
@@ -233,6 +235,7 @@ module Redmine
             identifier = nil
             io.each_line do |line|
               next unless line =~ %r{^(\d+) ([^|]+)\| (.*)$}
+
               rev = $1
               blame.add_line($3.rstrip,
                  Revision.new(
@@ -249,6 +252,7 @@ module Redmine
 
         def self.branch_conf_path(path)
           return if path.nil?
+
           m = path.match(%r{^(.*[/\\])\.bzr.*$})
           bcp = (m ? m[1] : path).gsub(%r{[\/\\]$}, "")
           File.join(bcp, ".bzr", "branch", "branch.conf")
@@ -256,6 +260,7 @@ module Redmine
 
         def append_revisions_only
           return @aro unless @aro.nil?
+
           @aro = false
           bcp = self.class.branch_conf_path(url)
           if bcp && File.exist?(bcp)
@@ -301,6 +306,7 @@ module Redmine
           if $? && $?.exitstatus != 0
             raise ScmCommandAborted, "bzr exited with non-zero status: #{$?.exitstatus}"
           end
+
           ret
         end
         private :scm_cmd
