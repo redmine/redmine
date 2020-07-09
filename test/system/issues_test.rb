@@ -365,6 +365,42 @@ class IssuesSystemTest < ApplicationSystemTestCase
     assert page.has_css?('#flash_notice')
     assert_equal 2, issue1.reload.status.id
     assert_equal 2, issue4.reload.status.id
+
+    assert page.has_css?('tr#issue-1')
+    assert page.has_css?('tr#issue-4')
+    find('tr#issue-1 input[type=checkbox]').click
+    find('tr#issue-4 input[type=checkbox]').click
+    find('tr#issue-1 td.updated_on').right_click
+    within('#context-menu') do
+      click_link 'Edit'
+    end
+    assert_current_path '/issues/bulk_edit', :ignore_query => true
+    submit_buttons = page.all('input[type=submit]')
+    assert_equal 1, submit_buttons.size
+    assert_equal 'Submit', submit_buttons[0].value
+
+    page.find('#issue_project_id').select('OnlineStore')
+    # wait for ajax response
+    assert page.has_select?('issue_project_id', {:selected => 'OnlineStore'})
+
+    submit_buttons = page.all('input[type=submit]')
+    assert_equal 2, submit_buttons.size
+    assert_equal 'Move', submit_buttons[0].value
+    assert_equal 'Move and follow', submit_buttons[1].value
+
+    page.find('#issue_status_id').select('Feedback')
+    assert_no_difference 'Issue.count' do
+      submit_buttons[1].click
+    end
+
+    assert_current_path '/projects/onlinestore/issues', :ignore_query => true
+    assert page.has_css?('#flash_notice')
+    issue1.reload
+    issue4.reload
+    assert_equal 2, issue1.project.id
+    assert_equal 4, issue1.status.id
+    assert_equal 2, issue4.project.id
+    assert_equal 4, issue4.status.id
   end
 
   def test_issue_list_with_default_totalable_columns
