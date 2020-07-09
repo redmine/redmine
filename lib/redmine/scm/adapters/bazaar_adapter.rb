@@ -52,7 +52,7 @@ module Redmine
           end
 
           def scm_version_from_command_line
-            shellout("#{sq_bin} --version") { |io| io.read }.to_s
+            shellout("#{sq_bin} --version") {|io| io.read}.to_s
           end
         end
 
@@ -295,7 +295,7 @@ module Redmine
           end
           ret = shellout(
                    self.class.sq_bin + ' ' +
-                     full_args_locale.map { |e| shell_quote e.to_s }.join(' '),
+                     full_args_locale.map {|e| shell_quote e.to_s}.join(' '),
                    &block
                    )
           if $? && $?.exitstatus != 0
@@ -314,7 +314,7 @@ module Redmine
           end
           ret = shellout(
                    self.class.sq_bin + ' ' +
-                     full_args_locale.map { |e| shell_quote e.to_s }.join(' '),
+                     full_args_locale.map {|e| shell_quote e.to_s}.join(' '),
                    &block
                    )
           ret
