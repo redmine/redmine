@@ -188,11 +188,14 @@ class AuthSourcesControllerTest < Redmine::ControllerTest
   end
 
   def test_autocomplete_for_new_user
-    AuthSource.expects(:search).with('foo').returns([
-      {:login => 'foo1', :firstname => 'John', :lastname => 'Smith', :mail => 'foo1@example.net', :auth_source_id => 1},
-      {:login => 'Smith', :firstname => 'John', :lastname => 'Doe', :mail => 'foo2@example.net', :auth_source_id => 1}
-    ])
-
+    AuthSource.expects(:search).with('foo').returns(
+      [
+        {:login => 'foo1', :firstname => 'John', :lastname => 'Smith',
+         :mail => 'foo1@example.net', :auth_source_id => 1},
+        {:login => 'Smith', :firstname => 'John', :lastname => 'Doe',
+         :mail => 'foo2@example.net', :auth_source_id => 1}
+      ]
+    )
     get :autocomplete_for_new_user, :params => {
         :term => 'foo'
       }
