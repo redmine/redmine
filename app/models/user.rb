@@ -226,6 +226,7 @@ class User < Principal
 
     # Make sure no one can sign in with an empty login or password
     return nil if login.empty? || password.empty?
+
     user = find_by_login(login)
     if user
       # user is already in local database
@@ -604,6 +605,7 @@ class User < Principal
   def roles_for_project(project)
     # No role on archived projects
     return [] if project.nil? || project.archived?
+
     if membership = membership(project)
       membership.roles.to_a
     elsif project.is_public?
@@ -707,6 +709,7 @@ class User < Principal
 
       roles = roles_for_project(context)
       return false unless roles
+
       roles.any? {|role|
         (context.is_public? || role.member?) &&
         role.allowed_to?(action) &&
@@ -841,6 +844,7 @@ class User < Principal
     transaction do
       User.where("salt IS NULL OR salt = ''").find_each do |user|
         next if user.hashed_password.blank?
+
         salt = User.generate_salt
         hashed_password = User.hash_password("#{salt}#{user.hashed_password}")
         User.where(:id => user.id).update_all(:salt => salt, :hashed_password => hashed_password)
@@ -859,6 +863,7 @@ class User < Principal
 
   def validate_password_length
     return if password.blank? && generate_password?
+
     # Password length validation based on setting
     if !password.nil? && password.size < Setting.password_min_length.to_i
       errors.add(:password, :too_short, :count => Setting.password_min_length.to_i)
