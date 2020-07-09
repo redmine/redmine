@@ -237,12 +237,14 @@ module Redmine
               next unless line =~ %r{^(\d+) ([^|]+)\| (.*)$}
 
               rev = $1
-              blame.add_line($3.rstrip,
+              blame.add_line(
+                 $3.rstrip,
                  Revision.new(
-                  :identifier => rev,
-                  :revision   => rev,
-                  :author     => $2.strip
-                  ))
+                   :identifier => rev,
+                   :revision   => rev,
+                   :author     => $2.strip
+                 )
+              )
             end
           end
           blame
