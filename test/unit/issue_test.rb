@@ -3021,6 +3021,11 @@ class IssueTest < ActiveSupport::TestCase
     assert_include 'assigned-to-me', issue2.css_classes(user)
   end
 
+  def test_css_classes_behind_schedule
+    assert_include 'behind-schedule', Issue.find(1).css_classes.split(' ')
+    assert_not_include 'behind-schedule', Issue.find(2).css_classes.split(' ')
+  end
+
   def test_save_attachments_with_hash_should_save_attachments_in_keys_order
     set_tmp_attachments_directory
     issue = Issue.generate!

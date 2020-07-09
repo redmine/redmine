@@ -1390,6 +1390,7 @@ class Issue < ActiveRecord::Base
     s << ' child' if child?
     s << ' parent' unless leaf?
     s << ' private' if is_private?
+    s << ' behind-schedule' if behind_schedule?
     if user.logged?
       s << ' created-by-me' if author_id == user.id
       s << ' assigned-to-me' if assigned_to_id == user.id
