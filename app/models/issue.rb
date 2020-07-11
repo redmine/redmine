@@ -1187,7 +1187,8 @@ class Issue < ActiveRecord::Base
 
   # Returns a scope of the given issues and their descendants
   def self.self_and_descendants(issues)
-    Issue.joins("JOIN #{Issue.table_name} ancestors" +
+    Issue.joins(
+        "JOIN #{Issue.table_name} ancestors" +
         " ON ancestors.root_id = #{Issue.table_name}.root_id" +
         " AND ancestors.lft <= #{Issue.table_name}.lft AND ancestors.rgt >= #{Issue.table_name}.rgt"
       ).
