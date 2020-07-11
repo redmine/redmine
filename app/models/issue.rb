@@ -125,7 +125,7 @@ class Issue < ActiveRecord::Base
         if user.id && user.logged?
           case role.issues_visibility
           when 'all'
-              '1=1'
+            '1=1'
           when 'default'
             user_ids = [user.id] + user.groups.pluck(:id).compact
             "(#{table_name}.is_private = #{connection.quoted_false} OR #{table_name}.author_id = #{user.id} OR #{table_name}.assigned_to_id IN (#{user_ids.join(',')}))"
@@ -133,7 +133,7 @@ class Issue < ActiveRecord::Base
             user_ids = [user.id] + user.groups.pluck(:id).compact
             "(#{table_name}.author_id = #{user.id} OR #{table_name}.assigned_to_id IN (#{user_ids.join(',')}))"
           else
-              '1=0'
+            '1=0'
           end
         else
           "(#{table_name}.is_private = #{connection.quoted_false})"
