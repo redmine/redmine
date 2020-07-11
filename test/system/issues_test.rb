@@ -421,9 +421,10 @@ class IssuesSystemTest < ApplicationSystemTestCase
     page.find('#issue_priority_id').select('Low')
     assert_difference 'Issue.count', 2 do
       submit_buttons[0].click
+      # wait for ajax response
+      assert page.has_css?('#flash_notice')
+      assert_current_path '/issues', :ignore_query => true
     end
-    assert_current_path '/issues', :ignore_query => true
-    assert page.has_css?('#flash_notice')
 
     copies = Issue.order('id DESC').limit(2)
     assert_equal 4, copies[0].priority.id
