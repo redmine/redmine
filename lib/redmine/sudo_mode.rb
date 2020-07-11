@@ -32,10 +32,10 @@ module Redmine
       #
       # taken from https://github.com/brianhempel/hash_to_hidden_fields
       def hash_to_hidden_fields(hash)
-        cleaned_hash = hash.to_unsafe_h.reject { |k, v| v.nil? }
+        cleaned_hash = hash.to_unsafe_h.reject {|k, v| v.nil?}
         pairs = cleaned_hash.to_query.split(Rack::Utils::DEFAULT_SEP)
         tags = pairs.map do |pair|
-          key, value = pair.split('=', 2).map { |str| Rack::Utils.unescape(str) }
+          key, value = pair.split('=', 2).map {|str| Rack::Utils.unescape(str)}
           hidden_field_tag(key, value)
         end
         tags.join("\n").html_safe
@@ -111,8 +111,8 @@ module Redmine
         # a simple 'render "sudo_mode/new"' works when used directly inside an
         # action, but not when called from a before_action:
         respond_to do |format|
-          format.html { render 'sudo_mode/new' }
-          format.js   { render 'sudo_mode/new' }
+          format.html {render 'sudo_mode/new'}
+          format.js   {render 'sudo_mode/new'}
         end
       end
 
