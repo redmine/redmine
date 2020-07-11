@@ -360,9 +360,10 @@ class IssuesSystemTest < ApplicationSystemTestCase
     page.find('#issue_status_id').select('Assigned')
     assert_no_difference 'Issue.count' do
       submit_buttons[0].click
+      # wait for ajax response
+      assert page.has_css?('#flash_notice')
+      assert_current_path '/issues', :ignore_query => true
     end
-    assert_current_path '/issues', :ignore_query => true
-    assert page.has_css?('#flash_notice')
     assert_equal 2, issue1.reload.status.id
     assert_equal 2, issue4.reload.status.id
 
@@ -391,10 +392,11 @@ class IssuesSystemTest < ApplicationSystemTestCase
     page.find('#issue_status_id').select('Feedback')
     assert_no_difference 'Issue.count' do
       submit_buttons[1].click
+      # wait for ajax response
+      assert page.has_css?('#flash_notice')
+      assert_current_path '/projects/onlinestore/issues', :ignore_query => true
     end
 
-    assert_current_path '/projects/onlinestore/issues', :ignore_query => true
-    assert page.has_css?('#flash_notice')
     issue1.reload
     issue4.reload
     assert_equal 2, issue1.project.id
