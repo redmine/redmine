@@ -274,7 +274,7 @@ class Issue < ActiveRecord::Base
   def copy_from(arg, options={})
     issue = arg.is_a?(Issue) ? arg : Issue.visible.find(arg)
     self.attributes = issue.attributes.dup.except("id", "root_id", "parent_id", "lft", "rgt", "created_on", "updated_on", "status_id", "closed_on")
-    self.custom_field_values = issue.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
+    self.custom_field_values = issue.custom_field_values.inject({}) {|h, v| h[v.custom_field_id] = v.value; h}
     if options[:keep_status]
       self.status = issue.status
     end
@@ -869,7 +869,7 @@ class Issue < ActiveRecord::Base
       preload(:user => :email_address).
       reorder(:created_on, :id).to_a
 
-    result.each_with_index {|j,i| j.indice = i+1}
+    result.each_with_index {|j, i| j.indice = i + 1}
 
     unless user.allowed_to?(:view_private_notes, project)
       result.select! do |journal|
