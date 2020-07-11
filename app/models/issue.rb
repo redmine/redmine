@@ -436,6 +436,7 @@ class Issue < ActiveRecord::Base
   # Overrides assign_attributes so that project and tracker get assigned first
   def assign_attributes(new_attributes, *args)
     return if new_attributes.nil?
+
     attrs = new_attributes.dup
     attrs.stringify_keys!
 
@@ -685,6 +686,7 @@ class Issue < ActiveRecord::Base
       end
       workflow_rules.each do |attr, rules|
         next if rules.size < roles.size
+
         uniq_rules = rules.values.uniq
         if uniq_rules.size == 1
           result[attr] = uniq_rules.first
@@ -784,6 +786,7 @@ class Issue < ActiveRecord::Base
         if respond_to?(attribute) && send(attribute).blank? && !disabled_core_fields.include?(attribute)
           next if attribute == 'category_id' && project.try(:issue_categories).blank?
           next if attribute == 'fixed_version_id' && assignable_versions.blank?
+
           errors.add attribute, :blank
         end
       end
@@ -927,6 +930,7 @@ class Issue < ActiveRecord::Base
   # Is the amount of work done less than it should for the due date
   def behind_schedule?
     return false if start_date.nil? || due_date.nil?
+
     done_date = start_date + ((due_date - start_date + 1) * done_ratio / 100).floor
     return done_date <= User.current.today
   end
@@ -1248,6 +1252,7 @@ class Issue < ActiveRecord::Base
       current -= last
       current -= all
       return true if current.include?(other)
+
       last = current
       all += last
     end
@@ -1267,6 +1272,7 @@ class Issue < ActiveRecord::Base
       current -= last
       current -= all
       return true if current.include?(other)
+
       last = current
       all += last
     end
@@ -1324,6 +1330,7 @@ class Issue < ActiveRecord::Base
   # If the issue is a parent task, this is done by rescheduling its subtasks.
   def reschedule_on!(date, journal=nil)
     return if date.nil?
+
     if leaf? || !dates_derived?
       if start_date.nil? || start_date != date
         if start_date && start_date > date
@@ -1468,6 +1475,7 @@ class Issue < ActiveRecord::Base
     if project.nil?
       return Issue
     end
+
     case scope
     when 'all', 'system'
       Issue
@@ -1621,6 +1629,7 @@ class Issue < ActiveRecord::Base
     # Move subtasks that were in the same project
     children.each do |child|
       next unless child.project_id == project_id_before_last_save
+
       # Change project and keep project
       child.send :project=, project, true
       unless child.save
@@ -1654,6 +1663,7 @@ class Issue < ActiveRecord::Base
         next if child == self
         # Do not copy subtasks of issues that were not copied
         next unless copied_issue_ids[child.parent_id]
+
         # Do not copy subtasks that are not visible to avoid potential disclosure of private data
         unless child.visible?
           logger.error "Subtask ##{child.id} was not copied during ##{@copied_from.id} copy because it is not visible to the current user" if logger
@@ -1767,6 +1777,7 @@ class Issue < ActiveRecord::Base
           " AND #{Version.table_name}.sharing <> 'system'").
         where(conditions).each do |issue|
         next if issue.project.nil? || issue.fixed_version.nil?
+
         unless issue.project.shared_versions.include?(issue.fixed_version)
           issue.init_journal(User.current)
           issue.fixed_version = nil
@@ -1842,6 +1853,7 @@ class Issue < ActiveRecord::Base
         duplicate.reload
         # Don't re-close it if it's already closed
         next if duplicate.closed?
+
         # Same user and notes
         if @current_journal
           duplicate.init_journal(@current_journal.user, @current_journal.notes)
