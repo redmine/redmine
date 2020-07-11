@@ -49,7 +49,7 @@ class Issue < ActiveRecord::Base
 
   acts_as_event :title => Proc.new {|o| "#{o.tracker.name} ##{o.id} (#{o.status}): #{o.subject}"},
                 :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.id}},
-                :type => Proc.new {|o| 'issue' + (o.closed? ? '-closed' : '') }
+                :type => Proc.new {|o| 'issue' + (o.closed? ? '-closed' : '')}
 
   acts_as_activity_provider :scope => preload(:project, :author, :tracker, :status),
                             :author_key => :author_id
@@ -83,7 +83,7 @@ class Issue < ActiveRecord::Base
     where(:issue_statuses => {:is_closed => is_closed})
   }
 
-  scope :recently_updated, lambda { order(:updated_on => :desc) }
+  scope :recently_updated, lambda {order(:updated_on => :desc)}
   scope :on_active_project, lambda {
     joins(:project).
     where(:projects => {:status => Project::STATUS_ACTIVE})
@@ -778,7 +778,7 @@ class Issue < ActiveRecord::Base
     required_attribute_names(user).each do |attribute|
       if /^\d+$/.match?(attribute)
         attribute = attribute.to_i
-        v = custom_field_values.detect {|v| v.custom_field_id == attribute }
+        v = custom_field_values.detect {|v| v.custom_field_id == attribute}
         if v && Array(v.value).detect(&:present?).nil?
           errors.add :base, v.custom_field.name + ' ' + l('activerecord.errors.messages.blank')
         end
