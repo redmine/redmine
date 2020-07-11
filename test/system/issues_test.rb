@@ -403,6 +403,33 @@ class IssuesSystemTest < ApplicationSystemTestCase
     assert_equal 4, issue4.status.id
   end
 
+  def test_bulk_copy
+    log_user('jsmith', 'jsmith')
+    visit '/issues'
+    assert page.has_css?('tr#issue-1')
+    assert page.has_css?('tr#issue-4')
+    find('tr#issue-1 input[type=checkbox]').click
+    find('tr#issue-4 input[type=checkbox]').click
+    find('tr#issue-1 td.updated_on').right_click
+    within('#context-menu') do
+      click_link 'Copy'
+    end
+    assert_current_path '/issues/bulk_edit', :ignore_query => true
+    submit_buttons = page.all('input[type=submit]')
+    assert_equal 'Copy', submit_buttons[0].value
+
+    page.find('#issue_priority_id').select('Low')
+    assert_difference 'Issue.count', 2 do
+      submit_buttons[0].click
+    end
+    assert_current_path '/issues', :ignore_query => true
+    assert page.has_css?('#flash_notice')
+
+    copies = Issue.order('id DESC').limit(2)
+    assert_equal 4, copies[0].priority.id
+    assert_equal 4, copies[1].priority.id
+  end
+
   def test_issue_list_with_default_totalable_columns
     log_user('admin', 'admin')
     with_settings :issue_list_default_totals => ['estimated_hours'] do
