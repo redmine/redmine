@@ -7483,7 +7483,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     issue = Issue.generate_with_descendants!
     count = issue.descendants.count
     @request.session[:user_id] = 2
-    assert_difference 'Issue.count', count+1 do
+    assert_difference 'Issue.count', count + 1 do
       post(
         :bulk_update,
         :params => {
