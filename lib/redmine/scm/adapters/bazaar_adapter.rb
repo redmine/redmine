@@ -242,14 +242,15 @@ module Redmine
               next unless line =~ %r{^(\d+) ([^|]+)\| (.*)$}
 
               rev = $1
-              blame.add_line(
-                 $3.rstrip,
-                 Revision.new(
-                   :identifier => rev,
-                   :revision   => rev,
-                   :author     => $2.strip
-                 )
-              )
+              blame.
+                add_line(
+                  $3.rstrip,
+                  Revision.new(
+                    :identifier => rev,
+                    :revision   => rev,
+                    :author     => $2.strip
+                  )
+                )
             end
           end
           blame
@@ -306,10 +307,10 @@ module Redmine
             full_args_locale << scm_iconv(@path_encoding, 'UTF-8', e)
           end
           ret = shellout(
-                   self.class.sq_bin + ' ' +
-                     full_args_locale.map {|e| shell_quote e.to_s}.join(' '),
-                   &block
-                   )
+                  self.class.sq_bin + ' ' +
+                    full_args_locale.map {|e| shell_quote e.to_s}.join(' '),
+                  &block
+                )
           if $? && $?.exitstatus != 0
             raise ScmCommandAborted, "bzr exited with non-zero status: #{$?.exitstatus}"
           end
@@ -326,10 +327,10 @@ module Redmine
             full_args_locale << scm_iconv(@path_encoding, 'UTF-8', e)
           end
           ret = shellout(
-                   self.class.sq_bin + ' ' +
-                     full_args_locale.map {|e| shell_quote e.to_s}.join(' '),
-                   &block
-                   )
+                  self.class.sq_bin + ' ' +
+                    full_args_locale.map {|e| shell_quote e.to_s}.join(' '),
+                  &block
+                )
           ret
         end
         private :scm_cmd_no_raise
