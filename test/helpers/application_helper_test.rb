@@ -1716,7 +1716,7 @@ class ApplicationHelperTest < Redmine::HelperTest
   def test_principals_check_box_tag_without_avatar
     principals = [User.find(1), Group.find(10)]
     Setting.gravatar_enabled = '1'
-    avatar_tags = principals.collect{|p| avatar(p, :size => 16) }
+    avatar_tags = principals.collect{|p| avatar(p, :size => 16)}
 
     with_settings :gravatar_enabled => '0' do
       tags = principals_check_box_tags(name, principals)
