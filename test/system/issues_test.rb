@@ -431,6 +431,36 @@ class IssuesSystemTest < ApplicationSystemTestCase
     copies = Issue.order('id DESC').limit(2)
     assert_equal 4, copies[0].priority.id
     assert_equal 4, copies[1].priority.id
+
+    assert page.has_css?('tr#issue-1')
+    assert page.has_css?('tr#issue-4')
+    find('tr#issue-1 input[type=checkbox]').click
+    find('tr#issue-4 input[type=checkbox]').click
+    find('tr#issue-1 td.updated_on').right_click
+    within('#context-menu') do
+      click_link 'Copy'
+    end
+    assert_current_path '/issues/bulk_edit', :ignore_query => true
+
+    page.find('#issue_project_id').select('OnlineStore')
+    # wait for ajax response
+    assert page.has_select?('issue_project_id', {:selected => 'OnlineStore'})
+
+    submit_buttons = page.all('input[type=submit]')
+    assert_equal 2, submit_buttons.size
+    assert_equal 'Copy', submit_buttons[0].value
+    assert_equal 'Copy and follow', submit_buttons[1].value
+    page.find('#issue_priority_id').select('High')
+    assert_difference 'Issue.count', 2 do
+      submit_buttons[1].click
+      # wait for ajax response
+      assert page.has_css?('#flash_notice')
+      assert_current_path '/projects/onlinestore/issues', :ignore_query => true
+    end
+
+    copies = Issue.order('id DESC').limit(2)
+    assert_equal 6, copies[0].priority.id
+    assert_equal 6, copies[1].priority.id
   end
 
   def test_issue_list_with_default_totalable_columns
