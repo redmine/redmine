@@ -193,16 +193,16 @@ module ApplicationHelper
   end
 
   RECORD_LINK = {
-    'CustomValue'  => -> (custom_value) { link_to_record(custom_value.customized) },
-    'Document'     => -> (document)     { link_to(document.title, document_path(document)) },
-    'Group'        => -> (group)        { link_to(group.name, group_path(group)) },
-    'Issue'        => -> (issue)        { link_to_issue(issue, :subject => false) },
-    'Message'      => -> (message)      { link_to_message(message) },
-    'News'         => -> (news)         { link_to(news.title, news_path(news)) },
-    'Project'      => -> (project)      { link_to_project(project) },
-    'User'         => -> (user)         { link_to_user(user) },
-    'Version'      => -> (version)      { link_to_version(version) },
-    'WikiPage'     => -> (wiki_page)    { link_to(wiki_page.pretty_title, project_wiki_page_path(wiki_page.project, wiki_page.title)) }
+    'CustomValue'  => ->(custom_value) {link_to_record(custom_value.customized)},
+    'Document'     => ->(document)     {link_to(document.title, document_path(document))},
+    'Group'        => ->(group)        {link_to(group.name, group_path(group))},
+    'Issue'        => ->(issue)        {link_to_issue(issue, :subject => false)},
+    'Message'      => ->(message)      {link_to_message(message)},
+    'News'         => ->(news)         {link_to(news.title, news_path(news))},
+    'Project'      => ->(project)      {link_to_project(project)},
+    'User'         => ->(user)         {link_to_user(user)},
+    'Version'      => ->(version)      {link_to_version(version)},
+    'WikiPage'     => ->(wiki_page)    {link_to(wiki_page.pretty_title,project_wiki_page_path(wiki_page.project, wiki_page.title))}
   }
 
   def link_to_record(record)
@@ -214,8 +214,8 @@ module ApplicationHelper
   ATTACHMENT_CONTAINER_LINK = {
     # Custom list, since project/version attachments are listed in the files
     # view and not in the project/milestone view
-    'Project'      => -> (project)      { link_to(l(:project_module_files), project_files_path(project)) },
-    'Version'      => -> (version)      { link_to(l(:project_module_files), project_files_path(version.project)) },
+    'Project'      => ->(project)      {link_to(l(:project_module_files), project_files_path(project))},
+    'Version'      => ->(version)      {link_to(l(:project_module_files), project_files_path(version.project))},
   }
 
   def link_to_attachment_container(attachment_container)
