@@ -188,6 +188,7 @@ module ApplicationHelper
   # Generates a link to a version
   def link_to_version(version, options = {})
     return '' unless version && version.is_a?(Version)
+
     options = {:title => format_date(version.effective_date)}.merge(options)
     link_to_if version.visible?, format_version_name(version), version_path(version), options
   end
@@ -523,6 +524,7 @@ module ApplicationHelper
       [projects,  projects_label,             true]
     ].each do |projects, label, is_tree|
       next if projects.blank?
+
       s << content_tag(:strong, l(label))
       if is_tree
         project_tree(projects, &build_project_link)
@@ -781,6 +783,7 @@ module ApplicationHelper
     @used_accesskeys ||= []
     key = Redmine::AccessKeys.key_for(s)
     return nil if @used_accesskeys.include?(key)
+
     @used_accesskeys << key
     key
   end
@@ -803,6 +806,7 @@ module ApplicationHelper
       raise ArgumentError, 'invalid arguments to textilizable'
     end
     return '' if text.blank?
+
     project = options[:project] || @project || (obj && obj.respond_to?(:project) ? obj.project : nil)
     @only_path = only_path = options.delete(:only_path) == false ? false : true
 
@@ -1246,6 +1250,7 @@ module ApplicationHelper
 
   def parse_sections(text, project, obj, attr, only_path, options)
     return unless options[:edit_section_links]
+
     text.gsub!(HEADING_RE) do
       heading, level = $1, $2
       @current_section += 1
@@ -1697,6 +1702,7 @@ module ApplicationHelper
 
   def export_csv_encoding_select_tag
     return if l(:general_csv_encoding).casecmp('UTF-8') == 0
+
     options = [l(:general_csv_encoding), 'UTF-8']
     content_tag(:p) do
       concat(
