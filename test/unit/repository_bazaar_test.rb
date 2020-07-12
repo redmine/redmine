@@ -275,12 +275,13 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
     private
 
     def create_latin1_repo
-      repo = Repository::Bazaar.create(
+      repo = Repository::Bazaar.
+                          create(
                             :project      => @project,
                             :identifier   => 'latin1',
                             :url => REPOSITORY_PATH_NON_ASCII,
                             :log_encoding => 'ISO-8859-1'
-                        )
+                          )
       assert repo
       repo
     end
