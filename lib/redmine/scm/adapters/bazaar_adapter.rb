@@ -74,11 +74,13 @@ module Redmine
           info = nil
           scm_cmd(*cmd_args) do |io|
             if io.read =~ %r{^(\d+)\r?$}
-              info = Info.new({:root_url => url,
-                               :lastrev => Revision.new({
-                                 :identifier => $1
-                               })
-                             })
+              info = Info.new(
+                       {
+                         :root_url => url,
+                         :lastrev =>
+                           Revision.new({:identifier => $1})
+                       }
+                     )
             end
           end
           info
@@ -105,12 +107,15 @@ module Redmine
 
               name_locale, slash, revision = $3.strip, $4, $5.strip
               name = scm_iconv('UTF-8', @path_encoding, name_locale)
-              entries << Entry.new({:name => name,
-                                    :path => ((path.empty? ? "" : "#{path}/") + name),
-                                    :kind => (slash.blank? ? 'file' : 'dir'),
-                                    :size => nil,
-                                    :lastrev => Revision.new(:revision => revision)
-                                  })
+              entries << Entry.new(
+                           {
+                             :name => name,
+                             :path => ((path.empty? ? "" : "#{path}/") + name),
+                             :kind => (slash.blank? ? 'file' : 'dir'),
+                             :size => nil,
+                             :lastrev => Revision.new(:revision => revision)
+                            }
+                         )
             end
           end
           if logger && logger.debug?
