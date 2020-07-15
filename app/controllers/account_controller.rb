@@ -220,7 +220,7 @@ class AccountController < ApplicationController
     if user.nil?
       invalid_credentials
     elsif user.new_record?
-      onthefly_creation_failed(user, {:login => user.login, :auth_source_id => user.auth_source_id })
+      onthefly_creation_failed(user, {:login => user.login, :auth_source_id => user.auth_source_id})
     else
       # Valid user
       if user.active?
@@ -283,7 +283,7 @@ class AccountController < ApplicationController
     if params[:autologin] && Setting.autologin?
       set_autologin_cookie(user)
     end
-    call_hook(:controller_account_success_authentication_after, {:user => user })
+    call_hook(:controller_account_success_authentication_after, {:user => user})
     redirect_back_or_default my_page_path
   end
 
@@ -304,7 +304,7 @@ class AccountController < ApplicationController
   end
 
   # Onthefly creation failed, display the registration form to fill/fix attributes
-  def onthefly_creation_failed(user, auth_source_options = { })
+  def onthefly_creation_failed(user, auth_source_options = {})
     @user = user
     session[:auth_source_registration] = auth_source_options unless auth_source_options.empty?
     render :action => 'register'
