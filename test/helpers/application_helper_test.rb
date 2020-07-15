@@ -1537,7 +1537,7 @@ class ApplicationHelperTest < Redmine::HelperTest
   def test_render_page_hierarchy_with_timestamp
     parent_page = WikiPage.find(1)
     child_page = WikiPage.find_by(parent_id: parent_page.id)
-    pages_by_parent_id = { nil => [parent_page], parent_page.id => [child_page] }
+    pages_by_parent_id = {nil => [parent_page], parent_page.id => [child_page]}
     result = render_page_hierarchy(pages_by_parent_id, nil, :timestamp => true)
     assert_select_in(
       result, 'ul.pages-hierarchy li a[title=?]',
