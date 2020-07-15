@@ -459,7 +459,9 @@ class IssuesSystemTest < ApplicationSystemTestCase
     end
 
     copies = Issue.order('id DESC').limit(2)
+    assert_equal 2, copies[0].project.id
     assert_equal 6, copies[0].priority.id
+    assert_equal 2, copies[1].project.id
     assert_equal 6, copies[1].priority.id
   end
 
