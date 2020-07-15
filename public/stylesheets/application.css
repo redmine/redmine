@@ -601,7 +601,18 @@ div#activity span.project:after, #search-results span.project:after { content: "
 div#activity dd span.description, #search-results dd span.description { display:block; color: #808080; }
 div#activity dt.grouped {margin-left:5em;}
 div#activity dd.grouped {margin-left:9em;}
-div#activity dt.icon {background-position: 0 0px !important;}
+div#activity dt.icon {background-position: 0 10px !important;}
+div#activity h3 {
+  padding: 5px;
+  background-color: #eeeeee;
+}
+div#activity dt {
+  padding-top: 10px;
+  border-top: 1px solid #eeeeee;
+}
+div#activity dl dt:first-child {
+  border: 0px;
+}
 
 #search-results dd { margin-bottom: 1em; padding-left: 20px; margin-left:0px; }
 
