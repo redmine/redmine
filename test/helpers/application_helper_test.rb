@@ -1278,7 +1278,7 @@ class ApplicationHelperTest < Redmine::HelperTest
                'a H *umane* W *eb* T *ext* G *enerator*' => 'a H <strong>umane</strong> W <strong>eb</strong> T <strong>ext</strong> G <strong>enerator</strong>',
                'a *H* umane *W* eb *T* ext *G* enerator' => 'a <strong>H</strong> umane <strong>W</strong> eb <strong>T</strong> ext <strong>G</strong> enerator',
               }
-    to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
+    to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text)}
   end
 
   def test_wiki_horizontal_rule
