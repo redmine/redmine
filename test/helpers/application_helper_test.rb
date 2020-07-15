@@ -1148,7 +1148,7 @@ class ApplicationHelperTest < Redmine::HelperTest
       "<notextile>no *textile* formatting</notextile>" => "no *textile* formatting",
       "<notextile>this is <tag>a tag</tag></notextile>" => "this is &lt;tag&gt;a tag&lt;/tag&gt;"
     }
-    to_test.each { |text, result| assert_equal result, textilizable(text) }
+    to_test.each {|text, result| assert_equal result, textilizable(text)}
   end
 
   def test_pre_tags
