@@ -1139,7 +1139,7 @@ class ApplicationHelperTest < Redmine::HelperTest
       '<pre><code class=""onmouseover="alert(1)">text</code></pre>' => '<pre><code>text</code></pre>',
       '<pre class=""onmouseover="alert(1)">text</pre>' => '<pre>text</pre>',
     }
-    to_test.each { |text, result| assert_equal result, textilizable(text) }
+    to_test.each {|text, result| assert_equal result, textilizable(text)}
   end
 
   def test_allowed_html_tags
