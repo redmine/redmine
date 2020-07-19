@@ -227,6 +227,7 @@ module IssuesHelper
 
   def issue_due_date_details(issue)
     return if issue&.due_date.nil?
+
     s = format_date(issue.due_date)
     s += " (#{due_date_distance_in_words(issue.due_date)})" unless issue.closed?
     s
@@ -303,6 +304,7 @@ module IssuesHelper
   def render_half_width_custom_fields_rows(issue)
     values = issue.visible_custom_field_values.reject {|value| value.custom_field.full_width_layout?}
     return if values.empty?
+
     half = (values.size / 2.0).ceil
     issue_fields_rows do |rows|
       values.each_with_index do |value, i|
@@ -315,10 +317,12 @@ module IssuesHelper
   def render_full_width_custom_fields_rows(issue)
     values = issue.visible_custom_field_values.select {|value| value.custom_field.full_width_layout?}
     return if values.empty?
+
     s = ''.html_safe
     values.each_with_index do |value, i|
       attr_value_tag = custom_field_value_tag(value)
       next if attr_value_tag.blank?
+
       content =
         content_tag('hr') +
         content_tag('p', content_tag('strong', custom_field_name_tag(value.custom_field) )) +
@@ -378,6 +382,7 @@ module IssuesHelper
       if issue.disabled_core_fields.grep(/^#{attribute}(_id)?$/).empty?
         attr_value = (issue.send attribute).to_s
         next if attr_value.blank?
+
         if html
           items << content_tag('strong', "#{l("field_#{attribute}")}: ") + attr_value
         else
@@ -388,6 +393,7 @@ module IssuesHelper
     issue.visible_custom_field_values(user).each do |value|
       cf_value = show_value(value, false)
       next if cf_value.blank?
+
       if html
         items << content_tag('strong', "#{value.custom_field.name}: ") + cf_value
       else
@@ -581,6 +587,7 @@ module IssuesHelper
   # Find the name of an associated record stored in the field attribute
   def find_name_by_reflection(field, id)
     return nil if id.blank?
+
     @detail_value_name_by_reflection ||= Hash.new do |hash, key|
       association = Issue.reflect_on_association(key.first.to_sym)
       name = nil
@@ -598,6 +605,7 @@ module IssuesHelper
   # Renders issue children recursively
   def render_api_issue_children(issue, api)
     return if issue.leaf?
+
     api.array :children do
       issue.children.each do |child|
         api.issue(:id => child.id) do
@@ -628,6 +636,7 @@ module IssuesHelper
   def issue_history_default_tab
     # tab params overrides user default tab preference
     return params[:tab] if params[:tab].present?
+
     user_default_tab = User.current.pref.history_default_tab
 
     case user_default_tab
