@@ -7149,6 +7149,10 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_get_bulk_copy
+    assert_not Issue.find(1).attachments.any?
+    assert Issue.find(2).attachments.any?
+    assert Issue.find(3).attachments.any?
+
     @request.session[:user_id] = 2
     get(
       :bulk_edit,
