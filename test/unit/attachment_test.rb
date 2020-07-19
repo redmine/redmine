@@ -364,7 +364,7 @@ class AttachmentTest < ActiveSupport::TestCase
     @project = Project.find(1)
     attachment = Attachment.create!(:file => uploaded_test_file("testfile.txt", ""), :author_id => 1, :created_on => 2.days.ago)
     assert_equal 'text/plain', attachment.content_type
-    Attachment.attach_files(@project, { '1' => {'token' => attachment.token } })
+    Attachment.attach_files(@project, {'1' => {'token' => attachment.token}})
     attachment.reload
     assert_equal 'text/plain', attachment.content_type
   end
