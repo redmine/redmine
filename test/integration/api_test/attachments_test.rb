@@ -100,10 +100,11 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
   end
 
   test "PATCH /attachments/:id.json should update the attachment" do
-    patch '/attachments/7.json',
+    patch(
+      '/attachments/7.json',
       :params => {:attachment => {:filename => 'renamed.zip', :description => 'updated'}},
       :headers => credentials('jsmith')
-
+    )
     assert_response :no_content
     assert_nil response.media_type
     attachment = Attachment.find(7)
@@ -112,10 +113,11 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
   end
 
   test "PATCH /attachments/:id.json with failure should return the errors" do
-    patch '/attachments/7.json',
+    patch(
+      '/attachments/7.json',
       :params => {:attachment => {:filename => '', :description => 'updated'}},
       :headers => credentials('jsmith')
-
+    )
     assert_response 422
     assert_equal 'application/json', response.media_type
     json = ActiveSupport::JSON.decode(response.body)
