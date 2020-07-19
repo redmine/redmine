@@ -6595,11 +6595,18 @@ class IssuesControllerTest < Redmine::ControllerTest
   def test_bulk_edit_should_warn_about_custom_field_values_about_to_be_cleared
     CustomField.destroy_all
 
-    cleared = IssueCustomField.generate!(:name => 'Cleared', :tracker_ids => [2], :is_for_all => true)
-    CustomValue.create!(:customized => Issue.find(2), :custom_field => cleared, :value => 'foo')
-
-    not_cleared = IssueCustomField.generate!(:name => 'Not cleared', :tracker_ids => [2, 3], :is_for_all => true)
-    CustomValue.create!(:customized => Issue.find(2), :custom_field => not_cleared, :value => 'bar')
+    cleared = IssueCustomField.generate!(:name => 'Cleared',
+                                         :tracker_ids => [2],
+                                         :is_for_all => true)
+    CustomValue.create!(:customized => Issue.find(2),
+                        :custom_field => cleared,
+                        :value => 'foo')
+    not_cleared = IssueCustomField.generate!(:name => 'Not cleared',
+                                             :tracker_ids => [2, 3],
+                                             :is_for_all => true)
+    CustomValue.create!(:customized => Issue.find(2),
+                        :custom_field => not_cleared,
+                        :value => 'bar')
     @request.session[:user_id] = 2
 
     get(
