@@ -422,7 +422,7 @@ class IssuesController < ApplicationController
           flash.now[:error] = l(:field_issue) + " " + ::I18n.t('activerecord.errors.messages.blank')
           return
         else
-        time_entries.update_all(:issue_id => nil)
+          time_entries.update_all(:issue_id => nil)
         end
       when 'reassign'
         reassign_to = @project && @project.issues.find_by_id(params[:reassign_to_id])
