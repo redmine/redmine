@@ -277,35 +277,35 @@ class QueryTest < ActiveSupport::TestCase
     query.add_filter("issue_id", '=', ['1,3'])
     issues = find_issues_with_query(query)
     assert_equal 2, issues.size
-    assert_equal [1,3], issues.map(&:id).sort
+    assert_equal [1, 3], issues.map(&:id).sort
   end
 
   def test_operator_is_on_parent_id_should_accept_comma_separated_values
-    Issue.where(:id => [2,4]).update_all(:parent_id => 1)
+    Issue.where(:id => [2, 4]).update_all(:parent_id => 1)
     Issue.where(:id => 5).update_all(:parent_id => 3)
     query = IssueQuery.new(:name => '_')
     query.add_filter("parent_id", '=', ['1,3'])
     issues = find_issues_with_query(query)
     assert_equal 3, issues.size
-    assert_equal [2,4,5], issues.map(&:id).sort
+    assert_equal [2, 4, 5], issues.map(&:id).sort
   end
 
   def test_operator_is_on_child_id_should_accept_comma_separated_values
-    Issue.where(:id => [2,4]).update_all(:parent_id => 1)
+    Issue.where(:id => [2, 4]).update_all(:parent_id => 1)
     Issue.where(:id => 5).update_all(:parent_id => 3)
     query = IssueQuery.new(:name => '_')
     query.add_filter("child_id", '=', ['2,4,5'])
     issues = find_issues_with_query(query)
     assert_equal 2, issues.size
-    assert_equal [1,3], issues.map(&:id).sort
+    assert_equal [1, 3], issues.map(&:id).sort
   end
 
   def test_operator_between_on_issue_id_should_return_range
     query = IssueQuery.new(:name => '_')
-    query.add_filter("issue_id", '><', ['2','3'])
+    query.add_filter("issue_id", '><', ['2', '3'])
     issues = find_issues_with_query(query)
     assert_equal 2, issues.size
-    assert_equal [2,3], issues.map(&:id).sort
+    assert_equal [2, 3], issues.map(&:id).sort
   end
 
   def test_operator_is_on_integer_custom_field
@@ -928,7 +928,7 @@ class QueryTest < ActiveSupport::TestCase
     query.filters = { 'id' => {:operator => '=', :values => ['bookmarks']}}
     result = query.results_scope
 
-    assert_equal [1,5], result.map(&:id).sort
+    assert_equal [1, 5], result.map(&:id).sort
   end
 
   def test_filter_my_bookmarks_for_user_without_bookmarked_projects
@@ -2081,7 +2081,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_query_with_roles_visibility_should_be_visible_to_user_with_role
-    q = IssueQuery.create!(:name => 'Query', :visibility => IssueQuery::VISIBILITY_ROLES, :role_ids => [1,2])
+    q = IssueQuery.create!(:name => 'Query', :visibility => IssueQuery::VISIBILITY_ROLES, :role_ids => [1, 2])
 
     assert !q.visible?(User.anonymous)
     assert_nil IssueQuery.visible(User.anonymous).find_by_id(q.id)
@@ -2169,12 +2169,12 @@ class QueryTest < ActiveSupport::TestCase
     assert query.available_filters.key?("assigned_to_role")
     assert_equal :list_optional, query.available_filters["assigned_to_role"][:type]
 
-    assert query.available_filters["assigned_to_role"][:values].include?(['Manager','1'])
-    assert query.available_filters["assigned_to_role"][:values].include?(['Developer','2'])
-    assert query.available_filters["assigned_to_role"][:values].include?(['Reporter','3'])
+    assert query.available_filters["assigned_to_role"][:values].include?(['Manager', '1'])
+    assert query.available_filters["assigned_to_role"][:values].include?(['Developer', '2'])
+    assert query.available_filters["assigned_to_role"][:values].include?(['Reporter', '3'])
 
-    assert ! query.available_filters["assigned_to_role"][:values].include?(['Non member','4'])
-    assert ! query.available_filters["assigned_to_role"][:values].include?(['Anonymous','5'])
+    assert ! query.available_filters["assigned_to_role"][:values].include?(['Non member', '4'])
+    assert ! query.available_filters["assigned_to_role"][:values].include?(['Anonymous', '5'])
   end
 
   def test_available_filters_should_include_custom_field_according_to_user_visibility
@@ -2446,7 +2446,7 @@ class QueryTest < ActiveSupport::TestCase
     WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 2, :new_status_id => 3)
     WorkflowTransition.create(:role_id => 1, :tracker_id => 2, :old_status_id => 1, :new_status_id => 3)
 
-    assert_equal ['1','2','3','4'], query.available_filters['status_id'][:values].map(&:second)
+    assert_equal ['1', '2', '3', '4'], query.available_filters['status_id'][:values].map(&:second)
   end
 
   def test_issue_statuses_without_project_should_return_all_statuses
@@ -2459,7 +2459,7 @@ class QueryTest < ActiveSupport::TestCase
     WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 2, :new_status_id => 3)
     WorkflowTransition.create(:role_id => 1, :tracker_id => 2, :old_status_id => 1, :new_status_id => 3)
 
-    assert_equal ['1','2','3','4','5','6'], query.available_filters['status_id'][:values].map(&:second)
+    assert_equal ['1', '2', '3', '4', '5', '6'], query.available_filters['status_id'][:values].map(&:second)
   end
 
   def test_project_status_filter_should_be_available_in_global_queries
