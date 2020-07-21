@@ -156,7 +156,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert_equal NUM_REV, @repository.changesets.count
       extra_info_heads = @repository.extra_info["heads"].dup
       assert_equal NUM_HEAD, extra_info_heads.size
-      extra_info_heads.delete_if { |x| x == "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c" }
+      extra_info_heads.delete_if {|x| x == "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c"}
       assert_equal NUM_HEAD - 2, extra_info_heads.size
       del_revs =
         [
@@ -168,7 +168,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
           "7e61ac704deecde634b51e59daa8110435dcb3da",
         ]
       @repository.changesets.each do |rev|
-        rev.destroy if del_revs.detect {|r| r == rev.scmid.to_s }
+        rev.destroy if del_revs.detect {|r| r == rev.scmid.to_s}
       end
       @project.reload
       cs1 = @repository.changesets
@@ -194,7 +194,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert_equal NUM_REV, @repository.changesets.count
       extra_info_heads = @repository.extra_info["heads"].dup
       assert_equal NUM_HEAD, extra_info_heads.size
-      extra_info_heads.delete_if { |x| x == "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c" }
+      extra_info_heads.delete_if {|x| x == "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c"}
       assert_equal NUM_HEAD - 2, extra_info_heads.size
       del_revs =
         [
@@ -206,7 +206,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
           "7e61ac704deecde634b51e59daa8110435dcb3da",
         ]
       @repository.changesets.each do |rev|
-        rev.destroy if del_revs.detect {|r| r == rev.scmid.to_s }
+        rev.destroy if del_revs.detect {|r| r == rev.scmid.to_s}
       end
       @project.reload
       assert_equal NUM_REV - 6, @repository.changesets.count
@@ -307,7 +307,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert_equal 0, @repository.extra_info["db_consistent"]["ordering"]
 
       extra_info_heads = @repository.extra_info["heads"].dup
-      extra_info_heads.delete_if { |x| x == "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c" }
+      extra_info_heads.delete_if {|x| x == "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c"}
       del_revs =
         [
           "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c",
@@ -318,7 +318,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
           "7e61ac704deecde634b51e59daa8110435dcb3da",
         ]
       @repository.changesets.each do |rev|
-        rev.destroy if del_revs.detect {|r| r == rev.scmid.to_s }
+        rev.destroy if del_revs.detect {|r| r == rev.scmid.to_s}
       end
       @project.reload
       cs1 = @repository.changesets
