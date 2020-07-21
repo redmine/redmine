@@ -238,7 +238,7 @@ class Changeset < ActiveRecord::Base
       issue.assign_attributes rule.slice(*Issue.attribute_names)
     end
     Redmine::Hook.call_hook(:model_changeset_scan_commit_for_issue_ids_pre_issue_update,
-                            { :changeset => self, :issue => issue, :action => action })
+                            {:changeset => self, :issue => issue, :action => action})
 
     if issue.changes.any?
       unless issue.save
