@@ -31,9 +31,11 @@ class BazaarAdapterTest < ActiveSupport::TestCase
     end
 
     def test_scm_version
-      to_test = { "Bazaar (bzr) 2.1.2\n"             => [2,1,2],
-                  "2.1.1\n1.7\n1.8"                  => [2,1,1],
-                  "2.0.1\r\n1.8.1\r\n1.9.1"          => [2,0,1]}
+      to_test = {
+        "Bazaar (bzr) 2.1.2\n"    => [2, 1, 2],
+        "2.1.1\n1.7\n1.8"         => [2, 1, 1],
+        "2.0.1\r\n1.8.1\r\n1.9.1" => [2, 0, 1]
+      }
       to_test.each do |s, v|
         test_scm_version_for(s, v)
       end
