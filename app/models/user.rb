@@ -143,7 +143,7 @@ class User < Principal
     group_id = group.is_a?(Group) ? group.id : group.to_i
     where("#{User.table_name}.id NOT IN (SELECT gu.user_id FROM #{table_name_prefix}groups_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id)
   }
-  scope :sorted, lambda { order(*User.fields_for_order_statement)}
+  scope :sorted, lambda {order(*User.fields_for_order_statement)}
   scope :having_mail, lambda {|arg|
     addresses = Array.wrap(arg).map {|a| a.to_s.downcase}
     if addresses.any?
