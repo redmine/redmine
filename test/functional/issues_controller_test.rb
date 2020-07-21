@@ -7641,17 +7641,17 @@ class IssuesControllerTest < Redmine::ControllerTest
     set_tmp_attachments_directory
     @request.session[:user_id] = 2
     with_settings :timelog_required_fields => [] do
-    assert_difference 'Issue.count', -2 do
-      assert_no_difference 'TimeEntry.count' do
-        delete(
-          :destroy,
-          :params => {
-            :ids => [1, 3],
-            :todo => 'nullify'
-          }
-        )
+      assert_difference 'Issue.count', -2 do
+        assert_no_difference 'TimeEntry.count' do
+          delete(
+            :destroy,
+            :params => {
+              :ids => [1, 3],
+              :todo => 'nullify'
+            }
+          )
+        end
       end
-    end
     end
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     assert_equal 'Successful deletion.', flash[:notice]
