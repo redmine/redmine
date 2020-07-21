@@ -7163,10 +7163,12 @@ class IssuesControllerTest < Redmine::ControllerTest
     )
     assert_response :success
     assert_select '#bulk-selection li', 3
-    assert_select 'select[name=?]', 'issue[project_id]' do
-      assert_select 'option[value=""]'
+    assert_select 'form#bulk_edit_form[action=?]', '/issues/bulk_update' do
+      assert_select 'select[name=?]', 'issue[project_id]' do
+        assert_select 'option[value=""]'
+      end
+      assert_select 'input[name=copy_attachments]'
     end
-    assert_select 'input[name=copy_attachments]'
   end
 
   def test_get_bulk_copy_without_add_issues_permission_should_not_propose_current_project_as_target
