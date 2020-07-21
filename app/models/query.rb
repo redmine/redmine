@@ -1362,10 +1362,15 @@ class Query < ActiveRecord::Base
       filter_id = "#{assoc}.#{filter_id}"
       filter_name = l("label_attribute_of_#{assoc}", :name => filter_name)
     end
-    add_available_filter filter_id, options.merge({
-      :name => filter_name,
-      :field => field
-    })
+    add_available_filter(
+      filter_id,
+      options.merge(
+        {
+          :name => filter_name,
+         :field => field
+        }
+      )
+    )
   end
 
   # Adds filters for custom fields associated to the custom field target class
@@ -1380,11 +1385,18 @@ class Query < ActiveRecord::Base
         filter_id = "cf_#{field.id}.cf_#{chained.id}"
         filter_name = chained.name
 
-        add_available_filter filter_id, options.merge({
-          :name => l(:label_attribute_of_object, :name => chained.name, :object_name => field.name),
-          :field => chained,
-          :through => field
-        })
+        add_available_filter(
+          filter_id,
+          options.merge(
+            {
+              :name => l(:label_attribute_of_object,
+                         :name => chained.name,
+                         :object_name => field.name),
+              :field => chained,
+              :through => field
+            }
+          )
+        )
       end
     end
   end
