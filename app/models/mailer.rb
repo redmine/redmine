@@ -58,9 +58,11 @@ class Mailer < ActionMailer::Base
     options = {:protocol => Setting.protocol}
     if Setting.host_name.to_s =~ /\A(https?\:\/\/)?(.+?)(\:(\d+))?(\/.+)?\z/i
       host, port, prefix = $2, $4, $5
-      options.merge!({
-        :host => host, :port => port, :script_name => prefix
-      })
+      options.merge!(
+        {
+          :host => host, :port => port, :script_name => prefix
+        }
+      )
     else
       options[:host] = Setting.host_name
     end
