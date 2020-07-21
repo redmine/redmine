@@ -267,10 +267,10 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       changesets = @repository.latest_changesets('README', nil)
       assert_equal %w|31 30 28 17 8 6 1 0|, changesets.collect(&:revision)
 
-      changesets = @repository.latest_changesets('README','8')
+      changesets = @repository.latest_changesets('README', '8')
       assert_equal %w|8 6 1 0|, changesets.collect(&:revision)
 
-      changesets = @repository.latest_changesets('README','8', 2)
+      changesets = @repository.latest_changesets('README', '8', 2)
       assert_equal %w|8 6|, changesets.collect(&:revision)
 
       # with_dirpath
