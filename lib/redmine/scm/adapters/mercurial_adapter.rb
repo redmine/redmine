@@ -131,6 +131,7 @@ module Redmine
 
         def summary
           return @summary if @summary
+
           hg 'rhsummary' do |io|
             output = io.read.force_encoding('UTF-8')
             begin
@@ -283,6 +284,7 @@ module Redmine
           hg 'rhannotate', '-ncu', "-r#{CGI.escape(hgrev(identifier))}", '--', hgtarget(p) do |io|
             io.each_line do |line|
               next unless line.b =~ %r{^([^:]+)\s(\d+)\s([0-9a-f]+):\s(.*)$}
+
               r = Revision.new(:author => $1.strip, :revision => $2, :scmid => $3,
                                :identifier => $3)
               blame.add_line($4.rstrip, r)
@@ -329,6 +331,7 @@ module Redmine
           if $? && $?.exitstatus != 0
             raise HgCommandAborted, "hg exited with non-zero status: #{$?.exitstatus}"
           end
+
           ret
         end
         private :hg
@@ -349,6 +352,7 @@ module Redmine
 
         def as_ary(o)
           return [] unless o
+
           o.is_a?(Array) ? o : Array[o]
         end
         private :as_ary
