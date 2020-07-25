@@ -614,7 +614,7 @@ module Redmine
       def coordinates(start_date, end_date, progress, zoom=nil)
         zoom ||= @zoom
         coords = {}
-        if start_date && end_date && start_date < self.date_to && end_date > self.date_from
+        if start_date && end_date && start_date <= self.date_to && end_date >= self.date_from
           if start_date > self.date_from
             coords[:start] = start_date - self.date_from
             coords[:bar_start] = start_date - self.date_from
