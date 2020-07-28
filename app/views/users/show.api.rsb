@@ -6,7 +6,9 @@ api.user do
   api.lastname   @user.lastname
   api.mail       @user.mail if User.current.admin? || !@user.pref.hide_mail
   api.created_on @user.created_on
-  api.last_login_on @user.last_login_on
+  api.updated_on @user.updated_on
+  api.last_login_on     @user.last_login_on
+  api.passwd_changed_on @user.passwd_changed_on
   api.api_key    @user.api_key if User.current.admin? || (User.current == @user)
   api.status     @user.status if User.current.admin?
 

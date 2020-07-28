@@ -28,7 +28,16 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     assert_response :success
     assert_equal 'application/xml', response.media_type
     assert_select 'users' do
-      assert_select 'user', User.active.count
+      users = User.active.order('login')
+      assert_select 'user', :count => users.size do |nodeset|
+        nodeset.zip(users) do |user_element, user|
+          assert_select user_element, 'id', :text => user.id.to_s
+          assert_select user_element, 'updated_on', :text => user.updated_on.iso8601
+
+          # No one has changed password.
+          assert_select user_element, 'passwd_changed_on', :text => ''
+        end
+      end
     end
   end
 
@@ -39,7 +48,17 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     assert_equal 'application/json', response.media_type
     json = ActiveSupport::JSON.decode(response.body)
     assert json.key?('users')
-    assert_equal User.active.count, json['users'].size
+
+    users = User.active.order('login')
+    assert_equal users.size, json['users'].size
+
+    json['users'].zip(users) do |user_json, user|
+      assert_equal user.id, user_json['id']
+      assert_equal user.updated_on.iso8601, user_json['updated_on']
+
+      # No one has changed password.
+      assert_nil user_json['passwd_changed_on']
+    end
   end
 
   test "GET /users/:id.xml should return the user" do
@@ -47,6 +66,8 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
 
     assert_response :success
     assert_select 'user id', :text => '2'
+    assert_select 'user updated_on', :text => '2006-07-19T20:42:15Z'
+    assert_select 'user passwd_changed_on', :text => ''
   end
 
   test "GET /users/:id.json should return the user" do
@@ -57,6 +78,8 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     assert_kind_of Hash, json
     assert_kind_of Hash, json['user']
     assert_equal 2, json['user']['id']
+    assert_equal '2006-07-19T20:42:15Z', json['user']['updated_on']
+    assert_nil json['user']['passwd_changed_on']
   end
 
   test "GET /users/:id.xml with include=memberships should include memberships" do
