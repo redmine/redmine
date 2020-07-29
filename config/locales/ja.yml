@@ -299,7 +299,7 @@ ja:
   field_attr_firstname: 名の属性
   field_attr_lastname: 姓の属性
   field_attr_mail: メールアドレスの属性
-  field_onthefly: あわせてユーザーを作成
+  field_onthefly: ユーザーが存在しなければ作成
   field_start_date: 開始日
   field_done_ratio: 進捗率
   field_auth_source: 認証方式
