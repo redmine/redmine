@@ -66,7 +66,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
 
     assert_response :success
     assert_select 'user id', :text => '2'
-    assert_select 'user updated_on', :text => '2006-07-19T20:42:15Z'
+    assert_select 'user updated_on', :text => Time.zone.parse('2006-07-19T20:42:15Z').iso8601
     assert_select 'user passwd_changed_on', :text => ''
   end
 
@@ -78,7 +78,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     assert_kind_of Hash, json
     assert_kind_of Hash, json['user']
     assert_equal 2, json['user']['id']
-    assert_equal '2006-07-19T20:42:15Z', json['user']['updated_on']
+    assert_equal Time.zone.parse('2006-07-19T20:42:15Z').iso8601, json['user']['updated_on']
     assert_nil json['user']['passwd_changed_on']
   end
 
