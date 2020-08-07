@@ -64,7 +64,7 @@ module Redmine
           end
 
           def hgversion_from_command_line
-            shellout("#{sq_bin} --version") { |io| io.read }.to_s
+            shellout("#{sq_bin} --version") {|io| io.read}.to_s
           end
 
           def template_path
@@ -180,7 +180,7 @@ module Redmine
 
         def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={})
           revs = Revisions.new
-          each_revision(path, identifier_from, identifier_to, options) { |e| revs << e }
+          each_revision(path, identifier_from, identifier_to, options) {|e| revs << e}
           revs
         end
 
@@ -243,7 +243,7 @@ module Redmine
           hg_args << "--from=#{CGI.escape(branch)}"
           hg_args << '--to=0'
           hg_args << "--limit=#{options[:limit]}" if options[:limit]
-          hg(*hg_args) { |io| io.readlines.map { |e| e.chomp } }
+          hg(*hg_args) {|io| io.readlines.map {|e| e.chomp}}
         end
 
         def diff(path, identifier_from, identifier_to=nil)
@@ -311,10 +311,10 @@ module Redmine
         # Runs 'hg' command with the given args
         def hg(*args, &block)
           # as of hg 4.4.1, early parsing of bool options is not terminated at '--'
-          if args.any? { |s| HG_EARLY_BOOL_ARG.match?(s) }
+          if args.any? {|s| HG_EARLY_BOOL_ARG.match?(s)}
             raise HgCommandArgumentError, "malicious command argument detected"
           end
-          if args.take_while { |s| s != '--' }.any? { |s| HG_EARLY_LIST_ARG.match?(s) }
+          if args.take_while {|s| s != '--'}.any? {|s| HG_EARLY_LIST_ARG.match?(s)}
             raise HgCommandArgumentError, "malicious command argument detected"
           end
 
@@ -325,7 +325,7 @@ module Redmine
           full_args << '--config' << 'diff.git=false'
           full_args += args
           ret = shellout(
-                   self.class.sq_bin + ' ' + full_args.map { |e| shell_quote e.to_s }.join(' '),
+                   self.class.sq_bin + ' ' + full_args.map {|e| shell_quote e.to_s}.join(' '),
                    &block
                    )
           if $? && $?.exitstatus != 0
