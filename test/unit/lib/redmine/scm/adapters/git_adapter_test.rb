@@ -134,7 +134,7 @@ class GitAdapterTest < ActiveSupport::TestCase
 
     def test_revisions_master_all
       revs1 = []
-      @adapter.revisions('', nil, "master",{}) do |rev|
+      @adapter.revisions('', nil, "master", {}) do |rev|
         revs1 << rev
       end
       assert_equal 15, revs1.length
@@ -186,7 +186,7 @@ class GitAdapterTest < ActiveSupport::TestCase
 
     def test_revisions_branch_latin_1_path_encoding_all
       revs1 = []
-      @adapter.revisions('', nil, "latin-1-path-encoding",{}) do |rev|
+      @adapter.revisions('', nil, "latin-1-path-encoding", {}) do |rev|
         revs1 << rev
       end
       assert_equal 8, revs1.length
