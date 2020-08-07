@@ -64,9 +64,11 @@ class GitAdapterTest < ActiveSupport::TestCase
     end
 
     def test_scm_version
-      to_test = { "git version 1.7.3.4\n"             => [1,7,3,4],
-                  "1.6.1\n1.7\n1.8"                   => [1,6,1],
-                  "1.6.2\r\n1.8.1\r\n1.9.1"           => [1,6,2]}
+      to_test = {
+        "git version 1.7.3.4\n"   => [1, 7, 3, 4],
+        "1.6.1\n1.7\n1.8"         => [1, 6, 1],
+        "1.6.2\r\n1.8.1\r\n1.9.1" => [1, 6, 2]
+      }
       to_test.each do |s, v|
         test_scm_version_for(s, v)
       end
