@@ -40,9 +40,11 @@ class Redmine::ApiTest::IssueRelationsTest < Redmine::ApiTest::Base
 
   test "POST /issues/:issue_id/relations.xml should create the relation" do
     assert_difference('IssueRelation.count') do
-      post '/issues/2/relations.xml',
+      post(
+        '/issues/2/relations.xml',
         :params => {:relation => {:issue_to_id => 7, :relation_type => 'relates'}},
         :headers => credentials('jsmith')
+      )
     end
 
     relation = IssueRelation.order('id DESC').first
@@ -57,9 +59,11 @@ class Redmine::ApiTest::IssueRelationsTest < Redmine::ApiTest::Base
 
   test "POST /issues/:issue_id/relations.xml with failure should return errors" do
     assert_no_difference('IssueRelation.count') do
-      post '/issues/2/relations.xml',
+      post(
+        '/issues/2/relations.xml',
         :params => {:relation => {:issue_to_id => 7, :relation_type => 'foo'}},
         :headers => credentials('jsmith')
+      )
     end
 
     assert_response :unprocessable_entity
