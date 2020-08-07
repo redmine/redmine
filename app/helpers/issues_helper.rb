@@ -527,7 +527,7 @@ module IssuesHelper
       label = l(relation_type[:name]) if relation_type
     end
     call_hook(:helper_issues_show_detail_after_setting,
-              {:detail => detail, :label => label, :value => value, :old_value => old_value })
+              {:detail => detail, :label => label, :value => value, :old_value => old_value})
 
     label ||= detail.prop_key
     value ||= detail.value
