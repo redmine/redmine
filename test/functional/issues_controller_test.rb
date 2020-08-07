@@ -7182,9 +7182,11 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
-    assert_select 'select[name=?]', 'issue[project_id]' do
-      assert_select 'option[value=""]', 0
-      assert_select 'option[value="2"]'
+    assert_select 'form#bulk_edit_form[action=?]', '/issues/bulk_update' do
+      assert_select 'select[name=?]', 'issue[project_id]' do
+        assert_select 'option[value=""]', 0
+        assert_select 'option[value="2"]'
+      end
     end
   end
 
