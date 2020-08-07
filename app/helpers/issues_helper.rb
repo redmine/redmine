@@ -134,7 +134,7 @@ module IssuesHelper
                          (if child.disabled_core_fields.include?('done_ratio')
                             ''
                           else
-                             progress_bar(child.done_ratio)
+                            progress_bar(child.done_ratio)
                           end),
                          :class=> 'done_ratio') +
              content_tag('td', buttons, :class => 'buttons'),
