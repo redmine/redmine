@@ -327,7 +327,7 @@ class GitAdapterTest < ActiveSupport::TestCase
                           :includes => ['83ca5fd546063a3c7dc2e568ba3355661a9e2b2c',
                                         '92397af84d22f27389c822848ecd5b463c181583'],
                           :excludes => ['95488a44bc25f7d1f97d775a31359539ff333a63',
-                                        '4f26664364207fa8b1af9f8722647ab2d4ac5d43'] }) do |rev|
+                                        '4f26664364207fa8b1af9f8722647ab2d4ac5d43']}) do |rev|
         revs1 << rev
       end
       assert_equal 4, revs1.length
