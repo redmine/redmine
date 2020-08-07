@@ -289,7 +289,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
   end
 
   test "DELETE /projects/:id.xml should delete the project" do
-    assert_difference('Project.count',-1) do
+    assert_difference('Project.count', -1) do
       delete '/projects/2.xml', :headers => credentials('admin')
     end
     assert_response :no_content
