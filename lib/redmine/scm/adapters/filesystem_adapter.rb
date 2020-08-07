@@ -80,14 +80,16 @@ module Redmine
               p1         = File.readable?(t1) ? relative_path : ""
               utf_8_path = scm_iconv('UTF-8', @path_encoding, p1)
               entries <<
-                Entry.new({ :name => scm_iconv('UTF-8', @path_encoding, File.basename(e1)),
-                          # below : list unreadable files, but dont link them.
-                          :path => utf_8_path,
-                          :kind => (File.directory?(t1) ? 'dir' : 'file'),
-                          :size => (File.directory?(t1) ? nil : File.size(t1)),
-                          :lastrev =>
-                              Revision.new({:time => (File.mtime(t1)) })
-                        })
+                Entry.new(
+                  {
+                    :name => scm_iconv('UTF-8', @path_encoding, File.basename(e1)),
+                    # below : list unreadable files, but dont link them.
+                    :path => utf_8_path,
+                    :kind => (File.directory?(t1) ? 'dir' : 'file'),
+                    :size => (File.directory?(t1) ? nil : File.size(t1)),
+                    :lastrev => Revision.new({:time => (File.mtime(t1))})
+                  }
+                )
             end
           end
           entries.sort_by_name
