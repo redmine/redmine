@@ -72,7 +72,7 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
   test "POST /projects/:project_id/memberships.xml should create the membership" do
     assert_difference 'Member.count' do
       post '/projects/1/memberships.xml',
-        :params => {:membership => {:user_id => 7, :role_ids => [2,3]}},
+        :params => {:membership => {:user_id => 7, :role_ids => [2, 3]}},
         :headers => credentials('jsmith')
 
       assert_response :created
@@ -84,7 +84,7 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
 
     assert_difference 'Member.count', 1 + group.users.count do
       post '/projects/1/memberships.xml',
-        :params => {:membership => {:user_id => 11, :role_ids => [2,3]}},
+        :params => {:membership => {:user_id => 11, :role_ids => [2, 3]}},
         :headers => credentials('jsmith')
 
       assert_response :created
@@ -94,7 +94,7 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
   test "POST /projects/:project_id/memberships.xml with invalid parameters should return errors" do
     assert_no_difference 'Member.count' do
       post '/projects/1/memberships.xml',
-        :params => {:membership => {:role_ids => [2,3]}},
+        :params => {:membership => {:role_ids => [2, 3]}},
         :headers => credentials('jsmith')
 
       assert_response :unprocessable_entity
@@ -131,17 +131,17 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
   end
 
   test "PUT /memberships/:id.xml should update the membership" do
-    assert_not_equal [1,2], Member.find(2).role_ids.sort
+    assert_not_equal [1, 2], Member.find(2).role_ids.sort
     assert_no_difference 'Member.count' do
       put '/memberships/2.xml',
-        :params => {:membership => {:user_id => 3, :role_ids => [1,2]}},
+        :params => {:membership => {:user_id => 3, :role_ids => [1, 2]}},
         :headers => credentials('jsmith')
 
       assert_response :no_content
       assert_equal '', @response.body
     end
     member = Member.find(2)
-    assert_equal [1,2], member.role_ids.sort
+    assert_equal [1, 2], member.role_ids.sort
   end
 
   test "PUT /memberships/:id.xml with invalid parameters should return errors" do
