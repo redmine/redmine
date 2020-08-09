@@ -124,9 +124,11 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
 
   test "POST /groups.xml with valid parameters should create the group" do
     assert_difference('Group.count') do
-      post '/groups.xml',
+      post(
+        '/groups.xml',
         :params => {:group => {:name => 'Test', :user_ids => [2, 3]}},
         :headers => credentials('admin')
+      )
       assert_response :created
       assert_equal 'application/xml', response.media_type
     end
@@ -142,9 +144,11 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
 
   test "POST /groups.xml with invalid parameters should return errors" do
     assert_no_difference('Group.count') do
-      post '/groups.xml',
+      post(
+        '/groups.xml',
         :params => {:group => {:name => ''}},
         :headers => credentials('admin')
+      )
     end
     assert_response :unprocessable_entity
     assert_equal 'application/xml', response.media_type
@@ -156,9 +160,11 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
 
   test "PUT /groups/:id.xml with valid parameters should update the group" do
     group = Group.generate!
-    put "/groups/#{group.id}.xml",
+    put(
+      "/groups/#{group.id}.xml",
       :params => {:group => {:name => 'New name', :user_ids => [2, 3]}},
       :headers => credentials('admin')
+    )
     assert_response :no_content
     assert_equal '', @response.body
 
@@ -168,9 +174,11 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
 
   test "PUT /groups/:id.xml with invalid parameters should return errors" do
     group = Group.generate!
-    put "/groups/#{group.id}.xml",
+    put(
+      "/groups/#{group.id}.xml",
       :params => {:group => {:name => ''}},
       :headers => credentials('admin')
+    )
     assert_response :unprocessable_entity
     assert_equal 'application/xml', response.media_type
 
@@ -191,9 +199,11 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
   test "POST /groups/:id/users.xml should add user to the group" do
     group = Group.generate!
     assert_difference 'group.reload.users.count' do
-      post "/groups/#{group.id}/users.xml",
+      post(
+        "/groups/#{group.id}/users.xml",
         :params => {:user_id => 5},
         :headers => credentials('admin')
+      )
       assert_response :no_content
       assert_equal '', @response.body
     end
@@ -205,9 +215,11 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
     group.users << User.find(5)
 
     assert_no_difference 'group.reload.users.count' do
-      post "/groups/#{group.id}/users.xml",
+      post(
+        "/groups/#{group.id}/users.xml",
         :params => {:user_id => 5},
         :headers => credentials('admin')
+      )
       assert_response :unprocessable_entity
     end
 
