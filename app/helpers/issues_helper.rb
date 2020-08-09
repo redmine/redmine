@@ -175,11 +175,12 @@ module IssuesHelper
                         false, :id => nil),
                       :class => 'checkbox') +
              content_tag('td',
-                         relation.to_s(@issue) {|other|
+                         relation.to_s(@issue) do |other|
                            link_to_issue(
                              other,
-                             :project => Setting.cross_project_issue_relations?)
-                         }.html_safe,
+                             :project => Setting.cross_project_issue_relations?
+                           )
+                         end.html_safe,
                          :class => 'subject') +
              content_tag('td', other_issue.status, :class => 'status') +
              content_tag('td', link_to_user(other_issue.assigned_to), :class => 'assigned_to') +
