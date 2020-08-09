@@ -186,7 +186,7 @@ class TrackersControllerTest < Redmine::ControllerTest
   end
 
   def test_update_with_failure
-    put :update, :params => {:id => 1, :tracker => { :name => '' }}
+    put :update, :params => {:id => 1, :tracker => {:name => ''}}
     assert_response :success
 
     assert_select_error /name cannot be blank/i
@@ -194,7 +194,7 @@ class TrackersControllerTest < Redmine::ControllerTest
 
   def test_move_lower
    tracker = Tracker.find_by_position(1)
-   put :update, :params => {:id => 1, :tracker => { :position => '2' }}
+   put :update, :params => {:id => 1, :tracker => {:position => '2'}}
    assert_equal 2, tracker.reload.position
   end
 
