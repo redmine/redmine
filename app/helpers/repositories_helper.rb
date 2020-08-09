@@ -87,6 +87,7 @@ module RepositoriesHelper
 
   def render_changes_tree(tree)
     return '' if tree.nil?
+
     output = +''
     output << '<ul>'
     tree.keys.sort.each do |file|
@@ -279,6 +280,7 @@ module RepositoriesHelper
 
   def index_commits(commits, heads)
     return nil if commits.nil? or commits.first.parents.nil?
+
     refs_map = {}
     heads.each do |head|
       refs_map[head.scmid] ||= []
