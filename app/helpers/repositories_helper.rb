@@ -68,7 +68,7 @@ module RepositoriesHelper
       end
     end.compact
 
-    tree = { }
+    tree = {}
     changes.each do |change|
       p = tree
       dirs = change.path.to_s.split('/').select {|d| !d.blank?}
@@ -289,7 +289,7 @@ module RepositoriesHelper
     commits_by_scmid = {}
     commits.reverse.each_with_index do |commit, commit_index|
       commits_by_scmid[commit.scmid] = {
-        :parent_scmids => commit.parents.collect { |parent| parent.scmid },
+        :parent_scmids => commit.parents.collect {|parent| parent.scmid},
         :rdmid => commit_index,
         :refs  => refs_map.include?(commit.scmid) ? refs_map[commit.scmid].join(" ") : nil,
         :scmid => commit.scmid,
