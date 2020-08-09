@@ -613,7 +613,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 1, issue.attachments.size
     u = +''
     u1 = 'ÄäÖöÜü'
-    11.times { u << u1 }
+    11.times {u << u1}
     attachment = issue.attachments.first
     assert_equal "#{u}.png", attachment.filename
     assert_equal 130, attachment.filesize
@@ -632,7 +632,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 1, issue.attachments.size
     u = +''
     u1 = 'ÄäÖöÜü'
-    11.times { u << u1 }
+    11.times {u << u1}
     attachment = issue.attachments.first
     assert_equal "#{u}.txt", attachment.filename
     assert_equal 5, attachment.filesize
@@ -661,7 +661,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_empty_attachment_should_not_be_imported
     issue = submit_email(
               'ticket_with_empty_attachment.eml',
-              issue: { project: 'ecookbook' }
+              :issue => {:project => 'ecookbook'}
             )
     assert_equal 0, issue.attachments.size
   end
