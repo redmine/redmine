@@ -30,7 +30,6 @@ module Redmine
         include Redmine::I18n
 
         class << self
-
           def generate(options = {}, &block)
             col_sep = l(:general_csv_separator)
             encoding = Encoding.find(options[:encoding]) rescue Encoding.find(l(:general_csv_encoding))
