@@ -583,9 +583,10 @@ class User < Principal
   def membership(project)
     project_id = project.is_a?(Project) ? project.id : project
 
-    @membership_by_project_id ||= Hash.new {|h, project_id|
-      h[project_id] = memberships.where(:project_id => project_id).first
-    }
+    @membership_by_project_id ||=
+      Hash.new do |h, project_id|
+        h[project_id] = memberships.where(:project_id => project_id).first
+      end
     @membership_by_project_id[project_id]
   end
 
@@ -710,11 +711,11 @@ class User < Principal
       roles = roles_for_project(context)
       return false unless roles
 
-      roles.any? {|role|
+      roles.any? do |role|
         (context.is_public? || role.member?) &&
         role.allowed_to?(action) &&
         (block_given? ? yield(role, self) : true)
-      }
+      end
     elsif context && context.is_a?(Array)
       if context.empty?
         false
@@ -730,10 +731,10 @@ class User < Principal
 
       # authorize if user has at least one role that has this permission
       roles = self.roles.to_a | [builtin_role]
-      roles.any? {|role|
+      roles.any? do |role|
         role.allowed_to?(action) &&
         (block_given? ? yield(role, self) : true)
-      }
+      end
     else
       false
     end
