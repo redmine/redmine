@@ -6402,6 +6402,11 @@ class IssuesControllerTest < Redmine::ControllerTest
       assert_select 'select[name=?]', 'issue[priority_id]' do
         assert_select 'option[value="15"]', 0
       end
+
+      # Initial form should hide 'follow' button
+      assert_select 'input[type=submit]', 1 do
+        assert_select '[name=?]', 'commit'
+      end
     end
   end
 
