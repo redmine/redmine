@@ -278,6 +278,7 @@ module Redmine
         def scm_iconv(to, from, str)
           return if str.nil?
           return str if to == from && str.encoding.to_s == from
+
           str = str.dup
           str.force_encoding(from)
           begin
