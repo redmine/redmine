@@ -454,9 +454,13 @@ class Query < ActiveRecord::Base
         when :date, :date_past
           case operator_for(field)
           when "=", ">=", "<=", "><"
-            add_filter_error(field, :invalid) if values_for(field).detect {|v|
-              v.present? && (!/\A\d{4}-\d{2}-\d{2}(T\d{2}((:)?\d{2}){0,2}(Z|\d{2}:?\d{2})?)?\z/.match?(v) || parse_date(v).nil?)
-            }
+            if values_for(field).detect do |v|
+                  v.present? &&
+                    (!/\A\d{4}-\d{2}-\d{2}(T\d{2}((:)?\d{2}){0,2}(Z|\d{2}:?\d{2})?)?\z/.match?(v) ||
+                       parse_date(v).nil?)
+               end
+              add_filter_error(field, :invalid)
+            end
           when ">t-", "<t-", "t-", ">t+", "<t+", "t+", "><t+", "><t-"
             if values_for(field).detect {|v| v.present? && !/^\d+$/.match?(v)}
               add_filter_error(field, :invalid)
@@ -742,10 +746,10 @@ class Query < ActiveRecord::Base
 
   # Returns a Hash of columns and the key for sorting
   def sortable_columns
-    available_columns.inject({}) {|h, column|
+    available_columns.inject({}) do |h, column|
       h[column.name.to_s] = column.sortable
       h
-    }
+    end
   end
 
   def columns
