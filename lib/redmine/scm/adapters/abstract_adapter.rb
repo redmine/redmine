@@ -299,13 +299,13 @@ module Redmine
 
       class Entries < Array
         def sort_by_name
-          dup.sort! {|x,y|
+          dup.sort! do |x, y|
             if x.kind == y.kind
               x.name.to_s <=> y.name.to_s
             else
               x.kind <=> y.kind
             end
-          }
+          end
         end
 
         def revisions
@@ -355,13 +355,13 @@ module Redmine
 
       class Revisions < Array
         def latest
-          sort {|x,y|
+          sort do |x, y|
             unless x.time.nil? or y.time.nil?
               x.time <=> y.time
             else
               0
             end
-          }.last
+          end.last
         end
       end
 
