@@ -898,6 +898,23 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal Date.parse('2012-07-14'), issue.due_date
   end
 
+  def test_safe_attributes_notes_should_check_add_issue_notes_permission
+    # With add_issue_notes permission
+    user = User.find(2)
+    issue = Issue.new(:project => Project.find(1))
+    issue.init_journal(user)
+    issue.send :safe_attributes=, {'notes' => 'note'}, user
+    assert_equal 'note', issue.notes
+
+    # Without add_issue_notes permission
+    Role.find(1).remove_permission!(:add_issue_notes)
+    issue = Issue.new(:project => Project.find(1))
+    user.reload
+    issue.init_journal(user)
+    issue.send :safe_attributes=, {'notes' => 'note'}, user
+    assert_equal '', issue.notes
+  end
+
   def test_safe_attributes_should_accept_target_tracker_enabled_fields
     source = Tracker.find(1)
     source.core_fields = []
