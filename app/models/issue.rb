@@ -465,7 +465,6 @@ class Issue < ActiveRecord::Base
     'custom_field_values',
     'custom_fields',
     'lock_version',
-    'notes',
     :if => lambda {|issue, user| issue.new_record? || issue.attributes_editable?(user) }
 
   safe_attributes 'notes',
