@@ -5238,6 +5238,24 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_equal spent_hours_before + 2.5, issue.spent_hours
   end
 
+  def test_put_update_should_check_add_issue_notes_permission
+    role = Role.find(1)
+    role.remove_permission! :add_issue_notes
+    @request.session[:user_id] = 2
+
+    assert_no_difference 'Journal.count' do
+      put(
+        :update,
+        :params => {
+          :id => 1,
+          :issue => {
+            :notes => 'New note'
+          }
+        }
+      )
+    end
+  end
+
   def test_put_update_should_preserve_parent_issue_even_if_not_visible
     parent = Issue.generate!(:project_id => 1, :is_private => true)
     issue = Issue.generate!(:parent_issue_id => parent.id)
