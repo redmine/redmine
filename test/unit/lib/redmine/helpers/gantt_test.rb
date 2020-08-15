@@ -450,6 +450,9 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
     @output_buffer = @gantt.line(today - 7, today + 7, 30, true, 'line', :format => :html, :zoom => 4)
     assert_select "div.starting", 1
     assert_select 'div.starting[style*="left:28px"]', 1
+    # starting marker on the leftmost boundary of the gantt
+    @output_buffer = @gantt.line(gantt_start, today + 7, 30, true, 'line', :format => :html, :zoom => 4)
+    assert_select 'div.starting[style*="left:0px"]', 1
   end
 
   test "#line starting marker should not appear if the start date is before gantt start date" do
@@ -463,6 +466,9 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
     @output_buffer = @gantt.line(today - 7, today + 7, 30, true, 'line', :format => :html, :zoom => 4)
     assert_select "div.ending", 1
     assert_select 'div.ending[style*="left:88px"]', 1
+    # ending marker on the rightmost boundary of the gantt
+    @output_buffer = @gantt.line(today - 7, gantt_end, 30, true, 'line', :format => :html, :zoom => 4)
+    assert_select 'div.ending[style*="left:116px"]', 1
   end
 
   test "#line ending marker should not appear if the end date is before gantt start date" do
