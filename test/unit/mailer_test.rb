@@ -480,6 +480,16 @@ class MailerTest < ActiveSupport::TestCase
     end
   end
 
+  def test_issue_add_should_include_issue_status_type_badge
+    issue = Issue.find(1)
+    Mailer.deliver_issue_add(issue)
+
+    mail = last_email
+    assert_select_email do
+      assert_select 'span.badge.badge-status-open', text: 'open'
+    end
+  end
+
   def test_issue_edit_subject_should_include_status_changes_if_setting_is_enabled
     with_settings :show_status_changes_in_mail_subject => 1 do
       issue = Issue.find(2)
