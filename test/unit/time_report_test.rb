@@ -29,7 +29,8 @@ class TimeReportTest < ActiveSupport::TestCase
   def report_by(criteria)
     project = nil
     issue = nil # Unused argument. TODO: Remove
-    Redmine::Helpers::TimeReport.new(project, issue, criteria, 'month', TimeEntry.all)
+    query = TimeEntryQuery.new
+    Redmine::Helpers::TimeReport.new(project, issue, criteria, 'month', query.results_scope)
   end
 
   def test_project_sorted_by_name
