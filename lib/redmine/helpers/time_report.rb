@@ -51,6 +51,7 @@ module Redmine
               reorder(nil).
               group(@criteria.collect{|criteria| @available_criteria[criteria][:sql]} + time_columns).
               joins(@criteria.collect{|criteria| @available_criteria[criteria][:joins]}.compact).
+              order(@criteria.collect{|criteria| @available_criteria[criteria][:order]}.compact).
               sum(:hours).each do |hash, hours|
             h = {'hours' => hours}
             (@criteria + time_columns).each_with_index do |name, i|
@@ -107,7 +108,10 @@ module Redmine
         @available_criteria = {
           'project' => {:sql => "#{TimeEntry.table_name}.project_id",
                         :klass => Project,
-                        :label => :label_project},
+                        :label => :label_project,
+                        :joins => :project,
+                        :order => "#{Project.table_name}.name"
+                       },
           'status' => {:sql => "#{Issue.table_name}.status_id",
                        :klass => IssueStatus,
                        :label => :field_status},
