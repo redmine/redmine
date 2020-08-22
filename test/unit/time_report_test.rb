@@ -44,4 +44,26 @@ class TimeReportTest < ActiveSupport::TestCase
 
     assert_equal result_projects, [project_a.id, project_b.id]
   end
+
+  # TODO: This test is passing. Why???
+  # def test_status_sorted_by_position
+  #   status_b = IssueStatus.generate!(position: 2)
+  #   status_a = IssueStatus.generate!(position: 1)
+
+  #   issue_b = Issue.generate!
+  #   issue_b.update(status: status_b)
+  #   issue_a = Issue.generate!
+  #   issue_a.update(status: status_a)
+
+  #   TimeEntry.generate!(issue: issue_a)
+  #   TimeEntry.generate!(issue: issue_b)
+  #   report = report_by(['status'])
+
+  #   result_statuses = report.hours.map { |row| row['status']  }
+
+  #   assert_equal [status_a.id, status_b.id], result_statuses
+  # end
+end
+end
+end
 end
