@@ -31,7 +31,7 @@
     <%= textilizable @project.description %>
   </div>
   <% end %>
-  <% if @project.homepage.present? || @project.visible_custom_field_values.any?(&:present?) %>
+  <% if @project.homepage.present? || @project.visible_custom_field_values.any? { |o| o.value.present? } %>
   <ul>
   <% unless @project.homepage.blank? %>
     <li><span class="label"><%=l(:field_homepage)%>:</span> <%= link_to_if uri_with_safe_scheme?(@project.homepage), @project.homepage, @project.homepage %></li>
