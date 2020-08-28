@@ -851,6 +851,14 @@ function setupFilePreviewNavigation() {
   }
 }
 
+$(document).on('keydown', 'form textarea', function(e) {
+  // Submit the form with Ctrl + Enter or Command + Return
+  var targetForm = $(e.target).closest('form');
+  if(e.keyCode == 13 && ((e.ctrlKey && !e.metaKey) || (!e.ctrlKey && e.metaKey) && targetForm.length)) {
+    $(e.target).closest('form').find('textarea').blur().removeData('changed');
+    targetForm.submit();
+  }
+});
 
 
 function hideOnLoad() {
