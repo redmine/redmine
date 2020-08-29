@@ -12,10 +12,6 @@
 Layout/ArgumentAlignment:
   Exclude:
     - 'config/application.rb'
-    - 'lib/redmine/scm/adapters/bazaar_adapter.rb'
-    - 'test/integration/api_test/attachments_test.rb'
-    - 'test/integration/api_test/groups_test.rb'
-    - 'test/integration/api_test/issue_relations_test.rb'
     - 'test/integration/api_test/memberships_test.rb'
     - 'test/integration/api_test/projects_test.rb'
     - 'test/integration/api_test/wiki_pages_test.rb'
@@ -58,12 +54,10 @@ Layout/EmptyLinesAroundClassBody:
     - 'db/migrate/20110223180953_salt_user_passwords.rb'
     - 'db/migrate/20131215104612_store_relation_type_in_journal_details.rb'
     - 'db/migrate/20180923082945_change_sqlite_booleans_to_0_and_1.rb'
-    - 'lib/redmine/export/csv.rb'
     - 'lib/redmine/notifiable.rb'
     - 'lib/redmine/scm/adapters/bazaar_adapter.rb'
     - 'lib/redmine/scm/adapters/cvs_adapter.rb'
     - 'lib/redmine/scm/adapters/filesystem_adapter.rb'
-    - 'lib/redmine/scm/adapters/mercurial_adapter.rb'
     - 'lib/redmine/wiki_formatting/html_parser.rb'
     - 'lib/redmine/wiki_formatting/markdown/html_parser.rb'
     - 'lib/redmine/wiki_formatting/textile/html_parser.rb'
@@ -104,7 +98,6 @@ Layout/EmptyLinesAroundModuleBody:
     - 'app/helpers/attachments_helper.rb'
     - 'app/helpers/custom_fields_helper.rb'
     - 'app/helpers/email_addresses_helper.rb'
-    - 'app/helpers/gantt_helper.rb'
     - 'app/helpers/issues_helper.rb'
     - 'app/helpers/journals_helper.rb'
     - 'app/helpers/reports_helper.rb'
@@ -135,19 +128,6 @@ Layout/FirstArgumentIndentation:
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, IndentationWidth.
-# SupportedStyles: special_inside_parentheses, consistent, align_brackets
-Layout/FirstArrayElementIndentation:
-  Exclude:
-    - 'lib/redmine/nested_set/issue_nested_set.rb'
-    - 'lib/redmine/nested_set/project_nested_set.rb'
-    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
-    - 'test/functional/auth_sources_controller_test.rb'
-    - 'test/functional/repositories_mercurial_controller_test.rb'
-    - 'test/unit/lib/redmine/scm/adapters/git_adapter_test.rb'
-    - 'test/unit/lib/redmine/scm/adapters/mercurial_adapter_test.rb'
-
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, IndentationWidth.
 # SupportedStyles: special_inside_parentheses, consistent, align_braces
 Layout/FirstHashElementIndentation:
   Enabled: false
@@ -168,20 +148,10 @@ Layout/IndentationWidth:
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: symmetrical, new_line, same_line
-Layout/MultilineArrayBraceLayout:
-  Exclude:
-    - 'app/helpers/settings_helper.rb'
-    - 'app/helpers/users_helper.rb'
-
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: symmetrical, new_line, same_line
 Layout/MultilineHashBraceLayout:
   Exclude:
     - 'app/controllers/context_menus_controller.rb'
     - 'lib/redmine/access_keys.rb'
-    - 'lib/redmine/helpers/time_report.rb'
-    - 'lib/redmine/scm/adapters/bazaar_adapter.rb'
     - 'lib/redmine/scm/adapters/filesystem_adapter.rb'
     - 'lib/redmine/scm/adapters/subversion_adapter.rb'
     - 'test/functional/documents_controller_test.rb'
@@ -270,13 +240,6 @@ Layout/SpaceBeforeSemicolon:
   Exclude:
     - 'app/models/user_preference.rb'
     - 'config/initializers/10-patches.rb'
-
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: require_no_space, require_space
-Layout/SpaceInLambdaLiteral:
-  Exclude:
-    - 'app/helpers/application_helper.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBrackets.
@@ -378,11 +341,6 @@ Lint/InterpolationCheck:
   Exclude:
     - 'app/models/user.rb'
 
-# Cop supports --auto-correct.
-Lint/LiteralInInterpolation:
-  Exclude:
-    - 'test/unit/mail_handler_test.rb'
-
 Lint/Loop:
   Exclude:
     - 'lib/redmine/helpers/gantt.rb'
@@ -406,7 +364,6 @@ Lint/RedundantStringCoercion:
     - 'lib/redmine/export/pdf/issues_pdf_helper.rb'
     - 'test/functional/repositories_filesystem_controller_test.rb'
     - 'test/functional/repositories_git_controller_test.rb'
-    - 'test/functional/repositories_mercurial_controller_test.rb'
 
 # Cop supports --auto-correct.
 Lint/SendWithMixinArgument:
@@ -865,7 +822,6 @@ Rails/RefuteMethods:
     - 'test/unit/attachment_test.rb'
     - 'test/unit/custom_field_test.rb'
     - 'test/unit/lib/redmine/project_jump_box_test.rb'
-    - 'test/unit/mail_handler_test.rb'
 
 # Configuration parameters: Blacklist, Whitelist.
 # Blacklist: decrement!, decrement_counter, increment!, increment_counter, toggle!, touch, update_all, update_attribute, update_column, update_columns, update_counters
@@ -1009,7 +965,6 @@ Style/ColonMethodCall:
     - 'lib/redmine/export/pdf.rb'
     - 'lib/redmine/wiki_formatting.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
-    - 'test/test_helper.rb'
     - 'test/unit/default_data_test.rb'
     - 'test/unit/lib/redmine/export/pdf_test.rb'
 
@@ -1226,7 +1181,6 @@ Style/MultilineIfModifier:
     - 'app/helpers/search_helper.rb'
     - 'app/models/issue_query.rb'
     - 'app/models/query.rb'
-    - 'app/models/repository/bazaar.rb'
     - 'app/models/time_entry_query.rb'
     - 'app/views/common/feed.atom.builder'
     - 'lib/redmine/access_keys.rb'
@@ -1236,9 +1190,6 @@ Style/MultilineIfModifier:
 
 Style/MultilineTernaryOperator:
   Exclude:
-    - 'app/controllers/workflows_controller.rb'
-    - 'app/helpers/settings_helper.rb'
-    - 'app/models/issue_query.rb'
     - 'lib/redmine/ciphering.rb'
     - 'lib/redmine/scm/adapters/filesystem_adapter.rb'
 
@@ -1249,7 +1200,6 @@ Style/MultipleComparison:
     - 'app/models/import.rb'
     - 'app/models/version.rb'
     - 'app/models/wiki_page.rb'
-    - 'app/models/workflow_transition.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
@@ -1285,7 +1235,6 @@ Style/NegatedWhile:
 Style/NestedParenthesizedCalls:
   Exclude:
     - 'lib/redmine/views/labelled_form_builder.rb'
-    - 'test/unit/mail_handler_test.rb'
 
 Style/NestedTernaryOperator:
   Exclude:
@@ -1420,7 +1369,6 @@ Style/RedundantParentheses:
     - 'app/models/repository/cvs.rb'
     - 'app/models/version.rb'
     - 'lib/redmine/field_format.rb'
-    - 'lib/redmine/helpers/gantt.rb'
     - 'lib/redmine/platform.rb'
     - 'lib/redmine/scm/adapters/cvs_adapter.rb'
     - 'lib/redmine/scm/adapters/filesystem_adapter.rb'
@@ -1456,10 +1404,6 @@ Style/RegexpLiteral:
 # Cop supports --auto-correct.
 Style/RescueModifier:
   Exclude:
-    - 'app/controllers/application_controller.rb'
-    - 'app/controllers/attachments_controller.rb'
-    - 'app/controllers/imports_controller.rb'
-    - 'app/controllers/watchers_controller.rb'
     - 'app/helpers/avatars_helper.rb'
     - 'app/models/custom_field.rb'
     - 'app/models/import.rb'
@@ -1487,7 +1431,6 @@ Style/SafeNavigation:
 Style/SelfAssignment:
   Exclude:
     - 'app/controllers/repositories_controller.rb'
-    - 'app/helpers/application_helper.rb'
     - 'app/helpers/reports_helper.rb'
     - 'app/models/auth_source_ldap.rb'
     - 'app/models/project.rb'
