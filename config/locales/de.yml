@@ -1356,3 +1356,4 @@ de:
   twofa_text_backup_codes_hint: Sie können einen dieser Codes benutzen wenn Sie vorübergehend keinen Zugriff auf Ihren zweiten Faktor haben. Jeder Code kann nur ein Mal verwendet werden. Es wird empfohlen, diese Codes auszudrucken und sie an einem sicheren Ort zu verwahren.
   twofa_text_backup_codes_created_at: Backup-Codes generiert am %{datetime}.
   twofa_backup_codes_already_shown: Aus Sicherheitsgründen können Backup-Codes nicht erneut angezeigt werden. Bitte <a data-method="post" href="%{bc_path}">generieren Sie neue Codes</a> falls nötig.
+  label_optional: optional
