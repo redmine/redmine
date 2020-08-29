@@ -28,6 +28,17 @@
 
 <p><%= setting_check_box :lost_password %></p>
 
+<p>
+  <%= setting_select :twofa, [[l(:label_disabled), "0"],
+                              [l(:label_optional), "1"],
+                              [l(:label_required_lower), "2"]] -%>
+  <em class="info">
+    <%= t 'twofa_hint_disabled_html', label: t(:label_disabled) -%><br/>
+    <%= t 'twofa_hint_required_html', label: t(:label_required_lower) -%>
+  </em>
+</p>
+
+
 <p><%= setting_check_box :openid, :disabled => !Object.const_defined?(:OpenID) %></p>
 </div>
 

@@ -36,6 +36,11 @@ module Redmine
       for_twofa_scheme(user.twofa_scheme).try(:new, user)
     end
 
+    def self.unpair_all!
+      users = User.where.not(twofa_scheme: nil)
+      users.each { |u| self.for_user(u).destroy_pairing_without_verify! }
+    end
+
     def self.schemes
       initialize_schemes
       @@schemes

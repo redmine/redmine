@@ -223,6 +223,12 @@ class Setting < ActiveRecord::Base
     s
   end
 
+  def self.twofa_from_params(params)
+    # unpair all current 2FA pairings when switching off 2FA
+    Redmine::Twofa.unpair_all! if params == '0' && self.twofa?
+    params
+  end
+
   # Helper that returns an array based on per_page_options setting
   def self.per_page_options_array
     per_page_options.split(%r{[\s,]}).collect(&:to_i).select {|n| n > 0}.sort

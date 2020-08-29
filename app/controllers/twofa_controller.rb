@@ -23,16 +23,20 @@ class TwofaController < ApplicationController
   before_action :require_login
   before_action :require_admin, only: :admin_deactivate
 
+  before_action :require_active_twofa
+
   require_sudo_mode :activate_init, :deactivate_init
+
+  skip_before_action :check_twofa_activation, only: [:select_scheme, :activate_init, :activate_confirm, :activate]
+
+  def select_scheme
+    @user = User.current
+  end
 
   before_action :activate_setup, only: [:activate_init, :activate_confirm, :activate]
 
   def activate_init
-    @twofa.init_pairing!
-    if @twofa.send_code(controller: 'twofa', action: 'activate')
-      flash[:notice] = l('twofa_code_sent')
-    end
-    redirect_to action: :activate_confirm, scheme: @twofa.scheme_name
+    init_twofa_pairing_and_send_code_for(@twofa)
   end
 
   def activate_confirm
@@ -105,5 +109,9 @@ class TwofaController < ApplicationController
     if params[:scheme].to_s != @twofa.scheme_name
       redirect_to my_account_path
     end
+  end
+
+  def require_active_twofa
+    Setting.twofa? ? true : deny_access
   end
 end

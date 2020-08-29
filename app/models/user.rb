@@ -396,6 +396,10 @@ class User < Principal
     twofa_scheme.present?
   end
 
+  def must_activate_twofa?
+    Setting.twofa == '2' && !twofa_active?
+  end
+
   def pref
     self.preference ||= UserPreference.new(:user => self)
   end

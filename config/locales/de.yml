@@ -719,6 +719,7 @@ de:
   label_repository_new: Neues Repository
   label_repository_plural: Repositories
   label_required: Erforderlich
+  label_required_lower: erforderlich
   label_result_plural: Resultate
   label_reverse_chronological_order: in umgekehrter zeitlicher Reihenfolge
   label_revision: Revision
@@ -1330,8 +1331,12 @@ de:
   twofa_currently_active: "Aktiv: %{twofa_scheme_name}"
   twofa_not_active: "Nicht aktiv"
   twofa_label_code: Code
+  twofa_hint_disabled_html: Die Einstellung <strong>%{label}</strong> deaktiviert Zwei-Faktor-Authentifizierung für alle Nutzer und löscht verbundene Apps.
+  twofa_hint_required_html: Die Einstellung <strong>%{label}</strong> fordert alle Nutzer bei ihrem nächsten Login dazu auf Zwei-Faktor-Authentifizierung einzurichten.
   twofa_label_setup: Zwei-Faktor-Authentifizierung einrichten
   twofa_label_deactivation_confirmation: Zwei-Faktor-Authentifizierung abschalten
+  twofa_notice_select: "Bitte wählen Sie Ihr gewünschtes Schema für die Zwei-Faktor-Authentifizierung:"
+  twofa_warning_require: Der Administrator fordert Sie dazu auf Zwei-Faktor-Authentifizierung einzurichten.
   twofa_activated: Zwei-Faktor-Authentifizierung erfolgreich eingerichtet.
   twofa_deactivated: Zwei-Faktor-Authentifizierung abgeschaltet.
   twofa_mail_body_security_notification_paired: "Zwei-Faktor-Authentifizierung per %{field} eingerichtet."

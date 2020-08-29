@@ -22,6 +22,8 @@
   <% end %>
 </div>
 
+<% unless @user.must_activate_twofa? %>
 <% content_for :sidebar do %>
 <%= render :partial => 'my/sidebar' %>
+<% end %>
 <% end %>

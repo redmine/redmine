@@ -28,6 +28,7 @@
   <% if Setting.openid? %>
   <p><%= f.text_field :identity_url  %></p>
   <% end %>
+  <% if Setting.twofa? -%>
   <p>
     <label><%=l :setting_twofa -%></label>
     <% if @user.twofa_active? %>
@@ -39,6 +40,7 @@
       <% end %>
     <% end %>
   </p>
+  <% end -%>
 
   <% @user.custom_field_values.select(&:editable?).each do |value| %>
     <p><%= custom_field_tag_with_label :user, value %></p>

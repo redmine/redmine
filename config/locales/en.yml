@@ -870,6 +870,7 @@ en:
   label_copied_from: Copied from
   label_stay_logged_in: Stay logged in
   label_disabled: disabled
+  label_optional: optional
   label_show_completed_versions: Show completed versions
   label_me: me
   label_board: Forum
@@ -993,6 +994,7 @@ en:
   label_fields_permissions: Fields permissions
   label_readonly: Read-only
   label_required: Required
+  label_required_lower: required
   label_hidden: Hidden
   label_attribute_of_project: "Project's %{name}"
   label_attribute_of_issue: "Issue's %{name}"
@@ -1307,8 +1309,12 @@ en:
   twofa_currently_active: "Currently active: %{twofa_scheme_name}"
   twofa_not_active: "Not activated"
   twofa_label_code: Code
+  twofa_hint_disabled_html: Setting <strong>%{label}</strong> will deactivate and unpair two-factor authentication devices for all users.
+  twofa_hint_required_html: Setting <strong>%{label}</strong> will require all users to set up two-factor authentication at their next login.
   twofa_label_setup: Enable two-factor authentication
   twofa_label_deactivation_confirmation: Disable two-factor authentication
+  twofa_notice_select: "Please select the two-factor scheme you would like to use:"
+  twofa_warning_require: The administrator requires you to enable two-factor authentication.
   twofa_activated: Two-factor authentication successfully enabled.
   twofa_deactivated: Two-factor authentication disabled.
   twofa_mail_body_security_notification_paired: "Two-factor authentication successfully enabled using %{field}."

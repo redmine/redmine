@@ -1,0 +1,19 @@
+<%= title l('twofa_label_setup') %>
+
+<%= form_tag({ controller: 'twofa', action: 'activate_init' }, method: :post) do %>
+  <div class="box">
+  <p><%=l 'twofa_notice_select' -%></p>
+  <p>
+  <% Redmine::Twofa.available_schemes.each_with_index do |s, idx| %>
+    <label style="display:block;"><%= radio_button_tag 'scheme', s, idx == 0 -%> <%=l "twofa__#{s}__name" -%></label>
+  <% end %>
+  </p>
+  </div>
+  <p><%= submit_tag l(:label_next).html_safe + " &#187;".html_safe -%></p>
+<% end %>
+
+<% unless @user.must_activate_twofa? %>
+<% content_for :sidebar do %>
+<%= render partial: 'my/sidebar' %>
+<% end %>
+<% end %>

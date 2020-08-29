@@ -34,6 +34,9 @@ show_custom_fields_on_registration:
 lost_password:
   default: 1
   security_notifications: 1
+twofa:
+  default: 1
+  security_notifications: 1
 unsubscribe:
   default: 1
 password_required_char_classes:

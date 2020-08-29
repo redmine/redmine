@@ -56,7 +56,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  before_action :session_expiration, :user_setup, :check_if_login_required, :set_localization, :check_password_change
+  before_action :session_expiration, :user_setup, :check_if_login_required, :set_localization, :check_password_change, :check_twofa_activation
   after_action :record_project_usage
 
   rescue_from ::Unauthorized, :with => :deny_access
@@ -88,6 +88,9 @@ class ApplicationController < ActionController::Base
     session[:tk] = user.generate_session_token
     if user.must_change_password?
       session[:pwd] = '1'
+    end
+    if user.must_activate_twofa?
+      session[:must_activate_twofa] = '1'
     end
   end
 
@@ -201,6 +204,31 @@ class ApplicationController < ActionController::Base
         redirect_to my_password_path
       else
         session.delete(:pwd)
+      end
+    end
+  end
+
+  def init_twofa_pairing_and_send_code_for(twofa)
+    twofa.init_pairing!
+    if twofa.send_code(controller: 'twofa', action: 'activate')
+      flash[:notice] = l('twofa_code_sent')
+    end
+    redirect_to controller: 'twofa', action: 'activate_confirm', scheme: twofa.scheme_name
+  end
+
+  def check_twofa_activation
+    if session[:must_activate_twofa]
+      if User.current.must_activate_twofa?
+        flash[:warning] = l('twofa_warning_require')
+        if Redmine::Twofa.available_schemes.length == 1
+          twofa_scheme = Redmine::Twofa.for_twofa_scheme(Redmine::Twofa.available_schemes.first)
+          twofa = twofa_scheme.new(User.current)
+          init_twofa_pairing_and_send_code_for(twofa)
+        else
+          redirect_to controller: 'twofa', action: 'select_scheme'
+        end
+      else
+        session.delete(:must_activate_twofa)
       end
     end
   end
