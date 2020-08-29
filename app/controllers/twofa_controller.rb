@@ -18,6 +18,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class TwofaController < ApplicationController
+  include TwofaHelper
+
   self.main_menu = false
 
   before_action :require_login
@@ -45,7 +47,7 @@ class TwofaController < ApplicationController
 
   def activate
     if @twofa.confirm_pairing!(params[:twofa_code].to_s)
-      flash[:notice] = l('twofa_activated')
+      flash[:notice] = l('twofa_activated', bc_path: my_twofa_backup_codes_init_path)
       redirect_to my_account_path
     else
       flash[:error] = l('twofa_invalid_code')
@@ -109,9 +111,5 @@ class TwofaController < ApplicationController
     if params[:scheme].to_s != @twofa.scheme_name
       redirect_to my_account_path
     end
-  end
-
-  def require_active_twofa
-    Setting.twofa? ? true : deny_access
   end
 end

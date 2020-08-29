@@ -42,6 +42,7 @@ class Token < ActiveRecord::Base
   add_action :recovery,  max_instances: 1,  validity_time: Proc.new { Token.validity_time }
   add_action :register,  max_instances: 1,  validity_time: Proc.new { Token.validity_time }
   add_action :session,   max_instances: 10, validity_time: nil
+  add_action :twofa_backup_code, max_instances: 10, validity_time: nil
 
   def generate_new_token
     self.value = Token.generate_token_value

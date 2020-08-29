@@ -34,6 +34,7 @@
     <% if @user.twofa_active? %>
       <%=l 'twofa_currently_active', twofa_scheme_name: l("twofa__#{@user.twofa_scheme}__name") -%><br/>
       <%= link_to l('button_disable'), { controller: 'twofa', action: 'deactivate_init', scheme: @user.twofa_scheme }, method: :post -%><br/>
+      <%= link_to l('twofa_generate_backup_codes'), { controller: 'twofa_backup_codes', action: 'init' }, method: :post, data: { confirm: Redmine::Twofa.for_user(User.current).backup_codes.any? ? t('twofa_text_generate_backup_codes_confirmation') : nil } -%>
     <% else %>
       <% Redmine::Twofa.available_schemes.each do |s| %>
         <%= link_to l("twofa__#{s}__label_activate"), { controller: 'twofa', action: 'activate_init', scheme: s }, method: :post -%><br/>

@@ -265,6 +265,9 @@ class AccountController < ApplicationController
     # set locale for the twofa user
     set_localization(@user)
 
+    # set the requesting IP of the twofa user (e.g. for security notifications)
+    @user.remote_ip = request.remote_ip
+
     @twofa = Redmine::Twofa.for_user(@user)
   end
 

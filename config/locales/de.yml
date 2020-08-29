@@ -1337,12 +1337,22 @@ de:
   twofa_label_deactivation_confirmation: Zwei-Faktor-Authentifizierung abschalten
   twofa_notice_select: "Bitte wählen Sie Ihr gewünschtes Schema für die Zwei-Faktor-Authentifizierung:"
   twofa_warning_require: Der Administrator fordert Sie dazu auf Zwei-Faktor-Authentifizierung einzurichten.
-  twofa_activated: Zwei-Faktor-Authentifizierung erfolgreich eingerichtet.
+  twofa_activated: Zwei-Faktor-Authentifizierung erfolgreich eingerichtet. Es ist empfohlen hierzu <a data-method="post" href="%{bc_path}">Backup-Codes zu generieren</a>.
   twofa_deactivated: Zwei-Faktor-Authentifizierung abgeschaltet.
   twofa_mail_body_security_notification_paired: "Zwei-Faktor-Authentifizierung per %{field} eingerichtet."
   twofa_mail_body_security_notification_unpaired: "Zwei-Faktor-Authentifizierung für Ihr Konto abgeschaltet."
+  twofa_mail_body_backup_codes_generated: "Neue Backup-Codes für Zwei-Faktor-Authentifizierung generiert."
+  twofa_mail_body_backup_code_used: "Ein Backup-Code für Zwei-Faktor-Authentifizierung ist verwendet worden."
   twofa_invalid_code: Der eingegebene Code ist ungültig oder abgelaufen.
   twofa_label_enter_otp: Bitte geben Sie Ihren Code für die Zwei-Faktor-Authentifizierung ein.
   twofa_too_many_tries: Zu viele Versuche.
   twofa_resend_code: Code erneut senden
   twofa_code_sent: Ein Code für die Zwei-Faktor-Authentifizierung wurde Ihnen zugesendet.
+  twofa_generate_backup_codes: Backup-Codes generieren
+  twofa_text_generate_backup_codes_confirmation: Im nächsten Schritt werden alle bestehenden Backup-Codes ungültig gemacht und neue generiert. Möchten Sie fortfahren?
+  twofa_notice_backup_codes_generated: Ihre Backup-Codes wurden generiert.
+  twofa_warning_backup_codes_generated_invalidated: Es wurden neue Backup-Codes generiert. Die bestehenden Codes vom %{time} sind nicht mehr gültig.
+  twofa_label_backup_codes: Zwei-Faktor-Authentifizierung Backup-Codes
+  twofa_text_backup_codes_hint: Sie können einen dieser Codes benutzen wenn Sie vorübergehend keinen Zugriff auf Ihren zweiten Faktor haben. Jeder Code kann nur ein Mal verwendet werden. Es wird empfohlen, diese Codes auszudrucken und sie an einem sicheren Ort zu verwahren.
+  twofa_text_backup_codes_created_at: Backup-Codes generiert am %{datetime}.
+  twofa_backup_codes_already_shown: Aus Sicherheitsgründen können Backup-Codes nicht erneut angezeigt werden. Bitte <a data-method="post" href="%{bc_path}">generieren Sie neue Codes</a> falls nötig.

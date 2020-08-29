@@ -1,0 +1,9 @@
+<div class="box">
+  <p><%=l 'twofa_label_enter_otp' %></p>
+  <div class="tabular">
+    <p>
+      <label for="twofa_code"><%=l 'twofa_label_code' -%></label>
+      <%= text_field_tag :twofa_code, nil, autocomplete: 'off' -%>
+    </p>
+  </div>
+</div>

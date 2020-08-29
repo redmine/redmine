@@ -795,6 +795,9 @@ html>body .tabular p {overflow:hidden;}
 .tabular input, .tabular select {max-width:95%}
 .tabular textarea {width:95%; resize:vertical;}
 input#twofa_code, img#twofa_code { width: 140px; }
+ul.twofa_backup_codes { list-style-type: none; padding: 0; display: inline-block; }
+ul.twofa_backup_codes li { float: left; }
+ul.twofa_backup_codes li:nth-child(odd) { float: left; clear: left; padding-right: 4em; }
 
 .tabular label{
   font-weight: bold;

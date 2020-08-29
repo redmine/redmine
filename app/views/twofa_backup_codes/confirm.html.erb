@@ -1,0 +1,15 @@
+<h2><%=l 'twofa_generate_backup_codes' -%></h2>
+
+<div class="splitcontentleft">
+  <%= form_tag({ action: :create },
+               { method: :post,
+                 id: 'twofa_form' }) do -%>
+    <%= render partial: 'twofa/twofa_code_form' -%>
+    <%= submit_tag l('button_submit'), name: :submit_otp -%>
+    <%= link_to l('twofa_resend_code'), { action: 'init' }, method: :post if @twofa_view[:resendable] -%>
+  <% end %>
+</div>
+
+<% content_for :sidebar do %>
+<%= render :partial => 'my/sidebar' %>
+<% end %>
