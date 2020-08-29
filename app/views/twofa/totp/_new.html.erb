@@ -1,0 +1,8 @@
+<p>
+  <label>&nbsp;</label>
+  <%= image_tag RQRCode::QRCode.new(twofa_view[:provisioning_uri]).as_png(fill: ChunkyPNG::Color::TRANSPARENT, resize_exactly_to: 280, border_modules: 0).to_data_url, id: 'twofa_code' -%>
+</p>
+<p>
+  <label><%=l 'twofa__totp__label_plain_text_key' -%></label>
+  <code><%= twofa_view[:totp_key].scan(/.{4}/).join(' ') -%></code>
+</p>

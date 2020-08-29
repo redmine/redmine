@@ -156,6 +156,7 @@ de:
   actionview_instancetag_blank_option: Bitte auswählen
 
   button_activate: Aktivieren
+  button_disable: Deaktivieren
   button_add: Hinzufügen
   button_annotate: Annotieren
   button_apply: Anwenden
@@ -1321,3 +1322,22 @@ de:
   field_passwd_changed_on: Password last changed
   label_import_users: Import users
   label_days_to_html: "%{days} days up to %{date}"
+  setting_twofa: Zwei-Faktor-Authentifizierung
+  twofa__totp__name: Authentifizierungs-App
+  twofa__totp__text_pairing_info_html: 'Bitte scannen Sie diesen QR-Code oder verwenden Sie den Klartext-Schlüssel in einer TOTP-kompatiblen Authentifizierungs-App (z.B. <a href="https://support.google.com/accounts/answer/1066447?hl=de">Google Authenticator</a>, <a href="https://authy.com/download/">Authy</a>, <a href="https://guide.duo.com/third-party-accounts">Duo Mobile</a>). Anschließend geben Sie bitte den in der App generierten Code unten ein.'
+  twofa__totp__label_plain_text_key: Klartext-Schlüssel
+  twofa__totp__label_activate: 'Authentifizierungs-App aktivieren'
+  twofa_currently_active: "Aktiv: %{twofa_scheme_name}"
+  twofa_not_active: "Nicht aktiv"
+  twofa_label_code: Code
+  twofa_label_setup: Zwei-Faktor-Authentifizierung einrichten
+  twofa_label_deactivation_confirmation: Zwei-Faktor-Authentifizierung abschalten
+  twofa_activated: Zwei-Faktor-Authentifizierung erfolgreich eingerichtet.
+  twofa_deactivated: Zwei-Faktor-Authentifizierung abgeschaltet.
+  twofa_mail_body_security_notification_paired: "Zwei-Faktor-Authentifizierung per %{field} eingerichtet."
+  twofa_mail_body_security_notification_unpaired: "Zwei-Faktor-Authentifizierung für Ihr Konto abgeschaltet."
+  twofa_invalid_code: Der eingegebene Code ist ungültig oder abgelaufen.
+  twofa_label_enter_otp: Bitte geben Sie Ihren Code für die Zwei-Faktor-Authentifizierung ein.
+  twofa_too_many_tries: Zu viele Versuche.
+  twofa_resend_code: Code erneut senden
+  twofa_code_sent: Ein Code für die Zwei-Faktor-Authentifizierung wurde Ihnen zugesendet.

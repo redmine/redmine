@@ -122,6 +122,7 @@ html>body #content { min-height: 600px; }
 #login-form input[type=text], #login-form input[type=password] {margin-bottom: 15px;}
 #login-form a.lost_password {float:right; font-weight:normal;}
 #login-form input#openid_url {background:#fff url(../images/openid-bg.gif) no-repeat 4px 50%; padding-left:24px !important;}
+#login-form h3 {text-align: center;}
 
 div.modal { border-radius:5px; background:#fff; z-index:50; padding:4px;}
 div.modal h3.title {display:none;}
@@ -793,6 +794,7 @@ html>body .tabular p {overflow:hidden;}
 
 .tabular input, .tabular select {max-width:95%}
 .tabular textarea {width:95%; resize:vertical;}
+input#twofa_code, img#twofa_code { width: 140px; }
 
 .tabular label{
   font-weight: bold;

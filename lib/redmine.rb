@@ -68,6 +68,7 @@ require 'redmine/hook'
 require 'redmine/hook/listener'
 require 'redmine/hook/view_listener'
 require 'redmine/plugin'
+require 'redmine/twofa'
 
 Redmine::Scm::Base.add "Subversion"
 Redmine::Scm::Base.add "Mercurial"

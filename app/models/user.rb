@@ -20,6 +20,7 @@
 require "digest/sha1"
 
 class User < Principal
+  include Redmine::Ciphering
   include Redmine::SafeAttributes
 
   # Different ways of displaying/sorting users
@@ -391,6 +392,10 @@ class User < Principal
     self
   end
 
+  def twofa_active?
+    twofa_scheme.present?
+  end
+
   def pref
     self.preference ||= UserPreference.new(:user => self)
   end
@@ -449,6 +454,14 @@ class User < Principal
 
   def delete_autologin_token(value)
     Token.where(:user_id => id, :action => 'autologin', :value => value).delete_all
+  end
+
+  def twofa_totp_key
+    read_ciphered_attribute(:twofa_totp_key)
+  end
+
+  def twofa_totp_key=(key)
+    write_ciphered_attribute(:twofa_totp_key, key)
   end
 
   # Returns true if token is a valid session token for the user whose id is user_id

@@ -22,6 +22,10 @@ gem 'rubyzip', (RUBY_VERSION < '2.4' ? '~> 1.3.0' : '~> 2.3.0')
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :x64_mingw, :mswin]
 
+# TOTP-based 2-factor authentication
+gem 'rotp'
+gem 'rqrcode'
+
 # Optional gem for LDAP authentication
 group :ldap do
   gem "net-ldap", "~> 0.16.0"

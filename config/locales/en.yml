@@ -494,6 +494,7 @@ en:
   setting_timelog_accept_future_dates: Accept time logs on future dates
   setting_show_status_changes_in_mail_subject: Show status changes in issue mail notifications subject
   setting_project_list_defaults: Projects list defaults
+  setting_twofa: Two-factor authentication
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
@@ -1117,6 +1118,7 @@ en:
   button_back: Back
   button_cancel: Cancel
   button_activate: Activate
+  button_disable: Disable
   button_sort: Sort
   button_log_time: Log time
   button_rollback: Rollback to this version
@@ -1297,3 +1299,22 @@ en:
   text_project_is_public_anonymous: Public projects and their contents are openly available on the network.
   label_import_time_entries: Import time entries
   label_import_users: Import users
+
+  twofa__totp__name: Authenticator app
+  twofa__totp__text_pairing_info_html: 'Scan this QR code or enter the plain text key into a TOTP app (e.g. <a href="https://support.google.com/accounts/answer/1066447">Google Authenticator</a>, <a href="https://authy.com/download/">Authy</a>, <a href="https://guide.duo.com/third-party-accounts">Duo Mobile</a>) and enter the code in the field below to activate two-factor authentication.'
+  twofa__totp__label_plain_text_key: Plain text key
+  twofa__totp__label_activate: 'Enable authenticator app'
+  twofa_currently_active: "Currently active: %{twofa_scheme_name}"
+  twofa_not_active: "Not activated"
+  twofa_label_code: Code
+  twofa_label_setup: Enable two-factor authentication
+  twofa_label_deactivation_confirmation: Disable two-factor authentication
+  twofa_activated: Two-factor authentication successfully enabled.
+  twofa_deactivated: Two-factor authentication disabled.
+  twofa_mail_body_security_notification_paired: "Two-factor authentication successfully enabled using %{field}."
+  twofa_mail_body_security_notification_unpaired: "Two-factor authentication disabled for your account."
+  twofa_invalid_code: Code is invalid or outdated.
+  twofa_label_enter_otp: Please enter your two-factor authentication code.
+  twofa_too_many_tries: Too many tries.
+  twofa_resend_code: Resend code
+  twofa_code_sent: An authentication code has been sent to you.

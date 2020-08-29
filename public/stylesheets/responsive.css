@@ -664,7 +664,8 @@
 
   #login-form input#username,
   #login-form input#password,
-  #login-form input#openid_url {
+  #login-form input#openid_url,
+  #login-form input#twofa_code {
     width: 100%;
     height: auto;
   }

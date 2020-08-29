@@ -28,6 +28,17 @@
   <% if Setting.openid? %>
   <p><%= f.text_field :identity_url  %></p>
   <% end %>
+  <p>
+    <label><%=l :setting_twofa -%></label>
+    <% if @user.twofa_active? %>
+      <%=l 'twofa_currently_active', twofa_scheme_name: l("twofa__#{@user.twofa_scheme}__name") -%><br/>
+      <%= link_to l('button_disable'), { controller: 'twofa', action: 'deactivate_init', scheme: @user.twofa_scheme }, method: :post -%><br/>
+    <% else %>
+      <% Redmine::Twofa.available_schemes.each do |s| %>
+        <%= link_to l("twofa__#{s}__label_activate"), { controller: 'twofa', action: 'activate_init', scheme: s }, method: :post -%><br/>
+      <% end %>
+    <% end %>
+  </p>
 
   <% @user.custom_field_values.select(&:editable?).each do |value| %>
     <p><%= custom_field_tag_with_label :user, value %></p>

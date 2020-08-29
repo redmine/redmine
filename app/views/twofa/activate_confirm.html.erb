@@ -1,0 +1,27 @@
+<h2><%=l 'twofa_label_setup' -%></h2>
+
+<div class="splitcontentleft">
+  <%= form_tag({ action: :activate,
+                 scheme: @twofa_view[:scheme_name] },
+               { method: :post,
+                 id: 'twofa_form' }) do -%>
+
+    <div class="box">
+      <p><%=t "twofa__#{@twofa_view[:scheme_name]}__text_pairing_info_html" -%></p>
+      <div class="tabular">
+        <%= render partial: "twofa/#{@twofa_view[:scheme_name]}/new", locals: { twofa_view: @twofa_view } -%>
+        <p>
+          <label for="twofa_code"><%=l 'twofa_label_code' -%></label>
+          <%= text_field_tag :twofa_code, nil, autocomplete: 'off', autofocus: true -%>
+        </p>
+      </div>
+    </div>
+
+    <%= submit_tag l('button_activate'), name: :submit_otp -%>
+    <%= link_to l('twofa_resend_code'), { action: 'activate_init', scheme: @twofa_view[:scheme_name] }, method: :post if @twofa_view[:resendable] -%>
+  <% end %>
+</div>
+
+<% content_for :sidebar do %>
+<%= render :partial => 'my/sidebar' %>
+<% end %>

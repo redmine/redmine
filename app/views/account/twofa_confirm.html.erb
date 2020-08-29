@@ -1,0 +1,20 @@
+<div id="login-form">
+
+  <h3><%=l :setting_twofa %></h3>
+  <p><%=l 'twofa_label_enter_otp' %></p>
+
+  <%= form_tag({ action: 'twofa' },
+               { id: 'twofa_form',
+                 onsubmit: 'return keepAnchorOnSignIn(this);' }) do -%>
+
+
+    <label for="twofa_code">
+      <%=l 'twofa_label_code' -%>
+      <%= link_to l('twofa_resend_code'), { controller: 'account', action: 'twofa_resend' }, method: :post, class: 'lost_password' if @twofa_view[:resendable] -%>
+    </label>
+    <%= text_field_tag :twofa_code, nil, tabindex: '1', autocomplete: 'off', autofocus: true -%>
+
+    <%= submit_tag l(:button_login), tabindex: '2', id: 'login-submit', name: :submit_otp -%>
+  <% end %>
+
+</div>
