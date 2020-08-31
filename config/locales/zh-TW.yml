@@ -1382,54 +1382,42 @@
   label_relations_mapping: 關聯對應
   label_import_users: 匯入用戶
   label_days_to_html: "%{days} 天，最多至 %{date}"
-  setting_twofa: Two-factor authentication
-  label_optional: optional
-  label_required_lower: required
-  button_disable: Disable
-  twofa__totp__name: Authenticator app
-  twofa__totp__text_pairing_info_html: Scan this QR code or enter the plain text key
-    into a TOTP app (e.g. <a href="https://support.google.com/accounts/answer/1066447">Google
+  setting_twofa: 雙因素驗證
+  label_optional: 選用項
+  label_required_lower: 必要項
+  button_disable: 關閉
+  twofa__totp__name: 驗證器應用程式
+  twofa__totp__text_pairing_info_html: 掃描這個 QR code 或將純文字金鑰輸入至 TOTP 應用程式
+    (例如 <a href="https://support.google.com/accounts/answer/1066447">Google
     Authenticator</a>, <a href="https://authy.com/download/">Authy</a>, <a href="https://guide.duo.com/third-party-accounts">Duo
-    Mobile</a>) and enter the code in the field below to activate two-factor authentication.
-  twofa__totp__label_plain_text_key: Plain text key
-  twofa__totp__label_activate: Enable authenticator app
-  twofa_currently_active: 'Currently active: %{twofa_scheme_name}'
-  twofa_not_active: Not activated
-  twofa_label_code: Code
-  twofa_hint_disabled_html: Setting <strong>%{label}</strong> will deactivate and unpair
-    two-factor authentication devices for all users.
-  twofa_hint_required_html: Setting <strong>%{label}</strong> will require all users
-    to set up two-factor authentication at their next login.
-  twofa_label_setup: Enable two-factor authentication
-  twofa_label_deactivation_confirmation: Disable two-factor authentication
-  twofa_notice_select: 'Please select the two-factor scheme you would like to use:'
-  twofa_warning_require: The administrator requires you to enable two-factor authentication.
-  twofa_activated: Two-factor authentication successfully enabled. It is recommended
-    to <a data-method="post" href="%{bc_path}">generate backup codes</a> for your account.
-  twofa_deactivated: Two-factor authentication disabled.
-  twofa_mail_body_security_notification_paired: Two-factor authentication successfully
-    enabled using %{field}.
-  twofa_mail_body_security_notification_unpaired: Two-factor authentication disabled
-    for your account.
-  twofa_mail_body_backup_codes_generated: New two-factor authentication backup codes
-    generated.
-  twofa_mail_body_backup_code_used: A two-factor authentication backup code has been
-    used.
-  twofa_invalid_code: Code is invalid or outdated.
-  twofa_label_enter_otp: Please enter your two-factor authentication code.
-  twofa_too_many_tries: Too many tries.
-  twofa_resend_code: Resend code
-  twofa_code_sent: An authentication code has been sent to you.
-  twofa_generate_backup_codes: Generate backup codes
-  twofa_text_generate_backup_codes_confirmation: This will invalidate all existing backup
-    codes and generate new ones. Would you like to continue?
-  twofa_notice_backup_codes_generated: Your backup codes have been generated.
-  twofa_warning_backup_codes_generated_invalidated: New backup codes have been generated.
-    Your existing codes from %{time} are now invalid.
-  twofa_label_backup_codes: Two-factor authentication backup codes
-  twofa_text_backup_codes_hint: Use these codes instead of a one-time password should
-    you not have access to your second factor. Each code can only be used once. It is
-    recommended to print and store them in a safe place.
-  twofa_text_backup_codes_created_at: Backup codes generated %{datetime}.
-  twofa_backup_codes_already_shown: Backup codes cannot be shown again, please <a data-method="post"
-    href="%{bc_path}">generate new backup codes</a> if required.
+    Mobile</a>) 並將其顯示的代碼輸入至下面的欄位中, 以啟用雙因素驗證.
+  twofa__totp__label_plain_text_key: 純文字金鑰
+  twofa__totp__label_activate: 啟用驗證器應用程式
+  twofa_currently_active: '目前使用中: %{twofa_scheme_name}'
+  twofa_not_active: 尚未啟用
+  twofa_label_code: 代碼
+  twofa_hint_disabled_html: 設定為 <strong>%{label}</strong> 將會停用並解除所有用戶已配對之雙因素驗證裝置.
+  twofa_hint_required_html: 設定為 <strong>%{label}</strong> 將會要求所有用戶於下次登入時, 設置雙因素驗證.
+  twofa_label_setup: 開啟雙因素驗證
+  twofa_label_deactivation_confirmation: 關閉雙因素驗證
+  twofa_notice_select: '請選擇您想要使用的雙因素配置方式:'
+  twofa_warning_require: 管理員要求您開啟雙因素驗證.
+  twofa_activated: 雙因素驗證已開啟成功. 建議您為自己的帳戶 <a data-method="post" href="%{bc_path}">產生備用代碼</a>.
+  twofa_deactivated: 雙因素驗證已關閉.
+  twofa_mail_body_security_notification_paired: 雙因素驗證已使用 %{field} 開啟成功.
+  twofa_mail_body_security_notification_unpaired: 您帳戶的雙因素驗證已關閉.
+  twofa_mail_body_backup_codes_generated: 新雙因素驗證的備用代碼已產生.
+  twofa_mail_body_backup_code_used: 有個雙因素驗證的備用代碼被使用.
+  twofa_invalid_code: 代碼是無效的或過期的.
+  twofa_label_enter_otp: 請輸入您的雙因素驗證代碼.
+  twofa_too_many_tries: 重試次數過多.
+  twofa_resend_code: 重送代碼
+  twofa_code_sent: 有個驗證代碼已經傳送給您.
+  twofa_generate_backup_codes: 產生備用代碼
+  twofa_text_generate_backup_codes_confirmation: 這會將所有現存的備用代碼設為無效, 並產生新的備用代碼. 您要繼續嗎?
+  twofa_notice_backup_codes_generated: 您的備用代碼已產生.
+  twofa_warning_backup_codes_generated_invalidated: 新的備用代碼已產生. 您現存的備用代碼, 從 %{time} 起已經失效.
+  twofa_label_backup_codes: 雙因素驗證備用代碼
+  twofa_text_backup_codes_hint: 當您無法存取雙因素配置方式取得單次密碼時, 使用這些替代備用代碼. 每個代碼僅能被使用一次. 建議您將備用代碼列印出來, 並存放於安全的地點.
+  twofa_text_backup_codes_created_at: 備用代碼產生於 %{datetime}.
+  twofa_backup_codes_already_shown: 這些備用代碼不會再次出現, 再次需要時請重新 <a data-method="post" href="%{bc_path}">產生新的備用代碼</a>.
