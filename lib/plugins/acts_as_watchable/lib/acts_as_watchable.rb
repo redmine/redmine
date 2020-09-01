@@ -73,7 +73,7 @@ module Redmine
 
         def notified_watchers
           notified = watcher_users.active.to_a
-          notified = notified.map {|n| n.is_a?(Group) ? n.users : n}.flatten
+          notified = notified.map {|n| n.is_a?(Group) ? n.users.active : n}.flatten
           notified.uniq!
           notified.reject! {|user| user.mail.blank? || user.mail_notification == 'none'}
           if respond_to?(:visible?)

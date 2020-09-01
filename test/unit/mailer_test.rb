@@ -30,7 +30,8 @@ class MailerTest < ActiveSupport::TestCase
            :issue_statuses, :enumerations, :messages, :boards, :repositories,
            :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions,
            :versions,
-           :comments
+           :comments,
+           :groups_users, :watchers
 
   def setup
     ActionMailer::Base.deliveries.clear
@@ -600,6 +601,24 @@ class MailerTest < ActiveSupport::TestCase
       assert_mail_body_no_match /^\* Target version: /, mail
       assert_mail_body_no_match /^\* #{cf.name}: /, mail
     end
+  end
+
+  def test_locked_user_in_group_watcher_should_not_be_notified
+    locked_user = users(:users_005)
+    group = Group.generate!
+    group.users << locked_user
+    issue = Issue.generate!
+    Watcher.create!(:watchable => issue, :user => group)
+
+    ActionMailer::Base.deliveries.clear
+    assert Mailer.deliver_issue_add(issue)
+    assert_not_include locked_user.mail, recipients
+
+    journal = issue.init_journal(User.current)
+    issue.update(:status_id => 4)
+    ActionMailer::Base.deliveries.clear
+    Mailer.deliver_issue_edit(journal)
+    assert_not_include locked_user.mail, recipients
   end
 
   def test_version_file_added
