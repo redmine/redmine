@@ -20,6 +20,7 @@
 require File.expand_path('../../../../test_helper', __FILE__)
 
 class Redmine::CipheringTest < ActiveSupport::TestCase
+  fixtures :auth_sources
 
   def test_password_should_be_encrypted
     Redmine::Configuration.with 'database_cipher_key' => 'secret' do
@@ -105,5 +106,13 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
       assert_equal 'bar', r.password
       assert_equal 'bar', r.read_attribute(:password)
     end
+  end
+
+  def test_encrypt_all_and_decrypt_all_should_skip_validation
+    auth_source = auth_sources(:auth_sources_001)
+    # validator checks if AuthSource#host is present
+    auth_source.update_column(:host, nil)
+    assert AuthSource.encrypt_all(:account_password)
+    assert AuthSource.decrypt_all(:account_password)
   end
 end
