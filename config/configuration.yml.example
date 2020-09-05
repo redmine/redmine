@@ -138,11 +138,12 @@ default:
   # scm_stderr_log_file: /var/log/redmine_scm_stderr.log
   scm_stderr_log_file:
 
-  # Key used to encrypt sensitive data in the database (SCM and LDAP passwords).
+  # Key used to encrypt sensitive data in the database (SCM passwords,
+  # LDAP passwords, and TOTP (two-factor authentication) secret keys).
   # If you don't want to enable data encryption, just leave it blank.
   # WARNING: losing/changing this key will make encrypted data unreadable.
   #
-  # If you want to encrypt existing passwords in your database:
+  # If you want to encrypt existing data in your database:
   # * set the cipher key here in your configuration file
   # * encrypt data using 'rake db:encrypt RAILS_ENV=production'
   #
@@ -150,7 +151,7 @@ default:
   # * decrypt data using 'rake db:decrypt RAILS_ENV=production' first
   # * change the cipher key here in your configuration file
   # * encrypt data using 'rake db:encrypt RAILS_ENV=production'
-  database_cipher_key:
+  database_cipher_key: 'foo'
 
   # Set this to false to disable plugins' assets mirroring on startup.
   # You can use `rake redmine:plugins:assets` to manually mirror assets
