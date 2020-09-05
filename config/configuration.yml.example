@@ -151,7 +151,7 @@ default:
   # * decrypt data using 'rake db:decrypt RAILS_ENV=production' first
   # * change the cipher key here in your configuration file
   # * encrypt data using 'rake db:encrypt RAILS_ENV=production'
-  database_cipher_key: 'foo'
+  database_cipher_key:
 
   # Set this to false to disable plugins' assets mirroring on startup.
   # You can use `rake redmine:plugins:assets` to manually mirror assets
