@@ -1387,7 +1387,6 @@ class Query < ActiveRecord::Base
         options = chained.query_filter_options(self)
 
         filter_id = "cf_#{field.id}.cf_#{chained.id}"
-        filter_name = chained.name
 
         add_available_filter(
           filter_id,
