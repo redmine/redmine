@@ -338,7 +338,7 @@ jsToolBar.prototype = {
     } else if (typeof(this.textarea["setSelectionRange"]) != "undefined") {
       this.textarea.value = this.textarea.value.substring(0, start) + subst +
       this.textarea.value.substring(end);
-      if (sel) {
+      if (sel || (!prefix && start === end)) {
         this.textarea.setSelectionRange(start + subst.length, start + subst.length);
       } else {
         this.textarea.setSelectionRange(start + prefix.length, start + prefix.length);
