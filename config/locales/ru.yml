@@ -1396,28 +1396,27 @@ ru:
   label_display_type_board: Панель
   label_my_bookmarks: Мои закладки
   label_import_time_entries: Импорт трудозатрат
-  field_toolbar_language_options: Code highlighting toolbar languages
-  label_user_mail_notify_about_high_priority_issues_html: Also notify me about issues
-    with a priority of <em>%{prio}</em> or higher
-  label_assign_to_me: Assign to me
-  notice_issue_not_closable_by_open_tasks: This issue cannot be closed because it has
-    at least one open subtask.
-  notice_issue_not_closable_by_blocking_issue: This issue cannot be closed because it
-    is blocked by at least one open issue.
-  notice_issue_not_reopenable_by_closed_parent_issue: This issue cannot be reopened
-    because its parent issue is closed.
-  error_bulk_download_size_too_big: These attachments cannot be bulk downloaded because
-    the total file size exceeds the maximum allowed size (%{max_size})
-  setting_bulk_download_max_size: Maximum total size for bulk download
-  label_download_all_attachments: Download all files
-  error_attachments_too_many: This file cannot be uploaded because it exceeds the maximum
-    number of files that can be attached simultaneously (%{max_number_of_files})
-  setting_email_domains_allowed: Allowed email domains
-  setting_email_domains_denied: Disallowed email domains
-  field_passwd_changed_on: Password last changed
-  label_relations_mapping: Relations mapping
-  label_import_users: Import users
-  label_days_to_html: "%{days} days up to %{date}"
+  field_toolbar_language_options: Список языков на панели инструментов "Подсветка кода"
+  label_user_mail_notify_about_high_priority_issues_html: Также уведомлять меня о задачах
+    с приоритетом <em>%{prio}</em> или выше
+  label_assign_to_me: Назначить мне
+  notice_issue_not_closable_by_open_tasks: Эта задача не может быть закрыта, так как у
+    неё есть открытые подзадачи.
+  notice_issue_not_closable_by_blocking_issue: Эта задача не может быть закрыта, так как
+    есть открытые блокирующие её задачи.
+  notice_issue_not_reopenable_by_closed_parent_issue: Эта задача не может быть открыта
+    снова, так как её родительская задача закрыта.
+  error_bulk_download_size_too_big: Эти файлы не могут быть загружены одновременно, так как их суммарный объём превышает допустимый максимум (%{max_size})
+  setting_bulk_download_max_size: Максимальный суммарный объём для одновременной загрузки
+  label_download_all_attachments: Загрузить все файлы
+  error_attachments_too_many: Этот файл не будет загружен, так как превышено максимальное
+    количество одновременно загружаемых файлов (%{max_number_of_files})
+  setting_email_domains_allowed: Разрешённые email домены
+  setting_email_domains_denied: Запрещённые email домены
+  field_passwd_changed_on: Последний раз пароль был изменён
+  label_relations_mapping: Связанные задачи
+  label_import_users: Импорт пользователей
+  label_days_to_html: "%{days} дней до %{date}"
   setting_twofa: Two-factor authentication
   label_optional: optional
   label_required_lower: required
