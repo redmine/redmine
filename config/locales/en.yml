@@ -233,6 +233,16 @@ en:
   error_can_not_delete_auth_source: "This authentication mode is in use and cannot be deleted."
   error_spent_on_future_date: "Cannot log time on a future date"
   error_not_allowed_to_log_time_for_other_users: "You are not allowed to log time for other users"
+  error_can_not_execute_macro_html: "Error executing the <strong>%{name}</strong> macro (%{error})"
+  error_macro_does_not_accept_block: "This macro does not accept a block of text"
+  error_invalid_macro_name: "Invalid macro name: %{name} (only 0-9, A-Z, a-z and _ characters are accepted)"
+  error_can_not_create_macro_without_block: "Can not create a macro without a block!"
+  error_childpages_macro_no_argument: "With no argument, this macro can be called from wiki pages only"
+  error_circular_inclusion: "Circular inclusion detected"
+  error_page_not_found: "Page not found"
+  error_filename_required: "Filename required"
+  error_invalid_size_parameter: "Invalid size parameter"
+  error_attachment_not_found: "Attachment %{name} not found"
 
   mail_subject_lost_password: "Your %{value} password"
   mail_body_lost_password: 'To change your password, click on the following link:'
