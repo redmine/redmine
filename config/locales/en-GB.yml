@@ -1384,3 +1384,16 @@ en-GB:
   twofa_text_backup_codes_created_at: Backup codes generated %{datetime}.
   twofa_backup_codes_already_shown: Backup codes cannot be shown again, please <a data-method="post"
     href="%{bc_path}">generate new backup codes</a> if required.
+  error_can_not_execute_macro_html: Error executing the <strong>%{name}</strong> macro
+    (%{error})
+  error_macro_does_not_accept_block: This macro does not accept a block of text
+  error_invalid_macro_name: 'Invalid macro name: %{name} (only 0-9, A-Z, a-z and _ characters
+    are accepted)'
+  error_can_not_create_macro_without_block: Can not create a macro without a block!
+  error_childpages_macro_no_argument: With no argument, this macro can be called from
+    wiki pages only
+  error_circular_inclusion: Circular inclusion detected
+  error_page_not_found: Page not found
+  error_filename_required: Filename required
+  error_invalid_size_parameter: Invalid size parameter
+  error_attachment_not_found: Attachment %{name} not found

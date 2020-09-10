@@ -1421,3 +1421,16 @@
   twofa_text_backup_codes_hint: 當您無法存取雙因素配置方式取得單次密碼時, 使用這些替代備用代碼. 每個代碼僅能被使用一次. 建議您將備用代碼列印出來, 並存放於安全的地點.
   twofa_text_backup_codes_created_at: 備用代碼產生於 %{datetime}.
   twofa_backup_codes_already_shown: 這些備用代碼不會再次出現, 再次需要時請重新 <a data-method="post" href="%{bc_path}">產生新的備用代碼</a>.
+  error_can_not_execute_macro_html: Error executing the <strong>%{name}</strong> macro
+    (%{error})
+  error_macro_does_not_accept_block: This macro does not accept a block of text
+  error_invalid_macro_name: 'Invalid macro name: %{name} (only 0-9, A-Z, a-z and _ characters
+    are accepted)'
+  error_can_not_create_macro_without_block: Can not create a macro without a block!
+  error_childpages_macro_no_argument: With no argument, this macro can be called from
+    wiki pages only
+  error_circular_inclusion: Circular inclusion detected
+  error_page_not_found: Page not found
+  error_filename_required: Filename required
+  error_invalid_size_parameter: Invalid size parameter
+  error_attachment_not_found: Attachment %{name} not found
