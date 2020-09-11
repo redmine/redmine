@@ -1386,9 +1386,6 @@ ar:
   error_can_not_execute_macro_html: Error executing the <strong>%{name}</strong> macro
     (%{error})
   error_macro_does_not_accept_block: This macro does not accept a block of text
-  error_invalid_macro_name: 'Invalid macro name: %{name} (only 0-9, A-Z, a-z and _ characters
-    are accepted)'
-  error_can_not_create_macro_without_block: Can not create a macro without a block!
   error_childpages_macro_no_argument: With no argument, this macro can be called from
     wiki pages only
   error_circular_inclusion: Circular inclusion detected
