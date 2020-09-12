@@ -305,7 +305,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
     assert page.has_css?('#context-menu .issue-bulk-watcher.icon-fav-off')
     assert_difference 'Watcher.count', 2 do
       within('#context-menu') do
-        click_link 'Watch'
+        find_link('Watch').hover.click
       end
       # wait for ajax response
       assert page.has_css?('#context-menu .issue-bulk-watcher.icon-fav')
