@@ -228,7 +228,7 @@ module Redmine
                                               rescue
                                                 ''
                                               end)
-                                            ),
+                                           ),
                                :time     => Time.parse(le['date']['__content__']),
                                :message  => CGI.unescape(le['msg']['__content__']),
                                :paths    => paths,
@@ -325,9 +325,9 @@ module Redmine
           full_args << '--config' << 'diff.git=false'
           full_args += args
           ret = shellout(
-                   self.class.sq_bin + ' ' + full_args.map {|e| shell_quote e.to_s}.join(' '),
-                   &block
-                   )
+                  self.class.sq_bin + ' ' + full_args.map {|e| shell_quote e.to_s}.join(' '),
+                  &block
+                )
           if $? && $?.exitstatus != 0
             raise HgCommandAborted, "hg exited with non-zero status: #{$?.exitstatus}"
           end
