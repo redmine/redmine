@@ -119,7 +119,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
         where(:custom_values => {:custom_field_id => 1, :value => 'MySQL'}).map(&:id)
     assert expected_ids.any?
     assert_select 'issues > issue > id', :count => expected_ids.count do |ids|
-       ids.each { |id| assert expected_ids.delete(id.children.first.content.to_i) }
+       ids.each {|id| assert expected_ids.delete(id.children.first.content.to_i)}
     end
   end
 
@@ -132,7 +132,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     assert expected_ids.any?
 
     assert_select 'issues > issue > id', :count => expected_ids.count do |ids|
-      ids.each { |id| assert expected_ids.delete(id.children.first.content.to_i) }
+      ids.each {|id| assert expected_ids.delete(id.children.first.content.to_i)}
     end
   end
 
@@ -183,7 +183,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     assert expected_ids.any?
 
     assert_select 'issues > issue > id', :count => expected_ids.count do |ids|
-       ids.each { |id| assert expected_ids.delete(id.children.first.content.to_i) }
+       ids.each {|id| assert expected_ids.delete(id.children.first.content.to_i)}
     end
   end
 
@@ -191,9 +191,9 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     get '/issues.json?status_id=5'
 
     json = ActiveSupport::JSON.decode(response.body)
-    status_ids_used = json['issues'].collect {|j| j['status']['id'] }
+    status_ids_used = json['issues'].collect {|j| j['status']['id']}
     assert_equal 3, status_ids_used.length
-    assert status_ids_used.all? {|id| id == 5 }
+    assert status_ids_used.all? {|id| id == 5}
   end
 
   test "GET /issues/:id.xml with journals" do
