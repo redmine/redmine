@@ -32,14 +32,13 @@ class WorkflowTransition < WorkflowRule
           transition_by_rule.each do |rule, transition|
             trackers.each do |tracker|
               roles.each do |role|
-                w = records.select {|r|
+                w = records.select do |r|
                   r.old_status_id == old_status_id.to_i &&
                   r.new_status_id == new_status_id.to_i &&
                   r.tracker_id == tracker.id &&
                   r.role_id == role.id &&
                   !r.destroyed?
-                }
-
+                end
                 if rule == 'always'
                   w = w.select {|r| !r.author && !r.assignee}
                 else
