@@ -171,7 +171,7 @@ class Repository::Mercurial < Repository
                  AND (#{Change.table_name}.path = ?
                        OR #{Change.table_name}.path LIKE ? ESCAPE ?))"
       args << path.with_leading_slash
-      args << "#{path.with_leading_slash.gsub(%r{[%_\\]}) { |s| "\\#{s}" }}/%" << '\\'
+      args << "#{path.with_leading_slash.gsub(%r{[%_\\]}) {|s| "\\#{s}"}}/%" << '\\'
     end
     [cond.join(' AND '), *args] unless cond.empty?
   end
