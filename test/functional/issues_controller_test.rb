@@ -6423,7 +6423,8 @@ class IssuesControllerTest < Redmine::ControllerTest
 
       # Initial form should hide 'follow' button
       assert_select 'input[type=submit]', 1 do
-        assert_select '[name=?]', 'commit'
+        assert_select '[name=?]', 'commit', 1
+        assert_select '[name=?]', 'follow', 0
       end
     end
   end
