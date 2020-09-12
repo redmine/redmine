@@ -25,9 +25,8 @@ class BazaarAdapterTest < ActiveSupport::TestCase
 
   if File.directory?(REPOSITORY_PATH)
     def setup
-      @adapter = Redmine::Scm::Adapters::BazaarAdapter.new(
-                              File.join(REPOSITORY_PATH, "trunk")
-                              )
+      @adapter = Redmine::Scm::Adapters::BazaarAdapter.
+                   new(File.join(REPOSITORY_PATH, "trunk"))
     end
 
     def test_scm_version
@@ -109,16 +108,14 @@ class BazaarAdapterTest < ActiveSupport::TestCase
     end
 
     def test_append_revisions_only_false
-      adpt = Redmine::Scm::Adapters::BazaarAdapter.new(
-                              File.join(REPOSITORY_PATH, "empty-branch")
-                              )
+      adpt = Redmine::Scm::Adapters::BazaarAdapter.
+               new(File.join(REPOSITORY_PATH, "empty-branch"))
       assert_equal false, adpt.append_revisions_only
     end
 
     def test_append_revisions_only_shared_repo
-      adpt = Redmine::Scm::Adapters::BazaarAdapter.new(
-                              REPOSITORY_PATH
-                              )
+      adpt = Redmine::Scm::Adapters::BazaarAdapter.
+               new(REPOSITORY_PATH)
       assert_equal false, adpt.append_revisions_only
     end
 
@@ -127,9 +124,8 @@ class BazaarAdapterTest < ActiveSupport::TestCase
     end
 
     def test_info_nil
-      adpt = Redmine::Scm::Adapters::BazaarAdapter.new(
-                "/invalid/invalid/"
-                )
+      adpt = Redmine::Scm::Adapters::BazaarAdapter.
+               new("/invalid/invalid/")
       assert_nil adpt.info
     end
 
@@ -139,9 +135,8 @@ class BazaarAdapterTest < ActiveSupport::TestCase
     end
 
     def test_info_emtpy
-      adpt = Redmine::Scm::Adapters::BazaarAdapter.new(
-                              File.join(REPOSITORY_PATH, "empty-branch")
-                              )
+      adpt = Redmine::Scm::Adapters::BazaarAdapter.
+               new(File.join(REPOSITORY_PATH, "empty-branch"))
       assert_equal 0, adpt.info.lastrev.identifier.to_i
     end
 
