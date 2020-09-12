@@ -220,15 +220,16 @@ class Repository::Git < Repository
 
   def save_revision(rev)
     parents = (rev.parents || []).collect{|rp| find_changeset_by_name(rp)}.compact
-    changeset = Changeset.create(
-              :repository   => self,
-              :revision     => rev.identifier,
-              :scmid        => rev.scmid,
-              :committer    => rev.author,
-              :committed_on => rev.time,
-              :comments     => rev.message,
-              :parents      => parents
-              )
+    changeset =
+      Changeset.create(
+        :repository   => self,
+        :revision     => rev.identifier,
+        :scmid        => rev.scmid,
+        :committer    => rev.author,
+        :committed_on => rev.time,
+        :comments     => rev.message,
+        :parents      => parents
+      )
     unless changeset.new_record?
       rev.paths.each {|change| changeset.create_change(change)}
     end
