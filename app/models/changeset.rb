@@ -253,13 +253,14 @@ class Changeset < ActiveRecord::Base
   end
 
   def log_time(issue, hours)
-    time_entry = TimeEntry.new(
-      :user => user,
-      :hours => hours,
-      :issue => issue,
-      :spent_on => commit_date,
-      :comments => l(:text_time_logged_by_changeset, :value => text_tag(issue.project),
-                     :locale => Setting.default_language)
+    time_entry =
+      TimeEntry.new(
+        :user => user,
+        :hours => hours,
+        :issue => issue,
+        :spent_on => commit_date,
+        :comments => l(:text_time_logged_by_changeset, :value => text_tag(issue.project),
+                       :locale => Setting.default_language)
       )
     if activity = issue.project.commit_logtime_activity
       time_entry.activity = activity
