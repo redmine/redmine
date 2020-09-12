@@ -2,7 +2,12 @@
 <%= hidden_field_tag 'back_url', url_for(:params => request.query_parameters), :id => nil %>
 <table class="cal">
 <thead>
-<tr><th scope="col" title="<%= l(:label_week) %>" class="week-number"></th><% 7.times do |i| %><th scope="col"><%= day_name( (calendar.first_wday+i)%7 ) %></th><% end %></tr>
+  <tr>
+    <th scope="col" title="<%= l(:label_week) %>" class="week-number"></th>
+    <% 7.times do |i| %>
+      <th scope="col"><%= day_name((calendar.first_wday + i) % 7) %></th>
+    <% end %>
+  </tr>
 </thead>
 <tbody>
 <tr>
