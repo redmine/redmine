@@ -479,7 +479,7 @@ select {
   background-position: calc(100% - 7px) 50%;
   padding-right: 20px;
 }
-input[type="file"] {border: 0; padding-left: 0; padding-right: 0; background-color: initial; }
+input[type="file"] {border: 0; padding-left: 0; padding-right: 0; height: initial; background-color: initial; }
 input[type="submit"], button[type="submit"] {
   -webkit-appearance: button;
   cursor: pointer;
