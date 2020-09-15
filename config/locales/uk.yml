@@ -1381,3 +1381,4 @@ uk:
   error_filename_required: Filename required
   error_invalid_size_parameter: Invalid size parameter
   error_attachment_not_found: Attachment %{name} not found
+  permission_delete_project: Delete the project
