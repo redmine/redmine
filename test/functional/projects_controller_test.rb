@@ -1059,6 +1059,40 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert_nil Project.find_by_id(1)
   end
 
+  def test_destroy_with_normal_user_should_destroy
+    set_tmp_attachments_directory
+    @request.session[:user_id] = 2 # non-admin
+
+    assert_difference 'Project.count', -1 do
+      delete(
+        :destroy,
+        :params => {
+          :id => 2,
+          :confirm => 1
+        }
+      )
+      assert_redirected_to '/projects'
+    end
+    assert_nil Project.find_by_id(2)
+  end
+
+  def test_destroy_with_normal_user_should_not_destroy_with_subprojects
+    set_tmp_attachments_directory
+    @request.session[:user_id] = 2 # non-admin
+
+    assert_difference 'Project.count', 0 do
+      delete(
+        :destroy,
+        :params => {
+          :id => 1,
+          :confirm => 1
+        }
+      )
+      assert_response 403
+    end
+    assert Project.find(1)
+  end
+
   def test_archive
     @request.session[:user_id] = 1 # admin
     post(:archive, :params => {:id => 1})

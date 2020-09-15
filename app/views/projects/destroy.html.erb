@@ -19,6 +19,6 @@
 
 <p>
   <%= submit_tag l(:button_delete) %>
-  <%= link_to l(:button_cancel), :controller => 'admin', :action => 'projects' %>
+  <%= link_to l(:button_cancel), User.current.admin? ? admin_projects_path : projects_path %>
 </p>
 <% end %>

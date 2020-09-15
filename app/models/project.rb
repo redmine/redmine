@@ -709,6 +709,14 @@ class Project < ActiveRecord::Base
     end
   end
 
+  def deletable?(user = User.current)
+    if user.admin?
+      return true
+    else
+      user.allowed_to?(:delete_project, self) && leaf?
+    end
+  end
+
   # Return the enabled module with the given name
   # or nil if the module is not enabled for the project
   def enabled_module(name)

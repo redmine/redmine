@@ -23,9 +23,9 @@ class ProjectsController < ApplicationController
   menu_item :projects, :only => [:index, :new, :copy, :create]
 
   before_action :find_project, :except => [ :index, :autocomplete, :list, :new, :create, :copy ]
-  before_action :authorize, :except => [ :index, :autocomplete, :list, :new, :create, :copy, :archive, :unarchive, :destroy]
+  before_action :authorize, :except => [ :index, :autocomplete, :list, :new, :create, :copy, :archive, :unarchive]
   before_action :authorize_global, :only => [:new, :create]
-  before_action :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
+  before_action :require_admin, :only => [ :copy, :archive, :unarchive ]
   accept_rss_auth :index
   accept_api_auth :index, :show, :create, :update, :destroy
   require_sudo_mode :destroy
@@ -259,11 +259,16 @@ class ProjectsController < ApplicationController
 
   # Delete @project
   def destroy
+    unless @project.deletable?
+      deny_access
+      return
+    end
+
     @project_to_destroy = @project
     if api_request? || params[:confirm]
       @project_to_destroy.destroy
       respond_to do |format|
-        format.html { redirect_to admin_projects_path }
+        format.html { redirect_to User.current.admin? ? admin_projects_path : projects_path }
         format.api  { render_api_ok }
       end
     end

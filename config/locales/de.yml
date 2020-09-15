@@ -917,6 +917,7 @@ de:
   permission_delete_issues: Tickets löschen
   permission_delete_messages: Forenbeiträge löschen
   permission_delete_own_messages: Eigene Forenbeiträge löschen
+  permission_delete_project: Projekt löschen
   permission_delete_wiki_pages: Wiki-Seiten löschen
   permission_delete_wiki_pages_attachments: Anhänge löschen
   permission_delete_documents: Dokumente löschen
