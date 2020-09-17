@@ -82,6 +82,7 @@ class Repository::Mercurial < Repository
   def entry(path=nil, identifier=nil)
     entry = scm.entry(path, identifier)
     return nil if entry.nil?
+
     modify_entry_lastrev_identifier(entry)
     entry
   end
@@ -89,6 +90,7 @@ class Repository::Mercurial < Repository
   def scm_entries(path=nil, identifier=nil)
     entries = scm.entries(path, identifier)
     return nil if entries.nil?
+
     entries.each {|entry| modify_entry_lastrev_identifier(entry)}
     entries
   end
@@ -97,6 +99,7 @@ class Repository::Mercurial < Repository
   # Finds and returns a revision with a number or the beginning of a hash
   def find_changeset_by_name(name)
     return nil if name.blank?
+
     s = name.to_s
     if /[^\d]/.match?(s) || s.size > 8
       cs = changesets.where(:scmid => s).first
@@ -104,6 +107,7 @@ class Repository::Mercurial < Repository
       cs = changesets.find_by(:revision => s)
     end
     return cs if cs
+
     changesets.where('scmid LIKE ?', "#{s}%").first
   end
 
@@ -126,6 +130,7 @@ class Repository::Mercurial < Repository
 
   def is_short_id_in_db?
     return @is_short_id_in_db unless @is_short_id_in_db.nil?
+
     cs = changesets.first
     @is_short_id_in_db = (!cs.nil? && cs.scmid.length != 40)
   end
@@ -179,6 +184,7 @@ class Repository::Mercurial < Repository
 
   def fetch_changesets
     return if scm.info.nil?
+
     scm_rev = scm.info.lastrev.revision.to_i
     db_rev  = latest_changeset ? latest_changeset.revision.to_i : -1
     return unless db_rev < scm_rev  # already up-to-date
