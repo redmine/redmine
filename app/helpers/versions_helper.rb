@@ -73,7 +73,7 @@ module VersionsHelper
       end
     counts =
       sorted_keys.collect do |k|
-          {:group => k, :total => h[k][0], :open => h[k][1], :closed => (h[k][0] - h[k][1])}
+        {:group => k, :total => h[k][0], :open => h[k][1], :closed => (h[k][0] - h[k][1])}
       end
     max = counts.collect {|c| c[:total]}.max
     render :partial => 'issue_counts', :locals => {:version => version, :criteria => criteria, :counts => counts, :max => max}
