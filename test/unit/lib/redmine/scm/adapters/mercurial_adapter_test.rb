@@ -86,7 +86,7 @@ class MercurialAdapterTest < ActiveSupport::TestCase
         repo_path =  adp.info.root_url.gsub(/\\/, "/")
         assert_equal REPOSITORY_PATH, repo_path
         assert_equal '39', adp.info.lastrev.revision
-        assert_equal '04aed9840e9266e535f5f20f7e42c9f9f84f9cf4',adp.info.lastrev.scmid
+        assert_equal '04aed9840e9266e535f5f20f7e42c9f9f84f9cf4', adp.info.lastrev.scmid
       end
     end
 
@@ -389,7 +389,7 @@ class MercurialAdapterTest < ActiveSupport::TestCase
       assert_equal 'c2ffe7da686aa3d956e59f2a2854cf8980a8b768', branch.scmid
 
       branch = branches[-1]
-      assert_equal 'test-branch-00',branch.to_s
+      assert_equal 'test-branch-00', branch.to_s
       assert_equal '13', branch.revision
       assert_equal '3a330eb329586ea2adb3f83237c23310e744ebe9', branch.scmid
     end
