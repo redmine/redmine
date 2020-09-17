@@ -47,13 +47,13 @@ class WikiContentVersion < ActiveRecord::Base
   def text=(plain)
     case Setting.wiki_compression
     when 'gzip'
-    begin
-      self.data = Zlib::Deflate.deflate(plain, Zlib::BEST_COMPRESSION)
-      self.compression = 'gzip'
-    rescue
-      self.data = plain
-      self.compression = ''
-    end
+      begin
+        self.data = Zlib::Deflate.deflate(plain, Zlib::BEST_COMPRESSION)
+        self.compression = 'gzip'
+      rescue
+        self.data = plain
+        self.compression = ''
+      end
     else
       self.data = plain
       self.compression = ''
