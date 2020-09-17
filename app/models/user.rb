@@ -967,16 +967,13 @@ class User < Principal
     if (admin? && saved_change_to_id? && active?) ||    # newly created admin
        (admin? && saved_change_to_admin? && active?) || # regular user became admin
        (admin? && saved_change_to_status? && active?)   # locked admin became active again
-
-       deliver = true
-       options[:message] = :mail_body_security_notification_add
-
+      deliver = true
+      options[:message] = :mail_body_security_notification_add
     elsif (admin? && destroyed? && active?) ||      # active admin user was deleted
           (!admin? && saved_change_to_admin? && active?) || # admin is no longer admin
           (admin? && saved_change_to_status? && !active?)   # admin was locked
-
-          deliver = true
-          options[:message] = :mail_body_security_notification_remove
+      deliver = true
+      options[:message] = :mail_body_security_notification_remove
     end
 
     if deliver
