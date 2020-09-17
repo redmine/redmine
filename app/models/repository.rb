@@ -167,6 +167,7 @@ class Repository < ActiveRecord::Base
   def merge_extra_info(arg)
     h = extra_info || {}
     return h if arg.nil?
+
     h.merge!(arg)
     write_attribute(:extra_info, h)
   end
@@ -249,6 +250,7 @@ class Repository < ActiveRecord::Base
   # Finds and returns a revision with a number or the beginning of a hash
   def find_changeset_by_name(name)
     return nil if name.blank?
+
     s = name.to_s
     if /^\d*$/.match?(s)
       changesets.find_by(:revision => s)
