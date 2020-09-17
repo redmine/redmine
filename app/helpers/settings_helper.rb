@@ -43,6 +43,7 @@ module SettingsHelper
 
   def render_settings_error(errors)
     return if errors.blank?
+
     s = ''.html_safe
     errors.each do |name, message|
       s << content_tag('li', content_tag('b', l("setting_#{name}")) + " " + message)
