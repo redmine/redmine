@@ -194,6 +194,7 @@ class ApplicationController < ActionController::Base
   def check_if_login_required
     # no check needed if user is already logged in
     return true if User.current.logged?
+
     require_login if Setting.login_required?
   end
 
@@ -285,6 +286,7 @@ class ApplicationController < ActionController::Base
 
   def require_admin
     return unless require_login
+
     if !User.current.admin?
       render_403
       return false
@@ -375,6 +377,7 @@ class ApplicationController < ActionController::Base
     # if the issue actually exists but requires authentication
     @issue = Issue.find(params[:id])
     raise Unauthorized unless @issue.visible?
+
     @project = @issue.project
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -391,6 +394,7 @@ class ApplicationController < ActionController::Base
       to_a
     raise ActiveRecord::RecordNotFound if @issues.empty?
     raise Unauthorized unless @issues.all?(&:visible?)
+
     @projects = @issues.collect(&:project).compact.uniq
     @project = @projects.first if @projects.size == 1
   rescue ActiveRecord::RecordNotFound
@@ -491,6 +495,7 @@ class ApplicationController < ActionController::Base
       if uri.send(component).present? && uri.send(component) != request.send(component)
         return false
       end
+
       uri.send(:"#{component}=", nil)
     end
     # Always ignore basic user:password in the URL
@@ -575,6 +580,7 @@ class ApplicationController < ActionController::Base
   # but have no HTML representation for non admin users
   def require_admin_or_api_request
     return true if api_request?
+
     if User.current.admin?
       true
     elsif User.current.logged?
