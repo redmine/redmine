@@ -1367,4 +1367,4 @@ ja:
   error_filename_required: ファイル名が必要です
   error_invalid_size_parameter: sizeパラメータが無効です
   error_attachment_not_found: 添付ファイル %{name} が見つかりません
-  permission_delete_project: Delete the project
+  permission_delete_project: プロジェクトの削除
