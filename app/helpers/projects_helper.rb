@@ -73,8 +73,12 @@ module ProjectsHelper
 
   # Renders the projects index
   def render_project_hierarchy(projects)
+    bookmarked_project_ids = User.current.bookmarked_project_ids
     render_project_nested_lists(projects) do |project|
-      s = link_to_project(project, {}, :class => "#{project.css_classes} #{User.current.member_of?(project) ? 'icon icon-user my-project' : nil}")
+      classes = project.css_classes.split
+      classes += %w(icon icon-user my-project) if User.current.member_of?(project)
+      classes += %w(icon icon-bookmarked-project) if bookmarked_project_ids.include?(project.id)
+      s = link_to_project(project, {}, :class => classes.uniq.join(' '))
       if project.description.present?
         s << content_tag('div', textilizable(project.short_description, :project => project), :class => 'wiki description')
       end

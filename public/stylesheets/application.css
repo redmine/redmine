@@ -695,7 +695,13 @@ ul.projects div.description li {list-style-type:initial;}
 #projects-index ul.projects div.description {
   padding-top: 0.5em;
 }
-#projects-index a.icon-user {padding-left:0; padding-right:20px; background-position:98% 50%;}
+#projects-index a.icon-user, a.icon-bookmarked-project {padding-left:0; padding-right:20px; background-position:98% 50%;}
+#projects-index a.icon-user.icon-bookmarked-project {
+  background-image: url(../images/tag_blue.png), url(../images/user.png);
+  background-position: bottom 0px right 0px, bottom 0px right 20px;
+  padding-right: 40px;
+  padding-top: 4px;
+}
 
 #notified-projects>ul, #tracker_project_ids>ul, #custom_field_project_ids>ul {max-height:250px; overflow-y:auto;}
 
@@ -1566,6 +1572,7 @@ td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
 .icon-collapsed { background-image: url(../images/arrow_right.png); }
 .icon-bookmark { background-image: url(../images/tag_blue_delete.png); }
 .icon-bookmark-off { background-image: url(../images/tag_blue_add.png); }
+.icon-bookmarked-project { background-image: url(../images/tag_blue.png); }
 .icon-sorted-asc { background-image: url(../images/arrow_down.png); }
 .icon-sorted-desc { background-image: url(../images/arrow_up.png); }
 .icon-toggle-plus { background-image: url(../images/bullet_toggle_plus.png) }
