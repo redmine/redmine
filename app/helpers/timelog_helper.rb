@@ -38,7 +38,7 @@ module TimelogHelper
     else
       collection << [ "--- #{l(:actionview_instancetag_blank_option)} ---", '' ] unless activities.detect(&:is_default)
     end
-    activities.each { |a| collection << [a.name, a.id] }
+    activities.each {|a| collection << [a.name, a.id]}
     collection
   end
 
@@ -50,7 +50,7 @@ module TimelogHelper
 
   def select_hours(data, criteria, value)
     if value.to_s.empty?
-      data.select {|row| row[criteria].blank? }
+      data.select {|row| row[criteria].blank?}
     else
       data.select {|row| row[criteria].to_s == value.to_s}
     end
@@ -88,7 +88,7 @@ module TimelogHelper
   def report_to_csv(report)
     Redmine::Export::CSV.generate(:encoding => params[:encoding]) do |csv|
       # Column headers
-      headers = report.criteria.collect {|criteria| l_or_humanize(report.available_criteria[criteria][:label]) }
+      headers = report.criteria.collect {|criteria| l_or_humanize(report.available_criteria[criteria][:label])}
       headers += report.periods
       headers << l(:label_total_time)
       csv << headers
