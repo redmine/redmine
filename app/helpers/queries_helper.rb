@@ -406,7 +406,7 @@ module QueriesHelper
     content_tag('h3', title) + "\n" +
       content_tag(
         'ul',
-        queries.collect {|query|
+        queries.collect do |query|
           css = +'query'
           clear_link = +''
           if query == @query
@@ -418,7 +418,7 @@ module QueriesHelper
                               url_params.merge(:query_id => query),
                               :class => css) +
                         clear_link.html_safe)
-        }.join("\n").html_safe,
+        end.join("\n").html_safe,
         :class => 'queries'
       ) + "\n"
   end
