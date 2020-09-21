@@ -276,7 +276,7 @@ module Redmine
 
         if issue
           # remove invalid options
-          options.delete_if { |k,v| v != 'true' && v != 'false' }
+          options.delete_if {|k, v| v != 'true' && v != 'false'}
 
           # turn string values into boolean
           options.each do |k, v|
