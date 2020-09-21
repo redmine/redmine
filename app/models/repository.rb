@@ -441,7 +441,7 @@ class Repository < ActiveRecord::Base
       if username = authors_names[element.user_id.to_i]
         mapped_name = username
       end
-      hash[mapped_name] ||= { :commits_count => 0, :changes_count => 0 }
+      hash[mapped_name] ||= {:commits_count => 0, :changes_count => 0}
       if element.is_a?(Changeset)
         hash[mapped_name][:commits_count] += element.count.to_i
       else
