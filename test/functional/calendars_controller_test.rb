@@ -41,9 +41,12 @@ class CalendarsControllerTest < Redmine::ControllerTest
     travel_to issues(:issues_002).start_date
 
     with_settings :gravatar_enabled => '1' do
-      get :show, :params => {
+      get(
+        :show,
+        :params => {
           :project_id => 1
         }
+      )
     end
     assert_response :success
 
@@ -68,10 +71,12 @@ class CalendarsControllerTest < Redmine::ControllerTest
 
   def test_show_should_run_custom_queries
     @query = IssueQuery.create!(:name => 'Calendar Query', :visibility => IssueQuery::VISIBILITY_PUBLIC)
-
-    get :show, :params => {
+    get(
+      :show,
+      :params => {
         :query_id => @query.id
       }
+    )
     assert_response :success
     assert_select 'h2', :text => 'Calendar Query'
   end
@@ -83,10 +88,13 @@ class CalendarsControllerTest < Redmine::ControllerTest
 
   def test_week_number_calculation
     with_settings :start_of_week => 7 do
-      get :show, :params => {
+      get(
+        :show,
+        :params => {
           :month => '1',
           :year => '2010'
         }
+      )
       assert_response :success
     end
 
@@ -103,10 +111,13 @@ class CalendarsControllerTest < Redmine::ControllerTest
     end
 
     with_settings :start_of_week => 1 do
-      get :show, :params => {
+      get(
+        :show,
+        :params => {
           :month => '1',
           :year => '2010'
         }
+      )
       assert_response :success
     end
 
@@ -124,28 +135,35 @@ class CalendarsControllerTest < Redmine::ControllerTest
   end
 
   def test_show_custom_query_with_multiple_sort_criteria
-    get :show, :params => {
+    get(
+      :show,
+      :params => {
         :query_id => 5
       }
-
+    )
     assert_response :success
     assert_select 'h2', :text => 'Open issues by priority and tracker'
   end
 
   def test_show_custom_query_with_group_by_option
-    get :show, :params => {
+    get(
+      :show,
+      :params => {
         :query_id => 6
       }
-
+    )
     assert_response :success
     assert_select 'h2', :text => 'Open issues grouped by tracker'
   end
 
   def test_show_calendar_day_css_classes
-    get :show, :params => {
+    get(
+      :show,
+      :params => {
         :month => '12',
         :year => '2016'
       }
+    )
     assert_response :success
 
     assert_select 'tr:nth-child(2)' do
