@@ -44,16 +44,22 @@ class CalendarsController < ApplicationController
     @query.sort_criteria = nil
     if @query.valid?
       events = []
-      events += @query.issues(
-                  :include => [:tracker, :assigned_to, :priority],
-                  :conditions => ["((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?))",
-                                  @calendar.startdt, @calendar.enddt,
-                                  @calendar.startdt, @calendar.enddt]
-                )
-      events += @query.versions(
-                  :conditions => ["effective_date BETWEEN ? AND ?",
-                                  @calendar.startdt, @calendar.enddt]
-                )
+      events +=
+        @query.issues(
+          :include => [:tracker, :assigned_to, :priority],
+          :conditions => [
+            "((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?))",
+            @calendar.startdt, @calendar.enddt,
+            @calendar.startdt, @calendar.enddt
+          ]
+        )
+      events +=
+        @query.versions(
+          :conditions => [
+            "effective_date BETWEEN ? AND ?",
+            @calendar.startdt, @calendar.enddt
+          ]
+        )
       @calendar.events = events
     end
 
