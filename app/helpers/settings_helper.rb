@@ -80,11 +80,11 @@ module SettingsHelper
         content_tag(
           'label',
           check_box_tag(
-             "settings[#{setting}][]",
-             value,
-             setting_values.include?(value),
-             :id => nil
-           ) + text.to_s,
+            "settings[#{setting}][]",
+            value,
+            setting_values.include?(value),
+            :id => nil
+          ) + text.to_s,
           :class => (options[:inline] ? 'inline' : 'block')
         )
       end.join.html_safe
