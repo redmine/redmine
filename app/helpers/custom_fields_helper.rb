@@ -43,7 +43,7 @@ module CustomFieldsHelper
   ]
 
   def render_custom_fields_tabs(types)
-    tabs = CUSTOM_FIELDS_TABS.select {|h| types.include?(h[:name]) }
+    tabs = CUSTOM_FIELDS_TABS.select {|h| types.include?(h[:name])}
     render_tabs tabs
   end
 
