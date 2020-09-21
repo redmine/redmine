@@ -139,20 +139,20 @@ module SettingsHelper
 
   def session_lifetime_options
     options = [[l(:label_disabled), 0]]
-    options += [4, 8, 12].map {|hours|
+    options += [4, 8, 12].map do |hours|
       [l('datetime.distance_in_words.x_hours', :count => hours), (hours * 60).to_s]
-    }
-    options += [1, 7, 30, 60, 365].map {|days|
+    end
+    options += [1, 7, 30, 60, 365].map do |days|
       [l('datetime.distance_in_words.x_days', :count => days), (days * 24 * 60).to_s]
-    }
+    end
     options
   end
 
   def session_timeout_options
     options = [[l(:label_disabled), 0]]
-    options += [1, 2, 4, 8, 12, 24, 48].map {|hours|
+    options += [1, 2, 4, 8, 12, 24, 48].map do |hours|
       [l('datetime.distance_in_words.x_hours', :count => hours), (hours * 60).to_s]
-    }
+    end
     options
   end
 
