@@ -192,13 +192,14 @@ module QueriesHelper
       sort_param = {param_key => query.sort_criteria.add(column.name, order).to_param}
       sort_param = {$1 => {$2 => sort_param.values.first}} while sort_param.keys.first.to_s =~ /^(.+)\[(.+)\]$/
       link_options = {
-          :title => l(:label_sort_by, "\"#{column.caption}\""),
-          :class => css
-        }
+        :title => l(:label_sort_by, "\"#{column.caption}\""),
+        :class => css
+      }
       if options[:sort_link_options]
         link_options.merge! options[:sort_link_options]
       end
-      content = link_to(
+      content =
+        link_to(
           column.caption,
           {:params => request.query_parameters.deep_merge(sort_param)},
           link_options
