@@ -2142,10 +2142,12 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_update_form_should_render_assign_to_me_link_when_issue_can_be_assigned_to_the_current_user
     @request.session[:user_id] = 1
-    get :show, :params => {
+    get(
+      :show,
+      :params => {
         :id => 10
       }
-
+    )
     assert_select 'form#issue-form #attributes' do
       assert_select 'a[class=?][data-id=?]', 'assign-to-me-link', '1', 1
     end
@@ -2153,10 +2155,12 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_update_form_should_not_render_assign_to_me_link_when_issue_cannot_be_assigned_to_the_current_user
     @request.session[:user_id] = 1
-    get :show, :params => {
+    get(
+      :show,
+      :params => {
         :id => 2
       }
-
+    )
     assert_select 'form#issue-form #attributes' do
       assert_select 'a[class=?]', 'assign-to-me-link', 0
     end
@@ -2168,10 +2172,12 @@ class IssuesControllerTest < Redmine::ControllerTest
     issue.save!
 
     @request.session[:user_id] = 1
-    get :show, :params => {
+    get(
+      :show,
+      :params => {
         :id => 10
       }
-
+    )
     assert_select 'form#issue-form #attributes' do
       assert_select 'a[class=?]', 'assign-to-me-link hidden', 1
     end
