@@ -24,7 +24,7 @@ class Enumeration < ActiveRecord::Base
 
   belongs_to :project
 
-  acts_as_positioned :scope => :parent_id
+  acts_as_positioned :scope => %i[project_id parent_id]
   acts_as_customizable
   acts_as_tree
 
@@ -149,7 +149,7 @@ class Enumeration < ActiveRecord::Base
   # position as the overridden enumeration
   def update_position
     super
-    if saved_change_to_position?
+    if saved_change_to_position? && self.parent_id.nil?
       self.class.where.not(:parent_id => nil).update_all(
         "position = coalesce((
           select position

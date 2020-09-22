@@ -131,4 +131,24 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
     assert_include activity, project.activities
     assert_include TimeEntryActivity.find(9), project.activities
   end
+
+  def test_project_activity_should_have_the_same_position_as_parent_activity
+    project = Project.find(1)
+
+    parent_activity = TimeEntryActivity.find_by(position: 3, parent_id: nil)
+    project.update_or_create_time_entry_activities({parent_activity.id.to_s => {'parent_id' => parent_activity.id.to_s, 'active' => '0', 'custom_field_values' => {'7' => ''}}})
+    project_activity = TimeEntryActivity.find_by(position: 3, parent_id: parent_activity.id, project_id: 1)
+    assert_equal parent_activity.position, project_activity.position
+
+    # Changing the position of the parent activity also changes the position of the activity in each project.
+    other_parent_activity = TimeEntryActivity.find_by(position: 4, parent_id: nil)
+    project.update_or_create_time_entry_activities({other_parent_activity.id.to_s => {'parent_id' => other_parent_activity.id.to_s, 'active' => '0', 'custom_field_values' => {'7' => ''}}})
+    other_project_activity = TimeEntryActivity.find_by(position: 4, parent_id: other_parent_activity.id, project_id: 1)
+
+    parent_activity.update(position: 4)
+    assert_equal 4, parent_activity.reload.position
+    assert_equal parent_activity.position, project_activity.reload.position
+    assert_equal 3, other_parent_activity.reload.position
+    assert_equal other_parent_activity.position, other_project_activity.reload.position
+  end
 end
