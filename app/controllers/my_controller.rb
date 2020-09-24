@@ -58,10 +58,10 @@ class MyController < ApplicationController
         @user.pref.save
         set_language_if_valid @user.language
         respond_to do |format|
-          format.html {
+          format.html do
             flash[:notice] = l(:notice_account_updated)
             redirect_to my_account_path
-          }
+          end
           format.api  {render_api_ok}
         end
         return
