@@ -8,7 +8,6 @@ module Redmine
     class SudoRequired < StandardError
     end
 
-
     class Form
       include ActiveModel::Validations
 
@@ -26,7 +25,6 @@ module Redmine
       end
     end
 
-
     module Helper
       # Represents params data from hash as hidden fields
       #
@@ -41,7 +39,6 @@ module Redmine
         tags.join("\n").html_safe
       end
     end
-
 
     module Controller
       extend ActiveSupport::Concern
@@ -172,7 +169,6 @@ module Redmine
         end
       end
     end
-
 
     # true if the sudo mode state was queried during this request
     def self.was_used?
