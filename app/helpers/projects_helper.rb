@@ -88,7 +88,7 @@ module ProjectsHelper
 
   # Returns a set of options for a select field, grouped by project.
   def version_options_for_select(versions, selected=nil)
-    grouped = Hash.new {|h,k| h[k] = []}
+    grouped = Hash.new {|h, k| h[k] = []}
     versions.each do |version|
       grouped[version.project.name] << [version.name, version.id]
     end
