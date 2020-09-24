@@ -36,12 +36,14 @@ class MercurialAdapterTest < ActiveSupport::TestCase
       assert_equal true, adapter_class.client_available
       assert_equal true, adapter_class.client_version_above?([0, 9, 5])
 
-      @adapter = Redmine::Scm::Adapters::MercurialAdapter.new(
-                            REPOSITORY_PATH,
-                            nil,
-                            nil,
-                            nil,
-                            'ISO-8859-1')
+      @adapter =
+        Redmine::Scm::Adapters::MercurialAdapter.new(
+          REPOSITORY_PATH,
+          nil,
+          nil,
+          nil,
+          'ISO-8859-1'
+        )
       @diff_c_support = true
       @char_1        = 'Ü'
       @tag_char_1    = 'tag-Ü-00'
@@ -332,11 +334,12 @@ class MercurialAdapterTest < ActiveSupport::TestCase
     end
 
     def test_tagmap
-      tm = {
-        'double"quote"tag'  => 'cf5f7c556f5a643e1ec7cb01775be539f64eeefb',
-        @tag_char_1         => 'adf805632193500ad3b615cd04f58f9b0769f576',
-        'tag_test.00'       => '6987191f453a5f6557018d522feea2c450d5588d',
-        'tag-init-revision' => '0885933ad4f68d77c2649cd11f8311276e7ef7ce',
+      tm =
+        {
+          'double"quote"tag'  => 'cf5f7c556f5a643e1ec7cb01775be539f64eeefb',
+          @tag_char_1         => 'adf805632193500ad3b615cd04f58f9b0769f576',
+          'tag_test.00'       => '6987191f453a5f6557018d522feea2c450d5588d',
+          'tag-init-revision' => '0885933ad4f68d77c2649cd11f8311276e7ef7ce',
         }
       assert_equal tm, @adapter.tagmap
     end
@@ -395,17 +398,18 @@ class MercurialAdapterTest < ActiveSupport::TestCase
     end
 
     def test_branchmap
-      bm = {
-         'double"quote"branch'   => '04aed9840e9266e535f5f20f7e42c9f9f84f9cf4',
-         'issue-23055-ctrl-char' => '3e998343166a1b8273973bcd46dd2bad74344d74',
-         'default'               => '31eeee7395c8c78e66dd54c50addd078d10b2355',
-         'test_branch.latin-1'   => 'c2ffe7da686aa3d956e59f2a2854cf8980a8b768',
-         'branch (1)[2]&,%.-3_4' => 'afc61e85bde74de930e5846c8451bd55b5bafc9c',
-         'test-branch-00'        => '3a330eb329586ea2adb3f83237c23310e744ebe9',
-         "test-branch-01"        => 'ad4dc4f80284a4f9168b77e0b6de288e5d207ee7',
-         @branch_char_0          => 'c8d3e4887474af6a589190140508037ebaa9d9c3',
-         @branch_char_1          => '7bbf4c738e7145149d2e5eb1eed1d3a8ddd3b914',
-       }
+      bm =
+        {
+          'double"quote"branch'   => '04aed9840e9266e535f5f20f7e42c9f9f84f9cf4',
+          'issue-23055-ctrl-char' => '3e998343166a1b8273973bcd46dd2bad74344d74',
+          'default'               => '31eeee7395c8c78e66dd54c50addd078d10b2355',
+          'test_branch.latin-1'   => 'c2ffe7da686aa3d956e59f2a2854cf8980a8b768',
+          'branch (1)[2]&,%.-3_4' => 'afc61e85bde74de930e5846c8451bd55b5bafc9c',
+          'test-branch-00'        => '3a330eb329586ea2adb3f83237c23310e744ebe9',
+          "test-branch-01"        => 'ad4dc4f80284a4f9168b77e0b6de288e5d207ee7',
+          @branch_char_0          => 'c8d3e4887474af6a589190140508037ebaa9d9c3',
+          @branch_char_1          => '7bbf4c738e7145149d2e5eb1eed1d3a8ddd3b914',
+        }
       assert_equal bm, @adapter.branchmap
     end
 
@@ -469,17 +473,19 @@ class MercurialAdapterTest < ActiveSupport::TestCase
     end
 
     def test_path_encoding_default_utf8
-      adpt1 = Redmine::Scm::Adapters::MercurialAdapter.new(
-                                REPOSITORY_PATH
-                              )
+      adpt1 =
+        Redmine::Scm::Adapters::MercurialAdapter.new(
+          REPOSITORY_PATH
+        )
       assert_equal "UTF-8", adpt1.path_encoding
-      adpt2 = Redmine::Scm::Adapters::MercurialAdapter.new(
-                                REPOSITORY_PATH,
-                                nil,
-                                nil,
-                                nil,
-                                ""
-                              )
+      adpt2 =
+        Redmine::Scm::Adapters::MercurialAdapter.new(
+          REPOSITORY_PATH,
+          nil,
+          nil,
+          nil,
+          ""
+        )
       assert_equal "UTF-8", adpt2.path_encoding
     end
 
