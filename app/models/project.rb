@@ -34,7 +34,7 @@ class Project < ActiveRecord::Base
   has_many :memberships, :class_name => 'Member', :inverse_of => :project
   # Memberships of active users only
   has_many :members,
-           lambda { joins(:principal).where(:users => {:type => 'User', :status => Principal::STATUS_ACTIVE}) }
+           lambda {joins(:principal).where(:users => {:type => 'User', :status => Principal::STATUS_ACTIVE})}
   has_many :enabled_modules, :dependent => :delete_all
   has_and_belongs_to_many :trackers, lambda {order(:position)}
   has_many :issues, :dependent => :destroy
@@ -75,7 +75,7 @@ class Project < ActiveRecord::Base
   validates_length_of :homepage, :maximum => 255
   validates_length_of :identifier, :maximum => IDENTIFIER_MAX_LENGTH
   # downcase letters, digits, dashes but not digits only
-  validates_format_of :identifier, :with => /\A(?!\d+$)[a-z0-9\-_]*\z/, :if => Proc.new { |p| p.identifier_changed? }
+  validates_format_of :identifier, :with => /\A(?!\d+$)[a-z0-9\-_]*\z/, :if => Proc.new {|p| p.identifier_changed?}
   # reserved words
   validates_exclusion_of :identifier, :in => %w(new)
   validate :validate_parent
@@ -88,10 +88,10 @@ class Project < ActiveRecord::Base
   scope :has_module, lambda {|mod|
     where("#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s)
   }
-  scope :active, lambda { where(:status => STATUS_ACTIVE) }
-  scope :status, lambda {|arg| where(arg.blank? ? nil : {:status => arg.to_i}) }
-  scope :all_public, lambda { where(:is_public => true) }
-  scope :visible, lambda {|*args| where(Project.visible_condition(args.shift || User.current, *args)) }
+  scope :active, lambda {where(:status => STATUS_ACTIVE)}
+  scope :status, lambda {|arg| where(arg.blank? ? nil : {:status => arg.to_i})}
+  scope :all_public, lambda {where(:is_public => true)}
+  scope :visible, lambda {|*args| where(Project.visible_condition(args.shift || User.current, *args))}
   scope :allowed_to, lambda {|*args|
     user = args.first.is_a?(Symbol) ? User.current : args.shift
     permission = args.shift
