@@ -631,7 +631,7 @@ class MyControllerTest < Redmine::ControllerTest
 
   def test_order_blocks
     pref = User.find(2).pref
-    pref.my_page_layout = {'left' => ['news', 'calendar','documents']}
+    pref.my_page_layout = {'left' => ['news', 'calendar', 'documents']}
     pref.save!
 
     post :order_blocks, :params => {
@@ -645,7 +645,7 @@ class MyControllerTest < Redmine::ControllerTest
 
   def test_move_block
     pref = User.find(2).pref
-    pref.my_page_layout = {'left' => ['news','documents'], 'right' => ['calendar']}
+    pref.my_page_layout = {'left' => ['news', 'documents'], 'right' => ['calendar']}
     pref.save!
 
     post :order_blocks, :params => {
