@@ -45,9 +45,11 @@ class ApplicationHelperTest < Redmine::HelperTest
     User.current = User.find_by_login('admin')
 
     @project = Issue.first.project # Used by helper
-    response = link_to_if_authorized(
-                 'By controller/actionr',
-                 {:controller => 'issues', :action => 'edit', :id => Issue.first.id})
+    response =
+      link_to_if_authorized(
+        'By controller/actionr',
+        {:controller => 'issues', :action => 'edit', :id => Issue.first.id}
+      )
     assert_match /href/, response
   end
 
@@ -56,9 +58,11 @@ class ApplicationHelperTest < Redmine::HelperTest
     @project = Project.find('private-child')
     issue = @project.issues.first
     assert !issue.visible?
-    response = link_to_if_authorized(
-                 'Never displayed',
-                 {:controller => 'issues', :action => 'show', :id => issue})
+    response =
+      link_to_if_authorized(
+        'Never displayed',
+        {:controller => 'issues', :action => 'show', :id => issue}
+      )
     assert_nil response
   end
 
@@ -187,42 +191,51 @@ class ApplicationHelperTest < Redmine::HelperTest
   def test_attached_images_with_hires_naming
     attachment = Attachment.generate!(:filename => 'image@2x.png')
     assert_equal(
-        %(<p><img src="/attachments/download/#{attachment.id}/image@2x.png" srcset="/attachments/download/#{attachment.id}/image@2x.png 2x" alt="" /></p>),
-        textilizable("!image@2x.png!", :attachments => [attachment]))
+      %(<p><img src="/attachments/download/#{attachment.id}/image@2x.png" srcset="/attachments/download/#{attachment.id}/image@2x.png 2x" alt="" /></p>),
+      textilizable("!image@2x.png!", :attachments => [attachment])
+    )
   end
 
   def test_attached_images_filename_extension
-    a1 = Attachment.new(
-            :container => Issue.find(1),
-            :file => mock_file_with_options({:original_filename => "testtest.JPG"}),
-            :author => User.find(1))
+    a1 =
+      Attachment.new(
+        :container => Issue.find(1),
+        :file => mock_file_with_options({:original_filename => "testtest.JPG"}),
+        :author => User.find(1)
+      )
     assert a1.save
     assert_equal "testtest.JPG", a1.filename
     assert_equal "image/jpeg", a1.content_type
     assert a1.image?
 
-    a2 = Attachment.new(
-            :container => Issue.find(1),
-            :file => mock_file_with_options({:original_filename => "testtest.jpeg"}),
-            :author => User.find(1))
+    a2 =
+      Attachment.new(
+        :container => Issue.find(1),
+        :file => mock_file_with_options({:original_filename => "testtest.jpeg"}),
+        :author => User.find(1)
+      )
     assert a2.save
     assert_equal "testtest.jpeg", a2.filename
     assert_equal "image/jpeg", a2.content_type
     assert a2.image?
 
-    a3 = Attachment.new(
-            :container => Issue.find(1),
-            :file => mock_file_with_options({:original_filename => "testtest.JPE"}),
-            :author => User.find(1))
+    a3 =
+      Attachment.new(
+        :container => Issue.find(1),
+        :file => mock_file_with_options({:original_filename => "testtest.JPE"}),
+        :author => User.find(1)
+      )
     assert a3.save
     assert_equal "testtest.JPE", a3.filename
     assert_equal "image/jpeg", a3.content_type
     assert a3.image?
 
-    a4 = Attachment.new(
-            :container => Issue.find(1),
-            :file => mock_file_with_options({:original_filename => "Testtest.BMP"}),
-            :author => User.find(1))
+    a4 =
+      Attachment.new(
+        :container => Issue.find(1),
+        :file => mock_file_with_options({:original_filename => "Testtest.BMP"}),
+        :author => User.find(1)
+      )
     assert a4.save
     assert_equal "Testtest.BMP", a4.filename
     assert_equal "image/x-ms-bmp", a4.content_type
@@ -310,60 +323,74 @@ class ApplicationHelperTest < Redmine::HelperTest
                          {:controller => 'issues', :action => 'show', :id => 3},
                          :class => Issue.find(3).css_classes,
                          :title => 'Bug: Error 281 when updating a recipe (New)')
-    ext_issue_link = link_to(
-                         'Bug #3: Error 281 when updating a recipe',
-                         {:controller => 'issues', :action => 'show', :id => 3},
-                         :class => Issue.find(3).css_classes,
-                         :title => 'Status: New')
-    note_link = link_to(
-                         '#3-14',
-                         {:controller => 'issues', :action => 'show',
-                          :id => 3, :anchor => 'note-14'},
-                         :class => Issue.find(3).css_classes,
-                         :title => 'Bug: Error 281 when updating a recipe (New)')
-    ext_note_link = link_to(
-                         'Bug #3-14: Error 281 when updating a recipe',
-                         {:controller => 'issues', :action => 'show',
-                          :id => 3, :anchor => 'note-14'},
-                         :class => Issue.find(3).css_classes,
-                         :title => 'Status: New')
-    note_link2 = link_to(
-                         '#3#note-14',
-                         {:controller => 'issues', :action => 'show',
-                          :id => 3, :anchor => 'note-14'},
-                         :class => Issue.find(3).css_classes,
-                         :title => 'Bug: Error 281 when updating a recipe (New)')
-    ext_note_link2 = link_to(
-                         'Bug #3#note-14: Error 281 when updating a recipe',
-                         {:controller => 'issues', :action => 'show',
-                          :id => 3, :anchor => 'note-14'},
-                         :class => Issue.find(3).css_classes,
-                         :title => 'Status: New')
-
-    revision_link = link_to(
-                         'r1',
-                         {:controller => 'repositories', :action => 'revision',
-                          :id => 'ecookbook', :repository_id => 10, :rev => 1},
-                         :class => 'changeset',
-                         :title => 'My very first commit do not escaping #<>&')
-    revision_link2 = link_to(
-                         'r2',
-                         {:controller => 'repositories', :action => 'revision',
-                          :id => 'ecookbook', :repository_id => 10, :rev => 2},
-                         :class => 'changeset',
-                         :title => 'This commit fixes #1, #2 and references #1 & #3')
-
-    changeset_link2 = link_to(
-                         '691322a8eb01e11fd7',
-                         {:controller => 'repositories', :action => 'revision',
-                          :id => 'ecookbook', :repository_id => 10, :rev => 1},
-                         :class => 'changeset', :title => 'My very first commit do not escaping #<>&')
-
-    document_link = link_to(
-                         'Test document',
-                         {:controller => 'documents', :action => 'show', :id => 1},
-                         :class => 'document')
-
+    ext_issue_link =
+      link_to(
+        'Bug #3: Error 281 when updating a recipe',
+        {:controller => 'issues', :action => 'show', :id => 3},
+        :class => Issue.find(3).css_classes,
+        :title => 'Status: New'
+      )
+    note_link =
+      link_to(
+        '#3-14',
+        {:controller => 'issues', :action => 'show',
+         :id => 3, :anchor => 'note-14'},
+        :class => Issue.find(3).css_classes,
+        :title => 'Bug: Error 281 when updating a recipe (New)'
+      )
+    ext_note_link =
+      link_to(
+        'Bug #3-14: Error 281 when updating a recipe',
+        {:controller => 'issues', :action => 'show',
+         :id => 3, :anchor => 'note-14'},
+        :class => Issue.find(3).css_classes,
+        :title => 'Status: New'
+      )
+    note_link2 =
+      link_to(
+        '#3#note-14',
+        {:controller => 'issues', :action => 'show',
+         :id => 3, :anchor => 'note-14'},
+        :class => Issue.find(3).css_classes,
+        :title => 'Bug: Error 281 when updating a recipe (New)'
+      )
+    ext_note_link2 =
+      link_to(
+        'Bug #3#note-14: Error 281 when updating a recipe',
+        {:controller => 'issues', :action => 'show',
+         :id => 3, :anchor => 'note-14'},
+        :class => Issue.find(3).css_classes,
+        :title => 'Status: New'
+      )
+    revision_link =
+      link_to(
+        'r1',
+        {:controller => 'repositories', :action => 'revision',
+         :id => 'ecookbook', :repository_id => 10, :rev => 1},
+        :class => 'changeset',
+        :title => 'My very first commit do not escaping #<>&'
+      )
+    revision_link2 =
+      link_to(
+        'r2',
+        {:controller => 'repositories', :action => 'revision',
+         :id => 'ecookbook', :repository_id => 10, :rev => 2},
+        :class => 'changeset',
+        :title => 'This commit fixes #1, #2 and references #1 & #3'
+      )
+    changeset_link2 =
+      link_to(
+        '691322a8eb01e11fd7',
+        {:controller => 'repositories', :action => 'revision',
+         :id => 'ecookbook', :repository_id => 10, :rev => 1},
+        :class => 'changeset', :title => 'My very first commit do not escaping #<>&'
+      )
+    document_link =
+      link_to(
+        'Test document',
+        {:controller => 'documents', :action => 'show', :id => 1},
+        :class => 'document'
+      )
     version_link = link_to('1.0',
                            {:controller => 'versions', :action => 'show', :id => 2},
                            :class => 'version')
@@ -633,22 +660,28 @@ class ApplicationHelperTest < Redmine::HelperTest
     hg = Repository::Mercurial.create!(:project_id => 1, :identifier => 'hg1', :url => '/foo/hg')
     Changeset.create!(:repository => hg, :committed_on => Time.now, :revision => '123', :scmid => 'abcd')
 
-    changeset_link = link_to(
-                       'r2',
-                       {:controller => 'repositories', :action => 'revision',
-                        :id => 'ecookbook', :repository_id => 10, :rev => 2},
-                       :class => 'changeset',
-                       :title => 'This commit fixes #1, #2 and references #1 & #3')
-    svn_changeset_link = link_to(
-                           'svn_repo-1|r123',
-                           {:controller => 'repositories', :action => 'revision',
-                            :id => 'ecookbook', :repository_id => 'svn_repo-1', :rev => 123},
-                           :class => 'changeset', :title => '')
-    hg_changeset_link = link_to(
-                          'hg1|abcd',
-                          {:controller => 'repositories', :action => 'revision',
-                           :id => 'ecookbook', :repository_id => 'hg1', :rev => 'abcd'},
-                          :class => 'changeset', :title => '')
+    changeset_link =
+      link_to(
+        'r2',
+        {:controller => 'repositories', :action => 'revision',
+         :id => 'ecookbook', :repository_id => 10, :rev => 2},
+        :class => 'changeset',
+        :title => 'This commit fixes #1, #2 and references #1 & #3'
+      )
+    svn_changeset_link =
+      link_to(
+        'svn_repo-1|r123',
+        {:controller => 'repositories', :action => 'revision',
+         :id => 'ecookbook', :repository_id => 'svn_repo-1', :rev => 123},
+        :class => 'changeset', :title => ''
+      )
+    hg_changeset_link =
+      link_to(
+        'hg1|abcd',
+        {:controller => 'repositories', :action => 'revision',
+         :id => 'ecookbook', :repository_id => 'hg1', :rev => 'abcd'},
+        :class => 'changeset', :title => ''
+      )
     source_link = link_to('source:some/file',
                           {:controller => 'repositories', :action => 'entry',
                            :id => 'ecookbook', :repository_id => 10,
@@ -682,27 +715,36 @@ class ApplicationHelperTest < Redmine::HelperTest
     hg = Repository::Mercurial.create!(:project_id => 1, :identifier => 'hg1', :url => '/foo/hg')
     Changeset.create!(:repository => hg, :committed_on => Time.now, :revision => '123', :scmid => 'abcd')
 
-    changeset_link = link_to(
-                       'ecookbook:r2',
-                       {:controller => 'repositories', :action => 'revision',
-                        :id => 'ecookbook', :repository_id => 10, :rev => 2},
-                       :class => 'changeset',
-                       :title => 'This commit fixes #1, #2 and references #1 & #3')
-    svn_changeset_link = link_to(
-                           'ecookbook:svn1|r123',
-                           {:controller => 'repositories', :action => 'revision',
-                            :id => 'ecookbook', :repository_id => 'svn1', :rev => 123},
-                           :class => 'changeset', :title => '')
-    hg_changeset_link = link_to(
-                          'ecookbook:hg1|abcd',
-                          {:controller => 'repositories', :action => 'revision',
-                           :id => 'ecookbook', :repository_id => 'hg1', :rev => 'abcd'},
-                          :class => 'changeset', :title => '')
-
-    source_link = link_to('ecookbook:source:some/file',
-                          {:controller => 'repositories', :action => 'entry',
-                           :id => 'ecookbook', :repository_id => 10,
-                           :path => ['some', 'file']}, :class => 'source')
+    changeset_link =
+      link_to(
+        'ecookbook:r2',
+        {:controller => 'repositories', :action => 'revision',
+         :id => 'ecookbook', :repository_id => 10, :rev => 2},
+        :class => 'changeset',
+        :title => 'This commit fixes #1, #2 and references #1 & #3'
+      )
+    svn_changeset_link =
+      link_to(
+        'ecookbook:svn1|r123',
+        {:controller => 'repositories', :action => 'revision',
+         :id => 'ecookbook', :repository_id => 'svn1', :rev => 123},
+        :class => 'changeset', :title => ''
+      )
+    hg_changeset_link =
+      link_to(
+        'ecookbook:hg1|abcd',
+        {:controller => 'repositories', :action => 'revision',
+         :id => 'ecookbook', :repository_id => 'hg1', :rev => 'abcd'},
+        :class => 'changeset', :title => ''
+      )
+    source_link =
+      link_to(
+        'ecookbook:source:some/file',
+        {:controller => 'repositories', :action => 'entry',
+         :id => 'ecookbook', :repository_id => 10,
+         :path => ['some', 'file']},
+        :class => 'source'
+      )
     hg_source_link = link_to('ecookbook:source:hg1|some/file',
                              {:controller => 'repositories', :action => 'entry',
                               :id => 'ecookbook', :repository_id => 'hg1',
@@ -727,24 +769,29 @@ class ApplicationHelperTest < Redmine::HelperTest
   def test_redmine_links_git_commit
     @project = Project.find(3)
     r = Repository::Git.create!(:project => @project, :url => '/tmp/test/git')
-    c = Changeset.create!(
-                      :repository => r,
-                      :committed_on => Time.now,
-                      :revision => 'abcd',
-                      :scmid => 'abcd',
-                      :comments => 'test commit')
-    changeset_link = link_to('abcd',
-                             {
-                                 :controller => 'repositories',
-                                 :action     => 'revision',
-                                 :id         => 'subproject1',
-                                 :repository_id => r.id,
-                                 :rev        => 'abcd',
-                              },
-                             :class => 'changeset', :title => 'test commit')
+    c =
+      Changeset.create!(
+        :repository => r,
+        :committed_on => Time.now,
+        :revision => 'abcd',
+        :scmid => 'abcd',
+        :comments => 'test commit'
+      )
+    changeset_link =
+      link_to(
+        'abcd',
+        {
+          :controller => 'repositories',
+          :action     => 'revision',
+          :id         => 'subproject1',
+          :repository_id => r.id,
+          :rev        => 'abcd',
+        },
+        :class => 'changeset', :title => 'test commit'
+      )
     to_test = {
       'commit:abcd' => changeset_link,
-     }
+    }
     to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text)}
   end
 
@@ -752,36 +799,42 @@ class ApplicationHelperTest < Redmine::HelperTest
   def test_redmine_links_mercurial_commit
     @project = Project.find(3)
     r = Repository::Mercurial.create!(:project => @project, :url => '/tmp/test')
-    c = Changeset.create!(
-                      :repository => r,
-                      :committed_on => Time.now,
-                      :revision => '123',
-                      :scmid => 'abcd',
-                      :comments => 'test commit')
-    changeset_link_rev = link_to(
-                              'r123',
-                              {
-                                     :controller => 'repositories',
-                                     :action     => 'revision',
-                                     :id         => 'subproject1',
-                                     :repository_id => r.id,
-                                     :rev        => '123',
-                              },
-                              :class => 'changeset', :title => 'test commit')
-    changeset_link_commit = link_to(
-                              'abcd',
-                              {
-                                    :controller => 'repositories',
-                                    :action     => 'revision',
-                                    :id         => 'subproject1',
-                                    :repository_id => r.id,
-                                    :rev        => 'abcd',
-                              },
-                              :class => 'changeset', :title => 'test commit')
+    c =
+      Changeset.create!(
+        :repository => r,
+        :committed_on => Time.now,
+        :revision => '123',
+        :scmid => 'abcd',
+        :comments => 'test commit'
+      )
+    changeset_link_rev =
+      link_to(
+        'r123',
+        {
+          :controller => 'repositories',
+          :action     => 'revision',
+          :id         => 'subproject1',
+          :repository_id => r.id,
+          :rev        => '123',
+        },
+        :class => 'changeset', :title => 'test commit'
+      )
+    changeset_link_commit =
+      link_to(
+        'abcd',
+        {
+          :controller => 'repositories',
+          :action     => 'revision',
+          :id         => 'subproject1',
+          :repository_id => r.id,
+          :rev        => 'abcd',
+        },
+        :class => 'changeset', :title => 'test commit'
+      )
     to_test = {
       'r123' => changeset_link_rev,
       'commit:abcd' => changeset_link_commit,
-     }
+    }
     to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text)}
   end
 
@@ -1460,12 +1513,13 @@ class ApplicationHelperTest < Redmine::HelperTest
     RAW
     @project = Project.find(1)
     set_language_if_valid 'en'
-    result = textilizable(
-               raw,
-               :edit_section_links =>
-                 {:controller => 'wiki', :action => 'edit',
-                  :project_id => '1', :id => 'Test'}
-             ).gsub("\n", "")
+    result =
+      textilizable(
+        raw,
+        :edit_section_links =>
+          {:controller => 'wiki', :action => 'edit',
+           :project_id => '1', :id => 'Test'}
+      ).gsub("\n", "")
     # heading that contains inline code
     assert_match(
       Regexp.new('<div class="contextual heading-2" title="Edit this section" id="section-4">' +
