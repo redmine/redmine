@@ -46,9 +46,16 @@ class MyControllerTest < Redmine::ControllerTest
     preferences = User.find(2).pref
     preferences[:my_page_layout] = {'top' => ['timelog']}
     preferences.save!
-    with_issue =    TimeEntry.create!(:user => User.find(2), :spent_on => Date.yesterday, :hours => 2.5, :activity_id => 10, :issue_id => 1)
-    without_issue = TimeEntry.create!(:user => User.find(2), :spent_on => Date.yesterday, :hours => 3.5, :activity_id => 10, :project_id => 1)
-
+    with_issue =
+      TimeEntry.create!(
+        :user => User.find(2), :spent_on => Date.yesterday,
+        :hours => 2.5, :activity_id => 10, :issue_id => 1
+      )
+    without_issue =
+      TimeEntry.create!(
+        :user => User.find(2), :spent_on => Date.yesterday,
+        :hours => 3.5, :activity_id => 10, :project_id => 1
+      )
     get :page
     assert_response :success
     assert_select "tr#time-entry-#{with_issue.id}" do
@@ -80,7 +87,8 @@ class MyControllerTest < Redmine::ControllerTest
   def test_page_with_assigned_issues_block_and_custom_columns
     preferences = User.find(2).pref
     preferences.my_page_layout = {'top' => ['issuesassignedtome']}
-    preferences.my_page_settings = {'issuesassignedtome' => {:columns => ['tracker', 'subject', 'due_date']}}
+    preferences.my_page_settings =
+      {'issuesassignedtome' => {:columns => ['tracker', 'subject', 'due_date']}}
     preferences.save!
 
     get :page
@@ -119,7 +127,11 @@ class MyControllerTest < Redmine::ControllerTest
 
   def test_page_with_issuequery_block_and_global_query
     user = User.find(2)
-    query = IssueQuery.create!(:name => 'All issues', :user => user, :column_names => [:tracker, :subject, :status, :assigned_to])
+    query =
+      IssueQuery.create!(
+        :name => 'All issues', :user => user,
+        :column_names => [:tracker, :subject, :status, :assigned_to]
+      )
     user.pref.my_page_layout = {'top' => ['issuequery']}
     user.pref.my_page_settings = {'issuequery' => {:query_id => query.id}}
     user.pref.save!
@@ -139,7 +151,12 @@ class MyControllerTest < Redmine::ControllerTest
 
   def test_page_with_issuequery_block_and_project_query
     user = User.find(2)
-    query = IssueQuery.create!(:name => 'All issues', :project => Project.find(1), :user => user, :column_names => [:tracker, :subject, :status, :assigned_to])
+    query =
+      IssueQuery.create!(
+        :name => 'All issues', :project => Project.find(1),
+        :user => user,
+        :column_names => [:tracker, :subject, :status, :assigned_to]
+      )
     user.pref.my_page_layout = {'top' => ['issuequery']}
     user.pref.my_page_settings = {'issuequery' => {:query_id => query.id}}
     user.pref.save!
@@ -214,7 +231,10 @@ class MyControllerTest < Redmine::ControllerTest
 
     assert_select 'div#block-activity' do
       assert_select 'h3' do
-        assert_select 'a[href=?]', activity_path(from: User.current.today, user_id: user.id),  :text => 'Activity'
+        assert_select(
+          'a[href=?]', activity_path(from: User.current.today, user_id: user.id),
+          :text => 'Activity'
+        )
       end
       assert_select 'div#activity' do
         assert_select 'dt', 10
