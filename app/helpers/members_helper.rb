@@ -23,13 +23,16 @@ module MembersHelper
     principal_count = scope.count
     principal_pages = Redmine::Pagination::Paginator.new principal_count, limit, params['page']
     principals = scope.offset(principal_pages.offset).limit(principal_pages.per_page).to_a
-    s = content_tag(
+    s =
+      content_tag(
+        'div',
+        content_tag(
           'div',
-          content_tag(
-            'div',
-            principals_check_box_tags('membership[user_ids][]', principals), :id => 'principals'),
-          :class => 'objects-selection'
-        )
+          principals_check_box_tags('membership[user_ids][]', principals),
+          :id => 'principals'
+        ),
+        :class => 'objects-selection'
+      )
     links =
       pagination_links_full(principal_pages,
                             principal_count,
