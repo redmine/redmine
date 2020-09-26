@@ -341,8 +341,8 @@ class AccountController < ApplicationController
   def open_id_authenticate(openid_url)
     back_url = signin_url(:autologin => params[:autologin])
     authenticate_with_open_id(
-          openid_url, :required => [:nickname, :fullname, :email],
-          :return_to => back_url, :method => :post
+      openid_url, :required => [:nickname, :fullname, :email],
+      :return_to => back_url, :method => :post
     ) do |result, identity_url, registration|
       if result.successful?
         user = User.find_or_initialize_by_identity_url(identity_url)
