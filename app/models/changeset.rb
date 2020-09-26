@@ -94,8 +94,8 @@ class Changeset < ActiveRecord::Base
 
   def before_create_cs
     self.committer = self.class.to_utf8(self.committer, repository.repo_log_encoding)
-    self.comments  = self.class.normalize_comments(
-                       self.comments, repository.repo_log_encoding)
+    self.comments =
+      self.class.normalize_comments(self.comments, repository.repo_log_encoding)
     self.user = repository.find_committer_user(self.committer)
   end
 
