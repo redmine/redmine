@@ -1191,10 +1191,10 @@ class Issue < ActiveRecord::Base
   # Returns a scope of the given issues and their descendants
   def self.self_and_descendants(issues)
     Issue.joins(
-        "JOIN #{Issue.table_name} ancestors" +
-        " ON ancestors.root_id = #{Issue.table_name}.root_id" +
-        " AND ancestors.lft <= #{Issue.table_name}.lft AND ancestors.rgt >= #{Issue.table_name}.rgt"
-      ).
+      "JOIN #{Issue.table_name} ancestors" +
+      " ON ancestors.root_id = #{Issue.table_name}.root_id" +
+      " AND ancestors.lft <= #{Issue.table_name}.lft AND ancestors.rgt >= #{Issue.table_name}.rgt"
+    ).
       where(:ancestors => {:id => issues.map(&:id)})
   end
 
@@ -1417,10 +1417,11 @@ class Issue < ActiveRecord::Base
   def self.update_versions_from_hierarchy_change(project)
     moved_project_ids = project.self_and_descendants.reload.pluck(:id)
     # Update issues of the moved projects and issues assigned to a version of a moved project
-    Issue.update_versions(
-            ["#{Version.table_name}.project_id IN (?) OR #{Issue.table_name}.project_id IN (?)",
-             moved_project_ids, moved_project_ids]
-          )
+    Issue.
+      update_versions(
+        ["#{Version.table_name}.project_id IN (?) OR #{Issue.table_name}.project_id IN (?)",
+         moved_project_ids, moved_project_ids]
+      )
   end
 
   def parent_issue_id=(arg)
