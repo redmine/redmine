@@ -780,7 +780,7 @@ class Project < ActiveRecord::Base
   safe_attributes(
     'enabled_module_names',
     :if =>
-      lambda {|project, user|
+      lambda do |project, user|
         if project.new_record?
           if user.admin?
             true
@@ -790,7 +790,8 @@ class Project < ActiveRecord::Base
         else
           user.allowed_to?(:select_project_modules, project)
         end
-      })
+      end
+  )
 
   safe_attributes(
     'inherit_members',
@@ -1041,7 +1042,10 @@ class Project < ActiveRecord::Base
       new_issue.project = self
       # Changing project resets the custom field values
       # TODO: handle this in Issue#project=
-      new_issue.custom_field_values = issue.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
+      new_issue.custom_field_values = issue.custom_field_values.inject({}) do |h, v|
+        h[v.custom_field_id] = v.value
+        h
+      end
       # Reassign fixed_versions by name, since names are unique per project
       if issue.fixed_version && issue.fixed_version.project == project
         new_issue.fixed_version = self.versions.detect {|v| v.name == issue.fixed_version.name}
@@ -1183,7 +1187,9 @@ class Project < ActiveRecord::Base
   end
 
   def allowed_actions
-    @actions_allowed ||= allowed_permissions.inject([]) { |actions, permission| actions += Redmine::AccessControl.allowed_actions(permission) }.flatten
+    @actions_allowed ||= allowed_permissions.inject([]) do |actions, permission|
+      actions += Redmine::AccessControl.allowed_actions(permission)
+    end.flatten
   end
 
   # Archives subprojects recursively
