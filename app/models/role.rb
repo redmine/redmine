@@ -92,17 +92,18 @@ class Role < ActiveRecord::Base
     :if => lambda {|role| role.respond_to?(:time_entries_visibility) && role.time_entries_visibility_changed?})
 
   safe_attributes(
-      'name',
-      'assignable',
-      'position',
-      'issues_visibility',
-      'users_visibility',
-      'time_entries_visibility',
-      'all_roles_managed',
-      'managed_role_ids',
-      'permissions',
-      'permissions_all_trackers',
-      'permissions_tracker_ids')
+    'name',
+    'assignable',
+    'position',
+    'issues_visibility',
+    'users_visibility',
+    'time_entries_visibility',
+    'all_roles_managed',
+    'managed_role_ids',
+    'permissions',
+    'permissions_all_trackers',
+    'permissions_tracker_ids'
+  )
 
   # Copies attributes from another role, arg can be an id or a Role
   def copy_from(arg, options={})
