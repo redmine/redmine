@@ -24,10 +24,9 @@ class SysController < ActionController::Base
     p = Project.active.has_module(:repository).
           order("#{Project.table_name}.identifier").preload(:repository).to_a
     # extra_info attribute from repository breaks activeresource client
-    render :json => p.to_json(
-                       :only => [:id, :identifier, :name, :is_public, :status],
-                       :include => {:repository => {:only => [:id, :url]}}
-                     )
+    render :json =>
+              p.to_json(:only => [:id, :identifier, :name, :is_public, :status],
+                        :include => {:repository => {:only => [:id, :url]}})
   end
 
   def create_project_repository
