@@ -727,8 +727,8 @@ sv:
   label_repository_new: Nytt versionsarkiv
   label_repository_plural: Versionsarkiv
   label_browse: Bläddra
-  label_branch: Branch
-  label_tag: Tag
+  label_branch: Gren
+  label_tag: Tagg
   label_revision: Revision
   label_revision_plural: Revisioner
   label_revision_id: "Revision %{value}"
@@ -747,7 +747,7 @@ sv:
   label_sort_higher: Flytta upp
   label_sort_lower: Flytta ner
   label_sort_lowest: Flytta till botten
-  label_roadmap: Roadmap
+  label_roadmap: Vägkarta
   label_roadmap_due_in: "Färdig om %{value}"
   label_roadmap_overdue: "%{value} sen"
   label_roadmap_no_issues: Inga ärenden för denna version
@@ -763,7 +763,7 @@ sv:
   label_index_by_date: Innehåll efter datum
   label_current_version: Nuvarande version
   label_preview: Förhandsgranska
-  label_feed_plural: Feeds
+  label_feed_plural: Källor
   label_changes_details: Detaljer om alla ändringar
   label_issue_tracking: Ärendeuppföljning
   label_spent_time: Spenderad tid
@@ -774,7 +774,7 @@ sv:
   label_statistics: Statistik
   label_commits_per_month: Commits per månad
   label_commits_per_author: Commits per författare
-  label_diff: diff
+  label_diff: skillnader
   label_view_diff: Visa skillnader
   label_diff_inline: i texten
   label_diff_side_by_side: sida vid sida
@@ -804,7 +804,7 @@ sv:
   label_board_new: Nytt forum
   label_board_plural: Forum
   label_board_locked: Låst
-  label_board_sticky: Sticky
+  label_board_sticky: Klibbig
   label_topic_plural: Ämnen
   label_message_plural: Meddelanden
   label_message_last: Senaste meddelande
@@ -829,7 +829,7 @@ sv:
   label_updated_time: "Uppdaterad för %{value} sedan"
   label_jump_to_a_project: Gå till projekt...
   label_file_plural: Filer
-  label_changeset_plural: Changesets
+  label_changeset_plural: Ändringssgrupper
   label_default_columns: Standardkolumner
   label_no_change_option: (Ingen ändring)
   label_bulk_edit_selected_issues: Gemensam ändring av markerade ärenden
@@ -1124,7 +1124,7 @@ sv:
   label_link_values_to: Länka värden till URL
   setting_force_default_language_for_anonymous: Lås till förvalt språk för anonyma användare
   setting_force_default_language_for_loggedin: Lås till förvalt språk för inloggade användare
-  label_custom_field_select_type: Väljd den typ av objekt som det anpassade fältet skall användas för
+  label_custom_field_select_type: Välj den typ av objekt som det anpassade fältet skall användas för
   label_issue_assigned_to_updated: Tilldelad har uppdaterats
   label_check_for_updates: Leta efter uppdateringar
   label_latest_compatible_version: Senaste kompatibla version
@@ -1132,243 +1132,254 @@ sv:
   label_radio_buttons: alternativknappar
   label_group_anonymous: Anonyma användare
   label_group_non_member: Icke-medlemsanvändare
-  label_add_projects: Add projects
-  field_default_status: Default status
-  text_subversion_repository_note: 'Examples: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
-  field_users_visibility: Users visibility
-  label_users_visibility_all: All active users
-  label_users_visibility_members_of_visible_projects: Members of visible projects
-  label_edit_attachments: Edit attached files
-  setting_link_copied_issue: Link issues on copy
-  label_link_copied_issue: Link copied issue
-  label_ask: Ask
-  label_search_attachments_yes: Search attachment filenames and descriptions
-  label_search_attachments_no: Do not search attachments
-  label_search_attachments_only: Search attachments only
-  label_search_open_issues_only: Open issues only
-  field_address: Mail
-  setting_max_additional_emails: Maximum number of additional email addresses
-  label_email_address_plural: Emails
-  label_email_address_add: Add email address
-  label_enable_notifications: Enable notifications
-  label_disable_notifications: Disable notifications
-  setting_search_results_per_page: Search results per page
+  label_add_projects: Addera projekt
+  field_default_status: Default-status
+  text_subversion_repository_note: 'Exempel: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
+  field_users_visibility: Användares synlighet
+  label_users_visibility_all: Alla aktiva användare
+  label_users_visibility_members_of_visible_projects: Medlemmar i synliga projekt
+  label_edit_attachments: Editera bifogade filer
+  setting_link_copied_issue: Länka ärenden på kopia
+  label_link_copied_issue: Länka kopierat ärende
+  label_ask: Fråga
+  label_search_attachments_yes: Sök bilagors filnamn och beskrivningar
+  label_search_attachments_no: Sök inte bilagor
+  label_search_attachments_only: Sök endast bilagor
+  label_search_open_issues_only: Endast öppna ärenden
+  field_address: Epost
+  setting_max_additional_emails: Max antal ytterligare epost-adresser
+  label_email_address_plural: Epost
+  label_email_address_add: Addera epostadress
+  label_enable_notifications: Aktivera underrättelser
+  label_disable_notifications: Avaktivera underrättelser
+  setting_search_results_per_page: Sökresultat per sida
   label_blank_value: blank
-  permission_copy_issues: Copy issues
-  error_password_expired: Your password has expired or the administrator requires you
-    to change it.
-  field_time_entries_visibility: Time logs visibility
-  setting_password_max_age: Require password change after
-  label_parent_task_attributes: Parent tasks attributes
-  label_parent_task_attributes_derived: Calculated from subtasks
-  label_parent_task_attributes_independent: Independent of subtasks
-  label_time_entries_visibility_all: All time entries
-  label_time_entries_visibility_own: Time entries created by the user
-  label_member_management: Member management
-  label_member_management_all_roles: All roles
-  label_member_management_selected_roles_only: Only these roles
-  label_password_required: Confirm your password to continue
+  permission_copy_issues: Kopiera ärenden
+  error_password_expired: Ditt lösenord har gått ut eller administratören kräver att
+    du ändrar det.
+  field_time_entries_visibility: Synlighet för tidsloggar
+  setting_password_max_age: Kräv lösenordsändring efter
+  label_parent_task_attributes: Attribut för föräldraaktiviteter
+  label_parent_task_attributes_derived: Kalkylerad från underaktiviteter
+  label_parent_task_attributes_independent: Oberoende av underaktiviteter
+  label_time_entries_visibility_all: Alla tidsangivelser
+  label_time_entries_visibility_own: Tidsangivelser skapade av användaren
+  label_member_management: Användarhantering
+  label_member_management_all_roles: Alla roller
+  label_member_management_selected_roles_only: Endast dessa roller
+  label_password_required: Bekräfta ditt lösenord
   label_total_spent_time: Total tid spenderad
-  notice_import_finished: "%{count} items have been imported"
-  notice_import_finished_with_errors: "%{count} out of %{total} items could not be imported"
-  error_invalid_file_encoding: The file is not a valid %{encoding} encoded file
-  error_invalid_csv_file_or_settings: The file is not a CSV file or does not match the
-    settings below
-  error_can_not_read_import_file: An error occurred while reading the file to import
-  permission_import_issues: Import issues
-  label_import_issues: Import issues
-  label_select_file_to_import: Select the file to import
-  label_fields_separator: Field separator
-  label_fields_wrapper: Field wrapper
-  label_encoding: Encoding
-  label_comma_char: Comma
+  notice_import_finished: "%{count} artiklar har importerats"
+  notice_import_finished_with_errors: "%{count} av %{total} artiklar kunde inte importeras"
+  error_invalid_file_encoding: Filen är inte en %{encoding}-kodad fil
+  error_invalid_csv_file_or_settings: Filen är inte en CSV-fil eller stämmer inte med
+    inställningarna nedan
+  error_can_not_read_import_file: Fel vid läsning av fil att importera
+  permission_import_issues: Importera ärenden
+  label_import_issues: Importera ärenden
+  label_select_file_to_import: Välj fil att importera
+  label_fields_separator: Fältseparator
+  label_fields_wrapper: Fältomslag
+  label_encoding: Kodning
+  label_comma_char: Komma
   label_semi_colon_char: Semicolon
-  label_quote_char: Quote
-  label_double_quote_char: Double quote
-  label_fields_mapping: Fields mapping
-  label_file_content_preview: File content preview
-  label_create_missing_values: Create missing values
-  button_import: Import
-  field_total_estimated_hours: Total estimated time
+  label_quote_char: Citationstecken
+  label_double_quote_char: Dubbla citationstecken
+  label_fields_mapping: Kartläggning av fält
+  label_file_content_preview: Förhandsvisning av filinnehåll
+  label_create_missing_values: Skapa saknade värden
+  button_import: Importera
+  field_total_estimated_hours: Totalt uppskattad tid
   label_api: API
-  label_total_plural: Totals
-  label_assigned_issues: Assigned issues
-  label_field_format_enumeration: Key/value list
+  label_total_plural: Totaler
+  label_assigned_issues: Tilldelade ärenden
+  label_field_format_enumeration: Nyckel/värde-lista
   label_f_hour_short: '%{value} h'
-  field_default_version: Default version
-  error_attachment_extension_not_allowed: Attachment extension %{extension} is not allowed
-  setting_attachment_extensions_allowed: Allowed extensions
-  setting_attachment_extensions_denied: Disallowed extensions
-  label_any_open_issues: any open issues
-  label_no_open_issues: no open issues
-  label_default_values_for_new_users: Default values for new users
-  error_ldap_bind_credentials: Invalid LDAP Account/Password
+  field_default_version: Defaultversion
+  error_attachment_extension_not_allowed: Otillåten utökning av bilaga %{extension}
+  setting_attachment_extensions_allowed: Tillåtna utökningar
+  setting_attachment_extensions_denied: Otillåtna utökningar
+  label_any_open_issues: några öppna ärenden
+  label_no_open_issues: inga öppna ärenden
+  label_default_values_for_new_users: Defaultvärden för nya användare
+  error_ldap_bind_credentials: Ogiltigt LDAP konto/lösenord
   setting_sys_api_key: API-nyckel
   setting_lost_password: Glömt lösenord
-  mail_subject_security_notification: Security notification
-  mail_body_security_notification_change: ! '%{field} was changed.'
-  mail_body_security_notification_change_to: ! '%{field} was changed to %{value}.'
-  mail_body_security_notification_add: ! '%{field} %{value} was added.'
-  mail_body_security_notification_remove: ! '%{field} %{value} was removed.'
-  mail_body_security_notification_notify_enabled: Email address %{value} now receives
-    notifications.
-  mail_body_security_notification_notify_disabled: Email address %{value} no longer
-    receives notifications.
-  mail_body_settings_updated: ! 'The following settings were changed:'
-  field_remote_ip: IP address
-  label_wiki_page_new: New wiki page
-  label_relations: Relations
+  mail_subject_security_notification: Säkerhetsmeddelande
+  mail_body_security_notification_change: ! '%{field} ändrades.'
+  mail_body_security_notification_change_to: ! '%{field} ändrades till %{value}.'
+  mail_body_security_notification_add: ! '%{field} %{value} las till.'
+  mail_body_security_notification_remove: ! '%{field} %{value} togs bort.'
+  mail_body_security_notification_notify_enabled: Epostadress %{value} kommer att få
+    underrättelser.
+  mail_body_security_notification_notify_disabled: Epostadress %{value} får inga fler
+    underrättelser.
+  mail_body_settings_updated: ! 'Följande inställningar ändrades:'
+  field_remote_ip: IP-adress
+  label_wiki_page_new: Ny wiki-sida
+  label_relations: Relationer
   button_filter: Filter
-  mail_body_password_updated: Your password has been changed.
-  label_no_preview: No preview available
-  error_no_tracker_allowed_for_new_issue_in_project: The project doesn't have any trackers
-    for which you can create an issue
-  label_tracker_all: All trackers
-  label_new_project_issue_tab_enabled: Display the "New issue" tab
-  setting_new_item_menu_tab: Project menu tab for creating new objects
-  label_new_object_tab_enabled: Display the "+" drop-down
-  error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
-    for which you can create an issue
-  field_textarea_font: Font used for text areas
+  mail_body_password_updated: Ditt lösenord är ändrat.
+  label_no_preview: Ingen förhandsvisning tillgänglig
+  error_no_tracker_allowed_for_new_issue_in_project: Projektet har ingen spårare
+    som du kan skapa ett ärende för
+  label_tracker_all: All spårare
+  label_new_project_issue_tab_enabled: Visa fliken "Nya ärenden"
+  setting_new_item_menu_tab: Projektmenyflik för att skapa nya objekt
+  label_new_object_tab_enabled: Visa "+" droppmeny
+  error_no_projects_with_tracker_allowed_for_new_issue: Inga projekt med spårare
+    tillåtna för nya ärenden
+  field_textarea_font: Font som används för textytor
   label_font_default: Default font
   label_font_monospace: Monospaced font
-  label_font_proportional: Proportional font
-  setting_timespan_format: Time span format
-  label_table_of_contents: Table of contents
-  setting_commit_logs_formatting: Apply text formatting to commit messages
-  setting_mail_handler_enable_regex: Enable regular expressions
-  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
-    project: %{errors}'
-  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
-    be reassigned to an issue that is about to be deleted
-  setting_timelog_required_fields: Required fields for time logs
+  label_font_proportional: Proportionell font
+  setting_timespan_format: Format för tidsintervall
+  label_table_of_contents: Innehållsförteckning
+  setting_commit_logs_formatting: Använd textformatering för meddelanden
+  setting_mail_handler_enable_regex: Aktivera reguljära uttryck
+  error_move_of_child_not_possible: 'Underaktivitet %{child} kunde inte flyttas till det nya
+    projektet: %{errors}'
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spenderad tid kan inte
+    flyttas till ett ärende som är på väg att tas bort
+  setting_timelog_required_fields: Nödvändiga fält för tidsangivelser
   label_attribute_of_object: '%{object_name}''s %{name}'
-  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
-  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
-  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
-    of values from one or more fields on the selected objects
-  field_updated_by: Updated by
-  field_last_updated_by: Last updated by
-  field_full_width_layout: Full width layout
-  label_last_notes: Last notes
-  field_digest: Checksum
-  field_default_assigned_to: Default assignee
-  setting_show_custom_fields_on_registration: Show custom fields on registration
-  permission_view_news: View news
-  label_no_preview_alternative_html: No preview available. %{link} the file instead.
-  label_no_preview_download: Download
-  setting_close_duplicate_issues: Close duplicate issues automatically
-  error_exceeds_maximum_hours_per_day: Cannot log more than %{max_hours} hours on the
-    same day (%{logged_hours} hours have already been logged)
-  setting_time_entry_list_defaults: Timelog list defaults
-  setting_timelog_accept_0_hours: Accept time logs with 0 hours
-  setting_timelog_max_hours_per_day: Maximum hours that can be logged per day and user
-  label_x_revisions: "%{count} revisions"
-  error_can_not_delete_auth_source: This authentication mode is in use and cannot be
-    deleted.
-  button_actions: Actions
-  mail_body_lost_password_validity: Please be aware that you may change the password
-    only once using this link.
-  text_login_required_html: When not requiring authentication, public projects and their
-    contents are openly available on the network. You can <a href="%{anonymous_role_path}">edit
-    the applicable permissions</a>.
-  label_login_required_yes: 'Yes'
-  label_login_required_no: No, allow anonymous access to public projects
-  text_project_is_public_non_member: Public projects and their contents are available
-    to all logged-in users.
-  text_project_is_public_anonymous: Public projects and their contents are openly available
-    on the network.
-  label_version_and_files: Versions (%{count}) and Files
+  label_user_mail_option_only_assigned: Bara för saker som jag följer eller är tilldelad
+  label_user_mail_option_only_owner: Bara för saker som jag följer eller äger
+  warning_fields_cleared_on_bulk_edit: Ändringar kommer att orsaka automatiskt borttagande
+    av värden från ett eller flera fält för de valda objekten
+  field_updated_by: Uppdaterad av
+  field_last_updated_by: Senast uppdaterad av
+  field_full_width_layout: Layout med full bredd
+  label_last_notes: Senaste noteringar
+  field_digest: Checksumma
+  field_default_assigned_to: Defaultmottagare
+  setting_show_custom_fields_on_registration: Visa anpassade fält vid registrering
+  permission_view_news: Visa nyheter
+  label_no_preview_alternative_html: Ingen förhandsvisning tillgänglig. %{link} filen istället.
+  label_no_preview_download: Nerladdning
+  setting_close_duplicate_issues: Stäng duplicerade ärenden automatiskt
+  error_exceeds_maximum_hours_per_day: Kan inte logga mer än %{max_hours} timmar
+    samma dag (%{logged_hours} timmar har redan loggats)
+  setting_time_entry_list_defaults: Defaults för tidsloggning
+  setting_timelog_accept_0_hours: Acceptera tidsloggar med 0 timmar
+  setting_timelog_max_hours_per_day: Max timmar som kan loggas per dag och användare
+  label_x_revisions: "%{count} revisioner"
+  error_can_not_delete_auth_source: Denna autenticeringsmetod är i bruk och kan inte
+    tas bort.
+  button_actions: Handlingar
+  mail_body_lost_password_validity: OBS att du endast kan ändra lösenordet en gång
+    via denna länk.
+  text_login_required_html: När autenticering inte krävs, är publika projekt och deras
+    innehåll tillgängliga på nätverket. Du kan <a href="%{anonymous_role_path}"> ändra
+    tillämpliga behörigheter</a>.
+  label_login_required_yes: 'Ja'
+  label_login_required_no: Nej, tillåt anonym access till publika projekt
+  text_project_is_public_non_member: Publika projekt och deras innehåll är tillgängliga
+    för alla inloggade användare.
+  text_project_is_public_anonymous: Publika projekt och deras innehåll är tillgängliga
+    på nätverket.
+  label_version_and_files: Versioner (%{count}) och filer
   label_ldap: LDAP
-  label_ldaps_verify_none: LDAPS (without certificate check)
+  label_ldaps_verify_none: LDAPS (utan certifikatkontroll)
   label_ldaps_verify_peer: LDAPS
-  label_ldaps_warning: It is recommended to use an encrypted LDAPS connection with certificate
-    check to prevent any manipulation during the authentication process.
-  label_nothing_to_preview: Nothing to preview
-  error_token_expired: This password recovery link has expired, please try again.
-  error_spent_on_future_date: Cannot log time on a future date
-  setting_timelog_accept_future_dates: Accept time logs on future dates
+  label_ldaps_warning: Det rekommenderas att använda krypterad LDAPS-förbindelse med
+     certifikatkontroll för att hindra manipulation av autenticeringsprocessen.
+  label_nothing_to_preview: Ingenting att visa
+  error_token_expired: Lösenordslänken gäller inte längre, var god försök igen.
+  error_spent_on_future_date: Kan inte logga tid på framtida datum
+  setting_timelog_accept_future_dates: Acceptera tidsloggningar på framtida datum
   label_delete_link_to_subtask: Ta bort relation
-  error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
-    for other users
-  permission_log_time_for_other_users: Log spent time for other users
-  label_tomorrow: tomorrow
-  label_next_week: next week
-  label_next_month: next month
-  text_role_no_workflow: No workflow defined for this role
-  text_status_no_workflow: No tracker uses this status in the workflows
-  setting_mail_handler_preferred_body_part: Preferred part of multipart (HTML) emails
-  setting_show_status_changes_in_mail_subject: Show status changes in issue mail notifications
-    subject
-  label_inherited_from_parent_project: Inherited from parent project
-  label_inherited_from_group: Inherited from group %{name}
-  label_trackers_description: Trackers description
-  label_open_trackers_description: View all trackers description
+  error_not_allowed_to_log_time_for_other_users: Du får inte logga tid
+    för andra användare
+  permission_log_time_for_other_users: Logga spenderad tid för andra användare
+  label_tomorrow: imorgon
+  label_next_week: nästa vecka
+  label_next_month: nästa månad
+  text_role_no_workflow: Inget arbetsflöde definierat för denna roll
+  text_status_no_workflow: Ingen spårare använder denna status i arbetsflödet
+  setting_mail_handler_preferred_body_part: Föredragen del av epost i flera delar(HTML)
+  setting_show_status_changes_in_mail_subject: Visa statusändringar i ärendemailunderrättelsers
+    ämne
+  label_inherited_from_parent_project: Ärvd från föräldraprojekt
+  label_inherited_from_group: Ärvd från grupp%{name}
+  label_trackers_description: Beskrivning för spårare
+  label_open_trackers_description: Visa beskrivning för alla spårare
   label_preferred_body_part_text: Text
-  label_preferred_body_part_html: HTML (experimental)
-  field_parent_issue_subject: Parent task subject
-  permission_edit_own_issues: Edit own issues
-  text_select_apply_tracker: Select tracker
-  label_updated_issues: Updated issues
-  text_avatar_server_config_html: The current avatar server is <a href="%{url}">%{url}</a>.
-    You can configure it in config/configuration.yml.
-  setting_gantt_months_limit: Maximum number of months displayed on the gantt chart
-  permission_import_time_entries: Import time entries
-  label_import_notifications: Send email notifications during the import
-  text_gs_available: ImageMagick PDF support available (optional)
-  field_recently_used_projects: Number of recently used projects in jump box
-  label_optgroup_bookmarks: Bookmarks
-  label_optgroup_others: Other projects
-  label_optgroup_recents: Recently used
-  button_project_bookmark: Add bookmark
-  button_project_bookmark_delete: Remove bookmark
-  field_history_default_tab: Issue's history default tab
-  label_issue_history_properties: Property changes
-  label_issue_history_notes: Notes
-  label_last_tab_visited: Last visited tab
-  field_unique_id: Unique ID
-  text_no_subject: no subject
-  setting_password_required_char_classes: Required character classes for passwords
-  label_password_char_class_uppercase: uppercase letters
-  label_password_char_class_lowercase: lowercase letters
-  label_password_char_class_digits: digits
-  label_password_char_class_special_chars: special characters
-  text_characters_must_contain: Must contain %{character_classes}.
-  label_starts_with: starts with
-  label_ends_with: ends with
-  label_issue_fixed_version_updated: Target version updated
-  setting_project_list_defaults: Projects list defaults
-  label_display_type: Display results as
-  label_display_type_list: List
-  label_display_type_board: Board
-  label_my_bookmarks: My bookmarks
-  label_import_time_entries: Import time entries
-  field_toolbar_language_options: Code highlighting toolbar languages
-  label_user_mail_notify_about_high_priority_issues_html: Also notify me about issues
-    with a priority of <em>%{prio}</em> or higher
-  label_assign_to_me: Assign to me
+  label_preferred_body_part_html: HTML (experimentell)
+  field_parent_issue_subject: Ämne för föräldraärende
+  permission_edit_own_issues: Ändra egna ärenden
+  text_select_apply_tracker: Välj spårare
+  label_updated_issues: Updaterade ärenden
+  text_avatar_server_config_html: Nuvarande avatar-server <a href="%{url}">%{url}</a>.
+    Du kan konfigurera det i config/configuration.yml.
+  setting_gantt_months_limit: Max antal månader på gantt-schemat
+  permission_import_time_entries: Importera tidsangivelser
+  label_import_notifications: Skicka underrättelser med epost under importen
+  text_gs_available: ImageMagick PDF support tillgänglig (frivillig)
+  field_recently_used_projects: Antal nyligen använda projekt
+  label_optgroup_bookmarks: Bokmärken
+  label_optgroup_others: Andra projekt
+  label_optgroup_recents: Nyligen använda
+  button_project_bookmark: Lägg till bokmärke
+  button_project_bookmark_delete: Ta bort bokmärke
+  field_history_default_tab: Ärendes defaultflik för historik
+  label_issue_history_properties: Ändrade egenskaper
+  label_issue_history_notes: Noter
+  label_last_tab_visited: Senast besökta flik
+  field_unique_id: Unikt ID
+  text_no_subject: inget ämne
+  setting_password_required_char_classes: Teckenklasser som lösenord måste innehålla
+  label_password_char_class_uppercase: versaler
+  label_password_char_class_lowercase: gemener
+  label_password_char_class_digits: siffror
+  label_password_char_class_special_chars: specialtecken
+  text_characters_must_contain: Måste innehålla %{character_classes}.
+  label_starts_with: startar med
+  label_ends_with: slutar med
+  label_issue_fixed_version_updated: Målversion uppdaterad
+  setting_project_list_defaults: Projektlista defaults
+  label_display_type: Visa resultat som
+  label_display_type_list: Lista
+  label_display_type_board: Anslagstavla
+  label_my_bookmarks: Mina bokmärken
+  label_import_time_entries: Importera tidsangivelser
   notice_issue_not_closable_by_open_tasks: This issue cannot be closed because it has
     at least one open subtask.
   notice_issue_not_closable_by_blocking_issue: This issue cannot be closed because it
     is blocked by at least one open issue.
   notice_issue_not_reopenable_by_closed_parent_issue: This issue cannot be reopened
     because its parent issue is closed.
-  error_bulk_download_size_too_big: These attachments cannot be bulk downloaded because
-    the total file size exceeds the maximum allowed size (%{max_size})
-  setting_bulk_download_max_size: Maximum total size for bulk download
-  label_download_all_attachments: Download all files
   error_attachments_too_many: This file cannot be uploaded because it exceeds the maximum
     number of files that can be attached simultaneously (%{max_number_of_files})
+  error_bulk_download_size_too_big: These attachments cannot be bulk downloaded because
+    the total file size exceeds the maximum allowed size (%{max_size})
+  error_can_not_execute_macro_html: Error executing the <strong>%{name}</strong> macro
+    (%{error})
+  error_macro_does_not_accept_block: This macro does not accept a block of text
+  error_childpages_macro_no_argument: With no argument, this macro can be called from
+    wiki pages only
+  error_circular_inclusion: Circular inclusion detected
+  error_page_not_found: Page not found
+  error_filename_required: Filename required
+  error_invalid_size_parameter: Invalid size parameter
+  error_attachment_not_found: Attachment %{name} not found
+  field_passwd_changed_on: Password last changed
+  field_toolbar_language_options: Code highlighting toolbar languages
+  setting_bulk_download_max_size: Maximum total size for bulk download
   setting_email_domains_allowed: Allowed email domains
   setting_email_domains_denied: Disallowed email domains
-  field_passwd_changed_on: Password last changed
-  label_relations_mapping: Relations mapping
-  label_import_users: Import users
-  label_days_to_html: "%{days} days up to %{date}"
   setting_twofa: Two-factor authentication
+  permission_delete_project: Delete the project
   label_optional: optional
+  label_user_mail_notify_about_high_priority_issues_html: Also notify me about issues
+    with a priority of <em>%{prio}</em> or higher
+  label_days_to_html: "%{days} days up to %{date}"
   label_required_lower: required
+  label_download_all_attachments: Download all files
+  label_relations_mapping: Relations mapping
+  label_assign_to_me: Assign to me
   button_disable: Disable
+  label_import_users: Import users
   twofa__totp__name: Authenticator app
   twofa__totp__text_pairing_info_html: Scan this QR code or enter the plain text key
     into a TOTP app (e.g. <a href="https://support.google.com/accounts/answer/1066447">Google
@@ -1416,14 +1427,3 @@ sv:
   twofa_text_backup_codes_created_at: Backup codes generated %{datetime}.
   twofa_backup_codes_already_shown: Backup codes cannot be shown again, please <a data-method="post"
     href="%{bc_path}">generate new backup codes</a> if required.
-  error_can_not_execute_macro_html: Error executing the <strong>%{name}</strong> macro
-    (%{error})
-  error_macro_does_not_accept_block: This macro does not accept a block of text
-  error_childpages_macro_no_argument: With no argument, this macro can be called from
-    wiki pages only
-  error_circular_inclusion: Circular inclusion detected
-  error_page_not_found: Page not found
-  error_filename_required: Filename required
-  error_invalid_size_parameter: Invalid size parameter
-  error_attachment_not_found: Attachment %{name} not found
-  permission_delete_project: Delete the project
