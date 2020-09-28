@@ -235,6 +235,23 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_not_equal a1.diskfile, a2.diskfile
   end
 
+  def test_identical_attachments_created_in_same_transaction_should_not_end_up_unreadable
+    attachments = []
+    Project.transaction do
+      3.times do
+        a = Attachment.create!(
+          :container => Issue.find(1), :author => User.find(1),
+          :file => mock_file(:filename => 'foo', :content => 'abcde')
+        )
+        attachments << a
+      end
+    end
+    attachments.each do |a|
+      assert a.readable?
+    end
+    assert_equal 1, attachments.map(&:diskfile).uniq.size
+  end
+
   def test_filename_should_be_basenamed
     a = Attachment.new(:file => mock_file(:original_filename => "path/to/the/file"))
     assert_equal 'file', a.filename
