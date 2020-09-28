@@ -24,7 +24,7 @@ class Enumeration < ActiveRecord::Base
 
   belongs_to :project
 
-  acts_as_positioned :scope => %i[project_id parent_id]
+  acts_as_positioned :scope => [:project_id, :parent_id]
   acts_as_customizable
   acts_as_tree
 
