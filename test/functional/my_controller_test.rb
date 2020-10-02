@@ -176,9 +176,15 @@ class MyControllerTest < Redmine::ControllerTest
 
   def test_page_with_issuequery_block_and_query_should_display_custom_columns
     user = User.find(2)
-    query = IssueQuery.create!(:name => 'All issues', :user => user, :column_names => [:tracker, :subject, :status, :assigned_to])
+    query =
+      IssueQuery.create!(
+        :name => 'All issues', :user => user,
+        :column_names => [:tracker, :subject, :status, :assigned_to]
+      )
     user.pref.my_page_layout = {'top' => ['issuequery']}
-    user.pref.my_page_settings = {'issuequery' => {:query_id => query.id, :columns => [:subject, :due_date]}}
+    user.pref.my_page_settings = {
+      'issuequery' => {:query_id => query.id, :columns => [:subject, :due_date]}
+    }
     user.pref.save!
 
     get :page
@@ -193,8 +199,12 @@ class MyControllerTest < Redmine::ControllerTest
 
   def test_page_with_multiple_issuequery_blocks
     user = User.find(2)
-    query1 = IssueQuery.create!(:name => 'All issues', :user => user, :column_names => [:tracker, :subject, :status, :assigned_to])
-    query2 = IssueQuery.create!(:name => 'Other issues', :user => user, :column_names => [:tracker, :subject, :priority])
+    query1 =
+      IssueQuery.create!(:name => 'All issues', :user => user,
+                         :column_names => [:tracker, :subject, :status, :assigned_to])
+    query2 =
+      IssueQuery.create!(:name => 'Other issues', :user => user,
+                         :column_names => [:tracker, :subject, :priority])
     user.pref.my_page_layout = {'top' => ['issuequery__1', 'issuequery']}
     user.pref.my_page_settings = {
       'issuequery' => {:query_id => query1.id, :columns => [:subject, :due_date]},
@@ -442,7 +452,11 @@ class MyControllerTest < Redmine::ControllerTest
     )
     assert_not_nil (mail = ActionMailer::Base.deliveries.last)
     assert_mail_body_match '0.0.0.0', mail
-    assert_mail_body_match I18n.t(:mail_body_security_notification_change_to, field: I18n.t(:field_mail), value: 'foobar@example.com'), mail
+    assert_mail_body_match(
+      I18n.t(:mail_body_security_notification_change_to,
+             :field => I18n.t(:field_mail), :value => 'foobar@example.com'),
+      mail
+    )
     assert_select_email do
       assert_select 'a[href^=?]', 'http://localhost:3000/my/account', :text => 'My account'
     end
@@ -631,7 +645,8 @@ class MyControllerTest < Redmine::ControllerTest
     assert_include '$("#block-issuesassignedtome").replaceWith(', response.body
     assert_include 'Due date', response.body
 
-    assert_equal({:columns => ['subject', 'due_date']}, user.reload.pref.my_page_settings('issuesassignedtome'))
+    assert_equal({:columns => ['subject', 'due_date']},
+                 user.reload.pref.my_page_settings('issuesassignedtome'))
   end
 
   def test_add_block
@@ -722,7 +737,9 @@ class MyControllerTest < Redmine::ControllerTest
       :xhr => true
     )
     assert_response :success
-    assert_equal({'left' => ['news', 'calendar', 'documents'], 'right' => []}, User.find(2).pref.my_page_layout)
+    assert_equal({'left' => ['news', 'calendar', 'documents'],
+                 'right' => []},
+                 User.find(2).pref.my_page_layout)
   end
 
   def test_reset_rss_key_with_existing_key
