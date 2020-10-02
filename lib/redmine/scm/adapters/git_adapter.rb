@@ -87,7 +87,7 @@ module Redmine
               bran = GitBranch.new(scm_iconv('UTF-8', @path_encoding, branch_rev[2]))
               bran.revision =  branch_rev[3]
               bran.scmid    =  branch_rev[3]
-              bran.is_default = ( branch_rev[1] == '*' )
+              bran.is_default = (branch_rev[1] == '*')
               @branches << bran
             end
           end
