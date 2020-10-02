@@ -186,6 +186,7 @@ class RepositoriesController < ApplicationController
     # Ruby 1.8.6 has a bug of integer divisions.
     # http://apidock.com/ruby/v1_8_6_287/String/is_binary_data%3F
     return false if Redmine::Scm::Adapters::ScmData.binary?(ent)
+
     true
   end
   private :is_entry_text_data?
