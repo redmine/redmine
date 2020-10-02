@@ -120,8 +120,8 @@ class RepositoriesController < ApplicationController
       to_a
 
     respond_to do |format|
-      format.html { render :layout => false if request.xhr? }
-      format.atom { render_feed(@changesets, :title => "#{@project.name}: #{l(:label_revision_plural)}") }
+      format.html {render :layout => false if request.xhr?}
+      format.atom {render_feed(@changesets, :title => "#{@project.name}: #{l(:label_revision_plural)}")}
     end
   end
 
@@ -148,7 +148,7 @@ class RepositoriesController < ApplicationController
 
     if is_raw
       # Force the download
-      send_opt = { :filename => filename_for_content_disposition(@path.split('/').last) }
+      send_opt = {:filename => filename_for_content_disposition(@path.split('/').last)}
       send_type = Redmine::MimeType.of(@path)
       send_opt[:type] = send_type.to_s if send_type
       send_opt[:disposition] = disposition(@path)
@@ -364,7 +364,7 @@ class RepositoriesController < ApplicationController
       group(:commit_date).
       count
     commits_by_month = [0] * 12
-    commits_by_day.each {|c| commits_by_month[(date_to.month - c.first.to_date.month) % 12] += c.last }
+    commits_by_day.each {|c| commits_by_month[(date_to.month - c.first.to_date.month) % 12] += c.last}
 
     changes_by_day = Change.
       joins(:changeset).
@@ -372,7 +372,7 @@ class RepositoriesController < ApplicationController
       group(:commit_date).
       count
     changes_by_month = [0] * 12
-    changes_by_day.each {|c| changes_by_month[(date_to.month - c.first.to_date.month) % 12] += c.last }
+    changes_by_day.each {|c| changes_by_month[(date_to.month - c.first.to_date.month) % 12] += c.last}
 
     fields = []
     today = User.current.today
@@ -401,7 +401,7 @@ class RepositoriesController < ApplicationController
     changes_data = changes_data + [0]*(10 - changes_data.length) if changes_data.length<10
 
     # Remove email address in usernames
-    fields = fields.collect {|c| c.gsub(%r{<.+@.+>}, '') }
+    fields = fields.collect {|c| c.gsub(%r{<.+@.+>}, '')}
 
     data = {
       :labels => fields.reverse,
