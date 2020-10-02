@@ -215,8 +215,16 @@ class ContextMenusControllerTest < Redmine::ControllerTest
   end
 
   def test_context_menu_should_show_enabled_custom_fields_for_the_role_only
-    enabled_cf = IssueCustomField.generate!(:field_format => 'bool', :is_for_all => true, :tracker_ids => [1], :visible => false, :role_ids => [1,2])
-    disabled_cf = IssueCustomField.generate!(:field_format => 'bool', :is_for_all => true, :tracker_ids => [1], :visible => false, :role_ids => [2])
+    enabled_cf =
+      IssueCustomField.generate!(
+        :field_format => 'bool', :is_for_all => true,
+        :tracker_ids => [1], :visible => false, :role_ids => [1, 2]
+      )
+    disabled_cf =
+      IssueCustomField.generate!(
+        :field_format => 'bool', :is_for_all => true,
+        :tracker_ids => [1], :visible => false, :role_ids => [2]
+      )
     issue = Issue.generate!(:project_id => 1, :tracker_id => 1)
 
     @request.session[:user_id] = 2
