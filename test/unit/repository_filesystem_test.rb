@@ -30,19 +30,17 @@ class RepositoryFilesystemTest < ActiveSupport::TestCase
     User.current = nil
     @project = Project.find(3)
     Setting.enabled_scm << 'Filesystem' unless Setting.enabled_scm.include?('Filesystem')
-    @repository = Repository::Filesystem.create(
-                               :project => @project,
-                               :url     => REPOSITORY_PATH
-                                 )
+    @repository =
+      Repository::Filesystem.
+        create(:project => @project, :url => REPOSITORY_PATH)
     assert @repository
   end
 
   def test_blank_root_directory_error_message
     set_language_if_valid 'en'
-    repo = Repository::Filesystem.new(
-                          :project      => @project,
-                          :identifier   => 'test'
-                        )
+    repo =
+      Repository::Filesystem.
+        new(:project => @project, :identifier => 'test')
     assert !repo.save
     assert_include "Root directory cannot be blank",
                    repo.errors.full_messages
@@ -50,12 +48,13 @@ class RepositoryFilesystemTest < ActiveSupport::TestCase
 
   def test_blank_root_directory_error_message_fr
     set_language_if_valid 'fr'
-    repo = Repository::Filesystem.new(
-                          :project      => @project,
-                          :url          => "",
-                          :identifier   => 'test',
-                          :path_encoding => ''
-                        )
+    repo =
+      Repository::Filesystem.new(
+        :project      => @project,
+        :url          => "",
+        :identifier   => 'test',
+        :path_encoding => ''
+      )
     assert !repo.save
     assert_include 'Répertoire racine doit être renseigné(e)', repo.errors.full_messages
   end
