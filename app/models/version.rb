@@ -141,7 +141,7 @@ class Version < ActiveRecord::Base
       where([Redmine::Database.like("#{Version.table_name}.name", '?'), pattern])
     end
   }
-  scope :open, lambda { where(:status => 'open') }
+  scope :open, lambda {where(:status => 'open')}
   scope :status, lambda {|status|
     if status.present?
       where(:status => status.to_s)
@@ -359,7 +359,7 @@ class Version < ActiveRecord::Base
     [Arel.sql("(CASE WHEN #{table}.effective_date IS NULL THEN 1 ELSE 0 END)"), "#{table}.effective_date", "#{table}.name", "#{table}.id"]
   end
 
-  scope :sorted, lambda { order(fields_for_order_statement) }
+  scope :sorted, lambda {order(fields_for_order_statement)}
 
   # Returns the sharings that +user+ can set the version to
   def allowed_sharings(user = User.current)
