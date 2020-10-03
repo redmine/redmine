@@ -278,6 +278,7 @@ class TimelogController < ApplicationController
 
     raise ActiveRecord::RecordNotFound if @time_entries.empty?
     raise Unauthorized unless @time_entries.all? {|t| t.editable_by?(User.current)}
+
     @projects = @time_entries.collect(&:project).compact.uniq
     @project = @projects.first if @projects.size == 1
   rescue ActiveRecord::RecordNotFound
