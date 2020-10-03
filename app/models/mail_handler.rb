@@ -524,7 +524,7 @@ class MailHandler < ActionMailer::Base
 
   def cleaned_up_subject
     subject = email.subject.to_s
-    subject.strip[0,255]
+    subject.strip[0, 255]
   end
 
   def self.assign_string_attribute_with_limit(object, attribute, value, limit=nil)
