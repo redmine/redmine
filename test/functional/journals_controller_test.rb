@@ -99,9 +99,17 @@ class JournalsControllerTest < Redmine::ControllerTest
         }
       @fields.each_with_index do |field, i|
         if visible_fields.include?(field)
-          assert_select "content[type=html]", { :text => /NewValue#{i}/, :count => 1 }, "User #{user.id} was not able to view #{field.name} in API"
+          assert_select(
+            "content[type=html]",
+            {:text => /NewValue#{i}/, :count => 1},
+            "User #{user.id} was not able to view #{field.name} in API"
+          )
         else
-          assert_select "content[type=html]", { :text => /NewValue#{i}/, :count => 0 }, "User #{user.id} was able to view #{field.name} in API"
+          assert_select(
+            "content[type=html]",
+            {:text => /NewValue#{i}/, :count => 0},
+            "User #{user.id} was able to view #{field.name} in API"
+          )
         end
       end
     end
