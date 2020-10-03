@@ -79,7 +79,10 @@ class TimelogController < ApplicationController
 
     respond_to do |format|
       format.html { render :layout => !request.xhr? }
-      format.csv  { send_data(report_to_csv(@report), :type => 'text/csv; header=present', :filename => 'timelog.csv') }
+      format.csv do
+        send_data(report_to_csv(@report), :type => 'text/csv; header=present',
+                  :filename => 'timelog.csv')
+      end
     end
   end
 
@@ -92,19 +95,25 @@ class TimelogController < ApplicationController
   end
 
   def new
-    @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :author => User.current, :spent_on => User.current.today)
+    @time_entry ||=
+      TimeEntry.new(:project => @project, :issue => @issue,
+                    :author => User.current, :spent_on => User.current.today)
     @time_entry.safe_attributes = params[:time_entry]
   end
 
   def create
-    @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :author => User.current, :user => User.current, :spent_on => User.current.today)
+    @time_entry ||=
+      TimeEntry.new(:project => @project, :issue => @issue,
+                    :author => User.current, :user => User.current,
+                    :spent_on => User.current.today)
     @time_entry.safe_attributes = params[:time_entry]
     if @time_entry.project && !User.current.allowed_to?(:log_time, @time_entry.project)
       render_403
       return
     end
 
-    call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
+    call_hook(:controller_timelog_edit_before_save,
+              {:params => params, :time_entry => @time_entry})
 
     if @time_entry.save
       respond_to do |format|
@@ -131,7 +140,9 @@ class TimelogController < ApplicationController
             redirect_back_or_default project_time_entries_path(@time_entry.project)
           end
         }
-        format.api  { render :action => 'show', :status => :created, :location => time_entry_url(@time_entry) }
+        format.api do
+          render :action => 'show', :status => :created, :location => time_entry_url(@time_entry)
+        end
       end
     else
       respond_to do |format|
@@ -147,7 +158,8 @@ class TimelogController < ApplicationController
 
   def update
     @time_entry.safe_attributes = params[:time_entry]
-    call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
+    call_hook(:controller_timelog_edit_before_save,
+              {:params => params, :time_entry => @time_entry})
 
     if @time_entry.save
       respond_to do |format|
@@ -189,7 +201,10 @@ class TimelogController < ApplicationController
     @time_entries.each do |time_entry|
       time_entry.reload
       time_entry.safe_attributes = attributes
-      call_hook(:controller_time_entries_bulk_edit_before_save, { :params => params, :time_entry => time_entry })
+      call_hook(
+        :controller_time_entries_bulk_edit_before_save,
+        {:params => params, :time_entry => time_entry}
+      )
       if time_entry.save
         saved_time_entries << time_entry
       else
