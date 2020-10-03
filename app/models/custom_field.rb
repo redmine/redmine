@@ -22,7 +22,7 @@ class CustomField < ActiveRecord::Base
   include Redmine::SubclassFactory
 
   has_many :enumerations,
-           lambda { order(:position) },
+           lambda {order(:position)},
            :class_name => 'CustomFieldEnumeration',
            :dependent => :delete_all
   has_many :custom_values, :dependent => :delete_all
@@ -35,7 +35,7 @@ class CustomField < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => :type
   validates_length_of :name, :maximum => 30
   validates_length_of :regexp, maximum: 255
-  validates_inclusion_of :field_format, :in => Proc.new { Redmine::FieldFormat.available_formats }
+  validates_inclusion_of :field_format, :in => Proc.new {Redmine::FieldFormat.available_formats}
   validate :validate_custom_field
 
   before_validation :set_searchable
@@ -49,7 +49,7 @@ class CustomField < ActiveRecord::Base
     end
   end
 
-  scope :sorted, lambda { order(:position) }
+  scope :sorted, lambda {order(:position)}
   scope :visible, lambda {|*args|
     user = args.shift || User.current
     if user.admin?
