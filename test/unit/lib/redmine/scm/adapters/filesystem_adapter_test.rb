@@ -36,7 +36,7 @@ class FilesystemAdapterTest < ActiveSupport::TestCase
         assert_equal ["subdir", "dirfile"], @adapter.entries(path).collect(&:name)
       end
       # If y try to use "..", the path is ignored
-      ["/../","dir/../", "..", "../", "/..", "dir/.."].each do |path|
+      ["/../", "dir/../", "..", "../", "/..", "dir/.."].each do |path|
         assert_equal(
           ["dir", "japanese", "test"], @adapter.entries(path).collect(&:name),
           ".. must be ignored in path argument")
