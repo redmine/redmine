@@ -55,7 +55,7 @@ class DocumentsControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_select '#content' do
       # ascending order of DocumentCategory#id.
-      ['Uncategorized', 'Technical documentation'].each_with_index do |text,idx|
+      ['Uncategorized', 'Technical documentation'].each_with_index do |text, idx|
         assert_select "h3:nth-of-type(#{idx + 1})", :text => text
       end
     end
@@ -69,7 +69,7 @@ class DocumentsControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_select '#content' do
       # descending order of date.
-      ['2007-03-05', '2007-02-12'].each_with_index do |text,idx|
+      ['2007-03-05', '2007-02-12'].each_with_index do |text, idx|
         assert_select "h3:nth-of-type(#{idx + 1})", :text => text
       end
     end
@@ -83,7 +83,7 @@ class DocumentsControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_select '#content' do
       # ascending order of title.
-      ['A', 'T'].each_with_index do |text,idx|
+      ['A', 'T'].each_with_index do |text, idx|
         assert_select "h3:nth-of-type(#{idx + 1})", :text => text
       end
     end
@@ -97,7 +97,7 @@ class DocumentsControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_select '#content' do
       # ascending order of author.
-      ['John Smith', 'Redmine Admin'].each_with_index do |text,idx|
+      ['John Smith', 'Redmine Admin'].each_with_index do |text, idx|
         assert_select "h3:nth-of-type(#{idx + 1})", :text => text
       end
     end
