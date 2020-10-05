@@ -77,11 +77,14 @@ module Redmine
 
     # Returns the additional blocks that are defined by plugin partials
     def self.additional_blocks
-      @@additional_blocks ||= Dir.glob("#{Redmine::Plugin.directory}/*/app/views/my/blocks/_*.{rhtml,erb}").inject({}) do |h,file|
-        name = File.basename(file).split('.').first.gsub(/^_/, '')
-        h[name] = {:label => name.to_sym, :partial => "my/blocks/#{name}"}
-        h
-      end
+      @@additional_blocks ||=
+        Dir.glob(
+          "#{Redmine::Plugin.directory}/*/app/views/my/blocks/_*.{rhtml,erb}"
+        ).inject({}) do |h, file|
+          name = File.basename(file).split('.').first.gsub(/^_/, '')
+          h[name] = {:label => name.to_sym, :partial => "my/blocks/#{name}"}
+          h
+        end
     end
 
     # Returns the default layout for My Page
