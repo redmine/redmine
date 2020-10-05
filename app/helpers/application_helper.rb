@@ -203,7 +203,7 @@ module ApplicationHelper
     'Project'      => ->(project)      {link_to_project(project)},
     'User'         => ->(user)         {link_to_user(user)},
     'Version'      => ->(version)      {link_to_version(version)},
-    'WikiPage'     => ->(wiki_page)    {link_to(wiki_page.pretty_title,project_wiki_page_path(wiki_page.project, wiki_page.title))}
+    'WikiPage'     => ->(wiki_page)    {link_to(wiki_page.pretty_title, project_wiki_page_path(wiki_page.project, wiki_page.title))}
   }
 
   def link_to_record(record)
