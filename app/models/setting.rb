@@ -336,7 +336,7 @@ class Setting < ActiveRecord::Base
       end
     elsif arg.is_a?(Hash)
       arg = arg.dup
-      arg.each do |k,v|
+      arg.each do |k, v|
         arg[k] = force_utf8_strings(v)
       end
       arg
