@@ -839,8 +839,13 @@ class TimelogControllerTest < Redmine::ControllerTest
 
   def test_bulk_update_custom_field
     @request.session[:user_id] = 2
-    post :bulk_update, :params => {:ids => [1, 2], :time_entry => { :custom_field_values => {'10' => '0'} }}
-
+    post(
+      :bulk_update,
+      :params => {
+        :ids => [1, 2],
+        :time_entry => {:custom_field_values => {'10' => '0'}}
+      }
+    )
     assert_response 302
     assert_equal ["0", "0"], TimeEntry.where(:id => [1, 2]).collect {|i| i.custom_value_for(10).value}
   end
@@ -848,8 +853,13 @@ class TimelogControllerTest < Redmine::ControllerTest
   def test_bulk_update_clear_custom_field
     field = TimeEntryCustomField.generate!(:field_format => 'string')
     @request.session[:user_id] = 2
-    post :bulk_update, :params => {:ids => [1, 2], :time_entry => { :custom_field_values => {field.id.to_s => '__none__'} }}
-
+    post(
+      :bulk_update,
+      :params => {
+        :ids => [1, 2],
+        :time_entry => {:custom_field_values => {field.id.to_s => '__none__'}}
+      }
+    )
     assert_response 302
     assert_equal ["", ""], TimeEntry.where(:id => [1, 2]).collect {|i| i.custom_value_for(field).value}
   end
