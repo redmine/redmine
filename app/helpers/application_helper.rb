@@ -511,13 +511,13 @@ module ApplicationHelper
     end
     jump = params[:jump].presence || current_menu_item
     s = (+'').html_safe
-    build_project_link = ->(project, level = 0){
+    build_project_link = ->(project, level = 0) do
       padding = level * 16
       text = content_tag('span', project.name, :style => "padding-left:#{padding}px;")
       s << link_to(text, project_path(project, :jump => jump),
                    :title => project.name,
                    :class => (project == selected ? 'selected' : nil))
-    }
+    end
     [
       [bookmarked, :label_optgroup_bookmarks, true],
       [recents,   :label_optgroup_recents,    false],
@@ -706,7 +706,10 @@ module ApplicationHelper
           b << "\xe2\x80\xa6"
           ancestors = ancestors[-2, 2]
         end
-        b += ancestors.collect {|p| link_to_project(p, {:jump => current_menu_item}, :class => 'ancestor') }
+        b +=
+          ancestors.collect do |p|
+            link_to_project(p, {:jump => current_menu_item}, :class => 'ancestor')
+          end
       end
       b << content_tag(:span, h(@project), class: 'current-project')
       if b.size > 1
@@ -1723,9 +1726,9 @@ module ApplicationHelper
         messages[message] << item
       end
     end
-    messages.map { |message, items|
+    messages.map do |message, items|
       "#{message}: " + items.map {|i| "##{i.id}"}.join(', ')
-    }
+    end
   end
 
   def render_if_exist(options = {}, locals = {}, &block)
