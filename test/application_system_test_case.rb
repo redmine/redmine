@@ -22,7 +22,9 @@ require File.expand_path('../test_helper', __FILE__)
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   DOWNLOADS_PATH = File.expand_path(File.join(Rails.root, 'tmp', 'downloads'))
 
-  driven_by :selenium, using: :chrome, screen_size: [1024, 900], options: {
+  driven_by(
+    :selenium, using: :chrome, screen_size: [1024, 900],
+    options: {
       desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(
         'chromeOptions' => {
           'prefs' => {
@@ -33,6 +35,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
         }
       )
     }
+  )
 
   setup do
     clear_downloaded_files
