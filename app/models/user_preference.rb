@@ -109,7 +109,10 @@ class UserPreference < ActiveRecord::Base
   end
 
   def toolbar_language_options=(value)
-    languages = value.to_s.delete(' ').split(',').select{|lang| Redmine::SyntaxHighlighting.language_supported?(lang) }.compact
+    languages =
+      value.to_s.delete(' ').split(',').select do |lang|
+        Redmine::SyntaxHighlighting.language_supported?(lang)
+      end.compact
     self[:toolbar_language_options] = languages.join(',')
   end
 
