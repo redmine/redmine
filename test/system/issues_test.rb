@@ -441,6 +441,8 @@ class IssuesSystemTest < ApplicationSystemTestCase
       click_link 'Copy'
     end
     assert_current_path '/issues/bulk_edit', :ignore_query => true
+    submit_buttons = page.all('input[type=submit]')
+    assert_equal 'Copy', submit_buttons[0].value
 
     page.find('#issue_project_id').select('OnlineStore')
     # wait for ajax response
