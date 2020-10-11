@@ -47,9 +47,16 @@ module WikiHelper
   end
 
   def wiki_page_breadcrumb(page)
-    breadcrumb(page.ancestors.reverse.collect {|parent|
-      link_to(h(parent.pretty_title), {:controller => 'wiki', :action => 'show', :id => parent.title, :project_id => parent.project, :version => nil})
-    })
+    breadcrumb(
+      page.ancestors.reverse.collect do |parent|
+        link_to(
+          h(parent.pretty_title),
+          {:controller => 'wiki', :action => 'show',
+           :id => parent.title, :project_id => parent.project,
+           :version => nil}
+        )
+      end
+    )
   end
 
   # Returns the path for the Cancel link when editing a wiki page
