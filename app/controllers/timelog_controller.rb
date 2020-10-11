@@ -78,7 +78,7 @@ class TimelogController < ApplicationController
     @report = Redmine::Helpers::TimeReport.new(@project, @issue, params[:criteria], params[:columns], scope)
 
     respond_to do |format|
-      format.html { render :layout => !request.xhr? }
+      format.html {render :layout => !request.xhr?}
       format.csv do
         send_data(report_to_csv(@report), :type => 'text/csv; header=present',
                   :filename => 'timelog.csv')
@@ -89,7 +89,7 @@ class TimelogController < ApplicationController
   def show
     respond_to do |format|
       # TODO: Implement html response
-      format.html { head 406 }
+      format.html {head 406}
       format.api
     end
   end
@@ -146,8 +146,8 @@ class TimelogController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html { render :action => 'new' }
-        format.api  { render_validation_errors(@time_entry) }
+        format.html {render :action => 'new'}
+        format.api  {render_validation_errors(@time_entry)}
       end
     end
   end
@@ -167,12 +167,12 @@ class TimelogController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_back_or_default project_time_entries_path(@time_entry.project)
         end
-        format.api  { render_api_ok }
+        format.api  {render_api_ok}
       end
     else
       respond_to do |format|
-        format.html { render :action => 'edit' }
-        format.api  { render_validation_errors(@time_entry) }
+        format.html {render :action => 'edit'}
+        format.api  {render_validation_errors(@time_entry)}
       end
     end
   end
