@@ -80,6 +80,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
       loop do
         files = downloaded_files(filename)
         break if files.present?
+
         sleep 0.2
       end
     end
