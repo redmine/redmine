@@ -412,10 +412,10 @@ class ApplicationController < ActionController::Base
   end
 
   def parse_params_for_bulk_update(params)
-    attributes = (params || {}).reject {|k,v| v.blank?}
+    attributes = (params || {}).reject {|k, v| v.blank?}
     attributes.keys.each {|k| attributes[k] = '' if attributes[k] == 'none'}
     if custom = attributes[:custom_field_values]
-      custom.reject! {|k,v| v.blank?}
+      custom.reject! {|k, v| v.blank?}
       custom.keys.each do |k|
         if custom[k].is_a?(Array)
           custom[k] << '' if custom[k].delete('__none__')
@@ -599,7 +599,7 @@ class ApplicationController < ActionController::Base
 
   def render_feed(items, options={})
     @items = (items || []).to_a
-    @items.sort! {|x,y| y.event_datetime <=> x.event_datetime }
+    @items.sort! {|x, y| y.event_datetime <=> x.event_datetime}
     @items = @items.slice(0, Setting.feeds_limit.to_i)
     @title = options[:title] || Setting.app_title
     render :template => "common/feed", :formats => [:atom], :layout => false,
