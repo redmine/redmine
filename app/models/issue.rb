@@ -51,7 +51,7 @@ class Issue < ActiveRecord::Base
                 :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.id}},
                 :type => Proc.new {|o| 'issue' + (o.closed? ? '-closed' : '')}
 
-  acts_as_activity_provider :scope => preload(:project, :author, :tracker, :status),
+  acts_as_activity_provider :scope => proc { preload(:project, :author, :tracker, :status) },
                             :author_key => :author_id
 
   DONE_RATIO_OPTIONS = %w(issue_field issue_status)

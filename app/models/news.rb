@@ -32,7 +32,7 @@ class News < ActiveRecord::Base
   acts_as_searchable :columns => ['title', 'summary', "#{table_name}.description"],
                      :preload => :project
   acts_as_event :url => Proc.new {|o| {:controller => 'news', :action => 'show', :id => o.id}}
-  acts_as_activity_provider :scope => preload(:project, :author),
+  acts_as_activity_provider :scope => proc { preload(:project, :author) },
                             :author_key => :author_id
   acts_as_watchable
 

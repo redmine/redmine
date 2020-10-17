@@ -34,13 +34,15 @@ class WikiContentVersion < ActiveRecord::Base
                             :timestamp => "#{table_name}.updated_on",
                             :author_key => "#{table_name}.author_id",
                             :permission => :view_wiki_edits,
-                            :scope => select("#{table_name}.updated_on, #{table_name}.comments, " +
+                            :scope => proc {
+                                        select("#{table_name}.updated_on, #{table_name}.comments, " +
                                              "#{table_name}.version, #{WikiPage.table_name}.title, " +
                                              "#{table_name}.page_id, #{table_name}.author_id, " +
                                              "#{table_name}.id").
                                       joins("LEFT JOIN #{WikiPage.table_name} ON #{WikiPage.table_name}.id = #{table_name}.page_id " +
                                             "LEFT JOIN #{Wiki.table_name} ON #{Wiki.table_name}.id = #{WikiPage.table_name}.wiki_id " +
                                             "LEFT JOIN #{Project.table_name} ON #{Project.table_name}.id = #{Wiki.table_name}.project_id")
+                                      }
 
   after_destroy :page_update_after_destroy
 

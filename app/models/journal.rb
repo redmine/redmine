@@ -38,10 +38,12 @@ class Journal < ActiveRecord::Base
 
   acts_as_activity_provider :type => 'issues',
                             :author_key => :user_id,
-                            :scope => preload({:issue => :project}, :user).
+                            :scope => proc {
+                                      preload({:issue => :project}, :user).
                                       joins("LEFT OUTER JOIN #{JournalDetail.table_name} ON #{JournalDetail.table_name}.journal_id = #{Journal.table_name}.id").
                                       where("#{Journal.table_name}.journalized_type = 'Issue' AND" +
                                             " (#{JournalDetail.table_name}.prop_key = 'status_id' OR #{Journal.table_name}.notes <> '')").distinct
+                                      }
 
   before_create :split_private_notes
   after_create_commit :send_notification
