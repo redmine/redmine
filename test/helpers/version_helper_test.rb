@@ -42,13 +42,21 @@ class VersionsHelperTest < Redmine::HelperTest
   def test_version_filtered_issues_path_sharing_hierarchy
     version = Version.new(:name => 'test', :sharing => 'hierarchy')
     version.project = Project.find(5)
-    assert_match '/projects/ecookbook/issues?', version_filtered_issues_path(version)
+    assert_match '/projects/private-child/issues?', version_filtered_issues_path(version)
   end
 
   def test_version_filtered_issues_path_sharing_tree
     version = Version.new(:name => 'test', :sharing => 'tree')
     version.project = Project.find(5)
     assert_match '/projects/ecookbook/issues?', version_filtered_issues_path(version)
+  end
+
+  def test_version_filtered_issues_path_sharing_tree_without_permission_to_root_project
+    EnabledModule.where("name = 'issue_tracking' AND project_id = 1").delete_all
+    version = Version.new(:name => 'test', :sharing => 'tree')
+    version.project = Project.find(5)
+    assert_no_match '/projects/ecookbook/issues?', version_filtered_issues_path(version)
+    assert_match '/issues?', version_filtered_issues_path(version)
   end
 
   def test_version_filtered_issues_path_sharing_system

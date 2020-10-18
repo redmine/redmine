@@ -31,11 +31,11 @@ module VersionsHelper
     options = {:fixed_version_id => version, :set_filter => 1}.merge(options)
     project =
       case version.sharing
-      when 'hierarchy', 'tree'
-        if version.project && version.project.root.visible?
+      when 'tree'
+        if version.project && version.project.root.visible? && User.current.allowed_to?(:view_issues, version.project.root)
           version.project.root
         else
-          version.project
+          nil
         end
       when 'system'
         nil
