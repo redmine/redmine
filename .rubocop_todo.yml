@@ -1043,14 +1043,6 @@ Style/ExpandPathArguments:
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
-# SupportedStyles: each, for
-Style/For:
-  Exclude:
-    - 'lib/redmine/export/pdf/issues_pdf_helper.rb'
-    - 'lib/redmine/export/pdf/wiki_pdf_helper.rb'
-
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
 # SupportedStyles: format, sprintf, percent
 Style/FormatString:
   Exclude:

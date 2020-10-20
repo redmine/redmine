@@ -189,7 +189,7 @@ module Redmine
             pdf.SetFontStyle('B',9)
             pdf.RDMCell(190,5, l(:label_associated_revisions), "B")
             pdf.ln
-            for changeset in issue.changesets
+            issue.changesets.each do |changeset|
               pdf.SetFontStyle('B',8)
               csstr  = "#{l(:label_revision)} #{changeset.format_identifier} - "
               csstr += format_time(changeset.committed_on) + " - " + changeset.author.to_s
@@ -240,7 +240,7 @@ module Redmine
             pdf.SetFontStyle('B',9)
             pdf.RDMCell(190,5, l(:label_attachment_plural), "B")
             pdf.ln
-            for attachment in issue.attachments
+            issue.attachments.each do |attachment|
               pdf.SetFontStyle('',8)
               pdf.RDMCell(80,5, attachment.filename)
               pdf.RDMCell(20,5, number_to_human_size(attachment.filesize),0,0,"R")

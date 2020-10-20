@@ -87,7 +87,7 @@ module Redmine
             pdf.SetFontStyle('B', 9)
             pdf.RDMCell(190, 5, l(:label_attachment_plural), "B")
             pdf.ln
-            for attachment in page.attachments
+            page.attachments.each do |attachment|
               pdf.SetFontStyle('', 8)
               pdf.RDMCell(80, 5, attachment.filename)
               pdf.RDMCell(20, 5, number_to_human_size(attachment.filesize), 0, 0, "R")
