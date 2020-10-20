@@ -182,6 +182,7 @@ module Redmine
           end
         end
       end
+      Redmine::Hook.call_hook :after_plugins_loaded
     end
 
     def initialize(id)
