@@ -359,7 +359,7 @@ module Redmine
         @children.inject(1) {|sum, node| sum + node.size}
       end
 
-      def each &block
+      def each(&block)
         yield self
         children { |child| child.each(&block) }
       end

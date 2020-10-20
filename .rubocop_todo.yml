@@ -1152,13 +1152,6 @@ Style/MethodCallWithoutArgsParentheses:
     - 'lib/redmine/scm/adapters/cvs_adapter.rb'
     - 'lib/redmine/scm/adapters/filesystem_adapter.rb'
 
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: require_parentheses, require_no_parentheses, require_no_parentheses_except_multiline
-Style/MethodDefParentheses:
-  Exclude:
-    - 'lib/redmine/menu_manager.rb'
-
 Style/MethodMissingSuper:
   Exclude:
     - 'lib/redmine/views/builders/structure.rb'
