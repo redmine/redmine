@@ -32,8 +32,6 @@ class QueryTest < ActiveSupport::TestCase
            :workflows, :journals,
            :attachments, :time_entries
 
-  INTEGER_KLASS = RUBY_VERSION >= "2.4" ? Integer : Fixnum
-
   def setup
     User.current = nil
   end
@@ -1955,7 +1953,7 @@ class QueryTest < ActiveSupport::TestCase
     count_by_group = q.result_count_by_group
     assert_kind_of Hash, count_by_group
     assert_equal %w(NilClass User), count_by_group.keys.collect {|k| k.class.name}.uniq.sort
-    assert_equal %W(#{INTEGER_KLASS}), count_by_group.values.collect {|k| k.class.name}.uniq
+    assert_equal %W(Integer), count_by_group.values.collect {|k| k.class.name}.uniq
     assert count_by_group.has_key?(User.find(3))
   end
 
@@ -1964,7 +1962,7 @@ class QueryTest < ActiveSupport::TestCase
     count_by_group = q.result_count_by_group
     assert_kind_of Hash, count_by_group
     assert_equal %w(NilClass String), count_by_group.keys.collect {|k| k.class.name}.uniq.sort
-    assert_equal %W(#{INTEGER_KLASS}), count_by_group.values.collect {|k| k.class.name}.uniq
+    assert_equal %W(Integer), count_by_group.values.collect {|k| k.class.name}.uniq
     assert count_by_group.has_key?('MySQL')
   end
 
@@ -1973,7 +1971,7 @@ class QueryTest < ActiveSupport::TestCase
     count_by_group = q.result_count_by_group
     assert_kind_of Hash, count_by_group
     assert_equal %w(Date NilClass), count_by_group.keys.collect {|k| k.class.name}.uniq.sort
-    assert_equal %W(#{INTEGER_KLASS}), count_by_group.values.collect {|k| k.class.name}.uniq
+    assert_equal %W(Integer), count_by_group.values.collect {|k| k.class.name}.uniq
   end
 
   def test_issue_count_with_nil_group_only
