@@ -1012,8 +1012,12 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_editable_custom_fields_should_return_custom_field_that_is_enabled_for_the_role_only
-    enabled_cf = IssueCustomField.generate!(:is_for_all => true, :tracker_ids => [1], :visible => false, :role_ids => [1,2])
-    disabled_cf = IssueCustomField.generate!(:is_for_all => true, :tracker_ids => [1], :visible => false, :role_ids => [2])
+    enabled_cf =
+      IssueCustomField.generate!(:is_for_all => true, :tracker_ids => [1],
+                                 :visible => false, :role_ids => [1, 2])
+    disabled_cf =
+      IssueCustomField.generate!(:is_for_all => true, :tracker_ids => [1],
+                                 :visible => false, :role_ids => [2])
     user = User.find(2)
     issue = Issue.new(:project_id => 1, :tracker_id => 1)
 
