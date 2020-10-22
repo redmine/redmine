@@ -44,9 +44,22 @@ class MenuManagerTest < Redmine::IntegrationTest
     Setting.default_language = 'en'
     assert_no_difference 'Redmine::MenuManager.items(:project_menu).size' do
       Redmine::MenuManager.map :project_menu do |menu|
-        menu.push :foo, { :controller => 'projects', :action => 'show' }, :caption => 'Foo'
-        menu.push :bar, { :controller => 'projects', :action => 'show' }, :before => :activity
-        menu.push :hello, { :controller => 'projects', :action => 'show' }, :caption => Proc.new {|p| p.name.upcase }, :after => :bar
+        menu.push(
+          :foo,
+          {:controller => 'projects', :action => 'show'},
+          :caption => 'Foo'
+        )
+        menu.push(
+          :bar,
+          {:controller => 'projects', :action => 'show'},
+          :before => :activity
+        )
+        menu.push(
+          :hello,
+          {:controller => 'projects', :action => 'show'},
+          :caption => Proc.new {|p| p.name.upcase},
+          :after => :bar
+        )
       end
 
       get '/projects/ecookbook'
