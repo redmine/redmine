@@ -50,12 +50,19 @@ class NewsController < ApplicationController
                       offset(@offset).
                       to_a
     respond_to do |format|
-      format.html {
+      format.html do
         @news = News.new # for adding news inline
         render :layout => false if request.xhr?
-      }
+      end
       format.api
-      format.atom { render_feed(@newss, :title => (@project ? @project.name : Setting.app_title) + ": #{l(:label_news_plural)}") }
+      format.atom do
+        render_feed(
+          @newss,
+          :title =>
+            (@project ? @project.name : Setting.app_title) +
+              ": #{l(:label_news_plural)}"
+        )
+      end
     end
   end
 
