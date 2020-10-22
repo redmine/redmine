@@ -2261,25 +2261,26 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_show_should_not_disclose_relations_to_invisible_issues
-    Setting.cross_project_issue_relations = '1'
-    IssueRelation.
-      create!(
-        :issue_from => Issue.find(1),
-        :issue_to => Issue.find(2),
-        :relation_type => 'relates'
-      )
-    # Relation to a private project issue
-    IssueRelation.
-      create!(
-        :issue_from => Issue.find(1),
-        :issue_to => Issue.find(4),
-        :relation_type => 'relates'
-      )
-    get(:show, :params => {:id => 1})
-    assert_response :success
-    assert_select 'div#relations' do
-      assert_select 'a', :text => /#2$/
-      assert_select 'a', :text => /#4$/, :count => 0
+    with_settings :cross_project_issue_relations => '1' do
+      IssueRelation.
+        create!(
+          :issue_from => Issue.find(1),
+          :issue_to => Issue.find(2),
+          :relation_type => 'relates'
+        )
+      # Relation to a private project issue
+      IssueRelation.
+        create!(
+          :issue_from => Issue.find(1),
+          :issue_to => Issue.find(4),
+          :relation_type => 'relates'
+        )
+      get(:show, :params => {:id => 1})
+      assert_response :success
+      assert_select 'div#relations' do
+        assert_select 'a', :text => /#2$/
+        assert_select 'a', :text => /#4$/, :count => 0
+      end
     end
   end
 
