@@ -29,22 +29,35 @@ class Journal < ActiveRecord::Base
   has_many :details, :class_name => "JournalDetail", :dependent => :delete_all, :inverse_of => :journal
   attr_accessor :indice
 
-  acts_as_event :title => Proc.new {|o| status = ((s = o.new_status) ? " (#{s})" : nil); "#{o.issue.tracker} ##{o.issue.id}#{status}: #{o.issue.subject}"},
-                :description => :notes,
-                :author => :user,
-                :group => :issue,
-                :type => Proc.new {|o| (s = o.new_status) ? (s.is_closed? ? 'issue-closed' : 'issue-edit') : 'issue-note'},
-                :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.issue.id, :anchor => "change-#{o.id}"}}
-
-  acts_as_activity_provider :type => 'issues',
-                            :author_key => :user_id,
-                            :scope => proc {
-                                      preload({:issue => :project}, :user).
-                                      joins("LEFT OUTER JOIN #{JournalDetail.table_name} ON #{JournalDetail.table_name}.journal_id = #{Journal.table_name}.id").
-                                      where("#{Journal.table_name}.journalized_type = 'Issue' AND" +
-                                            " (#{JournalDetail.table_name}.prop_key = 'status_id' OR #{Journal.table_name}.notes <> '')").distinct
-                                      }
-
+  acts_as_event(
+    :title =>
+       Proc.new do |o|
+         status = ((s = o.new_status) ? " (#{s})" : nil)
+         "#{o.issue.tracker} ##{o.issue.id}#{status}: #{o.issue.subject}"
+       end,
+    :description => :notes,
+    :author => :user,
+    :group => :issue,
+    :type =>
+      Proc.new do |o|
+        (s = o.new_status) ? (s.is_closed? ? 'issue-closed' : 'issue-edit') : 'issue-note'
+      end,
+    :url =>
+      Proc.new do |o|
+        {:controller => 'issues', :action => 'show', :id => o.issue.id, :anchor => "change-#{o.id}"}
+      end
+  )
+  acts_as_activity_provider(
+    :type => 'issues',
+    :author_key => :user_id,
+    :scope =>
+      proc do
+        preload({:issue => :project}, :user).
+          joins("LEFT OUTER JOIN #{JournalDetail.table_name} ON #{JournalDetail.table_name}.journal_id = #{Journal.table_name}.id").
+            where("#{Journal.table_name}.journalized_type = 'Issue' AND" +
+                  " (#{JournalDetail.table_name}.prop_key = 'status_id' OR #{Journal.table_name}.notes <> '')").distinct
+      end
+  )
   before_create :split_private_notes
   after_create_commit :send_notification
 
