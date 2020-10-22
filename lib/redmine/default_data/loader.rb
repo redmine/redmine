@@ -154,30 +154,47 @@ module Redmine
 
             if workflow
               # Workflow
-              Tracker.all.each { |t|
-                IssueStatus.all.each { |os|
-                  IssueStatus.all.each { |ns|
-                    WorkflowTransition.create!(:tracker_id => t.id, :role_id => manager.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
-                  }
-                }
-              }
+              Tracker.all.each do |t|
+                IssueStatus.all.each do |os|
+                  IssueStatus.all.each do |ns|
+                    unless os == ns
+                      WorkflowTransition.
+                        create!(:tracker_id => t.id, :role_id => manager.id,
+                                :old_status_id => os.id,
+                                :new_status_id => ns.id)
+                    end
+                  end
+                end
+              end
 
-              Tracker.all.each { |t|
-                [new, in_progress, resolved, feedback].each { |os|
-                  [in_progress, resolved, feedback, closed].each { |ns|
-                    WorkflowTransition.create!(:tracker_id => t.id, :role_id => developer.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
-                  }
-                }
-              }
+              Tracker.all.each do |t|
+                [new, in_progress, resolved, feedback].each do |os|
+                  [in_progress, resolved, feedback, closed].each do |ns|
+                    unless os == ns
+                      WorkflowTransition.
+                        create!(:tracker_id => t.id, :role_id => developer.id,
+                                :old_status_id => os.id,
+                                :new_status_id => ns.id)
+                    end
+                  end
+                end
+              end
 
-              Tracker.all.each { |t|
-                [new, in_progress, resolved, feedback].each { |os|
-                  [closed].each { |ns|
-                    WorkflowTransition.create!(:tracker_id => t.id, :role_id => reporter.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
-                  }
-                }
-                WorkflowTransition.create!(:tracker_id => t.id, :role_id => reporter.id, :old_status_id => resolved.id, :new_status_id => feedback.id)
-              }
+              Tracker.all.each do |t|
+                [new, in_progress, resolved, feedback].each do |os|
+                  [closed].each do |ns|
+                    unless os == ns
+                      WorkflowTransition.
+                        create!(:tracker_id => t.id, :role_id => reporter.id,
+                                :old_status_id => os.id, :new_status_id => ns.id)
+                    end
+                  end
+                end
+                WorkflowTransition.
+                  create!(:tracker_id => t.id, :role_id => reporter.id,
+                          :old_status_id => resolved.id,
+                          :new_status_id => feedback.id)
+              end
             end
 
             # Enumerations
