@@ -26,10 +26,19 @@ class Document < ActiveRecord::Base
 
   acts_as_searchable :columns => ['title', "#{table_name}.description"],
                      :preload => :project
-  acts_as_event :title => Proc.new {|o| "#{l(:label_document)}: #{o.title}"},
-                :author => Proc.new {|o| o.attachments.reorder("#{Attachment.table_name}.created_on ASC").first.try(:author) },
-                :url => Proc.new {|o| {:controller => 'documents', :action => 'show', :id => o.id}}
-  acts_as_activity_provider :scope => proc { preload(:project) }
+  acts_as_event(
+    :title => Proc.new {|o| "#{l(:label_document)}: #{o.title}"},
+    :author =>
+      Proc.new do |o|
+        o.attachments.reorder("#{Attachment.table_name}.created_on ASC").
+          first.try(:author)
+      end,
+    :url =>
+      Proc.new do |o|
+        {:controller => 'documents', :action => 'show', :id => o.id}
+      end
+  )
+  acts_as_activity_provider :scope => proc {preload(:project)}
 
   validates_presence_of :project, :title, :category
   validates_length_of :title, :maximum => 255
