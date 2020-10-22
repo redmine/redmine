@@ -23,27 +23,38 @@ class WikiContentVersion < ActiveRecord::Base
   belongs_to :page, :class_name => 'WikiPage'
   belongs_to :author, :class_name => 'User'
 
-  acts_as_event :title => Proc.new {|o| "#{l(:label_wiki_edit)}: #{o.page.title} (##{o.version})"},
-                :description => :comments,
-                :datetime => :updated_on,
-                :type => 'wiki-page',
-                :group => :page,
-                :url => Proc.new {|o| {:controller => 'wiki', :action => 'show', :project_id => o.page.wiki.project, :id => o.page.title, :version => o.version}}
-
-  acts_as_activity_provider :type => 'wiki_edits',
-                            :timestamp => "#{table_name}.updated_on",
-                            :author_key => "#{table_name}.author_id",
-                            :permission => :view_wiki_edits,
-                            :scope => proc {
-                                        select("#{table_name}.updated_on, #{table_name}.comments, " +
-                                             "#{table_name}.version, #{WikiPage.table_name}.title, " +
-                                             "#{table_name}.page_id, #{table_name}.author_id, " +
-                                             "#{table_name}.id").
-                                      joins("LEFT JOIN #{WikiPage.table_name} ON #{WikiPage.table_name}.id = #{table_name}.page_id " +
-                                            "LEFT JOIN #{Wiki.table_name} ON #{Wiki.table_name}.id = #{WikiPage.table_name}.wiki_id " +
-                                            "LEFT JOIN #{Project.table_name} ON #{Project.table_name}.id = #{Wiki.table_name}.project_id")
-                                      }
-
+  acts_as_event(
+    :title =>
+      Proc.new do |o|
+        "#{l(:label_wiki_edit)}: #{o.page.title} (##{o.version})"
+      end,
+    :description => :comments,
+    :datetime => :updated_on,
+    :type => 'wiki-page',
+    :group => :page,
+    :url =>
+      Proc.new do |o|
+        {:controller => 'wiki', :action => 'show',
+         :project_id => o.page.wiki.project,
+         :id => o.page.title, :version => o.version}
+      end
+  )
+  acts_as_activity_provider(
+    :type => 'wiki_edits',
+    :timestamp => "#{table_name}.updated_on",
+    :author_key => "#{table_name}.author_id",
+    :permission => :view_wiki_edits,
+    :scope =>
+      proc do
+        select("#{table_name}.updated_on, #{table_name}.comments, " +
+          "#{table_name}.version, #{WikiPage.table_name}.title, " +
+          "#{table_name}.page_id, #{table_name}.author_id, " +
+          "#{table_name}.id").
+        joins("LEFT JOIN #{WikiPage.table_name} ON #{WikiPage.table_name}.id = #{table_name}.page_id " +
+          "LEFT JOIN #{Wiki.table_name} ON #{Wiki.table_name}.id = #{WikiPage.table_name}.wiki_id " +
+          "LEFT JOIN #{Project.table_name} ON #{Project.table_name}.id = #{Wiki.table_name}.project_id")
+      end
+  )
   after_destroy :page_update_after_destroy
 
   def text=(plain)
