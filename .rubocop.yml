@@ -4,6 +4,8 @@ AllCops:
   TargetRubyVersion: 2.4
   TargetRailsVersion: 5.2
 
+  NewCops: enable
+
   Exclude:
     - '**/vendor/**/*'
     - '**/tmp/**/*'
@@ -33,20 +35,20 @@ Layout/CaseIndentation:
 Layout/EmptyLineBetweenDefs:
   AllowAdjacentOneLineDefs: true
 
+Layout/SpaceAroundEqualsInParameterDefault:
+  Enabled: false
+
 Layout/SpaceBeforeBlockBraces:
   # "space" is used more than "no_space".
   # But "no_space" is more natural in one liner.
   #   str = path.to_s.split(%r{[/\\]}).select{|p| !p.blank?}.join("/")
   Enabled: false
 
-# You can see results by "rubocop --only Layout/SpaceInsideBlockBraces"
 Layout/SpaceInsideBlockBraces:
-  EnforcedStyle: no_space
-  SpaceBeforeBlockParameters: false
+  Enabled: false
 
-# You can see results by "rubocop --only Layout/SpaceInsideHashLiteralBraces"
 Layout/SpaceInsideHashLiteralBraces:
-  EnforcedStyle: no_space
+  Enabled: false
 
 Lint/RaiseException:
   Enabled: true
@@ -122,6 +124,9 @@ Style/IdenticalConditionalBranches:
   Exclude:
     - 'config/initializers/10-patches.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
+
+Style/RaiseArgs:
+  Enabled: false
 
 Style/TrailingCommaInArrayLiteral:
   Enabled: false
