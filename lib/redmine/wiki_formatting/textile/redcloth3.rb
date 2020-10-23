@@ -636,7 +636,7 @@ class RedCloth3 < String
     end
 
     def lT( text )
-        text =~ /\#$/ ? 'o' : 'u'
+        /\#$/.match?(text) ? 'o' : 'u'
     end
 
     def hard_break( text )
@@ -908,7 +908,7 @@ class RedCloth3 < String
 
     def refs( text )
         @rules.each do |rule_name|
-            method( rule_name ).call( text ) if rule_name.to_s.match /^refs_/
+            method( rule_name ).call( text ) if rule_name.to_s.match? /^refs_/
         end
     end
 
@@ -1061,9 +1061,9 @@ class RedCloth3 < String
             text.gsub!( ALLTAG_MATCH ) do |line|
                 ## matches are off if we're between <code>, <pre> etc.
                 if $1
-                    if line =~ OFFTAG_OPEN
+                    if OFFTAG_OPEN.match?(line)
                         codepre += 1
-                    elsif line =~ OFFTAG_CLOSE
+                    elsif OFFTAG_CLOSE.match?(line)
                         codepre -= 1
                         codepre = 0 if codepre < 0
                     end

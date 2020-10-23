@@ -198,10 +198,10 @@ module Redmine
                   next
                 end
               elsif state == "tags"
-                if /^#{STARTLOG}/ =~ line
+                if /^#{STARTLOG}/.match?(line)
                   commit_log = ""
                   state = "revision"
-                elsif /^#{ENDLOG}/ =~ line
+                elsif /^#{ENDLOG}/.match?(line)
                   state = "head"
                 end
                 next
@@ -232,13 +232,13 @@ module Redmine
                   end
                   commit_log = ""
                   revision   = nil
-                  if /^#{ENDLOG}/ =~ line
+                  if /^#{ENDLOG}/.match?(line)
                     state = "entry_start"
                   end
                   next
                 end
 
-                if /^branches: (.+)$/ =~ line
+                if /^branches: (.+)$/.match?(line)
                   # TODO: version.branch = $1
                 elsif /^revision (\d+(?:\.\d+)+).*$/ =~ line
                   revision = $1
@@ -260,7 +260,7 @@ module Redmine
                   #                  version.line_minus = 0
                   #                end
                 else
-                  commit_log += line unless line =~ /^\*\*\* empty log message \*\*\*/
+                  commit_log += line unless /^\*\*\* empty log message \*\*\*/.match?(line)
                 end
               end
             end

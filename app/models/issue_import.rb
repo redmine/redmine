@@ -179,7 +179,7 @@ class IssueImport < Import
         else
           add_callback(parent_issue_id, 'set_as_parent', item.position)
         end
-      elsif parent_issue_id =~ /\A\d+\z/
+      elsif /\A\d+\z/.match?(parent_issue_id)
         # refers to other row by position
         parent_issue_id = parent_issue_id.to_i
 

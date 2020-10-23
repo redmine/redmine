@@ -23,7 +23,7 @@ class ChangeSqliteBooleansTo0And1 < ActiveRecord::Migration[5.2]
   }
 
   def up
-    if ActiveRecord::Base.connection.adapter_name =~ /sqlite/i
+    if /sqlite/i.match?(ActiveRecord::Base.connection.adapter_name)
       COLUMNS.each do |klass, columns|
         columns.each do |column|
           klass.where("#{column} = 't'").update_all(column => 1)
@@ -34,7 +34,7 @@ class ChangeSqliteBooleansTo0And1 < ActiveRecord::Migration[5.2]
   end
 
   def down
-    if ActiveRecord::Base.connection.adapter_name =~ /sqlite/i
+    if /sqlite/i.match?(ActiveRecord::Base.connection.adapter_name)
       COLUMNS.each do |klass, columns|
         columns.each do |column|
           klass.where("#{column} = 1").update_all(column => 't')

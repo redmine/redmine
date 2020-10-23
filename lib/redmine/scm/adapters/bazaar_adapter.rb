@@ -137,7 +137,7 @@ module Redmine
             revision = nil
             parsing  = nil
             io.each_line do |line|
-              if line =~ /^----/
+              if /^----/.match?(line)
                 revisions << revision if revision
                 revision = Revision.new(:paths => [], :message => '')
                 parsing = nil
@@ -152,7 +152,7 @@ module Redmine
                   revision.scmid = $1.strip
                 elsif line =~ /^timestamp: (.+)$/
                   revision.time = Time.parse($1).localtime
-                elsif line =~ /^    -----/
+                elsif /^    -----/.match?(line)
                   # partial revisions
                   parsing = nil unless parsing == 'message'
                 elsif line =~ /^(message|added|modified|removed|renamed):/

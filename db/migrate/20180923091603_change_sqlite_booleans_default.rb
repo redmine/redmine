@@ -74,7 +74,7 @@ class ChangeSqliteBooleansDefault < ActiveRecord::Migration[5.2]
   }
 
   def up
-    if ActiveRecord::Base.connection.adapter_name =~ /sqlite/i
+    if /sqlite/i.match?(ActiveRecord::Base.connection.adapter_name)
       DEFAULTS.each do |table, defaults|
         defaults.each do |column, value|
           # Reset default values for boolean column (t/f => 1/0)
@@ -85,7 +85,7 @@ class ChangeSqliteBooleansDefault < ActiveRecord::Migration[5.2]
   end
 
   def down
-    if ActiveRecord::Base.connection.adapter_name =~ /sqlite/i
+    if /sqlite/i.match?(ActiveRecord::Base.connection.adapter_name)
       # Cannot restore default values as t/f
       raise ActiveRecord::IrreversibleMigration
     end

@@ -3,7 +3,7 @@ class ChangeRepositoriesToFullSti < ActiveRecord::Migration[4.2]
     Repository.connection.
          select_rows("SELECT id, type FROM #{Repository.table_name}").
          each do |repository_id, repository_type|
-      unless repository_type =~ /^Repository::/
+      unless /^Repository::/.match?(repository_type)
         Repository.where(["id = ?", repository_id]).
           update_all(["type = ?", "Repository::#{repository_type}"])
       end
