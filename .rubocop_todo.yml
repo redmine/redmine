@@ -569,6 +569,23 @@ Performance/StringReplacement:
     - 'test/unit/repository_cvs_test.rb'
     - 'test/unit/repository_git_test.rb'
 
+# Cop supports --auto-correct.
+# Configuration parameters: Include.
+# Include: app/models/**/*.rb
+Rails/ActiveRecordCallbacksOrder:
+  Exclude:
+    - 'app/models/attachment.rb'
+    - 'app/models/change.rb'
+    - 'app/models/changeset.rb'
+    - 'app/models/enumeration.rb'
+    - 'app/models/issue.rb'
+    - 'app/models/issue_status.rb'
+    - 'app/models/member_role.rb'
+    - 'app/models/project.rb'
+    - 'app/models/user.rb'
+    - 'app/models/version.rb'
+    - 'app/models/wiki_page.rb'
+
 # Configuration parameters: Include.
 # Include: app/models/**/*.rb
 Rails/ActiveRecordOverride:
@@ -618,6 +635,10 @@ Rails/Blank:
     - 'lib/redmine/field_format.rb'
     - 'lib/redmine/wiki_formatting/macros.rb'
 
+# Cop supports --auto-correct.
+Rails/ContentTag:
+  Enabled: false
+
 # Configuration parameters: Include.
 # Include: db/migrate/*.rb
 Rails/CreateTableWithTimestamps:
@@ -647,8 +668,10 @@ Rails/Delegate:
     - 'lib/redmine/menu_manager.rb'
 
 # Cop supports --auto-correct.
-# Configuration parameters: Whitelist.
+# Configuration parameters: Whitelist, AllowedMethods, AllowedReceivers.
 # Whitelist: find_by_sql
+# AllowedMethods: find_by_sql
+# AllowedReceivers: Gem::Specification
 Rails/DynamicFindBy:
   Enabled: false
 
@@ -787,6 +810,17 @@ Rails/LinkToBlank:
   Exclude:
     - 'app/helpers/avatars_helper.rb'
 
+# Cop supports --auto-correct.
+# Configuration parameters: Include.
+# Include: config/routes.rb, config/routes/**/*.rb
+Rails/MatchRoute:
+  Exclude:
+    - 'config/routes.rb'
+
+# Cop supports --auto-correct.
+Rails/NegateInclude:
+  Enabled: false
+
 # Configuration parameters: Include.
 # Include: app/**/*.rb, config/**/*.rb, db/**/*.rb, lib/**/*.rb
 Rails/Output:
@@ -797,6 +831,12 @@ Rails/Output:
 
 Rails/OutputSafety:
   Enabled: false
+
+# Cop supports --auto-correct.
+Rails/Pluck:
+  Exclude:
+    - 'app/helpers/versions_helper.rb'
+    - 'test/unit/query_test.rb'
 
 # Cop supports --auto-correct.
 Rails/PluralizationGrammar:
@@ -848,6 +888,14 @@ Rails/ReadWriteAttribute:
     - 'app/models/user_preference.rb'
     - 'app/models/wiki_page.rb'
 
+# Cop supports --auto-correct.
+Rails/RedundantForeignKey:
+  Exclude:
+    - 'app/models/changeset.rb'
+    - 'app/models/custom_field.rb'
+    - 'app/models/query.rb'
+    - 'app/models/role.rb'
+
 Rails/ReflectionClassName:
   Exclude:
     - 'lib/redmine/nested_set/issue_nested_set.rb'
@@ -867,8 +915,21 @@ Rails/RefuteMethods:
     - 'test/unit/custom_field_test.rb'
     - 'test/unit/lib/redmine/project_jump_box_test.rb'
 
-# Configuration parameters: Blacklist, Whitelist.
-# Blacklist: decrement!, decrement_counter, increment!, increment_counter, toggle!, touch, update_all, update_attribute, update_column, update_columns, update_counters
+# Cop supports --auto-correct.
+# Configuration parameters: EnforcedStyle.
+# SupportedStyles: conservative, aggressive
+Rails/ShortI18n:
+  Exclude:
+    - 'test/unit/issue_test.rb'
+    - 'test/unit/member_test.rb'
+    - 'test/unit/repository_test.rb'
+    - 'test/unit/time_entry_test.rb'
+    - 'test/unit/user_test.rb'
+    - 'test/unit/version_test.rb'
+    - 'test/unit/wiki_page_test.rb'
+
+# Configuration parameters: ForbiddenMethods, AllowedMethods.
+# ForbiddenMethods: decrement!, decrement_counter, increment!, increment_counter, insert, insert!, insert_all, insert_all!, toggle!, touch, touch_all, update_all, update_attribute, update_column, update_columns, update_counters, upsert, upsert_all
 Rails/SkipsModelValidations:
   Enabled: false
 
@@ -883,6 +944,34 @@ Rails/TimeZone:
 # Include: app/models/**/*.rb
 Rails/Validation:
   Enabled: false
+
+# Cop supports --auto-correct.
+# Configuration parameters: EnforcedStyle.
+# SupportedStyles: exists, where
+Rails/WhereExists:
+  Exclude:
+    - 'app/controllers/issues_controller.rb'
+    - 'app/models/issue.rb'
+    - 'app/models/project.rb'
+    - 'app/models/user.rb'
+    - 'app/models/watcher.rb'
+    - 'lib/redmine/default_data/loader.rb'
+    - 'test/functional/workflows_controller_test.rb'
+    - 'test/unit/document_category_test.rb'
+    - 'test/unit/enumeration_test.rb'
+    - 'test/unit/issue_status_test.rb'
+    - 'test/unit/project_test.rb'
+    - 'test/unit/workflow_transition_test.rb'
+
+# Cop supports --auto-correct.
+Rails/WhereNot:
+  Exclude:
+    - 'app/models/import.rb'
+    - 'app/models/user.rb'
+    - 'db/migrate/20130710182539_add_queries_visibility.rb'
+    - 'test/unit/issue_test.rb'
+    - 'test/unit/project_test.rb'
+    - 'test/unit/user_test.rb'
 
 Security/Eval:
   Exclude:
