@@ -37,11 +37,12 @@ class RepositorySubversionTest < ActiveSupport::TestCase
   def test_invalid_url
     set_language_if_valid 'en'
     ['invalid', 'http://', 'svn://', 'svn+ssh://', 'file://'].each do |url|
-      repo = Repository::Subversion.new(
-                            :project      => @project,
-                            :identifier   => 'test',
-                            :url => url
-                          )
+      repo =
+        Repository::Subversion.new(
+          :project      => @project,
+          :identifier   => 'test',
+          :url => url
+        )
       assert !repo.save
       assert_equal ["is invalid"], repo.errors[:url]
     end
@@ -49,11 +50,12 @@ class RepositorySubversionTest < ActiveSupport::TestCase
 
   def test_valid_url
     ['http://valid', 'svn://valid', 'svn+ssh://valid', 'file://valid'].each do |url|
-      repo = Repository::Subversion.new(
-                            :project      => @project,
-                            :identifier   => 'test',
-                            :url => url
-                          )
+      repo =
+        Repository::Subversion.new(
+          :project      => @project,
+          :identifier   => 'test',
+          :url => url
+        )
       assert repo.save
       assert_equal [], repo.errors[:url]
       assert repo.destroy
@@ -163,10 +165,11 @@ class RepositorySubversionTest < ActiveSupport::TestCase
 
     def test_directory_listing_with_square_brackets_in_base
       @project = Project.find(3)
-      @repository = Repository::Subversion.create(
-                          :project => @project,
-                          :url => "file:///#{self.class.repository_path('subversion')}/subversion_test/[folder_with_brackets]")
-
+      @repository =
+        Repository::Subversion.create(
+          :project => @project,
+          :url => "file:///#{self.class.repository_path('subversion')}/subversion_test/[folder_with_brackets]"
+        )
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
       @project.reload
