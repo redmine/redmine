@@ -89,23 +89,23 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_index_with_project
-    Setting.display_subprojects_issues = 0
-    get(:index, :params => {:project_id => 1})
-    assert_response :success
+    with_settings :display_subprojects_issues => '0' do
+      get(:index, :params => {:project_id => 1})
+      assert_response :success
 
-    # query form
-    assert_select 'form#query_form' do
-      assert_select 'div#query_form_with_buttons.hide-when-print' do
-        assert_select 'div#query_form_content' do
-          assert_select 'fieldset#filters.collapsible'
-          assert_select 'fieldset#options'
+      # query form
+      assert_select 'form#query_form' do
+        assert_select 'div#query_form_with_buttons.hide-when-print' do
+          assert_select 'div#query_form_content' do
+            assert_select 'fieldset#filters.collapsible'
+            assert_select 'fieldset#options'
+          end
+          assert_select 'p.buttons'
         end
-        assert_select 'p.buttons'
       end
+      assert_select 'a[href="/issues/1"]', :text => /Cannot print recipes/
+      assert_select 'a[href="/issues/5"]', 0
     end
-
-    assert_select 'a[href="/issues/1"]', :text => /Cannot print recipes/
-    assert_select 'a[href="/issues/5"]', 0
   end
 
   def test_index_with_project_and_subprojects
