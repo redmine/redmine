@@ -28,17 +28,21 @@ class TimeEntry < ActiveRecord::Base
   belongs_to :activity, :class_name => 'TimeEntryActivity'
 
   acts_as_customizable
-  acts_as_event :title =>
-                  Proc.new {|o|
-                    related   = o.issue if o.issue && o.issue.visible?
-                    related ||= o.project
-                    "#{l_hours(o.hours)} (#{related.event_title})"
-                  },
-                :url => Proc.new {|o| {:controller => 'timelog', :action => 'index', :project_id => o.project, :issue_id => o.issue}},
-                :author => :user,
-                :group => :issue,
-                :description => :comments
-
+  acts_as_event(
+    :title =>
+      Proc.new do |o|
+        related   = o.issue if o.issue && o.issue.visible?
+        related ||= o.project
+        "#{l_hours(o.hours)} (#{related.event_title})"
+      end,
+    :url =>
+      Proc.new do |o|
+        {:controller => 'timelog', :action => 'index', :project_id => o.project, :issue_id => o.issue}
+      end,
+    :author => :user,
+    :group => :issue,
+    :description => :comments
+  )
   acts_as_activity_provider :timestamp => "#{table_name}.created_on",
                             :author_key => :user_id,
                             :scope => proc { joins(:project).preload(:project) }
@@ -66,7 +70,9 @@ class TimeEntry < ActiveRecord::Base
     where("#{Issue.table_name}.root_id = #{issue.root_id} AND #{Issue.table_name}.lft >= #{issue.lft} AND #{Issue.table_name}.rgt <= #{issue.rgt}")
   }
 
-  safe_attributes 'user_id', 'hours', 'comments', 'project_id', 'issue_id', 'activity_id', 'spent_on', 'custom_field_values', 'custom_fields'
+  safe_attributes 'user_id', 'hours', 'comments', 'project_id',
+                  'issue_id', 'activity_id', 'spent_on',
+                  'custom_field_values', 'custom_fields'
 
   # Returns a SQL conditions string used to find all time entries visible by the specified user
   def self.visible_condition(user, options={})
