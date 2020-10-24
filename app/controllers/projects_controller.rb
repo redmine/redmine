@@ -108,7 +108,7 @@ class ProjectsController < ApplicationController
         @project.add_default_member(User.current)
       end
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_create)
           if params[:continue]
             attrs = {:parent_id => @project.parent_id}.reject {|k,v| v.nil?}
@@ -116,8 +116,15 @@ class ProjectsController < ApplicationController
           else
             redirect_to settings_project_path(@project)
           end
-        }
-        format.api  { render :action => 'show', :status => :created, :location => url_for(:controller => 'projects', :action => 'show', :id => @project.id) }
+        end
+        format.api do
+          render(
+            :action => 'show',
+            :status => :created,
+            :location => url_for(:controller => 'projects',
+                                 :action => 'show', :id => @project.id)
+          )
+        end
       end
     else
       respond_to do |format|
