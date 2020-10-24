@@ -895,7 +895,7 @@ module ApplicationHelper
         # search for the picture in attachments
         if found = Attachment.latest_attach(attachments, CGI.unescape(filename))
           image_url = download_named_attachment_url(found, found.filename, :only_path => only_path)
-          desc = found.description.to_s.gsub('"', '')
+          desc = found.description.to_s.delete('"')
           if !desc.blank? && alttext.blank?
             alt = " title=\"#{desc}\" alt=\"#{desc}\""
           end

@@ -25,7 +25,7 @@ class RepositoryCvsTest < ActiveSupport::TestCase
   include Redmine::I18n
 
   REPOSITORY_PATH = repository_path('cvs')
-  REPOSITORY_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
+  REPOSITORY_PATH.tr!('/', "\\") if Redmine::Platform.mswin?
   # CVS module
   MODULE_NAME    = 'test'
   CHANGESETS_NUM = 7

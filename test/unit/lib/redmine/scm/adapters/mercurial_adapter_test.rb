@@ -85,7 +85,7 @@ class MercurialAdapterTest < ActiveSupport::TestCase
       [REPOSITORY_PATH, REPOSITORY_PATH + "/",
        REPOSITORY_PATH + "//"].each do |repo|
         adp = Redmine::Scm::Adapters::MercurialAdapter.new(repo)
-        repo_path =  adp.info.root_url.gsub(/\\/, "/")
+        repo_path =  adp.info.root_url.tr('\\', "/")
         assert_equal REPOSITORY_PATH, repo_path
         assert_equal '39', adp.info.lastrev.revision
         assert_equal '04aed9840e9266e535f5f20f7e42c9f9f84f9cf4', adp.info.lastrev.scmid

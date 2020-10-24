@@ -38,7 +38,7 @@ module Redmine
             s.gsub!(%r{^((\d+)\s*(h|hours?))?\s*((\d+)\s*(m|min)?)?$}i) { |m| ($1 || $4) ? ($2.to_i + $5.to_i / 60.0) : m[0] }
           end
           # 2,5 => 2.5
-          s.gsub!(',', '.')
+          s.tr!(',', '.')
           begin; Kernel.Float(s); rescue; nil; end
         end
       end

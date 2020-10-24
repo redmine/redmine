@@ -26,7 +26,7 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
            :repositories, :enabled_modules
 
   REPOSITORY_PATH = Rails.root.join('tmp/test/git_repository').to_s
-  REPOSITORY_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
+  REPOSITORY_PATH.tr!('/', "\\") if Redmine::Platform.mswin?
   PRJ_ID     = 3
   NUM_REV = 28
 

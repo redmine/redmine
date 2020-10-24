@@ -26,7 +26,7 @@ class RepositoriesCvsControllerTest < Redmine::RepositoryControllerTest
            :repositories, :enabled_modules
 
   REPOSITORY_PATH = Rails.root.join('tmp/test/cvs_repository').to_s
-  REPOSITORY_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
+  REPOSITORY_PATH.tr!('/', "\\") if Redmine::Platform.mswin?
   # CVS module
   MODULE_NAME = 'test'
   PRJ_ID = 3

@@ -25,10 +25,10 @@ class RepositoryGitTest < ActiveSupport::TestCase
   include Redmine::I18n
 
   REPOSITORY_PATH = Rails.root.join('tmp/test/git_repository').to_s
-  REPOSITORY_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
+  REPOSITORY_PATH.tr!('/', "\\") if Redmine::Platform.mswin?
 
   REPOSITORY_UTF8_PATH = Rails.root.join('tmp/test/git_utf8_repository').to_s
-  REPOSITORY_UTF8_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
+  REPOSITORY_UTF8_PATH.tr!('/', "\\") if Redmine::Platform.mswin?
 
   NUM_REV = 28
   NUM_HEAD = 8

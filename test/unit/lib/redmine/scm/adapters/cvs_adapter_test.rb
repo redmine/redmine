@@ -21,7 +21,7 @@ require File.expand_path('../../../../../../test_helper', __FILE__)
 
 class CvsAdapterTest < ActiveSupport::TestCase
   REPOSITORY_PATH = Rails.root.join('tmp/test/cvs_repository').to_s
-  REPOSITORY_PATH.gsub!(/\//, "\\") if Redmine::Platform.mswin?
+  REPOSITORY_PATH.tr!('/', "\\") if Redmine::Platform.mswin?
   MODULE_NAME = 'test'
 
   if File.directory?(REPOSITORY_PATH)

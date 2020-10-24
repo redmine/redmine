@@ -1423,7 +1423,7 @@ class ApplicationHelperTest < Redmine::HelperTest
                '</ul>'
 
     @project = Project.find(1)
-    assert textilizable(raw).gsub("\n", "").include?(expected)
+    assert textilizable(raw).delete("\n").include?(expected)
   end
 
   def test_table_of_content_should_generate_unique_anchors
@@ -1447,7 +1447,7 @@ class ApplicationHelperTest < Redmine::HelperTest
                   '</li>' +
                 '</ul>'
     @project = Project.find(1)
-    result = textilizable(raw).gsub("\n", "")
+    result = textilizable(raw).delete("\n")
     assert_include expected, result
     assert_include '<a name="Subtitle">', result
     assert_include '<a name="Subtitle-2">', result
@@ -1468,7 +1468,7 @@ class ApplicationHelperTest < Redmine::HelperTest
                '<li><a href="#Child-page-1">Child page 1</a></li>' +
                '</ul>'
     @project = Project.find(1)
-    assert textilizable(raw).gsub("\n", "").include?(expected)
+    assert textilizable(raw).delete("\n").include?(expected)
   end
 
   def test_toc_with_textile_formatting_should_be_parsed
@@ -1519,7 +1519,7 @@ class ApplicationHelperTest < Redmine::HelperTest
         :edit_section_links =>
           {:controller => 'wiki', :action => 'edit',
            :project_id => '1', :id => 'Test'}
-      ).gsub("\n", "")
+      ).delete("\n")
     # heading that contains inline code
     assert_match(
       Regexp.new('<div class="contextual heading-2" title="Edit this section" id="section-4">' +

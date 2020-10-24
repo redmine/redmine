@@ -565,11 +565,6 @@ Performance/RedundantMatch:
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
 
 # Cop supports --auto-correct.
-Performance/Squeeze:
-  Exclude:
-    - 'test/unit/lib/redmine/scm/adapters/bazaar_adapter_test.rb'
-
-# Cop supports --auto-correct.
 # Configuration parameters: AutoCorrect.
 Performance/StringInclude:
   Exclude:
@@ -577,23 +572,6 @@ Performance/StringInclude:
     - 'test/integration/sessions_test.rb'
     - 'test/unit/lib/redmine/scm/adapters/bazaar_adapter_test.rb'
     - 'test/unit/lib/redmine/wiki_formatting/macros_test.rb'
-
-# Cop supports --auto-correct.
-Performance/StringReplacement:
-  Exclude:
-    - 'app/helpers/application_helper.rb'
-    - 'app/helpers/imports_helper.rb'
-    - 'app/helpers/settings_helper.rb'
-    - 'lib/redmine/core_ext/string/conversions.rb'
-    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
-    - 'test/functional/repositories_cvs_controller_test.rb'
-    - 'test/functional/repositories_git_controller_test.rb'
-    - 'test/helpers/application_helper_test.rb'
-    - 'test/integration/repositories_git_test.rb'
-    - 'test/unit/lib/redmine/scm/adapters/cvs_adapter_test.rb'
-    - 'test/unit/lib/redmine/scm/adapters/mercurial_adapter_test.rb'
-    - 'test/unit/repository_cvs_test.rb'
-    - 'test/unit/repository_git_test.rb'
 
 # Cop supports --auto-correct.
 Performance/Sum:

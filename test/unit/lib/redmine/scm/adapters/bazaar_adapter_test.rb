@@ -21,7 +21,7 @@ require File.expand_path('../../../../../../test_helper', __FILE__)
 
 class BazaarAdapterTest < ActiveSupport::TestCase
   REPOSITORY_PATH = Rails.root.join('tmp/test/bazaar_repository').to_s
-  REPOSITORY_PATH.gsub!(/\/+/, '/')
+  REPOSITORY_PATH.squeeze!('/')
 
   if File.directory?(REPOSITORY_PATH)
     def setup
