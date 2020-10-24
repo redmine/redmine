@@ -1401,16 +1401,16 @@ module ApplicationHelper
     args << {} unless args.last.is_a?(Hash)
     options = args.last
     if args.first.is_a?(Symbol)
-      options.merge!(:as => args.shift)
+      options[:as] = args.shift
     end
-    options.merge!({:builder => Redmine::Views::LabelledFormBuilder})
+    options[:builder] = Redmine::Views::LabelledFormBuilder
     form_for(*args, &proc)
   end
 
   def labelled_fields_for(*args, &proc)
     args << {} unless args.last.is_a?(Hash)
     options = args.last
-    options.merge!({:builder => Redmine::Views::LabelledFormBuilder})
+    options[:builder] = Redmine::Views::LabelledFormBuilder
     fields_for(*args, &proc)
   end
 

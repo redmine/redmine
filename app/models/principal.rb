@@ -80,7 +80,7 @@ class Principal < ActiveRecord::Base
       if tokens.present?
         sql << ' OR ('
         sql << tokens.map.with_index do |token, index|
-          params.merge!(:"token_#{index}" => token)
+          params[:"token_#{index}"] = token
           "(LOWER(#{table_name}.firstname) LIKE LOWER(:token_#{index}) OR LOWER(#{table_name}.lastname) LIKE LOWER(:token_#{index}))"
         end.join(' AND ')
         sql << ')'

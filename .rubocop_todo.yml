@@ -565,22 +565,6 @@ Performance/RedundantMatch:
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
 
 # Cop supports --auto-correct.
-# Configuration parameters: MaxKeyValuePairs.
-Performance/RedundantMerge:
-  Exclude:
-    - 'app/controllers/issues_controller.rb'
-    - 'app/helpers/application_helper.rb'
-    - 'app/helpers/avatars_helper.rb'
-    - 'app/helpers/custom_fields_helper.rb'
-    - 'app/helpers/workflows_helper.rb'
-    - 'app/models/auth_source_ldap.rb'
-    - 'app/models/principal.rb'
-    - 'lib/redmine/access_control.rb'
-    - 'test/functional/imports_controller_test.rb'
-    - 'test/unit/issue_import_test.rb'
-    - 'test/unit/time_entry_import_test.rb'
-
-# Cop supports --auto-correct.
 Performance/Squeeze:
   Exclude:
     - 'test/unit/lib/redmine/scm/adapters/bazaar_adapter_test.rb'

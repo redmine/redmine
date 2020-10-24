@@ -190,7 +190,7 @@ module CustomFieldsHelper
     api.array :custom_fields do
       custom_values.each do |custom_value|
         attrs = {:id => custom_value.custom_field_id, :name => custom_value.custom_field.name}
-        attrs.merge!(:multiple => true) if custom_value.custom_field.multiple?
+        attrs[:multiple] = true if custom_value.custom_field.multiple?
         api.custom_field attrs do
           if custom_value.value.is_a?(Array)
             api.array :value do

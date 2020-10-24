@@ -84,7 +84,7 @@ module Redmine
 
       def permission(name, hash, options={})
         @permissions ||= []
-        options.merge!(:project_module => @project_module)
+        options[:project_module] = @project_module
         @permissions << Permission.new(name, hash, options)
       end
 

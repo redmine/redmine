@@ -187,7 +187,7 @@ class AuthSourceLdap < AuthSource
       }
     end
     unless ldap_user.blank? && ldap_password.blank?
-      options.merge!(:auth => {:method => :simple, :username => ldap_user, :password => ldap_password})
+      options[:auth] = {:method => :simple, :username => ldap_user, :password => ldap_password}
     end
     Net::LDAP.new options
   end

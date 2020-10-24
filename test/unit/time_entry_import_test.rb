@@ -87,7 +87,7 @@ class TimeEntryImportTest < ActiveSupport::TestCase
 
   def test_maps_activity_to_column_value
     import = generate_import_with_mapping
-    import.mapping.merge!('activity' => '5')
+    import.mapping['activity'] = '5'
     import.save!
 
     # N.B. last row is not imported due to the usage of a disabled activity
@@ -116,7 +116,7 @@ class TimeEntryImportTest < ActiveSupport::TestCase
     overtime_cf = CustomField.find(10)
 
     import = generate_import_with_mapping
-    import.mapping.merge!('cf_10' => '6')
+    import.mapping['cf_10'] = '6'
     import.save!
     first, second, third, fourth = new_records(TimeEntry, 4) { import.run }
 
@@ -142,7 +142,7 @@ class TimeEntryImportTest < ActiveSupport::TestCase
     Role.find_by_name('Manager').add_permission! :log_time_for_other_users
 
     import = generate_import_with_mapping
-    import.mapping.merge!('user' => 'value:3')
+    import.mapping['user'] = 'value:3'
     import.save!
     first, second, third, fourth = new_records(TimeEntry, 4) { import.run }
 

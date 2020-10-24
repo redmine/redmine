@@ -405,7 +405,7 @@ class ImportsControllerTest < Redmine::ControllerTest
 
   def test_show_with_errors_should_show_unsaved_items
     import = generate_import_with_mapping
-    import.mapping.merge! 'subject' => 20
+    import.mapping['subject'] = 20
     import.run
     assert_not_equal 0, import.unsaved_items.count
 

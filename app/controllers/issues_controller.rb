@@ -666,7 +666,7 @@ class IssuesController < ApplicationController
       if params[:project_id]
         redirect_to new_project_issue_path(@issue.project, url_params)
       else
-        url_params[:issue].merge! :project_id => @issue.project_id
+        url_params[:issue][:project_id] = @issue.project_id
         redirect_to new_issue_path(url_params)
       end
     else

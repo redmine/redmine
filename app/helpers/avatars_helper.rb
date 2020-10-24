@@ -23,14 +23,14 @@ module AvatarsHelper
   def assignee_avatar(user, options={})
     return '' unless user
 
-    options.merge!(:title => l(:field_assigned_to) + ": " + user.name)
+    options[:title] = l(:field_assigned_to) + ": " + user.name
     avatar(user, options).to_s.html_safe
   end
 
   def author_avatar(user, options={})
     return '' unless user
 
-    options.merge!(:title => l(:field_author) + ": " + user.name)
+    options[:title] = l(:field_author) + ": " + user.name
     avatar(user, options).to_s.html_safe
   end
 
@@ -38,7 +38,7 @@ module AvatarsHelper
   # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
   def avatar(user, options = { })
     if Setting.gravatar_enabled?
-      options.merge!(:default => Setting.gravatar_default)
+      options[:default] = Setting.gravatar_default
       options[:class] = GravatarHelper::DEFAULT_OPTIONS[:class] + " " + options[:class] if options[:class]
       email = nil
       if user.respond_to?(:mail)

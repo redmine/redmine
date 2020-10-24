@@ -75,7 +75,7 @@ class IssueImportTest < ActiveSupport::TestCase
 
   def test_mapping_with_fixed_tracker
     import = generate_import_with_mapping
-    import.mapping.merge!('tracker' => 'value:2')
+    import.mapping['tracker'] = 'value:2'
     import.save!
 
     issues = new_records(Issue, 3) { import.run }
@@ -84,7 +84,7 @@ class IssueImportTest < ActiveSupport::TestCase
 
   def test_mapping_with_mapped_tracker
     import = generate_import_with_mapping
-    import.mapping.merge!('tracker' => '13')
+    import.mapping['tracker'] = '13'
     import.save!
 
     issues = new_records(Issue, 3) { import.run }
@@ -95,7 +95,7 @@ class IssueImportTest < ActiveSupport::TestCase
     Tracker.find_by_name('Feature request').update!(:name => 'Feature')
 
     import = generate_import_with_mapping
-    import.mapping.merge!('tracker' => '13')
+    import.mapping['tracker'] = '13'
     import.save!
     import.run
 
@@ -106,7 +106,7 @@ class IssueImportTest < ActiveSupport::TestCase
 
   def test_status_should_be_set
     import = generate_import_with_mapping
-    import.mapping.merge!('status' => '14')
+    import.mapping['status'] = '14'
     import.save!
 
     issues = new_records(Issue, 3) { import.run }
@@ -115,7 +115,7 @@ class IssueImportTest < ActiveSupport::TestCase
 
   def test_parent_should_be_set
     import = generate_import_with_mapping
-    import.mapping.merge!('parent_issue_id' => '5')
+    import.mapping['parent_issue_id'] = '5'
     import.save!
 
     issues = new_records(Issue, 3) { import.run }
@@ -126,7 +126,7 @@ class IssueImportTest < ActiveSupport::TestCase
 
   def test_import_utf8_with_bom
     import = generate_import_with_mapping('import_issues_utf8_with_bom.csv')
-    import.settings.merge!('encoding' => 'UTF-8')
+    import.settings['encoding'] = 'UTF-8'
     import.save
 
     issues = new_records(Issue,3) { import.run }
@@ -275,7 +275,7 @@ class IssueImportTest < ActiveSupport::TestCase
 
   def test_assignee_should_be_set
     import = generate_import_with_mapping
-    import.mapping.merge!('assigned_to' => '11')
+    import.mapping['assigned_to'] = '11'
     import.save!
 
     issues = new_records(Issue, 3) { import.run }
@@ -285,7 +285,7 @@ class IssueImportTest < ActiveSupport::TestCase
   def test_user_custom_field_should_be_set
     field = IssueCustomField.generate!(:field_format => 'user', :is_for_all => true, :trackers => Tracker.all)
     import = generate_import_with_mapping
-    import.mapping.merge!("cf_#{field.id}" => '11')
+    import.mapping["cf_#{field.id}"] = '11'
     import.save!
 
     issues = new_records(Issue, 3) { import.run }
@@ -297,7 +297,7 @@ class IssueImportTest < ActiveSupport::TestCase
     field.tracker_ids = Tracker.all.ids
     field.save!
     import = generate_import_with_mapping
-    import.mapping.merge!("cf_1" => '8')
+    import.mapping["cf_1"] = '8'
     import.save!
 
     issues = new_records(Issue, 3) { import.run }
@@ -312,7 +312,7 @@ class IssueImportTest < ActiveSupport::TestCase
     field.multiple = true
     field.save!
     import = generate_import_with_mapping
-    import.mapping.merge!("cf_1" => '15')
+    import.mapping["cf_1"] = '15'
     import.save!
 
     issues = new_records(Issue, 3) { import.run }
@@ -323,7 +323,7 @@ class IssueImportTest < ActiveSupport::TestCase
 
   def test_is_private_should_be_set_based_on_user_locale
     import = generate_import_with_mapping
-    import.mapping.merge!('is_private' => '6')
+    import.mapping['is_private'] = '6'
     import.save!
 
     issues = new_records(Issue, 3) { import.run }
@@ -333,7 +333,7 @@ class IssueImportTest < ActiveSupport::TestCase
   def test_dates_should_be_parsed_using_date_format_setting
     field = IssueCustomField.generate!(:field_format => 'date', :is_for_all => true, :trackers => Tracker.all)
     import = generate_import_with_mapping('import_dates.csv')
-    import.settings.merge!('date_format' => Import::DATE_FORMATS[1])
+    import.settings['date_format'] = Import::DATE_FORMATS[1]
     import.mapping.merge!('tracker' => 'value:1', 'subject' => '0', 'start_date' => '1', 'due_date' => '2', "cf_#{field.id}" => '3')
     import.save!
 
@@ -345,7 +345,7 @@ class IssueImportTest < ActiveSupport::TestCase
 
     # Tests using other date formats
     import = generate_import_with_mapping('import_dates_ja.csv')
-    import.settings.merge!('date_format' => Import::DATE_FORMATS[3])
+    import.settings['date_format'] = Import::DATE_FORMATS[3]
     import.mapping.merge!('tracker' => 'value:1', 'subject' => '0', 'start_date' => '1')
     import.save!
 
@@ -377,7 +377,7 @@ class IssueImportTest < ActiveSupport::TestCase
     system_version.save!
 
     import = generate_import_with_mapping
-    import.mapping.merge!('fixed_version' => '9')
+    import.mapping['fixed_version'] = '9'
     import.save!
 
     issues = new_records(Issue, 3) { import.run }
