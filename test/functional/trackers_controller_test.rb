@@ -193,9 +193,9 @@ class TrackersControllerTest < Redmine::ControllerTest
   end
 
   def test_move_lower
-   tracker = Tracker.find_by_position(1)
-   put :update, :params => {:id => 1, :tracker => {:position => '2'}}
-   assert_equal 2, tracker.reload.position
+    tracker = Tracker.find_by_position(1)
+    put :update, :params => {:id => 1, :tracker => {:position => '2'}}
+    assert_equal 2, tracker.reload.position
   end
 
   def test_destroy
