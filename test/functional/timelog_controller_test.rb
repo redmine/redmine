@@ -233,16 +233,20 @@ class TimelogControllerTest < Redmine::ControllerTest
   def test_post_create
     @request.session[:user_id] = 3
     assert_difference 'TimeEntry.count' do
-      post :create, :params => {
-        :project_id => 1,
-        :time_entry => {:comments => 'Some work on TimelogControllerTest',
-          # Not the default activity
-          :activity_id => '11',
-          :spent_on => '2008-03-14',
-          :issue_id => '1',
-          :hours => '7.3'
+      post(
+        :create,
+        :params => {
+          :project_id => 1,
+          :time_entry => {
+            :comments => 'Some work on TimelogControllerTest',
+            # Not the default activity
+            :activity_id => '11',
+            :spent_on => '2008-03-14',
+            :issue_id => '1',
+            :hours => '7.3'
+          }
         }
-      }
+      )
       assert_redirected_to '/projects/ecookbook/time_entries'
     end
 
@@ -363,19 +367,21 @@ class TimelogControllerTest < Redmine::ControllerTest
   def test_create_for_other_user
     Role.find_by_name('Manager').add_permission! :log_time_for_other_users
     @request.session[:user_id] = 2
-
-    post :create, :params => {
-      :project_id => 1,
-      :time_entry => {:comments => 'Some work on TimelogControllerTest',
-        # Not the default activity
-        :activity_id => '11',
-        :spent_on => '2008-03-14',
-        :issue_id => '1',
-        :hours => '7.3',
-        :user_id => '3'
+    post(
+      :create,
+      :params => {
+        :project_id => 1,
+        :time_entry => {
+          :comments => 'Some work on TimelogControllerTest',
+          # Not the default activity
+          :activity_id => '11',
+          :spent_on => '2008-03-14',
+          :issue_id => '1',
+          :hours => '7.3',
+          :user_id => '3'
+        }
       }
-    }
-
+    )
     assert_redirected_to '/projects/ecookbook/time_entries'
 
     t = TimeEntry.last
@@ -386,19 +392,21 @@ class TimelogControllerTest < Redmine::ControllerTest
   def test_create_for_other_user_should_fail_without_permission
     Role.find_by_name('Manager').remove_permission! :log_time_for_other_users
     @request.session[:user_id] = 2
-
-    post :create, :params => {
-      :project_id => 1,
-      :time_entry => {:comments => 'Some work on TimelogControllerTest',
-        # Not the default activity
-        :activity_id => '11',
-        :spent_on => '2008-03-14',
-        :issue_id => '1',
-        :hours => '7.3',
-        :user_id => '3'
+    post(
+      :create,
+      :params => {
+        :project_id => 1,
+        :time_entry => {
+          :comments => 'Some work on TimelogControllerTest',
+          # Not the default activity
+          :activity_id => '11',
+          :spent_on => '2008-03-14',
+          :issue_id => '1',
+          :hours => '7.3',
+          :user_id => '3'
+        }
       }
-    }
-
+    )
     assert_response :success
     assert_select_error /User is invalid/
   end
