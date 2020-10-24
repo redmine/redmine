@@ -276,13 +276,13 @@ module Redmine
           col_width = []
           unless query.inline_columns.empty?
             col_width = calc_col_width(issues, query, table_width, pdf)
-            table_width = col_width.inject(0, :+)
+            table_width = col_width.sum
           end
 
           # use full width if the query has block columns (description, last_notes or full width custom fieds)
           if table_width > 0 && query.block_columns.any?
             col_width = col_width.map {|w| w * (page_width - right_margin - left_margin) / table_width}
-            table_width = col_width.inject(0, :+)
+            table_width = col_width.sum
           end
 
           # title
@@ -418,7 +418,7 @@ module Redmine
             if table_width > col_min * col_width_avg.length
               table_width -= col_min * col_width_avg.length
             else
-              ratio = table_width / col_width_avg.inject(0, :+)
+              ratio = table_width / col_width_avg.sum
               return col_width = col_width_avg.map {|w| w * ratio}
             end
           end
@@ -451,11 +451,11 @@ module Redmine
           col_width_avg.map! {|x| x / k}
 
           # calculate columns width
-          ratio = table_width / col_width_avg.inject(0, :+)
+          ratio = table_width / col_width_avg.sum
           col_width = col_width_avg.map {|w| w * ratio}
 
           # correct max word width if too many columns
-          ratio = table_width / word_width_max.inject(0, :+)
+          ratio = table_width / word_width_max.sum
           word_width_max.map! {|v| v * ratio} if ratio < 1
 
           # correct and lock width of some columns
@@ -479,7 +479,7 @@ module Redmine
           while done == 0
             # calculate free & locked columns width
             done = 1
-            ratio = table_width / col_width.inject(0, :+)
+            ratio = table_width / col_width.sum
 
             # correct columns width
             col_width.each_with_index do |w,i|
@@ -500,7 +500,7 @@ module Redmine
             end
           end
 
-          ratio = table_width / col_width.inject(0, :+)
+          ratio = table_width / col_width.sum
           col_width.map! {|v| v * ratio + col_min}
           col_width
         end
