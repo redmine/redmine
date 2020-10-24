@@ -45,7 +45,8 @@ Layout/SpaceBeforeBlockBraces:
   Enabled: false
 
 Layout/SpaceInsideBlockBraces:
-  Enabled: false
+  EnforcedStyle: no_space
+  SpaceBeforeBlockParameters: false
 
 Layout/SpaceInsideHashLiteralBraces:
   Enabled: false
