@@ -177,9 +177,15 @@ class VersionsController < ApplicationController
 
   def retrieve_selected_tracker_ids(selectable_trackers, default_trackers=nil)
     if ids = params[:tracker_ids]
-      @selected_tracker_ids = (ids.is_a? Array) ? ids.collect { |id| id.to_i.to_s } : ids.split('/').collect { |id| id.to_i.to_s }
+      @selected_tracker_ids =
+        if ids.is_a? Array
+          ids.collect {|id| id.to_i.to_s}
+        else
+          ids.split('/').collect {|id| id.to_i.to_s}
+        end
     else
-      @selected_tracker_ids = (default_trackers || selectable_trackers).collect {|t| t.id.to_s }
+      @selected_tracker_ids =
+        (default_trackers || selectable_trackers).collect {|t| t.id.to_s}
     end
   end
 end
