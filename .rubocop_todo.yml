@@ -524,6 +524,34 @@ Naming/VariableNumber:
     - 'test/unit/lib/redmine/scm/adapters/mercurial_adapter_test.rb'
     - 'test/unit/project_test.rb'
 
+# Cop supports --auto-correct.
+Performance/AncestorsInclude:
+  Exclude:
+    - 'test/unit/document_category_test.rb'
+    - 'test/unit/issue_priority_test.rb'
+    - 'test/unit/time_entry_activity_test.rb'
+
+# Configuration parameters: MinSize.
+Performance/CollectionLiteralInLoop:
+  Exclude:
+    - 'app/helpers/imports_helper.rb'
+    - 'app/helpers/queries_helper.rb'
+    - 'app/helpers/settings_helper.rb'
+    - 'app/helpers/timelog_helper.rb'
+    - 'app/models/issue.rb'
+    - 'app/models/workflow_transition.rb'
+    - 'lib/redmine/helpers/time_report.rb'
+    - 'lib/redmine/scm/adapters/filesystem_adapter.rb'
+    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
+    - 'test/functional/issues_custom_fields_visibility_test.rb'
+    - 'test/functional/repositories_git_controller_test.rb'
+    - 'test/functional/repositories_mercurial_controller_test.rb'
+    - 'test/functional/timelog_custom_fields_visibility_test.rb'
+    - 'test/unit/lib/redmine/scm/adapters/git_adapter_test.rb'
+    - 'test/unit/lib/redmine/scm/adapters/mercurial_adapter_test.rb'
+    - 'test/unit/repository_git_test.rb'
+    - 'test/unit/repository_mercurial_test.rb'
+
 Performance/FixedSize:
   Exclude:
     - 'test/integration/api_test/issues_test.rb'
@@ -553,6 +581,20 @@ Performance/RedundantMerge:
     - 'test/unit/time_entry_import_test.rb'
 
 # Cop supports --auto-correct.
+Performance/Squeeze:
+  Exclude:
+    - 'test/unit/lib/redmine/scm/adapters/bazaar_adapter_test.rb'
+
+# Cop supports --auto-correct.
+# Configuration parameters: AutoCorrect.
+Performance/StringInclude:
+  Exclude:
+    - 'test/functional/versions_controller_test.rb'
+    - 'test/integration/sessions_test.rb'
+    - 'test/unit/lib/redmine/scm/adapters/bazaar_adapter_test.rb'
+    - 'test/unit/lib/redmine/wiki_formatting/macros_test.rb'
+
+# Cop supports --auto-correct.
 Performance/StringReplacement:
   Exclude:
     - 'app/helpers/application_helper.rb'
@@ -568,6 +610,11 @@ Performance/StringReplacement:
     - 'test/unit/lib/redmine/scm/adapters/mercurial_adapter_test.rb'
     - 'test/unit/repository_cvs_test.rb'
     - 'test/unit/repository_git_test.rb'
+
+# Cop supports --auto-correct.
+Performance/Sum:
+  Exclude:
+    - 'app/helpers/issues_helper.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: Include.
