@@ -68,16 +68,20 @@ module Redmine
             begin
               doc = parse_xml(output)
               # root_url = doc.elements["info/entry/repository/root"].text
-              info = Info.new({:root_url => doc['info']['entry']['repository']['root']['__content__'],
-                               :lastrev =>
-                                 Revision.new(
-                                   {
-                                     :identifier => doc['info']['entry']['commit']['revision'],
-                                     :time => Time.parse(doc['info']['entry']['commit']['date']['__content__']).localtime,
-                                     :author => (doc['info']['entry']['commit']['author'] ? doc['info']['entry']['commit']['author']['__content__'] : "")
-                                   }
-                                 )
-                             })
+              info =
+                Info.new(
+                  {
+                    :root_url => doc['info']['entry']['repository']['root']['__content__'],
+                    :lastrev =>
+                    Revision.new(
+                      {
+                        :identifier => doc['info']['entry']['commit']['revision'],
+                        :time => Time.parse(doc['info']['entry']['commit']['date']['__content__']).localtime,
+                        :author => (doc['info']['entry']['commit']['author'] ? doc['info']['entry']['commit']['author']['__content__'] : "")
+                      }
+                    )
+                  }
+                )
             rescue
             end
           end
@@ -108,19 +112,23 @@ module Redmine
                 next if entry['kind'] == 'dir' && commit_date.nil?
 
                 name = entry['name']['__content__']
-                entries << Entry.new({:name => CGI.unescape(name),
-                            :path => ((path.empty? ? "" : "#{path}/") + name),
-                            :kind => entry['kind'],
-                            :size => ((s = entry['size']) ? s['__content__'].to_i : nil),
-                            :lastrev =>
-                              Revision.new(
-                                {
-                                  :identifier => commit['revision'],
-                                  :time => Time.parse(commit_date['__content__'].to_s).localtime,
-                                  :author => ((a = commit['author']) ? a['__content__'] : nil)
-                                }
-                              )
-                            })
+                entries <<
+                  Entry.new(
+                    {
+                      :name => CGI.unescape(name),
+                      :path => ((path.empty? ? "" : "#{path}/") + name),
+                      :kind => entry['kind'],
+                      :size => ((s = entry['size']) ? s['__content__'].to_i : nil),
+                      :lastrev =>
+                        Revision.new(
+                          {
+                            :identifier => commit['revision'],
+                            :time => Time.parse(commit_date['__content__'].to_s).localtime,
+                            :author => ((a = commit['author']) ? a['__content__'] : nil)
+                          }
+                        )
+                    }
+                  )
               end
             rescue => e
               logger.error("Error parsing svn output: #{e.message}")
@@ -185,12 +193,16 @@ module Redmine
                 end
                 paths.sort_by! {|e| e[:path]}
 
-                revisions << Revision.new({:identifier => logentry['revision'],
-                              :author => (logentry['author'] ? logentry['author']['__content__'] : ""),
-                              :time => Time.parse(logentry['date']['__content__'].to_s).localtime,
-                              :message => logentry['msg']['__content__'],
-                              :paths => paths
-                            })
+                revisions <<
+                  Revision.new(
+                    {
+                      :identifier => logentry['revision'],
+                      :author => (logentry['author'] ? logentry['author']['__content__'] : ""),
+                      :time => Time.parse(logentry['date']['__content__'].to_s).localtime,
+                      :message => logentry['msg']['__content__'],
+                      :paths => paths
+                    }
+                  )
               end
             rescue
             end
