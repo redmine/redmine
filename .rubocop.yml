@@ -49,7 +49,7 @@ Layout/SpaceInsideBlockBraces:
   SpaceBeforeBlockParameters: false
 
 Layout/SpaceInsideHashLiteralBraces:
-  Enabled: false
+  EnforcedStyle: no_space
 
 Lint/RaiseException:
   Enabled: true
