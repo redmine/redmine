@@ -84,9 +84,8 @@ module CustomFieldsHelper
     if custom_value.custom_field.full_text_formatting?
       css += ' wiki-edit'
       data = {
-        :auto_complete => true,
-        :issues_url => auto_complete_issues_path(:project_id => custom_value.customized.project, :q => '')
-      } if custom_value.customized&.try(:project)
+        :auto_complete => true
+      }
     end
     custom_value.custom_field.format.edit_tag(
       self,
@@ -133,8 +132,7 @@ module CustomFieldsHelper
     if custom_field.full_text_formatting?
       css += ' wiki-edit'
       data = {
-        :auto_complete => true,
-        :issues_url => auto_complete_issues_path(:q => '')
+        :auto_complete => true
       }
     end
     custom_field.format.bulk_edit_tag(

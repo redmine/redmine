@@ -16,8 +16,7 @@
 <%= text_area_tag 'content[text]', @text, :cols => 100, :rows => 25, :accesskey => accesskey(:edit),
                   :class => 'wiki-edit',
                   :data => {
-                      :auto_complete => true,
-                      :issues_url => auto_complete_issues_path(:project_id => @project, :q => '')
+                      :auto_complete => true
                   }
 %>
 

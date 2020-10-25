@@ -5,8 +5,7 @@
 <p><%= f.text_area :summary, :cols => 60, :rows => 2 %></p>
 <p><%= f.text_area :description, :required => true, :cols => 60, :rows => 15, :class => 'wiki-edit',
                    :data => {
-                       :auto_complete => true,
-                       :issues_url => auto_complete_issues_path(:project_id => @project, :q => '')
+                       :auto_complete => true
                    }
 %></p>
 <p id="attachments_form"><label><%= l(:label_attachment_plural) %></label><%= render :partial => 'attachments/form', :locals => {:container => @news} %></p>

@@ -38,7 +38,6 @@
                    :rows => [[10, @issue.description.to_s.length / 50].max, 20].min,
                    :data => {
                        :auto_complete => true,
-                       :issues_url => auto_complete_issues_path(:project_id => @issue.project, :q => '')
                    },
                    :no_label => true %>
   <% end %>
@@ -54,6 +53,7 @@
 <% end %>
 
 <% heads_for_wiki_formatter %>
+<%= heads_for_auto_complete(@issue.project) %>
 
 <%= javascript_tag do %>
 $(document).ready(function(){

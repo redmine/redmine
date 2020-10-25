@@ -5,8 +5,7 @@
 <%= label_tag "search-input", l(:description_search), :class => "hidden-for-sighted" %>
 <p><%= text_field_tag 'q', @question, :size => 60, :id => 'search-input',
                       :data => {
-                          :auto_complete => true,
-                          :issues_url => auto_complete_issues_path(:q => '')
+                          :auto_complete => true
                       } %>
 <%= project_select_tag %>
 <%= hidden_field_tag 'all_words', '', :id => nil %>

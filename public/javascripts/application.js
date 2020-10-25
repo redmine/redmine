@@ -1045,11 +1045,15 @@ $(function () {
 
 function inlineAutoComplete(element) {
     'use strict';
-    // do not attach if Tribute is already initialized
-    if (element.dataset.tribute === 'true') {return;}
 
-    const issuesUrl = element.dataset.issuesUrl;
-    const usersUrl = element.dataset.usersUrl;
+    // do not attach if Tribute is already initialized
+    if (element.dataset.tribute === 'true') {return};
+
+    const getDataSource = function(entity) {
+      const dataSources = JSON.parse(rm.AutoComplete.dataSources);
+
+      return dataSources[entity];
+    }
 
     const remoteSearch = function(url, cb) {
       const xhr = new XMLHttpRequest();
@@ -1074,7 +1078,7 @@ function inlineAutoComplete(element) {
         if (event.target.type === 'text' && $(element).attr('autocomplete') != 'off') {
           $(element).attr('autocomplete', 'off');
         }
-        remoteSearch(issuesUrl + text, function (issues) {
+        remoteSearch(getDataSource('issues') + text, function (issues) {
           return cb(issues);
         });
       },

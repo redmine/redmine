@@ -6,8 +6,7 @@
     <%= text_area_tag 'journal[notes]', @journal.notes, :id => "journal_#{@journal.id}_notes", :class => 'wiki-edit',
           :rows => (@journal.notes.blank? ? 10 : [[10, @journal.notes.length / 50].max, 100].min),
           :data => {
-              :auto_complete => true,
-              :issues_url => auto_complete_issues_path(:project_id => @project, :q => '')
+              :auto_complete => true
           }
     %>
     <% if @journal.safe_attribute? 'private_notes' %>

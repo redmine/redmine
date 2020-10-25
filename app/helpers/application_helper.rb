@@ -1741,6 +1741,22 @@ module ApplicationHelper
     end
   end
 
+  def autocomplete_data_sources(project)
+    {
+      issues: auto_complete_issues_path(:project_id => project, :q => '')
+    }
+  end
+
+  def heads_for_auto_complete(project)
+    data_sources = autocomplete_data_sources(project)
+
+    javascript_tag(
+      "rm = window.rm || {};" +
+      "rm.AutoComplete = rm.AutoComplete || {};" +
+      "rm.AutoComplete.dataSources = '#{data_sources.to_json}';"
+    )
+  end
+
   private
 
   def wiki_helper

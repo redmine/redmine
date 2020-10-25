@@ -13,6 +13,7 @@
 <%= stylesheet_link_tag 'rtl', :media => 'all' if l(:direction) == 'rtl' %>
 <%= javascript_heads %>
 <%= heads_for_theme %>
+<%= heads_for_auto_complete(@project) %>
 <%= call_hook :view_layouts_base_html_head %>
 <!-- page specific tags -->
 <%= yield :header_tags -%>
@@ -22,7 +23,6 @@
 <div id="wrapper">
 
 <div class="flyout-menu js-flyout-menu">
-
 
     <% if User.current.logged? || !Setting.login_required? %>
         <div class="flyout-menu__search">
@@ -82,8 +82,7 @@
         </label>
         <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search),
                             :data => {
-                                :auto_complete => true,
-                                :issues_url => auto_complete_issues_path(:q => '')
+                                :auto_complete => true
                             } %>
         <% end %>
         <%= render_project_jump_box %>

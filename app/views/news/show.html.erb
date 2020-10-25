@@ -55,8 +55,7 @@
 <div class="box">
     <%= text_area 'comment', 'comments', :cols => 80, :rows => 15, :class => 'wiki-edit',
                   :data => {
-                    :auto_complete => true,
-                    :issues_url => auto_complete_issues_path(:project_id => @project, :q => '')
+                    :auto_complete => true
                   }
     %>
     <%= wikitoolbar_for 'comment_comments', preview_news_path(:project_id => @project, :id => @news) %>

@@ -5,8 +5,7 @@
 <p><%= f.text_field :title, :required => true, :size => 60 %></p>
 <p><%= f.text_area :description, :cols => 60, :rows => 15, :class => 'wiki-edit',
                   :data => {
-                      :auto_complete => true,
-                      :issues_url => auto_complete_issues_path(:project_id => @project, :q => '')
+                      :auto_complete => true
                   }
 %></p>
 

@@ -221,8 +221,7 @@
 <legend><%= l(:field_notes) %></legend>
 <%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit',
                   :data => {
-                      :auto_complete => true,
-                      :issues_url => auto_complete_issues_path(:project_id => @project, :q => '')
+                      :auto_complete => true
                   }
 %>
 <%= wikitoolbar_for 'notes' %>
