@@ -407,8 +407,8 @@ class Mailer < ActionMailer::Base
   # The email will be sent to the email address specifiedby recipient if provided.
   #
   # Exemple:
-  #   Mailer.deliver_account_activated(user, token)
-  #   Mailer.deliver_account_activated(user, token, 'foo@example.net')
+  #   Mailer.deliver_lost_password(user, token)
+  #   Mailer.deliver_lost_password(user, token, 'foo@example.net')
   def self.deliver_lost_password(user, token, recipient=nil)
     lost_password(user, token, recipient).deliver_later
   end
