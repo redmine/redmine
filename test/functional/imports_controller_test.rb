@@ -44,7 +44,7 @@ class ImportsControllerTest < Redmine::ControllerTest
   end
 
   def test_new_should_display_the_upload_form
-    get :new, :params => { :type => 'IssueImport', :project_id => 'subproject1' }
+    get(:new, :params => {:type => 'IssueImport', :project_id => 'subproject1'})
     assert_response :success
     assert_select 'input[name=?]', 'file'
     assert_select 'input[name=?][type=?][value=?]', 'project_id', 'hidden', 'subproject1'
@@ -52,10 +52,13 @@ class ImportsControllerTest < Redmine::ControllerTest
 
   def test_create_should_save_the_file
     import = new_record(Import) do
-      post :create, :params => {
+      post(
+        :create,
+        :params => {
           :type => 'IssueImport',
           :file => uploaded_test_file('import_issues.csv', 'text/csv')
         }
+      )
       assert_response 302
     end
     assert_equal 2, import.user_id
@@ -65,9 +68,7 @@ class ImportsControllerTest < Redmine::ControllerTest
 
   def test_get_settings_should_display_settings_form
     import = generate_import
-    get :settings, :params => {
-        :id => import.to_param
-      }
+    get(:settings, :params => {:id => import.to_param})
     assert_response :success
     assert_select 'select[name=?]', 'import_settings[separator]'
     assert_select 'select[name=?]', 'import_settings[wrapper]'
@@ -78,7 +79,9 @@ class ImportsControllerTest < Redmine::ControllerTest
   def test_post_settings_should_update_settings
     import = generate_import
 
-    post :settings, :params => {
+    post(
+      :settings,
+      :params => {
         :id => import.to_param,
         :import_settings => {
           :separator => ":",
@@ -87,6 +90,7 @@ class ImportsControllerTest < Redmine::ControllerTest
           :date_format => '%m/%d/%Y'
         }
       }
+    )
     assert_redirected_to "/imports/#{import.to_param}/mapping"
 
     import.reload
@@ -99,7 +103,9 @@ class ImportsControllerTest < Redmine::ControllerTest
   def test_post_settings_should_update_total_items_count
     import = generate_import('import_iso8859-1.csv')
 
-    post :settings, :params => {
+    post(
+      :settings,
+      :params => {
         :id => import.to_param,
         :import_settings => {
           :separator => ";",
@@ -107,6 +113,7 @@ class ImportsControllerTest < Redmine::ControllerTest
           :encoding => "ISO-8859-1"
         }
       }
+    )
     assert_response 302
     import.reload
     assert_equal 2, import.total_items
@@ -115,7 +122,9 @@ class ImportsControllerTest < Redmine::ControllerTest
   def test_post_settings_with_wrong_encoding_should_display_error
     import = generate_import('import_iso8859-1.csv')
 
-    post :settings, :params => {
+    post(
+      :settings,
+      :params => {
         :id => import.to_param,
         :import_settings => {
           :separator => ";",
@@ -123,6 +132,7 @@ class ImportsControllerTest < Redmine::ControllerTest
           :encoding => "UTF-8"
         }
       }
+    )
     assert_response 200
     import.reload
     assert_nil import.total_items
@@ -132,7 +142,9 @@ class ImportsControllerTest < Redmine::ControllerTest
   def test_post_settings_with_invalid_encoding_should_display_error
     import = generate_import('invalid-Shift_JIS.csv')
 
-    post :settings, :params => {
+    post(
+      :settings,
+      :params => {
         :id => import.to_param,
         :import_settings => {
           :separator => ";",
@@ -140,6 +152,7 @@ class ImportsControllerTest < Redmine::ControllerTest
           :encoding => "Shift_JIS"
         }
       }
+    )
     assert_response 200
     import.reload
     assert_nil import.total_items
@@ -151,9 +164,7 @@ class ImportsControllerTest < Redmine::ControllerTest
     import.settings = {'separator' => ";", 'wrapper' => '"', 'encoding' => "ISO-8859-1"}
     import.save!
 
-    get :mapping, :params => {
-        :id => import.to_param
-      }
+    get(:mapping, :params => {:id => import.to_param})
     assert_response :success
 
     assert_select 'select[name=?]', 'import_settings[mapping][subject]' do
@@ -172,9 +183,7 @@ class ImportsControllerTest < Redmine::ControllerTest
     import.settings = {'separator' => ';', 'wrapper'=> '"', 'encoding' => 'ISO-8859-1'}
     import.save!
 
-    get :mapping, :params => {
-        :id => import.to_param
-      }
+    get(:mapping, :params => {:id => import.to_param})
     assert_response :success
 
     # 'subject' should be auto selected because
@@ -219,15 +228,19 @@ class ImportsControllerTest < Redmine::ControllerTest
   def test_post_mapping_should_update_mapping
     import = generate_import('import_iso8859-1.csv')
 
-    post :mapping, :params => {
+    post(
+      :mapping,
+      :params => {
         :id => import.to_param,
         :import_settings => {
           :mapping => {
             :project_id => '1',
             :tracker_id => '2',
-          :subject => '0'}
+            :subject => '0'
+          }
         }
       }
+    )
     assert_redirected_to "/imports/#{import.to_param}/run"
     import.reload
     mapping = import.settings['mapping']
@@ -243,9 +256,7 @@ class ImportsControllerTest < Redmine::ControllerTest
     import.settings = {'separator' => ";", 'wrapper' => '"', 'encoding' => "ISO-8859-1"}
     import.save!
 
-    get :mapping, :params => {
-        :id => import.to_param
-      }
+    get(:mapping, :params => {:id => import.to_param})
 
     assert_response :success
 
@@ -273,9 +284,7 @@ class ImportsControllerTest < Redmine::ControllerTest
     }
     import.save!
 
-    get :mapping, :params => {
-        :id => import.to_param
-      }
+    get(:mapping, :params => {:id => import.to_param})
 
     # 'user' field should be available because User#2 has both
     # 'import_time_entries' and 'log_time_for_other_users' permissions
@@ -291,9 +300,7 @@ class ImportsControllerTest < Redmine::ControllerTest
     import.settings = {'separator' => ";", 'wrapper' => '"', 'encoding' => "ISO-8859-1"}
     import.save!
 
-    get :mapping, :params => {
-        :id => import.to_param
-      }
+    get(:mapping, :params => {:id => import.to_param})
 
     assert_response :success
 
@@ -303,9 +310,7 @@ class ImportsControllerTest < Redmine::ControllerTest
   def test_get_run
     import = generate_import_with_mapping
 
-    get :run, :params => {
-        :id => import
-      }
+    get(:run, :params => {:id => import})
     assert_response :success
     assert_select '#import-progress'
   end
@@ -314,9 +319,7 @@ class ImportsControllerTest < Redmine::ControllerTest
     import = generate_import_with_mapping
 
     assert_difference 'Issue.count', 3 do
-      post :run, :params => {
-          :id => import
-        }
+      post(:run, :params => {:id => import})
       assert_redirected_to "/imports/#{import.to_param}"
     end
 
@@ -333,16 +336,12 @@ class ImportsControllerTest < Redmine::ControllerTest
     import = generate_import_with_mapping
 
     assert_difference 'Issue.count', 2 do
-      post :run, :params => {
-          :id => import
-        }
+      post(:run, :params => {:id => import})
       assert_redirected_to "/imports/#{import.to_param}/run"
     end
 
     assert_difference 'Issue.count', 1 do
-      post :run, :params => {
-          :id => import
-        }
+      post(:run, :params => {:id => import})
       assert_redirected_to "/imports/#{import.to_param}"
     end
 
@@ -353,7 +352,9 @@ class ImportsControllerTest < Redmine::ControllerTest
   def test_post_run_with_notifications
     import = generate_import
 
-    post :settings, :params => {
+    post(
+      :settings,
+      :params => {
         :id => import,
         :import_settings => {
           :separator => ';',
@@ -365,15 +366,13 @@ class ImportsControllerTest < Redmine::ControllerTest
             :tracker => '13',
             :subject => '1',
             :assigned_to => '11',
-          },
-        },
+          }
+        }
       }
-
+    )
     ActionMailer::Base.deliveries.clear
     assert_difference 'Issue.count', 3 do
-      post :run, :params => {
-          :id => import,
-        }
+      post(:run, :params => {:id => import,})
       assert_response :found
     end
     actual_email_count = ActionMailer::Base.deliveries.size
@@ -393,9 +392,7 @@ class ImportsControllerTest < Redmine::ControllerTest
     import.run
     assert_equal 0, import.unsaved_items.count
 
-    get :show, :params => {
-        :id => import.to_param
-      }
+    get(:show, :params => {:id => import.to_param})
     assert_response :success
 
     assert_select 'ul#saved-items'
@@ -409,9 +406,7 @@ class ImportsControllerTest < Redmine::ControllerTest
     import.run
     assert_not_equal 0, import.unsaved_items.count
 
-    get :show, :params => {
-        :id => import.to_param
-      }
+    get(:show, :params => {:id => import.to_param})
     assert_response :success
 
     assert_select 'table#unsaved-items'
