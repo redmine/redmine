@@ -73,13 +73,14 @@ module Redmine
           info = nil
           scm_cmd(*cmd_args) do |io|
             if io.read =~ %r{^(\d+)\r?$}
-              info = Info.new(
-                       {
-                         :root_url => url,
-                         :lastrev =>
-                           Revision.new({:identifier => $1})
-                       }
-                     )
+              info =
+                Info.new(
+                  {
+                    :root_url => url,
+                    :lastrev =>
+                    Revision.new({:identifier => $1})
+                  }
+                )
             end
           end
           info
@@ -106,15 +107,16 @@ module Redmine
 
               name_locale, slash, revision = $3.strip, $4, $5.strip
               name = scm_iconv('UTF-8', @path_encoding, name_locale)
-              entries << Entry.new(
-                           {
-                             :name => name,
-                             :path => ((path.empty? ? "" : "#{path}/") + name),
-                             :kind => (slash.blank? ? 'file' : 'dir'),
-                             :size => nil,
-                             :lastrev => Revision.new(:revision => revision)
-                            }
-                         )
+              entries <<
+                Entry.new(
+                  {
+                    :name => name,
+                    :path => ((path.empty? ? "" : "#{path}/") + name),
+                    :kind => (slash.blank? ? 'file' : 'dir'),
+                    :size => nil,
+                    :lastrev => Revision.new(:revision => revision)
+                  }
+                )
             end
           end
           if logger && logger.debug?
@@ -305,11 +307,12 @@ module Redmine
           full_args.map do |e|
             full_args_locale << scm_iconv(@path_encoding, 'UTF-8', e)
           end
-          ret = shellout(
-                  self.class.sq_bin + ' ' +
-                    full_args_locale.map {|e| shell_quote e.to_s}.join(' '),
-                  &block
-                )
+          ret =
+            shellout(
+              self.class.sq_bin + ' ' +
+                full_args_locale.map {|e| shell_quote e.to_s}.join(' '),
+              &block
+            )
           if $? && $?.exitstatus != 0
             raise ScmCommandAborted, "bzr exited with non-zero status: #{$?.exitstatus}"
           end
@@ -325,11 +328,12 @@ module Redmine
           full_args.map do |e|
             full_args_locale << scm_iconv(@path_encoding, 'UTF-8', e)
           end
-          ret = shellout(
-                  self.class.sq_bin + ' ' +
-                    full_args_locale.map {|e| shell_quote e.to_s}.join(' '),
-                  &block
-                )
+          ret =
+            shellout(
+              self.class.sq_bin + ' ' +
+                full_args_locale.map {|e| shell_quote e.to_s}.join(' '),
+              &block
+            )
           ret
         end
         private :scm_cmd_no_raise
