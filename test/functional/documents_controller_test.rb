@@ -33,9 +33,7 @@ class DocumentsControllerTest < Redmine::ControllerTest
     e = Enumeration.find_by_name('Technical documentation')
     e.update(:is_default => true)
 
-    get :index, :params => {
-        :project_id => 'ecookbook'
-      }
+    get(:index, :params => {:project_id => 'ecookbook'})
     assert_response :success
 
     # Default category selected in the new document form
@@ -48,10 +46,13 @@ class DocumentsControllerTest < Redmine::ControllerTest
   end
 
   def test_index_grouped_by_category
-    get :index, :params => {
+    get(
+      :index,
+      :params => {
         :project_id => 'ecookbook',
         :sort_by => 'category'
       }
+    )
     assert_response :success
     assert_select '#content' do
       # ascending order of DocumentCategory#id.
@@ -62,10 +63,13 @@ class DocumentsControllerTest < Redmine::ControllerTest
   end
 
   def test_index_grouped_by_date
-    get :index, :params => {
+    get(
+      :index,
+      :params => {
         :project_id => 'ecookbook',
         :sort_by => 'date'
       }
+    )
     assert_response :success
     assert_select '#content' do
       # descending order of date.
@@ -76,10 +80,13 @@ class DocumentsControllerTest < Redmine::ControllerTest
   end
 
   def test_index_grouped_by_title
-    get :index, :params => {
+    get(
+      :index,
+      :params => {
         :project_id => 'ecookbook',
         :sort_by => 'title'
       }
+    )
     assert_response :success
     assert_select '#content' do
       # ascending order of title.
@@ -90,10 +97,13 @@ class DocumentsControllerTest < Redmine::ControllerTest
   end
 
   def test_index_grouped_by_author
-    get :index, :params => {
+    get(
+      :index,
+      :params => {
         :project_id => 'ecookbook',
         :sort_by => 'author'
       }
+    )
     assert_response :success
     assert_select '#content' do
       # ascending order of author.
@@ -111,9 +121,7 @@ class DocumentsControllerTest < Redmine::ControllerTest
 
       Vestibulum non velit mi. Aliquam scelerisque libero ut nulla fringilla a sollicitudin magna rhoncus.  Praesent a nunc lorem, ac porttitor eros. Sed ac diam nec neque interdum adipiscing quis quis justo. Donec arcu nunc, fringilla eu dictum at, venenatis ac sem. Vestibulum quis elit urna, ac mattis sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
     LOREM
-    get :index, :params => {
-        :project_id => 'ecookbook'
-      }
+    get(:index, :params => {:project_id => 'ecookbook'})
     assert_response :success
     # should only truncate on new lines to avoid breaking wiki formatting
     assert_select '.wiki p', :text => (doc.description.split("\n").first + '...')
@@ -121,17 +129,13 @@ class DocumentsControllerTest < Redmine::ControllerTest
   end
 
   def test_show
-    get :show, :params => {
-        :id => 1
-      }
+    get(:show, :params => {:id => 1})
     assert_response :success
   end
 
   def test_new
     @request.session[:user_id] = 2
-    get :new, :params => {
-        :project_id => 1
-      }
+    get(:new, :params => {:project_id => 1})
     assert_response :success
   end
 
@@ -141,7 +145,9 @@ class DocumentsControllerTest < Redmine::ControllerTest
     set_tmp_attachments_directory
 
     with_settings :notified_events => %w(document_added) do
-      post :create, :params => {
+      post(
+        :create,
+        :params => {
           :project_id => 'ecookbook',
           :document => {
             :title => 'DocumentsControllerTest#test_post_new',
@@ -150,9 +156,11 @@ class DocumentsControllerTest < Redmine::ControllerTest
           },
           :attachments => {
             '1' => {
-            'file' => uploaded_test_file('testfile.txt', 'text/plain')}
+              'file' => uploaded_test_file('testfile.txt', 'text/plain')
+            }
           }
         }
+      )
     end
     assert_redirected_to '/projects/ecookbook/documents'
 
@@ -167,12 +175,15 @@ class DocumentsControllerTest < Redmine::ControllerTest
   def test_create_with_failure
     @request.session[:user_id] = 2
     assert_no_difference 'Document.count' do
-      post :create, :params => {
+      post(
+        :create,
+        :params => {
           :project_id => 'ecookbook',
           :document => {
             :title => ''
           }
         }
+      )
     end
     assert_response :success
     assert_select_error /title cannot be blank/i
@@ -183,7 +194,9 @@ class DocumentsControllerTest < Redmine::ControllerTest
     category2 = Enumeration.find_by_name('User documentation')
     category2.update(:is_default => true)
     category1 = Enumeration.find_by_name('Uncategorized')
-    post :create, :params => {
+    post(
+      :create,
+      :params => {
         :project_id => 'ecookbook',
         :document => {
           :title => 'no default',
@@ -191,6 +204,7 @@ class DocumentsControllerTest < Redmine::ControllerTest
           :category_id => category1.id
         }
       }
+    )
     assert_redirected_to '/projects/ecookbook/documents'
     doc = Document.find_by_title('no default')
     assert_not_nil doc
@@ -200,20 +214,26 @@ class DocumentsControllerTest < Redmine::ControllerTest
 
   def test_edit
     @request.session[:user_id] = 2
-    get :edit, :params => {
+    get(
+      :edit,
+      :params => {
         :id => 1
       }
+    )
     assert_response :success
   end
 
   def test_update
     @request.session[:user_id] = 2
-    put :update, :params => {
+    put(
+      :update,
+      :params => {
         :id => 1,
         :document => {
           :title => 'test_update'
         }
       }
+    )
     assert_redirected_to '/documents/1'
     document = Document.find(1)
     assert_equal 'test_update', document.title
@@ -221,12 +241,15 @@ class DocumentsControllerTest < Redmine::ControllerTest
 
   def test_update_with_failure
     @request.session[:user_id] = 2
-    put :update, :params => {
+    put(
+      :update,
+      :params => {
         :id => 1,
         :document => {
           :title => ''
         }
       }
+    )
     assert_response :success
     assert_select_error /title cannot be blank/i
   end
@@ -235,9 +258,12 @@ class DocumentsControllerTest < Redmine::ControllerTest
     set_tmp_attachments_directory
     @request.session[:user_id] = 2
     assert_difference 'Document.count', -1 do
-      delete :destroy, :params => {
+      delete(
+        :destroy,
+        :params => {
           :id => 1
         }
+      )
     end
     assert_redirected_to '/projects/ecookbook/documents'
     assert_equal 'Successful deletion.', flash[:notice]
@@ -248,13 +274,17 @@ class DocumentsControllerTest < Redmine::ControllerTest
     set_tmp_attachments_directory
     @request.session[:user_id] = 2
     assert_difference 'Attachment.count' do
-      post :add_attachment, :params => {
+      post(
+        :add_attachment,
+        :params => {
           :id => 1,
           :attachments => {
             '1' => {
-            'file' => uploaded_test_file('testfile.txt', 'text/plain')}
+              'file' => uploaded_test_file('testfile.txt', 'text/plain')
+            }
           }
         }
+      )
     end
     attachment = Attachment.order('id DESC').first
     assert_equal Document.find(1), attachment.container
