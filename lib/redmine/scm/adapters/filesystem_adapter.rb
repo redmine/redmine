@@ -52,9 +52,7 @@ module Redmine
         end
 
         def info
-          info = Info.new({:root_url => target(),
-                            :lastrev => nil
-                          })
+          info = Info.new({:root_url => target(), :lastrev => nil})
           info
         rescue CommandFailed
           return nil
