@@ -2213,15 +2213,21 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_build_from_params_should_not_update_query_with_nil_param_values
-    q = IssueQuery.create!(:name => 'Query',
-                           :type => "IssueQuery",
-                           :user => User.find(7),
-                           :filters => {"status_id" => {:values => ["1"], :operator => "o"}},
-                           :column_names => [:tracker, :status],
-                           :sort_criteria => ['id', 'asc'],
-                           :group_by => "project",
-                           :options => { :totalable_names=>[:estimated_hours], :draw_relations => '1', :draw_progress_line => '1' }
-                            )
+    q =
+      IssueQuery.create!(
+        :name => 'Query',
+        :type => "IssueQuery",
+        :user => User.find(7),
+        :filters => {"status_id" => {:values => ["1"], :operator => "o"}},
+        :column_names => [:tracker, :status],
+        :sort_criteria => ['id', 'asc'],
+        :group_by => "project",
+        :options => {
+          :totalable_names=>[:estimated_hours],
+          :draw_relations => '1',
+          :draw_progress_line => '1'
+        }
+      )
     old_attributes = q.attributes
     q.build_from_params({})
     assert_equal old_attributes, q.attributes
