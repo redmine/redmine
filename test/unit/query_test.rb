@@ -71,9 +71,9 @@ class QueryTest < ActiveSupport::TestCase
   def test_available_filters_with_custom_fields_should_be_ordered
     set_language_if_valid 'en'
     UserCustomField.create!(
-              :name => 'order test', :field_format => 'string',
-              :is_for_all => true, :is_filter => true
-            )
+      :name => 'order test', :field_format => 'string',
+      :is_for_all => true, :is_filter => true
+    )
     query = IssueQuery.new
     expected_order = [
       "Searchable field",
@@ -142,9 +142,8 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def find_issues_with_query(query)
-    Issue.joins(:status, :tracker, :project, :priority).where(
-         query.statement
-       ).to_a
+    Issue.joins(:status, :tracker, :project, :priority).
+      where(query.statement).to_a
   end
 
   def assert_find_issues_with_query_is_successful(query)
