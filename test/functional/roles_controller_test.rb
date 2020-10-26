@@ -98,25 +98,31 @@ class RolesControllerTest < Redmine::ControllerTest
   end
 
   def test_create_with_validaton_failure
-    post :create, :params => {
-      :role => {
-        :name => '',
-        :permissions => ['add_issues', 'edit_issues', 'log_time', ''],
-        :assignable => '0'
+    post(
+      :create,
+      :params => {
+        :role => {
+          :name => '',
+          :permissions => ['add_issues', 'edit_issues', 'log_time', ''],
+          :assignable => '0'
+        }
       }
-    }
+    )
     assert_response :success
     assert_select_error /Name cannot be blank/
   end
 
   def test_create_without_workflow_copy
-    post :create, :params => {
-      :role => {
-        :name => 'RoleWithoutWorkflowCopy',
-        :permissions => ['add_issues', 'edit_issues', 'log_time', ''],
-        :assignable => '0'
+    post(
+      :create,
+      :params => {
+        :role => {
+          :name => 'RoleWithoutWorkflowCopy',
+          :permissions => ['add_issues', 'edit_issues', 'log_time', ''],
+          :assignable => '0'
+        }
       }
-    }
+    )
     assert_redirected_to '/roles'
     role = Role.find_by_name('RoleWithoutWorkflowCopy')
     assert_not_nil role
@@ -125,14 +131,17 @@ class RolesControllerTest < Redmine::ControllerTest
   end
 
   def test_create_with_workflow_copy
-    post :create, :params => {
-      :role => {
-        :name => 'RoleWithWorkflowCopy',
-        :permissions => ['add_issues', 'edit_issues', 'log_time', ''],
-        :assignable => '0'
-      },
-      :copy_workflow_from => '1'
-    }
+    post(
+      :create,
+      :params => {
+        :role => {
+          :name => 'RoleWithWorkflowCopy',
+          :permissions => ['add_issues', 'edit_issues', 'log_time', ''],
+          :assignable => '0'
+        },
+        :copy_workflow_from => '1'
+      }
+    )
     assert_redirected_to '/roles'
     role = Role.find_by_name('RoleWithWorkflowCopy')
     assert_not_nil role
@@ -141,13 +150,16 @@ class RolesControllerTest < Redmine::ControllerTest
 
   def test_create_with_managed_roles
     role = new_record(Role) do
-      post :create, :params => {
-        :role => {
-          :name => 'Role',
-          :all_roles_managed => '0',
-          :managed_role_ids => ['2', '3', '']
+      post(
+        :create,
+        :params => {
+          :role => {
+            :name => 'Role',
+            :all_roles_managed => '0',
+            :managed_role_ids => ['2', '3', '']
+          }
         }
-      }
+      )
       assert_response 302
     end
     assert_equal false, role.all_roles_managed
@@ -178,27 +190,33 @@ class RolesControllerTest < Redmine::ControllerTest
   end
 
   def test_update
-    put :update, :params => {
-      :id => 1,
-      :role => {
-        :name => 'Manager',
-        :permissions => ['edit_project', ''],
-        :assignable => '0'
+    put(
+      :update,
+      :params => {
+        :id => 1,
+        :role => {
+          :name => 'Manager',
+          :permissions => ['edit_project', ''],
+          :assignable => '0'
+        }
       }
-    }
+    )
     assert_redirected_to '/roles'
     role = Role.find(1)
     assert_equal [:edit_project], role.permissions
   end
 
   def test_update_trackers_permissions
-    put :update, :params => {
-      :id => 1,
-      :role => {
-        :permissions_all_trackers => {'add_issues' => '0'},
-        :permissions_tracker_ids => {'add_issues' => ['1', '3', '']}
+    put(
+      :update,
+      :params => {
+        :id => 1,
+        :role => {
+          :permissions_all_trackers => {'add_issues' => '0'},
+          :permissions_tracker_ids => {'add_issues' => ['1', '3', '']}
+        }
       }
-    }
+    )
     assert_redirected_to '/roles'
     role = Role.find(1)
 
@@ -239,9 +257,12 @@ class RolesControllerTest < Redmine::ControllerTest
   end
 
   def test_permissions_with_filter
-    get :permissions, :params => {
+    get(
+      :permissions,
+      :params => {
         :ids => ['2', '3']
       }
+    )
     assert_response :success
 
     assert_select 'table.permissions thead th', 3
@@ -250,12 +271,15 @@ class RolesControllerTest < Redmine::ControllerTest
   end
 
   def test_update_permissions
-    post :update_permissions, :params => {
-      :permissions => {
-        '1' => ['edit_issues'],
-        '3' => ['add_issues', 'delete_issues']
+    post(
+      :update_permissions,
+      :params => {
+        :permissions => {
+          '1' => ['edit_issues'],
+          '3' => ['add_issues', 'delete_issues']
+        }
       }
-    }
+    )
     assert_redirected_to '/roles'
 
     assert_equal [:edit_issues], Role.find(1).permissions
@@ -263,13 +287,16 @@ class RolesControllerTest < Redmine::ControllerTest
   end
 
   def test_update_permissions_should_not_update_other_roles
-    assert_no_changes -> { Role.find(2).permissions } do
-      assert_changes -> { Role.find(1).permissions } do
-        post :update_permissions, :params => {
+    assert_no_changes -> {Role.find(2).permissions} do
+      assert_changes -> {Role.find(1).permissions} do
+        post(
+          :update_permissions,
+          :params => {
             :permissions => {
               '1' => ['edit_issues']
             }
           }
+        )
       end
     end
   end
