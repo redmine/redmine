@@ -121,13 +121,14 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_index_with_project_and_subprojects_should_show_private_subprojects_with_permission
     @request.session[:user_id] = 2
-    Setting.display_subprojects_issues = 1
-    get(:index, :params => {:project_id => 1})
-    assert_response :success
+    with_settings :display_subprojects_issues => '1' do
+      get(:index, :params => {:project_id => 1})
+      assert_response :success
 
-    assert_select 'a[href="/issues/1"]', :text => /Cannot print recipes/
-    assert_select 'a[href="/issues/5"]', :text => /Subproject issue/
-    assert_select 'a[href="/issues/6"]', :text => /Issue of a private subproject/
+      assert_select 'a[href="/issues/1"]', :text => /Cannot print recipes/
+      assert_select 'a[href="/issues/5"]', :text => /Subproject issue/
+      assert_select 'a[href="/issues/6"]', :text => /Issue of a private subproject/
+    end
   end
 
   def test_index_with_project_and_default_filter
