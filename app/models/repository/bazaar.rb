@@ -64,6 +64,7 @@ class Repository::Bazaar < Repository
     if entries
       entries.each do |e|
         next if e.lastrev.revision.blank?
+
         # Set the filesize unless browsing a specific revision
         if identifier.nil? && e.is_file?
           full_path = File.join(root_url, e.path)
