@@ -333,11 +333,11 @@ module Redmine
         end
 
         def is_file?
-           self.kind == 'file'
+          self.kind == 'file'
         end
 
         def is_dir?
-           self.kind == 'dir'
+          self.kind == 'dir'
         end
 
         def is_text?
