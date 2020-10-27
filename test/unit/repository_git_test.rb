@@ -36,32 +36,35 @@ class RepositoryGitTest < ActiveSupport::TestCase
   def setup
     User.current = nil
     @project = Project.find(3)
-    @repository = Repository::Git.create(
-                        :project       => @project,
-                        :url           => REPOSITORY_PATH,
-                        :path_encoding => 'ISO-8859-1'
-                        )
+    @repository =
+      Repository::Git.create(
+        :project       => @project,
+        :url           => REPOSITORY_PATH,
+        :path_encoding => 'ISO-8859-1'
+      )
     assert @repository
   end
 
   def test_nondefault_repo_with_blank_identifier_destruction
     Repository.delete_all
 
-    repo1 = Repository::Git.new(
-                          :project    => @project,
-                          :url        => REPOSITORY_PATH,
-                          :identifier => '',
-                          :is_default => true
-                        )
+    repo1 =
+      Repository::Git.new(
+        :project    => @project,
+        :url        => REPOSITORY_PATH,
+        :identifier => '',
+        :is_default => true
+      )
     assert repo1.save
     repo1.fetch_changesets
 
-    repo2 = Repository::Git.new(
-                          :project    => @project,
-                          :url        => REPOSITORY_PATH,
-                          :identifier => 'repo2',
-                          :is_default => true
-                    )
+    repo2 =
+      Repository::Git.new(
+        :project    => @project,
+        :url        => REPOSITORY_PATH,
+        :identifier => 'repo2',
+        :is_default => true
+      )
     assert repo2.save
     repo2.fetch_changesets
 
@@ -77,10 +80,11 @@ class RepositoryGitTest < ActiveSupport::TestCase
 
   def test_blank_path_to_repository_error_message
     set_language_if_valid 'en'
-    repo = Repository::Git.new(
-                          :project      => @project,
-                          :identifier   => 'test'
-                        )
+    repo =
+      Repository::Git.new(
+        :project      => @project,
+        :identifier   => 'test'
+      )
     assert !repo.save
     assert_include "Path to repository cannot be blank",
                    repo.errors.full_messages
@@ -88,12 +92,13 @@ class RepositoryGitTest < ActiveSupport::TestCase
 
   def test_blank_path_to_repository_error_message_fr
     set_language_if_valid 'fr'
-    repo = Repository::Git.new(
-                          :project      => @project,
-                          :url          => "",
-                          :identifier   => 'test',
-                          :path_encoding => ''
-                        )
+    repo =
+      Repository::Git.new(
+        :project      => @project,
+        :url          => "",
+        :identifier   => 'test',
+        :path_encoding => ''
+      )
     assert !repo.save
     assert_include 'Chemin du dépôt doit être renseigné(e)', repo.errors.full_messages
   end
@@ -448,14 +453,18 @@ class RepositoryGitTest < ActiveSupport::TestCase
         puts WINDOWS_SKIP_STR
       else
         # latin-1 encoding path
-        changesets = @repository.latest_changesets(
-                      'latin-1-dir/test-Ü-2.txt', '64f1f3e89')
+        changesets =
+          @repository.latest_changesets(
+            'latin-1-dir/test-Ü-2.txt', '64f1f3e89'
+          )
         assert_equal(
           ['64f1f3e89ad1cb57976ff0ad99a107012ba3481d',
            '4fc55c43bf3d3dc2efb66145365ddc17639ce81e'],
           changesets.collect(&:revision))
-        changesets = @repository.latest_changesets(
-                    'latin-1-dir/test-Ü-2.txt', '64f1f3e89', 1)
+        changesets =
+          @repository.latest_changesets(
+            'latin-1-dir/test-Ü-2.txt', '64f1f3e89', 1
+          )
         assert_equal(
           ['64f1f3e89ad1cb57976ff0ad99a107012ba3481d'],
           changesets.collect(&:revision))
@@ -470,8 +479,8 @@ class RepositoryGitTest < ActiveSupport::TestCase
         @repository.fetch_changesets
         @project.reload
         assert_equal NUM_REV, @repository.changesets.count
-        changesets = @repository.latest_changesets(
-                    'latin-1-dir/test-Ü-subdir', '1ca7f5ed')
+        changesets = @repository.
+          latest_changesets('latin-1-dir/test-Ü-subdir', '1ca7f5ed')
         assert_equal(
           ['1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127'],
           changesets.collect(&:revision))
@@ -504,8 +513,8 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      c = @repository.changesets.find_by_revision(
-                          '7234cb2750b63f47bff735edc50a1c0a433c2518')
+      c = @repository.changesets.
+            find_by_revision('7234cb2750b63f47bff735edc50a1c0a433c2518')
       assert_equal c.scmid, c.identifier
     end
 
@@ -514,8 +523,8 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      c = @repository.changesets.find_by_revision(
-                          '7234cb2750b63f47bff735edc50a1c0a433c2518')
+      c = @repository.changesets.
+            find_by_revision('7234cb2750b63f47bff735edc50a1c0a433c2518')
       assert_equal '7234cb27', c.format_identifier
     end
 
@@ -534,8 +543,8 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      c = @repository.changesets.find_by_revision(
-                        'ed5bb786bbda2dee66a2d50faf51429dbc043a7b')
+      c = @repository.changesets.
+             find_by_revision('ed5bb786bbda2dee66a2d50faf51429dbc043a7b')
       assert_equal 'Felix Schäfer <felix@fachschaften.org>', c.committer
     end
 
@@ -594,12 +603,13 @@ class RepositoryGitTest < ActiveSupport::TestCase
   if File.directory?(REPOSITORY_UTF8_PATH) &&
       !(Redmine::Database.mysql? && !is_mysql_utf8mb4)
     def test_utf8_emoji
-      repo = Repository::Git.create(
-                          :project      => @project,
-                          :url          => REPOSITORY_UTF8_PATH,
-                          :identifier   => 'utf8',
-                          :path_encoding => 'UTF-8'
-                        )
+      repo =
+        Repository::Git.create(
+          :project      => @project,
+          :url          => REPOSITORY_UTF8_PATH,
+          :identifier   => 'utf8',
+          :path_encoding => 'UTF-8'
+        )
       assert repo
       assert_equal 0, repo.changesets.count
       repo.fetch_changesets
