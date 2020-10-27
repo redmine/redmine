@@ -70,12 +70,12 @@ class WikiContent < ActiveRecord::Base
   def revert_to!(version)
     if version.wiki_content_id == id
       update_columns(
-          :author_id => version.author_id,
-          :text => version.text,
-          :comments => version.comments,
-          :version => version.version,
-          :updated_on => version.updated_on
-        ) && reload
+        :author_id => version.author_id,
+        :text => version.text,
+        :comments => version.comments,
+        :version => version.version,
+        :updated_on => version.updated_on
+      ) && reload
     end
   end
 
