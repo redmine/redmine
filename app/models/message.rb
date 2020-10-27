@@ -29,22 +29,24 @@ class Message < ActiveRecord::Base
                      :preload => {:board => :project},
                      :project_key => "#{Board.table_name}.project_id"
 
-  acts_as_event :title => Proc.new {|o| "#{o.board.name}: #{o.subject}"},
-                :description => :content,
-                :group => :parent,
-                :type => Proc.new {|o| o.parent_id.nil? ? 'message' : 'reply'},
-                :url =>
-                  Proc.new {|o|
-                    {:controller => 'messages', :action => 'show',
-                     :board_id => o.board_id}.
-                       merge(
-                         if o.parent_id.nil?
-                           {:id => o.id}
-                         else
-                           {:id => o.parent_id, :r => o.id, :anchor => "message-#{o.id}"}
-                         end)
-                  }
-
+  acts_as_event(
+    :title => Proc.new {|o| "#{o.board.name}: #{o.subject}"},
+    :description => :content,
+    :group => :parent,
+    :type => Proc.new {|o| o.parent_id.nil? ? 'message' : 'reply'},
+    :url =>
+      Proc.new do |o|
+        {:controller => 'messages', :action => 'show',
+         :board_id => o.board_id}.
+           merge(
+             if o.parent_id.nil?
+               {:id => o.id}
+             else
+               {:id => o.parent_id, :r => o.id, :anchor => "message-#{o.id}"}
+             end
+           )
+      end
+  )
   acts_as_activity_provider :scope => proc { preload({:board => :project}, :author) },
                             :author_key => :author_id
   acts_as_watchable
@@ -64,11 +66,13 @@ class Message < ActiveRecord::Base
   }
 
   safe_attributes 'subject', 'content'
-  safe_attributes 'locked', 'sticky', 'board_id',
-                  :if => lambda {|message, user|
-                    user.allowed_to?(:edit_messages, message.project)
-                  }
-
+  safe_attributes(
+    'locked', 'sticky', 'board_id',
+    :if =>
+      lambda do |message, user|
+        user.allowed_to?(:edit_messages, message.project)
+      end
+  )
   def visible?(user=User.current)
     !user.nil? && user.allowed_to?(:view_messages, project)
   end
