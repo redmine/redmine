@@ -66,11 +66,14 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       if @group.save
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_create)
           redirect_to(params[:continue] ? new_group_path : groups_path)
-        }
-        format.api  { render :action => 'show', :status => :created, :location => group_url(@group) }
+        end
+        format.api do
+          render(:action => 'show', :status => :created,
+                 :location => group_url(@group))
+        end
       else
         format.html { render :action => "new" }
         format.api  { render_validation_errors(@group) }
