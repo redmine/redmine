@@ -962,10 +962,12 @@ class TimelogControllerTest < Redmine::ControllerTest
   def test_index_with_default_query_setting_using_custom_field
     field = TimeEntryCustomField.create!(:name => 'Foo', :field_format => 'int')
 
-    with_settings :time_entry_list_defaults => {
+    with_settings(
+      :time_entry_list_defaults => {
         'column_names' => ["spent_on", "user", "hours", "cf_#{field.id}"],
         'totalable_names' => ["hours", "cf_#{field.id}"]
-      } do
+      }
+    ) do
       get :index
       assert_response :success
     end
@@ -1070,12 +1072,15 @@ class TimelogControllerTest < Redmine::ControllerTest
     TimeEntry.generate!(:issue => issue2, :hours => 3)
     @request.session[:user_id] = 2
 
-    get :index, :params => {
-      :project_id => 'ecookbook',
-      :f => ['issue.fixed_version_id'],
-      :op => {'issue.fixed_version_id' => '='},
-      :v => {'issue.fixed_version_id' => [version.id.to_s,version2.id.to_s]}
-    }
+    get(
+      :index,
+      :params => {
+        :project_id => 'ecookbook',
+        :f => ['issue.fixed_version_id'],
+        :op => {'issue.fixed_version_id' => '='},
+        :v => {'issue.fixed_version_id' => [version.id.to_s, version2.id.to_s]}
+      }
+    )
     assert_response :success
 
     assert_select 'tr.time-entry', 2
@@ -1083,12 +1088,15 @@ class TimelogControllerTest < Redmine::ControllerTest
   end
 
   def test_index_at_project_level_with_date_range
-    get :index, :params => {
-      :project_id => 'ecookbook',
-      :f => ['spent_on'],
-      :op => {'spent_on' => '><'},
-      :v => {'spent_on' => ['2007-03-20', '2007-04-30']}
-    }
+    get(
+      :index,
+      :params => {
+        :project_id => 'ecookbook',
+        :f => ['spent_on'],
+        :op => {'spent_on' => '><'},
+        :v => {'spent_on' => ['2007-03-20', '2007-04-30']}
+      }
+    )
     assert_response :success
 
     assert_select 'tr.time-entry', 3
@@ -1097,11 +1105,14 @@ class TimelogControllerTest < Redmine::ControllerTest
   end
 
   def test_index_at_project_level_with_date_range_using_from_and_to_params
-    get :index, :params => {
-      :project_id => 'ecookbook',
-      :from => '2007-03-20',
-      :to => '2007-04-30'
-    }
+    get(
+      :index,
+      :params => {
+        :project_id => 'ecookbook',
+        :from => '2007-03-20',
+        :to => '2007-04-30'
+      }
+    )
     assert_response :success
 
     assert_select 'tr.time-entry', 3
@@ -1135,13 +1146,16 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_equal [t2, t1, t3].map(&:id).map(&:to_s), css_select('input[name="ids[]"]').map {|e| e.attr('value')}
 
-    get :index, :params => {
-      :project_id => 1,
-      :f => ['spent_on'],
-      :op => {'spent_on' => '><'},
-      :v => {'spent_on' => ['2012-06-15', '2012-06-16']},
-      :sort => 'spent_on'
-    }
+    get(
+      :index,
+      :params => {
+        :project_id => 1,
+        :f => ['spent_on'],
+        :op => {'spent_on' => '><'},
+        :v => {'spent_on' => ['2012-06-15', '2012-06-16']},
+        :sort => 'spent_on'
+      }
+    )
     assert_response :success
     assert_equal [t3, t1, t2].map(&:id).map(&:to_s), css_select('input[name="ids[]"]').map {|e| e.attr('value')}
   end
@@ -1150,11 +1164,14 @@ class TimelogControllerTest < Redmine::ControllerTest
     activity = TimeEntryActivity.create!(:name => 'Activity')
     entry = TimeEntry.generate!(:issue_id => 1, :hours => 4.5, :activity => activity)
 
-    get :index, :params => {
-      :f => ['activity_id'],
-      :op => {'activity_id' => '='},
-      :v => {'activity_id' => [activity.id.to_s]}
-    }
+    get(
+      :index,
+      :params => {
+        :f => ['activity_id'],
+        :op => {'activity_id' => '='},
+        :v => {'activity_id' => [activity.id.to_s]}
+      }
+    )
     assert_response :success
     assert_select "tr#time-entry-#{entry.id}"
     assert_select "table.time-entries tbody tr", 1
@@ -1165,11 +1182,14 @@ class TimelogControllerTest < Redmine::ControllerTest
     issue = Issue.generate!(:project_id => 1, :tracker_id => 1, :status_id => 4)
     entry = TimeEntry.generate!(:issue => issue, :hours => 4.5)
 
-    get :index, :params => {
-      :f => ['issue.status_id'],
-      :op => {'issue.status_id' => '='},
-      :v => {'issue.status_id' => ['4']}
-    }
+    get(
+      :index,
+      :params => {
+        :f => ['issue.status_id'],
+        :op => {'issue.status_id' => '='},
+        :v => {'issue.status_id' => ['4']}
+      }
+    )
     assert_response :success
     assert_equal [entry].map(&:id).map(&:to_s), css_select('input[name="ids[]"]').map {|e| e.attr('value')}
   end
@@ -1179,13 +1199,15 @@ class TimelogControllerTest < Redmine::ControllerTest
     project.close
     project.save
 
-    get :index, :params => {
+    get(
+      :index,
+      :params => {
         :set_filter => 1,
         :f => ['project.status'],
         :op => {'project.status' => '='},
         :v => {'project.status' => ['1']}
-    }
-
+      }
+    )
     assert_response :success
 
     time_entries = css_select('input[name="ids[]"]').map {|e| e.attr('value')}
@@ -1516,10 +1538,13 @@ class TimelogControllerTest < Redmine::ControllerTest
   def test_index_grouped_by_created_on
     skip unless TimeEntryQuery.new.groupable_columns.detect {|c| c.name == :created_on}
 
-    get :index, :params => {
+    get(
+      :index,
+      :params => {
         :set_filter => 1,
         :group_by => 'created_on'
       }
+    )
     assert_response :success
 
     assert_select 'tr.group span.name', :text => '03/23/2007' do
@@ -1528,10 +1553,13 @@ class TimelogControllerTest < Redmine::ControllerTest
   end
 
   def test_index_grouped_by_issue
-    get :index, :params => {
+    get(
+      :index,
+      :params => {
         :set_filter => 1,
         :group_by => 'issue'
       }
+    )
     assert_response :success
 
     assert_select 'tr.group span.name', :text => 'Bug #1: Cannot print recipes' do
@@ -1546,10 +1574,13 @@ class TimelogControllerTest < Redmine::ControllerTest
     issue.custom_field_values = {field.id => 'This is a long text'}
     issue.save!
 
-    get :index, :params => {
+    get(
+      :index,
+      :params => {
         :set_filter => 1,
         :c => ['subject', 'description', "issue.cf_#{field.id}"]
       }
+    )
     assert_response :success
     assert_select "td.issue_cf_#{field.id}", :text => 'This is a long text'
   end
