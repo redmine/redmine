@@ -222,13 +222,13 @@ module Redmine
             yield Revision.new(:revision => le['revision'],
                                :scmid    => le['node'],
                                :author   =>
-                                           CGI.unescape(
-                                             (begin
-                                                le['author']['__content__']
-                                              rescue
-                                                ''
-                                              end)
-                                           ),
+                                 CGI.unescape(
+                                   begin
+                                     le['author']['__content__']
+                                   rescue
+                                     ''
+                                   end
+                                 ),
                                :time     => Time.parse(le['date']['__content__']),
                                :message  => CGI.unescape(le['msg']['__content__']),
                                :paths    => paths,
