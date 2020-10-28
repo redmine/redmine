@@ -55,12 +55,15 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
   def test_new_should_work_for_each_customized_class_and_format
     custom_field_classes.each do |klass|
       Redmine::FieldFormat.formats_for_custom_field_class(klass).each do |format|
-        get :new, :params => {
+        get(
+          :new,
+          :params => {
             :type => klass.name,
             :custom_field => {
               :field_format => format.name
             }
           }
+        )
         assert_response :success
 
         assert_select 'form#custom_field_form' do
@@ -74,9 +77,12 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
   end
 
   def test_new_should_have_string_default_format
-    get :new, :params => {
+    get(
+      :new,
+      :params => {
         :type => 'IssueCustomField'
       }
+    )
     assert_response :success
 
     assert_select 'select[name=?]', 'custom_field[field_format]' do
@@ -85,9 +91,12 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
   end
 
   def test_new_issue_custom_field
-    get :new, :params => {
+    get(
+      :new,
+      :params => {
         :type => 'IssueCustomField'
       }
+    )
     assert_response :success
 
     assert_select 'form#custom_field_form' do
@@ -107,9 +116,12 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
   end
 
   def test_new_time_entry_custom_field
-    get :new, :params => {
+    get(
+      :new,
+      :params => {
         :type => 'TimeEntryCustomField'
       }
+    )
     assert_response :success
 
     assert_select 'form#custom_field_form' do
@@ -127,9 +139,12 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
   end
 
   def test_new_project_custom_field
-    get :new, :params => {
+    get(
+      :new,
+      :params => {
         :type => 'ProjectCustomField'
       }
+    )
     assert_response :success
 
     assert_select 'form#custom_field_form' do
@@ -147,9 +162,12 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
   end
 
   def test_new_version_custom_field
-    get :new, :params => {
+    get(
+      :new,
+      :params => {
         :type => 'VersionCustomField'
-    }
+      }
+    )
     assert_response :success
 
     assert_select 'form#custom_field_form' do
@@ -167,9 +185,12 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
   end
 
   def test_new_time_entry_custom_field_should_not_show_trackers_and_projects
-    get :new, :params => {
+    get(
+      :new,
+      :params => {
         :type => 'TimeEntryCustomField'
       }
+    )
     assert_response :success
 
     assert_select 'form#custom_field_form' do
@@ -179,34 +200,43 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
   end
 
   def test_default_value_should_be_an_input_for_string_custom_field
-    get :new, :params => {
+    get(
+      :new,
+      :params => {
         :type => 'IssueCustomField',
         :custom_field => {
           :field_format => 'string'
         }
       }
+    )
     assert_response :success
     assert_select 'input[name=?]', 'custom_field[default_value]'
   end
 
   def test_default_value_should_be_a_textarea_for_text_custom_field
-    get :new, :params => {
+    get(
+      :new,
+      :params => {
         :type => 'IssueCustomField',
         :custom_field => {
           :field_format => 'text'
         }
       }
+    )
     assert_response :success
     assert_select 'textarea[name=?]', 'custom_field[default_value]'
   end
 
   def test_default_value_should_be_a_checkbox_for_bool_custom_field
-    get :new, :params => {
+    get(
+      :new,
+      :params => {
         :type => 'IssueCustomField',
         :custom_field => {
           :field_format => 'bool'
         }
       }
+    )
     assert_response :success
     assert_select 'select[name=?]', 'custom_field[default_value]' do
       assert_select 'option', 3
@@ -214,47 +244,61 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
   end
 
   def test_default_value_should_not_be_present_for_user_custom_field
-    get :new, :params => {
+    get(
+      :new,
+      :params => {
         :type => 'IssueCustomField',
         :custom_field => {
           :field_format => 'user'
         }
       }
+    )
     assert_response :success
     assert_select '[name=?]', 'custom_field[default_value]', 0
   end
 
   def test_setting_full_width_layout_shoul_be_present_only_for_long_text_issue_custom_field
-    get :new, :params => {
+    get(
+      :new,
+      :params => {
         :type => 'IssueCustomField',
         :custom_field => {
           :field_format => 'text'
         }
       }
+    )
     assert_response :success
     assert_select '[name=?]', 'custom_field[full_width_layout]'
 
-    get :new, :params => {
+    get(
+      :new,
+      :params => {
         :type => 'IssueCustomField',
         :custom_field => {
           :field_format => 'list'
         }
       }
+    )
     assert_response :success
     assert_select '[name=?]', 'custom_field[full_width_layout]', 0
 
-    get :new, :params => {
+    get(
+      :new,
+      :params => {
         :type => 'TimeEntryCustomField',
         :custom_field => {
           :field_format => 'text'
         }
       }
+    )
     assert_response :success
     assert_select '[name=?]', 'custom_field[full_width_layout]', 0
   end
 
   def test_new_js
-    get :new, :params => {
+    get(
+      :new,
+      :params => {
         :type => 'IssueCustomField',
         :custom_field => {
           :field_format => 'list'
@@ -262,6 +306,7 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
         :format => 'js'
       },
       :xhr => true
+    )
     assert_response :success
     assert_equal 'text/javascript', response.media_type
 
@@ -269,9 +314,12 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
   end
 
   def test_new_with_invalid_custom_field_class_should_render_select_type
-    get :new, :params => {
+    get(
+      :new,
+      :params => {
         :type => 'UnknownCustomField'
       }
+    )
     assert_response :success
 
     assert_select 'input[type=radio][name=type]'
@@ -279,7 +327,9 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
 
   def test_create_list_custom_field
     field = new_record(IssueCustomField) do
-      post :create, :params => {
+      post(
+        :create,
+        :params => {
           :type => "IssueCustomField",
           :custom_field => {
             :name => "test_post_new_list",
@@ -296,6 +346,7 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
             :tracker_ids => ["1", ""]
           }
         }
+      )
     end
     assert_redirected_to "/custom_fields?tab=IssueCustomField"
     assert_equal "test_post_new_list", field.name
@@ -305,7 +356,9 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
 
   def test_create_with_project_ids
     assert_difference 'CustomField.count' do
-      post :create, :params => {
+      post(
+        :create,
+        :params => {
           :type => "IssueCustomField",
           :custom_field => {
             :name => "foo",
@@ -315,6 +368,7 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
 
           }
         }
+      )
       assert_response 302
     end
     field = IssueCustomField.order("id desc").first
@@ -323,7 +377,9 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
 
   def test_create_with_continue_params
     assert_difference 'CustomField.count' do
-      post :create, :params => {
+      post(
+        :create,
+        :params => {
           :type => 'IssueCustomField',
           :continue => 'Create and Continue',
           :custom_field => {
@@ -331,18 +387,22 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
             :field_format => 'string'
           }
         }
+      )
     end
     assert_redirected_to '/custom_fields/new?type=IssueCustomField'
   end
 
   def test_create_with_failure
     assert_no_difference 'CustomField.count' do
-      post :create, :params => {
+      post(
+        :create,
+        :params => {
           :type => "IssueCustomField",
           :custom_field => {
             :name => ''
           }
         }
+      )
     end
     assert_response :success
     assert_select_error /name cannot be blank/i
@@ -350,38 +410,50 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
 
   def test_create_without_type_should_render_select_type
     assert_no_difference 'CustomField.count' do
-      post :create, :params => {
+      post(
+        :create,
+        :params => {
           :custom_field => {
             :name => ''
           }
         }
+      )
     end
     assert_response :success
     assert_select 'input[type=radio][name=type]'
   end
 
   def test_edit
-    get :edit, :params => {
+    get(
+      :edit,
+      :params => {
         :id => 1
       }
+    )
     assert_response :success
     assert_select 'input[name=?][value=?]', 'custom_field[name]', 'Database'
   end
 
   def test_edit_invalid_custom_field_should_render_404
-    get :edit, :params => {
+    get(
+      :edit,
+      :params => {
         :id => 99
       }
+    )
     assert_response 404
   end
 
   def test_update
-    put :update, :params => {
+    put(
+      :update,
+      :params => {
         :id => 1,
         :custom_field => {
           :name => 'New name'
         }
       }
+    )
     assert_redirected_to '/custom_fields/1/edit'
 
     field = CustomField.find(1)
@@ -389,12 +461,15 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
   end
 
   def test_update_with_failure
-    put :update, :params => {
+    put(
+      :update,
+      :params => {
         :id => 1,
         :custom_field => {
           :name => ''
         }
       }
+    )
     assert_response :success
     assert_select_error /name cannot be blank/i
   end
@@ -405,9 +480,12 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
 
     assert_difference 'CustomField.count', -1 do
       assert_difference 'CustomValue.count', - custom_values_count do
-        delete :destroy, :params => {
+        delete(
+          :destroy,
+          :params => {
             :id => 1
           }
+        )
       end
     end
 
