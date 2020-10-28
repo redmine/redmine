@@ -63,7 +63,10 @@ class CalendarsControllerTest < Redmine::ControllerTest
 
     # Assert context menu on issues
     assert_select 'form[data-cm-url=?]', '/issues/context_menu'
-    assert_select 'div.issue.hascontextmenu.tooltip.starting' do
+    assert_select(
+      'div.issue.hascontextmenu.tooltip.starting',
+      :text => /Add ingredients categories/
+    ) do
       assert_select 'a.issue[href=?]', '/issues/2', :text => 'Feature request #2'
       assert_select 'span.tip' do
         assert_select 'img[class="gravatar"]'
