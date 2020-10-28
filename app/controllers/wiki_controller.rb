@@ -127,6 +127,7 @@ class WikiController < ApplicationController
   # edit an existing page or a new one
   def edit
     return render_403 unless editable?
+
     if @page.new_record?
       if params[:parent].present?
         @page.parent = @page.wiki.find_page(params[:parent].to_s)
@@ -153,8 +154,8 @@ class WikiController < ApplicationController
   # Creates a new page or updates an existing one
   def update
     @page = @wiki.find_or_new_page(params[:id])
-
     return render_403 unless editable?
+
     was_new_page = @page.new_record?
     @page.safe_attributes = params[:wiki_page]
 
@@ -216,6 +217,7 @@ class WikiController < ApplicationController
   # rename a page
   def rename
     return render_403 unless editable?
+
     @page.redirect_existing_links = true
     # used to display the *original* title if some AR validation errors occur
     @original_title = @page.pretty_title
@@ -273,6 +275,7 @@ class WikiController < ApplicationController
         # Reassign children to another parent page
         reassign_to = @wiki.pages.find_by_id(params[:reassign_to_id].to_i)
         return unless reassign_to
+
         @page.children.each do |child|
           child.update_attribute(:parent, reassign_to)
         end
@@ -323,6 +326,7 @@ class WikiController < ApplicationController
     page = @wiki.find_page(params[:id])
     # page is nil when previewing a new page
     return render_403 unless page.nil? || editable?(page)
+
     if page
       @attachments += page.attachments
       @previewed = page.content
@@ -333,6 +337,7 @@ class WikiController < ApplicationController
 
   def add_attachment
     return render_403 unless editable?
+
     attachments = Attachment.attach_files(@page, params[:attachments])
     render_attachment_warning_if_needed(@page)
     redirect_to :action => 'show', :id => @page.title, :project_id => @project
