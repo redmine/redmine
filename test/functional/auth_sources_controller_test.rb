@@ -42,15 +42,20 @@ class AuthSourcesControllerTest < Redmine::ControllerTest
   end
 
   def test_new_with_invalid_type_should_respond_with_404
-    get :new, :params => {
+    get(
+      :new,
+      :params => {
         :type => 'foo'
       }
+    )
     assert_response 404
   end
 
   def test_create
     assert_difference 'AuthSourceLdap.count' do
-      post :create, :params => {
+      post(
+        :create,
+        :params => {
           :type => 'AuthSourceLdap',
           :auth_source => {
             :name => 'Test',
@@ -59,6 +64,7 @@ class AuthSourcesControllerTest < Redmine::ControllerTest
             :attr_login => 'cn'
           }
         }
+      )
       assert_redirected_to '/auth_sources'
     end
 
@@ -71,7 +77,9 @@ class AuthSourcesControllerTest < Redmine::ControllerTest
 
   def test_create_with_failure
     assert_no_difference 'AuthSourceLdap.count' do
-      post :create, :params => {
+      post(
+        :create,
+        :params => {
           :type => 'AuthSourceLdap',
           :auth_source => {
             :name => 'Test',
@@ -80,15 +88,19 @@ class AuthSourcesControllerTest < Redmine::ControllerTest
             :attr_login => 'cn'
           }
         }
+      )
       assert_response :success
     end
     assert_select_error /host cannot be blank/i
   end
 
   def test_edit
-    get :edit, :params => {
+    get(
+      :edit,
+      :params => {
         :id => 1
       }
+    )
     assert_response :success
 
     assert_select 'form#auth_source_form' do
@@ -99,23 +111,31 @@ class AuthSourcesControllerTest < Redmine::ControllerTest
   def test_edit_should_not_contain_password
     AuthSource.find(1).update_column :account_password, 'secret'
 
-    get :edit, :params => {
+    get(
+      :edit,
+      :params => {
         :id => 1
       }
+    )
     assert_response :success
     assert_select 'input[value=secret]', 0
     assert_select 'input[name=dummy_password][value^=xxxxxx]'
   end
 
   def test_edit_invalid_should_respond_with_404
-    get :edit, :params => {
+    get(
+      :edit,
+      :params => {
         :id => 99
       }
+    )
     assert_response 404
   end
 
   def test_update
-    put :update, :params => {
+    put(
+      :update,
+      :params => {
         :id => 1,
         :auth_source => {
           :name => 'Renamed',
@@ -124,6 +144,7 @@ class AuthSourcesControllerTest < Redmine::ControllerTest
           :attr_login => 'uid'
         }
       }
+    )
     assert_redirected_to '/auth_sources'
     source = AuthSourceLdap.find(1)
     assert_equal 'Renamed', source.name
@@ -131,7 +152,9 @@ class AuthSourcesControllerTest < Redmine::ControllerTest
   end
 
   def test_update_with_failure
-    put :update, :params => {
+    put(
+      :update,
+      :params => {
         :id => 1,
         :auth_source => {
           :name => 'Renamed',
@@ -140,15 +163,19 @@ class AuthSourcesControllerTest < Redmine::ControllerTest
           :attr_login => 'uid'
         }
       }
+    )
     assert_response :success
     assert_select_error /host cannot be blank/i
   end
 
   def test_destroy
     assert_difference 'AuthSourceLdap.count', -1 do
-      delete :destroy, :params => {
+      delete(
+        :destroy,
+        :params => {
           :id => 1
         }
+      )
       assert_redirected_to '/auth_sources'
     end
   end
@@ -157,9 +184,12 @@ class AuthSourcesControllerTest < Redmine::ControllerTest
     User.find(2).update_attribute :auth_source_id, 1
 
     assert_no_difference 'AuthSourceLdap.count' do
-      delete :destroy, :params => {
+      delete(
+        :destroy,
+        :params => {
           :id => 1
         }
+      )
       assert_redirected_to '/auth_sources'
       assert_equal 'This authentication mode is in use and cannot be deleted.', flash[:error]
     end
@@ -168,9 +198,12 @@ class AuthSourcesControllerTest < Redmine::ControllerTest
   def test_test_connection
     AuthSourceLdap.any_instance.stubs(:test_connection).returns(true)
 
-    get :test_connection, :params => {
+    get(
+      :test_connection,
+      :params => {
         :id => 1
       }
+    )
     assert_redirected_to '/auth_sources'
     assert_not_nil flash[:notice]
     assert_match /successful/i, flash[:notice]
@@ -179,9 +212,12 @@ class AuthSourcesControllerTest < Redmine::ControllerTest
   def test_test_connection_with_failure
     AuthSourceLdap.any_instance.stubs(:initialize_ldap_con).raises(Net::LDAP::Error.new("Something went wrong"))
 
-    get :test_connection, :params => {
+    get(
+      :test_connection,
+      :params => {
         :id => 1
       }
+    )
     assert_redirected_to '/auth_sources'
     assert_not_nil flash[:error]
     assert_include 'Something went wrong', flash[:error]
@@ -196,9 +232,12 @@ class AuthSourcesControllerTest < Redmine::ControllerTest
          :mail => 'foo2@example.net', :auth_source_id => 1}
       ]
     )
-    get :autocomplete_for_new_user, :params => {
+    get(
+      :autocomplete_for_new_user,
+      :params => {
         :term => 'foo'
       }
+    )
     assert_response :success
     assert_equal 'application/json', response.media_type
     json = ActiveSupport::JSON.decode(response.body)
