@@ -155,6 +155,7 @@ class WatchersController < ApplicationController
         !w.project.visible?
       end
     end
+
     objects
   end
 end
