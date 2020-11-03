@@ -21,6 +21,7 @@ module WatchersHelper
 
   def watcher_link(objects, user)
     return '' unless user && user.logged?
+
     objects = Array.wrap(objects)
     return '' unless objects.any?
 
