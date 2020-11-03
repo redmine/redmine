@@ -112,6 +112,7 @@ module TimelogHelper
     hours.collect {|h| h[criteria[level]].to_s}.uniq.each do |value|
       hours_for_value = select_hours(hours, criteria[level], value)
       next if hours_for_value.empty?
+
       row = [''] * level
       row << format_criteria_value(available_criteria[criteria[level]], value, false).to_s
       row += [''] * (criteria.length - level - 1)
