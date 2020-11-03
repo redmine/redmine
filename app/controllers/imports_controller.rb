@@ -179,6 +179,7 @@ class ImportsController < ApplicationController
     # Core fields
     import_type::AUTO_MAPPABLE_FIELDS.each do |field_nm, label_nm|
       next if mappings.include?(field_nm)
+
       index = headers.index(field_nm) || headers.index(l(label_nm).downcase)
       if index
         mappings[field_nm] = index
@@ -189,6 +190,7 @@ class ImportsController < ApplicationController
     @custom_fields.each do |field|
       field_nm = "cf_#{field.id}"
       next if mappings.include?(field_nm)
+
       index = headers.index(field_nm) || headers.index(field.name.downcase)
       if index
         mappings[field_nm] = index
