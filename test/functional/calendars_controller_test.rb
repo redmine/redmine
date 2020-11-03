@@ -66,16 +66,20 @@ class CalendarsControllerTest < Redmine::ControllerTest
     assert_select 'form[data-cm-url=?]', '/issues/context_menu'
 
     assert_select 'table.cal' do
-      assert_select 'p.day-num', :text => date.day.to_s
-      assert_select(
-        'div.issue.hascontextmenu.tooltip.starting',
-        :text => /Add ingredients categories/
-      ) do
-        assert_select 'a.issue[href=?]', '/issues/2', :text => 'Feature request #2'
-        assert_select 'span.tip' do
-          assert_select 'img[class="gravatar"]'
+      assert_select 'tr' do
+        assert_select 'td' do
+          assert_select 'p.day-num', :text => date.day.to_s
+          assert_select(
+            'div.issue.hascontextmenu.tooltip.starting',
+            :text => /Add ingredients categories/
+          ) do
+            assert_select 'a.issue[href=?]', '/issues/2', :text => 'Feature request #2'
+            assert_select 'span.tip' do
+              assert_select 'img[class="gravatar"]'
+            end
+            assert_select 'input[name=?][type=?][value=?]', 'ids[]', 'checkbox', '2'
+          end
         end
-        assert_select 'input[name=?][type=?][value=?]', 'ids[]', 'checkbox', '2'
       end
     end
   end
