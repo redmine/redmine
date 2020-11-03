@@ -20,6 +20,7 @@
 module SearchHelper
   def highlight_tokens(text, tokens)
     return text unless text && tokens && !tokens.empty?
+
     re_tokens = tokens.collect {|t| Regexp.escape(t)}
     regexp = Regexp.new "(#{re_tokens.join('|')})", Regexp::IGNORECASE
     result = +''
@@ -58,6 +59,7 @@ module SearchHelper
     results_by_type.keys.sort_by {|k| results_by_type[k]}.reverse_each do |t|
       c = results_by_type[t]
       next if c == 0
+
       text = "#{type_label(t)} (#{c})"
       links << link_to(h(text), :q => params[:q], :titles_only => params[:titles_only],
                        :all_words => params[:all_words], :scope => params[:scope], t => 1)
