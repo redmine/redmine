@@ -68,10 +68,9 @@ class CalendarsControllerTest < Redmine::ControllerTest
     assert_select 'table.cal' do
       assert_select 'tr' do
         assert_select 'td' do
-          assert_select 'p.day-num', :text => date.day.to_s
           assert_select(
-            'div.issue.hascontextmenu.tooltip.starting',
-            :text => /Add ingredients categories/
+            'p.day-num ~ div.issue.hascontextmenu.tooltip.starting',
+            :text => /#{date.day}.*Add ingredients categories/
           ) do
             assert_select 'a.issue[href=?]', '/issues/2', :text => 'Feature request #2'
             assert_select 'span.tip' do
