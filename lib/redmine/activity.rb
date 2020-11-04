@@ -24,7 +24,7 @@ module Redmine
 
     @@available_event_types = []
     @@default_event_types = []
-    @@providers = Hash.new {|h,k| h[k]=[] }
+    @@providers = Hash.new {|h, k| h[k]=[]}
 
     class << self
       def map(&block)
