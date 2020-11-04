@@ -73,6 +73,7 @@ class IssueRelationsController < ApplicationController
 
   def destroy
     raise Unauthorized unless @relation.deletable?
+
     @relation.init_journals(User.current)
     @relation.destroy
 
