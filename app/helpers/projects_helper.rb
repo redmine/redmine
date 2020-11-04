@@ -166,6 +166,7 @@ module ProjectsHelper
 
   def bookmark_link(project, user = User.current)
     return '' unless user && user.logged?
+
     @jump_box ||= Redmine::ProjectJumpBox.new user
     bookmarked = @jump_box.bookmark?(project)
     css = +"icon bookmark "
