@@ -129,7 +129,7 @@ class MemberTest < ActiveSupport::TestCase
     Member.class_eval { def destroy_test_callback; end}
     Member.after_destroy :destroy_test_callback
 
-    m = Member.create!(:user_id => 1, :project_id => 1, :role_ids => [1,3])
+    m = Member.create!(:user_id => 1, :project_id => 1, :role_ids => [1, 3])
 
     Member.any_instance.expects(:destroy_test_callback).once
     assert_difference 'Member.count', -1 do
