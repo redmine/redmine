@@ -123,7 +123,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       auth = AuthSourceLdap.find(1)
       auth.update_attribute :onthefly_register, true
 
-      attributes =  auth.authenticate('example1','123456')
+      attributes =  auth.authenticate('example1', '123456')
       assert attributes.is_a?(Hash), "An hash was not returned"
       assert_equal 'Example', attributes[:firstname]
       assert_equal 'One', attributes[:lastname]
@@ -136,22 +136,22 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
 
     test '#authenticate with an invalid LDAP user should return nil' do
       auth = AuthSourceLdap.find(1)
-      assert_nil auth.authenticate('nouser','123456')
+      assert_nil auth.authenticate('nouser', '123456')
     end
 
     test '#authenticate without a login should return nil' do
       auth = AuthSourceLdap.find(1)
-      assert_nil auth.authenticate('','123456')
+      assert_nil auth.authenticate('', '123456')
     end
 
     test '#authenticate without a password should return nil' do
       auth = AuthSourceLdap.find(1)
-      assert_nil auth.authenticate('edavis','')
+      assert_nil auth.authenticate('edavis', '')
     end
 
     test '#authenticate without filter should return any user' do
       auth = AuthSourceLdap.find(1)
-      assert auth.authenticate('example1','123456')
+      assert auth.authenticate('example1', '123456')
       assert auth.authenticate('edavis', '123456')
     end
 
@@ -159,7 +159,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       auth = AuthSourceLdap.find(1)
       auth.filter = "(mail=*@redmine.org)"
 
-      assert auth.authenticate('example1','123456')
+      assert auth.authenticate('example1', '123456')
       assert_nil auth.authenticate('edavis', '123456')
     end
 
