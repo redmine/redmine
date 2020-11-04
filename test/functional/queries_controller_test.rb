@@ -787,7 +787,7 @@ class QueriesControllerTest < Redmine::ControllerTest
     assert_equal 'application/json', response.media_type
     json = ActiveSupport::JSON.decode(response.body)
     assert_equal 4, json.count
-    assert_include ["Private child of eCookbook","5"], json
+    assert_include ["Private child of eCookbook", "5"], json
   end
 
   def test_assignee_filter_should_return_active_and_locked_users_grouped_by_status
