@@ -207,6 +207,7 @@ class AttachmentsController < ApplicationController
     @attachment = Attachment.find(params[:id])
     # Show 404 if the filename in the url is wrong
     raise ActiveRecord::RecordNotFound if params[:filename] && params[:filename] != @attachment.filename
+
     @project = @attachment.project
   rescue ActiveRecord::RecordNotFound
     render_404
