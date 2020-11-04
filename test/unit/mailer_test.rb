@@ -1053,7 +1053,7 @@ class MailerTest < ActiveSupport::TestCase
     assert_equal ["admin@somenet.foo"],
                  Mailer.email_addresses(User.find(1))
     assert_equal ["admin@somenet.foo", "jsmith@somenet.foo"],
-                 Mailer.email_addresses(User.where(:id => [1,2])).sort
+                 Mailer.email_addresses(User.where(:id => [1, 2])).sort
   end
 
   def test_email_addresses_should_include_notified_emails_addresses_only
