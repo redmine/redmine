@@ -190,7 +190,7 @@ class Redmine::ListFieldFormatTest < ActionView::TestCase
   def test_value_from_keyword_for_multiple_custom_field_should_return_values
     field = GroupCustomField.create!(:name => 'List', :field_format => 'list', :possible_values => ['Foo', 'Bar', 'Baz,qux'], :multiple => true)
 
-    assert_equal ['Foo','Bar'], field.value_from_keyword('foo,bar', nil)
+    assert_equal ['Foo', 'Bar'], field.value_from_keyword('foo,bar', nil)
     assert_equal ['Baz,qux'], field.value_from_keyword('baz,qux', nil)
     assert_equal ['Baz,qux', 'Foo'], field.value_from_keyword('baz,qux,foo', nil)
     assert_equal ['Foo'], field.value_from_keyword('foo,invalid', nil)
