@@ -266,7 +266,7 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
 
   def test_create_should_send_notifications_according_custom_fields_visibility
     # anonymous user is never notified
-    users_to_test = @users_to_test.reject {|k,v| k.anonymous?}
+    users_to_test = @users_to_test.reject {|k, v| k.anonymous?}
 
     ActionMailer::Base.deliveries.clear
     @request.session[:user_id] = 1
@@ -308,7 +308,7 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
 
   def test_update_should_send_notifications_according_custom_fields_visibility
     # anonymous user is never notified
-    users_to_test = @users_to_test.reject {|k,v| k.anonymous?}
+    users_to_test = @users_to_test.reject {|k, v| k.anonymous?}
 
     users_to_test.keys.each do |user|
       Watcher.create!(:user => user, :watchable => @issue)
@@ -345,7 +345,7 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
 
   def test_updating_hidden_custom_fields_only_should_not_notifiy_user
     # anonymous user is never notified
-    users_to_test = @users_to_test.reject {|k,v| k.anonymous?}
+    users_to_test = @users_to_test.reject {|k, v| k.anonymous?}
 
     users_to_test.keys.each do |user|
       Watcher.create!(:user => user, :watchable => @issue)
