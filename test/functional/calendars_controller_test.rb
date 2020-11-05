@@ -38,8 +38,7 @@ class CalendarsControllerTest < Redmine::ControllerTest
   def test_show
     # Ensure that an issue to which a user is assigned is in the current
     # month's calendar in order to test Gravatar
-    date = issues(:issues_002).start_date
-    travel_to date
+    travel_to issues(:issues_002).start_date
 
     with_settings :gravatar_enabled => '1' do
       get(
@@ -69,8 +68,8 @@ class CalendarsControllerTest < Redmine::ControllerTest
       assert_select 'tr' do
         assert_select 'td' do
           assert_select(
-            'p.day-num ~ div.issue.hascontextmenu.tooltip.starting',
-            :text => /#{date.day}.*Add ingredients categories/
+            'div.issue.hascontextmenu.tooltip.starting',
+            :text => /Add ingredients categories/
           ) do
             assert_select 'a.issue[href=?]', '/issues/2', :text => 'Feature request #2'
             assert_select 'span.tip' do
