@@ -95,8 +95,23 @@ class CalendarsControllerTest < Redmine::ControllerTest
   end
 
   def test_cross_project_calendar
+    travel_to issues(:issues_002).start_date
     get :show
     assert_response :success
+
+    assert_select 'table.cal' do
+      assert_select 'tr' do
+        assert_select 'td' do
+          assert_select(
+            'div.issue.hascontextmenu.tooltip.starting',
+            :text => /eCookbook.*Add ingredients categories/m
+          ) do
+            assert_select 'a.issue[href=?]', '/issues/2', :text => 'Feature request #2'
+            assert_select 'input[name=?][type=?][value=?]', 'ids[]', 'checkbox', '2'
+          end
+        end
+      end
+    end
   end
 
   def test_week_number_calculation
