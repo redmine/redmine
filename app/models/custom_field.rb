@@ -203,6 +203,7 @@ class CustomField < ActiveRecord::Base
   # Returns nil if the custom field can not be used for sorting.
   def order_statement
     return nil if multiple?
+
     format.order_statement(self)
   end
 
@@ -210,6 +211,7 @@ class CustomField < ActiveRecord::Base
   # Returns nil if the custom field can not be used for grouping.
   def group_statement
     return nil if multiple?
+
     format.group_statement(self)
   end
 
