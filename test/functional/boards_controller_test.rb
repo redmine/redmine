@@ -27,26 +27,35 @@ class BoardsControllerTest < Redmine::ControllerTest
   end
 
   def test_index
-    get :index, :params => {
+    get(
+      :index,
+      :params => {
         :project_id => 1
       }
+    )
     assert_response :success
     assert_select 'table.boards'
   end
 
   def test_index_not_found
-    get :index, :params => {
+    get(
+      :index,
+      :params => {
         :project_id => 97
       }
+    )
     assert_response 404
   end
 
   def test_index_should_show_messages_if_only_one_board
     Project.find(1).boards.to_a.slice(1..-1).each(&:destroy)
 
-    get :index, :params => {
+    get(
+      :index,
+      :params => {
         :project_id => 1
       }
+    )
     assert_response :success
 
     assert_select 'table.boards', 0
@@ -54,10 +63,13 @@ class BoardsControllerTest < Redmine::ControllerTest
   end
 
   def test_show
-    get :show, :params => {
+    get(
+      :show,
+      :params => {
         :project_id => 1,
         :id => 1
       }
+    )
     assert_response :success
 
     assert_select 'table.messages tbody' do
@@ -69,10 +81,13 @@ class BoardsControllerTest < Redmine::ControllerTest
     Message.update_all(:sticky => 0)
     Message.where({:id => 1}).update_all({:sticky => 1})
 
-    get :show, :params => {
+    get(
+      :show,
+      :params => {
         :project_id => 1,
         :id => 1
       }
+    )
     assert_response :success
 
     assert_select 'table.messages tbody' do
@@ -91,10 +106,13 @@ class BoardsControllerTest < Redmine::ControllerTest
     reply = Message.new(:board_id => 1, :subject => 'New reply', :content => 'New reply', :author_id => 2)
     old_topic.children << reply
 
-    get :show, :params => {
+    get(
+      :show,
+      :params => {
         :project_id => 1,
         :id => 1
       }
+    )
     assert_response :success
 
     assert_select 'table.messages tbody' do
@@ -105,10 +123,13 @@ class BoardsControllerTest < Redmine::ControllerTest
 
   def test_show_with_permission_should_display_the_new_message_form
     @request.session[:user_id] = 2
-    get :show, :params => {
+    get(
+      :show,
+      :params => {
         :project_id => 1,
         :id => 1
       }
+    )
     assert_response :success
 
     assert_select 'form#message-form' do
@@ -117,29 +138,38 @@ class BoardsControllerTest < Redmine::ControllerTest
   end
 
   def test_show_atom
-    get :show, :params => {
+    get(
+      :show,
+      :params => {
         :project_id => 1,
         :id => 1,
         :format => 'atom'
       }
+    )
     assert_response :success
 
     assert_select 'feed > entry > title', :text => 'Help: RE: post 2'
   end
 
   def test_show_not_found
-    get :index, :params => {
+    get(
+      :index,
+      :params => {
         :project_id => 1,
         :id => 97
       }
+    )
     assert_response 404
   end
 
   def test_new
     @request.session[:user_id] = 2
-    get :new, :params => {
+    get(
+      :new,
+      :params => {
         :project_id => 1
       }
+    )
     assert_response :success
 
     assert_select 'select[name=?]', 'board[parent_id]' do
@@ -156,10 +186,12 @@ class BoardsControllerTest < Redmine::ControllerTest
   def test_new_without_project_boards
     Project.find(1).boards.delete_all
     @request.session[:user_id] = 2
-
-    get :new, :params => {
+    get(
+      :new,
+      :params => {
         :project_id => 1
       }
+    )
     assert_response :success
 
     assert_select 'select[name=?]', 'board[parent_id]', 0
@@ -168,13 +200,16 @@ class BoardsControllerTest < Redmine::ControllerTest
   def test_create
     @request.session[:user_id] = 2
     assert_difference 'Board.count' do
-      post :create, :params => {
+      post(
+        :create,
+        :params => {
           :project_id => 1,
           :board => {
             :name => 'Testing',
             :description => 'Testing board creation'
           }
         }
+      )
     end
     assert_redirected_to '/projects/ecookbook/settings/boards'
     board = Board.order('id DESC').first
@@ -185,7 +220,9 @@ class BoardsControllerTest < Redmine::ControllerTest
   def test_create_with_parent
     @request.session[:user_id] = 2
     assert_difference 'Board.count' do
-      post :create, :params => {
+      post(
+        :create,
+        :params => {
           :project_id => 1,
           :board => {
             :name => 'Testing',
@@ -193,6 +230,7 @@ class BoardsControllerTest < Redmine::ControllerTest
             :parent_id => 2
           }
         }
+      )
     end
     assert_redirected_to '/projects/ecookbook/settings/boards'
     board = Board.order('id DESC').first
@@ -202,13 +240,16 @@ class BoardsControllerTest < Redmine::ControllerTest
   def test_create_with_failure
     @request.session[:user_id] = 2
     assert_no_difference 'Board.count' do
-      post :create, :params => {
+      post(
+        :create,
+        :params => {
           :project_id => 1,
           :board => {
             :name => '',
             :description => 'Testing board creation'
           }
         }
+      )
     end
     assert_response :success
     assert_select_error /Name cannot be blank/
@@ -216,10 +257,13 @@ class BoardsControllerTest < Redmine::ControllerTest
 
   def test_edit
     @request.session[:user_id] = 2
-    get :edit, :params => {
+    get(
+      :edit,
+      :params => {
         :project_id => 1,
         :id => 2
       }
+    )
     assert_response :success
     assert_select 'input[name=?][value=?]', 'board[name]', 'Discussion'
   end
@@ -227,10 +271,13 @@ class BoardsControllerTest < Redmine::ControllerTest
   def test_edit_with_parent
     board = Board.generate!(:project_id => 1, :parent_id => 2)
     @request.session[:user_id] = 2
-    get :edit, :params => {
+    get(
+      :edit,
+      :params => {
         :project_id => 1,
         :id => board.id
       }
+    )
     assert_response :success
 
     assert_select 'select[name=?]', 'board[parent_id]' do
@@ -241,7 +288,9 @@ class BoardsControllerTest < Redmine::ControllerTest
   def test_update
     @request.session[:user_id] = 2
     assert_no_difference 'Board.count' do
-      put :update, :params => {
+      put(
+        :update,
+        :params => {
           :project_id => 1,
           :id => 2,
           :board => {
@@ -249,6 +298,7 @@ class BoardsControllerTest < Redmine::ControllerTest
             :description => 'Testing board update'
           }
         }
+      )
     end
     assert_redirected_to '/projects/ecookbook/settings/boards'
     assert_equal 'Testing', Board.find(2).name
@@ -256,13 +306,16 @@ class BoardsControllerTest < Redmine::ControllerTest
 
   def test_update_position
     @request.session[:user_id] = 2
-    put :update, :params => {
+    put(
+      :update,
+      :params => {
         :project_id => 1,
         :id => 2,
         :board => {
           :position => 1
         }
       }
+    )
     assert_redirected_to '/projects/ecookbook/settings/boards'
     board = Board.find(2)
     assert_equal 1, board.position
@@ -270,7 +323,9 @@ class BoardsControllerTest < Redmine::ControllerTest
 
   def test_update_with_failure
     @request.session[:user_id] = 2
-    put :update, :params => {
+    put(
+      :update,
+      :params => {
         :project_id => 1,
         :id => 2,
         :board => {
@@ -278,6 +333,7 @@ class BoardsControllerTest < Redmine::ControllerTest
           :description => 'Testing board update'
         }
       }
+    )
     assert_response :success
     assert_select_error /Name cannot be blank/
   end
@@ -285,10 +341,13 @@ class BoardsControllerTest < Redmine::ControllerTest
   def test_destroy
     @request.session[:user_id] = 2
     assert_difference 'Board.count', -1 do
-      delete :destroy, :params => {
+      delete(
+        :destroy,
+        :params => {
           :project_id => 1,
           :id => 2
         }
+      )
     end
     assert_redirected_to '/projects/ecookbook/settings/boards'
     assert_nil Board.find_by_id(2)
