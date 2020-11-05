@@ -451,6 +451,7 @@ class Attachment < ActiveRecord::Base
     if allowed.present? && !extension_in?(extension, allowed)
       return false
     end
+
     true
   end
 
