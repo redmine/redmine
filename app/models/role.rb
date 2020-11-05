@@ -108,6 +108,7 @@ class Role < ActiveRecord::Base
   # Copies attributes from another role, arg can be an id or a Role
   def copy_from(arg, options={})
     return unless arg.present?
+
     role = arg.is_a?(Role) ? arg : Role.find_by_id(arg.to_s)
     self.attributes = role.attributes.dup.except("id", "name", "position", "builtin", "permissions")
     self.permissions = role.permissions.dup
@@ -133,6 +134,7 @@ class Role < ActiveRecord::Base
 
   def remove_permission!(*perms)
     return unless permissions.is_a?(Array)
+
     permissions_will_change!
     perms.each { |p| permissions.delete(p.to_sym) }
     save!
