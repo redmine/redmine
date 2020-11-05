@@ -111,10 +111,10 @@ class WatchersController < ApplicationController
       watchable.set_watcher(user, watching)
     end
     respond_to do |format|
-      format.html {
+      format.html do
         text = watching ? 'Watcher added.' : 'Watcher removed.'
         redirect_to_referer_or {render :html => text, :status => 200, :layout => true}
-      }
+      end
       format.js { render :partial => 'set_watcher', :locals => {:user => user, :watched => watchables} }
     end
   end
