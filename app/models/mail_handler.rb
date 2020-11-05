@@ -297,6 +297,7 @@ class MailHandler < ActionMailer::Base
       email.attachments.each do |attachment|
         next unless accept_attachment?(attachment)
         next unless attachment.body.decoded.size > 0
+
         obj.attachments << Attachment.create(:container => obj,
                           :file => attachment.body.decoded,
                           :filename => attachment.filename,
@@ -386,11 +387,13 @@ class MailHandler < ActionMailer::Base
   def get_project_from_receiver_addresses
     local, domain = handler_options[:project_from_subaddress].to_s.split("@")
     return nil unless local && domain
+
     local = Regexp.escape(local)
 
     [:to, :cc, :bcc].each do |field|
       header = @email[field]
       next if header.blank? || header.field.blank? || !header.field.respond_to?(:addrs)
+
       header.field.addrs.each do |addr|
         if addr.domain.to_s.casecmp(domain)==0 && addr.local.to_s =~ /\A#{local}\+([^+]+)\z/
           if project = Project.find_by_identifier($1)
@@ -416,6 +419,7 @@ class MailHandler < ActionMailer::Base
       end
     end
     raise MissingInformation, 'Unable to determine target project' if target.nil?
+
     target
   end
 
