@@ -138,6 +138,7 @@ class MessagesController < ApplicationController
 
   def find_message
     return unless find_board
+
     @message = @board.messages.includes(:parent).find(params[:id])
     @topic = @message.root
   rescue ActiveRecord::RecordNotFound
