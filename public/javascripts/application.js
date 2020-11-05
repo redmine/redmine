@@ -855,8 +855,15 @@ $(document).on('keydown', 'form textarea', function(e) {
   // Submit the form with Ctrl + Enter or Command + Return
   var targetForm = $(e.target).closest('form');
   if(e.keyCode == 13 && ((e.ctrlKey && !e.metaKey) || (!e.ctrlKey && e.metaKey) && targetForm.length)) {
-    $(e.target).closest('form').find('textarea').blur().removeData('changed');
-    targetForm.submit();
+    // For ajax, use click() instead of submit() to prevent "Invalid form authenticity token" error
+    if (targetForm.attr('data-remote') == 'true') {
+      if (targetForm.find('input[type=submit]').length === 0) { return false; }
+      targetForm.find('textarea').blur().removeData('changed');
+      targetForm.find('input[type=submit]').first().click();
+    } else {
+      targetForm.find('textarea').blur().removeData('changed');
+      targetForm.submit();
+    }
   }
 });
 
