@@ -32,6 +32,7 @@ module Redmine
     def self.generate(source, target, size, is_pdf = false)
       return nil unless convert_available?
       return nil if is_pdf && !gs_available?
+
       unless File.exists?(target)
         mime_type = File.open(source) {|f| MimeMagic.by_magic(f).try(:type) }
         return nil if mime_type.nil?
@@ -42,6 +43,7 @@ module Redmine
         unless File.open(source) {|f| ALLOWED_TYPES.include? MimeMagic.by_magic(f).try(:type) }
           return nil
         end
+
         directory = File.dirname(target)
         unless File.exists?(directory)
           FileUtils.mkdir_p directory
@@ -63,6 +65,7 @@ module Redmine
 
     def self.convert_available?
       return @convert_available if defined?(@convert_available)
+
       begin
         `#{shell_quote CONVERT_BIN} -version`
         @convert_available = $?.success?
