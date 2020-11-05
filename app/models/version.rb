@@ -167,10 +167,9 @@ class Version < ActiveRecord::Base
     if attrs.respond_to?(:to_unsafe_hash)
       attrs = attrs.to_unsafe_hash
     end
-
     return unless attrs.is_a?(Hash)
-    attrs = attrs.deep_dup
 
+    attrs = attrs.deep_dup
     # Reject custom fields values not visible by the user
     if attrs['custom_field_values'].present?
       editable_custom_field_ids = editable_custom_field_values(user).map {|v| v.custom_field_id.to_s}
