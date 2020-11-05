@@ -57,6 +57,7 @@ class SysController < ActionController::Base
         project = scope.find_by_identifier(params[:id])
       end
       raise ActiveRecord::RecordNotFound unless project
+
       projects << project
     else
       projects = scope.to_a
