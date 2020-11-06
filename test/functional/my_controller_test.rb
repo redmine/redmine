@@ -414,6 +414,33 @@ class MyControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_page_with_calendar
+    travel_to issues(:issues_002).start_date
+
+    preferences = User.find(2).pref
+    preferences[:my_page_layout] = {'top' => ['calendar']}
+    preferences.save!
+
+    get :page
+    assert_response :success
+
+    assert_select 'form[data-cm-url=?]', '/issues/context_menu'
+
+    assert_select 'table.cal' do
+      assert_select 'tr' do
+        assert_select 'td' do
+          assert_select(
+            'div.issue.hascontextmenu.tooltip.starting',
+            :text => /eCookbook.*Add ingredients categories/m
+          ) do
+            assert_select 'a.issue[href=?]', '/issues/2', :text => 'Feature request #2'
+            assert_select 'input[name=?][type=?][value=?]', 'ids[]', 'checkbox', '2'
+          end
+        end
+      end
+    end
+  end
+
   def test_update_account
     put(
       :account,
