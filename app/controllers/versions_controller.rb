@@ -32,7 +32,7 @@ class VersionsController < ApplicationController
 
   def index
     respond_to do |format|
-      format.html {
+      format.html do
         @trackers = @project.trackers.sorted.to_a
         retrieve_selected_tracker_ids(@trackers, @trackers.select {|t| t.is_in_roadmap?})
         @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
@@ -56,22 +56,22 @@ class VersionsController < ApplicationController
           @issues_by_version = issues.group_by(&:fixed_version)
         end
         @versions.reject! {|version| !project_ids.include?(version.project_id) && @issues_by_version[version].blank?}
-      }
-      format.api {
+      end
+      format.api do
         @versions = @project.shared_versions.to_a
-      }
+      end
     end
   end
 
   def show
     respond_to do |format|
-      format.html {
+      format.html do
         @issues = @version.fixed_issues.visible.
           includes(:status, :tracker, :priority).
           preload(:project).
           reorder("#{Tracker.table_name}.position, #{Issue.table_name}.id").
           to_a
-      }
+      end
       format.api
     end
   end
@@ -126,10 +126,10 @@ class VersionsController < ApplicationController
       @version.safe_attributes = attributes
       if @version.save
         respond_to do |format|
-          format.html {
+          format.html do
             flash[:notice] = l(:notice_successful_update)
             redirect_back_or_default settings_project_path(@project, :tab => 'versions')
-          }
+          end
           format.api  { render_api_ok }
         end
       else
@@ -157,10 +157,10 @@ class VersionsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:error] = l(:notice_unable_delete_version)
           redirect_to settings_project_path(@project, :tab => 'versions')
-        }
+        end
         format.api  { head :unprocessable_entity }
       end
     end
