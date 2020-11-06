@@ -70,13 +70,13 @@ class ImportsController < ApplicationController
       auto_map_fields
     elsif request.post?
       respond_to do |format|
-        format.html {
+        format.html do
           if params[:previous]
             redirect_to import_settings_path(@import)
           else
             redirect_to import_run_path(@import)
           end
-        }
+        end
         format.js # updates mapping form on project or tracker change
       end
     end
@@ -89,13 +89,13 @@ class ImportsController < ApplicationController
         :max_time => 10.seconds
       )
       respond_to do |format|
-        format.html {
+        format.html do
           if @import.finished?
             redirect_to import_path(@import)
           else
             redirect_to import_run_path(@import)
           end
-        }
+        end
         format.js
       end
     end
