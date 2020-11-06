@@ -61,9 +61,9 @@ class WorkflowsController < ApplicationController
 
     if request.post? && @roles && @trackers && params[:permissions]
       permissions = params[:permissions].deep_dup
-      permissions.each { |field, rule_by_status_id|
+      permissions.each do |field, rule_by_status_id|
         rule_by_status_id.reject! {|status_id, rule| rule == 'no_change'}
-      }
+      end
       WorkflowPermission.replace_permissions(@trackers, @roles, permissions)
       flash[:notice] = l(:notice_successful_update)
       redirect_to_referer_or workflows_permissions_path
