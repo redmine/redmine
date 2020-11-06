@@ -43,9 +43,7 @@ class VersionsCustomFieldsVisibilityTest < Redmine::ControllerTest
     version.save!
 
     @request.session[:user_id] = 2
-    get :show, :params => {
-        :id => 2
-    }
+    get(:show, :params => {:id => 2})
     assert_response :success
 
     assert_select '#roadmap' do
@@ -65,9 +63,7 @@ class VersionsCustomFieldsVisibilityTest < Redmine::ControllerTest
     version.save!
 
     @request.session[:user_id] = 2
-    get :edit, :params => {
-        :id => 2
-    }
+    get(:edit, :params => {:id => 2})
     assert_response :success
 
     assert_select 'form.edit_version' do
