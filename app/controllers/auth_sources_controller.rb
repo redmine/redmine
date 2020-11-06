@@ -78,7 +78,7 @@ class AuthSourcesController < ApplicationController
 
   def autocomplete_for_new_user
     results = AuthSource.search(params[:term])
-    render :json => results.map {|result|
+    json = results.map do |result|
       {
         'value' => result[:login],
         'label' => "#{result[:login]} (#{result[:firstname]} #{result[:lastname]})",
@@ -88,7 +88,8 @@ class AuthSourcesController < ApplicationController
         'mail' => result[:mail].to_s,
         'auth_source_id' => result[:auth_source_id].to_s
       }
-    }
+    end
+    render :json => json
   end
 
   private
