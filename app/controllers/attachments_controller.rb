@@ -37,7 +37,7 @@ class AttachmentsController < ApplicationController
 
   def show
     respond_to do |format|
-      format.html {
+      format.html do
         if @attachment.container.respond_to?(:attachments)
           @attachments = @attachment.container.attachments.to_a
           if index = @attachments.index(@attachment)
@@ -64,7 +64,7 @@ class AttachmentsController < ApplicationController
         else
           render :action => 'other'
         end
-      }
+      end
       format.api
     end
   end
@@ -113,13 +113,13 @@ class AttachmentsController < ApplicationController
 
     respond_to do |format|
       format.js
-      format.api {
+      format.api do
         if saved
           render :action => 'upload', :status => :created
         else
           render_validation_errors(@attachment)
         end
-      }
+      end
     end
   end
 
@@ -155,13 +155,13 @@ class AttachmentsController < ApplicationController
     saved = @attachment.save
 
     respond_to do |format|
-      format.api {
+      format.api do
         if saved
           render_api_ok
         else
           render_validation_errors(@attachment)
         end
-      }
+      end
     end
   end
 
