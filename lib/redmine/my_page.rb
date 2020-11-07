@@ -48,11 +48,11 @@ module Redmine
     def self.block_options(blocks_in_use=[])
       options = []
       blocks.each do |block, block_options|
-        indexes = blocks_in_use.map {|n|
+        indexes = blocks_in_use.map do |n|
           if n =~ /\A#{block}(__(\d+))?\z/
             $2.to_i
           end
-        }.compact
+        end.compact
 
         occurs = indexes.size
         block_id = indexes.any? ? "#{block}__#{indexes.max + 1}" : block
