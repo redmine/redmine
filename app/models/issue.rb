@@ -485,16 +485,16 @@ class Issue < ActiveRecord::Base
     :if => lambda {|issue, user| issue.new_record? && user.allowed_to?(:add_issue_watchers, issue.project)})
   safe_attributes(
     'is_private',
-    :if => lambda {|issue, user|
+    :if => lambda do |issue, user|
       user.allowed_to?(:set_issues_private, issue.project) ||
         (issue.author_id == user.id && user.allowed_to?(:set_own_issues_private, issue.project))
-    })
+    end)
   safe_attributes(
     'parent_issue_id',
-    :if => lambda {|issue, user|
+    :if => lambda do |issue, user|
       (issue.new_record? || issue.attributes_editable?(user)) &&
         user.allowed_to?(:manage_subtasks, issue.project)
-    })
+    end)
   safe_attributes(
     'deleted_attachment_ids',
     :if => lambda {|issue, user| issue.attachments_deletable?(user)})
@@ -1263,11 +1263,11 @@ class Issue < ActiveRecord::Base
     all = [self]
     last = [self]
     while last.any?
-      current = last.map {|i|
+      current = last.map do |i|
         i.relations_from.where(:relation_type => IssueRelation::TYPE_PRECEDES).map(&:issue_to) +
         i.leaves.to_a +
         i.ancestors.map {|a| a.relations_from.where(:relation_type => IssueRelation::TYPE_PRECEDES).map(&:issue_to)}
-      }.flatten.uniq
+      end.flatten.uniq
       current -= last
       current -= all
       return true if current.include?(other)
@@ -1747,12 +1747,12 @@ class Issue < ActiveRecord::Base
             else
               average = 1.0.to_d
             end
-            done = children.map {|c|
+            done = children.map do |c|
               estimated = (c.total_estimated_hours || 0.0).to_d
               estimated = average unless estimated > 0.0
               ratio = c.closed? ? 100 : (c.done_ratio || 0)
               estimated * ratio
-            }.sum
+            end.sum
             progress = done / (average * children.count)
             p.done_ratio = progress.floor
           end
