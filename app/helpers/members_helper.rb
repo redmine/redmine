@@ -36,7 +36,7 @@ module MembersHelper
     links =
       pagination_links_full(principal_pages,
                             principal_count,
-                            :per_page_links => false) {|text, parameters, options|
+                            :per_page_links => false) do |text, parameters, options|
         link_to(
           text,
           autocomplete_project_memberships_path(
@@ -44,7 +44,7 @@ module MembersHelper
             parameters.merge(:q => params[:q], :format => 'js')
           ),
           :remote => true)
-      }
+      end
     s + content_tag('span', links, :class => 'pagination')
   end
 
