@@ -40,10 +40,10 @@ class IssueQuery < Query
     QueryColumn.new(:estimated_hours, :sortable => "#{Issue.table_name}.estimated_hours", :totalable => true),
     QueryColumn.new(
       :total_estimated_hours,
-      :sortable => -> {
+      :sortable => -> do
                      "COALESCE((SELECT SUM(estimated_hours) FROM #{Issue.table_name} subtasks" +
         " WHERE #{Issue.visible_condition(User.current).gsub(/\bissues\b/, 'subtasks')} AND subtasks.root_id = #{Issue.table_name}.root_id AND subtasks.lft >= #{Issue.table_name}.lft AND subtasks.rgt <= #{Issue.table_name}.rgt), 0)"
-                   },
+                   end,
       :default_order => 'desc'),
     QueryColumn.new(:done_ratio, :sortable => "#{Issue.table_name}.done_ratio", :groupable => true),
     TimestampQueryColumn.new(:created_on, :sortable => "#{Issue.table_name}.created_on", :default_order => 'desc', :groupable => true),
@@ -265,9 +265,9 @@ class IssueQuery < Query
 
     disabled_fields = Tracker.disabled_core_fields(trackers).map {|field| field.sub(/_id$/, '')}
     disabled_fields << "total_estimated_hours" if disabled_fields.include?("estimated_hours")
-    @available_columns.reject! {|column|
+    @available_columns.reject! do |column|
       disabled_fields.include?(column.name.to_s)
-    }
+    end
 
     @available_columns
   end
