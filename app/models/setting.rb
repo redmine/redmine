@@ -221,11 +221,11 @@ class Setting < ActiveRecord::Base
       params[:keywords].each_with_index do |keywords, i|
         next if keywords.blank?
 
-        s << attributes.inject({}) {|h, a|
+        s << attributes.inject({}) do |h, a|
           value = params[a][i].to_s
           h[a.to_s] = value if value.present?
           h
-        }.merge('keywords' => keywords)
+        end.merge('keywords' => keywords)
       end
     end
     s
