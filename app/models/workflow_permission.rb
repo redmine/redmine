@@ -46,8 +46,8 @@ class WorkflowPermission < WorkflowRule
     roles = Array.wrap roles
 
     transaction do
-      permissions.each { |status_id, rule_by_field|
-        rule_by_field.each { |field, rule|
+      permissions.each do |status_id, rule_by_field|
+        rule_by_field.each do |field, rule|
           where(:tracker_id => trackers.map(&:id), :role_id => roles.map(&:id), :old_status_id => status_id, :field_name => field).destroy_all
           if rule.present?
             trackers.each do |tracker|
@@ -56,8 +56,8 @@ class WorkflowPermission < WorkflowRule
               end
             end
           end
-        }
-      }
+        end
+      end
     end
   end
 
