@@ -51,7 +51,7 @@ class ProjectsController < ApplicationController
     scope = project_scope
 
     respond_to do |format|
-      format.html {
+      format.html do
         # TODO: see what to do with the board view and pagination
         if @query.display_type == 'board'
           @entries = scope.to_a
@@ -60,33 +60,33 @@ class ProjectsController < ApplicationController
           @entry_pages = Paginator.new @entry_count, per_page_option, params['page']
           @entries = scope.offset(@entry_pages.offset).limit(@entry_pages.per_page).to_a
         end
-      }
-      format.api  {
+      end
+      format.api do
         @offset, @limit = api_offset_and_limit
         @project_count = scope.count
         @projects = scope.offset(@offset).limit(@limit).to_a
-      }
-      format.atom {
+      end
+      format.atom do
         projects = scope.reorder(:created_on => :desc).limit(Setting.feeds_limit.to_i).to_a
         render_feed(projects, :title => "#{Setting.app_title}: #{l(:label_project_latest)}")
-      }
-      format.csv {
+      end
+      format.csv do
         # Export all entries
         @entries = scope.to_a
         send_data(query_to_csv(@entries, @query, params), :type => 'text/csv; header=present', :filename => 'projects.csv')
-      }
+      end
     end
   end
 
   def autocomplete
     respond_to do |format|
-      format.js {
+      format.js do
         if params[:q].present?
           @projects = Project.visible.like(params[:q]).to_a
         else
           @projects = User.current.projects.to_a
         end
-      }
+      end
     end
   end
 
@@ -210,18 +210,18 @@ class ProjectsController < ApplicationController
     @project.safe_attributes = params[:project]
     if @project.save
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_update)
           redirect_to settings_project_path(@project, params[:tab])
-        }
+        end
         format.api  { render_api_ok }
       end
     else
       respond_to do |format|
-        format.html {
+        format.html do
           settings
           render :action => 'settings'
-        }
+        end
         format.api  { render_validation_errors(@project) }
       end
     end
