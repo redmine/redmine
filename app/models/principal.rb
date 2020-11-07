@@ -183,11 +183,11 @@ class Principal < ActiveRecord::Base
     if principal.nil? && / /.match?(keyword)
       firstname, lastname = *(keyword.split) # "First Last Throwaway"
       principal ||=
-        principals.detect {|a|
+        principals.detect do |a|
           a.is_a?(User) &&
             firstname.casecmp(a.firstname.to_s) == 0 &&
               lastname.casecmp(a.lastname.to_s) == 0
-        }
+        end
     end
     if principal.nil?
       principal ||= principals.detect {|a| keyword.casecmp(a.name) == 0}
