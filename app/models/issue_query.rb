@@ -215,9 +215,9 @@ class IssueQuery < Query
 
     add_available_filter "issue_id", :type => :integer, :label => :label_issue
 
-    Tracker.disabled_core_fields(trackers).each {|field|
+    Tracker.disabled_core_fields(trackers).each do |field|
       delete_available_filter field
-    }
+    end
   end
 
   def available_columns
@@ -484,9 +484,9 @@ class IssueQuery < Query
     end
     groups ||= []
 
-    members_of_groups = groups.inject([]) {|user_ids, group|
+    members_of_groups = groups.inject([]) do |user_ids, group|
       user_ids + group.user_ids + [group.id]
-    }.uniq.compact.sort.collect(&:to_s)
+    end.uniq.compact.sort.collect(&:to_s)
 
     '(' + sql_for_field("assigned_to_id", operator, members_of_groups, Issue.table_name, "assigned_to_id", false) + ')'
   end
