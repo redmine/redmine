@@ -49,9 +49,9 @@ class WikiController < ApplicationController
     load_pages_for_index
 
     respond_to do |format|
-      format.html {
+      format.html do
         @pages_by_parent_id = @pages.group_by(&:parent_id)
-      }
+      end
       format.api
     end
   end
@@ -184,17 +184,17 @@ class WikiController < ApplicationController
       call_hook(:controller_wiki_edit_after_save, { :params => params, :page => @page})
 
       respond_to do |format|
-        format.html {
+        format.html do
           anchor = @section ? "section-#{@section}" : nil
           redirect_to project_wiki_page_path(@project, @page.title, :anchor => anchor)
-        }
-        format.api {
+        end
+        format.api do
           if was_new_page
             render :action => 'show', :status => :created, :location => project_wiki_page_path(@project, @page.title)
           else
             render_api_ok
           end
-        }
+        end
       end
     else
       respond_to do |format|
@@ -206,10 +206,10 @@ class WikiController < ApplicationController
   rescue ActiveRecord::StaleObjectError, Redmine::WikiFormatting::StaleSectionError
     # Optimistic locking exception
     respond_to do |format|
-      format.html {
+      format.html do
         flash.now[:error] = l(:notice_locking_conflict)
         render :action => 'edit'
-      }
+      end
       format.api { render_api_head :conflict }
     end
   end
@@ -287,10 +287,10 @@ class WikiController < ApplicationController
     end
     @page.destroy
     respond_to do |format|
-      format.html {
+      format.html do
         flash[:notice] = l(:notice_successful_delete)
         redirect_to project_wiki_index_path(@project)
-      }
+      end
       format.api { render_api_ok }
     end
   end
@@ -312,13 +312,13 @@ class WikiController < ApplicationController
                       includes([:content, {:attachments => :author}]).
                       to_a
     respond_to do |format|
-      format.html {
+      format.html do
         export = render_to_string :action => 'export_multiple', :layout => false
         send_data(export, :type => 'text/html', :filename => "wiki.html")
-      }
-      format.pdf {
+      end
+      format.pdf do
         send_file_headers! :type => 'application/pdf', :filename => "#{@project.identifier}.pdf"
-      }
+      end
     end
   end
 
