@@ -60,13 +60,13 @@ class UsersController < ApplicationController
     @users =  scope.order(sort_clause).limit(@limit).offset(@offset).to_a
 
     respond_to do |format|
-      format.html {
+      format.html do
         @groups = Group.givable.sort
         render :layout => !request.xhr?
-      }
-      format.csv {
+      end
+      format.csv do
         send_data(users_to_csv(scope.order(sort_clause)), :type => 'text/csv; header=present', :filename => 'users.csv')
-      }
+      end
       format.api
     end
   end
@@ -91,11 +91,11 @@ class UsersController < ApplicationController
     }
 
     respond_to do |format|
-      format.html {
+      format.html do
         events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
         @events_by_day = events.group_by {|event| User.current.time_to_date(event.event_datetime)}
         render :layout => 'base'
-      }
+      end
       format.api
     end
   end
@@ -116,7 +116,7 @@ class UsersController < ApplicationController
       Mailer.deliver_account_information(@user, @user.password) if params[:send_information]
 
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_user_successful_create, :id => view_context.link_to(@user.login, user_path(@user)))
           if params[:continue]
             attrs = {:generate_password => @user.generate_password }
@@ -124,7 +124,7 @@ class UsersController < ApplicationController
           else
             redirect_to edit_user_path(@user)
           end
-        }
+        end
         format.api  { render :action => 'show', :status => :created, :location => user_url(@user) }
       end
     else
@@ -164,10 +164,10 @@ class UsersController < ApplicationController
       end
 
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_update)
           redirect_to_referer_or edit_user_path(@user)
-        }
+        end
         format.api  { render_api_ok }
       end
     else
