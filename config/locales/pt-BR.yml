@@ -1258,63 +1258,63 @@ pt-BR:
   label_ldaps_warning: É recomendado utilizar uma conexão LDAPS criptografada com verificação de certificado para evitar qualquer manipulação durante o processo de autenticação.
   label_nothing_to_preview: Nada para visualizar
   error_token_expired: Este link de recuperação de senha expirou. Por favor, tente novamente.
-  error_spent_on_future_date: Cannot log time on a future date
-  setting_timelog_accept_future_dates: Accept time logs on future dates
+  error_spent_on_future_date: Não é possível registrar o tempo em uma data futura
+  setting_timelog_accept_future_dates: Permitir registros de tempo em datas futuras
   label_delete_link_to_subtask: Excluir relação
-  error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
-    for other users
-  permission_log_time_for_other_users: Log spent time for other users
-  label_tomorrow: tomorrow
-  label_next_week: next week
-  label_next_month: next month
-  text_role_no_workflow: No workflow defined for this role
-  text_status_no_workflow: No tracker uses this status in the workflows
-  setting_mail_handler_preferred_body_part: Preferred part of multipart (HTML) emails
-  setting_show_status_changes_in_mail_subject: Show status changes in issue mail notifications
-    subject
-  label_inherited_from_parent_project: Inherited from parent project
-  label_inherited_from_group: Inherited from group %{name}
-  label_trackers_description: Trackers description
-  label_open_trackers_description: View all trackers description
-  label_preferred_body_part_text: Text
+  error_not_allowed_to_log_time_for_other_users: Você não possuí permissão para registrar o tempo
+    para outros usuários
+  permission_log_time_for_other_users: Tempo de registro gasto para outros usuários
+  label_tomorrow: amanhã
+  label_next_week: próxima semana
+  label_next_month: próximo mês
+  text_role_no_workflow: Não foi definido fluxo de trabalho para este papel
+  text_status_no_workflow: Nenhum tipo de tarefa utiliza esta situação nos fluxos de trabalho
+  setting_mail_handler_preferred_body_part: Parte preferida de e-mails multipartes (HTML)
+  setting_show_status_changes_in_mail_subject: Exibir mudança de situação no título do email de notificação
+    data tarefa
+  label_inherited_from_parent_project: Herdado do projeto pai
+  label_inherited_from_group: Herdado do grupo %{name}
+  label_trackers_description: Descrição dos tipos de tarefa
+  label_open_trackers_description: Ver todas as descrições dos tipos de tarefas
+  label_preferred_body_part_text: Texto
   label_preferred_body_part_html: HTML (experimental)
-  field_parent_issue_subject: Parent task subject
-  permission_edit_own_issues: Edit own issues
-  text_select_apply_tracker: Select tracker
-  label_updated_issues: Updated issues
-  text_avatar_server_config_html: The current avatar server is <a href="%{url}">%{url}</a>.
-    You can configure it in config/configuration.yml.
-  setting_gantt_months_limit: Maximum number of months displayed on the gantt chart
-  permission_import_time_entries: Import time entries
-  label_import_notifications: Send email notifications during the import
-  text_gs_available: ImageMagick PDF support available (optional)
-  field_recently_used_projects: Number of recently used projects in jump box
-  label_optgroup_bookmarks: Bookmarks
-  label_optgroup_others: Other projects
-  label_optgroup_recents: Recently used
-  button_project_bookmark: Add bookmark
-  button_project_bookmark_delete: Remove bookmark
-  field_history_default_tab: Issue's history default tab
-  label_issue_history_properties: Property changes
-  label_issue_history_notes: Notes
-  label_last_tab_visited: Last visited tab
-  field_unique_id: Unique ID
-  text_no_subject: no subject
-  setting_password_required_char_classes: Required character classes for passwords
-  label_password_char_class_uppercase: uppercase letters
-  label_password_char_class_lowercase: lowercase letters
-  label_password_char_class_digits: digits
-  label_password_char_class_special_chars: special characters
-  text_characters_must_contain: Must contain %{character_classes}.
-  label_starts_with: starts with
-  label_ends_with: ends with
-  label_issue_fixed_version_updated: Target version updated
-  setting_project_list_defaults: Projects list defaults
-  label_display_type: Display results as
-  label_display_type_list: List
-  label_display_type_board: Board
-  label_my_bookmarks: My bookmarks
-  label_import_time_entries: Import time entries
+  field_parent_issue_subject: Assunto da tarefa pai
+  permission_edit_own_issues: Editar as próprias tarefas
+  text_select_apply_tracker: Selecione o tipo de tarefa
+  label_updated_issues: Tarefas atualizadas
+  text_avatar_server_config_html: O servidor de avatar atual é <a href="%{url}">% {url} </a>.
+     Você pode configurá-lo em config / configuration.yml.
+  setting_gantt_months_limit: Número máximo de meses exibidos no gráfico de Gantt
+  permission_import_time_entries: Importar tempo gasto
+  label_import_notifications: Enviar notificações por e-mail durante a importação
+  text_gs_available: Suporte ao ImageMagick PDF disponível (opcional)
+  field_recently_used_projects: Número de projetos usados recentemente no acesso rápido
+  label_optgroup_bookmarks: Marcadores
+  label_optgroup_others: Outros projetos
+  label_optgroup_recents: Recentes
+  button_project_bookmark: Adicionar marcador
+  button_project_bookmark_delete: Remover marcador
+  field_history_default_tab: Aba padrão no histórico das tarefas
+  label_issue_history_properties: Campos alterados
+  label_issue_history_notes: Notas
+  label_last_tab_visited: Última aba visitada
+  field_unique_id: ID único
+  text_no_subject: sem assunto
+  setting_password_required_char_classes: Classes de caracteres obrigatórias para as senhas
+  label_password_char_class_uppercase: Letras maiúsculas
+  label_password_char_class_lowercase: Letras minúsculas
+  label_password_char_class_digits: digitos
+  label_password_char_class_special_chars: caracteres especiais
+  text_characters_must_contain: Precisa conter %{character_classes}.
+  label_starts_with: começando com
+  label_ends_with: terminando com
+  label_issue_fixed_version_updated: Versão atualizada
+  setting_project_list_defaults: Padrão da lista de projetos
+  label_display_type: Exibir resultados como
+  label_display_type_list: Lista
+  label_display_type_board: Quadro
+  label_my_bookmarks: Meus marcaroes
+  label_import_time_entries: Importar tempo gasto
   field_toolbar_language_options: Code highlighting toolbar languages
   label_user_mail_notify_about_high_priority_issues_html: Also notify me about issues
     with a priority of <em>%{prio}</em> or higher
