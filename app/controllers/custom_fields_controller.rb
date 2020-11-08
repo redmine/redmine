@@ -28,14 +28,14 @@ class CustomFieldsController < ApplicationController
 
   def index
     respond_to do |format|
-      format.html {
+      format.html do
         @custom_fields_by_type = CustomField.all.group_by {|f| f.class.name }
         @custom_fields_projects_count =
           IssueCustomField.where(is_for_all: false).joins(:projects).group(:custom_field_id).count
-      }
-      format.api {
+      end
+      format.api do
         @custom_fields = CustomField.all
-      }
+      end
     end
   end
 
@@ -66,10 +66,10 @@ class CustomFieldsController < ApplicationController
     if @custom_field.save
       call_hook(:controller_custom_fields_edit_after_save, :params => params, :custom_field => @custom_field)
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_update)
           redirect_back_or_default edit_custom_field_path(@custom_field)
-        }
+        end
         format.js { head 200 }
       end
     else
