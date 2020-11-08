@@ -81,11 +81,11 @@ class NewsController < ApplicationController
     @news.save_attachments(params[:attachments] || (params[:news] && params[:news][:uploads]))
     if @news.save
       respond_to do |format|
-        format.html {
+        format.html do
           render_attachment_warning_if_needed(@news)
           flash[:notice] = l(:notice_successful_create)
           redirect_to project_news_index_path(@project)
-        }
+        end
         format.api  { render_api_ok }
       end
     else
@@ -104,11 +104,11 @@ class NewsController < ApplicationController
     @news.save_attachments(params[:attachments] || (params[:news] && params[:news][:uploads]))
     if @news.save
       respond_to do |format|
-        format.html {
+        format.html do
           render_attachment_warning_if_needed(@news)
           flash[:notice] = l(:notice_successful_update)
           redirect_to news_path(@news)
-        }
+        end
         format.api  { render_api_ok }
       end
     else
@@ -122,10 +122,10 @@ class NewsController < ApplicationController
   def destroy
     @news.destroy
     respond_to do |format|
-      format.html {
+      format.html do
         flash[:notice] = l(:notice_successful_delete)
         redirect_to project_news_index_path(@project)
-      }
+      end
       format.api  { render_api_ok }
     end
   end
