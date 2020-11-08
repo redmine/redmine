@@ -30,13 +30,13 @@ class RolesController < ApplicationController
 
   def index
     respond_to do |format|
-      format.html {
+      format.html do
         @roles = Role.sorted.to_a
         render :layout => false if request.xhr?
-      }
-      format.api {
+      end
+      format.api do
         @roles = Role.givable.to_a
-      }
+      end
     end
   end
 
@@ -79,10 +79,10 @@ class RolesController < ApplicationController
     @role.safe_attributes = params[:role]
     if @role.save
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_update)
           redirect_to roles_path(:page => params[:page])
-        }
+        end
         format.js { head 200 }
       end
     else
