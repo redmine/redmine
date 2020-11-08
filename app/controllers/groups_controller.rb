@@ -32,7 +32,7 @@ class GroupsController < ApplicationController
 
   def index
     respond_to do |format|
-      format.html {
+      format.html do
         scope = Group.sorted
         scope = scope.like(params[:name]) if params[:name].present?
 
@@ -40,12 +40,12 @@ class GroupsController < ApplicationController
         @group_pages = Paginator.new @group_count, per_page_option, params['page']
         @groups = scope.limit(@group_pages.per_page).offset(@group_pages.offset).to_a
         @user_count_by_group_id = user_count_by_group_id
-      }
-      format.api {
+      end
+      format.api do
         scope = Group.sorted
         scope = scope.givable unless params[:builtin] == '1'
         @groups = scope.to_a
-      }
+      end
     end
   end
 
@@ -117,13 +117,13 @@ class GroupsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to edit_group_path(@group, :tab => 'users') }
       format.js
-      format.api {
+      format.api do
         if @users.any?
           render_api_ok
         else
           render_api_errors "#{l(:label_user)} #{l('activerecord.errors.messages.invalid')}"
         end
-      }
+      end
     end
   end
 
