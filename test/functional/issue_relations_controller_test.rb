@@ -40,7 +40,9 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
 
   def test_create
     assert_difference 'IssueRelation.count' do
-      post :create, :params => {
+      post(
+        :create,
+        :params => {
           :issue_id => 1,
           :relation => {
             :issue_to_id => '2',
@@ -48,6 +50,7 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
             :delay => ''
           }
         }
+      )
     end
     relation = IssueRelation.order('id DESC').first
     assert_equal 1, relation.issue_from_id
@@ -57,7 +60,9 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
 
   def test_create_on_invalid_issue
     assert_no_difference 'IssueRelation.count' do
-      post :create, :params => {
+      post(
+        :create,
+        :params => {
           :issue_id => 999,
           :relation => {
             :issue_to_id => '2',
@@ -65,13 +70,16 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
             :delay => ''
           }
         }
+      )
       assert_response 404
     end
   end
 
   def test_create_xhr
     assert_difference 'IssueRelation.count' do
-      post :create, :params => {
+      post(
+        :create,
+        :params => {
           :issue_id => 3,
           :relation => {
             :issue_to_id => '1',
@@ -80,6 +88,7 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
           }
         },
         :xhr => true
+      )
       assert_response :success
       assert_equal 'text/javascript', response.media_type
     end
@@ -92,7 +101,9 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
 
   def test_create_should_accept_id_with_hash
     assert_difference 'IssueRelation.count' do
-      post :create, :params => {
+      post(
+        :create,
+        :params => {
           :issue_id => 1,
           :relation => {
             :issue_to_id => '#2',
@@ -100,6 +111,7 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
             :delay => ''
           }
         }
+      )
     end
     relation = IssueRelation.order('id DESC').first
     assert_equal 2, relation.issue_to_id
@@ -107,7 +119,9 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
 
   def test_create_should_strip_id
     assert_difference 'IssueRelation.count' do
-      post :create, :params => {
+      post(
+        :create,
+        :params => {
           :issue_id => 1,
           :relation => {
             :issue_to_id => ' 2  ',
@@ -115,6 +129,7 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
             :delay => ''
           }
         }
+      )
     end
     relation = IssueRelation.order('id DESC').first
     assert_equal 2, relation.issue_to_id
@@ -123,7 +138,9 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
   def test_create_should_not_break_with_non_numerical_id
     assert_no_difference 'IssueRelation.count' do
       assert_nothing_raised do
-        post :create, :params => {
+        post(
+          :create,
+          :params => {
             :issue_id => 1,
             :relation => {
               :issue_to_id => 'foo',
@@ -131,6 +148,7 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
               :delay => ''
             }
           }
+        )
       end
     end
   end
@@ -140,7 +158,9 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
     issue2 = Issue.generate!
 
     assert_difference 'IssueRelation.count' do
-      post :create, :params => {
+      post(
+        :create,
+        :params => {
           :issue_id => issue2.id,
           :relation => {
             :issue_to_id => issue1.id,
@@ -149,6 +169,7 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
           }
         },
         :xhr => true
+      )
     end
     assert_include 'Followed issue', response.body
   end
@@ -158,7 +179,9 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
     assert_nil Issue.visible(User.find(3)).find_by_id(4)
 
     assert_no_difference 'IssueRelation.count' do
-      post :create, :params => {
+      post(
+        :create,
+        :params => {
           :issue_id => 1,
           :relation => {
             :issue_to_id => '4',
@@ -166,12 +189,15 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
             :delay => ''
           }
         }
+      )
     end
   end
 
   def test_create_xhr_with_failure
     assert_no_difference 'IssueRelation.count' do
-      post :create, :params => {
+      post(
+        :create,
+        :params => {
           :issue_id => 3,
           :relation => {
             :issue_to_id => '999',
@@ -180,7 +206,7 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
           }
         },
         :xhr => true
-
+      )
       assert_response :success
       assert_equal 'text/javascript', response.media_type
     end
@@ -189,17 +215,13 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
 
   def test_destroy
     assert_difference 'IssueRelation.count', -1 do
-      delete :destroy, :params => {
-          :id => '2'
-        }
+      delete(:destroy, :params => {:id => '2'})
     end
   end
 
   def test_destroy_invalid_relation
     assert_no_difference 'IssueRelation.count' do
-      delete :destroy, :params => {
-          :id => '999'
-        }
+      delete(:destroy, :params => {:id => '999'})
       assert_response 404
     end
   end
@@ -211,11 +233,7 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
     end
 
     assert_difference 'IssueRelation.count', -1 do
-      delete :destroy, :params => {
-          :id => '2'
-        },
-        :xhr => true
-
+      delete(:destroy, :params => {:id => '2'}, :xhr => true)
       assert_response :success
       assert_equal 'text/javascript', response.media_type
       assert_include 'relation-2', response.body
