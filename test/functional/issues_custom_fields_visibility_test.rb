@@ -70,9 +70,7 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
   def test_show_should_show_visible_custom_fields_only
     @users_to_test.each do |user, fields|
       @request.session[:user_id] = user.id
-      get :show, :params => {
-          :id => @issue.id
-        }
+      get(:show, :params => {:id => @issue.id})
       @fields.each_with_index do |field, i|
         if fields.include?(field)
           assert_select '.value', {:text => "Value#{i}", :count => 1}, "User #{user.id} was not able to view #{field.name}"
@@ -86,12 +84,15 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
   def test_show_should_show_visible_custom_fields_only_in_api
     @users_to_test.each do |user, fields|
       with_settings :rest_api_enabled => '1' do
-        get :show, :params => {
+        get(
+          :show,
+          :params => {
             :id => @issue.id,
             :format => 'xml',
             :include => 'custom_fields',
             :key => user.api_key
           }
+        )
       end
       @fields.each_with_index do |field, i|
         if fields.include?(field)
@@ -110,9 +111,7 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
 
     @users_to_test.each do |user, fields|
       @request.session[:user_id] = user.id
-      get :show, :params => {
-          :id => @issue.id
-        }
+      get(:show, :params => {:id => @issue.id})
       @fields.each_with_index do |field, i|
         if fields.include?(field)
           assert_select 'ul.details i', {:text => "Value#{i}", :count => 1}, "User #{user.id} was not able to view #{field.name} change"
@@ -130,12 +129,15 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
 
     @users_to_test.each do |user, fields|
       with_settings :rest_api_enabled => '1' do
-        get :show, :params => {
+        get(
+          :show,
+          :params => {
             :id => @issue.id,
             :format => 'xml',
             :include => 'journals',
             :key => user.api_key
           }
+        )
       end
       @fields.each_with_index do |field, i|
         if fields.include?(field)
@@ -152,9 +154,7 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
 
     @users_to_test.each do |user, fields|
       @request.session[:user_id] = user.id
-      get :edit, :params => {
-          :id => @issue.id
-        }
+      get(:edit, :params => {:id => @issue.id})
       @fields.each_with_index do |field, i|
         if fields.include?(field)
           assert_select 'input[value=?]', "Value#{i}", 1, "User #{user.id} was not able to edit #{field.name}"
@@ -170,16 +170,19 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
 
     @users_to_test.each do |user, fields|
       @request.session[:user_id] = user.id
-      put :update, :params => {
+      put(
+        :update,
+        :params => {
           :id => @issue.id,
           :issue => {
             :custom_field_values => {
-            @field1.id.to_s => "User#{user.id}Value0",
-                    @field2.id.to_s => "User#{user.id}Value1",
-                  @field3.id.to_s => "User#{user.id}Value2",
-                }
+              @field1.id.to_s => "User#{user.id}Value0",
+              @field2.id.to_s => "User#{user.id}Value1",
+              @field3.id.to_s => "User#{user.id}Value2",
+            }
+          }
         }
-        }
+      )
       @issue.reload
       @fields.each_with_index do |field, i|
         if fields.include?(field)
@@ -194,9 +197,12 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
   def test_index_should_show_visible_custom_fields_only
     @users_to_test.each do |user, fields|
       @request.session[:user_id] = user.id
-      get :index, :params => {
-        :c => (["subject"] + @fields.map{|f| "cf_#{f.id}"})
+      get(
+        :index,
+        :params => {
+          :c => (["subject"] + @fields.map{|f| "cf_#{f.id}"})
         }
+      )
       @fields.each_with_index do |field, i|
         if fields.include?(field)
           assert_select 'td', {:text => "Value#{i}", :count => 1}, "User #{user.id} was not able to view #{field.name}"
@@ -210,10 +216,13 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
   def test_index_as_csv_should_show_visible_custom_fields_only
     @users_to_test.each do |user, fields|
       @request.session[:user_id] = user.id
-      get :index, :params => {
-        :c => (["subject"] + @fields.map{|f| "cf_#{f.id}"}),
-        :format => 'csv'
+      get(
+        :index,
+        :params => {
+          :c => (["subject"] + @fields.map{|f| "cf_#{f.id}"}),
+          :format => 'csv'
         }
+      )
       @fields.each_with_index do |field, i|
         if fields.include?(field)
           assert_include "Value#{i}", response.body, "User #{user.id} was not able to view #{field.name} in CSV"
@@ -238,29 +247,31 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
     Issue.generate!(:project => p1, :tracker_id => 1, :custom_field_values => {@field2.id => 'ValueC'})
 
     @request.session[:user_id] = user.id
-    get :index, :params => {
-      :c => ["subject", "cf_#{@field2.id}"]
+    get(
+      :index,
+      :params => {
+        :c => ["subject", "cf_#{@field2.id}"]
       }
+    )
     assert_select 'td', :text => 'ValueA'
     assert_select 'td', :text => 'ValueB', :count => 0
     assert_select 'td', :text => 'ValueC'
 
-    get :index, :params => {
-      :sort => "cf_#{@field2.id}"
-      }
+    get(:index, :params => {:sort => "cf_#{@field2.id}"})
     # ValueB is not visible to user and ignored while sorting
     assert_equal %w(ValueB ValueA ValueC), issues_in_list.map{|i| i.custom_field_value(@field2)}
 
-    get :index, :params => {
-      :set_filter => '1', "cf_#{@field2.id}" => '*',
-      :sort => "cf_#{@field2.id}"
+    get(
+      :index,
+      :params => {
+        :set_filter => '1', "cf_#{@field2.id}" => '*',
+        :sort => "cf_#{@field2.id}"
       }
+    )
     assert_equal %w(ValueA ValueC), issues_in_list.map{|i| i.custom_field_value(@field2)}
 
     CustomField.update_all(:field_format => 'list')
-    get :index, :params => {
-      :group => "cf_#{@field2.id}"
-      }
+    get(:index, :params => {:group => "cf_#{@field2.id}"})
     assert_equal %w(ValueA ValueC), issues_in_list.map{|i| i.custom_field_value(@field2)}
   end
 
@@ -272,7 +283,9 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
     @request.session[:user_id] = 1
     with_settings :bcc_recipients => '1' do
       assert_difference 'Issue.count' do
-        post :create, :params => {
+        post(
+          :create,
+          :params => {
             :project_id => 1,
             :issue => {
               :tracker_id => 1,
@@ -280,12 +293,14 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
               :subject => 'New issue',
               :priority_id => 5,
               :custom_field_values => {
-                @field1.id.to_s => 'Value0', @field2.id.to_s => 'Value1', @field3.id.to_s => 'Value2'
+                @field1.id.to_s => 'Value0',
+                @field2.id.to_s => 'Value1',
+                @field3.id.to_s => 'Value2'
               },
               :watcher_user_ids => users_to_test.keys.map(&:id)
-
             }
           }
+        )
         assert_response 302
       end
     end
@@ -316,15 +331,19 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
     ActionMailer::Base.deliveries.clear
     @request.session[:user_id] = 1
     with_settings :bcc_recipients => '1' do
-      put :update, :params => {
+      put(
+        :update,
+        :params => {
           :id => @issue.id,
           :issue => {
             :custom_field_values => {
-              @field1.id.to_s => 'NewValue0', @field2.id.to_s => 'NewValue1', @field3.id.to_s => 'NewValue2'
+              @field1.id.to_s => 'NewValue0',
+              @field2.id.to_s => 'NewValue1',
+              @field3.id.to_s => 'NewValue2'
             }
-
           }
         }
+      )
       assert_response 302
     end
     assert_equal users_to_test.keys.size, ActionMailer::Base.deliveries.size
@@ -353,15 +372,17 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
     ActionMailer::Base.deliveries.clear
     @request.session[:user_id] = 1
     with_settings :bcc_recipients => '1' do
-      put :update, :params => {
+      put(
+        :update,
+        :params => {
           :id => @issue.id,
           :issue => {
             :custom_field_values => {
               @field2.id.to_s => 'NewValue1', @field3.id.to_s => 'NewValue2'
             }
-
           }
         }
+      )
       assert_response 302
     end
     users_to_test.each do |user, fields|
