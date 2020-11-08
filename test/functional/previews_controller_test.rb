@@ -32,21 +32,27 @@ class PreviewsControllerTest < Redmine::ControllerTest
 
   def test_preview_new_issue_description
     @request.session[:user_id] = 2
-    post :issue, :params => {
+    post(
+      :issue,
+      :params => {
         :project_id => '1',
         :text => 'Foo'
       }
+    )
     assert_response :success
     assert_select 'p', :text => 'Foo'
   end
 
   def test_preview_issue_description
     @request.session[:user_id] = 2
-    post :issue, :params => {
+    post(
+      :issue,
+      :params => {
         :project_id => '1',
         :issue_id => 1,
         :text => 'Unable to print recipes'
       }
+    )
     assert_response :success
 
     assert_select 'p', :text => 'Unable to print recipes'
@@ -54,11 +60,14 @@ class PreviewsControllerTest < Redmine::ControllerTest
 
   def test_preview_issue_notes
     @request.session[:user_id] = 2
-    post :issue, :params => {
+    post(
+      :issue,
+      :params => {
         :project_id => '1',
         :id => 1,
         :text => 'Foo'
       }
+    )
     assert_response :success
     assert_select 'p', :text => 'Foo'
   end
@@ -66,31 +75,40 @@ class PreviewsControllerTest < Redmine::ControllerTest
   def test_preview_issue_notes_should_support_links_to_existing_attachments
     Attachment.generate!(:container => Issue.find(1), :filename => 'foo.bar')
     @request.session[:user_id] = 2
-    post :issue, :params => {
+    post(
+      :issue,
+      :params => {
         :project_id => '1',
         :issue_id => 1,
         :field => 'notes',
         :text => 'attachment:foo.bar'
       }
+    )
     assert_response :success
     assert_select 'a.attachment', :text => 'foo.bar'
   end
 
   def test_preview_new_news
-    get :news, :params => {
+    get(
+      :news,
+      :params => {
         :project_id => 1,
         :text => 'News description',
       }
+    )
     assert_response :success
     assert_select 'p', :text => /News description/
   end
 
   def test_preview_existing_news
-    get :news, :params => {
+    get(
+      :news,
+      :params => {
         :project_id => 1,
         :id => 2,
         :text => 'News description'
       }
+    )
     assert_response :success
     assert_select 'p', :text => /News description/
   end
