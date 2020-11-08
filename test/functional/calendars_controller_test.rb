@@ -82,6 +82,27 @@ class CalendarsControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_show_issue_due_date
+    travel_to issues(:issues_001).due_date
+
+    get(:show, :params => {:project_id => 1})
+    assert_response :success
+
+    assert_select 'table.cal' do
+      assert_select 'tr' do
+        assert_select 'td' do
+          assert_select(
+            'div.issue.hascontextmenu.tooltip.ending',
+            :text => /Cannot print recipes/
+          ) do
+            assert_select 'a.issue[href=?]', '/issues/1', :text => 'Bug #1'
+            assert_select 'input[name=?][type=?][value=?]', 'ids[]', 'checkbox', '1'
+          end
+        end
+      end
+    end
+  end
+
   def test_show_should_run_custom_queries
     @query = IssueQuery.create!(:name => 'Calendar Query', :visibility => IssueQuery::VISIBILITY_PUBLIC)
     get(
