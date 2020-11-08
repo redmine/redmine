@@ -66,18 +66,18 @@ class TrackersController < ApplicationController
     @tracker.safe_attributes = params[:tracker]
     if @tracker.save
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_update)
           redirect_to trackers_path(:page => params[:page])
-        }
+        end
         format.js { head 200 }
       end
     else
       respond_to do |format|
-        format.html {
+        format.html do
           edit
           render :action => 'edit'
-        }
+        end
         format.js { head 422 }
       end
     end
