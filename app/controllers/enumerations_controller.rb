@@ -32,14 +32,14 @@ class EnumerationsController < ApplicationController
   def index
     respond_to do |format|
       format.html
-      format.api {
+      format.api do
         @klass = Enumeration.get_subclass(params[:type])
         if @klass
           @enumerations = @klass.shared.sorted.to_a
         else
           render_404
         end
-      }
+      end
     end
   end
 
@@ -61,10 +61,10 @@ class EnumerationsController < ApplicationController
   def update
     if @enumeration.update(enumeration_params)
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_update)
           redirect_to enumerations_path
-        }
+        end
         format.js { head 200 }
       end
     else
