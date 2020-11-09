@@ -67,18 +67,18 @@ class MembersController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to_settings_in_projects }
-      format.js {
+      format.js do
         @members = members
         @member = Member.new
-      }
-      format.api {
+      end
+      format.api do
         @member = members.first
         if @member.valid?
           render :action => 'show', :status => :created, :location => membership_url(@member)
         else
           render_validation_errors(@member)
         end
-      }
+      end
     end
   end
 
@@ -94,13 +94,13 @@ class MembersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to_settings_in_projects }
       format.js
-      format.api {
+      format.api do
         if saved
           render_api_ok
         else
           render_validation_errors(@member)
         end
-      }
+      end
     end
   end
 
@@ -111,13 +111,13 @@ class MembersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to_settings_in_projects }
       format.js
-      format.api {
+      format.api do
         if @member.destroyed?
           render_api_ok
         else
           head :unprocessable_entity
         end
-      }
+      end
     end
   end
 
