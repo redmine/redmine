@@ -448,10 +448,10 @@ class IssuesController < ApplicationController
       end
     end
     respond_to do |format|
-      format.html {
+      format.html do
         flash[:notice] = l(:notice_successful_delete)
         redirect_back_or_default _project_issues_path(@project)
-      }
+      end
       format.api  {render_api_ok}
     end
   end
