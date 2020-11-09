@@ -61,14 +61,14 @@ class Journal < ActiveRecord::Base
   before_create :split_private_notes
   after_create_commit :send_notification
 
-  scope :visible, lambda {|*args|
+  scope :visible, (lambda do |*args|
     user = args.shift || User.current
     options = args.shift || {}
 
     joins(:issue => :project).
       where(Issue.visible_condition(user, options)).
       where(Journal.visible_notes_condition(user, :skip_pre_condition => true))
-  }
+  end)
 
   safe_attributes(
     'notes',
