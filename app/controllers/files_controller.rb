@@ -60,19 +60,19 @@ class FilesController < ApplicationController
         Mailer.deliver_attachments_added(attachments[:files])
       end
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:label_file_added)
           redirect_to project_files_path(@project)
-        }
+        end
         format.api { render_api_ok }
       end
     else
       respond_to do |format|
-        format.html {
+        format.html do
           flash.now[:error] = l(:label_attachment) + " " + l('activerecord.errors.messages.invalid')
           new
           render :action => 'new'
-        }
+        end
         format.api { render :status => :bad_request }
       end
     end
