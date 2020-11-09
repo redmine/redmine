@@ -63,7 +63,7 @@ module Redmine
       private
 
       def totp
-        @totp ||= ROTP::TOTP.new(@user.twofa_totp_key, issuer: Setting.app_title)
+        @totp ||= ROTP::TOTP.new(@user.twofa_totp_key, issuer: Setting.host_name)
       end
     end
   end
