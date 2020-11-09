@@ -58,16 +58,16 @@ class IssueRelationsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to issue_path(@issue) }
-      format.js {
+      format.js do
         @relations = @issue.reload.relations.select {|r| r.other_issue(@issue) && r.other_issue(@issue).visible? }
-      }
-      format.api {
+      end
+      format.api do
         if saved
           render :action => 'show', :status => :created, :location => relation_url(@relation)
         else
           render_validation_errors(@relation)
         end
-      }
+      end
     end
   end
 
