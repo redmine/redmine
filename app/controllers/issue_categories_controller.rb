@@ -78,10 +78,10 @@ class IssueCategoriesController < ApplicationController
     @category.safe_attributes = params[:issue_category]
     if @category.save
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_update)
           redirect_to_settings_in_projects
-        }
+        end
         format.api { render_api_ok }
       end
     else
