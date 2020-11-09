@@ -132,27 +132,27 @@ class User < Principal
   after_save :update_notified_project_ids, :destroy_tokens, :deliver_security_notification
   after_destroy :deliver_security_notification
 
-  scope :admin, lambda {|*args|
+  scope :admin, (lambda do |*args|
     admin = args.size > 0 ? !!args.first : true
     where(:admin => admin)
-  }
-  scope :in_group, lambda {|group|
+  end)
+  scope :in_group, (lambda do |group|
     group_id = group.is_a?(Group) ? group.id : group.to_i
     where("#{User.table_name}.id IN (SELECT gu.user_id FROM #{table_name_prefix}groups_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id)
-  }
-  scope :not_in_group, lambda {|group|
+  end)
+  scope :not_in_group, (lambda do |group|
     group_id = group.is_a?(Group) ? group.id : group.to_i
     where("#{User.table_name}.id NOT IN (SELECT gu.user_id FROM #{table_name_prefix}groups_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id)
-  }
+  end)
   scope :sorted, lambda {order(*User.fields_for_order_statement)}
-  scope :having_mail, lambda {|arg|
+  scope :having_mail, (lambda do |arg|
     addresses = Array.wrap(arg).map {|a| a.to_s.downcase}
     if addresses.any?
       joins(:email_addresses).where("LOWER(#{EmailAddress.table_name}.address) IN (?)", addresses).distinct
     else
       none
     end
-  }
+  end)
 
   def set_mail_notification
     self.mail_notification = Setting.default_notification_option if self.mail_notification.blank?
