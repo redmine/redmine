@@ -313,9 +313,9 @@ class Query < ActiveRecord::Base
   class_attribute :view_permission
 
   # Scope of queries that are global or on the given project
-  scope :global_or_on_project, lambda {|project|
+  scope :global_or_on_project, (lambda do |project|
     where(:project_id => (project.nil? ? nil : [nil, project.id]))
-  }
+  end)
 
   scope :sorted, lambda {order(:name, :id)}
 
