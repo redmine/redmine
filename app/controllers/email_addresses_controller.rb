@@ -37,19 +37,19 @@ class EmailAddressesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html {
+      format.html do
         if saved
           redirect_to user_email_addresses_path(@user)
         else
           index
           render :action => 'index'
         end
-      }
-      format.js {
+      end
+      format.js do
         @address = nil if saved
         index
         render :action => 'index'
-      }
+      end
     end
   end
 
@@ -60,14 +60,14 @@ class EmailAddressesController < ApplicationController
     @address.save
 
     respond_to do |format|
-      format.html {
+      format.html do
         redirect_to user_email_addresses_path(@user)
-      }
-      format.js {
+      end
+      format.js do
         @address = nil
         index
         render :action => 'index'
-      }
+      end
     end
   end
 
@@ -75,14 +75,14 @@ class EmailAddressesController < ApplicationController
     @address.destroy
 
     respond_to do |format|
-      format.html {
+      format.html do
         redirect_to user_email_addresses_path(@user)
-      }
-      format.js {
+      end
+      format.js do
         @address = nil
         index
         render :action => 'index'
-      }
+      end
     end
   end
 
