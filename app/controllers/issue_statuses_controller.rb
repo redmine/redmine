@@ -57,10 +57,10 @@ class IssueStatusesController < ApplicationController
     @issue_status.safe_attributes = params[:issue_status]
     if @issue_status.save
       respond_to do |format|
-        format.html {
+        format.html do
           flash[:notice] = l(:notice_successful_update)
           redirect_to issue_statuses_path(:page => params[:page])
-        }
+        end
         format.js { head 200 }
       end
     else
