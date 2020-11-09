@@ -33,7 +33,8 @@ class CalendarsControllerTest < Redmine::ControllerTest
            :issue_categories,
            :enumerations,
            :queries,
-           :users, :email_addresses
+           :users, :email_addresses,
+           :versions
 
   def test_show
     # Ensure that an issue to which a user is assigned is in the current
@@ -97,6 +98,25 @@ class CalendarsControllerTest < Redmine::ControllerTest
           ) do
             assert_select 'a.issue[href=?]', '/issues/1', :text => 'Bug #1'
             assert_select 'input[name=?][type=?][value=?]', 'ids[]', 'checkbox', '1'
+          end
+        end
+      end
+    end
+  end
+
+  def test_show_version
+    travel_to versions(:versions_002).effective_date
+
+    get(:show, :params => {:project_id => 1})
+    assert_response :success
+
+    assert_select 'table.cal' do
+      assert_select 'tr' do
+        assert_select 'td' do
+          assert_select(
+            'span.icon.icon-package'
+          ) do
+            assert_select 'a[href=?]', '/versions/2', :text => '1.0'
           end
         end
       end
