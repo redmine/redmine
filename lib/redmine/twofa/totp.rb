@@ -50,7 +50,7 @@ module Redmine
       end
 
       def provisioning_uri
-        totp.provisioning_uri(@user.mail)
+        totp.provisioning_uri(@user.login)
       end
 
       def init_pairing_view_variables
