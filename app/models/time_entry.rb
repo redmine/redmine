@@ -58,17 +58,17 @@ class TimeEntry < ActiveRecord::Base
   before_validation :set_author_if_nil
   validate :validate_time_entry
 
-  scope :visible, lambda {|*args|
+  scope :visible, (lambda do |*args|
     joins(:project).
     where(TimeEntry.visible_condition(args.shift || User.current, *args))
-  }
-  scope :left_join_issue, lambda {
+  end)
+  scope :left_join_issue, (lambda do
     joins("LEFT OUTER JOIN #{Issue.table_name} ON #{Issue.table_name}.id = #{TimeEntry.table_name}.issue_id")
-  }
-  scope :on_issue, lambda {|issue|
+  end)
+  scope :on_issue, (lambda do |issue|
     joins(:issue).
     where("#{Issue.table_name}.root_id = #{issue.root_id} AND #{Issue.table_name}.lft >= #{issue.lft} AND #{Issue.table_name}.rgt <= #{issue.rgt}")
-  }
+  end)
 
   safe_attributes 'user_id', 'hours', 'comments', 'project_id',
                   'issue_id', 'activity_id', 'spent_on',
