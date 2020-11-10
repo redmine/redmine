@@ -893,7 +893,9 @@ module Redmine
 
       def query_filter_values(custom_field, query)
         versions = possible_values_records(custom_field, query.project, true)
-        Version.sort_by_status(versions).collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s, l("version_status_#{s.status}")] }
+        Version.sort_by_status(versions).collect do |s|
+          ["#{s.project.name} - #{s.name}", s.id.to_s, l("version_status_#{s.status}")]
+        end
       end
 
       def possible_values_records(custom_field, object=nil, all_statuses=false)
