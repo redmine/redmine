@@ -53,8 +53,8 @@ class Role < ActiveRecord::Base
     ['members_of_visible_projects', :label_users_visibility_members_of_visible_projects]
   ]
 
-  scope :sorted, lambda { order(:builtin, :position) }
-  scope :givable, lambda { order(:position).where(:builtin => 0) }
+  scope :sorted, lambda {order(:builtin, :position)}
+  scope :givable, lambda {order(:position).where(:builtin => 0)}
   scope :builtin, lambda { |*args|
     compare = (args.first == true ? 'not' : '')
     where("#{compare} builtin = 0")
@@ -117,7 +117,7 @@ class Role < ActiveRecord::Base
   end
 
   def permissions=(perms)
-    perms = perms.collect {|p| p.to_sym unless p.blank? }.compact.uniq if perms
+    perms = perms.collect {|p| p.to_sym unless p.blank?}.compact.uniq if perms
     write_attribute(:permissions, perms)
   end
 
@@ -136,7 +136,7 @@ class Role < ActiveRecord::Base
     return unless permissions.is_a?(Array)
 
     permissions_will_change!
-    perms.each { |p| permissions.delete(p.to_sym) }
+    perms.each {|p| permissions.delete(p.to_sym)}
     save!
   end
 
