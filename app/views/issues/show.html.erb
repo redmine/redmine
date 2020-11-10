@@ -105,7 +105,20 @@ end %>
 <div class="contextual">
   <%= link_to_new_subtask(@issue) if User.current.allowed_to?(:manage_subtasks, @project) %>
 </div>
-<p><strong><%=l(:label_subtask_plural)%></strong></p>
+<p>
+<strong><%=l(:label_subtask_plural)%></strong>
+<% if !@issue.leaf? %>
+  (<%= link_to(l(:label_x_issues, :count => @issue.descendants.count),
+                  issues_path(:parent_id => "~#{@issue.id}", :set_filter => true, :status_id => '*')) %>
+  : <%= link_to_if( @issue.descendants.select(&:closed?).count > 0,
+                  l(:label_x_closed_issues_abbr, :count => @issue.descendants.select(&:closed?).count ),
+                  issues_path(:parent_id => "~#{@issue.id}", :set_filter => true, :status_id => 'c')) %>
+  &#8212;
+  <%= link_to_if( @issue.descendants.open.count > 0,
+                 l(:label_x_open_issues_abbr, :count => @issue.descendants.open.count ),
+                 issues_path(:parent_id => "~#{@issue.id}", :set_filter => true, :status_id => 'o')) %>)
+<% end %>
+</p>
 <%= form_tag({}, :data => {:cm_url => issues_context_menu_path}) do %>
 <%= render_descendants_tree(@issue) unless @issue.leaf? %>
 <% end %>
