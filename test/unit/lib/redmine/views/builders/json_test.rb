@@ -76,7 +76,14 @@ class Redmine::Views::Builders::JsonTest < ActiveSupport::TestCase
   end
 
   def test_array_with_content_tags
-    assert_json_output({'books' => [{'value' => 'Book 1', 'author' => 'B. Smith'}, {'value' => 'Book 2', 'author' => 'G. Cooper'}]}) do |b|
+    assert_json_output(
+      {
+        'books' => [
+          {'value' => 'Book 1', 'author' => 'B. Smith'},
+          {'value' => 'Book 2', 'author' => 'G. Cooper'}
+        ]
+      }
+    ) do |b|
       b.array :books do |b|
         b.book 'Book 1', :author => 'B. Smith'
         b.book 'Book 2', :author => 'G. Cooper'
@@ -98,7 +105,16 @@ class Redmine::Views::Builders::JsonTest < ActiveSupport::TestCase
   end
 
   def test_request_response
-    assert_json_output({'request' => { 'get' => 'book' }, 'response' => { 'book' => { 'title' => 'Book 1' } }}) do |b|
+    assert_json_output(
+      {
+        'request' => {
+          'get' => 'book'
+        },
+        'response' => {
+          'book' => {'title' => 'Book 1'}
+        }
+      }
+    ) do |b|
       b.request do
         b.get 'book'
       end
