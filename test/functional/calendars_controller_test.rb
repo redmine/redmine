@@ -155,6 +155,28 @@ class CalendarsControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_cross_project_calendar_version
+    travel_to versions(:versions_002).effective_date
+
+    get :show
+    assert_response :success
+
+    assert_select 'table.cal' do
+      assert_select 'tr' do
+        assert_select 'td' do
+          assert_select(
+            'span.icon.icon-package'
+          ) do
+            assert_select(
+              'a[href=?]', '/versions/2',
+              :text => 'eCookbook - 1.0'
+            )
+          end
+        end
+      end
+    end
+  end
+
   def test_week_number_calculation
     with_settings :start_of_week => 7 do
       get(
