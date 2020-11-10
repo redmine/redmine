@@ -39,10 +39,10 @@ class News < ActiveRecord::Base
   after_create :add_author_as_watcher
   after_create_commit :send_notification
 
-  scope :visible, lambda {|*args|
+  scope :visible, (lambda do |*args|
     joins(:project).
     where(Project.allowed_to_condition(args.shift || User.current, :view_news, *args))
-  }
+  end)
 
   safe_attributes 'title', 'summary', 'description'
 
