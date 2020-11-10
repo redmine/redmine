@@ -45,10 +45,10 @@ class Document < ActiveRecord::Base
 
   after_create_commit :send_notification
 
-  scope :visible, lambda {|*args|
+  scope :visible, (lambda do |*args|
     joins(:project).
     where(Project.allowed_to_condition(args.shift || User.current, :view_documents, *args))
-  }
+  end)
 
   safe_attributes 'category_id', 'title', 'description', 'custom_fields', 'custom_field_values'
 
