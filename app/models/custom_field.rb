@@ -50,7 +50,7 @@ class CustomField < ActiveRecord::Base
   end
 
   scope :sorted, lambda {order(:position)}
-  scope :visible, lambda {|*args|
+  scope :visible, (lambda do |*args|
     user = args.shift || User.current
     if user.admin?
       # nop
@@ -64,7 +64,7 @@ class CustomField < ActiveRecord::Base
     else
       where(:visible => true)
     end
-  }
+  end)
   def visible_by?(project, user=User.current)
     visible? || user.admin?
   end
