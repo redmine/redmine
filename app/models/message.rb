@@ -60,10 +60,10 @@ class Message < ActiveRecord::Base
   after_destroy :reset_counters!
   after_create_commit :send_notification
 
-  scope :visible, lambda {|*args|
+  scope :visible, (lambda do |*args|
     joins(:board => :project).
     where(Project.allowed_to_condition(args.shift || User.current, :view_messages, *args))
-  }
+  end)
 
   safe_attributes 'subject', 'content'
   safe_attributes(
