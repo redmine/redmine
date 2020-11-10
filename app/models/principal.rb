@@ -41,7 +41,7 @@ class Principal < ActiveRecord::Base
   # Groups and active users
   scope :active, lambda { where(:status => STATUS_ACTIVE) }
 
-  scope :visible, lambda {|*args|
+  scope :visible, (lambda do |*args|
     user = args.first || User.current
 
     if user.admin?
@@ -64,9 +64,9 @@ class Principal < ActiveRecord::Base
         )
       end
     end
-  }
+  end)
 
-  scope :like, lambda {|q|
+  scope :like, (lambda do |q|
     q = q.to_s
     if q.blank?
       where({})
@@ -85,13 +85,12 @@ class Principal < ActiveRecord::Base
         end.join(' AND ')
         sql << ')'
       end
-
       where(sql, params)
     end
-  }
+  end)
 
   # Principals that are members of a collection of projects
-  scope :member_of, lambda {|projects|
+  scope :member_of, (lambda do |projects|
     projects = [projects] if projects.is_a?(Project)
     if projects.blank?
       where("1=0")
@@ -101,9 +100,9 @@ class Principal < ActiveRecord::Base
       where(:status => [STATUS_LOCKED, STATUS_ACTIVE]).
       where("#{Principal.table_name}.id IN (SELECT DISTINCT user_id FROM #{Member.table_name} WHERE project_id IN (?))", ids)
     end
-  }
+  end)
   # Principals that are not members of projects
-  scope :not_member_of, lambda {|projects|
+  scope :not_member_of, (lambda do |projects|
     projects = [projects] unless projects.is_a?(Array)
     if projects.empty?
       where("1=0")
@@ -111,7 +110,7 @@ class Principal < ActiveRecord::Base
       ids = projects.map(&:id)
       where("#{Principal.table_name}.id NOT IN (SELECT DISTINCT user_id FROM #{Member.table_name} WHERE project_id IN (?))", ids)
     end
-  }
+  end)
   scope :sorted, lambda { order(*Principal.fields_for_order_statement)}
 
   # Principals that can be added as watchers
