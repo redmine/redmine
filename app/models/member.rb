@@ -33,15 +33,15 @@ class Member < ActiveRecord::Base
   scope :active, lambda { joins(:principal).where(:users => {:status => Principal::STATUS_ACTIVE})}
 
   # Sort by first role and principal
-  scope :sorted, lambda {
+  scope :sorted, (lambda do
     includes(:member_roles, :roles, :principal).
       reorder("#{Role.table_name}.position").
       order(Principal.fields_for_order_statement)
-  }
-  scope :sorted_by_project, lambda {
+  end)
+  scope :sorted_by_project, (lambda do
     includes(:project).
       reorder("#{Project.table_name}.lft")
-  }
+  end)
 
   alias :base_reload :reload
   def reload(*args)
