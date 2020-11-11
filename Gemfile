@@ -5,7 +5,7 @@ gem 'bundler', '>= 1.12.0'
 
 gem 'rails', '5.2.4.4'
 gem 'sprockets', '~> 3.7.2' if RUBY_VERSION < '2.5'
-gem 'rouge', '~> 3.24.0'
+gem 'rouge', '~> 3.25.0'
 gem 'request_store', '~> 1.5.0'
 gem "mini_mime", "~> 1.0.1"
 gem "actionpack-xml_parser"
