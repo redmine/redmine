@@ -3020,6 +3020,14 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'span.badge.badge-status-closed', text: 'closed'
   end
 
+  def test_show_should_display_private_badge_for_private_issue
+    @request.session[:user_id] = 1
+    get :show, params: {id: 14}
+
+    assert_response :success
+    assert_select 'span.badge.badge-private', text: 'Private'
+  end
+
   def test_get_new
     @request.session[:user_id] = 2
     get(

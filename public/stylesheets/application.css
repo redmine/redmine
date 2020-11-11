@@ -1451,6 +1451,7 @@ td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
 .badge-private {
   background: #d22;
   color: #fff;
+  border: 1px solid #d22;
 }
 .badge-count {
   color: #fff;

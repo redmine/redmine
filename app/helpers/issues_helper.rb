@@ -84,9 +84,6 @@ module IssuesHelper
     end
     s << '<div>'
     subject = h(issue.subject)
-    if issue.is_private?
-      subject = subject + ' ' + content_tag('span', l(:field_is_private), :class => 'badge badge-private private')
-    end
     s << content_tag('h3', subject)
     s << '</div>' * (ancestors.size + 1)
     s.html_safe
