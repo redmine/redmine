@@ -72,39 +72,39 @@ class Issue < ActiveRecord::Base
   validates :due_date, :date => true
   validate :validate_issue, :validate_required_fields, :validate_permissions
 
-  scope :visible, lambda {|*args|
+  scope :visible, (lambda do |*args|
     joins(:project).
     where(Issue.visible_condition(args.shift || User.current, *args))
-  }
+  end)
 
-  scope :open, lambda {|*args|
+  scope :open, (lambda do |*args|
     is_closed = !args.empty? ? !args.first : false
     joins(:status).
     where(:issue_statuses => {:is_closed => is_closed})
-  }
+  end)
 
   scope :recently_updated, lambda {order(:updated_on => :desc)}
-  scope :on_active_project, lambda {
+  scope :on_active_project, (lambda do
     joins(:project).
     where(:projects => {:status => Project::STATUS_ACTIVE})
-  }
-  scope :fixed_version, lambda {|versions|
+  end)
+  scope :fixed_version, (lambda do |versions|
     ids = [versions].flatten.compact.map {|v| v.is_a?(Version) ? v.id : v}
     ids.any? ? where(:fixed_version_id => ids) : none
-  }
-  scope :assigned_to, lambda {|arg|
+  end)
+  scope :assigned_to, (lambda do |arg|
     arg = Array(arg).uniq
     ids = arg.map {|p| p.is_a?(Principal) ? p.id : p}
     ids += arg.select {|p| p.is_a?(User)}.map(&:group_ids).flatten.uniq
     ids.compact!
     ids.any? ? where(:assigned_to_id => ids) : none
-  }
-  scope :like, lambda {|q|
+  end)
+  scope :like, (lambda do |q|
     q = q.to_s
     if q.present?
       where("LOWER(#{table_name}.subject) LIKE LOWER(?)", "%#{q}%")
     end
-  }
+  end)
 
   before_validation :default_assign, on: :create
   before_validation :clear_disabled_fields
