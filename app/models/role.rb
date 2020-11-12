@@ -55,10 +55,10 @@ class Role < ActiveRecord::Base
 
   scope :sorted, lambda {order(:builtin, :position)}
   scope :givable, lambda {order(:position).where(:builtin => 0)}
-  scope :builtin, lambda { |*args|
+  scope :builtin, (lambda do |*args|
     compare = (args.first == true ? 'not' : '')
     where("#{compare} builtin = 0")
-  }
+  end)
 
   before_destroy :check_deletable
   has_many :workflow_rules, :dependent => :delete_all
