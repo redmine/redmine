@@ -74,14 +74,15 @@ class VersionsControllerTest < Redmine::ControllerTest
   end
 
   def test_index_showing_subprojects_versions
-    @subproject_version = Version.create!(:project => Project.find(3), :name => "Subproject version")
+    version_name = "Subproject version"
+    Version.create!(:project => Project.find(3), :name => version_name)
     get :index, :params => {:project_id => 1, :with_subprojects => 1}
     assert_response :success
 
     # Shared version
     assert_select 'h3', :text => Version.find(4).name
     # Subproject version
-    assert_select 'h3', :text => /Subproject version/
+    assert_select 'h3', :text => /#{version_name}/
   end
 
   def test_index_should_prepend_shared_versions
