@@ -85,28 +85,28 @@ class Project < ActiveRecord::Base
   after_update :update_versions_from_hierarchy_change, :if => Proc.new {|project| project.saved_change_to_parent_id?}
   before_destroy :delete_all_members
 
-  scope :has_module, lambda {|mod|
+  scope :has_module, (lambda do |mod|
     where("#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s)
-  }
+  end)
   scope :active, lambda {where(:status => STATUS_ACTIVE)}
   scope :status, lambda {|arg| where(arg.blank? ? nil : {:status => arg.to_i})}
   scope :all_public, lambda {where(:is_public => true)}
   scope :visible, lambda {|*args| where(Project.visible_condition(args.shift || User.current, *args))}
-  scope :allowed_to, lambda {|*args|
+  scope :allowed_to, (lambda do |*args|
     user = args.first.is_a?(Symbol) ? User.current : args.shift
     permission = args.shift
     where(Project.allowed_to_condition(user, permission, *args))
-  }
-  scope :like, lambda {|arg|
+  end)
+  scope :like, (lambda do |arg|
     if arg.present?
       pattern = "%#{arg.to_s.strip}%"
       where("LOWER(identifier) LIKE LOWER(:p) OR LOWER(name) LIKE LOWER(:p)", :p => pattern)
     end
-  }
+  end)
   scope :sorted, lambda {order(:lft)}
-  scope :having_trackers, lambda {
+  scope :having_trackers, (lambda do
     where("#{Project.table_name}.id IN (SELECT DISTINCT project_id FROM #{table_name_prefix}projects_trackers#{table_name_suffix})")
-  }
+  end)
 
   def initialize(attributes=nil, *args)
     super
