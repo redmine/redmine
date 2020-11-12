@@ -82,37 +82,39 @@ class GanttsControllerTest < Redmine::ControllerTest
   end
 
   def test_gantt_at_minimal_zoom
-    get :show, :params => {
+    get(
+      :show,
+      :params => {
         :project_id => 1,
         :zoom => 1
       }
+    )
     assert_response :success
     assert_select 'input[type=hidden][name=zoom][value=?]', '1'
   end
 
   def test_gantt_at_maximal_zoom
-    get :show, :params => {
+    get(
+      :show,
+      :params => {
         :project_id => 1,
         :zoom => 4
       }
+    )
     assert_response :success
     assert_select 'input[type=hidden][name=zoom][value=?]', '4'
   end
 
   def test_gantt_should_work_without_issue_due_dates
     Issue.update_all("due_date = NULL")
-    get :show, :params => {
-        :project_id => 1
-      }
+    get(:show, :params => {:project_id => 1})
     assert_response :success
   end
 
   def test_gantt_should_work_without_issue_and_version_due_dates
     Issue.update_all("due_date = NULL")
     Version.update_all("effective_date = NULL")
-    get :show, :params => {
-        :project_id => 1
-      }
+    get(:show, :params => {:project_id => 1})
     assert_response :success
   end
 
@@ -160,9 +162,7 @@ class GanttsControllerTest < Redmine::ControllerTest
   end
 
   def test_gantt_should_export_to_pdf_cross_project
-    get :show, :params => {
-        :format => 'pdf'
-      }
+    get(:show, :params => {:format => 'pdf'})
     assert_response :success
     assert_equal 'application/pdf', @response.media_type
     assert @response.body.starts_with?('%PDF')
@@ -187,21 +187,27 @@ class GanttsControllerTest < Redmine::ControllerTest
     with_settings :gantt_months_limit => '40' do
       # `months` parameter can be less than or equal to
       # `Setting.gantt_months_limit`
-      get :show, :params => {
-        :project_id => 1,
-        :zoom => 4,
-        :months => 40
-      }
+      get(
+        :show,
+        :params => {
+          :project_id => 1,
+          :zoom => 4,
+          :months => 40
+        }
+      )
       assert_response :success
       assert_select 'div.gantt_hdr>a', :text => /^[\d-]+$/, :count => 40
 
       # Displays 6 months (the default value for `months`) if `months` exceeds
       # gant_months_limit
-      get :show, :params => {
-        :project_id => 1,
-        :zoom => 4,
-        :months => 41
-      }
+      get(
+        :show,
+        :params => {
+          :project_id => 1,
+          :zoom => 4,
+          :months => 41
+        }
+      )
       assert_response :success
       assert_select 'div.gantt_hdr>a', :text => /^[\d-]+$/, :count => 6
     end
