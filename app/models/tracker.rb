@@ -51,7 +51,7 @@ class Tracker < ActiveRecord::Base
   #
   #   Tracker.visible(user)
   #   => returns the trackers that are visible by the user in at least on project
-  scope :visible, lambda {|*args|
+  scope :visible, (lambda do |*args|
     user = args.shift || User.current
     condition = Project.allowed_to_condition(user, :view_issues) do |role, user|
       unless role.permissions_all_trackers?(:view_issues)
@@ -64,7 +64,7 @@ class Tracker < ActiveRecord::Base
       end
     end
     joins(:projects).where(condition).distinct
-  }
+  end)
 
   safe_attributes(
     'name',
