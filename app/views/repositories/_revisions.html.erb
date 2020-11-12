@@ -1,3 +1,8 @@
+<%= form_tag(
+      {:controller => 'repositories', :action => 'diff', :id => project,
+       :repository_id => @repository.identifier_param, :path => to_path_param(path)},
+      :method => :get
+     ) do %>
 <% show_diff = revisions.size > 1 && User.current.allowed_to?(:browse_repository, @repository.project) %>
 <% if show_diff %>
 <p>
@@ -21,11 +26,6 @@
             :space => graph_space
         }
 end %>
-<%= form_tag(
-      {:controller => 'repositories', :action => 'diff', :id => project,
-       :repository_id => @repository.identifier_param, :path => to_path_param(path)},
-      :method => :get
-     ) do %>
 <table class="list changesets">
 <thead><tr>
 <th>#</th>
@@ -53,10 +53,10 @@ end %>
 <% end %>
 </tbody>
 </table>
-<% end %>
 </div>
 <% if show_diff %>
 <p>
   <%= submit_tag(l(:label_view_diff), :name => nil) %>
 </p>
+<% end %>
 <% end %>
