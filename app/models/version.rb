@@ -135,22 +135,22 @@ class Version < ActiveRecord::Base
   validates_inclusion_of :sharing, :in => VERSION_SHARINGS
 
   scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
-  scope :like, lambda {|arg|
+  scope :like, (lambda do |arg|
     if arg.present?
       pattern = "%#{arg.to_s.strip}%"
       where([Redmine::Database.like("#{Version.table_name}.name", '?'), pattern])
     end
-  }
+  end)
   scope :open, lambda {where(:status => 'open')}
-  scope :status, lambda {|status|
+  scope :status, (lambda do |status|
     if status.present?
       where(:status => status.to_s)
     end
-  }
-  scope :visible, lambda {|*args|
+  end)
+  scope :visible, (lambda do |*args|
     joins(:project).
     where(Project.allowed_to_condition(args.first || User.current, :view_issues))
-  }
+  end)
 
   safe_attributes 'name',
                   'description',
