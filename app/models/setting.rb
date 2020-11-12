@@ -197,7 +197,7 @@ class Setting < ActiveRecord::Base
   # Sets a setting value from params
   def self.set_from_params(name, params)
     params = params.dup
-    params.delete_if {|v| v.blank? } if params.is_a?(Array)
+    params.delete_if {|v| v.blank?} if params.is_a?(Array)
     params.symbolize_keys! if params.is_a?(Hash)
 
     m = "#{name}_from_params"
