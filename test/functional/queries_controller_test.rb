@@ -139,25 +139,25 @@ class QueriesControllerTest < Redmine::ControllerTest
 
   def test_new_with_gantt_params
     @request.session[:user_id] = 2
-    get :new, :params => { :gantt => 1 }
+    get :new, :params => {:gantt => 1}
     assert_response :success
 
     assert_select 'input[type="hidden"]#gantt', 1
     assert_select 'fieldset#options'
     assert_select 'fieldset#filters'
-    assert_select 'fieldset legend', { :text => 'Sort', :count => 0 }
+    assert_select 'fieldset legend', {:text => 'Sort', :count => 0}
     assert_select 'fieldset#columns'
   end
 
   def test_new_with_calendar_params
     @request.session[:user_id] = 2
-    get :new, :params => { :calendar => 1 }
+    get :new, :params => {:calendar => 1}
     assert_response :success
 
     assert_select 'input[type="hidden"]#calendar', 1
     assert_select 'fieldset#options', :count => 0
     assert_select 'fieldset#filters'
-    assert_select 'fieldset legend', { :text => 'Sort', :count => 0 }
+    assert_select 'fieldset legend', {:text => 'Sort', :count => 0}
     assert_select 'fieldset#columns', :count => 0
   end
 
@@ -168,7 +168,7 @@ class QueriesControllerTest < Redmine::ControllerTest
 
     assert_select 'fieldset#options'
     assert_select 'fieldset#filters'
-    assert_select 'fieldset legend', { :text => 'Sort' }
+    assert_select 'fieldset legend', {:text => 'Sort'}
     assert_select 'fieldset#columns'
   end
 
