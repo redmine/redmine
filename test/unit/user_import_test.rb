@@ -37,7 +37,7 @@ class UserImportTest < ActiveSupport::TestCase
 
   def test_maps_login
     import = generate_import_with_mapping
-    first, second, third = new_records(User, 3) { import.run }
+    first, second, third = new_records(User, 3) {import.run}
     assert_equal 'user1', first.login
     assert_equal 'user2', second.login
     assert_equal 'user3', third.login
@@ -45,7 +45,7 @@ class UserImportTest < ActiveSupport::TestCase
 
   def test_maps_firstname
     import = generate_import_with_mapping
-    first, second, third = new_records(User, 3) { import.run }
+    first, second, third = new_records(User, 3) {import.run}
     assert_equal 'One', first.firstname
     assert_equal 'Two', second.firstname
     assert_equal 'Three', third.firstname
@@ -53,7 +53,7 @@ class UserImportTest < ActiveSupport::TestCase
 
   def test_maps_lastname
     import = generate_import_with_mapping
-    first, second, third = new_records(User, 3) { import.run }
+    first, second, third = new_records(User, 3) {import.run}
     assert_equal 'CSV', first.lastname
     assert_equal 'Import', second.lastname
     assert_equal 'User', third.lastname
@@ -61,7 +61,7 @@ class UserImportTest < ActiveSupport::TestCase
 
   def test_maps_mail
     import = generate_import_with_mapping
-    first, second, third = new_records(User, 3) { import.run }
+    first, second, third = new_records(User, 3) {import.run}
     assert_equal 'user1@somenet.foo', first.mail
     assert_equal 'user2@somenet.foo', second.mail
     assert_equal 'user3@somenet.foo', third.mail
@@ -71,7 +71,7 @@ class UserImportTest < ActiveSupport::TestCase
     default_language = 'fr'
     with_settings :default_language => default_language do
       import = generate_import_with_mapping
-      first, second, third = new_records(User, 3) { import.run }
+      first, second, third = new_records(User, 3) {import.run}
       assert_equal 'en', first.language
       assert_equal 'ja', second.language
       assert_equal default_language, third.language
@@ -80,7 +80,7 @@ class UserImportTest < ActiveSupport::TestCase
 
   def test_maps_admin
     import = generate_import_with_mapping
-    first, second, third = new_records(User, 3) { import.run }
+    first, second, third = new_records(User, 3) {import.run}
     assert first.admin?
     assert_not second.admin?
     assert_not third.admin?
@@ -88,7 +88,7 @@ class UserImportTest < ActiveSupport::TestCase
 
   def test_maps_auth_information
     import = generate_import_with_mapping
-    first, second, third = new_records(User, 3) { import.run }
+    first, second, third = new_records(User, 3) {import.run}
     # use password
     assert User.try_to_login(first.login, 'password', false)
     assert User.try_to_login(second.login, 'password', false)
@@ -103,7 +103,7 @@ class UserImportTest < ActiveSupport::TestCase
 
   def test_map_must_change_password
     import = generate_import_with_mapping
-    first, second, third = new_records(User, 3) { import.run }
+    first, second, third = new_records(User, 3) {import.run}
     assert first.must_change_password?
     assert_not second.must_change_password?
     assert_not third.must_change_password?
@@ -111,7 +111,7 @@ class UserImportTest < ActiveSupport::TestCase
 
   def test_maps_status
     import = generate_import_with_mapping
-    first, second, third = new_records(User, 3) { import.run }
+    first, second, third = new_records(User, 3) {import.run}
     assert first.active?
     assert second.locked?
     assert third.registered?
@@ -123,7 +123,7 @@ class UserImportTest < ActiveSupport::TestCase
     import = generate_import_with_mapping
     import.mapping["cf_#{phone_number_cf.id}"] = '11'
     import.save!
-    first, second, third = new_records(User, 3) { import.run }
+    first, second, third = new_records(User, 3) {import.run}
 
     assert_equal '000-1111-2222', first.custom_field_value(phone_number_cf)
     assert_equal '333-4444-5555', second.custom_field_value(phone_number_cf)
