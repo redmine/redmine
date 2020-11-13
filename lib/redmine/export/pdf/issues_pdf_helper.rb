@@ -163,14 +163,14 @@ module Redmine
             pdf.RDMCell(35+155,5, l(:label_related_issues) + ":", "LTR")
             pdf.ln
             relations.each do |relation|
-              buf = relation.to_s(issue) {|other|
+              buf = relation.to_s(issue) do |other|
                 text = ""
                 if Setting.cross_project_issue_relations?
                   text += "#{relation.other_issue(issue).project} - "
                 end
                 text += "#{other.tracker} ##{other.id}: #{other.subject}"
                 text
-              }
+              end
               buf = buf.truncate(truncate_length)
               pdf.SetFontStyle('', 8)
               pdf.RDMCell(35+155-60, 5, buf, border_first)
@@ -422,32 +422,32 @@ module Redmine
               return col_width = col_width_avg.map {|w| w * ratio}
             end
           end
-          word_width_max = query.inline_columns.map {|c|
+          word_width_max = query.inline_columns.map do |c|
             n = 10
-            c.caption.split.each {|w|
+            c.caption.split.each do |w|
               x = pdf.get_string_width(w) + col_padding
               n = x if n < x
-            }
+            end
             n
-          }
+          end
 
           #  by properties of issues
           pdf.SetFontStyle('',8)
           k = 1
-          issue_list(issues) {|issue, level|
+          issue_list(issues) do |issue, level|
             k += 1
             values = fetch_row_values(issue, query, level)
-            values.each_with_index {|v,i|
+            values.each_with_index do |v,i|
               n = pdf.get_string_width(v) + col_padding * 2
               col_width_max[i] = n if col_width_max[i] < n
               col_width_min[i] = n if col_width_min[i] > n
               col_width_avg[i] += n
-              v.split.each {|w|
+              v.split.each do |w|
                 x = pdf.get_string_width(w) + col_padding
                 word_width_max[i] = x if word_width_max[i] < x
-              }
-            }
-          }
+              end
+            end
+          end
           col_width_avg.map! {|x| x / k}
 
           # calculate columns width
