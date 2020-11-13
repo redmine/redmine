@@ -36,7 +36,7 @@ module AvatarsHelper
 
   # Returns the avatar image tag for the given +user+ if avatars are enabled
   # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
-  def avatar(user, options = { })
+  def avatar(user, options = {})
     if Setting.gravatar_enabled?
       options[:default] = Setting.gravatar_default
       options[:class] = GravatarHelper::DEFAULT_OPTIONS[:class] + " " + options[:class] if options[:class]
