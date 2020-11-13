@@ -60,7 +60,10 @@ class IssueCategoriesController < ApplicationController
           redirect_to_settings_in_projects
         end
         format.js
-        format.api { render :action => 'show', :status => :created, :location => issue_category_path(@category) }
+        format.api do
+          render(:action => 'show', :status => :created,
+                 :location => issue_category_path(@category))
+        end
       end
     else
       respond_to do |format|
