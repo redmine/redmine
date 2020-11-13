@@ -1427,3 +1427,4 @@ sv:
   twofa_text_backup_codes_created_at: Backup codes generated %{datetime}.
   twofa_backup_codes_already_shown: Backup codes cannot be shown again, please <a data-method="post"
     href="%{bc_path}">generate new backup codes</a> if required.
+  field_twofa_scheme: Two-factor authentication scheme

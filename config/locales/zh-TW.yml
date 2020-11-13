@@ -1430,3 +1430,4 @@
   error_invalid_size_parameter: 無效的尺寸大小參數
   error_attachment_not_found: 找不到附件檔案 %{name}
   permission_delete_project: 刪除專案
+  field_twofa_scheme: Two-factor authentication scheme
