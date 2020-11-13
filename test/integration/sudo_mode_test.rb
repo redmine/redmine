@@ -17,12 +17,17 @@ class SudoModeTest < Redmine::IntegrationTest
     log_user("admin", "admin")
     get "/users/new"
     assert_response :success
-    post "/users", :params => {
-         :user => { :login => "psmith", :firstname => "Paul",
-                    :lastname => "Smith", :mail => "psmith@somenet.foo",
-                    :language => "en", :password => "psmith09",
-                    :password_confirmation => "psmith09" }
+    post(
+      "/users",
+      :params => {
+        :user => {
+          :login => "psmith", :firstname => "Paul",
+          :lastname => "Smith", :mail => "psmith@somenet.foo",
+          :language => "en", :password => "psmith09",
+          :password_confirmation => "psmith09"
+        }
       }
+    )
     assert_response 302
 
     user = User.find_by_login("psmith")
@@ -34,25 +39,35 @@ class SudoModeTest < Redmine::IntegrationTest
     expire_sudo_mode!
     get "/users/new"
     assert_response :success
-    post "/users", :params => {
-         :user => { :login => "psmith", :firstname => "Paul",
-                    :lastname => "Smith", :mail => "psmith@somenet.foo",
-                    :language => "en", :password => "psmith09",
-                    :password_confirmation => "psmith09" }
+    post(
+      "/users",
+      :params => {
+        :user => {
+          :login => "psmith", :firstname => "Paul",
+          :lastname => "Smith", :mail => "psmith@somenet.foo",
+          :language => "en", :password => "psmith09",
+          :password_confirmation => "psmith09"
+        }
       }
+    )
     assert_response :success
     assert_nil User.find_by_login("psmith")
 
     assert_select 'input[name=?][value=?]', 'user[login]', 'psmith'
     assert_select 'input[name=?][value=?]', 'user[firstname]', 'Paul'
 
-    post "/users", :params => {
-         :user => { :login => "psmith", :firstname => "Paul",
-                    :lastname => "Smith", :mail => "psmith@somenet.foo",
-                    :language => "en", :password => "psmith09",
-                    :password_confirmation => "psmith09" },
-         :sudo_password => 'admin'
+    post(
+      "/users",
+      :params => {
+        :user => {
+          :login => "psmith", :firstname => "Paul",
+          :lastname => "Smith", :mail => "psmith@somenet.foo",
+          :language => "en", :password => "psmith09",
+          :password_confirmation => "psmith09"
+        },
+        :sudo_password => 'admin'
       }
+    )
     assert_response 302
 
     user = User.find_by_login("psmith")
@@ -178,15 +193,18 @@ class SudoModeTest < Redmine::IntegrationTest
   def test_sudo_mode_should_skip_api_requests
     with_settings :rest_api_enabled => '1' do
       assert_difference('User.count') do
-        post '/users.json', :params => {
+        post(
+          '/users.json',
+          :params => {
             :user => {
-              :login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname',
+              :login => 'foo', :firstname => 'Firstname',
+              :lastname => 'Lastname',
               :mail => 'foo@example.net', :password => 'secret123',
               :mail_notification => 'only_assigned'
             }
           },
           :headers => credentials('admin')
-
+        )
         assert_response :created
       end
     end
