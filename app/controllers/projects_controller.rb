@@ -275,7 +275,11 @@ class ProjectsController < ApplicationController
     if api_request? || params[:confirm]
       @project_to_destroy.destroy
       respond_to do |format|
-        format.html { redirect_to User.current.admin? ? admin_projects_path : projects_path }
+        format.html do
+          redirect_to(
+            User.current.admin? ? admin_projects_path : projects_path
+          )
+        end
         format.api  { render_api_ok }
       end
     end
