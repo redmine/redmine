@@ -104,6 +104,45 @@ class CalendarsControllerTest < Redmine::ControllerTest
     end
   end
 
+  test "show issue of start and due dates are same" do
+    subject = 'start and due dates are same'
+    issue = Issue.generate!(:start_date => '2012-10-06',
+                            :due_date   => '2012-10-06',
+                            :project_id => 1, :tracker_id => 1,
+                            :subject => subject)
+    get(
+      :show,
+      :params => {
+        :project_id => 1,
+        :month => '10',
+        :year => '2012'
+      }
+    )
+    assert_response :success
+
+    assert_select 'table.cal' do
+      assert_select 'tr' do
+        assert_select 'td' do
+          assert_select(
+            'div.issue.hascontextmenu.tooltip.starting.ending',
+            :text => /#{subject}/
+          ) do
+            assert_select(
+              'a.issue[href=?]', "/issues/#{issue.id}",
+              :text => "Bug ##{issue.id}"
+            )
+            assert_select(
+              'input[name=?][type=?][value=?]',
+              'ids[]',
+              'checkbox',
+              issue.id.to_s
+            )
+          end
+        end
+      end
+    end
+  end
+
   def test_show_version
     travel_to versions(:versions_002).effective_date
 
