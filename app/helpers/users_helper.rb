@@ -78,6 +78,21 @@ module UsersHelper
     tabs
   end
 
+  def csv_content(column_name, user)
+    case column_name
+    when 'status'
+      l("status_#{User::LABEL_BY_STATUS[user.status]}")
+    when 'twofa_scheme'
+      if user.twofa_active?
+        l("twofa__#{user.twofa_scheme}__name")
+      else
+        l(:label_disabled)
+      end
+    else
+      user.send(column_name)
+    end
+  end
+
   def users_to_csv(users)
     Redmine::Export::CSV.generate(:encoding => params[:encoding]) do |csv|
       columns = [
@@ -87,6 +102,7 @@ module UsersHelper
         'mail',
         'admin',
         'status',
+        'twofa_scheme',
         'created_on',
         'updated_on',
         'last_login_on',
@@ -99,7 +115,7 @@ module UsersHelper
       # csv lines
       users = users.preload(:custom_values)
       users.each do |user|
-        values = columns.map {|c| c == 'status' ? l("status_#{User::LABEL_BY_STATUS[user.status]}") : user.send(c)} +
+        values = columns.map {|c| csv_content(c, user)} +
                  user_custom_fields.map {|custom_field| user.custom_value_for(custom_field)}
 
         csv << values.map do |value|

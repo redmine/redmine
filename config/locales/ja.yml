@@ -289,6 +289,7 @@ ja:
   field_password: パスワード
   field_new_password: 新しいパスワード
   field_password_confirmation: パスワードの確認
+  field_twofa_scheme: 二要素認証方式
   field_version: バージョン
   field_type: タイプ
   field_host: ホスト

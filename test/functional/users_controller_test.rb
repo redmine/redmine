@@ -69,15 +69,22 @@ class UsersControllerTest < Redmine::ControllerTest
   def test_index_csv
     with_settings :default_language => 'en' do
       user = User.logged.status(1).first
-      user.update(passwd_changed_on: Time.current.last_month)
-      get :index, :params => { :format => 'csv' }
+      user.update(passwd_changed_on: Time.current.last_month, twofa_scheme: 'totp')
+      get :index, params: {format: 'csv'}
       assert_response :success
 
       assert_equal User.logged.status(1).count, response.body.chomp.split("\n").size - 1
-      assert_include 'active', response.body
-      assert_not_include 'locked', response.body
-      assert_include format_time(user.updated_on), response.body
-      assert_include format_time(user.passwd_changed_on), response.body
+      assert_include format_time(user.updated_on), response.body.split("\n").second
+      assert_include format_time(user.passwd_changed_on), response.body.split("\n").second
+
+      # status
+      assert_include 'active', response.body.split("\n").second
+      assert_not_include 'locked', response.body.split("\n").second
+
+      # twofa_scheme
+      assert_include 'Authenticator app', response.body.split("\n").second
+      assert_include 'disabled', response.body.split("\n").third
+
       assert_equal 'text/csv', @response.media_type
     end
   end
