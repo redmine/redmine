@@ -154,7 +154,18 @@ class SudoModeTest < Redmine::IntegrationTest
     assert_select '#flash_error'
 
     assert_difference 'Role.count' do
-      post '/roles', :params => {role: { name: 'new role', issues_visibility: 'all', assignable: '1', permissions: %w(view_calendar) }, sudo_password: 'admin'}
+      post(
+        '/roles',
+        :params => {
+          :role => {
+            :name => 'new role',
+            :issues_visibility => 'all',
+            :assignable => '1',
+            :permissions => %w(view_calendar)
+          },
+          :sudo_password => 'admin'
+        }
+      )
     end
     assert_redirected_to '/roles'
   end
@@ -172,7 +183,15 @@ class SudoModeTest < Redmine::IntegrationTest
     assert_select '#flash_error', 0
 
     # wrong password
-    put '/my/account', :params => {user: { mail: 'newmail@test.com' }, sudo_password: 'wrong'}
+    put(
+      '/my/account',
+      :params => {
+        :user => {
+          :mail => 'newmail@test.com'
+        },
+        :sudo_password => 'wrong'
+      }
+    )
     assert_response :success
     assert_select 'h2', 'Confirm your password to continue'
     assert_select 'form[action="/my/account"]'
@@ -180,7 +199,15 @@ class SudoModeTest < Redmine::IntegrationTest
     assert_select '#flash_error'
 
     # correct password
-    put '/my/account', :params => {user: { mail: 'newmail@test.com' }, sudo_password: 'jsmith'}
+    put(
+      '/my/account',
+      :params => {
+        :user => {
+          :mail => 'newmail@test.com'
+        },
+        :sudo_password => 'jsmith'
+      }
+    )
     assert_redirected_to '/my/account'
     assert_equal 'newmail@test.com', User.find_by_login('jsmith').mail
 
