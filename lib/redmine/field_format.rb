@@ -271,16 +271,16 @@ module Redmine
         url = custom_field.url_pattern.to_s.dup
         url.gsub!('%value%') {Addressable::URI.encode value.to_s}
         url.gsub!('%id%') {Addressable::URI.encode customized.id.to_s}
-        url.gsub!('%project_id%') {
+        url.gsub!('%project_id%') do
           Addressable::URI.encode(
             (customized.respond_to?(:project) ? customized.project.try(:id) : nil).to_s
           )
-        }
-        url.gsub!('%project_identifier%') {
+        end
+        url.gsub!('%project_identifier%') do
           Addressable::URI.encode(
             (customized.respond_to?(:project) ? customized.project.try(:identifier) : nil).to_s
           )
-        }
+        end
         if custom_field.regexp.present?
           url.gsub!(%r{%m(\d+)%}) do
             m = $1.to_i
