@@ -54,49 +54,51 @@ class Redmine::MenuManager::MenuItemTest < ActiveSupport::TestCase
 
   def test_new_menu_item_should_require_a_proc_to_use_for_the_if_condition
     assert_raises ArgumentError do
-      Redmine::MenuManager::MenuItem.new(:test_error, '/test',
-                                         {
-                                           :if => ['not_a_proc']
-                                         })
+      Redmine::MenuManager::MenuItem.new(
+        :test_error, '/test', {:if => ['not_a_proc']}
+      )
     end
 
-    assert Redmine::MenuManager::MenuItem.new(:test_good_if, '/test',
-                                              {
-                                                :if => Proc.new{}
-                                              })
+    assert(
+      Redmine::MenuManager::MenuItem.new(
+        :test_good_if, '/test', {:if => Proc.new{}}
+      )
+    )
   end
 
   def test_new_menu_item_should_allow_a_hash_for_extra_html_options
     assert_raises ArgumentError do
-      Redmine::MenuManager::MenuItem.new(:test_error, '/test',
-                                         {
-                                           :html => ['not_a_hash']
-                                         })
+      Redmine::MenuManager::MenuItem.new(
+        :test_error, '/test',
+        {:html => ['not_a_hash']}
+      )
     end
-
-    assert Redmine::MenuManager::MenuItem.new(:test_good_html, '/test',
-                                              {
-                                                :html => { :onclick => 'doSomething'}
-                                              })
+    assert(
+      Redmine::MenuManager::MenuItem.new(
+        :test_good_html, '/test',
+        {:html => {:onclick => 'doSomething'}}
+      )
+    )
   end
 
   def test_new_menu_item_should_require_a_proc_to_use_the_children_option
     assert_raises ArgumentError do
-      Redmine::MenuManager::MenuItem.new(:test_error, '/test',
-                                         {
-                                           :children => ['not_a_proc']
-                                         })
+      Redmine::MenuManager::MenuItem.new(
+        :test_error, '/test', {:children => ['not_a_proc']}
+      )
     end
-
-    assert Redmine::MenuManager::MenuItem.new(:test_good_children, '/test',
-                                              {
-                                                :children => Proc.new{}
-                                              })
+    assert(
+      Redmine::MenuManager::MenuItem.new(
+        :test_good_children, '/test', {:children => Proc.new{}}
+      )
+    )
   end
 
   def test_new_should_not_allow_setting_the_parent_item_to_the_current_item
     assert_raises ArgumentError do
-      Redmine::MenuManager::MenuItem.new(:test_error, '/test', { :parent => :test_error })
+      Redmine::MenuManager::MenuItem.new(
+        :test_error, '/test', {:parent => :test_error}
+      )
     end
   end
 
