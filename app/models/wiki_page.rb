@@ -56,7 +56,7 @@ class WikiPage < ActiveRecord::Base
   after_save :handle_children_move, :delete_selected_attachments
 
   # eager load information about last updates, without loading text
-  scope :with_updated_on, lambda { preload(:content_without_text) }
+  scope :with_updated_on, lambda {preload(:content_without_text)}
 
   # Wiki pages that are protected by default
   DEFAULT_PROTECTED_PAGES = %w(sidebar)
@@ -325,7 +325,8 @@ class WikiAnnotate
       end
       positions.compact!
       # Stop if every line is annotated
-      break unless @lines.detect { |line| line[0].nil? }
+      break unless @lines.detect {|line| line[0].nil?}
+
       current = current.previous
     end
     @lines.each do |line|
