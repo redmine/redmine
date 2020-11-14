@@ -63,7 +63,7 @@ class MessagesController < ApplicationController
     if request.post?
       @message.save_attachments(params[:attachments])
       if @message.save
-        call_hook(:controller_messages_new_after_save, { :params => params, :message => @message})
+        call_hook(:controller_messages_new_after_save, {:params => params, :message => @message})
         render_attachment_warning_if_needed(@message)
         flash[:notice] = l(:notice_successful_create)
         redirect_to board_message_path(@board, @message)
@@ -80,7 +80,7 @@ class MessagesController < ApplicationController
     @reply.save_attachments(params[:attachments])
     @topic.children << @reply
     if !@reply.new_record?
-      call_hook(:controller_messages_reply_after_save, { :params => params, :message => @reply})
+      call_hook(:controller_messages_reply_after_save, {:params => params, :message => @reply})
       render_attachment_warning_if_needed(@reply)
     end
     flash[:notice] = l(:notice_successful_update)
