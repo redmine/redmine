@@ -787,7 +787,7 @@ class TimelogControllerTest < Redmine::ControllerTest
   def test_bulk_update
     @request.session[:user_id] = 2
     # update time entry activity
-    post :bulk_update, :params => {:ids => [1, 2], :time_entry => { :activity_id => 9}}
+    post :bulk_update, :params => {:ids => [1, 2], :time_entry => {:activity_id => 9}}
 
     assert_response 302
     # check that the issues were updated
@@ -796,7 +796,7 @@ class TimelogControllerTest < Redmine::ControllerTest
 
   def test_bulk_update_with_failure
     @request.session[:user_id] = 2
-    post :bulk_update, :params => {:ids => [1, 2], :time_entry => { :hours => 'A'}}
+    post :bulk_update, :params => {:ids => [1, 2], :time_entry => {:hours => 'A'}}
 
     assert_response :success
     assert_select_error /Failed to save 2 time entrie/
@@ -808,7 +808,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     Member.create!(:user_id => 2, :project_id => 3, :role_ids => [1])
 
     # update time entry activity
-    post :bulk_update, :params => {:ids => [1, 2, 4], :time_entry => { :activity_id => 9 }}
+    post :bulk_update, :params => {:ids => [1, 2, 4], :time_entry => {:activity_id => 9}}
 
     assert_response 302
     # check that the issues were updated
@@ -818,11 +818,11 @@ class TimelogControllerTest < Redmine::ControllerTest
   def test_bulk_update_on_different_projects_without_rights
     @request.session[:user_id] = 3
     user = User.find(3)
-    action = { :controller => "timelog", :action => "bulk_update" }
+    action = {:controller => "timelog", :action => "bulk_update"}
     assert user.allowed_to?(action, TimeEntry.find(1).project)
     assert ! user.allowed_to?(action, TimeEntry.find(5).project)
 
-    post :bulk_update, :params => {:ids => [1, 5], :time_entry => { :activity_id => 9 }}
+    post :bulk_update, :params => {:ids => [1, 5], :time_entry => {:activity_id => 9}}
     assert_response 403
   end
 
@@ -832,7 +832,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     Role.find_by_name('Manager').add_permission! :edit_own_time_entries
     ids = (0..1).map {TimeEntry.generate!(:user => User.find(2)).id}
 
-    post :bulk_update, :params => {:ids => ids, :time_entry => { :activity_id => 9 }}
+    post :bulk_update, :params => {:ids => ids, :time_entry => {:activity_id => 9}}
     assert_response 302
   end
 
@@ -841,7 +841,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     Role.find_by_name('Manager').remove_permission! :edit_time_entries
     Role.find_by_name('Manager').add_permission! :edit_own_time_entries
 
-    post :bulk_update, :params => {:ids => [1, 2], :time_entry => { :activity_id => 9 }}
+    post :bulk_update, :params => {:ids => [1, 2], :time_entry => {:activity_id => 9}}
     assert_response 403
   end
 
