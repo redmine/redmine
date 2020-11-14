@@ -352,7 +352,7 @@ class CustomFieldTest < ActiveSupport::TestCase
   def test_project_custom_field_visibility
     project_field = ProjectCustomField.generate!(:visible => false, :field_format => 'list', :possible_values => %w[a b c])
     project = Project.find(3)
-    project.custom_field_values = { project_field.id => 'a' }
+    project.custom_field_values = {project_field.id => 'a'}
 
     # Admins can find projects with the field
     with_current_user(User.find(1)) do
