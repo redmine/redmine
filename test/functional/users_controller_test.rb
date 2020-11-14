@@ -98,7 +98,7 @@ class UsersControllerTest < Redmine::ControllerTest
 
     User.find(@request.session[:user_id]).update(:language => nil)
     with_settings :default_language => 'fr' do
-      get :index, :params => { :name => user.lastname, :format => 'csv' }
+      get :index, :params => {:name => user.lastname, :format => 'csv'}
       assert_response :success
 
       assert_include 'float field;date field', response.body
@@ -109,7 +109,7 @@ class UsersControllerTest < Redmine::ControllerTest
 
   def test_index_csv_with_status_filter
     with_settings :default_language => 'en' do
-      get :index, :params => { :status => 3, :format => 'csv' }
+      get :index, :params => {:status => 3, :format => 'csv'}
       assert_response :success
 
       assert_equal User.logged.status(3).count, response.body.chomp.split("\n").size - 1
