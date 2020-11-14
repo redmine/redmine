@@ -177,9 +177,9 @@ class AttachmentsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to_referer_or project_path(@project) }
+      format.html {redirect_to_referer_or project_path(@project)}
       format.js
-      format.api { render_api_ok }
+      format.api {render_api_ok}
     end
   end
 
