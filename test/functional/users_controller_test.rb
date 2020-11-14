@@ -283,22 +283,25 @@ class UsersControllerTest < Redmine::ControllerTest
   end
 
   def test_create
-    Setting.bcc_recipients = '1'
-
-    assert_difference 'User.count' do
-      assert_difference 'ActionMailer::Base.deliveries.size' do
-        post :create, :params => {
-          :user => {
-            :firstname => 'John',
-            :lastname => 'Doe',
-            :login => 'jdoe',
-            :password => 'secret123',
-            :password_confirmation => 'secret123',
-            :mail => 'jdoe@gmail.com',
-            :mail_notification => 'none'
-          },
-          :send_information => '1'
-        }
+    with_settings :bcc_recipients => '1' do
+      assert_difference 'User.count' do
+        assert_difference 'ActionMailer::Base.deliveries.size' do
+          post(
+            :create,
+            :params => {
+              :user => {
+                :firstname => 'John',
+                :lastname => 'Doe',
+                :login => 'jdoe',
+                :password => 'secret123',
+                :password_confirmation => 'secret123',
+                :mail => 'jdoe@gmail.com',
+                :mail_notification => 'none'
+              },
+              :send_information => '1'
+            }
+          )
+        end
       end
     end
 
