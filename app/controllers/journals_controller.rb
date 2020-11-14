@@ -92,9 +92,9 @@ class JournalsController < ApplicationController
     @journal.safe_attributes = params[:journal]
     @journal.save
     @journal.destroy if @journal.details.empty? && @journal.notes.blank?
-    call_hook(:controller_journals_edit_post, { :journal => @journal, :params => params})
+    call_hook(:controller_journals_edit_post, {:journal => @journal, :params => params})
     respond_to do |format|
-      format.html { redirect_to issue_path(@journal.journalized) }
+      format.html {redirect_to issue_path(@journal.journalized)}
       format.js
     end
   end
