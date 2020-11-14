@@ -141,8 +141,7 @@ class ImportsController < ApplicationController
 
   def menu_items
     menu_item = import_type ? import_type.menu_item : nil
-
-    { self.controller_name.to_sym => { :actions => {}, :default => menu_item } }
+    {self.controller_name.to_sym => {:actions => {}, :default => menu_item}}
   end
 
   def authorize_import
