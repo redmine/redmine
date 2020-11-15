@@ -137,7 +137,7 @@ class TimeEntryQueryTest < ActiveSupport::TestCase
   end
 
   def test_results_scope_should_be_in_the_same_order_when_paginating
-    4.times { TimeEntry.generate! }
+    4.times {TimeEntry.generate!}
     q = TimeEntryQuery.new
     q.sort_criteria = {'0' => ['user', 'asc']}
     time_entry_ids = q.results_scope.pluck(:id)
