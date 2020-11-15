@@ -56,7 +56,7 @@ class TimeEntryImport < Import
     users = []
     if project
       users = project.members.active.preload(:user)
-      users = users.map(&:user).select{ |u| u.allowed_to?(:log_time, project) }
+      users = users.map(&:user).select{|u| u.allowed_to?(:log_time, project)}
     end
     users << User.current if User.current.logged? && !users.include?(User.current)
     users
