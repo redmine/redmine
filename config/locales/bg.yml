@@ -236,6 +236,15 @@ bg:
   error_can_not_delete_auth_source: Този режим за идентификация се използва и не може да бъде премахнат.
   error_spent_on_future_date: Не е възможно да се отчете изразходвано време на дата в бъдещето
   error_not_allowed_to_log_time_for_other_users: Вие нямате разрешение да записвате изразходвано време за други потребители
+  error_can_not_execute_macro_html: Грешка при изпълнение на <strong>%{name}</strong> макрос
+    (%{error})
+  error_macro_does_not_accept_block: Този макрос не приема текстов блок
+  error_childpages_macro_no_argument: Без аргумент този макрос може да бъде викан само от wiki страници
+  error_circular_inclusion: Намерено е циклично включване
+  error_page_not_found: Страницата не е намерена
+  error_filename_required: Изисква се име на файл
+  error_invalid_size_parameter: Невалиден параметър за размер
+  error_attachment_not_found: Прикаченият файл  %{name} не е намерен
 
   mail_subject_lost_password: "Вашата парола (%{value})"
   mail_body_lost_password: 'За да смените паролата си, използвайте следния линк:'
@@ -497,11 +506,13 @@ bg:
   setting_timelog_accept_future_dates: Разрешено отчитане на изразходвано време на дата в бъдещето
   setting_show_status_changes_in_mail_subject: Показване на промените на състоянието на задачите в поле Относно на имейлите
   setting_project_list_defaults: Проектен списък
+  setting_twofa: Двуфакторна автентикация
 
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
   permission_edit_project: Редактиране на проект
   permission_close_project: Затваряне / отваряне на проект
+  permission_delete_project: Изтриване на проект
   permission_select_project_modules: Избор на проектни модули
   permission_manage_members: Управление на членовете (на екип)
   permission_manage_project_activities: Управление на дейностите на проекта
@@ -872,6 +883,7 @@ bg:
   label_copied_from: копирана от
   label_stay_logged_in: Запомни ме
   label_disabled: забранено
+  label_optional: по избор
   label_show_completed_versions: Показване на реализирани версии
   label_me: аз
   label_board: Форум
@@ -995,6 +1007,7 @@ bg:
   label_fields_permissions: Видимост на полетата
   label_readonly: Само за четене
   label_required: Задължително
+  label_required_lower: задължително
   label_hidden: Скрит
   label_attribute_of_project: Project's %{name}
   label_attribute_of_issue: Issue's %{name}
@@ -1120,6 +1133,7 @@ bg:
   button_back: Назад
   button_cancel: Отказ
   button_activate: Активация
+  button_disable: Забрана
   button_sort: Сортиране
   button_log_time: Отделяне на време
   button_rollback: Върни се към тази ревизия
@@ -1301,66 +1315,45 @@ bg:
   text_project_is_public_anonymous: Публичните проекти са достъпни и тяхното съдържание е видимо без ограничения в мрежата.
   label_import_time_entries: Импортиране на записи за използвано време
   label_import_users: Импортиране на потребители
-  setting_twofa: Two-factor authentication
-  label_optional: optional
-  label_required_lower: required
-  button_disable: Disable
-  twofa__totp__name: Authenticator app
-  twofa__totp__text_pairing_info_html: Scan this QR code or enter the plain text key
-    into a TOTP app (e.g. <a href="https://support.google.com/accounts/answer/1066447">Google
+
+  twofa__totp__text_pairing_info_html: Сканирайте този QR код или въведете текстовия ключ
+    в TOTP приложение (например <a href="https://support.google.com/accounts/answer/1066447">Google
     Authenticator</a>, <a href="https://authy.com/download/">Authy</a>, <a href="https://guide.duo.com/third-party-accounts">Duo
-    Mobile</a>) and enter the code in the field below to activate two-factor authentication.
-  twofa__totp__label_plain_text_key: Plain text key
-  twofa__totp__label_activate: Enable authenticator app
-  twofa_currently_active: 'Currently active: %{twofa_scheme_name}'
-  twofa_not_active: Not activated
-  twofa_label_code: Code
-  twofa_hint_disabled_html: Setting <strong>%{label}</strong> will deactivate and unpair
-    two-factor authentication devices for all users.
-  twofa_hint_required_html: Setting <strong>%{label}</strong> will require all users
-    to set up two-factor authentication at their next login.
-  twofa_label_setup: Enable two-factor authentication
-  twofa_label_deactivation_confirmation: Disable two-factor authentication
-  twofa_notice_select: 'Please select the two-factor scheme you would like to use:'
-  twofa_warning_require: The administrator requires you to enable two-factor authentication.
-  twofa_activated: Two-factor authentication successfully enabled. It is recommended
-    to <a data-method="post" href="%{bc_path}">generate backup codes</a> for your account.
-  twofa_deactivated: Two-factor authentication disabled.
-  twofa_mail_body_security_notification_paired: Two-factor authentication successfully
-    enabled using %{field}.
-  twofa_mail_body_security_notification_unpaired: Two-factor authentication disabled
-    for your account.
-  twofa_mail_body_backup_codes_generated: New two-factor authentication backup codes
-    generated.
-  twofa_mail_body_backup_code_used: A two-factor authentication backup code has been
-    used.
-  twofa_invalid_code: Code is invalid or outdated.
-  twofa_label_enter_otp: Please enter your two-factor authentication code.
-  twofa_too_many_tries: Too many tries.
-  twofa_resend_code: Resend code
-  twofa_code_sent: An authentication code has been sent to you.
-  twofa_generate_backup_codes: Generate backup codes
-  twofa_text_generate_backup_codes_confirmation: This will invalidate all existing backup
-    codes and generate new ones. Would you like to continue?
-  twofa_notice_backup_codes_generated: Your backup codes have been generated.
-  twofa_warning_backup_codes_generated_invalidated: New backup codes have been generated.
-    Your existing codes from %{time} are now invalid.
-  twofa_label_backup_codes: Two-factor authentication backup codes
-  twofa_text_backup_codes_hint: Use these codes instead of a one-time password should
-    you not have access to your second factor. Each code can only be used once. It is
-    recommended to print and store them in a safe place.
-  twofa_text_backup_codes_created_at: Backup codes generated %{datetime}.
-  twofa_backup_codes_already_shown: Backup codes cannot be shown again, please <a data-method="post"
-    href="%{bc_path}">generate new backup codes</a> if required.
-  error_can_not_execute_macro_html: Error executing the <strong>%{name}</strong> macro
-    (%{error})
-  error_macro_does_not_accept_block: This macro does not accept a block of text
-  error_childpages_macro_no_argument: With no argument, this macro can be called from
-    wiki pages only
-  error_circular_inclusion: Circular inclusion detected
-  error_page_not_found: Page not found
-  error_filename_required: Filename required
-  error_invalid_size_parameter: Invalid size parameter
-  error_attachment_not_found: Attachment %{name} not found
-  permission_delete_project: Delete the project
-  field_twofa_scheme: Two-factor authentication scheme
+    Mobile</a>) и въведете кода в полето по-долу, за да активирате двуфакторна автентикация.
+  twofa__totp__label_plain_text_key: Текстов ключ
+  twofa__totp__label_activate: Разрешаване на приложение за автентикация
+  twofa_currently_active: 'Активна автентикация: %{twofa_scheme_name}'
+  twofa_not_active: Не е активирана
+  twofa_label_code: Код
+  twofa_hint_disabled_html: Настройка <strong>%{label}</strong> ще деактивира двуфакторната автентикация за всички потребители.
+  twofa_hint_required_html: Настройка <strong>%{label}</strong> ще изисква всички потребители
+    да установят двуфакторна автентикация при тяхното следващо влизане в Redmine.
+  twofa_label_setup: Активиране на двуфакторна автентикация
+  twofa_label_deactivation_confirmation: Деактивация на двуфакторната автентикация
+  twofa_notice_select: 'Моля изберете двуфакторна схема, която желаете да използвате:'
+  twofa_warning_require: Администраторът изисква да активирате двуфакторна автентикация.
+  twofa_activated: Двуфакторната автентикация е активирана успешно. Препоръчително е
+    да <a data-method="post" href="%{bc_path}">генерирате резервни кодове</a> за вашия потребителски профил.
+  twofa_deactivated: Двуфакторната автентикация е деактивирана.
+  twofa_mail_body_security_notification_paired: Двуфакторната автентикация е активирана успешно с използване на %{field}.
+  twofa_mail_body_security_notification_unpaired: Двуфакторната автентикация е деактивирана за вашия профил.
+  twofa_mail_body_backup_codes_generated: Генерирани са нови резервни кодове за двуфакторна автентикация.
+  twofa_mail_body_backup_code_used: Беше използван резервен код за двуфакторна автентикация.
+  twofa_invalid_code: Кодът е невалиден или остарял.
+  twofa_label_enter_otp: Моля въведете вашия двуфакторен код за автентикация..
+  twofa_too_many_tries: Твърде много опити.
+  twofa_resend_code: Повторно изпращане на кода
+  twofa_code_sent: Код за автентикация ви беше изпратен.
+  twofa_generate_backup_codes: Генериране на резервни кодове
+  twofa_text_generate_backup_codes_confirmation: Това действие ще направи невалидни всички съществуващи резервни кодове
+    и ще генерира нови. Желаете ли да продължите?
+  twofa_notice_backup_codes_generated: Вашите резервни кодове са генерирани.
+  twofa_warning_backup_codes_generated_invalidated: Нови резервни кодове бяха генерирани.
+    Вашите досегашни кодове са невалидни от %{time}.
+  twofa_label_backup_codes: Кодове за двуфакторна автентикация
+  twofa_text_backup_codes_hint: Използвайте тези кодове вместо еднократна парола, ако нямате достъп до втория фактор. Всеки код може да бъде използван само един път. Препоръчително е да разпечатите и съхраните тези кодове на сигурно място.
+  twofa_text_backup_codes_created_at: Резервни кодове генерирани на %{datetime}.
+  twofa_backup_codes_already_shown: Резервните кодове не могат да бъдат показани отново, моля <a data-method="post"
+    href="%{bc_path}">генерирайте нови резервни кодове</a>, ако е необходимо.
+  field_twofa_scheme: Схема за двуфакторна автентикация
+  twofa__totp__name: Authenticator app
