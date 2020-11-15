@@ -544,17 +544,21 @@ class UsersControllerTest < Redmine::ControllerTest
   end
 
   def test_update_with_activation_should_send_a_notification
-    u = User.new(:firstname => 'Foo', :lastname => 'Bar', :mail => 'foo.bar@somenet.foo', :language => 'fr')
+    u = User.new(:firstname => 'Foo', :lastname => 'Bar',
+                 :mail => 'foo.bar@somenet.foo', :language => 'fr')
     u.login = 'foo'
     u.status = User::STATUS_REGISTERED
     u.save!
     ActionMailer::Base.deliveries.clear
-    Setting.bcc_recipients = '1'
-
-    put :update, :params => {
-      :id => u.id,
-      :user => {:status => User::STATUS_ACTIVE}
-    }
+    with_settings :bcc_recipients => '1' do
+      put(
+        :update,
+        :params => {
+          :id => u.id,
+          :user => {:status => User::STATUS_ACTIVE}
+        }
+      )
+    end
     assert u.reload.active?
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
