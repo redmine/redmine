@@ -61,7 +61,7 @@ module Redmine
 
       # Yields to filter the activity scope
       def scope_select(&block)
-        @scope = @scope.select {|t| yield t }
+        @scope = @scope.select {|t| yield t}
       end
 
       # Sets the scope
