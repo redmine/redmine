@@ -660,7 +660,7 @@ class QueryTest < ActiveSupport::TestCase
     query.add_filter('due_date', 'nd', [''])
     issues = find_issues_with_query(query)
     assert_include issue, issues
-    other_issues.each {|i| assert_not_include i, issues }
+    other_issues.each {|i| assert_not_include i, issues}
   end
 
   def test_operator_date_periods
@@ -688,7 +688,7 @@ class QueryTest < ActiveSupport::TestCase
     query.add_filter('subject', '~', ['cdeF'])
     result = find_issues_with_query(query)
     assert_include issue, result
-    result.each {|issue| assert issue.subject.downcase.include?('cdef') }
+    result.each {|issue| assert issue.subject.downcase.include?('cdef')}
   end
 
   def test_operator_contains_with_utf8_string
@@ -901,7 +901,7 @@ class QueryTest < ActiveSupport::TestCase
     assert_not_nil filter
     assert_include 'me', filter[:values].map{|v| v[1]}
 
-    query.filters = { "cf_#{cf.id}" => {:operator => '=', :values => ['me']}}
+    query.filters = {"cf_#{cf.id}" => {:operator => '=', :values => ['me']}}
     result = query.issues
     assert_equal 1, result.size
     assert_equal issue1, result.first
@@ -929,7 +929,7 @@ class QueryTest < ActiveSupport::TestCase
     assert_not_nil filter
     assert_include 'mine', filter[:values].map{|v| v[1]}
 
-    query.filters = { 'project_id' => {:operator => '=', :values => ['mine']}}
+    query.filters = {'project_id' => {:operator => '=', :values => ['mine']}}
     result = query.issues
     assert_nil result.detect {|issue| !User.current.member_of?(issue.project)}
   end
@@ -941,7 +941,7 @@ class QueryTest < ActiveSupport::TestCase
     assert_not_nil filter
     assert_include 'bookmarks', filter[:values].map{|v| v[1]}
 
-    query.filters = { 'id' => {:operator => '=', :values => ['bookmarks']}}
+    query.filters = {'id' => {:operator => '=', :values => ['bookmarks']}}
     result = query.results_scope
 
     assert_equal [1, 5], result.map(&:id).sort
@@ -962,7 +962,7 @@ class QueryTest < ActiveSupport::TestCase
     assert_not_nil filter
     assert_include 'mine', filter[:values].map{|v| v[1]}
 
-    query.filters = { 'parent_id' => {:operator => '=', :values => ['mine']}}
+    query.filters = {'parent_id' => {:operator => '=', :values => ['mine']}}
     result = query.results_scope
 
     my_projects = User.current.memberships.map(&:project_id)
@@ -976,7 +976,7 @@ class QueryTest < ActiveSupport::TestCase
     assert_not_nil filter
     assert_include 'bookmarks', filter[:values].map{|v| v[1]}
 
-    query.filters = { 'parent_id' => {:operator => '=', :values => ['bookmarks']}}
+    query.filters = {'parent_id' => {:operator => '=', :values => ['bookmarks']}}
     result = query.results_scope
 
     bookmarks = User.current.bookmarked_project_ids
@@ -1341,7 +1341,7 @@ class QueryTest < ActiveSupport::TestCase
     IssueRelation.create!(relation_type: 'relates', issue_from: Issue.find(2), issue_to: Issue.find(3))
 
     query = IssueQuery.new(:name => '_')
-    query.filters = { 'relates' => { operator: '!o', values: [''] } }
+    query.filters = {'relates' => {:operator => '!o', :values => ['']}}
     ids = find_issues_with_query(query).map(&:id)
     assert_equal [], ids & [2]
     assert_include 1, ids
@@ -1601,8 +1601,8 @@ class QueryTest < ActiveSupport::TestCase
 
       issues = q.issues.sort_by(&:id)
       assert issues.all? {|issue| !issue.instance_variable_get("@last_updated_by").nil?}
-      assert_equal ["User", "User", "NilClass"], issues.map { |i| i.last_updated_by.class.name}
-      assert_equal ["John Smith", "John Smith", ""], issues.map { |i| i.last_updated_by.to_s }
+      assert_equal ["User", "User", "NilClass"], issues.map {|i| i.last_updated_by.class.name}
+      assert_equal ["John Smith", "John Smith", ""], issues.map {|i| i.last_updated_by.to_s}
     end
   end
 
@@ -1807,7 +1807,7 @@ class QueryTest < ActiveSupport::TestCase
 
     q = IssueQuery.new(
       :name => '_',
-      :filters => { 'updated_on' => {:operator => 't', :values => ['']} },
+      :filters => {'updated_on' => {:operator => 't', :values => ['']}},
       :group_by => 'updated_on',
       :sort_criteria => [['subject', 'asc']]
     )
@@ -1845,7 +1845,7 @@ class QueryTest < ActiveSupport::TestCase
 
     q = IssueQuery.new(
       :name => '_',
-      :filters => { 'issue_id' => {:operator => '=', :values => ['1,7']} },
+      :filters => {'issue_id' => {:operator => '=', :values => ['1,7']}},
       :sort_criteria => [['total_estimated_hours', 'asc']]
     )
 
