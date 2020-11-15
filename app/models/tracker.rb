@@ -40,7 +40,7 @@ class Tracker < ActiveRecord::Base
   validates_length_of :name, :maximum => 30
   validates_length_of :description, :maximum => 255
 
-  scope :sorted, lambda { order(:position) }
+  scope :sorted, lambda {order(:position)}
   scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
 
   # Returns the trackers that are visible by the user.
