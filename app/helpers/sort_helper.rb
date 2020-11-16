@@ -124,7 +124,7 @@ module SortHelper
     end
     caption = column.to_s.humanize unless caption
 
-    sort_options = { :sort => @sort_criteria.add(column.to_s, order).to_param }
+    sort_options = {:sort => @sort_criteria.add(column.to_s, order).to_param}
     link_to(caption, {:params => request.query_parameters.merge(sort_options)}, :class => css)
   end
 
