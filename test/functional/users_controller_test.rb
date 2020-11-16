@@ -568,13 +568,19 @@ class UsersControllerTest < Redmine::ControllerTest
 
   def test_update_with_password_change_should_send_a_notification
     ActionMailer::Base.deliveries.clear
-    Setting.bcc_recipients = '1'
-
-    put :update, :params => {
-      :id => 2,
-      :user => {:password => 'newpass123', :password_confirmation => 'newpass123'},
-      :send_information => '1'
-    }
+    with_settings :bcc_recipients => '1' do
+      put(
+        :update,
+        :params => {
+          :id => 2,
+          :user => {
+            :password => 'newpass123',
+            :password_confirmation => 'newpass123'
+          },
+         :send_information => '1'
+        }
+      )
+    end
     u = User.find(2)
     assert u.check_password?('newpass123')
 
