@@ -22,14 +22,14 @@ class ReportsController < ApplicationController
   before_action :find_project, :authorize, :find_issue_statuses
 
   def issue_report
-    @trackers = @project.rolled_up_trackers(false).visible
+    with_subprojects = Setting.display_subprojects_issues?
+    @trackers = @project.rolled_up_trackers(with_subprojects).visible
     @versions = @project.shared_versions.sorted
     @priorities = IssuePriority.all.reverse
     @categories = @project.issue_categories
     @assignees = (Setting.issue_group_assignment? ? @project.principals : @project.users).sorted
     @authors = @project.users.sorted
     @subprojects = @project.descendants.visible
-    with_subprojects = Setting.display_subprojects_issues?
     @issues_by_tracker = Issue.by_tracker(@project, with_subprojects)
     @issues_by_version = Issue.by_version(@project, with_subprojects)
     @issues_by_priority = Issue.by_priority(@project, with_subprojects)
@@ -46,7 +46,7 @@ class ReportsController < ApplicationController
     case params[:detail]
     when "tracker"
       @field = "tracker_id"
-      @rows = @project.rolled_up_trackers(false).visible
+      @rows = @project.rolled_up_trackers(with_subprojects).visible
       @data = Issue.by_tracker(@project, with_subprojects)
       @report_title = l(:field_tracker)
     when "version"
