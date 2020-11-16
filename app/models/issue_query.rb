@@ -57,7 +57,7 @@ class IssueQuery < Query
 
   def initialize(attributes=nil, *args)
     super attributes
-    self.filters ||= { 'status_id' => {:operator => "o", :values => [""]} }
+    self.filters ||= {'status_id' => {:operator => "o", :values => [""]}}
   end
 
   def draw_relations
@@ -98,39 +98,39 @@ class IssueQuery < Query
   def initialize_available_filters
     add_available_filter(
       "status_id",
-      :type => :list_status, :values => lambda { issue_statuses_values }
+      :type => :list_status, :values => lambda {issue_statuses_values}
     )
     add_available_filter(
       "project_id",
-      :type => :list, :values => lambda { project_values }
+      :type => :list, :values => lambda {project_values}
     ) if project.nil?
     add_available_filter(
       "tracker_id",
-      :type => :list, :values => trackers.collect{|s| [s.name, s.id.to_s] }
+      :type => :list, :values => trackers.collect{|s| [s.name, s.id.to_s]}
     )
     add_available_filter(
       "priority_id",
-      :type => :list, :values => IssuePriority.all.collect{|s| [s.name, s.id.to_s] }
+      :type => :list, :values => IssuePriority.all.collect{|s| [s.name, s.id.to_s]}
     )
     add_available_filter(
       "author_id",
-      :type => :list, :values => lambda { author_values }
+      :type => :list, :values => lambda {author_values}
     )
     add_available_filter(
       "assigned_to_id",
-      :type => :list_optional, :values => lambda { assigned_to_values }
+      :type => :list_optional, :values => lambda {assigned_to_values}
     )
     add_available_filter(
       "member_of_group",
-      :type => :list_optional, :values => lambda { Group.givable.visible.collect {|g| [g.name, g.id.to_s] } }
+      :type => :list_optional, :values => lambda {Group.givable.visible.collect {|g| [g.name, g.id.to_s]}}
     )
     add_available_filter(
       "assigned_to_role",
-      :type => :list_optional, :values => lambda { Role.givable.collect {|r| [r.name, r.id.to_s] } }
+      :type => :list_optional, :values => lambda {Role.givable.collect {|r| [r.name, r.id.to_s]}}
     )
     add_available_filter(
       "fixed_version_id",
-      :type => :list_optional, :values => lambda { fixed_version_values }
+      :type => :list_optional, :values => lambda {fixed_version_values}
     )
     add_available_filter(
       "fixed_version.due_date",
@@ -141,12 +141,12 @@ class IssueQuery < Query
       "fixed_version.status",
       :type => :list,
       :name => l(:label_attribute_of_fixed_version, :name => l(:field_status)),
-      :values => Version::VERSION_STATUSES.map{|s| [l("version_status_#{s}"), s] }
+      :values => Version::VERSION_STATUSES.map{|s| [l("version_status_#{s}"), s]}
     )
     add_available_filter(
       "category_id",
       :type => :list_optional,
-      :values => lambda { project.issue_categories.collect{|s| [s.name, s.id.to_s] } }
+      :values => lambda {project.issue_categories.collect{|s| [s.name, s.id.to_s]}}
     ) if project
     add_available_filter "subject", :type => :text
     add_available_filter "description", :type => :text
@@ -178,22 +178,22 @@ class IssueQuery < Query
     if User.current.logged?
       add_available_filter(
         "watcher_id",
-        :type => :list, :values => lambda { watcher_values }
+        :type => :list, :values => lambda {watcher_values}
       )
     end
     add_available_filter(
       "updated_by",
-      :type => :list, :values => lambda { author_values }
+      :type => :list, :values => lambda {author_values}
     )
     add_available_filter(
       "last_updated_by",
-      :type => :list, :values => lambda { author_values }
+      :type => :list, :values => lambda {author_values}
     )
     if project && !project.leaf?
       add_available_filter(
         "subproject_id",
         :type => :list_subprojects,
-        :values => lambda { subproject_values }
+        :values => lambda {subproject_values}
       )
     end
 
@@ -201,7 +201,7 @@ class IssueQuery < Query
       "project.status",
       :type => :list,
       :name => l(:label_attribute_of_project, :name => l(:field_status)),
-      :values => lambda { project_statuses_values }
+      :values => lambda {project_statuses_values}
     ) if project.nil? || !project.leaf?
 
     add_custom_fields_filters(issue_custom_fields)
@@ -223,7 +223,7 @@ class IssueQuery < Query
   def available_columns
     return @available_columns if @available_columns
     @available_columns = self.class.available_columns.dup
-    @available_columns += issue_custom_fields.visible.collect {|cf| QueryCustomFieldColumn.new(cf) }
+    @available_columns += issue_custom_fields.visible.collect {|cf| QueryCustomFieldColumn.new(cf)}
 
     if User.current.allowed_to?(:view_time_entries, project, :global => true)
       # insert the columns after total_estimated_hours or at the end
@@ -451,7 +451,7 @@ class IssueQuery < Query
 
   def sql_for_watcher_id_field(field, operator, value)
     db_table = Watcher.table_name
-    me, others = value.partition { |id| ['0', User.current.id.to_s].include?(id) }
+    me, others = value.partition {|id| ['0', User.current.id.to_s].include?(id)}
     sql =
       if others.any?
         "SELECT #{Issue.table_name}.id FROM #{Issue.table_name} " +
