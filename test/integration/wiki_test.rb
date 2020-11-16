@@ -42,12 +42,16 @@ class WikiIntegrationTest < Redmine::IntegrationTest
     assert_response :success
 
     # this update should not end up with a loss of content
-    put '/projects/ecookbook/wiki/Wiki', params: {
-      content: {
-        text: "# Wiki\r\n\r\ncontent", comments: ""
-      },
-      wiki_page: { parent_id: "" }
-    }
+    put(
+      '/projects/ecookbook/wiki/Wiki',
+      :params => {
+        :content => {
+          :text => "# Wiki\r\n\r\ncontent",
+          :comments => ""
+        },
+      :wiki_page => {:parent_id => ""}
+      }
+    )
     assert_redirected_to "/projects/ecookbook/wiki/Wiki"
     follow_redirect!
     assert_select 'div', /content/
@@ -55,17 +59,26 @@ class WikiIntegrationTest < Redmine::IntegrationTest
 
     # Let's assume somebody else, or the same user in another tab, renames the
     # page while it is being edited.
-    post '/projects/ecookbook/wiki/Wiki/rename', params: { wiki_page: { title: "NewTitle" } }
+    post(
+      '/projects/ecookbook/wiki/Wiki/rename',
+      :params => {
+        :wiki_page => {:title => "NewTitle"}
+      }
+    )
     assert_redirected_to "/projects/ecookbook/wiki/NewTitle"
 
     # this update should not end up with a loss of content
-    put '/projects/ecookbook/wiki/Wiki', params: {
-      content: {
-        version: content.version, text: "# Wiki\r\n\r\nnew content", comments: ""
-      },
-      wiki_page: { parent_id: "" }
-    }
-
+    put(
+      '/projects/ecookbook/wiki/Wiki',
+      :params => {
+        :content => {
+          :version => content.version,
+          :text => "# Wiki\r\n\r\nnew content",
+          :comments => ""
+        },
+      :wiki_page => {:parent_id => ""}
+      }
+    )
     assert_redirected_to "/projects/ecookbook/wiki/NewTitle"
     follow_redirect!
     assert_select 'div', /new content/
