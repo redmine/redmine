@@ -23,7 +23,7 @@ class NewsTest < ActiveSupport::TestCase
   fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles, :enabled_modules, :news
 
   def valid_news
-    { :title => 'Test news', :description => 'Lorem ipsum etc', :author => User.first }
+    {:title => 'Test news', :description => 'Lorem ipsum etc', :author => User.first}
   end
 
   def setup
@@ -42,10 +42,10 @@ class NewsTest < ActiveSupport::TestCase
 
   def test_should_include_news_for_projects_with_news_enabled
     project = projects(:projects_001)
-    assert project.enabled_modules.any?{ |em| em.name == 'news' }
+    assert project.enabled_modules.any?{|em| em.name == 'news'}
 
     # News.latest should return news from projects_001
-    assert News.latest.any? { |news| news.project == project }
+    assert News.latest.any? {|news| news.project == project}
   end
 
   def test_should_not_include_news_for_projects_with_news_disabled
@@ -60,19 +60,19 @@ class NewsTest < ActiveSupport::TestCase
   end
 
   def test_should_only_include_news_from_projects_visibly_to_the_user
-    assert News.latest(User.anonymous).all? { |news| news.project.is_public? }
+    assert News.latest(User.anonymous).all? {|news| news.project.is_public?}
   end
 
   def test_should_limit_the_amount_of_returned_news
     # Make sure we have a bunch of news stories
-    10.times { projects(:projects_001).news.create(valid_news) }
+    10.times {projects(:projects_001).news.create(valid_news)}
     assert_equal 2, News.latest(users(:users_002), 2).size
     assert_equal 6, News.latest(users(:users_002), 6).size
   end
 
   def test_should_return_5_news_stories_by_default
     # Make sure we have a bunch of news stories
-    10.times { projects(:projects_001).news.create(valid_news) }
+    10.times {projects(:projects_001).news.create(valid_news)}
     assert_equal 5, News.latest(users(:users_004)).size
   end
 
