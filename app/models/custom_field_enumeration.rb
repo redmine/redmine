@@ -25,7 +25,7 @@ class CustomFieldEnumeration < ActiveRecord::Base
   validates_numericality_of :position, :only_integer => true
   before_create :set_position
 
-  scope :active, lambda { where(:active => true) }
+  scope :active, lambda {where(:active => true)}
 
   def to_s
     name.to_s
