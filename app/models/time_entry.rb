@@ -48,8 +48,8 @@ class TimeEntry < ActiveRecord::Base
                             :scope => proc { joins(:project).preload(:project) }
 
   validates_presence_of :author_id, :user_id, :activity_id, :project_id, :hours, :spent_on
-  validates_presence_of :issue_id, :if => lambda { Setting.timelog_required_fields.include?('issue_id') }
-  validates_presence_of :comments, :if => lambda { Setting.timelog_required_fields.include?('comments') }
+  validates_presence_of :issue_id, :if => lambda {Setting.timelog_required_fields.include?('issue_id')}
+  validates_presence_of :comments, :if => lambda {Setting.timelog_required_fields.include?('comments')}
   validates_numericality_of :hours, :allow_nil => true, :message => :invalid
   validates_length_of :comments, :maximum => 1024, :allow_nil => true
   validates :spent_on, :date => true
@@ -218,7 +218,7 @@ class TimeEntry < ActiveRecord::Base
     users = []
     if project
       users = project.members.active.preload(:user)
-      users = users.map(&:user).select{ |u| u.allowed_to?(:log_time, project) }
+      users = users.map(&:user).select{|u| u.allowed_to?(:log_time, project)}
     end
     users << User.current if User.current.logged? && !users.include?(User.current)
     users
