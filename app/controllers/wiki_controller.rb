@@ -74,8 +74,8 @@ class WikiController < ApplicationController
       if @page.errors[:title].blank?
         path = project_wiki_page_path(@project, @page.title, :parent => params[:parent])
         respond_to do |format|
-          format.html { redirect_to path }
-          format.js   { render :js => "window.location = #{path.to_json}" }
+          format.html {redirect_to path}
+          format.js   {render :js => "window.location = #{path.to_json}"}
         end
       end
     end
@@ -181,7 +181,7 @@ class WikiController < ApplicationController
     if @page.save_with_content(@content)
       attachments = Attachment.attach_files(@page, params[:attachments] || (params[:wiki_page] && params[:wiki_page][:uploads]))
       render_attachment_warning_if_needed(@page)
-      call_hook(:controller_wiki_edit_after_save, { :params => params, :page => @page})
+      call_hook(:controller_wiki_edit_after_save, {:params => params, :page => @page})
 
       respond_to do |format|
         format.html do
@@ -198,8 +198,8 @@ class WikiController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html { render :action => 'edit' }
-        format.api { render_validation_errors(@content) }
+        format.html {render :action => 'edit'}
+        format.api {render_validation_errors(@content)}
       end
     end
 
@@ -210,7 +210,7 @@ class WikiController < ApplicationController
         flash.now[:error] = l(:notice_locking_conflict)
         render :action => 'edit'
       end
-      format.api { render_api_head :conflict }
+      format.api {render_api_head :conflict}
     end
   end
 
@@ -291,7 +291,7 @@ class WikiController < ApplicationController
         flash[:notice] = l(:notice_successful_delete)
         redirect_to project_wiki_index_path(@project)
       end
-      format.api { render_api_ok }
+      format.api {render_api_ok}
     end
   end
 
