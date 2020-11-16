@@ -22,7 +22,7 @@ class UsersController < ApplicationController
   self.main_menu = false
 
   before_action :require_admin, :except => :show
-  before_action ->{ find_user(false) }, :only => :show
+  before_action ->{find_user(false)}, :only => :show
   before_action :find_user, :only => [:edit, :update, :destroy]
   accept_api_auth :index, :show, :create, :update, :destroy
 
@@ -119,13 +119,13 @@ class UsersController < ApplicationController
         format.html do
           flash[:notice] = l(:notice_user_successful_create, :id => view_context.link_to(@user.login, user_path(@user)))
           if params[:continue]
-            attrs = {:generate_password => @user.generate_password }
+            attrs = {:generate_password => @user.generate_password}
             redirect_to new_user_path(:user => attrs)
           else
             redirect_to edit_user_path(@user)
           end
         end
-        format.api  { render :action => 'show', :status => :created, :location => user_url(@user) }
+        format.api {render :action => 'show', :status => :created, :location => user_url(@user)}
       end
     else
       @auth_sources = AuthSource.all
@@ -133,8 +133,8 @@ class UsersController < ApplicationController
       @user.password = @user.password_confirmation = nil
 
       respond_to do |format|
-        format.html { render :action => 'new' }
-        format.api  { render_validation_errors(@user) }
+        format.html {render :action => 'new'}
+        format.api  {render_validation_errors(@user)}
       end
     end
   end
@@ -168,7 +168,7 @@ class UsersController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_to_referer_or edit_user_path(@user)
         end
-        format.api  { render_api_ok }
+        format.api  {render_api_ok}
       end
     else
       @auth_sources = AuthSource.all
@@ -177,8 +177,8 @@ class UsersController < ApplicationController
       @user.password = @user.password_confirmation = nil
 
       respond_to do |format|
-        format.html { render :action => :edit }
-        format.api  { render_validation_errors(@user) }
+        format.html {render :action => :edit}
+        format.api  {render_validation_errors(@user)}
       end
     end
   end
@@ -186,8 +186,8 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_back_or_default(users_path) }
-      format.api  { render_api_ok }
+      format.html {redirect_back_or_default(users_path)}
+      format.api  {render_api_ok}
     end
   end
 
