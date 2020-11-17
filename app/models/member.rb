@@ -30,8 +30,9 @@ class Member < ActiveRecord::Base
 
   before_destroy :set_issue_category_nil, :remove_from_project_default_assigned_to
 
-  scope :active, lambda { joins(:principal).where(:users => {:status => Principal::STATUS_ACTIVE})}
-
+  scope :active, (lambda do
+    joins(:principal).where(:users => {:status => Principal::STATUS_ACTIVE})
+  end)
   # Sort by first role and principal
   scope :sorted, (lambda do
     includes(:member_roles, :roles, :principal).
@@ -67,7 +68,9 @@ class Member < ActiveRecord::Base
 
     new_role_ids = ids - role_ids
     # Add new roles
-    new_role_ids.each {|id| member_roles << MemberRole.new(:role_id => id, :member => self) }
+    new_role_ids.each do |id|
+      member_roles << MemberRole.new(:role_id => id, :member => self)
+    end
     # Remove roles (Rails' #role_ids= will not trigger MemberRole#on_destroy)
     member_roles_to_destroy = member_roles.select {|mr| !ids.include?(mr.role_id)}
     if member_roles_to_destroy.any?
