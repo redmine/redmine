@@ -592,24 +592,28 @@ class UsersControllerTest < Redmine::ControllerTest
 
   def test_update_with_generate_password_should_email_the_password
     ActionMailer::Base.deliveries.clear
-    Setting.bcc_recipients = '1'
-
-    put :update, :params => {
-      :id => 2,
-      :user => {
-        :generate_password => '1',
-        :password => '',
-        :password_confirmation => ''
-      },
-      :send_information => '1'
-    }
-
+    with_settings :bcc_recipients => '1' do
+      put(
+        :update,
+        :params => {
+          :id => 2,
+          :user => {
+            :generate_password => '1',
+            :password => '',
+            :password_confirmation => ''
+          },
+          :send_information => '1'
+        }
+      )
+    end
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
+    u = User.find(2)
+    assert_equal [u.mail], mail.bcc
     m = mail_body(mail).match(/Password: ([a-zA-Z0-9]+)/)
     assert m
     password = m[1]
-    assert User.find(2).check_password?(password)
+    assert u.check_password?(password)
   end
 
   def test_update_without_generate_password_should_not_change_password
