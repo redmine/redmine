@@ -68,7 +68,7 @@ class Import < ActiveRecord::Base
     if file_exists?
       begin
         content = File.read(filepath, 256)
-        separator = [',', ';'].sort_by {|sep| content.count(sep) }.last
+        separator = [',', ';'].sort_by {|sep| content.count(sep)}.last
       rescue => e
       end
     end
