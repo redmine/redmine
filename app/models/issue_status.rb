@@ -33,7 +33,7 @@ class IssueStatus < ActiveRecord::Base
   validates_length_of :name, :maximum => 30
   validates_inclusion_of :default_done_ratio, :in => 0..100, :allow_nil => true
 
-  scope :sorted, lambda { order(:position) }
+  scope :sorted, lambda {order(:position)}
   scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
 
   safe_attributes(
