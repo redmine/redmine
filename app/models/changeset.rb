@@ -43,7 +43,7 @@ class Changeset < ActiveRecord::Base
 
   acts_as_activity_provider :timestamp => "#{table_name}.committed_on",
                             :author_key => :user_id,
-                            :scope => proc { preload(:user, {:repository => :project}) }
+                            :scope => proc {preload(:user, {:repository => :project})}
 
   validates_presence_of :repository_id, :revision, :committed_on, :commit_date
   validates_uniqueness_of :revision, :scope => :repository_id
