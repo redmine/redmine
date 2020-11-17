@@ -276,8 +276,8 @@ class ApplicationController < ActionController::Base
             head(:forbidden)
           end
         end
-        format.js   { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="Redmine API"' }
-        format.any  { head :unauthorized }
+        format.js   {head :unauthorized, 'WWW-Authenticate' => 'Basic realm="Redmine API"'}
+        format.any  {head :unauthorized}
       end
       return false
     end
@@ -565,7 +565,7 @@ class ApplicationController < ActionController::Base
       format.html do
         render :template => 'common/error', :layout => use_layout, :status => @status
       end
-      format.any { head @status }
+      format.any {head @status}
     end
   end
 
