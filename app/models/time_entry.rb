@@ -45,7 +45,7 @@ class TimeEntry < ActiveRecord::Base
   )
   acts_as_activity_provider :timestamp => "#{table_name}.created_on",
                             :author_key => :user_id,
-                            :scope => proc { joins(:project).preload(:project) }
+                            :scope => proc {joins(:project).preload(:project)}
 
   validates_presence_of :author_id, :user_id, :activity_id, :project_id, :hours, :spent_on
   validates_presence_of :issue_id, :if => lambda {Setting.timelog_required_fields.include?('issue_id')}
