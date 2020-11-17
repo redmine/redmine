@@ -36,7 +36,7 @@ class CustomFieldEnumerationsController < ApplicationController
     @value.attributes = enumeration_params
     @value.save
     respond_to do |format|
-      format.html { redirect_to custom_field_enumerations_path(@custom_field) }
+      format.html {redirect_to custom_field_enumerations_path(@custom_field)}
       format.js
     end
   end
