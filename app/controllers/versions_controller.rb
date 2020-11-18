@@ -108,9 +108,9 @@ class VersionsController < ApplicationController
         end
       else
         respond_to do |format|
-          format.html { render :action => 'new' }
-          format.js   { render :action => 'new' }
-          format.api  { render_validation_errors(@version) }
+          format.html {render :action => 'new'}
+          format.js   {render :action => 'new'}
+          format.api  {render_validation_errors(@version)}
         end
       end
     end
@@ -130,12 +130,12 @@ class VersionsController < ApplicationController
             flash[:notice] = l(:notice_successful_update)
             redirect_back_or_default settings_project_path(@project, :tab => 'versions')
           end
-          format.api  { render_api_ok }
+          format.api  {render_api_ok}
         end
       else
         respond_to do |format|
-          format.html { render :action => 'edit' }
-          format.api  { render_validation_errors(@version) }
+          format.html {render :action => 'edit'}
+          format.api  {render_validation_errors(@version)}
         end
       end
     end
@@ -152,8 +152,8 @@ class VersionsController < ApplicationController
     if @version.deletable?
       @version.destroy
       respond_to do |format|
-        format.html { redirect_back_or_default settings_project_path(@project, :tab => 'versions') }
-        format.api  { render_api_ok }
+        format.html {redirect_back_or_default settings_project_path(@project, :tab => 'versions')}
+        format.api  {render_api_ok}
       end
     else
       respond_to do |format|
@@ -161,14 +161,14 @@ class VersionsController < ApplicationController
           flash[:error] = l(:notice_unable_delete_version)
           redirect_to settings_project_path(@project, :tab => 'versions')
         end
-        format.api  { head :unprocessable_entity }
+        format.api  {head :unprocessable_entity}
       end
     end
   end
 
   def status_by
     respond_to do |format|
-      format.html { render :action => 'show' }
+      format.html {render :action => 'show'}
       format.js
     end
   end
