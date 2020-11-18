@@ -440,7 +440,7 @@ class MyControllerTest < Redmine::ControllerTest
       assert_select 'tr' do
         assert_select 'td' do
           assert_select(
-            'div.issue.hascontextmenu.tooltip.starting',
+            'div.issue.hascontextmenu.tooltip.starting.ending',
             :text => /eCookbook.*#{subject}/m
           ) do
             assert_select(
