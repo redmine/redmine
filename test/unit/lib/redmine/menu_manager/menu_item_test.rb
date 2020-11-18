@@ -30,9 +30,9 @@ class Redmine::MenuManager::MenuItemTest < ActiveSupport::TestCase
   include RedmineMenuTestHelper
 
   Redmine::MenuManager.map :test_menu do |menu|
-    menu.push(:parent, '/test', { })
-    menu.push(:child_menu, '/test', { :parent => :parent})
-    menu.push(:child2_menu, '/test', { :parent => :parent})
+    menu.push(:parent, '/test', {})
+    menu.push(:child_menu, '/test', {:parent => :parent})
+    menu.push(:child2_menu, '/test', {:parent => :parent})
   end
 
   # context new menu item
