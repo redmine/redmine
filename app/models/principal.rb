@@ -39,7 +39,7 @@ class Principal < ActiveRecord::Base
   validate :validate_status
 
   # Groups and active users
-  scope :active, lambda { where(:status => STATUS_ACTIVE) }
+  scope :active, lambda {where(:status => STATUS_ACTIVE)}
 
   scope :visible, (lambda do |*args|
     user = args.first || User.current
@@ -76,7 +76,7 @@ class Principal < ActiveRecord::Base
       sql << " OR #{table_name}.id IN (SELECT user_id FROM #{EmailAddress.table_name} WHERE LOWER(address) LIKE LOWER(:p))"
       params = {:p => pattern}
 
-      tokens = q.split(/\s+/).reject(&:blank?).map { |token| "%#{token}%" }
+      tokens = q.split(/\s+/).reject(&:blank?).map {|token| "%#{token}%"}
       if tokens.present?
         sql << ' OR ('
         sql << tokens.map.with_index do |token, index|
@@ -111,10 +111,10 @@ class Principal < ActiveRecord::Base
       where("#{Principal.table_name}.id NOT IN (SELECT DISTINCT user_id FROM #{Member.table_name} WHERE project_id IN (?))", ids)
     end
   end)
-  scope :sorted, lambda { order(*Principal.fields_for_order_statement)}
+  scope :sorted, lambda {order(*Principal.fields_for_order_statement)}
 
   # Principals that can be added as watchers
-  scope :assignable_watchers, lambda { active.visible.where(:type => ['User', 'Group']) }
+  scope :assignable_watchers, lambda {active.visible.where(:type => ['User', 'Group'])}
 
   before_create :set_default_empty_values
   before_destroy :nullify_projects_default_assigned_to
