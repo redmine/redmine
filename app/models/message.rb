@@ -47,7 +47,7 @@ class Message < ActiveRecord::Base
            )
       end
   )
-  acts_as_activity_provider :scope => proc { preload({:board => :project}, :author) },
+  acts_as_activity_provider :scope => proc {preload({:board => :project}, :author)},
                             :author_key => :author_id
   acts_as_watchable
 
