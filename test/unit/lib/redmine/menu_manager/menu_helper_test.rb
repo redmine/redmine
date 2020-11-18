@@ -37,14 +37,14 @@ class Redmine::MenuManager::MenuHelperTest < Redmine::HelperTest
   end
 
   def test_render_single_menu_node
-    node = Redmine::MenuManager::MenuItem.new(:testing, '/test', { })
+    node = Redmine::MenuManager::MenuItem.new(:testing, '/test', {})
     @output_buffer = render_single_menu_node(node, 'This is a test', node.url, false)
 
     assert_select("a.testing", "This is a test")
   end
 
   def test_render_menu_node
-    single_node = Redmine::MenuManager::MenuItem.new(:single_node, '/test', { })
+    single_node = Redmine::MenuManager::MenuItem.new(:single_node, '/test', {})
     @output_buffer = render_menu_node(single_node, nil)
 
     assert_select("li") do
@@ -67,12 +67,12 @@ class Redmine::MenuManager::MenuHelperTest < Redmine::HelperTest
   end
 
   def test_render_menu_node_with_nested_items
-    parent_node = Redmine::MenuManager::MenuItem.new(:parent_node, '/test', { })
-    parent_node << Redmine::MenuManager::MenuItem.new(:child_one_node, '/test', { })
-    parent_node << Redmine::MenuManager::MenuItem.new(:child_two_node, '/test', { })
+    parent_node = Redmine::MenuManager::MenuItem.new(:parent_node, '/test', {})
+    parent_node << Redmine::MenuManager::MenuItem.new(:child_one_node, '/test', {})
+    parent_node << Redmine::MenuManager::MenuItem.new(:child_two_node, '/test', {})
     parent_node <<
-      Redmine::MenuManager::MenuItem.new(:child_three_node, '/test', { }) <<
-      Redmine::MenuManager::MenuItem.new(:child_three_inner_node, '/test', { })
+      Redmine::MenuManager::MenuItem.new(:child_three_node, '/test', {}) <<
+      Redmine::MenuManager::MenuItem.new(:child_three_inner_node, '/test', {})
 
     @output_buffer = render_menu_node(parent_node, nil)
 
@@ -221,7 +221,7 @@ class Redmine::MenuManager::MenuHelperTest < Redmine::HelperTest
     User.current = User.find(6)
 
     Redmine::MenuManager.map :some_menu do |menu|
-      menu.push(:parent_node, {:controller => 'issues', :action => 'index'}, { })
+      menu.push(:parent_node, {:controller => 'issues', :action => 'index'}, {})
       menu.push(:test_child_allowed, {:controller => 'issues', :action => 'index'}, {:parent => :parent_node})
       menu.push(:test_child_unallowed, {:controller => 'issues', :action => 'new'}, {:parent => :parent_node})
     end
@@ -241,7 +241,7 @@ class Redmine::MenuManager::MenuHelperTest < Redmine::HelperTest
   def test_render_empty_virtual_menu_node_with_children
     # only empty item with no click target
     Redmine::MenuManager.map :menu1 do |menu|
-      menu.push(:parent_node, nil, { })
+      menu.push(:parent_node, nil, {})
     end
 
     # parent with unallowed unattached child
@@ -317,9 +317,9 @@ class Redmine::MenuManager::MenuHelperTest < Redmine::HelperTest
   def test_menu_items_for_should_yield_all_items_if_passed_a_block
     menu_name = :test_menu_items_for_should_yield_all_items_if_passed_a_block
     Redmine::MenuManager.map menu_name do |menu|
-      menu.push(:a_menu, '/', { })
-      menu.push(:a_menu_2, '/', { })
-      menu.push(:a_menu_3, '/', { })
+      menu.push(:a_menu, '/', {})
+      menu.push(:a_menu_2, '/', {})
+      menu.push(:a_menu_3, '/', {})
     end
 
     items_yielded = []
@@ -333,9 +333,9 @@ class Redmine::MenuManager::MenuHelperTest < Redmine::HelperTest
   def test_menu_items_for_should_return_all_items
     menu_name = :test_menu_items_for_should_return_all_items
     Redmine::MenuManager.map menu_name do |menu|
-      menu.push(:a_menu, '/', { })
-      menu.push(:a_menu_2, '/', { })
-      menu.push(:a_menu_3, '/', { })
+      menu.push(:a_menu, '/', {})
+      menu.push(:a_menu_2, '/', {})
+      menu.push(:a_menu_3, '/', {})
     end
 
     items = menu_items_for(menu_name)
@@ -345,9 +345,9 @@ class Redmine::MenuManager::MenuHelperTest < Redmine::HelperTest
   def test_menu_items_for_should_skip_unallowed_items_on_a_project
     menu_name = :test_menu_items_for_should_skip_unallowed_items_on_a_project
     Redmine::MenuManager.map menu_name do |menu|
-      menu.push(:a_menu, {:controller => 'issues', :action => 'index' }, { })
-      menu.push(:a_menu_2, {:controller => 'issues', :action => 'index' }, { })
-      menu.push(:unallowed, {:controller => 'issues', :action => 'unallowed' }, { })
+      menu.push(:a_menu, {:controller => 'issues', :action => 'index'}, {})
+      menu.push(:a_menu_2, {:controller => 'issues', :action => 'index'}, {})
+      menu.push(:unallowed, {:controller => 'issues', :action => 'unallowed'}, {})
     end
 
     User.current = User.find(2)
@@ -372,10 +372,10 @@ class Redmine::MenuManager::MenuHelperTest < Redmine::HelperTest
   def test_menu_items_for_should_skip_items_that_fail_the_conditions
     menu_name = :test_menu_items_for_should_skip_items_that_fail_the_conditions
     Redmine::MenuManager.map menu_name do |menu|
-      menu.push(:a_menu, {:controller => 'issues', :action => 'index' }, { })
+      menu.push(:a_menu, {:controller => 'issues', :action => 'index'}, {})
       menu.push(:unallowed,
-                {:controller => 'issues', :action => 'index' },
-                { :if => Proc.new { false }})
+                {:controller => 'issues', :action => 'index'},
+                {:if => Proc.new {false}})
     end
 
     User.current = User.find(2)
