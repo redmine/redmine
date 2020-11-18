@@ -120,13 +120,13 @@ class MemberTest < ActiveSupport::TestCase
         @jsmith.destroy
       end
     end
-    assert_raise(ActiveRecord::RecordNotFound) { Member.find(@jsmith.id) }
+    assert_raise(ActiveRecord::RecordNotFound) {Member.find(@jsmith.id)}
     category1.reload
     assert_nil category1.assigned_to_id
   end
 
   def test_destroy_should_trigger_callbacks_only_once
-    Member.class_eval { def destroy_test_callback; end}
+    Member.class_eval {def destroy_test_callback; end}
     Member.after_destroy :destroy_test_callback
 
     m = Member.create!(:user_id => 1, :project_id => 1, :role_ids => [1, 3])
