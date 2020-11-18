@@ -93,12 +93,12 @@ class BoardsController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_to_settings_in_projects
         end
-        format.js { head 200 }
+        format.js {head 200}
       end
     else
       respond_to do |format|
-        format.html { render :action => 'edit' }
-        format.js { head 422 }
+        format.html {render :action => 'edit'}
+        format.js {head 422}
       end
     end
   end
