@@ -29,7 +29,7 @@ class CustomFieldsController < ApplicationController
   def index
     respond_to do |format|
       format.html do
-        @custom_fields_by_type = CustomField.all.group_by {|f| f.class.name }
+        @custom_fields_by_type = CustomField.all.group_by {|f| f.class.name}
         @custom_fields_projects_count =
           IssueCustomField.where(is_for_all: false).joins(:projects).group(:custom_field_id).count
       end
@@ -70,12 +70,12 @@ class CustomFieldsController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_back_or_default edit_custom_field_path(@custom_field)
         end
-        format.js { head 200 }
+        format.js {head 200}
       end
     else
       respond_to do |format|
-        format.html { render :action => 'edit' }
-        format.js { head 422 }
+        format.html {render :action => 'edit'}
+        format.js {head 422}
       end
     end
   end
