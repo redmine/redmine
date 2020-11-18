@@ -226,7 +226,10 @@ module Redmine
 
       # See MenuItem#allowed?
       def allowed_node?(node, user, project)
-        raise MenuError, ":child_menus must be an array of MenuItems" unless node.is_a? MenuItem
+        unless node.is_a? MenuItem
+          raise MenuError, ":child_menus must be an array of MenuItems"
+        end
+
         node.allowed?(user, project)
       end
     end
@@ -415,13 +418,23 @@ module Redmine
 
     class MenuItem < MenuNode
       include Redmine::I18n
-      attr_reader :name, :url, :param, :condition, :parent, :child_menus, :last, :permission
+      attr_reader :name, :url, :param, :condition, :parent,
+                  :child_menus, :last, :permission
 
       def initialize(name, url, options={})
-        raise ArgumentError, "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
-        raise ArgumentError, "Invalid option :html for menu item '#{name}'" if options[:html] && !options[:html].is_a?(Hash)
-        raise ArgumentError, "Cannot set the :parent to be the same as this item" if options[:parent] == name.to_sym
-        raise ArgumentError, "Invalid option :children for menu item '#{name}'" if options[:children] && !options[:children].respond_to?(:call)
+        if options[:if] && !options[:if].respond_to?(:call)
+          raise ArgumentError, "Invalid option :if for menu item '#{name}'"
+        end
+        if options[:html] && !options[:html].is_a?(Hash)
+          raise ArgumentError, "Invalid option :html for menu item '#{name}'"
+        end
+        if options[:parent] == name.to_sym
+          raise ArgumentError, "Cannot set the :parent to be the same as this item"
+        end
+        if options[:children] && !options[:children].respond_to?(:call)
+          raise ArgumentError, "Invalid option :children for menu item '#{name}'"
+        end
+
         @name = name
         @url = url
         @condition = options[:if]
@@ -472,7 +485,9 @@ module Redmine
           # it is considered an allowed node if at least one of the children is allowed
           all_children = children
           all_children += child_menus.call(project) if child_menus
-          return false unless all_children.detect{|child| child.allowed?(user, project) }
+          unless all_children.detect{|child| child.allowed?(user, project)}
+            return false
+          end
         elsif user && project
           if permission
             unless user.allowed_to?(permission, project)
