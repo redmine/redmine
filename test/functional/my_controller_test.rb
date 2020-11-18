@@ -24,7 +24,7 @@ class MyControllerTest < Redmine::ControllerTest
            :roles, :projects, :members, :member_roles,
            :issues, :issue_statuses, :trackers, :enumerations,
            :custom_fields, :auth_sources, :queries, :enabled_modules,
-           :journals
+           :journals, :projects_trackers
 
   def setup
     @request.session[:user_id] = 2
@@ -415,13 +415,23 @@ class MyControllerTest < Redmine::ControllerTest
   end
 
   def test_page_with_calendar
-    travel_to issues(:issues_002).start_date
+    date = '2020-10-21'
+    subject = 'calendar on my page'
+    issue = Issue.generate!(:start_date => date,
+                            :due_date   => date,
+                            :project_id => 1,
+                            :tracker_id => 1,
+                            :subject => subject)
+
+    travel_to date
 
     preferences = User.find(2).pref
     preferences[:my_page_layout] = {'top' => ['calendar']}
     preferences.save!
 
-    get :page
+    with_settings :start_of_week => 7 do
+      get :page
+    end
     assert_response :success
 
     assert_select 'form[data-cm-url=?]', '/issues/context_menu'
@@ -431,10 +441,18 @@ class MyControllerTest < Redmine::ControllerTest
         assert_select 'td' do
           assert_select(
             'div.issue.hascontextmenu.tooltip.starting',
-            :text => /eCookbook.*Add ingredients categories/m
+            :text => /eCookbook.*#{subject}/m
           ) do
-            assert_select 'a.issue[href=?]', '/issues/2', :text => 'Feature request #2'
-            assert_select 'input[name=?][type=?][value=?]', 'ids[]', 'checkbox', '2'
+            assert_select(
+              'a.issue[href=?]', "/issues/#{issue.id}",
+              :text => "Bug ##{issue.id}"
+            )
+            assert_select(
+              'input[name=?][type=?][value=?]',
+              'ids[]',
+              'checkbox',
+              issue.id.to_s
+            )
           end
         end
       end
