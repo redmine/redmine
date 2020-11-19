@@ -27,7 +27,10 @@ module Redmine
       # Adds a listener class.
       # Automatically called when a class inherits from Redmine::Hook::Listener.
       def add_listener(klass)
-        raise "Hooks must include Singleton module." unless klass.included_modules.include?(Singleton)
+        unless klass.included_modules.include?(Singleton)
+          raise "Hooks must include Singleton module."
+        end
+
         @@listener_classes << klass
         clear_listeners_instances
       end
