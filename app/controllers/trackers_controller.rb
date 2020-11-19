@@ -28,7 +28,7 @@ class TrackersController < ApplicationController
   def index
     @trackers = Tracker.sorted.to_a
     respond_to do |format|
-      format.html { render :layout => false if request.xhr? }
+      format.html {render :layout => false if request.xhr?}
       format.api
     end
   end
@@ -70,7 +70,7 @@ class TrackersController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_to trackers_path(:page => params[:page])
         end
-        format.js { head 200 }
+        format.js {head 200}
       end
     else
       respond_to do |format|
@@ -78,7 +78,7 @@ class TrackersController < ApplicationController
           edit
           render :action => 'edit'
         end
-        format.js { head 422 }
+        format.js {head 422}
       end
     end
   end
