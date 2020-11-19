@@ -151,15 +151,15 @@ class IssueTest < ActiveSupport::TestCase
     assert !issue.save
     assert_equal ["Database cannot be blank"], issue.errors.full_messages
     # Blank value
-    issue.custom_field_values = { field.id => '' }
+    issue.custom_field_values = {field.id => ''}
     assert !issue.save
     assert_equal ["Database cannot be blank"], issue.errors.full_messages
     # Invalid value
-    issue.custom_field_values = { field.id => 'SQLServer' }
+    issue.custom_field_values = {field.id => 'SQLServer'}
     assert !issue.save
     assert_equal ["Database is not included in the list"], issue.errors.full_messages
     # Valid value
-    issue.custom_field_values = { field.id => 'PostgreSQL' }
+    issue.custom_field_values = {field.id => 'PostgreSQL'}
     assert issue.save
     issue.reload
     assert_equal 'PostgreSQL', issue.custom_value_for(field).value
@@ -568,7 +568,7 @@ class IssueTest < ActiveSupport::TestCase
                       :description => 'IssueTest#test_create_with_required_custom_field')
     assert issue.available_custom_fields.include?(field)
     # Invalid value
-    issue.custom_field_values = { field.id => 'SQLServer' }
+    issue.custom_field_values = {field.id => 'SQLServer'}
 
     assert !issue.valid?
     assert_equal 1, issue.errors.full_messages.size
@@ -586,10 +586,10 @@ class IssueTest < ActiveSupport::TestCase
     # No change to custom values, issue can be saved
     assert issue.save
     # Blank value
-    issue.custom_field_values = { field.id => '' }
+    issue.custom_field_values = {field.id => ''}
     assert !issue.save
     # Valid value
-    issue.custom_field_values = { field.id => 'PostgreSQL' }
+    issue.custom_field_values = {field.id => 'PostgreSQL'}
     assert issue.save
     issue.reload
     assert_equal 'PostgreSQL', issue.custom_value_for(field).value
@@ -600,7 +600,7 @@ class IssueTest < ActiveSupport::TestCase
     field = IssueCustomField.find_by_name('Database')
     assert issue.available_custom_fields.include?(field)
 
-    issue.custom_field_values = { field.id => 'Invalid' }
+    issue.custom_field_values = {field.id => 'Invalid'}
     issue.subject = 'Should be not be saved'
     assert !issue.save
 
@@ -612,11 +612,11 @@ class IssueTest < ActiveSupport::TestCase
     field = IssueCustomField.find_by_name('Database')
 
     issue = Issue.find(1)
-    issue.custom_field_values = { field.id => 'PostgreSQL' }
+    issue.custom_field_values = {field.id => 'PostgreSQL'}
     assert issue.save
     custom_value = issue.custom_value_for(field)
     issue.reload
-    issue.custom_field_values = { field.id => 'MySQL' }
+    issue.custom_field_values = {field.id => 'MySQL'}
     assert issue.save
     issue.reload
     assert_equal custom_value.id, issue.custom_value_for(field).id
@@ -696,7 +696,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_assigning_tracker_and_custom_fields_should_assign_custom_fields
     attributes = ActiveSupport::OrderedHash.new
-    attributes['custom_field_values'] = { '1' => 'MySQL' }
+    attributes['custom_field_values'] = {'1' => 'MySQL'}
     attributes['tracker_id'] = '1'
     issue = Issue.new(:project => Project.find(1))
     issue.attributes = attributes
