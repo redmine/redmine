@@ -72,6 +72,14 @@ https://sites.google.com/a/chromium.org/chromedriver/
 Capybara tests can be run with:
 `rails test:system`
 
+The following environment variables can be used to configure your system tests setup:
+`CAPYBARA_SERVER_HOST`: configure server to run on a custom IP which can be, for example, your remote Selenium IP or 0.0.0.0 to listen an all connections
+`CAPYBARA_SERVER_PORT`: configure server port
+`SELENIUM_REMOTE_URL`: remote Selenium URL
+`CAPYBARA_APP_HOST`: by default, the tests expect to have the application running on your localhost. Using this variable, you can set a custom URL
+
+One use case of these variables is to run the system tests on a remote Selenium/ChromeDriver (eg: Docker).
+
 Running RuboCop, a static code analyzer
 =======================================
 
