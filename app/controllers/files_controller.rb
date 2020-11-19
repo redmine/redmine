@@ -40,7 +40,7 @@ class FilesController < ApplicationController
     @containers += @project.versions.includes(:attachments).
                     references(:attachments).reorder(sort_clause).to_a.sort.reverse
     respond_to do |format|
-      format.html { render :layout => !request.xhr? }
+      format.html {render :layout => !request.xhr?}
       format.api
     end
   end
@@ -64,7 +64,7 @@ class FilesController < ApplicationController
           flash[:notice] = l(:label_file_added)
           redirect_to project_files_path(@project)
         end
-        format.api { render_api_ok }
+        format.api {render_api_ok}
       end
     else
       respond_to do |format|
@@ -73,7 +73,7 @@ class FilesController < ApplicationController
           new
           render :action => 'new'
         end
-        format.api { render :status => :bad_request }
+        format.api {render :status => :bad_request}
       end
     end
   end
