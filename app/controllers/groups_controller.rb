@@ -75,8 +75,8 @@ class GroupsController < ApplicationController
                  :location => group_url(@group))
         end
       else
-        format.html { render :action => "new" }
-        format.api  { render_validation_errors(@group) }
+        format.html {render :action => "new"}
+        format.api  {render_validation_errors(@group)}
       end
     end
   end
@@ -90,11 +90,11 @@ class GroupsController < ApplicationController
     respond_to do |format|
       if @group.save
         flash[:notice] = l(:notice_successful_update)
-        format.html { redirect_to_referer_or(groups_path) }
-        format.api  { render_api_ok }
+        format.html {redirect_to_referer_or(groups_path)}
+        format.api  {render_api_ok}
       else
-        format.html { render :action => "edit" }
-        format.api  { render_validation_errors(@group) }
+        format.html {render :action => "edit"}
+        format.api  {render_validation_errors(@group)}
       end
     end
   end
@@ -103,8 +103,8 @@ class GroupsController < ApplicationController
     @group.destroy
 
     respond_to do |format|
-      format.html { redirect_to_referer_or(groups_path) }
-      format.api  { render_api_ok }
+      format.html {redirect_to_referer_or(groups_path)}
+      format.api  {render_api_ok}
     end
   end
 
@@ -115,7 +115,7 @@ class GroupsController < ApplicationController
     @users = User.not_in_group(@group).where(:id => (params[:user_id] || params[:user_ids])).to_a
     @group.users << @users
     respond_to do |format|
-      format.html { redirect_to edit_group_path(@group, :tab => 'users') }
+      format.html {redirect_to edit_group_path(@group, :tab => 'users')}
       format.js
       format.api do
         if @users.any?
@@ -130,9 +130,9 @@ class GroupsController < ApplicationController
   def remove_user
     @group.users.delete(User.find(params[:user_id])) if request.delete?
     respond_to do |format|
-      format.html { redirect_to edit_group_path(@group, :tab => 'users') }
+      format.html {redirect_to edit_group_path(@group, :tab => 'users')}
       format.js
-      format.api { render_api_ok }
+      format.api {render_api_ok}
     end
   end
 
