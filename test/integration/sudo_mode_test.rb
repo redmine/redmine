@@ -139,14 +139,31 @@ class SudoModeTest < Redmine::IntegrationTest
     assert_select 'form[action="/roles"]'
     assert_select '#flash_error', 0
 
-    post '/roles', :params => {role: { name: 'new role', issues_visibility: 'all' }}
+    post(
+      '/roles',
+      :params => {
+        :role => {
+          :name => 'new role',
+          :issues_visibility => 'all'
+        }
+      }
+    )
     assert_response :success
     assert_select 'h2', 'Confirm your password to continue'
     assert_select 'form[action="/roles"]'
     assert_select 'input[type=hidden][name=?][value=?]', 'role[name]', 'new role'
     assert_select '#flash_error', 0
 
-    post '/roles', :params => {role: { name: 'new role', issues_visibility: 'all' }, sudo_password: 'wrong'}
+    post(
+      '/roles',
+      :params => {
+        :role => {
+          :name => 'new role',
+          :issues_visibility => 'all'
+        },
+        :sudo_password => 'wrong'
+      }
+    )
     assert_response :success
     assert_select 'h2', 'Confirm your password to continue'
     assert_select 'form[action="/roles"]'
@@ -212,7 +229,14 @@ class SudoModeTest < Redmine::IntegrationTest
     assert_equal 'newmail@test.com', User.find_by_login('jsmith').mail
 
     # sudo mode should now be active and not require password again
-    put '/my/account', :params => {user: { mail: 'even.newer.mail@test.com' }}
+    put(
+      '/my/account',
+      :params => {
+        :user => {
+          :mail => 'even.newer.mail@test.com'
+        }
+      }
+    )
     assert_redirected_to '/my/account'
     assert_equal 'even.newer.mail@test.com', User.find_by_login('jsmith').mail
   end
