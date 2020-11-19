@@ -44,15 +44,19 @@ module Redmine
     # Return an array of custom field formats which can be used in select_tag
     def self.as_select(class_name=nil)
       formats = all.values.select do |format|
-        format.class.customized_class_names.nil? || format.class.customized_class_names.include?(class_name)
+        format.class.customized_class_names.nil? ||
+          format.class.customized_class_names.include?(class_name)
       end
-      formats.map {|format| [::I18n.t(format.label), format.name] }.sort_by(&:first)
+      formats.map do |format|
+        [::I18n.t(format.label), format.name]
+      end.sort_by(&:first)
     end
 
     # Returns an array of formats that can be used for a custom field class
     def self.formats_for_custom_field_class(klass=nil)
       all.values.select do |format|
-        format.class.customized_class_names.nil? || format.class.customized_class_names.include?(klass.name)
+        format.class.customized_class_names.nil? ||
+          format.class.customized_class_names.include?(klass.name)
       end
     end
 
@@ -596,7 +600,10 @@ module Redmine
       end
 
       def query_filter_options(custom_field, query)
-        {:type => :list_optional, :values => lambda { query_filter_values(custom_field, query) }}
+        {
+          :type => :list_optional,
+          :values => lambda {query_filter_values(custom_field, query)}
+        }
       end
 
       protected
@@ -879,7 +886,9 @@ module Redmine
       field_attributes :version_status
 
       def possible_values_options(custom_field, object=nil)
-        possible_values_records(custom_field, object).sort.collect{|v| [v.to_s, v.id.to_s] }
+        possible_values_records(custom_field, object).sort.collect do |v|
+          [v.to_s, v.id.to_s]
+        end
       end
 
       def before_custom_field_save(custom_field)
