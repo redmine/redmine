@@ -63,7 +63,7 @@ module Redmine
         @tokens = @question.scan(%r{((\s|^)"[^"]+"(\s|$)|\S+)}).collect {|m| m.first.gsub(%r{(^\s*"\s*|\s*"\s*$)}, '')}
         # tokens must be at least 2 characters long
         # but for Chinese characters (Chinese HANZI/Japanese KANJI), tokens can be one character
-        @tokens = @tokens.uniq.select {|w| w.length > 1 || w =~ /\p{Han}/ }
+        @tokens = @tokens.uniq.select {|w| w.length > 1 || w =~ /\p{Han}/}
         # no more than 5 tokens to search for
         @tokens.slice! 5..-1
       end
