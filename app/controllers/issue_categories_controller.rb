@@ -28,14 +28,14 @@ class IssueCategoriesController < ApplicationController
 
   def index
     respond_to do |format|
-      format.html { redirect_to_settings_in_projects }
-      format.api { @categories = @project.issue_categories.to_a }
+      format.html {redirect_to_settings_in_projects}
+      format.api {@categories = @project.issue_categories.to_a}
     end
   end
 
   def show
     respond_to do |format|
-      format.html { redirect_to_settings_in_projects }
+      format.html {redirect_to_settings_in_projects}
       format.api
     end
   end
@@ -67,9 +67,9 @@ class IssueCategoriesController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html { render :action => 'new'}
-        format.js   { render :action => 'new'}
-        format.api { render_validation_errors(@category) }
+        format.html {render :action => 'new'}
+        format.js   {render :action => 'new'}
+        format.api  {render_validation_errors(@category)}
       end
     end
   end
@@ -85,12 +85,12 @@ class IssueCategoriesController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_to_settings_in_projects
         end
-        format.api { render_api_ok }
+        format.api {render_api_ok}
       end
     else
       respond_to do |format|
-        format.html { render :action => 'edit' }
-        format.api { render_validation_errors(@category) }
+        format.html {render :action => 'edit'}
+        format.api {render_validation_errors(@category)}
       end
     end
   end
@@ -104,8 +104,8 @@ class IssueCategoriesController < ApplicationController
       end
       @category.destroy(reassign_to)
       respond_to do |format|
-        format.html { redirect_to_settings_in_projects }
-        format.api { render_api_ok }
+        format.html {redirect_to_settings_in_projects}
+        format.api {render_api_ok}
       end
       return
     end
