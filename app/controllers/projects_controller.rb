@@ -22,10 +22,13 @@ class ProjectsController < ApplicationController
   menu_item :settings, :only => :settings
   menu_item :projects, :only => [:index, :new, :copy, :create]
 
-  before_action :find_project, :except => [ :index, :autocomplete, :list, :new, :create, :copy ]
-  before_action :authorize, :except => [ :index, :autocomplete, :list, :new, :create, :copy, :archive, :unarchive]
+  before_action :find_project,
+                :except => [:index, :autocomplete, :list, :new, :create, :copy]
+  before_action :authorize,
+                :except => [:index, :autocomplete, :list, :new, :create, :copy,
+                            :archive, :unarchive]
   before_action :authorize_global, :only => [:new, :create]
-  before_action :require_admin, :only => [ :copy, :archive, :unarchive ]
+  before_action :require_admin, :only => [:copy, :archive, :unarchive]
   accept_rss_auth :index
   accept_api_auth :index, :show, :create, :update, :destroy
   require_sudo_mode :destroy
