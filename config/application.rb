@@ -77,9 +77,11 @@ module RedmineApp
     # can change it (environments/ENV.rb would take precedence over it)
     config.log_level = Rails.env.production? ? :info : :debug
 
-    config.session_store :cookie_store,
+    config.session_store(
+      :cookie_store,
       :key => '_redmine_session',
       :path => config.relative_url_root || '/'
+    )
 
     if File.exists?(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
       instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
