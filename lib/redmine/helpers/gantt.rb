@@ -30,8 +30,8 @@ module Redmine
 
       # Relation types that are rendered
       DRAW_TYPES = {
-        IssueRelation::TYPE_BLOCKS   => { :landscape_margin => 16, :color => '#F34F4F' },
-        IssueRelation::TYPE_PRECEDES => { :landscape_margin => 20, :color => '#628FEA' }
+        IssueRelation::TYPE_BLOCKS   => {:landscape_margin => 16, :color => '#F34F4F'},
+        IssueRelation::TYPE_PRECEDES => {:landscape_margin => 20, :color => '#628FEA'}
       }.freeze
 
       UNAVAILABLE_COLUMNS = [:tracker, :id, :subject]
@@ -92,7 +92,7 @@ module Redmine
       end
 
       def common_params
-        { :controller => 'gantts', :action => 'show', :project_id => @project }
+        {:controller => 'gantts', :action => 'show', :project_id => @project}
       end
 
       def params
