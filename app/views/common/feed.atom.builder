@@ -11,7 +11,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
   xml.icon    favicon_url
   xml.updated((@items.first ? @items.first.event_datetime : Time.now).xmlschema)
   xml.author  { xml.name "#{Setting.app_title}" }
-  xml.generator(:uri => Redmine::Info.url) { xml.text! Redmine::Info.app_name; }
+  xml.generator(:uri => Redmine::Info.url) {xml.text! Redmine::Info.app_name}
   @items.each do |item|
     xml.entry do
       url = url_for(item.event_url(:only_path => false, :protocol => protocol, :host => host))
