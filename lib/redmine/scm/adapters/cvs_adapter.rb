@@ -314,12 +314,13 @@ module Redmine
             io.each_line do |line|
               next unless line =~ %r{^([\d\.]+)\s+\(([^\)]+)\s+[^\)]+\):\s(.*)$}
               blame.add_line(
-                  $3.rstrip,
-                  Revision.new(
-                    :revision   => $1,
-                    :identifier => nil,
-                    :author     => $2.strip
-                    ))
+                $3.rstrip,
+                Revision.new(
+                  :revision   => $1,
+                  :identifier => nil,
+                  :author     => $2.strip
+                )
+              )
             end
           end
           blame
@@ -379,10 +380,12 @@ module Redmine
           full_args.map do |e|
             full_args_locale << scm_iconv(@path_encoding, 'UTF-8', e)
           end
-          ret = shellout(
-                   self.class.sq_bin + ' ' + full_args_locale.map { |e| shell_quote e.to_s }.join(' '),
-                   &block
-                   )
+          ret =
+            shellout(
+              self.class.sq_bin + ' ' +
+                full_args_locale.map {|e| shell_quote e.to_s}.join(' '),
+              &block
+            )
           if $? && $?.exitstatus != 0
             raise ScmCommandAborted, "cvs exited with non-zero status: #{$?.exitstatus}"
           end
