@@ -226,7 +226,7 @@ module Redmine
     #   requires_redmine :version => '0.7.3'..'0.9.1'     # >= 0.7.3 and <= 0.9.1
     #   requires_redmine :version => '0.7'..'0.9'         # >= 0.7.x and <= 0.9.x
     def requires_redmine(arg)
-      arg = { :version_or_higher => arg } unless arg.is_a?(Hash)
+      arg = {:version_or_higher => arg} unless arg.is_a?(Hash)
       arg.assert_valid_keys(:version, :version_or_higher)
 
       current = Redmine::VERSION.to_a
@@ -273,7 +273,7 @@ module Redmine
     #   requires_redmine_plugin :foo, :version => '0.7.3'              # 0.7.3 only
     #   requires_redmine_plugin :foo, :version => ['0.7.3', '0.8.0']   # 0.7.3 or 0.8.0
     def requires_redmine_plugin(plugin_name, arg)
-      arg = { :version_or_higher => arg } unless arg.is_a?(Hash)
+      arg = {:version_or_higher => arg} unless arg.is_a?(Hash)
       arg.assert_valid_keys(:version, :version_or_higher)
 
       begin
@@ -416,7 +416,7 @@ module Redmine
       return unless File.directory?(source)
 
       source_files = Dir[source + "/**/*"]
-      source_dirs = source_files.select { |d| File.directory?(d) }
+      source_dirs = source_files.select {|d| File.directory?(d)}
       source_files -= source_dirs
 
       unless source_files.empty?
@@ -476,7 +476,7 @@ module Redmine
     # Returns the version numbers of all migrations for this plugin.
     def migrations
       migrations = Dir[migration_directory+"/*.rb"]
-      migrations.map { |p| File.basename(p).match(/0*(\d+)\_/)[1].to_i }.sort
+      migrations.map {|p| File.basename(p).match(/0*(\d+)\_/)[1].to_i}.sort
     end
 
     # Migrate this plugin to the given version
@@ -504,7 +504,7 @@ module Redmine
       def up(target_version = nil)
         selected_migrations =
           if block_given?
-            migrations.select { |m| yield m }
+            migrations.select {|m| yield m}
           else
             migrations
           end
@@ -514,7 +514,7 @@ module Redmine
       def down(target_version = nil)
         selected_migrations =
           if block_given?
-            migrations.select { |m| yield m }
+            migrations.select {|m| yield m}
           else
             migrations
           end
@@ -549,8 +549,8 @@ module Redmine
           @all_versions[plugin.id.to_s] ||= begin
             sm_table = ::ActiveRecord::SchemaMigration.table_name
             migration_versions  = ActiveRecord::Base.connection.select_values("SELECT version FROM #{sm_table}")
-            versions_by_plugins = migration_versions.group_by { |version| version.match(/-(.*)$/).try(:[], 1) }
-            @all_versions       = versions_by_plugins.transform_values! {|versions| versions.map!(&:to_i).sort! }
+            versions_by_plugins = migration_versions.group_by {|version| version.match(/-(.*)$/).try(:[], 1)}
+            @all_versions       = versions_by_plugins.transform_values! {|versions| versions.map!(&:to_i).sort!}
             @all_versions[plugin.id.to_s] || []
           end
         end
