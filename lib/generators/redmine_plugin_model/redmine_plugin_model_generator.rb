@@ -51,7 +51,7 @@ class RedminePluginModelGenerator < Rails::Generators::NamedBase
   private
 
   def attributes_with_index
-    attributes.select { |a| a.has_index? || (a.reference? && options[:indexes]) }
+    attributes.select {|a| a.has_index? || (a.reference? && options[:indexes])}
   end
 
   def migration_number
