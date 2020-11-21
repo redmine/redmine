@@ -89,7 +89,7 @@ module Redmine
       if Setting.timespan_format == 'minutes'
         h = hours.floor
         m = ((hours - h) * 60).round
-        "%d:%02d" % [ h, m ]
+        "%d:%02d" % [h, m]
       else
         "%.2f" % hours.to_f
       end
