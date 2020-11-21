@@ -133,7 +133,7 @@ class SudoModeTest < Redmine::IntegrationTest
     get '/roles/new'
     assert_response :success
 
-    post '/roles', :params => {role: { }}
+    post('/roles', :params => {:role => {}})
     assert_response :success
     assert_select 'h2', 'Confirm your password to continue'
     assert_select 'form[action="/roles"]'
@@ -192,7 +192,7 @@ class SudoModeTest < Redmine::IntegrationTest
     expire_sudo_mode!
     get '/my/account'
     assert_response :success
-    put '/my/account', :params => {user: { mail: 'newmail@test.com' }}
+    put('/my/account', :params => {:user => {:mail => 'newmail@test.com'}})
     assert_response :success
     assert_select 'h2', 'Confirm your password to continue'
     assert_select 'form[action="/my/account"]'
