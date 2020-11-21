@@ -68,18 +68,20 @@ class CvsAdapterTest < ActiveSupport::TestCase
     end
 
     def test_path_encoding_default_utf8
-      adpt1 = Redmine::Scm::Adapters::CvsAdapter.new(
-                                MODULE_NAME,
-                                REPOSITORY_PATH
-                              )
+      adpt1 =
+        Redmine::Scm::Adapters::CvsAdapter.new(
+          MODULE_NAME,
+          REPOSITORY_PATH
+        )
       assert_equal "UTF-8", adpt1.path_encoding
-      adpt2 = Redmine::Scm::Adapters::CvsAdapter.new(
-                                MODULE_NAME,
-                                REPOSITORY_PATH,
-                                nil,
-                                nil,
-                                ""
-                              )
+      adpt2 =
+        Redmine::Scm::Adapters::CvsAdapter.new(
+          MODULE_NAME,
+          REPOSITORY_PATH,
+          nil,
+          nil,
+          ""
+        )
       assert_equal "UTF-8", adpt2.path_encoding
     end
 
