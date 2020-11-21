@@ -192,9 +192,9 @@ class Redmine::PluginTest < ActiveSupport::TestCase
   end
 
   def test_settings_warns_about_possible_partial_collision
-    @klass.register(:foo_plugin) { settings :partial => 'foo/settings' }
+    @klass.register(:foo_plugin) {settings :partial => 'foo/settings'}
     Rails.logger.expects(:warn)
-    @klass.register(:other_plugin) { settings :partial => 'foo/settings' }
+    @klass.register(:other_plugin) {settings :partial => 'foo/settings'}
   end
 
   def test_migrate_redmine_plugin
