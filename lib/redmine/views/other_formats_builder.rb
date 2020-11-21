@@ -25,9 +25,9 @@ module Redmine
       end
 
       def link_to(name, options={})
-        url = { :format => name.to_s.downcase }.merge(options.delete(:url) || {}).except('page')
+        url = {:format => name.to_s.downcase}.merge(options.delete(:url) || {}).except('page')
         caption = options.delete(:caption) || name
-        html_options = { :class => name.to_s.downcase, :rel => 'nofollow' }.merge(options)
+        html_options = {:class => name.to_s.downcase, :rel => 'nofollow'}.merge(options)
         @view.content_tag('span', @view.link_to(caption, url, html_options))
       end
 
@@ -37,7 +37,7 @@ module Redmine
         url = {:params => params, :page => nil, :format => name.to_s.downcase}.merge(url)
 
         caption = options.delete(:caption) || name
-        html_options = { :class => name.to_s.downcase, :rel => 'nofollow' }.merge(options)
+        html_options = {:class => name.to_s.downcase, :rel => 'nofollow'}.merge(options)
         @view.content_tag('span', @view.link_to(caption, url, html_options))
       end
     end
