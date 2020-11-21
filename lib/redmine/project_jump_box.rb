@@ -44,7 +44,7 @@ module Redmine
       return if project.blank? || project.id.blank?
 
       id_array = recently_used_project_ids
-      id_array.reject!{ |i| i == project.id }
+      id_array.reject!{|i| i == project.id}
       # we dont want bookmarks in the recently used list:
       id_array.unshift(project.id) unless bookmark?(project)
       self.recently_used_project_ids = id_array[0, recent_projects_count]
