@@ -40,7 +40,7 @@ class TwofaTest < Redmine::IntegrationTest
     assert_response :success
 
     totp = ROTP::TOTP.new User.find_by_login('jsmith').twofa_totp_key
-    post "/my/twofa/totp/activate", params: { twofa_code: totp.now }
+    post "/my/twofa/totp/activate", params: {twofa_code: totp.now}
     assert_redirected_to "/my/account"
     follow_redirect!
     assert_response :success
@@ -52,7 +52,7 @@ class TwofaTest < Redmine::IntegrationTest
     assert_response :success
     assert_select 'form', /Please enter your two-factor authentication code/i
 
-    post "/my/twofa/backup_codes/create", params: { twofa_code: "wrong" }
+    post "/my/twofa/backup_codes/create", params: {twofa_code: "wrong"}
     assert_redirected_to "/my/twofa/backup_codes/confirm"
     follow_redirect!
     assert_response :success
@@ -61,7 +61,7 @@ class TwofaTest < Redmine::IntegrationTest
     # prevent replay attack prevention from kicking in
     User.find_by_login('jsmith').update_column :twofa_totp_last_used_at, 2.minutes.ago.to_i
 
-    post "/my/twofa/backup_codes/create", params: { twofa_code: totp.now }
+    post "/my/twofa/backup_codes/create", params: {twofa_code: totp.now}
     assert_redirected_to "/my/twofa/backup_codes"
     follow_redirect!
     assert_response :success
@@ -86,7 +86,7 @@ class TwofaTest < Redmine::IntegrationTest
     follow_redirect!
 
     assert_select "#login-form h3", /two-factor authentication/i
-    post "/account/twofa", params: { twofa_code: code }
+    post "/account/twofa", params: {twofa_code: code}
     assert_redirected_to "/my/page"
     follow_redirect!
     assert_response :success
@@ -103,11 +103,11 @@ class TwofaTest < Redmine::IntegrationTest
       assert key.present?
       totp = ROTP::TOTP.new key
 
-      post "/my/twofa/totp/activate", params: { twofa_code: '123456789' }
+      post "/my/twofa/totp/activate", params: {twofa_code: '123456789'}
       assert_redirected_to "/my/twofa/totp/activate/confirm"
       follow_redirect!
 
-      post "/my/twofa/totp/activate", params: { twofa_code: totp.now }
+      post "/my/twofa/totp/activate", params: {twofa_code: totp.now}
       assert_redirected_to "/my/account"
 
       post "/logout"
@@ -129,13 +129,13 @@ class TwofaTest < Redmine::IntegrationTest
       follow_redirect!
 
       assert_select "#login-form h3", /two-factor authentication/i
-      post "/account/twofa", params: { twofa_code: 'wrong code' }
+      post "/account/twofa", params: {twofa_code: 'wrong code'}
       assert_redirected_to "/account/twofa/confirm"
       follow_redirect!
       assert_select "#login-form h3", /two-factor authentication/i
       assert_select ".flash", /code is invalid/i
 
-      post "/account/twofa", params: { twofa_code: totp.now }
+      post "/account/twofa", params: {twofa_code: totp.now}
       assert_redirected_to "/my/page"
       follow_redirect!
       assert_response :success
