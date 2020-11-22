@@ -36,14 +36,14 @@ class MembersController < ApplicationController
     @members =  scope.order(:id).limit(@limit).offset(@offset).to_a
 
     respond_to do |format|
-      format.html { head 406 }
+      format.html {head 406}
       format.api
     end
   end
 
   def show
     respond_to do |format|
-      format.html { head 406 }
+      format.html {head 406}
       format.api
     end
   end
@@ -66,7 +66,7 @@ class MembersController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to_settings_in_projects }
+      format.html {redirect_to_settings_in_projects}
       format.js do
         @members = members
         @member = Member.new
@@ -92,7 +92,7 @@ class MembersController < ApplicationController
     end
     saved = @member.save
     respond_to do |format|
-      format.html { redirect_to_settings_in_projects }
+      format.html {redirect_to_settings_in_projects}
       format.js
       format.api do
         if saved
@@ -109,7 +109,7 @@ class MembersController < ApplicationController
       @member.destroy
     end
     respond_to do |format|
-      format.html { redirect_to_settings_in_projects }
+      format.html {redirect_to_settings_in_projects}
       format.js
       format.api do
         if @member.destroyed?
