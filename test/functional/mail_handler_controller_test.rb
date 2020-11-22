@@ -32,17 +32,22 @@ class MailHandlerControllerTest < Redmine::ControllerTest
 
   def test_should_create_issue
     # Enable API and set a key
-    Setting.mail_handler_api_enabled = 1
-    Setting.mail_handler_api_key = 'secret'
-
-    assert_difference 'Issue.count' do
-      post(
-        :index,
-        :params => {
-          :key => 'secret',
-          :email => IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
-        }
-      )
+    with_settings(
+      :mail_handler_api_enabled => 1,
+      :mail_handler_api_key => 'secret'
+    ) do
+      assert_difference 'Issue.count' do
+        post(
+          :index,
+          :params => {
+            :key => 'secret',
+            :email =>
+               IO.read(
+                 File.join(FIXTURES_PATH, 'ticket_on_given_project.eml')
+               )
+          }
+        )
+      end
     end
     assert_response 201
   end
