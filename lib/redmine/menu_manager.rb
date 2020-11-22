@@ -364,7 +364,7 @@ module Redmine
 
       def each(&block)
         yield self
-        children { |child| child.each(&block) }
+        children {|child| child.each(&block)}
       end
 
       # Adds a child at first position
