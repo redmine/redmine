@@ -28,7 +28,7 @@ class IssueStatusesController < ApplicationController
   def index
     @issue_statuses = IssueStatus.sorted.to_a
     respond_to do |format|
-      format.html { render :layout => false if request.xhr? }
+      format.html {render :layout => false if request.xhr?}
       format.api
     end
   end
@@ -61,12 +61,12 @@ class IssueStatusesController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_to issue_statuses_path(:page => params[:page])
         end
-        format.js { head 200 }
+        format.js {head 200}
       end
     else
       respond_to do |format|
-        format.html { render :action => 'edit' }
-        format.js { head 422 }
+        format.html {render :action => 'edit'}
+        format.js {head 422}
       end
     end
   end
