@@ -43,6 +43,11 @@ Layout/EmptyLineBetweenDefs:
 Layout/SpaceAroundEqualsInParameterDefault:
   Enabled: false
 
+Layout/SpaceBeforeSemicolon:
+  Enabled: true
+  Exclude:
+    - 'config/initializers/10-patches.rb'
+
 Layout/SpaceBeforeBlockBraces:
   # "space" is used more than "no_space".
   # But "no_space" is more natural in one liner.
