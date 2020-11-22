@@ -61,7 +61,7 @@ module Redmine
             message: 'twofa_mail_body_security_notification_paired',
             # (mis-)use field here as value wouldn't get localized
             field: "twofa__#{scheme_name}__name",
-            url: { controller: 'my', action: 'account' }
+            url: {controller: 'my', action: 'account'}
           }
         ).deliver
       end
@@ -88,7 +88,7 @@ module Redmine
           {
             title: :label_my_account,
             message: 'twofa_mail_body_security_notification_unpaired',
-            url: { controller: 'my', action: 'account' }
+            url: {controller: 'my', action: 'account'}
           }
         ).deliver
       end
@@ -121,7 +121,7 @@ module Redmine
             originator: @user,
             title: :label_my_account,
             message: 'twofa_mail_body_backup_code_used',
-            url: { controller: 'my', action: 'account' }
+            url: {controller: 'my', action: 'account'}
           }
         ).deliver
         return true
@@ -141,7 +141,7 @@ module Redmine
           {
             title: :label_my_account,
             message: 'twofa_mail_body_backup_codes_generated',
-            url: { controller: 'my', action: 'account' }
+            url: {controller: 'my', action: 'account'}
           }
         ).deliver
         tokens
