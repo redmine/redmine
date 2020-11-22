@@ -131,8 +131,8 @@ class ProjectsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html { render :action => 'new' }
-        format.api  { render_validation_errors(@project) }
+        format.html {render :action => 'new'}
+        format.api  {render_validation_errors(@project)}
       end
     end
   end
@@ -217,7 +217,7 @@ class ProjectsController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_to settings_project_path(@project, params[:tab])
         end
-        format.api  { render_api_ok }
+        format.api {render_api_ok}
       end
     else
       respond_to do |format|
@@ -225,7 +225,7 @@ class ProjectsController < ApplicationController
           settings
           render :action => 'settings'
         end
-        format.api  { render_validation_errors(@project) }
+        format.api {render_validation_errors(@project)}
       end
     end
   end
@@ -253,7 +253,7 @@ class ProjectsController < ApplicationController
     end
     respond_to do |format|
       format.js
-      format.html { redirect_to project_path(@project) }
+      format.html {redirect_to project_path(@project)}
     end
   end
 
@@ -283,7 +283,7 @@ class ProjectsController < ApplicationController
             User.current.admin? ? admin_projects_path : projects_path
           )
         end
-        format.api  { render_api_ok }
+        format.api  {render_api_ok}
       end
     end
     # hide project in layout
