@@ -40,6 +40,11 @@ Layout/EmptyLinesAroundAccessModifier:
 Layout/EmptyLineBetweenDefs:
   AllowAdjacentOneLineDefs: true
 
+Layout/RescueEnsureAlignment:
+  Enabled: true
+  Exclude:
+    - 'db/migrate/085_add_role_tracker_old_status_index_to_workflows.rb'
+
 Layout/SpaceAroundEqualsInParameterDefault:
   Enabled: false
 
