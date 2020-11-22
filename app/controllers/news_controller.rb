@@ -86,12 +86,12 @@ class NewsController < ApplicationController
           flash[:notice] = l(:notice_successful_create)
           redirect_to project_news_index_path(@project)
         end
-        format.api  { render_api_ok }
+        format.api  {render_api_ok}
       end
     else
       respond_to do |format|
-        format.html { render :action => 'new' }
-        format.api  { render_validation_errors(@news) }
+        format.html {render :action => 'new'}
+        format.api  {render_validation_errors(@news)}
       end
     end
   end
@@ -109,12 +109,12 @@ class NewsController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_to news_path(@news)
         end
-        format.api  { render_api_ok }
+        format.api  {render_api_ok}
       end
     else
       respond_to do |format|
-        format.html { render :action => 'edit' }
-        format.api  { render_validation_errors(@news) }
+        format.html {render :action => 'edit'}
+        format.api  {render_validation_errors(@news)}
       end
     end
   end
@@ -126,7 +126,7 @@ class NewsController < ApplicationController
         flash[:notice] = l(:notice_successful_delete)
         redirect_to project_news_index_path(@project)
       end
-      format.api  { render_api_ok }
+      format.api  {render_api_ok}
     end
   end
 end
