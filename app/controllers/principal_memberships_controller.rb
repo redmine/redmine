@@ -39,7 +39,7 @@ class PrincipalMembershipsController < ApplicationController
   def create
     @members = Member.create_principal_memberships(@principal, params[:membership])
     respond_to do |format|
-      format.html { redirect_to_principal @principal }
+      format.html {redirect_to_principal @principal}
       format.js
     end
   end
@@ -52,7 +52,7 @@ class PrincipalMembershipsController < ApplicationController
     @membership.attributes = params.require(:membership).permit(:role_ids => [])
     @membership.save
     respond_to do |format|
-      format.html { redirect_to_principal @principal }
+      format.html {redirect_to_principal @principal}
       format.js
     end
   end
@@ -62,7 +62,7 @@ class PrincipalMembershipsController < ApplicationController
       @membership.destroy
     end
     respond_to do |format|
-      format.html { redirect_to_principal @principal }
+      format.html {redirect_to_principal @principal}
       format.js
     end
   end
