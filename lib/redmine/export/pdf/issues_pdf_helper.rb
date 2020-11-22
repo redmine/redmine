@@ -156,7 +156,7 @@ module Redmine
             end
           end
 
-          relations = issue.relations.select { |r| r.other_issue(issue).visible? }
+          relations = issue.relations.select {|r| r.other_issue(issue).visible?}
           unless relations.empty?
             truncate_length = (!is_cjk? ? 80 : 60)
             pdf.SetFontStyle('B',9)
