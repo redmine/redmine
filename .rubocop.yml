@@ -114,6 +114,12 @@ Style/AsciiComments:
     # We can not change nor remove it.
     - 'app/models/repository/git.rb'
 
+Style/BlockDelimiters:
+  Enabled: true
+  Exclude:
+    - 'db/migrate/007_create_journals.rb'
+    - 'lib/diff.rb'
+
 Style/EmptyElse:
   EnforcedStyle: empty
 
