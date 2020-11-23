@@ -28,8 +28,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
   options = {}
   # Allow running tests using a remote Selenium hub
-  options.merge!(url: ENV['SELENIUM_REMOTE_URL']) if ENV['SELENIUM_REMOTE_URL']
-  options.merge!(desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(
+  options[:url] = ENV['SELENIUM_REMOTE_URL'] if ENV['SELENIUM_REMOTE_URL']
+  options[:desired_capabilities] = Selenium::WebDriver::Remote::Capabilities.chrome(
                   'chromeOptions' => {
                     'prefs' => {
                       'download.default_directory' => DOWNLOADS_PATH,
@@ -37,7 +37,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
                       'plugins.plugins_disabled' => ["Chrome PDF Viewer"]
                     }
                   }
-                ))
+                )
 
   driven_by(
     :selenium, using: :chrome, screen_size: [1024, 900],
