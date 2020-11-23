@@ -46,9 +46,11 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
   setup do
     # Allow defining a custom app host (useful when using a remote Selenium hub)
-    Capybara.configure do |config|
-      config.app_host = ENV['CAPYBARA_APP_HOST']
-    end if ENV['CAPYBARA_APP_HOST']
+    if ENV['CAPYBARA_APP_HOST']
+      Capybara.configure do |config|
+        config.app_host = ENV['CAPYBARA_APP_HOST']
+      end
+    end
 
     clear_downloaded_files
     Setting.delete_all
