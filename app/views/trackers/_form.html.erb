@@ -39,7 +39,7 @@
 
 <% if @tracker.new_record? && @trackers.any? %>
 <p><label for="copy_workflow_from"><%= l(:label_copy_workflow_from) %></label>
-<%= select_tag(:copy_workflow_from, content_tag("option") + options_from_collection_for_select(@trackers, :id, :name)) %></p>
+<%= select_tag(:copy_workflow_from, content_tag("option") + options_from_collection_for_select(@trackers, :id, :name, params[:copy_workflow_from] || @copy_from.try(:id))) %></p>
 <% end %>
 <!--[eoform:tracker]-->
 </div>

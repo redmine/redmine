@@ -36,6 +36,9 @@ class TrackersController < ApplicationController
   def new
     @tracker ||= Tracker.new(:default_status => IssueStatus.sorted.first)
     @tracker.safe_attributes = params[:tracker]
+    if params[:copy].present? && @copy_from = Tracker.find_by_id(params[:copy])
+      @tracker.copy_from(@copy_from)
+    end
     @trackers = Tracker.sorted.to_a
     @projects = Project.all
   end

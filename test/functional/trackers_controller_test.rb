@@ -54,6 +54,55 @@ class TrackersControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_new_with_copy
+    core_fields = ['assigned_to_id', 'category_id', 'fixed_version_id', 'parent_issue_id', 'start_date', 'due_date']
+    custom_field_ids = custom_field_ids = [1, 2, 6]
+    project_ids = [1, 3, 5]
+
+    copy_from = Tracker.find(1)
+    copy_from.core_fields = core_fields
+    copy_from.custom_field_ids = custom_field_ids
+    copy_from.project_ids = project_ids
+    copy_from.save
+
+    get :new, :params => {:copy => copy_from.id.to_s}
+    assert_response :success
+    assert_select 'input[name=?]', 'tracker[name]'
+
+    assert_select 'form' do
+      # blank name
+      assert_select 'input[name=?][value=""]', 'tracker[name]'
+      # core field checked
+      copy_from.core_fields.each do |core_field|
+        assert_select "input[type=checkbox][name=?][value=#{core_field}][checked=checked]", 'tracker[core_fields][]'
+      end
+      # core field not checked
+      copy_from.disabled_core_fields do |core_field|
+        assert_select "input[type=checkbox][name=?][value=#{core_field}]", 'tracker[core_fields][]'
+      end
+      # custom field checked
+      custom_field_ids.each do |custom_field_id|
+        assert_select "input[type=checkbox][name=?][value=#{custom_field_id}][checked=checked]", 'tracker[custom_field_ids][]'
+      end
+      # custom field not checked
+      (IssueCustomField.sorted.pluck(:id) - custom_field_ids).each do |custom_field_id|
+        assert_select "input[type=checkbox][name=?][value=#{custom_field_id}]", 'tracker[custom_field_ids][]'
+      end
+      # project checked
+      project_ids.each do |project_id|
+        assert_select "input[type=checkbox][name=?][value=#{project_id}][checked=checked]", 'tracker[project_ids][]'
+      end
+      # project not checked
+      (Project.all.pluck(:id) - project_ids).each do |project_id|
+        assert_select "input[type=checkbox][name=?][value=#{project_id}]", 'tracker[project_ids][]'
+      end
+      # workflow copy selected
+      assert_select 'select[name=?]', 'copy_workflow_from' do
+        assert_select 'option[value="1"][selected=selected]'
+      end
+    end
+  end
+
   def test_create
     assert_difference 'Tracker.count' do
       post :create, :params => {

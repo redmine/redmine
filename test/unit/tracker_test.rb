@@ -46,6 +46,34 @@ class TrackerTest < ActiveSupport::TestCase
     assert_equal [2], project.rolled_up_trackers(false).visible(user).map(&:id)
   end
 
+  def test_copy_from
+    tracker = Tracker.find(1)
+    copy = Tracker.new.copy_from(tracker)
+
+    assert_nil copy.id
+    assert_nil copy.position
+    assert_equal '', copy.name
+    assert_equal tracker.default_status_id, copy.default_status_id
+    assert_equal tracker.is_in_roadmap, copy.is_in_roadmap
+    assert_equal tracker.core_fields, copy.core_fields
+    assert_equal tracker.description, copy.description
+
+    copy.name = 'Copy'
+    assert copy.save
+  end
+
+  def test_copy_from_should_copy_custom_fields
+    tracker = Tracker.generate!(:custom_field_ids => [1, 2, 6])
+    copy = Tracker.new.copy_from(tracker)
+    assert_equal [1, 2, 6], copy.custom_field_ids.sort
+  end
+
+  def test_copy_from_should_copy_projects
+    tracker = Tracker.generate!(:project_ids => [1, 2, 3, 4, 5, 6])
+    copy = Tracker.new.copy_from(tracker)
+    assert_equal [1, 2, 3, 4, 5, 6], copy.project_ids.sort
+  end
+
   def test_copy_workflows
     source = Tracker.find(1)
     rules_count = source.workflow_rules.count

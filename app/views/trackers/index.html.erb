@@ -28,6 +28,7 @@
   </td>
   <td class="buttons">
     <%= reorder_handle(tracker) %>
+    <%= link_to l(:button_copy), new_tracker_path(:copy => tracker), :class => 'icon icon-copy' %>
     <%= delete_link tracker_path(tracker) %>
   </td>
   </tr>

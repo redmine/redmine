@@ -76,6 +76,16 @@ class Tracker < ActiveRecord::Base
     'project_ids',
     'description')
 
+  def copy_from(arg, options={})
+    return if arg.blank?
+
+    tracker = arg.is_a?(Tracker) ? arg : Tracker.find_by_id(arg.to_s)
+    self.attributes = tracker.attributes.dup.except("id", "name", "position")
+    self.custom_field_ids = tracker.custom_field_ids.dup
+    self.project_ids = tracker.project_ids.dup
+    self
+  end
+
   def to_s; name end
 
   def <=>(tracker)
