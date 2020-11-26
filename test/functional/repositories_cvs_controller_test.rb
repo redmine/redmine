@@ -49,10 +49,13 @@ class RepositoriesCvsControllerTest < Redmine::RepositoryControllerTest
     def test_get_new
       @request.session[:user_id] = 1
       @project.repository.destroy
-      get :new, :params => {
+      get(
+        :new,
+        :params => {
           :project_id => 'subproject1',
           :repository_scm => 'Cvs'
         }
+      )
       assert_response :success
 
       assert_select 'select[name=?]', 'repository_scm' do
@@ -65,9 +68,7 @@ class RepositoriesCvsControllerTest < Redmine::RepositoryControllerTest
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :show, :params => {
-          :id => PRJ_ID
-        }
+      get(:show, :params => {:id => PRJ_ID})
       assert_response :success
 
       assert_select 'table.entries tbody' do
@@ -86,11 +87,14 @@ class RepositoriesCvsControllerTest < Redmine::RepositoryControllerTest
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :show, :params => {
+      get(
+        :show,
+        :params => {
           :id => PRJ_ID,
           :repository_id => @repository.id,
           :path => repository_path_hash(['images'])[:param]
         }
+      )
       assert_response :success
 
       assert_select 'table.entries tbody' do
@@ -106,12 +110,15 @@ class RepositoriesCvsControllerTest < Redmine::RepositoryControllerTest
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :show, :params => {
+      get(
+        :show,
+        :params => {
           :id => PRJ_ID,
           :repository_id => @repository.id,
           :path => repository_path_hash(['images'])[:param],
           :rev => 1
         }
+      )
       assert_response :success
 
       assert_select 'table.entries tbody' do
@@ -126,11 +133,14 @@ class RepositoriesCvsControllerTest < Redmine::RepositoryControllerTest
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :entry, :params => {
+      get(
+        :entry,
+        :params => {
           :id => PRJ_ID,
           :repository_id => @repository.id,
           :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param]
         }
+      )
       assert_response :success
 
       assert_select 'td.line-code', :text => /before_filter/, :count => 0
@@ -142,12 +152,16 @@ class RepositoriesCvsControllerTest < Redmine::RepositoryControllerTest
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :entry, :params => {
+      get(
+        :entry,
+        :params => {
           :id => PRJ_ID,
           :repository_id => @repository.id,
-          :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param],
+          :path =>
+            repository_path_hash(['sources', 'watchers_controller.rb'])[:param],
           :rev => 2
         }
+      )
       assert_response :success
 
       # this line was removed in r3
@@ -159,11 +173,14 @@ class RepositoriesCvsControllerTest < Redmine::RepositoryControllerTest
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :entry, :params => {
+      get(
+        :entry,
+        :params => {
           :id => PRJ_ID,
           :repository_id => @repository.id,
            :path => repository_path_hash(['sources', 'zzz.c'])[:param]
         }
+      )
       assert_select 'p#errorExplanation', :text => /The entry or revision was not found in the repository/
     end
 
@@ -172,12 +189,15 @@ class RepositoriesCvsControllerTest < Redmine::RepositoryControllerTest
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :entry, :params => {
+      get(
+        :entry,
+        :params => {
           :id => PRJ_ID,
           :repository_id => @repository.id,
           :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param],
           :format => 'raw'
         }
+      )
       assert_response :success
     end
 
@@ -186,11 +206,14 @@ class RepositoriesCvsControllerTest < Redmine::RepositoryControllerTest
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :entry, :params => {
+      get(
+        :entry,
+        :params => {
           :id => PRJ_ID,
           :repository_id => @repository.id,
           :path => repository_path_hash(['sources'])[:param]
         }
+      )
       assert_response :success
       assert_select 'table.entries tbody'
     end
@@ -201,12 +224,15 @@ class RepositoriesCvsControllerTest < Redmine::RepositoryControllerTest
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
       ['inline', 'sbs'].each do |dt|
-        get :diff, :params => {
+        get(
+          :diff,
+          :params => {
             :id => PRJ_ID,
             :repository_id => @repository.id,
             :rev => 3,
             :type => dt
           }
+        )
         assert_response :success
 
         assert_select 'td.line-code.diff_out', :text => /before_filter :require_login/
@@ -220,12 +246,15 @@ class RepositoriesCvsControllerTest < Redmine::RepositoryControllerTest
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
       ['inline', 'sbs'].each do |dt|
-        get :diff, :params => {
+        get(
+          :diff,
+          :params => {
             :id => PRJ_ID,
             :repository_id => @repository.id,
             :rev => 1,
             :type => dt
           }
+        )
         assert_response :success
 
         assert_select 'td.line-code.diff_in', :text => /watched.remove_watcher/
@@ -241,11 +270,15 @@ class RepositoriesCvsControllerTest < Redmine::RepositoryControllerTest
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      get :annotate, :params => {
+      get(
+        :annotate,
+        :params => {
           :id => PRJ_ID,
           :repository_id => @repository.id,
-          :path => repository_path_hash(['sources', 'watchers_controller.rb'])[:param]
+          :path =>
+            repository_path_hash(['sources', 'watchers_controller.rb'])[:param]
         }
+      )
       assert_response :success
 
       # 1.1 line
@@ -270,9 +303,7 @@ class RepositoriesCvsControllerTest < Redmine::RepositoryControllerTest
       assert_equal NUM_REV, @repository.changesets.count
 
       assert_difference 'Repository.count', -1 do
-        delete :destroy, :params => {
-            :id => @repository.id
-          }
+        delete(:destroy, :params => {:id => @repository.id})
       end
       assert_response 302
       @project.reload
@@ -282,20 +313,19 @@ class RepositoriesCvsControllerTest < Redmine::RepositoryControllerTest
     def test_destroy_invalid_repository
       @request.session[:user_id] = 1 # admin
       @project.repository.destroy
-      @repository  = Repository::Cvs.create!(
-                              :project      => Project.find(PRJ_ID),
-                              :root_url     => "/invalid",
-                              :url          => MODULE_NAME,
-                              :log_encoding => 'UTF-8'
-                              )
+      @repository =
+        Repository::Cvs.create!(
+          :project      => Project.find(PRJ_ID),
+          :root_url     => "/invalid",
+          :url          => MODULE_NAME,
+          :log_encoding => 'UTF-8'
+        )
       @repository.fetch_changesets
       @project.reload
       assert_equal 0, @repository.changesets.count
 
       assert_difference 'Repository.count', -1 do
-        delete :destroy, :params => {
-            :id => @repository.id
-          }
+        delete(:destroy, :params => {:id => @repository.id})
       end
       assert_response 302
       @project.reload
