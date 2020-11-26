@@ -222,6 +222,7 @@ class IssueQuery < Query
 
   def available_columns
     return @available_columns if @available_columns
+
     @available_columns = self.class.available_columns.dup
     @available_columns += issue_custom_fields.visible.collect {|cf| QueryCustomFieldColumn.new(cf)}
 
