@@ -511,7 +511,7 @@ module ApplicationHelper
     end
     jump = params[:jump].presence || current_menu_item
     s = (+'').html_safe
-    build_project_link = ->(project, level = 0) do
+    build_project_link = lambda do |project, level = 0|
       padding = level * 16
       text = content_tag('span', project.name, :style => "padding-left:#{padding}px;")
       s << link_to(text, project_path(project, :jump => jump),
