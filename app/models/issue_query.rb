@@ -681,21 +681,35 @@ class IssueQuery < Query
         joins << "LEFT OUTER JOIN #{User.table_name} ON #{User.table_name}.id = #{queried_table_name}.assigned_to_id"
       end
       if order_options.include?('last_journal_user')
-        joins << "LEFT OUTER JOIN #{Journal.table_name} ON #{Journal.table_name}.id = (SELECT MAX(#{Journal.table_name}.id) FROM #{Journal.table_name}" +
-                " WHERE #{Journal.table_name}.journalized_type='Issue' AND #{Journal.table_name}.journalized_id=#{Issue.table_name}.id AND #{Journal.visible_notes_condition(User.current, :skip_pre_condition => true)})" +
-                " LEFT OUTER JOIN #{User.table_name} last_journal_user ON last_journal_user.id = #{Journal.table_name}.user_id";
+        joins <<
+           "LEFT OUTER JOIN #{Journal.table_name}" \
+             " ON #{Journal.table_name}.id = (SELECT MAX(#{Journal.table_name}.id)" \
+             " FROM #{Journal.table_name}" \
+             " WHERE #{Journal.table_name}.journalized_type = 'Issue'" \
+             " AND #{Journal.table_name}.journalized_id = #{Issue.table_name}.id " \
+             " AND #{Journal.visible_notes_condition(User.current, :skip_pre_condition => true)})" \
+             " LEFT OUTER JOIN #{User.table_name} last_journal_user" \
+             " ON last_journal_user.id = #{Journal.table_name}.user_id"
       end
       if order_options.include?('versions')
-        joins << "LEFT OUTER JOIN #{Version.table_name} ON #{Version.table_name}.id = #{queried_table_name}.fixed_version_id"
+        joins <<
+           "LEFT OUTER JOIN #{Version.table_name}" \
+             " ON #{Version.table_name}.id = #{queried_table_name}.fixed_version_id"
       end
       if order_options.include?('issue_categories')
-        joins << "LEFT OUTER JOIN #{IssueCategory.table_name} ON #{IssueCategory.table_name}.id = #{queried_table_name}.category_id"
+        joins <<
+           "LEFT OUTER JOIN #{IssueCategory.table_name}" \
+             " ON #{IssueCategory.table_name}.id = #{queried_table_name}.category_id"
       end
       if order_options.include?('trackers')
-        joins << "LEFT OUTER JOIN #{Tracker.table_name} ON #{Tracker.table_name}.id = #{queried_table_name}.tracker_id"
+        joins <<
+          "LEFT OUTER JOIN #{Tracker.table_name}" \
+            " ON #{Tracker.table_name}.id = #{queried_table_name}.tracker_id"
       end
       if order_options.include?('enumerations')
-        joins << "LEFT OUTER JOIN #{IssuePriority.table_name} ON #{IssuePriority.table_name}.id = #{queried_table_name}.priority_id"
+        joins <<
+          "LEFT OUTER JOIN #{IssuePriority.table_name}" \
+            " ON #{IssuePriority.table_name}.id = #{queried_table_name}.priority_id"
       end
     end
 
