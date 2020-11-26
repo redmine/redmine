@@ -62,6 +62,7 @@ class EmailAddress < ActiveRecord::Base
     domain = domain_or_email.split('@').last
     return false if denied.present? && domain_in?(domain, denied)
     return false if allowed.present? && !domain_in?(domain, allowed)
+
     true
   end
 
