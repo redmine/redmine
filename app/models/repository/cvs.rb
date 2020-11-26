@@ -60,9 +60,11 @@ class Repository::Cvs < Repository
     if entries
       entries.each do |entry|
         if ( ! entry.lastrev.nil? ) && ( ! entry.lastrev.revision.nil? )
-          change = filechanges.where(
-                       :revision => entry.lastrev.revision,
-                       :path => scm.with_leading_slash(entry.path)).first
+          change =
+            filechanges.where(
+              :revision => entry.lastrev.revision,
+              :path => scm.with_leading_slash(entry.path)
+            ).first
           if change
             entry.lastrev.identifier = change.changeset.revision
             entry.lastrev.revision   = change.changeset.revision
@@ -140,17 +142,19 @@ class Repository::Cvs < Repository
         # only add the change to the database, if it doen't exists. the cvs log
         # is not exclusive at all.
         tmp_time = revision.time.clone
-        unless filechanges.find_by_path_and_revision(
-                                scm.with_leading_slash(revision.paths[0][:path]),
-                                revision.paths[0][:revision]
-                             )
+        unless filechanges.
+                 find_by_path_and_revision(
+                   scm.with_leading_slash(revision.paths[0][:path]),
+                   revision.paths[0][:revision]
+                 )
           cmt = Changeset.normalize_comments(revision.message, repo_log_encoding)
           author_utf8 = Changeset.to_utf8(revision.author, repo_log_encoding)
-          cs  = changesets.where(
-                  :committed_on => (tmp_time - time_delta)..(tmp_time + time_delta),
-                  :committer    => author_utf8,
-                  :comments     => cmt
-                ).first
+          cs =
+            changesets.where(
+              :committed_on => (tmp_time - time_delta)..(tmp_time + time_delta),
+              :committer    => author_utf8,
+              :comments     => cmt
+            ).first
           # create a new changeset....
           unless cs
             # we use a temporary revision number here (just for inserting)
@@ -175,12 +179,12 @@ class Repository::Cvs < Repository
             action = "D" # dead-state is similar to Delete
           end
           Change.create(
-             :changeset => cs,
-             :action    => action,
-             :path      => scm.with_leading_slash(revision.paths[0][:path]),
-             :revision  => revision.paths[0][:revision],
-             :branch    => revision.paths[0][:branch]
-              )
+            :changeset => cs,
+            :action    => action,
+            :path      => scm.with_leading_slash(revision.paths[0][:path]),
+            :revision  => revision.paths[0][:revision],
+            :branch    => revision.paths[0][:branch]
+          )
         end
       end
 
