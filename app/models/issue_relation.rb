@@ -87,10 +87,9 @@ class IssueRelation < ActiveRecord::Base
     if attrs.respond_to?(:to_unsafe_hash)
       attrs = attrs.to_unsafe_hash
     end
-
     return unless attrs.is_a?(Hash)
-    attrs = attrs.deep_dup
 
+    attrs = attrs.deep_dup
     if issue_id = attrs.delete('issue_to_id')
       if issue_id.to_s.strip.match(/\A#?(\d+)\z/)
         issue_id = $1.to_i
