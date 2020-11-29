@@ -273,7 +273,7 @@ class MailHandlerTest < ActiveSupport::TestCase
                          :issue => {:project => 'ecookbook'},
                          :allow_override => ['affected version']
                          ) do |email|
-                             email << "Affected version: 1.0\n"
+                           email << "Affected version: 1.0\n"
                          end
     assert issue.is_a?(Issue)
     assert !issue.new_record?
