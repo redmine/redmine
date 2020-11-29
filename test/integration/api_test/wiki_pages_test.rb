@@ -105,9 +105,16 @@ class Redmine::ApiTest::WikiPagesTest < Redmine::ApiTest::Base
   test "PUT /projects/:project_id/wiki/:title.xml should update wiki page" do
     assert_no_difference 'WikiPage.count' do
       assert_difference 'WikiContent::Version.count' do
-        put '/projects/ecookbook/wiki/CookBook_documentation.xml',
-          :params => {:wiki_page => {:text => 'New content from API', :comments => 'API update'}},
+        put(
+          '/projects/ecookbook/wiki/CookBook_documentation.xml',
+          :params => {
+            :wiki_page => {
+              :text => 'New content from API',
+              :comments => 'API update'
+            }
+          },
           :headers => credentials('jsmith')
+        )
         assert_response :no_content
       end
     end
@@ -122,9 +129,17 @@ class Redmine::ApiTest::WikiPagesTest < Redmine::ApiTest::Base
   test "PUT /projects/:project_id/wiki/:title.xml with current versino should update wiki page" do
     assert_no_difference 'WikiPage.count' do
       assert_difference 'WikiContent::Version.count' do
-        put '/projects/ecookbook/wiki/CookBook_documentation.xml',
-          :params => {:wiki_page => {:text => 'New content from API', :comments => 'API update', :version => '3'}},
+        put(
+          '/projects/ecookbook/wiki/CookBook_documentation.xml',
+          :params => {
+            :wiki_page => {
+              :text => 'New content from API',
+              :comments => 'API update',
+              :version => '3'
+            }
+          },
           :headers => credentials('jsmith')
+        )
         assert_response :no_content
       end
     end
@@ -139,9 +154,17 @@ class Redmine::ApiTest::WikiPagesTest < Redmine::ApiTest::Base
   test "PUT /projects/:project_id/wiki/:title.xml with stale version should respond with 409" do
     assert_no_difference 'WikiPage.count' do
       assert_no_difference 'WikiContent::Version.count' do
-        put '/projects/ecookbook/wiki/CookBook_documentation.xml',
-          :params => {:wiki_page => {:text => 'New content from API', :comments => 'API update', :version => '2'}},
+        put(
+          '/projects/ecookbook/wiki/CookBook_documentation.xml',
+          :params => {
+            :wiki_page => {
+              :text => 'New content from API',
+              :comments => 'API update',
+              :version => '2'
+            }
+          },
           :headers => credentials('jsmith')
+        )
         assert_response 409
       end
     end
@@ -150,9 +173,16 @@ class Redmine::ApiTest::WikiPagesTest < Redmine::ApiTest::Base
   test "PUT /projects/:project_id/wiki/:title.xml should create the page if it does not exist" do
     assert_difference 'WikiPage.count' do
       assert_difference 'WikiContent::Version.count' do
-        put '/projects/ecookbook/wiki/New_page_from_API.xml',
-          :params => {:wiki_page => {:text => 'New content from API', :comments => 'API create'}},
+        put(
+          '/projects/ecookbook/wiki/New_page_from_API.xml',
+          :params => {
+            :wiki_page => {
+              :text => 'New content from API',
+              :comments => 'API create'
+            }
+          },
           :headers => credentials('jsmith')
+        )
         assert_response 201
       end
     end
@@ -171,10 +201,21 @@ class Redmine::ApiTest::WikiPagesTest < Redmine::ApiTest::Base
     attachment = Attachment.create!(:file => uploaded_test_file("testfile.txt", "text/plain"), :author_id => 2)
     assert_difference 'WikiPage.count' do
       assert_difference 'WikiContent::Version.count' do
-        put '/projects/ecookbook/wiki/New_page_from_API.xml',
-            :params => {:wiki_page => {:text => 'New content from API with Attachments', :comments => 'API create with Attachments',
-                            :uploads => [:token => attachment.token, :filename => 'testfile.txt', :content_type => "text/plain"]}},
-            :headers => credentials('jsmith')
+        put(
+          '/projects/ecookbook/wiki/New_page_from_API.xml',
+          :params => {
+            :wiki_page => {
+              :text => 'New content from API with Attachments',
+              :comments => 'API create with Attachments',
+              :uploads => [
+                :token => attachment.token,
+                :filename => 'testfile.txt',
+                :content_type => "text/plain"
+              ]
+            }
+          },
+          :headers => credentials('jsmith')
+        )
         assert_response 201
       end
     end
@@ -188,9 +229,17 @@ class Redmine::ApiTest::WikiPagesTest < Redmine::ApiTest::Base
   test "PUT /projects/:project_id/wiki/:title.xml with parent" do
     assert_difference 'WikiPage.count' do
       assert_difference 'WikiContent::Version.count' do
-        put '/projects/ecookbook/wiki/New_subpage_from_API.xml',
-          :params => {:wiki_page => {:parent_title => 'CookBook_documentation', :text => 'New content from API', :comments => 'API create'}},
+        put(
+          '/projects/ecookbook/wiki/New_subpage_from_API.xml',
+          :params => {
+            :wiki_page => {
+              :parent_title => 'CookBook_documentation',
+              :text => 'New content from API',
+              :comments => 'API create'
+            }
+          },
           :headers => credentials('jsmith')
+        )
         assert_response 201
       end
     end
