@@ -31,7 +31,7 @@ class Redmine::MenuManager::MenuHelperTest < Redmine::HelperTest
     # Stub the current menu item in the controller
     self.class_eval do
       def current_menu_item
-         :index
+        :index
       end
     end
   end
