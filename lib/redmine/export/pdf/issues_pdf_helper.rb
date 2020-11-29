@@ -198,8 +198,9 @@ module Redmine
               unless changeset.comments.blank?
                 pdf.SetFontStyle('',8)
                 pdf.RDMwriteHTMLCell(
-                      190,5,'','',
-                      changeset.comments.to_s, issue.attachments, "")
+                  190, 5, '', '',
+                  changeset.comments.to_s, issue.attachments, ""
+                )
               end
               pdf.ln
             end
@@ -337,21 +338,24 @@ module Redmine
             pdf.set_y(base_y + max_height)
 
             query.block_columns.each do |column|
-            if column.is_a?(QueryCustomFieldColumn)
-              cv = issue.visible_custom_field_values.detect {|v| v.custom_field_id == column.custom_field.id}
-              text = show_value(cv, false)
-            else
-              text = issue.send(column.name)
-            end
-            next if text.blank?
+              if column.is_a?(QueryCustomFieldColumn)
+                cv =
+                  issue.visible_custom_field_values.detect do |v|
+                    v.custom_field_id == column.custom_field.id
+                  end
+                text = show_value(cv, false)
+              else
+                text = issue.send(column.name)
+              end
+              next if text.blank?
 
-            pdf.set_x(10)
-            pdf.set_auto_page_break(true, bottom_margin)
-            pdf.SetFontStyle('B',9)
-            pdf.RDMCell(0, 5, column.caption, "LRT", 1)
-            pdf.SetFontStyle('',9)
-            pdf.RDMwriteHTMLCell(0, 5, '', '', text, [], "LRB")
-            pdf.set_auto_page_break(false)
+              pdf.set_x(10)
+              pdf.set_auto_page_break(true, bottom_margin)
+              pdf.SetFontStyle('B',9)
+              pdf.RDMCell(0, 5, column.caption, "LRT", 1)
+              pdf.SetFontStyle('',9)
+              pdf.RDMwriteHTMLCell(0, 5, '', '', text, [], "LRB")
+              pdf.set_auto_page_break(false)
             end
           end
 
