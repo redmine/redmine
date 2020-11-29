@@ -639,17 +639,40 @@ class IssueQuery < Query
       case operator
       when "*", "!*"
         op = (operator == "*" ? 'IN' : 'NOT IN')
-        "#{Issue.table_name}.id #{op} (SELECT DISTINCT #{IssueRelation.table_name}.#{join_column} FROM #{IssueRelation.table_name} WHERE #{IssueRelation.table_name}.relation_type = '#{self.class.connection.quote_string(relation_type)}')"
+        "#{Issue.table_name}.id #{op}" \
+         " (SELECT DISTINCT #{IssueRelation.table_name}.#{join_column}" \
+           " FROM #{IssueRelation.table_name}" \
+             " WHERE #{IssueRelation.table_name}.relation_type =" \
+                  " '#{self.class.connection.quote_string(relation_type)}')"
       when "=", "!"
         op = (operator == "=" ? 'IN' : 'NOT IN')
-        "#{Issue.table_name}.id #{op} (SELECT DISTINCT #{IssueRelation.table_name}.#{join_column} FROM #{IssueRelation.table_name} WHERE #{IssueRelation.table_name}.relation_type = '#{self.class.connection.quote_string(relation_type)}' AND #{IssueRelation.table_name}.#{target_join_column} = #{value.first.to_i})"
+        "#{Issue.table_name}.id #{op}" \
+         " (SELECT DISTINCT #{IssueRelation.table_name}.#{join_column}" \
+           " FROM #{IssueRelation.table_name}" \
+             " WHERE #{IssueRelation.table_name}.relation_type =" \
+                  " '#{self.class.connection.quote_string(relation_type)}'" \
+               " AND #{IssueRelation.table_name}.#{target_join_column} = #{value.first.to_i})"
       when "=p", "=!p", "!p"
         op = (operator == "!p" ? 'NOT IN' : 'IN')
         comp = (operator == "=!p" ? '<>' : '=')
-        "#{Issue.table_name}.id #{op} (SELECT DISTINCT #{IssueRelation.table_name}.#{join_column} FROM #{IssueRelation.table_name}, #{Issue.table_name} relissues WHERE #{IssueRelation.table_name}.relation_type = '#{self.class.connection.quote_string(relation_type)}' AND #{IssueRelation.table_name}.#{target_join_column} = relissues.id AND relissues.project_id #{comp} #{value.first.to_i})"
+        "#{Issue.table_name}.id #{op}" \
+         " (SELECT DISTINCT #{IssueRelation.table_name}.#{join_column}" \
+           " FROM #{IssueRelation.table_name}, #{Issue.table_name} relissues" \
+             " WHERE #{IssueRelation.table_name}.relation_type =" \
+                  " '#{self.class.connection.quote_string(relation_type)}'" \
+             " AND #{IssueRelation.table_name}.#{target_join_column} = relissues.id" \
+             " AND relissues.project_id #{comp} #{value.first.to_i})"
       when "*o", "!o"
         op = (operator == "!o" ? 'NOT IN' : 'IN')
-        "#{Issue.table_name}.id #{op} (SELECT DISTINCT #{IssueRelation.table_name}.#{join_column} FROM #{IssueRelation.table_name}, #{Issue.table_name} relissues WHERE #{IssueRelation.table_name}.relation_type = '#{self.class.connection.quote_string(relation_type)}' AND #{IssueRelation.table_name}.#{target_join_column} = relissues.id AND relissues.status_id IN (SELECT id FROM #{IssueStatus.table_name} WHERE is_closed=#{self.class.connection.quoted_false}))"
+        "#{Issue.table_name}.id #{op}" \
+          " (SELECT DISTINCT #{IssueRelation.table_name}.#{join_column}" \
+           " FROM #{IssueRelation.table_name}, #{Issue.table_name} relissues" \
+             " WHERE #{IssueRelation.table_name}.relation_type =" \
+                  " '#{self.class.connection.quote_string(relation_type)}'" \
+             " AND #{IssueRelation.table_name}.#{target_join_column} = relissues.id" \
+             " AND relissues.status_id IN" \
+               " (SELECT id FROM #{IssueStatus.table_name}" \
+               "  WHERE is_closed = #{self.class.connection.quoted_false}))"
       end
     if relation_options[:sym] == field && !options[:reverse]
       sqls = [sql, sql_for_relations(field, operator, value, :reverse => true)]
