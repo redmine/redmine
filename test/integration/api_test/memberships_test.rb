@@ -42,7 +42,8 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
     assert_equal 3,  json["total_count"]
     assert_equal 25, json["limit"]
     assert_equal 0,  json["offset"]
-    assert_include({
+    assert_include(
+      {
         "id"=>1,
         "project" => {"name"=>"eCookbook", "id"=>1},
         "roles" => [{"name"=>"Manager", "id"=>1}],
@@ -71,10 +72,11 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
 
   test "POST /projects/:project_id/memberships.xml should create the membership" do
     assert_difference 'Member.count' do
-      post '/projects/1/memberships.xml',
+      post(
+        '/projects/1/memberships.xml',
         :params => {:membership => {:user_id => 7, :role_ids => [2, 3]}},
         :headers => credentials('jsmith')
-
+      )
       assert_response :created
     end
   end
@@ -83,20 +85,22 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
     group = Group.find(11)
 
     assert_difference 'Member.count', 1 + group.users.count do
-      post '/projects/1/memberships.xml',
+      post(
+        '/projects/1/memberships.xml',
         :params => {:membership => {:user_id => 11, :role_ids => [2, 3]}},
         :headers => credentials('jsmith')
-
+      )
       assert_response :created
     end
   end
 
   test "POST /projects/:project_id/memberships.xml with invalid parameters should return errors" do
     assert_no_difference 'Member.count' do
-      post '/projects/1/memberships.xml',
+      post(
+        '/projects/1/memberships.xml',
         :params => {:membership => {:role_ids => [2, 3]}},
         :headers => credentials('jsmith')
-
+      )
       assert_response :unprocessable_entity
       assert_equal 'application/xml', @response.media_type
       assert_select 'errors error', :text => "Principal cannot be blank"
@@ -121,22 +125,26 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
     assert_equal 'application/json', @response.media_type
     json = ActiveSupport::JSON.decode(response.body)
     assert_equal(
-      {"membership" => {
-        "id" => 2,
-        "project" => {"name"=>"eCookbook", "id"=>1},
-        "roles" => [{"name"=>"Developer", "id"=>2}],
-        "user" => {"name"=>"Dave Lopper", "id"=>3}}
+      {
+        "membership" => {
+          "id" => 2,
+          "project" => {"name"=>"eCookbook", "id"=>1},
+          "roles" => [{"name"=>"Developer", "id"=>2}],
+          "user" => {"name"=>"Dave Lopper", "id"=>3}
+        }
       },
-      json)
+      json
+    )
   end
 
   test "PUT /memberships/:id.xml should update the membership" do
     assert_not_equal [1, 2], Member.find(2).role_ids.sort
     assert_no_difference 'Member.count' do
-      put '/memberships/2.xml',
+      put(
+        '/memberships/2.xml',
         :params => {:membership => {:user_id => 3, :role_ids => [1, 2]}},
         :headers => credentials('jsmith')
-
+      )
       assert_response :no_content
       assert_equal '', @response.body
     end
@@ -145,10 +153,11 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
   end
 
   test "PUT /memberships/:id.xml with invalid parameters should return errors" do
-    put '/memberships/2.xml',
+    put(
+      '/memberships/2.xml',
       :params => {:membership => {:user_id => 3, :role_ids => [99]}},
       :headers => credentials('jsmith')
-
+    )
     assert_response :unprocessable_entity
     assert_equal 'application/xml', @response.media_type
     assert_select 'errors error', :text => "Role cannot be empty"
