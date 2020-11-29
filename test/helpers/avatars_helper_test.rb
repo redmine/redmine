@@ -52,7 +52,7 @@ class AvatarsHelperTest < Redmine::HelperTest
   end
 
   def test_avatar_default_size_should_be_24
-      assert_include 'size=24', avatar('jsmith <jsmith@somenet.foo>')
+    assert_include 'size=24', avatar('jsmith <jsmith@somenet.foo>')
   end
 
   def test_avatar_with_size_option
