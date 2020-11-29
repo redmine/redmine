@@ -94,13 +94,16 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
     assert_difference 'TimeEntry.count' do
       post(
         '/time_entries.xml',
-        :params =>
-          {:time_entry =>
-            {:issue_id => '1', :spent_on => '2010-12-02',
-             :hours => '3.5', :activity_id => '11',
-             :custom_fields => [{:id => field.id.to_s, :value => 'accepted'}]
-        }},
-        :headers => credentials('jsmith'))
+        :params => {
+          :time_entry => {
+            :issue_id => '1',
+            :spent_on => '2010-12-02',
+            :hours => '3.5', :activity_id => '11',
+            :custom_fields => [{:id => field.id.to_s, :value => 'accepted'}]
+          }
+        },
+        :headers => credentials('jsmith')
+      )
     end
     assert_response :created
     assert_equal 'application/xml', @response.media_type
