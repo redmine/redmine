@@ -107,6 +107,6 @@ class ActivitiesHelperTest < Redmine::HelperTest
         ['e0', false]
       ],
       sort_activity_events(events).map {|event, grouped| [event.name, grouped]}
-   )
+    )
   end
 end
