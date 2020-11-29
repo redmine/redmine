@@ -122,18 +122,23 @@ class IssueRelationTest < ActiveSupport::TestCase
 
   def test_validates_circular_dependency
     IssueRelation.delete_all
-    assert IssueRelation.create!(
-             :issue_from => Issue.find(1), :issue_to => Issue.find(2),
-             :relation_type => IssueRelation::TYPE_PRECEDES
-           )
-    assert IssueRelation.create!(
-             :issue_from => Issue.find(2), :issue_to => Issue.find(3),
-             :relation_type => IssueRelation::TYPE_PRECEDES
-           )
-    r = IssueRelation.new(
-          :issue_from => Issue.find(3), :issue_to => Issue.find(1),
-          :relation_type => IssueRelation::TYPE_PRECEDES
-        )
+    assert(
+      IssueRelation.create!(
+        :issue_from => Issue.find(1), :issue_to => Issue.find(2),
+        :relation_type => IssueRelation::TYPE_PRECEDES
+      )
+    )
+    assert(
+      IssueRelation.create!(
+        :issue_from => Issue.find(2), :issue_to => Issue.find(3),
+        :relation_type => IssueRelation::TYPE_PRECEDES
+      )
+    )
+    r =
+      IssueRelation.new(
+        :issue_from => Issue.find(3), :issue_to => Issue.find(1),
+        :relation_type => IssueRelation::TYPE_PRECEDES
+      )
     assert !r.save
     assert_not_equal [], r.errors[:base]
   end
@@ -149,11 +154,11 @@ class IssueRelationTest < ActiveSupport::TestCase
     child = Issue.generate!(:parent_issue_id => issue2.id)
     issue1.reload
     child.reload
-
-    r = IssueRelation.new(
-          :issue_from => child, :issue_to => issue1,
-          :relation_type => IssueRelation::TYPE_PRECEDES
-        )
+    r =
+      IssueRelation.new(
+        :issue_from => child, :issue_to => issue1,
+        :relation_type => IssueRelation::TYPE_PRECEDES
+      )
     assert !r.save
     assert_include 'This relation would create a circular dependency', r.errors.full_messages
   end
@@ -162,29 +167,34 @@ class IssueRelationTest < ActiveSupport::TestCase
     parent = Issue.generate!
     child1 = Issue.generate!(:parent_issue_id => parent.id)
     child2 = Issue.generate!(:parent_issue_id => parent.id)
-
-    r = IssueRelation.new(
-          :issue_from => child1, :issue_to => child2,
-          :relation_type => IssueRelation::TYPE_PRECEDES
-        )
+    r =
+      IssueRelation.new(
+        :issue_from => child1, :issue_to => child2,
+        :relation_type => IssueRelation::TYPE_PRECEDES
+      )
     assert r.valid?
     assert r.save
   end
 
   def test_validates_circular_dependency_on_reverse_relations
     IssueRelation.delete_all
-    assert IssueRelation.create!(
-             :issue_from => Issue.find(1), :issue_to => Issue.find(3),
-             :relation_type => IssueRelation::TYPE_BLOCKS
-           )
-    assert IssueRelation.create!(
-             :issue_from => Issue.find(1), :issue_to => Issue.find(2),
-             :relation_type => IssueRelation::TYPE_BLOCKED
-           )
-    r = IssueRelation.new(
-          :issue_from => Issue.find(2), :issue_to => Issue.find(1),
-          :relation_type => IssueRelation::TYPE_BLOCKED
-        )
+    assert(
+      IssueRelation.create!(
+        :issue_from => Issue.find(1), :issue_to => Issue.find(3),
+        :relation_type => IssueRelation::TYPE_BLOCKS
+      )
+    )
+    assert(
+      IssueRelation.create!(
+        :issue_from => Issue.find(1), :issue_to => Issue.find(2),
+        :relation_type => IssueRelation::TYPE_BLOCKED
+      )
+    )
+    r =
+      IssueRelation.new(
+        :issue_from => Issue.find(2), :issue_to => Issue.find(1),
+        :relation_type => IssueRelation::TYPE_BLOCKED
+      )
     assert !r.save
     assert_not_equal [], r.errors[:base]
   end
