@@ -1648,6 +1648,7 @@ module ApplicationHelper
   def javascript_heads
     tags = javascript_include_tag(
       'jquery-3.5.1-ui-1.12.1-ujs-5.2.3',
+      'jquery-migrate-3.3.2.min.js',
       'tribute-5.1.3.min',
       'tablesort-5.2.1.min.js',
       'tablesort-5.2.1.number.min.js',
