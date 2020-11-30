@@ -22,33 +22,51 @@ class IssueQuery < Query
   self.view_permission = :view_issues
 
   self.available_columns = [
-    QueryColumn.new(:id, :sortable => "#{Issue.table_name}.id", :default_order => 'desc', :caption => '#', :frozen => true),
+    QueryColumn.new(:id, :sortable => "#{Issue.table_name}.id",
+                    :default_order => 'desc', :caption => '#', :frozen => true),
     QueryColumn.new(:project, :sortable => "#{Project.table_name}.name", :groupable => true),
     QueryColumn.new(:tracker, :sortable => "#{Tracker.table_name}.position", :groupable => true),
-    QueryColumn.new(:parent, :sortable => ["#{Issue.table_name}.root_id", "#{Issue.table_name}.lft ASC"], :default_order => 'desc', :caption => :field_parent_issue),
+    QueryColumn.new(:parent,
+                    :sortable => ["#{Issue.table_name}.root_id", "#{Issue.table_name}.lft ASC"],
+                    :default_order => 'desc', :caption => :field_parent_issue),
     QueryAssociationColumn.new(:parent, :subject, :caption => :field_parent_issue_subject),
     QueryColumn.new(:status, :sortable => "#{IssueStatus.table_name}.position", :groupable => true),
-    QueryColumn.new(:priority, :sortable => "#{IssuePriority.table_name}.position", :default_order => 'desc', :groupable => true),
+    QueryColumn.new(:priority, :sortable => "#{IssuePriority.table_name}.position",
+                    :default_order => 'desc', :groupable => true),
     QueryColumn.new(:subject, :sortable => "#{Issue.table_name}.subject"),
-    QueryColumn.new(:author, :sortable => lambda {User.fields_for_order_statement("authors")}, :groupable => true),
-    QueryColumn.new(:assigned_to, :sortable => lambda {User.fields_for_order_statement}, :groupable => true),
-    TimestampQueryColumn.new(:updated_on, :sortable => "#{Issue.table_name}.updated_on", :default_order => 'desc', :groupable => true),
+    QueryColumn.new(:author,
+                    :sortable => lambda {User.fields_for_order_statement("authors")},
+                    :groupable => true),
+    QueryColumn.new(:assigned_to,
+                    :sortable => lambda {User.fields_for_order_statement},
+                    :groupable => true),
+    TimestampQueryColumn.new(:updated_on, :sortable => "#{Issue.table_name}.updated_on",
+                             :default_order => 'desc', :groupable => true),
     QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name", :groupable => true),
-    QueryColumn.new(:fixed_version, :sortable => lambda {Version.fields_for_order_statement}, :groupable => true),
+    QueryColumn.new(:fixed_version, :sortable => lambda {Version.fields_for_order_statement},
+                    :groupable => true),
     QueryColumn.new(:start_date, :sortable => "#{Issue.table_name}.start_date", :groupable => true),
     QueryColumn.new(:due_date, :sortable => "#{Issue.table_name}.due_date", :groupable => true),
-    QueryColumn.new(:estimated_hours, :sortable => "#{Issue.table_name}.estimated_hours", :totalable => true),
+    QueryColumn.new(:estimated_hours, :sortable => "#{Issue.table_name}.estimated_hours",
+                    :totalable => true),
     QueryColumn.new(
       :total_estimated_hours,
-      :sortable => -> do
-                     "COALESCE((SELECT SUM(estimated_hours) FROM #{Issue.table_name} subtasks" +
-        " WHERE #{Issue.visible_condition(User.current).gsub(/\bissues\b/, 'subtasks')} AND subtasks.root_id = #{Issue.table_name}.root_id AND subtasks.lft >= #{Issue.table_name}.lft AND subtasks.rgt <= #{Issue.table_name}.rgt), 0)"
-                   end,
+      :sortable =>
+        lambda do
+          "COALESCE((SELECT SUM(estimated_hours) FROM #{Issue.table_name} subtasks" \
+          " WHERE #{Issue.visible_condition(User.current).gsub(/\bissues\b/, 'subtasks')}" \
+          " AND subtasks.root_id = #{Issue.table_name}.root_id" \
+          " AND subtasks.lft >= #{Issue.table_name}.lft" \
+          " AND subtasks.rgt <= #{Issue.table_name}.rgt), 0)"
+        end,
       :default_order => 'desc'),
     QueryColumn.new(:done_ratio, :sortable => "#{Issue.table_name}.done_ratio", :groupable => true),
-    TimestampQueryColumn.new(:created_on, :sortable => "#{Issue.table_name}.created_on", :default_order => 'desc', :groupable => true),
-    TimestampQueryColumn.new(:closed_on, :sortable => "#{Issue.table_name}.closed_on", :default_order => 'desc', :groupable => true),
-    QueryColumn.new(:last_updated_by, :sortable => lambda {User.fields_for_order_statement("last_journal_user")}),
+    TimestampQueryColumn.new(:created_on, :sortable => "#{Issue.table_name}.created_on",
+                             :default_order => 'desc', :groupable => true),
+    TimestampQueryColumn.new(:closed_on, :sortable => "#{Issue.table_name}.closed_on",
+                             :default_order => 'desc', :groupable => true),
+    QueryColumn.new(:last_updated_by,
+                    :sortable => lambda {User.fields_for_order_statement("last_journal_user")}),
     QueryColumn.new(:relations, :caption => :label_related_issues),
     QueryColumn.new(:attachments, :caption => :label_attachment_plural),
     QueryColumn.new(:description, :inline => false),
