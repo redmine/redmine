@@ -71,11 +71,14 @@ class SessionsTest < Redmine::IntegrationTest
 
     get '/my/password'
     assert_response 200
-    post '/my/password', :params => {
+    post(
+      '/my/password',
+      :params => {
         :password => 'jsmith',
         :new_password => 'secret123',
         :new_password_confirmation => 'secret123'
       }
+    )
     assert_response 302
     assert_not_equal token, session[:tk]
 
