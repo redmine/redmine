@@ -28,7 +28,7 @@ gem 'rqrcode'
 
 # Optional gem for LDAP authentication
 group :ldap do
-  gem "net-ldap", "~> 0.16.0"
+  gem 'net-ldap', '~> 0.17.0'
 end
 
 # Optional gem for OpenID authentication
