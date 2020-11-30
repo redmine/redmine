@@ -197,8 +197,11 @@ class AttachmentsTest < Redmine::IntegrationTest
 
     attachment = Attachment.order('id DESC').first
     attachment_path = "/attachments/#{attachment.id}.js?attachment_id=1"
-    assert_include "href: '#{attachment_path}'", response.body, "Path to attachment: #{attachment_path} not found in response:\n#{response.body}"
-
+    assert_include(
+      "href: '#{attachment_path}'",
+      response.body,
+      "Path to attachment: #{attachment_path} not found in response:\n#{response.body}"
+    )
     assert_difference 'Attachment.count', -1 do
       delete attachment_path
       assert_response :success
