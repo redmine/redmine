@@ -59,10 +59,19 @@ class AttachmentsTest < Redmine::IntegrationTest
     token = ajax_upload('myupload.txt', 'File content')
 
     assert_difference 'Issue.count' do
-      post '/projects/ecookbook/issues', :params => {
+      post(
+        '/projects/ecookbook/issues',
+        :params => {
           :issue => {:tracker_id => 1, :subject => 'Issue with upload'},
-          :attachments => {'1' => {:filename => 'myupload.txt', :description => 'My uploaded file', :token => token}}
+          :attachments => {
+            '1' => {
+              :filename => 'myupload.txt',
+              :description => 'My uploaded file',
+              :token => token
+            }
+          }
         }
+      )
       assert_response 302
     end
 
@@ -81,11 +90,20 @@ class AttachmentsTest < Redmine::IntegrationTest
 
     token = ajax_upload('myupload.jpg', 'JPEG content')
 
-    post '/issues/preview', :params => {
+    post(
+      '/issues/preview',
+      :params => {
         :issue => {:tracker_id => 1, :project_id => 'ecookbook'},
         :text => 'Inline upload: !myupload.jpg!',
-        :attachments => {'1' => {:filename => 'myupload.jpg', :description => 'My uploaded file', :token => token}}
+        :attachments => {
+          '1' => {
+            :filename => 'myupload.jpg',
+            :description => 'My uploaded file',
+            :token => token
+          }
+        }
       }
+    )
     assert_response :success
 
     attachment_path = response.body.match(%r{<img src="(/attachments/download/\d+/myupload.jpg)"})[1]
@@ -102,10 +120,19 @@ class AttachmentsTest < Redmine::IntegrationTest
     token = ajax_upload('myupload.txt', 'File content')
 
     assert_no_difference 'Issue.count' do
-      post '/projects/ecookbook/issues', :params => {
+      post(
+        '/projects/ecookbook/issues',
+        :params => {
           :issue => {:tracker_id => 1, :subject => ''},
-          :attachments => {'1' => {:filename => 'myupload.txt', :description => 'My uploaded file', :token => token}}
+          :attachments => {
+            '1' => {
+              :filename => 'myupload.txt',
+              :description => 'My uploaded file',
+              :token => token
+            }
+          }
         }
+      )
       assert_response :success
     end
     assert_select 'input[type=hidden][name=?][value=?]', 'attachments[p0][token]', token
@@ -113,10 +140,19 @@ class AttachmentsTest < Redmine::IntegrationTest
     assert_select 'input[name=?][value=?]', 'attachments[p0][description]', 'My uploaded file'
 
     assert_difference 'Issue.count' do
-      post '/projects/ecookbook/issues', :params => {
+      post(
+        '/projects/ecookbook/issues',
+        :params => {
           :issue => {:tracker_id => 1, :subject => 'Issue with upload'},
-          :attachments => {'p0' => {:filename => 'myupload.txt', :description => 'My uploaded file', :token => token}}
+          :attachments => {
+            'p0' => {
+              :filename => 'myupload.txt',
+              :description => 'My uploaded file',
+              :token => token
+            }
+          }
         }
+      )
       assert_response 302
     end
 
