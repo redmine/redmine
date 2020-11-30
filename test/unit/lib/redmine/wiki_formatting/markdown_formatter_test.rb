@@ -20,9 +20,10 @@
 require File.expand_path('../../../../../test_helper', __FILE__)
 
 class Redmine::WikiFormatting::MarkdownFormatterTest < ActionView::TestCase
-  if Object.const_defined?(:Redcarpet)
-
   def setup
+    unless Object.const_defined?(:Redcarpet)
+      skip "Redcarpet is not installed"
+    end
     @formatter = Redmine::WikiFormatting::Markdown::Formatter
   end
 
@@ -193,6 +194,5 @@ class Redmine::WikiFormatting::MarkdownFormatterTest < ActionView::TestCase
     assert_equal 2, result.size
     assert_equal expected, result.first, "section content did not match"
     assert_equal Digest::MD5.hexdigest(expected), result.last, "section hash did not match"
-  end
   end
 end
