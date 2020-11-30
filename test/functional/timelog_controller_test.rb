@@ -1133,10 +1133,29 @@ class TimelogControllerTest < Redmine::ControllerTest
   end
 
   def test_index_should_sort_by_spent_on_and_created_on
-    t1 = TimeEntry.create!(:author => User.find(1), :user => User.find(1), :project => Project.find(1), :hours => 1, :spent_on => '2012-06-16', :created_on => '2012-06-16 20:00:00', :activity_id => 10)
-    t2 = TimeEntry.create!(:author => User.find(1), :user => User.find(1), :project => Project.find(1), :hours => 1, :spent_on => '2012-06-16', :created_on => '2012-06-16 20:05:00', :activity_id => 10)
-    t3 = TimeEntry.create!(:author => User.find(1), :user => User.find(1), :project => Project.find(1), :hours => 1, :spent_on => '2012-06-15', :created_on => '2012-06-16 20:10:00', :activity_id => 10)
-
+    t1 =
+      TimeEntry.create!(
+        :author => User.find(1), :user => User.find(1),
+        :project => Project.find(1),
+        :hours => 1,
+        :spent_on => '2012-06-16', :created_on => '2012-06-16 20:00:00',
+        :activity_id => 10
+      )
+    t2 =
+      TimeEntry.create!(
+        :author => User.find(1), :user => User.find(1),
+        :project => Project.find(1),
+        :hours => 1,
+        :spent_on => '2012-06-16', :created_on => '2012-06-16 20:05:00',
+        :activity_id => 10
+      )
+    t3 =
+      TimeEntry.create!(
+        :author => User.find(1), :user => User.find(1),
+        :project => Project.find(1),
+        :hours => 1, :spent_on => '2012-06-15', :created_on => '2012-06-16 20:10:00',
+        :activity_id => 10
+      )
     get :index, :params => {
       :project_id => 1,
       :f => ['spent_on'],
@@ -1144,8 +1163,10 @@ class TimelogControllerTest < Redmine::ControllerTest
       :v => {'spent_on' => ['2012-06-15', '2012-06-16']}
     }
     assert_response :success
-    assert_equal [t2, t1, t3].map(&:id).map(&:to_s), css_select('input[name="ids[]"]').map {|e| e.attr('value')}
-
+    assert_equal(
+      [t2, t1, t3].map(&:id).map(&:to_s),
+      css_select('input[name="ids[]"]').map {|e| e.attr('value')}
+    )
     get(
       :index,
       :params => {
@@ -1157,7 +1178,10 @@ class TimelogControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
-    assert_equal [t3, t1, t2].map(&:id).map(&:to_s), css_select('input[name="ids[]"]').map {|e| e.attr('value')}
+    assert_equal(
+      [t3, t1, t2].map(&:id).map(&:to_s),
+      css_select('input[name="ids[]"]').map {|e| e.attr('value')}
+    )
   end
 
   def test_index_with_activity_filter
@@ -1381,7 +1405,11 @@ class TimelogControllerTest < Redmine::ControllerTest
   end
 
   def test_index_with_filter_on_issue_custom_field
-    issue = Issue.generate!(:project_id => 1, :tracker_id => 1, :custom_field_values => {2 => 'filter_on_issue_custom_field'})
+    issue =
+      Issue.generate!(
+        :project_id => 1, :tracker_id => 1,
+        :custom_field_values => {2 => 'filter_on_issue_custom_field'}
+      )
     entry = TimeEntry.generate!(:issue => issue, :hours => 2.5)
 
     get :index, :params => {
@@ -1390,11 +1418,18 @@ class TimelogControllerTest < Redmine::ControllerTest
       :v => {'issue.cf_2' => ['filter_on_issue_custom_field']}
     }
     assert_response :success
-    assert_equal [entry].map(&:id).map(&:to_s), css_select('input[name="ids[]"]').map {|e| e.attr('value')}
+    assert_equal(
+      [entry].map(&:id).map(&:to_s),
+      css_select('input[name="ids[]"]').map {|e| e.attr('value')}
+    )
   end
 
   def test_index_with_issue_custom_field_column
-    issue = Issue.generate!(:project_id => 1, :tracker_id => 1, :custom_field_values => {2 => 'filter_on_issue_custom_field'})
+    issue =
+      Issue.generate!(
+        :project_id => 1, :tracker_id => 1,
+        :custom_field_values => {2 => 'filter_on_issue_custom_field'}
+      )
     entry = TimeEntry.generate!(:issue => issue, :hours => 2.5)
 
     get :index, :params => {
@@ -1438,8 +1473,15 @@ class TimelogControllerTest < Redmine::ControllerTest
 
   def test_index_with_invalid_date_filter_should_not_validate
     @request.session[:user_id] = 2
-
-    get :index, :params => {:set_filter => '1', :f => ['spent_on'], :op => {'spent_on' => '='}, :v => {'spent_on' => ['2016-09-010']}}
+    get(
+      :index,
+      :params => {
+        :set_filter => '1',
+        :f => ['spent_on'],
+        :op => {'spent_on' => '='},
+        :v => {'spent_on' => ['2016-09-010']}
+      }
+    )
     assert_select_error 'Date is invalid'
     assert_select 'table.time-entries', 0
   end
