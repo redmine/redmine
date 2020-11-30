@@ -99,15 +99,19 @@ module Redmine
 
             item = left[i]
             pdf.SetFontStyle('B',9)
-            pdf.RDMMultiCell(35, height, item ? "#{item.first}:" : "", (i == 0 ? border_first_top : border_first), '', 0, 0)
+            pdf.RDMMultiCell(35, height, item ? "#{item.first}:" : "",
+                             (i == 0 ? border_first_top : border_first), '', 0, 0)
             pdf.SetFontStyle('',9)
-            pdf.RDMMultiCell(60, height, item ? item.last.to_s : "", (i == 0 ? border_last_top : border_last), '', 0, 0)
+            pdf.RDMMultiCell(60, height, item ? item.last.to_s : "",
+                             (i == 0 ? border_last_top : border_last), '', 0, 0)
 
             item = right[i]
             pdf.SetFontStyle('B',9)
-            pdf.RDMMultiCell(35, height, item ? "#{item.first}:" : "",  (i == 0 ? border_first_top : border_first), '', 0, 0)
+            pdf.RDMMultiCell(35, height, item ? "#{item.first}:" : "",
+                             (i == 0 ? border_first_top : border_first), '', 0, 0)
             pdf.SetFontStyle('',9)
-            pdf.RDMMultiCell(60, height, item ? item.last.to_s : "", (i == 0 ? border_last_top : border_last), '', 0, 2)
+            pdf.RDMMultiCell(60, height, item ? item.last.to_s : "",
+                             (i == 0 ? border_last_top : border_last), '', 0, 2)
 
             pdf.set_x(base_x)
           end
