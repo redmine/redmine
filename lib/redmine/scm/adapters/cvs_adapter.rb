@@ -67,6 +67,7 @@ module Redmine
           @url      = url
           # TODO: better Exception here (IllegalArgumentException)
           raise CommandFailed if root_url.blank?
+
           @root_url  = root_url
 
           # These are unused.
@@ -313,6 +314,7 @@ module Redmine
           scm_cmd(*cmd_args) do |io|
             io.each_line do |line|
               next unless line =~ %r{^([\d\.]+)\s+\(([^\)]+)\s+[^\)]+\):\s(.*)$}
+
               blame.add_line(
                 $3.rstrip,
                 Revision.new(
@@ -340,6 +342,7 @@ module Redmine
         # convert a date/time into the CVS-format
         def time_to_cvstime(time)
           return nil if time.nil?
+
           time = Time.now if (time.is_a?(String) && time == 'HEAD')
           unless time.is_a?(Time)
             time = Time.parse(time)
@@ -349,6 +352,7 @@ module Redmine
 
         def time_to_cvstime_rlog(time)
           return nil if time.nil?
+
           t1 = time.clone.localtime
           return t1.strftime("%Y-%m-%d %H:%M:%S")
         end
@@ -389,6 +393,7 @@ module Redmine
           if $? && $?.exitstatus != 0
             raise ScmCommandAborted, "cvs exited with non-zero status: #{$?.exitstatus}"
           end
+
           ret
         end
         private :scm_cmd
@@ -406,6 +411,7 @@ module Redmine
           if isBranchRevision
             return @base+"."+@branchid
           end
+
           return @base
         end
 
@@ -417,6 +423,7 @@ module Redmine
           unless @revision == 0
             return buildRevision( @revision - 1 )
           end
+
           return buildRevision( @revision )
         end
 
