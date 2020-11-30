@@ -134,9 +134,16 @@ class AttachmentFieldFormatTest < Redmine::IntegrationTest
     end
 
     assert_nil attachment.container_id
-    assert_select 'input[name=?][value=?][type=hidden]', "issue[custom_field_values][#{@field.id}][p0][token]", attachment.token
-    assert_select 'input[name=?][value=?]', "issue[custom_field_values][#{@field.id}][p0][filename]", 'testfile.txt'
-
+    assert_select(
+      'input[name=?][value=?][type=hidden]',
+      "issue[custom_field_values][#{@field.id}][p0][token]",
+      attachment.token
+    )
+    assert_select(
+      'input[name=?][value=?]',
+      "issue[custom_field_values][#{@field.id}][p0][filename]",
+      'testfile.txt'
+    )
     issue = new_record(Issue) do
       assert_no_difference 'Attachment.count' do
         post '/projects/ecookbook/issues', :params => {
