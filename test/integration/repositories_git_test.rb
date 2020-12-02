@@ -31,11 +31,12 @@ class RepositoriesGitTest < Redmine::IntegrationTest
   def setup
     User.current = nil
     @project    = Project.find(PRJ_ID)
-    @repository = Repository::Git.create(
-                      :project       => @project,
-                      :url           => REPOSITORY_PATH,
-                      :path_encoding => 'ISO-8859-1'
-                      )
+    @repository =
+      Repository::Git.create(
+        :project       => @project,
+        :url           => REPOSITORY_PATH,
+        :path_encoding => 'ISO-8859-1'
+      )
     assert @repository
   end
 
