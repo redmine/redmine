@@ -30,20 +30,22 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
   def setup
     User.current = nil
     @project    = Project.find(3)
-    @repository = Repository::Mercurial.create(
-                      :project => @project,
-                      :url     => REPOSITORY_PATH,
-                      :path_encoding => 'ISO-8859-1'
-                      )
+    @repository =
+      Repository::Mercurial.create(
+        :project => @project,
+        :url     => REPOSITORY_PATH,
+        :path_encoding => 'ISO-8859-1'
+      )
     assert @repository
   end
 
   def test_blank_path_to_repository_error_message
     set_language_if_valid 'en'
-    repo = Repository::Mercurial.new(
-                          :project      => @project,
-                          :identifier   => 'test'
-                        )
+    repo =
+      Repository::Mercurial.new(
+        :project      => @project,
+        :identifier   => 'test'
+      )
     assert !repo.save
     assert_include "Path to repository cannot be blank",
                    repo.errors.full_messages
@@ -51,12 +53,13 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
 
   def test_blank_path_to_repository_error_message_fr
     set_language_if_valid 'fr'
-    repo = Repository::Mercurial.new(
-                          :project      => @project,
-                          :url          => "",
-                          :identifier   => 'test',
-                          :path_encoding => ''
-                        )
+    repo =
+      Repository::Mercurial.new(
+        :project      => @project,
+        :url          => "",
+        :identifier   => 'test',
+        :path_encoding => ''
+      )
     assert !repo.save
     assert_include 'Chemin du dépôt doit être renseigné(e)', repo.errors.full_messages
   end
@@ -256,12 +259,16 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       assert_equal [(NUM_REV - 1).to_s, (NUM_REV - 2).to_s], changesets.collect(&:revision)
 
       # with_filepath
-      changesets = @repository.latest_changesets(
-                      '/sql_escape/percent%dir/percent%file1.txt', nil)
+      changesets =
+        @repository.latest_changesets(
+          '/sql_escape/percent%dir/percent%file1.txt', nil
+        )
       assert_equal %w|30 11 10 9|, changesets.collect(&:revision)
 
-      changesets = @repository.latest_changesets(
-                      '/sql_escape/underscore_dir/understrike_file.txt', nil)
+      changesets =
+        @repository.latest_changesets(
+          '/sql_escape/underscore_dir/understrike_file.txt', nil
+        )
       assert_equal %w|30 12 9|, changesets.collect(&:revision)
 
       changesets = @repository.latest_changesets('README', nil)
@@ -580,7 +587,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       %w|27 7bbf4c738e71 7bbf|.each do |r2|
         changeset = @repository.find_changeset_by_name(r2)
         %w|28 3ae45e2d177d 3ae45|.each do |r1|
-        assert_equal @repository.find_changeset_by_name(r1), changeset.next
+          assert_equal @repository.find_changeset_by_name(r1), changeset.next
         end
       end
     end
