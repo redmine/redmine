@@ -700,7 +700,7 @@ class UserTest < ActiveSupport::TestCase
     user = users(:users_001)
     user.update_column :auth_source_id, auth_source.id
     AuthSource.any_instance.stubs(:initialize_ldap_con).raises(Net::LDAP::Error, 'Cannot connect')
-    assert_raise(AuthSourceException){ User.try_to_login!('admin', 'admin') }
+    assert_raise(AuthSourceException){User.try_to_login!('admin', 'admin')}
   end
 
   test "#try_to_login using LDAP with existing user and failed connection to the LDAP server" do
