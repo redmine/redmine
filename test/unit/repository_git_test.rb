@@ -580,7 +580,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       %w|64f1f3e89ad1cb57976ff0ad99a107012ba3481d 64f1f3e89ad1|.each do |r2|
         changeset = @repository.find_changeset_by_name(r2)
         %w|1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127 1ca7f5ed|.each do |r1|
-        assert_equal @repository.find_changeset_by_name(r1), changeset.next
+          assert_equal @repository.find_changeset_by_name(r1), changeset.next
         end
       end
     end
