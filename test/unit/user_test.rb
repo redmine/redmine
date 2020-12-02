@@ -695,13 +695,31 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "ADMIN", user.login
   end
 
-  if ldap_configured?
-    test "#try_to_login using LDAP with failed connection to the LDAP server" do
-      auth_source = AuthSourceLdap.find(1)
-      AuthSource.any_instance.stubs(:initialize_ldap_con).raises(Net::LDAP::Error, 'Cannot connect')
+  test "#try_to_login! using LDAP with existing user and failed connection to the LDAP server" do
+    auth_source = AuthSourceLdap.find(1)
+    user = users(:users_001)
+    user.update_column :auth_source_id, auth_source.id
+    AuthSource.any_instance.stubs(:initialize_ldap_con).raises(Net::LDAP::Error, 'Cannot connect')
+    assert_raise(AuthSourceException){ User.try_to_login!('admin', 'admin') }
+  end
 
-      assert_nil User.try_to_login('edavis', 'wrong')
-    end
+  test "#try_to_login using LDAP with existing user and failed connection to the LDAP server" do
+    auth_source = AuthSourceLdap.find(1)
+    user = users(:users_001)
+    user.update_column :auth_source_id, auth_source.id
+    AuthSource.any_instance.stubs(:initialize_ldap_con).raises(Net::LDAP::Error, 'Cannot connect')
+    assert_nil User.try_to_login('admin', 'admin')
+  end
+
+  test "#try_to_login using LDAP with new user and failed connection to the LDAP server" do
+    auth_source = AuthSourceLdap.find(1)
+    auth_source.update onthefly_register: true
+    AuthSource.any_instance.stubs(:initialize_ldap_con).raises(Net::LDAP::Error, 'Cannot connect')
+
+    assert_nil User.try_to_login('edavis', 'wrong')
+  end
+
+  if ldap_configured?
 
     test "#try_to_login using LDAP" do
       assert_nil User.try_to_login('edavis', 'wrong')

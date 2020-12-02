@@ -221,7 +221,17 @@ class User < Principal
   end
 
   # Returns the user that matches provided login and password, or nil
+  # AuthSource errors are caught, logged and nil is returned.
   def self.try_to_login(login, password, active_only=true)
+    try_to_login!(login, password, active_only)
+  rescue AuthSourceException => e
+    logger.error "An error occured when authenticating #{login}: #{e.message}"
+    nil
+  end
+
+  # Returns the user that matches provided login and password, or nil
+  # AuthSource errors are passed through.
+  def self.try_to_login!(login, password, active_only=true)
     login = login.to_s.strip
     password = password.to_s
 

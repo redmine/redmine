@@ -308,7 +308,7 @@ class AccountController < ApplicationController
   end
 
   def password_authentication
-    user = User.try_to_login(params[:username], params[:password], false)
+    user = User.try_to_login!(params[:username], params[:password], false)
 
     if user.nil?
       invalid_credentials
