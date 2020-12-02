@@ -30,7 +30,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   # Allow running tests using a remote Selenium hub
   options[:url] = ENV['SELENIUM_REMOTE_URL'] if ENV['SELENIUM_REMOTE_URL']
   options[:desired_capabilities] = Selenium::WebDriver::Remote::Capabilities.chrome(
-                  'chromeOptions' => {
+                  'goog:chromeOptions' => {
                     'prefs' => {
                       'download.default_directory' => DOWNLOADS_PATH,
                       'download.prompt_for_download' => false,
@@ -76,14 +76,11 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   end
 
   def clear_downloaded_files
-    # https://github.com/SeleniumHQ/selenium/issues/5292
-    FileUtils.rm downloaded_files if Redmine::Platform.mswin?
+    FileUtils.rm downloaded_files
   end
 
   def downloaded_files(filename='*')
-    # https://github.com/SeleniumHQ/selenium/issues/5292
-    downloaded_path = Redmine::Platform.mswin? ? DOWNLOADS_PATH : "#{ENV['HOME']}/Downloads"
-    Dir.glob("#{downloaded_path}/#{filename}").
+    Dir.glob("#{DOWNLOADS_PATH}/#{filename}").
       reject{|f| f=~/\.(tmp|crdownload)$/}.sort_by{|f| File.mtime(f)}
   end
 

@@ -519,9 +519,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
     click_on 'CSV'
     click_on 'Export'
 
-    # https://github.com/SeleniumHQ/selenium/issues/5292
-    # if issues.csv exists, Chrome creates issues (1).csv, issues (2).csv ...
-    csv = CSV.read(downloaded_file("issues*.csv"))
+    csv = CSV.read(downloaded_file("issues.csv"))
     subject_index = csv.shift.index('Subject')
     subjects = csv.map {|row| row[subject_index]}
     assert_equal subjects.sort, subjects
