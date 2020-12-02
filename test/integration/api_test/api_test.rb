@@ -30,9 +30,11 @@ class Redmine::ApiTest::ApiTest < Redmine::ApiTest::Base
         :params => {
           :user => {
             :login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname',
-            :mail => 'foo@example.net', :password => 'secret123'}
-          },
-        :headers => credentials('admin'))
+            :mail => 'foo@example.net', :password => 'secret123'
+          }
+        },
+        :headers => credentials('admin')
+      )
       assert_response 201
     end
   ensure
