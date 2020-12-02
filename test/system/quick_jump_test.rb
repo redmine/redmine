@@ -31,7 +31,7 @@ class QuickJumpTest < ApplicationSystemTestCase
 
     within '#header' do
       page.first('span', :text => 'Jump to a project...').click
-      click_on 'eCookbook'
+      click_link('eCookbook', match: :first)
     end
     assert_current_path '/projects/ecookbook?jump=welcome'
   end
@@ -42,7 +42,7 @@ class QuickJumpTest < ApplicationSystemTestCase
 
     within '#header' do
       page.first('span', :text => 'Jump to a project...').click
-      click_on 'eCookbook'
+      click_link('eCookbook', match: :first)
       assert_current_path '/projects/ecookbook/issues'
 
       page.first('span', :text => 'eCookbook').click
