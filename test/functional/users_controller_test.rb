@@ -819,6 +819,19 @@ class UsersControllerTest < Redmine::ControllerTest
     assert_response 404
   end
 
+  def test_update_with_blank_email_should_not_raise_exception
+    assert_no_difference 'User.count' do
+      with_settings :gravatar_enabled => '1' do
+        put :update, :params => {
+          :id => 2,
+          :user => {:mail => ''}
+        }
+      end
+    end
+    assert_response :success
+    assert_select_error /Email cannot be blank/
+  end
+
   def test_destroy
     assert_difference 'User.count', -1 do
       delete :destroy, :params => {:id => 2}
