@@ -508,44 +508,50 @@ class ApplicationHelperTest < Redmine::HelperTest
   def test_user_links_with_email_as_login_name_should_not_be_parsed_textile
     with_settings :text_formatting => 'textile' do
       u = User.generate!(:login => 'jsmith@somenet.foo')
+      html = '<a class="email" href="mailto:jsmith@somenet.foo">jsmith@somenet.foo</a>'
 
       # user link format: @jsmith@somenet.foo
       raw = "@jsmith@somenet.foo should not be parsed in jsmith@somenet.foo"
       assert_match(
-        %r{<p><a class="user active".*>#{u.name}</a> should not be parsed in <a class="email" href="mailto:jsmith@somenet.foo">jsmith@somenet.foo</a></p>},
-        textilizable(raw, :project => Project.find(1)))
-
+        %r{<p><a class="user active".*>#{u.name}</a> should not be parsed in #{html}</p>},
+        textilizable(raw, :project => Project.find(1))
+      )
       # user link format: user:jsmith@somenet.foo
       raw = "user:jsmith@somenet.foo should not be parsed in jsmith@somenet.foo"
       assert_match(
-        %r{<p><a class="user active".*>#{u.name}</a> should not be parsed in <a class="email" href="mailto:jsmith@somenet.foo">jsmith@somenet.foo</a></p>},
-        textilizable(raw, :project => Project.find(1)))
+        %r{<p><a class="user active".*>#{u.name}</a> should not be parsed in #{html}</p>},
+        textilizable(raw, :project => Project.find(1))
+      )
     end
   end
 
   def test_user_links_with_email_as_login_name_should_not_be_parsed_markdown
     with_settings :text_formatting => 'markdown' do
       u = User.generate!(:login => 'jsmith@somenet.foo')
+      html = '<a href=\"mailto:jsmith@somenet.foo\">jsmith@somenet.foo</a>'
 
       # user link format: @jsmith@somenet.foo
       raw = "@jsmith@somenet.foo should not be parsed in jsmith@somenet.foo"
       assert_match(
-        %r{<p><a class=\"user active\".*>#{u.name}</a> should not be parsed in <a href=\"mailto:jsmith@somenet.foo\">jsmith@somenet.foo</a></p>},
-        textilizable(raw, :project => Project.find(1)))
-
+        %r{<p><a class=\"user active\".*>#{u.name}</a> should not be parsed in #{html}</p>},
+        textilizable(raw, :project => Project.find(1))
+      )
       # user link format: user:jsmith@somenet.foo
       raw = "user:jsmith@somenet.foo should not be parsed in jsmith@somenet.foo"
       assert_match(
-        %r{<p><a class=\"user active\".*>#{u.name}</a> should not be parsed in <a href=\"mailto:jsmith@somenet.foo\">jsmith@somenet.foo</a></p>},
-        textilizable(raw, :project => Project.find(1)))
+        %r{<p><a class=\"user active\".*>#{u.name}</a> should not be parsed in #{html}</p>},
+        textilizable(raw, :project => Project.find(1))
+      )
     end
   end
 
   def test_should_not_parse_redmine_links_inside_link
     raw = "r1 should not be parsed in http://example.com/url-r1/"
+    html = '<a class="external" href="http://example.com/url-r1/">http://example.com/url-r1/</a>'
     assert_match(
-      %r{<p><a class="changeset".*>r1</a> should not be parsed in <a class="external" href="http://example.com/url-r1/">http://example.com/url-r1/</a></p>},
-      textilizable(raw, :project => Project.find(1)))
+      %r{<p><a class="changeset".*>r1</a> should not be parsed in #{html}</p>},
+      textilizable(raw, :project => Project.find(1))
+    )
   end
 
   def test_redmine_links_with_a_different_project_before_current_project
@@ -1330,8 +1336,10 @@ class ApplicationHelperTest < Redmine::HelperTest
       '*_+bold, italic and underline+_*' => '<strong><em><ins>bold, italic and underline</ins></em></strong>',
       '(_text within parentheses_)' => '(<em>text within parentheses</em>)',
       'a *Humane Web* Text Generator' => 'a <strong>Humane Web</strong> Text Generator',
-      'a H *umane* W *eb* T *ext* G *enerator*' => 'a H <strong>umane</strong> W <strong>eb</strong> T <strong>ext</strong> G <strong>enerator</strong>',
-      'a *H* umane *W* eb *T* ext *G* enerator' => 'a <strong>H</strong> umane <strong>W</strong> eb <strong>T</strong> ext <strong>G</strong> enerator',
+      'a H *umane* W *eb* T *ext* G *enerator*' =>
+        'a H <strong>umane</strong> W <strong>eb</strong> T <strong>ext</strong> G <strong>enerator</strong>',
+      'a *H* umane *W* eb *T* ext *G* enerator' =>
+        'a <strong>H</strong> umane <strong>W</strong> eb <strong>T</strong> ext <strong>G</strong> enerator',
     }
     to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text)}
   end
