@@ -880,11 +880,13 @@ class MailerTest < ActiveSupport::TestCase
   def test_security_notification_should_include_title
     set_language_if_valid User.find(2).language
     with_settings :emails_footer => "footer without link" do
-      assert Mailer.deliver_security_notification(
-               User.find(2), User.find(2),
-               message: :notice_account_password_updated,
-               title: :label_my_account
-             )
+      assert(
+        Mailer.deliver_security_notification(
+          User.find(2), User.find(2),
+          :message => :notice_account_password_updated,
+          :title => :label_my_account
+        )
+      )
       assert_select_email do
         assert_select "a", false
         assert_select "h1", :text => I18n.t(:label_my_account)
@@ -895,12 +897,14 @@ class MailerTest < ActiveSupport::TestCase
   def test_security_notification_should_include_link
     set_language_if_valid User.find(3).language
     with_settings :emails_footer => "footer without link" do
-      assert Mailer.deliver_security_notification(
-               User.find(3), User.find(3),
-               message: :notice_account_password_updated,
-               title: :label_my_account,
-               url: {controller: 'my', action: 'account'}
-             )
+      assert(
+        Mailer.deliver_security_notification(
+          User.find(3), User.find(3),
+          :message => :notice_account_password_updated,
+          :title => :label_my_account,
+          :url => {:controller => 'my', :action => 'account'}
+        )
+      )
       assert_select_email do
         assert_select "h1", false
         assert_select 'a[href=?]', 'http://localhost:3000/my/account', :text => I18n.t(:label_my_account)
