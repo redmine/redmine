@@ -119,7 +119,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
         where(:custom_values => {:custom_field_id => 1, :value => 'MySQL'}).map(&:id)
     assert expected_ids.any?
     assert_select 'issues > issue > id', :count => expected_ids.count do |ids|
-       ids.each {|id| assert expected_ids.delete(id.children.first.content.to_i)}
+      ids.each {|id| assert expected_ids.delete(id.children.first.content.to_i)}
     end
   end
 
@@ -183,7 +183,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     assert expected_ids.any?
 
     assert_select 'issues > issue > id', :count => expected_ids.count do |ids|
-       ids.each {|id| assert expected_ids.delete(id.children.first.content.to_i)}
+      ids.each {|id| assert expected_ids.delete(id.children.first.content.to_i)}
     end
   end
 
