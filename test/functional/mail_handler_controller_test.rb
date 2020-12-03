@@ -122,16 +122,20 @@ class MailHandlerControllerTest < Redmine::ControllerTest
 
   def test_should_not_allow_with_api_disabled
     # Disable API
-    Setting.mail_handler_api_enabled = 0
-    Setting.mail_handler_api_key = 'secret'
-    assert_no_difference 'Issue.count' do
-      post(
-        :index,
-        :params => {
-          :key => 'secret',
-          :email => IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
-        }
-      )
+    with_settings(
+      :mail_handler_api_enabled => 0,
+      :mail_handler_api_key => 'secret'
+    ) do
+      assert_no_difference 'Issue.count' do
+        post(
+          :index,
+          :params => {
+            :key => 'secret',
+            :email =>
+              IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
+          }
+        )
+      end
     end
     assert_response 403
     assert_include 'Access denied', response.body
