@@ -68,12 +68,14 @@ class ProjectNestedSetConcurrencyTest < ActiveSupport::TestCase
   # Generates a bare project with random name
   # and identifier
   def generate_project!(attributes={})
-    identifier = "a"+Redmine::Utils.random_hex(6)
-    Project.generate!({
+    identifier = "a" + Redmine::Utils.random_hex(6)
+    Project.generate!(
+      {
         :identifier => identifier,
         :name => identifier,
         :tracker_ids => [],
         :enabled_module_names => []
-      }.merge(attributes))
+      }.merge(attributes)
+    )
   end
 end
