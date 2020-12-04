@@ -7,7 +7,7 @@
 
 <%=
   page_title = title [l(:label_user_plural), users_path], @user.login
-  page_title.insert(page_title.rindex(' ') + 1, avatar(@user))
+  page_title.insert(page_title.rindex(' ') + 1, avatar(@user).to_s)
 %>
 
 <%= render_tabs user_settings_tabs %>
