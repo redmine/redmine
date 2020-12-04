@@ -46,19 +46,22 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
   def setup
     User.current = nil
     @project = Project.find(3)
-    @repository = Repository::Bazaar.create(
-              :project => @project, :url => REPOSITORY_PATH_TRUNK,
-              :log_encoding => 'UTF-8')
+    @repository =
+      Repository::Bazaar.create(
+        :project => @project, :url => REPOSITORY_PATH_TRUNK,
+        :log_encoding => 'UTF-8'
+      )
     assert @repository
   end
 
   def test_blank_path_to_repository_error_message
     set_language_if_valid 'en'
-    repo = Repository::Bazaar.new(
-                          :project      => @project,
-                          :identifier   => 'test',
-                          :log_encoding => 'UTF-8'
-                        )
+    repo =
+      Repository::Bazaar.new(
+        :project      => @project,
+        :identifier   => 'test',
+        :log_encoding => 'UTF-8'
+      )
     assert !repo.save
     assert_include "Path to repository cannot be blank",
                    repo.errors.full_messages
@@ -66,12 +69,13 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
 
   def test_blank_path_to_repository_error_message_fr
     set_language_if_valid 'fr'
-    repo = Repository::Bazaar.new(
-                          :project      => @project,
-                          :url          => "",
-                          :identifier   => 'test',
-                          :log_encoding => 'UTF-8'
-                        )
+    repo =
+      Repository::Bazaar.new(
+        :project      => @project,
+        :url          => "",
+        :identifier   => 'test',
+        :log_encoding => 'UTF-8'
+      )
     assert !repo.save
     assert_include 'Chemin du dépôt doit être renseigné(e)', repo.errors.full_messages
   end
@@ -165,15 +169,18 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
     if File.directory?(REPOSITORY_PATH_NON_ASCII) && RUN_LATIN1_OUTPUT_TEST
       def test_cat_latin1_path
         latin1_repo = create_latin1_repo
-        buf = latin1_repo.cat(
-                 "test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}-2.txt", 2)
+        buf =
+          latin1_repo.cat(
+            "test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}-2.txt", 2
+          )
         assert buf
         lines = buf.split("\n")
         assert_equal 2, lines.length
         assert_equal 'It is written in Python.', lines[1]
-
-        buf = latin1_repo.cat(
-                 "test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}-1.txt", 2)
+        buf =
+          latin1_repo.cat(
+            "test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}-1.txt", 2
+          )
         assert buf
         lines = buf.split("\n")
         assert_equal 1, lines.length
@@ -182,14 +189,18 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
 
       def test_annotate_latin1_path
         latin1_repo = create_latin1_repo
-        ann1 = latin1_repo.annotate(
-                   "test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}-2.txt", 2)
+        ann1 =
+          latin1_repo.annotate(
+            "test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}-2.txt", 2
+          )
         assert_equal 2, ann1.lines.size
         assert_equal '2', ann1.revisions[0].identifier
         assert_equal 'test00@', ann1.revisions[0].author
         assert_equal 'It is written in Python.', ann1.lines[1]
-        ann2 = latin1_repo.annotate(
-                   "test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}-1.txt", 2)
+        ann2 =
+          latin1_repo.annotate(
+            "test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}-1.txt", 2
+          )
         assert_equal 1, ann2.lines.size
         assert_equal '2', ann2.revisions[0].identifier
         assert_equal 'test00@', ann2.revisions[0].author
@@ -198,8 +209,10 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
 
       def test_diff_latin1_path
         latin1_repo = create_latin1_repo
-        diff1 = latin1_repo.diff(
-                  "test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}-1.txt", 2, 1)
+        diff1 =
+          latin1_repo.diff(
+            "test-#{CHAR_1_UTF8_HEX}-dir/test-#{CHAR_1_UTF8_HEX}-1.txt", 2, 1
+          )
         assert_equal 7, diff1.size
         buf =  diff1[5].gsub(/\r\n|\r|\n/, "")
         assert_equal "+test-#{CHAR_1_LATIN1_HEX}.txt", buf
@@ -275,13 +288,13 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
     private
 
     def create_latin1_repo
-      repo = Repository::Bazaar.
-                          create(
-                            :project      => @project,
-                            :identifier   => 'latin1',
-                            :url => REPOSITORY_PATH_NON_ASCII,
-                            :log_encoding => 'ISO-8859-1'
-                          )
+      repo =
+        Repository::Bazaar.create(
+          :project      => @project,
+          :identifier   => 'latin1',
+          :url => REPOSITORY_PATH_NON_ASCII,
+          :log_encoding => 'ISO-8859-1'
+        )
       assert repo
       repo
     end
