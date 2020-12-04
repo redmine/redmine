@@ -32,6 +32,11 @@ Layout/CaseIndentation:
   Exclude:
     - 'config/initializers/10-patches.rb'
 
+Layout/ClosingParenthesisIndentation:
+  Enabled: true
+  Exclude:
+    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
+
 Layout/EmptyLinesAroundAccessModifier:
   Enabled: true
   Exclude:
