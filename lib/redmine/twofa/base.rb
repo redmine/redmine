@@ -114,6 +114,7 @@ module Redmine
         Token.where(user_id: @user.id).find_token('twofa_backup_code', code).try(:delete)
         # make sure the user using the backup code is the same it's been issued to
         return false unless @user.present? && @user == user_from_code
+
         ::Mailer.security_notification(
           @user,
           User.current,
