@@ -503,6 +503,7 @@ module Redmine
           # Condition that doesn't pass
           return false
         end
+
         return true
       end
     end
