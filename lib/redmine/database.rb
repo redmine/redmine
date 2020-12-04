@@ -40,9 +40,14 @@ module Redmine
       def postgresql_unaccent?
         if postgresql?
           return @postgresql_unaccent unless @postgresql_unaccent.nil?
+
           begin
-            sql = "SELECT name FROM pg_available_extensions WHERE installed_version IS NOT NULL and name = 'unaccent'"
-            @postgresql_unaccent = postgresql_version >= 90000 && ActiveRecord::Base.connection.select_value(sql).present?
+            sql =
+              "SELECT name FROM pg_available_extensions " \
+                "WHERE installed_version IS NOT NULL and name = 'unaccent'"
+            @postgresql_unaccent =
+              postgresql_version >= 90000 &&
+                ActiveRecord::Base.connection.select_value(sql).present?
           rescue
             false
           end
