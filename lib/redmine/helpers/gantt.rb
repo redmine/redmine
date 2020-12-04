@@ -115,6 +115,7 @@ module Redmine
       # Returns the number of rows that will be rendered on the Gantt chart
       def number_of_rows
         return @number_of_rows if @number_of_rows
+
         rows = projects.inject(0) {|total, p| total += number_of_rows_on_project(p)}
         rows > @max_rows ? @max_rows : rows
       end
@@ -123,6 +124,7 @@ module Redmine
       # the Gantt chart.  This will recurse for each subproject.
       def number_of_rows_on_project(project)
         return 0 unless projects.include?(project)
+
         count = 1
         count += project_issues(project).size
         count += project_versions(project).size
@@ -160,6 +162,7 @@ module Redmine
       # and that should be displayed, grouped by issue ids.
       def relations
         return @relations if @relations
+
         if issues.any?
           issue_ids = issues.map(&:id)
           @relations = IssueRelation.
@@ -173,6 +176,7 @@ module Redmine
       # Return all the project nodes that will be displayed
       def projects
         return @projects if @projects
+
         ids = issues.collect(&:project).uniq.collect(&:id)
         if ids.any?
           # All issues projects and their visible ancestors
