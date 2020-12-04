@@ -1415,13 +1415,17 @@ class Query < ActiveRecord::Base
             "cf_#{field.id}.due_date",
             :type => :date,
             :field => field,
-            :name => l(:label_attribute_of_object, :name => l(:field_effective_date), :object_name => field.name))
+            :name => l(:label_attribute_of_object, :name => l(:field_effective_date),
+                       :object_name => field.name)
+          )
           add_available_filter(
             "cf_#{field.id}.status",
             :type => :list,
             :field => field,
-            :name => l(:label_attribute_of_object, :name => l(:field_status), :object_name => field.name),
-            :values => Version::VERSION_STATUSES.map{|s| [l("version_status_#{s}"), s]})
+            :name => l(:label_attribute_of_object, :name => l(:field_status),
+                       :object_name => field.name),
+            :values => Version::VERSION_STATUSES.map{|s| [l("version_status_#{s}"), s]}
+          )
         end
       end
     end
