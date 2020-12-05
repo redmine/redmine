@@ -32,7 +32,6 @@ class AccountControllerTest < Redmine::ControllerTest
 
     assert_select 'input[name=username]'
     assert_select 'input[name=password]'
-    assert_select 'head>meta[name="robots"][content=?]', 'noindex,follow,noarchive'
   end
 
   def test_get_login_while_logged_in_should_redirect_to_back_url_if_present
@@ -294,7 +293,6 @@ class AccountControllerTest < Redmine::ControllerTest
 
       assert_select 'input[name=?]', 'user[password]'
       assert_select 'input[name=?]', 'user[password_confirmation]'
-      assert_select 'head>meta[name="robots"][content=?]', 'noindex,follow,noarchive'
     end
   end
 
@@ -407,7 +405,6 @@ class AccountControllerTest < Redmine::ControllerTest
     get :lost_password
     assert_response :success
     assert_select 'input[name=mail]'
-    assert_select 'head>meta[name="robots"][content=?]', 'noindex,follow,noarchive'
   end
 
   def test_lost_password_for_active_user_should_create_a_token
@@ -527,7 +524,6 @@ class AccountControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_select 'input[type=hidden][name=token][value=?]', token.value
-    assert_select 'head>meta[name="robots"][content=?]', 'noindex,follow,noarchive'
   end
 
   def test_get_lost_password_with_invalid_token_should_redirect

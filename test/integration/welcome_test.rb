@@ -33,5 +33,8 @@ class WelcomeTest < Redmine::IntegrationTest
     assert @response.body.match(%r{^Disallow: /issues\?\*set_filter=\r?$})
     assert @response.body.match(%r{^Disallow: /issues/\*\.pdf\$\r?$})
     assert @response.body.match(%r{^Disallow: /projects/\*\.pdf\$\r?$})
+    assert @response.body.match(%r{^Disallow: /login\r?$})
+    assert @response.body.match(%r{^Disallow: /account/register\r?$})
+    assert @response.body.match(%r{^Disallow: /account/lost_password\r?$})
   end
 end
