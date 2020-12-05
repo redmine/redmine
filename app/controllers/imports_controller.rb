@@ -173,7 +173,7 @@ class ImportsController < ApplicationController
     return if @import.settings['encoding'].blank?
 
     mappings = @import.settings['mapping'] ||= {}
-    headers = @import.headers.map(&:downcase)
+    headers = @import.headers.map{|header| header&.downcase}
 
     # Core fields
     import_type::AUTO_MAPPABLE_FIELDS.each do |field_nm, label_nm|
