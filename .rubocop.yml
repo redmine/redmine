@@ -99,6 +99,10 @@ Metrics:
 Naming/AccessorMethodName:
   Enabled: false
 
+Naming/VariableNumber:
+  CheckMethodNames: false
+  CheckSymbols: false
+
 Naming/BinaryOperatorParameterName:
   Enabled: false
 
@@ -161,6 +165,9 @@ Style/IdenticalConditionalBranches:
   Exclude:
     - 'config/initializers/10-patches.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
+
+Style/NegatedIfElseCondition:
+  Enabled: false
 
 Style/RaiseArgs:
   Enabled: false
