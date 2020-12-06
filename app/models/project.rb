@@ -677,12 +677,12 @@ class Project < ActiveRecord::Base
   # progress on it's versions.
   def completed_percent(options={:include_subprojects => false})
     if options.delete(:include_subprojects)
-      total = self_and_descendants.collect(&:completed_percent).sum
+      total = self_and_descendants.sum(&:completed_percent)
 
       total / self_and_descendants.count
     else
       if versions.count > 0
-        total = versions.collect(&:completed_percent).sum
+        total = versions.sum(&:completed_percent)
 
         total / versions.count
       else

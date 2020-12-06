@@ -1743,16 +1743,16 @@ class Issue < ActiveRecord::Base
           if children.any?
             child_with_total_estimated_hours = children.select {|c| c.total_estimated_hours.to_f > 0.0}
             if child_with_total_estimated_hours.any?
-              average = child_with_total_estimated_hours.map(&:total_estimated_hours).sum.to_d / child_with_total_estimated_hours.count
+              average = child_with_total_estimated_hours.sum(&:total_estimated_hours).to_d / child_with_total_estimated_hours.count
             else
               average = 1.0.to_d
             end
-            done = children.map do |c|
+            done = children.sum do |c|
               estimated = (c.total_estimated_hours || 0.0).to_d
               estimated = average unless estimated > 0.0
               ratio = c.closed? ? 100 : (c.done_ratio || 0)
               estimated * ratio
-            end.sum
+            end
             progress = done / (average * children.count)
             p.done_ratio = progress.floor
           end
