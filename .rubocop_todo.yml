@@ -500,6 +500,19 @@ Performance/AncestorsInclude:
     - 'test/unit/issue_priority_test.rb'
     - 'test/unit/time_entry_activity_test.rb'
 
+# Cop supports --auto-correct.
+Performance/BlockGivenWithExplicitBlock:
+  Exclude:
+    - 'app/controllers/account_controller.rb'
+    - 'app/controllers/application_controller.rb'
+    - 'app/helpers/application_helper.rb'
+    - 'app/models/mailer.rb'
+    - 'app/models/user.rb'
+    - 'lib/redmine/scm/adapters/abstract_adapter.rb'
+    - 'lib/redmine/views/builders.rb'
+    - 'lib/redmine/views/builders/structure.rb'
+    - 'lib/redmine/wiki_formatting/macros.rb'
+
 # Configuration parameters: MinSize.
 Performance/CollectionLiteralInLoop:
   Exclude:
@@ -520,6 +533,14 @@ Performance/CollectionLiteralInLoop:
     - 'test/unit/lib/redmine/scm/adapters/mercurial_adapter_test.rb'
     - 'test/unit/repository_git_test.rb'
     - 'test/unit/repository_mercurial_test.rb'
+
+# Cop supports --auto-correct.
+Performance/ConstantRegexp:
+  Exclude:
+    - 'app/models/changeset.rb'
+    - 'lib/redmine/scm/adapters/cvs_adapter.rb'
+    - 'lib/redmine/wiki_formatting/textile/formatter.rb'
+    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
 
 Performance/FixedSize:
   Exclude:
