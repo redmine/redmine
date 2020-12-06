@@ -26,9 +26,9 @@
 <% end %>
 <% end %>
 
-<p><%= l(:label_enumeration_new) %></p>
+<%= form_tag custom_field_enumerations_path(@custom_field), :method => 'post', :remote => true, id: 'add-element' do %>
+  <p><%= l(:label_enumeration_new) %></p>
 
-<%= form_tag custom_field_enumerations_path(@custom_field), :method => 'post', :remote => true do %>
   <p><%= text_field_tag 'custom_field_enumeration[name]', '', :size => 40 %>
   <%= submit_tag(l(:button_add)) %></p>
 <% end %>

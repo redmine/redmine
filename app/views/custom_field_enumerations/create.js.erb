@@ -1,2 +1,9 @@
+$('#errorExplanation').remove();
+
+<% if @value.valid? %>
 $('#content').html('<%= escape_javascript(render(:template => 'custom_field_enumerations/index')) %>');
+<% else %>
+$('form#add-element').prepend('<%= escape_javascript(error_messages_for(@value)) %>');
+<% end %>
+
 $('#custom_field_enumeration_name').focus();
