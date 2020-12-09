@@ -385,7 +385,7 @@ cs:
   permission_view_issues: Zobrazit úkoly
   permission_add_issues: Přidávání úkolů
   permission_edit_issues: Upravování úkolů
-  permission_manage_issue_relations: Spravování vztahů mezi úkoly
+  permission_manage_issue_relations: Spravování vazeb mezi úkoly
   permission_add_issue_notes: Přidávání poznámek
   permission_edit_issue_notes: Upravování poznámek
   permission_edit_own_issue_notes: Upravování vlastních poznámek
@@ -676,8 +676,8 @@ cs:
   label_related_issues: Související úkoly
   label_applied_status: Použitý stav
   label_loading: Nahrávám...
-  label_relation_new: Nová souvislost
-  label_relation_delete: Odstranit souvislost
+  label_relation_new: Nová vazba
+  label_relation_delete: Odstranit vazbu
   label_relates_to: související s
   label_duplicates: duplikuje
   label_duplicated_by: duplikován
@@ -1182,7 +1182,7 @@ cs:
   mail_body_settings_updated: "Následující nastavení byla změněna:"
   field_remote_ip: IP adresa
   label_wiki_page_new: Nová wiki stránka
-  label_relations: Relace
+  label_relations: Vazby
   button_filter: Filtr
   mail_body_password_updated: Vaše heslo bylo změněno.
   label_no_preview: Náhled není k dispozici
