@@ -171,7 +171,8 @@ class MemberTest < ActiveSupport::TestCase
 
   def test_managed_roles_should_return_all_roles_for_role_with_all_roles_managed
     member = Member.new
-    member.roles << Role.generate!(:permissions => [:manage_members], :all_roles_managed => true)
+    member.roles <<
+      Role.generate!(:permissions => [:manage_members], :all_roles_managed => true)
     assert_equal Role.givable.all, member.managed_roles
   end
 
@@ -183,14 +184,20 @@ class MemberTest < ActiveSupport::TestCase
 
   def test_managed_roles_should_return_limited_roles_for_role_without_all_roles_managed
     member = Member.new
-    member.roles << Role.generate!(:permissions => [:manage_members], :all_roles_managed => false, :managed_role_ids => [2, 3])
+    member.roles <<
+      Role.generate!(:permissions => [:manage_members],
+                     :all_roles_managed => false, :managed_role_ids => [2, 3])
     assert_equal [2, 3], member.managed_roles.map(&:id).sort
   end
 
   def test_managed_roles_should_cumulated_managed_roles
     member = Member.new
-    member.roles << Role.generate!(:permissions => [:manage_members], :all_roles_managed => false, :managed_role_ids => [3])
-    member.roles << Role.generate!(:permissions => [:manage_members], :all_roles_managed => false, :managed_role_ids => [2])
+    member.roles <<
+      Role.generate!(:permissions => [:manage_members],
+                     :all_roles_managed => false, :managed_role_ids => [3])
+    member.roles <<
+      Role.generate!(:permissions => [:manage_members],
+                     :all_roles_managed => false, :managed_role_ids => [2])
     assert_equal [2, 3], member.managed_roles.map(&:id).sort
   end
 
@@ -206,8 +213,16 @@ class MemberTest < ActiveSupport::TestCase
     user = User.generate!
 
     assert_difference 'Member.count', 2 do
-      members = Member.create_principal_memberships(user, :project_ids => [parent.id, child.id], :role_ids => [1])
-      assert members.none?(&:new_record?), "Unsaved members were returned: #{members.select(&:new_record?).map{|m| m.errors.full_messages}*","}"
+      members =
+        Member.create_principal_memberships(
+          user,
+          :project_ids => [parent.id, child.id],
+          :role_ids => [1]
+        )
+      assert(
+        members.none?(&:new_record?),
+        "Unsaved members were returned: #{members.select(&:new_record?).map{|m| m.errors.full_messages}*","}"
+      )
     end
   end
 end
