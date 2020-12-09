@@ -162,9 +162,12 @@ class MailHandlerControllerTest < Redmine::ControllerTest
   end
 
   def test_new
-    Setting.mail_handler_api_enabled = 1
-    Setting.mail_handler_api_key = 'secret'
-    get(:new, :params => {:key => 'secret'})
+    with_settings(
+      :mail_handler_api_enabled => 1,
+      :mail_handler_api_key => 'secret'
+    ) do
+      get(:new, :params => {:key => 'secret'})
+    end
     assert_response :success
   end
 end
