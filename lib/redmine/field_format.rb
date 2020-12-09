@@ -479,7 +479,11 @@ module Redmine
         # Make the database cast values into numeric
         # Postgresql will raise an error if a value can not be casted!
         # CustomValue validations should ensure that it doesn't occur
-        Arel.sql "CAST(CASE #{join_alias custom_field}.value WHEN '' THEN '0' ELSE #{join_alias custom_field}.value END AS decimal(30,3))"
+        Arel.sql(
+          "CAST(CASE #{join_alias custom_field}.value" \
+                 " WHEN '' THEN '0' ELSE #{join_alias custom_field}.value" \
+                 " END AS decimal(30,3))"
+        )
       end
 
       # Returns totals for the given scope
@@ -596,7 +600,11 @@ module Redmine
         opts << [l(:label_no_change_option), ''] unless custom_field.multiple?
         opts << [l(:label_none), '__none__'] unless custom_field.is_required?
         opts += possible_values_options(custom_field, objects)
-        view.select_tag(tag_name, view.options_for_select(opts, value), options.merge(:multiple => custom_field.multiple?))
+        view.select_tag(
+          tag_name,
+          view.options_for_select(opts, value),
+          options.merge(:multiple => custom_field.multiple?)
+        )
       end
 
       def query_filter_options(custom_field, query)
@@ -619,14 +627,25 @@ module Redmine
         unless custom_value.custom_field.multiple?
           if custom_value.custom_field.is_required?
             unless custom_value.custom_field.default_value.present?
-              blank_option = view.content_tag('option', "--- #{l(:actionview_instancetag_blank_option)} ---", :value => '')
+              blank_option =
+                view.content_tag(
+                  'option',
+                  "--- #{l(:actionview_instancetag_blank_option)} ---",
+                  :value => ''
+                )
             end
           else
             blank_option = view.content_tag('option', '&nbsp;'.html_safe, :value => '')
           end
         end
-        options_tags = blank_option + view.options_for_select(possible_custom_value_options(custom_value), custom_value.value)
-        s = view.select_tag(tag_name, options_tags, options.merge(:id => tag_id, :multiple => custom_value.custom_field.multiple?))
+        options_tags =
+          blank_option +
+           view.options_for_select(possible_custom_value_options(custom_value), custom_value.value)
+        s =
+          view.select_tag(
+            tag_name, options_tags,
+            options.merge(:id => tag_id, :multiple => custom_value.custom_field.multiple?)
+          )
         if custom_value.custom_field.multiple?
           s << view.hidden_field_tag(tag_name, '')
         end
@@ -644,7 +663,8 @@ module Redmine
         tag_method = custom_value.custom_field.multiple? ? :check_box_tag : :radio_button_tag
         opts.each do |label, value|
           value ||= label
-          checked = (custom_value.value.is_a?(Array) && custom_value.value.include?(value)) || custom_value.value.to_s == value
+          checked = (custom_value.value.is_a?(Array) && custom_value.value.include?(value)) ||
+                      custom_value.value.to_s == value
           tag = view.send(tag_method, tag_name, value, checked, :id => nil)
           s << view.content_tag('label', tag + ' ' + label)
         end
@@ -784,18 +804,19 @@ module Redmine
       def join_for_order_statement(custom_field)
         alias_name = join_alias(custom_field)
 
-        "LEFT OUTER JOIN #{CustomValue.table_name} #{alias_name}" +
-          " ON #{alias_name}.customized_type = '#{custom_field.class.customized_class.base_class.name}'" +
-          " AND #{alias_name}.customized_id = #{custom_field.class.customized_class.table_name}.id" +
-          " AND #{alias_name}.custom_field_id = #{custom_field.id}" +
-          " AND (#{custom_field.visibility_by_project_condition})" +
-          " AND #{alias_name}.value <> ''" +
-          " AND #{alias_name}.id = (SELECT max(#{alias_name}_2.id) FROM #{CustomValue.table_name} #{alias_name}_2" +
-            " WHERE #{alias_name}_2.customized_type = #{alias_name}.customized_type" +
-            " AND #{alias_name}_2.customized_id = #{alias_name}.customized_id" +
-            " AND #{alias_name}_2.custom_field_id = #{alias_name}.custom_field_id)" +
-          " LEFT OUTER JOIN #{target_class.table_name} #{value_join_alias custom_field}" +
-          " ON CAST(CASE #{alias_name}.value WHEN '' THEN '0' ELSE #{alias_name}.value END AS decimal(30,0)) = #{value_join_alias custom_field}.id"
+        "LEFT OUTER JOIN #{CustomValue.table_name} #{alias_name}" \
+          " ON #{alias_name}.customized_type = '#{custom_field.class.customized_class.base_class.name}'" \
+          " AND #{alias_name}.customized_id = #{custom_field.class.customized_class.table_name}.id" \
+          " AND #{alias_name}.custom_field_id = #{custom_field.id}" \
+          " AND (#{custom_field.visibility_by_project_condition})" \
+          " AND #{alias_name}.value <> ''" \
+          " AND #{alias_name}.id = (SELECT max(#{alias_name}_2.id) FROM #{CustomValue.table_name} #{alias_name}_2" \
+            " WHERE #{alias_name}_2.customized_type = #{alias_name}.customized_type" \
+            " AND #{alias_name}_2.customized_id = #{alias_name}.customized_id" \
+            " AND #{alias_name}_2.custom_field_id = #{alias_name}.custom_field_id)" \
+          " LEFT OUTER JOIN #{target_class.table_name} #{value_join_alias custom_field}" \
+          " ON CAST(CASE #{alias_name}.value WHEN '' THEN '0' ELSE #{alias_name}.value END AS decimal(30,0))" \
+            " = #{value_join_alias custom_field}.id"
       end
 
       def value_join_alias(custom_field)
@@ -852,7 +873,9 @@ module Redmine
           if custom_field.user_role.is_a?(Array)
             role_ids = custom_field.user_role.map(&:to_s).reject(&:blank?).map(&:to_i)
             if role_ids.any?
-              scope = scope.where("#{Member.table_name}.id IN (SELECT DISTINCT member_id FROM #{MemberRole.table_name} WHERE role_id IN (?))", role_ids)
+              scope =
+                scope.where("#{Member.table_name}.id IN (SELECT DISTINCT member_id FROM" \
+                            " #{MemberRole.table_name} WHERE role_id IN (?))", role_ids)
             end
           end
           scope.sorted
@@ -981,7 +1004,8 @@ module Redmine
 
       def set_custom_field_value_by_id(custom_field, custom_field_value, id)
         attachment = Attachment.find_by_id(id)
-        if attachment && attachment.container.is_a?(CustomValue) && attachment.container.customized == custom_field_value.customized
+        if attachment && attachment.container.is_a?(CustomValue) &&
+             attachment.container.customized == custom_field_value.customized
           id.to_s
         else
           ''
@@ -1005,7 +1029,9 @@ module Redmine
             attachment = Attachment.find_by(:id => custom_value.value.to_s)
             extensions = custom_value.custom_field.extensions_allowed
             if attachment && extensions.present? && !attachment.extension_in?(extensions)
-              errors << "#{::I18n.t('activerecord.errors.messages.invalid')} (#{l(:setting_attachment_extensions_allowed)}: #{extensions})"
+              errors <<
+                "#{::I18n.t('activerecord.errors.messages.invalid')}" \
+                  " (#{l(:setting_attachment_extensions_allowed)}: #{extensions})"
             end
           end
         end
