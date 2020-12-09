@@ -321,7 +321,9 @@ module Redmine
         if version.is_a?(Version) && version.due_date && version.start_date
           label = "#{h(version)} #{h(version.visible_fixed_issues.completed_percent.to_f.round)}%"
           label = h("#{version.project} -") + label unless @project && @project == version.project
-          line(version.start_date, version.due_date,  version.visible_fixed_issues.completed_percent, true, label, options, version)
+          line(version.start_date, version.due_date,
+               version.visible_fixed_issues.completed_percent,
+               true, label, options, version)
         end
       end
 
@@ -346,7 +348,13 @@ module Redmine
           data_options = {}
           data_options[:collapse_expand] = "issue-#{issue.id}"
           style = "position: absolute;top: #{options[:top]}px; font-size: 0.8em;"
-          content = view.content_tag(:div, view.column_content(options[:column], issue), :style => style, :class => "issue_#{options[:column].name}", :id => "#{options[:column].name}_issue_#{issue.id}", :data => data_options)
+          content =
+            view.content_tag(
+              :div, view.column_content(options[:column], issue),
+              :style => style, :class => "issue_#{options[:column].name}",
+              :id => "#{options[:column].name}_issue_#{issue.id}",
+              :data => data_options
+            )
           @columns[options[:column].name] << content if @columns.has_key?(options[:column].name)
           content
         end
@@ -378,9 +386,14 @@ module Redmine
         headers_height = (show_weeks ? 2 * header_height : header_height)
         height = g_height + headers_height
         # TODO: Remove rmagick_font_path in a later version
-        Rails.logger.warn('rmagick_font_path option is deprecated. Use minimagick_font_path instead.') \
-          unless Redmine::Configuration['rmagick_font_path'].nil?
-        font_path = Redmine::Configuration['minimagick_font_path'].presence || Redmine::Configuration['rmagick_font_path'].presence
+        unless Redmine::Configuration['rmagick_font_path'].nil?
+          Rails.logger.warn(
+            'rmagick_font_path option is deprecated. Use minimagick_font_path instead.'
+          )
+        end
+        font_path =
+          Redmine::Configuration['minimagick_font_path'].presence ||
+            Redmine::Configuration['rmagick_font_path'].presence
         img = MiniMagick::Image.create(".#{format}", false)
         MiniMagick::Tool::Convert.new do |gc|
           gc.size('%dx%d' % [subject_width + g_width + 1, height])
@@ -712,7 +725,9 @@ module Redmine
           s = (+"").html_safe
           s << view.assignee_avatar(issue.assigned_to, :size => 13, :class => 'icon-gravatar')
           s << view.link_to_issue(issue).html_safe
-          s << view.content_tag(:input, nil, :type => 'checkbox', :name => 'ids[]', :value => issue.id, :style => 'display:none;', :class => 'toggle-selection')
+          s << view.content_tag(:input, nil, :type => 'checkbox', :name => 'ids[]',
+                                :value => issue.id, :style => 'display:none;',
+                                :class => 'toggle-selection')
           view.content_tag(:span, s, :class => css_classes).html_safe
         when Version
           version = object
@@ -748,7 +763,9 @@ module Redmine
           tag_options[:class] = "issue-subject hascontextmenu"
           tag_options[:title] = object.subject
           children = object.children & project_issues(object.project)
-          has_children = children.present? && (children.collect(&:fixed_version).uniq & [object.fixed_version]).present?
+          has_children =
+            children.present? &&
+              (children.collect(&:fixed_version).uniq & [object.fixed_version]).present?
         when Version
           tag_options[:id] = "version-#{object.id}"
           tag_options[:class] = "version-name"
@@ -916,7 +933,9 @@ module Redmine
           s = view.content_tag(:span,
                                view.render_issue_tooltip(object).html_safe,
                                :class => "tip")
-          s += view.content_tag(:input, nil, :type => 'checkbox', :name => 'ids[]', :value => object.id, :style => 'display:none;', :class => 'toggle-selection')
+          s += view.content_tag(:input, nil, :type => 'checkbox', :name => 'ids[]',
+                                :value => object.id, :style => 'display:none;',
+                                :class => 'toggle-selection')
           style = +""
           style << "position: absolute;"
           style << "top:#{params[:top]}px;"
@@ -1044,7 +1063,9 @@ module Redmine
         if label
           params[:image].fill('black')
           params[:image].draw('text %d,%d %s' % [
-            params[:subject_width] + (coords[:bar_end] || 0) + 5, params[:top] + 1, Redmine::Utils::Shell.shell_quote(label)
+            params[:subject_width] + (coords[:bar_end] || 0) + 5,
+            params[:top] + 1,
+            Redmine::Utils::Shell.shell_quote(label)
           ])
         end
       end
