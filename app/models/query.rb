@@ -1183,12 +1183,16 @@ class Query < ActiveRecord::Base
       if value.any?
         case type_for(field)
         when :date, :date_past
-          sql = date_clause(db_table, db_field, parse_date(value.first), parse_date(value.first), is_custom_filter)
+          sql = date_clause(db_table, db_field, parse_date(value.first),
+                            parse_date(value.first), is_custom_filter)
         when :integer
           int_values = value.first.to_s.scan(/[+-]?\d+/).map(&:to_i).join(",")
           if int_values.present?
             if is_custom_filter
-              sql = "(#{db_table}.#{db_field} <> '' AND CAST(CASE #{db_table}.#{db_field} WHEN '' THEN '0' ELSE #{db_table}.#{db_field} END AS decimal(30,3)) IN (#{int_values}))"
+              sql =
+                "(#{db_table}.#{db_field} <> '' AND " \
+                  "CAST(CASE #{db_table}.#{db_field} WHEN '' THEN '0' " \
+                    "ELSE #{db_table}.#{db_field} END AS decimal(30,3)) IN (#{int_values}))"
             else
               sql = "#{db_table}.#{db_field} IN (#{int_values})"
             end
@@ -1197,7 +1201,11 @@ class Query < ActiveRecord::Base
           end
         when :float
           if is_custom_filter
-            sql = "(#{db_table}.#{db_field} <> '' AND CAST(CASE #{db_table}.#{db_field} WHEN '' THEN '0' ELSE #{db_table}.#{db_field} END AS decimal(30,3)) BETWEEN #{value.first.to_f - 1e-5} AND #{value.first.to_f + 1e-5})"
+            sql =
+              "(#{db_table}.#{db_field} <> '' AND " \
+                "CAST(CASE #{db_table}.#{db_field} WHEN '' THEN '0' " \
+                  "ELSE #{db_table}.#{db_field} END AS decimal(30,3)) " \
+                  "BETWEEN #{value.first.to_f - 1e-5} AND #{value.first.to_f + 1e-5})"
           else
             sql = "#{db_table}.#{db_field} BETWEEN #{value.first.to_f - 1e-5} AND #{value.first.to_f + 1e-5}"
           end
@@ -1210,7 +1218,11 @@ class Query < ActiveRecord::Base
       end
     when "!"
       if value.any?
-        sql = queried_class.send(:sanitize_sql_for_conditions, ["(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (?))", value])
+        sql =
+          queried_class.send(
+            :sanitize_sql_for_conditions,
+            ["(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (?))", value]
+          )
       else
         # NOT IN an empty set
         sql = "1=1"
@@ -1226,7 +1238,10 @@ class Query < ActiveRecord::Base
         sql = date_clause(db_table, db_field, parse_date(value.first), nil, is_custom_filter)
       else
         if is_custom_filter
-          sql = "(#{db_table}.#{db_field} <> '' AND CAST(CASE #{db_table}.#{db_field} WHEN '' THEN '0' ELSE #{db_table}.#{db_field} END AS decimal(30,3)) >= #{value.first.to_f})"
+          sql =
+            "(#{db_table}.#{db_field} <> '' AND " \
+              "CAST(CASE #{db_table}.#{db_field} WHEN '' THEN '0' " \
+              "ELSE #{db_table}.#{db_field} END AS decimal(30,3)) >= #{value.first.to_f})"
         else
           sql = "#{db_table}.#{db_field} >= #{value.first.to_f}"
         end
@@ -1236,7 +1251,10 @@ class Query < ActiveRecord::Base
         sql = date_clause(db_table, db_field, nil, parse_date(value.first), is_custom_filter)
       else
         if is_custom_filter
-          sql = "(#{db_table}.#{db_field} <> '' AND CAST(CASE #{db_table}.#{db_field} WHEN '' THEN '0' ELSE #{db_table}.#{db_field} END AS decimal(30,3)) <= #{value.first.to_f})"
+          sql =
+            "(#{db_table}.#{db_field} <> '' AND " \
+              "CAST(CASE #{db_table}.#{db_field} WHEN '' THEN '0' " \
+              "ELSE #{db_table}.#{db_field} END AS decimal(30,3)) <= #{value.first.to_f})"
         else
           sql = "#{db_table}.#{db_field} <= #{value.first.to_f}"
         end
@@ -1246,15 +1264,28 @@ class Query < ActiveRecord::Base
         sql = date_clause(db_table, db_field, parse_date(value[0]), parse_date(value[1]), is_custom_filter)
       else
         if is_custom_filter
-          sql = "(#{db_table}.#{db_field} <> '' AND CAST(CASE #{db_table}.#{db_field} WHEN '' THEN '0' ELSE #{db_table}.#{db_field} END AS decimal(30,3)) BETWEEN #{value[0].to_f} AND #{value[1].to_f})"
+          sql =
+            "(#{db_table}.#{db_field} <> '' AND CAST(CASE #{db_table}.#{db_field} " \
+              "WHEN '' THEN '0' ELSE #{db_table}.#{db_field} END AS decimal(30,3)) " \
+              "BETWEEN #{value[0].to_f} AND #{value[1].to_f})"
         else
           sql = "#{db_table}.#{db_field} BETWEEN #{value[0].to_f} AND #{value[1].to_f}"
         end
       end
     when "o"
-      sql = "#{queried_table_name}.status_id IN (SELECT id FROM #{IssueStatus.table_name} WHERE is_closed=#{self.class.connection.quoted_false})" if field == "status_id"
+      if field == "status_id"
+        sql =
+          "#{queried_table_name}.status_id IN " \
+            "(SELECT id FROM #{IssueStatus.table_name} " \
+            "WHERE is_closed=#{self.class.connection.quoted_false})"
+      end
     when "c"
-      sql = "#{queried_table_name}.status_id IN (SELECT id FROM #{IssueStatus.table_name} WHERE is_closed=#{self.class.connection.quoted_true})" if field == "status_id"
+      if field == "status_id"
+        sql =
+          "#{queried_table_name}.status_id IN " \
+            "(SELECT id FROM #{IssueStatus.table_name} " \
+            "WHERE is_closed=#{self.class.connection.quoted_true})"
+      end
     when "><t-"
       # between today - n days and today
       sql = relative_date_clause(db_table, db_field, - value.first.to_i, 0, is_custom_filter)
@@ -1292,42 +1323,72 @@ class Query < ActiveRecord::Base
       # = this week
       first_day_of_week = l(:general_first_day_of_week).to_i
       day_of_week = User.current.today.cwday
-      days_ago = (day_of_week >= first_day_of_week ? day_of_week - first_day_of_week : day_of_week + 7 - first_day_of_week)
+      days_ago =
+        if day_of_week >= first_day_of_week
+          day_of_week - first_day_of_week
+        else
+          day_of_week + 7 - first_day_of_week
+        end
       sql = relative_date_clause(db_table, db_field, - days_ago, - days_ago + 6, is_custom_filter)
     when "lw"
       # = last week
       first_day_of_week = l(:general_first_day_of_week).to_i
       day_of_week = User.current.today.cwday
-      days_ago = (day_of_week >= first_day_of_week ? day_of_week - first_day_of_week : day_of_week + 7 - first_day_of_week)
+      days_ago =
+        if day_of_week >= first_day_of_week
+          day_of_week - first_day_of_week
+        else
+          day_of_week + 7 - first_day_of_week
+        end
       sql = relative_date_clause(db_table, db_field, - days_ago - 7, - days_ago - 1, is_custom_filter)
     when "l2w"
       # = last 2 weeks
       first_day_of_week = l(:general_first_day_of_week).to_i
       day_of_week = User.current.today.cwday
-      days_ago = (day_of_week >= first_day_of_week ? day_of_week - first_day_of_week : day_of_week + 7 - first_day_of_week)
+      days_ago =
+        if day_of_week >= first_day_of_week
+          day_of_week - first_day_of_week
+        else
+          day_of_week + 7 - first_day_of_week
+        end
       sql = relative_date_clause(db_table, db_field, - days_ago - 14, - days_ago - 1, is_custom_filter)
     when "nw"
       # = next week
       first_day_of_week = l(:general_first_day_of_week).to_i
       day_of_week = User.current.today.cwday
-      from = -(day_of_week >= first_day_of_week ? day_of_week - first_day_of_week : day_of_week + 7 - first_day_of_week) + 7
+      from =
+        -(
+            if day_of_week >= first_day_of_week
+              day_of_week - first_day_of_week
+            else
+              day_of_week + 7 - first_day_of_week
+            end
+          ) + 7
       sql = relative_date_clause(db_table, db_field, from, from + 6, is_custom_filter)
     when "m"
       # = this month
       date = User.current.today
-      sql = date_clause(db_table, db_field, date.beginning_of_month, date.end_of_month, is_custom_filter)
+      sql = date_clause(db_table, db_field,
+                        date.beginning_of_month, date.end_of_month,
+                        is_custom_filter)
     when "lm"
       # = last month
       date = User.current.today.prev_month
-      sql = date_clause(db_table, db_field, date.beginning_of_month, date.end_of_month, is_custom_filter)
+      sql = date_clause(db_table, db_field,
+                        date.beginning_of_month, date.end_of_month,
+                        is_custom_filter)
     when "nm"
       # = next month
       date = User.current.today.next_month
-      sql = date_clause(db_table, db_field, date.beginning_of_month, date.end_of_month, is_custom_filter)
+      sql = date_clause(db_table, db_field,
+                        date.beginning_of_month, date.end_of_month,
+                        is_custom_filter)
     when "y"
       # = this year
       date = User.current.today
-      sql = date_clause(db_table, db_field, date.beginning_of_year, date.end_of_year, is_custom_filter)
+      sql = date_clause(db_table, db_field,
+                        date.beginning_of_year, date.end_of_year,
+                        is_custom_filter)
     when "~"
       sql = sql_contains("#{db_table}.#{db_field}", value.first)
     when "!~"
