@@ -721,8 +721,9 @@ Rails/FindBy:
     - 'app/models/wiki_content_version.rb'
 
 # Cop supports --auto-correct.
-# Configuration parameters: Include.
+# Configuration parameters: Include, IgnoredMethods.
 # Include: app/models/**/*.rb
+# IgnoredMethods: order, limit, select, lock
 Rails/FindEach:
   Exclude:
     - 'app/models/auth_source.rb'
@@ -732,6 +733,7 @@ Rails/FindEach:
     - 'app/models/project.rb'
     - 'app/models/query.rb'
     - 'app/models/repository.rb'
+    - 'app/models/repository/cvs.rb'
     - 'app/models/setting.rb'
     - 'app/models/watcher.rb'
     - 'app/models/wiki_page.rb'
@@ -942,6 +944,23 @@ Rails/TimeZone:
 # Include: app/models/**/*.rb
 Rails/Validation:
   Enabled: false
+
+# Cop supports --auto-correct.
+Rails/WhereEquals:
+  Exclude:
+    - 'app/models/group.rb'
+    - 'app/models/issue.rb'
+    - 'app/models/repository.rb'
+    - 'app/models/user.rb'
+    - 'db/migrate/101_populate_changesets_user_id.rb'
+    - 'db/migrate/20090614091200_fix_messages_sticky_null.rb'
+    - 'db/migrate/20090704172350_populate_users_type.rb'
+    - 'db/migrate/20101104182107_add_unique_index_on_members.rb'
+    - 'db/migrate/20111201201315_add_unique_index_to_issue_relations.rb'
+    - 'db/migrate/20120115143126_set_default_repositories.rb'
+    - 'db/migrate/20120422150750_change_repositories_to_full_sti.rb'
+    - 'lib/redmine/helpers/gantt.rb'
+    - 'test/functional/issues_controller_test.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
