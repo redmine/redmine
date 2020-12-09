@@ -29,8 +29,12 @@ class SearchHelperTest < Redmine::HelperTest
   end
 
   def test_highlight_multiple_tokens
-    assert_equal 'This is a <span class="highlight token-0">token</span> and <span class="highlight token-1">another</span> <span class="highlight token-0">token</span>.',
-                 highlight_tokens('This is a token and another token.', %w(token another))
+    assert_equal(
+      'This is a <span class="highlight token-0">token</span> and ' \
+        '<span class="highlight token-1">another</span> ' \
+        '<span class="highlight token-0">token</span>.',
+      highlight_tokens('This is a token and another token.', %w(token another))
+    )
   end
 
   def test_highlight_should_not_exceed_maximum_length
@@ -43,6 +47,11 @@ class SearchHelperTest < Redmine::HelperTest
   def test_highlight_multibyte
     s = ('й' * 200) + ' token ' + ('й' * 200)
     r = highlight_tokens(s, %w(token))
-    assert_equal  ('й' * 45) + ' ... ' + ('й' * 44) + ' <span class="highlight token-0">token</span> ' + ('й' * 44) + ' ... ' + ('й' * 45), r
+    assert_equal(
+      ('й' * 45) + ' ... ' + ('й' * 44) +
+        ' <span class="highlight token-0">token</span> ' +
+        ('й' * 44) + ' ... ' + ('й' * 45),
+      r
+    )
   end
 end
