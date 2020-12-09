@@ -101,15 +101,21 @@ class UsersController < ApplicationController
   end
 
   def new
-    @user = User.new(:language => Setting.default_language, :mail_notification => Setting.default_notification_option)
+    @user = User.new(:language => Setting.default_language,
+                     :mail_notification => Setting.default_notification_option)
     @user.safe_attributes = params[:user]
     @auth_sources = AuthSource.all
   end
 
   def create
-    @user = User.new(:language => Setting.default_language, :mail_notification => Setting.default_notification_option, :admin => false)
+    @user = User.new(:language => Setting.default_language,
+                     :mail_notification => Setting.default_notification_option,
+                     :admin => false)
     @user.safe_attributes = params[:user]
-    @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation] unless @user.auth_source_id
+    unless @user.auth_source_id
+      @user.password              = params[:user][:password]
+      @user.password_confirmation = params[:user][:password_confirmation]
+    end
     @user.pref.safe_attributes = params[:pref]
 
     if @user.save
@@ -117,7 +123,9 @@ class UsersController < ApplicationController
 
       respond_to do |format|
         format.html do
-          flash[:notice] = l(:notice_user_successful_create, :id => view_context.link_to(@user.login, user_path(@user)))
+          flash[:notice] =
+            l(:notice_user_successful_create,
+              :id => view_context.link_to(@user.login, user_path(@user)))
           if params[:continue]
             attrs = {:generate_password => @user.generate_password}
             redirect_to new_user_path(:user => attrs)
