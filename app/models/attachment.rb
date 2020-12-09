@@ -47,8 +47,15 @@ class Attachment < ActiveRecord::Base
     :scope =>
       proc do
         select("#{Attachment.table_name}.*").
-          joins("LEFT JOIN #{Version.table_name} ON #{Attachment.table_name}.container_type='Version' AND #{Version.table_name}.id = #{Attachment.table_name}.container_id " +
-                "LEFT JOIN #{Project.table_name} ON #{Version.table_name}.project_id = #{Project.table_name}.id OR ( #{Attachment.table_name}.container_type='Project' AND #{Attachment.table_name}.container_id = #{Project.table_name}.id )")
+          joins(
+            "LEFT JOIN #{Version.table_name} " \
+              "ON #{Attachment.table_name}.container_type='Version' " \
+              "AND #{Version.table_name}.id = #{Attachment.table_name}.container_id " \
+              "LEFT JOIN #{Project.table_name} " \
+              "ON #{Version.table_name}.project_id = #{Project.table_name}.id " \
+              "OR ( #{Attachment.table_name}.container_type='Project' " \
+              "AND #{Attachment.table_name}.container_id = #{Project.table_name}.id )"
+          )
       end
   )
   acts_as_activity_provider(
@@ -58,8 +65,13 @@ class Attachment < ActiveRecord::Base
     :scope =>
       proc do
         select("#{Attachment.table_name}.*").
-          joins("LEFT JOIN #{Document.table_name} ON #{Attachment.table_name}.container_type='Document' AND #{Document.table_name}.id = #{Attachment.table_name}.container_id " +
-          "LEFT JOIN #{Project.table_name} ON #{Document.table_name}.project_id = #{Project.table_name}.id")
+          joins(
+            "LEFT JOIN #{Document.table_name} " \
+            "ON #{Attachment.table_name}.container_type='Document' " \
+            "AND #{Document.table_name}.id = #{Attachment.table_name}.container_id " \
+            "LEFT JOIN #{Project.table_name} " \
+            "ON #{Document.table_name}.project_id = #{Project.table_name}.id"
+          )
       end
   )
 
@@ -240,7 +252,12 @@ class Attachment < ActiveRecord::Base
       begin
         Redmine::Thumbnail.generate(self.diskfile, target, size, is_pdf?)
       rescue => e
-        logger.error "An error occured while generating thumbnail for #{disk_filename} to #{target}\nException was: #{e.message}" if logger
+        if logger
+          logger.error(
+            "An error occured while generating thumbnail for #{disk_filename} " \
+              "to #{target}\nException was: #{e.message}"
+          )
+        end
         return nil
       end
     end
