@@ -119,7 +119,8 @@ module Redmine
       Rails.application.config.eager_load_paths += engine_cfg.eager_load_paths
       Rails.application.config.autoload_once_paths += engine_cfg.autoload_once_paths
       Rails.application.config.autoload_paths += engine_cfg.autoload_paths
-      ActiveSupport::Dependencies.autoload_paths += engine_cfg.eager_load_paths + engine_cfg.autoload_once_paths + engine_cfg.autoload_paths
+      ActiveSupport::Dependencies.autoload_paths +=
+        engine_cfg.eager_load_paths + engine_cfg.autoload_once_paths + engine_cfg.autoload_paths
 
       # Defines plugin setting if present
       if p.settings
@@ -130,7 +131,12 @@ module Redmine
       if p.configurable?
         partial = p.settings[:partial]
         if @used_partials[partial]
-          Rails.logger.warn "WARNING: settings partial '#{partial}' is declared in '#{p.id}' plugin but it is already used by plugin '#{@used_partials[partial]}'. Only one settings view will be used. You may want to contact those plugins authors to fix this."
+          Rails.logger.warn(
+            "WARNING: settings partial '#{partial}' is declared in '#{p.id}' plugin " \
+              "but it is already used by plugin '#{@used_partials[partial]}'. " \
+              "Only one settings view will be used. " \
+              "You may want to contact those plugins authors to fix this."
+          )
         end
         @used_partials[partial] = p.id
       end
@@ -233,19 +239,31 @@ module Redmine
       arg.each do |k, req|
         case k
         when :version_or_higher
-          raise ArgumentError.new(":version_or_higher accepts a version string only") unless req.is_a?(String)
+          unless req.is_a?(String)
+            raise ArgumentError.new(":version_or_higher accepts a version string only")
+          end
+
           unless compare_versions(req, current) <= 0
-            raise PluginRequirementError.new("#{id} plugin requires Redmine #{req} or higher but current is #{current.join('.')}")
+            raise PluginRequirementError.new(
+              "#{id} plugin requires Redmine #{req} or higher " \
+              "but current is #{current.join('.')}"
+            )
           end
         when :version
           req = [req] if req.is_a?(String)
           if req.is_a?(Array)
             unless req.detect {|ver| compare_versions(ver, current) == 0}
-              raise PluginRequirementError.new("#{id} plugin requires one the following Redmine versions: #{req.join(', ')} but current is #{current.join('.')}")
+              raise PluginRequirementError.new(
+                "#{id} plugin requires one the following Redmine versions: " \
+                "#{req.join(', ')} but current is #{current.join('.')}"
+              )
             end
           elsif req.is_a?(Range)
             unless compare_versions(req.first, current) <= 0 && compare_versions(req.last, current) >= 0
-              raise PluginRequirementError.new("#{id} plugin requires a Redmine version between #{req.first} and #{req.last} but current is #{current.join('.')}")
+              raise PluginRequirementError.new(
+                "#{id} plugin requires a Redmine version between #{req.first} " \
+                "and #{req.last} but current is #{current.join('.')}"
+              )
             end
           else
             raise ArgumentError.new(":version option accepts a version string, an array or a range of versions")
@@ -288,13 +306,22 @@ module Redmine
         versions = v.collect {|s| s.split('.').collect(&:to_i)}
         case k
         when :version_or_higher
-          raise ArgumentError.new("wrong number of versions (#{versions.size} for 1)") unless versions.size == 1
+          unless versions.size == 1
+            raise ArgumentError.new("wrong number of versions (#{versions.size} for 1)")
+          end
+
           unless (current <=> versions.first) >= 0
-            raise PluginRequirementError.new("#{id} plugin requires the #{plugin_name} plugin #{v} or higher but current is #{current.join('.')}")
+            raise PluginRequirementError.new(
+              "#{id} plugin requires the #{plugin_name} plugin #{v} or higher " \
+              "but current is #{current.join('.')}"
+            )
           end
         when :version
-          unless versions.include?(current.slice(0,3))
-            raise PluginRequirementError.new("#{id} plugin requires one the following versions of #{plugin_name}: #{v.join(', ')} but current is #{current.join('.')}")
+          unless versions.include?(current.slice(0, 3))
+            raise PluginRequirementError.new(
+              "#{id} plugin requires one the following versions of #{plugin_name}: " \
+              "#{v.join(', ')} but current is #{current.join('.')}"
+            )
           end
         end
       end
@@ -343,7 +370,11 @@ module Redmine
     #   permission :say_hello, { :example => :say_hello }, :require => :member
     def permission(name, actions, options = {})
       if @project_module
-        Redmine::AccessControl.map {|map| map.project_module(@project_module) {|map| map.permission(name, actions, options)}}
+        Redmine::AccessControl.map do |map|
+          map.project_module(@project_module) do |map|
+            map.permission(name, actions, options)
+          end
+        end
       else
         Redmine::AccessControl.map {|map| map.permission(name, actions, options)}
       end
