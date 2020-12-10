@@ -23,18 +23,25 @@ class WikiPage < ActiveRecord::Base
   include Redmine::SafeAttributes
 
   belongs_to :wiki
-  has_one :content, :class_name => 'WikiContent', :foreign_key => 'page_id', :dependent => :destroy
-  has_one :content_without_text, lambda {without_text.readonly}, :class_name => 'WikiContent', :foreign_key => 'page_id'
+  has_one :content, :class_name => 'WikiContent', :foreign_key => 'page_id',
+          :dependent => :destroy
+  has_one :content_without_text, lambda {without_text.readonly},
+          :class_name => 'WikiContent', :foreign_key => 'page_id'
 
   acts_as_attachable :delete_permission => :delete_wiki_pages_attachments
   acts_as_tree :dependent => :nullify, :order => 'title'
 
   acts_as_watchable
-  acts_as_event :title => Proc.new {|o| "#{l(:label_wiki)}: #{o.title}"},
-                :description => :text,
-                :datetime => :created_on,
-                :url => Proc.new {|o| {:controller => 'wiki', :action => 'show', :project_id => o.wiki.project, :id => o.title}}
-
+  acts_as_event(
+    :title => proc {|o| "#{l(:label_wiki)}: #{o.title}"},
+    :description => :text,
+    :datetime => :created_on,
+    :url =>
+      proc do |o|
+        {:controller => 'wiki', :action => 'show',
+         :project_id => o.wiki.project, :id => o.title}
+      end
+  )
   acts_as_searchable :columns => ['title', "#{WikiContent.table_name}.text"],
                      :scope => joins(:content, {:wiki => :project}),
                      :preload => [:content, {:wiki => :project}],
