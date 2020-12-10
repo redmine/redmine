@@ -275,7 +275,7 @@ class ProjectsController < ApplicationController
     end
 
     @project_to_destroy = @project
-    if api_request? || params[:confirm]
+    if api_request? || params[:confirm] == @project_to_destroy.identifier
       @project_to_destroy.destroy
       respond_to do |format|
         format.html do

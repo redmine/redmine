@@ -1371,3 +1371,4 @@ de:
   field_twofa_scheme: Two-factor authentication scheme
 
   text_user_destroy_confirmation: "Wollen Sie diesen Benutzer inklusive aller Referenzen darauf wirklich löschen? Dies kann nicht rückgängig gemacht werden. Oftmals ist es besser, einen Benutzer lediglich zu sperren. Geben Sie bitte zur Bestätigung den Login des Benutzers (%{login}) ein."
+  text_project_destroy_enter_identifier: "Zur Bestätigung bitte die Projektkennung (%{identifier}) eingeben."

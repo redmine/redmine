@@ -1028,6 +1028,16 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert_select '.warning', :text => /Are you sure you want to delete this project/
   end
 
+  def test_destroy_leaf_project_with_wrong_confirmation_should_show_confirmation
+    @request.session[:user_id] = 1 # admin
+
+    assert_no_difference 'Project.count' do
+      delete(:destroy, :params => {:id => 2, :confirm => 'wrong'})
+      assert_response :success
+    end
+    assert_select '.warning', :text => /Are you sure you want to delete this project/
+  end
+
   def test_destroy_without_confirmation_should_show_confirmation_with_subprojects
     set_tmp_attachments_directory
     @request.session[:user_id] = 1 # admin
@@ -1051,7 +1061,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
         :destroy,
         :params => {
           :id => 1,
-          :confirm => 1
+          :confirm => 'ecookbook'
         }
       )
       assert_redirected_to '/admin/projects'
@@ -1068,7 +1078,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
         :destroy,
         :params => {
           :id => 2,
-          :confirm => 1
+          :confirm => 'onlinestore'
         }
       )
       assert_redirected_to '/projects'
@@ -1085,7 +1095,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
         :destroy,
         :params => {
           :id => 1,
-          :confirm => 1
+          :confirm => 'ecookbook'
         }
       )
       assert_response 403
