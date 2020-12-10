@@ -770,7 +770,7 @@ class UsersControllerTest < Redmine::ControllerTest
     # if user is already locked, destroying should not send a second mail
     # (for active admins see furtherbelow)
     ActionMailer::Base.deliveries.clear
-    delete :destroy, :params => {:id => 1}
+    delete :destroy, :params => {:id => 1, :confirm => User.find(1).login}
     assert_nil ActionMailer::Base.deliveries.last
 
   end
@@ -834,17 +834,41 @@ class UsersControllerTest < Redmine::ControllerTest
 
   def test_destroy
     assert_difference 'User.count', -1 do
-      delete :destroy, :params => {:id => 2}
+      delete :destroy, :params => {:id => 2, :confirm => User.find(2).login}
     end
     assert_redirected_to '/users'
     assert_nil User.find_by_id(2)
+  end
+
+  def test_destroy_with_lock_param_should_lock_instead
+    assert_no_difference 'User.count' do
+      delete :destroy, :params => {:id => 2, :lock => 'lock'}
+    end
+    assert_redirected_to '/users'
+    assert User.find_by_id(2).locked?
+  end
+
+  def test_destroy_should_require_confirmation
+    assert_no_difference 'User.count' do
+      delete :destroy, :params => {:id => 2}
+    end
+    assert_response :success
+    assert_select '.warning', :text => /Are you sure you want to delete this user/
+  end
+
+  def test_destroy_should_require_correct_confirmation
+    assert_no_difference 'User.count' do
+      delete :destroy, :params => {:id => 2, :confirm => 'wrong'}
+    end
+    assert_response :success
+    assert_select '.warning', :text => /Are you sure you want to delete this user/
   end
 
   def test_destroy_should_be_denied_for_non_admin_users
     @request.session[:user_id] = 3
 
     assert_no_difference 'User.count' do
-      get :destroy, :params => {:id => 2}
+      delete :destroy, :params => {:id => 2, :confirm => User.find(2).login}
     end
     assert_response 403
   end
@@ -852,14 +876,16 @@ class UsersControllerTest < Redmine::ControllerTest
   def test_destroy_should_be_denied_for_anonymous
     assert User.find(6).anonymous?
     assert_no_difference 'User.count' do
-      put :destroy, :params => {:id => 6}
+      delete :destroy, :params => {:id => 6, :confirm => User.find(6).login}
     end
     assert_response 404
   end
 
   def test_destroy_should_redirect_to_back_url_param
     assert_difference 'User.count', -1 do
-      delete :destroy, :params => {:id => 2, :back_url => '/users?name=foo'}
+      delete :destroy, :params => {:id => 2,
+                                   :confirm => User.find(2).login,
+                                   :back_url => '/users?name=foo'}
     end
     assert_redirected_to '/users?name=foo'
   end
@@ -869,7 +895,7 @@ class UsersControllerTest < Redmine::ControllerTest
     user.admin = true
     user.save!
     ActionMailer::Base.deliveries.clear
-    delete :destroy, :params => {:id => user.id}
+    delete :destroy, :params => {:id => user.id, :confirm => user.login}
 
     assert_not_nil (mail = ActionMailer::Base.deliveries.last)
     assert_mail_body_match(

@@ -192,10 +192,16 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user.destroy
-    respond_to do |format|
-      format.html {redirect_back_or_default(users_path)}
-      format.api  {render_api_ok}
+    if api_request? || params[:lock] || params[:confirm] == @user.login
+      if params[:lock]
+        @user.update_attribute :status, User::STATUS_LOCKED
+      else
+        @user.destroy
+      end
+      respond_to do |format|
+        format.html {redirect_back_or_default(users_path)}
+        format.api  {render_api_ok}
+      end
     end
   end
 

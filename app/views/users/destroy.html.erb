@@ -1,0 +1,20 @@
+<%= title l(:label_confirmation) %>
+
+<%= form_tag user_path(@user), method: :delete do %>
+<div class="warning">
+  <p><strong><%= @user.name %> (<%= @user.login %>)</strong></p>
+
+  <p><%= l :text_user_destroy_confirmation, login: @user.login %></p>
+
+  <p>
+    <label for="confirm"><%= l :field_login %></label>
+    <%= text_field_tag 'confirm' %>
+  </p>
+</div>
+
+<p>
+  <%= submit_tag l(:button_delete) %>
+  <%= submit_tag l(:button_lock), name: 'lock' unless @user.locked? %>
+  <%= link_to l(:button_cancel), users_path %>
+</p>
+<% end %>

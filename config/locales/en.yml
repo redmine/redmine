@@ -1344,3 +1344,5 @@ en:
   twofa_text_backup_codes_hint: Use these codes instead of a one-time password should you not have access to your second factor. Each code can only be used once. It is recommended to print and store them in a safe place.
   twofa_text_backup_codes_created_at: Backup codes generated %{datetime}.
   twofa_backup_codes_already_shown: Backup codes cannot be shown again, please <a data-method="post" href="%{bc_path}">generate new backup codes</a> if required.
+
+  text_user_destroy_confirmation: "Are you sure you want to delete this user and remove all references to them? This cannot be undone. Often, locking a user instead of deleting them is the better solution. To confirm, please enter their login (%{login}) below."

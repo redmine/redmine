@@ -53,7 +53,7 @@
   <td class="last_login_on"><%= format_time(user.last_login_on) unless user.last_login_on.nil? %></td>
     <td class="buttons">
       <%= change_status_link(user) %>
-      <%= delete_link user_path(user, :back_url => request.original_fullpath) unless User.current == user %>
+      <%= delete_link user_path(user, :back_url => request.original_fullpath), :data => {} unless User.current == user %>
     </td>
   </tr>
 <% end -%>
