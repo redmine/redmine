@@ -102,18 +102,14 @@ class ReportsControllerTest < Redmine::ControllerTest
   end
 
   def test_get_issue_report_details_by_tracker_should_show_only_statuses_used_by_the_project
-    Setting.stubs(:display_subprojects_issues?).returns(false)
     WorkflowTransition.delete_all
     WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 5)
     WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 4)
     WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 2, :new_status_id => 5)
     WorkflowTransition.create(:role_id => 1, :tracker_id => 2, :old_status_id => 1, :new_status_id => 6)
-
-    get :issue_report_details, :params => {
-      :id => 1,
-      :detail => 'tracker'
-    }
-
+    with_settings :display_subprojects_issues => '0' do
+      get(:issue_report_details, :params => {:id => 1, :detail => 'tracker'})
+    end
     assert_response :success
     assert_select 'table.list tbody :nth-child(1)' do
       assert_select 'td', :text => 'Bug'
