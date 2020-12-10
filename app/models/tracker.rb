@@ -23,7 +23,9 @@ class Tracker < ActiveRecord::Base
   CORE_FIELDS_UNDISABLABLE = %w(project_id tracker_id subject priority_id is_private).freeze
   # Fields that can be disabled
   # Other (future) fields should be appended, not inserted!
-  CORE_FIELDS = %w(assigned_to_id category_id fixed_version_id parent_issue_id start_date due_date estimated_hours done_ratio description).freeze
+  CORE_FIELDS =
+    %w(assigned_to_id category_id fixed_version_id parent_issue_id
+       start_date due_date estimated_hours done_ratio description).freeze
   CORE_FIELDS_ALL = (CORE_FIELDS_UNDISABLABLE + CORE_FIELDS).freeze
 
   before_destroy :check_integrity
@@ -31,7 +33,9 @@ class Tracker < ActiveRecord::Base
   has_many :issues
   has_many :workflow_rules, :dependent => :delete_all
   has_and_belongs_to_many :projects
-  has_and_belongs_to_many :custom_fields, :class_name => 'IssueCustomField', :join_table => "#{table_name_prefix}custom_fields_trackers#{table_name_suffix}", :association_foreign_key => 'custom_field_id'
+  has_and_belongs_to_many :custom_fields, :class_name => 'IssueCustomField',
+                          :join_table => "#{table_name_prefix}custom_fields_trackers#{table_name_suffix}",
+                          :association_foreign_key => 'custom_field_id'
   acts_as_positioned
 
   validates_presence_of :default_status
@@ -102,7 +106,9 @@ class Tracker < ActiveRecord::Base
     if new_record?
       []
     else
-      @issue_status_ids ||= WorkflowTransition.where(:tracker_id => id).distinct.pluck(:old_status_id, :new_status_id).flatten.uniq
+      @issue_status_ids ||=
+        WorkflowTransition.where(:tracker_id => id).
+          distinct.pluck(:old_status_id, :new_status_id).flatten.uniq
     end
   end
 
