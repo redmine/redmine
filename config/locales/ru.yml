@@ -1486,3 +1486,4 @@ ru:
     below.
   text_project_destroy_enter_identifier: To confirm, please enter the project's identifier
     (%{identifier}) below.
+  button_add_subtask: Add subtask
