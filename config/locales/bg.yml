@@ -1357,3 +1357,9 @@ bg:
     href="%{bc_path}">генерирайте нови резервни кодове</a>, ако е необходимо.
   field_twofa_scheme: Схема за двуфакторна автентикация
   twofa__totp__name: Authenticator app
+  text_user_destroy_confirmation: Are you sure you want to delete this user and remove
+    all references to them? This cannot be undone. Often, locking a user instead of
+    deleting them is the better solution. To confirm, please enter their login (%{login})
+    below.
+  text_project_destroy_enter_identifier: To confirm, please enter the project's identifier
+    (%{identifier}) below.

@@ -1414,3 +1414,9 @@
   error_attachment_not_found: Attachment %{name} not found
   permission_delete_project: Delete the project
   field_twofa_scheme: Two-factor authentication scheme
+  text_user_destroy_confirmation: Are you sure you want to delete this user and remove
+    all references to them? This cannot be undone. Often, locking a user instead of
+    deleting them is the better solution. To confirm, please enter their login (%{login})
+    below.
+  text_project_destroy_enter_identifier: To confirm, please enter the project's identifier
+    (%{identifier}) below.
