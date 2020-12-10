@@ -1553,7 +1553,10 @@ class Query < ActiveRecord::Base
 
   # Returns a SQL clause for a date or datetime field using relative dates.
   def relative_date_clause(table, field, days_from, days_to, is_custom_filter)
-    date_clause(table, field, (days_from ? User.current.today + days_from : nil), (days_to ? User.current.today + days_to : nil), is_custom_filter)
+    date_clause(
+      table, field, (days_from ? User.current.today + days_from : nil),
+      (days_to ? User.current.today + days_to : nil), is_custom_filter
+    )
   end
 
   # Returns a Date or Time from the given filter value
