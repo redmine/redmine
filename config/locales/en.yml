@@ -1160,6 +1160,7 @@ en:
   button_project_bookmark_delete: Remove bookmark
   button_filter: Filter
   button_actions: Actions
+  button_add_subtask: Add subtask
 
   status_active: active
   status_registered: registered

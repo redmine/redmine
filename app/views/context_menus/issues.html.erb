@@ -151,6 +151,10 @@
   <li><%= context_menu_link l(:button_log_time), new_issue_time_entry_path(@issue),
           :class => 'icon icon-time-add' %></li>
   <% end %>
+  <% if @can[:add_subtask] -%>
+  <li><%= context_menu_link l(:button_add_subtask), url_for_new_subtask(@issue),
+          :class => 'icon icon-add' %></li>
+  <% end %>
   <li><%= context_menu_link l(:button_copy), project_copy_issue_path(@project, @issue),
           :class => 'icon icon-copy', :disabled => !@can[:copy] %></li>
 <% else %>

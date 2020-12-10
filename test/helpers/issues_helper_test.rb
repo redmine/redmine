@@ -360,4 +360,11 @@ class IssuesHelperTest < Redmine::HelperTest
       assert_equal '06/06/2019', issue_due_date_details(issue)
     end
   end
+
+  def test_url_for_new_subtask
+    issue = Issue.find(1)
+    params = {:issue => {:parent_issue_id => issue.id, :tracker_id => issue.tracker.id}}
+    assert_equal new_project_issue_path(issue.project, params),
+                 url_for_new_subtask(issue)
+  end
 end

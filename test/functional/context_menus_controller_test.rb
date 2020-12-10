@@ -290,6 +290,45 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     assert_select 'a', :text => 'eCookbook - Shared'
   end
 
+  def test_context_menu_should_include_add_subtask_link
+    @request.session[:user_id] = 2
+    get(
+      :issues,
+      :params => {
+        :ids => [1]
+      }
+    )
+    assert_response :success
+
+    assert_select 'a.icon-add[href=?]', '/projects/ecookbook/issues/new?issue%5Bparent_issue_id%5D=1&issue%5Btracker_id%5D=1', :text => 'Add subtask'
+  end
+
+  def test_context_menu_with_closed_issue_should_not_include_add_subtask_link
+    @request.session[:user_id] = 2
+    get(
+      :issues,
+      :params => {
+        :ids => [8]
+      }
+    )
+    assert_response :success
+
+    assert_select 'a.icon-add', :text => 'Add subtask', :count => 0
+  end
+
+  def test_context_menu_multiple_issues_should_not_include_add_subtask_link
+    @request.session[:user_id] = 2
+    get(
+      :issues,
+      :params => {
+        :ids => [1, 2]
+      }
+    )
+    assert_response :success
+
+    assert_select 'a.icon-add', :text => 'Add subtask', :count => 0
+  end
+
   def test_context_menu_with_issue_that_is_not_visible_should_fail
     get(
       :issues,

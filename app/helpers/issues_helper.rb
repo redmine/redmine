@@ -235,11 +235,17 @@ module IssuesHelper
 
   # Returns a link for adding a new subtask to the given issue
   def link_to_new_subtask(issue)
+    link_to(l(:button_add), url_for_new_subtask(issue))
+  end
+
+  def url_for_new_subtask(issue)
     attrs = {
       :parent_issue_id => issue
     }
     attrs[:tracker_id] = issue.tracker unless issue.tracker.disabled_core_fields.include?('parent_issue_id')
-    link_to(l(:button_add), new_project_issue_path(issue.project, :issue => attrs, :back_url => issue_path(issue)))
+    params = {:issue => attrs}
+    params[:back_url] = issue_path(issue) if controller_name == 'issues' && action_name == 'show'
+    new_project_issue_path(issue.project, params)
   end
 
   def trackers_options_for_select(issue)
