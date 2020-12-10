@@ -31,11 +31,17 @@ class Changeset < ActiveRecord::Base
                           :join_table => "#{table_name_prefix}changeset_parents#{table_name_suffix}",
                           :association_foreign_key => 'changeset_id', :foreign_key => 'parent_id'
 
-  acts_as_event :title => Proc.new {|o| o.title},
-                :description => :long_comments,
-                :datetime => :committed_on,
-                :url => Proc.new {|o| {:controller => 'repositories', :action => 'revision', :id => o.repository.project, :repository_id => o.repository.identifier_param, :rev => o.identifier}}
-
+  acts_as_event(
+    :title => proc {|o| o.title},
+    :description => :long_comments,
+    :datetime => :committed_on,
+    :url =>
+      proc do |o|
+        {:controller => 'repositories', :action => 'revision',
+         :id => o.repository.project,
+         :repository_id => o.repository.identifier_param, :rev => o.identifier}
+      end
+  )
   acts_as_searchable :columns => 'comments',
                      :preload => {:repository => :project},
                      :project_key => "#{Repository.table_name}.project_id",
@@ -121,19 +127,26 @@ class Changeset < ActiveRecord::Base
     # keywords used to reference issues
     ref_keywords = Setting.commit_ref_keywords.downcase.split(",").collect(&:strip)
     ref_keywords_any = ref_keywords.delete('*')
+
     # keywords used to fix issues
     fix_keywords = Setting.commit_update_keywords_array.map {|r| r['keywords']}.flatten.compact
-
     kw_regexp = (ref_keywords + fix_keywords).collect{|kw| Regexp.escape(kw)}.join("|")
 
     referenced_issues = []
-
-    comments.scan(/([\s\(\[,-]|^)((#{kw_regexp})[\s:]+)?(#\d+(\s+@#{TIMELOG_RE})?([\s,;&]+#\d+(\s+@#{TIMELOG_RE})?)*)(?=[[:punct:]]|\s|<|$)/i) do |match|
-      action, refs = match[2].to_s.downcase, match[3]
+    regexp =
+      %r{
+        ([\s\(\[,-]|^)((#{kw_regexp})[\s:]+)?
+        (\#\d+(\s+@#{TIMELOG_RE})?([\s,;&]+\#\d+(\s+@#{TIMELOG_RE})?)*)
+        (?=[[:punct:]]|\s|<|$)
+      }xi
+    comments.scan(regexp) do |match|
+      action = match[2].to_s.downcase
+      refs   = match[3]
       next unless action.present? || ref_keywords_any
 
       refs.scan(/#(\d+)(\s+@#{TIMELOG_RE})?/).each do |m|
-        issue, hours = find_referenced_issue_by_id(m[0].to_i), m[2]
+        issue = find_referenced_issue_by_id(m[0].to_i)
+        hours = m[2]
         if issue && !issue_linked_to_same_commit?(issue)
           referenced_issues << issue
           # Don't update issues or log time when importing old commits
