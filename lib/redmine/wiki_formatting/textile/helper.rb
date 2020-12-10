@@ -25,7 +25,11 @@ module Redmine
           heads_for_wiki_formatter
           # Is there a simple way to link to a public resource?
           url = "#{Redmine::Utils.relative_url_root}/help/#{current_language.to_s.downcase}/wiki_syntax_textile.html"
-          javascript_tag("var wikiToolbar = new jsToolBar(document.getElementById('#{field_id}')); wikiToolbar.setHelpLink('#{escape_javascript url}'); wikiToolbar.setPreviewUrl('#{escape_javascript preview_url}'); wikiToolbar.draw();")
+          javascript_tag(
+            "var wikiToolbar = new jsToolBar(document.getElementById('#{field_id}')); " \
+              "wikiToolbar.setHelpLink('#{escape_javascript url}'); " \
+              "wikiToolbar.setPreviewUrl('#{escape_javascript preview_url}'); wikiToolbar.draw();"
+          )
         end
 
         def initial_page_content(page)
@@ -35,12 +39,19 @@ module Redmine
         def heads_for_wiki_formatter
           unless @heads_for_wiki_formatter_included
             toolbar_language_options = User.current && User.current.pref.toolbar_language_options
+            lang =
+              if toolbar_language_options.nil?
+                UserPreference::DEFAULT_TOOLBAR_LANGUAGE_OPTIONS
+              else
+                toolbar_language_options.split(',')
+              end
             content_for :header_tags do
               javascript_include_tag('jstoolbar/jstoolbar') +
               javascript_include_tag('jstoolbar/textile') +
               javascript_include_tag("jstoolbar/lang/jstoolbar-#{current_language.to_s.downcase}") +
-              javascript_tag("var wikiImageMimeTypes = #{Redmine::MimeType.by_type('image').to_json};" +
-                             "var userHlLanguages = #{(toolbar_language_options.nil? ? UserPreference::DEFAULT_TOOLBAR_LANGUAGE_OPTIONS : toolbar_language_options.split(',')).to_json};") +
+              javascript_tag(
+                "var wikiImageMimeTypes = #{Redmine::MimeType.by_type('image').to_json};" \
+                  "var userHlLanguages = #{lang.to_json};") +
               stylesheet_link_tag('jstoolbar')
             end
             @heads_for_wiki_formatter_included = true
