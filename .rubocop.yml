@@ -45,6 +45,16 @@ Layout/EmptyLinesAroundAccessModifier:
 Layout/EmptyLineBetweenDefs:
   AllowAdjacentOneLineDefs: true
 
+Layout/LineLength:
+  Enabled: true
+  IgnoredPatterns: ['\A\s+test \".+\" do\z', '\A\s*\#']
+  Exclude:
+    - 'db/migrate/0*.rb'
+    - 'db/migrate/1*.rb'
+    - 'db/migrate/201*.rb'
+    - 'db/migrate/20200*.rb'
+    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
+
 Layout/RescueEnsureAlignment:
   Enabled: true
   Exclude:
