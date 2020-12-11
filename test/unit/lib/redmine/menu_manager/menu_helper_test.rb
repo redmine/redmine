@@ -89,7 +89,6 @@ class Redmine::MenuManager::MenuHelperTest < Redmine::HelperTest
         end
       end
     end
-
   end
 
   def test_render_menu_node_with_children
@@ -280,7 +279,6 @@ class Redmine::MenuManager::MenuHelperTest < Redmine::HelperTest
     assert_select("ul li a.parent-node", "Parent node")
     @output_buffer = render_menu(:menu3, Project.find(1))
     assert_select("ul li a.parent-node", "Parent node")
-
   end
 
   def test_render_menu_node_with_children_without_an_array
