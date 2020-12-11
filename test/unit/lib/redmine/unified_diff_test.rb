@@ -86,7 +86,6 @@ class Redmine::UnifiedDiffTest < ActiveSupport::TestCase
     assert_equal [24, -8], diff[6].offsets
     assert_equal [37, -1], diff[8].offsets
     assert_equal [0, -38], diff[10].offsets
-
   end
 
   def test_partials_with_html_entities
