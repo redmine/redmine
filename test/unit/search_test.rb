@@ -206,7 +206,7 @@ class SearchTest < ActiveSupport::TestCase
   private
 
   def remove_permission(role, permission)
-    role.permissions = role.permissions - [ permission ]
+    role.permissions = role.permissions - [permission]
     role.save
   end
 end
