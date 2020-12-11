@@ -42,8 +42,8 @@ class RedminePluginModelGenerator < Rails::Generators::NamedBase
   def copy_templates
     template 'model.rb.erb', "#{plugin_path}/app/models/#{model.underscore}.rb"
     template 'unit_test.rb.erb', "#{plugin_path}/test/unit/#{model.underscore}_test.rb"
-
     return unless options[:migration]
+
     migration_filename = "%.14d_#{@migration_filename}.rb" % migration_number
     template "migration.rb", "#{plugin_path}/db/migrate/#{migration_filename}"
   end
