@@ -67,15 +67,16 @@ class Redmine::MenuManager::MapperTest < ActiveSupport::TestCase
     menu_mapper.push :test_third, {:controller => 'projects', :action => 'show'}, {}
     menu_mapper.push :test_fourth, {:controller => 'projects', :action => 'show'}, {}
     menu_mapper.push :test_fifth, {:controller => 'projects', :action => 'show'}, {}
-    menu_mapper.push :test_first, {:controller => 'projects', :action => 'show'}, {:first => true}
-
+    menu_mapper.push :test_first,
+                     {:controller => 'projects', :action => 'show'},
+                     {:first => true}
     root = menu_mapper.find(:root)
     assert_equal 5, root.children.size
-    {0 => :test_first, 1 => :test_second, 2 => :test_third, 3 => :test_fourth, 4 => :test_fifth}.each do |position, name|
+    {0 => :test_first, 1 => :test_second, 2 => :test_third,
+     3 => :test_fourth, 4 => :test_fifth}.each do |position, name|
       assert_not_nil root.children[position]
       assert_equal name, root.children[position].name
     end
-
   end
 
   def test_push_before
@@ -84,15 +85,16 @@ class Redmine::MenuManager::MapperTest < ActiveSupport::TestCase
     menu_mapper.push :test_second, {:controller => 'projects', :action => 'show'}, {}
     menu_mapper.push :test_fourth, {:controller => 'projects', :action => 'show'}, {}
     menu_mapper.push :test_fifth, {:controller => 'projects', :action => 'show'}, {}
-    menu_mapper.push :test_third, {:controller => 'projects', :action => 'show'}, {:before => :test_fourth}
-
+    menu_mapper.push :test_third,
+                     {:controller => 'projects', :action => 'show'},
+                     {:before => :test_fourth}
     root = menu_mapper.find(:root)
     assert_equal 5, root.children.size
-    {0 => :test_first, 1 => :test_second, 2 => :test_third, 3 => :test_fourth, 4 => :test_fifth}.each do |position, name|
+    {0 => :test_first, 1 => :test_second, 2 => :test_third, 3 => :test_fourth,
+     4 => :test_fifth}.each do |position, name|
       assert_not_nil root.children[position]
       assert_equal name, root.children[position].name
     end
-
   end
 
   def test_push_after
@@ -101,15 +103,16 @@ class Redmine::MenuManager::MapperTest < ActiveSupport::TestCase
     menu_mapper.push :test_second, {:controller => 'projects', :action => 'show'}, {}
     menu_mapper.push :test_third, {:controller => 'projects', :action => 'show'}, {}
     menu_mapper.push :test_fifth, {:controller => 'projects', :action => 'show'}, {}
-    menu_mapper.push :test_fourth, {:controller => 'projects', :action => 'show'}, {:after => :test_third}
-
+    menu_mapper.push :test_fourth,
+                     {:controller => 'projects', :action => 'show'},
+                     {:after => :test_third}
     root = menu_mapper.find(:root)
     assert_equal 5, root.children.size
-    {0 => :test_first, 1 => :test_second, 2 => :test_third, 3 => :test_fourth, 4 => :test_fifth}.each do |position, name|
+    {0 => :test_first, 1 => :test_second, 2 => :test_third,
+     3 => :test_fourth, 4 => :test_fifth}.each do |position, name|
       assert_not_nil root.children[position]
       assert_equal name, root.children[position].name
     end
-
   end
 
   def test_push_last
@@ -119,21 +122,21 @@ class Redmine::MenuManager::MapperTest < ActiveSupport::TestCase
     menu_mapper.push :test_third, {:controller => 'projects', :action => 'show'}, {}
     menu_mapper.push :test_fifth, {:controller => 'projects', :action => 'show'}, {:last => true}
     menu_mapper.push :test_fourth, {:controller => 'projects', :action => 'show'}, {}
-
     root = menu_mapper.find(:root)
     assert_equal 5, root.children.size
-    {0 => :test_first, 1 => :test_second, 2 => :test_third, 3 => :test_fourth, 4 => :test_fifth}.each do |position, name|
+    {0 => :test_first, 1 => :test_second, 2 => :test_third,
+     3 => :test_fourth, 4 => :test_fifth}.each do |position, name|
       assert_not_nil root.children[position]
       assert_equal name, root.children[position].name
     end
-
   end
 
   def test_exists_for_child_node
     menu_mapper = Redmine::MenuManager::Mapper.new(:test_menu, {})
     menu_mapper.push :test_overview, {:controller => 'projects', :action => 'show'}, {}
-    menu_mapper.push :test_child, {:controller => 'projects', :action => 'show'}, {:parent => :test_overview}
-
+    menu_mapper.push :test_child,
+                     {:controller => 'projects', :action => 'show'},
+                     {:parent => :test_overview}
     assert menu_mapper.exists?(:test_child)
   end
 
