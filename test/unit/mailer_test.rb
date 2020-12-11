@@ -622,7 +622,7 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_version_file_added
-    attachements = [ Attachment.find_by_container_type('Version') ]
+    attachements = [Attachment.find_by_container_type('Version')]
     assert Mailer.deliver_attachments_added(attachements)
     assert_not_nil last_email.bcc
     assert last_email.bcc.any?
@@ -632,7 +632,7 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_project_file_added
-    attachements = [ Attachment.find_by_container_type('Project') ]
+    attachements = [Attachment.find_by_container_type('Project')]
     assert Mailer.deliver_attachments_added(attachements)
     assert_not_nil last_email.bcc
     assert last_email.bcc.any?
