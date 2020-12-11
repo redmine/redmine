@@ -68,9 +68,13 @@ class Board < ActiveRecord::Base
   def self.reset_counters!(board_id)
     board_id = board_id.to_i
     Board.where(:id => board_id).
-      update_all(["topics_count = (SELECT COUNT(*) FROM #{Message.table_name} WHERE board_id=:id AND parent_id IS NULL)," +
-               " messages_count = (SELECT COUNT(*) FROM #{Message.table_name} WHERE board_id=:id)," +
-               " last_message_id = (SELECT MAX(id) FROM #{Message.table_name} WHERE board_id=:id)", :id => board_id])
+      update_all(
+        ["topics_count = (SELECT COUNT(*) FROM #{Message.table_name}" \
+           " WHERE board_id=:id AND parent_id IS NULL)," \
+           " messages_count = (SELECT COUNT(*) FROM #{Message.table_name} WHERE board_id=:id)," \
+           " last_message_id = (SELECT MAX(id) FROM #{Message.table_name} WHERE board_id=:id)",
+         :id => board_id]
+      )
   end
 
   def self.board_tree(boards, parent_id=nil, level=0)
