@@ -154,7 +154,9 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
   end
 
   def test_create_follows_relation_should_update_relations_list
-    issue1 = Issue.generate!(:subject => 'Followed issue', :start_date => Date.yesterday, :due_date => Date.today)
+    issue1 = Issue.generate!(:subject => 'Followed issue',
+                             :start_date => Date.yesterday,
+                             :due_date => Date.today)
     issue2 = Issue.generate!
 
     assert_difference 'IssueRelation.count' do
