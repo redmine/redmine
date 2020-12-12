@@ -1431,10 +1431,6 @@
   error_attachment_not_found: 找不到附件檔案 %{name}
   permission_delete_project: 刪除專案
   field_twofa_scheme: 雙因素驗證配置
-  text_user_destroy_confirmation: Are you sure you want to delete this user and remove
-    all references to them? This cannot be undone. Often, locking a user instead of
-    deleting them is the better solution. To confirm, please enter their login (%{login})
-    below.
-  text_project_destroy_enter_identifier: To confirm, please enter the project's identifier
-    (%{identifier}) below.
-  button_add_subtask: Add subtask
+  text_user_destroy_confirmation: 您是否確定要刪除這個用戶並且移除該用戶所有的參照? 這是無法被復原的動作. 通常鎖定一個用戶是比較好的方案, 而非將用戶刪除. 若要確認, 請在下面輸入用戶的帳戶名稱 (%{login}).
+  text_project_destroy_enter_identifier: 若要確認, 請在下面輸入專案的代碼 (%{identifier}).
+  button_add_subtask: 新增子任務
