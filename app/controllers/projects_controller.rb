@@ -175,9 +175,10 @@ class ProjectsController < ApplicationController
     @principals_by_role = @project.principals_by_role
     @subprojects = @project.children.visible.to_a
     @news = @project.news.limit(5).includes(:author, :project).reorder("#{News.table_name}.created_on DESC").to_a
-    @trackers = @project.rolled_up_trackers.visible
+    with_subprojects = Setting.display_subprojects_issues?
+    @trackers = @project.rolled_up_trackers(with_subprojects).visible
 
-    cond = @project.project_condition(Setting.display_subprojects_issues?)
+    cond = @project.project_condition(with_subprojects)
 
     @open_issues_by_tracker = Issue.visible.open.where(cond).group(:tracker).count
     @total_issues_by_tracker = Issue.visible.where(cond).group(:tracker).count

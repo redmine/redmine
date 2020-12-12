@@ -750,6 +750,25 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert_select 'table.issue-report td.total a', :text => %r{\A[1-9]\d*\z}
   end
 
+  def test_show_should_not_display_subprojects_trackers_when_subprojects_issues_is_not_displayed
+    project = Project.find('ecookbook')
+    tracker = project.trackers.find_by(name: 'Support request')
+    project.trackers.delete(tracker)
+    @request.session[:user_id] = 2
+
+    with_settings :display_subprojects_issues => '1' do
+      get(:show, :params => {:id => 'ecookbook'})
+      assert_response :success
+      assert_select 'table.issue-report td.name', :text => 'Support request', :count => 1
+    end
+
+    with_settings :display_subprojects_issues => '0' do
+      get(:show, :params => {:id => 'ecookbook'})
+      assert_response :success
+      assert_select 'table.issue-report td.name', :text => 'Support request', :count => 0
+    end
+  end
+
   def test_show_should_spent_and_estimated_time
     @request.session[:user_id] = 1
     get(:show, :params => {:id => 'ecookbook'})
