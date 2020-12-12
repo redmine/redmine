@@ -359,14 +359,14 @@ module Redmine
           unless time.is_a?(Time)
             time = Time.parse(time)
           end
-          return time_to_cvstime_rlog(time)
+          time_to_cvstime_rlog(time)
         end
 
         def time_to_cvstime_rlog(time)
           return nil if time.nil?
 
           t1 = time.clone.localtime
-          return t1.strftime("%Y-%m-%d %H:%M:%S")
+          t1.strftime("%Y-%m-%d %H:%M:%S")
         end
 
         def normalize_cvs_path(path)
@@ -421,10 +421,10 @@ module Redmine
 
         def branchVersion
           if isBranchRevision
-            return @base+"."+@branchid
+            return @base + "." + @branchid
           end
 
-          return @base
+          @base
         end
 
         def isBranchRevision
@@ -433,16 +433,16 @@ module Redmine
 
         def prevRev
           unless @revision == 0
-            return buildRevision( @revision - 1 )
+            return buildRevision(@revision - 1)
           end
 
-          return buildRevision( @revision )
+          buildRevision(@revision)
         end
 
         def is_in_branch_with_symbol(branch_symbol)
           bpieces = branch_symbol.split(".")
           branch_start = "#{bpieces[0..-3].join(".")}.#{bpieces[-1]}"
-          return ( branchVersion == branch_start )
+          (branchVersion == branch_start)
         end
 
         private
