@@ -44,8 +44,8 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
   end
 
   if Encoding.default_external.to_s != 'UTF-8'
-    puts "TODO: Mercurial functional test fails " +
-         "when Encoding.default_external is not UTF-8. " +
+    puts "TODO: Mercurial functional test fails " \
+         "when Encoding.default_external is not UTF-8. " \
          "Current value is '#{Encoding.default_external}'"
     def test_fake; assert true end
   elsif File.directory?(REPOSITORY_PATH)
