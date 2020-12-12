@@ -133,7 +133,7 @@ class MercurialAdapterTest < ActiveSupport::TestCase
         assert_nil @adapter.diff(nil, '100000')
       end
       assert_nil @adapter.diff(nil, '100000', '200000')
-      [2, '400bb8672109', '400', 400].each do |r1|
+      [2, '400bb8672109', '400', 400].freeze.each do |r1|
         diff1 = @adapter.diff(nil, r1)
         if @diff_c_support
           assert_equal 28, diff1.size
@@ -142,7 +142,7 @@ class MercurialAdapterTest < ActiveSupport::TestCase
         else
           assert_equal 0, diff1.size
         end
-        [4, 'def6d2f1254a'].each do |r2|
+        [4, 'def6d2f1254a'].freeze.each do |r2|
           diff2 = @adapter.diff(nil, r1, r2)
           assert_equal 49, diff2.size
           buf =  diff2[41].gsub(/\r\n|\r|\n/, "")
@@ -166,7 +166,7 @@ class MercurialAdapterTest < ActiveSupport::TestCase
 
     def test_diff_made_by_revision
       if @diff_c_support
-        [24, '24', '4cddb4e45f52'].each do |r1|
+        [24, '24', '4cddb4e45f52'].freeze.each do |r1|
           diff1 = @adapter.diff(nil, r1)
           assert_equal 5, diff1.size
           buf = diff1[4].gsub(/\r\n|\r|\n/, "")
@@ -176,7 +176,7 @@ class MercurialAdapterTest < ActiveSupport::TestCase
     end
 
     def test_cat
-      [2, '400bb8672109', '400', 400].each do |r|
+      [2, '400bb8672109', '400', 400].freeze.each do |r|
         buf = @adapter.cat('sources/welcome_controller.rb', r)
         assert buf
         lines = buf.split("\r\n")
@@ -188,7 +188,7 @@ class MercurialAdapterTest < ActiveSupport::TestCase
 
     def test_annotate
       assert_equal [], @adapter.annotate("sources/welcome_controller.rb").lines
-      [2, '400bb8672109', '400', 400].each do |r|
+      [2, '400bb8672109', '400', 400].freeze.each do |r|
         ann = @adapter.annotate('sources/welcome_controller.rb', r)
         assert ann
         assert_equal '1', ann.revisions[17].revision
@@ -205,7 +205,7 @@ class MercurialAdapterTest < ActiveSupport::TestCase
       assert_equal 1, @adapter.entries("sources", 3).size
       assert_equal 1, @adapter.entries("sources", 'b3a615152df8').size
 
-      [2, '400bb8672109', '400', 400].each do |r|
+      [2, '400bb8672109', '400', 400].freeze.each do |r|
         entries1 = @adapter.entries(nil, r)
         assert entries1
         assert_equal 3, entries1.size
@@ -284,8 +284,8 @@ class MercurialAdapterTest < ActiveSupport::TestCase
       assert_nil @adapter.entry('invalid/invalid/')
       assert_nil @adapter.entry('/invalid/invalid')
       assert_nil @adapter.entry('/invalid/invalid/')
-      ["README", "/README"].each do |path|
-        ["0", "0885933ad4f6", "0885933ad4f68d77c2649cd11f8311276e7ef7ce"].each do |rev|
+      ["README", "/README"].freeze.each do |path|
+        ["0", "0885933ad4f6", "0885933ad4f68d77c2649cd11f8311276e7ef7ce"].freeze.each do |rev|
           entry = @adapter.entry(path, rev)
           assert_equal "README", entry.path
           assert_equal "file", entry.kind
@@ -293,15 +293,15 @@ class MercurialAdapterTest < ActiveSupport::TestCase
           assert_equal '0885933ad4f68d77c2649cd11f8311276e7ef7ce', entry.lastrev.identifier
         end
       end
-      ["sources", "/sources", "/sources/"].each do |path|
-        ["0", "0885933ad4f6", "0885933ad4f68d77c2649cd11f8311276e7ef7ce"].each do |rev|
+      ["sources", "/sources", "/sources/"].freeze.each do |path|
+        ["0", "0885933ad4f6", "0885933ad4f68d77c2649cd11f8311276e7ef7ce"].freeze.each do |rev|
           entry = @adapter.entry(path, rev)
           assert_equal "sources", entry.path
           assert_equal "dir", entry.kind
         end
       end
-      ["sources/watchers_controller.rb", "/sources/watchers_controller.rb"].each do |path|
-        ["0", "0885933ad4f6", "0885933ad4f68d77c2649cd11f8311276e7ef7ce"].each do |rev|
+      ["sources/watchers_controller.rb", "/sources/watchers_controller.rb"].freeze.each do |path|
+        ["0", "0885933ad4f6", "0885933ad4f68d77c2649cd11f8311276e7ef7ce"].freeze.each do |rev|
           entry = @adapter.entry(path, rev)
           assert_equal "sources/watchers_controller.rb", entry.path
           assert_equal "file", entry.kind
@@ -415,11 +415,11 @@ class MercurialAdapterTest < ActiveSupport::TestCase
 
     def test_path_space
       p = 'README (1)[2]&,%.-3_4'
-      [15, '933ca60293d7'].each do |r1|
+      [15, '933ca60293d7'].freeze.each do |r1|
         assert @adapter.diff(p, r1)
         assert @adapter.cat(p, r1)
         assert_equal 1, @adapter.annotate(p, r1).lines.length
-        [25, 'afc61e85bde7'].each do |r2|
+        [25, 'afc61e85bde7'].freeze.each do |r2|
           assert @adapter.diff(p, r1, r2)
         end
       end
@@ -445,8 +445,8 @@ class MercurialAdapterTest < ActiveSupport::TestCase
         @branch_char_0,
         'test_branch.latin-1',
         'test-branch-00',
-      ]
-      .each do |branch|
+      ].freeze.
+      each do |branch|
         nib0 = @adapter.nodes_in_branch(branch)
         assert nib0
         nib1 = @adapter.nodes_in_branch(branch, :limit => 1)
