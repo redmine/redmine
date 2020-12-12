@@ -133,6 +133,11 @@ Style/AsciiComments:
     # We can not change nor remove it.
     - 'app/models/repository/git.rb'
 
+Style/BlockComments:
+  Enabled: true
+  Exclude:
+    - 'lib/diff.rb'
+
 Style/BlockDelimiters:
   Enabled: true
   Exclude:
