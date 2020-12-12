@@ -86,8 +86,10 @@ class ApplicationHelperTest < Redmine::HelperTest
         '(see inline link : <a class="external" href="http://www.foo.bar/Test">http://www.foo.bar/Test</a>).',
       '(see "inline link":http://www.foo.bar/Test_(foobar))' =>
         '(see <a href="http://www.foo.bar/Test_(foobar)" class="external">inline link</a>)',
-      '(see "inline link":http://www.foo.bar/Test)' => '(see <a href="http://www.foo.bar/Test" class="external">inline link</a>)',
-      '(see "inline link":http://www.foo.bar/Test).' => '(see <a href="http://www.foo.bar/Test" class="external">inline link</a>).',
+      '(see "inline link":http://www.foo.bar/Test)' =>
+        '(see <a href="http://www.foo.bar/Test" class="external">inline link</a>)',
+      '(see "inline link":http://www.foo.bar/Test).' =>
+        '(see <a href="http://www.foo.bar/Test" class="external">inline link</a>).',
       'www.foo.bar' => '<a class="external" href="http://www.foo.bar">www.foo.bar</a>',
       'http://foo.bar/page?p=1&t=z&s=' =>
         '<a class="external" href="http://foo.bar/page?p=1&#38;t=z&#38;s=">http://foo.bar/page?p=1&#38;t=z&#38;s=</a>',
@@ -482,20 +484,25 @@ class ApplicationHelperTest < Redmine::HelperTest
       'source:/some/file@branch'    => link_to('source:/some/file@branch', source_url_with_branch, :class => 'source'),
       'source:/some/file.ext@52'    => link_to('source:/some/file.ext@52', source_url_with_rev_and_ext, :class => 'source'),
       'source:/some/file#L110'      => link_to('source:/some/file#L110', source_url + "#L110", :class => 'source'),
-      'source:/some/file.ext#L110'  => link_to('source:/some/file.ext#L110', source_url_with_ext + "#L110", :class => 'source'),
-      'source:/some/file@52#L110'   => link_to('source:/some/file@52#L110', source_url_with_rev + "#L110", :class => 'source'),
+      'source:/some/file.ext#L110'  =>
+        link_to('source:/some/file.ext#L110', source_url_with_ext + "#L110", :class => 'source'),
+      'source:/some/file@52#L110'   =>
+        link_to('source:/some/file@52#L110', source_url_with_rev + "#L110", :class => 'source'),
       # export
       'export:/some/file'           => link_to('export:/some/file', export_url, :class => 'source download'),
       'export:/some/file.ext'       => link_to('export:/some/file.ext', export_url_with_ext, :class => 'source download'),
       'export:/some/file@52'        => link_to('export:/some/file@52', export_url_with_rev, :class => 'source download'),
-      'export:/some/file.ext@52'    => link_to('export:/some/file.ext@52', export_url_with_rev_and_ext, :class => 'source download'),
-      'export:/some/file@branch'    => link_to('export:/some/file@branch', export_url_with_branch, :class => 'source download'),
+      'export:/some/file.ext@52'    =>
+        link_to('export:/some/file.ext@52', export_url_with_rev_and_ext, :class => 'source download'),
+      'export:/some/file@branch'    =>
+        link_to('export:/some/file@branch', export_url_with_branch, :class => 'source download'),
       # forum
       'forum#2'                     => link_to('Discussion', board_url, :class => 'board'),
       'forum:Discussion'            => link_to('Discussion', board_url, :class => 'board'),
       # message
       'message#4'                   => link_to('Post 2', message_url, :class => 'message'),
-      'message#5'                   => link_to('RE: post 2', message_url.merge(:anchor => 'message-5', :r => 5), :class => 'message'),
+      'message#5'                   =>
+        link_to('RE: post 2', message_url.merge(:anchor => 'message-5', :r => 5), :class => 'message'),
       # news
       'news#1'                      => link_to('eCookbook first release !', news_url, :class => 'news'),
       'news:"eCookbook first release !"'        => link_to('eCookbook first release !', news_url, :class => 'news'),
@@ -1380,8 +1387,9 @@ class ApplicationHelperTest < Redmine::HelperTest
 
   def test_headings
     raw = 'h1. Some heading'
-    expected = %|<a name="Some-heading"></a>\n<h1 >Some heading<a href="#Some-heading" class="wiki-anchor">&para;</a></h1>|
-
+    expected =
+      %|<a name="Some-heading"></a>\n<h1 >Some heading| +
+        %|<a href="#Some-heading" class="wiki-anchor">&para;</a></h1>|
     assert_equal expected, textilizable(raw)
   end
 
@@ -1390,15 +1398,18 @@ class ApplicationHelperTest < Redmine::HelperTest
     # ones even if the heading text contains unconventional characters
     raw = 'h1. Some heading related to version 0.5'
     anchor = sanitize_anchor_name("Some-heading-related-to-version-0.5")
-    expected = %|<a name="#{anchor}"></a>\n<h1 >Some heading related to version 0.5<a href="##{anchor}" class="wiki-anchor">&para;</a></h1>|
-
+    expected =
+      %|<a name="#{anchor}"></a>\n<h1 >Some heading related to version 0.5| +
+        %|<a href="##{anchor}" class="wiki-anchor">&para;</a></h1>|
     assert_equal expected, textilizable(raw)
   end
 
   def test_headings_in_wiki_single_page_export_should_be_prepended_with_page_title
     page = WikiPage.new(:title => 'Page Title', :wiki_id => 1)
     content = WikiContent.new(:text => 'h1. Some heading', :page => page)
-    expected = %|<a name="Page_Title_Some-heading"></a>\n<h1 >Some heading<a href="#Page_Title_Some-heading" class="wiki-anchor">&para;</a></h1>|
+    expected =
+      %|<a name="Page_Title_Some-heading"></a>\n<h1 >Some heading| +
+        %|<a href="#Page_Title_Some-heading" class="wiki-anchor">&para;</a></h1>|
     assert_equal expected, textilizable(content, :text, :wiki_links => :anchor)
   end
 
@@ -1580,7 +1591,8 @@ class ApplicationHelperTest < Redmine::HelperTest
         'Edit this section' \
         '</a></div>' \
         '<a name="Subtitle-after-pre-tag"></a>' \
-        '<h2 >Subtitle after pre tag<a href="#Subtitle-after-pre-tag" class="wiki-anchor">&para;</a></h2>'
+        '<h2 >Subtitle after pre tag' \
+        '<a href="#Subtitle-after-pre-tag" class="wiki-anchor">&para;</a></h2>'
       ),
       result
     )
@@ -1589,7 +1601,11 @@ class ApplicationHelperTest < Redmine::HelperTest
   def test_default_formatter
     with_settings :text_formatting => 'unknown' do
       text = 'a *link*: http://www.example.net/'
-      assert_equal '<p>a *link*: <a class="external" href="http://www.example.net/">http://www.example.net/</a></p>', textilizable(text)
+      assert_equal(
+        '<p>a *link*: <a class="external" href="http://www.example.net/">' \
+          'http://www.example.net/</a></p>',
+        textilizable(text)
+      )
     end
   end
 
