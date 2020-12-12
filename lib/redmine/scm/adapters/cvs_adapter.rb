@@ -109,35 +109,43 @@ module Redmine
                 time_l = fields[-3].split(' ')
                 if time_l.size == 5 && time_l[4].length == 4
                   begin
-                    time = Time.parse(
-                             "#{time_l[1]} #{time_l[2]} #{time_l[3]} GMT #{time_l[4]}")
+                    time =
+                      Time.parse(
+                        "#{time_l[1]} #{time_l[2]} #{time_l[3]} GMT #{time_l[4]}"
+                      )
                   rescue
                   end
                 end
-                entries << Entry.new(
-                 {
-                  :name => scm_iconv('UTF-8', @path_encoding, fields[-5]),
-                  #:path => fields[-4].include?(path)?fields[-4]:(path + "/"+ fields[-4]),
-                  :path => scm_iconv('UTF-8', @path_encoding, "#{path_locale}/#{fields[-5]}"),
-                  :kind => 'file',
-                  :size => nil,
-                  :lastrev => Revision.new(
-                      {
-                        :revision => fields[-4],
-                        :name     => scm_iconv('UTF-8', @path_encoding, fields[-4]),
-                        :time     => time,
-                        :author   => ''
-                      })
-                  })
+                entries <<
+                  Entry.new(
+                    {
+                      :name => scm_iconv('UTF-8', @path_encoding, fields[-5]),
+                      #:path => fields[-4].include?(path)?fields[-4]:(path + "/"+ fields[-4]),
+                      :path => scm_iconv('UTF-8', @path_encoding, "#{path_locale}/#{fields[-5]}"),
+                      :kind => 'file',
+                      :size => nil,
+                      :lastrev =>
+                        Revision.new(
+                          {
+                            :revision => fields[-4],
+                            :name     => scm_iconv('UTF-8', @path_encoding, fields[-4]),
+                            :time     => time,
+                            :author   => ''
+                          }
+                        )
+                    }
+                  )
               else
-                entries << Entry.new(
-                 {
-                  :name    => scm_iconv('UTF-8', @path_encoding, fields[1]),
-                  :path    => scm_iconv('UTF-8', @path_encoding, "#{path_locale}/#{fields[1]}"),
-                  :kind    => 'dir',
-                  :size    => nil,
-                  :lastrev => nil
-                 })
+                entries <<
+                  Entry.new(
+                    {
+                      :name    => scm_iconv('UTF-8', @path_encoding, fields[1]),
+                      :path    => scm_iconv('UTF-8', @path_encoding, "#{path_locale}/#{fields[1]}"),
+                      :kind    => 'dir',
+                      :size    => nil,
+                      :lastrev => nil
+                    }
+                  )
               end
             end
           end
@@ -217,19 +225,23 @@ module Redmine
                       end
                     end
                     logger.debug("********** YIELD Revision #{revision}::#{revBranch}")
-                    yield Revision.new({
-                      :time    => date,
-                      :author  => author,
-                      :message => commit_log.chomp,
-                      :paths => [{
-                        :revision => revision.dup,
-                        :branch   => revBranch.dup,
-                        :path     => scm_iconv('UTF-8', @path_encoding, entry_path),
-                        :name     => scm_iconv('UTF-8', @path_encoding, entry_name),
-                        :kind     => 'file',
-                        :action   => file_state
-                           }]
-                         })
+                    yield Revision.new(
+                      {
+                        :time    => date,
+                        :author  => author,
+                        :message => commit_log.chomp,
+                        :paths => [
+                          {
+                            :revision => revision.dup,
+                            :branch   => revBranch.dup,
+                            :path     => scm_iconv('UTF-8', @path_encoding, entry_path),
+                            :name     => scm_iconv('UTF-8', @path_encoding, entry_name),
+                            :kind     => 'file',
+                            :action   => file_state
+                          }
+                        ]
+                      }
+                    )
                   end
                   commit_log = ""
                   revision   = nil
