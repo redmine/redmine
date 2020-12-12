@@ -1129,9 +1129,11 @@ class Query < ActiveRecord::Base
     if /[<>]/.match?(operator)
       where = "(#{where}) AND #{db_table}.#{db_field} <> ''"
     end
-    "#{queried_table_name}.#{customized_key} #{not_in} IN (" +
-      "SELECT #{customized_class.table_name}.id FROM #{customized_class.table_name}" +
-      " LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='#{customized_class}' AND #{db_table}.customized_id=#{customized_class.table_name}.id AND #{db_table}.custom_field_id=#{custom_field_id}" +
+    "#{queried_table_name}.#{customized_key} #{not_in} IN (" \
+      "SELECT #{customized_class.table_name}.id FROM #{customized_class.table_name}" \
+      " LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='#{customized_class}'" \
+      " AND #{db_table}.customized_id=#{customized_class.table_name}.id" \
+      " AND #{db_table}.custom_field_id=#{custom_field_id}" \
       " WHERE (#{where}) AND (#{filter[:field].visibility_by_project_condition}))"
   end
 
