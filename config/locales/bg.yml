@@ -1164,6 +1164,7 @@ bg:
   button_project_bookmark_delete: Премахване на отметка
   button_filter: Филтър
   button_actions: Действия
+  button_add_subtask: Добавяне на подзадача
 
   status_active: активен
   status_registered: регистриран
@@ -1362,4 +1363,3 @@ bg:
     Това действие не може да бъде отменено. Често заключването на потребителя е по-добро решение от изтриването му.
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
-  button_add_subtask: Add subtask
