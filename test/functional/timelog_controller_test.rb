@@ -1184,6 +1184,33 @@ class TimelogControllerTest < Redmine::ControllerTest
     )
   end
 
+  def test_index_should_sort_by_tweek_and_spent_on
+    t1 = TimeEntry.generate!(:spent_on => '2012-06-10') # tyear:2012, tweek:23
+    t2 = TimeEntry.generate!(:spent_on => '2012-06-11') # tyear:2012, tweek:24
+    t3 = TimeEntry.generate!(:spent_on => '2012-06-12') # tyear:2012, tweek:24
+    t4 = TimeEntry.generate!(:spent_on => '2013-06-12') # tyear:2013, tweek:24
+
+    params = {
+      :project_id => 1,
+      :f => ['spent_on'],
+      :op => {'spent_on' => '><'},
+      :v => {'spent_on' => ['2012-06-10', '2013-06-12']}
+    }
+
+    [
+      [{:sort => 'tweek,spent_on'}, [t1, t2, t3, t4]],
+      [{:sort => 'tweek,spent_on:desc'}, [t1, t3, t2, t4]],
+      [{:sort => 'tweek:desc,spent_on'}, [t4, t2, t3, t1]],
+      [{:sort => 'tweek:desc,spent_on:desc'}, [t4, t3, t2, t1]],
+    ].each do |sort_criteria, expected|
+      get :index, :params => params.dup.merge(sort_criteria)
+      assert_response :success
+      expected_ids = expected.map(&:id).map(&:to_s)
+      actual_ids = css_select('input[name="ids[]"]').map {|e| e.attr('value')}
+      assert_equal expected_ids, actual_ids
+    end
+  end
+
   def test_index_with_activity_filter
     activity = TimeEntryActivity.create!(:name => 'Activity')
     entry = TimeEntry.generate!(:issue_id => 1, :hours => 4.5, :activity => activity)
