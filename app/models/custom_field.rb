@@ -26,7 +26,9 @@ class CustomField < ActiveRecord::Base
            :class_name => 'CustomFieldEnumeration',
            :dependent => :delete_all
   has_many :custom_values, :dependent => :delete_all
-  has_and_belongs_to_many :roles, :join_table => "#{table_name_prefix}custom_fields_roles#{table_name_suffix}", :foreign_key => "custom_field_id"
+  has_and_belongs_to_many :roles,
+                          :join_table => "#{table_name_prefix}custom_fields_roles#{table_name_suffix}",
+                          :foreign_key => "custom_field_id"
   acts_as_positioned
   serialize :possible_values
   store :format_store
@@ -35,7 +37,8 @@ class CustomField < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => :type
   validates_length_of :name, :maximum => 30
   validates_length_of :regexp, maximum: 255
-  validates_inclusion_of :field_format, :in => Proc.new {Redmine::FieldFormat.available_formats}
+  validates_inclusion_of :field_format,
+                         :in => proc {Redmine::FieldFormat.available_formats}
   validate :validate_custom_field
 
   before_validation :set_searchable
@@ -56,11 +59,15 @@ class CustomField < ActiveRecord::Base
       # nop
     elsif user.memberships.any?
       where(
-        "#{table_name}.visible = ? OR #{table_name}.id IN (SELECT DISTINCT cfr.custom_field_id FROM #{Member.table_name} m" +
-          " INNER JOIN #{MemberRole.table_name} mr ON mr.member_id = m.id" +
-          " INNER JOIN #{table_name_prefix}custom_fields_roles#{table_name_suffix} cfr ON cfr.role_id = mr.role_id" +
+        "#{table_name}.visible = ? OR #{table_name}.id" \
+          " IN (SELECT DISTINCT cfr.custom_field_id FROM #{Member.table_name} m" \
+          " INNER JOIN #{MemberRole.table_name} mr ON mr.member_id = m.id" \
+          " INNER JOIN #{table_name_prefix}custom_fields_roles#{table_name_suffix} cfr" \
+          " ON cfr.role_id = mr.role_id" \
           " WHERE m.user_id = ?)",
-        true, user.id)
+        true,
+        user.id
+      )
     else
       where(:visible => true)
     end
@@ -227,9 +234,10 @@ class CustomField < ActiveRecord::Base
     else
       project_key ||= "#{self.class.customized_class.table_name}.project_id"
       id_column ||= id
-      "#{project_key} IN (SELECT DISTINCT m.project_id FROM #{Member.table_name} m" +
-        " INNER JOIN #{MemberRole.table_name} mr ON mr.member_id = m.id" +
-        " INNER JOIN #{table_name_prefix}custom_fields_roles#{table_name_suffix} cfr ON cfr.role_id = mr.role_id" +
+      "#{project_key} IN (SELECT DISTINCT m.project_id FROM #{Member.table_name} m" \
+        " INNER JOIN #{MemberRole.table_name} mr ON mr.member_id = m.id" \
+        " INNER JOIN #{table_name_prefix}custom_fields_roles#{table_name_suffix} cfr" \
+        " ON cfr.role_id = mr.role_id" \
         " WHERE m.user_id = #{user.id} AND cfr.custom_field_id = #{id_column})"
     end
   end
@@ -318,11 +326,13 @@ class CustomField < ActiveRecord::Base
   def handle_multiplicity_change
     if !new_record? && multiple_before_last_save && !multiple
       ids = custom_values.
-        where("EXISTS(SELECT 1 FROM #{CustomValue.table_name} cve WHERE cve.custom_field_id = #{CustomValue.table_name}.custom_field_id" +
-          " AND cve.customized_type = #{CustomValue.table_name}.customized_type AND cve.customized_id = #{CustomValue.table_name}.customized_id" +
-          " AND cve.id > #{CustomValue.table_name}.id)").
-        pluck(:id)
-
+        where(
+          "EXISTS(SELECT 1 FROM #{CustomValue.table_name} cve" \
+            " WHERE cve.custom_field_id = #{CustomValue.table_name}.custom_field_id" \
+            " AND cve.customized_type = #{CustomValue.table_name}.customized_type" \
+            " AND cve.customized_id = #{CustomValue.table_name}.customized_id" \
+            " AND cve.id > #{CustomValue.table_name}.id)"
+        ).pluck(:id)
       if ids.any?
         custom_values.where(:id => ids).delete_all
       end
