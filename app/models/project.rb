@@ -64,25 +64,31 @@ class Project < ActiveRecord::Base
                      :delete_permission => :manage_files
 
   acts_as_customizable
-  acts_as_searchable :columns => ['name', 'identifier', 'description'], :project_key => "#{Project.table_name}.id", :permission => nil
-  acts_as_event :title => Proc.new {|o| "#{l(:label_project)}: #{o.name}"},
-                :url => Proc.new {|o| {:controller => 'projects', :action => 'show', :id => o}},
+  acts_as_searchable :columns => ['name', 'identifier', 'description'],
+                     :project_key => "#{Project.table_name}.id",
+                     :permission => nil
+  acts_as_event :title => proc {|o| "#{l(:label_project)}: #{o.name}"},
+                :url => proc {|o| {:controller => 'projects', :action => 'show', :id => o}},
                 :author => nil
 
   validates_presence_of :name, :identifier
-  validates_uniqueness_of :identifier, :if => Proc.new {|p| p.identifier_changed?}
+  validates_uniqueness_of :identifier, :if => proc {|p| p.identifier_changed?}
   validates_length_of :name, :maximum => 255
   validates_length_of :homepage, :maximum => 255
   validates_length_of :identifier, :maximum => IDENTIFIER_MAX_LENGTH
   # downcase letters, digits, dashes but not digits only
-  validates_format_of :identifier, :with => /\A(?!\d+$)[a-z0-9\-_]*\z/, :if => Proc.new {|p| p.identifier_changed?}
+  validates_format_of :identifier, :with => /\A(?!\d+$)[a-z0-9\-_]*\z/,
+                      :if => proc {|p| p.identifier_changed?}
   # reserved words
   validates_exclusion_of :identifier, :in => %w(new)
   validate :validate_parent
 
-  after_save :update_inherited_members, :if => Proc.new {|project| project.saved_change_to_inherit_members?}
-  after_save :remove_inherited_member_roles, :add_inherited_member_roles, :if => Proc.new {|project| project.saved_change_to_parent_id?}
-  after_update :update_versions_from_hierarchy_change, :if => Proc.new {|project| project.saved_change_to_parent_id?}
+  after_save :update_inherited_members,
+             :if => proc {|project| project.saved_change_to_inherit_members?}
+  after_save :remove_inherited_member_roles, :add_inherited_member_roles,
+             :if => proc {|project| project.saved_change_to_parent_id?}
+  after_update :update_versions_from_hierarchy_change,
+               :if => proc {|project| project.saved_change_to_parent_id?}
   before_destroy :delete_all_members
 
   scope :has_module, (lambda do |mod|
@@ -240,11 +246,13 @@ class Project < ActiveRecord::Base
   end
 
   def principals
-    @principals ||= Principal.active.joins(:members).where("#{Member.table_name}.project_id = ?", id).distinct
+    @principals ||=
+      Principal.active.joins(:members).where("#{Member.table_name}.project_id = ?", id).distinct
   end
 
   def users
-    @users ||= User.active.joins(:members).where("#{Member.table_name}.project_id = ?", id).distinct
+    @users ||=
+      User.active.joins(:members).where("#{Member.table_name}.project_id = ?", id).distinct
   end
 
   # Returns the Systemwide and project specific activities
@@ -1253,7 +1261,12 @@ class Project < ActiveRecord::Base
 
   def allowed_permissions
     @allowed_permissions ||= begin
-      module_names = enabled_modules.loaded? ? enabled_modules.map(&:name) : enabled_modules.pluck(:name)
+      module_names =
+        if enabled_modules.loaded?
+          enabled_modules.map(&:name)
+        else
+          enabled_modules.pluck(:name)
+        end
       Redmine::AccessControl.modules_permissions(module_names).collect {|p| p.name}
     end
   end
