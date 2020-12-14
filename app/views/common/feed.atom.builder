@@ -36,7 +36,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
   @items.each do |item|
     xml.entry do
       url = url_for(item.event_url(:only_path => false, :protocol => protocol, :host => host))
-      if @project
+      if @project == item.project
         xml.title truncate_single_line_raw(item.event_title, 100)
       else
         xml.title truncate_single_line_raw("#{item.project} - #{item.event_title}", 100)

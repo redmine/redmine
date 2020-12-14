@@ -181,6 +181,26 @@ class ActivitiesControllerTest < Redmine::ControllerTest
     assert_select 'title', :text => "Redmine: #{User.find(2).name}"
   end
 
+  def test_index_atom_feed_with_subprojects
+    get(
+      :index,
+      :params => {
+        :format => 'atom',
+        :id => 'ecookbook',
+        :with_subprojects => 1,
+        :show_issues => 1
+      }
+    )
+    assert_response :success
+
+    assert_select 'feed' do
+      # eCookbook
+      assert_select 'title', text: 'Bug #1: Cannot print recipes'
+      # eCookbook Subproject 1
+      assert_select 'title', text: 'eCookbook Subproject 1 - Bug #5 (New): Subproject issue'
+    end
+  end
+
   def test_index_should_show_private_notes_with_permission_only
     journal = Journal.create!(:journalized => Issue.find(2), :notes => 'Private notes', :private_notes => true)
     @request.session[:user_id] = 2
