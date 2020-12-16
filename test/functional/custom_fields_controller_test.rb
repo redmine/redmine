@@ -354,6 +354,32 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
     assert_equal 1, field.trackers.size
   end
 
+  def test_create_project_custom_field
+    field = new_record(ProjectCustomField) do
+      post(
+        :create,
+        :params => {
+          :type => 'ProjectCustomField',
+          :custom_field => {
+            :field_format => 'string',
+            :name => 'test_new_project_custom_field',
+            :description => '',
+            :min_length => '',
+            :max_length => '',
+            :regexp => '',
+            :text_formatting => '',
+            :default_value => '',
+            :url_pattern => '',
+            :is_filter => '0',
+            :is_required => '0'
+          }
+        }
+      )
+    end
+    assert_redirected_to '/custom_fields?tab=ProjectCustomField'
+    assert_equal 'test_new_project_custom_field', field.name
+  end
+
   def test_create_with_project_ids
     assert_difference 'CustomField.count' do
       post(
