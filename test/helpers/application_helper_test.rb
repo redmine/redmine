@@ -2070,7 +2070,7 @@ class ApplicationHelperTest < Redmine::HelperTest
   private
 
   def wiki_links_with_special_characters
-    return {
+    {
       '[[Jack & Coke]]' =>
           link_to("Jack & Coke",
                   "/projects/ecookbook/wiki/Jack_&_Coke",
