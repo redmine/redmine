@@ -54,10 +54,12 @@ module Redmine
       end
 
       def init_pairing_view_variables
-        super.merge({
-          provisioning_uri: provisioning_uri,
-          totp_key: @user.twofa_totp_key
-        })
+        super.merge(
+          {
+            provisioning_uri: provisioning_uri,
+            totp_key: @user.twofa_totp_key
+          }
+        )
       end
 
       private
