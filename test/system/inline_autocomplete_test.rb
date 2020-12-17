@@ -39,7 +39,7 @@ class InlineAutocompleteSystemTest < ApplicationSystemTestCase
       first('li').click
     end
 
-    assert_equal find('#issue_description').value, '#12 '
+    assert_equal '#12 ', find('#issue_description').value
   end
 
   def test_inline_autocomplete_filters_autocomplete_items
