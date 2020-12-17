@@ -498,12 +498,12 @@ class Attachment < ActiveRecord::Base
   def reuse_existing_file_if_possible
     original_diskfile = nil
     reused = with_lock do
-      if existing = Attachment
-                      .where(digest: self.digest, filesize: self.filesize)
-                      .where('id <> ? and disk_filename <> ?',
-                             self.id, self.disk_filename)
-                      .order(:id)
-                      .last
+      if existing = Attachment.
+                      where(digest: self.digest, filesize: self.filesize).
+                      where('id <> ? and disk_filename <> ?',
+                            self.id, self.disk_filename).
+                      order(:id).
+                      last
         existing.with_lock do
           original_diskfile = self.diskfile
           existing_diskfile = existing.diskfile
