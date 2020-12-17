@@ -22,7 +22,7 @@ class UsersController < ApplicationController
   self.main_menu = false
 
   before_action :require_admin, :except => :show
-  before_action ->{find_user(false)}, :only => :show
+  before_action lambda {find_user(false)}, :only => :show
   before_action :find_user, :only => [:edit, :update, :destroy]
   accept_api_auth :index, :show, :create, :update, :destroy
 
