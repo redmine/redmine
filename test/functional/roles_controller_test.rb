@@ -287,8 +287,8 @@ class RolesControllerTest < Redmine::ControllerTest
   end
 
   def test_update_permissions_should_not_update_other_roles
-    assert_no_changes -> {Role.find(2).permissions} do
-      assert_changes -> {Role.find(1).permissions} do
+    assert_no_changes lambda {Role.find(2).permissions} do
+      assert_changes lambda {Role.find(1).permissions} do
         post(
           :update_permissions,
           :params => {
