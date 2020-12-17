@@ -37,6 +37,10 @@ Layout/ClosingParenthesisIndentation:
   Exclude:
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
 
+Layout/DotPosition:
+  Enabled: true
+  EnforcedStyle: trailing
+
 Layout/EmptyLinesAroundAccessModifier:
   Enabled: true
   Exclude:
