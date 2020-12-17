@@ -43,9 +43,9 @@ module Redmine
         verified_at = totp.verify(code.to_s, drift_behind: allowed_drift, after: last_verified_at)
         if verified_at
           @user.update!(twofa_totp_last_used_at: verified_at)
-          return true
+          true
         else
-          return false
+          false
         end
       end
 
