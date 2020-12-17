@@ -49,6 +49,11 @@ Layout/EmptyLinesAroundAccessModifier:
 Layout/EmptyLineBetweenDefs:
   AllowAdjacentOneLineDefs: true
 
+Layout/FirstHashElementIndentation:
+  Enabled: true
+  Exclude:
+    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
+
 Layout/LineLength:
   Enabled: true
   IgnoredPatterns: ['\A\s+test \".+\" do\z', '\A\s*\#']
