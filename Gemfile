@@ -44,7 +44,7 @@ end
 
 # Optional Markdown support, not for JRuby
 group :markdown do
-  gem "redcarpet", "~> 3.5.0"
+  gem 'redcarpet', '~> 3.5.1'
 end
 
 # Include database gems for the adapters found in the database
