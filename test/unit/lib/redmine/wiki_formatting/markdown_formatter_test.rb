@@ -106,13 +106,13 @@ This is some text[^1].
 STR
 
     expected = <<-EXPECTED
-<p>This is some text<sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup>.</p>
+<p>This is some text<sup id="fnref1"><a href="#fn1">1</a></sup>.</p>
 <div class="footnotes">
 <hr>
 <ol>
 
 <li id="fn1">
-<p>This is the foot note&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
+<p>This is the foot note&nbsp;<a href="#fnref1">&#8617;</a></p>
 </li>
 
 </ol>
