@@ -101,12 +101,18 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
   def test_macro_should_receive_the_object_as_argument_when_with_object_and_attribute
     issue = Issue.find(1)
     issue.description = "{{hello_world}}"
-    assert_equal '<p>Hello world! Object: Issue, Called with no argument and no block of text.</p>', textilizable(issue, :description)
+    assert_equal(
+      '<p>Hello world! Object: Issue, Called with no argument and no block of text.</p>',
+      textilizable(issue, :description)
+    )
   end
 
   def test_macro_should_receive_the_object_as_argument_when_called_with_object_option
     text = "{{hello_world}}"
-    assert_equal '<p>Hello world! Object: Issue, Called with no argument and no block of text.</p>', textilizable(text, :object => Issue.find(1))
+    assert_equal(
+      '<p>Hello world! Object: Issue, Called with no argument and no block of text.</p>',
+      textilizable(text, :object => Issue.find(1))
+    )
   end
 
   def test_extract_macro_options_should_with_args
@@ -135,7 +141,10 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
     end
 
     text = "{{exception}}"
-    assert_include '<div class="flash error">Error executing the <strong>exception</strong> macro (My message)</div>', textilizable(text)
+    assert_include(
+      '<div class="flash error">Error executing the <strong>exception</strong> macro (My message)</div>',
+      textilizable(text)
+    )
   end
 
   def test_macro_arguments_should_not_be_parsed_by_formatters
@@ -303,11 +312,11 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
   end
 
   def test_macro_child_pages_with_depth_option
-    expected =  "<p><ul class=\"pages-hierarchy\">\n" +
-                 "<li><a href=\"/projects/ecookbook/wiki/Child_1\">Child 1</a></li>\n" +
-                 "<li><a href=\"/projects/ecookbook/wiki/Child_2\">Child 2</a></li>\n" +
-                 "</ul>\n</p>"
-
+    expected =
+      "<p><ul class=\"pages-hierarchy\">\n" \
+        "<li><a href=\"/projects/ecookbook/wiki/Child_1\">Child 1</a></li>\n" \
+        "<li><a href=\"/projects/ecookbook/wiki/Child_2\">Child 2</a></li>\n" \
+        "</ul>\n</p>"
     @project = Project.find(1)
     assert_equal expected, textilizable("{{child_pages(depth=1)}}", :object => WikiPage.find(2).content)
   end
