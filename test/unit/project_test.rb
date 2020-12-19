@@ -243,7 +243,11 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_destroy_subtasks
-    issues = (0..2).to_a.map {Issue.create!(:project_id => 1, :tracker_id => 1, :author_id => 1, :subject => 'test')}
+    issues =
+      (0..2).to_a.map do
+        Issue.create!(:project_id => 1, :tracker_id => 1,
+                      :author_id => 1, :subject => 'test')
+      end
     issues[0].update! :parent_issue_id => issues[1].id
     issues[2].update! :parent_issue_id => issues[1].id
     assert_equal 2, issues[1].children.count
@@ -370,9 +374,13 @@ class ProjectTest < ActiveSupport::TestCase
     issue_with_local_fixed_version.reload
     issue_with_hierarchy_fixed_version.reload
 
-    assert_equal 4, issue_with_local_fixed_version.fixed_version_id, "Fixed version was not keep on an issue local to the moved project"
-    assert_nil issue_with_hierarchy_fixed_version.fixed_version_id, "Fixed version is still set after moving the Project out of the hierarchy where the version is defined in"
-    assert_nil parent_issue.fixed_version_id, "Fixed version is still set after moving the Version out of the hierarchy for the issue."
+    assert_equal 4, issue_with_local_fixed_version.fixed_version_id,
+                 "Fixed version was not keep on an issue local to the moved project"
+    assert_nil issue_with_hierarchy_fixed_version.fixed_version_id,
+               "Fixed version is still set after moving the Project out of the hierarchy " \
+                 "where the version is defined in"
+    assert_nil parent_issue.fixed_version_id,
+               "Fixed version is still set after moving the Version out of the hierarchy for the issue."
   end
 
   def test_parent
@@ -817,11 +825,14 @@ class ProjectTest < ActiveSupport::TestCase
     overridden_activity = TimeEntryActivity.new({:name => "Project", :project => Project.find(2)})
     assert overridden_activity.save!
 
-    assert !project.activities.include?(overridden_activity), "Project specific Activity found on a different project"
+    assert !project.activities.include?(overridden_activity),
+           "Project specific Activity found on a different project"
   end
 
   def test_activities_should_handle_nils
-    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => Project.find(1), :parent => TimeEntryActivity.first})
+    overridden_activity =
+      TimeEntryActivity.new({:name => "Project", :project => Project.find(1),
+                             :parent => TimeEntryActivity.first})
     TimeEntryActivity.delete_all
 
     # No activities
@@ -837,16 +848,24 @@ class ProjectTest < ActiveSupport::TestCase
   def test_activities_should_override_system_activities_with_project_activities
     project = Project.find(1)
     parent_activity = TimeEntryActivity.first
-    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => project, :parent => parent_activity})
+    overridden_activity =
+      TimeEntryActivity.new({:name => "Project", :project => project,
+                             :parent => parent_activity})
     assert overridden_activity.save!
 
-    assert project.activities.include?(overridden_activity), "Project specific Activity not found"
-    assert !project.activities.include?(parent_activity), "System Activity found when it should have been overridden"
+    assert project.activities.include?(overridden_activity),
+           "Project specific Activity not found"
+    assert !project.activities.include?(parent_activity),
+           "System Activity found when it should have been overridden"
   end
 
   def test_activities_should_include_inactive_activities_if_specified
     project = Project.find(1)
-    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => project, :parent => TimeEntryActivity.first, :active => false})
+    overridden_activity =
+      TimeEntryActivity.new(
+        {:name => "Project", :project => project,
+         :parent => TimeEntryActivity.first, :active => false}
+      )
     assert overridden_activity.save!
 
     assert project.activities(true).include?(overridden_activity), "Inactive Project specific Activity not found"
@@ -856,11 +875,15 @@ class ProjectTest < ActiveSupport::TestCase
     project = Project.find(1)
     system_activity = TimeEntryActivity.find_by_name('Design')
     assert system_activity.active?
-    overridden_activity = TimeEntryActivity.create!(:name => "Project", :project => project, :parent => system_activity, :active => false)
+    overridden_activity =
+      TimeEntryActivity.create!(:name => "Project", :project => project,
+                                :parent => system_activity, :active => false)
     assert overridden_activity.save!
 
-    assert !project.activities.include?(overridden_activity), "Inactive Project specific Activity not found"
-    assert !project.activities.include?(system_activity), "System activity found when the project has an inactive override"
+    assert !project.activities.include?(overridden_activity),
+           "Inactive Project specific Activity not found"
+    assert !project.activities.include?(system_activity),
+           "System activity found when the project has an inactive override"
   end
 
   def test_close_completed_versions
@@ -958,9 +981,11 @@ class ProjectTest < ActiveSupport::TestCase
     project = Project.generate!
     project.trackers << Tracker.generate!
     v1 = Version.generate!(:project => project)
-    Issue.generate!(:project => project, :status => IssueStatus.find_by_name('Closed'), :fixed_version => v1)
+    Issue.generate!(:project => project, :status => IssueStatus.find_by_name('Closed'),
+                    :fixed_version => v1)
     v2 = Version.generate!(:project => project)
-    Issue.generate!(:project => project, :status => IssueStatus.find_by_name('Closed'), :fixed_version => v2)
+    Issue.generate!(:project => project, :status => IssueStatus.find_by_name('Closed'),
+                    :fixed_version => v2)
 
     assert_equal 100, project.completed_percent
   end
@@ -969,9 +994,11 @@ class ProjectTest < ActiveSupport::TestCase
     project = Project.generate!
     project.trackers << Tracker.generate!
     v1 = Version.generate!(:project => project)
-    Issue.generate!(:project => project, :status => IssueStatus.find_by_name('New'), :estimated_hours => 10, :done_ratio => 50, :fixed_version => v1)
+    Issue.generate!(:project => project, :status => IssueStatus.find_by_name('New'),
+                    :estimated_hours => 10, :done_ratio => 50, :fixed_version => v1)
     v2 = Version.generate!(:project => project)
-    Issue.generate!(:project => project, :status => IssueStatus.find_by_name('New'), :estimated_hours => 10, :done_ratio => 50, :fixed_version => v2)
+    Issue.generate!(:project => project, :status => IssueStatus.find_by_name('New'),
+                    :estimated_hours => 10, :done_ratio => 50, :fixed_version => v2)
 
     assert_equal 50, project.completed_percent
   end
@@ -981,7 +1008,8 @@ class ProjectTest < ActiveSupport::TestCase
     role = Role.generate!
 
     user_with_membership_notification = User.generate!(:mail_notification => 'selected')
-    Member.create!(:project => project, :roles => [role], :principal => user_with_membership_notification, :mail_notification => true)
+    Member.create!(:project => project, :roles => [role],
+                   :principal => user_with_membership_notification, :mail_notification => true)
 
     all_events_user = User.generate!(:mail_notification => 'all')
     Member.create!(:project => project, :roles => [role], :principal => all_events_user)
@@ -998,12 +1026,18 @@ class ProjectTest < ActiveSupport::TestCase
     only_owned_user = User.generate!(:mail_notification => 'only_owner')
     Member.create!(:project => project, :roles => [role], :principal => only_owned_user)
 
-    assert project.notified_users.include?(user_with_membership_notification), "should include members with a mail notification"
-    assert project.notified_users.include?(all_events_user), "should include users with the 'all' notification option"
-    assert !project.notified_users.include?(no_events_user), "should not include users with the 'none' notification option"
-    assert !project.notified_users.include?(only_my_events_user), "should not include users with the 'only_my_events' notification option"
-    assert !project.notified_users.include?(only_assigned_user), "should not include users with the 'only_assigned' notification option"
-    assert !project.notified_users.include?(only_owned_user), "should not include users with the 'only_owner' notification option"
+    assert project.notified_users.include?(user_with_membership_notification),
+           "should include members with a mail notification"
+    assert project.notified_users.include?(all_events_user),
+           "should include users with the 'all' notification option"
+    assert !project.notified_users.include?(no_events_user),
+           "should not include users with the 'none' notification option"
+    assert !project.notified_users.include?(only_my_events_user),
+           "should not include users with the 'only_my_events' notification option"
+    assert !project.notified_users.include?(only_assigned_user),
+           "should not include users with the 'only_assigned' notification option"
+    assert !project.notified_users.include?(only_owned_user),
+           "should not include users with the 'only_owner' notification option"
   end
 
   def test_override_roles_without_builtin_group_memberships
@@ -1042,7 +1076,8 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_combination_of_visible_and_distinct_scopes_in_case_anonymous_group_has_memberships_should_not_error
     project = Project.find(1)
-    member = Member.create!(:project => project, :principal => Group.anonymous, :roles => [Role.generate!])
+    member = Member.create!(:project => project, :principal => Group.anonymous,
+                            :roles => [Role.generate!])
     project.members << member
     assert_nothing_raised do
       Project.distinct.visible.to_a
