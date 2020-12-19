@@ -289,7 +289,7 @@ class Changeset < ActiveRecord::Base
     comments =~ /\A(.+?)\r?\n(.*)$/m
     @short_comments = $1 || comments
     @long_comments = $2.to_s.strip
-    return @short_comments, @long_comments
+    [@short_comments, @long_comments]
   end
 
   # Singleton class method is public
