@@ -107,9 +107,17 @@ class IssueQuery < Query
 
   def build_from_params(params, defaults={})
     super
-    self.draw_relations = params[:draw_relations] || (params[:query] && params[:query][:draw_relations]) || options[:draw_relations]
-    self.draw_progress_line = params[:draw_progress_line] || (params[:query] && params[:query][:draw_progress_line]) || options[:draw_progress_line]
-    self.draw_selected_columns = params[:draw_selected_columns] || (params[:query] && params[:query][:draw_selected_columns]) || options[:draw_progress_line]
+    self.draw_relations =
+      params[:draw_relations] ||
+        (params[:query] && params[:query][:draw_relations]) || options[:draw_relations]
+    self.draw_progress_line =
+      params[:draw_progress_line] ||
+        (params[:query] && params[:query][:draw_progress_line]) ||
+        options[:draw_progress_line]
+    self.draw_selected_columns =
+      params[:draw_selected_columns] ||
+        (params[:query] && params[:query][:draw_selected_columns]) ||
+        options[:draw_progress_line]
     self
   end
 
@@ -226,7 +234,10 @@ class IssueQuery < Query
     add_associations_custom_fields_filters :project, :author, :assigned_to, :fixed_version
 
     IssueRelation::TYPES.each do |relation_type, options|
-      add_available_filter relation_type, :type => :relation, :label => options[:name], :values => lambda {all_projects_values}
+      add_available_filter(
+        relation_type, :type => :relation, :label => options[:name],
+        :values => lambda {all_projects_values}
+      )
     end
     add_available_filter "parent_id", :type => :tree, :label => :field_parent_issue
     add_available_filter "child_id", :type => :tree, :label => :label_subtask_plural
@@ -279,7 +290,9 @@ class IssueQuery < Query
 
     if User.current.allowed_to?(:set_issues_private, nil, :global => true) ||
       User.current.allowed_to?(:set_own_issues_private, nil, :global => true)
-      @available_columns << QueryColumn.new(:is_private, :sortable => "#{Issue.table_name}.is_private", :groupable => true)
+      @available_columns <<
+        QueryColumn.new(:is_private,
+                        :sortable => "#{Issue.table_name}.is_private", :groupable => true)
     end
 
     disabled_fields = Tracker.disabled_core_fields(trackers).map {|field| field.sub(/_id$/, '')}
@@ -352,7 +365,11 @@ class IssueQuery < Query
       limit(options[:limit]).
       offset(options[:offset])
 
-    scope = scope.preload([:tracker, :author, :assigned_to, :fixed_version, :category, :attachments] & columns.map(&:name))
+    scope =
+      scope.preload(
+        [:tracker, :author, :assigned_to, :fixed_version,
+         :category, :attachments] & columns.map(&:name)
+      )
     if has_custom_field_column?
       scope = scope.preload(:custom_values)
     end
@@ -549,8 +566,10 @@ class IssueQuery < Query
 
   def sql_for_is_private_field(field, operator, value)
     op = (operator == "=" ? 'IN' : 'NOT IN')
-    va = value.map {|v| v == '0' ? self.class.connection.quoted_false : self.class.connection.quoted_true}.uniq.join(',')
-
+    va =
+      value.map do |v|
+        v == '0' ? self.class.connection.quoted_false : self.class.connection.quoted_true
+      end.uniq.join(',')
     "#{Issue.table_name}.is_private #{op} (#{va})"
   end
 
