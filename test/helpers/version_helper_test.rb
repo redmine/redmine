@@ -73,7 +73,13 @@ class VersionsHelperTest < Redmine::HelperTest
     # href should contain the following params:
     # fixed_version_id=3
     # tracker_id=1
-    assert_select_in link_to_new_issue(version, project), '[href=?]', '/projects/ecookbook/issues/new?back_url=%2Fversions%2F3&issue%5Bfixed_version_id%5D=3&issue%5Btracker_id%5D=1', :text => 'New issue'
+    assert_select_in(
+      link_to_new_issue(version, project),
+      '[href=?]',
+      '/projects/ecookbook/issues/new?back_url=' \
+        '%2Fversions%2F3&issue%5Bfixed_version_id%5D=3&issue%5Btracker_id%5D=1',
+      :text => 'New issue'
+    )
   end
 
   def test_link_to_new_issue_should_return_nil_if_version_status_is_not_open
@@ -111,13 +117,21 @@ class VersionsHelperTest < Redmine::HelperTest
 
   def test_link_to_new_issue_should_take_into_account_user_permissions_on_fixed_version_id_field
     WorkflowPermission.delete_all
-    WorkflowPermission.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :field_name => 'fixed_version_id', :rule => 'readonly')
-
+    WorkflowPermission.create!(:role_id => 1, :tracker_id => 1,
+                               :old_status_id => 1,
+                               :field_name => 'fixed_version_id',
+                               :rule => 'readonly')
     version = Version.find(3)
     project = Project.find(1)
     User.current = User.find(2)
 
-    # href should contain param tracker_id=2 because for tracker_id 1, user has only readonly permissions on fixed_version_id
-    assert_select_in link_to_new_issue(version, project), '[href=?]', '/projects/ecookbook/issues/new?back_url=%2Fversions%2F3&issue%5Bfixed_version_id%5D=3&issue%5Btracker_id%5D=2'
+    # href should contain param tracker_id=2 because for tracker_id 1,
+    # user has only readonly permissions on fixed_version_id
+    assert_select_in(
+      link_to_new_issue(version, project),
+      '[href=?]',
+      '/projects/ecookbook/issues/new?back_url=' \
+        '%2Fversions%2F3&issue%5Bfixed_version_id%5D=3&issue%5Btracker_id%5D=2'
+    )
   end
 end
