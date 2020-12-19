@@ -258,7 +258,7 @@ class Attachment < ActiveRecord::Base
               "to #{target}\nException was: #{e.message}"
           )
         end
-        return nil
+        nil
       end
     end
   end
