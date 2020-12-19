@@ -3060,7 +3060,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
 
     # Be sure we don't display inactive IssuePriorities
-    assert ! IssuePriority.find(15).active?
+    assert_not IssuePriority.find(15).active?
     assert_select 'select[name=?]', 'issue[priority_id]' do
       assert_select 'option[value="15"]', 0
     end
@@ -5365,7 +5365,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 
     assert_select 'select[name=?]', 'issue[project_id]'
     # Be sure we don't display inactive IssuePriorities
-    assert ! IssuePriority.find(15).active?
+    assert_not IssuePriority.find(15).active?
     assert_select 'select[name=?]', 'issue[priority_id]' do
       assert_select 'option[value="15"]', 0
     end
@@ -6459,7 +6459,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       assert_select 'select[name=?]', 'issue[custom_field_values][1]'
 
       # Be sure we don't display inactive IssuePriorities
-      assert ! IssuePriority.find(15).active?
+      assert_not IssuePriority.find(15).active?
       assert_select 'select[name=?]', 'issue[priority_id]' do
         assert_select 'option[value="15"]', 0
       end
@@ -6821,7 +6821,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     user = User.find(3)
     action = {:controller => "issues", :action => "bulk_update"}
     assert user.allowed_to?(action, Issue.find(1).project)
-    assert ! user.allowed_to?(action, Issue.find(6).project)
+    assert_not user.allowed_to?(action, Issue.find(6).project)
     post(
       :bulk_update,
       :params => {
