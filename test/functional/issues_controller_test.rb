@@ -3950,8 +3950,10 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_post_create_with_multi_user_custom_field
-    field = IssueCustomField.create!(:name => 'Multi user', :field_format => 'user', :multiple => true,
-      :tracker_ids => [1], :is_for_all => true)
+    field =
+      IssueCustomField.create!(:name => 'Multi user', :field_format => 'user',
+                               :multiple => true,
+                               :tracker_ids => [1], :is_for_all => true)
     @request.session[:user_id] = 2
     assert_difference 'Issue.count' do
       post(
@@ -3998,11 +4000,15 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_create_should_validate_required_fields
-    cf1 = IssueCustomField.create!(:name => 'Foo', :field_format => 'string', :is_for_all => true, :tracker_ids => [1, 2])
-    cf2 = IssueCustomField.create!(:name => 'Bar', :field_format => 'string', :is_for_all => true, :tracker_ids => [1, 2])
+    cf1 = IssueCustomField.create!(:name => 'Foo', :field_format => 'string',
+                                   :is_for_all => true, :tracker_ids => [1, 2])
+    cf2 = IssueCustomField.create!(:name => 'Bar', :field_format => 'string',
+                                   :is_for_all => true, :tracker_ids => [1, 2])
     WorkflowPermission.delete_all
-    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 2, :role_id => 1, :field_name => 'due_date', :rule => 'required')
-    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 2, :role_id => 1, :field_name => cf2.id.to_s, :rule => 'required')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 2, :role_id => 1,
+                               :field_name => 'due_date', :rule => 'required')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 2, :role_id => 1,
+                               :field_name => cf2.id.to_s, :rule => 'required')
     @request.session[:user_id] = 2
     assert_no_difference 'Issue.count' do
       post(
@@ -4028,11 +4034,17 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_create_should_validate_required_list_fields
-    cf1 = IssueCustomField.create!(:name => 'Foo', :field_format => 'list', :is_for_all => true, :tracker_ids => [1, 2], :multiple => false, :possible_values => ['a', 'b'])
-    cf2 = IssueCustomField.create!(:name => 'Bar', :field_format => 'list', :is_for_all => true, :tracker_ids => [1, 2], :multiple => true, :possible_values => ['a', 'b'])
+    cf1 = IssueCustomField.create!(:name => 'Foo', :field_format => 'list',
+                                   :is_for_all => true, :tracker_ids => [1, 2],
+                                   :multiple => false, :possible_values => ['a', 'b'])
+    cf2 = IssueCustomField.create!(:name => 'Bar', :field_format => 'list',
+                                   :is_for_all => true, :tracker_ids => [1, 2],
+                                   :multiple => true, :possible_values => ['a', 'b'])
     WorkflowPermission.delete_all
-    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 2, :role_id => 1, :field_name => cf1.id.to_s, :rule => 'required')
-    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 2, :role_id => 1, :field_name => cf2.id.to_s, :rule => 'required')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 2, :role_id => 1,
+                               :field_name => cf1.id.to_s, :rule => 'required')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 2, :role_id => 1,
+                               :field_name => cf2.id.to_s, :rule => 'required')
     @request.session[:user_id] = 2
     assert_no_difference 'Issue.count' do
       post(
@@ -4058,11 +4070,15 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_create_should_ignore_readonly_fields
-    cf1 = IssueCustomField.create!(:name => 'Foo', :field_format => 'string', :is_for_all => true, :tracker_ids => [1, 2])
-    cf2 = IssueCustomField.create!(:name => 'Bar', :field_format => 'string', :is_for_all => true, :tracker_ids => [1, 2])
+    cf1 = IssueCustomField.create!(:name => 'Foo', :field_format => 'string',
+                                   :is_for_all => true, :tracker_ids => [1, 2])
+    cf2 = IssueCustomField.create!(:name => 'Bar', :field_format => 'string',
+                                   :is_for_all => true, :tracker_ids => [1, 2])
     WorkflowPermission.delete_all
-    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 2, :role_id => 1, :field_name => 'due_date', :rule => 'readonly')
-    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 2, :role_id => 1, :field_name => cf2.id.to_s, :rule => 'readonly')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 2, :role_id => 1,
+                               :field_name => 'due_date', :rule => 'readonly')
+    WorkflowPermission.create!(:old_status_id => 1, :tracker_id => 2, :role_id => 1,
+                               :field_name => cf2.id.to_s, :rule => 'readonly')
     @request.session[:user_id] = 2
     assert_difference 'Issue.count' do
       post(
@@ -4547,7 +4563,9 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_post_create_with_failure_should_keep_saved_attachments
     set_tmp_attachments_directory
-    attachment = Attachment.create!(:file => uploaded_test_file("testfile.txt", "text/plain"), :author_id => 2)
+    attachment =
+      Attachment.create!(:file => uploaded_test_file("testfile.txt", "text/plain"),
+                         :author_id => 2)
     @request.session[:user_id] = 2
 
     assert_no_difference 'Issue.count' do
@@ -4577,7 +4595,9 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_post_create_should_attach_saved_attachments
     set_tmp_attachments_directory
-    attachment = Attachment.create!(:file => uploaded_test_file("testfile.txt", "text/plain"), :author_id => 2)
+    attachment =
+      Attachment.create!(:file => uploaded_test_file("testfile.txt", "text/plain"),
+                         :author_id => 2)
     @request.session[:user_id] = 2
 
     assert_difference 'Issue.count' do
@@ -4878,8 +4898,10 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     )
     assert_select 'input[type=checkbox][name=?][checked=checked]', 'issue[watcher_user_ids][]', 2
-    assert_select 'input[type=checkbox][name=?][checked=checked][value=?]', 'issue[watcher_user_ids][]', user.id.to_s
-    assert_select 'input[type=checkbox][name=?][checked=checked][value=?]', 'issue[watcher_user_ids][]', '10'
+    assert_select 'input[type=checkbox][name=?][checked=checked][value=?]',
+                  'issue[watcher_user_ids][]', user.id.to_s
+    assert_select 'input[type=checkbox][name=?][checked=checked][value=?]',
+                  'issue[watcher_user_ids][]', '10'
     assert_select 'input[type=hidden][name=?][value=?]', 'issue[watcher_user_ids][]', '', 1
   end
 
@@ -4903,8 +4925,10 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     )
     assert_select 'input[type=checkbox][name=?][checked=checked]', 'issue[watcher_user_ids][]', 1
-    assert_select 'input[type=checkbox][name=?][checked=checked][value=?]', 'issue[watcher_user_ids][]', user.id.to_s
-    assert_select 'input[type=checkbox][name=?][checked=checked][value=?]', 'issue[watcher_user_ids][]', user2.id.to_s, 0
+    assert_select 'input[type=checkbox][name=?][checked=checked][value=?]',
+                  'issue[watcher_user_ids][]', user.id.to_s
+    assert_select 'input[type=checkbox][name=?][checked=checked][value=?]',
+                  'issue[watcher_user_ids][]', user2.id.to_s, 0
     assert_select 'input[type=hidden][name=?][value=?]', 'issue[watcher_user_ids][]', '', 1
   end
 
@@ -5349,7 +5373,8 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_edit_should_hide_project_if_user_is_not_allowed_to_change_project
-    WorkflowPermission.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :field_name => 'project_id', :rule => 'readonly')
+    WorkflowPermission.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1,
+                               :field_name => 'project_id', :rule => 'readonly')
 
     @request.session[:user_id] = 2
     get(:edit, :params => {:id => 1})
@@ -5358,7 +5383,8 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_edit_should_not_hide_project_when_user_changes_the_project_even_if_project_is_readonly_on_target_project
-    WorkflowPermission.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :field_name => 'project_id', :rule => 'readonly')
+    WorkflowPermission.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1,
+                               :field_name => 'project_id', :rule => 'readonly')
     issue = Issue.generate!(:project_id => 2)
 
     @request.session[:user_id] = 2
