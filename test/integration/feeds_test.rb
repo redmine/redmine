@@ -26,21 +26,8 @@ class FeedsTest < Redmine::IntegrationTest
            :roles, :member_roles, :members
 
   def test_feeds_should_include_icon_tag
-    host_name = 'feeds_test'
-
-    with_settings :host_name => host_name do
-      get '/projects.atom'
-    end
+    get '/projects.atom'
     assert_response :success
-
-    assert_select 'feed' do
-      assert_select 'title'
-      assert_select 'link[rel=?][href=?]', 'self', "http://#{host_name}/projects.atom"
-      assert_select 'link[rel=?][href=?]', 'alternate', "http://#{host_name}/projects"
-      assert_select 'id', :text => 'http://www.example.com/'
-      assert_select 'icon', :text => %r{^http://www.example.com/favicon.ico}
-      assert_select 'updated'
-      assert_select 'generator', :text => 'Redmine'
-    end
+    assert_select 'feed>icon', :text => %r{^http://www.example.com/favicon.ico}
   end
 end
