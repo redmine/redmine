@@ -4,30 +4,9 @@ protocol = Setting.protocol
 host = Setting.host_name
 xml.instruct!
 xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
-  xml.title truncate_single_line_raw(@title, 100)
-  xml.link(
-    "rel" => "self",
-    "href" =>
-      url_for(
-        :params => request.query_parameters,
-        :only_path => false, :format => 'atom',
-        :protocol => protocol, :host => host
-      )
-  )
-  xml.link(
-    "rel" => "alternate",
-    "href" =>
-      url_for(
-        :params =>
-          request.query_parameters.merge(
-            :format => nil,
-            :key => nil
-          ),
-        :only_path => false,
-        :protocol => protocol,
-        :host => host
-      )
-  )
+  xml.title   truncate_single_line_raw(@title, 100)
+  xml.link    "rel" => "self", "href" => url_for(:params => request.query_parameters, :only_path => false, :format => 'atom', :protocol => protocol, :host => host)
+  xml.link    "rel" => "alternate", "href" => url_for(:params => request.query_parameters.merge(:format => nil, :key => nil), :only_path => false, :protocol => protocol, :host => host)
   xml.id      home_url
   xml.icon    favicon_url
   xml.updated((@items.first ? @items.first.event_datetime : Time.now).xmlschema)
