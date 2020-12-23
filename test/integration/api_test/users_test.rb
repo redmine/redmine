@@ -84,7 +84,6 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     assert_select 'user id', :text => '2'
     assert_select 'user updated_on', :text => Time.zone.parse('2006-07-19T20:42:15Z').iso8601
     assert_select 'user passwd_changed_on', :text => ''
-    assert_select 'user twofa_scheme', :text => ''
   end
 
   test "GET /users/:id.json should return the user" do
@@ -172,6 +171,20 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     get '/users/3.xml', :headers => credentials('jsmith')
     assert_response :success
     assert_select 'user admin', 0
+  end
+
+  test "GET /users/:id should not return twofa_scheme for standard user" do
+    User.find(2).update(twofa_scheme: 'totp')
+    get '/users/3.xml', :headers => credentials('jsmith')
+    assert_response :success
+    assert_select 'twofa_scheme', 0
+  end
+
+  test "GET /users/:id should return twofa_scheme for administrators" do
+    User.find(2).update(twofa_scheme: 'totp')
+    get '/users/2.xml', :headers => credentials('admin')
+    assert_response :success
+    assert_select 'twofa_scheme', :text => 'totp'
   end
 
   test "POST /users.xml with valid parameters should create the user" do
