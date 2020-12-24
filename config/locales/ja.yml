@@ -38,14 +38,14 @@ ja:
     distance_in_words:
       half_a_minute: "30秒前後"
       less_than_x_seconds:
-        one:   "1秒以内"
-        other: "%{count}秒以内"
+        one:   "1秒未満"
+        other: "%{count}秒未満"
       x_seconds:
         one:   "1秒"
         other: "%{count}秒"
       less_than_x_minutes:
-        one:   "1分以内"
-        other: "%{count}分以内"
+        one:   "1分未満"
+        other: "%{count}分未満"
       x_minutes:
         one:   "1分"
         other: "%{count}分"
