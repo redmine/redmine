@@ -1,7 +1,16 @@
-<%= error_messages_for 'relation' %>
-
+<% unsaved_relations_ids = '' %>
+<% if @unsaved_relations && @unsaved_relations.any? %>
+  <% unsaved_relations_ids = @unsaved_relations.map(&:issue_to_id).compact.join(", ") %>
+  <div id="errorExplanation">
+    <ul>
+      <% relation_error_messages(@unsaved_relations).each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 <p><%= f.select :relation_type, collection_for_relation_type_select, {}, :onchange => "setPredecessorFieldsVisibility();" %>
-<%= l(:label_issue) %> #<%= f.text_field :issue_to_id, :size => 10 %>
+<%= l(:label_issue) %> #<%= f.text_field :issue_to_id, :value => unsaved_relations_ids, :size => 10 %>
 <span id="predecessor_fields" style="display:none;">
 <%= l(:field_delay) %>: <%= f.text_field :delay, :size => 3 %> <%= l(:label_day_plural) %>
 </span>

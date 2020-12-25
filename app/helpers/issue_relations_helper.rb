@@ -22,4 +22,23 @@ module IssueRelationsHelper
     values = IssueRelation::TYPES
     values.keys.sort_by{|k| values[k][:order]}.collect{|k| [l(values[k][:name]), k]}
   end
+
+  def relation_error_messages(relations)
+    messages = {}
+    relations.each do |item|
+      item.errors.full_messages.each do |message|
+        messages[message] ||= []
+        messages[message] << item
+      end
+    end
+
+    messages.map do |message, items|
+      ids = items.map(&:issue_to_id).compact
+      if ids.empty?
+        message
+      else
+        "#{message}: ##{ids.join(', ')}"
+      end
+    end
+  end
 end

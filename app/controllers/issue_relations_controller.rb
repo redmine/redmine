@@ -44,22 +44,29 @@ class IssueRelationsController < ApplicationController
   end
 
   def create
-    @relation = IssueRelation.new
-    @relation.issue_from = @issue
-    @relation.safe_attributes = params[:relation]
-    @relation.init_journals(User.current)
+    saved = false
+    params_relation = params[:relation]
+    unsaved_relations = []
 
-    begin
-      saved = @relation.save
-    rescue ActiveRecord::RecordNotUnique
-      saved = false
-      @relation.errors.add :base, :taken
+    relation_issues_to_id.each do |issue_to_id|
+      params_relation[:issue_to_id] = issue_to_id
+
+      @relation = IssueRelation.new
+      @relation.issue_from = @issue
+      @relation.safe_attributes = params_relation
+      @relation.init_journals(User.current)
+
+      unless saved = @relation.save
+        saved = false
+        unsaved_relations << @relation
+      end
     end
 
     respond_to do |format|
       format.html {redirect_to issue_path(@issue)}
       format.js do
         @relations = @issue.reload.relations.select {|r| r.other_issue(@issue) && r.other_issue(@issue).visible?}
+        @unsaved_relations = unsaved_relations
       end
       format.api do
         if saved
@@ -97,5 +104,13 @@ class IssueRelationsController < ApplicationController
     @relation = IssueRelation.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def relation_issues_to_id
+    params[:relation].require(:issue_to_id).split(',').reject(&:blank?)
+  rescue ActionController::ParameterMissing => e
+    # We return a empty array just to loop once and return a validation error
+    # ToDo: Find a better method to return an error if the param is missing.
+    ['']
   end
 end
