@@ -540,4 +540,35 @@ class IssuesSystemTest < ApplicationSystemTestCase
     assert !page.has_css?('#trackers_description')
     assert_equal "2", page.find('select#issue_tracker_id').value
   end
+
+  def test_edit_should_allow_adding_multiple_relations_from_autocomplete
+    log_user('admin', 'admin')
+
+    visit '/issues/1'
+    page.find('#relations .contextual a').click
+    page.fill_in 'relation[issue_to_id]', :with => 'issue'
+
+    within('ul.ui-autocomplete') do
+      assert page.has_text? 'Bug #12: Closed issue on a locked version'
+      assert page.has_text? 'Bug #11: Closed issue on a closed version'
+
+      first('li.ui-menu-item').click
+    end
+    assert_equal '12, ', find('#relation_issue_to_id').value
+
+    find('#relation_issue_to_id').click.send_keys('issue due')
+    within('ul.ui-autocomplete') do
+      assert page.has_text? 'Bug #7: Issue due today'
+
+      find('li.ui-menu-item').click
+    end
+    assert_equal '12, 7, ', find('#relation_issue_to_id').value
+
+    find('#relations').click_button('Add')
+
+    within('#relations table.issues') do
+      assert page.has_text? 'Related to Bug #12'
+      assert page.has_text? 'Related to Bug #7'
+    end
+  end
 end
