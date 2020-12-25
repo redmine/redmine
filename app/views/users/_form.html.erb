@@ -42,7 +42,7 @@
   <p><%= f.check_box :generate_password %></p>
   <p><%= f.check_box :must_change_passwd %></p>
   </div>
-  <% if Setting.twofa? -%>
+  <% if Setting.twofa? && !@user.new_record? -%>
   <p>
     <label><%=l :setting_twofa -%></label>
     <% if @user.twofa_active? %>
