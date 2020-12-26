@@ -325,6 +325,56 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
     assert_select 'input[type=radio][name=type]'
   end
 
+  def test_new_with_copy
+    role_ids = [1, 2]
+    tracker_ids = [1, 2]
+    project_ids = [1, 2, 3]
+
+    copy_from = CustomField.find(1)
+    copy_from.role_ids = role_ids
+    copy_from.tracker_ids = tracker_ids
+    copy_from.project_ids = project_ids
+    copy_from.save
+
+    get :new, :params => {:copy => copy_from.id.to_s, :type => IssueCustomField}
+    assert_response :success
+
+    assert_select 'form' do
+      # field_format selected
+      assert_select 'select[name=?]', 'custom_field[field_format]' do
+        assert_select "option[value=\"#{copy_from.field_format}\"][selected=selected]"
+      end
+      # blank name
+      assert_select 'input[name=?][value=""]', 'custom_field[name]'
+      # description copied
+      assert_select 'textarea[name=?]', 'custom_field[description]', :text => copy_from.description
+      # role checked
+      role_ids.each do |role_id|
+        assert_select "input[type=checkbox][name=?][value=#{role_id}][checked=checked]", 'custom_field[role_ids][]'
+      end
+      # role not checked
+      (Role.givable.pluck(:id) - role_ids).each do |role_id|
+        assert_select "input[type=checkbox][name=?][value=#{role_id}]", 'custom_field[role_ids][]'
+      end
+      # tracker checked
+      tracker_ids.each do |tracker_id|
+        assert_select "input[type=checkbox][name=?][value=#{tracker_id}][checked=checked]", 'custom_field[tracker_ids][]'
+      end
+      # tracker not checked
+      (Tracker.all.pluck(:id) - tracker_ids).each do |tracker_id|
+        assert_select "input[type=checkbox][name=?][value=#{tracker_id}]", 'custom_field[tracker_ids][]'
+      end
+      # project checked
+      project_ids.each do |project_id|
+        assert_select "input[type=checkbox][name=?][value=#{project_id}][checked=checked]", 'custom_field[project_ids][]'
+      end
+      # project not checked
+      (Project.all.pluck(:id) - project_ids).each do |project_id|
+        assert_select "input[type=checkbox][name=?][value=#{project_id}]", 'custom_field[project_ids][]'
+      end
+    end
+  end
+
   def test_create_list_custom_field
     field = new_record(IssueCustomField) do
       post(
@@ -447,6 +497,29 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
     end
     assert_response :success
     assert_select 'input[type=radio][name=type]'
+  end
+
+  def test_create_with_enumerations
+    custom_field = IssueCustomField.create(:field_format => 'enumeration', :name => 'IssueCustomField')
+    custom_field.enumerations.build(:name => 'enumeration1', :position => 1)
+    custom_field.enumerations.build(:name => 'enumeration2', :position => 2)
+    assert custom_field.save
+
+    assert_difference 'CustomField.count' do
+      post(
+        :create,
+        :params => {
+          :type => 'IssueCustomField',
+          :copy => custom_field.id,
+          :custom_field => {:name => 'Copy'}
+        }
+      )
+      assert_response 302
+    end
+    field = IssueCustomField.order('id desc').first
+    assert_equal 'Copy', field.name
+    assert_equal ['enumeration1', 'enumeration2'], field.enumerations.pluck(:name).sort
+    assert_equal [1, 2], field.enumerations.pluck(:position).sort
   end
 
   def test_edit

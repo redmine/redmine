@@ -102,6 +102,26 @@ class CustomField < ActiveRecord::Base
     'extensions_allowed',
     'full_width_layout')
 
+  def copy_from(arg, options={})
+    return if arg.blank?
+
+    custom_field = arg.is_a?(CustomField) ? arg : CustomField.find_by(id: arg.to_s)
+    self.attributes = custom_field.attributes.dup.except('id', 'name', 'position')
+    custom_field.enumerations.each do |e|
+      new_enumeration = self.enumerations.build
+      new_enumeration.attributes = e.attributes.except('id')
+    end
+    self.default_value = nil if custom_field.enumerations.any?
+    if %w(IssueCustomField TimeEntryCustomField ProjectCustomField VersionCustomField).include?(self.class.name)
+      self.role_ids = custom_field.role_ids.dup
+    end
+    if self.is_a?(IssueCustomField)
+      self.tracker_ids = custom_field.tracker_ids.dup
+      self.project_ids = custom_field.project_ids.dup
+    end
+    self
+  end
+
   def format
     @format ||= Redmine::FieldFormat.find(field_format)
   end

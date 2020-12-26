@@ -3,6 +3,7 @@
 <%= labelled_form_for :custom_field, @custom_field, :url => custom_fields_path, :html => {:id => 'custom_field_form'} do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
 <%= hidden_field_tag 'type', @custom_field.type %>
+<%= hidden_field_tag 'copy', @copy_from.id if @copy_from %>
 <% end %>
 
 <%= javascript_tag do %>

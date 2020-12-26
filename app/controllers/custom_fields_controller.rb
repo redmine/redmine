@@ -98,6 +98,9 @@ class CustomFieldsController < ApplicationController
     if @custom_field.nil?
       render :action => 'select_type'
     else
+      if params[:copy].present? && (@copy_from = CustomField.find_by(id: params[:copy]))
+        @custom_field.copy_from(@copy_from)
+      end
       @custom_field.safe_attributes = params[:custom_field]
     end
   end

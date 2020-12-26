@@ -372,4 +372,53 @@ class CustomFieldTest < ActiveSupport::TestCase
     field2 = IssueCustomField.create!(:name => 'Another long text', :field_format => 'text')
     assert !field2.full_text_formatting?
   end
+
+  def test_copy_from
+    custom_field = CustomField.find(1)
+    copy = CustomField.new.copy_from(custom_field)
+
+    assert_nil copy.id
+    assert_equal '', copy.name
+    assert_nil copy.position
+    (custom_field.attribute_names - ['id', 'name', 'position']).each do |attribute_name|
+      assert_equal custom_field.send(attribute_name).to_s, copy.send(attribute_name).to_s
+    end
+
+    copy.name = 'Copy'
+    assert copy.save
+  end
+
+  def test_copy_from_should_copy_enumerations
+    custom_field = CustomField.create(:field_format => 'enumeration', :name => 'CustomField')
+    custom_field.enumerations.build(:name => 'enumeration1', :position => 1)
+    custom_field.enumerations.build(:name => 'enumeration2', :position => 2)
+    assert custom_field.save
+
+    copy = CustomField.new.copy_from(custom_field)
+    copy.name = 'Copy'
+    assert copy.save
+    assert_equal ['enumeration1', 'enumeration2'], copy.enumerations.pluck(:name)
+    assert_equal [1, 2], copy.enumerations.pluck(:position)
+  end
+
+  def test_copy_from_should_copy_roles
+    %w(IssueCustomField TimeEntryCustomField ProjectCustomField VersionCustomField).each do |klass_name|
+      klass = klass_name.constantize
+      custom_field = klass.new(:name => klass_name, :role_ids => [1, 2, 3, 4, 5])
+      copy = klass.new.copy_from(custom_field)
+      assert_equal [1, 2, 3, 4, 5], copy.role_ids.sort
+    end
+  end
+
+  def test_copy_from_should_copy_trackers
+    issue_custom_field = IssueCustomField.new(:name => 'IssueCustomField', :tracker_ids => [1, 2, 3])
+    copy = IssueCustomField.new.copy_from(issue_custom_field)
+    assert_equal [1, 2, 3], copy.tracker_ids
+  end
+
+  def test_copy_from_should_copy_projects
+    issue_custom_field = IssueCustomField.new(:name => 'IssueCustomField', :project_ids => [1, 2, 3, 4, 5, 6])
+    copy = IssueCustomField.new.copy_from(issue_custom_field)
+    assert_equal [1, 2, 3, 4, 5, 6], copy.project_ids
+  end
 end
