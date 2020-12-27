@@ -2503,6 +2503,17 @@ class QueryTest < ActiveSupport::TestCase
     ActiveRecord::Base.default_timezone = :local # restore Redmine default
   end
 
+  def test_project_statement_with_closed_subprojects
+    project = Project.find(1)
+    project.descendants.each(&:close)
+
+    with_settings :display_subprojects_issues => '1' do
+      query = IssueQuery.new(:name => '_', :project => project)
+      statement = query.project_statement
+      assert_equal "projects.lft >= #{project.lft} AND projects.rgt <= #{project.rgt}", statement
+    end
+  end
+
   def test_filter_on_subprojects
     query = IssueQuery.new(:name => '_', :project => Project.find(1))
     filter_name = "subproject_id"

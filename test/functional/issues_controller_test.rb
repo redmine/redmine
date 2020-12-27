@@ -119,6 +119,25 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_index_should_list_issues_of_closed_subprojects
+    @request.session[:user_id] = 1
+    project = Project.find(1)
+
+    with_settings :display_subprojects_issues => '1' do
+      # One of subprojects is closed
+      Project.find_by(:identifier => 'subproject1').close
+      get(:index, :params => {:project_id => project.id})
+      assert_response :success
+      assert_equal 10, issues_in_list.count
+
+      # All subprojects are closed
+      project.descendants.each(&:close)
+      get(:index, :params => {:project_id => project.id})
+      assert_response :success
+      assert_equal 10, issues_in_list.count
+    end
+  end
+
   def test_index_with_project_and_subprojects_should_show_private_subprojects_with_permission
     @request.session[:user_id] = 2
     with_settings :display_subprojects_issues => '1' do
