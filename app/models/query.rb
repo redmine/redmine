@@ -871,10 +871,10 @@ class Query < ActiveRecord::Base
 
   def project_statement
     project_clauses = []
-    active_subprojects_ids = []
+    subprojects_ids = []
 
-    active_subprojects_ids = project.descendants.active.map(&:id) if project
-    if active_subprojects_ids.any?
+    subprojects_ids = project.descendants.where.not(status: Project::STATUS_ARCHIVED).ids if project
+    if subprojects_ids.any?
       if has_filter?("subproject_id")
         case operator_for("subproject_id")
         when '='
@@ -883,7 +883,7 @@ class Query < ActiveRecord::Base
           project_clauses << "#{Project.table_name}.id IN (%s)" % ids.join(',')
         when '!'
           # exclude the selected subprojects
-          ids = [project.id] + active_subprojects_ids - values_for("subproject_id").map(&:to_i)
+          ids = [project.id] + subprojects_ids - values_for("subproject_id").map(&:to_i)
           project_clauses << "#{Project.table_name}.id IN (%s)" % ids.join(',')
         when '!*'
           # main project only
