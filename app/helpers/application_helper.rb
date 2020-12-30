@@ -420,6 +420,7 @@ module ApplicationHelper
           end
         end
         classes = (ancestors.empty? ? 'root' : 'child')
+        classes += ' archived' if project.archived?
         s << "<li class='#{classes}'><div class='#{classes}'>"
         s << h(block_given? ? capture(project, &block) : project.name)
         s << "</div>\n"

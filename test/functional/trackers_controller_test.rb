@@ -54,6 +54,20 @@ class TrackersControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_new_should_set_archived_class_for_archived_projects
+    project = Project.find(2)
+    project.update_attribute(:status, Project::STATUS_ARCHIVED)
+
+    get :new
+    assert_response :success
+    assert_select '#tracker_project_ids ul li' do
+      assert_select('> div[class*="archived"] input[name=?]', 'tracker[project_ids][]', 1) do
+        assert_select ':match("value", ?)', project.id.to_s
+      end
+      assert_select '> div:not([class*="archived"]) input[name=?]', 'tracker[project_ids][]', Project.count - 1
+    end
+  end
+
   def test_new_with_copy
     core_fields = ['assigned_to_id', 'category_id', 'fixed_version_id', 'parent_issue_id', 'start_date', 'due_date']
     custom_field_ids = custom_field_ids = [1, 2, 6]
