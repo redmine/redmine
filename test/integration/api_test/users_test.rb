@@ -158,7 +158,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
   test "GET /users/:id should return status for administrators" do
     get '/users/2.xml', :headers => credentials('admin')
     assert_response :success
-    assert_select 'user status', :text => User.find(1).status.to_s
+    assert_select 'user status', :text => User.find(2).status.to_s
   end
 
   test "GET /users/:id should return admin status for current user" do
