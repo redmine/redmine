@@ -3141,6 +3141,30 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'select[name="issue[project_id]"]', 0
   end
 
+  def test_get_new_should_not_show_invalid_projects_when_issue_is_a_subtask
+    @request.session[:user_id] = 2
+    issue = Issue.find(1)
+    issue.parent_id = 3
+    issue.save
+
+    with_settings :cross_project_subtasks => 'tree' do
+      get(
+        :new,
+        :params => {
+          :project_id => 1,
+          :parent_issue_id => 1
+        }
+      )
+    end
+    assert_response :success
+    assert_select 'select[name="issue[project_id]"]' do
+      assert_select 'option', 3
+
+      # Onlinestore project should not be included
+      assert_select 'option[value=?]', '2', 0
+    end
+  end
+
   def test_get_new_with_minimal_permissions
     Role.find(1).update_attribute :permissions, [:add_issues]
     WorkflowTransition.where(:role_id => 1).delete_all

@@ -1596,29 +1596,38 @@ class Issue < ActiveRecord::Base
       end
   end
 
-  # Returns a scope of projects that user can assign the issue to
-  def allowed_target_projects(user=User.current, context=nil)
-    if new_record? && context.is_a?(Project) && !copy?
-      current_project = context.self_and_descendants
-    elsif new_record?
-      current_project = nil
-    else
-      current_project = project
+  # Returns a scope of projects that user can assign the subtask
+  def allowed_target_projects_for_subtask(user=User.current)
+    if parent_issue_id.present?
+      scope = filter_projects_scope(Setting.cross_project_subtasks)
     end
 
-    self.class.allowed_target_projects(user, current_project)
+    self.class.allowed_target_projects(user, project, scope)
+  end
+
+  # Returns a scope of projects that user can assign the issue to
+  def allowed_target_projects(user=User.current, scope=nil)
+    current_project = new_record? ? nil : project
+    if scope
+      scope = filter_projects_scope(scope)
+    end
+
+    self.class.allowed_target_projects(user, current_project, scope)
   end
 
   # Returns a scope of projects that user can assign issues to
   # If current_project is given, it will be included in the scope
-  def self.allowed_target_projects(user=User.current, current_project=nil)
+  def self.allowed_target_projects(user=User.current, current_project=nil, scope=nil)
     condition = Project.allowed_to_condition(user, :add_issues)
-    if current_project.is_a?(Project)
+    if current_project
       condition = ["(#{condition}) OR #{Project.table_name}.id = ?", current_project.id]
-    elsif current_project
-      condition = ["(#{condition}) AND #{Project.table_name}.id IN (?)", current_project.map(&:id)]
     end
-    Project.where(condition).having_trackers
+
+    if scope.nil?
+      scope = Project
+    end
+
+    scope.where(condition).having_trackers
   end
 
   # Returns a scope of trackers that user can assign the issue to
@@ -1986,6 +1995,23 @@ class Issue < ActiveRecord::Base
         send "#{attribute}=", nil
       end
       self.done_ratio ||= 0
+    end
+  end
+
+  def filter_projects_scope(scope=nil)
+    case scope
+    when 'system'
+      Project
+    when 'tree'
+      project.root.self_and_descendants
+    when 'hierarchy'
+      project.hierarchy
+    when 'descendants'
+      project.self_and_descendants
+    when ''
+      Project.where(:id => project.id)
+    else
+      Project
     end
   end
 end

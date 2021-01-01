@@ -61,7 +61,8 @@
 <div class="splitcontentright">
 <% if @issue.safe_attribute? 'parent_issue_id' %>
 <p id="parent_issue"><%= f.text_field :parent_issue_id, :size => 10,
-                                      :required => @issue.required_attribute?('parent_issue_id') %></p>
+                                      :required => @issue.required_attribute?('parent_issue_id'),
+                                      :onchange => "updateIssueFrom('#{escape_javascript update_issue_form_path(@project, @issue)}', this)" %></p>
 <%= javascript_tag "observeAutocompleteField('issue_parent_issue_id', '#{escape_javascript(auto_complete_issues_path(:project_id => @issue.project, :scope => Setting.cross_project_subtasks, :status => @issue.closed? ? 'c' : 'o', :issue_id => @issue.id))}')" %>
 <% end %>
 

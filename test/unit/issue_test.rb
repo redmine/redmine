@@ -1708,6 +1708,17 @@ class IssueTest < ActiveSupport::TestCase
     assert_not_include project, Issue.allowed_target_projects(User.find(1))
   end
 
+  def test_allowed_target_projects_for_subtask_should_not_include_invalid_projects
+    User.current = User.find(1)
+    issue = Issue.find(1)
+    issue.parent_id = 3
+
+    with_settings :cross_project_subtasks => 'tree' do
+      # Should include only the project tree
+      assert_equal [1, 3, 5], issue.allowed_target_projects_for_subtask.ids.sort
+    end
+  end
+
   def test_allowed_target_trackers_with_one_role_allowed_on_all_trackers
     user = User.generate!
     role = Role.generate!
@@ -3342,5 +3353,28 @@ class IssueTest < ActiveSupport::TestCase
 
     assert !child.reopenable?
     assert_equal l(:notice_issue_not_reopenable_by_closed_parent_issue), child.transition_warning
+  end
+
+  def test_filter_projects_scope
+    Issue.send(:public, :filter_projects_scope)
+    # Project eCookbook
+    issue = Issue.find(1)
+
+    assert_equal Project, issue.filter_projects_scope
+    assert_equal Project, issue.filter_projects_scope('system')
+
+    # Project Onlinestore (id 2) is not part of the tree
+    assert_equal [1, 3, 4, 5, 6], Issue.find(5).filter_projects_scope('tree').ids.sort
+
+    # Project "Private child of eCookbook"
+    issue2 = Issue.find(9)
+
+    # Projects "eCookbook Subproject 1" (id 3) and "eCookbook Subproject 1" (id 4) are not part of hierarchy
+    assert_equal [1, 5, 6], issue2.filter_projects_scope('hierarchy').ids.sort
+
+    # Project "Child of private child" is descendant of "Private child of eCookbook"
+    assert_equal [5, 6], issue2.filter_projects_scope('descendants').ids.sort
+
+    assert_equal [5], issue2.filter_projects_scope('').ids.sort
   end
 end

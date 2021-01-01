@@ -9,7 +9,7 @@
 </p>
 <% end %>
 
-<% projects = @issue.allowed_target_projects(User.current, @project) %>
+<% projects = projects_for_select(@issue) %>
 <% if (@issue.safe_attribute?('project_id') || @issue.project_id_changed?) && (@project.nil? || projects.length > 1 || @issue.copy?) %>
 <p><%= f.select :project_id, project_tree_options_for_select(projects, :selected => @issue.project), {:required => true},
                 :onchange => "updateIssueFrom('#{escape_javascript update_issue_form_path(@project, @issue)}', this)" %></p>
