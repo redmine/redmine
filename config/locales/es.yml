@@ -1231,113 +1231,114 @@ es:
   label_font_default: Fuente por defecto
   label_font_monospace: Fuente Monospaced
   label_font_proportional: Fuente Proportional
-  setting_timespan_format: Time span format
-  label_table_of_contents: Table of contents
-  setting_commit_logs_formatting: Apply text formatting to commit messages
-  setting_mail_handler_enable_regex: Enable regular expressions
-  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
-    project: %{errors}'
-  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
-    be reassigned to an issue that is about to be deleted
-  setting_timelog_required_fields: Required fields for time logs
+  setting_timespan_format: Formato de timespan
+  label_table_of_contents: Índice de contenidos
+  setting_commit_logs_formatting: Aplicar formato de texto a los mensajes de commits
+  setting_mail_handler_enable_regex: Habilitar expresiones regulares
+  error_move_of_child_not_possible: 'Subtarea %{child} no ha podido ser movida al nuevo
+    proyecto: %{errors}'
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: El tiempo dedicado no puede
+    ser reasignado a una petición que va a ser borrada
+  setting_timelog_required_fields: Campos requeridos para imputación de tiempo
   label_attribute_of_object: '%{object_name}''s %{name}'
-  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
-  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
-  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
-    of values from one or more fields on the selected objects
-  field_updated_by: Updated by
-  field_last_updated_by: Last updated by
-  field_full_width_layout: Full width layout
-  label_last_notes: Last notes
+  label_user_mail_option_only_assigned: Sólo para asuntos que sigo o en los que estoy asignado
+  label_user_mail_option_only_owner: Sólo para asuntos que sigo o de los que soy propietario
+  warning_fields_cleared_on_bulk_edit: Los cambios conllevarán la eliminación automática
+    de valores de uno o más campos de los objetos seleccionados
+  field_updated_by: Actualizado por
+  field_last_updated_by: Última actualización de
+  field_full_width_layout: Diseño de ancho completo
+  label_last_notes: Últimas notas
   field_digest: Checksum
-  field_default_assigned_to: Default assignee
-  setting_show_custom_fields_on_registration: Show custom fields on registration
-  permission_view_news: View news
-  label_no_preview_alternative_html: No preview available. %{link} the file instead.
-  label_no_preview_download: Download
-  setting_close_duplicate_issues: Close duplicate issues automatically
-  error_exceeds_maximum_hours_per_day: Cannot log more than %{max_hours} hours on the
-    same day (%{logged_hours} hours have already been logged)
-  setting_time_entry_list_defaults: Timelog list defaults
-  setting_timelog_accept_0_hours: Accept time logs with 0 hours
-  setting_timelog_max_hours_per_day: Maximum hours that can be logged per day and user
-  label_x_revisions: "%{count} revisions"
-  error_can_not_delete_auth_source: This authentication mode is in use and cannot be
-    deleted.
-  button_actions: Actions
-  mail_body_lost_password_validity: Please be aware that you may change the password
-    only once using this link.
-  text_login_required_html: When not requiring authentication, public projects and their
-    contents are openly available on the network. You can <a href="%{anonymous_role_path}">edit
-    the applicable permissions</a>.
-  label_login_required_yes: 'Yes'
-  label_login_required_no: No, allow anonymous access to public projects
-  text_project_is_public_non_member: Public projects and their contents are available
-    to all logged-in users.
-  text_project_is_public_anonymous: Public projects and their contents are openly available
-    on the network.
-  label_version_and_files: Versions (%{count}) and Files
+  field_default_assigned_to: Asignado por defecto
+  setting_show_custom_fields_on_registration: Mostrar campos personalizados en el registro
+
+  permission_view_news: Ver noticias
+  label_no_preview_alternative_html: No hay vista previa disponible. %{link} el archivo en su lugar.
+  label_no_preview_download: Descargar
+  setting_close_duplicate_issues: Cerrar peticiones duplicadas automáticamente
+  error_exceeds_maximum_hours_per_day: No se pueden registrar más de %{max_hours} horas en el
+    mismo día (se han registrado ya %{logged_hours} horas)
+  setting_time_entry_list_defaults: Listas por defecto del Timelog
+  setting_timelog_accept_0_hours: Aceptar registros de tiempo de 0 horas
+  setting_timelog_max_hours_per_day: Número de horas máximo que se puede imputar por día y usuario
+  label_x_revisions: "%{count} revisiones"
+  error_can_not_delete_auth_source: Este modo de autenticación está en uso y no puede ser
+    eliminado.
+  button_actions: Acciones
+  mail_body_lost_password_validity: Por favor, tenga en cuenta que sólo puede cambiar la contraseña
+    una vez usando este enlace.
+  text_login_required_html: Cuando no se requiera autenticación, los proyectos públicos y sus
+    contenidos están abiertos en la red. Puede <a href="%{anonymous_role_path}">editar
+    los permisos aplicables</a>.
+  label_login_required_yes: 'Sí'
+  label_login_required_no: No, permitir acceso anónimo a los proyectos públicos
+  text_project_is_public_non_member: Los proyectos públicos y sus contenidos están disponibles
+    a todos los usuarios identificados.
+  text_project_is_public_anonymous: Los proyectos públicos y sus contenidos están disponibles libremente
+    en la red.
+  label_version_and_files: Versionees (%{count}) y Ficheros
   label_ldap: LDAP
-  label_ldaps_verify_none: LDAPS (without certificate check)
+  label_ldaps_verify_none: LDAPS (sin chequeo de certificado)
   label_ldaps_verify_peer: LDAPS
-  label_ldaps_warning: It is recommended to use an encrypted LDAPS connection with certificate
-    check to prevent any manipulation during the authentication process.
-  label_nothing_to_preview: Nothing to preview
-  error_token_expired: This password recovery link has expired, please try again.
-  error_spent_on_future_date: Cannot log time on a future date
-  setting_timelog_accept_future_dates: Accept time logs on future dates
+  label_ldaps_warning: Se recomienda usar una conexión LDAPS encriptada con chequeo de
+    certificado para prevenir cualquier manipulación durante el proceso de autenticación.
+  label_nothing_to_preview: Nada que previsualizar
+  error_token_expired: Este enlace de recuperación de contraseña ha expirado, por favor, inténtelo de nuevo.
+  error_spent_on_future_date: No se puede registrar tiempo en una fecha futura
+  setting_timelog_accept_future_dates: Aceptar registros de tiempo en fechas futuras
   label_delete_link_to_subtask: Eliminar relación
-  error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
-    for other users
-  permission_log_time_for_other_users: Log spent time for other users
-  label_tomorrow: tomorrow
-  label_next_week: next week
-  label_next_month: next month
-  text_role_no_workflow: No workflow defined for this role
-  text_status_no_workflow: No tracker uses this status in the workflows
-  setting_mail_handler_preferred_body_part: Preferred part of multipart (HTML) emails
-  setting_show_status_changes_in_mail_subject: Show status changes in issue mail notifications
-    subject
-  label_inherited_from_parent_project: Inherited from parent project
-  label_inherited_from_group: Inherited from group %{name}
-  label_trackers_description: Trackers description
-  label_open_trackers_description: View all trackers description
-  label_preferred_body_part_text: Text
+  error_not_allowed_to_log_time_for_other_users: No está autorizado a registrar tiempo para
+    otros usuarios
+  permission_log_time_for_other_users: Registrar tiempo para otros usuarios
+  label_tomorrow: mañana
+  label_next_week: próxima semana
+  label_next_month: próximo mes
+  text_role_no_workflow: No se ha definido un flujo de trabajo para este perfil
+  text_status_no_workflow: Ningún tipo de petición utiliza este estado en los flujos de trabajo
+  setting_mail_handler_preferred_body_part: Parte preferida de los correos electrónicos multiparte (HTML)
+  setting_show_status_changes_in_mail_subject: Mostrar los cambios de estado en el asunto de las notificaciones de correo
+    electrónico de las peticiones
+  label_inherited_from_parent_project: Heredado del proyecto padre
+  label_inherited_from_group: Heredado del grupo %{name}
+  label_trackers_description: Descripción del tipo de petición
+  label_open_trackers_description: Ver todas las descripciones de los tipos de petición
+  label_preferred_body_part_text: Texto
   label_preferred_body_part_html: HTML (experimental)
-  field_parent_issue_subject: Parent task subject
-  permission_edit_own_issues: Edit own issues
-  text_select_apply_tracker: Select tracker
-  label_updated_issues: Updated issues
-  text_avatar_server_config_html: The current avatar server is <a href="%{url}">%{url}</a>.
-    You can configure it in config/configuration.yml.
-  setting_gantt_months_limit: Maximum number of months displayed on the gantt chart
-  permission_import_time_entries: Import time entries
-  label_import_notifications: Send email notifications during the import
-  text_gs_available: ImageMagick PDF support available (optional)
-  field_recently_used_projects: Number of recently used projects in jump box
-  label_optgroup_bookmarks: Bookmarks
-  label_optgroup_others: Other projects
-  label_optgroup_recents: Recently used
-  button_project_bookmark: Add bookmark
-  button_project_bookmark_delete: Remove bookmark
-  field_history_default_tab: Issue's history default tab
-  label_issue_history_properties: Property changes
-  label_issue_history_notes: Notes
-  label_last_tab_visited: Last visited tab
-  field_unique_id: Unique ID
-  text_no_subject: no subject
-  setting_password_required_char_classes: Required character classes for passwords
-  label_password_char_class_uppercase: uppercase letters
-  label_password_char_class_lowercase: lowercase letters
-  label_password_char_class_digits: digits
-  label_password_char_class_special_chars: special characters
-  text_characters_must_contain: Must contain %{character_classes}.
-  label_starts_with: starts with
-  label_ends_with: ends with
-  label_issue_fixed_version_updated: Target version updated
-  setting_project_list_defaults: Projects list defaults
-  label_display_type: Display results as
-  label_display_type_list: List
-  label_display_type_board: Board
-  label_my_bookmarks: My bookmarks
-  label_import_time_entries: Import time entries
+  field_parent_issue_subject: Asunto de la tarea padre
+  permission_edit_own_issues: Editar sus propias peticiones
+  text_select_apply_tracker: Seleccionar tipo de petición
+  label_updated_issues: Peticiones actualizadas
+  text_avatar_server_config_html: El servidor actual de avatares es <a href="%{url}">%{url}</a>.
+    Puede configurarlo en config/configuration.yml.
+  setting_gantt_months_limit: Máximo número de meses mostrados en el diagrama de Gantt
+  permission_import_time_entries: Importar registros de tiempo
+  label_import_notifications: Enviar notificaciones de correo electrónico durante la importación
+  text_gs_available: Disponible soporte ImageMagick PDF (opcional)
+  field_recently_used_projects: Número de proyectos recientemente usados en el selector
+  label_optgroup_bookmarks: Marcadores
+  label_optgroup_others: Otros proyectos
+  label_optgroup_recents: Utilizados recientemente
+  button_project_bookmark: Añadir marcador
+  button_project_bookmark_delete: Quitar marcador
+  field_history_default_tab: Pstaña por defecto del historial de la petición
+  label_issue_history_properties: Cambios de propiedades
+  label_issue_history_notes: Notas
+  label_last_tab_visited: Última pestaña visitada
+  field_unique_id: ID único
+  text_no_subject: sin asunto
+  setting_password_required_char_classes: Clases de caracteres requeridos para las contraseñas
+  label_password_char_class_uppercase: mayúsculas
+  label_password_char_class_lowercase: minúsculas
+  label_password_char_class_digits: dígitos
+  label_password_char_class_special_chars: caracteres especiales
+  text_characters_must_contain: Debe contener %{character_classes}.
+  label_starts_with: empieza con
+  label_ends_with: termina con
+  label_issue_fixed_version_updated: Versión objetivo actualizada
+  setting_project_list_defaults: Por defecto para la lista de proyectos
+  label_display_type: Mostrar resultados como
+  label_display_type_list: Lista
+  label_display_type_board: Tablón
+  label_my_bookmarks: Mis marcadores
+  label_import_time_entries: Importar registros de tiempo
