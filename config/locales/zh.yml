@@ -1290,92 +1290,70 @@ zh:
   label_import_time_entries: 导入工时条目
   field_toolbar_language_options: 代码工具栏语言突出显示
   label_user_mail_notify_about_high_priority_issues_html: 请通知我优先级高于<em>%{prio}</em>的问题
-  label_assign_to_me: Assign to me
-  notice_issue_not_closable_by_open_tasks: This issue cannot be closed because it has
-    at least one open subtask.
-  notice_issue_not_closable_by_blocking_issue: This issue cannot be closed because it
-    is blocked by at least one open issue.
-  notice_issue_not_reopenable_by_closed_parent_issue: This issue cannot be reopened
-    because its parent issue is closed.
-  error_bulk_download_size_too_big: These attachments cannot be bulk downloaded because
-    the total file size exceeds the maximum allowed size (%{max_size})
-  setting_bulk_download_max_size: Maximum total size for bulk download
-  label_download_all_attachments: Download all files
-  error_attachments_too_many: This file cannot be uploaded because it exceeds the maximum
-    number of files that can be attached simultaneously (%{max_number_of_files})
-  setting_email_domains_allowed: Allowed email domains
-  setting_email_domains_denied: Disallowed email domains
-  field_passwd_changed_on: Password last changed
-  label_relations_mapping: Relations mapping
-  label_import_users: Import users
-  label_days_to_html: "%{days} days up to %{date}"
-  setting_twofa: Two-factor authentication
-  label_optional: optional
-  label_required_lower: required
-  button_disable: Disable
-  twofa__totp__name: Authenticator app
-  twofa__totp__text_pairing_info_html: Scan this QR code or enter the plain text key
-    into a TOTP app (e.g. <a href="https://support.google.com/accounts/answer/1066447">Google
+  label_assign_to_me: 指派给我
+  notice_issue_not_closable_by_open_tasks: 此问题无法被关闭，因为它至少还有一个尚在打开的子任务。
+  notice_issue_not_closable_by_blocking_issue: 此问题无法被关闭，因为它被至少一个尚在打开的问题所阻挡。
+  notice_issue_not_reopenable_by_closed_parent_issue: 此问题無法被重开，因为它的父任务已关闭。
+  error_bulk_download_size_too_big: 这些附件无法被批量下载，因为其附件大小总计超过允许的最大值 (%{max_size})
+  setting_bulk_download_max_size: 批量下载附件大小总计大小限制
+  label_download_all_attachments: 下载所有附件
+  error_attachments_too_many: 该文件无法上传，因为超过同时上传附件数量的限制 (%{max_number_of_files})
+  setting_email_domains_allowed: 允许的邮件网域
+  setting_email_domains_denied: 禁止的邮件网域
+  field_passwd_changed_on: 密码上次变更于
+  label_relations_mapping: 关联对应
+  label_import_users: 导入用戶
+  label_days_to_html: "%{days} 天，最多至 %{date}"
+  setting_twofa: 双因素验证
+  label_optional: 选用项
+  label_required_lower: 必要項
+  button_disable: 关闭
+  twofa__totp__name: 验证器应用程序
+  twofa__totp__text_pairing_info_html: 扫描这个二维码或将纯文本键输入至 TOTP 应用程序
+    (e.g. <a href="https://support.google.com/accounts/answer/1066447">Google
     Authenticator</a>, <a href="https://authy.com/download/">Authy</a>, <a href="https://guide.duo.com/third-party-accounts">Duo
-    Mobile</a>) and enter the code in the field below to activate two-factor authentication.
-  twofa__totp__label_plain_text_key: Plain text key
-  twofa__totp__label_activate: Enable authenticator app
-  twofa_currently_active: 'Currently active: %{twofa_scheme_name}'
-  twofa_not_active: Not activated
-  twofa_label_code: Code
-  twofa_hint_disabled_html: Setting <strong>%{label}</strong> will deactivate and unpair
-    two-factor authentication devices for all users.
-  twofa_hint_required_html: Setting <strong>%{label}</strong> will require all users
-    to set up two-factor authentication at their next login.
-  twofa_label_setup: Enable two-factor authentication
-  twofa_label_deactivation_confirmation: Disable two-factor authentication
-  twofa_notice_select: 'Please select the two-factor scheme you would like to use:'
-  twofa_warning_require: The administrator requires you to enable two-factor authentication.
-  twofa_activated: Two-factor authentication successfully enabled. It is recommended
-    to <a data-method="post" href="%{bc_path}">generate backup codes</a> for your account.
-  twofa_deactivated: Two-factor authentication disabled.
-  twofa_mail_body_security_notification_paired: Two-factor authentication successfully
-    enabled using %{field}.
-  twofa_mail_body_security_notification_unpaired: Two-factor authentication disabled
-    for your account.
-  twofa_mail_body_backup_codes_generated: New two-factor authentication backup codes
-    generated.
-  twofa_mail_body_backup_code_used: A two-factor authentication backup code has been
-    used.
-  twofa_invalid_code: Code is invalid or outdated.
-  twofa_label_enter_otp: Please enter your two-factor authentication code.
-  twofa_too_many_tries: Too many tries.
-  twofa_resend_code: Resend code
-  twofa_code_sent: An authentication code has been sent to you.
-  twofa_generate_backup_codes: Generate backup codes
-  twofa_text_generate_backup_codes_confirmation: This will invalidate all existing backup
-    codes and generate new ones. Would you like to continue?
-  twofa_notice_backup_codes_generated: Your backup codes have been generated.
-  twofa_warning_backup_codes_generated_invalidated: New backup codes have been generated.
-    Your existing codes from %{time} are now invalid.
-  twofa_label_backup_codes: Two-factor authentication backup codes
-  twofa_text_backup_codes_hint: Use these codes instead of a one-time password should
-    you not have access to your second factor. Each code can only be used once. It is
-    recommended to print and store them in a safe place.
-  twofa_text_backup_codes_created_at: Backup codes generated %{datetime}.
-  twofa_backup_codes_already_shown: Backup codes cannot be shown again, please <a data-method="post"
-    href="%{bc_path}">generate new backup codes</a> if required.
-  error_can_not_execute_macro_html: Error executing the <strong>%{name}</strong> macro
-    (%{error})
-  error_macro_does_not_accept_block: This macro does not accept a block of text
-  error_childpages_macro_no_argument: With no argument, this macro can be called from
-    wiki pages only
-  error_circular_inclusion: Circular inclusion detected
-  error_page_not_found: Page not found
-  error_filename_required: Filename required
-  error_invalid_size_parameter: Invalid size parameter
-  error_attachment_not_found: Attachment %{name} not found
-  permission_delete_project: Delete the project
-  field_twofa_scheme: Two-factor authentication scheme
-  text_user_destroy_confirmation: Are you sure you want to delete this user and remove
-    all references to them? This cannot be undone. Often, locking a user instead of
-    deleting them is the better solution. To confirm, please enter their login (%{login})
-    below.
-  text_project_destroy_enter_identifier: To confirm, please enter the project's identifier
-    (%{identifier}) below.
-  button_add_subtask: Add subtask
+    Mobile</a>) 并将其显示的代码输入至下面的字段中, 以启用双因素验证。
+  twofa__totp__label_plain_text_key: 纯文本键
+  twofa__totp__label_activate: 啟用验证器应用程序
+  twofa_currently_active: '当前使用中: %{twofa_scheme_name}'
+  twofa_not_active: 尚未啟用
+  twofa_label_code: 代码
+  twofa_hint_disabled_html: 设定为 <strong>%{label}</strong> 将会停用并解除所有用户已配对之双因素验证装置。
+  twofa_hint_required_html: 设定为 <strong>%{label}</strong> 将会要求所有用户于下次登录时, 设置双因素验证。
+  twofa_label_setup: 啟用双因素验证
+  twofa_label_deactivation_confirmation: 关闭双因素验证
+  twofa_notice_select: '请选择您想要使用的双因素配置方式:'
+  twofa_warning_require: 管理员要求您啟用双因素验证。
+  twofa_activated: 双因素验证已啟用成功。建议您为自己的帐号 <a data-method="post" href="%{bc_path}">生成备用代码</a>。
+  twofa_deactivated: 双因素验证已关闭。
+  twofa_mail_body_security_notification_paired: 雙因素驗證已使用 %{field} 開啟成功。
+  twofa_mail_body_security_notification_unpaired: 双因素验证已关闭。
+  twofa_mail_body_backup_codes_generated: 新双因素验证的备用代码已生成。
+  twofa_mail_body_backup_code_used: 有个双因素验证的备用代码被使用。
+  twofa_invalid_code: 代码是无效的或过期的。
+  twofa_label_enter_otp: 请输入您的双因素验证代码。
+  twofa_too_many_tries: 重试次数过多。
+  twofa_resend_code: 重送代码
+  twofa_code_sent: 有个验证代码已经传送给您。
+  twofa_generate_backup_codes: 生成备用代码
+  twofa_text_generate_backup_codes_confirmation: 这会将所有现存的备用代码设为无效，并产生新的备用代码。您要继续吗？
+  twofa_notice_backup_codes_generated: 您的备用代码已生成。
+  twofa_warning_backup_codes_generated_invalidated: 新的备用代码已生成。您现存的备用代码，从 %{time} 起已经失效。
+  twofa_label_backup_codes: 双因素验证备用代码
+  twofa_text_backup_codes_hint: 当您无法存取双因素配置方式取得单次密码时，使用这些替代备用代码。每个代码仅能被使用一次。建议您将备用代码打印出来，并存放于安全的地点。
+  twofa_text_backup_codes_created_at: 备用代码生成于 %{datetime}.
+  twofa_backup_codes_already_shown: 这些备用代码不会再次出现, 再次需要时请重新 <a data-method="post"
+    href="%{bc_path}">生成新的备用代码</a>。
+  error_can_not_execute_macro_html: 执行 <strong>%{name}</strong> 宏时，发生错误 (%{error})
+  error_macro_does_not_accept_block: 此宏不接受文本块
+  error_childpages_macro_no_argument: 缺少引数, 此宏只能从 wiki 页面中被呼叫
+  error_circular_inclusion: 侦测到循环引用内容
+  error_page_not_found: 找不到页面
+  error_filename_required: 必须填入文件名称
+  error_invalid_size_parameter: 无效的尺寸大小参数
+  error_attachment_not_found: 找不到文件 %{name}
+  permission_delete_project: 删除项目
+  field_twofa_scheme: 双因素验证配置
+  text_user_destroy_confirmation: 您是否确定要删除这个用户并且移除该用户所有的参照？ 这是无法被复原的动作。通常锁定一个用户是比较好的方案，而非将用户删除。若要确认，请在下面输入用户的帐号名称 (%{login})。
+  text_project_destroy_enter_identifier: 若要确认, 请在下面输入项目的标识 (%{identifier})。
+  button_add_subtask: 新建子任务
