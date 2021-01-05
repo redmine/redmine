@@ -22,7 +22,6 @@ module Redmine
     unless const_defined?(:ACCESSKEYS)
       ACCESSKEYS = {
         :edit => 'e',
-        :preview => 'r',
         :quick_search => 'f',
         :search => '4',
         :new_issue => '7',
