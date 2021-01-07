@@ -21,6 +21,7 @@
 */
 
 /* Modified by JP LANG for textile formatting */
+let lastJstPreviewed = null;
 
 function jsToolBar(textarea) {
   if (!document.createElement) { return; }
@@ -52,6 +53,8 @@ function jsToolBar(textarea) {
   this.tabsBlock.className = 'jstTabs tabs';
 
   var This = this;
+
+  this.textarea.onkeydown = function(event) { This.keyboardShortcuts.call(This, event); };
 
   this.editTab = new jsTab('Edit', true);
   this.editTab.onclick = function(event) { This.hidePreview.call(This, event); return false; };
@@ -401,21 +404,32 @@ jsToolBar.prototype = {
   },
   showPreview: function(event) {
     if (event.target.classList.contains('selected')) { return; }
+    lastJstPreviewed = this.toolbarBlock;
     this.preview.setAttribute('style', 'min-height: ' + this.textarea.clientHeight + 'px;')
     this.toolbar.classList.add('hidden');
     this.textarea.classList.add('hidden');
     this.preview.classList.remove('hidden');
     this.tabsBlock.getElementsByClassName('tab-edit')[0].classList.remove('selected');
     event.target.classList.add('selected');
-
   },
   hidePreview: function(event) {
     if (event.target.classList.contains('selected')) { return; }
     this.toolbar.classList.remove('hidden');
     this.textarea.classList.remove('hidden');
+    this.textarea.focus();
     this.preview.classList.add('hidden');
     this.tabsBlock.getElementsByClassName('tab-preview')[0].classList.remove('selected');
     event.target.classList.add('selected');
+  },
+  keyboardShortcuts: function(e) {
+    if (isToogleEditPreviewShortcut(e)) {
+      // Switch to preview only if tab edit is selected when the event triggered.
+      if (this.tabsBlock.querySelector('.tab-edit.selected')) {
+        e.stopPropagation();
+        e.preventDefault();
+        this.tabsBlock.getElementsByClassName('tab-preview')[0].click();
+      }
+    }
   },
   stripBaseURL: function(url) {
     if (this.base_url != '') {
@@ -507,3 +521,22 @@ jsToolBar.prototype.tableMenu = function(fn){
   });
   return false;
 };
+
+$(document).keydown(function(e) {
+  if (isToogleEditPreviewShortcut(e)) {
+    if (lastJstPreviewed !== null) {
+      e.preventDefault();
+      e.stopPropagation();
+      lastJstPreviewed.querySelector('.tab-edit').click();
+      lastJstPreviewed = null;
+    }
+  }
+});
+
+function isToogleEditPreviewShortcut(e) {
+  if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase() === 'p') {
+    return true;
+  } else {
+    return false;
+  }
+}
