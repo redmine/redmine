@@ -21,16 +21,21 @@ require File.expand_path('../test_helper', __FILE__)
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   DOWNLOADS_PATH = File.expand_path(File.join(Rails.root, 'tmp', 'downloads'))
+  GOOGLE_CHROME_OPTS_ARGS = []
 
   # Allow running Capybara default server on custom IP address and/or port
   Capybara.server_host = ENV['CAPYBARA_SERVER_HOST'] if ENV['CAPYBARA_SERVER_HOST']
   Capybara.server_port = ENV['CAPYBARA_SERVER_PORT'] if ENV['CAPYBARA_SERVER_PORT']
+
+  # Allow defining Google Chrome options arguments based on a comma-delimited string environment variable
+  GOOGLE_CHROME_OPTS_ARGS = ENV['GOOGLE_CHROME_OPTS_ARGS'].split(",") if ENV['GOOGLE_CHROME_OPTS_ARGS']
 
   options = {}
   # Allow running tests using a remote Selenium hub
   options[:url] = ENV['SELENIUM_REMOTE_URL'] if ENV['SELENIUM_REMOTE_URL']
   options[:desired_capabilities] = Selenium::WebDriver::Remote::Capabilities.chrome(
                   'goog:chromeOptions' => {
+                    'args' => GOOGLE_CHROME_OPTS_ARGS,
                     'prefs' => {
                       'download.default_directory' => DOWNLOADS_PATH,
                       'download.prompt_for_download' => false,

@@ -77,6 +77,8 @@ The following environment variables can be used to configure your system tests s
 `CAPYBARA_SERVER_PORT`: configure server port
 `SELENIUM_REMOTE_URL`: remote Selenium URL
 `CAPYBARA_APP_HOST`: by default, the tests expect to have the application running on your localhost. Using this variable, you can set a custom URL
+`GOOGLE_CHROME_OPTS_ARGS`: configure Google Chrome Options arguments as a comma-delimited string. For example, it can be used to run the tests in headless mode:
+    `export GOOGLE_CHROME_OPTS_ARGS="headless,disable-gpu,no-sandbox,disable-dev-shm-usage"`
 
 One use case of these variables is to run the system tests on a remote Selenium/ChromeDriver (eg: Docker).
 
