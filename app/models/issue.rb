@@ -805,7 +805,7 @@ class Issue < ActiveRecord::Base
         attribute = attribute.to_i
         v = custom_field_values.detect {|v| v.custom_field_id == attribute}
         if v && Array(v.value).detect(&:present?).nil?
-          errors.add :base, v.custom_field.name + ' ' + l('activerecord.errors.messages.blank')
+          errors.add(v.custom_field.name, l('activerecord.errors.messages.blank'))
         end
       else
         if respond_to?(attribute) && send(attribute).blank? && !disabled_core_fields.include?(attribute)

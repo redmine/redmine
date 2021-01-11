@@ -111,7 +111,8 @@ module CustomFieldsHelper
     content_tag(
       "label", content +
       (required ? " <span class=\"required\">*</span>".html_safe : ""),
-      :for => for_tag_id)
+      :for => for_tag_id,
+      :class => custom_value.customized && custom_value.customized.errors[custom_value.custom_field.name].present? ? 'error' : nil)
   end
 
   # Return custom field tag with its label tag

@@ -65,7 +65,7 @@ class CustomFieldValue
 
   def validate_value
     custom_field.validate_custom_value(self).each do |message|
-      customized.errors.add(:base, custom_field.name + ' ' + message)
+      customized.errors.add(custom_field.name, message)
     end
   end
 end

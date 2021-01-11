@@ -4061,6 +4061,8 @@ class IssuesControllerTest < Redmine::ControllerTest
       )
     end
     assert_response :success
+
+    assert_select 'label[for=?][class=?]', "issue_custom_field_values_#{field.id}", 'error'
     assert_select_error /Database cannot be blank/
   end
 
@@ -4094,6 +4096,10 @@ class IssuesControllerTest < Redmine::ControllerTest
       )
       assert_response :success
     end
+
+    assert_select 'label[for=?][class=?]', 'issue_due_date', 'error'
+    assert_select 'label[for=?][class=?]', "issue_custom_field_values_#{cf2.id}", 'error'
+
     assert_select_error /Due date cannot be blank/i
     assert_select_error /Bar cannot be blank/i
   end
