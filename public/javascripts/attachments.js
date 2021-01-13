@@ -29,8 +29,6 @@ function addFile(inputEl, file, eagerUpload) {
 
     addAttachment.toggle(attachmentsFields.children().length < maxFiles);
     return attachmentId;
-  } else {
-    alert($('input.file_selector').data('max-number-of-files-message'));
   }
   return null;
 }
@@ -161,6 +159,7 @@ function uploadAndAttachFiles(files, inputEl) {
   var maxFileSizeExceeded = $(inputEl).data('max-file-size-message');
 
   var sizeExceeded = false;
+  var filesLength = $(inputEl).closest('.attachments_form').find('.attachments_fields').children().length + files.length
   $.each(files, function() {
     if (this.size && maxFileSize != null && this.size > parseInt(maxFileSize)) {sizeExceeded=true;}
   });
@@ -168,6 +167,10 @@ function uploadAndAttachFiles(files, inputEl) {
     window.alert(maxFileSizeExceeded);
   } else {
     $.each(files, function() {addFile(inputEl, this, true);});
+  }
+
+  if (filesLength > ($(inputEl).attr('multiple') == 'multiple' ? 10 : 1)) {
+    window.alert($(inputEl).data('max-number-of-files-message'));
   }
   return sizeExceeded;
 }
