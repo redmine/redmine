@@ -182,7 +182,11 @@ function handleFileDropEvent(e) {
 
   if ($.inArray('Files', e.dataTransfer.types) > -1) {
     handleFileDropEvent.target = e.target;
-    uploadAndAttachFiles(e.dataTransfer.files, $('input:file.filedrop').first());
+    if ($(this).hasClass('custom-field-filedroplistner')){
+      uploadAndAttachFiles(e.dataTransfer.files, $(this).find('input:file.custom-field-filedrop').first());
+    } else {
+      uploadAndAttachFiles(e.dataTransfer.files, $(this).find('input:file.filedrop').first());
+    }
   }
 }
 handleFileDropEvent.target = '';
@@ -210,6 +214,14 @@ function setupFileDrop() {
           drop: handleFileDropEvent,
           paste: copyImageFromClipboard
       }).addClass('filedroplistner');
+    });
+
+    $('form div.box input:file.custom-field-filedrop').closest('p').not('.custom-field-filedroplistner').each(function() {
+      $(this).on({
+          dragover: dragOverHandler,
+          dragleave: dragOutHandler,
+          drop: handleFileDropEvent
+      }).addClass('custom-field-filedroplistner');
     });
   }
 }

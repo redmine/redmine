@@ -1070,7 +1070,8 @@ module Redmine
               :multiple => false,
               :description => false,
               :saved_attachments => [attachment].compact,
-              :filedrop => false
+              :filedrop => true,
+              :attachment_format_custom_field => true
             })
       end
     end

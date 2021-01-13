@@ -925,7 +925,7 @@ span.required {color: #bb0000;}
 a.remove-upload:hover {text-decoration:none !important;}
 .existing-attachment.deleted .filename {text-decoration:line-through; color:#999 !important;}
 
-div.fileover { background-color: lavender; }
+div.fileover, p.custom-field-filedroplistner.fileover { background-color: lavender; }
 
 div.attachments p { margin:4px 0 2px 0; }
 div.attachments img { vertical-align: middle; }
