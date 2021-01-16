@@ -190,10 +190,6 @@ Style/IdenticalConditionalBranches:
     - 'config/initializers/10-patches.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
 
-Style/Lambda:
-  Enabled: true
-  EnforcedStyle: lambda
-
 Style/NegatedIfElseCondition:
   Enabled: false
 
