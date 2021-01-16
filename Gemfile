@@ -92,7 +92,7 @@ group :test do
   gem 'capybara', '~> 3.31.0'
   gem "selenium-webdriver"
   # RuboCop
-  gem 'rubocop', '~> 1.5.2'
+  gem 'rubocop', '~> 1.8.1'
   gem 'rubocop-performance', '~> 1.9.0'
   gem 'rubocop-rails', '~> 2.9.0'
 end
