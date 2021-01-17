@@ -40,7 +40,7 @@
     </td>
     <% for new_status in @statuses -%>
     <% checked = (old_status == new_status) || (transition_counts[[old_status, new_status]] > 0) %>
-    <td class="<%= checked ? 'enabled' : '' %>" title="<%= old_status_name %> &#187; <%= new_status.name %>">
+    <td class="no-tooltip <%= checked ? 'enabled' : '' %>" title="<%= old_status_name %> &#187; <%= new_status.name %>">
       <%= transition_tag transition_counts[[old_status, new_status]], old_status, new_status, name %>
     </td>
     <% end -%>
