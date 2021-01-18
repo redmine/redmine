@@ -125,7 +125,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
     assert_select 'table.workflows.transitions-always tbody tr:nth-child(2)' do
       assert_select 'td.name', :text => 'New'
       # assert that the td is enabled
-      assert_select "td[title='New » New'][class=?]", 'enabled'
+      assert_select "td.enabled[title='New » New']"
       # assert that the checkbox is disabled and checked
       assert_select "input[name='transitions[1][1][always]'][checked=?][disabled=?]", 'checked', 'disabled', 1
     end
