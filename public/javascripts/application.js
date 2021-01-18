@@ -997,15 +997,15 @@ function setupAttachmentDetail() {
 
 
 $(function () {
-    $('[title]').tooltip({
-        show: {
-          delay: 400
-        },
-        position: {
-          my: "center bottom-5",
-          at: "center top"
-        }
-    });
+  $("[title]:not(.no-tooltip)").tooltip({
+    show: {
+      delay: 400
+    },
+    position: {
+      my: "center bottom-5",
+      at: "center top"
+    }
+  });
 });
 
 function inlineAutoComplete(element) {
