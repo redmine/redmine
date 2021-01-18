@@ -2340,6 +2340,54 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_show_should_show_subtasks_stats
+    @request.session[:user_id] = 1
+    child1 = Issue.generate!(parent_issue_id: 1, subject: 'Open child issue')
+    Issue.generate!(parent_issue_id: 1, subject: 'Closed child issue', status_id: 5)
+    Issue.generate!(parent_issue_id: child1.id, subject: 'Open child of child')
+    # Issue not visible for anonymous
+    Issue.generate!(parent_issue_id: 1, subject: 'Private child', project_id: 5)
+
+    get(:show, params: {:id => 1})
+    assert_response :success
+
+    assert_select 'div#issue_tree span.issues-stat' do
+      assert_select 'span.badge', text: '4'
+      assert_select 'span.open a', text: '3 open'
+      assert_equal CGI.unescape(css_select('span.open a').first.attr('href')),
+                   "/issues?parent_id=~1&set_filter=true&status_id=o"
+
+      assert_select 'span.closed a', text: '1 closed'
+      assert_equal CGI.unescape(css_select('span.closed a').first.attr('href')),
+                   "/issues?parent_id=~1&set_filter=true&status_id=c"
+    end
+  end
+
+  def test_show_subtasks_stats_should_not_link_if_issue_has_zero_open_or_closed_subtasks
+    child1 = Issue.generate!(parent_issue_id: 1, subject: 'Open child issue')
+
+    get(:show, params: {:id => 1})
+    assert_response :success
+
+    assert_select 'div#issue_tree span.issues-stat' do
+      assert_select 'span.open a', text: '1 open'
+      assert_equal CGI.unescape(css_select('span.open a').first.attr('href')),
+                   "/issues?parent_id=~1&set_filter=true&status_id=o"
+      assert_select 'span.closed', text: '0 closed'
+      assert_select 'span.closed a', 0
+    end
+  end
+
+  def test_show_should_not_show_subtasks_stats_if_subtasks_are_not_visible
+    # Issue not visible for anonymous
+    Issue.generate!(parent_issue_id: 1, subject: 'Private child', project_id: 5)
+
+    get(:show, params: {:id => 1})
+    assert_response :success
+
+    assert_select 'div#issue_tree span.issues-stat', 0
+  end
+
   def test_show_should_list_parents
     issue = Issue.
               create!(

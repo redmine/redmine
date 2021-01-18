@@ -540,6 +540,8 @@ body.controller-issues h2.inline-flex {padding-right: 0}
 #issue_tree td.checkbox, #relations td.checkbox {display:none;}
 #issue_tree td.subject, #relations td.subject {width: 50%;}
 #issue_tree td.buttons, #relations td.buttons {padding:0;}
+#issue_tree .issues-stat {font-size: 80%}
+#issue_tree .issues-stat .badge {bottom: initial;}
 
 #trackers_description {display:none;}
 #trackers_description dt {font-weight: bold; text-decoration: underline;}
@@ -1470,6 +1472,10 @@ td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
   color: #1D781D;
   border: 1px solid #1D781D;
 }
+.badge-issues-count {
+  background: #EEEEEE;
+}
+
 /***** Tooltips *****/
 .ui-tooltip {
   background: #000;

@@ -143,6 +143,52 @@ module IssuesHelper
     s.html_safe
   end
 
+  # Renders descendants stats (total descendants (open - closed)) with query links
+  def render_descendants_stats(issue)
+    # Get issue descendants grouped by status type (open/closed) using a single query
+    subtasks_grouped = issue.descendants.visible.joins(:status).select(:is_closed, :id).group(:is_closed).reorder(:is_closed).count(:id)
+    # Cast keys to boolean in order to have consistent results between database types
+    subtasks_grouped.transform_keys! {|k| ActiveModel::Type::Boolean.new.cast(k)}
+
+    open_subtasks = subtasks_grouped[false].to_i
+    closed_subtasks = subtasks_grouped[true].to_i
+    all_subtasks = open_subtasks + closed_subtasks
+
+    return if all_subtasks == 0
+
+    all_block = content_tag(
+      'span',
+      link_to(all_subtasks, issues_path(parent_id: "~#{issue.id}", set_filter: true, status_id: '*')),
+      class: 'badge badge-issues-count'
+    )
+
+    closed_block = content_tag(
+      'span',
+      link_to_if(
+        closed_subtasks > 0,
+        l(:label_x_closed_issues_abbr, count: closed_subtasks),
+        issues_path(parent_id: "~#{issue.id}", set_filter: true, status_id: 'c')
+      ),
+      class: 'closed'
+    )
+
+    open_block = content_tag(
+      'span',
+      link_to_if(
+        open_subtasks > 0,
+        l(:label_x_open_issues_abbr, :count => open_subtasks),
+        issues_path(:parent_id => "~#{issue.id}", :set_filter => true, :status_id => 'o')
+      ),
+      class: 'open'
+    )
+
+    content_tag(
+      'span',
+      "#{all_block} (#{open_block} &#8212; #{closed_block})".html_safe,
+      :class => 'issues-stat'
+    )
+  end
+
   # Renders the list of related issues on the issue details view
   def render_issue_relations(issue, relations)
     manage_relations = User.current.allowed_to?(:manage_issue_relations, issue.project)
