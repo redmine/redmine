@@ -140,7 +140,7 @@ pt:
         cant_link_an_issue_with_a_descendant: "Não é possível ligar uma tarefa a uma sub-tarefa que lhe é pertencente"
         earlier_than_minimum_start_date: "não pode ser antes de %{date} devido a tarefas precedentes"
         not_a_regexp: "não é uma expressão regular válida"
-        open_issue_with_closed_parent: "Uma tarefa aberta não pode ser relacionada com uma tarefa pai fechada"
+        open_issue_with_closed_parent: "Uma tarefa aberta não pode ser relacionada com uma tarefa mãe fechada"
         must_contain_uppercase: "must contain uppercase letters (A-Z)"
         must_contain_lowercase: "must contain lowercase letters (a-z)"
         must_contain_digits: "must contain digits (0-9)"
@@ -1127,7 +1127,7 @@ pt:
   error_password_expired: A sua palavra-chave expirou ou o administrador exige que a altere.
   field_time_entries_visibility: Visibilidade dos registo de tempo
   setting_password_max_age: Exigir palavra-chave após a alteração
-  label_parent_task_attributes: Atributos da tarefa-pai
+  label_parent_task_attributes: Atributos da tarefa-mãe
   label_parent_task_attributes_derived: Calculado a partir das sub-tarefas
   label_parent_task_attributes_independent: Independente das sub-tarefas
   label_time_entries_visibility_all: Todos os registos de tempo

@@ -151,7 +151,7 @@ pt-BR:
         cant_link_an_issue_with_a_descendant: "Uma tarefa não pode ser relacionada a uma de suas subtarefas"
         earlier_than_minimum_start_date: "não pode ser anterior a %{date} por causa de tarefas anteriores"
         not_a_regexp: "não é uma expressão regular válida"
-        open_issue_with_closed_parent: "Uma tarefa aberta não pode ser associada à uma tarefa pai fechada"
+        open_issue_with_closed_parent: "Uma tarefa aberta não pode ser associada à uma tarefa mãe fechada"
         must_contain_uppercase: "must contain uppercase letters (A-Z)"
         must_contain_lowercase: "must contain lowercase letters (a-z)"
         must_contain_digits: "must contain digits (0-9)"
@@ -906,7 +906,7 @@ pt-BR:
   error_unable_delete_issue_status: Não foi possível excluir situação da tarefa (%{value})
   label_profile: Perfil
   permission_manage_subtasks: Gerenciar subtarefas
-  field_parent_issue: Tarefa pai
+  field_parent_issue: Tarefa mãe
   label_subtask_plural: Subtarefas
   label_project_copy_notifications: Enviar notificações por e-mail ao copiar projeto
   error_can_not_delete_custom_field: Não foi possível excluir o campo personalizado
@@ -1144,7 +1144,7 @@ pt-BR:
   error_password_expired: Sua senha expirou ou requer atualização
   field_time_entries_visibility: Visibilidade do log de tempo
   setting_password_max_age: Requer troca de senha depois
-  label_parent_task_attributes: Atributos das tarefas pai
+  label_parent_task_attributes: Atributos das tarefas mãe
   label_parent_task_attributes_derived: Calculado das subtarefas
   label_parent_task_attributes_independent: Independente das subtarefas
   label_time_entries_visibility_all: Todas as entradas de tempo
