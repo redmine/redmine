@@ -335,6 +335,20 @@ class WatchersControllerTest < Redmine::ControllerTest
     assert_not_include hidden.name, response.body
   end
 
+  def test_autocomplete_for_user_should_not_return_users_without_object_visibility
+    @request.session[:user_id] = 1
+    get :autocomplete_for_user, :params => {
+      q: 'rober',
+      project_id: 'onlinestore',
+      object_id: '4',
+      object_type: 'issue'
+    }, :xhr => true
+
+    assert_response :success
+
+    assert response.body.blank?
+  end
+
   def test_append
     @request.session[:user_id] = 2
     assert_no_difference 'Watcher.count' do

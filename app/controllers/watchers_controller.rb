@@ -141,7 +141,12 @@ class WatchersController < ApplicationController
     end
     users = scope.sorted.like(params[:q]).to_a
     if @watchables && @watchables.size == 1
-      users -= @watchables.first.watcher_users
+      watchable_object = @watchables.first
+      users -= watchable_object.watcher_users
+
+      if watchable_object.respond_to?(:visible?)
+        users.reject! {|user| user.is_a?(User) && !watchable_object.visible?(user)}
+      end
     end
     users
   end
