@@ -13,7 +13,7 @@ gem "roadie-rails", (RUBY_VERSION < "2.5" ? "~> 1.3.0" : "~> 2.1.0")
 gem "mimemagic"
 gem "mail", "~> 2.7.1"
 gem 'csv', (RUBY_VERSION < '2.5' ? ['>= 3.1.1', '<= 3.1.5'] : '~> 3.1.1')
-gem "nokogiri", "~> 1.10.0"
+gem 'nokogiri', (RUBY_VERSION < '2.5' ? '~> 1.10.0' : '~> 1.11.1')
 gem "i18n", "~> 1.6.0"
 gem "rbpdf", "~> 1.20.0"
 
