@@ -1373,3 +1373,5 @@ de:
   text_user_destroy_confirmation: "Wollen Sie diesen Benutzer inklusive aller Referenzen darauf wirklich löschen? Dies kann nicht rückgängig gemacht werden. Oftmals ist es besser, einen Benutzer lediglich zu sperren. Geben Sie bitte zur Bestätigung den Login des Benutzers (%{login}) ein."
   text_project_destroy_enter_identifier: "Zur Bestätigung bitte die Projektkennung (%{identifier}) eingeben."
   button_add_subtask: Add subtask
+  notice_invalid_watcher: 'Invalid watcher: User will not receive any notifications
+    because it does not have access to view this object.'

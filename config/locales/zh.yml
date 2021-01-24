@@ -1357,3 +1357,5 @@ zh:
   text_user_destroy_confirmation: 您是否确定要删除这个用户并且移除该用户所有的参照？ 这是无法被复原的动作。通常锁定一个用户是比较好的方案，而非将用户删除。若要确认，请在下面输入用户的帐号名称 (%{login})。
   text_project_destroy_enter_identifier: 若要确认, 请在下面输入项目的标识 (%{identifier})。
   button_add_subtask: 新建子任务
+  notice_invalid_watcher: 'Invalid watcher: User will not receive any notifications
+    because it does not have access to view this object.'
