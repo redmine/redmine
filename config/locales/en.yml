@@ -193,6 +193,7 @@ en:
   notice_issue_not_closable_by_open_tasks: "This issue cannot be closed because it has at least one open subtask."
   notice_issue_not_closable_by_blocking_issue: "This issue cannot be closed because it is blocked by at least one open issue."
   notice_issue_not_reopenable_by_closed_parent_issue: "This issue cannot be reopened because its parent issue is closed."
+  notice_invalid_watcher: "Invalid watcher: User will not receive any notifications because it does not have access to view this object."
 
   error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."

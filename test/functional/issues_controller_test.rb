@@ -2657,6 +2657,21 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_show_should_mark_invalid_watchers
+    @request.session[:user_id] = 2
+    issue = Issue.find(4)
+    issue.add_watcher User.find(4)
+
+    get :show, :params => {:id => issue.id}
+
+    assert_response :success
+    assert_select 'div#watchers ul' do
+      assert_select 'li.user-4' do
+        assert_select 'span.icon-warning[title=?]', l(:notice_invalid_watcher), text: l(:notice_invalid_watcher)
+      end
+    end
+  end
+
   def test_show_with_thumbnails_enabled_should_display_thumbnails
     skip unless convert_installed?
     @request.session[:user_id] = 2

@@ -52,6 +52,9 @@ module WatchersHelper
       s = ''.html_safe
       s << avatar(user, :size => "16").to_s
       s << link_to_user(user, :class => 'user')
+      if object.respond_to?(:visible?) && user.is_a?(User) && !object.visible?(user)
+        s << content_tag('span', l(:notice_invalid_watcher), class: 'icon-only icon-warning', title: l(:notice_invalid_watcher))
+      end
       if remove_allowed
         url = {:controller => 'watchers',
                :action => 'destroy',
