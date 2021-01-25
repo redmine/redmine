@@ -196,6 +196,7 @@ bg:
   notice_issue_not_closable_by_open_tasks: Тази задача не може да бъде затворена, понеже има поне една отворена подзадача.
   notice_issue_not_closable_by_blocking_issue: Тази задача не може да бъде затворена, понеже е блокирана от поне една отворена задача.
   notice_issue_not_reopenable_by_closed_parent_issue: Тази задача не може да бъде отворена отново, понеже нейната родителска задача е затворена.
+  notice_invalid_watcher: 'Невалиден наблюдател: Потребителят няма да приема известия понеже той/тя няма достъп до този обект.'
 
   error_can_t_load_default_data: "Грешка при зареждане на началната информация: %{value}"
   error_scm_not_found: Несъществуващ обект в хранилището.
@@ -1363,5 +1364,3 @@ bg:
     Това действие не може да бъде отменено. Често заключването на потребителя е по-добро решение от изтриването му.
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
-  notice_invalid_watcher: 'Invalid watcher: User will not receive any notifications
-    because it does not have access to view this object.'
