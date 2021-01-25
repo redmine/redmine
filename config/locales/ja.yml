@@ -1372,5 +1372,4 @@ ja:
   text_user_destroy_confirmation: 本当にこのユーザーとこのユーザーへのすべての参照を削除しますか? 削除後は元に戻せません。通常は削除よりロックのほうが適切です。削除する場合は確認のためログインID (%{login}) を入力してください。
   text_project_destroy_enter_identifier: 確認のためプロジェクト識別子 (%{identifier}) を入力してください。
   button_add_subtask: 子チケットを追加
-  notice_invalid_watcher: 'Invalid watcher: User will not receive any notifications
-    because it does not have access to view this object.'
+  notice_invalid_watcher: '無効なウォッチャー: このオブジェクトを表示できないユーザーですので通知は行われません。'
