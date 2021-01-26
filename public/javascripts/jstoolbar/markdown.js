@@ -26,6 +26,7 @@
 jsToolBar.prototype.elements.strong = {
   type: 'button',
   title: 'Strong',
+  shortcut: 'b',
   fn: {
     wiki: function() { this.singleTag('**') }
   }
@@ -35,6 +36,7 @@ jsToolBar.prototype.elements.strong = {
 jsToolBar.prototype.elements.em = {
   type: 'button',
   title: 'Italic',
+  shortcut: 'i',
   fn: {
     wiki: function() { this.singleTag("*") }
   }
@@ -44,6 +46,7 @@ jsToolBar.prototype.elements.em = {
 jsToolBar.prototype.elements.ins = {
   type: 'button',
   title: 'Underline',
+  shortcut: 'u',
   fn: {
     wiki: function() { this.singleTag('_') }
   }

@@ -24,6 +24,10 @@ module Redmine
         (/(:?mswin|mingw)/.match?(RUBY_PLATFORM)) ||
            (RUBY_PLATFORM == 'java' && /windows/i.match?(ENV['OS'] || ENV['os']))
       end
+
+      def osx?
+        (/(:?darwin)/.match?(RUBY_PLATFORM))
+      end
     end
   end
 end

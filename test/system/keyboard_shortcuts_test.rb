@@ -68,4 +68,66 @@ class InlineAutocompleteSystemTest < ApplicationSystemTestCase
     find 'textarea#issue_notes', :visible => true
     find 'div#preview_issue_notes', :visible => false
   end
+
+  def test_keyboard_shortcuts_for_wiki_toolbar_buttons_using_textile
+    with_settings :text_formatting => 'textile' do
+      log_user('jsmith', 'jsmith')
+      visit 'issues/new'
+
+      find('#issue_description').click.send_keys([modifier_key, 'b'])
+      assert_equal '**', find('#issue_description').value
+
+      # Clear textarea value
+      fill_in 'Description', :with => ''
+      find('#issue_description').send_keys([modifier_key, 'u'])
+      assert_equal '++', find('#issue_description').value
+
+      # Clear textarea value
+      fill_in 'Description', :with => ''
+      find('#issue_description').send_keys([modifier_key, 'i'])
+      assert_equal '__', find('#issue_description').value
+    end
+  end
+
+  def test_keyboard_shortcuts_for_wiki_toolbar_buttons_using_markdown
+    with_settings :text_formatting => 'markdown' do
+      log_user('jsmith', 'jsmith')
+      visit 'issues/new'
+
+      find('#issue_description').click.send_keys([modifier_key, 'b'])
+      assert_equal '****', find('#issue_description').value
+
+      # Clear textarea value
+      fill_in 'Description', :with => ''
+      find('#issue_description').send_keys([modifier_key, 'u'])
+      assert_equal '__', find('#issue_description').value
+
+      # Clear textarea value
+      fill_in 'Description', :with => ''
+      find('#issue_description').send_keys([modifier_key, 'i'])
+      assert_equal '**', find('#issue_description').value
+    end
+  end
+
+  def test_keyboard_shortcuts_keys_should_be_shown_in_button_title
+    log_user('jsmith', 'jsmith')
+    visit 'issues/new'
+
+    within('.jstBlock .jstElements') do
+      assert_equal "Strong (#{modifier_key_title}B)", find('button.jstb_strong')['title']
+      assert_equal "Italic (#{modifier_key_title}I)", find('button.jstb_em')['title']
+      assert_equal "Underline (#{modifier_key_title}U)", find('button.jstb_ins')['title']
+    end
+  end
+
+  private
+
+  def modifier_key
+    modifier = osx? ? "command" : "control"
+    modifier.to_sym
+  end
+
+  def modifier_key_title
+    osx? ? "⌘" : "Ctrl+"
+  end
 end

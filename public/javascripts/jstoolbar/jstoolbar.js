@@ -22,6 +22,7 @@
 
 /* Modified by JP LANG for textile formatting */
 let lastJstPreviewed = null;
+const isMac = Boolean(navigator.platform.toLowerCase().match(/mac/));
 
 function jsToolBar(textarea) {
   if (!document.createElement) { return; }
@@ -208,6 +209,7 @@ jsToolBar.prototype = {
   mode: 'wiki',
   elements: {},
   help_link: '',
+  shortcuts: {},
 
   getMode: function() {
     return this.mode;
@@ -233,9 +235,26 @@ jsToolBar.prototype = {
   button: function(toolName) {
     var tool = this.elements[toolName];
     if (typeof tool.fn[this.mode] != 'function') return null;
-    var b = new jsButton(tool.title, tool.fn[this.mode], this, 'jstb_'+toolName);
+
+    const className = 'jstb_' + toolName;
+    let title = tool.title
+
+    if (tool.hasOwnProperty('shortcut')) {
+      this.shortcuts[tool.shortcut] = className;
+      title = this.buttonTitleWithShortcut(tool.title, tool.shortcut)
+    }
+
+    var b = new jsButton(title, tool.fn[this.mode], this, className);
     if (tool.icon != undefined) b.icon = tool.icon;
+
     return b;
+  },
+  buttonTitleWithShortcut: function(title, shortcutKey) {
+    if (isMac) {
+      return title + " (⌘" + shortcutKey.toUpperCase() + ")";
+    } else {
+      return title + " (Ctrl+" + shortcutKey.toUpperCase() + ")";
+    }
   },
   space: function(toolName) {
     var tool = new jsSpace(toolName)
@@ -409,7 +428,7 @@ jsToolBar.prototype = {
     this.toolbar.classList.add('hidden');
     this.textarea.classList.add('hidden');
     this.preview.classList.remove('hidden');
-    this.tabsBlock.getElementsByClassName('tab-edit')[0].classList.remove('selected');
+    this.tabsBlock.querySelector('.tab-edit').classList.remove('selected');
     event.target.classList.add('selected');
   },
   hidePreview: function(event) {
@@ -418,17 +437,25 @@ jsToolBar.prototype = {
     this.textarea.classList.remove('hidden');
     this.textarea.focus();
     this.preview.classList.add('hidden');
-    this.tabsBlock.getElementsByClassName('tab-preview')[0].classList.remove('selected');
+    this.tabsBlock.querySelector('.tab-preview').classList.remove('selected');
     event.target.classList.add('selected');
   },
   keyboardShortcuts: function(e) {
+    let stop = false;
     if (isToogleEditPreviewShortcut(e)) {
-      // Switch to preview only if tab edit is selected when the event triggered.
+      // Switch to preview only if Edit tab is selected when the event triggers.
       if (this.tabsBlock.querySelector('.tab-edit.selected')) {
-        e.stopPropagation();
-        e.preventDefault();
-        this.tabsBlock.getElementsByClassName('tab-preview')[0].click();
+        stop = true
+        this.tabsBlock.querySelector('.tab-preview').click();
       }
+    }
+    if (isModifierKey(e) && this.shortcuts.hasOwnProperty(e.key.toLowerCase())) {
+      stop = true
+      this.toolbar.querySelector("." + this.shortcuts[e.key.toLowerCase()]).click();
+    }
+    if (stop) {
+      e.stopPropagation();
+      e.preventDefault();
     }
   },
   stripBaseURL: function(url) {
@@ -535,6 +562,15 @@ $(document).keydown(function(e) {
 
 function isToogleEditPreviewShortcut(e) {
   if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase() === 'p') {
+    return true;
+  } else {
+    return false;
+  }
+}
+function isModifierKey(e) {
+  if (isMac && e.metaKey) {
+    return true;
+  } else if (!isMac && e.ctrlKey) {
     return true;
   } else {
     return false;
