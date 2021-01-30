@@ -1327,87 +1327,87 @@ gl:
     está bloqueada polo menos por unha tarefa aberta.
   notice_issue_not_reopenable_by_closed_parent_issue: Esta tarefa non pode ser reaberta
     porque a súa tarefa pai está pechada.
-  error_bulk_download_size_too_big: These attachments cannot be bulk downloaded because
-    the total file size exceeds the maximum allowed size (%{max_size})
-  setting_bulk_download_max_size: Maximum total size for bulk download
-  label_download_all_attachments: Download all files
-  error_attachments_too_many: This file cannot be uploaded because it exceeds the maximum
-    number of files that can be attached simultaneously (%{max_number_of_files})
-  setting_email_domains_allowed: Allowed email domains
-  setting_email_domains_denied: Disallowed email domains
-  field_passwd_changed_on: Password last changed
-  label_relations_mapping: Relations mapping
-  label_import_users: Import users
-  label_days_to_html: "%{days} days up to %{date}"
-  setting_twofa: Two-factor authentication
-  label_optional: optional
-  label_required_lower: required
-  button_disable: Disable
-  twofa__totp__name: Authenticator app
-  twofa__totp__text_pairing_info_html: Scan this QR code or enter the plain text key
-    into a TOTP app (e.g. <a href="https://support.google.com/accounts/answer/1066447">Google
+  error_bulk_download_size_too_big: Os ficheiros non poden ser descargados á vez porque
+    o tamaño total excede o máximo autorizado (%{max_size})
+  setting_bulk_download_max_size: Tamaño máximo para descargar á vez
+  label_download_all_attachments: Descargar todos os ficheiros
+  error_attachments_too_many: Este ficheiro non pode ser subido porque excede o número
+    máximo de ficheiros que poden ser achegados de xeito simultáneo (%{max_number_of_files})
+  setting_email_domains_allowed: Dominios de correo permitidos
+  setting_email_domains_denied: Dominios de correo prohibidos
+  field_passwd_changed_on: Password cambiado por última vez
+  label_relations_mapping: Correspondencia de relacións
+  label_import_users: Importar usuarios
+  label_days_to_html: "%{days} días ata %{date}"
+  setting_twofa: Autenticación de dous factores
+  label_optional: opcional
+  label_required_lower: obrigatorio
+  button_disable: Deshabilitar
+  twofa__totp__name: Aplicación de autenticación
+  twofa__totp__text_pairing_info_html: Escanea este código QR ou introduce a chave de texto plano
+    nunha aplicación de 2 factores (e.x. <a href="https://support.google.com/accounts/answer/1066447">Google
     Authenticator</a>, <a href="https://authy.com/download/">Authy</a>, <a href="https://guide.duo.com/third-party-accounts">Duo
-    Mobile</a>) and enter the code in the field below to activate two-factor authentication.
-  twofa__totp__label_plain_text_key: Plain text key
-  twofa__totp__label_activate: Enable authenticator app
-  twofa_currently_active: 'Currently active: %{twofa_scheme_name}'
-  twofa_not_active: Not activated
-  twofa_label_code: Code
-  twofa_hint_disabled_html: Setting <strong>%{label}</strong> will deactivate and unpair
-    two-factor authentication devices for all users.
-  twofa_hint_required_html: Setting <strong>%{label}</strong> will require all users
-    to set up two-factor authentication at their next login.
-  twofa_label_setup: Enable two-factor authentication
-  twofa_label_deactivation_confirmation: Disable two-factor authentication
-  twofa_notice_select: 'Please select the two-factor scheme you would like to use:'
-  twofa_warning_require: The administrator requires you to enable two-factor authentication.
-  twofa_activated: Two-factor authentication successfully enabled. It is recommended
-    to <a data-method="post" href="%{bc_path}">generate backup codes</a> for your account.
-  twofa_deactivated: Two-factor authentication disabled.
-  twofa_mail_body_security_notification_paired: Two-factor authentication successfully
-    enabled using %{field}.
-  twofa_mail_body_security_notification_unpaired: Two-factor authentication disabled
-    for your account.
-  twofa_mail_body_backup_codes_generated: New two-factor authentication backup codes
-    generated.
-  twofa_mail_body_backup_code_used: A two-factor authentication backup code has been
-    used.
-  twofa_invalid_code: Code is invalid or outdated.
-  twofa_label_enter_otp: Please enter your two-factor authentication code.
-  twofa_too_many_tries: Too many tries.
-  twofa_resend_code: Resend code
-  twofa_code_sent: An authentication code has been sent to you.
-  twofa_generate_backup_codes: Generate backup codes
-  twofa_text_generate_backup_codes_confirmation: This will invalidate all existing backup
-    codes and generate new ones. Would you like to continue?
-  twofa_notice_backup_codes_generated: Your backup codes have been generated.
-  twofa_warning_backup_codes_generated_invalidated: New backup codes have been generated.
-    Your existing codes from %{time} are now invalid.
-  twofa_label_backup_codes: Two-factor authentication backup codes
-  twofa_text_backup_codes_hint: Use these codes instead of a one-time password should
-    you not have access to your second factor. Each code can only be used once. It is
-    recommended to print and store them in a safe place.
-  twofa_text_backup_codes_created_at: Backup codes generated %{datetime}.
-  twofa_backup_codes_already_shown: Backup codes cannot be shown again, please <a data-method="post"
-    href="%{bc_path}">generate new backup codes</a> if required.
-  error_can_not_execute_macro_html: Error executing the <strong>%{name}</strong> macro
+    Mobile</a>) e mete o código no campo de debaixo para activar a autenticación de 2 factores.
+  twofa__totp__label_plain_text_key: Chave de texto plano
+  twofa__totp__label_activate: Habilitar aplicación de atenticación
+  twofa_currently_active: 'Activo agora mesmo: %{twofa_scheme_name}'
+  twofa_not_active: Sen activar
+  twofa_label_code: Código
+  twofa_hint_disabled_html: Configurar <strong>%{label}</strong> desactivará e desvinculará
+    a autenticación de dous factores para todos os usuarios.
+  twofa_hint_required_html: Configurar <strong>%{label}</strong> requerirá a todos os usuarios
+    configurar autenticación de dous factores no seu seguinte acceso.
+  twofa_label_setup: Establecer autenticación de dous factores
+  twofa_label_deactivation_confirmation: Desactivar autenticación de dous factores
+  twofa_notice_select: 'Por favor seleccione o esquema de dous factores que desexa usar:'
+  twofa_warning_require: O administrador obriga a que habilite autenticación de dous factores.
+  twofa_activated: Autenticación de dous factores habilitada con éxito. Se recomenda
+    <a data-method="post" href="%{bc_path}">xerar códigos de respaldo</a> para a súa conta.
+  twofa_deactivated: Autenticación de dous factores deshabilitada.
+  twofa_mail_body_security_notification_paired: Autenticación de dous factores habilitada
+    con éxito usando %{field}.
+  twofa_mail_body_security_notification_unpaired: Autenticación de dous factores deshabilitada
+    para a túa conta.
+  twofa_mail_body_backup_codes_generated: Xerados novos códigos de respaldo de autenticación de dous
+    factores.
+  twofa_mail_body_backup_code_used: Un código de respaldo de autenticación de dous factores foi
+    utilizado.
+  twofa_invalid_code: O código non é válido ou caducou.
+  twofa_label_enter_otp: Por favor, introduza su código de autenticación de dous factores.
+  twofa_too_many_tries: Demasiados intentos.
+  twofa_resend_code: Reenviar código
+  twofa_code_sent: Enviouse a vostede un código de autenticación.
+  twofa_generate_backup_codes: Xerar códigos de respaldo
+  twofa_text_generate_backup_codes_confirmation: Esto invalidará todos os códigos de respaldo
+    existentes e xerará uns novos. Desexa continuar?
+  twofa_notice_backup_codes_generated: Os seus códigos de respaldo foron xerados
+  twofa_warning_backup_codes_generated_invalidated: Novos códigos de respaldo foron xerados.
+    Os seus códigos existentes de %{time} agora son inválidos.
+  twofa_label_backup_codes: Códigos de respaldo de autenticación de dous factores
+  twofa_text_backup_codes_hint: Use estes códigos en troques de contrasinais dun único uso caso
+    de non ter acceso ao seu segundo factor. Cada código só pode usarse unha vez. É
+    recomendable imprimilos e gardalos nun lugar seguro.
+  twofa_text_backup_codes_created_at: Códigos de respaldo xerados o %{datetime}.
+  twofa_backup_codes_already_shown: Os códigos de respaldo non pode ser amosados de novo, por favor <a data-method="post"
+    href="%{bc_path}">cree novos códigos de respaldo</a> se é preciso.
+  error_can_not_execute_macro_html: Error ao executar a <strong>%{name}</strong> macro
     (%{error})
-  error_macro_does_not_accept_block: This macro does not accept a block of text
-  error_childpages_macro_no_argument: With no argument, this macro can be called from
-    wiki pages only
-  error_circular_inclusion: Circular inclusion detected
-  error_page_not_found: Page not found
-  error_filename_required: Filename required
-  error_invalid_size_parameter: Invalid size parameter
-  error_attachment_not_found: Attachment %{name} not found
-  permission_delete_project: Delete the project
-  field_twofa_scheme: Two-factor authentication scheme
-  text_user_destroy_confirmation: Are you sure you want to delete this user and remove
-    all references to them? This cannot be undone. Often, locking a user instead of
-    deleting them is the better solution. To confirm, please enter their login (%{login})
-    below.
-  text_project_destroy_enter_identifier: To confirm, please enter the project's identifier
-    (%{identifier}) below.
-  button_add_subtask: Add subtask
-  notice_invalid_watcher: 'Invalid watcher: User will not receive any notifications
-    because it does not have access to view this object.'
+  error_macro_does_not_accept_block: Esta macro non acepta un bloque de texto
+  error_childpages_macro_no_argument: Sen argumento esta macro só pode ser chamada dende
+    as páxinas wiki
+  error_circular_inclusion: Detectada unha inclusión circular
+  error_page_not_found: Páxina no atopada
+  error_filename_required: Se precisa nome de ficheiro
+  error_invalid_size_parameter: O parámetro de tamaño é inválido
+  error_attachment_not_found: Ficheiro %{name} non atopado
+  permission_delete_project: Borrar o proxecto
+  field_twofa_scheme: Esquema de autenticación de dous factores
+  text_user_destroy_confirmation: Está vostede seguro de querer borrar este usuario e eliminar
+    todas as referencias a el? Isto non se pode desfacer. Ás veces bloquear un usuario en troques de
+    borralo é a mellor solución. Para confirmar, por favor introduza o seu usuario (%{login})
+    debaixo.
+  text_project_destroy_enter_identifier: Para confirmar, por favor introduza o identificador do proxecto.
+    (%{identifier}) debaixo.
+  button_add_subtask: Engadir subtarefa
+  notice_invalid_watcher: 'Invalid watcher: O usuario non recibirá ningunha notificación
+    porque non ten acceso a ver este obxecto.'
