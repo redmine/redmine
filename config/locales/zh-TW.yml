@@ -422,7 +422,7 @@
   field_comments_sorting: 回應排序
   field_parent_title: 父頁面
   field_editable: 可編輯
-  field_watcher: 觀察者
+  field_watcher: 監看員
   field_identity_url: OpenID 網址
   field_content: 內容
   field_group_by: 結果分組方式
@@ -580,9 +580,9 @@
   permission_save_queries: 儲存查詢
   permission_view_gantt: 檢視甘特圖
   permission_view_calendar: 檢視日曆
-  permission_view_issue_watchers: 檢視監看者清單
-  permission_add_issue_watchers: 新增監看者
-  permission_delete_issue_watchers: 刪除監看者
+  permission_view_issue_watchers: 檢視監看員清單
+  permission_add_issue_watchers: 新增監看員
+  permission_delete_issue_watchers: 刪除監看員
   permission_log_time: 紀錄耗用工時
   permission_view_time_entries: 檢視耗用工時
   permission_edit_time_entries: 編輯工時紀錄
@@ -959,9 +959,9 @@
   label_user_mail_option_all: "提醒與我的專案有關的全部事件"
   label_user_mail_option_selected: "只提醒我所選擇專案中的事件..."
   label_user_mail_option_none: "取消提醒"
-  label_user_mail_option_only_my_events: "只提醒我觀察中或參與中的事物"
-  label_user_mail_option_only_assigned: "只提醒我觀察中或分派給我的事物"
-  label_user_mail_option_only_owner: "只提醒我觀察中或擁有者為我的事物"
+  label_user_mail_option_only_my_events: "只提醒我監看中或參與中的事物"
+  label_user_mail_option_only_assigned: "只提醒我監看中或分派給我的事物"
+  label_user_mail_option_only_owner: "只提醒我監看中或擁有者為我的事物"
   label_user_mail_no_self_notified: "不提醒我自己所做的變更"
   label_registration_activation_by_email: 透過電子郵件啟用帳戶
   label_registration_manual_activation: 手動啟用帳戶
@@ -981,7 +981,7 @@
   label_reverse_chronological_order: 以時間由近至遠排序
   label_incoming_emails: 傳入的電子郵件
   label_generate_key: 產生金鑰
-  label_issue_watchers: 監看者
+  label_issue_watchers: 監看員
   label_example: 範例
   label_display: 顯示
   label_sort: 排序
@@ -1027,7 +1027,7 @@
   label_copy_subtasks: 複製子任務
   label_item_position: "%{position} / %{count}"
   label_completed_versions: 已完成版本
-  label_search_for_watchers: 搜尋可供加入的監看者
+  label_search_for_watchers: 搜尋可供加入的監看員
   label_session_expiration: 工作階段逾期
   label_status_transitions: 狀態轉換
   label_fields_permissions: 欄位權限
@@ -1136,8 +1136,8 @@
   button_sort: 排序
   button_log_time: 記錄時間
   button_rollback: 還原至此版本
-  button_watch: 觀察
-  button_unwatch: 取消觀察
+  button_watch: 監看
+  button_unwatch: 取消監看
   button_reply: 回應
   button_archive: 封存
   button_unarchive: 取消封存
@@ -1204,7 +1204,7 @@
   text_issue_category_destroy_question: "有 (%{count}) 個議題被分派到此分類. 請選擇您想要的動作？"
   text_issue_category_destroy_assignments: 移除這些議題的分類
   text_issue_category_reassign_to: 重新分派這些議題至其它分類
-  text_user_mail_option: "對於那些未被選擇的專案，將只會接收到您正在觀察中，或是參與中的議題通知。（「參與中的議題」包含您建立的或是分派給您的議題）"
+  text_user_mail_option: "對於那些未被選擇的專案，將只會接收到您正在監看中，或是參與中的議題通知。（「參與中的議題」包含您建立的或是分派給您的議題）"
   text_no_configuration_data: "角色、追蹤標籤、議題狀態與流程尚未被設定完成。\n強烈建議您先載入預設的組態。將預設組態載入之後，您可再變更其中之值。"
   text_load_default_configuration: 載入預設組態
   text_status_changed_by_changeset: "已套用至變更集 %{value}."
