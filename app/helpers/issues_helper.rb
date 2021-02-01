@@ -746,7 +746,7 @@ module IssuesHelper
   def projects_for_select(issue)
     if issue.parent_issue_id.present?
       issue.allowed_target_projects_for_subtask(User.current)
-    elsif issue.new_record? && !issue.copy?
+    elsif @project && issue.new_record? && !issue.copy?
       issue.allowed_target_projects(User.current, 'descendants')
     else
       issue.allowed_target_projects(User.current)

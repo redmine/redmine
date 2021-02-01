@@ -3170,6 +3170,18 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_get_new_global_should_show_all_projects
+    @request.session[:user_id] = 1
+    get :new
+
+    assert_response :success
+
+    assert_select 'select[name=?]', 'issue[project_id]' do
+      assert_select 'option[value=?]', '1'
+      assert_select 'option[value=?]', '2'
+    end
+  end
+
   def test_get_new_should_show_project_selector_for_project_with_subprojects
     @request.session[:user_id] = 2
     get(
