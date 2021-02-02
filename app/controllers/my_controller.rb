@@ -21,7 +21,7 @@ class MyController < ApplicationController
   self.main_menu = false
   before_action :require_login
   # let user change user's password when user has to
-  skip_before_action :check_password_change, :only => :password
+  skip_before_action :check_password_change, :check_twofa_activation, :only => :password
 
   accept_api_auth :account
 

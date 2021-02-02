@@ -30,6 +30,19 @@ class TwofaTest < Redmine::IntegrationTest
     end
   end
 
+  test 'should require to change password first when must_change_passwd is true' do
+    User.find_by(login: 'jsmith').update_attribute(:must_change_passwd, true)
+    with_settings twofa: '2' do
+      log_user('jsmith', 'jsmith')
+      follow_redirect!
+      assert_redirected_to '/my/password'
+      follow_redirect!
+      # Skip the before action check_twofa_activation for '/my/password'
+      # to avoid redirect loop
+      assert_response :success
+    end
+  end
+
   test "should generate and accept backup codes" do
     log_user('jsmith', 'jsmith')
     get "/my/account"
