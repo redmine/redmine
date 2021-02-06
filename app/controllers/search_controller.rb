@@ -63,7 +63,7 @@ class SearchController < ApplicationController
       @object_types = @object_types.select {|o| User.current.allowed_to?("view_#{o}".to_sym, projects_to_search)}
     end
 
-    @scope = @object_types.select {|t| params[t]}
+    @scope = @object_types.select {|t| params[t].present?}
     @scope = @object_types if @scope.empty?
 
     fetcher = Redmine::Search::Fetcher.new(
