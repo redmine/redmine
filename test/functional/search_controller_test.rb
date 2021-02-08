@@ -426,4 +426,19 @@ class SearchControllerTest < Redmine::ControllerTest
       assert_select 'dd span.highlight', :text => 'highlighted'
     end
   end
+
+  def test_search_should_exclude_empty_modules_params
+    @request.session[:user_id] = 1
+
+    get :index, params: {
+      q: "private",
+      scope: "all",
+      issues: "1",
+      projects: nil
+    }
+
+    assert_response :success
+
+    assert_select '#search-results dt.project', 0
+  end
 end
