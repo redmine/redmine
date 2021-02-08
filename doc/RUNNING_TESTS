@@ -66,8 +66,8 @@ REDMINE_TEST_DAV_SERVER environment variable to specify another host.
 Running Capybara tests
 ======================
 
-You need to have ChromeDriver installed and available in your PATH:
-https://sites.google.com/a/chromium.org/chromedriver/
+You need to have Chrome installed and available in your PATH.
+Chromedriver is managed by the `webdrivers` gem (https://rubygems.org/gems/webdrivers)
 
 Capybara tests can be run with:
 `rails test:system`

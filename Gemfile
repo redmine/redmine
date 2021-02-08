@@ -91,6 +91,7 @@ group :test do
   gem 'puma'
   gem 'capybara', '~> 3.31.0'
   gem "selenium-webdriver"
+  gem 'webdrivers', '~> 4.4', require: false
   # RuboCop
   gem 'rubocop', '~> 1.9.1'
   gem 'rubocop-performance', '~> 1.9.0'
