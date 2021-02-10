@@ -250,10 +250,16 @@ jsToolBar.prototype = {
     return b;
   },
   buttonTitleWithShortcut: function(title, shortcutKey) {
-    if (isMac) {
-      return title + " (⌘" + shortcutKey.toUpperCase() + ")";
+    if(typeof jsToolBar.strings == 'undefined') {
+      var i18nTitle = title || null;
     } else {
-      return title + " (Ctrl+" + shortcutKey.toUpperCase() + ")";
+      var i18nTitle = jsToolBar.strings[title] || title || null;
+    }
+
+    if (isMac) {
+      return i18nTitle + " (⌘" + shortcutKey.toUpperCase() + ")";
+    } else {
+      return i18nTitle + " (Ctrl+" + shortcutKey.toUpperCase() + ")";
     }
   },
   space: function(toolName) {
