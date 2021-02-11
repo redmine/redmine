@@ -615,7 +615,7 @@ class Query < ActiveRecord::Base
 
   def watcher_values
     watcher_values = [["<< #{l(:label_me)} >>", "me"]]
-    if User.current.allowed_to?(:view_issue_watchers, self.project)
+    if User.current.allowed_to?(:view_issue_watchers, self.project, global: true)
       watcher_values +=
         principals.sort_by(&:status).
           collect{|s| [s.name, s.id.to_s, l("status_#{User::LABEL_BY_STATUS[s.status]}")]}

@@ -895,4 +895,26 @@ class QueriesControllerTest < Redmine::ControllerTest
     assert_include ["Dave2 Lopper2", "5", "locked"], json
     assert_include ["A Team", "10", "active"], json
   end
+
+  def test_watcher_filter_with_permission_should_show_members_and_groups_globally
+    # This user has view_issue_watchers permission
+    @request.session[:user_id] = 1
+    get(
+      :filter,
+      :params => {
+        :type => 'IssueQuery',
+        :name => 'watcher_id'
+      }
+    )
+    assert_response :success
+    assert_equal 'application/json', response.media_type
+    json = ActiveSupport::JSON.decode(response.body)
+
+    assert_equal 8, json.count
+    # "me" value should not be grouped
+    assert_include ['<< me >>', 'me'], json
+    assert_include ['Dave Lopper', '3', 'active'], json
+    assert_include ['Dave2 Lopper2', '5', 'locked'], json
+    assert_include ['A Team', '10', 'active'], json
+  end
 end
