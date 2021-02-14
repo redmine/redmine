@@ -2,13 +2,18 @@ html, body { min-height: 100vh; }
 html {overflow-y:scroll;}
 body { font-family: Verdana, sans-serif; font-size: 12px; color:#333; margin: 0; padding: 0; min-width: 900px; }
 
-h1, h2, h3, h4 {font-family: "Trebuchet MS", Verdana, sans-serif;padding: 2px 10px 1px 0px;margin: 0 0 10px 0;}
-#content h1, h2, h3, h4 {color: #555;}
-h2, .wiki h1 {font-size: 20px;}
-h3, .wiki h2 {font-size: 16px;}
-h4, .wiki h3 {font-size: 13px;}
-h4 {border-bottom: 1px solid #ccc; font-weight:normal;}
+h1, h2, h3, h4, h5, h6 {font-family: "Trebuchet MS", Verdana, sans-serif;padding: 2px 10px 1px 0px;margin: 0 0 10px 0;}
+#content h1, h2, h3, h4, h5, h6 {color: #555;}
+h2 {font-size: 20px;}
+h3 {font-size: 16px;}
+h4 {font-size: 13px; border-bottom: 1px solid #ccc; font-weight:normal;}
 pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
+.wiki h1 {font-size: 2em;}
+.wiki h2 {font-size: 1.8em;}
+.wiki h3 {font-size: 1.5em;}
+.wiki h4 {font-size: 1.2em; border: none; font-weight: bold;}
+.wiki h5 {font-size: 1em;}
+.wiki h6 {font-size: 1em; color: #8e8e8e;}
 
 /***** Layout *****/
 div#wrapper, div#wrapper2, div#wrapper3 { min-height: inherit; }
