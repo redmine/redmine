@@ -798,7 +798,6 @@ eu:
 
   text_select_mail_notifications: Jakinarazpenak zein ekintzetarako bidaliko diren hautatu.
   text_regexp_info: adib. ^[A-Z0-9]+$
-  text_min_max_length_info: 0k mugarik gabe esan nahi du
   text_project_destroy_confirmation: Ziur zaude proiektu hau eta erlazionatutako datu guztiak ezabatu nahi dituzula?
   text_subprojects_destroy_warning: "%{value} azpiproiektuak ere ezabatuko dira."
   text_workflow_edit: Hautatu rola eta aztarnaria workflow-a editatzeko

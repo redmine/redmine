@@ -820,7 +820,6 @@ ca:
 
   text_select_mail_notifications: "Seleccionar les accions per les quals s'hauria d'enviar una notificació per correu electrònic."
   text_regexp_info: "ex. ^[A-Z0-9]+$"
-  text_min_max_length_info: "0 significa sense restricció"
   text_project_destroy_confirmation: "Segur que voleu suprimir aquest projecte i les dades relacionades?"
   text_subprojects_destroy_warning: "També seran suprimits els seus subprojectes: %{value}."
   text_workflow_edit: "Seleccioneu un rol i un tipus d'assumpte per a editar el flux de treball"

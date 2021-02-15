@@ -734,7 +734,6 @@ bs:
 
   text_select_mail_notifications: Odaberi događaje za koje će se slati email notifikacija.
   text_regexp_info: npr. ^[A-Z0-9]+$
-  text_min_max_length_info: 0 znači bez restrikcije
   text_project_destroy_confirmation: Sigurno želite izbrisati ovaj projekat i njegove podatke ?
   text_subprojects_destroy_warning: "Podprojekt(i): %{value} će takođe biti izbrisani."
   text_workflow_edit: Odaberite ulogu i područje aktivnosti za ispravku toka promjena na aktivnosti

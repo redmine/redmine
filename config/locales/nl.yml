@@ -741,7 +741,6 @@ nl:
   text_issues_ref_in_commit_messages: Opzoeken en aanpassen van issues in commitberichten
   text_length_between: "Lengte tussen %{min} en %{max} tekens."
   text_load_default_configuration: Standaardconfiguratie laden
-  text_min_max_length_info: 0 betekent geen beperking
   text_no_configuration_data: "Rollen, trackers, issuestatussen en workflows zijn nog niet geconfigureerd.\nHet is ten zeerste aangeraden om de standaardconfiguratie in te laden. U kunt deze aanpassen nadat deze is ingeladen."
   text_plugin_assets_writable: Plugin assets map schrijfbaar
   text_project_destroy_confirmation: Weet u zeker dat u dit project en alle gerelateerde gegevens wilt verwijderen?

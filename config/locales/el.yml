@@ -746,7 +746,6 @@ el:
 
   text_select_mail_notifications: Επιλογή ενεργειών για τις οποίες θα πρέπει να αποσταλεί ειδοποίηση με email.
   text_regexp_info: eg. ^[A-Z0-9]+$
-  text_min_max_length_info: 0 σημαίνει ότι δεν υπάρχουν περιορισμοί
   text_project_destroy_confirmation: Είστε σίγουροι ότι θέλετε να διαγράψετε αυτό το έργο και τα σχετικά δεδομένα του;
   text_subprojects_destroy_warning: "Επίσης το(α) επιμέρους έργο(α): %{value}  θα διαγραφούν."
   text_workflow_edit: Επιλέξτε ένα ρόλο και έναν ανιχνευτή για να επεξεργαστείτε  τη ροή εργασίας

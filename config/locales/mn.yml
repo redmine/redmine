@@ -801,7 +801,6 @@ mn:
 
   text_select_mail_notifications: Ямар үед имэйлээр мэдэгдэл илгээхийг сонгоно уу.
   text_regexp_info: eg. ^[A-Z0-9]+$
-  text_min_max_length_info: 0 гэвэл ямар ч хязгааргүй гэсэн үг
   text_project_destroy_confirmation: Та энэ төсөл болоод бусад мэдээллийг нь үнэхээр устгамаар байна уу ?
   text_subprojects_destroy_warning: "Уг төслийн дэд төслүүд : %{value} нь бас устгагдах болно."
   text_workflow_edit: Ажлын дарааллыг өөрчлөхийн тулд хандалтын эрх болон асуудлын чиглэлийг сонгоно уу

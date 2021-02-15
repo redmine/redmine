@@ -604,7 +604,6 @@ uk:
 
   text_select_mail_notifications: Виберіть дії, на які відсилатиметься повідомлення на електронну пошту.
   text_regexp_info: наприклад ^[A-Z0-9]+$
-  text_min_max_length_info: 0 означає відсутність заборон
   text_project_destroy_confirmation: Ви наполягаєте на видаленні цього проекту і всієї інформації, що відноситься до нього?
   text_workflow_edit: Виберіть роль і координатор для редагування послідовності дій
   text_are_you_sure: Ви впевнені?

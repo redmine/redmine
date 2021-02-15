@@ -711,7 +711,6 @@ vi:
 
   text_select_mail_notifications: Chọn hành động đối với mỗi email sẽ gửi.
   text_regexp_info: eg. ^[A-Z0-9]+$
-  text_min_max_length_info: 0 để chỉ không hạn chế
   text_project_destroy_confirmation: Bạn có chắc chắn muốn xóa dự án này và các dữ liệu liên quan ?
   text_subprojects_destroy_warning: "Dự án con của : %{value} cũng sẽ bị xóa."
   text_workflow_edit: Chọn một vai trò và một vấn đề để sửa quy trình

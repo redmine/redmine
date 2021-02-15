@@ -795,7 +795,6 @@ lv:
 
   text_select_mail_notifications: "Izvēlieties darbības, par kurām vēlaties saņemt ziņojumus e-pastā"
   text_regexp_info: "piem. ^[A-Z0-9]+$"
-  text_min_max_length_info: "0 nozīmē, ka nav ierobežojumu"
   text_project_destroy_confirmation: "Vai tiešām vēlaties dzēst šo projektu un ar to saistītos datus?"
   text_subprojects_destroy_warning: "Tā apakšprojekts(i): %{value} arī tiks dzēsts(i)."
   text_workflow_edit: Lai labotu darba plūsmu, izvēlieties lomu un trakeri

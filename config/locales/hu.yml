@@ -666,7 +666,6 @@
 
   text_select_mail_notifications: Válasszon eseményeket, amelyekről e-mail értesítést kell küldeni.
   text_regexp_info: pl. ^[A-Z0-9]+$
-  text_min_max_length_info: 0 = nincs korlátozás
   text_project_destroy_confirmation: Biztosan törölni szeretné a projektet és vele együtt minden kapcsolódó adatot ?
   text_subprojects_destroy_warning: "Az alprojekt(ek): %{value} szintén törlésre kerülnek."
   text_workflow_edit: Válasszon egy szerepkört, és egy feladat típust a workflow szerkesztéséhez

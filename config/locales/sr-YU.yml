@@ -816,7 +816,6 @@ sr-YU:
 
   text_select_mail_notifications: Odaberi akcije za koje će obaveštenje biti poslato putem e-pošte.
   text_regexp_info: npr. ^[A-Z0-9]+$
-  text_min_max_length_info: 0 znači bez ograničenja
   text_project_destroy_confirmation: Jeste li sigurni da želite da izbrišete ovaj projekat i sve pripadajuće podatke?
   text_subprojects_destroy_warning: "Potprojekti: %{value} će takođe biti izbrisan."
   text_workflow_edit: Odaberite ulogu i praćenje za izmenu toka posla

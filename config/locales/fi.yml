@@ -625,7 +625,6 @@ fi:
 
   text_select_mail_notifications: Valitse tapahtumat joista tulisi lähettää sähköpostimuistutus.
   text_regexp_info: esim. ^[A-Z0-9]+$
-  text_min_max_length_info: 0 tarkoittaa, ei rajoitusta
   text_project_destroy_confirmation: Oletko varma että haluat poistaa tämän projektin ja kaikki siihen kuuluvat tiedot?
   text_workflow_edit: Valitse rooli ja tapahtuma muokataksesi työnkulkua
   text_are_you_sure: Oletko varma?

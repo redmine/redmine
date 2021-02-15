@@ -770,7 +770,6 @@ id:
 
   text_select_mail_notifications: Pilih aksi dimana email notifikasi akan dikirimkan.
   text_regexp_info: mis. ^[A-Z0-9]+$
-  text_min_max_length_info: 0 berarti tidak ada pembatasan
   text_project_destroy_confirmation: Apakah anda benar-benar akan menghapus proyek ini beserta data terkait ?
   text_subprojects_destroy_warning: "Subproyek: %{value} juga akan dihapus."
   text_workflow_edit: Pilih peran dan pelacak untuk menyunting alur kerja

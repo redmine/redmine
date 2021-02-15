@@ -771,7 +771,6 @@ pl:
   text_issues_ref_in_commit_messages: Odwołania do zagadnień Redmine w komentarzach w repozytorium
   text_length_between: "Długość pomiędzy %{min} i %{max} znaków."
   text_load_default_configuration: Załaduj domyślną konfigurację
-  text_min_max_length_info: 0 oznacza brak restrykcji
   text_no_configuration_data: "Role użytkowników, typy zagadnień, statusy zagadnień oraz przepływ pracy nie zostały jeszcze skonfigurowane.\nWysoce zalecane jest by załadować domyślną konfigurację. Po załadowaniu będzie możliwość edycji tych danych."
   text_project_destroy_confirmation: Jesteś pewien, że chcesz usunąć ten projekt i wszystkie powiązane dane?
   text_reassign_time_entries: 'Przepnij przepracowany czas do tego zagadnienia:'

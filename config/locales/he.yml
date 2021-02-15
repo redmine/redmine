@@ -826,7 +826,6 @@ he:
 
   text_select_mail_notifications: בחר פעולת שבגללן ישלח דוא"ל.
   text_regexp_info: כגון. ^[A-Z0-9]+$
-  text_min_max_length_info: 0 משמעו ללא הגבלות
   text_project_destroy_confirmation: האם אתה בטוח שברצונך למחוק את הפרויקט ואת כל המידע הקשור אליו?
   text_subprojects_destroy_warning: "תת־הפרויקטים: %{value} ימחקו גם כן."
   text_workflow_edit: בחר תפקיד וסיווג כדי לערוך את זרימת העבודה

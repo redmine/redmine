@@ -657,7 +657,6 @@ tr:
 
   text_select_mail_notifications: Gönderilecek e-posta uyarısına göre hareketi seçin.
   text_regexp_info: örn. ^[A-Z0-9]+$
-  text_min_max_length_info: 0 sınırlama yok demektir
   text_project_destroy_confirmation: Bu projeyi ve bağlantılı verileri silmek istediğinizden emin misiniz?
   text_subprojects_destroy_warning: "Ayrıca %{value} alt proje silinecek."
   text_workflow_edit: İşakışını düzenlemek için bir rol ve iş tipi seçin

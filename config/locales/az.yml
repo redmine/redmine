@@ -892,7 +892,6 @@ az:
   text_journal_set_to: "%{label} parametri %{value} dəyişib"
   text_length_between: "%{min} və %{max} simvollar arasındakı uzunluq."
   text_load_default_configuration: Susmaya görə konfiqurasiyanı yükləmək
-  text_min_max_length_info: 0 məhdudiyyətlərin olmadığını bildirir
   text_no_configuration_data: "Rollar, trekerlər, tapşırıqların statusları və operativ plan konfiqurasiya olunmayıblar.\nSusmaya görə konfiqurasiyanın yüklənməsi təkidlə xahiş olunur. Siz onu sonradan dəyişə bilərsiniz."
   text_plugin_assets_writable: Modullar kataloqu qeyd üçün açıqdır
   text_project_destroy_confirmation: Siz bu layihə və ona aid olan bütün informasiyanı silmək istədiyinizə əminsinizmi?

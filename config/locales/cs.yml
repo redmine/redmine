@@ -836,7 +836,6 @@ cs:
 
   text_select_mail_notifications: Vyberte akci, při které bude zasláno upozornění emailem.
   text_regexp_info: např. ^[A-Z0-9]+$
-  text_min_max_length_info: 0 znamená bez limitu
   text_project_destroy_confirmation: Jste si jisti, že chcete odstranit tento projekt a všechna související data?
   text_subprojects_destroy_warning: "Jeho podprojek(y): %{value} budou také smazány."
   text_workflow_edit: Vyberte roli a frontu k editaci průběhu práce

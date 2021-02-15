@@ -711,7 +711,6 @@ sl:
 
   text_select_mail_notifications: Izberi dejanja za katera naj bodo poslana oznanila preko e-pošto.
   text_regexp_info: npr. ^[A-Z0-9]+$
-  text_min_max_length_info: 0 pomeni brez omejitev
   text_project_destroy_confirmation: Ali ste prepričani da želite izbrisati izbrani projekt in vse z njim povezane podatke?
   text_subprojects_destroy_warning: "Njegov(i) podprojekt(i): %{value} bodo prav tako izbrisani."
   text_workflow_edit: Izberite vlogo in zahtevek za urejanje poteka dela

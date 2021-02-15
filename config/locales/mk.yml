@@ -816,7 +816,6 @@ mk:
 
   text_select_mail_notifications: Изберете за кои настани да се праќаат известувања по е-пошта да се праќаат.
   text_regexp_info: eg. ^[A-Z0-9]+$
-  text_min_max_length_info: 0 значи без ограничување
   text_project_destroy_confirmation: Дали сте сигурни дека сакате да го избришете проектот и сите поврзани податоци?
   text_subprojects_destroy_warning: "Неговите подпроекти: %{value} исто така ќе бидат избришани."
   text_workflow_edit: Select a role and a tracker to edit the workflow

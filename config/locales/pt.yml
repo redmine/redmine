@@ -667,7 +667,6 @@ pt:
 
   text_select_mail_notifications: Selecionar as ações que originam uma notificação por e-mail.
   text_regexp_info: ex. ^[A-Z0-9]+$
-  text_min_max_length_info: 0 siginifica sem restrição
   text_project_destroy_confirmation: Tem a certeza que deseja apagar o projeto e todos os dados relacionados?
   text_subprojects_destroy_warning: "O(s) seu(s) sub-projeto(s): %{value} também será/serão apagado(s)."
   text_workflow_edit: Selecione uma função e um tipo de tarefa para editar o fluxo de trabalho

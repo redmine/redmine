@@ -642,7 +642,6 @@ th:
 
   text_select_mail_notifications: เลือกการกระทำที่ต้องการให้ส่งอีเมล์แจ้ง.
   text_regexp_info: ตัวอย่าง ^[A-Z0-9]+$
-  text_min_max_length_info: 0 หมายถึงไม่จำกัด
   text_project_destroy_confirmation: คุณแน่ใจไหมว่าต้องการลบโครงการและข้อมูลที่เกี่ยวข้่อง ?
   text_subprojects_destroy_warning: "โครงการย่อย: %{value} จะถูกลบด้วย."
   text_workflow_edit: เลือกบทบาทและการติดตาม เพื่อแก้ไขลำดับงาน

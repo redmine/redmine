@@ -800,7 +800,6 @@ es-PA:
   text_issues_ref_in_commit_messages: Referencia y incidencia de corrección en los mensajes
   text_length_between: "Longitud entre %{min} y %{max} caracteres."
   text_load_default_configuration: Cargar la configuración por defecto
-  text_min_max_length_info: 0 para ninguna restricción
   text_no_configuration_data: "Todavía no se han configurado perfiles, ni tipos, estados y flujo de trabajo asociado a incidencias. Se recomiendo encarecidamente cargar la configuración por defecto. Una vez cargada, podrá modificarla."
   text_project_destroy_confirmation: ¿Estás seguro de querer eliminar el proyecto?
   text_reassign_time_entries: 'Reasignar las horas a esta incidencia:'

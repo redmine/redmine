@@ -990,7 +990,6 @@ sv:
 
   text_select_mail_notifications: Välj för vilka händelser mail ska skickas.
   text_regexp_info: eg. ^[A-Z0-9]+$
-  text_min_max_length_info: 0 betyder ingen gräns
   text_project_destroy_confirmation: Är du säker på att du vill ta bort detta projekt och all relaterad data?
   text_subprojects_destroy_warning: "Alla underprojekt: %{value} kommer också tas bort."
   text_workflow_edit: Välj en roll och en ärendetyp för att ändra arbetsflöde

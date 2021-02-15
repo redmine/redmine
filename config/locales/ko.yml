@@ -786,7 +786,6 @@ ko:
 
   text_select_mail_notifications: 알림메일이 필요한 작업을 선택하세요.
   text_regexp_info: 예) ^[A-Z0-9]+$
-  text_min_max_length_info: 0 는 제한이 없음을 의미함
   text_project_destroy_confirmation: 이 프로젝트를 삭제하고 모든 데이터를 지우시겠습니까?
   text_subprojects_destroy_warning: "하위 프로젝트(%{value})이(가) 자동으로 지워질 것입니다."
   text_workflow_edit: 업무흐름을 수정하려면 역할과 일감 유형을 선택하세요.

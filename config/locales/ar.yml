@@ -872,7 +872,6 @@ ar:
 
   text_select_mail_notifications: حدد الامور التي يجب ابلاغك بها عن طريق البريد الالكتروني
   text_regexp_info: مثال. ^[A-Z0-9]+$
-  text_min_max_length_info: الحد الاقصى والادني لطول المعلومات
   text_project_destroy_confirmation: هل أنت متأكد من أنك تريد حذف هذا المشروع والبيانات ذات الصلة؟
   text_subprojects_destroy_warning: "المشاريع الفرعية: %{value} سيتم حذفها أيضاً."
   text_workflow_edit: حدد دوراً و نوع بند عمل لتحرير سير العمل

@@ -773,7 +773,6 @@ gl:
   text_issues_ref_in_commit_messages: Referencia e petición de corrección nas mensaxes
   text_length_between: "Lonxitude entre %{min} e %{max} caracteres."
   text_load_default_configuration: "Cargar a configuración predeterminada"
-  text_min_max_length_info: 0 para ningunha restrición
   text_no_configuration_data: "Inda non se configuraron perfiles, nin tipos, estados e fluxo de traballo asociado a peticións. Recoméndase encarecidamente cargar a configuración predeterminada. Unha vez cargada, poderá modificala."
   text_project_destroy_confirmation: Estás seguro de querer eliminar o proxecto?
   text_reassign_time_entries: 'Reasignar as horas a esta petición:'

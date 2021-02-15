@@ -908,7 +908,6 @@ et:
 
   text_select_mail_notifications: "Tegevused, millest e-kirjaga teavitatakse"
   text_regexp_info: "nt. ^[A-Z0-9]+$"
-  text_min_max_length_info: "0 tähendab, et piiranguid ei ole"
   text_project_destroy_confirmation: "Oled Sa kindel oma soovis see projekt täielikult kustutada?"
   text_subprojects_destroy_warning: "Alamprojekt(id) - %{value} - kustutatakse samuti."
   text_workflow_edit: "Töövoo muutmiseks vali roll ja valdkond"
