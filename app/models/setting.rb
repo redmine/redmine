@@ -54,7 +54,6 @@ class Setting < ActiveRecord::Base
                   windows-1258
                   windows-31j
                   ISO-2022-JP
-                  ISO-2022-KR
                   ISO-8859-1
                   ISO-8859-2
                   ISO-8859-3
@@ -76,7 +75,6 @@ class Setting < ActiveRecord::Base
                   CP932
                   GB18030
                   GBK
-                  ISCII91
                   EUC-KR
                   Big5
                   Big5-HKSCS
