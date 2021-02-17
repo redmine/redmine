@@ -87,7 +87,7 @@ Layout/SpaceInsideBlockBraces:
   Enabled: false
 
 Layout/SpaceInsideHashLiteralBraces:
-  EnforcedStyle: no_space
+  Enabled: false
 
 Lint/RaiseException:
   Enabled: true
