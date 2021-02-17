@@ -168,8 +168,10 @@ Layout/SpaceAfterComma:
     - 'lib/redmine/scm/adapters/cvs_adapter.rb'
     - 'lib/redmine/sort_criteria.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
+    - 'test/functional/imports_controller_test.rb'
     - 'test/integration/layout_test.rb'
     - 'test/system/timelog_test.rb'
+    - 'test/unit/attachment_test.rb'
     - 'test/unit/lib/redmine/field_format/version_field_format_test.rb'
 
 # Cop supports --auto-correct.
