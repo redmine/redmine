@@ -84,18 +84,7 @@ Layout/SpaceBeforeBlockBraces:
   Enabled: false
 
 Layout/SpaceInsideBlockBraces:
-  Enabled: true
-  EnforcedStyle: no_space
-  SpaceBeforeBlockParameters: false
-  Exclude:
-    - 'config/initializers/10-patches.rb'
-    - 'config/initializers/backtrace_silencers.rb'
-    - 'db/migrate/007_create_journals.rb'
-    - 'db/migrate/096_add_commit_access_permission.rb'
-    - 'db/migrate/20170418090031_add_view_news_to_all_existing_roles.rb'
-    - 'db/migrate/20170419144536_add_view_messages_to_all_existing_roles.rb'
-    - 'lib/diff.rb'
-    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
+  Enabled: false
 
 Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
