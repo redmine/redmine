@@ -30,4 +30,11 @@ module ActivitiesHelper
     end
     sorted_events
   end
+
+  def activity_authors_options_for_select(project, selected)
+    options = []
+    options += [["<< #{l(:label_me)} >>", User.current.id]] if User.current.logged?
+    options += Query.new(project: project).users.select{|user| user.active?}.map{|user| [user.name, user.id]}
+    options_for_select(options, selected)
+  end
 end

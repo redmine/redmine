@@ -36,6 +36,10 @@
   <%= t(:label_days_to_html, :days => @days, :date => date_field_tag('from', '', :value => (@date_to - 1), :size => 10)) %>
   <%= calendar_for('from') %>
 </p>
+<p>
+  <%= l(:label_user) %>
+  <%= select_tag('user_id', activity_authors_options_for_select(@project, params[:user_id]), include_blank: true) %>
+</p>
 <ul>
 <% @activity.event_types.each do |t| %>
   <li>
@@ -51,7 +55,6 @@
     <%= hidden_field_tag 'with_subprojects', 0, :id => nil %>
     <p><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label></p>
 <% end %>
-<%= hidden_field_tag('user_id', params[:user_id]) unless params[:user_id].blank? %>
 <p><%= submit_tag l(:button_apply), :class => 'button-small', :name => 'submit' %></p>
 <% end %>
 <% end %>

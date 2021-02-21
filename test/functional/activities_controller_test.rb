@@ -87,6 +87,7 @@ class ActivitiesControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_select 'h2 a[href="/users/2"]', :text => 'John Smith'
+    assert_select '#sidebar select#user_id option[value="2"][selected=selected]'
 
     i1 = Issue.find(1)
     d1 = User.find(1).time_to_date(i1.created_on)

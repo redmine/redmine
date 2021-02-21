@@ -109,4 +109,24 @@ class ActivitiesHelperTest < Redmine::HelperTest
       sort_activity_events(events).map {|event, grouped| [event.name, grouped]}
     )
   end
+
+  def test_activity_authors_options_for_select_if_current_user_is_admin
+    User.current = User.find(1)
+    project = Project.find(1)
+
+    options = [["<< #{l(:label_me)} >>", 1], ['Dave Lopper', 3], ['John Smith', 2], ['Redmine Admin', 1], ['User Misc', 8]]
+    assert_equal(
+      options_for_select(options, nil),
+      activity_authors_options_for_select(project, nil))
+  end
+
+  def test_activity_authors_options_for_select_if_current_user_is_anonymous
+    User.current = nil
+    project = Project.find(1)
+
+    options = [['Dave Lopper', 3], ['John Smith', 2]]
+    assert_equal(
+      options_for_select(options, nil),
+      activity_authors_options_for_select(project, nil))
+  end
 end
