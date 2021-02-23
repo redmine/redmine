@@ -134,7 +134,7 @@ module ProjectsHelper
 
   def render_api_includes(project, api)
     api.array :trackers do
-      project.trackers.each do |tracker|
+      project.rolled_up_trackers(false).visible.each do |tracker|
         api.tracker(:id => tracker.id, :name => tracker.name)
       end
     end if include_in_api_response?('trackers')
