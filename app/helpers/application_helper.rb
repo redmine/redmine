@@ -1804,7 +1804,8 @@ module ApplicationHelper
 
   def autocomplete_data_sources(project)
     {
-      issues: auto_complete_issues_path(:project_id => project, :q => '')
+      issues: auto_complete_issues_path(:project_id => project, :q => ''),
+      wiki_pages: auto_complete_wiki_pages_path(:project_id => project, :q => '')
     }
   end
 

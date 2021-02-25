@@ -1113,24 +1113,45 @@ function inlineAutoComplete(element) {
     };
 
     const tribute = new Tribute({
-      trigger: '#',
-      values: function (text, cb) {
-        if (event.target.type === 'text' && $(element).attr('autocomplete') != 'off') {
-          $(element).attr('autocomplete', 'off');
+      collection: [
+        {
+          trigger: '#',
+          values: function (text, cb) {
+            if (event.target.type === 'text' && $(element).attr('autocomplete') != 'off') {
+              $(element).attr('autocomplete', 'off');
+            }
+            remoteSearch(getDataSource('issues') + text, function (issues) {
+              return cb(issues);
+            });
+          },
+          lookup: 'label',
+          fillAttr: 'label',
+          requireLeadingSpace: true,
+          selectTemplate: function (issue) {
+            return '#' + issue.original.id;
+          },
+          noMatchTemplate: function () {
+            return '<span style:"visibility: hidden;"></span>';
+          }
+        },
+        {
+          trigger: '[[',
+          values: function (text, cb) {
+            remoteSearch(getDataSource('wiki_pages') + text, function (wikiPages) {
+              return cb(wikiPages);
+            });
+          },
+          lookup: 'label',
+          fillAttr: 'label',
+          requireLeadingSpace: true,
+          selectTemplate: function (wikiPage) {
+            return '[[' + wikiPage.original.value + ']]';
+          },
+          noMatchTemplate: function () {
+            return '<span style:"visibility: hidden;"></span>';
+          }
         }
-        remoteSearch(getDataSource('issues') + text, function (issues) {
-          return cb(issues);
-        });
-      },
-      lookup: 'label',
-      fillAttr: 'label',
-      requireLeadingSpace: true,
-      selectTemplate: function (issue) {
-        return '#' + issue.original.id;
-      },
-      noMatchTemplate: function () {
-        return '<span style:"visibility: hidden;"></span>';
-      }
+      ]
     });
 
     tribute.attach(element);

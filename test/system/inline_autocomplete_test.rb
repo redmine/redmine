@@ -24,7 +24,7 @@ class InlineAutocompleteSystemTest < ApplicationSystemTestCase
            :trackers, :projects_trackers, :enabled_modules, :issue_statuses, :issues,
            :enumerations, :custom_fields, :custom_values, :custom_fields_trackers,
            :watchers, :journals, :journal_details, :versions,
-           :workflows
+           :workflows, :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions
 
   def test_inline_autocomplete_for_issues
     log_user('jsmith', 'jsmith')
@@ -128,5 +128,27 @@ class InlineAutocompleteSystemTest < ApplicationSystemTestCase
     fill_in 'message[content]', :with => '#'
 
     page.has_css?('.tribute-container li', minimum: 1)
+  end
+
+  def test_inline_autocompletion_of_wiki_page_links
+    log_user('jsmith', 'jsmith')
+    visit 'issues/new'
+
+    fill_in 'Description', :with => '[['
+
+    within('.tribute-container') do
+      assert page.has_text? 'Child_1_1'
+      assert page.has_text? 'Page_with_sections'
+    end
+
+    fill_in 'Description', :with => '[[page'
+    within('.tribute-container') do
+      assert page.has_text? 'Page_with_sections'
+      assert page.has_text? 'Another_page'
+      assert_not page.has_text? 'Child_1_1'
+
+      first('li').click
+    end
+    assert_equal '[[Page_with_sections]] ', find('#issue_description').value
   end
 end
