@@ -81,12 +81,12 @@ class AutoCompletesController < ApplicationController
   end
 
   def format_wiki_pages_json(wiki_pages)
-    wiki_pages.map {|wiki_page|
+    wiki_pages.map do |wiki_page|
       {
         'id' => wiki_page.id,
         'label' => wiki_page.title.to_s.truncate(255),
         'value' => wiki_page.title
       }
-    }
+    end
   end
 end
