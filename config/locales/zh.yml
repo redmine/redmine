@@ -1135,7 +1135,7 @@ zh:
   notice_import_finished: 成功导入 %{count} 个项目
   notice_import_finished_with_errors: 有 %{count} 个项目无法导入(共计 %{total} 个)
   error_invalid_file_encoding: 这不是一个有效的 %{encoding} 编码文件
-  error_invalid_csv_file_or_settings: 这不是一个CSV文件或者不符合以下设置
+  error_invalid_csv_file_or_settings: 这不是一个CSV文件或者不符合以下设置 (%{value})
   error_can_not_read_import_file: 读取导入文件时发生错误
   permission_import_issues: 问题导入
   label_import_issues: 问题导入

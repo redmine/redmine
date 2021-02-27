@@ -1174,7 +1174,7 @@ es-PA:
   notice_import_finished_with_errors: "%{count} de %{total} elementos no pudieron ser importados"
   error_invalid_file_encoding: El archivo no utiliza %{encoding} válida
   error_invalid_csv_file_or_settings: El archivo no es un archivo CSV o no coincide con la
-    configuración
+    configuración (%{value})
   error_can_not_read_import_file: Ocurrió un error mientras se leía el archivo a importar
   permission_import_issues: Importar incidencias
   label_import_issues: Importar incidencias

@@ -1172,7 +1172,7 @@ sv:
   notice_import_finished_with_errors: "%{count} av %{total} artiklar kunde inte importeras"
   error_invalid_file_encoding: Filen är inte en %{encoding}-kodad fil
   error_invalid_csv_file_or_settings: Filen är inte en CSV-fil eller stämmer inte med
-    inställningarna nedan
+    inställningarna nedan (%{value})
   error_can_not_read_import_file: Fel vid läsning av fil att importera
   permission_import_issues: Importera ärenden
   label_import_issues: Importera ärenden

@@ -1140,7 +1140,7 @@ uk:
   notice_import_finished: "%{count} елементи(ів) було імпортовано"
   notice_import_finished_with_errors: "%{count} з %{total} елементи(ів) неможливо імпортувати"
   error_invalid_file_encoding: Кодування файлу не відповідає видраній(ому) %{encoding}
-  error_invalid_csv_file_or_settings: Файл не є файлом CSV або не відповідає вибраним налаштуванням
+  error_invalid_csv_file_or_settings: Файл не є файлом CSV або не відповідає вибраним налаштуванням (%{value})
   error_can_not_read_import_file: Під час читання файлу для імпорту виникла помилка
   permission_import_issues: Імпорт задач
   label_import_issues: Імпорт задач

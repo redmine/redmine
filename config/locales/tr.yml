@@ -1146,7 +1146,7 @@ tr:
   notice_import_finished: "%{count} kayıt içeri aktarıldı"
   notice_import_finished_with_errors: "%{total} kayıttan %{count} tanesi aktarılamadı"
   error_invalid_file_encoding: Dosyanın karakter kodlaması geçerli bir %{encoding} kodlaması değil.
-  error_invalid_csv_file_or_settings: Dosya CSV dosyası değil veya aşağıdaki ayarlara uymuyor
+  error_invalid_csv_file_or_settings: Dosya CSV dosyası değil veya aşağıdaki ayarlara uymuyor (%{value})
   error_can_not_read_import_file: İçeri aktarılacak dosyayı okurken bir hata oluştu
   permission_import_issues: İşleri içeri aktarma
   label_import_issues: İşleri içeri aktar

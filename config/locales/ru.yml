@@ -1238,7 +1238,7 @@ ru:
   notice_import_finished: "%{count} элемент(а, ов) были импортированы"
   notice_import_finished_with_errors: "%{count} из %{total} элемент(а, ов) не могут быть импортированы"
   error_invalid_file_encoding: Кодировка файла не соответствует выбранной %{encoding}
-  error_invalid_csv_file_or_settings: Файл не является файлом CSV или не соответствует представленным настройкам
+  error_invalid_csv_file_or_settings: Файл не является файлом CSV или не соответствует представленным настройкам (%{value})
   error_can_not_read_import_file: Во время чтения файла для импорта произошла ошибка
   permission_import_issues: Импорт задач
   label_import_issues: Импорт задач

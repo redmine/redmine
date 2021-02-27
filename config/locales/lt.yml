@@ -218,7 +218,7 @@ lt:
   warning_attachments_not_saved: "%{count} byla(-ų) negali būti išsaugota."
   error_password_expired: "Jūsų slaptažodžio galiojimo laikas baigėsi arba administratorius reikalauja jūsų jį pasikeisti"
   error_invalid_file_encoding: "Failas nėra tinkamas %{encoding} koduotės failas"
-  error_invalid_csv_file_or_settings: "Failas nėra CSV failas arba neatitinka žemiau esančių nustatymų"
+  error_invalid_csv_file_or_settings: "Failas nėra CSV failas arba neatitinka žemiau esančių nustatymų (%{value})"
   error_can_not_read_import_file: "Iškilo klaida skaitant importuojamą failą"
   error_attachment_extension_not_allowed: "Priedo plėtinys %{extension} negalimas"
   error_ldap_bind_credentials: "Netinkamas LDAP Vartotojo vardas/Slaptažodis"

@@ -1139,7 +1139,7 @@ pt:
   notice_import_finished: "%{count} registos foram importados"
   notice_import_finished_with_errors: "%{count} de %{total} registos não poderam ser importados"
   error_invalid_file_encoding: 'O ficheiro não possui a codificação correcta: {encoding}'
-  error_invalid_csv_file_or_settings: O ficheiro não é um ficheiro CSV ou não respeita as definições abaixo
+  error_invalid_csv_file_or_settings: O ficheiro não é um ficheiro CSV ou não respeita as definições abaixo (%{value})
   error_can_not_read_import_file: Ocorreu um erro ao ler o ficheiro a importar
   permission_import_issues: Importar tarefas
   label_import_issues: Importar tarefas

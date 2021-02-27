@@ -298,7 +298,7 @@
   warning_attachments_not_saved: "%{count} 個附加檔案無法被儲存。"
   error_password_expired: "您的密碼已經過期或是管理員要求您變更密碼."
   error_invalid_file_encoding: "這個檔案不是一個有效的 %{encoding} 編碼檔案"
-  error_invalid_csv_file_or_settings: "這個檔案不是一個 CSV 檔案，或是未符合下面所列之設定值"
+  error_invalid_csv_file_or_settings: "這個檔案不是一個 CSV 檔案，或是未符合下面所列之設定值 (%{value})"
   error_can_not_read_import_file: "讀取匯入檔案時發生錯誤"
   error_attachment_extension_not_allowed: "附件之附檔名不允許使用 %{extension}"
   error_ldap_bind_credentials: "無效的 LDAP 帳號/密碼"

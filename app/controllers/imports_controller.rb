@@ -55,7 +55,7 @@ class ImportsController < ApplicationController
 
   rescue CSV::MalformedCSVError, EncodingError => e
     if e.is_a?(CSV::MalformedCSVError) && e.message !~ /Invalid byte sequence/
-      flash.now[:error] = l(:error_invalid_csv_file_or_settings)
+      flash.now[:error] = l(:error_invalid_csv_file_or_settings, e.message)
     else
       flash.now[:error] = l(:error_invalid_file_encoding, :encoding => ERB::Util.h(@import.settings['encoding']))
     end

@@ -1180,7 +1180,7 @@ ko:
   notice_import_finished: "총 %{count} 건을 가져왔습니다"
   notice_import_finished_with_errors: "총 %{total} 건 중 %{count} 건을 가져오지 못했습니다"
   error_invalid_file_encoding: 이 파일은 정상적인 %{encoding} 파일이 아닙니다.
-  error_invalid_csv_file_or_settings: 이 파일은 CSV 파일이 아니거나 아래 조건에 맞지 않습니다.
+  error_invalid_csv_file_or_settings: 이 파일은 CSV 파일이 아니거나 아래 조건에 맞지 않습니다. (%{value})
   error_can_not_read_import_file: 가져오기 파일을 읽을 수 없습니다.
   permission_import_issues: 일감 가져오기
   label_import_issues: 일감 가져오기

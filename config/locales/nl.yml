@@ -1116,7 +1116,7 @@ nl:
   notice_import_finished: "%{count} items werden geïmporteerd"
   notice_import_finished_with_errors: "%{count} van in totaal %{total} items kunnen niet geïmporteerd worden"
   error_invalid_file_encoding: Het bestand is geen geldig geëncodeerd %{encoding} bestand
-  error_invalid_csv_file_or_settings: Het bestand is geen CSV-bestand of voldoet niet aan onderstaande instellingen
+  error_invalid_csv_file_or_settings: Het bestand is geen CSV-bestand of voldoet niet aan onderstaande instellingen (%{value})
   error_can_not_read_import_file: Er is een fout opgetreden bij het inlezen van het bestand
   permission_import_issues: Issues importeren
   label_import_issues: Issues importeren

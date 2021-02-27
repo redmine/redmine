@@ -218,7 +218,7 @@ fa:
   warning_attachments_not_saved: "%{count} پرونده نتوانست ذخیره شود."
   error_password_expired: "گذرواژه‌ی شما منقضی شده است یا راه‌بر درخواست تغییر آن را داده است."
   error_invalid_file_encoding: "این پرونده یک پرونده با کدگذاری %{encoding} نیست"
-  error_invalid_csv_file_or_settings: "این پرونده یک پرونده CSV نیست یا با تنظیمات زیر همخوان نیست."
+  error_invalid_csv_file_or_settings: "این پرونده یک پرونده CSV نیست یا با تنظیمات زیر همخوان نیست. (%{value})"
   error_can_not_read_import_file: "در هنگام خواندن پرونده برای ورود، خطایی رخ داد"
   error_attachment_extension_not_allowed: "پسوند %{extension} برای پیوست یک پسوند مجاز نیست"
   error_ldap_bind_credentials: "حساب/گذرواژه نامعتبر LDAP"

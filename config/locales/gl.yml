@@ -1147,7 +1147,7 @@ gl:
   notice_import_finished_with_errors: "%{count} dun total de %{total} elementos non puideron ser importados"
   error_invalid_file_encoding: O ficheiro non é un ficheiro codificado %{encoding} válido
   error_invalid_csv_file_or_settings: O ficheiro non é un arquivo CSV ou non coincide coas
-    opcións de abaixo
+    opcións de abaixo (%{value})
   error_can_not_read_import_file: Aconteceu un erro lendo o ficheiro a importar
   permission_import_issues: Importar peticións
   label_import_issues: Importar peticións

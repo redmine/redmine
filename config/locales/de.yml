@@ -1178,7 +1178,7 @@ de:
   notice_import_finished: "%{count} Einträge wurden importiert"
   notice_import_finished_with_errors: "%{count} von %{total} Einträgen konnten nicht importiert werden"
   error_invalid_file_encoding: Die Datei ist keine gültige %{encoding}-kodierte Datei
-  error_invalid_csv_file_or_settings: Die Datei ist keine CSV-Datei oder entspricht nicht den unten stehenden Einstellungen
+  error_invalid_csv_file_or_settings: Die Datei ist keine CSV-Datei oder entspricht nicht den unten stehenden Einstellungen (%{value})
   error_can_not_read_import_file: Beim Einlesen der Datei ist ein Fehler aufgetreten
   permission_import_issues: Tickets importieren
   label_import_issues: Tickets importieren

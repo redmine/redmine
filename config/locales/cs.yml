@@ -1139,7 +1139,7 @@ cs:
   notice_import_finished_with_errors: "%{count} z %{total} položek nemohlo být naimportováno"
   error_invalid_file_encoding: Soubor není platným souborem s kódováním %{encoding}
   error_invalid_csv_file_or_settings: Soubor není CSV soubor nebo neodpovídá
-    níže uvedenému nastavení
+    níže uvedenému nastavení (%{value})
   error_can_not_read_import_file: Chyba při čtení souboru pro import
   permission_import_issues: Import úkolů
   label_import_issues: Import úkolů

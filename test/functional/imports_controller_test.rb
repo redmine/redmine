@@ -159,6 +159,27 @@ class ImportsControllerTest < Redmine::ControllerTest
     assert_select 'div#flash_error', /not a valid Shift_JIS encoded file/
   end
 
+  def test_post_settings_with_mailformed_csv_should_display_error
+    import = generate_import('unclosed_quoted_field.csv')
+
+    post(
+      :settings,
+      :params => {
+        :id => import.to_param,
+        :import_settings => {
+          :separator => ';',
+          :wrapper => '"',
+          :encoding => 'US-ASCII'
+        }
+      }
+    )
+    assert_response 200
+    import.reload
+    assert_nil import.total_items
+
+    assert_select 'div#flash_error', /The file is not a CSV file or does not match the settings below \([[:print:]]+\)/
+  end
+
   def test_get_mapping_should_display_mapping_form
     import = generate_import('import_iso8859-1.csv')
     import.settings = {'separator' => ";", 'wrapper' => '"', 'encoding' => "ISO-8859-1"}

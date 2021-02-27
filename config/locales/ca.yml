@@ -1134,7 +1134,7 @@ ca:
   notice_import_finished: "%{count} element/s han sigut importats"
   notice_import_finished_with_errors: "%{count} de %{total} elements no s'ha pogut importar"
   error_invalid_file_encoding: "El fitxer no utilitza una codificació valida (%{encoding})"
-  error_invalid_csv_file_or_settings: "El fitxer no es un CSV o no coincideix amb la configuració"
+  error_invalid_csv_file_or_settings: "El fitxer no es un CSV o no coincideix amb la configuració (%{value})"
   error_can_not_read_import_file: "S'ha produït un error mentre es llegia el fitxer a importar"
   permission_import_issues: "Importar assumptes"
   label_import_issues: "Importar assumptes"

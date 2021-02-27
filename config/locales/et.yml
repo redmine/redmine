@@ -1144,7 +1144,7 @@ et:
   notice_import_finished: "%{count} rida imporditud"
   notice_import_finished_with_errors: "%{count} rida %{total}st ei õnnestunud importida"
   error_invalid_file_encoding: "See fail ei ole õige %{encoding} kodeeringuga"
-  error_invalid_csv_file_or_settings: "See fail kas ei ole CSV formaadis või ei klapi allolevate sätetega"
+  error_invalid_csv_file_or_settings: "See fail kas ei ole CSV formaadis või ei klapi allolevate sätetega (%{value})"
   error_can_not_read_import_file: "Importfaili sisselugemisel ilmnes viga"
   permission_import_issues: "Impordi teemasid"
   label_import_issues: "Impordi teemad"

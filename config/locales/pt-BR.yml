@@ -1157,7 +1157,7 @@ pt-BR:
   notice_import_finished_with_errors: "%{count} fora de %{total} não puderam ser importados"
   error_invalid_file_encoding: O arquivo não é válido %{encoding} é a codificação do arquivo
   error_invalid_csv_file_or_settings: O arquivo não é um arquivo CSV ou não corresponde às
-    definições abaixo
+    definições abaixo (%{value})
   error_can_not_read_import_file: Ocorreu um erro ao ler o arquivo para importação
   permission_import_issues: Importar tarefas
   label_import_issues: Importar tarefas
