@@ -1736,8 +1736,8 @@ class Issue < ActiveRecord::Base
       # a different project and that is not systemwide shared
       Issue.joins(:project, :fixed_version).
         where("#{Issue.table_name}.fixed_version_id IS NOT NULL" +
-          " AND #{Issue.table_name}.project_id <> #{Version.table_name}.project_id" +
-          " AND #{Version.table_name}.sharing <> 'system'").
+          " AND #{Issue.table_name}.project_id <> #{::Version.table_name}.project_id" +
+          " AND #{::Version.table_name}.sharing <> 'system'").
         where(conditions).each do |issue|
         next if issue.project.nil? || issue.fixed_version.nil?
         unless issue.project.shared_versions.include?(issue.fixed_version)
