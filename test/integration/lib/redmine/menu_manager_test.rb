@@ -126,12 +126,6 @@ class MenuManagerTest < Redmine::IntegrationTest
     end
   end
 
-  def test_cross_project_menu_should_link_to_global_activity
-    log_user('dlopper', 'foo')
-    get '/queries/3/edit'
-    assert_select 'a.activity[href=?]', '/activity'
-  end
-
   def test_project_menu_should_show_roadmap_if_subprojects_have_versions
     Version.delete_all
     # Create a version in the project "eCookbook Subproject 1"

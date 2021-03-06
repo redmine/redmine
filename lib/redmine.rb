@@ -225,7 +225,7 @@ Redmine::MenuManager.map :application_menu do |menu|
   menu.push :projects, {:controller => 'projects', :action => 'index'},
             :permission => nil,
             :caption => :label_project_plural
-  menu.push :activity, {:controller => 'activities', :action => 'index', :id => nil}
+  menu.push :activity, {:controller => 'activities', :action => 'index'}
   menu.push(
     :issues,
     {:controller => 'issues', :action => 'index'},
