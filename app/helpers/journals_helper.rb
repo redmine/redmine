@@ -28,6 +28,7 @@ module JournalsHelper
   # Returns the action links for an issue journal
   def render_journal_actions(issue, journal, options={})
     links = []
+    dropbown_links = []
     if journal.notes.present?
       if options[:reply_links]
         indice = journal.indice || @journal.issue.visible_journals_with_index.find{|j| j.id == @journal.id}.indice
@@ -47,16 +48,15 @@ module JournalsHelper
                          :title => l(:button_edit),
                          :class => 'icon-only icon-edit'
                         )
-        links << link_to(l(:button_delete),
-                         journal_path(journal, :journal => {:notes => ""}),
-                         :remote => true,
-                         :method => 'put', :data => {:confirm => l(:text_are_you_sure)},
-                         :title => l(:button_delete),
-                         :class => 'icon-only icon-del'
-                        )
+        dropbown_links << link_to(l(:button_delete),
+                                  journal_path(journal, :journal => {:notes => ""}),
+                                  :remote => true,
+                                  :method => 'put', :data => {:confirm => l(:text_are_you_sure)},
+                                  :class => 'icon icon-del'
+                                 )
       end
     end
-    safe_join(links, ' ')
+    safe_join(links, ' ') + actions_dropdown {safe_join(dropbown_links, ' ')}
   end
 
   def render_notes(issue, journal, options={})

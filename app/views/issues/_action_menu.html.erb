@@ -5,9 +5,11 @@
 <%= link_to l(:button_log_time), new_issue_time_entry_path(@issue),
             :class => 'icon icon-time-add' if User.current.allowed_to?(:log_time, @project) %>
 <%= watcher_link(@issue, User.current) %>
-<%= link_to l(:button_copy), project_copy_issue_path(@project, @issue),
-            :class => 'icon icon-copy' if User.current.allowed_to?(:copy_issues, @project) && Issue.allowed_target_projects.any? %>
-<%= link_to l(:button_delete), issue_path(@issue),
-            :data => {:confirm => issues_destroy_confirmation_message(@issue)},
-            :method => :delete, :class => 'icon icon-del' if @issue.deletable? %>
+<%= actions_dropdown do %>
+  <%= link_to l(:button_copy), project_copy_issue_path(@project, @issue),
+              :class => 'icon icon-copy' if User.current.allowed_to?(:copy_issues, @project) && Issue.allowed_target_projects.any? %>
+  <%= link_to l(:button_delete), issue_path(@issue),
+              :data => {:confirm => issues_destroy_confirmation_message(@issue)},
+              :method => :delete, :class => 'icon icon-del' if @issue.deletable? %>
+<% end %>
 </div>
