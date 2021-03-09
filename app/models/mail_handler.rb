@@ -622,10 +622,21 @@ class MailHandler < ActionMailer::Base
       rescue RegexpError => e
         logger&.error "MailHandler: invalid regexp delimiter found in mail_handler_body_delimiters setting (#{e.message})"
       end
+    else
+      # In a "normal" delimiter, allow a single space from the originally
+      # defined delimiter to match:
+      #   * any space-like character, or
+      #   * line-breaks and optional quoting with arbitrary spacing around it
+      # in the mail in order to allow line breaks of delimiters.
+      delimiters = delimiters.map do |delimiter|
+        delimiter = Regexp.escape(delimiter).encode!(Encoding::UTF_8)
+        delimiter = delimiter.gsub(/(\\ )+/, '\p{Space}*(\p{Space}|[\r\n](\p{Space}|>)*)')
+        Regexp.new(delimiter)
+      end
     end
 
     unless delimiters.empty?
-      regex = Regexp.new("^[> ]*(#{ Regexp.union(delimiters) })[[:blank:]]*[\r\n].*", Regexp::MULTILINE)
+      regex = Regexp.new("^(\\p{Space}|>)*(#{ Regexp.union(delimiters) })\\p{Space}*[\\r\\n].*", Regexp::MULTILINE)
       body = body.gsub(regex, '')
     end
     body.strip
