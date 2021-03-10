@@ -277,6 +277,8 @@ sequential_project_identifiers:
   default: 0
 default_users_hide_mail:
   default: 1
+default_users_no_self_notified:
+  default: 1
 default_users_time_zone:
   default: ""
 # encodings used to convert files content to UTF-8

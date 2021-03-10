@@ -50,6 +50,13 @@ class UserPreferenceTest < ActiveSupport::TestCase
     assert_equal true, preference.no_self_notified
   end
 
+  def test_no_self_notified_should_default_to_setting
+    with_settings :default_users_no_self_notified => '0' do
+      preference = UserPreference.new
+      assert_equal false, preference.no_self_notified
+    end
+  end
+
   def test_create
     user = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
     user.login = "newuser"

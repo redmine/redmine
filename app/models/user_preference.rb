@@ -52,7 +52,7 @@ class UserPreference < ActiveRecord::Base
         self.time_zone = Setting.default_users_time_zone
       end
       unless attributes && attributes.key?(:no_self_notified)
-        self.no_self_notified = true
+        self.no_self_notified = Setting.default_users_no_self_notified
       end
     end
     self.others ||= {}
