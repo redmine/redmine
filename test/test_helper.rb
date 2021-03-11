@@ -163,6 +163,10 @@ class ActiveSupport::TestCase
     File.directory?(repository_path(vendor))
   end
 
+  def repository_configured?(vendor)
+    self.class.repository_configured?(vendor)
+  end
+
   def self.is_mysql_utf8mb4
     return false unless Redmine::Database.mysql?
 
