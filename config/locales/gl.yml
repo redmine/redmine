@@ -1410,3 +1410,4 @@ gl:
   button_add_subtask: Engadir subtarefa
   notice_invalid_watcher: 'Invalid watcher: O usuario non recibirá ningunha notificación
     porque non ten acceso a ver este obxecto.'
+  button_fetch_changesets: Fetch commits

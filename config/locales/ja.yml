@@ -1372,3 +1372,4 @@ ja:
   text_project_destroy_enter_identifier: 確認のためプロジェクト識別子 (%{identifier}) を入力してください。
   button_add_subtask: 子チケットを追加
   notice_invalid_watcher: '無効なウォッチャー: このオブジェクトを表示できないユーザーですので通知は行われません。'
+  button_fetch_changesets: Fetch commits

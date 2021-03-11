@@ -1416,3 +1416,4 @@ pl:
   button_add_subtask: Add subtask
   notice_invalid_watcher: 'Invalid watcher: User will not receive any notifications
     because it does not have access to view this object.'
+  button_fetch_changesets: Fetch commits

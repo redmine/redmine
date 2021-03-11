@@ -1358,3 +1358,4 @@ zh:
   button_add_subtask: 新建子任务
   notice_invalid_watcher: 'Invalid watcher: User will not receive any notifications
     because it does not have access to view this object.'
+  button_fetch_changesets: Fetch commits
