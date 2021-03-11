@@ -1434,4 +1434,4 @@
   text_project_destroy_enter_identifier: 若要確認, 請在下面輸入專案的代碼 (%{identifier}).
   button_add_subtask: 新增子任務
   notice_invalid_watcher: '無效的監看員: 監看用戶將無法收到任何通知, 因為該用戶沒有檢視此物件的存取權限.'
-  button_fetch_changesets: Fetch commits
+  button_fetch_changesets: 擷取認可
