@@ -1150,6 +1150,7 @@ bg:
   button_copy: Копиране
   button_copy_and_follow: Копиране и продължаване
   button_annotate: Анотация
+  button_fetch_changesets: Извличане на ревизиите
   button_update: Обновяване
   button_configure: Конфигуриране
   button_quote: Цитат
@@ -1363,4 +1364,3 @@ bg:
     Това действие не може да бъде отменено. Често заключването на потребителя е по-добро решение от изтриването му.
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
-  button_fetch_changesets: Fetch commits
