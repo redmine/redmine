@@ -19,6 +19,9 @@
   <%= link_to_if_authorized l(:label_settings),
             {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'repositories'},
             :class => 'icon icon-settings' if User.current.allowed_to?(:manage_repository, @project) %>
+  <%= link_to l(:button_fetch_changesets),
+              {:action => :fetch_changesets, :id => @project, :repository_id => @repository.identifier_param},
+              :class => 'icon icon-reload', :method => :post if User.current.allowed_to?(:manage_repository, @project) && !Setting.autofetch_changesets? %>
 <% end %>
 
 <%= form_tag({:action => controller.action_name,

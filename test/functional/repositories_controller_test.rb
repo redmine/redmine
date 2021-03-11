@@ -203,6 +203,23 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
       assert_response :success
       assert_select 'input[value="View differences"]', :count => 0
     end
+
+    def test_fetch_changesets
+      @request.session[:user_id] = 2
+      role = Role.find(1)
+
+      with_settings :autofetch_changesets => '0' do
+        role.add_permission! :manage_repository
+        Repository::Subversion.any_instance.expects(:fetch_changesets).once
+        post(:fetch_changesets, :params => {:id => 1, :repository_id => 10})
+        assert_response :success
+
+        role.remove_permission! :manage_repository
+        Repository::Subversion.any_instance.expects(:fetch_changesets).never
+        post(:fetch_changesets, :params => {:id => 1, :repository_id => 10})
+        assert_response :forbidden
+      end
+    end
   end
 
   def test_revisions

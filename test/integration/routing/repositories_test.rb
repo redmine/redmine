@@ -70,6 +70,10 @@ class RoutingRepositoriesTest < Redmine::RoutingTest
     end
   end
 
+  def test_repositories_fetch_changesets_with_repository_id
+    should_route 'POST /projects/foo/repository/bar/fetch_changesets' => 'repositories#fetch_changesets', :id => 'foo', :repository_id => 'bar'
+  end
+
   def test_repositories_non_revisions_path_with_repository_id
     should_route 'GET /projects/foo/repository/svn/changes' => 'repositories#changes', :id => 'foo', :repository_id => 'svn', :format => 'html'
 

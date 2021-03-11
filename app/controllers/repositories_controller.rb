@@ -100,6 +100,11 @@ class RepositoriesController < ApplicationController
 
   alias_method :browse, :show
 
+  def fetch_changesets
+    @repository.fetch_changesets if @project.active? && @path.empty? && !Setting.autofetch_changesets?
+    show
+  end
+
   def changes
     @entry = @repository.entry(@path, @rev)
     (show_error_not_found; return) unless @entry

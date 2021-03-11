@@ -268,6 +268,7 @@ Rails.application.routes.draw do
   # repositories routes
   get 'projects/:id/repository/:repository_id/statistics', :to => 'repositories#stats'
   get 'projects/:id/repository/:repository_id/graph', :to => 'repositories#graph'
+  post 'projects/:id/repository/:repository_id/fetch_changesets', :to => 'repositories#fetch_changesets'
 
   get 'projects/:id/repository/:repository_id/revisions/:rev', :to => 'repositories#revision'
   get 'projects/:id/repository/:repository_id/revision', :to => 'repositories#revision'
