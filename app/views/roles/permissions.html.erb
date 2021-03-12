@@ -85,3 +85,6 @@
 <p><%= check_all_links 'permissions_form' %></p>
 <p><%= submit_tag l(:button_save) %></p>
 <% end %>
+<% other_formats_links do |f| %>
+  <%= f.link_to 'CSV' %>
+<% end %>

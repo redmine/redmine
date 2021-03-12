@@ -26,6 +26,8 @@ class RolesController < ApplicationController
   before_action :find_role, :only => [:show, :edit, :update, :destroy]
   accept_api_auth :index, :show
 
+  include RolesHelper
+
   require_sudo_mode :create, :update, :destroy
 
   def index
@@ -108,7 +110,13 @@ class RolesController < ApplicationController
       scope = scope.where(:id => params[:ids])
     end
     @roles = scope.to_a
-    @permissions = Redmine::AccessControl.permissions.select {|p| !p.public?}
+    @permissions = Redmine::AccessControl.permissions.reject(&:public?)
+    respond_to do |format|
+      format.html
+      format.csv do
+        send_data(permissions_to_csv(@roles, @permissions), :type => 'text/csv; header=present', :filename => 'permissions.csv')
+      end
+    end
   end
 
   def update_permissions

@@ -18,4 +18,31 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module RolesHelper
+  include ApplicationHelper
+
+  def permissions_to_csv(roles, permissions)
+    Redmine::Export::CSV.generate do |csv|
+      # csv header fields
+      headers = [l(:field_cvs_module), l(:label_permissions)] + roles.collect(&:name)
+      csv << headers
+      # csv lines
+      perms_by_module = permissions.group_by {|p| p.project_module.to_s}
+      perms_by_module.keys.sort.each do |mod|
+        perms_by_module[mod].each do |p|
+          names = [
+            l_or_humanize(p.project_module.to_s, :prefix => 'project_module_'),
+            l_or_humanize(p.name, :prefix => 'permission_').to_s,
+          ]
+          fields = names + roles.collect do |role|
+            if role.setable_permissions.include?(p)
+              format_object(role.permissions.include?(p.name), false)
+            else
+              ''
+            end
+          end
+          csv << fields
+        end
+      end
+    end
+  end
 end
