@@ -22,8 +22,6 @@ require File.expand_path('../../test_helper', __FILE__)
 class RolesControllerTest < Redmine::ControllerTest
   fixtures :roles, :users, :members, :member_roles, :workflows, :trackers
 
-  include Redmine::I18n
-
   def setup
     User.current = nil
     @request.session[:user_id] = 1 # admin
