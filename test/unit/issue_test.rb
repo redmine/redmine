@@ -218,6 +218,17 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal issues.collect(&:id).sort, Issue.all.select {|issue| issue.visible?(user)}.collect(&:id).sort
   end
 
+  def test_create_with_emoji_character
+    skip if Redmine::Database.mysql? && !is_mysql_utf8mb4
+
+    set_language_if_valid 'en'
+    issue = Issue.new(:project_id => 1, :tracker_id => 1,
+                      :author_id => 1, :subject => 'Group assignment',
+                      :description => 'Hello 😀')
+    assert issue.save
+    assert_equal 'Hello 😀', issue.description
+  end
+
   def test_visible_scope_for_anonymous
     # Anonymous user should see issues of public projects only
     issues = Issue.visible(User.anonymous).to_a

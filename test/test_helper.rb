@@ -183,6 +183,10 @@ class ActiveSupport::TestCase
     return true
   end
 
+  def is_mysql_utf8mb4
+    self.class.is_mysql_utf8mb4
+  end
+
   def repository_path_hash(arr)
     hs = {}
     hs[:path]  = arr.join("/")
