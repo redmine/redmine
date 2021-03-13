@@ -915,4 +915,27 @@ class UsersControllerTest < Redmine::ControllerTest
       )
     end
   end
+
+  def test_destroy_without_unsubscribe_is_denied
+    user = User.find(2)
+    user.update(admin: true) # Create other admin so self can be deleted
+    @request.session[:user_id] = user.id
+    with_settings unsubscribe: 0 do
+      assert_no_difference 'User.count' do
+        delete :destroy, params: {id: user.id}
+      end
+      assert_response 422
+    end
+  end
+
+  def test_destroy_last_admin_is_denied
+    user = User.find(1)
+    @request.session[:user_id] = user.id
+    with_settings unsubscribe: 1 do
+      assert_no_difference 'User.count' do
+        delete :destroy, params: {id: user.id}
+      end
+      assert_response 422
+    end
+  end
 end

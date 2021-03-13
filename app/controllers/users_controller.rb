@@ -192,6 +192,8 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    return render_error status: 422 if @user == User.current && !@user.own_account_deletable?
+
     if api_request? || params[:lock] || params[:confirm] == @user.login
       if params[:lock]
         @user.update_attribute :status, User::STATUS_LOCKED
