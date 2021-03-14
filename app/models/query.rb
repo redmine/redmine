@@ -48,7 +48,7 @@ class QueryColumn
 
   # Returns true if the column is sortable, otherwise false
   def sortable?
-    !@sortable.nil?
+    @sortable.present?
   end
 
   def sortable
