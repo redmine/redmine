@@ -85,7 +85,7 @@ issues_export_limit:
   default: 500
 activity_days_default:
   format: int
-  default: 30
+  default: 10
 per_page_options:
   default: '25,50,100'
 search_results_per_page:
