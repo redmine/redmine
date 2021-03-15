@@ -188,6 +188,9 @@ Redmine::AccessControl.map do |map|
     map.permission :edit_own_messages, {:messages => :edit, :attachments => :upload}, :require => :loggedin
     map.permission :delete_messages, {:messages => :destroy}, :require => :member
     map.permission :delete_own_messages, {:messages => :destroy}, :require => :loggedin
+    map.permission :view_message_watchers, {}, :read => true
+    map.permission :add_message_watchers, {:watchers => [:new, :create, :autocomplete_for_user]}
+    map.permission :delete_message_watchers, {:watchers => :destroy}
     map.permission :manage_boards, {:projects => :settings, :boards => [:new, :create, :edit, :update, :destroy]}, :require => :member
   end
 

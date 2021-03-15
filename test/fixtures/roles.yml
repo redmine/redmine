@@ -58,6 +58,9 @@ roles_001:
     - :add_messages
     - :edit_messages
     - :delete_messages
+    - :view_message_watchers
+    - :add_message_watchers
+    - :delete_message_watchers
     - :manage_boards
     - :view_files
     - :manage_files
@@ -113,6 +116,7 @@ roles_002:
     - :add_messages
     - :edit_own_messages
     - :delete_own_messages
+    - :view_message_watchers
     - :manage_boards
     - :view_files
     - :manage_files
@@ -156,6 +160,7 @@ roles_003:
     - :delete_wiki_pages
     - :view_messages
     - :add_messages
+    - :view_message_watchers
     - :manage_boards
     - :view_files
     - :manage_files

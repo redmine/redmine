@@ -20,7 +20,8 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class MessagesControllerTest < Redmine::ControllerTest
-  fixtures :projects, :users, :email_addresses, :user_preferences, :members, :member_roles, :roles, :boards, :messages, :enabled_modules
+  fixtures :projects, :users, :email_addresses, :user_preferences, :members, :member_roles, :roles, :boards, :messages, :enabled_modules,
+           :watchers
 
   def setup
     User.current = nil
@@ -86,6 +87,31 @@ class MessagesControllerTest < Redmine::ControllerTest
   def test_show_message_from_invalid_board_should_respond_with_404
     get(:show, :params => {:board_id => 999, :id => 1})
     assert_response 404
+  end
+
+  def test_show_should_display_watchers
+    @request.session[:user_id] = 2
+    message = Message.find(1)
+    message.add_watcher User.find(2)
+    message.add_watcher Group.find(10)
+    [['1', true], ['0', false]].each do |(gravatar_enabled, is_display_gravatar)|
+      with_settings :gravatar_enabled => gravatar_enabled do
+        get(:show, :params => {:board_id => 1, :id => 1})
+      end
+
+      assert_select 'div#watchers ul' do
+        assert_select 'li.user-2' do
+          assert_select 'img.gravatar[title=?]', 'John Smith', is_display_gravatar
+          assert_select 'a[href="/users/2"]'
+          assert_select 'a[class*=delete]'
+        end
+        assert_select "li.user-10" do
+          assert_select 'img.gravatar[title=?]', 'A Team', is_display_gravatar
+          assert_select 'a[href="/users/10"]', false
+          assert_select 'a[class*=delete]'
+        end
+      end
+    end
   end
 
   def test_get_new
