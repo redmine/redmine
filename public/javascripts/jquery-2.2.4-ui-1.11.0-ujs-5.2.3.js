@@ -20,5 +20,724 @@ f&&e.effects.save(i,l),i.from={height:s.height*a.from.y,width:s.width*a.from.x,o
 return e.ui.ddmanager&&(e.ui.ddmanager.current=this),e.ui.ddmanager&&!o.dropBehaviour&&e.ui.ddmanager.prepareOffsets(this,t),this.dragging=!0,this.helper.addClass("ui-sortable-helper"),this._mouseDrag(t),!0},_mouseDrag:function(t){var i,s,n,a,o=this.options,r=!1;for(this.position=this._generatePosition(t),this.positionAbs=this._convertPositionTo("absolute"),this.lastPositionAbs||(this.lastPositionAbs=this.positionAbs),this.options.scroll&&(this.scrollParent[0]!==document&&"HTML"!==this.scrollParent[0].tagName?(this.overflowOffset.top+this.scrollParent[0].offsetHeight-t.pageY<o.scrollSensitivity?this.scrollParent[0].scrollTop=r=this.scrollParent[0].scrollTop+o.scrollSpeed:t.pageY-this.overflowOffset.top<o.scrollSensitivity&&(this.scrollParent[0].scrollTop=r=this.scrollParent[0].scrollTop-o.scrollSpeed),this.overflowOffset.left+this.scrollParent[0].offsetWidth-t.pageX<o.scrollSensitivity?this.scrollParent[0].scrollLeft=r=this.scrollParent[0].scrollLeft+o.scrollSpeed:t.pageX-this.overflowOffset.left<o.scrollSensitivity&&(this.scrollParent[0].scrollLeft=r=this.scrollParent[0].scrollLeft-o.scrollSpeed)):(t.pageY-e(document).scrollTop()<o.scrollSensitivity?r=e(document).scrollTop(e(document).scrollTop()-o.scrollSpeed):e(window).height()-(t.pageY-e(document).scrollTop())<o.scrollSensitivity&&(r=e(document).scrollTop(e(document).scrollTop()+o.scrollSpeed)),t.pageX-e(document).scrollLeft()<o.scrollSensitivity?r=e(document).scrollLeft(e(document).scrollLeft()-o.scrollSpeed):e(window).width()-(t.pageX-e(document).scrollLeft())<o.scrollSensitivity&&(r=e(document).scrollLeft(e(document).scrollLeft()+o.scrollSpeed))),r!==!1&&e.ui.ddmanager&&!o.dropBehaviour&&e.ui.ddmanager.prepareOffsets(this,t)),this.positionAbs=this._convertPositionTo("absolute"),this.options.axis&&"y"===this.options.axis||(this.helper[0].style.left=this.position.left+"px"),this.options.axis&&"x"===this.options.axis||(this.helper[0].style.top=this.position.top+"px"),i=this.items.length-1;i>=0;i--)if(s=this.items[i],n=s.item[0],a=this._intersectsWithPointer(s),a&&s.instance===this.currentContainer&&n!==this.currentItem[0]&&this.placeholder[1===a?"next":"prev"]()[0]!==n&&!e.contains(this.placeholder[0],n)&&("semi-dynamic"===this.options.type?!e.contains(this.element[0],n):!0)){if(this.direction=1===a?"down":"up","pointer"!==this.options.tolerance&&!this._intersectsWithSides(s))break;this._rearrange(t,s),this._trigger("change",t,this._uiHash());break}return this._contactContainers(t),e.ui.ddmanager&&e.ui.ddmanager.drag(this,t),this._trigger("sort",t,this._uiHash()),this.lastPositionAbs=this.positionAbs,!1},_mouseStop:function(t,i){if(t){if(e.ui.ddmanager&&!this.options.dropBehaviour&&e.ui.ddmanager.drop(this,t),this.options.revert){var s=this,n=this.placeholder.offset(),a=this.options.axis,o={};a&&"x"!==a||(o.left=n.left-this.offset.parent.left-this.margins.left+(this.offsetParent[0]===document.body?0:this.offsetParent[0].scrollLeft)),a&&"y"!==a||(o.top=n.top-this.offset.parent.top-this.margins.top+(this.offsetParent[0]===document.body?0:this.offsetParent[0].scrollTop)),this.reverting=!0,e(this.helper).animate(o,parseInt(this.options.revert,10)||500,function(){s._clear(t)})}else this._clear(t,i);return!1}},cancel:function(){if(this.dragging){this._mouseUp({target:null}),"original"===this.options.helper?this.currentItem.css(this._storedCSS).removeClass("ui-sortable-helper"):this.currentItem.show();for(var t=this.containers.length-1;t>=0;t--)this.containers[t]._trigger("deactivate",null,this._uiHash(this)),this.containers[t].containerCache.over&&(this.containers[t]._trigger("out",null,this._uiHash(this)),this.containers[t].containerCache.over=0)}return this.placeholder&&(this.placeholder[0].parentNode&&this.placeholder[0].parentNode.removeChild(this.placeholder[0]),"original"!==this.options.helper&&this.helper&&this.helper[0].parentNode&&this.helper.remove(),e.extend(this,{helper:null,dragging:!1,reverting:!1,_noFinalSort:null}),this.domPosition.prev?e(this.domPosition.prev).after(this.currentItem):e(this.domPosition.parent).prepend(this.currentItem)),this},serialize:function(t){var i=this._getItemsAsjQuery(t&&t.connected),s=[];return t=t||{},e(i).each(function(){var i=(e(t.item||this).attr(t.attribute||"id")||"").match(t.expression||/(.+)[\-=_](.+)/);i&&s.push((t.key||i[1]+"[]")+"="+(t.key&&t.expression?i[1]:i[2]))}),!s.length&&t.key&&s.push(t.key+"="),s.join("&")},toArray:function(t){var i=this._getItemsAsjQuery(t&&t.connected),s=[];return t=t||{},i.each(function(){s.push(e(t.item||this).attr(t.attribute||"id")||"")}),s},_intersectsWith:function(e){var t=this.positionAbs.left,i=t+this.helperProportions.width,s=this.positionAbs.top,n=s+this.helperProportions.height,a=e.left,o=a+e.width,r=e.top,h=r+e.height,l=this.offset.click.top,u=this.offset.click.left,d="x"===this.options.axis||s+l>r&&h>s+l,c="y"===this.options.axis||t+u>a&&o>t+u,p=d&&c;return"pointer"===this.options.tolerance||this.options.forcePointerForContainers||"pointer"!==this.options.tolerance&&this.helperProportions[this.floating?"width":"height"]>e[this.floating?"width":"height"]?p:t+this.helperProportions.width/2>a&&o>i-this.helperProportions.width/2&&s+this.helperProportions.height/2>r&&h>n-this.helperProportions.height/2},_intersectsWithPointer:function(e){var t="x"===this.options.axis||this._isOverAxis(this.positionAbs.top+this.offset.click.top,e.top,e.height),i="y"===this.options.axis||this._isOverAxis(this.positionAbs.left+this.offset.click.left,e.left,e.width),s=t&&i,n=this._getDragVerticalDirection(),a=this._getDragHorizontalDirection();return s?this.floating?a&&"right"===a||"down"===n?2:1:n&&("down"===n?2:1):!1},_intersectsWithSides:function(e){var t=this._isOverAxis(this.positionAbs.top+this.offset.click.top,e.top+e.height/2,e.height),i=this._isOverAxis(this.positionAbs.left+this.offset.click.left,e.left+e.width/2,e.width),s=this._getDragVerticalDirection(),n=this._getDragHorizontalDirection();return this.floating&&n?"right"===n&&i||"left"===n&&!i:s&&("down"===s&&t||"up"===s&&!t)},_getDragVerticalDirection:function(){var e=this.positionAbs.top-this.lastPositionAbs.top;return 0!==e&&(e>0?"down":"up")},_getDragHorizontalDirection:function(){var e=this.positionAbs.left-this.lastPositionAbs.left;return 0!==e&&(e>0?"right":"left")},refresh:function(e){return this._refreshItems(e),this._setHandleClassName(),this.refreshPositions(),this},_connectWith:function(){var e=this.options;return e.connectWith.constructor===String?[e.connectWith]:e.connectWith},_getItemsAsjQuery:function(t){function i(){r.push(this)}var s,n,a,o,r=[],h=[],l=this._connectWith();if(l&&t)for(s=l.length-1;s>=0;s--)for(a=e(l[s]),n=a.length-1;n>=0;n--)o=e.data(a[n],this.widgetFullName),o&&o!==this&&!o.options.disabled&&h.push([e.isFunction(o.options.items)?o.options.items.call(o.element):e(o.options.items,o.element).not(".ui-sortable-helper").not(".ui-sortable-placeholder"),o]);for(h.push([e.isFunction(this.options.items)?this.options.items.call(this.element,null,{options:this.options,item:this.currentItem}):e(this.options.items,this.element).not(".ui-sortable-helper").not(".ui-sortable-placeholder"),this]),s=h.length-1;s>=0;s--)h[s][0].each(i);return e(r)},_removeCurrentsFromItems:function(){var t=this.currentItem.find(":data("+this.widgetName+"-item)");this.items=e.grep(this.items,function(e){for(var i=0;t.length>i;i++)if(t[i]===e.item[0])return!1;return!0})},_refreshItems:function(t){this.items=[],this.containers=[this];var i,s,n,a,o,r,h,l,u=this.items,d=[[e.isFunction(this.options.items)?this.options.items.call(this.element[0],t,{item:this.currentItem}):e(this.options.items,this.element),this]],c=this._connectWith();if(c&&this.ready)for(i=c.length-1;i>=0;i--)for(n=e(c[i]),s=n.length-1;s>=0;s--)a=e.data(n[s],this.widgetFullName),a&&a!==this&&!a.options.disabled&&(d.push([e.isFunction(a.options.items)?a.options.items.call(a.element[0],t,{item:this.currentItem}):e(a.options.items,a.element),a]),this.containers.push(a));for(i=d.length-1;i>=0;i--)for(o=d[i][1],r=d[i][0],s=0,l=r.length;l>s;s++)h=e(r[s]),h.data(this.widgetName+"-item",o),u.push({item:h,instance:o,width:0,height:0,left:0,top:0})},refreshPositions:function(t){this.offsetParent&&this.helper&&(this.offset.parent=this._getParentOffset());var i,s,n,a;for(i=this.items.length-1;i>=0;i--)s=this.items[i],s.instance!==this.currentContainer&&this.currentContainer&&s.item[0]!==this.currentItem[0]||(n=this.options.toleranceElement?e(this.options.toleranceElement,s.item):s.item,t||(s.width=n.outerWidth(),s.height=n.outerHeight()),a=n.offset(),s.left=a.left,s.top=a.top);if(this.options.custom&&this.options.custom.refreshContainers)this.options.custom.refreshContainers.call(this);else for(i=this.containers.length-1;i>=0;i--)a=this.containers[i].element.offset(),this.containers[i].containerCache.left=a.left,this.containers[i].containerCache.top=a.top,this.containers[i].containerCache.width=this.containers[i].element.outerWidth(),this.containers[i].containerCache.height=this.containers[i].element.outerHeight();return this},_createPlaceholder:function(t){t=t||this;var i,s=t.options;s.placeholder&&s.placeholder.constructor!==String||(i=s.placeholder,s.placeholder={element:function(){var s=t.currentItem[0].nodeName.toLowerCase(),n=e("<"+s+">",t.document[0]).addClass(i||t.currentItem[0].className+" ui-sortable-placeholder").removeClass("ui-sortable-helper");return"tr"===s?t.currentItem.children().each(function(){e("<td>&#160;</td>",t.document[0]).attr("colspan",e(this).attr("colspan")||1).appendTo(n)}):"img"===s&&n.attr("src",t.currentItem.attr("src")),i||n.css("visibility","hidden"),n},update:function(e,n){(!i||s.forcePlaceholderSize)&&(n.height()||n.height(t.currentItem.innerHeight()-parseInt(t.currentItem.css("paddingTop")||0,10)-parseInt(t.currentItem.css("paddingBottom")||0,10)),n.width()||n.width(t.currentItem.innerWidth()-parseInt(t.currentItem.css("paddingLeft")||0,10)-parseInt(t.currentItem.css("paddingRight")||0,10)))}}),t.placeholder=e(s.placeholder.element.call(t.element,t.currentItem)),t.currentItem.after(t.placeholder),s.placeholder.update(t,t.placeholder)},_contactContainers:function(t){var i,s,n,a,o,r,h,l,u,d,c=null,p=null;for(i=this.containers.length-1;i>=0;i--)if(!e.contains(this.currentItem[0],this.containers[i].element[0]))if(this._intersectsWith(this.containers[i].containerCache)){if(c&&e.contains(this.containers[i].element[0],c.element[0]))continue;c=this.containers[i],p=i}else this.containers[i].containerCache.over&&(this.containers[i]._trigger("out",t,this._uiHash(this)),this.containers[i].containerCache.over=0);if(c)if(1===this.containers.length)this.containers[p].containerCache.over||(this.containers[p]._trigger("over",t,this._uiHash(this)),this.containers[p].containerCache.over=1);else{for(n=1e4,a=null,u=c.floating||this._isFloating(this.currentItem),o=u?"left":"top",r=u?"width":"height",d=u?"clientX":"clientY",s=this.items.length-1;s>=0;s--)e.contains(this.containers[p].element[0],this.items[s].item[0])&&this.items[s].item[0]!==this.currentItem[0]&&(h=this.items[s].item.offset()[o],l=!1,t[d]-h>this.items[s][r]/2&&(l=!0),n>Math.abs(t[d]-h)&&(n=Math.abs(t[d]-h),a=this.items[s],this.direction=l?"up":"down"));if(!a&&!this.options.dropOnEmpty)return;if(this.currentContainer===this.containers[p])return;a?this._rearrange(t,a,null,!0):this._rearrange(t,null,this.containers[p].element,!0),this._trigger("change",t,this._uiHash()),this.containers[p]._trigger("change",t,this._uiHash(this)),this.currentContainer=this.containers[p],this.options.placeholder.update(this.currentContainer,this.placeholder),this.containers[p]._trigger("over",t,this._uiHash(this)),this.containers[p].containerCache.over=1}},_createHelper:function(t){var i=this.options,s=e.isFunction(i.helper)?e(i.helper.apply(this.element[0],[t,this.currentItem])):"clone"===i.helper?this.currentItem.clone():this.currentItem;return s.parents("body").length||e("parent"!==i.appendTo?i.appendTo:this.currentItem[0].parentNode)[0].appendChild(s[0]),s[0]===this.currentItem[0]&&(this._storedCSS={width:this.currentItem[0].style.width,height:this.currentItem[0].style.height,position:this.currentItem.css("position"),top:this.currentItem.css("top"),left:this.currentItem.css("left")}),(!s[0].style.width||i.forceHelperSize)&&s.width(this.currentItem.width()),(!s[0].style.height||i.forceHelperSize)&&s.height(this.currentItem.height()),s},_adjustOffsetFromHelper:function(t){"string"==typeof t&&(t=t.split(" ")),e.isArray(t)&&(t={left:+t[0],top:+t[1]||0}),"left"in t&&(this.offset.click.left=t.left+this.margins.left),"right"in t&&(this.offset.click.left=this.helperProportions.width-t.right+this.margins.left),"top"in t&&(this.offset.click.top=t.top+this.margins.top),"bottom"in t&&(this.offset.click.top=this.helperProportions.height-t.bottom+this.margins.top)},_getParentOffset:function(){this.offsetParent=this.helper.offsetParent();var t=this.offsetParent.offset();return"absolute"===this.cssPosition&&this.scrollParent[0]!==document&&e.contains(this.scrollParent[0],this.offsetParent[0])&&(t.left+=this.scrollParent.scrollLeft(),t.top+=this.scrollParent.scrollTop()),(this.offsetParent[0]===document.body||this.offsetParent[0].tagName&&"html"===this.offsetParent[0].tagName.toLowerCase()&&e.ui.ie)&&(t={top:0,left:0}),{top:t.top+(parseInt(this.offsetParent.css("borderTopWidth"),10)||0),left:t.left+(parseInt(this.offsetParent.css("borderLeftWidth"),10)||0)}},_getRelativeOffset:function(){if("relative"===this.cssPosition){var e=this.currentItem.position();return{top:e.top-(parseInt(this.helper.css("top"),10)||0)+this.scrollParent.scrollTop(),left:e.left-(parseInt(this.helper.css("left"),10)||0)+this.scrollParent.scrollLeft()}}return{top:0,left:0}},_cacheMargins:function(){this.margins={left:parseInt(this.currentItem.css("marginLeft"),10)||0,top:parseInt(this.currentItem.css("marginTop"),10)||0}},_cacheHelperProportions:function(){this.helperProportions={width:this.helper.outerWidth(),height:this.helper.outerHeight()}},_setContainment:function(){var t,i,s,n=this.options;"parent"===n.containment&&(n.containment=this.helper[0].parentNode),("document"===n.containment||"window"===n.containment)&&(this.containment=[0-this.offset.relative.left-this.offset.parent.left,0-this.offset.relative.top-this.offset.parent.top,e("document"===n.containment?document:window).width()-this.helperProportions.width-this.margins.left,(e("document"===n.containment?document:window).height()||document.body.parentNode.scrollHeight)-this.helperProportions.height-this.margins.top]),/^(document|window|parent)$/.test(n.containment)||(t=e(n.containment)[0],i=e(n.containment).offset(),s="hidden"!==e(t).css("overflow"),this.containment=[i.left+(parseInt(e(t).css("borderLeftWidth"),10)||0)+(parseInt(e(t).css("paddingLeft"),10)||0)-this.margins.left,i.top+(parseInt(e(t).css("borderTopWidth"),10)||0)+(parseInt(e(t).css("paddingTop"),10)||0)-this.margins.top,i.left+(s?Math.max(t.scrollWidth,t.offsetWidth):t.offsetWidth)-(parseInt(e(t).css("borderLeftWidth"),10)||0)-(parseInt(e(t).css("paddingRight"),10)||0)-this.helperProportions.width-this.margins.left,i.top+(s?Math.max(t.scrollHeight,t.offsetHeight):t.offsetHeight)-(parseInt(e(t).css("borderTopWidth"),10)||0)-(parseInt(e(t).css("paddingBottom"),10)||0)-this.helperProportions.height-this.margins.top])},_convertPositionTo:function(t,i){i||(i=this.position);var s="absolute"===t?1:-1,n="absolute"!==this.cssPosition||this.scrollParent[0]!==document&&e.contains(this.scrollParent[0],this.offsetParent[0])?this.scrollParent:this.offsetParent,a=/(html|body)/i.test(n[0].tagName);return{top:i.top+this.offset.relative.top*s+this.offset.parent.top*s-("fixed"===this.cssPosition?-this.scrollParent.scrollTop():a?0:n.scrollTop())*s,left:i.left+this.offset.relative.left*s+this.offset.parent.left*s-("fixed"===this.cssPosition?-this.scrollParent.scrollLeft():a?0:n.scrollLeft())*s}},_generatePosition:function(t){var i,s,n=this.options,a=t.pageX,o=t.pageY,r="absolute"!==this.cssPosition||this.scrollParent[0]!==document&&e.contains(this.scrollParent[0],this.offsetParent[0])?this.scrollParent:this.offsetParent,h=/(html|body)/i.test(r[0].tagName);return"relative"!==this.cssPosition||this.scrollParent[0]!==document&&this.scrollParent[0]!==this.offsetParent[0]||(this.offset.relative=this._getRelativeOffset()),this.originalPosition&&(this.containment&&(t.pageX-this.offset.click.left<this.containment[0]&&(a=this.containment[0]+this.offset.click.left),t.pageY-this.offset.click.top<this.containment[1]&&(o=this.containment[1]+this.offset.click.top),t.pageX-this.offset.click.left>this.containment[2]&&(a=this.containment[2]+this.offset.click.left),t.pageY-this.offset.click.top>this.containment[3]&&(o=this.containment[3]+this.offset.click.top)),n.grid&&(i=this.originalPageY+Math.round((o-this.originalPageY)/n.grid[1])*n.grid[1],o=this.containment?i-this.offset.click.top>=this.containment[1]&&i-this.offset.click.top<=this.containment[3]?i:i-this.offset.click.top>=this.containment[1]?i-n.grid[1]:i+n.grid[1]:i,s=this.originalPageX+Math.round((a-this.originalPageX)/n.grid[0])*n.grid[0],a=this.containment?s-this.offset.click.left>=this.containment[0]&&s-this.offset.click.left<=this.containment[2]?s:s-this.offset.click.left>=this.containment[0]?s-n.grid[0]:s+n.grid[0]:s)),{top:o-this.offset.click.top-this.offset.relative.top-this.offset.parent.top+("fixed"===this.cssPosition?-this.scrollParent.scrollTop():h?0:r.scrollTop()),left:a-this.offset.click.left-this.offset.relative.left-this.offset.parent.left+("fixed"===this.cssPosition?-this.scrollParent.scrollLeft():h?0:r.scrollLeft())}},_rearrange:function(e,t,i,s){i?i[0].appendChild(this.placeholder[0]):t.item[0].parentNode.insertBefore(this.placeholder[0],"down"===this.direction?t.item[0]:t.item[0].nextSibling),this.counter=this.counter?++this.counter:1;var n=this.counter;this._delay(function(){n===this.counter&&this.refreshPositions(!s)})},_clear:function(e,t){function i(e,t,i){return function(s){i._trigger(e,s,t._uiHash(t))}}this.reverting=!1;var s,n=[];if(!this._noFinalSort&&this.currentItem.parent().length&&this.placeholder.before(this.currentItem),this._noFinalSort=null,this.helper[0]===this.currentItem[0]){for(s in this._storedCSS)("auto"===this._storedCSS[s]||"static"===this._storedCSS[s])&&(this._storedCSS[s]="");this.currentItem.css(this._storedCSS).removeClass("ui-sortable-helper")}else this.currentItem.show();for(this.fromOutside&&!t&&n.push(function(e){this._trigger("receive",e,this._uiHash(this.fromOutside))}),!this.fromOutside&&this.domPosition.prev===this.currentItem.prev().not(".ui-sortable-helper")[0]&&this.domPosition.parent===this.currentItem.parent()[0]||t||n.push(function(e){this._trigger("update",e,this._uiHash())}),this!==this.currentContainer&&(t||(n.push(function(e){this._trigger("remove",e,this._uiHash())}),n.push(function(e){return function(t){e._trigger("receive",t,this._uiHash(this))}}.call(this,this.currentContainer)),n.push(function(e){return function(t){e._trigger("update",t,this._uiHash(this))}}.call(this,this.currentContainer)))),s=this.containers.length-1;s>=0;s--)t||n.push(i("deactivate",this,this.containers[s])),this.containers[s].containerCache.over&&(n.push(i("out",this,this.containers[s])),this.containers[s].containerCache.over=0);if(this.storedCursor&&(this.document.find("body").css("cursor",this.storedCursor),this.storedStylesheet.remove()),this._storedOpacity&&this.helper.css("opacity",this._storedOpacity),this._storedZIndex&&this.helper.css("zIndex","auto"===this._storedZIndex?"":this._storedZIndex),this.dragging=!1,this.cancelHelperRemoval){if(!t){for(this._trigger("beforeStop",e,this._uiHash()),s=0;n.length>s;s++)n[s].call(this,e);this._trigger("stop",e,this._uiHash())}return this.fromOutside=!1,!1}if(t||this._trigger("beforeStop",e,this._uiHash()),this.placeholder[0].parentNode.removeChild(this.placeholder[0]),this.helper[0]!==this.currentItem[0]&&this.helper.remove(),this.helper=null,!t){for(s=0;n.length>s;s++)n[s].call(this,e);this._trigger("stop",e,this._uiHash())}return this.fromOutside=!1,!0},_trigger:function(){e.Widget.prototype._trigger.apply(this,arguments)===!1&&this.cancel()},_uiHash:function(t){var i=t||this;return{helper:i.helper,placeholder:i.placeholder||e([]),position:i.position,originalPosition:i.originalPosition,offset:i.positionAbs,item:i.currentItem,sender:t?t.element:null}}}),e.widget("ui.spinner",{version:"1.11.0",defaultElement:"<input>",widgetEventPrefix:"spin",options:{culture:null,icons:{down:"ui-icon-triangle-1-s",up:"ui-icon-triangle-1-n"},incremental:!0,max:null,min:null,numberFormat:null,page:10,step:1,change:null,spin:null,start:null,stop:null},_create:function(){this._setOption("max",this.options.max),this._setOption("min",this.options.min),this._setOption("step",this.options.step),""!==this.value()&&this._value(this.element.val(),!0),this._draw(),this._on(this._events),this._refresh(),this._on(this.window,{beforeunload:function(){this.element.removeAttr("autocomplete")}})},_getCreateOptions:function(){var t={},i=this.element;return e.each(["min","max","step"],function(e,s){var n=i.attr(s);void 0!==n&&n.length&&(t[s]=n)}),t},_events:{keydown:function(e){this._start(e)&&this._keydown(e)&&e.preventDefault()},keyup:"_stop",focus:function(){this.previous=this.element.val()},blur:function(e){return this.cancelBlur?(delete this.cancelBlur,void 0):(this._stop(),this._refresh(),this.previous!==this.element.val()&&this._trigger("change",e),void 0)},mousewheel:function(e,t){if(t){if(!this.spinning&&!this._start(e))return!1;this._spin((t>0?1:-1)*this.options.step,e),clearTimeout(this.mousewheelTimer),this.mousewheelTimer=this._delay(function(){this.spinning&&this._stop(e)},100),e.preventDefault()}},"mousedown .ui-spinner-button":function(t){function i(){var e=this.element[0]===this.document[0].activeElement;e||(this.element.focus(),this.previous=s,this._delay(function(){this.previous=s}))}var s;s=this.element[0]===this.document[0].activeElement?this.previous:this.element.val(),t.preventDefault(),i.call(this),this.cancelBlur=!0,this._delay(function(){delete this.cancelBlur,i.call(this)}),this._start(t)!==!1&&this._repeat(null,e(t.currentTarget).hasClass("ui-spinner-up")?1:-1,t)},"mouseup .ui-spinner-button":"_stop","mouseenter .ui-spinner-button":function(t){return e(t.currentTarget).hasClass("ui-state-active")?this._start(t)===!1?!1:(this._repeat(null,e(t.currentTarget).hasClass("ui-spinner-up")?1:-1,t),void 0):void 0},"mouseleave .ui-spinner-button":"_stop"},_draw:function(){var e=this.uiSpinner=this.element.addClass("ui-spinner-input").attr("autocomplete","off").wrap(this._uiSpinnerHtml()).parent().append(this._buttonHtml());this.element.attr("role","spinbutton"),this.buttons=e.find(".ui-spinner-button").attr("tabIndex",-1).button().removeClass("ui-corner-all"),this.buttons.height()>Math.ceil(.5*e.height())&&e.height()>0&&e.height(e.height()),this.options.disabled&&this.disable()},_keydown:function(t){var i=this.options,s=e.ui.keyCode;switch(t.keyCode){case s.UP:return this._repeat(null,1,t),!0;case s.DOWN:return this._repeat(null,-1,t),!0;case s.PAGE_UP:return this._repeat(null,i.page,t),!0;case s.PAGE_DOWN:return this._repeat(null,-i.page,t),!0}return!1},_uiSpinnerHtml:function(){return"<span class='ui-spinner ui-widget ui-widget-content ui-corner-all'></span>"},_buttonHtml:function(){return"<a class='ui-spinner-button ui-spinner-up ui-corner-tr'><span class='ui-icon "+this.options.icons.up+"'>&#9650;</span>"+"</a>"+"<a class='ui-spinner-button ui-spinner-down ui-corner-br'>"+"<span class='ui-icon "+this.options.icons.down+"'>&#9660;</span>"+"</a>"},_start:function(e){return this.spinning||this._trigger("start",e)!==!1?(this.counter||(this.counter=1),this.spinning=!0,!0):!1},_repeat:function(e,t,i){e=e||500,clearTimeout(this.timer),this.timer=this._delay(function(){this._repeat(40,t,i)},e),this._spin(t*this.options.step,i)},_spin:function(e,t){var i=this.value()||0;this.counter||(this.counter=1),i=this._adjustValue(i+e*this._increment(this.counter)),this.spinning&&this._trigger("spin",t,{value:i})===!1||(this._value(i),this.counter++)},_increment:function(t){var i=this.options.incremental;return i?e.isFunction(i)?i(t):Math.floor(t*t*t/5e4-t*t/500+17*t/200+1):1},_precision:function(){var e=this._precisionOf(this.options.step);return null!==this.options.min&&(e=Math.max(e,this._precisionOf(this.options.min))),e},_precisionOf:function(e){var t=""+e,i=t.indexOf(".");return-1===i?0:t.length-i-1},_adjustValue:function(e){var t,i,s=this.options;return t=null!==s.min?s.min:0,i=e-t,i=Math.round(i/s.step)*s.step,e=t+i,e=parseFloat(e.toFixed(this._precision())),null!==s.max&&e>s.max?s.max:null!==s.min&&s.min>e?s.min:e},_stop:function(e){this.spinning&&(clearTimeout(this.timer),clearTimeout(this.mousewheelTimer),this.counter=0,this.spinning=!1,this._trigger("stop",e))},_setOption:function(e,t){if("culture"===e||"numberFormat"===e){var i=this._parse(this.element.val());return this.options[e]=t,this.element.val(this._format(i)),void 0}("max"===e||"min"===e||"step"===e)&&"string"==typeof t&&(t=this._parse(t)),"icons"===e&&(this.buttons.first().find(".ui-icon").removeClass(this.options.icons.up).addClass(t.up),this.buttons.last().find(".ui-icon").removeClass(this.options.icons.down).addClass(t.down)),this._super(e,t),"disabled"===e&&(this.widget().toggleClass("ui-state-disabled",!!t),this.element.prop("disabled",!!t),this.buttons.button(t?"disable":"enable"))},_setOptions:r(function(e){this._super(e)}),_parse:function(e){return"string"==typeof e&&""!==e&&(e=window.Globalize&&this.options.numberFormat?Globalize.parseFloat(e,10,this.options.culture):+e),""===e||isNaN(e)?null:e},_format:function(e){return""===e?"":window.Globalize&&this.options.numberFormat?Globalize.format(e,this.options.numberFormat,this.options.culture):e},_refresh:function(){this.element.attr({"aria-valuemin":this.options.min,"aria-valuemax":this.options.max,"aria-valuenow":this._parse(this.element.val())})},isValid:function(){var e=this.value();return null===e?!1:e===this._adjustValue(e)},_value:function(e,t){var i;""!==e&&(i=this._parse(e),null!==i&&(t||(i=this._adjustValue(i)),e=this._format(i))),this.element.val(e),this._refresh()},_destroy:function(){this.element.removeClass("ui-spinner-input").prop("disabled",!1).removeAttr("autocomplete").removeAttr("role").removeAttr("aria-valuemin").removeAttr("aria-valuemax").removeAttr("aria-valuenow"),this.uiSpinner.replaceWith(this.element)},stepUp:r(function(e){this._stepUp(e)}),_stepUp:function(e){this._start()&&(this._spin((e||1)*this.options.step),this._stop())},stepDown:r(function(e){this._stepDown(e)}),_stepDown:function(e){this._start()&&(this._spin((e||1)*-this.options.step),this._stop())},pageUp:r(function(e){this._stepUp((e||1)*this.options.page)}),pageDown:r(function(e){this._stepDown((e||1)*this.options.page)}),value:function(e){return arguments.length?(r(this._value).call(this,e),void 0):this._parse(this.element.val())},widget:function(){return this.uiSpinner}}),e.widget("ui.tabs",{version:"1.11.0",delay:300,options:{active:null,collapsible:!1,event:"click",heightStyle:"content",hide:null,show:null,activate:null,beforeActivate:null,beforeLoad:null,load:null},_isLocal:function(){var e=/#.*$/;return function(t){var i,s;t=t.cloneNode(!1),i=t.href.replace(e,""),s=location.href.replace(e,"");try{i=decodeURIComponent(i)}catch(n){}try{s=decodeURIComponent(s)}catch(n){}return t.hash.length>1&&i===s}}(),_create:function(){var t=this,i=this.options;this.running=!1,this.element.addClass("ui-tabs ui-widget ui-widget-content ui-corner-all").toggleClass("ui-tabs-collapsible",i.collapsible).delegate(".ui-tabs-nav > li","mousedown"+this.eventNamespace,function(t){e(this).is(".ui-state-disabled")&&t.preventDefault()}).delegate(".ui-tabs-anchor","focus"+this.eventNamespace,function(){e(this).closest("li").is(".ui-state-disabled")&&this.blur()}),this._processTabs(),i.active=this._initialActive(),e.isArray(i.disabled)&&(i.disabled=e.unique(i.disabled.concat(e.map(this.tabs.filter(".ui-state-disabled"),function(e){return t.tabs.index(e)}))).sort()),this.active=this.options.active!==!1&&this.anchors.length?this._findActive(i.active):e(),this._refresh(),this.active.length&&this.load(i.active)},_initialActive:function(){var t=this.options.active,i=this.options.collapsible,s=location.hash.substring(1);return null===t&&(s&&this.tabs.each(function(i,n){return e(n).attr("aria-controls")===s?(t=i,!1):void 0}),null===t&&(t=this.tabs.index(this.tabs.filter(".ui-tabs-active"))),(null===t||-1===t)&&(t=this.tabs.length?0:!1)),t!==!1&&(t=this.tabs.index(this.tabs.eq(t)),-1===t&&(t=i?!1:0)),!i&&t===!1&&this.anchors.length&&(t=0),t},_getCreateEventData:function(){return{tab:this.active,panel:this.active.length?this._getPanelForTab(this.active):e()}},_tabKeydown:function(t){var i=e(this.document[0].activeElement).closest("li"),s=this.tabs.index(i),n=!0;if(!this._handlePageNav(t)){switch(t.keyCode){case e.ui.keyCode.RIGHT:case e.ui.keyCode.DOWN:s++;break;case e.ui.keyCode.UP:case e.ui.keyCode.LEFT:n=!1,s--;break;case e.ui.keyCode.END:s=this.anchors.length-1;break;case e.ui.keyCode.HOME:s=0;break;case e.ui.keyCode.SPACE:return t.preventDefault(),clearTimeout(this.activating),this._activate(s),void 0;case e.ui.keyCode.ENTER:return t.preventDefault(),clearTimeout(this.activating),this._activate(s===this.options.active?!1:s),void 0;default:return}t.preventDefault(),clearTimeout(this.activating),s=this._focusNextTab(s,n),t.ctrlKey||(i.attr("aria-selected","false"),this.tabs.eq(s).attr("aria-selected","true"),this.activating=this._delay(function(){this.option("active",s)},this.delay))}},_panelKeydown:function(t){this._handlePageNav(t)||t.ctrlKey&&t.keyCode===e.ui.keyCode.UP&&(t.preventDefault(),this.active.focus())},_handlePageNav:function(t){return t.altKey&&t.keyCode===e.ui.keyCode.PAGE_UP?(this._activate(this._focusNextTab(this.options.active-1,!1)),!0):t.altKey&&t.keyCode===e.ui.keyCode.PAGE_DOWN?(this._activate(this._focusNextTab(this.options.active+1,!0)),!0):void 0},_findNextTab:function(t,i){function s(){return t>n&&(t=0),0>t&&(t=n),t}for(var n=this.tabs.length-1;-1!==e.inArray(s(),this.options.disabled);)t=i?t+1:t-1;return t},_focusNextTab:function(e,t){return e=this._findNextTab(e,t),this.tabs.eq(e).focus(),e},_setOption:function(e,t){return"active"===e?(this._activate(t),void 0):"disabled"===e?(this._setupDisabled(t),void 0):(this._super(e,t),"collapsible"===e&&(this.element.toggleClass("ui-tabs-collapsible",t),t||this.options.active!==!1||this._activate(0)),"event"===e&&this._setupEvents(t),"heightStyle"===e&&this._setupHeightStyle(t),void 0)},_sanitizeSelector:function(e){return e?e.replace(/[!"$%&'()*+,.\/:;<=>?@\[\]\^`{|}~]/g,"\\$&"):""},refresh:function(){var t=this.options,i=this.tablist.children(":has(a[href])");t.disabled=e.map(i.filter(".ui-state-disabled"),function(e){return i.index(e)}),this._processTabs(),t.active!==!1&&this.anchors.length?this.active.length&&!e.contains(this.tablist[0],this.active[0])?this.tabs.length===t.disabled.length?(t.active=!1,this.active=e()):this._activate(this._findNextTab(Math.max(0,t.active-1),!1)):t.active=this.tabs.index(this.active):(t.active=!1,this.active=e()),this._refresh()},_refresh:function(){this._setupDisabled(this.options.disabled),this._setupEvents(this.options.event),this._setupHeightStyle(this.options.heightStyle),this.tabs.not(this.active).attr({"aria-selected":"false","aria-expanded":"false",tabIndex:-1}),this.panels.not(this._getPanelForTab(this.active)).hide().attr({"aria-hidden":"true"}),this.active.length?(this.active.addClass("ui-tabs-active ui-state-active").attr({"aria-selected":"true","aria-expanded":"true",tabIndex:0}),this._getPanelForTab(this.active).show().attr({"aria-hidden":"false"})):this.tabs.eq(0).attr("tabIndex",0)},_processTabs:function(){var t=this;this.tablist=this._getList().addClass("ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all").attr("role","tablist"),this.tabs=this.tablist.find("> li:has(a[href])").addClass("ui-state-default ui-corner-top").attr({role:"tab",tabIndex:-1}),this.anchors=this.tabs.map(function(){return e("a",this)[0]
 }).addClass("ui-tabs-anchor").attr({role:"presentation",tabIndex:-1}),this.panels=e(),this.anchors.each(function(i,s){var n,a,o,r=e(s).uniqueId().attr("id"),h=e(s).closest("li"),l=h.attr("aria-controls");t._isLocal(s)?(n=s.hash,o=n.substring(1),a=t.element.find(t._sanitizeSelector(n))):(o=h.attr("aria-controls")||e({}).uniqueId()[0].id,n="#"+o,a=t.element.find(n),a.length||(a=t._createPanel(o),a.insertAfter(t.panels[i-1]||t.tablist)),a.attr("aria-live","polite")),a.length&&(t.panels=t.panels.add(a)),l&&h.data("ui-tabs-aria-controls",l),h.attr({"aria-controls":o,"aria-labelledby":r}),a.attr("aria-labelledby",r)}),this.panels.addClass("ui-tabs-panel ui-widget-content ui-corner-bottom").attr("role","tabpanel")},_getList:function(){return this.tablist||this.element.find("ol,ul").eq(0)},_createPanel:function(t){return e("<div>").attr("id",t).addClass("ui-tabs-panel ui-widget-content ui-corner-bottom").data("ui-tabs-destroy",!0)},_setupDisabled:function(t){e.isArray(t)&&(t.length?t.length===this.anchors.length&&(t=!0):t=!1);for(var i,s=0;i=this.tabs[s];s++)t===!0||-1!==e.inArray(s,t)?e(i).addClass("ui-state-disabled").attr("aria-disabled","true"):e(i).removeClass("ui-state-disabled").removeAttr("aria-disabled");this.options.disabled=t},_setupEvents:function(t){var i={};t&&e.each(t.split(" "),function(e,t){i[t]="_eventHandler"}),this._off(this.anchors.add(this.tabs).add(this.panels)),this._on(!0,this.anchors,{click:function(e){e.preventDefault()}}),this._on(this.anchors,i),this._on(this.tabs,{keydown:"_tabKeydown"}),this._on(this.panels,{keydown:"_panelKeydown"}),this._focusable(this.tabs),this._hoverable(this.tabs)},_setupHeightStyle:function(t){var i,s=this.element.parent();"fill"===t?(i=s.height(),i-=this.element.outerHeight()-this.element.height(),this.element.siblings(":visible").each(function(){var t=e(this),s=t.css("position");"absolute"!==s&&"fixed"!==s&&(i-=t.outerHeight(!0))}),this.element.children().not(this.panels).each(function(){i-=e(this).outerHeight(!0)}),this.panels.each(function(){e(this).height(Math.max(0,i-e(this).innerHeight()+e(this).height()))}).css("overflow","auto")):"auto"===t&&(i=0,this.panels.each(function(){i=Math.max(i,e(this).height("").height())}).height(i))},_eventHandler:function(t){var i=this.options,s=this.active,n=e(t.currentTarget),a=n.closest("li"),o=a[0]===s[0],r=o&&i.collapsible,h=r?e():this._getPanelForTab(a),l=s.length?this._getPanelForTab(s):e(),u={oldTab:s,oldPanel:l,newTab:r?e():a,newPanel:h};t.preventDefault(),a.hasClass("ui-state-disabled")||a.hasClass("ui-tabs-loading")||this.running||o&&!i.collapsible||this._trigger("beforeActivate",t,u)===!1||(i.active=r?!1:this.tabs.index(a),this.active=o?e():a,this.xhr&&this.xhr.abort(),l.length||h.length||e.error("jQuery UI Tabs: Mismatching fragment identifier."),h.length&&this.load(this.tabs.index(a),t),this._toggle(t,u))},_toggle:function(t,i){function s(){a.running=!1,a._trigger("activate",t,i)}function n(){i.newTab.closest("li").addClass("ui-tabs-active ui-state-active"),o.length&&a.options.show?a._show(o,a.options.show,s):(o.show(),s())}var a=this,o=i.newPanel,r=i.oldPanel;this.running=!0,r.length&&this.options.hide?this._hide(r,this.options.hide,function(){i.oldTab.closest("li").removeClass("ui-tabs-active ui-state-active"),n()}):(i.oldTab.closest("li").removeClass("ui-tabs-active ui-state-active"),r.hide(),n()),r.attr("aria-hidden","true"),i.oldTab.attr({"aria-selected":"false","aria-expanded":"false"}),o.length&&r.length?i.oldTab.attr("tabIndex",-1):o.length&&this.tabs.filter(function(){return 0===e(this).attr("tabIndex")}).attr("tabIndex",-1),o.attr("aria-hidden","false"),i.newTab.attr({"aria-selected":"true","aria-expanded":"true",tabIndex:0})},_activate:function(t){var i,s=this._findActive(t);s[0]!==this.active[0]&&(s.length||(s=this.active),i=s.find(".ui-tabs-anchor")[0],this._eventHandler({target:i,currentTarget:i,preventDefault:e.noop}))},_findActive:function(t){return t===!1?e():this.tabs.eq(t)},_getIndex:function(e){return"string"==typeof e&&(e=this.anchors.index(this.anchors.filter("[href$='"+e+"']"))),e},_destroy:function(){this.xhr&&this.xhr.abort(),this.element.removeClass("ui-tabs ui-widget ui-widget-content ui-corner-all ui-tabs-collapsible"),this.tablist.removeClass("ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all").removeAttr("role"),this.anchors.removeClass("ui-tabs-anchor").removeAttr("role").removeAttr("tabIndex").removeUniqueId(),this.tabs.add(this.panels).each(function(){e.data(this,"ui-tabs-destroy")?e(this).remove():e(this).removeClass("ui-state-default ui-state-active ui-state-disabled ui-corner-top ui-corner-bottom ui-widget-content ui-tabs-active ui-tabs-panel").removeAttr("tabIndex").removeAttr("aria-live").removeAttr("aria-busy").removeAttr("aria-selected").removeAttr("aria-labelledby").removeAttr("aria-hidden").removeAttr("aria-expanded").removeAttr("role")}),this.tabs.each(function(){var t=e(this),i=t.data("ui-tabs-aria-controls");i?t.attr("aria-controls",i).removeData("ui-tabs-aria-controls"):t.removeAttr("aria-controls")}),this.panels.show(),"content"!==this.options.heightStyle&&this.panels.css("height","")},enable:function(t){var i=this.options.disabled;i!==!1&&(void 0===t?i=!1:(t=this._getIndex(t),i=e.isArray(i)?e.map(i,function(e){return e!==t?e:null}):e.map(this.tabs,function(e,i){return i!==t?i:null})),this._setupDisabled(i))},disable:function(t){var i=this.options.disabled;if(i!==!0){if(void 0===t)i=!0;else{if(t=this._getIndex(t),-1!==e.inArray(t,i))return;i=e.isArray(i)?e.merge([t],i).sort():[t]}this._setupDisabled(i)}},load:function(t,i){t=this._getIndex(t);var s=this,n=this.tabs.eq(t),a=n.find(".ui-tabs-anchor"),o=this._getPanelForTab(n),r={tab:n,panel:o};this._isLocal(a[0])||(this.xhr=e.ajax(this._ajaxSettings(a,i,r)),this.xhr&&"canceled"!==this.xhr.statusText&&(n.addClass("ui-tabs-loading"),o.attr("aria-busy","true"),this.xhr.success(function(e){setTimeout(function(){o.html(e),s._trigger("load",i,r)},1)}).complete(function(e,t){setTimeout(function(){"abort"===t&&s.panels.stop(!1,!0),n.removeClass("ui-tabs-loading"),o.removeAttr("aria-busy"),e===s.xhr&&delete s.xhr},1)})))},_ajaxSettings:function(t,i,s){var n=this;return{url:t.attr("href"),beforeSend:function(t,a){return n._trigger("beforeLoad",i,e.extend({jqXHR:t,ajaxSettings:a},s))}}},_getPanelForTab:function(t){var i=e(t).attr("aria-controls");return this.element.find(this._sanitizeSelector("#"+i))}}),e.widget("ui.tooltip",{version:"1.11.0",options:{content:function(){var t=e(this).attr("title")||"";return e("<a>").text(t).html()},hide:!0,items:"[title]:not([disabled])",position:{my:"left top+15",at:"left bottom",collision:"flipfit flip"},show:!0,tooltipClass:null,track:!1,close:null,open:null},_addDescribedBy:function(t,i){var s=(t.attr("aria-describedby")||"").split(/\s+/);s.push(i),t.data("ui-tooltip-id",i).attr("aria-describedby",e.trim(s.join(" ")))},_removeDescribedBy:function(t){var i=t.data("ui-tooltip-id"),s=(t.attr("aria-describedby")||"").split(/\s+/),n=e.inArray(i,s);-1!==n&&s.splice(n,1),t.removeData("ui-tooltip-id"),s=e.trim(s.join(" ")),s?t.attr("aria-describedby",s):t.removeAttr("aria-describedby")},_create:function(){this._on({mouseover:"open",focusin:"open"}),this.tooltips={},this.parents={},this.options.disabled&&this._disable(),this.liveRegion=e("<div>").attr({role:"log","aria-live":"assertive","aria-relevant":"additions"}).addClass("ui-helper-hidden-accessible").appendTo(this.document[0].body)},_setOption:function(t,i){var s=this;return"disabled"===t?(this[i?"_disable":"_enable"](),this.options[t]=i,void 0):(this._super(t,i),"content"===t&&e.each(this.tooltips,function(e,t){s._updateContent(t)}),void 0)},_disable:function(){var t=this;e.each(this.tooltips,function(i,s){var n=e.Event("blur");n.target=n.currentTarget=s[0],t.close(n,!0)}),this.element.find(this.options.items).addBack().each(function(){var t=e(this);t.is("[title]")&&t.data("ui-tooltip-title",t.attr("title")).removeAttr("title")})},_enable:function(){this.element.find(this.options.items).addBack().each(function(){var t=e(this);t.data("ui-tooltip-title")&&t.attr("title",t.data("ui-tooltip-title"))})},open:function(t){var i=this,s=e(t?t.target:this.element).closest(this.options.items);s.length&&!s.data("ui-tooltip-id")&&(s.attr("title")&&s.data("ui-tooltip-title",s.attr("title")),s.data("ui-tooltip-open",!0),t&&"mouseover"===t.type&&s.parents().each(function(){var t,s=e(this);s.data("ui-tooltip-open")&&(t=e.Event("blur"),t.target=t.currentTarget=this,i.close(t,!0)),s.attr("title")&&(s.uniqueId(),i.parents[this.id]={element:this,title:s.attr("title")},s.attr("title",""))}),this._updateContent(s,t))},_updateContent:function(e,t){var i,s=this.options.content,n=this,a=t?t.type:null;return"string"==typeof s?this._open(t,e,s):(i=s.call(e[0],function(i){e.data("ui-tooltip-open")&&n._delay(function(){t&&(t.type=a),this._open(t,e,i)})}),i&&this._open(t,e,i),void 0)},_open:function(t,i,s){function n(e){l.of=e,a.is(":hidden")||a.position(l)}var a,o,r,h,l=e.extend({},this.options.position);if(s){if(a=this._find(i),a.length)return a.find(".ui-tooltip-content").html(s),void 0;i.is("[title]")&&(t&&"mouseover"===t.type?i.attr("title",""):i.removeAttr("title")),a=this._tooltip(i),this._addDescribedBy(i,a.attr("id")),a.find(".ui-tooltip-content").html(s),this.liveRegion.children().hide(),s.clone?(h=s.clone(),h.removeAttr("id").find("[id]").removeAttr("id")):h=s,e("<div>").html(h).appendTo(this.liveRegion),this.options.track&&t&&/^mouse/.test(t.type)?(this._on(this.document,{mousemove:n}),n(t)):a.position(e.extend({of:i},this.options.position)),a.hide(),this._show(a,this.options.show),this.options.show&&this.options.show.delay&&(r=this.delayedShow=setInterval(function(){a.is(":visible")&&(n(l.of),clearInterval(r))},e.fx.interval)),this._trigger("open",t,{tooltip:a}),o={keyup:function(t){if(t.keyCode===e.ui.keyCode.ESCAPE){var s=e.Event(t);s.currentTarget=i[0],this.close(s,!0)}}},i[0]!==this.element[0]&&(o.remove=function(){this._removeTooltip(a)}),t&&"mouseover"!==t.type||(o.mouseleave="close"),t&&"focusin"!==t.type||(o.focusout="close"),this._on(!0,i,o)}},close:function(t){var i=this,s=e(t?t.currentTarget:this.element),n=this._find(s);this.closing||(clearInterval(this.delayedShow),s.data("ui-tooltip-title")&&!s.attr("title")&&s.attr("title",s.data("ui-tooltip-title")),this._removeDescribedBy(s),n.stop(!0),this._hide(n,this.options.hide,function(){i._removeTooltip(e(this))}),s.removeData("ui-tooltip-open"),this._off(s,"mouseleave focusout keyup"),s[0]!==this.element[0]&&this._off(s,"remove"),this._off(this.document,"mousemove"),t&&"mouseleave"===t.type&&e.each(this.parents,function(t,s){e(s.element).attr("title",s.title),delete i.parents[t]}),this.closing=!0,this._trigger("close",t,{tooltip:n}),this.closing=!1)},_tooltip:function(t){var i=e("<div>").attr("role","tooltip").addClass("ui-tooltip ui-widget ui-corner-all ui-widget-content "+(this.options.tooltipClass||"")),s=i.uniqueId().attr("id");return e("<div>").addClass("ui-tooltip-content").appendTo(i),i.appendTo(this.document[0].body),this.tooltips[s]=t,i},_find:function(t){var i=t.data("ui-tooltip-id");return i?e("#"+i):e()},_removeTooltip:function(e){e.remove(),delete this.tooltips[e.attr("id")]},_destroy:function(){var t=this;e.each(this.tooltips,function(i,s){var n=e.Event("blur");n.target=n.currentTarget=s[0],t.close(n,!0),e("#"+i).remove(),s.data("ui-tooltip-title")&&(s.attr("title")||s.attr("title",s.data("ui-tooltip-title")),s.removeData("ui-tooltip-title"))}),this.liveRegion.remove()}})});
 
-/* Rails UJS 5.2.3 */
-(function(){(function(){(function(){this.Rails={linkClickSelector:"a[data-confirm], a[data-method], a[data-remote]:not([disabled]), a[data-disable-with], a[data-disable]",buttonClickSelector:{selector:"button[data-remote]:not([form]), button[data-confirm]:not([form])",exclude:"form button"},inputChangeSelector:"select[data-remote], input[data-remote], textarea[data-remote]",formSubmitSelector:"form",formInputClickSelector:"form input[type=submit], form input[type=image], form button[type=submit], form button:not([type]), input[type=submit][form], input[type=image][form], button[type=submit][form], button[form]:not([type])",formDisableSelector:"input[data-disable-with]:enabled, button[data-disable-with]:enabled, textarea[data-disable-with]:enabled, input[data-disable]:enabled, button[data-disable]:enabled, textarea[data-disable]:enabled",formEnableSelector:"input[data-disable-with]:disabled, button[data-disable-with]:disabled, textarea[data-disable-with]:disabled, input[data-disable]:disabled, button[data-disable]:disabled, textarea[data-disable]:disabled",fileInputSelector:"input[name][type=file]:not([disabled])",linkDisableSelector:"a[data-disable-with], a[data-disable]",buttonDisableSelector:"button[data-remote][data-disable-with], button[data-remote][data-disable]"}}).call(this)}).call(this);var S=this.Rails;(function(){(function(){var e;e=null,S.loadCSPNonce=function(){var t;return e=null!=(t=document.querySelector("meta[name=csp-nonce]"))?t.content:void 0},S.cspNonce=function(){return null!=e?e:S.loadCSPNonce()}}).call(this),function(){var a,n;n=Element.prototype.matches||Element.prototype.matchesSelector||Element.prototype.mozMatchesSelector||Element.prototype.msMatchesSelector||Element.prototype.oMatchesSelector||Element.prototype.webkitMatchesSelector,S.matches=function(t,e){return null!=e.exclude?n.call(t,e.selector)&&!n.call(t,e.exclude):n.call(t,e)},a="_ujsData",S.getData=function(t,e){var n;return null!=(n=t[a])?n[e]:void 0},S.setData=function(t,e,n){return null==t[a]&&(t[a]={}),t[a][e]=n},S.$=function(t){return Array.prototype.slice.call(document.querySelectorAll(t))}}.call(this),function(){var n,a,o;n=S.$,o=S.csrfToken=function(){var t;return(t=document.querySelector("meta[name=csrf-token]"))&&t.content},a=S.csrfParam=function(){var t;return(t=document.querySelector("meta[name=csrf-param]"))&&t.content},S.CSRFProtection=function(t){var e;if(null!=(e=o()))return t.setRequestHeader("X-CSRF-Token",e)},S.refreshCSRFTokens=function(){var t,e;if(e=o(),t=a(),null!=e&&null!=t)return n('form input[name="'+t+'"]').forEach(function(t){return t.value=e})}}.call(this),function(){var o,e,r,n;r=S.matches,"function"!=typeof(o=window.CustomEvent)&&((o=function(t,e){var n;return(n=document.createEvent("CustomEvent")).initCustomEvent(t,e.bubbles,e.cancelable,e.detail),n}).prototype=window.Event.prototype,n=o.prototype.preventDefault,o.prototype.preventDefault=function(){var t;return t=n.call(this),this.cancelable&&!this.defaultPrevented&&Object.defineProperty(this,"defaultPrevented",{get:function(){return!0}}),t}),e=S.fire=function(t,e,n){var a;return a=new o(e,{bubbles:!0,cancelable:!0,detail:n}),t.dispatchEvent(a),!a.defaultPrevented},S.stopEverything=function(t){return e(t.target,"ujs:everythingStopped"),t.preventDefault(),t.stopPropagation(),t.stopImmediatePropagation()},S.delegate=function(t,n,e,a){return t.addEventListener(e,function(t){var e;for(e=t.target;e instanceof Element&&!r(e,n);)e=e.parentNode;if(e instanceof Element&&!1===a.call(e,t))return t.preventDefault(),t.stopPropagation()})}}.call(this),function(){var e,a,t,o,r,i;o=S.cspNonce,a=S.CSRFProtection,S.fire,e={"*":"*/*",text:"text/plain",html:"text/html",xml:"application/xml, text/xml",json:"application/json, text/javascript",script:"text/javascript, application/javascript, application/ecmascript, application/x-ecmascript"},S.ajax=function(n){var a;return n=r(n),a=t(n,function(){var t,e;return e=i(null!=(t=a.response)?t:a.responseText,a.getResponseHeader("Content-Type")),2===Math.floor(a.status/100)?"function"==typeof n.success&&n.success(e,a.statusText,a):"function"==typeof n.error&&n.error(e,a.statusText,a),"function"==typeof n.complete?n.complete(a,a.statusText):void 0}),!(null!=n.beforeSend&&!n.beforeSend(a,n))&&(a.readyState===XMLHttpRequest.OPENED?a.send(n.data):void 0)},r=function(t){return t.url=t.url||location.href,t.type=t.type.toUpperCase(),"GET"===t.type&&t.data&&(t.url.indexOf("?")<0?t.url+="?"+t.data:t.url+="&"+t.data),null==e[t.dataType]&&(t.dataType="*"),t.accept=e[t.dataType],"*"!==t.dataType&&(t.accept+=", */*; q=0.01"),t},t=function(t,e){var n;return(n=new XMLHttpRequest).open(t.type,t.url,!0),n.setRequestHeader("Accept",t.accept),"string"==typeof t.data&&n.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8"),t.crossDomain||n.setRequestHeader("X-Requested-With","XMLHttpRequest"),a(n),n.withCredentials=!!t.withCredentials,n.onreadystatechange=function(){if(n.readyState===XMLHttpRequest.DONE)return e(n)},n},i=function(t,e){var n,a;if("string"==typeof t&&"string"==typeof e)if(e.match(/\bjson\b/))try{t=JSON.parse(t)}catch(t){}else if(e.match(/\b(?:java|ecma)script\b/))(a=document.createElement("script")).setAttribute("nonce",o()),a.text=t,document.head.appendChild(a).parentNode.removeChild(a);else if(e.match(/\b(xml|html|svg)\b/)){n=new DOMParser,e=e.replace(/;.+/,"");try{t=n.parseFromString(t,e)}catch(t){}}return t},S.href=function(t){return t.href},S.isCrossDomain=function(t){var e,n;(e=document.createElement("a")).href=location.href,n=document.createElement("a");try{return n.href=t,!((!n.protocol||":"===n.protocol)&&!n.host||e.protocol+"//"+e.host==n.protocol+"//"+n.host)}catch(t){return t,!0}}}.call(this),function(){var o,r;o=S.matches,r=function(t){return Array.prototype.slice.call(t)},S.serializeElement=function(t,e){var n,a;return n=[t],o(t,"form")&&(n=r(t.elements)),a=[],n.forEach(function(e){if(e.name&&!e.disabled)return o(e,"select")?r(e.options).forEach(function(t){if(t.selected)return a.push({name:e.name,value:t.value})}):e.checked||-1===["radio","checkbox","submit"].indexOf(e.type)?a.push({name:e.name,value:e.value}):void 0}),e&&a.push(e),a.map(function(t){return null!=t.name?encodeURIComponent(t.name)+"="+encodeURIComponent(t.value):t}).join("&")},S.formElements=function(t,e){return o(t,"form")?r(t.elements).filter(function(t){return o(t,e)}):r(t.querySelectorAll(e))}}.call(this),function(){var e,o,n;o=S.fire,n=S.stopEverything,S.handleConfirm=function(t){if(!e(this))return n(t)},e=function(t){var e,n,a;if(!(a=t.getAttribute("data-confirm")))return!0;if(e=!1,o(t,"confirm")){try{e=confirm(a)}catch(t){}n=o(t,"confirm:complete",[e])}return e&&n}}.call(this),function(){var n,a,o,r,i,l,e,u,c,s,d;c=S.matches,u=S.getData,s=S.setData,d=S.stopEverything,e=S.formElements,S.handleDisabledElement=function(t){if(this.disabled)return d(t)},S.enableElement=function(t){var e;return e=t instanceof Event?t.target:t,c(e,S.linkDisableSelector)?l(e):c(e,S.buttonDisableSelector)||c(e,S.formEnableSelector)?r(e):c(e,S.formSubmitSelector)?i(e):void 0},S.disableElement=function(t){var e;return e=t instanceof Event?t.target:t,c(e,S.linkDisableSelector)?o(e):c(e,S.buttonDisableSelector)||c(e,S.formDisableSelector)?n(e):c(e,S.formSubmitSelector)?a(e):void 0},o=function(t){var e;return null!=(e=t.getAttribute("data-disable-with"))&&(s(t,"ujs:enable-with",t.innerHTML),t.innerHTML=e),t.addEventListener("click",d),s(t,"ujs:disabled",!0)},l=function(t){var e;return null!=(e=u(t,"ujs:enable-with"))&&(t.innerHTML=e,s(t,"ujs:enable-with",null)),t.removeEventListener("click",d),s(t,"ujs:disabled",null)},a=function(t){return e(t,S.formDisableSelector).forEach(n)},n=function(t){var e;return null!=(e=t.getAttribute("data-disable-with"))&&(c(t,"button")?(s(t,"ujs:enable-with",t.innerHTML),t.innerHTML=e):(s(t,"ujs:enable-with",t.value),t.value=e)),t.disabled=!0,s(t,"ujs:disabled",!0)},i=function(t){return e(t,S.formEnableSelector).forEach(r)},r=function(t){var e;return null!=(e=u(t,"ujs:enable-with"))&&(c(t,"button")?t.innerHTML=e:t.value=e,s(t,"ujs:enable-with",null)),t.disabled=!1,s(t,"ujs:disabled",null)}}.call(this),function(){var l;l=S.stopEverything,S.handleMethod=function(t){var e,n,a,o,r,i;if(i=this.getAttribute("data-method"))return r=S.href(this),n=S.csrfToken(),e=S.csrfParam(),a=document.createElement("form"),o="<input name='_method' value='"+i+"' type='hidden' />",null==e||null==n||S.isCrossDomain(r)||(o+="<input name='"+e+"' value='"+n+"' type='hidden' />"),o+='<input type="submit" />',a.method="post",a.action=r,a.target=this.target,a.innerHTML=o,a.style.display="none",document.body.appendChild(a),a.querySelector('[type="submit"]').click(),l(t)}}.call(this),function(){var u,c,s,d,m,f,p,b,h,v=[].slice;f=S.matches,s=S.getData,b=S.setData,c=S.fire,h=S.stopEverything,u=S.ajax,d=S.isCrossDomain,p=S.serializeElement,m=function(t){var e;return null!=(e=t.getAttribute("data-remote"))&&"false"!==e},S.handleRemote=function(t){var e,n,a,o,r,i,l;return!m(o=this)||(c(o,"ajax:before")?(l=o.getAttribute("data-with-credentials"),a=o.getAttribute("data-type")||"script",f(o,S.formSubmitSelector)?(e=s(o,"ujs:submit-button"),r=s(o,"ujs:submit-button-formmethod")||o.method,i=s(o,"ujs:submit-button-formaction")||o.getAttribute("action")||location.href,"GET"===r.toUpperCase()&&(i=i.replace(/\?.*$/,"")),"multipart/form-data"===o.enctype?(n=new FormData(o),null!=e&&n.append(e.name,e.value)):n=p(o,e),b(o,"ujs:submit-button",null),b(o,"ujs:submit-button-formmethod",null),b(o,"ujs:submit-button-formaction",null)):n=f(o,S.buttonClickSelector)||f(o,S.inputChangeSelector)?(r=o.getAttribute("data-method"),i=o.getAttribute("data-url"),p(o,o.getAttribute("data-params"))):(r=o.getAttribute("data-method"),i=S.href(o),o.getAttribute("data-params")),u({type:r||"GET",url:i,data:n,dataType:a,beforeSend:function(t,e){return c(o,"ajax:beforeSend",[t,e])?c(o,"ajax:send",[t]):(c(o,"ajax:stopped"),!1)},success:function(){var t;return t=1<=arguments.length?v.call(arguments,0):[],c(o,"ajax:success",t)},error:function(){var t;return t=1<=arguments.length?v.call(arguments,0):[],c(o,"ajax:error",t)},complete:function(){var t;return t=1<=arguments.length?v.call(arguments,0):[],c(o,"ajax:complete",t)},crossDomain:d(i),withCredentials:null!=l&&"false"!==l}),h(t)):(c(o,"ajax:stopped"),!1))},S.formSubmitButtonClick=function(t){var e,n;if(n=(e=this).form)return e.name&&b(n,"ujs:submit-button",{name:e.name,value:e.value}),b(n,"ujs:formnovalidate-button",e.formNoValidate),b(n,"ujs:submit-button-formaction",e.getAttribute("formaction")),b(n,"ujs:submit-button-formmethod",e.getAttribute("formmethod"))},S.preventInsignificantClick=function(t){var e,n,a;if(a=(this.getAttribute("data-method")||"GET").toUpperCase(),e=this.getAttribute("data-params"),n=(t.metaKey||t.ctrlKey)&&"GET"===a&&!e,!(0===t.button)||n)return t.stopImmediatePropagation()}}.call(this),function(){var t,a,e,n,o,r,i,l,u,c,s,d,m,f,p;if(r=S.fire,e=S.delegate,l=S.getData,t=S.$,p=S.refreshCSRFTokens,a=S.CSRFProtection,m=S.loadCSPNonce,o=S.enableElement,n=S.disableElement,c=S.handleDisabledElement,u=S.handleConfirm,f=S.preventInsignificantClick,d=S.handleRemote,i=S.formSubmitButtonClick,s=S.handleMethod,"undefined"!=typeof jQuery&&null!==jQuery&&null!=jQuery.ajax){if(jQuery.rails)throw new Error("If you load both jquery_ujs and rails-ujs, use rails-ujs only.");jQuery.rails=S,jQuery.ajaxPrefilter(function(t,e,n){if(!t.crossDomain)return a(n)})}S.start=function(){if(window._rails_loaded)throw new Error("rails-ujs has already been loaded!");return window.addEventListener("pageshow",function(){return t(S.formEnableSelector).forEach(function(t){if(l(t,"ujs:disabled"))return o(t)}),t(S.linkDisableSelector).forEach(function(t){if(l(t,"ujs:disabled"))return o(t)})}),e(document,S.linkDisableSelector,"ajax:complete",o),e(document,S.linkDisableSelector,"ajax:stopped",o),e(document,S.buttonDisableSelector,"ajax:complete",o),e(document,S.buttonDisableSelector,"ajax:stopped",o),e(document,S.linkClickSelector,"click",f),e(document,S.linkClickSelector,"click",c),e(document,S.linkClickSelector,"click",u),e(document,S.linkClickSelector,"click",n),e(document,S.linkClickSelector,"click",d),e(document,S.linkClickSelector,"click",s),e(document,S.buttonClickSelector,"click",f),e(document,S.buttonClickSelector,"click",c),e(document,S.buttonClickSelector,"click",u),e(document,S.buttonClickSelector,"click",n),e(document,S.buttonClickSelector,"click",d),e(document,S.inputChangeSelector,"change",c),e(document,S.inputChangeSelector,"change",u),e(document,S.inputChangeSelector,"change",d),e(document,S.formSubmitSelector,"submit",c),e(document,S.formSubmitSelector,"submit",u),e(document,S.formSubmitSelector,"submit",d),e(document,S.formSubmitSelector,"submit",function(t){return setTimeout(function(){return n(t)},13)}),e(document,S.formSubmitSelector,"ajax:send",n),e(document,S.formSubmitSelector,"ajax:complete",o),e(document,S.formInputClickSelector,"click",f),e(document,S.formInputClickSelector,"click",c),e(document,S.formInputClickSelector,"click",u),e(document,S.formInputClickSelector,"click",i),document.addEventListener("DOMContentLoaded",p),document.addEventListener("DOMContentLoaded",m),window._rails_loaded=!0},window.Rails===S&&r(document,"rails:attachBindings")&&S.start()}.call(this)}).call(this),"object"==typeof module&&module.exports?module.exports=S:"function"==typeof define&&define.amd&&define(S)}).call(this);
+/* Rails UJS 5.2.4.5 */
+/*
+Unobtrusive JavaScript
+https://github.com/rails/rails/blob/master/actionview/app/assets/javascripts
+Released under the MIT license
+ */;
+
+(function() {
+  var context = this;
+
+  (function() {
+    (function() {
+      this.Rails = {
+        linkClickSelector: 'a[data-confirm], a[data-method], a[data-remote]:not([disabled]), a[data-disable-with], a[data-disable]',
+        buttonClickSelector: {
+          selector: 'button[data-remote]:not([form]), button[data-confirm]:not([form])',
+          exclude: 'form button'
+        },
+        inputChangeSelector: 'select[data-remote], input[data-remote], textarea[data-remote]',
+        formSubmitSelector: 'form',
+        formInputClickSelector: 'form input[type=submit], form input[type=image], form button[type=submit], form button:not([type]), input[type=submit][form], input[type=image][form], button[type=submit][form], button[form]:not([type])',
+        formDisableSelector: 'input[data-disable-with]:enabled, button[data-disable-with]:enabled, textarea[data-disable-with]:enabled, input[data-disable]:enabled, button[data-disable]:enabled, textarea[data-disable]:enabled',
+        formEnableSelector: 'input[data-disable-with]:disabled, button[data-disable-with]:disabled, textarea[data-disable-with]:disabled, input[data-disable]:disabled, button[data-disable]:disabled, textarea[data-disable]:disabled',
+        fileInputSelector: 'input[name][type=file]:not([disabled])',
+        linkDisableSelector: 'a[data-disable-with], a[data-disable]',
+        buttonDisableSelector: 'button[data-remote][data-disable-with], button[data-remote][data-disable]'
+      };
+
+    }).call(this);
+  }).call(context);
+
+  var Rails = context.Rails;
+
+  (function() {
+    (function() {
+      var nonce;
+
+      nonce = null;
+
+      Rails.loadCSPNonce = function() {
+        var ref;
+        return nonce = (ref = document.querySelector("meta[name=csp-nonce]")) != null ? ref.content : void 0;
+      };
+
+      Rails.cspNonce = function() {
+        return nonce != null ? nonce : Rails.loadCSPNonce();
+      };
+
+    }).call(this);
+    (function() {
+      var expando, m;
+
+      m = Element.prototype.matches || Element.prototype.matchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.msMatchesSelector || Element.prototype.oMatchesSelector || Element.prototype.webkitMatchesSelector;
+
+      Rails.matches = function(element, selector) {
+        if (selector.exclude != null) {
+          return m.call(element, selector.selector) && !m.call(element, selector.exclude);
+        } else {
+          return m.call(element, selector);
+        }
+      };
+
+      expando = '_ujsData';
+
+      Rails.getData = function(element, key) {
+        var ref;
+        return (ref = element[expando]) != null ? ref[key] : void 0;
+      };
+
+      Rails.setData = function(element, key, value) {
+        if (element[expando] == null) {
+          element[expando] = {};
+        }
+        return element[expando][key] = value;
+      };
+
+      Rails.$ = function(selector) {
+        return Array.prototype.slice.call(document.querySelectorAll(selector));
+      };
+
+    }).call(this);
+    (function() {
+      var $, csrfParam, csrfToken;
+
+      $ = Rails.$;
+
+      csrfToken = Rails.csrfToken = function() {
+        var meta;
+        meta = document.querySelector('meta[name=csrf-token]');
+        return meta && meta.content;
+      };
+
+      csrfParam = Rails.csrfParam = function() {
+        var meta;
+        meta = document.querySelector('meta[name=csrf-param]');
+        return meta && meta.content;
+      };
+
+      Rails.CSRFProtection = function(xhr) {
+        var token;
+        token = csrfToken();
+        if (token != null) {
+          return xhr.setRequestHeader('X-CSRF-Token', token);
+        }
+      };
+
+      Rails.refreshCSRFTokens = function() {
+        var param, token;
+        token = csrfToken();
+        param = csrfParam();
+        if ((token != null) && (param != null)) {
+          return $('form input[name="' + param + '"]').forEach(function(input) {
+            return input.value = token;
+          });
+        }
+      };
+
+    }).call(this);
+    (function() {
+      var CustomEvent, fire, matches, preventDefault;
+
+      matches = Rails.matches;
+
+      CustomEvent = window.CustomEvent;
+
+      if (typeof CustomEvent !== 'function') {
+        CustomEvent = function(event, params) {
+          var evt;
+          evt = document.createEvent('CustomEvent');
+          evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+          return evt;
+        };
+        CustomEvent.prototype = window.Event.prototype;
+        preventDefault = CustomEvent.prototype.preventDefault;
+        CustomEvent.prototype.preventDefault = function() {
+          var result;
+          result = preventDefault.call(this);
+          if (this.cancelable && !this.defaultPrevented) {
+            Object.defineProperty(this, 'defaultPrevented', {
+              get: function() {
+                return true;
+              }
+            });
+          }
+          return result;
+        };
+      }
+
+      fire = Rails.fire = function(obj, name, data) {
+        var event;
+        event = new CustomEvent(name, {
+          bubbles: true,
+          cancelable: true,
+          detail: data
+        });
+        obj.dispatchEvent(event);
+        return !event.defaultPrevented;
+      };
+
+      Rails.stopEverything = function(e) {
+        fire(e.target, 'ujs:everythingStopped');
+        e.preventDefault();
+        e.stopPropagation();
+        return e.stopImmediatePropagation();
+      };
+
+      Rails.delegate = function(element, selector, eventType, handler) {
+        return element.addEventListener(eventType, function(e) {
+          var target;
+          target = e.target;
+          while (!(!(target instanceof Element) || matches(target, selector))) {
+            target = target.parentNode;
+          }
+          if (target instanceof Element && handler.call(target, e) === false) {
+            e.preventDefault();
+            return e.stopPropagation();
+          }
+        });
+      };
+
+    }).call(this);
+    (function() {
+      var AcceptHeaders, CSRFProtection, createXHR, cspNonce, fire, prepareOptions, processResponse;
+
+      cspNonce = Rails.cspNonce, CSRFProtection = Rails.CSRFProtection, fire = Rails.fire;
+
+      AcceptHeaders = {
+        '*': '*/*',
+        text: 'text/plain',
+        html: 'text/html',
+        xml: 'application/xml, text/xml',
+        json: 'application/json, text/javascript',
+        script: 'text/javascript, application/javascript, application/ecmascript, application/x-ecmascript'
+      };
+
+      Rails.ajax = function(options) {
+        var xhr;
+        options = prepareOptions(options);
+        xhr = createXHR(options, function() {
+          var ref, response;
+          response = processResponse((ref = xhr.response) != null ? ref : xhr.responseText, xhr.getResponseHeader('Content-Type'));
+          if (Math.floor(xhr.status / 100) === 2) {
+            if (typeof options.success === "function") {
+              options.success(response, xhr.statusText, xhr);
+            }
+          } else {
+            if (typeof options.error === "function") {
+              options.error(response, xhr.statusText, xhr);
+            }
+          }
+          return typeof options.complete === "function" ? options.complete(xhr, xhr.statusText) : void 0;
+        });
+        if ((options.beforeSend != null) && !options.beforeSend(xhr, options)) {
+          return false;
+        }
+        if (xhr.readyState === XMLHttpRequest.OPENED) {
+          return xhr.send(options.data);
+        }
+      };
+
+      prepareOptions = function(options) {
+        options.url = options.url || location.href;
+        options.type = options.type.toUpperCase();
+        if (options.type === 'GET' && options.data) {
+          if (options.url.indexOf('?') < 0) {
+            options.url += '?' + options.data;
+          } else {
+            options.url += '&' + options.data;
+          }
+        }
+        if (AcceptHeaders[options.dataType] == null) {
+          options.dataType = '*';
+        }
+        options.accept = AcceptHeaders[options.dataType];
+        if (options.dataType !== '*') {
+          options.accept += ', */*; q=0.01';
+        }
+        return options;
+      };
+
+      createXHR = function(options, done) {
+        var xhr;
+        xhr = new XMLHttpRequest();
+        xhr.open(options.type, options.url, true);
+        xhr.setRequestHeader('Accept', options.accept);
+        if (typeof options.data === 'string') {
+          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+        }
+        if (!options.crossDomain) {
+          xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+          CSRFProtection(xhr);
+        }
+        xhr.withCredentials = !!options.withCredentials;
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+            return done(xhr);
+          }
+        };
+        return xhr;
+      };
+
+      processResponse = function(response, type) {
+        var parser, script;
+        if (typeof response === 'string' && typeof type === 'string') {
+          if (type.match(/\bjson\b/)) {
+            try {
+              response = JSON.parse(response);
+            } catch (error) {}
+          } else if (type.match(/\b(?:java|ecma)script\b/)) {
+            script = document.createElement('script');
+            script.setAttribute('nonce', cspNonce());
+            script.text = response;
+            document.head.appendChild(script).parentNode.removeChild(script);
+          } else if (type.match(/\b(xml|html|svg)\b/)) {
+            parser = new DOMParser();
+            type = type.replace(/;.+/, '');
+            try {
+              response = parser.parseFromString(response, type);
+            } catch (error) {}
+          }
+        }
+        return response;
+      };
+
+      Rails.href = function(element) {
+        return element.href;
+      };
+
+      Rails.isCrossDomain = function(url) {
+        var e, originAnchor, urlAnchor;
+        originAnchor = document.createElement('a');
+        originAnchor.href = location.href;
+        urlAnchor = document.createElement('a');
+        try {
+          urlAnchor.href = url;
+          return !(((!urlAnchor.protocol || urlAnchor.protocol === ':') && !urlAnchor.host) || (originAnchor.protocol + '//' + originAnchor.host === urlAnchor.protocol + '//' + urlAnchor.host));
+        } catch (error) {
+          e = error;
+          return true;
+        }
+      };
+
+    }).call(this);
+    (function() {
+      var matches, toArray;
+
+      matches = Rails.matches;
+
+      toArray = function(e) {
+        return Array.prototype.slice.call(e);
+      };
+
+      Rails.serializeElement = function(element, additionalParam) {
+        var inputs, params;
+        inputs = [element];
+        if (matches(element, 'form')) {
+          inputs = toArray(element.elements);
+        }
+        params = [];
+        inputs.forEach(function(input) {
+          if (!input.name || input.disabled) {
+            return;
+          }
+          if (matches(input, 'select')) {
+            return toArray(input.options).forEach(function(option) {
+              if (option.selected) {
+                return params.push({
+                  name: input.name,
+                  value: option.value
+                });
+              }
+            });
+          } else if (input.checked || ['radio', 'checkbox', 'submit'].indexOf(input.type) === -1) {
+            return params.push({
+              name: input.name,
+              value: input.value
+            });
+          }
+        });
+        if (additionalParam) {
+          params.push(additionalParam);
+        }
+        return params.map(function(param) {
+          if (param.name != null) {
+            return (encodeURIComponent(param.name)) + "=" + (encodeURIComponent(param.value));
+          } else {
+            return param;
+          }
+        }).join('&');
+      };
+
+      Rails.formElements = function(form, selector) {
+        if (matches(form, 'form')) {
+          return toArray(form.elements).filter(function(el) {
+            return matches(el, selector);
+          });
+        } else {
+          return toArray(form.querySelectorAll(selector));
+        }
+      };
+
+    }).call(this);
+    (function() {
+      var allowAction, fire, stopEverything;
+
+      fire = Rails.fire, stopEverything = Rails.stopEverything;
+
+      Rails.handleConfirm = function(e) {
+        if (!allowAction(this)) {
+          return stopEverything(e);
+        }
+      };
+
+      allowAction = function(element) {
+        var answer, callback, message;
+        message = element.getAttribute('data-confirm');
+        if (!message) {
+          return true;
+        }
+        answer = false;
+        if (fire(element, 'confirm')) {
+          try {
+            answer = confirm(message);
+          } catch (error) {}
+          callback = fire(element, 'confirm:complete', [answer]);
+        }
+        return answer && callback;
+      };
+
+    }).call(this);
+    (function() {
+      var disableFormElement, disableFormElements, disableLinkElement, enableFormElement, enableFormElements, enableLinkElement, formElements, getData, matches, setData, stopEverything;
+
+      matches = Rails.matches, getData = Rails.getData, setData = Rails.setData, stopEverything = Rails.stopEverything, formElements = Rails.formElements;
+
+      Rails.handleDisabledElement = function(e) {
+        var element;
+        element = this;
+        if (element.disabled) {
+          return stopEverything(e);
+        }
+      };
+
+      Rails.enableElement = function(e) {
+        var element;
+        element = e instanceof Event ? e.target : e;
+        if (matches(element, Rails.linkDisableSelector)) {
+          return enableLinkElement(element);
+        } else if (matches(element, Rails.buttonDisableSelector) || matches(element, Rails.formEnableSelector)) {
+          return enableFormElement(element);
+        } else if (matches(element, Rails.formSubmitSelector)) {
+          return enableFormElements(element);
+        }
+      };
+
+      Rails.disableElement = function(e) {
+        var element;
+        element = e instanceof Event ? e.target : e;
+        if (matches(element, Rails.linkDisableSelector)) {
+          return disableLinkElement(element);
+        } else if (matches(element, Rails.buttonDisableSelector) || matches(element, Rails.formDisableSelector)) {
+          return disableFormElement(element);
+        } else if (matches(element, Rails.formSubmitSelector)) {
+          return disableFormElements(element);
+        }
+      };
+
+      disableLinkElement = function(element) {
+        var replacement;
+        replacement = element.getAttribute('data-disable-with');
+        if (replacement != null) {
+          setData(element, 'ujs:enable-with', element.innerHTML);
+          element.innerHTML = replacement;
+        }
+        element.addEventListener('click', stopEverything);
+        return setData(element, 'ujs:disabled', true);
+      };
+
+      enableLinkElement = function(element) {
+        var originalText;
+        originalText = getData(element, 'ujs:enable-with');
+        if (originalText != null) {
+          element.innerHTML = originalText;
+          setData(element, 'ujs:enable-with', null);
+        }
+        element.removeEventListener('click', stopEverything);
+        return setData(element, 'ujs:disabled', null);
+      };
+
+      disableFormElements = function(form) {
+        return formElements(form, Rails.formDisableSelector).forEach(disableFormElement);
+      };
+
+      disableFormElement = function(element) {
+        var replacement;
+        replacement = element.getAttribute('data-disable-with');
+        if (replacement != null) {
+          if (matches(element, 'button')) {
+            setData(element, 'ujs:enable-with', element.innerHTML);
+            element.innerHTML = replacement;
+          } else {
+            setData(element, 'ujs:enable-with', element.value);
+            element.value = replacement;
+          }
+        }
+        element.disabled = true;
+        return setData(element, 'ujs:disabled', true);
+      };
+
+      enableFormElements = function(form) {
+        return formElements(form, Rails.formEnableSelector).forEach(enableFormElement);
+      };
+
+      enableFormElement = function(element) {
+        var originalText;
+        originalText = getData(element, 'ujs:enable-with');
+        if (originalText != null) {
+          if (matches(element, 'button')) {
+            element.innerHTML = originalText;
+          } else {
+            element.value = originalText;
+          }
+          setData(element, 'ujs:enable-with', null);
+        }
+        element.disabled = false;
+        return setData(element, 'ujs:disabled', null);
+      };
+
+    }).call(this);
+    (function() {
+      var stopEverything;
+
+      stopEverything = Rails.stopEverything;
+
+      Rails.handleMethod = function(e) {
+        var csrfParam, csrfToken, form, formContent, href, link, method;
+        link = this;
+        method = link.getAttribute('data-method');
+        if (!method) {
+          return;
+        }
+        href = Rails.href(link);
+        csrfToken = Rails.csrfToken();
+        csrfParam = Rails.csrfParam();
+        form = document.createElement('form');
+        formContent = "<input name='_method' value='" + method + "' type='hidden' />";
+        if ((csrfParam != null) && (csrfToken != null) && !Rails.isCrossDomain(href)) {
+          formContent += "<input name='" + csrfParam + "' value='" + csrfToken + "' type='hidden' />";
+        }
+        formContent += '<input type="submit" />';
+        form.method = 'post';
+        form.action = href;
+        form.target = link.target;
+        form.innerHTML = formContent;
+        form.style.display = 'none';
+        document.body.appendChild(form);
+        form.querySelector('[type="submit"]').click();
+        return stopEverything(e);
+      };
+
+    }).call(this);
+    (function() {
+      var ajax, fire, getData, isCrossDomain, isRemote, matches, serializeElement, setData, stopEverything,
+        slice = [].slice;
+
+      matches = Rails.matches, getData = Rails.getData, setData = Rails.setData, fire = Rails.fire, stopEverything = Rails.stopEverything, ajax = Rails.ajax, isCrossDomain = Rails.isCrossDomain, serializeElement = Rails.serializeElement;
+
+      isRemote = function(element) {
+        var value;
+        value = element.getAttribute('data-remote');
+        return (value != null) && value !== 'false';
+      };
+
+      Rails.handleRemote = function(e) {
+        var button, data, dataType, element, method, url, withCredentials;
+        element = this;
+        if (!isRemote(element)) {
+          return true;
+        }
+        if (!fire(element, 'ajax:before')) {
+          fire(element, 'ajax:stopped');
+          return false;
+        }
+        withCredentials = element.getAttribute('data-with-credentials');
+        dataType = element.getAttribute('data-type') || 'script';
+        if (matches(element, Rails.formSubmitSelector)) {
+          button = getData(element, 'ujs:submit-button');
+          method = getData(element, 'ujs:submit-button-formmethod') || element.method;
+          url = getData(element, 'ujs:submit-button-formaction') || element.getAttribute('action') || location.href;
+          if (method.toUpperCase() === 'GET') {
+            url = url.replace(/\?.*$/, '');
+          }
+          if (element.enctype === 'multipart/form-data') {
+            data = new FormData(element);
+            if (button != null) {
+              data.append(button.name, button.value);
+            }
+          } else {
+            data = serializeElement(element, button);
+          }
+          setData(element, 'ujs:submit-button', null);
+          setData(element, 'ujs:submit-button-formmethod', null);
+          setData(element, 'ujs:submit-button-formaction', null);
+        } else if (matches(element, Rails.buttonClickSelector) || matches(element, Rails.inputChangeSelector)) {
+          method = element.getAttribute('data-method');
+          url = element.getAttribute('data-url');
+          data = serializeElement(element, element.getAttribute('data-params'));
+        } else {
+          method = element.getAttribute('data-method');
+          url = Rails.href(element);
+          data = element.getAttribute('data-params');
+        }
+        ajax({
+          type: method || 'GET',
+          url: url,
+          data: data,
+          dataType: dataType,
+          beforeSend: function(xhr, options) {
+            if (fire(element, 'ajax:beforeSend', [xhr, options])) {
+              return fire(element, 'ajax:send', [xhr]);
+            } else {
+              fire(element, 'ajax:stopped');
+              return false;
+            }
+          },
+          success: function() {
+            var args;
+            args = 1 <= arguments.length ? slice.call(arguments, 0) : [];
+            return fire(element, 'ajax:success', args);
+          },
+          error: function() {
+            var args;
+            args = 1 <= arguments.length ? slice.call(arguments, 0) : [];
+            return fire(element, 'ajax:error', args);
+          },
+          complete: function() {
+            var args;
+            args = 1 <= arguments.length ? slice.call(arguments, 0) : [];
+            return fire(element, 'ajax:complete', args);
+          },
+          crossDomain: isCrossDomain(url),
+          withCredentials: (withCredentials != null) && withCredentials !== 'false'
+        });
+        return stopEverything(e);
+      };
+
+      Rails.formSubmitButtonClick = function(e) {
+        var button, form;
+        button = this;
+        form = button.form;
+        if (!form) {
+          return;
+        }
+        if (button.name) {
+          setData(form, 'ujs:submit-button', {
+            name: button.name,
+            value: button.value
+          });
+        }
+        setData(form, 'ujs:formnovalidate-button', button.formNoValidate);
+        setData(form, 'ujs:submit-button-formaction', button.getAttribute('formaction'));
+        return setData(form, 'ujs:submit-button-formmethod', button.getAttribute('formmethod'));
+      };
+
+      Rails.preventInsignificantClick = function(e) {
+        var data, insignificantMetaClick, link, metaClick, method, nonPrimaryMouseClick;
+        link = this;
+        method = (link.getAttribute('data-method') || 'GET').toUpperCase();
+        data = link.getAttribute('data-params');
+        metaClick = e.metaKey || e.ctrlKey;
+        insignificantMetaClick = metaClick && method === 'GET' && !data;
+        nonPrimaryMouseClick = (e.button != null) && e.button !== 0;
+        if (nonPrimaryMouseClick || insignificantMetaClick) {
+          return e.stopImmediatePropagation();
+        }
+      };
+
+    }).call(this);
+    (function() {
+      var $, CSRFProtection, delegate, disableElement, enableElement, fire, formSubmitButtonClick, getData, handleConfirm, handleDisabledElement, handleMethod, handleRemote, loadCSPNonce, preventInsignificantClick, refreshCSRFTokens;
+
+      fire = Rails.fire, delegate = Rails.delegate, getData = Rails.getData, $ = Rails.$, refreshCSRFTokens = Rails.refreshCSRFTokens, CSRFProtection = Rails.CSRFProtection, loadCSPNonce = Rails.loadCSPNonce, enableElement = Rails.enableElement, disableElement = Rails.disableElement, handleDisabledElement = Rails.handleDisabledElement, handleConfirm = Rails.handleConfirm, preventInsignificantClick = Rails.preventInsignificantClick, handleRemote = Rails.handleRemote, formSubmitButtonClick = Rails.formSubmitButtonClick, handleMethod = Rails.handleMethod;
+
+      if ((typeof jQuery !== "undefined" && jQuery !== null) && (jQuery.ajax != null)) {
+        if (jQuery.rails) {
+          throw new Error('If you load both jquery_ujs and rails-ujs, use rails-ujs only.');
+        }
+        jQuery.rails = Rails;
+        jQuery.ajaxPrefilter(function(options, originalOptions, xhr) {
+          if (!options.crossDomain) {
+            return CSRFProtection(xhr);
+          }
+        });
+      }
+
+      Rails.start = function() {
+        if (window._rails_loaded) {
+          throw new Error('rails-ujs has already been loaded!');
+        }
+        window.addEventListener('pageshow', function() {
+          $(Rails.formEnableSelector).forEach(function(el) {
+            if (getData(el, 'ujs:disabled')) {
+              return enableElement(el);
+            }
+          });
+          return $(Rails.linkDisableSelector).forEach(function(el) {
+            if (getData(el, 'ujs:disabled')) {
+              return enableElement(el);
+            }
+          });
+        });
+        delegate(document, Rails.linkDisableSelector, 'ajax:complete', enableElement);
+        delegate(document, Rails.linkDisableSelector, 'ajax:stopped', enableElement);
+        delegate(document, Rails.buttonDisableSelector, 'ajax:complete', enableElement);
+        delegate(document, Rails.buttonDisableSelector, 'ajax:stopped', enableElement);
+        delegate(document, Rails.linkClickSelector, 'click', preventInsignificantClick);
+        delegate(document, Rails.linkClickSelector, 'click', handleDisabledElement);
+        delegate(document, Rails.linkClickSelector, 'click', handleConfirm);
+        delegate(document, Rails.linkClickSelector, 'click', disableElement);
+        delegate(document, Rails.linkClickSelector, 'click', handleRemote);
+        delegate(document, Rails.linkClickSelector, 'click', handleMethod);
+        delegate(document, Rails.buttonClickSelector, 'click', preventInsignificantClick);
+        delegate(document, Rails.buttonClickSelector, 'click', handleDisabledElement);
+        delegate(document, Rails.buttonClickSelector, 'click', handleConfirm);
+        delegate(document, Rails.buttonClickSelector, 'click', disableElement);
+        delegate(document, Rails.buttonClickSelector, 'click', handleRemote);
+        delegate(document, Rails.inputChangeSelector, 'change', handleDisabledElement);
+        delegate(document, Rails.inputChangeSelector, 'change', handleConfirm);
+        delegate(document, Rails.inputChangeSelector, 'change', handleRemote);
+        delegate(document, Rails.formSubmitSelector, 'submit', handleDisabledElement);
+        delegate(document, Rails.formSubmitSelector, 'submit', handleConfirm);
+        delegate(document, Rails.formSubmitSelector, 'submit', handleRemote);
+        delegate(document, Rails.formSubmitSelector, 'submit', function(e) {
+          return setTimeout((function() {
+            return disableElement(e);
+          }), 13);
+        });
+        delegate(document, Rails.formSubmitSelector, 'ajax:send', disableElement);
+        delegate(document, Rails.formSubmitSelector, 'ajax:complete', enableElement);
+        delegate(document, Rails.formInputClickSelector, 'click', preventInsignificantClick);
+        delegate(document, Rails.formInputClickSelector, 'click', handleDisabledElement);
+        delegate(document, Rails.formInputClickSelector, 'click', handleConfirm);
+        delegate(document, Rails.formInputClickSelector, 'click', formSubmitButtonClick);
+        document.addEventListener('DOMContentLoaded', refreshCSRFTokens);
+        document.addEventListener('DOMContentLoaded', loadCSPNonce);
+        return window._rails_loaded = true;
+      };
+
+      if (window.Rails === Rails && fire(document, 'rails:attachBindings')) {
+        Rails.start();
+      }
+
+    }).call(this);
+  }).call(this);
+
+  if (typeof module === "object" && module.exports) {
+    module.exports = Rails;
+  } else if (typeof define === "function" && define.amd) {
+    define(Rails);
+  }
+}).call(this);
