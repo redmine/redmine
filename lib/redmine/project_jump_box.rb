@@ -35,6 +35,7 @@ module Redmine
         projects = projects.like(query)
       end
       projects.
+        visible.
         index_by(&:id).
         values_at(*project_ids). # sort according to stored order
         compact

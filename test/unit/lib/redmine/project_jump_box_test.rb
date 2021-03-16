@@ -23,7 +23,8 @@ class Redmine::ProjectJumpBoxTest < ActiveSupport::TestCase
   fixtures :users, :projects, :user_preferences
 
   def setup
-    @user = User.find_by_login 'dlopper'
+    @user = User.find_by_login 'jsmith'
+    User.current = @user
     @ecookbook = Project.find 'ecookbook'
     @onlinestore = Project.find 'onlinestore'
   end
@@ -141,5 +142,17 @@ class Redmine::ProjectJumpBoxTest < ActiveSupport::TestCase
     assert_equal 2, pjb.recently_used_projects.size
     assert_equal @onlinestore, pjb.recently_used_projects.first
     assert_equal @ecookbook, pjb.recently_used_projects.last
+  end
+
+  def test_recents_list_should_include_only_visible_projects
+    @user = User.find_by_login 'dlopper'
+    User.current = @user
+
+    pjb = Redmine::ProjectJumpBox.new @user
+    pjb.project_used @ecookbook
+    pjb.project_used @onlinestore
+
+    assert_equal 1, pjb.recently_used_projects.size
+    assert_equal @ecookbook, pjb.recently_used_projects.first
   end
 end
