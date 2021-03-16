@@ -31,6 +31,7 @@ module Redmine
     def recently_used_projects
       project_ids = recently_used_project_ids
       Project.where(id: project_ids).
+        visible.
         index_by(&:id).
         values_at(*project_ids). # sort according to stored order
         compact
