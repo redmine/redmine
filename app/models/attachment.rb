@@ -436,16 +436,15 @@ class Attachment < ActiveRecord::Base
   private
 
   def reuse_existing_file_if_possible
-    original_diskfile = nil
+    original_diskfile = diskfile
+    original_filename = disk_filename
     reused = with_lock do
       if existing = Attachment
                       .where(digest: self.digest, filesize: self.filesize)
-                      .where('id <> ? and disk_filename <> ?',
-                             self.id, self.disk_filename)
+                      .where.not(disk_filename: original_filename)
                       .order(:id)
                       .last
         existing.with_lock do
-          original_diskfile = self.diskfile
           existing_diskfile = existing.diskfile
           if File.readable?(original_diskfile) &&
             File.readable?(existing_diskfile) &&
@@ -456,7 +455,7 @@ class Attachment < ActiveRecord::Base
         end
       end
     end
-    if reused
+    if reused && Attachment.where(disk_filename: original_filename).none?
       File.delete(original_diskfile)
     end
   rescue ActiveRecord::StatementInvalid, ActiveRecord::RecordNotFound
