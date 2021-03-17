@@ -7,6 +7,12 @@
 # versions of RuboCop, may require this file to be generated again.
 
 # Cop supports --auto-correct.
+# Configuration parameters: EnforcedStyle.
+# SupportedStyles: leading, trailing
+Layout/DotPosition:
+  Enabled: false
+
+# Cop supports --auto-correct.
 Layout/EmptyLineAfterGuardClause:
   Exclude:
     - 'db/migrate/101_populate_changesets_user_id.rb'
