@@ -318,8 +318,8 @@ class Project < ActiveRecord::Base
   def commit_logtime_activity
     activity_id = Setting.commit_logtime_activity_id.to_i
     if activity_id > 0
-      activities.
-        find_by('id = ? OR parent_id = ?', activity_id, activity_id)
+      activities
+        .find_by('id = ? OR parent_id = ?', activity_id, activity_id)
     end
   end
 
