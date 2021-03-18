@@ -59,6 +59,7 @@ class JournalsHelperTest < Redmine::HelperTest
     assert_select_in journal_actions, 'a[title=?][class="icon-only icon-comment"]', 'Quote'
     assert_select_in journal_actions, 'a[title=?][class="icon-only icon-edit"]', 'Edit'
     assert_select_in journal_actions, 'div[class="drdn-items"] a[class="icon icon-del"]'
+    assert_select_in journal_actions, 'div[class="drdn-items"] a[class="icon icon-copy-link"]'
   end
 
   def test_journal_thumbnail_attachments_should_be_in_the_same_order_as_the_journal_details

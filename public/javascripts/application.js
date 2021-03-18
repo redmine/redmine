@@ -563,6 +563,23 @@ function randomKey(size) {
   return key;
 }
 
+function copyTextToClipboard(target) {
+  if (target) {
+    var temp = document.createElement('textarea');
+    temp.value = target.getAttribute('data-clipboard-text');
+    document.body.appendChild(temp);
+    temp.select();
+    document.execCommand('copy');
+    if (temp.parentNode) {
+      temp.parentNode.removeChild(temp);
+    }
+    if ($(target).closest('.drdn.expanded').length) {
+      $(target).closest('.drdn.expanded').removeClass("expanded");
+    }
+  }
+  return false;
+}
+
 function updateIssueFrom(url, el) {
   $('#all_attributes input, #all_attributes textarea, #all_attributes select').each(function(){
     $(this).data('valuebeforeupdate', $(this).val());

@@ -2072,12 +2072,13 @@ class IssuesControllerTest < Redmine::ControllerTest
     get(:show, :params => {:id => 1})
     assert_response :success
     assert_select 'div.issue div.description', :text => /Unable to print recipes/
-    assert_select '.contextual' do
-      assert_select 'a', {:count => 2, :text => /Edit/}
-      assert_select 'a', {:count => 0, :text => /Log time/}
-      assert_select 'a', {:count => 0, :text => /Watch/}
-      assert_select 'div.drdn-items a', {:count => 0, :text => /Copy/}
-      assert_select 'div.drdn-items a', {:count => 0, :text => /Delete/}
+    assert_select '#content>.contextual:first-child' do
+      assert_select 'a', {:count => 1, :text => 'Edit'}
+      assert_select 'a', {:count => 0, :text => 'Log time'}
+      assert_select 'a', {:count => 0, :text => 'Watch'}
+      assert_select 'div.drdn-items a', {:count => 1, :text => 'Copy link'}
+      assert_select 'div.drdn-items a', {:count => 0, :text => 'Copy'}
+      assert_select 'div.drdn-items a', {:count => 0, :text => 'Delete'}
     end
     # anonymous role is allowed to add a note
     assert_select 'form#issue-form' do
@@ -2093,12 +2094,13 @@ class IssuesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get(:show, :params => {:id => 1})
     assert_select 'a', :text => /Quote/
-    assert_select '.contextual' do
-      assert_select 'a', {:count => 2, :text => /Edit/}
-      assert_select 'a', :text => /Log time/
-      assert_select 'a', :text => /Watch/
-      assert_select 'div.drdn-items a', :text => /Copy/
-      assert_select 'div.drdn-items a', :text => /Delete/
+    assert_select '#content>.contextual:first-child' do
+      assert_select 'a', {:count => 1, :text => 'Edit'}
+      assert_select 'a', {:count => 1, :text => 'Log time'}
+      assert_select 'a', {:count => 1, :text => 'Watch'}
+      assert_select 'div.drdn-items a', {:count => 1, :text => 'Copy link'}
+      assert_select 'div.drdn-items a', {:count => 1, :text => 'Copy'}
+      assert_select 'div.drdn-items a', {:count => 1, :text => 'Delete'}
     end
     assert_select 'form#issue-form' do
       assert_select 'fieldset' do

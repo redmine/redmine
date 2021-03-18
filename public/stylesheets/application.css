@@ -1612,6 +1612,7 @@ td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
 .icon-file.application-pdf { background-image: url(../images/files/pdf.png); }
 .icon-file.application-zip { background-image: url(../images/files/zip.png); }
 .icon-file.application-gzip { background-image: url(../images/files/zip.png); }
+.icon-copy-link { background-image: url(../images/copy_link.png); }
 
 .sort-handle.ajax-loading { background-image: url(../images/loading.gif); }
 tr.ui-sortable-helper { border:1px solid #e4e4e4; }

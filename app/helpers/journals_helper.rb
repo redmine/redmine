@@ -29,9 +29,11 @@ module JournalsHelper
   def render_journal_actions(issue, journal, options={})
     links = []
     dropbown_links = []
+    indice = journal.indice || @journal.issue.visible_journals_with_index.find{|j| j.id == @journal.id}.indice
+
+    dropbown_links << copy_object_url_link(issue_url(issue, anchor: "note-#{indice}", only_path: false))
     if journal.notes.present?
       if options[:reply_links]
-        indice = journal.indice || @journal.issue.visible_journals_with_index.find{|j| j.id == @journal.id}.indice
         links << link_to(l(:button_quote),
                          quoted_issue_path(issue, :journal_id => journal, :journal_indice => indice),
                          :remote => true,

@@ -1149,6 +1149,7 @@ en:
   button_change_password: Change password
   button_copy: Copy
   button_copy_and_follow: Copy and follow
+  button_copy_link: Copy link
   button_annotate: Annotate
   button_fetch_changesets: Fetch commits
   button_update: Update

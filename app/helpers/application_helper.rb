@@ -1818,6 +1818,14 @@ module ApplicationHelper
     )
   end
 
+  def copy_object_url_link(url)
+    link_to_function(
+      l(:button_copy_link), 'copyTextToClipboard(this);',
+      class: 'icon icon-copy-link',
+      data: {'clipboard-text' => url}
+    )
+  end
+
   private
 
   def wiki_helper

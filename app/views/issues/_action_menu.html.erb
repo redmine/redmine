@@ -6,6 +6,7 @@
             :class => 'icon icon-time-add' if User.current.allowed_to?(:log_time, @project) %>
 <%= watcher_link(@issue, User.current) %>
 <%= actions_dropdown do %>
+  <%= copy_object_url_link(issue_url(@issue, only_path: false)) %>
   <%= link_to l(:button_copy), project_copy_issue_path(@project, @issue),
               :class => 'icon icon-copy' if User.current.allowed_to?(:copy_issues, @project) && Issue.allowed_target_projects.any? %>
   <%= link_to l(:button_delete), issue_path(@issue),
