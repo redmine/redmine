@@ -1376,5 +1376,5 @@ ja:
   permission_view_message_watchers: メッセージのウォッチャー一覧の閲覧
   permission_add_message_watchers: メッセージのウォッチャーの追加
   permission_delete_message_watchers: メッセージのウォッチャーの追加
-  label_message_watchers: Watchers
-  button_copy_link: Copy link
+  label_message_watchers: ウォッチャー
+  button_copy_link: リンクをコピー
