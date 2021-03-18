@@ -1402,3 +1402,4 @@ lv:
   permission_add_message_watchers: Add message watchers
   permission_delete_message_watchers: Delete message watchers
   label_message_watchers: Watchers
+  button_copy_link: Copy link
