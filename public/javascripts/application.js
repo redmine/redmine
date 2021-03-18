@@ -364,15 +364,29 @@ function showIssueHistory(journal, url) {
 
   switch(journal) {
     case 'notes':
+      tab_content.find('.journal').show();
       tab_content.find('.journal:not(.has-notes)').hide();
-      tab_content.find('.journal.has-notes').show();
+      tab_content.find('.journal .wiki').show();
+      tab_content.find('.journal .contextual .journal-actions').show();
+
+      // always show thumbnails in notes tab
+      var thumbnails = tab_content.find('.journal .thumbnails');
+      thumbnails.show();
+      // show journals without notes, but with thumbnails
+      thumbnails.parents('.journal').show();
       break;
     case 'properties':
-      tab_content.find('.journal.has-notes').hide();
-      tab_content.find('.journal:not(.has-notes)').show();
+      tab_content.find('.journal').show();
+      tab_content.find('.journal:not(.has-details)').hide();
+      tab_content.find('.journal .wiki').hide();
+      tab_content.find('.journal .thumbnails').hide();
+      tab_content.find('.journal .contextual .journal-actions').hide();
       break;
     default:
       tab_content.find('.journal').show();
+      tab_content.find('.journal .wiki').show();
+      tab_content.find('.journal .thumbnails').show();
+      tab_content.find('.journal .contextual .journal-actions').show();
   }
 
   return false;
