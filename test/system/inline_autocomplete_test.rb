@@ -151,4 +151,17 @@ class InlineAutocompleteSystemTest < ApplicationSystemTestCase
     end
     assert_equal '[[Page_with_sections]] ', find('#issue_description').value
   end
+
+  def test_inline_autocomplete_for_issues_should_escape_html_elements
+    issue = Issue.generate!(subject: 'This issue has a <select> element', project_id: 1, tracker_id: 1)
+
+    log_user('jsmith', 'jsmith')
+    visit 'projects/1/issues/new'
+
+    fill_in 'Description', :with => '#This'
+
+    within('.tribute-container') do
+      assert page.has_text? "Bug ##{issue.id}: This issue has a <select> element"
+    end
+  end
 end
