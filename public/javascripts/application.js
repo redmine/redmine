@@ -1187,6 +1187,9 @@ function inlineAutoComplete(element) {
           selectTemplate: function (wikiPage) {
             return '[[' + wikiPage.original.value + ']]';
           },
+          menuItemTemplate: function (wikiPage) {
+            return sanitizeHTML(wikiPage.original.label);
+          },
           noMatchTemplate: function () {
             return '<span style:"visibility: hidden;"></span>';
           }
