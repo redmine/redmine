@@ -20,17 +20,15 @@
 require 'redmine/sort_criteria'
 
 class QueryColumn
-  attr_accessor :name, :groupable, :totalable, :default_order
-  attr_writer   :sortable
+  attr_accessor :name, :totalable, :default_order
+  attr_writer   :sortable, :groupable
+
   include Redmine::I18n
 
   def initialize(name, options={})
     self.name = name
     self.sortable = options[:sortable]
     self.groupable = options[:groupable] || false
-    if groupable == true
-      self.groupable = name.to_s
-    end
     self.totalable = options[:totalable] || false
     self.default_order = options[:default_order]
     @inline = options.key?(:inline) ? options[:inline] : true
@@ -47,6 +45,10 @@ class QueryColumn
     else
       @caption_key
     end
+  end
+
+  def groupable?
+    @groupable
   end
 
   # Returns true if the column is sortable, otherwise false
@@ -82,13 +84,19 @@ class QueryColumn
   def css_classes
     name
   end
+
+  def group_by_statement
+    name.to_s
+  end
 end
 
 class TimestampQueryColumn < QueryColumn
-  def groupable
-    if @groupable
-      Redmine::Database.timestamp_to_date(sortable, User.current.time_zone)
-    end
+  def groupable?
+    group_by_statement.present?
+  end
+
+  def group_by_statement
+    Redmine::Database.timestamp_to_date(sortable, User.current.time_zone)
   end
 
   def group_value(object)
@@ -121,10 +129,17 @@ class QueryCustomFieldColumn < QueryColumn
   def initialize(custom_field, options={})
     self.name = "cf_#{custom_field.id}".to_sym
     self.sortable = custom_field.order_statement || false
-    self.groupable = custom_field.group_statement || false
     self.totalable = options.key?(:totalable) ? !!options[:totalable] : custom_field.totalable?
     @inline = custom_field.full_width_layout? ? false : true
     @cf = custom_field
+  end
+
+  def groupable?
+    group_by_statement.present?
+  end
+
+  def group_by_statement
+    @cf.group_statement
   end
 
   def caption
@@ -741,7 +756,7 @@ class Query < ActiveRecord::Base
 
   # Returns an array of columns that can be used to group the results
   def groupable_columns
-    available_columns.select {|c| c.groupable}
+    available_columns.select(&:groupable?)
   end
 
   # Returns a Hash of columns and the key for sorting
@@ -889,11 +904,11 @@ class Query < ActiveRecord::Base
   end
 
   def group_by_column
-    groupable_columns.detect {|c| c.groupable && c.name.to_s == group_by}
+    groupable_columns.detect {|c| c.groupable? && c.name.to_s == group_by}
   end
 
   def group_by_statement
-    group_by_column.try(:groupable)
+    group_by_column.try(:group_by_statement)
   end
 
   def project_statement
