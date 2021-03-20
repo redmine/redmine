@@ -89,14 +89,14 @@ module Redmine
     @r_date = $r_date
     @n_branch = $n_branch
 
-    ISSUES_URL = 'http://www.redmine.org/projects/redmine/issues' +
+    ISSUES_URL = 'https://www.redmine.org/projects/redmine/issues' +
                  '?utf8=%E2%9C%93&set_filter=1' +
                  '&f%5B%5D=status_id&op%5Bstatus_id%5D=*' +
                  '&f%5B%5D=fixed_version_id&op%5Bfixed_version_id%5D=%3D' +
                    '&v%5Bfixed_version_id%5D%5B%5D=' + @v_id +
                  '&f%5B%5D=&c%5B%5D=tracker&c%5B%5D=subject' +
                  '&c%5B%5D=category&group_by='
-    VERSIONS_URL = 'http://www.redmine.org/versions/' + @v_id
+    VERSIONS_URL = 'https://www.redmine.org/versions/' + @v_id
 
     PAGINATION_ITEMS_SPAN_SELECTOR = 'div#content p.pagination > span.items'
     ISSUE_TR_SELECTOR = 'div#content table.list.issues > tbody > tr'
