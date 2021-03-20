@@ -473,6 +473,19 @@ class AttachmentTest < ActiveSupport::TestCase
     Attachment.latest_attach(Attachment.limit(2).to_a, string)
   end
 
+  def test_latest_attach_should_support_unicode_case_folding
+    a_capital = Attachment.create!(
+      :author => User.find(1),
+      :file => mock_file(:filename => 'Ā.TXT')
+    )
+    a_small = Attachment.create!(
+      :author => User.find(1),
+      :file => mock_file(:filename => 'ā.txt')
+    )
+
+    assert_equal(a_small, Attachment.latest_attach([a_capital, a_small], 'Ā.TXT'))
+  end
+
   def test_thumbnailable_should_be_true_for_images
     skip unless convert_installed?
     assert_equal true, Attachment.new(:filename => 'test.jpg').thumbnailable?
