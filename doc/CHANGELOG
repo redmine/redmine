@@ -1,8 +1,117 @@
 == Redmine changelog
 
 Redmine - project management software
-Copyright (C) 2006-2019  Jean-Philippe Lang
-http://www.redmine.org/
+Copyright (C) 2006-2021  Jean-Philippe Lang
+https://www.redmine.org/
+
+== 2021-03-21 v4.1.2
+
+=== [Accounts / authentication]
+
+* Defect #33926: Rake tasks "db:encrypt" and "db:decrypt" may fail due to validation error
+
+=== [Administration]
+
+* Defect #33310: Warnings while running redmine:load_default_data rake task
+* Defect #33339: Broken layout of the preview tab of "Welcome text" setting due to unexpectedly applied padding-left
+* Defect #33355: TypeError when attempting to update a user with a blank email address
+* Defect #34247: Web browser freezes when displaying workflow page with a large number of issue statuses
+* Patch #32341: Show tooltip when hovering on repeat-value link in Field permission tab
+
+=== [Attachments]
+
+* Defect #33283: Thumbnail support for PDF attachments may not be detected
+* Defect #33459: The order of thumbnails in journals does not match the order of file name list
+* Defect #33639: Cannot paste image from clipboard when copying the image from web browsers or some apps
+* Defect #33769: When creating more than two identical attachments in a single db transaction, the first one always ends up unreadable
+* Patch #34479: Fix possible race condition with parallel, identical file uploads
+
+=== [Custom fields]
+
+* Defect #33275: Possible values field in list format custom field form is not marked as required
+* Defect #33550: Per role visibility settings for spent time custom fields is not properly checked
+
+=== [Documentation]
+
+* Defect #33939: Unnecessary translation of {{toc}} macros in Russian Wiki formatting help
+
+=== [Filters]
+
+* Defect #33281: Totals of custom fields may not be sorted as configured
+* Defect #34375: "is not" operator for Subproject filter incorrectly excludes closed subprojects
+
+=== [Gantt]
+
+* Defect #33140: Gantt bar is not displayed if the due date is the leftmost date or the start date is the rightmost date
+* Defect #33175: Starting or ending marker is not displayed if they are on the leftmost or rightmost boundary of the gantt
+* Defect #33220: Parent task subject column in gantt is not fully displayed when the column is widened
+* Defect #33724: Selected gantt columns are not displayed with MS Edge Legacy
+
+=== [Gems support]
+
+* Defect #33206: Unable to autoload constant Version.table_name if gems uses Version class
+* Defect #33768: Bundler may fail to install stringio if Ruby prior to 2.5 is used
+* Patch #34461: Update Redcarpet to 3.5.1
+* Patch #34619: Update Nokogiri to 1.11
+
+=== [I18n]
+
+* Defect #33452: Untranslated string "diff" in journal detail
+
+=== [Issues]
+
+* Defect #33338: Property changes tab does not show journals with both property changes and notes
+* Defect #33576: Done ratio of a parent issue may be shown as 99% even though all subtasks are completed
+
+=== [Issues list]
+
+* Defect #33273: Total estimated time column shows up as decimal value regardless of time setting
+* Defect #33548: Column header is clickable even when the column is not actually sortable
+* Defect #34297: Subprojects issues are not displayed on main project when all subprojects are closed
+
+=== [Projects]
+
+* Defect #33889: Do not show list for custom fields without list entry on project overview
+* Patch #34595: Filter list of recent projects in the project jump box
+
+=== [REST API]
+
+* Defect #33417: Updating an issue via REST API causes internal server error if invalid project id is specified
+* Defect #34615: 'Search' falsy parameters are not respected
+
+=== [Security]
+
+* Defect #33846: Inline issue auto complete doesn't sanitize HTML tags
+
+=== [SEO]
+
+* Defect #6734: robots.txt: disallow crawling issues list with a query string
+
+=== [Security]
+
+* Defect #33360: Names of private projects are leaked by issue journal details that contain project_id changes
+* Defect #33689: Issues API bypasses add_issue_notes permission
+* Feature #33906: Upgrade Rails to 5.2.4.5
+
+=== [Themes]
+
+* Defect #8251: Classic Theme: Missed base line
+
+=== [Time tracking]
+
+* Defect #33341: Time entry user is shown twice in the User drop-down when editing spent time
+
+=== [Translations]
+
+* Defect #34447: Typo in translation string 'setting_issue_list_default_columns': s//Isuses/Issues
+* Patch #34200: Portuguese (Brazil) translation for 4.1-stable
+* Patch #34439: Spanish translation update for 4.1-stable
+
+=== [UI]
+
+* Defect #33563: File selection buttons are not fully displayed with Google Chrome in some language
+* Feature #34123: System tests for inline auto complete feature
+* Patch #33958: Jump to end of line in editor when starting list or quote
 
 == 2020-04-06 v4.1.1
 
