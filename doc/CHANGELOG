@@ -1,8 +1,84 @@
 == Redmine changelog
 
 Redmine - project management software
-Copyright (C) 2006-2017  Jean-Philippe Lang
-http://www.redmine.org/
+Copyright (C) 2006-2021  Jean-Philippe Lang
+https://www.redmine.org/
+
+== 2021-03-21 v4.0.8
+
+=== [Accounts / authentication]
+
+* Defect #33926: Rake tasks "db:encrypt" and "db:decrypt" may fail due to validation error
+
+=== [Administration]
+
+* Defect #33310: Warnings while running redmine:load_default_data rake task
+* Patch #32341: Show tooltip when hovering on repeat-value link in Field permission tab
+
+=== [Attachments]
+
+* Defect #33459: The order of thumbnails in journals does not match the order of file name list
+* Defect #33769: When creating more than two identical attachments in a single db transaction, the first one always ends up unreadable
+
+=== [Custom fields]
+
+* Defect #33275: Possible values field in list format custom field form is not marked as required
+
+=== [Documentation]
+
+* Defect #33939: Unnecessary translation of {{toc}} macros in Russian Wiki formatting help
+
+=== [Filters]
+
+* Defect #34375: "is not" operator for Subproject filter incorrectly excludes closed subprojects
+
+=== [Gantt]
+
+* Defect #33140: Gantt bar is not displayed if the due date is the leftmost date or the start date is the rightmost date
+* Defect #33175: Starting or ending marker is not displayed if they are on the leftmost or rightmost boundary of the gantt
+
+=== [Gems support]
+
+* Patch #34461: Update Redcarpet to 3.5.1
+
+=== [Issues]
+
+* Defect #33576: Done ratio of a parent issue may be shown as 99% even though all subtasks are completed
+
+=== [Issues list]
+
+* Defect #33548: Column header is clickable even when the column is not actually sortable
+* Defect #34297: Subprojects issues are not displayed on main project when all subprojects are closed
+
+=== [Projects]
+
+* Defect #33889: Do not show list for custom fields without list entry on project overview
+
+=== [REST API]
+
+* Defect #34615: 'Search' falsy parameters are not respected
+
+=== [SEO]
+
+* Defect #6734: robots.txt: disallow crawling issues list with a query string
+
+=== [Security]
+
+* Defect #33360: Names of private projects are leaked by issue journal details that contain project_id changes
+* Defect #33689: Issues API bypasses add_issue_notes permission
+* Feature #33906: Upgrade Rails to 5.2.4.5
+
+=== [Themes]
+
+* Defect #8251: Classic Theme: Missed base line
+
+=== [Translations]
+
+* Defect #34447: Typo in translation string 'setting_issue_list_default_columns': s//Isuses/Issues
+
+=== [UI]
+
+* Patch #33958: Jump to end of line in editor when starting list or quote
 
 == 2020-04-06 v4.0.7
 
