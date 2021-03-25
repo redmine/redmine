@@ -39,7 +39,6 @@ Layout/EmptyLines:
 Layout/EmptyLinesAroundAttributeAccessor:
   Exclude:
     - 'app/models/issue.rb'
-    - 'app/models/query.rb'
     - 'lib/redmine/scm/adapters/abstract_adapter.rb'
     - 'lib/redmine/sudo_mode.rb'
     - 'test/unit/lib/redmine/safe_attributes_test.rb'
@@ -1313,7 +1312,6 @@ Style/IfWithBooleanLiteralBranches:
 # Configuration parameters: InverseMethods, InverseBlocks.
 Style/InverseMethods:
   Exclude:
-    - 'app/controllers/roles_controller.rb'
     - 'app/helpers/application_helper.rb'
     - 'app/helpers/issues_helper.rb'
     - 'app/helpers/repositories_helper.rb'
