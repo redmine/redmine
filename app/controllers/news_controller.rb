@@ -22,9 +22,9 @@ class NewsController < ApplicationController
   model_object News
   before_action :find_model_object, :except => [:new, :create, :index]
   before_action :find_project_from_association, :except => [:new, :create, :index]
-  before_action :find_project_by_project_id, :only => [:new, :create]
-  before_action :authorize, :except => [:index]
-  before_action :find_optional_project, :only => :index
+  before_action :find_project_by_project_id, :only => :create
+  before_action :authorize, :except => [:index, :new]
+  before_action :find_optional_project, :only => [:index, :new]
   accept_rss_auth :index
   accept_api_auth :index, :show, :create, :update, :destroy
 
@@ -72,6 +72,8 @@ class NewsController < ApplicationController
   end
 
   def new
+    raise ::Unauthorized unless User.current.allowed_to?(:manage_news, @project, :global => true)
+
     @news = News.new(:project => @project, :author => User.current)
   end
 
@@ -84,7 +86,7 @@ class NewsController < ApplicationController
         format.html do
           render_attachment_warning_if_needed(@news)
           flash[:notice] = l(:notice_successful_create)
-          redirect_to project_news_index_path(@project)
+          redirect_to params[:cross_project] ? news_index_path : project_news_index_path(@project)
         end
         format.api  {render_api_ok}
       end

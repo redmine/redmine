@@ -229,7 +229,7 @@ Rails.application.routes.draw do
   resources :queries, :except => [:show]
   get '/queries/filter', :to => 'queries#filter', :as => 'queries_filter'
 
-  resources :news, :only => [:index, :show, :edit, :update, :destroy]
+  resources :news, :only => [:index, :show, :edit, :update, :destroy, :create, :new]
   match '/news/:id/comments', :to => 'comments#create', :via => :post
   match '/news/:id/comments/:comment_id', :to => 'comments#destroy', :via => :delete
 

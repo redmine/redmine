@@ -1,19 +1,19 @@
 <div class="contextual">
 <%= link_to(l(:label_news_new),
-            new_project_news_path(@project),
+            (@project ? project_news_index_path(@project) : news_index_path),
             :class => 'icon icon-add',
-            :onclick => 'showAndScrollTo("add-news", "news_title"); return false;') if @project && User.current.allowed_to?(:manage_news, @project) %>
+            :onclick => 'showAndScrollTo("add-news", "news_title"); return false;') if (@project.nil? || (@project && User.current.allowed_to?(:manage_news, @project))) %>
 <%= watcher_link(@project.enabled_module('news'), User.current) if @project && User.current.logged? %>
 </div>
 
 <div id="add-news" style="display:none;">
 <h2><%=l(:label_news_new)%></h2>
-<%= labelled_form_for @news, :url => project_news_index_path(@project),
+<%= labelled_form_for @news, :url => (@project ? project_news_index_path(@project) : news_index_path),
                                            :html => { :id => 'news-form', :multipart => true } do |f| %>
 <%= render :partial => 'news/form', :locals => { :f => f } %>
 <%= submit_tag l(:button_create) %>
 <%= link_to l(:button_cancel), "#", :onclick => '$("#add-news").hide()' %>
-<% end if @project %>
+<% end %>
 </div>
 
 <h2><%=l(:label_news_plural)%></h2>

@@ -29,6 +29,8 @@ class RoutingNewsTest < Redmine::RoutingTest
 
   def test_news
     should_route 'GET /news' => 'news#index'
+    should_route 'GET /news/new' => 'news#new'
+    should_route 'POST /news' => 'news#create'
     should_route 'GET /news.atom' => 'news#index', :format => 'atom'
     should_route 'GET /news/2' => 'news#show', :id => '2'
     should_route 'GET /news/2/edit' => 'news#edit', :id => '2'

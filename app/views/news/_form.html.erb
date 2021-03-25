@@ -1,6 +1,13 @@
 <%= error_messages_for @news %>
 
 <div class="box tabular">
+<% if @project.nil? %>
+  <p>
+    <label><%= l(:field_project) %> <span class="required">*</span></label>
+    <%= select_tag :project_id, options_for_select(project_tree_options_for_select(Project.allowed_to(:manage_news).to_a), Project.allowed_to(:manage_news).first), {:required => true} %>
+    <%= hidden_field_tag :cross_project, 1, id: nil %>
+  </p>
+<% end %>
 <p><%= f.text_field :title, :required => true, :size => 60 %></p>
 <p><%= f.text_area :summary, :cols => 60, :rows => 2 %></p>
 <p><%= f.text_area :description, :required => true, :cols => 60, :rows => 15, :class => 'wiki-edit',
