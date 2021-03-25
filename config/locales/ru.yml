@@ -1494,3 +1494,6 @@ ru:
   permission_delete_message_watchers: Delete message watchers
   label_message_watchers: Watchers
   button_copy_link: Copy link
+  error_invalid_authenticity_token: Invalid form authenticity token.
+  error_query_statement_invalid: An error occurred while executing the query and has
+    been logged. Please report this error to your Redmine administrator.

@@ -1378,3 +1378,6 @@ ja:
   permission_delete_message_watchers: メッセージのウォッチャーの追加
   label_message_watchers: ウォッチャー
   button_copy_link: リンクをコピー
+  error_invalid_authenticity_token: Invalid form authenticity token.
+  error_query_statement_invalid: An error occurred while executing the query and has
+    been logged. Please report this error to your Redmine administrator.
