@@ -1,5 +1,5 @@
 /* Redmine - project management software
-   Copyright (C) 2006-2020  Jean-Philippe Lang */
+   Copyright (C) 2006-2021  Jean-Philippe Lang */
 
 function addFile(inputEl, file, eagerUpload) {
   var attachmentsFields = $(inputEl).closest('.attachments_form').find('.attachments_fields');
