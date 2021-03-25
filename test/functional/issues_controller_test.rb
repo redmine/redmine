@@ -2076,8 +2076,8 @@ class IssuesControllerTest < Redmine::ControllerTest
       assert_select 'a', {:count => 1, :text => 'Edit'}
       assert_select 'a', {:count => 0, :text => 'Log time'}
       assert_select 'a', {:count => 0, :text => 'Watch'}
+      assert_select 'a', {:count => 0, :text => 'Copy'}
       assert_select 'div.drdn-items a', {:count => 1, :text => 'Copy link'}
-      assert_select 'div.drdn-items a', {:count => 0, :text => 'Copy'}
       assert_select 'div.drdn-items a', {:count => 0, :text => 'Delete'}
     end
     # anonymous role is allowed to add a note
@@ -2098,8 +2098,8 @@ class IssuesControllerTest < Redmine::ControllerTest
       assert_select 'a', {:count => 1, :text => 'Edit'}
       assert_select 'a', {:count => 1, :text => 'Log time'}
       assert_select 'a', {:count => 1, :text => 'Watch'}
+      assert_select 'a', {:count => 1, :text => 'Copy'}
       assert_select 'div.drdn-items a', {:count => 1, :text => 'Copy link'}
-      assert_select 'div.drdn-items a', {:count => 1, :text => 'Copy'}
       assert_select 'div.drdn-items a', {:count => 1, :text => 'Delete'}
     end
     assert_select 'form#issue-form' do
