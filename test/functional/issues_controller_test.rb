@@ -3203,16 +3203,16 @@ class IssuesControllerTest < Redmine::ControllerTest
     get(
       :new,
       :params => {
-        :project_id => 1,
+        :project_id => 3,
         :tracker_id => 1
       }
     )
     assert_response :success
     assert_select 'select[name="issue[project_id]"]' do
       assert_select 'option', 3
-      assert_select 'option[selected=selected]', :text => 'eCookbook'
+      assert_select 'option[value=?]', '1', :text => 'eCookbook'
       assert_select 'option[value=?]', '5', :text => '  » Private child of eCookbook'
-      assert_select 'option[value=?]', '3', :text => '  » eCookbook Subproject 1'
+      assert_select 'option[selected=selected][value=?]', '3', :text => '  » eCookbook Subproject 1'
 
       # user_id 2 is not allowed to add issues on project_id 4 (it's not a member)
       assert_select 'option[value=?]', '4', 0

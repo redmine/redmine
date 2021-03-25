@@ -748,7 +748,7 @@ module IssuesHelper
     if issue.parent_issue_id.present?
       issue.allowed_target_projects_for_subtask(User.current)
     elsif @project && issue.new_record? && !issue.copy?
-      issue.allowed_target_projects(User.current, 'descendants')
+      issue.allowed_target_projects(User.current, 'tree')
     else
       issue.allowed_target_projects(User.current)
     end
