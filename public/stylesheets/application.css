@@ -281,16 +281,16 @@ table.issues td.block_column {color:#777; font-size:90%; padding:4px 4px 4px 24p
 table.issues td.block_column span {font-weight: bold; display: block; margin-bottom: 4px;}
 table.issues td.block_column pre {white-space:normal;}
 
-tr.issue.idnt td.subject, tr.project.idnt td.name {background: url(../images/arrow_right.png) no-repeat 2px 50%;}
-tr.issue.idnt-1 td.subject, tr.project.idnt-1 td.name {padding-left: 24px; background-position: 8px 50%;}
-tr.issue.idnt-2 td.subject, tr.project.idnt-2 td.name {padding-left: 40px; background-position: 24px 50%;}
-tr.issue.idnt-3 td.subject, tr.project.idnt-3 td.name {padding-left: 56px; background-position: 40px 50%;}
-tr.issue.idnt-4 td.subject, tr.project.idnt-4 td.name {padding-left: 72px; background-position: 56px 50%;}
-tr.issue.idnt-5 td.subject, tr.project.idnt-5 td.name {padding-left: 88px; background-position: 72px 50%;}
-tr.issue.idnt-6 td.subject, tr.project.idnt-6 td.name {padding-left: 104px; background-position: 88px 50%;}
-tr.issue.idnt-7 td.subject, tr.project.idnt-7 td.name {padding-left: 120px; background-position: 104px 50%;}
-tr.issue.idnt-8 td.subject, tr.project.idnt-8 td.name {padding-left: 136px; background-position: 120px 50%;}
-tr.issue.idnt-9 td.subject, tr.project.idnt-9 td.name {padding-left: 152px; background-position: 136px 50%;}
+tr.idnt td.subject, tr.idnt td.name {background: url(../images/arrow_right.png) no-repeat 2px 50%;}
+tr.idnt-1 td.subject, tr.idnt-1 td.name {padding-left: 24px; background-position: 8px 50%;}
+tr.idnt-2 td.subject, tr.idnt-2 td.name {padding-left: 40px; background-position: 24px 50%;}
+tr.idnt-3 td.subject, tr.idnt-3 td.name {padding-left: 56px; background-position: 40px 50%;}
+tr.idnt-4 td.subject, tr.idnt-4 td.name {padding-left: 72px; background-position: 56px 50%;}
+tr.idnt-5 td.subject, tr.idnt-5 td.name {padding-left: 88px; background-position: 72px 50%;}
+tr.idnt-6 td.subject, tr.idnt-6 td.name {padding-left: 104px; background-position: 88px 50%;}
+tr.idnt-7 td.subject, tr.idnt-7 td.name {padding-left: 120px; background-position: 104px 50%;}
+tr.idnt-8 td.subject, tr.idnt-8 td.name {padding-left: 136px; background-position: 120px 50%;}
+tr.idnt-9 td.subject, tr.idnt-9 td.name {padding-left: 152px; background-position: 136px 50%;}
 
 table.issue-report {table-layout:fixed;}
 .issue-report-graph {width: 75%; margin: 2em 0;}

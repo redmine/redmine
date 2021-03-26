@@ -15,10 +15,14 @@
   </tr></thead>
   <tbody>
 <% Board.board_tree(@boards) do |board, level| %>
-  <tr>
-    <td class="name" style="padding-left: <%= level * 18 %>px;">
-      <%= link_to board.name, project_board_path(board.project, board), :class => "board" %><br />
-      <%=h board.description %>
+  <% if level > 0 %>
+    <tr class="board idnt idnt-<%= level %>">
+  <% else %>
+    <tr class="board">
+  <% end %>
+    <td class="name">
+      <%= link_to board.name, project_board_path(board.project, board), :class => "board" %>
+      <p class="description"><%= board.description %></p>
     </td>
     <td class="topic-count"><%= board.topics_count %></td>
     <td class="message-count"><%= board.messages_count %></td>
