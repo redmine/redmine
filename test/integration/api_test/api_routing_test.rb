@@ -117,6 +117,11 @@ class Redmine::ApiTest::ApiRoutingTest < Redmine::ApiTest::Routing
     should_route 'GET /queries' => 'queries#index'
   end
 
+  def test_repositories
+    should_route 'POST /projects/1/repository/2/revisions/3/issues' => 'repositories#add_related_issue', :id => '1', :repository_id => '2', :rev => '3'
+    should_route 'DELETE /projects/1/repository/2/revisions/3/issues/4' => 'repositories#remove_related_issue', :id => '1', :repository_id => '2', :rev => '3', :issue_id => '4'
+  end
+
   def test_roles
     should_route 'GET /roles' => 'roles#index'
     should_route 'GET /roles/2' => 'roles#show', :id => '2'
