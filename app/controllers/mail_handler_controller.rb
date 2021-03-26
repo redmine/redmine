@@ -18,6 +18,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class MailHandlerController < ActionController::Base
+  include ActiveSupport::SecurityUtils
+
   before_action :check_credential
 
   # Displays the email submission form
@@ -39,7 +41,7 @@ class MailHandlerController < ActionController::Base
 
   def check_credential
     User.current = nil
-    unless Setting.mail_handler_api_enabled? && params[:key].to_s == Setting.mail_handler_api_key
+    unless Setting.mail_handler_api_enabled? && secure_compare(params[:key].to_s, Setting.mail_handler_api_key.to_s)
       render :plain => 'Access denied. Incoming emails WS is disabled or key is invalid.', :status => 403
     end
   end
