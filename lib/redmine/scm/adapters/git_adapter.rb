@@ -25,6 +25,9 @@ module Redmine
       class GitAdapter < AbstractAdapter
         # Git executable name
         GIT_BIN = Redmine::Configuration['scm_git_command'] || "git"
+        # Repositories created after 2020 may have a default branch of
+        # "main" instead of "master"
+        GIT_DEFAULT_BRANCH_NAMES = %w[main master].freeze
 
         class GitBranch < Branch
           attr_accessor :is_default
@@ -110,14 +113,13 @@ module Redmine
         end
 
         def default_branch
-          bras = self.branches
-          return unless bras
+          return if branches.blank?
 
-          default_bras = bras.detect{|x| x.is_default == true}
-          return default_bras.to_s if default_bras
-
-          master_bras = bras.detect{|x| x.to_s == 'master'}
-          master_bras ? 'master' : bras.first.to_s
+          (
+            branches.detect(&:is_default) ||
+            branches.detect {|b| GIT_DEFAULT_BRANCH_NAMES.include?(b.to_s)} ||
+            branches.first
+          ).to_s
         end
 
         def entry(path=nil, identifier=nil)

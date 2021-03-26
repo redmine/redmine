@@ -124,6 +124,25 @@ class GitAdapterTest < ActiveSupport::TestCase
 
     def test_default_branch
       assert_equal 'master-20120212', @adapter.default_branch
+
+      # When no branch is marked as the default, GitAdapter treats
+      # "main" or "master" branch as the default
+      b_foo, b_bar, b_main, b_master =
+        %w[foo bar main master].map do |name|
+          Redmine::Scm::Adapters::GitAdapter::GitBranch.new(name)
+        end
+      @adapter.stubs(:branches).returns([b_foo, b_main, b_bar])
+      assert_equal 'main', @adapter.default_branch
+      @adapter.stubs(:branches).returns([b_foo, b_master, b_bar])
+      assert_equal 'master', @adapter.default_branch
+
+      # The first found branch is treated as the default branch
+      # when neither "main" nor "master" is found
+      @adapter.stubs(:branches).returns([b_foo, b_bar])
+      assert_equal 'foo', @adapter.default_branch
+
+      @adapter.stubs(:branches).returns([])
+      assert_nil @adapter.default_branch
     end
 
     def test_tags
