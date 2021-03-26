@@ -46,6 +46,14 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_select 'a[href=?]', '/projects/ecookbook/wiki/CookBook_documentation.txt'
   end
 
+  def test_edit_sidebar_link
+    Role.anonymous.add_permission! :edit_wiki_pages
+    Role.anonymous.add_permission! :protect_wiki_pages
+    get :show, :params => {:project_id => 'ecookbook'}
+    assert_response :success
+    assert_select 'a[href=?]', '/projects/ecookbook/wiki/sidebar/edit'
+  end
+
   def test_show_page_with_name
     get :show, :params => {:project_id => 1, :id => 'Another_page'}
     assert_response :success
