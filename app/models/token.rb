@@ -113,11 +113,13 @@ class Token < ActiveRecord::Base
     return nil unless action.present? && key =~ /\A[a-z0-9]+\z/i
 
     token = Token.find_by(:action => action, :value => key)
-    if token && (token.action == action) && (token.value == key) && token.user
-      if validity_days.nil? || (token.created_on > validity_days.days.ago)
-        token
-      end
-    end
+    return unless token
+    return unless token.action == action
+    return unless ActiveSupport::SecurityUtils.secure_compare(token.value.to_s, key)
+    return unless token.user
+    return unless validity_days.nil? || (token.created_on > validity_days.days.ago)
+
+    token
   end
 
   def self.generate_token_value

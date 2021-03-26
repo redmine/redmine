@@ -16,6 +16,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class SysController < ActionController::Base
+  include ActiveSupport::SecurityUtils
+
   before_action :check_enabled
 
   def projects
@@ -74,7 +76,7 @@ class SysController < ActionController::Base
 
   def check_enabled
     User.current = nil
-    unless Setting.sys_api_enabled? && params[:key].to_s == Setting.sys_api_key
+    unless Setting.sys_api_enabled? && secure_compare(params[:key].to_s, Setting.sys_api_key.to_s)
       render :plain => 'Access denied. Repository management WS is disabled or key is invalid.', :status => 403
       return false
     end
