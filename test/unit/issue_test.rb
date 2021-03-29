@@ -1476,6 +1476,23 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal [3, nil], copy.children.map(&:assigned_to_id)
   end
 
+  def test_copy_should_not_add_attachments_to_journal
+    set_tmp_attachments_directory
+    issue = Issue.generate!
+    copy = Issue.new
+    copy.init_journal User.find(1)
+    copy.copy_from issue
+
+    copy.project = issue.project
+    copy.save_attachments(
+      { 'p0' => {'file' => mock_file_with_options(:original_filename => 'upload')} }
+    )
+    assert copy.save
+    assert j = copy.journals.last
+    assert_equal 1, j.details.size
+    assert_equal 'relation', j.details[0].property
+  end
+
   def test_should_not_call_after_project_change_on_creation
     issue = Issue.new(:project_id => 1, :tracker_id => 1, :status_id => 1,
                       :subject => 'Test', :author_id => 1)
