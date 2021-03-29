@@ -1887,7 +1887,7 @@ class Issue < ActiveRecord::Base
 
   # Callback on file attachment
   def attachment_added(attachment)
-    if current_journal && !attachment.new_record?
+    if current_journal && !attachment.new_record? && !copy?
       current_journal.journalize_attachment(attachment, :added)
     end
   end
