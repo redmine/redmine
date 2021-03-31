@@ -10,7 +10,7 @@ gem "request_store", "~> 1.4.1"
 gem "mini_mime", "~> 1.0.1"
 gem "actionpack-xml_parser"
 gem "roadie-rails", (RUBY_VERSION < "2.5" ? "~> 1.3.0" : "~> 2.1.0")
-gem "mimemagic"
+gem 'marcel'
 gem "mail", "~> 2.7.1"
 gem 'csv', (RUBY_VERSION < '2.5' ? ['>= 3.1.1', '<= 3.1.5'] : '~> 3.1.1')
 gem 'nokogiri', (RUBY_VERSION < '2.5' ? '~> 1.10.0' : '~> 1.11.1')
