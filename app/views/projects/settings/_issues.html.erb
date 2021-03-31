@@ -1,4 +1,4 @@
-<%= labelled_form_for @project, as: 'project_issue_tracking' do |f| %>
+<%= labelled_form_for @project, html: {id: 'project_issue_tracking' } do |f| %>
   <%= hidden_field_tag 'tab', 'issues' %>
 
   <% unless @trackers.empty? %>
