@@ -245,7 +245,7 @@ class ProjectTest < ActiveSupport::TestCase
   def test_destroy_should_destroy_subtasks
     issues =
       (0..2).to_a.map do
-        Issue.create!(:project_id => 1, :tracker_id => 1,
+        Issue.generate!(:project_id => 1, :tracker_id => 1,
                       :author_id => 1, :subject => 'test')
       end
     issues[0].update! :parent_issue_id => issues[1].id

@@ -305,7 +305,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_update_journals
-    issue = Issue.create!(:project_id => 1, :author_id => 2,
+    issue = Issue.generate!(:project_id => 1, :author_id => 2,
                           :tracker_id => 1, :subject => 'foo')
     issue.init_journal(User.find(2), "update")
     issue.save!
@@ -316,7 +316,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_update_journal_details_old_value
-    issue = Issue.create!(:project_id => 1, :author_id => 1,
+    issue = Issue.generate!(:project_id => 1, :author_id => 1,
                           :tracker_id => 1, :subject => 'foo', :assigned_to_id => 2)
     issue.init_journal(User.find(1), "update")
     issue.assigned_to_id = nil
@@ -332,7 +332,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_destroy_should_update_journal_details_value
-    issue = Issue.create!(:project_id => 1, :author_id => 1,
+    issue = Issue.generate!(:project_id => 1, :author_id => 1,
                           :tracker_id => 1, :subject => 'foo')
     issue.init_journal(User.find(1), "update")
     issue.assigned_to_id = 2
