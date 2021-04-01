@@ -76,6 +76,8 @@ class Member < ActiveRecord::Base
     if member_roles_to_destroy.any?
       member_roles_to_destroy.each(&:destroy)
     end
+    member_roles.reload
+    super(ids)
   end
 
   def <=>(member)
