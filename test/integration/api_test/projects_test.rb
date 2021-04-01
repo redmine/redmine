@@ -172,7 +172,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
 
     get '/projects/1.xml?include=trackers', :headers => credentials(user.login)
     assert_response :success
-    assert_equal 'application/xml', @response.content_type
+    assert_equal 'application/xml', @response.media_type
 
     assert_select 'trackers[type=array]' do
       assert_select 'tracker[id="1"]', :count => 1
