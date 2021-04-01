@@ -692,7 +692,7 @@ class ApplicationController < ActionController::Base
 
   # Returns a string that can be used as filename value in Content-Disposition header
   def filename_for_content_disposition(name)
-    %r{(MSIE|Trident|Edge)}.match?(request.env['HTTP_USER_AGENT'].to_s) ? ERB::Util.url_encode(name) : name
+    name
   end
 
   def api_request?
