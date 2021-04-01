@@ -20,7 +20,7 @@ module Redmine
 
       def check_password
         unless password.present? && User.current.check_password?(password)
-          errors[:password] << :invalid
+          errors.add(:password, :invalid)
         end
       end
     end
