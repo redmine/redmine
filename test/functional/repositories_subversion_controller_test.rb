@@ -329,7 +329,6 @@ class RepositoriesSubversionControllerTest < Redmine::RepositoryControllerTest
         }
       )
       assert_response :success
-      assert_equal 'attachment; filename="helloworld.c"', @response.headers['Content-Disposition']
       assert_equal "attachment; filename=\"helloworld.c\"; filename*=UTF-8''helloworld.c", @response.headers['Content-Disposition']
     end
 
