@@ -1,19 +1,18 @@
 source 'https://rubygems.org'
 
-ruby '>= 2.4.0', '< 2.8.0'
+ruby '>= 2.5.0', '< 2.8.0'
 gem 'bundler', '>= 1.12.0'
 
 gem 'rails', '6.1.3.1'
-gem 'sprockets', '~> 3.7.2' if RUBY_VERSION < '2.5'
 gem 'rouge', '~> 3.26.0'
 gem 'request_store', '~> 1.5.0'
 gem "mini_mime", "~> 1.0.1"
 gem "actionpack-xml_parser"
-gem 'roadie-rails', (RUBY_VERSION < '2.5' ? '~> 1.3.0' : '~> 2.2.0')
+gem 'roadie-rails', '~> 2.2.0'
 gem 'marcel'
 gem "mail", "~> 2.7.1"
-gem 'csv', (RUBY_VERSION < '2.5' ? ['>= 3.1.1', '<= 3.1.5'] : '~> 3.1.1')
-gem 'nokogiri', (RUBY_VERSION < '2.5' ? '~> 1.10.0' : '~> 1.11.1')
+gem 'csv', '~> 3.1.1'
+gem 'nokogiri', '~> 1.11.1'
 gem 'i18n', '~> 1.8.2'
 gem "rbpdf", "~> 1.20.0"
 gem 'addressable'

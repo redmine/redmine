@@ -7,7 +7,7 @@ http://www.redmine.org/
 
 == Requirements
 
-* Ruby 2.4, 2.5, 2.6, 2.7 (excluding 2.7.0 and 2.7.1)
+* Ruby 2.5, 2.6, 2.7
 * Bundler >= 1.12.0
 
 * A database:
