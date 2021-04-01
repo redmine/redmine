@@ -85,6 +85,7 @@ class Setting < ActiveRecord::Base
 
   validates_uniqueness_of(
     :name,
+    :case_sensitive => true,
     :if => Proc.new do |setting|
       setting.new_record? || setting.name_changed?
     end

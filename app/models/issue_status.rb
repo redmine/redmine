@@ -29,7 +29,7 @@ class IssueStatus < ActiveRecord::Base
   before_destroy :delete_workflow_rules
 
   validates_presence_of :name
-  validates_uniqueness_of :name
+  validates_uniqueness_of :name, :case_sensitive => true
   validates_length_of :name, :maximum => 30
   validates_inclusion_of :default_done_ratio, :in => 0..100, :allow_nil => true
 

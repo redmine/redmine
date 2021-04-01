@@ -127,7 +127,7 @@ class Version < ActiveRecord::Base
   VERSION_SHARINGS = %w(none descendants hierarchy tree system)
 
   validates_presence_of :name
-  validates_uniqueness_of :name, :scope => [:project_id]
+  validates_uniqueness_of :name, :scope => [:project_id], :case_sensitive => true
   validates_length_of :name, :maximum => 60
   validates_length_of :description, :wiki_page_title, :maximum => 255
   validates :effective_date, :date => true

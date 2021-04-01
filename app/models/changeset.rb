@@ -52,8 +52,8 @@ class Changeset < ActiveRecord::Base
                             :scope => proc {preload(:user, {:repository => :project})}
 
   validates_presence_of :repository_id, :revision, :committed_on, :commit_date
-  validates_uniqueness_of :revision, :scope => :repository_id
-  validates_uniqueness_of :scmid, :scope => :repository_id, :allow_nil => true
+  validates_uniqueness_of :revision, :scope => :repository_id, :case_sensitive => true
+  validates_uniqueness_of :scmid, :scope => :repository_id, :allow_nil => true, :case_sensitive => true
 
   scope :visible, (lambda do |*args|
     joins(:repository => :project).

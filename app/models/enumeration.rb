@@ -32,7 +32,7 @@ class Enumeration < ActiveRecord::Base
   before_save    :check_default
 
   validates_presence_of :name
-  validates_uniqueness_of :name, :scope => [:type, :project_id]
+  validates_uniqueness_of :name, :scope => [:type, :project_id], :case_sensitive => true
   validates_length_of :name, :maximum => 30
 
   scope :shared, lambda {where(:project_id => nil)}
