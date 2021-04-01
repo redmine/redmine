@@ -1706,7 +1706,6 @@ Style/SoleNestedConditional:
     - 'app/models/project.rb'
     - 'app/models/query.rb'
     - 'app/models/time_entry.rb'
-    - 'app/models/token.rb'
     - 'app/models/user_import.rb'
     - 'app/models/version.rb'
     - 'app/models/watcher.rb'
