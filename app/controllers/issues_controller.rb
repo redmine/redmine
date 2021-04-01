@@ -189,6 +189,7 @@ class IssuesController < ApplicationController
     begin
       saved = save_issue_with_child_records
     rescue ActiveRecord::StaleObjectError
+      @issue.detach_saved_attachments
       @conflict = true
       if params[:last_journal_id]
         @conflict_journals = @issue.journals_after(params[:last_journal_id]).to_a
