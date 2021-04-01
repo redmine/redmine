@@ -1039,7 +1039,7 @@ class WikiControllerTest < Redmine::ControllerTest
 
     assert_response :success
     assert_equal 'application/pdf', @response.media_type
-    assert_equal 'attachment; filename="ecookbook.pdf"', @response.headers['Content-Disposition']
+    assert_equal "attachment; filename=\"ecookbook.pdf\"; filename*=UTF-8''ecookbook.pdf", @response.headers['Content-Disposition']
     assert @response.body.starts_with?('%PDF')
   end
 
@@ -1104,7 +1104,7 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_equal 'application/pdf', @response.media_type
-    assert_equal 'attachment; filename="CookBook_documentation.pdf"',
+    assert_equal "attachment; filename=\"CookBook_documentation.pdf\"; filename*=UTF-8''CookBook_documentation.pdf",
                  @response.headers['Content-Disposition']
   end
 
@@ -1114,7 +1114,7 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_equal 'text/html', @response.media_type
-    assert_equal 'attachment; filename="CookBook_documentation.html"',
+    assert_equal "attachment; filename=\"CookBook_documentation.html\"; filename*=UTF-8''CookBook_documentation.html",
                  @response.headers['Content-Disposition']
     assert_select 'h1', :text => /CookBook documentation/
   end
@@ -1125,7 +1125,7 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_equal 'text/html', @response.media_type
-    assert_equal 'attachment; filename="CookBook_documentation.html"',
+    assert_equal "attachment; filename=\"CookBook_documentation.html\"; filename*=UTF-8''CookBook_documentation.html",
                  @response.headers['Content-Disposition']
     assert_select 'h1', :text => /CookBook documentation v2/
   end
@@ -1136,7 +1136,7 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_equal 'text/plain', @response.media_type
-    assert_equal 'attachment; filename="CookBook_documentation.txt"',
+    assert_equal "attachment; filename=\"CookBook_documentation.txt\"; filename*=UTF-8''CookBook_documentation.txt",
                  @response.headers['Content-Disposition']
     assert_include 'h1. CookBook documentation', @response.body
   end
@@ -1147,7 +1147,7 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_equal 'text/plain', @response.media_type
-    assert_equal 'attachment; filename="CookBook_documentation.txt"',
+    assert_equal "attachment; filename=\"CookBook_documentation.txt\"; filename*=UTF-8''CookBook_documentation.txt",
                  @response.headers['Content-Disposition']
     assert_include 'h1. CookBook documentation v2', @response.body
   end
