@@ -843,7 +843,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     get(:index, :params => {:format => 'csv'})
     assert_response :success
 
-    assert_equal 'text/csv', @response.media_type
+    assert_equal 'text/csv; header=present', @response.media_type
     assert response.body.starts_with?("#,")
     lines = response.body.chomp.split("\n")
     # default columns + id and project
@@ -859,7 +859,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
-    assert_equal 'text/csv', @response.media_type
+    assert_equal 'text/csv; header=present', @response.media_type
   end
 
   def test_index_csv_without_any_filters
@@ -894,7 +894,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       )
       assert_response :success
     end
-    assert_equal 'text/csv', response.media_type
+    assert_equal 'text/csv; header=present', response.media_type
     headers = response.body.chomp.split("\n").first.split(',')
     assert_include 'Description', headers
     assert_include 'test_index_csv_with_description', response.body
@@ -922,7 +922,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
-    assert_equal 'text/csv', @response.media_type
+    assert_equal 'text/csv; header=present', @response.media_type
     lines = @response.body.chomp.split("\n")
     assert_include "#{issue.id},#{issue.subject},7.33", lines
   end
@@ -937,7 +937,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     )
     assert_response :success
 
-    assert_equal 'text/csv', @response.media_type
+    assert_equal 'text/csv; header=present', @response.media_type
     assert_match /\A#,/, response.body
     lines = response.body.chomp.split("\n")
     assert_equal IssueQuery.new.available_inline_columns.size, lines[0].split(',').size
@@ -1035,7 +1035,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           :format => 'csv'
         }
       )
-      assert_equal 'text/csv', @response.media_type
+      assert_equal 'text/csv; header=present', @response.media_type
       lines = @response.body.chomp.split("\n")
       header = lines[0]
       status = (+"\xaa\xac\xbaA").force_encoding('Big5')
@@ -1058,7 +1058,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           :set_filter => 1
         }
       )
-      assert_equal 'text/csv', @response.media_type
+      assert_equal 'text/csv; header=present', @response.media_type
       lines = @response.body.chomp.split("\n")
       header = lines[0]
       issue_line = lines.find {|l| l =~ /^#{issue.id},/}
@@ -1084,7 +1084,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           :set_filter => 1
         }
       )
-      assert_equal 'text/csv', @response.media_type
+      assert_equal 'text/csv; header=present', @response.media_type
       lines = @response.body.chomp.split("\n")
       assert_include "#{issue.id},1234.50,#{str1}", lines
     end
@@ -1104,7 +1104,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           :set_filter => 1
         }
       )
-      assert_equal 'text/csv', @response.media_type
+      assert_equal 'text/csv; header=present', @response.media_type
       lines = @response.body.chomp.split("\n")
       assert_include "#{issue.id};1234,50;#{str1}", lines
     end
@@ -1659,7 +1659,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
-    assert_equal 'text/csv', response.media_type
+    assert_equal 'text/csv; header=present', response.media_type
     lines = response.body.chomp.split("\n")
     assert_include '1,"Related to #7, Related to #8, Blocks #11"', lines
     assert_include '2,Blocked by #12', lines

@@ -279,7 +279,7 @@ class RolesControllerTest < Redmine::ControllerTest
     )
     assert_response :success
 
-    assert_equal 'text/csv', @response.media_type
+    assert_equal 'text/csv; header=present', @response.media_type
     lines = @response.body.chomp.split("\n")
     # Number of lines
     permissions = Redmine::AccessControl.permissions - Redmine::AccessControl.public_permissions
