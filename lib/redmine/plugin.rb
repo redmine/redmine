@@ -539,7 +539,7 @@ module Redmine
           else
             migrations
           end
-        Migrator.new(:up, selected_migrations, target_version).migrate
+        Migrator.new(:up, selected_migrations, schema_migration, target_version).migrate
       end
 
       def down(target_version = nil)
@@ -549,15 +549,15 @@ module Redmine
           else
             migrations
           end
-        Migrator.new(:down, selected_migrations, target_version).migrate
+        Migrator.new(:down, selected_migrations, schema_migration, target_version).migrate
       end
 
       def run(direction, target_version)
-        Migrator.new(direction, migrations, target_version).run
+        Migrator.new(direction, migrations, schema_migration, target_version).run
       end
 
       def open
-        Migrator.new(:up, migrations, nil)
+        Migrator.new(:up, migrations, schema_migration)
       end
     end
 
@@ -571,7 +571,7 @@ module Redmine
           self.current_plugin = plugin
           return if current_version(plugin) == version
 
-          MigrationContext.new(plugin.migration_directory).migrate(version)
+          MigrationContext.new(plugin.migration_directory, ::ActiveRecord::Base.connection.schema_migration).migrate(version)
         end
 
         def get_all_versions(plugin = current_plugin)
