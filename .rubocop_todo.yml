@@ -530,6 +530,14 @@ Performance/FixedSize:
     - 'test/integration/attachments_test.rb'
 
 # Cop supports --auto-correct.
+Performance/RedundantEqualityComparisonBlock:
+  Exclude:
+    - 'app/models/query.rb'
+    - 'app/models/setting.rb'
+    - 'lib/redmine/field_format.rb'
+    - 'test/integration/api_test/issues_test.rb'
+
+# Cop supports --auto-correct.
 Performance/RedundantMatch:
   Exclude:
     - 'app/models/issue_relation.rb'
@@ -1544,7 +1552,16 @@ Style/RedundantAssignment:
 # Cop supports --auto-correct.
 Style/RedundantBegin:
   Exclude:
+    - 'app/controllers/issues_controller.rb'
+    - 'app/models/auth_source.rb'
     - 'app/models/member.rb'
+    - 'app/models/repository.rb'
+    - 'app/models/setting.rb'
+    - 'lib/redmine/codeset_util.rb'
+    - 'lib/redmine/plugin.rb'
+    - 'test/unit/issue_nested_set_concurrency_test.rb'
+    - 'test/unit/project_nested_set_concurrency_test.rb'
+    - 'test/unit/query_test.rb'
 
 # Cop supports --auto-correct.
 Style/RedundantCondition:
