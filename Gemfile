@@ -66,7 +66,7 @@ if File.exist?(database_file)
         gem "sqlite3", "~> 1.4.0", :platforms => [:mri, :mingw, :x64_mingw]
       when /sqlserver/
         gem "tiny_tds", "~> 2.1.2", :platforms => [:mri, :mingw, :x64_mingw]
-        gem "activerecord-sqlserver-adapter", "~> 5.2.1", :platforms => [:mri, :mingw, :x64_mingw]
+        gem "activerecord-sqlserver-adapter", "~> 6.0.1", :platforms => [:mri, :mingw, :x64_mingw]
       else
         warn("Unknown database adapter `#{adapter}` found in config/database.yml, use Gemfile.local to load your own database gems")
       end
