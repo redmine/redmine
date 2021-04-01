@@ -59,7 +59,7 @@ class ActiveSupport::TestCase
   self.use_instantiated_fixtures  = false
 
   def uploaded_test_file(name, mime)
-    fixture_file_upload("files/#{name}", mime, true)
+    fixture_file_upload(name.to_s, mime, true)
   end
 
   def mock_file(options=nil)
