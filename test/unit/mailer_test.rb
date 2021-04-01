@@ -1064,14 +1064,14 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_with_synched_deliveries_should_yield_with_synced_deliveries
-    ActionMailer::DeliveryJob.queue_adapter = ActiveJob::QueueAdapters::AsyncAdapter.new
+    ActionMailer::MailDeliveryJob.queue_adapter = ActiveJob::QueueAdapters::AsyncAdapter.new
 
     Mailer.with_synched_deliveries do
-      assert_kind_of ActiveJob::QueueAdapters::InlineAdapter, ActionMailer::DeliveryJob.queue_adapter
+      assert_kind_of ActiveJob::QueueAdapters::InlineAdapter, ActionMailer::MailDeliveryJob.queue_adapter
     end
-    assert_kind_of ActiveJob::QueueAdapters::AsyncAdapter, ActionMailer::DeliveryJob.queue_adapter
+    assert_kind_of ActiveJob::QueueAdapters::AsyncAdapter, ActionMailer::MailDeliveryJob.queue_adapter
   ensure
-    ActionMailer::DeliveryJob.queue_adapter = ActiveJob::QueueAdapters::InlineAdapter.new
+    ActionMailer::MailDeliveryJob.queue_adapter = ActiveJob::QueueAdapters::InlineAdapter.new
   end
 
   def test_email_addresses_should_keep_addresses

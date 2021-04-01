@@ -16,7 +16,7 @@ module Redmine
           ["Rails version", Rails::VERSION::STRING],
           ["Environment", Rails.env],
           ["Database adapter", ActiveRecord::Base.connection.adapter_name],
-          ["Mailer queue", ActionMailer::DeliveryJob.queue_adapter.class.name],
+          ["Mailer queue", ActionMailer::MailDeliveryJob.queue_adapter.class.name],
           ["Mailer delivery", ActionMailer::Base.delivery_method]
         ].map {|info| "  %-30s %s" % info}.join("\n") + "\n"
 

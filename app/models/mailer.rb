@@ -642,13 +642,13 @@ class Mailer < ActionMailer::Base
   # Rake will likely end, causing the in-process thread pool to be deleted, before
   # any/all of the .deliver_later emails are processed
   def self.with_synched_deliveries(&block)
-    adapter = ActionMailer::DeliveryJob.queue_adapter
+    adapter = ActionMailer::MailDeliveryJob.queue_adapter
     if adapter.is_a?(ActiveJob::QueueAdapters::AsyncAdapter)
-      ActionMailer::DeliveryJob.queue_adapter = ActiveJob::QueueAdapters::InlineAdapter.new
+      ActionMailer::MailDeliveryJob.queue_adapter = ActiveJob::QueueAdapters::InlineAdapter.new
     end
     yield
   ensure
-    ActionMailer::DeliveryJob.queue_adapter = adapter
+    ActionMailer::MailDeliveryJob.queue_adapter = adapter
   end
 
   def mail(headers={}, &block)
