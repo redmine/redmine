@@ -392,6 +392,11 @@ module Redmine
   end
 
   class IntegrationTest < ActionDispatch::IntegrationTest
+    def setup
+      ActionMailer::MailDeliveryJob.disable_test_adapter
+      super
+    end
+
     def log_user(login, password)
       User.anonymous
       get "/login"
