@@ -56,9 +56,6 @@ module RedmineApp
     # Do not include all helpers
     config.action_controller.include_all_helpers = false
 
-    # Since Redmine 4.0, boolean values are stored in sqlite3 databases as 1 and 0
-    config.active_record.sqlite3.represent_boolean_as_integer = true
-
     # Sets the Content-Length header on responses with fixed-length bodies
     config.middleware.insert_before Rack::Sendfile, Rack::ContentLength
 
