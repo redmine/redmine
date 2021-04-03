@@ -1383,21 +1383,20 @@ cs:
   error_attachment_not_found: Příloha %{name} nenalezena
   permission_delete_project: Odstranit projekt
   field_twofa_scheme: Schéma dvou-fázového ověření
-  text_user_destroy_confirmation: Are you sure you want to delete this user and remove
-    all references to them? This cannot be undone. Often, locking a user instead of
-    deleting them is the better solution. To confirm, please enter their login (%{login})
-    below.
-  text_project_destroy_enter_identifier: To confirm, please enter the project's identifier
-    (%{identifier}) below.
-  button_add_subtask: Add subtask
-  notice_invalid_watcher: 'Invalid watcher: User will not receive any notifications
-    because it does not have access to view this object.'
-  button_fetch_changesets: Fetch commits
-  permission_view_message_watchers: View message watchers list
-  permission_add_message_watchers: Add message watchers
-  permission_delete_message_watchers: Delete message watchers
-  label_message_watchers: Watchers
-  button_copy_link: Copy link
-  error_invalid_authenticity_token: Invalid form authenticity token.
-  error_query_statement_invalid: An error occurred while executing the query and has
-    been logged. Please report this error to your Redmine administrator.
+  text_user_destroy_confirmation: Jste si jisti, že chcete odstranit tohoto uživatele a
+    všechny reference na něj? Tato akce nemůže být vzata zpět. Často je užamčení uživatele
+    místo jeho smazání vhodnějším řešením. Pro potvrzení, prosím zadjte níže jeho login (%{login}).
+  text_project_destroy_enter_identifier: Pro potvrzení, prosím zadejte níže identifikátor projektu
+    (%{identifier}).
+  button_add_subtask: Přidat podúkol
+  notice_invalid_watcher: 'Neplatný sledovatel: Uživatel nebude dostávat žádné notifikace,
+    protože nemá přístup pro zobrazení tohoto objektu.'
+  button_fetch_changesets: Stáhnout commity
+  permission_view_message_watchers: Zobrazení seznamu sledovatelů příspěvků
+  permission_add_message_watchers: Přidávání sledovatelů příspěvků
+  permission_delete_message_watchers: Mazání sledovatelů příspěvků
+  label_message_watchers: Sledující
+  button_copy_link: Kopírovat odkaz
+  error_invalid_authenticity_token: Neplatný token pravosti formuláře.
+  error_query_statement_invalid: Nastala chyba při vykonávání dotazu a
+    byla zaznamenána. Prosím oznamte tuto chybu svému Redmine administrátorovi.
