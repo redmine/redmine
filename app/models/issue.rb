@@ -219,7 +219,7 @@ class Issue < ActiveRecord::Base
   end
 
   def create_or_update(*args)
-    super
+    super()
   ensure
     @status_was = nil
   end

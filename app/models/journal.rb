@@ -97,7 +97,7 @@ class Journal < ActiveRecord::Base
   def save(*args)
     journalize_changes
     # Do not save an empty journal
-    (details.empty? && notes.blank?) ? false : super
+    (details.empty? && notes.blank?) ? false : super()
   end
 
   # Returns journal details that are visible to user
