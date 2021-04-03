@@ -1440,6 +1440,5 @@
   permission_delete_message_watchers: 刪除訊息監看員
   label_message_watchers: 監看員
   button_copy_link: 複製連結
-  error_invalid_authenticity_token: Invalid form authenticity token.
-  error_query_statement_invalid: An error occurred while executing the query and has
-    been logged. Please report this error to your Redmine administrator.
+  error_invalid_authenticity_token: 無效的表單確實性授權權杖.
+  error_query_statement_invalid: 執行查詢時發生錯誤並已留下紀錄. 請向 Redmine 系統管理員報告此錯誤.
