@@ -665,7 +665,7 @@ class User < Principal
       return @project_ids_by_role if @project_ids_by_role
 
       group_class = anonymous? ? GroupAnonymous.unscoped : GroupNonMember.unscoped
-      group_id = group_class.pluck(:id).first
+      group_id = group_class.pick(:id)
 
       members = Member.joins(:project, :member_roles).
         where("#{Project.table_name}.status <> 9").

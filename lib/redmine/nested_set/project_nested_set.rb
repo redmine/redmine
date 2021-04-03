@@ -44,7 +44,7 @@ module Redmine
         if siblings_rgt
           siblings_rgt + 1
         elsif parent_id
-          parent_lft = self.class.where(:id => parent_id).pluck(:lft).first
+          parent_lft = self.class.where(:id => parent_id).pick(:lft)
           unless parent_lft
             raise "Project id=#{id} with parent_id=#{parent_id}: parent missing or without 'lft' value"
           end
@@ -136,7 +136,7 @@ module Redmine
       end
 
       def reload_nested_set_values
-        self.lft, self.rgt = Project.where(:id => id).pluck(:lft, :rgt).first
+        self.lft, self.rgt = Project.where(:id => id).pick(:lft, :rgt)
       end
 
       def save_nested_set_values

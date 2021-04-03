@@ -147,7 +147,7 @@ module Redmine
       end
 
       def reload_nested_set_values
-        self.root_id, self.lft, self.rgt = self.class.where(:id => id).pluck(:root_id, :lft, :rgt).first
+        self.root_id, self.lft, self.rgt = self.class.where(:id => id).pick(:root_id, :lft, :rgt)
       end
 
       def save_nested_set_values
