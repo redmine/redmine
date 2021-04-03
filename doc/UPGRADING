@@ -13,7 +13,7 @@ http://www.redmine.org/
    and your configuration file (RAILS_ROOT/config/configuration.yml)
    into the new config directory
    Note: before Redmine 1.2, SMTP configuration was stored in
-   config/email.yml. It should now be stored in config/configuration.yml. 
+   config/email.yml. It should now be stored in config/configuration.yml.
 
 3. Copy the RAILS_ROOT/files directory content into your new installation
    This directory contains all the attached files.
@@ -43,7 +43,7 @@ http://www.redmine.org/
    It will be loaded automatically when running `bundle install`.
 
 6. Generate a session store secret
-   
+
    If you're upgrading from Redmine 2.x or below, remove the following file
    if it exists: config/initializers/secret_token.rb
 
@@ -62,15 +62,15 @@ http://www.redmine.org/
    need to upgrade the plugin migrations before running the plugin migrations
    using:
      bundle exec rake db:migrate:upgrade_plugin_migrations RAILS_ENV="production"
-   
+
    Please make a backup before doing this! Under the new application
    directory run:
      bundle exec rake db:migrate RAILS_ENV="production"
-   
+
    If you have installed any plugins, you should also run their database
    migrations using:
      bundle exec rake db:migrate_plugins RAILS_ENV="production"
-   
+
 8. Clear the cache and the existing sessions by running:
      bundle exec rake tmp:cache:clear tmp:sessions:clear
 
