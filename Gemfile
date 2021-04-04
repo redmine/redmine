@@ -88,7 +88,7 @@ group :test do
   gem "ffi", platforms: [:mingw, :x64_mingw, :mswin]
   # For running system tests
   gem 'puma'
-  gem 'capybara', '~> 3.31.0'
+  gem 'capybara', '~> 3.35.3'
   gem "selenium-webdriver"
   gem 'webdrivers', '~> 4.4', require: false
   # RuboCop
