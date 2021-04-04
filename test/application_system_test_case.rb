@@ -38,7 +38,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
                   'goog:chromeOptions' => {
                     'args' => GOOGLE_CHROME_OPTS_ARGS,
                     'prefs' => {
-                      'download.default_directory' => DOWNLOADS_PATH,
+                      'download.default_directory' => DOWNLOADS_PATH.gsub(File::SEPARATOR, File::ALT_SEPARATOR || File::SEPARATOR),
                       'download.prompt_for_download' => false,
                       'plugins.plugins_disabled' => ["Chrome PDF Viewer"]
                     }
