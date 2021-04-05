@@ -246,6 +246,8 @@ bg:
   error_filename_required: Изисква се име на файл
   error_invalid_size_parameter: Невалиден параметър за размер
   error_attachment_not_found: Прикаченият файл  %{name} не е намерен
+  error_invalid_authenticity_token: Invalid form authenticity token.
+  error_query_statement_invalid: Изпълнението на заявката завърши с грешка и тя беше записана. Моля докладвайте тази грешка на администратора на Redmine.
 
   mail_subject_lost_password: "Вашата парола (%{value})"
   mail_body_lost_password: 'За да смените паролата си, използвайте следния линк:'
@@ -573,6 +575,9 @@ bg:
   permission_edit_own_messages: Редактиране на собствени съобщения
   permission_delete_messages: Изтриване на съобщения
   permission_delete_own_messages: Изтриване на собствени съобщения
+  permission_view_message_watchers: Разглеждане на списъка на наблюдателите на съобщения
+  permission_add_message_watchers: Добавяне на наблюдатели на съобщения
+  permission_delete_message_watchers: Изтриване на наблюдатели на съобщения
   permission_export_wiki_pages: Експорт на wiki страници
   permission_manage_subtasks: Управление на подзадачите
   permission_manage_related_issues: Управление на връзките между задачи и ревизии
@@ -956,6 +961,7 @@ bg:
   label_incoming_emails: Входящи e-mail-и
   label_generate_key: Генериране на ключ
   label_issue_watchers: Наблюдатели
+  label_message_watchers: Наблюдатели
   label_example: Пример
   label_display: Показване
   label_sort: Сортиране
@@ -1149,6 +1155,7 @@ bg:
   button_change_password: Промяна на парола
   button_copy: Копиране
   button_copy_and_follow: Копиране и продължаване
+  button_copy_link: Копиране на връзката
   button_annotate: Анотация
   button_fetch_changesets: Извличане на ревизиите
   button_update: Обновяване
@@ -1364,11 +1371,3 @@ bg:
     Това действие не може да бъде отменено. Често заключването на потребителя е по-добро решение от изтриването му.
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
-  permission_view_message_watchers: View message watchers list
-  permission_add_message_watchers: Add message watchers
-  permission_delete_message_watchers: Delete message watchers
-  label_message_watchers: Watchers
-  button_copy_link: Copy link
-  error_invalid_authenticity_token: Invalid form authenticity token.
-  error_query_statement_invalid: An error occurred while executing the query and has
-    been logged. Please report this error to your Redmine administrator.
