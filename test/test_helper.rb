@@ -53,6 +53,8 @@ class ActionView::TestCase
 end
 
 class ActiveSupport::TestCase
+  parallelize(workers: 1)
+
   include ActionDispatch::TestProcess
 
   self.use_transactional_tests = true
