@@ -722,7 +722,7 @@ $(document).ready(function(){
 
   // This variable is used to focus selected project
   var selected;
-  $(".drdn-trigger").click(function(e){
+  $(document).on('click', '.drdn-trigger', function(e){
     var drdn = $(this).closest(".drdn");
     if (drdn.hasClass("expanded")) {
       drdn.removeClass("expanded");
