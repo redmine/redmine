@@ -147,4 +147,21 @@ class MenuManagerTest < Redmine::IntegrationTest
       assert_select '#main-menu a.roadmap', 0
     end
   end
+
+  def test_project_menu_should_show_roadmap_if_project_has_shared_version
+    Version.delete_all
+    project = Project.generate!(:parent_id => 2)
+
+    Version.generate!(project_id: 2, sharing: 'tree')
+
+    with_settings :display_subprojects_issues => '1' do
+      get "/projects/#{project.id}"
+      assert_select '#main-menu a.roadmap'
+    end
+
+    with_settings :display_subprojects_issues => '0' do
+      get "/projects/#{project.id}"
+      assert_select '#main-menu a.roadmap'
+    end
+  end
 end
