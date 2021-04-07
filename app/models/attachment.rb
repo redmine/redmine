@@ -370,7 +370,7 @@ class Attachment < ActiveRecord::Base
   def self.latest_attach(attachments, filename)
     return unless filename.valid_encoding?
 
-    attachments.sort_by(&:created_on).reverse.detect do |att|
+    attachments.sort_by{|attachment| [attachment.created_on, attachment.id]}.reverse.detect do |att|
       filename.casecmp?(att.filename)
     end
   end
