@@ -367,10 +367,10 @@ Redmine::MenuManager.map :project_menu do |menu|
     :param => :project_id,
     :if =>
       Proc.new do |p|
-        if Setting.display_subprojects_issues?
-          p.rolled_up_versions.any?
+        if p.shared_versions.any?
+          true
         else
-          p.shared_versions.any?
+          Setting.display_subprojects_issues? && p.rolled_up_versions.any?
         end
       end
   )
