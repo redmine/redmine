@@ -16,6 +16,7 @@ config/initializers/secret_token.rb
 coverage
 db/*.db
 db/*.sqlite3
+db/*.sqlite3-*
 db/schema.rb
 files/*
 lib/redmine/scm/adapters/mercurial/redminehelper.pyc
