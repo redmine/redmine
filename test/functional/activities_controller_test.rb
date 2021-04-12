@@ -125,6 +125,22 @@ class ActivitiesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_index_atom_feed_should_respect_feeds_limit_setting
+    with_settings :feeds_limit => '20' do
+      get(
+        :index,
+        :params => {
+          :format => 'atom'
+        }
+      )
+    end
+    assert_response :success
+
+    assert_select 'feed' do
+      assert_select 'entry', :count => 20
+    end
+  end
+
   def test_index_atom_feed_with_explicit_selection
     get(
       :index,
