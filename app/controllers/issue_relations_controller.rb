@@ -107,7 +107,14 @@ class IssueRelationsController < ApplicationController
   end
 
   def relation_issues_to_id
-    params[:relation].require(:issue_to_id).split(',').reject(&:blank?)
+    issue_to_id = params[:relation].require(:issue_to_id)
+    case issue_to_id
+    when String
+      issue_to_id = issue_to_id.split(',').reject(&:blank?)
+    when Integer
+      issue_to_id = [issue_to_id]
+    end
+    issue_to_id
   rescue ActionController::ParameterMissing => e
     # We return a empty array just to loop once and return a validation error
     # ToDo: Find a better method to return an error if the param is missing.
