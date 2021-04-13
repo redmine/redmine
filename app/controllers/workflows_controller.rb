@@ -20,6 +20,7 @@
 class WorkflowsController < ApplicationController
   layout 'admin'
   self.main_menu = false
+  before_action :find_trackers_roles_and_statuses_for_edit, only: [:edit, :update, :permissions, :update_permissions]
 
   before_action :require_admin
 
@@ -30,21 +31,6 @@ class WorkflowsController < ApplicationController
   end
 
   def edit
-    find_trackers_roles_and_statuses_for_edit
-
-    if request.post? && @roles && @trackers && params[:transitions]
-      transitions = params[:transitions].deep_dup
-      transitions.each do |old_status_id, transitions_by_new_status|
-        transitions_by_new_status.each do |new_status_id, transition_by_rule|
-          transition_by_rule.reject! {|rule, transition| transition == 'no_change'}
-        end
-      end
-      WorkflowTransition.replace_transitions(@trackers, @roles, transitions)
-      flash[:notice] = l(:notice_successful_update)
-      redirect_to_referer_or workflows_edit_path
-      return
-    end
-
     if @trackers && @roles && @statuses.any?
       workflows = WorkflowTransition.
         where(:role_id => @roles.map(&:id), :tracker_id => @trackers.map(&:id)).
@@ -56,20 +42,21 @@ class WorkflowsController < ApplicationController
     end
   end
 
-  def permissions
-    find_trackers_roles_and_statuses_for_edit
-
-    if request.post? && @roles && @trackers && params[:permissions]
-      permissions = params[:permissions].deep_dup
-      permissions.each do |field, rule_by_status_id|
-        rule_by_status_id.reject! {|status_id, rule| rule == 'no_change'}
+  def update
+    if @roles && @trackers && params[:transitions]
+      transitions = params[:transitions].deep_dup
+      transitions.each do |old_status_id, transitions_by_new_status|
+        transitions_by_new_status.each do |new_status_id, transition_by_rule|
+          transition_by_rule.reject! {|rule, transition| transition == 'no_change'}
+        end
       end
-      WorkflowPermission.replace_permissions(@trackers, @roles, permissions)
+      WorkflowTransition.replace_transitions(@trackers, @roles, transitions)
       flash[:notice] = l(:notice_successful_update)
-      redirect_to_referer_or workflows_permissions_path
-      return
     end
+    redirect_to_referer_or edit_workflows_path
+  end
 
+  def permissions
     if @roles && @trackers
       @fields = (Tracker::CORE_FIELDS_ALL - @trackers.map(&:disabled_core_fields).reduce(:&)).map {|field| [field, l("field_"+field.sub(/_id$/, ''))]}
       @custom_fields = @trackers.map(&:custom_fields).flatten.uniq.sort
@@ -78,10 +65,46 @@ class WorkflowsController < ApplicationController
     end
   end
 
+  def update_permissions
+    if @roles && @trackers && params[:permissions]
+      permissions = params[:permissions].deep_dup
+      permissions.each do |field, rule_by_status_id|
+        rule_by_status_id.reject! {|status_id, rule| rule == 'no_change'}
+      end
+      WorkflowPermission.replace_permissions(@trackers, @roles, permissions)
+      flash[:notice] = l(:notice_successful_update)
+    end
+    redirect_to_referer_or permissions_workflows_path
+  end
+
   def copy
+    find_sources_and_targets
+  end
+
+  def duplicate
+    find_sources_and_targets
+    if params[:source_tracker_id].blank? || params[:source_role_id].blank? ||
+      (@source_tracker.nil? && @source_role.nil?)
+      flash.now[:error] = l(:error_workflow_copy_source)
+      render :copy
+    elsif @target_trackers.blank? || @target_roles.blank?
+      flash.now[:error] = l(:error_workflow_copy_target)
+      render :copy
+    else
+      WorkflowRule.copy(@source_tracker, @source_role, @target_trackers, @target_roles)
+      flash[:notice] = l(:notice_successful_update)
+      redirect_to copy_workflows_path(
+        :source_tracker_id => @source_tracker,
+        :source_role_id => @source_role
+      )
+    end
+  end
+
+  private
+
+  def find_sources_and_targets
     @roles = Role.sorted.select(&:consider_workflow?)
     @trackers = Tracker.sorted
-
     if params[:source_tracker_id].blank? || params[:source_tracker_id] == 'any'
       @source_tracker = nil
     else
@@ -104,24 +127,7 @@ class WorkflowsController < ApplicationController
       else
         Role.where(:id => params[:target_role_ids]).to_a
       end
-    if request.post?
-      if params[:source_tracker_id].blank? || params[:source_role_id].blank? ||
-           (@source_tracker.nil? && @source_role.nil?)
-        flash.now[:error] = l(:error_workflow_copy_source)
-      elsif @target_trackers.blank? || @target_roles.blank?
-        flash.now[:error] = l(:error_workflow_copy_target)
-      else
-        WorkflowRule.copy(@source_tracker, @source_role, @target_trackers, @target_roles)
-        flash[:notice] = l(:notice_successful_update)
-        redirect_to(
-          workflows_copy_path(:source_tracker_id => @source_tracker,
-                              :source_role_id => @source_role)
-        )
-      end
-    end
   end
-
-  private
 
   def find_trackers_roles_and_statuses_for_edit
     find_roles

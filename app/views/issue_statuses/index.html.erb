@@ -26,7 +26,7 @@
   <td>
     <% unless WorkflowTransition.where('old_status_id = ? OR new_status_id = ?', status.id, status.id).exists? %>
       <span class="icon icon-warning">
-        <%= l(:text_status_no_workflow) %> (<%= link_to l(:button_edit), workflows_edit_path(:used_statuses_only => 0) %>)
+        <%= l(:text_status_no_workflow) %> (<%= link_to l(:button_edit), edit_workflows_path(:used_statuses_only => 0) %>)
       </span>
     <% end %>
   </td>

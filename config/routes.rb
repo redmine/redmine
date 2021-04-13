@@ -372,10 +372,17 @@ Rails.application.routes.draw do
     end
   end
 
-  match 'workflows', :controller => 'workflows', :action => 'index', :via => :get
-  match 'workflows/edit', :controller => 'workflows', :action => 'edit', :via => [:get, :post]
-  match 'workflows/permissions', :controller => 'workflows', :action => 'permissions', :via => [:get, :post]
-  match 'workflows/copy', :controller => 'workflows', :action => 'copy', :via => [:get, :post]
+  resources :workflows, only: [:index] do
+    collection do
+      get 'edit'
+      patch 'update'
+      get 'permissions'
+      patch 'update_permissions'
+      get 'copy'
+      post 'duplicate'
+    end
+  end
+
   match 'settings', :controller => 'settings', :action => 'index', :via => :get
   match 'settings/edit', :controller => 'settings', :action => 'edit', :via => [:get, :post]
   match 'settings/plugin/:id', :controller => 'settings', :action => 'plugin', :via => [:get, :post], :as => 'plugin_settings'

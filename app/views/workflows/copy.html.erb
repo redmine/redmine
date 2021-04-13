@@ -1,6 +1,6 @@
-<%= title [l(:label_workflow), workflows_edit_path], l(:button_copy) %>
+<%= title [l(:label_workflow), edit_workflows_path], l(:button_copy) %>
 
-<%= form_tag({}, :id => 'workflow_copy_form') do %>
+<%= form_tag duplicate_workflows_path, method: :post, id: 'workflow_copy_form' do %>
 <fieldset class="tabular box">
 <legend><%= l(:label_copy_source) %></legend>
 <p>

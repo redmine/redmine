@@ -134,7 +134,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
   def test_post_edit
     WorkflowTransition.delete_all
 
-    post :edit, :params => {
+    patch :update, :params => {
       :role_id => 2,
       :tracker_id => 1,
       :transitions => {
@@ -152,7 +152,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
   def test_post_edit_with_allowed_statuses_for_new_issues
     WorkflowTransition.delete_all
 
-    post :edit, :params => {
+    patch :update, :params => {
       :role_id => 2,
       :tracker_id => 1,
       :transitions => {
@@ -169,7 +169,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
   def test_post_edit_with_additional_transitions
     WorkflowTransition.delete_all
 
-    post :edit, :params => {
+    patch :update, :params => {
       :role_id => 2,
       :tracker_id => 1,
       :transitions => {
@@ -346,7 +346,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
   def test_post_permissions
     WorkflowPermission.delete_all
 
-    post :permissions, :params => {
+    patch :update_permissions, :params => {
       :role_id => 1,
       :tracker_id => 2,
       :permissions => {
@@ -389,7 +389,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
   def test_post_copy_one_to_one
     source_transitions = status_transitions(:tracker_id => 1, :role_id => 2)
 
-    post :copy, :params => {
+    post :duplicate, :params => {
       :source_tracker_id => '1', :source_role_id => '2',
       :target_tracker_ids => ['3'], :target_role_ids => ['1']
     }
@@ -400,7 +400,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
   def test_post_copy_one_to_many
     source_transitions = status_transitions(:tracker_id => 1, :role_id => 2)
 
-    post :copy, :params => {
+    post :duplicate, :params => {
       :source_tracker_id => '1', :source_role_id => '2',
       :target_tracker_ids => ['2', '3'], :target_role_ids => ['1', '3']
     }
@@ -415,7 +415,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
     source_t2 = status_transitions(:tracker_id => 2, :role_id => 2)
     source_t3 = status_transitions(:tracker_id => 3, :role_id => 2)
 
-    post :copy, :params => {
+    post :duplicate, :params => {
       :source_tracker_id => 'any', :source_role_id => '2',
       :target_tracker_ids => ['2', '3'], :target_role_ids => ['1', '3']
     }
@@ -428,7 +428,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
 
   def test_post_copy_with_incomplete_source_specification_should_fail
     assert_no_difference 'WorkflowRule.count' do
-      post :copy, :params => {
+      post :duplicate, :params => {
         :source_tracker_id => '', :source_role_id => '2',
         :target_tracker_ids => ['2', '3'], :target_role_ids => ['1', '3']
       }
@@ -439,7 +439,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
 
   def test_post_copy_with_incomplete_target_specification_should_fail
     assert_no_difference 'WorkflowRule.count' do
-      post :copy, :params => {
+      post :duplicate, :params => {
         :source_tracker_id => '1', :source_role_id => '2',
         :target_tracker_ids => ['2', '3']
       }

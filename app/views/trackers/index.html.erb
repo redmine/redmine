@@ -22,7 +22,7 @@
   <td>
     <% unless tracker.workflow_rules.exists? %>
       <span class="icon icon-warning">
-        <%= l(:text_tracker_no_workflow) %> (<%= link_to l(:button_edit), workflows_edit_path(:tracker_id => tracker) %>)
+        <%= l(:text_tracker_no_workflow) %> (<%= link_to l(:button_edit), edit_workflows_path(:tracker_id => tracker) %>)
       </span>
     <% end %>
   </td>

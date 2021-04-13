@@ -4,8 +4,8 @@
 
 <div class="tabs">
   <ul>
-    <li><%= link_to l(:label_status_transitions), workflows_edit_path(:role_id => @roles, :tracker_id => @trackers), :class => 'selected' %></li>
-    <li><%= link_to l(:label_fields_permissions), workflows_permissions_path(:role_id => @roles, :tracker_id => @trackers) %></li>
+    <li><%= link_to l(:label_status_transitions), edit_workflows_path(:role_id => @roles, :tracker_id => @trackers), :class => 'selected' %></li>
+    <li><%= link_to l(:label_fields_permissions), permissions_workflows_path(:role_id => @roles, :tracker_id => @trackers) %></li>
   </ul>
 </div>
 
@@ -32,7 +32,7 @@
 <% end %>
 
 <% if @trackers && @roles && @statuses.any? %>
-  <%= form_tag({}, :id => 'workflow_form' ) do %>
+  <%= form_tag workflows_path, method: :patch, id: 'workflow_form' do %>
     <%= @trackers.map {|tracker| hidden_field_tag 'tracker_id[]', tracker.id, :id => nil}.join.html_safe %>
     <%= @roles.map {|role| hidden_field_tag 'role_id[]', role.id, :id => nil}.join.html_safe %>
     <%= hidden_field_tag 'used_statuses_only', params[:used_statuses_only], :id => nil %>
