@@ -155,9 +155,11 @@
   <li><%= context_menu_link l(:button_add_subtask), url_for_new_subtask(@issue),
           :class => 'icon icon-add' %></li>
   <% end %>
+  <li><%= copy_object_url_link(issue_url(@issue)) %></li>
   <li><%= context_menu_link l(:button_copy), project_copy_issue_path(@project, @issue),
           :class => 'icon icon-copy', :disabled => !@can[:copy] %></li>
 <% else %>
+  <li><%= copy_object_url_link(_project_issues_url(@project, set_filter: 1, status_id: '*', issue_id: @issue_ids.join(','))) %></li>
   <li><%= context_menu_link l(:button_copy), bulk_edit_issues_path(:ids => @issue_ids, :copy => '1'),
                           :class => 'icon icon-copy', :disabled => !@can[:copy] %></li>
 <% end %>

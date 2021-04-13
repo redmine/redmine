@@ -40,4 +40,11 @@ class RoutesHelperTest < Redmine::HelperTest
     assert_equal '/issues/1/time_entries/new', _new_time_entry_path(nil, Issue.find(1))
     assert_equal '/time_entries/new', _new_time_entry_path(nil, nil)
   end
+
+  def test_project_issues_url
+    assert_equal 'http://test.host/projects/ecookbook/issues', _project_issues_url(Project.find(1))
+    assert_equal 'http://test.host/issues', _project_issues_url(nil)
+    assert_equal 'http://test.host/projects/ecookbook/issues?set_filter=1', _project_issues_url(Project.find(1), set_filter: 1)
+    assert_equal 'http://test.host/issues?set_filter=1', _project_issues_url(nil, set_filter: 1)
+  end
 end

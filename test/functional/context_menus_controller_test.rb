@@ -47,6 +47,7 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_select 'a.icon-edit[href=?]', '/issues/1/edit', :text => 'Edit'
+    assert_select 'a.icon-copy-link[data-clipboard-text=?]', 'http://test.host/issues/1', :text => 'Copy link'
     assert_select 'a.icon-copy[href=?]', '/projects/ecookbook/issues/1/copy', :text => 'Copy'
     assert_select 'a.icon-del[href=?]', '/issues?ids%5B%5D=1', :text => 'Delete'
 
@@ -89,6 +90,8 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     ids = [1, 2].map {|i| "ids%5B%5D=#{i}"}.join('&')
 
     assert_select 'a.icon-edit[href=?]', "/issues/bulk_edit?#{ids}", :text => 'Edit'
+    # issue_id: '1,2', set_filter: 1, status_id: '*'
+    assert_select 'a.icon-copy-link[data-clipboard-text=?]', "http://test.host/projects/ecookbook/issues?issue_id=1%2C2&set_filter=1&status_id=%2A", :text => 'Copy link'
     assert_select 'a.icon-copy[href=?]', "/issues/bulk_edit?copy=1&#{ids}", :text => 'Copy'
     assert_select 'a.icon-del[href=?]', "/issues?#{ids}", :text => 'Delete'
 
@@ -110,6 +113,8 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     ids = [1, 2, 6].map {|i| "ids%5B%5D=#{i}"}.join('&')
 
     assert_select 'a.icon-edit[href=?]', "/issues/bulk_edit?#{ids}", :text => 'Edit'
+    # issue_id: '1,2,6', set_filter: 1, status_id: '*'
+    assert_select 'a.icon-copy-link[data-clipboard-text=?]', "http://test.host/issues?issue_id=1%2C2%2C6&set_filter=1&status_id=%2A", :text => 'Copy link'
     assert_select 'a.icon-del[href=?]', "/issues?#{ids}", :text => 'Delete'
 
     assert_select 'a[href=?]', "/issues/bulk_update?#{ids}&issue%5Bstatus_id%5D=5", :text => 'Closed'
