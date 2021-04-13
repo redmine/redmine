@@ -42,7 +42,7 @@ class Redmine::ApiTest::IssueRelationsTest < Redmine::ApiTest::Base
     assert_difference('IssueRelation.count') do
       post(
         '/issues/2/relations.xml',
-        :params => {:relation => {:issue_to_id => 7, :relation_type => 'relates'}},
+        :params => {:relation => {:issue_to_id => "7", :relation_type => 'relates'}},
         :headers => credentials('jsmith')
       )
     end
@@ -55,6 +55,27 @@ class Redmine::ApiTest::IssueRelationsTest < Redmine::ApiTest::Base
     assert_response :created
     assert_equal 'application/xml', @response.media_type
     assert_select 'relation id', :text => relation.id.to_s
+  end
+
+  test "POST /issues/:issue_id/relations.json with numeric issue to id should create the relation" do
+    assert_difference('IssueRelation.count') do
+      post(
+        '/issues/2/relations.json',
+        :params => {:relation => {:issue_to_id => 7, :relation_type => 'relates'}},
+        :headers => credentials('jsmith'),
+        :as => :json
+      )
+    end
+
+    relation = IssueRelation.order('id DESC').first
+    assert_equal 2, relation.issue_from_id
+    assert_equal 7, relation.issue_to_id
+    assert_equal 'relates', relation.relation_type
+
+    assert_response :created
+    assert_equal 'application/json', @response.media_type
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_equal relation.id, json['relation']['id']
   end
 
   test "POST /issues/:issue_id/relations.xml with failure should return errors" do
