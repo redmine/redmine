@@ -150,31 +150,4 @@ END_DESC
       end
     end
   end
-
-  desc 'Check parsing yaml by psych library on Ruby 1.9.'
-
-  # On Fedora 12 and 13, if libyaml-devel is available,
-  # in case of installing by rvm,
-  # Ruby 1.9 default yaml library is psych.
-
-  task :check_parsing_by_psych do
-    begin
-      require 'psych'
-      parser = Psych::Parser.new
-      dir = ENV['DIR'] || './config/locales'
-      files = Dir.glob(File.join(dir,'*.yml'))
-      files.sort.each do |filename|
-        next if File.directory? filename
-        puts "parsing #{filename}..."
-        begin
-          parser.parse File.open(filename)
-        rescue => e1
-          puts(e1.message)
-          puts("")
-        end
-      end
-    rescue => e
-      puts(e.message)
-    end
-  end
 end
