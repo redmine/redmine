@@ -456,6 +456,7 @@ class ApplicationHelperTest < Redmine::HelperTest
       'user:JSMITH'                 => link_to_user(User.find_by_id(2)),
       'user#2'                      => link_to_user(User.find_by_id(2)),
       '@jsmith'                     => link_to_user(User.find_by_id(2)),
+      '@jsmith.'                    => "#{link_to_user(User.find_by_id(2))}.",
       '@JSMITH'                     => link_to_user(User.find_by_id(2)),
       '@abcd@example.com'           => link_to_user(User.find_by_id(u_email_id)),
       'user:abcd@example.com'       => link_to_user(User.find_by_id(u_email_id)),
