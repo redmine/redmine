@@ -1283,7 +1283,7 @@ module ApplicationHelper
               )|
               (
               (?<sep4>@)
-              (?<identifier3>[A-Za-z0-9_\-@\.]*)
+              (?<identifier3>[A-Za-z0-9_\-@\.]*?)
               )
             )
             (?=
