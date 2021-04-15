@@ -180,14 +180,14 @@ module Redmine
           url = '#'
           options.reverse_merge!(:onclick => 'return false;')
         end
-        link_to(h(caption), url, options)
+        link_to(h(caption), use_absolute_controller(url), options)
       end
 
       def render_unattached_menu_item(menu_item, project)
         raise MenuError, ":child_menus must be an array of MenuItems" unless menu_item.is_a? MenuItem
 
         if menu_item.allowed?(User.current, project)
-          link_to(menu_item.caption, menu_item.url, menu_item.html_options)
+          link_to(menu_item.caption, use_absolute_controller(menu_item.url), menu_item.html_options)
         end
       end
 
@@ -231,6 +231,15 @@ module Redmine
         end
 
         node.allowed?(user, project)
+      end
+
+      # Prevent hash type URLs (e.g. {controller: 'foo', action: 'bar}) from being namespaced
+      # when menus are rendered from views in namespaced controllers in plugins or engines
+      def use_absolute_controller(url)
+        if url.is_a?(Hash) && url[:controller].present? && !url[:controller].start_with?('/')
+          url[:controller] = "/#{url[:controller]}"
+        end
+        url
       end
     end
 
