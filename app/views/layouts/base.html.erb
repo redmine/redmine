@@ -26,7 +26,7 @@
 
     <% if User.current.logged? || !Setting.login_required? %>
         <div class="flyout-menu__search">
-            <%= form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
+            <%= form_tag(search_path(id: @project), :method => :get ) do %>
             <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
             <%= label_tag 'flyout-search', '&#9906;'.html_safe, :class => 'search-magnifier search-magnifier--flyout' %>
             <%= text_field_tag 'q', @question, :id => 'flyout-search', :class => 'small js-search-input', :placeholder => l(:label_search) %>
@@ -74,11 +74,11 @@
 
     <% if User.current.logged? || !Setting.login_required? %>
     <div id="quick-search">
-        <%= form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
+        <%= form_tag(search_path(id: @project), :method => :get ) do %>
         <%= hidden_field_tag 'scope', default_search_project_scope, :id => nil %>
         <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
         <label for='q'>
-          <%= link_to l(:label_search), {:controller => 'search', :action => 'index', :id => @project, :scope => default_search_project_scope}, :accesskey => accesskey(:search) %>:
+          <%= link_to l(:label_search), search_path(id: @project, :scope => default_search_project_scope), :accesskey => accesskey(:search) %>:
         </label>
         <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search),
                             :data => {

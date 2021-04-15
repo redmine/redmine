@@ -83,7 +83,7 @@ Rails.application.routes.draw do
   match '/imports/:id/run', :to => 'imports#run', :via => [:get, :post], :as => 'import_run'
 
   match 'my/account', :controller => 'my', :action => 'account', :via => [:get, :put]
-  match 'my/account/destroy', :controller => 'my', :action => 'destroy', :via => [:get, :post]
+  match 'my/account/destroy', :controller => 'my', :action => 'destroy', :via => [:get, :post], :as => :delete_my_account
   match 'my/page', :controller => 'my', :action => 'page', :via => :get
   post 'my/page', :to => 'my#update_page'
   match 'my', :controller => 'my', :action => 'index', :via => :get # Redirects to my/page
@@ -349,8 +349,7 @@ Rails.application.routes.draw do
   resources :enumerations, :except => :show
   match 'enumerations/:type', :to => 'enumerations#index', :via => :get
 
-  get 'projects/:id/search', :controller => 'search', :action => 'index'
-  get 'search', :controller => 'search', :action => 'index'
+  get '(projects/:id)/search', :controller => 'search', :action => 'index', :as => 'search'
 
 
   get  'mail_handler', :to => 'mail_handler#new'
