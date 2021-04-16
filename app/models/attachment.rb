@@ -29,7 +29,8 @@ class Attachment < ActiveRecord::Base
   validates_length_of :filename, :maximum => 255
   validates_length_of :disk_filename, :maximum => 255
   validates_length_of :description, :maximum => 255
-  validate :validate_max_file_size, :validate_file_extension
+  validate :validate_max_file_size
+  validate :validate_file_extension, :if => :filename_changed?
 
   acts_as_event :title => :filename,
                 :url => Proc.new {|o| {:controller => 'attachments', :action => 'show', :id => o.id, :filename => o.filename}}
@@ -76,11 +77,9 @@ class Attachment < ActiveRecord::Base
   end
 
   def validate_file_extension
-    if @temp_file
-      extension = File.extname(filename)
-      unless self.class.valid_extension?(extension)
-        errors.add(:base, l(:error_attachment_extension_not_allowed, :extension => extension))
-      end
+    extension = File.extname(filename)
+    unless self.class.valid_extension?(extension)
+      errors.add(:base, l(:error_attachment_extension_not_allowed, :extension => extension))
     end
   end
 

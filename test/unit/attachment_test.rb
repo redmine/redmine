@@ -152,6 +152,19 @@ class AttachmentTest < ActiveSupport::TestCase
     end
   end
 
+  def test_extension_update_should_be_validated_against_denied_extensions
+    with_settings :attachment_extensions_denied => "txt, png" do
+      a = Attachment.new(:container => Issue.find(1),
+                         :file => mock_file_with_options(:original_filename => "test.jpeg"),
+                         :author => User.find(1))
+      assert_save a
+
+      b = Attachment.find(a.id)
+      b.filename = "test.png"
+      assert !b.save
+    end
+  end
+
   def test_valid_extension_should_be_case_insensitive
     with_settings :attachment_extensions_allowed => "txt, Png" do
       assert Attachment.valid_extension?(".pnG")
