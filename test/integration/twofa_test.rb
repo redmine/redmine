@@ -43,6 +43,19 @@ class TwofaTest < Redmine::IntegrationTest
     end
   end
 
+  test 'should allow logout even if twofa setup is required' do
+    with_settings twofa: '2' do
+      log_user('jsmith', 'jsmith')
+      follow_redirect!
+      assert_redirected_to '/my/twofa/totp/activate/confirm'
+      follow_redirect!
+      post '/logout'
+      assert_redirected_to '/'
+      follow_redirect!
+      assert_response :success
+    end
+  end
+
   test "should generate and accept backup codes" do
     log_user('jsmith', 'jsmith')
     get "/my/account"
