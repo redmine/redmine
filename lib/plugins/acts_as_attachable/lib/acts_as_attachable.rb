@@ -105,7 +105,7 @@ module Redmine
               end
               next unless a
               a.description = attachment['description'].to_s.strip
-              if a.new_record?
+              if a.new_record? || a.invalid?
                 unsaved_attachments << a
               else
                 saved_attachments << a
