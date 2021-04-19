@@ -394,6 +394,28 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     end
   end
 
+  test "GET /issues/:id.xml?include=allowed_statuses should include available statuses" do
+    issue = Issue.find(1)
+    assert_equal 1, issue.tracker_id  # Bug
+    issue.update(:status_id => 2)     # Assigned
+    member = Member.find_or_new(issue.project, User.find_by_login('dlopper'))
+    assert_equal [2], member.role_ids # Developer
+
+    get '/issues/1.xml?include=allowed_statuses', :headers => credentials('dlopper', 'foo')
+    assert_response :ok
+    assert_equal 'application/xml', response.media_type
+
+    allowed_statuses = [[1, 'New'], [2, 'Assigned'], [4, 'Feedback'], [5, 'Closed'], [6, 'Rejected']]
+    assert_select 'issue allowed_statuses[type=array]' do
+      assert_select 'status', allowed_statuses.length
+      assert_select('status').each_with_index do |status, idx|
+        id, name, = allowed_statuses[idx]
+        assert_equal id.to_s, status['id']
+        assert_equal name, status['name']
+      end
+    end
+  end
+
   test "GET /issues/:id.xml should contains total_estimated_hours and total_spent_hours" do
     parent = Issue.find(3)
     parent.update_columns :estimated_hours => 2.0

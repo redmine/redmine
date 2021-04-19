@@ -77,4 +77,10 @@ api.issue do
       api.user :id => user.id, :name => user.name
     end
   end if include_in_api_response?('watchers') && User.current.allowed_to?(:view_issue_watchers, @issue.project)
+
+  api.array :allowed_statuses do
+    @allowed_statuses.each do |status|
+      api.status :id => status.id, :name => status.name
+    end
+  end if include_in_api_response?('allowed_statuses')
 end

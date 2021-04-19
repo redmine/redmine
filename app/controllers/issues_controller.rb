@@ -112,6 +112,7 @@ class IssuesController < ApplicationController
         render :template => 'issues/show'
       end
       format.api do
+        @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
         @changesets = @issue.changesets.visible.preload(:repository, :user).to_a
         @changesets.reverse! if User.current.wants_comments_in_reverse_order?
       end
