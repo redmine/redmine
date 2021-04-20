@@ -9,7 +9,7 @@ gem "request_store", "1.0.5"
 gem "mini_mime", "~> 1.0.1"
 gem "actionpack-xml_parser"
 gem "roadie-rails", "~> 1.3.0"
-gem "mimemagic"
+gem 'marcel'
 gem "mail", "~> 2.7.1"
 gem "csv", "~> 3.0.1" if RUBY_VERSION >= "2.3" && RUBY_VERSION < "2.6"
 

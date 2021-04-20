@@ -16,7 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require 'fileutils'
-require 'mimemagic'
 
 module Redmine
   module Thumbnail
@@ -30,7 +29,7 @@ module Redmine
       return nil unless convert_available?
       unless File.exists?(target)
         # Make sure we only invoke Imagemagick if the file type is allowed
-        unless File.open(source) {|f| ALLOWED_TYPES.include? MimeMagic.by_magic(f).try(:type) }
+        unless File.open(source) {|f| ALLOWED_TYPES.include? Marcel::MimeType.for(f) }
           return nil
         end
         directory = File.dirname(target)
