@@ -803,6 +803,47 @@ class QueryTest < ActiveSupport::TestCase
     end
   end
 
+  def test_filter_notes
+    user = User.generate!
+    Journal.create!(:user_id => user.id, :journalized => Issue.find(2), :notes => 'Notes.')
+    Journal.create!(:user_id => user.id, :journalized => Issue.find(3), :notes => 'Notes.')
+
+    issue_journals = Issue.find(1).journals.sort
+    assert_equal ['Journal notes', 'Some notes with Redmine links: #2, r2.'], issue_journals.map(&:notes)
+    assert_equal [false, false], issue_journals.map(&:private_notes)
+
+    query = IssueQuery.new(:name => '_')
+    filter_name = 'notes'
+    assert_include filter_name, query.available_filters.keys
+
+    {
+      '~' => [1, 2, 3],
+      '!~' => Issue.ids.sort - [1, 2, 3],
+      '^' => [2, 3],
+      '$' => [1],
+    }.each do |operator, expected|
+      query.filters = {filter_name => {:operator => operator, :values => ['Notes']}}
+      assert_equal expected, find_issues_with_query(query).map(&:id).sort
+    end
+  end
+
+  def test_filter_notes_should_ignore_private_notes_that_are_not_visible
+    user = User.generate!
+    Journal.create!(:user_id => user.id, :journalized => Issue.find(2), :notes => 'Notes.', :private_notes => true)
+    Journal.create!(:user_id => user.id, :journalized => Issue.find(3), :notes => 'Notes.')
+
+    issue_journals = Issue.find(1).journals.sort
+    assert_equal ['Journal notes', 'Some notes with Redmine links: #2, r2.'], issue_journals.map(&:notes)
+    assert_equal [false, false], issue_journals.map(&:private_notes)
+
+    query = IssueQuery.new(:name => '_')
+    filter_name = 'notes'
+    assert_include filter_name, query.available_filters.keys
+
+    query.filters = {filter_name => {:operator => '~', :values => ['Notes']}}
+    assert_equal [1, 3], find_issues_with_query(query).map(&:id).sort
+  end
+
   def test_filter_updated_by
     user = User.generate!
     Journal.create!(:user_id => user.id, :journalized => Issue.find(2), :notes => 'Notes')

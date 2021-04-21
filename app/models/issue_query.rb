@@ -176,6 +176,7 @@ class IssueQuery < Query
     ) if project
     add_available_filter "subject", :type => :text
     add_available_filter "description", :type => :text
+    add_available_filter "notes", :type => :text
     add_available_filter "created_on", :type => :date_past
     add_available_filter "updated_on", :type => :date_past
     add_available_filter "closed_on", :type => :date_past
@@ -445,6 +446,14 @@ class IssueQuery < Query
       to_a
   rescue ::ActiveRecord::StatementInvalid => e
     raise StatementInvalid.new(e.message)
+  end
+
+  def sql_for_notes_field(field, operator, value)
+    subquery = "SELECT 1 FROM #{Journal.table_name}" +
+      " WHERE #{Journal.table_name}.journalized_type='Issue' AND #{Journal.table_name}.journalized_id=#{Issue.table_name}.id" +
+      " AND (#{sql_for_field field, operator.sub(/^!/, ''), value, Journal.table_name, 'notes'})" +
+      " AND (#{Journal.visible_notes_condition(User.current, :skip_pre_condition => true)})"
+    "#{/^!/.match?(operator) ? "NOT EXISTS" : "EXISTS"} (#{subquery})"
   end
 
   def sql_for_updated_by_field(field, operator, value)
