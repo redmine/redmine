@@ -1005,6 +1005,16 @@ class MailHandlerTest < ActiveSupport::TestCase
     end
   end
 
+  def test_reply_to_a_issue_without_permission
+    set_tmp_attachments_directory
+    Role.all.each {|r| r.remove_permission! :add_issue_notes, :edit_issues}
+    assert_no_difference 'Issue.count' do
+      assert_no_difference 'Journal.count' do
+        assert_not submit_email('ticket_reply_with_status.eml')
+      end
+    end
+  end
+
   def test_reply_to_a_nonexitent_journal
     journal_id = Issue.find(2).journals.last.id
     Journal.destroy(journal_id)
@@ -1053,6 +1063,13 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_no_difference('Message.count') do
       m = submit_email('message_reply_by_subject.eml')
       assert_nil m
+    end
+  end
+
+  def test_reply_to_a_topic_without_permission
+    Role.all.each {|r| r.remove_permission! :add_messages}
+    assert_no_difference('Message.count') do
+      assert_not submit_email('message_reply_by_subject.eml')
     end
   end
 
