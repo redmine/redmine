@@ -420,6 +420,18 @@ module Redmine
           nil
         end
 
+        def valid_name?(name)
+          return false unless name.is_a?(String)
+
+          return false if name.start_with?('-', '/', 'refs/heads/', 'refs/remotes/')
+          return false if name == 'HEAD'
+
+          git_cmd ['show-ref', '--heads', '--tags', '--quiet', '--', name]
+          true
+        rescue ScmCommandAborted
+          false
+        end
+
         class Revision < Redmine::Scm::Adapters::Revision
           # Returns the readable identifier
           def format_identifier
