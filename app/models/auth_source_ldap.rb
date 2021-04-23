@@ -247,7 +247,7 @@ class AuthSourceLdap < AuthSource
     def get_attr(entry, attr_name)
       if !attr_name.blank?
         value = entry[attr_name].is_a?(Array) ? entry[attr_name].first : entry[attr_name]
-        value.to_s.force_encoding('UTF-8')
+        (+value.to_s).force_encoding('UTF-8')
       end
     end
   end
