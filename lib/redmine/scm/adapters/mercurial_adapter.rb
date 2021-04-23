@@ -281,6 +281,15 @@ module Redmine
           Annotate.new
         end
 
+        def valid_name?(name)
+          return false unless name.nil? || name.is_a?(String)
+
+          # Mercurials names don't need to be checked further as its CLI
+          # interface is restrictive enough to reject any invalid names on its
+          # own.
+          true
+        end
+
         class Revision < Redmine::Scm::Adapters::Revision
           # Returns the readable identifier
           def format_identifier

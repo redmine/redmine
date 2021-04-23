@@ -459,6 +459,10 @@ class Repository < ActiveRecord::Base
     scope
   end
 
+  def valid_name?(name)
+    scm.valid_name?(name)
+  end
+
   protected
 
   # Validates repository url based against an optional regular expression

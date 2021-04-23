@@ -176,7 +176,16 @@ module Redmine
           (path[-1,1] == "/") ? path[0..-2] : path
         end
 
-      private
+        def valid_name?(name)
+          return true if name.nil?
+          return true if name.is_a?(Integer) && name > 0
+          return true if name.is_a?(String) && name =~ /\A[0-9]*\z/
+
+          false
+        end
+
+        private
+
         def retrieve_root_url
           info = self.info
           info ? info.root_url : nil
