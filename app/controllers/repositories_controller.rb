@@ -330,7 +330,7 @@ class RepositoriesController < ApplicationController
     render_404
   end
 
-  REV_PARAM_RE = %r{\A[a-f0-9]*\Z}i
+  REV_PARAM_RE = %r{\A[a-f0-9]*\z}i
 
   def find_project_repository
     @project = Project.find(params[:id])
@@ -341,14 +341,12 @@ class RepositoriesController < ApplicationController
     end
     (render_404; return false) unless @repository
     @path = params[:path].is_a?(Array) ? params[:path].join('/') : params[:path].to_s
-    @rev = params[:rev].blank? ? @repository.default_branch : params[:rev].to_s.strip
-    @rev_to = params[:rev_to]
 
-    unless REV_PARAM_RE.match?(@rev.to_s) && REV_PARAM_RE.match?(@rev_to.to_s)
-      if @repository.branches.blank?
-        raise InvalidRevisionParam
-      end
-    end
+    @rev = params[:rev].to_s.strip.presence || @repository.default_branch
+    raise InvalidRevisionParam unless valid_name?(@rev)
+
+    @rev_to = params[:rev_to].to_s.strip.presence
+    raise InvalidRevisionParam unless valid_name?(@rev_to)
   rescue ActiveRecord::RecordNotFound
     render_404
   rescue InvalidRevisionParam
@@ -432,5 +430,12 @@ class RepositoriesController < ApplicationController
     else
       'attachment'
     end
+  end
+
+  def valid_name?(rev)
+    return true if rev.nil?
+    return true if REV_PARAM_RE.match?(rev)
+
+    @repository ? @repository.valid_name?(rev) : true
   end
 end
