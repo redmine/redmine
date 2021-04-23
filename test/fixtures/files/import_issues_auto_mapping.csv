@@ -1,2 +1,2 @@
-priority;Subject;start_date;parent;private;progress;custom;"target version";category;user;estimated_hours;tracker;status;database;cf_6;
-High;First;2015-07-08;;no;;PostgreSQL;;New category;dlopper;1;bug;new;"PostgreSQL, Oracle";2;"Column with empty header"
+priority;Subject;start_date;parent;private;progress;custom;"target version";category;user;estimated_hours;tracker;status;database;cf_6;unique_id;"Is duplicate of"
+High;First;2015-07-08;;no;;PostgreSQL;;New category;dlopper;1;bug;new;"PostgreSQL, Oracle";2;1;4;"Column with empty header"

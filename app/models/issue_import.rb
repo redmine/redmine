@@ -32,7 +32,17 @@ class IssueImport < Import
     'start_date' => 'field_start_date',
     'due_date' => 'field_due_date',
     'estimated_hours' => 'field_estimated_hours',
-    'done_ratio' => 'field_done_ratio'
+    'done_ratio' => 'field_done_ratio',
+    'unique_id' => 'field_unique_id',
+    'relation_duplicates' => 'label_duplicates',
+    'relation_duplicated' => 'label_duplicated_by',
+    'relation_blocks' => 'label_blocks',
+    'relation_blocked' => 'label_blocked_by',
+    'relation_relates' => 'label_relates_to',
+    'relation_precedes' => 'label_precedes',
+    'relation_follows' =>  'label_follows',
+    'relation_copied_to' => 'label_copied_to',
+    'relation_copied_from' => 'label_copied_from'
   }
 
   def self.menu_item
