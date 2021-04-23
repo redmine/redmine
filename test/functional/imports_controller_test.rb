@@ -244,6 +244,18 @@ class ImportsControllerTest < Redmine::ControllerTest
     assert_select 'select[name=?]', 'import_settings[mapping][cf_1]' do
       assert_select 'option[value="13"][selected="selected"]', :text => 'database'
     end
+
+    # 'unique_id' should be auto selected because
+    # - 'unique_id' exists in the import file
+    assert_select 'select[name=?]', 'import_settings[mapping][unique_id]' do
+      assert_select 'option[value="15"][selected="selected"]', :text => 'unique_id'
+    end
+
+    # 'relation_duplicates' should be auto selected because
+    # - 'Is duplicate of' exists in the import file
+    assert_select 'select[name=?]', 'import_settings[mapping][relation_duplicates]' do
+      assert_select 'option[value="16"][selected="selected"]', :text => 'Is duplicate of'
+    end
   end
 
   def test_post_mapping_should_update_mapping
