@@ -231,8 +231,7 @@ class MailHandler < ActionMailer::Base
     return unless issue
     # check permission
     unless handler_options[:no_permission_check]
-      unless user.allowed_to?(:add_issue_notes, issue.project) ||
-               user.allowed_to?(:edit_issues, issue.project)
+      unless issue.notes_addable?
         raise UnauthorizedAction
       end
     end
