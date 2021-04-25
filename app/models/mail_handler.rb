@@ -225,8 +225,7 @@ class MailHandler < ActionMailer::Base
 
     # check permission
     unless handler_options[:no_permission_check]
-      unless user.allowed_to?(:add_issue_notes, issue.project) ||
-               user.allowed_to?(:edit_issues, issue.project)
+      unless issue.notes_addable?
         raise UnauthorizedAction, "not allowed to add notes on issues to project [#{issue.project.name}]"
       end
     end
