@@ -4,6 +4,27 @@ Redmine - project management software
 Copyright (C) 2006-2021  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2021-04-26 v4.0.9
+
+=== [Gems support]
+
+* Patch #34969: Remove dependency on MimeMagic
+
+=== [Rails support]
+
+* Patch #34966: Update Rails to 5.2.5
+
+=== [Security]
+
+* Defect #34367: Allowed filename extensions of attachments can be circumvented
+* Defect #34950: SysController and MailHandlerController are vulnerable to timing attack
+* Defect #35045: Mail handler bypasses add_issue_notes permission
+* Defect #35085: Arbitrary file read in Git adapter
+
+=== [UI]
+
+* Patch #34955: Update copyright year in the footer to 2021
+
 == 2021-03-21 v4.0.8
 
 === [Accounts / authentication]
