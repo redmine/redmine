@@ -4,6 +4,73 @@ Redmine - project management software
 Copyright (C) 2006-2021  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2021-04-26 v4.2.1
+
+=== [Accounts / authentication]
+
+* Defect #35087: Users without two-factor authentication enabled cannot sign out when two-factor authentication is required
+* Defect #35135: FrozenError when new LDAP users try to login
+
+=== [Activity view]
+
+* Defect #34933: Atom feed of the activity page does not contain items after the second page
+
+=== [Attachments]
+
+* Defect #34999: The result of Attachment.latest_attach is unstable if attachments have the same timestamp
+
+=== [Custom fields]
+
+* Defect #35115: Time entries are broken if grouped by project and issue custom fields
+
+=== [Email receiving]
+
+* Defect #35100: MailHandler raises NameError exception when generating error message
+
+=== [Gems support]
+
+* Patch #34969: Remove dependency on MimeMagic
+
+=== [Importers]
+
+* Defect #35131: Issue import - allow auto mapping for Unique ID and relation type fields
+
+=== [Issues]
+
+* Defect #34921: Do not journalize attachments that are added during a "Copy Issue" operation
+* Defect #34982: Cannot change the default version and default assignee under settings
+
+=== [Performance]
+
+* Patch #35034: Improve loading speed of workflow page
+
+=== [Rails support]
+
+* Patch #34966: Update Rails to 5.2.5
+
+=== [REST API]
+
+* Defect #35039: API create issue relation method returns undefined method `split' when issue id is sent as integer
+
+=== [Roadmap]
+
+* Defect #34983: Roadmap tab is missing if there are only inherited from parent project versions
+
+=== [Security]
+
+* Defect #34367: Allowed filename extensions of attachments can be circumvented
+* Defect #34950: SysController and MailHandlerController are vulnerable to timing attack
+* Defect #35045: Mail handler bypasses add_issue_notes permission
+* Defect #35085: Arbitrary file read in Git adapter
+
+=== [Text formatting]
+
+* Defect #34894: User link using @ not working at the end of line
+=== [UI]
+
+* Patch #34955: Update copyright year in the footer to 2021
+* Defect #34998: Cannot open journal dropdown menu after editing note
+
 == 2021-03-28 v4.2.0
 
 === [Accounts / authentication]
