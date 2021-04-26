@@ -4,6 +4,47 @@ Redmine - project management software
 Copyright (C) 2006-2021  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2021-04-26 v4.1.3
+
+=== [Activity view]
+
+* Defect #34933: Atom feed of the activity page does not contain items after the second page
+
+=== [Email receiving]
+
+* Defect #35100: MailHandler raises NameError exception when generating error message
+
+=== [Gems support]
+
+* Patch #34969: Remove dependency on MimeMagic
+
+=== [Issues]
+
+* Defect #34921: Do not journalize attachments that are added during a "Copy Issue" operation
+
+=== [Performance]
+
+* Patch #35034: Improve loading speed of workflow page
+
+=== [Rails support]
+
+* Patch #34966: Update Rails to 5.2.5
+
+=== [Security]
+
+* Defect #34367: Allowed filename extensions of attachments can be circumvented
+* Defect #34950: SysController and MailHandlerController are vulnerable to timing attack
+* Defect #35045: Mail handler bypasses add_issue_notes permission
+* Defect #35085: Arbitrary file read in Git adapter
+
+=== [Text formatting]
+
+* Defect #34894: User link using @ not working at the end of line
+
+=== [UI]
+
+* Patch #34955: Update copyright year in the footer to 2021
+
 == 2021-03-21 v4.1.2
 
 === [Accounts / authentication]
