@@ -27,10 +27,6 @@ https://www.redmine.org/
 
 * Defect #35100: MailHandler raises NameError exception when generating error message
 
-=== [Gems support]
-
-* Patch #34969: Remove dependency on MimeMagic
-
 === [Importers]
 
 * Defect #35131: Issue import - allow auto mapping for Unique ID and relation type fields
@@ -44,10 +40,6 @@ https://www.redmine.org/
 
 * Patch #35034: Improve loading speed of workflow page
 
-=== [Rails support]
-
-* Patch #34966: Update Rails to 5.2.5
-
 === [REST API]
 
 * Defect #35039: API create issue relation method returns undefined method `split' when issue id is sent as integer
@@ -59,16 +51,15 @@ https://www.redmine.org/
 === [Security]
 
 * Defect #34367: Allowed filename extensions of attachments can be circumvented
-* Defect #34950: SysController and MailHandlerController are vulnerable to timing attack
 * Defect #35045: Mail handler bypasses add_issue_notes permission
 * Defect #35085: Arbitrary file read in Git adapter
 
 === [Text formatting]
 
 * Defect #34894: User link using @ not working at the end of line
+
 === [UI]
 
-* Patch #34955: Update copyright year in the footer to 2021
 * Defect #34998: Cannot open journal dropdown menu after editing note
 
 == 2021-03-28 v4.2.0
