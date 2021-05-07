@@ -1451,6 +1451,19 @@ class QueryTest < ActiveSupport::TestCase
     end
   end
 
+  def test_available_filters_as_json_should_not_include_duplicate_assigned_to_id_values
+    set_language_if_valid 'en'
+    user = User.find_by_login 'dlopper'
+    with_current_user User.find(1) do
+      q = IssueQuery.new
+      q.filters = {"assigned_to_id" => {:operator => '=', :values => user.id.to_s}}
+
+      filters = q.available_filters_as_json
+      assert_not_include [user.name, user.id.to_s], filters['assigned_to_id']['values']
+      assert_include [user.name, user.id.to_s, 'active'], filters['assigned_to_id']['values']
+    end
+  end
+
   def test_available_filters_as_json_should_include_missing_author_id_values
     user = User.generate!
     with_current_user User.find(1) do
