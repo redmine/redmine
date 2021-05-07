@@ -94,7 +94,7 @@ group :test do
   # RuboCop
   gem 'rubocop', '~> 1.14.0'
   gem 'rubocop-performance', '~> 1.11.0'
-  gem 'rubocop-rails', '~> 2.9.0'
+  gem 'rubocop-rails', '~> 2.10.1'
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), "Gemfile.local")
