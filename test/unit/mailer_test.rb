@@ -386,11 +386,10 @@ class MailerTest < ActiveSupport::TestCase
     issue = Issue.find(3)
     user = User.find(1)
     %w(UTC Paris Tokyo).each do |zone|
-      Time.zone = zone
-      assert_match /^redmine\.issue-3\.20060719190727\.1@example\.net/, Mailer.token_for(issue, user)
+      Time.use_zone(zone) do
+        assert_match /^redmine\.issue-3\.20060719190727\.1@example\.net/, Mailer.token_for(issue, user)
+      end
     end
-  ensure
-    Time.zone = zone_was
   end
 
   test "#issue_add should notify project members" do
