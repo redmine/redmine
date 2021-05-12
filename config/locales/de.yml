@@ -1306,23 +1306,23 @@ de:
   label_import_time_entries: Zeitbuchungen importieren
   field_toolbar_language_options: Sprachen für Code-Hervorhebung, Editor-Symbolleiste
   label_assign_to_me: Mir zuweisen
-  notice_issue_not_closable_by_open_tasks: This issue cannot be closed because it has
-    at least one open subtask.
-  notice_issue_not_closable_by_blocking_issue: This issue cannot be closed because it
-    is blocked by at least one open issue.
-  notice_issue_not_reopenable_by_closed_parent_issue: This issue cannot be reopened
-    because its parent issue is closed.
-  error_bulk_download_size_too_big: These attachments cannot be bulk downloaded because
-    the total file size exceeds the maximum allowed size (%{max_size})
-  setting_bulk_download_max_size: Maximum total size for bulk download
-  label_download_all_attachments: Download all files
-  error_attachments_too_many: This file cannot be uploaded because it exceeds the maximum
-    number of files that can be attached simultaneously (%{max_number_of_files})
-  setting_email_domains_allowed: Allowed email domains
-  setting_email_domains_denied: Disallowed email domains
-  field_passwd_changed_on: Password last changed
-  label_import_users: Import users
-  label_days_to_html: "%{days} days up to %{date}"
+  notice_issue_not_closable_by_open_tasks: Dieses Ticket kann nicht geschlossen werden da
+    mindest ein untergeordnetes Ticket noch geöffnet ist.
+  notice_issue_not_closable_by_blocking_issue: Dieses Ticket kann nicht geschlossen werden
+    da es noch von mindestens einem geöffneten Ticket blockiert wird.
+  notice_issue_not_reopenable_by_closed_parent_issue: Dieses Ticket kann nicht wiedereröffnet werden
+    da das übergeordnete Ticket bereits geschlossen wurde.
+  error_bulk_download_size_too_big: Das Herunterladen dieser Anhänge in aggregierter Form ist nicht möglich,
+    da die Dateigröße des aggregierten Downloads die erlaubte Maximalgröße (%{max_size}) überschreitet.
+  setting_bulk_download_max_size: Maximalgröße für den aggregierten Download von Anhängen
+  label_download_all_attachments: Alle Dateien heruterladen
+  error_attachments_too_many: Diese Datei kann nicht hochgeladen werden, da die maximale Anzahl (%{max_number_of_files}) an Dateien,
+    die gleichzeitig angehängt werden können, überschritten wurde.
+  setting_email_domains_allowed: Erlaubte E-Mail Domains
+  setting_email_domains_denied: Gesperrte E-Mail Domains
+  field_passwd_changed_on: Passwort zuletzt geändert
+  label_import_users: Benutzer importieren
+  label_days_to_html: "%{days} Tage bis %{date}"
   setting_twofa: Zwei-Faktor-Authentifizierung
   twofa__totp__name: Authentifizierungs-App
   twofa__totp__text_pairing_info_html: 'Bitte scannen Sie diesen QR-Code oder verwenden Sie den Klartext-Schlüssel in einer TOTP-kompatiblen Authentifizierungs-App (z.B. <a href="https://support.google.com/accounts/answer/1066447?hl=de">Google Authenticator</a>, <a href="https://authy.com/download/">Authy</a>, <a href="https://guide.duo.com/third-party-accounts">Duo Mobile</a>). Anschließend geben Sie bitte den in der App generierten Code unten ein.'
@@ -1357,29 +1357,28 @@ de:
   twofa_text_backup_codes_created_at: Backup-Codes generiert am %{datetime}.
   twofa_backup_codes_already_shown: Aus Sicherheitsgründen können Backup-Codes nicht erneut angezeigt werden. Bitte <a data-method="post" href="%{bc_path}">generieren Sie neue Codes</a> falls nötig.
   label_optional: optional
-  error_can_not_execute_macro_html: Error executing the <strong>%{name}</strong> macro
+  error_can_not_execute_macro_html: Fehler bei der Ausführung des Makros <strong>%{name}</strong>
     (%{error})
-  error_macro_does_not_accept_block: This macro does not accept a block of text
-  error_childpages_macro_no_argument: With no argument, this macro can be called from
-    wiki pages only
-  error_circular_inclusion: Circular inclusion detected
-  error_page_not_found: Page not found
-  error_filename_required: Filename required
-  error_invalid_size_parameter: Invalid size parameter
-  error_attachment_not_found: Attachment %{name} not found
-  field_twofa_scheme: Two-factor authentication scheme
+  error_macro_does_not_accept_block: Dieses Makro akzeptiert keinen Textblock
+  error_childpages_macro_no_argument: Ohne Angabe eines Arguments kann dieses Makro nur von Wikiseiten aus augerufen werden
+  error_circular_inclusion: Zirkuläre Einbindung erkannt
+  error_page_not_found: Seite nicht gefunden
+  error_filename_required: Dateiname benötigt
+  error_invalid_size_parameter: Ungültige Größenangabe
+  error_attachment_not_found: Anhang %{name} nicht gefunden
+  field_twofa_scheme: Zwei-Faktor-Authentifizierungsschema
 
   text_user_destroy_confirmation: "Wollen Sie diesen Benutzer inklusive aller Referenzen darauf wirklich löschen? Dies kann nicht rückgängig gemacht werden. Oftmals ist es besser, einen Benutzer lediglich zu sperren. Geben Sie bitte zur Bestätigung den Login des Benutzers (%{login}) ein."
   text_project_destroy_enter_identifier: "Zur Bestätigung bitte die Projektkennung (%{identifier}) eingeben."
-  button_add_subtask: Add subtask
-  notice_invalid_watcher: 'Invalid watcher: User will not receive any notifications
-    because it does not have access to view this object.'
-  button_fetch_changesets: Fetch commits
-  permission_view_message_watchers: View message watchers list
-  permission_add_message_watchers: Add message watchers
-  permission_delete_message_watchers: Delete message watchers
-  label_message_watchers: Watchers
-  button_copy_link: Copy link
-  error_invalid_authenticity_token: Invalid form authenticity token.
-  error_query_statement_invalid: An error occurred while executing the query and has
-    been logged. Please report this error to your Redmine administrator.
+  button_add_subtask: Untergeordnetes Ticket hinzufügen
+  notice_invalid_watcher: 'Ungültiger Beobachter: Benutzer wird keine Benachrichtigungen erhalten,
+    da er über keine Leseberechtigung für dieses Objekt verfügt.'
+  button_fetch_changesets: Changesets abrufen
+  permission_view_message_watchers: Beobachterliste einsehen
+  permission_add_message_watchers: Beobachter hinzufügen
+  permission_delete_message_watchers: Beobachter löschen
+  label_message_watchers: Beobachter
+  button_copy_link: Link kopieren
+  error_invalid_authenticity_token: Ungültiges Authentizitätstoken für Formular.
+  error_query_statement_invalid: Während der Ausführung einer Abfrage ist ein Fehler aufgetreten, dieser wurde
+    protokolliert. Bitte melden Sie diesen Fehler an ihren Redmine-Administrator.
