@@ -213,3 +213,17 @@ module ActionView
     end
   end
 end
+
+# https://github.com/rack/rack/pull/1703
+# TODO: remove this when Rack is updated to 3.0.0
+require 'rack'
+module Rack
+  class RewindableInput
+    unless method_defined?(:size)
+      def size
+        make_rewindable unless @rewindable_io
+        @rewindable_io.size
+      end
+    end
+  end
+end
