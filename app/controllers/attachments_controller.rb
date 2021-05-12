@@ -105,7 +105,7 @@ class AttachmentsController < ApplicationController
       return
     end
 
-    @attachment = Attachment.new(:file => request.raw_post)
+    @attachment = Attachment.new(:file => request.body)
     @attachment.author = User.current
     @attachment.filename = params[:filename].presence || Redmine::Utils.random_hex(16)
     @attachment.content_type = params[:content_type].presence
