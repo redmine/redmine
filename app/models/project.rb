@@ -557,14 +557,6 @@ class Project < ActiveRecord::Base
     end
   end
 
-  # TODO: Remove this method in Redmine 5.0
-  def members_by_role
-    ActiveSupport::Deprecation.warn(
-      "Project#members_by_role will be removed. Use Project#principals_by_role instead."
-    )
-    principals_by_role
-  end
-
   # Adds user as a project member with the default role
   # Used for when a non-admin user creates a project
   def add_default_member(user)
