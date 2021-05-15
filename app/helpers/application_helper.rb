@@ -976,7 +976,7 @@ module ApplicationHelper
           wiki_page = link_project.wiki.find_page(page)
           url =
             if anchor.present? && wiki_page.present? &&
-                 (obj.is_a?(WikiContent) || obj.is_a?(WikiContent::Version)) &&
+                 (obj.is_a?(WikiContent) || obj.is_a?(WikiContentVersion)) &&
                  obj.page == wiki_page
               "##{anchor}"
             else
@@ -1330,7 +1330,7 @@ module ApplicationHelper
       anchor = sanitize_anchor_name(item)
       # used for single-file wiki export
       if options[:wiki_links] == :anchor && (obj.is_a?(WikiContent) ||
-           obj.is_a?(WikiContent::Version))
+           obj.is_a?(WikiContentVersion))
         anchor = "#{obj.page.title}_#{anchor}"
       end
       @heading_anchors[anchor] ||= 0

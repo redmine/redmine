@@ -425,7 +425,7 @@ class UserTest < ActiveSupport::TestCase
                                                       :start_page => 'Start'))
     )
     wiki_content.text = 'bar'
-    assert_difference 'WikiContent::Version.count' do
+    assert_difference 'WikiContentVersion.count' do
       wiki_content.save!
     end
 

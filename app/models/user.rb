@@ -948,7 +948,7 @@ class User < Principal
     Token.where('user_id = ?', id).delete_all
     Watcher.where('user_id = ?', id).delete_all
     WikiContent.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
-    WikiContent::Version.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
+    WikiContentVersion.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
   end
 
   # Singleton class method is public
