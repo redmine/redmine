@@ -764,7 +764,7 @@ module ApplicationHelper
 
   # Sets the html title
   # Returns the html title when called without arguments
-  # Current project name and app_title and automatically appended
+  # Current project name and app_title are automatically appended
   # Exemples:
   #   html_title 'Foo', 'Bar'
   #   html_title # => 'Foo - Bar - My Project - Redmine'
