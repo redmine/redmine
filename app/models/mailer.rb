@@ -74,8 +74,8 @@ class Mailer < ActionMailer::Base
     redmine_headers 'Project' => issue.project.identifier,
                     'Issue-Tracker' => issue.tracker.name,
                     'Issue-Id' => issue.id,
-                    'Issue-Author' => issue.author.login
-    redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
+                    'Issue-Author' => issue.author.login,
+                    'Issue-Assignee' => assignee_for_header(issue)
     message_id issue
     references issue
     @author = issue.author
@@ -106,8 +106,8 @@ class Mailer < ActionMailer::Base
     redmine_headers 'Project' => issue.project.identifier,
                     'Issue-Tracker' => issue.tracker.name,
                     'Issue-Id' => issue.id,
-                    'Issue-Author' => issue.author.login
-    redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
+                    'Issue-Author' => issue.author.login,
+                    'Issue-Assignee' => assignee_for_header(issue)
     message_id journal
     references issue
     @author = journal.user
@@ -760,7 +760,16 @@ class Mailer < ActionMailer::Base
 
   # Appends a Redmine header field (name is prepended with 'X-Redmine-')
   def redmine_headers(h)
-    h.each {|k, v| headers["X-Redmine-#{k}"] = v.to_s}
+    h.compact.each {|k, v| headers["X-Redmine-#{k}"] = v.to_s}
+  end
+
+  def assignee_for_header(issue)
+    case issue.assigned_to
+    when User
+      issue.assigned_to.login
+    when Group
+      "Group (#{issue.assigned_to.name})"
+    end
   end
 
   # Singleton class method is public
