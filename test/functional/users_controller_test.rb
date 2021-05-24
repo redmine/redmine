@@ -590,6 +590,24 @@ class UsersControllerTest < Redmine::ControllerTest
     assert_mail_body_match 'newpass123', mail
   end
 
+  def test_update_with_password_change_by_admin_should_send_a_security_notification
+    with_settings :bcc_recipients => '0' do
+      ActionMailer::Base.deliveries.clear
+      user = User.find_by(login: 'jsmith')
+
+      put :update, :params => {
+        :id => user.id,
+        :user => {:password => 'newpass123', :password_confirmation => 'newpass123'}
+      }
+
+      assert_equal 1, ActionMailer::Base.deliveries.size
+      mail = ActionMailer::Base.deliveries.last
+      assert_equal [user.mail], mail.to
+      assert_match 'Security notification', mail.subject
+      assert_mail_body_match 'Your password has been changed.', mail
+    end
+  end
+
   def test_update_with_generate_password_should_email_the_password
     ActionMailer::Base.deliveries.clear
     with_settings :bcc_recipients => '1' do
