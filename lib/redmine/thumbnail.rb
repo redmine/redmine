@@ -24,7 +24,11 @@ module Redmine
     extend Redmine::Utils::Shell
 
     CONVERT_BIN = (Redmine::Configuration['imagemagick_convert_command'] || 'convert').freeze
-    GS_BIN = (Redmine::Configuration['gs_command'] || 'gs').freeze
+    GS_BIN = (
+      Redmine::Configuration['gs_command'] ||
+      ('gswin64c' if Redmine::Platform.mswin?) ||
+      'gs'
+    ).freeze
     ALLOWED_TYPES = %w(image/bmp image/gif image/jpeg image/png application/pdf)
 
     # Generates a thumbnail for the source image to target
@@ -73,15 +77,11 @@ module Redmine
     def self.gs_available?
       return @gs_available if defined?(@gs_available)
 
-      if Redmine::Platform.mswin?
+      begin
+        `#{shell_quote GS_BIN} -version`
+        @gs_available = $?.success?
+      rescue
         @gs_available = false
-      else
-        begin
-          `#{shell_quote GS_BIN} -version`
-          @gs_available = $?.success?
-        rescue
-          @gs_available = false
-        end
       end
       logger.warn("gs binary (#{GS_BIN}) not available") unless @gs_available
       @gs_available
