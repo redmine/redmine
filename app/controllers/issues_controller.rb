@@ -29,6 +29,7 @@ class IssuesController < ApplicationController
   accept_api_auth :index, :show, :create, :update, :destroy
 
   rescue_from Query::StatementInvalid, :with => :query_statement_invalid
+  rescue_from Query::QueryError, :with => :query_error
 
   helper :journals
   helper :projects
@@ -469,6 +470,11 @@ class IssuesController < ApplicationController
   end
 
   private
+
+  def query_error(exception)
+    session.delete(:issue_query)
+    super
+  end
 
   def retrieve_previous_and_next_issue_ids
     if params[:prev_issue_id].present? || params[:next_issue_id].present?

@@ -725,6 +725,13 @@ class ApplicationController < ActionController::Base
     render_error l(:error_query_statement_invalid)
   end
 
+  def query_error(exception)
+    Rails.logger.debug "#{exception.class.name}: #{exception.message}"
+    Rails.logger.debug "    #{exception.backtrace.join("\n    ")}"
+
+    render_404
+  end
+
   # Renders a 204 response for successful updates or deletions via the API
   def render_api_ok
     render_api_head :no_content

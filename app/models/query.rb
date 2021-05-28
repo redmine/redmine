@@ -239,6 +239,9 @@ class Query < ActiveRecord::Base
   class StatementInvalid < ::ActiveRecord::StatementInvalid
   end
 
+  class QueryError < StandardError
+  end
+
   include Redmine::SubclassFactory
 
   VISIBILITY_PRIVATE = 0
@@ -1143,7 +1146,7 @@ class Query < ActiveRecord::Base
       assoc = $1
       customized_key = "#{assoc}_id"
       customized_class = queried_class.reflect_on_association(assoc.to_sym).klass.base_class rescue nil
-      raise "Unknown #{queried_class.name} association #{assoc}" unless customized_class
+      raise QueryError, "Unknown #{queried_class.name} association #{assoc}" unless customized_class
     end
     where = sql_for_field(field, operator, value, db_table, db_field, true)
     if /[<>]/.match?(operator)
@@ -1420,7 +1423,7 @@ class Query < ActiveRecord::Base
     when "$"
       sql = sql_contains("#{db_table}.#{db_field}", value.first, :ends_with => true)
     else
-      raise "Unknown query operator #{operator}"
+      raise QueryError, "Unknown query operator #{operator}"
     end
 
     return sql
