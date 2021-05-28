@@ -1375,7 +1375,7 @@ ja:
   button_fetch_changesets: コミットを取得
   permission_view_message_watchers: メッセージのウォッチャー一覧の閲覧
   permission_add_message_watchers: メッセージのウォッチャーの追加
-  permission_delete_message_watchers: メッセージのウォッチャーの追加
+  permission_delete_message_watchers: メッセージのウォッチャーの削除
   label_message_watchers: ウォッチャー
   button_copy_link: リンクをコピー
   error_invalid_authenticity_token: Invalid form authenticity token.
