@@ -27,7 +27,7 @@ class RepositoriesSubversionControllerTest < Redmine::RepositoryControllerTest
            :issue_categories, :enumerations, :custom_fields, :custom_values, :trackers
 
   PRJ_ID = 3
-  NUM_REV = 12
+  NUM_REV = 13
 
   def setup
     super
@@ -204,7 +204,8 @@ class RepositoriesSubversionControllerTest < Redmine::RepositoryControllerTest
       )
       assert_response :success
       assert_select 'table.changesets tbody' do
-        assert_select 'tr', 7
+        assert_select 'tr', 8
+        assert_select 'tr td.id a', :text => '13'
         assert_select 'tr td.id a', :text => '12'
         assert_select 'tr td.id a', :text => '10'
         assert_select 'tr td.id a', :text => '9'
@@ -278,6 +279,32 @@ class RepositoriesSubversionControllerTest < Redmine::RepositoryControllerTest
       )
       assert_response :success
       assert_select 'audio[src=?]', "/projects/subproject1/repository/#{@repository.id}/raw/subversion_test/folder/subfolder/chords.mp3"
+    end
+
+    def text_entry_should_preview_markdown
+      get(
+        :entry,
+        :params => {
+          :id => PRJ_ID,
+          :repository_id => @repository.id,
+          :path => repository_path_hash(['subversion_test', 'folder', 'subfolder', 'testfile.md'])[:param]
+        }
+      )
+      assert_response :success
+      assert_select 'div.wiki', :html => "<h1>Header 1</h1>\n\n<h2>Header 2</h2>\n\n<h3>Header 3</h3>"
+    end
+
+    def text_entry_should_preview_textile
+      get(
+        :entry,
+        :params => {
+          :id => PRJ_ID,
+          :repository_id => @repository.id,
+          :path => repository_path_hash(['subversion_test', 'folder', 'subfolder', 'testfile.textile'])[:param]
+        }
+      )
+      assert_response :success
+      assert_select 'div.wiki', :html => "<h1>Header 1</h1>\n\n\n\t<h2>Header 2</h2>\n\n\n\t<h3>Header 3</h3>"
     end
 
     def test_entry_at_given_revision
