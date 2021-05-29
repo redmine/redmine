@@ -53,6 +53,18 @@ class NewsControllerTest < Redmine::ControllerTest
     assert_response 403
   end
 
+  def test_index_without_manage_news_permission_should_not_display_add_news_link
+    user = User.find(2)
+    @request.session[:user_id] = user.id
+    Role.all.each {|r| r.remove_permission! :manage_news}
+    get :index
+    assert_select '.add-news-link', count: 0
+
+    user.members.first.roles.first.add_permission! :manage_news
+    get :index
+    assert_select '.add-news-link', count: 1
+  end
+
   def test_show
     get(:show, :params => {:id => 1})
     assert_response :success

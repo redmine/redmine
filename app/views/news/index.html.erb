@@ -1,8 +1,8 @@
 <div class="contextual">
 <%= link_to(l(:label_news_new),
             (@project ? project_news_index_path(@project) : news_index_path),
-            :class => 'icon icon-add',
-            :onclick => 'showAndScrollTo("add-news", "news_title"); return false;') if (@project.nil? || (@project && User.current.allowed_to?(:manage_news, @project))) %>
+            :class => 'icon icon-add add-news-link',
+            :onclick => 'showAndScrollTo("add-news", "news_title"); return false;') if User.current.allowed_to?(:manage_news, @project, global: true) %>
 <%= watcher_link(@project.enabled_module('news'), User.current) if @project && User.current.logged? %>
 </div>
 
