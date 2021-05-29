@@ -1382,3 +1382,7 @@ de:
   error_invalid_authenticity_token: Ungültiges Authentizitätstoken für Formular.
   error_query_statement_invalid: Während der Ausführung einer Abfrage ist ein Fehler aufgetreten, dieser wurde
     protokolliert. Bitte melden Sie diesen Fehler an ihren Redmine-Administrator.
+  permission_view_wiki_page_watchers: View wiki page watchers list
+  permission_add_wiki_page_watchers: Add wiki page watchers
+  permission_delete_wiki_page_watchers: Delete wiki page watchers
+  label_wiki_page_watchers: Watchers

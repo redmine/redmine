@@ -1412,3 +1412,7 @@ ar:
   error_invalid_authenticity_token: Invalid form authenticity token.
   error_query_statement_invalid: An error occurred while executing the query and has
     been logged. Please report this error to your Redmine administrator.
+  permission_view_wiki_page_watchers: View wiki page watchers list
+  permission_add_wiki_page_watchers: Add wiki page watchers
+  permission_delete_wiki_page_watchers: Delete wiki page watchers
+  label_wiki_page_watchers: Watchers
