@@ -23,7 +23,7 @@ class WikiControllerTest < Redmine::ControllerTest
   fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
            :enabled_modules, :wikis, :wiki_pages, :wiki_contents,
            :wiki_content_versions, :attachments,
-           :issues, :issue_statuses, :trackers
+           :issues, :issue_statuses, :trackers, :watchers
 
   def setup
     User.current = nil
@@ -119,6 +119,31 @@ class WikiControllerTest < Redmine::ControllerTest
     get :show, :params => {:project_id => 1, :id => 'Another_page'}
     assert_response :success
     assert_select 'div#sidebar', :text => /Side bar content for test_show_with_sidebar/
+  end
+
+  def test_show_should_display_watchers
+    @request.session[:user_id] = 2
+    page = Project.find(1).wiki.find_page('Another_page')
+    page.add_watcher User.find(2)
+    page.add_watcher Group.find(10)
+    [['1', true], ['0', false]].each do |(gravatar_enabled, is_display_gravatar)|
+      with_settings :gravatar_enabled => gravatar_enabled do
+        get :show, :params => {:project_id => 1, :id => 'Another_page'}
+      end
+
+      assert_select 'div#watchers ul' do
+        assert_select 'li.user-2' do
+          assert_select 'img.gravatar[title=?]', 'John Smith', is_display_gravatar
+          assert_select 'a[href="/users/2"]'
+          assert_select 'a[class*=delete]'
+        end
+        assert_select 'li.user-10' do
+          assert_select 'img.gravatar[title=?]', 'A Team', is_display_gravatar
+          assert_select 'a[href="/users/10"]', false
+          assert_select 'a[class*=delete]'
+        end
+      end
+    end
   end
 
   def test_show_should_display_section_edit_links

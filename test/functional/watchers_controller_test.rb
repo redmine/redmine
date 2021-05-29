@@ -22,7 +22,7 @@ require File.expand_path('../../test_helper', __FILE__)
 class WatchersControllerTest < Redmine::ControllerTest
   fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules,
            :issues, :trackers, :projects_trackers, :issue_statuses, :enumerations, :watchers,
-           :boards, :messages
+           :boards, :messages, :wikis, :wiki_pages
 
   def setup
     User.current = nil
@@ -163,6 +163,13 @@ class WatchersControllerTest < Redmine::ControllerTest
     assert_match /ajax-modal/, response.body
   end
 
+  def test_new_for_wiki_page
+    @request.session[:user_id] = 2
+    get :new, :params => {:object_type => 'wiki_page', :object_id => '1'}, :xhr => true
+    assert_response :success
+    assert_match /ajax-modal/, response.body
+  end
+
   def test_new_with_multiple_objects
     @request.session[:user_id] = 2
     get :new, :params => {:object_type => 'issue', :object_id => ['1', '2']}, :xhr => true
@@ -238,6 +245,20 @@ class WatchersControllerTest < Redmine::ControllerTest
     assert Message.find(1).watched_by?(User.find(4))
   end
 
+  def test_create_for_wiki_page
+    @request.session[:user_id] = 2
+    assert_difference('Watcher.count') do
+      post :create, :params => {
+        :object_type => 'wiki_page', :object_id => '1',
+        :watcher => {:user_id => '4'}
+      }, :xhr => true
+      assert_response :success
+      assert_match /watchers/, response.body
+      assert_match /ajax-modal/, response.body
+    end
+    assert WikiPage.find(1).watched_by?(User.find(4))
+  end
+
   def test_create_with_mutiple_users
     @request.session[:user_id] = 2
     assert_difference('Watcher.count', 3) do
@@ -270,6 +291,23 @@ class WatchersControllerTest < Redmine::ControllerTest
     assert message.watched_by?(User.find(4))
     assert message.watched_by?(User.find(7))
     assert message.watched_by?(Group.find(10))
+  end
+
+  def test_create_for_wiki_page_with_mutiple_users
+    @request.session[:user_id] = 2
+    assert_difference('Watcher.count', 3) do
+      post :create, :params => {
+        :object_type => 'wiki_page', :object_id => '1',
+        :watcher => {:user_ids => ['4', '7', '10']}
+      }, :xhr => true
+      assert_response :success
+      assert_match /watchers/, response.body
+      assert_match /ajax-modal/, response.body
+    end
+    wiki_page = WikiPage.find(1)
+    assert wiki_page.watched_by?(User.find(4))
+    assert wiki_page.watched_by?(User.find(7))
+    assert wiki_page.watched_by?(Group.find(10))
   end
 
   def test_create_with_mutiple_objects
@@ -462,6 +500,22 @@ class WatchersControllerTest < Redmine::ControllerTest
     end
     message.reload
     assert !message.watched_by?(user)
+  end
+
+  def test_destroy_for_wiki_page
+    @request.session[:user_id] = 2
+    wiki_page = WikiPage.find(1)
+    user = User.find(1)
+    assert wiki_page.watched_by?(user)
+    assert_difference('Watcher.count', -1) do
+      delete :destroy, :params => {
+        :object_type => 'wiki_page', :object_id => '1', :user_id => '1'
+      }, :xhr => true
+      assert_response :success
+      assert_match /watchers/, response.body
+    end
+    wiki_page.reload
+    assert !wiki_page.watched_by?(user)
   end
 
   def test_destroy_locked_user

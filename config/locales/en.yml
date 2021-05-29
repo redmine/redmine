@@ -559,6 +559,9 @@ en:
   permission_view_wiki_edits: View wiki history
   permission_edit_wiki_pages: Edit wiki pages
   permission_delete_wiki_pages_attachments: Delete attachments
+  permission_view_wiki_page_watchers: View wiki page watchers list
+  permission_add_wiki_page_watchers: Add wiki page watchers
+  permission_delete_wiki_page_watchers: Delete wiki page watchers
   permission_protect_wiki_pages: Protect wiki pages
   permission_manage_repository: Manage repository
   permission_browse_repository: Browse repository
@@ -958,6 +961,7 @@ en:
   label_generate_key: Generate a key
   label_issue_watchers: Watchers
   label_message_watchers: Watchers
+  label_wiki_page_watchers: Watchers
   label_example: Example
   label_display: Display
   label_sort: Sort

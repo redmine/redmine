@@ -11,3 +11,7 @@ watchers_003:
   watchable_type: Issue
   watchable_id: 2
   user_id: 1
+watchers_004:
+  watchable_type: WikiPage
+  watchable_id: 1
+  user_id: 1
