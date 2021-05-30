@@ -563,6 +563,9 @@ bg:
   permission_view_wiki_edits: Разглеждане на wiki история
   permission_edit_wiki_pages: Редактиране на wiki страници
   permission_delete_wiki_pages_attachments: Изтриване на прикачени файлове към wiki страници
+  permission_view_wiki_page_watchers: Разглеждане на списъци с наблюдатели на wiki страници
+  permission_add_wiki_page_watchers: Добавяне на наблюдатели на wiki страници
+  permission_delete_wiki_page_watchers: Изтриване на наблюдатели на wiki страници
   permission_protect_wiki_pages: Заключване на wiki страници
   permission_manage_repository: Управление на хранилища
   permission_browse_repository: Разглеждане на хранилища
@@ -962,6 +965,7 @@ bg:
   label_generate_key: Генериране на ключ
   label_issue_watchers: Наблюдатели
   label_message_watchers: Наблюдатели
+  label_wiki_page_watchers: Наблюдатели
   label_example: Пример
   label_display: Показване
   label_sort: Сортиране
@@ -1371,7 +1375,3 @@ bg:
     Това действие не може да бъде отменено. Често заключването на потребителя е по-добро решение от изтриването му.
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
-  permission_view_wiki_page_watchers: View wiki page watchers list
-  permission_add_wiki_page_watchers: Add wiki page watchers
-  permission_delete_wiki_page_watchers: Delete wiki page watchers
-  label_wiki_page_watchers: Watchers
