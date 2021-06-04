@@ -1442,7 +1442,7 @@
   button_copy_link: 複製連結
   error_invalid_authenticity_token: 無效的表單確實性授權權杖.
   error_query_statement_invalid: 執行查詢時發生錯誤並已留下紀錄. 請向 Redmine 系統管理員報告此錯誤.
-  permission_view_wiki_page_watchers: View wiki page watchers list
-  permission_add_wiki_page_watchers: Add wiki page watchers
-  permission_delete_wiki_page_watchers: Delete wiki page watchers
-  label_wiki_page_watchers: Watchers
+  permission_view_wiki_page_watchers: 檢視 wiki 頁面監看員清單
+  permission_add_wiki_page_watchers: 新增 wiki 頁面監看員
+  permission_delete_wiki_page_watchers: 刪除 wiki 頁面監看員
+  label_wiki_page_watchers: 監看員
