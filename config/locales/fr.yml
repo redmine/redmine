@@ -152,10 +152,10 @@ fr:
         earlier_than_minimum_start_date: "ne peut pas être antérieure au %{date} à cause des demandes qui précèdent"
         not_a_regexp: "n'est pas une expression regulière valide"
         open_issue_with_closed_parent: "Une demande ouverte ne peut pas être rattachée à une demande fermée"
-        must_contain_uppercase: "must contain uppercase letters (A-Z)"
-        must_contain_lowercase: "must contain lowercase letters (a-z)"
-        must_contain_digits: "must contain digits (0-9)"
-        must_contain_special_chars: "must contain special characters (!, $, %, ...)"
+        must_contain_uppercase: "doit contenir des lettres majuscules (A-Z)"
+        must_contain_lowercase: "doit contenir des lettres minuscules (a-z)"
+        must_contain_digits: "doit contenir des chiffres (0-9)"
+        must_contain_special_chars: "doit contenir des caractères spéciaux (!, $, %, ...)"
 
   actionview_instancetag_blank_option: Choisir
 
@@ -1131,7 +1131,7 @@ fr:
   text_load_default_configuration: Charger le paramétrage par défaut
   text_status_changed_by_changeset: "Appliqué par commit %{value}."
   text_time_logged_by_changeset: "Appliqué par commit %{value}"
-  text_issues_destroy_confirmation: 'Êtes-vous sûr de vouloir supprimer la ou les demandes(s) selectionnée(s) ?'
+  text_issues_destroy_confirmation: 'Êtes-vous sûr de vouloir supprimer la ou les demande(s) selectionnée(s) ?'
   text_issues_destroy_descendants_confirmation: "Cela entrainera également la suppression de %{count} sous-tâche(s)."
   text_time_entries_destroy_confirmation: "Etes-vous sûr de vouloir supprimer les temps passés sélectionnés ?"
   text_select_project_modules: 'Sélectionner les modules à activer pour ce projet :'
@@ -1299,32 +1299,27 @@ fr:
   label_display_type_board: "Tableau"
   label_my_bookmarks: "Favoris"
   label_import_time_entries: "Importer des temps passés"
-  field_toolbar_language_options: Code highlighting toolbar languages
-  label_user_mail_notify_about_high_priority_issues_html: Also notify me about issues
-    with a priority of <em>%{prio}</em> or higher
-  label_assign_to_me: Assign to me
-  notice_issue_not_closable_by_open_tasks: This issue cannot be closed because it has
-    at least one open subtask.
-  notice_issue_not_closable_by_blocking_issue: This issue cannot be closed because it
-    is blocked by at least one open issue.
-  notice_issue_not_reopenable_by_closed_parent_issue: This issue cannot be reopened
-    because its parent issue is closed.
-  error_bulk_download_size_too_big: These attachments cannot be bulk downloaded because
-    the total file size exceeds the maximum allowed size (%{max_size})
-  setting_bulk_download_max_size: Maximum total size for bulk download
-  label_download_all_attachments: Download all files
-  error_attachments_too_many: This file cannot be uploaded because it exceeds the maximum
-    number of files that can be attached simultaneously (%{max_number_of_files})
-  setting_email_domains_allowed: Allowed email domains
-  setting_email_domains_denied: Disallowed email domains
-  field_passwd_changed_on: Password last changed
-  label_relations_mapping: Relations mapping
-  label_import_users: Import users
-  label_days_to_html: "%{days} days up to %{date}"
+  field_toolbar_language_options: Langages de la barre d'outils de mise en évidence du code
+  label_user_mail_notify_about_high_priority_issues_html: Me notifier aussi des demandes avec une priorité <em>%{prio}</em> ou supérieure
+  label_assign_to_me: M'assigner
+  notice_issue_not_closable_by_open_tasks: Cette demande ne peut pas être fermée car elle contient au moins une sous-tâche encore ouverte.
+  notice_issue_not_closable_by_blocking_issue: Cette demande ne peut pas être fermée car elle est bloqué par au moins une demande encore ouverte.
+  notice_issue_not_reopenable_by_closed_parent_issue: Cette demande ne peut être réouverte car sa demande parente est fermée.
+  error_bulk_download_size_too_big: Ces pièces jointes ne peuvent pas être téléchargées en masse car
+    la taille totale des fichiers dépasse la taille maximale autorisée (%{max_size})
+  setting_bulk_download_max_size: Taille totale maximale du télécharement groupé
+  label_download_all_attachments: Télécharger tous les fichiers
+  error_attachments_too_many: Ce fichier ne peut être transmis car il excède le nombre maximum de fichier pouvant être attaché simultanément (%{max_number_of_files})
+  setting_email_domains_allowed: Domaines de messagerie autorisés
+  setting_email_domains_denied: Domaines de messagerie non autorisés
+  field_passwd_changed_on: Mot de passe modifié pour la dernière fois
+  label_relations_mapping: Cartographie des relations
+  label_import_users: Importer les utilisateurs
+  label_days_to_html: "%{days} jours jusqu'à %{date}"
   setting_twofa: Double authentification
-  label_optional: optional
+  label_optional: optionel
   label_required_lower: obligatoire
-  button_disable: Disable
+  button_disable: Désactiver
   twofa__totp__name: Application d'authentication
   twofa__totp__text_pairing_info_html: Scannez ce QR-Code ou saisissez la clé au format textee
     dans une application de double authentification (e.g. <a href="https://support.google.com/accounts/answer/1066447">Google
@@ -1370,36 +1365,34 @@ fr:
   twofa_text_backup_codes_created_at: Codes de secours générés le %{datetime}.
   twofa_backup_codes_already_shown: Les codes de secours ne peuvent pas être affichés à nouveau, veuillez
     <a data-method="post" href="%{bc_path}">générer de nouveaux codes</a> si besoin.
-  error_can_not_execute_macro_html: Error executing the <strong>%{name}</strong> macro
+  error_can_not_execute_macro_html: Erreur lors de l'exécution de la macro <strong>%{name}</strong>
     (%{error})
-  error_macro_does_not_accept_block: This macro does not accept a block of text
-  error_childpages_macro_no_argument: With no argument, this macro can be called from
-    wiki pages only
-  error_circular_inclusion: Circular inclusion detected
-  error_page_not_found: Page not found
-  error_filename_required: Filename required
-  error_invalid_size_parameter: Invalid size parameter
-  error_attachment_not_found: Attachment %{name} not found
-  permission_delete_project: Delete the project
+  error_macro_does_not_accept_block: Cette macro n'accepte pas de bloc de texte
+  error_childpages_macro_no_argument: Sans argument, cette macro ne peut uniquement être appelée que par les pages wiki
+  error_circular_inclusion: Inclusion récursive détectée
+  error_page_not_found: Page non trouvée
+  error_filename_required: Nom de fichier obligatoire
+  error_invalid_size_parameter: Paramètre de taille invalide
+  error_attachment_not_found: Pièce jointe %{name} non trouvée
+  permission_delete_project: Supprimer le projet
   field_twofa_scheme: Méthode de double authentication
-  text_user_destroy_confirmation: Are you sure you want to delete this user and remove
-    all references to them? This cannot be undone. Often, locking a user instead of
-    deleting them is the better solution. To confirm, please enter their login (%{login})
-    below.
-  text_project_destroy_enter_identifier: To confirm, please enter the project's identifier
-    (%{identifier}) below.
-  button_add_subtask: Add subtask
-  notice_invalid_watcher: 'Invalid watcher: User will not receive any notifications
-    because it does not have access to view this object.'
-  button_fetch_changesets: Fetch commits
-  permission_view_message_watchers: View message watchers list
-  permission_add_message_watchers: Add message watchers
-  permission_delete_message_watchers: Delete message watchers
-  label_message_watchers: Watchers
-  button_copy_link: Copy link
-  error_invalid_authenticity_token: Invalid form authenticity token.
-  error_query_statement_invalid: An error occurred while executing the query and has
-    been logged. Please report this error to your Redmine administrator.
+  text_user_destroy_confirmation: Voulez-vous vraiment supprimer cet utilisateur et l'ensemble des références à celui-ci ?
+    Cette action ne peut être annulée. Il est souvent préférable de verrouiller l'utilisateur au lieu de le supprimer.
+    Pour confirmer, veuillez entrer l'identifiant (%{login}) ci dessous.
+  text_project_destroy_enter_identifier: Pour confirmer, veuillez saisir l'identifiant du projet
+    (%{identifier}) ci dessous.
+  button_add_subtask: Ajouter une sous-tâche
+  notice_invalid_watcher: "Observateur non valide: l'utilisateur ne recevra aucune notification
+    car il n'a pas accès pour afficher cet objet."
+  button_fetch_changesets: Récupérer les commits
+  permission_view_message_watchers: Afficher la liste des observateurs de messages
+  permission_add_message_watchers: Ajouter des observateurs de messages
+  permission_delete_message_watchers: Supprimer des observateurs de messages
+  label_message_watchers: Obsvervateurs
+  button_copy_link: Copier le lien
+  error_invalid_authenticity_token: Jeton d'authenticité de formulaire invalide.
+  error_query_statement_invalid: Une erreur s'est produite lors de l'exécution de la requête et a
+    été enregistré. Veuillez signaler cette erreur à votre administrateur Redmine.
   permission_view_wiki_page_watchers: View wiki page watchers list
   permission_add_wiki_page_watchers: Add wiki page watchers
   permission_delete_wiki_page_watchers: Delete wiki page watchers
