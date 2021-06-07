@@ -137,16 +137,10 @@
 								</td> 	
 							</tr>
 						</thead>
-						<% if User.current.projects.any? || @projects.any? %>
-						    <%= call_hook(:view_welcome_index_left, :projects => @projects) %>
-                                                    <% for project in @projects %>
-							<tr><td colspan="2"><icon class="icon-list-alt"></icon><%= link_to_project(project) %></td></tr>
-						    <% end %>
-						    <% unless User.current.projects.empty? %>
+						<% if User.current.projects.any? %>
 							<% for project in User.current.projects %>
 							    <tr><td colspan="2"><icon class="icon-list-alt"></icon><%= link_to_project(project) %></td></tr>
 							<% end %>
-						    <% end %>
 						<% end %>
 					</table>
 					
