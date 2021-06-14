@@ -701,6 +701,7 @@ en:
   label_attachment_delete: Delete file
   label_attachment_plural: Files
   label_file_added: File added
+  label_attachment_description: File description
   label_report: Report
   label_report_plural: Reports
   label_news: News

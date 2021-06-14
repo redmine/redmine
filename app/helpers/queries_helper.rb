@@ -41,6 +41,8 @@ module QueriesHelper
         group = :label_date
       elsif %w(estimated_hours spent_time).include?(field)
         group = :label_time_tracking
+      elsif %w(attachment attachment_description).include?(field)
+        group = :label_attachment
       end
       if group
         (grouped[group] ||= []) << [field_options[:name], field]

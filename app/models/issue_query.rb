@@ -202,6 +202,10 @@ class IssueQuery < Query
       "attachment",
       :type => :text, :name => l(:label_attachment)
     )
+    add_available_filter(
+      "attachment_description",
+      :type => :text, :name => l(:label_attachment_description)
+    )
     if User.current.logged?
       add_available_filter(
         "watcher_id",
@@ -595,6 +599,23 @@ class IssueQuery < Query
       c = sql_contains("a.filename", value.first, (operator == "^" ? :starts_with : :ends_with) => true)
       "EXISTS (SELECT 1 FROM #{Attachment.table_name} a WHERE a.container_type = 'Issue' AND a.container_id = #{Issue.table_name}.id AND #{c})"
     end
+  end
+
+  def sql_for_attachment_description_field(field, operator, value)
+    cond_description = "a.description IS NOT NULL AND a.description <> ''"
+    c =
+      case operator
+      when '*', '!*'
+        (operator == '*' ? cond_description : "NOT (#{cond_description})")
+      when '~', '!~'
+        (operator == '~' ? '' : "#{cond_description} AND ") +
+        sql_contains('a.description', value.first, :match => (operator == '~'))
+      when '^', '$'
+        sql_contains('a.description', value.first, (operator == '^' ? :starts_with : :ends_with) => true)
+      else
+        '1=0'
+      end
+    "EXISTS (SELECT 1 FROM #{Attachment.table_name} a WHERE a.container_type = 'Issue' AND a.container_id = #{Issue.table_name}.id AND #{c})"
   end
 
   def sql_for_parent_id_field(field, operator, value)

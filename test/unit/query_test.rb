@@ -1527,6 +1527,48 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal [3, 4], issues.collect(&:id).sort
   end
 
+  def test_filter_on_attachment_description_when_any
+    query = IssueQuery.new(:name => '_')
+    query.filters = {"attachment_description" => {:operator => '*', :values =>  ['']}}
+    issues = find_issues_with_query(query)
+    assert_equal [2, 3, 14], issues.collect(&:id).sort
+  end
+
+  def test_filter_on_attachment_description_when_none
+    query = IssueQuery.new(:name => '_')
+    query.filters = {"attachment_description" => {:operator => '!*', :values =>  ['']}}
+    issues = find_issues_with_query(query)
+    assert_equal [2, 3, 4, 14], issues.collect(&:id).sort
+  end
+
+  def test_filter_on_attachment_description_when_contains
+    query = IssueQuery.new(:name => '_')
+    query.filters = {"attachment_description" => {:operator => '~', :values =>  ['attachment']}}
+    issues = find_issues_with_query(query)
+    assert_equal [3, 14], issues.collect(&:id).sort
+  end
+
+  def test_filter_on_attachment_description_when_does_not_contain
+    query = IssueQuery.new(:name => '_')
+    query.filters = {"attachment_description" => {:operator => '!~', :values =>  ['attachment']}}
+    issues = find_issues_with_query(query)
+    assert_equal [2], issues.collect(&:id).sort
+  end
+
+  def test_filter_on_attachment_description_when_starts_with
+    query = IssueQuery.new(:name => '_')
+    query.filters = {"attachment_description" => {:operator => '^', :values =>  ['attachment']}}
+    issues = find_issues_with_query(query)
+    assert_equal [14], issues.collect(&:id).sort
+  end
+
+  def test_filter_on_attachment_description_when_ends_with
+    query = IssueQuery.new(:name => '_')
+    query.filters = {"attachment_description" => {:operator => '$', :values =>  ['attachment']}}
+    issues = find_issues_with_query(query)
+    assert_equal [3], issues.collect(&:id).sort
+  end
+
   def test_filter_on_subject_when_starts_with
     query = IssueQuery.new(:name => '_')
     query.filters = {'subject' => {:operator => '^', :values => ['issue']}}
