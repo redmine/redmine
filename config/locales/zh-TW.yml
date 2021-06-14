@@ -1446,3 +1446,4 @@
   permission_add_wiki_page_watchers: 新增 wiki 頁面監看員
   permission_delete_wiki_page_watchers: 刪除 wiki 頁面監看員
   label_wiki_page_watchers: 監看員
+  label_attachment_description: File description

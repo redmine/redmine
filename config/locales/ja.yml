@@ -1385,3 +1385,4 @@ ja:
   permission_add_wiki_page_watchers: Wikiページのウォッチャーの追加
   permission_delete_wiki_page_watchers: Wikiページのウォッチャーの削除
   label_wiki_page_watchers: Watchers
+  label_attachment_description: File description

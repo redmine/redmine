@@ -1404,3 +1404,4 @@ cs:
   permission_add_wiki_page_watchers: Add wiki page watchers
   permission_delete_wiki_page_watchers: Delete wiki page watchers
   label_wiki_page_watchers: Watchers
+  label_attachment_description: File description
