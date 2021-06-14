@@ -197,7 +197,7 @@ attachments_015:
   filename: private.diff
   author_id: 2
   content_type: text/x-diff
-  description: attachement of a private issue
+  description: attachment of a private issue
 attachments_016:
   content_type: image/png
   downloads: 0
