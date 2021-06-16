@@ -953,7 +953,7 @@ $(document).ready(function(){
 
   $('#history .tabs').on('click', 'a', function(e){
     var tab = $(e.target).attr('id').replace('tab-','');
-    document.cookie = 'history_last_tab=' + tab
+    document.cookie = 'history_last_tab=' + tab + '; SameSite=Lax'
   });
 });
 
