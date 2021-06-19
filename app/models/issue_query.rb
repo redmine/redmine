@@ -359,10 +359,8 @@ class IssueQuery < Query
       order_option << "#{Issue.table_name}.id DESC"
     end
 
-    scope = Issue.visible.
-      joins(:status, :project).
+    scope = base_scope.
       preload(:priority).
-      where(statement).
       includes(([:status, :project] + (options[:include] || [])).uniq).
       where(options[:conditions]).
       order(order_option).
@@ -409,9 +407,7 @@ class IssueQuery < Query
       order_option << "#{Issue.table_name}.id DESC"
     end
 
-    Issue.visible.
-      joins(:status, :project).
-      where(statement).
+    base_scope.
       includes(([:status, :project] + (options[:include] || [])).uniq).
       references(([:status, :project] + (options[:include] || [])).uniq).
       where(options[:conditions]).
