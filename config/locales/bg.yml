@@ -1376,3 +1376,4 @@ bg:
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
   label_attachment_description: File description
+  error_no_data_in_file: The file does not contain any data

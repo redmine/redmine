@@ -1405,3 +1405,4 @@ uk:
   permission_delete_wiki_page_watchers: Delete wiki page watchers
   label_wiki_page_watchers: Watchers
   label_attachment_description: File description
+  error_no_data_in_file: The file does not contain any data
