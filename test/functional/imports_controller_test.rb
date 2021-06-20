@@ -180,6 +180,27 @@ class ImportsControllerTest < Redmine::ControllerTest
     assert_select 'div#flash_error', /The file is not a CSV file or does not match the settings below \([[:print:]]+\)/
   end
 
+  def test_post_settings_with_no_data_row_should_display_error
+    import = generate_import('import_issues_no_data_row.csv')
+
+    post(
+      :settings,
+      :params => {
+        :id => import.to_param,
+        :import_settings => {
+          :separator => ';',
+          :wrapper => '"',
+          :encoding => 'ISO-8859-1'
+        }
+      }
+    )
+    assert_response 200
+    import.reload
+    assert_equal 0, import.total_items
+
+    assert_select 'div#flash_error', /The file does not contain any data/
+  end
+
   def test_get_mapping_should_display_mapping_form
     import = generate_import('import_iso8859-1.csv')
     import.settings = {'separator' => ";", 'wrapper' => '"', 'encoding' => "ISO-8859-1"}

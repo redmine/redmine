@@ -223,6 +223,7 @@ en:
   error_invalid_file_encoding: "The file is not a valid %{encoding} encoded file"
   error_invalid_csv_file_or_settings: "The file is not a CSV file or does not match the settings below (%{value})"
   error_can_not_read_import_file: "An error occurred while reading the file to import"
+  error_no_data_in_file: "The file does not contain any data"
   error_attachment_extension_not_allowed: "Attachment extension %{extension} is not allowed"
   error_ldap_bind_credentials: "Invalid LDAP Account/Password"
   error_no_tracker_allowed_for_new_issue_in_project: "The project doesn't have any trackers for which you can create an issue"
