@@ -643,7 +643,7 @@ Rails/ContentTag:
 Rails/CreateTableWithTimestamps:
   Enabled: false
 
-# Configuration parameters: EnforcedStyle.
+# Configuration parameters: EnforcedStyle, AllowToTime.
 # SupportedStyles: strict, flexible
 Rails/Date:
   Enabled: false
@@ -674,6 +674,11 @@ Rails/Delegate:
 Rails/DynamicFindBy:
   Enabled: false
 
+# Cop supports --auto-correct.
+Rails/EagerEvaluationLogMessage:
+  Exclude:
+    - 'app/controllers/application_controller.rb'
+
 # Configuration parameters: Include.
 # Include: app/**/*.rb, config/**/*.rb, lib/**/*.rb
 Rails/Exit:
@@ -703,22 +708,6 @@ Rails/FilePath:
     - 'test/unit/lib/redmine/configuration_test.rb'
     - 'test/unit/lib/redmine/i18n_test.rb'
     - 'test/unit/lib/redmine/plugin_test.rb'
-
-# Cop supports --auto-correct.
-# Configuration parameters: Include.
-# Include: app/models/**/*.rb
-Rails/FindBy:
-  Exclude:
-    - 'app/models/enumeration.rb'
-    - 'app/models/issue_import.rb'
-    - 'app/models/repository.rb'
-    - 'app/models/repository/cvs.rb'
-    - 'app/models/repository/git.rb'
-    - 'app/models/repository/mercurial.rb'
-    - 'app/models/time_entry_query.rb'
-    - 'app/models/user.rb'
-    - 'app/models/wiki.rb'
-    - 'app/models/wiki_content_version.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: Include, IgnoredMethods.
@@ -770,9 +759,34 @@ Rails/HasManyOrHasOneDependent:
 # SupportedStyles: numeric, symbolic
 Rails/HttpStatus:
   Exclude:
+    - 'app/controllers/attachments_controller.rb'
+    - 'app/controllers/boards_controller.rb'
+    - 'app/controllers/custom_fields_controller.rb'
+    - 'app/controllers/enumerations_controller.rb'
+    - 'app/controllers/issue_relations_controller.rb'
+    - 'app/controllers/issue_statuses_controller.rb'
+    - 'app/controllers/issues_controller.rb'
     - 'app/controllers/mail_handler_controller.rb'
+    - 'app/controllers/members_controller.rb'
+    - 'app/controllers/my_controller.rb'
+    - 'app/controllers/repositories_controller.rb'
+    - 'app/controllers/roles_controller.rb'
     - 'app/controllers/sys_controller.rb'
+    - 'app/controllers/timelog_controller.rb'
+    - 'app/controllers/trackers_controller.rb'
     - 'app/controllers/watchers_controller.rb'
+
+# Configuration parameters: Include.
+# Include: spec/**/*.rb, test/**/*.rb
+Rails/I18nLocaleAssignment:
+  Exclude:
+    - 'test/helpers/application_helper_test.rb'
+    - 'test/helpers/custom_fields_helper_test.rb'
+    - 'test/test_helper.rb'
+    - 'test/unit/lib/redmine/field_format/user_field_format_test.rb'
+    - 'test/unit/lib/redmine/i18n_test.rb'
+    - 'test/unit/query_test.rb'
+    - 'test/unit/role_test.rb'
 
 # Configuration parameters: Include.
 # Include: app/models/**/*.rb
