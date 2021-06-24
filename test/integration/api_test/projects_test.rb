@@ -356,4 +356,21 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_equal '', @response.body
     assert_nil Project.find_by_id(2)
   end
+
+  test "PUT /projects/:id/archive.xml should archive project" do
+    put '/projects/1/archive.xml', :headers => credentials('admin')
+    assert_response :no_content
+    assert_equal '', @response.body
+    assert p = Project.find(1)
+    assert_not p.active?
+  end
+
+  test "PUT /projects/:id/unarchive.xml should unarchive project" do
+    Project.find(1).update_column :status, Project::STATUS_ARCHIVED
+    put '/projects/1/unarchive.xml', :headers => credentials('admin')
+    assert_response :no_content
+    assert_equal '', @response.body
+    assert p = Project.find_by_id(2)
+    assert p.active?
+  end
 end

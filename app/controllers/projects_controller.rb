@@ -30,7 +30,7 @@ class ProjectsController < ApplicationController
   before_action :authorize_global, :only => [:new, :create]
   before_action :require_admin, :only => [:copy, :archive, :unarchive]
   accept_rss_auth :index
-  accept_api_auth :index, :show, :create, :update, :destroy
+  accept_api_auth :index, :show, :create, :update, :destroy, :archive, :unarchive
   require_sudo_mode :destroy
 
   helper :custom_fields
@@ -233,16 +233,31 @@ class ProjectsController < ApplicationController
 
   def archive
     unless @project.archive
-      flash[:error] = l(:error_can_not_archive_project)
+      error = l(:error_can_not_archive_project)
     end
-    redirect_to_referer_or admin_projects_path(:status => params[:status])
+    respond_to do |format|
+      format.html do
+        flash[:error] = error if error
+        redirect_to_referer_or admin_projects_path(:status => params[:status])
+      end
+      format.api do
+        if error
+          render_api_errors error
+        else
+          render_api_ok
+        end
+      end
+    end
   end
 
   def unarchive
     unless @project.active?
       @project.unarchive
     end
-    redirect_to_referer_or admin_projects_path(:status => params[:status])
+    respond_to do |format|
+      format.html{ redirect_to_referer_or admin_projects_path(:status => params[:status]) }
+      format.api{ render_api_ok }
+    end
   end
 
   def bookmark

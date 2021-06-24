@@ -131,8 +131,8 @@ Rails.application.routes.draw do
 
     member do
       get 'settings(/:tab)', :action => 'settings', :as => 'settings'
-      post 'archive'
-      post 'unarchive'
+      match 'archive', :via => [:post, :put]
+      match 'unarchive', :via => [:post, :put]
       post 'close'
       post 'reopen'
       match 'copy', :via => [:get, :post]
