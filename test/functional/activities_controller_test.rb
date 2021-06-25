@@ -28,7 +28,8 @@ class ActivitiesControllerTest < Redmine::ControllerTest
            :members,
            :groups_users,
            :enabled_modules,
-           :journals, :journal_details
+           :journals, :journal_details,
+           :attachments, :changesets, :documents, :messages, :news, :time_entries, :wiki_content_versions
 
   def test_project_index
     get :index, :params => {
