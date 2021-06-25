@@ -1446,5 +1446,5 @@
   permission_add_wiki_page_watchers: 新增 wiki 頁面監看員
   permission_delete_wiki_page_watchers: 刪除 wiki 頁面監看員
   label_wiki_page_watchers: 監看員
-  label_attachment_description: File description
-  error_no_data_in_file: The file does not contain any data
+  label_attachment_description: 檔案概述說明
+  error_no_data_in_file: 檔案未包含任何資料
