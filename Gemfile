@@ -3,10 +3,10 @@ source 'https://rubygems.org'
 ruby '>= 2.5.0', '< 3.1.0'
 gem 'bundler', '>= 1.12.0'
 
-gem 'rails', '6.1.3.2'
+gem 'rails', '6.1.4'
 gem 'rouge', '~> 3.26.0'
 gem 'request_store', '~> 1.5.0'
-gem "mini_mime", "~> 1.0.1"
+gem 'mini_mime', '~> 1.1.0'
 gem "actionpack-xml_parser"
 gem 'roadie-rails', '~> 2.2.0'
 gem 'marcel'
