@@ -19,6 +19,11 @@ api.array :issues, api_meta(:total_count => @issue_count, :offset => @offset, :l
       api.done_ratio  issue.done_ratio
       api.is_private  issue.is_private
       api.estimated_hours issue.estimated_hours
+      api.total_estimated_hours issue.total_estimated_hours
+      if User.current.allowed_to?(:view_time_entries, issue.project)
+        api.spent_hours(issue.spent_hours)
+        api.total_spent_hours(issue.total_spent_hours)
+      end
 
       render_api_custom_values issue.visible_custom_field_values, api
 

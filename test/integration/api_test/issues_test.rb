@@ -141,6 +141,34 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     assert_select 'issues>issue>is_private', :text => 'false'
   end
 
+  def test_index_should_include_spent_hours
+    Issue.delete_all
+    parent = Issue.generate!(:estimated_hours => 2.0)
+    child = Issue.generate!(:parent_id => parent.id, :estimated_hours => 3.0)
+    TimeEntry.create!(:project => parent.project, :issue => parent, :user => parent.author, :spent_on => parent.author.today,
+                      :hours => '2.5', :comments => '', :activity_id => TimeEntryActivity.first.id)
+    TimeEntry.create!(:project => child.project, :issue => child, :user => child.author, :spent_on => child.author.today,
+                      :hours => '2.5', :comments => '', :activity_id => TimeEntryActivity.first.id)
+
+    get '/issues.xml'
+
+    assert_select 'issues issue', 2
+    assert_select 'issues>issue>spent_hours', '2.5'
+    assert_select 'issues>issue>total_spent_hours', '5.0'
+  end
+
+  def test_index_should_not_include_spent_hours
+    r = Role.anonymous
+    r.permissions.delete(:view_time_entries)
+    r.permissions_will_change!
+    r.save
+
+    get '/issues.xml'
+
+    assert_select 'issues>issue>spent_hours', false
+    assert_select 'issues>issue>total_spent_hours', false
+  end
+
   def test_index_should_allow_timestamp_filtering
     Issue.delete_all
     Issue.generate!(:subject => '1').update_column(:updated_on, Time.parse("2014-01-02T10:25:00Z"))
