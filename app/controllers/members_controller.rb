@@ -33,7 +33,7 @@ class MembersController < ApplicationController
     @member_count = scope.count
     @member_pages = Paginator.new @member_count, @limit, params['page']
     @offset ||= @member_pages.offset
-    @members =  scope.order(:id).limit(@limit).offset(@offset).to_a
+    @members = scope.includes(:principal, :roles).order(:id).limit(@limit).offset(@offset).to_a
 
     respond_to do |format|
       format.html {head 406}
