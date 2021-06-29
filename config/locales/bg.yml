@@ -226,6 +226,7 @@ bg:
   error_invalid_file_encoding: Файлът няма валидно %{encoding} кодиране.
   error_invalid_csv_file_or_settings: Файлът не е CSV файл или не съответства на зададеното по-долу (%{value})
   error_can_not_read_import_file: Грешка по време на четене на импортирания файл
+  error_no_data_in_file: файлът не съдържа никакви данни
   error_attachment_extension_not_allowed: Файлове от тип %{extension} не са позволени
   error_ldap_bind_credentials: Невалидни LDAP име/парола
   error_no_tracker_allowed_for_new_issue_in_project: Проектът няма тракери, за които да създавате задачи
@@ -705,6 +706,7 @@ bg:
   label_attachment_delete: Изтриване
   label_attachment_plural: Файлове
   label_file_added: Добавен файл
+  label_attachment_description: Описание на файла
   label_report: Справка
   label_report_plural: Справки
   label_news: Новини
@@ -1375,5 +1377,3 @@ bg:
     Това действие не може да бъде отменено. Често заключването на потребителя е по-добро решение от изтриването му.
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
-  label_attachment_description: File description
-  error_no_data_in_file: The file does not contain any data
