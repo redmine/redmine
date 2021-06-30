@@ -33,7 +33,7 @@ class IssuesTest < Redmine::IntegrationTest
            :enumerations,
            :custom_fields,
            :custom_values,
-           :custom_fields_trackers,
+           :custom_fields_trackers, :custom_fields_projects,
            :attachments
 
   # create an issue
