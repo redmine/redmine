@@ -170,4 +170,30 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
     assert_equal 3, other_parent_activity.reload.position
     assert_equal other_parent_activity.position, other_project_activity.reload.position
   end
+
+  def test_project_activity_should_have_the_same_name_as_parent_activity
+    parent_activity = TimeEntryActivity.find_by(name: 'Design', parent_id: nil)
+    project = Project.find(1)
+    project.update_or_create_time_entry_activities(
+      {
+        parent_activity.id.to_s => {
+          'parent_id' => parent_activity.id.to_s,
+          'active' => '0',
+          'custom_field_values' => {'7' => ''}
+        }
+      }
+    )
+    project_activity = TimeEntryActivity.find_by(name: 'Design', parent_id: parent_activity.id, project_id: project.id)
+    assert_equal parent_activity.name, project_activity.name
+
+    parent_activity.update(name: 'Design1')
+    assert_equal parent_activity.reload.name, project_activity.reload.name
+
+    # When changing the name of parent_activity,
+    # if the name of parent_activity before the change and the name of project_activity do not match, the name of project_activity is not changed.
+    project_activity.update(name: 'Design2')
+    parent_activity.update(name: 'Design3')
+    assert_equal 'Design2', project_activity.reload.name
+    assert_equal 'Design3', parent_activity.reload.name
+  end
 end

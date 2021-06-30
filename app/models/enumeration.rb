@@ -30,6 +30,7 @@ class Enumeration < ActiveRecord::Base
 
   before_destroy :check_integrity
   before_save    :check_default
+  after_save     :update_children_name
 
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [:type, :project_id], :case_sensitive => true
@@ -134,6 +135,12 @@ class Enumeration < ActiveRecord::Base
 
   def check_integrity
     raise "Cannot delete enumeration" if self.in_use?
+  end
+
+  def update_children_name
+    if saved_change_to_name? && self.parent_id.nil?
+      self.class.where(name: self.name_before_last_save, parent_id: self.id).update_all(name: self.name_in_database)
+    end
   end
 
   # Overrides Redmine::Acts::Positioned#set_default_position so that enumeration overrides
