@@ -93,8 +93,8 @@ module Redmine
         yaml = nil
         begin
           yaml = YAML::load(ERB.new(File.read(filename)).result)
-        rescue ArgumentError
-          abort "Your Redmine configuration file located at #{filename} is not a valid YAML file and could not be loaded."
+        rescue ArgumentError, Psych::SyntaxError => e
+          abort "Your Redmine configuration file located at #{filename} is not a valid YAML file and could not be loaded:\n#{e.message}"
         rescue SyntaxError => e
           abort "A syntax error occurred when parsing your Redmine configuration file located at #{filename} with ERB:\n#{e.message}"
         end
