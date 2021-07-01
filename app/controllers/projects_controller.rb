@@ -172,26 +172,26 @@ class ProjectsController < ApplicationController
       return
     end
 
-    @principals_by_role = @project.principals_by_role
-    @subprojects = @project.children.visible.to_a
-    @news = @project.news.limit(5).includes(:author, :project).reorder("#{News.table_name}.created_on DESC").to_a
-    with_subprojects = Setting.display_subprojects_issues?
-    @trackers = @project.rolled_up_trackers(with_subprojects).visible
-
-    cond = @project.project_condition(with_subprojects)
-
-    @open_issues_by_tracker = Issue.visible.open.where(cond).group(:tracker).count
-    @total_issues_by_tracker = Issue.visible.where(cond).group(:tracker).count
-
-    if User.current.allowed_to_view_all_time_entries?(@project)
-      @total_hours = TimeEntry.visible.where(cond).sum(:hours).to_f
-      @total_estimated_hours = Issue.visible.where(cond).sum(:estimated_hours).to_f
-    end
-
-    @key = User.current.rss_key
-
     respond_to do |format|
-      format.html
+      format.html do
+        @principals_by_role = @project.principals_by_role
+        @subprojects = @project.children.visible.to_a
+        @news = @project.news.limit(5).includes(:author, :project).reorder("#{News.table_name}.created_on DESC").to_a
+        with_subprojects = Setting.display_subprojects_issues?
+        @trackers = @project.rolled_up_trackers(with_subprojects).visible
+
+        cond = @project.project_condition(with_subprojects)
+
+        @open_issues_by_tracker = Issue.visible.open.where(cond).group(:tracker).count
+        @total_issues_by_tracker = Issue.visible.where(cond).group(:tracker).count
+
+        if User.current.allowed_to_view_all_time_entries?(@project)
+          @total_hours = TimeEntry.visible.where(cond).sum(:hours).to_f
+          @total_estimated_hours = Issue.visible.where(cond).sum(:estimated_hours).to_f
+        end
+
+        @key = User.current.rss_key
+      end
       format.api
     end
   end
