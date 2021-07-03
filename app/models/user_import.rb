@@ -115,4 +115,8 @@ class UserImport < Import
     object.send(:safe_attributes=, attributes, user)
     object
   end
+
+  def extend_object(row, item, object)
+    Mailer.deliver_account_information(object, object.password) if yes?(settings['notifications'])
+  end
 end

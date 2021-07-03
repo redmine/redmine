@@ -130,6 +130,24 @@ class UserImportTest < ActiveSupport::TestCase
     assert_equal '666-7777-8888', third.custom_field_value(phone_number_cf)
   end
 
+  def test_deliver_account_information
+    import = generate_import_with_mapping
+    import.settings['notifications'] = '1'
+    %w(admin language auth_source).each do |key|
+      import.settings['mapping'].delete(key)
+    end
+    import.save!
+
+    ActionMailer::Base.deliveries.clear
+    first, = new_records(User, 3){import.run}
+    assert_equal 3, ActionMailer::Base.deliveries.size
+
+    mail = ActionMailer::Base.deliveries.first
+    assert_equal 'Your Redmine account activation', mail.subject
+    assert_equal 'user1', first.login
+    assert_mail_body_match "Login: #{first.login}", mail
+  end
+
   protected
 
   def generate_import(fixture_name='import_users.csv')
