@@ -41,6 +41,7 @@ class Group < Principal
 
   safe_attributes(
     'name',
+    'twofa_required',
     'user_ids',
     'custom_field_values',
     'custom_fields',

@@ -236,6 +236,14 @@ class Setting < ActiveRecord::Base
     params
   end
 
+  def self.twofa_required?
+    twofa == '2'
+  end
+
+  def self.twofa_optional?
+    twofa == '1'
+  end
+
   # Helper that returns an array based on per_page_options setting
   def self.per_page_options_array
     per_page_options.split(%r{[\s,]}).collect(&:to_i).select {|n| n > 0}.sort

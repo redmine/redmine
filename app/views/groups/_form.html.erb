@@ -3,6 +3,15 @@
 <div class="box tabular">
   <p><%= f.text_field :name, :required => true, :size => 60,
            :disabled => !@group.safe_attribute?('name')  %></p>
+  <% unless @group.builtin? %>
+    <p><%= f.check_box :twofa_required, disabled: !Setting.twofa_optional? %>
+      <% if Setting.twofa_required? %>
+        <em class="info"><%= l 'twofa_text_group_required' %></em>
+      <% elsif !Setting.twofa_optional? %>
+        <em class="info"><%= l 'twofa_text_group_disabled' %></em>
+      <% end %>
+    </p>
+  <% end %>
 
   <% @group.custom_field_values.each do |value| %>
     <p><%= custom_field_tag_with_label :group, value %></p>
