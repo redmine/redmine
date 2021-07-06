@@ -1420,3 +1420,10 @@ it:
   twofa_text_group_disabled: This setting is only effective when the global two factor
     authentication setting is set to 'optional'. Currently, two factor authentication
     is disabled.
+  field_default_issue_query: Default issue query
+  setting_default_issue_query: Default Query
+  label_default_queries:
+    for_all_projects: For all projects
+    for_current_project: For current project
+    for_all_users: For all users
+  text_allowed_queries_to_select: Public (to any users) queries only selectable
