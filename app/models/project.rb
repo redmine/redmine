@@ -58,6 +58,8 @@ class Project < ActiveRecord::Base
                           :class_name => 'IssueCustomField',
                           :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
                           :association_foreign_key => 'custom_field_id'
+  # Default Custom Query
+  belongs_to :default_issue_query, :class_name => 'IssueQuery'
 
   acts_as_attachable :view_permission => :view_files,
                      :edit_permission => :manage_files,
@@ -824,6 +826,7 @@ class Project < ActiveRecord::Base
     'issue_custom_field_ids',
     'parent_id',
     'default_version_id',
+    'default_issue_query_id',
     'default_assigned_to_id')
 
   safe_attributes(
@@ -1221,6 +1224,9 @@ class Project < ActiveRecord::Base
       new_query.user_id = query.user_id
       new_query.role_ids = query.role_ids if query.visibility == ::Query::VISIBILITY_ROLES
       self.queries << new_query
+      if query == project.default_issue_query
+        self.default_issue_query = new_query
+      end
     end
   end
 

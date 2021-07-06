@@ -514,6 +514,10 @@ de:
   label_day_plural: Tage
   label_default: Standard
   label_default_columns: Standard-Spalten
+  label_default_queries:
+    for_all_projects: Für alle Projekte
+    for_current_project: Für das aktuelle Projekt
+    for_all_users: Für alle Benutzer
   label_deleted: gelöscht
   label_descending: Absteigend
   label_details: Details
@@ -997,6 +1001,7 @@ de:
   setting_cross_project_subtasks: Projektübergreifende untergeordnete Tickets erlauben
   setting_date_format: Datumsformat
   setting_default_issue_start_date_to_creation_date: Aktuelles Datum als Beginn für neue Tickets verwenden
+  setting_default_issue_query: Standardabfrage
   setting_default_language: Standardsprache
   setting_default_notification_option: Standard Benachrichtigungsoptionen
   setting_default_projects_modules: Standardmäßig aktivierte Module für neue Projekte
@@ -1064,6 +1069,7 @@ de:
   status_registered: nicht aktivierte
 
   text_account_destroy_confirmation: "Möchten Sie wirklich fortfahren?\nIhr Benutzerkonto wird für immer gelöscht und kann nicht wiederhergestellt werden."
+  text_allowed_queries_to_select: Nur für alle sichtbare Abfragen können ausgewählt werden
   text_are_you_sure: Sind Sie sicher?
   text_assign_time_entries_to_project: Gebuchte Aufwände dem Projekt zuweisen
   text_caracters_maximum: "Max. %{count} Zeichen."

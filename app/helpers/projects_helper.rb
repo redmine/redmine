@@ -114,6 +114,15 @@ module ProjectsHelper
     principals_options_for_select(assignable_users, project.default_assigned_to)
   end
 
+  def project_default_issue_query_options(project)
+    public_queries = IssueQuery.only_public
+    grouped = {
+      l('label_default_queries.for_all_projects')    => public_queries.where(project_id: nil).pluck(:name, :id),
+      l('label_default_queries.for_current_project') => public_queries.where(project: project).pluck(:name, :id)
+    }
+    grouped_options_for_select(grouped, project.default_issue_query_id)
+  end
+
   def format_version_sharing(sharing)
     sharing = 'none' unless Version::VERSION_SHARINGS.include?(sharing)
     l("label_version_sharing_#{sharing}")

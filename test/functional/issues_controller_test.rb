@@ -8225,4 +8225,76 @@ class IssuesControllerTest < Redmine::ControllerTest
       end
     end
   end
+
+  def test_index_should_retrieve_default_query
+    query = IssueQuery.find(4)
+    IssueQuery.stubs(:default).returns query
+
+    [nil, 1].each do |user_id|
+      @request.session[:user_id] = user_id
+      get :index
+      assert_select 'h2', text: query.name
+
+      get :index, params: { project_id: 1 }
+      assert_select 'h2', text: query.name
+    end
+  end
+
+  def test_index_should_ignore_default_query_with_without_default
+    query = IssueQuery.find(4)
+    IssueQuery.stubs(:default).returns query
+
+    [nil, 1].each do |user_id|
+      @request.session[:user_id] = user_id
+      get :index, params: { set_filter: '1', without_default: '1' }
+      assert_select 'h2', text: I18n.t(:label_issue_plural)
+
+      get :index, params: { project_id: 1, set_filter: '1', without_default: '1' }
+      assert_select 'h2', text: I18n.t(:label_issue_plural)
+    end
+  end
+
+  def test_index_should_ignore_default_query_with_session_query
+    query = IssueQuery.find 4
+    IssueQuery.stubs(:default).returns query
+    session_query = IssueQuery.find 1
+
+    @request.session[:issue_query] = { id: 1, project_id: 1}
+    @request.session[:user_id] = 1
+    get :index, params: { project_id: '1' }
+    assert_select 'h2', text: session_query.name
+  end
+
+  def test_index_global_should_ignore_default_query_with_session_query
+    query = IssueQuery.find 4
+    IssueQuery.stubs(:default).returns query
+    session_query = IssueQuery.find 5
+
+    @request.session[:issue_query] = { id: 5, project_id: nil}
+    @request.session[:user_id] = 1
+    get :index
+    assert_select 'h2', text: session_query.name
+  end
+
+  def test_index_should_use_default_query_with_invalid_session_query
+    query = IssueQuery.find 4
+    IssueQuery.stubs(:default).returns query
+
+    @request.session[:issue_query] = { id: 1, project_id: 1}
+    @request.session[:user_id] = 1
+    get :index
+    assert_select 'h2', text: query.name
+  end
+
+  def test_index_should_not_load_default_query_for_api_request
+    query = IssueQuery.find 4
+    IssueQuery.stubs(:default).returns query
+
+    @request.session[:user_id] = 1
+    get :index, params: { format: 'json' }
+
+    assert results = JSON.parse(@response.body)['issues']
+    # query filters for tracker_id == 3
+    assert results.detect{ |i| i['tracker_id'] != 3 }
+  end
 end

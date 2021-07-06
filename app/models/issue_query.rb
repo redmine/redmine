@@ -73,6 +73,20 @@ class IssueQuery < Query
     QueryColumn.new(:last_notes, :caption => :label_last_notes, :inline => false)
   ]
 
+  has_many :projects, foreign_key: 'default_issue_query_id', dependent: :nullify, inverse_of: 'default_issue_query'
+  after_update { projects.clear unless visibility == VISIBILITY_PUBLIC }
+  scope :only_public, ->{ where(visibility: VISIBILITY_PUBLIC) }
+  scope :for_all_projects, ->{ where(project_id: nil) }
+
+  def self.default(project: nil, user: User.current)
+    query = nil
+    if user&.logged?
+      query = find_by_id user.pref.default_issue_query
+    end
+    query ||= project&.default_issue_query
+    query || find_by_id(Setting.default_issue_query)
+  end
+
   def initialize(attributes=nil, *args)
     super attributes
     self.filters ||= {'status_id' => {:operator => "o", :values => [""]}}

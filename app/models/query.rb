@@ -340,6 +340,12 @@ class Query < ActiveRecord::Base
 
   scope :sorted, lambda {order(:name, :id)}
 
+  # to be implemented in subclasses that have a way to determine a default
+  # query for the given options
+  def self.default(**_)
+    nil
+  end
+
   # Scope of visible queries, can be used from subclasses only.
   # Unlike other visible scopes, a class methods is used as it
   # let handle inheritance more nicely than scope DSL.

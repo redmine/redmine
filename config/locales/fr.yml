@@ -391,6 +391,7 @@ fr:
   field_full_width_layout: Afficher sur toute la largeur
   field_digest: Checksum
   field_default_assigned_to: Assigné par défaut
+  field_default_issue_query: Rapport par défaut
 
   setting_app_title: Titre de l'application
   setting_welcome_text: Texte d'accueil
@@ -481,6 +482,7 @@ fr:
   setting_time_entry_list_defaults: Affichage par défaut de la liste des temps passés
   setting_timelog_accept_0_hours: Autoriser la saisie de temps avec 0 heure
   setting_timelog_max_hours_per_day: Maximum d'heures pouvant être saisies par un utilisateur sur un jour
+  setting_default_issue_query: Rapport par défaut
 
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets
@@ -1026,6 +1028,10 @@ fr:
   label_font_monospace: Police non proportionnelle
   label_font_proportional: Police proportionnelle
   label_last_notes: Dernières notes
+  label_default_queries:
+    for_all_projects: Pour tous les projets
+    for_current_project: Pour le projet en cours
+    for_all_users: Pour tous les utilisateurs
   label_trackers_description: Description des trackers
   label_open_trackers_description: Afficher la description des trackers
 
@@ -1217,6 +1223,7 @@ fr:
   description_issue_category_reassign: Choisir une catégorie
   description_wiki_subpages_reassign: Choisir une nouvelle page parent
   text_repository_identifier_info: 'Seuls les lettres minuscules (a-z), chiffres, tirets et tirets bas sont autorisés.<br />Un fois sauvegardé, l''identifiant ne pourra plus être modifié.'
+  text_allowed_queries_to_select: Seuls les rapports publics (pour tous les utilisateurs) sont sélectionnables
   label_parent_task_attributes_derived: Calculé à partir des sous-tâches
   label_parent_task_attributes_independent: Indépendent des sous-tâches
   mail_subject_security_notification: Notification de sécurité

@@ -409,6 +409,7 @@ en:
   field_unique_id: Unique ID
   field_toolbar_language_options: Code highlighting toolbar languages
   field_twofa_required: Require two factor authentication
+  field_default_issue_query: Default issue query
 
   setting_app_title: Application title
   setting_welcome_text: Welcome text
@@ -509,6 +510,7 @@ en:
   setting_show_status_changes_in_mail_subject: Show status changes in issue mail notifications subject
   setting_project_list_defaults: Projects list defaults
   setting_twofa: Two-factor authentication
+  setting_default_issue_query: Default Query
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
@@ -1097,6 +1099,10 @@ en:
   label_optgroup_others: Other projects
   label_optgroup_recents: Recently used
   label_last_notes: Last notes
+  label_default_queries:
+    for_all_projects: For all projects
+    for_current_project: For current project
+    for_all_users: For all users
   label_nothing_to_preview: Nothing to preview
   label_inherited_from_parent_project: "Inherited from parent project"
   label_inherited_from_group: "Inherited from group %{name}"
@@ -1277,6 +1283,7 @@ en:
   text_select_apply_tracker: "Select tracker"
   text_avatar_server_config_html: The current avatar server is <a href="%{url}">%{url}</a>. You can configure it in config/configuration.yml.
   text_no_subject: no subject
+  text_allowed_queries_to_select: Public (to any users) queries only selectable
 
 
   default_role_manager: Manager

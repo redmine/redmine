@@ -47,6 +47,8 @@
            IssueQuery.new(:totalable_names => Setting.issue_list_default_totals).available_totalable_columns.map {|c| [c.caption, c.name.to_s]},
            :inline => true,
            :label => :label_total_plural %></p>
+
+  <p><%= setting_select :default_issue_query, default_global_issue_query_options %></p>
 </fieldset>
 
 <%= submit_tag l(:button_save) %>

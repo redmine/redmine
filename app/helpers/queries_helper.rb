@@ -395,6 +395,8 @@ module QueriesHelper
         @query.project = @project
       end
       @query
+    else
+      @query = klass.default project: @project
     end
   end
 
@@ -457,9 +459,16 @@ module QueriesHelper
         queries.collect do |query|
           css = +'query'
           clear_link = +''
+          clear_link_param = {:set_filter => 1, :sort => '', :project_id => @project}
+
+          if query == query.class.default(project: @project)
+            css << ' default'
+            clear_link_param[:without_default] = 1
+          end
+
           if query == @query
             css << ' selected'
-            clear_link += link_to_clear_query
+            clear_link += link_to_clear_query(clear_link_param)
           end
           content_tag('li',
                       link_to(query.name,
@@ -471,10 +480,10 @@ module QueriesHelper
       ) + "\n"
   end
 
-  def link_to_clear_query
+  def link_to_clear_query(params = {:set_filter => 1, :sort => '', :project_id => @project})
     link_to(
       l(:button_clear),
-      {:set_filter => 1, :sort => '', :project_id => @project},
+      params,
       :class => 'icon-only icon-clear-query',
       :title => l(:button_clear)
     )

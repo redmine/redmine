@@ -2750,4 +2750,65 @@ class QueryTest < ActiveSupport::TestCase
     # Non-paginated issue ids and paginated issue ids should be in the same order.
     assert_equal issue_ids, paginated_issue_ids
   end
+
+  def test_destruction_of_default_query_should_remove_reference_from_project
+    project = Project.find('ecookbook')
+    project_query = IssueQuery.find(1)
+    project.update_column :default_issue_query_id, project_query.id
+
+    project_query.destroy
+    project.reload
+    assert_nil project.default_issue_query_id
+  end
+
+  def test_should_determine_default_issue_query
+    project = Project.find('ecookbook')
+    user = project.users.first
+
+    project_query = IssueQuery.find(1)
+    query = IssueQuery.find(4)
+    user_query = IssueQuery.find(3)
+    user_query.update_column :user_id, user.id
+
+    [nil, user, User.anonymous].each do |u|
+      [nil, project].each do |p|
+        assert_nil IssueQuery.default(project: p, user: u)
+      end
+    end
+
+    # only global default is set
+    with_settings :default_issue_query => query.id do
+      [nil, user, User.anonymous].each do |u|
+        [nil, project].each do |p|
+          assert_equal query, IssueQuery.default(project: p, user: u)
+        end
+      end
+    end
+
+    # with project default
+    assert_equal project.id, project_query.project_id
+    project.update_column :default_issue_query_id, project_query.id
+    [nil, user, User.anonymous].each do |u|
+      assert_nil IssueQuery.default(project: nil, user: u)
+      assert_equal project_query, IssueQuery.default(project: project, user: u)
+    end
+
+    # project default should override global default
+    with_settings :default_issue_query => query.id do
+      [nil, user, User.anonymous].each do |u|
+        assert_equal query, IssueQuery.default(project: nil, user: u)
+        assert_equal project_query, IssueQuery.default(project: project, user: u)
+      end
+    end
+
+    # user default, overrides project and global default
+    user.pref.default_issue_query = user_query.id
+    user.pref.save
+    with_settings :default_issue_query => query.id do
+      [nil, project].each do |p|
+        assert_equal user_query, IssueQuery.default(project: p, user: user)
+        assert_equal user_query, IssueQuery.default(project: p, user: user)
+      end
+    end
+  end
 end

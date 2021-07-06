@@ -44,6 +44,7 @@ class IssuesController < ApplicationController
 
   def index
     use_session = !request.format.csv?
+    retrieve_default_query(use_session)
     retrieve_query(IssueQuery, use_session)
 
     if @query.valid?
@@ -478,6 +479,24 @@ class IssuesController < ApplicationController
   def query_error(exception)
     session.delete(:issue_query)
     super
+  end
+
+  def retrieve_default_query(use_session)
+    return if params[:query_id].present?
+    return if api_request?
+    return if params[:set_filter] && (params.key?(:op) || params.key?(:f))
+
+    if params[:without_default].present?
+      params[:set_filter] = 1
+      return
+    end
+    if !params[:set_filter] && use_session && session[:issue_query]
+      query_id, project_id = session[:issue_query].values_at(:id, :project_id)
+      return if IssueQuery.where(id: query_id).exists? && project_id == @project&.id
+    end
+    if default_query = IssueQuery.default(project: @project)
+      params[:query_id] = default_query.id
+    end
   end
 
   def retrieve_previous_and_next_issue_ids

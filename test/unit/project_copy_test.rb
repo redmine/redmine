@@ -283,6 +283,19 @@ class ProjectCopyTest < ActiveSupport::TestCase
     assert_equal [1, 3], query.role_ids.sort
   end
 
+  test "#copy should copy default issue query assignment" do
+    source = Project.generate!
+    query = IssueQuery.generate!(:project => source, :user => User.find(2))
+    source.update_column :default_issue_query_id, query.id
+
+    target = Project.new(:name => 'Copy Test', :identifier => 'copy-test')
+    assert target.copy(source)
+
+    assert target.default_issue_query.present?
+    assert_equal 1, target.queries.size
+    assert_equal query.name, target.default_issue_query.name
+  end
+
   test "#copy should copy versions" do
     @source_project.versions << Version.generate!
     @source_project.versions << Version.generate!
