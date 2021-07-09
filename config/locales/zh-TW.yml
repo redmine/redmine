@@ -1448,19 +1448,14 @@
   label_wiki_page_watchers: 監看員
   label_attachment_description: 檔案概述說明
   error_no_data_in_file: 檔案未包含任何資料
-  field_twofa_required: Require two factor authentication
-  twofa_hint_optional_html: Setting <strong>%{label}</strong> will let users set up
-    two-factor authentication at will, unless it is required by one of their groups.
-  twofa_text_group_required: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is required for all users.
-  twofa_text_group_disabled: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is disabled.
-  field_default_issue_query: Default issue query
-  setting_default_issue_query: Default Query
+  field_twofa_required: 需要雙因素驗證
+  twofa_hint_optional_html: 設定為 <strong>%{label}</strong> 將會讓用戶自己決定是否使用雙因素驗證, 除非用戶所屬群組需要使用雙因素驗證.
+  twofa_text_group_required: 此設定僅供系統的全域雙因素驗證設定'選用項'時才有效. 目前系統中所有的用戶都必須使用雙因素驗證.
+  twofa_text_group_disabled: 此設定僅供系統的全域雙因素驗證設定'選用項'時才有效. 目前系統的雙因素驗證設定值是'關閉'.
+  field_default_issue_query: 預設議題查詢
+  setting_default_issue_query: 預設查詢
   label_default_queries:
-    for_all_projects: For all projects
-    for_current_project: For current project
-    for_all_users: For all users
-  text_allowed_queries_to_select: Public (to any users) queries only selectable
+    for_all_projects: 對於全部專案
+    for_current_project: 對於目前專案
+    for_all_users: 對於全部用戶
+  text_allowed_queries_to_select: 僅可選取公開 (給任何用戶) 的查詢
