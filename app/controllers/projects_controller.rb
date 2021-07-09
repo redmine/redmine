@@ -30,7 +30,7 @@ class ProjectsController < ApplicationController
   before_action :authorize_global, :only => [:new, :create]
   before_action :require_admin, :only => [:copy, :archive, :unarchive]
   accept_rss_auth :index
-  accept_api_auth :index, :show, :create, :update, :destroy, :archive, :unarchive
+  accept_api_auth :index, :show, :create, :update, :destroy, :archive, :unarchive, :close, :reopen
   require_sudo_mode :destroy
 
   helper :custom_fields
@@ -275,12 +275,18 @@ class ProjectsController < ApplicationController
 
   def close
     @project.close
-    redirect_to project_path(@project)
+    respond_to do |format|
+      format.html { redirect_to project_path(@project) }
+      format.api { render_api_ok }
+    end
   end
 
   def reopen
     @project.reopen
-    redirect_to project_path(@project)
+    respond_to do |format|
+      format.html { redirect_to project_path(@project) }
+      format.api { render_api_ok }
+    end
   end
 
   # Delete @project

@@ -133,8 +133,8 @@ Rails.application.routes.draw do
       get 'settings(/:tab)', :action => 'settings', :as => 'settings'
       match 'archive', :via => [:post, :put]
       match 'unarchive', :via => [:post, :put]
-      post 'close'
-      post 'reopen'
+      match 'close', :via => [:post, :put]
+      match 'reopen', :via => [:post, :put]
       match 'copy', :via => [:get, :post]
       match 'bookmark', :via => [:delete, :post]
     end

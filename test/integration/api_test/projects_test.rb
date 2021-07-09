@@ -373,4 +373,21 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert p = Project.find_by_id(2)
     assert p.active?
   end
+
+  test "PUT /projects/:id/close.xml should close project" do
+    put '/projects/1/close.xml', :headers => credentials('admin')
+    assert_response :no_content
+    assert_equal '', @response.body
+    assert p = Project.find(1)
+    assert p.closed?
+  end
+
+  test "PUT /projects/:id/reopen.xml should reopen project" do
+    Project.find(1).update_column :status, Project::STATUS_CLOSED
+    put '/projects/1/reopen.xml', :headers => credentials('admin')
+    assert_response :no_content
+    assert_equal '', @response.body
+    assert p = Project.find(1)
+    assert p.active?
+  end
 end
