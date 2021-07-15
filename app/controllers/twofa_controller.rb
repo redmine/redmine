@@ -47,6 +47,8 @@ class TwofaController < ApplicationController
 
   def activate
     if @twofa.confirm_pairing!(params[:twofa_code].to_s)
+      # The session token was destroyed by the twofa pairing, generate a new one
+      session[:tk] = @user.generate_session_token
       flash[:notice] = l('twofa_activated', bc_path: my_twofa_backup_codes_init_path)
       redirect_to my_account_path
     else

@@ -919,7 +919,7 @@ class User < Principal
   # This helps to keep the account secure in case the associated email account
   # was compromised.
   def destroy_tokens
-    if saved_change_to_hashed_password? || (saved_change_to_status? && !active?)
+    if saved_change_to_hashed_password? || (saved_change_to_status? && !active?) || (saved_change_to_twofa_scheme? && twofa_scheme.present?)
       tokens = ['recovery', 'autologin', 'session']
       Token.where(:user_id => id, :action => tokens).delete_all
     end
