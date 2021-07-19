@@ -1708,6 +1708,17 @@ class ApplicationHelperTest < Redmine::HelperTest
     end
   end
 
+  def test_link_to_principal_should_link_to_user
+    user = User.find(2)
+    assert_equal link_to_user(user), link_to_principal(user)
+  end
+
+  def test_link_to_principal_should_link_to_group
+    group = Group.find(10)
+    result = link_to('A Team', '/groups/10', :class => 'group icon icon-group')
+    assert_equal result, link_to_principal(group)
+  end
+
   def test_link_to_group_should_return_only_group_name_for_non_admin_users
     User.current = nil
     group = Group.find(10)

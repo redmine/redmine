@@ -2,7 +2,7 @@
   <div class="members box">
     <h3 class="icon icon-group"><%=l(:label_member_plural)%></h3>
     <% @principals_by_role.keys.sort.each do |role| %>
-      <p><span class="label"><%= role %>:</span> <%= @principals_by_role[role].sort.collect{|p| link_to_user p}.join(", ").html_safe %></p>
+      <p><span class="label"><%= role %>:</span> <%= @principals_by_role[role].sort.collect{|p| link_to_principal p}.join(", ").html_safe %></p>
     <% end %>
   </div>
   <% end %>

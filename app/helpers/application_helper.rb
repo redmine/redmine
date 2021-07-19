@@ -51,17 +51,28 @@ module ApplicationHelper
 
   # Displays a link to user's account page if active
   def link_to_user(user, options={})
-    if user.is_a?(User)
-      name = h(user.name(options[:format]))
-      if user.active? || (User.current.admin? && user.logged?)
-        only_path = options[:only_path].nil? ? true : options[:only_path]
-        link_to name, user_url(user, :only_path => only_path), :class => user.css_classes
-      else
-        name
+    user.is_a?(User) ? link_to_principal(user, options) : h(user.to_s)
+  end
+
+  # Displays a link to user's account page or group page
+  def link_to_principal(principal, options={})
+    only_path = options[:only_path].nil? ? true : options[:only_path]
+    case principal
+    when User
+      name = h(principal.name(options[:format]))
+      if principal.active? || (User.current.admin? && principal.logged?)
+        url = user_url(principal, :only_path => only_path)
+        css_classes = principal.css_classes
       end
+    when Group
+      name = h(principal.to_s)
+      url = group_url(principal, :only_path => only_path)
+      css_classes = "group icon icon-#{principal.class.name.downcase}"
     else
-      h(user.to_s)
+      name = h(principal.to_s)
     end
+
+    url ? link_to(name, url, :class => css_classes) : name
   end
 
   # Displays a link to edit group page if current user is admin
