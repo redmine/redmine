@@ -138,14 +138,10 @@ class Attachment < ActiveRecord::Base
   def files_to_final_location
     if @temp_file
       self.disk_directory = target_directory
-      self.disk_filename = Attachment.disk_filename(filename, disk_directory)
-      logger.info("Saving attachment '#{self.diskfile}' (#{@temp_file.size} bytes)") if logger
-      path = File.dirname(diskfile)
-      unless File.directory?(path)
-        FileUtils.mkdir_p(path)
-      end
       sha = Digest::SHA256.new
-      File.open(diskfile, "wb") do |f|
+      Attachment.create_diskfile(filename, disk_directory) do |f|
+        self.disk_filename = File.basename f.path
+        logger.info("Saving attachment '#{self.diskfile}' (#{@temp_file.size} bytes)") if logger
         if @temp_file.respond_to?(:read)
           buffer = ""
           while (buffer = @temp_file.read(8192))
@@ -557,9 +553,8 @@ class Attachment < ActiveRecord::Base
 
   # Singleton class method is public
   class << self
-    # Returns an ASCII or hashed filename that do not
-    # exists yet in the given subdirectory
-    def disk_filename(filename, directory=nil)
+    # Claims a unique ASCII or hashed filename, yields the open file handle
+    def create_diskfile(filename, directory=nil, &block)
       timestamp = DateTime.now.strftime("%y%m%d%H%M%S")
       ascii = ''
       if %r{^[a-zA-Z0-9_\.\-]*$}.match?(filename) && filename.length <= 50
@@ -569,11 +564,21 @@ class Attachment < ActiveRecord::Base
         # keep the extension if any
         ascii << $1 if filename =~ %r{(\.[a-zA-Z0-9]+)$}
       end
-      while File.exist?(File.join(storage_path, directory.to_s,
-                                  "#{timestamp}_#{ascii}"))
+
+      path = File.join storage_path, directory.to_s
+      FileUtils.mkdir_p(path) unless File.directory?(path)
+      begin
+        name = "#{timestamp}_#{ascii}"
+        File.open(
+          File.join(path, name),
+          flags: File::CREAT | File::EXCL | File::BINARY | File::WRONLY,
+          binmode: true,
+          &block
+        )
+      rescue Errno::EEXIST
         timestamp.succ!
+        retry
       end
-      "#{timestamp}_#{ascii}"
     end
   end
 end

@@ -275,12 +275,28 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 'valid_[] invalid_chars', a.filename
   end
 
-  def test_diskfilename
-    assert Attachment.disk_filename("test_file.txt") =~ /^\d{12}_test_file.txt$/
-    assert_equal 'test_file.txt', Attachment.disk_filename("test_file.txt")[13..-1]
-    assert_equal '770c509475505f37c2b8fb6030434d6b.txt', Attachment.disk_filename("test_accentué.txt")[13..-1]
-    assert_equal 'f8139524ebb8f32e51976982cd20a85d', Attachment.disk_filename("test_accentué")[13..-1]
-    assert_equal 'cbb5b0f30978ba03731d61f9f6d10011', Attachment.disk_filename("test_accentué.ça")[13..-1]
+  def test_create_diskfile
+    Attachment.create_diskfile("test_file.txt") do |f|
+      path = f.path
+      assert_match(/^\d{12}_test_file.txt$/, File.basename(path))
+      assert_equal 'test_file.txt', File.basename(path)[13..-1]
+      File.unlink f.path
+    end
+
+    Attachment.create_diskfile("test_accentué.txt") do |f|
+      assert_equal '770c509475505f37c2b8fb6030434d6b.txt', File.basename(f.path)[13..-1]
+      File.unlink f.path
+    end
+
+    Attachment.create_diskfile("test_accentué") do |f|
+      assert_equal 'f8139524ebb8f32e51976982cd20a85d', File.basename(f.path)[13..-1]
+      File.unlink f.path
+    end
+
+    Attachment.create_diskfile("test_accentué.ça") do |f|
+      assert_equal 'cbb5b0f30978ba03731d61f9f6d10011', File.basename(f.path)[13..-1]
+      File.unlink f.path
+    end
   end
 
   def test_title
