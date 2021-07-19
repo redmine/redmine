@@ -1,4 +1,8 @@
-<%= title [l(:label_group_plural), groups_path], @group.name %>
+<div class="contextual">
+<%= link_to(l(:button_edit), edit_group_path(@group), :class => 'icon icon-edit') if User.current.admin? %>
+</div>
+
+<h2><%= @group.name %></h2>
 
 <% if @group.custom_field_values.any? %>
   <ul>
@@ -14,3 +18,4 @@
     <li><%= user %></li>
 <% end %>
 </ul>
+<% html_title @group.name %>

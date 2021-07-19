@@ -47,6 +47,9 @@ class GroupsControllerTest < Redmine::ControllerTest
   end
 
   def test_show
+    Role.anonymous.update! :users_visibility => 'all'
+
+    @request.session[:user_id] = nil
     get(:show, :params => {:id => 10})
     assert_response :success
   end
@@ -67,6 +70,14 @@ class GroupsControllerTest < Redmine::ControllerTest
 
   def test_show_invalid_should_return_404
     get(:show, :params => {:id => 99})
+    assert_response 404
+  end
+
+  def test_show_group_that_is_not_visible_should_return_404
+    Role.anonymous.update! :users_visibility => 'members_of_visible_projects'
+
+    @request.session[:user_id] = nil
+    get :show, :params => {:id => 10}
     assert_response 404
   end
 
