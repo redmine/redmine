@@ -1715,7 +1715,7 @@ class ApplicationHelperTest < Redmine::HelperTest
 
   def test_link_to_principal_should_link_to_group
     group = Group.find(10)
-    result = link_to('A Team', '/groups/10', :class => 'group icon icon-group')
+    result = link_to('A Team', '/groups/10', :class => 'group')
     assert_equal result, link_to_principal(group)
   end
 

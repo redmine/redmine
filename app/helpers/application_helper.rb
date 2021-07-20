@@ -67,11 +67,12 @@ module ApplicationHelper
     when Group
       name = h(principal.to_s)
       url = group_url(principal, :only_path => only_path)
-      css_classes = "group icon icon-#{principal.class.name.downcase}"
+      css_classes = 'group'
     else
       name = h(principal.to_s)
     end
 
+    css_classes += " #{options[:class]}" if options[:class].present?
     url ? link_to(name, url, :class => css_classes) : name
   end
 
