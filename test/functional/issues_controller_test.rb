@@ -2605,11 +2605,20 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'table.attributes .category', 0
   end
 
-  def test_show_should_display_link_to_the_assignee
+  def test_show_should_display_link_to_the_assigned_user
     get(:show, :params => {:id => 2})
     assert_response :success
     assert_select '.assigned-to' do
       assert_select 'a[href="/users/3"]'
+    end
+  end
+
+  def test_show_should_display_link_to_the_assigned_group
+    Issue.find(2).update_attribute(:assigned_to_id, 10)
+    get(:show, :params => {:id => 2})
+    assert_response :success
+    assert_select '.assigned-to' do
+      assert_select 'a[href="/groups/10"]'
     end
   end
 

@@ -265,8 +265,8 @@ module ApplicationHelper
       object.to_s
     when 'Float'
       sprintf "%.2f", object
-    when 'User'
-      html ? link_to_user(object) : object.to_s
+    when 'User', 'Group'
+      html ? link_to_principal(object) : object.to_s
     when 'Project'
       html ? link_to_project(object) : object.to_s
     when 'Version'
