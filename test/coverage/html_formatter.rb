@@ -33,6 +33,11 @@ module Redmine
             file.puts template('source').result(binding).force_encoding('utf-8')
           end
         end
+        puts output_message(result)
+      end
+
+      def output_message(result)
+        "Coverage report generated for #{result.command_name} to #{output_path}. #{result.covered_lines} / #{result.total_lines} LOC (#{result.covered_percent.round(2)}%) covered."
       end
 
       private
