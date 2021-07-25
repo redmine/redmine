@@ -4,8 +4,6 @@ $('#ajax-modal').html(
                 :locals => {:watchables => @watchables, :users => @users})) %>');
 
 <% if @watchables.size == 1 %>
-  $('#watchers').html(
-    '<%= escape_javascript(
-           render(:partial => 'watchers/watchers',
-                  :locals => {:watched => @watchables.first})) %>');
+  <%= render(:partial => 'watchers/set_watcher',
+             :locals => {:watched => @watchables, :user => User.current}) %>
 <% end %>

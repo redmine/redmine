@@ -290,6 +290,21 @@ class IssuesSystemTest < ApplicationSystemTestCase
     assert issue1.reload.watched_by?(jsmith)
   end
 
+  def test_change_watch_or_unwatch_icon_from_sidebar
+    user = User.find(2)
+    log_user('jsmith', 'jsmith')
+    visit '/issues/1'
+    assert page.has_css?('#content .contextual .issue-1-watcher.icon-fav-off')
+    # add watcher 'jsmith' from sidebar
+    page.find('#watchers .contextual a', :text => 'Add').click
+    page.find('#users_for_watcher label', :text => 'John Smith').click
+    page.find('#new-watcher-form p.buttons input[type=submit]').click
+    assert page.has_css?('#content .contextual .issue-1-watcher.icon-fav')
+    # remove watcher 'jsmith' from sidebar
+    page.find('#watchers ul li.user-2 a.delete').click
+    assert page.has_css?('#content .contextual .issue-1-watcher.icon-fav-off')
+  end
+
   def test_bulk_watch_issues_via_context_menu
     log_user('jsmith', 'jsmith')
     visit '/issues'
