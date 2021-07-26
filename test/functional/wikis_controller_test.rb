@@ -40,7 +40,7 @@ class WikisControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 1
     post :destroy, :params => {:id => 1, :confirm => 1}
     assert_redirected_to :controller => 'projects',
-                         :action => 'settings', :id => 'ecookbook', :tab => 'wiki'
+                         :action => 'show', :id => 'ecookbook'
     assert_nil Project.find(1).wiki
   end
 
