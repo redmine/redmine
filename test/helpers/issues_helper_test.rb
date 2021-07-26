@@ -375,26 +375,4 @@ class IssuesHelperTest < Redmine::HelperTest
     assert_equal new_project_issue_path(issue.project, params),
                  url_for_new_subtask(issue)
   end
-
-  def test_issue_spent_hours_details_should_link_to_project_time_entries_depending_on_cross_project_setting
-    %w(descendants).each do |setting|
-      with_settings :cross_project_subtasks => setting do
-        TimeEntry.generate!(:issue => Issue.generate!(:parent_issue_id => 1), :hours => 3)
-        TimeEntry.generate!(:issue => Issue.generate!(:parent_issue_id => 1), :hours => 4)
-
-        assert_match "href=\"/projects/ecookbook/time_entries?issue_id=~1\"", issue_spent_hours_details(Issue.find(1))
-      end
-    end
-  end
-
-  def test_issue_spent_hours_details_should_link_to_global_time_entries_depending_on_cross_project_setting
-    %w(system tree hierarchy).each do |setting|
-      with_settings :cross_project_subtasks => setting do
-        TimeEntry.generate!(:issue => Issue.generate!(:parent_issue_id => 1), :hours => 3)
-        TimeEntry.generate!(:issue => Issue.generate!(:parent_issue_id => 1), :hours => 4)
-
-        assert_match "href=\"/time_entries?issue_id=~1\"", issue_spent_hours_details(Issue.find(1))
-      end
-    end
-  end
 end
