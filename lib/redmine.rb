@@ -174,7 +174,7 @@ Redmine::AccessControl.map do |map|
     map.permission :add_wiki_page_watchers, {:watchers => [:new, :create, :autocomplete_for_user]}
     map.permission :delete_wiki_page_watchers, {:watchers => :destroy}
     map.permission :protect_wiki_pages, {:wiki => :protect}, :require => :member
-    map.permission :manage_wiki, {:wikis => [:edit, :destroy], :wiki => :rename}, :require => :member
+    map.permission :manage_wiki, {:wikis => :destroy, :wiki => :rename}, :require => :member
   end
 
   map.project_module :repository do |map|
