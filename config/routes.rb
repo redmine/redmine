@@ -215,7 +215,7 @@ Rails.application.routes.draw do
     end
     collection do
       match 'bulk_edit', :via => [:get, :post]
-      post 'bulk_update'
+      match 'bulk_update', :via => [:post, :patch]
     end
     resources :time_entries, :controller => 'timelog', :only => [:new, :create]
     shallow do

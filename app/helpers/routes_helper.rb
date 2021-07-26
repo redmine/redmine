@@ -87,6 +87,16 @@ module RoutesHelper
     end
   end
 
+  # Returns the path to bulk update issues or to issue path
+  # if only one issue is selected for bulk update
+  def _bulk_update_issues_path(issue, *args)
+    if issue
+      issue_path(issue, *args)
+    else
+      bulk_update_issues_path(*args)
+    end
+  end
+
   def board_path(board, *args)
     project_board_path(board.project, board, *args)
   end

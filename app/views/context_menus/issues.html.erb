@@ -17,7 +17,8 @@
         <li>
           <%= context_menu_link(
                 s.name,
-                bulk_update_issues_path(
+                _bulk_update_issues_path(
+                  @issue,
                   :ids => @issue_ids, :issue => {:status_id => s}, :back_url => @back
                 ),
                 :method => :post,
@@ -34,7 +35,7 @@
     <a href="#" class="submenu"><%= l(:field_tracker) %></a>
     <ul>
     <% @trackers.each do |t| -%>
-        <li><%= context_menu_link t.name, bulk_update_issues_path(:ids => @issue_ids, :issue => {'tracker_id' => t}, :back_url => @back), :method => :post,
+        <li><%= context_menu_link t.name, _bulk_update_issues_path(@issue, :ids => @issue_ids, :issue => {'tracker_id' => t}, :back_url => @back), :method => :patch,
                                   :selected => (@issue && t == @issue.tracker), :disabled => !@can[:edit] %></li>
     <% end -%>
     </ul>
@@ -46,7 +47,7 @@
     <a href="#" class="submenu"><%= l(:field_priority) %></a>
     <ul>
     <% @priorities.each do |p| -%>
-        <li><%= context_menu_link p.name, bulk_update_issues_path(:ids => @issue_ids, :issue => {'priority_id' => p}, :back_url => @back), :method => :post,
+        <li><%= context_menu_link p.name, _bulk_update_issues_path(@issue, :ids => @issue_ids, :issue => {'priority_id' => p}, :back_url => @back), :method => :patch,
                                   :selected => (@issue && p == @issue.priority), :disabled => (!@can[:edit] || @issues.any?(&:priority_derived?)) %></li>
     <% end -%>
     </ul>
@@ -58,10 +59,10 @@
     <a href="#" class="submenu"><%= l(:field_fixed_version) %></a>
     <ul>
     <% @versions.sort.each do |v| -%>
-        <li><%= context_menu_link format_version_name(v), bulk_update_issues_path(:ids => @issue_ids, :issue => {'fixed_version_id' => v}, :back_url => @back), :method => :post,
+        <li><%= context_menu_link format_version_name(v), _bulk_update_issues_path(@issue, :ids => @issue_ids, :issue => {'fixed_version_id' => v}, :back_url => @back), :method => :patch,
                                   :selected => (@issue && v == @issue.fixed_version), :disabled => !@can[:edit] %></li>
     <% end -%>
-        <li><%= context_menu_link l(:label_none), bulk_update_issues_path(:ids => @issue_ids, :issue => {'fixed_version_id' => 'none'}, :back_url => @back), :method => :post,
+        <li><%= context_menu_link l(:label_none), _bulk_update_issues_path(@issue, :ids => @issue_ids, :issue => {'fixed_version_id' => 'none'}, :back_url => @back), :method => :patch,
                                   :selected => (@issue && @issue.fixed_version.nil?), :disabled => !@can[:edit] %></li>
     </ul>
   </li>
@@ -72,14 +73,14 @@
     <a href="#" class="submenu"><%= l(:field_assigned_to) %></a>
     <ul>
     <% if @assignables.include?(User.current) %>
-        <li><%= context_menu_link "<< #{l(:label_me)} >>", bulk_update_issues_path(:ids => @issue_ids, :issue => {'assigned_to_id' => User.current}, :back_url => @back), :method => :post,
+        <li><%= context_menu_link "<< #{l(:label_me)} >>", _bulk_update_issues_path(@issue, :ids => @issue_ids, :issue => {'assigned_to_id' => User.current}, :back_url => @back), :method => :patch,
                                   :disabled => !@can[:edit] %></li>
     <% end %>
     <% @assignables.each do |u| -%>
-        <li><%= context_menu_link u.name, bulk_update_issues_path(:ids => @issue_ids, :issue => {'assigned_to_id' => u}, :back_url => @back), :method => :post,
+        <li><%= context_menu_link u.name, _bulk_update_issues_path(@issue, :ids => @issue_ids, :issue => {'assigned_to_id' => u}, :back_url => @back), :method => :patch,
                                   :selected => (@issue && u == @issue.assigned_to), :disabled => !@can[:edit] %></li>
     <% end -%>
-        <li><%= context_menu_link l(:label_nobody), bulk_update_issues_path(:ids => @issue_ids, :issue => {'assigned_to_id' => 'none'}, :back_url => @back), :method => :post,
+        <li><%= context_menu_link l(:label_nobody), _bulk_update_issues_path(@issue, :ids => @issue_ids, :issue => {'assigned_to_id' => 'none'}, :back_url => @back), :method => :patch,
                                   :selected => (@issue && @issue.assigned_to.nil?), :disabled => !@can[:edit] %></li>
     </ul>
   </li>
@@ -90,10 +91,10 @@
     <a href="#" class="submenu"><%= l(:field_category) %></a>
     <ul>
     <% @project.issue_categories.each do |u| -%>
-        <li><%= context_menu_link u.name, bulk_update_issues_path(:ids => @issue_ids, :issue => {'category_id' => u}, :back_url => @back), :method => :post,
+        <li><%= context_menu_link u.name, _bulk_update_issues_path(@issue, :ids => @issue_ids, :issue => {'category_id' => u}, :back_url => @back), :method => :patch,
                                   :selected => (@issue && u == @issue.category), :disabled => !@can[:edit] %></li>
     <% end -%>
-        <li><%= context_menu_link l(:label_none), bulk_update_issues_path(:ids => @issue_ids, :issue => {'category_id' => 'none'}, :back_url => @back), :method => :post,
+        <li><%= context_menu_link l(:label_none), _bulk_update_issues_path(@issue, :ids => @issue_ids, :issue => {'category_id' => 'none'}, :back_url => @back), :method => :patch,
                                   :selected => (@issue && @issue.category.nil?), :disabled => !@can[:edit] %></li>
     </ul>
   </li>
@@ -104,7 +105,7 @@
     <a href="#" class="submenu"><%= l(:field_done_ratio) %></a>
     <ul>
     <% (0..10).map{|x|x*10}.each do |p| -%>
-        <li><%= context_menu_link "#{p}%", bulk_update_issues_path(:ids => @issue_ids, :issue => {'done_ratio' => p}, :back_url => @back), :method => :post,
+        <li><%= context_menu_link "#{p}%", _bulk_update_issues_path(@issue, :ids => @issue_ids, :issue => {'done_ratio' => p}, :back_url => @back), :method => :patch,
                                       :selected => (@issue && p == @issue.done_ratio), :disabled => (!@can[:edit] || @issues.any?(&:done_ratio_derived?)) %></li>
     <% end -%>
     </ul>

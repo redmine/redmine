@@ -43,6 +43,7 @@ class RoutingIssuesTest < Redmine::RoutingTest
     should_route 'GET /issues/bulk_edit' => 'issues#bulk_edit'
     should_route 'POST /issues/bulk_edit' => 'issues#bulk_edit' # For updating the bulk edit form
     should_route 'POST /issues/bulk_update' => 'issues#bulk_update'
+    should_route 'PATCH /issues/bulk_update' => 'issues#bulk_update'
   end
 
   def test_issues_scoped_under_project
