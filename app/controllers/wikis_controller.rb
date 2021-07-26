@@ -18,7 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class WikisController < ApplicationController
-  menu_item :settings
+  menu_item :wiki
   before_action :find_project, :authorize
 
   # Delete a project's wiki
