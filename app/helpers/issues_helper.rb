@@ -217,6 +217,11 @@ module IssuesHelper
       if issue.total_spent_hours == issue.spent_hours
         link_to(l_hours_short(issue.spent_hours), path)
       else
+        # link to global time entries if cross-project subtasks are allowed
+        # in order to show time entries from not descendents projects
+        if %w(system tree hierarchy).include?(Setting.cross_project_subtasks)
+          path = time_entries_path(:issue_id => "~#{issue.id}")
+        end
         s = issue.spent_hours > 0 ? l_hours_short(issue.spent_hours) : ""
         s += " (#{l(:label_total)}: #{link_to l_hours_short(issue.total_spent_hours), path})"
         s.html_safe
