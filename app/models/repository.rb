@@ -51,6 +51,10 @@ class Repository < ActiveRecord::Base
   validate :repo_create_validation, :on => :create
   validate :validate_repository_path
 
+  scope :visible, lambda {|*args|
+    joins(:project).where(Project.allowed_to_condition(args.shift || User.current, :browse_repository, *args))
+  }
+
   safe_attributes(
     'identifier',
     'login',

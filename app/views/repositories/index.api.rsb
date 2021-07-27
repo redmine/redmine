@@ -1,0 +1,23 @@
+api.array :repositories, api_meta(:total_count => @repository_count, :offset => @offset, :limit => @limit) do
+  @repositories.each do |repository|
+    api.repository do
+      api.id         repository.id
+      api.project    id: repository.project_id,
+                     name: repository.project.name
+      api.name       repository.name
+      api.identifier repository.identifier
+      api.is_default repository.is_default
+      api.scm        repository.scm_name
+
+      Redmine::Hook.call_hook :api_repositories_index, { repository: repository, api: api }
+
+      api.array :branches do
+        Array(repository.branches).each do |branch|
+          api.branch name: branch
+        end
+      end if include_in_api_response?('branches')
+
+      api.created_on repository.created_on
+    end
+  end
+end

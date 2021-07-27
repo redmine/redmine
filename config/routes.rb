@@ -207,6 +207,8 @@ Rails.application.routes.draw do
     get 'wiki/:id/:version/diff', :to => 'wiki#diff'
   end
 
+  resources :repositories, :only => [:index]
+
   resources :issues do
     member do
       # Used when updating the form of an existing issue

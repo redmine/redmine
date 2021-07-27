@@ -31,14 +31,30 @@ class RepositoriesController < ApplicationController
   before_action :find_project_by_project_id, :only => [:new, :create]
   before_action :build_new_repository_from_params, :only => [:new, :create]
   before_action :find_repository, :only => [:edit, :update, :destroy, :committers]
-  before_action :find_project_repository, :except => [:new, :create, :edit, :update, :destroy, :committers]
+  before_action :find_project_repository, :except => [:new, :create, :edit, :update, :destroy, :committers, :index]
   before_action :find_changeset, :only => [:revision, :add_related_issue, :remove_related_issue]
-  before_action :authorize
+  before_action :authorize, :except => [:index]
+  before_action :authorize_global, :only => [:index]
   accept_rss_auth :revisions
-  accept_api_auth :add_related_issue, :remove_related_issue
+  accept_api_auth :add_related_issue, :remove_related_issue, :index
 
   rescue_from Redmine::Scm::Adapters::CommandFailed, :with => :show_error_command_failed
 
+  def index
+    klass = Repository.repository_class(params[:scm]) || Repository
+    scope = klass.visible
+
+    @offset, @limit = api_offset_and_limit
+
+    respond_to do |format|
+      format.html { render_404 }
+      format.api do
+        @repository_count = scope.count
+        @repositories = scope.offset(@offset).limit(@limit).order("#{Project.table_name}.identifier", "#{Repository.table_name}.identifier")
+      end
+    end
+  end
+  
   def new
     @repository.is_default = @project.repository.nil?
   end

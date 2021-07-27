@@ -166,6 +166,17 @@ module ProjectsHelper
       end
     end if include_in_api_response?('enabled_modules')
 
+    api.array :repositories do
+      project.repositories.each do |repository|
+        api.repository(:id => repository.id,
+                       :name => repository.name,
+                       :identifier => repository.identifier,
+                       :is_default => repository.is_default,
+                       :type => repository.type,
+                       :url => repository.url)
+      end
+    end if include_in_api_response?('repositories')
+
     api.array :issue_custom_fields do
       project.issue_custom_fields.each do |custom_field|
         api.custom_field(:id => custom_field.id, :name => custom_field.name)
