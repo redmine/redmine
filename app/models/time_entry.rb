@@ -119,6 +119,13 @@ class TimeEntry < ActiveRecord::Base
             self.project_id = issue.project_id
           end
           @invalid_issue_id = nil
+        elsif user.allowed_to?(:log_time, issue.project) && issue.assigned_to_id_changed? && issue.previous_assignee == User.current
+          current_assignee = issue.assigned_to
+          issue.assigned_to = issue.previous_assignee
+          unless issue.visible?(user)
+            @invalid_issue_id = issue_id
+          end
+          issue.assigned_to = current_assignee
         else
           @invalid_issue_id = issue_id
         end
