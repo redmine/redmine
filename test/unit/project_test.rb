@@ -475,6 +475,16 @@ class ProjectTest < ActiveSupport::TestCase
     assert principals_by_role[role].include?(group)
   end
 
+  def test_principals_by_role_should_only_return_active_users
+    #group = Group.find(10)
+    #Member.create!(:principal => group, :project_id => 1, :role_ids => [1])
+
+    principals_by_role = Project.find(1).principals_by_role
+    locked_user = User.find(5)
+    assert Project.find(1).memberships.map(&:principal).include?(locked_user)
+    assert_not principals_by_role.values.flatten.include?(locked_user)
+  end
+
   def test_rolled_up_trackers
     parent = Project.find(1)
     parent.trackers = Tracker.find([1, 2])

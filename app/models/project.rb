@@ -548,7 +548,7 @@ class Project < ActiveRecord::Base
 
   # Returns a hash of project users/groups grouped by role
   def principals_by_role
-    memberships.includes(:principal, :roles).inject({}) do |h, m|
+    memberships.active.includes(:principal, :roles).inject({}) do |h, m|
       m.roles.each do |r|
         h[r] ||= []
         h[r] << m.principal
