@@ -476,9 +476,6 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   def test_principals_by_role_should_only_return_active_users
-    #group = Group.find(10)
-    #Member.create!(:principal => group, :project_id => 1, :role_ids => [1])
-
     principals_by_role = Project.find(1).principals_by_role
     locked_user = User.find(5)
     assert Project.find(1).memberships.map(&:principal).include?(locked_user)
