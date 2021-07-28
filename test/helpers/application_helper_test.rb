@@ -150,6 +150,8 @@ class ApplicationHelperTest < Redmine::HelperTest
       'with title !http://foo.bar/image.jpg(This is a double-quoted "title")!' =>
         'with title <img src="http://foo.bar/image.jpg" title="This is a double-quoted &quot;title&quot;" ' \
           'alt="This is a double-quoted &quot;title&quot;" />',
+      'with query string !http://foo.bar/image.cgi?a=1&b=2!' =>
+        'with query string <img src="http://foo.bar/image.cgi?a=1&#38;b=2" alt="" />'
     }
     to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text)}
   end

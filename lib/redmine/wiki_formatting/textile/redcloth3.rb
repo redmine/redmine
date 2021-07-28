@@ -961,7 +961,7 @@ class RedCloth3 < String
             href, alt_title = check_refs( href ) if href
             url, url_title = check_refs( url )
 
-            next m unless uri_with_safe_scheme?(url)
+            next m unless uri_with_safe_scheme?(url.partition('?').first)
             if href
               href = htmlesc(href.dup)
               next m if href.downcase.start_with?('javascript:')
