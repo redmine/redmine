@@ -193,4 +193,30 @@ class TwofaTest < Redmine::IntegrationTest
       assert_response :success
     end
   end
+
+  def test_enable_twofa_should_destroy_tokens
+    recovery_token = Token.create!(:user_id => 2, :action => 'recovery')
+    autologin_token = Token.create!(:user_id => 2, :action => 'autologin')
+
+    with_settings twofa: "2" do
+      log_user('jsmith', 'jsmith')
+      follow_redirect!
+      assert_redirected_to "/my/twofa/totp/activate/confirm"
+      follow_redirect!
+
+      assert key = User.find_by_login('jsmith').twofa_totp_key
+      assert key.present?
+      totp = ROTP::TOTP.new key
+
+      post "/my/twofa/totp/activate", params: {twofa_code: '123456789'}
+      assert_redirected_to "/my/twofa/totp/activate/confirm"
+      follow_redirect!
+
+      post "/my/twofa/totp/activate", params: {twofa_code: totp.now}
+      assert_redirected_to "/my/account"
+    end
+
+    assert_nil Token.find_by_id(recovery_token.id)
+    assert_nil Token.find_by_id(autologin_token.id)
+  end
 end
