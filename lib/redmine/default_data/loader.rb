@@ -155,9 +155,9 @@ module Redmine
             rejected  = IssueStatus.create!(:name => l(:default_issue_status_rejected), :is_closed => true, :position => 6)
 
             # Trackers
-            bug = Tracker.create!(:name => l(:default_tracker_bug), :default_status_id => new.id, :is_in_chlog => true, :is_in_roadmap => false, :position => 1)
-            feature = Tracker.create!(:name => l(:default_tracker_feature), :default_status_id => new.id, :is_in_chlog => true, :is_in_roadmap => true, :position => 2)
-            support = Tracker.create!(:name => l(:default_tracker_support), :default_status_id => new.id, :is_in_chlog => false, :is_in_roadmap => false, :position => 3)
+            bug = Tracker.create!(:name => l(:default_tracker_bug), :default_status_id => new.id, :is_in_roadmap => false, :position => 1)
+            feature = Tracker.create!(:name => l(:default_tracker_feature), :default_status_id => new.id, :is_in_roadmap => true, :position => 2)
+            support = Tracker.create!(:name => l(:default_tracker_support), :default_status_id => new.id, :is_in_roadmap => false, :position => 3)
 
             # Set trackers as defaults for new projects
             Setting.default_projects_tracker_ids = [
