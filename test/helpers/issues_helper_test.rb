@@ -367,7 +367,7 @@ class IssuesHelperTest < Redmine::HelperTest
         TimeEntry.generate!(:issue => Issue.generate!(:parent_issue_id => 1), :hours => 3)
         TimeEntry.generate!(:issue => Issue.generate!(:parent_issue_id => 1), :hours => 4)
 
-        assert_match "href=\"/projects/ecookbook/time_entries?issue_id=~1\"", issue_spent_hours_details(Issue.find(1))
+        assert_match "href=\"/projects/ecookbook/time_entries?issue_id=~1\"", CGI.unescape(issue_spent_hours_details(Issue.find(1)))
       end
     end
   end
@@ -378,7 +378,7 @@ class IssuesHelperTest < Redmine::HelperTest
         TimeEntry.generate!(:issue => Issue.generate!(:parent_issue_id => 1), :hours => 3)
         TimeEntry.generate!(:issue => Issue.generate!(:parent_issue_id => 1), :hours => 4)
 
-        assert_match "href=\"/time_entries?issue_id=~1\"", issue_spent_hours_details(Issue.find(1))
+        assert_match "href=\"/time_entries?issue_id=~1\"", CGI.unescape(issue_spent_hours_details(Issue.find(1)))
       end
     end
   end
