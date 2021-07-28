@@ -5,6 +5,7 @@ gem 'bundler', '>= 1.12.0'
 
 gem 'rails', '5.2.6'
 gem 'sprockets', '~> 3.7.2' if RUBY_VERSION < '2.5'
+gem 'globalid', '~> 0.4.2' if Gem.ruby_version < Gem::Version.new('2.6.0')
 gem 'rouge', '~> 3.26.0'
 gem 'request_store', '~> 1.5.0'
 gem "mini_mime", "~> 1.0.1"
