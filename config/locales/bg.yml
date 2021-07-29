@@ -412,6 +412,8 @@ bg:
   field_history_default_tab: Таб по подразбиране в историята на задачите
   field_unique_id: Уникален ID
   field_toolbar_language_options: Езици за избор в <pre><code class="..."> бутон
+  field_twofa_required: Изискване за двуфакторна автентикация
+  field_default_issue_query: Заявка по подразбиране
 
   setting_app_title: Заглавие
   setting_welcome_text: Допълнителен текст
@@ -512,6 +514,7 @@ bg:
   setting_show_status_changes_in_mail_subject: Показване на промените на състоянието на задачите в поле Относно на имейлите
   setting_project_list_defaults: Проектен списък
   setting_twofa: Двуфакторна автентикация
+  setting_default_issue_query: Заявка по подразбиране
 
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
@@ -1100,6 +1103,10 @@ bg:
   label_optgroup_others: Други проекти
   label_optgroup_recents: Последно използвани
   label_last_notes: Последни коментари
+  label_default_queries:
+    for_all_projects: За всички проекти
+    for_current_project: За този проект
+    for_all_users: За всички потребители
   label_nothing_to_preview: Няма нищо за предварителен преглед
   label_inherited_from_parent_project: Наследени от родителския проект
   label_inherited_from_group: Наследени от група %{name}
@@ -1281,6 +1288,7 @@ bg:
   text_select_apply_tracker: Изберете тракер
   text_avatar_server_config_html: Текущият сървър на аватари е <a href="%{url}">%{url}</a>.
     Бие можете да го конфигурирате в config/configuration.yml.
+  text_allowed_queries_to_select: Само публичните (за всички потребители) заявки са достъпни за избор
 
   default_role_manager: Мениджър
   default_role_developer: Разработчик
@@ -1343,6 +1351,8 @@ bg:
   twofa_not_active: Не е активирана
   twofa_label_code: Код
   twofa_hint_disabled_html: Настройка <strong>%{label}</strong> ще деактивира двуфакторната автентикация за всички потребители.
+  twofa_hint_optional_html: Този избор <strong>%{label}</strong> ще позволи на потребителите да установят двуфакторна автентикация27
+    по желание, освен ако тя не е задължителна от някоя от техните групи.
   twofa_hint_required_html: Настройка <strong>%{label}</strong> ще изисква всички потребители
     да установят двуфакторна автентикация при тяхното следващо влизане в Redmine.
   twofa_label_setup: Активиране на двуфакторна автентикация
@@ -1372,24 +1382,11 @@ bg:
   twofa_text_backup_codes_created_at: Резервни кодове генерирани на %{datetime}.
   twofa_backup_codes_already_shown: Резервните кодове не могат да бъдат показани отново, моля <a data-method="post"
     href="%{bc_path}">генерирайте нови резервни кодове</a>, ако е необходимо.
-  
+  twofa_text_group_required: Този избор е ефективен само, когато глобалната двуфакторна автентикация е установена на 'по избор'.
+    Понастоящем, двуфакторната автентикация се изисква за всички потребители.
+  twofa_text_group_disabled: Този избор е ефективен само, когато глобалната двуфакторна автентикация е установена на 'по избор'.
+    Понастоящем, двуфакторната автентикация е забранена.
   text_user_destroy_confirmation: Наистина ли желаете да изтриете този потребител и всички  позовавания (references) на него?
     Това действие не може да бъде отменено. Често заключването на потребителя е по-добро решение от изтриването му.
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
-  field_twofa_required: Require two factor authentication
-  twofa_hint_optional_html: Setting <strong>%{label}</strong> will let users set up
-    two-factor authentication at will, unless it is required by one of their groups.
-  twofa_text_group_required: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is required for all users.
-  twofa_text_group_disabled: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is disabled.
-  field_default_issue_query: Default issue query
-  setting_default_issue_query: Default Query
-  label_default_queries:
-    for_all_projects: For all projects
-    for_current_project: For current project
-    for_all_users: For all users
-  text_allowed_queries_to_select: Public (to any users) queries only selectable
