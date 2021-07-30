@@ -1459,3 +1459,4 @@
     for_current_project: 對於目前專案
     for_all_users: 對於全部用戶
   text_allowed_queries_to_select: 僅可選取公開 (給任何用戶) 的查詢
+  text_all_migrations_have_been_run: All database migrations have been run

@@ -1390,3 +1390,4 @@ bg:
     Това действие не може да бъде отменено. Често заключването на потребителя е по-добро решение от изтриването му.
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
+  text_all_migrations_have_been_run: All database migrations have been run

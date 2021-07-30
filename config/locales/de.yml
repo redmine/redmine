@@ -1404,3 +1404,4 @@ de:
     authentication setting is set to 'optional'. Currently, two factor authentication
     is disabled.
   field_default_issue_query: Default issue query
+  text_all_migrations_have_been_run: All database migrations have been run
