@@ -1242,6 +1242,7 @@ en:
   text_default_administrator_account_changed: Default administrator account changed
   text_file_repository_writable: Attachments directory writable
   text_plugin_assets_writable: Plugin assets directory writable
+  text_all_migrations_have_been_run: All database migrations have been run
   text_minimagick_available: MiniMagick available (optional)
   text_convert_available: ImageMagick convert available (optional)
   text_gs_available: ImageMagick PDF support available (optional)
