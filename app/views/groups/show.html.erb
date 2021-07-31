@@ -15,7 +15,7 @@
 <h3><%= l(:label_member_plural) %></h3>
 <ul>
 <% @group.users.visible.each do |user| %>
-    <li><%= user %></li>
+    <li><%= link_to_user(user) %></li>
 <% end %>
 </ul>
 <% html_title @group.name %>

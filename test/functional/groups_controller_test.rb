@@ -52,6 +52,8 @@ class GroupsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = nil
     get(:show, :params => {:id => 10})
     assert_response :success
+
+    assert_select 'li a.user.active[href=?]', '/users/8', :text => 'User Misc'
   end
 
   def test_show_should_display_custom_fields
