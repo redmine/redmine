@@ -172,8 +172,8 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
       assert_select 'a[href^=?]', 'http://localhost:3000/my/account', :text => 'My account'
     end
     # The old email address should be notified about a new address for security purposes
-    assert [mail.bcc, mail.cc].flatten.include?(User.find(2).mail)
-    assert [mail.bcc, mail.cc].flatten.include?('something@example.fr')
+    assert mail.to.include?(User.find(2).mail)
+    assert mail.to.include?('something@example.fr')
   end
 
   def test_update
@@ -230,7 +230,7 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
     assert_mail_body_match I18n.t(:mail_body_security_notification_notify_disabled, value: 'another@somenet.foo'), mail
 
     # The changed address should be notified for security purposes
-    assert [mail.bcc, mail.cc].flatten.include?('another@somenet.foo')
+    assert mail.to.include?('another@somenet.foo')
   end
 
   def test_destroy
@@ -300,6 +300,6 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
     assert_mail_body_match I18n.t(:mail_body_security_notification_remove, field: I18n.t(:field_mail), value: 'another@somenet.foo'), mail
 
     # The removed address should be notified for security purposes
-    assert [mail.bcc, mail.cc].flatten.include?('another@somenet.foo')
+    assert mail.to.include?('another@somenet.foo')
   end
 end

@@ -4332,9 +4332,9 @@ class IssuesControllerTest < Redmine::ControllerTest
     # Watchers notified
     assert_equal 3, ActionMailer::Base.deliveries.size
     mail = ActionMailer::Base.deliveries[1]
-    assert [mail.bcc, mail.cc].flatten.include?(User.find(3).mail)
+    assert [mail.to].flatten.include?(User.find(3).mail)
     mail = ActionMailer::Base.deliveries[2]
-    assert [mail.bcc, mail.cc].flatten.include?(User.find(8).mail)
+    assert [mail.to].flatten.include?(User.find(8).mail)
   end
 
   def test_post_create_subissue

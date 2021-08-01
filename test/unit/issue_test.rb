@@ -2686,7 +2686,7 @@ class IssueTest < ActiveSupport::TestCase
       issue.assigned_to = nil
       issue.save!
 
-      assert_include [user.mail], ActionMailer::Base.deliveries.map(&:bcc)
+      assert_include [user.mail], ActionMailer::Base.deliveries.map(&:to)
     end
   end
 

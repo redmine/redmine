@@ -107,7 +107,7 @@ class AdminControllerTest < Redmine::ControllerTest
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     user = User.find(1)
-    assert_equal [user.mail], mail.bcc
+    assert_equal [user.mail], mail.to
   end
 
   def test_test_email_failure_should_display_the_error

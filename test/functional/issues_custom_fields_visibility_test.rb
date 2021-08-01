@@ -281,34 +281,32 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
 
     ActionMailer::Base.deliveries.clear
     @request.session[:user_id] = 1
-    with_settings :bcc_recipients => '1' do
-      assert_difference 'Issue.count' do
-        post(
-          :create,
-          :params => {
-            :project_id => 1,
-            :issue => {
-              :tracker_id => 1,
-              :status_id => 1,
-              :subject => 'New issue',
-              :priority_id => 5,
-              :custom_field_values => {
-                @field1.id.to_s => 'Value0',
-                @field2.id.to_s => 'Value1',
-                @field3.id.to_s => 'Value2'
-              },
-              :watcher_user_ids => users_to_test.keys.map(&:id)
-            }
+    assert_difference 'Issue.count' do
+      post(
+        :create,
+        :params => {
+          :project_id => 1,
+          :issue => {
+            :tracker_id => 1,
+            :status_id => 1,
+            :subject => 'New issue',
+            :priority_id => 5,
+            :custom_field_values => {
+              @field1.id.to_s => 'Value0',
+              @field2.id.to_s => 'Value1',
+              @field3.id.to_s => 'Value2'
+            },
+            :watcher_user_ids => users_to_test.keys.map(&:id)
           }
-        )
-        assert_response 302
-      end
+        }
+      )
+      assert_response 302
     end
 
     assert_equal users_to_test.keys.size, ActionMailer::Base.deliveries.size
     # tests that each user receives 1 email with the custom fields he is allowed to see only
     users_to_test.each do |user, fields|
-      mails = ActionMailer::Base.deliveries.select {|m| m.bcc.include? user.mail}
+      mails = ActionMailer::Base.deliveries.select {|m| m.to.include? user.mail}
       assert_equal 1, mails.size
       mail = mails.first
       @fields.each_with_index do |field, i|
@@ -330,26 +328,24 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
     end
     ActionMailer::Base.deliveries.clear
     @request.session[:user_id] = 1
-    with_settings :bcc_recipients => '1' do
-      put(
-        :update,
-        :params => {
-          :id => @issue.id,
-          :issue => {
-            :custom_field_values => {
-              @field1.id.to_s => 'NewValue0',
-              @field2.id.to_s => 'NewValue1',
-              @field3.id.to_s => 'NewValue2'
-            }
+    put(
+      :update,
+      :params => {
+        :id => @issue.id,
+        :issue => {
+          :custom_field_values => {
+            @field1.id.to_s => 'NewValue0',
+            @field2.id.to_s => 'NewValue1',
+            @field3.id.to_s => 'NewValue2'
           }
         }
-      )
-      assert_response 302
-    end
+      }
+    )
+    assert_response 302
     assert_equal users_to_test.keys.size, ActionMailer::Base.deliveries.size
     # tests that each user receives 1 email with the custom fields he is allowed to see only
     users_to_test.each do |user, fields|
-      mails = ActionMailer::Base.deliveries.select {|m| m.bcc.include? user.mail}
+      mails = ActionMailer::Base.deliveries.select {|m| m.to.include? user.mail}
       assert_equal 1, mails.size
       mail = mails.first
       @fields.each_with_index do |field, i|
@@ -371,22 +367,20 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
     end
     ActionMailer::Base.deliveries.clear
     @request.session[:user_id] = 1
-    with_settings :bcc_recipients => '1' do
-      put(
-        :update,
-        :params => {
-          :id => @issue.id,
-          :issue => {
-            :custom_field_values => {
-              @field2.id.to_s => 'NewValue1', @field3.id.to_s => 'NewValue2'
-            }
+    put(
+      :update,
+      :params => {
+        :id => @issue.id,
+        :issue => {
+          :custom_field_values => {
+            @field2.id.to_s => 'NewValue1', @field3.id.to_s => 'NewValue2'
           }
         }
-      )
-      assert_response 302
-    end
+      }
+    )
+    assert_response 302
     users_to_test.each do |user, fields|
-      mails = ActionMailer::Base.deliveries.select {|m| m.bcc.include? user.mail}
+      mails = ActionMailer::Base.deliveries.select {|m| m.to.include? user.mail}
       if (fields & [@field2, @field3]).any?
         assert_equal 1, mails.size, "User #{user.id} was not notified"
       else

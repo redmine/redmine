@@ -324,7 +324,7 @@ class MailerTest < ActiveSupport::TestCase
     user.pref.save
     User.current = user
     Mailer.deliver_news_added(news.reload)
-    assert_equal 1, last_email.bcc.size
+    assert_equal 1, last_email.to.size
 
     # nobody to notify
     user.pref.no_self_notified = true
@@ -430,8 +430,8 @@ class MailerTest < ActiveSupport::TestCase
     issue = Issue.find(1)
     assert Mailer.deliver_issue_add(issue)
 
-    assert mail = ActionMailer::Base.deliveries.find {|m| m.bcc.include?('dlopper@somenet.foo')}
-    assert mail.bcc.include?('otheremail@somenet.foo')
+    assert mail = ActionMailer::Base.deliveries.find {|m| m.to.include?('dlopper@somenet.foo')}
+    assert mail.to.include?('otheremail@somenet.foo')
   end
 
   test "#issue_add should not notify project members that are not allow to view the issue" do
@@ -650,8 +650,8 @@ class MailerTest < ActiveSupport::TestCase
   def test_version_file_added
     attachements = [Attachment.find_by_container_type('Version')]
     assert Mailer.deliver_attachments_added(attachements)
-    assert_not_nil last_email.bcc
-    assert last_email.bcc.any?
+    assert_not_nil last_email.to
+    assert last_email.to.any?
     assert_select_email do
       assert_select "a[href=?]", "http://localhost:3000/projects/ecookbook/files"
     end
@@ -660,8 +660,8 @@ class MailerTest < ActiveSupport::TestCase
   def test_project_file_added
     attachements = [Attachment.find_by_container_type('Project')]
     assert Mailer.deliver_attachments_added(attachements)
-    assert_not_nil last_email.bcc
-    assert last_email.bcc.any?
+    assert_not_nil last_email.to
+    assert last_email.to.any?
     assert_select_email do
       assert_select "a[href=?]", "http://localhost:3000/projects/ecookbook/files"
     end
@@ -735,7 +735,7 @@ class MailerTest < ActiveSupport::TestCase
     Mailer.reminders(:days => days)
     assert_equal 1, ActionMailer::Base.deliveries.size
     mail = last_email
-    assert mail.bcc.include?('dlopper@somenet.foo')
+    assert mail.to.include?('dlopper@somenet.foo')
     assert_mail_body_match 'Bug #3: Error 281 when updating a recipe (5 days late)', mail
     assert_mail_body_match 'View all issues (2 open)', mail
     url =
@@ -763,7 +763,7 @@ class MailerTest < ActiveSupport::TestCase
       Mailer.reminders(:days => 42)
       assert_equal 1, ActionMailer::Base.deliveries.size
       mail = last_email
-      assert mail.bcc.include?('dlopper@somenet.foo')
+      assert mail.to.include?('dlopper@somenet.foo')
       assert_mail_body_match(
         'Bug #3: Error 281 when updating a recipe (En retard de 5 jours)',
         mail
@@ -783,7 +783,7 @@ class MailerTest < ActiveSupport::TestCase
       Mailer.reminders(:days => 42)
       assert_equal 1, ActionMailer::Base.deliveries.size
       mail = last_email
-      assert mail.bcc.include?('dlopper@somenet.foo')
+      assert mail.to.include?('dlopper@somenet.foo')
       assert_mail_body_no_match 'Closed issue', mail
     end
   end
@@ -795,7 +795,7 @@ class MailerTest < ActiveSupport::TestCase
     Mailer.reminders(:days => 42, :users => ['3'])
     assert_equal 1, ActionMailer::Base.deliveries.size # No mail for dlopper
     mail = last_email
-    assert mail.bcc.include?('dlopper@somenet.foo')
+    assert mail.to.include?('dlopper@somenet.foo')
     assert_mail_body_match 'Bug #3: Error 281 when updating a recipe (5 days late)', mail
   end
 
@@ -828,7 +828,7 @@ class MailerTest < ActiveSupport::TestCase
         )
         assert_mail_body_match 'Assigned to group (Due in 5 days)', mail
         assert_mail_body_match(
-          "View all issues (#{mail.bcc.include?('dlopper@somenet.foo') ? 3 : 2} open)",
+          "View all issues (#{mail.to.include?('dlopper@somenet.foo') ? 3 : 2} open)",
           mail
         )
       end
@@ -1125,7 +1125,7 @@ class MailerTest < ActiveSupport::TestCase
 
   # Returns an array of email addresses to which emails were sent
   def recipients
-    ActionMailer::Base.deliveries.map(&:bcc).flatten.sort
+    ActionMailer::Base.deliveries.map(&:to).flatten.sort
   end
 
   def last_email
@@ -1143,6 +1143,6 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def destination_user(mail)
-    EmailAddress.where(:address => [mail.to, mail.cc, mail.bcc].flatten).map(&:user).first
+    EmailAddress.where(:address => [mail.to, mail.cc].flatten).map(&:user).first
   end
 end

@@ -445,7 +445,7 @@ class AccountControllerTest < Redmine::ControllerTest
       end
     end
     mail = ActionMailer::Base.deliveries.last
-    assert_equal ['jsmith@somenet.foo'], mail.bcc
+    assert_equal ['jsmith@somenet.foo'], mail.to
   end
 
   def test_lost_password_using_additional_email_address_should_send_email_to_the_address
@@ -463,7 +463,7 @@ class AccountControllerTest < Redmine::ControllerTest
       end
     end
     mail = ActionMailer::Base.deliveries.last
-    assert_equal ['anotherAddress@foo.bar'], mail.bcc
+    assert_equal ['anotherAddress@foo.bar'], mail.to
   end
 
   def test_lost_password_for_unknown_user_should_fail

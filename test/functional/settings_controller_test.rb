@@ -78,14 +78,12 @@ class SettingsControllerTest < Redmine::ControllerTest
     post :edit, :params => {
       :settings => {
         :mail_from => 'functional@test.foo',
-        :bcc_recipients  => '0',
         :notified_events => %w(issue_added issue_updated news_added),
         :emails_footer => 'Test footer'
       }
     }
     assert_redirected_to '/settings'
     assert_equal 'functional@test.foo', Setting.mail_from
-    assert !Setting.bcc_recipients?
     assert_equal %w(issue_added issue_updated news_added), Setting.notified_events
     assert_equal 'Test footer', Setting.emails_footer
   end
@@ -174,9 +172,8 @@ class SettingsControllerTest < Redmine::ControllerTest
       assert_select 'a[href^=?]', 'http://localhost:3000/settings'
     end
     # All admins should receive this
-    recipients = [mail.bcc, mail.cc].flatten
     User.active.where(admin: true).each do |admin|
-      assert_include admin.mail, recipients
+      assert_include admin.mail, mail.to
     end
   end
 

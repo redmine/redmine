@@ -697,13 +697,6 @@ class Mailer < ActionMailer::Base
       redmine_headers 'Sender' => @author.login
     end
 
-    # Blind carbon copy recipients
-    if Setting.bcc_recipients?
-      headers[:bcc] = [headers[:to], headers[:cc]].flatten.uniq.reject(&:blank?)
-      headers[:to] = nil
-      headers[:cc] = nil
-    end
-
     if @message_id_object
       headers[:message_id] = "<#{self.class.message_id_for(@message_id_object, @user)}>"
     end

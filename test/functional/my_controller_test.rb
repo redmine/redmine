@@ -506,8 +506,8 @@ class MyControllerTest < Redmine::ControllerTest
       assert_select 'a[href^=?]', 'http://localhost:3000/my/account', :text => 'My account'
     end
     # The old email address should be notified about the change for security purposes
-    assert [mail.bcc, mail.cc].flatten.include?(User.find(2).mail)
-    assert [mail.bcc, mail.cc].flatten.include?('foobar@example.com')
+    assert mail.to.include?(User.find(2).mail)
+    assert mail.to.include?('foobar@example.com')
   end
 
   def test_my_account_notify_about_high_priority_issues_preference

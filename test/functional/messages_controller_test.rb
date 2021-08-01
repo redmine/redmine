@@ -159,11 +159,10 @@ class MessagesControllerTest < Redmine::ControllerTest
       assert_mail_body_match 'Message body', mail
     end
 
-    bcc_email_addresses = mails.map(&:bcc).flatten
     # author
-    assert_includes bcc_email_addresses, 'jsmith@somenet.foo'
+    assert_equal ['jsmith@somenet.foo'], mails[0].to
     # project member
-    assert_includes bcc_email_addresses, 'dlopper@somenet.foo'
+    assert_equal ['dlopper@somenet.foo'], mails[1].to
   end
 
   def test_get_edit
