@@ -316,7 +316,6 @@ sr:
   setting_attachment_max_size: Макс. величина приложене датотеке
   setting_issues_export_limit: Ограничење извоза „проблема“
   setting_mail_from: Е-адреса пошиљаоца
-  setting_bcc_recipients: Примаоци „Bcc“ копије
   setting_plain_text_mail: Порука са чистим текстом (без HTML-а)
   setting_host_name: Путања и назив главног рачунара
   setting_text_formatting: Обликовање текста

@@ -303,7 +303,6 @@
   setting_attachment_max_size: Melléklet max. mérete
   setting_issues_export_limit: Feladatok exportálásának korlátja
   setting_mail_from: Kibocsátó e-mail címe
-  setting_bcc_recipients: Titkos másolat címzet (bcc)
   setting_host_name: Kiszolgáló neve
   setting_text_formatting: Szöveg formázás
   setting_wiki_compression: Wiki történet tömörítés

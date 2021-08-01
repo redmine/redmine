@@ -379,7 +379,6 @@ lt:
   setting_attachment_max_size: Priedo maksimalus dydis
   setting_issues_export_limit: Darbų eksportavimo riba
   setting_mail_from: Išleidimo elektroninio pašto adresas
-  setting_bcc_recipients: Nematomos kopijos (bcc) gavėjai
   setting_plain_text_mail: Tik tekstas laiške (be HTML)
   setting_host_name: Pagrindinio kompiuterio pavadinimas ir kelias
   setting_text_formatting: Teksto formatavimas

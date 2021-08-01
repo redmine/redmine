@@ -280,7 +280,6 @@ sk:
   setting_attachment_max_size: Maximálna veľkosť prílohy
   setting_issues_export_limit: Maximálny počet úloh pri exporte
   setting_mail_from: Odosielať emaily z adresy
-  setting_bcc_recipients: Príjemcov do skrytej kópie (bcc)
   setting_host_name: Hostname a cesta
   setting_text_formatting: Formátovanie textu
   setting_wiki_compression: Kompresia histórie Wiki

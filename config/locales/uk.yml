@@ -287,7 +287,6 @@ uk:
   setting_attachment_max_size: Максимальний размір вкладення
   setting_issues_export_limit: Обмеження по задачах, що експортуються
   setting_mail_from: email адреса для передачі інформації
-  setting_bcc_recipients: Отримувачі сліпої копії (bcc)
   setting_host_name: Им'я машини
   setting_text_formatting: Форматування тексту
   setting_wiki_compression: Стиснення історії Wiki

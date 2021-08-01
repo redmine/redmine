@@ -308,7 +308,6 @@ pt-BR:
   setting_attachment_max_size: Tamanho máximo do anexo
   setting_issues_export_limit: Limite de exportação das tarefas
   setting_mail_from: E-mail enviado de
-  setting_bcc_recipients: Enviar com cópia oculta (cco)
   setting_host_name: Nome do Servidor e subdomínio
   setting_text_formatting: Formatação do texto
   setting_wiki_compression: Compactação de histórico do Wiki

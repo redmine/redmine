@@ -326,7 +326,6 @@ zh:
   setting_attachment_max_size: 附件大小限制
   setting_issues_export_limit: 问题导出条目的限制
   setting_mail_from: 邮件发件人地址
-  setting_bcc_recipients: 使用密件抄送 (bcc)
   setting_plain_text_mail: 纯文本（无HTML）
   setting_host_name: 主机名称
   setting_text_formatting: 文本格式

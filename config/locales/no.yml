@@ -274,7 +274,6 @@
   setting_attachment_max_size: Maks. størrelse vedlegg
   setting_issues_export_limit: Eksportgrense for saker
   setting_mail_from: Avsenders epost
-  setting_bcc_recipients: Blindkopi (bcc) til mottakere
   setting_host_name: Vertsnavn
   setting_text_formatting: Tekstformattering
   setting_wiki_compression: Komprimering av Wiki-historikk

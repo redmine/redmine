@@ -334,7 +334,6 @@ ar:
   setting_attachment_max_size: الحد الاقصى للملفات المرفقة
   setting_issues_export_limit: الحد الاقصى لتصدير بنود العمل لملفات خارجية
   setting_mail_from: انبعاثات عنوان بريدك
-  setting_bcc_recipients: مستلمين النسخ المخفية (bcc)
   setting_plain_text_mail: نص عادي (no HTML)
   setting_host_name: اسم ومسار المستخدم
   setting_text_formatting: تنسيق النص

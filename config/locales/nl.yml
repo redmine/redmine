@@ -685,7 +685,6 @@ nl:
   setting_attachment_max_size: Max. grootte bijlage
   setting_autofetch_changesets: Commits automatisch ophalen
   setting_autologin: Automatisch inloggen
-  setting_bcc_recipients: Blind carbon copy ontvangers (bcc)
   setting_commit_fix_keywords: Vaste trefwoorden
   setting_commit_ref_keywords: Refererende trefwoorden
   setting_cross_project_issue_relations: Issuerelaties tussen projecten toelaten

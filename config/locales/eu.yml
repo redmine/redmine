@@ -309,7 +309,6 @@ eu:
   setting_attachment_max_size: Eranskinen tamaina max.
   setting_issues_export_limit: Zereginen esportatze limitea
   setting_mail_from: Igorlearen eposta helbidea
-  setting_bcc_recipients: Hartzaileak ezkutuko kopian (bcc)
   setting_plain_text_mail: Testu soileko epostak (HTML-rik ez)
   setting_host_name: Ostalari izena eta bidea
   setting_text_formatting: Testu formatua

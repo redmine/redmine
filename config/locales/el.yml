@@ -300,7 +300,6 @@ el:
   setting_attachment_max_size: Μέγ. μέγεθος συνημμένου
   setting_issues_export_limit: Θέματα περιορισμού εξαγωγής
   setting_mail_from: Μετάδοση διεύθυνσης email
-  setting_bcc_recipients: Αποδέκτες κρυφής κοινοποίησης (bcc)
   setting_plain_text_mail: Email απλού κειμένου (όχι HTML)
   setting_host_name: Όνομα κόμβου και διαδρομή
   setting_text_formatting: Μορφοποίηση κειμένου

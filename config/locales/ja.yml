@@ -353,7 +353,6 @@ ja:
   setting_attachment_max_size: 添付ファイルサイズの上限
   setting_issues_export_limit: エクスポートするチケット数の上限
   setting_mail_from: 送信元メールアドレス
-  setting_bcc_recipients: 宛先を非表示(bcc)
   setting_plain_text_mail: プレインテキスト形式(HTMLなし)
   setting_host_name: ホスト名とパス
   setting_text_formatting: テキスト書式

@@ -300,7 +300,6 @@ hr:
   setting_attachment_max_size: Maksimalna veličina privitka
   setting_issues_export_limit: Ograničenje izvoza predmeta
   setting_mail_from: Izvorna adresa e-pošte
-  setting_bcc_recipients: Blind carbon copy primatelja (bcc)
   setting_plain_text_mail: obični tekst pošte (bez HTML-a)
   setting_host_name: Naziv domaćina (host)
   setting_text_formatting: Oblikovanje teksta

@@ -425,7 +425,6 @@ bg:
   setting_bulk_download_max_size: Максимален обем за групово изтегляне
   setting_issues_export_limit: Максимален брой задачи за експорт
   setting_mail_from: E-mail адрес за емисии
-  setting_bcc_recipients: Получатели на скрито копие (bcc)
   setting_plain_text_mail: само чист текст (без HTML)
   setting_host_name: Хост
   setting_text_formatting: Форматиране на текста

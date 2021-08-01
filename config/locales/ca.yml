@@ -320,7 +320,6 @@ ca:
   setting_attachment_max_size: "Mida màxima dels fitxers adjunts"
   setting_issues_export_limit: "Límit d'exportació d'assumptes"
   setting_mail_from: "Adreça de correu electrònic d'emissió"
-  setting_bcc_recipients: "Vincula els destinataris de les còpies amb carbó (bcc)"
   setting_plain_text_mail: "només text pla (no HTML)"
   setting_host_name: "Nom del Servidor"
   setting_text_formatting: "Format del text"

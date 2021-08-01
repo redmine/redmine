@@ -326,7 +326,6 @@ cs:
   setting_attachment_max_size: Maximální velikost přílohy
   setting_issues_export_limit: Limit pro export úkolů
   setting_mail_from: Odesílat emaily z adresy
-  setting_bcc_recipients: Příjemci jako skrytá kopie (bcc)
   setting_plain_text_mail: pouze prostý text (ne HTML)
   setting_host_name: Jméno serveru
   setting_text_formatting: Formátování textu

@@ -338,7 +338,6 @@ vi:
   setting_attachment_max_size: Cỡ tối đa của tập tin đính kèm
   setting_issues_export_limit: Giới hạn Export vấn đề
   setting_mail_from: Địa chỉ email gửi thông báo
-  setting_bcc_recipients: Tạo bản CC bí mật (bcc)
   setting_host_name: Tên miền và đường dẫn
   setting_text_formatting: Định dạng bài viết
   setting_wiki_compression: Nén lịch sử Wiki

@@ -391,7 +391,6 @@ sv:
   setting_attachment_max_size: Maxstorlek på bilaga
   setting_issues_export_limit: Exportgräns för ärenden
   setting_mail_from: Avsändaradress
-  setting_bcc_recipients: Hemlig kopia (bcc) till mottagare
   setting_plain_text_mail: Oformaterad text i mail (ingen HTML)
   setting_host_name: Värddatornamn
   setting_text_formatting: Textformatering

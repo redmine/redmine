@@ -318,7 +318,6 @@ sr-YU:
   setting_attachment_max_size: Maks. veličina priložene datoteke
   setting_issues_export_limit: Ograničenje izvoza „problema“
   setting_mail_from: E-adresa pošiljaoca
-  setting_bcc_recipients: Primaoci „Bcc“ kopije
   setting_plain_text_mail: Poruka sa čistim tekstom (bez HTML-a)
   setting_host_name: Putanja i naziv glavnog računara
   setting_text_formatting: Oblikovanje teksta

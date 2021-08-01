@@ -287,7 +287,6 @@ ro:
   setting_attachment_max_size: Mărime maxima atașament
   setting_issues_export_limit: Limită de tichete exportate
   setting_mail_from: Adresa de email a expeditorului
-  setting_bcc_recipients: Alți destinatari pentru email (BCC)
   setting_plain_text_mail: Mesaje text (fără HTML)
   setting_host_name: Numele gazdei și calea
   setting_text_formatting: Formatare text

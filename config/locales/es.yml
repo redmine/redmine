@@ -742,7 +742,6 @@ es:
   setting_attachment_max_size: Tamaño máximo del fichero
   setting_autofetch_changesets: Autorellenar los commits del repositorio
   setting_autologin: Inicio de sesión automático
-  setting_bcc_recipients: Ocultar las copias de carbón (bcc)
   setting_commit_fix_keywords: Palabras clave para la corrección
   setting_commit_ref_keywords: Palabras clave para la referencia
   setting_cross_project_issue_relations: Permitir relacionar peticiones de distintos proyectos

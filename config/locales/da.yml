@@ -296,7 +296,6 @@ da:
   setting_attachment_max_size: Vedhæftede filers max størrelse
   setting_issues_export_limit: Sagseksporteringsbegrænsning
   setting_mail_from: Afsender-email
-  setting_bcc_recipients: Skjult modtager (bcc)
   setting_host_name: Værtsnavn
   setting_text_formatting: Tekstformatering
   setting_wiki_compression: Komprimering af wiki-historik

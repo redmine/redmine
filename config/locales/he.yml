@@ -323,7 +323,6 @@ he:
   setting_attachment_max_size: גודל דבוקה מקסימאלי
   setting_issues_export_limit: גבול יצוא נושאים
   setting_mail_from: כתובת שליחת דוא"ל
-  setting_bcc_recipients: מוסתר (bcc)
   setting_plain_text_mail: טקסט פשוט בלבד (ללא HTML)
   setting_host_name: שם שרת
   setting_text_formatting: עיצוב טקסט

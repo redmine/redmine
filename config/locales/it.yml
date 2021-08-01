@@ -640,7 +640,6 @@ it:
   notice_account_pending: "Il tuo account è stato creato ed è in attesa di attivazione da parte dell'amministratore."
   field_time_zone: Fuso orario
   text_caracters_minimum: "Deve essere lungo almeno %{count} caratteri."
-  setting_bcc_recipients: Destinatari in copia nascosta (bcc)
   button_annotate: Annota
   label_issues_by: "Segnalazioni di %{value}"
   field_searchable: Ricercabile

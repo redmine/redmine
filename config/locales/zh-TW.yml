@@ -473,7 +473,6 @@
   setting_attachment_max_size: 附件大小限制
   setting_issues_export_limit: 議題匯出限制
   setting_mail_from: 寄件者電子郵件
-  setting_bcc_recipients: 使用密件副本 (BCC)
   setting_plain_text_mail: 純文字郵件 (不含 HTML)
   setting_host_name: 主機名稱
   setting_text_formatting: 文字格式

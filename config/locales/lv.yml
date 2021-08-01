@@ -301,7 +301,6 @@ lv:
   setting_attachment_max_size: Pielikuma maksimālais izmērs
   setting_issues_export_limit: Uzdevumu eksporta ierobežojums
   setting_mail_from: "E-pasta adrese informācijas nosūtīšanai"
-  setting_bcc_recipients: "Saņēmēju adreses neparādīsies citu saņēmēju vēstulēs (bcc)"
   setting_plain_text_mail: "Vēstule brīvā tekstā (bez HTML)"
   setting_host_name: Hosta nosaukums un piekļuves ceļš
   setting_text_formatting: Teksta formatēšana

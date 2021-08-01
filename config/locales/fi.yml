@@ -304,7 +304,6 @@ fi:
   setting_attachment_max_size: Liitteen maksimikoko
   setting_issues_export_limit: Tapahtumien vientirajoite
   setting_mail_from: Lähettäjän sähköpostiosoite
-  setting_bcc_recipients: Vastaanottajat piilokopiona (bcc)
   setting_host_name: Verkko-osoite
   setting_text_formatting: Tekstin muotoilu
   setting_wiki_compression: Wiki historian pakkaus

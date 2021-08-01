@@ -357,7 +357,6 @@ et:
   setting_attachment_max_size: "Manuse suurim maht"
   setting_issues_export_limit: "Teemade ekspordi limiit"
   setting_mail_from: "Saatja e-posti aadress"
-  setting_bcc_recipients: "Saajaid ei näidata (lähevad BCC reale)"
   setting_plain_text_mail: "E-kiri tavalise tekstina (ilma HTML-ta)"
   setting_host_name: "Serveri nimi ja teerada"
   setting_text_formatting: "Vormindamise abi"

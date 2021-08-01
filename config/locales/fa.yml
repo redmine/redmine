@@ -392,7 +392,6 @@ fa:
   setting_attachment_max_size: بیشینه اندازه پیوست
   setting_issues_export_limit: محدودیت صدور مسأله‌ها
   setting_mail_from: نشانی فرستنده رایانامه
-  setting_bcc_recipients: گیرندگان رایانامه دیده نشوند (BCC)
   setting_plain_text_mail: رایانامه نوشتاری ساده (بدون HTML)
   setting_host_name: نام میزبان و نشانی
   setting_text_formatting: قالب‌بندی متن

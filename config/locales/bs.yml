@@ -303,7 +303,6 @@ bs:
   setting_attachment_max_size: Maksimalna veličina prikačenog fajla
   setting_issues_export_limit: Limit za eksport aktivnosti
   setting_mail_from: Mail adresa - pošaljilac
-  setting_bcc_recipients: '"BCC" (blind carbon copy) primaoci '
   setting_plain_text_mail: Email sa običnim tekstom (bez HTML-a)
   setting_host_name: Ime hosta i putanja
   setting_text_formatting: Formatiranje teksta

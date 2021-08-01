@@ -296,7 +296,6 @@ tr:
   setting_attachment_max_size: Maksimum ek boyutu
   setting_issues_export_limit: İşlerin dışa aktarılma sınırı
   setting_mail_from: Gönderici e-posta adresi
-  setting_bcc_recipients: Alıcıları birbirinden gizle (bcc)
   setting_host_name: Host adı
   setting_text_formatting: Metin biçimi
   setting_wiki_compression: Wiki geçmişini sıkıştır

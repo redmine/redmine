@@ -302,7 +302,6 @@ id:
   setting_attachment_max_size: Ukuran maksimum untuk lampiran
   setting_issues_export_limit: Batasan ukuran export masalah
   setting_mail_from: Emisi alamat email
-  setting_bcc_recipients: Blind carbon copy recipients (bcc)
   setting_plain_text_mail: Plain text mail (no HTML)
   setting_host_name: Nama host dan path
   setting_text_formatting: Format teks

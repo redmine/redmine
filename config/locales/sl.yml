@@ -285,7 +285,6 @@ sl:
   setting_attachment_max_size: Maksimalna velikost priponk
   setting_issues_export_limit: Skrajna meja za izvoz zahtevkov
   setting_mail_from: E-naslov za emisijo
-  setting_bcc_recipients: Prejemniki slepih kopij (bcc)
   setting_plain_text_mail: navadno e-sporočilo (ne HTML)
   setting_host_name: Ime gostitelja in pot
   setting_text_formatting: Oblikovanje besedila

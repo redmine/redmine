@@ -990,7 +990,6 @@ de:
   setting_attachment_max_size: Maximale Dateigröße
   setting_autofetch_changesets: Changesets automatisch abrufen
   setting_autologin: Automatische Anmeldung läuft ab nach
-  setting_bcc_recipients: E-Mails als Blindkopie (BCC) senden
   setting_cache_formatted_text: Formatierten Text im Cache speichern
   setting_commit_cross_project_ref: Erlauben, Tickets aller anderen Projekte zu referenzieren
   setting_commit_fix_keywords: Schlüsselwörter (Status)

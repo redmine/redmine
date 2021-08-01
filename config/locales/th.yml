@@ -280,7 +280,6 @@ th:
   setting_attachment_max_size: ขนาดแฟ้มแนบสูงสุด
   setting_issues_export_limit: การส่งออกปัญหาสูงสุด
   setting_mail_from: อีเมล์ที่ใช้ส่ง
-  setting_bcc_recipients: ไม่ระบุชื่อผู้รับ (bcc)
   setting_host_name: ชื่อโฮสต์
   setting_text_formatting: การจัดรูปแบบข้อความ
   setting_wiki_compression: บีบอัดประวัติ Wiki
