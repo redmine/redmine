@@ -4,6 +4,40 @@ Redmine - project management software
 Copyright (C) 2006-2021  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2021-08-01 v4.1.4
+
+=== [Accounts / authentication]
+
+* Defect #35226: Add SameSite=Lax to cookies to fix warnings in web browsers
+
+=== [Attachments]
+
+* Defect #33752: Uploading a big file fails with NoMemoryError
+
+=== [Gantt]
+
+* Defect #34694: Progress bar for a shared version on gantt disappears when the tree is collapsed and then expanded
+
+=== [Gems support]
+
+* Defect #35621: Bundler fails to install globalid when using Ruby < 2.6.0
+
+=== [Issues]
+
+* Defect #35134: Change total spent time link to global time entries when issue has subtasks that can be on non descendent projects
+
+=== [Issues filter]
+
+* Defect #35201: Duplicate entries in issue filter values
+
+=== [Rails support]
+
+* Patch #35214: Update Rails to 5.2.6
+
+=== [Time tracking]
+
+* Defect #34856: Time entry error on private issue
+
 == 2021-04-26 v4.1.3
 
 === [Activity view]
