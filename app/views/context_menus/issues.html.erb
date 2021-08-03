@@ -21,7 +21,7 @@
                   @issue,
                   :ids => @issue_ids, :issue => {:status_id => s}, :back_url => @back
                 ),
-                :method => :post,
+                :method => :patch,
                 :selected => (@issue && s == @issue.status), :disabled => !@can[:edit]
               ) %>
         </li>

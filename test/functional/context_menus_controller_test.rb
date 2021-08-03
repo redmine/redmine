@@ -52,15 +52,15 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     assert_select 'a.icon-del[href=?]', '/issues?ids%5B%5D=1', :text => 'Delete'
 
     # Statuses
-    assert_select 'a[href=?]', '/issues/1?ids%5B%5D=1&issue%5Bstatus_id%5D=5', :text => 'Closed'
-    assert_select 'a[href=?]', '/issues/1?ids%5B%5D=1&issue%5Bpriority_id%5D=8', :text => 'Immediate'
+    assert_select 'a[href=?][data-method="patch"]', '/issues/1?ids%5B%5D=1&issue%5Bstatus_id%5D=5', :text => 'Closed'
+    assert_select 'a[href=?][data-method="patch"]', '/issues/1?ids%5B%5D=1&issue%5Bpriority_id%5D=8', :text => 'Immediate'
     # No inactive priorities
     assert_select 'a', :text => /Inactive Priority/, :count => 0
     # Versions
-    assert_select 'a[href=?]', '/issues/1?ids%5B%5D=1&issue%5Bfixed_version_id%5D=3', :text => '2.0'
-    assert_select 'a[href=?]', '/issues/1?ids%5B%5D=1&issue%5Bfixed_version_id%5D=4', :text => 'eCookbook Subproject 1 - 2.0'
+    assert_select 'a[href=?][data-method="patch"]', '/issues/1?ids%5B%5D=1&issue%5Bfixed_version_id%5D=3', :text => '2.0'
+    assert_select 'a[href=?][data-method="patch"]', '/issues/1?ids%5B%5D=1&issue%5Bfixed_version_id%5D=4', :text => 'eCookbook Subproject 1 - 2.0'
     # Assignees
-    assert_select 'a[href=?]', '/issues/1?ids%5B%5D=1&issue%5Bassigned_to_id%5D=3', :text => 'Dave Lopper'
+    assert_select 'a[href=?][data-method="patch"]', '/issues/1?ids%5B%5D=1&issue%5Bassigned_to_id%5D=3', :text => 'Dave Lopper'
   end
 
   def test_context_menu_multiple_issues_should_link_to_bulk_update_issues_path
@@ -75,15 +75,15 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     assert_select 'a.icon-del[href=?]', '/issues?ids%5B%5D=1&ids%5B%5D=2', :text => 'Delete'
 
     # Statuses
-    assert_select 'a[href=?]', '/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bstatus_id%5D=5', :text => 'Closed'
-    assert_select 'a[href=?]', '/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bpriority_id%5D=8', :text => 'Immediate'
+    assert_select 'a[href=?][data-method="patch"]', '/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bstatus_id%5D=5', :text => 'Closed'
+    assert_select 'a[href=?][data-method="patch"]', '/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bpriority_id%5D=8', :text => 'Immediate'
     # No inactive priorities
     assert_select 'a', :text => /Inactive Priority/, :count => 0
     # Versions
-    assert_select 'a[href=?]', '/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bfixed_version_id%5D=3', :text => '2.0'
-    assert_select 'a[href=?]', '/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bfixed_version_id%5D=4', :text => 'eCookbook Subproject 1 - 2.0'
+    assert_select 'a[href=?][data-method="patch"]', '/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bfixed_version_id%5D=3', :text => '2.0'
+    assert_select 'a[href=?][data-method="patch"]', '/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bfixed_version_id%5D=4', :text => 'eCookbook Subproject 1 - 2.0'
     # Assignees
-    assert_select 'a[href=?]', '/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bassigned_to_id%5D=3', :text => 'Dave Lopper'
+    assert_select 'a[href=?][data-method="patch"]', '/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bassigned_to_id%5D=3', :text => 'Dave Lopper'
   end
 
   def test_context_menu_one_issue_by_anonymous
