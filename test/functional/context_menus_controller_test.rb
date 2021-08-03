@@ -159,8 +159,28 @@ class ContextMenusControllerTest < Redmine::ControllerTest
       assert_select 'a[href="#"]', :text => 'List'
       assert_select 'ul' do
         assert_select 'a', 3
-        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=Foo", :text => 'Foo'
-        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
+        assert_select 'a[href=?]', "/issues/1?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=Foo", :text => 'Foo'
+        assert_select 'a[href=?]', "/issues/1?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
+      end
+    end
+  end
+
+  def test_context_menu_multiple_issues_should_include_list_custom_fields
+    field = IssueCustomField.create!(:name => 'List', :field_format => 'list',
+      :possible_values => ['Foo', 'Bar'], :is_for_all => true, :tracker_ids => [1, 2, 3])
+    @request.session[:user_id] = 2
+    get(
+      :issues,
+      :params => {
+        :ids => [1, 2]
+      }
+    )
+    assert_select "li.cf_#{field.id}" do
+      assert_select 'a[href="#"]', :text => 'List'
+      assert_select 'ul' do
+        assert_select 'a', 3
+        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=Foo", :text => 'Foo'
+        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
       end
     end
   end
@@ -220,9 +240,9 @@ class ContextMenusControllerTest < Redmine::ControllerTest
       assert_select 'a[href="#"]', :text => 'Bool'
       assert_select 'ul' do
         assert_select 'a', 3
-        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=0", :text => 'No'
-        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=1", :text => 'Yes'
-        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
+        assert_select 'a[href=?]', "/issues/1?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=0", :text => 'No'
+        assert_select 'a[href=?]', "/issues/1?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=1", :text => 'Yes'
+        assert_select 'a[href=?]', "/issues/1?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
       end
     end
   end
@@ -241,8 +261,8 @@ class ContextMenusControllerTest < Redmine::ControllerTest
       assert_select 'a[href="#"]', :text => 'User'
       assert_select 'ul' do
         assert_select 'a', Project.find(1).members.count + 2 # users + 'none' + 'me'
-        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=2", :text => 'John Smith'
-        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
+        assert_select 'a[href=?]', "/issues/1?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=2", :text => 'John Smith'
+        assert_select 'a[href=?]', "/issues/1?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
       end
     end
   end
@@ -260,8 +280,8 @@ class ContextMenusControllerTest < Redmine::ControllerTest
       assert_select 'a[href="#"]', :text => 'Version'
       assert_select 'ul' do
         assert_select 'a', Project.find(1).shared_versions.count + 1
-        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=3", :text => '2.0'
-        assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
+        assert_select 'a[href=?]', "/issues/1?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=3", :text => '2.0'
+        assert_select 'a[href=?]', "/issues/1?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
       end
     end
   end
