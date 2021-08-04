@@ -233,7 +233,7 @@ mn:
   field_project: Төсөл
   field_issue: Асуудал
   field_status: Төлөв
-  field_notes: Тэмдэглэлүүд
+  field_notes: Тэмдэглэл
   field_is_closed: Асуудал хаагдсан
   field_is_default: Стандарт утга
   field_tracker: Чиглэл
@@ -269,7 +269,7 @@ mn:
   field_attr_mail: Имэйл аттрибут
   field_onthefly: Хүссэн үедээ хэрэглэгч үүсгэх
   field_start_date: Эхлэл
-  field_done_ratio: "%% Гүйцэтгэсэн"
+  field_done_ratio: "Гүйцэтгэл %"
   field_auth_source: Нэвтрэх арга
   field_hide_mail: Миний имэйл хаягийг нуу
   field_comments: Тайлбар
@@ -962,7 +962,7 @@ mn:
   description_available_columns: Available Columns
   description_issue_category_reassign: Choose issue category
   description_search: Searchfield
-  description_notes: Notes
+  description_notes: Тэмдэглэл
   description_choose_project: Projects
   description_query_sort_criteria_attribute: Sort attribute
   description_wiki_subpages_reassign: Choose new parent page
@@ -1035,7 +1035,7 @@ mn:
   label_copied_from: copied from
   label_any_issues_in_project: any issues in project
   label_any_issues_not_in_project: any issues not in project
-  field_private_notes: Private notes
+  field_private_notes: Хувийн тэмдэглэл
   permission_view_private_notes: View private notes
   permission_set_notes_private: Set notes as private
   label_no_issues_in_project: no issues in project
@@ -1156,7 +1156,7 @@ mn:
   button_import: Import
   field_total_estimated_hours: Total estimated time
   label_api: API
-  label_total_plural: Totals
+  label_total_plural: Нийлбэр
   label_assigned_issues: Assigned issues
   label_field_format_enumeration: Key/value list
   label_f_hour_short: '%{value} h'
@@ -1215,7 +1215,7 @@ mn:
   field_updated_by: Updated by
   field_last_updated_by: Last updated by
   field_full_width_layout: Full width layout
-  label_last_notes: Last notes
+  label_last_notes: Сүүлчийн тэмдэглэл
   field_digest: Checksum
   field_default_assigned_to: Default assignee
   setting_show_custom_fields_on_registration: Show custom fields on registration
@@ -1289,7 +1289,7 @@ mn:
   button_project_bookmark_delete: Remove bookmark
   field_history_default_tab: Issue's history default tab
   label_issue_history_properties: Property changes
-  label_issue_history_notes: Notes
+  label_issue_history_notes: Тэмдэглэл
   label_last_tab_visited: Last visited tab
   field_unique_id: Unique ID
   text_no_subject: no subject
