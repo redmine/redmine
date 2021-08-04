@@ -465,6 +465,7 @@ module QueriesHelper
       else
         {}
       end
+    default_query_by_class = {}
     content_tag('h3', title) + "\n" +
       content_tag(
         'ul',
@@ -473,7 +474,9 @@ module QueriesHelper
           clear_link = +''
           clear_link_param = {:set_filter => 1, :sort => '', :project_id => @project}
 
-          if query == query.class.default(project: @project)
+          default_query =
+            default_query_by_class[query.class] ||= query.class.default(project: @project)
+          if query == default_query
             css << ' default'
             clear_link_param[:without_default] = 1
           end
