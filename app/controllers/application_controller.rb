@@ -421,7 +421,7 @@ class ApplicationController < ActionController::Base
   end
 
   def replace_none_values_with_blank(params)
-    attributes = (params || {}))
+    attributes = (params || {})
     attributes.each_key {|k| attributes[k] = '' if attributes[k] == 'none'}
     if (custom = attributes[:custom_field_values])
       custom.each_key do |k|
