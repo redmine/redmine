@@ -13,7 +13,7 @@ gem 'roadie-rails', '~> 2.2.0'
 gem 'marcel'
 gem "mail", "~> 2.7.1"
 gem 'csv', '~> 3.2.0'
-gem 'nokogiri', '~> 1.11.1'
+gem 'nokogiri', '~> 1.12.2'
 gem 'i18n', '~> 1.8.2'
 gem "rbpdf", "~> 1.20.0"
 gem 'addressable'
