@@ -524,6 +524,23 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_response 403
   end
 
+  def test_edit_all_issue_attachment_by_user_without_edit_issue_permission_on_tracker_should_return_404
+    role = Role.find(2)
+    role.set_permission_trackers 'edit_issues', [2, 3]
+    role.save!
+
+    @request.session[:user_id] = 2
+
+    get(
+      :edit_all,
+      :params => {
+        :object_type => 'issues',
+        :object_id => '4'
+      }
+    )
+    assert_response 404
+  end
+
   def test_update_all
     @request.session[:user_id] = 2
     patch(
