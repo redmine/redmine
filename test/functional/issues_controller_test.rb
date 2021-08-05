@@ -6660,6 +6660,33 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_equal 2, issue.reload.assigned_to_id
   end
 
+  def test_update_with_value_of_none_should_set_the_values_to_blank
+    @request.session[:user_id] = 2
+    issue = Issue.find(1)
+    issue.custom_field_values = {1 => 'MySQL'}
+    issue.assigned_to_id = 2
+    issue.save!
+
+    put(
+      :update,
+      params: {
+        id: issue.id,
+        issue: {
+          assigned_to_id: 'none',
+          category_id: 'none',
+          fixed_version_id: 'none',
+          custom_field_values: { 1 => '__none__' }
+        }
+      }
+    )
+
+    issue.reload
+    assert_nil issue.assigned_to
+    assert_nil issue.category
+    assert_nil issue.fixed_version
+    assert_equal '', issue.custom_field_value(1)
+  end
+
   def test_get_bulk_edit
     @request.session[:user_id] = 2
     get(:bulk_edit, :params => {:ids => [1, 3]})

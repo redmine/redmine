@@ -413,10 +413,18 @@ class ApplicationController < ActionController::Base
 
   def parse_params_for_bulk_update(params)
     attributes = (params || {}).reject {|k, v| v.blank?}
-    attributes.keys.each {|k| attributes[k] = '' if attributes[k] == 'none'}
     if custom = attributes[:custom_field_values]
       custom.reject! {|k, v| v.blank?}
-      custom.keys.each do |k|
+    end
+
+    replace_none_values_with_blank(attributes)
+  end
+
+  def replace_none_values_with_blank(params)
+    attributes = (params || {}))
+    attributes.each_key {|k| attributes[k] = '' if attributes[k] == 'none'}
+    if (custom = attributes[:custom_field_values])
+      custom.each_key do |k|
         if custom[k].is_a?(Array)
           custom[k] << '' if custom[k].delete('__none__')
         else

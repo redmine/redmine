@@ -561,6 +561,7 @@ class IssuesController < ApplicationController
         return false
       end
     end
+    issue_attributes = replace_none_values_with_blank(issue_attributes)
     @issue.safe_attributes = issue_attributes
     @priorities = IssuePriority.active
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
