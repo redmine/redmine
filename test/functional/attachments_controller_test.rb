@@ -676,4 +676,25 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_response 302
     assert Attachment.find_by_id(3)
   end
+
+  def test_destroy_issue_attachment_by_user_without_edit_issue_permission_on_tracker
+    role = Role.find(2)
+    role.set_permission_trackers 'edit_issues', [2, 3]
+    role.save!
+
+    @request.session[:user_id] = 2
+
+    set_tmp_attachments_directory
+    assert_no_difference 'Attachment.count' do
+      delete(
+        :destroy,
+        :params => {
+          :id => 7
+        }
+      )
+    end
+
+    assert_response 403
+    assert Attachment.find_by_id(7)
+  end
 end
