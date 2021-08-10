@@ -2,7 +2,7 @@
 
 function openFlyout() {
   $('html').addClass('flyout-is-active');
-  $('#wrapper2').on('click', function(e){
+  $('#wrapper').on('click', function(e){
     e.preventDefault();
     e.stopPropagation();
     closeFlyout();
@@ -11,7 +11,7 @@ function openFlyout() {
 
 function closeFlyout() {
   $('html').removeClass('flyout-is-active');
-  $('#wrapper2').off('click');
+  $('#wrapper').off('click');
 }
 
 

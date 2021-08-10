@@ -58,8 +58,7 @@
 
 </div>
 
-<div id="wrapper2">
-<div id="wrapper3">
+
 <div id="top-menu">
     <div id="account">
         <%= render_menu :account_menu -%>
@@ -118,12 +117,10 @@
 <div id="footer">
     Powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %> &copy; 2006-2021 Jean-Philippe Lang
 </div>
-</div>
 
 <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
 <div id="ajax-modal" style="display:none;"></div>
 
-</div>
 </div>
 <%= call_hook :view_layouts_base_body_bottom %>
 </body>
