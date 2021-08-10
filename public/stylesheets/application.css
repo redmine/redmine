@@ -528,6 +528,7 @@ div.issue .attributes {margin-top: 2em;}
 div.issue .attributes .attribute {padding-left:180px; clear:left; min-height: 1.8em;}
 div.issue .attributes .attribute .label {width: 170px; margin-left:-180px; font-weight:bold; float:left;  overflow:hidden; text-overflow: ellipsis;}
 div.issue .attribute .value {overflow:auto; text-overflow: ellipsis;}
+div.issue .attribute.text_cf .value .wiki p:first-of-type {margin-top: 0;}
 div.issue.overdue .due-date .value { color: #c22; }
 
 #issue_tree table.issues, #relations table.issues { border: 0; }
