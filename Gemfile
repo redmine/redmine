@@ -47,6 +47,13 @@ group :markdown do
   gem 'redcarpet', '~> 3.5.1'
 end
 
+# Optional CommonMark support, not for JRuby
+group :common_mark do
+  gem "html-pipeline", "~> 2.12"
+  gem "commonmarker", "~> 0.20"
+  gem "sanitize", "~> 5.1"
+end
+
 # Include database gems for the adapters found in the database
 # configuration file
 require 'erb'

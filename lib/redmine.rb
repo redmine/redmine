@@ -29,6 +29,11 @@ begin
 rescue LoadError
   # Redcarpet is not available
 end
+begin
+  require 'commonmarker' unless Object.const_defined?(:CommonMarker)
+rescue LoadError
+  # CommonMarker is not available
+end
 
 require 'redmine/acts/positioned'
 
@@ -442,6 +447,9 @@ end
 Redmine::WikiFormatting.map do |format|
   format.register :textile
   format.register :markdown if Object.const_defined?(:Redcarpet)
+  if Object.const_defined?(:CommonMarker)
+    format.register :common_mark, label: 'CommonMark Markdown (GitHub Flavored)'
+  end
 end
 
 ActionView::Template.register_template_handler :rsb, Redmine::Views::ApiTemplateHandler
