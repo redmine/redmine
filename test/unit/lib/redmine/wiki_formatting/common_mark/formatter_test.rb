@@ -149,7 +149,7 @@ class Redmine::WikiFormatting::CommonMark::FormatterTest < ActionView::TestCase
         </ol>
       EXPECTED
 
-      assert_equal expected.gsub(%r{[\r\n\t]}, ''), format(text).gsub(%r{[\r\n\t]}, '')
+      assert_equal expected.gsub(%r{[\r\n\t]}, ''), format(text).gsub(%r{[\r\n\t]}, '').rstrip
     end
 
     STR_WITH_PRE = [
