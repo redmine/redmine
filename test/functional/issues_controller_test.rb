@@ -2675,16 +2675,16 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_show_should_not_display_edit_attachment_icon_for_user_without_edit_issue_permission_on_tracker
-      role = Role.find(2)
-      role.set_permission_trackers 'edit_issues', [2, 3]
-      role.save!
+    role = Role.find(2)
+    role.set_permission_trackers 'edit_issues', [2, 3]
+    role.save!
 
-      @request.session[:user_id] = 2
+    @request.session[:user_id] = 2
 
-      get :show, params: {id: 4}
+    get :show, params: {id: 4}
 
-      assert_response :success
-      assert_select 'div.attachments .icon-edit',  0
+    assert_response :success
+    assert_select 'div.attachments .icon-edit',  0
   end
 
   def test_show_should_not_display_delete_attachment_icon_for_user_without_edit_issue_permission_on_tracker
