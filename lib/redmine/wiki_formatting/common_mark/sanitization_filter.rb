@@ -27,23 +27,23 @@ module Redmine
           "a" => %w(href).freeze,
         }.freeze
 
-        def whitelist
-          @@whitelist ||= customize_whitelist(super.deep_dup)
+        def allowlist
+          @@allowlist ||= customize_allowlist(super.deep_dup)
         end
 
         private
 
-        # customizes the whitelist defined in
+        # customizes the allowlist defined in
         # https://github.com/jch/html-pipeline/blob/master/lib/html/pipeline/sanitization_filter.rb
-        def customize_whitelist(whitelist)
+        def customize_allowlist(allowlist)
           # Disallow `name` attribute globally, allow on `a`
-          whitelist[:attributes][:all].delete("name")
-          whitelist[:attributes]["a"].push("name")
+          allowlist[:attributes][:all].delete("name")
+          allowlist[:attributes]["a"].push("name")
 
           # allow class on code tags (this holds the language info from fenced
           # code bocks and has the format language-foo)
-          whitelist[:attributes]["code"] = %w(class)
-          whitelist[:transformers].push lambda{|env|
+          allowlist[:attributes]["code"] = %w(class)
+          allowlist[:transformers].push lambda{|env|
             node = env[:node]
             return unless node.name == "code"
             return unless node.has_attribute?("class")
@@ -59,15 +59,15 @@ module Redmine
           # commonmarker option (which we do not, currently).
           # By default, the align attribute is used (which is allowed on all
           # elements).
-          # whitelist[:attributes]["th"] = %w(style)
-          # whitelist[:attributes]["td"] = %w(style)
-          # whitelist[:css] = { properties: ["text-align"] }
+          # allowlist[:attributes]["th"] = %w(style)
+          # allowlist[:attributes]["td"] = %w(style)
+          # allowlist[:css] = { properties: ["text-align"] }
 
           # Allow `id` in a and li elements for footnotes
           # and remove any `id` properties not matching for footnotes
-          whitelist[:attributes]["a"].push "id"
-          whitelist[:attributes]["li"] = %w(id)
-          whitelist[:transformers].push lambda{|env|
+          allowlist[:attributes]["a"].push "id"
+          allowlist[:attributes]["li"] = %w(id)
+          allowlist[:transformers].push lambda{|env|
             node = env[:node]
             return unless node.name == "a" || node.name == "li"
             return unless node.has_attribute?("id")
@@ -78,8 +78,8 @@ module Redmine
           }
 
           # https://github.com/rgrove/sanitize/issues/209
-          whitelist[:protocols].delete("a")
-          whitelist[:transformers].push lambda{|env|
+          allowlist[:protocols].delete("a")
+          allowlist[:transformers].push lambda{|env|
             node = env[:node]
             return if node.type != Nokogiri::XML::Node::ELEMENT_NODE
 
@@ -96,7 +96,7 @@ module Redmine
             end
           }
 
-          whitelist
+          allowlist
         end
       end
     end
