@@ -71,6 +71,25 @@ if Object.const_defined?(:CommonMarker)
       assert_equal %(<code>foo</code>), filter(input)
     end
 
+    def test_should_allow_links_with_safe_url_schemes
+      %w(http https ftp ssh foo).each do |scheme|
+        input = %(<a href="#{scheme}://example.org/">foo</a>)
+        assert_equal input, filter(input)
+      end
+    end
+
+    def test_should_allow_mailto_links
+      input = %(<a href="mailto:foo@example.org">bar</a>)
+      assert_equal input, filter(input)
+    end
+
+    def test_should_remove_empty_link
+      input = %(<a href="">bar</a>)
+      assert_equal %(<a>bar</a>), filter(input)
+      input = %(<a href=" ">bar</a>)
+      assert_equal %(<a>bar</a>), filter(input)
+    end
+
     # samples taken from the Sanitize test suite
     # rubocop:disable Layout/LineLength
     STRINGS = [
@@ -193,11 +212,6 @@ if Object.const_defined?(:CommonMarker)
       'vbscript URIs' => [
         '<a href="vbscript:foobar">XSS</a>',
         '<a>XSS</a>'
-      ],
-
-      'invalid URIs' => [
-        '<a href="foo://example.org">link</a>',
-        '<a>link</a>'
       ],
     }
 

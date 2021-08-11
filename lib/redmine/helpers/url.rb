@@ -22,6 +22,7 @@ require 'uri'
 module Redmine
   module Helpers
     module URL
+      # safe for resources fetched without user interaction?
       def uri_with_safe_scheme?(uri, schemes = ['http', 'https', 'ftp', 'mailto', nil])
         # URLs relative to the current document or document root (without a protocol
         # separator, should be harmless
@@ -31,6 +32,18 @@ module Redmine
         schemes.include? URI.parse(uri).scheme
       rescue URI::Error
         false
+      end
+
+      # safe to render links to given uri?
+      def uri_with_link_safe_scheme?(uri)
+        # regexp adapted from Sanitize (we need to catch even invalid protocol specs)
+        return true unless uri =~ /\A\s*([^\/#]*?)(?:\:|&#0*58|&#x0*3a)/i
+
+        # absolute scheme
+        scheme = $1.downcase
+        return false unless /\A[a-z][a-z0-9\+\.\-]*\z/.match?(scheme) # RFC 3986
+
+        %w(data javascript vbscript).none?(scheme)
       end
     end
   end

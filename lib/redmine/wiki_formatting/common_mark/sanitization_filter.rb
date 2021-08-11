@@ -22,6 +22,11 @@ module Redmine
     module CommonMark
       # sanitizes rendered HTML using the Sanitize gem
       class SanitizationFilter < HTML::Pipeline::SanitizationFilter
+        include Redmine::Helpers::URL
+        RELAXED_PROTOCOL_ATTRS = {
+          "a" => %w(href).freeze,
+        }.freeze
+
         def whitelist
           @@whitelist ||= customize_whitelist(super.deep_dup)
         end
@@ -72,11 +77,24 @@ module Redmine
             node.remove_attribute("id")
           }
 
-          # allow the same set of URL schemes for links as is the default in
-          # Redmine::Helpers::URL#uri_with_safe_scheme?
-          whitelist[:protocols]["a"]["href"] = [
-            'http', 'https', 'ftp', 'mailto', :relative
-          ]
+          # https://github.com/rgrove/sanitize/issues/209
+          whitelist[:protocols].delete("a")
+          whitelist[:transformers].push lambda{|env|
+            node = env[:node]
+            return if node.type != Nokogiri::XML::Node::ELEMENT_NODE
+
+            name = env[:node_name]
+            return unless RELAXED_PROTOCOL_ATTRS.include?(name)
+
+            RELAXED_PROTOCOL_ATTRS[name].each do |attr|
+              next unless node.has_attribute?(attr)
+
+              node[attr] = node[attr].strip
+              unless !node[attr].empty? && uri_with_link_safe_scheme?(node[attr])
+                node.remove_attribute(attr)
+              end
+            end
+          }
 
           whitelist
         end
