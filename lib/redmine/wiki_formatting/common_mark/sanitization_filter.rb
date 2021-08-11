@@ -28,7 +28,7 @@ module Redmine
         }.freeze
 
         def allowlist
-          @@allowlist ||= customize_allowlist(super.deep_dup)
+          @allowlist ||= customize_allowlist(super.deep_dup)
         end
 
         private
