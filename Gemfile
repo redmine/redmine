@@ -49,7 +49,7 @@ end
 
 # Optional CommonMark support, not for JRuby
 group :common_mark do
-  gem "html-pipeline", "~> 2.12"
+  gem "html-pipeline", "~> 2.13.2"
   gem "commonmarker", (RUBY_VERSION < '2.6' ? '0.21.0' : '~> 0.22')
   gem "sanitize", "~> 5.1"
 end
