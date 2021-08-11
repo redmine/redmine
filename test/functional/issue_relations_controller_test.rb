@@ -216,6 +216,31 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
     assert_include 'Related issue cannot be blank', response.body
   end
 
+  def test_create_duplicated_follows_relations_should_not_raise_exception
+    IssueRelation.create(
+      :issue_from => Issue.find(1), :issue_to => Issue.find(2),
+      :relation_type => IssueRelation::TYPE_PRECEDES
+    )
+
+    assert_no_difference 'IssueRelation.count' do
+      post(
+        :create,
+        :params => {
+          :issue_id => 2,
+          :relation => {
+            :issue_to_id => 1,
+            :relation_type => 'follows',
+            :delay => ''
+          }
+        },
+        :xhr => true
+      )
+    end
+
+    assert_response :success
+    assert_include 'has already been taken', response.body
+  end
+
   def test_bulk_create_with_multiple_issue_to_id_issues
     assert_difference 'IssueRelation.count', +3 do
       post :create, :params => {
