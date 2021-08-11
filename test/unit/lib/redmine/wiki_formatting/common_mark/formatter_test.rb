@@ -134,19 +134,19 @@ class Redmine::WikiFormatting::CommonMark::FormatterTest < ActionView::TestCase
     end
 
     def test_footnotes
-      text = <<-STR
-  This is some text[^1].
-  
-  [^1]: This is the foot note
+      text = <<~STR
+        This is some text[^1].
+
+        [^1]: This is the foot note
       STR
 
-      expected = <<-EXPECTED
-  <p>This is some text<sup><a href="#fn1" id="fnref1">1</a></sup>.</p>
-   <ol>
-  <li id="fn1">
-  <p>This is the foot note <a href="#fnref1">↩</a></p>
-  </li>
-  </ol>
+      expected = <<~EXPECTED
+        <p>This is some text<sup><a href="#fn1" id="fnref1">1</a></sup>.</p>
+         <ol>
+        <li id="fn1">
+        <p>This is the foot note <a href="#fnref1">↩</a></p>
+        </li>
+        </ol>
       EXPECTED
 
       assert_equal expected.gsub(%r{[\r\n\t]}, ''), format(text).gsub(%r{[\r\n\t]}, '')
