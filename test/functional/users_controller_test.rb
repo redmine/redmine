@@ -280,6 +280,7 @@ class UsersControllerTest < Redmine::ControllerTest
     get :new
     assert_response :success
     assert_select 'input[name=?]', 'user[login]'
+    assert_select 'label[for=?]>span.required', 'user_password', 1
   end
 
   def test_create
@@ -482,6 +483,7 @@ class UsersControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_select 'h2>a+img.gravatar'
     assert_select 'input[name=?][value=?]', 'user[login]', 'jsmith'
+    assert_select 'label[for=?]>span.required', 'user_password', 0
   end
 
   def test_edit_registered_user
