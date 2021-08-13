@@ -153,7 +153,7 @@ jsToolBar.prototype.elements.bq = {
     wiki: function() {
       this.encloseLineSelection('','',function(str) {
         str = str.replace(/\r/g,'');
-        return str.replace(/(\n|^) *([^\n]*)/g,"$1> $2");
+        return str.replace(/(\n|^)( *)([^\n]*)/g,"$1> $2$3");
       });
     }
   }
@@ -167,7 +167,7 @@ jsToolBar.prototype.elements.unbq = {
     wiki: function() {
       this.encloseLineSelection('','',function(str) {
         str = str.replace(/\r/g,'');
-        return str.replace(/(\n|^) *[>]? *([^\n]*)/g,"$1$2");
+        return str.replace(/(\n|^) *(> ?)?( *)([^\n]*)/g,"$1$3$4");
       });
     }
   }
