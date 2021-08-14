@@ -1245,6 +1245,7 @@ bg:
   text_default_administrator_account_changed: Сменен фабричния администраторски профил
   text_file_repository_writable: Възможност за писане в хранилището с файлове
   text_plugin_assets_writable: Папката на приставките е разрешена за запис
+  text_all_migrations_have_been_run: Всички миграции на базата данни са изпълнени
   text_minimagick_available: Наличен MiniMagick (по избор)
   text_convert_available: Наличен ImageMagick convert (по избор)
   text_gs_available: Налична поддръжка за ImageMagick PDF (по избор)
@@ -1389,4 +1390,3 @@ bg:
     Това действие не може да бъде отменено. Често заключването на потребителя е по-добро решение от изтриването му.
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
-  text_all_migrations_have_been_run: All database migrations have been run
