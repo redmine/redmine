@@ -36,8 +36,8 @@ class Redmine::WikiFormatting::CommonMark::FormatterTest < ActionView::TestCase
       assert_equal html, format("foo  \nbar")
     end
 
-    def test_should_ignore_soft_breaks
-      assert_equal "<p>foo\nbar</p>", format("foo\nbar")
+    def test_should_render_soft_breaks
+      assert_equal "<p>foo<br>\nbar</p>", format("foo\nbar")
     end
 
     def test_syntax_error_in_image_reference_should_not_raise_exception
