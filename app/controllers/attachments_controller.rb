@@ -101,7 +101,7 @@ class AttachmentsController < ApplicationController
       return
     end
 
-    @attachment = Attachment.new(:file => request.body)
+    @attachment = Attachment.new(:file => raw_request_body)
     @attachment.author = User.current
     @attachment.filename = params[:filename].presence || Redmine::Utils.random_hex(16)
     @attachment.content_type = params[:content_type].presence
@@ -264,5 +264,15 @@ class AttachmentsController < ApplicationController
   # Returns attachments param for #update_all
   def update_all_params
     params.permit(:attachments => [:filename, :description]).require(:attachments)
+  end
+
+  # Get an IO-like object for the request body which is usable to create a new
+  # attachment. We try to avoid having to read the whole body into memory.
+  def raw_request_body
+    if request.body.respond_to?(:size)
+      request.body
+    else
+      request.raw_post
+    end
   end
 end
