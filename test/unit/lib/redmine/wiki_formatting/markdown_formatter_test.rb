@@ -70,6 +70,7 @@ class Redmine::WikiFormatting::MarkdownFormatterTest < ActionView::TestCase
     STR
     assert_select_in @formatter.new(text).to_html, 'pre code.ruby.syntaxhl' do
       assert_select 'span.k', :text => 'def'
+      assert_select "[data-language='ruby']"
     end
   end
 
@@ -79,7 +80,16 @@ class Redmine::WikiFormatting::MarkdownFormatterTest < ActionView::TestCase
       test
       ~~~
     STR
-    assert_equal "<pre>test\n</pre>", @formatter.new(text).to_html
+    assert_equal "<pre><code data-language=\"foo\">test\n</code></pre>", @formatter.new(text).to_html
+  end
+
+  def test_should_preserve_code_block_language_in_data_language
+    text = <<~STR
+      ~~~c-k&r
+      test
+      ~~~
+    STR
+    assert_equal "<pre><code data-language=\"c-k&amp;r\">test\n</code></pre>", @formatter.new(text).to_html
   end
 
   def test_external_links_should_have_external_css_class

@@ -596,12 +596,16 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
   end
 
   def test_should_not_allow_arbitrary_class_attribute_on_offtags
-    %w(code pre kbd).each do |tag|
-      assert_html_output({"<#{tag} class=\"foo\">test</#{tag}>" => "<#{tag}>test</#{tag}>"}, false)
-      assert_html_output({"<#{tag} class='foo'>test</#{tag}>" => "<#{tag}>test</#{tag}>"}, false)
-      assert_html_output({"<#{tag} class=\"ruby foo\">test</#{tag}>" => "<#{tag}>test</#{tag}>"}, false)
-      assert_html_output({"<#{tag} class='ruby foo'>test</#{tag}>" => "<#{tag}>test</#{tag}>"}, false)
-      assert_html_output({"<#{tag} class=\"ruby \"foo\" bar\">test</#{tag}>" => "<#{tag}>test</#{tag}>"}, false)
+    {
+      "class=\"foo\"" => "data-language=\"foo\"",
+      "class='foo'" => "data-language=\"foo\"",
+      "class=\"ruby foo\"" => "data-language=\"ruby foo\"",
+      "class='ruby foo'" => "data-language=\"ruby foo\"",
+      "class=\"ruby \"foo\" bar\"" => "data-language=\"ruby \"",
+    }.each do |classattr, codeattr|
+      assert_html_output({"<code #{classattr}>test</code>" => "<code #{codeattr}>test</code>"}, false)
+      assert_html_output({"<pre #{classattr}>test</pre>" => "<pre>test</pre>"}, false)
+      assert_html_output({"<kbd #{classattr}>test</kbd>" => "<kbd>test</kbd>"}, false)
     end
 
     assert_html_output({"<notextile class=\"foo\">test</notextile>" => "test"}, false)
@@ -615,13 +619,25 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
     # language name is double-quoted
     assert_html_output(
       {"<code class=\"ruby\">test</code>" =>
-         "<code class=\"ruby syntaxhl\"><span class=\"nb\">test</span></code>"},
+         "<code class=\"ruby syntaxhl\" data-language=\"ruby\"><span class=\"nb\">test</span></code>"},
       false
     )
     # language name is single-quoted
     assert_html_output(
       {"<code class='ruby'>test</code>" =>
-         "<code class=\"ruby syntaxhl\"><span class=\"nb\">test</span></code>"},
+         "<code class=\"ruby syntaxhl\" data-language=\"ruby\"><span class=\"nb\">test</span></code>"},
+      false
+    )
+  end
+
+  def test_should_preserve_code_language_class_attribute_in_data_language
+    assert_html_output(
+      {
+        "<code class=\"foolang\">unsupported language</code>" =>
+          "<code data-language=\"foolang\">unsupported language</code>",
+        "<code class=\"c-k&r\">special-char language</code>" =>
+          "<code data-language=\"c-k&#38;r\">special-char language</code>",
+      },
       false
     )
   end
