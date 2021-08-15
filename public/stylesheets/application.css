@@ -643,6 +643,8 @@ div#roadmap .wiki h2 { font-size: 110%; }
 div#roadmap h2, div#roadmap h3 {padding-right: 0;}
 body.controller-versions.action-show div#roadmap .related-issues {width:70%;}
 
+div#roadmap .version-article {padding-bottom: 12px;}
+
 div#version-summary { float:right; width:28%; margin-left: 16px; margin-bottom: 16px; background-color: #fff; }
 div#version-summary fieldset { margin-bottom: 1em; }
 div#version-summary fieldset.time-tracking table { width:100%; }
