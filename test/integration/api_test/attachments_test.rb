@@ -272,4 +272,29 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
     assert_equal 12, attachment.filesize
     assert File.exist? attachment.diskfile
   end
+
+  test "POST /uploads.json should be compatible with a uwsgi's input" do
+    set_tmp_attachments_directory
+    assert_difference 'Attachment.count' do
+      request_body = Rack::RewindableInput.new(StringIO.new('File content'))
+      # Uwsgi_IO object does not have size method
+      request_body.instance_eval('undef :size', __FILE__, __LINE__)
+      post(
+        '/uploads.json',
+        :headers => {
+          "CONTENT_TYPE" => 'application/octet-stream',
+          "CONTENT_LENGTH" => '12',
+          "rack.input" => request_body
+        }.merge(credentials('jsmith'))
+      )
+      assert_response :created
+    end
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_kind_of Hash, json['upload']
+    token = json['upload']['token']
+    assert token.present?
+    assert attachment = Attachment.find_by_token(token)
+    assert_equal 12, attachment.filesize
+    assert File.exist? attachment.diskfile
+  end
 end
