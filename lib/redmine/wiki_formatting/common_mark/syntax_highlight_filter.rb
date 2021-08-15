@@ -38,8 +38,8 @@ module Redmine
               node.inner_html = html
               node["class"] = "#{lang} syntaxhl"
             else
-              # unsupported language, strip out the code tag
-              node.parent.inner_html = text
+              # unsupported language, remove the class attribute
+              node.remove_attribute("class")
             end
           end
           doc
