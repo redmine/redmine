@@ -48,7 +48,7 @@ module Redmine
             return unless node.name == "code"
             return unless node.has_attribute?("class")
 
-            unless /\Alanguage-(\w+)\z/.match?(node["class"])
+            unless /\Alanguage-(\S+)\z/.match?(node["class"])
               node.remove_attribute("class")
             end
           }

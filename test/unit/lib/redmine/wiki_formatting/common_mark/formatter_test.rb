@@ -94,24 +94,31 @@ class Redmine::WikiFormatting::CommonMark::FormatterTest < ActionView::TestCase
     end
 
     def test_should_support_syntax_highlight
-      text = <<-STR
-  ~~~ruby
-  def foo
-  end
-  ~~~
+      text = <<~STR
+        ~~~ruby
+        def foo
+        end
+        ~~~
       STR
       assert_select_in format(text), 'pre code.ruby.syntaxhl' do
         assert_select 'span.k', :text => 'def'
+        assert_select "[data-language='ruby']"
       end
     end
 
-    def test_should_not_allow_invalid_language_for_code_blocks
-      text = <<-STR
-  ~~~foo
-  test
-  ~~~
+    def test_should_support_syntax_highlight_for_language_with_special_chars
+      text = <<~STR
+        ~~~c++
+        int main() {
+        }
+        ~~~
       STR
-      assert_equal "<pre>test\n</pre>", format(text)
+
+      assert_select_in format(text), 'pre' do
+        assert_select 'code[class=?]', "c++ syntaxhl"
+        assert_select 'span.kt', :text => 'int'
+        assert_select "[data-language=?]", "c++"
+      end
     end
 
     def test_external_links_should_have_external_css_class

@@ -38,7 +38,7 @@ if Object.const_defined?(:CommonMarker)
         </code></pre>
       HTML
       expected = <<~HTML
-        <pre><code class="ruby syntaxhl">
+        <pre><code class="ruby syntaxhl" data-language="ruby">
         <span class="k">def</span> <span class="nf">foo</span>
         <span class="k">end</span>
         </code></pre>
@@ -46,7 +46,21 @@ if Object.const_defined?(:CommonMarker)
       assert_equal expected, filter(input)
     end
 
-    def test_should_strip_code_for_unknown_lang
+    def test_should_highlight_supported_language_with_special_chars
+      input = <<~HTML
+        <pre><code class="language-c-k&amp;r">
+        int i;
+        </code></pre>
+      HTML
+      expected = <<~HTML
+        <pre><code data-language="c-k&amp;r">
+        int i;
+        </code></pre>
+      HTML
+      assert_equal expected, filter(input)
+    end
+
+    def test_should_strip_code_class_and_preserve_data_language_attr_for_unknown_language
       input = <<~HTML
         <pre><code class="language-foobar">
         def foo
@@ -54,10 +68,10 @@ if Object.const_defined?(:CommonMarker)
         </code></pre>
       HTML
       expected = <<~HTML
-        <pre>
+        <pre><code data-language="foobar">
         def foo
         end
-        </pre>
+        </code></pre>
       HTML
       assert_equal expected, filter(input)
     end

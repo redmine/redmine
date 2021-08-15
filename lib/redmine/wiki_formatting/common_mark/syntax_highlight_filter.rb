@@ -26,10 +26,13 @@ module Redmine
         def call
           doc.search("pre > code").each do |node|
             next unless lang = node["class"].presence
-            next unless lang =~ /\Alanguage-(\w+)\z/
+            next unless lang =~ /\Alanguage-(\S+)\z/
 
             lang = $1
             text = node.inner_text
+
+            # original language for extension development
+            node["data-language"] = lang unless node["data-language"]
 
             if Redmine::SyntaxHighlighting.language_supported?(lang)
               html = Redmine::SyntaxHighlighting.highlight_by_language(text, lang)
