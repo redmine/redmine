@@ -1418,26 +1418,26 @@ gl:
   error_invalid_authenticity_token: Sesión non válida.
   error_query_statement_invalid: Aconteceu un erro executando a consulta e ten sido
     engadido no log. Por favor, informe deste erro ao administrador do Redmine.
-  permission_view_wiki_page_watchers: View wiki page watchers list
-  permission_add_wiki_page_watchers: Add wiki page watchers
-  permission_delete_wiki_page_watchers: Delete wiki page watchers
-  label_wiki_page_watchers: Watchers
-  label_attachment_description: File description
-  error_no_data_in_file: The file does not contain any data
-  field_twofa_required: Require two factor authentication
-  twofa_hint_optional_html: Setting <strong>%{label}</strong> will let users set up
-    two-factor authentication at will, unless it is required by one of their groups.
-  twofa_text_group_required: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is required for all users.
-  twofa_text_group_disabled: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is disabled.
-  field_default_issue_query: Default issue query
-  setting_default_issue_query: Default Query
+  permission_view_wiki_page_watchers: Ver a listaxe de seguidores da páxina da wiki
+  permission_add_wiki_page_watchers: Engadir seguidores á páxina da wiki
+  permission_delete_wiki_page_watchers: Borrar os seguidores da páxina da wiki
+  label_wiki_page_watchers: Seguidores
+  label_attachment_description: Descrición do ficheiro
+  error_no_data_in_file: O ficheiro non contén ningún tipo de datos
+  field_twofa_required: Precisa autenticación de dous factores
+  twofa_hint_optional_html: A configuración <strong>%{label}</strong> permitirá aos usuarios estabrecer
+    autenticación de dous factores á súa vontade, a menos que sexa requerido por un dos seus grupos.
+  twofa_text_group_required: Esta configuración só é efectiva cando a configuración de autenticación global
+    de dous factores estea estabrecida a 'opcional'. Actualmente, a autenticación de dous factores
+    é obrigatoria para todos os usuarios.
+  twofa_text_group_disabled: Esta configuración só é efectiva cando a configuración de autenticación global
+    de dous factores estea estabrecida a 'opcional'. Actualmente, a autenticación de dous factores
+    está deshabilitada.
+  field_default_issue_query: Consulta de peticións por defecto
+  setting_default_issue_query: Consulta por defecto
   label_default_queries:
-    for_all_projects: For all projects
-    for_current_project: For current project
-    for_all_users: For all users
-  text_allowed_queries_to_select: Public (to any users) queries only selectable
-  text_all_migrations_have_been_run: All database migrations have been run
+    for_all_projects: Para todos os proxectos
+    for_current_project: Para o proxecto actual
+    for_all_users: Para todos os usuarios
+  text_allowed_queries_to_select: Soamente seleccionables consultas públicas (para calquera usuario)
+  text_all_migrations_have_been_run: Foron executadas todas as migracións de base de datos
