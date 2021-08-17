@@ -1,0 +1,12 @@
+<div class="contextual">
+  <%= link_to_new_subtask(@issue) if User.current.allowed_to?(:manage_subtasks, @project) %>
+</div>
+
+<p>
+  <strong><%=l(:label_subtask_plural)%></strong>
+  <%= render_descendants_stats(@issue) unless @issue.leaf? %>
+</p>
+
+<%= form_tag({}, :data => {:cm_url => issues_context_menu_path}) do %>
+  <%= render_descendants_tree(@issue) unless @issue.leaf? %>
+<% end %>
