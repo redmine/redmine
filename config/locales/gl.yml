@@ -1441,3 +1441,6 @@ gl:
     for_all_users: Para todos os usuarios
   text_allowed_queries_to_select: Soamente seleccionables consultas públicas (para calquera usuario)
   text_all_migrations_have_been_run: Foron executadas todas as migracións de base de datos
+  button_save_object: Save %{object_name}
+  button_edit_object: Edit %{object_name}
+  button_delete_object: Delete %{object_name}

@@ -1390,3 +1390,6 @@ bg:
     Това действие не може да бъде отменено. Често заключването на потребителя е по-добро решение от изтриването му.
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
+  button_save_object: Save %{object_name}
+  button_edit_object: Edit %{object_name}
+  button_delete_object: Delete %{object_name}

@@ -1441,3 +1441,6 @@ tr:
     for_all_users: For all users
   text_allowed_queries_to_select: Public (to any users) queries only selectable
   text_all_migrations_have_been_run: All database migrations have been run
+  button_save_object: Save %{object_name}
+  button_edit_object: Edit %{object_name}
+  button_delete_object: Delete %{object_name}

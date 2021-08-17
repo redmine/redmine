@@ -1459,3 +1459,6 @@
     for_all_users: 對於全部用戶
   text_allowed_queries_to_select: 僅可選取公開 (給任何用戶) 的查詢
   text_all_migrations_have_been_run: 資料庫移轉已全部執行完畢
+  button_save_object: Save %{object_name}
+  button_edit_object: Edit %{object_name}
+  button_delete_object: Delete %{object_name}
