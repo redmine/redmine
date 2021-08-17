@@ -1505,14 +1505,14 @@ module ApplicationHelper
     html.html_safe
   end
 
-  def delete_link(url, options={})
+  def delete_link(url, options={}, button_name=l(:button_delete))
     options = {
       :method => :delete,
       :data => {:confirm => l(:text_are_you_sure)},
       :class => 'icon icon-del'
     }.merge(options)
 
-    link_to l(:button_delete), url, options
+    link_to button_name, url, options
   end
 
   def link_to_function(name, function, html_options={})

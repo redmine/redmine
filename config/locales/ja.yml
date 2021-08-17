@@ -867,6 +867,9 @@ ja:
   button_configure: 設定
   button_quote: 引用
   button_show: 表示
+  button_save_object: "%{object_name}を保存"
+  button_edit_object: "%{object_name}を編集"
+  button_delete_object: "%{object_name}を削除"
 
   status_active: 有効
   status_registered: 登録
