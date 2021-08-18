@@ -571,7 +571,7 @@ class Attachment < ActiveRecord::Base
         name = "#{timestamp}_#{ascii}"
         File.open(
           File.join(path, name),
-          flags: File::CREAT | File::EXCL | File::BINARY | File::WRONLY,
+          flags: File::CREAT | File::EXCL | File::WRONLY,
           binmode: true,
           &block
         )
