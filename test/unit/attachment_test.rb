@@ -276,27 +276,31 @@ class AttachmentTest < ActiveSupport::TestCase
   end
 
   def test_create_diskfile
+    path = nil
     Attachment.create_diskfile("test_file.txt") do |f|
       path = f.path
       assert_match(/^\d{12}_test_file.txt$/, File.basename(path))
       assert_equal 'test_file.txt', File.basename(path)[13..-1]
-      File.unlink f.path
     end
+    File.unlink path
 
     Attachment.create_diskfile("test_accentué.txt") do |f|
+      path = f.path
       assert_equal '770c509475505f37c2b8fb6030434d6b.txt', File.basename(f.path)[13..-1]
-      File.unlink f.path
     end
+    File.unlink path
 
     Attachment.create_diskfile("test_accentué") do |f|
+      path = f.path
       assert_equal 'f8139524ebb8f32e51976982cd20a85d', File.basename(f.path)[13..-1]
-      File.unlink f.path
     end
+    File.unlink path
 
     Attachment.create_diskfile("test_accentué.ça") do |f|
+      path = f.path
       assert_equal 'cbb5b0f30978ba03731d61f9f6d10011', File.basename(f.path)[13..-1]
-      File.unlink f.path
     end
+    File.unlink path
   end
 
   def test_title
