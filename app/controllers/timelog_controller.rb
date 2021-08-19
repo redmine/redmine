@@ -76,7 +76,7 @@ class TimelogController < ApplicationController
     retrieve_time_entry_query
     scope = time_entry_scope
 
-    @report = Redmine::Helpers::TimeReport.new(@project, @issue, params[:criteria], params[:columns], scope)
+    @report = Redmine::Helpers::TimeReport.new(@project, params[:criteria], params[:columns], scope)
 
     respond_to do |format|
       format.html {render :layout => !request.xhr?}
