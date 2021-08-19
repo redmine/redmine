@@ -1,0 +1,53 @@
+<%= form_tag({}, :method => :get) do %>
+<h3><%= l(:label_roadmap) %></h3>
+<ul>
+<% @trackers.each do |tracker| %>
+  <li>
+    <label>
+      <%= check_box_tag("tracker_ids[]", tracker.id,
+                        (@selected_tracker_ids.include? tracker.id.to_s),
+                        :id => nil) %>
+      <%= tracker.name %>
+    </label>
+  </li>
+<% end %>
+</ul>
+<p></p>
+<ul>
+  <li>
+    <label for="completed">
+      <%= check_box_tag "completed", 1, params[:completed] %> <%= l(:label_show_completed_versions) %>
+    </label>
+  </li>
+  <% if @project.descendants.active.any? %>
+  <li>
+    <%= hidden_field_tag 'with_subprojects', 0, :id => nil %>
+    <label>
+      <%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%>
+    </label>
+  </li>
+  <% end %>
+</ul>
+<p><%= submit_tag l(:button_apply), :class => 'button-small', :name => nil %></p>
+<% end %>
+
+<h3><%= l(:label_version_plural) %></h3>
+<ul>
+<% @versions.each do |version| %>
+  <li>
+    <%= link_to(format_version_name(version), "##{version_anchor(version)}") %>
+  </li>
+<% end %>
+</ul>
+<% if @completed_versions.present? %>
+<p>
+  <%= link_to_function l(:label_completed_versions),
+                       '$("#toggle-completed-versions").toggleClass("icon-collapsed icon-expended"); $("#completed-versions").toggle()',
+                       :id => 'toggle-completed-versions', :class => 'icon icon-collapsed collapsible' %>
+  <ul id = "completed-versions" style = "display:none;">
+    <% @completed_versions.each do |version| %>
+      <li><%= link_to_version version %></li>
+    <% end %>
+  </ul>
+</p>
+<% end %>
