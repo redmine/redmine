@@ -397,4 +397,42 @@ class IssuesHelperTest < Redmine::HelperTest
       end
     end
   end
+
+  def test_render_issues_stats
+    html = render_issues_stats(1, 1, {:issue_id => '15,16'})
+
+    assert_include '<a href="/issues?issue_id=15%2C16&amp;set_filter=true&amp;status_id=%2A">2</a>', html
+    assert_include '<a href="/issues?issue_id=15%2C16&amp;set_filter=true&amp;status_id=o">1 open</a>', html
+    assert_include '<a href="/issues?issue_id=15%2C16&amp;set_filter=true&amp;status_id=c">1 closed</a>', html
+  end
+
+  def test_render_descendants_stats
+    parent = Issue.generate!(:status_id => 1)
+    child = Issue.generate!(:parent_issue_id => parent.id, :status_id => 1)
+    Issue.generate!(:parent_issue_id => child.id, :status_id => 5)
+    parent.reload
+    html = render_descendants_stats(parent)
+
+    assert_include "<a href=\"/issues?parent_id=~#{parent.id}&amp;set_filter=true&amp;status_id=%2A\">2</a>", html
+    assert_include "<a href=\"/issues?parent_id=~#{parent.id}&amp;set_filter=true&amp;status_id=o\">1 open</a>", html
+    assert_include "<a href=\"/issues?parent_id=~#{parent.id}&amp;set_filter=true&amp;status_id=c\">1 closed</a>", html
+  end
+
+  def test_render_relations_stats
+    issue = Issue.generate!(:status_id => 1)
+    relations = []
+    open_issue = Issue.generate!(:status_id => 1)
+    relations << IssueRelation.create!(:issue_from => open_issue,
+                                       :issue_to => issue,
+                                       :relation_type => IssueRelation::TYPE_RELATES)
+    closed_issue = Issue.generate!(:status_id => 5)
+    relations << IssueRelation.create!(:issue_from => closed_issue,
+                                       :issue_to => issue,
+                                       :relation_type => IssueRelation::TYPE_FOLLOWS)
+    html = render_relations_stats(issue, relations)
+
+    assert_include "<a href=\"/issues?issue_id=#{open_issue.id}%2C#{closed_issue.id}&amp;set_filter=true&amp;status_id=%2A\">2</a></span>", html
+    assert_include "<a href=\"/issues?issue_id=#{open_issue.id}%2C#{closed_issue.id}&amp;set_filter=true&amp;status_id=o\">1 open</a>", html
+    assert_include "<a href=\"/issues?issue_id=#{open_issue.id}%2C#{closed_issue.id}&amp;set_filter=true&amp;status_id=c\">1 closed</a>", html
+  end
 end

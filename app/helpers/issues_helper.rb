@@ -152,36 +152,44 @@ module IssuesHelper
 
     open_subtasks = subtasks_grouped[false].to_i
     closed_subtasks = subtasks_grouped[true].to_i
-    all_subtasks = open_subtasks + closed_subtasks
+    render_issues_stats(open_subtasks, closed_subtasks, {:parent_id => "~#{issue.id}"})
+  end
 
-    return if all_subtasks == 0
+  # Renders relations stats (total relations (open - closed)) with query links
+  def render_relations_stats(issue, relations)
+    open_relations = relations.count{|r| (r.other_issue(issue).closed?)==false}
+    closed_relations = relations.count{|r| r.other_issue(issue).closed?}
+    render_issues_stats(open_relations, closed_relations, {:issue_id => relations.map{|r| r.other_issue(issue).id}.join(',')})
+  end
+
+  # Renders issues stats (total relations (open - closed)) with query links
+  def render_issues_stats(open_issues=0, closed_issues=0, issues_path_attr={})
+    total_issues = open_issues + closed_issues
+    return if total_issues == 0
 
     all_block = content_tag(
       'span',
-      link_to(all_subtasks, issues_path(parent_id: "~#{issue.id}", set_filter: true, status_id: '*')),
+      link_to(total_issues, issues_path(issues_path_attr.merge({:set_filter => true, :status_id => '*'}))),
       class: 'badge badge-issues-count'
     )
-
     closed_block = content_tag(
       'span',
       link_to_if(
-        closed_subtasks > 0,
-        l(:label_x_closed_issues_abbr, count: closed_subtasks),
-        issues_path(parent_id: "~#{issue.id}", set_filter: true, status_id: 'c')
+        closed_issues > 0,
+        l(:label_x_closed_issues_abbr, count: closed_issues),
+        issues_path(issues_path_attr.merge({:set_filter => true, :status_id => 'c'}))
       ),
       class: 'closed'
     )
-
     open_block = content_tag(
       'span',
       link_to_if(
-        open_subtasks > 0,
-        l(:label_x_open_issues_abbr, :count => open_subtasks),
-        issues_path(:parent_id => "~#{issue.id}", :set_filter => true, :status_id => 'o')
+        open_issues > 0,
+        l(:label_x_open_issues_abbr, :count => open_issues),
+        issues_path(issues_path_attr.merge({:set_filter => true, :status_id => 'o'}))
       ),
       class: 'open'
     )
-
     content_tag(
       'span',
       "#{all_block} (#{open_block} &#8212; #{closed_block})".html_safe,
