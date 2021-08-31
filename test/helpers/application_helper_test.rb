@@ -1712,7 +1712,8 @@ class ApplicationHelperTest < Redmine::HelperTest
 
   def test_link_to_principal_should_link_to_user
     user = User.find(2)
-    assert_equal link_to_user(user), link_to_principal(user)
+    result = link_to('John Smith', '/users/2', :class => 'user active')
+    assert_equal result, link_to_principal(user)
   end
 
   def test_link_to_principal_should_link_to_group
