@@ -239,20 +239,25 @@ function hasModels(){
 function toggleProjectButton() {
     if ($("#showGeppettoBtn").is(":visible") || !hasModels()) {
         if (hasModels()) {
-	    $("#showGeppettoBtn").hide();
+            $("#showGeppettoBtn").hide();
             $("#moreBtn").hide();
         }
-        if ($("#showProjectBtn").is(":visible"))
-	    $("#showProjectBtn").hide();
-        else
+        if ($("#showProjectBtn").is(":visible")) {
+            $("#showProjectBtn").hide();
+            $("#troubleshootExplorerBtn").hide();
+        }
+        else {
             $("#showProjectBtn").show();
+            $("#troubleshootExplorerBtn").show();
+        }
     }
     else {
         if (hasModels()) {
-	    $("#showGeppettoBtn").show();
+            $("#showGeppettoBtn").show();
             $("#moreBtn").show();
         }
-	$("#showProjectBtn").hide();
+        $("#showProjectBtn").hide();
+        $("#troubleshootExplorerBtn").hide();
     }
 }
 
