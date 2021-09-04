@@ -25,10 +25,10 @@
 <% end %>
 </tbody>
 </table>
-<div class="issue-report-graph">
+<div class="issue-report-graph hide-when-print">
   <canvas id="issues_by_<%= params[:detail] %>"></canvas>
 </div>
-<div class="issue-report-graph">
+<div class="issue-report-graph hide-when-print">
   <canvas id="issues_by_status"></canvas>
 </div>
 <%= javascript_tag do %>
