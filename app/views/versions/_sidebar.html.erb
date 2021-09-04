@@ -3,6 +3,7 @@
 <ul>
 <% @trackers.each do |tracker| %>
   <li>
+    <%= hidden_field_tag "tracker_ids[]", nil, :id => nil %>
     <label>
       <%= check_box_tag("tracker_ids[]", tracker.id,
                         (@selected_tracker_ids.include? tracker.id.to_s),
