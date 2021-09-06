@@ -84,7 +84,7 @@ Redmine::AccessControl.map do |map|
   map.permission :add_project, {:projects => [:new, :create]}, :require => :loggedin
   map.permission :edit_project, {:projects => [:settings, :edit, :update]}, :require => :member
   map.permission :close_project, {:projects => [:close, :reopen]}, :require => :member, :read => true
-  map.permission :delete_project, {:projects => :destroy}, :require => :member
+  map.permission :delete_project, {:projects => :destroy}, :require => :member, :read => true
   map.permission :select_project_modules, {:projects => :modules}, :require => :member
   map.permission :view_members, {:members => [:index, :show]}, :public => true, :read => true
   map.permission :manage_members, {:projects => :settings, :members => [:index, :show, :new, :create, :edit, :update, :destroy, :autocomplete]}, :require => :member
