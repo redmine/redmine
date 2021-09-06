@@ -1313,6 +1313,41 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [], User.find(2).bookmarked_project_ids
   end
 
+  def test_remove_custom_field_references_upon_destroy
+    cf1 = IssueCustomField.create(field_format: 'user', name: 'user cf', is_for_all: true, tracker_ids: Tracker.pluck(:id))
+    cf2 = IssueCustomField.create(field_format: 'user', name: 'users cf', is_for_all: true, multiple: true, tracker_ids: Tracker.pluck(:id))
+
+    issue = Issue.first
+    issue.init_journal(@admin)
+    assert_difference ->{cf1.custom_values.count} do
+      assert_difference ->{cf2.custom_values.count}, 2 do
+        issue.update(custom_field_values:
+        {
+          cf1.id => @jsmith.id,
+          cf2.id => [@dlopper.id, @jsmith.id]
+        })
+      end
+    end
+    assert cv1 = cf1.custom_values.where(customized_id: issue.id).last
+    assert_equal @jsmith.id.to_s, cv1.value
+
+    assert cv2 = cf2.custom_values.where(customized_id: issue.id)
+    assert_equal 2, cv2.size
+    assert cv2a = cv2.detect{|cv| cv.value == @dlopper.id.to_s}
+    assert cv2b = cv2.detect{|cv| cv.value == @jsmith.id.to_s}
+
+    # 2 custom values from the issue and 1 custom value from the user (CustomValue#3)
+    assert_difference ->{CustomValue.count}, -3 do
+      @jsmith.destroy
+    end
+
+    assert_raise(ActiveRecord::RecordNotFound){cv1.reload}
+    assert_raise(ActiveRecord::RecordNotFound){cv2b.reload}
+
+    cv2a.reload
+    assert_equal @dlopper.id.to_s, cv2a.value
+  end
+
   if Object.const_defined?(:OpenID)
     def test_setting_identity_url
       normalized_open_id_url = 'http://example.com/'
