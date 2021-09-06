@@ -96,6 +96,18 @@ class ActivitiesControllerTest < Redmine::ControllerTest
     assert_response 404
   end
 
+  def test_user_index_with_non_visible_user_id_should_respond_404
+    Role.anonymous.update! :users_visibility => 'members_of_visible_projects'
+    user = User.generate!
+
+    @request.session[:user_id] = nil
+    get :index, :params => {
+      :user_id => user.id
+    }
+
+    assert_response 404
+  end
+
   def test_index_atom_feed
     get :index, :params => {
         :format => 'atom',
