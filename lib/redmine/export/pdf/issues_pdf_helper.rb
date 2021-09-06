@@ -134,13 +134,18 @@ module Redmine
 
           custom_field_values = issue.visible_custom_field_values.select {|value| value.custom_field.full_width_layout?}
           custom_field_values.each do |value|
-            text = show_value(value, false)
+            is_html = value.custom_field.full_text_formatting?
+            text = show_value(value, is_html)
             next if text.blank?
 
             pdf.SetFontStyle('B', 9)
             pdf.RDMCell(35+155, 5, value.custom_field.name, "LRT", 1)
             pdf.SetFontStyle('', 9)
-            pdf.RDMwriteHTMLCell(35+155, 5, '', '', text, issue.attachments, "LRB")
+            if is_html
+              pdf.RDMwriteFormattedCell(35+155, 5, '', '', text, issue.attachments, "LRB")
+            else
+              pdf.RDMwriteHTMLCell(35+155, 5, '', '', text, issue.attachments, "LRB")
+            end
           end
 
           unless issue.leaf?
