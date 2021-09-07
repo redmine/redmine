@@ -31,7 +31,7 @@ gem "thread_safe"
 gem "byebug", "< 11.1.0"
 gem 'activerecord-deprecated_finders', require: 'active_record/deprecated_finders'
 
-gem "nokogiri", "~> 1.6.8"
+gem "nokogiri", "1.6.8"
 gem "i18n", "~> 0.7.0"
 gem "ffi", "1.9.14", :platforms => :mingw if RUBY_VERSION < "2.0"
 

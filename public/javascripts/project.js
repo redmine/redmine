@@ -20,17 +20,22 @@ $(document).ready(function(){
 	        $("#showGeppettoBtn").hide();
                 $("#moreBtn").hide();
             }
-            if ($("#showProjectBtn").is(":visible"))
-	        $("#showProjectBtn").hide();
-            else
+            if ($("#showProjectBtn").is(":visible")) {
+                $("#showProjectBtn").hide();
+                $("#toggleProjectButton").hide();
+            }
+            else {
                 $("#showProjectBtn").show();
+                $("#toggleProjectButton").hide();
+            }
         }
         else {
             if (hasModels()) {
-	        $("#showGeppettoBtn").show();
+                $("#showGeppettoBtn").show();
                 $("#moreBtn").show();
             }
-	    $("#showProjectBtn").hide();
+            $("#showProjectBtn").hide();
+            $("#toggleProjectButton").hide();
         }
     }
 
