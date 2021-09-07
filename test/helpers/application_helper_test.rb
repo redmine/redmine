@@ -1701,12 +1701,18 @@ class ApplicationHelperTest < Redmine::HelperTest
     end
   end
 
-  def test_link_to_user_should_link_to_locked_user_if_current_user_is_admin
+  def test_link_to_user_should_link_to_locked_user_only_if_current_user_is_admin
+    user = User.find(5)
+    assert user.locked?
+
     with_current_user User.find(1) do
-      user = User.find(5)
-      assert user.locked?
-      result = link_to("Dave2 Lopper2", "/users/5", :class => "user locked")
-      assert_equal result, link_to_user(user)
+      result = link_to('Dave2 Lopper2', '/users/5', :class => 'user locked assigned_to')
+      assert_equal result, link_to_user(user, :class => 'assigned_to')
+    end
+
+    with_current_user User.find(2) do
+      result = 'Dave2 Lopper2'
+      assert_equal result, link_to_user(user, :class => 'assigned_to')
     end
   end
 
@@ -1720,6 +1726,12 @@ class ApplicationHelperTest < Redmine::HelperTest
     group = Group.find(10)
     result = link_to('A Team', '/groups/10', :class => 'group')
     assert_equal result, link_to_principal(group)
+  end
+
+  def test_link_to_principal_should_return_string_representation_for_unknown_type_principal
+    unknown_principal = 'foo'
+    result = unknown_principal.to_s
+    assert_equal result, link_to_principal(unknown_principal, :class => 'bar')
   end
 
   def test_link_to_group_should_return_only_group_name_for_non_admin_users

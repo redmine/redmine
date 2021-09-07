@@ -73,6 +73,10 @@ class Group < Principal
     !builtin?
   end
 
+  def css_classes
+    'group'
+  end
+
   def user_added(user)
     members.each do |member|
       next if member.project.nil?

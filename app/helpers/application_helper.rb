@@ -60,19 +60,20 @@ module ApplicationHelper
     case principal
     when User
       name = h(principal.name(options[:format]))
+      css_classes = ''
       if principal.active? || (User.current.admin? && principal.logged?)
         url = user_url(principal, :only_path => only_path)
-        css_classes = principal.css_classes
+        css_classes += principal.css_classes
       end
     when Group
       name = h(principal.to_s)
       url = group_url(principal, :only_path => only_path)
-      css_classes = 'group'
+      css_classes = principal.css_classes
     else
       name = h(principal.to_s)
     end
 
-    css_classes += " #{options[:class]}" if options[:class].present?
+    css_classes += " #{options[:class]}" if css_classes && options[:class].present?
     url ? link_to(name, url, :class => css_classes) : name
   end
 
