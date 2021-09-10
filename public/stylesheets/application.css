@@ -693,7 +693,8 @@ div.project-title {
     font-size: 18px;
 }
 
-#troubshootExplorerBtn {
+#troubleshootExplorerBtn {
+    display: none;
     font-size: 18px;
 }
 
