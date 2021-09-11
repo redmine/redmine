@@ -104,10 +104,12 @@ module Redmine
           atta = RDMPdfEncoding.attach(@attachments, attrname, "UTF-8")
           if atta
             return atta.diskfile
+          # rubocop:disable Lint/DuplicateBranch
           elsif %r{/attachments/download/(?<id>[^/]+)/} =~ attrname and
                 atta = @attachments.find{|a| a.id.to_s == id} and
                 atta.readable? and atta.visible?
             return atta.diskfile
+          # rubocop:enable Lint/DuplicateBranch
           elsif %r{/attachments/thumbnail/(?<id>[^/]+)/(?<size>\d+)} =~ attrname and
                 atta = @attachments.find{|a| a.id.to_s == id} and
                 atta.readable? and atta.visible?
