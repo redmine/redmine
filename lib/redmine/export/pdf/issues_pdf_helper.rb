@@ -374,7 +374,7 @@ module Redmine
                        :edit_section_links => false,
                        :headings => false,
                        :inline_attachments => false
-                      )
+          )
         end
 
         def is_cjk?
