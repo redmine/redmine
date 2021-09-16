@@ -22,11 +22,11 @@ $(document).ready(function(){
             }
             if ($("#showProjectBtn").is(":visible")) {
                 $("#showProjectBtn").hide();
-                $("#toggleProjectButton").hide();
+                $("#troubleshootExplorerBtn").hide();
             }
             else {
                 $("#showProjectBtn").show();
-                $("#toggleProjectButton").hide();
+                $("#troubleshootExplorerBtn").hide();
             }
         }
         else {
@@ -35,7 +35,7 @@ $(document).ready(function(){
                 $("#moreBtn").show();
             }
             $("#showProjectBtn").hide();
-            $("#toggleProjectButton").hide();
+            $("#troubleshootExplorerBtn").hide();
         }
     }
 
@@ -90,6 +90,7 @@ $(document).ready(function(){
     if (!hasModels()) {
         $("#moreBtn").hide();
         $("#showGeppettoBtn").hide();
+        $("#TroubleshootExplorerBtn").hide();
     }
 
     $("#showProjectBtn").click(function(){
