@@ -1490,7 +1490,8 @@ td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
   color: #fff;
   border-radius: 3px;
   border: 0;
-  box-shadow: none
+  box-shadow: none;
+  white-space: pre-wrap;
 }
 
 /***** Icons *****/
