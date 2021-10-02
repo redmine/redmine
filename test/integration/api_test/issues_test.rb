@@ -141,6 +141,16 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     assert_select 'issues>issue>is_private', :text => 'false'
   end
 
+  def test_index_should_include_issue_status_is_closed_false
+    get '/issues.xml'
+    assert_select 'issues>issue>status[is_closed=false]'
+  end
+
+  def test_index_should_include_issue_status_is_closed_true
+    get '/issues.xml?status_id=5'
+    assert_select 'issues>issue>status[is_closed=true]'
+  end
+
   def test_index_should_include_spent_hours
     Issue.delete_all
     parent = Issue.generate!(:estimated_hours => 2.0)
@@ -391,6 +401,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
   def test_show_should_include_issue_attributes
     get '/issues/1.xml'
     assert_select 'issue>is_private', :text => 'false'
+    assert_select 'issue>status[is_closed=false]'
   end
 
   test "GET /issues/:id.xml?include=watchers should include watchers" do
@@ -433,13 +444,14 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     assert_response :ok
     assert_equal 'application/xml', response.media_type
 
-    allowed_statuses = [[1, 'New'], [2, 'Assigned'], [4, 'Feedback'], [5, 'Closed'], [6, 'Rejected']]
+    allowed_statuses = [[1, 'New', 'false'], [2, 'Assigned', 'false'], [4, 'Feedback', 'false'], [5, 'Closed', 'true'], [6, 'Rejected', 'true']]
     assert_select 'issue allowed_statuses[type=array]' do
       assert_select 'status', allowed_statuses.length
       assert_select('status').each_with_index do |status, idx|
-        id, name, = allowed_statuses[idx]
+        id, name, is_closed = allowed_statuses[idx]
         assert_equal id.to_s, status['id']
         assert_equal name, status['name']
+        assert_equal is_closed, status['is_closed']
       end
     end
   end
