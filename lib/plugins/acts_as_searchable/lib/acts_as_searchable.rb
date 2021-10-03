@@ -155,7 +155,7 @@ module Redmine
           def search_tokens_condition(columns, tokens, all_words)
             token_clauses = columns.map {|column| "(#{search_token_match_statement(column)})"}
             sql = (['(' + token_clauses.join(' OR ') + ')'] * tokens.size).join(all_words ? ' AND ' : ' OR ')
-            [sql, * (tokens.collect {|w| "%#{w}%"} * token_clauses.size).sort]
+            [sql, * (tokens.collect {|w| "%#{ActiveRecord::Base.sanitize_sql_like w}%"} * token_clauses.size).sort]
           end
           private :search_tokens_condition
 

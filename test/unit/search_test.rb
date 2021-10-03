@@ -150,6 +150,30 @@ class SearchTest < ActiveSupport::TestCase
     assert_include issue, r
   end
 
+  def test_search_should_not_allow_like_injection
+    issue = Issue.generate!(:subject => "asdf")
+
+    r = Issue.search_results('as_f')
+    assert_not_include issue, r
+
+    r = Issue.search_results('as%f')
+    assert_not_include issue, r
+  end
+
+  def test_search_should_find_underscore
+    issue = Issue.generate!(:subject => "as_f")
+
+    r = Issue.search_results('as_f')
+    assert_include issue, r
+  end
+
+  def test_search_should_find_percent_sign
+    issue = Issue.generate!(:subject => "as%f")
+
+    r = Issue.search_results('as%f')
+    assert_include issue, r
+  end
+
   def test_search_should_be_case_insensitive_with_accented_characters
     unless sqlite?
       issue1 = Issue.generate!(:subject => "Special chars: ÖÖ")
