@@ -1287,7 +1287,7 @@ en:
   text_avatar_server_config_html: The current avatar server is <a href="%{url}">%{url}</a>. You can configure it in config/configuration.yml.
   text_no_subject: no subject
   text_allowed_queries_to_select: Public (to any users) queries only selectable
-
+  text_setting_config_change: You can configure the behaviour in config/configuration.yml. Please restart the application after editing it.
 
   default_role_manager: Manager
   default_role_developer: Developer

@@ -224,6 +224,13 @@ default:
   #avatar_server_url: https://www.gravatar.com        # default
   #avatar_server_url: https://seccdn.libravatar.org
 
+  # Configure CommonMark hardbreaks behaviour
+  #
+  # allowed values: true, false
+  # true: treats regular line break (\n) as hardbreaks
+  # false: switches to default common mark where two or more spaces are required
+  # common_mark_enable_hardbreaks: true
+
 # specific configuration options for production environment
 # that overrides the default ones
 production:

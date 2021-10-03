@@ -42,10 +42,14 @@ module Redmine
 
         # https://github.com/gjtorikian/commonmarker#render-options
         commonmarker_render_options: [
-          :HARDBREAKS,
           :UNSAFE
-        ].freeze,
+        ],
       }.freeze
+
+      if Redmine::Configuration['common_mark_enable_hardbreaks'] === true
+        PIPELINE_CONFIG[:commonmarker_render_options].push(:HARDBREAKS)
+      end
+      PIPELINE_CONFIG[:commonmarker_render_options].freeze
 
       MarkdownPipeline = HTML::Pipeline.new [
         MarkdownFilter,
