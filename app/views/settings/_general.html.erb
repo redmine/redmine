@@ -22,7 +22,7 @@
 <p><%= setting_select :text_formatting, Redmine::WikiFormatting.formats_for_select, :blank => :label_none %>
   <span id="common_mark_info" class="<%= "hidden" unless Setting.text_formatting == "common_mark" %>">
     <label class="block">
-      <%= check_box_tag(nil, '', Redmine::Configuration['common_mark_enable_hardbreaks'] === true, disabled: true) %>
+      <%= check_box_tag(nil, '', Redmine::Configuration['common_mark_enable_hardbreaks'] == true, disabled: true) %>
       Hardbreaks
     </label>
     <em class="info">

@@ -46,7 +46,7 @@ module Redmine
         ],
       }.freeze
 
-      if Redmine::Configuration['common_mark_enable_hardbreaks'] === true
+      if Redmine::Configuration['common_mark_enable_hardbreaks'] == true
         PIPELINE_CONFIG[:commonmarker_render_options].push(:HARDBREAKS)
       end
       PIPELINE_CONFIG[:commonmarker_render_options].freeze
