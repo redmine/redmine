@@ -39,9 +39,9 @@ class SearchTest < ActiveSupport::TestCase
   def setup
     User.current = nil
     @project = Project.find(1)
-    @issue_keyword = '%unable to print recipes%'
+    @issue_keyword = 'unable to print recipes'
     @issue = Issue.find(1)
-    @changeset_keyword = '%very first commit%'
+    @changeset_keyword = 'very first commit'
     @changeset = Changeset.find(100)
   end
 
@@ -138,7 +138,7 @@ class SearchTest < ActiveSupport::TestCase
     issue = Issue.find(1)
     assert_equal 2, issue.journals.where("notes LIKE '%notes%'").count
 
-    r = Issue.search_results('%notes%')
+    r = Issue.search_results('notes')
     assert_equal 1, r.size
     assert_equal issue, r.first
   end
