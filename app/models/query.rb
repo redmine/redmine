@@ -1442,9 +1442,10 @@ class Query < ActiveRecord::Base
     suffix = '%' if options[:starts_with]
     prefix = suffix = '%' if prefix.nil? && suffix.nil?
     value = queried_class.sanitize_sql_like value
-    queried_class.send(
-      :sanitize_sql_for_conditions,
-      [Redmine::Database.like(db_field, '?', :match => options[:match]), "#{prefix}#{value}#{suffix}"])
+    queried_class.sanitize_sql_for_conditions([
+      Redmine::Database.like(db_field, '?', :match => options[:match]),
+      "#{prefix}#{value}#{suffix}"
+    ])
   end
 
   # Adds a filter for the given custom field
