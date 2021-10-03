@@ -107,7 +107,7 @@ class Project < ActiveRecord::Base
   end)
   scope :like, (lambda do |arg|
     if arg.present?
-      pattern = "%#{arg.to_s.strip}%"
+      pattern = "%#{sanitize_sql_like arg.to_s.strip}%"
       where("LOWER(identifier) LIKE LOWER(:p) OR LOWER(name) LIKE LOWER(:p)", :p => pattern)
     end
   end)

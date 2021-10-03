@@ -102,7 +102,7 @@ class Issue < ActiveRecord::Base
   scope :like, (lambda do |q|
     q = q.to_s
     if q.present?
-      where("LOWER(#{table_name}.subject) LIKE LOWER(?)", "%#{q}%")
+      where("LOWER(#{table_name}.subject) LIKE LOWER(?)", "%#{sanitize_sql_like q}%")
     end
   end)
 

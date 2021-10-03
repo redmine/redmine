@@ -147,4 +147,20 @@ class PrincipalTest < ActiveSupport::TestCase
     assert_equal 1, results.count
     assert_equal user, results.first
   end
+
+  def test_like_scope_should_escape_query
+    user = User.generate!(:firstname => 'Leonardo', :lastname => 'da Vinci')
+    r = Principal.like('Vi_ci')
+    assert_not_include user, r
+    r = Principal.like('Vi%ci')
+    assert_not_include user, r
+
+    user.update_column :lastname, 'da Vi%ci'
+    r = Principal.like('vi%ci')
+    assert_include user, r
+
+    user.update_column :lastname, 'da Vi_ci'
+    r = Principal.like('vi_ci')
+    assert_include user, r
+  end
 end

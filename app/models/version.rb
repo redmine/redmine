@@ -137,7 +137,7 @@ class Version < ActiveRecord::Base
   scope :named, lambda {|arg| where("LOWER(#{table_name}.name) = LOWER(?)", arg.to_s.strip)}
   scope :like, (lambda do |arg|
     if arg.present?
-      pattern = "%#{arg.to_s.strip}%"
+      pattern = "%#{sanitize_sql_like arg.to_s.strip}%"
       where([Redmine::Database.like("#{Version.table_name}.name", '?'), pattern])
     end
   end)

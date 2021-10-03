@@ -71,12 +71,12 @@ class Principal < ActiveRecord::Base
     if q.blank?
       where({})
     else
-      pattern = "%#{q}%"
+      pattern = "%#{sanitize_sql_like q}%"
       sql = +"LOWER(#{table_name}.login) LIKE LOWER(:p)"
       sql << " OR #{table_name}.id IN (SELECT user_id FROM #{EmailAddress.table_name} WHERE LOWER(address) LIKE LOWER(:p))"
       params = {:p => pattern}
 
-      tokens = q.split(/\s+/).reject(&:blank?).map {|token| "%#{token}%"}
+      tokens = q.split(/\s+/).reject(&:blank?).map {|token| "%#{sanitize_sql_like token}%"}
       if tokens.present?
         sql << ' OR ('
         sql << tokens.map.with_index do |token, index|

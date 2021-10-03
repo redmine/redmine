@@ -1127,4 +1127,20 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 'valuea', project.custom_field_value(cf1)
     assert_nil project.custom_field_value(cf2)
   end
+
+  def test_like_scope_should_escape_query
+    project = Project.find 'ecookbook'
+    r = Project.like('eco_k')
+    assert_not_include project, r
+    r = Project.like('eco%k')
+    assert_not_include project, r
+
+    project.update_column :name, 'Eco%kbook'
+    r = Project.like('eco%k')
+    assert_include project, r
+
+    project.update_column :name, 'Eco_kbook'
+    r = Project.like('eco_k')
+    assert_include project, r
+  end
 end

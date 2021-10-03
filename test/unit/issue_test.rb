@@ -3406,4 +3406,20 @@ class IssueTest < ActiveSupport::TestCase
 
     assert_equal [5], issue2.filter_projects_scope('').ids.sort
   end
+
+  def test_like_should_escape_query
+    issue = Issue.generate!(:subject => "asdf")
+    r = Issue.like('as_f')
+    assert_not_include issue, r
+    r = Issue.like('as%f')
+    assert_not_include issue, r
+
+    issue = Issue.generate!(:subject => "as%f")
+    r = Issue.like('as%f')
+    assert_include issue, r
+
+    issue = Issue.generate!(:subject => "as_f")
+    r = Issue.like('as_f')
+    assert_include issue, r
+  end
 end
