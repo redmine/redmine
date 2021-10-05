@@ -158,7 +158,9 @@ class WatchersController < ApplicationController
       rescue
         nil
       end
-    return unless klass && klass.respond_to?('watched_by')
+    return unless klass && Class === klass # rubocop:disable Style/CaseEquality
+    return unless klass < ActiveRecord::Base
+    return unless klass < Redmine::Acts::Watchable::InstanceMethods
 
     scope = klass.where(:id => Array.wrap(params[:object_id]))
     if klass.reflect_on_association(:project)
