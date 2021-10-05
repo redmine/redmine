@@ -3422,4 +3422,9 @@ class IssueTest < ActiveSupport::TestCase
     r = Issue.like('as_f')
     assert_include issue, r
   end
+
+  def test_like_should_tokenize
+    r = Issue.like('issue today')
+    assert_include Issue.find(7), r
+  end
 end

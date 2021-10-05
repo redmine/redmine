@@ -2826,4 +2826,11 @@ class QueryTest < ActiveSupport::TestCase
     query.add_filter('subject', '~', ['te_t'])
     assert_equal 1, query.issue_count
   end
+
+  def test_sql_contains_should_tokenize
+    query = IssueQuery.new(:project => nil, :name => '_')
+    query.add_filter('subject', '~', ['issue today'])
+
+    assert_equal 1, query.issue_count
+  end
 end
