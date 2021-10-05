@@ -57,15 +57,7 @@ module Redmine
         @projects = projects
         @cache = options.delete(:cache)
         @options = options
-
-        # extract tokens from the question
-        # eg. hello "bye bye" => ["hello", "bye bye"]
-        @tokens = @question.scan(%r{((\s|^)"[^"]+"(\s|$)|\S+)}).collect {|m| m.first.gsub(%r{(^\s*"\s*|\s*"\s*$)}, '')}
-        # tokens must be at least 2 characters long
-        # but for Chinese characters (Chinese HANZI/Japanese KANJI), tokens can be one character
-        @tokens = @tokens.uniq.select {|w| w.length > 1 || w =~ /\p{Han}/}
-        # no more than 5 tokens to search for
-        @tokens.slice! 5..-1
+        @tokens = Tokenizer.new(@question).tokens
       end
 
       # Returns the total result count
@@ -132,6 +124,22 @@ module Redmine
         # only keep ids now that results are sorted
         ret.map! {|scope, r| [scope, r.last]}
         ret
+      end
+    end
+
+    class Tokenizer
+      def initialize(question)
+        @question = question.to_s
+      end
+
+      def tokens
+        # extract tokens from the question
+        # eg. hello "bye bye" => ["hello", "bye bye"]
+        tokens = @question.scan(%r{((\s|^)"[^"]+"(\s|$)|\S+)}).collect {|m| m.first.gsub(%r{(^\s*"\s*|\s*"\s*$)}, '')}
+        # tokens must be at least 2 characters long
+        # but for Chinese characters (Chinese HANZI/Japanese KANJI), tokens can be one character
+        # no more than 5 tokens to search for
+        tokens.uniq.select{|w| w.length > 1 || w =~ /\p{Han}/}.first 5
       end
     end
 

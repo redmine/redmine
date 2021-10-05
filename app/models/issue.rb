@@ -100,9 +100,8 @@ class Issue < ActiveRecord::Base
     ids.any? ? where(:assigned_to_id => ids) : none
   end)
   scope :like, (lambda do |q|
-    q = q.to_s
     if q.present?
-      where("LOWER(#{table_name}.subject) LIKE LOWER(?)", "%#{sanitize_sql_like q}%")
+      where(*::Query.tokenized_like_conditions("#{table_name}.subject", q))
     end
   end)
 
