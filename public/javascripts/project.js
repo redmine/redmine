@@ -20,17 +20,22 @@ $(document).ready(function(){
 	        $("#showGeppettoBtn").hide();
                 $("#moreBtn").hide();
             }
-            if ($("#showProjectBtn").is(":visible"))
-	        $("#showProjectBtn").hide();
-            else
+            if ($("#showProjectBtn").is(":visible")) {
+                $("#showProjectBtn").hide();
+                $("#troubleshootExplorerBtn").hide();
+            }
+            else {
                 $("#showProjectBtn").show();
+                $("#troubleshootExplorerBtn").hide();
+            }
         }
         else {
             if (hasModels()) {
-	        $("#showGeppettoBtn").show();
+                $("#showGeppettoBtn").show();
                 $("#moreBtn").show();
             }
-	    $("#showProjectBtn").hide();
+            $("#showProjectBtn").hide();
+            $("#troubleshootExplorerBtn").hide();
         }
     }
 
@@ -85,6 +90,7 @@ $(document).ready(function(){
     if (!hasModels()) {
         $("#moreBtn").hide();
         $("#showGeppettoBtn").hide();
+        $("#TroubleshootExplorerBtn").hide();
     }
 
     $("#showProjectBtn").click(function(){

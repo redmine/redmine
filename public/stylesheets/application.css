@@ -693,6 +693,12 @@ div.project-title {
     font-size: 18px;
 }
 
+#troubleshootExplorerBtn {
+    display: none;
+    font-size: 18px;
+}
+
+
 .center {
     text-align: center;
 }
