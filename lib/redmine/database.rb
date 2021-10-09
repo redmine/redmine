@@ -71,8 +71,10 @@ module Redmine
           else
             "#{left} #{neg}ILIKE #{right}"
           end
-        else
+        elsif mysql?
           "#{left} #{neg}LIKE #{right}"
+        else
+          "#{left} #{neg}LIKE #{right} ESCAPE '\\'"
         end
       end
 
