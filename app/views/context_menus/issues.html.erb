@@ -5,7 +5,7 @@
     <li><%= context_menu_link l(:button_edit), edit_issue_path(@issue),
             :class => 'icon icon-edit', :disabled => !@can[:edit] %></li>
   <% else %>
-    <li><%= context_menu_link l(:button_edit), bulk_edit_issues_path(:ids => @issue_ids),
+    <li><%= context_menu_link l(:label_bulk_edit), bulk_edit_issues_path(:ids => @issue_ids),
             :class => 'icon icon-edit', :disabled => !@can[:edit] %></li>
   <% end %>
 

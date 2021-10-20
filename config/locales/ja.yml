@@ -757,6 +757,7 @@ ja:
   label_changeset_plural: 更新履歴
   label_default_columns: デフォルトの項目
   label_no_change_option: (変更無し)
+  label_bulk_edit: 一括編集
   label_bulk_edit_selected_issues: チケットの一括編集
   label_theme: テーマ
   label_default: デフォルト
