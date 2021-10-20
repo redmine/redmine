@@ -1402,3 +1402,5 @@ ja:
     for_all_users: 全ユーザー向け
   text_allowed_queries_to_select: 公開クエリ (すべてのユーザーが表示できるクエリ) のみ選択できます
   text_all_migrations_have_been_run: すべてのデータベースマイグレーションが実行済
+  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
+    Please restart the application after editing it.
