@@ -1164,7 +1164,6 @@ Style/ColonMethodCall:
 
 Style/CombinableLoops:
   Exclude:
-    - 'app/models/wiki_page.rb'
     - 'lib/redmine/default_data/loader.rb'
 
 # Cop supports --auto-correct.

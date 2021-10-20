@@ -321,9 +321,6 @@ class WikiAnnotate
             @lines[positions[line]][1] = current.author
           end
         end
-      end
-      d.each_slice(3) do |s|
-        sign, line = s[0], s[1]
         if sign == '-'
           positions.insert(line, -1)
         else
