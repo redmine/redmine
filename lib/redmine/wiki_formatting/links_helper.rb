@@ -52,7 +52,7 @@ module Redmine
           else
             # Idea below : an URL with unbalanced parenthesis and
             # ending by ')' is put into external parenthesis
-            if url[-1] == ")" and ((url.count("(") - url.count(")")) < 0)
+            if url[-1] == ")" && ((url.count("(") - url.count(")")) < 0)
               url = url[0..-2] # discard closing parenthesis from url
               post = ")" + post # add closing parenthesis to post
             end

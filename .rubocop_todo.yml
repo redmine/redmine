@@ -1070,7 +1070,6 @@ Style/AndOr:
     - 'lib/redmine/scm/adapters/filesystem_adapter.rb'
     - 'lib/redmine/scm/adapters/git_adapter.rb'
     - 'lib/redmine/scm/adapters/subversion_adapter.rb'
-    - 'lib/redmine/wiki_formatting.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
 
 # Cop supports --auto-correct.
@@ -1399,7 +1398,7 @@ Style/MultilineIfModifier:
     - 'app/models/time_entry_query.rb'
     - 'app/views/common/feed.atom.builder'
     - 'lib/redmine/helpers/gantt.rb'
-    - 'lib/redmine/wiki_formatting.rb'
+    - 'lib/redmine/wiki_formatting/links_helper.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
 
 # Cop supports --auto-correct.
@@ -1615,7 +1614,7 @@ Style/RedundantInterpolation:
     - 'app/views/journals/index.builder'
     - 'lib/redmine/helpers/time_report.rb'
     - 'lib/redmine/scm/adapters/subversion_adapter.rb'
-    - 'lib/redmine/wiki_formatting.rb'
+    - 'lib/redmine/wiki_formatting/links_helper.rb'
     - 'test/functional/versions_controller_test.rb'
     - 'test/functional/watchers_controller_test.rb'
 
@@ -1791,7 +1790,7 @@ Style/StringLiteralsInInterpolation:
     - 'app/models/issue_query.rb'
     - 'config/environment.rb'
     - 'lib/redmine/scm/adapters/cvs_adapter.rb'
-    - 'lib/redmine/wiki_formatting.rb'
+    - 'lib/redmine/wiki_formatting/links_helper.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
     - 'test/unit/member_test.rb'
 
