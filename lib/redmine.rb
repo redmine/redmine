@@ -61,7 +61,6 @@ require 'redmine/version'
 require 'redmine/wiki_formatting/links_helper'
 require 'redmine/wiki_formatting'
 
-
 require 'redmine/default_data/loader'
 require 'redmine/helpers/calendar'
 require 'redmine/helpers/diff'
