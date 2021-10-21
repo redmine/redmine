@@ -98,7 +98,7 @@ group :test do
   # For running system tests
   gem 'puma'
   gem 'capybara', '~> 3.35.3'
-  gem "selenium-webdriver"
+  gem "selenium-webdriver", "~> 3.142.7"
   gem 'webdrivers', '~> 4.4', require: false
   # RuboCop
   gem 'rubocop', '~> 1.17.0'
