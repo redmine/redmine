@@ -99,7 +99,7 @@ group :test do
   gem 'puma'
   gem 'capybara', '~> 3.35.3'
   gem "selenium-webdriver", "~> 3.142.7"
-  gem 'webdrivers', '~> 4.4', require: false
+  gem 'webdrivers', '4.6.1', require: false
   # RuboCop
   gem 'rubocop', '~> 1.17.0'
   gem 'rubocop-performance', '~> 1.11.0'
