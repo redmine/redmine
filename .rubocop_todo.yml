@@ -1754,7 +1754,7 @@ Style/SoleNestedConditional:
     - 'app/models/watcher.rb'
     - 'app/models/wiki_page.rb'
     - 'app/models/wiki_annotate.rb'
-    - 'lib/redmine/core_ext/active_record.rb'
+    - 'app/validators/date_validator.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: .
