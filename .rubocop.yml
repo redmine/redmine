@@ -133,13 +133,15 @@ Style/AsciiComments:
 Style/BlockComments:
   Enabled: true
   Exclude:
-    - 'lib/diff.rb'
+    - 'lib/redmine/string_array_diff/diff.rb'
+    - 'lib/redmine/string_array_diff/diffable.rb'
 
 Style/BlockDelimiters:
   Enabled: true
   Exclude:
     - 'db/migrate/007_create_journals.rb'
-    - 'lib/diff.rb'
+    - 'lib/redmine/string_array_diff/diff.rb'
+    - 'lib/redmine/string_array_diff/diffable.rb'
 
 Style/EmptyElse:
   EnforcedStyle: empty

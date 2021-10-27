@@ -22,7 +22,8 @@ Layout/DotPosition:
 Layout/EmptyLineAfterGuardClause:
   Exclude:
     - 'db/migrate/101_populate_changesets_user_id.rb'
-    - 'lib/diff.rb'
+    - 'lib/redmine/string_array_diff/diff.rb'
+    - 'lib/redmine/string_array_diff/diffable.rb'
     - 'lib/redmine/default_data/loader.rb'
     - 'lib/redmine/safe_attributes.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
@@ -225,7 +226,7 @@ Layout/SpaceBeforeFirstArg:
 Layout/SpaceInsideArrayLiteralBrackets:
   Exclude:
     - 'app/models/query.rb'
-    - 'lib/diff.rb'
+    - 'lib/redmine/string_array_diff/diff.rb'
     - 'test/unit/mailer_localisation_test.rb'
 
 # Cop supports --auto-correct.
@@ -1122,7 +1123,7 @@ Style/ClassEqualityComparison:
 # Cop supports --auto-correct.
 Style/ClassMethods:
   Exclude:
-    - 'lib/diff.rb'
+    - 'lib/redmine/string_array_diff/diff.rb'
 
 Style/ClassVars:
   Exclude:
@@ -1439,7 +1440,7 @@ Style/NegatedIf:
     - 'app/models/custom_field.rb'
     - 'app/models/project.rb'
     - 'app/models/repository/cvs.rb'
-    - 'lib/diff.rb'
+    - 'lib/redmine/string_array_diff/diff.rb'
     - 'lib/redmine/codeset_util.rb'
     - 'lib/redmine/thumbnail.rb'
 
