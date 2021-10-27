@@ -19,7 +19,7 @@
 
 module Redmine
   # @private
-  module CoreExtensions
+  module CoreExt
     # @private
     module String
       # Custom string conversions
