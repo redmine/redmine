@@ -1396,3 +1396,4 @@ bg:
   text_setting_config_change: You can configure the behaviour in config/configuration.yml.
     Please restart the application after editing it.
   label_bulk_edit: Bulk edit
+  button_create_and_follow: Create and follow
