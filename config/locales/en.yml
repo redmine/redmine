@@ -1186,6 +1186,7 @@ en:
   button_save_object: "Save %{object_name}"
   button_edit_object: "Edit %{object_name}"
   button_delete_object: "Delete %{object_name}"
+  button_create_and_follow: Create and follow
 
   status_active: active
   status_registered: registered

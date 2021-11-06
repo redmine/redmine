@@ -3212,6 +3212,11 @@ class IssuesControllerTest < Redmine::ControllerTest
       assert_select 'select[name=?]', 'issue[done_ratio]'
       assert_select 'input[name=?][value=?]', 'issue[custom_field_values][2]', 'Default string'
       assert_select 'input[name=?]', 'issue[watcher_user_ids][]'
+
+      # Assert submit buttons
+      assert_select 'input[type=submit][name=?]', 'commit'
+      assert_select 'input[type=submit][name=?]', 'continue'
+      assert_select 'input[type=submit][name=?]', 'follow', 0
     end
 
     # Be sure we don't display inactive IssuePriorities
@@ -3822,6 +3827,25 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
 
     assert_select 'div#trackers_description', 0
+  end
+
+  def test_get_new_should_show_create_and_follow_button_when_issue_is_subtask_and_back_urL_is_present
+    @request.session[:user_id] = 2
+    get :new, params: {
+      project_id: 1,
+      issue: {
+        parent_issue_id: 2
+      },
+      back_url: "/issues/2"
+    }
+    assert_response :success
+
+    assert_select 'form#issue-form' do
+      # Assert submit buttons
+      assert_select 'input[type=submit][name=?]', 'commit'
+      assert_select 'input[type=submit][name=?]', 'continue'
+      assert_select 'input[type=submit][name=?]', 'follow'
+    end
   end
 
   def test_update_form_for_new_issue
