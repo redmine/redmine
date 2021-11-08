@@ -1405,3 +1405,4 @@ ja:
   text_setting_config_change: You can configure the behaviour in config/configuration.yml.
     Please restart the application after editing it.
   button_create_and_follow: Create and follow
+  label_subtask: Subtask

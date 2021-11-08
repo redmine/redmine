@@ -1415,3 +1415,4 @@ fa:
     Please restart the application after editing it.
   label_bulk_edit: Bulk edit
   button_create_and_follow: Create and follow
+  label_subtask: Subtask
