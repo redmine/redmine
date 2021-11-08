@@ -1462,7 +1462,7 @@
   button_save_object: 儲存 %{object_name}
   button_edit_object: 編輯 %{object_name}
   button_delete_object: 刪除 %{object_name}
-  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
-    Please restart the application after editing it.
-  label_bulk_edit: Bulk edit
-  button_create_and_follow: Create and follow
+  text_setting_config_change: 您可以在 config/configuration.yml 檔案中, 設定此行為.
+    檔案編輯完成後請重新啟動應用程式.
+  label_bulk_edit: 大量編輯
+  button_create_and_follow: 建立並跟隨
