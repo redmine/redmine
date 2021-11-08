@@ -3829,7 +3829,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'div#trackers_description', 0
   end
 
-  def test_get_new_should_show_create_and_follow_button_when_issue_is_subtask_and_back_urL_is_present
+  def test_get_new_should_show_create_and_follow_button_when_issue_is_subtask_and_back_url_is_present
     @request.session[:user_id] = 2
     get :new, params: {
       project_id: 1,
