@@ -250,7 +250,7 @@ module Redmine
           link_to_function(
             hide_label, js,
             :id => "#{html_id}-hide",
-            :class => 'icon icon-expended collapsible',
+            :class => 'icon icon-expanded collapsible',
             :style => 'display:none;'
           )
         out <<

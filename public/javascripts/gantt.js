@@ -241,12 +241,12 @@ ganttEntryClick = function(e){
   var iconChange = null;
   if(subject.hasClass('open'))
     iconChange = function(element){
-      $(element).find('.expander').switchClass('icon-expended', 'icon-collapsed');
+      $(element).find('.expander').switchClass('icon-expanded', 'icon-collapsed');
       $(element).removeClass('open');
     };
   else
     iconChange = function(element){
-      $(element).find('.expander').switchClass('icon-collapsed', 'icon-expended');
+      $(element).find('.expander').switchClass('icon-collapsed', 'icon-expanded');
       $(element).addClass('open');
     };
   iconChange(subject);

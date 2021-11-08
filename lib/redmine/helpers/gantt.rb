@@ -784,7 +784,7 @@ module Redmine
           }
         end
         if has_children
-          content = view.content_tag(:span, nil, :class => 'icon icon-expended expander') + content
+          content = view.content_tag(:span, nil, :class => 'icon icon-expanded expander') + content
           tag_options[:class] += ' open'
         else
           if params[:indent]
