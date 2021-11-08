@@ -49,7 +49,10 @@ class IssueNestedSetTest < ActiveSupport::TestCase
   def test_create_child_issue
     lft = new_issue_lft
     parent = Issue.generate!
-    child =  parent.generate_child!
+    child = nil
+    assert_difference 'Journal.count', 1 do
+      child = parent.generate_child!
+    end
     parent.reload
     child.reload
     assert_equal [parent.id, nil,       lft,     lft + 3], [parent.root_id, parent.parent_id, parent.lft, parent.rgt]
@@ -58,17 +61,23 @@ class IssueNestedSetTest < ActiveSupport::TestCase
 
   def test_creating_a_child_in_a_subproject_should_validate
     issue = Issue.generate!
-    child = Issue.new(:project_id => 3, :tracker_id => 2, :author_id => 1,
-                      :subject => 'child', :parent_issue_id => issue.id)
-    assert_save child
+    child = nil
+    assert_difference 'Journal.count', 1 do
+      child = Issue.new(:project_id => 3, :tracker_id => 2, :author_id => 1,
+                        :subject => 'child', :parent_issue_id => issue.id)
+      assert_save child
+    end
     assert_equal issue, child.reload.parent
   end
 
   def test_creating_a_child_in_an_invalid_project_should_not_validate
     issue = Issue.generate!
-    child = Issue.new(:project_id => 2, :tracker_id => 1, :author_id => 1,
-                      :subject => 'child', :parent_issue_id => issue.id)
-    assert !child.save
+    child = nil
+    assert_no_difference 'Journal.count' do
+      child = Issue.new(:project_id => 2, :tracker_id => 1, :author_id => 1,
+                        :subject => 'child', :parent_issue_id => issue.id)
+      assert !child.save
+    end
     assert_not_equal [], child.errors[:parent_issue_id]
   end
 
@@ -77,8 +86,11 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     parent1 = Issue.generate!
     parent2 = Issue.generate!
     child = parent1.generate_child!
-    parent2.parent_issue_id = parent1.id
-    parent2.save!
+    assert_difference 'Journal.count', 2 do
+      parent2.init_journal(User.find(2))
+      parent2.parent_issue_id = parent1.id
+      parent2.save!
+    end
     child.reload
     parent1.reload
     parent2.reload
@@ -94,8 +106,11 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     parent2 = Issue.generate!
     lft3 = new_issue_lft
     child = parent1.generate_child!
-    child.parent_issue_id = nil
-    child.save!
+    assert_difference 'Journal.count', 2 do
+      child.init_journal(User.find(2))
+      child.parent_issue_id = nil
+      child.save!
+    end
     child.reload
     parent1.reload
     parent2.reload
@@ -110,8 +125,11 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     lft2 = new_issue_lft
     parent2 = Issue.generate!
     child = parent1.generate_child!
-    child.parent_issue_id = parent2.id
-    child.save!
+    assert_difference 'Journal.count', 3 do
+      child.init_journal(User.find(2))
+      child.parent_issue_id = parent2.id
+      child.save!
+    end
     child.reload
     parent1.reload
     parent2.reload
@@ -154,8 +172,13 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     grandchild = child.generate_child!
     lft4 = new_issue_lft
     child.reload
-    child.project = Project.find(2)
-    assert child.save
+    assert_difference 'Journal.count', 2 do
+      assert_difference 'JournalDetail.count', 3 do
+        child.init_journal(User.find(2))
+        child.project = Project.find(2)
+        assert child.save
+      end
+    end
     child.reload
     grandchild.reload
     parent1.reload
@@ -173,8 +196,11 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     grandchild = child.generate_child!
 
     child.reload
-    child.parent_issue_id = grandchild.id
-    assert !child.save
+    assert_no_difference 'Journal.count' do
+      child.init_journal(User.find(2))
+      child.parent_issue_id = grandchild.id
+      assert !child.save
+    end
     assert_not_equal [], child.errors[:parent_issue_id]
   end
 
@@ -223,8 +249,8 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     issue3.subject = 'child with journal'
     issue3.save!
     assert_difference 'Issue.count', -2 do
-      assert_difference 'Journal.count', -1 do
-        assert_difference 'JournalDetail.count', -1 do
+      assert_difference 'Journal.count', -2 do
+        assert_difference 'JournalDetail.count', -2 do
           Issue.find(issue2.id).destroy
         end
       end
@@ -244,7 +270,9 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     child2 = issue.generate_child!
     issue.reload
     assert_equal [issue.id, lft1, lft1 + 5], [issue.root_id, issue.lft, issue.rgt]
-    child2.reload.destroy
+    assert_difference 'Journal.count', 1 do
+      child2.reload.destroy
+    end
     issue.reload
     assert_equal [issue.id, lft1, lft1 + 3], [issue.root_id, issue.lft, issue.rgt]
   end
@@ -255,7 +283,9 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     parent.generate_child!(:start_date => 2.days.from_now)
 
     assert_difference 'Issue.count', -3 do
-      Issue.find(parent.id).destroy
+      assert_difference 'Journal.count', -2 do
+        Issue.find(parent.id).destroy
+      end
     end
   end
 
@@ -287,7 +317,9 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     grandchild1 = child.generate_child!
     grandchild2 = child.generate_child!
     assert_difference 'Issue.count', -4 do
-      Issue.find(issue.id).destroy
+      assert_difference 'Journal.count', -2 do
+        Issue.find(issue.id).destroy
+      end
       parent.reload
       assert_equal [lft1, lft1 + 1], [parent.lft, parent.rgt]
     end

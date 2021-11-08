@@ -277,6 +277,7 @@ class IssueSubtaskingTest < ActiveSupport::TestCase
     with_settings :issue_done_ratio => 'issue_status' do
       status = IssueStatus.find(4)
       status.update_attribute :default_done_ratio, 50
+      child1.reload
       child1.update_attribute :status, status
 
       assert_equal 50, child1.done_ratio

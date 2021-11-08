@@ -2344,7 +2344,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_show_should_list_subtasks
-    Issue.
+    issue = Issue.
       create!(
         :project_id => 1, :author_id => 1, :tracker_id => 1,
         :parent_issue_id => 1, :subject => 'Child Issue'
@@ -2353,6 +2353,11 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_select 'div#issue_tree' do
       assert_select 'td.subject', :text => /Child Issue/
+    end
+    assert_select 'div#tab-content-history' do
+      assert_select 'div[id=?]', "change-#{Issue.find(1).journals.last.id}" do
+        assert_select 'ul.details', :text => "Subtask ##{issue.id} added"
+      end
     end
   end
 
@@ -8221,6 +8226,31 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_redirected_to :controller => 'issues', :action => 'index'
     assert_equal 'Successful deletion.', flash[:notice]
     assert !(Issue.find_by_id(1) || Issue.find_by_id(2) || Issue.find_by_id(6))
+  end
+
+  def test_destroy_child_issue
+    parent = Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1, :subject => 'Parent Issue')
+    child = Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1, :subject => 'Child Issue', :parent_issue_id => parent.id)
+    assert child.is_descendant_of?(parent.reload)
+
+    @request.session[:user_id] = 2
+    assert_difference 'Issue.count', -1 do
+      delete :destroy, :params => {:id => child.id}
+    end
+    assert_response :found
+    assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+
+    parent.reload
+    assert_equal 2, parent.journals.count
+
+    get :show, :params => {:id => parent.id}
+    assert_response :success
+
+    assert_select 'div#tab-content-history' do
+      assert_select 'div[id=?]', "change-#{parent.journals.last.id}" do
+        assert_select 'ul.details', :text => "Subtask deleted (##{child.id})"
+      end
+    end
   end
 
   def test_destroy_parent_and_child_issues

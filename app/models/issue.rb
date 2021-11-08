@@ -117,8 +117,8 @@ class Issue < ActiveRecord::Base
   after_save :reschedule_following_issues, :update_nested_set_attributes,
              :update_parent_attributes, :delete_selected_attachments, :create_journal
   # Should be after_create but would be called before previous after_save callbacks
-  after_save :after_create_from_copy
-  after_destroy :update_parent_attributes
+  after_save :after_create_from_copy, :create_parent_issue_journal
+  after_destroy :update_parent_attributes, :create_parent_issue_journal
   after_create_commit :send_notification
 
   # Returns a SQL conditions string used to find all issues visible by the specified user
@@ -1984,6 +1984,32 @@ class Issue < ActiveRecord::Base
   def create_journal
     if current_journal
       current_journal.save
+    end
+  end
+
+  def create_parent_issue_journal
+    return if persisted? && !saved_change_to_parent_id?
+    return if destroyed? && @without_nested_set_update
+
+    child_id = self.id
+    old_parent_id, new_parent_id =
+      if persisted?
+        [parent_id_before_last_save, parent_id]
+      elsif destroyed?
+        [parent_id, nil]
+      else
+        [nil, parent_id]
+      end
+
+    if old_parent_id.present? && old_parent_issue = Issue.visible.find_by_id(old_parent_id)
+      old_parent_issue.init_journal(User.current)
+      old_parent_issue.current_journal.__send__(:add_attribute_detail, 'child_id', child_id, nil)
+      old_parent_issue.save
+    end
+    if new_parent_id.present? && new_parent_issue = Issue.visible.find_by_id(new_parent_id)
+      new_parent_issue.init_journal(User.current)
+      new_parent_issue.current_journal.__send__(:add_attribute_detail, 'child_id', nil, child_id)
+      new_parent_issue.save
     end
   end
 
