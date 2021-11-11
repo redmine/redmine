@@ -29,7 +29,8 @@ class UserTest < ActiveSupport::TestCase
            :groups_users,
            :enabled_modules,
            :tokens,
-           :user_preferences
+           :user_preferences,
+           :custom_fields, :custom_fields_projects, :custom_fields_trackers, :custom_values
 
   include Redmine::I18n
 
