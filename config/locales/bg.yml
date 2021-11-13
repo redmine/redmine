@@ -932,6 +932,7 @@ bg:
   label_changeset_plural: Ревизии
   label_default_columns: По подразбиране
   label_no_change_option: (Без промяна)
+  label_bulk_edit: Групово редактиране
   label_bulk_edit_selected_issues: Групово редактиране на задачи
   label_bulk_edit_selected_time_entries: Групово редактиране на записи за използвано време
   label_theme: Тема
@@ -999,6 +1000,7 @@ bg:
   label_missing_api_access_key: Липсващ API ключ
   label_api_access_key_created_on: API ключ за достъп е създаден преди %{value}
   label_profile: Профил
+  label_subtask: Подзадача
   label_subtask_plural: Подзадачи
   label_project_copy_notifications: Изпращане на e-mail известия по време на копирането на проекта
   label_import_notifications: Изпращане e-mail известия по време на импортирането
@@ -1189,6 +1191,7 @@ bg:
   button_save_object: Запис %{object_name}
   button_edit_object: Редактиране %{object_name}
   button_delete_object: Изтриване %{object_name}
+  button_create_and_follow: Създаване и продължаване
 
   status_active: активен
   status_registered: регистриран
@@ -1292,6 +1295,7 @@ bg:
   text_avatar_server_config_html: Текущият сървър на аватари е <a href="%{url}">%{url}</a>.
     Бие можете да го конфигурирате в config/configuration.yml.
   text_allowed_queries_to_select: Само публичните (за всички потребители) заявки са достъпни за избор
+  text_setting_config_change: Вие можете да конфигурирате поведението в config/configuration.yml. Моля, рестартирайте Redmine след редактиране на файла.
 
   default_role_manager: Мениджър
   default_role_developer: Разработчик
@@ -1393,8 +1397,3 @@ bg:
     Това действие не може да бъде отменено. Често заключването на потребителя е по-добро решение от изтриването му.
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
-  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
-    Please restart the application after editing it.
-  label_bulk_edit: Bulk edit
-  button_create_and_follow: Create and follow
-  label_subtask: Subtask
