@@ -278,7 +278,7 @@ function copyImageFromClipboard(e) {
   var items = clipboardData.items
   for (var i = 0 ; i < items.length ; i++) {
     var item = items[i];
-    if (item.type.indexOf("image") != -1) {
+    if ((item.type.indexOf("image") != -1) && (item.kind == 'file')) {
       var blob = item.getAsFile();
       var date = new Date();
       var filename = 'clipboard-'
