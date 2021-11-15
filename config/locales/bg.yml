@@ -513,7 +513,6 @@ bg:
   setting_show_status_changes_in_mail_subject: Показване на промените на състоянието на задачите в поле Относно на имейлите
   setting_project_list_defaults: Проектен списък
   setting_twofa: Двуфакторна автентикация
-  setting_default_issue_query: Заявка по подразбиране
 
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
@@ -1127,6 +1126,7 @@ bg:
   label_display_type_board: Таблица
   label_my_bookmarks: Моите отметки
   label_assign_to_me: Назначи на мен
+  label_default_query: Заявка по подразбиране
 
   button_login: Вход
   button_submit: Изпращане

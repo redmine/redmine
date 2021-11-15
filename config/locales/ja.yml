@@ -1395,7 +1395,6 @@ ja:
   twofa_text_group_required: この設定は二要素認証 (管理→設定→認証) が '任意' に設定されている場合のみ利用できます。現在は二要素認証はすべてのユーザーに対して必須に設定されています。
   twofa_text_group_disabled: この設定は二要素認証 (管理→設定→認証) が '任意' に設定されている場合のみ利用できます。現在は二要素認証は無効です。
   field_default_issue_query: デフォルトのクエリ
-  setting_default_issue_query: デフォルトのクエリ
   label_default_queries:
     for_all_projects: 全プロジェクト向け
     for_current_project: 現在のプロジェクト
@@ -1406,3 +1405,4 @@ ja:
     Please restart the application after editing it.
   button_create_and_follow: Create and follow
   label_subtask: Subtask
+  label_default_query: デフォルトのクエリ

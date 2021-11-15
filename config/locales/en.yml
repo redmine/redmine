@@ -509,7 +509,6 @@ en:
   setting_show_status_changes_in_mail_subject: Show status changes in issue mail notifications subject
   setting_project_list_defaults: Projects list defaults
   setting_twofa: Two-factor authentication
-  setting_default_issue_query: Default Query
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
@@ -1123,6 +1122,7 @@ en:
   label_display_type_board: Board
   label_my_bookmarks: My bookmarks
   label_assign_to_me: Assign to me
+  label_default_query: Default query
 
   button_login: Login
   button_submit: Submit

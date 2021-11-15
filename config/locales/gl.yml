@@ -1434,7 +1434,6 @@ gl:
     de dous factores estea estabrecida a 'opcional'. Actualmente, a autenticación de dous factores
     está deshabilitada.
   field_default_issue_query: Consulta de peticións por defecto
-  setting_default_issue_query: Consulta por defecto
   label_default_queries:
     for_all_projects: Para todos os proxectos
     for_current_project: Para o proxecto actual
@@ -1449,3 +1448,4 @@ gl:
   label_bulk_edit: Bulk edit
   button_create_and_follow: Create and follow
   label_subtask: Subtask
+  label_default_query: Consulta por defecto

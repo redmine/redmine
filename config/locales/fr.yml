@@ -481,7 +481,6 @@ fr:
   setting_time_entry_list_defaults: Affichage par défaut de la liste des temps passés
   setting_timelog_accept_0_hours: Autoriser la saisie de temps avec 0 heure
   setting_timelog_max_hours_per_day: Maximum d'heures pouvant être saisies par un utilisateur sur un jour
-  setting_default_issue_query: Rapport par défaut
 
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets
@@ -1423,3 +1422,4 @@ fr:
   label_bulk_edit: Bulk edit
   button_create_and_follow: Create and follow
   label_subtask: Subtask
+  label_default_query: Rapport par défaut

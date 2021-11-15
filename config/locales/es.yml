@@ -1494,7 +1494,6 @@ es:
     authentication setting is set to 'optional'. Currently, two factor authentication
     is disabled.
   field_default_issue_query: Default issue query
-  setting_default_issue_query: Default Query
   label_default_queries:
     for_all_projects: For all projects
     for_current_project: For current project
@@ -1509,3 +1508,4 @@ es:
   label_bulk_edit: Bulk edit
   button_create_and_follow: Create and follow
   label_subtask: Subtask
+  label_default_query: Default query
