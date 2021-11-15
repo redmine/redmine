@@ -339,6 +339,7 @@ class Query < ActiveRecord::Base
   end)
 
   scope :sorted, lambda {order(:name, :id)}
+  scope :only_public, ->{ where(visibility: VISIBILITY_PUBLIC) }
 
   # to be implemented in subclasses that have a way to determine a default
   # query for the given options

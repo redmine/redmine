@@ -41,6 +41,18 @@ module UsersHelper
     grouped_options_for_select(grouped, user.pref.default_issue_query)
   end
 
+  def default_project_query_options(user)
+    global_queries = ProjectQuery
+    global_public_queries = global_queries.only_public
+    global_user_queries = global_queries.where(user_id: user.id).where.not(id: global_public_queries.ids)
+    label = user == User.current ? 'label_my_queries' : 'label_default_queries.for_this_user'
+    grouped = {
+      l('label_default_queries.for_all_users') => global_public_queries.pluck(:name, :id),
+      l(".#{label}") => global_user_queries.pluck(:name, :id),
+    }
+    grouped_options_for_select(grouped, user.pref.default_project_query)
+  end
+
   def textarea_font_options
     [[l(:label_font_default), '']] + UserPreference::TEXTAREA_FONT_OPTIONS.map {|o| [l("label_font_#{o}"), o]}
   end

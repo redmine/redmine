@@ -37,6 +37,14 @@ class ProjectQuery < Query
     QueryColumn.new(:created_on, :sortable => "#{Project.table_name}.created_on", :default_order => 'desc')
   ]
 
+  def self.default(project: nil, user: User.current)
+    query = nil
+    if user&.logged?
+      query = find_by_id user.pref.default_project_query
+    end
+    query || find_by_id(Setting.default_project_query)
+  end
+
   def initialize(attributes=nil, *args)
     super attributes
     self.filters ||= {'status' => {:operator => "=", :values => ['1']}}

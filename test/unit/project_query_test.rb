@@ -25,7 +25,8 @@ class ProjectQueryTest < ActiveSupport::TestCase
            :issue_categories, :enumerations,
            :groups_users,
            :enabled_modules,
-           :custom_fields, :custom_values
+           :custom_fields, :custom_values,
+           :queries
 
   include Redmine::I18n
 
@@ -68,5 +69,39 @@ class ProjectQueryTest < ActiveSupport::TestCase
         assert_equal t, q.display_type
       end
     end
+  end
+
+  def test_should_determine_default_project_query
+    user = User.find(1)
+    query = ProjectQuery.find(11)
+    user_query = ProjectQuery.find(12)
+
+    [nil, user, User.anonymous].each do |u|
+      assert_nil IssueQuery.default(user: u)
+    end
+
+    # only global default is set
+    with_settings :default_project_query => query.id do
+      [nil, user, User.anonymous].each do |u|
+        assert_equal query, ProjectQuery.default(user: u)
+      end
+    end
+
+    # user default, overrides global default
+    user.pref.default_project_query = user_query.id
+    user.pref.save
+
+    with_settings :default_project_query => query.id do
+      assert_equal user_query, ProjectQuery.default(user: user)
+    end
+  end
+
+  def test_project_query_default_should_return_nil_if_default_query_destroyed
+    query = ProjectQuery.find(11)
+
+    Setting.default_project_query = query.id
+    query.destroy
+
+    assert_nil ProjectQuery.default
   end
 end

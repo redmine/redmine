@@ -182,4 +182,37 @@ queries_010:
     --- 
     - - spent_on
       - desc
+queries_011:
+  id: 11
+  type: ProjectQuery
+  visibility: 2
+  name: Projects as list
+  filters: |
+    ---
+    id:
+      :values:
+      - "mine"
+      :operator: =
 
+  column_names:
+  group_by:
+  sort_criteria:
+  options: |
+    ---
+    :display_type: list
+queries_012:
+  id: 12
+  type: ProjectQuery
+  visibility: 1
+  name: My bookmarks
+  filters: |
+    ---
+    id:
+      :values:
+      - "bookmarks"
+      :operator: =
+
+  user_id: 1
+  options: |
+    ---
+    :display_type: board

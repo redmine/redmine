@@ -170,6 +170,10 @@ module SettingsHelper
     [[l(:label_none), '']] + IssueQuery.only_public.where(project_id: nil).pluck(:name, :id)
   end
 
+  def default_global_project_query_options
+    [[l(:label_none), '']] + ProjectQuery.only_public.pluck(:name, :id)
+  end
+
   def cross_project_subtasks_options
     options = [
       [:label_disabled, ''],

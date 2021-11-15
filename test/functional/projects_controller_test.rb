@@ -25,7 +25,8 @@ class ProjectsControllerTest < Redmine::ControllerTest
            :trackers, :projects_trackers, :issue_statuses,
            :enabled_modules, :enumerations, :boards, :messages,
            :attachments, :custom_fields, :custom_values, :time_entries,
-           :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions
+           :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions,
+           :roles, :queries
 
   include Redmine::I18n
 
@@ -246,6 +247,28 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_select '.query-totals'
     assert_select ".total-for-cf-#{field.id} span.value", :text => '9'
+  end
+
+  def test_index_should_retrieve_default_query
+    query = ProjectQuery.find(11)
+    ProjectQuery.stubs(:default).returns query
+
+    [nil, 1].each do |user_id|
+      @request.session[:user_id] = user_id
+      get :index
+      assert_select 'h2', text: query.name
+    end
+  end
+
+  def test_index_should_ignore_default_query_with_without_default
+    query = ProjectQuery.find(11)
+    ProjectQuery.stubs(:default).returns query
+
+    [nil, 1].each do |user_id|
+      @request.session[:user_id] = user_id
+      get :index, params: { set_filter: '1', without_default: '1' }
+      assert_select 'h2', text: I18n.t(:label_project_plural)
+    end
   end
 
   def test_autocomplete_js

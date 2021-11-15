@@ -249,6 +249,8 @@ project_list_defaults:
     - name
     - identifier
     - short_description
+default_project_query:
+  default: ''
 issue_done_ratio:
   default: 'issue_field'
 default_projects_public:

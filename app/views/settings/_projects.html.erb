@@ -28,6 +28,11 @@
   </p>
   <%= render_query_columns_selection(query,
         :name => 'settings[project_list_defaults][column_names]') %>
+
+  <p>
+    <label><%= l(:label_default_query) %></label>
+    <%= setting_select :default_project_query, default_global_project_query_options, label: false %>
+  </p>
 </fieldset>
 
 

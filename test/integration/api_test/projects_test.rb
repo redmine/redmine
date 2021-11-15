@@ -22,7 +22,8 @@ require File.expand_path('../../../test_helper', __FILE__)
 class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
   fixtures :projects, :versions, :users, :roles, :members, :member_roles, :issues, :journals, :journal_details,
            :trackers, :projects_trackers, :issue_statuses, :enabled_modules, :enumerations, :boards, :messages,
-           :attachments, :custom_fields, :custom_values, :custom_fields_projects, :time_entries, :issue_categories
+           :attachments, :custom_fields, :custom_values, :custom_fields_projects, :time_entries, :issue_categories,
+           :queries
 
   def setup
     super
@@ -210,6 +211,18 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_equal 2, json['project']['default_version'].length
     assert_equal version.id, json['project']['default_version']['id']
     assert_equal version.name, json['project']['default_version']['name']
+  end
+
+  def test_get_project_should_not_load_default_query
+    query = ProjectQuery.find(11)
+    ProjectQuery.stubs(:default).returns query
+
+    get '/projects.json'
+
+    assert results = JSON.parse(@response.body)['projects']
+
+    assert_equal 4, results.count
+    assert results.detect{ |i| i['name'] == "eCookbook"}
   end
 
   test "POST /projects.xml with valid parameters should create the project" do
