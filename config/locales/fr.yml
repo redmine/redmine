@@ -1423,3 +1423,4 @@ fr:
   button_create_and_follow: Create and follow
   label_subtask: Subtask
   label_default_query: Rapport par défaut
+  field_default_project_query: Default project query
