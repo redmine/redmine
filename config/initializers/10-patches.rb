@@ -1,11 +1,7 @@
 # frozen_string_literal: true
 
-require 'active_record'
-require 'redmine/i18n'
-
 module ActiveRecord
   class Base
-    include Redmine::I18n
     # Translate attribute names for validation errors display
     def self.human_attribute_name(attr, options = {})
       prepared_attr = attr.to_s.sub(/_id$/, '').sub(/^.+\./, '')

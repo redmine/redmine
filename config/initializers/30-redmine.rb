@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
-require 'redmine/i18n'
 require 'redmine/configuration'
 require 'redmine/plugin_loader'
 
-I18n.backend = Redmine::I18n::Backend.new
-# Forces I18n to load available locales from the backend
-I18n.config.available_locales = nil
-
 Rails.application.config.to_prepare do
+  I18n.backend = Redmine::I18n::Backend.new
+  # Forces I18n to load available locales from the backend
+  I18n.config.available_locales = nil
+
   Redmine::Preparation.prepare
 end
 

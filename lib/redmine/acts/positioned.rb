@@ -121,5 +121,3 @@ module Redmine
     end
   end
 end
-
-ActiveRecord::Base.send :include, Redmine::Acts::Positioned
