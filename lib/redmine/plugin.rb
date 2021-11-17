@@ -52,14 +52,16 @@ module Redmine
   class Plugin
     # Absolute path to the directory where plugins are located
     cattr_accessor :directory
-    self.directory = File.join(Rails.root, 'plugins')
+    self.directory = PluginLoader.directory
 
     # Absolute path to the plublic directory where plugins assets are copied
     cattr_accessor :public_directory
-    self.public_directory = File.join(Rails.root, 'public', 'plugin_assets')
+    self.public_directory = PluginLoader.public_directory
 
     @registered_plugins = {}
     @used_partials = {}
+
+    attr_accessor :path
 
     class << self
       attr_reader :registered_plugins
@@ -102,6 +104,8 @@ module Redmine
         raise PluginNotFound, "Plugin not found. The directory for plugin #{p.id} should be #{p.directory}."
       end
 
+      p.path = PluginLoader.directories{ |d| d.dir == p.directory }
+
       # Adds plugin locales if any
       # YAML translation files should be found under <plugin>/config/locales/
       Rails.application.config.i18n.load_path += Dir.glob(File.join(p.directory, 'config', 'locales', '*.yml'))
@@ -112,15 +116,6 @@ module Redmine
         ActionController::Base.prepend_view_path(view_path)
         ActionMailer::Base.prepend_view_path(view_path)
       end
-
-      # Add the plugin directories to rails autoload paths
-      engine_cfg = Rails::Engine::Configuration.new(p.directory)
-      engine_cfg.paths.add 'lib', eager_load: true
-      Rails.application.config.eager_load_paths += engine_cfg.eager_load_paths
-      Rails.application.config.autoload_once_paths += engine_cfg.autoload_once_paths
-      Rails.application.config.autoload_paths += engine_cfg.autoload_paths
-      ActiveSupport::Dependencies.autoload_paths +=
-        engine_cfg.eager_load_paths + engine_cfg.autoload_once_paths + engine_cfg.autoload_paths
 
       # Defines plugin setting if present
       if p.settings
@@ -174,23 +169,6 @@ module Redmine
       registered_plugins[id.to_sym].present?
     end
 
-    def self.load
-      Dir.glob(File.join(self.directory, '*')).sort.each do |directory|
-        if File.directory?(directory)
-          lib = File.join(directory, "lib")
-          if File.directory?(lib)
-            $:.unshift lib
-            ActiveSupport::Dependencies.autoload_paths += [lib]
-          end
-          initializer = File.join(directory, "init.rb")
-          if File.file?(initializer)
-            require initializer
-          end
-        end
-      end
-      Redmine::Hook.call_hook :after_plugins_loaded
-    end
-
     def initialize(id)
       @id = id.to_sym
     end
@@ -205,7 +183,7 @@ module Redmine
 
     # Returns the absolute path to the plugin assets directory
     def assets_directory
-      File.join(directory, 'assets')
+      path.assedts_dir
     end
 
     def <=>(plugin)
@@ -439,58 +417,6 @@ module Redmine
     # Returns +true+ if the plugin can be configured.
     def configurable?
       settings && settings.is_a?(Hash) && !settings[:partial].blank?
-    end
-
-    def mirror_assets
-      source = assets_directory
-      destination = public_directory
-      return unless File.directory?(source)
-
-      source_files = Dir[source + "/**/*"]
-      source_dirs = source_files.select {|d| File.directory?(d)}
-      source_files -= source_dirs
-
-      unless source_files.empty?
-        base_target_dir = File.join(destination, File.dirname(source_files.first).gsub(source, ''))
-        begin
-          FileUtils.mkdir_p(base_target_dir)
-        rescue => e
-          raise "Could not create directory #{base_target_dir}: " + e.message
-        end
-      end
-
-      source_dirs.each do |dir|
-        # strip down these paths so we have simple, relative paths we can
-        # add to the destination
-        target_dir = File.join(destination, dir.gsub(source, ''))
-        begin
-          FileUtils.mkdir_p(target_dir)
-        rescue => e
-          raise "Could not create directory #{target_dir}: " + e.message
-        end
-      end
-
-      source_files.each do |file|
-        begin
-          target = File.join(destination, file.gsub(source, ''))
-          unless File.exist?(target) && FileUtils.identical?(file, target)
-            FileUtils.cp(file, target)
-          end
-        rescue => e
-          raise "Could not copy #{file} to #{target}: " + e.message
-        end
-      end
-    end
-
-    # Mirrors assets from one or all plugins to public/plugin_assets
-    def self.mirror_assets(name=nil)
-      if name.present?
-        find(name).mirror_assets
-      else
-        all.each do |plugin|
-          plugin.mirror_assets
-        end
-      end
     end
 
     # The directory containing this plugin's migrations (<tt>plugin/db/migrate</tt>)

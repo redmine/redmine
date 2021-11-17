@@ -5,6 +5,7 @@ I18n.backend = Redmine::I18n::Backend.new
 I18n.config.available_locales = nil
 
 require 'redmine'
+require 'redmine/plugin_loader'
 
 # Load the secret token from the Redmine configuration file
 secret = Redmine::Configuration['secret_token']
@@ -17,15 +18,9 @@ if Object.const_defined?(:OpenIdAuthentication)
   OpenIdAuthentication.store = openid_authentication_store.presence || :memory
 end
 
-Redmine::Plugin.load
+Redmine::PluginLoader.load
+plugin_assets_reloader = Redmine::PluginLoader.create_assets_reloader
 
-plugin_assets_dirs = {}
-Redmine::Plugin.all.each do |plugin|
-  plugin_assets_dirs[plugin.assets_directory] = ["*"]
-end
-plugin_assets_reloader = ActiveSupport::FileUpdateChecker.new([], plugin_assets_dirs) do
-  Redmine::Plugin.mirror_assets
-end
 Rails.application.reloaders << plugin_assets_reloader
 unless Redmine::Configuration['mirror_plugins_assets_on_startup'] == false
   plugin_assets_reloader.execute
