@@ -217,6 +217,3 @@ class Principal < ActiveRecord::Base
     end
   end
 end
-
-require_dependency "user"
-require_dependency "group"

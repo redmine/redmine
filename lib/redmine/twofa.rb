@@ -55,7 +55,7 @@ module Redmine
 
     def self.scan_builtin_schemes
       Dir[Rails.root.join('lib', 'redmine', 'twofa', '*.rb')].each do |file|
-        require_dependency file
+        require file
       end
     end
     private_class_method :scan_builtin_schemes

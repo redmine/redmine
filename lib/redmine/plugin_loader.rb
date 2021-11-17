@@ -89,7 +89,7 @@ module Redmine
 
     def self.create_assets_reloader
       plugin_assets_dirs = {}
-      @plugin_directories.each do |dir|
+      directories.each do |dir|
         plugin_assets_dirs[dir.assets_dir] = ['*']
       end
       ActiveSupport::FileUpdateChecker.new([], plugin_assets_dirs) do
@@ -123,9 +123,9 @@ module Redmine
         # Add the plugin directories to rails autoload paths
         engine_cfg = Rails::Engine::Configuration.new(directory.to_s)
         engine_cfg.paths.add 'lib', eager_load: true
-        Rails.application.config.eager_load_paths += engine_cfg.eager_load_paths
-        Rails.application.config.autoload_once_paths += engine_cfg.autoload_once_paths
-        Rails.application.config.autoload_paths += engine_cfg.autoload_paths
+        engine_cfg.eager_load_paths.each do |dir|
+          Rails.autoloaders.main.push_dir dir
+        end
       end
     end
 

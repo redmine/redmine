@@ -127,5 +127,3 @@ class Group < Principal
     Watcher.where('user_id = ?', id).delete_all
   end
 end
-
-require_dependency "group_builtin"

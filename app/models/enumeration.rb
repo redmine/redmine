@@ -174,8 +174,3 @@ class Enumeration < ActiveRecord::Base
     end
   end
 end
-
-# Force load the subclasses in development mode
-require_dependency 'time_entry_activity'
-require_dependency 'document_category'
-require_dependency 'issue_priority'

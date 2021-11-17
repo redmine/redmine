@@ -56,6 +56,3 @@ class GroupBuiltin < Group
     private :create_instance
   end
 end
-
-require_dependency "group_anonymous"
-require_dependency "group_non_member"
