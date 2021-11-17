@@ -346,6 +346,7 @@ Lint/MixedRegexpCaptureTypes:
 Lint/NonDeterministicRequireOrder:
   Exclude:
     - 'lib/redmine/core_ext.rb'
+    - 'lib/redmine/twofa.rb'
 
 Lint/OutOfRangeRegexpRef:
   Exclude:
@@ -1549,7 +1550,7 @@ Style/Proc:
     - 'app/models/user.rb'
     - 'app/models/wiki_content_version.rb'
     - 'config/initializers/10-patches.rb'
-    - 'lib/redmine.rb'
+    - 'lib/redmine/preparation.rb'
     - 'test/integration/lib/redmine/menu_manager_test.rb'
     - 'test/unit/lib/redmine/menu_manager/menu_helper_test.rb'
     - 'test/unit/lib/redmine/menu_manager/menu_item_test.rb'
