@@ -1,11 +1,16 @@
 # frozen_string_literal: true
 
+require 'redmine/i18n'
+require 'redmine/configuration'
+require 'redmine/plugin_loader'
+
 I18n.backend = Redmine::I18n::Backend.new
 # Forces I18n to load available locales from the backend
 I18n.config.available_locales = nil
 
-require 'redmine'
-require 'redmine/plugin_loader'
+Rails.application.config.to_prepare do
+  Redmine::Preparation.prepare
+end
 
 # Load the secret token from the Redmine configuration file
 secret = Redmine::Configuration['secret_token']
