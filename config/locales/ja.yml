@@ -1401,9 +1401,8 @@ ja:
     for_all_users: 全ユーザー向け
   text_allowed_queries_to_select: 公開クエリ (すべてのユーザーが表示できるクエリ) のみ選択できます
   text_all_migrations_have_been_run: すべてのデータベースマイグレーションが実行済
-  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
-    Please restart the application after editing it.
-  button_create_and_follow: Create and follow
-  label_subtask: Subtask
+  text_setting_config_change: 動作はconfig/configuration.ymlで設定できます。設定後、Redmineを再起動してください。
+  button_create_and_follow: 作成後表示
+  label_subtask: 子チケット
   label_default_query: デフォルトのクエリ
-  field_default_project_query: Default project query
+  field_default_project_query: デフォルトのプロジェクトクエリ
