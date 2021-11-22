@@ -184,6 +184,22 @@ class ApplicationHelperTest < Redmine::HelperTest
     to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => attachments)}
   end
 
+  def test_attached_images_on_issue
+    issue = Issue.generate!
+    attachment_1 = Attachment.generate!(:file => mock_file_with_options(:original_filename => "attached_on_issue.png"), :container => issue)
+    journal = issue.init_journal(User.find(2), issue)
+    attachment_2 = Attachment.generate!(:file => mock_file_with_options(:original_filename => "attached_on_journal.png"), :container => issue)
+    journal.journalize_attachment(attachment_2, :added)
+
+    raw = <<~RAW
+      !attached_on_issue.png!
+      !attached_on_journal.png!'
+    RAW
+
+    assert textilizable(raw, :object => journal).include?("<img src=\"/attachments/download/#{attachment_1.id}/attached_on_issue.png\" alt=\"\" />")
+    assert textilizable(raw, :object => journal).include?("<img src=\"/attachments/download/#{attachment_2.id}/attached_on_journal.png\" alt=\"\" />")
+  end
+
   def test_attached_images_with_textile_and_non_ascii_filename
     to_test = {
       'CAFÉ.JPG' => 'CAF%C3%89.JPG',

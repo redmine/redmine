@@ -225,7 +225,7 @@ class AttachmentsController < ApplicationController
       rescue
         nil
       end
-    unless klass && klass.reflect_on_association(:attachments)
+    unless klass && (klass.reflect_on_association(:attachments) || klass.method_defined?(:attachments))
       render_404
       return
     end

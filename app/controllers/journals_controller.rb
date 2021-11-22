@@ -28,6 +28,7 @@ class JournalsController < ApplicationController
   helper :issues
   helper :custom_fields
   helper :queries
+  helper :attachments
   include QueriesHelper
 
   def index

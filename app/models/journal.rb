@@ -138,7 +138,7 @@ class Journal < ActiveRecord::Base
   end
 
   def attachments
-    journalized.respond_to?(:attachments) ? journalized.attachments : []
+    details.select{ |d| d.property == 'attachment' }.map{ |d| Attachment.find_by(:id => d.prop_key) }.compact
   end
 
   # Returns a string of css classes

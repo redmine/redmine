@@ -931,7 +931,11 @@ module ApplicationHelper
 
     # when using an image link, try to use an attachment, if possible
     attachments = options[:attachments] || []
-    attachments += obj.attachments if obj.respond_to?(:attachments)
+    if obj.is_a?(Journal)
+      attachments += obj.journalized.attachments if obj.journalized.respond_to?(:attachments)
+    else
+      attachments += obj.attachments if obj.respond_to?(:attachments)
+    end
     if attachments.present?
       text.gsub!(/src="([^\/"]+\.(bmp|gif|jpg|jpe|jpeg|png))"(\s+alt="([^"]*)")?/i) do |m|
         filename, ext, alt, alttext = $1, $2, $3, $4
