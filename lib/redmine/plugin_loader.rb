@@ -38,21 +38,24 @@ module Redmine
     def mirror_assets
       return unless has_assets_dir?
 
+      destination = File.join(PluginLoader.public_directory, File.basename(@dir))
+
       source_files = Dir["#{assets_dir}/**/*"]
       source_dirs = source_files.select { |d| File.directory?(d)}
       source_files -= source_dirs
       unless source_files.empty?
-        base_target_dir = File.join(PluginLoader.public_directory, File.dirname(source_files.first).gsub(assets_dir, ''))
+        base_target_dir = File.join(destination, File.dirname(source_files.first).gsub(assets_dir, ''))
         begin
           FileUtils.mkdir_p(base_target_dir)
         rescue => e
           raise "Could not create directory #{base_target_dir}: " + e.message
         end
       end
+
       source_dirs.each do |dir|
         # strip down these paths so we have simple, relative paths we can
         # add to the destination
-        target_dir = File.join(PluginLoader.public_directory, dir.gsub(assets_dir, ''))
+        target_dir = File.join(destination, dir.gsub(assets_dir, ''))
         begin
           FileUtils.mkdir_p(target_dir)
         rescue => e
@@ -60,7 +63,7 @@ module Redmine
         end
       end
       source_files.each do |file|
-        target = File.join(PluginLoader.public_directory, file.gsub(assets_dir, ''))
+        target = File.join(destination, file.gsub(assets_dir, ''))
         unless File.exist?(target) && FileUtils.identical?(file, target)
           FileUtils.cp(file, target)
         end
