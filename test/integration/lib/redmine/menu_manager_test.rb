@@ -102,7 +102,7 @@ class MenuManagerTest < Redmine::IntegrationTest
 
   def test_cross_project_menu_should_hide_item_if_module_is_not_enabled_for_any_project
     user = User.find_by_login('dlopper')
-    assert_equal [1, 3, 4, 6], Project.visible(user).ids
+    assert_equal [1, 3, 4, 6], Project.visible(user).ids.sort
 
     # gantt and news are not enabled for any visible project
     Project.find(1).enabled_module_names = %w(issue_tracking calendar)
