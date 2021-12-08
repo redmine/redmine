@@ -136,8 +136,12 @@ module Redmine
       @plugin_directories
     end
 
-    def self.mirror_assets
-      directories.each(&:mirror_assets)
+    def self.mirror_assets(name=nil)
+      if name.present?
+        directories.find{|d| d.to_s == File.join(directory, name)}.mirror_assets
+      else
+        directories.each(&:mirror_assets)
+      end
     end
   end
 end

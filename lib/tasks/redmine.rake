@@ -150,7 +150,7 @@ DESC
       name = ENV['NAME']
 
       begin
-        Redmine::Plugin.mirror_assets(name)
+        Redmine::PluginLoader.mirror_assets(name)
       rescue Redmine::PluginNotFound
         abort "Plugin #{name} was not found."
       end

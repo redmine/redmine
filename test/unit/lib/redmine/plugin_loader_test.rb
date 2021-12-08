@@ -41,6 +41,20 @@ class Redmine::PluginLoaderTest < ActiveSupport::TestCase
     assert File.exist?("#{@klass.public_directory}/foo_plugin/stylesheets/foo.css")
   end
 
+  def test_mirror_assets
+    Redmine::PluginLoader.mirror_assets
+
+    assert File.exist?("#{@klass.public_directory}/foo_plugin")
+    assert File.exist?("#{@klass.public_directory}/foo_plugin/stylesheets/foo.css")
+  end
+
+  def test_mirror_assets_with_plugin_name
+    Redmine::PluginLoader.mirror_assets('foo_plugin')
+
+    assert File.exist?("#{@klass.public_directory}/foo_plugin")
+    assert File.exist?("#{@klass.public_directory}/foo_plugin/stylesheets/foo.css")
+  end
+
   def clear_public
     FileUtils.rm_rf 'tmp/public'
   end
