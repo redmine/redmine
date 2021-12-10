@@ -61,7 +61,8 @@ module JournalsHelper
         dropbown_links << link_to(l(:button_delete),
                                   journal_path(journal, :journal => {:notes => ""}),
                                   :remote => true,
-                                  :method => 'put', :data => {:confirm => l(:text_are_you_sure)},
+                                  :method => 'put',
+                                  :data => {:confirm => l(:text_are_you_sure)},
                                   :class => 'icon icon-del'
                                  )
       end
