@@ -22,10 +22,10 @@ Layout/DotPosition:
 Layout/EmptyLineAfterGuardClause:
   Exclude:
     - 'db/migrate/101_populate_changesets_user_id.rb'
-    - 'lib/redmine/string_array_diff/diff.rb'
-    - 'lib/redmine/string_array_diff/diffable.rb'
     - 'lib/redmine/default_data/loader.rb'
     - 'lib/redmine/safe_attributes.rb'
+    - 'lib/redmine/string_array_diff/diff.rb'
+    - 'lib/redmine/string_array_diff/diffable.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
 
 # Cop supports --auto-correct.
@@ -328,13 +328,13 @@ Lint/Loop:
 Lint/MissingSuper:
   Exclude:
     - 'app/models/query.rb'
+    - 'lib/redmine/diff_table.rb'
     - 'lib/redmine/scm/adapters/bazaar_adapter.rb'
     - 'lib/redmine/scm/adapters/cvs_adapter.rb'
     - 'lib/redmine/scm/adapters/filesystem_adapter.rb'
     - 'lib/redmine/syntax_highlighting.rb'
     - 'lib/redmine/twofa/base.rb'
     - 'lib/redmine/unified_diff.rb'
-    - 'lib/redmine/diff_table.rb'
     - 'lib/redmine/views/builders/structure.rb'
     - 'lib/redmine/wiki_formatting/html_parser.rb'
 
@@ -371,7 +371,6 @@ Lint/RedundantStringCoercion:
 # Cop supports --auto-correct.
 Lint/SendWithMixinArgument:
   Exclude:
-    - 'lib/redmine/acts/positioned.rb'
     - 'test/object_helpers.rb'
 
 Lint/ShadowingOuterLocalVariable:
@@ -698,17 +697,14 @@ Rails/FilePath:
     - 'app/models/import.rb'
     - 'app/models/setting.rb'
     - 'config/environment.rb'
-    - 'config/initializers/00-core_plugins.rb'
     - 'config/initializers/10-patches.rb'
     - 'lib/redmine/configuration.rb'
-    - 'lib/redmine/plugin.rb'
     - 'lib/redmine/twofa.rb'
     - 'lib/redmine/version.rb'
     - 'test/application_system_test_case.rb'
     - 'test/functional/custom_fields_controller_test.rb'
     - 'test/functional/settings_controller_test.rb'
     - 'test/test_helper.rb'
-    - 'test/unit/lib/redmine/configuration_test.rb'
     - 'test/unit/lib/redmine/i18n_test.rb'
     - 'test/unit/lib/redmine/plugin_test.rb'
 
@@ -843,9 +839,8 @@ Rails/Output:
   Exclude:
     - 'app/models/mail_handler.rb'
     - 'config/routes.rb'
-    - 'lib/redmine/unified_diff.rb'
-    - 'lib/redmine/diff_table.rb'
     - 'lib/redmine/diff.rb'
+    - 'lib/redmine/diff_table.rb'
 
 Rails/OutputSafety:
   Enabled: false
@@ -1031,9 +1026,8 @@ Security/YAMLLoad:
 Style/AccessorGrouping:
   Exclude:
     - 'app/models/user.rb'
-    - 'lib/redmine/helpers/gantt.rb'
-    - 'lib/redmine/unified_diff.rb'
     - 'lib/redmine/diff.rb'
+    - 'lib/redmine/helpers/gantt.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
@@ -1098,6 +1092,7 @@ Style/CaseLikeIf:
     - 'app/models/user.rb'
     - 'app/models/workflow_transition.rb'
     - 'lib/redmine/access_control.rb'
+    - 'lib/redmine/diff_table.rb'
     - 'lib/redmine/export/pdf/issues_pdf_helper.rb'
     - 'lib/redmine/field_format.rb'
     - 'lib/redmine/i18n.rb'
@@ -1105,8 +1100,6 @@ Style/CaseLikeIf:
     - 'lib/redmine/scm/adapters/bazaar_adapter.rb'
     - 'lib/redmine/scm/adapters/cvs_adapter.rb'
     - 'lib/redmine/scm/adapters/git_adapter.rb'
-    - 'lib/redmine/unified_diff.rb'
-    - 'lib/redmine/diff_table.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
@@ -1158,7 +1151,6 @@ Style/CollectionCompact:
 # Cop supports --auto-correct.
 Style/ColonMethodCall:
   Exclude:
-    - 'Gemfile'
     - 'app/controllers/admin_controller.rb'
     - 'app/models/setting.rb'
     - 'lib/redmine/configuration.rb'
@@ -1213,7 +1205,6 @@ Style/EachWithObject:
     - 'app/models/setting.rb'
     - 'app/models/time_entry_import.rb'
     - 'app/models/workflow_permission.rb'
-    - 'config/initializers/10-patches.rb'
     - 'lib/redmine/acts/positioned.rb'
     - 'lib/redmine/configuration.rb'
     - 'lib/redmine/i18n.rb'
@@ -1266,7 +1257,6 @@ Style/ExplicitBlockArgument:
 Style/FormatString:
   Exclude:
     - 'app/models/query.rb'
-    - 'config/initializers/10-patches.rb'
     - 'lib/generators/redmine_plugin_model/redmine_plugin_model_generator.rb'
     - 'lib/redmine/export/csv.rb'
     - 'lib/redmine/helpers/gantt.rb'
@@ -1294,7 +1284,6 @@ Style/HashAsLastArrayItem:
 # Configuration parameters: AllowedReceivers.
 Style/HashEachMethods:
   Exclude:
-    - 'app/controllers/application_controller.rb'
     - 'app/controllers/groups_controller.rb'
     - 'app/models/mailer.rb'
     - 'app/models/role.rb'
@@ -1441,8 +1430,8 @@ Style/NegatedIf:
     - 'app/models/custom_field.rb'
     - 'app/models/project.rb'
     - 'app/models/repository/cvs.rb'
-    - 'lib/redmine/string_array_diff/diff.rb'
     - 'lib/redmine/codeset_util.rb'
+    - 'lib/redmine/string_array_diff/diff.rb'
     - 'lib/redmine/thumbnail.rb'
 
 # Cop supports --auto-correct.
@@ -1592,7 +1581,6 @@ Style/RedundantBegin:
     - 'app/models/repository.rb'
     - 'app/models/setting.rb'
     - 'lib/redmine/codeset_util.rb'
-    - 'lib/redmine/plugin.rb'
     - 'test/unit/issue_nested_set_concurrency_test.rb'
     - 'test/unit/project_nested_set_concurrency_test.rb'
     - 'test/unit/query_test.rb'
@@ -1759,8 +1747,8 @@ Style/SoleNestedConditional:
     - 'app/models/user_import.rb'
     - 'app/models/version.rb'
     - 'app/models/watcher.rb'
-    - 'app/models/wiki_page.rb'
     - 'app/models/wiki_annotate.rb'
+    - 'app/models/wiki_page.rb'
     - 'app/validators/date_validator.rb'
 
 # Cop supports --auto-correct.
@@ -1846,9 +1834,8 @@ Style/UnlessElse:
   Exclude:
     - 'app/controllers/auth_sources_controller.rb'
     - 'app/controllers/trackers_controller.rb'
-    - 'lib/redmine/scm/adapters/abstract_adapter.rb'
-    - 'lib/redmine/unified_diff.rb'
     - 'lib/redmine/diff_table.rb'
+    - 'lib/redmine/scm/adapters/abstract_adapter.rb'
 
 # Cop supports --auto-correct.
 Style/VariableInterpolation:
