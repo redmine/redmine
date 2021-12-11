@@ -13,11 +13,6 @@ Layout/ArgumentAlignment:
   Enabled: false
 
 # Cop supports --auto-correct.
-Layout/ClosingParenthesisIndentation:
-  Exclude:
-    - 'app/helpers/journals_helper.rb'
-
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: leading, trailing
 Layout/DotPosition:
@@ -580,7 +575,6 @@ Performance/RedundantSplitRegexpArgument:
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
 
 # Cop supports --auto-correct.
-# Configuration parameters: AutoCorrect.
 Performance/StringInclude:
   Exclude:
     - 'test/functional/versions_controller_test.rb'
@@ -660,7 +654,8 @@ Rails/Blank:
 
 # Cop supports --auto-correct.
 Rails/ContentTag:
-  Enabled: false
+  Exclude:
+    - 'lib/redmine/wiki_formatting/markdown/formatter.rb'
 
 # Configuration parameters: Include.
 # Include: db/migrate/*.rb
@@ -770,10 +765,15 @@ Rails/HasManyOrHasOneDependent:
     - 'app/models/document_category.rb'
     - 'app/models/issue_priority.rb'
     - 'app/models/issue_status.rb'
+    - 'app/models/principal.rb'
     - 'app/models/project.rb'
+    - 'app/models/repository.rb'
+    - 'app/models/repository/mercurial.rb'
     - 'app/models/time_entry_activity.rb'
     - 'app/models/tracker.rb'
+    - 'app/models/user.rb'
     - 'app/models/wiki.rb'
+    - 'app/models/wiki_page.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
@@ -855,6 +855,7 @@ Rails/MatchRoute:
 Rails/NegateInclude:
   Enabled: false
 
+# Cop supports --auto-correct.
 # Configuration parameters: Include.
 # Include: app/**/*.rb, config/**/*.rb, db/**/*.rb, lib/**/*.rb
 Rails/Output:
@@ -930,6 +931,14 @@ Rails/RedundantForeignKey:
     - 'app/models/custom_field.rb'
     - 'app/models/query.rb'
     - 'app/models/role.rb'
+
+# Cop supports --auto-correct.
+# Configuration parameters: Include.
+# Include: spec/**/*.rb, test/**/*.rb
+Rails/RedundantTravelBack:
+  Exclude:
+    - 'test/integration/sudo_mode_test.rb'
+    - 'test/system/sudo_mode_test.rb'
 
 Rails/ReflectionClassName:
   Exclude:
