@@ -17,31 +17,25 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-module ReportsHelper
+require File.expand_path('../../test_helper', __FILE__)
 
-  def aggregate(data, criteria)
-    a = 0
-    data.each do |row|
-      match = 1
-      criteria.each do |k, v|
-        unless (row[k].to_s == v.to_s) ||
-                 (k == 'closed' &&
-                   (v == 0 ? ['f', false] : ['t', true]).include?(row[k]))
-          match = 0
-        end
-      end unless criteria.nil?
-      a = a + row["total"].to_i if match == 1
-    end unless data.nil?
-    a
+class ReportsHlperTest < Redmine::HelperTest
+  include ReportsHelper
+  include Rails.application.routes.url_helpers
+
+  fixtures :projects, :users
+
+  def test_aggregate_path_for_spacified_row
+    project = Project.find(1)
+    field = 'assigned_to_id'
+    row = User.find(2)
+    assert_equal '/projects/ecookbook/issues?assigned_to_id=2&set_filter=1&subproject_id=%21%2A', aggregate_path(project, field, row)
   end
 
-  def aggregate_link(data, criteria, *args)
-    a = aggregate data, criteria
-    a > 0 ? link_to(h(a), *args) : '-'
-  end
-
-  def aggregate_path(project, field, row, options={})
-    parameters = {:set_filter => 1, :subproject_id => '!*', field => (row.id || '!*')}.merge(options)
-    project_issues_path(row.is_a?(Project) ? row : project, parameters)
+  def test_aggregate_path_for_unset_row
+    project = Project.find(1)
+    field = 'assigned_to_id'
+    row = User.new
+    assert_equal '/projects/ecookbook/issues?assigned_to_id=%21%2A&set_filter=1&subproject_id=%21%2A', aggregate_path(project, field, row)
   end
 end
