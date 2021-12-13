@@ -2888,8 +2888,8 @@ class IssueTest < ActiveSupport::TestCase
 
     groups = Issue.by_version(project)
     groups_containing_subprojects = Issue.by_version(project, true)
-    assert_equal 3, groups.inject(0) {|sum, group| sum + group['total'].to_i}
-    assert_equal 4, groups_containing_subprojects.inject(0) {|sum, group| sum + group['total'].to_i}
+    assert_equal 7, groups.inject(0) {|sum, group| sum + group['total'].to_i}
+    assert_equal 14, groups_containing_subprojects.inject(0) {|sum, group| sum + group['total'].to_i}
   end
 
   test "#by_priority" do
@@ -2909,8 +2909,8 @@ class IssueTest < ActiveSupport::TestCase
 
     groups = Issue.by_category(project)
     groups_containing_subprojects = Issue.by_category(project, true)
-    assert_equal 3, groups.inject(0) {|sum, group| sum + group['total'].to_i}
-    assert_equal 4, groups_containing_subprojects.inject(0) {|sum, group| sum + group['total'].to_i}
+    assert_equal 7, groups.inject(0) {|sum, group| sum + group['total'].to_i}
+    assert_equal 14, groups_containing_subprojects.inject(0) {|sum, group| sum + group['total'].to_i}
   end
 
   test "#by_assigned_to" do
@@ -2920,8 +2920,8 @@ class IssueTest < ActiveSupport::TestCase
 
     groups = Issue.by_assigned_to(project)
     groups_containing_subprojects = Issue.by_assigned_to(project, true)
-    assert_equal 2, groups.inject(0) {|sum, group| sum + group['total'].to_i}
-    assert_equal 3, groups_containing_subprojects.inject(0) {|sum, group| sum + group['total'].to_i}
+    assert_equal 7, groups.inject(0) {|sum, group| sum + group['total'].to_i}
+    assert_equal 14, groups_containing_subprojects.inject(0) {|sum, group| sum + group['total'].to_i}
   end
 
   test "#by_author" do
