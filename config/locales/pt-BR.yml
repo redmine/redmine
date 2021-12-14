@@ -810,9 +810,6 @@ pt-BR:
   field_editable: Editável
   setting_repository_log_display_limit: Número máximo de revisões exibidas no arquivo de log
   setting_file_max_size_displayed: Tamanho máximo dos arquivos textos exibidos em linha
-  setting_openid: Permitir Login e Registro via OpenID
-  field_identity_url: OpenID URL
-  label_login_with_open_id_option: ou use o OpenID
   field_content: Conteúdo
   label_descending: Descendente
   label_sort: Ordenar

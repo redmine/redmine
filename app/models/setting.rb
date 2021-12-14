@@ -268,10 +268,6 @@ class Setting < ActiveRecord::Base
     a
   end
 
-  def self.openid?
-    Object.const_defined?(:OpenID) && self[:openid].to_i > 0
-  end
-
   # Checks if settings have changed since the values were read
   # and clears the cache hash if it's the case
   # Called once per request

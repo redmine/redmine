@@ -770,9 +770,6 @@ nl:
   setting_repository_log_display_limit: Max aantal revisies zichbaar
   setting_file_max_size_displayed: Max grootte van tekstbestanden inline zichtbaar
   field_watcher: Volger
-  setting_openid: Sta OpenID login en registratie toe
-  field_identity_url: OpenID URL
-  label_login_with_open_id_option: of login met uw OpenID
   field_content: Content
   label_descending: Aflopend
   label_sort: Sorteer

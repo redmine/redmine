@@ -799,9 +799,6 @@ uk:
   setting_repository_log_display_limit: Максимальна кількість редакцій, відображених в журналі змін
   setting_file_max_size_displayed: Максимальний розмір текстового файлу для відображення
   field_watcher: Спостерігач
-  setting_openid: Дозволити OpenID для входу та реєстрації
-  field_identity_url: OpenID URL
-  label_login_with_open_id_option: або війти з допомогою OpenID
   field_content: Вміст
   label_descending: За спаданням
   label_sort: Сортувати

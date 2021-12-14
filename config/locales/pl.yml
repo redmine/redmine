@@ -804,9 +804,6 @@ pl:
   setting_repository_log_display_limit: Maksymalna liczba rewizji pokazywanych w logu pliku
   setting_file_max_size_displayed: Maksymalny rozmiar plików tekstowych osadzanych w stronie
   field_watcher: Obserwator
-  setting_openid: Logowanie i rejestracja przy użyciu OpenID
-  field_identity_url: Identyfikator OpenID (URL)
-  label_login_with_open_id_option: albo użyj OpenID
   field_content: Treść
   label_descending: Malejąco
   label_sort: Sortuj

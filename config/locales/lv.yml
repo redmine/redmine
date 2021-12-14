@@ -288,7 +288,6 @@ lv:
   field_parent_title: Vecāka lapa
   field_editable: Rediģējams
   field_watcher: Vērotājs
-  field_identity_url: OpenID URL
   field_content: Saturs
   field_group_by: Grupēt rezultātus pēc
   field_sharing: Koplietošana
@@ -332,7 +331,6 @@ lv:
   setting_diff_max_lines_displayed: Maksimālais rādīto diff rindu skaits
   setting_file_max_size_displayed: Maksimālais izmērs iekļautajiem teksta failiem
   setting_repository_log_display_limit: Maksimālais žurnāla datnē rādīto revīziju skaits
-  setting_openid: Atļaut OpenID pieslēgšanos un reģistrēšanos
   setting_password_min_length: Minimālais paroles garums
   setting_new_project_user_role_id: Loma, kura tiek piešķirta ne-administratora lietotājam, kurš izveido projektu
   setting_default_projects_modules: Noklusētie lietotie moduļi jaunam projektam
@@ -454,7 +452,6 @@ lv:
   label_information: Informācija
   label_information_plural: Informācija
   label_register: Reģistrēties
-  label_login_with_open_id_option: vai pieslēgties ar OpenID
   label_password_lost: Nozaudēta parole
   label_home: Sākums
   label_my_page: Mana lapa

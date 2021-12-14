@@ -788,9 +788,6 @@ it:
   setting_repository_log_display_limit: Numero massimo di revisioni elencate nella cronologia file
   setting_file_max_size_displayed: Dimensione massima dei contenuti testuali visualizzati
   field_watcher: Osservatore
-  setting_openid: Accetta connessione e registrazione con OpenID
-  field_identity_url: URL OpenID
-  label_login_with_open_id_option: oppure autenticati usando OpenID
   field_content: Contenuto
   label_descending: Discendente
   label_sort: Ordina

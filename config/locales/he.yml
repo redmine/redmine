@@ -308,7 +308,6 @@ he:
   field_parent_title: דף אב
   field_editable: ניתן לעריכה
   field_watcher: צופה
-  field_identity_url: כתובת OpenID
   field_content: תוכן
   field_group_by: קבץ את התוצאות לפי
   field_sharing: שיתוף
@@ -354,7 +353,6 @@ he:
   setting_diff_max_lines_displayed: מספר מירבי של שורות בתצוגת שינויים
   setting_file_max_size_displayed: גודל מירבי של מלל המוצג בתוך השורה
   setting_repository_log_display_limit: מספר מירבי של מהדורות המוצגות ביומן קובץ
-  setting_openid: אפשר התחברות ורישום באמצעות OpenID
   setting_password_min_length: אורך סיסמה מינימאלי
   setting_new_project_user_role_id: התפקיד שמוגדר למשתמש פשוט אשר יוצר פרויקט
   setting_default_projects_modules: מודולים מאופשרים בברירת מחדל עבור פרויקטים חדשים
@@ -480,7 +478,6 @@ he:
   label_information: מידע
   label_information_plural: מידע
   label_register: הרשמה
-  label_login_with_open_id_option: או התחבר באמצעות OpenID
   label_password_lost: אבדה הסיסמה?
   label_home: דף הבית
   label_my_page: הדף שלי

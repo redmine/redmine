@@ -302,7 +302,6 @@ sr:
   field_parent_title: Матична страница
   field_editable: Изменљиво
   field_watcher: Посматрач
-  field_identity_url: OpenID URL
   field_content: Садржај
   field_group_by: Груписање резултата по
   field_sharing: Дељење
@@ -347,7 +346,6 @@ sr:
   setting_diff_max_lines_displayed: Макс. број приказаних различитих линија
   setting_file_max_size_displayed: Макс. величина текст. датотека приказаних уметнуто
   setting_repository_log_display_limit: Макс. број ревизија приказаних у датотеци за евиденцију
-  setting_openid: Дозволи OpenID пријаву и регистрацију
   setting_password_min_length: Минимална дужина лозинке
   setting_new_project_user_role_id: Креатору пројекта (који није администратор) додељује је улога
   setting_default_projects_modules: Подразумевано омогућени модули за нове пројекте
@@ -470,7 +468,6 @@ sr:
   label_information: Информација
   label_information_plural: Информације
   label_register: Регистрација
-  label_login_with_open_id_option: или пријава са OpenID
   label_password_lost: Изгубљена лозинка
   label_home: Почетак
   label_my_page: Моја страница

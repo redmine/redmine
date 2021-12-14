@@ -34,12 +34,6 @@ group :ldap do
   gem 'net-ldap', '~> 0.17.0'
 end
 
-# Optional gem for OpenID authentication
-group :openid do
-  gem "ruby-openid", "~> 2.9.2", :require => "openid"
-  gem "rack-openid"
-end
-
 # Optional gem for exporting the gantt to a PNG file
 group :minimagick do
   gem 'mini_magick', '~> 4.11.0'

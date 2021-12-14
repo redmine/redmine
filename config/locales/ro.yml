@@ -276,7 +276,6 @@ ro:
   field_parent_title: Pagina superioara
   field_editable: Modificabil
   field_watcher: Urmărește
-  field_identity_url: URL OpenID
   field_content: Conținut
 
   setting_app_title: Titlu aplicație
@@ -316,7 +315,6 @@ ro:
   setting_diff_max_lines_displayed: Număr maxim de linii de diferență afișate
   setting_file_max_size_displayed: Număr maxim de fișiere text afișate în pagină (inline)
   setting_repository_log_display_limit: Număr maxim de revizii afișate în istoricul fișierului
-  setting_openid: Permite înregistrare și autentificare cu OpenID
 
   permission_edit_project: Editează proiectul
   permission_select_project_modules: Alege module pentru proiect
@@ -422,7 +420,6 @@ ro:
   label_information: Informație
   label_information_plural: Informații
   label_register: Înregistrare
-  label_login_with_open_id_option: sau autentificare cu OpenID
   label_password_lost: Parolă uitată
   label_home: Acasă
   label_my_page: Pagina mea

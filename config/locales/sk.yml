@@ -784,9 +784,6 @@ sk:
   setting_repository_log_display_limit: Maximálny počet revízií zobrazených v log súbore
   setting_file_max_size_displayed: Maximálna veľkosť textových súborov zobrazených priamo na stránke
   field_watcher: Pozorovatelia
-  setting_openid: Povoliť prihlasovanie a registráciu pomocou OpenID
-  field_identity_url: OpenID URL
-  label_login_with_open_id_option: alebo sa prihlásiť pomocou OpenID
   field_content: Obsah
   label_descending: Zostupne
   label_sort: Zoradenie

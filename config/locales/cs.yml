@@ -308,7 +308,6 @@ cs:
   field_parent_title: Rodičovská stránka
   field_editable: Editovatelný
   field_watcher: Sleduje
-  field_identity_url: OpenID URL
   field_content: Obsah
   field_group_by: Seskupovat výsledky podle
   field_sharing: Sdílení
@@ -358,7 +357,6 @@ cs:
   setting_diff_max_lines_displayed: Maximální počet zobrazených řádků rozdílu
   setting_file_max_size_displayed: Maximální velikost textových souborů zobrazených přímo na stránce
   setting_repository_log_display_limit: Maximální počet revizí zobrazených v logu souboru
-  setting_openid: Umožnit přihlašování a registrace s OpenID
   setting_password_min_length: Minimální délka hesla
   setting_new_project_user_role_id: Role přiřazená uživateli bez práv administrátora, který projekt vytvořil
   setting_default_projects_modules: Výchozí zapnutné moduly pro nový projekt
@@ -487,7 +485,6 @@ cs:
   label_information: Informace
   label_information_plural: Informace
   label_register: Registrovat
-  label_login_with_open_id_option: nebo se přihlašte s OpenID
   label_password_lost: Zapomenuté heslo
   label_home: Úvodní
   label_my_page: Moje stránka

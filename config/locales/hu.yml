@@ -807,9 +807,6 @@
   setting_repository_log_display_limit: Maximum hány revíziót mutasson meg a log megjelenítésekor
   setting_file_max_size_displayed: Maximum mekkora szövegfájlokat jelenítsen meg soronkénti összehasonlításnál
   field_watcher: Megfigyelő
-  setting_openid: OpenID regisztráció és bejelentkezés engedélyezése
-  field_identity_url: OpenID URL
-  label_login_with_open_id_option: bejelentkezés OpenID használatával
   field_content: Tartalom
   label_descending: Csökkenő
   label_sort: Rendezés

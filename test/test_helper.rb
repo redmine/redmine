@@ -29,7 +29,6 @@ $redmine_test_ldap_server = ENV['REDMINE_TEST_LDAP_SERVER'] || '127.0.0.1'
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'rails/test_help'
-require Rails.root.join('test', 'mocks', 'open_id_authentication_mock.rb').to_s
 
 require File.expand_path(File.dirname(__FILE__) + '/object_helpers')
 include ObjectHelpers

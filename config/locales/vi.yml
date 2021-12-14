@@ -839,9 +839,6 @@ vi:
   setting_repository_log_display_limit: Số lượng tối đa các bản điều chỉnh hiển thị trong file log
   setting_file_max_size_displayed: Kích thước tối đa của tệp tin văn bản
   field_watcher: Người quan sát
-  setting_openid: Cho phép đăng nhập và đăng ký dùng OpenID
-  field_identity_url: OpenID URL
-  label_login_with_open_id_option: hoặc đăng nhập với OpenID
   field_content: Nội dung
   label_descending: Giảm dần
   label_sort: Sắp xếp

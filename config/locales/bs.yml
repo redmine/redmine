@@ -292,7 +292,6 @@ bs:
   field_parent_title: 'Stranica "roditelj"'
   field_editable: Može se mijenjati
   field_watcher: Posmatrač
-  field_identity_url: OpenID URL
   field_content: Sadržaj
 
   setting_app_title: Naslov aplikacije
@@ -333,7 +332,6 @@ bs:
   setting_diff_max_lines_displayed: Maksimalan broj linija za prikaz razlika između dva fajla
   setting_file_max_size_displayed: Maksimalna veličina fajla kod prikaza razlika unutar fajla (inline)
   setting_repository_log_display_limit: Maksimalna veličina revizija prikazanih na log fajlu
-  setting_openid: Omogući OpenID prijavu i registraciju
 
   permission_edit_project: Ispravke projekta
   permission_select_project_modules: Odaberi module projekta
@@ -439,7 +437,6 @@ bs:
   label_information: Informacija
   label_information_plural: Informacije
   label_register: Registracija
-  label_login_with_open_id_option: ili prijava sa OpenID-om
   label_password_lost: Izgubljena lozinka
   label_home: Početna stranica
   label_my_page: Moja stranica

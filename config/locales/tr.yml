@@ -800,9 +800,6 @@ tr:
   setting_repository_log_display_limit: Dosya kaydında gösterilecek maksimum değişim sayısı
   setting_file_max_size_displayed: Dahili olarak gösterilecek metin dosyaları için maksimum satır sayısı
   field_watcher: Takipçi
-  setting_openid: Kayıt ve giriş için OpenID'ye izin ver
-  field_identity_url: OpenID URL
-  label_login_with_open_id_option: veya OpenID kullanın
   field_content: İçerik
   label_descending: Azalan
   label_sort: Sırala

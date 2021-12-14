@@ -423,7 +423,6 @@
   field_parent_title: 父頁面
   field_editable: 可編輯
   field_watcher: 監看員
-  field_identity_url: OpenID 網址
   field_content: 內容
   field_group_by: 結果分組方式
   field_sharing: 共用
@@ -510,7 +509,6 @@
   setting_diff_max_lines_displayed: 差異顯示行數之最大值
   setting_file_max_size_displayed: 檔案內容顯示大小之最大值
   setting_repository_log_display_limit: 修訂版顯示數目之最大值
-  setting_openid: 允許使用 OpenID 登入與註冊
   setting_password_max_age: 必須在多少天後變更密碼
   setting_password_min_length: 密碼最小長度
   setting_lost_password: 允許使用電子郵件重新設定密碼
@@ -686,7 +684,6 @@
   label_information: 資訊
   label_information_plural: 資訊
   label_register: 註冊
-  label_login_with_open_id_option: 或使用 OpenID 登入
   label_password_lost: 遺失密碼
   label_password_required: 確認您的密碼後繼續
   label_home: 網站首頁

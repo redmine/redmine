@@ -303,7 +303,6 @@ mk:
   field_parent_title: Parent page
   field_editable: Може да се уредува
   field_watcher: Watcher
-  field_identity_url: OpenID URL
   field_content: Содржина
   field_group_by: Групирај ги резултатите според
   field_sharing: Споделување
@@ -347,7 +346,6 @@ mk:
   setting_diff_max_lines_displayed: Max number of diff lines displayed
   setting_file_max_size_displayed: Max size of text files displayed inline
   setting_repository_log_display_limit: Maximum number of revisions displayed on file log
-  setting_openid: Дозволи OpenID најава и регистрација
   setting_password_min_length: Мин. должина на лозинка
   setting_new_project_user_role_id: Улога доделена на неадминистраторски корисник кој креира проект
   setting_default_projects_modules: Default enabled modules for new projects
@@ -472,7 +470,6 @@ mk:
   label_information: Информација
   label_information_plural: Информации
   label_register: Регистрирај се
-  label_login_with_open_id_option: или најави се со OpenID
   label_password_lost: Изгубена лозинка
   label_home: Почетна
   label_my_page: Мојата страна

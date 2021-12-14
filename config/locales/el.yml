@@ -288,7 +288,6 @@ el:
   field_parent_title: Γονική σελίδα
   field_editable: Επεξεργάσιμο
   field_watcher: Παρατηρητής
-  field_identity_url: OpenID URL
   field_content: Περιεχόμενο
   field_group_by: Ομαδικά αποτελέσματα από
 
@@ -329,7 +328,6 @@ el:
   setting_diff_max_lines_displayed: Μεγ.αριθμός εμφάνισης γραμμών diff
   setting_file_max_size_displayed: Μεγ.μέγεθος των αρχείων απλού κειμένου που εμφανίζονται σε σειρά
   setting_repository_log_display_limit: Μέγιστος αριθμός αναθεωρήσεων που εμφανίζονται στο ιστορικό αρχείου
-  setting_openid: Επιτρέψτε συνδέσεις OpenID και εγγραφή
   setting_password_min_length: Ελάχιστο μήκος κωδικού πρόσβασης
   setting_new_project_user_role_id: Απόδοση ρόλου σε χρήστη μη-διαχειριστή όταν δημιουργεί ένα έργο
 
@@ -438,7 +436,6 @@ el:
   label_information: Πληροφορία
   label_information_plural: Πληροφορίες
   label_register: Εγγραφή
-  label_login_with_open_id_option: ή συνδεθείτε με OpenID
   label_password_lost: Ανάκτηση κωδικού πρόσβασης
   label_home: Αρχική σελίδα
   label_my_page: Η σελίδα μου

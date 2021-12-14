@@ -304,7 +304,6 @@ sr-YU:
   field_parent_title: Matična stranica
   field_editable: Izmenljivo
   field_watcher: Posmatrač
-  field_identity_url: OpenID URL
   field_content: Sadržaj
   field_group_by: Grupisanje rezultata po
   field_sharing: Deljenje
@@ -349,7 +348,6 @@ sr-YU:
   setting_diff_max_lines_displayed: Maks. broj prikazanih različitih linija
   setting_file_max_size_displayed: Maks. veličina tekst. datoteka prikazanih umetnuto
   setting_repository_log_display_limit: Maks. broj revizija prikazanih u datoteci za evidenciju
-  setting_openid: Dozvoli OpenID prijavu i registraciju
   setting_password_min_length: Minimalna dužina lozinke
   setting_new_project_user_role_id: Kreatoru projekta (koji nije administrator) dodeljuje je uloga
   setting_default_projects_modules: Podrazumevano omogućeni moduli za nove projekte
@@ -472,7 +470,6 @@ sr-YU:
   label_information: Informacija
   label_information_plural: Informacije
   label_register: Registracija
-  label_login_with_open_id_option: ili prijava sa OpenID
   label_password_lost: Izgubljena lozinka
   label_home: Početak
   label_my_page: Moja stranica

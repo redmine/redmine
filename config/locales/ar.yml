@@ -307,7 +307,6 @@ ar:
   field_parent_title: صفحة الوالدين
   field_editable: يمكن اعادة تحريره
   field_watcher: مراقب
-  field_identity_url: افتح الرابط الخاص بالهوية الشخصية
   field_content: المحتويات
   field_group_by: تصنيف النتائج بواسطة 
   field_sharing: مشاركة
@@ -367,7 +366,6 @@ ar:
   setting_diff_max_lines_displayed: الحد الاقصى لعدد الخطوط
   setting_file_max_size_displayed: الحد الأقصى لحجم النص المعروض على الملفات المرفقة
   setting_repository_log_display_limit: الحد الاقصى لعدد التنقيحات المعروضة على ملف السجل
-  setting_openid: السماح بدخول اسم المستخدم المفتوح والتسجيل
   setting_password_min_length: الحد الادني لطول كلمة المرور
   setting_new_project_user_role_id: الدور المسند الى المستخدم غير المسؤول الذي يقوم بإنشاء المشروع
   setting_default_projects_modules: تمكين الوحدات النمطية للمشاريع الجديدة بشكل افتراضي
@@ -505,7 +503,6 @@ ar:
   label_information: معلومة
   label_information_plural: معلومات
   label_register: تسجيل
-  label_login_with_open_id_option: او الدخول بهوية مفتوحة
   label_password_lost: فقدت كلمة السر
   label_home: "الصفحة الرئيسية"
   label_my_page: الصفحة الخاصة بي

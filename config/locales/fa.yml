@@ -342,7 +342,6 @@ fa:
   field_parent_title: صفحه پدر
   field_editable: ویرایش‌پذیر
   field_watcher: ناظر
-  field_identity_url: نشانی OpenID
   field_content: محتوا
   field_group_by: دسته بندی با
   field_sharing: اشتراک گذاری
@@ -429,7 +428,6 @@ fa:
   setting_diff_max_lines_displayed: بیشترین اندازه ردیف‌های تفاوت نشان داده شده
   setting_file_max_size_displayed: بیشترین اندازه پرونده‌های نمایش داده‌شده به صورت هم‌ردیف
   setting_repository_log_display_limit: بیشترین تعداد بازبینی‌های نمایش داده‌شده در گزارش پرونده
-  setting_openid: اجازه ورود و ثبت نام با OpenID
   setting_password_max_age: لزوم تغییر گذرواژه پس از
   setting_password_min_length: کم‌ترین اندازه گذرواژه
   setting_lost_password: اجازه بازنشانی گذرواژه با رایانامه
@@ -601,7 +599,6 @@ fa:
   label_information: اطلاعات
   label_information_plural: اطلاعات
   label_register: ثبت نام
-  label_login_with_open_id_option: یا با OpenID وارد شوید
   label_password_lost: بازیابی گذرواژه
   label_password_required: برای ادامه، گذرواژه خود را تایید کنید
   label_home: خانه

@@ -17,11 +17,6 @@ if secret.present?
   RedmineApp::Application.config.secret_token = secret
 end
 
-if Object.const_defined?(:OpenIdAuthentication)
-  openid_authentication_store = Redmine::Configuration['openid_authentication_store']
-  OpenIdAuthentication.store = openid_authentication_store.presence || :memory
-end
-
 Redmine::PluginLoader.load
 plugin_assets_reloader = Redmine::PluginLoader.create_assets_reloader
 

@@ -324,7 +324,6 @@ de:
   field_host: Host
   field_hours: Stunden
   field_identifier: Kennung
-  field_identity_url: OpenID-URL
   field_inherit_members: Benutzer erben
   field_is_closed: Ticket geschlossen
   field_is_default: Standardeinstellung
@@ -631,7 +630,6 @@ de:
   label_loading: Lade...
   label_logged_as: Angemeldet als
   label_login: Anmelden
-  label_login_with_open_id_option: oder mit OpenID anmelden
   label_logout: Abmelden
   label_only: nur
   label_max_size: Maximale Größe
@@ -1036,7 +1034,6 @@ de:
   setting_mail_handler_excluded_filenames: Anhänge nach Namen ausschließen
   setting_new_project_user_role_id: Rolle, die einem Nicht-Administrator zugeordnet wird, der ein Projekt erstellt
   setting_non_working_week_days: Arbeitsfreie Tage
-  setting_openid: Erlaube OpenID-Anmeldung und -Registrierung
   setting_password_min_length: Mindestlänge des Passworts
   setting_password_max_age: Erzwinge Passwortwechsel nach
   setting_lost_password: Zurücksetzen des Passworts per E-Mail erlauben

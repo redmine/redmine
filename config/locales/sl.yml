@@ -785,9 +785,6 @@ sl:
   setting_repository_log_display_limit: Največje število prikazanih revizij v log datoteki
   setting_file_max_size_displayed: Največja velikost besedilnih datotek v vključenem prikazu
   field_watcher: Opazovalec
-  setting_openid: Dovoli OpenID prijavo in registracijo
-  field_identity_url: OpenID URL
-  label_login_with_open_id_option: ali se prijavi z OpenID
   field_content: Vsebina
   label_descending: Padajoče
   label_sort: Razvrsti

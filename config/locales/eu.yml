@@ -296,7 +296,6 @@ eu:
   field_parent_title: Orri gurasoa
   field_editable: Editagarria
   field_watcher: Behatzailea
-  field_identity_url: OpenID URLa
   field_content: Edukia
   field_group_by: Emaitzak honegatik taldekatu
   field_sharing: Partekatzea
@@ -340,7 +339,6 @@ eu:
   setting_diff_max_lines_displayed: Erakutsiko diren diff lerro kopuru maximoa
   setting_file_max_size_displayed: Barnean erakuzten diren testu fitxategien tamaina maximoa
   setting_repository_log_display_limit: Egunkari fitxategian erakutsiko diren berrikuspen kopuru maximoa.
-  setting_openid: Baimendu OpenID saio hasiera eta erregistatzea
   setting_password_min_length: Pasahitzen luzera minimoa
   setting_new_project_user_role_id: Proiektu berriak sortzerakoan kudeatzaile ez diren erabiltzaileei esleitutako rola
   setting_default_projects_modules: Proiektu berrientzako defektuz gaitutako moduluak
@@ -459,7 +457,6 @@ eu:
   label_information: Informazioa
   label_information_plural: Informazioa
   label_register: Erregistratu
-  label_login_with_open_id_option: edo OpenID-rekin saioa hasi
   label_password_lost: Pasahitza galduta
   label_home: Hasiera
   label_my_page: Nire orria

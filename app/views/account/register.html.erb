@@ -1,4 +1,4 @@
-<h2><%=l(:label_register)%> <%=link_to l(:label_login_with_open_id_option), signin_url if Setting.openid? %></h2>
+<h2><%=l(:label_register)%></h2>
 
 <%= labelled_form_for @user, :url => register_path do |f| %>
 <%= error_messages_for 'user' %>
@@ -26,10 +26,6 @@
 
 <% unless @user.force_default_language? %>
 <p><%= f.select :language, lang_options_for_select %></p>
-<% end %>
-
-<% if Setting.openid? %>
-  <p><%= f.text_field :identity_url  %></p>
 <% end %>
 
 <% @user.custom_field_values.select {|v| (Setting.show_custom_fields_on_registration? && v.editable?) || v.required?}.each do |value| %>
