@@ -320,7 +320,8 @@ module ApplicationHelper
       image_tag(
         thumbnail_path(attachment),
         :srcset => "#{thumbnail_path(attachment, :size => thumbnail_size * 2)} 2x",
-        :style => "max-width: #{thumbnail_size}px; max-height: #{thumbnail_size}px;"
+        :style => "max-width: #{thumbnail_size}px; max-height: #{thumbnail_size}px;",
+        :loading => "lazy"
       ),
       attachment_path(
         attachment
@@ -946,7 +947,7 @@ module ApplicationHelper
           if !desc.blank? && alttext.blank?
             alt = " title=\"#{desc}\" alt=\"#{desc}\""
           end
-          "src=\"#{image_url}\"#{alt}"
+          "src=\"#{image_url}\"#{alt} loading=\"lazy\""
         else
           m
         end

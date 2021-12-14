@@ -49,7 +49,7 @@ class Redmine::WikiFormatting::CommonMark::ApplicationHelperTest < Redmine::Help
       with_settings :text_formatting => 'common_mark' do
         to_test.each do |filename, result|
           attachment = Attachment.generate!(:filename => filename)
-          assert_include %(<img src="/attachments/download/#{attachment.id}/#{result}" alt="">), textilizable("![](#{filename})", :attachments => [attachment])
+          assert_include %(<img src="/attachments/download/#{attachment.id}/#{result}" alt="" loading="lazy">), textilizable("![](#{filename})", :attachments => [attachment])
         end
       end
     end
