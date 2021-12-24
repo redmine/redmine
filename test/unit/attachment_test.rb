@@ -362,9 +362,7 @@ class AttachmentTest < ActiveSupport::TestCase
     a = Attachment.find(20)
     assert a.disk_directory.blank?
     # Create a real file for this fixture
-    File.open(a.diskfile, "w") do |f|
-      f.write "test file at the root of files directory"
-    end
+    File.write(a.diskfile, 'test file at the root of files directory')
     assert a.readable?
     Attachment.move_from_root_to_target_directory
 

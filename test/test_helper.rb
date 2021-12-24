@@ -375,9 +375,7 @@ module Redmine
     def save_pdf
       assert_equal 'application/pdf', response.media_type
       filename = "#{self.class.name.underscore}__#{method_name}.pdf"
-      File.open(File.join($redmine_tmp_pdf_directory, filename), "wb") do |f|
-        f.write response.body
-      end
+      File.binwrite(File.join($redmine_tmp_pdf_directory, filename), response.body)
     end
   end
 
