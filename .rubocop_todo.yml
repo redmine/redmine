@@ -147,7 +147,6 @@ Layout/IndentationWidth:
     - 'db/migrate/20111201201315_add_unique_index_to_issue_relations.rb'
     - 'db/migrate/20120115143126_set_default_repositories.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
-    - 'test/mocks/open_id_authentication_mock.rb'
 
 # Cop supports --auto-correct.
 # Configuration parameters: AllowDoxygenCommentStyle, AllowGemfileRubyComment.
@@ -920,7 +919,6 @@ Rails/ReadWriteAttribute:
     - 'app/models/role.rb'
     - 'app/models/setting.rb'
     - 'app/models/time_entry.rb'
-    - 'app/models/user.rb'
     - 'app/models/user_preference.rb'
     - 'app/models/wiki_page.rb'
 
@@ -1596,7 +1594,6 @@ Style/QuotedSymbols:
 # Configuration parameters: Methods.
 Style/RedundantArgument:
   Exclude:
-    - 'app/controllers/account_controller.rb'
     - 'lib/redmine/scm/adapters/cvs_adapter.rb'
     - 'lib/redmine/scm/adapters/git_adapter.rb'
     - 'test/functional/projects_controller_test.rb'
