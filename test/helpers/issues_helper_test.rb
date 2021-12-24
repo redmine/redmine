@@ -34,7 +34,7 @@ class IssuesHelperTest < Redmine::HelperTest
            :enabled_modules,
            :custom_fields,
            :attachments,
-           :versions
+           :versions, :workflows
 
   def test_issue_heading
     assert_equal "Bug #1", issue_heading(Issue.find(1))
