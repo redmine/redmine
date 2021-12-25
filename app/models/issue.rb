@@ -1840,7 +1840,7 @@ class Issue < ActiveRecord::Base
                 child_with_total_estimated_hours.sum(&:total_estimated_hours).to_d /
                   child_with_total_estimated_hours.count
             else
-              average = 1.0.to_d
+              average = BigDecimal('1.0')
             end
             done = children.sum do |c|
               estimated = (c.total_estimated_hours || 0.0).to_d
