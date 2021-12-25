@@ -366,7 +366,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
     find('tr#issue-4 input[type=checkbox]').click
     find('tr#issue-1 td.updated_on').right_click
     within('#context-menu') do
-      click_link 'Edit'
+      click_link 'Bulk edit'
     end
     assert_current_path '/issues/bulk_edit', :ignore_query => true
     submit_buttons = page.all('input[type=submit]')
@@ -389,7 +389,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
     find('tr#issue-4 input[type=checkbox]').click
     find('tr#issue-1 td.updated_on').right_click
     within('#context-menu') do
-      click_link 'Edit'
+      click_link 'Bulk edit'
     end
     assert_current_path '/issues/bulk_edit', :ignore_query => true
     submit_buttons = page.all('input[type=submit]')
