@@ -305,7 +305,7 @@ class RedminePmTest::RepositorySubversionTest < RedminePmTest::TestCase
         assert_success "update"
 
         # checks that the working copy was updated
-        assert File.exists?(File.join(dir, "#{filename}_copy"))
+        assert File.exist?(File.join(dir, "#{filename}_copy"))
         assert File.directory?(File.join(dir, "#{filename}_dir"))
       end
     end

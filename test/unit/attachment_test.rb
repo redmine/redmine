@@ -208,11 +208,11 @@ class AttachmentTest < ActiveSupport::TestCase
     copy = a.copy
     copy.save!
 
-    assert File.exists?(diskfile)
+    assert File.exist?(diskfile)
     a.destroy
-    assert File.exists?(diskfile)
+    assert File.exist?(diskfile)
     copy.destroy
-    assert !File.exists?(diskfile)
+    assert !File.exist?(diskfile)
   end
 
   def test_create_should_auto_assign_content_type
@@ -387,7 +387,7 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 59, attachment.filesize
     assert_equal 'test', attachment.description
     assert_equal 'text/plain', attachment.content_type
-    assert File.exists?(attachment.diskfile)
+    assert File.exist?(attachment.diskfile)
     assert_equal 59, File.size(attachment.diskfile)
   end
 

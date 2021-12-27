@@ -366,10 +366,10 @@ class IssueImportTest < ActiveSupport::TestCase
   def test_run_should_remove_the_file
     import = generate_import_with_mapping
     file_path = import.filepath
-    assert File.exists?(file_path)
+    assert File.exist?(file_path)
 
     import.run
-    assert !File.exists?(file_path)
+    assert !File.exist?(file_path)
   end
 
   def test_run_should_consider_project_shared_versions

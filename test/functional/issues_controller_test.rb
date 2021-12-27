@@ -4716,7 +4716,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_equal 'text/plain', attachment.content_type
     assert_equal 'test file', attachment.description
     assert_equal 59, attachment.filesize
-    assert File.exists?(attachment.diskfile)
+    assert File.exist?(attachment.diskfile)
     assert_equal 59, File.size(attachment.diskfile)
   end
 
@@ -4780,7 +4780,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 
     attachment = Attachment.order('id DESC').first
     assert_equal 'testfile.txt', attachment.filename
-    assert File.exists?(attachment.diskfile)
+    assert File.exist?(attachment.diskfile)
     assert_nil attachment.container
 
     assert_select 'input[name=?][value=?]', 'attachments[p0][token]', attachment.token
@@ -6289,7 +6289,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_equal 'text/plain', attachment.content_type
     assert_equal 'test file', attachment.description
     assert_equal 59, attachment.filesize
-    assert File.exists?(attachment.diskfile)
+    assert File.exist?(attachment.diskfile)
     assert_equal 59, File.size(attachment.diskfile)
 
     mail = ActionMailer::Base.deliveries.last
@@ -6323,7 +6323,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 
     attachment = Attachment.order('id DESC').first
     assert_equal 'testfile.txt', attachment.filename
-    assert File.exists?(attachment.diskfile)
+    assert File.exist?(attachment.diskfile)
     assert_nil attachment.container
 
     assert_select 'input[name=?][value=?]', 'attachments[p0][token]', attachment.token

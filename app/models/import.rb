@@ -111,7 +111,7 @@ class Import < ActiveRecord::Base
 
   # Returns true if the file to import exists
   def file_exists?
-    filepath.present? && File.exists?(filepath)
+    filepath.present? && File.exist?(filepath)
   end
 
   # Returns the headers as an array that

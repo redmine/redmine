@@ -396,7 +396,7 @@ Rails.application.routes.draw do
 
   Dir.glob File.expand_path("#{Redmine::Plugin.directory}/*") do |plugin_dir|
     file = File.join(plugin_dir, "config/routes.rb")
-    if File.exists?(file)
+    if File.exist?(file)
       begin
         instance_eval File.read(file)
       rescue SyntaxError, StandardError => e

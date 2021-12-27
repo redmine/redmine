@@ -36,14 +36,14 @@ module Redmine
       return nil unless convert_available?
       return nil if is_pdf && !gs_available?
 
-      unless File.exists?(target)
+      unless File.exist?(target)
         # Make sure we only invoke Imagemagick if the file type is allowed
         mime_type = File.open(source) {|f| Marcel::MimeType.for(f)}
         return nil if !ALLOWED_TYPES.include? mime_type
         return nil if is_pdf && mime_type != "application/pdf"
 
         directory = File.dirname(target)
-        unless File.exists?(directory)
+        unless File.exist?(directory)
           FileUtils.mkdir_p directory
         end
         size_option = "#{size}x#{size}>"

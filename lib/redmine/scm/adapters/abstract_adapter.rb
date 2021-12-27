@@ -216,7 +216,7 @@ module Redmine
             writable = false
             path = Redmine::Configuration['scm_stderr_log_file'].presence
             path ||= Rails.root.join("log/#{Rails.env}.scm.stderr.log").to_s
-            if File.exists?(path)
+            if File.exist?(path)
               if File.file?(path) && File.writable?(path)
                 writable = true
               else

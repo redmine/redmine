@@ -74,7 +74,7 @@ class RedminePmTest::RepositoryGitTest < RedminePmTest::TestCase
     Dir.mktmpdir do |dir|
       assert_success "clone", git_url, dir
       Dir.chdir(dir) do
-        assert File.exists?(File.join(dir, "#{filename}"))
+        assert File.exist?(File.join(dir, "#{filename}"))
       end
     end
   end

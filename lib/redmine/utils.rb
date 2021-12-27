@@ -51,7 +51,7 @@ module Redmine
 
       def save_upload(upload, path)
         directory = File.dirname(path)
-        unless File.exists?(directory)
+        unless File.exist?(directory)
           FileUtils.mkdir_p directory
         end
         File.open(path, "wb") do |f|
