@@ -225,7 +225,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
     log_user('jsmith', 'jsmith')
     visit "/issues/#{issue.id}"
     page.first(:link, 'Edit').click
-    assert page.has_select?("issue_status_id", {:selected => "New"})
+    assert page.has_select?("issue_status_id", selected: "New")
     page.find("#issue_status_id").select("Closed")
     assert_no_difference 'Issue.count' do
       page.first(:button, 'Submit').click
@@ -398,7 +398,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
 
     page.find('#issue_project_id').select('OnlineStore')
     # wait for ajax response
-    assert page.has_select?('issue_project_id', {:selected => 'OnlineStore'})
+    assert page.has_select?('issue_project_id', selected: 'OnlineStore')
 
     submit_buttons = page.all('input[type=submit]')
     assert_equal 2, submit_buttons.size
@@ -462,7 +462,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
 
     page.find('#issue_project_id').select('OnlineStore')
     # wait for ajax response
-    assert page.has_select?('issue_project_id', {:selected => 'OnlineStore'})
+    assert page.has_select?('issue_project_id', selected: 'OnlineStore')
 
     submit_buttons = page.all('input[type=submit]')
     assert_equal 2, submit_buttons.size
