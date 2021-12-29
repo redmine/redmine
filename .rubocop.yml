@@ -118,6 +118,9 @@ Rails/BulkChangeTable:
     - 'db/migrate/20120714122200_add_workflows_rule_fields.rb'
     - 'db/migrate/20131214094309_remove_custom_fields_min_max_length_default_values.rb'
 
+Rails/CompactBlank:
+  Enabled: false
+
 Rails/EnvironmentVariableAccess:
   Enabled: false
 
