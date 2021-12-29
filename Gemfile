@@ -104,7 +104,7 @@ group :test do
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), "Gemfile.local")
-if File.exists?(local_gemfile)
+if File.exist?(local_gemfile)
   eval_gemfile local_gemfile
 end
 
