@@ -165,7 +165,7 @@ class JournalTest < ActiveSupport::TestCase
     d = JournalDetail.new(:property => 'cf', :prop_key => '2')
     journals = [Journal.new(:details => [d])]
 
-    d.expects(:instance_variable_set).with("@custom_field", CustomField.find(2)).once
+    d.expects(:instance_variable_set).with(:@custom_field, CustomField.find(2)).once
     Journal.preload_journals_details_custom_fields(journals)
   end
 

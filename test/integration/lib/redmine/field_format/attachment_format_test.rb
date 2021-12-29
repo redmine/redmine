@@ -86,10 +86,10 @@ class AttachmentFieldFormatTest < Redmine::IntegrationTest
     # link to the attachment
     link = css_select(".cf_#{@field.id} .value a:not(.icon-download)")
     assert_equal 1, link.size
-    assert_equal "testfile.txt", link.text
+    assert_equal "testfile.txt", link.first.text
 
     # preview the attachment
-    get link.attr('href')
+    get link.first.attr(:href)
     assert_response :success
     assert_select 'h2', :text => "#{issue.tracker} ##{issue.id} » testfile.txt"
   end

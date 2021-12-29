@@ -1686,7 +1686,7 @@ class QueryTest < ActiveSupport::TestCase
     q = IssueQuery.new(:name => '_', :column_names => [:subject, :spent_hours])
     assert q.has_column?(:spent_hours)
     issues = q.issues
-    assert_not_nil issues.first.instance_variable_get("@spent_hours")
+    assert_not_nil issues.first.instance_variable_get(:@spent_hours)
   end
 
   def test_query_should_preload_last_updated_by
@@ -1696,7 +1696,7 @@ class QueryTest < ActiveSupport::TestCase
       assert q.has_column?(:last_updated_by)
 
       issues = q.issues.sort_by(&:id)
-      assert issues.all? {|issue| !issue.instance_variable_get("@last_updated_by").nil?}
+      assert issues.all? {|issue| !issue.instance_variable_get(:@last_updated_by).nil?}
       assert_equal ["User", "User", "NilClass"], issues.map {|i| i.last_updated_by.class.name}
       assert_equal ["John Smith", "John Smith", ""], issues.map {|i| i.last_updated_by.to_s}
     end
@@ -1706,7 +1706,7 @@ class QueryTest < ActiveSupport::TestCase
     q = IssueQuery.new(:name => '_', :column_names => [:subject, :last_notes])
     assert q.has_column?(:last_notes)
     issues = q.issues
-    assert_not_nil issues.first.instance_variable_get("@last_notes")
+    assert_not_nil issues.first.instance_variable_get(:@last_notes)
   end
 
   def test_groupable_columns_should_include_custom_fields

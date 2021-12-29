@@ -1095,7 +1095,7 @@ class Query < ActiveRecord::Base
     end
     if column.is_a?(QueryCustomFieldColumn)
       custom_field = column.custom_field
-      send "total_for_custom_field", custom_field, scope
+      send :total_for_custom_field, custom_field, scope
     else
       send "total_for_#{column.name}", scope
     end

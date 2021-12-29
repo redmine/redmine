@@ -2375,11 +2375,11 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'div#issue_tree span.issues-stat' do
       assert_select 'span.badge', text: '4'
       assert_select 'span.open a', text: '3 open'
-      assert_equal CGI.unescape(css_select('span.open a').first.attr('href')),
+      assert_equal CGI.unescape(css_select('span.open a').first.attr(:href)),
                    "/issues?parent_id=~1&set_filter=true&status_id=o"
 
       assert_select 'span.closed a', text: '1 closed'
-      assert_equal CGI.unescape(css_select('span.closed a').first.attr('href')),
+      assert_equal CGI.unescape(css_select('span.closed a').first.attr(:href)),
                    "/issues?parent_id=~1&set_filter=true&status_id=c"
     end
   end
@@ -2392,7 +2392,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 
     assert_select 'div#issue_tree span.issues-stat' do
       assert_select 'span.open a', text: '1 open'
-      assert_equal CGI.unescape(css_select('span.open a').first.attr('href')),
+      assert_equal CGI.unescape(css_select('span.open a').first.attr(:href)),
                    "/issues?parent_id=~1&set_filter=true&status_id=o"
       assert_select 'span.closed', text: '0 closed'
       assert_select 'span.closed a', 0

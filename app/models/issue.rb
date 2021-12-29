@@ -1179,7 +1179,7 @@ class Issue < ActiveRecord::Base
         ).all
       issues.each do |issue|
         issue.instance_variable_set(
-          "@relations",
+          :@relations,
           relations.select {|r| r.issue_from_id == issue.id || r.issue_to_id == issue.id}
         )
       end
@@ -1191,7 +1191,7 @@ class Issue < ActiveRecord::Base
     if issues.any?
       hours_by_issue_id = TimeEntry.visible(user).where(:issue_id => issues.map(&:id)).group(:issue_id).sum(:hours)
       issues.each do |issue|
-        issue.instance_variable_set "@spent_hours", (hours_by_issue_id[issue.id] || 0.0)
+        issue.instance_variable_set :@spent_hours, (hours_by_issue_id[issue.id] || 0.0)
       end
     end
   end
@@ -1204,7 +1204,7 @@ class Issue < ActiveRecord::Base
           " AND parent.lft <= #{Issue.table_name}.lft AND parent.rgt >= #{Issue.table_name}.rgt").
         where("parent.id IN (?)", issues.map(&:id)).group("parent.id").sum(:hours)
       issues.each do |issue|
-        issue.instance_variable_set "@total_spent_hours", (hours_by_issue_id[issue.id] || 0.0)
+        issue.instance_variable_set :@total_spent_hours, (hours_by_issue_id[issue.id] || 0.0)
       end
     end
   end
@@ -1225,7 +1225,7 @@ class Issue < ActiveRecord::Base
           relations_from.select {|relation| relation.issue_from_id == issue.id} +
           relations_to.select {|relation| relation.issue_to_id == issue.id}
 
-        issue.instance_variable_set "@relations", IssueRelation::Relations.new(issue, relations.sort)
+        issue.instance_variable_set :@relations, IssueRelation::Relations.new(issue, relations.sort)
       end
     end
   end
@@ -1254,7 +1254,7 @@ class Issue < ActiveRecord::Base
 
       issues.each do |issue|
         journal = journals.detect {|j| j.journalized_id == issue.id}
-        issue.instance_variable_set("@last_updated_by", journal.try(:user) || '')
+        issue.instance_variable_set(:@last_updated_by, journal.try(:user) || '')
       end
     end
   end
@@ -1274,7 +1274,7 @@ class Issue < ActiveRecord::Base
 
       issues.each do |issue|
         journal = journals.detect {|j| j.journalized_id == issue.id}
-        issue.instance_variable_set("@last_notes", journal.try(:notes) || '')
+        issue.instance_variable_set(:@last_notes, journal.try(:notes) || '')
       end
     end
   end

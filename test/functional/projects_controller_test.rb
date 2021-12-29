@@ -139,8 +139,8 @@ class ProjectsControllerTest < Redmine::ControllerTest
     }
     assert_response :success
 
-    child_level1 = css_select('tr#project-5').map {|e| e.attr('class')}.first.split(' ')
-    child_level2 = css_select('tr#project-6').map {|e| e.attr('class')}.first.split(' ')
+    child_level1 = css_select('tr#project-5').map {|e| e.attr(:class)}.first.split(' ')
+    child_level2 = css_select('tr#project-6').map {|e| e.attr(:class)}.first.split(' ')
 
     assert_include 'idnt', child_level1
     assert_include 'idnt-1', child_level1

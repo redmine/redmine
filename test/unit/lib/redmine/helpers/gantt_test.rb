@@ -58,8 +58,8 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
     @gantt.project = @project
     @gantt.query = IssueQuery.new(:project => @project, :name => 'Gantt')
     @gantt.view = self
-    @gantt.instance_variable_set('@date_from', options[:date_from] || (today - 14))
-    @gantt.instance_variable_set('@date_to', options[:date_to] || (today + 14))
+    @gantt.instance_variable_set(:@date_from, options[:date_from] || (today - 14))
+    @gantt.instance_variable_set(:@date_to, options[:date_to] || (today + 14))
   end
   private :create_gantt
 

@@ -41,7 +41,7 @@ class GanttsController < ApplicationController
 
     respond_to do |format|
       format.html {render :action => "show", :layout => !request.xhr?}
-      if @gantt.respond_to?('to_image')
+      if @gantt.respond_to?(:to_image)
         format.png do
           send_data(@gantt.to_image,
                     :disposition => 'inline', :type => 'image/png',

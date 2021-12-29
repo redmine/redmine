@@ -1165,7 +1165,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_equal(
       [t2, t1, t3].map(&:id).map(&:to_s),
-      css_select('input[name="ids[]"]').map {|e| e.attr('value')}
+      css_select('input[name="ids[]"]').map {|e| e.attr(:value)}
     )
     get(
       :index,
@@ -1180,7 +1180,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_equal(
       [t3, t1, t2].map(&:id).map(&:to_s),
-      css_select('input[name="ids[]"]').map {|e| e.attr('value')}
+      css_select('input[name="ids[]"]').map {|e| e.attr(:value)}
     )
   end
 
@@ -1206,7 +1206,7 @@ class TimelogControllerTest < Redmine::ControllerTest
       get :index, :params => params.dup.merge(sort_criteria)
       assert_response :success
       expected_ids = expected.map(&:id).map(&:to_s)
-      actual_ids = css_select('input[name="ids[]"]').map {|e| e.attr('value')}
+      actual_ids = css_select('input[name="ids[]"]').map {|e| e.attr(:value)}
       assert_equal expected_ids, actual_ids
     end
   end
@@ -1242,7 +1242,7 @@ class TimelogControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
-    assert_equal [entry].map(&:id).map(&:to_s), css_select('input[name="ids[]"]').map {|e| e.attr('value')}
+    assert_equal [entry].map(&:id).map(&:to_s), css_select('input[name="ids[]"]').map {|e| e.attr(:value)}
   end
 
   def test_index_with_project_status_filter
@@ -1261,7 +1261,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     )
     assert_response :success
 
-    time_entries = css_select('input[name="ids[]"]').map {|e| e.attr('value')}
+    time_entries = css_select('input[name="ids[]"]').map {|e| e.attr(:value)}
     assert_include '1', time_entries
     assert_not_include '4', time_entries
   end
@@ -1308,7 +1308,7 @@ class TimelogControllerTest < Redmine::ControllerTest
       :v => {'issue.tracker_id' => ['2']}
     }
     assert_response :success
-    assert_equal [entry].map(&:id).map(&:to_s), css_select('input[name="ids[]"]').map {|e| e.attr('value')}
+    assert_equal [entry].map(&:id).map(&:to_s), css_select('input[name="ids[]"]').map {|e| e.attr(:value)}
   end
 
   def test_index_with_issue_tracker_column
@@ -1348,7 +1348,7 @@ class TimelogControllerTest < Redmine::ControllerTest
       :v => {'issue.category_id' => ['1']}
     }
     assert_response :success
-    assert_equal ['1', '2'], css_select('input[name="ids[]"]').map {|e| e.attr('value')}
+    assert_equal ['1', '2'], css_select('input[name="ids[]"]').map {|e| e.attr(:value)}
   end
 
   def test_index_with_issue_category_column
@@ -1383,7 +1383,7 @@ class TimelogControllerTest < Redmine::ControllerTest
       :v => {'author_id' => ['2']}
     }
     assert_response :success
-    assert_equal ['1'], css_select('input[name="ids[]"]').map {|e| e.attr('value')}
+    assert_equal ['1'], css_select('input[name="ids[]"]').map {|e| e.attr(:value)}
   end
 
   def test_index_with_author_column
@@ -1447,7 +1447,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_equal(
       [entry].map(&:id).map(&:to_s),
-      css_select('input[name="ids[]"]').map {|e| e.attr('value')}
+      css_select('input[name="ids[]"]').map {|e| e.attr(:value)}
     )
   end
 

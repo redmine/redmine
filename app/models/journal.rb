@@ -190,7 +190,7 @@ class Journal < ActiveRecord::Base
       journals.each do |journal|
         journal.details.each do |detail|
           if detail.property == 'cf'
-            detail.instance_variable_set "@custom_field", fields_by_id[detail.prop_key.to_i]
+            detail.instance_variable_set :@custom_field, fields_by_id[detail.prop_key.to_i]
           end
         end
       end

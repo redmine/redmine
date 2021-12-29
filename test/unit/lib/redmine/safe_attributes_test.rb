@@ -73,14 +73,14 @@ class Redmine::SafeAttributesTest < ActiveSupport::TestCase
 
   def test_set_safe_attributes
     p = Person.new
-    p.send('safe_attributes=', {'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith'}, User.anonymous)
+    p.send(:safe_attributes=, {'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith'}, User.anonymous)
     assert_equal 'John', p.firstname
     assert_equal 'Smith', p.lastname
     assert_nil p.login
 
     p = Person.new
     User.current = User.find(1)
-    p.send('safe_attributes=', {'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith'}, User.find(1))
+    p.send(:safe_attributes=, {'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith'}, User.find(1))
     assert_equal 'John', p.firstname
     assert_equal 'Smith', p.lastname
     assert_equal 'jsmith', p.login
