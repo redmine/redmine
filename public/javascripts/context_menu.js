@@ -46,6 +46,7 @@ function contextMenuClick(event) {
       } else {
         if (event.ctrlKey || event.metaKey) {
           contextMenuToggleSelection(tr);
+          contextMenuClearDocumentSelection();
         } else if (event.shiftKey) {
           lastSelected = contextMenuLastSelected();
           if (lastSelected.length) {
@@ -53,6 +54,7 @@ function contextMenuClick(event) {
             $('.hascontextmenu').each(function(){
               if (toggling || $(this).is(tr)) {
                 contextMenuAddSelection($(this));
+                contextMenuClearDocumentSelection();
               }
               if ($(this).is(tr) || $(this).is(lastSelected)) {
                 toggling = !toggling;
@@ -191,7 +193,6 @@ function contextMenuToggleSelection(tr) {
 function contextMenuAddSelection(tr) {
   tr.addClass('context-menu-selection');
   contextMenuCheckSelectionBox(tr, true);
-  contextMenuClearDocumentSelection();
 }
 
 function contextMenuRemoveSelection(tr) {
