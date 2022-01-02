@@ -150,7 +150,7 @@ zh:
   general_lang_name: 'Chinese/Simplified (简体中文)'
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
-  general_csv_encoding: gb18030
+  general_csv_encoding: GB18030
   general_pdf_fontname: stsongstdlight
   general_pdf_monospaced_fontname: stsongstdlight
   general_first_day_of_week: '7'
