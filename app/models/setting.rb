@@ -53,6 +53,7 @@ class Setting < ActiveRecord::Base
                   windows-1257
                   windows-1258
                   windows-31j
+                  windows-874
                   ISO-2022-JP
                   ISO-8859-1
                   ISO-8859-2
