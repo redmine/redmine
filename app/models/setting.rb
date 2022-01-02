@@ -73,6 +73,7 @@ class Setting < ActiveRecord::Base
                   EUC-JP
                   Shift_JIS
                   CP932
+                  CP949
                   GB18030
                   GBK
                   EUC-KR
