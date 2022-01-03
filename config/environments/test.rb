@@ -1,22 +1,47 @@
 # frozen_string_literal: true
 
-Rails.application.configure do
-  # Settings specified here will take precedence over those in config/application.rb
+require 'active_support/core_ext/integer/time'
 
-  # The test environment is used exclusively to run your application's
-  # test suite.  You never need to work with it otherwise.  Remember that
-  # your test database is "scratch space" for the test suite and is wiped
-  # and recreated between test runs.  Don't rely on the data there!
+# The test environment is used exclusively to run your application's
+# test suite. You never need to work with it otherwise. Remember that
+# your test database is "scratch space" for the test suite and is wiped
+# and recreated between test runs. Don't rely on the data there!
+
+Rails.application.configure do
+  # Settings specified here will take precedence over those in config/application.rb.
+
   config.cache_classes = true
+  # config.action_view.cache_template_loading = true
 
   # Do not eager load code on boot. This avoids loading your whole application
   # just for the purpose of running a single test. If you are using a tool that
   # preloads Rails for running tests, you may have to set it to true.
   config.eager_load = false
 
-  # Show full error reports and disable caching
-  config.consider_all_requests_local = true
+  # Configure public file server for tests with Cache-Control for performance.
+  config.public_file_server.enabled = true
+  config.public_file_server.headers = {
+    'Cache-Control' => "public, max-age=#{1.hour.to_i}"
+  }
+
+  # Show full error reports and disable caching.
+  config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
+  config.cache_store = :null_store
+
+  # Raise exceptions instead of rendering exception templates.
+  config.action_dispatch.show_exceptions = true
+
+  # Disable request forgery protection in test environment.
+  config.action_controller.allow_forgery_protection = false
+
+  # Disable sessions verifications in test environment.
+  config.redmine_verify_sessions = false
+
+  # Store uploaded files on the local file system in a temporary directory.
+  # config.active_storage.service = :test
+
+  config.action_mailer.perform_caching = false
 
   config.action_mailer.perform_deliveries = true
 
@@ -28,16 +53,22 @@ Rails.application.configure do
   # Disable Async delivery
   config.active_job.queue_adapter = :inline
 
-  # Disable request forgery protection in test environment.
-  config.action_controller.allow_forgery_protection = false
-
-  # Disable sessions verifications in test environment.
-  config.redmine_verify_sessions = false
-
-  # Print deprecation notices to stderr and the Rails logger.
+  # Print deprecation notices to the stderr.
   config.active_support.deprecation = [:stderr, :log]
 
-  config.secret_key_base = 'a secret token for running the tests'
+  # Raise exceptions for disallowed deprecations.
+  config.active_support.disallowed_deprecation = :raise
+
+  # Tell Active Support which deprecation messages to disallow.
+  config.active_support.disallowed_deprecation_warnings = []
 
   config.active_support.test_order = :random
+
+  # Raises error for missing translations.
+  # config.i18n.raise_on_missing_translations = true
+
+  # Annotate rendered view with file names.
+  # config.action_view.annotate_rendered_view_with_filenames = true
+
+  config.secret_key_base = 'a secret token for running the tests'
 end
