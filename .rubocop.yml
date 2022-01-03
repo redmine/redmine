@@ -124,6 +124,9 @@ Rails/CompactBlank:
 Rails/EnvironmentVariableAccess:
   Enabled: false
 
+Rails/FilePath:
+  Enabled: false
+
 Rails/HelperInstanceVariable:
   Enabled: false
 
@@ -164,6 +167,9 @@ Style/FrozenStringLiteralComment:
     - 'Rakefile'
     - 'config.ru'
     - 'config/additional_environment.rb'
+
+Style/GlobalStdStream:
+  Enabled: false
 
 Style/HashEachMethods:
   Enabled: true
