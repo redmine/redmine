@@ -2078,7 +2078,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       assert_select 'a', {:count => 0, :text => 'Watch'}
       assert_select 'a', {:count => 0, :text => 'Copy'}
       assert_select 'div.drdn-items a', {:count => 1, :text => 'Copy link'}
-      assert_select 'div.drdn-items a', {:count => 0, :text => 'Delete'}
+      assert_select 'div.drdn-items a', {:count => 0, :text => 'Delete issue'}
     end
     # anonymous role is allowed to add a note
     assert_select 'form#issue-form' do
@@ -2100,7 +2100,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       assert_select 'a', {:count => 1, :text => 'Watch'}
       assert_select 'a', {:count => 1, :text => 'Copy'}
       assert_select 'div.drdn-items a', {:count => 1, :text => 'Copy link'}
-      assert_select 'div.drdn-items a', {:count => 1, :text => 'Delete'}
+      assert_select 'div.drdn-items a', {:count => 1, :text => 'Delete issue'}
     end
     assert_select 'form#issue-form' do
       assert_select 'fieldset' do
@@ -3023,7 +3023,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     get(:show, :params => {:id => 1})
     assert_response :success
     assert_select 'a', :text => 'Edit'
-    assert_select 'a', :text => 'Delete'
+    assert_select 'a', :text => 'Delete issue'
   end
 
   def test_show_on_closed_project_should_not_display_edit_links
@@ -3032,7 +3032,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     get(:show, :params => {:id => 1})
     assert_response :success
     assert_select 'a', :text => 'Edit', :count => 0
-    assert_select 'a', :text => 'Delete', :count => 0
+    assert_select 'a', :text => 'Delete issue', :count => 0
   end
 
   def test_show_should_not_display_history_tabs_for_issue_without_journals
