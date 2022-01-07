@@ -72,7 +72,7 @@ class Import < ActiveRecord::Base
 
         separator = [',', ';'].max_by {|sep| content.count(sep)}
 
-        guessed_encoding = Redmine::CodesetUtil.guess_encoding(file_content)
+        guessed_encoding = Redmine::CodesetUtil.guess_encoding(content)
         encoding =
           (guessed_encoding && (
             Setting::ENCODINGS.detect {|e| e.casecmp?(guessed_encoding)} ||

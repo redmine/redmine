@@ -414,6 +414,9 @@ class IssueImportTest < ActiveSupport::TestCase
 
   def test_set_default_settings_should_guess_encoding
     import = generate_import('import_iso8859-1.csv')
+    user = User.generate!(:language => 'ja')
+    import.user = user
+    assert_equal 'CP932', lu(user, :general_csv_encoding)
     with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
       import.set_default_settings
       guessed_encoding = import.settings['encoding']
