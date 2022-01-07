@@ -70,7 +70,7 @@ class Import < ActiveRecord::Base
       begin
         content = File.read(filepath, 256)
 
-        separator = [',', ';'].sort_by {|sep| content.count(sep)}.last
+        separator = [',', ';'].max_by {|sep| content.count(sep)}
 
         guessed_encoding = Redmine::CodesetUtil.guess_encoding(file_content)
         encoding =
