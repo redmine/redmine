@@ -411,4 +411,31 @@ class IssueImportTest < ActiveSupport::TestCase
 
     assert_empty import.mapping
   end
+
+  def test_set_default_settings_should_guess_encoding
+    import = generate_import('import_iso8859-1.csv')
+    with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
+      import.set_default_settings
+      guessed_encoding = import.settings['encoding']
+      assert_equal 'ISO-8859-1', guessed_encoding
+    end
+    with_settings :repositories_encodings => 'UTF-8,iso8859-1' do
+      import.set_default_settings
+      guessed_encoding = import.settings['encoding']
+      assert_equal 'ISO-8859-1', guessed_encoding
+      assert_includes Setting::ENCODINGS, guessed_encoding
+    end
+  end
+
+  def test_set_default_settings_should_use_general_csv_encoding_when_cannnot_guess_encoding
+    import = generate_import('import_iso8859-1.csv')
+    user = User.generate!(:language => 'ja')
+    import.user = user
+    with_settings :repositories_encodings => 'UTF-8' do
+      import.set_default_settings
+      guessed_encoding = import.settings['encoding']
+      assert_equal 'CP932', lu(user, :general_csv_encoding)
+      assert_equal 'CP932', guessed_encoding
+    end
+  end
 end
