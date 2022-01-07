@@ -1271,8 +1271,8 @@ sq:
   default_issue_status_feedback: Përshtypje
   default_issue_status_closed: E mbyllur
   default_issue_status_rejected: E hedhur tej
-  default_doc_category_user: Dokumentim përdoruesi
-  default_doc_category_tech: Dokumentim përdoruesi
+  default_doc_category_user: User documentation
+  default_doc_category_tech: Technical documentation
   default_priority_low: E ulët
   default_priority_normal: Normale
   default_priority_high: E lartë
