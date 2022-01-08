@@ -60,10 +60,10 @@ class MyControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_select "tr#time-entry-#{with_issue.id}" do
       assert_select 'td.subject a[href="/issues/1"]'
-      assert_select 'td.hours', :text => '2.50'
+      assert_select 'td.hours', :text => '2:30'
     end
     assert_select "tr#time-entry-#{without_issue.id}" do
-      assert_select 'td.hours', :text => '3.50'
+      assert_select 'td.hours', :text => '3:30'
     end
   end
 

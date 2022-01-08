@@ -796,8 +796,8 @@ class ProjectsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 1
     get(:show, :params => {:id => 'ecookbook'})
     assert_select 'div.spent_time.box>ul' do
-      assert_select '>li:nth-child(1)', :text => 'Estimated time: 203.50 hours'
-      assert_select '>li:nth-child(2)', :text => 'Spent time: 162.90 hours'
+      assert_select '>li:nth-child(1)', :text => 'Estimated time: 203:30 hours'
+      assert_select '>li:nth-child(2)', :text => 'Spent time: 162:54 hours'
     end
   end
 

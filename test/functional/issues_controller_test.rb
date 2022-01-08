@@ -1322,7 +1322,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
-    assert_equal ['4.00', '3.00', '0.00'], columns_values_in_list('spent_hours')[0..2]
+    assert_equal ['4:00', '3:00', '0:00'], columns_values_in_list('spent_hours').first(3)
     Project.find(3).disable_module!(:time_tracking)
     get(
       :index,
@@ -1332,7 +1332,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
-    assert_equal ['3.00', '0.00', '0.00'], columns_values_in_list('spent_hours')[0..2]
+    assert_equal ['3:00', '0:00', '0:00'], columns_values_in_list('spent_hours').first(3)
   end
 
   def test_index_sort_by_total_spent_hours
@@ -1555,7 +1555,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         :c => %w(subject spent_hours)
       }
     )
-    assert_select 'table.issues tr#issue-3 td.spent_hours', :text => '1.00'
+    assert_select 'table.issues tr#issue-3 td.spent_hours', :text => '1:00'
   end
 
   def test_index_with_total_spent_hours_column
@@ -1567,7 +1567,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         :c => %w(subject total_spent_hours)
       }
     )
-    assert_select 'table.issues tr#issue-3 td.total_spent_hours', :text => '1.00'
+    assert_select 'table.issues tr#issue-3 td.total_spent_hours', :text => '1:00'
   end
 
   def test_index_with_total_estimated_hours_column
@@ -1874,21 +1874,21 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_index_with_estimated_hours_total
     Issue.delete_all
-    Issue.generate!(:estimated_hours => 5.5)
-    Issue.generate!(:estimated_hours => 1.1)
+    Issue.generate!(:estimated_hours => '5:30')
+    Issue.generate!(:estimated_hours => '1:06')
     get(:index, :params => {:t => %w(estimated_hours)})
     assert_response :success
     assert_select '.query-totals'
-    assert_select '.total-for-estimated-hours span.value', :text => '6.60'
+    assert_select '.total-for-estimated-hours span.value', :text => '6:36'
     assert_select 'input[type=checkbox][name=?][value=estimated_hours][checked=checked]', 't[]'
   end
 
   def test_index_with_grouped_query_and_estimated_hours_total
     Issue.delete_all
-    Issue.generate!(:estimated_hours => 5.5, :category_id => 1)
-    Issue.generate!(:estimated_hours => 2.3, :category_id => 1)
-    Issue.generate!(:estimated_hours => 1.1, :category_id => 2)
-    Issue.generate!(:estimated_hours => 4.6)
+    Issue.generate!(:estimated_hours => '5:30', :category_id => 1)
+    Issue.generate!(:estimated_hours => '2:18', :category_id => 1)
+    Issue.generate!(:estimated_hours => '1:06', :category_id => 2)
+    Issue.generate!(:estimated_hours => '4:36')
     get(
       :index,
       :params => {
@@ -1898,15 +1898,15 @@ class IssuesControllerTest < Redmine::ControllerTest
     )
     assert_response :success
     assert_select '.query-totals'
-    assert_select '.query-totals .total-for-estimated-hours span.value', :text => '13.50'
+    assert_select '.query-totals .total-for-estimated-hours span.value', :text => '13:30'
     assert_select 'tr.group', :text => /Printing/ do
-      assert_select '.total-for-estimated-hours span.value', :text => '7.80'
+      assert_select '.total-for-estimated-hours span.value', :text => '7:48'
     end
     assert_select 'tr.group', :text => /Recipes/ do
-      assert_select '.total-for-estimated-hours span.value', :text => '1.10'
+      assert_select '.total-for-estimated-hours span.value', :text => '1:06'
     end
     assert_select 'tr.group', :text => /blank/ do
-      assert_select '.total-for-estimated-hours span.value', :text => '4.60'
+      assert_select '.total-for-estimated-hours span.value', :text => '4:36'
     end
   end
 
@@ -1927,13 +1927,13 @@ class IssuesControllerTest < Redmine::ControllerTest
 
     get :index, :params => {:t => ["spent_hours"]}
     assert_response :success
-    assert_select ".total-for-spent-hours span.value", :text => '7.00'
+    assert_select ".total-for-spent-hours span.value", :text => '7:00'
 
     Project.find(3).disable_module!(:time_tracking)
 
     get :index, :params => {:t => ["spent_hours"]}
     assert_response :success
-    assert_select ".total-for-spent-hours span.value", :text => '3.00'
+    assert_select ".total-for-spent-hours span.value", :text => '3:00'
   end
 
   def test_index_totals_should_default_to_settings
@@ -5652,7 +5652,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           :priority_id => 7
         },
         :time_entry => {
-          :hours => '2.5',
+          :hours => '2:30',
           :comments => 'test_get_edit_with_params',
           :activity_id => 10
         }
@@ -5668,7 +5668,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       assert_select 'option[value="7"][selected=selected]', :text => 'Urgent'
     end
 
-    assert_select 'input[name=?][value="2.50"]', 'time_entry[hours]'
+    assert_select 'input[name=?][value="2:30"]', 'time_entry[hours]'
     assert_select 'select[name=?]', 'time_entry[activity_id]' do
       assert_select 'option[value="10"][selected=selected]', :text => 'Development'
     end

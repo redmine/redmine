@@ -204,8 +204,8 @@ class IssuesHelperTest < Redmine::HelperTest
   test 'show_detail should show old and new values with a estimated hours attribute' do
     detail = JournalDetail.new(:property => 'attr', :prop_key => 'estimated_hours',
                                :old_value => '5', :value => '6.3')
-    assert_match '5.00', show_detail(detail, true)
-    assert_match '6.30', show_detail(detail, true)
+    assert_match '5:00', show_detail(detail, true)
+    assert_match '6:18', show_detail(detail, true)
   end
 
   test 'show_detail should not show values with a description attribute' do

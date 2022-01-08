@@ -929,7 +929,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     get :index
     assert_response :success
 
-    assert_select '.total-for-hours', :text => 'Hours: 162.90'
+    assert_select '.total-for-hours', :text => 'Hours: 162:54'
     assert_select 'form#query_form[action=?]', '/time_entries'
 
     assert_equal ['Project', 'Date', 'User', 'Activity', 'Issue', 'Comment', 'Hours'], columns_in_list
@@ -1008,7 +1008,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     projects = css_select('table.time-entries tbody td.project').map(&:text).uniq.sort
     assert_equal ["eCookbook", "eCookbook Subproject 1"], projects
 
-    assert_select '.total-for-hours', :text => 'Hours: 162.90'
+    assert_select '.total-for-hours', :text => 'Hours: 162:54'
     assert_select 'form#query_form[action=?]', '/projects/ecookbook/time_entries'
 
     # 'Log time' shoudl link to log time on the filtered issue
@@ -1046,7 +1046,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
 
     get :index, :params => {:project_id => 'ecookbook', :issue_id => issue.id.to_s, :set_filter => 1}
-    assert_select '.total-for-hours', :text => 'Hours: 7.00'
+    assert_select '.total-for-hours', :text => 'Hours: 7:00'
 
     # 'Log time' shoudl link to log time on the filtered issue
     assert_select 'a[href=?]', "/issues/#{issue.id}/time_entries/new"
@@ -1060,7 +1060,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
 
     get :index, :params => {:project_id => 'ecookbook', :"issue.fixed_version_id" => version.id.to_s, :set_filter => 1}
-    assert_select '.total-for-hours', :text => 'Hours: 5.00'
+    assert_select '.total-for-hours', :text => 'Hours: 5:00'
   end
 
   def test_index_at_project_level_with_multiple_issue_fixed_version_ids
@@ -1084,7 +1084,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_select 'tr.time-entry', 2
-    assert_select '.total-for-hours', :text => 'Hours: 5.00'
+    assert_select '.total-for-hours', :text => 'Hours: 5:00'
   end
 
   def test_index_at_project_level_with_date_range
@@ -1100,7 +1100,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_select 'tr.time-entry', 3
-    assert_select '.total-for-hours', :text => 'Hours: 12.90'
+    assert_select '.total-for-hours', :text => 'Hours: 12:54'
     assert_select 'form#query_form[action=?]', '/projects/ecookbook/time_entries'
   end
 
@@ -1116,7 +1116,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_select 'tr.time-entry', 3
-    assert_select '.total-for-hours', :text => 'Hours: 12.90'
+    assert_select '.total-for-hours', :text => 'Hours: 12:54'
     assert_select 'form#query_form[action=?]', '/projects/ecookbook/time_entries'
   end
 
@@ -1528,7 +1528,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     get :index, :params => {:project_id => 1, :format => 'atom'}
     assert_response :success
     assert_equal 'application/atom+xml', @response.media_type
-    assert_select 'entry > title', :text => /7\.65 hours/
+    assert_select 'entry > title', :text => /7:39 hours/
   end
 
   def test_index_at_project_level_should_include_csv_export_dialog

@@ -170,7 +170,7 @@ date_format:
 time_format:
   default: ''
 timespan_format:
-  default: 'decimal'
+  default: 'minutes'
 user_format:
   default: :firstname_lastname
   format: symbol
