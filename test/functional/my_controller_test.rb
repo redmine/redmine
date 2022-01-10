@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -60,10 +60,10 @@ class MyControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_select "tr#time-entry-#{with_issue.id}" do
       assert_select 'td.subject a[href="/issues/1"]'
-      assert_select 'td.hours', :text => '2.50'
+      assert_select 'td.hours', :text => '2:30'
     end
     assert_select "tr#time-entry-#{without_issue.id}" do
-      assert_select 'td.hours', :text => '3.50'
+      assert_select 'td.hours', :text => '3:30'
     end
   end
 
@@ -265,7 +265,7 @@ class MyControllerTest < Redmine::ControllerTest
 
     assert_response :success
     assert_select '#block-issuesupdatedbyme' do
-      report_url = CGI.unescape(css_select('h3 a').first.attr('href'))
+      report_url = CGI.unescape(css_select('h3 a').first.attr(:href))
       assert_match 'f[]=project.status', report_url
       assert_match 'v[project.status][]=1', report_url
       assert_match 'f[]=updated_by', report_url
@@ -306,7 +306,7 @@ class MyControllerTest < Redmine::ControllerTest
 
     assert_response :success
     assert_select '#block-issuesassignedtome table.issues tbody' do
-      report_url = css_select('h3 a').map {|e| e.attr('href')}.first
+      report_url = css_select('h3 a').map {|e| e.attr(:href)}.first
       assert_match 'f%5B%5D=project.status', report_url
       assert_match 'v%5Bproject.status%5D%5B%5D=1', report_url
 
@@ -334,7 +334,7 @@ class MyControllerTest < Redmine::ControllerTest
 
     assert_response :success
     assert_select '#block-issuesreportedbyme' do
-      report_url = css_select('h3 a').map {|e| e.attr('href')}.first
+      report_url = css_select('h3 a').map {|e| e.attr(:href)}.first
       assert_match 'f%5B%5D=project.status', report_url
       assert_match 'v%5Bproject.status%5D%5B%5D=1', report_url
 
@@ -366,7 +366,7 @@ class MyControllerTest < Redmine::ControllerTest
 
     assert_response :success
     assert_select '#block-issueswatched table.issues tbody' do
-      report_url = css_select('h3 a').map {|e| e.attr('href')}.first
+      report_url = css_select('h3 a').map {|e| e.attr(:href)}.first
       assert_match 'f%5B%5D=project.status', report_url
       assert_match 'v%5Bproject.status%5D%5B%5D=1', report_url
 

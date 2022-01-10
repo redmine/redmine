@@ -3,7 +3,7 @@
     <li><%= context_menu_link l(:button_edit), {:controller => 'timelog', :action => 'edit', :id => @time_entry},
             :class => 'icon icon-edit', :disabled => !@can[:edit] %></li>
   <% else %>
-    <li><%= context_menu_link l(:button_edit), {:controller => 'timelog', :action => 'bulk_edit', :ids => @time_entries.collect(&:id)},
+    <li><%= context_menu_link l(:label_bulk_edit), {:controller => 'timelog', :action => 'bulk_edit', :ids => @time_entries.collect(&:id)},
             :class => 'icon icon-edit', :disabled => !@can[:edit] %></li>
   <% end %>
 

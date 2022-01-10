@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -38,6 +38,7 @@ class UserPreference < ActiveRecord::Base
     'recently_used_projects',
     'history_default_tab',
     'default_issue_query',
+    'default_project_query',
     'toolbar_language_options')
 
   TEXTAREA_FONT_OPTIONS = ['monospace', 'proportional']
@@ -119,6 +120,9 @@ class UserPreference < ActiveRecord::Base
 
   def default_issue_query; self[:default_issue_query] end
   def default_issue_query=(value); self[:default_issue_query]=value; end
+
+  def default_project_query; self[:default_project_query] end
+  def default_project_query=(value); self[:default_project_query]=value; end
 
   # Returns the names of groups that are displayed on user's page
   # Example:

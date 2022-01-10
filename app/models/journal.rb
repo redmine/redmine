@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -138,7 +138,7 @@ class Journal < ActiveRecord::Base
   end
 
   def attachments
-    journalized.respond_to?(:attachments) ? journalized.attachments : []
+    details.select{ |d| d.property == 'attachment' }.map{ |d| Attachment.find_by(:id => d.prop_key) }.compact
   end
 
   # Returns a string of css classes
@@ -190,7 +190,7 @@ class Journal < ActiveRecord::Base
       journals.each do |journal|
         journal.details.each do |detail|
           if detail.property == 'cf'
-            detail.instance_variable_set "@custom_field", fields_by_id[detail.prop_key.to_i]
+            detail.instance_variable_set :@custom_field, fields_by_id[detail.prop_key.to_i]
           end
         end
       end

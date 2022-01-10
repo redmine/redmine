@@ -423,7 +423,6 @@
   field_parent_title: 父頁面
   field_editable: 可編輯
   field_watcher: 監看員
-  field_identity_url: OpenID 網址
   field_content: 內容
   field_group_by: 結果分組方式
   field_sharing: 共用
@@ -510,7 +509,6 @@
   setting_diff_max_lines_displayed: 差異顯示行數之最大值
   setting_file_max_size_displayed: 檔案內容顯示大小之最大值
   setting_repository_log_display_limit: 修訂版顯示數目之最大值
-  setting_openid: 允許使用 OpenID 登入與註冊
   setting_password_max_age: 必須在多少天後變更密碼
   setting_password_min_length: 密碼最小長度
   setting_lost_password: 允許使用電子郵件重新設定密碼
@@ -686,7 +684,6 @@
   label_information: 資訊
   label_information_plural: 資訊
   label_register: 註冊
-  label_login_with_open_id_option: 或使用 OpenID 登入
   label_password_lost: 遺失密碼
   label_password_required: 確認您的密碼後繼續
   label_home: 網站首頁
@@ -1452,7 +1449,6 @@
   twofa_text_group_required: 此設定僅供系統的全域雙因素驗證設定'選用項'時才有效. 目前系統中所有的用戶都必須使用雙因素驗證.
   twofa_text_group_disabled: 此設定僅供系統的全域雙因素驗證設定'選用項'時才有效. 目前系統的雙因素驗證設定值是'關閉'.
   field_default_issue_query: 預設議題查詢
-  setting_default_issue_query: 預設查詢
   label_default_queries:
     for_all_projects: 對於全部專案
     for_current_project: 對於目前專案
@@ -1462,3 +1458,10 @@
   button_save_object: 儲存 %{object_name}
   button_edit_object: 編輯 %{object_name}
   button_delete_object: 刪除 %{object_name}
+  text_setting_config_change: 您可以在 config/configuration.yml 檔案中, 設定此行為.
+    檔案編輯完成後請重新啟動應用程式.
+  label_bulk_edit: 大量編輯
+  button_create_and_follow: 建立並跟隨
+  label_subtask: 子任務
+  label_default_query: 預設查詢
+  field_default_project_query: 預設專案查詢

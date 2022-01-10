@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -41,7 +41,7 @@ class GanttsController < ApplicationController
 
     respond_to do |format|
       format.html {render :action => "show", :layout => !request.xhr?}
-      if @gantt.respond_to?('to_image')
+      if @gantt.respond_to?(:to_image)
         format.png do
           send_data(@gantt.to_image,
                     :disposition => 'inline', :type => 'image/png',

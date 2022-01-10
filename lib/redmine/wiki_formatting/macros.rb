@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -250,7 +250,7 @@ module Redmine
           link_to_function(
             hide_label, js,
             :id => "#{html_id}-hide",
-            :class => 'icon icon-expended collapsible',
+            :class => 'icon icon-expanded collapsible',
             :style => 'display:none;'
           )
         out <<

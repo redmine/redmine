@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -208,11 +208,11 @@ class AttachmentTest < ActiveSupport::TestCase
     copy = a.copy
     copy.save!
 
-    assert File.exists?(diskfile)
+    assert File.exist?(diskfile)
     a.destroy
-    assert File.exists?(diskfile)
+    assert File.exist?(diskfile)
     copy.destroy
-    assert !File.exists?(diskfile)
+    assert !File.exist?(diskfile)
   end
 
   def test_create_should_auto_assign_content_type
@@ -362,9 +362,7 @@ class AttachmentTest < ActiveSupport::TestCase
     a = Attachment.find(20)
     assert a.disk_directory.blank?
     # Create a real file for this fixture
-    File.open(a.diskfile, "w") do |f|
-      f.write "test file at the root of files directory"
-    end
+    File.write(a.diskfile, 'test file at the root of files directory')
     assert a.readable?
     Attachment.move_from_root_to_target_directory
 
@@ -389,7 +387,7 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 59, attachment.filesize
     assert_equal 'test', attachment.description
     assert_equal 'text/plain', attachment.content_type
-    assert File.exists?(attachment.diskfile)
+    assert File.exist?(attachment.diskfile)
     assert_equal 59, File.size(attachment.diskfile)
   end
 

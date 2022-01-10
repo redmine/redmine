@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -158,7 +158,7 @@ class Redmine::I18nTest < ActiveSupport::TestCase
 
   def test_l_hours_short
     set_language_if_valid 'en'
-    assert_equal '2.00 h', l_hours_short(2.0)
+    assert_equal '2:00 h', l_hours_short(2.0)
   end
 
   def test_number_to_currency_default

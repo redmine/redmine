@@ -1,13 +1,13 @@
 == Redmine installation
 
 Redmine - project management software
-Copyright (C) 2006-2021  Jean-Philippe Lang
+Copyright (C) 2006-2022  Jean-Philippe Lang
 http://www.redmine.org/
 
 
 == Requirements
 
-* Ruby 2.5, 2.6, 2.7, 3.0
+* Ruby 2.5, 2.6, 2.7, 3.0, 3.1
 * Bundler >= 1.12.0
 
 * A database:

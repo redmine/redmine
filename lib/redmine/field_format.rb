@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -997,7 +997,7 @@ module Redmine
         elsif value.is_a?(String)
           value = set_custom_field_value_by_id(custom_field, custom_field_value, value)
         end
-        custom_field_value.instance_variable_set "@attachment_present", attachment_present
+        custom_field_value.instance_variable_set :@attachment_present, attachment_present
 
         value
       end
@@ -1021,7 +1021,7 @@ module Redmine
         errors = []
 
         if custom_value.value.blank?
-          if custom_value.instance_variable_get("@attachment_present")
+          if custom_value.instance_variable_get(:@attachment_present)
             errors << ::I18n.t('activerecord.errors.messages.invalid')
           end
         else

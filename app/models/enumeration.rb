@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -117,7 +117,7 @@ class Enumeration < ActiveRecord::Base
   # Does the +new+ Hash have the same custom values as the previous Enumeration?
   def self.same_custom_values?(new, previous)
     previous.custom_field_values.each do |custom_value|
-      if custom_value.value != new["custom_field_values"][custom_value.custom_field_id.to_s]
+      if custom_value.to_s != new["custom_field_values"][custom_value.custom_field_id.to_s].to_s
         return false
       end
     end
@@ -174,8 +174,3 @@ class Enumeration < ActiveRecord::Base
     end
   end
 end
-
-# Force load the subclasses in development mode
-require_dependency 'time_entry_activity'
-require_dependency 'document_category'
-require_dependency 'issue_priority'

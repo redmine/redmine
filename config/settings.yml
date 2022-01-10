@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -170,7 +170,7 @@ date_format:
 time_format:
   default: ''
 timespan_format:
-  default: 'decimal'
+  default: 'minutes'
 user_format:
   default: :firstname_lastname
   format: symbol
@@ -249,6 +249,8 @@ project_list_defaults:
     - name
     - identifier
     - short_description
+default_project_query:
+  default: ''
 issue_done_ratio:
   default: 'issue_field'
 default_projects_public:
@@ -301,9 +303,6 @@ emails_footer:
     To change your notification preferences, please click here: http://hostname/my/account
 gravatar_enabled:
   default: 0
-openid:
-  default: 0
-  security_notifications: 1
 gravatar_default:
   default: 'identicon'
 start_of_week:

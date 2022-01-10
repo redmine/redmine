@@ -7,69 +7,69 @@ sq:
       # When no format has been given, it uses default.
       # You can provide other formats here if you like!
       default: "%m/%d/%Y"
-      short: "%b %d"
-      long: "%B %d, %Y"
+      short: "%d %b"
+      long: "%d %B, %Y"
 
-    day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
-    abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
+    day_names: [E diel, E hënë, E martë, E mërkurë, E enjte, E premte, E shtunë]
+    abbr_day_names: [Die, Hën, Mar, Mër, Enj, Pre, Sht]
 
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
-    abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+    month_names: [~, Janar, Shkurt, Mars, Prill, Maj, Qershor, Korrik, Gusht, Shtator, Tetor, Nëntor, Dhjetor]
+    abbr_month_names: [~, Jan, Shk, Mar, Pri, Maj, Qer, Kor, Gus, Sht, Tet, Nën, Dhj]
     # Used in date_select and datime_select.
     order:
-      - :year
-      - :month
-      - :day
+      - :vit
+      - :muaj
+      - :ditë
 
   time:
     formats:
-      default: "%m/%d/%Y %I:%M %p"
+      default: "%d/%m/%Y %I:%M %p"
       time: "%I:%M %p"
       short: "%d %b %H:%M"
-      long: "%B %d, %Y %H:%M"
+      long: "%d %B, %Y %H:%M"
     am: "am"
     pm: "pm"
 
   datetime:
     distance_in_words:
-      half_a_minute: "half a minute"
+      half_a_minute: "gjysmë minute"
       less_than_x_seconds:
-        one:   "less than 1 second"
-        other: "less than %{count} seconds"
+        one:   "më pak se 1 sekondë"
+        other: "më pak se %{count} sekonda"
       x_seconds:
-        one:   "1 second"
-        other: "%{count} seconds"
+        one:   "1 sekondë"
+        other: "%{count} sekonda"
       less_than_x_minutes:
-        one:   "less than a minute"
-        other: "less than %{count} minutes"
+        one:   "më pak se një minutë"
+        other: "më pak se %{count} minuta"
       x_minutes:
-        one:   "1 minute"
-        other: "%{count} minutes"
+        one:   "1 minutë"
+        other: "%{count} minuta"
       about_x_hours:
-        one:   "about 1 hour"
-        other: "about %{count} hours"
+        one:   "rreth 1 orë"
+        other: "rreth %{count} orë"
       x_hours:
-        one:   "1 ore"
-        other: "%{count} ore"
+        one:   "1 orë"
+        other: "%{count} orë"
       x_days:
-        one:   "1 day"
-        other: "%{count} days"
+        one:   "1 ditë"
+        other: "%{count} ditë"
       about_x_months:
-        one:   "about 1 month"
-        other: "about %{count} months"
+        one:   "rreth 1 muaj"
+        other: "rreth %{count} muaj"
       x_months:
-        one:   "1 month"
-        other: "%{count} months"
+        one:   "1 muaj"
+        other: "%{count} muaj"
       about_x_years:
-        one:   "about 1 year"
-        other: "about %{count} years"
+        one:   "rreth 1 vit"
+        other: "rreth %{count} vjet"
       over_x_years:
-        one:   "over 1 year"
-        other: "over %{count} years"
+        one:   "mbi 1 vit"
+        other: "mbi %{count} vjet"
       almost_x_years:
-        one:   "almost 1 year"
-        other: "almost %{count} years"
+        one:   "thuajse 1 vit"
+        other: "thuajse %{count} vjet"
 
   number:
     format:
@@ -85,8 +85,8 @@ sq:
         format: "%n %u"
         units:
           byte:
-            one: "Byte"
-            other: "Bytes"
+            one: "Bajt"
+            other: "Bajte"
           kb: "KB"
           mb: "MB"
           gb: "GB"
@@ -102,42 +102,42 @@ sq:
     errors:
       template:
         header:
-          one:    "1 gabim nuk lejon kete %{model} te ruhet"
-          other:  "%{count} gabime nuk lejon kete %{model} te ruhet"
+          one:    "Ruajtja e këtij %{model} u pengua nga 1 gabim"
+          other:  "Ruajtja e këtij %{model} u pengua nga %{count} gabime"
       messages:
-        inclusion: "nuk eshte perfshire ne liste"
-        exclusion: "eshte i/e rezervuar"
-        invalid: "eshte invalid"
-        confirmation: "nuk perkon me konfirmimin"
+        inclusion: "s’përfshihet te lista"
+        exclusion: "është i rezervuar"
+        invalid: "është i pavlefshëm"
+        confirmation: "s’përputhet me ripohimin"
         accepted: "duhet pranuar"
-        empty: "nuk mund te jete bosh"
-        blank: "nuk mund te jete blank"
-        too_long: "eshte shume i gjate (maksimumi eshte %{count} karaktere)"
-        too_short: "eshte shume i gjate (minimumi eshte %{count} karaktere)"
-        wrong_length: "eshte gjatesi e gabuar (duhet te jete %{count} karaktere)"
-        taken: "eshte zene"
-        not_a_number: "nuk eshte numer"
-        not_a_date: "nuk eshte date e vlefshme"
-        greater_than: "duhet te jete me i/e madh(e) se %{count}"
-        greater_than_or_equal_to: "duhet te jete me i/e madh(e) se ose i/e barabarte me %{count}"
-        equal_to: "duhet te jete i/e barabarte me %{count}"
-        less_than: "duhet te jete me i/e vogel se %{count}"
-        less_than_or_equal_to: "duhet te jete me i/e vogel se ose i/e barabarte me %{count}"
-        odd: "duhet te jete tek"
-        even: "duhet te jete cift"
-        greater_than_start_date: "duhet te jete me i/e madh(e) se data e fillimit"
-        not_same_project: "nuk i perket te njejtit projekt"
-        circular_dependency: "Ky relacion do te krijoje nje varesi ciklike (circular dependency)"
-        cant_link_an_issue_with_a_descendant: "Nje ceshtje nuk mund te lidhet me nenceshtje"
-        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
-        not_a_regexp: "is not a valid regular expression"
-        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
-        must_contain_uppercase: "must contain uppercase letters (A-Z)"
-        must_contain_lowercase: "must contain lowercase letters (a-z)"
-        must_contain_digits: "must contain digits (0-9)"
-        must_contain_special_chars: "must contain special characters (!, $, %, ...)"
+        empty: "s’mund të jetë i zbrazët"
+        blank: "s’mund të jetë hiç"
+        too_long: "është shumë i gjatë (maksimumi është %{count} shenja)"
+        too_short: "është shumë i shkurtër (minimumi është %{count} shenja)"
+        wrong_length: "ka gjatësi të gabuar (duhet të jetë %{count} shenja)"
+        taken: "është zënë tashmë"
+        not_a_number: "s’është numër"
+        not_a_date: "s’është datë e vlefshme"
+        greater_than: "duhet të jetë më e madhe se %{count}"
+        greater_than_or_equal_to: "duhet të jetë më e madhe ose baras me %{count}"
+        equal_to: "duhet të jetë baras me %{count}"
+        less_than: "duhet të jetë më e vogël se %{count}"
+        less_than_or_equal_to: "duhet të jetë më e vogël ose baras me %{count}"
+        odd: "duhet të jetë numër tek"
+        even: "duhet të jetë numër çift"
+        greater_than_start_date: "duhet të jetë më e madhe se data e fillimit"
+        not_same_project: "s’bën pjesë te i njëjti projekt"
+        circular_dependency: "Kjo marrëdhënie do të krijonte një varësi rrethore"
+        cant_link_an_issue_with_a_descendant: "Një çështje s’mund të lidhet te një nga nënpunët e veta"
+        earlier_than_minimum_start_date: "s’mund të bjerë më herët se sa %{date}, për shkak të çështjeve të mëparshme"
+        not_a_regexp: "s’është shprehje e rregullt e vlefshme"
+        open_issue_with_closed_parent: "Një çështje e hapur s’mund t’i bashkëngjitet një pune mëmë të mbyllur"
+        must_contain_uppercase: "duhet të përmbajë shkronja të mëdha (A-Z)"
+        must_contain_lowercase: "duhet të përmbajë shkronja të vogla (a-z)"
+        must_contain_digits: "duhet të përmbajë shifra (0-9)"
+        must_contain_special_chars: "duhet të përmbajë shenja speciale (!, $, %, …)"
 
-  actionview_instancetag_blank_option: Zgjidhni
+  actionview_instancetag_blank_option: Ju lutemi, përzgjidhni
 
   general_text_No: 'Jo'
   general_text_Yes: 'Po'
@@ -151,1232 +151,1195 @@ sq:
   general_pdf_monospaced_fontname: freemono
   general_first_day_of_week: '7'
 
-  notice_account_updated: Llogaria u perditesua me sukses.
-  notice_account_invalid_credentials: Perdorues ose Fjalekalim i gabuar.
-  notice_account_password_updated: Fjalekalimi u ndryshua me sukses.
-  notice_account_wrong_password: Fjalekalim i gabuar
-  notice_account_register_done: Llogaria u krijua me sukses. Per te aktivizuar Llogarine tuaj, ndiqni link-un e derguar ne email-in tuaj.
-  notice_account_unknown_email: Perdorues i paidentifikuar.
-  notice_can_t_change_password: Kjo Llogari administrohet nga nje server tjeter. E pamundur te ndryshohet Fjalekalimi.
-  notice_account_lost_email_sent: Ju eshte derguar nje email me instruksionet per te zgjedhur nje Fjalekalim te ri.
-  notice_account_activated: Llogaria juaj u Aktivizua. Tani mund te beni Login.
-  notice_successful_create: Krijim me sukses.
-  notice_successful_update: Modifikim me sukses.
-  notice_successful_delete: Fshirje me sukses.
+  notice_account_updated: Llogaria u përditësua me sukses.
+  notice_account_invalid_credentials: Përdorues ose fjalëkalim i pavlefshëm
+  notice_account_password_updated: Fjalëkalimi u përditësua me sukses.
+  notice_account_wrong_password: Fjalëkalim i gabuar
+  notice_account_register_done: Llogaria u krijua me sukses. Te %{email} u dërgua një email që përmban udhëzimet si të aktivizohet llogaria juaj.
+  notice_account_unknown_email: Përdorues i panjohur.
+  notice_account_not_activated_yet: S’e keni aktivizuar ende llogarinë tuaj. Nëse doni të merrni një email të ri aktivizimi, ju lutemi, <a href="%{url}">klikoni mbi këtë lidhje</a>.
+  notice_account_locked: Llogaria juaj është e kyçur.
+  notice_can_t_change_password: Kjo llogari përdor një burim të jashtëm mirëfilltësimesh. E pamundur të ndryshohet fjalëkalimi.
+  notice_account_lost_email_sent: Ju është dërguar një email me udhëzime si të zgjidhet një fjalëkalim i ri.
+  notice_account_activated: Llogaria juaj u aktivizua. Tani mund të bëni hyrjen në të.
+  notice_successful_create: Krijim i suksesshëm.
+  notice_successful_update: Përditësim i suksesshëm.
+  notice_successful_delete: Fshirje e suksesshme.
   notice_successful_connection: Lidhje e suksesshme.
-  notice_file_not_found: Faqja qe po kerkoni te aksesoni nuk ekziston ose eshte shperngulur.
-  notice_locking_conflict: Te dhenat jane modifikuar nga nje Perdorues tjeter.
-  notice_not_authorized: Nuk jeni i autorizuar te aksesoni kete faqe.
-  notice_not_authorized_archived_project: Projekti, qe po tentoni te te aksesoni eshte arkivuar.
-  notice_email_sent: "Nje email eshte derguar ne %{value}"
-  notice_email_error: "Pati nje gabim gjate dergimit te email-it (%{value})"
-  notice_feeds_access_key_reseted: Your Atom access key was reset.
-  notice_api_access_key_reseted: Your API access key was reset.
-  notice_failed_to_save_issues: "Deshtoi ne ruajtjen e %{count} ceshtje(ve) ne %{total} te zgjedhura: %{ids}."
-  notice_failed_to_save_time_entries: "Deshtoi ne ruajtjen e %{count} time entrie(s) ne %{total} te zgjedhura: %{ids}."
-  notice_failed_to_save_members: "Deshtoi ne ruajtjen e member(s): %{errors}."
-  notice_account_pending: "Llogaria juaj u krijua dhe eshte ne pritje te aprovimit nga nje administrator."
-  notice_default_data_loaded: Konfigurimi i paracaktuar u ngarkua me sukses.
-  notice_unable_delete_version: E pamundur te fshije versionin.
-  notice_unable_delete_time_entry: E pamundur te fshije rekordin e log-ut.
-  notice_issue_done_ratios_updated: Issue done ratios updated.
-  notice_gantt_chart_truncated: "The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})"
-  notice_issue_successful_create: "Ceshtja %{id} u krijua."
-  notice_issue_update_conflict: "Ceshtja eshte perditesuar nga Perdorues te tjere nderkohe qe ju po e modifikonit ate."
-  notice_account_deleted: "Llogaria juaj u fshi perfundimisht."
+  notice_file_not_found: Faqja ku po rrekeni të hyni s’ekziston ose është hequr.
+  notice_locking_conflict: Të dhënat janë përditësuar nga një tjetër përdorues.
+  notice_not_authorized: S’jeni i autorizuar të hyni në këtë faqe.
+  notice_not_authorized_archived_project: Projekti ku po rrekeni të hyni është arkivuar.
+  notice_email_sent: "U dërgua një email te %{value}"
+  notice_email_error: "Ndodhi një gabim teksa dërgohej email (%{value})"
+  notice_feeds_access_key_reseted: Kyçi juaj për përdorim të Atom-it u ricaktua.
+  notice_api_access_key_reseted: Kyçi juaj për përdorim të API-t u ricaktua.
+  notice_failed_to_save_issues: "S’u arrit të ruhej %{count} çështje në %{total} të përzgjedhura: %{ids}."
+  notice_failed_to_save_time_entries: "S’u arrit të ruhej %{count} zë(ra) kohe në %{total} të përzgjedhur: %{ids}."
+  notice_failed_to_save_members: "S’u arrit të ruhej anëtar(ë): %{errors}."
+  notice_account_pending: "Llogaria juaj u krijua dhe tani po pret miratim në përgjegjësi."
+  notice_default_data_loaded: Formësimi parazgjedhje u ngarkua me sukses.
+  notice_unable_delete_version: S’arrihet të fshihet version.
+  notice_unable_delete_time_entry: S’arrihet të fshihet që regjistrimi kohor.
+  notice_issue_done_ratios_updated: U përditësuan përpjesëtime përfundimi çështjesh.
+  notice_gantt_chart_truncated: "Grafiku u cungua, ngaqë tejkalon numrin maksimum të objekteve që mund të shfaqen (%{max})"
+  notice_issue_successful_create: "Çështja %{id} u krijua."
+  notice_issue_update_conflict: "Çështja është përditësuar nga një tjetër përdorues teksa e përpunonit."
+  notice_account_deleted: "Llogaria juaj është fshirë përgjithmonë."
+  notice_user_successful_create: "Përdoruesi %{id} u krijua."
+  notice_new_password_must_be_different: Fjalëkalimi i ri duhet të jetë i ndryshëm nga fjalëkalimi i tanishëm
+  notice_import_finished: "U importuan %{count} objekte"
+  notice_import_finished_with_errors: "S’u importuan dot %{count} nga %{total} objekte gjithsej"
+  notice_issue_not_closable_by_open_tasks: "Kjo çështje s’mund të mbyllet, ngaqë ka të paktën një nënpunë të hapur."
+  notice_issue_not_closable_by_blocking_issue: "Kjo çështje s’mund të mbyllet, ngaqë është e bllokuar nga të paktën një çështje e hapur."
+  notice_issue_not_reopenable_by_closed_parent_issue: "Kjo çështje s’mund të rihapet, ngaqë çështja mëmë e saj është e mbyllur."
 
-  error_can_t_load_default_data: "Konfigurimi i paracaktuar nuk mund te ngarkohet: %{value}"
-  error_scm_not_found: "The entry or revision was not found in the repository."
-  error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
-  error_scm_annotate: "The entry does not exist or cannot be annotated."
-  error_scm_annotate_big_text_file: "The entry cannot be annotated, as it exceeds the maximum text file size."
-  error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
-  error_no_tracker_in_project: 'No tracker is associated to this project. Please check the Project settings.'
-  error_no_default_issue_status: 'No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").'
-  error_can_not_delete_custom_field: Unable to delete custom field
-  error_can_not_delete_tracker: "This tracker contains issues and cannot be deleted."
-  error_can_not_remove_role: "This role is in use and cannot be deleted."
-  error_can_not_reopen_issue_on_closed_version: 'An issue assigned to a closed version cannot be reopened'
-  error_can_not_archive_project: This project cannot be archived
-  error_issue_done_ratios_not_updated: "Issue done ratios not updated."
-  error_workflow_copy_source: 'Please select a source tracker or role'
-  error_workflow_copy_target: 'Please select target tracker(s) and role(s)'
-  error_unable_delete_issue_status: 'Unable to delete issue status (%{value})'
-  error_unable_to_connect: "Unable to connect (%{value})"
-  error_attachment_too_big: "This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})"
-  warning_attachments_not_saved: "%{count} file(s) could not be saved."
+  error_can_t_load_default_data: "S’u ngarkua dot formësimi parazgjedhje: %{value}"
+  error_scm_not_found: "Zëri ose rishikimi s’u gjet te depoja."
+  error_scm_command_failed: "Ndodhi një gabim teksa provohej të hyhej te depoja: %{value}"
+  error_scm_annotate: "Zëri s’ekziston ose s’mund t’i vihet shënim."
+  error_scm_annotate_big_text_file: "Zërit s’mund t’i vihet shënim, ngaqë tejkalon madhësi maksimum kartelash tekst."
+  error_issue_not_found_in_project: 'Çështja s’u gjet ose s’i përket këtij projekti'
+  error_no_tracker_in_project: 'S’ka ndjekës përshoqëruar këtij projekti. Ju lutemi, kontrolloni rregullimet e Projektit.'
+  error_no_default_issue_status: 'S’është përkufizuar gjendje parazgjedhje çështjesh. Ju lutemi, kontrolloni formësimin tuaj (Shkoni te "Administrim -> Gjendje çështjesh").'
+  error_can_not_delete_custom_field: S’arrihet të fshihet fushë vetjake
+  error_can_not_delete_tracker: "Ky ndjekës përmban çështje dhe s’mund të fshihet."
+  error_can_not_remove_role: "Ky rol është në përdorim dhe s’mund të fshihet."
+  error_can_not_reopen_issue_on_closed_version: 'S’mund të rihapet një çështje caktuar një versioni të mbyllur'
+  error_can_not_archive_project: Ky projekt s’mund të arkivohet
+  error_issue_done_ratios_not_updated: "S’u përditësuan përpjesëtime përfundimesh çështjesh."
+  error_workflow_copy_source: 'Ju lutemi, përzgjidhni një ndjekës ose rol burim'
+  error_workflow_copy_target: 'Ju lutemi, përzgjidhni ndjekës dhe rol(e) objektiv'
+  error_unable_delete_issue_status: 'S’arrihet të fshihet gjendje çështjeje (%{value})'
+  error_unable_to_connect: "S’arrihet të bëhet lidhja (%{value})"
+  error_attachments_too_many: "Kjo kartelë s’mund të ngarkohet, ngaqë tejkalon numrin maksimum të kartelave që mund të bashkëngjiten njëherësh (%{max_number_of_files})"
+  error_attachment_too_big: "Kjo kartelë s’mund të ngarkohet, ngaqë tejkalon maksimumin e lejuar për madhësi kartelash (%{max_size})"
+  error_bulk_download_size_too_big: "Këto bashkëngjitje s’mund të shkarkohen në masë, ngaqë madhësia gjithsej e kartelave tejkalon madhësinë maksimum të lejuar (%{max_size})"
+  error_session_expired: "Sesioni juaj ka skaduar. Ju lutemi, ribëni hyrjen."
+  error_token_expired: "Kjo lidhje rimarrjeje fjalëkalimi ka skaduar, ju lutemi, riprovoni."
+  warning_attachments_not_saved: "S’u ruajt dot %{count} kartelë(a)."
+  error_password_expired: "Fjalëkalimi juaj ka skaduar ose përgjegjësi ju kërkon ta ndryshoni."
+  error_invalid_file_encoding: "Kartela s’është një kartelë e vlefshme e koduar si %{encoding}"
+  error_invalid_csv_file_or_settings: "Kartela s’është kartelë CSV ose nuk përputhet me rregullimet më poshtë"
+  error_can_not_read_import_file: "Ndodhi një gabim teksa lexohej kartela për importim"
+  error_attachment_extension_not_allowed: "Zgjatimi i bashkëngjitjes %{extension} nuk lejohet"
+  error_ldap_bind_credentials: "Llogari/Fjalëkalim LDAP i pavlefshëm"
+  error_no_tracker_allowed_for_new_issue_in_project: "Projekti s’ka ndonjë ndjekës për të cilin mund të krijoni një çështje"
+  error_no_projects_with_tracker_allowed_for_new_issue: "S’ka projekte me ndjekës për të cilët mund të krijoni një çështje"
+  error_move_of_child_not_possible: "Nënpuna %{child} s’u shpu dot te projekti i ri: %{errors}"
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: "Koha e harxhuar nuk mund t’i ricaktohet një çështjeje që është gati për t’u fshirë"
+  warning_fields_cleared_on_bulk_edit: "Ndryshimet do të sjellin fshirjen e vetvetishme të vlerave prej një ose më shumë fushash te objektet e përzgjedhur"
+  error_exceeds_maximum_hours_per_day: "S’mund të regjistrohen më shumë se %{max_hours} orë në të njëjtën ditë (janë regjistruar tashmë %{logged_hours} orë)"
+  error_can_not_delete_auth_source: "Kjo mënyrë mirëfilltësimesh është në përdorim dhe s’mund të fshihet."
+  error_spent_on_future_date: "S’mund të regjistrohet kohë në një datë të ardhshme"
+  error_not_allowed_to_log_time_for_other_users: "S’keni leje të regjistroni kohë për përdorues të tjerë"
+  error_can_not_execute_macro_html: "Gabim në ekzekutimin e makros <strong>%{name}</strong> (%{error})"
+  error_macro_does_not_accept_block: "Kjo makro nuk pranon bllok teksti"
+  error_childpages_macro_no_argument: "Pa argument, kjo makro mund të thirret vetëm që prej faqesh wiki"
+  error_circular_inclusion: "U pikas përfshirje rrethore"
+  error_page_not_found: "S’u gjet faqe"
+  error_filename_required: "Emri i kartelës është i domosdoshëm"
+  error_invalid_size_parameter: "Parametër i pavlefshëm madhësie"
+  error_attachment_not_found: "S’u gjet bashkëngjitja %{name}"
 
-  mail_subject_lost_password: "Fjalekalimi %{value} i juaj"
-  mail_body_lost_password: 'Per te ndryshuar Fjalekalimin, ndiq link-un ne vijim:'
-  mail_subject_register: "Aktivizimi %{value} i Llogarise tuaj"
-  mail_body_register: 'Per te aktivizuar Llogarine tuaj, ndiqni link-un ne vijim:'
-  mail_body_account_information_external: "Mund te perdorni Llogarine tuaj %{value} per Login."
-  mail_body_account_information: Informacioni i Llogarise suaj
-  mail_subject_account_activation_request: "%{value} kerkesa aktivizimi Llogarije"
-  mail_body_account_activation_request: "Nje Perdorues i ri (%{value}) eshte regjistruar. Llogaria pret aprovimin tuaj:"
-  mail_subject_reminder: "%{count} Ceshtje te pritshme ne %{days} ditet pasardhese"
-  mail_body_reminder: "%{count} Ceshtje qe ju jane caktuar jane te pritshme ne %{days} ditet pasardhese:"
-  mail_subject_wiki_content_added: "'%{id}' wiki page eshte shtuar"
-  mail_body_wiki_content_added: "The '%{id}' wiki page eshte shtuar nga %{author}."
-  mail_subject_wiki_content_updated: "'%{id}' wiki page eshte modifikuar"
-  mail_body_wiki_content_updated: "The '%{id}' wiki page eshte modifikuar nga %{author}."
+  mail_subject_lost_password: "Fjalëkalimi juaj %{value}"
+  mail_body_lost_password: 'Që të ndryshoni fjalëkalimin, klikoni mbi lidhjen vijuese:'
+  mail_body_lost_password_validity: 'Ju lutemi, mbani parasysh se fjalëkalimin mundeni ta ndryshoni vetëm një herë duke përdorur këtë lidhje.'
+  mail_subject_register: "Aktivizim i llogarisë tuaj %{value}"
+  mail_body_register: 'Që të aktivizoni llogarinë tuaj, klikoni mbi lidhjen vijuese:'
+  mail_body_account_information_external: "Që të hyni, mund të përdorni llogarinë tuaj %{value}."
+  mail_body_account_information: Të dhëna të llogarisë tuaj
+  mail_subject_account_activation_request: "Kërkesë aktivizimi llogarie %{value}"
+  mail_body_account_activation_request: "U regjistrua një përdorues i ri (%{value}). Llogaria po pret miratimin tuaj:"
+  mail_subject_reminder: "%{count} çështje që skadojnë në %{days} ditët e ardhshme"
+  mail_body_reminder: "%{count} çështje që ju janë caktuar juve skadojnë në %{days} ditët e ardhshme:"
+  mail_subject_wiki_content_added: "U shtua faqja wiki '%{id}'"
+  mail_body_wiki_content_added: "Faqja wiki '%{id}' është shtuar nga %{author}."
+  mail_subject_wiki_content_updated: "Faqja wiki '%{id}' është  përditësuar"
+  mail_body_wiki_content_updated: "Faqja wiki '%{id}' është  përditësuar nga %{author}."
+  mail_subject_security_notification: "Njoftim sigurie"
+  mail_body_security_notification_change: "%{field} u ndryshua."
+  mail_body_security_notification_change_to: "%{field} u ndryshua në %{value}."
+  mail_body_security_notification_add: "U shtua %{field} %{value}."
+  mail_body_security_notification_remove: "U hoq %{field} %{value}."
+  mail_body_security_notification_notify_enabled: "Adresa email %{value} tanimë merr njoftime."
+  mail_body_security_notification_notify_disabled: "Adresa email %{value} s’merr më njoftime."
+  mail_body_settings_updated: "U ndryshuan rregullimet vijuese:"
+  mail_body_password_updated: "Fjalëkalimi juaj u ndryshua."
 
-
-  field_name: Emri
-  field_description: Pershkrimi
-  field_summary: Permbledhje
-  field_is_required: E Detyrueshme
-  field_firstname: Emri
-  field_lastname: Mbiemri
+  field_name: Emër
+  field_description: Përshkrim
+  field_summary: Përmbledhje
+  field_is_required: E domosdoshme
+  field_firstname: Emër
+  field_lastname: Mbiemër
   field_mail: Email
-  field_filename: File
-  field_filesize: Madhesia
+  field_address: Email
+  field_filename: Kartelë
+  field_filesize: Madhësi
   field_downloads: Shkarkime
-  field_author: Autori
-  field_created_on: Krijuar me
-  field_updated_on: Perditesuar me
-  field_field_format: Formati
-  field_is_for_all: Per te gjthe Projektet
-  field_possible_values: Vlera e Mundshme
-  field_regexp: Shprehja e Duhur
-  field_min_length: Gjatesia Minimale
-  field_max_length: Gjatesia Maksimale
-  field_value: Vlera
-  field_category: Kategoria
-  field_title: Titulli
-  field_project: Projekti
-  field_issue: Problemi
-  field_status: Statusi
-  field_notes: Shenime
-  field_is_closed: Problemet e Mbyllura
-  field_is_default: Vlera e Paracaktuar
-  field_tracker: Gjurmuesi
-  field_subject: Subjekti
-  field_due_date: Deri me
-  field_assigned_to: I Ngarkuari
-  field_priority: Prioriteti
-  field_fixed_version: Menyra e Etiketimit
-  field_user: Perdoruesi
-  field_principal: Kapitali
-  field_role: Roli
-  field_homepage: Faqja Kryesore
+  field_author: Autor
+  field_created_on: Krijuar më
+  field_updated_on: Përditësuar më
+  field_closed_on: Mbyllur më
+  field_field_format: Format
+  field_is_for_all: Për krejt projektet
+  field_possible_values: Vlera të mundshme
+  field_regexp: Shprehje e rregullt
+  field_min_length: Gjatësi minimum
+  field_max_length: Gjatësi maksimum
+  field_value: Vlerë
+  field_category: Kategori
+  field_title: Titull
+  field_project: Projekt
+  field_issue: Çështje
+  field_status: Gjendje
+  field_notes: Shënime
+  field_is_closed: Çështja është mbyllur
+  field_is_default: Vlerë parazgjedhje
+  field_tracker: Ndjekës
+  field_subject: Subjekt
+  field_due_date: Datë skadimi
+  field_assigned_to: Caktuar
+  field_priority: Përparësi
+  field_fixed_version: Version i synuar
+  field_user: Përdorues
+  field_principal: Principal
+  field_role: Rol
+  field_homepage: Faqe hyrëse
   field_is_public: Publike
-  field_parent: Nenprojekti i
-  field_is_in_roadmap: Ceshtje e shfaqur ne roadmap
-  field_login: Login
-  field_mail_notification: Njoftim me Email
-  field_admin: Administratori
-  field_last_login_on: Lidhja e Fundit
-  field_language: Gjuha
-  field_effective_date: Data
-  field_password: Fjalekalimi
-  field_new_password: Fjalekalimi i Ri
-  field_password_confirmation: Konfirmim Fjalekalimi
-  field_version: Versioni
-  field_type: Type
-  field_host: Host
-  field_port: Port
-  field_account: Llogaria
+  field_parent: Nënprojekt i
+  field_is_in_roadmap: Çështje të shfaqura në plan
+  field_login: Hyrje
+  field_mail_notification: Njoftim me email
+  field_admin: Administrator
+  field_last_login_on: Lidhja e fundit më
+  field_passwd_changed_on: Fjalëkalimi u ndryshua së fundi më
+  field_language: Gjuhë
+  field_effective_date: Datë skadimi
+  field_password: Fjalëkalim
+  field_new_password: Fjalëkalim i ri
+  field_password_confirmation: Ripohim
+  field_twofa_scheme: Skemë mirëfilltësimi dyfaktorësh
+  field_version: Version
+  field_type: Lloj
+  field_host: Strehë
+  field_port: Portë
+  field_account: Llogari
   field_base_dn: Base DN
-  field_attr_login: Login attribute
-  field_attr_firstname: Firstname attribute
-  field_attr_lastname: Lastname attribute
-  field_attr_mail: Email attribute
-  field_onthefly: On-the-fly user creation
-  field_start_date: Start date
-  field_done_ratio: "% Done"
-  field_auth_source: Authentication mode
-  field_hide_mail: Hide my email address
-  field_comments: Comment
+  field_attr_login: Atribut hyrjeje
+  field_attr_firstname: Atribut emri
+  field_attr_lastname: Atribut mbiemri
+  field_attr_mail: Atribut email-i
+  field_onthefly: Krijim përdoruesi fluturimthi
+  field_start_date: Datë fillimi
+  field_done_ratio: "% Plotësimi"
+  field_auth_source: Mënyrë mirëfilltësimi
+  field_hide_mail: Fshihe adresën time email
+  field_comments: Koment
   field_url: URL
-  field_start_page: Start page
-  field_subproject: Subproject
-  field_hours: Hours
-  field_activity: Activity
-  field_spent_on: Date
-  field_identifier: Identifier
-  field_is_filter: Used as a filter
-  field_issue_to: Related issue
-  field_delay: Delay
-  field_assignable: Issues can be assigned to this role
-  field_redirect_existing_links: Redirect existing links
-  field_estimated_hours: Estimated time
-  field_column_names: Columns
-  field_time_entries: Log time
-  field_time_zone: Time zone
-  field_searchable: Searchable
-  field_default_value: Default value
-  field_comments_sorting: Display comments
-  field_parent_title: Parent page
-  field_editable: Editable
-  field_watcher: Watcher
-  field_identity_url: OpenID URL
-  field_content: Content
-  field_group_by: Group results by
-  field_sharing: Sharing
-  field_parent_issue: Parent task
-  field_member_of_group: "Assignee's group"
-  field_assigned_to_role: "Assignee's role"
-  field_text: Text field
-  field_visible: Visible
-  field_warn_on_leaving_unsaved: "Warn me when leaving a page with unsaved text"
-  field_issues_visibility: Issues visibility
+  field_start_page: Faqe fillimi
+  field_subproject: Nënprojekt
+  field_hours: Orë
+  field_activity: Veprimtari
+  field_spent_on: Datë
+  field_identifier: Identifikues
+  field_is_filter: E përdorur si filtër
+  field_issue_to: Çështje e lidhur
+  field_delay: Vonesë
+  field_assignable: Çështjet mund t’u caktohen përdoruesve me këtë rol
+  field_redirect_existing_links: Ridrejto lidhje ekzistuese
+  field_estimated_hours: Kohë përafërsisht
+  field_column_names: Shtylla
+  field_time_entries: Kohë regjistrimi
+  field_time_zone: Zonë kohore
+  field_searchable: E kërkueshme
+  field_default_value: Vlerë parazgjedhje
+  field_comments_sorting: Shfaq komente
+  field_parent_title: Faqe mëmë
+  field_editable: E përpunueshme
+  field_watcher: Vëzhgues
+  field_content: lëndë
+  field_group_by: Grupoji përfundimet sipas
+  field_sharing: Ndarje me të tjerë
+  field_parent_issue: Punë mëmë
+  field_parent_issue_subject: Subjekt pune mëmë
+  field_member_of_group: "Grup i të caktuarit"
+  field_assigned_to_role: "Rol i të caktuarit"
+  field_text: Fushë tekstesh
+  field_visible: E dukshme
+  field_warn_on_leaving_unsaved: "Sinjalizomë kur largohem nga një faqe me tekst të paruajtur"
+  field_issues_visibility: Dukshmëri çështjesh
   field_is_private: Private
-  field_commit_logs_encoding: Commit messages encoding
-  field_scm_path_encoding: Path encoding
-  field_path_to_repository: Path to repository
-  field_root_directory: Root directory
+  field_commit_logs_encoding: Kodim mesazhesh depozitimi
+  field_scm_path_encoding: Kodim shtigjesh
+  field_path_to_repository: Shteg për te depoja
+  field_root_directory: Drejtori rrënjë
   field_cvsroot: CVSROOT
-  field_cvs_module: Module
-  field_repository_is_default: Main repository
-  field_multiple: Multiple values
-  field_auth_source_ldap_filter: LDAP filter
+  field_cvs_module: Modul
+  field_repository_is_default: Depoja kryesore
+  field_multiple: Vlera të shumta
+  field_auth_source_ldap_filter: Filtër LDAP
+  field_core_fields: Fusha standarde
+  field_timeout: "Mbarim kohe (në sekonda)"
+  field_board_parent: Forum mëmë
+  field_private_notes: Shënime private
+  field_inherit_members: Trashëgo anëtarë
+  field_generate_password: Prodho fjalëkalim
+  field_must_change_passwd: Duhet të ndryshojë fjalëkalim gjatë hyrjes pasuese
+  field_default_status: Gjendje parazgjedhje
+  field_users_visibility: Dukshmëri përdoruesish
+  field_time_entries_visibility: Dukshmëri regjistrash kohe
+  field_total_estimated_hours: Kohë gjithsej përafërsisht
+  field_default_version: Version parazgjedhje
+  field_remote_ip: Adresë IP
+  field_textarea_font: Shkronja të përdorura për fusha tekstesh
+  field_updated_by: Përditësuar nga
+  field_last_updated_by: Përditësimi i fundit nga
+  field_full_width_layout: Skemë me gjerësi të plotë
+  field_digest: Checksum
+  field_default_assigned_to: I caktuari parazgjedhje
+  field_recently_used_projects: Numër projektesh të përdorur së fundi, te kuadrati i hedhjes në to
+  field_history_default_tab: Skedë parazgjedhjeje historiku çështjeje
+  field_unique_id: ID unike
+  field_toolbar_language_options: Gjuhë paneli theksimi kodi
 
-  setting_app_title: Application title
-  setting_welcome_text: Welcome text
-  setting_default_language: Default language
-  setting_login_required: Authentication required
-  setting_self_registration: Self-registration
-  setting_attachment_max_size: Maximum attachment size
-  setting_issues_export_limit: Issues export limit
-  setting_mail_from: Emission email address
-  setting_plain_text_mail: Plain text mail (no HTML)
-  setting_host_name: Host name and path
-  setting_text_formatting: Text formatting
-  setting_wiki_compression: Wiki history compression
-  setting_feeds_limit: Maximum number of items in Atom feeds
-  setting_default_projects_public: New projects are public by default
-  setting_autofetch_changesets: Fetch commits automatically
-  setting_sys_api_enabled: Enable WS for repository management
-  setting_commit_ref_keywords: Referencing keywords
-  setting_commit_fix_keywords: Fixing keywords
-  setting_autologin: Autologin
-  setting_date_format: Date format
-  setting_time_format: Time format
-  setting_cross_project_issue_relations: Allow cross-project issue relations
-  setting_issue_list_default_columns: Default columns displayed on the issue list
-  setting_repositories_encodings: Attachments and repositories encodings
-  setting_protocol: Protocol
-  setting_per_page_options: Objects per page options
-  setting_user_format: Users display format
-  setting_activity_days_default: Days displayed on project activity
-  setting_display_subprojects_issues: Display subprojects issues on main projects by default
-  setting_enabled_scm: Enabled SCM
-  setting_mail_handler_body_delimiters: "Truncate emails after one of these lines"
-  setting_mail_handler_api_enabled: Enable WS for incoming emails
-  setting_mail_handler_api_key: API key
-  setting_sequential_project_identifiers: Generate sequential project identifiers
-  setting_gravatar_enabled: Use Gravatar user icons
-  setting_gravatar_default: Default Gravatar image
-  setting_diff_max_lines_displayed: Maximum number of diff lines displayed
-  setting_file_max_size_displayed: Maximum size of text files displayed inline
-  setting_repository_log_display_limit: Maximum number of revisions displayed on file log
-  setting_openid: Allow OpenID login and registration
-  setting_password_min_length: Minimum password length
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
-  setting_default_projects_modules: Default enabled modules for new projects
-  setting_issue_done_ratio: Calculate the issue done ratio with
-  setting_issue_done_ratio_issue_field: Use the issue field
-  setting_issue_done_ratio_issue_status: Use the issue status
-  setting_start_of_week: Start calendars on
-  setting_rest_api_enabled: Enable REST web service
-  setting_cache_formatted_text: Cache formatted text
-  setting_default_notification_option: Default notification option
-  setting_commit_logtime_enabled: Enable time logging
-  setting_commit_logtime_activity_id: Activity for logged time
-  setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
-  setting_issue_group_assignment: Allow issue assignment to groups
-  setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
-  setting_commit_cross_project_ref: Allow issues of all the other projects to be referenced and fixed
-  setting_unsubscribe: Allow users to delete their own account
+  setting_app_title: Titull aplikacioni
+  setting_welcome_text: Tekst mirëseardhjeje
+  setting_default_language: Gjuhë parazgjedhje
+  setting_login_required: Lypset mirëfilltësim
+  setting_self_registration: Vetëregjistrim
+  setting_show_custom_fields_on_registration: Shfaq fusha vetjake gjatë regjistrimi
+  setting_attachment_max_size: Madhësi maksimum bashkëngjitjesh
+  setting_bulk_download_max_size: Madhësi gjithsej maksimum për shkarkime në masë
+  setting_issues_export_limit: Kufi eksportimi çështjesh
+  setting_mail_from: Adresë email dërgimi
+  setting_plain_text_mail: Postë si tekst i thjeshtë (jo HTML)
+  setting_host_name: Emër dhe shteg strehe
+  setting_text_formatting: Formatim tekstesh
+  setting_wiki_compression: Ngjeshje historiku Wiki
+  setting_feeds_limit: Numër maksimum zërash te prurje Atom
+  setting_default_projects_public: Si parazgjedhje, projektet e rinj janë publikë
+  setting_autofetch_changesets: Silli parashtrimet në mënyrë të automatizuar
+  setting_sys_api_enabled: Aktivizoni WS për administrim depoje
+  setting_commit_ref_keywords: Fjalëkyçe referencimi
+  setting_commit_fix_keywords: Fjalëkyçe ndreqjeje
+  setting_autologin: Vetëhyrje
+  setting_date_format: Format datash
+  setting_time_format: Format kohësh
+  setting_timespan_format: Format shtrirjeje kohore
+  setting_cross_project_issue_relations: Lejo marrëdhënie çështjesh nga një projekt në tjetrin
+  setting_cross_project_subtasks: Lejo nënpunë nga një projekt në tjetrin
+  setting_issue_list_default_columns: Parazgjedhje liste çështjesh
+  setting_repositories_encodings: Kodime bashkëngjitjesh dhe deposh
+  setting_emails_header: Krye email-esh
+  setting_emails_footer: Fund email-esh
+  setting_protocol: Protokoll
+  setting_per_page_options: Mundësi rreth objektesh për faqe
+  setting_user_format: Format shfaqjesh përdoruesish
+  setting_activity_days_default: Ditë të shfaqura në veprimtari projekti
+  setting_display_subprojects_issues: Shfaq, si parazgjedhje, te projekti kryesor çështje nënprojektesh
+  setting_enabled_scm: SCM e aktivizuar
+  setting_mail_handler_body_delimiters: "Cungoji email-et pas njërit prej këtyre rreshtave"
+  setting_mail_handler_enable_regex: "Aktivizo shprehje të rregullta"
+  setting_mail_handler_api_enabled: Aktivizo WS për email-e ardhës
+  setting_mail_handler_api_key: Kyç API WS për email-e ardhës
+  setting_mail_handler_preferred_body_part: Pjesë e parapëlqyer për email-e shumëpjesësh (HTML)
+  setting_sys_api_key: Kyç API WS administrimi deposh
+  setting_sequential_project_identifiers: Prodho identifikues sekuencialë projekti
+  setting_gravatar_enabled: Përdor ikona Gravatar përdoruesish
+  setting_gravatar_default: Figurë Gravatar parazgjedhje
+  setting_diff_max_lines_displayed: Numër maksimum rreshtash të shfaqur për diff-e
+  setting_file_max_size_displayed: Madhësi maksimum kartelash tekst të shfaqura brendazi
+  setting_repository_log_display_limit: Numër maksimum rishikimesh të shfaqur në regjistër kartele
+  setting_password_max_age: Kërko doemos ndryshim fjalëkalimi pas
+  setting_password_min_length: Gjatësi minimum fjalëkalimi
+  setting_password_required_char_classes : Klasa të domosdoshme shenjash për fjalëkalime
+  setting_lost_password: Lejo ricaktim fjalëkalimi me email
+  setting_new_project_user_role_id: Rol dhënë një përdoruesi jo përgjegjës që krijon një projekt
+  setting_default_projects_modules: Module të aktivizuar si parazgjedhje për projekte të reja
+  setting_issue_done_ratio: Përqindjet e përfundimit të çështjeve njehsoji
+  setting_issue_done_ratio_issue_field: Duke përdorur fushën e çështjes
+  setting_issue_done_ratio_issue_status: Duke përdorur gjendjen e çështjes
+  setting_start_of_week: Kalendarët filloji më
+  setting_rest_api_enabled: Aktivizo shërbim web REST
+  setting_cache_formatted_text: Ruaj në fshehtinë tekst të formatuar
+  setting_default_notification_option: Mundësi parazgjedhje njoftimesh
+  setting_commit_logtime_enabled: Aktivizim regjistrim kohësh
+  setting_commit_logtime_activity_id: Veprimtari për kohën e regjistruar
+  setting_gantt_items_limit: Numër maksimum elementësh të shfaqur te grafiku gantt
+  setting_gantt_months_limit: Numër maksimum muajsh të shfaqur te grafiku gantt
+  setting_issue_group_assignment: Lejo caktim çështjesh grupeve
+  setting_default_issue_start_date_to_creation_date: Për çështje të reja, si datë fillimi përdor datën e tanishme
+  setting_commit_cross_project_ref: Lejo që të referencohen dhe ndreqen çështje të krejt projekteve të tjera
+  setting_unsubscribe: Lejoju përdoruesve të fshijnë llogaritë e tyre
+  setting_session_lifetime: Jetëgjatësi maksimum sesioni
+  setting_session_timeout: Mbarim kohe për mosveprimtari sesioni
+  setting_thumbnails_enabled: Shfaq miniatura bashkëngjitjesh
+  setting_thumbnails_size: Madhësi miniaturash (në piksel)
+  setting_non_working_week_days: Ditë kur s’punohet
+  setting_jsonp_enabled: Aktivizo mbulim JSONP-je
+  setting_default_projects_tracker_ids: Ndjekës parazgjedhje për projekte të reja
+  setting_mail_handler_excluded_filenames: Përjashto bashkëngjitje sipas emrash
+  setting_force_default_language_for_anonymous: Detyro përdorimin e gjuhës parazgjedhje për përdorues anonimë
+  setting_force_default_language_for_loggedin: Detyro përdorimin e gjuhës parazgjedhje për përdorues që kanë bërë hyrjen
+  setting_link_copied_issue: Lidh çështje gjatë kopjimesh
+  setting_max_additional_emails: Numër maksimum adresash email shtesë
+  setting_email_domains_allowed: Përkatësi email të lejuara
+  setting_email_domains_denied: Përkatësi email të palejuara
+  setting_search_results_per_page: Përfundime kërkimi për faqe
+  setting_attachment_extensions_allowed: Zgjatime të lejuara
+  setting_attachment_extensions_denied: Zgjatime të palejuara
+  setting_new_item_menu_tab: Skedë menuje projekti për krijim objektesh të rinj
+  setting_commit_logs_formatting: Apliko formatim teksti mbi mesazhe depozitimi
+  setting_timelog_required_fields: Fusha të domosdoshme për regjistra kohësh
+  setting_close_duplicate_issues: Çështjet e përsëdytura mbylli vetvetiu
+  setting_time_entry_list_defaults: Parazgjedhje liste regjistri kohësh
+  setting_timelog_accept_0_hours: prano regjistra kohësh me 0 orë
+  setting_timelog_max_hours_per_day: Maksimum orësh që mund të regjistrohen për ditë dhe për përdorues
+  setting_timelog_accept_future_dates: Prano regjistra kohësh në data të ardhshme
+  setting_show_status_changes_in_mail_subject: Shfaq ndryshime gjendjesh te subjekt njoftimesh me email për çështjen
+  setting_project_list_defaults: Parazgjedhje liste projektesh
+  setting_twofa: Mirëfilltësim dyfaktorësh
 
-  permission_add_project: Create project
-  permission_add_subprojects: Create subprojects
-  permission_edit_project: Edit project
-  permission_select_project_modules: Select project modules
-  permission_manage_members: Manage members
-  permission_manage_project_activities: Manage project activities
-  permission_manage_versions: Manage versions
-  permission_manage_categories: Manage issue categories
-  permission_view_issues: View Issues
-  permission_add_issues: Add issues
-  permission_edit_issues: Edit issues
-  permission_manage_issue_relations: Manage issue relations
-  permission_set_issues_private: Set issues public or private
-  permission_set_own_issues_private: Set own issues public or private
-  permission_add_issue_notes: Add notes
-  permission_edit_issue_notes: Edit notes
-  permission_edit_own_issue_notes: Edit own notes
-  permission_delete_issues: Delete issues
-  permission_manage_public_queries: Manage public queries
-  permission_save_queries: Save queries
-  permission_view_gantt: View gantt chart
-  permission_view_calendar: View calendar
-  permission_view_issue_watchers: View watchers list
-  permission_add_issue_watchers: Add watchers
-  permission_delete_issue_watchers: Delete watchers
-  permission_log_time: Log spent time
-  permission_view_time_entries: View spent time
-  permission_edit_time_entries: Edit time logs
-  permission_edit_own_time_entries: Edit own time logs
-  permission_manage_news: Manage news
-  permission_comment_news: Comment news
-  permission_view_documents: View documents
-  permission_manage_files: Manage files
-  permission_view_files: View files
-  permission_manage_wiki: Manage wiki
-  permission_rename_wiki_pages: Rename wiki pages
-  permission_delete_wiki_pages: Delete wiki pages
-  permission_view_wiki_pages: View wiki
-  permission_view_wiki_edits: View wiki history
-  permission_edit_wiki_pages: Edit wiki pages
-  permission_delete_wiki_pages_attachments: Delete attachments
-  permission_protect_wiki_pages: Protect wiki pages
-  permission_manage_repository: Manage repository
-  permission_browse_repository: Browse repository
-  permission_view_changesets: View changesets
-  permission_commit_access: Commit access
-  permission_manage_boards: Manage forums
-  permission_view_messages: View messages
-  permission_add_messages: Post messages
-  permission_edit_messages: Edit messages
-  permission_edit_own_messages: Edit own messages
-  permission_delete_messages: Delete messages
-  permission_delete_own_messages: Delete own messages
-  permission_export_wiki_pages: Export wiki pages
-  permission_manage_subtasks: Manage subtasks
-  permission_manage_related_issues: Manage related issues
+  permission_add_project: Të krijojë projekt
+  permission_add_subprojects: Të krijojë nënprojekte
+  permission_edit_project: Të përpunojë projekt
+  permission_close_project: Të mbyllë / rihapë projektin
+  permission_delete_project: Të fshijë projektin
+  permission_select_project_modules: Të përzgjedhë module projekti
+  permission_manage_members: Të administrojë anëtarë
+  permission_manage_project_activities: Të administrojë veprimtari projekti
+  permission_manage_versions: Të administrojë versione
+  permission_manage_categories: Të administrojë kategorie çështjeje
+  permission_view_issues: Të shohë Çështje
+  permission_add_issues: Të shtojë çështje
+  permission_edit_issues: Të përpunojë çështje
+  permission_edit_own_issues: Të përpunojë çështjet e veta
+  permission_copy_issues: Të kopjojë çështje
+  permission_manage_issue_relations: Të administrojë marrëdhënie çështjesh
+  permission_set_issues_private: Të caktojë çështje si publike ose private
+  permission_set_own_issues_private: Të caktojë çështje të vetat si publike ose private
+  permission_add_issue_notes: Të shtojë shënime
+  permission_edit_issue_notes: Të përpunojë shënime
+  permission_edit_own_issue_notes: Të përpunojë shënimet e veta
+  permission_view_private_notes: Të shohë shënime private
+  permission_set_notes_private: T’i kalojë shënimet si private
+  permission_delete_issues: Të fshijë çështje
+  permission_manage_public_queries: Të administrojë kërkesa publike
+  permission_save_queries: Të ruajë kërkesa
+  permission_view_gantt: Të shohë grafik gantt
+  permission_view_calendar: Të shohë kalendar
+  permission_view_issue_watchers: Të shohë listë vëzhguesish
+  permission_add_issue_watchers: Të shtojë vëzhgues
+  permission_delete_issue_watchers: Të fshijë vëzhgues
+  permission_log_time: Të regjistrojë kohë të shpenzuar
+  permission_view_time_entries: Të shohë kohë të shpenzuar
+  permission_edit_time_entries: Të përpunojë regjistra kohësh
+  permission_edit_own_time_entries: Të përpunojë regjistra kohe të vetët
+  permission_view_news: Të shohë lajme
+  permission_manage_news: Të administrojë lajme
+  permission_comment_news: Të komentojë lajme
+  permission_view_documents: Të shohë dokumente
+  permission_add_documents: Të shtojë dokumente
+  permission_edit_documents: Të përpunojë dokumente
+  permission_delete_documents: Të fshijë dokumente
+  permission_manage_files: Të administrojë kartela
+  permission_view_files: Të shohë kartela
+  permission_manage_wiki: Të administrojë wiki
+  permission_rename_wiki_pages: Të riemërtojë faqe wiki
+  permission_delete_wiki_pages: Të fshijë faqe wiki
+  permission_view_wiki_pages: Të shohë wiki-n
+  permission_view_wiki_edits: Të shohë historik wiki
+  permission_edit_wiki_pages: Të përpunojë faqe wiki
+  permission_delete_wiki_pages_attachments: Të fshijë bashkëngjitje
+  permission_protect_wiki_pages: Të mbrojë faqe wiki
+  permission_manage_repository: Të administrojë depo
+  permission_browse_repository: Të shfletojë depon
+  permission_view_changesets: Të shohë grupe ndryshimesh
+  permission_commit_access: Leje depozitimi
+  permission_manage_boards: Të administrojë forume
+  permission_view_messages: Të shohë mesazhe
+  permission_add_messages: Të postojë mesazhe
+  permission_edit_messages: Të përpunojë mesazhe
+  permission_edit_own_messages: Të përpunojë mesazhe të vetët
+  permission_delete_messages: Të fshijë mesazhe
+  permission_delete_own_messages: Të fshijë mesazhe të vetët
+  permission_export_wiki_pages: Të eksportojë faqe wiki
+  permission_manage_subtasks: Të administrojë nënpunë
+  permission_manage_related_issues: Të administrojë çështje të afërta
+  permission_import_issues: Të importojë çështje
+  permission_log_time_for_other_users: Të regjistrojë kohë të shpenzuar për përdorues të tjerë
 
-  project_module_issue_tracking: Issue tracking
-  project_module_time_tracking: Time tracking
-  project_module_news: News
-  project_module_documents: Documents
-  project_module_files: Files
+  project_module_issue_tracking: Ndjekje çështjeje
+  project_module_time_tracking: Ndjekje kohe
+  project_module_news: Lajme
+  project_module_documents: Dokumente
+  project_module_files: Kartela
   project_module_wiki: Wiki
-  project_module_repository: Repository
-  project_module_boards: Forums
-  project_module_calendar: Calendar
+  project_module_repository: Depo
+  project_module_boards: Forume
+  project_module_calendar: Kalendar
   project_module_gantt: Gantt
 
-  label_user: Perdoruesi
-  label_user_plural: Perdoruesit
-  label_user_new: Perdorues i ri
+  label_user: Përdorues
+  label_user_plural: Përdorues
+  label_user_new: Përdorues i ri
   label_user_anonymous: Anonim
   label_project: Projekt
   label_project_new: Projekt i ri
   label_project_plural: Projekte
   label_x_projects:
-    zero:  asnje projekt
+    zero:  pa projekte
     one:   1 projekt
     other: "%{count} projekte"
-  label_project_all: Te gjithe Projektet
-  label_project_latest: Projektet me te fundit
-  label_issue: Ceshtje
-  label_issue_new: Ceshtje e re
-  label_issue_plural: Ceshtjet
-  label_issue_view_all: Shih te gjitha Ceshtjet
-  label_issues_by: "Ceshtje per %{value}"
-  label_issue_added: Ceshtje te shtuara
-  label_issue_updated: Ceshtje te modifikuara
-  label_issue_note_added: Shenime te shtuara
-  label_issue_status_updated: Statusi u modifikua
-  label_issue_priority_updated: Prioriteti u modifikua
+  label_project_all: Krejt Projektet
+  label_project_latest: Projektet Më të Reja
+  label_issue: Çështje
+  label_issue_new: Çështje e re
+  label_issue_plural: Çështje
+  label_issue_view_all: Shihni krejt çështjet
+  label_issues_by: "Çështje nga %{value}"
+  label_issue_added: U shtua çështje
+  label_issue_updated: U përditësua çështje
+  label_issue_note_added: U shtua shënim
+  label_issue_status_updated: U përditësua gjendja
+  label_issue_assigned_to_updated: U përditësua i caktuari
+  label_issue_priority_updated: U përditësua përparësia
+  label_issue_fixed_version_updated: U përditësua versioni i synuar
   label_document: Dokument
   label_document_new: Dokument i ri
   label_document_plural: Dokumente
-  label_document_added: Dokumente te shtuara
-  label_role: Roli
+  label_document_added: Dokumenti u shtua
+  label_role: Rol
   label_role_plural: Role
   label_role_new: Rol i ri
-  label_role_and_permissions: Role dhe te Drejta
+  label_role_and_permissions: Role dhe leje
   label_role_anonymous: Anonim
-  label_role_non_member: Jo Anetar
-  label_member: Anetar
-  label_member_new: Anetar i ri
-  label_member_plural: Anetare
-  label_tracker: Gjurmues
-  label_tracker_plural: Gjurmuesa
-  label_tracker_new: Gjurmues i ri
-  label_workflow: Workflow
-  label_issue_status: Statusi i Ceshtjes
-  label_issue_status_plural: Statuset e Ceshtjeve
-  label_issue_status_new: Statusi i ri
-  label_issue_category: Kategoria e Ceshtjes
-  label_issue_category_plural: Kategorite e Ceshtjeve
+  label_role_non_member: Jo anëtar
+  label_member: Anëtar
+  label_member_new: Anëtar i ri
+  label_member_plural: Anëtarë
+  label_tracker: Ndjekës
+  label_tracker_plural: Ndjekës
+  label_tracker_all: Krejt ndjekësit
+  label_tracker_new: Ndjekës i ri
+  label_workflow: Rrjedhë pune
+  label_issue_status: Gjendje çështjeje
+  label_issue_status_plural: Gjendje çështjeje
+  label_issue_status_new: Gjendje e re
+  label_issue_category: Kategori çështjeje
+  label_issue_category_plural: Kategori çështjeje
   label_issue_category_new: Kategori e re
-  label_custom_field: Fushe e personalizuar
-  label_custom_field_plural: Fusha te personalizuara
-  label_custom_field_new: Fushe e personalizuar e re
-  label_enumerations: Enumerations
-  label_enumeration_new: Vlere e re
-  label_information: Informacion
-  label_information_plural: Informacione
-  label_register: Regjistrohu
-  label_login_with_open_id_option: ose lidhu me OpenID
-  label_password_lost: Fjalekalim i humbur
-  label_home: Home
+  label_custom_field: Fushë vetjake
+  label_custom_field_plural: Fusha vetjake
+  label_custom_field_new: Fushë e re vetjake
+  label_enumerations: Numërime
+  label_enumeration_new: Vlerë e re
+  label_information: E dhënë
+  label_information_plural: Të dhëna
+  label_register: Regjistrohuni
+  label_password_lost: Humbi fjalëkalimi
+  label_password_required: Që të vazhdohet, ripohoni fjalëkalimin tuaj
+  label_home: Kreu
   label_my_page: Faqja ime
   label_my_account: Llogaria ime
-  label_my_projects: Projektet e mia
+  label_my_projects: Projektet e mi
   label_administration: Administrim
-  label_login: Login
-  label_logout: Dalje
-  label_help: Ndihme
-  label_reported_issues: Ceshtje te raportuara
-  label_assigned_to_me_issues: Ceshtje te caktuara mua
-  label_last_login: Hyrja e fundit
-  label_registered_on: Regjistruar me
-  label_activity: Aktiviteti
-  label_user_activity: "Aktiviteti i %{value}"
-  label_new: Shto
-  label_logged_as: Lidhur si
-  label_environment: Ambienti
-  label_authentication: Authentikimi
-  label_auth_source: Menyra e Authentikimit
-  label_auth_source_new: Menyre e re Authentikimi
-  label_auth_source_plural: Menyrat e Authentikimit
-  label_subproject_plural: Nenprojekte
-  label_subproject_new: Nenprojekt i ri
-  label_and_its_subprojects: "%{value} dhe Nenprojektet e vet"
-  label_min_max_length: Gjatesia Min - Max
-  label_list: List
-  label_date: Date
-  label_integer: Integer
+  label_login: Hyni
+  label_logout: Dilni
+  label_help: Ndihmë
+  label_reported_issues: Çështje të raportuara
+  label_assigned_issues: Çështje të caktuara
+  label_assigned_to_me_issues: Çështje të caktuara mua
+  label_updated_issues: Çështje të përditësuara
+  label_last_login: Lidhja e e fundit
+  label_registered_on: Regjistruar më
+  label_activity: Veprimtari
+  label_user_activity: "Veprimtari për %{value}"
+  label_new: E re
+  label_logged_as: I futur si
+  label_environment: Mjedis
+  label_authentication: Mirëfilltësim
+  label_auth_source: Mënyrë mirëfilltësimi
+  label_auth_source_new: Mënyrë e re mirëfilltësimi
+  label_auth_source_plural: Mënyra mirëfilltësimi
+  label_subproject_plural: Nënprojekte
+  label_subproject_new: Nënprojekt i ri
+  label_and_its_subprojects: "%{value} dhe nënprojektet e tij"
+  label_min_max_length: Gjatësi min - maks
+  label_list: Listë
+  label_date: Datë
+  label_integer: Numër i plotë
   label_float: Float
-  label_boolean: Boolean
-  label_string: Text
-  label_text: Long text
-  label_attribute: Attribute
-  label_attribute_plural: Attributes
-  label_no_data: No data to display
-  label_change_status: Change status
-  label_history: Histori
-  label_attachment: File
-  label_attachment_new: File i ri
-  label_attachment_delete: Fshi file
-  label_attachment_plural: Files
-  label_file_added: File te shtuar
+  label_boolean: Buleane
+  label_string: Tekst
+  label_text: Tekst i gjatë
+  label_attribute: Atribut
+  label_attribute_plural: Atribute
+  label_no_data: S’ka të dhëna për shfaqje
+  label_no_preview: S’ka paraparje
+  label_no_preview_alternative_html: S’ka paraparje. Në vend të kësaj, %{link} kartelën.
+  label_no_preview_download: Shkarkoje
+  label_change_status: Ndryshojini gjendjen
+  label_history: Historik
+  label_attachment: Kartelë
+  label_attachment_new: Kartelë e re
+  label_attachment_delete: Fshi kartelë
+  label_attachment_plural: Kartela
+  label_file_added: U shtua kartelë
   label_report: Raport
   label_report_plural: Raporte
-  label_news: Lajm
-  label_news_new: Shto Lajm
+  label_news: Lajme
+  label_news_new: Shtoni lajme
   label_news_plural: Lajme
   label_news_latest: Lajmet e fundit
-  label_news_view_all: Veshtro gjithe Lajmet
-  label_news_added: Lajme te shtuara
-  label_news_comment_added: Komenti iu shtua Lajmeve
-  label_settings: Settings
-  label_overview: Overview
+  label_news_view_all: Shihni krejt lajmet
+  label_news_added: U shtuan lajme
+  label_news_comment_added: U shtua koment te lajmet
+  label_settings: Rregullime
+  label_overview: Përmbledhje
   label_version: Version
   label_version_new: Version i ri
   label_version_plural: Versione
-  label_close_versions: Mbyll Versionet e perfunduara
-  label_confirmation: Konfirmim
-  label_export_to: 'Mund te gjendet gjithashtu ne:'
-  label_read: Lexim...
+  label_version_and_files: Versione (%{count}) dhe Kartela
+  label_close_versions: Mbylli versionet e plotësuar
+  label_confirmation: Ripohim
+  label_export_to: 'I gatshëm edhe në:'
+  label_read: Lexoni…
   label_public_projects: Projekte publike
   label_open_issues: e hapur
-  label_open_issues_plural: te hapura
+  label_open_issues_plural: të hapura
   label_closed_issues: e mbyllur
-  label_closed_issues_plural: te mbyllura
+  label_closed_issues_plural: të mbyllura
   label_x_open_issues_abbr:
-    zero:  0 te hapura
+    zero:  0 e hapur
     one:   1 e hapur
-    other: "%{count} te hapura"
+    other: "%{count} të hapura"
   label_x_closed_issues_abbr:
-    zero:  0 te mbyllura
+    zero:  0 e mbyllur
     one:   1 e mbyllur
-    other: "%{count} te mbyllura"
+    other: "%{count} të mbyllura"
   label_x_issues:
-    zero:  0 ceshtje
-    one:   1 ceshtje
-    other: "%{count} ceshtje"
-  label_total: Total
-  label_permissions: Te drejta
-  label_current_status: Statusi aktual
-  label_new_statuses_allowed: Statuse te reja te lejuara
-  label_all: te gjitha
-  label_none: asnje
+    zero:  0 çështje
+    one:   1 çështje
+    other: "%{count} çështje"
+  label_total: Gjithsej
+  label_total_plural: Gjithsej
+  label_total_time: Kohë gjithsej
+  label_permissions: Leje
+  label_current_status: Gjendja e tanishme
+  label_new_statuses_allowed: Lejohen gjendje të reja
+  label_all: krejt
+  label_any: cilido
+  label_none: asnjë
   label_nobody: askush
-  label_next: Pasardhes
-  label_previous: Paraardhes
-  label_used_by: Perdorur nga
-  label_details: Detaje
-  label_add_note: Shto nje Shenim
+  label_next: Pasuesja
+  label_previous: E mëparshmja
+  label_used_by: Përdorur nga
+  label_details: Hollësi
+  label_add_note: Shtoni një shënim
   label_calendar: Kalendar
   label_months_from: muaj nga
   label_gantt: Gantt
-  label_internal: I brendshem
+  label_internal: I brendshëm
   label_last_changes: "%{count} ndryshimet e fundit"
-  label_change_view_all: Shih gjithe ndryshimet
+  label_change_view_all: Shihni krejt ndryshimet
   label_comment: Koment
   label_comment_plural: Komente
   label_x_comments:
-    zero: asnje koment
+    zero: pa komente
     one: 1 koment
     other: "%{count} komente"
-  label_comment_add: Shto nje koment
+  label_comment_add: Shtoni një koment
   label_comment_added: Komenti u shtua
-  label_comment_delete: Fshi komente
-  label_query: Custom query
-  label_query_plural: Custom queries
-  label_query_new: New query
-  label_my_queries: My custom queries
-  label_filter_add: Shto filter
+  label_comment_delete: Fshiji komentet
+  label_query: Kërkesë vetjake
+  label_query_plural: Kërkesa vetjake
+  label_query_new: Kërkesë e re
+  label_my_queries: Kërkesat e mia vetjake
+  label_filter_add: Shtoni filtër
   label_filter_plural: Filtra
-  label_equals: eshte
-  label_not_equals: nuk eshte
-  label_in_less_than: ne me pak se
-  label_in_more_than: ne me shume se
+  label_equals: është
+  label_not_equals: s’është
+  label_in_less_than: në më pak se
+  label_in_more_than: në më shumë se
+  label_in_the_next_days: në ditët e ardhshme
+  label_in_the_past_days: në ditët e kaluara
   label_greater_or_equal: '>='
   label_less_or_equal: '<='
-  label_between: ndermjet
-  label_in: ne
+  label_between: mes
+  label_in: në
   label_today: sot
   label_yesterday: dje
-  label_this_week: kete jave
-  label_last_week: javen e kaluar
-  label_last_n_days: "%{count} ditet e fundit"
-  label_this_month: kete muaj
-  label_last_month: muajin e kaluar
-  label_this_year: kete vit
-  label_date_range: Date range
-  label_less_than_ago: me pak se dite para
-  label_more_than_ago: me shume se dite para
-  label_ago: dite para
-  label_contains: permban
-  label_not_contains: nuk permban
-  label_day_plural: dite
-  label_repository: Repository
-  label_repository_new: New repository
-  label_repository_plural: Repositories
-  label_browse: Browse
-  label_branch: Dege
-  label_tag: Tag
-  label_revision: Revizion
-  label_revision_plural: Revizione
-  label_revision_id: "Revizion %{value}"
-  label_associated_revisions: Associated revisions
-  label_added: te shtuara
-  label_modified: te modifikuara
-  label_copied: te kopjuara
-  label_renamed: te riemeruara
-  label_deleted: te fshira
-  label_latest_revision: Revizioni i fundit
-  label_latest_revision_plural: Revizionet e fundit
-  label_view_revisions: Shih Revizionet
-  label_view_all_revisions: Shih te gjitha Revizionet
-  label_max_size: Maximum size
-  label_sort_highest: Coje ne krye
-  label_sort_higher: Coje lart
-  label_sort_lower: Coje poshte
-  label_sort_lowest: Coje ne fund
-  label_roadmap: Roadmap
-  label_roadmap_due_in: "E pritshme ne %{value}"
-  label_roadmap_overdue: "%{value} me vonese"
-  label_roadmap_no_issues: Asnje Ceshtje per kete version
-  label_search: Kerko
-  label_result_plural: Rezultatet
-  label_all_words: Te gjitha fjalet
+  label_tomorrow: nesër
+  label_this_week: këtë javë
+  label_last_week: javën e shkuar
+  label_next_week: javën e ardhshme
+  label_last_n_weeks: "%{count} javët e fundit"
+  label_last_n_days: "%{count} ditët e fundit"
+  label_this_month: këtë muaj
+  label_last_month: muajin e fundit
+  label_next_month: muajin e ardhshëm
+  label_this_year: këtë vit
+  label_date_range: Interval datash
+  label_less_than_ago: më pak se ditë më parë
+  label_more_than_ago: më shumë se ditë më parë
+  label_ago: ditë më parë
+  label_contains: përmban
+  label_not_contains: s’përmban
+  label_starts_with: fillon me
+  label_ends_with: përfundon me
+  label_any_issues_in_project: çfarëdo çështjesh në projekt
+  label_any_issues_not_in_project: çfarëdo çështjesh jo në projekt
+  label_no_issues_in_project: pa çështje në projekt
+  label_any_open_issues: çfarëdo çështjesh të hapura
+  label_no_open_issues: pa çështje të hapura
+  label_day_plural: ditë
+  label_repository: Depo
+  label_repository_new: Depo e re
+  label_repository_plural: Depo
+  label_browse: Shfletoni
+  label_branch: Degë
+  label_tag: Etiketë
+  label_revision: Rishikim
+  label_revision_plural: Rishikime
+  label_revision_id: "Rishikim %{value}"
+  label_associated_revisions: Versione përshoqëruar
+  label_added: u shtua
+  label_modified: u ndryshua
+  label_copied:  u kopjua
+  label_renamed: u riemërtua
+  label_deleted: u fshi
+  label_latest_revision: Rishikimi më i ri
+  label_latest_revision_plural: Rishikimet më të rinj
+  label_view_revisions: Shihni rishikime
+  label_view_all_revisions: Shihni krejt rishikimet
+  label_x_revisions: "%{count} rishikime"
+  label_max_size: Madhësi maksimum
+  label_sort_highest: Shpjere në krye
+  label_sort_higher: Ngjite sipër
+  label_sort_lower: Zbrite poshtë
+  label_sort_lowest: Shpjere në fund
+  label_roadmap: Plan
+  label_roadmap_due_in: "Skadon mën %{value}"
+  label_roadmap_overdue: "%{value} vonë"
+  label_roadmap_no_issues: S’ka çështje për këtë version
+  label_search: Kërkoni
+  label_result_plural: Përfundime
+  label_all_words: Krejt fjalët
   label_wiki: Wiki
-  label_wiki_edit: Wiki edit
-  label_wiki_edit_plural: Wiki edits
-  label_wiki_page: Wiki page
-  label_wiki_page_plural: Wiki pages
-  label_index_by_title: Index by title
-  label_index_by_date: Index by date
-  label_current_version: Current version
-  label_preview: Preview
-  label_feed_plural: Feeds
-  label_changes_details: Details of all changes
-  label_issue_tracking: Issue tracking
-  label_spent_time: Spent time
-  label_f_hour: "%{value} ore"
-  label_f_hour_plural: "%{value} ore"
-  label_time_tracking: Time tracking
-  label_change_plural: Ndryshimet
+  label_wiki_edit: Përpunim Wiki
+  label_wiki_edit_plural: Përpunime Wiki
+  label_wiki_page: Faqe Wiki
+  label_wiki_page_plural: Faqe Wiki
+  label_wiki_page_new: Faqe Wiki e re
+  label_index_by_title: Tregues sipas titujsh
+  label_index_by_date: Tregues sipas datash
+  label_current_version: Versioni i tanishëm
+  label_preview: Paraparje
+  label_feed_plural: Prurje
+  label_changes_details: Hollësi të krejt ndryshimeve
+  label_issue_tracking: Ndjekje çështjeje
+  label_spent_time: Kohë e harxhuar
+  label_total_spent_time: Kohë e harxhuar gjithsej
+  label_f_hour: "%{value} orë"
+  label_f_hour_plural: "%{value} orë"
+  label_f_hour_short: "%{value} h"
+  label_time_tracking: Ndjekje kohe
+  label_change_plural: Ndryshime
   label_statistics: Statistika
-  label_commits_per_month: Commits per month
-  label_commits_per_author: Commits per author
+  label_commits_per_month: Depozitime për muaj
+  label_commits_per_author: Depozitime për autor
   label_diff: diff
-  label_view_diff: View differences
-  label_diff_inline: inline
-  label_diff_side_by_side: side by side
-  label_options: Options
-  label_copy_workflow_from: Copy workflow from
-  label_permissions_report: Permissions report
-  label_watched_issues: Watched issues
-  label_related_issues: Related issues
-  label_applied_status: Applied status
-  label_loading: Loading...
-  label_relation_new: New relation
-  label_relation_delete: Delete relation
-  label_relates_to: related to
-  label_duplicates: duplicates
-  label_duplicated_by: duplicated by
-  label_blocks: blocks
-  label_blocked_by: blocked by
-  label_precedes: precedes
-  label_follows: follows
-  label_stay_logged_in: Stay logged in
-  label_disabled: disabled
-  label_show_completed_versions: Show completed versions
-  label_me: me
+  label_view_diff: Shihni dallimet
+  label_diff_inline: brendazi
+  label_diff_side_by_side: krah për krah
+  label_options: Mundësi
+  label_copy_workflow_from: Kopjoje rrjedhën e punës prej
+  label_permissions_report: Raport lejesh
+  label_watched_issues: Çështje të vëzhguara
+  label_related_issues: Çështje të afërta
+  label_applied_status: Gjendje e aplikuar
+  label_loading: Po ngarkohet…
+  label_relation_new: Marrëdhënie e re
+  label_relation_delete: Fshije marrëdhënien
+  label_relates_to: E lidhur me
+  label_delete_link_to_subtask: Fshije lidhjen te nënpunë
+  label_duplicates: Është përsëdytje e
+  label_duplicated_by: Ka përsëdytje
+  label_blocks: Bllokon
+  label_blocked_by: Bllokuar nga
+  label_precedes: I paraprin
+  label_follows: Ndjek
+  label_copied_to: Kopjuar te
+  label_copied_from: Kopjuar nga
+  label_stay_logged_in: Qëndro i futur
+  label_disabled: e çaktivizuar
+  label_optional: opsionale
+  label_show_completed_versions: Shfaq versione të plotësuar
+  label_me: unë
   label_board: Forum
-  label_board_new: New forum
-  label_board_plural: Forums
-  label_board_locked: Locked
-  label_board_sticky: Sticky
-  label_topic_plural: Topics
-  label_message_plural: Messages
-  label_message_last: Last message
-  label_message_new: New message
-  label_message_posted: Message added
-  label_reply_plural: Replies
-  label_send_information: Send account information to the user
-  label_year: Year
-  label_month: Month
-  label_week: Week
-  label_date_from: From
-  label_date_to: To
-  label_language_based: Based on user's language
-  label_sort_by: "Sort by %{value}"
-  label_send_test_email: Send a test email
-  label_feeds_access_key: Atom access key
-  label_missing_feeds_access_key: Missing a Atom access key
-  label_feeds_access_key_created_on: "Atom access key created %{value} ago"
-  label_module_plural: Modules
-  label_added_time_by: "Added by %{author} %{age} ago"
-  label_updated_time_by: "Updated by %{author} %{age} ago"
-  label_updated_time: "Updated %{value} ago"
-  label_jump_to_a_project: Jump to a project...
-  label_file_plural: Files
-  label_changeset_plural: Changesets
-  label_default_columns: Default columns
-  label_no_change_option: (No change)
-  label_bulk_edit_selected_issues: Bulk edit selected issues
-  label_bulk_edit_selected_time_entries: Bulk edit selected time entries
-  label_theme: Theme
-  label_default: Default
-  label_search_titles_only: Search titles only
-  label_user_mail_option_all: "For any event on all my projects"
-  label_user_mail_option_selected: "For any event on the selected projects only..."
-  label_user_mail_option_none: "No events"
-  label_user_mail_option_only_my_events: "Only for things I watch or I'm involved in"
-  label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
-  label_registration_activation_by_email: account activation by email
-  label_registration_manual_activation: manual account activation
-  label_registration_automatic_activation: automatic account activation
-  label_display_per_page: "Per page: %{value}"
-  label_age: Age
-  label_change_properties: Change properties
-  label_general: General
+  label_board_new: Forum i ri
+  label_board_plural: Forume
+  label_board_locked: I kyçur
+  label_board_sticky: Ngjitës
+  label_topic_plural: Subjekte
+  label_message_plural: Mesazhe
+  label_message_last: Mesazhi i fundit
+  label_message_new: Mesazh i ri
+  label_message_posted: Mesazhi u shtua
+  label_reply_plural: Përgjigje
+  label_send_information: Dërgoji përdoruesit të dhëna llogarie
+  label_year: Vit
+  label_month: Muaj
+  label_week: Javë
+  label_date_from: Nga
+  label_date_to: Për
+  label_language_based: Bazuar në gjuhën e përdoruesit
+  label_sort_by: "Renditi sipas %{value}"
+  label_send_test_email: Dërgo një email provë
+  label_feeds_access_key: Kyç hyrjesh Atom
+  label_missing_feeds_access_key: Mungon një kyç hyrjesh Atom
+  label_feeds_access_key_created_on: "Kyç hyrjesh Atom i krijuar %{value} më parë"
+  label_module_plural: Module
+  label_added_time_by: "Shtuar nga %{author} %{age} më parë"
+  label_updated_time_by: "Përditësuar nga %{author} %{age} më parë"
+  label_updated_time: "Përditësuar %{value} më parë"
+  label_jump_to_a_project: Hidhuni te një projekt…
+  label_file_plural: Kartela
+  label_changeset_plural: Grupe ndryshimesh
+  label_default_columns: Shtylla parazgjedhje
+  label_no_change_option: (Pa ndryshim)
+  label_bulk_edit_selected_issues: Përpunoni në masë çështjet e përzgjedhura
+  label_bulk_edit_selected_time_entries: Përpunoni në masë zërat kohorë të përzgjedhur
+  label_theme: Temë
+  label_default: Parazgjedhje
+  label_search_titles_only: Kërko vetë, për tituj
+  label_user_mail_option_all: "Për çfarëdo akti në krejt projektet e mi"
+  label_user_mail_option_selected: "Për çfarëdo akti vetëm te projektet e përzgjedhur…"
+  label_user_mail_option_none: "Pa akte"
+  label_user_mail_option_only_my_events: "Vetëm për gjëra që vëzhgoj ose merrem"
+  label_user_mail_option_only_assigned: "Vetëm për gjëra që vëzhgoj ose që më janë caktuar"
+  label_user_mail_option_only_owner: "Vetëm për gjëra që vëzhgoj ose për të cilat jam i zoti"
+  label_user_mail_no_self_notified: "S’dua të njoftohem për ndryshime që bëj unë vetë"
+  label_user_mail_notify_about_high_priority_issues_html: "Njoftomëni gjithashtu rreth çështjesh me përparësi <em>%{prio}</em> ose më të lartë"
+  label_registration_activation_by_email: aktivizim llogarie me email
+  label_registration_manual_activation: aktivizim llogarie dorazi
+  label_registration_automatic_activation: aktivizim automatik llogarie
+  label_display_per_page: "Për faqe: %{value}"
+  label_age: Moshë
+  label_change_properties: Ndryshoni veti
+  label_general: Të përgjithshme
   label_scm: SCM
-  label_plugins: Plugins
-  label_ldap_authentication: LDAP authentication
+  label_plugins: Shtojca
+  label_ldap: LDAP
+  label_ldap_authentication: Mirëfilltësim LDAP
+  label_ldaps_verify_none: LDAPS (pa kontroll dëshmie)
+  label_ldaps_verify_peer: LDAPS
+  label_ldaps_warning: Këshillohet të përdoret një lidhje e fshehtëzuar LDAPS me kontroll dëshmish, për të penguar çfarëdo manipulimi gjatë procesit të mirëfilltësimit.
   label_downloads_abbr: D/L
-  label_optional_description: Optional description
-  label_add_another_file: Add another file
-  label_preferences: Preferences
-  label_chronological_order: In chronological order
-  label_reverse_chronological_order: In reverse chronological order
-  label_incoming_emails: Incoming emails
-  label_generate_key: Generate a key
-  label_issue_watchers: Watchers
-  label_example: Example
-  label_display: Display
-  label_sort: Sort
-  label_ascending: Ascending
-  label_descending: Descending
-  label_date_from_to: From %{start} to %{end}
-  label_wiki_content_added: Wiki page added
-  label_wiki_content_updated: Wiki page updated
-  label_group: Group
-  label_group_plural: Groups
-  label_group_new: New group
-  label_time_entry_plural: Spent time
-  label_version_sharing_none: Not shared
-  label_version_sharing_descendants: With subprojects
-  label_version_sharing_hierarchy: With project hierarchy
-  label_version_sharing_tree: With project tree
-  label_version_sharing_system: With all projects
-  label_update_issue_done_ratios: Update issue done ratios
-  label_copy_source: Source
-  label_copy_target: Target
-  label_copy_same_as_target: Same as target
-  label_display_used_statuses_only: Only display statuses that are used by this tracker
-  label_api_access_key: API access key
-  label_missing_api_access_key: Missing an API access key
-  label_api_access_key_created_on: "API access key created %{value} ago"
-  label_profile: Profile
-  label_subtask_plural: Subtasks
-  label_project_copy_notifications: Send email notifications during the project copy
-  label_principal_search: "Search for user or group:"
-  label_user_search: "Search for user:"
-  label_additional_workflow_transitions_for_author: Additional transitions allowed when the user is the author
-  label_additional_workflow_transitions_for_assignee: Additional transitions allowed when the user is the assignee
-  label_issues_visibility_all: All issues
-  label_issues_visibility_public: All non private issues
-  label_issues_visibility_own: Issues created by or assigned to the user
-  label_git_report_last_commit: Report last commit for files and directories
-  label_parent_revision: Parent
-  label_child_revision: Child
-  label_export_options: "%{export_format} export options"
-  label_copy_attachments: Copy attachments
-  label_item_position: "%{position} of %{count}"
-  label_completed_versions: Completed versions
-  label_search_for_watchers: Search for watchers to add
+  label_optional_description: Përshkrim opsional
+  label_add_another_file: Shtoni kartelë tjetër
+  label_preferences: Parapëlqime
+  label_chronological_order: Në rend kohor
+  label_reverse_chronological_order: Në rend kohor së prapthi
+  label_incoming_emails: Email-e ardhës
+  label_generate_key: Prodho një kyç
+  label_issue_watchers: Vëzhgues
+  label_example: Shembull
+  label_display: Shfaqje
+  label_sort: Renditje
+  label_ascending: Rritës
+  label_descending: Zbritës
+  label_date_from_to: Nga %{start} deri më %{end}
+  label_days_to_html: "%{days} ditë deri më %{date}"
+  label_wiki_content_added: U shtua faqe Wiki page added
+  label_wiki_content_added: U shtua faqe Wiki
+  label_wiki_content_updated: U përditësua faqe Wiki
+  label_group: Grup
+  label_group_plural: Grupe
+  label_group_new: Grup i ri
+  label_group_anonymous: Përdorues anonimë
+  label_group_non_member: Përdorues jo anëtarë
+  label_time_entry_plural: Kohë e harxhuar
+  label_version_sharing_none: Jo i ndarë me dikë
+  label_version_sharing_descendants: Me nënprojekte
+  label_version_sharing_hierarchy: Me hierarki projekti
+  label_version_sharing_tree: Me pemë projekti
+  label_version_sharing_system: Me krejt projektet
+  label_update_issue_done_ratios: Përditësimo përpjestim përfundimesh çështjesh
+  label_copy_source: Burim
+  label_copy_target: Objektiv
+  label_copy_same_as_target: Njësoj si objektivi
+  label_display_used_statuses_only: Shfaq vetëm gjendje që përdoren nga ky ndjekës
+  label_api_access_key: Kyç përdorimi API
+  label_missing_api_access_key: Mungon një kyç përdorimi API
+  label_api_access_key_created_on: "Kyç përdorimi API i krijuar %{value} më parë"
+  label_profile: Profil
+  label_subtask_plural: Nënpunë
+  label_project_copy_notifications: Dërgo njoftime me email gjatë kopjimit të projektit
+  label_import_notifications: Dërgo njoftime me email gjatë importimit
+  label_principal_search: "Kërkoni për përdorues ose grup:"
+  label_user_search: "Kërkoni për përdorues:"
+  label_additional_workflow_transitions_for_author: Tranzicione shtesë të lejuara kur përdoruesi është autori
+  label_additional_workflow_transitions_for_assignee: Tranzicione shtesë të lejuara kur përdoruesi është i caktuari
+  label_issues_visibility_all: Krejt çështjet
+  label_issues_visibility_public: Krejt çështjet jo private
+  label_issues_visibility_own: Çështje të krijuara ose caktuar përdoruesit
+  label_git_report_last_commit: Njofto depozitim të fundit për kartela dhe drejtori
+  label_parent_revision: Mëmë
+  label_child_revision: Pjellë
+  label_export_options: "Mundësi eksportimi %{export_format}"
+  label_copy_attachments: Kopjo bashkëngjitje
+  label_copy_subtasks: Kopjo nënpunë
+  label_item_position: "%{position} nga %{count}"
+  label_completed_versions: Versione të plotësuar
+  label_search_for_watchers: Kërko për vëzhgues që të shtohen
+  label_session_expiration: Skadim sesioni
+  label_status_transitions: Tranzicione gjendjeje
+  label_fields_permissions: Leja fushash
+  label_readonly: Vetëm-lexim
+  label_required: E domosdoshme
+  label_required_lower: e domosdoshme
+  label_hidden: E fshehur
+  label_attribute_of_project: "%{name} i projektit"
+  label_attribute_of_issue: "%{name} i çështjes"
+  label_attribute_of_author: "%{name} i autorit"
+  label_attribute_of_assigned_to: "%{name} i të caktuarit"
+  label_attribute_of_user: "%{name} i përdoruesit"
+  label_attribute_of_fixed_version: "%{name} versioni të synuar"
+  label_attribute_of_object: "%{name} %{object_name}"
+  label_cross_project_descendants: Me nënprojekte
+  label_cross_project_tree: Me pemë projekti
+  label_cross_project_hierarchy: Me hierarki projekti
+  label_cross_project_system: Me krejt projektet
+  label_gantt_progress_line: Vijë ecurie
+  label_visibility_private: vetëm për mua
+  label_visibility_roles: vetëm për këto role
+  label_visibility_public: për çfarëdo përdoruesish
+  label_link: Lidhje
+  label_only: vetëm
+  label_drop_down_list: listë hapmbyll
+  label_checkboxes: kutiza
+  label_radio_buttons: butona rrethorë
+  label_link_values_to: Lidh vlera te URL
+  label_custom_field_select_type: Përzgjidhni lloj objekti te i cili të ngjitet fusha vetjake
+  label_check_for_updates: Kontrollo për përditësime
+  label_latest_compatible_version: Versioni më i ri i përputhshëm
+  label_unknown_plugin: Shtojcë e panjohur
+  label_add_projects: Shtoni projekte
+  label_users_visibility_all: Krejt përdoruesit aktivë
+  label_users_visibility_members_of_visible_projects: Anëtarë projektesh të dukshëm
+  label_edit_attachments: Përpunoni kartela të bashkëngjitura
+  label_download_all_attachments: Shkarkoji krejt kartelat
+  label_link_copied_issue: Link copied issue
+  label_ask: Pyet
+  label_search_attachments_yes: Kërko emra kartelash dhe përshkrime bashkëngjitjesh
+  label_search_attachments_no: Mos kërko bashkëngjitje
+  label_search_attachments_only: Kërko vetëm bashkëngjitje
+  label_search_open_issues_only: Vetëm çështje të hapura
+  label_email_address_plural: Email-e
+  label_email_address_add: Shtoni adresë email
+  label_enable_notifications: Aktivizoni njoftimet
+  label_disable_notifications: Çaktivizoni njoftimet
+  label_blank_value: e zbrazët
+  label_parent_task_attributes: Atribute të punës mëmë
+  label_parent_task_attributes_derived: Llogaritur nga nënpunë
+  label_parent_task_attributes_independent: Pavarësisht nga nënpunë
+  label_time_entries_visibility_all: Krejt zërat kohorë
+  label_time_entries_visibility_own: Zëra kohorë të krijuar nga përdoruesi
+  label_member_management: Administrim anëtarësh
+  label_member_management_all_roles: Krejt rolet
+  label_member_management_selected_roles_only: Vetëm këto role
+  label_import_issues: Importoni çështje
+  permission_import_time_entries: Importoni zëra kohorë
+  label_select_file_to_import: Përzgjidhni kartelë për importim
+  label_fields_separator: Ndarës fushash
+  label_fields_wrapper: Mbështjellëse fushash
+  label_encoding: Kodim
+  label_comma_char: Presje
+  label_semi_colon_char: Pikëpresje
+  label_quote_char: Thonjëz
+  label_double_quote_char: Thonjëza dyshe
+  label_fields_mapping: Përshoqërim fushash
+  label_relations_mapping: Përshoqërim marrëdhëniesh
+  label_file_content_preview: Paraparje lënde kartele
+  label_create_missing_values: Krijo vlera që mungojnë
+  label_api: API
+  label_field_format_enumeration: Listë kyç/vlerë
+  label_default_values_for_new_users: Vlera parazgjedhje për përdorues të rinj
+  label_relations: Marrëdhënie
+  label_new_project_issue_tab_enabled: Shfaq skedën "Çështje e re"
+  label_new_object_tab_enabled: Shfaq menunë hapmbyll "+"
+  label_table_of_contents: Tryezë e lëndës
+  label_font_default: Shkronja parazgjedhje
+  label_font_monospace: Shkronja Monospace
+  label_font_proportional: Shkronja Proportional
+  label_optgroup_bookmarks: Faqerojtës
+  label_optgroup_others: Projekte të tjera
+  label_optgroup_recents: Përdorur së fundi
+  label_last_notes: Shënimet e fundit
+  label_nothing_to_preview: Asgjë për paraparje
+  label_inherited_from_parent_project: "Trashëguar nga projekt mëmë"
+  label_inherited_from_group: "Trashëguar nga grupi %{name}"
+  label_trackers_description: Përshkrim gjurmuesish
+  label_open_trackers_description: Shihni krejt përshkrimin e gjurmuesve
+  label_preferred_body_part_text: Tekst
+  label_preferred_body_part_html: HTML (eksperimentale)
+  label_issue_history_properties: Ndryshime vetish
+  label_issue_history_notes: Shënime
+  label_last_tab_visited: Skeda e vizituar e fundit
+  label_password_char_class_uppercase: shkronja të mëdha
+  label_password_char_class_lowercase: shkronja të vogla
+  label_password_char_class_digits: shifra
+  label_password_char_class_special_chars: shenja speciale
+  label_display_type: Shfaqi përfundimet si
+  label_display_type_list: Listë
+  label_display_type_board: Bord
+  label_my_bookmarks: Faqerojtësit e mi
+  label_assign_to_me: Caktomani mua
 
-  button_login: Login
-  button_submit: Submit
-  button_save: Save
-  button_check_all: Check all
-  button_uncheck_all: Uncheck all
-  button_collapse_all: Collapse all
-  button_expand_all: Expand all
-  button_delete: Delete
-  button_create: Create
-  button_create_and_continue: Create and add another
+  button_login: Hyrje
+  button_submit: Parashtroje
+  button_save: Ruaje
+  button_check_all: Vëru shenjë krejt
+  button_uncheck_all: Hiqua shenjën krejt
+  button_collapse_all: Tkurri krejt
+  button_expand_all: Zgjeroji krejt
+  button_delete: Fshije
+  button_create: Krijoje
+  button_create_and_continue: Krijoje dhe shto tjetër
   button_test: Test
-  button_edit: Edit
-  button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
-  button_add: Add
-  button_change: Change
-  button_apply: Apply
-  button_clear: Clear
-  button_lock: Lock
-  button_unlock: Unlock
-  button_download: Download
-  button_list: List
-  button_view: View
-  button_move: Move
-  button_move_and_follow: Move and follow
-  button_back: Back
-  button_cancel: Cancel
-  button_activate: Activate
-  button_sort: Sort
-  button_log_time: Log time
-  button_rollback: Rollback to this version
-  button_watch: Watch
-  button_unwatch: Unwatch
-  button_reply: Reply
-  button_archive: Archive
-  button_unarchive: Unarchive
-  button_reset: Reset
-  button_rename: Rename
-  button_change_password: Change password
-  button_copy: Copy
-  button_copy_and_follow: Copy and follow
-  button_annotate: Annotate
-  button_update: Update
-  button_configure: Configure
-  button_quote: Quote
-  button_show: Show
-  button_edit_section: Edit this section
-  button_export: Export
-  button_delete_my_account: Delete my account
+  button_edit: Përpunojeni
+  button_edit_associated_wikipage: "Përpunoni faqen Wiki përshoqëruar: %{page_title}"
+  button_add: Shtoni
+  button_change: Ndryshojeni
+  button_apply: Zbatoje
+  button_clear: Spastroje
+  button_lock: Kyçe
+  button_unlock: Shkyçe
+  button_download: Shkarkoje
+  button_list: Listë
+  button_view: Shiheni
+  button_move: Lëvize
+  button_move_and_follow: Lëvize dhe ndiqe
+  button_back: Mbrapsht
+  button_cancel: Anuloje
+  button_activate: Aktivizoje
+  button_disable: Çaktivizoje
+  button_sort: Rendite
+  button_log_time: Regjistro kohë
+  button_rollback: Ktheje te ky version
+  button_watch: Vëzhgoje
+  button_unwatch: Mos e Vëzhgo
+  button_reply: Përgjigju
+  button_archive: Arkivoje
+  button_unarchive: Çarkivoje
+  button_reset: Ktheje te parazgjedhjet
+  button_rename: Riemërtoje
+  button_change_password: Ndryshoni fjalëkalimin
+  button_copy: Kopjoje
+  button_copy_and_follow: Kopjoje dhe ndiqe
+  button_annotate: I vini shënime
+  button_update: Përditësoje
+  button_configure: Formësojeni
+  button_quote: Citojeni
+  button_show: Shfaqe
+  button_hide: Fshihe
+  button_edit_section: Përpunoni këtë ndarje
+  button_export: Eksportoje
+  button_delete_my_account: Fshije llogarinë time
+  button_close: Mbylle
+  button_reopen: Rihape
+  button_import: Importoje
+  button_project_bookmark: Shtoni faqerojtës
+  button_project_bookmark_delete: Hiqe faqerojtësin
+  button_filter: Filtër
+  button_actions: Veprime
 
-  status_active: active
-  status_registered: registered
-  status_locked: locked
+  status_active: aktive
+  status_registered: e regjistruar
+  status_locked: e kyçur
 
-  version_status_open: open
-  version_status_locked: locked
-  version_status_closed: closed
+  project_status_active: aktiv
+  project_status_closed: i mbyllur
+  project_status_archived: i arkivuar
 
-  field_active: Active
+  version_status_open: i hapur
+  version_status_locked: i kyçur
+  version_status_closed: i mbyllur
 
-  text_select_mail_notifications: Select actions for which email notifications should be sent.
-  text_regexp_info: eg. ^[A-Z0-9]+$
-  text_project_destroy_confirmation: Are you sure you want to delete this project and related data?
-  text_subprojects_destroy_warning: "Its subproject(s): %{value} will be also deleted."
-  text_workflow_edit: Select a role and a tracker to edit the workflow
-  text_are_you_sure: Are you sure?
-  text_journal_changed: "%{label} changed from %{old} to %{new}"
-  text_journal_changed_no_detail: "%{label} updated"
-  text_journal_set_to: "%{label} set to %{value}"
-  text_journal_deleted: "%{label} deleted (%{old})"
-  text_journal_added: "%{label} %{value} added"
-  text_tip_issue_begin_day: issue beginning this day
-  text_tip_issue_end_day: issue ending this day
-  text_tip_issue_begin_end_day: issue beginning and ending this day
-  text_project_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.'
-  text_caracters_maximum: "%{count} characters maximum."
-  text_caracters_minimum: "Must be at least %{count} characters long."
-  text_length_between: "Length between %{min} and %{max} characters."
-  text_tracker_no_workflow: No workflow defined for this tracker
-  text_unallowed_characters: Unallowed characters
-  text_comma_separated: Multiple values allowed (comma separated).
-  text_line_separated: Multiple values allowed (one line for each value).
-  text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
-  text_issue_added: "Issue %{id} has been reported by %{author}."
-  text_issue_updated: "Issue %{id} has been updated by %{author}."
-  text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content?
-  text_issue_category_destroy_question: "Some issues (%{count}) are assigned to this category. What do you want to do?"
-  text_issue_category_destroy_assignments: Remove category assignments
-  text_issue_category_reassign_to: Reassign issues to this category
-  text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
-  text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
-  text_load_default_configuration: Load the default configuration
-  text_status_changed_by_changeset: "Applied in changeset %{value}."
-  text_time_logged_by_changeset: "Applied in changeset %{value}."
-  text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s)?'
-  text_issues_destroy_descendants_confirmation: "This will also delete %{count} subtask(s)."
-  text_time_entries_destroy_confirmation: 'Are you sure you want to delete the selected time entr(y/ies)?'
-  text_select_project_modules: 'Select modules to enable for this project:'
-  text_default_administrator_account_changed: Default administrator account changed
-  text_file_repository_writable: Attachments directory writable
-  text_plugin_assets_writable: Plugin assets directory writable
-  text_minimagick_available: MiniMagick available (optional)
-  text_destroy_time_entries_question: "%{hours} hours were reported on the issues you are about to delete. What do you want to do?"
-  text_destroy_time_entries: Delete reported hours
-  text_assign_time_entries_to_project: Assign reported hours to the project
-  text_reassign_time_entries: 'Reassign reported hours to this issue:'
-  text_user_wrote: "%{value} wrote:"
-  text_user_wrote_in: "%{value} wrote (%{link}):"
-  text_enumeration_destroy_question: "%{count} objects are assigned to this value."
-  text_enumeration_category_reassign_to: 'Reassign them to this value:'
-  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/configuration.yml and restart the application to enable them."
-  text_repository_usernames_mapping: "Select or update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
-  text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
-  text_custom_field_possible_values_info: 'One line for each value'
-  text_wiki_page_destroy_question: "This page has %{descendants} child page(s) and descendant(s). What do you want to do?"
-  text_wiki_page_nullify_children: "Keep child pages as root pages"
-  text_wiki_page_destroy_children: "Delete child pages and all their descendants"
-  text_wiki_page_reassign_children: "Reassign child pages to this parent page"
-  text_own_membership_delete_confirmation: "You are about to remove some or all of your permissions and may no longer be able to edit this project after that.\nAre you sure you want to continue?"
-  text_zoom_in: Zoom in
-  text_zoom_out: Zoom out
-  text_warn_on_leaving_unsaved: "The current page contains unsaved text that will be lost if you leave this page."
-  text_scm_path_encoding_note: "Default: UTF-8"
-  text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
-  text_mercurial_repository_note: Local repository (e.g. /hgrepo, c:\hgrepo)
-  text_scm_command: Command
+  field_active: Aktive
+
+  text_select_mail_notifications: Përzgjidhni veprime për të cilët duhen dërguar njoftime me email.
+  text_regexp_info: p.sh., ^[A-Z0-9]+$
+  text_project_destroy_confirmation: Jeni i sigurt se doni të fshihet ky projekt dhe të dhënat përkatëse?
+  text_subprojects_destroy_warning: "Do të fshihet gjithashtu nënprojekti(et) e tij: %{value}."
+  text_workflow_edit: Përzgjidhni një rol dhe një ndjekës që të përpunohet rrjedha e punës
+  text_are_you_sure: Jeni i sigurt?
+  text_journal_changed: "%{label} u ndryshua nga %{old} në %{new}"
+  text_journal_changed_no_detail: "%{label} u përditësua"
+  text_journal_set_to: "%{label} u caktua si %{value}"
+  text_journal_deleted: "%{label} u fshi (%{old})"
+  text_journal_added: "U shtua %{label} %{value}"
+  text_tip_issue_begin_day: çështje që fillon këtë ditë
+  text_tip_issue_end_day: çështje që mbaron këtë ditë
+  text_tip_issue_begin_end_day: çështje që fillon dhe mbaron këtë ditë
+  text_project_identifier_info: 'Lejohen vetëm shkronja të vogla(a-z), numra, vija ndarëse dhe nënvija.<br />Pasi të ruhet, identifikuesi s’mund të ndryshohet.'
+  text_caracters_maximum: "Maksimumi %{count} shenja."
+  text_caracters_minimum: "Duhet të jetë e pakta %{count} shenja i gjatë."
+  text_characters_must_contain: "Duhet të përmbajë %{character_classes}."
+  text_length_between: "Gjatësi mes %{min} dhe %{max} shenjash."
+  text_tracker_no_workflow: S’ka të përkufizuar rrjedhë pune për këtë ndjekës
+  text_role_no_workflow: S’ka të përkufizuar rrjedhë pune për këtë rol
+  text_status_no_workflow: Këtë gjendje s’e përdor ndonjë ndjekës në rrjedhat e punës
+  text_unallowed_characters: Shenja të palejuara
+  text_comma_separated: Lejohen vlera të shumta (ndarë me presje).
+  text_line_separated: Lejohen vlera të shumta (një rresht për secilën vlerë).
+  text_issues_ref_in_commit_messages: Referencim dhe ndreqje çështjesh në mesazhe depozitimesh
+  text_issue_added: "Çështja %{id} është raportuar nga %{author}."
+  text_issue_updated: "Çështja %{id} është përditësuar nga %{author}."
+  text_wiki_destroy_confirmation: Jeni i sigurt se doni të fshihet kjo wiki dhe krejt lënda e saj?
+  text_issue_category_destroy_question: "Kësaj kategorie i janë caktuar disa çështje (%{count}). Ç’doni të bëhet?"
+  text_issue_category_destroy_assignments: Hiq caktime kategorie
+  text_issue_category_reassign_to: Ricaktoja çështjet kësaj kategorie
+  text_user_mail_option: "Për projekte të papërzgjedhur, do të merrni njoftime vetëm rreth gjërash që vëzhgoni ose në të cilat jeni përfshirë (p.sh., çështje ku jeni autor ose i caktuar)."
+  text_no_configuration_data: "S’janë formësuar ende role, ndjekës, gjendje çështjesh dhe rrjedha pune.\nKëshillohet me forcë të ngarkohet formësimi parazgjedhje. Pasi të ngarkohet, do të jeni në gjendje ta ndryshoni."
+  text_load_default_configuration: Ngarko formësim parazgjedhje
+  text_status_changed_by_changeset: "Aplikuar te grup ndryshimesh %{value}."
+  text_time_logged_by_changeset: "Aplikuar te grup ndryshimesh %{value}."
+  text_issues_destroy_confirmation: 'Jeni i sigurt se doni të fshihet çështja(et) e përzgjedhura?'
+  text_issues_destroy_descendants_confirmation: "Kjo do të fshijë edhe %{count} nënpunë."
+  text_time_entries_destroy_confirmation: 'Jeni i sigurt se doni të fshihet zëri(at) kohor(ë) i përzgjedhur?'
+  text_select_project_modules: 'Përzgjidhni module që të aktivizohen për këtë projekt:'
+  text_default_administrator_account_changed: U ndryshua llogaria parazgjedhje e përgjegjësit
+  text_file_repository_writable: Drejtori bashkëngjitjes e shkrueshme
+  text_plugin_assets_writable: Drejtori mjetesh shtojcash e shkrueshme
+  text_minimagick_available: MiniMagick gati (opsionale)
+  text_convert_available: Ka mbulim për shndërrime ImageMagick (opsionale)
+  text_gs_available: Ka mbulim për ImageMagick PDF (opsionale)
+  text_destroy_time_entries_question: "Te çështjet që jeni gati të fshini janë raportuar %{hours} orë. Ç’doni të bëhet?"
+  text_destroy_time_entries: Fshiji orët e raportuara
+  text_assign_time_entries_to_project: Caktoja orët e raportuara projektit
+  text_reassign_time_entries: 'Ricaktoja orët e raportuara kësaj çështjeje:'
+  text_user_wrote: "%{value} shkroi:"
+  text_user_wrote_in: "%{value} shkroi te %{link}:"
+  text_enumeration_destroy_question: "%{count} objekteve u është caktuar vlera “%{name}”."
+  text_enumeration_category_reassign_to: 'Ricaktoju këtë vlerë:'
+  text_email_delivery_not_configured: "S’është formësuar dërgim email-esh, dhe njoftimet janë çaktivizuar.\nFormësoni shërbyesin tuaj SMTP te config/configuration.yml dhe rinisni aplikacionin që të aktivizohen."
+  text_repository_usernames_mapping: "Përzgjidhni ose përditësoni përdoruesin Redmine përshoqëruar çdo emri përdoruesi të gjetur te regjistri i depos.\nPërdoruesit me të njëjtin emër përdoruesi apo email në Redmine dhe në depo përshoqërohen vetvetiu."
+  text_diff_truncated: '… Ky diff qe cunguar, ngaqë tejkalon madhësinë maksimum që mund të shfaqet.'
+  text_custom_field_possible_values_info: 'Një rresht për secilën vlerë'
+  text_wiki_page_destroy_question: "kjo faqe ka %{descendants} faqe pjellë dhe pasardhës. Ç’doni të bëhet?"
+  text_wiki_page_nullify_children: "Mbaji faqet pjella si faqe rrënjë"
+  text_wiki_page_destroy_children: "Fshiji faqet pjellë dhe krejt pasardhësit e tyre"
+  text_wiki_page_reassign_children: "Ricaktoja faqet pjella kësaj faqeje mëmë"
+  text_own_membership_delete_confirmation: "Ju ndan një hap nga heqja e disa apo krejt lejeve tuaja dhe pas kësaj mund të mos jeni më në gjendje të përpunoni këtë projekt.\nJeni i sigurt se doni të vazhdohet?"
+  text_zoom_in: Zmadhoje
+  text_zoom_out: Zvogëloje
+  text_warn_on_leaving_unsaved: "Faqja e tanishme përmban tekst të paruajtur, që do të humbë nëse e braktisni këtë faqe."
+  text_scm_path_encoding_note: "Parazgjedhje: UTF-8"
+  text_subversion_repository_note: "Shembuj: file:///, http://, https://, svn://, svn+[tunnelscheme]://"
+  text_git_repository_note: Depoja është e zhveshur dhe vendore (p.sh., /gitrepo, c:\gitrepo)
+  text_mercurial_repository_note: Depo vendore (p.sh., /hgrepo, c:\hgrepo)
+  text_scm_command: Urdhër
   text_scm_command_version: Version
-  text_issue_conflict_resolution_overwrite: "Apply my changes anyway (previous notes will be kept but some changes may be overwritten)"
-  text_issue_conflict_resolution_add_notes: "Add my notes and discard my other changes"
-  text_issue_conflict_resolution_cancel: "Discard all my changes and redisplay %{link}"
-  text_account_destroy_confirmation: "Are you sure you want to proceed?\nYour account will be permanently deleted, with no way to reactivate it."
+  text_scm_config: Urdhrat tuaja SCM mund t’i formësoni te config/configuration.yml. Ju lutemi, riniseni aplikacionin pas një përpunimi të tillë.
+  text_scm_command_not_available: S’ka urdhër SCM. Ju lutemi, kontrolloni rregullimet te paneli i administrimeve.
+  text_issue_conflict_resolution_overwrite: "Zbatoji ndryshimet e mia, sido qoftë (shënimet e mëparshme do të mbahen, por disa ndryshime mund të mbishkruhen)"
+  text_issue_conflict_resolution_add_notes: "Shto shënimet e mia dhe hidh tej ndryshimet e mia të tjera"
+  text_issue_conflict_resolution_cancel: "Hidhi tej krejt ndryshimet e mia dhe rishfaq %{link}"
+  text_account_destroy_confirmation: "Jeni i sigurt se doni të vazhdohet?\nLlogaria juaj do të fshihet përgjithmonë, pa ndonjë rrugë për ta riaktivizuar."
+  text_session_expiration_settings: "Kujdes: ndryshimi i këtyre rregullimeve mund të sjellë skadimin e sesioneve të tanishëm, përfshi tuajin."
+  text_project_closed: Ky projekt është i mbyllur dhe vetëm mund të lexohet.
+  text_turning_multiple_off: "Nëse i çaktivizoni vlerat e shumta, vlerat e shumta do të hiqen, me qëllim ruajtjen vetëm të një vlere për element."
+  text_select_apply_tracker: "Përzgjidhni ndjekës"
+  text_avatar_server_config_html: Shërbyesi i tanishëm i avatarëve është <a href="%{url}">%{url}</a>. Mund ta formësoni te config/configuration.yml.
+  text_no_subject: pa subjekt
 
-  default_role_manager: Manager
-  default_role_developer: Developer
-  default_role_reporter: Reporter
-  default_tracker_bug: Bug
-  default_tracker_feature: Feature
-  default_tracker_support: Support
-  default_issue_status_new: New
-  default_issue_status_in_progress: In Progress
-  default_issue_status_resolved: Resolved
-  default_issue_status_feedback: Feedback
-  default_issue_status_closed: Closed
-  default_issue_status_rejected: Rejected
+
+  default_role_manager: Përgjegjës
+  default_role_developer: Zhvillues
+  default_role_reporter: Raportues
+  default_tracker_bug: E metë
+  default_tracker_feature: Veçori
+  default_tracker_support: Asistencë
+  default_issue_status_new: E re
+  default_issue_status_in_progress: Në Ecuri
+  default_issue_status_resolved: E zgjidhur
+  default_issue_status_feedback: Përshtypje
+  default_issue_status_closed: E mbyllur
+  default_issue_status_rejected: E hedhur tej
   default_doc_category_user: User documentation
   default_doc_category_tech: Technical documentation
-  default_priority_low: Low
-  default_priority_normal: Normal
-  default_priority_high: High
-  default_priority_urgent: Urgent
-  default_priority_immediate: Immediate
-  default_activity_design: Design
-  default_activity_development: Development
+  default_priority_low: E ulët
+  default_priority_normal: Normale
+  default_priority_high: E lartë
+  default_priority_urgent: Urgjente
+  default_priority_immediate: Imediate
+  default_activity_design: Konceptim
+  default_activity_development: Zhvillim
 
-  enumeration_issue_priorities: Issue priorities
-  enumeration_doc_categories: Document categories
-  enumeration_activities: Activities (time tracking)
-  enumeration_system_activity: System Activity
-  description_filter: Filter
-  description_search: Searchfield
-  description_choose_project: Projects
-  description_project_scope: Search scope
-  description_notes: Notes
-  description_message_content: Message content
-  description_query_sort_criteria_attribute: Sort attribute
-  description_query_sort_criteria_direction: Sort direction
-  description_user_mail_notification: Mail notification settings
-  description_available_columns: Available Columns
-  description_selected_columns: Selected Columns
-  description_all_columns: All Columns
-  description_issue_category_reassign: Choose issue category
-  description_wiki_subpages_reassign: Choose new parent page
-  error_session_expired: Your session has expired. Please login again.
-  text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
-  setting_session_lifetime: Session maximum lifetime
-  setting_session_timeout: Session inactivity timeout
-  label_session_expiration: Session expiration
-  permission_close_project: Close / reopen the project
-  button_close: Close
-  button_reopen: Reopen
-  project_status_active: active
-  project_status_closed: closed
-  project_status_archived: archived
-  text_project_closed: This project is closed and read-only.
-  notice_user_successful_create: User %{id} created.
-  field_core_fields: Standard fields
-  field_timeout: Timeout (in seconds)
-  setting_thumbnails_enabled: Display attachment thumbnails
-  setting_thumbnails_size: Thumbnails size (in pixels)
-  label_status_transitions: Status transitions
-  label_fields_permissions: Fields permissions
-  label_readonly: Read-only
-  label_required: Required
-  text_repository_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.'
-  field_board_parent: Parent forum
-  label_attribute_of_project: Project's %{name}
-  label_attribute_of_author: Author's %{name}
-  label_attribute_of_assigned_to: Assignee's %{name}
-  label_attribute_of_fixed_version: Target version's %{name}
-  label_copy_subtasks: Copy subtasks
-  label_copied_to: copied to
-  label_copied_from: copied from
-  label_any_issues_in_project: any issues in project
-  label_any_issues_not_in_project: any issues not in project
-  field_private_notes: Private notes
-  permission_view_private_notes: View private notes
-  permission_set_notes_private: Set notes as private
-  label_no_issues_in_project: no issues in project
-  label_any: te gjitha
-  label_last_n_weeks: last %{count} weeks
-  setting_cross_project_subtasks: Allow cross-project subtasks
-  label_cross_project_descendants: With subprojects
-  label_cross_project_tree: With project tree
-  label_cross_project_hierarchy: With project hierarchy
-  label_cross_project_system: With all projects
-  button_hide: Hide
-  setting_non_working_week_days: Non-working days
-  label_in_the_next_days: in the next
-  label_in_the_past_days: in the past
-  label_attribute_of_user: User's %{name}
-  text_turning_multiple_off: If you disable multiple values, multiple values will be
-    removed in order to preserve only one value per item.
-  label_attribute_of_issue: Issue's %{name}
-  permission_add_documents: Add documents
-  permission_edit_documents: Edit documents
-  permission_delete_documents: Delete documents
-  label_gantt_progress_line: Progress line
-  setting_jsonp_enabled: Enable JSONP support
-  field_inherit_members: Inherit members
-  field_closed_on: Closed
-  field_generate_password: Generate password
-  setting_default_projects_tracker_ids: Default trackers for new projects
-  label_total_time: Total
-  text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.
-  setting_emails_footer: Email footer
-  setting_emails_header: Email header
-  notice_account_not_activated_yet: You haven't activated your account yet. If you want
-    to receive a new activation email, please <a href="%{url}">click this link</a>.
-  notice_account_locked: Your account is locked.
-  label_hidden: Hidden
-  label_visibility_private: to me only
-  label_visibility_roles: to these roles only
-  label_visibility_public: to any users
-  field_must_change_passwd: Must change password at next logon
-  notice_new_password_must_be_different: The new password must be different from the
-    current password
-  setting_mail_handler_excluded_filenames: Exclude attachments by name
-  text_convert_available: ImageMagick convert available (optional)
-  label_link: Link
-  label_only: only
-  label_drop_down_list: drop-down list
-  label_checkboxes: checkboxes
-  label_link_values_to: Link values to URL
-  setting_force_default_language_for_anonymous: Force default language for anonymous
-    users
-  setting_force_default_language_for_loggedin: Force default language for logged-in
-    users
-  label_custom_field_select_type: Select the type of object to which the custom field
-    is to be attached
-  label_issue_assigned_to_updated: Assignee updated
-  label_check_for_updates: Check for updates
-  label_latest_compatible_version: Latest compatible version
-  label_unknown_plugin: Unknown plugin
-  label_radio_buttons: radio buttons
-  label_group_anonymous: Anonymous users
-  label_group_non_member: Non member users
-  label_add_projects: Add projects
-  field_default_status: Default status
-  text_subversion_repository_note: 'Examples: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
-  field_users_visibility: Users visibility
-  label_users_visibility_all: All active users
-  label_users_visibility_members_of_visible_projects: Members of visible projects
-  label_edit_attachments: Edit attached files
-  setting_link_copied_issue: Link issues on copy
-  label_link_copied_issue: Link copied issue
-  label_ask: Ask
-  label_search_attachments_yes: Search attachment filenames and descriptions
-  label_search_attachments_no: Do not search attachments
-  label_search_attachments_only: Search attachments only
-  label_search_open_issues_only: Open issues only
-  field_address: Email
-  setting_max_additional_emails: Maximum number of additional email addresses
-  label_email_address_plural: Emails
-  label_email_address_add: Add email address
-  label_enable_notifications: Enable notifications
-  label_disable_notifications: Disable notifications
-  setting_search_results_per_page: Search results per page
-  label_blank_value: blank
-  permission_copy_issues: Copy issues
-  error_password_expired: Your password has expired or the administrator requires you
-    to change it.
-  field_time_entries_visibility: Time logs visibility
-  setting_password_max_age: Require password change after
-  label_parent_task_attributes: Parent tasks attributes
-  label_parent_task_attributes_derived: Calculated from subtasks
-  label_parent_task_attributes_independent: Independent of subtasks
-  label_time_entries_visibility_all: All time entries
-  label_time_entries_visibility_own: Time entries created by the user
-  label_member_management: Member management
-  label_member_management_all_roles: All roles
-  label_member_management_selected_roles_only: Only these roles
-  label_password_required: Confirm your password to continue
-  label_total_spent_time: Overall spent time
-  notice_import_finished: "%{count} items have been imported"
-  notice_import_finished_with_errors: "%{count} out of %{total} items could not be imported"
-  error_invalid_file_encoding: The file is not a valid %{encoding} encoded file
-  error_invalid_csv_file_or_settings: The file is not a CSV file or does not match the
-    settings below (%{value})
-  error_can_not_read_import_file: An error occurred while reading the file to import
-  permission_import_issues: Import issues
-  label_import_issues: Import issues
-  label_select_file_to_import: Select the file to import
-  label_fields_separator: Field separator
-  label_fields_wrapper: Field wrapper
-  label_encoding: Encoding
-  label_comma_char: Comma
-  label_semi_colon_char: Semicolon
-  label_quote_char: Quote
-  label_double_quote_char: Double quote
-  label_fields_mapping: Fields mapping
-  label_file_content_preview: File content preview
-  label_create_missing_values: Create missing values
-  button_import: Import
-  field_total_estimated_hours: Total estimated time
-  label_api: API
-  label_total_plural: Totals
-  label_assigned_issues: Assigned issues
-  label_field_format_enumeration: Key/value list
-  label_f_hour_short: '%{value} h'
-  field_default_version: Default version
-  error_attachment_extension_not_allowed: Attachment extension %{extension} is not allowed
-  setting_attachment_extensions_allowed: Allowed extensions
-  setting_attachment_extensions_denied: Disallowed extensions
-  label_any_open_issues: any open issues
-  label_no_open_issues: no open issues
-  label_default_values_for_new_users: Default values for new users
-  error_ldap_bind_credentials: Invalid LDAP Account/Password
-  setting_sys_api_key: API key
-  setting_lost_password: Fjalekalim i humbur
-  mail_subject_security_notification: Security notification
-  mail_body_security_notification_change: ! '%{field} was changed.'
-  mail_body_security_notification_change_to: ! '%{field} was changed to %{value}.'
-  mail_body_security_notification_add: ! '%{field} %{value} was added.'
-  mail_body_security_notification_remove: ! '%{field} %{value} was removed.'
-  mail_body_security_notification_notify_enabled: Email address %{value} now receives
-    notifications.
-  mail_body_security_notification_notify_disabled: Email address %{value} no longer
-    receives notifications.
-  mail_body_settings_updated: ! 'The following settings were changed:'
-  field_remote_ip: IP address
-  label_wiki_page_new: New wiki page
-  label_relations: Relations
-  button_filter: Filter
-  mail_body_password_updated: Your password has been changed.
-  label_no_preview: No preview available
-  error_no_tracker_allowed_for_new_issue_in_project: The project doesn't have any trackers
-    for which you can create an issue
-  label_tracker_all: All trackers
-  label_new_project_issue_tab_enabled: Display the "New issue" tab
-  setting_new_item_menu_tab: Project menu tab for creating new objects
-  label_new_object_tab_enabled: Display the "+" drop-down
-  error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
-    for which you can create an issue
-  field_textarea_font: Font used for text areas
-  label_font_default: Default font
-  label_font_monospace: Monospaced font
-  label_font_proportional: Proportional font
-  setting_timespan_format: Time span format
-  label_table_of_contents: Table of contents
-  setting_commit_logs_formatting: Apply text formatting to commit messages
-  setting_mail_handler_enable_regex: Enable regular expressions
-  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
-    project: %{errors}'
-  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
-    be reassigned to an issue that is about to be deleted
-  setting_timelog_required_fields: Required fields for time logs
-  label_attribute_of_object: '%{object_name}''s %{name}'
-  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
-  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
-  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
-    of values from one or more fields on the selected objects
-  field_updated_by: Updated by
-  field_last_updated_by: Last updated by
-  field_full_width_layout: Full width layout
-  label_last_notes: Last notes
-  field_digest: Checksum
-  field_default_assigned_to: Default assignee
-  setting_show_custom_fields_on_registration: Show custom fields on registration
-  permission_view_news: View news
-  label_no_preview_alternative_html: No preview available. %{link} the file instead.
-  label_no_preview_download: Download
-  setting_close_duplicate_issues: Close duplicate issues automatically
-  error_exceeds_maximum_hours_per_day: Cannot log more than %{max_hours} hours on the
-    same day (%{logged_hours} hours have already been logged)
-  setting_time_entry_list_defaults: Timelog list defaults
-  setting_timelog_accept_0_hours: Accept time logs with 0 hours
-  setting_timelog_max_hours_per_day: Maximum hours that can be logged per day and user
-  label_x_revisions: "%{count} revisions"
-  error_can_not_delete_auth_source: This authentication mode is in use and cannot be
-    deleted.
-  button_actions: Actions
-  mail_body_lost_password_validity: Please be aware that you may change the password
-    only once using this link.
-  text_login_required_html: When not requiring authentication, public projects and their
-    contents are openly available on the network. You can <a href="%{anonymous_role_path}">edit
-    the applicable permissions</a>.
-  label_login_required_yes: 'Yes'
-  label_login_required_no: No, allow anonymous access to public projects
-  text_project_is_public_non_member: Public projects and their contents are available
-    to all logged-in users.
-  text_project_is_public_anonymous: Public projects and their contents are openly available
-    on the network.
-  label_version_and_files: Versions (%{count}) and Files
-  label_ldap: LDAP
-  label_ldaps_verify_none: LDAPS (without certificate check)
-  label_ldaps_verify_peer: LDAPS
-  label_ldaps_warning: It is recommended to use an encrypted LDAPS connection with certificate
-    check to prevent any manipulation during the authentication process.
-  label_nothing_to_preview: Nothing to preview
-  error_token_expired: This password recovery link has expired, please try again.
-  error_spent_on_future_date: Cannot log time on a future date
-  setting_timelog_accept_future_dates: Accept time logs on future dates
-  label_delete_link_to_subtask: Delete relation
-  error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
-    for other users
-  permission_log_time_for_other_users: Log spent time for other users
-  label_tomorrow: tomorrow
-  label_next_week: next week
-  label_next_month: next month
-  text_role_no_workflow: No workflow defined for this role
-  text_status_no_workflow: No tracker uses this status in the workflows
-  setting_mail_handler_preferred_body_part: Preferred part of multipart (HTML) emails
-  setting_show_status_changes_in_mail_subject: Show status changes in issue mail notifications
-    subject
-  label_inherited_from_parent_project: Inherited from parent project
-  label_inherited_from_group: Inherited from group %{name}
-  label_trackers_description: Trackers description
-  label_open_trackers_description: View all trackers description
-  label_preferred_body_part_text: Text
-  label_preferred_body_part_html: HTML (experimental)
-  field_parent_issue_subject: Parent task subject
-  permission_edit_own_issues: Edit own issues
-  text_select_apply_tracker: Select tracker
-  label_updated_issues: Updated issues
-  text_avatar_server_config_html: The current avatar server is <a href="%{url}">%{url}</a>.
-    You can configure it in config/configuration.yml.
-  setting_gantt_months_limit: Maximum number of months displayed on the gantt chart
-  permission_import_time_entries: Import time entries
-  label_import_notifications: Send email notifications during the import
-  text_gs_available: ImageMagick PDF support available (optional)
-  field_recently_used_projects: Number of recently used projects in jump box
-  label_optgroup_bookmarks: Bookmarks
-  label_optgroup_others: Other projects
-  label_optgroup_recents: Recently used
-  button_project_bookmark: Add bookmark
-  button_project_bookmark_delete: Remove bookmark
-  field_history_default_tab: Issue's history default tab
-  label_issue_history_properties: Property changes
-  label_issue_history_notes: Notes
-  label_last_tab_visited: Last visited tab
-  field_unique_id: Unique ID
-  text_no_subject: no subject
-  setting_password_required_char_classes: Required character classes for passwords
-  label_password_char_class_uppercase: uppercase letters
-  label_password_char_class_lowercase: lowercase letters
-  label_password_char_class_digits: digits
-  label_password_char_class_special_chars: special characters
-  text_characters_must_contain: Must contain %{character_classes}.
-  label_starts_with: starts with
-  label_ends_with: ends with
-  label_issue_fixed_version_updated: Target version updated
-  setting_project_list_defaults: Projects list defaults
-  label_display_type: Display results as
-  label_display_type_list: List
-  label_display_type_board: Board
-  label_my_bookmarks: My bookmarks
-  label_import_time_entries: Import time entries
-  field_toolbar_language_options: Code highlighting toolbar languages
-  label_user_mail_notify_about_high_priority_issues_html: Also notify me about issues
-    with a priority of <em>%{prio}</em> or higher
-  label_assign_to_me: Assign to me
-  notice_issue_not_closable_by_open_tasks: This issue cannot be closed because it has
-    at least one open subtask.
-  notice_issue_not_closable_by_blocking_issue: This issue cannot be closed because it
-    is blocked by at least one open issue.
-  notice_issue_not_reopenable_by_closed_parent_issue: This issue cannot be reopened
-    because its parent issue is closed.
-  error_bulk_download_size_too_big: These attachments cannot be bulk downloaded because
-    the total file size exceeds the maximum allowed size (%{max_size})
-  setting_bulk_download_max_size: Maximum total size for bulk download
-  label_download_all_attachments: Download all files
-  error_attachments_too_many: This file cannot be uploaded because it exceeds the maximum
-    number of files that can be attached simultaneously (%{max_number_of_files})
-  setting_email_domains_allowed: Allowed email domains
-  setting_email_domains_denied: Disallowed email domains
-  field_passwd_changed_on: Password last changed
-  label_relations_mapping: Relations mapping
-  label_import_users: Import users
-  label_days_to_html: "%{days} days up to %{date}"
-  setting_twofa: Two-factor authentication
-  label_optional: optional
-  label_required_lower: required
-  button_disable: Disable
-  twofa__totp__name: Authenticator app
-  twofa__totp__text_pairing_info_html: Scan this QR code or enter the plain text key
-    into a TOTP app (e.g. <a href="https://support.google.com/accounts/answer/1066447">Google
-    Authenticator</a>, <a href="https://authy.com/download/">Authy</a>, <a href="https://guide.duo.com/third-party-accounts">Duo
-    Mobile</a>) and enter the code in the field below to activate two-factor authentication.
-  twofa__totp__label_plain_text_key: Plain text key
-  twofa__totp__label_activate: Enable authenticator app
-  twofa_currently_active: 'Currently active: %{twofa_scheme_name}'
-  twofa_not_active: Not activated
-  twofa_label_code: Code
-  twofa_hint_disabled_html: Setting <strong>%{label}</strong> will deactivate and unpair
-    two-factor authentication devices for all users.
-  twofa_hint_required_html: Setting <strong>%{label}</strong> will require all users
-    to set up two-factor authentication at their next login.
-  twofa_label_setup: Enable two-factor authentication
-  twofa_label_deactivation_confirmation: Disable two-factor authentication
-  twofa_notice_select: 'Please select the two-factor scheme you would like to use:'
-  twofa_warning_require: The administrator requires you to enable two-factor authentication.
-  twofa_activated: Two-factor authentication successfully enabled. It is recommended
-    to <a data-method="post" href="%{bc_path}">generate backup codes</a> for your account.
-  twofa_deactivated: Two-factor authentication disabled.
-  twofa_mail_body_security_notification_paired: Two-factor authentication successfully
-    enabled using %{field}.
-  twofa_mail_body_security_notification_unpaired: Two-factor authentication disabled
-    for your account.
-  twofa_mail_body_backup_codes_generated: New two-factor authentication backup codes
-    generated.
-  twofa_mail_body_backup_code_used: A two-factor authentication backup code has been
-    used.
-  twofa_invalid_code: Code is invalid or outdated.
-  twofa_label_enter_otp: Please enter your two-factor authentication code.
-  twofa_too_many_tries: Too many tries.
-  twofa_resend_code: Resend code
-  twofa_code_sent: An authentication code has been sent to you.
-  twofa_generate_backup_codes: Generate backup codes
-  twofa_text_generate_backup_codes_confirmation: This will invalidate all existing backup
-    codes and generate new ones. Would you like to continue?
-  twofa_notice_backup_codes_generated: Your backup codes have been generated.
-  twofa_warning_backup_codes_generated_invalidated: New backup codes have been generated.
-    Your existing codes from %{time} are now invalid.
-  twofa_label_backup_codes: Two-factor authentication backup codes
-  twofa_text_backup_codes_hint: Use these codes instead of a one-time password should
-    you not have access to your second factor. Each code can only be used once. It is
-    recommended to print and store them in a safe place.
-  twofa_text_backup_codes_created_at: Backup codes generated %{datetime}.
-  twofa_backup_codes_already_shown: Backup codes cannot be shown again, please <a data-method="post"
-    href="%{bc_path}">generate new backup codes</a> if required.
+  enumeration_issue_priorities: Përparësi çështjesh
+  enumeration_doc_categories: Kategori dokumentesh
+  enumeration_activities: Veprimtari (ndjekje kohore)
+  enumeration_system_activity: Veprimtari Sistemi
+  description_filter: Filtër
+  description_search: Fushë kërkimi
+  description_choose_project: Projekte
+  description_project_scope: Fokus kërkimi
+  description_notes: Shënime
+  description_message_content: Lëndë mesazhi
+  description_query_sort_criteria_attribute: Atribut renditjeje
+  description_query_sort_criteria_direction: Kah renditjeje
+  description_user_mail_notification: Rregullime njoftimesh me email
+  description_available_columns: Shtylla të Gatshme
+  description_selected_columns: Shtylla të Përzgjedhura
+  description_all_columns: Krejt Shtyllat
+  description_issue_category_reassign: Zgjidhni kategori çështjeje
+  description_wiki_subpages_reassign: Zgjidhni faqe të re mëmë
+  text_repository_identifier_info: 'Lejohen vetëm shkronja të vogla (a-z), numra, vija ndarëse dhe nënvija.<br />Pasi të ruhet, identifikuesi s’mund të ndryshohet.'
+  text_login_required_html: Kur nuk kërkohet mirëfilltësim doemos, projekte publike dhe lënda e tyre janë të passhëm haptazi në rrjet. Mundeni të <a href="%{anonymous_role_path}">përpunoni lejet e aplikueshme</a>.
+  label_login_required_yes: "Po"
+  label_login_required_no: "Jo, lejo hyrje anonime te projekte publike"
+  text_project_is_public_non_member: Projekte publike dhe lënda e tyre janë të passhëm për krejt përdoruesit që kanë bërë hyrjen.
+  text_project_is_public_anonymous: Projekte publike dhe lënda e tyre janë të passhëm haptazi në rrjet.
+  label_import_time_entries: Importoni zëra kohe
+  label_import_users: Importoni përdorues
+
+  twofa__totp__name: Aplikacion mirëfilltësimi
+  twofa__totp__text_pairing_info_html: 'Skanojeni këtë kod QR ose jepni kyçin si tekst të thjeshtë te një aplikacion TOTP (p.sh., <a href="https://support.google.com/accounts/answer/1066447">Google Authenticator</a>, <a href="https://authy.com/download/">Authy</a>, <a href="https://guide.duo.com/third-party-accounts">Duo Mobile</a>) dhe jepeni kodin te fusha më poshtë që të aktivizoni mirëfilltësim dyfaktorësh.'
+  twofa__totp__label_plain_text_key: Kyç si tekst i thjeshtë
+  twofa__totp__label_activate: 'Aktivizoni aplikacion mirëfilltësimesh'
+  twofa_currently_active: "Aktualisht aktiv: %{twofa_scheme_name}"
+  twofa_not_active: "Jo i aktivizuar"
+  twofa_label_code: Kod
+  twofa_hint_disabled_html: Rregullimi <strong>%{label}</strong> do të çaktivizojë dhe do të heqë çiftimin e pajisjeve të mirëfilltësimit dyfaktorësh, për krejt përdoruesit.
+  twofa_hint_required_html: Rregullimi <strong>%{label}</strong> do të kërkojë që krejt përdoruesit të ujdisin medoemos mirëfilltësim dyfaktorësh, herës tjetër që bëjnë hyrjen.
+  twofa_label_setup: Aktivizo mirëfilltësim dyfaktorësh
+  twofa_label_deactivation_confirmation: Çaktivizo mirëfilltësim dyfaktorësh
+  twofa_notice_select: "Ju lutemi, përzgjidhni skemën për mirëfilltësim dyfaktorësh që dëshironi të përdorni:"
+  twofa_warning_require: Përgjegjësi kërkon që të aktivizoni doemos mirëfilltësim dyfaktorësh.
+  twofa_activated: Mirëfilltësimi dyfaktorësh u aktivizua me sukses. Rekomandohet të <a data-method="post" href="%{bc_path}">prodhoni kode kopjeruajtjeje</a> për llogarinë tuaj.
+  twofa_deactivated: Mirëfilltësimi dyfaktorësh u çaktivizua.
+  twofa_mail_body_security_notification_paired: "Mirëfilltësimi dyfaktorësh u aktivizua me sukses, duke përdorur %{field}."
+  twofa_mail_body_security_notification_unpaired: "Mirëfilltësimi dyfaktorësh u çaktivizua për llogarinë tuaj."
+  twofa_mail_body_backup_codes_generated: "U prodhuan kode të rinj mirëfilltësimi dyfaktorësh për kopjeruajtje."
+  twofa_mail_body_backup_code_used: "U përdor një kod mirëfilltësimi dyfaktorësh kopjeruajtjeje."
+  twofa_invalid_code: Kodi është i pavlefshëm ose i vjetruar.
+  twofa_label_enter_otp: Ju lutemi, jepni kodin tuaj të mirëfilltësimit dyfaktorësh.
+  twofa_too_many_tries: Shumë prova.
+  twofa_resend_code: Ridërgo kodin
+  twofa_code_sent: U dërgua një kod mirëfilltësimi për ju.
+  twofa_generate_backup_codes: Prodhoni kode kopjeruajtjesh
+  twofa_text_generate_backup_codes_confirmation: Kjo do të bëjë të pavlefshëm krejt kodet ekzistues të kopjeruajtjeve dhe do të prodhojë të rinj. Doni të vazhdohet?
+  twofa_notice_backup_codes_generated: Kopjet tuaj të kopjeruajtjeve u prodhuan.
+  twofa_warning_backup_codes_generated_invalidated: U prodhuan kode të rinj kopjeruajtjesh. Kodet tuaj ekzistues prej %{time} tanimë janë të pavlefshëm.
+  twofa_label_backup_codes: Kode mirëfilltësimi dyfaktorësh kopjeruajtjesh
+  twofa_text_backup_codes_hint: Përdorni këto kode, në vend se të një fjalëkalimi njëpërdorimsh, për raste kur s’e keni faktorin e dytër. Çdo kod mund të përdoret vetëm një herë. Është e këshillueshme që të shtypen dhe të ruhen në një vend të parrezik.
+  twofa_text_backup_codes_created_at: Kode kopjeruajtjesh prodhuar më %{datetime}.
+  twofa_backup_codes_already_shown: Kodet e kopjeruajtjeve s’mund të shfaqen sërish, ju lutemi, nëse duhet, <a data-method="post" href="%{bc_path}">prodhoni kode të rinj kopjeruajtjesh</a>.
   error_can_not_execute_macro_html: Error executing the <strong>%{name}</strong> macro
     (%{error})
   error_macro_does_not_accept_block: This macro does not accept a block of text
@@ -1423,7 +1386,6 @@ sq:
     authentication setting is set to 'optional'. Currently, two factor authentication
     is disabled.
   field_default_issue_query: Default issue query
-  setting_default_issue_query: Default Query
   label_default_queries:
     for_all_projects: For all projects
     for_current_project: For current project
@@ -1433,3 +1395,10 @@ sq:
   button_save_object: Save %{object_name}
   button_edit_object: Edit %{object_name}
   button_delete_object: Delete %{object_name}
+  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
+    Please restart the application after editing it.
+  label_bulk_edit: Bulk edit
+  button_create_and_follow: Create and follow
+  label_subtask: Subtask
+  label_default_query: Default query
+  field_default_project_query: Default project query

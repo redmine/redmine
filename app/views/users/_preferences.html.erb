@@ -8,4 +8,5 @@
 <p><%= pref_fields.select :history_default_tab, history_default_tab_options %></p>
 <p><%= pref_fields.text_area :toolbar_language_options, :rows => 4 %></p>
 <p><%= pref_fields.select :default_issue_query, default_issue_query_options(@user), include_blank: l(:label_none) %></p>
+<p><%= pref_fields.select :default_project_query, default_project_query_options(@user), include_blank: l(:label_none) %></p>
 <% end %>

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -433,10 +433,19 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert issue.is_a?(Issue)
     assert !issue.new_record?
 
-    mail = ActionMailer::Base.deliveries.last
-    assert_not_nil mail
-    assert mail.subject.include?("##{issue.id}")
-    assert mail.subject.include?('New ticket on a given project')
+    assert_equal 4, issue.parent_issue_id
+    assert_equal 2, ActionMailer::Base.deliveries.size
+
+    [
+      [issue.id, 'New ticket on a given project'],
+      [4, 'Issue on project 2'],
+    ].each do |issue_id, issue_subject|
+      mail =
+        ActionMailer::Base.deliveries.detect do |m|
+          /##{issue_id}/.match?(m.subject) && /#{issue_subject}/.match?(m.subject)
+        end
+      assert_not_nil mail
+    end
   end
 
   def test_created_user_should_be_added_to_groups

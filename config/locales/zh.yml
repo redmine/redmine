@@ -150,7 +150,7 @@ zh:
   general_lang_name: 'Chinese/Simplified (简体中文)'
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
-  general_csv_encoding: gb18030
+  general_csv_encoding: GB18030
   general_pdf_fontname: stsongstdlight
   general_pdf_monospaced_fontname: stsongstdlight
   general_first_day_of_week: '7'
@@ -308,7 +308,6 @@ zh:
   field_parent_title: 上级页面
   field_editable: 可编辑
   field_watcher: 关注者
-  field_identity_url: OpenID URL
   field_content: 内容
   field_group_by: 根据此条件分组
   field_sharing: 共享
@@ -358,7 +357,6 @@ zh:
   setting_diff_max_lines_displayed: 查看差别页面上显示的最大行数
   setting_file_max_size_displayed: 允许直接显示的最大文本文件
   setting_repository_log_display_limit: 在文件变更记录页面上显示的最大修订版本数量
-  setting_openid: 允许使用OpenID登录和注册
   setting_password_min_length: 最短密码长度
   setting_new_project_user_role_id: 非管理员用户新建项目时将被赋予的（在该项目中的）角色
   setting_default_projects_modules: 新建项目默认启用的模块
@@ -487,7 +485,6 @@ zh:
   label_information: 信息
   label_information_plural: 信息
   label_register: 注册
-  label_login_with_open_id_option: 或使用OpenID登录
   label_password_lost: 忘记密码
   label_home: 主页
   label_my_page: 我的工作台
@@ -1382,7 +1379,6 @@ zh:
     authentication setting is set to 'optional'. Currently, two factor authentication
     is disabled.
   field_default_issue_query: Default issue query
-  setting_default_issue_query: Default Query
   label_default_queries:
     for_all_projects: For all projects
     for_current_project: For current project
@@ -1392,3 +1388,10 @@ zh:
   button_save_object: Save %{object_name}
   button_edit_object: Edit %{object_name}
   button_delete_object: Delete %{object_name}
+  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
+    Please restart the application after editing it.
+  label_bulk_edit: Bulk edit
+  button_create_and_follow: Create and follow
+  label_subtask: Subtask
+  label_default_query: Default query
+  field_default_project_query: Default project query

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -53,6 +53,7 @@ class Setting < ActiveRecord::Base
                   windows-1257
                   windows-1258
                   windows-31j
+                  windows-874
                   ISO-2022-JP
                   ISO-8859-1
                   ISO-8859-2
@@ -73,6 +74,7 @@ class Setting < ActiveRecord::Base
                   EUC-JP
                   Shift_JIS
                   CP932
+                  CP949
                   GB18030
                   GBK
                   EUC-KR
@@ -106,7 +108,8 @@ class Setting < ActiveRecord::Base
     v = read_attribute(:value)
     # Unserialize serialized settings
     if available_settings[name]['serialized'] && v.is_a?(String)
-      v = YAML::load(v)
+      # YAML.load works as YAML.safe_load if Psych >= 4.0 is installed
+      v = YAML.respond_to?(:unsafe_load) ? YAML.unsafe_load(v) : YAML.load(v)
       v = force_utf8_strings(v)
     end
     v = v.to_sym if available_settings[name]['format'] == 'symbol' && !v.blank?
@@ -265,10 +268,6 @@ class Setting < ActiveRecord::Base
       end
     end
     a
-  end
-
-  def self.openid?
-    Object.const_defined?(:OpenID) && self[:openid].to_i > 0
   end
 
   # Checks if settings have changed since the values were read

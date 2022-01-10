@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -396,7 +396,7 @@ Rails.application.routes.draw do
 
   Dir.glob File.expand_path("#{Redmine::Plugin.directory}/*") do |plugin_dir|
     file = File.join(plugin_dir, "config/routes.rb")
-    if File.exists?(file)
+    if File.exist?(file)
       begin
         instance_eval File.read(file)
       rescue SyntaxError, StandardError => e

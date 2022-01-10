@@ -48,7 +48,10 @@
            :inline => true,
            :label => :label_total_plural %></p>
 
-  <p><%= setting_select :default_issue_query, default_global_issue_query_options %></p>
+  <p>
+    <label><%= l(:label_default_query) %></label>
+    <%= setting_select :default_issue_query, default_global_issue_query_options, label: false %>
+  </p>
 </fieldset>
 
 <%= submit_tag l(:button_save) %>

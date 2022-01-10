@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -546,6 +546,12 @@ module IssuesHelper
         label = l(:field_parent_issue)
         value = "##{detail.value}" unless detail.value.blank?
         old_value = "##{detail.old_value}" unless detail.old_value.blank?
+
+      when 'child_id'
+        label = l(:label_subtask)
+        value = "##{detail.value}" unless detail.value.blank?
+        old_value = "##{detail.old_value}" unless detail.old_value.blank?
+        multiple = true
 
       when 'is_private'
         value = l(detail.value == "0" ? :general_text_No : :general_text_Yes) unless detail.value.blank?

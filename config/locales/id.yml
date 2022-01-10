@@ -289,7 +289,6 @@ id:
   field_parent_title: Halaman induk
   field_editable: Dapat disunting
   field_watcher: Pemantau
-  field_identity_url: OpenID URL
   field_content: Isi
   field_group_by: Dikelompokkan berdasar
   field_sharing: Berbagi
@@ -332,7 +331,6 @@ id:
   setting_diff_max_lines_displayed: Maksimum perbedaan baris tertampil
   setting_file_max_size_displayed: Maksimum berkas tertampil secara inline
   setting_repository_log_display_limit: Nilai maksimum dari revisi ditampilkan di log berkas
-  setting_openid: Perbolehkan Login dan pendaftaran melalui OpenID
   setting_password_min_length: Panjang minimum untuk kata sandi
   setting_new_project_user_role_id: Peran diberikan pada pengguna non-admin yang membuat proyek
   setting_default_projects_modules: Modul yang diaktifkan pada proyek baru
@@ -444,7 +442,6 @@ id:
   label_information: Informasi
   label_information_plural: Informasi
   label_register: mendaftar
-  label_login_with_open_id_option: atau login menggunakan OpenID
   label_password_lost: Lupa password
   label_home: Halaman depan
   label_my_page: Beranda
@@ -1429,7 +1426,6 @@ id:
     authentication setting is set to 'optional'. Currently, two factor authentication
     is disabled.
   field_default_issue_query: Default issue query
-  setting_default_issue_query: Default Query
   label_default_queries:
     for_all_projects: For all projects
     for_current_project: For current project
@@ -1439,3 +1435,10 @@ id:
   button_save_object: Save %{object_name}
   button_edit_object: Edit %{object_name}
   button_delete_object: Delete %{object_name}
+  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
+    Please restart the application after editing it.
+  label_bulk_edit: Bulk edit
+  button_create_and_follow: Create and follow
+  label_subtask: Subtask
+  label_default_query: Default query
+  field_default_project_query: Default project query

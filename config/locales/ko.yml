@@ -331,7 +331,6 @@ ko:
   field_parent_title: 상위 제목
   field_editable: 편집가능
   field_watcher: 일감관람자
-  field_identity_url: OpenID URL
   field_content: 내용
   field_group_by: 결과를 묶어 보여줄 기준
 
@@ -372,7 +371,6 @@ ko:
   setting_diff_max_lines_displayed: 차이점(diff) 보기에 표시할 최대 줄수
   setting_repository_log_display_limit: 저장소 보기에 표시할 개정이력의 최대 갯수
   setting_file_max_size_displayed: 바로 보여줄 텍스트파일의 최대 크기
-  setting_openid: OpenID 로그인과 등록 허용
   setting_password_min_length: 최소 암호 길이
   setting_new_project_user_role_id: 프로젝트를 만든 사용자에게 주어질 역할
 
@@ -481,7 +479,6 @@ ko:
   label_information: 정보
   label_information_plural: 정보
   label_register: 등록
-  label_login_with_open_id_option: 또는 OpenID로 로그인
   label_password_lost: 비밀번호 찾기
   label_home: 초기화면
   label_my_page: 내 페이지
@@ -1465,7 +1462,6 @@ ko:
     authentication setting is set to 'optional'. Currently, two factor authentication
     is disabled.
   field_default_issue_query: Default issue query
-  setting_default_issue_query: Default Query
   label_default_queries:
     for_all_projects: For all projects
     for_current_project: For current project
@@ -1475,3 +1471,10 @@ ko:
   button_save_object: Save %{object_name}
   button_edit_object: Edit %{object_name}
   button_delete_object: Delete %{object_name}
+  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
+    Please restart the application after editing it.
+  label_bulk_edit: Bulk edit
+  button_create_and_follow: Create and follow
+  label_subtask: Subtask
+  label_default_query: Default query
+  field_default_project_query: Default project query

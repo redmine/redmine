@@ -75,5 +75,23 @@ module Redmine
         str = self.replace_invalid_utf8(str)
       end
     end
+
+    def self.guess_encoding(str)
+      return if str.nil?
+
+      str = str.dup
+      encodings = Setting.repositories_encodings.split(',').collect(&:strip)
+      encodings = encodings.presence || ['UTF-8']
+
+      encodings.each do |encoding|
+        begin
+          str.force_encoding(encoding)
+        rescue Encoding::ConverterNotFoundError
+          # ignore if the encoding name is invalid
+        end
+        return encoding if str.valid_encoding?
+      end
+      nil
+    end
   end
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -225,7 +225,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
     log_user('jsmith', 'jsmith')
     visit "/issues/#{issue.id}"
     page.first(:link, 'Edit').click
-    assert page.has_select?("issue_status_id", {:selected => "New"})
+    assert page.has_select?("issue_status_id", selected: "New")
     page.find("#issue_status_id").select("Closed")
     assert_no_difference 'Issue.count' do
       page.first(:button, 'Submit').click
@@ -366,7 +366,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
     find('tr#issue-4 input[type=checkbox]').click
     find('tr#issue-1 td.updated_on').right_click
     within('#context-menu') do
-      click_link 'Edit'
+      click_link 'Bulk edit'
     end
     assert_current_path '/issues/bulk_edit', :ignore_query => true
     submit_buttons = page.all('input[type=submit]')
@@ -389,7 +389,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
     find('tr#issue-4 input[type=checkbox]').click
     find('tr#issue-1 td.updated_on').right_click
     within('#context-menu') do
-      click_link 'Edit'
+      click_link 'Bulk edit'
     end
     assert_current_path '/issues/bulk_edit', :ignore_query => true
     submit_buttons = page.all('input[type=submit]')
@@ -398,7 +398,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
 
     page.find('#issue_project_id').select('OnlineStore')
     # wait for ajax response
-    assert page.has_select?('issue_project_id', {:selected => 'OnlineStore'})
+    assert page.has_select?('issue_project_id', selected: 'OnlineStore')
 
     submit_buttons = page.all('input[type=submit]')
     assert_equal 2, submit_buttons.size
@@ -462,7 +462,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
 
     page.find('#issue_project_id').select('OnlineStore')
     # wait for ajax response
-    assert page.has_select?('issue_project_id', {:selected => 'OnlineStore'})
+    assert page.has_select?('issue_project_id', selected: 'OnlineStore')
 
     submit_buttons = page.all('input[type=submit]')
     assert_equal 2, submit_buttons.size

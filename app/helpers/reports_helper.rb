@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -41,7 +41,7 @@ module ReportsHelper
   end
 
   def aggregate_path(project, field, row, options={})
-    parameters = {:set_filter => 1, :subproject_id => '!*', field => row.id}.merge(options)
+    parameters = {:set_filter => 1, :subproject_id => '!*', field => (row.id || '!*')}.merge(options)
     project_issues_path(row.is_a?(Project) ? row : project, parameters)
   end
 end

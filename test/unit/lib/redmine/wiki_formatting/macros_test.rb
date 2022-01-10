@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -225,7 +225,7 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
       assert_select_in result, 'div.collapsed-text'
       assert_select_in result, 'strong', :text => 'Collapsed'
       assert_select_in result, 'a.collapsible.icon-collapsed', :text => 'Show'
-      assert_select_in result, 'a.collapsible.icon-expended', :text => 'Hide'
+      assert_select_in result, 'a.collapsible.icon-expanded', :text => 'Hide'
     end
   end
 
@@ -236,7 +236,7 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
     assert_select_in result, 'div.collapsed-text'
     assert_select_in result, 'strong', :text => 'Collapsed'
     assert_select_in result, 'a.collapsible.icon-collapsed', :text => 'Example'
-    assert_select_in result, 'a.collapsible.icon-expended', :text => 'Example'
+    assert_select_in result, 'a.collapsible.icon-expanded', :text => 'Example'
   end
 
   def test_macro_collapse_with_two_args
@@ -246,7 +246,7 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
     assert_select_in result, 'div.collapsed-text'
     assert_select_in result, 'strong', :text => 'Collapsed'
     assert_select_in result, 'a.collapsible.icon-collapsed', :text => 'Show example'
-    assert_select_in result, 'a.collapsible.icon-expended', :text => 'Hide example'
+    assert_select_in result, 'a.collapsible.icon-expanded', :text => 'Hide example'
   end
 
   def test_macro_collapse_should_not_break_toc

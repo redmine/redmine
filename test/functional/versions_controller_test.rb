@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -162,7 +162,7 @@ class VersionsControllerTest < Redmine::ControllerTest
       assert_select 'a', :text => '1 open'
     end
 
-    assert_select '.time-tracking td.total-hours a:first-child', :text => '2.00 hours'
+    assert_select '.time-tracking td.total-hours a:first-child', :text => '2:00 hours'
   end
 
   def test_show_should_link_to_spent_time_on_version
@@ -173,7 +173,7 @@ class VersionsControllerTest < Redmine::ControllerTest
     get :show, :params => {:id => version.id}
     assert_response :success
 
-    assert_select '.total-hours', :text => '7.20 hours'
+    assert_select '.total-hours', :text => '7:12 hours'
     assert_select '.total-hours a[href=?]', "/projects/ecookbook/time_entries?issue.fixed_version_id=#{version.id}&set_filter=1"
   end
 

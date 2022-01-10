@@ -355,7 +355,6 @@ sv:
   field_parent_title: Föräldersida
   field_editable: Redigerbar
   field_watcher: Bevakare
-  field_identity_url: OpenID URL
   field_content: Innehåll
   field_group_by: Gruppera resultat efter
   field_sharing: Delning
@@ -425,7 +424,6 @@ sv:
   setting_diff_max_lines_displayed: Maximalt antal synliga rader i diff
   setting_file_max_size_displayed: Maxstorlek på textfiler som visas inline
   setting_repository_log_display_limit: Maximalt antal revisioner i filloggen
-  setting_openid: Tillåt inloggning och registrering med OpenID
   setting_password_min_length: Minsta tillåtna lösenordslängd
   setting_new_project_user_role_id: Tilldelad roll för en icke-administratör som skapar ett projekt
   setting_default_projects_modules: Aktiverade moduler för nya projekt
@@ -579,7 +577,6 @@ sv:
   label_information: Information
   label_information_plural: Information
   label_register: Registrera
-  label_login_with_open_id_option: eller logga in med OpenID
   label_password_lost: Glömt lösenord
   label_home: Hem
   label_my_page: Min sida
@@ -1460,7 +1457,6 @@ sv:
     authentication setting is set to 'optional'. Currently, two factor authentication
     is disabled.
   field_default_issue_query: Default issue query
-  setting_default_issue_query: Default Query
   label_default_queries:
     for_all_projects: For all projects
     for_current_project: For current project
@@ -1470,3 +1466,10 @@ sv:
   button_save_object: Save %{object_name}
   button_edit_object: Edit %{object_name}
   button_delete_object: Delete %{object_name}
+  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
+    Please restart the application after editing it.
+  label_bulk_edit: Bulk edit
+  button_create_and_follow: Create and follow
+  label_subtask: Subtask
+  label_default_query: Default query
+  field_default_project_query: Default project query

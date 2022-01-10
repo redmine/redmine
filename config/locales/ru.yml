@@ -342,7 +342,6 @@ ru:
   field_host: Компьютер
   field_hours: час(а,ов)
   field_identifier: Уникальный идентификатор
-  field_identity_url: OpenID URL
   field_is_closed: Задача закрыта
   field_is_default: Значение по умолчанию
   field_is_filter: Используется в качестве фильтра
@@ -559,7 +558,6 @@ ru:
   label_loading: Загрузка...
   label_logged_as: Вошли как
   label_login: Войти
-  label_login_with_open_id_option: или войти с помощью OpenID
   label_logout: Выйти
   label_max_size: Максимальный размер
   label_member_new: Новый участник
@@ -857,7 +855,6 @@ ru:
   setting_mail_from: Исходящий email адрес
   setting_mail_handler_api_enabled: Включить веб-сервис для входящих сообщений
   setting_mail_handler_api_key: API ключ
-  setting_openid: Разрешить OpenID для входа и регистрации
   setting_per_page_options: Количество записей на страницу
   setting_plain_text_mail: Только простой текст (без HTML)
   setting_protocol: Протокол
@@ -1500,7 +1497,6 @@ ru:
     authentication setting is set to 'optional'. Currently, two factor authentication
     is disabled.
   field_default_issue_query: Default issue query
-  setting_default_issue_query: Default Query
   label_default_queries:
     for_all_projects: For all projects
     for_current_project: For current project
@@ -1510,3 +1506,10 @@ ru:
   button_save_object: Save %{object_name}
   button_edit_object: Edit %{object_name}
   button_delete_object: Delete %{object_name}
+  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
+    Please restart the application after editing it.
+  label_bulk_edit: Bulk edit
+  button_create_and_follow: Create and follow
+  label_subtask: Subtask
+  label_default_query: Default query
+  field_default_project_query: Default project query

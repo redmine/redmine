@@ -296,7 +296,6 @@ eu:
   field_parent_title: Orri gurasoa
   field_editable: Editagarria
   field_watcher: Behatzailea
-  field_identity_url: OpenID URLa
   field_content: Edukia
   field_group_by: Emaitzak honegatik taldekatu
   field_sharing: Partekatzea
@@ -340,7 +339,6 @@ eu:
   setting_diff_max_lines_displayed: Erakutsiko diren diff lerro kopuru maximoa
   setting_file_max_size_displayed: Barnean erakuzten diren testu fitxategien tamaina maximoa
   setting_repository_log_display_limit: Egunkari fitxategian erakutsiko diren berrikuspen kopuru maximoa.
-  setting_openid: Baimendu OpenID saio hasiera eta erregistatzea
   setting_password_min_length: Pasahitzen luzera minimoa
   setting_new_project_user_role_id: Proiektu berriak sortzerakoan kudeatzaile ez diren erabiltzaileei esleitutako rola
   setting_default_projects_modules: Proiektu berrientzako defektuz gaitutako moduluak
@@ -459,7 +457,6 @@ eu:
   label_information: Informazioa
   label_information_plural: Informazioa
   label_register: Erregistratu
-  label_login_with_open_id_option: edo OpenID-rekin saioa hasi
   label_password_lost: Pasahitza galduta
   label_home: Hasiera
   label_my_page: Nire orria
@@ -1428,7 +1425,6 @@ eu:
     authentication setting is set to 'optional'. Currently, two factor authentication
     is disabled.
   field_default_issue_query: Default issue query
-  setting_default_issue_query: Default Query
   label_default_queries:
     for_all_projects: For all projects
     for_current_project: For current project
@@ -1438,3 +1434,10 @@ eu:
   button_save_object: Save %{object_name}
   button_edit_object: Edit %{object_name}
   button_delete_object: Delete %{object_name}
+  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
+    Please restart the application after editing it.
+  label_bulk_edit: Bulk edit
+  button_create_and_follow: Create and follow
+  label_subtask: Subtask
+  label_default_query: Default query
+  field_default_project_query: Default project query

@@ -129,7 +129,6 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 #login-form input[type=text], #login-form input[type=password], #login-form input[type=submit] {display: block; width: 100%;}
 #login-form input[type=text], #login-form input[type=password] {margin-bottom: 15px;}
 #login-form a.lost_password {float:right; font-weight:normal;}
-#login-form input#openid_url {background:#fff url(../images/openid-bg.gif) no-repeat 4px 50%; padding-left:24px !important;}
 #login-form h3 {text-align: center;}
 
 div.modal { border-radius:5px; background:#fff; z-index:50; padding:4px;}
@@ -734,7 +733,7 @@ ul.properties li span {font-style:italic;}
 .total-hours span.hours-int { font-size: 120%; }
 
 .autoscroll {overflow-x: auto; padding:1px; margin-bottom: 1.2em; position: relative;}
-#user_login, #user_firstname, #user_lastname, #user_mail, #my_account_form select, #user_form select, #user_identity_url { width: 90%; }
+#user_login, #user_firstname, #user_lastname, #user_mail, #my_account_form select, #user_form select { width: 90%; }
 
 #workflow_copy_form select { width: 200px; }
 table.transitions td.enabled {background: #bfb;}
@@ -1588,7 +1587,7 @@ td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
 .icon-shared { background-image: url(../images/link.png); }
 .icon-actions { background-image: url(../images/3_bullets.png); }
 .icon-sort-handle { background-image: url(../images/reorder.png); }
-.icon-expended { background-image: url(../images/arrow_down.png); }
+.icon-expanded { background-image: url(../images/arrow_down.png); }
 .icon-collapsed { background-image: url(../images/arrow_right.png); }
 .icon-bookmark { background-image: url(../images/tag_blue_delete.png); }
 .icon-bookmark-off { background-image: url(../images/tag_blue_add.png); }

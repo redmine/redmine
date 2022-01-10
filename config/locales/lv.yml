@@ -288,7 +288,6 @@ lv:
   field_parent_title: Vecāka lapa
   field_editable: Rediģējams
   field_watcher: Vērotājs
-  field_identity_url: OpenID URL
   field_content: Saturs
   field_group_by: Grupēt rezultātus pēc
   field_sharing: Koplietošana
@@ -332,7 +331,6 @@ lv:
   setting_diff_max_lines_displayed: Maksimālais rādīto diff rindu skaits
   setting_file_max_size_displayed: Maksimālais izmērs iekļautajiem teksta failiem
   setting_repository_log_display_limit: Maksimālais žurnāla datnē rādīto revīziju skaits
-  setting_openid: Atļaut OpenID pieslēgšanos un reģistrēšanos
   setting_password_min_length: Minimālais paroles garums
   setting_new_project_user_role_id: Loma, kura tiek piešķirta ne-administratora lietotājam, kurš izveido projektu
   setting_default_projects_modules: Noklusētie lietotie moduļi jaunam projektam
@@ -454,7 +452,6 @@ lv:
   label_information: Informācija
   label_information_plural: Informācija
   label_register: Reģistrēties
-  label_login_with_open_id_option: vai pieslēgties ar OpenID
   label_password_lost: Nozaudēta parole
   label_home: Sākums
   label_my_page: Mana lapa
@@ -1421,7 +1418,6 @@ lv:
     authentication setting is set to 'optional'. Currently, two factor authentication
     is disabled.
   field_default_issue_query: Default issue query
-  setting_default_issue_query: Default Query
   label_default_queries:
     for_all_projects: For all projects
     for_current_project: For current project
@@ -1431,3 +1427,10 @@ lv:
   button_save_object: Save %{object_name}
   button_edit_object: Edit %{object_name}
   button_delete_object: Delete %{object_name}
+  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
+    Please restart the application after editing it.
+  label_bulk_edit: Bulk edit
+  button_create_and_follow: Create and follow
+  label_subtask: Subtask
+  label_default_query: Default query
+  field_default_project_query: Default project query

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -168,6 +168,10 @@ module SettingsHelper
 
   def default_global_issue_query_options
     [[l(:label_none), '']] + IssueQuery.only_public.where(project_id: nil).pluck(:name, :id)
+  end
+
+  def default_global_project_query_options
+    [[l(:label_none), '']] + ProjectQuery.only_public.pluck(:name, :id)
   end
 
   def cross_project_subtasks_options

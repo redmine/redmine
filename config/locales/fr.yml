@@ -352,7 +352,6 @@ fr:
   field_parent_title: Page parent
   field_editable: Modifiable
   field_watcher: Observateur
-  field_identity_url: URL OpenID
   field_content: Contenu
   field_group_by: Grouper par
   field_sharing: Partage
@@ -438,7 +437,6 @@ fr:
   setting_diff_max_lines_displayed: Nombre maximum de lignes de diff affichées
   setting_file_max_size_displayed: Taille maximum des fichiers texte affichés en ligne
   setting_repository_log_display_limit: "Nombre maximum de révisions affichées sur l'historique d'un fichier"
-  setting_openid: "Autoriser l'authentification et l'enregistrement OpenID"
   setting_password_max_age: Expiration des mots de passe après
   setting_password_min_length: Longueur minimum des mots de passe
   setting_new_project_user_role_id: Rôle donné à un utilisateur non-administrateur qui crée un projet
@@ -481,7 +479,6 @@ fr:
   setting_time_entry_list_defaults: Affichage par défaut de la liste des temps passés
   setting_timelog_accept_0_hours: Autoriser la saisie de temps avec 0 heure
   setting_timelog_max_hours_per_day: Maximum d'heures pouvant être saisies par un utilisateur sur un jour
-  setting_default_issue_query: Rapport par défaut
 
   permission_add_project: Créer un projet
   permission_add_subprojects: Créer des sous-projets
@@ -616,7 +613,6 @@ fr:
   label_information: Information
   label_information_plural: Informations
   label_register: S'enregistrer
-  label_login_with_open_id_option: S'authentifier avec OpenID
   label_password_lost: Mot de passe perdu
   label_password_required: Confirmez votre mot de passe pour continuer
   label_home: Accueil
@@ -1418,3 +1414,10 @@ fr:
   button_save_object: Save %{object_name}
   button_edit_object: Edit %{object_name}
   button_delete_object: Delete %{object_name}
+  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
+    Please restart the application after editing it.
+  label_bulk_edit: Bulk edit
+  button_create_and_follow: Create and follow
+  label_subtask: Subtask
+  label_default_query: Rapport par défaut
+  field_default_project_query: Default project query

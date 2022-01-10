@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -277,6 +277,7 @@ class IssueSubtaskingTest < ActiveSupport::TestCase
     with_settings :issue_done_ratio => 'issue_status' do
       status = IssueStatus.find(4)
       status.update_attribute :default_done_ratio, 50
+      child1.reload
       child1.update_attribute :status, status
 
       assert_equal 50, child1.done_ratio

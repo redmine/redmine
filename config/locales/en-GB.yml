@@ -309,7 +309,6 @@ en-GB:
   field_parent_title: Parent page
   field_editable: Editable
   field_watcher: Watcher
-  field_identity_url: OpenID URL
   field_content: Content
   field_group_by: Group results by
   field_sharing: Sharing
@@ -360,7 +359,6 @@ en-GB:
   setting_diff_max_lines_displayed: Max number of diff lines displayed
   setting_file_max_size_displayed: Max size of text files displayed inline
   setting_repository_log_display_limit: Maximum number of revisions displayed on file log
-  setting_openid: Allow OpenID login and registration
   setting_password_min_length: Minimum password length
   setting_new_project_user_role_id: Role given to a non-admin user who creates a project
   setting_default_projects_modules: Default enabled modules for new projects
@@ -493,7 +491,6 @@ en-GB:
   label_information: Information
   label_information_plural: Information
   label_register: Register
-  label_login_with_open_id_option: or login with OpenID
   label_password_lost: Lost password
   label_home: Home
   label_my_page: My page
@@ -1428,7 +1425,6 @@ en-GB:
     authentication setting is set to 'optional'. Currently, two factor authentication
     is disabled.
   field_default_issue_query: Default issue query
-  setting_default_issue_query: Default Query
   label_default_queries:
     for_all_projects: For all projects
     for_current_project: For current project
@@ -1438,3 +1434,10 @@ en-GB:
   button_save_object: Save %{object_name}
   button_edit_object: Edit %{object_name}
   button_delete_object: Delete %{object_name}
+  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
+    Please restart the application after editing it.
+  label_bulk_edit: Bulk edit
+  button_create_and_follow: Create and follow
+  label_subtask: Subtask
+  label_default_query: Default query
+  field_default_project_query: Default project query

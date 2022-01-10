@@ -327,7 +327,6 @@ et:
   field_parent_title: "Pärineb lehest"
   field_editable: "Muudetav"
   field_watcher: "Jälgija"
-  field_identity_url: "OpenID URL"
   field_content: "Sisu"
   field_group_by: "Rühmita tulemus"
   field_sharing: "Teemade jagamine"
@@ -390,7 +389,6 @@ et:
   setting_diff_max_lines_displayed: "Enim korraga näidatavaid erinevusi"
   setting_file_max_size_displayed: "Kuvatava tekstifaili suurim maht"
   setting_repository_log_display_limit: "Enim ajaloos näidatavaid sissekandeid"
-  setting_openid: "Luba OpenID-ga registreerimine ja sisselogimine"
   setting_password_min_length: "Lühim lubatud parooli pikkus"
   setting_new_project_user_role_id: "Projekti looja roll oma projektis"
   setting_default_projects_modules: "Vaikimisi moodulid uutes projektides"
@@ -531,7 +529,6 @@ et:
   label_information: "Teave"
   label_information_plural: "Teave"
   label_register: "Registreeru"
-  label_login_with_open_id_option: "või logi sisse OpenID-ga"
   label_password_lost: "Kui parool on ununud..."
   label_home: "Kodu"
   label_my_page: "Minu leht"
@@ -1432,7 +1429,6 @@ et:
     authentication setting is set to 'optional'. Currently, two factor authentication
     is disabled.
   field_default_issue_query: Default issue query
-  setting_default_issue_query: Default Query
   label_default_queries:
     for_all_projects: For all projects
     for_current_project: For current project
@@ -1442,3 +1438,10 @@ et:
   button_save_object: Save %{object_name}
   button_edit_object: Edit %{object_name}
   button_delete_object: Delete %{object_name}
+  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
+    Please restart the application after editing it.
+  label_bulk_edit: Bulk edit
+  button_create_and_follow: Create and follow
+  label_subtask: Subtask
+  label_default_query: Default query
+  field_default_project_query: Default project query

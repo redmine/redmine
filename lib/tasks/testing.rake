@@ -31,7 +31,7 @@ namespace :test do
       desc "Creates a test subversion repository"
       task :subversion => :create_dir do
         repo_path = "tmp/test/subversion_repository"
-        unless File.exists?(repo_path)
+        unless File.exist?(repo_path)
           system "svnadmin create #{repo_path}"
           system "gunzip < test/fixtures/repositories/subversion_repository.dump.gz | svnadmin load #{repo_path}"
         end
@@ -40,7 +40,7 @@ namespace :test do
       desc "Creates a test mercurial repository"
       task :mercurial => :create_dir do
         repo_path = "tmp/test/mercurial_repository"
-        unless File.exists?(repo_path)
+        unless File.exist?(repo_path)
           bundle_path = "test/fixtures/repositories/mercurial_repository.hg"
           system "hg init #{repo_path}"
           system "hg -R #{repo_path} pull #{bundle_path}"
@@ -48,7 +48,7 @@ namespace :test do
       end
 
       def extract_tar_gz(prefix)
-        unless File.exists?("tmp/test/#{prefix}_repository")
+        unless File.exist?("tmp/test/#{prefix}_repository")
           # system "gunzip < test/fixtures/repositories/#{prefix}_repository.tar.gz | tar -xv -C tmp/test"
           system "tar -xvz -C tmp/test -f test/fixtures/repositories/#{prefix}_repository.tar.gz"
         end

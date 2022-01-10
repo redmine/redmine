@@ -839,9 +839,6 @@ vi:
   setting_repository_log_display_limit: Số lượng tối đa các bản điều chỉnh hiển thị trong file log
   setting_file_max_size_displayed: Kích thước tối đa của tệp tin văn bản
   field_watcher: Người quan sát
-  setting_openid: Cho phép đăng nhập và đăng ký dùng OpenID
-  field_identity_url: OpenID URL
-  label_login_with_open_id_option: hoặc đăng nhập với OpenID
   field_content: Nội dung
   label_descending: Giảm dần
   label_sort: Sắp xếp
@@ -1479,7 +1476,6 @@ vi:
     authentication setting is set to 'optional'. Currently, two factor authentication
     is disabled.
   field_default_issue_query: Default issue query
-  setting_default_issue_query: Default Query
   label_default_queries:
     for_all_projects: For all projects
     for_current_project: For current project
@@ -1489,3 +1485,10 @@ vi:
   button_save_object: Save %{object_name}
   button_edit_object: Edit %{object_name}
   button_delete_object: Delete %{object_name}
+  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
+    Please restart the application after editing it.
+  label_bulk_edit: Bulk edit
+  button_create_and_follow: Create and follow
+  label_subtask: Subtask
+  label_default_query: Default query
+  field_default_project_query: Default project query

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -55,7 +55,7 @@ module Redmine
 
     def self.scan_builtin_schemes
       Dir[Rails.root.join('lib', 'redmine', 'twofa', '*.rb')].each do |file|
-        require_dependency file
+        require file
       end
     end
     private_class_method :scan_builtin_schemes

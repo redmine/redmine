@@ -292,7 +292,6 @@ bs:
   field_parent_title: 'Stranica "roditelj"'
   field_editable: Može se mijenjati
   field_watcher: Posmatrač
-  field_identity_url: OpenID URL
   field_content: Sadržaj
 
   setting_app_title: Naslov aplikacije
@@ -333,7 +332,6 @@ bs:
   setting_diff_max_lines_displayed: Maksimalan broj linija za prikaz razlika između dva fajla
   setting_file_max_size_displayed: Maksimalna veličina fajla kod prikaza razlika unutar fajla (inline)
   setting_repository_log_display_limit: Maksimalna veličina revizija prikazanih na log fajlu
-  setting_openid: Omogući OpenID prijavu i registraciju
 
   permission_edit_project: Ispravke projekta
   permission_select_project_modules: Odaberi module projekta
@@ -439,7 +437,6 @@ bs:
   label_information: Informacija
   label_information_plural: Informacije
   label_register: Registracija
-  label_login_with_open_id_option: ili prijava sa OpenID-om
   label_password_lost: Izgubljena lozinka
   label_home: Početna stranica
   label_my_page: Moja stranica
@@ -1440,7 +1437,6 @@ bs:
     authentication setting is set to 'optional'. Currently, two factor authentication
     is disabled.
   field_default_issue_query: Default issue query
-  setting_default_issue_query: Default Query
   label_default_queries:
     for_all_projects: For all projects
     for_current_project: For current project
@@ -1450,3 +1446,10 @@ bs:
   button_save_object: Save %{object_name}
   button_edit_object: Edit %{object_name}
   button_delete_object: Delete %{object_name}
+  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
+    Please restart the application after editing it.
+  label_bulk_edit: Bulk edit
+  button_create_and_follow: Create and follow
+  label_subtask: Subtask
+  label_default_query: Default query
+  field_default_project_query: Default project query

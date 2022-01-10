@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,14 +26,6 @@ class AccountController < ApplicationController
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_action :check_if_login_required, :check_password_change
   skip_before_action :check_twofa_activation, :only => :logout
-
-  # Overrides ApplicationController#verify_authenticity_token to disable
-  # token verification on openid callbacks
-  def verify_authenticity_token
-    unless using_open_id?
-      super
-    end
-  end
 
   # Login request and validation
   def login
@@ -161,7 +153,7 @@ class AccountController < ApplicationController
           redirect_to my_account_path
         end
       else
-        unless user_params[:identity_url].present? && user_params[:password].blank? && user_params[:password_confirmation].blank?
+        unless user_params[:password].blank? && user_params[:password_confirmation].blank?
           @user.password, @user.password_confirmation = user_params[:password], user_params[:password_confirmation]
         end
 
@@ -301,11 +293,7 @@ class AccountController < ApplicationController
   end
 
   def authenticate_user
-    if Setting.openid? && using_open_id?
-      open_id_authenticate(params[:openid_url])
-    else
-      password_authentication
-    end
+    password_authentication
   end
 
   def password_authentication
@@ -337,49 +325,6 @@ class AccountController < ApplicationController
   def handle_active_user(user)
     successful_authentication(user)
     update_sudo_timestamp! # activate Sudo Mode
-  end
-
-  def open_id_authenticate(openid_url)
-    back_url = signin_url(:autologin => params[:autologin])
-    authenticate_with_open_id(
-      openid_url, :required => [:nickname, :fullname, :email],
-      :return_to => back_url, :method => :post
-    ) do |result, identity_url, registration|
-      if result.successful?
-        user = User.find_or_initialize_by_identity_url(identity_url)
-        if user.new_record?
-          # Self-registration off
-          (redirect_to(home_url); return) unless Setting.self_registration?
-          # Create on the fly
-          user.login = registration['nickname'] unless registration['nickname'].nil?
-          user.mail = registration['email'] unless registration['email'].nil?
-          user.firstname, user.lastname = registration['fullname'].split(' ') unless registration['fullname'].nil?
-          user.random_password
-          user.register
-          case Setting.self_registration
-          when '1'
-            register_by_email_activation(user) do
-              onthefly_creation_failed(user)
-            end
-          when '3'
-            register_automatically(user) do
-              onthefly_creation_failed(user)
-            end
-          else
-            register_manually_by_administrator(user) do
-              onthefly_creation_failed(user)
-            end
-          end
-        else
-          # Existing record
-          if user.active?
-            successful_authentication(user)
-          else
-            handle_inactive_user(user)
-          end
-        end
-      end
-    end
   end
 
   def successful_authentication(user)

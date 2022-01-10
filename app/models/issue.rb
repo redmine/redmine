@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -117,8 +117,8 @@ class Issue < ActiveRecord::Base
   after_save :reschedule_following_issues, :update_nested_set_attributes,
              :update_parent_attributes, :delete_selected_attachments, :create_journal
   # Should be after_create but would be called before previous after_save callbacks
-  after_save :after_create_from_copy
-  after_destroy :update_parent_attributes
+  after_save :after_create_from_copy, :create_parent_issue_journal
+  after_destroy :update_parent_attributes, :create_parent_issue_journal
   after_create_commit :send_notification
 
   # Returns a SQL conditions string used to find all issues visible by the specified user
@@ -1179,7 +1179,7 @@ class Issue < ActiveRecord::Base
         ).all
       issues.each do |issue|
         issue.instance_variable_set(
-          "@relations",
+          :@relations,
           relations.select {|r| r.issue_from_id == issue.id || r.issue_to_id == issue.id}
         )
       end
@@ -1191,7 +1191,7 @@ class Issue < ActiveRecord::Base
     if issues.any?
       hours_by_issue_id = TimeEntry.visible(user).where(:issue_id => issues.map(&:id)).group(:issue_id).sum(:hours)
       issues.each do |issue|
-        issue.instance_variable_set "@spent_hours", (hours_by_issue_id[issue.id] || 0.0)
+        issue.instance_variable_set :@spent_hours, (hours_by_issue_id[issue.id] || 0.0)
       end
     end
   end
@@ -1204,7 +1204,7 @@ class Issue < ActiveRecord::Base
           " AND parent.lft <= #{Issue.table_name}.lft AND parent.rgt >= #{Issue.table_name}.rgt").
         where("parent.id IN (?)", issues.map(&:id)).group("parent.id").sum(:hours)
       issues.each do |issue|
-        issue.instance_variable_set "@total_spent_hours", (hours_by_issue_id[issue.id] || 0.0)
+        issue.instance_variable_set :@total_spent_hours, (hours_by_issue_id[issue.id] || 0.0)
       end
     end
   end
@@ -1225,7 +1225,7 @@ class Issue < ActiveRecord::Base
           relations_from.select {|relation| relation.issue_from_id == issue.id} +
           relations_to.select {|relation| relation.issue_to_id == issue.id}
 
-        issue.instance_variable_set "@relations", IssueRelation::Relations.new(issue, relations.sort)
+        issue.instance_variable_set :@relations, IssueRelation::Relations.new(issue, relations.sort)
       end
     end
   end
@@ -1254,7 +1254,7 @@ class Issue < ActiveRecord::Base
 
       issues.each do |issue|
         journal = journals.detect {|j| j.journalized_id == issue.id}
-        issue.instance_variable_set("@last_updated_by", journal.try(:user) || '')
+        issue.instance_variable_set(:@last_updated_by, journal.try(:user) || '')
       end
     end
   end
@@ -1274,7 +1274,7 @@ class Issue < ActiveRecord::Base
 
       issues.each do |issue|
         journal = journals.detect {|j| j.journalized_id == issue.id}
-        issue.instance_variable_set("@last_notes", journal.try(:notes) || '')
+        issue.instance_variable_set(:@last_notes, journal.try(:notes) || '')
       end
     end
   end
@@ -1585,7 +1585,7 @@ class Issue < ActiveRecord::Base
 
     Issue.
       visible(User.current, :project => options[:project], :with_subprojects => options[:with_subprojects]).
-      joins(:status, assoc.name).
+      joins(:status).
       group(:status_id, :is_closed, select_field).
       count.
       map do |columns, total|
@@ -1840,7 +1840,7 @@ class Issue < ActiveRecord::Base
                 child_with_total_estimated_hours.sum(&:total_estimated_hours).to_d /
                   child_with_total_estimated_hours.count
             else
-              average = 1.0.to_d
+              average = BigDecimal('1.0')
             end
             done = children.sum do |c|
               estimated = (c.total_estimated_hours || 0.0).to_d
@@ -1984,6 +1984,32 @@ class Issue < ActiveRecord::Base
   def create_journal
     if current_journal
       current_journal.save
+    end
+  end
+
+  def create_parent_issue_journal
+    return if persisted? && !saved_change_to_parent_id?
+    return if destroyed? && @without_nested_set_update
+
+    child_id = self.id
+    old_parent_id, new_parent_id =
+      if persisted?
+        [parent_id_before_last_save, parent_id]
+      elsif destroyed?
+        [parent_id, nil]
+      else
+        [nil, parent_id]
+      end
+
+    if old_parent_id.present? && old_parent_issue = Issue.visible.find_by_id(old_parent_id)
+      old_parent_issue.init_journal(User.current)
+      old_parent_issue.current_journal.__send__(:add_attribute_detail, 'child_id', child_id, nil)
+      old_parent_issue.save
+    end
+    if new_parent_id.present? && new_parent_issue = Issue.visible.find_by_id(new_parent_id)
+      new_parent_issue.init_journal(User.current)
+      new_parent_issue.current_journal.__send__(:add_attribute_detail, 'child_id', nil, child_id)
+      new_parent_issue.save
     end
   end
 

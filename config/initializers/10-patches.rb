@@ -1,10 +1,7 @@
 # frozen_string_literal: true
 
-require 'active_record'
-
 module ActiveRecord
   class Base
-    include Redmine::I18n
     # Translate attribute names for validation errors display
     def self.human_attribute_name(attr, options = {})
       prepared_attr = attr.to_s.sub(/_id$/, '').sub(/^.+\./, '')
@@ -117,7 +114,7 @@ module DeliveryMethods
       dest_dir = File.join(Rails.root, 'tmp', 'emails')
       Dir.mkdir(dest_dir) unless File.directory?(dest_dir)
       filename = "#{Time.now.to_i}_#{mail.message_id.gsub(/[<>]/, '')}.eml"
-      File.open(File.join(dest_dir, filename), 'wb') {|f| f.write(mail.encoded) }
+      File.binwrite(File.join(dest_dir, filename), mail.encoded)
     end
   end
 end

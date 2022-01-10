@@ -363,7 +363,6 @@ en:
   field_parent_title: Parent page
   field_editable: Editable
   field_watcher: Watcher
-  field_identity_url: OpenID URL
   field_content: Content
   field_group_by: Group results by
   field_sharing: Sharing
@@ -410,6 +409,7 @@ en:
   field_toolbar_language_options: Code highlighting toolbar languages
   field_twofa_required: Require two factor authentication
   field_default_issue_query: Default issue query
+  field_default_project_query: Default project query
 
   setting_app_title: Application title
   setting_welcome_text: Welcome text
@@ -459,7 +459,6 @@ en:
   setting_diff_max_lines_displayed: Maximum number of diff lines displayed
   setting_file_max_size_displayed: Maximum size of text files displayed inline
   setting_repository_log_display_limit: Maximum number of revisions displayed on file log
-  setting_openid: Allow OpenID login and registration
   setting_password_max_age: Require password change after
   setting_password_min_length: Minimum password length
   setting_password_required_char_classes : Required character classes for passwords
@@ -509,7 +508,6 @@ en:
   setting_show_status_changes_in_mail_subject: Show status changes in issue mail notifications subject
   setting_project_list_defaults: Projects list defaults
   setting_twofa: Two-factor authentication
-  setting_default_issue_query: Default Query
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
@@ -654,7 +652,6 @@ en:
   label_information: Information
   label_information_plural: Information
   label_register: Register
-  label_login_with_open_id_option: or login with OpenID
   label_password_lost: Lost password
   label_password_required: Confirm your password to continue
   label_home: Home
@@ -928,6 +925,7 @@ en:
   label_changeset_plural: Changesets
   label_default_columns: Default columns
   label_no_change_option: (No change)
+  label_bulk_edit: Bulk edit
   label_bulk_edit_selected_issues: Bulk edit selected issues
   label_bulk_edit_selected_time_entries: Bulk edit selected time entries
   label_theme: Theme
@@ -995,6 +993,7 @@ en:
   label_missing_api_access_key: Missing an API access key
   label_api_access_key_created_on: "API access key created %{value} ago"
   label_profile: Profile
+  label_subtask: Subtask
   label_subtask_plural: Subtasks
   label_project_copy_notifications: Send email notifications during the project copy
   label_import_notifications: Send email notifications during the import
@@ -1121,6 +1120,7 @@ en:
   label_display_type_board: Board
   label_my_bookmarks: My bookmarks
   label_assign_to_me: Assign to me
+  label_default_query: Default query
 
   button_login: Login
   button_submit: Submit
@@ -1185,6 +1185,7 @@ en:
   button_save_object: "Save %{object_name}"
   button_edit_object: "Edit %{object_name}"
   button_delete_object: "Delete %{object_name}"
+  button_create_and_follow: Create and follow
 
   status_active: active
   status_registered: registered

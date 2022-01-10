@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -91,6 +91,26 @@ class ProjectEnumerationsControllerTest < Redmine::ControllerTest
 
     # ... QA
     assert_nil project.time_entry_activities.find_by_name("QA"), "Custom QA activity created when it wasn't modified"
+  end
+
+  def test_update_should_not_create_project_specific_activities_when_setting_empty_value_in_custom_field_with_default_value_of_nil
+    system_activity = TimeEntryActivity.find(9) # Design
+    custom_field_value = system_activity.custom_field_values.detect{|cfv| cfv.custom_field.id == 7}
+    assert_nil custom_field_value.value
+
+    assert_no_difference 'TimeEntryActivity.count' do
+      @request.session[:user_id] = 2 # manager
+      put(
+        :update,
+        :params => {
+          :project_id => 1,
+          :enumerations => {
+            "9" => {"parent_id" => "9", "custom_field_values" => {"7" => ""}, "active" => "1"}
+          }
+        }
+      )
+      assert_response :redirect
+    end
   end
 
   def test_update_will_update_project_specific_activities

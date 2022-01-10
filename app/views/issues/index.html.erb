@@ -13,7 +13,7 @@
 
     <%= link_to_if_authorized l(:label_settings),
               {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'issues'},
-              :class => 'icon icon-settings' if User.current.allowed_to?(:manage_categories, @project) %>
+              :class => 'icon icon-settings' if User.current.allowed_to?(:edit_project, @project) %>
   <% end %>
 </div>
 

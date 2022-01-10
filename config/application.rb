@@ -24,7 +24,7 @@ module RedmineApp
     # -- all .rb files in that directory are automatically loaded.
 
     # Custom directories with classes and modules you want to be autoloadable.
-    config.autoload_paths += %W(#{config.root}/lib)
+    config.autoloader = :zeitwerk
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
@@ -83,7 +83,7 @@ module RedmineApp
       :same_site => :lax
     )
 
-    if File.exists?(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
+    if File.exist?(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
       instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
     end
   end

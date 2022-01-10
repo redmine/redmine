@@ -336,7 +336,6 @@ lt:
   field_parent_title: Pagrindinis puslapis
   field_editable: Redaguojamas
   field_watcher: Stebėtojas
-  field_identity_url: OpenID URL
   field_content: Turinys
   field_group_by: Sugrupuoti pagal
   field_sharing: Dalijimasis
@@ -414,7 +413,6 @@ lt:
   setting_diff_max_lines_displayed: Maksimalus rodomas pakeitimų eilučių skaičius
   setting_file_max_size_displayed: Maksimalus tekstinių failų dydis rodomas vienoje eilutėje
   setting_repository_log_display_limit: Maksimalus revizijų skaičius rodomas failo žurnale
-  setting_openid: Leisti OpenID prisijungimą ir registraciją
   setting_password_max_age: Reikalauti slaptažodžio pakeitimo po
   setting_password_min_length: Minimalus slaptažodžio ilgis
   setting_lost_password: Leisti slaptažodžio atstatymą elektroninu laišku
@@ -581,7 +579,6 @@ lt:
   label_information: Informacija
   label_information_plural: Informacija
   label_register: Užsiregistruoti
-  label_login_with_open_id_option: arba prisijunkite su OpenID
   label_password_lost: Prarastas slaptažodis
   label_password_required: Norėdami tęsti, patvirtinkite savo slaptažodį
   label_home: Pagrindinis
@@ -1394,7 +1391,6 @@ lt:
     authentication setting is set to 'optional'. Currently, two factor authentication
     is disabled.
   field_default_issue_query: Default issue query
-  setting_default_issue_query: Default Query
   label_default_queries:
     for_all_projects: For all projects
     for_current_project: For current project
@@ -1404,3 +1400,10 @@ lt:
   button_save_object: Save %{object_name}
   button_edit_object: Edit %{object_name}
   button_delete_object: Delete %{object_name}
+  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
+    Please restart the application after editing it.
+  label_bulk_edit: Bulk edit
+  button_create_and_follow: Create and follow
+  label_subtask: Subtask
+  label_default_query: Default query
+  field_default_project_query: Default project query

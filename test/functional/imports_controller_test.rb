@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -33,6 +33,8 @@ class ImportsControllerTest < Redmine::ControllerTest
            :custom_values,
            :custom_fields_projects,
            :custom_fields_trackers
+
+  include Redmine::I18n
 
   def setup
     User.current = nil
@@ -72,7 +74,14 @@ class ImportsControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_select 'select[name=?]', 'import_settings[separator]'
     assert_select 'select[name=?]', 'import_settings[wrapper]'
-    assert_select 'select[name=?]', 'import_settings[encoding]'
+    assert_select 'select[name=?]', 'import_settings[encoding]' do
+      encodings = valid_languages.map do |lang|
+        ll(lang.to_s, :general_csv_encoding)
+      end.uniq
+      encodings.each do |encoding|
+        assert_select 'option[value=?]', encoding
+      end
+    end
     assert_select 'select[name=?]', 'import_settings[date_format]'
   end
 

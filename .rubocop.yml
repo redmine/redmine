@@ -118,7 +118,13 @@ Rails/BulkChangeTable:
     - 'db/migrate/20120714122200_add_workflows_rule_fields.rb'
     - 'db/migrate/20131214094309_remove_custom_fields_min_max_length_default_values.rb'
 
+Rails/CompactBlank:
+  Enabled: false
+
 Rails/EnvironmentVariableAccess:
+  Enabled: false
+
+Rails/FilePath:
   Enabled: false
 
 Rails/HelperInstanceVariable:
@@ -133,13 +139,15 @@ Style/AsciiComments:
 Style/BlockComments:
   Enabled: true
   Exclude:
-    - 'lib/diff.rb'
+    - 'lib/redmine/string_array_diff/diff.rb'
+    - 'lib/redmine/string_array_diff/diffable.rb'
 
 Style/BlockDelimiters:
   Enabled: true
   Exclude:
     - 'db/migrate/007_create_journals.rb'
-    - 'lib/diff.rb'
+    - 'lib/redmine/string_array_diff/diff.rb'
+    - 'lib/redmine/string_array_diff/diffable.rb'
 
 Style/EmptyElse:
   EnforcedStyle: empty
@@ -159,6 +167,9 @@ Style/FrozenStringLiteralComment:
     - 'Rakefile'
     - 'config.ru'
     - 'config/additional_environment.rb'
+
+Style/GlobalStdStream:
+  Enabled: false
 
 Style/HashEachMethods:
   Enabled: true

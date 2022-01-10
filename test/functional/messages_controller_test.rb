@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -159,10 +159,11 @@ class MessagesControllerTest < Redmine::ControllerTest
       assert_mail_body_match 'Message body', mail
     end
 
+    email_addresses = mails.map(&:to)
     # author
-    assert_equal ['jsmith@somenet.foo'], mails[0].to
+    assert_includes email_addresses, ['jsmith@somenet.foo']
     # project member
-    assert_equal ['dlopper@somenet.foo'], mails[1].to
+    assert_includes email_addresses, ['dlopper@somenet.foo']
   end
 
   def test_get_edit

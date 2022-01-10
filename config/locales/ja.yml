@@ -328,7 +328,6 @@ ja:
   field_parent_title: 親ページ
   field_editable: 編集可能
   field_watcher: ウォッチャー
-  field_identity_url: OpenID URL
   field_content: 内容
   field_group_by: グループ条件
   field_sharing: 共有
@@ -387,7 +386,6 @@ ja:
   setting_diff_max_lines_displayed: 差分の表示行数の上限
   setting_file_max_size_displayed: 画面表示するテキストファイルサイズの上限
   setting_repository_log_display_limit: ファイルのリビジョン表示数の上限
-  setting_openid: OpenIDによるログインと登録
   setting_password_min_length: パスワードの最低必要文字数
   setting_new_project_user_role_id: システム管理者以外のユーザーが作成したプロジェクトに設定するロール
   setting_default_projects_modules: 新規プロジェクトにおいてデフォルトで有効になるモジュール
@@ -518,7 +516,6 @@ ja:
   label_information: 情報
   label_information_plural: 情報
   label_register: 登録する
-  label_login_with_open_id_option: またはOpenIDでログインする
   label_password_lost: パスワードの再設定
   label_home: ホーム
   label_my_page: マイページ
@@ -757,6 +754,7 @@ ja:
   label_changeset_plural: 更新履歴
   label_default_columns: デフォルトの項目
   label_no_change_option: (変更無し)
+  label_bulk_edit: 一括編集
   label_bulk_edit_selected_issues: チケットの一括編集
   label_theme: テーマ
   label_default: デフォルト
@@ -1394,10 +1392,14 @@ ja:
   twofa_text_group_required: この設定は二要素認証 (管理→設定→認証) が '任意' に設定されている場合のみ利用できます。現在は二要素認証はすべてのユーザーに対して必須に設定されています。
   twofa_text_group_disabled: この設定は二要素認証 (管理→設定→認証) が '任意' に設定されている場合のみ利用できます。現在は二要素認証は無効です。
   field_default_issue_query: デフォルトのクエリ
-  setting_default_issue_query: デフォルトのクエリ
   label_default_queries:
     for_all_projects: 全プロジェクト向け
     for_current_project: 現在のプロジェクト
     for_all_users: 全ユーザー向け
   text_allowed_queries_to_select: 公開クエリ (すべてのユーザーが表示できるクエリ) のみ選択できます
   text_all_migrations_have_been_run: すべてのデータベースマイグレーションが実行済
+  text_setting_config_change: 動作はconfig/configuration.ymlで設定できます。設定後、Redmineを再起動してください。
+  button_create_and_follow: 作成後表示
+  label_subtask: 子チケット
+  label_default_query: デフォルトのクエリ
+  field_default_project_query: デフォルトのプロジェクトクエリ

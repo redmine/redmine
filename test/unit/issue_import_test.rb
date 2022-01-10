@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -366,10 +366,10 @@ class IssueImportTest < ActiveSupport::TestCase
   def test_run_should_remove_the_file
     import = generate_import_with_mapping
     file_path = import.filepath
-    assert File.exists?(file_path)
+    assert File.exist?(file_path)
 
     import.run
-    assert !File.exists?(file_path)
+    assert !File.exist?(file_path)
   end
 
   def test_run_should_consider_project_shared_versions
@@ -410,5 +410,35 @@ class IssueImportTest < ActiveSupport::TestCase
     import.set_default_settings(:project_id => 'abc')
 
     assert_empty import.mapping
+  end
+
+  def test_set_default_settings_should_guess_encoding
+    import = generate_import('import_iso8859-1.csv')
+    user = User.generate!(:language => 'ja')
+    import.user = user
+    assert_equal 'CP932', lu(user, :general_csv_encoding)
+    with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
+      import.set_default_settings
+      guessed_encoding = import.settings['encoding']
+      assert_equal 'ISO-8859-1', guessed_encoding
+    end
+    with_settings :repositories_encodings => 'UTF-8,iso8859-1' do
+      import.set_default_settings
+      guessed_encoding = import.settings['encoding']
+      assert_equal 'ISO-8859-1', guessed_encoding
+      assert_includes Setting::ENCODINGS, guessed_encoding
+    end
+  end
+
+  def test_set_default_settings_should_use_general_csv_encoding_when_cannnot_guess_encoding
+    import = generate_import('import_iso8859-1.csv')
+    user = User.generate!(:language => 'ja')
+    import.user = user
+    with_settings :repositories_encodings => 'UTF-8' do
+      import.set_default_settings
+      guessed_encoding = import.settings['encoding']
+      assert_equal 'CP932', lu(user, :general_csv_encoding)
+      assert_equal 'CP932', guessed_encoding
+    end
   end
 end

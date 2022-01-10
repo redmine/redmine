@@ -800,9 +800,6 @@ tr:
   setting_repository_log_display_limit: Dosya kaydında gösterilecek maksimum değişim sayısı
   setting_file_max_size_displayed: Dahili olarak gösterilecek metin dosyaları için maksimum satır sayısı
   field_watcher: Takipçi
-  setting_openid: Kayıt ve giriş için OpenID'ye izin ver
-  field_identity_url: OpenID URL
-  label_login_with_open_id_option: veya OpenID kullanın
   field_content: İçerik
   label_descending: Azalan
   label_sort: Sırala
@@ -1434,7 +1431,6 @@ tr:
     authentication setting is set to 'optional'. Currently, two factor authentication
     is disabled.
   field_default_issue_query: Default issue query
-  setting_default_issue_query: Default Query
   label_default_queries:
     for_all_projects: For all projects
     for_current_project: For current project
@@ -1444,3 +1440,10 @@ tr:
   button_save_object: Save %{object_name}
   button_edit_object: Edit %{object_name}
   button_delete_object: Delete %{object_name}
+  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
+    Please restart the application after editing it.
+  label_bulk_edit: Bulk edit
+  button_create_and_follow: Create and follow
+  label_subtask: Subtask
+  label_default_query: Default query
+  field_default_project_query: Default project query

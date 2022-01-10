@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,6 +17,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+require File.dirname(__FILE__) + '/utils/date_calculation'
+require File.dirname(__FILE__) + '/utils/shell'
 require 'fileutils'
 
 module Redmine
@@ -24,7 +26,7 @@ module Redmine
     class << self
       # Returns the relative root url of the application
       def relative_url_root
-        if ActionController::Base.respond_to?('relative_url_root')
+        if ActionController::Base.respond_to?(:relative_url_root)
           ActionController::Base.relative_url_root.to_s
         else
           ActionController::Base.config.relative_url_root.to_s
@@ -33,7 +35,7 @@ module Redmine
 
       # Sets the relative root url of the application
       def relative_url_root=(arg)
-        if ActionController::Base.respond_to?('relative_url_root=')
+        if ActionController::Base.respond_to?(:relative_url_root=)
           ActionController::Base.relative_url_root=arg
         else
           ActionController::Base.config.relative_url_root = arg
@@ -49,7 +51,7 @@ module Redmine
 
       def save_upload(upload, path)
         directory = File.dirname(path)
-        unless File.exists?(directory)
+        unless File.exist?(directory)
           FileUtils.mkdir_p directory
         end
         File.open(path, "wb") do |f|
@@ -62,87 +64,6 @@ module Redmine
           else
             f.write(upload)
             yield upload if block_given?
-          end
-        end
-      end
-    end
-
-    module Shell
-      module_function
-
-      def shell_quote(str)
-        if Redmine::Platform.mswin?
-          '"' + str.gsub(/"/, '\\"') + '"'
-        else
-          "'" + str.gsub(/'/, "'\"'\"'") + "'"
-        end
-      end
-
-      def shell_quote_command(command)
-        if Redmine::Platform.mswin? && RUBY_PLATFORM == 'java'
-          command
-        else
-          shell_quote(command)
-        end
-      end
-    end
-
-    module DateCalculation
-      # Returns the number of working days between from and to
-      def working_days(from, to)
-        days = (to - from).to_i
-        if days > 0
-          weeks = days / 7
-          result = weeks * (7 - non_working_week_days.size)
-          days_left = days - weeks * 7
-          start_cwday = from.cwday
-          days_left.times do |i|
-            unless non_working_week_days.include?(((start_cwday + i - 1) % 7) + 1)
-              result += 1
-            end
-          end
-          result
-        else
-          0
-        end
-      end
-
-      # Adds working days to the given date
-      def add_working_days(date, working_days)
-        if working_days > 0
-          weeks = working_days / (7 - non_working_week_days.size)
-          result = weeks * 7
-          days_left = working_days - weeks * (7 - non_working_week_days.size)
-          cwday = date.cwday
-          while days_left > 0
-            cwday += 1
-            unless non_working_week_days.include?(((cwday - 1) % 7) + 1)
-              days_left -= 1
-            end
-            result += 1
-          end
-          next_working_date(date + result)
-        else
-          date
-        end
-      end
-
-      # Returns the date of the first day on or after the given date that is a working day
-      def next_working_date(date)
-        cwday = date.cwday
-        days = 0
-        days += 1 while non_working_week_days.include?(((cwday + days - 1) % 7) + 1)
-        date + days
-      end
-
-      # Returns the index of non working week days (1=monday, 7=sunday)
-      def non_working_week_days
-        @non_working_week_days ||= begin
-          days = Setting.non_working_week_days
-          if days.is_a?(Array) && days.size < 7
-            days.map(&:to_i)
-          else
-            []
           end
         end
       end

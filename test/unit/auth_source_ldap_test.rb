@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -168,9 +168,10 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       auth_source.timeout = 1
       def auth_source.initialize_ldap_con(*args); sleep(5); end
 
-      assert_raise AuthSourceTimeoutException do
+      error = assert_raise AuthSourceTimeoutException do
         auth_source.authenticate 'example1', '123456'
       end
+      assert_match /\ALDAP: /, error.message
     end
 
     def test_search_should_return_matching_entries
@@ -210,9 +211,10 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       auth_source.host = "badhost"
       auth_source.save!
 
-      assert_raise AuthSourceException do
+      error = assert_raise AuthSourceException do
         auth_source.test_connection
       end
+      assert_match /\ALDAP: /, error.message
     end
 
     def test_test_connection_with_incorrect_port

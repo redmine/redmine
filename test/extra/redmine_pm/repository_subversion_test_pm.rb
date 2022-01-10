@@ -1,7 +1,7 @@
 # frozen_string_literal: false
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -305,7 +305,7 @@ class RedminePmTest::RepositorySubversionTest < RedminePmTest::TestCase
         assert_success "update"
 
         # checks that the working copy was updated
-        assert File.exists?(File.join(dir, "#{filename}_copy"))
+        assert File.exist?(File.join(dir, "#{filename}_copy"))
         assert File.directory?(File.join(dir, "#{filename}_dir"))
       end
     end

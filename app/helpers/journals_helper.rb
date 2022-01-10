@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -32,6 +32,14 @@ module JournalsHelper
     indice = journal.indice || @journal.issue.visible_journals_with_index.find{|j| j.id == @journal.id}.indice
 
     dropbown_links << copy_object_url_link(issue_url(issue, anchor: "note-#{indice}", only_path: false))
+    if journal.attachments.size > 1
+      dropbown_links << link_to(l(:label_download_all_attachments),
+                                container_attachments_download_path(journal),
+                                :title => l(:label_download_all_attachments),
+                                :class => 'icon icon-download'
+                               )
+    end
+
     if journal.notes.present?
       if options[:reply_links]
         links << link_to(l(:button_quote),
@@ -53,7 +61,8 @@ module JournalsHelper
         dropbown_links << link_to(l(:button_delete),
                                   journal_path(journal, :journal => {:notes => ""}),
                                   :remote => true,
-                                  :method => 'put', :data => {:confirm => l(:text_are_you_sure)},
+                                  :method => 'put',
+                                  :data => {:confirm => l(:text_are_you_sure)},
                                   :class => 'icon icon-del'
                                  )
       end

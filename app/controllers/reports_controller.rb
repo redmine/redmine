@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -24,10 +24,10 @@ class ReportsController < ApplicationController
   def issue_report
     with_subprojects = Setting.display_subprojects_issues?
     @trackers = @project.rolled_up_trackers(with_subprojects).visible
-    @versions = @project.shared_versions.sorted
+    @versions = @project.shared_versions.sorted + [Version.new(:name => "[#{l(:label_none)}]")]
     @priorities = IssuePriority.all.reverse
-    @categories = @project.issue_categories
-    @assignees = (Setting.issue_group_assignment? ? @project.principals : @project.users).sorted
+    @categories = @project.issue_categories + [IssueCategory.new(:name => "[#{l(:label_none)}]")]
+    @assignees = (Setting.issue_group_assignment? ? @project.principals : @project.users).sorted + [User.new(:firstname => "[#{l(:label_none)}]")]
     @authors = @project.users.sorted
     @subprojects = @project.descendants.visible
     @issues_by_tracker = Issue.by_tracker(@project, with_subprojects)
@@ -51,7 +51,7 @@ class ReportsController < ApplicationController
       @report_title = l(:field_tracker)
     when "version"
       @field = "fixed_version_id"
-      @rows = @project.shared_versions.sorted
+      @rows = @project.shared_versions.sorted + [Version.new(:name => "[#{l(:label_none)}]")]
       @data = Issue.by_version(@project, with_subprojects)
       @report_title = l(:field_version)
     when "priority"
@@ -61,12 +61,12 @@ class ReportsController < ApplicationController
       @report_title = l(:field_priority)
     when "category"
       @field = "category_id"
-      @rows = @project.issue_categories
+      @rows = @project.issue_categories + [IssueCategory.new(:name => "[#{l(:label_none)}]")]
       @data = Issue.by_category(@project, with_subprojects)
       @report_title = l(:field_category)
     when "assigned_to"
       @field = "assigned_to_id"
-      @rows = (Setting.issue_group_assignment? ? @project.principals : @project.users).sorted
+      @rows = (Setting.issue_group_assignment? ? @project.principals : @project.users).sorted + [User.new(:firstname => "[#{l(:label_none)}]")]
       @data = Issue.by_assigned_to(@project, with_subprojects)
       @report_title = l(:field_assigned_to)
     when "author"

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,13 +17,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class DateValidator < ActiveModel::EachValidator
-  def validate_each(record, attribute, value)
-    before_type_cast = record.attributes_before_type_cast[attribute.to_s]
-    if before_type_cast.is_a?(String) && before_type_cast.present?
-      unless /\A\d{4}-\d{2}-\d{2}( 00:00:00)?\z/.match?(before_type_cast) && value
-        record.errors.add attribute, :not_a_date
-      end
-    end
+class WikiDiff < Redmine::Helpers::Diff
+  attr_reader :content_to, :content_from
+
+  def initialize(content_to, content_from)
+    @content_to = content_to
+    @content_from = content_from
+    super(content_to.text, content_from.text)
   end
 end

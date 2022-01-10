@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -100,5 +100,22 @@ class Redmine::CodesetUtilTest < ActiveSupport::TestCase
     assert s2.valid_encoding?
     assert_equal "UTF-8", s2.encoding.to_s
     assert_equal 'こんにち?', s2
+  end
+
+  def test_guess_encoding_should_return_guessed_encoding
+    str = '日本語'.encode('Windows-31J').b
+    with_settings :repositories_encodings => 'UTF-8,Windows-31J' do
+      assert_equal 'Windows-31J', Redmine::CodesetUtil.guess_encoding(str)
+    end
+    with_settings :repositories_encodings => 'UTF-8,csWindows31J' do
+      assert_equal 'csWindows31J', Redmine::CodesetUtil.guess_encoding(str)
+    end
+  end
+
+  def guess_encoding_should_return_nil_if_cannot_guess_encoding
+    str = '日本語'.encode('Windows-31J').b
+    with_settings :repositories_encodings => 'UTF-8,EUC-JP' do
+      assert_nil Redmine::CodesetUtil.guess_encoding(str)
+    end
   end
 end

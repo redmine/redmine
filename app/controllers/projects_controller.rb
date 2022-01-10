@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -51,6 +51,7 @@ class ProjectsController < ApplicationController
       return
     end
 
+    retrieve_default_query
     retrieve_project_query
     scope = project_scope
 
@@ -322,5 +323,20 @@ class ProjectsController < ApplicationController
 
   def retrieve_project_query
     retrieve_query(ProjectQuery, false, :defaults => @default_columns_names)
+  end
+
+  def retrieve_default_query
+    return if params[:query_id].present?
+    return if api_request?
+    return if params[:set_filter] && (params.key?(:op) || params.key?(:f))
+
+    if params[:without_default].present?
+      params[:set_filter] = 1
+      return
+    end
+
+    if default_query = ProjectQuery.default
+      params[:query_id] = default_query.id
+    end
   end
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -108,7 +108,7 @@ class Project < ActiveRecord::Base
   scope :like, (lambda do |arg|
     if arg.present?
       pattern = "%#{sanitize_sql_like arg.to_s.strip}%"
-      where("LOWER(identifier) LIKE LOWER(:p) OR LOWER(name) LIKE LOWER(:p)", :p => pattern)
+      where("LOWER(identifier) LIKE LOWER(:p) ESCAPE :s OR LOWER(name) LIKE LOWER(:p) ESCAPE :s", :p => pattern, :s => '\\')
     end
   end)
   scope :sorted, lambda {order(:lft)}

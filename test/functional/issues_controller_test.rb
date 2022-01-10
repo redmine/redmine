@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -1322,7 +1322,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
-    assert_equal ['4.00', '3.00', '0.00'], columns_values_in_list('spent_hours')[0..2]
+    assert_equal ['4:00', '3:00', '0:00'], columns_values_in_list('spent_hours').first(3)
     Project.find(3).disable_module!(:time_tracking)
     get(
       :index,
@@ -1332,7 +1332,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
-    assert_equal ['3.00', '0.00', '0.00'], columns_values_in_list('spent_hours')[0..2]
+    assert_equal ['3:00', '0:00', '0:00'], columns_values_in_list('spent_hours').first(3)
   end
 
   def test_index_sort_by_total_spent_hours
@@ -1555,7 +1555,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         :c => %w(subject spent_hours)
       }
     )
-    assert_select 'table.issues tr#issue-3 td.spent_hours', :text => '1.00'
+    assert_select 'table.issues tr#issue-3 td.spent_hours', :text => '1:00'
   end
 
   def test_index_with_total_spent_hours_column
@@ -1567,7 +1567,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         :c => %w(subject total_spent_hours)
       }
     )
-    assert_select 'table.issues tr#issue-3 td.total_spent_hours', :text => '1.00'
+    assert_select 'table.issues tr#issue-3 td.total_spent_hours', :text => '1:00'
   end
 
   def test_index_with_total_estimated_hours_column
@@ -1874,21 +1874,21 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_index_with_estimated_hours_total
     Issue.delete_all
-    Issue.generate!(:estimated_hours => 5.5)
-    Issue.generate!(:estimated_hours => 1.1)
+    Issue.generate!(:estimated_hours => '5:30')
+    Issue.generate!(:estimated_hours => '1:06')
     get(:index, :params => {:t => %w(estimated_hours)})
     assert_response :success
     assert_select '.query-totals'
-    assert_select '.total-for-estimated-hours span.value', :text => '6.60'
+    assert_select '.total-for-estimated-hours span.value', :text => '6:36'
     assert_select 'input[type=checkbox][name=?][value=estimated_hours][checked=checked]', 't[]'
   end
 
   def test_index_with_grouped_query_and_estimated_hours_total
     Issue.delete_all
-    Issue.generate!(:estimated_hours => 5.5, :category_id => 1)
-    Issue.generate!(:estimated_hours => 2.3, :category_id => 1)
-    Issue.generate!(:estimated_hours => 1.1, :category_id => 2)
-    Issue.generate!(:estimated_hours => 4.6)
+    Issue.generate!(:estimated_hours => '5:30', :category_id => 1)
+    Issue.generate!(:estimated_hours => '2:18', :category_id => 1)
+    Issue.generate!(:estimated_hours => '1:06', :category_id => 2)
+    Issue.generate!(:estimated_hours => '4:36')
     get(
       :index,
       :params => {
@@ -1898,15 +1898,15 @@ class IssuesControllerTest < Redmine::ControllerTest
     )
     assert_response :success
     assert_select '.query-totals'
-    assert_select '.query-totals .total-for-estimated-hours span.value', :text => '13.50'
+    assert_select '.query-totals .total-for-estimated-hours span.value', :text => '13:30'
     assert_select 'tr.group', :text => /Printing/ do
-      assert_select '.total-for-estimated-hours span.value', :text => '7.80'
+      assert_select '.total-for-estimated-hours span.value', :text => '7:48'
     end
     assert_select 'tr.group', :text => /Recipes/ do
-      assert_select '.total-for-estimated-hours span.value', :text => '1.10'
+      assert_select '.total-for-estimated-hours span.value', :text => '1:06'
     end
     assert_select 'tr.group', :text => /blank/ do
-      assert_select '.total-for-estimated-hours span.value', :text => '4.60'
+      assert_select '.total-for-estimated-hours span.value', :text => '4:36'
     end
   end
 
@@ -1927,13 +1927,13 @@ class IssuesControllerTest < Redmine::ControllerTest
 
     get :index, :params => {:t => ["spent_hours"]}
     assert_response :success
-    assert_select ".total-for-spent-hours span.value", :text => '7.00'
+    assert_select ".total-for-spent-hours span.value", :text => '7:00'
 
     Project.find(3).disable_module!(:time_tracking)
 
     get :index, :params => {:t => ["spent_hours"]}
     assert_response :success
-    assert_select ".total-for-spent-hours span.value", :text => '3.00'
+    assert_select ".total-for-spent-hours span.value", :text => '3:00'
   end
 
   def test_index_totals_should_default_to_settings
@@ -2003,6 +2003,22 @@ class IssuesControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
     get :index
     assert_select '#content a.new-issue[href="/issues/new"]', :text => 'New issue'
+  end
+
+  def test_index_should_show_setting_link_with_edit_project_permission
+    role = Role.find(1)
+    role.add_permission! :edit_project
+    @request.session[:user_id] = 2
+    get(:index, :params => {:project_id => 1})
+    assert_select '#content a.icon-settings[href="/projects/ecookbook/settings/issues"]', 1
+  end
+
+  def test_index_should_not_show_setting_link_without_edit_project_permission
+    role = Role.find(1)
+    role.remove_permission! :edit_project
+    @request.session[:user_id] = 2
+    get(:index, :params => {:project_id => 1})
+    assert_select '#content a.icon-settings[href="/projects/ecookbook/settings/issues"]', 0
   end
 
   def test_index_should_not_include_new_issue_tab_when_disabled
@@ -2078,7 +2094,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       assert_select 'a', {:count => 0, :text => 'Watch'}
       assert_select 'a', {:count => 0, :text => 'Copy'}
       assert_select 'div.drdn-items a', {:count => 1, :text => 'Copy link'}
-      assert_select 'div.drdn-items a', {:count => 0, :text => 'Delete'}
+      assert_select 'div.drdn-items a', {:count => 0, :text => 'Delete issue'}
     end
     # anonymous role is allowed to add a note
     assert_select 'form#issue-form' do
@@ -2100,7 +2116,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       assert_select 'a', {:count => 1, :text => 'Watch'}
       assert_select 'a', {:count => 1, :text => 'Copy'}
       assert_select 'div.drdn-items a', {:count => 1, :text => 'Copy link'}
-      assert_select 'div.drdn-items a', {:count => 1, :text => 'Delete'}
+      assert_select 'div.drdn-items a', {:count => 1, :text => 'Delete issue'}
     end
     assert_select 'form#issue-form' do
       assert_select 'fieldset' do
@@ -2344,7 +2360,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_show_should_list_subtasks
-    Issue.
+    issue = Issue.
       create!(
         :project_id => 1, :author_id => 1, :tracker_id => 1,
         :parent_issue_id => 1, :subject => 'Child Issue'
@@ -2353,6 +2369,11 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_select 'div#issue_tree' do
       assert_select 'td.subject', :text => /Child Issue/
+    end
+    assert_select 'div#tab-content-history' do
+      assert_select 'div[id=?]', "change-#{Issue.find(1).journals.last.id}" do
+        assert_select 'ul.details', :text => "Subtask ##{issue.id} added"
+      end
     end
   end
 
@@ -2370,11 +2391,11 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'div#issue_tree span.issues-stat' do
       assert_select 'span.badge', text: '4'
       assert_select 'span.open a', text: '3 open'
-      assert_equal CGI.unescape(css_select('span.open a').first.attr('href')),
+      assert_equal CGI.unescape(css_select('span.open a').first.attr(:href)),
                    "/issues?parent_id=~1&set_filter=true&status_id=o"
 
       assert_select 'span.closed a', text: '1 closed'
-      assert_equal CGI.unescape(css_select('span.closed a').first.attr('href')),
+      assert_equal CGI.unescape(css_select('span.closed a').first.attr(:href)),
                    "/issues?parent_id=~1&set_filter=true&status_id=c"
     end
   end
@@ -2387,7 +2408,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 
     assert_select 'div#issue_tree span.issues-stat' do
       assert_select 'span.open a', text: '1 open'
-      assert_equal CGI.unescape(css_select('span.open a').first.attr('href')),
+      assert_equal CGI.unescape(css_select('span.open a').first.attr(:href)),
                    "/issues?parent_id=~1&set_filter=true&status_id=o"
       assert_select 'span.closed', text: '0 closed'
       assert_select 'span.closed a', 0
@@ -3018,7 +3039,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     get(:show, :params => {:id => 1})
     assert_response :success
     assert_select 'a', :text => 'Edit'
-    assert_select 'a', :text => 'Delete'
+    assert_select 'a', :text => 'Delete issue'
   end
 
   def test_show_on_closed_project_should_not_display_edit_links
@@ -3027,7 +3048,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     get(:show, :params => {:id => 1})
     assert_response :success
     assert_select 'a', :text => 'Edit', :count => 0
-    assert_select 'a', :text => 'Delete', :count => 0
+    assert_select 'a', :text => 'Delete issue', :count => 0
   end
 
   def test_show_should_not_display_history_tabs_for_issue_without_journals
@@ -3212,6 +3233,11 @@ class IssuesControllerTest < Redmine::ControllerTest
       assert_select 'select[name=?]', 'issue[done_ratio]'
       assert_select 'input[name=?][value=?]', 'issue[custom_field_values][2]', 'Default string'
       assert_select 'input[name=?]', 'issue[watcher_user_ids][]'
+
+      # Assert submit buttons
+      assert_select 'input[type=submit][name=?]', 'commit'
+      assert_select 'input[type=submit][name=?]', 'continue'
+      assert_select 'input[type=submit][name=?]', 'follow', 0
     end
 
     # Be sure we don't display inactive IssuePriorities
@@ -3822,6 +3848,25 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
 
     assert_select 'div#trackers_description', 0
+  end
+
+  def test_get_new_should_show_create_and_follow_button_when_issue_is_subtask_and_back_url_is_present
+    @request.session[:user_id] = 2
+    get :new, params: {
+      project_id: 1,
+      issue: {
+        parent_issue_id: 2
+      },
+      back_url: "/issues/2"
+    }
+    assert_response :success
+
+    assert_select 'form#issue-form' do
+      # Assert submit buttons
+      assert_select 'input[type=submit][name=?]', 'commit'
+      assert_select 'input[type=submit][name=?]', 'continue'
+      assert_select 'input[type=submit][name=?]', 'follow'
+    end
   end
 
   def test_update_form_for_new_issue
@@ -4687,7 +4732,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_equal 'text/plain', attachment.content_type
     assert_equal 'test file', attachment.description
     assert_equal 59, attachment.filesize
-    assert File.exists?(attachment.diskfile)
+    assert File.exist?(attachment.diskfile)
     assert_equal 59, File.size(attachment.diskfile)
   end
 
@@ -4751,7 +4796,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 
     attachment = Attachment.order('id DESC').first
     assert_equal 'testfile.txt', attachment.filename
-    assert File.exists?(attachment.diskfile)
+    assert File.exist?(attachment.diskfile)
     assert_nil attachment.container
 
     assert_select 'input[name=?][value=?]', 'attachments[p0][token]', attachment.token
@@ -5623,7 +5668,7 @@ class IssuesControllerTest < Redmine::ControllerTest
           :priority_id => 7
         },
         :time_entry => {
-          :hours => '2.5',
+          :hours => '2:30',
           :comments => 'test_get_edit_with_params',
           :activity_id => 10
         }
@@ -5639,7 +5684,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       assert_select 'option[value="7"][selected=selected]', :text => 'Urgent'
     end
 
-    assert_select 'input[name=?][value="2.50"]', 'time_entry[hours]'
+    assert_select 'input[name=?][value="2:30"]', 'time_entry[hours]'
     assert_select 'select[name=?]', 'time_entry[activity_id]' do
       assert_select 'option[value="10"][selected=selected]', :text => 'Development'
     end
@@ -6260,7 +6305,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_equal 'text/plain', attachment.content_type
     assert_equal 'test file', attachment.description
     assert_equal 59, attachment.filesize
-    assert File.exists?(attachment.diskfile)
+    assert File.exist?(attachment.diskfile)
     assert_equal 59, File.size(attachment.diskfile)
 
     mail = ActionMailer::Base.deliveries.last
@@ -6294,7 +6339,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 
     attachment = Attachment.order('id DESC').first
     assert_equal 'testfile.txt', attachment.filename
-    assert File.exists?(attachment.diskfile)
+    assert File.exist?(attachment.diskfile)
     assert_nil attachment.container
 
     assert_select 'input[name=?][value=?]', 'attachments[p0][token]', attachment.token
@@ -8197,6 +8242,31 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_redirected_to :controller => 'issues', :action => 'index'
     assert_equal 'Successful deletion.', flash[:notice]
     assert !(Issue.find_by_id(1) || Issue.find_by_id(2) || Issue.find_by_id(6))
+  end
+
+  def test_destroy_child_issue
+    parent = Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1, :subject => 'Parent Issue')
+    child = Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1, :subject => 'Child Issue', :parent_issue_id => parent.id)
+    assert child.is_descendant_of?(parent.reload)
+
+    @request.session[:user_id] = 2
+    assert_difference 'Issue.count', -1 do
+      delete :destroy, :params => {:id => child.id}
+    end
+    assert_response :found
+    assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+
+    parent.reload
+    assert_equal 2, parent.journals.count
+
+    get :show, :params => {:id => parent.id}
+    assert_response :success
+
+    assert_select 'div#tab-content-history' do
+      assert_select 'div[id=?]', "change-#{parent.journals.last.id}" do
+        assert_select 'ul.details', :text => "Subtask deleted (##{child.id})"
+      end
+    end
   end
 
   def test_destroy_parent_and_child_issues

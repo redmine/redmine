@@ -332,7 +332,6 @@ az:
   field_host: Kompyuter
   field_hours: saat
   field_identifier: Unikal identifikator
-  field_identity_url: OpenID URL
   field_is_closed: Tapşırıq bağlanıb
   field_is_default: Susmaya görə tapşırıq
   field_is_filter: Filtr kimi istifadə edilir
@@ -549,7 +548,6 @@ az:
   label_loading: Yükləmə...
   label_logged_as: Daxil olmusunuz
   label_login: Daxil olmaq
-  label_login_with_open_id_option: və ya OpenID vasitəsilə daxil olmaq
   label_logout: Çıxış
   label_max_size: Maksimal ölçü
   label_member_new: Yeni iştirakçı
@@ -847,7 +845,6 @@ az:
   setting_mail_from: Çıxan e-poçt ünvanı
   setting_mail_handler_api_enabled: Daxil olan məlumatlar üçün veb-servisi qoşmaq
   setting_mail_handler_api_key: API açar
-  setting_openid: Giriş və qeydiyyat üçün OpenID izacə vermək
   setting_per_page_options: Səhifə üçün qeydlərin sayı
   setting_plain_text_mail: Yalnız sadə mətn (HTML olmadan)
   setting_protocol: Protokol
@@ -1519,7 +1516,6 @@ az:
     authentication setting is set to 'optional'. Currently, two factor authentication
     is disabled.
   field_default_issue_query: Default issue query
-  setting_default_issue_query: Default Query
   label_default_queries:
     for_all_projects: For all projects
     for_current_project: For current project
@@ -1529,3 +1525,10 @@ az:
   button_save_object: Save %{object_name}
   button_edit_object: Edit %{object_name}
   button_delete_object: Delete %{object_name}
+  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
+    Please restart the application after editing it.
+  label_bulk_edit: Bulk edit
+  button_create_and_follow: Create and follow
+  label_subtask: Subtask
+  label_default_query: Default query
+  field_default_project_query: Default project query

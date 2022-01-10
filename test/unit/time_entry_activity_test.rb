@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -144,7 +144,7 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
         parent_activity.id.to_s => {
           'parent_id' => parent_activity.id.to_s,
           'active' => '0',
-          'custom_field_values' => {'7' => ''}
+          'custom_field_values' => {'7' => '1'}
         }
       }
     )
@@ -158,7 +158,7 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
         other_parent_activity.id.to_s => {
           'parent_id' => other_parent_activity.id.to_s,
           'active' => '0',
-          'custom_field_values' => {'7' => ''}
+          'custom_field_values' => {'7' => '1'}
         }
       }
     )
@@ -179,7 +179,7 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
         parent_activity.id.to_s => {
           'parent_id' => parent_activity.id.to_s,
           'active' => '0',
-          'custom_field_values' => {'7' => ''}
+          'custom_field_values' => {'7' => '1'}
         }
       }
     )
@@ -195,5 +195,28 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
     parent_activity.update(name: 'Design3')
     assert_equal 'Design2', project_activity.reload.name
     assert_equal 'Design3', parent_activity.reload.name
+  end
+
+  def test_project_activity_should_not_be_created_if_no_custom_value_is_changed
+    system_activity = TimeEntryActivity.find(9) # Design
+    assert_equal true, system_activity.active
+
+    custom_field_value = system_activity.custom_field_values.detect{|cfv| cfv.custom_field.id == 7}
+    assert_nil custom_field_value.value
+
+    project = Project.find(1)
+    assert_equal 0, project.time_entry_activities.count
+
+    assert_no_difference 'TimeEntryActivity.count' do
+      project.update_or_create_time_entry_activities(
+        {
+          '9' => {
+            'parent_id' => '9',
+            'active' => '1',
+            'custom_field_values' => {'7' => ''}
+          }
+        }
+      )
+    end
   end
 end

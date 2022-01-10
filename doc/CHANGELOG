@@ -1,8 +1,53 @@
 == Redmine changelog
 
 Redmine - project management software
-Copyright (C) 2006-2021  Jean-Philippe Lang
+Copyright (C) 2006-2022  Jean-Philippe Lang
 https://www.redmine.org/
+
+== 2021-10-10 v4.2.3
+
+=== [Administration]
+
+* Defect #35731: Password and Confirmation fields are marked as required when editing a user
+
+=== [Attachments]
+
+* Defect #35642: Long text custom field values are not aligned with their labels
+* Defect #35715: File upload fails when run with uWSGI
+
+=== [Issues]
+
+* Defect #35655: Create duplicated follows relations fails with 500 internal error
+
+=== [Issues planning]
+
+* Defect #35669: Prints of Issues Report details are messed-up due to the size of the graphs
+
+=== [Permissions and roles]
+
+* Defect #35634: Attachments deletable even though issue edit not permitted
+
+=== [Projects]
+
+* Defect #35827: Deleting a closed or archived project returns 403
+
+=== [Roadmap]
+
+* Feature #35758: Add some space around the versions on the Roadmap
+
+=== [Security]
+
+* Defect #35789: Redmine is leaking usernames on activities index view
+* Patch #35463: Enforce stricter class filtering in WatchersController
+
+=== [Translations]
+
+* Patch #35662: Mongolian translation update for "Notes", "Totals", and "% Done"
+* Patch #35766: Galician translation update for 4.2-stable
+
+=== [UI]
+
+* Defect #34834: Line breaks in the description of a custom field are ignored in a tooltip
 
 == 2021-08-01 v4.2.2
 

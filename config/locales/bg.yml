@@ -367,7 +367,6 @@ bg:
   field_parent_title: Родителска страница
   field_editable: Editable
   field_watcher: Наблюдател
-  field_identity_url: OpenID URL
   field_content: Съдържание
   field_group_by: Групиране на резултатите по
   field_sharing: Sharing
@@ -414,6 +413,7 @@ bg:
   field_toolbar_language_options: Езици за избор в <pre><code class="..."> бутон
   field_twofa_required: Изискване за двуфакторна автентикация
   field_default_issue_query: Заявка по подразбиране
+  field_default_project_query: Заявка по подразбиране за проекта
 
   setting_app_title: Заглавие
   setting_welcome_text: Допълнителен текст
@@ -463,7 +463,6 @@ bg:
   setting_diff_max_lines_displayed: Максимален брой показвани diff редове
   setting_file_max_size_displayed: Максимален размер на текстовите файлове, показвани inline
   setting_repository_log_display_limit: Максимален брой на показванете ревизии в лог файла
-  setting_openid: Рарешаване на OpenID вход и регистрация
   setting_password_max_age: Изискване за смяна на паролата след
   setting_password_min_length: Минимална дължина на парола
   setting_password_required_char_classes: Задължителни символни класове за пароли
@@ -513,7 +512,6 @@ bg:
   setting_show_status_changes_in_mail_subject: Показване на промените на състоянието на задачите в поле Относно на имейлите
   setting_project_list_defaults: Проектен списък
   setting_twofa: Двуфакторна автентикация
-  setting_default_issue_query: Заявка по подразбиране
 
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
@@ -658,7 +656,6 @@ bg:
   label_information: Информация
   label_information_plural: Информация
   label_register: Регистрация
-  label_login_with_open_id_option: или вход чрез OpenID
   label_password_lost: Забравена парола
   label_password_required: Потвърдете вашата парола, за да продължите
   label_home: Начало
@@ -932,6 +929,7 @@ bg:
   label_changeset_plural: Ревизии
   label_default_columns: По подразбиране
   label_no_change_option: (Без промяна)
+  label_bulk_edit: Групово редактиране
   label_bulk_edit_selected_issues: Групово редактиране на задачи
   label_bulk_edit_selected_time_entries: Групово редактиране на записи за използвано време
   label_theme: Тема
@@ -999,6 +997,7 @@ bg:
   label_missing_api_access_key: Липсващ API ключ
   label_api_access_key_created_on: API ключ за достъп е създаден преди %{value}
   label_profile: Профил
+  label_subtask: Подзадача
   label_subtask_plural: Подзадачи
   label_project_copy_notifications: Изпращане на e-mail известия по време на копирането на проекта
   label_import_notifications: Изпращане e-mail известия по време на импортирането
@@ -1125,6 +1124,7 @@ bg:
   label_display_type_board: Таблица
   label_my_bookmarks: Моите отметки
   label_assign_to_me: Назначи на мен
+  label_default_query: Заявка по подразбиране
 
   button_login: Вход
   button_submit: Изпращане
@@ -1189,6 +1189,7 @@ bg:
   button_save_object: Запис %{object_name}
   button_edit_object: Редактиране %{object_name}
   button_delete_object: Изтриване %{object_name}
+  button_create_and_follow: Създаване и продължаване
 
   status_active: активен
   status_registered: регистриран
@@ -1292,6 +1293,7 @@ bg:
   text_avatar_server_config_html: Текущият сървър на аватари е <a href="%{url}">%{url}</a>.
     Бие можете да го конфигурирате в config/configuration.yml.
   text_allowed_queries_to_select: Само публичните (за всички потребители) заявки са достъпни за избор
+  text_setting_config_change: Вие можете да конфигурирате поведението в config/configuration.yml. Моля, рестартирайте Redmine след редактиране на файла.
 
   default_role_manager: Мениджър
   default_role_developer: Разработчик

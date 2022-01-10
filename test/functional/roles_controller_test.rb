@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -71,7 +71,7 @@ class RolesControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_equal(
       %w(view_documents view_issues),
-      css_select('input[name="role[permissions][]"][checked=checked]').map {|e| e.attr('value')}.sort
+      css_select('input[name="role[permissions][]"][checked=checked]').map {|e| e.attr(:value)}.sort
     )
   end
 

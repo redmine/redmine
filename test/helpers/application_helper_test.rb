@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -171,17 +171,33 @@ class ApplicationHelperTest < Redmine::HelperTest
   def test_attached_images
     to_test = {
       'Inline image: !logo.gif!' =>
-         'Inline image: <img src="/attachments/download/3/logo.gif" title="This is a logo" alt="This is a logo" />',
+         'Inline image: <img src="/attachments/download/3/logo.gif" title="This is a logo" alt="This is a logo" loading="lazy" />',
       'Inline image: !logo.GIF!' =>
-         'Inline image: <img src="/attachments/download/3/logo.gif" title="This is a logo" alt="This is a logo" />',
+         'Inline image: <img src="/attachments/download/3/logo.gif" title="This is a logo" alt="This is a logo" loading="lazy" />',
       'No match: !ogo.gif!' => 'No match: <img src="ogo.gif" alt="" />',
       'No match: !ogo.GIF!' => 'No match: <img src="ogo.GIF" alt="" />',
       # link image
       '!logo.gif!:http://foo.bar/' =>
-         '<a href="http://foo.bar/"><img src="/attachments/download/3/logo.gif" title="This is a logo" alt="This is a logo" /></a>',
+         '<a href="http://foo.bar/"><img src="/attachments/download/3/logo.gif" title="This is a logo" alt="This is a logo" loading="lazy" /></a>',
     }
     attachments = Attachment.all
     to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => attachments)}
+  end
+
+  def test_attached_images_on_issue
+    issue = Issue.generate!
+    attachment_1 = Attachment.generate!(:file => mock_file_with_options(:original_filename => "attached_on_issue.png"), :container => issue)
+    journal = issue.init_journal(User.find(2), issue)
+    attachment_2 = Attachment.generate!(:file => mock_file_with_options(:original_filename => "attached_on_journal.png"), :container => issue)
+    journal.journalize_attachment(attachment_2, :added)
+
+    raw = <<~RAW
+      !attached_on_issue.png!
+      !attached_on_journal.png!'
+    RAW
+
+    assert textilizable(raw, :object => journal).include?("<img src=\"/attachments/download/#{attachment_1.id}/attached_on_issue.png\" alt=\"\" loading=\"lazy\" />")
+    assert textilizable(raw, :object => journal).include?("<img src=\"/attachments/download/#{attachment_2.id}/attached_on_journal.png\" alt=\"\" loading=\"lazy\" />")
   end
 
   def test_attached_images_with_textile_and_non_ascii_filename
@@ -192,7 +208,7 @@ class ApplicationHelperTest < Redmine::HelperTest
     with_settings :text_formatting => 'textile' do
       to_test.each do |filename, result|
         attachment = Attachment.generate!(:filename => filename)
-        assert_include %(<img src="/attachments/download/#{attachment.id}/#{result}" alt="" />),
+        assert_include %(<img src="/attachments/download/#{attachment.id}/#{result}" alt="" loading="lazy" />),
                        textilizable("!#{filename}!", :attachments => [attachment])
       end
     end
@@ -208,7 +224,7 @@ class ApplicationHelperTest < Redmine::HelperTest
     with_settings :text_formatting => 'markdown' do
       to_test.each do |filename, result|
         attachment = Attachment.generate!(:filename => filename)
-        assert_include %(<img src="/attachments/download/#{attachment.id}/#{result}" alt="" />),
+        assert_include %(<img src="/attachments/download/#{attachment.id}/#{result}" alt="" loading="lazy" />),
                        textilizable("![](#{filename})", :attachments => [attachment])
       end
     end
@@ -218,7 +234,7 @@ class ApplicationHelperTest < Redmine::HelperTest
     attachment = Attachment.generate!(:filename => 'image@2x.png')
     assert_equal(
       %(<p><img src="/attachments/download/#{attachment.id}/image@2x.png" ) +
-        %(srcset="/attachments/download/#{attachment.id}/image@2x.png 2x" alt="" /></p>),
+        %(srcset="/attachments/download/#{attachment.id}/image@2x.png 2x" alt="" loading="lazy" /></p>),
       textilizable("!image@2x.png!", :attachments => [attachment])
     )
   end
@@ -270,13 +286,13 @@ class ApplicationHelperTest < Redmine::HelperTest
 
     to_test = {
       'Inline image: !testtest.jpg!' =>
-        'Inline image: <img src="/attachments/download/' + a1.id.to_s + '/testtest.JPG" alt="" />',
+        'Inline image: <img src="/attachments/download/' + a1.id.to_s + '/testtest.JPG" alt="" loading="lazy" />',
       'Inline image: !testtest.jpeg!' =>
-        'Inline image: <img src="/attachments/download/' + a2.id.to_s + '/testtest.jpeg" alt="" />',
+        'Inline image: <img src="/attachments/download/' + a2.id.to_s + '/testtest.jpeg" alt="" loading="lazy" />',
       'Inline image: !testtest.jpe!' =>
-        'Inline image: <img src="/attachments/download/' + a3.id.to_s + '/testtest.JPE" alt="" />',
+        'Inline image: <img src="/attachments/download/' + a3.id.to_s + '/testtest.JPE" alt="" loading="lazy" />',
       'Inline image: !testtest.bmp!' =>
-        'Inline image: <img src="/attachments/download/' + a4.id.to_s + '/Testtest.BMP" alt="" />',
+        'Inline image: <img src="/attachments/download/' + a4.id.to_s + '/Testtest.BMP" alt="" loading="lazy" />',
     }
 
     attachments = [a1, a2, a3, a4]
@@ -299,9 +315,9 @@ class ApplicationHelperTest < Redmine::HelperTest
 
     to_test = {
       'Inline image: !testfile.png!' =>
-        'Inline image: <img src="/attachments/download/' + a2.id.to_s + '/testfile.PNG" alt="" />',
+        'Inline image: <img src="/attachments/download/' + a2.id.to_s + '/testfile.PNG" alt="" loading="lazy" />',
       'Inline image: !Testfile.PNG!' =>
-        'Inline image: <img src="/attachments/download/' + a2.id.to_s + '/testfile.PNG" alt="" />',
+        'Inline image: <img src="/attachments/download/' + a2.id.to_s + '/testfile.PNG" alt="" loading="lazy" />',
     }
     attachments = [a1, a2]
     to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => attachments)}
@@ -1778,7 +1794,7 @@ class ApplicationHelperTest < Redmine::HelperTest
     a = Attachment.find(3)
     assert_select_in(
       thumbnail_tag(a),
-      'a[href=?][title=?] img[src=?]',
+      'a[href=?][title=?] img[src=?][loading="lazy"]',
       "/attachments/3", "logo.gif", "/attachments/thumbnail/3")
   end
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -165,7 +165,7 @@ class JournalTest < ActiveSupport::TestCase
     d = JournalDetail.new(:property => 'cf', :prop_key => '2')
     journals = [Journal.new(:details => [d])]
 
-    d.expects(:instance_variable_set).with("@custom_field", CustomField.find(2)).once
+    d.expects(:instance_variable_set).with(:@custom_field, CustomField.find(2)).once
     Journal.preload_journals_details_custom_fields(journals)
   end
 
@@ -221,5 +221,19 @@ class JournalTest < ActiveSupport::TestCase
 
     visible_details = journal.visible_details(User.find(2))
     assert_equal 2, visible_details.size
+  end
+
+  def test_attachments
+    journal = Journal.new
+    [0, 1].map{ |i| Attachment.generate!(:file => mock_file_with_options(:original_filename => "image#{i}.png")) }.each do |attachment|
+      journal.details << JournalDetail.new(:property => 'attachment', :prop_key => attachment.id, :value => attachment.filename)
+    end
+
+    attachments = journal.attachments
+    assert_equal 2, attachments.size
+    attachments.each_with_index do |attachment, i|
+      assert_kind_of Attachment, attachment
+      assert_equal "image#{i}.png", attachment.filename
+    end
   end
 end

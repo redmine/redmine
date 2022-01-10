@@ -801,9 +801,6 @@ gl:
   setting_repository_log_display_limit: "Número máximo de revisións que se mostran no ficheiro do historial."
   setting_file_max_size_displayed: "Tamaño máximo dos ficheiros de texto que se mostran liña por liña."
   field_watcher: "Seguidor"
-  setting_openid: "Permitir rexistrarse e acceder mediante OpenID."
-  field_identity_url: "URL de OpenID"
-  label_login_with_open_id_option: "ou acceda mediante OpenID."
   field_content: "Contido"
   label_descending: "Descendente"
   label_sort: "Ordenar"
@@ -1434,7 +1431,6 @@ gl:
     de dous factores estea estabrecida a 'opcional'. Actualmente, a autenticación de dous factores
     está deshabilitada.
   field_default_issue_query: Consulta de peticións por defecto
-  setting_default_issue_query: Consulta por defecto
   label_default_queries:
     for_all_projects: Para todos os proxectos
     for_current_project: Para o proxecto actual
@@ -1444,3 +1440,10 @@ gl:
   button_save_object: Save %{object_name}
   button_edit_object: Edit %{object_name}
   button_delete_object: Delete %{object_name}
+  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
+    Please restart the application after editing it.
+  label_bulk_edit: Bulk edit
+  button_create_and_follow: Create and follow
+  label_subtask: Subtask
+  label_default_query: Consulta por defecto
+  field_default_project_query: Default project query

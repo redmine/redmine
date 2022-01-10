@@ -1,5 +1,5 @@
 /* Redmine - project management software
-   Copyright (C) 2006-2021  Jean-Philippe Lang */
+   Copyright (C) 2006-2022  Jean-Philippe Lang */
 
 function sanitizeHTML(string) {
   var temp = document.createElement('span');
@@ -31,7 +31,7 @@ function toggleRowGroup(el) {
   var tr = $(el).parents('tr').first();
   var n = tr.next();
   tr.toggleClass('open');
-  $(el).toggleClass('icon-expended icon-collapsed');
+  $(el).toggleClass('icon-expanded icon-collapsed');
   while (n.length && !n.hasClass('group')) {
     n.toggle();
     n = n.next('tr');
@@ -43,7 +43,7 @@ function collapseAllRowGroups(el) {
   tbody.children('tr').each(function(index) {
     if ($(this).hasClass('group')) {
       $(this).removeClass('open');
-      $(this).find('.expander').switchClass('icon-expended', 'icon-collapsed');
+      $(this).find('.expander').switchClass('icon-expanded', 'icon-collapsed');
     } else {
       $(this).hide();
     }
@@ -55,7 +55,7 @@ function expandAllRowGroups(el) {
   tbody.children('tr').each(function(index) {
     if ($(this).hasClass('group')) {
       $(this).addClass('open');
-      $(this).find('.expander').switchClass('icon-collapsed', 'icon-expended');
+      $(this).find('.expander').switchClass('icon-collapsed', 'icon-expanded');
     } else {
       $(this).show();
     }
@@ -74,7 +74,7 @@ function toggleAllRowGroups(el) {
 function toggleFieldset(el) {
   var fieldset = $(el).parents('fieldset').first();
   fieldset.toggleClass('collapsed');
-  fieldset.children('legend').toggleClass('icon-expended icon-collapsed');
+  fieldset.children('legend').toggleClass('icon-expanded icon-collapsed');
   fieldset.children('div').toggle();
 }
 
@@ -550,12 +550,12 @@ function scmEntryClick(id, url) {
     var el = $('#'+id);
     if (el.hasClass('open')) {
         collapseScmEntry(id);
-        el.find('.expander').switchClass('icon-expended', 'icon-collapsed');
+        el.find('.expander').switchClass('icon-expanded', 'icon-collapsed');
         el.addClass('collapsed');
         return false;
     } else if (el.hasClass('loaded')) {
         expandScmEntry(id);
-        el.find('.expander').switchClass('icon-collapsed', 'icon-expended');
+        el.find('.expander').switchClass('icon-collapsed', 'icon-expanded');
         el.removeClass('collapsed');
         return false;
     }
@@ -568,7 +568,7 @@ function scmEntryClick(id, url) {
       success: function(data) {
         el.after(data);
         el.addClass('open').addClass('loaded').removeClass('loading');
-        el.find('.expander').switchClass('icon-collapsed', 'icon-expended');
+        el.find('.expander').switchClass('icon-collapsed', 'icon-expanded');
       }
     });
     return true;

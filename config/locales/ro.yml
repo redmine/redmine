@@ -276,7 +276,6 @@ ro:
   field_parent_title: Pagina superioara
   field_editable: Modificabil
   field_watcher: Urmărește
-  field_identity_url: URL OpenID
   field_content: Conținut
 
   setting_app_title: Titlu aplicație
@@ -316,7 +315,6 @@ ro:
   setting_diff_max_lines_displayed: Număr maxim de linii de diferență afișate
   setting_file_max_size_displayed: Număr maxim de fișiere text afișate în pagină (inline)
   setting_repository_log_display_limit: Număr maxim de revizii afișate în istoricul fișierului
-  setting_openid: Permite înregistrare și autentificare cu OpenID
 
   permission_edit_project: Editează proiectul
   permission_select_project_modules: Alege module pentru proiect
@@ -422,7 +420,6 @@ ro:
   label_information: Informație
   label_information_plural: Informații
   label_register: Înregistrare
-  label_login_with_open_id_option: sau autentificare cu OpenID
   label_password_lost: Parolă uitată
   label_home: Acasă
   label_my_page: Pagina mea
@@ -1422,7 +1419,6 @@ ro:
     authentication setting is set to 'optional'. Currently, two factor authentication
     is disabled.
   field_default_issue_query: Default issue query
-  setting_default_issue_query: Default Query
   label_default_queries:
     for_all_projects: For all projects
     for_current_project: For current project
@@ -1432,3 +1428,10 @@ ro:
   button_save_object: Save %{object_name}
   button_edit_object: Edit %{object_name}
   button_delete_object: Delete %{object_name}
+  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
+    Please restart the application after editing it.
+  label_bulk_edit: Bulk edit
+  button_create_and_follow: Create and follow
+  label_subtask: Subtask
+  label_default_query: Default query
+  field_default_project_query: Default project query

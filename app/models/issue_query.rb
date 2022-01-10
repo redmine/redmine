@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -75,7 +75,6 @@ class IssueQuery < Query
 
   has_many :projects, foreign_key: 'default_issue_query_id', dependent: :nullify, inverse_of: 'default_issue_query'
   after_update { projects.clear unless visibility == VISIBILITY_PUBLIC }
-  scope :only_public, ->{ where(visibility: VISIBILITY_PUBLIC) }
   scope :for_all_projects, ->{ where(project_id: nil) }
 
   def self.default(project: nil, user: User.current)

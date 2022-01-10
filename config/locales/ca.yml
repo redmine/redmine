@@ -306,7 +306,6 @@ ca:
   field_parent_title: "Pàgina pare"
   field_editable: "Es pot editar"
   field_watcher: "Vigilància"
-  field_identity_url: "URL OpenID"
   field_content: "Contingut"
   field_group_by: "Agrupa els resultats per"
   field_sharing: "Compartir"
@@ -351,7 +350,6 @@ ca:
   setting_diff_max_lines_displayed: "Número màxim de línies amb diferències mostrades"
   setting_file_max_size_displayed: "Mida màxima dels fitxers de text mostrats en línia"
   setting_repository_log_display_limit: "Número màxim de revisions que es mostren al registre de fitxers"
-  setting_openid: "Permet entrar i registrar-se amb l'OpenID"
   setting_password_min_length: "Longitud mínima de la contrasenya"
   setting_new_project_user_role_id: "Aquest rol es dóna a un usuari no administrador per a crear projectes"
   setting_default_projects_modules: "Mòduls activats per defecte en els projectes nous"
@@ -476,7 +474,6 @@ ca:
   label_information: "Informació"
   label_information_plural: "Informació"
   label_register: "Registrar"
-  label_login_with_open_id_option: "o entrar amb OpenID"
   label_password_lost: "Has oblidat la contrasenya?"
   label_home: "Inici"
   label_my_page: "La meva pàgina"
@@ -1417,7 +1414,6 @@ ca:
     authentication setting is set to 'optional'. Currently, two factor authentication
     is disabled.
   field_default_issue_query: Default issue query
-  setting_default_issue_query: Default Query
   label_default_queries:
     for_all_projects: For all projects
     for_current_project: For current project
@@ -1427,3 +1423,10 @@ ca:
   button_save_object: Save %{object_name}
   button_edit_object: Edit %{object_name}
   button_delete_object: Delete %{object_name}
+  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
+    Please restart the application after editing it.
+  label_bulk_edit: Bulk edit
+  button_create_and_follow: Create and follow
+  label_subtask: Subtask
+  label_default_query: Default query
+  field_default_project_query: Default project query

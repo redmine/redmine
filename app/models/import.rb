@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -65,15 +65,23 @@ class Import < ActiveRecord::Base
 
   def set_default_settings(options={})
     separator = lu(user, :general_csv_separator)
+    encoding = lu(user, :general_csv_encoding)
     if file_exists?
       begin
         content = File.read(filepath, 256)
-        separator = [',', ';'].sort_by {|sep| content.count(sep)}.last
+
+        separator = [',', ';'].max_by {|sep| content.count(sep)}
+
+        guessed_encoding = Redmine::CodesetUtil.guess_encoding(content)
+        encoding =
+          (guessed_encoding && (
+            Setting::ENCODINGS.detect {|e| e.casecmp?(guessed_encoding)} ||
+            Setting::ENCODINGS.detect {|e| Encoding.find(e) == Encoding.find(guessed_encoding)}
+          )) || lu(user, :general_csv_encoding)
       rescue => e
       end
     end
     wrapper = '"'
-    encoding = lu(user, :general_csv_encoding)
 
     date_format = lu(user, "date.formats.default", :default => "foo")
     date_format = DATE_FORMATS.first unless DATE_FORMATS.include?(date_format)
@@ -111,7 +119,7 @@ class Import < ActiveRecord::Base
 
   # Returns true if the file to import exists
   def file_exists?
-    filepath.present? && File.exists?(filepath)
+    filepath.present? && File.exist?(filepath)
   end
 
   # Returns the headers as an array that

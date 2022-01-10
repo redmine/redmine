@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -339,6 +339,7 @@ class Query < ActiveRecord::Base
   end)
 
   scope :sorted, lambda {order(:name, :id)}
+  scope :only_public, ->{ where(visibility: VISIBILITY_PUBLIC) }
 
   # to be implemented in subclasses that have a way to determine a default
   # query for the given options
@@ -1094,7 +1095,7 @@ class Query < ActiveRecord::Base
     end
     if column.is_a?(QueryCustomFieldColumn)
       custom_field = column.custom_field
-      send "total_for_custom_field", custom_field, scope
+      send :total_for_custom_field, custom_field, scope
     else
       send "total_for_#{column.name}", scope
     end
@@ -1452,6 +1453,7 @@ class Query < ActiveRecord::Base
     end
   end
 
+  # rubocop:disable Lint/IneffectiveAccessModifier
   def self.tokenized_like_conditions(db_field, value, **options)
     tokens = Redmine::Search::Tokenizer.new(value).tokens
     tokens = [value] unless tokens.present?
@@ -1460,6 +1462,7 @@ class Query < ActiveRecord::Base
     end.transpose
     [sql.join(" AND "), *values]
   end
+  # rubocop:enable Lint/IneffectiveAccessModifier
 
   # Adds a filter for the given custom field
   def add_custom_field_filter(field, assoc=nil)

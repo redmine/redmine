@@ -308,7 +308,6 @@ he:
   field_parent_title: דף אב
   field_editable: ניתן לעריכה
   field_watcher: צופה
-  field_identity_url: כתובת OpenID
   field_content: תוכן
   field_group_by: קבץ את התוצאות לפי
   field_sharing: שיתוף
@@ -354,7 +353,6 @@ he:
   setting_diff_max_lines_displayed: מספר מירבי של שורות בתצוגת שינויים
   setting_file_max_size_displayed: גודל מירבי של מלל המוצג בתוך השורה
   setting_repository_log_display_limit: מספר מירבי של מהדורות המוצגות ביומן קובץ
-  setting_openid: אפשר התחברות ורישום באמצעות OpenID
   setting_password_min_length: אורך סיסמה מינימאלי
   setting_new_project_user_role_id: התפקיד שמוגדר למשתמש פשוט אשר יוצר פרויקט
   setting_default_projects_modules: מודולים מאופשרים בברירת מחדל עבור פרויקטים חדשים
@@ -480,7 +478,6 @@ he:
   label_information: מידע
   label_information_plural: מידע
   label_register: הרשמה
-  label_login_with_open_id_option: או התחבר באמצעות OpenID
   label_password_lost: אבדה הסיסמה?
   label_home: דף הבית
   label_my_page: הדף שלי
@@ -1432,7 +1429,6 @@ he:
     authentication setting is set to 'optional'. Currently, two factor authentication
     is disabled.
   field_default_issue_query: Default issue query
-  setting_default_issue_query: Default Query
   label_default_queries:
     for_all_projects: For all projects
     for_current_project: For current project
@@ -1442,3 +1438,10 @@ he:
   button_save_object: Save %{object_name}
   button_edit_object: Edit %{object_name}
   button_delete_object: Delete %{object_name}
+  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
+    Please restart the application after editing it.
+  label_bulk_edit: Bulk edit
+  button_create_and_follow: Create and follow
+  label_subtask: Subtask
+  label_default_query: Default query
+  field_default_project_query: Default project query

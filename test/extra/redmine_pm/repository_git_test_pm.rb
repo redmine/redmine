@@ -1,7 +1,7 @@
 # frozen_string_literal: false
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -74,7 +74,7 @@ class RedminePmTest::RepositoryGitTest < RedminePmTest::TestCase
     Dir.mktmpdir do |dir|
       assert_success "clone", git_url, dir
       Dir.chdir(dir) do
-        assert File.exists?(File.join(dir, "#{filename}"))
+        assert File.exist?(File.join(dir, "#{filename}"))
       end
     end
   end

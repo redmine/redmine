@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -36,6 +36,14 @@ class ProjectQuery < Query
     QueryColumn.new(:is_public, :sortable => "#{Project.table_name}.is_public", :groupable => true),
     QueryColumn.new(:created_on, :sortable => "#{Project.table_name}.created_on", :default_order => 'desc')
   ]
+
+  def self.default(project: nil, user: User.current)
+    query = nil
+    if user&.logged?
+      query = find_by_id user.pref.default_project_query
+    end
+    query || find_by_id(Setting.default_project_query)
+  end
 
   def initialize(attributes=nil, *args)
     super attributes

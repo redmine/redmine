@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -341,7 +341,7 @@ class IssuesControllerTransactionTest < Redmine::ControllerTest
             :subject => ''
           },
           :time_entry => {
-            :hours => '2.5',
+            :hours => '2:30',
             :comments => 'should not be added',
             :activity_id => TimeEntryActivity.first.id
           }
@@ -350,7 +350,7 @@ class IssuesControllerTransactionTest < Redmine::ControllerTest
       assert_response :success
     end
 
-    assert_select 'input[name=?][value=?]', 'time_entry[hours]', '2.50'
+    assert_select 'input[name=?][value=?]', 'time_entry[hours]', '2:30'
     assert_select 'input[name=?][value=?]', 'time_entry[comments]', 'should not be added'
     assert_select 'select[name=?]', 'time_entry[activity_id]' do
       assert_select 'option[value=?][selected=selected]', TimeEntryActivity.first.id.to_s

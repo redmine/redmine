@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -111,7 +111,6 @@ class User < Principal
   validates_format_of :login, :with => /\A[a-z0-9_\-@\.]*\z/i
   validates_length_of :login, :maximum => LOGIN_LENGTH_LIMIT
   validates_length_of :firstname, :lastname, :maximum => 30
-  validates_length_of :identity_url, maximum: 255
   validates_inclusion_of :mail_notification, :in => MAIL_NOTIFICATION_OPTIONS.collect(&:first), :allow_blank => true
   Setting::PASSWORD_CHAR_CLASSES.each do |k, v|
     validates_format_of :password, :with => v, :message => :"must_contain_#{k}", :allow_blank => true, :if => Proc.new {Setting.password_required_char_classes.include?(k)}
@@ -196,28 +195,6 @@ class User < Principal
 
   def mails
     email_addresses.pluck(:address)
-  end
-
-  def self.find_or_initialize_by_identity_url(url)
-    user = where(:identity_url => url).first
-    unless user
-      user = User.new
-      user.identity_url = url
-    end
-    user
-  end
-
-  def identity_url=(url)
-    if url.blank?
-      write_attribute(:identity_url, '')
-    else
-      begin
-        write_attribute(:identity_url, OpenIdAuthentication.normalize_identifier(url))
-      rescue OpenIdAuthentication::InvalidOpenId
-        # Invalid url, don't save
-      end
-    end
-    self.read_attribute(:identity_url)
   end
 
   # Returns the user that matches provided login and password, or nil
@@ -800,8 +777,7 @@ class User < Principal
     'notified_project_ids',
     'language',
     'custom_field_values',
-    'custom_fields',
-    'identity_url')
+    'custom_fields')
   safe_attributes(
     'login',
     :if => lambda {|user, current_user| user.new_record?})
@@ -997,56 +973,5 @@ class User < Principal
       users = User.active.where(admin: true).to_a
       Mailer.deliver_security_notification(users, User.current, options)
     end
-  end
-end
-
-class AnonymousUser < User
-  validate :validate_anonymous_uniqueness, :on => :create
-
-  self.valid_statuses = [STATUS_ANONYMOUS]
-
-  def validate_anonymous_uniqueness
-    # There should be only one AnonymousUser in the database
-    errors.add :base, 'An anonymous user already exists.' if AnonymousUser.unscoped.exists?
-  end
-
-  def available_custom_fields
-    []
-  end
-
-  # Overrides a few properties
-  def logged?; false end
-  def admin; false end
-  def name(*args); I18n.t(:label_user_anonymous) end
-  def mail=(*args); nil end
-  def mail; nil end
-  def time_zone; nil end
-  def rss_key; nil end
-
-  def pref
-    UserPreference.new(:user => self)
-  end
-
-  # Returns the user's bult-in role
-  def builtin_role
-    @builtin_role ||= Role.anonymous
-  end
-
-  def membership(*args)
-    nil
-  end
-
-  def member_of?(*args)
-    false
-  end
-
-  # Anonymous user can not be destroyed
-  def destroy
-    false
-  end
-
-  protected
-
-  def instantiate_email_address
   end
 end

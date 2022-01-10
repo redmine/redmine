@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2021  Jean-Philippe Lang
+# Copyright (C) 2006-2022  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -29,7 +29,8 @@ class UserTest < ActiveSupport::TestCase
            :groups_users,
            :enabled_modules,
            :tokens,
-           :user_preferences
+           :user_preferences,
+           :custom_fields, :custom_fields_projects, :custom_fields_trackers, :custom_values
 
   include Redmine::I18n
 
@@ -1346,38 +1347,5 @@ class UserTest < ActiveSupport::TestCase
 
     cv2a.reload
     assert_equal @dlopper.id.to_s, cv2a.value
-  end
-
-  if Object.const_defined?(:OpenID)
-    def test_setting_identity_url
-      normalized_open_id_url = 'http://example.com/'
-      u = User.new(:identity_url => 'http://example.com/')
-      assert_equal normalized_open_id_url, u.identity_url
-    end
-
-    def test_setting_identity_url_without_trailing_slash
-      normalized_open_id_url = 'http://example.com/'
-      u = User.new(:identity_url => 'http://example.com')
-      assert_equal normalized_open_id_url, u.identity_url
-    end
-
-    def test_setting_identity_url_without_protocol
-      normalized_open_id_url = 'http://example.com/'
-      u = User.new(:identity_url => 'example.com')
-      assert_equal normalized_open_id_url, u.identity_url
-    end
-
-    def test_setting_blank_identity_url
-      u = User.new(:identity_url => 'example.com')
-      u.identity_url = ''
-      assert u.identity_url.blank?
-    end
-
-    def test_setting_invalid_identity_url
-      u = User.new(:identity_url => 'this is not an openid url')
-      assert u.identity_url.blank?
-    end
-  else
-    puts "Skipping openid tests."
   end
 end
