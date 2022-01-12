@@ -643,9 +643,7 @@ class Mailer < ActionMailer::Base
   # any/all of the .deliver_later emails are processed
   def self.with_synched_deliveries(&block)
     adapter = ActionMailer::MailDeliveryJob.queue_adapter
-    if adapter.is_a?(ActiveJob::QueueAdapters::AsyncAdapter)
-      ActionMailer::MailDeliveryJob.queue_adapter = ActiveJob::QueueAdapters::InlineAdapter.new
-    end
+    ActionMailer::MailDeliveryJob.queue_adapter = ActiveJob::QueueAdapters::InlineAdapter.new
     yield
   ensure
     ActionMailer::MailDeliveryJob.queue_adapter = adapter
