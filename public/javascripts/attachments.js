@@ -278,9 +278,7 @@ function copyImageFromClipboard(e) {
   var items = clipboardData.items
   for (var i = 0 ; i < items.length ; i++) {
     var item = items[i];
-    // DataTransferItemList in chromium return 18 items
-    if (item.kind == "file") {
-    //if (item.type.indexOf("image") != -1) {
+    if (item.type.indexOf("image") != -1) {
       var blob = item.getAsFile();
       var date = new Date();
       var filename = 'clipboard-'
@@ -293,8 +291,7 @@ function copyImageFromClipboard(e) {
         + '.' + blob.name.split('.').pop();
       var file = new Blob([blob], {type: blob.type});
       file.name = filename;
-      //var inputEl = $('input:file.filedrop').first()
-      var inputEl = $(this).closest("form").find('input:file.filedrop');
+      var inputEl = $('input:file.filedrop').first()
       handleFileDropEvent.target = e.target;
       addFile(inputEl, file, true);
     }
