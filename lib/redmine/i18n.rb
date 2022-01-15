@@ -159,14 +159,14 @@ module Redmine
     # * available_locales are determined by looking at translation file names
     class Backend < ::I18n::Backend::Simple
       module Implementation
-        include ::I18n::Backend::Pluralization
-
         # Get available locales from the translations filenames
         def available_locales
           @available_locales ||= ::I18n.load_path.map {|path| File.basename(path, '.*')}.uniq.sort.map(&:to_sym)
         end
       end
 
+      # Adds custom pluralization rules
+      include ::I18n::Backend::Pluralization
       # Adds fallback to default locale for untranslated strings
       include ::I18n::Backend::Fallbacks
     end
