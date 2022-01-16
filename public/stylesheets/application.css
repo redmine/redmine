@@ -322,6 +322,7 @@ table.files tr.file td.filename { text-align: left; padding-left: 24px; }
 table.files tr.file td.digest { font-size: 80%; }
 
 table.members td.roles, table.memberships td.roles { width: 45%; }
+table.members td.buttons { text-align: left; width: 1px; white-space: nowrap;}
 
 table.messages td.last_message {text-align:left;}
 tr.message { height: 2.6em; }
