@@ -6,7 +6,7 @@
 <% reply_links = issue.notes_addable? -%>
 <% for journal in journals %>
   <div id="change-<%= journal.id %>" class="<%= journal.css_classes %>">
-    <div id="note-<%= journal.indice %>">
+    <div id="note-<%= journal.indice %>" class="note">
     <div class="contextual">
       <span class="journal-actions"><%= render_journal_actions(issue, journal, :reply_links => reply_links) %></span>
       <a href="#note-<%= journal.indice %>" class="journal-link">#<%= journal.indice %></a>

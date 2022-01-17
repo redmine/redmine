@@ -1,6 +1,7 @@
 <% @changesets.each do |changeset| %>
   <div id="changeset-<%= changeset.id %>" class="changeset journal">
-    <h4>
+    <div class="note">
+    <h4 class='note-header'>
       <%= avatar(changeset.user, :size => "24") %>
       <%= authoring changeset.committed_on, changeset.author, :label => :label_added_time_by %>
     </h4>
@@ -18,6 +19,7 @@
 
     <div class="wiki changeset-comments">
       <%= format_changeset_comments changeset %>
+    </div>
     </div>
   </div>
   <%= call_hook(:view_issues_history_changeset_bottom, { :changeset => changeset }) %>
