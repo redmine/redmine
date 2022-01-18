@@ -5,7 +5,9 @@
       <%= avatar(changeset.user, :size => "24") %>
       <%= authoring changeset.committed_on, changeset.author, :label => :label_added_time_by %>
     </h4>
-    <p><%= link_to_revision(changeset, changeset.repository,
+    <p>
+    <%= "#{changeset.project.name} - " unless changeset.project == project %>
+    <%= link_to_revision(changeset, changeset.repository,
                         :text => "#{l(:label_revision)} #{changeset.format_identifier}") %>
     <% if changeset.filechanges.any? && User.current.allowed_to?(:browse_repository, changeset.project) %>
     (<%= link_to(l(:label_diff),

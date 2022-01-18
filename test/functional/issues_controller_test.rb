@@ -2661,6 +2661,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       :xhr => true
     )
     assert_select 'a[href=?]', '/projects/ecookbook/repository/10/revisions/3'
+    assert_select 'div.changeset p', :text => /eCookbook - /
   end
 
   def test_show_should_display_watchers
