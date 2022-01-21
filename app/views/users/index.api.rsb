@@ -11,6 +11,7 @@ api.array :users, api_meta(:total_count => @user_count, :offset => @offset, :lim
       api.updated_on user.updated_on
       api.last_login_on     user.last_login_on
       api.passwd_changed_on user.passwd_changed_on
+      api.avatar_url gravatar_url(user.mail, {rating: nil, size: nil, default: Setting.gravatar_default}) if Setting.gravatar_enabled?
       api.twofa_scheme user.twofa_scheme
 
       render_api_custom_values user.visible_custom_field_values, api
