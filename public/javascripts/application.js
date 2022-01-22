@@ -1169,9 +1169,6 @@ function inlineAutoComplete(element) {
           },
           menuItemTemplate: function (issue) {
             return sanitizeHTML(issue.original.label);
-          },
-          noMatchTemplate: function () {
-            return '<span style:"visibility: hidden;"></span>';
           }
         },
         {
@@ -1189,12 +1186,10 @@ function inlineAutoComplete(element) {
           },
           menuItemTemplate: function (wikiPage) {
             return sanitizeHTML(wikiPage.original.label);
-          },
-          noMatchTemplate: function () {
-            return '<span style:"visibility: hidden;"></span>';
           }
         }
-      ]
+      ],
+      noMatchTemplate: ""
     });
 
     tribute.attach(element);
