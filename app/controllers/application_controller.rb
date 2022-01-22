@@ -38,8 +38,6 @@ class ApplicationController < ActionController::Base
 
   layout 'base'
 
-  protect_from_forgery
-
   def verify_authenticity_token
     unless api_request?
       super
@@ -48,11 +46,16 @@ class ApplicationController < ActionController::Base
 
   def handle_unverified_request
     unless api_request?
-      super
-      cookies.delete(autologin_cookie_name)
-      self.logged_user = nil
-      set_localization
-      render_error :status => 422, :message => l(:error_invalid_authenticity_token)
+      begin
+        super
+      rescue ActionController::InvalidAuthenticityToken => e
+        logger.error("ActionController::InvalidAuthenticityToken: #{e.message}") if logger
+      ensure
+        cookies.delete(autologin_cookie_name)
+        self.logged_user = nil
+        set_localization
+        render_error :status => 422, :message => l(:error_invalid_authenticity_token)
+      end
     end
   end
 

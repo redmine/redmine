@@ -58,6 +58,9 @@ module RedmineApp
     # Do not include all helpers
     config.action_controller.include_all_helpers = false
 
+    # Add forgery protection
+    config.action_controller.default_protect_from_forgery = true
+
     # Sets the Content-Length header on responses with fixed-length bodies
     config.middleware.insert_before Rack::Sendfile, Rack::ContentLength
 
