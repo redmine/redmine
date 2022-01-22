@@ -997,7 +997,7 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_layout_should_include_the_emails_header
-    with_settings :emails_header => "*Header content*" do
+    with_settings :emails_header => '*Header content*', :text_formatting => 'textile' do
       with_settings :plain_text_mail => 0 do
         assert Mailer.test_email(User.find(1)).deliver_now
         assert_select_email do
@@ -1024,7 +1024,7 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_layout_should_include_the_emails_footer
-    with_settings :emails_footer => "*Footer content*" do
+    with_settings :emails_footer => '*Footer content*', :text_formatting => 'textile' do
       with_settings :plain_text_mail => 0 do
         assert Mailer.test_email(User.find(1)).deliver_now
         assert_select_email do

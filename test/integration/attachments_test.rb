@@ -90,28 +90,30 @@ class AttachmentsTest < Redmine::IntegrationTest
 
     token = ajax_upload('myupload.jpg', 'JPEG content')
 
-    post(
-      '/issues/preview',
-      :params => {
-        :issue => {:tracker_id => 1, :project_id => 'ecookbook'},
-        :text => 'Inline upload: !myupload.jpg!',
-        :attachments => {
-          '1' => {
-            :filename => 'myupload.jpg',
-            :description => 'My uploaded file',
-            :token => token
+    with_settings :text_formatting => 'textile' do
+      post(
+        '/issues/preview',
+        :params => {
+          :issue => {:tracker_id => 1, :project_id => 'ecookbook'},
+          :text => 'Inline upload: !myupload.jpg!',
+          :attachments => {
+            '1' => {
+              :filename => 'myupload.jpg',
+              :description => 'My uploaded file',
+              :token => token
+            }
           }
         }
-      }
-    )
-    assert_response :success
+      )
+      assert_response :success
 
-    attachment_path = response.body.match(%r{<img src="(/attachments/download/\d+/myupload.jpg)"})[1]
-    assert_not_nil token, "No attachment path found in response:\n#{response.body}"
+      attachment_path = response.body.match(%r{<img src="(/attachments/download/\d+/myupload.jpg)"})[1]
+      assert_not_nil token, "No attachment path found in response:\n#{response.body}"
 
-    get attachment_path
-    assert_response :success
-    assert_equal 'JPEG content', response.body
+      get attachment_path
+      assert_response :success
+      assert_equal 'JPEG content', response.body
+    end
   end
 
   def test_upload_and_resubmit_after_validation_failure

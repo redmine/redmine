@@ -1701,31 +1701,33 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_index_with_last_notes_column
-    get(
-      :index,
-      :params => {
-        :set_filter => 1,
-        :c => %w(subject last_notes)
-      }
-    )
-    assert_response :success
-    assert_select 'table.issues thead th', 4 # columns: chekbox + id + subject
+    with_settings :text_formatting => 'textile' do
+      get(
+        :index,
+        :params => {
+          :set_filter => 1,
+          :c => %w(subject last_notes)
+        }
+      )
+      assert_response :success
+      assert_select 'table.issues thead th', 4 # columns: chekbox + id + subject
 
-    assert_select 'td.last_notes[colspan="4"]', :text => 'Some notes with Redmine links: #2, r2.'
-    assert_select(
-      'td.last_notes[colspan="4"]',
-      :text => 'A comment with inline image:  and a reference to #1 and r2.'
-    )
-    get(
-      :index,
-      :params => {
-        :set_filter => 1,
-        :c => %w(subject last_notes),
-        :format => 'pdf'
-      }
-    )
-    assert_response :success
-    assert_equal 'application/pdf', response.media_type
+      assert_select 'td.last_notes[colspan="4"]', :text => 'Some notes with Redmine links: #2, r2.'
+      assert_select(
+        'td.last_notes[colspan="4"]',
+        :text => 'A comment with inline image:  and a reference to #1 and r2.'
+      )
+      get(
+        :index,
+        :params => {
+          :set_filter => 1,
+          :c => %w(subject last_notes),
+          :format => 'pdf'
+        }
+      )
+      assert_response :success
+      assert_equal 'application/pdf', response.media_type
+    end
   end
 
   def test_index_with_last_notes_column_should_display_private_notes_with_permission_only
@@ -2893,20 +2895,22 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_show_atom
-    get(
-      :show,
-      :params => {
-        :id => 2,
-        :format => 'atom'
-      }
-    )
-    assert_response :success
-    assert_equal 'application/atom+xml', response.media_type
-    # Inline image
-    assert_select(
-      'content',
-      :text => Regexp.new(Regexp.quote('http://test.host/attachments/download/10'))
-    )
+    with_settings :text_formatting => 'textile' do
+      get(
+        :show,
+        :params => {
+          :id => 2,
+          :format => 'atom'
+        }
+      )
+      assert_response :success
+      assert_equal 'application/atom+xml', response.media_type
+      # Inline image
+      assert_select(
+        'content',
+        :text => Regexp.new(Regexp.quote('http://test.host/attachments/download/10'))
+      )
+    end
   end
 
   def test_show_export_to_pdf

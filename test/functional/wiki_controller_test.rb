@@ -30,13 +30,15 @@ class WikiControllerTest < Redmine::ControllerTest
   end
 
   def test_show_start_page
-    get :show, :params => {:project_id => 'ecookbook'}
-    assert_response :success
+    with_settings :text_formatting => 'textile' do
+      get :show, :params => {:project_id => 'ecookbook'}
+      assert_response :success
 
-    assert_select 'h1', :text => /CookBook documentation/
-    # child_pages macro
-    assert_select 'ul.pages-hierarchy>li>a[href=?]', '/projects/ecookbook/wiki/Page_with_an_inline_image',
-                  :text => 'Page with an inline image'
+      assert_select 'h1', :text => /CookBook documentation/
+      # child_pages macro
+      assert_select 'ul.pages-hierarchy>li>a[href=?]', '/projects/ecookbook/wiki/Page_with_an_inline_image',
+                    :text => 'Page with an inline image'
+    end
   end
 
   def test_export_link
@@ -55,13 +57,15 @@ class WikiControllerTest < Redmine::ControllerTest
   end
 
   def test_show_page_with_name
-    get :show, :params => {:project_id => 1, :id => 'Another_page'}
-    assert_response :success
+    with_settings :text_formatting => 'textile' do
+      get :show, :params => {:project_id => 1, :id => 'Another_page'}
+      assert_response :success
 
-    assert_select 'h1', :text => /Another page/
-    # Included page with an inline image
-    assert_select 'p', :text => /This is an inline image/
-    assert_select 'img[src=?][alt=?]', '/attachments/download/3/logo.gif', 'This is a logo'
+      assert_select 'h1', :text => /Another page/
+      # Included page with an inline image
+      assert_select 'p', :text => /This is an inline image/
+      assert_select 'img[src=?][alt=?]', '/attachments/download/3/logo.gif', 'This is a logo'
+    end
   end
 
   def test_show_old_version
@@ -147,19 +151,23 @@ class WikiControllerTest < Redmine::ControllerTest
   end
 
   def test_show_should_display_section_edit_links
-    @request.session[:user_id] = 2
-    get :show, :params => {:project_id => 1, :id => 'Page with sections'}
+    with_settings :text_formatting => 'textile' do
+      @request.session[:user_id] = 2
+      get :show, :params => {:project_id => 1, :id => 'Page with sections'}
 
-    assert_select 'a[href=?]', '/projects/ecookbook/wiki/Page_with_sections/edit?section=1', 0
-    assert_select 'a[href=?]', '/projects/ecookbook/wiki/Page_with_sections/edit?section=2'
-    assert_select 'a[href=?]', '/projects/ecookbook/wiki/Page_with_sections/edit?section=3'
+      assert_select 'a[href=?]', '/projects/ecookbook/wiki/Page_with_sections/edit?section=1', 0
+      assert_select 'a[href=?]', '/projects/ecookbook/wiki/Page_with_sections/edit?section=2'
+      assert_select 'a[href=?]', '/projects/ecookbook/wiki/Page_with_sections/edit?section=3'
+    end
   end
 
   def test_show_current_version_should_display_section_edit_links
-    @request.session[:user_id] = 2
-    get :show, :params => {:project_id => 1, :id => 'Page with sections', :version => 3}
+    with_settings :text_formatting => 'textile' do
+      @request.session[:user_id] = 2
+      get :show, :params => {:project_id => 1, :id => 'Page with sections', :version => 3}
 
-    assert_select 'a[href=?]', '/projects/ecookbook/wiki/Page_with_sections/edit?section=2'
+      assert_select 'a[href=?]', '/projects/ecookbook/wiki/Page_with_sections/edit?section=2'
+    end
   end
 
   def test_show_old_version_should_not_display_section_edit_links
@@ -353,17 +361,19 @@ class WikiControllerTest < Redmine::ControllerTest
   end
 
   def test_edit_section
-    @request.session[:user_id] = 2
-    get :edit, :params => {:project_id => 'ecookbook', :id => 'Page_with_sections', :section => 2}
+    with_settings :text_formatting => 'textile' do
+      @request.session[:user_id] = 2
+      get :edit, :params => {:project_id => 'ecookbook', :id => 'Page_with_sections', :section => 2}
 
-    assert_response :success
+      assert_response :success
 
-    page = WikiPage.find_by_title('Page_with_sections')
-    section, hash = Redmine::WikiFormatting::Textile::Formatter.new(page.content.text).get_section(2)
+      page = WikiPage.find_by_title('Page_with_sections')
+      section, hash = Redmine::WikiFormatting::Textile::Formatter.new(page.content.text).get_section(2)
 
-    assert_select 'textarea[name=?]', 'content[text]', :text => section
-    assert_select 'input[name=section][type=hidden][value="2"]'
-    assert_select 'input[name=section_hash][type=hidden][value=?]', hash
+      assert_select 'textarea[name=?]', 'content[text]', :text => section
+      assert_select 'input[name=section][type=hidden][value="2"]'
+      assert_select 'input[name=section_hash][type=hidden][value=?]', hash
+    end
   end
 
   def test_edit_invalid_section_should_respond_with_404
@@ -589,57 +599,61 @@ class WikiControllerTest < Redmine::ControllerTest
   end
 
   def test_update_section
-    @request.session[:user_id] = 2
-    page = WikiPage.find_by_title('Page_with_sections')
-    section, hash = Redmine::WikiFormatting::Textile::Formatter.new(page.content.text).get_section(2)
-    text = page.content.text
+    with_settings :text_formatting => 'textile' do
+      @request.session[:user_id] = 2
+      page = WikiPage.find_by(title: 'Page_with_sections')
+      section, hash = Redmine::WikiFormatting::Textile::Formatter.new(page.content.text).get_section(2)
+      text = page.content.text
 
-    assert_no_difference 'WikiPage.count' do
-      assert_no_difference 'WikiContent.count' do
-        assert_difference 'WikiContentVersion.count' do
-          put :update, :params => {
-            :project_id => 1,
-            :id => 'Page_with_sections',
-            :content => {
-              :text => "New section content",
-              :version => 3
-            },
-            :section => 2,
-            :section_hash => hash
-          }
+      assert_no_difference 'WikiPage.count' do
+        assert_no_difference 'WikiContent.count' do
+          assert_difference 'WikiContentVersion.count' do
+            put :update, :params => {
+              :project_id => 1,
+              :id => 'Page_with_sections',
+              :content => {
+                :text => 'New section content',
+                :version => 3
+              },
+              :section => 2,
+              :section_hash => hash
+            }
+          end
         end
       end
+      assert_redirected_to '/projects/ecookbook/wiki/Page_with_sections#section-2'
+      assert_equal Redmine::WikiFormatting::Textile::Formatter.new(text).update_section(2, 'New section content'), page.reload.content.text
     end
-    assert_redirected_to '/projects/ecookbook/wiki/Page_with_sections#section-2'
-    assert_equal Redmine::WikiFormatting::Textile::Formatter.new(text).update_section(2, "New section content"), page.reload.content.text
   end
 
   def test_update_section_should_allow_stale_page_update
-    @request.session[:user_id] = 2
-    page = WikiPage.find_by_title('Page_with_sections')
-    section, hash = Redmine::WikiFormatting::Textile::Formatter.new(page.content.text).get_section(2)
-    text = page.content.text
+    with_settings :text_formatting => 'textile' do
+      @request.session[:user_id] = 2
+      page = WikiPage.find_by(title: 'Page_with_sections')
+      section, hash = Redmine::WikiFormatting::Textile::Formatter.new(page.content.text).get_section(2)
+      text = page.content.text
 
-    assert_no_difference 'WikiPage.count' do
-      assert_no_difference 'WikiContent.count' do
-        assert_difference 'WikiContentVersion.count' do
-          put :update, :params => {
-            :project_id => 1,
-            :id => 'Page_with_sections',
-            :content => {
-              :text => "New section content",
-              :version => 2 # Current version is 3
-            },
-            :section => 2,
-            :section_hash => hash
-          }
+      assert_no_difference 'WikiPage.count' do
+        assert_no_difference 'WikiContent.count' do
+          assert_difference 'WikiContentVersion.count' do
+            put :update, :params => {
+              :project_id => 1,
+              :id => 'Page_with_sections',
+              :content => {
+                :text => 'New section content',
+                :version => 2 # Current version is 3
+              },
+              :section => 2,
+              :section_hash => hash
+            }
+          end
         end
       end
+      assert_redirected_to '/projects/ecookbook/wiki/Page_with_sections#section-2'
+      page.reload
+      assert_equal Redmine::WikiFormatting::Textile::Formatter.new(text).update_section(2, 'New section content'), page.content.text
+      assert_equal 4, page.content.version
     end
-    assert_redirected_to '/projects/ecookbook/wiki/Page_with_sections#section-2'
-    page.reload
-    assert_equal Redmine::WikiFormatting::Textile::Formatter.new(text).update_section(2, "New section content"), page.content.text
-    assert_equal 4, page.content.version
   end
 
   def test_update_section_should_not_allow_stale_section_update
@@ -669,33 +683,37 @@ class WikiControllerTest < Redmine::ControllerTest
   end
 
   def test_preview
-    @request.session[:user_id] = 2
-    post :preview, :params => {
-      :project_id => 1,
-      :id => 'CookBook_documentation',
-      :content => {
-        :comments => '',
-        :text => 'this is a *previewed text*',
-        :version => 3
-      }
-    }, :xhr => true
-    assert_response :success
-    assert_select 'strong', :text => /previewed text/
+    with_settings :text_formatting => 'textile' do
+      @request.session[:user_id] = 2
+      post :preview, :params => {
+        :project_id => 1,
+        :id => 'CookBook_documentation',
+        :content => {
+          :comments => '',
+          :text => 'this is a *previewed text*',
+          :version => 3
+        }
+      }, :xhr => true
+      assert_response :success
+      assert_select 'strong', :text => /previewed text/
+    end
   end
 
   def test_preview_new_page
-    @request.session[:user_id] = 2
-    post :preview, :params => {
-      :project_id => 1,
-      :id => 'New page',
-      :content => {
-        :text => 'h1. New page',
-        :comments => '',
-        :version => 0
-      }
-    }, :xhr => true
-    assert_response :success
-    assert_select 'h1', :text => /New page/
+    with_settings :text_formatting => 'textile' do
+      @request.session[:user_id] = 2
+      post :preview, :params => {
+        :project_id => 1,
+        :id => 'New page',
+        :content => {
+          :text => 'h1. New page',
+          :comments => '',
+          :version => 0
+        }
+      }, :xhr => true
+      assert_response :success
+      assert_select 'h1', :text => /New page/
+    end
   end
 
   def test_history
@@ -1134,25 +1152,29 @@ class WikiControllerTest < Redmine::ControllerTest
   end
 
   def test_show_html
-    @request.session[:user_id] = 2
-    get :show, :params => {:project_id => 1, :format => 'html'}
-    assert_response :success
+    with_settings :text_formatting => 'textile' do
+      @request.session[:user_id] = 2
+      get :show, :params => {:project_id => 1, :format => 'html'}
+      assert_response :success
 
-    assert_equal 'text/html', @response.media_type
-    assert_equal "attachment; filename=\"CookBook_documentation.html\"; filename*=UTF-8''CookBook_documentation.html",
-                 @response.headers['Content-Disposition']
-    assert_select 'h1', :text => /CookBook documentation/
+      assert_equal 'text/html', @response.media_type
+      assert_equal "attachment; filename=\"CookBook_documentation.html\"; filename*=UTF-8''CookBook_documentation.html",
+                  @response.headers['Content-Disposition']
+      assert_select 'h1', :text => /CookBook documentation/
+    end
   end
 
   def test_show_versioned_html
-    @request.session[:user_id] = 2
-    get :show, :params => {:project_id => 1, :format => 'html', :version => 2}
-    assert_response :success
+    with_settings :text_formatting => 'textile' do
+      @request.session[:user_id] = 2
+      get :show, :params => {:project_id => 1, :format => 'html', :version => 2}
+      assert_response :success
 
-    assert_equal 'text/html', @response.media_type
-    assert_equal "attachment; filename=\"CookBook_documentation.html\"; filename*=UTF-8''CookBook_documentation.html",
-                 @response.headers['Content-Disposition']
-    assert_select 'h1', :text => /CookBook documentation v2/
+      assert_equal 'text/html', @response.media_type
+      assert_equal "attachment; filename=\"CookBook_documentation.html\"; filename*=UTF-8''CookBook_documentation.html",
+                  @response.headers['Content-Disposition']
+      assert_select 'h1', :text => /CookBook documentation v2/
+    end
   end
 
   def test_show_txt

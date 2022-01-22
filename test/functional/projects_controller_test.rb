@@ -96,26 +96,28 @@ class ProjectsControllerTest < Redmine::ControllerTest
   end
 
   def test_index_as_list_should_format_column_value
-    get :index, :params => {
-      :c => ['name', 'status', 'short_description', 'homepage', 'parent_id', 'identifier', 'is_public', 'created_on', 'cf_3'],
-      :display_type => 'list'
-    }
-    assert_response :success
+    with_settings :text_formatting => 'textile' do
+      get :index, :params => {
+        :c => ['name', 'status', 'short_description', 'homepage', 'parent_id', 'identifier', 'is_public', 'created_on', 'cf_3'],
+        :display_type => 'list'
+      }
+      assert_response :success
 
-    project = Project.find(1)
-    assert_select 'table.projects' do
-      assert_select 'tr[id=?]', 'project-1' do
-        assert_select 'td.name a[href=?]', '/projects/ecookbook', :text => 'eCookbook'
-        assert_select 'td.status', :text => 'active'
-        assert_select 'td.short_description', :text => 'Recipes management application'
-        assert_select 'td.homepage a.external', :text => 'http://ecookbook.somenet.foo/'
-        assert_select 'td.identifier', :text => 'ecookbook'
-        assert_select 'td.is_public', :text => 'Yes'
-        assert_select 'td.created_on', :text => format_time(project.created_on)
-        assert_select 'td.cf_3.list', :text => 'Stable'
-      end
-      assert_select 'tr[id=?]', 'project-4' do
-        assert_select 'td.parent_id a[href=?]', '/projects/ecookbook', :text => 'eCookbook'
+      project = Project.find(1)
+      assert_select 'table.projects' do
+        assert_select 'tr[id=?]', 'project-1' do
+          assert_select 'td.name a[href=?]', '/projects/ecookbook', :text => 'eCookbook'
+          assert_select 'td.status', :text => 'active'
+          assert_select 'td.short_description', :text => 'Recipes management application'
+          assert_select 'td.homepage a.external', :text => 'http://ecookbook.somenet.foo/'
+          assert_select 'td.identifier', :text => 'ecookbook'
+          assert_select 'td.is_public', :text => 'Yes'
+          assert_select 'td.created_on', :text => format_time(project.created_on)
+          assert_select 'td.cf_3.list', :text => 'Stable'
+        end
+        assert_select 'tr[id=?]', 'project-4' do
+          assert_select 'td.parent_id a[href=?]', '/projects/ecookbook', :text => 'eCookbook'
+        end
       end
     end
   end

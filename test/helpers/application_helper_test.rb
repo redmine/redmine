@@ -115,7 +115,9 @@ class ApplicationHelperTest < Redmine::HelperTest
       'http://www.redmine.org/example-' =>
         '<a class="external" href="http://www.redmine.org/example-">http://www.redmine.org/example-</a>',
     }
-    to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text)}
+    with_settings :text_formatting => 'textile' do
+      to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text)}
+    end
   end
 
   def test_auto_links_with_non_ascii_characters
@@ -123,7 +125,9 @@ class ApplicationHelperTest < Redmine::HelperTest
       "http://foo.bar/#{@russian_test}" =>
         %|<a class="external" href="http://foo.bar/#{@russian_test}">http://foo.bar/#{@russian_test}</a>|
     }
-    to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text)}
+    with_settings :text_formatting => 'textile' do
+      to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text)}
+    end
   end
 
   def test_auto_mailto
@@ -131,7 +135,9 @@ class ApplicationHelperTest < Redmine::HelperTest
       'test@foo.bar' => '<a class="email" href="mailto:test@foo.bar">test@foo.bar</a>',
       'test@www.foo.bar' => '<a class="email" href="mailto:test@www.foo.bar">test@www.foo.bar</a>',
     }
-    to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text)}
+    with_settings :text_formatting => 'textile' do
+      to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text)}
+    end
   end
 
   def test_inline_images
@@ -153,7 +159,9 @@ class ApplicationHelperTest < Redmine::HelperTest
       'with query string !http://foo.bar/image.cgi?a=1&b=2!' =>
         'with query string <img src="http://foo.bar/image.cgi?a=1&#38;b=2" alt="" />'
     }
-    to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text)}
+    with_settings :text_formatting => 'textile' do
+      to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text)}
+    end
   end
 
   def test_inline_images_inside_tags
@@ -164,8 +172,10 @@ class ApplicationHelperTest < Redmine::HelperTest
 
       p=. !bar.gif!
     RAW
-    assert textilizable(raw).include?('<img src="foo.png" alt="" />')
-    assert textilizable(raw).include?('<img src="bar.gif" alt="" />')
+    with_settings :text_formatting => 'textile' do
+      assert textilizable(raw).include?('<img src="foo.png" alt="" />')
+      assert textilizable(raw).include?('<img src="bar.gif" alt="" />')
+    end
   end
 
   def test_attached_images
@@ -181,7 +191,9 @@ class ApplicationHelperTest < Redmine::HelperTest
          '<a href="http://foo.bar/"><img src="/attachments/download/3/logo.gif" title="This is a logo" alt="This is a logo" loading="lazy" /></a>',
     }
     attachments = Attachment.all
-    to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => attachments)}
+    with_settings :text_formatting => 'textile' do
+      to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => attachments)}
+    end
   end
 
   def test_attached_images_on_issue
@@ -196,8 +208,10 @@ class ApplicationHelperTest < Redmine::HelperTest
       !attached_on_journal.png!'
     RAW
 
-    assert textilizable(raw, :object => journal).include?("<img src=\"/attachments/download/#{attachment_1.id}/attached_on_issue.png\" alt=\"\" loading=\"lazy\" />")
-    assert textilizable(raw, :object => journal).include?("<img src=\"/attachments/download/#{attachment_2.id}/attached_on_journal.png\" alt=\"\" loading=\"lazy\" />")
+    with_settings :text_formatting => 'textile' do
+      assert textilizable(raw, :object => journal).include?("<img src=\"/attachments/download/#{attachment_1.id}/attached_on_issue.png\" alt=\"\" loading=\"lazy\" />")
+      assert textilizable(raw, :object => journal).include?("<img src=\"/attachments/download/#{attachment_2.id}/attached_on_journal.png\" alt=\"\" loading=\"lazy\" />")
+    end
   end
 
   def test_attached_images_with_textile_and_non_ascii_filename
@@ -232,11 +246,13 @@ class ApplicationHelperTest < Redmine::HelperTest
 
   def test_attached_images_with_hires_naming
     attachment = Attachment.generate!(:filename => 'image@2x.png')
-    assert_equal(
-      %(<p><img src="/attachments/download/#{attachment.id}/image@2x.png" ) +
-        %(srcset="/attachments/download/#{attachment.id}/image@2x.png 2x" alt="" loading="lazy" /></p>),
-      textilizable("!image@2x.png!", :attachments => [attachment])
-    )
+    with_settings :text_formatting => 'textile' do
+      assert_equal(
+        %(<p><img src="/attachments/download/#{attachment.id}/image@2x.png" ) +
+          %(srcset="/attachments/download/#{attachment.id}/image@2x.png 2x" alt="" loading="lazy" /></p>),
+        textilizable("!image@2x.png!", :attachments => [attachment])
+      )
+    end
   end
 
   def test_attached_images_filename_extension
@@ -296,7 +312,9 @@ class ApplicationHelperTest < Redmine::HelperTest
     }
 
     attachments = [a1, a2, a3, a4]
-    to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => attachments)}
+    with_settings :text_formatting => 'textile' do
+      to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => attachments)}
+    end
   end
 
   def test_attached_images_should_read_later
@@ -320,7 +338,9 @@ class ApplicationHelperTest < Redmine::HelperTest
         'Inline image: <img src="/attachments/download/' + a2.id.to_s + '/testfile.PNG" alt="" loading="lazy" />',
     }
     attachments = [a1, a2]
-    to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => attachments)}
+    with_settings :text_formatting => 'textile' do
+      to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => attachments)}
+    end
   ensure
     set_tmp_attachments_directory
   end
@@ -351,7 +371,9 @@ class ApplicationHelperTest < Redmine::HelperTest
         '<a class="external" href="http://foo.bar/page?p=1&#38;t=z&#38;s=-">http://foo.bar/page?p=1&#38;t=z&#38;s=-</a>',
       'This is an intern "link":/foo/bar-' => 'This is an intern <a href="/foo/bar-">link</a>'
     }
-    to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text)}
+    with_settings :text_formatting => 'textile' do
+      to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text)}
+    end
   end
 
   def test_textile_external_links_with_non_ascii_characters
@@ -359,7 +381,9 @@ class ApplicationHelperTest < Redmine::HelperTest
       %|This is a "link":http://foo.bar/#{@russian_test}| =>
         %|This is a <a href="http://foo.bar/#{@russian_test}" class="external">link</a>|
     }
-    to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text)}
+    with_settings :text_formatting => 'textile' do
+      to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text)}
+    end
   end
 
   def test_redmine_links
@@ -549,15 +573,19 @@ class ApplicationHelperTest < Redmine::HelperTest
       'user:foobar'                 => 'user:foobar',
     }
     @project = Project.find(1)
-    to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed"}
+    with_settings :text_formatting => 'textile' do
+      to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed"}
+    end
   end
 
   def test_link_to_note_within_the_same_page
-    issue = Issue.find(1)
-    assert_equal '<p><a href="#note-14">#note-14</a></p>', textilizable('#note-14', :object => issue)
+    with_settings :text_formatting => 'textile' do
+      issue = Issue.find(1)
+      assert_equal '<p><a href="#note-14">#note-14</a></p>', textilizable('#note-14', :object => issue)
 
-    journal = Journal.find(2)
-    assert_equal '<p><a href="#note-2">#note-2</a></p>', textilizable('#note-2', :object => journal)
+      journal = Journal.find(2)
+      assert_equal '<p><a href="#note-2">#note-2</a></p>', textilizable('#note-2', :object => journal)
+    end
   end
 
   def test_user_links_with_email_as_login_name_should_not_be_parsed_textile
@@ -603,10 +631,12 @@ class ApplicationHelperTest < Redmine::HelperTest
   def test_should_not_parse_redmine_links_inside_link
     raw = "r1 should not be parsed in http://example.com/url-r1/"
     html = '<a class="external" href="http://example.com/url-r1/">http://example.com/url-r1/</a>'
-    assert_match(
-      %r{<p><a class="changeset".*>r1</a> should not be parsed in #{html}</p>},
-      textilizable(raw, :project => Project.find(1))
-    )
+    with_settings :text_formatting => 'textile' do
+      assert_match(
+        %r{<p><a class="changeset".*>r1</a> should not be parsed in #{html}</p>},
+        textilizable(raw, :project => Project.find(1))
+      )
+    end
   end
 
   def test_redmine_links_with_a_different_project_before_current_project
@@ -615,8 +645,10 @@ class ApplicationHelperTest < Redmine::HelperTest
     @project = Project.find(3)
     result1 = link_to("1.4.4", "/versions/#{vp1.id}", :class => "version")
     result2 = link_to("1.4.4", "/versions/#{vp3.id}", :class => "version")
-    assert_equal "<p>#{result1} #{result2}</p>",
-                 textilizable("ecookbook:version:1.4.4 version:1.4.4")
+    with_settings :text_formatting => 'textile' do
+      assert_equal "<p>#{result1} #{result2}</p>",
+                   textilizable('ecookbook:version:1.4.4 version:1.4.4')
+    end
   end
 
   def test_escaped_redmine_links_should_not_be_parsed
@@ -633,7 +665,9 @@ class ApplicationHelperTest < Redmine::HelperTest
       'source:/some/file'
     ]
     @project = Project.find(1)
-    to_test.each {|text| assert_equal "<p>#{text}</p>", textilizable("!" + text), "#{text} failed"}
+    with_settings :text_formatting => 'textile' do
+      to_test.each {|text| assert_equal "<p>#{text}</p>", textilizable("!#{text}"), "#{text} failed"}
+    end
   end
 
   def test_cross_project_redmine_links
@@ -667,8 +701,10 @@ class ApplicationHelperTest < Redmine::HelperTest
       'invalid:source:/some/file'             => 'invalid:source:/some/file',
     }
     @project = Project.find(3)
-    to_test.each do |text, result|
-      assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed"
+    with_settings :text_formatting => 'textile' do
+      to_test.each do |text, result|
+        assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed"
+      end
     end
   end
 
@@ -677,7 +713,9 @@ class ApplicationHelperTest < Redmine::HelperTest
     link = link_to("Test & Show.txt", "/versions/#{v.id}", :class => "version")
 
     @project = v.project
-    assert_equal "<p>#{link}</p>", textilizable('version:"Test & Show.txt"')
+    with_settings :text_formatting => 'textile' do
+      assert_equal "<p>#{link}</p>", textilizable('version:"Test & Show.txt"')
+    end
   end
 
   def test_link_to_issue_subject
@@ -767,7 +805,9 @@ class ApplicationHelperTest < Redmine::HelperTest
     }
 
     @project = Project.find(1)
-    to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed"}
+    with_settings :text_formatting => 'textile' do
+      to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed"}
+    end
   end
 
   def test_cross_project_multiple_repositories_redmine_links
@@ -824,7 +864,9 @@ class ApplicationHelperTest < Redmine::HelperTest
       'invalid:source:invalid|some/file'       => 'invalid:source:invalid|some/file',
     }
     @project = Project.find(3)
-    to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed"}
+    with_settings :text_formatting => 'textile' do
+      to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text), "#{text} failed"}
+    end
   end
 
   def test_redmine_links_git_commit
@@ -853,7 +895,9 @@ class ApplicationHelperTest < Redmine::HelperTest
     to_test = {
       'commit:abcd' => changeset_link,
     }
-    to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text)}
+    with_settings :text_formatting => 'textile' do
+      to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text)}
+    end
   end
 
   # TODO: Bazaar commit id contains mail address, so it contains '@' and '_'.
@@ -896,17 +940,21 @@ class ApplicationHelperTest < Redmine::HelperTest
       'r123' => changeset_link_rev,
       'commit:abcd' => changeset_link_commit,
     }
-    to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text)}
+    with_settings :text_formatting => 'textile' do
+      to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text)}
+    end
   end
 
   def test_attachment_links
     text = 'attachment:error281.txt'
     result = link_to("error281.txt", "/attachments/1",
                      :class => "attachment")
-    assert_equal "<p>#{result}</p>",
-                 textilizable(text,
-                              :attachments => Issue.find(3).attachments),
-                 "#{text} failed"
+    with_settings :text_formatting => 'textile' do
+      assert_equal "<p>#{result}</p>",
+                  textilizable(text,
+                                :attachments => Issue.find(3).attachments),
+                  "#{text} failed"
+    end
   end
 
   def test_attachment_link_should_link_to_latest_attachment
@@ -914,8 +962,10 @@ class ApplicationHelperTest < Redmine::HelperTest
     a2 = Attachment.generate!(:filename => "test.txt")
     result = link_to("test.txt", "/attachments/#{a2.id}",
                      :class => "attachment")
-    assert_equal "<p>#{result}</p>",
-                 textilizable('attachment:test.txt', :attachments => [a1, a2])
+    with_settings :text_formatting => 'textile' do
+      assert_equal "<p>#{result}</p>",
+                   textilizable('attachment:test.txt', :attachments => [a1, a2])
+    end
   end
 
   def test_attachment_links_to_images_with_email_format_should_not_be_parsed
@@ -1031,7 +1081,9 @@ class ApplicationHelperTest < Redmine::HelperTest
       '[[private-child:Wiki]]' => '[[private-child:Wiki]]',
     }
     @project = Project.find(1)
-    to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text)}
+    with_settings :text_formatting => 'textile' do
+      to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text)}
+    end
   end
 
   def test_wiki_links_with_special_characters_should_work_in_textile
@@ -1124,8 +1176,10 @@ class ApplicationHelperTest < Redmine::HelperTest
                  :class => "wiki-page new"),
     }
     @project = Project.find(1)
-    to_test.each do |text, result|
-      assert_equal "<p>#{result}</p>", textilizable(text, :wiki_links => :local)
+    with_settings :text_formatting => 'textile' do
+      to_test.each do |text, result|
+        assert_equal "<p>#{result}</p>", textilizable(text, :wiki_links => :local)
+      end
     end
   end
 
@@ -1184,9 +1238,11 @@ class ApplicationHelperTest < Redmine::HelperTest
                  :class => "wiki-page new"),
     }
     @project = Project.find(1)
-    to_test.each do |text, result|
-      assert_equal "<p>#{result}</p>",
-                   textilizable(WikiContent.new(:text => text, :page => page), :text)
+    with_settings :text_formatting => 'textile' do
+      to_test.each do |text, result|
+        assert_equal "<p>#{result}</p>",
+                     textilizable(WikiContent.new(:text => text, :page => page), :text)
+      end
     end
   end
 
@@ -1228,8 +1284,10 @@ class ApplicationHelperTest < Redmine::HelperTest
                   :class => "wiki-page new"),
     }
     @project = Project.find(1)
-    to_test.each do |text, result|
-      assert_equal "<p>#{result}</p>", textilizable(text, :wiki_links => :anchor)
+    with_settings :text_formatting => 'textile' do
+      to_test.each do |text, result|
+        assert_equal "<p>#{result}</p>", textilizable(text, :wiki_links => :anchor)
+      end
     end
   end
 
@@ -1254,7 +1312,9 @@ class ApplicationHelperTest < Redmine::HelperTest
       '<pre><code class=""onmouseover="alert(1)">text</code></pre>' => '<pre><code>text</code></pre>',
       '<pre class=""onmouseover="alert(1)">text</pre>' => '<pre>text</pre>',
     }
-    to_test.each {|text, result| assert_equal result, textilizable(text)}
+    with_settings :text_formatting => 'textile' do
+      to_test.each {|text, result| assert_equal result, textilizable(text)}
+    end
   end
 
   def test_allowed_html_tags
@@ -1263,7 +1323,9 @@ class ApplicationHelperTest < Redmine::HelperTest
       "<notextile>no *textile* formatting</notextile>" => "no *textile* formatting",
       "<notextile>this is <tag>a tag</tag></notextile>" => "this is &lt;tag&gt;a tag&lt;/tag&gt;"
     }
-    to_test.each {|text, result| assert_equal result, textilizable(text)}
+    with_settings :text_formatting => 'textile' do
+      to_test.each {|text, result| assert_equal result, textilizable(text)}
+    end
   end
 
   def test_pre_tags
@@ -1283,7 +1345,9 @@ class ApplicationHelperTest < Redmine::HelperTest
       </pre>
       <p>After</p>
     EXPECTED
-    assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
+    with_settings :text_formatting => 'textile' do
+      assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
+    end
   end
 
   def test_pre_content_should_not_parse_wiki_and_redmine_links
@@ -1315,7 +1379,9 @@ class ApplicationHelperTest < Redmine::HelperTest
       </pre>
     EXPECTED
     @project = Project.find(1)
-    assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
+    with_settings :text_formatting => 'textile' do
+      assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
+    end
   end
 
   def test_non_closing_pre_blocks_should_be_closed
@@ -1327,7 +1393,9 @@ class ApplicationHelperTest < Redmine::HelperTest
       </code></pre>
     EXPECTED
     @project = Project.find(1)
-    assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
+    with_settings :text_formatting => 'textile' do
+      assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
+    end
   end
 
   def test_unbalanced_closing_pre_tag_should_not_error
@@ -1346,7 +1414,9 @@ class ApplicationHelperTest < Redmine::HelperTest
     expected = <<~EXPECTED
       <pre><code class="ECMA_script syntaxhl" data-language=\"ECMA_script\"><span class="cm">/* Hello */</span><span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="dl">"</span><span class="s2">Hello World!</span><span class="dl">"</span><span class="p">);</span></code></pre>
     EXPECTED
-    assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
+    with_settings :text_formatting => 'textile' do
+      assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
+    end
   end
 
   def test_syntax_highlight_ampersand_in_textile
@@ -1383,7 +1453,9 @@ class ApplicationHelperTest < Redmine::HelperTest
                "<td>#{link2}</td>" +
                "</tr><tr><td>Cell 21</td><td>#{link3}</td></tr>"
     @project = Project.find(1)
-    assert_equal "<table>#{result}</table>", textilizable(text).gsub(/[\t\n]/, '')
+    with_settings :text_formatting => 'textile' do
+      assert_equal "<table>#{result}</table>", textilizable(text).gsub(/[\t\n]/, '')
+    end
   end
 
   def test_text_formatting
@@ -1396,12 +1468,16 @@ class ApplicationHelperTest < Redmine::HelperTest
       'a *H* umane *W* eb *T* ext *G* enerator' =>
         'a <strong>H</strong> umane <strong>W</strong> eb <strong>T</strong> ext <strong>G</strong> enerator',
     }
-    to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text)}
+    with_settings :text_formatting => 'textile' do
+      to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text)}
+    end
   end
 
   def test_wiki_horizontal_rule
-    assert_equal '<hr />', textilizable('---')
-    assert_equal '<p>Dashes: ---</p>', textilizable('Dashes: ---')
+    with_settings :text_formatting => 'textile' do
+      assert_equal '<hr />', textilizable('---')
+      assert_equal '<p>Dashes: ---</p>', textilizable('Dashes: ---')
+    end
   end
 
   def test_headings
@@ -1409,7 +1485,9 @@ class ApplicationHelperTest < Redmine::HelperTest
     expected =
       %|<a name="Some-heading"></a>\n<h1 >Some heading| +
         %|<a href="#Some-heading" class="wiki-anchor">&para;</a></h1>|
-    assert_equal expected, textilizable(raw)
+    with_settings :text_formatting => 'textile' do
+      assert_equal expected, textilizable(raw)
+    end
   end
 
   def test_headings_with_special_chars
@@ -1420,7 +1498,9 @@ class ApplicationHelperTest < Redmine::HelperTest
     expected =
       %|<a name="#{anchor}"></a>\n<h1 >Some heading related to version 0.5| +
         %|<a href="##{anchor}" class="wiki-anchor">&para;</a></h1>|
-    assert_equal expected, textilizable(raw)
+    with_settings :text_formatting => 'textile' do
+      assert_equal expected, textilizable(raw)
+    end
   end
 
   def test_headings_in_wiki_single_page_export_should_be_prepended_with_page_title
@@ -1429,7 +1509,9 @@ class ApplicationHelperTest < Redmine::HelperTest
     expected =
       %|<a name="Page_Title_Some-heading"></a>\n<h1 >Some heading| +
         %|<a href="#Page_Title_Some-heading" class="wiki-anchor">&para;</a></h1>|
-    assert_equal expected, textilizable(content, :text, :wiki_links => :anchor)
+    with_settings :text_formatting => 'textile' do
+      assert_equal expected, textilizable(content, :text, :wiki_links => :anchor)
+    end
   end
 
   def test_table_of_content
@@ -1491,7 +1573,9 @@ class ApplicationHelperTest < Redmine::HelperTest
                '</ul>'
 
     @project = Project.find(1)
-    assert textilizable(raw).delete("\n").include?(expected)
+    with_settings :text_formatting => 'textile' do
+      assert textilizable(raw).delete("\n").include?(expected)
+    end
   end
 
   def test_table_of_content_should_generate_unique_anchors
@@ -1515,10 +1599,12 @@ class ApplicationHelperTest < Redmine::HelperTest
                   '</li>' +
                 '</ul>'
     @project = Project.find(1)
-    result = textilizable(raw).delete("\n")
-    assert_include expected, result
-    assert_include '<a name="Subtitle">', result
-    assert_include '<a name="Subtitle-2">', result
+    with_settings :text_formatting => 'textile' do
+      result = textilizable(raw).delete("\n")
+      assert_include expected, result
+      assert_include '<a name="Subtitle">', result
+      assert_include '<a name="Subtitle-2">', result
+    end
   end
 
   def test_table_of_content_should_contain_included_page_headings
@@ -1536,7 +1622,9 @@ class ApplicationHelperTest < Redmine::HelperTest
                '<li><a href="#Child-page-1">Child page 1</a></li>' +
                '</ul>'
     @project = Project.find(1)
-    assert textilizable(raw).delete("\n").include?(expected)
+    with_settings :text_formatting => 'textile' do
+      assert textilizable(raw).delete("\n").include?(expected)
+    end
   end
 
   def test_toc_with_textile_formatting_should_be_parsed
@@ -1581,40 +1669,42 @@ class ApplicationHelperTest < Redmine::HelperTest
     RAW
     @project = Project.find(1)
     set_language_if_valid 'en'
-    result =
-      textilizable(
-        raw,
-        :edit_section_links =>
-          {:controller => 'wiki', :action => 'edit',
-           :project_id => '1', :id => 'Test'}
-      ).delete("\n")
-    # heading that contains inline code
-    assert_match(
-      Regexp.new(
-        '<div class="contextual heading-2" title="Edit this section" id="section-4">' \
-        '<a class="icon-only icon-edit" href="/projects/1/wiki/Test/edit\?section=4">' \
-        'Edit this section' \
-        '</a></div>' \
-        '<a name="Subtitle-with-inline-code"></a>' \
-        '<h2 >Subtitle with ' \
-        '<code>inline code</code><a href="#Subtitle-with-inline-code" class="wiki-anchor">&para;</a>' \
-        '</h2>'
-      ),
-      result
-    )
-    # last heading
-    assert_match(
-      Regexp.new(
-        '<div class="contextual heading-2" title="Edit this section" id="section-5">' \
-        '<a class="icon-only icon-edit" href="/projects/1/wiki/Test/edit\?section=5">' \
-        'Edit this section' \
-        '</a></div>' \
-        '<a name="Subtitle-after-pre-tag"></a>' \
-        '<h2 >Subtitle after pre tag' \
-        '<a href="#Subtitle-after-pre-tag" class="wiki-anchor">&para;</a></h2>'
-      ),
-      result
-    )
+    with_settings :text_formatting => 'textile' do
+      result =
+        textilizable(
+          raw,
+          :edit_section_links =>
+            {:controller => 'wiki', :action => 'edit',
+            :project_id => '1', :id => 'Test'}
+        ).delete("\n")
+      # heading that contains inline code
+      assert_match(
+        Regexp.new(
+          '<div class="contextual heading-2" title="Edit this section" id="section-4">' \
+          '<a class="icon-only icon-edit" href="/projects/1/wiki/Test/edit\?section=4">' \
+          'Edit this section' \
+          '</a></div>' \
+          '<a name="Subtitle-with-inline-code"></a>' \
+          '<h2 >Subtitle with ' \
+          '<code>inline code</code><a href="#Subtitle-with-inline-code" class="wiki-anchor">&para;</a>' \
+          '</h2>'
+        ),
+        result
+      )
+      # last heading
+      assert_match(
+        Regexp.new(
+          '<div class="contextual heading-2" title="Edit this section" id="section-5">' \
+          '<a class="icon-only icon-edit" href="/projects/1/wiki/Test/edit\?section=5">' \
+          'Edit this section' \
+          '</a></div>' \
+          '<a name="Subtitle-after-pre-tag"></a>' \
+          '<h2 >Subtitle after pre tag' \
+          '<a href="#Subtitle-after-pre-tag" class="wiki-anchor">&para;</a></h2>'
+        ),
+        result
+      )
+    end
   end
 
   def test_default_formatter
@@ -1633,7 +1723,9 @@ class ApplicationHelperTest < Redmine::HelperTest
   end
 
   def test_textilizable_with_formatting_set_to_true_should_format_text
-    assert_equal '<p><strong>text</strong></p>', textilizable("*text*", :formatting => true)
+    with_settings :text_formatting => 'textile' do
+      assert_equal '<p><strong>text</strong></p>', textilizable("*text*", :formatting => true)
+    end
   end
 
   def test_parse_redmine_links_should_handle_a_tag_without_attributes

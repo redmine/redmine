@@ -39,8 +39,10 @@ class Redmine::FieldFormatTest < ActionView::TestCase
     field = IssueCustomField.new(:field_format => 'string', :text_formatting => 'full')
     custom_value = CustomValue.new(:custom_field => field, :customized => Issue.new, :value => "*foo*")
 
-    assert_equal "*foo*", field.format.formatted_custom_value(self, custom_value, false)
-    assert_include "<strong>foo</strong>", field.format.formatted_custom_value(self, custom_value, true)
+    with_settings :text_formatting => 'textile' do
+      assert_equal '*foo*', field.format.formatted_custom_value(self, custom_value, false)
+      assert_include '<strong>foo</strong>', field.format.formatted_custom_value(self, custom_value, true)
+    end
   end
 
   def test_text_field_with_text_formatting_disabled_should_not_format_text
@@ -55,8 +57,10 @@ class Redmine::FieldFormatTest < ActionView::TestCase
     field = IssueCustomField.new(:field_format => 'text', :text_formatting => 'full')
     custom_value = CustomValue.new(:custom_field => field, :customized => Issue.new, :value => "*foo*\nbar")
 
-    assert_equal "*foo*\nbar", field.format.formatted_custom_value(self, custom_value, false)
-    assert_include "<strong>foo</strong>", field.format.formatted_custom_value(self, custom_value, true)
+    with_settings :text_formatting => 'textile' do
+      assert_equal "*foo*\nbar", field.format.formatted_custom_value(self, custom_value, false)
+      assert_include '<strong>foo</strong>', field.format.formatted_custom_value(self, custom_value, true)
+    end
   end
 
   def test_should_validate_url_pattern_with_safe_scheme
