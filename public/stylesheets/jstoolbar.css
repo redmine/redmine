@@ -128,6 +128,9 @@
 .jstb_ol {
     background-image: url(../images/jstoolbar/bt_ol.png);
 }
+.jstb_tl {
+    background-image: url(../images/jstoolbar/bt_tl.png);
+}
 .jstb_bq {
     background-image: url(../images/jstoolbar/bt_bq.png);
 }

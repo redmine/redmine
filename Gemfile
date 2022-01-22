@@ -49,6 +49,7 @@ group :common_mark do
   gem "html-pipeline", "~> 2.13.2"
   gem "commonmarker", (Gem.ruby_version < Gem::Version.new('2.6.0') ? '0.21.0' : '0.23.1')
   gem "sanitize", "~> 6.0"
+  gem 'deckar01-task_list', '2.3.2'
 end
 
 # Include database gems for the adapters found in the database

@@ -18,6 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require 'html/pipeline'
+require 'task_list/filter'
 
 module Redmine
   module WikiFormatting
@@ -57,6 +58,7 @@ module Redmine
         SyntaxHighlightFilter,
         FixupAutoLinksFilter,
         ExternalLinksFilter,
+        TaskList::Filter
       ], PIPELINE_CONFIG
 
       class Formatter < Redmine::WikiFormatting::Markdown::Formatter

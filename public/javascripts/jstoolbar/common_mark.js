@@ -132,6 +132,20 @@ jsToolBar.prototype.elements.ol = {
   }
 }
 
+// tl
+jsToolBar.prototype.elements.tl = {
+  type: 'button',
+  title: 'Task list',
+  fn: {
+    wiki: function() {
+      this.encloseLineSelection('','',function(str) {
+        str = str.replace(/\r/g,'');
+        return str.replace(/(\n|^)[*-]?\s*/g,"$1* [ ] ");
+      });
+    }
+  }
+}
+
 // spacer
 jsToolBar.prototype.elements.space3 = {type: 'space'}
 

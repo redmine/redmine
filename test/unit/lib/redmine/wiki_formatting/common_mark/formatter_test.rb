@@ -263,6 +263,27 @@ class Redmine::WikiFormatting::CommonMark::FormatterTest < ActionView::TestCase
       end
     end
 
+    def test_should_support_task_list
+      text = <<~STR
+        Task list:
+        * [ ] Task 1
+        * [x] Task 2
+      STR
+
+      expected = <<~EXPECTED
+        <p>Task list:</p>
+        <ul class="task-list">
+        <li class="task-list-item">
+        <input type="checkbox" class="task-list-item-checkbox" disabled> Task 1
+        </li>
+        <li class="task-list-item">
+        <input type="checkbox" class="task-list-item-checkbox" checked disabled> Task 2</li>
+        </ul>
+      EXPECTED
+
+      assert_equal expected.gsub(%r{[\r\n\t]}, ''), format(text).gsub(%r{[\r\n\t]}, '').rstrip
+    end
+
     private
 
     def assert_section_with_hash(expected, text, index)
