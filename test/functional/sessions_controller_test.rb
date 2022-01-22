@@ -45,6 +45,19 @@ class SessionsControllerTest < Redmine::ControllerTest
     assert token.updated_on > created
   end
 
+  def test_session_token_should_be_updated_only_once_per_minute
+    token = Token.create!(:user_id => 2, :action => 'session', :created_on => 1.second.ago, :updated_on => 1.second.ago)
+    updated = token.reload.updated_on
+
+    get :index, :session => {
+      :user_id => 2,
+      :tk => token.value
+    }
+    assert_response :success
+    token.reload
+    assert_equal updated.to_i, token.updated_on.to_i
+  end
+
   def test_user_session_should_not_be_reset_if_lifetime_and_timeout_disabled
     created = 2.years.ago
     token = Token.create!(:user_id => 2, :action => 'session', :created_on => created, :updated_on => created)

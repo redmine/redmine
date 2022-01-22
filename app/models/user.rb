@@ -469,7 +469,14 @@ class User < Principal
     if Setting.session_timeout?
       scope = scope.where("updated_on > ?", Setting.session_timeout.to_i.minutes.ago)
     end
-    scope.update_all(:updated_on => Time.now) == 1
+    last_updated = scope.maximum(:updated_on)
+    if last_updated.nil?
+      false
+    elsif last_updated <= 1.minute.ago
+      scope.update_all(:updated_on => Time.now) == 1
+    else
+      true
+    end
   end
 
   # Return an array of project ids for which the user has explicitly turned mail notifications on
