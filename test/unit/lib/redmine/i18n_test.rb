@@ -257,11 +257,13 @@ class Redmine::I18nTest < ActiveSupport::TestCase
   end
 
   def test_custom_pluralization_rules
+    pluralizers = I18n.backend.instance_variable_get(:@pluralizers)
+    I18n.backend.instance_variable_set(:@pluralizers, nil)
     I18n.backend.store_translations :pt, i18n: {plural: {rule: ->(n) {[0, 1].include?(n) ? :one : :other }}}
     I18n.backend.store_translations :pt, apples: {one: 'one or none', other: 'more than one'}
     assert_equal 'one or none', ll(:pt, :apples, count: 0)
     assert_equal 'more than one', ll(:pt, :apples, count: 2)
   ensure
-    I18n.reload!
+    I18n.backend.instance_variable_set(:@pluralizers, pluralizers)
   end
 end
