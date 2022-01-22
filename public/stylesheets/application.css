@@ -247,6 +247,7 @@ div + .drdn-items {border-top:1px solid #ccc;}
 /***** Tables *****/
 table.list, .table-list { border: 1px solid #e4e4e4; width: 100%; margin-bottom: 4px; border-radius: 3px; border-spacing: 0; overflow: hidden;}
 table.list th, .table-list-header { background-color:#EEEEEE; padding: 4px; white-space:nowrap; font-weight:bold; }
+table.list th.whitespace-normal {white-space: normal;}
 table.list td {text-align:center; vertical-align:middle; padding-right:10px;}
 table.list td.id { width: 2%; text-align: center;}
 table.list td.name, table.list td.description, table.list td.subject, table.list td.parent-subject, table.list td.comments, table.list td.roles, table.list td.attachments, table.list td.text,  table.list td.short_description {text-align: left;}
