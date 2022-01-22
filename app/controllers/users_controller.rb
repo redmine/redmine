@@ -54,6 +54,15 @@ class UsersController < ApplicationController
     scope = scope.like(params[:name]) if params[:name].present?
     scope = scope.in_group(params[:group_id]) if params[:group_id].present?
 
+    if params[:twofa].present?
+      case params[:twofa].to_i
+      when 1
+        scope = scope.where.not(twofa_scheme: nil)
+      when 0
+        scope = scope.where(twofa_scheme: nil)
+      end
+    end
+
     @user_count = scope.count
     @user_pages = Paginator.new @user_count, @limit, params['page']
     @offset ||= @user_pages.offset

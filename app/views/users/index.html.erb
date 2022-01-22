@@ -19,6 +19,11 @@
 <%= select_tag 'group_id', content_tag('option') + options_from_collection_for_select(@groups, :id, :name, params[:group_id].to_i), :onchange => "this.form.submit(); return false;"  %>
 <% end %>
 
+<% if Setting.twofa_required? || Setting.twofa_optional? %>
+  <label for='twofa'><%= l(:setting_twofa) %>:</label>
+  <%= select_tag 'twofa', options_for_select([[l(:general_text_yes), "1"], [l(:general_text_no), "0"]], params[:twofa]), :onchange => "this.form.submit(); return false;", :include_blank => true %>
+<% end %>
+
 <label for='name'><%= l(:label_user) %>:</label>
 <%= text_field_tag 'name', params[:name], :size => 30 %>
 <%= submit_tag l(:button_apply), :class => "small", :name => nil %>
@@ -37,6 +42,9 @@
   <%= sort_header_tag('lastname', :caption => l(:field_lastname)) %>
   <th><%= l(:field_mail) %></th>
   <%= sort_header_tag('admin', :caption => l(:field_admin), :default_order => 'desc') %>
+  <% if Setting.twofa_required? || Setting.twofa_optional? %>
+    <th><%= l(:setting_twofa) %></th>
+  <% end %>
   <%= sort_header_tag('created_on', :caption => l(:field_created_on), :default_order => 'desc') %>
   <%= sort_header_tag('last_login_on', :caption => l(:field_last_login_on), :default_order => 'desc') %>
     <th></th>
@@ -49,6 +57,9 @@
   <td class="lastname"><%= user.lastname %></td>
   <td class="email"><%= mail_to(user.mail) %></td>
   <td class="tick"><%= checked_image user.admin? %></td>
+  <% if Setting.twofa_required? || Setting.twofa_optional? %>
+    <td class="twofa tick"><%= checked_image user.twofa_active? %></td>
+  <% end %>
   <td class="created_on"><%= format_time(user.created_on) %></td>
   <td class="last_login_on"><%= format_time(user.last_login_on) unless user.last_login_on.nil? %></td>
     <td class="buttons">

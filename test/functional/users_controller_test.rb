@@ -66,6 +66,50 @@ class UsersControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_index_should_not_show_2fa_filter_and_column_if_disabled
+    with_settings twofa: "0" do
+      get :index
+      assert_response :success
+
+      assert_select "select#twofa", 0
+      assert_select 'td.twofa', 0
+    end
+  end
+
+  def test_index_filter_by_twofa_yes
+    with_settings twofa: "1" do
+      user = User.find(1)
+      user.twofa_totp_key = "AVYA3RARZ3GY3VWT7MIEJ72I5TTJRO3X"
+      user.twofa_scheme = "totp"
+      user.save
+
+      get :index, :params => {:twofa => '1'}
+      assert_response :success
+
+      assert_select "select#twofa", 1
+
+      assert_select 'tr.user', 1
+      assert_select 'td.twofa.tick .icon-checked'
+    end
+  end
+
+  def test_index_filter_by_twofa_no
+    with_settings twofa: "1" do
+      user = User.find(1)
+      user.twofa_totp_key = "AVYA3RARZ3GY3VWT7MIEJ72I5TTJRO3X"
+      user.twofa_scheme = "totp"
+      user.save
+
+      get :index, :params => {:twofa => '0'}
+      assert_response :success
+
+      assert_select "select#twofa", 1
+      assert_select "td.twofa.tick" do
+        assert_select "span.icon-checked", 0
+      end
+    end
+  end
+
   def test_index_csv
     with_settings :default_language => 'en' do
       user = User.logged.status(1).first
