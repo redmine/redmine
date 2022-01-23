@@ -79,11 +79,17 @@ class IssueQuery < Query
 
   def self.default(project: nil, user: User.current)
     query = nil
-    if user&.logged?
-      query = find_by_id user.pref.default_issue_query
+    # user default
+    if user&.logged? && (query_id = user.pref.default_issue_query)
+      query = find_by(id: query_id)
     end
+    # project default
     query ||= project&.default_issue_query
-    query || find_by_id(Setting.default_issue_query)
+    # global default
+    if query.nil? && (query_id = Setting.default_issue_query).present?
+      query = find_by(id: query_id)
+    end
+    query
   end
 
   def initialize(attributes=nil, *args)
