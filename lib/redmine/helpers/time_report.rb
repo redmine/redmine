@@ -123,7 +123,7 @@ module Redmine
           'tracker' => {:sql => "#{Issue.table_name}.tracker_id",
                         :klass => Tracker,
                         :label => :label_tracker},
-          'activity' => {:sql => "#{TimeEntry.table_name}.activity_id",
+          'activity' => {:sql => "COALESCE(#{TimeEntryActivity.table_name}.parent_id, #{TimeEntryActivity.table_name}.id)",
                          :klass => TimeEntryActivity,
                          :label => :field_activity},
           'issue' => {:sql => "#{TimeEntry.table_name}.issue_id",
