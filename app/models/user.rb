@@ -384,10 +384,10 @@ class User < Principal
   end
 
   def must_activate_twofa?
-    (
-      Setting.twofa_required? ||
-      (Setting.twofa_optional? && groups.any?(&:twofa_required?))
-    ) && !twofa_active?
+    return false if twofa_active?
+
+    return true if Setting.twofa_required?
+    return true if Setting.twofa_optional? && groups.any?(&:twofa_required?)
   end
 
   def pref
