@@ -30,7 +30,9 @@ module Redmine
             when 'xml',  :xml  then Builders::Xml.new(request, response)
             when 'json', :json then Builders::Json.new(request, response)
             else
-              raise "No builder for format #{format}"
+              Rails.logger.error "No builder for format #{format.inspect}"
+              response.status = 406
+              return "We couldn't handle your request, sorry. If you were trying to access the API, make sure to append .json or .xml to your request URL.\n"
             end
           if block_given?
             yield(builder)
