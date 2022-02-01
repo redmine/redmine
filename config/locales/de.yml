@@ -1410,3 +1410,7 @@ de:
   button_create_and_follow: Create and follow
   label_subtask: Subtask
   field_default_project_query: Default project query
+  label_required_administrators: required for administrators
+  twofa_hint_required_administrators_html: Setting <strong>%{label}</strong> behaves
+    like optional, but will require all users with administration rights to set up two-factor
+    authentication at their next login.
