@@ -387,6 +387,7 @@ class User < Principal
     return false if twofa_active?
 
     return true if Setting.twofa_required?
+    return true if Setting.twofa_required_for_administrators? && admin?
     return true if Setting.twofa_optional? && groups.any?(&:twofa_required?)
   end
 

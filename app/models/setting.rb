@@ -244,7 +244,11 @@ class Setting < ActiveRecord::Base
   end
 
   def self.twofa_optional?
-    twofa == '1'
+    %w[1 3].include? twofa
+  end
+
+  def self.twofa_required_for_administrators?
+    twofa == '3'
   end
 
   # Helper that returns an array based on per_page_options setting

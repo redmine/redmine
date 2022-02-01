@@ -31,10 +31,12 @@
 <p>
   <%= setting_select :twofa, [[l(:label_disabled), "0"],
                               [l(:label_optional), "1"],
+                              [l(:label_required_administrators), "3"],
                               [l(:label_required_lower), "2"]] -%>
   <em class="info">
     <%= t 'twofa_hint_disabled_html', label: t(:label_disabled) -%><br/>
     <%= t 'twofa_hint_optional_html', label: t(:label_optional) -%><br/>
+    <%= t 'twofa_hint_required_administrators_html', label: t(:label_required_administrators) -%><br/>
     <%= t 'twofa_hint_required_html', label: t(:label_required_lower) -%>
   </em>
 </p>
@@ -48,7 +50,7 @@
     <p><%= setting_select :session_lifetime, session_lifetime_options %></p>
     <p><%= setting_select :session_timeout, session_timeout_options %></p>
   </div>
-  
+
   <p><em class="info"><%= l(:text_session_expiration_settings) %></em></p>
 </fieldset>
 

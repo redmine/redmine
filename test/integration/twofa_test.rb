@@ -31,6 +31,27 @@ class TwofaTest < Redmine::IntegrationTest
     end
   end
 
+  test "should require twofa setup when required for administrators" do
+    admin = User.find_by_login 'admin'
+    user = User.find_by_login 'jsmith'
+
+    assert_not admin.must_activate_twofa?
+    assert_not user.must_activate_twofa?
+
+    with_settings twofa: "3" do
+      assert_not Setting.twofa_required?
+
+      assert Setting.twofa_optional?
+      assert Setting.twofa_required_for_administrators?
+      assert admin.must_activate_twofa?
+      assert_not user.must_activate_twofa?
+
+      log_user('admin', 'admin')
+      follow_redirect!
+      assert_redirected_to "/my/twofa/totp/activate/confirm"
+    end
+  end
+
   test "should require twofa setup when required by group" do
     user = User.find_by_login 'jsmith'
     assert_not user.must_activate_twofa?
