@@ -31,7 +31,7 @@ title =
                  :controller => 'watchers',
                  :action => 'autocomplete_for_user',
                  :object_type => (watchables.present? ? watchables.first.class.name.underscore : nil),
-                 :object_id => (watchables.present? && watchables.size == 1 ? watchables.first.id : nil),
+                 :object_id => (watchables.present? ? watchables.map(&:id) : nil),
                  :project_id => @project
                )
              )}'
