@@ -134,8 +134,12 @@ class WatchersController < ApplicationController
 
   def users_for_new_watcher
     scope = nil
-    if params[:q].blank? && @project.present?
-      scope = @project.principals.assignable_watchers
+    if params[:q].blank?
+      if @project.present?
+        scope = @project.principals.assignable_watchers
+      elsif @projects.present? && @projects.size > 1
+        scope = Principal.joins(:members).where(:members => { :project_id => @projects }).assignable_watchers.distinct
+      end
     else
       scope = Principal.assignable_watchers.limit(100)
     end

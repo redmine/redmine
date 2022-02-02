@@ -184,6 +184,20 @@ class WatchersControllerTest < Redmine::ControllerTest
     assert_match /ajax-modal/, response.body
   end
 
+  def test_new_with_multiple_objects_from_different_projects
+    @request.session[:user_id] = 2
+    get :new, :params => {
+      :object_id => [7, 9],
+      :object_type => 'issue'
+    }, :xhr => true
+    assert_response :success
+
+    assert_match(
+      %r{/watchers/autocomplete_for_user\?object_id%5B%5D=7&object_id%5B%5D=9&object_type=issue},
+      response.body
+    )
+  end
+
   def test_create_as_html
     @request.session[:user_id] = 2
     assert_difference('Watcher.count') do
@@ -386,6 +400,27 @@ class WatchersControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert response.body.blank?
+  end
+
+  def test_autocomplete_with_multiple_objects_from_different_projects
+    @request.session[:user_id] = 2
+
+    # 7 => eCookbook
+    # 9 => Private child of eCookbook
+    get :autocomplete_for_user, :params => {
+      :object_id => [7, 9],
+      :object_type => 'issue'
+    }, :xhr => true
+
+    assert_response :success
+
+    # All users from two projects eCookbook (7) and Private child of eCookbook (9)
+    assert_select 'input', :count => 5
+    assert_select 'input[name=?][value="1"]', 'watcher[user_ids][]'
+    assert_select 'input[name=?][value="2"]', 'watcher[user_ids][]'
+    assert_select 'input[name=?][value="3"]', 'watcher[user_ids][]'
+    assert_select 'input[name=?][value="8"]', 'watcher[user_ids][]'
+    assert_select 'input[name=?][value="10"]', 'watcher[user_ids][]'
   end
 
   def test_append
