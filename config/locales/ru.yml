@@ -1457,6 +1457,7 @@ ru:
   twofa_backup_codes_already_shown: Резервные коды не могут быть показаны снова, пожалуйста, <a data-method="post"
     href="%{bc_path}">сгенерируйте новые резервные коды</a> при необходимости.
   error_can_not_execute_macro_html: Ошибка при выполнении макроса <strong>%{name}</strong>
+    (%{error})
   error_macro_does_not_accept_block: Этот макрос не принимает текстовый блок
   error_childpages_macro_no_argument: Без аргумента этот макрос можно вызывать только из wiki страницы.
   error_circular_inclusion: Обнаружено циклическое включение
