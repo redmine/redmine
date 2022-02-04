@@ -5,7 +5,7 @@ gem 'bundler', '>= 1.12.0'
 
 gem 'rails', '6.1.4.4'
 gem 'globalid', '~> 0.4.2' if Gem.ruby_version < Gem::Version.new('2.6.0')
-gem 'rouge', '~> 3.27.0'
+gem 'rouge', '~> 3.28.0'
 gem 'request_store', '~> 1.5.0'
 gem 'mini_mime', '~> 1.1.0'
 gem "actionpack-xml_parser"
