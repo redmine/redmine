@@ -16,12 +16,16 @@
 
 <h2><%=l(:label_document_plural)%></h2>
 
+<div id="document-list">
 <% if @grouped.empty? %><p class="nodata"><%= l(:label_no_data) %></p><% end %>
 
 <% @grouped.keys.sort.__send__(@sort_by == 'date' ? :reverse_each : :each) do |group| %>
-    <h3><%= group %></h3>
+  <div class="document-group document-group-<%= @sort_by %>">
+    <h3 class="group-name"><%= group %></h3>
     <%= render :partial => 'documents/document', :collection => @grouped[group] %>
+  </div>
 <% end %>
+</div>
 
 <% content_for :sidebar do %>
   <h3><%= l(:label_sort_by, '') %></h3>

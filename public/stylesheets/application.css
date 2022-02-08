@@ -1129,6 +1129,12 @@ img.ui-datepicker-trigger {
   margin-left: 4px;
 }
 
+/***** Documents *****/
+
+#document-list .document-group {
+  margin-bottom: 15px;
+}
+
 /***** Progress bar *****/
 table.progress {
   border-collapse: collapse;

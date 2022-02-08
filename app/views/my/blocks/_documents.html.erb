@@ -1,3 +1,5 @@
 <h3><%=l(:label_document_plural)%></h3>
 
-<%= render :partial => 'documents/document', :collection => documents %>
+<div id="document-list">
+  <%= render :partial => 'documents/document', :collection => documents %>
+</div>
