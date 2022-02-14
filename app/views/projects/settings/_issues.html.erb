@@ -21,9 +21,10 @@
   <% if User.current.admin? %>
     <div class="contextual"><%= link_to l(:label_administration), custom_fields_path, :class => "icon icon-settings" %></div>
   <% end %>
+  <% all_issue_custom_field_ids = @project.all_issue_custom_fields.ids %>
   <% @issue_custom_fields.each do |custom_field| %>
     <label class="floating">
-      <%= check_box_tag 'project[issue_custom_field_ids][]', custom_field.id, (@project.all_issue_custom_fields.include? custom_field),
+      <%= check_box_tag 'project[issue_custom_field_ids][]', custom_field.id, (all_issue_custom_field_ids.include? custom_field.id),
           :disabled => (custom_field.is_for_all? ? "disabled" : nil),
           :id => nil %>
       <%= custom_field_name_tag(custom_field) %>
