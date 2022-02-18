@@ -1403,7 +1403,5 @@ ja:
   label_subtask: 子チケット
   label_default_query: デフォルトのクエリ
   field_default_project_query: デフォルトのプロジェクトクエリ
-  label_required_administrators: required for administrators
-  twofa_hint_required_administrators_html: Setting <strong>%{label}</strong> behaves
-    like optional, but will require all users with administration rights to set up two-factor
-    authentication at their next login.
+  label_required_administrators: システム管理者のみ必須
+  twofa_hint_required_administrators_html: <strong>%{label}</strong> に設定するとシステム管理者であるユーザーに対し二要素認証の有効化を次回ログイン時に要求します。そのほかのユーザーに対しては 任意 に設定した場合と同じ動作です。
