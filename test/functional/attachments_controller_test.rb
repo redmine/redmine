@@ -157,7 +157,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_equal 'text/html', @response.media_type
     assert_select 'tr#L1' do
-      assert_select 'th.line-num', :text => '1'
+      assert_select 'th.line-num a[data-txt=?]', '1'
       assert_select 'td', :text => /日本語/
     end
   end
@@ -174,7 +174,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
       assert_response :success
       assert_equal 'text/html', @response.media_type
       assert_select 'tr#L7' do
-        assert_select 'th.line-num', :text => '7'
+        assert_select 'th.line-num a[data-txt=?]', '7'
         assert_select 'td', :text => /Demande cr\?\?e avec succ\?s/
       end
     end
@@ -192,7 +192,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
       assert_response :success
       assert_equal 'text/html', @response.media_type
       assert_select 'tr#L7' do
-        assert_select 'th.line-num', :text => '7'
+        assert_select 'th.line-num a[data-txt=?]', '7'
         assert_select 'td', :text => /Demande créée avec succès/
       end
     end

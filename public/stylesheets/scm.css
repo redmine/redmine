@@ -61,8 +61,14 @@ table.filecontent th.line-num a {
     text-decoration: none;
     color: inherit;
 }
+table.filecontent th.line-num a:after {
+    content:  attr(data-txt);
+}
+table.diffcontent th.line-num:after {
+    content:  attr(data-txt);
+}
 table.filecontent td.line-code {padding: 0 0 0 4px;}
-table.filecontent td.line-code pre {
+table.filecontent td.line-code pre, table.filecontent td.line-code div {
     margin: 0px;
     white-space: pre-wrap;
     font-family:Consolas, Menlo, "Liberation Mono", Courier, monospace; font-size:12px;

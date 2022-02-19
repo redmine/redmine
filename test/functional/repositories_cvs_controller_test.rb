@@ -283,13 +283,13 @@ class RepositoriesCvsControllerTest < Redmine::RepositoryControllerTest
 
       # 1.1 line
       assert_select 'tr' do
-        assert_select 'th.line-num', :text => '21'
+        assert_select 'th.line-num a[data-txt=?]', '21'
         assert_select 'td.revision', :text => /1.1/
         assert_select 'td.author', :text => /LANG/
       end
       # 1.2 line
       assert_select 'tr' do
-        assert_select 'th.line-num', :text => '32'
+        assert_select 'th.line-num a[data-txt=?]', '32'
         assert_select 'td.revision', :text => /1.2/
         assert_select 'td.author', :text => /LANG/
       end

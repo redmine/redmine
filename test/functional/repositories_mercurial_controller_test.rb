@@ -396,7 +396,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
           assert_response :success
           if @diff_c_support
             # Line 22 removed
-            assert_select 'th.line-num:contains(22) ~ td.diff_out', :text => /def remove/
+            assert_select 'th.line-num[data-txt=22] ~ td.diff_out', :text => /def remove/
             assert_select 'h2', :text => /4:def6d2f1254a/
           end
         end
@@ -492,7 +492,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
 
       # Line 22, revision 4:def6d2f1254a
       assert_select 'tr' do
-        assert_select 'th.line-num', :text => '22'
+        assert_select 'th.line-num a[data-txt=?]', '22'
         assert_select 'td.revision', :text => '4:def6d2f1254a'
         assert_select 'td.author', :text => 'jsmith'
         assert_select 'td', :text => /remove_watcher/
@@ -548,7 +548,8 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
           }
         )
         assert_response :success
-        assert_select "th.line-num", :text => '1' do
+        assert_select "th.line-num" do
+          assert_select "a[data-txt=?]", '1'
           assert_select "+ td.revision" do
             assert_select "a", :text => '20:709858aafd1b'
             assert_select "+ td.author", :text => "jsmith" do

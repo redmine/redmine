@@ -4,11 +4,13 @@
 <% line_num = 1 %>
 <% syntax_highlight_lines(filename, Redmine::CodesetUtil.to_utf8_by_setting(content)).each do |line| %>
   <tr id="L<%= line_num %>">
-    <th class="line-num">
-      <a href="#L<%= line_num %>"><%= line_num %></a>
-    </th>
+    <th class="line-num"><a href="#L<%= line_num %>" data-txt="<%= line_num %>"></a></th>
     <td class="line-code">
-      <pre><%= line.html_safe %></pre>
+      <% if line == "\n" or line == "\r\n" %>
+      <br>
+      <% else %>
+      <div><%= line.html_safe %></div>
+      <% end %>
     </td>
   </tr>
   <% line_num += 1 %>

@@ -181,7 +181,7 @@ class RepositoriesBazaarControllerTest < Redmine::RepositoryControllerTest
         )
         assert_response :success
         # Line 11 removed
-        assert_select 'th.line-num:contains(11) ~ td.diff_out', :text => /Display more information/
+        assert_select 'th.line-num[data-txt=11] ~ td.diff_out', :text => /Display more information/
       end
     end
 
@@ -196,7 +196,8 @@ class RepositoriesBazaarControllerTest < Redmine::RepositoryControllerTest
       )
       assert_response :success
 
-      assert_select "th.line-num", :text => '2' do
+      assert_select "th.line-num" do
+        assert_select 'a[data-txt=?]', '2'
         assert_select "+ td.revision" do
           assert_select "a", :text => '3'
           assert_select "+ td.author", :text => "jsmith@" do
@@ -226,7 +227,8 @@ class RepositoriesBazaarControllerTest < Redmine::RepositoryControllerTest
       )
       assert_response :success
 
-      assert_select "th.line-num", :text => '1' do
+      assert_select "th.line-num" do
+        assert_select "a[data-txt=?]", '1'
         assert_select "+ td.revision" do
           assert_select "a", :text => '2'
           assert_select "+ td.author", :text => "test &" do
@@ -262,7 +264,8 @@ class RepositoriesBazaarControllerTest < Redmine::RepositoryControllerTest
         )
         assert_response :success
 
-        assert_select "th.line-num", :text => '1' do
+        assert_select "th.line-num" do
+          assert_select 'a[data-txt=?]', '1'
           assert_select "+ td.revision" do
             assert_select "a", :text => '2'
             assert_select "+ td.author", :text => "test Ü" do

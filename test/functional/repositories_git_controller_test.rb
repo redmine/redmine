@@ -378,7 +378,7 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
         )
         assert_response :success
         # Line 22 removed
-        assert_select 'th.line-num:contains(22) ~ td.diff_out', :text => /def remove/
+        assert_select 'th.line-num[data-txt=22] ~ td.diff_out', :text => /def remove/
         assert_select 'h2', :text => /2f9c0091/
       end
     end
@@ -403,7 +403,7 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
           )
           assert_response :success
           # Line 22 removed
-          assert_select 'th.line-num:contains(22) ~ td.diff_out', :text => /def remove/
+          assert_select 'th.line-num[data-txt=22] ~ td.diff_out', :text => /def remove/
           assert_select 'h2', :text => /2f9c0091/
         end
       end
@@ -589,7 +589,7 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
 
       # Line 23, changeset 2f9c0091
       assert_select 'tr' do
-        assert_select 'th.line-num', :text => '23'
+        assert_select 'th.line-num a[data-txt=?]', '23'
         assert_select 'td.revision', :text => /2f9c0091/
         assert_select 'td.author', :text => 'jsmith'
         assert_select 'td', :text => /remove_watcher/
@@ -673,7 +673,8 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
                 :rev => r1
               }
             )
-            assert_select "th.line-num", :text => '1' do
+            assert_select "th.line-num" do
+              assert_select "a[data-txt=?]", '1'
               assert_select "+ td.revision" do
                 assert_select "a", :text => '57ca437c'
                 assert_select "+ td.author", :text => "jsmith" do
@@ -698,7 +699,8 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
             :rev => r1
           }
         )
-        assert_select "th.line-num", :text => '1' do
+        assert_select "th.line-num" do
+          assert_select "a[data-txt=?]", '1'
           assert_select "+ td.revision" do
             assert_select "a", :text => '83ca5fd5'
             assert_select "+ td.author", :text => "Felix Schäfer" do
