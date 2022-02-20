@@ -119,6 +119,17 @@ class Redmine::ApiTest::WikiPagesTest < Redmine::ApiTest::Base
     assert_equal 'jsmith', page.content.author.login
   end
 
+  test "GET /projects/:project_id/wiki/:title/:version.xml should not includ author if not exists" do
+    WikiContentVersion.find_by_id(2).update(author_id: nil)
+
+    get '/projects/ecookbook/wiki/CookBook_documentation/2.xml'
+    assert_response 200
+    assert_equal 'application/xml', response.media_type
+    assert_select 'wiki_page' do
+      assert_select 'author', 0
+    end
+  end
+
   test "PUT /projects/:project_id/wiki/:title.xml with current versino should update wiki page" do
     assert_no_difference 'WikiPage.count' do
       assert_difference 'WikiContent::Version.count' do
