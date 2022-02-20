@@ -4,6 +4,36 @@ Redmine - project management software
 Copyright (C) 2006-2021  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2022-02-20 v4.1.6
+
+=== [Gantt]
+
+* Defect #35027: Gantt PNG export ignores imagemagick_convert_command
+
+=== [Gems support]
+
+* Defect #35435: Psych 4: aliases in database.yml cause Psych::BadAlias exception
+* Defect #36226: Psych 4: Psych::DisallowedClass exception when unserializing a setting value
+
+=== [Issues]
+
+* Defect #36455: Text custom field values are not aligned with their labels when text formatting is enabled
+
+=== [Rails support]
+
+* Patch #36633: Update Rails to 5.2.6.2
+
+=== [UI]
+
+* Defect #35090: Permission check of the setting button on the issues page mismatches button semantics
+* Defect #36363: Cannot select text in a table with a context menu available
+* Patch #36378: Update copyright year in the footer to 2022
+
+=== [Wiki]
+
+* Defect #36494: WikiContentVersion API returns 500 if author is nil
+* Defect #36561: Wiki revision page does not return 404 if revision does not exist
+
 == 2021-10-10 v4.1.5
 
 === [Administration]
