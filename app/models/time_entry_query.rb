@@ -88,7 +88,7 @@ class TimeEntryQuery < Query
     activities = (project ? project.activities : TimeEntryActivity.shared)
     add_available_filter(
       "activity_id",
-      :type => :list, :values => activities.map {|a| [a.name, a.id.to_s]}
+      :type => :list, :values => activities.map {|a| [a.name, (a.parent_id || a.id).to_s]}
     )
     add_available_filter(
       "project.status",
