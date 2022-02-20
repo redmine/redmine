@@ -155,11 +155,7 @@ class WikiPage < ActiveRecord::Base
   end
 
   def content_for_version(version=nil)
-    if content
-      result = content.versions.find_by_version(version.to_i) if version
-      result ||= content
-      result
-    end
+    (content && version) ? content.versions.find_by_version(version.to_i) : content
   end
 
   def diff(version_to=nil, version_from=nil)

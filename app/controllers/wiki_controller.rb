@@ -89,7 +89,7 @@ class WikiController < ApplicationController
     end
     @content = @page.content_for_version(params[:version])
     if @content.nil?
-      if User.current.allowed_to?(:edit_wiki_pages, @project) && editable? && !api_request?
+      if params[:version].blank? && User.current.allowed_to?(:edit_wiki_pages, @project) && editable? && !api_request?
         edit
         render :action => 'edit'
       else

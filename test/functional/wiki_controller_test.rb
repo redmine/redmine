@@ -160,6 +160,12 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_select 'select[name=?] option[value="2"][selected=selected]', 'wiki_page[parent_id]'
   end
 
+  def test_show_unexistent_version_page
+    @request.session[:user_id] = 2
+    get :show, :params => {:project_id => 1, :id => 'CookBook_documentation', :version => 100}
+    assert_response 404
+  end
+
   def test_show_should_not_show_history_without_permission
     Role.anonymous.remove_permission! :view_wiki_edits
     get :show, :params => {:project_id => 1, :id => 'Page with sections', :version => 2}
