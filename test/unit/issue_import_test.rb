@@ -273,6 +273,28 @@ class IssueImportTest < ActiveSupport::TestCase
     assert_equal Date.new(2020, 2, 3), third.due_date
   end
 
+  def test_import_with_relations_and_invalid_issue_should_not_fail
+    import = generate_import_with_mapping('import_issues_with_relation_and_invalid_issues.csv')
+    import.settings['mapping'] = {
+      'project_id' => '1',
+
+      'tracker'          => '1',
+      'subject'          => '2',
+      'status'           => '3',
+      'relation_relates' => '4',
+    }
+    import.save!
+
+    first, second, third, fourth = new_records(Issue, 4) {import.run}
+
+    assert_equal 1, import.unsaved_items.count
+    item = import.unsaved_items.first
+    assert_include "Subject cannot be blank", item.message
+
+    assert_equal 1, first.relations_from.count
+    assert_equal 1, second.relations_to.count
+  end
+
   def test_assignee_should_be_set
     import = generate_import_with_mapping
     import.mapping['assigned_to'] = '11'

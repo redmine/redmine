@@ -286,7 +286,11 @@ class IssueImport < Import
 
           relation.delay = decl[:delay] if decl[:delay]
 
-          relation.save!
+          begin
+            relation.save!
+          rescue
+            nil
+          end
         end
       end
     end
