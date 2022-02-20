@@ -1465,7 +1465,6 @@
   label_subtask: 子任務
   label_default_query: 預設查詢
   field_default_project_query: 預設專案查詢
-  label_required_administrators: required for administrators
-  twofa_hint_required_administrators_html: Setting <strong>%{label}</strong> behaves
-    like optional, but will require all users with administration rights to set up two-factor
-    authentication at their next login.
+  label_required_administrators: 管理員必要項
+  twofa_hint_required_administrators_html: 設定為 <strong>%{label}</strong> 的行為方式類似於 <strong>選用項</strong> 設定,
+    但此設定會要求具有管理員權限的用戶, 在他們下次登入系統的時候, 必須設置雙因素驗證.
