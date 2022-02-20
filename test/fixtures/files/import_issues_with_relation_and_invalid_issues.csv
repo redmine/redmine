@@ -1,0 +1,6 @@
+row;tracker;subject;status;related to;
+1;Feature request;Issue 1;New;;
+2;Feature request;Issue 2;New;1;
+3;Feature request;;New;;This issue failes to import
+4;Feature request;Issue 4;New;3;This import failes to reate the relationsip - import hangs
+5;Feature request;Issue 5;New;;
