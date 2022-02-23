@@ -24,6 +24,9 @@ class WikiContent < ActiveRecord::Base
   belongs_to :page, :class_name => 'WikiPage'
   belongs_to :author, :class_name => 'User'
   has_many :versions, :class_name => 'WikiContentVersion', :dependent => :delete_all
+
+  acts_as_mentionable :attributes => ['text']
+
   validates_presence_of :text
   validates_length_of :comments, :maximum => 1024, :allow_nil => true
 

@@ -236,4 +236,12 @@ class JournalTest < ActiveSupport::TestCase
       assert_equal "image#{i}.png", attachment.filename
     end
   end
+
+  def test_notified_mentions_should_not_include_users_who_cannot_view_private_notes
+    journal = Journal.generate!(journalized: Issue.find(2), user: User.find(1), private_notes: true, notes: 'Hello @dlopper, @jsmith and @admin.')
+
+    # User "dlopper" has "Developer" role on project "eCookbook"
+    # Role "Developer" does not have the "View private notes" permission
+    assert_equal [1, 2], journal.notified_mentions.map(&:id)
+  end
 end

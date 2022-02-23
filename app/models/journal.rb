@@ -58,6 +58,7 @@ class Journal < ActiveRecord::Base
                   " (#{JournalDetail.table_name}.prop_key = 'status_id' OR #{Journal.table_name}.notes <> '')").distinct
       end
   )
+  acts_as_mentionable :attributes => ['notes']
   before_create :split_private_notes
   after_create_commit :send_notification
 
@@ -172,10 +173,12 @@ class Journal < ActiveRecord::Base
 
   def notified_watchers
     notified = journalized.notified_watchers
-    if private_notes?
-      notified = notified.select {|user| user.allowed_to?(:view_private_notes, journalized.project)}
-    end
-    notified
+    select_journal_visible_user(notified)
+  end
+
+  def notified_mentions
+    notified = super
+    select_journal_visible_user(notified)
   end
 
   def watcher_recipients
@@ -336,5 +339,12 @@ class Journal < ActiveRecord::Base
         )
       Mailer.deliver_issue_edit(self)
     end
+  end
+
+  def select_journal_visible_user(notified)
+    if private_notes?
+      notified = notified.select {|user| user.allowed_to?(:view_private_notes, journalized.project)}
+    end
+    notified
   end
 end

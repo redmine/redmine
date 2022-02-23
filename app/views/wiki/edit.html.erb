@@ -64,6 +64,10 @@
   <%= link_to l(:button_cancel), wiki_page_edit_cancel_path(@page) %>
  </p>
 <%= wikitoolbar_for 'content_text', preview_project_wiki_page_path(:project_id => @project, :id => @page.title) %>
+
+<% if User.current.allowed_to?(:add_wiki_page_watchers, @project)%>
+  <%= update_data_sources_for_auto_complete({users: watchers_autocomplete_for_mention_path(project_id: @project, q: '', object_type: 'wiki_page', object_id: @page.id)}) %>
+  <% end %>
 <% end %>
 
 <% content_for :header_tags do %>

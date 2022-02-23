@@ -94,7 +94,7 @@ class Mailer < ActionMailer::Base
   # Example:
   #   Mailer.deliver_issue_add(issue)
   def self.deliver_issue_add(issue)
-    users = issue.notified_users | issue.notified_watchers
+    users = issue.notified_users | issue.notified_watchers | issue.notified_mentions
     users.each do |user|
       issue_add(user, issue).deliver_later
     end
@@ -129,7 +129,7 @@ class Mailer < ActionMailer::Base
   # Example:
   #   Mailer.deliver_issue_edit(journal)
   def self.deliver_issue_edit(journal)
-    users  = journal.notified_users | journal.notified_watchers
+    users  = journal.notified_users | journal.notified_watchers | journal.notified_mentions | journal.journalized.notified_mentions
     users.select! do |user|
       journal.notes? || journal.visible_details(user).any?
     end
@@ -306,7 +306,7 @@ class Mailer < ActionMailer::Base
   # Example:
   #   Mailer.deliver_wiki_content_added(wiki_content)
   def self.deliver_wiki_content_added(wiki_content)
-    users = wiki_content.notified_users | wiki_content.page.wiki.notified_watchers
+    users = wiki_content.notified_users | wiki_content.page.wiki.notified_watchers | wiki_content.notified_mentions
     users.each do |user|
       wiki_content_added(user, wiki_content).deliver_later
     end
@@ -343,6 +343,7 @@ class Mailer < ActionMailer::Base
     users  = wiki_content.notified_users
     users |= wiki_content.page.notified_watchers
     users |= wiki_content.page.wiki.notified_watchers
+    users |= wiki_content.notified_mentions
 
     users.each do |user|
       wiki_content_updated(user, wiki_content).deliver_later

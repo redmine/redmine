@@ -1127,9 +1127,13 @@ function inlineAutoComplete(element) {
     if (element.dataset.tribute === 'true') {return};
 
     const getDataSource = function(entity) {
-      const dataSources = JSON.parse(rm.AutoComplete.dataSources);
+      const dataSources = rm.AutoComplete.dataSources;
 
-      return dataSources[entity];
+      if (dataSources[entity]) {
+        return dataSources[entity];
+      } else {
+        return false;
+      }
     }
 
     const remoteSearch = function(url, cb) {
@@ -1186,6 +1190,26 @@ function inlineAutoComplete(element) {
           },
           menuItemTemplate: function (wikiPage) {
             return sanitizeHTML(wikiPage.original.label);
+          }
+        },
+        {
+          trigger: '@',
+          lookup: function (user, mentionText) {
+            return user.name + user.firstname + user.lastname + user.login;
+          },
+          values: function (text, cb) {
+            const url = getDataSource('users');
+            if (url) {
+              remoteSearch(url + text, function (users) {
+                return cb(users);
+              });
+            }
+          },
+          menuItemTemplate: function (user) {
+            return user.original.name;
+          },
+          selectTemplate: function (user) {
+            return '@' + user.original.login;
           }
         }
       ],

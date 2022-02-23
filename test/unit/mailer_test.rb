@@ -464,6 +464,19 @@ class MailerTest < ActiveSupport::TestCase
     assert_not_include user.mail, recipients
   end
 
+  def test_issue_add_should_notify_mentioned_users_in_issue_description
+    User.find(1).mail_notification = 'only_my_events'
+
+    issue = Issue.generate!(project_id: 1, description: 'Hello @dlopper and @admin.')
+
+    assert Mailer.deliver_issue_add(issue)
+    # @jsmith and @dlopper are members of the project
+    # admin is mentioned
+    # @dlopper won't receive duplicated notifications
+    assert_equal 3, ActionMailer::Base.deliveries.size
+    assert_include User.find(1).mail, recipients
+  end
+
   def test_issue_add_should_include_enabled_fields
     issue = Issue.find(2)
     assert Mailer.deliver_issue_add(issue)
@@ -608,6 +621,39 @@ class MailerTest < ActiveSupport::TestCase
     end
   end
 
+  def test_issue_edit_should_notify_mentioned_users_in_issue_updated_description
+    User.find(1).mail_notification = 'only_my_events'
+
+    issue = Issue.find(3)
+    issue.init_journal(User.current)
+    issue.update(description: "Hello @admin")
+    journal = issue.journals.last
+
+    ActionMailer::Base.deliveries.clear
+    Mailer.deliver_issue_edit(journal)
+
+    # @jsmith and @dlopper are members of the project
+    # admin is mentioned in the updated description
+    # @dlopper won't receive duplicated notifications
+    assert_equal 3, ActionMailer::Base.deliveries.size
+    assert_include User.find(1).mail, recipients
+  end
+
+  def test_issue_edit_should_notify_mentioned_users_in_notes
+    User.find(1).mail_notification = 'only_my_events'
+
+    journal = Journal.generate!(journalized: Issue.find(3), user: User.find(1), notes: 'Hello @admin.')
+
+    ActionMailer::Base.deliveries.clear
+    Mailer.deliver_issue_edit(journal)
+
+    # @jsmith and @dlopper are members of the project
+    # admin is mentioned in the notes
+    # @dlopper won't receive duplicated notifications
+    assert_equal 3, ActionMailer::Base.deliveries.size
+    assert_include User.find(1).mail, recipients
+  end
+
   def test_issue_should_send_email_notification_with_suppress_empty_fields
     ActionMailer::Base.deliveries.clear
     with_settings :notified_events => %w(issue_added) do
@@ -703,6 +749,20 @@ class MailerTest < ActiveSupport::TestCase
     end
   end
 
+  def test_wiki_content_added_should_notify_mentioned_users_in_content
+    content = WikiContent.new(text: 'Hello @admin.', author_id: 1, page_id: 1)
+    content.save!
+
+    ActionMailer::Base.deliveries.clear
+    Mailer.deliver_wiki_content_added(content)
+
+    # @jsmith and @dlopper are members of the project
+    # admin is mentioned in the notes
+    # @dlopper won't receive duplicated notifications
+    assert_equal 3, ActionMailer::Base.deliveries.size
+    assert_include User.find(1).mail, recipients
+  end
+
   def test_wiki_content_updated
     content = WikiContent.find(1)
     assert Mailer.deliver_wiki_content_updated(content)
@@ -711,6 +771,21 @@ class MailerTest < ActiveSupport::TestCase
                     'http://localhost:3000/projects/ecookbook/wiki/CookBook_documentation',
                     :text => 'CookBook documentation'
     end
+  end
+
+  def test_wiki_content_updated_should_notify_mentioned_users_in_updated_content
+    content = WikiContent.find(1)
+    content.update(text: 'Hello @admin.')
+    content.save!
+
+    ActionMailer::Base.deliveries.clear
+    Mailer.deliver_wiki_content_updated(content)
+
+    # @jsmith and @dlopper are members of the project
+    # admin is mentioned in the notes
+    # @dlopper won't receive duplicated notifications
+    assert_equal 3, ActionMailer::Base.deliveries.size
+    assert_include User.find(1).mail, recipients
   end
 
   def test_register

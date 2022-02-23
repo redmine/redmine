@@ -1819,19 +1819,20 @@ module ApplicationHelper
     end
   end
 
-  def autocomplete_data_sources(project)
-    {
-      issues: auto_complete_issues_path(:project_id => project, :q => ''),
-      wiki_pages: auto_complete_wiki_pages_path(:project_id => project, :q => '')
-    }
-  end
-
   def heads_for_auto_complete(project)
     data_sources = autocomplete_data_sources(project)
     javascript_tag(
       "rm = window.rm || {};" \
       "rm.AutoComplete = rm.AutoComplete || {};" \
-      "rm.AutoComplete.dataSources = '#{data_sources.to_json}';"
+      "rm.AutoComplete.dataSources = JSON.parse('#{data_sources.to_json}');"
+    )
+  end
+
+  def update_data_sources_for_auto_complete(data_sources)
+    javascript_tag(
+      "const currentDataSources = rm.AutoComplete.dataSources;" \
+      "const newDataSources = JSON.parse('#{data_sources.to_json}'); " \
+      "rm.AutoComplete.dataSources = Object.assign(currentDataSources, newDataSources);"
     )
   end
 
@@ -1865,5 +1866,12 @@ module ApplicationHelper
   def remove_double_quotes(identifier)
     name = identifier.gsub(%r{^"(.*)"$}, "\\1")
     return CGI.unescapeHTML(name)
+  end
+
+  def autocomplete_data_sources(project)
+    {
+      issues: auto_complete_issues_path(project_id: project, q: ''),
+      wiki_pages: auto_complete_wiki_pages_path(project_id: project, q: ''),
+    }
   end
 end
