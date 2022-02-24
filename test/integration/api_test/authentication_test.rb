@@ -48,6 +48,15 @@ class Redmine::ApiTest::AuthenticationTest < Redmine::ApiTest::Base
     assert_response 401
   end
 
+  def test_api_should_deny_http_basic_auth_if_twofa_is_active
+    user = User.generate! do |user|
+      user.password = 'my_password'
+      user.update(twofa_scheme: 'totp')
+    end
+    get '/users/current.xml', :headers => credentials(user.login, 'my_password')
+    assert_response 401
+  end
+
   def test_api_should_accept_http_basic_auth_using_api_key
     user = User.generate!
     token = Token.create!(:user => user, :action => 'api')

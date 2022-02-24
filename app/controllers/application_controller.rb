@@ -132,7 +132,14 @@ class ApplicationController < ActionController::Base
       elsif /\ABasic /i.match?(request.authorization.to_s)
         # HTTP Basic, either username/password or API key/random
         authenticate_with_http_basic do |username, password|
-          user = User.try_to_login(username, password) || User.find_by_api_key(username)
+          user = User.try_to_login(username, password)
+          # Don't allow using username/password when two-factor auth is active
+          if user&.twofa_active?
+            render_error :message => 'HTTP Basic authentication is not allowed. Use API key instead', :status => 401
+            return
+          end
+
+          user ||= User.find_by_api_key(username)
         end
         if user && user.must_change_password?
           render_error :message => 'You must change your password', :status => 403
