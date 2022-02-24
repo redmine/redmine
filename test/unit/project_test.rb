@@ -233,6 +233,12 @@ class ProjectTest < ActiveSupport::TestCase
     # some boards
     assert @ecookbook.boards.any?
 
+    # generate some dependent objects
+    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => @ecookbook})
+    assert overridden_activity.save!
+
+    query = IssueQuery.generate!(:project => @ecookbook, :visibility => Query::VISIBILITY_ROLES, :roles => Role.where(:id => [1, 3]).to_a)
+
     @ecookbook.destroy
     # make sure that the project non longer exists
     assert_raise(ActiveRecord::RecordNotFound) {Project.find(@ecookbook.id)}
@@ -240,6 +246,10 @@ class ProjectTest < ActiveSupport::TestCase
     assert_not Member.where(:project_id => @ecookbook.id).exists?
     assert_not Board.where(:project_id => @ecookbook.id).exists?
     assert_not Issue.where(:project_id => @ecookbook.id).exists?
+    assert_not Enumeration.where(:project_id => @ecookbook.id).exists?
+
+    assert_not Query.where(:project_id => @ecookbook.id).exists?
+    assert_nil ActiveRecord::Base.connection.select_value("SELECT 1 FROM queries_roles WHERE query_id = #{query.id}")
   end
 
   def test_destroy_should_destroy_subtasks
