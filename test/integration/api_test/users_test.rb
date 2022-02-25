@@ -184,8 +184,13 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
   end
 
   test "GET /users/:id should not return twofa_scheme for standard user" do
-    User.find(2).update(twofa_scheme: 'totp')
-    get '/users/3.xml', :headers => credentials('jsmith')
+    # User and password authentication is disabled when twofa is enabled
+    # Use token authentication
+    user = User.find(2)
+    token = Token.create!(:user => user, :action => 'api')
+    user.update(twofa_scheme: 'totp')
+
+    get '/users/3.xml', :headers => credentials(token.value, 'X')
     assert_response :success
     assert_select 'twofa_scheme', 0
   end
