@@ -9,7 +9,7 @@ gem 'rouge', '~> 3.28.0'
 gem 'request_store', '~> 1.5.0'
 gem 'mini_mime', '~> 1.1.0'
 gem "actionpack-xml_parser"
-gem 'roadie-rails', (Gem.ruby_version < Gem::Version.new('2.6.0') ? '~> 2.2.0' : '~> 2.3.0')
+gem 'roadie-rails', (Gem.ruby_version < Gem::Version.new('2.6.0') ? '~> 2.2.0' : '~> 3.0.0')
 gem 'marcel'
 gem "mail", "~> 2.7.1"
 gem 'csv', '~> 3.2.0'
