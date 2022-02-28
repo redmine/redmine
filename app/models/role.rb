@@ -68,6 +68,8 @@ class Role < ActiveRecord::Base
     :join_table => "#{table_name_prefix}roles_managed_roles#{table_name_suffix}",
     :association_foreign_key => "managed_role_id"
 
+  has_and_belongs_to_many :queries, :join_table => "#{table_name_prefix}queries_roles#{table_name_suffix}", :foreign_key => "role_id"
+
   has_many :member_roles, :dependent => :destroy
   has_many :members, :through => :member_roles
   acts_as_positioned :scope => :builtin
