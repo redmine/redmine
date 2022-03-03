@@ -7954,7 +7954,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
     copy = Issue.order(:id => :desc).first
     assert_equal 2, copy.watchers.count
-    assert_equal [3, 10], copy.watcher_user_ids
+    assert_equal [3, 10], copy.watcher_user_ids.sort
   end
 
   def test_bulk_copy_should_not_copy_selected_subtasks_twice
