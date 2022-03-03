@@ -41,21 +41,24 @@
       chartData.datasets[i].borderWidth = 1;
     }
     new Chart($(canvas_id), {
-      type: 'horizontalBar',
+      type: 'bar',
       data: chartData,
       options: {
+        indexAxis: 'y',
         elements: {
-          rectangle: {borderWidth: 2}
+          bar: {borderWidth: 2}
         },
         responsive: true,
-        legend: {position: 'right'},
-        title: {
-          display: true,
-          text: title
+        plugins: {
+          legend: {position: 'right'},
+          title: {
+            display: true,
+            text: title
+          }
         },
         scales: {
-          yAxes: [{ stacked: true }],
-          xAxes: [{ stacked: true }]
+          yAxis: {stacked: true},
+          xAxis: {stacked: true}
         }
       }
     });
@@ -74,6 +77,6 @@
   });
 <% end %>
 <% content_for :header_tags do %>
-  <%= javascript_include_tag "Chart.bundle.min" %>
+  <%= javascript_include_tag "chart.min" %>
 <% end %>
 <% end %>
