@@ -30,7 +30,7 @@ class MemberRole < ActiveRecord::Base
   validate :validate_role_member
 
   def validate_role_member
-    errors.add :role_id, :invalid if role && !role.member?
+    errors.add :role_id, :invalid unless role&.member?
   end
 
   def inherited?
@@ -58,22 +58,22 @@ class MemberRole < ActiveRecord::Base
   end
 
   def add_role_to_group_users
-    if member.principal.is_a?(Group) && !inherited?
-      member.principal.users.each do |user|
-        user_member = Member.find_or_new(member.project_id, user.id)
-        user_member.member_roles << MemberRole.new(:role => role, :inherited_from => id)
-        user_member.save!
-      end
+    return if inherited? || !member.principal.is_a?(Group)
+
+    member.principal.users.ids.each do |user_id|
+      user_member = Member.find_or_initialize_by(:project_id => member.project_id, :user_id => user_id)
+      user_member.member_roles << MemberRole.new(:role_id => role_id, :inherited_from => id)
+      user_member.save!
     end
   end
 
   def add_role_to_subprojects
-    member.project.children.each do |subproject|
-      if subproject.inherit_members?
-        child_member = Member.find_or_new(subproject.id, member.user_id)
-        child_member.member_roles << MemberRole.new(:role => role, :inherited_from => id)
-        child_member.save!
-      end
+    return if member.project.leaf?
+
+    member.project.children.where(:inherit_members => true).ids.each do |subproject_id|
+      child_member = Member.find_or_initialize_by(:project_id => subproject_id, :user_id => member.user_id)
+      child_member.member_roles << MemberRole.new(:role => role, :inherited_from => id)
+      child_member.save!
     end
   end
 
