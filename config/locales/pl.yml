@@ -189,7 +189,6 @@ pl:
   notice_failed_to_save_issues: "Błąd podczas zapisu zagadnień dla %{count} z %{total} zaznaczonych: %{ids}."
   notice_failed_to_save_time_entries: "Błąd podczas zapisu wpisów z dziennika dla %{count} z %{total} zaznaczonych: %{ids}."
   notice_failed_to_save_members: "Nie można zapisać uczestników: %{errors}."
-  notice_no_issue_selected: "Nie wybrano zagadnienia! Zaznacz zagadnienie, które chcesz edytować."
   notice_account_pending: "Twoje konto zostało utworzone i oczekuje na zatwierdzenie przez administratora."
   notice_default_data_loaded: "Domyślna konfiguracja została pomyślnie załadowana."
   notice_unable_delete_version: "Nie można usunąć wersji."
@@ -206,6 +205,7 @@ pl:
   notice_issue_not_closable_by_open_tasks: "To zagadnienie nie może zostać zamknięte, ponieważ ma przynajmniej jedno otwarte podzagadnienie."
   notice_issue_not_closable_by_blocking_issue: "To zagadnienie nie może zostać zamknięte, ponieważ jest blokowane przez przynajmniej jedno otwarte zagadnienie."
   notice_issue_not_reopenable_by_closed_parent_issue: "To zagadnienie nie może zostać ponownie otwarte, ponieważ zagadnienie nadrzędne jest zamknięte."
+  notice_invalid_watcher: "Nieprawidłowy obserwator: Użytkownik nie otrzyma żadnych powiadomień, ponieważ nie posiada dostępu do tego obiektu."
 
   error_can_t_load_default_data: "Domyślna konfiguracja nie może być załadowana: %{value}"
   error_scm_not_found: Obiekt lub wersja nie zostały znalezione w repozytorium.
@@ -233,8 +233,9 @@ pl:
   warning_attachments_not_saved: "%{count} załączników nie zostało zapisanych."
   error_password_expired: Twoje hasło wygasło lub administrator wymaga jego zmiany.
   error_invalid_file_encoding: "Plik nie stosuje kodowania %{encoding}"
-  error_invalid_csv_file_or_settings: Plik nie jest plikiem CSV lub nie pasuje do ustawień poniżej
+  error_invalid_csv_file_or_settings: "Plik nie jest plikiem CSV lub nie pasuje do ustawień poniżej (%{value})"
   error_can_not_read_import_file: Wystąpił błąd podczas czytania pliku do importu
+  error_no_data_in_file: "Ten plik nie zawiera żadnych danych"
   error_attachment_extension_not_allowed: "Rozszerzenie %{extension} nie jest dozwolone dla załączników"
   error_ldap_bind_credentials: Nieprawidłowe konto/hasło LDAP
   error_no_tracker_allowed_for_new_issue_in_project: Ten projekt nie zawiera żadnych typów zagadnień, dla których mógłbyś utworzyć zagadnienie
@@ -246,6 +247,16 @@ pl:
   error_can_not_delete_auth_source: Ten tryb uwierzytelniania jest w użyciu i nie może zostać usunięty.
   error_spent_on_future_date: Nie można zapisać czasu dla daty z przyszłości
   error_not_allowed_to_log_time_for_other_users: Nie jesteś upoważniony do zapisywania czasu dla innych użytkowników
+  error_can_not_execute_macro_html: "Wystąpił błąd podczas wykonywania makra <strong>%{name}</strong> (%{error})"
+  error_macro_does_not_accept_block: "To makro nie akceptuje bloku tekstu"
+  error_childpages_macro_no_argument: "Bez argumentu to makro może być wywołane tylko na stronach wiki"
+  error_circular_inclusion: "Circular inclusion detected"
+  error_page_not_found: "Podana strona nie istnieje"
+  error_filename_required: "Nazwa pliku jest wymagana"
+  error_invalid_size_parameter: "Invalid size parameter"
+  error_attachment_not_found: "Załącznik %{name} nie istnieje"
+  error_invalid_authenticity_token: "Nieprawidłowy token autentyczności formularza."
+  error_query_statement_invalid: "An error occurred while executing the query and has been logged. Please report this error to your Redmine administrator."
 
   mail_subject_lost_password: "Twoje hasło do %{value}"
   mail_body_lost_password: "W celu zmiany swojego hasła użyj poniższego odnośnika:"
@@ -319,17 +330,19 @@ pl:
   field_mail_notification: Powiadomienia e-mail
   field_admin: Administrator
   field_last_login_on: Ostatnie połączenie
+  field_passwd_changed_on: Ostatnia zmiana hasła
   field_language: Język
   field_effective_date: Data
   field_password: Hasło
   field_new_password: Nowe hasło
   field_password_confirmation: Potwierdzenie
+  field_twofa_scheme: Schemat uwierzytelniania dwuskładnikowego
   field_version: Wersja
   field_type: Typ
   field_host: Host
   field_port: Port
   field_account: Konto
-  field_base_dn: Base DN
+  field_base_dn: Bazowe DN
   field_attr_login: Login atrybut
   field_attr_firstname: Imię atrybut
   field_attr_lastname: Nazwisko atrybut
@@ -362,7 +375,6 @@ pl:
   field_parent_title: Strona rodzica
   field_editable: Edytowalne
   field_watcher: Obserwator
-  field_identity_url: Identyfikator OpenID (URL)
   field_content: Treść
   field_group_by: Grupuj wyniki wg
   field_sharing: Współdzielenie
@@ -406,7 +418,10 @@ pl:
   field_recently_used_projects: 'Liczba ostatnich projektów widocznych polu "skocz do projektu"'
   field_history_default_tab: Domyślna zakładka historii zagadnienia
   field_unique_id: Unikalne ID
-  field_toolbar_language_options: Lista języków z podświetlaniem składni dsotępna w toolbarze
+  field_toolbar_language_options: Lista języków z podświetlaniem składni dostępna w toolbarze
+  field_twofa_required: Wymagaj dwyskładnikowego uwierzytelnia
+  field_default_issue_query: Domyślna kwerenda dla listy zagadnień
+  field_default_project_query: Domyślna kwerenda dla listy projektów
 
   setting_app_title: Tytuł aplikacji
   setting_welcome_text: Tekst powitalny
@@ -418,7 +433,6 @@ pl:
   setting_bulk_download_max_size: Maksymalna wielkość załączników podczas masowego pobierania
   setting_issues_export_limit: Limit eksportu zagadnień
   setting_mail_from: Adres wysyłki e-mail
-  setting_bcc_recipients: Odbiorcy kopii tajnej (kt/bcc)
   setting_plain_text_mail: tylko tekst (bez HTML)
   setting_host_name: Nazwa hosta i ścieżka
   setting_text_formatting: Formatowanie tekstu
@@ -457,7 +471,6 @@ pl:
   setting_diff_max_lines_displayed: Maksymalna liczba linii różnic do pokazania
   setting_file_max_size_displayed: Maksymalny rozmiar plików tekstowych osadzanych w stronie
   setting_repository_log_display_limit: Maksymalna liczba rewizji pokazywanych w logu pliku
-  setting_openid: Logowanie i rejestracja przy użyciu OpenID
   setting_password_max_age: Wymagaj zmiany hasła po
   setting_password_min_length: Minimalna długość hasła
   setting_password_required_char_classes: Wymagane rodzaje znaków w haśle
@@ -491,6 +504,8 @@ pl:
   setting_force_default_language_for_loggedin: Wymuś domyślny język dla zalogowanych użytkowników
   setting_link_copied_issue: Powiązywanie zagadnień podczas kopiowania
   setting_max_additional_emails: Maksymalna liczba dodatkowych adresów e-mail
+  setting_email_domains_allowed: Dozwolone domeny adresów e-mail
+  setting_email_domains_denied: Niedozwolone domeny adresów e-mail
   setting_search_results_per_page: Limit wyników wyszukiwania na stronie
   setting_attachment_extensions_allowed: Dozwolone rozszerzenia
   setting_attachment_extensions_denied: Niedozwolone rozszerzenia
@@ -504,11 +519,13 @@ pl:
   setting_timelog_accept_future_dates: Akceptuj wpisy dla dat z przyszłości
   setting_show_status_changes_in_mail_subject: Pokaż zmianę statusu zagadnienia w tytule wiadomości e-mail
   setting_project_list_defaults: Domyślne kolumny wyświetlane na liście projektów
+  setting_twofa: Dwuskładnikowe uwierzytelnienie
 
   permission_add_project: Tworzenie projektu
   permission_add_subprojects: Tworzenie podprojektów
   permission_edit_project: Edycja projektów
   permission_close_project: Zamykanie/otwieranie projektów
+  permission_delete_project: Usuwanie projektów
   permission_select_project_modules: Wybieranie modułów projektu
   permission_manage_members: Zarządzanie uczestnikami
   permission_manage_project_activities: Zarządzanie aktywnościami projektu
@@ -555,6 +572,9 @@ pl:
   permission_view_wiki_edits: Podgląd historii wiki
   permission_edit_wiki_pages: Edycja stron wiki
   permission_delete_wiki_pages_attachments: Usuwanie załączników
+  permission_view_wiki_page_watchers: Podgląd listy obserwatorów stron wiki
+  permission_add_wiki_page_watchers: Dodawanie obserwatorów stron wiki
+  permission_delete_wiki_page_watchers: Usuwanie obserwatorów stron wiki
   permission_protect_wiki_pages: Blokowanie stron wiki
   permission_manage_repository: Zarządzanie repozytorium
   permission_browse_repository: Przeglądanie repozytorium
@@ -567,6 +587,9 @@ pl:
   permission_edit_own_messages: Edycja własnych wiadomości
   permission_delete_messages: Usuwanie wiadomości
   permission_delete_own_messages: Usuwanie własnych wiadomości
+  permission_view_message_watchers: Przeglądanie listy obserwatorów wiadomości
+  permission_add_message_watchers: Dodawanie obserwatorów wiadomości
+  permission_delete_message_watchers: Usuwanie obserwatorów wiadomości
   permission_export_wiki_pages: Eksport stron wiki
   permission_manage_subtasks: Zarządzanie podzagadnieniami
   permission_manage_related_issues: Zarządzanie powiązanymi zagadnieniami
@@ -642,7 +665,6 @@ pl:
   label_information: Informacja
   label_information_plural: Informacje
   label_register: Rejestracja
-  label_login_with_open_id_option: albo użyj OpenID
   label_password_lost: Zapomniane hasło
   label_password_required: Potwierdź hasło aby kontynuować
   label_home: Główna
@@ -692,6 +714,7 @@ pl:
   label_attachment_delete: Usuń plik
   label_attachment_plural: Pliki
   label_file_added: Dodano plik
+  label_attachment_description: Opis pliku
   label_report: Raport
   label_report_plural: Raporty
   label_news: Komunikat
@@ -884,6 +907,7 @@ pl:
   label_copied_from: skopiowane z
   label_stay_logged_in: Pozostań zalogowany
   label_disabled: wyłączone
+  label_optional: opcjonalne
   label_show_completed_versions: Pokaż kompletne wersje
   label_me: ja
   label_board: Forum
@@ -918,6 +942,7 @@ pl:
   label_changeset_plural: Zestawienia zmian
   label_default_columns: Domyślne kolumny
   label_no_change_option: (Bez zmian)
+  label_bulk_edit: Masowa edycja
   label_bulk_edit_selected_issues: Masowa edycja zagadnień
   label_bulk_edit_selected_time_entries: Masowa edycja wpisów dziennika
   label_theme: Motyw
@@ -954,12 +979,15 @@ pl:
   label_incoming_emails: Przychodząca poczta elektroniczna
   label_generate_key: Wygeneruj klucz
   label_issue_watchers: Obserwatorzy
+  label_message_watchers: Obserwatorzy
+  label_wiki_page_watchers: Obserwatorzy
   label_example: Przykład
   label_display: Wygląd
   label_sort: Sortuj
   label_ascending: Rosnąco
   label_descending: Malejąco
   label_date_from_to: "Od %{start} do %{end}"
+  label_days_to_html: "%{days} dni do %{date}"
   label_wiki_content_added: Dodano stronę wiki
   label_wiki_content_updated: Uaktualniono stronę wiki
   label_group: Grupa
@@ -982,6 +1010,7 @@ pl:
   label_missing_api_access_key: Brakuje klucza dostępu do API
   label_api_access_key_created_on: "Klucz dostępu do API został utworzony %{value} temu"
   label_profile: Profil
+  label_subtask: Podzagadnienie
   label_subtask_plural: Podzagadnienia
   label_project_copy_notifications: Wyślij powiadomienia e-mail podczas kopiowania projektu
   label_import_notifications: Wyślij powiadomienia e-mail podczas importu
@@ -1006,6 +1035,8 @@ pl:
   label_fields_permissions: Uprawnienia do pól
   label_readonly: Tylko do odczytu
   label_required: Wymagane
+  label_required_lower: wymagane
+  label_required_administrators: wymagane dla administratorów
   label_hidden: Ukryte
   label_attribute_of_project: "%{name} projektu"
   label_attribute_of_issue: "%{name} zagadnienia"
@@ -1067,6 +1098,7 @@ pl:
   label_quote_char: Cytat
   label_double_quote_char: Podwójny cytat
   label_fields_mapping: Mapowanie pól
+  label_relations_mapping: Mapowanie relacji
   label_file_content_preview: Podgląd treści pliku
   label_create_missing_values: Utwórz brakujące wartości
   label_api: API
@@ -1083,6 +1115,10 @@ pl:
   label_optgroup_others: Inne projekty
   label_optgroup_recents: Ostatnio używane
   label_last_notes: Ostatnie notatki
+  label_default_queries:
+    for_all_projects: Dla wszystkich projektów
+    for_current_project: Dla obecnego projektu
+    for_all_users: Dla wszystkich użytkowników
   label_nothing_to_preview: Nie ma nic do podglądu
   label_inherited_from_parent_project: Dziedziczone z nadrzędnego projektu
   label_inherited_from_group: "Dziedziczone z grupy %{name}"
@@ -1102,6 +1138,7 @@ pl:
   label_display_type_board: Tablica
   label_my_bookmarks: Moje zakładki
   label_assign_to_me: Przypisz do mnie
+  label_default_query: Domyślna kwerenda
 
   button_login: Zaloguj się
   button_submit: Wyślij
@@ -1130,6 +1167,7 @@ pl:
   button_back: Wstecz
   button_cancel: Anuluj
   button_activate: Aktywuj
+  button_disable: Dezaktywuj
   button_sort: Sortuj
   button_log_time: Dziennik
   button_rollback: Przywróć do tej wersji
@@ -1143,7 +1181,9 @@ pl:
   button_change_password: Zmień hasło
   button_copy: Kopia
   button_copy_and_follow: Kopiuj i przejdź
+  button_copy_link: Kopiuj link
   button_annotate: Adnotuj
+  button_fetch_changesets: Pobierz zmiany
   button_update: Uaktualnij
   button_configure: Konfiguruj
   button_quote: Cytuj
@@ -1159,6 +1199,11 @@ pl:
   button_project_bookmark_delete: Usuń zakładkę
   button_filter: Filtruj
   button_actions: Akcje
+  button_add_subtask: Dodaj podzagadnienie
+  button_save_object: "Zapisz %{object_name}"
+  button_edit_object: "Edytuj %{object_name}"
+  button_delete_object: "Usuń %{object_name}"
+  button_create_and_follow: Utwórz i przejdź
 
   status_active: aktywny
   status_registered: zarejestrowany
@@ -1176,8 +1221,7 @@ pl:
 
   text_select_mail_notifications: Wybierz akcje, dla których powinno być wysłane powiadomienie e-mail.
   text_regexp_info: "np. ^[A-Z0-9]+$"
-  text_min_max_length_info: 0 oznacza brak restrykcji
-  text_project_destroy_confirmation: Jesteś pewien, że chcesz usunąć ten projekt i wszystkie powiązane dane?
+  text_project_destroy_confirmation: Czy jesteś pewien, że chcesz usunąć ten projekt i wszystkie powiązane dane?
   text_subprojects_destroy_warning: "Podprojekty %{value} zostaną także usunięte."
   text_workflow_edit: Zaznacz rolę i typ zagadnienia do edycji przepływu pracy
   text_are_you_sure: Jesteś pewien?
@@ -1203,7 +1247,7 @@ pl:
   text_issues_ref_in_commit_messages: Odwołania do zagadnień Redmine w komentarzach w repozytorium
   text_issue_added: "Zagadnienie %{id} zostało wprowadzone przez %{author}."
   text_issue_updated: "Zagadnienie %{id} zostało zaktualizowane przez %{author}."
-  text_wiki_destroy_confirmation: "Jesteś pewien, że chcesz usunąć tę wiki i całą jej zawartość?"
+  text_wiki_destroy_confirmation: "Czy jesteś pewien, że chcesz usunąć tę wiki i całą jej zawartość?"
   text_issue_category_destroy_question: "Do tej kategorii są przypisane zagadnienia (%{count}). Co chcesz zrobić?"
   text_issue_category_destroy_assignments: Usuń przydziały kategorii
   text_issue_category_reassign_to: Przydziel zagadnienia do tej kategorii
@@ -1214,13 +1258,14 @@ pl:
   text_time_logged_by_changeset: "Zastosowane w zmianach %{value}."
   text_issues_destroy_confirmation: "Czy jesteś pewien, że chcesz usunąć wybrane zagadnienia?"
   text_issues_destroy_descendants_confirmation: "To spowoduje usunięcie również %{count} podzagadnień."
-  text_time_entries_destroy_confirmation: "Czy na pewno chcesz usunąć wybrane wpisy dziennika?"
+  text_time_entries_destroy_confirmation: "Czy jesteś pewien, że chcesz usunąć wybrane wpisy dziennika?"
   text_select_project_modules: 'Wybierz moduły do aktywacji w tym projekcie:'
   text_default_administrator_account_changed: Zmieniono domyślne hasło administratora
   text_file_repository_writable: Zapisywalny katalog plików
   text_plugin_assets_writable: Zapisywalny katalog zasobów wtyczek
-  text_minimagick_available: MiniMagick dostępne (opcjonalnie)
-  text_convert_available: Konwersja przez ImageMagick dostępna (optional)
+  text_all_migrations_have_been_run: Wszystkie migracje bazy danych zostały wykonane
+  text_minimagick_available: MiniMagick dostępne (opcjonalne)
+  text_convert_available: Konwersja przez ImageMagick dostępna (opcjonalne)
   text_gs_available: Wsparcie dla PDF przez ImageMagick dostępne (opcjonalne)
   text_destroy_time_entries_question: "Przepracowano %{hours} godzin przy zagadnieniu, które chcesz usunąć. Co chcesz zrobić?"
   text_destroy_time_entries: Usuń wpisy dziennika
@@ -1238,7 +1283,7 @@ pl:
   text_wiki_page_nullify_children: Przesuń je na szczyt hierarchii
   text_wiki_page_destroy_children: Usuń wszystkie podstrony
   text_wiki_page_reassign_children: Podepnij je do strony nadrzędnej względem usuwanej
-  text_own_membership_delete_confirmation: "Masz zamiar usunąć niektóre lub wszystkie swoje uprawnienia. Po wykonaniu tej czynności możesz utracić możliwość edycji tego projektu.\nCzy na pewno chcesz kontynuować?"
+  text_own_membership_delete_confirmation: "Masz zamiar usunąć niektóre lub wszystkie swoje uprawnienia. Po wykonaniu tej czynności możesz utracić możliwość edycji tego projektu.\nCzy jesteś pewien, że chcesz kontynuować?"
   text_zoom_in: Powiększ
   text_zoom_out: Zmniejsz
   text_warn_on_leaving_unsaved: Obecna strona zawiera niezapisany tekst, który zostanie utracony w przypadku jej opuszczenia.
@@ -1253,14 +1298,15 @@ pl:
   text_issue_conflict_resolution_overwrite: "Zatwierdź moje zmiany mimo to (poprzednie notatki zostaną zachowane, ale niektóre zmiany mogą zostać nadpisane)"
   text_issue_conflict_resolution_add_notes: Dodaj moje notatki i odrzuć inne zmiany
   text_issue_conflict_resolution_cancel: "Odrzuć wszystkie moje zmiany i wyświetl ponownie %{link}"
-  text_account_destroy_confirmation: "Czy jesteś pewien?\nTwoje konto zostanie trwale usunięte, bez możliwości przywrócenia go."
+  text_account_destroy_confirmation: "Czy jesteś pewien, że chcesz kontynuować?\nTwoje konto zostanie trwale usunięte, bez możliwości jego przywrócenia."
   text_session_expiration_settings: "Uwaga: zmiana tych ustawień może spowodować przeterminowanie sesji obecnie zalogowanych użytkowników, w tym Twojej."
   text_project_closed: Ten projekt jest zamknięty i dostępny tylko do odczytu.
   text_turning_multiple_off: Jeśli wyłączysz wielokrotne wartości, istniejące wielokrotne wartości zostaną usunięte w celu zachowania tylko jednej z nich dla każdego obiektu.
   text_select_apply_tracker: Wybierz typ zagadnienia
   text_avatar_server_config_html: 'Obecna usługa awatarów to <a href="%{url}">%{url}</a>. Możesz zmienić ją w config/configuration.yml.'
   text_no_subject: brak tematu
-
+  text_allowed_queries_to_select: Można wybrać jedynie publiczne (dostępne dla każdego użytkownika) kwerendy
+  text_setting_config_change: You can configure the behaviour in config/configuration.yml. Please restart the application after editing it.
 
   default_role_manager: Kierownik
   default_role_developer: Programista
@@ -1309,126 +1355,43 @@ pl:
   text_project_is_public_non_member: Publiczne projekty i ich treść jest dostępna dla wszystkich zalogowanych użytkowników.
   text_project_is_public_anonymous: Publiczne projekty i ich treść jest publicznie dostępna w sieci.
   label_import_time_entries: Importuj wpisy dziennika
-  setting_email_domains_allowed: Allowed email domains
-  setting_email_domains_denied: Disallowed email domains
-  field_passwd_changed_on: Password last changed
-  label_relations_mapping: Relations mapping
-  label_import_users: Import users
-  label_days_to_html: "%{days} days up to %{date}"
-  setting_twofa: Two-factor authentication
-  label_optional: optional
-  label_required_lower: required
-  button_disable: Disable
+  label_import_users: Importuj użytkowników
+
   twofa__totp__name: Authenticator app
-  twofa__totp__text_pairing_info_html: Scan this QR code or enter the plain text key
-    into a TOTP app (e.g. <a href="https://support.google.com/accounts/answer/1066447">Google
-    Authenticator</a>, <a href="https://authy.com/download/">Authy</a>, <a href="https://guide.duo.com/third-party-accounts">Duo
-    Mobile</a>) and enter the code in the field below to activate two-factor authentication.
+  twofa__totp__text_pairing_info_html: 'Scan this QR code or enter the plain text key into a TOTP app (e.g. <a href="https://support.google.com/accounts/answer/1066447">Google Authenticator</a>, <a href="https://authy.com/download/">Authy</a>, <a href="https://guide.duo.com/third-party-accounts">Duo Mobile</a>) and enter the code in the field below to activate two-factor authentication.'
   twofa__totp__label_plain_text_key: Plain text key
-  twofa__totp__label_activate: Enable authenticator app
-  twofa_currently_active: 'Currently active: %{twofa_scheme_name}'
-  twofa_not_active: Not activated
+  twofa__totp__label_activate: 'Enable authenticator app'
+  twofa_currently_active: "Currently active: %{twofa_scheme_name}"
+  twofa_not_active: "Not activated"
   twofa_label_code: Code
-  twofa_hint_disabled_html: Setting <strong>%{label}</strong> will deactivate and unpair
-    two-factor authentication devices for all users.
-  twofa_hint_required_html: Setting <strong>%{label}</strong> will require all users
-    to set up two-factor authentication at their next login.
+  twofa_hint_disabled_html: Setting <strong>%{label}</strong> will deactivate and unpair two-factor authentication devices for all users.
+  twofa_hint_optional_html: Setting <strong>%{label}</strong> will let users set up two-factor authentication at will, unless it is required by one of their groups.
+  twofa_hint_required_html: Setting <strong>%{label}</strong> will require all users to set up two-factor authentication at their next login.
+  twofa_hint_required_administrators_html: Setting <strong>%{label}</strong> behaves like optional, but will require all users with administration rights to set up two-factor authentication at their next login.
   twofa_label_setup: Enable two-factor authentication
   twofa_label_deactivation_confirmation: Disable two-factor authentication
-  twofa_notice_select: 'Please select the two-factor scheme you would like to use:'
+  twofa_notice_select: "Please select the two-factor scheme you would like to use:"
   twofa_warning_require: The administrator requires you to enable two-factor authentication.
-  twofa_activated: Two-factor authentication successfully enabled. It is recommended
-    to <a data-method="post" href="%{bc_path}">generate backup codes</a> for your account.
+  twofa_activated: Two-factor authentication successfully enabled. It is recommended to <a data-method="post" href="%{bc_path}">generate backup codes</a> for your account.
   twofa_deactivated: Two-factor authentication disabled.
-  twofa_mail_body_security_notification_paired: Two-factor authentication successfully
-    enabled using %{field}.
-  twofa_mail_body_security_notification_unpaired: Two-factor authentication disabled
-    for your account.
-  twofa_mail_body_backup_codes_generated: New two-factor authentication backup codes
-    generated.
-  twofa_mail_body_backup_code_used: A two-factor authentication backup code has been
-    used.
+  twofa_mail_body_security_notification_paired: "Two-factor authentication successfully enabled using %{field}."
+  twofa_mail_body_security_notification_unpaired: "Two-factor authentication disabled for your account."
+  twofa_mail_body_backup_codes_generated: "New two-factor authentication backup codes generated."
+  twofa_mail_body_backup_code_used: "A two-factor authentication backup code has been used."
   twofa_invalid_code: Code is invalid or outdated.
   twofa_label_enter_otp: Please enter your two-factor authentication code.
   twofa_too_many_tries: Too many tries.
   twofa_resend_code: Resend code
   twofa_code_sent: An authentication code has been sent to you.
   twofa_generate_backup_codes: Generate backup codes
-  twofa_text_generate_backup_codes_confirmation: This will invalidate all existing backup
-    codes and generate new ones. Would you like to continue?
+  twofa_text_generate_backup_codes_confirmation: This will invalidate all existing backup codes and generate new ones. Would you like to continue?
   twofa_notice_backup_codes_generated: Your backup codes have been generated.
-  twofa_warning_backup_codes_generated_invalidated: New backup codes have been generated.
-    Your existing codes from %{time} are now invalid.
+  twofa_warning_backup_codes_generated_invalidated: New backup codes have been generated. Your existing codes from %{time} are now invalid.
   twofa_label_backup_codes: Two-factor authentication backup codes
-  twofa_text_backup_codes_hint: Use these codes instead of a one-time password should
-    you not have access to your second factor. Each code can only be used once. It is
-    recommended to print and store them in a safe place.
+  twofa_text_backup_codes_hint: Use these codes instead of a one-time password should you not have access to your second factor. Each code can only be used once. It is recommended to print and store them in a safe place.
   twofa_text_backup_codes_created_at: Backup codes generated %{datetime}.
-  twofa_backup_codes_already_shown: Backup codes cannot be shown again, please <a data-method="post"
-    href="%{bc_path}">generate new backup codes</a> if required.
-  error_can_not_execute_macro_html: Error executing the <strong>%{name}</strong> macro
-    (%{error})
-  error_macro_does_not_accept_block: This macro does not accept a block of text
-  error_childpages_macro_no_argument: With no argument, this macro can be called from
-    wiki pages only
-  error_circular_inclusion: Circular inclusion detected
-  error_page_not_found: Page not found
-  error_filename_required: Filename required
-  error_invalid_size_parameter: Invalid size parameter
-  error_attachment_not_found: Attachment %{name} not found
-  permission_delete_project: Delete the project
-  field_twofa_scheme: Two-factor authentication scheme
-  text_user_destroy_confirmation: Are you sure you want to delete this user and remove
-    all references to them? This cannot be undone. Often, locking a user instead of
-    deleting them is the better solution. To confirm, please enter their login (%{login})
-    below.
-  text_project_destroy_enter_identifier: To confirm, please enter the project's identifier
-    (%{identifier}) below.
-  button_add_subtask: Add subtask
-  notice_invalid_watcher: 'Invalid watcher: User will not receive any notifications
-    because it does not have access to view this object.'
-  button_fetch_changesets: Fetch commits
-  permission_view_message_watchers: View message watchers list
-  permission_add_message_watchers: Add message watchers
-  permission_delete_message_watchers: Delete message watchers
-  label_message_watchers: Watchers
-  button_copy_link: Copy link
-  error_invalid_authenticity_token: Invalid form authenticity token.
-  error_query_statement_invalid: An error occurred while executing the query and has
-    been logged. Please report this error to your Redmine administrator.
-  permission_view_wiki_page_watchers: View wiki page watchers list
-  permission_add_wiki_page_watchers: Add wiki page watchers
-  permission_delete_wiki_page_watchers: Delete wiki page watchers
-  label_wiki_page_watchers: Watchers
-  label_attachment_description: File description
-  error_no_data_in_file: The file does not contain any data
-  field_twofa_required: Require two factor authentication
-  twofa_hint_optional_html: Setting <strong>%{label}</strong> will let users set up
-    two-factor authentication at will, unless it is required by one of their groups.
-  twofa_text_group_required: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is required for all users.
-  twofa_text_group_disabled: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is disabled.
-  field_default_issue_query: Default issue query
-  label_default_queries:
-    for_all_projects: For all projects
-    for_current_project: For current project
-    for_all_users: For all users
-  text_allowed_queries_to_select: Public (to any users) queries only selectable
-  text_all_migrations_have_been_run: All database migrations have been run
-  button_save_object: Save %{object_name}
-  button_edit_object: Edit %{object_name}
-  button_delete_object: Delete %{object_name}
-  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
-    Please restart the application after editing it.
-  label_bulk_edit: Bulk edit
-  button_create_and_follow: Create and follow
-  label_subtask: Subtask
-  label_default_query: Default query
-  field_default_project_query: Default project query
-  label_required_administrators: required for administrators
-  twofa_hint_required_administrators_html: Setting <strong>%{label}</strong> behaves
-    like optional, but will require all users with administration rights to set up two-factor
-    authentication at their next login.
+  twofa_backup_codes_already_shown: Backup codes cannot be shown again, please <a data-method="post" href="%{bc_path}">generate new backup codes</a> if required.
+  twofa_text_group_required: "This setting is only effective when the global two factor authentication setting is set to 'optional'. Currently, two factor authentication is required for all users."
+  twofa_text_group_disabled: "This setting is only effective when the global two factor authentication setting is set to 'optional'. Currently, two factor authentication is disabled."
+  text_user_destroy_confirmation: "Czy jesteś pewien, że chcesz usunąć tego użytkownika i wszystkie odwołania do niego? Tej operacji nie można cofnąć. Zwykle zablokowanie użytkownika jest lepszym rozwiązaniem, niż jego całkowite usunięcie. Aby potwierdzić operację, podaj jego login (%{login}) poniżej."
+  text_project_destroy_enter_identifier: "Aby potwierdzić, podaj identyfikator projektu (%{identifier}) poniżej."
