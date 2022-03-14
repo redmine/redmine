@@ -437,7 +437,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     issue = Issue.find(1)
     assert_equal 1, issue.tracker_id  # Bug
     issue.update(:status_id => 2)     # Assigned
-    member = Member.find_or_new(issue.project, User.find_by_login('dlopper'))
+    member = Member.find_by(:project => issue.project, :user => User.find_by(:login => 'dlopper'))
     assert_equal [2], member.role_ids # Developer
 
     get '/issues/1.xml?include=allowed_statuses', :headers => credentials('dlopper', 'foo')

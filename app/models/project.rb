@@ -1001,7 +1001,7 @@ class Project < ActiveRecord::Base
   def add_inherited_member_roles
     if inherit_members? && parent
       parent.memberships.each do |parent_member|
-        member = Member.find_or_new(self.id, parent_member.user_id)
+        member = Member.find_or_initialize_by(:project_id => self.id, :user_id => parent_member.user_id)
         parent_member.member_roles.each do |parent_member_role|
           member.member_roles <<
             MemberRole.new(:role => parent_member_role.role,

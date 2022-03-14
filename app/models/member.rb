@@ -208,23 +208,13 @@ class Member < ActiveRecord::Base
       project_ids = Array.wrap(attributes[:project_ids] || attributes[:project_id])
       role_ids = Array.wrap(attributes[:role_ids])
       project_ids.each do |project_id|
-        member = Member.find_or_new(project_id, principal)
+        member = Member.find_or_initialize_by(:project_id => project_id, :user_id => principal.id)
         member.role_ids |= role_ids
         member.save
         members << member
       end
     end
     members
-  end
-
-  # Finds or initializes a Member for the given project and principal
-  def self.find_or_new(project, principal)
-    project_id = project.is_a?(Project) ? project.id : project
-    principal_id = principal.is_a?(Principal) ? principal.id : principal
-
-    member = Member.find_by_project_id_and_user_id(project_id, principal_id)
-    member ||= Member.new(:project_id => project_id, :user_id => principal_id)
-    member
   end
 
   protected
