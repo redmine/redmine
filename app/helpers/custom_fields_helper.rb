@@ -79,18 +79,19 @@ module CustomFieldsHelper
 
   # Return custom field html tag corresponding to its format
   def custom_field_tag(prefix, custom_value)
-    css = custom_value.custom_field.css_classes
+    cf = custom_value.custom_field
+    css = cf.css_classes
     data = nil
-    if custom_value.custom_field.full_text_formatting?
+    if cf.full_text_formatting?
       css += ' wiki-edit'
       data = {
         :auto_complete => true
       }
     end
-    custom_value.custom_field.format.edit_tag(
+    cf.format.edit_tag(
       self,
-      custom_field_tag_id(prefix, custom_value.custom_field),
-      custom_field_tag_name(prefix, custom_value.custom_field),
+      custom_field_tag_id(prefix, cf),
+      custom_field_tag_name(prefix, cf),
       custom_value,
       :class => css,
       :data => data)
