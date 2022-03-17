@@ -96,6 +96,13 @@ class CustomFieldsHelperTest < Redmine::HelperTest
     assert_select_in custom_field_tag('object', value), "textarea.text_cf.wiki-edit.cf_#{field.id}"
   end
 
+  def test_custom_field_tag_class_should_contain_placeholder
+    field = IssueCustomField.create!(:name => 'Text', :field_format => 'string', :description => "Foo\nBar\nBaz")
+    value = CustomValue.new(:value => 'bar', :custom_field => field)
+
+    assert_select_in custom_field_tag('object', value), "input.string_cf.cf_#{field.id}[placeholder=?]", 'Foo Bar Baz'
+  end
+
   def test_select_type_radio_buttons
     result = select_type_radio_buttons('UserCustomField')
     assert_select_in result, 'input[type="radio"]', :count => 10

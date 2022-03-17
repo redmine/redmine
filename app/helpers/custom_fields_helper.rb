@@ -81,6 +81,8 @@ module CustomFieldsHelper
   def custom_field_tag(prefix, custom_value)
     cf = custom_value.custom_field
     css = cf.css_classes
+    placeholder = cf.description
+    placeholder&.tr!("\n", ' ') if cf.field_format != 'text'
     data = nil
     if cf.full_text_formatting?
       css += ' wiki-edit'
@@ -94,6 +96,7 @@ module CustomFieldsHelper
       custom_field_tag_name(prefix, cf),
       custom_value,
       :class => css,
+      :placeholder => placeholder,
       :data => data)
   end
 
