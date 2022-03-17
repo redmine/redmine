@@ -298,6 +298,7 @@ class RedCloth3 < String
         @pre_list = []
         rip_offtags text
         no_textile text
+        remove_html_comments text
         escape_html_tags text
         # need to do this before #hard_break and #blocks
         block_textile_quotes text unless @lite_mode
@@ -1216,5 +1217,9 @@ class RedCloth3 < String
                 "&lt;#{$1}#{'&gt;' unless $3.blank?}"
             end
         end
+    end
+
+    def remove_html_comments(text)
+        text.gsub!(/<!--[\s\S]*?-->/, '')
     end
 end

@@ -719,6 +719,38 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), to_html(text).gsub(%r{[\r\n\t]}, '')
   end
 
+  def test_should_remove_html_comments
+    text = <<~STR
+      <!-- begin -->
+      Hello <!-- comment between words -->world.
+
+      <!--
+        multi-line
+      comment -->Foo
+
+      <pre>
+      This is a code block.
+      <p>
+      <!-- comments in a code block should be preserved -->
+      </p>
+      </pre>
+    STR
+    expected = <<~EXPECTED
+      <p>Hello world.</p>
+
+      <p>Foo</p>
+
+      <pre>
+      This is a code block.
+      &lt;p&gt;
+      &lt;!-- comments in a code block should be preserved --&gt;
+      &lt;/p&gt;
+      </pre>
+
+    EXPECTED
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), to_html(text).gsub(%r{[\r\n\t]}, '')
+  end
+
   private
 
   def assert_html_output(to_test, expect_paragraph = true)
