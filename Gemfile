@@ -26,7 +26,7 @@ gem 'net-pop', '~> 0.1.1'
 gem 'tzinfo-data', platforms: [:mingw, :x64_mingw, :mswin]
 
 # TOTP-based 2-factor authentication
-gem 'rotp'
+gem 'rotp', '>= 5.0.0'
 gem 'rqrcode'
 
 # Optional gem for LDAP authentication
