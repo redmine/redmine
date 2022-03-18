@@ -28,7 +28,32 @@ class MailHandlerController < ActionController::Base
 
   # Submits an incoming email to MailHandler
   def index
-    options = params.dup
+    # MailHandlerController#index should permit all options set by
+    # RedmineMailHandler#submit in rdm-mailhandler.rb.
+    # It must be kept in sync.
+    options = params.permit(
+      :key,
+      :email,
+      :allow_override,
+      :unknown_user,
+      :default_group,
+      :no_account_notice,
+      :no_notification,
+      :no_permission_check,
+      :project_from_subaddress,
+      {
+        issue: [
+          :project,
+          :status,
+          :tracker,
+          :category,
+          :priority,
+          :assigned_to,
+          :fixed_version,
+          :is_private
+        ]
+      }
+    ).to_h
     email = options.delete(:email)
     if MailHandler.safe_receive(email, options)
       head :created
