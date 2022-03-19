@@ -1468,3 +1468,5 @@
   label_required_administrators: 管理員必要項
   twofa_hint_required_administrators_html: 設定為 <strong>%{label}</strong> 的行為方式類似於 <strong>選用項</strong> 設定,
     但此設定會要求具有管理員權限的用戶, 在他們下次登入系統的時候, 必須設置雙因素驗證.
+  label_auto_watch_on: Auto watch
+  label_auto_watch_on_issue_contributed_to: Issues I contributed to

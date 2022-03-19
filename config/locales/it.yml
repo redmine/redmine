@@ -1437,3 +1437,5 @@ it:
   twofa_hint_required_administrators_html: Setting <strong>%{label}</strong> behaves
     like optional, but will require all users with administration rights to set up two-factor
     authentication at their next login.
+  label_auto_watch_on: Auto watch
+  label_auto_watch_on_issue_contributed_to: Issues I contributed to
