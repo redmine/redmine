@@ -120,6 +120,28 @@ class JournalTest < ActiveSupport::TestCase
     end
   end
 
+  def test_create_should_add_wacher
+    user = User.first
+    user.pref.auto_watch_on=['issue_contributed_to']
+    user.save
+    journal = Journal.new(:journalized => Issue.first, :notes => 'notes', :user => user)
+
+    assert_difference 'Watcher.count', 1 do
+      assert_equal true, journal.save
+    end
+  end
+
+  def test_create_should_not_add_watcher
+    user = User.first
+    user.pref.auto_watch_on=[]
+    user.save
+    journal = Journal.new(:journalized => Issue.first, :notes => 'notes', :user => user)
+
+    assert_no_difference 'Watcher.count' do
+      assert_equal true, journal.save
+    end
+  end
+
   def test_visible_scope_for_anonymous
     # Anonymous user should see issues of public projects only
     journals = Journal.visible(User.anonymous).to_a

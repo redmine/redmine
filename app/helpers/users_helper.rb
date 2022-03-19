@@ -66,6 +66,10 @@ module UsersHelper
      [l('label_last_tab_visited'), 'last_tab_visited']]
   end
 
+  def auto_watch_on_options
+    UserPreference::AUTO_WATCH_ON_OPTIONS.index_by {|o| l("label_auto_watch_on_#{o}")}
+  end
+
   def change_status_link(user)
     url = {:controller => 'users', :action => 'update', :id => user, :page => params[:page], :status => params[:status], :tab => nil}
 

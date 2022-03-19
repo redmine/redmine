@@ -57,6 +57,11 @@ class UserPreferenceTest < ActiveSupport::TestCase
     end
   end
 
+  def test_auto_watch_on_should_default_to_setting
+    preference = UserPreference.new
+    assert_equal ['issue_contributed_to'], preference.auto_watch_on
+  end
+
   def test_create
     user = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
     user.login = "newuser"

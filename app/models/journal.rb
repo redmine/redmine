@@ -60,6 +60,7 @@ class Journal < ActiveRecord::Base
   )
   acts_as_mentionable :attributes => ['notes']
   before_create :split_private_notes
+  before_create :add_watcher
   after_create_commit :send_notification
 
   scope :visible, (lambda do |*args|
@@ -325,6 +326,15 @@ class Journal < ActiveRecord::Base
       end
     end
     true
+  end
+
+  def add_watcher
+    if user &&
+        user.allowed_to?(:add_issue_watchers, project) &&
+        user.pref.auto_watch_on?('issue_contributed_to') &&
+        !Watcher.any_watched?(Array.wrap(journalized), user)
+      journalized.set_watcher(user, true)
+    end
   end
 
   def send_notification
