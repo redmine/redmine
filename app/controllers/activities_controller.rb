@@ -20,7 +20,7 @@
 class ActivitiesController < ApplicationController
   menu_item :activity
   before_action :find_optional_project_by_id, :authorize_global
-  accept_rss_auth :index
+  accept_atom_auth :index
 
   def index
     @days = Setting.activity_days_default.to_i

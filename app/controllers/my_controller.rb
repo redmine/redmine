@@ -26,7 +26,7 @@ class MyController < ApplicationController
   accept_api_auth :account
 
   require_sudo_mode :account, only: :put
-  require_sudo_mode :reset_rss_key, :reset_api_key, :show_api_key, :destroy
+  require_sudo_mode :reset_atom_key, :reset_api_key, :show_api_key, :destroy
 
   helper :issues
   helper :users
@@ -120,16 +120,22 @@ class MyController < ApplicationController
   end
 
   # Create a new feeds key
-  def reset_rss_key
+  def reset_atom_key
     if request.post?
-      if User.current.rss_token
-        User.current.rss_token.destroy
+      if User.current.atom_token
+        User.current.atom_token.destroy
         User.current.reload
       end
-      User.current.rss_key
+      User.current.atom_key
       flash[:notice] = l(:notice_feeds_access_key_reseted)
     end
     redirect_to my_account_path
+  end
+
+  # TODO: remove in Redmine 6.0
+  def reset_rss_key
+    ActiveSupport::Deprecation.warn "My#reset_rss_key is deprecated and will be removed in Redmine 6.0. Please use #reset_atom_key instead."
+    reset_atom_key
   end
 
   def show_api_key

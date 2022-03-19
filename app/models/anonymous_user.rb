@@ -38,7 +38,7 @@ class AnonymousUser < User
   def mail=(*args); nil end
   def mail; nil end
   def time_zone; nil end
-  def rss_key; nil end
+  def atom_key; nil end
 
   def pref
     UserPreference.new(:user => self)

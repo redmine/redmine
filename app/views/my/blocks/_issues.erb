@@ -36,6 +36,6 @@
 
 <% content_for :header_tags do %>
 <%= auto_discovery_link_tag(:atom,
-                            _project_issues_path(query.project, query.as_params.merge(:format => 'atom', :key => User.current.rss_key)),
+                            _project_issues_path(query.project, query.as_params.merge(:format => 'atom', :key => User.current.atom_key)),
                             {:title => query.name}) %>
 <% end %>

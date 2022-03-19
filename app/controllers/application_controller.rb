@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
   helper :avatars
 
   class_attribute :accept_api_auth_actions
-  class_attribute :accept_rss_auth_actions
+  class_attribute :accept_atom_auth_actions
   class_attribute :model_object
 
   layout 'base'
@@ -120,9 +120,9 @@ class ApplicationController < ActionController::Base
           end
       elsif autologin_user = try_to_autologin
         user = autologin_user
-      elsif params[:format] == 'atom' && params[:key] && request.get? && accept_rss_auth?
-        # RSS key authentication does not start a session
-        user = User.find_by_rss_key(params[:key])
+      elsif params[:format] == 'atom' && params[:key] && request.get? && accept_atom_auth?
+        # ATOM key authentication does not start a session
+        user = User.find_by_atom_key(params[:key])
       end
     end
     if user.nil? && Setting.rest_api_enabled? && accept_api_auth?
@@ -624,16 +624,27 @@ class ApplicationController < ActionController::Base
            :content_type => 'application/atom+xml'
   end
 
-  def self.accept_rss_auth(*actions)
+  def self.accept_atom_auth(*actions)
     if actions.any?
-      self.accept_rss_auth_actions = actions
+      self.accept_atom_auth_actions = actions
     else
-      self.accept_rss_auth_actions || []
+      self.accept_atom_auth_actions || []
     end
   end
 
+  def self.accept_rss_auth(*actions)
+    ActiveSupport::Deprecation.warn "Application#self.accept_rss_auth is deprecated and will be removed in Redmine 6.0. Please use #self.accept_atom_auth instead."
+    self.class.accept_atom_auth(*actions)
+  end
+
+  def accept_atom_auth?(action=action_name)
+    self.class.accept_atom_auth.include?(action.to_sym)
+  end
+
+  # TODO: remove in Redmine 6.0
   def accept_rss_auth?(action=action_name)
-    self.class.accept_rss_auth.include?(action.to_sym)
+    ActiveSupport::Deprecation.warn "Application#accept_rss_auth? is deprecated and will be removed in Redmine 6.0. Please use #accept_atom_auth? instead."
+    accept_atom_auth?(action)
   end
 
   def self.accept_api_auth(*actions)

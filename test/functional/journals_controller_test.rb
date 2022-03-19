@@ -94,7 +94,7 @@ class JournalsControllerTest < Redmine::ControllerTest
         :index,
         :params => {
           :format => 'atom',
-          :key => user.rss_key
+          :key => user.atom_key
         }
       )
       @fields.each_with_index do |field, i|

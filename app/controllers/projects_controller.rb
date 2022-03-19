@@ -30,7 +30,7 @@ class ProjectsController < ApplicationController
                             :destroy]
   before_action :authorize_global, :only => [:new, :create]
   before_action :require_admin, :only => [:copy, :archive, :unarchive]
-  accept_rss_auth :index
+  accept_atom_auth :index
   accept_api_auth :index, :show, :create, :update, :destroy, :archive, :unarchive, :close, :reopen
   require_sudo_mode :destroy
 
@@ -192,7 +192,7 @@ class ProjectsController < ApplicationController
           @total_estimated_hours = Issue.visible.where(cond).sum(:estimated_hours).to_f
         end
 
-        @key = User.current.rss_key
+        @key = User.current.atom_key
       end
       format.api
     end

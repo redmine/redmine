@@ -28,7 +28,7 @@ class TimelogController < ApplicationController
   before_action :find_optional_issue, :only => [:new, :create]
   before_action :find_optional_project, :only => [:index, :report]
 
-  accept_rss_auth :index
+  accept_atom_auth :index
   accept_api_auth :index, :show, :create, :update, :destroy
 
   rescue_from Query::StatementInvalid, :with => :query_statement_invalid

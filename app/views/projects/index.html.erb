@@ -30,7 +30,7 @@
 <% end %>
 
 <% other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
+  <%= f.link_to 'Atom', :url => {:key => User.current.atom_key} %>
   <% if @query.display_type == 'list' %>
     <%= f.link_to_with_query_parameters 'CSV', {}, :onclick => "showModal('csv-export-options', '350px'); return false;" %>
   <% end %>

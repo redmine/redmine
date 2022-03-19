@@ -87,7 +87,7 @@ class User < Principal
                           :after_remove => Proc.new {|user, group| group.user_removed(user)}
   has_many :changesets, :dependent => :nullify
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
-  has_one :rss_token, lambda {where "action='feeds'"}, :class_name => 'Token'
+  has_one :atom_token, lambda {where "action='feeds'"}, :class_name => 'Token'
   has_one :api_token, lambda {where "action='api'"}, :class_name => 'Token'
   has_one :email_address, lambda {where :is_default => true}, :autosave => true
   has_many :email_addresses, :dependent => :delete_all
@@ -415,12 +415,18 @@ class User < Principal
     self.pref[:comments_sorting] == 'desc'
   end
 
-  # Return user's RSS key (a 40 chars long string), used to access feeds
-  def rss_key
-    if rss_token.nil?
-      create_rss_token(:action => 'feeds')
+  # Return user's ATOM key (a 40 chars long string), used to access feeds
+  def atom_key
+    if atom_token.nil?
+      create_atom_token(:action => 'feeds')
     end
-    rss_token.value
+    atom_token.value
+  end
+
+  # TODO: remove in Redmine 6.0
+  def rss_key
+    ActiveSupport::Deprecation.warn "User.rss_key is deprecated and will be removed in Redmine 6.0. Please use User.atom_key instead."
+    atom_key
   end
 
   # Return user's API key (a 40 chars long string), used to access the API
@@ -530,8 +536,14 @@ class User < Principal
     end
   end
 
-  def self.find_by_rss_key(key)
+  def self.find_by_atom_key(key)
     Token.find_active_user('feeds', key)
+  end
+
+  # TODO: remove in Redmine 6.0
+  def self.find_by_rss_key(key)
+    ActiveSupport::Deprecation.warn "User.find_by_rss_key is deprecated and will be removed in Redmine 6.0. Please use User.find_by_atom_key instead."
+    self.find_by_atom_key(key)
   end
 
   def self.find_by_api_key(key)

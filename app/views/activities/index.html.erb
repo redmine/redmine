@@ -22,11 +22,11 @@
 </span>
 &nbsp;
 <% other_formats_links do |f| %>
-  <%= f.link_to_with_query_parameters 'Atom', 'from' => nil, :key => User.current.rss_key %>
+  <%= f.link_to_with_query_parameters 'Atom', 'from' => nil, :key => User.current.atom_key %>
 <% end %>
 
 <% content_for :header_tags do %>
-<%= auto_discovery_link_tag(:atom, :params => request.query_parameters.merge(:from => nil, :key => User.current.rss_key), :format => 'atom') %>
+<%= auto_discovery_link_tag(:atom, :params => request.query_parameters.merge(:from => nil, :key => User.current.atom_key), :format => 'atom') %>
 <% end %>
 
 <% content_for :sidebar do %>

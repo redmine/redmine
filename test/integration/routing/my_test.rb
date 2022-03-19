@@ -33,7 +33,7 @@ class RoutingMyTest < Redmine::RoutingTest
 
     should_route 'GET /my/api_key' => 'my#show_api_key'
     should_route 'POST /my/api_key' => 'my#reset_api_key'
-    should_route 'POST /my/rss_key' => 'my#reset_rss_key'
+    should_route 'POST /my/atom_key' => 'my#reset_atom_key'
 
     should_route 'GET /my/password' => 'my#password'
     should_route 'POST /my/password' => 'my#password'

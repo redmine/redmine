@@ -798,19 +798,19 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 1, anon2.errors.count
   end
 
-  def test_rss_key
-    assert_nil @jsmith.rss_token
-    key = @jsmith.rss_key
+  def test_atom_key
+    assert_nil @jsmith.atom_token
+    key = @jsmith.atom_key
     assert_equal 40, key.length
 
     @jsmith.reload
-    assert_equal key, @jsmith.rss_key
+    assert_equal key, @jsmith.atom_key
   end
 
-  def test_rss_key_should_not_be_generated_twice
+  def test_atom_key_should_not_be_generated_twice
     assert_difference 'Token.count', 1 do
-      key1 = @jsmith.rss_key
-      key2 = @jsmith.rss_key
+      key1 = @jsmith.atom_key
+      key2 = @jsmith.atom_key
       assert_equal key1, key2
     end
   end

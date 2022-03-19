@@ -59,8 +59,8 @@ class ApplicationTest < Redmine::IntegrationTest
     get '/issues/4.atom'
     assert_response 302
 
-    rss_key = User.find(2).rss_key
-    get "/issues/4.atom?key=#{rss_key}"
+    atom_key = User.find(2).atom_key
+    get "/issues/4.atom?key=#{atom_key}"
     assert_response 200
     assert_nil session[:user_id]
   end

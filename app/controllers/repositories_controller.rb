@@ -34,7 +34,7 @@ class RepositoriesController < ApplicationController
   before_action :find_project_repository, :except => [:new, :create, :edit, :update, :destroy, :committers]
   before_action :find_changeset, :only => [:revision, :add_related_issue, :remove_related_issue]
   before_action :authorize
-  accept_rss_auth :revisions
+  accept_atom_auth :revisions
   accept_api_auth :add_related_issue, :remove_related_issue
 
   rescue_from Redmine::Scm::Adapters::CommandFailed, :with => :show_error_command_failed

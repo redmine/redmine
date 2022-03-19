@@ -22,7 +22,7 @@ class JournalsController < ApplicationController
   before_action :find_issue, :only => [:new]
   before_action :find_optional_project, :only => [:index]
   before_action :authorize, :only => [:new, :edit, :update, :diff]
-  accept_rss_auth :index
+  accept_atom_auth :index
   menu_item :issues
 
   helper :issues

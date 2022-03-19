@@ -787,22 +787,22 @@ class MyControllerTest < Redmine::ControllerTest
                  User.find(2).pref.my_page_layout)
   end
 
-  def test_reset_rss_key_with_existing_key
-    @previous_token_value = User.find(2).rss_key # Will generate one if it's missing
-    post :reset_rss_key
+  def test_reset_atom_key_with_existing_key
+    @previous_token_value = User.find(2).atom_key # Will generate one if it's missing
+    post :reset_atom_key
 
-    assert_not_equal @previous_token_value, User.find(2).rss_key
-    assert User.find(2).rss_token
+    assert_not_equal @previous_token_value, User.find(2).atom_key
+    assert User.find(2).atom_token
     assert_match /reset/, flash[:notice]
     assert_redirected_to '/my/account'
   end
 
-  def test_reset_rss_key_without_existing_key
+  def test_reset_atom_key_without_existing_key
     Token.delete_all
-    assert_nil User.find(2).rss_token
-    post :reset_rss_key
+    assert_nil User.find(2).atom_token
+    post :reset_atom_key
 
-    assert User.find(2).rss_token
+    assert User.find(2).atom_token
     assert_match /reset/, flash[:notice]
     assert_redirected_to '/my/account'
   end

@@ -25,7 +25,7 @@ class NewsController < ApplicationController
   before_action :find_project_by_project_id, :only => :create
   before_action :authorize, :except => [:index, :new]
   before_action :find_optional_project, :only => [:index, :new]
-  accept_rss_auth :index
+  accept_atom_auth :index
   accept_api_auth :index, :show, :create, :update, :destroy
 
   helper :watchers

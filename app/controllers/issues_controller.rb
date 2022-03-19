@@ -25,7 +25,7 @@ class IssuesController < ApplicationController
   before_action :authorize, :except => [:index, :new, :create]
   before_action :find_optional_project, :only => [:index, :new, :create]
   before_action :build_new_issue_from_params, :only => [:new, :create]
-  accept_rss_auth :index, :show
+  accept_atom_auth :index, :show
   accept_api_auth :index, :show, :create, :update, :destroy
 
   rescue_from Query::StatementInvalid, :with => :query_statement_invalid
