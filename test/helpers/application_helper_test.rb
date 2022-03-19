@@ -562,12 +562,12 @@ class ApplicationHelperTest < Redmine::HelperTest
       'user:jsmith'                 => link_to_user(User.find_by_id(2)),
       'user:JSMITH'                 => link_to_user(User.find_by_id(2)),
       'user#2'                      => link_to_user(User.find_by_id(2)),
-      '@jsmith'                     => link_to_user(User.find_by_id(2), class: 'user-mention'),
-      '@jsmith.'                    => "#{link_to_user(User.find_by_id(2), class: 'user-mention')}.",
-      '@JSMITH'                     => link_to_user(User.find_by_id(2), class: 'user-mention'),
-      '@abcd@example.com'           => link_to_user(User.find_by_id(u_email_id), class: 'user-mention'),
+      '@jsmith'                     => link_to_user(User.find_by_id(2), class: 'user-mention', mention: true),
+      '@jsmith.'                    => "#{link_to_user(User.find_by_id(2), class: 'user-mention', mention: true)}.",
+      '@JSMITH'                     => link_to_user(User.find_by_id(2), class: 'user-mention', mention: true),
+      '@abcd@example.com'           => link_to_user(User.find_by_id(u_email_id), class: 'user-mention', mention: true),
       'user:abcd@example.com'       => link_to_user(User.find_by_id(u_email_id)),
-      '@foo.bar@example.com'        => link_to_user(User.find_by_id(u_email_id_2), class: 'user-mention'),
+      '@foo.bar@example.com'        => link_to_user(User.find_by_id(u_email_id_2), class: 'user-mention', mention: true),
       'user:foo.bar@example.com'    => link_to_user(User.find_by_id(u_email_id_2)),
       # invalid user
       'user:foobar'                 => 'user:foobar',
@@ -596,7 +596,7 @@ class ApplicationHelperTest < Redmine::HelperTest
       # user link format: @jsmith@somenet.foo
       raw = "@jsmith@somenet.foo should not be parsed in jsmith@somenet.foo"
       assert_match(
-        %r{<p><a class="user active user-mention".*>#{u.name}</a> should not be parsed in #{html}</p>},
+        %r{<p><a class="user active user-mention".*>@#{u.name}</a> should not be parsed in #{html}</p>},
         textilizable(raw, :project => Project.find(1))
       )
       # user link format: user:jsmith@somenet.foo
@@ -616,7 +616,7 @@ class ApplicationHelperTest < Redmine::HelperTest
       # user link format: @jsmith@somenet.foo
       raw = "@jsmith@somenet.foo should not be parsed in jsmith@somenet.foo"
       assert_match(
-        %r{<p><a class=\"user active user-mention\".*>#{u.name}</a> should not be parsed in #{html}</p>},
+        %r{<p><a class=\"user active user-mention\".*>@#{u.name}</a> should not be parsed in #{html}</p>},
         textilizable(raw, :project => Project.find(1))
       )
       # user link format: user:jsmith@somenet.foo

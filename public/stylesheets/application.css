@@ -150,6 +150,11 @@ a img{ border: 0; }
 a.issue.closed, a.issue.closed:link, a.issue.closed:visited { color: #999; text-decoration: line-through; }
 a.project.closed, a.project.closed:link, a.project.closed:visited { color: #999; }
 a.user.locked, a.user.locked:link, a.user.locked:visited {color: #999;}
+a.user.user-mention {
+  background-color: #DDEEFF;
+  padding: 0.1em 0.1em;
+  border-radius: 0.1em;
+}
 
 #sidebar a.selected {line-height:1.7em; padding:1px 3px 2px 2px; margin-left:-2px; background-color:#9DB9D5; color:#fff; border-radius:2px;}
 #sidebar a.selected:hover {text-decoration:none;}

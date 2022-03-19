@@ -60,6 +60,7 @@ module ApplicationHelper
     case principal
     when User
       name = h(principal.name(options[:format]))
+      name = "@" + name if options[:mention]
       css_classes = ''
       if principal.active? || (User.current.admin? && principal.logged?)
         url = user_url(principal, :only_path => only_path)
@@ -1265,7 +1266,7 @@ module ApplicationHelper
           elsif sep == "@"
             name = remove_double_quotes(identifier)
             u = User.visible.find_by("LOWER(login) = :s AND type = 'User'", :s => name.downcase)
-            link = link_to_user(u, :only_path => only_path, :class => 'user-mention') if u
+            link = link_to_user(u, :only_path => only_path, :class => 'user-mention', :mention => true) if u
           end
         end
         (leading + (link || "#{project_prefix}#{prefix}#{repo_prefix}#{sep}#{identifier}#{comment_suffix}"))

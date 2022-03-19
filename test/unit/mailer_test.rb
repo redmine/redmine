@@ -195,7 +195,7 @@ class MailerTest < ActiveSupport::TestCase
     issue = Issue.generate!(:description => '@jsmith')
     assert Mailer.deliver_issue_add(issue)
     assert_select_email do
-      assert_select "a[href=?]", "http://localhost:3000/users/2", :text => 'John Smith'
+      assert_select "a[href=?]", "http://localhost:3000/users/2", :text => '@John Smith'
     end
   end
 
