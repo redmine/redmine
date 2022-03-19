@@ -1,0 +1,5 @@
+<%= labelled_fields_for :pref, @user.pref do |pref_fields| %>
+  <%= pref_fields.collection_check_boxes :auto_watch_on, auto_watch_on_options, :last, :first, :checked => @user.pref.auto_watch_on do |b| %>
+    <p><%= b.check_box %> <%= b.label %></p>
+  <% end %>
+<% end %>
