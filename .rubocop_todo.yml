@@ -670,6 +670,10 @@ Rails/Delegate:
     - 'app/models/wiki_content_version.rb'
     - 'lib/redmine/menu_manager.rb'
 
+Rails/DuplicateScope:
+  Exclude:
+    - 'app/models/enumeration.rb'
+
 # This cop supports unsafe auto-correction (--auto-correct-all).
 # Configuration parameters: Whitelist, AllowedMethods, AllowedReceivers.
 # Whitelist: find_by_sql
@@ -774,6 +778,10 @@ Rails/I18nLocaleAssignment:
     - 'test/unit/lib/redmine/i18n_test.rb'
     - 'test/unit/query_test.rb'
     - 'test/unit/role_test.rb'
+
+Rails/I18nLocaleTexts:
+  Exclude:
+    - 'app/models/mailer.rb'
 
 # Configuration parameters: IgnoreScopes, Include.
 # Include: app/models/**/*.rb
