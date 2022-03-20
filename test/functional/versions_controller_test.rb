@@ -45,6 +45,9 @@ class VersionsControllerTest < Redmine::ControllerTest
     # Context menu on issues
     assert_select "form[data-cm-url=?]", '/issues/context_menu'
     assert_select "div#sidebar" do
+      # Tracker checkboxes
+      assert_select 'input[type=hidden][name=?]', 'tracker_ids[]'
+      assert_select 'input[type=checkbox][name=?]', 'tracker_ids[]', 3
       # Links to versions anchors
       assert_select 'a[href=?]', '#2.0'
       # Links to completed versions in the sidebar
