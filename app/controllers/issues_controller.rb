@@ -484,7 +484,7 @@ class IssuesController < ApplicationController
   def retrieve_default_query(use_session)
     return if params[:query_id].present?
     return if api_request?
-    return if params[:set_filter] && (params.key?(:op) || params.key?(:f))
+    return if params[:set_filter]
 
     if params[:without_default].present?
       params[:set_filter] = 1
