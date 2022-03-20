@@ -21,6 +21,9 @@ Optional:
   available in PATH)
 * ImageMagick (to enable Gantt export to png images)
 
+Supported browsers:
+The current version of Firefox, Safari, Chrome, and Microsoft Edge.
+
 == Installation
 
 1. Uncompress the program archive
