@@ -80,7 +80,7 @@ class IssueQuery < Query
   def self.default(project: nil, user: User.current)
     query = nil
     # user default
-    if user&.logged? && (query_id = user.pref.default_issue_query)
+    if user&.logged? && (query_id = user.pref.default_issue_query.present?
       query = find_by(id: query_id)
     end
     # project default
