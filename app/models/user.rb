@@ -886,6 +886,10 @@ class User < Principal
     project_ids.map(&:to_i)
   end
 
+  def self.prune(age)
+    User.where("created_on < ? AND status = ?", Time.now - age, STATUS_REGISTERED).destroy_all
+  end
+
   protected
 
   def validate_password_length

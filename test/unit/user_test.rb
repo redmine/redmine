@@ -1348,4 +1348,14 @@ class UserTest < ActiveSupport::TestCase
     cv2a.reload
     assert_equal @dlopper.id.to_s, cv2a.value
   end
+
+  def test_prune_should_destroy_unactivated_old_users
+    User.generate!(:status => User::STATUS_REGISTERED, :created_on => 6.days.ago)
+    User.generate!(:status => User::STATUS_REGISTERED, :created_on => 7.days.ago)
+    User.generate!(:status => User::STATUS_REGISTERED)
+
+    assert_difference 'User.count', -2 do
+      User.prune(7)
+    end
+  end
 end

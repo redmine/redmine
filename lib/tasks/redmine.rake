@@ -40,6 +40,22 @@ namespace :redmine do
     end
   end
 
+  namespace :users do
+    desc 'Removes registered users that have not been activated after a number of days. Use DAYS to set the number of days, defaults to 30 days.'
+    task :prune => :environment do
+      days = 30
+      env_days = ENV['DAYS']
+      if env_days
+        if env_days.to_i <= 0
+          abort "Invalid DAYS #{env_days} given. The value must be a integer."
+        else
+          days = env_days.to_i
+        end
+      end
+      User.prune(days.days)
+    end
+  end
+
   namespace :watchers do
     desc 'Removes watchers from what they can no longer view.'
     task :prune => :environment do
