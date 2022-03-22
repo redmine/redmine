@@ -259,11 +259,10 @@ function copyImageFromClipboard(e) {
   if (!clipboardData) { return; }
   if (clipboardData.types.some(function(t){ return /^text\/plain$/.test(t); })) { return; }
 
-  var items = clipboardData.items
-  for (var i = 0 ; i < items.length ; i++) {
-    var item = items[i];
-    if (item.type.indexOf("image") != -1) {
-      var blob = item.getAsFile();
+  var files = clipboardData.files
+  for (var i = 0 ; i < files.length ; i++) {
+    var file = files[i];
+    if (file.type.indexOf("image") != -1) {
       var date = new Date();
       var filename = 'clipboard-'
         + date.getFullYear()
@@ -272,9 +271,8 @@ function copyImageFromClipboard(e) {
         + ('0'+date.getHours()).slice(-2)
         + ('0'+date.getMinutes()).slice(-2)
         + '-' + randomKey(5).toLocaleLowerCase()
-        + '.' + blob.name.split('.').pop();
-      var file = new Blob([blob], {type: blob.type});
-      file.name = filename;
+        + '.' + file.name.split('.').pop();
+
       var inputEl = $('input:file.filedrop').first()
       handleFileDropEvent.target = e.target;
       addFile(inputEl, file, true);
