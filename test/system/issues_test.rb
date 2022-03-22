@@ -587,4 +587,41 @@ class IssuesSystemTest < ApplicationSystemTestCase
       assert page.has_text? 'Related to Bug #7'
     end
   end
+
+  def test_update_issue_form_should_include_time_entry_form_only_for_users_with_permission
+    log_user('jsmith', 'jsmith')
+
+    visit '/issues/2'
+    page.first(:link, 'Edit').click
+
+    # assert log time form exits for user with required permissions on the current project
+    assert page.has_css?('#log_time')
+
+    # Change project to trigger an update on issue form
+    page.find('#issue_project_id').select('» Private child of eCookbook')
+    wait_for_ajax
+
+    # assert log time form does not exist anymore for user without required permissions on the new project
+    assert_not page.has_css?('#log_time')
+  end
+
+  def test_update_issue_form_should_include_add_notes_form_only_for_users_with_permission
+    log_user('jsmith', 'jsmith')
+
+    visit '/issues/2'
+    page.first(:link, 'Edit').click
+
+    # assert add notes form exits for user with required permissions on the current project
+    assert page.has_css?('#add_notes')
+
+    # remove add issue notes permission from Manager role
+    Role.find_by_name('Manager').remove_permission! :add_issue_notes
+
+    # Change project to trigger an update on issue form
+    page.find('#issue_project_id').select('» Private child of eCookbook')
+    wait_for_ajax
+
+    # assert add notes form does not exist anymore for user without required permissions on the new project
+    assert_not page.has_css?('#add_notes')
+  end
 end

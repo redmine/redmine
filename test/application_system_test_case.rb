@@ -81,6 +81,12 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     assert_equal '/my/page', current_path
   end
 
+  def wait_for_ajax
+    Timeout.timeout(Capybara.default_max_wait_time) do
+      loop until page.evaluate_script("jQuery.active").zero?
+    end
+  end
+
   def clear_downloaded_files
     FileUtils.rm downloaded_files
   end

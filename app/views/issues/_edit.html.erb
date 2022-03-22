@@ -9,8 +9,8 @@
         </div>
         </fieldset>
     <% end %>
-    <% if User.current.allowed_to?(:log_time, @project) %>
-        <fieldset class="tabular"><legend><%= l(:button_log_time) %></legend>
+    <% if User.current.allowed_to?(:log_time, @issue.project) %>
+        <fieldset class="tabular" id="log_time"><legend><%= l(:button_log_time) %></legend>
         <%= labelled_fields_for :time_entry, @time_entry do |time_entry| %>
         <div class="splitcontent">
         <div class="splitcontentleft">
@@ -28,7 +28,7 @@
     </fieldset>
     <% end %>
     <% if @issue.notes_addable? %>
-      <fieldset><legend><%= l(:field_notes) %></legend>
+      <fieldset id="add_notes"><legend><%= l(:field_notes) %></legend>
       <%= f.text_area :notes, :cols => 60, :rows => 10, :class => 'wiki-edit',
             :data => {
                 :auto_complete => true
@@ -43,7 +43,7 @@
       <%= call_hook(:view_issues_edit_notes_bottom, { :issue => @issue, :notes => @notes, :form => f }) %>
       </fieldset>
 
-      <fieldset><legend><%= l(:label_attachment_plural) %></legend>
+      <fieldset id="add_attachments"><legend><%= l(:label_attachment_plural) %></legend>
         <% if @issue.attachments.any? && @issue.safe_attribute?('deleted_attachment_ids') %>
         <div class="contextual"><%= link_to l(:label_edit_attachments), '#', :onclick => "$('#existing-attachments').toggle(); return false;" %></div>
         <div id="existing-attachments" style="<%= @issue.deleted_attachment_ids.blank? ? 'display:none;' : '' %>">
