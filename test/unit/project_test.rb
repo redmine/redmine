@@ -348,6 +348,13 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal parent.children.sort_by(&:name), parent.children.to_a
   end
 
+  def test_validate_custom_field_values_of_project
+    User.current = User.find(3)
+    ProjectCustomField.generate!(:name => 'CustomFieldTest', :field_format => 'int', :is_required => true, :visible => false, :role_ids => [1])
+    p = Project.new(:name => 'Project test', :identifier => 'project-t')
+    assert p.save!
+  end
+
   def test_set_parent_should_update_issue_fixed_version_associations_when_a_fixed_version_is_moved_out_of_the_hierarchy
     # Parent issue with a hierarchy project's fixed version
     parent_issue = Issue.find(1)

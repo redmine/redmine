@@ -968,6 +968,17 @@ class Project < ActiveRecord::Base
     end
   end
 
+  # Overrides Redmine::Acts::Customizable::InstanceMethods#validate_custom_field_values
+  # so that custom values that are not editable are not validated (eg. a custom field that
+  # is marked as required should not trigger a validation error if the user is not allowed
+  # to edit this field).
+  def validate_custom_field_values
+    user = User.current
+    if new_record? || custom_field_values_changed?
+      editable_custom_field_values(user).each(&:validate_value)
+    end
+  end
+
   # Returns the custom_field_values that can be edited by the given user
   def editable_custom_field_values(user=nil)
     visible_custom_field_values(user)
