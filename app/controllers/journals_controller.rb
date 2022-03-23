@@ -23,6 +23,7 @@ class JournalsController < ApplicationController
   before_action :find_optional_project, :only => [:index]
   before_action :authorize, :only => [:new, :edit, :update, :diff]
   accept_atom_auth :index
+  accept_api_auth :update
   menu_item :issues
 
   helper :issues
@@ -97,6 +98,7 @@ class JournalsController < ApplicationController
     respond_to do |format|
       format.html {redirect_to issue_path(@journal.journalized)}
       format.js
+      format.api { render_api_ok }
     end
   end
 
