@@ -103,7 +103,7 @@ class User < Principal
   attr_accessor :remote_ip
 
   LOGIN_LENGTH_LIMIT = 60
-  MAIL_LENGTH_LIMIT = 60
+  MAIL_LENGTH_LIMIT = 254
 
   validates_presence_of :login, :firstname, :lastname, :if => Proc.new {|user| !user.is_a?(AnonymousUser)}
   validates_uniqueness_of :login, :if => Proc.new {|user| user.login_changed? && user.login.present?}, :case_sensitive => false
