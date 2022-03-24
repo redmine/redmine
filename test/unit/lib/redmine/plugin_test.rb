@@ -27,6 +27,10 @@ class Redmine::PluginTest < ActiveSupport::TestCase
     @klass.directory = Rails.root.join('test/fixtures/plugins')
     # In case some real plugins are installed
     @klass.clear
+
+    # Change plugin loader's directory for testing
+    Redmine::PluginLoader.directory = @klass.directory
+    Redmine::PluginLoader.setup
   end
 
   def teardown
@@ -55,6 +59,7 @@ class Redmine::PluginTest < ActiveSupport::TestCase
     assert_equal 'http://example.net/jsmith', plugin.author_url
     assert_equal 'This is a test plugin', plugin.description
     assert_equal '0.0.1', plugin.version
+    assert_equal File.join(@klass.directory, 'foo_plugin', 'assets'), plugin.assets_directory
   end
 
   def test_register_should_raise_error_if_plugin_directory_does_not_exist

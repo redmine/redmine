@@ -104,7 +104,7 @@ module Redmine
         raise PluginNotFound, "Plugin not found. The directory for plugin #{p.id} should be #{p.directory}."
       end
 
-      p.path = PluginLoader.directories{ |d| d.dir == p.directory }
+      p.path = PluginLoader.directories.find {|d| d.to_s == p.directory}
 
       # Adds plugin locales if any
       # YAML translation files should be found under <plugin>/config/locales/
@@ -183,7 +183,7 @@ module Redmine
 
     # Returns the absolute path to the plugin assets directory
     def assets_directory
-      path.assedts_dir
+      path.assets_dir
     end
 
     def <=>(plugin)
