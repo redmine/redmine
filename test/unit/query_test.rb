@@ -1240,12 +1240,12 @@ class QueryTest < ActiveSupport::TestCase
 
     filter_name = "fixed_version.status"
 
-    query = IssueQuery.new(:name => '_', project: Project.find(1))
+    query = IssueQuery.new(:name => '_', :project => Project.find(1))
     assert_include filter_name, query.available_filters.keys
     query.filters = {filter_name => {:operator => '=', :values => ['open']}}
     assert_include issue, find_issues_with_query(query)
 
-    query = IssueQuery.new(:name => '_', project: Project.find(1))
+    query = IssueQuery.new(:name => '_', :project => Project.find(1))
     query.filters = {filter_name => {:operator => '=', :values => ['closed']}}
     refute_includes find_issues_with_query(query), issue
   end
