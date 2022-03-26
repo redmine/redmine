@@ -1247,7 +1247,7 @@ class QueryTest < ActiveSupport::TestCase
 
     query = IssueQuery.new(:name => '_', :project => Project.find(1))
     query.filters = {filter_name => {:operator => '=', :values => ['closed']}}
-    refute_includes find_issues_with_query(query), issue
+    assert_not_includes find_issues_with_query(query), issue
   end
 
   def test_filter_on_version_custom_field
