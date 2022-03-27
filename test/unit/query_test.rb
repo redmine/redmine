@@ -1126,6 +1126,21 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal [1, 3, 7, 8], find_issues_with_query(query).map(&:id).uniq.sort
   end
 
+  def test_filter_on_fixed_version_status_respects_sharing
+    issue = Issue.generate!(:project_id => 1, :fixed_version_id => 7)
+
+    filter_name = "fixed_version.status"
+
+    query = IssueQuery.new(:name => '_', :project => Project.find(1))
+    assert_include filter_name, query.available_filters.keys
+    query.filters = {filter_name => {:operator => '=', :values => ['open']}}
+    assert_include issue, find_issues_with_query(query)
+
+    query = IssueQuery.new(:name => '_', :project => Project.find(1))
+    query.filters = {filter_name => {:operator => '=', :values => ['closed']}}
+    assert_not_includes find_issues_with_query(query), issue
+  end
+
   def test_filter_on_version_custom_field
     field = IssueCustomField.generate!(:field_format => 'version', :is_filter => true)
     issue = Issue.generate!(:project_id => 1, :tracker_id => 1, :custom_field_values => {field.id.to_s => '2'})
