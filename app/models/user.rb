@@ -622,6 +622,15 @@ class User < Principal
       Role.joins(members: :project).
         where(["#{Project.table_name}.status <> ?", Project::STATUS_ARCHIVED]).
           where(Member.arel_table[:user_id].eq(id)).distinct
+
+    if @roles.blank?
+      group_class = anonymous? ? GroupAnonymous : GroupNonMember
+      @roles = Role.joins(members: :project).
+        where(["#{Project.table_name}.status <> ? AND #{Project.table_name}.is_public = ?", Project::STATUS_ARCHIVED, true]).
+        where(Member.arel_table[:user_id].eq(group_class.first.id)).distinct
+    end
+
+    @roles
   end
 
   # Returns the user's bult-in role
