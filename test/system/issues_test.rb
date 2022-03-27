@@ -152,6 +152,28 @@ class IssuesSystemTest < ApplicationSystemTestCase
     assert_equal 'Some description', issue.attachments.first.description
   end
 
+  def test_create_issue_with_attachment_when_user_is_not_a_member
+    set_tmp_attachments_directory
+    # Set no permission to non-member role
+    non_member_role = Role.where(:builtin => Role::BUILTIN_NON_MEMBER).first
+    non_member_role.permissions = []
+    non_member_role.save
+    # Set role "Reporter" to non-member users on project ecookbook
+    membership = Member.find_or_create_by(user_id: Group.non_member.id, project_id: 1)
+    membership.roles = [Role.find(3)] # Reporter
+    membership.save
+    log_user('someone', 'foo')
+    issue = new_record(Issue) do
+      visit '/projects/ecookbook/issues/new'
+      fill_in 'Subject', :with => 'Issue with attachment'
+      attach_file 'attachments[dummy][file]', Rails.root.join('test/fixtures/files/testfile.txt')
+      fill_in 'attachments[1][description]', :with => 'Some description'
+      click_on 'Create'
+    end
+    assert_equal 1, issue.attachments.count
+    assert_equal 'Some description', issue.attachments.first.description
+  end
+
   def test_create_issue_with_new_target_version
     log_user('jsmith', 'jsmith')
 
