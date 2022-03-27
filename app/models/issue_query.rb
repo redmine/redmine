@@ -550,7 +550,8 @@ class IssueQuery < Query
 
   def sql_for_fixed_version_status_field(field, operator, value)
     where = sql_for_field(field, operator, value, Version.table_name, "status")
-    version_ids = versions(:conditions => [where]).map(&:id)
+    version_id_scope = project ? project.shared_versions : Version.visible
+    version_ids = version_id_scope.where(where).pluck(:id)
 
     nl = operator == "!" ? "#{Issue.table_name}.fixed_version_id IS NULL OR" : ''
     "(#{nl} #{sql_for_field("fixed_version_id", "=", version_ids, Issue.table_name, "fixed_version_id")})"
@@ -558,7 +559,8 @@ class IssueQuery < Query
 
   def sql_for_fixed_version_due_date_field(field, operator, value)
     where = sql_for_field(field, operator, value, Version.table_name, "effective_date")
-    version_ids = versions(:conditions => [where]).map(&:id)
+    version_id_scope = project ? project.shared_versions : Version.visible
+    version_ids = version_id_scope.where(where).pluck(:id)
 
     nl = operator == "!*" ? "#{Issue.table_name}.fixed_version_id IS NULL OR" : ''
     "(#{nl} #{sql_for_field("fixed_version_id", "=", version_ids, Issue.table_name, "fixed_version_id")})"
