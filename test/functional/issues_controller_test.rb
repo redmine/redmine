@@ -8274,4 +8274,24 @@ class IssuesControllerTest < Redmine::ControllerTest
       end
     end
   end
+
+  def test_should_not_list_the_wathcers_in_issue_index_api_without_permission
+    get :index, params: { :include => ["watchers"], :format => 'json' }
+    assert_response :success
+    assert_not_include 'watchers', response.body
+  end
+
+  def test_should_list_the_wathcers_in_issue_index_api_with_permission
+    Role.last.add_permission!(:view_issue_watchers)
+    get :index, params: { :include => ["watchers"], :format => 'json' }
+    assert_response :success
+    watchers =  Watcher.where(watchable_type: 'Issue').sort_by(&:user_id)
+
+    if watchers.count
+      watchers.each do |watcher|
+        st = "{\"id\":#{watcher.user.id},\"name\":\"#{watcher.user.name}\"}"
+        assert_include st, response.body
+      end
+    end
+  end
 end
