@@ -4,6 +4,32 @@ Redmine - project management software
 Copyright (C) 2006-2021  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2022-03-28 v4.1.7
+
+=== [Attachments]
+
+* Defect #36013: Paste image mixed with other DataTransferItem
+
+=== [Database]
+
+* Defect #36766: Database migration from Redmine 0.8.7 or earlier fails
+
+=== [Documents]
+
+* Defect #36686: Allow pasting screenshots from clipboard in documents
+
+=== [Issues filter]
+
+* Defect #30924: Filter on Target version's Status in subproject doesn't work on version from top project
+
+=== [Projects]
+
+* Defect #36593: User without permissions to view required project custom fields cannot create new projects
+
+=== [Rails support]
+
+* Patch #36757: Update Rails to 5.2.6.3
+
 == 2022-02-20 v4.1.6
 
 === [Gantt]
