@@ -254,6 +254,36 @@ https://www.redmine.org/
 
 * Feature #7652: Ability to add watchers to Wiki pages
 
+== 2022-03-28 v4.2.5
+
+=== [Attachments]
+
+* Defect #36013: Paste image mixed with other DataTransferItem
+
+=== [Database]
+
+* Defect #36766: Database migration from Redmine 0.8.7 or earlier fails
+
+=== [Documents]
+
+* Defect #36686: Allow pasting screenshots from clipboard in documents
+
+=== [Gems support]
+
+* Patch #36795: Set the minimum required version of ROTP gem to 5.0.0
+
+=== [Issues filter]
+
+* Defect #30924: Filter on Target version's Status in subproject doesn't work on version from top project
+
+=== [Projects]
+
+* Defect #36593: User without permissions to view required project custom fields cannot create new projects
+
+=== [Rails support]
+
+* Patch #36757: Update Rails to 5.2.6.3
+
 == 2022-02-20 v4.2.4
 
 === [Gantt]
