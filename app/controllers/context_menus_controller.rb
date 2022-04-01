@@ -95,4 +95,17 @@ class ContextMenusController < ApplicationController
 
     render :layout => false
   end
+
+  def projects
+    @projects = Project.where(id: params[:ids]).to_a
+    if @projects.empty?
+      render_404
+      return
+    end
+
+    if @projects.size == 1
+      @project = @projects.first
+    end
+    render layout: false
+  end
 end

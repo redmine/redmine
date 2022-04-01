@@ -363,6 +363,8 @@ Rails.application.routes.draw do
   post 'admin/test_email', :to => 'admin#test_email', :as => 'test_email'
   post 'admin/default_configuration', :to => 'admin#default_configuration'
 
+  match '/admin/projects_context_menu', :to => 'context_menus#projects', :as => 'projects_context_menu', :via => [:get, :post]
+
   resources :auth_sources do
     member do
       get 'test_connection', :as => 'try_connection'

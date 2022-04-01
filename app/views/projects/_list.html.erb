@@ -1,13 +1,21 @@
+<% @admin_list = User.current.admin? && controller_name == 'admin' && action_name == 'projects' %>
 <%= render_query_totals(@query) %>
+<%= form_tag({}, data: {cm_url: projects_context_menu_path}) do -%>
+<%= hidden_field_tag 'back_url', url_for(params: request.query_parameters), id: nil %>
 <div class="autoscroll">
 <table class="list projects odd-even <%= @query.css_classes %>">
 <thead>
   <tr>
+    <% if @admin_list %>
+      <th class="checkbox hide-when-print">
+        <input type="checkbox" name="check_all" id="check_all" value="" class="toggle-selection" title="Check all/Uncheck all">
+      </th>
+    <% end %>
     <% @query.inline_columns.each do |column| %>
       <%= column_header(@query, column) %>
     <% end %>
-    <% if controller_name == 'admin' && action_name == 'projects' %>
-    <th></th>
+    <% if @admin_list %>
+      <th></th>
     <% end %>
   </tr>
 </thead>
@@ -26,28 +34,27 @@
         <%= link_to_function("#{l(:button_collapse_all)}/#{l(:button_expand_all)}",
                              "toggleAllRowGroups(this)", :class => 'toggle-all') %>
       </td>
-      <% if controller_name == 'admin' && action_name == 'projects' %>
-      <td></td>
+      <% if @admin_list %>
+        <td></td>
       <% end %>
     </tr>
   <% end %>
-  <tr id="project-<%= entry.id %>" class="<%= cycle('odd', 'even') %> <%= entry.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+  <tr id="project-<%= entry.id %>" class="<%= cycle('odd', 'even') %> hascontextmenu <%= entry.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+    <% if @admin_list %>
+      <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", entry.id, false, :id => nil) %></td>
+    <% end %>
     <% @query.inline_columns.each do |column| %>
     <%= content_tag('td', column_content(column, entry), :class => column.css_classes) %>
     <% end %>
-    <% if controller_name == 'admin' && action_name == 'projects' %>
-    <td class="buttons">
-      <%= link_to(l(:button_archive), archive_project_path(entry, :status => params[:status]), :data => {:confirm => l(:text_are_you_sure)}, :method => :post, :class => 'icon icon-lock') unless entry.archived? %>
-      <%= link_to(l(:button_unarchive), unarchive_project_path(entry, :status => params[:status]), :method => :post, :class => 'icon icon-unlock') if entry.archived? %>
-      <%= link_to(l(:button_copy), copy_project_path(entry), :class => 'icon icon-copy') %>
-      <%= link_to(l(:button_delete), project_path(entry), :method => :delete, :class => 'icon icon-del') %>
-    </td>
+    <% if @admin_list %>
+      <td class="buttons"><%= link_to_context_menu %></td>
     <% end %>
   </tr>
 <% end -%>
 </tbody>
 </table>
 </div>
+<% end -%>
 <span class="pagination"><%= pagination_links_full @entry_pages, @entry_count %></span>
 
 <div id="csv-export-options" style="display:none;">
@@ -65,3 +72,4 @@
   </p>
   <% end %>
 </div>
+<%= context_menu if @admin_list %>
