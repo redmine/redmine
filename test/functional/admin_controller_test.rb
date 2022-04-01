@@ -38,29 +38,43 @@ class AdminControllerTest < Redmine::ControllerTest
     assert_select 'div.nodata'
   end
 
-  def test_projects
+  def test_projects_should_show_only_active_projects_by_default
+    p = Project.find(1)
+    p.update_column :status, 5
+
     get :projects
     assert_response :success
     assert_select 'tr.project.closed', 0
+    assert_select 'tr.project', 5
+    assert_select 'tr.project td.name', :text => 'OnlineStore'
+    assert_select 'tr.project td.name', :text => p.name, :count => 0
   end
 
   def test_projects_with_status_filter
+    p = Project.find(1)
+    p.update_column :status, 5
     get(
       :projects,
       :params => {
-        :status => 1
+        'set_filter' => '1',
+        'f'  => ['status'],
+        'op' => {'status' => '='},
+        'v'  => {'status' => ['5']}
       }
     )
     assert_response :success
-    assert_select 'tr.project.closed', 0
+    assert_select 'tr.project', 1
+    assert_select 'tr.project td.name', :text => p.name
   end
 
   def test_projects_with_name_filter
     get(
       :projects,
       :params => {
-        :name => 'store',
-        :status => ''
+        'set_filter' => '1',
+        'f'  => ['status', 'name'],
+        'op' => {'status' => '=', 'name' => '~'},
+        'v'  => {'status' => ['1'], 'name' => ['store']}
       }
     )
     assert_response :success

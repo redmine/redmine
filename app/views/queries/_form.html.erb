@@ -4,6 +4,7 @@
 <div class="tabular">
 <%= hidden_field_tag 'gantt', '1' if params[:gantt] %>
 <%= hidden_field_tag 'calendar', '1' if params[:calendar] %>
+<%= hidden_field_tag 'admin_projects', '1' if params[:admin_projects] %>
 
 <p><label for="query_name"><%=l(:field_name)%></label>
 <%= text_field 'query', 'name', :size => 80 %></p>
@@ -34,6 +35,8 @@
       <p><label for='display_type'><%= l(:label_display_type) %></label>
         <%= available_display_types_tags(@query) %>
       </p>
+    <% elsif @query.available_display_types.size == 1 %>
+      <%= hidden_field_tag 'query[display_type]', @query.available_display_types.first %>
     <% end %>
 
     <p id ="default_columns"><label for="query_default_columns"><%=l(:label_default_columns)%></label>

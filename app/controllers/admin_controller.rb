@@ -26,19 +26,23 @@ class AdminController < ApplicationController
 
   before_action :require_admin
 
+  helper :queries
+  include QueriesHelper
+  helper :projects_queries
+  helper :projects
+
   def index
     @no_configuration_data = Redmine::DefaultData::Loader::no_data?
   end
 
   def projects
-    @status = params[:status] || 1
+    retrieve_query(ProjectQuery, false, :defaults => @default_columns_names)
+    @query.admin_projects = 1
+    scope = @query.results_scope
 
-    scope = Project.status(@status).sorted
-    scope = scope.like(params[:name]) if params[:name].present?
-
-    @project_count = scope.count
-    @project_pages = Paginator.new @project_count, per_page_option, params['page']
-    @projects = scope.limit(@project_pages.per_page).offset(@project_pages.offset).to_a
+    @entry_count = scope.count
+    @entry_pages = Paginator.new @entry_count, per_page_option, params['page']
+    @projects = scope.limit(@entry_pages.per_page).offset(@entry_pages.offset).to_a
 
     render :action => "projects", :layout => false if request.xhr?
   end

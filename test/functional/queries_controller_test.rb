@@ -585,6 +585,33 @@ class QueriesControllerTest < Redmine::ControllerTest
     assert q.valid?
   end
 
+  def test_create_admin_projects_query_should_redirect_to_admin_projects
+    @request.session[:user_id] = 1
+
+    q = new_record(ProjectQuery) do
+      post(
+        :create,
+        :params => {
+          :type => 'ProjectQuery',
+          :default_columns => '1',
+          :f => ["status"],
+          :op => {
+            "status" => "="
+          },
+          :v => {
+            "status" => ['1']
+          },
+          :query => {
+            "name" => "test_new_project_public_query", "visibility" => "2"
+          },
+          :admin_projects => 1
+        }
+      )
+    end
+
+    assert_redirected_to :controller => 'admin', :action => 'projects', :query_id => q.id, :admin_projects => 1
+  end
+
   def test_edit_global_public_query
     @request.session[:user_id] = 1
     get(:edit, :params => {:id => 4})
@@ -688,6 +715,33 @@ class QueriesControllerTest < Redmine::ControllerTest
     assert q.is_public?
     assert q.has_default_columns?
     assert q.valid?
+  end
+
+  def test_update_admin_projects_query
+    q = ProjectQuery.create(:name => 'project_query')
+    @request.session[:user_id] = 1
+
+    put(
+      :update,
+      :params => {
+        :id => q.id,
+        :default_columns => '1',
+        :fields => ["status"],
+        :operators => {
+          "status" => "="
+        },
+        :values => {
+          "status" => ['1']
+        },
+        :query => {
+          "name" => "test_project_query_updated", "visibility" => "2"
+        },
+        :admin_projects => 1
+      }
+    )
+
+    assert_redirected_to :controller => 'admin', :action => 'projects', :query_id => q.id, :admin_projects => 1
+    assert Query.find_by_name('test_project_query_updated')
   end
 
   def test_update_with_failure
