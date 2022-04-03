@@ -105,16 +105,20 @@ class TimeEntryImport < Import
     end
 
     attributes = {
-      :project_id  => project.id,
       :activity_id => activity_id,
       :author_id   => user.id,
       :user_id     => user_id,
 
-      :issue_id    => row_value(row, 'issue_id'),
       :spent_on    => row_date(row, 'spent_on'),
       :hours       => row_value(row, 'hours'),
       :comments    => row_value(row, 'comments')
     }
+
+    if issue_id = row_value(row, 'issue_id').presence
+      attributes[:issue_id] = issue_id
+    else
+      attributes[:project_id] = project.id
+    end
 
     attributes['custom_field_values'] = object.custom_field_values.inject({}) do |h, v|
       value =
