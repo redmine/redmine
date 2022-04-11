@@ -291,7 +291,7 @@ function copyImageFromClipboard(e) {
 
       var inputEl = $('input:file.filedrop').first()
       handleFileDropEvent.target = e.target;
-      addFile(inputEl, file, true);
+      addFile(inputEl, new File([file], filename, { type: file.type }), true);
     }
   }
 }
