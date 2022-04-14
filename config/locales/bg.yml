@@ -960,6 +960,8 @@ bg:
   label_downloads_abbr: D/L
   label_optional_description: Незадължително описание
   label_add_another_file: Добавяне на друг файл
+  label_auto_watch_on: Автоматично включване в наблюдателите
+  label_auto_watch_on_issue_contributed_to: Задачи в които имам участие
   label_preferences: Предпочитания
   label_chronological_order: Хронологичен ред
   label_reverse_chronological_order: Обратен хронологичен ред
@@ -1023,6 +1025,7 @@ bg:
   label_readonly: Само за четене
   label_required: Задължително
   label_required_lower: задължително
+  label_required_administrators: изисквано за администратори
   label_hidden: Скрит
   label_attribute_of_project: Project's %{name}
   label_attribute_of_issue: Issue's %{name}
@@ -1360,6 +1363,8 @@ bg:
     по желание, освен ако тя не е задължителна от някоя от техните групи.
   twofa_hint_required_html: Настройка <strong>%{label}</strong> ще изисква всички потребители
     да установят двуфакторна автентикация при тяхното следващо влизане в Redmine.
+  twofa_hint_required_administrators_html: <strong>%{label}</strong> изглежда като по желание, но ще изисква всички потребители с административни права да установят
+    двуфакторна автентикация при тяхното следващо влизане.
   twofa_label_setup: Активиране на двуфакторна автентикация
   twofa_label_deactivation_confirmation: Деактивация на двуфакторната автентикация
   twofa_notice_select: 'Моля изберете двуфакторна схема, която желаете да използвате:'
@@ -1395,9 +1400,3 @@ bg:
     Това действие не може да бъде отменено. Често заключването на потребителя е по-добро решение от изтриването му.
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
-  label_required_administrators: required for administrators
-  twofa_hint_required_administrators_html: Setting <strong>%{label}</strong> behaves
-    like optional, but will require all users with administration rights to set up two-factor
-    authentication at their next login.
-  label_auto_watch_on: Auto watch
-  label_auto_watch_on_issue_contributed_to: Issues I contributed to
