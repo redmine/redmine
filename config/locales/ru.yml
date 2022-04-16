@@ -1482,41 +1482,41 @@ ru:
   error_invalid_authenticity_token: Недействительный токен аутентификации.
   error_query_statement_invalid: Ошибка при выполнении запроса была зарегистрирована.
     Сообщите об этой ошибке администратору Redmine.
-  permission_view_wiki_page_watchers: View wiki page watchers list
-  permission_add_wiki_page_watchers: Add wiki page watchers
-  permission_delete_wiki_page_watchers: Delete wiki page watchers
-  label_wiki_page_watchers: Watchers
-  label_attachment_description: File description
-  error_no_data_in_file: The file does not contain any data
-  field_twofa_required: Require two factor authentication
-  twofa_hint_optional_html: Setting <strong>%{label}</strong> will let users set up
-    two-factor authentication at will, unless it is required by one of their groups.
-  twofa_text_group_required: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is required for all users.
-  twofa_text_group_disabled: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is disabled.
-  field_default_issue_query: Default issue query
+  permission_view_wiki_page_watchers: Просмотр списка наблюдателей wiki-страниц
+  permission_add_wiki_page_watchers: Добавление наблюдателей wiki-страниц
+  permission_delete_wiki_page_watchers: Удаление наблюдателей wiki-страниц
+  label_wiki_page_watchers: Наблюдатели
+  label_attachment_description: Описание файла
+  error_no_data_in_file: Данный файл не содержит данных
+  field_twofa_required: Требовать двухфакторной аутентификации
+  twofa_hint_optional_html: Настройка <strong>%{label}</strong> разрешает пользователям
+    настраивать двухфакторную аутентификацию по желанию, если это не требуется их группой.
+  twofa_text_group_required: Данная настройка используется только тогда, когда двухфакторная
+    аутентификация является необязательной. В данный момент двухфакторная аутентификация
+    обязательна для всех пользователей.
+  twofa_text_group_disabled: Данная настройка используется только тогда, когда двухфакторная
+    аутентификация является необязательной. В данный момент двухфакторная аутентификация
+    отключена.
+  field_default_issue_query: Задачи по умолчанию
   label_default_queries:
-    for_all_projects: For all projects
-    for_current_project: For current project
-    for_all_users: For all users
-  text_allowed_queries_to_select: Public (to any users) queries only selectable
-  text_all_migrations_have_been_run: All database migrations have been run
-  button_save_object: Save %{object_name}
-  button_edit_object: Edit %{object_name}
-  button_delete_object: Delete %{object_name}
-  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
-    Please restart the application after editing it.
-  label_bulk_edit: Bulk edit
-  button_create_and_follow: Create and follow
-  label_subtask: Subtask
-  label_default_query: Default query
-  field_default_project_query: Default project query
-  label_required_administrators: required for administrators
-  twofa_hint_required_administrators_html: Setting <strong>%{label}</strong> behaves
-    like optional, but will require all users with administration rights to set up two-factor
-    authentication at their next login.
-  label_auto_watch_on: Auto watch
-  label_auto_watch_on_issue_contributed_to: Issues I contributed to
+    for_all_projects: Для всех проектов
+    for_current_project: Для текущего проекта
+    for_all_users: Для всех пользователей
+  text_allowed_queries_to_select: Выбор производится из публичных запросов (видимых для всех пользователей)
+  text_all_migrations_have_been_run: Миграция база данных полностью выполнена
+  button_save_object: Записать %{object_name}
+  button_edit_object: Изменить %{object_name}
+  button_delete_object: Удалить %{object_name}
+  text_setting_config_change: Вы можете настроить поведение в файле config/configuration.yml.
+    Пожалуйста, перезапустите приложение после редактирования этого файла.
+  label_bulk_edit: Массовое редактирование
+  button_create_and_follow: Создать и продолжить
+  label_subtask: Подзадача
+  label_default_query: Запрос по умолчанию
+  field_default_project_query: Проекты по умолчанию
+  label_required_administrators: обязательна для администраторов
+  twofa_hint_required_administrators_html: Настройка <strong>%{label}</strong> ведёт себя
+    аналогично необязательной двухфакторной аутентификации, однако администраторам
+    потребуется включить двухфакторную аутентификацию при следующем входе.
+  label_auto_watch_on: Следить автоматически
+  label_auto_watch_on_issue_contributed_to: За задачами, в которых я принимаю участие
