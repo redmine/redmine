@@ -26,4 +26,11 @@ class Redmine::InfoTest < ActiveSupport::TestCase
     assert_kind_of String, env
     assert_match 'Redmine version', env
   end
+
+  def test_theme_with_invalid_theme_setting
+    Setting.ui_theme = 'foo'
+    env = Redmine::Info.environment
+
+    assert_match 'Redmine theme', env
+  end
 end

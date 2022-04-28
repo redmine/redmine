@@ -20,16 +20,13 @@ module Redmine
           ["Mailer delivery", ActionMailer::Base.delivery_method]
         ].map {|info| "  %-30s %s" % info}.join("\n") + "\n"
 
-        theme = Setting.ui_theme.blank? ? 'Default' : Setting.ui_theme.capitalize
-        unless Setting.ui_theme.blank?
-          theme_js  = (if Redmine::Themes.theme(Setting.ui_theme).javascripts.include?('theme')
-                         ' (includes JavaScript)'
-                       else
-                         ''
-                       end
-                      )
+        theme_string = ''
+        theme_string += (Setting.ui_theme.blank? ? 'Default' : Setting.ui_theme.capitalize)
+        unless Setting.ui_theme.blank? ||
+          Redmine::Themes.theme(Setting.ui_theme).nil? ||
+          !Redmine::Themes.theme(Setting.ui_theme).javascripts.include?('theme')
+          theme_string += ' (includes JavaScript)'
         end
-        theme_string = (theme + theme_js.to_s).to_s
 
         s << "Redmine settings:\n"
         s << [
