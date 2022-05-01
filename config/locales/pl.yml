@@ -973,6 +973,8 @@ pl:
   label_downloads_abbr: Pobieranie
   label_optional_description: Opcjonalny opis
   label_add_another_file: Dodaj kolejny plik
+  label_auto_watch_on: Automatyczne obserwowanie
+  label_auto_watch_on_issue_contributed_to: Zagadnienia, w których brałem udział
   label_preferences: Preferencje
   label_chronological_order: W kolejności chronologicznej
   label_reverse_chronological_order: W kolejności odwrotnej do chronologicznej
@@ -1395,5 +1397,3 @@ pl:
   twofa_text_group_disabled: "This setting is only effective when the global two factor authentication setting is set to 'optional'. Currently, two factor authentication is disabled."
   text_user_destroy_confirmation: "Czy jesteś pewien, że chcesz usunąć tego użytkownika i wszystkie odwołania do niego? Tej operacji nie można cofnąć. Zwykle zablokowanie użytkownika jest lepszym rozwiązaniem, niż jego całkowite usunięcie. Aby potwierdzić operację, podaj jego login (%{login}) poniżej."
   text_project_destroy_enter_identifier: "Aby potwierdzić, podaj identyfikator projektu (%{identifier}) poniżej."
-  label_auto_watch_on: Auto watch
-  label_auto_watch_on_issue_contributed_to: Issues I contributed to
