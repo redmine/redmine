@@ -52,7 +52,7 @@ Layout/FirstHashElementIndentation:
 
 Layout/LineLength:
   Enabled: true
-  IgnoredPatterns: ['\A\s+test \".+\" do\z', '\A\s*\#']
+  AllowedPatterns: ['\A\s+test \".+\" do\z', '\A\s*\#']
   Exclude:
     - 'db/migrate/0*.rb'
     - 'db/migrate/1*.rb'
@@ -148,6 +148,9 @@ Style/BlockDelimiters:
     - 'db/migrate/007_create_journals.rb'
     - 'lib/redmine/string_array_diff/diff.rb'
     - 'lib/redmine/string_array_diff/diffable.rb'
+
+Style/FetchEnvVar:
+  Enabled: false
 
 Style/EmptyElse:
   EnforcedStyle: empty
