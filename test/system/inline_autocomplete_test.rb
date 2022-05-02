@@ -24,7 +24,8 @@ class InlineAutocompleteSystemTest < ApplicationSystemTestCase
            :trackers, :projects_trackers, :enabled_modules, :issue_statuses, :issues,
            :enumerations, :custom_fields, :custom_values, :custom_fields_trackers,
            :watchers, :journals, :journal_details, :versions,
-           :workflows, :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions
+           :workflows, :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions,
+           :boards, :messages
 
   def test_inline_autocomplete_for_issues
     log_user('jsmith', 'jsmith')
