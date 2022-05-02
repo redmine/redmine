@@ -397,7 +397,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
 
     page.find('#issue_status_id').select('Assigned')
     assert_no_difference 'Issue.count' do
-      click_button('commit')
+      submit_buttons[0].click
       # wait for ajax response
       assert page.has_css?('#flash_notice')
       assert_current_path '/issues', :ignore_query => true
@@ -429,7 +429,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
 
     page.find('#issue_status_id').select('Feedback')
     assert_no_difference 'Issue.count' do
-      click_button('follow')
+      submit_buttons[1].click
       # wait for ajax response
       assert page.has_css?('#flash_notice')
       assert_current_path '/projects/onlinestore/issues', :ignore_query => true
