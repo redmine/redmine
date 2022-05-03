@@ -44,5 +44,11 @@ if Object.const_defined?(:CommonMarker)
     def test_mailto_links_should_have_email_class
       assert_equal %(<a href="mailto:user@example.org" class="email">user</a>), filter(%(<a href="mailto:user@example.org">user</a>))
     end
+
+    def test_malformed_uri_should_not_cause_exception
+      assert_nothing_raised do
+        filter(%(<a href="http://example.com/foo#bar#">Malformed URI</a>))
+      end
+    end
   end
 end
