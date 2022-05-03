@@ -157,7 +157,7 @@ module Redmine
 
     # Custom backend based on I18n::Backend::Simple with the following changes:
     # * available_locales are determined by looking at translation file names
-    class Backend < ::I18n::Backend::LazyLoadable
+    class Backend < ::I18n::Backend::Simple
       module Implementation
         # Get available locales from the translations filenames
         def available_locales
