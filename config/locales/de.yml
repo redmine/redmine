@@ -697,9 +697,9 @@ de:
   label_project_new: Neues Projekt
   label_project_plural: Projekte
   label_public_projects: Öffentliche Projekte
-  label_query: Benutzerdefinierte Abfrage
+  label_query: Abfrage
   label_query_new: Neue Abfrage
-  label_query_plural: Benutzerdefinierte Abfragen
+  label_query_plural: Abfragen
   label_radio_buttons: Radio-Buttons
   label_read: Lesen...
   label_readonly: Nur-Lese-Zugriff
@@ -1384,35 +1384,33 @@ de:
   error_invalid_authenticity_token: Ungültiges Authentizitätstoken für Formular.
   error_query_statement_invalid: Während der Ausführung einer Abfrage ist ein Fehler aufgetreten, dieser wurde
     protokolliert. Bitte melden Sie diesen Fehler an ihren Redmine-Administrator.
-  permission_view_wiki_page_watchers: View wiki page watchers list
-  permission_add_wiki_page_watchers: Add wiki page watchers
-  permission_delete_wiki_page_watchers: Delete wiki page watchers
-  label_wiki_page_watchers: Watchers
-  label_attachment_description: File description
-  error_no_data_in_file: The file does not contain any data
-  field_twofa_required: Require two factor authentication
-  twofa_hint_optional_html: Setting <strong>%{label}</strong> will let users set up
-    two-factor authentication at will, unless it is required by one of their groups.
-  twofa_text_group_required: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is required for all users.
-  twofa_text_group_disabled: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is disabled.
-  field_default_issue_query: Default issue query
-  text_all_migrations_have_been_run: All database migrations have been run
-  button_save_object: Save %{object_name}
-  button_edit_object: Edit %{object_name}
-  button_delete_object: Delete %{object_name}
-  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
-    Please restart the application after editing it.
-  label_bulk_edit: Bulk edit
-  button_create_and_follow: Create and follow
-  label_subtask: Subtask
-  field_default_project_query: Default project query
-  label_required_administrators: required for administrators
-  twofa_hint_required_administrators_html: Setting <strong>%{label}</strong> behaves
-    like optional, but will require all users with administration rights to set up two-factor
-    authentication at their next login.
-  label_auto_watch_on: Auto watch
-  label_auto_watch_on_issue_contributed_to: Issues I contributed to
+  permission_view_wiki_page_watchers: Beobachterliste einsehen
+  permission_add_wiki_page_watchers: Beobachter hinzufügen
+  permission_delete_wiki_page_watchers: Beobachter löschen
+  label_wiki_page_watchers: Beobachter
+  label_attachment_description: Dateibeschreibung
+  error_no_data_in_file: Diese Datei beinhaltet keine Daten
+  field_twofa_required: Zwei-Faktor-Authentifizierung erforderlich
+  twofa_hint_optional_html: Die Einstellung <strong>%{label}</strong> läßt den Benutzer
+    Zwei-Faktor-Authentifizierung optional verwenden, solange diese nicht durch eine Benutzergruppe erforderlich ist.
+  twofa_text_group_required: Die Einstellung wird nur verwendet, wenn die globale Zwei-Faktor-Authentifizierung 'optional' ist.
+    Aktuell ist Zwei-Faktor-Authentifizierung für alle Benutzer erforderlich.
+  twofa_text_group_disabled: Die Einstellung wird nur verwendet, wenn die globale Zwei-Faktor-Authentifizierung 'optional' ist.
+    Aktuell ist Zwei-Faktor-Authentifizierung deaktiviert.
+  field_default_issue_query: Standard-Ticketabfrage
+  text_all_migrations_have_been_run: Alle Datenbank-Migrationen wurden ausgeführt
+  button_save_object: "%{object_name} speichern"
+  button_edit_object: "%{object_name} bearbeiten"
+  button_delete_object: "%{object_name} löschen"
+  text_setting_config_change: Diese Verhalten kann in der Datei config/configuration.yml konfiguriert werden.
+    Ein Neustart der Anwendung ist nach einer Änderung erforderlich.
+  label_bulk_edit: Auswahl bearbeiten
+  button_create_and_follow: Erstellen und Ticket anzeigen
+  label_subtask: Untergeordnetes Ticket
+  field_default_project_query: Standard-Projektabfrage
+  label_required_administrators: erforderlich für Administratoren
+  twofa_hint_required_administrators_html: Die Einstellung <strong>%{label}</strong> verhält sich
+    wie 'optional', erfordert aber zusätzlich für alle Benutzer mit Administrator-Rechten die Aktivierung
+    der Zwei-Faktor-Authentifizierung beim nächsten Login.
+  label_auto_watch_on: Automatisch beobachten
+  label_auto_watch_on_issue_contributed_to: Tickets, zu denen ich beigetragen habe
