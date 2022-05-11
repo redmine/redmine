@@ -165,4 +165,26 @@ class InlineAutocompleteSystemTest < ApplicationSystemTestCase
       assert page.has_text? "Bug ##{issue.id}: This issue has a <select> element"
     end
   end
+
+  def test_inline_autocomplete_for_users_should_work_after_status_change
+    log_user('jsmith', 'jsmith')
+    visit '/issues/1/edit'
+
+    find('#issue_notes').click
+    fill_in 'issue[notes]', :with => '@lopper'
+
+    within('.tribute-container') do
+      assert page.has_text? "Dave Lopper"
+    end
+
+    page.find('#issue_status_id').select('Feedback')
+
+    find('#issue_notes').click
+    fill_in 'issue[notes]', :with => '@lopper'
+
+    within('.tribute-container') do
+      assert page.has_text? "Dave Lopper"
+    end
+
+  end
 end
