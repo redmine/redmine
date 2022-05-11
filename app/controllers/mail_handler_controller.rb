@@ -22,6 +22,9 @@ class MailHandlerController < ActionController::Base
 
   before_action :check_credential
 
+  # Requests from rdm-mailhandler.rb don't contain CSRF tokens
+  skip_before_action :verify_authenticity_token
+
   # Displays the email submission form
   def new
   end

@@ -170,4 +170,11 @@ class MailHandlerControllerTest < Redmine::ControllerTest
     end
     assert_response :success
   end
+
+  def test_should_skip_verify_authenticity_token
+    ActionController::Base.allow_forgery_protection = true
+    assert_nothing_raised {test_should_create_issue}
+  ensure
+    ActionController::Base.allow_forgery_protection = false
+  end
 end
