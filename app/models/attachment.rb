@@ -48,6 +48,7 @@ class Attachment < ActiveRecord::Base
     :scope =>
       proc do
         select("#{Attachment.table_name}.*").
+          where(container_type: ['Version', 'Project']).
           joins(
             "LEFT JOIN #{Version.table_name} " \
               "ON #{Attachment.table_name}.container_type='Version' " \
