@@ -14,7 +14,13 @@ gem 'roadie-rails', (RUBY_VERSION < '2.5' ? '~> 1.3.0' : '~> 2.2.0')
 gem 'marcel'
 gem "mail", "~> 2.7.1"
 gem 'csv', (RUBY_VERSION < '2.5' ? ['>= 3.1.1', '<= 3.1.5'] : '~> 3.1.1')
-gem 'nokogiri', (RUBY_VERSION < '2.5' ? '~> 1.10.0' : '~> 1.11.1')
+gem 'nokogiri', (if Gem.ruby_version < Gem::Version.new('2.5.0')
+                   '~> 1.10.10'
+                 elsif Gem.ruby_version < Gem::Version.new('2.6.0')
+                   '~> 1.12.5'
+                 else
+                   '~> 1.13.6'
+                 end)
 gem 'i18n', '~> 1.8.2'
 gem "rbpdf", "~> 1.20.0"
 gem 'addressable'
