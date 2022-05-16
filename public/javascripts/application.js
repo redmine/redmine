@@ -622,13 +622,8 @@ function replaceIssueFormWith(html){
       replacement.find('#'+object_id).val($(this).val());
     }
   });
-
-  if ($('form.new_issue').length > 0) {
-    $('#all_attributes').empty();
-    $('#all_attributes').prepend(replacement);
-  } else {
-    $('#issue-form').replaceWith(replacement);
-  }
+  $('#all_attributes').empty();
+  $('#all_attributes').prepend(replacement);
 }
 
 function updateBulkEditFrom(url) {
