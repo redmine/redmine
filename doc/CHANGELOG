@@ -4,6 +4,52 @@ Redmine - project management software
 Copyright (C) 2006-2022  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2022-05-16 v5.0.1
+
+=== [Administration]
+
+* Defect #36932: Handle nil return of Redmine::Themes.theme(Setting.ui_theme) in Redmine::Info.environment
+
+=== [Attachments]
+
+* Defect #36887: copyImageFromClipboard function failed to generate a unique file name
+* Patch #36817: copyImageFromClipboard function targets the first file input of the page and may conflict with other plugins
+* Defect #37053: Attachments are lost when the status of the ticket is changed
+
+=== [Documentation]
+
+* Defect #36862: Duplicate v5.0.0 section in Changelog
+* Defect #36863: Missing v4.2.5 section in Changelog
+
+=== [Email notifications]
+
+* Defect #36909: Mentions not working if status is changed
+
+=== [Email receiving]
+
+* Defect #37030: Requests fail with "Can't verify CSRF token authenticity" in mail handler
+
+=== [Gems support]
+
+* Defect #36892: Redmine does not start when installed --without markdown
+
+=== [I18n]
+
+* Defect #36998: Revert lazy loading of i18n files introduced in Redmine 5.0
+
+=== [Rails support]
+
+* Patch #36917: Update Rails to 6.1.6
+
+=== [Translations]
+
+* Patch #36905: German translation update for 5.0-stable
+* Patch #36930: Bulgarian translation update for 5.0-stable
+* Patch #36934: Russian translation update for 5.0-stable
+* Patch #37003: Czech translation update for 5.0-stable
+* Patch #37024: Galician translation update for 5.0-stable
+* Patch #37025: Polish translation update for 5.0-stable
+
 == 2022-03-28 v5.0.0
 
 === [Accounts / authentication]
