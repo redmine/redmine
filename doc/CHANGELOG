@@ -41,6 +41,14 @@ https://www.redmine.org/
 
 * Patch #36917: Update Rails to 6.1.6
 
+=== [Security]
+
+* Patch #36912: Update Nokogiri versions to fix two critical CVE's
+
+=== [Text formatting]
+
+* Defect #36958: Crafted input breaks CommonMark Markdown formatter
+
 === [Translations]
 
 * Patch #36905: German translation update for 5.0-stable
