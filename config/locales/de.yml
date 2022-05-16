@@ -1108,6 +1108,9 @@ de:
   text_plugin_assets_writable: Verzeichnis für Plugin-Assets beschreibbar
   text_project_closed: Dieses Projekt ist geschlossen und kann nicht bearbeitet werden.
   text_project_destroy_confirmation: Sind Sie sicher, dass Sie das Projekt löschen wollen?
+  text_project_close_confirmation: Sind Sie sicher, dass Sie das Projekt '%{value}' schließen wollen?
+  text_project_reopen_confirmation: Sind Sie sicher, dass Sie das Projekt '%{value}' wieder öffnen wollen?
+  text_project_archive_confirmation: Sind Sie sicher, dass Sie das Projekt '%{value}' archivieren wollen?
   text_project_identifier_info: 'Kleinbuchstaben (a-z), Ziffern, Binde- und Unterstriche erlaubt.<br />Einmal gespeichert, kann die Kennung nicht mehr geändert werden.'
   text_reassign_time_entries: 'Gebuchte Aufwände diesem Ticket zuweisen:'
   text_regexp_info: z. B. ^[A-Z0-9]+$
