@@ -4,6 +4,25 @@ Redmine - project management software
 Copyright (C) 2006-2021  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2022-05-16 v4.2.6
+
+=== [Attachments]
+
+* Defect #36887: copyImageFromClipboard function failed to generate a unique file name
+* Patch #36817: copyImageFromClipboard function targets the first file input of the page and may conflict with other plugins
+
+=== [Rails support]
+
+* Patch #36918: Update Rails to 5.2.8
+
+=== [Security]
+
+* Patch #36912: Update Nokogiri versions to fix two critical CVE's
+
+=== [Translations]
+
+* Patch #37002: Czech translation update for 4.2-stable
+
 == 2022-03-28 v4.2.5
 
 === [Attachments]
