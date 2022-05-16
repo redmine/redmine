@@ -4,3 +4,11 @@ replaceIssueFormWith('<%= escape_javascript(render :partial => 'form') %>');
 <% else %>
   $('#log_time').hide();
 <% end %>
+
+<% if @issue.notes_addable? %>
+  $('#add_notes').show();
+  $('#add_attachments').show();
+<% else %>
+  $('#add_notes').hide();
+  $('#add_attachments').hide();
+<% end %>
