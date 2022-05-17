@@ -185,6 +185,5 @@ class InlineAutocompleteSystemTest < ApplicationSystemTestCase
     within('.tribute-container') do
       assert page.has_text? "Dave Lopper"
     end
-
   end
 end
