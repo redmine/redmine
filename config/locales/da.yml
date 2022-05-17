@@ -1463,3 +1463,8 @@ da:
     authentication at their next login.
   label_auto_watch_on: Auto watch
   label_auto_watch_on_issue_contributed_to: Issues I contributed to
+  text_project_close_confirmation: Are you sure you want to close the '%{value}' project
+    to make it read-only?
+  text_project_reopen_confirmation: Are you sure you want to reopen the '%{value}' project?
+  text_project_archive_confirmation: Are you sure you want to archive the '%{value}'
+    project?

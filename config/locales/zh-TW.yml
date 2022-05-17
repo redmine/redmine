@@ -1470,3 +1470,8 @@
     但此設定會要求具有管理員權限的用戶, 在他們下次登入系統的時候, 必須設置雙因素驗證.
   label_auto_watch_on: 自動監看
   label_auto_watch_on_issue_contributed_to: 我有提供貢獻的議題
+  text_project_close_confirmation: Are you sure you want to close the '%{value}' project
+    to make it read-only?
+  text_project_reopen_confirmation: Are you sure you want to reopen the '%{value}' project?
+  text_project_archive_confirmation: Are you sure you want to archive the '%{value}'
+    project?

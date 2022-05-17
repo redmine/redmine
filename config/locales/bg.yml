@@ -1400,3 +1400,8 @@ bg:
     Това действие не може да бъде отменено. Често заключването на потребителя е по-добро решение от изтриването му.
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
+  text_project_close_confirmation: Are you sure you want to close the '%{value}' project
+    to make it read-only?
+  text_project_reopen_confirmation: Are you sure you want to reopen the '%{value}' project?
+  text_project_archive_confirmation: Are you sure you want to archive the '%{value}'
+    project?

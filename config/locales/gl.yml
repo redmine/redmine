@@ -1453,3 +1453,8 @@ gl:
     no seu próximo inicio de sesión.
   label_auto_watch_on: Auto monitorizar
   label_auto_watch_on_issue_contributed_to: Tarefas ás que teño contribuído
+  text_project_close_confirmation: Are you sure you want to close the '%{value}' project
+    to make it read-only?
+  text_project_reopen_confirmation: Are you sure you want to reopen the '%{value}' project?
+  text_project_archive_confirmation: Are you sure you want to archive the '%{value}'
+    project?
