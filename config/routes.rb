@@ -128,6 +128,7 @@ Rails.application.routes.draw do
   resources :projects do
     collection do
       get 'autocomplete'
+      delete 'bulk_destroy'
     end
 
     member do

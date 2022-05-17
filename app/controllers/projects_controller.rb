@@ -23,16 +23,16 @@ class ProjectsController < ApplicationController
   menu_item :projects, :only => [:index, :new, :copy, :create]
 
   before_action :find_project,
-                :except => [:index, :autocomplete, :list, :new, :create, :copy]
+                :except => [:index, :autocomplete, :list, :new, :create, :copy, :bulk_destroy]
   before_action :authorize,
                 :except => [:index, :autocomplete, :list, :new, :create, :copy,
                             :archive, :unarchive,
-                            :destroy]
+                            :destroy, :bulk_destroy]
   before_action :authorize_global, :only => [:new, :create]
-  before_action :require_admin, :only => [:copy, :archive, :unarchive]
+  before_action :require_admin, :only => [:copy, :archive, :unarchive, :bulk_destroy]
   accept_atom_auth :index
   accept_api_auth :index, :show, :create, :update, :destroy, :archive, :unarchive, :close, :reopen
-  require_sudo_mode :destroy
+  require_sudo_mode :destroy, :bulk_destroy
 
   helper :custom_fields
   helper :issues
@@ -313,6 +313,23 @@ class ProjectsController < ApplicationController
     end
     # hide project in layout
     @project = nil
+  end
+
+  # Delete selected projects
+  def bulk_destroy
+    @projects = Project.where(id: params[:ids]).
+      where.not(status: Project::STATUS_SCHEDULED_FOR_DELETION).to_a
+
+    if @projects.empty?
+      render_404
+      return
+    end
+
+    if params[:confirm] == I18n.t(:general_text_Yes)
+      DestroyProjectsJob.schedule @projects
+      flash[:notice] = l(:notice_successful_delete)
+      redirect_to admin_projects_path
+    end
   end
 
   private

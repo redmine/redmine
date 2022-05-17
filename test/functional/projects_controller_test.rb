@@ -1227,6 +1227,31 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert Project.find(1)
   end
 
+  def test_bulk_destroy_should_require_admin
+    @request.session[:user_id] = 2 # non-admin
+    delete :bulk_destroy, params: { ids: [1, 2], confirm: 'Yes' }
+    assert_response 403
+  end
+
+  def test_bulk_destroy_should_require_confirmation
+    @request.session[:user_id] = 1 # admin
+    assert_difference 'Project.count', 0 do
+      delete :bulk_destroy, params: { ids: [1, 2] }
+    end
+    assert Project.find(1)
+    assert Project.find(2)
+    assert_response 200
+  end
+
+  def test_bulk_destroy_should_delete_projects
+    @request.session[:user_id] = 1 # admin
+    assert_difference 'Project.count', -2 do
+      delete :bulk_destroy, params: { ids: [2, 6], confirm: 'Yes' }
+    end
+    assert_equal 0, Project.where(id: [2, 6]).count
+    assert_redirected_to '/admin/projects'
+  end
+
   def test_archive
     @request.session[:user_id] = 1 # admin
     post(:archive, :params => {:id => 1})
