@@ -25,6 +25,7 @@ class DestroyProjectsJobTest < ActiveJob::TestCase
   setup do
     @projects = Project.where(id: [1, 2]).to_a
     @user = User.find_by_admin true
+    ActionMailer::Base.deliveries.clear
   end
 
   test "schedule should mark projects and children for deletion" do
@@ -52,12 +53,18 @@ class DestroyProjectsJobTest < ActiveJob::TestCase
     assert_difference 'Project.count', -6 do
       DestroyProjectsJob.perform_now @projects.map(&:id), @user.id, '127.0.0.1'
     end
-    assert_enqueued_with(
-      job: ActionMailer::MailDeliveryJob,
-      args: ->(job_args){
-        job_args[1] == 'security_notification' &&
-        job_args[3].to_s.include?("mail_destroy_project_with_subprojects_successful")
-      }
-    )
+    if m = ActionMailer::Base.deliveries.last
+      assert_match /Security notification/, m.subject
+      assert_match /deleted successfully/, m.text_part.to_s
+    else
+      fail 'foo'
+      assert_enqueued_with(
+        job: ActionMailer::MailDeliveryJob,
+        args: ->(job_args){
+          job_args[1] == 'security_notification' &&
+          job_args[3].to_s.include?("mail_destroy_project_with_subprojects_successful")
+        }
+      )
+    end
   end
 end
