@@ -397,7 +397,7 @@ module Redmine
         format.register :textile
         format.register :markdown if Object.const_defined?(:Redcarpet)
         if Object.const_defined?(:CommonMarker)
-          format.register :common_mark, label: 'CommonMark Markdown (GitHub Flavored) - experimental'
+          format.register :common_mark, label: 'CommonMark Markdown (GitHub Flavored)'
         end
       end
 
