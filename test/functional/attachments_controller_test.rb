@@ -209,7 +209,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     end
   end
 
-  def test_show_text_file_formated_markdown
+  def test_show_text_file_formatted_markdown
     set_tmp_attachments_directory
     a = Attachment.new(:container => Issue.find(1),
                        :file => uploaded_test_file('testfile.md', 'text/plain'),
@@ -222,7 +222,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_select 'div.wiki', :html => "<h1>Header 1</h1>\n\n<h2>Header 2</h2>\n\n<h3>Header 3</h3>"
   end
 
-  def test_show_text_file_fromated_textile
+  def test_show_text_file_formatted_textile
     set_tmp_attachments_directory
     a = Attachment.new(:container => Issue.find(1),
                        :file => uploaded_test_file('testfile.textile', 'text/plain'),
