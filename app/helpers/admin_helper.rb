@@ -22,7 +22,8 @@ module AdminHelper
     options_for_select([[l(:label_all), ''],
                         [l(:project_status_active), '1'],
                         [l(:project_status_closed), '5'],
-                        [l(:project_status_archived), '9']], selected.to_s)
+                        [l(:project_status_archived), '9'],
+                        [l(:project_status_scheduled_for_deletion), '10']], selected.to_s)
   end
 
   def plugin_data_for_updates(plugins)

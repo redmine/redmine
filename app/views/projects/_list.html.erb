@@ -40,13 +40,13 @@
     </tr>
   <% end %>
   <tr id="project-<%= entry.id %>" class="<%= cycle('odd', 'even') %> hascontextmenu <%= entry.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
-    <% if @admin_list %>
+    <% if @admin_list && !entry.scheduled_for_deletion? %>
       <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", entry.id, false, :id => nil) %></td>
     <% end %>
     <% @query.inline_columns.each do |column| %>
     <%= content_tag('td', column_content(column, entry), :class => column.css_classes) %>
     <% end %>
-    <% if @admin_list %>
+    <% if @admin_list && !entry.scheduled_for_deletion? %>
       <td class="buttons"><%= link_to_context_menu %></td>
     <% end %>
   </tr>

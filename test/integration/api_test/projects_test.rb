@@ -20,6 +20,7 @@
 require File.expand_path('../../../test_helper', __FILE__)
 
 class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
+  include ActiveJob::TestHelper
   fixtures :projects, :versions, :users, :roles, :members, :member_roles, :issues, :journals, :journal_details,
            :trackers, :projects_trackers, :issue_statuses, :enabled_modules, :enumerations, :boards, :messages,
            :attachments, :custom_fields, :custom_values, :custom_fields_projects, :time_entries, :issue_categories,
@@ -361,13 +362,16 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_select 'errors error', :text => "Name cannot be blank"
   end
 
-  test "DELETE /projects/:id.xml should delete the project" do
-    assert_difference('Project.count', -1) do
+  test "DELETE /projects/:id.xml should schedule deletion of the project" do
+    assert_no_difference('Project.count') do
       delete '/projects/2.xml', :headers => credentials('admin')
     end
+    assert_enqueued_with(job: DestroyProjectJob,
+                         args: ->(job_args){ job_args[0] == 2})
     assert_response :no_content
     assert_equal '', @response.body
-    assert_nil Project.find_by_id(2)
+    assert p = Project.find_by_id(2)
+    assert_equal Project::STATUS_SCHEDULED_FOR_DELETION, p.status
   end
 
   test "PUT /projects/:id/archive.xml should archive project" do

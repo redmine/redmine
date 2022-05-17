@@ -33,6 +33,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
   def setup
     @request.session[:user_id] = nil
     Setting.default_language = 'en'
+    ActiveJob::Base.queue_adapter = :inline
   end
 
   def test_index_by_anonymous_should_not_show_private_projects
@@ -1116,6 +1117,25 @@ class ProjectsControllerTest < Redmine::ControllerTest
                   :text => ['Private child of eCookbook',
                             'Child of private child, eCookbook Subproject 1',
                             'eCookbook Subproject 2'].join(', ')
+  end
+
+  def test_destroy_should_mark_project_and_subprojects_for_deletion
+    queue_adapter_was = ActiveJob::Base.queue_adapter
+    ActiveJob::Base.queue_adapter = :test
+    set_tmp_attachments_directory
+    @request.session[:user_id] = 1 # admin
+
+    assert_no_difference 'Project.count' do
+      delete(:destroy, :params => {:id => 1, :confirm => 'ecookbook'})
+      assert_redirected_to '/admin/projects'
+    end
+    assert p = Project.find_by_id(1)
+    assert_equal Project::STATUS_SCHEDULED_FOR_DELETION, p.status
+    p.descendants.each do |child|
+      assert_equal Project::STATUS_SCHEDULED_FOR_DELETION, child.status
+    end
+  ensure
+    ActiveJob::Base.queue_adapter = queue_adapter_was
   end
 
   def test_destroy_with_confirmation_should_destroy_the_project_and_subprojects

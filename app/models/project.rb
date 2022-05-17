@@ -25,6 +25,7 @@ class Project < ActiveRecord::Base
   STATUS_ACTIVE     = 1
   STATUS_CLOSED     = 5
   STATUS_ARCHIVED   = 9
+  STATUS_SCHEDULED_FOR_DELETION = 10
 
   # Maximum length for project identifiers
   IDENTIFIER_MAX_LENGTH = 100
@@ -182,7 +183,7 @@ class Project < ActiveRecord::Base
     perm = Redmine::AccessControl.permission(permission)
     base_statement =
       if perm && perm.read?
-        "#{Project.table_name}.status <> #{Project::STATUS_ARCHIVED}"
+        "#{Project.table_name}.status <> #{Project::STATUS_ARCHIVED} AND #{Project.table_name}.status <> #{Project::STATUS_SCHEDULED_FOR_DELETION}"
       else
         "#{Project.table_name}.status = #{Project::STATUS_ACTIVE}"
       end
@@ -397,6 +398,10 @@ class Project < ActiveRecord::Base
 
   def archived?
     self.status == STATUS_ARCHIVED
+  end
+
+  def scheduled_for_deletion?
+    self.status == STATUS_SCHEDULED_FOR_DELETION
   end
 
   # Archives the project and its descendants

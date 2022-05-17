@@ -270,6 +270,10 @@ en:
   mail_body_security_notification_notify_disabled: "Email address %{value} no longer receives notifications."
   mail_body_settings_updated: "The following settings were changed:"
   mail_body_password_updated: "Your password has been changed."
+  mail_destroy_project_failed: Project %{value} could not be deleted.
+  mail_destroy_project_successful: Project %{value} was deleted successfully.
+  mail_destroy_project_with_subprojects_successful: Project %{value} and its subprojects were deleted successfully.
+
 
   field_name: Name
   field_description: Description
@@ -1197,6 +1201,7 @@ en:
   project_status_active: active
   project_status_closed: closed
   project_status_archived: archived
+  project_status_scheduled_for_deletion: scheduled for deletion
 
   version_status_open: open
   version_status_locked: locked

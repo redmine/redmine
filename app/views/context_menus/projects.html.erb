@@ -1,5 +1,5 @@
 <ul>
-  <% if @project %>
+  <% if @project && !@project.scheduled_for_deletion? %>
     <% if @project.archived? %>
       <li><%= context_menu_link l(:button_unarchive), unarchive_project_path(@project), method: :post, class: 'icon icon-unlock' %></li>
     <% else %>

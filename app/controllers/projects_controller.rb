@@ -300,7 +300,8 @@ class ProjectsController < ApplicationController
 
     @project_to_destroy = @project
     if api_request? || params[:confirm] == @project_to_destroy.identifier
-      @project_to_destroy.destroy
+      DestroyProjectJob.schedule(@project_to_destroy)
+      flash[:notice] = l(:notice_successful_delete)
       respond_to do |format|
         format.html do
           redirect_to(

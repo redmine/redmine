@@ -111,6 +111,7 @@ class ProjectQuery < Query
     values = super
     if self.admin_projects
       values << [l(:project_status_archived), Project::STATUS_ARCHIVED.to_s]
+      values << [l(:project_status_scheduled_for_deletion), Project::STATUS_SCHEDULED_FOR_DELETION.to_s]
     end
     values
   end
