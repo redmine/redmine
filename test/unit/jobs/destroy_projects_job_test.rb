@@ -57,7 +57,6 @@ class DestroyProjectsJobTest < ActiveJob::TestCase
       assert_match /Security notification/, m.subject
       assert_match /deleted successfully/, m.text_part.to_s
     else
-      fail 'foo'
       assert_enqueued_with(
         job: ActionMailer::MailDeliveryJob,
         args: ->(job_args){
