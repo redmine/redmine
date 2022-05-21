@@ -1212,6 +1212,9 @@ bg:
   text_regexp_info: пр. ^[A-Z0-9]+$
   text_project_destroy_confirmation: Сигурни ли сте, че искате да изтриете проекта и данните в него?
   text_subprojects_destroy_warning: "Неговите подпроекти: %{value} също ще бъдат изтрити."
+  text_project_close_confirmation: Сигурни ли сте, че желаете да затворите проект '%{value}' и да го направите достъпен само за четене?
+  text_project_reopen_confirmation: Сигурни ли сте, че желаете да отворите отново проект %{value}'?
+  text_project_archive_confirmation: Сигурни ли сте, че желаете да архивирате проект '%{value}'?
   text_workflow_edit: Изберете роля и тракер за да редактирате работния процес
   text_are_you_sure: Сигурни ли сте?
   text_journal_changed: "%{label} променен от %{old} на %{new}"
@@ -1400,8 +1403,3 @@ bg:
     Това действие не може да бъде отменено. Често заключването на потребителя е по-добро решение от изтриването му.
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
-  text_project_close_confirmation: Are you sure you want to close the '%{value}' project
-    to make it read-only?
-  text_project_reopen_confirmation: Are you sure you want to reopen the '%{value}' project?
-  text_project_archive_confirmation: Are you sure you want to archive the '%{value}'
-    project?
