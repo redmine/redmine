@@ -1407,8 +1407,6 @@ ja:
   twofa_hint_required_administrators_html: <strong>%{label}</strong> に設定するとシステム管理者であるユーザーに対し二要素認証の有効化を次回ログイン時に要求します。そのほかのユーザーに対しては 任意 に設定した場合と同じ動作です。
   label_auto_watch_on: オートウォッチ
   label_auto_watch_on_issue_contributed_to: 自分が更新したチケット
-  text_project_close_confirmation: Are you sure you want to close the '%{value}' project
-    to make it read-only?
-  text_project_reopen_confirmation: Are you sure you want to reopen the '%{value}' project?
-  text_project_archive_confirmation: Are you sure you want to archive the '%{value}'
-    project?
+  text_project_close_confirmation: 本当にプロジェクト '%{value}' を終了して読み取り専用にしますか?
+  text_project_reopen_confirmation: 本当にプロジェクト '%{value}' を再開しますか?
+  text_project_archive_confirmation: 本当にプロジェクト '%{value}' をアーカイブしますか?
