@@ -103,7 +103,7 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
       )
       assert_response :unprocessable_entity
       assert_equal 'application/xml', @response.media_type
-      assert_select 'errors error', :text => "Principal cannot be blank"
+      assert_select 'errors error', :text => 'User or Group cannot be blank'
     end
   end
 
