@@ -987,7 +987,7 @@ az:
   label_close_versions: Başa çatmış variantları bağlamaq
   label_board_sticky: Bərkidilib
   label_board_locked: Bloklanıb
-  field_principal: Ad
+  field_principal: User or Group
   text_zoom_out: Uzaqlaşdırmaq
   text_zoom_in: Yaxınlaşdırmaq
   notice_unable_delete_time_entry: Jurnalın qeydini silmək mümkün deyildir.

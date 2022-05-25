@@ -906,7 +906,7 @@
   label_subtask_plural: Alfeladatok
   error_can_not_delete_tracker: Ebbe a kategóriába feladatok tartoznak és ezért nem törölhető.
   label_project_copy_notifications: Küldjön e-mail értesítéseket projektmásolás közben.
-  field_principal: Felelős
+  field_principal: User or Group
   notice_failed_to_save_members: "Nem sikerült menteni a tago(ka)t: %{errors}."
   text_zoom_out: Kicsinyít
   text_zoom_in: Nagyít

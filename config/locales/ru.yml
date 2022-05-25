@@ -997,7 +997,7 @@ ru:
   label_close_versions: Закрыть завершённые версии
   label_board_sticky: Прикреплена
   label_board_locked: Заблокирована
-  field_principal: Имя
+  field_principal: User or Group
   text_zoom_out: Отдалить
   text_zoom_in: Приблизить
   notice_unable_delete_time_entry: Невозможно удалить запись журнала.

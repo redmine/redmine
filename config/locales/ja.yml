@@ -274,7 +274,7 @@ ja:
   field_priority: 優先度
   field_fixed_version: 対象バージョン
   field_user: ユーザー
-  field_principal: 主体
+  field_principal: ユーザーまたはグループ
   field_role: ロール
   field_homepage: ホームページ
   field_is_public: 公開

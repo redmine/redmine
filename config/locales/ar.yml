@@ -254,7 +254,7 @@ ar:
   field_priority: الأولوية
   field_fixed_version: الاصدار المستهدف
   field_user: المستخدم
-  field_principal: الرئيسي
+  field_principal: User or Group
   field_role: دور
   field_homepage: الصفحة الرئيسية
   field_is_public: عام

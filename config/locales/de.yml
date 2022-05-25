@@ -359,7 +359,7 @@ de:
   field_path_to_repository: Pfad zum Repository
   field_port: Port
   field_possible_values: Mögliche Werte
-  field_principal: Auftraggeber
+  field_principal: Benutzer oder Gruppe
   field_priority: Priorität
   field_private_notes: Privater Kommentar
   field_project: Projekt

@@ -370,7 +370,7 @@
   field_priority: 優先權
   field_fixed_version: 版本
   field_user: 用戶
-  field_principal: 原則
+  field_principal: User or Group
   field_role: 角色
   field_homepage: 網站首頁
   field_is_public: 公開

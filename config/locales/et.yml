@@ -274,7 +274,7 @@ et:
   field_priority: "Prioriteet"
   field_fixed_version: "Sihtversioon"
   field_user: "Kasutaja"
-  field_principal: "Vastutav isik"
+  field_principal: User or Group
   field_role: "Roll"
   field_homepage: "Koduleht"
   field_is_public: "Avalik"

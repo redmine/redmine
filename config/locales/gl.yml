@@ -901,7 +901,7 @@ gl:
   error_unable_to_connect: "Non foi posíbel conectarse (%{value})."
   error_can_not_remove_role: "Este rol non pode eliminarse porque está a usarse."
   error_can_not_delete_tracker: "Este tipo de petición non pode eliminarse porque existen peticións deste tipo."
-  field_principal: "Principal"
+  field_principal: User or Group
   notice_failed_to_save_members: "Non foi posíbel gardar os membros: %{errors}."
   text_zoom_out: "Afastar"
   text_zoom_in: "Achegar"

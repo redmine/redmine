@@ -938,7 +938,7 @@ vi:
   error_unable_to_connect: "Không thể kết nối (%{value})"
   error_can_not_remove_role: Quyền này đang được dùng và không thể xóa được.
   error_can_not_delete_tracker: Theo dõi này chứa vấn đề và không thể xóa được.
-  field_principal: Chủ yếu
+  field_principal: User or Group
   notice_failed_to_save_members: "Thất bại khi lưu thành viên : %{errors}."
   text_zoom_out: Thu nhỏ
   text_zoom_in: Phóng to

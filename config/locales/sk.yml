@@ -881,7 +881,7 @@ sk:
   error_unable_to_connect: Nie je možné sa pripojiť (%{value})
   error_can_not_remove_role: "Táto rola sa používa a nemôže byť vymazaná."
   error_can_not_delete_tracker: "Tento front obsahuje úlohy a nemôže byť vymazaný."
-  field_principal: Objednávateľ
+  field_principal: User or Group
   notice_failed_to_save_members: "Nepodarilo sa uložiť členov: %{errors}."
   text_zoom_out: Oddialiť
   text_zoom_in: Priblížiť

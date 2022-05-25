@@ -256,7 +256,7 @@ en-GB:
   field_priority: Priority
   field_fixed_version: Target version
   field_user: User
-  field_principal: Principal
+  field_principal: User or Group
   field_role: Role
   field_homepage: Homepage
   field_is_public: Public

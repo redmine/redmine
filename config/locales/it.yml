@@ -887,7 +887,7 @@ it:
   error_unable_to_connect: Impossibile connettersi (%{value})
   error_can_not_remove_role: Questo ruolo è in uso e non può essere eliminato.
   error_can_not_delete_tracker: Questo tracker contiene segnalazioni e non può essere eliminato.
-  field_principal: Principale
+  field_principal: User or Group
   notice_failed_to_save_members: "Impossibile salvare il membro(i): %{errors}."
   text_zoom_out: Riduci ingrandimento
   text_zoom_in: Aumenta ingrandimento

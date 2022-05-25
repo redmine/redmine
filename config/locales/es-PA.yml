@@ -928,7 +928,7 @@ es-PA:
   error_unable_to_connect: Fue imposible conectarse (%{value})
   error_can_not_remove_role: Este rol está en uso y no puede ser eliminado.
   error_can_not_delete_tracker: Este tipo contiene incidencias y no puede ser eliminado.
-  field_principal: Principal
+  field_principal: User or Group
   notice_failed_to_save_members: "Fallo al guardar miembro(s): %{errors}."
   text_zoom_out: Alejar
   text_zoom_in: Acercar

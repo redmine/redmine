@@ -299,7 +299,7 @@ fr:
   field_priority: Priorité
   field_fixed_version: Version cible
   field_user: Utilisateur
-  field_principal: Principal
+  field_principal: User or Group
   field_role: Rôle
   field_homepage: Site web
   field_is_public: Public

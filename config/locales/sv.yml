@@ -302,7 +302,7 @@ sv:
   field_priority: Prioritet
   field_fixed_version: Versionsmål
   field_user: Användare
-  field_principal: Principal
+  field_principal: User or Group
   field_role: Roll
   field_homepage: Hemsida
   field_is_public: Publik

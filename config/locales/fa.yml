@@ -289,7 +289,7 @@ fa:
   field_priority: اولویت
   field_fixed_version: نسخه هدف
   field_user: کاربر
-  field_principal: دستور دهنده
+  field_principal: User or Group
   field_role: نقش
   field_homepage: صفحه خانه
   field_is_public: عمومی

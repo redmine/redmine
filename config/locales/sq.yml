@@ -304,7 +304,7 @@ sq:
   field_priority: Përparësi
   field_fixed_version: Version i synuar
   field_user: Përdorues
-  field_principal: Principal
+  field_principal: User or Group
   field_role: Rol
   field_homepage: Faqe hyrëse
   field_is_public: Publike

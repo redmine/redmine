@@ -252,7 +252,7 @@ sr-YU:
   field_priority: Prioritet
   field_fixed_version: Odredišna verzija
   field_user: Korisnik
-  field_principal: Glavni
+  field_principal: User or Group
   field_role: Uloga
   field_homepage: Početna stranica
   field_is_public: Javno objavljivanje

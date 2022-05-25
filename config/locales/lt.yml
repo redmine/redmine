@@ -283,7 +283,7 @@ lt:
   field_priority: Prioritetas
   field_fixed_version: Tikslinė versija
   field_user: Vartotojas
-  field_principal: Vardas
+  field_principal: User or Group
   field_role: Vaidmuo
   field_homepage: Pagrindinis puslapis
   field_is_public: Viešas

@@ -320,7 +320,7 @@ pl:
   field_priority: Priorytet
   field_fixed_version: Wersja docelowa
   field_user: Użytkownik
-  field_principal: Przełożony
+  field_principal: User or Group
   field_role: Rola
   field_homepage: Strona www
   field_is_public: Publiczny

@@ -253,7 +253,7 @@ ca:
   field_priority: "Prioritat"
   field_fixed_version: "Versió prevista"
   field_user: "Usuari"
-  field_principal: "Principal"
+  field_principal: User or Group
   field_role: "Rol"
   field_homepage: "Pàgina web"
   field_is_public: "Públic"

@@ -892,7 +892,7 @@ pt:
   error_unable_to_connect: Não foi possível ligar (%{value})
   error_can_not_remove_role: Esta função está atualmente em uso e não pode ser apagada.
   error_can_not_delete_tracker: Existem ainda tarefas nesta categoria. Não é possível apagar este tipo de tarefa.
-  field_principal: Principal
+  field_principal: User or Group
   notice_failed_to_save_members: "Erro ao guardar o(s) membro(s): %{errors}."
   text_zoom_out: Reduzir
   text_zoom_in: Ampliar

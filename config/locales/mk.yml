@@ -250,7 +250,7 @@ mk:
   field_priority: Приоритет
   field_fixed_version: Target version
   field_user: Корисник
-  field_principal: Principal
+  field_principal: User or Group
   field_role: Улога
   field_homepage: Веб страна
   field_is_public: Јавен

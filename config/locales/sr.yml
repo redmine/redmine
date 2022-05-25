@@ -250,7 +250,7 @@ sr:
   field_priority: Приоритет
   field_fixed_version: Одредишна верзија
   field_user: Корисник
-  field_principal: Главни
+  field_principal: User or Group
   field_role: Улога
   field_homepage: Почетна страница
   field_is_public: Јавно објављивање

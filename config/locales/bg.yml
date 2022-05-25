@@ -312,7 +312,7 @@ bg:
   field_priority: Приоритет
   field_fixed_version: Планувана версия
   field_user: Потребител
-  field_principal: Principal
+  field_principal: User or Group
   field_role: Роля
   field_homepage: Начална страница
   field_is_public: Публичен

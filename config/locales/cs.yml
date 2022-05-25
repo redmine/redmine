@@ -255,7 +255,7 @@ cs:
   field_priority: Priorita
   field_fixed_version: Cílová verze
   field_user: Uživatel
-  field_principal: Hlavní
+  field_principal: User or Group
   field_role: Role
   field_homepage: Domovská stránka
   field_is_public: Veřejný
