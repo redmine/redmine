@@ -1251,7 +1251,11 @@ module ApplicationHelper
               end
             when 'attachment'
               attachments = options[:attachments] || []
-              attachments += obj.attachments if obj.respond_to?(:attachments)
+              if obj.is_a?(Journal)
+                attachments += obj.journalized.attachments if obj.journalized.respond_to?(:attachments)
+              else
+                attachments += obj.attachments if obj.respond_to?(:attachments)
+              end
               if attachments && attachment = Attachment.latest_attach(attachments, name)
                 link = link_to_attachment(attachment, :only_path => only_path, :class => 'attachment')
               end

@@ -8386,6 +8386,21 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_show_should_be_able_to_link_to_another_journal_attachment_of_the_same_issue
+    @request.session[:user_id] = 1
+    issue = Issue.find(2)
+    attachment = issue.journals.first.attachments.first
+
+    issue.init_journal(User.first, "attachment:#{attachment.filename}")
+    issue.save!
+    issue.reload
+
+    get :show, params: { id: issue.id }
+    assert_select "div#history div#journal-#{issue.journals.last.id}-notes" do
+      assert_select "a[href='/attachments/#{attachment.id}']", :text => 'source.rb'
+    end
+  end
+
   def test_index_should_retrieve_default_query
     query = IssueQuery.find(4)
     IssueQuery.stubs(:default).returns query
