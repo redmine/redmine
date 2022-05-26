@@ -187,12 +187,12 @@
         circular_dependency: "這個關聯會導致環狀相依"
         cant_link_an_issue_with_a_descendant: "議題無法被連結至自己的子任務"
         earlier_than_minimum_start_date: "不能早於 %{date} 因為有前置議題"
-        not_a_regexp: "is not a valid regular expression"
-        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
-        must_contain_uppercase: "must contain uppercase letters (A-Z)"
-        must_contain_lowercase: "must contain lowercase letters (a-z)"
-        must_contain_digits: "must contain digits (0-9)"
-        must_contain_special_chars: "must contain special characters (!, $, %, ...)"
+        not_a_regexp: "不是一個有效的規則運算式"
+        open_issue_with_closed_parent: "進行中的議題不能被附加於已結束的父議題任務"
+        must_contain_uppercase: "必須包含大寫字母 (A-Z)"
+        must_contain_lowercase: "必須包含小寫字母 (a-z)"
+        must_contain_digits: "必須包含數字 (0-9)"
+        must_contain_special_chars: "必須包含特殊字元 (!, $, %, ...)"
 
       # You can define own errors for models or model attributes.
       # The values :model, :attribute and :value are always available for interpolation.
@@ -351,7 +351,7 @@
   field_field_format: 格式
   field_is_for_all: 給全部的專案
   field_possible_values: 可能值
-  field_regexp: 正規表示式
+  field_regexp: 規則運算式
   field_min_length: 最小長度
   field_max_length: 最大長度
   field_value: 值
@@ -1470,21 +1470,17 @@
     但此設定會要求具有管理員權限的用戶, 在他們下次登入系統的時候, 必須設置雙因素驗證.
   label_auto_watch_on: 自動監看
   label_auto_watch_on_issue_contributed_to: 我有提供貢獻的議題
-  text_project_close_confirmation: Are you sure you want to close the '%{value}' project
-    to make it read-only?
-  text_project_reopen_confirmation: Are you sure you want to reopen the '%{value}' project?
-  text_project_archive_confirmation: Are you sure you want to archive the '%{value}'
-    project?
-  mail_destroy_project_failed: Project %{value} could not be deleted.
-  mail_destroy_project_successful: Project %{value} was deleted successfully.
-  mail_destroy_project_with_subprojects_successful: Project %{value} and its subprojects
-    were deleted successfully.
-  project_status_scheduled_for_deletion: scheduled for deletion
-  text_projects_bulk_destroy_confirmation: Are you sure you want to delete the selected
-    projects and related data?
+  text_project_close_confirmation: 您是否確定要關閉 '%{value}' 專案以將其設為唯讀？
+  text_project_reopen_confirmation: 您是否確定要重新開啟 '%{value}' 專案？
+  text_project_archive_confirmation: 您是否確定要封存 '%{value}' 專案？
+  mail_destroy_project_failed: "%{value} 專案無法被刪除。"
+  mail_destroy_project_successful: "%{value} 專案已順利刪除。"
+  mail_destroy_project_with_subprojects_successful: "%{value} 專案與其子專案已順利刪除。"
+  project_status_scheduled_for_deletion: 排程刪除
+  text_projects_bulk_destroy_confirmation: 您是否確定要刪除選定的專案與其相關資料？
   text_projects_bulk_destroy_head: |
-    You are about to permanently delete the following projects, including possible subprojects and any related data.
-    Please review the information below and confirm that this is indeed what you want to do.
-    This action cannot be undone.
-  text_projects_bulk_destroy_confirm: To confirm, please enter "%{yes}" in the box below.
-  text_subprojects_bulk_destroy: 'including its subproject(s): %{value}'
+    您即將永久刪除下列專案， 包含可能的子專案與任何相關的資料。
+    請檢閱下方資訊， 確認這確實是您要執行的動作。
+    此動作無法復原。
+  text_projects_bulk_destroy_confirm: 請在下面方塊中， 輸入 "%{yes}" 以便確認。
+  text_subprojects_bulk_destroy: '包含它的子專案： %{value}'
