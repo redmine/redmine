@@ -810,7 +810,7 @@ it:
   mail_subject_wiki_content_added: "La pagina '%{id}' è stata aggiunta al wiki"
   mail_body_wiki_content_added: La pagina '%{id}' è stata aggiunta al wiki da %{author}.
   label_wiki_content_updated: Aggiornata pagina wiki
-  mail_body_wiki_content_updated: La pagina '%{id}' wiki è stata aggiornata da%{author}.
+  mail_body_wiki_content_updated: La pagina '%{id}' wiki è stata aggiornata da %{author}.
   permission_add_project: Crea progetto
   setting_new_project_user_role_id: Ruolo assegnato agli utenti non amministratori che creano un progetto
   label_view_all_revisions: Mostra tutte le revisioni
