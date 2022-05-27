@@ -1,7 +1,7 @@
 inherit_from: .rubocop_todo.yml
 
 AllCops:
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 2.6
   TargetRailsVersion: 6.1
 
   NewCops: enable
@@ -196,6 +196,9 @@ Style/NegatedIfElseCondition:
   Enabled: false
 
 Style/RaiseArgs:
+  Enabled: false
+
+Style/SlicingWithRange:
   Enabled: false
 
 Style/TrailingCommaInArrayLiteral:

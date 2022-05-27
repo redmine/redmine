@@ -1,19 +1,18 @@
 source 'https://rubygems.org'
 
-ruby '>= 2.5.0', '< 3.2.0'
+ruby '>= 2.6.0', '< 3.2.0'
 gem 'bundler', '>= 1.12.0'
 
 gem 'rails', '6.1.6'
-gem 'globalid', '~> 0.4.2' if Gem.ruby_version < Gem::Version.new('2.6.0')
 gem 'rouge', '~> 3.28.0'
 gem 'request_store', '~> 1.5.0'
 gem 'mini_mime', '~> 1.1.0'
 gem "actionpack-xml_parser"
-gem 'roadie-rails', (Gem.ruby_version < Gem::Version.new('2.6.0') ? '~> 2.2.0' : '~> 3.0.0')
+gem 'roadie-rails', '~> 3.0.0'
 gem 'marcel'
 gem "mail", "~> 2.7.1"
 gem 'csv', '~> 3.2.0'
-gem 'nokogiri', (Gem.ruby_version < Gem::Version.new('2.6.0') ? '~> 1.12.5' : '~> 1.13.6')
+gem 'nokogiri', '~> 1.13.6'
 gem 'i18n', '~> 1.10.0'
 gem "rbpdf", "~> 1.20.0"
 gem 'addressable'
@@ -46,7 +45,7 @@ gem 'redcarpet', '~> 3.5.1', groups: [:markdown, :common_mark]
 # Optional CommonMark support, not for JRuby
 group :common_mark do
   gem "html-pipeline", "~> 2.13.2"
-  gem "commonmarker", (Gem.ruby_version < Gem::Version.new('2.6.0') ? '0.21.0' : '0.23.1')
+  gem "commonmarker", '0.23.1'
   gem "sanitize", "~> 6.0"
   gem 'deckar01-task_list', '2.3.2'
 end
@@ -95,7 +94,7 @@ group :test do
   gem "ffi", platforms: [:mingw, :x64_mingw, :mswin]
   # For running system tests
   gem 'puma'
-  gem 'capybara', (Gem.ruby_version < Gem::Version.new('2.6.0') ? '~> 3.35.3' : '~> 3.36.0')
+  gem 'capybara', '~> 3.36.0'
   gem "selenium-webdriver", "~> 3.142.7"
   gem 'webdrivers', '4.6.1', require: false
   # RuboCop
