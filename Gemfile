@@ -45,7 +45,7 @@ gem 'redcarpet', '~> 3.5.1', groups: [:markdown, :common_mark]
 # Optional CommonMark support, not for JRuby
 group :common_mark do
   gem "html-pipeline", "~> 2.13.2"
-  gem "commonmarker", '0.23.1'
+  gem "commonmarker", '0.23.4'
   gem "sanitize", "~> 6.0"
   gem 'deckar01-task_list', '2.3.2'
 end
