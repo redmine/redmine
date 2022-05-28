@@ -47,9 +47,9 @@ if Object.const_defined?(:CommonMarker)
     end
 
     def test_should_support_footnotes
-      input = %(<a href="#fn1" id="fnref1">foo</a>)
+      input = %(<a href="#fn-1" id="fnref-1">foo</a>)
       assert_equal input, filter(input)
-      input = %(<ol><li id="fn1">footnote</li></ol>)
+      input = %(<ol><li id="fn-1">footnote</li></ol>)
       assert_equal input, filter(input)
     end
 
