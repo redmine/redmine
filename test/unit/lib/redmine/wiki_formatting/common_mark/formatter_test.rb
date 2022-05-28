@@ -148,10 +148,10 @@ class Redmine::WikiFormatting::CommonMark::FormatterTest < ActionView::TestCase
       STR
 
       expected = <<~EXPECTED
-        <p>This is some text<sup><a href="#fn1" id="fnref1">1</a></sup>.</p>
+        <p>This is some text<sup><a href="#fn-1" id="fnref-1">1</a></sup>.</p>
          <ol>
-        <li id="fn1">
-        <p>This is the foot note <a href="#fnref1">↩</a></p>
+        <li id="fn-1">
+        <p>This is the foot note <a href="#fnref-1" aria-label=\"Back to content\">↩</a></p>
         </li>
         </ol>
       EXPECTED
