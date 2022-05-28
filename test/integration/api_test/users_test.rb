@@ -96,6 +96,24 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     assert_select 'user avatar_url', :text => %r|\Ahttps://gravatar.com/avatar/\h{32}\?default=robohash|
   end
 
+  test "GET /users/:id.xml should not return avatar_url when not set email address" do
+    user = User.find(2)
+    user.email_addresses.delete_all
+    assert_equal 'jsmith', user.login
+    assert_nil user.mail
+
+    Redmine::Configuration.with 'avatar_server_url' => 'https://gravatar.com' do
+      with_settings :gravatar_enabled => '1', :gravatar_default => 'robohash' do
+        get '/users/2.xml'
+      end
+    end
+
+    assert_response :success
+    assert_select 'user id', :text => '2'
+    assert_select 'user login', :text => 'jsmith'
+    assert_select 'user avatar_url', :count => 0
+  end
+
   test "GET /users/:id.json should return the user" do
     get '/users/2.json'
 
