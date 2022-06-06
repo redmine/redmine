@@ -274,6 +274,9 @@ bg:
   mail_body_security_notification_notify_disabled: Имейл адрес %{value} вече не получава известия.
   mail_body_settings_updated: ! 'Изменения в конфигурацията:'
   mail_body_password_updated: Вашата парола е сменена.
+  mail_destroy_project_failed: Проект %{value} не беше изтрит.
+  mail_destroy_project_successful: Проект %{value} беше изтрит успешно.
+  mail_destroy_project_with_subprojects_successful: Проект %{value} и неговите подпроекти бяха изтрити успешно.
 
   field_name: Име
   field_description: Описание
@@ -1201,6 +1204,7 @@ bg:
   project_status_active: активен
   project_status_closed: затворен
   project_status_archived: архивиран
+  project_status_scheduled_for_deletion: определен за изтриване
 
   version_status_open: отворена
   version_status_locked: заключена
@@ -1211,7 +1215,14 @@ bg:
   text_select_mail_notifications: Изберете събития за изпращане на e-mail.
   text_regexp_info: пр. ^[A-Z0-9]+$
   text_project_destroy_confirmation: Сигурни ли сте, че искате да изтриете проекта и данните в него?
+  text_projects_bulk_destroy_confirmation: Сигурен ли сте, че искате да изтриете избраните проекти и техните данни?
+  text_projects_bulk_destroy_head: |
+    Вие сте на път да изтриете следващите проекти, включително и техните подпроекти и свързаните с тях данни.
+    Моля прегледайте информацията по-долу и потвърдете, че това наистина е вашето намерение.
+    Това действие не може да бъде върнато назад.
+  text_projects_bulk_destroy_confirm: За да потвърдите, моля въведете "%{yes}" в полето отдолу.
   text_subprojects_destroy_warning: "Неговите подпроекти: %{value} също ще бъдат изтрити."
+  text_subprojects_bulk_destroy: 'включително и неговите подпроекти: %{value}'
   text_project_close_confirmation: Сигурни ли сте, че желаете да затворите проект '%{value}' и да го направите достъпен само за четене?
   text_project_reopen_confirmation: Сигурни ли сте, че желаете да отворите отново проект %{value}'?
   text_project_archive_confirmation: Сигурни ли сте, че желаете да архивирате проект '%{value}'?
@@ -1403,16 +1414,3 @@ bg:
     Това действие не може да бъде отменено. Често заключването на потребителя е по-добро решение от изтриването му.
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
-  mail_destroy_project_failed: Project %{value} could not be deleted.
-  mail_destroy_project_successful: Project %{value} was deleted successfully.
-  mail_destroy_project_with_subprojects_successful: Project %{value} and its subprojects
-    were deleted successfully.
-  project_status_scheduled_for_deletion: scheduled for deletion
-  text_projects_bulk_destroy_confirmation: Are you sure you want to delete the selected
-    projects and related data?
-  text_projects_bulk_destroy_head: |
-    You are about to permanently delete the following projects, including possible subprojects and any related data.
-    Please review the information below and confirm that this is indeed what you want to do.
-    This action cannot be undone.
-  text_projects_bulk_destroy_confirm: To confirm, please enter "%{yes}" in the box below.
-  text_subprojects_bulk_destroy: 'including its subproject(s): %{value}'
