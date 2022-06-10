@@ -243,11 +243,18 @@ class IssueSubtaskingTest < ActiveSupport::TestCase
 
   def test_done_ratio_of_parent_with_completed_children_should_not_be_99
     with_settings :parent_issue_done_ratio => 'derived' do
-      parent = Issue.generate!
-      parent.generate_child!(:estimated_hours => 8.0, :done_ratio => 100)
-      parent.generate_child!(:estimated_hours => 8.1, :done_ratio => 100)
+      parent1 = Issue.generate!
+      parent1.generate_child!(:estimated_hours => 8.0, :done_ratio => 100)
+      parent1.generate_child!(:estimated_hours => 8.1, :done_ratio => 100)
       # (8.0 * 100 + 8.1 * 100) / (8.0 + 8.1) => 99.99999999999999
-      assert_equal 100, parent.reload.done_ratio
+      assert_equal 100, parent1.reload.done_ratio
+
+      parent2 = Issue.generate!
+      parent2.generate_child!(:estimated_hours => 9.0, :done_ratio => 100)
+      10.times do
+        parent2.generate_child!(:estimated_hours => 10.0, :done_ratio => 100)
+      end
+      assert_equal 100, parent2.reload.done_ratio
     end
   end
 
