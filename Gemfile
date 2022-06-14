@@ -99,7 +99,7 @@ group :test do
   gem 'webdrivers', '4.6.1', require: false
   # RuboCop
   gem 'rubocop', '~> 1.30.1'
-  gem 'rubocop-performance', '~> 1.13.0'
+  gem 'rubocop-performance', '~> 1.14.2'
   gem 'rubocop-rails', '~> 2.14.0'
 end
 
