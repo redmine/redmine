@@ -88,7 +88,7 @@ module Redmine
 
     # Absolute path to the plublic directory where plugins assets are copied
     cattr_accessor :public_directory
-    self.public_directory = Rails.root.join('public/plugin_assets')
+    self.public_directory = Rails.public_path.join('plugin_assets')
 
     def self.create_assets_reloader
       plugin_assets_dirs = {}
