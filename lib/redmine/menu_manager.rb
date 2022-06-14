@@ -286,11 +286,7 @@ module Redmine
 
         if options[:parent]
           subtree = self.find(options[:parent])
-          if subtree
-            target_root = subtree
-          else
-            target_root = @menu_items.root
-          end
+          target_root = subtree || @menu_items.root
 
         else
           target_root = @menu_items.root
