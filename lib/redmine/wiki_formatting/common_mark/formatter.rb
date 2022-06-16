@@ -61,7 +61,13 @@ module Redmine
         TaskList::Filter
       ], PIPELINE_CONFIG
 
-      class Formatter < Redmine::WikiFormatting::Markdown::Formatter
+      class Formatter
+        include Redmine::WikiFormatting::SectionHelper
+
+        def initialize(text)
+          @text = text
+        end
+
         def to_html(*args)
           result = MarkdownPipeline.call @text
           result[:output].to_s
