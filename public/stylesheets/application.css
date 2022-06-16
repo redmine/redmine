@@ -541,7 +541,7 @@ p.footnote { font-size: 0.9em; margin-top: 0px; margin-bottom: 0px; }
 .wiki-class-ltr {direction:ltr !important;}
 .wiki-class-rtl {direction:rtl !important;}
 
-div.issue div.subject div div { padding-left: 16px; }
+div.issue div.subject div div { padding-left: 16px; word-break: break-word; }
 div.issue div.subject p {margin: 0; margin-bottom: 0.1em; font-size: 90%; color: #999;}
 div.issue div.subject>div>p { margin-top: 0.5em; }
 div.issue div.subject h3 {margin: 0; margin-bottom: 0.1em;}
@@ -559,11 +559,18 @@ body.controller-issues h2.inline-flex {padding-right: 0}
 
 #issue_tree table.issues, #relations table.issues { border: 0; }
 #issue_tree td.checkbox, #relations td.checkbox {display:none;}
-#issue_tree td.subject, #relations td.subject {width: 50%;}
 #issue_tree td.buttons, #relations td.buttons {padding:0;}
 #issue_tree .issues-stat, #relations .issues-stat {font-size: 80%}
 #issue_tree .issues-stat .badge, #relations .issues-stat .badge {bottom: initial;}
-
+#issue_tree .issue > td, #relations .issue > td, #issue_tree .issue .user {
+  text-overflow: ellipsis; /* if text exceeds its space, add ... */
+  overflow: hidden;
+}
+#issue_tree .issue > td.subject, #relations .issue > td.subject {
+  width: 100%; /* let subject have one full width column */
+  word-break: break-word; /* break word if subject is too long */
+  padding-right: 25px; /* this is the spaces that .buttons uses next to subject */
+}
 #trackers_description {display:none;}
 #trackers_description dt {font-weight: bold; text-decoration: underline;}
 #trackers_description dd {margin: 0; padding: 0 0 1em 0;}
