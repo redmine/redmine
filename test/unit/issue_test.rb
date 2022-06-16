@@ -1650,6 +1650,14 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal ['open'], issue.assignable_versions.collect(&:status).uniq
   end
 
+  def test_should_not_be_able_to_set_an_invalid_version_id
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1,
+                      :status_id => 1, :fixed_version_id => 424242,
+                      :subject => 'New issue')
+    assert !issue.save
+    assert_not_equal [], issue.errors[:fixed_version_id]
+  end
+
   def test_should_not_be_able_to_assign_a_new_issue_to_a_closed_version
     issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1,
                       :status_id => 1, :fixed_version_id => 1,
@@ -1719,6 +1727,14 @@ class IssueTest < ActiveSupport::TestCase
     issue.project_id = 3
     assert_equal 2, issue.fixed_version_id
     assert issue.save
+  end
+
+  def test_should_not_be_able_to_set_an_invalid_category_id
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 1,
+                      :status_id => 1, :category_id => 3,
+                      :subject => 'New issue')
+    assert !issue.save
+    assert_not_equal [], issue.errors[:category_id]
   end
 
   def test_allowed_target_projects_should_include_projects_with_issue_tracking_enabled

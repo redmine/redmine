@@ -751,11 +751,17 @@ class Issue < ActiveRecord::Base
       errors.add :start_date, :earlier_than_minimum_start_date, :date => format_date(soonest_start)
     end
 
-    if project && fixed_version
-      if !assignable_versions.include?(fixed_version)
+    if project && fixed_version_id
+      if fixed_version.nil? || assignable_versions.exclude?(fixed_version)
         errors.add :fixed_version_id, :inclusion
       elsif reopening? && fixed_version.closed?
         errors.add :base, I18n.t(:error_can_not_reopen_issue_on_closed_version)
+      end
+    end
+
+    if project && category_id
+      unless project.issue_category_ids.include?(category_id)
+        errors.add :category_id, :inclusion
       end
     end
 
