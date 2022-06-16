@@ -759,6 +759,12 @@ class Issue < ActiveRecord::Base
       end
     end
 
+    if project && category_id
+      unless project.issue_category_ids.include?(category_id)
+        errors.add :category_id, :inclusion
+      end
+    end
+
     # Checks that the issue can not be added/moved to a disabled tracker
     if project && (tracker_id_changed? || project_id_changed?)
       if tracker && !project.trackers.include?(tracker)
