@@ -39,9 +39,10 @@ group :minimagick do
   gem 'mini_magick', '~> 4.11.0'
 end
 
-# Optional Markdown support, not for JRuby
-# ToDo: Remove common_mark group when common_mark is decoupled from markdown. See defect (#36892) for more details.
-gem 'redcarpet', '~> 3.5.1', groups: [:markdown, :common_mark]
+# Optional Markdown support
+group :markdown do
+  gem 'redcarpet', '~> 3.5.1'
+end
 
 # Optional CommonMark support, not for JRuby
 group :common_mark do
