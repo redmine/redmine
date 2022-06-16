@@ -1466,6 +1466,28 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_select 'td.issue_cf_2', :text => 'filter_on_issue_custom_field'
   end
 
+  def test_index_should_not_disclose_issue_data
+    category = IssueCategory.find 2
+    issue =
+      Issue.generate!(
+        :project_id => 1, :tracker_id => 1,
+        :custom_field_values => {2 => 'filter_on_issue_custom_field'}
+      )
+    entry = TimeEntry.generate!(:issue => issue, :hours => 2.5)
+    session[:user_id] = 3
+    issue.update_columns is_private: true, category_id: category.id
+    assert_not issue.visible?(User.find(3))
+    # since the issue is not visible, its custom fields and associated ojects should not be visible either
+
+    get :index, :params => {
+      :c => %w(issue issue.cf_2 issue.category)
+    }
+    assert_response :success
+    assert_select 'td.issue', :text => /#{issue.subject}/, :count => 0
+    assert_select 'td.issue-category', :text => /#{category.name}/, :count => 0
+    assert_select 'td.issue_cf_2', :text => 'filter_on_issue_custom_field', :count => 0
+  end
+
   def test_index_with_time_entry_custom_field_column
     field = TimeEntryCustomField.generate!(:field_format => 'string')
     entry = TimeEntry.generate!(:hours => 2.5, :custom_field_values => {field.id => 'CF Value'})
