@@ -403,6 +403,35 @@ class MailHandlerTest < ActiveSupport::TestCase
     end
   end
 
+  def test_no_issue_on_closed_project_without_permission_check
+    Project.find(2).close
+    assert_no_difference 'User.count' do
+      assert_no_difference 'Issue.count' do
+        submit_email(
+          'ticket_by_unknown_user.eml',
+          :issue => {:project => 'onlinestore'},
+          :no_permission_check => '1',
+          :unknown_user => 'accept'
+        )
+      end
+    end
+  ensure
+    Project.find(2).reopen
+  end
+
+  def test_no_issue_on_closed_project_without_issue_tracking_module
+    assert_no_difference 'User.count' do
+      assert_no_difference 'Issue.count' do
+        submit_email(
+          'ticket_by_unknown_user.eml',
+          :issue => {:project => 'subproject2'},
+          :no_permission_check => '1',
+          :unknown_user => 'accept'
+        )
+      end
+    end
+  end
+
   def test_add_issue_by_created_user
     Setting.default_language = 'en'
     assert_difference 'User.count' do

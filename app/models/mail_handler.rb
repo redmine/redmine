@@ -22,6 +22,8 @@ class MailHandler < ActionMailer::Base
   include Redmine::I18n
 
   class UnauthorizedAction < StandardError; end
+  class NotAllowedInProject < UnauthorizedAction; end
+  class InsufficientPermissions < UnauthorizedAction; end
   class MissingInformation < StandardError; end
 
   attr_reader :email, :user, :handler_options
@@ -182,9 +184,13 @@ class MailHandler < ActionMailer::Base
   # Creates a new issue
   def receive_issue
     project = target_project
+
+    # Never receive emails to projects where adding issues is not possible
+    raise NotAllowedInProject, "not possible to add issues to project [#{project.name}]" unless project.allows_to?(:add_issues)
+
     # check permission
     unless handler_options[:no_permission_check]
-      raise UnauthorizedAction, "not allowed to add issues to project [#{project.name}]" unless user.allowed_to?(:add_issues, project)
+      raise InsufficientPermissions, "not allowed to add issues to project [#{project.name}]" unless user.allowed_to?(:add_issues, project)
     end
 
     issue = Issue.new(:author => user, :project => project)
@@ -223,10 +229,14 @@ class MailHandler < ActionMailer::Base
       return nil
     end
 
+    # Never receive emails to projects where adding issue notes is not possible
+    project = issue.project
+    raise NotAllowedInProject, "not possible to add notes to project [#{project.name}]" unless project.allows_to?(:add_issue_notes)
+
     # check permission
     unless handler_options[:no_permission_check]
       unless issue.notes_addable?
-        raise UnauthorizedAction, "not allowed to add notes on issues to project [#{issue.project.name}]"
+        raise InsufficientPermissions, "not allowed to add notes on issues to project [#{issue.project.name}]"
       end
     end
 
@@ -274,8 +284,12 @@ class MailHandler < ActionMailer::Base
       return nil
     end
 
+    # Never receive emails to projects where adding messages is not possible
+    project = message.project
+    raise NotAllowedInProject, "not possible to add messages to project [#{project.name}]" unless project.allows_to?(:add_messages)
+
     unless handler_options[:no_permission_check]
-      raise UnauthorizedAction, "not allowed to add messages to project [#{message.project.name}]" unless user.allowed_to?(:add_messages, message.project)
+      raise InsufficientPermissions, "not allowed to add messages to project [#{message.project.name}]" unless user.allowed_to?(:add_messages, message.project)
     end
 
     if !message.locked?
