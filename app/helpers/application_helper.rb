@@ -296,6 +296,7 @@ module ApplicationHelper
       end
     when 'CustomValue', 'CustomFieldValue'
       return "" unless object.customized&.visible?
+
       if object.custom_field
         f = object.custom_field.format.formatted_custom_value(self, object, html)
         if f.nil? || f.is_a?(String)
