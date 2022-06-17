@@ -1,7 +1,6 @@
 module Redmine
   module WikiFormatting
     module SectionHelper
-
       def get_section(index)
         section = extract_sections(index)[1]
         hash = Digest::MD5.hexdigest(section)
