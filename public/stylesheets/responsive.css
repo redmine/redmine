@@ -778,17 +778,6 @@
     padding-right: 5px;
   }
 
-  #issue_tree .issue > td, #relations .issue > td, #issue_tree .issue .user {
-    text-overflow: ellipsis; /* if text exceeds its space, add ... */
-    overflow: hidden;
-  }
-
-  #issue_tree .issue > td.subject, #relations .issue > td.subject {
-    width: 100%; /* let subject have one full width column */
-    word-break: break-word; /* break word if subject is too long */
-    padding-right: 25px; /* this is the spaces that .buttons uses next to subject */
-  }
-
   #issue_tree .issue > td:not(.subject), #relations .issue > td:not(.subject) {
     width: 20%; /* three columns for all cells that are not subject */
   }
