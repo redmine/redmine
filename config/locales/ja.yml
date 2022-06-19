@@ -1410,16 +1410,14 @@ ja:
   text_project_close_confirmation: 本当にプロジェクト '%{value}' を終了して読み取り専用にしますか?
   text_project_reopen_confirmation: 本当にプロジェクト '%{value}' を再開しますか?
   text_project_archive_confirmation: 本当にプロジェクト '%{value}' をアーカイブしますか?
-  mail_destroy_project_failed: Project %{value} could not be deleted.
-  mail_destroy_project_successful: Project %{value} was deleted successfully.
-  mail_destroy_project_with_subprojects_successful: Project %{value} and its subprojects
-    were deleted successfully.
-  project_status_scheduled_for_deletion: scheduled for deletion
-  text_projects_bulk_destroy_confirmation: Are you sure you want to delete the selected
-    projects and related data?
+  mail_destroy_project_failed: プロジェクト %{value} は削除できませんでした。
+  mail_destroy_project_successful: プロジェクト %{value} を削除しました。
+  mail_destroy_project_with_subprojects_successful: Project %{value} とサブプロジェクトを削除しました。
+  project_status_scheduled_for_deletion: 削除処理待ち
+  text_projects_bulk_destroy_confirmation: 本当に選択したプロジェクトと関連データを削除しますか？
   text_projects_bulk_destroy_head: |
-    You are about to permanently delete the following projects, including possible subprojects and any related data.
-    Please review the information below and confirm that this is indeed what you want to do.
-    This action cannot be undone.
-  text_projects_bulk_destroy_confirm: To confirm, please enter "%{yes}" in the box below.
-  text_subprojects_bulk_destroy: 'including its subproject(s): %{value}'
+    以下のプロジェクト（それらのサブプロジェクトと関連データも含む）を恒久的に削除しようとしています。
+    以下の情報を確認し、本当にこの操作を行うのか確認してください。
+    この操作は元に戻せません。
+  text_projects_bulk_destroy_confirm: 削除する場合は確認のため "%{yes}" と入力してください。
+  text_subprojects_bulk_destroy: '次のサブプロジェクトを含む: %{value}'
