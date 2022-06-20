@@ -113,7 +113,8 @@ class QueryAssociationColumn < QueryColumn
   end
 
   def value_object(object)
-    if assoc = object.send(@association)
+    assoc = object.send(@association)
+    if assoc && assoc.visible?
       assoc.send @attribute
     end
   end
@@ -184,7 +185,8 @@ class QueryAssociationCustomFieldColumn < QueryCustomFieldColumn
   end
 
   def value_object(object)
-    if assoc = object.send(@association)
+    assoc = object.send(@association)
+    if assoc && assoc.visible?
       super(assoc)
     end
   end

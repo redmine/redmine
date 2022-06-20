@@ -1466,6 +1466,102 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_select 'td.issue_cf_2', :text => 'filter_on_issue_custom_field'
   end
 
+  def test_index_should_not_disclose_issue_data
+    category = IssueCategory.find 2
+    issue =
+      Issue.generate!(
+        :project_id => 1, :tracker_id => 1,
+        :custom_field_values => {2 => 'filter_on_issue_custom_field'}
+      )
+    entry = TimeEntry.generate!(:issue => issue, :hours => 2.5)
+    session[:user_id] = 3
+    issue.update_columns is_private: true, category_id: category.id
+    assert_not issue.visible?(User.find(3))
+    # since the issue is not visible, its custom fields and associated ojects should not be visible either
+
+    get :index, :params => {
+      :c => %w(issue issue.cf_2 issue.category)
+    }
+    assert_response :success
+    assert_select 'td.issue', :text => /#{issue.subject}/, :count => 0
+    assert_select 'td.issue-category', :text => /#{category.name}/, :count => 0
+    assert_select 'td.issue_cf_2', :text => 'filter_on_issue_custom_field', :count => 0
+  end
+
+  def test_index_should_not_filter_by_invisible_issue_data
+    issue =
+      Issue.generate!(
+        :project_id => 1, :tracker_id => 1,
+        :custom_field_values => {2 => 'filter_on_issue_custom_field'}
+      )
+    entry = TimeEntry.generate!(:issue => issue, :hours => 2.5)
+    session[:user_id] = 3
+    issue.update_columns is_private: true
+    assert_not issue.visible?(User.find(3))
+    # since the issue is not visible, its custom fields and associated ojects should not be filterable
+
+    get :index, :params => {
+      :f => ['issue.tracker_id'],
+      :op => {'issue.tracker_id' => '='},
+      :v => {'issue.tracker_id' => ["1"]},
+    }
+    assert_response :success
+    assert_not_include entry.id.to_s, css_select('input[name="ids[]"]').map {|e| e.attr(:value)}
+
+    get :index, :params => {
+      :f => ['issue.cf_2'],
+      :op => {'issue.cf_2' => '='},
+      :v => {'issue.cf_2' => ['filter_on_issue_custom_field']},
+    }
+    assert_response :success
+    assert_equal [], css_select('input[name="ids[]"]').map {|e| e.attr(:value)}
+  end
+
+  def test_indext_should_not_sort_by_invisible_issue_data
+    category1 = IssueCategory.find 1
+    category2 = IssueCategory.find 2
+    issue1 =
+      Issue.generate!(
+        :project_id => 1, :tracker_id => 1,
+        :custom_field_values => {2 => 'filter_on_issue_custom_field'}
+      )
+    issue2 =
+      Issue.generate!(
+        :project_id => 1, :tracker_id => 1,
+        :custom_field_values => {2 => 'xxx_this_will_be_last'}
+      )
+    entry1 = TimeEntry.generate!(:issue => issue1, :hours => 2.5, :spent_on => '2022-06-13')
+    entry2 = TimeEntry.generate!(:issue => issue2, :hours => 2.5, :spent_on => '2022-06-12')
+    session[:user_id] = 3
+    issue1.update_columns is_private: true, category_id: category1.id
+    issue2.update_columns is_private: true, category_id: category2.id
+    assert_not issue1.visible?(User.find(3))
+    assert_not issue2.visible?(User.find(3))
+    # since the issues are not visible, their custom fields and associated ojects should not be sortable
+
+    # issue.cf_2:desc would be entry2, entry1
+    # spent_on:desc is entry1, entry2
+    get :index, :params => {
+      :sort => "issue.cf_2:desc,spent_on:desc",
+      :f => ['spent_on'],
+      :op => {'spent_on' => '><'},
+      :v => {'spent_on' => ['2022-06-12', '2022-06-13']},
+    }
+    assert_response :success
+    assert_equal [entry1.id.to_s, entry2.id.to_s], css_select('input[name="ids[]"]').map {|e| e.attr(:value)}
+
+    # issue.category:desc would be entry2, entry1
+    # spent_on:desc is entry1, entry2
+    get :index, :params => {
+      :sort => "issue.category:desc,spent_on:desc",
+      :f => ['spent_on'],
+      :op => {'spent_on' => '><'},
+      :v => {'spent_on' => ['2022-06-12', '2022-06-13']},
+    }
+    assert_response :success
+    assert_equal [entry1.id.to_s, entry2.id.to_s], css_select('input[name="ids[]"]').map {|e| e.attr(:value)}
+  end
+
   def test_index_with_time_entry_custom_field_column
     field = TimeEntryCustomField.generate!(:field_format => 'string')
     entry = TimeEntry.generate!(:hours => 2.5, :custom_field_values => {field.id => 'CF Value'})
