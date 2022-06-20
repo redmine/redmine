@@ -63,7 +63,11 @@ class TimeEntry < ActiveRecord::Base
     where(TimeEntry.visible_condition(args.shift || User.current, *args))
   end)
   scope :left_join_issue, (lambda do
-    joins("LEFT OUTER JOIN #{Issue.table_name} ON #{Issue.table_name}.id = #{TimeEntry.table_name}.issue_id")
+    joins(
+      "LEFT OUTER JOIN #{Issue.table_name}" \
+      " ON #{Issue.table_name}.id = #{TimeEntry.table_name}.issue_id" \
+      " AND (#{Issue.visible_condition(User.current)})"
+    )
   end)
   scope :on_issue, (lambda do |issue|
     joins(:issue).

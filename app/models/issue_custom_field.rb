@@ -39,7 +39,7 @@ class IssueCustomField < CustomField
     project_condition = "EXISTS (SELECT 1 FROM #{CustomField.table_name} ifa WHERE ifa.is_for_all = #{self.class.connection.quoted_true} AND ifa.id = #{id_column})" +
       " OR #{Issue.table_name}.project_id IN (SELECT project_id FROM #{table_name_prefix}custom_fields_projects#{table_name_suffix} WHERE custom_field_id = #{id_column})"
 
-    "((#{sql}) AND (#{tracker_condition}) AND (#{project_condition}))"
+    "((#{sql}) AND (#{tracker_condition}) AND (#{project_condition}) AND (#{Issue.visible_condition(user)}))"
   end
 
   def validate_custom_field

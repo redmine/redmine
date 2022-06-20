@@ -1088,14 +1088,15 @@ class QueryTest < ActiveSupport::TestCase
   def test_filter_on_custom_field_should_ignore_projects_with_field_disabled
     field =
       IssueCustomField.generate!(
-        :trackers => Tracker.all, :project_ids => [1, 3, 4],
+        :trackers => Tracker.all, :project_ids => [1, 3, 5],
         :is_for_all => false, :is_filter => true
       )
     Issue.generate!(:project_id => 3, :tracker_id => 2,
                     :custom_field_values => {field.id.to_s => 'Foo'})
-    Issue.generate!(:project_id => 4, :tracker_id => 2,
+    Issue.generate!(:project_id => 5, :tracker_id => 2,
                     :custom_field_values => {field.id.to_s => 'Foo'})
 
+    User.current = User.find(1)
     query = IssueQuery.new(:name => '_', :project => Project.find(1))
     query.filters = {"cf_#{field.id}" => {:operator => '=', :values => ['Foo']}}
     assert_equal 2, find_issues_with_query(query).size
