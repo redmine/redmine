@@ -24,11 +24,12 @@ class TimeEntryActivity < Enumeration
 
   def self.default(project=nil)
     default_activity = super()
-    if project.nil? || project.activities.blank? || project.activities.include?(default_activity)
+
+    if default_activity.nil? || project.nil? || project.activities.blank? || project.activities.include?(default_activity)
       return default_activity
     end
 
-    project.activities.find_by(parent_id: default_activity.id)
+    project.activities.detect { |activity| activity.parent_id == default_activity.id }
   end
 
   def option_name
