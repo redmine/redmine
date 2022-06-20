@@ -20,7 +20,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class WatcherTest < ActiveSupport::TestCase
-  fixtures :projects, :users, :email_addresses, :members, :member_roles, :roles, :enabled_modules,
+  fixtures :projects, :groups_users, :users, :email_addresses, :members, :member_roles, :roles, :enabled_modules,
            :issues, :issue_statuses, :enumerations, :trackers, :projects_trackers,
            :boards, :messages,
            :wikis, :wiki_pages,
@@ -58,6 +58,19 @@ class WatcherTest < ActiveSupport::TestCase
     @issue.reload
     assert @issue.watched_by?(@user)
     assert Issue.watched_by(@user).include?(@issue)
+  end
+
+  def test_watched_by_group
+    group = Group.find(10)
+    user = User.find(8)
+    assert @issue.add_watcher(group)
+    @issue.reload
+
+    assert @issue.watched_by?(group)
+    assert Issue.watched_by(group).include?(@issue)
+
+    assert @issue.watched_by?(user)
+    assert Issue.watched_by(user).include?(@issue)
   end
 
   def test_watcher_users
