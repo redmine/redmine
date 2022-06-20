@@ -126,6 +126,19 @@ class TimeEntryTest < ActiveSupport::TestCase
     end
   end
 
+  def test_activity_id_should_default_activity_id
+    project = Project.find(1)
+    default_activity = TimeEntryActivity.find(10)
+    entry = TimeEntry.new(project: project)
+    assert_equal entry.activity_id, default_activity.id
+
+    # If there are project specific activities
+    project_specific_default_activity = TimeEntryActivity.create!(name: 'Development', parent_id: 10, project_id: project.id, is_default: false)
+    entry = TimeEntry.new(project: project)
+    assert_not_equal entry.activity_id, default_activity.id
+    assert_equal entry.activity_id, project_specific_default_activity.id
+  end
+
   def test_should_accept_future_dates
     entry = TimeEntry.generate
     entry.spent_on = User.current.today + 1
