@@ -40,7 +40,7 @@ class Redmine::Acts::MentionableTest < ActiveSupport::TestCase
 
     issue = Issue.generate!(project_id: 1, description: '@dlopper and @foo@example.net')
 
-    assert_equal [User.find(3), user], issue.mentioned_users
+    assert_equal [3, user.id], issue.mentioned_users.ids.sort
   end
 
   def test_mentioned_users_with_multiple_mentions
