@@ -219,4 +219,16 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
       )
     end
   end
+
+  def test_default_should_return_default_activity_if_default_activity_is_included_in_the_project_activities
+    project = Project.find(1)
+    assert_equal TimeEntryActivity.default(project).id, 10
+  end
+
+  def test_default_should_return_project_specific_default_activity_if_default_activity_is_not_included_in_the_project_activities
+    project = Project.find(1)
+    project_specific_default_activity = TimeEntryActivity.create!(name: 'Development', parent_id: 10, project_id: project.id, is_default: false)
+    assert_not_equal TimeEntryActivity.default(project).id, 10
+    assert_equal TimeEntryActivity.default(project).id, project_specific_default_activity.id
+  end
 end
