@@ -22,6 +22,16 @@ class TimeEntryActivity < Enumeration
 
   OptionName = :enumeration_activities
 
+  def self.default(project=nil)
+    default_activity = super()
+
+    if default_activity.nil? || project.nil? || project.activities.blank? || project.activities.include?(default_activity)
+      return default_activity
+    end
+
+    project.activities.detect { |activity| activity.parent_id == default_activity.id }
+  end
+
   def option_name
     OptionName
   end
