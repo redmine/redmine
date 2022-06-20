@@ -90,19 +90,20 @@ module Redmine
             content = content.gsub(%r{(~~~|```)(.*?)(~~~|```)}m, '')
           end
 
-          users = content.scan(MENTION_PATTERN).flatten
+          content.scan(MENTION_PATTERN).flatten
         end
 
         MENTION_PATTERN = /
-          (?:^|\W)                    # beginning of string or non-word char
-          @((?>[a-z0-9][a-z0-9-]*))   # @username
-          (?!\/)                      # without a trailing slash
+          (?:^|\W)
+          @([A-Za-z0-9_\-@\.]*?)
           (?=
-            \.+[ \t\W]|               # dots followed by space or non-word character
-            \.+$|                     # dots at end of line
-            [^0-9a-zA-Z_.]|           # non-word character except dot
-            $                         # end of line
-          )
+            (?=[[:punct:]][^A-Za-z0-9_\/])|
+            ,|
+            \.+$|
+            \s|
+            \]|
+            <|
+            $)
         /ix
       end
     end
