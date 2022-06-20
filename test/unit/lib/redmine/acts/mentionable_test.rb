@@ -34,6 +34,15 @@ class Redmine::Acts::MentionableTest < ActiveSupport::TestCase
     assert_equal [User.find(3)], issue.mentioned_users
   end
 
+  def test_mentioned_users_with_user_mention_having_mail_as_login
+    user = User.generate!(login: "foo@example.net")
+    User.add_to_project(user, Project.find(1), Role.find(1))
+
+    issue = Issue.generate!(project_id: 1, description: '@dlopper and @foo@example.net')
+
+    assert_equal [User.find(3), user], issue.mentioned_users
+  end
+
   def test_mentioned_users_with_multiple_mentions
     issue = Issue.generate!(project_id: 1, description: 'Hello @dlopper, @jsmith.')
 
