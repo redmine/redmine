@@ -39,6 +39,7 @@ https://www.redmine.org/
 * Defect #37255: Information Leak in QueryAssociationColumn/QueryAssociationCustomFieldColumn
 * Defect #37256: Medium severity XSS security vulnerabilities (3x) in jQuery UI v1.12.1
 # Defect #37136: Remote code execution vulnerability in commonmarker
+# Defect #37171: Ability to change the issue category or issue target version with nonexistent value for the specific project
 
 === [Text formatting]
 
