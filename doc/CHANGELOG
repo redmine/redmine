@@ -4,6 +4,34 @@ Redmine - project management software
 Copyright (C) 2006-2021  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2022-06-21 v4.2.7
+
+=== [Email notifications]
+
+* Defect #37162: Missing space between notification sentence and author name when edit a wiki page
+
+=== [Email receiving]
+
+* Defect #37187: no-permission-check allows issue creation in closed/archived projects
+
+=== [Issues]
+
+* Patch #37155: Issue#last_notes fallback does not respect notes visibility
+* Defect #37171: Ability to change the issue category or issue target version with nonexistent value for the specific project
+
+=== [Security]
+
+* Defect #37255: Information Leak in QueryAssociationColumn/QueryAssociationCustomFieldColumn
+* Defect #37256: Medium severity XSS security vulnerabilities (3x) in jQuery UI v1.12.1
+
+=== [Time tracking]
+
+* Defect #33914: Even if the default value of Activities (time tracking) is set, it may not be reflected.
+
+=== [UI - Responsive]
+
+* Defect #36453: Issue subject overflow in subtasks and relations tables
+
 == 2022-05-16 v4.2.6
 
 === [Attachments]
