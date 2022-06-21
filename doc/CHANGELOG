@@ -4,6 +4,54 @@ Redmine - project management software
 Copyright (C) 2006-2022  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2022-06-21 v5.0.2
+
+=== [Email notifications]
+
+* Defect #37138: Mentions of users with "@" in their username
+* Patch #37065: When someone is member of watcher group, 'watched_by' may be wrong and incomplete
+* Defect #37162: Missing space between notification sentence and author name when edit a wiki page
+
+=== [Email receiving]
+
+* Defect #37187: no-permission-check allows issue creation in closed/archived projects
+
+=== [Gems support]
+
+* Defect #35892: Redmine::WikiFormatting::CommonMark::FormatterTest#test_footnotes fails with CommonMarker 0.23.2
+* Defect #37249: Missing rexml gem causes errors in PUT - Adding the gem manually everything works
+
+=== [Issues]
+
+* Defect #37151: The done ratio of a parent issue may not be 100% even if all subtasks have a done ratio of 100%
+* Patch #37155: Issue#last_notes fallback does not respect notes visibility
+
+=== [Performance]
+
+* Patch #37135: Reduce extra queries in ProjectQuery.default
+
+=== [REST API]
+
+* Defect #37157: Internal server error when trying to retrieve AnonymousUser's information via Users API
+
+=== [Security]
+
+* Defect #37255: Information Leak in QueryAssociationColumn/QueryAssociationCustomFieldColumn
+* Defect #37256: Medium severity XSS security vulnerabilities (3x) in jQuery UI v1.12.1
+# Defect #37136: Remote code execution vulnerability in commonmarker
+
+=== [Text formatting]
+
+* Defect #37130: Wiki notation `attachment:file_name` cannot make a link to a file attached to other journals
+
+=== [Time tracking]
+
+* Defect #33914: Even if the default value of Activities (time tracking) is set, it may not be reflected.
+
+=== [UI - Responsive]
+
+* Defect #36453: Issue subject overflow in subtasks and relations tables
+
 == 2022-05-16 v5.0.1
 
 === [Administration]
