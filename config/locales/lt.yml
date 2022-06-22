@@ -1350,7 +1350,7 @@ lt:
   twofa_text_backup_codes_created_at: Atsarginiai kodai sukurti %{datetime}.
   twofa_backup_codes_already_shown: Atsarginiai kodai negali būti parodyti pakartotinai. Jei reikia - <a data-method="post"
     href="%{bc_path}">sugeneruokite naujus atsarginius kodus</a>.
-  error_can_not_execute_macro_html: Klaida vykdant <strong>%{name}</strong> mokrokomandą
+  error_can_not_execute_macro_html: Klaida vykdant <strong>%{name}</strong> makrokomandą
     (%{error})
   error_macro_does_not_accept_block: Ši makrokomanda nepriima teksto bloko
   error_childpages_macro_no_argument: Be jokių argumentų, šią makrokomandą gali iškviesti tik wiki puslapiai
@@ -1366,7 +1366,7 @@ lt:
   text_project_destroy_enter_identifier: Patvirtinimjui įveskite projekto identifikatorių (%{identifier}).
   button_add_subtask: Pridėti užduoties dedamąją
   notice_invalid_watcher: 'Neteisingas stebėtojas: Naudotojas negaus jokių pranešimų nes jam nėra suteikta prieiga prie šio objekto.'
-  button_fetch_changesets: Fetch commits
+  button_fetch_changesets: Gauti įkėlimus
   permission_view_message_watchers: Peržiūrėti pranešimo stebėtojų sąrašą
   permission_add_message_watchers: Pridėti pranešimo stebėtojus
   permission_delete_message_watchers: Pašalinti pranešimo stebėtojus
@@ -1375,41 +1375,35 @@ lt:
   error_invalid_authenticity_token: Netinkamas formos autentiškumo ženklas.
   error_query_statement_invalid: Užklausos vykdymo metu įvyko klaida kuri buvo įrašyta į įvykių žurnalą.
     Apie klaidą informuokite Redmine administratorių.
-  permission_view_wiki_page_watchers: View wiki page watchers list
-  permission_add_wiki_page_watchers: Add wiki page watchers
-  permission_delete_wiki_page_watchers: Delete wiki page watchers
-  label_wiki_page_watchers: Watchers
-  label_attachment_description: File description
-  error_no_data_in_file: The file does not contain any data
-  field_twofa_required: Require two factor authentication
-  twofa_hint_optional_html: Setting <strong>%{label}</strong> will let users set up
-    two-factor authentication at will, unless it is required by one of their groups.
-  twofa_text_group_required: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is required for all users.
-  twofa_text_group_disabled: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is disabled.
-  field_default_issue_query: Default issue query
+  permission_view_wiki_page_watchers: Peržiūrėkite wiki puslapio stebėtojų sąrašą
+  permission_add_wiki_page_watchers: Papildyti wiki puslapio stebėtojų sąrašą
+  permission_delete_wiki_page_watchers: Pašalinti wiki puslapio stebėtojus iš sąrašo
+  label_wiki_page_watchers: Stebėtojai
+  label_attachment_description: Failo aprašymas
+  error_no_data_in_file: Faile nėra jokių duomenų
+  field_twofa_required: Reikalinga dviejų veiksnių autentifikacija
+  twofa_hint_optional_html: Nustatant <strong>%{label}</strong> leis vartotojams įjungti dviejų veiksnių autentifikavimą savo nuožiūra, nebent to reikalauja viena iš jų grupių.
+  twofa_text_group_required: Šis nustatymas galioja tik tada kai globalus dviejų veiksnių autentifikavimas įjuntas kaip 'neprivalomas'. Šiuo metu dviejų veiksnių autentifikavimas yra įjungtas kaip privalomas visiems naudotojams.
+  twofa_text_group_disabled:  Šis nustatymas galioja tik tada kai globalus dviejų veiksnių autentifikavimas įjuntas kaip 'neprivalomas'. Šiuo metu dviejų veiksnių autentifikavimas yra išjungtas pilnai.
+  field_default_issue_query: Numatytoji darbo užklausa
   label_default_queries:
-    for_all_projects: For all projects
-    for_current_project: For current project
-    for_all_users: For all users
-  text_allowed_queries_to_select: Public (to any users) queries only selectable
-  text_all_migrations_have_been_run: All database migrations have been run
-  button_save_object: Save %{object_name}
-  button_edit_object: Edit %{object_name}
-  button_delete_object: Delete %{object_name}
-  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
-    Please restart the application after editing it.
-  label_bulk_edit: Bulk edit
-  button_create_and_follow: Create and follow
-  label_subtask: Subtask
-  label_default_query: Default query
-  field_default_project_query: Default project query
-  label_required_administrators: required for administrators
-  twofa_hint_required_administrators_html: Setting <strong>%{label}</strong> behaves
-    like optional, but will require all users with administration rights to set up two-factor
-    authentication at their next login.
-  label_auto_watch_on: Auto watch
-  label_auto_watch_on_issue_contributed_to: Issues I contributed to
+    for_all_projects: Visiems projektams
+    for_current_project: Pasirinktam projektui
+    for_all_users: Visiems naudotojams
+  text_allowed_queries_to_select: Galima pasirinkti tik užklausas prieinamas (Viešas) visiems naudotojams
+  text_all_migrations_have_been_run: Buvo įvykdytos visos duomenų bazės migravimo procedūros
+  button_save_object: Išsaugoti %{object_name}
+  button_edit_object: Redaguoti %{object_name}
+  button_delete_object: Pašalinti %{object_name}
+  text_setting_config_change: Elgseną galite konfiguruoti faile config/configuration.yml.
+    Baigę redaguoti - nepamirškite perkrauti aplikacijos.
+  label_bulk_edit: Masinis redagavimas
+  button_create_and_follow: Kurti ir sekti
+  label_subtask: Subužduotis
+  label_default_query: Numatytoji užklausa
+  field_default_project_query: Numatytoji projekto užklausa
+  label_required_administrators: administratoriams privaloma
+  twofa_hint_required_administrators_html: Nustatymas <strong>%{label}</strong> veikia kaip neprivalomas, bet reikalauja, kad visi naudotojai
+    turintys administravimo teises kito prisijungimo metu aktyvuotų dviejų veiksnių autentifikaciją.
+  label_auto_watch_on: Automatinis stebėjimas
+  label_auto_watch_on_issue_contributed_to: Darbai prie kurių prisidėjau
