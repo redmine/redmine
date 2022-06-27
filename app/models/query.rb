@@ -1176,7 +1176,7 @@ class Query < ActiveRecord::Base
     end
 
     filter = available_filters[field]
-    target_class = filter[:through].format.target_class.base_class
+    target_class = filter[:through].format.target_class
 
     "#{queried_table_name}.id #{not_in} IN (" +
       "SELECT customized_id FROM #{CustomValue.table_name}" +
