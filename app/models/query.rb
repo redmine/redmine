@@ -1176,7 +1176,7 @@ class Query < ActiveRecord::Base
       "  AND CAST(CASE value WHEN '' THEN '0' ELSE value END AS decimal(30,0)) IN (" +
       "  SELECT customized_id FROM #{CustomValue.table_name}" +
       "  WHERE customized_type='#{target_class}' AND custom_field_id=#{chained_custom_field_id}" +
-      "  AND #{sql_for_field(field, operator, value, CustomValue.table_name, 'value')}))"
+      "  AND #{sql_for_field(field, operator, value, CustomValue.table_name, 'value', true)}))"
 
   end
 
