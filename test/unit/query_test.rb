@@ -907,6 +907,24 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal issue1, result.first
   end
 
+  def test_filter_on_chained_user_custom_field
+    user = User.find(2)
+    User.current = user
+
+    user_cf = UserCustomField.find(4)
+    user_cf.update! is_filter: true
+
+    issue_cf = IssueCustomField.create!(:field_format => 'user', :is_for_all => true, :is_filter => true, :name => 'User custom field', :tracker_ids => [1])
+    issue1 = Issue.create!(:project_id => 1, :tracker_id => 1, :custom_field_values => {issue_cf.id.to_s => '2'}, :subject => 'Test', :author_id => 1)
+
+    query = IssueQuery.new(:name => '_', :project => Project.find(1))
+    query.filters = {"cf_#{issue_cf.id}.cf_#{user_cf.id}" => {:operator => '~', :values => ['01 42']}}
+    result = query.issues
+
+    assert_equal 1, result.size
+    assert_equal issue1, result.first
+  end
+
   def test_filter_on_chained_user_custom_field_of_type_float
     user_cf = UserCustomField.find(5)
     user_cf.update! is_filter: true
