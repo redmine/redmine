@@ -1469,3 +1469,4 @@ he:
     This action cannot be undone.
   text_projects_bulk_destroy_confirm: To confirm, please enter "%{yes}" in the box below.
   text_subprojects_bulk_destroy: 'including its subproject(s): %{value}'
+  field_current_password: Current password

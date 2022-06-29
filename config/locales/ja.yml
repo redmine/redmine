@@ -1421,3 +1421,4 @@ ja:
     この操作は元に戻せません。
   text_projects_bulk_destroy_confirm: 削除する場合は確認のため "%{yes}" と入力してください。
   text_subprojects_bulk_destroy: '次のサブプロジェクトを含む: %{value}'
+  field_current_password: Current password

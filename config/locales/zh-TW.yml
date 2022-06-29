@@ -1484,3 +1484,4 @@
     此動作無法復原。
   text_projects_bulk_destroy_confirm: 請在下面方塊中， 輸入 "%{yes}" 以便確認。
   text_subprojects_bulk_destroy: '包含它的子專案： %{value}'
+  field_current_password: Current password
