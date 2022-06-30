@@ -682,16 +682,19 @@ class UsersControllerTest < Redmine::ControllerTest
   end
 
   def test_update_without_generate_password_should_not_change_password
-    put :update, :params => {
-      :id => 2, :user => {
-        :firstname => 'changed',
-        :generate_password => '0',
-        :password => '',
-        :password_confirmation => ''
-      },
-      :send_information => '1'
-    }
-
+    put(
+      :update,
+      :params => {
+        :id => 2,
+        :user => {
+          :firstname => 'changed',
+          :generate_password => '0',
+          :password => '',
+          :password_confirmation => ''
+        },
+        :send_information => '1'
+      }
+    )
     user = User.find(2)
     assert_equal 'changed', user.firstname
     assert user.check_password?('jsmith')
