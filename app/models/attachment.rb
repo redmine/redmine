@@ -525,9 +525,7 @@ class Attachment < ActiveRecord::Base
 
   # Physically deletes the file from the file system
   def delete_from_disk!
-    if disk_filename.present? && File.exist?(diskfile)
-      File.delete(diskfile)
-    end
+    FileUtils.rm_f(diskfile) if disk_filename.present?
     Dir[thumbnail_path("*")].each do |thumb|
       File.delete(thumb)
     end

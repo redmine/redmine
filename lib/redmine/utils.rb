@@ -51,9 +51,7 @@ module Redmine
 
       def save_upload(upload, path)
         directory = File.dirname(path)
-        unless File.exist?(directory)
-          FileUtils.mkdir_p directory
-        end
+        FileUtils.mkdir_p directory
         File.open(path, "wb") do |f|
           if upload.respond_to?(:read)
             buffer = ""

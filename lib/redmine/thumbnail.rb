@@ -43,9 +43,7 @@ module Redmine
         return nil if is_pdf && mime_type != "application/pdf"
 
         directory = File.dirname(target)
-        unless File.exist?(directory)
-          FileUtils.mkdir_p directory
-        end
+        FileUtils.mkdir_p directory
         size_option = "#{size}x#{size}>"
 
         if is_pdf
