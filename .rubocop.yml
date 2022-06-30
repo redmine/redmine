@@ -94,6 +94,9 @@ Lint/StructNewOverride:
 Lint/SuppressedException:
   AllowComments: true
 
+Layout/LineContinuationLeadingSpace:
+  Enabled: false
+
 Layout/TrailingWhitespace:
   AllowInHeredoc: true
 
