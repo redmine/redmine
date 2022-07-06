@@ -23,7 +23,7 @@ class JournalObserverTest < ActiveSupport::TestCase
   fixtures :issues, :issue_statuses, :journals, :journal_details, :projects,
            :projects_trackers, :trackers, :enabled_modules, :enumerations,
            :users, :user_preferences, :email_addresses, :roles, :members, :member_roles,
-           :versions
+           :versions, :issue_categories
 
   def setup
     User.current = nil
