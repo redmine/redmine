@@ -1539,3 +1539,6 @@ ru:
   text_projects_bulk_destroy_confirm: To confirm, please enter "%{yes}" in the box below.
   text_subprojects_bulk_destroy: 'including its subproject(s): %{value}'
   field_current_password: Current password
+  sudo_mode_new_info_html: "<strong>What's happening?</strong> You need to reconfirm
+    your password before taking any administrative actions, this ensures your account
+    stays protected."
