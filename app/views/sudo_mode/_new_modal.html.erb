@@ -1,4 +1,5 @@
 <h3 class="title"><%= l(:label_password_required) %></h3>
+<p class="nodata" style="font-size: 1em;"><%= t 'sudo_mode_new_info_html' %></p>
 <%= form_tag({}, remote: true) do %>
 
   <%= hidden_field_tag '_method', request.request_method %>
@@ -8,6 +9,7 @@
     <p>
       <label for="sudo_password"><%= l :field_password %><span class="required">*</span></label>
       <%= password_field_tag :sudo_password, nil, size: 25 %>
+      <br/><%= link_to l(:label_password_lost), lost_password_path, :class => "lost_password" if Setting.lost_password? %>
     </p>
   </div>
 

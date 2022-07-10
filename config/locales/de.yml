@@ -1328,6 +1328,7 @@ de:
   field_passwd_changed_on: Passwort zuletzt geändert
   label_import_users: Benutzer importieren
   label_days_to_html: "%{days} Tage bis %{date}"
+  sudo_mode_new_info_html: <strong>Warum das ganze?</strong> Zu Ihrem Schutz bitten wir Sie Ihr Kennwort zu bestätigen, bevor Sie sicherheitsrelevante Einstellungen ändern.
   setting_twofa: Zwei-Faktor-Authentifizierung
   twofa__totp__name: Authentifizierungs-App
   twofa__totp__text_pairing_info_html: 'Bitte scannen Sie diesen QR-Code oder verwenden Sie den Klartext-Schlüssel in einer TOTP-kompatiblen Authentifizierungs-App (z.B. <a href="https://support.google.com/accounts/answer/1066447?hl=de">Google Authenticator</a>, <a href="https://authy.com/download/">Authy</a>, <a href="https://guide.duo.com/third-party-accounts">Duo Mobile</a>). Anschließend geben Sie bitte den in der App generierten Code unten ein.'

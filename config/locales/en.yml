@@ -1357,6 +1357,7 @@ en:
   text_project_is_public_anonymous: Public projects and their contents are openly available on the network.
   label_import_time_entries: Import time entries
   label_import_users: Import users
+  sudo_mode_new_info_html: <strong>What's happening?</strong> You need to reconfirm your password before taking any administrative actions, this ensures your account stays protected.
 
   twofa__totp__name: Authenticator app
   twofa__totp__text_pairing_info_html: 'Scan this QR code or enter the plain text key into a TOTP app (e.g. <a href="https://support.google.com/accounts/answer/1066447">Google Authenticator</a>, <a href="https://authy.com/download/">Authy</a>, <a href="https://guide.duo.com/third-party-accounts">Duo Mobile</a>) and enter the code in the field below to activate two-factor authentication.'
