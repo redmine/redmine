@@ -157,7 +157,7 @@ module IssuesHelper
 
   # Renders relations stats (total relations (open - closed)) with query links
   def render_relations_stats(issue, relations)
-    open_relations = relations.count{|r| (r.other_issue(issue).closed?)==false}
+    open_relations = relations.count{|r| r.other_issue(issue).closed? == false}
     closed_relations = relations.count{|r| r.other_issue(issue).closed?}
     render_issues_stats(open_relations, closed_relations, {:issue_id => relations.map{|r| r.other_issue(issue).id}.join(',')})
   end
