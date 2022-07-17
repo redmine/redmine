@@ -79,4 +79,10 @@ module JournalsHelper
     css_classes = journal.private_notes? ? 'badge badge-private private' : ''
     content_tag('span', content.html_safe, :id => "journal-#{journal.id}-private_notes", :class => css_classes)
   end
+
+  def render_journal_update_info(journal)
+    return if journal.created_on == journal.updated_on
+
+    content_tag('span', "· #{l(:label_edited)}", :title => l(:label_time_by_author, :time => format_time(journal.updated_on), :author => journal.updated_by), :class => 'update-info')
+  end
 end

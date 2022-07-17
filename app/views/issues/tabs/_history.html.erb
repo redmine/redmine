@@ -15,6 +15,7 @@
       <%= avatar(journal.user) %>
       <%= authoring journal.created_on, journal.user, :label => :label_updated_time_by %>
       <%= render_private_notes_indicator(journal) %>
+      <%= render_journal_update_info(journal) %>
     </h4>
 
     <% if journal.details.any? %>

@@ -26,6 +26,7 @@ class Journal < ActiveRecord::Base
   belongs_to :issue, :foreign_key => :journalized_id
 
   belongs_to :user
+  belongs_to :updated_by, :class_name => 'User'
   has_many :details, :class_name => "JournalDetail", :dependent => :delete_all, :inverse_of => :journal
   attr_accessor :indice
 
@@ -78,6 +79,7 @@ class Journal < ActiveRecord::Base
   safe_attributes(
     'private_notes',
     :if => lambda {|journal, user| user.allowed_to?(:set_notes_private, journal.project)})
+  safe_attributes 'updated_by'
 
   # Returns a SQL condition to filter out journals with notes that are not visible to user
   def self.visible_notes_condition(user=User.current, options={})

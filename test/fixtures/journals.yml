@@ -1,13 +1,16 @@
 ---
 journals_001:
   created_on: <%= 2.days.ago.to_date.to_s(:db) %>
+  updated_on: <%= 1.days.ago.to_date.to_s(:db) %>
   notes: "Journal notes"
   id: 1
   journalized_type: Issue
   user_id: 1
   journalized_id: 1
+  updated_by_id: 1
 journals_002:
   created_on: <%= 1.days.ago.to_date.to_s(:db) %>
+  updated_on: <%= 1.days.ago.to_date.to_s(:db) %>
   notes: "Some notes with Redmine links: #2, r2."
   id: 2
   journalized_type: Issue
@@ -15,6 +18,7 @@ journals_002:
   journalized_id: 1
 journals_003:
   created_on: <%= 1.days.ago.to_date.to_s(:db) %>
+  updated_on: <%= 1.days.ago.to_date.to_s(:db) %>
   notes: "A comment with inline image: !picture.jpg! and a reference to #1 and r2."
   id: 3
   journalized_type: Issue
@@ -22,6 +26,7 @@ journals_003:
   journalized_id: 2
 journals_004:
   created_on: <%= 1.days.ago.to_date.to_s(:db) %>
+  updated_on: <%= 1.days.ago.to_date.to_s(:db) %>
   notes: "A comment with a private version."
   id: 4
   journalized_type: Issue
@@ -30,6 +35,7 @@ journals_004:
 journals_005:
   id: 5
   created_on: <%= 1.days.ago.to_date.to_s(:db) %>
+  updated_on: <%= 1.days.ago.to_date.to_s(:db) %>
   notes: "A comment on a private issue."
   user_id: 2
   journalized_type: Issue

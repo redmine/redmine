@@ -2894,6 +2894,16 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select "#change-#{not_visible.id}", 0
   end
 
+  def test_show_should_mark_notes_as_edited_only_for_edited_notes
+    get :show, :params => {:id => 1}
+    assert_response :success
+
+    journal = Journal.find(1)
+    journal_title = l(:label_time_by_author, :time => format_time(journal.updated_on), :author => journal.updated_by)
+    assert_select "#change-1 h4 span.update-info[title=?]", journal_title, :text => '· Edited'
+    assert_select "#change-2 h4 span.update-info", 0
+  end
+
   def test_show_atom
     with_settings :text_formatting => 'textile' do
       get(
