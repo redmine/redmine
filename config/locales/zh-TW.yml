@@ -1487,3 +1487,5 @@
   field_current_password: 目前密碼
   sudo_mode_new_info_html: "<strong>發生甚麼事？</strong> 執行任何系統管理動作之前，
     必須再次確認您的密碼, 這樣可確保您的帳戶持續受到保護。"
+  label_edited: Edited
+  label_time_by_author: "%{time} by %{author}"
