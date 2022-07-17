@@ -124,6 +124,9 @@ Rails/BulkChangeTable:
 Rails/CompactBlank:
   Enabled: false
 
+Rails/Delegate:
+  Enabled: false
+
 Rails/EnvironmentVariableAccess:
   Enabled: false
 
