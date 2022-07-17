@@ -139,6 +139,21 @@ class TimeEntryTest < ActiveSupport::TestCase
     assert_equal entry.activity_id, project_specific_default_activity.id
   end
 
+  def test_activity_id_should_be_set_automatically_if_there_is_only_one_activity_available
+    project = Project.find(1)
+    TimeEntry.all.destroy_all
+    TimeEntryActivity.destroy_all
+    only_one_activity = TimeEntryActivity.create!(
+      name: 'Development',
+      parent_id: nil,
+      project_id: nil,
+      is_default: false
+    )
+
+    entry = TimeEntry.new(project: project)
+    assert_equal entry.activity_id, only_one_activity.id
+  end
+
   def test_should_accept_future_dates
     entry = TimeEntry.generate
     entry.spent_on = User.current.today + 1

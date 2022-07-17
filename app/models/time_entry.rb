@@ -109,6 +109,8 @@ class TimeEntry < ActiveRecord::Base
     if new_record? && self.activity.nil?
       if default_activity = TimeEntryActivity.default(self.project)
         self.activity_id = default_activity.id
+      elsif (activities = TimeEntryActivity.available_activities(self.project)) && activities.count == 1
+        self.activity_id = activities.first.id
       end
       self.hours = nil if hours == 0
     end

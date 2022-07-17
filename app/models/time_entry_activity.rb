@@ -32,6 +32,14 @@ class TimeEntryActivity < Enumeration
     project.activities.detect { |activity| activity.parent_id == default_activity.id }
   end
 
+  def self.available_activities(project=nil)
+    if project.nil?
+      TimeEntryActivity.shared.active
+    else
+      project.activities
+    end
+  end
+
   def option_name
     OptionName
   end
