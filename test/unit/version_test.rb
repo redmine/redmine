@@ -23,7 +23,7 @@ class VersionTest < ActiveSupport::TestCase
   fixtures :projects, :users, :issues, :issue_statuses, :trackers,
            :enumerations, :versions, :projects_trackers,
            :custom_fields, :custom_fields_trackers, :custom_fields_projects,
-           :members, :member_roles, :roles
+           :members, :member_roles, :roles, :issue_categories
 
   def setup
     User.current = nil
