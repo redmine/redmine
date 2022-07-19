@@ -89,7 +89,7 @@ class PreviewsControllerTest < Redmine::ControllerTest
   end
 
   def test_preview_issue_notes_should_show_thumbnail_of_file_immidiately_after_attachment
-    attachment = Attachment.generate!(filename: 'foo.png', digest: Redmine::Utils.random_hex(64))
+    attachment = Attachment.generate!(filename: 'foo.png', digest: Redmine::Utils.random_hex(32))
     attachment.update(container: nil)
 
     @request.session[:user_id] = 2
