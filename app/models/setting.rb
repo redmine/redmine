@@ -105,8 +105,7 @@ class Setting < ActiveRecord::Base
     v = read_attribute(:value)
     # Unserialize serialized settings
     if available_settings[name]['serialized'] && v.is_a?(String)
-      # YAML.load works as YAML.safe_load if Psych >= 4.0 is installed
-      v = YAML.respond_to?(:unsafe_load) ? YAML.unsafe_load(v) : YAML.load(v)
+      v = YAML.safe_load(v, permitted_classes: [ActiveSupport::HashWithIndifferentAccess])
       v = force_utf8_strings(v)
     end
     v = v.to_sym if available_settings[name]['format'] == 'symbol' && !v.blank?
