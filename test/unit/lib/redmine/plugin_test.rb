@@ -196,6 +196,13 @@ class Redmine::PluginTest < ActiveSupport::TestCase
     end
   end
 
+  def test_default_settings
+    @klass.register(:foo_plugin) {settings :default => {'key1' => 'abc', :key2 => 123}}
+    h = Setting.plugin_foo_plugin
+    assert_equal 'abc', h['key1']
+    assert_equal 123, h[:key2]
+  end
+
   def test_settings_warns_about_possible_partial_collision
     @klass.register(:foo_plugin) {settings :partial => 'foo/settings'}
     Rails.logger.expects(:warn)
