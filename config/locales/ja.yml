@@ -1421,9 +1421,7 @@ ja:
     この操作は元に戻せません。
   text_projects_bulk_destroy_confirm: 削除する場合は確認のため "%{yes}" と入力してください。
   text_subprojects_bulk_destroy: '次のサブプロジェクトを含む: %{value}'
-  field_current_password: Current password
-  sudo_mode_new_info_html: "<strong>What's happening?</strong> You need to reconfirm
-    your password before taking any administrative actions, this ensures your account
-    stays protected."
-  label_edited: Edited
-  label_time_by_author: "%{time} by %{author}"
+  field_current_password: 現在のパスワード
+  sudo_mode_new_info_html: "アカウントのセキュリティの維持のため、管理操作を行う前にパスワードの再確認が必要です。"
+  label_edited: 編集済み
+  label_time_by_author: "%{time} %{author}"
