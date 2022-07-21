@@ -278,8 +278,12 @@ module Redmine
 
         size = size.to_i
         size = 200 unless size > 0
-        if obj && obj.respond_to?(:attachments) &&
-             attachment = Attachment.latest_attach(obj.attachments, filename)
+
+        attachments = obj.attachments if obj.respond_to?(:attachments)
+        if (controller_name == 'previews' || action_name == 'preview') && @attachments.present?
+          attachments = (attachments.to_a + @attachments).compact
+        end
+        if attachments.present? && (attachment = Attachment.latest_attach(attachments, filename))
           title = options[:title] || attachment.title
           thumbnail_url =
             url_for(:controller => 'attachments', :action => 'thumbnail',
