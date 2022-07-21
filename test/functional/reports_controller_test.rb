@@ -242,4 +242,91 @@ class ReportsControllerTest < Redmine::ControllerTest
     )
     assert_response 404
   end
+
+  def test_issue_report_details_should_csv_export
+    %w(tracker version priority category assigned_to author subproject).each do |detail|
+      get(
+        :issue_report_details,
+        params: {
+          id: 1,
+          detail: detail,
+          format: 'csv'
+        }
+      )
+      assert_response :success
+      assert_equal 'text/csv; header=present', response.media_type
+    end
+  end
+
+  def test_issue_report_details_with_tracker_detail_should_csv_export
+    project = Project.find(1)
+    tracker = project.trackers.find_by(:name => 'Support request')
+    project.trackers.delete(tracker)
+
+    with_settings :display_subprojects_issues => '1' do
+      get(
+        :issue_report_details,
+        params: {
+          id: 1,
+          detail: 'tracker',
+          format: 'csv'
+        }
+      )
+      assert_response :success
+
+      assert_equal 'text/csv; header=present', response.media_type
+      lines = response.body.chomp.split("\n")
+      # Number of lines
+      rows = Project.find(1).rolled_up_trackers(true).visible
+      assert_equal rows.size + 1, lines.size
+      # Header
+      assert_equal '"",New,Assigned,Resolved,Feedback,Closed,Rejected,open,closed,Total', lines.first
+      # Details
+      to_test = [
+        'Bug,5,0,0,0,3,0,5,3,8',
+        'Feature request,0,1,0,0,0,0,1,0,1',
+        'Support request,0,0,0,0,0,0,0,0,0'
+      ]
+      to_test.each do |expected|
+        assert_includes lines, expected
+      end
+    end
+  end
+
+  def test_issue_report_details_with_assigned_to_detail_should_csv_export
+    Issue.delete_all
+    Issue.generate!
+    Issue.generate!
+    Issue.generate!(:status_id => 5)
+    Issue.generate!(:assigned_to_id => 2)
+
+    with_settings :issue_group_assignment => '1' do
+      get(
+        :issue_report_details,
+        params: {
+          id: 1,
+          detail: 'assigned_to',
+          format: 'csv'
+        }
+      )
+      assert_response :success
+
+      assert_equal 'text/csv; header=present', response.media_type
+      lines = response.body.chomp.split("\n")
+      # Number of lines
+      rows = Project.find(1).principals.sorted + [I18n.t(:label_none)]
+      assert_equal rows.size + 1, lines.size
+      # Header
+      assert_equal '"",New,Assigned,Resolved,Feedback,Closed,Rejected,open,closed,Total', lines.first
+      # Details
+      to_test = [
+        'Dave Lopper,0,0,0,0,0,0,0,0,0',
+        'John Smith,1,0,0,0,0,0,1,0,1',
+        '[none] ,2,0,0,0,1,0,2,1,3'
+      ]
+      to_test.each do |expected|
+        assert_includes lines, expected
+      end
+    end
+  end
 end
