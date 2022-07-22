@@ -127,4 +127,11 @@ class LayoutTest < Redmine::IntegrationTest
     get '/projects/ecookbook'
     assert_select 'div#quick-search form[action="/projects/ecookbook/search"]'
   end
+
+  def test_help_and_powered_by_redmine_link_should_open_separate_tab
+    get '/'
+    assert_select '#top-menu a.help[target="_blank"][rel="noopener"]'
+    # "Powered by Redmine" link
+    assert_select '#footer a[target="_blank"][rel="noopener"]'
+  end
 end

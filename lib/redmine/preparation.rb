@@ -169,7 +169,7 @@ module Redmine
                   :caption => :label_project_plural
         menu.push :administration, {:controller => 'admin', :action => 'index'},
                   :if => Proc.new {User.current.admin?}, :last => true
-        menu.push :help, Info.help_url, :last => true
+        menu.push :help, Info.help_url, :html => {:target => '_blank', :rel => 'noopener'}, :last => true
       end
 
       MenuManager.map :account_menu do |menu|
