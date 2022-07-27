@@ -337,7 +337,7 @@ class RepositoriesController < ApplicationController
     if params[:repository_id].present?
       @repository = @project.repositories.find_by_identifier_param(params[:repository_id])
     else
-      @repository = @project.repository
+      @repository = @project.repository || @project.repositories.first
     end
     (render_404; return false) unless @repository
     @path = params[:path].is_a?(Array) ? params[:path].join('/') : params[:path].to_s

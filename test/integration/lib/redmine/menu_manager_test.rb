@@ -28,7 +28,8 @@ class MenuManagerTest < Redmine::IntegrationTest
            :roles,
            :member_roles,
            :members,
-           :enabled_modules
+           :enabled_modules,
+           :repositories
 
   def test_project_menu_with_specific_locale
     get '/projects/ecookbook/issues',
@@ -77,6 +78,34 @@ class MenuManagerTest < Redmine::IntegrationTest
         menu.delete :bar
         menu.delete :hello
       end
+    end
+  end
+
+  def test_project_menu_should_display_repository_tab_when_exists_repository
+    project = Project.find('ecookbook')
+    repos = project.repositories
+    assert_equal true, repos.exists?
+
+    log_user('jsmith', 'jsmith')
+
+    assert_equal true, repos.exists?(:is_default => true)
+    get '/projects/ecookbook'
+    assert_select '#main-menu' do
+      assert_select 'a.repository', :count => 1
+    end
+
+    repos.update_all(:is_default => false)
+    assert_equal false, repos.exists?(:is_default => true)
+    get '/projects/ecookbook'
+    assert_select '#main-menu' do
+      assert_select 'a.repository', :count => 1
+    end
+
+    repos.delete_all
+    assert_equal false, repos.exists?
+    get '/projects/ecookbook'
+    assert_select '#main-menu' do
+      assert_select 'a.repository', :count => 0
     end
   end
 

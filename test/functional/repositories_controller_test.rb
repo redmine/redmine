@@ -188,6 +188,26 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
     end
   end
 
+  def test_show_without_main_repository_should_display_first_repository
+    project = Project.find(1)
+    repos = project.repositories
+    repos << Repository::Subversion.create(:identifier => 'test', :url => 'svn://valid')
+    assert_equal true, repos.exists?(:is_default => true)
+
+    repos.update_all(:is_default => false)
+    repos.reload
+    assert_equal false, repos.exists?(:is_default => true)
+
+    repository = repos.first
+    @request.session[:user_id] = 2
+
+    get(:show, :params => {:id => 1})
+    assert_response :success
+    assert_select '#sidebar' do
+      assert_select 'a.repository.selected[href=?]', "/projects/#{project.identifier}/repository/#{repository.identifier_param}"
+    end
+  end
+
   def test_show_should_show_diff_button_depending_on_browse_repository_permission
     skip unless repository_configured?('subversion')
 
