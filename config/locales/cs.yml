@@ -141,6 +141,7 @@ cs:
         must_contain_lowercase: "musí obsahovat malá písmena (a-z)"
         must_contain_digits: "musí obsahovat čísla (0-9)"
         must_contain_special_chars: "musí obsahovat speciální znaky (!, $, %, ...)"
+        domain_not_allowed: "contains a domain not allowed (%{domain})"
 
   actionview_instancetag_blank_option: Prosím vyberte
 

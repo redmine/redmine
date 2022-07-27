@@ -157,6 +157,7 @@ ja:
         must_contain_lowercase: "は小文字 (a-z) を含む必要があります"
         must_contain_digits: "は数字 (0-9) を含む必要があります"
         must_contain_special_chars: "は記号 (!, $, %, ...) を含む必要があります"
+        domain_not_allowed: "contains a domain not allowed (%{domain})"
 
   actionview_instancetag_blank_option: 選んでください
 

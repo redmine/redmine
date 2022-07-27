@@ -136,6 +136,7 @@ sq:
         must_contain_lowercase: "duhet të përmbajë shkronja të vogla (a-z)"
         must_contain_digits: "duhet të përmbajë shifra (0-9)"
         must_contain_special_chars: "duhet të përmbajë shenja speciale (!, $, %, …)"
+        domain_not_allowed: "contains a domain not allowed (%{domain})"
 
   actionview_instancetag_blank_option: Ju lutemi, përzgjidhni
 

@@ -165,6 +165,7 @@ gl:
         must_contain_lowercase: "debe conter letras minúsculas (a-z)"
         must_contain_digits: "debe conter díxitos (0-9)"
         must_contain_special_chars: "debe conter caracteres especiais (!, $, %, ...)"
+        domain_not_allowed: "contains a domain not allowed (%{domain})"
 
   actionview_instancetag_blank_option: Por favor seleccione
 

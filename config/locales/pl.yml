@@ -148,6 +148,7 @@ pl:
         must_contain_lowercase: "musi zawierać małe litery (a-z)"
         must_contain_digits: "musi zawierać cyfry (0-9)"
         must_contain_special_chars: "musi zawierać znaki specjalne (!, $, %, ...)"
+        domain_not_allowed: "contains a domain not allowed (%{domain})"
 
   actionview_instancetag_blank_option: wybierz
 

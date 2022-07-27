@@ -193,6 +193,7 @@
         must_contain_lowercase: "必須包含小寫字母 (a-z)"
         must_contain_digits: "必須包含數字 (0-9)"
         must_contain_special_chars: "必須包含特殊字元 (!, $, %, ...)"
+        domain_not_allowed: "contains a domain not allowed (%{domain})"
 
       # You can define own errors for models or model attributes.
       # The values :model, :attribute and :value are always available for interpolation.
