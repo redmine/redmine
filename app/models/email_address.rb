@@ -143,6 +143,14 @@ class EmailAddress < ActiveRecord::Base
   end
 
   def validate_email_domain
-    errors.add(:address, :invalid) unless self.class.valid_domain?(address)
+    domain = address.partition('@').last
+    return if self.class.valid_domain?(domain)
+
+    if User.current.logged?
+      errors.add(:address, :domain_not_allowed, :domain => domain)
+    else
+      # Don't display a detailed error message for anonymous users
+      errors.add(:address, :invalid)
+    end
   end
 end

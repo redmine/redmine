@@ -131,7 +131,7 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
           }
         )
         assert_response :success
-        assert_select_error 'Email is invalid'
+        assert_select_error 'Email contains a domain not allowed (black.example)'
       end
     end
 
@@ -147,7 +147,7 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
           }
         )
         assert_response :success
-        assert_select_error 'Email is invalid'
+        assert_select_error 'Email contains a domain not allowed (example.fr)'
       end
     end
   end
