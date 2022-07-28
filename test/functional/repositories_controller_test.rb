@@ -189,6 +189,8 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
   end
 
   def test_show_without_main_repository_should_display_first_repository
+    skip unless repository_configured?('subversion')
+
     project = Project.find(1)
     repos = project.repositories
     repos << Repository::Subversion.create(:identifier => 'test', :url => 'svn://valid')
