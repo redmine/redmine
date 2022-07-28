@@ -982,12 +982,6 @@ select.bool_cf {width:auto !important;}
 
 #tab-content-modules fieldset p {margin:3px 0 4px 0;}
 
-#tab-content-users .splitcontentleft {width: 64%;}
-#tab-content-users .splitcontentright {width: 34%;}
-#tab-content-users fieldset {padding:1em; margin-bottom: 1em;}
-#tab-content-users fieldset label {display: block;}
-#tab-content-users #principals {max-height: 400px; overflow: auto;}
-
 #users_for_watcher {height: 200px; overflow:auto;}
 #users_for_watcher label {display: block;}
 
