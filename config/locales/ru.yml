@@ -1510,7 +1510,7 @@ ru:
   text_setting_config_change: Вы можете настроить поведение в файле config/configuration.yml.
     Пожалуйста, перезапустите приложение после редактирования этого файла.
   label_bulk_edit: Массовое редактирование
-  button_create_and_follow: Создать и продолжить
+  button_create_and_follow: Создать и перейти
   label_subtask: Подзадача
   label_default_query: Запрос по умолчанию
   field_default_project_query: Проекты по умолчанию
