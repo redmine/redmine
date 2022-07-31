@@ -94,7 +94,7 @@ class IssuesController < ApplicationController
 
   def show
     @journals = @issue.visible_journals_with_index
-    @has_changesets = @issue.changesets.visible.preload(:repository, :user).exists?
+    @has_changesets = @issue.changesets.visible.preload(:repository, :user).exists? unless api_request?
     @relations =
       @issue.relations.
         select do |r|
@@ -119,8 +119,10 @@ class IssuesController < ApplicationController
       end
       format.api do
         @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
-        @changesets = @issue.changesets.visible.preload(:repository, :user).to_a
-        @changesets.reverse! if User.current.wants_comments_in_reverse_order?
+        if include_in_api_response?('changesets')
+          @changesets = @issue.changesets.visible.preload(:repository, :user).to_a
+          @changesets.reverse! if User.current.wants_comments_in_reverse_order?
+        end
       end
       format.atom do
         render :template => 'journals/index', :layout => false,
