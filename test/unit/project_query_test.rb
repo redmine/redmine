@@ -87,6 +87,7 @@ class ProjectQueryTest < ActiveSupport::TestCase
     user = User.find(1)
     query = ProjectQuery.find(11)
     user_query = ProjectQuery.find(12)
+    user_query.update(visibility: Query::VISIBILITY_PUBLIC)
 
     [nil, user, User.anonymous].each do |u|
       assert_nil IssueQuery.default(user: u)

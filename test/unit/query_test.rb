@@ -2814,6 +2814,7 @@ class QueryTest < ActiveSupport::TestCase
     project_query = IssueQuery.find(1)
     query = IssueQuery.find(4)
     user_query = IssueQuery.find(3)
+    user_query.update(visibility: Query::VISIBILITY_PUBLIC)
     user_query.update_column :user_id, user.id
 
     [nil, user, User.anonymous].each do |u|
