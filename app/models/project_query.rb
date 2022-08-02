@@ -38,14 +38,15 @@ class ProjectQuery < Query
   ]
 
   def self.default(project: nil, user: User.current)
-    query = nil
     if user&.logged? && (query_id = user.pref.default_project_query).present?
       query = find_by(id: query_id)
+      return query if query&.visible?
     end
-    if query.nil? && (query_id = Setting.default_project_query).present?
+    if (query_id = Setting.default_project_query).present?
       query = find_by(id: query_id)
+      return query if query&.visibility == VISIBILITY_PUBLIC
     end
-    query
+    nil
   end
 
   def initialize(attributes=nil, *args)
