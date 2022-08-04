@@ -330,6 +330,7 @@ bg:
   field_language: Език
   field_effective_date: Дата
   field_password: Парола
+  field_current_password: Текуща парола
   field_new_password: Нова парола
   field_password_confirmation: Потвърждение
   field_twofa_scheme: Схема за двуфакторна автентикация
@@ -1132,6 +1133,8 @@ bg:
   label_my_bookmarks: Моите отметки
   label_assign_to_me: Назначи на мен
   label_default_query: Заявка по подразбиране
+  label_edited: Редактирано
+  label_time_by_author: "%{time} от %{author}"
 
   button_login: Вход
   button_submit: Изпращане
@@ -1362,6 +1365,7 @@ bg:
   text_project_is_public_anonymous: Публичните проекти са достъпни и тяхното съдържание е видимо без ограничения в мрежата.
   label_import_time_entries: Импортиране на записи за използвано време
   label_import_users: Импортиране на потребители
+  sudo_mode_new_info_html: "<strong>Какво се случва?</strong> Трябва да потвърдите вашата парола преди да предприемете административни действия. Това осигурява вашият акаунт."
 
   twofa__totp__name: Authenticator app
   twofa__totp__text_pairing_info_html: Сканирайте този QR код или въведете текстовия ключ
@@ -1415,9 +1419,3 @@ bg:
     Това действие не може да бъде отменено. Често заключването на потребителя е по-добро решение от изтриването му.
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
-  field_current_password: Current password
-  sudo_mode_new_info_html: "<strong>What's happening?</strong> You need to reconfirm
-    your password before taking any administrative actions, this ensures your account
-    stays protected."
-  label_edited: Edited
-  label_time_by_author: "%{time} by %{author}"
