@@ -414,10 +414,26 @@ class IssuesHelperTest < Redmine::HelperTest
                                      :relation_type => IssueRelation::TYPE_FOLLOWS)
 
     html = render_issue_relations(issue, [relation])
-    assert_include "<tr id=\"relation-#{relation.id}\" class=\"issue hascontextmenu issue tracker-#{closed_issue.tracker_id} status-#{closed_issue.status_id} priority-#{closed_issue.priority_id} priority-default closed rel-follows\">", html
+    assert_include(
+      "<tr id=\"relation-#{relation.id}\"" \
+      " class=\"issue hascontextmenu issue" \
+      " tracker-#{closed_issue.tracker_id}" \
+      " status-#{closed_issue.status_id}" \
+      " priority-#{closed_issue.priority_id} priority-default" \
+      " closed rel-follows\">",
+      html
+    )
 
     html = render_issue_relations(closed_issue, [relation])
-    assert_include "<tr id=\"relation-#{relation.id}\" class=\"issue hascontextmenu issue tracker-#{issue.tracker_id} status-#{issue.status_id} priority-#{issue.priority_id} priority-default rel-precedes\">", html
+    assert_include(
+      "<tr id=\"relation-#{relation.id}\"" \
+      " class=\"issue hascontextmenu issue" \
+      " tracker-#{issue.tracker_id}" \
+      " status-#{issue.status_id}" \
+      " priority-#{issue.priority_id} priority-default" \
+      " rel-precedes\">",
+      html
+    )
   end
 
   def test_render_descendants_stats
