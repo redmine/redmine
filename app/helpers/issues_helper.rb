@@ -203,7 +203,7 @@ module IssuesHelper
     s = ''.html_safe
     relations.each do |relation|
       other_issue = relation.other_issue(issue)
-      css = "issue hascontextmenu #{other_issue.css_classes}"
+      css = "issue hascontextmenu #{other_issue.css_classes} #{relation.css_classes_for(other_issue)}"
       buttons =
         if manage_relations
           link_to(
