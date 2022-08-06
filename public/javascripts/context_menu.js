@@ -52,11 +52,12 @@ function contextMenuClick(event) {
           if (lastSelected.length) {
             var toggling = false;
             $('.hascontextmenu').each(function(){
-              if (toggling || $(this).is(tr)) {
+              $elm = $(this)
+              if (!$elm.is(lastSelected) && (toggling || $elm.is(tr))) {
                 contextMenuAddSelection($(this));
                 contextMenuClearDocumentSelection();
               }
-              if ($(this).is(tr) || $(this).is(lastSelected)) {
+              if ($elm.is(lastSelected) !== $elm.is(tr)) {
                 toggling = !toggling;
               }
             });
