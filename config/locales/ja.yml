@@ -1426,3 +1426,4 @@ ja:
   sudo_mode_new_info_html: "アカウントのセキュリティの維持のため、管理操作を行う前にパスワードの再確認が必要です。"
   label_edited: 編集済み
   label_time_by_author: "%{time} %{author}"
+  field_default_time_entry_activity: Default spent time activity

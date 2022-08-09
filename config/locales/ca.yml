@@ -1461,3 +1461,4 @@ ca:
     stays protected."
   label_edited: Edited
   label_time_by_author: "%{time} by %{author}"
+  field_default_time_entry_activity: Default spent time activity
