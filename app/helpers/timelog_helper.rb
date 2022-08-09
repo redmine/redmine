@@ -48,6 +48,14 @@ module TimelogHelper
     principals_options_for_select(collection, time_entry.user_id.to_s)
   end
 
+  def default_activity(time_entry)
+    if @project
+      time_entry.activity_id
+    else
+      TimeEntryActivity.default_activity_id(User.current, time_entry.project)
+    end
+  end
+
   def select_hours(data, criteria, value)
     if value.to_s.empty?
       data.select {|row| row[criteria].blank?}

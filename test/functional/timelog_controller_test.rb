@@ -89,7 +89,20 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_response 403
   end
 
-  def test_new_should_select_default_activity
+  def test_new_should_select_default_role_activity
+    developer = Role.find(2)
+    developer.default_time_entry_activity_id = 9
+    developer.save!
+
+    @request.session[:user_id] = 3
+    get :new, :params => {:project_id => 1}
+    assert_response :success
+    assert_select 'select[name=?]', 'time_entry[activity_id]' do
+      assert_select 'option[selected=selected]', :text => 'Design'
+    end
+  end
+
+  def test_new_should_select_default_global_activity_for_user_roles_without_default_activities
     @request.session[:user_id] = 3
     get :new, :params => {:project_id => 1}
     assert_response :success

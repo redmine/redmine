@@ -416,6 +416,7 @@ en:
   field_twofa_required: Require two factor authentication
   field_default_issue_query: Default issue query
   field_default_project_query: Default project query
+  field_default_time_entry_activity: Default spent time activity
 
   setting_app_title: Application title
   setting_welcome_text: Welcome text
