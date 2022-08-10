@@ -143,4 +143,11 @@ class SysControllerTest < Redmine::ControllerTest
       assert_include 'Access denied', response.body
     end
   end
+
+  def test_should_skip_verify_authenticity_token
+    ActionController::Base.allow_forgery_protection = true
+    assert_nothing_raised {test_create_project_repository}
+  ensure
+    ActionController::Base.allow_forgery_protection = false
+  end
 end

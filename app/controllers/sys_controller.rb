@@ -22,6 +22,9 @@ class SysController < ActionController::Base
 
   before_action :check_enabled
 
+  # Requests from repository WS clients don't contain CSRF tokens
+  skip_before_action :verify_authenticity_token
+
   def projects
     p = Project.active.has_module(:repository).
           order("#{Project.table_name}.identifier").preload(:repository).to_a
