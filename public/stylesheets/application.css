@@ -676,11 +676,11 @@ input#issue_subject, input#document_title { width: 99%; }
 select#issue_done_ratio { width: 95px; }
 
 ul.projects {margin:0; padding-left:1em;}
-ul.projects ul {padding-left:1.6em;}
+ul.projects ul.projects {padding-left:1.6em;}
 ul.projects.root {margin:0; padding:0;}
 ul.projects li.root, ul.projects li.child {list-style-type:none;}
 ul.projects li.root div.archived, ul.projects li.child div.archived {color: #aaa;}
-ul.projects div.description li {list-style-type:initial;}
+ul.projects div.description ul li {list-style-type:initial;}
 
 #projects-index {
   column-count: auto;
