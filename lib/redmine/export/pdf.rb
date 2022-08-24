@@ -120,7 +120,7 @@ module Redmine
         end
 
         def get_sever_url(url)
-          if !empty_string(url) and (url[0, 1] == '/')
+          if !empty_string(url) and url.start_with?('/')
             Setting.host_name.split('/')[0] + url
           else
             url

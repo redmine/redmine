@@ -118,7 +118,7 @@ module Redmine
     end
 
     def parse_line(line, type="inline")
-      if line[0, 1] == "+"
+      if line.start_with?('+')
         diff = diff_for_added_line
         diff.line_right = line[1..-1]
         diff.nb_line_right = @line_num_r
@@ -126,7 +126,7 @@ module Redmine
         @line_num_r += 1
         @added += 1
         true
-      elsif line[0, 1] == "-"
+      elsif line.start_with?('-')
         diff = Diff.new
         diff.line_left = line[1..-1]
         diff.nb_line_left = @line_num_l
@@ -137,7 +137,7 @@ module Redmine
         true
       else
         write_offsets
-        if /\s/.match?(line[0, 1])
+        if line.start_with?(/\s/)
           diff = Diff.new
           diff.line_right = line[1..-1]
           diff.nb_line_right = @line_num_r
