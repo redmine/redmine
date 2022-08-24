@@ -419,6 +419,7 @@ bg:
   field_twofa_required: Изискване за двуфакторна автентикация
   field_default_issue_query: Заявка по подразбиране
   field_default_project_query: Заявка по подразбиране за проекта
+  field_default_time_entry_activity: Дейност по подразбиране за изразходвано време
 
   setting_app_title: Заглавие
   setting_welcome_text: Допълнителен текст
@@ -1419,4 +1420,3 @@ bg:
     Това действие не може да бъде отменено. Често заключването на потребителя е по-добро решение от изтриването му.
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
-  field_default_time_entry_activity: Default spent time activity
