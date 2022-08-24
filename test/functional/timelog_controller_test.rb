@@ -1690,6 +1690,18 @@ class TimelogControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_index_csv_filename_query_name_param
+    get :index, :params => {:format => 'csv'}
+    assert_response :success
+    assert_match /timelog.csv/, @response.headers['Content-Disposition']
+  end
+
+  def test_index_csv_filename_with_query_name_param
+    get :index, :params => {:query_name => 'My Query Name', :format => 'csv'}
+    assert_response :success
+    assert_match /my_query_name\.csv/, @response.headers['Content-Disposition']
+  end
+
   def test_index_csv_should_fill_issue_column_with_tracker_id_and_subject
     issue = Issue.find(1)
     entry = TimeEntry.generate!(:issue => issue, :comments => "Issue column content test")

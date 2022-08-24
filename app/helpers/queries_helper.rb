@@ -329,6 +329,14 @@ module QueriesHelper
     end
   end
 
+  def filename_for_export(query, default_name)
+    query_name = params[:query_name].presence || query.name
+    query_name = default_name if query_name == '_' || query_name.blank?
+
+    # Convert file names using the same rules as Wiki titles
+    filename_for_content_disposition(Wiki.titleize(query_name).downcase)
+  end
+
   # Retrieve query from session or build a new query
   def retrieve_query(klass=IssueQuery, use_session=true, options={})
     session_key = klass.name.underscore.to_sym

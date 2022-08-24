@@ -850,6 +850,18 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_equal Setting.issue_list_default_columns.size + 2, lines[0].split(',').size
   end
 
+  def test_index_csv_filename_without_query_name_param
+    get :index, :params => {:format => 'csv'}
+    assert_response :success
+    assert_match /issues.csv/, @response.headers['Content-Disposition']
+  end
+
+  def test_index_csv_filename_with_query_name_param
+    get :index, :params => {:query_name => 'My Query Name', :format => 'csv'}
+    assert_response :success
+    assert_match /my_query_name\.csv/, @response.headers['Content-Disposition']
+  end
+
   def test_index_csv_with_project
     get(
       :index,
@@ -1180,6 +1192,20 @@ class IssuesControllerTest < Redmine::ControllerTest
     )
     assert_response :success
     assert_equal 'application/pdf', @response.media_type
+  end
+
+  def test_index_pdf_filename_without_query
+    get :index, :params => {:format => 'pdf'}
+    assert_response :success
+    assert_match /issues.pdf/, @response.headers['Content-Disposition']
+  end
+
+  def test_index_pdf_filename_with_query
+    query = IssueQuery.create!(:name => 'My Query Name', :visibility => IssueQuery::VISIBILITY_PUBLIC)
+    get :index, :params => {:query_id => query.id, :format => 'pdf'}
+
+    assert_response :success
+    assert_match /my_query_name\.pdf/, @response.headers['Content-Disposition']
   end
 
   def test_index_atom

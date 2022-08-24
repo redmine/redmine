@@ -74,11 +74,11 @@ class IssuesController < ApplicationController
         format.csv do
           @issues = @query.issues(:limit => Setting.issues_export_limit.to_i)
           send_data(query_to_csv(@issues, @query, params[:csv]),
-                    :type => 'text/csv; header=present', :filename => 'issues.csv')
+                    :type => 'text/csv; header=present', :filename => "#{filename_for_export(@query, 'issues')}.csv")
         end
         format.pdf do
           @issues = @query.issues(:limit => Setting.issues_export_limit.to_i)
-          send_file_headers! :type => 'application/pdf', :filename => 'issues.pdf'
+          send_file_headers! :type => 'application/pdf', :filename => "#{filename_for_export(@query, 'issues')}.pdf"
         end
       end
     else
