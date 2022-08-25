@@ -1490,4 +1490,4 @@
     必須再次確認您的密碼, 這樣可確保您的帳戶持續受到保護。"
   label_edited: 已被編輯
   label_time_by_author: "%{time} 編輯者為 %{author}"
-  field_default_time_entry_activity: Default spent time activity
+  field_default_time_entry_activity: 預設耗用工時活動
