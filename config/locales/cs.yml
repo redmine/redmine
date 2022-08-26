@@ -1416,6 +1416,7 @@ cs:
     for_all_projects: Pro všechny projekty
     for_current_project: Pro aktuální projekt
     for_all_users: Pro všechny uživatele
+    for_this_user: For this user
   text_allowed_queries_to_select: Lze vybrat pouze veřejné dotazy (viditelné pro všechny uživatele)
   text_all_migrations_have_been_run: Všechny databázové migrace byly spušteny
   button_save_object: Uložit %{object_name}

@@ -1108,6 +1108,7 @@ bg:
     for_all_projects: За всички проекти
     for_current_project: За този проект
     for_all_users: За всички потребители
+    for_this_user: For this user
   label_nothing_to_preview: Няма нищо за предварителен преглед
   label_inherited_from_parent_project: Наследени от родителския проект
   label_inherited_from_group: Наследени от група %{name}

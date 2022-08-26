@@ -1027,6 +1027,7 @@ fr:
     for_all_projects: Pour tous les projets
     for_current_project: Pour le projet en cours
     for_all_users: Pour tous les utilisateurs
+    for_this_user: For this user
   label_trackers_description: Description des trackers
   label_open_trackers_description: Afficher la description des trackers
 

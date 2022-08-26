@@ -1435,6 +1435,7 @@ gl:
     for_all_projects: Para todos os proxectos
     for_current_project: Para o proxecto actual
     for_all_users: Para todos os usuarios
+    for_this_user: For this user
   text_allowed_queries_to_select: Soamente seleccionables consultas públicas (para calquera usuario)
   text_all_migrations_have_been_run: Foron executadas todas as migracións de base de datos
   button_save_object: Gardar %{object_name}
