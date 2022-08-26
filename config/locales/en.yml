@@ -1111,6 +1111,7 @@ en:
     for_all_projects: For all projects
     for_current_project: For current project
     for_all_users: For all users
+    for_this_user: For this user
   label_nothing_to_preview: Nothing to preview
   label_inherited_from_parent_project: "Inherited from parent project"
   label_inherited_from_group: "Inherited from group %{name}"

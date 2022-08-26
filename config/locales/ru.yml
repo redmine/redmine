@@ -1503,6 +1503,7 @@ ru:
     for_all_projects: Для всех проектов
     for_current_project: Для текущего проекта
     for_all_users: Для всех пользователей
+    for_this_user: For this user
   text_allowed_queries_to_select: Выбор производится из публичных запросов (видимых для всех пользователей)
   text_all_migrations_have_been_run: Миграция база данных полностью выполнена
   button_save_object: Записать %{object_name}

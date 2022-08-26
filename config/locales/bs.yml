@@ -1442,6 +1442,7 @@ bs:
     for_all_projects: For all projects
     for_current_project: For current project
     for_all_users: For all users
+    for_this_user: For this user
   text_allowed_queries_to_select: Public (to any users) queries only selectable
   text_all_migrations_have_been_run: All database migrations have been run
   button_save_object: Save %{object_name}

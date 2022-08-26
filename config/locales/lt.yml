@@ -1391,6 +1391,7 @@ lt:
     for_all_projects: Visiems projektams
     for_current_project: Pasirinktam projektui
     for_all_users: Visiems naudotojams
+    for_this_user: For this user
   text_allowed_queries_to_select: Galima pasirinkti tik užklausas prieinamas (Viešas) visiems naudotojams
   text_all_migrations_have_been_run: Buvo įvykdytos visos duomenų bazės migravimo procedūros
   button_save_object: Išsaugoti %{object_name}

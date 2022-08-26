@@ -518,6 +518,7 @@ de:
     for_all_projects: Für alle Projekte
     for_current_project: Für das aktuelle Projekt
     for_all_users: Für alle Benutzer
+    for_this_user: Für diesen Benutzer
   label_deleted: gelöscht
   label_descending: Absteigend
   label_details: Details

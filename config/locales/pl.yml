@@ -1122,6 +1122,7 @@ pl:
     for_all_projects: Dla wszystkich projektów
     for_current_project: Dla obecnego projektu
     for_all_users: Dla wszystkich użytkowników
+    for_this_user: For this user
   label_nothing_to_preview: Nie ma nic do podglądu
   label_inherited_from_parent_project: Dziedziczone z nadrzędnego projektu
   label_inherited_from_group: "Dziedziczone z grupy %{name}"
