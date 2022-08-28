@@ -2756,7 +2756,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
     assert_select 'div.thumbnails' do
       assert_select 'a[href="/attachments/16"]' do
-        assert_select 'img[src="/attachments/thumbnail/16"]'
+        assert_select 'img[src="/attachments/thumbnail/16/200"]'
       end
     end
   end

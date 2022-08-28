@@ -319,10 +319,11 @@ module ApplicationHelper
 
   def thumbnail_tag(attachment)
     thumbnail_size = Setting.thumbnails_size.to_i
+    thumbnail_path = thumbnail_path(attachment, :size => thumbnail_size * 2)
     link_to(
       image_tag(
-        thumbnail_path(attachment),
-        :srcset => "#{thumbnail_path(attachment, :size => thumbnail_size * 2)} 2x",
+        thumbnail_path,
+        :srcset => "#{thumbnail_path} 2x",
         :style => "max-width: #{thumbnail_size}px; max-height: #{thumbnail_size}px;",
         :loading => "lazy"
       ),
