@@ -154,7 +154,7 @@ module Redmine
               # do nothing
             end
           end
-          path_prefix = path.blank? ? '' : with_trailling_slash(path)
+          path_prefix = path.blank? ? '' : with_trailing_slash(path)
 
           entries = Entries.new
           as_ary(manifest['dir']).each do |e|

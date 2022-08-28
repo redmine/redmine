@@ -35,7 +35,7 @@ module Redmine
 
         def initialize(url, root_url=nil, login=nil, password=nil,
                        path_encoding=nil)
-          @url = with_trailling_slash(url)
+          @url = with_trailing_slash(url)
           @path_encoding = path_encoding.blank? ? 'UTF-8' : path_encoding
         end
 
@@ -46,8 +46,8 @@ module Redmine
         def format_path_ends(path, leading=true, trailling=true)
           path = leading ? with_leading_slash(path) :
             without_leading_slash(path)
-          trailling ? with_trailling_slash(path) :
-            without_trailling_slash(path)
+          trailling ? with_trailing_slash(path) :
+            without_trailing_slash(path)
         end
 
         def info
