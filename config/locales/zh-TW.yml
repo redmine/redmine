@@ -1451,10 +1451,10 @@
   twofa_text_group_disabled: 此設定僅供系統的全域雙因素驗證設定'選用項'時才有效. 目前系統的雙因素驗證設定值是'關閉'.
   field_default_issue_query: 預設議題查詢
   label_default_queries:
-    for_all_projects: 對於全部專案
-    for_current_project: 對於目前專案
-    for_all_users: 對於全部用戶
-    for_this_user: For this user
+    for_all_projects: 針對全部專案
+    for_current_project: 針對目前專案
+    for_all_users: 針對全部用戶
+    for_this_user: 針對此用戶
   text_allowed_queries_to_select: 僅可選取公開 (給任何用戶) 的查詢
   text_all_migrations_have_been_run: 資料庫移轉已全部執行完畢
   button_save_object: 儲存 %{object_name}
