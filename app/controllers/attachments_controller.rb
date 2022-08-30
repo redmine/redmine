@@ -83,7 +83,7 @@ class AttachmentsController < ApplicationController
   end
 
   def thumbnail
-    if @attachment.thumbnailable? && tbnail = @attachment.thumbnail(:size => params[:size])
+    if (tbnail = @attachment.thumbnail(:size => params[:size]))
       if stale?(:etag => tbnail, :template => false)
         send_file(
           tbnail,
