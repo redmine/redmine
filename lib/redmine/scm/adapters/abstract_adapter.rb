@@ -167,7 +167,8 @@ module Redmine
         end
 
         def with_trailling_slash(path)
-          ActiveSupport::Deprecation.warn 'Redmine::Scm::Adapters::AbstractAdapter#with_trailling_slash is deprecated and will be removed in Redmine 6.0. Please use #with_trailing_slash instead.'
+          ActiveSupport::Deprecation.warn 'Redmine::Scm::Adapters::AbstractAdapter#with_trailling_slash is ' \
+           'deprecated and will be removed in Redmine 6.0. Please use #with_trailing_slash instead.'
           with_trailing_slash(path)
         end
 
@@ -182,7 +183,8 @@ module Redmine
         end
 
         def without_trailling_slash(path)
-          ActiveSupport::Deprecation.warn 'Redmine::Scm::Adapters::AbstractAdapter#without_trailling_slash is deprecated and will be removed in Redmine 6.0. Please use #without_trailing_slash instead.'
+          ActiveSupport::Deprecation.warn 'Redmine::Scm::Adapters::AbstractAdapter#without_trailling_slash is ' \
+          'deprecated and will be removed in Redmine 6.0. Please use #without_trailing_slash instead.'
           without_trailing_slash(path)
         end
 
