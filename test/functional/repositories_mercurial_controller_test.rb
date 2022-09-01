@@ -27,7 +27,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
 
   REPOSITORY_PATH = Rails.root.join('tmp/test/mercurial_repository').to_s
   PRJ_ID     = 3
-  NUM_REV    = 40
+  NUM_REV    = 43
 
   def setup
     super
