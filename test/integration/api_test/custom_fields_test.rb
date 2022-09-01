@@ -30,6 +30,7 @@ class Redmine::ApiTest::CustomFieldsTest < Redmine::ApiTest::Base
     assert_select 'custom_fields' do
       assert_select 'custom_field' do
         assert_select 'name', :text => 'Database'
+        assert_select 'description', :text => 'Select one of the databases'
         assert_select 'id', :text => '2'
         assert_select 'customized_type', :text => 'issue'
         assert_select 'possible_values[type=array]' do
