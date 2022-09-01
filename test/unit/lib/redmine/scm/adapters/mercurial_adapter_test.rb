@@ -87,8 +87,8 @@ class MercurialAdapterTest < ActiveSupport::TestCase
         adp = Redmine::Scm::Adapters::MercurialAdapter.new(repo)
         repo_path =  adp.info.root_url.tr('\\', "/")
         assert_equal REPOSITORY_PATH, repo_path
-        assert_equal '39', adp.info.lastrev.revision
-        assert_equal '04aed9840e9266e535f5f20f7e42c9f9f84f9cf4', adp.info.lastrev.scmid
+        assert_equal '42', adp.info.lastrev.revision
+        assert_equal 'ba20ebce08dbd2f0320b93faf7bba7c86186a1f7', adp.info.lastrev.scmid
       end
     end
 
@@ -111,6 +111,14 @@ class MercurialAdapterTest < ActiveSupport::TestCase
       assert_equal 1, revisions.size
       assert_equal "ctrl-s\u0013user", revisions[0].author
       assert_equal "ctrl-s\u0013message", revisions[0].message
+    end
+
+    def test_empty_message
+      revisions = @adapter.revisions(nil, '05b4c556a8a1', '05b4c556a8a1')
+      assert_equal 1, revisions.size
+      assert_equal '41', revisions[0].revision
+      assert_equal 'jsmith <jsmith@foo.bar>', revisions[0].author
+      assert_equal '', revisions[0].message
     end
 
     def test_parents
@@ -349,7 +357,12 @@ class MercurialAdapterTest < ActiveSupport::TestCase
       @adapter.branches.each do |b|
         branches << b
       end
-      assert_equal 9, branches.length
+      assert_equal 10, branches.length
+
+      branch = branches[-10]
+      assert_equal 'branch-empty-message', branch.to_s
+      assert_equal '42', branch.revision
+      assert_equal 'ba20ebce08dbd2f0320b93faf7bba7c86186a1f7', branch.scmid
 
       branch = branches[-9]
       assert_equal 'double"quote"branch', branch.to_s
@@ -400,6 +413,7 @@ class MercurialAdapterTest < ActiveSupport::TestCase
     def test_branchmap
       bm =
         {
+          'branch-empty-message'  => 'ba20ebce08dbd2f0320b93faf7bba7c86186a1f7',
           'double"quote"branch'   => '04aed9840e9266e535f5f20f7e42c9f9f84f9cf4',
           'issue-23055-ctrl-char' => '3e998343166a1b8273973bcd46dd2bad74344d74',
           'default'               => '31eeee7395c8c78e66dd54c50addd078d10b2355',

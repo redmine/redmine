@@ -25,7 +25,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
   include Redmine::I18n
 
   REPOSITORY_PATH = Rails.root.join('tmp/test/mercurial_repository').to_s
-  NUM_REV = 40
+  NUM_REV = 43
 
   def setup
     User.current = nil
@@ -170,7 +170,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      assert_equal 51, @repository.filechanges.count
+      assert_equal 53, @repository.filechanges.count
       rev0 = @repository.changesets.find_by_revision('0')
       assert_equal "Initial import.\nThe repository contains 3 files.",
                    rev0.comments
@@ -597,7 +597,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      [(NUM_REV - 1).to_s, "04aed9840e92", "04aed"].each do |r1|
+      [(NUM_REV - 1).to_s, "ba20ebce08db", "ba20e"].each do |r1|
         changeset = @repository.find_changeset_by_name(r1)
         assert_nil changeset.next
       end

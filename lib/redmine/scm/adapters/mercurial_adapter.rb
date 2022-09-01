@@ -230,7 +230,7 @@ module Redmine
                                    end
                                  ),
                                :time     => Time.parse(le['date']['__content__']),
-                               :message  => CGI.unescape(le['msg']['__content__']),
+                               :message  => CGI.unescape(le['msg']['__content__'] || ''),
                                :paths    => paths,
                                :parents  => parents_ary)
           end
