@@ -35,9 +35,9 @@
         <p>Redmine umožňuje hypertextové odkazy mezi jednotlivými zdroji (úkoly, revize, wiki stránky...) kdekoli, kde je použito Wiki formátování.</p>
         <ul>
             <li>Odkaz na úkol: <strong>#124</strong> (zobrazí <del><a href="#" class="issue" title="Hromadná změna nezmění kategorii úkolů (Uzavřeno)">#124</a></del>, odkaz je přeškrtnutý, jestliže je úkol uzavřen)</li>
-            <li>Link to an issue including tracker name and subject: <strong>##124</strong> (displays <a href="#" class="issue" title="bulk edit doesn't change the category or fixed version properties (New)">Bug #124</a>: bulk edit doesn't change the category or fixed version properties)</li>
+            <li>Odkaz na úkol včetně fronty a předmětu: <strong>##124</strong> (zobrazí <a href="#" class="issue" title="Hromadná změna nezmění kategorii úkolů (Nový)">Bug #124</a>: Hromadná změna nezmění kategorii úkolů)</li>
             <li>Odkaz na poznámku k úkolu: <strong>#124-6</strong> nebo <strong>#124#note-6</strong></li>
-            <li>Link to an issue note within the same issue: <strong>#note-6</strong></li>
+            <li>Odkaz na poznámku k úkolu v tom samém úkole: <strong>#note-6</strong></li>
         </ul>
 
         <p>Odkazy Wiki:</p>
@@ -45,7 +45,7 @@
         <ul>
             <li><strong>[[Příručka]]</strong> zobrazí odkaz na stránku nazvanou "Příručka": <a href="#" class="wiki-page">Příručka</a>.</li>
             <li><strong>[[Příručka#čtěte-více]]</strong> Vás přenese ke kotvě "čtěte-více". Nadpisy mají automaticky přiřazené kotvy, na které se můžete odkazovat: <a href="#" class="wiki-page">Příručka</a>.</li>
-            <li><strong>[[#further-reading]]</strong> link to the anchor "further-reading" of the current page: <a href="#" class="wiki-page">#further-reading</a></li>
+            <li><strong>[[#čtěte více]]</strong> odkaz na kotvu "čtěte-více" aktuální stránky: <a href="#" class="wiki-page">čtěte více</a></li>
             <li><strong>[[Příručka|Uživatelský manuál]]</strong> zobrazí odkaz na tu samou stránku, ale s jiným textem: <a href="#" class="wiki-page">Uživatelský manuál</a>.</li>
         </ul>
 
@@ -216,13 +216,13 @@ http://www.redmine.org, someone@foo.bar
             <li><del>přeškrtnutý</del></li>
         </ul>
 
-        <h3><a name="7" class="wiki-page"></a>Vložené obrázky</h3>
+        <h3><a name="7" class="wiki-page"></a>Vnořené obrázky</h3>
 
         <ul>
             <li><strong>![](image_url)</strong> zobrazí obrázek z odkazu (syntaxe Markdown)</li>
-            <li>Jestliže máte obrázek přiložený k Wiki stránce, může být zobrazen jako vložený obrázek pomocí jeho jména: <strong>![](attached_image)</strong></li>
-            <li>Images in your computer's clipboard can be pasted directly using Ctrl-v or Command-v (note that Internet Explorer is not supported).</li>
-            <li>Image files can be dragged onto the text area in order to be uploaded and embedded.</li>
+            <li>Jestliže máte obrázek přiložený k Wiki stránce, může být zobrazen jako vnořený obrázek pomocí jeho jména: <strong>![](attached_image)</strong></li>
+            <li>Obrázky ze schránky mohou být vloženy přímo pomocí Ctrl-v/Command-v.</li>
+            <li>Soubory s obrázky mohou být přímo přetaženy do textového pole. Budou nahrány a vloženy.</li>
         </ul>
 
         <h3><a name="8" class="wiki-page"></a>Nadpisy</h3>
@@ -301,23 +301,23 @@ Pro rozbalení klikněte na odkaz.
 {{thumbnail(image.png, size=300, title=Thumbnail)}}</pre></dd>
 
       <dt><code>issue</code></dt>
-      <dd><p>Inserts a link to an issue with flexible text. Examples:</p>
-      <pre>{{issue(123)}}                              -- Issue #123: Enhance macro capabilities
-{{issue(123, project=true)}}                -- Andromeda - Issue #123:Enhance macro capabilities
-{{issue(123, tracker=false)}}               -- #123: Enhance macro capabilities
-{{issue(123, subject=false, project=true)}} -- Andromeda - Issue #123</pre></dd>
+      <dd><p>Vloží odkaz na úkol s volitelným textem. Např.:</p>
+      <pre>{{issue(123)}}                              -- Issue #123: Rozšířené možnosti maker
+{{issue(123, project=true)}}                -- Andromeda - Issue #123: Rozšířené možnosti maker
+{{issue(123, tracker=false)}}               -- #123: Rozšířené možnosti maker
+{{issue(123, subject=false, project=true)}} -- Andromeda - Úkol #123</pre></dd>
     </dl>
     </p>
 
     <h2><a name="13" class="wiki-page"></a>Zvýrazňování kódu</h2>
 
-    <p>Default code highlighting relies on <a href="http://rouge.jneen.net/" class="external">Rouge</a>, a pure Ruby code highlighter. Rouge supports many commonly used languages such as <strong>c</strong>, <strong>cpp</strong> (c++), <strong>csharp</strong> (c#, cs), <strong>css</strong>, <strong>diff</strong> (patch, udiff), <strong>go</strong> (golang), <strong>groovy</strong>, <strong>html</strong>, <strong>java</strong>, <strong>javascript</strong> (js), <strong>kotlin</strong>, <strong>objective_c</strong> (objc), <strong>perl</strong> (pl), <strong>php</strong>, <strong>python</strong> (py), <strong>r</strong>, <strong>ruby</strong> (rb), <strong>sass</strong>, <strong>scala</strong>, <strong>shell</strong> (bash, zsh, ksh, sh), <strong>sql</strong>, <strong>swift</strong>, <strong>xml</strong> and <strong>yaml</strong> (yml) languages - the names inside parentheses are aliases. Please refer to the <a href="../code_highlighting_languages.html" target="_blank">list of languages supported by Redmine code highlighter</a>.</p>
+    <p>Výchozí zvýrazňování kódu závisí na <a href="http://rouge.jneen.net/" class="external">Rouge</a>, zvýrazňovači kódu napsanému v Ruby. Rouge podporuje mnoho běžně používaných jazyků, jako jsou <strong>c</strong>, <strong>cpp</strong> (c++), <strong>csharp</strong> (c#, cs), <strong>css</strong>, <strong>diff</strong> (patch, udiff), <strong>go</strong> (golang), <strong>groovy</strong>, <strong>html</strong>, <strong>java</strong>, <strong>javascript</strong> (js), <strong>kotlin</strong>, <strong>objective_c</strong> (objc), <strong>perl</strong> (pl), <strong>php</strong>, <strong>python</strong> (py), <strong>r</strong>, <strong>ruby</strong> (rb), <strong>sass</strong>, <strong>scala</strong>, <strong>shell</strong> (bash, zsh, ksh, sh), <strong>sql</strong>, <strong>swift</strong>, <strong>xml</strong> and <strong>yaml</strong> (yml) - jména v závorkách jsou aliasy. Podívejte se, prosím, na <a href="../code_highlighting_languages.html" target="_blank">seznam jazyků poporovaných zvýrazňovačem kódu Redmine</a>.</p>
 
     <p>Kód můžete na stránce zvýraznit pomocí následující syntaxe (záleží na velikosti písma jazyku nebo aliasu):</p>
 
 <pre>
 ``` ruby
-  Váš kód vložte zde.
+  Zde vložte Váš kód.
 ```
 </pre>
 
@@ -330,7 +330,7 @@ Pro rozbalení klikněte na odkaz.
   <span class="k">end</span>
 
   <span class="k">def</span> <span class="nf">salute</span>
-    <span class="nb">puts</span> <span class="s2">"Hello </span><span class="si">#{</span><span class="vi">@name</span><span class="si">}</span><span class="s2">!"</span>
+    <span class="nb">puts</span> <span class="s2">"Ahoj </span><span class="si">#{</span><span class="vi">@name</span><span class="si">}</span><span class="s2">!"</span>
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre>
