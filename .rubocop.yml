@@ -207,6 +207,9 @@ Style/RaiseArgs:
 Style/SlicingWithRange:
   Enabled: false
 
+Style/TernaryParentheses:
+  Enabled: false
+
 Style/TrailingCommaInArrayLiteral:
   Enabled: false
 
