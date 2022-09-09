@@ -69,7 +69,7 @@ if File.exist?(database_file)
       when /postgresql/
         gem "pg", "~> 1.4.2", :platforms => [:mri, :mingw, :x64_mingw]
       when /sqlite3/
-        gem "sqlite3", "~> 1.4.0", :platforms => [:mri, :mingw, :x64_mingw]
+        gem 'sqlite3', '~> 1.5.0', :platforms => [:mri, :mingw, :x64_mingw]
       when /sqlserver/
         gem "tiny_tds", "~> 2.1.2", :platforms => [:mri, :mingw, :x64_mingw]
         gem "activerecord-sqlserver-adapter", "~> 6.1.0", :platforms => [:mri, :mingw, :x64_mingw]
