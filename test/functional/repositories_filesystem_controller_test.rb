@@ -202,6 +202,24 @@ class RepositoriesFilesystemControllerTest < Redmine::RepositoryControllerTest
       @project.reload
       assert_nil @project.repository
     end
+
+    def test_show_should_only_show_view_tab
+      get(
+        :entry,
+        :params => {
+          :id => PRJ_ID,
+          :repository_id => @repository.id,
+          :path => repository_path_hash(['test'])[:param]
+        }
+      )
+      assert_response :success
+      assert @repository.supports_cat?
+      assert_select 'a#tab-entry', :text => /View/
+      assert_not @repository.supports_all_revisions?
+      assert_select 'a#tab-changes', 0
+      assert_not @repository.supports_annotate?
+      assert_select 'a#tab-annotate', 0
+    end
   else
     puts "Filesystem test repository NOT FOUND. Skipping functional tests !!!"
     def test_fake; assert true end
