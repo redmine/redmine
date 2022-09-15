@@ -8,7 +8,7 @@ tabs << { name: 'entry', label: :button_view,
 
 tabs << { name: 'changes', label: :label_history,
           url: {:action => 'changes', :id => @project, :repository_id => @repository.identifier_param, :path => to_path_param(@path), :rev => @rev }
-        } if @repository.supports_all_revisions?
+        } if @repository.supports_history?
 tabs << { name: 'annotate', label: :button_annotate,
           url: {:action => 'annotate', :id => @project, :repository_id => @repository.identifier_param, :path => to_path_param(@path), :rev => @rev }
         } if @repository.supports_annotate?

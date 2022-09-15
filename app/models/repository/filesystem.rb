@@ -41,7 +41,7 @@ class Repository::Filesystem < Repository
     'Filesystem'
   end
 
-  def supports_all_revisions?
+  def supports_history?
     false
   end
 

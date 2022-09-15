@@ -185,6 +185,11 @@ class Repository < ActiveRecord::Base
   end
 
   def supports_all_revisions?
+    ActiveSupport::Deprecation.warn 'Repository#supports_all_revisions? is deprecated and will be removed in Redmine 6.0. Please use #supports_history instead.'
+    supports_history?
+  end
+
+  def supports_history?
     true
   end
 
