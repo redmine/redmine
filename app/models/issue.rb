@@ -677,9 +677,7 @@ class Issue < ActiveRecord::Base
   def workflow_rule_by_attribute(user=nil)
     return @workflow_rule_by_attribute if @workflow_rule_by_attribute && user.nil?
 
-    user_real = user || User.current
-    roles = user_real.admin ? Role.all.to_a : user_real.roles_for_project(project)
-    roles = roles.select(&:consider_workflow?)
+    roles = roles_for_workflow(user || User.current)
     return {} if roles.empty?
 
     result = {}
@@ -1066,7 +1064,7 @@ class Issue < ActiveRecord::Base
     statuses = []
     statuses += IssueStatus.new_statuses_allowed(
       initial_status,
-      user.admin ? Role.all.to_a : user.roles_for_project(project),
+      roles_for_workflow(user),
       tracker,
       author == user,
       assignee_transitions_allowed
@@ -2052,5 +2050,10 @@ class Issue < ActiveRecord::Base
     else
       Project
     end
+  end
+
+  def roles_for_workflow(user)
+    roles = user.admin ? Role.all.to_a : user.roles_for_project(project)
+    roles.select(&:consider_workflow?)
   end
 end

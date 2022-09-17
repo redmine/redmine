@@ -859,6 +859,28 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal expected_statuses, issue.new_statuses_allowed_to(admin)
   end
 
+  def test_new_statuses_allowed_to_should_only_return_transitions_of_considered_workflows
+    issue = Issue.find(9)
+
+    WorkflowTransition.delete_all
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 2)
+
+    developer = Role.find(2)
+    developer.remove_permission! :edit_issues
+    developer.remove_permission! :add_issues
+    assert !developer.consider_workflow?
+    WorkflowTransition.create!(:role_id => 2, :tracker_id => 1, :old_status_id => 1, :new_status_id => 3)
+
+    # status 3 is not displayed
+    expected_statuses = IssueStatus.where(:id => [1, 2])
+
+    admin = User.find(1)
+    assert_equal expected_statuses, issue.new_statuses_allowed_to(admin)
+
+    author = User.find(8)
+    assert_equal expected_statuses, issue.new_statuses_allowed_to(author)
+  end
+
   def test_new_statuses_allowed_to_should_return_allowed_statuses_when_copying
     Tracker.find(1).generate_transitions! :role_id => 1, :clear => true, 0 => [1, 3]
 
