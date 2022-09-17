@@ -83,6 +83,22 @@ class WorkflowsControllerTest < Redmine::ControllerTest
     )
   end
 
+  def test_get_edit_with_role_and_tracker_should_not_include_only_identity_workflows
+    WorkflowTransition.delete_all
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 1)
+    WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 2, :new_status_id => 3)
+
+    get :edit, :params => {:role_id => 1, :tracker_id => 1}
+    assert_response :success
+
+    # statuses 1 and 5 not displayed
+    statuses = IssueStatus.where(:id => [2, 3]).sorted.pluck(:name)
+    assert_equal(
+      ["New issue"] + statuses,
+      css_select('table.workflows.transitions-always tbody tr td:first').map(&:text).map(&:strip)
+    )
+  end
+
   def test_get_edit_should_include_allowed_statuses_for_new_issues
     WorkflowTransition.delete_all
     WorkflowTransition.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 0, :new_status_id => 1)

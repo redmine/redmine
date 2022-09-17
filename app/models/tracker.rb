@@ -108,6 +108,7 @@ class Tracker < ActiveRecord::Base
     else
       @issue_status_ids ||=
         WorkflowTransition.where(:tracker_id => id).
+          where('old_status_id <> new_status_id').
           distinct.pluck(:old_status_id, :new_status_id).flatten.uniq
     end
   end

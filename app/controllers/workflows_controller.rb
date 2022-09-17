@@ -161,6 +161,8 @@ class WorkflowsController < ApplicationController
       role_ids = Role.all.select(&:consider_workflow?).map(&:id)
       status_ids = WorkflowTransition.where(
         :tracker_id => @trackers.map(&:id), :role_id => role_ids
+      ).where(
+        'old_status_id <> new_status_id'
       ).distinct.pluck(:old_status_id, :new_status_id).flatten.uniq
       @statuses = IssueStatus.where(:id => status_ids).sorted.to_a.presence
     end
