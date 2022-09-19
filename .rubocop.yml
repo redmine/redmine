@@ -136,6 +136,9 @@ Rails/FilePath:
 Rails/HelperInstanceVariable:
   Enabled: false
 
+Rails/SquishedSQLHeredocs:
+  Enabled: false
+
 Style/AsciiComments:
   Exclude:
     # Copyright credit has non ascii character.
