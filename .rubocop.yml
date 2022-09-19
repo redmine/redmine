@@ -204,6 +204,9 @@ Style/NegatedIfElseCondition:
 Style/RaiseArgs:
   Enabled: false
 
+Style/Semicolon:
+  Enabled: false
+
 Style/SlicingWithRange:
   Enabled: false
 

@@ -1697,23 +1697,6 @@ Style/SelfAssignment:
     - 'lib/redmine/helpers/time_report.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowAsExpressionSeparator.
-Style/Semicolon:
-  Exclude:
-    - 'app/controllers/account_controller.rb'
-    - 'app/controllers/context_menus_controller.rb'
-    - 'app/controllers/journals_controller.rb'
-    - 'app/controllers/messages_controller.rb'
-    - 'app/controllers/repositories_controller.rb'
-    - 'app/models/journal.rb'
-    - 'app/models/mail_handler.rb'
-    - 'app/models/query.rb'
-    - 'lib/redmine/configuration.rb'
-    - 'lib/redmine/scm/adapters/git_adapter.rb'
-    - 'lib/redmine/sort_criteria.rb'
-    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AllowIfMethodIsEmpty.
 Style/SingleLineMethods:
   Enabled: false
