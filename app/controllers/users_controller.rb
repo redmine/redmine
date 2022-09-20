@@ -205,8 +205,10 @@ class UsersController < ApplicationController
     if api_request? || params[:lock] || params[:confirm] == @user.login
       if params[:lock]
         @user.update_attribute :status, User::STATUS_LOCKED
+        flash[:notice] = l(:notice_successful_update)
       else
         @user.destroy
+        flash[:notice] = l(:notice_successful_delete)
       end
       respond_to do |format|
         format.html {redirect_back_or_default(users_path)}
