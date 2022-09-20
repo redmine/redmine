@@ -108,4 +108,14 @@ class ContextMenusController < ApplicationController
     end
     render layout: false
   end
+
+  def users
+    @users = User.where(id: params[:ids]).to_a
+
+    (render_404; return) unless @users.present?
+    if @users.size == 1
+      @user = @users.first
+    end
+    render layout: false
+  end
 end

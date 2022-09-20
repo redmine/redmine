@@ -34,49 +34,46 @@ class UsersController < ApplicationController
   helper :principal_memberships
   helper :activities
   include ActivitiesHelper
+  helper :queries
+  include QueriesHelper
+  helper :user_queries
+  include UserQueriesHelper
 
   require_sudo_mode :create, :update, :destroy
 
   def index
-    sort_init 'login', 'asc'
-    sort_update %w(login firstname lastname admin created_on last_login_on)
+    use_session = !request.format.csv?
+    retrieve_query(UserQuery, use_session)
 
-    case params[:format]
-    when 'xml', 'json'
-      @offset, @limit = api_offset_and_limit
+    if @query.valid?
+      scope = @query.results_scope
+
+      @user_count = scope.count
+
+      respond_to do |format|
+        format.html do
+          @limit = per_page_option
+          @user_pages = Paginator.new @user_count, @limit, params['page']
+          @offset ||= @user_pages.offset
+          @users = scope.limit(@limit).offset(@offset).to_a
+          render :layout => !request.xhr?
+        end
+        format.csv do
+          # Export all entries
+          @entries = scope.to_a
+          send_data(query_to_csv(@entries, @query, params), :type => 'text/csv; header=present', :filename => 'users.csv')
+        end
+        format.api do
+          @offset, @limit = api_offset_and_limit
+          @users = scope.limit(@limit).offset(@offset).to_a
+        end
+      end
     else
-      @limit = per_page_option
-    end
-
-    @status = params[:status] || 1
-
-    scope = User.logged.status(@status).preload(:email_address)
-    scope = scope.like(params[:name]) if params[:name].present?
-    scope = scope.in_group(params[:group_id]) if params[:group_id].present?
-
-    if params[:twofa].present?
-      case params[:twofa].to_i
-      when 1
-        scope = scope.where.not(twofa_scheme: nil)
-      when 0
-        scope = scope.where(twofa_scheme: nil)
+      respond_to do |format|
+        format.html {render :layout => !request.xhr?}
+        format.csv {head :unprocessable_entity}
+        format.api {render_validation_errors(@query)}
       end
-    end
-
-    @user_count = scope.count
-    @user_pages = Paginator.new @user_count, @limit, params['page']
-    @offset ||= @user_pages.offset
-    @users =  scope.order(sort_clause).limit(@limit).offset(@offset).to_a
-
-    respond_to do |format|
-      format.html do
-        @groups = Group.givable.sort
-        render :layout => !request.xhr?
-      end
-      format.csv do
-        send_data(users_to_csv(scope.order(sort_clause)), :type => 'text/csv; header=present', :filename => 'users.csv')
-      end
-      format.api
     end
   end
 

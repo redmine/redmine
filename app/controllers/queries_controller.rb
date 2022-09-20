@@ -177,6 +177,10 @@ class QueriesController < ApplicationController
     end
   end
 
+  def redirect_to_user_query(options)
+    redirect_to users_path(options)
+  end
+
   # Returns the Query subclass, IssueQuery by default
   # for compatibility with previous behaviour
   def query_class

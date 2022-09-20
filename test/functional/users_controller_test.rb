@@ -37,33 +37,33 @@ class UsersControllerTest < Redmine::ControllerTest
   def test_index
     get :index
     assert_response :success
+    active = User.active.first
+    locked = User.where(status: User::STATUS_LOCKED).first
     assert_select 'table.users'
-    assert_select 'tr.user.active'
-    assert_select 'tr.user.locked', 0
+    assert_select "tr#user-#{active.id}"
+    assert_select "tr#user-#{locked.id}", 0
   end
 
   def test_index_with_status_filter
-    get :index, :params => {:status => 3}
+    get :index, params: { set_filter: 1, f: ['status'], op: {status: '='}, v: {status: [3]} }
     assert_response :success
-    assert_select 'tr.user.active', 0
-    assert_select 'tr.user.locked'
+    assert_select "tr.user", User.where(status: 3).count
   end
 
-  def test_index_with_name_filter
-    get :index, :params => {:name => 'john'}
+  def test_index_with_firstname_filter
+    get :index, params: { set_filter: 1, f: ['firstname'], op: {firstname: '~'}, v: {firstname: ['john']} }
     assert_response :success
-    assert_select 'tr.user td.username', :text => 'jsmith'
+    assert_select 'tr.user td.login', text: 'jsmith'
     assert_select 'tr.user', 1
   end
 
   def test_index_with_group_filter
-    get :index, :params => {:group_id => '10'}
+    get :index, params: {
+      set_filter: 1,
+      f: ['is_member_of_group'], op: {is_member_of_group: '='}, v: {is_member_of_group: ['10']}
+    }
     assert_response :success
-
     assert_select 'tr.user', Group.find(10).users.count
-    assert_select 'select[name=group_id]' do
-      assert_select 'option[value="10"][selected=selected]'
-    end
   end
 
   def test_index_should_not_show_2fa_filter_and_column_if_disabled
@@ -71,8 +71,12 @@ class UsersControllerTest < Redmine::ControllerTest
       get :index
       assert_response :success
 
-      assert_select "select#twofa", 0
-      assert_select 'td.twofa', 0
+      assert_select "select#add_filter_select" do
+        assert_select "option[value=twofa_scheme]", 0
+      end
+      assert_select "select#available_c" do
+        assert_select "option[value=twofa_scheme]", 0
+      end
     end
   end
 
@@ -83,13 +87,42 @@ class UsersControllerTest < Redmine::ControllerTest
       user.twofa_scheme = "totp"
       user.save
 
-      get :index, :params => {:twofa => '1'}
+      get :index, params: { set_filter: 1, f: ['twofa_scheme'], op: {twofa_scheme: '*'} }
       assert_response :success
 
-      assert_select "select#twofa", 1
-
+      assert_select 'tr#user-1', 1
       assert_select 'tr.user', 1
-      assert_select 'td.twofa.tick .icon-checked'
+
+      assert_select "select#add_filter_select" do
+        assert_select "option[value=twofa_scheme]"
+      end
+      assert_select "select#available_c" do
+        assert_select "option[value=twofa_scheme]"
+      end
+    end
+  end
+
+  def test_index_filter_by_twofa_scheme
+    with_settings twofa: "1" do
+      user = User.find(1)
+      user.twofa_totp_key = "AVYA3RARZ3GY3VWT7MIEJ72I5TTJRO3X"
+      user.twofa_scheme = "totp"
+      user.save
+
+      get :index, params: {
+        set_filter: 1,
+        f: ['twofa_scheme'], op: {twofa_scheme: '='}, v: {twofa_scheme: ['totp']}
+      }
+      assert_response :success
+
+      assert_select 'tr#user-1', 1
+
+      assert_select "select#add_filter_select" do
+        assert_select "option[value=twofa_scheme]"
+      end
+      assert_select "select#available_c" do
+        assert_select "option[value=twofa_scheme]"
+      end
     end
   end
 
@@ -100,13 +133,45 @@ class UsersControllerTest < Redmine::ControllerTest
       user.twofa_scheme = "totp"
       user.save
 
-      get :index, :params => {:twofa => '0'}
+      get :index, params: { set_filter: 1, f: ['twofa_scheme'], op: {twofa_scheme: '!*'} }
       assert_response :success
 
-      assert_select "select#twofa", 1
-      assert_select "td.twofa.tick" do
-        assert_select "span.icon-checked", 0
-      end
+      assert_select 'tr#user-1', 0
+      assert_select 'tr.user'
+    end
+  end
+
+  def test_index_filter_by_auth_source_none
+    user = User.find(1)
+    user.update_column :auth_source_id, 1
+
+    get :index, params: {
+      set_filter: 1,
+      f: ['auth_source_id'], op: {auth_source_id: '!*'}
+    }
+    assert_response :success
+
+    assert_select 'tr.user'
+    assert_select 'tr#user-1', 0
+  end
+
+  def test_index_filter_by_auth_source
+    user = User.find(1)
+    user.update_column :auth_source_id, 1
+
+    get :index, params: {
+      set_filter: 1,
+      f: ['auth_source_id'], op: {auth_source_id: '='}, v: {auth_source_id: ['1']}
+    }
+    assert_response :success
+
+    assert_select 'tr#user-1', 1
+
+    assert_select "select#add_filter_select" do
+      assert_select "option[value=auth_source_id]"
+    end
+    assert_select "select#available_c" do
+      assert_select "option[value='auth_source.name']"
     end
   end
 
@@ -114,7 +179,7 @@ class UsersControllerTest < Redmine::ControllerTest
     with_settings :default_language => 'en' do
       user = User.logged.status(1).first
       user.update(passwd_changed_on: Time.current.last_month, twofa_scheme: 'totp')
-      get :index, params: {format: 'csv'}
+      get :index, params: {format: 'csv', c: ['updated_on', 'status', 'passwd_changed_on', 'twofa_scheme']}
       assert_response :success
 
       assert_equal User.logged.status(1).count, response.body.chomp.split("\n").size - 1
@@ -142,7 +207,13 @@ class UsersControllerTest < Redmine::ControllerTest
 
     User.find(@request.session[:user_id]).update(:language => nil)
     with_settings :default_language => 'fr' do
-      get :index, :params => {:name => user.lastname, :format => 'csv'}
+      get :index, params: {
+        c: ["cf_#{float_custom_field.id}", "cf_#{date_custom_field.id}"],
+        f: ["name"],
+        op: { name: "~" },
+        v: { name: [user.lastname] },
+        format: 'csv'
+      }
       assert_response :success
 
       assert_include 'float field;date field', response.body
@@ -153,7 +224,12 @@ class UsersControllerTest < Redmine::ControllerTest
 
   def test_index_csv_with_status_filter
     with_settings :default_language => 'en' do
-      get :index, :params => {:status => 3, :format => 'csv'}
+      get :index, :params => {
+        :set_filter => '1',
+        :f => [:status], :op => { :status => '=' }, :v => { :status => [3] },
+        :c => [:login, :status],
+        :format => 'csv'
+      }
       assert_response :success
 
       assert_equal User.logged.status(3).count, response.body.chomp.split("\n").size - 1
@@ -164,7 +240,12 @@ class UsersControllerTest < Redmine::ControllerTest
   end
 
   def test_index_csv_with_name_filter
-    get :index, :params => {:name => 'John', :format => 'csv'}
+    get :index, :params => {
+      :set_filter => '1',
+      :f => [:firstname], :op => { :firstname => '~' }, :v => { :firstname => ['John'] },
+      :c => [:login, :firstname, :status],
+      :format => 'csv'
+    }
     assert_response :success
 
     assert_equal User.logged.like('John').count, response.body.chomp.split("\n").size - 1
@@ -173,7 +254,12 @@ class UsersControllerTest < Redmine::ControllerTest
   end
 
   def test_index_csv_with_group_filter
-    get :index, :params => {:group_id => '10', :format => 'csv'}
+    get :index, :params => {
+      :set_filter => '1',
+      :f => [:is_member_of_group], :op => { :is_member_of_group => '=' }, :v => { :is_member_of_group => [10] },
+      :c => [:login, :status],
+      :format => 'csv'
+    }
     assert_response :success
 
     assert_equal Group.find(10).users.count, response.body.chomp.split("\n").size - 1

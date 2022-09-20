@@ -1,0 +1,24 @@
+<ul>
+  <% if @user %>
+    <% if @user.locked? %>
+      <li>
+        <%= context_menu_link l(:button_unlock), user_path(@user, user: { status: User::STATUS_ACTIVE }, back_url: @back), method: :put, class: 'icon icon-unlock' %>
+      </li>
+    <% elsif User.current != @user %>
+      <li>
+        <%= context_menu_link l(:button_lock), user_path(@user, user: { status: User::STATUS_LOCKED }, back_url: @back), method: :put, class: 'icon icon-lock' %>
+      </li>
+    <% end %>
+
+    <li>
+      <%= context_menu_link l(:button_edit), edit_user_path(@user, back_url: @back), class: 'icon icon-edit' %>
+    </li>
+
+    <% unless User.current == @user %>
+      <li>
+        <%= context_menu_link l(:button_delete), user_path(@user, back_url: @back),
+          method: :delete, class: 'icon icon-del' %>
+      </li>
+    <% end %>
+  <% end %>
+</ul>

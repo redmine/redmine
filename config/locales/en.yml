@@ -302,6 +302,7 @@ en:
   field_title: Title
   field_project: Project
   field_issue: Issue
+  field_is_member_of_group: Member of group
   field_status: Status
   field_notes: Notes
   field_is_closed: Issue closed

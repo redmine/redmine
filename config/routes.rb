@@ -108,6 +108,7 @@ Rails.application.routes.draw do
   match 'my/twofa/backup_codes', :controller => 'twofa_backup_codes', :action => 'show', :via => [:get]
   match 'users/:user_id/twofa/deactivate', :controller => 'twofa', :action => 'admin_deactivate', :via => :post
 
+  match '/users/context_menu', to: 'context_menus#users', as: :users_context_menu, via: [:get, :post]
   resources :users do
     resources :memberships, :controller => 'principal_memberships'
     resources :email_addresses, :only => [:index, :create, :update, :destroy]
