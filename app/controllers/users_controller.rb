@@ -215,6 +215,21 @@ class UsersController < ApplicationController
     end
   end
 
+  def bulk_destroy
+    @users = User.logged.where(id: params[:ids]).where.not(id: User.current)
+    (render_404; return) unless @users.any?
+
+    if params[:lock]
+      @users.update_all status: User::STATUS_LOCKED
+      flash[:notice] = l(:notice_successful_update)
+      redirect_to users_path
+    elsif params[:confirm] == I18n.t(:general_text_Yes)
+      @users.destroy_all
+      flash[:notice] = l(:notice_successful_delete)
+      redirect_to users_path
+    end
+  end
+
   private
 
   def find_user(logged = true)

@@ -1092,4 +1092,61 @@ class UsersControllerTest < Redmine::ControllerTest
       assert_response 422
     end
   end
+
+  def test_bulk_destroy
+    assert_difference 'User.count', -1 do
+      delete :bulk_destroy, :params => {:ids => [2], :confirm => 'Yes'}
+    end
+    assert_redirected_to '/users'
+    assert_nil User.find_by_id(2)
+  end
+
+  def test_bulk_destroy_should_not_destroy_current_user
+    assert_difference 'User.count', -1 do
+      delete :bulk_destroy, :params => {:ids => [2, 1], :confirm => 'Yes'}
+    end
+    assert_redirected_to '/users'
+    assert_nil User.find_by_id(2)
+  end
+
+  def test_bulk_destroy_with_lock_param_should_lock_instead
+    assert_no_difference 'User.count' do
+      delete :bulk_destroy, :params => {:ids => [2], :lock => 'lock'}
+    end
+    assert_redirected_to '/users'
+    assert User.find_by_id(2).locked?
+  end
+
+  def test_bulk_destroy_should_require_confirmation
+    assert_no_difference 'User.count' do
+      delete :bulk_destroy, :params => {:ids => [2]}
+    end
+    assert_response :success
+    assert_select '.warning', :text => /You are about to delete the following users/
+  end
+
+  def test_bulk_destroy_should_require_correct_confirmation
+    assert_no_difference 'User.count' do
+      delete :bulk_destroy, :params => {:ids => [2], :confirm => 'wrong'}
+    end
+    assert_response :success
+    assert_select '.warning', :text => /You are about to delete the following users/
+  end
+
+  def test_bulk_destroy_should_be_denied_for_non_admin_users
+    @request.session[:user_id] = 3
+
+    assert_no_difference 'User.count' do
+      delete :bulk_destroy, :params => {:ids => [2], :confirm => 'Yes'}
+    end
+    assert_response 403
+  end
+
+  def test_bulk_destroy_should_be_denied_for_anonymous
+    assert User.find(6).anonymous?
+    assert_no_difference 'User.count' do
+      delete :bulk_destroy, :params => {:ids => [6], :confirm => "Yes"}
+    end
+    assert_response 404
+  end
 end

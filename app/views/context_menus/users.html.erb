@@ -20,5 +20,11 @@
           method: :delete, class: 'icon icon-del' %>
       </li>
     <% end %>
+  <% else %>
+    <li>
+      <%= context_menu_link l(:button_delete),
+        {controller: 'users', action: 'bulk_destroy', ids: @users.map(&:id)},
+        method: :delete, class: 'icon icon-del' %>
+    </li>
   <% end %>
 </ul>

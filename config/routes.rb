@@ -110,6 +110,9 @@ Rails.application.routes.draw do
 
   match '/users/context_menu', to: 'context_menus#users', as: :users_context_menu, via: [:get, :post]
   resources :users do
+    collection do
+      delete 'bulk_destroy'
+    end
     resources :memberships, :controller => 'principal_memberships'
     resources :email_addresses, :only => [:index, :create, :update, :destroy]
   end
