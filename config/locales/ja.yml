@@ -1428,8 +1428,6 @@ ja:
   label_edited: 編集済み
   label_time_by_author: "%{time} %{author}"
   field_default_time_entry_activity: 時間管理におけるデフォルトの作業分類
-  field_is_member_of_group: Member of group
-  text_users_bulk_destroy_head: You are about to delete the following users and remove
-    all references to them. This cannot be undone. Often, locking users instead of deleting
-    them is the better solution.
-  text_users_bulk_destroy_confirm: To confirm, please enter "%{yes}" below.
+  field_is_member_of_group: グループ
+  text_users_bulk_destroy_head: 以下のユーザーとこれらのユーザーへのすべての参照を削除しようとしています。削除後は元に戻せません。通常は削除よりロックのほうが適切です。
+  text_users_bulk_destroy_confirm: 削除する場合は確認のため "%{yes}" と入力してください。
