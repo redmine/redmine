@@ -21,8 +21,7 @@ module JournalsHelper
 
   # Returns the attachments of a journal that are displayed as thumbnails
   def journal_thumbnail_attachments(journal)
-    ids = journal.details.select {|d| d.property == 'attachment' && d.value.present?}.map(&:prop_key)
-    ids.any? ? Attachment.where(:id => ids).select(&:thumbnailable?).sort_by{|a| ids.index(a.id.to_s)} : []
+    journal.attachments.select(&:thumbnailable?)
   end
 
   # Returns the action links for an issue journal

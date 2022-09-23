@@ -143,7 +143,7 @@ class Journal < ActiveRecord::Base
 
   def attachments
     ids = details.select {|d| d.property == 'attachment' && d.value.present?}.map(&:prop_key)
-    Attachment.where(id: ids).to_a
+    Attachment.where(id: ids).sort_by {|a| ids.index(a.id.to_s)}
   end
 
   # Returns a string of css classes
