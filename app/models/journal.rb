@@ -142,7 +142,8 @@ class Journal < ActiveRecord::Base
   end
 
   def attachments
-    details.select{ |d| d.property == 'attachment' }.map{ |d| Attachment.find_by(:id => d.prop_key) }.compact
+    ids = details.select {|d| d.property == 'attachment' && d.value.present?}.map(&:prop_key)
+    Attachment.where(id: ids).to_a
   end
 
   # Returns a string of css classes
