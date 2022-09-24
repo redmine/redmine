@@ -104,7 +104,7 @@ class UserQueryTest < ActiveSupport::TestCase
       q = UserQuery.new name: '_'
       q.add_filter('mail', op, [string])
       users = find_users_with_query q
-      assert_equal result, users.map(&:id), "#{op} #{string} should have found #{result}"
+      assert_equal result, users.map(&:id).sort, "#{op} #{string} should have found #{result}"
     end
   end
 
