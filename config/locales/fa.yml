@@ -19,8 +19,7 @@ fa:
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [~, ژانویه, فوریه, مارس, آوریل, مه, ژوئن, ژوئیه, اوت, سپتامبر, اکتبر, نوامبر, دسامبر]
     abbr_month_names: [~, ژان, فور, مار, آور, مه, ژوئن, ژوئیه, اوت, سپت, اکت, نوا, دسا]
-
-    # Used in date_select and datime_select.
+    # Used in date_select and datetime_select.
     order:
       - :year
       - :month
@@ -96,7 +95,7 @@ fa:
           gb: "گیگابایت"
           tb: "ترابایت"
 
-# Used in array.to_sentence.
+  # Used in array.to_sentence.
   support:
     array:
       sentence_connector: "و"
@@ -114,7 +113,7 @@ fa:
         invalid: "نادرست است"
         confirmation: "با تکرار آن برابر نیست"
         accepted: "باید پذیرفته شود"
-        empty: "نمی‌تواند تهی باشد"
+        empty: "نمی‌تواند خالی باشد"
         blank: "نمی‌تواند تهی باشد"
         too_long: "خیلی بلند است (بیشترین اندازه %{count} نویسه است)"
         too_short: "خیلی کوتاه است (کم‌ترین اندازه %{count} نویسه است)"
@@ -132,10 +131,10 @@ fa:
         greater_than_start_date: "باید از تاریخ آغاز بزرگ‌تر باشد"
         not_same_project: "متعلق به همان پروژه نیست"
         circular_dependency: "این ارتباط یک وابستگی دوری خواهد ساخت"
-        cant_link_an_issue_with_a_descendant: "یک مسأله نمی‌تواند به یکی از زیر کارهایش پیوند بخورد"
+        cant_link_an_issue_with_a_descendant: "یک مسأله نمی‌تواند به یکی از زیرکارهایش مرتبط شود"
         earlier_than_minimum_start_date: "به خاطر مسائل مقدم، نمی‌تواند قبل از %{date} باشد"
         not_a_regexp: "یک عبارت منظم معتبر نیست"
-        open_issue_with_closed_parent: "یک مسأله باز نمی‌تواند به یک مسأله پدر بسته ضمیمه شود"
+        open_issue_with_closed_parent: "یک مسأله باز نمی‌تواند زیرکار یک مسأله پدر بسته باشد"
         must_contain_uppercase: "باید شامل حروف بزرگ باشد (A-Z)"
         must_contain_lowercase: "باید شامل حروف کوچک باشد (a-z)"
         must_contain_digits: "باید شامل عدد باشد (0-9)"
@@ -304,7 +303,7 @@ fa:
   field_password: گذرواژه
   field_new_password: گذرواژه جدید
   field_password_confirmation: تکرار گذرواژه
-  field_version: نسخه‌
+  field_version: نسخه
   field_type: نوع
   field_host: میزبان
   field_port: درگاه
@@ -387,8 +386,8 @@ fa:
   setting_welcome_text: متن خوش‌آمد گویی
   setting_default_language: زبان پیش‌فرض
   setting_login_required: الزامی بودن ورود
-  setting_self_registration: ثبت نام خود
-  setting_show_custom_fields_on_registration: نمایش بخش‌های سفارشی در ثبت نام
+  setting_self_registration: ثبت‌نام خود
+  setting_show_custom_fields_on_registration: نمایش بخش‌های سفارشی در ثبت‌نام
   setting_attachment_max_size: بیشینه اندازه پیوست
   setting_issues_export_limit: محدودیت صدور مسأله‌ها
   setting_mail_from: نشانی فرستنده رایانامه
@@ -397,7 +396,7 @@ fa:
   setting_host_name: نام میزبان و نشانی
   setting_text_formatting: قالب‌بندی متن
   setting_wiki_compression: فشرده‌سازی سابقه دانش‌نامه
-  setting_feeds_limit: بیشینه تعداد موارد در خوراک‌های Atom
+  setting_feeds_limit: بیشینه موارد در خوراک‌های Atom
   setting_default_projects_public: پروژه‌های جدید به صورت پیش‌فرض عمومی هستند
   setting_autofetch_changesets: دریافت خودکار تثبیت‌ها
   setting_sys_api_enabled: فعال‌سازی سرویس وب برای راه‌بر مخزن
@@ -416,8 +415,8 @@ fa:
   setting_protocol: قرارداد
   setting_per_page_options: گزینه‌های اندازه داده‌های هر صفحه
   setting_user_format: قالب نمایشی کاربران
-  setting_activity_days_default: روزهای نمایش داده شده در خط زمان پروژه
-  setting_display_subprojects_issues: پیش‌فرض نمایش مسأله‌های زیرپروژه در پروژه پدر
+  setting_activity_days_default: روزهای نمایش داده شده در خط زمان
+  setting_display_subprojects_issues: نمایش مسائل زیرپروژه در پروژه پدر
   setting_enabled_scm: فعال‌سازی SCM
   setting_mail_handler_body_delimiters: "بریدن رایانامه‌ها پس از یکی از این ردیف‌ها"
   setting_mail_handler_enable_regex: "فعال‌سازی عبارات منظم"
@@ -441,7 +440,7 @@ fa:
   setting_issue_done_ratio_issue_status: محاسبه بر اساس وضعیت مسأله
   setting_start_of_week: آغاز تقویم از
   setting_rest_api_enabled: فعال‌سازی وب سرویس‌های REST
-  setting_cache_formatted_text: حفظ متون قالب‌بندی‌شده در نهان‌گاه
+  setting_cache_formatted_text: ذخیره متون قالب‌بندی‌شده در نهان‌گاه (cache)
   setting_default_notification_option: آگاه‌سازی پیش‌فرض
   setting_commit_logtime_enabled: فعال‌سازی ثبت زمان صرف‌شده
   setting_commit_logtime_activity_id: دسته‌بندی زمان صرف‌شده
@@ -601,7 +600,7 @@ fa:
   label_enumeration_new: مقدار جدید
   label_information: اطلاعات
   label_information_plural: اطلاعات
-  label_register: ثبت نام
+  label_register: ثبت‌نام
   label_login_with_open_id_option: یا با OpenID وارد شوید
   label_password_lost: بازیابی گذرواژه
   label_password_required: برای ادامه، گذرواژه خود را تایید کنید
@@ -613,7 +612,7 @@ fa:
   label_login: ورود
   label_logout: خروج
   label_help: راهنما
-  label_reported_issues: مسأله‌های گزارش شده
+  label_reported_issues: مسأله‌های ثبت شده
   label_assigned_issues: مسائل واگذارشده
   label_assigned_to_me_issues: مسأله‌های واگذارشده به من
   label_last_login: آخرین ورود
@@ -869,13 +868,13 @@ fa:
   label_bulk_edit_selected_time_entries: ویرایش دسته‌جمعی ورودی‌های زمان انتخاب‌شده
   label_theme: پوسته
   label_default: پیش‌فرض
-  label_search_titles_only: عنوان نام‌ها جست‌وجو شود
+  label_search_titles_only: فقط عنوان‌ها جست‌وجو شود
   label_user_mail_option_all: "برای هر رویداد در همه پروژه‌ها"
   label_user_mail_option_selected: "برای هر رویداد تنها در پروژه‌های انتخاب‌شده..."
   label_user_mail_option_none: "هیچ رویدادی"
   label_user_mail_option_only_my_events: "تنها برای چیزهایی که ناظر هستم یا در آن‌ها درگیر هستم"
   label_user_mail_option_only_assigned: "تنها برای چیزهایی که به من واگذار شده"
-  label_user_mail_option_only_owner: "تنها برای چیزهایی که من دارنده آن‌ها هستم"
+  label_user_mail_option_only_owner: "تنها برای چیزهایی که من ایجاد کرده‌ام"
   label_user_mail_no_self_notified: "نمی‌خواهم از تغییراتی که خودم می‌دهم آگاه شوم"
   label_registration_activation_by_email: فعال‌سازی حساب با رایانامه
   label_registration_manual_activation: فعال‌سازی دستی حساب
@@ -912,7 +911,7 @@ fa:
   label_time_entry_plural: زمان صرف‌شده
   label_version_sharing_none: بدون اشتراک
   label_version_sharing_descendants: با زیر پروژه‌ها
-  label_version_sharing_hierarchy: با رشته پروژه‌ها
+  label_version_sharing_hierarchy: با سلسله مراتب پروژه
   label_version_sharing_tree: با درخت پروژه
   label_version_sharing_system: با همه پروژه‌ها
   label_update_issue_done_ratios: به‌روزرسانی اندازه انجام شده مسأله
@@ -925,7 +924,7 @@ fa:
   label_api_access_key_created_on: "کلید دست‌رسی API در %{value} پیش ساخته شده است"
   label_profile: نمایه
   label_subtask_plural: زیرکار
-  label_project_copy_notifications: در هنگام رونویسی پروژه رایانامه‌های آگاه‌سازی را بفرست
+  label_project_copy_notifications: در هنگام رونویسی پروژه، رایانامه‌های آگاه‌سازی را بفرست
   label_principal_search: "جست‌وجو برای کاربر یا دسته:"
   label_user_search: "جست‌وجو برای کاربر:"
   label_additional_workflow_transitions_for_author: وقتی که کاربر همان نویسنده باشد، انتقال‌های اضافی که مجاز است
@@ -933,7 +932,7 @@ fa:
   label_issues_visibility_all: همه مسأله‌ها
   label_issues_visibility_public: همه مسأله‌های غیرمحرمانه
   label_issues_visibility_own: مسأله‌هایی که کاربر، سازنده یا مسئول آن‌ها است
-  label_git_report_last_commit: گزارش تثبیت‌های اخیر برای پرونده‌ها و پوشه‌ها
+  label_git_report_last_commit: نمایش اطلاعات تثبیت آخر در مقابل پرونده‌ها و پوشه‌ها
   label_parent_revision: پدر
   label_child_revision: فرزند
   label_export_options: "%{export_format} گزینه‌های صدور"
@@ -1048,7 +1047,7 @@ fa:
   button_cancel: لغو
   button_activate: فعال‌سازی
   button_sort: مرتب‌سازی
-  button_log_time: زمان‌نویسی
+  button_log_time: ثبت زمان
   button_rollback: عقب‌گرد به این نسخه
   button_watch: نظارت
   button_unwatch: لغو نظارت
@@ -1071,7 +1070,7 @@ fa:
   button_delete_my_account: حذف حسابم
   button_close: بستن
   button_reopen: بازگشایی
-  button_import: وارد کردن مسائل
+  button_import: وارد کردن
   button_filter: غربال
 
   status_active: فعال
@@ -1088,7 +1087,7 @@ fa:
 
   field_active: فعال
 
-  text_select_mail_notifications: عمل‌هایی که برای آن‌ها باید رایانامه فرستاده شود را انتخاب کنید.
+  text_select_mail_notifications: رویدادهایی که برای آن‌ها باید رایانامه فرستاده شود را انتخاب کنید.
   text_regexp_info: برای نمونه ^[A-Z0-9]+$
   text_project_destroy_confirmation: آیا واقعاً می‌خواهید این پروژه و همه داده‌های آن را حذف کنید؟
   text_subprojects_destroy_warning: "زیرپروژه‌های آن: %{value} هم حذف خواهند شد."
@@ -1111,7 +1110,7 @@ fa:
   text_comma_separated: چند مقدار مجاز است (با «,» از هم جدا شوند).
   text_line_separated: چند مقدار مجاز است (هر مقدار در یک خط).
   text_issues_ref_in_commit_messages: ارجاع به مسأله‌ها و بستن مسأله‌ها در پیام‌های تثبیت
-  text_issue_added: "مسأله %{id} توسط %{author} گزارش شد."
+  text_issue_added: "مسأله %{id} توسط %{author} افزوده شد."
   text_issue_updated: "مسأله %{id} توسط %{author} به‌روز شد."
   text_wiki_destroy_confirmation: آیا واقعاً می‌خواهید دانش‌نامه و همه محتوای آن را حذف کنید؟
   text_issue_category_destroy_question: "برخی مسأله‌ها (%{count}) به این دسته واگذار شده‌اند. می‌خواهید چه کنید؟"
@@ -1130,11 +1129,11 @@ fa:
   text_file_repository_writable: پوشه پیوست‌ها نوشتنی است
   text_plugin_assets_writable: پوشه دارایی‌های افزونه‌ها نوشتنی است
   text_minimagick_available: MiniMagick در دست‌رس است (اختیاری)
-  text_convert_available: ImageMagick convert در دست‌رس است (اختیاری)
-  text_destroy_time_entries_question: "%{hours} ساعت روی مسأله‌هایی که می‌خواهید حذف کنید کار گزارش شده است. می‌خواهید چه کنید؟"
-  text_destroy_time_entries: ساعت‌های گزارش شده حذف شوند
-  text_assign_time_entries_to_project: ساعت‌های گزارش شده به پروژه واگذار شوند
-  text_reassign_time_entries: 'ساعت‌های گزارش شده به این مسأله واگذار شوند:'
+  text_convert_available: تبدیل ImageMagick در دست‌رس است (اختیاری)
+  text_destroy_time_entries_question: "روی مسأله‌هایی که می‌خواهید حذف کنید، %{hours} ساعت زمان ثبت شده است. می‌خواهید چه‌کار کنید؟"
+  text_destroy_time_entries: ساعت‌های ثبت شده حذف شوند
+  text_assign_time_entries_to_project: ساعت‌های ثبت شده به پروژه واگذار شوند
+  text_reassign_time_entries: 'ساعت‌های ثبت شده به این مسأله واگذار شوند:'
   text_user_wrote: "%{value} نوشت:"
   text_user_wrote_in: "%{value} نوشت در %{link}:"
   text_enumeration_destroy_question: "%{count} مورد از مقدار «%{name}» استفاده کرده‌اند."
@@ -1163,9 +1162,9 @@ fa:
   text_issue_conflict_resolution_add_notes: "یادداشت‌های من را اضافه کن و بقیه تغییراتم را دور بریز"
   text_issue_conflict_resolution_cancel: "همه تغییراتم را دور بریز و پیوند %{link} را دوباره نمایش بده"
   text_account_destroy_confirmation: "آیا مطمئن هستید که می‌خواهید پیش بروید?\nحساب شما به طور دائمی حذف می‌شود، بدون هر گونه راه فعال‌سازی مجددش."
-  text_session_expiration_settings: "هشدار: تغییر این تنظیمات ممکن است نشست‌های جاری را منقضی کند، از جمله نشست شما را."
+  text_session_expiration_settings: "هشدار: تغییر این تنظیمات ممکن است نشست‌های جاری (از جمله همین نشست) را منقضی کند."
   text_project_closed: این پروژه بسته و فقط‌خواندنی است.
-  text_turning_multiple_off: "اگر چند مقدار را غیرفعال کنید چند مقدار حذف خواهد شد تا فقط یک مقدار در هر مورد باقی بماند."
+  text_turning_multiple_off: "اگر این گزینه را غیرفعال کنید، در بخش‌های سفارشیِ ذخیره‌شده، فقط یک مقدار باقی خواهد ماند و بقیه موارد حذف خواهند شد."
 
   default_role_manager: مدیر
   default_role_developer: برنامه‌نویس
@@ -1212,7 +1211,7 @@ fa:
   error_can_not_delete_auth_source: "این شیوه احراز هویت در حال استفاده است و حذف آن امکان‌‌پذیر نیست."
   setting_close_duplicate_issues: بستن مسأله‌های تکراری بصورت خودکار
   setting_time_entry_list_defaults: ستون‌های پیش‌فرض ثبت ساعت
-  setting_timelog_accept_0_hours: پذیرفتن ثبت ساعت با صفر ساعت
+  setting_timelog_accept_0_hours: امکان ثبت ساعت با صفر ساعت
   setting_timelog_max_hours_per_day: بیش‌ترین ساعتی که می‌توان در یک روز برای هر کاربر ثبت کرد
   label_x_revisions: "%{count} بازبینی"
   button_actions: فعالیت‌ها
@@ -1221,7 +1220,7 @@ fa:
   label_login_required_yes: "بله"
   label_login_required_no: "خیر، اجازه دسترسی ناشناس به پروژه‌های عمومی داده شود"
   text_project_is_public_non_member: پروژه‌های عمومی و محتوای آنان برای همه کاربران وارد شده قابل دسترسی خواهد بود.
-  text_project_is_public_anonymous: پروژه‌های عمومی و محتوای آنان برای همگان باز خواهد بود.
+  text_project_is_public_anonymous: پروژه‌های عمومی و محتوای آنان برای همه در دسترس خواهد بود.
   label_version_and_files: نسخه‌ها (%{count}) و پرونده‌ها
   label_ldap: LDAP
   label_ldaps_verify_none: LDAPS (بدون بررسی گواهی‌نامه)
@@ -1230,7 +1229,7 @@ fa:
   label_nothing_to_preview: محتوایی برای مشاهده وجود ندارد
   error_token_expired: "پیوند بازیابی گذرواژه شما منقضی شده است. لطفاً دوباره سعی کنید."
   error_spent_on_future_date: "ثبت زمان برای روزهای آینده امکان‌پذیر نیست"
-  setting_timelog_accept_future_dates: پذیرفتن ثبت زمان برای روزهای آینده
+  setting_timelog_accept_future_dates: امکان ثبت زمان برای روزهای آینده
   label_delete_link_to_subtask: حذف پیوند به زیرکار
   error_not_allowed_to_log_time_for_other_users: "شما اجازه ثبت زمان برای سایر کاربران را ندارید"
   permission_log_time_for_other_users: ثبت زمان برای سایر کاربران
@@ -1251,10 +1250,10 @@ fa:
   permission_edit_own_issues: ویرایش مسأله‌های خود
   text_select_apply_tracker: "انتخاب نوع مسأله"
   label_updated_issues: مسائل به‌روزشده
-  text_avatar_server_config_html: خادم فعلی آواتار  <a href="%{url}">%{url}</a> می‌باشد. شما می‌توانید آن را در config/configuration.yml تغییر دهید.
+  text_avatar_server_config_html: خادم فعلی آواتار <a href="%{url}">%{url}</a> می‌باشد. شما می‌توانید آن را در config/configuration.yml تغییر دهید.
   setting_gantt_months_limit: بیش‌ترین تعداد ماه نمایش داده‌شده در نمودار گانت
   permission_import_time_entries: ورود زمان‌ها
-  label_import_notifications: در هنگام وارد کردن ، رایانامه‌های آگاه‌سازی را بفرست
+  label_import_notifications: در هنگام وارد کردن، رایانامه‌های آگاه‌سازی را بفرست
   text_gs_available: پشتیبانی ImageMagick PDF موجود است (اختیاری)
   field_recently_used_projects: تعداد پروژه‌های اخیر در پنجره انتخاب پروژه
   label_optgroup_bookmarks: منتخب
@@ -1268,12 +1267,12 @@ fa:
   label_last_tab_visited: آخرین برگه مشاهده‌شده
   field_unique_id: شناسه یکتا
   text_no_subject: بدون موضوع
-  setting_password_required_char_classes : مواردی که برای پسورد الزامی است
+  setting_password_required_char_classes : مواردی که برای گذرواژه الزامی است
   label_password_char_class_uppercase: حروف بزرگ
   label_password_char_class_lowercase: حروف کوچک
   label_password_char_class_digits: اعداد
   label_password_char_class_special_chars: نویسه‌های خاص
-  text_characters_must_contain: "موارد الزامی %{character_classes}."
+  text_characters_must_contain: "موارد الزامی: %{character_classes}."
   label_starts_with: شروع با
   label_ends_with: پایان با
   label_issue_fixed_version_updated: نسخه هدف به‌روز شد
@@ -1281,108 +1280,81 @@ fa:
   label_display_type: نمایش نتایج بصورت
   label_display_type_list: جدول
   label_display_type_board: فهرست
-  label_my_bookmarks: منتخبین من
+  label_my_bookmarks: منتخب من
   label_import_time_entries: ورود زمان‌ها
-  field_toolbar_language_options: Code highlighting toolbar languages
-  label_user_mail_notify_about_high_priority_issues_html: Also notify me about issues
-    with a priority of <em>%{prio}</em> or higher
-  label_assign_to_me: Assign to me
-  notice_issue_not_closable_by_open_tasks: This issue cannot be closed because it has
-    at least one open subtask.
-  notice_issue_not_closable_by_blocking_issue: This issue cannot be closed because it
-    is blocked by at least one open issue.
-  notice_issue_not_reopenable_by_closed_parent_issue: This issue cannot be reopened
-    because its parent issue is closed.
-  error_bulk_download_size_too_big: These attachments cannot be bulk downloaded because
-    the total file size exceeds the maximum allowed size (%{max_size})
-  setting_bulk_download_max_size: Maximum total size for bulk download
-  label_download_all_attachments: Download all files
-  error_attachments_too_many: This file cannot be uploaded because it exceeds the maximum
-    number of files that can be attached simultaneously (%{max_number_of_files})
-  setting_email_domains_allowed: Allowed email domains
-  setting_email_domains_denied: Disallowed email domains
-  field_passwd_changed_on: Password last changed
-  label_relations_mapping: Relations mapping
-  label_import_users: Import users
-  label_days_to_html: "%{days} days up to %{date}"
-  setting_twofa: Two-factor authentication
-  label_optional: optional
-  label_required_lower: required
-  button_disable: Disable
-  twofa__totp__name: Authenticator app
-  twofa__totp__text_pairing_info_html: Scan this QR code or enter the plain text key
-    into a TOTP app (e.g. <a href="https://support.google.com/accounts/answer/1066447">Google
-    Authenticator</a>, <a href="https://authy.com/download/">Authy</a>, <a href="https://guide.duo.com/third-party-accounts">Duo
-    Mobile</a>) and enter the code in the field below to activate two-factor authentication.
-  twofa__totp__label_plain_text_key: Plain text key
-  twofa__totp__label_activate: Enable authenticator app
-  twofa_currently_active: 'Currently active: %{twofa_scheme_name}'
-  twofa_not_active: Not activated
-  twofa_label_code: Code
-  twofa_hint_disabled_html: Setting <strong>%{label}</strong> will deactivate and unpair
-    two-factor authentication devices for all users.
-  twofa_hint_required_html: Setting <strong>%{label}</strong> will require all users
-    to set up two-factor authentication at their next login.
-  twofa_label_setup: Enable two-factor authentication
-  twofa_label_deactivation_confirmation: Disable two-factor authentication
-  twofa_notice_select: 'Please select the two-factor scheme you would like to use:'
-  twofa_warning_require: The administrator requires you to enable two-factor authentication.
-  twofa_activated: Two-factor authentication successfully enabled. It is recommended
-    to <a data-method="post" href="%{bc_path}">generate backup codes</a> for your account.
-  twofa_deactivated: Two-factor authentication disabled.
-  twofa_mail_body_security_notification_paired: Two-factor authentication successfully
-    enabled using %{field}.
-  twofa_mail_body_security_notification_unpaired: Two-factor authentication disabled
-    for your account.
-  twofa_mail_body_backup_codes_generated: New two-factor authentication backup codes
-    generated.
-  twofa_mail_body_backup_code_used: A two-factor authentication backup code has been
-    used.
-  twofa_invalid_code: Code is invalid or outdated.
-  twofa_label_enter_otp: Please enter your two-factor authentication code.
-  twofa_too_many_tries: Too many tries.
-  twofa_resend_code: Resend code
-  twofa_code_sent: An authentication code has been sent to you.
-  twofa_generate_backup_codes: Generate backup codes
-  twofa_text_generate_backup_codes_confirmation: This will invalidate all existing backup
-    codes and generate new ones. Would you like to continue?
-  twofa_notice_backup_codes_generated: Your backup codes have been generated.
-  twofa_warning_backup_codes_generated_invalidated: New backup codes have been generated.
-    Your existing codes from %{time} are now invalid.
-  twofa_label_backup_codes: Two-factor authentication backup codes
-  twofa_text_backup_codes_hint: Use these codes instead of a one-time password should
-    you not have access to your second factor. Each code can only be used once. It is
-    recommended to print and store them in a safe place.
-  twofa_text_backup_codes_created_at: Backup codes generated %{datetime}.
-  twofa_backup_codes_already_shown: Backup codes cannot be shown again, please <a data-method="post"
-    href="%{bc_path}">generate new backup codes</a> if required.
-  error_can_not_execute_macro_html: Error executing the <strong>%{name}</strong> macro
-    (%{error})
-  error_macro_does_not_accept_block: This macro does not accept a block of text
-  error_childpages_macro_no_argument: With no argument, this macro can be called from
-    wiki pages only
-  error_circular_inclusion: Circular inclusion detected
-  error_page_not_found: Page not found
-  error_filename_required: Filename required
-  error_invalid_size_parameter: Invalid size parameter
-  error_attachment_not_found: Attachment %{name} not found
-  permission_delete_project: Delete the project
-  field_twofa_scheme: Two-factor authentication scheme
-  text_user_destroy_confirmation: Are you sure you want to delete this user and remove
-    all references to them? This cannot be undone. Often, locking a user instead of
-    deleting them is the better solution. To confirm, please enter their login (%{login})
-    below.
-  text_project_destroy_enter_identifier: To confirm, please enter the project's identifier
-    (%{identifier}) below.
-  button_add_subtask: Add subtask
-  notice_invalid_watcher: 'Invalid watcher: User will not receive any notifications
-    because it does not have access to view this object.'
-  button_fetch_changesets: Fetch commits
-  permission_view_message_watchers: View message watchers list
-  permission_add_message_watchers: Add message watchers
-  permission_delete_message_watchers: Delete message watchers
-  label_message_watchers: Watchers
-  button_copy_link: Copy link
-  error_invalid_authenticity_token: Invalid form authenticity token.
-  error_query_statement_invalid: An error occurred while executing the query and has
-    been logged. Please report this error to your Redmine administrator.
+  field_toolbar_language_options: زبان‌های برنامه‌نویسیِ قابل انتخاب در نوارابزار‌
+  label_user_mail_notify_about_high_priority_issues_html: مرا در مورد مسایلی با اولویت <em>%{prio}</em> و بالاتر، آگاه کن
+  label_assign_to_me: واگذاری به من
+  notice_issue_not_closable_by_open_tasks: نمی‌توان این مساله را بست. این مساله حداقل یک زیرمساله باز دارد.
+  notice_issue_not_closable_by_blocking_issue: نمی‌توان این مساله را بست. این مساله حداقل توسط یک مساله سد شده‌است.
+  notice_issue_not_reopenable_by_closed_parent_issue: این مساله را نمی‌توان دوباره باز کرد. مساله پدر این مساله بسته شده است.
+  error_bulk_download_size_too_big: نمی‌توان پیوست‌ها را باهم دریافت کرد. اندازه کل پرونده‌ها از حداکثر اندازه مجاز (%{max_size}) بیش‌تر است.
+  setting_bulk_download_max_size: حداکثر اندازه کل در دریافت همه پرونده‌ها
+  label_download_all_attachments: دریافت همه پیوست‌ها
+  error_attachments_too_many: آپلود این پرونده امکان‌پذیر نیست. حداکثر تعداد پیوست هم‌زمان (%{max_number_of_files}) است
+  setting_email_domains_allowed: دامنه‌های مجاز برای نشانی رایانامه
+  setting_email_domains_denied: دامنه‌های غیرمجاز برای نشانی رایانامه
+  field_passwd_changed_on: آخرین تغییر گذرواژه
+  label_relations_mapping: نگاشت ارتباطات
+  label_import_users: وارد کردن فهرست کاربران
+  label_days_to_html: "%{days} روز تا %{date}"
+  setting_twofa: ورود دوعاملی
+  label_optional: انتخابی
+  label_required_lower: الزامی
+  button_disable: غیرفعال
+  twofa__totp__name: برنامک احراز هویت
+  twofa__totp__text_pairing_info_html: لطفا کد QR را را در یک برنامه TOTP اسکن کنید یا کلید متنی  را در آن وارد کنید (به عنوان مثال <a href="https://support.google.com/accounts/answer/1066447"> Google
+    Authenticator </a>، <a href="https://authy.com/download/"> Authy </a>، <a href = "https://guide.duo.com/third-party-accounts" > Duo
+    Mobile </a>) سپس کدی که برنامه در اختیار شما می‌گذارد را در قسمت زیر وارد نمایید تا احراز هویت دو مرحله ای فعال شود.
+  twofa__totp__label_plain_text_key: کلید متنی
+  twofa__totp__label_activate: فعال‌سازی برنامک احراز هویت
+  twofa_currently_active: 'فعال: %{twofa_scheme_name}'
+  twofa_not_active: فعال نشده است
+  twofa_label_code: کد
+  twofa_hint_disabled_html: تنظیم <strong>%{label}</strong> احراز هویت دو عاملی را غیرفعال کرده و اتصال همه دستگاه‌های تمامی کاربران را قطع می‌کند.
+  twofa_hint_required_html: تنظیم <strong>%{label}</strong> تمامی کاربران را ملزم می‌کند تا احراز هویت دو عاملی را در اولین ورود بعدی فعال کنند.
+  twofa_label_setup: فعال‌سازی احراز هویت دو عاملی
+  twofa_label_deactivation_confirmation: غیرفعال‌سازی احراز هویت دو عاملی
+  twofa_notice_select: 'لطفاً طرح دو عاملی را که می خواهید استفاده کنید انتخاب کنید:'
+  twofa_warning_require: راه‌بر از شما خواسته است تا احراز هویت دو عاملی را فعال کنید.
+  twofa_activated: احراز هویت دو عاملی با موفقیت راه‌اندازی شد. توصیه می‌شود برای حساب کاربری خود <a data-method="post" href="%{bc_path}">کدهای پشتیبان</a> بسازید.
+  twofa_deactivated: احراز هویت دو عاملی غیرفعال شد
+  twofa_mail_body_security_notification_paired: احراز هویت دو عاملی با موفقیت و با استفاده از %{field} فعال شد.
+  twofa_mail_body_security_notification_unpaired: احراز هویت دو عاملی برای حساب کاربری شما غیرفعال شد
+  twofa_mail_body_backup_codes_generated: کدهای پشتیبان جدید برای احراز هویت دو عاملی ایجاد شد.
+  twofa_mail_body_backup_code_used: از یک نسخه پشتیبان از کدهای احراز هویت دو مرحله‌ای استفاده شده است.
+  twofa_invalid_code: کد نامعتبر است یا منقضی شده است
+  twofa_label_enter_otp: لطفا کد احراز هویت دو عاملی خود را وارد کنید
+  twofa_too_many_tries: تلاش‌های بیش از حد
+  twofa_resend_code: ارسال مجدد کد
+  twofa_code_sent: یک کد شناسایی برای شما ارسال شد.
+  twofa_generate_backup_codes: تولید کدهای پشتیبان
+  twofa_text_generate_backup_codes_confirmation: با این کار همه کدهای پشتیبان موجود باطل شده و کدهای جدیدی ایجاد می شود. مایلید ادامه دهید؟
+  twofa_notice_backup_codes_generated: کدهای پشتیبانی شما ایجاد شد
+  twofa_warning_backup_codes_generated_invalidated: کدهای جدید پشتیبانی ایجاد شد؛ کدهای موجود قبل از  %{time} نامعتبرند.
+  twofa_label_backup_codes: کدهای پشتیبان احراز هویت دو عاملی
+  twofa_text_backup_codes_hint: اگر به عامل دوم دسترسی ندارید، از این کدها به جای گذرواژه یک‌بارمصرف استفاده کنید. هر کد فقط یک‌بار قابل استفاده است. توصیه می شود آنها را چاپ کرده و در مکانی امن ذخیره کنید.
+  twofa_text_backup_codes_created_at: کدهای پشتیبان ایجاد شد. %{datetime}.
+  twofa_backup_codes_already_shown: کدهای پشتیبان را نمی توان دوباره نشان داد، لطفاً <a data-method = "post" href = "%{bc_path}"> در صورت نیاز کدهای پشتیبان جدید ایجاد کنید </a>.
+  error_can_not_execute_macro_html: خطا در اجرای ماکروی <strong>%{name}</strong> (%{error})
+  error_macro_does_not_accept_block: این ماکرو یک بلوک متنی را قبول نمی‌کند
+  error_childpages_macro_no_argument: این ماکرو فقط در صفحات دانش‌نامه می‌تواند بدون ورودی، فراخوانی شود
+  error_circular_inclusion: دور بی‌نهایت تشخیص داده شد
+  error_page_not_found: صفحه پیدا نشد
+  error_filename_required: نام فایل مورد نیاز است
+  error_invalid_size_parameter: اندازه نامعتبر است
+  error_attachment_not_found: پیوست %{name} یافت نشد
+  permission_delete_project: حذف پروژه
+  field_twofa_scheme: طرح احراز هویت دو عاملی
+  text_user_destroy_confirmation: مطمئنید که می خواهید این کاربر و همه ارجاع‌های مربوط به او را حذف کنید؟ این کار قابل بازگشت نیست. غالبا، قفل کردن کاربر به جای حذف، راه حل به‌تری است. برای تأیید، لطفاً شناسه ورود کاربر (%{login}) را در زیر وارد کنید.
+  text_project_destroy_enter_identifier: برای تایید، لطفا شناسه پروژه (%{identifier}) را وارد کنید.
+  button_add_subtask: افزودن زیرکار
+  notice_invalid_watcher: 'ناظر نامعتبر: به دلیل نداشتن دسترسی مشاهده، کاربر هیچ آگاه‌سازی‌ای دریافت نمی‌کند.'
+  button_fetch_changesets: دریافت تثبیت‌ها
+  permission_view_message_watchers: مشاهده فهرست ناظرهای پیام
+  permission_add_message_watchers: افزودن ناظرهای پیام
+  permission_delete_message_watchers: حذف ناظرهای پیام
+  label_message_watchers: ناظرها
+  button_copy_link: کپی پیوند
+  error_invalid_authenticity_token: توکن اصالت فرم نامعتبر است
+  error_query_statement_invalid: هنگام اجرای جستار خطایی رخ داده و ثبت شده است. لطفاً این خطا را به راه‌بر پی‌گیر گزارش دهید.
