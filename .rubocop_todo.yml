@@ -632,7 +632,6 @@ Rails/Blank:
     - 'app/helpers/repositories_helper.rb'
     - 'app/models/mailer.rb'
     - 'app/models/query.rb'
-    - 'app/models/repository/git.rb'
     - 'app/models/role.rb'
     - 'lib/redmine/field_format.rb'
     - 'lib/redmine/wiki_formatting/macros.rb'
