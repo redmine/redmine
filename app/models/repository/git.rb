@@ -133,11 +133,9 @@ class Repository::Git < Repository
     scm_brs = branches
     return if scm_brs.blank?
 
-    h1 = extra_info || {}
-    h  = h1.dup
+    h = extra_info&.dup || {}
     repo_heads = scm_brs.map(&:scmid)
-    h["heads"] ||= []
-    prev_db_heads = h["heads"].dup
+    prev_db_heads = h["heads"]&.dup || []
     prev_db_heads += heads_from_branches_hash if prev_db_heads.empty?
     return if prev_db_heads.sort == repo_heads.sort
 
@@ -232,8 +230,7 @@ class Repository::Git < Repository
   private :save_revision
 
   def heads_from_branches_hash
-    h1 = extra_info || {}
-    h  = h1.dup
+    h = extra_info&.dup || {}
     h["branches"] ||= {}
     h['branches'].map{|br, hs| hs['last_scmid']}
   end
