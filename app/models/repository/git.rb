@@ -90,10 +90,10 @@ class Repository::Git < Repository
   end
 
   def find_changeset_by_name(name)
-    if name.present?
-      changesets.find_by(:revision => name.to_s) ||
-        changesets.where('scmid LIKE ?', "#{name}%").first
-    end
+    return if name.blank?
+
+    changesets.find_by(:revision => name.to_s) ||
+      changesets.where('scmid LIKE ?', "#{name}%").first
   end
 
   def scm_entries(path=nil, identifier=nil)
