@@ -27,9 +27,7 @@ class Repository::Git < Repository
 
   def self.human_attribute_name(attribute_key_name, *args)
     attr_name = attribute_key_name.to_s
-    if attr_name == "url"
-      attr_name = "path_to_repository"
-    end
+    attr_name = 'path_to_repository' if attr_name == 'url'
     super(attr_name, *args)
   end
 
@@ -140,9 +138,7 @@ class Repository::Git < Repository
     repo_heads = scm_brs.map(&:scmid)
     h["heads"] ||= []
     prev_db_heads = h["heads"].dup
-    if prev_db_heads.empty?
-      prev_db_heads += heads_from_branches_hash
-    end
+    prev_db_heads += heads_from_branches_hash if prev_db_heads.empty?
     return if prev_db_heads.sort == repo_heads.sort
 
     h["db_consistent"]  ||= {}
@@ -230,9 +226,7 @@ class Repository::Git < Repository
         :comments     => rev.message,
         :parents      => parents
       )
-    unless changeset.new_record?
-      rev.paths.each {|change| changeset.create_change(change)}
-    end
+    rev.paths.each {|change| changeset.create_change(change)} unless changeset.new_record?
     changeset
   end
   private :save_revision
