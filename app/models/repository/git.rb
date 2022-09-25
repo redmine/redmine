@@ -133,7 +133,7 @@ class Repository::Git < Repository
   # before fetching changesets (eg. for offline resync)
   def fetch_changesets
     scm_brs = branches
-    return if scm_brs.nil? || scm_brs.empty?
+    return if scm_brs.blank?
 
     h1 = extra_info || {}
     h  = h1.dup
@@ -246,7 +246,7 @@ class Repository::Git < Repository
 
   def latest_changesets(path, rev, limit=10)
     revisions = scm.revisions(path, nil, rev, :limit => limit, :all => false)
-    return [] if revisions.nil? || revisions.empty?
+    return [] if revisions.blank?
 
     changesets.where(:scmid => revisions.map {|c| c.scmid}).to_a
   end
