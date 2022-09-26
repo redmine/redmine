@@ -186,4 +186,19 @@ class InlineAutocompleteSystemTest < ApplicationSystemTestCase
     end
 
   end
+
+  def test_inline_autocomplete_for_users_on_issues_bulk_edit_show_autocomplete
+    log_user('jsmith', 'jsmith')
+    visit '/issues/bulk_edit?ids[]=1&ids[]=2'
+
+    find('#notes').click
+    fill_in 'notes', :with => '@lopper'
+
+    within('.tribute-container') do
+      assert page.has_text? 'Dave Lopper'
+      first('li').click
+    end
+
+    assert_equal '@dlopper ', find('#notes').value
+  end
 end

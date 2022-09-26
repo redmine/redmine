@@ -226,6 +226,10 @@
 %>
 <%= wikitoolbar_for 'notes' %>
 
+<% if User.current.allowed_to?(:add_issue_watchers, nil, global: true)%>
+  <%= update_data_sources_for_auto_complete({users: watchers_autocomplete_for_mention_path(q: '', object_type: 'issue', object_id: @issues.map(&:id) )}) %>
+<% end %>
+
 <% if @safe_attributes.include?('private_notes') %>
   <label class="inline">
   	<%= check_box_tag 'issue[private_notes]', 1, false %>
