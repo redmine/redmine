@@ -50,5 +50,10 @@ if Object.const_defined?(:CommonMarker)
         filter(%(<a href="http://example.com/foo#bar#">Malformed URI</a>))
       end
     end
+
+    def test_external_links_with_target_get_rel_noopener
+      assert_equal %(<a target="_blank" href="http://example.net/" class="external" rel="noopener">link</a>), filter(%(<a target="_blank" href="http://example.net/">link</a>))
+      assert_equal %(<a target="_blank" href="http://example.net/" rel="nofollow noopener" class="external">link</a>), filter(%(<a target="_blank" href="http://example.net/" rel="nofollow">link</a>))
+    end
   end
 end

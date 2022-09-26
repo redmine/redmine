@@ -43,6 +43,12 @@ module Redmine
               klass,
               (scheme == "mailto" ? "email" : "external")
             ].compact.join " "
+
+            if node["target"].present? && scheme != "mailto"
+              rel = node["rel"]&.split || []
+              rel << "noopener"
+              node["rel"] = rel.join(" ")
+            end
           end
           doc
         end
