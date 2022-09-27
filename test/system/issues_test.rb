@@ -21,7 +21,8 @@ require File.expand_path('../../application_system_test_case', __FILE__)
 
 class IssuesSystemTest < ApplicationSystemTestCase
   fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
-           :trackers, :projects_trackers, :enabled_modules, :issue_statuses, :issues,
+           :trackers, :projects_trackers, :enabled_modules,
+           :issue_statuses, :issues, :issue_categories,
            :enumerations, :custom_fields, :custom_values, :custom_fields_trackers,
            :watchers, :journals, :journal_details, :versions,
            :workflows
