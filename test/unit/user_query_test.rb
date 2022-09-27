@@ -169,6 +169,19 @@ class UserQueryTest < ActiveSupport::TestCase
     assert_not users.map(&:id).include? 1
   end
 
+  def test_auth_source_ordering
+    user = User.find(1)
+    user.update_column :auth_source_id, 1
+
+    q = UserQuery.new name: '_'
+    q.column_names = ['id', 'auth_source.name']
+    q.sort_criteria = 'auth_source.name'
+
+    users = q.results_scope
+    assert users.many?
+    assert_equal user, users.last
+  end
+
   def find_users_with_query(query)
     User.where(query.statement).to_a
   end

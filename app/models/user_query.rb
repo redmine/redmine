@@ -153,4 +153,16 @@ class UserQuery < Query
         #{sql_for_field(:mail, operator, value, emails, 'address')})
     SQL
   end
+
+  def joins_for_order_statement(order_options)
+    joins = [super]
+
+    if order_options
+      if order_options.include?('auth_source')
+        joins << "LEFT OUTER JOIN #{AuthSource.table_name} auth_sources ON auth_sources.id = #{queried_table_name}.auth_source_id"
+      end
+    end
+
+    joins.any? ? joins.join(' ') : nil
+  end
 end
