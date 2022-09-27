@@ -170,16 +170,23 @@ class UserQueryTest < ActiveSupport::TestCase
   end
 
   def test_auth_source_ordering
+    auth = AuthSource.generate!(name: "Auth")
+
     user = User.find(1)
     user.update_column :auth_source_id, 1
 
+    user2 = User.find(2)
+    user2.update_column :auth_source_id, auth.id
+
     q = UserQuery.new name: '_'
+    q.add_filter('auth_source_id', '*', [''])
     q.column_names = ['id', 'auth_source.name']
-    q.sort_criteria = 'auth_source.name'
+    q.sort_criteria = [['auth_source.name', 'asc']]
 
     users = q.results_scope
-    assert users.many?
-    assert_equal user, users.last
+
+    assert_equal 2, users.size
+    assert_equal [2, 1], users.ids
   end
 
   def find_users_with_query(query)
