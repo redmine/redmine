@@ -213,6 +213,9 @@ Style/Semicolon:
 Style/SlicingWithRange:
   Enabled: false
 
+Style/SoleNestedConditional:
+  Enabled: false
+
 Style/TernaryParentheses:
   Enabled: false
 

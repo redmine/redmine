@@ -1700,30 +1700,6 @@ Style/SelfAssignment:
 Style/SingleLineMethods:
   Enabled: false
 
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowModifier.
-Style/SoleNestedConditional:
-  Exclude:
-    - 'app/controllers/application_controller.rb'
-    - 'app/controllers/journals_controller.rb'
-    - 'app/controllers/wiki_controller.rb'
-    - 'app/models/board.rb'
-    - 'app/models/changeset.rb'
-    - 'app/models/issue.rb'
-    - 'app/models/issue_import.rb'
-    - 'app/models/issue_relation.rb'
-    - 'app/models/mail_handler.rb'
-    - 'app/models/principal.rb'
-    - 'app/models/project.rb'
-    - 'app/models/query.rb'
-    - 'app/models/time_entry.rb'
-    - 'app/models/user_import.rb'
-    - 'app/models/version.rb'
-    - 'app/models/watcher.rb'
-    - 'app/models/wiki_annotate.rb'
-    - 'app/models/wiki_page.rb'
-    - 'app/validators/date_validator.rb'
-
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: RequireEnglish.
 # SupportedStyles: use_perl_names, use_english_names, use_builtin_english_names
