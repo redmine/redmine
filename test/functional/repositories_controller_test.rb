@@ -200,7 +200,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
     repos.reload
     assert_equal false, repos.exists?(:is_default => true)
 
-    repository = repos.first
+    repository = repos.sort.first  # rubocop:disable Style/RedundantSort
     @request.session[:user_id] = 2
 
     get(:show, :params => {:id => 1})
