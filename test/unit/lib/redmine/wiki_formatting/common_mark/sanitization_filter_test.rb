@@ -94,6 +94,10 @@ if Object.const_defined?(:CommonMarker)
     # rubocop:disable Layout/LineLength
     STRINGS = [
       [
+        '<span style="color: #333; background: url(\'https://example.com/evil.svg\')">hello</span>"',
+        '<span style="color: #333; ">hello</span>"'
+      ],
+      [
         '<b>Lo<!-- comment -->rem</b> <a href="pants" title="foo" style="text-decoration: underline;">ipsum</a> <a href="http://foo.com/"><strong>dolor</strong></a> sit<br/>amet <style>.foo { color: #fff; }</style> <script>alert("hello world");</script>',
         '<b>Lorem</b> <a href="pants" title="foo">ipsum</a> <a href="http://foo.com/"><strong>dolor</strong></a> sit<br>amet .foo { color: #fff; } '
       ],

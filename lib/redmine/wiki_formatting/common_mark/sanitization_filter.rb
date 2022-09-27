@@ -27,6 +27,18 @@ module Redmine
           "a" => %w(href).freeze,
         }.freeze
 
+        ALLOWED_CSS_PROPERTIES = %w[
+          color background-color
+          width
+          height
+          padding padding-left padding-right padding-top padding-bottom
+          margin margin-left margin-right margin-top margin-bottom
+          border border-left border-right border-top border-bottom border-radius border-style border-collapse border-spacing
+          font font-style font-variant font-weight font-stretch font-size line-height font-family
+          text-align
+          float
+        ].freeze
+
         def allowlist
           @allowlist ||= customize_allowlist(super.deep_dup)
         end
@@ -39,6 +51,9 @@ module Redmine
           # Disallow `name` attribute globally, allow on `a`
           allowlist[:attributes][:all].delete("name")
           allowlist[:attributes]["a"].push("name")
+
+          allowlist[:attributes][:all].push("style")
+          allowlist[:css] = { properties: ALLOWED_CSS_PROPERTIES }
 
           # allow class on code tags (this holds the language info from fenced
           # code bocks and has the format language-foo)
