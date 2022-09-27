@@ -72,6 +72,10 @@ class AuthSource < ActiveRecord::Base
     false
   end
 
+  def visible?(user=User.current)
+    user.admin?
+  end
+
   def self.search(q)
     results = []
     AuthSource.all.each do |source|

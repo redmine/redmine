@@ -175,6 +175,20 @@ class UsersControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_index_with_auth_source_column
+    user = User.find(1)
+    user.update_column :auth_source_id, 1
+
+    get :index, params: {
+      set_filter: 1,
+      f: ['auth_source_id'], op: {auth_source_id: '='}, v: {auth_source_id: ['1']},
+      c: %w(login firstname lastname mail auth_source.name)
+    }
+    assert_response :success
+
+    assert_select 'tr#user-1', 1
+  end
+
   def test_index_csv
     with_settings :default_language => 'en' do
       user = User.logged.status(1).first
