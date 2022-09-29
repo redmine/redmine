@@ -81,7 +81,7 @@ class IssueQuery < Query
     # user default
     if user&.logged? && (query_id = user.pref.default_issue_query).present?
       query = find_by(id: query_id)
-      return query if query&.visible?
+      return query if query&.visible?(user)
     end
 
     # project default
