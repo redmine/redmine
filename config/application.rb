@@ -34,7 +34,8 @@ module RedmineApp
     config.active_record.default_timezone = :local
     config.active_record.yaml_column_permitted_classes = [
       Symbol,
-      ActiveSupport::HashWithIndifferentAccess
+      ActiveSupport::HashWithIndifferentAccess,
+      ActionController::Parameters
     ]
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
