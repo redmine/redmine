@@ -554,9 +554,12 @@ body.controller-issues h2.inline-flex {padding-right: 0}
   overflow: hidden;
 }
 #issue_tree .issue > td.subject, #relations .issue > td.subject {
-  width: 100%; /* let subject have one full width column */
+  width: 50%;
   word-break: break-word; /* break word if subject is too long */
   padding-right: 25px; /* this is the spaces that .buttons uses next to subject */
+}
+#issue_tree .issue > td.assigned_to, #relations .issue > td.assigned_to {
+  white-space: nowrap;
 }
 #trackers_description {display:none;}
 #trackers_description dt {font-weight: bold; text-decoration: underline;}

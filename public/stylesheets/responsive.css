@@ -778,6 +778,10 @@
     padding-right: 5px;
   }
 
+  #issue_tree .issue > td.subject, #relations .issue > td.subject {
+    width: 100%; /* let subject have one full width column */
+  }
+
   #issue_tree .issue > td:not(.subject), #relations .issue > td:not(.subject) {
     width: 20%; /* three columns for all cells that are not subject */
   }
