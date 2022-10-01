@@ -41,6 +41,10 @@ div#wrapper, div#wrapper2, div#wrapper3 { min-height: inherit; }
 
 #quick-search {float:right;}
 #quick-search #q {width:130px; height:24px; box-sizing:border-box; vertical-align:middle; border:1px solid #ccc; border-radius:3px;}
+#quick-search form {float:left; margin-right:3px;}
+#quick-search form input {margin-top:0; margin-bottom:0;}
+#quick-search form label {vertical-align:middle;}
+#quick-search #project-jump {float:left;}
 
 #main-menu {position: absolute;  bottom: 0px;  left: 10px; margin-right: -500px; width: 100%;}
 #main-menu ul {margin: 0;  padding: 0; width: 100%; white-space: nowrap;}
