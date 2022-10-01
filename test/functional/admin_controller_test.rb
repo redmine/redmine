@@ -156,6 +156,10 @@ class AdminControllerTest < Redmine::ControllerTest
     get :plugins
     assert_response :success
 
+    assert_select 'th:nth-of-type(1)', :text => 'Name / Description'
+    assert_select 'th:nth-of-type(2)', :text => 'Author'
+    assert_select 'th:nth-of-type(3)', :text => 'Version'
+
     assert_select 'tr#plugin-foo' do
       assert_select 'td span.name', :text => 'Foo plugin'
       assert_select 'td.configure a[href="/settings/plugin/foo"]'
