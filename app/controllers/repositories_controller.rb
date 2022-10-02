@@ -286,7 +286,8 @@ class RepositoriesController < ApplicationController
       @changeset = @repository.find_changeset_by_name(@rev)
       @changeset_to = @rev_to ? @repository.find_changeset_by_name(@rev_to) : nil
       @diff_format_revisions = @repository.diff_format_revisions(@changeset, @changeset_to)
-      render :diff, :formats => :html, :layout => 'base'
+      # ToDo: Fix DEPRECATION WARNING: Rendering actions with '.' in the name is deprecated
+      render :diff, :formats => :html, :layout => 'base.html.erb'
     end
   end
 
