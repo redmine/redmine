@@ -115,7 +115,7 @@ module Redmine
                 entries <<
                   Entry.new(
                     {
-                      :name => CGI.unescape(name),
+                      :name => Addressable::URI.unescape(name),
                       :path => ((path.empty? ? "" : "#{path}/") + name),
                       :kind => entry['kind'],
                       :size => ((s = entry['size']) ? s['__content__'].to_i : nil),

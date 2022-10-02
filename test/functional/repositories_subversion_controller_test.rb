@@ -27,7 +27,7 @@ class RepositoriesSubversionControllerTest < Redmine::RepositoryControllerTest
            :issue_categories, :enumerations, :custom_fields, :custom_values, :trackers
 
   PRJ_ID = 3
-  NUM_REV = 13
+  NUM_REV = 14
 
   def setup
     super
@@ -121,9 +121,10 @@ class RepositoriesSubversionControllerTest < Redmine::RepositoryControllerTest
       assert_response :success
 
       assert_select 'table.entries tbody' do
-        assert_select 'tr', 5
+        assert_select 'tr', 6
         assert_select 'tr.dir td.filename a', :text => '[folder_with_brackets]'
         assert_select 'tr.dir td.filename a', :text => 'folder'
+        assert_select 'tr.file td.filename a', :text => '+.md'
         assert_select 'tr.file td.filename a', :text => '.project'
         assert_select 'tr.file td.filename a', :text => 'helloworld.c'
         assert_select 'tr.file td.filename a', :text => 'textfile.txt'
