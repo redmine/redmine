@@ -4,6 +4,52 @@ Redmine - project management software
 Copyright (C) 2006-2021  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2022-10-02 v4.2.8
+
+=== [Code cleanup/refactoring]
+
+* Defect #37449: Passing a wrong parameter to `with_settings` in UserTest::test_random_password_include_required_characters
+
+=== [Filters]
+
+* Defect #36940: Chained custom field filter doesn't work for User fields
+* Defect #37349: Chained custom field filter for User fields returns 500 internal server error when filtering after a float value
+
+=== [Issues]
+
+* Defect #37473: Focus IssueId not working when linking issues
+
+=== [Issues list]
+
+* Defect #37268: Performance problem with Redmine 4.2.7 and 5.0.2
+
+=== [Rails support]
+
+* Patch #37465: Update Rails to 5.2.8.1
+
+=== [Security]
+
+* Defect #37492: Update jQuery UI to 1.13.2
+
+=== [SCM]
+
+* Defect #37718: Repository browser does not show "+" (plus sign) in filename
+
+=== [Text formatting]
+
+* Defect #37379: Thumbnail macro does not work when a file is attached and preview is displayed immediately
+
+=== [Translations]
+
+* Patch #37698: Persian translation update for 4.2-stable
+
+=== [UI]
+
+* Defect #36901: Jump to project is misaligned in Safari 15.4 and later
+* Defect #37282: Subtask isn't displayed correctly since 4.2.7
+* Defect #37481: Fix the unintentional selection of rows with the context menu
+* Defect #37566: The number of the ordered list in the project description is not displayed and the indentation does not match the unordered list
+
 == 2022-06-21 v4.2.7
 
 === [Email notifications]
