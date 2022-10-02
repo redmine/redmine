@@ -4,6 +4,69 @@ Redmine - project management software
 Copyright (C) 2006-2022  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2022-10-02 v5.0.3
+
+=== [Code cleanup/refactoring]
+
+* Defect #37609: Remove obsolete remnant public/images/openid-bg.gif
+* Defect #37449: Passing a wrong parameter to `with_settings` in UserTest::test_random_password_include_required_characters
+
+=== [Filters]
+
+* Defect #36940: Chained custom field filter doesn't work for User fields
+* Defect #37349: Chained custom field filter for User fields returns 500 internal server error when filtering after a float value
+
+=== [Issues]
+
+* Defect #37369: Mention auto-complete not works in bulk-edit comments
+* Defect #37499: Default query should not be applied if the query is not allowed to be set as the default
+* Defect #37473: Focus IssueId not working when linking issues
+
+=== [Issues list]
+
+* Defect #37268: Performance problem with Redmine 4.2.7 and 5.0.2
+
+=== [Rails support]
+
+* Patch #37452: Update Rails to 6.1.7
+
+=== [Security]
+
+* Defect #37492: Update jQuery UI to 1.13.2
+
+=== [SCM]
+
+* Defect #33953: Repository tab is not displayed if no repository is set as the main repository
+* Defect #36258: Support revision without any message in Mercurial repositories
+* Defect #37585: Do not show "History" tab for content in Filesystem repository
+* Defect #37626: Diff of a javascript file in repository module is not displayed with layout
+* Defect #37718: Repository browser does not show "+" (plus sign) in filename
+
+=== [SCM extra]
+
+* Defect #37562: POST Requests to repository WS fail with "Can't verify CSRF token authenticity"
+
+=== [Text formatting]
+
+* Defect #37237: Common Markdown Formatter does not render all properties on HTML elements
+* Patch #37713: Add rel="noopener" to all external links that would open a new tab/window
+* Defect #37379: Thumbnail macro does not work when a file is attached and preview is displayed immediately
+
+=== [Translations]
+
+* Defect #37529: Fix mistranslation of label button_create_and_follow in Russian translation
+* Defect #37603: Missing translation for label_default_queries.for_this_user
+* Patch #35613: German translation update of Wiki syntax help for 5.0-stable
+* Patch #37263: Lithuanian translation update for 5.0-stable
+* Patch #37698: Persian translation update for 4.2-stable
+
+=== [UI]
+
+* Defect #36901: Jump to project is misaligned in Safari 15.4 and later
+* Defect #37282: Subtask isn't displayed correctly since 4.2.7
+* Defect #37481: Fix the unintentional selection of rows with the context menu
+* Defect #37566: The number of the ordered list in the project description is not displayed and the indentation does not match the unordered list
+
 == 2022-06-21 v5.0.2
 
 === [Email notifications]
