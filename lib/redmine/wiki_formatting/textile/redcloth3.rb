@@ -691,7 +691,7 @@ class RedCloth3 < String
 
     def textile_bq( tag, atts, cite, content )
         cite, cite_title = check_refs( cite )
-        cite = " cite=\"#{cite}\"" if cite
+        cite = " cite=\"#{htmlesc cite.dup}\"" if cite
         atts = shelve( atts ) if atts
         "\t<blockquote#{cite}>\n\t\t<p#{atts}>#{content}</p>\n\t</blockquote>"
     end
