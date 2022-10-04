@@ -255,13 +255,16 @@ module Redmine
             [text, url]
           end
           links = texts_and_urls.sort_by(&:first).map do |text, url|
-            css_class = (/^https?:\/\//.match?(url)) ? 'external' : nil
-            view.link_to_if uri_with_safe_scheme?(url), text, url, :class => css_class
+            view.link_to text, url
           end
-          links.join(', ').html_safe
+          sanitize_html links.join(', ')
         else
           casted
         end
+      end
+
+      def sanitize_html(html)
+        Redmine::WikiFormatting::HtmlSanitizer.call(html).html_safe
       end
 
       # Returns an URL generated with the custom field URL pattern
@@ -463,8 +466,7 @@ module Redmine
               url = "http://" + url
             end
           end
-          css_class = (/^https?:\/\//.match?(url)) ? 'external' : nil
-          view.link_to value.to_s.truncate(40), url, :class => css_class
+          sanitize_html view.link_to(value.to_s.truncate(40), url)
         else
           value.to_s
         end
