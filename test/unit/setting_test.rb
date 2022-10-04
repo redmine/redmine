@@ -145,4 +145,9 @@ class SettingTest < ActiveSupport::TestCase
       end
     end
   end
+
+  def test_default_text_formatting_for_new_installations_is_common_mark
+    assert_equal 'common_mark', Setting.text_formatting
+    assert_equal 'common_mark', Setting.find_by(:name => 'text_formatting').value
+  end
 end
