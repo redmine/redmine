@@ -751,6 +751,13 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), to_html(text).gsub(%r{[\r\n\t]}, '')
   end
 
+  def test_should_escape_bq_citations
+    assert_html_output({
+      %{bq.:http://x/"onmouseover="alert(document.domain) Hover me} =>
+        %{<blockquote cite="http://x/&quot;onmouseover=&quot;alert(document.domain)">\n\t\t<p>Hover me</p>\n\t</blockquote>}
+    }, false)
+  end
+
   private
 
   def assert_html_output(to_test, expect_paragraph = true)
