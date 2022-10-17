@@ -719,6 +719,17 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), to_html(text).gsub(%r{[\r\n\t]}, '')
   end
 
+  def test_should_escape_tags_that_start_with_pre
+    text = <<~STR
+      <preä demo>Text
+    STR
+
+    expected = <<~EXPECTED
+      <p>&lt;preä demo&gt;Text</p>
+    EXPECTED
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), to_html(text).gsub(%r{[\r\n\t]}, '')
+  end
+
   def test_should_remove_html_comments
     text = <<~STR
       <!-- begin -->
