@@ -491,17 +491,6 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_select 'h2 a', :text => "Feature request #2"
   end
 
-  def test_edit_all_with_invalid_container_class_should_return_404
-    get(
-      :edit_all,
-      :params => {
-        :object_type => 'nuggets',
-        :object_id => '3'
-      }
-    )
-    assert_response 404
-  end
-
   def test_edit_all_with_invalid_object_should_return_404
     get(
       :edit_all,
