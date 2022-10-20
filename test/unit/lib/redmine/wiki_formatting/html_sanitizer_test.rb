@@ -20,7 +20,6 @@
 require File.expand_path('../../../../../test_helper', __FILE__)
 
 class Redmine::WikiFormatting::HtmlSanitizerTest < ActiveSupport::TestCase
-
   def setup
     @sanitizer = Redmine::WikiFormatting::HtmlSanitizer
   end
@@ -37,4 +36,3 @@ class Redmine::WikiFormatting::HtmlSanitizerTest < ActiveSupport::TestCase
     assert_equal "<a>foo</a>", @sanitizer.call(input)
   end
 end
-
