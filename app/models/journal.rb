@@ -143,6 +143,10 @@ class Journal < ActiveRecord::Base
     details.select{ |d| d.property == 'attachment' }.map{ |d| Attachment.find_by(:id => d.prop_key) }.compact
   end
 
+  def visible?(*args)
+    journalized.visible?(*args)
+  end
+
   # Returns a string of css classes
   def css_classes
     s = +'journal'
