@@ -317,9 +317,11 @@ Rails.application.routes.draw do
   get 'attachments/download/:id', :to => 'attachments#download', :id => /\d+/
   get 'attachments/thumbnail/:id(/:size)', :to => 'attachments#thumbnail', :id => /\d+/, :size => /\d+/, :as => 'thumbnail'
   resources :attachments, :only => [:show, :update, :destroy]
-  get 'attachments/:object_type/:object_id/edit', :to => 'attachments#edit_all', :as => :object_attachments_edit
-  patch 'attachments/:object_type/:object_id', :to => 'attachments#update_all', :as => :object_attachments
-  get 'attachments/:object_type/:object_id/download', :to => 'attachments#download_all', :as => :object_attachments_download
+  constraints object_type: /(issues|versions|news|messages|wiki_pages|projects|documents|journals)/ do
+    get 'attachments/:object_type/:object_id/edit', :to => 'attachments#edit_all', :as => :object_attachments_edit
+    patch 'attachments/:object_type/:object_id', :to => 'attachments#update_all', :as => :object_attachments
+    get 'attachments/:object_type/:object_id/download', :to => 'attachments#download_all', :as => :object_attachments_download
+  end
 
   resources :groups do
     resources :memberships, :controller => 'principal_memberships'
