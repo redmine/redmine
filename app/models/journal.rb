@@ -146,6 +146,10 @@ class Journal < ActiveRecord::Base
     Attachment.where(id: ids).sort_by {|a| ids.index(a.id.to_s)}
   end
 
+  def visible?(*args)
+    journalized.visible?(*args)
+  end
+
   # Returns a string of css classes
   def css_classes
     s = +'journal'
