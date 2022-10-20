@@ -219,19 +219,10 @@ class AttachmentsController < ApplicationController
   end
 
   def find_container
-    klass =
-      begin
-        params[:object_type].to_s.singularize.classify.constantize
-      rescue
-        nil
-      end
-    unless klass && (klass.reflect_on_association(:attachments) || klass.method_defined?(:attachments))
-      render_404
-      return
-    end
-
+    # object_type is constrained to valid values in routes
+    klass = params[:object_type].to_s.singularize.classify.constantize
     @container = klass.find(params[:object_id])
-    if @container.respond_to?(:visible?) && !@container.visible?
+    unless @container.visible?
       render_403
       return
     end
