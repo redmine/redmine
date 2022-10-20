@@ -948,24 +948,6 @@ Rails/WhereEquals:
     - 'lib/redmine/helpers/gantt.rb'
     - 'test/functional/issues_controller_test.rb'
 
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: exists, where
-Rails/WhereExists:
-  Exclude:
-    - 'app/controllers/issues_controller.rb'
-    - 'app/models/issue.rb'
-    - 'app/models/project.rb'
-    - 'app/models/user.rb'
-    - 'app/models/watcher.rb'
-    - 'lib/redmine/default_data/loader.rb'
-    - 'test/functional/workflows_controller_test.rb'
-    - 'test/unit/document_category_test.rb'
-    - 'test/unit/enumeration_test.rb'
-    - 'test/unit/issue_status_test.rb'
-    - 'test/unit/project_test.rb'
-    - 'test/unit/workflow_transition_test.rb'
-
 # This cop supports safe autocorrection (--autocorrect).
 Rails/WhereNot:
   Exclude:

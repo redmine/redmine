@@ -139,6 +139,9 @@ Rails/HelperInstanceVariable:
 Rails/SquishedSQLHeredocs:
   Enabled: false
 
+Rails/WhereExists:
+  Enabled: false
+
 Style/AsciiComments:
   Exclude:
     # Copyright credit has non ascii character.
