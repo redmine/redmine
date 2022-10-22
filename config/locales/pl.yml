@@ -151,8 +151,8 @@ pl:
 
   actionview_instancetag_blank_option: wybierz
 
-  general_text_No: 'Tak'
-  general_text_Yes: 'Nie'
+  general_text_No: 'Nie'
+  general_text_Yes: 'Tak'
   general_text_no: 'nie'
   general_text_yes: 'tak'
   general_lang_name: 'Polish (Polski)'
