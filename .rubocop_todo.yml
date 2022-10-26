@@ -1583,7 +1583,6 @@ Style/RedundantParentheses:
     - 'app/models/enumeration.rb'
     - 'app/models/principal.rb'
     - 'app/models/repository/cvs.rb'
-    - 'lib/redmine/field_format.rb'
     - 'lib/redmine/platform.rb'
     - 'lib/redmine/scm/adapters/cvs_adapter.rb'
     - 'lib/redmine/scm/adapters/filesystem_adapter.rb'
