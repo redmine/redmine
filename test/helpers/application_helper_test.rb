@@ -1411,7 +1411,7 @@ class ApplicationHelperTest < Redmine::HelperTest
       </code></pre>
     RAW
     expected = <<~EXPECTED
-      <pre><code class="ECMA_script syntaxhl" data-language=\"ECMA_script\"><span class="cm">/* Hello */</span><span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="dl">"</span><span class="s2">Hello World!</span><span class="dl">"</span><span class="p">);</span></code></pre>
+      <pre><code class="ECMA_script syntaxhl" data-language="ECMA_script"><span class="cm">/* Hello */</span><span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="dl">"</span><span class="s2">Hello World!</span><span class="dl">"</span><span class="p">);</span></code></pre>
     EXPECTED
     with_settings :text_formatting => 'textile' do
       assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
@@ -1425,7 +1425,7 @@ class ApplicationHelperTest < Redmine::HelperTest
       </code></pre>
     RAW
     expected = <<~EXPECTED
-      <pre><code class=\"ruby syntaxhl\" data-language=\"ruby\"><span class=\"n\">x</span> <span class=\"o\">=</span> <span class=\"n\">a</span> <span class=\"o\">&amp;</span> <span class=\"n\">b</span></code></pre>
+      <pre><code class="ruby syntaxhl" data-language="ruby"><span class="n">x</span> <span class="o">=</span> <span class="n">a</span> <span class="o">&amp;</span> <span class="n">b</span></code></pre>
     EXPECTED
     with_settings :text_formatting => 'textile' do
       assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
@@ -2214,7 +2214,7 @@ class ApplicationHelperTest < Redmine::HelperTest
                   "/projects/ecookbook/wiki/A_%22quoted%22_name",
                   :class => "wiki-page new"),
       '[[le français, c\'est super]]' =>
-          link_to("le français, c\'est super",
+          link_to("le français, c'est super",
                   "/projects/ecookbook/wiki/Le_fran%C3%A7ais_c'est_super",
                   :class => "wiki-page new"),
       '[[broken < less]]' =>

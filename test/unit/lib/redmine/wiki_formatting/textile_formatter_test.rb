@@ -512,12 +512,12 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
     <<~STR.chomp,
       h2. Heading 2
 
-      <pre><code class=\"ruby\">
+      <pre><code class="ruby">
         def foo
         end
       </code></pre>
 
-      <pre><code><pre><code class=\"ruby\">
+      <pre><code><pre><code class="ruby">
         Place your code here.
       </code></pre>
       </code></pre>
@@ -693,7 +693,7 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
       fn1. This is the foot note
     STR
     expected = <<~EXPECTED
-      <p>This is some text<sup><a href=\"#fn1\">1</a></sup>.</p>
+      <p>This is some text<sup><a href="#fn1">1</a></sup>.</p>
       <p id="fn1" class="footnote"><sup>1</sup> This is the foot note</p>
     EXPECTED
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), to_html(text).gsub(%r{[\r\n\t]}, '')

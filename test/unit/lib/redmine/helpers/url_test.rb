@@ -42,7 +42,7 @@ class URLTest < ActiveSupport::TestCase
     "mailto:foo@example.org",
     " http://example.com/",
     "",
-    "/javascript:alert(\'filename\')",
+    "/javascript:alert('filename')",
   ]
 
   def test_uri_with_link_safe_scheme_should_recognize_safe_uris
@@ -52,18 +52,18 @@ class URLTest < ActiveSupport::TestCase
   end
 
   LINK_UNSAFE_URIS = [
-    "javascript:alert(\'XSS\');",
-    "javascript    :alert(\'XSS\');",
-    "javascript:    alert(\'XSS\');",
-    "javascript    :   alert(\'XSS\');",
-    ":javascript:alert(\'XSS\');",
+    "javascript:alert('XSS');",
+    "javascript    :alert('XSS');",
+    "javascript:    alert('XSS');",
+    "javascript    :   alert('XSS');",
+    ":javascript:alert('XSS');",
     "javascript&#58;",
     "javascript&#0058;",
     "javascript&#x3A;",
     "javascript&#x003A;",
     "java\0script:alert(\"XSS\")",
     "java\script:alert(\"XSS\")",
-    " \x0e  javascript:alert(\'XSS\');",
+    " \x0e  javascript:alert('XSS');",
     "data:image/png;base64,foobar",
     "vbscript:foobar",
     "data:text/html;base64,foobar",

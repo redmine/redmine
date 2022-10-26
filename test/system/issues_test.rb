@@ -46,7 +46,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
     assert_kind_of Issue, issue
 
     # check redirection
-    find 'div#flash_notice', :visible => true, :text => "Issue \##{issue.id} created."
+    find 'div#flash_notice', :visible => true, :text => "Issue ##{issue.id} created."
     assert_equal issue_path(:id => issue), current_path
 
     # check issue attributes
