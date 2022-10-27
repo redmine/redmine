@@ -1100,7 +1100,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
     project.update_attribute :updated_on, nil
     assert_equal 'Stable', project.custom_value_for(3).value
 
-    travel_to Time.current do
+    freeze_time do
       post(
         :update,
         :params => {
