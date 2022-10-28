@@ -82,14 +82,14 @@ class Redmine::ApiTest::SearchTest < Redmine::ApiTest::Base
     assert_equal 11, json['total_count']
     assert_equal 0, json['offset']
     assert_equal 4, json['limit']
-    assert_equal issue[0..3], json['results'].map {|r| r['id']}
+    assert_equal issue[0..3], json['results'].pluck('id')
 
     get '/search.json', :params => {:q => 'search_with_limited_results', :offset => 8, :limit => 4}
     json = ActiveSupport::JSON.decode(response.body)
     assert_equal 11, json['total_count']
     assert_equal 8, json['offset']
     assert_equal 4, json['limit']
-    assert_equal issue[8..10], json['results'].map {|r| r['id']}
+    assert_equal issue[8..10], json['results'].pluck('id')
   end
 
   test "GET /search.xml should not quick jump to the issue with given id" do

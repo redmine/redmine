@@ -129,7 +129,7 @@ class Changeset < ActiveRecord::Base
     ref_keywords_any = ref_keywords.delete('*')
 
     # keywords used to fix issues
-    fix_keywords = Setting.commit_update_keywords_array.map {|r| r['keywords']}.flatten.compact
+    fix_keywords = Setting.commit_update_keywords_array.pluck('keywords').flatten.compact
     kw_regexp = (ref_keywords + fix_keywords).collect{|kw| Regexp.escape(kw)}.join("|")
 
     referenced_issues = []

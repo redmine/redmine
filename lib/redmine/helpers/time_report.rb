@@ -71,10 +71,10 @@ module Redmine
             end
           end
 
-          min = @hours.collect {|row| row['spent_on']}.min
+          min = @hours.pluck('spent_on').min
           @from = min ? min.to_date : User.current.today
 
-          max = @hours.collect {|row| row['spent_on']}.max
+          max = @hours.pluck('spent_on').max
           @to = max ? max.to_date : User.current.today
 
           @total_hours = @hours.inject(0) {|s,k| s = s + k['hours'].to_f}

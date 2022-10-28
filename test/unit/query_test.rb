@@ -65,7 +65,7 @@ class QueryTest < ActiveSupport::TestCase
       "Priority"
     ]
     assert_equal expected_order,
-                 (query.available_filters.values.map{|v| v[:name]} & expected_order)
+                 (query.available_filters.values.pluck(:name) & expected_order)
   end
 
   def test_available_filters_with_custom_fields_should_be_ordered
@@ -83,7 +83,7 @@ class QueryTest < ActiveSupport::TestCase
       "Assignee's order test"
     ]
     assert_equal expected_order,
-                 (query.available_filters.values.map{|v| v[:name]} & expected_order)
+                 (query.available_filters.values.pluck(:name) & expected_order)
   end
 
   def test_custom_fields_for_all_projects_should_be_available_in_global_queries
@@ -103,7 +103,7 @@ class QueryTest < ActiveSupport::TestCase
     query = IssueQuery.new(:project => nil, :name => '_')
     project_filter = query.available_filters["project_id"]
     assert_not_nil project_filter
-    project_ids = project_filter[:values].map{|p| p[1]}
+    project_ids = project_filter[:values].pluck(1)
     assert project_ids.include?("1")  # public project
     assert !project_ids.include?("2") # private project user cannot see
   end
@@ -940,7 +940,7 @@ class QueryTest < ActiveSupport::TestCase
     query = IssueQuery.new(:name => '_', :project => Project.find(1))
     filter = query.available_filters["cf_#{cf.id}"]
     assert_not_nil filter
-    assert_include 'me', filter[:values].map{|v| v[1]}
+    assert_include 'me', filter[:values].pluck(1)
 
     query.filters = {"cf_#{cf.id}" => {:operator => '=', :values => ['me']}}
     result = query.issues
@@ -998,7 +998,7 @@ class QueryTest < ActiveSupport::TestCase
     query = IssueQuery.new(:name => '_')
     filter = query.available_filters['project_id']
     assert_not_nil filter
-    assert_include 'mine', filter[:values].map{|v| v[1]}
+    assert_include 'mine', filter[:values].pluck(1)
 
     query.filters = {'project_id' => {:operator => '=', :values => ['mine']}}
     result = query.issues
@@ -1010,7 +1010,7 @@ class QueryTest < ActiveSupport::TestCase
     query = ProjectQuery.new(:name => '_')
     filter = query.available_filters['id']
     assert_not_nil filter
-    assert_include 'bookmarks', filter[:values].map{|v| v[1]}
+    assert_include 'bookmarks', filter[:values].pluck(1)
 
     query.filters = {'id' => {:operator => '=', :values => ['bookmarks']}}
     result = query.results_scope
@@ -1023,7 +1023,7 @@ class QueryTest < ActiveSupport::TestCase
     query = ProjectQuery.new(:name => '_')
     filter = query.available_filters['id']
 
-    assert_not_include 'bookmarks', filter[:values].map{|v| v[1]}
+    assert_not_include 'bookmarks', filter[:values].pluck(1)
   end
 
   def test_filter_project_parent_id_with_my_projects
@@ -1031,7 +1031,7 @@ class QueryTest < ActiveSupport::TestCase
     query = ProjectQuery.new(:name => '_')
     filter = query.available_filters['parent_id']
     assert_not_nil filter
-    assert_include 'mine', filter[:values].map{|v| v[1]}
+    assert_include 'mine', filter[:values].pluck(1)
 
     query.filters = {'parent_id' => {:operator => '=', :values => ['mine']}}
     result = query.results_scope
@@ -1045,7 +1045,7 @@ class QueryTest < ActiveSupport::TestCase
     query = ProjectQuery.new(:name => '_')
     filter = query.available_filters['parent_id']
     assert_not_nil filter
-    assert_include 'bookmarks', filter[:values].map{|v| v[1]}
+    assert_include 'bookmarks', filter[:values].pluck(1)
 
     query.filters = {'parent_id' => {:operator => '=', :values => ['bookmarks']}}
     result = query.results_scope
@@ -2387,7 +2387,7 @@ class QueryTest < ActiveSupport::TestCase
   test "#available_filters should include users of visible projects in cross-project view" do
     users = IssueQuery.new.available_filters["assigned_to_id"]
     assert_not_nil users
-    assert users[:values].map{|u| u[1]}.include?("3")
+    assert users[:values].pluck(1).include?("3")
   end
 
   test "#available_filters should include users of subprojects" do
@@ -2397,14 +2397,14 @@ class QueryTest < ActiveSupport::TestCase
     Member.create!(:principal => user1, :project => project.children.visible.first, :role_ids => [1])
     users = IssueQuery.new(:project => project).available_filters["assigned_to_id"]
     assert_not_nil users
-    assert users[:values].map{|u| u[1]}.include?(user1.id.to_s)
-    assert !users[:values].map{|u| u[1]}.include?(user2.id.to_s)
+    assert users[:values].pluck(1).include?(user1.id.to_s)
+    assert !users[:values].pluck(1).include?(user2.id.to_s)
   end
 
   test "#available_filters should include visible projects in cross-project view" do
     projects = IssueQuery.new.available_filters["project_id"]
     assert_not_nil projects
-    assert projects[:values].map{|u| u[1]}.include?("1")
+    assert projects[:values].pluck(1).include?("1")
   end
 
   test "#available_filters should include 'member_of_group' filter" do

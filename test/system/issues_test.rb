@@ -580,7 +580,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
 
     csv = CSV.read(downloaded_file("issues.csv"))
     subject_index = csv.shift.index('Subject')
-    subjects = csv.map {|row| row[subject_index]}
+    subjects = csv.pluck(subject_index)
     assert_equal subjects.sort, subjects
   end
 
