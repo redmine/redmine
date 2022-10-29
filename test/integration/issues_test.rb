@@ -34,7 +34,8 @@ class IssuesTest < Redmine::IntegrationTest
            :custom_fields,
            :custom_values,
            :custom_fields_trackers, :custom_fields_projects,
-           :attachments
+           :attachments,
+           :issue_categories
 
   # create an issue
   def test_add_issue
