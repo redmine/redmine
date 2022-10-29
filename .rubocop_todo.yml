@@ -824,12 +824,6 @@ Rails/OutputSafety:
   Enabled: false
 
 # This cop supports safe autocorrection (--autocorrect).
-Rails/Pluck:
-  Exclude:
-    - 'app/helpers/versions_helper.rb'
-    - 'test/unit/query_test.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
 Rails/PluralizationGrammar:
   Exclude:
     - 'lib/redmine/helpers/time_report.rb'
