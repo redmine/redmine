@@ -232,7 +232,7 @@ class Repository::Git < Repository
   def heads_from_branches_hash
     h = extra_info&.dup || {}
     h["branches"] ||= {}
-    h['branches'].map{|br, hs| hs['last_scmid']}  # rubocop:disable Rails/Pluck
+    h['branches'].map{|br, hs| hs['last_scmid']}
   end
 
   def latest_changesets(path, rev, limit=10)
