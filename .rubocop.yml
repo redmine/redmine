@@ -116,6 +116,21 @@ Naming/BinaryOperatorParameterName:
 Naming/PredicateName:
   Enabled: false
 
+Rails/ActionControllerFlashBeforeRender:
+  # False positive in actions where `redirect_to_referer_or` is used
+  Enabled: false
+
+Rails/ActionControllerTestCase:
+  Enabled: false
+
+Rails/ActionOrder:
+  Enabled: false
+
+Rails/ActiveSupportOnLoad:
+  Exclude:
+    # TODO: Need to check the impact on plugins. Disable for now.
+    - 'lib/redmine/preparation.rb'
+
 Rails/BulkChangeTable:
   Exclude:
     - 'db/migrate/20120714122200_add_workflows_rule_fields.rb'
@@ -134,6 +149,14 @@ Rails/FilePath:
   Enabled: false
 
 Rails/HelperInstanceVariable:
+  Enabled: false
+
+Rails/Pluck:
+  Exclude:
+  # `pluck` is not available in Gemfile
+  - 'Gemfile'
+
+Rails/RootPathnameMethods:
   Enabled: false
 
 Rails/SquishedSQLHeredocs:

@@ -657,9 +657,9 @@ Rails/DuplicateScope:
 
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: Whitelist, AllowedMethods, AllowedReceivers.
-# Whitelist: find_by_sql
-# AllowedMethods: find_by_sql
-# AllowedReceivers: Gem::Specification
+# Whitelist: find_by_sql, find_by_token_for
+# AllowedMethods: find_by_sql, find_by_token_for
+# AllowedReceivers: Gem::Specification, page
 Rails/DynamicFindBy:
   Enabled: false
 
@@ -677,8 +677,9 @@ Rails/Exit:
     - 'config/routes.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: Include, IgnoredMethods.
+# Configuration parameters: Include, AllowedMethods, AllowedPatterns, IgnoredMethods.
 # Include: app/models/**/*.rb
+# AllowedMethods: order, limit, select, lock
 # IgnoredMethods: order, limit, select, lock
 Rails/FindEach:
   Exclude:
@@ -1729,7 +1730,7 @@ Style/SymbolArray:
 
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: AllowMethodsWithArguments, AllowedMethods, AllowedPatterns, IgnoredMethods, AllowComments.
-# AllowedMethods: respond_to, define_method
+# AllowedMethods: define_method, mail, respond_to
 Style/SymbolProc:
   Enabled: false
 
