@@ -217,4 +217,17 @@ class Redmine::PluginTest < ActiveSupport::TestCase
 
     assert Redmine::Plugin.migrate('foo_plugin')
   end
+
+  def test_migration_context_should_override_current_version
+    plugin = @klass.register :foo_plugin do
+      name 'Foo plugin'
+      version '0.0.1'
+    end
+    migration_dir = File.join(@klass.directory, 'db', 'migrate')
+
+    Redmine::Plugin::Migrator.current_plugin = plugin
+    context = Redmine::Plugin::MigrationContext.new(migration_dir, ::ActiveRecord::Base.connection.schema_migration)
+    # current_version should be zero because Foo plugin has no migration
+    assert_equal 0, context.current_version
+  end
 end

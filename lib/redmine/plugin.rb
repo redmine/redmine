@@ -485,6 +485,10 @@ module Redmine
       def open
         Migrator.new(:up, migrations, schema_migration)
       end
+
+      def current_version
+        Migrator.current_version
+      end
     end
 
     class Migrator < ActiveRecord::Migrator
