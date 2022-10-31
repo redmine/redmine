@@ -5665,6 +5665,26 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'select[name=?]', 'issue[project_id]', 0
   end
 
+  def test_new_should_hide_project_if_user_is_not_allowed_to_change_project_in_hierarchy_projects
+    WorkflowPermission.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1,
+                               :field_name => 'project_id', :rule => 'readonly')
+
+    @request.session[:user_id] = 2
+    get(:new, :params => { :tracker_id => 1, :project_id => 1 })
+    assert_response :success
+    assert_select 'select[name=?]', 'issue[project_id]', 0
+  end
+
+  def test_new_should_show_project_if_user_is_not_allowed_to_change_project_global_new_issue
+    WorkflowPermission.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1,
+                               :field_name => 'project_id', :rule => 'readonly')
+
+    @request.session[:user_id] = 2
+    get(:new, :params => { :tracker_id => 1})
+    assert_response :success
+    assert_select 'select[name=?]', 'issue[project_id]'
+  end
+
   def test_edit_should_not_hide_project_when_user_changes_the_project_even_if_project_is_readonly_on_target_project
     WorkflowPermission.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 1,
                                :field_name => 'project_id', :rule => 'readonly')
