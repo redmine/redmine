@@ -24,6 +24,8 @@ class WelcomeTest < Redmine::IntegrationTest
            :projects, :enabled_modules, :members, :member_roles, :roles
 
   def test_robots
+    Project.find(3).update_attribute :status, Project::STATUS_CLOSED
+
     get '/robots.txt'
     assert_response :success
     assert_equal 'text/plain', @response.media_type
@@ -36,5 +38,8 @@ class WelcomeTest < Redmine::IntegrationTest
     assert @response.body.match(%r{^Disallow: /login\r?$})
     assert @response.body.match(%r{^Disallow: /account/register\r?$})
     assert @response.body.match(%r{^Disallow: /account/lost_password\r?$})
+
+    # closed projects are included in the list
+    assert @response.body.match(%r{^Disallow: /projects/subproject1/issues\r?$})
   end
 end
