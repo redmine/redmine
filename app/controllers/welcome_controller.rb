@@ -27,7 +27,7 @@ class WelcomeController < ApplicationController
   end
 
   def robots
-    @projects = Project.visible(User.anonymous)
+    @projects = Project.visible(User.anonymous) unless Setting.login_required?
     render :layout => false, :content_type => 'text/plain'
   end
 end

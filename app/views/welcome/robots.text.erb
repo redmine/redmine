@@ -1,4 +1,7 @@
 User-agent: *
+<% if Setting.login_required? -%>
+Disallow: /
+<% else -%>
 <% @projects.each do |project| -%>
 <%   [project, project.id].each do |p| -%>
 Disallow: <%= url_for(:controller => 'repositories', :action => :show, :id => p) %>
@@ -18,3 +21,4 @@ Disallow: <%= url_for(projects_path(:trailing_slash => true)) %>*.pdf$
 Disallow: <%= url_for(signin_path) %>
 Disallow: <%= url_for(register_path) %>
 Disallow: <%= url_for(lost_password_path) %>
+<% end -%>

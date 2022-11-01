@@ -48,6 +48,10 @@ class WelcomeTest < Redmine::IntegrationTest
       get '/robots.txt'
       assert_response :success
       assert_equal 'text/plain', @response.media_type
+
+      # Disallow everything if logins are required
+      assert_not @response.body.match(%r{^Disallow: /projects/ecookbook/issues\r?$})
+      assert @response.body.match(%r{^Disallow: /\r?$})
     end
   end
 end
