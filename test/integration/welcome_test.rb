@@ -42,4 +42,12 @@ class WelcomeTest < Redmine::IntegrationTest
     # closed projects are included in the list
     assert @response.body.match(%r{^Disallow: /projects/subproject1/issues\r?$})
   end
+
+  def test_robots_when_login_is_required
+    with_settings :login_required => '1' do
+      get '/robots.txt'
+      assert_response :success
+      assert_equal 'text/plain', @response.media_type
+    end
+  end
 end

@@ -20,6 +20,8 @@
 class WelcomeController < ApplicationController
   self.main_menu = false
 
+  skip_before_action :check_if_login_required, only: [:robots]
+
   def index
     @news = News.latest User.current
   end
