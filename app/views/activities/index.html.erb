@@ -16,8 +16,7 @@
 <%= link_to(l(:label_next) + " \xc2\xbb",
                    {:params => request.query_parameters.merge(:from => @date_to + @days - 1)},
                    :title => l(:label_date_from_to, :start => format_date(@date_to), :end => format_date(@date_to + @days - 1)),
-                   :accesskey => accesskey(:next)) %><% end %>
-    </li>
+                   :accesskey => accesskey(:next)) %></li><% end %>
   </ul>
 </span>
 &nbsp;
