@@ -24,4 +24,10 @@ class Redmine::Search::Tokenize < ActiveSupport::TestCase
     value = "hello \"bye bye\""
     assert_equal ["hello", "bye bye"], Redmine::Search::Tokenizer.new(value).tokens
   end
+
+  def test_tokenize_should_consider_ideographic_space_as_separator
+    # U+3000 is an ideographic space ("　")
+    value = "全角\u3000スペース"
+    assert_equal %w[全角 スペース], Redmine::Search::Tokenizer.new(value).tokens
+  end
 end
