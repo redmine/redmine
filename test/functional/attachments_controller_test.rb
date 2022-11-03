@@ -642,7 +642,23 @@ class AttachmentsControllerTest < Redmine::ControllerTest
         :params => {
           :object_type => 'issues',
           :object_id => '2',
-          :back_url => '/issues/2'
+          :back_url => '/issues/123'
+        }
+      )
+      assert_redirected_to '/issues/123'
+      assert_equal flash[:error], 'These attachments cannot be bulk downloaded because the total file size exceeds the maximum allowed size (0 Bytes)'
+    end
+  end
+
+  def test_download_all_redirects_to_container_url_on_error
+    with_settings :bulk_download_max_size => 0 do
+      @request.session[:user_id] = 2
+      get(
+        :download_all,
+        :params => {
+          :object_type => 'issues',
+          :object_id => '2',
+          :back_url => 'https://example.com'
         }
       )
       assert_redirected_to '/issues/2'

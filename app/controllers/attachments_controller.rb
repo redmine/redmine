@@ -248,8 +248,25 @@ class AttachmentsController < ApplicationController
     if @attachments.sum(&:filesize) > bulk_download_max_size
       flash[:error] = l(:error_bulk_download_size_too_big,
                         :max_size => number_to_human_size(bulk_download_max_size.to_i))
-      redirect_to back_url
+      redirect_back_or_default(container_url, referer: true)
       return
+    end
+  end
+
+  def container_url
+    case @container
+    when Message
+      url_for(@container.event_url)
+    when Project
+      # project attachments are listed in the files view
+      project_files_url(@container)
+    when Version
+      # version attachments are listed in its project's files view
+      project_files_url(@container.project)
+    when WikiPage
+      project_wiki_page_url @container.wiki.project, @container
+    else
+      url_for(@container)
     end
   end
 
