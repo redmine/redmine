@@ -100,7 +100,7 @@ group :test do
   # TODO: Remove version specification once Capybara supports Puma 6
   gem 'puma', '< 6.0.0'
   gem 'capybara', '~> 3.31.0'
-  gem "selenium-webdriver"
+  gem "selenium-webdriver", "~> 3.142.7"
   gem 'webdrivers', '~> 4.4', require: false
   # RuboCop
   gem 'rubocop', '~> 1.12.0'
