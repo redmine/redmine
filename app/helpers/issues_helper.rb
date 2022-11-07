@@ -750,12 +750,18 @@ module IssuesHelper
   end
 
   def projects_for_select(issue)
-    if issue.parent_issue_id.present?
-      issue.allowed_target_projects_for_subtask(User.current)
-    elsif @project && issue.new_record? && !issue.copy?
-      issue.allowed_target_projects(User.current, 'tree')
+    projects =
+      if issue.parent_issue_id.present?
+        issue.allowed_target_projects_for_subtask(User.current)
+      elsif @project && issue.new_record? && !issue.copy?
+        issue.allowed_target_projects(User.current, 'tree')
+      else
+        issue.allowed_target_projects(User.current)
+      end
+    if issue.read_only_attribute_names(User.current).include?('project_id')
+      params['project_id'].present? ? Project.where(identifier: params['project_id']) : projects
     else
-      issue.allowed_target_projects(User.current)
+      projects
     end
   end
 end
