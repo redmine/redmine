@@ -36,6 +36,7 @@ module Redmine
                                    :validate => false
 
           send :include, Redmine::Acts::Customizable::InstanceMethods
+          before_validation :before_validation
           validate :validate_custom_field_values
           after_save :save_custom_field_values
         end
@@ -120,6 +121,12 @@ module Redmine
         def custom_field_value(c)
           field_id = (c.is_a?(CustomField) ? c.id : c.to_i)
           custom_field_values.detect {|v| v.custom_field_id == field_id }.try(:value)
+        end
+
+        def before_validation
+          if new_record? || custom_field_values_changed?
+            custom_field_values.each(&:before_validation)
+          end
         end
 
         def validate_custom_field_values

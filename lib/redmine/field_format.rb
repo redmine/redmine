@@ -223,6 +223,9 @@ module Redmine
         errors
       end
 
+      def before_validation(custom_value)
+      end
+
       # Returns the validation error messages for custom_value
       # Should return an empty array if custom_value is valid
       # custom_value is a CustomFieldValue.

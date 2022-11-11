@@ -285,6 +285,10 @@ class CustomField < ActiveRecord::Base
     nil
   end
 
+  def before_validation(custom_value)
+    format.before_validation(custom_value)
+  end
+
   # Returns the error messages for the given value
   # or an empty array if value is a valid value for the custom field
   def validate_custom_value(custom_value)
