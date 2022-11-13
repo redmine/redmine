@@ -50,7 +50,7 @@ end
 
 # Optional CommonMark support, not for JRuby
 group :common_mark do
-  gem "commonmarker", '0.23.4'
+  gem "commonmarker", '~> 0.23.6'
   gem 'deckar01-task_list', '2.3.2'
 end
 
