@@ -465,4 +465,62 @@ class IssuesHelperTest < Redmine::HelperTest
     assert_include "<a href=\"/issues?issue_id=#{open_issue.id}%2C#{closed_issue.id}&amp;set_filter=true&amp;status_id=o\">1 open</a>", html
     assert_include "<a href=\"/issues?issue_id=#{open_issue.id}%2C#{closed_issue.id}&amp;set_filter=true&amp;status_id=c\">1 closed</a>", html
   end
+
+  def test_author_options_for_select_if_new_record_and_users_includes_current_user
+    User.current = User.find(2)
+    issue = Issue.new(project_id: 1)
+    assignable_users = [User.find(3), User.find(2)]
+
+    assert_includes assignable_users, User.current
+    assert_equal(
+      principals_options_for_select(assignable_users, nil),
+      author_options_for_select(issue, issue.project))
+  end
+
+  def test_author_options_for_select_if_new_record_and_users_not_includes_current_user
+    User.current = User.find(1)
+    issue = Issue.new(project_id: 1)
+    assignable_users = [User.find(3), User.find(2)]
+    assert_not_includes assignable_users, User.current
+
+    assert_equal(
+      principals_options_for_select([User.current] + assignable_users, nil),
+      author_options_for_select(issue, issue.project))
+  end
+
+  def test_author_options_for_select_if_persisted_record_and_users_includes_author
+    User.current = User.find(2)
+    issue = Issue.find(1)
+    issue.update(author_id: 2)
+    assignable_users = [User.find(3), User.find(2)]
+
+    assert_includes assignable_users, issue.author
+    assert_equal(
+      principals_options_for_select(assignable_users, issue.author),
+      author_options_for_select(issue, issue.project))
+  end
+
+  def test_author_options_for_select_if_persisted_record_and_users_not_includes_author
+    User.current = User.find(2)
+    issue = Issue.find(1)
+    issue.update(author_id: 1)
+    assignable_users = [User.find(3), User.find(2)]
+
+    assert_not_includes assignable_users, issue.author
+    assert_equal(
+      principals_options_for_select([User.find(1)] + assignable_users, issue.author),
+      author_options_for_select(issue, issue.project))
+  end
+
+  def test_author_options_for_select_if_persisted_record_and_author_is_anonymous
+    User.current = User.find(2)
+    issue = Issue.find(1)
+    issue.update(author_id: User.anonymous.id)
+    assignable_users = [User.find(3), User.find(2)]
+
+    assert_not_includes assignable_users, issue.author
+    assert_equal(
+      principals_options_for_select([User.anonymous] + assignable_users, issue.author),
+      author_options_for_select(issue, issue.project))
+  end
 end

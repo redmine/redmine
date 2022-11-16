@@ -22,7 +22,7 @@ require File.expand_path('../../test_helper', __FILE__)
 class JournalsHelperTest < Redmine::HelperTest
   include JournalsHelper
 
-  fixtures :projects, :trackers, :issue_statuses, :issues, :journals,
+  fixtures :projects, :trackers, :issue_statuses, :issues, :journals, :journal_details,
            :enumerations, :issue_categories,
            :projects_trackers,
            :users, :roles, :member_roles, :members,

@@ -534,7 +534,7 @@ module IssuesHelper
         old_value = format_date(detail.old_value.to_date) if detail.old_value
 
       when 'project_id', 'status_id', 'tracker_id', 'assigned_to_id',
-            'priority_id', 'category_id', 'fixed_version_id'
+            'priority_id', 'category_id', 'fixed_version_id', 'author_id'
         value = find_name_by_reflection(field, detail.value)
         old_value = find_name_by_reflection(field, detail.old_value)
 
@@ -776,6 +776,25 @@ module IssuesHelper
       params['project_id'].present? ? Project.where(identifier: params['project_id']) : projects
     else
       projects
+    end
+  end
+
+  def author_options_for_select(issue, project)
+    users = issue.assignable_users.select {|m| m.is_a?(User) && m.allowed_to?(:add_issues, project) }
+
+    if issue.new_record?
+      if users.include?(User.current)
+        principals_options_for_select(users, issue.author)
+      else
+        principals_options_for_select([User.current] + users)
+      end
+    elsif issue.persisted?
+      if users.include?(issue.author)
+        principals_options_for_select(users, issue.author)
+      else
+        author_principal = Principal.find(issue.author_id)
+        principals_options_for_select([author_principal] + users, author_principal)
+      end
     end
   end
 end

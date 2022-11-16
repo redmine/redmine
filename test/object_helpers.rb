@@ -95,7 +95,7 @@ module ObjectHelpers
     issue.project ||= Project.find(1)
     issue.tracker ||= issue.project.trackers.first
     issue.subject = 'Generated' if issue.subject.blank?
-    issue.author ||= User.find(2)
+    issue.author ||= (User.current || User.find(2))
     yield issue if block_given?
     issue
   end

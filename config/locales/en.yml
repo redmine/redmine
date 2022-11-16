@@ -541,6 +541,7 @@ en:
   permission_view_private_notes: View private notes
   permission_set_notes_private: Set notes as private
   permission_delete_issues: Delete issues
+  permission_change_issue_author: Change issue author
   permission_manage_public_queries: Manage public queries
   permission_save_queries: Save queries
   permission_view_gantt: View gantt chart

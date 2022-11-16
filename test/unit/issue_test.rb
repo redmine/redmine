@@ -2789,6 +2789,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   def test_journalized_multi_custom_field
+    User.current = User.find(1)
     field = IssueCustomField.create!(:name => 'filter', :field_format => 'list',
                                      :is_filter => true, :is_for_all => true,
                                      :tracker_ids => [1],
@@ -3464,5 +3465,56 @@ class IssueTest < ActiveSupport::TestCase
   def test_like_should_tokenize
     r = Issue.like('issue today')
     assert_include Issue.find(7), r
+  end
+
+  def test_author_should_be_changed_when_user_with_permission_change_issue_author
+    Role.all.each do |r|
+      r.add_permission! :change_issue_author
+    end
+    User.current = User.find(2)
+
+    issue = Issue.generate!(:author => User.find(3))
+    assert_equal 3, issue.author_id
+
+    issue.safe_attributes = { 'author_id' => 4 }
+    assert_equal 4, issue.author_id
+    assert_not_equal 3, issue.author_id
+  end
+
+  def test_author_should_not_be_changed_when_user_without_permission_change_issue_author
+    Role.all.each do |r|
+      r.remove_permission! :change_issue_author
+    end
+    User.current = User.find(2)
+
+    issue = Issue.generate!(:author => User.find(3))
+    assert_equal 3, issue.author_id
+
+    issue.safe_attributes = { 'author_id' => 4 }
+    assert_not_equal 4, issue.author_id
+    assert_equal 3, issue.author_id
+  end
+
+  def test_create_should_create_journal_if_user_other_than_current_user_is_set_as_the_author
+    User.current = User.find(1)
+    issue = nil
+    assert_difference 'Journal.count' do
+      issue = Issue.generate!(author: User.find(2))
+    end
+
+    first_journal_detail = issue.journals.first.details.first
+    assert_equal 'author_id', first_journal_detail.prop_key
+    assert_equal '1', first_journal_detail.old_value
+    assert_equal '2', first_journal_detail.value
+  end
+
+  def test_create_should_create_journal_if_current_user_is_set_as_the_author
+    User.current = User.find(1)
+    issue = nil
+    assert_no_difference 'Journal.count' do
+      issue = Issue.generate!(author: User.current)
+    end
+
+    assert_not issue.journals.present?
   end
 end
