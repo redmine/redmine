@@ -8306,7 +8306,6 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_destroy_child_issue
-    User.current = User.find(1)
     parent = Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1, :subject => 'Parent Issue')
     child = Issue.create!(:project_id => 1, :author_id => 1, :tracker_id => 1, :subject => 'Child Issue', :parent_issue_id => parent.id)
     assert child.is_descendant_of?(parent.reload)

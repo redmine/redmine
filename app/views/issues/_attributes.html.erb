@@ -3,9 +3,6 @@
 <div class="splitcontent">
 <div class="splitcontentleft">
 <% if @issue.safe_attribute?('status_id') && @allowed_statuses.present? %>
-<% if User.current.allowed_to?(:change_issue_author, @project) %>
-  <p><%= f.select :author_id, author_options_for_select(@issue, @project), :include_blank => false, :required => true %></p>
-<% end %>
 <p>
   <%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), {:required => true},
                 :onchange => "updateIssueFrom('#{escape_javascript(update_issue_form_path(@project, @issue))}', this)" %>

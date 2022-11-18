@@ -60,7 +60,6 @@ class IssueNestedSetTest < ActiveSupport::TestCase
   end
 
   def test_creating_a_child_in_a_subproject_should_validate
-    User.current = User.find(1)
     issue = Issue.generate!
     child = nil
     assert_difference 'Journal.count', 1 do

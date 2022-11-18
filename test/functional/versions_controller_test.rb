@@ -103,7 +103,6 @@ class VersionsControllerTest < Redmine::ControllerTest
   end
 
   def test_index_should_show_issue_assignee
-    User.current = User.find_by_login('jsmith')
     with_settings :gravatar_enabled => '1' do
       Issue.generate!(:project_id => 3, :fixed_version_id => 4, :assigned_to => User.find_by_login('jsmith'))
       Issue.generate!(:project_id => 3, :fixed_version_id => 4)

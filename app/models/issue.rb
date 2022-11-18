@@ -111,7 +111,6 @@ class Issue < ActiveRecord::Base
   before_validation :clear_disabled_fields
   before_save :close_duplicates, :update_done_ratio_from_issue_status,
               :force_updated_on_change, :update_closed_on
-  before_create :set_author_journal
   after_save do |issue|
     if !issue.saved_change_to_id? && issue.saved_change_to_project_id?
       issue.send :after_project_change
@@ -520,9 +519,6 @@ class Issue < ActiveRecord::Base
   safe_attributes(
     'deleted_attachment_ids',
     :if => lambda {|issue, user| issue.attachments_deletable?(user)})
-  safe_attributes(
-    'author_id',
-    :if => lambda {|issue, user| user.allowed_to?(:change_issue_author, issue.project)})
 
   def safe_attribute_names(user=nil)
     names = super
@@ -2022,14 +2018,6 @@ class Issue < ActiveRecord::Base
       new_parent_issue.current_journal.__send__(:add_attribute_detail, 'child_id', nil, child_id)
       new_parent_issue.save
     end
-  end
-
-  def set_author_journal
-    return unless new_record?
-    return unless self.author.present? && User.current.present? && self.author != User.current
-
-    self.init_journal(User.current)
-    self.current_journal.__send__(:add_attribute_detail, 'author_id', User.current.id, self.author.id)
   end
 
   def send_notification
