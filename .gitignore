@@ -40,7 +40,6 @@
 *.rbc
 
 /.bundle
-/Gemfile.lock
 /Gemfile.local
 
 /node_modules
