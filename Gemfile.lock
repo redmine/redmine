@@ -78,7 +78,7 @@ GEM
       xpath (~> 3.2)
     childprocess (3.0.0)
     chunky_png (1.4.0)
-    commonmarker (0.23.4)
+    commonmarker (0.23.6)
     concurrent-ruby (1.1.10)
     crass (1.0.6)
     css_parser (1.12.0)
@@ -264,7 +264,7 @@ DEPENDENCIES
   addressable
   bundler (>= 1.12.0)
   capybara (~> 3.36.0)
-  commonmarker (= 0.23.4)
+  commonmarker (~> 0.23.6)
   csv (~> 3.2.0)
   deckar01-task_list (= 2.3.2)
   ffi
