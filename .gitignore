@@ -29,6 +29,7 @@
 !/public/themes/alternate
 !/public/themes/classic
 !/public/themes/README
+!/public/themes/fluentmine
 /tmp/*
 /tmp/cache/*
 /tmp/pdf/*
