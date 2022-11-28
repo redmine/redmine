@@ -72,7 +72,6 @@ module Redmine
           map.permission :view_private_notes, {}, :read => true, :require => :member
           map.permission :set_notes_private, {}, :require => :member
           map.permission :delete_issues, {:issues => :destroy}, :require => :member
-          map.permission :mention_users, {}
           # Watchers
           map.permission :view_issue_watchers, {}, :read => true
           map.permission :add_issue_watchers, {:watchers => [:new, :create, :append, :autocomplete_for_user, :autocomplete_for_mention]}
