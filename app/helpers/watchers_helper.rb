@@ -51,7 +51,7 @@ module WatchersHelper
     lis = object.watcher_users.collect do |user|
       s = ''.html_safe
       s << avatar(user, :size => "16").to_s
-      s << link_to_user(user, :class => 'user')
+      s << link_to_principal(user, class: user.class.to_s.downcase)
       if object.respond_to?(:visible?) && user.is_a?(User) && !object.visible?(user)
         s << content_tag('span', l(:notice_invalid_watcher), class: 'icon-only icon-warning', title: l(:notice_invalid_watcher))
       end

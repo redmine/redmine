@@ -2726,7 +2726,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       end
       assert_select "li.user-10" do
         assert_select 'img.gravatar[title=?]', 'A Team'
-        assert_select 'a[href="/users/10"]', false
+        assert_select 'a[href="/groups/10"]'
         assert_select 'a[class*=delete]'
       end
     end
