@@ -715,10 +715,11 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
   end
 
   def test_should_escape_bq_citations
-    assert_html_output({
-      %{bq.:http://x/"onmouseover="alert(document.domain) Hover me} =>
-        %{<blockquote cite="http://x/&quot;onmouseover=&quot;alert(document.domain)">\n\t\t<p>Hover me</p>\n\t</blockquote>}
-    }, false)
+    assert_html_output(
+      {
+        %{bq.:http://x/"onmouseover="alert(document.domain) Hover me} =>
+          %{<blockquote cite="http://x/&quot;onmouseover=&quot;alert(document.domain)">\n\t\t<p>Hover me</p>\n\t</blockquote>}
+      }, false)
   end
 
   private
