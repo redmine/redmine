@@ -2880,4 +2880,18 @@ class QueryTest < ActiveSupport::TestCase
 
     assert_equal 1, query.issue_count
   end
+
+  def test_display_type_should_accept_known_types
+    query = ProjectQuery.new(:name => '_')
+    query.display_type = 'list'
+
+    assert_equal 'list', query.display_type
+  end
+
+  def test_display_type_should_not_accept_unknown_types
+    query = ProjectQuery.new(:name => '_')
+    query.display_type = 'invalid'
+
+    assert_equal 'board', query.display_type
+  end
 end

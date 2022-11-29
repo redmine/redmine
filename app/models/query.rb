@@ -1064,7 +1064,7 @@ class Query < ActiveRecord::Base
   end
 
   def display_type=(type)
-    unless type || self.available_display_types.include?(type)
+    unless type && self.available_display_types.include?(type)
       type = self.available_display_types.first
     end
     options[:display_type] = type
