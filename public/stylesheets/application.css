@@ -1898,11 +1898,16 @@ th[role=columnheader]:not(.no-sort):hover:after {
 	opacity: 1;
 }
 
-#top-menu > ul > li:first-child a, #top-menu > ul > li:first-child a:hover {
+/* #top-menu > ul > li:first-child a, #top-menu > ul > li:first-child a:hover {
   background-image: url(../images/logo.png);
   background-repeat: no-repeat;
   background-size: 95px;
   background-position: 0px 50%;
   text-indent: -999px;
   width: 65px;
+} */
+
+#logo {
+  float: left;
+  padding-right: 16px;
 }
