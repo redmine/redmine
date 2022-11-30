@@ -23,6 +23,7 @@
 /log/mongrel_debug
 /plugins/*
 !/plugins/README
+!/plugins/redmine_agile
 /public/dispatch.*
 /public/plugin_assets/*
 /public/themes/*
