@@ -4,6 +4,53 @@ Redmine - project management software
 Copyright (C) 2006-2022  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2022-12-01 v5.0.4
+
+=== [Activity view]
+
+* Defect #37875: Unnecessary closing li element when there is no "Next" button on Activity page
+
+=== [Code cleanup/refactoring]
+
+* Patch #37938: Unused permission "Mention user"
+
+=== [Documentation]
+
+* Defect #37983: Duplicate vertical-align property in wiki_syntax.css
+
+=== [Gems support]
+
+* Defect #37884: All system tests fail on 4.2-stable branch with "ArgumentError: unknown keyword: :desired_capabilities"
+* Patch #37867: Limit puma < 6.0.0 to avoid system test error
+* Patch #37883: Limit mocha version to < 2.0.0 when Ruby version is < 2.7 to avoid test error
+
+=== [Issues]
+
+* Defect #37958: Groups added to watchers are not shown as links
+
+=== [Issues workflow]
+
+* Defect #37685: Read-only field permission for the project field is ignored if the current project has subprojects
+
+=== [Projects]
+
+* Defect #37925: Do not allow unkown display_type for query
+
+=== [Rails support]
+
+* Defect #37814: Plugins that serialize Date or Time objects cause Psych::DisallowedClass exception
+
+=== [Security]
+
+* Defect #37772: Access Control Issue in attachments#download_all
+* Defect #37751: Persistent XSS in textile formatting due to blockquote citation
+* Defect #37767: Redmine contains a cross-site scripting vulnerability
+* Defect #37880: Open Redirect in attachments#download_all
+
+=== [Translations]
+
+* Defect #37812: "Yes" and "No" are swapped in Polish translation
+
 == 2022-10-02 v5.0.3
 
 === [Code cleanup/refactoring]
