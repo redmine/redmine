@@ -623,6 +623,22 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_response 404
   end
 
+  def test_download_all_with_invisible_journal
+    Project.find(1).update_column :is_public, false
+    Member.delete_all
+    @request.session[:user_id] = 2
+    User.current = User.find(2)
+    assert_not Journal.find(3).journalized.visible?
+    get(
+      :download_all,
+      :params => {
+        :object_type => 'journals',
+        :object_id => '3'
+      }
+    )
+    assert_response 403
+  end
+
   def test_download_all_with_maximum_bulk_download_size_larger_than_attachments
     with_settings :bulk_download_max_size => 0 do
       @request.session[:user_id] = 2
