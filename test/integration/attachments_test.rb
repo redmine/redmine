@@ -25,7 +25,9 @@ class AttachmentsTest < Redmine::IntegrationTest
            :roles, :members, :member_roles,
            :trackers, :projects_trackers,
            :issues, :issue_statuses, :enumerations,
-           :attachments
+           :attachments,
+           :wiki_content_versions, :wiki_contents, :wiki_pages,
+           :journals, :journal_details
 
   def test_upload_should_set_default_content_type
     log_user('jsmith', 'jsmith')
@@ -221,6 +223,54 @@ class AttachmentsTest < Redmine::IntegrationTest
     assert_not_nil response.headers["X-Sendfile"]
   ensure
     set_tmp_attachments_directory
+  end
+
+  def test_download_all_with_wrong_container_type
+    set_tmp_attachments_directory
+
+    # make the attachment readable
+    assert a = Attachment.find(3)
+    FileUtils.mkdir_p File.dirname(a.diskfile)
+    (File.open(a.diskfile, 'wb') << 'test').close
+
+    # there is no 'download all' for WikiContentVersions
+    with_settings :login_required => '0' do
+      get "/attachments/wiki_content_versions/7/download"
+      assert_response :not_found
+    end
+    with_settings :login_required => '1' do
+      get "/attachments/wiki_content_versions/7/download"
+      assert_response :not_found
+    end
+  end
+
+  def test_download_all_for_journal_should_check_visibility
+    set_tmp_attachments_directory
+    Project.find(1).update_column :is_public, false
+
+    # make the attachment readable
+    assert a = Attachment.find(4)
+    FileUtils.mkdir_p File.dirname(a.diskfile)
+    (File.open(a.diskfile, 'wb') << 'test').close
+
+    with_settings :login_required => '0' do
+      get "/attachments/journals/3/download"
+      assert_response 403
+    end
+    with_settings :login_required => '1' do
+      get "/attachments/journals/3/download"
+      assert_redirected_to "/login?back_url=http%3A%2F%2Fwww.example.com%2Fattachments%2Fjournals%2F3%2Fdownload"
+    end
+
+    Project.find(1).update_column :is_public, true
+    with_settings :login_required => '0' do
+      get "/attachments/journals/3/download"
+      assert_response :success
+    end
+    with_settings :login_required => '1' do
+      get "/attachments/journals/3/download"
+      assert_redirected_to "/login?back_url=http%3A%2F%2Fwww.example.com%2Fattachments%2Fjournals%2F3%2Fdownload"
+    end
   end
 
   private
