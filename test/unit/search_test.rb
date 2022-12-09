@@ -175,7 +175,7 @@ class SearchTest < ActiveSupport::TestCase
   end
 
   def test_search_should_be_case_insensitive_with_accented_characters
-    unless sqlite?
+    unless sqlite? || postgresql?
       issue1 = Issue.generate!(:subject => "Special chars: ÖÖ")
       issue2 = Issue.generate!(:subject => "Special chars: Öö")
       r = Issue.search_results('ÖÖ')
