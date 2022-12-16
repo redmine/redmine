@@ -876,9 +876,9 @@ module ApplicationHelper
     @current_section = 0 if options[:edit_section_links]
 
     parse_sections(text, project, obj, attr, only_path, options)
-    text = parse_non_pre_blocks(text, obj, macros, options) do |text|
+    text = parse_non_pre_blocks(text, obj, macros, options) do |txt|
       [:parse_inline_attachments, :parse_hires_images, :parse_wiki_links, :parse_redmine_links].each do |method_name|
-        send method_name, text, project, obj, attr, only_path, options
+        send method_name, txt, project, obj, attr, only_path, options
       end
     end
     parse_headings(text, project, obj, attr, only_path, options)
