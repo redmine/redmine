@@ -740,10 +740,6 @@ sv:
   label_view_revisions: Visa revisioner
   label_view_all_revisions: Visa alla revisioner
   label_max_size: Maxstorlek
-  label_sort_highest: Flytta till toppen
-  label_sort_higher: Flytta upp
-  label_sort_lower: Flytta ner
-  label_sort_lowest: Flytta till botten
   label_roadmap: Vägkarta
   label_roadmap_due_in: "Färdig om %{value}"
   label_roadmap_overdue: "%{value} sen"

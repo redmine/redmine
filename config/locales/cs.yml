@@ -631,10 +631,6 @@ cs:
   label_view_revisions: Zobrazit revize
   label_view_all_revisions: Zobrazit všechny revize
   label_max_size: Maximální velikost
-  label_sort_highest: Přesunout na začátek
-  label_sort_higher: Přesunout nahoru
-  label_sort_lower: Přesunout dolů
-  label_sort_lowest: Přesunout na konec
   label_roadmap: Plán
   label_roadmap_due_in: "Zbývá %{value}"
   label_roadmap_overdue: "%{value} pozdě"

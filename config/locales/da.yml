@@ -505,10 +505,6 @@ da:
   label_latest_revision_plural: Seneste revisioner
   label_view_revisions: Se revisioner
   label_max_size: Maksimal størrelse
-  label_sort_highest: Flyt til toppen
-  label_sort_higher: Flyt op
-  label_sort_lower: Flyt ned
-  label_sort_lowest: Flyt til bunden
   label_roadmap: Roadmap
   label_roadmap_due_in: Deadline
   label_roadmap_overdue: "%{value} forsinket"

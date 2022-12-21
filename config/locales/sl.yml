@@ -556,10 +556,6 @@ sl:
   label_latest_revision_plural: Zadnje revizije
   label_view_revisions: Poglej revizije
   label_max_size: Največja velikost
-  label_sort_highest: Premakni na vrh
-  label_sort_higher: Premakni gor
-  label_sort_lower: Premakni dol
-  label_sort_lowest: Premakni na dno
   label_roadmap: Načrt
   label_roadmap_due_in: "Do %{value}"
   label_roadmap_overdue: "%{value} zakasnel"

@@ -632,10 +632,6 @@ zh:
   label_view_revisions: 查看修订
   label_view_all_revisions: 查看所有修订
   label_max_size: 最大尺寸
-  label_sort_highest: 置顶
-  label_sort_higher: 上移
-  label_sort_lower: 下移
-  label_sort_lowest: 置底
   label_roadmap: 路线图
   label_roadmap_due_in: "截止日期到  %{value}"
   label_roadmap_overdue: "%{value} 延期"

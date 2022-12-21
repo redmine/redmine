@@ -604,10 +604,6 @@ eu:
   label_view_revisions: Berrikuspenak ikusi
   label_view_all_revisions: Berrikuspen guztiak ikusi
   label_max_size: Tamaina maximoa
-  label_sort_highest: Goraino mugitu
-  label_sort_higher: Gora mugitu
-  label_sort_lower: Behera mugitu
-  label_sort_lowest: Beheraino mugitu
   label_roadmap: Ibilbide-mapa
   label_roadmap_due_in: "Epea: %{value}"
   label_roadmap_overdue: "%{value} berandu"

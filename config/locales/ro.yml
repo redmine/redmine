@@ -559,10 +559,6 @@ ro:
   label_latest_revision_plural: Ultimele revizii
   label_view_revisions: Afișează revizii
   label_max_size: Mărime maximă
-  label_sort_highest: Prima
-  label_sort_higher: În sus
-  label_sort_lower: În jos
-  label_sort_lowest: Ultima
   label_roadmap: Planificare
   label_roadmap_due_in: "De terminat în %{value}"
   label_roadmap_overdue: "Întârziat cu %{value}"

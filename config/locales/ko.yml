@@ -620,10 +620,6 @@ ko:
   label_latest_revision_plural: 최근 개정판
   label_view_revisions: 개정판 보기
   label_max_size: 최대 크기
-  label_sort_highest: 맨 위로
-  label_sort_higher: 위로
-  label_sort_lower: 아래로
-  label_sort_lowest: 맨 아래로
   label_roadmap: 로드맵
   label_roadmap_due_in: "기한  %{value}"
   label_roadmap_overdue: "%{value} 지연"

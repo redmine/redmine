@@ -549,10 +549,6 @@ nl:
   label_settings: Instellingen
   label_show_completed_versions: Afgeronde versies weergeven
   label_sort_by: "Sorteer op %{value}"
-  label_sort_higher: Verplaats naar boven
-  label_sort_highest: Verplaats naar begin
-  label_sort_lower: Verplaats naar beneden
-  label_sort_lowest: Verplaats naar einde
   label_spent_time: Gespendeerde tijd
   label_statistics: Statistieken
   label_stay_logged_in: Ingelogd blijven

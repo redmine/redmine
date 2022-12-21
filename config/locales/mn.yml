@@ -605,10 +605,6 @@ mn:
   label_view_revisions: Хувилбаруудыг харах
   label_view_all_revisions: Бүх хувилбаруудыг харах
   label_max_size: Maximum size
-  label_sort_highest: Хамгийн дээр
-  label_sort_higher: Дээш нь
-  label_sort_lower: Доош нь
-  label_sort_lowest: Хамгийн доор
   label_roadmap: Хөтөч
   label_roadmap_due_in: "%{value} дотор дуусгах"
   label_roadmap_overdue: "%{value} оройтсон"

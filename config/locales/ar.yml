@@ -653,10 +653,6 @@ ar:
   label_view_revisions: عرض التنقيحات
   label_view_all_revisions: عرض كافة المراجعات
   label_max_size: الحد الأقصى للحجم
-  label_sort_highest: التحرك لأعلى مرتبة
-  label_sort_higher: تحريك لأعلى
-  label_sort_lower: تحريك لأسفل
-  label_sort_lowest: التحرك لأسفل مرتبة
   label_roadmap: خارطة الطريق
   label_roadmap_due_in: " %{value}تستحق في "
   label_roadmap_overdue: "%{value}تأخير"

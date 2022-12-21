@@ -514,10 +514,6 @@ pt:
   label_latest_revision_plural: Últimas revisões
   label_view_revisions: Ver revisões
   label_max_size: Tamanho máximo
-  label_sort_highest: Mover para o início
-  label_sort_higher: Mover para cima
-  label_sort_lower: Mover para baixo
-  label_sort_lowest: Mover para o fim
   label_roadmap: Planificação
   label_roadmap_due_in: "Termina em %{value}"
   label_roadmap_overdue: "Atrasado %{value}"

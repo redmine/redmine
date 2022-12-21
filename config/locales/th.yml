@@ -494,10 +494,6 @@ th:
   label_latest_revision_plural: รุ่นการแก้ไขล่าสุด
   label_view_revisions: ดูการแก้ไข
   label_max_size: ขนาดใหญ่สุด
-  label_sort_highest: ย้ายไปบนสุด
-  label_sort_higher: ย้ายขึ้น
-  label_sort_lower: ย้ายลง
-  label_sort_lowest: ย้ายไปล่างสุด
   label_roadmap: แผนงาน
   label_roadmap_due_in: "ถึงกำหนดใน %{value}"
   label_roadmap_overdue: "%{value} ช้ากว่ากำหนด"

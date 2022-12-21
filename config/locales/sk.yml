@@ -493,10 +493,6 @@ sk:
   label_latest_revision_plural: Posledné revízie
   label_view_revisions: Zobraziť revízie
   label_max_size: Maximálna veľkosť
-  label_sort_highest: Presunúť na začiatok
-  label_sort_higher: Presunúť vyššie
-  label_sort_lower: Presunúť nižšie
-  label_sort_lowest: Presunúť na koniec
   label_roadmap: Plán
   label_roadmap_due_in: "Zostáva %{value}"
   label_roadmap_overdue: "%{value} meškanie"

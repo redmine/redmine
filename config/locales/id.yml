@@ -586,10 +586,6 @@ id:
   label_view_revisions: Tampilkan revisi
   label_view_all_revisions: Tampilkan semua revisi
   label_max_size: Ukuran maksimum
-  label_sort_highest: Ke paling atas
-  label_sort_higher: Ke atas
-  label_sort_lower: Ke bawah
-  label_sort_lowest: Ke paling bawah
   label_roadmap: Rencana kerja
   label_roadmap_due_in: "Harus selesai dalam %{value}"
   label_roadmap_overdue: "%{value} terlambat"

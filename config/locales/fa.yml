@@ -842,10 +842,6 @@ fa:
   label_view_all_revisions: مشاهده همه بازبینی‌ها
   label_x_revisions: "%{count} بازبینی"
   label_max_size: بیشترین اندازه
-  label_sort_highest: بردن به آغاز
-  label_sort_higher: بردن به بالا
-  label_sort_lower: بردن به پایین
-  label_sort_lowest: بردن به پایان
   label_roadmap: نقشه راه
   label_roadmap_due_in: "سررسید در %{value}"
   label_roadmap_overdue: "%{value} دیرکرد"

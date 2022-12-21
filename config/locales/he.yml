@@ -625,10 +625,6 @@ he:
   label_view_revisions: צפה במהדורות
   label_view_all_revisions: צפה בכל המהדורות
   label_max_size: גודל מקסימאלי
-  label_sort_highest: הזז לראשית
-  label_sort_higher: הזז למעלה
-  label_sort_lower: הזז למטה
-  label_sort_lowest: הזז לתחתית
   label_roadmap: מפת הדרכים
   label_roadmap_due_in: "נגמר בעוד %{value}"
   label_roadmap_overdue: "%{value} מאחר"

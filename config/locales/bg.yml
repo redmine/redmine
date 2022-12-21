@@ -841,10 +841,6 @@ bg:
   label_view_all_revisions: Разглеждане на всички ревизии
   label_x_revisions: "%{count} ревизии"
   label_max_size: Максимална големина
-  label_sort_highest: Премести най-горе
-  label_sort_higher: Премести по-горе
-  label_sort_lower: Премести по-долу
-  label_sort_lowest: Премести най-долу
   label_roadmap: Пътна карта
   label_roadmap_due_in: "Излиза след %{value}"
   label_roadmap_overdue: "%{value} закъснение"

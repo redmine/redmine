@@ -518,10 +518,6 @@
   label_latest_revision_plural: Legutolsó revíziók
   label_view_revisions: Revíziók megtekintése
   label_max_size: Maximális méret
-  label_sort_highest: Az elejére
-  label_sort_higher: Eggyel feljebb
-  label_sort_lower: Eggyel lejjebb
-  label_sort_lowest: Az aljára
   label_roadmap: Életút
   label_roadmap_due_in: "Elkészültéig várhatóan még %{value}"
   label_roadmap_overdue: "%{value} késésben"

@@ -856,10 +856,6 @@
   label_view_all_revisions: 檢視所有的的修訂版清單
   label_x_revisions: "%{count} 個修訂版"
   label_max_size: 最大長度
-  label_sort_highest: 移動至開頭
-  label_sort_higher: 往上移動
-  label_sort_lower: 往下移動
-  label_sort_lowest: 移動至結尾
   label_roadmap: 版本藍圖
   label_roadmap_due_in: "剩餘 %{value}"
   label_roadmap_overdue: "逾期 %{value}"

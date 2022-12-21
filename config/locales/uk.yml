@@ -472,10 +472,6 @@ uk:
   label_latest_revision_plural: Останні версії
   label_view_revisions: Проглянути версії
   label_max_size: Максимальний розмір
-  label_sort_highest: На початок
-  label_sort_higher: Вгору
-  label_sort_lower: Вниз
-  label_sort_lowest: У кінець
   label_roadmap: Оперативний план
   label_roadmap_due_in: "Строк %{value}"
   label_roadmap_overdue: "%{value} запізнення"

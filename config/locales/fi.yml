@@ -490,10 +490,6 @@ fi:
   label_latest_revision_plural: Viimeisimmät versiot
   label_view_revisions: Näytä versiot
   label_max_size: Suurin koko
-  label_sort_highest: Siirrä ylimmäiseksi
-  label_sort_higher: Siirrä ylös
-  label_sort_lower: Siirrä alas
-  label_sort_lowest: Siirrä alimmaiseksi
   label_roadmap: Roadmap
   label_roadmap_due_in: "Määräaika %{value}"
   label_roadmap_overdue: "%{value} myöhässä"

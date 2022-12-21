@@ -580,10 +580,6 @@ gl:
   label_settings: Configuración
   label_show_completed_versions: Mostra as versións rematadas
   label_sort_by: "Ordenar por %{value}"
-  label_sort_higher: Subir
-  label_sort_highest: Primeiro
-  label_sort_lower: Baixar
-  label_sort_lowest: Último
   label_spent_time: Tempo dedicado
   label_statistics: Estatísticas
   label_stay_logged_in: "Lembrar o contrasinal."

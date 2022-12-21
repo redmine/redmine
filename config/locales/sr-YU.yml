@@ -617,10 +617,6 @@ sr-YU:
   label_view_revisions: Pregled revizija
   label_view_all_revisions: Pregled svih revizija
   label_max_size: Maksimalna veličina
-  label_sort_highest: Premeštanje na vrh
-  label_sort_higher: Premeštanje na gore
-  label_sort_lower: Premeštanje na dole
-  label_sort_lowest: Premeštanje na dno
   label_roadmap: Plan rada
   label_roadmap_due_in: "Dospeva %{value}"
   label_roadmap_overdue: "%{value} najkasnije"

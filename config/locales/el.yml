@@ -580,10 +580,6 @@ el:
   label_view_revisions: Προβολή αναθεωρήσεων
   label_view_all_revisions: Προβολή όλων των αναθεωρήσεων
   label_max_size: Μέγιστο μέγεθος
-  label_sort_highest: Μετακίνηση στην κορυφή
-  label_sort_higher: Μετακίνηση προς τα πάνω
-  label_sort_lower: Μετακίνηση προς τα κάτω
-  label_sort_lowest: Μετακίνηση στο κατώτατο μέρος
   label_roadmap: Χάρτης πορείας
   label_roadmap_due_in: "Προθεσμία σε %{value}"
   label_roadmap_overdue: "%{value} καθυστερημένο"

@@ -599,10 +599,6 @@ lv:
   label_view_revisions: Skatīt revīzijas
   label_view_all_revisions: Skatīt visas revīzijas
   label_max_size: Maksimālais izmērs
-  label_sort_highest: Pārvietot uz augšu
-  label_sort_higher: Pārvietot soli augšup
-  label_sort_lower: Pārvietot uz leju
-  label_sort_lowest: Pārvietot vienu soli uz leju
   label_roadmap: Ceļvedis
   label_roadmap_due_in: "Sagaidāms pēc %{value}"
   label_roadmap_overdue: "nokavēts %{value}"

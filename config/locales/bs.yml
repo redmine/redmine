@@ -577,10 +577,6 @@ bs:
   label_latest_revision_plural: Posljednje revizije
   label_view_revisions: Vidi revizije
   label_max_size: Maksimalna veličina
-  label_sort_highest: Pomjeri na vrh
-  label_sort_higher: Pomjeri gore
-  label_sort_lower: Pomjeri dole
-  label_sort_lowest: Pomjeri na dno
   label_roadmap: Plan realizacije
   label_roadmap_due_in: "Obavezan do %{value}"
   label_roadmap_overdue: "%{value} kasni"

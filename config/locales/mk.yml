@@ -617,10 +617,6 @@ mk:
   label_view_revisions: Прегледај ги ревизиите
   label_view_all_revisions: Прегледај ги сите ревизии
   label_max_size: Макс. големина
-  label_sort_highest: Премести најгоре
-  label_sort_higher: Премести нагоре
-  label_sort_lower: Премести надоле
-  label_sort_lowest: Премести најдоле
   label_roadmap: Roadmap
   label_roadmap_due_in: "Due in %{value}"
   label_roadmap_overdue: "Касни %{value}"

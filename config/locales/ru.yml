@@ -659,10 +659,6 @@ ru:
   label_show_completed_versions: Показывать завершённые версии
   label_sort: Сортировать
   label_sort_by: "Сортировать по %{value}"
-  label_sort_higher: Вверх
-  label_sort_highest: В начало
-  label_sort_lower: Вниз
-  label_sort_lowest: В конец
   label_spent_time: Трудозатраты
   label_statistics: Статистика
   label_stay_logged_in: Оставаться в системе

@@ -854,10 +854,6 @@ pl:
   label_view_all_revisions: Pokaż wszystkie rewizje
   label_x_revisions: "%{count} rewizji"
   label_max_size: Maksymalny rozmiar
-  label_sort_highest: Przesuń na górę
-  label_sort_higher: Do góry
-  label_sort_lower: Do dołu
-  label_sort_lowest: Przesuń na dół
   label_roadmap: Mapa
   label_roadmap_due_in: "Termin za %{value}"
   label_roadmap_overdue: "%{value} spóźnienia"

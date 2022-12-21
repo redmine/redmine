@@ -558,10 +558,6 @@ vi:
   label_latest_revision_plural: Bản điều chỉnh cuối cùng
   label_view_revisions: Xem các bản điều chỉnh
   label_max_size: Dung lượng tối đa
-  label_sort_highest: Lên trên cùng
-  label_sort_higher: Dịch lên
-  label_sort_lower: Dịch xuống
-  label_sort_lowest: Xuống dưới cùng
   label_roadmap: Kế hoạch
   label_roadmap_due_in: "Hết hạn trong %{value}"
   label_roadmap_overdue: "Trễ %{value}"

@@ -668,10 +668,6 @@ ja:
   label_view_revisions: リビジョンを表示
   label_view_all_revisions: すべてのリビジョンを表示
   label_max_size: サイズの上限
-  label_sort_highest: 一番上へ
-  label_sort_higher: 上へ
-  label_sort_lower: 下へ
-  label_sort_lowest: 一番下へ
   label_roadmap: ロードマップ
   label_roadmap_due_in: "期日まで %{value}"
   label_roadmap_overdue: "%{value} 遅れ"

@@ -649,10 +649,6 @@ az:
   label_show_completed_versions: Bitmiş variantları göstərmək
   label_sort: Çeşidləmək
   label_sort_by: "%{value} üzrə çeşidləmək"
-  label_sort_higher: Yuxarı
-  label_sort_highest: Əvvələ qayıt
-  label_sort_lower: Aşağı
-  label_sort_lowest: Sona qayıt
   label_spent_time: Sərf olunan vaxt
   label_statistics: Statistika
   label_stay_logged_in: Sistemdə qalmaq

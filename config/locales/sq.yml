@@ -818,10 +818,6 @@ sq:
   label_view_all_revisions: Shihni krejt rishikimet
   label_x_revisions: "%{count} rishikime"
   label_max_size: Madhësi maksimum
-  label_sort_highest: Shpjere në krye
-  label_sort_higher: Ngjite sipër
-  label_sort_lower: Zbrite poshtë
-  label_sort_lowest: Shpjere në fund
   label_roadmap: Plan
   label_roadmap_due_in: "Skadon mën %{value}"
   label_roadmap_overdue: "%{value} vonë"

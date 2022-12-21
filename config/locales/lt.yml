@@ -747,10 +747,6 @@ lt:
   label_view_revisions: Peržiūrėti revizijas
   label_view_all_revisions: Peržiūrėti visas revizijas
   label_max_size: Maksimalus dydis
-  label_sort_highest: Perkelti į viršūnę
-  label_sort_higher: Perkelti į viršų
-  label_sort_lower: Perkelti žemyn
-  label_sort_lowest: Perkelti į apačią
   label_roadmap: Veiklos grafikas
   label_roadmap_due_in: "Baigiasi po %{value}"
   label_roadmap_overdue: "%{value} vėluojama"

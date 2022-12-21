@@ -594,10 +594,6 @@ hr:
   label_view_revisions: Pregled revizija
   label_view_all_revisions: View all revisions
   label_max_size: Maksimalna veličina
-  label_sort_highest: Premjesti na vrh
-  label_sort_higher: Premjesti prema gore
-  label_sort_lower: Premjesti prema dolje
-  label_sort_lowest: Premjesti na dno
   label_roadmap: Putokaz
   label_roadmap_due_in: "Završava se za %{value}"
   label_roadmap_overdue: "%{value} kasni"

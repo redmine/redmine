@@ -751,10 +751,6 @@ de:
   label_show_completed_versions: Abgeschlossene Versionen anzeigen
   label_sort: Sortierung
   label_sort_by: "Sortiert nach %{value}"
-  label_sort_higher: Eins höher
-  label_sort_highest: An den Anfang
-  label_sort_lower: Eins tiefer
-  label_sort_lowest: Ans Ende
   label_spent_time: Aufgewendete Zeit
   label_statistics: Statistiken
   label_status_transitions: Statusänderungen

@@ -782,10 +782,6 @@ fr:
   label_view_all_revisions: Voir toutes les révisions
   label_x_revisions: "%{count} révisions"
   label_max_size: Taille maximale
-  label_sort_highest: Remonter en premier
-  label_sort_higher: Remonter
-  label_sort_lower: Descendre
-  label_sort_lowest: Descendre en dernier
   label_roadmap: Roadmap
   label_roadmap_due_in: "Échéance dans %{value}"
   label_roadmap_overdue: "En retard de %{value}"
