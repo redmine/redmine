@@ -842,7 +842,7 @@ class Project < ActiveRecord::Base
           if user.admin?
             true
           else
-            default_member_role.has_permission?(:select_project_modules)
+            default_member_role&.has_permission?(:select_project_modules)
           end
         else
           user.allowed_to?(:select_project_modules, project)
