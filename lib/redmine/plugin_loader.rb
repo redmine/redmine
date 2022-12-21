@@ -128,6 +128,7 @@ module Redmine
         engine_cfg.paths.add 'lib', eager_load: true
         engine_cfg.eager_load_paths.each do |dir|
           Rails.autoloaders.main.push_dir dir
+          Rails.application.config.watchable_dirs[dir] = [:rb]
         end
       end
     end
