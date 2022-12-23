@@ -2,6 +2,7 @@
 
 lib = Rails.root.join('lib/redmine')
 Rails.autoloaders.main.push_dir lib, namespace: Redmine
+Rails.application.config.watchable_dirs[lib] = [:rb]
 
 IGNORE_LIST = [
   'wiki_formatting/textile/redcloth3.rb',
