@@ -233,6 +233,10 @@ Style/NegatedIfElseCondition:
 Style/RaiseArgs:
   Enabled: false
 
+Style/RedundantConstantBase:
+  Exclude:
+    - 'config/environments/production.rb'
+
 Style/Semicolon:
   Enabled: false
 
