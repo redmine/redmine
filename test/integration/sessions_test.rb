@@ -39,7 +39,7 @@ class SessionsTest < Redmine::IntegrationTest
 
     get '/my/account'
     assert_response 302
-    assert flash[:error].match(/Your session has expired/)
+    assert flash[:error].include?('Your session has expired')
   end
 
   def test_lock_user_kills_sessions
@@ -51,7 +51,7 @@ class SessionsTest < Redmine::IntegrationTest
 
     get '/my/account'
     assert_response 302
-    assert flash[:error].match(/Your session has expired/)
+    assert flash[:error].include?('Your session has expired')
   end
 
   def test_update_user_does_not_kill_sessions

@@ -336,7 +336,7 @@ class VersionsControllerTest < Redmine::ControllerTest
     end
     assert_redirected_to :controller => 'projects', :action => 'settings',
                          :tab => 'versions', :id => 'ecookbook'
-    assert flash[:error].match(/Unable to delete version/)
+    assert flash[:error].include?('Unable to delete version')
     assert Version.find_by_id(2)
   end
 

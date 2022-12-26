@@ -560,14 +560,6 @@ Performance/RedundantSplitRegexpArgument:
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
 
 # This cop supports unsafe autocorrection (--autocorrect-all).
-Performance/StringInclude:
-  Exclude:
-    - 'test/functional/versions_controller_test.rb'
-    - 'test/integration/sessions_test.rb'
-    - 'test/unit/lib/redmine/scm/adapters/bazaar_adapter_test.rb'
-    - 'test/unit/lib/redmine/wiki_formatting/macros_test.rb'
-
-# This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: OnlySumOrWithInitialValue.
 Performance/Sum:
   Exclude:

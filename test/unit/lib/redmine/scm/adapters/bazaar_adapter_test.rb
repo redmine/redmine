@@ -42,7 +42,7 @@ class BazaarAdapterTest < ActiveSupport::TestCase
 
     def test_cat
       cat = @adapter.cat('directory/document.txt')
-      assert cat =~ /Write the contents of a file as of a given revision to standard output/
+      assert cat.include?('Write the contents of a file as of a given revision to standard output')
     end
 
     def test_cat_path_invalid

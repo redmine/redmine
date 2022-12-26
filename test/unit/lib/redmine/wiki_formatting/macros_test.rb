@@ -211,7 +211,7 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
 
   def test_macro_hello_world
     text = "{{hello_world}}"
-    assert textilizable(text).match(/Hello world!/)
+    assert textilizable(text).include?('Hello world!')
   end
 
   def test_macro_hello_world_should_escape_arguments
