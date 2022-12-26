@@ -296,7 +296,7 @@ class Changeset < ActiveRecord::Base
   class << self
     # Strips and reencodes a commit log before insertion into the database
     def normalize_comments(str, encoding)
-      Changeset.to_utf8(str.to_s.strip, encoding)
+      Changeset.to_utf8(str.to_s, encoding).strip
     end
 
     def to_utf8(str, encoding)
