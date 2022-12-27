@@ -40,7 +40,7 @@ end
 
 # Optional gem for exporting the gantt to a PNG file
 group :minimagick do
-  gem 'mini_magick', '~> 4.11.0'
+  gem 'mini_magick', '~> 4.12.0'
 end
 
 # Optional Markdown support
