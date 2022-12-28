@@ -11,7 +11,7 @@ gem 'roadie-rails', '~> 3.0.0'
 gem 'marcel'
 gem "mail", "~> 2.7.1"
 gem 'csv', '~> 3.2.0'
-gem 'nokogiri', '~> 1.13.6'
+gem 'nokogiri', '~> 1.13.10'
 gem "rexml", require: false if Gem.ruby_version >= Gem::Version.new('3.0')
 gem 'i18n', '~> 1.12.0'
 gem "rbpdf", "~> 1.20.0"
