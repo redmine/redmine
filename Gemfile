@@ -10,16 +10,18 @@ gem "actionpack-xml_parser"
 gem 'roadie-rails', '~> 3.0.0'
 gem 'marcel'
 gem "mail", "~> 2.7.1"
-gem 'csv', '~> 3.2.0'
 gem 'nokogiri', '~> 1.13.10'
-gem "rexml", require: false if Gem.ruby_version >= Gem::Version.new('3.0')
 gem 'i18n', '~> 1.12.0'
 gem "rbpdf", "~> 1.20.0"
 gem 'addressable'
 gem 'rubyzip', '~> 2.3.0'
-gem 'net-smtp', '~> 0.3.0'
-gem 'net-imap', '~> 0.2.2'
-gem 'net-pop', '~> 0.1.1'
+
+#  Ruby Standard Gems
+gem 'csv', '~> 3.2.6'
+gem 'net-imap', '~> 0.3.4'
+gem 'net-pop', '~> 0.1.2'
+gem 'net-smtp', '~> 0.3.3'
+gem 'rexml', require: false if Gem.ruby_version >= Gem::Version.new('3.0')
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :x64_mingw, :mswin]
