@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
 ruby '>= 2.6.0', '< 3.3.0'
-gem 'bundler', '>= 1.12.0'
 
 gem 'rails', '6.1.7'
 gem 'rouge', '~> 3.30.0'
