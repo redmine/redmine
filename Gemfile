@@ -98,9 +98,8 @@ group :test do
   gem 'simplecov', '~> 0.22.0', :require => false
   gem "ffi", platforms: [:mingw, :x64_mingw, :mswin]
   # For running system tests
-  # TODO: Remove version specification once Capybara supports Puma 6
-  gem 'puma', '< 6.0.0'
-  gem 'capybara', '~> 3.36.0'
+  gem 'puma', (Gem.ruby_version < Gem::Version.new('2.7') ? '< 6.0.0' : '>= 0')
+  gem 'capybara', (Gem.ruby_version < Gem::Version.new('2.7') ? '~> 3.36.0' : '~> 3.38.0')
   gem "selenium-webdriver", "~> 3.142.7"
   gem 'webdrivers', '4.6.1', require: false
   # RuboCop
