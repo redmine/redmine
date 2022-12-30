@@ -279,7 +279,8 @@ module Redmine
         size = size.to_i
         size = 200 unless size > 0
 
-        attachments = obj.attachments if obj.respond_to?(:attachments)
+        container = obj.is_a?(Journal) ? obj.journalized : obj
+        attachments = container.attachments if container.respond_to?(:attachments)
         if (controller_name == 'previews' || action_name == 'preview') && @attachments.present?
           attachments = (attachments.to_a + @attachments).compact
         end

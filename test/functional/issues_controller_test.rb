@@ -8457,6 +8457,22 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_show_with_thumbnail_macro_should_be_able_to_fetch_image_of_different_journal
+    @request.session[:user_id] = 1
+    issue = Issue.find(2)
+    attachment = Attachment.generate!(filename: 'foo.png', digest: Redmine::Utils.random_hex(32))
+    attachment.update(container: issue)
+
+    issue.init_journal(User.first, "{{thumbnail(#{attachment.filename})}}")
+    issue.save!
+    issue.reload
+
+    get :show, params: { id: issue.id }
+    assert_select "div#history div#journal-#{issue.journals.last.id}-notes" do
+      assert_select "a.thumbnail[title=?][href='/attachments/#{attachment.id}']", 'foo.png'
+    end
+  end
+
   def test_index_should_retrieve_default_query
     query = IssueQuery.find(4)
     IssueQuery.stubs(:default).returns query
