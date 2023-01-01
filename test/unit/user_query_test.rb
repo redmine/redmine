@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class UserQueryTest < ActiveSupport::TestCase
   fixtures :users, :groups_users, :email_addresses,

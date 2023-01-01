@@ -19,7 +19,7 @@
 
 if ENV["COVERAGE"]
   require 'simplecov'
-  require File.expand_path(File.dirname(__FILE__) + "/coverage/html_formatter")
+  require_relative 'coverage/html_formatter'
   SimpleCov.formatter = Redmine::Coverage::HtmlFormatter
   SimpleCov.start 'rails'
 end
@@ -27,10 +27,10 @@ end
 $redmine_test_ldap_server = ENV['REDMINE_TEST_LDAP_SERVER'] || '127.0.0.1'
 
 ENV["RAILS_ENV"] = "test"
-require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
+require_relative '../config/environment'
 require 'rails/test_help'
 
-require File.expand_path(File.dirname(__FILE__) + '/object_helpers')
+require_relative 'object_helpers'
 include ObjectHelpers
 
 require 'net/ldap'

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class SudoModeTest < Redmine::IntegrationTest
   fixtures :projects, :members, :member_roles, :roles, :users, :email_addresses
