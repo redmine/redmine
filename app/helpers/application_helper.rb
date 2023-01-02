@@ -694,6 +694,8 @@ module ApplicationHelper
   end
 
   def time_tag(time)
+    return if time.nil?
+
     text = distance_of_time_in_words(Time.now, time)
     if @project
       link_to(text,

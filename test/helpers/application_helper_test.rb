@@ -2211,6 +2211,22 @@ class ApplicationHelperTest < Redmine::HelperTest
     end
   end
 
+  def test_time_tag
+    user = User.find(1)
+    user.pref.update(time_zone: 'UTC')
+    User.current = user
+
+    assert_nil time_tag(nil)
+    with_locale 'en' do
+      travel_to Time.zone.parse('2022-12-30T01:00:00Z') do
+        assert_equal "<abbr title=\"12/28/2022 01:00 AM\">2 days</abbr>", time_tag(2.days.ago)
+
+        @project = Project.find(1)
+        assert_equal "<a title=\"12/28/2022 01:00 AM\" href=\"/projects/ecookbook/activity?from=2022-12-28\">2 days</a>", time_tag(2.days.ago)
+      end
+    end
+  end
+
   private
 
   def wiki_links_with_special_characters
