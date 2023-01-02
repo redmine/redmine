@@ -1189,7 +1189,16 @@ Style/EvalWithLocation:
 
 # This cop supports safe autocorrection (--autocorrect).
 Style/ExpandPathArguments:
-  Enabled: false
+  Exclude:
+    - 'Gemfile'
+    - 'Rakefile'
+    - 'config/application.rb'
+    - 'config/boot.rb'
+    - 'config/environment.rb'
+    - 'lib/generators/redmine_plugin/redmine_plugin_generator.rb'
+    - 'lib/generators/redmine_plugin_controller/redmine_plugin_controller_generator.rb'
+    - 'lib/generators/redmine_plugin_migration/redmine_plugin_migration_generator.rb'
+    - 'lib/generators/redmine_plugin_model/redmine_plugin_model_generator.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
 Style/ExplicitBlockArgument:
