@@ -254,3 +254,6 @@ Style/TrailingCommaInArrayLiteral:
 
 Style/TrailingCommaInHashLiteral:
   Enabled: false
+
+Style/YodaExpression:
+  Enabled: false
