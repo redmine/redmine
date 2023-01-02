@@ -339,7 +339,7 @@ module IssuesHelper
     end
 
     def size
-      @left.size > @right.size ? @left.size : @right.size
+      [@left.size, @right.size].max
     end
 
     def to_html

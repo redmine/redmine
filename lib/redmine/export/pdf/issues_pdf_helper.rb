@@ -60,7 +60,7 @@ module Redmine
           right << [l(:field_estimated_hours), l_hours(issue.estimated_hours)] unless issue.disabled_core_fields.include?('estimated_hours')
           right << [l(:label_spent_time), l_hours(issue.total_spent_hours)] if User.current.allowed_to?(:view_time_entries, issue.project)
 
-          rows = left.size > right.size ? left.size : right.size
+          rows = [left.size, right.size].max
           left  << nil while left.size  < rows
           right << nil while right.size < rows
 
@@ -82,7 +82,7 @@ module Redmine
             border_last  = 'R'
           end
 
-          rows = left.size > right.size ? left.size : right.size
+          rows = [left.size, right.size].max
           rows.times do |i|
             heights = []
             pdf.SetFontStyle('B', 9)

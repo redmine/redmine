@@ -77,7 +77,7 @@ module Redmine
 
       def last_item
         l = first_item + per_page - 1
-        l > item_count ? item_count : l
+        [l, item_count].min
       end
 
       def linked_pages

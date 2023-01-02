@@ -117,7 +117,7 @@ module Redmine
         return @number_of_rows if @number_of_rows
 
         rows = projects.inject(0) {|total, p| total += number_of_rows_on_project(p)}
-        rows > @max_rows ? @max_rows : rows
+        [rows, @max_rows].min
       end
 
       # Returns the number of rows that will be used to list a project on
