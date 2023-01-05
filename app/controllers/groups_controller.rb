@@ -50,8 +50,6 @@ class GroupsController < ApplicationController
   end
 
   def show
-    return render_404 unless @group.visible?
-
     respond_to do |format|
       format.html do
         render :layout => 'base'
@@ -149,7 +147,7 @@ class GroupsController < ApplicationController
   private
 
   def find_group
-    @group = Group.find(params[:id])
+    @group = Group.visible.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render_404
   end
