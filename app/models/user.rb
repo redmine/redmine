@@ -235,8 +235,6 @@ class User < Principal
     end
     user.update_last_login_on! if user && !user.new_record? && user.active?
     user
-  rescue => text
-    raise text
   end
 
   # Returns the user who matches the given autologin +key+ or nil
