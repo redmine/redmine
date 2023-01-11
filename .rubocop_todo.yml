@@ -463,7 +463,6 @@ Naming/MethodParameterName:
 # Configuration parameters: PreferredName.
 Naming/RescuedExceptionsVariableName:
   Exclude:
-    - 'app/models/user.rb'
     - 'lib/redmine/scm/adapters/abstract_adapter.rb'
     - 'lib/redmine/scm/adapters/filesystem_adapter.rb'
 
