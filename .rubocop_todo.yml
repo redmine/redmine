@@ -486,11 +486,6 @@ Naming/VariableNumber:
     - 'test/unit/lib/redmine/scm/adapters/mercurial_adapter_test.rb'
     - 'test/unit/project_test.rb'
 
-Performance/FixedSize:
-  Exclude:
-    - 'test/integration/api_test/issues_test.rb'
-    - 'test/integration/attachments_test.rb'
-
 # This cop supports unsafe autocorrection (--autocorrect-all).
 Performance/RedundantEqualityComparisonBlock:
   Exclude:

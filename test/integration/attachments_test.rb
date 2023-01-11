@@ -58,7 +58,8 @@ class AttachmentsTest < Redmine::IntegrationTest
   def test_upload_as_js_and_attach_to_an_issue
     log_user('jsmith', 'jsmith')
 
-    token = ajax_upload('myupload.txt', 'File content')
+    file_content = 'File content'
+    token = ajax_upload('myupload.txt', file_content)
 
     assert_difference 'Issue.count' do
       post(
@@ -84,7 +85,7 @@ class AttachmentsTest < Redmine::IntegrationTest
     attachment = issue.attachments.first
     assert_equal 'myupload.txt', attachment.filename
     assert_equal 'My uploaded file', attachment.description
-    assert_equal 'File content'.length, attachment.filesize
+    assert_equal file_content.length, attachment.filesize
   end
 
   def test_upload_as_js_and_preview_as_inline_attachment
@@ -121,7 +122,8 @@ class AttachmentsTest < Redmine::IntegrationTest
   def test_upload_and_resubmit_after_validation_failure
     log_user('jsmith', 'jsmith')
 
-    token = ajax_upload('myupload.txt', 'File content')
+    file_content = 'File content'
+    token = ajax_upload('myupload.txt', file_content)
 
     assert_no_difference 'Issue.count' do
       post(
@@ -167,13 +169,14 @@ class AttachmentsTest < Redmine::IntegrationTest
     attachment = issue.attachments.first
     assert_equal 'myupload.txt', attachment.filename
     assert_equal 'My uploaded file', attachment.description
-    assert_equal 'File content'.length, attachment.filesize
+    assert_equal file_content.length, attachment.filesize
   end
 
   def test_upload_filename_with_plus
     log_user('jsmith', 'jsmith')
     filename = 'a+b.txt'
-    token = ajax_upload(filename, 'File content')
+    file_content = 'File content'
+    token = ajax_upload(filename, file_content)
     assert_difference 'Issue.count' do
       post(
         '/projects/ecookbook/issues',
@@ -191,7 +194,7 @@ class AttachmentsTest < Redmine::IntegrationTest
     attachment = issue.attachments.first
     assert_equal filename, attachment.filename
     assert_equal '', attachment.description
-    assert_equal 'File content'.length, attachment.filesize
+    assert_equal file_content.length, attachment.filesize
   end
 
   def test_upload_as_js_and_destroy

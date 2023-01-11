@@ -969,7 +969,8 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
   end
 
   def test_create_issue_with_uploaded_file
-    token = xml_upload('test_create_with_upload', credentials('jsmith'))
+    file_content = 'test_create_with_upload'
+    token = xml_upload(file_content, credentials('jsmith'))
     attachment = Attachment.find_by_token(token)
 
     # create the issue with the upload's token
@@ -991,7 +992,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     attachment.reload
     assert_equal 'test.txt', attachment.filename
     assert_equal 'text/plain', attachment.content_type
-    assert_equal 'test_create_with_upload'.size, attachment.filesize
+    assert_equal file_content.size, attachment.filesize
     assert_equal 2, attachment.author_id
 
     # get the issue with its attachments
