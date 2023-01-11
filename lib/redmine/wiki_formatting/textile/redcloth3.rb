@@ -532,10 +532,10 @@ class RedCloth3 < String
             rows = []
             fullrow.gsub!(/([^|\s])\s*\n/, "\\1<br />")
             fullrow.each_line do |row|
-                ratts, row = pba( $1, 'tr' ), $2 if row =~ /^(#{A}#{C}\. )(.*)/m
+                ratts, row = pba( $1, 'tr' ), $2 if row =~ /^(#{A}#{C}\. )(.*)/mo
                 cells = []
                 # the regexp prevents wiki links with a | from being cut as cells
-                row.scan(/\|(_?#{S}#{A}#{C}\. ?)?((\[\[[^|\]]*\|[^|\]]*\]\]|[^|])*?)(?=\|)/) do |modifiers, cell|
+                row.scan(/\|(_?#{S}#{A}#{C}\. ?)?((\[\[[^|\]]*\|[^|\]]*\]\]|[^|])*?)(?=\|)/o) do |modifiers, cell|
                     ctyp = 'd'
                     ctyp = 'h' if modifiers && modifiers =~ /^_/
 
@@ -791,7 +791,7 @@ class RedCloth3 < String
                 when :limit
                     sta,oqs,qtag,content,oqa = $~[1..6]
                     atts = nil
-                    if content =~ /^(#{C})(.+)$/
+                    if content =~ /^(#{C})(.+)$/o
                       atts, content = $~[1..2]
                     end
                 else
@@ -1100,7 +1100,7 @@ class RedCloth3 < String
                         ###   and it breaks following lines
                         htmlesc( aftertag, :NoQuotes ) if aftertag && escape_aftertag && !first.match(/<code\s+class="(\w+)">/)
                         line = +"<redpre##{@pre_list.length}>"
-                        first.match(/<#{OFFTAGS}([^>]*)>/)
+                        first.match(/<#{OFFTAGS}([^>]*)>/o)
                         tag = $1
                         $2.to_s.match(/(class\=("[^"]+"|'[^']+'))/i)
                         tag << " #{$1}" if $1 && tag == 'code'

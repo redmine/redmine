@@ -486,14 +486,6 @@ Naming/VariableNumber:
     - 'test/unit/lib/redmine/scm/adapters/mercurial_adapter_test.rb'
     - 'test/unit/project_test.rb'
 
-# This cop supports safe autocorrection (--autocorrect).
-Performance/ConstantRegexp:
-  Exclude:
-    - 'app/models/changeset.rb'
-    - 'lib/redmine/scm/adapters/cvs_adapter.rb'
-    - 'lib/redmine/wiki_formatting/textile/formatter.rb'
-    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
-
 Performance/FixedSize:
   Exclude:
     - 'test/integration/api_test/issues_test.rb'

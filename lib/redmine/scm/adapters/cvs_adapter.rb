@@ -179,7 +179,7 @@ module Redmine
             file_state = nil
             branch_map = nil
             io.each_line() do |line|
-              if state != "revision" && /^#{ENDLOG}/.match?(line)
+              if state != "revision" && /^#{ENDLOG}/o.match?(line)
                 commit_log = ""
                 revision   = nil
                 state      = "entry_start"
@@ -194,7 +194,7 @@ module Redmine
                   entry_headRev = $1
                 elsif /^symbolic names:/.match?(line)
                   state = "symbolic"
-                elsif /^#{STARTLOG}/.match?(line)
+                elsif /^#{STARTLOG}/o.match?(line)
                   commit_log = ""
                   state      = "revision"
                 end
@@ -207,15 +207,15 @@ module Redmine
                   next
                 end
               elsif state == "tags"
-                if /^#{STARTLOG}/.match?(line)
+                if /^#{STARTLOG}/o.match?(line)
                   commit_log = ""
                   state = "revision"
-                elsif /^#{ENDLOG}/.match?(line)
+                elsif /^#{ENDLOG}/o.match?(line)
                   state = "head"
                 end
                 next
               elsif state == "revision"
-                if /^#{ENDLOG}/ =~ line || /^#{STARTLOG}/ =~ line
+                if /^#{ENDLOG}/o =~ line || /^#{STARTLOG}/o =~ line
                   if revision
                     revHelper = CvsRevisionHelper.new(revision)
                     revBranch = "HEAD"
@@ -245,7 +245,7 @@ module Redmine
                   end
                   commit_log = ""
                   revision   = nil
-                  if /^#{ENDLOG}/.match?(line)
+                  if /^#{ENDLOG}/o.match?(line)
                     state = "entry_start"
                   end
                   next

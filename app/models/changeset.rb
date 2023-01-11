@@ -144,7 +144,7 @@ class Changeset < ActiveRecord::Base
       refs   = match[3]
       next unless action.present? || ref_keywords_any
 
-      refs.scan(/#(\d+)(\s+@#{TIMELOG_RE})?/).each do |m|
+      refs.scan(/#(\d+)(\s+@#{TIMELOG_RE})?/o).each do |m|
         issue = find_referenced_issue_by_id(m[0].to_i)
         hours = m[2]
         if issue && !issue_linked_to_same_commit?(issue)
