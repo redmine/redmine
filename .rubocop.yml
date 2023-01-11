@@ -116,6 +116,9 @@ Naming/BinaryOperatorParameterName:
 Naming/PredicateName:
   Enabled: false
 
+Performance/CollectionLiteralInLoop:
+  MinSize: 4
+
 Rails/ActionControllerFlashBeforeRender:
   # False positive in actions where `redirect_to_referer_or` is used
   Enabled: false

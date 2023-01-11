@@ -486,26 +486,6 @@ Naming/VariableNumber:
     - 'test/unit/lib/redmine/scm/adapters/mercurial_adapter_test.rb'
     - 'test/unit/project_test.rb'
 
-# Configuration parameters: MinSize.
-Performance/CollectionLiteralInLoop:
-  Exclude:
-    - 'app/helpers/imports_helper.rb'
-    - 'app/helpers/queries_helper.rb'
-    - 'app/helpers/settings_helper.rb'
-    - 'app/helpers/timelog_helper.rb'
-    - 'app/models/issue.rb'
-    - 'app/models/workflow_transition.rb'
-    - 'lib/redmine/helpers/time_report.rb'
-    - 'lib/redmine/scm/adapters/filesystem_adapter.rb'
-    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
-    - 'test/functional/issues_custom_fields_visibility_test.rb'
-    - 'test/functional/repositories_git_controller_test.rb'
-    - 'test/functional/repositories_mercurial_controller_test.rb'
-    - 'test/functional/timelog_custom_fields_visibility_test.rb'
-    - 'test/unit/lib/redmine/scm/adapters/git_adapter_test.rb'
-    - 'test/unit/repository_git_test.rb'
-    - 'test/unit/repository_mercurial_test.rb'
-
 # This cop supports safe autocorrection (--autocorrect).
 Performance/ConstantRegexp:
   Exclude:
