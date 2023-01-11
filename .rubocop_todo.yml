@@ -486,12 +486,6 @@ Naming/VariableNumber:
     - 'test/unit/lib/redmine/scm/adapters/mercurial_adapter_test.rb'
     - 'test/unit/project_test.rb'
 
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: OnlySumOrWithInitialValue.
-Performance/Sum:
-  Exclude:
-    - 'app/helpers/issues_helper.rb'
-
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: Include.
 # Include: app/models/**/*.rb
