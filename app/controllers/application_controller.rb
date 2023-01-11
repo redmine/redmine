@@ -552,7 +552,7 @@ class ApplicationController < ActionController::Base
     else
       if args.any?
         redirect_to *args
-      elsif block_given?
+      elsif block
         yield
       else
         raise "#redirect_to_referer_or takes arguments or a block"

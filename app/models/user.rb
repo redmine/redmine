@@ -750,7 +750,7 @@ class User < Principal
       roles.any? do |role|
         (context.is_public? || role.member?) &&
         role.allowed_to?(action) &&
-        (block_given? ? yield(role, self) : true)
+        (block ? yield(role, self) : true)
       end
     elsif context && context.is_a?(Array)
       if context.empty?
@@ -769,7 +769,7 @@ class User < Principal
       roles = self.roles.to_a | [builtin_role]
       roles.any? do |role|
         role.allowed_to?(action) &&
-        (block_given? ? yield(role, self) : true)
+        (block ? yield(role, self) : true)
       end
     else
       false

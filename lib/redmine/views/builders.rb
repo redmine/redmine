@@ -34,7 +34,7 @@ module Redmine
               response.status = 406
               return "We couldn't handle your request, sorry. If you were trying to access the API, make sure to append .json or .xml to your request URL.\n"
             end
-          if block_given?
+          if block
             yield(builder)
           else
             builder

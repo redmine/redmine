@@ -252,7 +252,7 @@ module ApplicationHelper
 
   # Helper that formats object for html or text rendering
   def format_object(object, html=true, &block)
-    if block_given?
+    if block
       object = yield object
     end
     case object.class.name
@@ -440,7 +440,7 @@ module ApplicationHelper
         classes = (ancestors.empty? ? 'root' : 'child')
         classes += ' archived' if project.archived?
         s << "<li class='#{classes}'><div class='#{classes}'>"
-        s << h(block_given? ? capture(project, &block) : project.name)
+        s << h(block ? capture(project, &block) : project.name)
         s << "</div>\n"
         ancestors << project
       end

@@ -703,7 +703,7 @@ class Mailer < ActionMailer::Base
       headers[:references] = @references_objects.collect {|o| "<#{self.class.references_for(o, @user)}>"}.join(' ')
     end
 
-    if block_given?
+    if block
       super headers, &block
     else
       super headers do |format|

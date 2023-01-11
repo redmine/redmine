@@ -378,7 +378,7 @@ class AccountController < ApplicationController
       flash[:notice] = l(:notice_account_register_done, :email => ERB::Util.h(user.mail))
       redirect_to signin_path
     else
-      yield if block_given?
+      yield if block
     end
   end
 
@@ -394,7 +394,7 @@ class AccountController < ApplicationController
       flash[:notice] = l(:notice_account_activated)
       redirect_to my_account_path
     else
-      yield if block_given?
+      yield if block
     end
   end
 
@@ -407,7 +407,7 @@ class AccountController < ApplicationController
       Mailer.deliver_account_activation_request(user)
       account_pending(user)
     else
-      yield if block_given?
+      yield if block
     end
   end
 

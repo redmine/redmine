@@ -267,7 +267,7 @@ module Redmine
               IO.popen(cmd, mode) do |io|
                 io.set_encoding("ASCII-8BIT") if io.respond_to?(:set_encoding)
                 io.close_write unless options[:write_stdin]
-                yield(io) if block_given?
+                yield(io) if block
               end
             rescue => e
               msg = strip_credential(e.message)

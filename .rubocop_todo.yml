@@ -486,19 +486,6 @@ Naming/VariableNumber:
     - 'test/unit/lib/redmine/scm/adapters/mercurial_adapter_test.rb'
     - 'test/unit/project_test.rb'
 
-# This cop supports safe autocorrection (--autocorrect).
-Performance/BlockGivenWithExplicitBlock:
-  Exclude:
-    - 'app/controllers/account_controller.rb'
-    - 'app/controllers/application_controller.rb'
-    - 'app/helpers/application_helper.rb'
-    - 'app/models/mailer.rb'
-    - 'app/models/user.rb'
-    - 'lib/redmine/scm/adapters/abstract_adapter.rb'
-    - 'lib/redmine/views/builders.rb'
-    - 'lib/redmine/views/builders/structure.rb'
-    - 'lib/redmine/wiki_formatting/macros.rb'
-
 # Configuration parameters: MinSize.
 Performance/CollectionLiteralInLoop:
   Exclude:
