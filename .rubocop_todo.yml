@@ -486,13 +486,6 @@ Naming/VariableNumber:
     - 'test/unit/lib/redmine/scm/adapters/mercurial_adapter_test.rb'
     - 'test/unit/project_test.rb'
 
-# This cop supports unsafe autocorrection (--autocorrect-all).
-Performance/AncestorsInclude:
-  Exclude:
-    - 'test/unit/document_category_test.rb'
-    - 'test/unit/issue_priority_test.rb'
-    - 'test/unit/time_entry_activity_test.rb'
-
 # This cop supports safe autocorrection (--autocorrect).
 Performance/BlockGivenWithExplicitBlock:
   Exclude:

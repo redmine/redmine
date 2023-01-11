@@ -37,7 +37,7 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
   end
 
   def test_should_be_an_enumeration
-    assert TimeEntryActivity.ancestors.include?(Enumeration)
+    assert TimeEntryActivity <= Enumeration
   end
 
   def test_objects_count

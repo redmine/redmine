@@ -49,7 +49,7 @@ class IssuePriorityTest < ActiveSupport::TestCase
   end
 
   def test_should_be_an_enumeration
-    assert IssuePriority.ancestors.include?(Enumeration)
+    assert IssuePriority <= Enumeration
   end
 
   def test_objects_count

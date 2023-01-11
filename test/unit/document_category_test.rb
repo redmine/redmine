@@ -27,7 +27,7 @@ class DocumentCategoryTest < ActiveSupport::TestCase
   end
 
   def test_should_be_an_enumeration
-    assert DocumentCategory.ancestors.include?(Enumeration)
+    assert DocumentCategory <= Enumeration
   end
 
   def test_objects_count
