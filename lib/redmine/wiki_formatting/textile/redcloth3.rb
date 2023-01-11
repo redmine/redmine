@@ -558,7 +558,7 @@ class RedCloth3 < String
     # Parses Textile lists and generates HTML
     def block_textile_lists( text )
         text.gsub!( LISTS_RE ) do |match|
-            lines = match.split( /\n/ )
+            lines = match.split( "\n" )
             last_line = -1
             depth = []
             lines.each_with_index do |line, line_id|
@@ -603,7 +603,7 @@ class RedCloth3 < String
 
     def block_textile_quotes( text )
       text.gsub!( QUOTES_RE ) do |match|
-        lines = match.split( /\n/ )
+        lines = match.split( "\n" )
         quotes = +''
         indent = 0
         lines.each do |line|
