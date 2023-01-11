@@ -973,7 +973,7 @@ module Redmine
           attachment_present = true
           value = value.except(:blank)
 
-          if value.values.any? && value.values.all? {|v| v.is_a?(Hash)}
+          if value.values.any? && value.values.all?(Hash)
             value = value.values.first
           end
 

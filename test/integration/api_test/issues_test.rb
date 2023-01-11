@@ -231,7 +231,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     json = ActiveSupport::JSON.decode(response.body)
     status_ids_used = json['issues'].collect {|j| j['status']['id']}
     assert_equal 3, status_ids_used.length
-    assert status_ids_used.all? {|id| id == 5}
+    assert status_ids_used.all?(5)
   end
 
   test "GET /issues/:id.xml with journals" do

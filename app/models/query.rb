@@ -846,7 +846,7 @@ class Query < ActiveRecord::Base
   end
 
   def has_custom_field_column?
-    columns.any? {|column| column.is_a? QueryCustomFieldColumn}
+    columns.any?(QueryCustomFieldColumn)
   end
 
   def has_default_columns?

@@ -217,7 +217,7 @@ class Setting < ActiveRecord::Base
   # # => [{'keywords => 'fixes', 'status_id' => "3"}, {'keywords => 'closes', 'status_id' => "5", 'done_ratio' => "100"}]
   def self.commit_update_keywords_from_params(params)
     s = []
-    if params.is_a?(Hash) && params.key?(:keywords) && params.values.all? {|v| v.is_a? Array}
+    if params.is_a?(Hash) && params.key?(:keywords) && params.values.all?(Array)
       attributes = params.except(:keywords).keys
       params[:keywords].each_with_index do |keywords, i|
         next if keywords.blank?
