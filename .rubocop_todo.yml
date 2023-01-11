@@ -487,13 +487,6 @@ Naming/VariableNumber:
     - 'test/unit/project_test.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
-Performance/RedundantMatch:
-  Exclude:
-    - 'app/models/issue_relation.rb'
-    - 'lib/redmine/wiki_formatting/textile/formatter.rb'
-    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
 Performance/RedundantSplitRegexpArgument:
   Exclude:
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'

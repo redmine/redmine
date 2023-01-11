@@ -91,7 +91,7 @@ class IssueRelation < ActiveRecord::Base
 
     attrs = attrs.deep_dup
     if issue_id = attrs.delete('issue_to_id')
-      if issue_id.to_s.strip.match(/\A#?(\d+)\z/)
+      if issue_id.to_s.strip =~ /\A#?(\d+)\z/
         issue_id = $1.to_i
         self.issue_to = Issue.visible(user).find_by_id(issue_id)
       end

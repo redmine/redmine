@@ -109,7 +109,7 @@ module Redmine
             text.gsub!(/<redpre#(\d+)>/) do
               content = @pre_list[$1.to_i]
               # This regex must match any data produced by RedCloth3#rip_offtags
-              if content.match(/<code\s+class=(?:"([^"]+)"|'([^']+)')>\s?(.*)/m)
+              if content =~ /<code\s+class=(?:"([^"]+)"|'([^']+)')>\s?(.*)/m
                 language = $1 || $2
                 text = $3
                 # original language for extension development

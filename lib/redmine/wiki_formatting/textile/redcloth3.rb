@@ -1100,9 +1100,9 @@ class RedCloth3 < String
                         ###   and it breaks following lines
                         htmlesc( aftertag, :NoQuotes ) if aftertag && escape_aftertag && !first.match(/<code\s+class="(\w+)">/)
                         line = +"<redpre##{@pre_list.length}>"
-                        first.match(/<#{OFFTAGS}([^>]*)>/o)
+                        first =~ /<#{OFFTAGS}([^>]*)>/o
                         tag = $1
-                        $2.to_s.match(/(class\=("[^"]+"|'[^']+'))/i)
+                        $2.to_s =~ /(class\=("[^"]+"|'[^']+'))/i
                         tag << " #{$1}" if $1 && tag == 'code'
                         @pre_list << +"<#{tag}>#{aftertag}"
                     end
