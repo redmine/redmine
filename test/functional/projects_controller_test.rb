@@ -407,6 +407,22 @@ class ProjectsControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_new_by_non_admin_should_enable_setting_public_if_default_role_is_allowed_to_set_public
+    Role.non_member.add_permission!(:add_project)
+    default_role = Role.generate!(permissions: [:add_project])
+    user = User.generate!
+    @request.session[:user_id] = user.id
+
+    with_settings new_project_user_role_id: default_role.id.to_s do
+      get :new
+      assert_select 'input[name=?][disabled=disabled]', 'project[is_public]'
+
+      default_role.add_permission!(:select_project_publicity)
+      get :new
+      assert_select 'input[name=?]:not([disabled])', 'project[is_public]'
+    end
+  end
+
   def test_new_should_not_display_invalid_search_link
     @request.session[:user_id] = 1
 
@@ -504,7 +520,6 @@ class ProjectsControllerTest < Redmine::ControllerTest
           :name => "blog",
           :description => "weblog",
           :identifier => "blog",
-          :is_public => 1,
           :custom_field_values => {
             '3' => 'Beta'
           },
@@ -518,13 +533,51 @@ class ProjectsControllerTest < Redmine::ControllerTest
     project = Project.find_by_name('blog')
     assert_kind_of Project, project
     assert_equal 'weblog', project.description
-    assert_equal true, project.is_public?
     assert_equal [1, 3], project.trackers.map(&:id).sort
     assert_equal ['issue_tracking', 'news', 'repository'], project.enabled_module_names.sort
 
     # User should be added as a project member
     assert User.find(9).member_of?(project)
     assert_equal 1, project.members.size
+  end
+
+  test "#create by user without select_project_publicity permission should not create a new private project" do
+    Role.non_member.add_permission! :add_project
+    default_role = Project.default_member_role
+    default_role.remove_permission!(:select_project_publicity)
+    @request.session[:user_id] = 9
+
+    post(
+      :create, :params => {
+        :project => {
+          :name => "blog",
+          :identifier => "blog",
+          :enabled_module_names => ['issue_tracking', 'news', 'repository'],
+          :is_public => 0
+        }
+      }
+    )
+
+    project = Project.find_by_name('blog')
+    assert_equal true, project.is_public?
+  end
+
+  test "#create by non-admin user with add_project and select_project_publicity permission should create a new private project" do
+    @request.session[:user_id] = 2
+
+    post(
+      :create, :params => {
+        :project => {
+          :name => "blog",
+          :identifier => "blog",
+          :enabled_module_names => ['issue_tracking', 'news', 'repository'],
+          :is_public => 0
+        }
+      }
+    )
+
+    project = Project.find_by_name('blog')
+    assert_equal false, project.is_public?
   end
 
   test "#create by non-admin user with add_project permission should fail with parent_id" do

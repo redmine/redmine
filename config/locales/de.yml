@@ -953,6 +953,7 @@ de:
   permission_rename_wiki_pages: Wiki-Seiten umbenennen
   permission_save_queries: Filter speichern
   permission_select_project_modules: Projektmodule auswählen
+  permission_select_project_publicity: Projekt als privat oder öffentlich markieren
   permission_set_issues_private: Tickets als privat oder öffentlich markieren
   permission_set_notes_private: Kommentar als privat markieren
   permission_set_own_issues_private: Eigene Tickets als privat oder öffentlich markieren

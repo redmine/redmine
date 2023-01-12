@@ -823,7 +823,6 @@ class Project < ActiveRecord::Base
     'name',
     'description',
     'homepage',
-    'is_public',
     'identifier',
     'custom_field_values',
     'custom_fields',
@@ -833,6 +832,22 @@ class Project < ActiveRecord::Base
     'default_version_id',
     'default_issue_query_id',
     'default_assigned_to_id')
+
+  safe_attributes(
+    'is_public',
+    :if =>
+      lambda do |project, user|
+        if project.new_record?
+          if user.admin?
+            true
+          else
+            default_member_role&.has_permission?(:select_project_publicity)
+          end
+        else
+          user.allowed_to?(:select_project_publicity, project)
+        end
+      end
+  )
 
   safe_attributes(
     'enabled_module_names',

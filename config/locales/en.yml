@@ -522,6 +522,7 @@ en:
   permission_edit_project: Edit project
   permission_close_project: Close / reopen the project
   permission_delete_project: Delete the project
+  permission_select_project_publicity: Set project public or private
   permission_select_project_modules: Select project modules
   permission_manage_members: Manage members
   permission_manage_project_activities: Manage project activities
