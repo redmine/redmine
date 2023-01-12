@@ -810,14 +810,6 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
       @project.reload
       assert_nil @project.repository
     end
-
-    private
-
-    def puts_pass_on_not_utf8
-      puts "TODO: This test fails " +
-           "when Encoding.default_external is not UTF-8. " +
-           "Current value is '#{Encoding.default_external.to_s}'"
-    end
   else
     puts "Git test repository NOT FOUND. Skipping functional tests !!!"
     def test_fake; assert true end
@@ -830,5 +822,11 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
     ActionController::Base.perform_caching = true
     yield
     ActionController::Base.perform_caching = before
+  end
+
+  def puts_pass_on_not_utf8
+    puts "TODO: This test fails " +
+         "when Encoding.default_external is not UTF-8. " +
+         "Current value is '#{Encoding.default_external.to_s}'"
   end
 end
