@@ -1507,3 +1507,4 @@ sv:
     all references to them. This cannot be undone. Often, locking users instead of deleting
     them is the better solution.
   text_users_bulk_destroy_confirm: To confirm, please enter "%{yes}" below.
+  permission_select_project_publicity: Set project public or private
