@@ -255,31 +255,31 @@ module ApplicationHelper
     if block
       object = yield object
     end
-    case object.class.name
-    when 'Array'
+    case object
+    when Array
       formatted_objects = object.map {|o| format_object(o, html)}
       html ? safe_join(formatted_objects, ', ') : formatted_objects.join(', ')
-    when 'Time'
+    when Time
       format_time(object)
-    when 'Date'
+    when Date
       format_date(object)
-    when 'Fixnum'
+    when Integer
       object.to_s
-    when 'Float'
+    when Float
       sprintf "%.2f", object
-    when 'User', 'Group'
+    when User, Group
       html ? link_to_principal(object) : object.to_s
-    when 'Project'
+    when Project
       html ? link_to_project(object) : object.to_s
-    when 'Version'
+    when Version
       html ? link_to_version(object) : object.to_s
-    when 'TrueClass'
+    when TrueClass
       l(:general_text_Yes)
-    when 'FalseClass'
+    when FalseClass
       l(:general_text_No)
-    when 'Issue'
+    when Issue
       object.visible? && html ? link_to_issue(object) : "##{object.id}"
-    when 'Attachment'
+    when Attachment
       if html
         content_tag(
           :span,
@@ -294,7 +294,7 @@ module ApplicationHelper
       else
         object.filename
       end
-    when 'CustomValue', 'CustomFieldValue'
+    when CustomValue, CustomFieldValue
       return "" unless object.customized&.visible?
 
       if object.custom_field
