@@ -7,7 +7,7 @@ http://www.redmine.org/
 
 == Requirements
 
-* Ruby 2.6, 2.7, 3.0, 3.1
+* Ruby 2.6, 2.7, 3.0, 3.1, 3.2
 
 * A database:
   * MySQL (tested with MySQL 5.7)
