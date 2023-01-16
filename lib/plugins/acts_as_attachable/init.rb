@@ -1,4 +1,4 @@
 # frozen_string_literal: true
 
-require File.dirname(__FILE__) + '/lib/acts_as_attachable'
+require_relative 'lib/acts_as_attachable'
 ActiveRecord::Base.send(:include, Redmine::Acts::Attachable)
