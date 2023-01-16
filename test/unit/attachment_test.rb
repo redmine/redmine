@@ -520,6 +520,7 @@ class AttachmentTest < ActiveSupport::TestCase
   def test_thumbnailable_should_be_true_for_images
     skip unless convert_installed?
     assert_equal true, Attachment.new(:filename => 'test.jpg').thumbnailable?
+    assert_equal true, Attachment.new(:filename => 'test.webp').thumbnailable?
   end
 
   def test_thumbnailable_should_be_false_for_images_if_convert_is_unavailable

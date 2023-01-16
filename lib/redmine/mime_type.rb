@@ -44,6 +44,7 @@ module Redmine
       'image/jpeg' => 'jpg,jpeg,jpe',
       'image/png' => 'png',
       'image/tiff' => 'tiff,tif',
+      'image/webp' => 'webp',
       'image/x-ms-bmp' => 'bmp',
       'application/javascript' => 'js',
       'application/pdf' => 'pdf',

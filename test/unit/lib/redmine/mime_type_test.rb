@@ -77,6 +77,12 @@ class Redmine::MimeTypeTest < ActiveSupport::TestCase
     end
   end
 
+  def test_by_type
+    image_types = Redmine::MimeType.by_type('image')
+    assert_includes image_types, 'image/png'
+    assert_includes image_types, 'image/webp'
+  end
+
   def test_should_default_to_mime_type_gem
     assert !Redmine::MimeType::EXTENSIONS.key?("zip")
     assert_equal "application/zip", Redmine::MimeType.of("file.zip")

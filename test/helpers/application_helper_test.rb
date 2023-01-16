@@ -184,6 +184,8 @@ class ApplicationHelperTest < Redmine::HelperTest
          'Inline image: <img src="/attachments/download/3/logo.gif" title="This is a logo" alt="This is a logo" loading="lazy" />',
       'Inline image: !logo.GIF!' =>
          'Inline image: <img src="/attachments/download/3/logo.gif" title="This is a logo" alt="This is a logo" loading="lazy" />',
+      'Inline WebP image: !logo.webp!' =>
+         'Inline WebP image: <img src="/attachments/download/24/logo.webp" title="WebP image" alt="WebP image" loading="lazy" />',
       'No match: !ogo.gif!' => 'No match: <img src="ogo.gif" alt="" />',
       'No match: !ogo.GIF!' => 'No match: <img src="ogo.GIF" alt="" />',
       # link image

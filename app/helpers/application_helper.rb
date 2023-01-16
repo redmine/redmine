@@ -944,7 +944,7 @@ module ApplicationHelper
       attachments += obj.attachments if obj.respond_to?(:attachments)
     end
     if attachments.present?
-      text.gsub!(/src="([^\/"]+\.(bmp|gif|jpg|jpe|jpeg|png))"(\s+alt="([^"]*)")?/i) do |m|
+      text.gsub!(/src="([^\/"]+\.(bmp|gif|jpg|jpe|jpeg|png|webp))"(\s+alt="([^"]*)")?/i) do |m|
         filename, ext, alt, alttext = $1, $2, $3, $4
         # search for the picture in attachments
         if found = Attachment.latest_attach(attachments, CGI.unescape(filename))

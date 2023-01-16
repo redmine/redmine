@@ -220,7 +220,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def image?
-    !!(self.filename =~ /\.(bmp|gif|jpg|jpe|jpeg|png)$/i)
+    !!(self.filename =~ /\.(bmp|gif|jpg|jpe|jpeg|png|webp)$/i)
   end
 
   def thumbnailable?
