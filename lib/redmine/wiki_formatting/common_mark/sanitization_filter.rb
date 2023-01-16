@@ -29,8 +29,8 @@ module Redmine
 
         ALLOWED_CSS_PROPERTIES = %w[
           color background-color
-          width
-          height
+          width min-width max-width
+          height min-height max-height
           padding padding-left padding-right padding-top padding-bottom
           margin margin-left margin-right margin-top margin-bottom
           border border-left border-right border-top border-bottom border-radius border-style border-collapse border-spacing
