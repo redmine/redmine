@@ -390,7 +390,7 @@ class WikiController < ApplicationController
   def initial_page_content(page)
     helper = Redmine::WikiFormatting.helper_for(Setting.text_formatting)
     extend helper unless self.instance_of?(helper)
-    helper.instance_method(:initial_page_content).bind(self).call(page)
+    helper.instance_method(:initial_page_content).bind_call(self, page)
   end
 
   def load_pages_for_index
