@@ -22,8 +22,8 @@ require 'csv'
 module Redmine
   module Export
     module CSV
-      def self.generate(*args, &block)
-        Base.generate(*args, &block)
+      def self.generate(...)
+        Base.generate(...)
       end
 
       class Base < ::CSV
