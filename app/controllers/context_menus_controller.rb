@@ -74,7 +74,7 @@ class ContextMenusController < ApplicationController
       @time_entry = @time_entries.first
     end
 
-    @projects = @time_entries.collect(&:project).compact.uniq
+    @projects = @time_entries.filter_map(&:project).uniq
     @project = @projects.first if @projects.size == 1
     @activities = @projects.map(&:activities).reduce(:&)
 

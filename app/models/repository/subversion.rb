@@ -42,7 +42,7 @@ class Repository::Subversion < Repository
   def latest_changesets(path, rev, limit=10)
     revisions = scm.revisions(path, rev, nil, :limit => limit)
     if revisions
-      identifiers = revisions.collect(&:identifier).compact
+      identifiers = revisions.filter_map(&:identifier)
       changesets.where(:revision => identifiers).reorder("committed_on DESC").includes(:repository, :user).to_a
     else
       []
@@ -97,7 +97,7 @@ class Repository::Subversion < Repository
 
     entries_with_identifier =
       entries.select {|entry| entry.lastrev && entry.lastrev.identifier.present?}
-    identifiers = entries_with_identifier.map {|entry| entry.lastrev.identifier}.compact.uniq
+    identifiers = entries_with_identifier.filter_map {|entry| entry.lastrev.identifier}.uniq
     if identifiers.any?
       changesets_by_identifier =
         changesets.where(:revision => identifiers).

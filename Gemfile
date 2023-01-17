@@ -63,7 +63,7 @@ database_file = File.join(File.dirname(__FILE__), "config/database.yml")
 if File.exist?(database_file)
   yaml_config = ERB.new(IO.read(database_file)).result
   database_config = YAML.respond_to?(:unsafe_load) ? YAML.unsafe_load(yaml_config) : YAML.load(yaml_config)
-  adapters = database_config.values.map {|c| c['adapter']}.compact.uniq
+  adapters = database_config.values.filter_map {|c| c['adapter']}.uniq
   if adapters.any?
     adapters.each do |adapter|
       case adapter

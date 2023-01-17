@@ -122,7 +122,7 @@ class Role < ActiveRecord::Base
   end
 
   def permissions=(perms)
-    perms = perms.collect {|p| p.to_sym unless p.blank?}.compact.uniq if perms
+    perms = perms.filter_map {|p| p.to_sym unless p.blank?}.uniq if perms
     write_attribute(:permissions, perms)
   end
 

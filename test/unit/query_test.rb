@@ -1940,13 +1940,13 @@ class QueryTest < ActiveSupport::TestCase
     q.sort_criteria = [[c.name.to_s, 'asc']]
     issues = q.issues
     values =
-      issues.collect do |i|
+      issues.filter_map do |i|
         begin
           Kernel.Float(i.custom_value_for(c.custom_field).to_s)
         rescue
           nil
         end
-      end.compact
+      end
     assert !values.empty?
     assert_equal values.sort, values
   end

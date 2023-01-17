@@ -233,7 +233,7 @@ module QueriesHelper
     value = column.value_object(item)
     content =
       if value.is_a?(Array)
-        values = value.collect {|v| column_value(column, item, v)}.compact
+        values = value.filter_map {|v| column_value(column, item, v)}
         safe_join(values, ', ')
       else
         column_value(column, item, value)
@@ -286,7 +286,7 @@ module QueriesHelper
   def csv_content(column, item)
     value = column.value_object(item)
     if value.is_a?(Array)
-      value.collect {|v| csv_value(column, item, v)}.compact.join(', ')
+      value.filter_map {|v| csv_value(column, item, v)}.join(', ')
     else
       csv_value(column, item, value)
     end

@@ -82,9 +82,9 @@ module Redmine
           klass = scope.singularize.camelcase.constantize
           results_by_scope[scope] += klass.search_results_from_ids(scope_and_ids.map(&:last))
         end
-        result_ids_to_load.map do |scope, id|
+        result_ids_to_load.filter_map do |scope, id|
           results_by_scope[scope].detect {|record| record.id == id}
-        end.compact
+        end
       end
 
       # Returns the results ids, sorted by rank

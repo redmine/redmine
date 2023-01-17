@@ -405,7 +405,7 @@ class ApplicationController < ActionController::Base
     raise ActiveRecord::RecordNotFound if @issues.empty?
     raise Unauthorized unless @issues.all?(&:visible?)
 
-    @projects = @issues.collect(&:project).compact.uniq
+    @projects = @issues.filter_map(&:project).uniq
     @project = @projects.first if @projects.size == 1
   rescue ActiveRecord::RecordNotFound
     render_404

@@ -436,7 +436,7 @@ class Repository < ActiveRecord::Base
     # commits.to_a.sort! {|x, y| x.last <=> y.last}
     changes = Change.joins(:changeset).where("#{Changeset.table_name}.repository_id = ?", id).
                 select("committer, user_id, count(*) as count").group("committer, user_id")
-    user_ids = changesets.map(&:user_id).compact.uniq
+    user_ids = changesets.filter_map(&:user_id).uniq
     authors_names = User.where(:id => user_ids).inject({}) do |memo, user|
       memo[user.id] = user.to_s
       memo

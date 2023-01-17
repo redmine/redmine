@@ -198,7 +198,7 @@ module Redmine
 
       # Returns the distinct versions of the issues that belong to +project+
       def project_versions(project)
-        project_issues(project).collect(&:fixed_version).compact.uniq
+        project_issues(project).filter_map(&:fixed_version).uniq
       end
 
       # Returns the issues that belong to +project+ and are assigned to +version+

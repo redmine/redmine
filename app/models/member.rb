@@ -120,8 +120,7 @@ class Member < ActiveRecord::Base
   def role_inheritance(role)
     member_roles.
       select {|mr| mr.role_id == role.id && mr.inherited_from.present?}.
-      map {|mr| mr.inherited_from_member_role.try(:member)}.
-      compact.
+      filter_map {|mr| mr.inherited_from_member_role.try(:member)}.
       map {|m| m.project == project ? m.principal : m.project}
   end
 

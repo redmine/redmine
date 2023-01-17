@@ -213,7 +213,7 @@ class Repository::Git < Repository
   private :save_revisions
 
   def save_revision(rev)
-    parents = (rev.parents || []).collect{|rp| find_changeset_by_name(rp)}.compact
+    parents = (rev.parents || []).filter_map{|rp| find_changeset_by_name(rp)}
     changeset =
       Changeset.create(
         :repository   => self,

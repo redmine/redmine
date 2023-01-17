@@ -868,7 +868,7 @@ module Redmine
 
       def possible_values_records(custom_field, object=nil)
         if object.is_a?(Array)
-          projects = object.map {|o| o.respond_to?(:project) ? o.project : nil}.compact.uniq
+          projects = object.filter_map {|o| o.respond_to?(:project) ? o.project : nil}.uniq
           projects.map {|project| possible_values_records(custom_field, project)}.reduce(:&) || []
         elsif object.respond_to?(:project) && object.project
           scope = object.project.users
@@ -934,7 +934,7 @@ module Redmine
 
       def possible_values_records(custom_field, object=nil, all_statuses=false)
         if object.is_a?(Array)
-          projects = object.map {|o| o.respond_to?(:project) ? o.project : nil}.compact.uniq
+          projects = object.filter_map {|o| o.respond_to?(:project) ? o.project : nil}.uniq
           projects.map {|project| possible_values_records(custom_field, project)}.reduce(:&) || []
         elsif object.respond_to?(:project) && object.project
           scope = object.project.shared_versions

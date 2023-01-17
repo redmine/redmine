@@ -33,7 +33,7 @@ module IssueRelationsHelper
     end
 
     messages.map do |message, items|
-      ids = items.map(&:issue_to_id).compact
+      ids = items.filter_map(&:issue_to_id)
       if ids.empty?
         message
       else

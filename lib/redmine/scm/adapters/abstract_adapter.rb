@@ -329,7 +329,7 @@ module Redmine
         end
 
         def revisions
-          revisions ||= Revisions.new(collect{|entry| entry.lastrev}.compact)
+          revisions ||= Revisions.new(filter_map{|entry| entry.lastrev})
         end
       end
 

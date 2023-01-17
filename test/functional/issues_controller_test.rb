@@ -1259,7 +1259,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     get(:index, :params => {:sort => 'assigned_to'})
     assert_response :success
 
-    assignees = issues_in_list.map(&:assigned_to).compact
+    assignees = issues_in_list.filter_map(&:assigned_to)
     assert_equal assignees.sort, assignees
     assert_select 'table.issues.sort-by-assigned-to.sort-asc'
   end
@@ -1268,7 +1268,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     get(:index, :params => {:sort => 'assigned_to:desc'})
     assert_response :success
 
-    assignees = issues_in_list.map(&:assigned_to).compact
+    assignees = issues_in_list.filter_map(&:assigned_to)
     assert_equal assignees.sort.reverse, assignees
     assert_select 'table.issues.sort-by-assigned-to.sort-desc'
   end
