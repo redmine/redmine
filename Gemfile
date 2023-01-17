@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '>= 2.6.0', '< 3.3.0'
+ruby '>= 2.7.0', '< 3.3.0'
 
 gem 'rails', '6.1.7'
 gem 'rouge', '~> 3.30.0'
@@ -10,7 +10,7 @@ gem "actionpack-xml_parser"
 gem 'roadie-rails', '~> 3.0.0'
 gem 'marcel'
 gem "mail", "~> 2.7.1"
-gem 'nokogiri', (Gem.ruby_version < Gem::Version.new('2.7') ? '~> 1.13.10' : '~> 1.14.0')
+gem 'nokogiri', '~> 1.14.0'
 gem 'i18n', '~> 1.12.0'
 gem "rbpdf", "~> 1.20.0"
 gem 'addressable'
@@ -94,12 +94,12 @@ end
 
 group :test do
   gem "rails-dom-testing"
-  gem 'mocha', (Gem.ruby_version < Gem::Version.new('2.7.0') ? ['>= 1.4.0', '< 2.0.0'] : '>= 1.4.0')
+  gem 'mocha', '>= 1.4.0'
   gem 'simplecov', '~> 0.22.0', :require => false
   gem "ffi", platforms: [:mingw, :x64_mingw, :mswin]
   # For running system tests
-  gem 'puma', (Gem.ruby_version < Gem::Version.new('2.7') ? '< 6.0.0' : '>= 0')
-  gem 'capybara', (Gem.ruby_version < Gem::Version.new('2.7') ? '~> 3.36.0' : '~> 3.38.0')
+  gem 'puma'
+  gem 'capybara', '~> 3.38.0'
   gem "selenium-webdriver", "~> 3.142.7"
   gem 'webdrivers', '4.6.1', require: false
   # RuboCop
