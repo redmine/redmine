@@ -1492,4 +1492,4 @@
   text_users_bulk_destroy_head: 您即將刪除下列用戶，並移除與這些用戶相關聯的資料。
     此動作無法復原。鎖定用戶經常是一個比刪除用戶還要來得更好的解決方案。
   text_users_bulk_destroy_confirm: 請於下方輸入 "%{yes}" 以便確認。
-  permission_select_project_publicity: Set project public or private
+  permission_select_project_publicity: 設定專案為公開或私人
