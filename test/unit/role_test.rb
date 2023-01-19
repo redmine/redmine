@@ -101,6 +101,82 @@ class RoleTest < ActiveSupport::TestCase
     assert_equal false, role.has_permission?(:delete_issues)
   end
 
+  def test_permissions_all_trackers?
+    role = Role.create!(:name => 'Test', :permissions => [:view_issues])
+    assert_equal true, role.permissions_all_trackers?(:view_issues)
+    assert_equal false, role.permissions_all_trackers?(:edit_issues)
+
+    role.set_permission_trackers :view_issues, [1]
+    role.set_permission_trackers :edit_issues, [1]
+    assert_equal false, role.permissions_all_trackers?(:view_issues)
+    assert_equal false, role.permissions_all_trackers?(:edit_issues)
+
+    role.set_permission_trackers :view_issues, :all
+    role.set_permission_trackers :edit_issues, :all
+    assert_equal true, role.permissions_all_trackers?(:view_issues)
+    assert_equal false, role.permissions_all_trackers?(:edit_issues)
+  end
+
+  def test_permissions_all_trackers_considers_base_permission
+    role = Role.create!(:name => 'Test', :permissions => [:view_issues])
+    assert_equal true, role.permissions_all_trackers?(:view_issues)
+
+    role.remove_permission!(:view_issues)
+    assert_equal false, role.permissions_all_trackers?(:view_issues)
+  end
+
+  def test_permissions_tracker_ids?
+    role = Role.create!(:name => 'Test', :permissions => [:view_issues])
+    assert_equal false, role.permissions_tracker_ids?(:view_issues, 1)
+    assert_equal false, role.permissions_tracker_ids?(:edit_issues, 1)
+
+    role.set_permission_trackers :view_issues, [1, 2, 3]
+    role.set_permission_trackers :edit_issues, [1, 2, 3]
+
+    assert_equal true, role.permissions_tracker_ids?(:view_issues, 1)
+    assert_equal false, role.permissions_tracker_ids?(:edit_issues, 1)
+  end
+
+  def test_permissions_tracker_ids_considers_base_permission
+    role = Role.create!(:name => 'Test', :permissions => [:view_issues])
+    role.set_permission_trackers :view_issues, [1, 2, 3]
+    assert_equal true, role.permissions_tracker_ids?(:view_issues, 1)
+
+    role.remove_permission!(:view_issues)
+    assert_equal false, role.permissions_tracker_ids?(:view_issues, 1)
+  end
+
+  def test_permissions_tracker?
+    tracker = Tracker.find(1)
+    role = Role.create!(:name => 'Test', :permissions => [:view_issues])
+    assert_equal true, role.permissions_tracker?(:view_issues, 1)
+    assert_equal false, role.permissions_tracker?(:edit_issues, 1)
+
+    role.set_permission_trackers :view_issues, [1]
+    role.set_permission_trackers :edit_issues, [1]
+    assert_equal true, role.permissions_tracker?(:view_issues, tracker)
+    assert_equal false, role.permissions_tracker?(:edit_issues, tracker)
+
+    role.set_permission_trackers :view_issues, [2]
+    role.set_permission_trackers :edit_issues, [2]
+    assert_equal false, role.permissions_tracker?(:view_issues, tracker)
+    assert_equal false, role.permissions_tracker?(:edit_issues, tracker)
+
+    role.set_permission_trackers :view_issues, :all
+    role.set_permission_trackers :edit_issues, :all
+    assert_equal true, role.permissions_tracker?(:view_issues, tracker)
+    assert_equal false, role.permissions_tracker?(:edit_issues, tracker)
+  end
+
+  def test_permissions_tracker_considers_base_permission
+    role = Role.create!(:name => 'Test', :permissions => [:edit_isues])
+    role.set_permission_trackers :view_issues, [1, 2, 3]
+    assert_equal false, role.permissions_tracker_ids?(:view_issues, 1)
+
+    role.set_permission_trackers :view_issues, :all
+    assert_equal false, role.permissions_tracker_ids?(:view_issues, 1)
+  end
+
   def test_has_permission_without_permissions
     role = Role.create!(:name => 'Test')
     assert_equal false, role.has_permission?(:delete_issues)
