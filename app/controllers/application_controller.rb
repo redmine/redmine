@@ -344,9 +344,12 @@ class ApplicationController < ActionController::Base
   # and authorize the user for the requested action
   def find_optional_project
     if params[:project_id].present?
-      find_project(params[:project_id])
+      @project = Project.find(params[:project_id])
     end
     authorize_global
+  rescue ActiveRecord::RecordNotFound
+    User.current.logged? ? render_404 : require_login
+    false
   end
 
   # Finds and sets @project based on @object.project
