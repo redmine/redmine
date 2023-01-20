@@ -96,4 +96,19 @@ class ApplicationTest < Redmine::IntegrationTest
       assert_response 302
     end
   end
+
+  def test_find_optional_project_should_not_error
+    Role.anonymous.remove_permission! :view_gantt
+    with_settings :login_required => '0' do
+      get '/projects/nonexistingproject/issues/gantt'
+      assert_response 302
+    end
+  end
+
+  def test_find_optional_project_should_render_404_for_logged_users
+    log_user('jsmith', 'jsmith')
+
+    get '/projects/nonexistingproject/issues/gantt'
+    assert_response 404
+  end
 end

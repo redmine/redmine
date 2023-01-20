@@ -40,9 +40,19 @@ class NewsControllerTest < Redmine::ControllerTest
     assert_select 'h3 a', :text => 'eCookbook first release !'
   end
 
-  def test_index_with_invalid_project_should_respond_with_404
+  def test_index_with_invalid_project_should_respond_with_404_for_logged_users
+    @request.session[:user_id] = 2
+
     get(:index, :params => {:project_id => 999})
     assert_response 404
+  end
+
+  def test_index_with_invalid_project_should_respond_with_302_for_anonymous
+    Role.anonymous.remove_permission! :view_news
+    with_settings :login_required => '0' do
+      get(:index, :params => {:project_id => 999})
+      assert_response 302
+    end
   end
 
   def test_index_without_permission_should_fail
