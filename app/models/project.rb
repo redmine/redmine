@@ -329,15 +329,17 @@ class Project < ActiveRecord::Base
   # Returns a :conditions SQL string that can be used to find the issues associated with this project.
   #
   # Examples:
-  #   project.project_condition(true)  => "(projects.id = 1 OR (projects.lft > 1 AND projects.rgt < 10))"
+  #   project.project_condition(true)  => "(projects.lft >= 1 AND projects.rgt <= 10)"
   #   project.project_condition(false) => "projects.id = 1"
   def project_condition(with_subprojects)
-    cond = "#{Project.table_name}.id = #{id}"
     if with_subprojects
-      cond = "(#{cond} OR (#{Project.table_name}.lft > #{lft} AND " \
-               "#{Project.table_name}.rgt < #{rgt}))"
+      "(" \
+        "#{Project.table_name}.lft >= #{lft} AND " \
+        "#{Project.table_name}.rgt <= #{rgt}" \
+      ")"
+    else
+      "#{Project.table_name}.id = #{id}"
     end
-    cond
   end
 
   def self.find(*args)
