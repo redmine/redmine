@@ -13,8 +13,8 @@ Disallow: <%= url_for(issues_gantt_path) %>
 Disallow: <%= url_for(issues_calendar_path) %>
 Disallow: <%= url_for(activity_path) %>
 Disallow: <%= url_for(search_path) %>
-Disallow: <%= url_for(issues_path(:sort => '')) %>
-Disallow: <%= url_for(issues_path(:query_id => '')) %>
+Disallow: <%= url_for(issues_path) %>?*sort=
+Disallow: <%= url_for(issues_path) %>?*query_id=
 Disallow: <%= url_for(issues_path) %>?*set_filter=
 Disallow: <%= url_for(issues_path(:trailing_slash => true)) %>*.pdf$
 Disallow: <%= url_for(projects_path(:trailing_slash => true)) %>*.pdf$
