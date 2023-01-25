@@ -279,7 +279,7 @@ class MercurialAdapterTest < ActiveSupport::TestCase
     end
 
     def test_entry
-      entry = @adapter.entry()
+      entry = @adapter.entry
       assert_equal "", entry.path
       assert_equal "dir", entry.kind
       entry = @adapter.entry('')
