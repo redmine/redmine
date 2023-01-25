@@ -1,4 +1,4 @@
-class AddSelectProjectPublicityPermission < ActiveRecord::Migration[5.2]
+class AddSelectProjectPublicityPermission < ActiveRecord::Migration[6.1]
   def up
     Role.find_each do |r|
       r.add_permission!(:select_project_publicity) if r.permissions.include?(:edit_project)
