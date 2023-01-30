@@ -46,7 +46,7 @@ end
 
 # Optional Markdown support
 group :markdown do
-  gem 'redcarpet', '~> 3.5.1'
+  gem 'redcarpet', '~> 3.6.0'
 end
 
 # Optional CommonMark support, not for JRuby
