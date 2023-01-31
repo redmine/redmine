@@ -25,7 +25,7 @@ module Redmine
     module CommonMark
       # configuration of the rendering pipeline
       PIPELINE_CONFIG = {
-        # https://github.com/gjtorikian/commonmarker#extensions
+        # https://github.com/gjtorikian/commonmarker#extension-options
         commonmarker_extensions: [
           :table,
           :strikethrough,
