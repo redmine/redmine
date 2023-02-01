@@ -1343,9 +1343,11 @@ a.wiki-anchor:hover { color: #aaa !important; text-decoration: none; }
 h1:hover a.wiki-anchor, h2:hover a.wiki-anchor, h3:hover a.wiki-anchor, h4:hover a.wiki-anchor, h5:hover a.wiki-anchor, h6:hover a.wiki-anchor { display: inline; color: #ddd; }
 
 div.wiki img {vertical-align:middle; max-width:100%;}
+div.wiki>.task-list {
+  padding-left: 0px;
+}
 div.wiki .task-list {
   list-style-type: none;
-  padding-left: 0px;
 }
 div.wiki .task-list input.task-list-item-checkbox {
   height: initial;
