@@ -153,12 +153,7 @@ DESC
         abort "Plugin #{name} was not found."
       end
 
-      case ActiveRecord::Base.schema_format
-      when :ruby
-        Rake::Task["db:schema:dump"].invoke
-      when :sql
-        Rake::Task["db:structure:dump"].invoke
-      end
+      Rake::Task["db:schema:dump"].invoke
     end
 
     desc 'Copies plugins assets into the public directory.'
