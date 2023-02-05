@@ -523,12 +523,7 @@ class MailHandler < ActionMailer::Base
       part.attachment?
     end
     parts.map do |p|
-      body_charset =
-        if Mail::RubyVer.respond_to?(:pick_encoding)
-          Mail::RubyVer.pick_encoding(p.charset).to_s
-        else
-          p.charset
-        end
+      body_charset = Mail::Utilities.pick_encoding(p.charset).to_s
       body = Redmine::CodesetUtil.to_utf8(p.body.decoded, body_charset)
       # convert html parts to text
       p.mime_type == 'text/html' ? self.class.html_body_to_text(body) : self.class.plain_text_body_to_text(body)

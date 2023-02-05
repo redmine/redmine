@@ -9,7 +9,7 @@ gem 'mini_mime', '~> 1.1.0'
 gem "actionpack-xml_parser"
 gem 'roadie-rails', '~> 3.0.0'
 gem 'marcel'
-gem "mail", "~> 2.7.1"
+gem 'mail', '~> 2.8.1'
 gem 'nokogiri', '~> 1.14.0'
 gem 'i18n', '~> 1.12.0'
 gem "rbpdf", "~> 1.20.0"
