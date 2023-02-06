@@ -320,8 +320,10 @@ class Setting < ActiveRecord::Base
   end
 
   def self.load_available_settings
-    YAML::load(File.open("#{Rails.root}/config/settings.yml")).each do |name, options|
-      define_setting name, options
+    File.open("#{Rails.root}/config/settings.yml") do |f|
+      YAML.load(f).each do |name, options|
+        define_setting name, options
+      end
     end
   end
 
