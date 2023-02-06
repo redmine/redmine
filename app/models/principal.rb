@@ -179,7 +179,7 @@ class Principal < ActiveRecord::Base
     principal ||= principals.detect {|a| keyword.casecmp(a.login.to_s) == 0}
     principal ||= principals.detect {|a| keyword.casecmp(a.mail.to_s) == 0}
 
-    if principal.nil? && / /.match?(keyword)
+    if principal.nil? && keyword.include?(' ')
       firstname, lastname = *(keyword.split) # "First Last Throwaway"
       principal ||=
         principals.detect do |a|
