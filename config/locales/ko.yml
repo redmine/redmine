@@ -204,7 +204,6 @@ ko:
   notice_account_password_updated: 비밀번호가 잘 변경되었습니다.
   notice_account_wrong_password: 잘못된 비밀번호
   notice_account_register_done: 계정이 잘 만들어졌습니다. 계정을 활성화하시려면 받은 메일의 링크를 클릭해주세요.
-  notice_account_unknown_email: 알려지지 않은 사용자.
   notice_can_t_change_password: 이 계정은 외부 인증을 이용합니다. 비밀번호를 변경할 수 없습니다.
   notice_account_lost_email_sent: 새로운 비밀번호를 위한 메일이 발송되었습니다.
   notice_account_activated: 계정이 활성화되었습니다. 이제 로그인 하실수 있습니다.

@@ -159,7 +159,6 @@ eu:
   notice_account_password_updated: Pasahitza ongi eguneratu da.
   notice_account_wrong_password: Pasahitz ezegokia.
   notice_account_register_done: Kontua ongi sortu da. Kontua gaitzeko klikatu epostan adierazi zaizun estekan.
-  notice_account_unknown_email: Erabiltzaile ezezaguna.
   notice_can_t_change_password: Kontu honek kanpoko autentikazio bat erabiltzen du. Ezinezkoa da pasahitza aldatzea.
   notice_account_lost_email_sent: Pasahitz berria aukeratzeko jarraibideak dituen eposta bat bidali zaizu.
   notice_account_activated: Zure kontua gaituta dago. Orain saioa has dezakezu

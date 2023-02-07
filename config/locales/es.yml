@@ -663,7 +663,6 @@ es:
   notice_account_password_updated: Contraseña modificada correctamente.
   notice_account_pending: "Su cuenta ha sido creada y está pendiende de la aprobación por parte del administrador."
   notice_account_register_done: Cuenta creada correctamente. Para activarla, haga clic sobre el enlace que le ha sido enviado por correo.
-  notice_account_unknown_email: Usuario desconocido.
   notice_account_updated: Cuenta actualizada correctamente.
   notice_account_wrong_password: Contraseña incorrecta.
   notice_can_t_change_password: Esta cuenta utiliza una fuente de autenticación externa. No es posible cambiar la contraseña.

@@ -158,7 +158,6 @@ mk:
   notice_account_password_updated: Лозинката е успешно ажурирана.
   notice_account_wrong_password: Погрешна лозинка
   notice_account_register_done: Профилот е успешно креиран. За активација, клкнете на врската што ви е пратена по е-пошта.
-  notice_account_unknown_email: Непознат корисник.
   notice_can_t_change_password: This account uses an external authentication source. Impossible to change the password.
   notice_account_lost_email_sent: An email with instructions to choose a new password has been sent to you.
   notice_account_activated: Your account has been activated. You can now log in.

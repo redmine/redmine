@@ -638,7 +638,6 @@ gl:
   notice_account_password_updated: Contrasinal modificado correctamente.
   notice_account_pending: "A súa conta creouse e está pendente da aprobación por parte do administrador."
   notice_account_register_done: "A conta creouse correctamente. Recibirá unha ligazón na súa conta de correo electrónico, sígaa para activar a nova conta."
-  notice_account_unknown_email: Usuario descoñecido.
   notice_account_updated: Conta actualizada correctamente.
   notice_account_wrong_password: Contrasinal incorrecto.
   notice_can_t_change_password: Esta conta utiliza unha fonte de autenticación externa. Non é posible cambiar o contrasinal.

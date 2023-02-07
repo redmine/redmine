@@ -875,7 +875,6 @@ de:
   notice_account_password_updated: Passwort wurde erfolgreich aktualisiert.
   notice_account_pending: "Ihr Konto wurde erstellt und wartet jetzt auf die Genehmigung des Administrators."
   notice_account_register_done: Konto wurde erfolgreich angelegt. Eine E-Mail mit Hinweisen zur Kontoaktivierung wurde an %{email} gesendet.
-  notice_account_unknown_email: Unbekannter Benutzer.
   notice_account_updated: Konto wurde erfolgreich aktualisiert.
   notice_account_wrong_password: Falsches Passwort.
   notice_api_access_key_reseted: Ihr API-Zugriffsschlüssel wurde zurückgesetzt.

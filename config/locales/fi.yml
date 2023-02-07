@@ -182,7 +182,6 @@ fi:
   notice_account_password_updated: Salasanan päivitys onnistui.
   notice_account_wrong_password: Väärä salasana
   notice_account_register_done: Tilin luonti onnistui. Aktivoidaksesi tilin seuraa linkkiä joka välitettiin sähköpostiisi.
-  notice_account_unknown_email: Tuntematon käyttäjä.
   notice_can_t_change_password: Tämä tili käyttää ulkoista tunnistautumisjärjestelmää. Salasanaa ei voi muuttaa.
   notice_account_lost_email_sent: Sinulle on lähetetty sähköposti jossa on ohje kuinka vaihdat salasanasi.
   notice_account_activated: Tilisi on nyt aktivoitu, voit kirjautua sisälle.

@@ -735,7 +735,6 @@ az:
   notice_account_password_updated: Parol müvəffəqiyyətlə yeniləndi.
   notice_account_pending: "Sizin uçot qeydiniz yaradıldı və inzibatçının təsdiqini gözləyir."
   notice_account_register_done: Uçot qeydi müvəffəqiyyətlə yaradıldı. Sizin uçot qeydinizin aktivləşdirilməsi üçün elektron poçtunuza göndərilən linkə keçin.
-  notice_account_unknown_email: Naməlum istifadəçi.
   notice_account_updated: Uçot qeydi müvəffəqiyyətlə yeniləndi.
   notice_account_wrong_password: Parol düzgün deyildir
   notice_can_t_change_password: Bu uçot qeydi üçün xarici autentifikasiya mənbəyi istifadə olunur. Parolu dəyişmək mümkün deyildir.

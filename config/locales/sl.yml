@@ -156,7 +156,6 @@ sl:
   notice_account_password_updated: Geslo je bilo uspešno posodobljeno.
   notice_account_wrong_password: Napačno geslo
   notice_account_register_done: Račun je bil uspešno ustvarjen. Za aktivacijo potrdite povezavo, ki vam je bila poslana v e-nabiralnik.
-  notice_account_unknown_email: Neznan uporabnik.
   notice_can_t_change_password: Ta račun za overovljanje uporablja zunanji. Gesla ni mogoče spremeniti.
   notice_account_lost_email_sent: Poslano vam je bilo e-pismo z navodili za izbiro novega gesla.
   notice_account_activated: Vaš račun je bil aktiviran. Sedaj se lahko prijavite.

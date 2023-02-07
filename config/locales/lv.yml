@@ -151,7 +151,6 @@ lv:
   notice_account_password_updated: Parole tika veiksmīgi atjaunota.
   notice_account_wrong_password: Nepareiza parole
   notice_account_register_done: Konts veiksmīgi izveidots. Lai aktivizētu kontu, spiediet uz saites, kas Jums tika nosūtīta.
-  notice_account_unknown_email: Nezināms lietotājs
   notice_can_t_change_password: Šis konts izmanto ārēju pilnvarošanas avotu. Nav iespējams nomainīt paroli.
   notice_account_lost_email_sent: Jums tika nosūtīts e-pasts ar instrukcijām, kā izveidot jaunu paroli.
   notice_account_activated: Jūsu konts ir aktivizēts. Varat pieslēgties sistēmai.

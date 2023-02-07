@@ -161,7 +161,6 @@ ca:
   notice_account_password_updated: "La contrasenya s'ha modificat correctament."
   notice_account_wrong_password: "Contrasenya incorrecta"
   notice_account_register_done: "El compte s'ha creat correctament. Per a activar el compte, feu clic en l'enllaç que us han enviat per correu electrònic."
-  notice_account_unknown_email: "Usuari desconegut."
   notice_can_t_change_password: "Aquest compte utilitza una font d'autenticació externa. No és possible canviar la contrasenya."
   notice_account_lost_email_sent: "S'ha enviat un correu electrònic amb instruccions per a seleccionar una contrasenya nova."
   notice_account_activated: "El compte s'ha activat correctament. Ara ja podeu entrar."

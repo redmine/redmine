@@ -606,7 +606,6 @@ nl:
   notice_account_lost_email_sent: Er is een e-mail naar u verzonden met instructies over de keuze van een nieuw wachtwoord.
   notice_account_password_updated: Wachtwoord is met succes gewijzigd
   notice_account_pending: Uw account is aangemaakt, maar wacht nog op goedkeuring van een beheerder.
-  notice_account_unknown_email: Onbekende gebruiker.
   notice_account_updated: Account is succesvol gewijzigd
   notice_account_wrong_password: Ongeldig wachtwoord
   notice_can_t_change_password: Deze account gebruikt een externe authenticatiebron. Het is niet mogelijk om het wachtwoord te veranderen.

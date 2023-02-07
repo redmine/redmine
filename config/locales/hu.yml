@@ -178,7 +178,6 @@
   notice_account_password_updated: A jelszó módosítása megtörtént.
   notice_account_wrong_password: Hibás jelszó
   notice_account_register_done: A fiók sikeresen létrehozva. Aktiválásához kattints az e-mailben kapott linkre
-  notice_account_unknown_email: Ismeretlen felhasználó.
   notice_can_t_change_password: A fiók külső azonosítási forrást használ. A jelszó megváltoztatása nem lehetséges.
   notice_account_lost_email_sent: Egy e-mail üzenetben postáztunk Önnek egy leírást az új jelszó beállításáról.
   notice_account_activated: Fiókját aktiváltuk. Most már be tud jelentkezni a rendszerbe.

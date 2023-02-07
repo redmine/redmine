@@ -171,7 +171,6 @@ tr:
   notice_account_password_updated: Parola başarıyla güncellendi.
   notice_account_wrong_password: Yanlış parola
   notice_account_register_done: Hesap başarıyla oluşturuldu. Hesabınızı etkinleştirmek için, size gönderilen e-postadaki bağlantıya tıklayın.
-  notice_account_unknown_email: Tanınmayan kullanıcı.
   notice_can_t_change_password: Bu hesap harici bir denetim kaynağı kullanıyor. Parolayı değiştirmek mümkün değil.
   notice_account_lost_email_sent: Yeni parola seçme talimatlarını içeren e-postanız gönderildi.
   notice_account_activated: Hesabınız etkinleştirildi. Şimdi giriş yapabilirsiniz.

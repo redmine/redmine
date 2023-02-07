@@ -241,7 +241,6 @@
   notice_account_password_updated: 帳戶新密碼已儲存
   notice_account_wrong_password: 密碼不正確
   notice_account_register_done: 帳號已建立成功。欲啟用您的帳號，請點擊系統確認信函中的啟用連結。
-  notice_account_unknown_email: 未知的使用者
   notice_account_not_activated_yet: 您尚未完成啟用您的帳號。若您要索取新的帳號啟用 Email ，請 <a href="%{url}">點擊此連結</a> 。
   notice_account_locked: 您的帳號已被鎖定。
   notice_can_t_change_password: 這個帳號使用外部驗證方式，無法變更其密碼。

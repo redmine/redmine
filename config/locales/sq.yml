@@ -157,7 +157,6 @@ sq:
   notice_account_password_updated: Fjalëkalimi u përditësua me sukses.
   notice_account_wrong_password: Fjalëkalim i gabuar
   notice_account_register_done: Llogaria u krijua me sukses. Te %{email} u dërgua një email që përmban udhëzimet si të aktivizohet llogaria juaj.
-  notice_account_unknown_email: Përdorues i panjohur.
   notice_account_not_activated_yet: S’e keni aktivizuar ende llogarinë tuaj. Nëse doni të merrni një email të ri aktivizimi, ju lutemi, <a href="%{url}">klikoni mbi këtë lidhje</a>.
   notice_account_locked: Llogaria juaj është e kyçur.
   notice_can_t_change_password: Kjo llogari përdor një burim të jashtëm mirëfilltësimesh. E pamundur të ndryshohet fjalëkalimi.

@@ -476,6 +476,7 @@ class AccountControllerTest < Redmine::ControllerTest
         }
       )
       assert_response :success
+      assert_equal I18n.t(:notice_account_lost_email_sent), flash[:notice]
     end
   end
 

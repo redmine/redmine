@@ -157,7 +157,6 @@ id:
   notice_account_password_updated: Kata sandi sudah berhasil diperbarui.
   notice_account_wrong_password: Kata sandi salah.
   notice_account_register_done: Akun sudah berhasil dibuat. Untuk mengaktifkan akun anda, silakan klik tautan (link) yang dikirim kepada anda melalui e-mail.
-  notice_account_unknown_email: Pengguna tidak dikenal.
   notice_can_t_change_password: Akun ini menggunakan sumber otentikasi eksternal yang tidak dikenal. Kata sandi tidak bisa diubah.
   notice_account_lost_email_sent: Email berisi instruksi untuk memilih kata sandi baru sudah dikirimkan kepada anda.
   notice_account_activated: Akun anda sudah diaktifasi. Sekarang anda bisa login.

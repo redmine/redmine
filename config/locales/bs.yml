@@ -169,7 +169,6 @@ bs:
   notice_account_password_updated: Lozinka je uspješno promjenjena.
   notice_account_pending: "Vaš nalog je kreiran i čeka odobrenje administratora."
   notice_account_register_done: Nalog je uspješno kreiran. Da bi ste aktivirali vaš nalog kliknite na link koji vam je poslat.
-  notice_account_unknown_email: Nepoznati korisnik.
   notice_account_updated: Nalog je uspješno promjenen.
   notice_account_wrong_password: Pogrešna lozinka
   notice_can_t_change_password: Ovaj nalog koristi eksterni izvor prijavljivanja. Ne mogu da promjenim šifru.

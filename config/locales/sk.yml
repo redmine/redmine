@@ -156,7 +156,6 @@ sk:
   notice_account_password_updated: Heslo bolo úspešne zmenené.
   notice_account_wrong_password: Nesprávne heslo
   notice_account_register_done: Účet bol úspešne vytvorený. Účet aktivujete kliknutím na odkaz v emaile, ktorý vám bol zaslaný na %{email}.
-  notice_account_unknown_email: Neznámy používateľ.
   notice_can_t_change_password: Tento účet používa externú autentifikáciu. Nemôžete zmeniť heslo.
   notice_account_lost_email_sent: Bol vám zaslaný email s inštrukciami, ako si nastaviť nové heslo.
   notice_account_activated: Váš účet bol aktivovaný. Teraz se môžete prihlásiť.

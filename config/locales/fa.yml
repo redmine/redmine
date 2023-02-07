@@ -160,7 +160,6 @@ fa:
   notice_account_password_updated: گذرواژه به‌روز شد
   notice_account_wrong_password: گذرواژه نادرست است
   notice_account_register_done: حساب با موفقیت ساخته شد. رایانامه‌ای حاوی دستورالعمل فعال‌سازی حساب شما به %{email} فرستاده شد.
-  notice_account_unknown_email: کاربر شناخته نشد.
   notice_account_not_activated_yet: شما هنوز حساب خود را فعال نکرده‌اید. اگر می‌خواهید یک رایانامه فعال‌سازی دیگر دریافت کنید، لطفاً <a href="%{url}">این جا کلید نمایید</a>.
   notice_account_locked: حساب شما قفل شده است.
   notice_can_t_change_password:  این حساب یک روش احراز هویت بیرونی را به کار گرفته است. گذرواژه را نمی‌توان تغییر داد.

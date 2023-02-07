@@ -155,7 +155,6 @@ th:
   notice_account_password_updated: รหัสได้ถูกปรับปรุงแล้ว.
   notice_account_wrong_password: รหัสผ่านไม่ถูกต้อง
   notice_account_register_done: บัญชีถูกสร้างแล้ว. กรุณาเช็คเมล์ แล้วคลิ๊กที่ลิงค์ในอีเมล์เพื่อเปิดใช้บัญชี
-  notice_account_unknown_email: ไม่มีผู้ใช้ที่ใช้อีเมล์นี้.
   notice_can_t_change_password: บัญชีนี้ใช้การยืนยันตัวตนจากแหล่งภายนอก. ไม่สามารถปลี่ยนรหัสผ่านได้.
   notice_account_lost_email_sent: เราได้ส่งอีเมล์พร้อมวิธีการสร้างรหัีสผ่านใหม่ให้คุณแล้ว กรุณาเช็คเมล์.
   notice_account_activated: บัญชีของคุณได้เปิดใช้แล้ว. ตอนนี้คุณสามารถเข้าสู่ระบบได้แล้ว.

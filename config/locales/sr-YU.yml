@@ -160,7 +160,6 @@ sr-YU:
   notice_account_password_updated: Lozinka je uspešno ažurirana.
   notice_account_wrong_password: Pogrešna lozinka
   notice_account_register_done: Korisnički nalog je uspešno kreiran. Kliknite na link koji ste dobili u e-poruci za aktivaciju.
-  notice_account_unknown_email: Nepoznat korisnik.
   notice_can_t_change_password: Ovaj korisnički nalog za potvrdu identiteta koristi spoljni izvor. Nemoguće je promeniti lozinku.
   notice_account_lost_email_sent: Poslata vam je e-poruka sa uputstvom za izbor nove lozinke
   notice_account_activated: Vaš korisnički nalog je aktiviran. Sada se možete prijaviti.

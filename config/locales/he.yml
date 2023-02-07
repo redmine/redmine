@@ -162,7 +162,6 @@ he:
   notice_account_password_updated: הסיסמה עודכנה בהצלחה!
   notice_account_wrong_password: סיסמה שגויה
   notice_account_register_done: החשבון נוצר בהצלחה. להפעלת החשבון לחץ על הקישור שנשלח לדוא"ל שלך.
-  notice_account_unknown_email: משתמש לא מוכר.
   notice_can_t_change_password: החשבון הזה משתמש במקור הזדהות חיצוני. שינוי סיסמה הינו בילתי אפשר
   notice_account_lost_email_sent: דוא"ל עם הוראות לבחירת סיסמה חדשה נשלח אליך.
   notice_account_activated: חשבונך הופעל. אתה יכול להתחבר כעת.

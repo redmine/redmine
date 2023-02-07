@@ -210,7 +210,6 @@ vi:
   notice_account_password_updated: Cập nhật mật mã thành công.
   notice_account_wrong_password: Sai mật mã
   notice_account_register_done: Tài khoản được tạo thành công. Để kích hoạt vui lòng làm theo hướng dẫn trong email gửi đến bạn.
-  notice_account_unknown_email: Không rõ tài khoản.
   notice_can_t_change_password: Tài khoản được chứng thực từ nguồn bên ngoài. Không thể đổi mật mã cho loại chứng thực này.
   notice_account_lost_email_sent: Thông tin để đổi mật mã mới đã gửi đến bạn qua email.
   notice_account_activated: Tài khoản vừa được kích hoạt. Bây giờ bạn có thể đăng nhập.

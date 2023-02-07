@@ -156,7 +156,6 @@ ar:
   notice_account_password_updated: لقد تم تجديد كلمة المرور بنجاح.
   notice_account_wrong_password: كلمة المرور غير صحيحة
   notice_account_register_done: لقد تم انشاء حسابك بنجاح، الرجاء تأكيد الطلب من البريد الالكتروني
-  notice_account_unknown_email: مستخدم غير معروف.
   notice_can_t_change_password: هذا الحساب يستخدم جهاز خارجي غير مصرح به لا يمكن تغير كلمة المرور
   notice_account_lost_email_sent: لقد تم ارسال رسالة على بريدك بالتعليمات اللازمة لتغير كلمة المرور
   notice_account_activated: لقد تم تفعيل حسابك، يمكنك الدخول الان

@@ -157,7 +157,6 @@ mn:
   notice_account_password_updated: Нууц үгийг амжилттай өөрчиллөө.
   notice_account_wrong_password: Буруу нууц үг
   notice_account_register_done: Шинэ хэрэглэгч амжилттай үүсгэлээ. Идэвхжүүлэхийн тулд, бидний тань луу илгээсэн мэйл дотор байгаа холбоос дээр дараарай.
-  notice_account_unknown_email: Үл мэдэгдэх хэрэглэгч.
   notice_can_t_change_password: Энэ эрх гадаад нэвтрэлтэд ашигладаг учраас нууц үгийг өөрчлөх боломжгүй.
   notice_account_lost_email_sent: Бид таньд мэйлээр нууц үгээ өөрчлөх зааврыг илгээсэн байгаа.
   notice_account_activated: Таны данс идэвхжлээ. Одоо нэвтэрч орж болно.

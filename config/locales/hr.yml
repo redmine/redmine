@@ -152,7 +152,6 @@ hr:
   notice_account_password_updated: Zaporka je uspješno promijenjena.
   notice_account_wrong_password: Pogrešna zaporka
   notice_account_register_done: Racun je uspješno napravljen. Da biste aktivirali svoj račun, kliknite na link koji vam je poslan na e-mail.
-  notice_account_unknown_email: Nepoznati korisnik.
   notice_can_t_change_password: Ovaj račun koristi eksterni izvor prijavljivanja. Nemoguće je promijeniti zaporku.
   notice_account_lost_email_sent: E-mail s uputama kako bi odabrali novu zaporku je poslan na na vašu e-mail adresu.
   notice_account_activated: Vaš racun je aktiviran. Možete se prijaviti.

@@ -199,7 +199,6 @@ sv:
   notice_account_password_updated: Lösenordet har uppdaterats
   notice_account_wrong_password: Fel lösenord
   notice_account_register_done: Kontot har skapats. För att aktivera kontot, klicka på länken i mailet som skickades till dig.
-  notice_account_unknown_email: Okänd användare.
   notice_can_t_change_password: Detta konto använder en extern autentiseringskälla. Det går inte att byta lösenord.
   notice_account_lost_email_sent: Ett mail med instruktioner om hur man väljer ett nytt lösenord har skickats till dig.
   notice_account_activated: Ditt konto har blivit aktiverat. Du kan nu logga in.

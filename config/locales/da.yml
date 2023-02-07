@@ -174,7 +174,6 @@ da:
   notice_account_password_updated: Kodeordet er opdateret.
   notice_account_wrong_password: Forkert kodeord
   notice_account_register_done: Kontoen er oprettet. For at aktivere kontoen skal du klikke på linket i den tilsendte email.
-  notice_account_unknown_email: Ukendt bruger.
   notice_can_t_change_password: Denne konto benytter en ekstern sikkerhedsgodkendelse. Det er ikke muligt at skifte kodeord.
   notice_account_lost_email_sent: En email med instruktioner til at vælge et nyt kodeord er afsendt til dig.
   notice_account_activated: Din konto er aktiveret. Du kan nu logge ind.

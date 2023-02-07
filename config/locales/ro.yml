@@ -152,7 +152,6 @@ ro:
   notice_account_password_updated: Parolă actualizată.
   notice_account_wrong_password: Parolă greșită
   notice_account_register_done: Contul a fost creat. Pentru activare, urmați legătura trimisă prin email.
-  notice_account_unknown_email: Utilizator necunoscut.
   notice_can_t_change_password: Acest cont folosește o sursă externă de autentificare. Nu se poate schimba parola.
   notice_account_lost_email_sent: S-a trimis un email cu instrucțiuni de schimbare a parolei.
   notice_account_activated: Contul a fost activat. Vă puteți autentifica acum.

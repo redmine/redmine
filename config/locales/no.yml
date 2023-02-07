@@ -147,7 +147,6 @@
   notice_account_password_updated: Passordet er oppdatert.
   notice_account_wrong_password: Feil passord
   notice_account_register_done: Kontoen er opprettet. Klikk lenken som er sendt deg i e-post for å aktivere kontoen.
-  notice_account_unknown_email: Ukjent bruker.
   notice_can_t_change_password: Denne kontoen bruker ekstern godkjenning. Passordet kan ikke endres.
   notice_account_lost_email_sent: En e-post med instruksjoner for å velge et nytt passord er sendt til deg.
   notice_account_activated: Din konto er aktivert. Du kan nå logge inn.

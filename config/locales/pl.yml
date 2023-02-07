@@ -169,7 +169,6 @@ pl:
   notice_account_password_updated: "Hasło zostało pomyślnie zmienione."
   notice_account_wrong_password: "Nieprawidłowe hasło"
   notice_account_register_done: "Konto zostało pomyślnie utworzone. E-mail zawierający instrukcje aktywacji konta został wysłany na adres %{email}."
-  notice_account_unknown_email: "Nieznany użytkownik."
   notice_account_not_activated_yet: 'Jeszcze nie aktywowałeś swojego konta. Jeśli chcesz otrzymać nowy e-mail aktywacyjny, <a href="%{url}">kliknij tutaj</a>.'
   notice_account_locked: "Twoje konto jest zablokowane."
   notice_can_t_change_password: "To konto ma zewnętrzne źródło uwierzytelniania. Nie możesz zmienić hasła."

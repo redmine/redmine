@@ -103,7 +103,9 @@ class AccountController < ApplicationController
         user = User.find_by_mail(email)
         # user not found
         unless user
-          flash.now[:error] = l(:notice_account_unknown_email)
+          # Don't show an error indicating a non-existent email address
+          # to prevent email harvesting
+          flash[:notice] = l(:notice_account_lost_email_sent)
           return
         end
         unless user.active?

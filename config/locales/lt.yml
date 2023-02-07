@@ -162,7 +162,6 @@ lt:
   notice_account_password_updated: Slaptažodis buvo sėkmingai atnaujintas.
   notice_account_wrong_password: Neteisingas slaptažodis
   notice_account_register_done: Paskyra buvo sėkmingai sukurta. Norint aktyvinti savo paskyrą, paspauskite nuorodą, kuri jums buvo siųsta į %{email}.
-  notice_account_unknown_email: Nežinomas vartotojas.
   notice_account_not_activated_yet: Dar nesatę aktyvavę savo paskyros. Jei norite gauti naują aktyvavimo laišką, paspauskite <a href="%{url}">šią nuorodą</a>
   notice_account_locked: Jūsų paskyra užblokuota.
   notice_can_t_change_password: Šis pranešimas naudoja išorinį autentiškumo nustatymo šaltinį. Neįmanoma pakeisti slaptažodžio.

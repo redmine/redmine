@@ -174,7 +174,6 @@ et:
   notice_account_password_updated: "Parooli uuendamine õnnestus."
   notice_account_wrong_password: "Vale parool"
   notice_account_register_done: "Konto loomine õnnestus. Konto aktiveerimiseks vajuta vastaval lingil Sulle saadetud e-kirjas."
-  notice_account_unknown_email: "Tundmatu kasutaja."
   notice_can_t_change_password: "See konto kasutab välist autentimisallikat. Siin ei saa selle konto parooli vahetada."
   notice_account_lost_email_sent: "Sulle saadeti e-kiri parooli vahetamise juhistega."
   notice_account_activated: "Su konto on aktiveeritud. Saad nüüd sisse logida."

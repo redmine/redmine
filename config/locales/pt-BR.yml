@@ -177,7 +177,6 @@ pt-BR:
   notice_account_password_updated: Senha alterada com sucesso.
   notice_account_wrong_password: Senha inválida.
   notice_account_register_done: Conta criada com sucesso. Para ativar sua conta, clique no link que lhe foi enviado por e-mail.
-  notice_account_unknown_email: Usuário desconhecido.
   notice_can_t_change_password: Esta conta utiliza autenticação externa. Não é possível alterar a senha.
   notice_account_lost_email_sent: Um e-mail com instruções para escolher uma nova senha foi enviado para você.
   notice_account_activated: Sua conta foi ativada. Você pode acessá-la agora.

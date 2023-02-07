@@ -158,7 +158,6 @@ sr:
   notice_account_password_updated: Лозинка је успешно ажурирана.
   notice_account_wrong_password: Погрешна лозинка
   notice_account_register_done: Кориснички налог је успешно креиран. Кликните на линк који сте добили у е-поруци за активацију.
-  notice_account_unknown_email: Непознат корисник.
   notice_can_t_change_password: Овај кориснички налог за потврду идентитета користи спољни извор. Немогуће је променити лозинку.
   notice_account_lost_email_sent: Послата вам је е-порука са упутством за избор нове лозинке
   notice_account_activated: Ваш кориснички налог је активиран. Сада се можете пријавити.

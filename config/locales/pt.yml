@@ -165,7 +165,6 @@ pt:
   notice_account_invalid_credentials: Utilizador ou palavra-chave inválidos.
   notice_account_password_updated: A palavra-chave foi alterada com sucesso.
   notice_account_wrong_password: Palavra-chave errada.
-  notice_account_unknown_email: Utilizador desconhecido.
   notice_can_t_change_password: Esta conta utiliza uma fonte de autenticação externa. Não é possível alterar a palavra-chave.
   notice_account_lost_email_sent: Foi-lhe enviado um e-mail com as instruções para escolher uma nova palavra-chave.
   notice_account_activated: A sua conta foi ativada. É agora possível autenticar-se.
