@@ -12,7 +12,7 @@ gem 'marcel'
 gem 'mail', '~> 2.8.1'
 gem 'nokogiri', '~> 1.14.0'
 gem 'i18n', '~> 1.12.0'
-gem "rbpdf", "~> 1.20.0"
+gem 'rbpdf', '~> 1.21.0'
 gem 'addressable'
 gem 'rubyzip', '~> 2.3.0'
 
