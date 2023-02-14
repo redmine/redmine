@@ -175,7 +175,7 @@ class IssueRelation < ActiveRecord::Base
   def handle_issue_order
     reverse_if_needed
 
-    if TYPE_PRECEDES == relation_type
+    if relation_type == TYPE_PRECEDES
       self.delay ||= 0
     else
       self.delay = nil
@@ -191,7 +191,7 @@ class IssueRelation < ActiveRecord::Base
   end
 
   def successor_soonest_start
-    if (TYPE_PRECEDES == self.relation_type) && delay && issue_from &&
+    if (self.relation_type == TYPE_PRECEDES) && delay && issue_from &&
            (issue_from.start_date || issue_from.due_date)
       add_working_days((issue_from.due_date || issue_from.start_date), (1 + delay))
     end
