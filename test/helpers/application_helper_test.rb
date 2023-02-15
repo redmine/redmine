@@ -1413,7 +1413,7 @@ class ApplicationHelperTest < Redmine::HelperTest
       </code></pre>
     RAW
     expected = <<~EXPECTED
-      <pre><code class="ECMA_script syntaxhl" data-language="ECMA_script"><span class="cm">/* Hello */</span><span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="dl">"</span><span class="s2">Hello World!</span><span class="dl">"</span><span class="p">);</span></code></pre>
+      <pre><code class="ECMA_script syntaxhl" data-language="ECMA_script"><span class="cm">/* Hello */</span><span class="nb">document</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="dl">"</span><span class="s2">Hello World!</span><span class="dl">"</span><span class="p">);</span></code></pre>
     EXPECTED
     with_settings :text_formatting => 'textile' do
       assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
