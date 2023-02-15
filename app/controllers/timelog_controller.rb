@@ -130,6 +130,7 @@ class TimelogController < ApplicationController
               :back_url => params[:back_url]
             }
             if params[:project_id] && @time_entry.project
+              options[:time_entry][:project_id] ||= @time_entry.project.id
               redirect_to new_project_time_entry_path(@time_entry.project, options)
             elsif params[:issue_id] && @time_entry.issue
               redirect_to new_issue_time_entry_path(@time_entry.issue, options)
