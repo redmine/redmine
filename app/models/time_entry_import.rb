@@ -85,6 +85,7 @@ class TimeEntryImport < Import
   def build_object(row, item)
     object = TimeEntry.new
     object.author = user
+    object.project = project
 
     activity_id = nil
     if activity

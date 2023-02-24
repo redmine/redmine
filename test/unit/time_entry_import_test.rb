@@ -165,6 +165,33 @@ class TimeEntryImportTest < ActiveSupport::TestCase
     assert_equal 2, fourth.user_id
   end
 
+  def test_imports_custom_field_with_user_format
+    cf = TimeEntryCustomField.create! name: 'User Field', field_format: 'user'
+    import = generate_import
+    import.settings = {
+      'separator' => ';', 'wrapper' => '"', 'encoding' => 'UTF-8',
+      'mapping' => {
+        'project_id' => '1',
+        'activity'   => 'value:10',
+        'issue_id'   => '1',
+        'spent_on'   => '2',
+        'hours'      => '3',
+        'comments'   => '4',
+        'user'       => '7',
+        "cf_#{cf.id}" => '7'
+      }
+    }
+    import.save!
+    first, second, third, fourth = new_records(TimeEntry, 4) {import.run}
+    jsmith = User.find_by_login 'jsmith'
+    dlopper = User.find_by_login 'dlopper'
+
+    assert_equal dlopper.id, third.custom_values.where(custom_field: cf.id).first.value.to_i
+    assert_equal jsmith.id, fourth.custom_values.where(custom_field: cf.id).first.value.to_i
+    assert_equal jsmith.id, first.custom_values.where(custom_field: cf.id).first.value.to_i
+    assert_equal jsmith.id, second.custom_values.where(custom_field: cf.id).first.value.to_i
+  end
+
   protected
 
   def generate_import(fixture_name='import_time_entries.csv')
