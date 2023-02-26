@@ -3445,6 +3445,40 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal [5], issue2.filter_projects_scope('').ids.sort
   end
 
+  def test_create_should_add_watcher
+    user = User.first
+    user.pref.auto_watch_on=['issue_created']
+    user.pref.save
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => user.id, :subject => 'test_create_should_add_watcher')
+
+    assert_difference 'Watcher.count', 1 do
+      assert_equal true, issue.save
+    end
+  end
+
+  def test_create_should_add_author_watcher_only_once
+    user = User.first
+    user.pref.auto_watch_on=['issue_created']
+    user.pref.save
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => user.id, :subject => 'test_create_should_add_watcher')
+    issue.watcher_user_ids = [user.id]
+
+    assert_difference 'Watcher.count', 1 do
+      assert_equal true, issue.save
+    end
+  end
+
+  def test_create_should_not_add_watcher
+    user = User.first
+    user.pref.auto_watch_on=[]
+    user.pref.save
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => user.id, :subject => 'test_create_should_not_add_watcher')
+
+    assert_no_difference 'Watcher.count' do
+      assert_equal true, issue.save
+    end
+  end
+
   def test_like_should_escape_query
     issue = Issue.generate!(:subject => "asdf")
     r = Issue.like('as_f')

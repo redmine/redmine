@@ -121,7 +121,11 @@ class Issue < ActiveRecord::Base
   # Should be after_create but would be called before previous after_save callbacks
   after_save :after_create_from_copy, :create_parent_issue_journal
   after_destroy :update_parent_attributes, :create_parent_issue_journal
+  # add_auto_watcher needs to run before sending notifications, thus it needs
+  # to be added after send_notification (after_ callbacks are run in inverse order)
+  # https://api.rubyonrails.org/v5.2.3/classes/ActiveSupport/Callbacks/ClassMethods.html#method-i-set_callback
   after_create_commit :send_notification
+  after_create_commit :add_auto_watcher
 
   # Returns a SQL conditions string used to find all issues visible by the specified user
   def self.visible_condition(user, options={})
@@ -2017,6 +2021,15 @@ class Issue < ActiveRecord::Base
       new_parent_issue.init_journal(User.current)
       new_parent_issue.current_journal.__send__(:add_attribute_detail, 'child_id', nil, child_id)
       new_parent_issue.save
+    end
+  end
+
+  def add_auto_watcher
+    if author &&
+        author.allowed_to?(:add_issue_watchers, project) &&
+        author.pref.auto_watch_on?('issue_created') &&
+        self.watcher_user_ids.exclude?(author.id)
+      self.set_watcher(author, true)
     end
   end
 

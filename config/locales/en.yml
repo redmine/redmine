@@ -961,6 +961,7 @@ en:
   label_optional_description: Optional description
   label_add_another_file: Add another file
   label_auto_watch_on: Auto watch
+  label_auto_watch_on_issue_created: Issues I created
   label_auto_watch_on_issue_contributed_to: Issues I contributed to
   label_preferences: Preferences
   label_chronological_order: In chronological order
