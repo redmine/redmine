@@ -2025,8 +2025,8 @@ class Issue < ActiveRecord::Base
   end
 
   def add_auto_watcher
-    if author &&
-        author.allowed_to?(:add_issue_watchers, project) &&
+    if author&.active? &&
+        author&.allowed_to?(:add_issue_watchers, project) &&
         author.pref.auto_watch_on?('issue_created') &&
         self.watcher_user_ids.exclude?(author.id)
       self.set_watcher(author, true)
