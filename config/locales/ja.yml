@@ -1427,3 +1427,4 @@ ja:
   text_users_bulk_destroy_head: 以下のユーザーとこれらのユーザーへのすべての参照を削除しようとしています。削除後は元に戻せません。通常は削除よりロックのほうが適切です。
   text_users_bulk_destroy_confirm: 削除する場合は確認のため "%{yes}" と入力してください。
   permission_select_project_publicity: プロジェクトの公開/非公開
+  label_auto_watch_on_issue_created: Issues I created
