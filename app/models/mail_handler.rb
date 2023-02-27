@@ -263,15 +263,14 @@ class MailHandler < ActionMailer::Base
   # Reply will be added to the issue
   def receive_journal_reply(journal_id)
     journal = Journal.find_by(:id => journal_id)
-    if journal.nil?
-      logger&.info "MailHandler: ignoring reply from [#{email.from.first}] to a nonexistent journal"
-      return nil
-    end
 
-    if journal.journalized_type == 'Issue'
+    if journal && journal.journalized_type == 'Issue'
       receive_issue_reply(journal.journalized_id, journal)
+    elsif m = email.subject.to_s.match(ISSUE_REPLY_SUBJECT_RE)
+      logger&.info "MailHandler: reply to a nonexistant journal, calling receive_issue_reply with issue from subject"
+      receive_issue_reply(m[1].to_i)
     else
-      logger&.info "MailHandler: ignoring reply from [#{email.from.first}] to a journal whose journalized_type is not Issue"
+      logger&.info "MailHandler: ignoring reply to a nonexistant journal or issue"
       return nil
     end
   end

@@ -1114,6 +1114,21 @@ class MailHandlerTest < ActiveSupport::TestCase
     end
   end
 
+  def test_reply_to_a_nonexitent_journal_with_subject_fallback
+    journal_id = Issue.find(2).journals.last.id
+    Journal.destroy(journal_id)
+    assert_no_difference 'Issue.count' do
+      assert_difference 'Journal.count', 1 do
+        journal = submit_email('ticket_reply.eml') do |email|
+          email.sub! %r{^In-Reply-To:.*$}, "In-Reply-To: <redmine.journal-#{journal_id}.20060719210421@osiris>"
+          email.sub! %r{^Subject:.*$}, "Subject: Re: [Feature request #2] Add ingredients categories"
+        end
+        assert_kind_of Journal, journal
+        assert_equal Issue.find(2), journal.journalized
+      end
+    end
+  end
+
   def test_reply_to_a_message
     m = submit_email('message_reply.eml')
     assert m.is_a?(Message)
