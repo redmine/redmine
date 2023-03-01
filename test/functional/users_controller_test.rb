@@ -280,6 +280,19 @@ class UsersControllerTest < Redmine::ControllerTest
     assert_equal 'text/csv; header=present', @response.media_type
   end
 
+  def test_index_csv_filename_without_query_id_param
+    get :index, :params => {:format => 'csv'}
+    assert_response :success
+    assert_match /users.csv/, @response.headers['Content-Disposition']
+  end
+
+  def test_index_csv_filename_with_query_id_param
+    query = UserQuery.create!(:name => 'My Query Name', :visibility => UserQuery::VISIBILITY_PUBLIC)
+    get :index, :params => {:query_id => query.id, :format => 'csv'}
+    assert_response :success
+    assert_match /my_query_name\.csv/, @response.headers['Content-Disposition']
+  end
+
   def test_show
     @request.session[:user_id] = nil
     get :show, :params => {:id => 2}
