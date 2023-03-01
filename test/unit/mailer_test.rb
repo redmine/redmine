@@ -658,7 +658,7 @@ class MailerTest < ActiveSupport::TestCase
     ActionMailer::Base.deliveries.clear
     with_settings :notified_events => %w(issue_added) do
       cf = IssueCustomField.generate!
-      issue = Issue.generate!
+      issue = Issue.generate!(:parent => Issue.find(1))
       Mailer.deliver_issue_add(issue)
 
       assert_not_equal 0, ActionMailer::Base.deliveries.size
@@ -667,6 +667,7 @@ class MailerTest < ActiveSupport::TestCase
       assert_mail_body_match /^\* Author: /, mail
       assert_mail_body_match /^\* Status: /, mail
       assert_mail_body_match /^\* Priority: /, mail
+      assert_mail_body_match /^\* Parent task: /, mail
 
       assert_mail_body_no_match /^\* Assignee: /, mail
       assert_mail_body_no_match /^\* Category: /, mail

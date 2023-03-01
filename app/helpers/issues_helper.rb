@@ -445,7 +445,7 @@ module IssuesHelper
 
   def email_issue_attributes(issue, user, html)
     items = []
-    %w(author status priority assigned_to category fixed_version start_date due_date).each do |attribute|
+    %w(author status priority assigned_to category fixed_version start_date due_date parent_issue).each do |attribute|
       if issue.disabled_core_fields.grep(/^#{attribute}(_id)?$/).empty?
         attr_value = (issue.send attribute).to_s
         next if attr_value.blank?

@@ -1502,6 +1502,8 @@ class Issue < ActiveRecord::Base
     end
   end
 
+  alias :parent_issue :parent
+
   def set_parent_id
     self.parent_id = parent_issue_id
   end
