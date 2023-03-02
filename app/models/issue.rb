@@ -199,6 +199,10 @@ class Issue < ActiveRecord::Base
     )
   end
 
+  def attachments_addable?(user=User.current)
+    attributes_editable?(user) || notes_addable?(user)
+  end
+
   # Overrides Redmine::Acts::Attachable::InstanceMethods#attachments_editable?
   def attachments_editable?(user=User.current)
     attributes_editable?(user)
