@@ -103,9 +103,9 @@ group :test do
   gem "selenium-webdriver", "~> 3.142.7"
   gem 'webdrivers', '4.6.1', require: false
   # RuboCop
-  gem 'rubocop', '~> 1.47.0'
-  gem 'rubocop-performance', '~> 1.16.0'
-  gem 'rubocop-rails', '~> 2.17.2'
+  gem 'rubocop', '~> 1.47.0', require: false
+  gem 'rubocop-performance', '~> 1.16.0', require: false
+  gem 'rubocop-rails', '~> 2.17.2', require: false
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), "Gemfile.local")
