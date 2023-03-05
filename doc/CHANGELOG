@@ -4,6 +4,72 @@ Redmine - project management software
 Copyright (C) 2006-2023  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2023-03-05 v5.0.5
+
+=== [Code cleanup/refactoring]
+
+* Patch #38141: Update copyright year to 2023
+
+=== [Documentation]
+
+* Defect #38114: Example plugin (extra/sample_plugin) breaks Activity page
+
+=== [Gems support]
+
+* Defect #38239: Test failure with Commonmarker 0.23.8
+* Patch #38135: Allow use of Puma 6.0.0 or later
+* Patch #38272: Update RBPDF to 1.21
+
+=== [Groups]
+
+* Patch #38144: Refactoring: Use Group.visible instead of manual visibility check in GroupsController
+
+=== [Importers]
+
+* Defect #38254: Time Entry Import fails to import custom fields with "User" format
+
+=== [Issues]
+
+* Defect #37755: Mentioning users with certain characters renders incorrectly
+* Defect #38217: "Property changes" tab does not appear when all issue journals have both notes and property changes
+
+=== [PDF export]
+
+* Defect #32740: Incorrect characters when copying out of a Redmine generated PDF
+* Defect #36452: Infinite loop on PDF export if image included with attributes
+
+=== [Project settings]
+
+* Defect #38064: Avoid exception when adding a project without any givable roles defined
+
+=== [Rails support]
+
+* Defect #36273: Modifying the source code of a plugin does not reload it after r21295
+* Defect #38199: Fix deprecation warning for db:structure:dump in db:migrate when using sql schema format
+* Patch #38191: Update Rails to 6.1.7.2
+
+=== [Security]
+
+* Defect #38063: Avoid double-render error with ApplicationController#find_optional_project
+* Defect #38070: Role#permission_tracker? and related does not consider whether the base permission is (still) set
+* Defect #38133: Update Nokogiri to fix several security issues
+* Defect #38297: Insufficient permission checks when adding attachments to issues
+
+=== [SEO]
+
+* Defect #38201: Fix robots.txt to disallow issue lists with a sort or query_id parameter in any position
+
+=== [Text formatting]
+
+* Defect #37881: Thumbnails are no longer fetched for all notes of an issue
+* Defect #38073: CommonMark Markdown formatter does not support min-width, max-width, min-height, and max-height CSS properties
+* Defect #38215: Nested CommonMark Markdown task lists are not indented
+
+=== [Time tracking]
+
+* Defect #35066: Missing project_id in redirect after clicking "Create and add another" button
+* Defect #38237: Unable to choose any user other than the current user when logging spent time after clicking "Create and add another"
+
 == 2022-12-01 v5.0.4
 
 === [Activity view]
