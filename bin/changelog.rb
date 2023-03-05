@@ -145,7 +145,7 @@ module Redmine
 
       def retrieve_pagination_items_span_content
         begin
-          Nokogiri::HTML(open(ISSUES_URL)).css(PAGINATION_ITEMS_SPAN_SELECTOR).text
+          Nokogiri::HTML(URI.open(ISSUES_URL)).css(PAGINATION_ITEMS_SPAN_SELECTOR).text
         rescue OpenURI::HTTPError
           puts CONNECTION_ERROR_MSG
           exit
@@ -176,7 +176,7 @@ module Redmine
 
       def retrieve_issues_list_page(page_number)
         begin
-          Nokogiri::HTML(open(ISSUES_URL + '&page=' + page_number.to_s))
+          Nokogiri::HTML(URI.open(ISSUES_URL + '&page=' + page_number.to_s))
         rescue OpenURI::HTTPError
           puts CONNECTION_ERROR_MSG
           exit
@@ -222,7 +222,7 @@ module Redmine
 
       def retrieve_version_details
         begin
-          Nokogiri::HTML(open(VERSIONS_URL)).css(VERSION_DETAILS_SELECTOR)
+          Nokogiri::HTML(URI.open(VERSIONS_URL)).css(VERSION_DETAILS_SELECTOR)
         rescue OpenURI::HTTPError
           puts CONNECTION_ERROR_MSG
           exit
