@@ -304,6 +304,7 @@ bg:
   field_title: Заглавие
   field_project: Проект
   field_issue: Задача
+  field_is_member_of_group: Член на група
   field_status: Състояние
   field_notes: Бележка
   field_is_closed: Затворена задача
@@ -523,6 +524,7 @@ bg:
   permission_edit_project: Редактиране на проект
   permission_close_project: Затваряне / отваряне на проект
   permission_delete_project: Изтриване на проект
+  permission_select_project_publicity: Установяване на проект публичен или частен
   permission_select_project_modules: Избор на проектни модули
   permission_manage_members: Управление на членовете (на екип)
   permission_manage_project_activities: Управление на дейностите на проекта
@@ -962,7 +964,8 @@ bg:
   label_optional_description: Незадължително описание
   label_add_another_file: Добавяне на друг файл
   label_auto_watch_on: Автоматично включване в наблюдателите
-  label_auto_watch_on_issue_contributed_to: Задачи в които имам участие
+  label_auto_watch_on_issue_created: Задачи, които съм създал
+  label_auto_watch_on_issue_contributed_to: Задачи, в които имам участие
   label_preferences: Предпочитания
   label_chronological_order: Хронологичен ред
   label_reverse_chronological_order: Обратен хронологичен ред
@@ -1227,6 +1230,8 @@ bg:
   text_project_close_confirmation: Сигурни ли сте, че желаете да затворите проект '%{value}' и да го направите достъпен само за четене?
   text_project_reopen_confirmation: Сигурни ли сте, че желаете да отворите отново проект %{value}'?
   text_project_archive_confirmation: Сигурни ли сте, че желаете да архивирате проект '%{value}'?
+  text_users_bulk_destroy_head: Вие сте на път да изтриете следните потребители и всички връзки към тях. Това не може да бъде върнато назад. Често заключването на потребителите вместо изтриването им е по-добро решение.
+  text_users_bulk_destroy_confirm: За да потвърдите, моля въведете "%{yes}" по-долу.
   text_workflow_edit: Изберете роля и тракер за да редактирате работния процес
   text_are_you_sure: Сигурни ли сте?
   text_journal_changed: "%{label} променен от %{old} на %{new}"
@@ -1416,10 +1421,3 @@ bg:
     Това действие не може да бъде отменено. Често заключването на потребителя е по-добро решение от изтриването му.
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
-  field_is_member_of_group: Member of group
-  text_users_bulk_destroy_head: You are about to delete the following users and remove
-    all references to them. This cannot be undone. Often, locking users instead of deleting
-    them is the better solution.
-  text_users_bulk_destroy_confirm: To confirm, please enter "%{yes}" below.
-  permission_select_project_publicity: Set project public or private
-  label_auto_watch_on_issue_created: Issues I created
