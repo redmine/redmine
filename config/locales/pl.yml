@@ -313,6 +313,7 @@ pl:
   field_title: Tytuł
   field_project: Projekt
   field_issue: Zagadnienie
+  field_is_member_of_group: Członek grupy
   field_status: Status
   field_notes: Notatki
   field_is_closed: Zagadnienie zamknięte
@@ -424,9 +425,10 @@ pl:
   field_history_default_tab: Domyślna zakładka historii zagadnienia
   field_unique_id: Unikalne ID
   field_toolbar_language_options: Lista języków z podświetlaniem składni dostępna w toolbarze
-  field_twofa_required: Wymagaj dwyskładnikowego uwierzytelnia
+  field_twofa_required: Wymagaj dwuskładnikowego uwierzytelnia
   field_default_issue_query: Domyślna kwerenda dla listy zagadnień
   field_default_project_query: Domyślna kwerenda dla listy projektów
+  field_default_time_entry_activity: Domyślna aktywność dla wpisów dziennika
 
   setting_app_title: Tytuł aplikacji
   setting_welcome_text: Tekst powitalny
@@ -531,6 +533,7 @@ pl:
   permission_edit_project: Edycja projektów
   permission_close_project: Zamykanie/otwieranie projektów
   permission_delete_project: Usuwanie projektów
+  permission_select_project_publicity: Ustawianie projektu jako prywatny/publiczny
   permission_select_project_modules: Wybieranie modułów projektu
   permission_manage_members: Zarządzanie uczestnikami
   permission_manage_project_activities: Zarządzanie aktywnościami projektu
@@ -975,6 +978,7 @@ pl:
   label_optional_description: Opcjonalny opis
   label_add_another_file: Dodaj kolejny plik
   label_auto_watch_on: Automatyczne obserwowanie
+  label_auto_watch_on_issue_created: Zagadnienia, które utworzyłem
   label_auto_watch_on_issue_contributed_to: Zagadnienia, w których brałem udział
   label_preferences: Preferencje
   label_chronological_order: W kolejności chronologicznej
@@ -997,7 +1001,7 @@ pl:
   label_group_plural: Grupy
   label_group_new: Nowa grupa
   label_group_anonymous: Anonimowi użytkownicy
-  label_group_non_member: Użytkownicy nie będący uczestnikami
+  label_group_non_member: Użytkownicy niebędący uczestnikami
   label_time_entry_plural: Przepracowany czas
   label_version_sharing_none: Brak współdzielenia
   label_version_sharing_descendants: Z podprojektami
@@ -1022,7 +1026,7 @@ pl:
   label_additional_workflow_transitions_for_author: Dodatkowe przejścia stanów dozwolone, gdy użytkownik jest autorem zagadnienia
   label_additional_workflow_transitions_for_assignee: Dodatkowe przejścia stanów dozwolone, gdy użytkownik jest przypisany do zagadnienia
   label_issues_visibility_all: Wszystkie
-  label_issues_visibility_public: Wszystkie nie prywatne
+  label_issues_visibility_public: Wszystkie nieprywatne
   label_issues_visibility_own: Utworzone lub przypisane do użytkownika
   label_git_report_last_commit: Wyświetlaj ostatni commit dla plików i katalogów
   label_parent_revision: Rodzic
@@ -1122,7 +1126,7 @@ pl:
     for_all_projects: Dla wszystkich projektów
     for_current_project: Dla obecnego projektu
     for_all_users: Dla wszystkich użytkowników
-    for_this_user: For this user
+    for_this_user: Dla tego użytkownika
   label_nothing_to_preview: Nie ma nic do podglądu
   label_inherited_from_parent_project: Dziedziczone z nadrzędnego projektu
   label_inherited_from_group: "Dziedziczone z grupy %{name}"
@@ -1240,6 +1244,8 @@ pl:
   text_project_close_confirmation: Czy jesteś pewien, że chcesz oznaczyć projekt "%{value}" jako tylko do odczytu?
   text_project_reopen_confirmation: Czy jesteś pewien, że chcesz ponownie otworzyć projekt "%{value}"?
   text_project_archive_confirmation: Czy jesteś pewien, że chcesz zarchiwizować projekt "%{value}"?
+  text_users_bulk_destroy_head: 'Zamierzasz usunąć następujących użytkowników i wszystkie odwołania do nich. Tej operacji nie można cofnąć. Zwykle zablokowanie użytkowników jest lepszym rozwiązaniem, niż ich całkowite usunięcie.'
+  text_users_bulk_destroy_confirm: 'Aby potwierdzić, wpisz "%{yes}" w pole poniżej.'
   text_workflow_edit: Zaznacz rolę i typ zagadnienia do edycji przepływu pracy
   text_are_you_sure: Jesteś pewien?
   text_journal_changed: "Zmieniono %{label} z %{old} na %{new}"
@@ -1414,11 +1420,3 @@ pl:
 
   text_user_destroy_confirmation: "Czy jesteś pewien, że chcesz usunąć tego użytkownika i wszystkie odwołania do niego? Tej operacji nie można cofnąć. Zwykle zablokowanie użytkownika jest lepszym rozwiązaniem, niż jego całkowite usunięcie. Aby potwierdzić operację, podaj jego login (%{login}) poniżej."
   text_project_destroy_enter_identifier: "Aby potwierdzić, podaj identyfikator projektu (%{identifier}) poniżej."
-  field_is_member_of_group: Member of group
-  field_default_time_entry_activity: Default spent time activity
-  text_users_bulk_destroy_head: You are about to delete the following users and remove
-    all references to them. This cannot be undone. Often, locking users instead of deleting
-    them is the better solution.
-  text_users_bulk_destroy_confirm: To confirm, please enter "%{yes}" below.
-  permission_select_project_publicity: Set project public or private
-  label_auto_watch_on_issue_created: Issues I created
