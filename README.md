@@ -338,26 +338,50 @@ version 2.3.0.
 ```
 
 
+```bash
+# cat /opt/redmine/RM/config/puma.rb
 
+# Change to match your CPU core count
+workers 4
+
+# Min and Max threads per worker
+threads 0, 4
+
+app_dir = File.expand_path("../..", __FILE__)
+shared_dir = "#{app_dir}/shared"
+
+# Default to production
+rails_env = ENV['RAILS_ENV'] || "production"
+environment rails_env
+
+# Set up socket location
+bind "tcp://192.168.178.6:2080"
+
+# Logging
+stdout_redirect "#{shared_dir}/log/puma.stdout.log", "#{shared_dir}/log/puma.stderr.log", true
+
+# Set master PID and state locations
+pidfile "#{shared_dir}/pids/puma.pid"
+state_path "#{shared_dir}/pids/puma.state"
+
+```
 
 
 ```bash
 root@pi:~# mcedit /lib/systemd/system/redmine.service
-
 ```
+
 ```bash
 # cat /lib/systemd/system/redmine.service
 [Unit]
-Description=cdn.zp1.net as a service (cdn)
-After=network.target remote-fs.target nss-lookup.target
-;Name=cdn-zp1-net
+Description=Puma HTTP Server
+After=network.target
 
 [Service]
-;Type=forking
-User=cdn
-Group=users
-WorkingDirectory=/home/cdn/cdn.zp1.net
-ExecStart=rackup -DE production -o 192.168.178.6 -p 2080
+Type=simple
+User=redmine
+WorkingDirectory=/home/redmine/RM
+ExecStart=/opt/redmine/bin/bundle exec puma -C /opt/redmine/RM/config/puma.rb -e production
 Restart=always
 
 [Install]
@@ -365,7 +389,8 @@ WantedBy=multi-user.target
 ```
 
 ## finally enabling and starting the service
-```
+
+```bash
 root@pi:~# systemctl status redmine.service
 ? redmine.service - redmine as a service (cdn)
      Loaded: loaded (/lib/systemd/system/redmine.service; disabled; vendor preset: enabled)
