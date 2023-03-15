@@ -339,9 +339,33 @@ version 2.3.0.
 
 
 
+
+
 ```bash
 root@pi:~# mcedit /lib/systemd/system/redmine.service
 
+```
+```bash
+# cat /lib/systemd/system/redmine.service
+[Unit]
+Description=cdn.zp1.net as a service (cdn)
+After=network.target remote-fs.target nss-lookup.target
+;Name=cdn-zp1-net
+
+[Service]
+;Type=forking
+User=cdn
+Group=users
+WorkingDirectory=/home/cdn/cdn.zp1.net
+ExecStart=rackup -DE production -o 192.168.178.6 -p 2080
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+## finally enabling and starting the service
+```
 root@pi:~# systemctl status redmine.service
 ? redmine.service - redmine as a service (cdn)
      Loaded: loaded (/lib/systemd/system/redmine.service; disabled; vendor preset: enabled)
