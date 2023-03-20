@@ -1429,7 +1429,7 @@ fr:
   text_project_reopen_confirmation: Are you sure you want to reopen the '%{value}' project?
   text_project_archive_confirmation: Are you sure you want to archive the '%{value}'
     project?
-  mail_destroy_project_failed: Project %{value} could not be deleted.
+  mail_destroy_project_failed: "Le projet %{value} n'a pas pu être supprimé."
   mail_destroy_project_successful: Project %{value} was deleted successfully.
   mail_destroy_project_with_subprojects_successful: Project %{value} and its subprojects
     were deleted successfully.
