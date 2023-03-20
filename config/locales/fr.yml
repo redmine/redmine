@@ -1418,7 +1418,7 @@ fr:
   label_subtask: Subtask
   label_default_query: Rapport par défaut
   field_default_project_query: Default project query
-  label_required_administrators: required for administrators
+  label_required_administrators: requis pour les administrateurs
   twofa_hint_required_administrators_html: Setting <strong>%{label}</strong> behaves
     like optional, but will require all users with administration rights to set up two-factor
     authentication at their next login.
