@@ -45,6 +45,9 @@ $(document).ready(function(){
             display: true,
             text: <%= raw l(:label_commits_per_month).to_json %>
           }
+        },
+        scales: {
+          yAxis: {ticks: {precision: 0}}
         }
       }
     });
@@ -86,6 +89,9 @@ $(document).ready(function(){
             display: true,
             text: <%= raw l(:label_commits_per_author).to_json %>
           }
+        },
+        scales: {
+          xAxis: {ticks: {precision: 0}}
         }
       }
     });
