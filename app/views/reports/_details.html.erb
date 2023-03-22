@@ -1,7 +1,7 @@
 <% if @statuses.empty? or rows.empty? %>
     <p><i><%=l(:label_no_data)%></i></p>
 <% else %>
-<table class="list issue-report">
+<table class="list issue-report-detailed">
 <thead><tr>
 <th></th>
 <% for status in @statuses %>
