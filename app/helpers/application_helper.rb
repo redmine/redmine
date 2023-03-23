@@ -1855,10 +1855,10 @@ module ApplicationHelper
   # Returns the markdown formatter: markdown or common_mark
   # ToDo: Remove this when markdown will be removed
   def markdown_formatter
-    if Setting.text_formatting == "common_mark"
-      "common_mark"
-    else
+    if Setting.text_formatting == "markdown"
       "markdown"
+    else
+      "common_mark"
     end
   end
 

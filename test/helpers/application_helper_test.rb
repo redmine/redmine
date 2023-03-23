@@ -2229,6 +2229,20 @@ class ApplicationHelperTest < Redmine::HelperTest
     end
   end
 
+  # TODO: Remove this test when Redcarpet-based Markdown formatter is removed
+  def test_markdown_formatter
+    [
+      ['markdown', 'markdown'],
+      ['common_mark', 'common_mark'],
+      ['textile', 'common_mark'],
+      ['', 'common_mark']
+    ].each do |text_formatting, expected|
+      with_settings text_formatting: text_formatting do
+        assert_equal expected, markdown_formatter
+      end
+    end
+  end
+
   private
 
   def wiki_links_with_special_characters
