@@ -75,6 +75,7 @@ module Redmine
           @login = login if login && !login.empty?
           @password = (password || "") if @login
           @root_url = root_url.blank? ? retrieve_root_url : root_url
+          @path_encoding = path_encoding.presence || 'UTF-8'
         end
 
         def adapter_name

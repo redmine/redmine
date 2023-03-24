@@ -126,10 +126,13 @@ end
 
 class QueryCustomFieldColumn < QueryColumn
   def initialize(custom_field, options={})
-    self.name = "cf_#{custom_field.id}".to_sym
-    self.sortable = custom_field.order_statement || false
-    self.totalable = options.key?(:totalable) ? !!options[:totalable] : custom_field.totalable?
-    @inline = custom_field.full_width_layout? ? false : true
+    name = "cf_#{custom_field.id}".to_sym
+    super(
+      name,
+      :sortable => custom_field.order_statement || false,
+      :totalable =>  options.key?(:totalable) ? !!options[:totalable] : custom_field.totalable?,
+      :inline => custom_field.full_width_layout? ? false : true
+    )
     @cf = custom_field
   end
 

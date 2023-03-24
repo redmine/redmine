@@ -41,7 +41,7 @@ module Redmine
 
       class WikiTags < ::Loofah::Scrubber
         def initialize(tags_to_text)
-          @direction = :bottom_up
+          super(:direction => :bottom_up)
           @tags_to_text = tags_to_text || {}
         end
 

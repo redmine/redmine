@@ -23,6 +23,7 @@ module Redmine
     attr_reader :diff_type, :diff_style
 
     def initialize(diff, options={})
+      super()
       options.assert_valid_keys(:type, :style, :max_lines)
       diff = diff.split("\n") if diff.is_a?(String)
       @diff_type = options[:type] || 'inline'

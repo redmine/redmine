@@ -25,6 +25,7 @@ module Redmine
     # Initialize with a Diff file and the type of Diff View
     # The type view must be inline or sbs (side_by_side)
     def initialize(type="inline", style=nil)
+      super()
       @parsing = false
       @added = 0
       @removed = 0

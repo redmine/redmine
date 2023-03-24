@@ -76,11 +76,6 @@ module Redmine
           end
         end
 
-        def initialize(url, root_url=nil, login=nil, password=nil, path_encoding=nil)
-          super
-          @path_encoding = path_encoding.blank? ? 'UTF-8' : path_encoding
-        end
-
         def path_encoding
           @path_encoding
         end
