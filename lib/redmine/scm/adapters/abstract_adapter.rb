@@ -72,9 +72,9 @@ module Redmine
         def initialize(url, root_url=nil, login=nil, password=nil,
                        path_encoding=nil)
           @url = url
-          @login = login if login && !login.empty?
+          @login = login if login.present?
           @password = (password || "") if @login
-          @root_url = root_url.blank? ? retrieve_root_url : root_url
+          @root_url = root_url.presence || retrieve_root_url
           @path_encoding = path_encoding.presence || 'UTF-8'
         end
 
