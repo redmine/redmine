@@ -85,6 +85,11 @@ Layout/SpaceInsideBlockBraces:
 Layout/SpaceInsideHashLiteralBraces:
   Enabled: false
 
+Lint/MissingSuper:
+  Enabled: true
+  Exclude:
+    - 'lib/redmine/views/builders/structure.rb'
+
 Lint/RaiseException:
   Enabled: true
 
