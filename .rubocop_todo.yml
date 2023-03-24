@@ -326,10 +326,6 @@ Lint/Loop:
   Exclude:
     - 'lib/redmine/helpers/gantt.rb'
 
-Lint/MissingSuper:
-  Exclude:
-    - 'lib/redmine/twofa/base.rb'
-
 Lint/MixedRegexpCaptureTypes:
   Exclude:
     - 'app/helpers/application_helper.rb'
@@ -739,9 +735,6 @@ Rails/Presence:
     - 'lib/redmine/codeset_util.rb'
     - 'lib/redmine/i18n.rb'
     - 'lib/redmine/scm/adapters/abstract_adapter.rb'
-    - 'lib/redmine/scm/adapters/filesystem_adapter.rb'
-    - 'lib/redmine/scm/adapters/git_adapter.rb'
-    - 'lib/redmine/scm/adapters/mercurial_adapter.rb'
     - 'lib/redmine/sort_criteria.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
