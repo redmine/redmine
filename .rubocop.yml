@@ -33,12 +33,10 @@ Layout/CaseIndentation:
     - 'config/initializers/10-patches.rb'
 
 Layout/ClosingParenthesisIndentation:
-  Enabled: true
   Exclude:
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
 
 Layout/EmptyLinesAroundAccessModifier:
-  Enabled: true
   Exclude:
     - 'config/initializers/10-patches.rb'
 
@@ -46,12 +44,10 @@ Layout/EmptyLineBetweenDefs:
   AllowAdjacentOneLineDefs: true
 
 Layout/FirstHashElementIndentation:
-  Enabled: true
   Exclude:
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
 
 Layout/LineLength:
-  Enabled: true
   AllowedPatterns: ['\A\s+test \".+\" do\z', '\A\s*\#']
   Exclude:
     - 'db/migrate/0*.rb'
@@ -61,7 +57,6 @@ Layout/LineLength:
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
 
 Layout/RescueEnsureAlignment:
-  Enabled: true
   Exclude:
     - 'db/migrate/085_add_role_tracker_old_status_index_to_workflows.rb'
 
@@ -69,7 +64,6 @@ Layout/SpaceAroundEqualsInParameterDefault:
   Enabled: false
 
 Layout/SpaceBeforeSemicolon:
-  Enabled: true
   Exclude:
     - 'config/initializers/10-patches.rb'
 
@@ -86,15 +80,8 @@ Layout/SpaceInsideHashLiteralBraces:
   Enabled: false
 
 Lint/MissingSuper:
-  Enabled: true
   Exclude:
     - 'lib/redmine/views/builders/structure.rb'
-
-Lint/RaiseException:
-  Enabled: true
-
-Lint/StructNewOverride:
-  Enabled: true
 
 Lint/SuppressedException:
   AllowComments: true
@@ -180,13 +167,11 @@ Style/AsciiComments:
     - 'app/models/repository/git.rb'
 
 Style/BlockComments:
-  Enabled: true
   Exclude:
     - 'lib/redmine/string_array_diff/diff.rb'
     - 'lib/redmine/string_array_diff/diffable.rb'
 
 Style/BlockDelimiters:
-  Enabled: true
   Exclude:
     - 'db/migrate/007_create_journals.rb'
     - 'lib/redmine/string_array_diff/diff.rb'
@@ -205,7 +190,6 @@ Style/FormatStringToken:
   Enabled: false
 
 Style/FrozenStringLiteralComment:
-  Enabled: true
   EnforcedStyle: always
   Exclude:
     - 'db/**/*.rb'
@@ -217,18 +201,8 @@ Style/FrozenStringLiteralComment:
 Style/GlobalStdStream:
   Enabled: false
 
-Style/HashEachMethods:
-  Enabled: true
-
 Style/HashSyntax:
-  Enabled: true
   EnforcedStyle: no_mixed_keys
-
-Style/HashTransformKeys:
-  Enabled: true
-
-Style/HashTransformValues:
-  Enabled: true
 
 Style/IdenticalConditionalBranches:
   Exclude:
