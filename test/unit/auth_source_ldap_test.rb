@@ -75,7 +75,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
 
     a = AuthSourceLdap.new(:name => 'My LDAP', :host => 'ldap.example.net', :port => 389, :attr_login => 'sn')
     a.filter = "(mail=*@redmine.org"
-    assert !a.valid?
+    assert a.invalid?
     assert_include "LDAP filter is invalid", a.errors.full_messages
 
     a.filter = "(mail=*@redmine.org)"

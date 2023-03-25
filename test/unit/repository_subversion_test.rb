@@ -66,11 +66,11 @@ class RepositorySubversionTest < ActiveSupport::TestCase
     Redmine::Configuration.with 'scm_subversion_path_regexp' => 'file:///svnpath/[a-z]+' do
       repo = Repository::Subversion.new(:project => @project, :identifier => 'test')
       repo.url = 'http://foo'
-      assert !repo.valid?
+      assert repo.invalid?
       assert repo.errors[:url].present?
 
       repo.url = 'file:///svnpath/foo/bar'
-      assert !repo.valid?
+      assert repo.invalid?
       assert repo.errors[:url].present?
 
       repo.url = 'file:///svnpath/foo'
@@ -82,7 +82,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
     Redmine::Configuration.with 'scm_subversion_path_regexp' => 'file:///svnpath/%project%(\.[a-z]+)?' do
       repo = Repository::Subversion.new(:project => @project, :identifier => 'test')
       repo.url = 'file:///svnpath/invalid'
-      assert !repo.valid?
+      assert repo.invalid?
       assert repo.errors[:url].present?
 
       repo.url = 'file:///svnpath/subproject1'

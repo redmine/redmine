@@ -56,15 +56,15 @@ class VersionTest < ActiveSupport::TestCase
   def test_invalid_effective_date_validation
     v = Version.new(:project => Project.find(1), :name => '1.1',
                     :effective_date => '99999-01-01')
-    assert !v.valid?
+    assert v.invalid?
     v.effective_date = '2012-11-33'
-    assert !v.valid?
+    assert v.invalid?
     v.effective_date = '2012-31-11'
-    assert !v.valid?
+    assert v.invalid?
     v.effective_date = '-2012-31-11'
-    assert !v.valid?
+    assert v.invalid?
     v.effective_date = 'ABC'
-    assert !v.valid?
+    assert v.invalid?
     assert_include I18n.translate('activerecord.errors.messages.not_a_date'),
                    v.errors[:effective_date]
   end

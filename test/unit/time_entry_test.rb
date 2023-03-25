@@ -229,14 +229,14 @@ class TimeEntryTest < ActiveSupport::TestCase
     activity = TimeEntryActivity.create!(:name => 'Other project activity', :project_id => 2, :active => true)
 
     entry = TimeEntry.new(:spent_on => Date.today, :hours => 1.0, :user => User.find(1), :project_id => 1, :activity => activity)
-    assert !entry.valid?
+    assert entry.invalid?
     assert_include I18n.translate('activerecord.errors.messages.inclusion'), entry.errors[:activity_id]
   end
 
   def test_spent_on_with_2_digits_year_should_not_be_valid
     entry = TimeEntry.new(:project => Project.find(1), :user => User.find(1), :activity => TimeEntryActivity.first, :hours => 1)
     entry.spent_on = "09-02-04"
-    assert !entry.valid?
+    assert entry.invalid?
     assert_include I18n.translate('activerecord.errors.messages.not_a_date'), entry.errors[:spent_on]
   end
 

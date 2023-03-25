@@ -91,7 +91,7 @@ class WatcherTest < ActiveSupport::TestCase
   def test_watcher_users_should_not_validate_user
     User.where(:id => 1).update_all("firstname = ''")
     @user.reload
-    assert !@user.valid?
+    assert @user.invalid?
 
     issue = Issue.new(:project => Project.find(1), :tracker_id => 1, :subject => "test", :author => User.find(2))
     issue.watcher_users << @user

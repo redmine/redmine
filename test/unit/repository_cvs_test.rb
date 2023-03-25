@@ -104,7 +104,7 @@ class RepositoryCvsTest < ActiveSupport::TestCase
         :url           => MODULE_NAME
       )
       repo.root_url = '/wrong_path'
-      assert !repo.valid?
+      assert repo.invalid?
       assert repo.errors[:root_url].present?
 
       repo.root_url = '/cvspath/foo'
