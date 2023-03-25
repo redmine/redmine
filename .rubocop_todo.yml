@@ -211,7 +211,6 @@ Layout/SpaceAfterNot:
     - 'test/functional/workflows_controller_test.rb'
     - 'test/unit/attachment_test.rb'
     - 'test/unit/lib/redmine/export/pdf_test.rb'
-    - 'test/unit/project_copy_test.rb'
     - 'test/unit/project_test.rb'
     - 'test/unit/query_test.rb'
     - 'test/unit/role_test.rb'
@@ -483,7 +482,7 @@ Rails/ActiveRecordCallbacksOrder:
     - 'app/models/version.rb'
     - 'app/models/wiki_page.rb'
 
-# Configuration parameters: Include.
+# Configuration parameters: Severity, Include.
 # Include: app/models/**/*.rb
 Rails/ActiveRecordOverride:
   Exclude:
@@ -545,6 +544,7 @@ Rails/CreateTableWithTimestamps:
 Rails/Date:
   Enabled: false
 
+# Configuration parameters: Severity.
 Rails/DuplicateScope:
   Exclude:
     - 'app/models/enumeration.rb'
@@ -571,10 +571,9 @@ Rails/Exit:
     - 'config/routes.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: Include, AllowedMethods, AllowedPatterns, IgnoredMethods.
+# Configuration parameters: Include, AllowedMethods, AllowedPatterns.
 # Include: app/models/**/*.rb
 # AllowedMethods: order, limit, select, lock
-# IgnoredMethods: order, limit, select, lock
 Rails/FindEach:
   Exclude:
     - 'app/models/auth_source.rb'
