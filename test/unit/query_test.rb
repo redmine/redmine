@@ -1338,8 +1338,16 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal [1], find_issues_with_query(query).map(&:id).sort
 
     query = IssueQuery.new(:name => '_')
+    query.filters = {"relates" => {:operator => '=', :values => ['1,2']}}
+    assert_equal [1, 2, 3], find_issues_with_query(query).map(&:id).sort
+
+    query = IssueQuery.new(:name => '_')
     query.filters = {"relates" => {:operator => '!', :values => ['1']}}
     assert_equal Issue.where.not(:id => [2, 3]).order(:id).ids, find_issues_with_query(query).map(&:id).sort
+
+    query = IssueQuery.new(:name => '_')
+    query.filters = {"relates" => {:operator => '!', :values => ['1,2']}}
+    assert_equal Issue.where.not(:id => [1, 2, 3]).order(:id).ids, find_issues_with_query(query).map(&:id).sort
   end
 
   def test_filter_on_relations_with_any_issues_in_a_project

@@ -723,6 +723,7 @@ class IssueQuery < Query
       relation_type = relation_options[:reverse] || relation_type
       join_column, target_join_column = target_join_column, join_column
     end
+    ids = value.first.to_s.scan(/\d+/).map(&:to_i).uniq
     sql =
       case operator
       when "*", "!*"
@@ -739,7 +740,7 @@ class IssueQuery < Query
            " FROM #{IssueRelation.table_name}" \
              " WHERE #{IssueRelation.table_name}.relation_type =" \
                   " '#{self.class.connection.quote_string(relation_type)}'" \
-               " AND #{IssueRelation.table_name}.#{target_join_column} = #{value.first.to_i})"
+               " AND #{IssueRelation.table_name}.#{target_join_column} IN (#{ids.join(",")}))"
       when "=p", "=!p", "!p"
         op = (operator == "!p" ? 'NOT IN' : 'IN')
         comp = (operator == "=!p" ? '<>' : '=')
