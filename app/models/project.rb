@@ -29,8 +29,6 @@ class Project < ActiveRecord::Base
   # Maximum length for project identifiers
   IDENTIFIER_MAX_LENGTH = 100
 
-  # Specific overridden Activities
-  has_many :time_entry_activities, :dependent => :destroy
   has_many :memberships, :class_name => 'Member', :inverse_of => :project
   # Memberships of active users only
   has_many :members,
@@ -43,6 +41,8 @@ class Project < ActiveRecord::Base
   belongs_to :default_version, :class_name => 'Version'
   belongs_to :default_assigned_to, :class_name => 'Principal'
   has_many :time_entries, :dependent => :destroy
+  # Specific overridden Activities
+  has_many :time_entry_activities, :dependent => :destroy
   has_many :queries, :dependent => :destroy
   has_many :documents, :dependent => :destroy
   has_many :news, lambda {includes(:author)}, :dependent => :destroy
