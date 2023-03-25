@@ -273,7 +273,7 @@ class WikiPage < ActiveRecord::Base
   protected
 
   def validate_parent_title
-    errors.add(:parent_title, :invalid) if !@parent_title.blank? && parent.nil?
+    errors.add(:parent_title, :invalid) if @parent_title.present? && parent.nil?
     errors.add(:parent_title, :circular_dependency) if parent && (parent == self || parent.ancestors.include?(self))
     if parent_id_changed? && parent && (parent.wiki_id != wiki_id)
       errors.add(:parent_title, :not_same_project)

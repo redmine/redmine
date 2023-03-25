@@ -155,7 +155,7 @@ module CustomFieldsHelper
   def custom_field_value_tag(value)
     attr_value = show_value(value)
 
-    if !attr_value.blank? && value.custom_field.full_text_formatting?
+    if attr_value.present? && value.custom_field.full_text_formatting?
       content_tag('div', attr_value, :class => 'wiki')
     else
       attr_value

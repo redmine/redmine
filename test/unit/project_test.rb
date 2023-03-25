@@ -66,13 +66,13 @@ class ProjectTest < ActiveSupport::TestCase
     end
 
     with_settings :sequential_project_identifiers => '1' do
-      assert !Project.new.identifier.blank?
+      assert Project.new.identifier.present?
       assert Project.new(:identifier => '').identifier.blank?
     end
 
     with_settings :sequential_project_identifiers => '0' do
       assert Project.new.identifier.blank?
-      assert !Project.new(:identifier => 'test').blank?
+      assert Project.new(:identifier => 'test').present?
     end
 
     with_settings :default_projects_modules => ['issue_tracking', 'repository'] do

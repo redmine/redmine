@@ -416,7 +416,7 @@ module Redmine
 
     # Returns +true+ if the plugin can be configured.
     def configurable?
-      settings && settings.is_a?(Hash) && !settings[:partial].blank?
+      settings && settings.is_a?(Hash) && settings[:partial].present?
     end
 
     # The directory containing this plugin's migrations (<tt>plugin/db/migrate</tt>)

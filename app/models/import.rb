@@ -94,7 +94,7 @@ class Import < ActiveRecord::Base
       'notifications' => '0'
     )
 
-    if options.key?(:project_id) && !options[:project_id].blank?
+    if options.key?(:project_id) && options[:project_id].present?
       # Do not fail if project doesn't exist
       begin
         project = Project.find(options[:project_id])

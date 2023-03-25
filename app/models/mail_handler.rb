@@ -365,7 +365,7 @@ class MailHandler < ActionMailer::Base
           end
         if override && (v = extract_keyword!(cleaned_up_text_body, attr, options[:format]))
           v
-        elsif !handler_options[:issue][attr].blank?
+        elsif handler_options[:issue][attr].present?
           handler_options[:issue][attr]
         end
       end

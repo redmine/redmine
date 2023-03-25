@@ -76,7 +76,7 @@ class ProjectCopyTest < ActiveSupport::TestCase
     assert_equal @source_project.issues.size, @project.issues.size
     @project.issues.each do |issue|
       assert issue.valid?
-      assert ! issue.assigned_to.blank?
+      assert issue.assigned_to.present?
       assert_equal @project, issue.project
     end
 

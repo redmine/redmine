@@ -251,7 +251,7 @@ class ApplicationController < ActionController::Base
     end
     if lang.nil? && !Setting.force_default_language_for_anonymous? && request.env['HTTP_ACCEPT_LANGUAGE']
       accept_lang = parse_qvalues(request.env['HTTP_ACCEPT_LANGUAGE']).first
-      if !accept_lang.blank?
+      if accept_lang.present?
         accept_lang = accept_lang.downcase
         lang = find_language(accept_lang) || find_language(accept_lang.split('-').first)
       end

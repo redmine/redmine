@@ -111,7 +111,7 @@ class Setting < ActiveRecord::Base
       v = YAML.safe_load(v, permitted_classes: Rails.configuration.active_record.yaml_column_permitted_classes)
       v = force_utf8_strings(v)
     end
-    v = v.to_sym if available_settings[name]['format'] == 'symbol' && !v.blank?
+    v = v.to_sym if available_settings[name]['format'] == 'symbol' && v.present?
     v
   end
 

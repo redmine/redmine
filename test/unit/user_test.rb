@@ -1094,8 +1094,8 @@ class UserTest < ActiveSupport::TestCase
   def test_random_password
     u = User.new
     u.random_password
-    assert !u.password.blank?
-    assert !u.password_confirmation.blank?
+    assert u.password.present?
+    assert u.password_confirmation.present?
   end
 
   def test_random_password_include_required_characters
@@ -1301,7 +1301,7 @@ class UserTest < ActiveSupport::TestCase
 
     user.reload
     # Salt added
-    assert !user.salt.blank?
+    assert user.salt.present?
     # Password still valid
     assert user.check_password?("unsalted")
     assert_equal user, User.try_to_login(user.login, "unsalted")

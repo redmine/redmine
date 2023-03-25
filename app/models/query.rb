@@ -505,7 +505,7 @@ class Query < ActiveRecord::Base
 
       add_filter_error(field, :blank) unless
           # filter requires one or more values
-          (values_for(field) and !values_for(field).first.blank?) or
+          (values_for(field) and values_for(field).first.present?) or
           # filter doesn't require any value
           ["o", "c", "!*", "*", "nd", "t", "ld", "nw", "w", "lw", "l2w", "nm", "m", "lm", "y", "*o", "!o"].include? operator_for(field)
     end if filters
@@ -830,7 +830,7 @@ class Query < ActiveRecord::Base
 
   def column_names=(names)
     if names
-      names = names.select {|n| n.is_a?(Symbol) || !n.blank?}
+      names = names.select {|n| n.is_a?(Symbol) || n.present?}
       names = names.collect {|n| n.is_a?(Symbol) ? n : n.to_sym}
       if names.delete(:all_inline)
         names = available_inline_columns.map(&:name) | names
