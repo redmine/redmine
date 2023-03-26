@@ -306,6 +306,41 @@ class MailHandler < ActionMailer::Base
     end
   end
 
+  # Receives a reply to a news entry
+  def receive_news_reply(news_id)
+    news = News.find_by_id(news_id)
+    if news.nil?
+      raise MissingContainer, "reply to nonexistant news [#{news_id}]"
+    end
+
+    # Never receive emails to projects where adding news comments is not possible
+    project = news.project
+    raise NotAllowedInProject, "not possible to add news comments to project [#{project.name}]" unless project.allows_to?(:comment_news)
+
+    unless handler_options[:no_permission_check]
+      unless news.commentable?(user)
+        raise InsufficientPermissions, "not allowed to comment on news item [#{news.id} #{news.title}]"
+      end
+    end
+
+    comment = news.comments.new
+    comment.author = user
+    comment.comments = cleaned_up_text_body
+    comment.save!
+    comment
+  end
+
+  # Receives a reply to a comment to a news entry
+  def receive_comment_reply(comment_id)
+    comment = Comment.find_by_id(comment_id)
+
+    if comment && comment.commented_type == 'News'
+      receive_news_reply(comment.commented.id)
+    else
+      raise MissingContainer, "reply to nonexistant comment [#{comment_id}]"
+    end
+  end
+
   def add_attachments(obj)
     if email.attachments && email.attachments.any?
       email.attachments.each do |attachment|

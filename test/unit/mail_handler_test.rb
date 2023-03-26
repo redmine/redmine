@@ -28,7 +28,7 @@ class MailHandlerTest < ActiveSupport::TestCase
            :workflows, :trackers, :projects_trackers,
            :versions, :enumerations, :issue_categories,
            :custom_fields, :custom_fields_trackers, :custom_fields_projects, :custom_values,
-           :boards, :messages, :watchers
+           :boards, :messages, :watchers, :news, :comments
 
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
 
@@ -1171,6 +1171,40 @@ class MailHandlerTest < ActiveSupport::TestCase
     Role.all.each {|r| r.remove_permission! :add_messages}
     assert_no_difference('Message.count') do
       assert_not submit_email('message_reply_by_subject.eml')
+    end
+  end
+
+  def test_reply_to_a_news
+    m = submit_email('news_reply.eml')
+    assert m.is_a?(Comment)
+    assert !m.new_record?
+    m.reload
+    assert_equal News.find(1), m.commented
+    assert_equal "This is a reply to a news.", m.content
+  end
+
+  def test_reply_to_a_news_comment
+    m = submit_email('news_comment_reply.eml')
+    assert m.is_a?(Comment)
+    assert !m.new_record?
+    m.reload
+    assert_equal News.find(1), m.commented
+    assert_equal "This is a reply to a comment.", m.content
+  end
+
+  def test_reply_to_a_nonexistant_news
+    News.find(1).destroy
+    assert_no_difference('Comment.count') do
+      assert_not submit_email('news_reply.eml')
+      assert_not submit_email('news_comment_reply.eml')
+    end
+  end
+
+  def test_reply_to_a_news_without_permission
+    Role.all.each {|r| r.remove_permission! :comment_news}
+    assert_no_difference('Comment.count') do
+      assert_not submit_email('news_reply.eml')
+      assert_not submit_email('news_comment_reply.eml')
     end
   end
 
