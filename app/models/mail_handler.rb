@@ -24,6 +24,7 @@ class MailHandler < ActionMailer::Base
   class UnauthorizedAction < StandardError; end
   class NotAllowedInProject < UnauthorizedAction; end
   class InsufficientPermissions < UnauthorizedAction; end
+  class LockedTopic < UnauthorizedAction; end
   class MissingInformation < StandardError; end
   class MissingContainer < StandardError; end
 
@@ -301,7 +302,7 @@ class MailHandler < ActionMailer::Base
       add_attachments(reply)
       reply
     else
-      logger&.info "MailHandler: ignoring reply from [#{email.from.first}] to a locked topic"
+      raise LockedTopic, "ignoring reply to a locked message [#{message.id} #{message.subject}]"
     end
   end
 
