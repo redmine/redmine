@@ -25,6 +25,7 @@ class MailHandler < ActionMailer::Base
   class NotAllowedInProject < UnauthorizedAction; end
   class InsufficientPermissions < UnauthorizedAction; end
   class MissingInformation < StandardError; end
+  class MissingContainer < StandardError; end
 
   attr_reader :email, :user, :handler_options
 
@@ -172,6 +173,9 @@ class MailHandler < ActionMailer::Base
   rescue MissingInformation => e
     logger&.error "MailHandler: missing information from #{user}: #{e.message}"
     false
+  rescue MissingContainer => e
+    logger&.error "MailHandler: reply to nonexistant object from #{user}: #{e.message}"
+    false
   rescue UnauthorizedAction => e
     logger&.error "MailHandler: unauthorized attempt from #{user}: #{e.message}"
     false
@@ -225,8 +229,7 @@ class MailHandler < ActionMailer::Base
   def receive_issue_reply(issue_id, from_journal=nil)
     issue = Issue.find_by(:id => issue_id)
     if issue.nil?
-      logger&.info "MailHandler: ignoring reply from [#{email.from.first}] to a nonexistent issue"
-      return nil
+      raise MissingContainer, "reply to nonexistant issue [##{issue_id}]"
     end
 
     # Never receive emails to projects where adding issue notes is not possible
@@ -270,8 +273,7 @@ class MailHandler < ActionMailer::Base
       logger&.info "MailHandler: reply to a nonexistant journal, calling receive_issue_reply with issue from subject"
       receive_issue_reply(m[1].to_i)
     else
-      logger&.info "MailHandler: ignoring reply to a nonexistant journal or issue"
-      return nil
+      raise MissingContainer, "reply to nonexistant journal [#{journal_id}]"
     end
   end
 
@@ -279,8 +281,7 @@ class MailHandler < ActionMailer::Base
   def receive_message_reply(message_id)
     message = Message.find_by(:id => message_id)&.root
     if message.nil?
-      logger&.info "MailHandler: ignoring reply from [#{email.from.first}] to a nonexistent message"
-      return nil
+      raise MissingContainer, "reply to nonexistant message [#{message_id}]"
     end
 
     # Never receive emails to projects where adding messages is not possible

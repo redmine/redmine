@@ -1084,7 +1084,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_no_difference 'Issue.count' do
       assert_no_difference 'Journal.count' do
         journal = submit_email('ticket_reply_with_status.eml')
-        assert_nil journal
+        assert_not journal
       end
     end
   end
@@ -1109,7 +1109,7 @@ class MailHandlerTest < ActiveSupport::TestCase
         journal = submit_email('ticket_reply.eml') do |email|
           email.sub! %r{^In-Reply-To:.*$}, "In-Reply-To: <redmine.journal-#{journal_id}.20060719210421@osiris>"
         end
-        assert_nil journal
+        assert_not journal
       end
     end
   end
@@ -1163,7 +1163,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     Message.find(2).destroy
     assert_no_difference('Message.count') do
       m = submit_email('message_reply_by_subject.eml')
-      assert_nil m
+      assert_not m
     end
   end
 
