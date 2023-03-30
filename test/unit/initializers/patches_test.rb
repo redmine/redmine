@@ -21,6 +21,7 @@ require_relative '../../test_helper'
 
 class PatchesTest < ActiveSupport::TestCase
   include Redmine::I18n
+  include ActionView::Helpers::FormHelper
 
   def setup
     Setting.default_language = 'en'
@@ -36,5 +37,15 @@ class PatchesTest < ActiveSupport::TestCase
 
   test "ActiveRecord::Base.human_attribute_name should default to humanized value if no translation has been found (useful for custom fields)" do
     assert_equal 'Patch name', ActiveRecord::Base.human_attribute_name('Patch name')
+  end
+
+  test 'ActionView::Helpers::FormHelper.date_field should add max=9999-12-31 to limit year value to 4 digits by default' do
+    assert_include 'max="9999-12-31"', date_field('issue', 'start_date')
+    assert_include 'max="2099-12-31"', date_field('issue', 'start_date', max: '2099-12-31')
+  end
+
+  test 'ActionView::Helpers::FormTagHelper.date_field_tag should add max=9999-12-31 to limit year value to 4 digits by default' do
+    assert_include 'max="9999-12-31"', date_field_tag('start_date')
+    assert_include 'max="2099-12-31"', date_field_tag('issue', 'start_date', max: '2099-12-31')
   end
 end
