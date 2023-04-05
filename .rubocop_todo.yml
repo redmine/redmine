@@ -733,7 +733,6 @@ Rails/Presence:
     - 'app/models/repository.rb'
     - 'lib/redmine/codeset_util.rb'
     - 'lib/redmine/i18n.rb'
-    - 'lib/redmine/scm/adapters/abstract_adapter.rb'
     - 'lib/redmine/sort_criteria.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
