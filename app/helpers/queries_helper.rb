@@ -24,7 +24,7 @@ module QueriesHelper
 
   def filters_options_for_select(query)
     ungrouped = []
-    grouped = {}
+    grouped = {label_string: [], label_date: [], label_time_tracking: [], label_attachment: []}
     query.available_filters.map do |field, field_options|
       if field_options[:type] == :relation
         group = :label_relations
