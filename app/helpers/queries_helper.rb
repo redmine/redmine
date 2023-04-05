@@ -43,6 +43,8 @@ module QueriesHelper
         group = :label_time_tracking
       elsif %w(attachment attachment_description).include?(field)
         group = :label_attachment
+      elsif [:string, :text, :search].include?(field_options[:type])
+        group = :label_string
       end
       if group
         (grouped[group] ||= []) << [field_options[:name], field]

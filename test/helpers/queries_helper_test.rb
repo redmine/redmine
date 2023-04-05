@@ -82,6 +82,16 @@ class QueriesHelperTest < Redmine::HelperTest
     end
   end
 
+  def test_filters_options_for_select_should_group_text_filters
+    with_locale 'en' do
+      options = filters_options_for_select(IssueQuery.new)
+      assert_select_in options, 'optgroup[label=?]', 'Text', 1
+      assert_select_in options, 'optgroup > option[value=subject]', :text => 'Subject'
+      assert_select_in options, 'optgroup > option[value=cf_2]', :text => 'Searchable field'
+      assert_select_in options, 'optgroup > option:last-of-type[value=any_searchable]', :text => 'Any searchable text'
+    end
+  end
+
   def test_query_to_csv_should_translate_boolean_custom_field_values
     f = IssueCustomField.generate!(:field_format => 'bool', :name => 'Boolean', :is_for_all => true, :trackers => Tracker.all)
     issues = [
