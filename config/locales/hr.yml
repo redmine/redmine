@@ -1472,3 +1472,4 @@ hr:
   text_users_bulk_destroy_confirm: To confirm, please enter "%{yes}" below.
   permission_select_project_publicity: Set project public or private
   label_auto_watch_on_issue_created: Issues I created
+  field_any_searchable: Any searchable text

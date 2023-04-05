@@ -1420,3 +1420,4 @@ pl:
 
   text_user_destroy_confirmation: "Czy jesteś pewien, że chcesz usunąć tego użytkownika i wszystkie odwołania do niego? Tej operacji nie można cofnąć. Zwykle zablokowanie użytkownika jest lepszym rozwiązaniem, niż jego całkowite usunięcie. Aby potwierdzić operację, podaj jego login (%{login}) poniżej."
   text_project_destroy_enter_identifier: "Aby potwierdzić, podaj identyfikator projektu (%{identifier}) poniżej."
+  field_any_searchable: Any searchable text

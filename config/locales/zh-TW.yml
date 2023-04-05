@@ -1493,3 +1493,4 @@
   text_users_bulk_destroy_confirm: 請於下方輸入 "%{yes}" 以便確認。
   permission_select_project_publicity: 設定專案為公開或私人
   label_auto_watch_on_issue_created: 我所建立的議題
+  field_any_searchable: Any searchable text

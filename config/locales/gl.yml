@@ -1481,3 +1481,4 @@ gl:
   text_users_bulk_destroy_confirm: Para confirmar por favor teclee "%{yes}" debaixo.
   permission_select_project_publicity: Configurar o proxecto coma público ou privado
   label_auto_watch_on_issue_created: Issues I created
+  field_any_searchable: Any searchable text
