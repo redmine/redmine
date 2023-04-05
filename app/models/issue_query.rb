@@ -272,6 +272,8 @@ class IssueQuery < Query
 
     add_available_filter "issue_id", :type => :integer, :label => :label_issue
 
+    add_available_filter "any_searchable", :type => :search
+
     Tracker.disabled_core_fields(trackers).each do |field|
       delete_available_filter field
     end
@@ -772,6 +774,33 @@ class IssueQuery < Query
 
   def sql_for_project_status_field(field, operator, value, options={})
     sql_for_field(field, operator, value, Project.table_name, "status")
+  end
+
+  def sql_for_any_searchable_field(field, operator, value)
+    question = value.first
+
+    # Fetch search results only from the selected and visible (sub-)projects
+    project_scope = Project.allowed_to(:view_issues)
+    if project
+      projects = project_scope.where(project_statement)
+    elsif has_filter?('project_id')
+      projects = project_scope.where(
+        sql_for_field('project_id', operator_for('project_id'), values_for('project_id'), Project.table_name, 'id')
+      )
+    else
+      projects = nil
+    end
+
+    fetcher = Redmine::Search::Fetcher.new(
+      question, User.current, ['issue'], projects, attachments: '0'
+    )
+    ids = fetcher.result_ids.map(&:last)
+    if ids.present?
+      sw = operator == '!~' ? 'NOT' : ''
+      "#{Issue.table_name}.id #{sw} IN (#{ids.join(',')})"
+    else
+      '1=0'
+    end
   end
 
   def find_assigned_to_id_filter_values(values)

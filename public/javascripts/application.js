@@ -220,6 +220,7 @@ function buildFilterRow(field, operator, values) {
     break;
   case "string":
   case "text":
+  case "search":
     tr.find('td.values').append(
       '<span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'" size="30" class="value" /></span>'
     );

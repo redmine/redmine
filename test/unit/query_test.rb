@@ -844,6 +844,36 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal [1, 3], find_issues_with_query(query).map(&:id).sort
   end
 
+  def test_fileter_any_searchable
+    User.current = User.find(1)
+    query = IssueQuery.new(
+      :name => '_',
+      :filters => {
+        'any_searchable' => {
+          :operator => '~',
+          :values => ['recipe']
+        }
+      }
+    )
+    result = find_issues_with_query(query)
+    assert_equal [1, 2, 3], result.map(&:id).sort
+  end
+
+  def test_fileter_any_searchable_should_search_searchable_custom_fields
+    User.current = User.find(1)
+    query = IssueQuery.new(
+      :name => '_',
+      :filters => {
+        'any_searchable' => {
+          :operator => '~',
+          :values => ['125']
+        }
+      }
+    )
+    result = find_issues_with_query(query)
+    assert_equal [1, 3], result.map(&:id).sort
+  end
+
   def test_filter_updated_by
     user = User.generate!
     Journal.create!(:user_id => user.id, :journalized => Issue.find(2), :notes => 'Notes')
