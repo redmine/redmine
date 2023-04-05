@@ -844,7 +844,7 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal [1, 3], find_issues_with_query(query).map(&:id).sort
   end
 
-  def test_fileter_any_searchable
+  def test_filter_any_searchable
     User.current = User.find(1)
     query = IssueQuery.new(
       :name => '_',
@@ -859,7 +859,52 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal [1, 2, 3], result.map(&:id).sort
   end
 
-  def test_fileter_any_searchable_should_search_searchable_custom_fields
+  def test_filter_any_searchable_no_matches
+    User.current = User.find(1)
+    query = IssueQuery.new(
+      :name => '_',
+      :filters => {
+        'any_searchable' => {
+          :operator => '~',
+          :values => ['SomethingThatDoesNotExist']
+        }
+      }
+    )
+    result = find_issues_with_query(query)
+    assert_empty result.map(&:id)
+  end
+
+  def test_filter_any_searchable_negative
+    User.current = User.find(1)
+    query = IssueQuery.new(
+      :name => '_',
+      :filters => {
+        'any_searchable' => {
+          :operator => '!~',
+          :values => ['recipe']
+        }
+      }
+    )
+    result = find_issues_with_query(query)
+    assert_not_includes [1, 2, 3], result.map(&:id)
+  end
+
+  def test_filter_any_searchable_negative_no_matches
+    User.current = User.find(1)
+    query = IssueQuery.new(
+      :name => '_',
+      :filters => {
+        'any_searchable' => {
+          :operator => '!~',
+          :values => ['SomethingThatDoesNotExist']
+        }
+      }
+    )
+    result = find_issues_with_query(query)
+    assert_not_empty result.map(&:id)
+  end
+
+  def test_filter_any_searchable_should_search_searchable_custom_fields
     User.current = User.find(1)
     query = IssueQuery.new(
       :name => '_',

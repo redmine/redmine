@@ -799,7 +799,7 @@ class IssueQuery < Query
       sw = operator == '!~' ? 'NOT' : ''
       "#{Issue.table_name}.id #{sw} IN (#{ids.join(',')})"
     else
-      '1=0'
+      operator == '!~' ? '1=1' : '1=0'
     end
   end
 
