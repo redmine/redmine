@@ -859,6 +859,41 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal [1, 2, 3], result.map(&:id).sort
   end
 
+  def test_filter_any_searchable_with_multiple_words
+    User.current = User.find(1)
+    query = IssueQuery.new(
+      :name => '_',
+      :filters => {
+        'any_searchable' => {
+          :operator => '~',
+          :values => ['recipe categories']
+        }
+      }
+    )
+    result = find_issues_with_query(query)
+    assert_equal [2], result.map(&:id)
+  end
+
+  def test_filter_any_searchable_with_multiple_words_negative
+    User.current = User.find(1)
+
+    query_result_ids = ->(op, value) do
+      query = IssueQuery.new(
+        :name => '_',
+        :filters => {'any_searchable' => {:operator => op, :values => [value]}}
+      )
+      find_issues_with_query(query).map(&:id).sort
+    end
+
+    ids = query_result_ids.call('!~', 'recipe categories')
+    ids_word1 = query_result_ids.call('~', 'recipe')
+    ids_word2 = query_result_ids.call('~', 'categories')
+
+    # Neither "recipe" nor "categories" are in the subject, description,
+    # notes, etc.
+    assert ids, Issue.ids.sort - ids_word1 - ids_word2
+  end
+
   def test_filter_any_searchable_no_matches
     User.current = User.find(1)
     query = IssueQuery.new(
