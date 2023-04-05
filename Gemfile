@@ -103,7 +103,7 @@ group :test do
   gem "selenium-webdriver", "~> 3.142.7"
   gem 'webdrivers', '4.6.1', require: false
   # RuboCop
-  gem 'rubocop', '~> 1.48.1', require: false
+  gem 'rubocop', '~> 1.49.0', require: false
   gem 'rubocop-performance', '~> 1.16.0', require: false
   gem 'rubocop-rails', '~> 2.18.0', require: false
 end
