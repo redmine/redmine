@@ -1428,4 +1428,4 @@ ja:
   text_users_bulk_destroy_confirm: 削除する場合は確認のため "%{yes}" と入力してください。
   permission_select_project_publicity: プロジェクトの公開/非公開
   label_auto_watch_on_issue_created: 自分が作成したチケット
-  field_any_searchable: Any searchable text
+  field_any_searchable: 全検索対象テキスト
