@@ -52,6 +52,8 @@ module QueriesHelper
         ungrouped << [field_options[:name], field]
       end
     end
+    # Remove empty groups
+    grouped.delete_if {|k, v| v.empty?}
     # Don't group dates if there's only one (eg. time entries filters)
     if grouped[:label_date].try(:size) == 1
       ungrouped << grouped.delete(:label_date).first
