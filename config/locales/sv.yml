@@ -1296,7 +1296,7 @@ sv:
   label_trackers_description: Beskrivning för spårare
   label_open_trackers_description: Visa beskrivning för alla spårare
   label_preferred_body_part_text: Text
-  label_preferred_body_part_html: HTML (experimentell)
+  label_preferred_body_part_html: HTML
   field_parent_issue_subject: Ämne för föräldraärende
   permission_edit_own_issues: Ändra egna ärenden
   text_select_apply_tracker: Välj spårare

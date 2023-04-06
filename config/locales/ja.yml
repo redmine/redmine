@@ -1266,7 +1266,7 @@ ja:
   label_trackers_description: トラッカーの説明
   label_open_trackers_description: すべてのトラッカーの説明を表示
   label_preferred_body_part_text: テキスト
-  label_preferred_body_part_html: HTML (experimental)
+  label_preferred_body_part_html: HTML
   field_parent_issue_subject: 親チケットの題名
   permission_edit_own_issues: 自分が追加したチケットの編集
   text_select_apply_tracker: このトラッカーを適用

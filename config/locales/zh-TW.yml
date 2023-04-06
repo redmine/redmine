@@ -1320,7 +1320,7 @@
   label_trackers_description: 追蹤標籤說明
   label_open_trackers_description: 檢視所有追蹤標籤的說明
   label_preferred_body_part_text: 純文字
-  label_preferred_body_part_html: HTML (實驗性)
+  label_preferred_body_part_html: HTML
   field_parent_issue_subject: 父議題主旨
   permission_edit_own_issues: 編輯自己的議題
   text_select_apply_tracker: 選擇追蹤標籤

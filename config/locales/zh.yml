@@ -1242,7 +1242,7 @@ zh:
   label_trackers_description: 工作描述
   label_open_trackers_description: 查看全部跟踪标签描述
   label_preferred_body_part_text: Text
-  label_preferred_body_part_html: HTML (实验功能)
+  label_preferred_body_part_html: HTML
   field_parent_issue_subject: 父任务主题
   permission_edit_own_issues: 更新自己的问题
   text_select_apply_tracker: 选择跟踪标签

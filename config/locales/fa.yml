@@ -1117,7 +1117,7 @@ fa:
   label_trackers_description: توضیحات انواع مسأله
   label_open_trackers_description: نمایش توضیحات تمامی انواع مسأله
   label_preferred_body_part_text: متن
-  label_preferred_body_part_html: HTML (آزمایشی)
+  label_preferred_body_part_html: HTML
   label_issue_history_properties: تغییرات بخش‌ها
   label_issue_history_notes: یادداشت
   label_last_tab_visited: آخرین برگه مشاهده‌شده

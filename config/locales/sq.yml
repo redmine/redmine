@@ -1082,7 +1082,7 @@ sq:
   label_trackers_description: Përshkrim gjurmuesish
   label_open_trackers_description: Shihni krejt përshkrimin e gjurmuesve
   label_preferred_body_part_text: Tekst
-  label_preferred_body_part_html: HTML (eksperimentale)
+  label_preferred_body_part_html: HTML
   label_issue_history_properties: Ndryshime vetish
   label_issue_history_notes: Shënime
   label_last_tab_visited: Skeda e vizituar e fundit

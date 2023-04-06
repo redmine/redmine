@@ -1133,7 +1133,7 @@ pl:
   label_trackers_description: Opis typów zagadnień
   label_open_trackers_description: Zobacz wszystkie opisy typów zagadnień
   label_preferred_body_part_text: Tekst
-  label_preferred_body_part_html: HTML (eksperymentalne)
+  label_preferred_body_part_html: HTML
   label_issue_history_properties: Zmiany właściwości
   label_issue_history_notes: Notatki
   label_last_tab_visited: Ostatnio oglądana zakładka

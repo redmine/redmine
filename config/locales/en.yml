@@ -1117,7 +1117,7 @@ en:
   label_trackers_description: Trackers description
   label_open_trackers_description: View all trackers description
   label_preferred_body_part_text: Text
-  label_preferred_body_part_html: HTML (experimental)
+  label_preferred_body_part_html: HTML
   label_issue_history_properties: Property changes
   label_issue_history_notes: Notes
   label_last_tab_visited: Last visited tab

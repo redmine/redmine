@@ -1246,7 +1246,7 @@ lt:
   label_trackers_description: Pėdsekio aprašymas
   label_open_trackers_description: Rodyti visų pėdsekių aprašymus
   label_preferred_body_part_text: Tekstas
-  label_preferred_body_part_html: HTML (bandomoji versija)
+  label_preferred_body_part_html: HTML
   field_parent_issue_subject: Tėvinės užduoties tema
   permission_edit_own_issues: Redaguoti savo darbus
   text_select_apply_tracker: Pasirinkti pėdsekį

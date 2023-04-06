@@ -1270,7 +1270,7 @@ gl:
   label_trackers_description: Descricións dos tipos de tarefas
   label_open_trackers_description: Ver as descricións de todos os tipos de tarefas
   label_preferred_body_part_text: Texto
-  label_preferred_body_part_html: HTML (experimental)
+  label_preferred_body_part_html: HTML
   field_parent_issue_subject: Asunto da tarefa pai
   permission_edit_own_issues: Editar as propias tarefas
   text_select_apply_tracker: Seleccionar o tipo de tarefa

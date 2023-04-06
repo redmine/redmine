@@ -1119,7 +1119,7 @@ bg:
   label_trackers_description: Описание на тракерите
   label_open_trackers_description: Показване на описанията на всички тракери
   label_preferred_body_part_text: Текст
-  label_preferred_body_part_html: HTML (експериментално)
+  label_preferred_body_part_html: HTML
   label_issue_history_properties: Промени в състоянието (състояние, версии, категории, процент на изпълнение...)
   label_issue_history_notes: Коментари
   label_last_tab_visited: Последно посетен таб

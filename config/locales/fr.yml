@@ -1261,7 +1261,7 @@ fr:
   setting_mail_handler_preferred_body_part: "Partie privilégiée des messages multipart (HTML)"
   setting_show_status_changes_in_mail_subject: "Inclure les changements de statut des demandes dans le sujet des notifications"
   label_preferred_body_part_text: "Texte"
-  label_preferred_body_part_html: "HTML (expérimental)"
+  label_preferred_body_part_html: "HTML"
   field_parent_issue_subject: "Sujet de la demande parent"
   permission_edit_own_issues: "Modifier ses propres demandes"
   text_select_apply_tracker: "Sélectionner un tracker"

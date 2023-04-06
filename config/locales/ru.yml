@@ -1349,7 +1349,7 @@ ru:
   label_trackers_description: Описание трекеров
   label_open_trackers_description: Показать описания трекеров
   label_preferred_body_part_text: Текст
-  label_preferred_body_part_html: HTML (экспериментально)
+  label_preferred_body_part_html: HTML
   field_parent_issue_subject: Тема родительской задачи
   permission_edit_own_issues: Редактировать свои задачи
   text_select_apply_tracker: Выбор этого трекера

@@ -1292,7 +1292,7 @@ es:
   label_trackers_description: Descripción del tipo de petición
   label_open_trackers_description: Ver todas las descripciones de los tipos de petición
   label_preferred_body_part_text: Texto
-  label_preferred_body_part_html: HTML (experimental)
+  label_preferred_body_part_html: HTML
 
   field_parent_issue_subject: Parent task subject
   permission_edit_own_issues: Edit own issues

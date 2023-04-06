@@ -1252,7 +1252,7 @@ cs:
   label_trackers_description: Popis front
   label_open_trackers_description: Zobrazit popis všech trackerů
   label_preferred_body_part_text: Text
-  label_preferred_body_part_html: HTML (experimentální)
+  label_preferred_body_part_html: HTML
   field_parent_issue_subject: Předmět rodičovského úkolu
   permission_edit_own_issues: Upravování vlastních úkolů
   text_select_apply_tracker: Použít frontu
