@@ -280,6 +280,7 @@ de:
   field_active: Aktiv
   field_activity: Aktivität
   field_admin: Administrator
+  field_any_searchable: Durchsuchbarer Text
   field_assignable: Tickets können dieser Rolle zugewiesen werden
   field_assigned_to: Zugewiesen an
   field_assigned_to_role: Zuständigkeitsrolle
@@ -1439,4 +1440,3 @@ de:
     them is the better solution.
   text_users_bulk_destroy_confirm: To confirm, please enter "%{yes}" below.
   label_auto_watch_on_issue_created: Issues I created
-  field_any_searchable: Any searchable text
