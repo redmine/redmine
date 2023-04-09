@@ -78,6 +78,11 @@ class TimeEntryQuery < Query
       :values => lambda {project.issue_categories.collect{|s| [s.name, s.id.to_s]}}
     ) if project
     add_available_filter(
+      "issue.subject",
+      :type => :text,
+      :name => l("label_attribute_of_issue", :name => l(:field_subject))
+    )
+    add_available_filter(
       "user_id",
       :type => :list_optional, :values => lambda {author_values}
     )
@@ -220,6 +225,10 @@ class TimeEntryQuery < Query
 
   def sql_for_issue_category_id_field(field, operator, value)
     sql_for_field("category_id", operator, value, Issue.table_name, "category_id")
+  end
+
+  def sql_for_issue_subject_field(field, operator, value)
+    sql_for_field("subject", operator, value, Issue.table_name, "subject")
   end
 
   def sql_for_project_status_field(field, operator, value, options={})

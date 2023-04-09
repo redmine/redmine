@@ -1258,6 +1258,19 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_equal [entry].map(&:id).map(&:to_s), css_select('input[name="ids[]"]').map {|e| e.attr(:value)}
   end
 
+  def text_index_with_issue_subject_filter
+    get(
+      :index,
+      :params => {
+        :f => ['issue.subject'],
+        :op => {'issue.subject' => '~'},
+        :v => {'issue.subject' => ['"updating a recipe"']}
+      }
+    )
+    assert_response :success
+    assert_equal [3], css_select('input[name="ids[]"]').map {|e| e.attr(:value)}
+  end
+
   def test_index_with_project_status_filter
     project = Project.find(3)
     project.close
