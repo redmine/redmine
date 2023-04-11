@@ -504,6 +504,32 @@ class QueryTest < ActiveSupport::TestCase
     find_issues_with_query(query)
   end
 
+  def test_time_entry_operator_is_on_issue_parent_id_should_accept_comma_separated_values
+    issue1 = Issue.generate!(project_id: 'ecookbook', parent_id: 2)
+    entry1 = TimeEntry.generate!(issue: issue1)
+    issue2 = Issue.generate!(project_id: 'ecookbook', parent_id: 5)
+    entry2 = TimeEntry.generate!(issue: issue2)
+
+    query = TimeEntryQuery.new(:name => '_')
+    query.add_filter("issue.parent_id", '=', ['2,5'])
+    entries = TimeEntry.where(query.statement).to_a
+    assert_equal 2, entries.size
+    assert_equal [entry1.id, entry2.id].sort, entries.map(&:id).sort
+  end
+
+  def test_time_entry_contains_operator_is_on_issue_parent_id
+    issue1 = Issue.generate!(project_id: 'ecookbook', parent_id: 2)
+    entry1 = TimeEntry.generate!(issue: issue1)
+    issue2 = Issue.generate!(project_id: 'ecookbook', parent_id: issue1.id)
+    entry2 = TimeEntry.generate!(issue: issue2)
+
+    query = TimeEntryQuery.new(:name => '_')
+    query.add_filter("issue.parent_id", '~', ['2'])
+    entries = TimeEntry.where(query.statement).to_a
+    assert_equal 2, entries.size
+    assert_equal [entry1.id, entry2.id].sort, entries.map(&:id).sort
+  end
+
   def test_date_filter_should_not_accept_non_date_values
     query = IssueQuery.new(:name => '_')
     query.add_filter('created_on', '=', ['a'])

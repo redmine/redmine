@@ -1387,6 +1387,52 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_select 'td.issue-category', :text => 'Printing'
   end
 
+  def test_index_with_issue_parent_filter
+    issue1 = Issue.generate!(project_id: 'ecookbook', parent_id: 2)
+    entry1 = TimeEntry.generate!(issue: issue1, hours: 2.5)
+    issue2 = Issue.generate!(project_id: 'ecookbook', parent_id: 5)
+    entry2 = TimeEntry.generate!(issue: issue2, hours: 5.0)
+
+    get :index, params: {
+      project_id: 'ecookbook',
+      f: ['issue.parent_id'],
+      op: {'issue.parent_id' => '='},
+      v: {'issue.parent_id' => ['2,5']}
+    }
+    assert_response :success
+    assert_equal [entry1.id, entry2.id].sort, css_select('input[name="ids[]"]').map {|e| e.attr(:value).to_i}.sort
+  end
+
+  def test_index_with_issue_parent_column
+    issue = Issue.generate!(project_id: 'ecookbook', parent_id: 2)
+    entry = TimeEntry.generate!(issue: issue, hours: 2.5)
+
+    get :index, params: {
+      project_id: 'ecookbook',
+      c: %w(project spent_on issue comments hours issue.parent)
+    }
+
+    assert_response :success
+    assert_select 'td.issue-parent', text: "#{issue.parent.tracker} ##{issue.parent.id}"
+  end
+
+  def test_index_with_issue_parent_sort
+    issue1 = Issue.generate!(project_id: 'ecookbook', parent_id: 2)
+    entry1 = TimeEntry.generate!(issue: issue1, hours: 2.5)
+    issue2 = Issue.generate!(project_id: 'ecookbook', parent_id: 5)
+    entry2 = TimeEntry.generate!(issue: issue2, hours: 5.0)
+
+    get :index, :params => {
+      :c => ["hours", 'issue.parent'],
+      :sort => 'issue.parent'
+    }
+    assert_response :success
+
+    # Make sure that values are properly sorted
+    values = css_select("td.issue-parent").map(&:text).reject(&:blank?)
+    assert_equal ["#{issue1.parent.tracker} ##{issue1.parent.id}", "#{issue2.parent.tracker} ##{issue2.parent.id}"].sort, values.sort
+  end
+
   def test_index_with_issue_fixed_version_column
     issue = Issue.find(1)
     issue.fixed_version = Version.find(3)

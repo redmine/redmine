@@ -31,6 +31,7 @@ class TimeEntryQuery < Query
     QueryColumn.new(:activity, :sortable => "#{TimeEntryActivity.table_name}.position", :groupable => true),
     QueryColumn.new(:issue, :sortable => "#{Issue.table_name}.id", :groupable => true),
     QueryAssociationColumn.new(:issue, :tracker, :caption => :field_tracker, :sortable => "#{Tracker.table_name}.position"),
+    QueryAssociationColumn.new(:issue, :parent, :caption => :field_parent_issue, :sortable => ["#{Issue.table_name}.root_id", "#{Issue.table_name}.lft ASC"], :default_order => 'desc'),
     QueryAssociationColumn.new(:issue, :status, :caption => :field_status, :sortable => "#{IssueStatus.table_name}.position"),
     QueryAssociationColumn.new(:issue, :category, :caption => :field_category, :sortable => "#{IssueCategory.table_name}.name"),
     QueryAssociationColumn.new(:issue, :fixed_version, :caption => :field_fixed_version, :sortable => Version.fields_for_order_statement),
@@ -61,6 +62,10 @@ class TimeEntryQuery < Query
       :type => :list,
       :name => l("label_attribute_of_issue", :name => l(:field_tracker)),
       :values => lambda {trackers.map {|t| [t.name, t.id.to_s]}})
+    add_available_filter(
+      "issue.parent_id",
+      :type => :tree,
+      :name => l("label_attribute_of_issue", :name => l(:field_parent_issue)))
     add_available_filter(
       "issue.status_id",
       :type => :list,
@@ -202,6 +207,30 @@ class TimeEntryQuery < Query
       else
         "1=1"
       end
+    end
+  end
+
+  def sql_for_issue_parent_id_field(field, operator, value)
+    case operator
+    when "="
+      # accepts a comma separated list of ids
+      parent_ids = value.first.to_s.scan(/\d+/).map(&:to_i).uniq
+      issue_ids = Issue.where(:parent_id => parent_ids).pluck(:id)
+      if issue_ids.present?
+        "#{TimeEntry.table_name}.issue_id IN (#{issue_ids.join(',')})"
+      else
+        "1=0"
+      end
+    when "~"
+      root_id, lft, rgt = Issue.where(:id => value.first.to_i).pick(:root_id, :lft, :rgt)
+      issue_ids = Issue.where("#{Issue.table_name}.root_id = ? AND #{Issue.table_name}.lft > ? AND #{Issue.table_name}.rgt < ?", root_id, lft, rgt).pluck(:id) if root_id && lft && rgt
+      if issue_ids.present?
+        "#{TimeEntry.table_name}.issue_id IN (#{issue_ids.join(',')})"
+      else
+        "1=0"
+      end
+    else
+      sql_for_field("parent_id", operator, value, Issue.table_name, "parent_id")
     end
   end
 
