@@ -27,6 +27,7 @@ class VersionsController < ApplicationController
 
   accept_api_auth :index, :show, :create, :update, :destroy
 
+  include VersionsHelper
   helper :custom_fields
   helper :projects
 
@@ -73,6 +74,9 @@ class VersionsController < ApplicationController
           to_a
       end
       format.api
+      format.text do
+        send_data(version_to_text(@version), type: 'text/plain', filename: "#{@version.name}.txt")
+      end
     end
   end
 

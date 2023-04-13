@@ -20,6 +20,7 @@
 require_relative '../test_helper'
 
 class VersionsControllerTest < Redmine::ControllerTest
+  include Redmine::I18n
   fixtures :projects, :enabled_modules,
            :trackers, :projects_trackers,
            :versions, :issue_statuses, :issue_categories, :enumerations,
@@ -218,6 +219,18 @@ class VersionsControllerTest < Redmine::ControllerTest
 
     assert_response :success
     assert_select 'a.icon.icon-add', :text => 'New issue'
+  end
+
+  def test_show_with_text_format
+    version = Version.find(2)
+    get :show, params: {id: version.id, format: :text}
+    assert_response :success
+    assert_equal 'text/plain', response.media_type
+
+    result = response.body.split("\n\n")
+    assert_equal "# #{version.name}", result[0]
+    assert_equal format_date(version.effective_date), result[1]
+    assert_equal version.description, result[2]
   end
 
   def test_new

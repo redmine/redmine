@@ -56,6 +56,10 @@
 <% end %>
 </div>
 
+<% other_formats_links do |f| %>
+  <%= f.link_to_with_query_parameters 'TXT' %>
+<% end %>
+
 <%= call_hook :view_versions_show_bottom, :version => @version %>
 
 <% html_title @version.name %>

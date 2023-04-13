@@ -18,6 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module VersionsHelper
+  include Redmine::Export::Text::VersionsTextHelper
 
   def version_anchor(version)
     if @project == version.project
