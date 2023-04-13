@@ -80,6 +80,8 @@ class Group < Principal
   def user_added(user)
     members.preload(:member_roles).each do |member|
       next if member.project_id.nil?
+      # skip if the group is a member without roles in the project
+      next if member.member_roles.empty?
 
       user_member =
         Member.find_or_initialize_by(:project_id => member.project_id, :user_id => user.id)

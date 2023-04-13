@@ -177,4 +177,16 @@ class GroupTest < ActiveSupport::TestCase
 
     assert_equal %w(A B), Group.sorted.to_a.map(&:name)
   end
+
+  def test_user_added_should_not_fail_when_group_role_is_empty
+    group = Group.find(11)
+    project = Project.first
+    user = User.find(9)
+
+    m = Member.create!(:principal => group, :project => project, :role_ids => [1])
+    MemberRole.where(:member_id => m.id).delete_all
+
+    assert_nothing_raised {group.users << user}
+    assert group.users.include?(user)
+  end
 end
