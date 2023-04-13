@@ -225,4 +225,14 @@ class MemberTest < ActiveSupport::TestCase
       )
     end
   end
+
+  def test_destroy_member_when_member_role_is_empty
+    member = Member.find(1)
+
+    assert_difference 'Member.count', -1 do
+      member.role_ids = [] # Destroy roles associated with member
+    end
+    assert member.destroyed?
+    assert_raise(ActiveRecord::RecordNotFound) { Member.find(1) }
+  end
 end
