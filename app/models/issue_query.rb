@@ -791,8 +791,14 @@ class IssueQuery < Query
       projects = nil
     end
 
+    is_all_words =
+      case operator
+      when '~'        then true
+      when '|~', '!~' then false
+      end
+
     fetcher = Redmine::Search::Fetcher.new(
-      question, User.current, ['issue'], projects, all_words: (operator != '!~'), attachments: '0'
+      question, User.current, ['issue'], projects, all_words: is_all_words, attachments: '0'
     )
     ids = fetcher.result_ids.map(&:last)
     if ids.present?

@@ -306,6 +306,7 @@ class Query < ActiveRecord::Base
     "t-"  => :label_ago,
     "~"   => :label_contains,
     "!~"  => :label_not_contains,
+    "|~"  => :label_contains_any_of,
     "^"   => :label_starts_with,
     "$"   => :label_ends_with,
     "=p"  => :label_any_issues_in_project,
@@ -323,9 +324,9 @@ class Query < ActiveRecord::Base
     :list_subprojects => [ "*", "!*", "=", "!" ],
     :date => [ "=", ">=", "<=", "><", "<t+", ">t+", "><t+", "t+", "nd", "t", "ld", "nw", "w", "lw", "l2w", "nm", "m", "lm", "y", ">t-", "<t-", "><t-", "t-", "!*", "*" ],
     :date_past => [ "=", ">=", "<=", "><", ">t-", "<t-", "><t-", "t-", "t", "ld", "w", "lw", "l2w", "m", "lm", "y", "!*", "*" ],
-    :string => [ "~", "=", "!~", "!", "^", "$", "!*", "*" ],
-    :text => [  "~", "!~", "^", "$", "!*", "*" ],
-    :search => [ "~", "!~" ],
+    :string => [ "~", "|~", "=", "!~", "!", "^", "$", "!*", "*" ],
+    :text => [  "~", "|~", "!~", "^", "$", "!*", "*" ],
+    :search => [ "~", "|~", "!~" ],
     :integer => [ "=", ">=", "<=", "><", "!*", "*" ],
     :float => [ "=", ">=", "<=", "><", "!*", "*" ],
     :relation => ["=", "!", "=p", "=!p", "!p", "*o", "!o", "!*", "*"],
@@ -1431,6 +1432,8 @@ class Query < ActiveRecord::Base
       sql = sql_contains("#{db_table}.#{db_field}", value.first)
     when "!~"
       sql = sql_contains("#{db_table}.#{db_field}", value.first, :match => false)
+    when "|~"
+      sql = sql_contains("#{db_table}.#{db_field}", value.first, :all_words => false)
     when "^"
       sql = sql_contains("#{db_table}.#{db_field}", value.first, :starts_with => true)
     when "$"
@@ -1443,6 +1446,12 @@ class Query < ActiveRecord::Base
   end
 
   # Returns a SQL LIKE statement with wildcards
+  #
+  # valid options:
+  # * :match - use NOT LIKE if false
+  # * :starts_with - use LIKE 'value%' if true
+  # * :ends_with - use LIKE '%value' if true
+  # * :all_words - use OR instead of AND if false
   def sql_contains(db_field, value, options={})
     options = {} unless options.is_a?(Hash)
     options.symbolize_keys!
@@ -1465,10 +1474,11 @@ class Query < ActiveRecord::Base
   def self.tokenized_like_conditions(db_field, value, **options)
     tokens = Redmine::Search::Tokenizer.new(value).tokens
     tokens = [value] unless tokens.present?
+    logical_opr = options.delete(:all_words) == false ? ' OR ' : ' AND '
     sql, values = tokens.map do |token|
       [Redmine::Database.like(db_field, '?', options), "%#{sanitize_sql_like token}%"]
     end.transpose
-    [sql.join(" AND "), *values]
+    [sql.join(logical_opr), *values]
   end
   # rubocop:enable Lint/IneffectiveAccessModifier
 
