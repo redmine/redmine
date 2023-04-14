@@ -24,8 +24,8 @@ class Tracker < ActiveRecord::Base
   # Fields that can be disabled
   # Other (future) fields should be appended, not inserted!
   CORE_FIELDS =
-    %w(priority_id assigned_to_id category_id fixed_version_id parent_issue_id
-       start_date due_date estimated_hours done_ratio description).freeze
+    %w(assigned_to_id category_id fixed_version_id parent_issue_id
+       start_date due_date estimated_hours done_ratio description priority_id).freeze
   CORE_FIELDS_ALL = (CORE_FIELDS_UNDISABLABLE + CORE_FIELDS).freeze
 
   before_destroy :check_integrity
