@@ -209,6 +209,9 @@ class TrackersControllerTest < Redmine::ControllerTest
     assert_select 'input[name=?][value=category_id]', 'tracker[core_fields][]'
     assert_select 'input[name=?][value=category_id][checked=checked]', 'tracker[core_fields][]', 0
 
+    assert_select 'input[name=?][value=priority_id]', 'tracker[core_fields][]'
+    assert_select 'input[name=?][value=priority_id][checked=checked]', 'tracker[core_fields][]', 0
+
     assert_select 'input[name=?][value=""][type=hidden]', 'tracker[core_fields][]'
   end
 

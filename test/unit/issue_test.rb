@@ -83,6 +83,16 @@ class IssueTest < ActiveSupport::TestCase
     assert_save issue
   end
 
+  def test_default_priority_should_be_set_when_priority_field_is_disabled
+    tracker = Tracker.find(1)
+    tracker.core_fields = tracker.core_fields - ['priority_id']
+    tracker.save!
+
+    issue = Issue.new(:project_id => 1, :tracker_id => tracker.id, :author_id => 1, :subject => 'priority_id is disabled')
+    issue.save!
+    assert_equal IssuePriority.default, issue.priority
+  end
+
   def test_start_date_format_should_be_validated
     set_language_if_valid 'en'
     ['2012', 'ABC', '2012-15-20'].each do |invalid_date|

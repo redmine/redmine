@@ -47,8 +47,10 @@
 <div class="attributes">
 <%= issue_fields_rows do |rows|
   rows.left l(:field_status), @issue.status.name, :class => 'status'
-  rows.left l(:field_priority), @issue.priority.name, :class => 'priority'
 
+  unless @issue.disabled_core_fields.include?('priority_id')
+    rows.left l(:field_priority), @issue.priority.name, :class => 'priority'
+  end
   unless @issue.disabled_core_fields.include?('assigned_to_id')
     rows.left l(:field_assigned_to), (@issue.assigned_to ? link_to_principal(@issue.assigned_to) : "-"), :class => 'assigned-to'
   end

@@ -20,11 +20,11 @@
 class Tracker < ActiveRecord::Base
   include Redmine::SafeAttributes
 
-  CORE_FIELDS_UNDISABLABLE = %w(project_id tracker_id subject priority_id is_private).freeze
+  CORE_FIELDS_UNDISABLABLE = %w(project_id tracker_id subject is_private).freeze
   # Fields that can be disabled
   # Other (future) fields should be appended, not inserted!
   CORE_FIELDS =
-    %w(assigned_to_id category_id fixed_version_id parent_issue_id
+    %w(priority_id assigned_to_id category_id fixed_version_id parent_issue_id
        start_date due_date estimated_hours done_ratio description).freeze
   CORE_FIELDS_ALL = (CORE_FIELDS_UNDISABLABLE + CORE_FIELDS).freeze
 
