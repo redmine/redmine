@@ -52,7 +52,7 @@ class MemberRole < ActiveRecord::Base
   private
 
   def remove_member_if_empty
-    if @member_removal != false && member.roles.empty?
+    if @member_removal != false && member.roles.reload.empty?
       member.destroy
     end
   end
