@@ -593,7 +593,7 @@ fieldset#filters table td { padding: 0; vertical-align: middle; }
 fieldset#filters tr.filter { height: 2.1em; }
 fieldset#filters td.field { width:230px; }
 fieldset#filters td.operator { width:130px; }
-fieldset#filters td.operator select {max-width:120px;}
+fieldset#filters td.operator select {max-width:140px;}
 fieldset#filters td.values { white-space:nowrap; }
 fieldset#filters td.values select {min-width:130px;}
 
