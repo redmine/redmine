@@ -1494,3 +1494,4 @@
   permission_select_project_publicity: 設定專案為公開或私人
   label_auto_watch_on_issue_created: 我所建立的議題
   field_any_searchable: 任何可搜尋的文字
+  label_contains_any_of: contains any of

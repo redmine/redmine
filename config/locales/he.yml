@@ -1481,3 +1481,4 @@ he:
   permission_select_project_publicity: Set project public or private
   label_auto_watch_on_issue_created: Issues I created
   field_any_searchable: Any searchable text
+  label_contains_any_of: contains any of
