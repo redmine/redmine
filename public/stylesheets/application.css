@@ -619,6 +619,8 @@ body.avatars-on div.journal {padding-left:32px;}
 div.journal h4 img.gravatar {margin-left:-32px;}
 div.journal span.update-info {color: #666; font-size: 0.9em;}
 
+#update {margin-bottom: 1.4em;}
+
 #history .tab-content {
   padding: 0 6px;
   margin-bottom: 10px;
