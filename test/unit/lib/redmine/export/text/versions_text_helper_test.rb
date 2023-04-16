@@ -36,6 +36,8 @@ class VersionsTextHelperTest < ActiveSupport::TestCase
 
       * Bug #11: Closed issue on a closed version
     EXPECTED
-    assert_equal expected, version_to_text(Version.find(1))
+    with_settings date_format: '%m/%d/%Y' do
+      assert_equal expected, version_to_text(Version.find(1))
+    end
   end
 end
