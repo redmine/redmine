@@ -618,6 +618,8 @@ div.journal ul.details a:hover, ul.revision-info a:hover {color:#D14848;}
 body.avatars-on div.journal {padding-left:32px;}
 div.journal h4 img.gravatar {margin-left:-32px;}
 
+#update {margin-bottom: 1.4em;}
+
 #history .tab-content {
   padding: 0 6px;
   margin-bottom: 10px;
