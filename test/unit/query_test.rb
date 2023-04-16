@@ -767,6 +767,36 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal [1, 2, 3], result.map(&:id).sort
   end
 
+  def test_operator_contains_any_of_with_attachment
+    User.current = User.find(1)
+    query = IssueQuery.new(
+      :name => '_',
+      :filters => {
+        'attachment' => {
+          :operator => '|~',
+          :values => ['source changeset']
+        }
+      }
+    )
+    result = find_issues_with_query(query)
+    assert_equal [2, 3], result.map(&:id).sort
+  end
+
+  def test_operator_contsins_any_of_with_attachment_description
+    User.current = User.find(1)
+    query = IssueQuery.new(
+      :name => '_',
+      :filters => {
+        'attachment_description' => {
+          :operator => '|~',
+          :values => ['ruby issue']
+        }
+      }
+    )
+    result = find_issues_with_query(query)
+    assert_equal [2, 14], result.map(&:id).sort
+  end
+
   def test_range_for_this_week_with_week_starting_on_monday
     I18n.locale = :fr
     assert_equal '1', I18n.t(:general_first_day_of_week)
