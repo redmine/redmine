@@ -569,7 +569,7 @@ Rails/Exit:
     - 'config/initializers/10-patches.rb'
     - 'config/routes.rb'
 
-# This cop supports safe autocorrection (--autocorrect).
+# This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: Include, AllowedMethods, AllowedPatterns.
 # Include: app/models/**/*.rb
 # AllowedMethods: order, limit, select, lock
@@ -765,6 +765,7 @@ Rails/RedundantTravelBack:
     - 'test/integration/sudo_mode_test.rb'
     - 'test/system/sudo_mode_test.rb'
 
+# This cop supports unsafe autocorrection (--autocorrect-all).
 Rails/ReflectionClassName:
   Exclude:
     - 'lib/redmine/nested_set/issue_nested_set.rb'

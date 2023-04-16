@@ -157,6 +157,17 @@ Rails/RootPathnameMethods:
 Rails/SquishedSQLHeredocs:
   Enabled: false
 
+Rails/ThreeStateBooleanColumn:
+  Exclude:
+    - 'db/migrate/009_add_hide_mail_pref.rb'
+    - 'db/migrate/059_add_roles_assignable.rb'
+    - 'db/migrate/082_add_messages_locked.rb'
+    - 'db/migrate/086_add_custom_fields_searchable.rb'
+    - 'db/migrate/102_add_custom_fields_editable.rb'
+    - 'db/migrate/20120115143100_add_repositories_is_default.rb'
+    - 'db/migrate/20120127174243_add_custom_fields_multiple.rb'
+    - 'db/migrate/20210704125704_add_twofa_required_to_groups.rb'
+
 Rails/WhereExists:
   Enabled: false
 
@@ -208,10 +219,6 @@ Style/IdenticalConditionalBranches:
   Exclude:
     - 'config/initializers/10-patches.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
-
-Style/InverseMethods:
-    InverseMethods:
-      :include?: ~
 
 Style/NegatedIfElseCondition:
   Enabled: false
