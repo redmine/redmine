@@ -614,8 +614,8 @@ class IssueQuery < Query
     when "*", "!*"
       e = (operator == "*" ? "EXISTS" : "NOT EXISTS")
       "#{e} (SELECT 1 FROM #{Attachment.table_name} a WHERE a.container_type = 'Issue' AND a.container_id = #{Issue.table_name}.id)"
-    when "~", "!~", "|~"
-      c = sql_contains("a.filename", value.first, :all_words => (operator != "|~"))
+    when "~", "!~", "*~"
+      c = sql_contains("a.filename", value.first, :all_words => (operator != "*~"))
       e = (operator == "!~" ? "NOT EXISTS" : "EXISTS")
       "#{e} (SELECT 1 FROM #{Attachment.table_name} a WHERE a.container_type = 'Issue' AND a.container_id = #{Issue.table_name}.id AND (#{c}))"
     when "^", "$"
@@ -630,9 +630,9 @@ class IssueQuery < Query
       case operator
       when '*', '!*'
         (operator == '*' ? cond_description : "NOT (#{cond_description})")
-      when '~', '!~', '|~'
+      when '~', '!~', '*~'
         (operator == '~' ? '' : "#{cond_description} AND ") +
-        sql_contains('a.description', value.first, :match => (operator != '!~'), :all_words => (operator != '|~'))
+        sql_contains('a.description', value.first, :match => (operator != '!~'), :all_words => (operator != '*~'))
       when '^', '$'
         sql_contains('a.description', value.first, (operator == '^' ? :starts_with : :ends_with) => true)
       else
@@ -794,7 +794,7 @@ class IssueQuery < Query
     is_all_words =
       case operator
       when '~'        then true
-      when '|~', '!~' then false
+      when '*~', '!~' then false
       end
 
     fetcher = Redmine::Search::Fetcher.new(

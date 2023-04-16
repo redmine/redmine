@@ -742,7 +742,7 @@ class QueryTest < ActiveSupport::TestCase
       :name => '_',
       :filters => {
         'subject' => {
-          :operator => '|~',
+          :operator => '*~',
           :values => ['close block']
         }
       }
@@ -758,7 +758,7 @@ class QueryTest < ActiveSupport::TestCase
       :name => '_',
       :filters => {
         'any_searchable' => {
-          :operator => '|~',
+          :operator => '*~',
           :values => ['recipe categories']
         }
       }
@@ -773,7 +773,7 @@ class QueryTest < ActiveSupport::TestCase
       :name => '_',
       :filters => {
         'attachment' => {
-          :operator => '|~',
+          :operator => '*~',
           :values => ['source changeset']
         }
       }
@@ -788,7 +788,7 @@ class QueryTest < ActiveSupport::TestCase
       :name => '_',
       :filters => {
         'attachment_description' => {
-          :operator => '|~',
+          :operator => '*~',
           :values => ['ruby issue']
         }
       }

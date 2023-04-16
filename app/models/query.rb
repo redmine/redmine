@@ -306,7 +306,7 @@ class Query < ActiveRecord::Base
     "t-"  => :label_ago,
     "~"   => :label_contains,
     "!~"  => :label_not_contains,
-    "|~"  => :label_contains_any_of,
+    "*~"  => :label_contains_any_of,
     "^"   => :label_starts_with,
     "$"   => :label_ends_with,
     "=p"  => :label_any_issues_in_project,
@@ -324,9 +324,9 @@ class Query < ActiveRecord::Base
     :list_subprojects => [ "*", "!*", "=", "!" ],
     :date => [ "=", ">=", "<=", "><", "<t+", ">t+", "><t+", "t+", "nd", "t", "ld", "nw", "w", "lw", "l2w", "nm", "m", "lm", "y", ">t-", "<t-", "><t-", "t-", "!*", "*" ],
     :date_past => [ "=", ">=", "<=", "><", ">t-", "<t-", "><t-", "t-", "t", "ld", "w", "lw", "l2w", "m", "lm", "y", "!*", "*" ],
-    :string => [ "~", "|~", "=", "!~", "!", "^", "$", "!*", "*" ],
-    :text => [  "~", "|~", "!~", "^", "$", "!*", "*" ],
-    :search => [ "~", "|~", "!~" ],
+    :string => [ "~", "*~", "=", "!~", "!", "^", "$", "!*", "*" ],
+    :text => [  "~", "*~", "!~", "^", "$", "!*", "*" ],
+    :search => [ "~", "*~", "!~" ],
     :integer => [ "=", ">=", "<=", "><", "!*", "*" ],
     :float => [ "=", ">=", "<=", "><", "!*", "*" ],
     :relation => ["=", "!", "=p", "=!p", "!p", "*o", "!o", "!*", "*"],
@@ -1432,7 +1432,7 @@ class Query < ActiveRecord::Base
       sql = sql_contains("#{db_table}.#{db_field}", value.first)
     when "!~"
       sql = sql_contains("#{db_table}.#{db_field}", value.first, :match => false)
-    when "|~"
+    when "*~"
       sql = sql_contains("#{db_table}.#{db_field}", value.first, :all_words => false)
     when "^"
       sql = sql_contains("#{db_table}.#{db_field}", value.first, :starts_with => true)

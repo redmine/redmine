@@ -348,7 +348,7 @@ class RedCloth3 < String
     S = "(?:#{S_CSPN}?#{S_RSPN}|#{S_RSPN}?#{S_CSPN}?)"
     C = "(?:#{C_CLAS}?#{C_STYL}?#{C_LNGE}?|#{C_STYL}?#{C_LNGE}?#{C_CLAS}?|#{C_LNGE}?#{C_STYL}?#{C_CLAS}?)"
     # PUNCT = Regexp::quote( '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~' )
-    PUNCT = Regexp::quote( '!"#$%&\'*+,-./:;=?@\\^_`|~' )
+    PUNCT = Regexp::quote( '!"#$%&\'*+,-./:;=?@\\^_`*~' )
     PUNCT_NOQ = Regexp::quote( '!"#$&\',./:;=?@\\`|' )
     PUNCT_Q = Regexp::quote( '*-_+^~%' )
     HYPERLINK = '(\S+?)([^\w\s/;=\?]*?)(?=\s|<|$)'
