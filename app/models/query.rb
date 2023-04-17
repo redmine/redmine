@@ -1452,31 +1452,33 @@ class Query < ActiveRecord::Base
   # * :starts_with - use LIKE 'value%' if true
   # * :ends_with - use LIKE '%value' if true
   # * :all_words - use OR instead of AND if false
+  #   (ignored if :starts_with or :ends_with is true)
   def sql_contains(db_field, value, options={})
     options = {} unless options.is_a?(Hash)
     options.symbolize_keys!
-    prefix = suffix = nil
-    prefix = '%' if options[:ends_with]
-    suffix = '%' if options[:starts_with]
-    if prefix || suffix
-      value = queried_class.sanitize_sql_like value
-      queried_class.sanitize_sql_for_conditions(
-        [Redmine::Database.like(db_field, '?', :match => options[:match]), "#{prefix}#{value}#{suffix}"]
-      )
-    else
-      queried_class.sanitize_sql_for_conditions(
-        ::Query.tokenized_like_conditions(db_field, value, **options)
-      )
-    end
+    queried_class.sanitize_sql_for_conditions(
+      ::Query.tokenized_like_conditions(db_field, value, **options)
+    )
   end
 
   # rubocop:disable Lint/IneffectiveAccessModifier
   def self.tokenized_like_conditions(db_field, value, **options)
     tokens = Redmine::Search::Tokenizer.new(value).tokens
     tokens = [value] unless tokens.present?
-    logical_opr = options.delete(:all_words) == false ? ' OR ' : ' AND '
+
+    if options[:starts_with]
+      prefix, suffix = nil, '%'
+      logical_opr = ' OR '
+    elsif options[:ends_with]
+      prefix, suffix = '%', nil
+      logical_opr = ' OR '
+    else
+      prefix = suffix = '%'
+      logical_opr = options[:all_words] == false ? ' OR ' : ' AND '
+    end
+
     sql, values = tokens.map do |token|
-      [Redmine::Database.like(db_field, '?', options), "%#{sanitize_sql_like token}%"]
+      [Redmine::Database.like(db_field, '?', options), "#{prefix}#{sanitize_sql_like token}#{suffix}"]
     end.transpose
     [sql.join(logical_opr), *values]
   end

@@ -3086,6 +3086,34 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal 1, query.issue_count
   end
 
+  def test_sql_contains_should_tokenize_for_starts_with
+    query = IssueQuery.new(
+      :project => nil, :name => '_',
+      :filters => {
+        'subject' => {:operator => '^', :values => ['issue closed']}
+      }
+    )
+
+    assert_equal 4, query.issue_count
+    query.issues.each do |issue|
+      assert_match /^(issue|closed)/i, issue.subject
+    end
+  end
+
+  def test_sql_contains_should_tokenize_for_ends_with
+    query = IssueQuery.new(
+      :project => nil, :name => '_',
+      :filters => {
+        'subject' => {:operator => '$', :values => ['version issue']}
+      }
+    )
+
+    assert_equal 4, query.issue_count
+    query.issues.each do |issue|
+      assert_match /(version|issue)$/i, issue.subject
+    end
+  end
+
   def test_display_type_should_accept_known_types
     query = ProjectQuery.new(:name => '_')
     query.display_type = 'list'
