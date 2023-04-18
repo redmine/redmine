@@ -1041,6 +1041,36 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal [1, 3], result.map(&:id).sort
   end
 
+  def test_filter_any_searchable_with_my_projects
+    # This user's project is ecookbook only
+    User.current = User.find_by(login: 'dlopper')
+    query = IssueQuery.new(
+      :name => '_',
+      :filters => {
+        'any_searchable' => {:operator => '~', :values => ['issue']},
+        'project_id' => {:operator => '=', :values => ['mine']}
+      }
+    )
+    result = find_issues_with_query(query)
+    assert_equal [7, 8, 11, 12], result.map(&:id).sort
+    result.each {|issue| assert_equal 1, issue.project_id}
+  end
+
+  def test_filter_any_searchable_with_my_bookmarks
+    # This user bookmarks two projects, ecookbook and private-child
+    User.current = User.find(1)
+    query = IssueQuery.new(
+      :name => '_',
+      :filters => {
+        'any_searchable' => {:operator => '~', :values => ['issue']},
+        'project_id' => {:operator => '=', :values => ['bookmarks']}
+      }
+    )
+    result = find_issues_with_query(query)
+    assert_equal [6, 7, 8, 9, 10, 11, 12], result.map(&:id).sort
+    result.each {|issue| assert_includes [1, 5], issue.project_id}
+  end
+
   def test_filter_updated_by
     user = User.generate!
     Journal.create!(:user_id => user.id, :journalized => Issue.find(2), :notes => 'Notes')

@@ -784,8 +784,16 @@ class IssueQuery < Query
     if project
       projects = project_scope.where(project_statement)
     elsif has_filter?('project_id')
+      case values_for('project_id').first
+      when 'mine'
+        project_ids = User.current.projects.ids
+      when 'bookmarks'
+        project_ids = User.current.bookmarked_project_ids
+      else
+        project_ids = values_for('project_id')
+      end
       projects = project_scope.where(
-        sql_for_field('project_id', operator_for('project_id'), values_for('project_id'), Project.table_name, 'id')
+        sql_for_field('project_id', operator_for('project_id'), project_ids, Project.table_name, 'id')
       )
     else
       projects = nil
