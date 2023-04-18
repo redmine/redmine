@@ -171,6 +171,19 @@ class SearchControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_search_my_bookmarks
+    @request.session[:user_id] = 1
+    get :index, :params => {:q => 'project', :scope => 'bookmarks', :all_words => ''}
+    assert_response :success
+
+    assert_select '#search-results' do
+      assert_select 'dt.issue', :count => 1
+      assert_select 'dt.issue', :text => /Bug #6/
+      assert_select 'dt.changeset', :count => 1
+      assert_select 'dt.changeset', :text => /Revision 4/
+    end
+  end
+
   def test_search_project_and_subprojects
     get :index, :params => {:id => 1, :q => 'recipe subproject', :scope => 'subprojects', :all_words => ''}
     assert_response :success
