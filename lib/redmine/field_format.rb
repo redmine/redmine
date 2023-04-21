@@ -276,15 +276,15 @@ module Redmine
       # %m1%, %m2%... => capture groups matches of the custom field regexp if defined
       def url_from_pattern(custom_field, value, customized)
         url = custom_field.url_pattern.to_s.dup
-        url.gsub!('%value%') {Addressable::URI.encode value.to_s}
-        url.gsub!('%id%') {Addressable::URI.encode customized.id.to_s}
+        url.gsub!('%value%') {Addressable::URI.encode_component value.to_s}
+        url.gsub!('%id%') {Addressable::URI.encode_component customized.id.to_s}
         url.gsub!('%project_id%') do
-          Addressable::URI.encode(
+          Addressable::URI.encode_component(
             (customized.respond_to?(:project) ? customized.project.try(:id) : nil).to_s
           )
         end
         url.gsub!('%project_identifier%') do
-          Addressable::URI.encode(
+          Addressable::URI.encode_component(
             (customized.respond_to?(:project) ? customized.project.try(:identifier) : nil).to_s
           )
         end
@@ -292,7 +292,7 @@ module Redmine
           url.gsub!(%r{%m(\d+)%}) do
             m = $1.to_i
             if matches ||= value.to_s.match(Regexp.new(custom_field.regexp))
-              Addressable::URI.encode matches[m].to_s
+              Addressable::URI.encode_component matches[m].to_s
             end
           end
         end
