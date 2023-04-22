@@ -676,7 +676,6 @@ fa:
   label_assigned_issues: مسائل واگذارشده
   label_assigned_to_me_issues: مسأله‌های واگذارشده به من
   label_updated_issues: مسائل به‌روزشده
-  label_last_login: آخرین ورود
   label_registered_on: ثبت‌نام‌شده در
   label_activity: خط زمان
   label_user_activity: "خط زمان %{value}"

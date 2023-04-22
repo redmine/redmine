@@ -546,7 +546,6 @@ ru:
   label_jump_to_a_project: Перейти к проекту...
   label_language_based: На основе языка
   label_last_changes: "менее %{count} изменений"
-  label_last_login: Последнее подключение
   label_last_month: прошлый месяц
   label_last_n_days: "последние %{count} дней"
   label_last_week: прошлая неделя

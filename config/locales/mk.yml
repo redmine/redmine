@@ -481,7 +481,6 @@ mk:
   label_help: Помош
   label_reported_issues: Пријавени задачи
   label_assigned_to_me_issues: Задачи доделени на мене
-  label_last_login: Последна најава
   label_registered_on: Регистриран на
   label_activity: Активност
   label_user_activity: "Активност на %{value}"

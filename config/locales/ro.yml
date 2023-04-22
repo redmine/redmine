@@ -431,7 +431,6 @@ ro:
   label_help: Ajutor
   label_reported_issues: Tichete
   label_assigned_to_me_issues: Tichetele mele
-  label_last_login: Ultima conectare
   label_registered_on: Înregistrat la
   label_activity: Activitate
   label_user_activity: "Activitate %{value}"

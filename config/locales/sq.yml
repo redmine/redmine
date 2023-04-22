@@ -653,7 +653,6 @@ sq:
   label_assigned_issues: Çështje të caktuara
   label_assigned_to_me_issues: Çështje të caktuara mua
   label_updated_issues: Çështje të përditësuara
-  label_last_login: Lidhja e e fundit
   label_registered_on: Regjistruar më
   label_activity: Veprimtari
   label_user_activity: "Veprimtari për %{value}"

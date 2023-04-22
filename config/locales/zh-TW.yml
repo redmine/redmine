@@ -697,7 +697,6 @@
   label_reported_issues: 我通報的議題
   label_assigned_issues: 我被分派的議題
   label_assigned_to_me_issues: 分派給我的議題
-  label_last_login: 最近一次連線
   label_registered_on: 註冊於
   label_activity: 活動
   label_user_activity: "%{value} 的活動"

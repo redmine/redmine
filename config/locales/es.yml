@@ -496,7 +496,6 @@ es:
   label_jump_to_a_project: Ir al proyecto...
   label_language_based: Basado en el idioma
   label_last_changes: "últimos %{count} cambios"
-  label_last_login: Última conexión
   label_last_month: último mes
   label_last_n_days: "últimos %{count} días"
   label_last_week: última semana

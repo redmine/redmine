@@ -481,7 +481,6 @@ sr-YU:
   label_help: Pomoć
   label_reported_issues: Prijavljeni problemi
   label_assigned_to_me_issues: Problemi dodeljeni meni
-  label_last_login: Poslednje povezivanje
   label_registered_on: Registrovan
   label_activity: Aktivnost
   label_user_activity: "Aktivnost korisnika %{value}"

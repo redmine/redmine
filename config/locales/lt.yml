@@ -592,7 +592,6 @@ lt:
   label_reported_issues: Pranešti darbai
   label_assigned_issues: Priskirti darbai
   label_assigned_to_me_issues: Darbai, priskirti man
-  label_last_login: Paskutinis prisijungimas
   label_registered_on: Užregistruota
   label_activity: Veikla
   label_user_activity: "%{value} veikla"

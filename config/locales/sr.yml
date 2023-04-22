@@ -479,7 +479,6 @@ sr:
   label_help: Помоћ
   label_reported_issues: Пријављени проблеми
   label_assigned_to_me_issues: Проблеми додељени мени
-  label_last_login: Последње повезивање
   label_registered_on: Регистрован
   label_activity: Активност
   label_user_activity: "Активност корисника %{value}"

@@ -495,7 +495,6 @@ cs:
   label_help: Nápověda
   label_reported_issues: Nahlášené úkoly
   label_assigned_to_me_issues: Mé úkoly
-  label_last_login: Poslední přihlášení
   label_registered_on: Registrován
   label_activity: Aktivita
   label_user_activity: "Aktivita uživatele: %{value}"

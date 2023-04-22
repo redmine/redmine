@@ -536,7 +536,6 @@ az:
   label_jump_to_a_project: ... layihəyə keçid
   label_language_based: Dilin əsasında
   label_last_changes: "%{count} az dəyişiklik"
-  label_last_login: Sonuncu qoşulma
   label_last_month: sonuncu ay
   label_last_n_days: "son %{count} gün"
   label_last_week: sonuncu həftə

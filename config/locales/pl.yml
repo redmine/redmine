@@ -687,7 +687,6 @@ pl:
   label_assigned_issues: Przypisane zagadnienia
   label_assigned_to_me_issues: Zagadnienia przypisane do mnie
   label_updated_issues: Zaktualizowane zagadnienia
-  label_last_login: Ostatnie połączenie
   label_registered_on: Zarejestrowany
   label_activity: Aktywność
   label_user_activity: "Aktywność: %{value}"

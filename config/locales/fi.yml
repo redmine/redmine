@@ -377,7 +377,6 @@ fi:
   label_help: Ohjeet
   label_reported_issues: Raportoidut tapahtumat
   label_assigned_to_me_issues: Minulle nimetyt tapahtumat
-  label_last_login: Viimeinen yhteys
   label_registered_on: Rekisteröity
   label_activity: Historia
   label_new: Uusi

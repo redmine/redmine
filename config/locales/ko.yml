@@ -490,7 +490,6 @@ ko:
   label_help: 도움말
   label_reported_issues: 보고한 일감
   label_assigned_to_me_issues: 내가 맡은 일감 
-  label_last_login: 마지막 접속
   label_registered_on: 등록시각
   label_activity: 작업내역
   label_user_activity: "%{value}의 작업내역"

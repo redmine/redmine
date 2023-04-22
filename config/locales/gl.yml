@@ -471,7 +471,6 @@ gl:
   label_jump_to_a_project: Ir ao proxecto…
   label_language_based: Baseado no idioma
   label_last_changes: "últimos %{count} cambios"
-  label_last_login: "Último acceso"
   label_last_month: último mes
   label_last_n_days: "últimos %{count} días"
   label_last_week: última semana

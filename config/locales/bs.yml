@@ -448,7 +448,6 @@ bs:
   label_help: Pomoć
   label_reported_issues: Prijavljene aktivnosti
   label_assigned_to_me_issues: Aktivnosti dodjeljene meni
-  label_last_login: Posljednja konekcija
   label_registered_on: Registrovan na
   label_activity_plural: Promjene
   label_activity: Operacija

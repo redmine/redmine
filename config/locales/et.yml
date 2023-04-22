@@ -540,7 +540,6 @@ et:
   label_help: "Abi"
   label_reported_issues: "Minu poolt lisatud teemad"
   label_assigned_to_me_issues: "Minu teha olevad teemad"
-  label_last_login: "Viimane ühendus"
   label_registered_on: "Registreeritud"
   label_activity: "Ajalugu"
   label_user_activity: "%{value} tegevuste ajalugu"

@@ -514,7 +514,6 @@ ar:
   label_help: مساعدة
   label_reported_issues: بنود العمل التي أدخلتها
   label_assigned_to_me_issues: بنود العمل المسندة إلي
-  label_last_login: آخر اتصال
   label_registered_on: مسجل على
   label_activity: النشاط
   label_user_activity: "قيمة النشاط"

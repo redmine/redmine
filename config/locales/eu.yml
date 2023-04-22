@@ -468,7 +468,6 @@ eu:
   label_help: Laguntza
   label_reported_issues: Berri emandako zereginak
   label_assigned_to_me_issues: Niri esleitutako arazoak
-  label_last_login: Azken konexioa
   label_registered_on: Noiz erregistratuta
   label_activity: Jarduerak
   label_user_activity: "%{value}-(r)en jarduerak"

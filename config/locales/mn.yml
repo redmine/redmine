@@ -469,7 +469,6 @@ mn:
   label_help: Тусламж
   label_reported_issues: Мэдэгдсэн асуудлууд
   label_assigned_to_me_issues: Надад оноогдсон асуудлууд
-  label_last_login: Сүүлийн холболт
   label_registered_on: Бүртгүүлсэн огноо
   label_activity: Үйл ажиллагаа
   label_user_activity: "%{value}-ийн үйл ажиллагаа"

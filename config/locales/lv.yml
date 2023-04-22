@@ -463,7 +463,6 @@ lv:
   label_help: Palīdzība
   label_reported_issues: Ziņotie uzdevumi
   label_assigned_to_me_issues: Man piesaistītie uzdevumi
-  label_last_login: Pēdējā pieslēgšanās
   label_registered_on: Reģistrējies
   label_activity: Aktivitāte
   label_user_activity: "Lietotāja %{value} aktivitātes"

@@ -675,7 +675,6 @@ en:
   label_assigned_issues: Assigned issues
   label_assigned_to_me_issues: Issues assigned to me
   label_updated_issues: Updated issues
-  label_last_login: Last connection
   label_registered_on: Registered on
   label_activity: Activity
   label_user_activity: "%{value}'s activity"

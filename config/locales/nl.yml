@@ -440,7 +440,6 @@ nl:
   label_jump_to_a_project: Ga naar een project...
   label_language_based: Taal gebaseerd
   label_last_changes: "laatste %{count} wijzigingen"
-  label_last_login: Laatste bezoek
   label_last_month: laatste maand
   label_last_n_days: "%{count} dagen geleden"
   label_last_week: vorige week

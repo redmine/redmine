@@ -527,7 +527,6 @@ ja:
   label_help: ヘルプ
   label_reported_issues: 報告したチケット
   label_assigned_to_me_issues: 担当しているチケット
-  label_last_login: 最近の接続
   label_registered_on: 登録日
   label_activity: 活動
   label_user_activity: "%{value} の活動"

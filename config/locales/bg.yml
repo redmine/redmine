@@ -678,7 +678,6 @@ bg:
   label_assigned_issues: Назначени задачи
   label_assigned_to_me_issues: Възложени на мен
   label_updated_issues: Задачи с промени
-  label_last_login: Последно свързване
   label_registered_on: Регистрация
   label_activity: Дейност
   label_user_activity: "Активност на %{value}"

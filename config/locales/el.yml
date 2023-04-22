@@ -447,7 +447,6 @@ el:
   label_help: Βοήθεια
   label_reported_issues: Εισηγμένα θέματα
   label_assigned_to_me_issues: Θέματα που έχουν ανατεθεί σε μένα
-  label_last_login: Τελευταία σύνδεση
   label_registered_on: Εγγράφηκε την
   label_activity: Δραστηριότητα
   label_user_activity: "δραστηριότητα του %{value}"

@@ -459,7 +459,6 @@ hr:
   label_help: Pomoć
   label_reported_issues: Prijavljeni predmeti
   label_assigned_to_me_issues: Moji predmeti
-  label_last_login: Last connection
   label_registered_on: Registrirano
   label_activity: Aktivnosti
   label_user_activity: "%{value} ova/ina aktivnost"

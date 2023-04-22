@@ -489,7 +489,6 @@ he:
   label_help: עזרה
   label_reported_issues: נושאים שדווחו
   label_assigned_to_me_issues: נושאים שהוצבו לי
-  label_last_login: התחברות אחרונה
   label_registered_on: נרשם בתאריך
   label_activity: פעילות
   label_user_activity: "הפעילות של %{value}"

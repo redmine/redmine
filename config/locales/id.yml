@@ -453,7 +453,6 @@ id:
   label_help: Bantuan
   label_reported_issues: Masalah terlapor
   label_assigned_to_me_issues: Masalah yang ditugaskan pada saya
-  label_last_login: Terakhir login
   label_registered_on: Terdaftar pada
   label_activity: Kegiatan
   label_user_activity: "kegiatan %{value}"

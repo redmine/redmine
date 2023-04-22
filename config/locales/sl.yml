@@ -428,7 +428,6 @@ sl:
   label_help: Pomoč
   label_reported_issues: Prijavljeni zahtevki
   label_assigned_to_me_issues: Zahtevki dodeljeni meni
-  label_last_login: Zadnja povezava
   label_registered_on: Registriran
   label_activity: Aktivnosti
   label_user_activity: "Aktivnost %{value}"

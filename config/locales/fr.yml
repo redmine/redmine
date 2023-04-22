@@ -626,7 +626,6 @@ fr:
   label_reported_issues: Demandes soumises
   label_assigned_issues: Demandes assignées
   label_assigned_to_me_issues: Demandes qui me sont assignées
-  label_last_login: Dernière connexion
   label_registered_on: Inscrit le
   label_activity: Activité
   label_user_activity: "Activité de %{value}"
