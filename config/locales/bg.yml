@@ -812,6 +812,7 @@ bg:
   label_more_than_ago: преди повече от
   label_ago: преди
   label_contains: съдържа
+  label_contains_any_of: съдържа което и да е от
   label_not_contains: не съдържа
   label_starts_with: започва с
   label_ends_with: завършва с
@@ -1421,4 +1422,3 @@ bg:
     Това действие не може да бъде отменено. Често заключването на потребителя е по-добро решение от изтриването му.
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
-  label_contains_any_of: contains any of
