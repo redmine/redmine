@@ -26,7 +26,7 @@ class TrackersController < ApplicationController
   accept_api_auth :index
 
   def index
-    @trackers = Tracker.sorted.to_a
+    @trackers = Tracker.sorted.preload(:default_status).to_a
     respond_to do |format|
       format.html {render :layout => false if request.xhr?}
       format.api
