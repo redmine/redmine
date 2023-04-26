@@ -24,7 +24,7 @@ gem "rexml", require: false if Gem.ruby_version >= Gem::Version.new('3.0')
 gem 'i18n', '~> 1.10.0'
 gem 'rbpdf', '~> 1.21.3'
 gem 'addressable'
-gem 'rubyzip', '~> 2.3.0'
+gem 'rubyzip'
 gem 'net-smtp', '~> 0.3.0'
 gem 'net-imap', '~> 0.2.2'
 gem 'net-pop', '~> 0.1.1'
@@ -114,9 +114,9 @@ group :test do
   gem "selenium-webdriver", "~> 3.142.7"
   gem 'webdrivers', '4.6.1', require: false
   # RuboCop
-  gem 'rubocop', '~> 1.26.0'
-  gem 'rubocop-performance', '~> 1.13.0'
-  gem 'rubocop-rails', '~> 2.14.0'
+  gem 'rubocop'
+  gem 'rubocop-performance'
+  gem 'rubocop-rails'
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), "Gemfile.local")
