@@ -95,6 +95,7 @@ class SearchControllerTest < Redmine::ControllerTest
     assert_select 'input[name=all_words][checked=checked]'
     assert_select 'input[name=titles_only]:not([checked])'
 
+    assert_select 'p.buttons a', :text => 'Apply issues filter'
     assert_select '#search-results' do
       assert_select 'dt.issue a', :text => /Bug #5/
       assert_select 'dt.issue-closed a', :text => /Bug #8 \(Closed\)/
@@ -456,5 +457,16 @@ class SearchControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_select '#search-results dt.project', 0
+  end
+
+  def test_search_should_not_show_apply_issues_filter_button_if_no_issues_found
+    get :index, :params => {:q => 'commits'}
+    assert_response :success
+
+    assert_select 'p.buttons a', :text => 'Apply issues filter', :count => 0
+    assert_select '#search-results' do
+      assert_select 'dt.issue', :count => 0
+      assert_select 'dt.issue-closed', :count => 0
+    end
   end
 end

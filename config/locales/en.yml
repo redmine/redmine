@@ -1198,6 +1198,7 @@ en:
   button_edit_object: "Edit %{object_name}"
   button_delete_object: "Delete %{object_name}"
   button_create_and_follow: Create and follow
+  button_apply_issues_filter: Apply issues filter
 
   status_active: active
   status_registered: registered
