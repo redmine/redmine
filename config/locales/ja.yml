@@ -1429,3 +1429,4 @@ ja:
   label_auto_watch_on_issue_created: 自分が作成したチケット
   field_any_searchable: 全検索対象テキスト
   label_contains_any_of: いずれかを含む
+  button_apply_issues_filter: Apply issues filter

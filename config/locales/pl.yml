@@ -1421,3 +1421,4 @@ pl:
   text_project_destroy_enter_identifier: "Aby potwierdzić, podaj identyfikator projektu (%{identifier}) poniżej."
   field_any_searchable: Any searchable text
   label_contains_any_of: contains any of
+  button_apply_issues_filter: Apply issues filter
