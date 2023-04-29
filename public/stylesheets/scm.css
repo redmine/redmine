@@ -84,18 +84,18 @@ img.filecontent, video.filecontent { max-width: 100%; }
 }
 
 /* 12 different colors for the annonate view */
-table.annotate tr.bloc-0 td.author {border-right-color: #FFFFBF;}
-table.annotate tr.bloc-1 td.author {border-right-color: #EABFFF;}
-table.annotate tr.bloc-2 td.author {border-right-color: #BFFFFF;}
-table.annotate tr.bloc-3 td.author {border-right-color: #FFD9BF;}
-table.annotate tr.bloc-4 td.author {border-right-color: #E6FFBF;}
-table.annotate tr.bloc-5 td.author {border-right-color: #BFCFFF;}
-table.annotate tr.bloc-6 td.author {border-right-color: #FFBFEF;}
-table.annotate tr.bloc-7 td.author {border-right-color: #FFE6BF;}
-table.annotate tr.bloc-8 td.author {border-right-color: #FFE680;}
-table.annotate tr.bloc-9 td.author {border-right-color: #AA80FF;}
-table.annotate tr.bloc-10 td.author {border-right-color: #FFBFDC;}
-table.annotate tr.bloc-11 td.author {border-right-color: #BFE4FF;}
+table.annotate tr.bloc-0 td.line-code {border-left-color: #FFFFBF;}
+table.annotate tr.bloc-1 td.line-code {border-left-color: #EABFFF;}
+table.annotate tr.bloc-2 td.line-code {border-left-color: #BFFFFF;}
+table.annotate tr.bloc-3 td.line-code {border-left-color: #FFD9BF;}
+table.annotate tr.bloc-4 td.line-code {border-left-color: #E6FFBF;}
+table.annotate tr.bloc-5 td.line-code {border-left-color: #BFCFFF;}
+table.annotate tr.bloc-6 td.line-code {border-left-color: #FFBFEF;}
+table.annotate tr.bloc-7 td.line-code {border-left-color: #FFE6BF;}
+table.annotate tr.bloc-8 td.line-code {border-left-color: #FFE680;}
+table.annotate tr.bloc-9 td.line-code {border-left-color: #AA80FF;}
+table.annotate tr.bloc-10 td.line-code {border-left-color: #FFBFDC;}
+table.annotate tr.bloc-11 td.line-code {border-left-color: #BFE4FF;}
 table.annotate tr.bloc-change {border-top:1px solid #e5e5e5;}
 
 table.annotate td.revision {
@@ -109,7 +109,6 @@ table.annotate td.revision {
 table.annotate td.author {
     padding:0;
     text-align: center;
-    border-right: 6px solid #d7d7d7;
     white-space: nowrap;
     padding-left: 1em;
     padding-right: 1em;
@@ -117,7 +116,10 @@ table.annotate td.author {
     background: inherit;
 }
 
-table.annotate td.line-code { background-color: #fafafa; }
+table.annotate td.line-code {
+    background-color: #fafafa;
+    border-left: 6px solid #d7d7d7;
+}
 
 div.action_M { background: #fd8 }
 div.action_D { background: #f88 }
