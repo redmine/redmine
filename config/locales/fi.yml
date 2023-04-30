@@ -1498,3 +1498,4 @@ fi:
   field_any_searchable: Any searchable text
   label_contains_any_of: contains any of
   button_apply_issues_filter: Apply issues filter
+  label_view_previous_annotation: View annotation prior to this change
