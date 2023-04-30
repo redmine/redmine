@@ -838,6 +838,7 @@ en:
   label_latest_revision_plural: Latest revisions
   label_view_revisions: View revisions
   label_view_all_revisions: View all revisions
+  label_view_previous_annotation: View annotation prior to this change
   label_x_revisions: "%{count} revisions"
   label_max_size: Maximum size
   label_roadmap: Roadmap

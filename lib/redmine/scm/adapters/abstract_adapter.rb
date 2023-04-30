@@ -423,16 +423,18 @@ module Redmine
       end
 
       class Annotate
-        attr_reader :lines, :revisions
+        attr_reader :lines, :revisions, :previous_annotations
 
         def initialize
           @lines = []
           @revisions = []
+          @previous_annotations = []
         end
 
-        def add_line(line, revision)
+        def add_line(line, revision, previous=nil)
           @lines << line
           @revisions << revision
+          @previous_annotations << previous
         end
 
         def content

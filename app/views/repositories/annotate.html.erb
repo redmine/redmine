@@ -16,6 +16,7 @@
     <% line_num = 1; previous_revision = nil %>
     <% syntax_highlight_lines(@path, Redmine::CodesetUtil.to_utf8_by_setting(@annotate.content)).each do |line| %>
       <% revision = @annotate.revisions[line_num - 1] %>
+      <% previous_annot = @annotate.previous_annotations[line_num - 1] %>
       <tr id="L<%= line_num %>" class="bloc-<%= revision.nil? ? 0 : colors[revision.identifier || revision.revision] %> <%= previous_revision && revision && revision != previous_revision ? 'bloc-change' : nil%>">
         <th class="line-num"><a href="#L<%= line_num %>" data-txt="<%= line_num %>"></a></th>
         <td class="revision">
@@ -31,6 +32,13 @@
             <%= author.split('<').first %>
           <% end %>
         </td>
+        <% if @has_previous %>
+        <td class="previous">
+          <% if previous_annot && revision && revision != previous_revision %>
+            <%= link_to '', {:action => 'annotate', :id => @project, :repository_id => @repository.identifier_param, :path => to_path_param(previous_annot.split[1] || @path), :rev => previous_annot.split[0] }, :title => l(:label_view_previous_annotation), :class => 'icon icon-history' %>
+          <% end %>
+        </td>
+        <% end %>
         <% if line == "\n" or line == "\r\n" %>
         <td class="line-code"><br></td>
         <% else %>

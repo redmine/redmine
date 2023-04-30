@@ -589,9 +589,14 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
 
       # Line 23, changeset 2f9c0091
       assert_select 'tr' do
+        prev_blame, path = '4a79347ea4b7184938d9bbea0fd421a6079f71bb', 'sources/watchers_controller.rb'
         assert_select 'th.line-num a[data-txt=?]', '23'
         assert_select 'td.revision', :text => /2f9c0091/
         assert_select 'td.author', :text => 'jsmith'
+        assert_select 'td.previous' do
+          assert_select 'a.icon-history[href=?]',
+                        "/projects/subproject1/repository/#{@repository.id}/revisions/#{prev_blame}/annotate/#{path}"
+        end
         assert_select 'td', :text => /remove_watcher/
       end
     end

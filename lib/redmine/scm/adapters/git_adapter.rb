@@ -376,11 +376,14 @@ module Redmine
           identifier = ''
           # git shows commit author on the first occurrence only
           authors_by_commit = {}
+          prev_blames_by_commit = {}
           content.split("\n").each do |line|
             if line =~ /^([0-9a-f]{39,40})\s.*/
               identifier = $1
             elsif line =~ /^author (.+)/
               authors_by_commit[identifier] = $1.strip
+            elsif line =~ /^previous (.+)/
+              prev_blames_by_commit[identifier] = $1.strip
             elsif line =~ /^\t(.*)/
               blame.add_line(
                 $1,
@@ -389,7 +392,8 @@ module Redmine
                   :revision   => identifier,
                   :scmid      => identifier,
                   :author     => authors_by_commit[identifier]
-                )
+                ),
+                prev_blames_by_commit[identifier]
               )
               identifier = ''
               author = ''

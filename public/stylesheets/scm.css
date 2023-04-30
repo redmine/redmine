@@ -116,6 +116,13 @@ table.annotate td.author {
     background: inherit;
 }
 
+table.annotate td.previous {
+    padding: 0;
+    text-align: center;
+    width: 1%;
+    background: inherit;
+}
+
 table.annotate td.line-code {
     background-color: #fafafa;
     border-left: 6px solid #d7d7d7;
