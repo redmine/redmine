@@ -1430,4 +1430,4 @@ ja:
   field_any_searchable: 全検索対象テキスト
   label_contains_any_of: いずれかを含む
   button_apply_issues_filter: チケットのフィルタを適用
-  label_view_previous_annotation: View annotation prior to this change
+  label_view_previous_annotation: この更新以前のアノテート
