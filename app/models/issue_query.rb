@@ -805,8 +805,11 @@ class IssueQuery < Query
       when '*~', '!~' then false
       end
 
+    is_open_issues = has_filter?('status_id') && operator_for('status_id') == 'o'
+
     fetcher = Redmine::Search::Fetcher.new(
-      question, User.current, ['issue'], projects, all_words: is_all_words, attachments: '0'
+      question, User.current, ['issue'], projects,
+      all_words: is_all_words, open_issues: is_open_issues, attachments: '0'
     )
     ids = fetcher.result_ids.map(&:last)
     if ids.present?

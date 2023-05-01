@@ -1071,6 +1071,21 @@ class QueryTest < ActiveSupport::TestCase
     result.each {|issue| assert_includes [1, 5], issue.project_id}
   end
 
+  def test_filter_any_searchable_with_open_issues_should_search_only_open_issues
+    User.current = User.find(1)
+    query = IssueQuery.new(
+      :name => '_',
+      :filters => {
+        'status_id' => {:operator => 'o'}
+      }
+    )
+
+    result = query.sql_for_any_searchable_field(nil, '~', ['issue'])
+    assert_match /issues.id  IN \([\d,]+\)/, result
+    ids = result.scan(/\d+/).map(&:to_i).sort
+    assert_equal [4, 5, 6, 7, 9, 10, 13, 14], ids
+  end
+
   def test_filter_updated_by
     user = User.generate!
     Journal.create!(:user_id => user.id, :journalized => Issue.find(2), :notes => 'Notes')
