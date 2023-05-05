@@ -265,7 +265,7 @@ en-GB:
   field_login: Login
   field_mail_notification: Email notifications
   field_admin: Administrator
-  field_last_login_on: Last connection
+  field_last_login_on: Last sign in
   field_language: Language
   field_effective_date: Due date
   field_password: Password

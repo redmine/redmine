@@ -283,7 +283,7 @@ ja:
   field_login: ログインID
   field_mail_notification: メール通知
   field_admin: システム管理者
-  field_last_login_on: 最終接続日
+  field_last_login_on: 最終ログイン
   field_language: 言語
   field_effective_date: 期日
   field_password: パスワード
