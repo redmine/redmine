@@ -1307,7 +1307,7 @@ fr:
   notice_issue_not_reopenable_by_closed_parent_issue: Cette demande ne peut être réouverte car sa demande parente est fermée.
   error_bulk_download_size_too_big: Ces pièces jointes ne peuvent pas être téléchargées en masse car
     la taille totale des fichiers dépasse la taille maximale autorisée (%{max_size})
-  setting_bulk_download_max_size: Taille totale maximale du télécharement groupé
+  setting_bulk_download_max_size: Taille totale maximale du téléchargement groupé
   label_download_all_attachments: Télécharger tous les fichiers
   error_attachments_too_many: Ce fichier ne peut être transmis car il excède le nombre maximum de fichier pouvant être attaché simultanément (%{max_number_of_files})
   setting_email_domains_allowed: Domaines de messagerie autorisés
