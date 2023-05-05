@@ -1494,5 +1494,5 @@
   label_auto_watch_on_issue_created: 我所建立的議題
   field_any_searchable: 任何可搜尋的文字
   label_contains_any_of: 包含任何(任一個字)
-  button_apply_issues_filter: Apply issues filter
-  label_view_previous_annotation: View annotation prior to this change
+  button_apply_issues_filter: 套用議題篩選條件
+  label_view_previous_annotation: 檢視此變更之前的註釋
