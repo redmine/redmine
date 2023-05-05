@@ -137,7 +137,7 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 
 div.modal { border-radius:5px; background:#fff; z-index:50; padding:4px;}
 div.modal h3.title {display:none;}
-div.modal p.buttons {text-align:right; margin-bottom:0;}
+div.modal p.buttons {margin-bottom:0;}
 div.modal .box p {margin: 0.3em 0;}
 
 .clear:after{ content: "."; display: block; height: 0; clear: both; visibility: hidden; }
