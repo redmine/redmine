@@ -334,7 +334,7 @@ pl:
   field_login: Login
   field_mail_notification: Powiadomienia e-mail
   field_admin: Administrator
-  field_last_login_on: Ostatnie połączenie
+  field_last_login_on: Ostatnie logowanie
   field_passwd_changed_on: Ostatnia zmiana hasła
   field_language: Język
   field_effective_date: Data
@@ -429,6 +429,7 @@ pl:
   field_default_issue_query: Domyślna kwerenda dla listy zagadnień
   field_default_project_query: Domyślna kwerenda dla listy projektów
   field_default_time_entry_activity: Domyślna aktywność dla wpisów dziennika
+  field_any_searchable: Dowolny przeszukiwalny tekst
 
   setting_app_title: Tytuł aplikacji
   setting_welcome_text: Tekst powitalny
@@ -768,7 +769,7 @@ pl:
   label_current_status: Obecny status
   label_new_statuses_allowed: Dozwolone nowe statusy
   label_all: wszystko
-  label_any: wszystko
+  label_any: dowolne
   label_none: brak
   label_nobody: nikt
   label_next: Następne
@@ -825,6 +826,7 @@ pl:
   label_more_than_ago: więcej niż dni temu
   label_ago: dni temu
   label_contains: zawiera
+  label_contains_any_of: zawiera dowolne z
   label_not_contains: nie zawiera
   label_starts_with: rozpoczyna się od
   label_ends_with: kończy się na
@@ -853,6 +855,7 @@ pl:
   label_latest_revision_plural: Najnowsze rewizje
   label_view_revisions: Pokaż rewizje
   label_view_all_revisions: Pokaż wszystkie rewizje
+  label_view_previous_annotation: Pokaż adnotacje dla wersji przed tą zmianą
   label_x_revisions: "%{count} rewizji"
   label_max_size: Maksymalny rozmiar
   label_roadmap: Mapa
@@ -1213,6 +1216,7 @@ pl:
   button_edit_object: "Edytuj %{object_name}"
   button_delete_object: "Usuń %{object_name}"
   button_create_and_follow: Utwórz i przejdź
+  button_apply_issues_filter: Zastosuj filtr na liście zagadnień
 
   status_active: aktywny
   status_registered: zarejestrowany
@@ -1416,10 +1420,5 @@ pl:
   twofa_backup_codes_already_shown: Kody zapasowe nie mogą być ponownie wyświetlone, <a data-method="post" href="%{bc_path}">wygeneruj nowe kody</a> jeśli są potrzebne.
   twofa_text_group_required: "To ustawienie działa tylko wtedy, kiedy globalne ustawienie uwierzytelniania dwuskładnikowego jest ustawione na 'opcjonalne'. Aktualnie uwierzytelnianie dwuskładnikowe jest wymagane dla wszystkich użytkowników."
   twofa_text_group_disabled: "To ustawienie działa tylko wtedy, kiedy globalne ustawienie uwierzytelniania dwuskładnikowego jest ustawione na 'opcjonalne'. Aktualnie uwierzytelnienie dwuskładnikowe jest wyłączone."
-
   text_user_destroy_confirmation: "Czy jesteś pewien, że chcesz usunąć tego użytkownika i wszystkie odwołania do niego? Tej operacji nie można cofnąć. Zwykle zablokowanie użytkownika jest lepszym rozwiązaniem, niż jego całkowite usunięcie. Aby potwierdzić operację, podaj jego login (%{login}) poniżej."
   text_project_destroy_enter_identifier: "Aby potwierdzić, podaj identyfikator projektu (%{identifier}) poniżej."
-  field_any_searchable: Any searchable text
-  label_contains_any_of: contains any of
-  button_apply_issues_filter: Apply issues filter
-  label_view_previous_annotation: View annotation prior to this change
