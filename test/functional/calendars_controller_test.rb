@@ -57,7 +57,7 @@ class CalendarsControllerTest < Redmine::ControllerTest
         assert_select 'div#query_form_content' do
           assert_select 'fieldset#filters.collapsible'
         end
-        assert_select 'p.contextual'
+        assert_select 'span.contextual.pagination'
         assert_select 'p.buttons'
       end
     end

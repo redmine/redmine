@@ -1116,6 +1116,7 @@ table.cal .starting a.issue, p.cal.legend .starting {background: url(../images/b
 table.cal .ending a.issue, p.cal.legend .ending {background: url(../images/bullet_end.png) no-repeat -1px -2px; padding-left:16px;}
 table.cal .starting.ending a.issue, p.cal.legend .starting.ending {background: url(../images/bullet_diamond.png) no-repeat -1px -2px; padding-left:16px;}
 p.cal.legend span {display:block;}
+.controller-calendars p.buttons {margin-top: unset;}
 
 /***** Tooltips ******/
 .tooltip{position:relative;z-index:24;}
