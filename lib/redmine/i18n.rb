@@ -161,7 +161,10 @@ module Redmine
       module Implementation
         # Get available locales from the translations filenames
         def available_locales
-          @available_locales ||= ::I18n.load_path.map {|path| File.basename(path, '.*')}.uniq.sort.map(&:to_sym)
+          @available_locales ||= begin
+            redmine_locales = Dir[Rails.root / 'config' / 'locales' / '*.yml'].map { |f| File.basename(f, '.yml').to_sym }
+            super & redmine_locales
+          end
         end
       end
 
