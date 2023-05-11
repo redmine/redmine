@@ -783,7 +783,7 @@ de:
   label_user_activity: "Aktivität von %{value}"
   label_user_anonymous: Anonym
   label_user_mail_no_self_notified: "Ich möchte nicht über Änderungen benachrichtigt werden, die ich selbst durchführe."
-  label_user_mail_notify_about_high_priority_issues_html: "Benachrichtige mich über Aufgaben mit einer Priorität von <em>%{prio}</em> oder höher"
+  label_user_mail_notify_about_high_priority_issues_html: "Benachrichtige mich zusätzlich über Aufgaben mit einer Priorität von <em>%{prio}</em> oder höher"
   label_user_mail_option_all: "Für alle Ereignisse in all meinen Projekten"
   label_user_mail_option_none: Keine Ereignisse
   label_user_mail_option_only_my_events: Nur für Angelegenheiten, die ich beobachte oder an denen ich beteiligt bin
