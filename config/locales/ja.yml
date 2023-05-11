@@ -1431,3 +1431,6 @@ ja:
   label_contains_any_of: いずれかを含む
   button_apply_issues_filter: チケットのフィルタを適用
   label_view_previous_annotation: この更新以前のアノテート
+  label_has_been: has been
+  label_has_never_been: has never been
+  label_changed_from: changed from

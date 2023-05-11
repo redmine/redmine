@@ -1424,3 +1424,6 @@ fa:
   label_contains_any_of: contains any of
   button_apply_issues_filter: Apply issues filter
   label_view_previous_annotation: View annotation prior to this change
+  label_has_been: has been
+  label_has_never_been: has never been
+  label_changed_from: changed from
