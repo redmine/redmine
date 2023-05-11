@@ -1456,11 +1456,11 @@ class Query < ActiveRecord::Base
           " AND #{JournalDetail.table_name}.property = 'attr'" +
           " AND #{JournalDetail.table_name}.prop_key = '#{db_field}'" +
           " AND " +
-          queried_class.send(:sanitize_sql_for_conditions, ["#{JournalDetail.table_name}.old_value IN (?)", value]) +
+          queried_class.send(:sanitize_sql_for_conditions, ["#{JournalDetail.table_name}.old_value IN (?)", value.map(&:to_s)]) +
           ")"
         if %w[ev !ev].include?(operator)
           subquery <<
-            " OR " + queried_class.send(:sanitize_sql_for_conditions, ["#{db_table}.#{db_field} IN (?)", value])
+            " OR " + queried_class.send(:sanitize_sql_for_conditions, ["#{db_table}.#{db_field} IN (?)", value.map(&:to_s)])
         end
         sql = "#{neg} EXISTS (#{subquery})"
       else
