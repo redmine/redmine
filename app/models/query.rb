@@ -314,13 +314,18 @@ class Query < ActiveRecord::Base
     "!p"  => :label_no_issues_in_project,
     "*o"  => :label_any_open_issues,
     "!o"  => :label_no_open_issues,
+    "ev"  => :label_has_been,       # "ev" stands for "ever"
+    "!ev" => :label_has_never_been,
+    "cf"  => :label_changed_from
   }
 
   class_attribute :operators_by_filter_type
   self.operators_by_filter_type = {
     :list => [ "=", "!" ],
-    :list_status => [ "o", "=", "!", "c", "*" ],
+    :list_with_history =>  [ "=", "!", "ev", "!ev", "cf" ],
+    :list_status => [ "o", "=", "!", "ev", "!ev", "cf", "c", "*" ],
     :list_optional => [ "=", "!", "!*", "*" ],
+    :list_optional_with_history => [ "=", "!", "ev", "!ev", "cf", "!*", "*" ],
     :list_subprojects => [ "*", "!*", "=", "!" ],
     :date => [ "=", ">=", "<=", "><", "<t+", ">t+", "><t+", "t+", "nd", "t", "ld", "nw", "w", "lw", "l2w", "nm", "m", "lm", "y", ">t-", "<t-", "><t-", "t-", "!*", "*" ],
     :date_past => [ "=", ">=", "<=", "><", ">t-", "<t-", "><t-", "t-", "t", "ld", "w", "lw", "l2w", "m", "lm", "y", "!*", "*" ],
@@ -1438,6 +1443,29 @@ class Query < ActiveRecord::Base
       sql = sql_contains("#{db_table}.#{db_field}", value.first, :starts_with => true)
     when "$"
       sql = sql_contains("#{db_table}.#{db_field}", value.first, :ends_with => true)
+    when "ev", "!ev", "cf"
+      # has been,  has never been, changed from
+      if queried_class == Issue && value.present?
+        neg = (operator.start_with?('!') ? 'NOT' : '')
+        subquery =
+          "SELECT 1 FROM #{Journal.table_name}" +
+          " INNER JOIN #{JournalDetail.table_name} ON #{Journal.table_name}.id = #{JournalDetail.table_name}.journal_id" +
+          " WHERE (#{Journal.visible_notes_condition(User.current, :skip_pre_condition => true)}" +
+          " AND #{Journal.table_name}.journalized_type = 'Issue'" +
+          " AND #{Journal.table_name}.journalized_id = #{db_table}.id" +
+          " AND #{JournalDetail.table_name}.property = 'attr'" +
+          " AND #{JournalDetail.table_name}.prop_key = '#{db_field}'" +
+          " AND " +
+          queried_class.send(:sanitize_sql_for_conditions, ["#{JournalDetail.table_name}.old_value IN (?)", value]) +
+          ")"
+        if %w[ev !ev].include?(operator)
+          subquery <<
+            " OR " + queried_class.send(:sanitize_sql_for_conditions, ["#{db_table}.#{db_field} IN (?)", value])
+        end
+        sql = "#{neg} EXISTS (#{subquery})"
+      else
+        sql = '1=0'
+      end
     else
       raise QueryError, "Unknown query operator #{operator}"
     end

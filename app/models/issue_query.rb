@@ -155,11 +155,11 @@ class IssueQuery < Query
     ) if project.nil?
     add_available_filter(
       "tracker_id",
-      :type => :list, :values => trackers.collect{|s| [s.name, s.id.to_s]}
+      :type => :list_with_history, :values => trackers.collect{|s| [s.name, s.id.to_s]}
     )
     add_available_filter(
       "priority_id",
-      :type => :list, :values => IssuePriority.all.collect{|s| [s.name, s.id.to_s]}
+      :type => :list_with_history, :values => IssuePriority.all.collect{|s| [s.name, s.id.to_s]}
     )
     add_available_filter(
       "author_id",
@@ -167,7 +167,7 @@ class IssueQuery < Query
     )
     add_available_filter(
       "assigned_to_id",
-      :type => :list_optional, :values => lambda {assigned_to_values}
+      :type => :list_optional_with_history, :values => lambda {assigned_to_values}
     )
     add_available_filter(
       "member_of_group",
@@ -179,7 +179,7 @@ class IssueQuery < Query
     )
     add_available_filter(
       "fixed_version_id",
-      :type => :list_optional, :values => lambda {fixed_version_values}
+      :type => :list_optional_with_history, :values => lambda {fixed_version_values}
     )
     add_available_filter(
       "fixed_version.due_date",
@@ -194,7 +194,7 @@ class IssueQuery < Query
     )
     add_available_filter(
       "category_id",
-      :type => :list_optional,
+      :type => :list_optional_with_history,
       :values => lambda {project.issue_categories.collect{|s| [s.name, s.id.to_s]}}
     ) if project
     add_available_filter "subject", :type => :text

@@ -797,6 +797,73 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal [2, 14], result.map(&:id).sort
   end
 
+  def test_operator_changed_from
+    User.current = User.find(1)
+    issue1 = Issue.find(2)
+    issue1.init_journal(User.current)
+    issue1.update(status_id: 1)  # Assigned (2) -> New
+    issue2 = Issue.find(8)
+    issue2.init_journal(User.current)
+    issue2.update(status_id: 2)  # Closed (5) -> Assigned
+
+    query = IssueQuery.new(
+      :name => '_',
+      :filters => {
+        'status_id' => {
+          :operator => 'cf',
+          :values => [2, 5]  # Assigned, Closed
+        }
+      }
+    )
+    result = find_issues_with_query(query)
+    assert_equal(
+      [[2, 'New'], [8, 'Assigned']],
+      result.sort_by(&:id).map {|issue| [issue.id, issue.status.name]}
+    )
+  end
+
+  def test_operator_has_been
+    User.current = User.find(1)
+    issue = Issue.find(8)
+    issue.init_journal(User.current)
+    issue.update(status_id: 2)  # Closed (5) -> Assigned
+
+    query = IssueQuery.new(
+      :name => '_',
+      :filters => {
+        'status_id' => {
+          :operator => 'ev',
+          :values => [5]  # Closed
+        }
+      }
+    )
+    result = find_issues_with_query(query)
+    assert_equal(
+      [[8, 'Assigned'], [11, 'Closed'], [12, 'Closed']],
+      result.sort_by(&:id).map {|issue| [issue.id, issue.status.name]}
+    )
+  end
+
+  def test_operator_has_never_been
+    User.current = User.find(1)
+    issue = Issue.find(8)
+    issue.init_journal(User.current)
+    issue.update(status_id: 2)  # Closed (5) -> Assigned
+
+    query = IssueQuery.new(
+      :name => '_',
+      :filters => {
+        'status_id' => {
+          :operator => '!ev',
+          :values => [5]  # Closed
+        }
+      }
+    )
+    result = find_issues_with_query(query)
+    expected = Issue.all.order(:id).ids - [8, 11, 12]
+    assert_equal expected, result.map(&:id).sort
+  end
+
   def test_range_for_this_week_with_week_starting_on_monday
     I18n.locale = :fr
     assert_equal '1', I18n.t(:general_first_day_of_week)

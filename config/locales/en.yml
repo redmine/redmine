@@ -818,6 +818,9 @@ en:
   label_no_issues_in_project: no issues in project
   label_any_open_issues: any open issues
   label_no_open_issues: no open issues
+  label_has_been: has been
+  label_has_never_been: has never been
+  label_changed_from: changed from
   label_day_plural: days
   label_repository: Repository
   label_repository_new: New repository
