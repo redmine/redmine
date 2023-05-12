@@ -1314,7 +1314,7 @@ fr:
   label_import_users: Importer les utilisateurs
   label_days_to_html: "%{days} jours jusqu'à %{date}"
   setting_twofa: Double authentification
-  label_optional: optionel
+  label_optional: optionnel
   label_required_lower: obligatoire
   button_disable: Désactiver
   twofa__totp__name: Application d'authentication
@@ -1390,79 +1390,79 @@ fr:
   error_invalid_authenticity_token: Jeton d'authenticité de formulaire invalide.
   error_query_statement_invalid: Une erreur s'est produite lors de l'exécution de la requête et a
     été enregistré. Veuillez signaler cette erreur à votre administrateur Redmine.
-  permission_view_wiki_page_watchers: View wiki page watchers list
-  permission_add_wiki_page_watchers: Add wiki page watchers
-  permission_delete_wiki_page_watchers: Delete wiki page watchers
-  label_wiki_page_watchers: Watchers
-  label_attachment_description: File description
-  error_no_data_in_file: The file does not contain any data
-  field_twofa_required: Require two factor authentication
-  twofa_hint_optional_html: Setting <strong>%{label}</strong> will let users set up
-    two-factor authentication at will, unless it is required by one of their groups.
-  twofa_text_group_required: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is required for all users.
-  twofa_text_group_disabled: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is disabled.
-  text_all_migrations_have_been_run: All database migrations have been run
-  button_save_object: Save %{object_name}
-  button_edit_object: Edit %{object_name}
-  button_delete_object: Delete %{object_name}
-  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
-    Please restart the application after editing it.
-  label_bulk_edit: Bulk edit
-  button_create_and_follow: Create and follow
-  label_subtask: Subtask
+  permission_view_wiki_page_watchers: Voir la liste des observateurs de la page wiki
+  permission_add_wiki_page_watchers: Ajouter des observateurs de la page wiki
+  permission_delete_wiki_page_watchers: Supprimer des observateurs de la page wiki
+  label_wiki_page_watchers: Obsvervateurs
+  label_attachment_description: Description du fichier
+  error_no_data_in_file: Le fichier ne contient aucune donnée
+  field_twofa_required: Nécessite l'authentification à deux facteurs
+  twofa_hint_optional_html: Activer <strong>%{label}</strong> permettra aux utilisateurs de configurer
+    l'authentification à deux facteurs eux même, à moins qu'elle soit requise par un de leur groupe.
+  twofa_text_group_required: Ce paramètre est uniquement disponible quand l'authentification
+    à deux facteurs est globalement configurée sur 'optionnel'. Actuellement  l'authentification
+    à deux facteurs est obligatoire.
+  twofa_text_group_disabled: Ce paramètre est uniquement disponible quand l'authentification
+    à deux facteurs est globalement configurée sur 'optionnel'. Actuellement  l'authentification
+    à deux facteurs est désactivée.
+  text_all_migrations_have_been_run: Toutes les migrations de la base de donnée ont été jouées
+  button_save_object: Sauvegarder %{object_name}
+  button_edit_object: Editer %{object_name}
+  button_delete_object: Supprimer %{object_name}
+  text_setting_config_change: Vous pouvez modifier ce comportement dans config/configuration.yml.
+    Merci de redémarrer l'application après l'avoir modifiée.
+  label_bulk_edit: Edition par lot
+  button_create_and_follow: Créer et suivre
+  label_subtask: Sous-tâches
   label_default_query: Rapport par défaut
-  field_default_project_query: Default project query
+  field_default_project_query: Rapport par défaut du project
   label_required_administrators: requis pour les administrateurs
-  twofa_hint_required_administrators_html: Setting <strong>%{label}</strong> behaves
-    like optional, but will require all users with administration rights to set up two-factor
-    authentication at their next login.
-  label_auto_watch_on: Auto watch
-  label_auto_watch_on_issue_contributed_to: Issues I contributed to
-  text_project_close_confirmation: Are you sure you want to close the '%{value}' project
-    to make it read-only?
-  text_project_reopen_confirmation: Are you sure you want to reopen the '%{value}' project?
+  twofa_hint_required_administrators_html: Activer <strong>%{label}</strong> comportement
+    commme optionnel, mais oblige tous les utilisateurs disposant de droit d'administration
+    d'activer l'authentification à deux facteurs à la prochaine connexion
+  label_auto_watch_on: Observation automatique
+  label_auto_watch_on_issue_contributed_to: Demandes auxquelles j'ai contribué
+  text_project_close_confirmation: Etes-vous sûr de vouloir fermer le project '%{value}'
+    et de le rendre accessible uniquement en lecture?
+  text_project_reopen_confirmation: Etes-vous sûr de vouloir réouvrir le project '%{value}'?
   text_project_archive_confirmation: "Etes-vous sûr de vouloir archiver le projet '%{value}' ?"
   mail_destroy_project_failed: "Le projet %{value} n'a pas pu être supprimé."
   mail_destroy_project_successful: Project %{value} was deleted successfully.
-  mail_destroy_project_with_subprojects_successful: Project %{value} and its subprojects
-    were deleted successfully.
-  project_status_scheduled_for_deletion: scheduled for deletion
-  text_projects_bulk_destroy_confirmation: Are you sure you want to delete the selected
-    projects and related data?
+  mail_destroy_project_with_subprojects_successful: Project %{value} et ses sous projets
+    ont été supprimés avec succès.
+  project_status_scheduled_for_deletion: planifié pour suppression
+  text_projects_bulk_destroy_confirmation: Etes-vous sûr de vouloir supprimer le projet
+    sélectionné et toutes les données associées?
   text_projects_bulk_destroy_head: |
-    You are about to permanently delete the following projects, including possible subprojects and any related data.
-    Please review the information below and confirm that this is indeed what you want to do.
-    This action cannot be undone.
-  text_projects_bulk_destroy_confirm: To confirm, please enter "%{yes}" in the box below.
-  text_subprojects_bulk_destroy: 'including its subproject(s): %{value}'
-  field_current_password: Current password
-  sudo_mode_new_info_html: "<strong>What's happening?</strong> You need to reconfirm
-    your password before taking any administrative actions, this ensures your account
-    stays protected."
-  label_edited: Edited
-  label_time_by_author: "%{time} by %{author}"
-  field_default_time_entry_activity: Default spent time activity
-  field_is_member_of_group: Member of group
-  text_users_bulk_destroy_head: You are about to delete the following users and remove
-    all references to them. This cannot be undone. Often, locking users instead of deleting
-    them is the better solution.
-  text_users_bulk_destroy_confirm: To confirm, please enter "%{yes}" below.
-  permission_select_project_publicity: Set project public or private
-  label_auto_watch_on_issue_created: Issues I created
-  field_any_searchable: Any searchable text
-  label_contains_any_of: contains any of
-  button_apply_issues_filter: Apply issues filter
-  label_view_previous_annotation: View annotation prior to this change
-  label_has_been: has been
-  label_has_never_been: has never been
-  label_changed_from: changed from
-  label_issue_statuses_description: Issue statuses description
-  label_open_issue_statuses_description: View all issue statuses description
-  text_select_apply_issue_status: Select issue status
-  field_name_or_email_or_login: Name, email or login
-  text_default_active_job_queue_changed: Default queue adapter which is well suited
-    only for dev/test changed
+    Vous êtes sur le point de supprimer définitivement les projets suivants, incluant tous les éventuels sous projets ainsi
+    que les données associées.
+    Merci de vérifier les informations ci dessous et de confirmer que c'est bien ce que vous souhaitez faire.
+    Cette suppression est irréversible.
+  text_projects_bulk_destroy_confirm: Pour confirmer, taper "%{yes}" dans le champ suivant.
+  text_subprojects_bulk_destroy: 'incluant ces sous projet(s): %{value}'
+  field_current_password: Mot de passe actuel
+  sudo_mode_new_info_html: "<strong>Que ce passe-t-il?</strong> Vous devez reconfirmer
+    votre mot de passe avant de prendre d'effectuer toutes actions d'administration, ceci
+    pour assurer que votre compte reste protégé."
+  label_edited: Edité
+  label_time_by_author: "%{time} par %{author}"
+  field_default_time_entry_activity: Durée d'activité par défault
+  field_is_member_of_group: Membre du groupe
+  text_users_bulk_destroy_head: Vous êtes sur le point de supprimer les utilisateurs suivants
+    ainsi que toutes les référence à eux. Cette suppression est irréversible. Bien souvent,
+    verrouiller les comptes utilisateurs est une meiilleur solution que les supprimer.
+  text_users_bulk_destroy_confirm: Pour confirmer, taper "%{yes}" dans le champ suivant.
+  permission_select_project_publicity: Configurer les projets publique ou privé
+  label_auto_watch_on_issue_created: Demandes que j'ai créée
+  field_any_searchable: Tout texte indexable
+  label_contains_any_of: contenant un des
+  button_apply_issues_filter: Appliquer le filtre des demandes
+  label_view_previous_annotation: Voir les commentaires antérieur à ce changement
+  label_has_been: a été
+  label_has_never_been: n'a jamais été
+  label_changed_from: modifié depuis
+  label_issue_statuses_description: Description du statut des demandes
+  label_open_issue_statuses_description: Voir toutes les descriptions des statuts des demandes
+  text_select_apply_issue_status: Choississez le statut de la demande
+  field_name_or_email_or_login: Nom, email ou login
+  text_default_active_job_queue_changed: Gestionnaire de file par défaut le plus adapté
