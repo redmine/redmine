@@ -1496,6 +1496,6 @@
   label_contains_any_of: 包含任何(任一個字)
   button_apply_issues_filter: 套用議題篩選條件
   label_view_previous_annotation: 檢視此變更之前的註釋
-  label_has_been: has been
-  label_has_never_been: has never been
-  label_changed_from: changed from
+  label_has_been: 曾經是
+  label_has_never_been: 未曾是
+  label_changed_from: 前一個是
