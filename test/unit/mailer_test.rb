@@ -210,6 +210,7 @@ class MailerTest < ActiveSupport::TestCase
     # List-Id should not include the display name "Redmine"
     assert_equal '<redmine.example.net>', mail.header['List-Id'].to_s
     assert_equal 'Bug', mail.header['X-Redmine-Issue-Tracker'].to_s
+    assert_equal 'Low', mail.header['X-Redmine-Issue-Priority'].to_s
   end
 
   def test_email_headers_should_include_sender
