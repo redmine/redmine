@@ -393,7 +393,7 @@ gl:
   label_commits_per_author: Remisións por autor
   label_commits_per_month: Remisións por mes
   label_confirmation: Confirmación
-  label_contains: conten
+  label_contains: contén
   label_copied: copiado
   label_copy_workflow_from: Copiar fluxo de traballo dende
   label_current_status: Estado actual
@@ -514,7 +514,7 @@ gl:
   label_no_data: "Non hai ningún dato que mostrar."
   label_nobody: ninguén
   label_none: ningún
-  label_not_contains: non conten
+  label_not_contains: non contén
   label_not_equals: non igual
   label_open_issues: aberta
   label_open_issues_plural: abertas
@@ -1479,11 +1479,11 @@ gl:
     é a mellor solución.
   text_users_bulk_destroy_confirm: Para confirmar por favor teclee "%{yes}" debaixo.
   permission_select_project_publicity: Configurar o proxecto coma público ou privado
-  label_auto_watch_on_issue_created: Issues I created
-  field_any_searchable: Any searchable text
-  label_contains_any_of: contains any of
-  button_apply_issues_filter: Apply issues filter
-  label_view_previous_annotation: View annotation prior to this change
-  label_has_been: has been
-  label_has_never_been: has never been
-  label_changed_from: changed from
+  label_auto_watch_on_issue_created: Tarefas creadas por min
+  field_any_searchable: Calquera texto buscable
+  label_contains_any_of: contén calquera de
+  button_apply_issues_filter: Aplicar os filtro de tarefas
+  label_view_previous_annotation: Ver anotación anterior a este cambio
+  label_has_been: ten sido
+  label_has_never_been: nunca ten sido
+  label_changed_from: cambiou de
