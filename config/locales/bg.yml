@@ -821,6 +821,9 @@ bg:
   label_no_issues_in_project: никакви задачи в проект
   label_any_open_issues: отворени задачи
   label_no_open_issues: без отворени задачи
+  label_has_been: някога е било
+  label_has_never_been: никога не е било
+  label_changed_from: променено от
   label_day_plural: дни
   label_repository: Хранилище
   label_repository_new: Ново хранилище
@@ -841,6 +844,7 @@ bg:
   label_latest_revision_plural: Последни ревизии
   label_view_revisions: Виж ревизиите
   label_view_all_revisions: Разглеждане на всички ревизии
+  label_view_previous_annotation: Показване на анотацията преди промяната
   label_x_revisions: "%{count} ревизии"
   label_max_size: Максимална големина
   label_roadmap: Пътна карта
@@ -1201,6 +1205,7 @@ bg:
   button_edit_object: Редактиране %{object_name}
   button_delete_object: Изтриване %{object_name}
   button_create_and_follow: Създаване и продължаване
+  button_apply_issues_filter: Прилагане на филтъра
 
   status_active: активен
   status_registered: регистриран
@@ -1422,8 +1427,3 @@ bg:
     Това действие не може да бъде отменено. Често заключването на потребителя е по-добро решение от изтриването му.
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
-  button_apply_issues_filter: Apply issues filter
-  label_view_previous_annotation: View annotation prior to this change
-  label_has_been: has been
-  label_has_never_been: has never been
-  label_changed_from: changed from
