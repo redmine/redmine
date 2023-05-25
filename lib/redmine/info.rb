@@ -8,6 +8,36 @@ module Redmine
       def help_url; 'https://www.redmine.org/guide' end
       def versioned_name; "#{app_name} #{Redmine::VERSION}" end
 
+      def database_server
+        db_connection = ActiveRecord::Base.connection
+        adapter = db_connection.adapter_name.downcase
+        if adapter.include?('postgresql')
+          db_connection.execute("SELECT version()").first[0]
+        elsif adapter.include?('mysql')
+          "MySQL #{db_connection.execute('SELECT VERSION()').first[0]}"
+        else
+          'unknown'
+        end
+      end
+
+      def web_server
+        if defined?(Puma::Const::PUMA_VERSION)
+          "Puma #{Puma::Const::PUMA_VERSION}"
+        else
+          'unknown'
+        end
+      end
+
+      def session_store
+        if Rails.application.config.session_store.name == "ActionDispatch::Session::RedisStore"
+          options = Rails.application.config.session_options[:servers].first
+          version = Redis.new(options).info['redis_version']
+          "Redis #{version}"
+        else
+          'unknown'
+        end
+      end
+
       def environment
         s = +"Environment:\n"
         s << [
@@ -16,6 +46,10 @@ module Redmine
           ["Rails version", Rails::VERSION::STRING],
           ["Environment", Rails.env],
           ["Database adapter", ActiveRecord::Base.connection.adapter_name],
+          ["Database server", database_server],
+          ["Web server", web_server],
+          ["Session store", session_store],
+          ["Cache store", Rails.cache.class.name],
           ["Mailer queue", ActionMailer::MailDeliveryJob.queue_adapter.class.name],
           ["Mailer delivery", ActionMailer::Base.delivery_method]
         ].map {|info| "  %-30s %s" % info}.join("\n") + "\n"
