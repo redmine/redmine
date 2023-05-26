@@ -46,6 +46,7 @@ class MailHandler < ActionMailer::Base
     options[:no_account_notice] = (options[:no_account_notice].to_s == '1')
     options[:no_notification] = (options[:no_notification].to_s == '1')
     options[:no_permission_check] = (options[:no_permission_check].to_s == '1')
+    options[:find_by_subject] = (options[:find_by_subject].to_s == '1')
 
     ActiveSupport::Notifications.instrument("receive.action_mailer") do |payload|
       mail = Mail.new(raw_mail.b)
@@ -69,7 +70,7 @@ class MailHandler < ActionMailer::Base
     %w(project status tracker category priority assigned_to fixed_version).each do |option|
       options[:issue][option.to_sym] = env[option] if env[option]
     end
-    %w(allow_override unknown_user no_permission_check no_account_notice no_notification default_group project_from_subaddress).each do |option|
+    %w(allow_override unknown_user no_permission_check no_account_notice no_notification default_group project_from_subaddress find_by_subject).each do |option|
       options[option.to_sym] = env[option] if env[option]
     end
     if env['private']
@@ -147,6 +148,7 @@ class MailHandler < ActionMailer::Base
 
   MESSAGE_ID_RE = %r{^<?redmine\.([a-z0-9_]+)\-(\d+)\.\d+(\.[a-f0-9]+)?@}
   ISSUE_REPLY_SUBJECT_RE = %r{\[(?:[^\]]*\s+)?#(\d+)\]}
+  ISSUE_REPLY_SUBJECT_RE2 = %r{^(?:Re:\s*)*(.*)$}i
   MESSAGE_REPLY_SUBJECT_RE = %r{\[[^\]]*msg(\d+)\]}
 
   def dispatch
@@ -164,6 +166,17 @@ class MailHandler < ActionMailer::Base
       receive_issue_reply(m[1].to_i)
     elsif m = subject.match(MESSAGE_REPLY_SUBJECT_RE)
       receive_message_reply(m[1].to_i)
+    elsif handler_options[:find_by_subject]
+      logger&.info("MailHandler: trying to find issue by subject")
+      if issue = Issue.find_by(:subject => subject)
+        logger&.info("MailHandler: found issue #{issue.id} using the full subject")
+        receive_issue_reply(issue.id)
+      elsif m = subject.match(ISSUE_REPLY_SUBJECT_RE2)
+        if issue = Issue.find_by(:subject => m[1])
+          logger&.info("MailHandler: found issue #{issue.id} using the subject regex")
+          receive_issue_reply(issue.id)
+        end
+      end
     else
       dispatch_to_default
     end
