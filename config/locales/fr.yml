@@ -1385,7 +1385,7 @@ fr:
   permission_view_message_watchers: Afficher la liste des observateurs de messages
   permission_add_message_watchers: Ajouter des observateurs de messages
   permission_delete_message_watchers: Supprimer des observateurs de messages
-  label_message_watchers: Obsvervateurs
+  label_message_watchers: Observateurs
   button_copy_link: Copier le lien
   error_invalid_authenticity_token: Jeton d'authenticité de formulaire invalide.
   error_query_statement_invalid: Une erreur s'est produite lors de l'exécution de la requête et a
@@ -1393,7 +1393,7 @@ fr:
   permission_view_wiki_page_watchers: Voir la liste des observateurs de la page wiki
   permission_add_wiki_page_watchers: Ajouter des observateurs de la page wiki
   permission_delete_wiki_page_watchers: Supprimer des observateurs de la page wiki
-  label_wiki_page_watchers: Obsvervateurs
+  label_wiki_page_watchers: Observateurs
   label_attachment_description: Description du fichier
   error_no_data_in_file: Le fichier ne contient aucune donnée
   field_twofa_required: Nécessite l'authentification à deux facteurs
