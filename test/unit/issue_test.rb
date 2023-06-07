@@ -2235,7 +2235,7 @@ class IssueTest < ActiveSupport::TestCase
     assert parent.closable?
     assert_nil parent.transition_warning
     assert allowed_statuses.any?
-    assert allowed_statuses.select(&:is_closed?).any?
+    assert allowed_statuses.any?(&:is_closed?)
   end
 
   def test_reschedule_an_issue_without_dates
