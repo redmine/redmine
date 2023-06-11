@@ -26,6 +26,7 @@ gem 'rbpdf', '~> 1.21.0'
 gem 'addressable'
 gem 'rubyzip', '~> 2.3.0'
 gem 'psych', '~> 3.1' if Gem.ruby_version < Gem::Version.new('2.6.0')
+gem 'loofah', '<= 2.20.0' if Gem.ruby_version < Gem::Version.new('2.5.0')
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :x64_mingw, :mswin]
