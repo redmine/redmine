@@ -1110,7 +1110,6 @@ bg:
   label_font_monospace: Monospaced шрифт
   label_font_proportional: Пропорционален шрифт
   label_optgroup_bookmarks: Отметки
-  label_optgroup_others: Други проекти
   label_optgroup_recents: Последно използвани
   label_last_notes: Последни коментари
   label_default_queries:

@@ -1253,7 +1253,6 @@ zh:
   text_gs_available: ImageMagick PDF 支持 (可选)
   field_recently_used_projects: 跳转框中最近使用的项目数量
   label_optgroup_bookmarks: 书签
-  label_optgroup_others: 其他项目
   label_optgroup_recents: 最近使用
   button_project_bookmark: 添加书签
   button_project_bookmark_delete: 移除书签

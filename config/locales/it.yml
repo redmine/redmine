@@ -1268,7 +1268,6 @@ it:
   text_gs_available: ImageMagick PDF support available (optional)
   field_recently_used_projects: Numero dei progetti recenti mostrati nella jump box
   label_optgroup_bookmarks: Segnalibri
-  label_optgroup_others: Altri progetti
   label_optgroup_recents: Recenti
   button_project_bookmark: Aggiungi segnalibro
   button_project_bookmark_delete: Elimina segnalibro

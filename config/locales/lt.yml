@@ -1258,7 +1258,6 @@ lt:
   text_gs_available: ImageMagick PDF palaikomas (nebūtinas)
   field_recently_used_projects: Neseniai naudotų projektų skaičius jump box
   label_optgroup_bookmarks: Žymės
-  label_optgroup_others: Kiti projektai
   label_optgroup_recents: Pastaruoju metu naudota
   button_project_bookmark: Pridėti žymę
   button_project_bookmark_delete: Pašalinti žymę

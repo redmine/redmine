@@ -1107,7 +1107,6 @@ en:
   label_font_monospace: Monospaced font
   label_font_proportional: Proportional font
   label_optgroup_bookmarks: Bookmarks
-  label_optgroup_others: Other projects
   label_optgroup_recents: Recently used
   label_last_notes: Last notes
   label_default_queries:

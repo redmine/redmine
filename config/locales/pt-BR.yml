@@ -1280,7 +1280,6 @@ pt-BR:
   text_gs_available: Suporte ao ImageMagick PDF disponível (opcional)
   field_recently_used_projects: Número de projetos usados recentemente no acesso rápido
   label_optgroup_bookmarks: Marcadores
-  label_optgroup_others: Outros projetos
   label_optgroup_recents: Recentes
   button_project_bookmark: Adicionar marcador
   button_project_bookmark_delete: Remover marcador

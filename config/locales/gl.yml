@@ -1282,7 +1282,6 @@ gl:
   text_gs_available: Soporte de PDF ImageMagick dispoñible (opcional)
   field_recently_used_projects: Número de proxectos recentemente usados no despregable de proxectos
   label_optgroup_bookmarks: Favoritos
-  label_optgroup_others: Outros proxectos
   label_optgroup_recents: Usado recentemente
   button_project_bookmark: Engadir favoritos
   button_project_bookmark_delete: Borrar favoritos

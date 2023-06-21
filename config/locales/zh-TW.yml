@@ -1331,7 +1331,6 @@
   text_gs_available: 可使用 ImageMagick 轉換 PDF 格式 (選配)
   field_recently_used_projects: 跳轉下拉方塊中最近用過的專案數目
   label_optgroup_bookmarks: 書籤
-  label_optgroup_others: 其他專案
   label_optgroup_recents: 最近用過的
   button_project_bookmark: 新增書籤
   button_project_bookmark_delete: 移除書籤

@@ -1327,7 +1327,6 @@ vi:
   text_gs_available: ImageMagick PDF support available (optional)
   field_recently_used_projects: Number of recently used projects in jump box
   label_optgroup_bookmarks: Bookmarks
-  label_optgroup_others: Other projects
   label_optgroup_recents: Recently used
   button_project_bookmark: Add bookmark
   button_project_bookmark_delete: Remove bookmark
