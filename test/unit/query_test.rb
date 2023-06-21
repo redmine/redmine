@@ -1651,6 +1651,10 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal [1, 2, 3], find_issues_with_query(query).map(&:id).sort
 
     query = IssueQuery.new(:name => '_')
+    query.filters = {"relates" => {:operator => '=', :values => ['invalid']}}
+    assert_equal [], find_issues_with_query(query).map(&:id)
+
+    query = IssueQuery.new(:name => '_')
     query.filters = {"relates" => {:operator => '!', :values => ['1']}}
     assert_equal Issue.where.not(:id => [2, 3]).order(:id).ids, find_issues_with_query(query).map(&:id).sort
 
