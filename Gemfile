@@ -18,8 +18,10 @@ gem 'nokogiri', (if Gem.ruby_version < Gem::Version.new('2.5.0')
                    '~> 1.10.10'
                  elsif Gem.ruby_version < Gem::Version.new('2.6.0')
                    '~> 1.12.5'
-                 else
+                 elsif Gem.ruby_version < Gem::Version.new('2.7.0')
                    '~> 1.13.10'
+                 else
+                   '~> 1.15.2'
                  end)
 gem 'i18n', '~> 1.8.2'
 gem 'rbpdf', '~> 1.21.0'
