@@ -10,7 +10,7 @@ gem "actionpack-xml_parser"
 gem 'roadie-rails', '~> 3.0.0'
 gem 'marcel'
 gem 'mail', '~> 2.8.1'
-gem 'nokogiri', '~> 1.14.0'
+gem 'nokogiri', '~> 1.15.2'
 gem 'i18n', '~> 1.13.0'
 gem 'rbpdf', '~> 1.21.1'
 gem 'addressable'
