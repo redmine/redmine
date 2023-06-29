@@ -364,7 +364,7 @@ module Redmine
         end
 
         def normalize_cvs_path(path)
-          normalize_path(path.gsub(/Attic\//,''))
+          normalize_path(path.gsub("Attic/",''))
         end
 
         def normalize_path(path)
