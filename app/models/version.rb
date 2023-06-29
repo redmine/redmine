@@ -316,6 +316,8 @@ class Version < ActiveRecord::Base
   # Versions are sorted by effective_date and name
   # Those with no effective_date are at the end, sorted by name
   def <=>(version)
+    return nil unless version.is_a?(Version)
+
     if self.effective_date
       if version.effective_date
         if self.effective_date == version.effective_date

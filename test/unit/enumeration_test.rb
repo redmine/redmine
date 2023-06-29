@@ -179,4 +179,10 @@ class EnumerationTest < ActiveSupport::TestCase
     override.destroy
     assert_equal [1, 2, 3], [a, b, c].map(&:reload).map(&:position)
   end
+
+  def test_spaceship_operator_with_incomparable_value_should_return_nil
+    e = Enumeration.first
+    assert_nil e <=> nil
+    assert_nil e <=> 'foo'
+  end
 end

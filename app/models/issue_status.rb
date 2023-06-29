@@ -82,6 +82,8 @@ class IssueStatus < ActiveRecord::Base
   end
 
   def <=>(status)
+    return nil unless status.is_a?(IssueStatus)
+
     position <=> status.position
   end
 

@@ -671,6 +671,8 @@ class Project < ActiveRecord::Base
   end
 
   def <=>(project)
+    return nil unless project.is_a?(Project)
+
     name.casecmp(project.name)
   end
 

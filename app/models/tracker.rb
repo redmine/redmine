@@ -93,6 +93,8 @@ class Tracker < ActiveRecord::Base
   def to_s; name end
 
   def <=>(tracker)
+    return nil unless tracker.is_a?(Tracker)
+
     position <=> tracker.position
   end
 

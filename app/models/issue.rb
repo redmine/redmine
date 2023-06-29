@@ -1435,9 +1435,9 @@ class Issue < ActiveRecord::Base
   end
 
   def <=>(issue)
-    if issue.nil?
-      -1
-    elsif root_id != issue.root_id
+    return nil unless issue.is_a?(Issue)
+
+    if root_id != issue.root_id
       (root_id || 0) <=> (issue.root_id || 0)
     else
       (lft || 0) <=> (issue.lft || 0)

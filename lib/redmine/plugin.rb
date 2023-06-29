@@ -187,6 +187,8 @@ module Redmine
     end
 
     def <=>(plugin)
+      return nil unless plugin.is_a?(Plugin)
+
       self.id.to_s <=> plugin.id.to_s
     end
 
