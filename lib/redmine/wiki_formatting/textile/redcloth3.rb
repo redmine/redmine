@@ -498,7 +498,7 @@ class RedCloth3 < String
           c.starts_with?('wiki-class-') ? c : "wiki-class-#{c}"
         end.join(' ') if cls
 
-        id = id.starts_with?('wiki-id-') ? id : "wiki-id-#{id}" if id
+        id = "wiki-id-#{id}" if id && !id.start_with?('wiki-id-')
 
         atts = +''
         atts << " style=\"#{style.join}\"" unless style.empty?

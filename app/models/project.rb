@@ -928,7 +928,7 @@ class Project < ActiveRecord::Base
   #   project.copy(1, :only => 'members')                # => copies members only
   #   project.copy(1, :only => ['members', 'versions'])  # => copies members and versions
   def copy(project, options={})
-    project = project.is_a?(Project) ? project : Project.find(project)
+    project = Project.find(project) unless project.is_a?(Project)
 
     to_be_copied = %w(members wiki versions issue_categories issues queries boards documents)
     to_be_copied = to_be_copied & Array.wrap(options[:only]) unless options[:only].nil?
@@ -956,7 +956,7 @@ class Project < ActiveRecord::Base
 
   # Returns a new unsaved Project instance with attributes copied from +project+
   def self.copy_from(project)
-    project = project.is_a?(Project) ? project : Project.find(project)
+    project = Project.find(project) unless project.is_a?(Project)
     # clear unique attributes
     attributes =
       project.attributes.dup.except('id', 'name', 'identifier',
