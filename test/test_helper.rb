@@ -126,7 +126,7 @@ class ActiveSupport::TestCase
     return @test_ldap.bind
   rescue => e
     # LDAP is not listening
-    return nil
+    return false
   end
 
   def self.convert_installed?
