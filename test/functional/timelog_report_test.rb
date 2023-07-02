@@ -110,8 +110,8 @@ class TimelogReportTest < Redmine::ControllerTest
     get :report, :params => {:project_id => 1, :columns => 'month', :criteria => ["user", "activity"]}
     assert_response :success
 
-    assert_select 'td.name a.user.active[href=?]', '/users/1', 1, :text => 'Redmine Admin'
-    assert_select 'td.name a.user.locked[href=?]', '/users/2', 1, :text => 'John Smith'
+    assert_select 'td.name a.user.active[href=?]', '/users/1', :text => 'Redmine Admin', :count => 1
+    assert_select 'td.name a.user.locked[href=?]', '/users/2', :text => 'John Smith', :count => 1
   end
 
   def test_report_custom_field_criteria_with_multiple_values_on_single_value_custom_field_should_not_fail
