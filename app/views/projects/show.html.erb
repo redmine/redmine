@@ -74,10 +74,12 @@
 		</div>
 		<% if !modeldb.blank? %>
 		    <p>The original published version of this model is available on
-			<% if !modeldb.starts_with? 'http://senselab.med.yale.edu/ModelDB/ShowModel.asp?model=' %>
-			    <a target="_blank" href="http://senselab.med.yale.edu/ModelDB/ShowModel.asp?model=<%= h modeldb %>"> <img alt="ModelDB" border="0" src="../images/modeldb.gif"/></a>
+			<% if modeldb.starts_with? 'http://senselab.med.yale.edu/ModelDB/ShowModel.asp?model=' or modeldb.starts_with? 'https://senselab.med.yale.edu/ModelDB/ShowModel.asp?model=' %>
+			    <a target="_blank" href="<%= h modeldb.gsub(/senselab\.med\.yale\.edu\/ModelDB\/ShowModel\.asp\?model=/, 'modeldb.science/') %>"> <img alt="ModelDB" border="0" src="../images/modeldb.gif"/></a>
+			<% elsif modeldb.starts_with? 'http://modeldb.science/' or modeldb.starts_with? 'https://modeldb.science/' %>
+					<a target="_blank" href="<%= h modeldb %>"> <img alt="ModelDB" border="0" src="../images/modeldb.gif"/></a>
 			<% else %>
-			    <a target="_blank" href="<%= h modeldb %>"> <img alt="ModelDB" border="0" src="../images/modeldb.gif"/></a>
+			    <a target="_blank" href="https://modeldb.science/<%= h modeldb %>"> <img alt="ModelDB" border="0" src="../images/modeldb.gif"/></a>
 			<% end %>
 		<% end %>
 		<% if !original.blank? %>
