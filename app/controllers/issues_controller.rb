@@ -59,7 +59,7 @@ class IssuesController < ApplicationController
           @offset, @limit = api_offset_and_limit
           @query.column_names = %w(author)
           @issue_count = @query.issue_count
-          @issues = @query.issues(:offset => @offset, :limit => @limit)
+          @issues = @query.issues(:offset => @offset, :limit => @limit, :include => [:assigned_to, :category, :fixed_version, { custom_values: :custom_field }, :parent, :tracker])
           Issue.load_visible_relations(@issues) if include_in_api_response?('relations')
           if User.current.allowed_to?(:view_time_entries, nil, :global => true)
             Issue.load_visible_spent_hours(@issues)
