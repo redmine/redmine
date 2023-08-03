@@ -38,7 +38,7 @@ require "capistrano/bundler"
 # install_plugin Capistrano::Puma::Workers  # if you want to control the workers (in cluster mode)
 # install_plugin Capistrano::Puma::Daemon
 
-require 'capistrano/delayed_job'
+# require 'capistrano/delayed_job'
 
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined
 Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }
