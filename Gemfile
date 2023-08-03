@@ -34,6 +34,14 @@ gem 'rqrcode'
 gem "html-pipeline", "~> 2.13.2"
 gem "sanitize", "~> 6.0"
 
+gem 'capistrano'
+gem 'capistrano-rails'
+gem 'capistrano3-puma'
+gem 'capistrano-rbenv'
+gem 'capistrano-rvm'
+gem "capistrano-db-tasks", '0.4', require: false
+gem "sentry-raven"
+
 # Optional gem for LDAP authentication
 group :ldap do
   gem 'net-ldap', '~> 0.17.0'

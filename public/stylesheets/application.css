@@ -502,8 +502,9 @@ input[type="file"] {border: 0; padding-left: 0; padding-right: 0; height: initia
 input[type="submit"], button[type="submit"] {
   -webkit-appearance: button;
   cursor: pointer;
-  background-color: #fff;
-  height: 28px;
+  /* background-color: #fff; */
+  /* height: 28px; */
+  height: auto;
   -webkit-transition: background-color 100ms linear;
   -moz-transition: background-color 100ms linear;
   -o-transition: background-color 100ms linear;
