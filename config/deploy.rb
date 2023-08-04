@@ -5,7 +5,7 @@ set :application, "softra-redmine"
 set :repo_url, "git@github.com:wisemonks/softra-redmine.git"
 set :branch, "master"
 
-set :deploy_to, '/var/www/redminenew'
+set :deploy_to, '/home/op'
 set :rails_env, "production"
 
 # Default branch is :master
