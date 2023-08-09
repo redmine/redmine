@@ -73,6 +73,9 @@ Layout/SpaceBeforeBlockBraces:
   #   str = path.to_s.split(%r{[/\\]}).select{|p| !p.blank?}.join("/")
   Enabled: false
 
+Layout/SpaceBeforeFirstArg:
+  Enabled: false
+
 Layout/SpaceInsideBlockBraces:
   Enabled: false
 
@@ -237,6 +240,9 @@ Style/SlicingWithRange:
   Enabled: false
 
 Style/SoleNestedConditional:
+  Enabled: false
+
+Style/StringLiteralsInInterpolation:
   Enabled: false
 
 Style/TernaryParentheses:
