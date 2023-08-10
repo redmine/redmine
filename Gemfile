@@ -40,7 +40,9 @@ gem 'capistrano3-puma'
 gem 'capistrano-rbenv'
 gem 'capistrano-rvm'
 gem "capistrano-db-tasks", '0.4', require: false
-gem "sentry-raven"
+gem "sentry-ruby"
+gem "sentry-rails"
+gem 'whenever', require: false
 
 # Optional gem for LDAP authentication
 group :ldap do
@@ -98,7 +100,6 @@ end
 group :development do
   gem 'listen', '~> 3.3'
   gem "yard"
-  gem 'whenever', require: false
   gem 'ed25519'
   gem 'bcrypt_pbkdf'
 end
