@@ -98,6 +98,9 @@ end
 group :development do
   gem 'listen', '~> 3.3'
   gem "yard"
+  gem 'whenever', require: false
+  gem 'ed25519'
+  gem 'bcrypt_pbkdf'
 end
 
 group :test do

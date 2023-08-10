@@ -68,10 +68,8 @@ GEM
     airbrussh (1.4.2)
       sshkit (>= 1.6.1, != 1.7.0)
     ast (2.4.2)
+    bcrypt_pbkdf (1.1.0)
     builder (3.2.4)
-    business_time (0.13.0)
-      activesupport (>= 3.2.0)
-      tzinfo
     capistrano (3.17.3)
       airbrussh (>= 1.0.0)
       i18n
@@ -115,6 +113,7 @@ GEM
     deckar01-task_list (2.3.2)
       html-pipeline
     docile (1.4.0)
+    ed25519 (1.3.0)
     erubi (1.12.0)
     faraday (2.7.10)
       faraday-net_http (>= 2.0, < 3.1)
@@ -123,14 +122,10 @@ GEM
     ffi (1.15.5)
     globalid (1.1.0)
       activesupport (>= 5.0)
-    holidays (8.6.0)
     html-pipeline (2.13.2)
       activesupport (>= 2)
       nokogiri (>= 1.4)
     htmlentities (4.3.4)
-    httparty (0.21.0)
-      mini_mime (>= 1.0.0)
-      multi_xml (>= 0.5.2)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     json (2.6.3)
@@ -146,7 +141,6 @@ GEM
       net-imap
       net-pop
       net-smtp
-    mail_xoauth2 (1.0.2)
     marcel (1.0.2)
     matrix (0.4.2)
     method_source (1.0.0)
@@ -155,7 +149,6 @@ GEM
     minitest (5.19.0)
     mocha (2.1.0)
       ruby2_keywords (>= 0.0.5)
-    multi_xml (0.6.0)
     net-imap (0.3.7)
       date
       net-protocol
@@ -172,13 +165,14 @@ GEM
     nio4r (2.5.9)
     nokogiri (1.15.3-arm64-darwin)
       racc (~> 1.4)
+    nokogiri (1.15.3-x86_64-darwin)
+      racc (~> 1.4)
     nokogiri (1.15.3-x86_64-linux)
       racc (~> 1.4)
     parallel (1.23.0)
     parser (3.2.2.3)
       ast (~> 2.4.1)
       racc
-    pg (1.5.3)
     public_suffix (5.0.3)
     puma (6.3.0)
       nio4r (~> 2.0)
@@ -271,9 +265,6 @@ GEM
       rubyzip (>= 1.2.2)
     sentry-raven (3.1.2)
       faraday (>= 1.0)
-    simple_form (5.2.0)
-      actionpack (>= 5.2)
-      activemodel (>= 5.2)
     simplecov (0.22.0)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -311,12 +302,13 @@ GEM
 
 PLATFORMS
   arm64-darwin-21
+  x86_64-darwin-22
   x86_64-linux
 
 DEPENDENCIES
   actionpack-xml_parser
   addressable
-  business_time
+  bcrypt_pbkdf
   capistrano
   capistrano-db-tasks (= 0.4)
   capistrano-rails
@@ -327,14 +319,12 @@ DEPENDENCIES
   commonmarker (~> 0.23.8)
   csv (~> 3.2.6)
   deckar01-task_list (= 2.3.2)
+  ed25519
   ffi
-  holidays
   html-pipeline (~> 2.13.2)
-  httparty
   i18n (~> 1.14.1)
   listen (~> 3.3)
   mail (~> 2.8.1)
-  mail_xoauth2
   marcel
   mini_magick (~> 4.12.0)
   mini_mime (~> 1.1.0)
@@ -344,7 +334,6 @@ DEPENDENCIES
   net-pop (~> 0.1.2)
   net-smtp (~> 0.3.3)
   nokogiri (~> 1.15.2)
-  pg (~> 1.5.3)
   puma
   rails (= 6.1.7.4)
   rails-dom-testing
@@ -363,7 +352,6 @@ DEPENDENCIES
   sanitize (~> 6.0)
   selenium-webdriver (~> 3.142.7)
   sentry-raven
-  simple_form
   simplecov (~> 0.22.0)
   tzinfo-data
   webdrivers (= 4.6.1)
