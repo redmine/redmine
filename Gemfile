@@ -42,7 +42,6 @@ gem 'capistrano-rvm'
 gem "capistrano-db-tasks", '0.4', require: false
 gem "sentry-ruby"
 gem "sentry-rails"
-gem 'whenever', require: false
 
 # Optional gem for LDAP authentication
 group :ldap do

@@ -168,11 +168,7 @@ GEM
       net-protocol
     net-ssh (7.2.0)
     nio4r (2.5.9)
-    nokogiri (1.15.3-arm64-darwin)
-      racc (~> 1.4)
     nokogiri (1.15.3-x86_64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.15.3-x86_64-linux)
       racc (~> 1.4)
     parallel (1.23.0)
     parser (3.2.2.3)
@@ -312,9 +308,7 @@ GEM
     zeitwerk (2.6.11)
 
 PLATFORMS
-  arm64-darwin-21
   x86_64-darwin-22
-  x86_64-linux
 
 DEPENDENCIES
   actionpack-xml_parser
@@ -376,7 +370,7 @@ DEPENDENCIES
   yard
 
 RUBY VERSION
-   ruby 3.1.3p185
+   ruby 3.2.0p0
 
 BUNDLED WITH
    2.4.18
