@@ -1,0 +1,48 @@
+<div class="contextual">
+
+</div>
+
+<%= render_timelog_breadcrumb %>
+
+<h2><%= l(:label_spent_time) %></h2>
+
+<%= form_tag(params.slice(:project_id, :issue_id), :method => :get, :id => 'query_form') do %>
+<%= render :partial => 'date_range' %>
+<% end %>
+
+<div class="total-hours">
+  <p>
+    <%= l(:label_total_time) %>: <%= l_hours(@total_hours) %>
+  </p>
+</div>
+
+<% unless @entries.empty? %>
+<%= render :partial => 'list', :locals => { :entries => @entries }%>
+<span class="pagination"><%= pagination_links_full @entry_pages, @entry_count %></span>
+
+<% other_formats_links do |f| %>
+  <%= f.link_to 'Atom', :url => params.merge({:issue_id => @issue, :key => User.current.rss_key}) %>
+  <%= f.link_to 'CSV', :url => params, :onclick => "showModal('csv-export-options', '330px'); return false;" %>
+<% end %>
+
+<div id="csv-export-options" style="display:none;">
+  <h3 class="title"><%= l(:label_export_options, :export_format => 'CSV') %></h3>
+  <%= form_tag(params.slice(:project_id, :issue_id).merge(:format => 'csv', :page=>nil), :method => :get, :id => 'csv-export-form') do %>
+  <%= query_hidden_tags @query %>
+  <p>
+    <label><%= radio_button_tag 'columns', '', true %> <%= l(:description_selected_columns) %></label><br />
+    <label><%= radio_button_tag 'columns', 'all' %> <%= l(:description_all_columns) %></label>
+  </p>
+  <p class="buttons">
+    <%= submit_tag l(:button_export), :name => nil, :onclick => "hideModal(this);" %>
+    <%= submit_tag l(:button_cancel), :name => nil, :onclick => "hideModal(this);", :type => 'button' %>
+  </p>
+  <% end %>
+</div>
+<% end %>
+
+<% html_title l(:label_spent_time), l(:label_details) %>
+
+<% content_for :header_tags do %>
+    <%= auto_discovery_link_tag(:atom, {:issue_id => @issue, :format => 'atom', :key => User.current.rss_key}, :title => l(:label_spent_time)) %>
+<% end %>

@@ -1,0 +1,13 @@
+<%= error_messages_for @group %>
+
+<div class="box tabular">
+  <p>wowowowo<%= @group.class%></p>
+  <p><%= f.text_field :name, :required => true, :size => 60,
+           :disabled => !@group.safe_attribute?('name')  %></p>
+  <p><%= f.email_field :group_email, :size => 60,
+           :disabled => !@group.safe_attribute?('group_email')  %></p>
+
+  <% @group.custom_field_values.each do |value| %>
+    <p><%= custom_field_tag_with_label :group, value %></p>
+  <% end %>
+</div>

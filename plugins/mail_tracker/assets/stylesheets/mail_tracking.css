@@ -1,0 +1,50 @@
+.input.integer , .input.string {
+  display: inline-block;
+  width: auto;
+  vertical-align: top;
+}
+
+label {
+  display: block !important;
+}
+
+.simple_input_size {
+  width: 150px !important;
+}
+
+.tracker_form_line {
+  display: block !important;
+  margin-top: 15px;
+  background-color: #dadada;
+  padding: 5px;
+  border-radius: 9px;
+}
+
+.tabular label {
+  float:none !important;
+  margin: 0px !important;
+  padding: 0px !important;
+  text-align: left !important;
+  width: auto !important;
+}
+
+.box {
+  background-color: #FFF;
+  border: none;
+}
+
+.mail_tracking_rule_assigned_group_id > .select2-container,
+.mail_tracking_rule_assigned_project_id > .select2-container,
+.mail_tracking_rule_login_name > .select2-container {
+  min-width: 170px;
+}
+
+.mail_source_no_rules_project_id > .select2-container,
+.mail_source_default_project_id > .select2-container,
+.mail_source_default_user_id > .select2-container {
+  min-width: 240px;
+}
+
+.mail_tracking_rule_end_duration > .bdp-input > .bdp-block  > .input-sm {
+  width: 70px !important;
+}

@@ -1,0 +1,8 @@
+source 'https://rubygems.org'
+
+gem 'simple_form'
+gem 'whenever', :require => false
+gem 'business_time'
+gem 'holidays'
+gem 'httparty'
+gem 'mail_xoauth2'

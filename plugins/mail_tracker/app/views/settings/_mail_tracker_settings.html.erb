@@ -1,0 +1,169 @@
+<% content_for :header_tags do %>
+    <%= stylesheet_link_tag "bootstrap.min.css", :plugin => "mail_tracker", :media => "screen" %>
+    <%= stylesheet_link_tag "mail_tracking.css", :plugin => "mail_tracker", :media => "screen" %>
+    <%= javascript_include_tag "mail_tracker.js", :plugin => "mail_tracker", :media => "screen" %>
+    <%= javascript_include_tag "bootstrap.min.js", :plugin => "mail_tracker", :media => "screen" %>
+<% end %>
+
+<% @mail_sources = MailSource.all.order(:id) %>
+<% @mail_source = MailSource.mails_source_first_or_new %>
+<% @email_templates = EmailTemplate.all %>
+
+<div class="tabs-container">
+  <ul class="nav nav-tabs" style="height: 42px;">
+     <li class="active"><a href="#setting" data-toggle="tab">Settings</a></li>
+     <li><a href="#validations" data-toggle="tab">Clean up</a></li>
+     <li><a href="#email-text" data-toggle="tab">Email template</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="setting">
+      <div class="col-xs-12 col-md-12 col-lg-12" style="margin-top:15px;">
+        <%=link_to "Add new", {controller: "mail_sources", action: "add_new"}, class: "btn btn-success pull-left", style:"color: #FFF" %>
+      </div>
+      <div style="margin-top:15px;">
+        <% @mail_sources.each do |mail_source| %>
+          <%= simple_form_for mail_source, :url => mail_source_path(mail_source.id), :method => :put , class: "form-control" do |y| %>
+            <div class="col-xs-12 form-group">
+              <% if mail_source.enabled_sync %>
+                <%=link_to "Deactivate sync", {controller: "mail_sources", action: "deactivate", id: mail_source.id}, class: "btn btn-warning pull-right", style:"color: #FFF" %>
+              <% else %>
+                <% if mail_source.oauth_enabled %>
+                  <%=link_to "Activate sync", mail_source.permission_request, class: "btn btn-success pull-right", style:"color: #FFF", target: :_blank %>
+                <% else %>
+                  <%=link_to "Activate sync", {controller: "mail_sources", action: "activate", id: mail_source.id}, class: "btn btn-success pull-right", style:"color: #FFF", target: :_blank %>
+                <% end %>
+              <% end %>
+            </div>
+            <div class="col-xs-12 col-md-6 col-lg-4 form-group" style="margin-top:15px;">
+              <%= y.label :username %>
+              <%= y.text_field :username, required: true , label: 'Email:', class: "form-control"%>
+              <%= y.label :password, 'Password/Secret' %>
+              <%= y.password_field :password, required: true , label: 'Password:' , class: "form-control", value: mail_source.password %>
+              <%= y.label :email_address %>
+              <%= y.text_field :email_address, required: true , label: 'Email address:' , class: "form-control" %>
+              <%= y.label :application_id, 'OAUTH application ID' %>
+              <%= y.text_field :application_id, required: true, class: "form-control" %>
+              <%= y.label :oauth_enabled, 'OAUTH enabled' %>
+              <%= y.check_box :oauth_enabled %>
+              <br>
+              <%= y.label :use_ssl %>
+              <%= y.check_box :use_ssl, label: 'Use ssl:'%>
+              <br>
+              <%= y.label :use_tls %>
+              <%= y.check_box :use_tls, label: 'Use tls:'%>
+            </div>
+            <div class="col-xs-12 col-md-6 col-lg-4 form-group" style="margin-top:15px;">
+              <%= y.label "Send host" %>
+              <%= y.text_field :host , required: true, label: 'Delivery host address:' , class: "form-control"%>
+              <%= y.label :send_port %>
+              <%= y.number_field :delivery_port,min:0, max:65537, step:1, label: 'Delivery port:', class: "form-control"%>
+              <%= y.label :receive_host %>
+              <%= y.text_field :receive_host, required: true, label: 'Receive host address:', class: "form-control"%>
+              <%= y.label :receive_port %>
+              <%= y.number_field :receive_port, min:0, max:65537, step:1, label: 'Receive port:', class: "form-control"%>
+              <%= y.input :receive_protocol, label: 'Receive protocol:', required: true do %>
+                <%= y.select :receive_protocol, ['pop3','imap'], {},{ class: 'form-control'}%>
+              <% end %>
+            </div>
+            <div class="col-xs-12 col-md-6 col-lg-4 form-group" style="margin-top:15px;">
+              <%= y.input :default_project_id, label: 'Parent project:', required: true do %>
+                <%= y.select :default_project_id, Project.all.active.where(parent_id: nil).map { |r| [r.name, r.id] }, {},{ class: 'search-select'}%>
+              <% end %>
+
+              <%= y.input :no_rules_project_id, label: 'Default project:', required: true do %>
+                <%= y.select :no_rules_project_id, project_tree_options_for_select(Project.all.active, :selected => (mail_source.no_rules_project_id.present? ? Project.find(mail_source.no_rules_project_id) : [])), {:include_blank => true},{ class: 'search-select'}%>
+              <% end %>
+
+              <%= y.input :default_user_id, label: 'Default issues author:', required: true do %>
+                <%= y.select :default_user_id, User.all.map { |r| [r.name, r.id] },{},{ class: 'search-select'}%>
+              <% end %>
+            </div>
+
+            <div class="col-xs-12 form-group">
+              <%= y.submit "Save" , class: "btn btn-success pull-left", style: "display:block; margin-top:15px;" %>
+              <%= link_to l(:button_delete), mail_source_path(mail_source),
+                    :method => :delete, 
+                    :data => {:confirm => l(:text_are_you_sure)},
+                    :class => "btn btn-danger pull-right", 
+                    style: "display:block; margin-top:15px; color: white" %>
+            </div>
+            <hr />
+          <% end %>
+        <% end %>
+      </div>
+      
+    </div>
+    <div class="tab-pane" id="validations">
+      <% @selected_projects = (JSON.parse @mail_source.projects_to_sync) rescue @mail_source.projects_to_sync %>
+
+      <div class="col-xs-12 col-md-6 col-lg-6">
+        <%= simple_form_for @mail_source, :url => mail_source_path(@mail_source.id), :method => :put , class: "form-control" do |y| %>
+          <div class="form-group" style="margin-top:15px;">
+            <%= y.label "Select projects for issue validations" %>
+            <%= y.select :projects_to_sync, options_from_collection_for_select(Project.all, :id, :name, @selected_projects), {}, {:multiple => true, :class => "form-control", style: "height: 250px;"} %>
+
+          </div>
+          <div class="col-xs-12 form-group">
+            <%= y.submit "Save" , class: "btn btn-success pull-left", style: "display:block; margin-top:15px;" %>
+          </div>
+        <% end %>
+      </div>
+      <div class="col-xs-12 col-md-6 col-lg-6">
+        <%= simple_form_for @mail_source, :url => mail_source_path(@mail_source.id), :method => :put , class: "form-control" do |y| %>
+          <div class="form-group" style="margin-top:15px;">
+            <label>
+              Text to cut from reply message. Separate by newline!
+            <label>
+            <%= y.text_area :reply_cut_from, :cols => 60, :rows => 10, :no_label => true %>
+
+          </div>
+          <div class="col-xs-12 form-group">
+            <%= y.submit "Save" , class: "btn btn-success pull-left", style: "display:block; margin-top:15px;" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div id="email-text" class="tab-pane">
+      <% @domains_without_template = EmailTemplate.domains_without_template %>
+
+      <% if @domains_without_template.any? %>
+        <%= simple_form_for EmailTemplate.new, :url => email_templates_path, :method => :post , class: "form-control" do |f| %>
+          <div class="col-xs-12 col-md-10 col-lg-10 form-group" style="margin-top:15px;">
+            <%= f.input :domain, label: 'Template for:' do %>
+              <%= f.select :domain, @domains_without_template, {}, { class: 'search-select', style: 'width: 150px'} %>
+            <% end %>
+            <%= f.submit "Add template" , class: "btn btn-success", style: "margin-left:15px; margin-top:15px;" %>
+          </div>
+        <% end %>
+      <% end %>
+      <% @email_templates.each do |email_template| %>
+        <%= simple_form_for email_template, :url => email_template_path(email_template.id), :method => :put , class: "form-control" do |f| %>
+          <div class="col-xs-12 col-md-10 col-lg-10 form-group" style="margin-top:15px;">
+            <h4><%= email_template.domain %></h4>
+            <fieldset>
+              <%= f.text_area :body, id: "email_template_body_#{email_template.id}", :cols => 60, :rows => 25, :class => 'wiki-edit', :no_label => true %>
+              <%= wikitoolbar_for "email_template_body_#{email_template.id}" %>
+            </fieldset>
+            <div class="col-xs-12 form-group">
+            <%= f.submit "Save" , class: "btn btn-success pull-left", style: "display:block; margin-top:15px;" %>
+            <% unless email_template.domain.eql?('Default') %>
+              <%= link_to l(:button_delete), email_template_path(email_template),
+                  :method => :delete, 
+                  :data => {:confirm => l(:text_are_you_sure)},
+                  :class => "icon icon-del pull-right", 
+                  style: "display:block; margin-top:15px;" %>
+            <% end %>
+          </div>
+          </div>
+          <div class="col-xs-12 col-md-2 col-lg-2" style="margin-top:15px;">
+            <h4>Keywords</h4>
+            <% EmailTemplate::KEYWORDS.map do |keyword| %>
+              <pre><%= keyword %></pre>
+            <% end %>
+          </div>
+        <% end %>
+       <% end %>
+    </div>
+  </div>
+</div>

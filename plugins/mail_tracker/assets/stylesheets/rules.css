@@ -1,0 +1,81 @@
+.mail_tracker_rules .input.integer , .mail_tracker_rules .input.string {
+  display: inline-block;
+  width: auto;
+  vertical-align: top;
+  margin-right: 10px;
+}
+
+
+.mail_tracker_rules .tabular label {
+  float:none !important;
+  margin: 0px !important;
+  padding: 0px !important;
+  text-align: left !important;
+  width: auto !important;
+  display: block;
+}
+
+.mail_tracker_rules .rule_actions {
+    float: right;
+    display: inline;
+}
+
+.mail_tracker_rules .btn {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.mail_tracker_rules .btn-success {
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+
+.mail_tracker_rules .simple_input_size {
+  width: 150px !important;
+}
+
+.mail_tracker_rules .btn-danger {
+  color: #fff;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+
+.mail_tracker_rules .btn-info {
+  color: #fff;
+  background-color: #5bc0de;
+  border-color: #46b8da;
+}
+
+.mail_tracking_rule_assigned_group_id > .select2-container,
+.mail_tracking_rule_assigned_project_id > .select2-container,
+.mail_tracking_rule_login_name > .select2-container {
+  min-width: 170px;
+}
+
+.mail_source_no_rules_project_id > .select2-container,
+.mail_source_default_project_id > .select2-container,
+.mail_source_default_user_id > .select2-container {
+  min-width: 240px;
+}
+
+.mail_tracking_rule_end_duration > .bdp-input > .bdp-block  > .input-sm {
+  width: 70px !important;
+}

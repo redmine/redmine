@@ -1,0 +1,35 @@
+Gerb. Kliente,
+Informuojame, kad Jūsų užklausa gauta ir užregistruota.
+Artimiausiu metu peržiūrėsime Jūsų užklausą ir su Jumis susisieksime.
+
+Savo užklausos būseną galite sekti paspaudę šią nuorodą – ###ISSUE_LINK###
+Jūsų prisijungimo vardas: *###USERNAME_LT###*
+
+__________________________________________________________
+
+
+Dear Customer,
+Your request has been received and registered.
+We will review it and contact you shortly.
+You can track your request status here – ###ISSUE_LINK###
+Your login name: *###USERNAME_EN###*
+
+--
+
+Softra Support Team
++370 602 11159
+support@softra.lt
+Verkių str. 30B
+LT-08221 Vilnius, Lithuania
+www.softra.lt
+
+!https://redmine.softra.lt/logo.png!
+
+Promoting Practical Intelligence
+
+
+Tai yra automatiškai sugeneruotas laiškas, prašome į jį neatsakinėti!
+
+__________________________________________________________
+
+This is an automatically generated email, please do not reply!

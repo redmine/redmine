@@ -1,0 +1,47 @@
+<% if @deliveries %>
+<%= form_tag({:action => 'edit', :tab => 'notifications'}) do %>
+
+<div class="box tabular settings">
+<p><%= setting_text_field :mail_from, :size => 60 %></p>
+
+<p><%= setting_check_box :bcc_recipients %></p>
+
+<p><%= setting_check_box :plain_text_mail %></p>
+
+<p><%= setting_select(:default_notification_option, User.valid_notification_options.collect {|o| [l(o.last), o.first.to_s]}) %></p>
+
+</div>
+
+<fieldset class="box" id="notified_events"><legend><%=l(:text_select_mail_notifications)%></legend>
+<%= hidden_field_tag 'settings[notified_events][]', '' %>
+<% @notifiables.each do |notifiable| %>
+<%= notification_field notifiable %>
+<br />
+<% end %>
+<p><%= check_all_links('notified_events') %></p>
+</fieldset>
+
+<fieldset class="box"><legend><%= l(:setting_mailer_info) %></legend>
+<%= setting_text_area :emails_info, :label => false, :class => 'wiki-edit', :rows => 5 %>
+<%= wikitoolbar_for 'settings_emails_info' %>
+</fieldset>
+
+<fieldset class="box"><legend><%= l(:setting_emails_header) %></legend>
+<%= setting_text_area :emails_header, :label => false, :class => 'wiki-edit', :rows => 5 %>
+</fieldset>
+
+<fieldset class="box"><legend><%= l(:setting_emails_footer) %></legend>
+<%= setting_text_area :emails_footer, :label => false, :class => 'wiki-edit', :rows => 5 %>
+</fieldset>
+
+<div style="float:right;">
+<%= link_to l(:label_send_test_email), test_email_path, :method => :post %>
+</div>
+
+<%= submit_tag l(:button_save) %>
+<% end %>
+<% else %>
+<div class="nodata">
+<%= simple_format(l(:text_email_delivery_not_configured)) %>
+</div>
+<% end %>

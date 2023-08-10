@@ -1,0 +1,11 @@
+= redmine_improved_searchbox
+
+Converts Redmine[http://www.redmine.org]'s project jumpbox with searchable Select2[http://ivaynberg.github.com/select2] combobox.
+
+= Features
+
+- Select2[http://ivaynberg.github.com/select2] is a jQuery based replacement for select boxes. It supports searching, remote data sets, and infinite scrolling of results.
+
+= Compatible Versions
+
+- Redmine 2.1.x - 3.1.x

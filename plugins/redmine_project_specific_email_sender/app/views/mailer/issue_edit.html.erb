@@ -1,0 +1,21 @@
+<% if @journal.private_notes? %>
+  (<%= l(:field_private_notes) %>)
+<% end %>
+<%= l(:text_issue_updated, :id => link_to("##{@issue.id}", @issue_url), :author => h(@journal.user)).html_safe %>
+
+<ul>
+<% details_to_strings(@journal_details, false, :only_path => false).each do |string| %>
+  <li><%= string %></li>
+<% end %>
+</ul>
+
+<%= textilizable(@journal, :notes, :only_path => false) %>
+<hr />
+<% if @project && @project.emails_info.present? -%>
+  <%= Redmine::WikiFormatting.to_html(Setting.text_formatting, @project.emails_info).html_safe %>
+<% elsif Setting.emails_info.present? -%>
+  <%= Redmine::WikiFormatting.to_html(Setting.text_formatting, Setting.emails_info).html_safe %>
+<% end -%>
+<hr />
+<%= render :partial => 'issue', :formats => [:html], :locals => { :issue => @issue, :users => @users, :issue_url => @issue_url } %>
+

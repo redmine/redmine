@@ -1,0 +1,52 @@
+<%= form_tag project_outbound_email_path(@project), :method => :put do |f| %>
+<div class="box tabular">
+  <p>
+    <%= label_tag :email %>
+    <%= text_field_tag :email, params[:email] || @project.project_email && @project.project_email.email, :size => 60 %>
+  </p>
+  <p>
+    <%= label_tag :host_name %>
+    <%= text_field_tag :host_name, params[:host_name] || @project.project_email && @project.project_email.host_name, :size => 60 %>
+  </p>
+</div>
+
+<fieldset class="box">
+  <legend><%= l(:setting_mailer_info) %></legend>
+  <%= text_area_tag :emails_info, params[:emails_info] || @project.project_email && @project.project_email.emails_info, :label => false, :class => 'wiki-edit', :rows => 5 %>
+  <%= wikitoolbar_for 'emails_info' %>
+</fieldset>
+<fieldset class="box">
+  <legend><%= l(:setting_emails_header) %></legend>
+  <%= text_area_tag :emails_header, params[:emails_header] || @project.project_email && @project.project_email.emails_header, :label => false, :class => 'wiki-edit', :rows => 5 %>
+</fieldset>
+<fieldset class="box">
+  <legend><%= l(:setting_emails_footer) %></legend>
+  <%= text_area_tag :emails_footer, params[:emails_footer] || @project.project_email && @project.project_email.emails_footer, :label => false, :class => 'wiki-edit', :rows => 5 %>
+</fieldset>
+
+<%= submit_tag l(:button_save) %>
+<% end %>
+
+<% if @project.project_email %>
+  <div class="contextual">
+    <%= link_to l(:button_delete), project_outbound_email_path(@project),
+        :method => :delete,
+        :data => {:confirm => l(:text_are_you_sure)},
+        :class => "icon icon-del" %>
+  </div>
+<% end %>
+
+<div style="margin-top: 10px">
+  <%= form_tag watchers_project_outbound_email_path(@project), :method => :put do |f| %>
+    <fieldset class="box">
+      <legend><%= l(:project_watchers) %></legend>
+      <% Group.givable.each do |group| %>
+        <div>
+          <%= check_box_tag 'watcher_group_ids[]', group.id, @project.watcher_group_ids.include?(group.id) %>
+          <%= h group.name -%>
+        </div>
+      <% end %>
+    </fieldset>
+    <%= submit_tag l(:button_save) %>
+  <% end %>
+</div>

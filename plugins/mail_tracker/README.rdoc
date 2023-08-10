@@ -1,0 +1,3 @@
+= mail_tracker
+
+WISEMONKS custom mail tracker plugin for SOFTRA

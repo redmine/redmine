@@ -1,0 +1,16 @@
+<%= "(#{l(:field_private_notes)}) " if @journal.private_notes? -%><%= l(:text_issue_updated, :id => "##{@issue.id}", :author => @journal.user) %>
+
+<% details_to_strings(@journal_details, true).each do |string| -%>
+<%= string %>
+<% end -%>
+
+<% if @journal.notes? -%>
+<%= @journal.notes %>
+
+<% end -%>
+----------------------------------------
+<% if Setting.emails_info.present? -%>
+  <%= Redmine::WikiFormatting.to_html(Setting.text_formatting, Setting.emails_info).html_safe %>
+<% end -%>
+----------------------------------------
+<%= render :partial => 'issue', :formats => [:text], :locals => { :issue => @issue, :users => @users, :issue_url => @issue_url } %>

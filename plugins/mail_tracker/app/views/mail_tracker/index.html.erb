@@ -1,0 +1,60 @@
+<% content_for :header_tags do %>
+    <%= stylesheet_link_tag "bootstrap.min.css", :plugin => "mail_tracker", :media => "screen" %>
+    <%= stylesheet_link_tag "mail_tracking.css", :plugin => "mail_tracker", :media => "screen" %>
+    <%= javascript_include_tag "mail_tracker.js", :plugin => "mail_tracker", :media => "screen" %>
+    <%= javascript_include_tag "bootstrap.min.js", :plugin => "mail_tracker", :media => "screen" %>
+<% end %>
+
+<ul class="nav nav-tabs">
+   <li class="active"><a href="#rules" data-toggle="tab">Rules</a></li>
+   <li><a href="#settings" data-toggle="tab">Settings</a></li>
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane active" id="rules">
+    <div class="col-xs-12 form-horizontal form-group">
+      <% @rules.each do |rule| %>
+        <%= simple_form_for rule, html: { class: "form-inline tracker_form_line"} do |f| %>
+          <%= f.input :mail_part, label: 'Mail part:', input_html: { class:"form-control" } do %>
+            <%= f.select :mail_part, ["From","Subject","Body"],{},{ class: 'form-control'}%>
+          <% end %>
+          <%= f.input :includes, label: 'Includes:', required: true, input_html: { class:"form-control simple_input_size" }%>
+          <%= f.input :tracker_name, label: 'Tracker:' do %>
+            <%= f.select :tracker_name, Tracker.all.map { |r| [r.name, r.id] }, {},{ class: 'form-control'}%>
+          <% end %>
+          <%= f.input :assigned_group_id, label: 'Assigned to:', required: true do %>
+            <%= f.select :assigned_group_id, Group.givable.pluck(:lastname, :id), {},{ class: 'form-control'}%>
+          <% end %>
+          <%= f.input :assigned_project_id, label: 'Project:', required: true do %>
+            <%= f.select :assigned_project_id, Project.all.map { |r| [r.name, r.id] }, {},{ class: 'form-control'}%>
+          <% end %>
+          <%= f.input :login_name, label: 'Requester:', required: false, input_html: { class:"form-control" } do %>
+            <%= f.select :login_name, User.all.map { |r| [r.name, r.id] }, {},{ class: 'form-control'}%>
+          <% end %>
+          <%= f.submit "Save" , class: "btn btn-success", style: "margin-top:24px;" %>
+          <%= f.button :button , "Delete", type: "button" ,class: "btn btn-danger delete_rule", style: "margin-top:24px;", data:{"id":rule.id}%>
+        <% end %>
+      <% end %>
+      <button class="btn btn-info" style="margin-top:24px;" id="add_rule">+ Add rule</button>
+    </div>
+  </div>
+  <div class="tab-pane" id="settings">
+    <div class="col-xs-4 form-group" style="margin-top:15px;">
+      <%= simple_form_for @mail_source, class: "form-control" do |f| %>
+        <%= f.label :host %>
+        <%= f.text_field :host , required: true, label: 'Mail host:' , class: "form-control"%>
+        <%= f.label :username %>
+        <%= f.text_field :username, required: true , label: 'Email:', class: "form-control"%>
+        <%= f.label :password %>
+        <%= f.password_field :password, required: true , label: 'Password:' , class: "form-control", value: @mail_source.password %>
+        <%= f.input :default_project_id, label: 'Default project:', required: true do %>
+          <%= f.select :default_project_id, Project.all.map { |r| [r.name, r.id] }, {},{ class: 'form-control'}%>
+        <% end %>
+        <%= f.input :default_user_id, label: 'Default issues author:', required: true do %>
+          <%= f.select :default_user_id, User.all.map { |r| [r.name, r.id] },{},{ class: 'form-control'}%>
+          <% end %>
+        <%= f.submit "Save" , class: "btn btn-success form-group", style: "display:block; margin-top:15px;" %>
+      <% end %>
+    </div>
+  </div>
+</div>

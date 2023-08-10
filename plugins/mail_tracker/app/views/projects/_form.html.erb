@@ -1,0 +1,153 @@
+<%= error_messages_for 'project' %>
+
+<style type="text/css">
+  .select2-container {
+    min-width: 435px;
+  }
+</style>
+
+<div class="box tabular">
+<!--[form:project]-->
+<p><%= f.text_field :name, :required => true, :size => 60 %></p>
+
+<p><%= f.text_area :description, :rows => 8, :class => 'wiki-edit' %></p>
+<p><%= f.text_field :identifier, :required => true, :size => 60, :disabled => @project.identifier_frozen?, :maxlength => Project::IDENTIFIER_MAX_LENGTH %>
+<% unless @project.identifier_frozen? %>
+  <em class="info"><%= l(:text_length_between, :min => 1, :max => Project::IDENTIFIER_MAX_LENGTH) %> <%= l(:text_project_identifier_info).html_safe %></em>
+<% end %></p>
+<p><%= f.text_field :homepage, :size => 60 %></p>
+<p><%= f.check_box :is_public %></p>
+
+<% unless @project.allowed_parents.compact.empty? %>
+    <p><%= label(:project, :parent_id, l(:field_parent)) %><%= parent_project_select_tag(@project) %></p>
+<% end %>
+
+<% if @project.safe_attribute? 'inherit_members' %>
+<p><%= f.check_box :inherit_members %></p>
+<% end %>
+
+<% if @project.safe_attribute?('default_version_id') && (default_version_options = project_default_version_options(@project)).present? %>
+  <p><%= f.select :default_version_id, project_default_version_options(@project), :include_blank => true %></p>
+<% end %>
+
+<%= wikitoolbar_for 'project_description' %>
+
+<% @project.custom_field_values.each do |value| %>
+  <p><%= custom_field_tag_with_label :project, value %></p>
+<% end %>
+<%= call_hook(:view_projects_form, :project => @project, :form => f) %>
+</div>
+
+<% if @project.new_record? %>
+<fieldset class="box tabular"><legend><%= l(:label_module_plural) %></legend>
+<% Redmine::AccessControl.available_project_modules.each do |m| %>
+    <label class="floating">
+    <%= check_box_tag 'project[enabled_module_names][]', m, @project.module_enabled?(m), :id => "project_enabled_module_names_#{m}" %>
+    <%= l_or_humanize(m, :prefix => "project_module_") %>
+    </label>
+<% end %>
+<%= hidden_field_tag 'project[enabled_module_names][]', '' %>
+</fieldset>
+<% end %>
+
+<%= @project %>
+<% if @project.new_record? || @project.module_enabled?('issue_tracking') %>
+<% unless @trackers.empty? %>
+<fieldset class="box tabular" id="project_trackers"><legend><%=l(:label_tracker_plural)%></legend>
+<% @trackers.each do |tracker| %>
+    <label class="floating">
+    <%= check_box_tag 'project[tracker_ids][]', tracker.id, @project.trackers.to_a.include?(tracker), :id => nil %>
+    <%= tracker %>
+    </label>
+<% end %>
+<%= hidden_field_tag 'project[tracker_ids][]', '' %>
+</fieldset>
+<% end %>
+
+<% unless @issue_custom_fields.empty? %>
+  <fieldset class="box tabular" id="project_issue_custom_fields"><legend><%=l(:label_custom_field_plural)%></legend>
+    <% @issue_custom_fields.each do |custom_field| %>
+      <label class="floating">
+        <%= check_box_tag 'project[issue_custom_field_ids][]', custom_field.id, (@project.all_issue_custom_fields.include? custom_field),
+              :disabled => (custom_field.is_for_all? ? "disabled" : nil),
+              :id => nil %>
+        <%= custom_field_name_tag(custom_field) %>
+      </label>
+    <% end %>
+    <%= hidden_field_tag 'project[issue_custom_field_ids][]', '' %>
+  </fieldset>
+<% end %>
+<% end %>
+
+<fieldset class="box tabular" id="project_">
+  <legend>Pricing template</legend>
+  <p><%= f.text_area :warrant_pricing, :rows => 8, :class => 'wiki-edit' %></p>
+  <%= wikitoolbar_for 'project_warrant_pricing' %>
+  <p><%= f.text_area :non_warrant_pricing, :rows => 8, :class => 'wiki-edit' %></p>
+  <%= wikitoolbar_for 'project_non_warrant_pricing' %>
+
+  <p><%= f.date_field :warrant_start %></p>
+  <p><%= f.number_field :warrant_month, min: 1 %></p>
+  <p><%= f.text_field :warrant_comment, size: 60 %></p>
+
+  <hr/>
+
+  <p><%= f.check_box :sla_1_enabled %></p>
+  <p><%= f.date_field :sla_1_start %></p>
+  <p><%= f.number_field :sla_1_month, min: 1 %></p>
+  <p><%= f.text_field :sla_1_comment, size: 60 %></p>
+
+  <p><%= f.check_box :sla_2_enabled, label: false %></p>
+  <p><%= f.date_field :sla_2_start %></p>
+  <p><%= f.number_field :sla_2_month, min: 1 %></p>
+  <p><%= f.text_field :sla_2_comment, size: 60 %></p>
+
+  <hr/>
+
+  <p><%= f.check_box :cloud_enabled %></p>
+  <p><%= f.date_field :cloud_start %></p>
+  <p><%= f.number_field :cloud_month, min: 1 %></p>
+  <p><%= f.text_field :cloud_comment, size: 60 %></p>
+
+  <hr/>
+
+  <p><%= f.check_box :rent_enabled, label: false %></p>
+  <p><%= f.date_field :rent_start %></p>
+  <p><%= f.number_field :rent_month, min: 1 %></p>
+  <p><%= f.text_field :rent_comment, size: 60 %></p>
+</fieldset>
+
+<!--[eoform:project]-->
+
+<% unless @project.identifier_frozen? %>
+  <% content_for :header_tags do %>
+    <%= javascript_include_tag 'project_identifier' %>
+  <% end %>
+<% end %>
+
+<% if !User.current.admin? && @project.inherit_members? && @project.parent && User.current.member_of?(@project.parent) %>
+  <%= javascript_tag do %>
+    $(document).ready(function() {
+      $("#project_inherit_members").change(function(){
+        if (!$(this).is(':checked')) {
+          if (!confirm("<%= escape_javascript(l(:text_own_membership_delete_confirmation)) %>")) {
+            $("#project_inherit_members").attr("checked", true);
+          }
+        }
+      });
+    });
+  <% end %>
+<% end %>
+
+<%= javascript_tag do %>
+$(document).ready(function() {
+  $('#project_parent_id').select2();
+  $('#project_enabled_module_names_issue_tracking').on('change', function(){
+    if ($(this).prop('checked')){
+      $('#project_trackers, #project_issue_custom_fields').show();
+    } else {
+      $('#project_trackers, #project_issue_custom_fields').hide();
+    }
+  }).trigger('change');
+});
+<% end %>

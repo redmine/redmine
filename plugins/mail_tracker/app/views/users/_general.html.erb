@@ -1,0 +1,52 @@
+<% content_for :header_tags do %>
+    <%= stylesheet_link_tag "rules.css", :plugin => "mail_tracker", :media => "screen" %>
+    <%= stylesheet_link_tag "bootstrap-duration-picker.css", :plugin => "mail_tracker", :media => "screen" %>
+    <%= javascript_include_tag "rules.js", :plugin => "mail_tracker", :media => "screen" %>
+    <%= javascript_include_tag "bootstrap-duration-picker.js", :plugin => "mail_tracker", :media => "screen" %>
+<% end %>
+
+<%= labelled_form_for @user do |f| %>
+  <%= render :partial => 'form', :locals => { :f => f } %>
+  <% if @user.active? && email_delivery_enabled? && @user != User.current -%>
+    <p><label><%= check_box_tag 'send_information', 1, true %> <%= l(:label_send_information) %></label></p>
+  <% end -%>
+  <p><%= submit_tag l(:button_save) %></p>
+<% end %>
+
+<hr/>
+<% @rules = MailTrackingRule.where(login_name: @user.id).order(:created_at) %>
+<div class="mail_tracker_rules">
+<h3> 
+  Mail tracker rules:
+  <button class="btn btn-info" style="margin-left:10px;" id="add_rule" data-user-id="<%= @user.id %>">+ Add rule</button>
+</h3>
+
+  <% @rules.each do |rule| %>
+    <fieldset class="box tabular">
+      <%= simple_form_for rule, :url => mail_tracking_rule_path(rule.id), :method => :put do |g| %>
+        <%= hidden_field(:user, :id) %>
+        <%= g.input :mail_part, label: 'Mail part:', input_html: { class:"form-control" } do %>
+          <%= g.select :mail_part, ["From","Subject","Body","CC"],{:include_blank => "--select--"},{ class: 'form-control'}%>
+        <% end %>
+        <%= g.input :includes, label: 'Includes:', required: true, input_html: { class:"form-control simple_input_size" }%>
+        <%= g.input :tracker_name, label: 'Tracker:' do %>
+          <%= g.select :tracker_name, Tracker.all.map { |r| [r.name, r.id] }, {:include_blank => "--select--"},{ class: 'form-control'}%>
+        <% end %>
+        <%= g.input :assigned_group_id, label: 'Assigned to:', required: true do %>
+          <%= g.select :assigned_group_id, Group.givable.pluck(:lastname, :id), {:include_blank => "--select--"},{ class: 'search-select'} %>
+        <% end %>
+        <%= g.input :assigned_project_id, label: 'Project:', required: true do %>
+          <%= g.select :assigned_project_id, project_tree_options_for_select(Project.all.active, :selected => (rule.assigned_project_id.present? ? Project.find(rule.assigned_project_id) : [] )), {:include_blank => "--select--"},{class: 'search-select'}%>
+        <% end %>
+        <%= g.input :priority, label: 'Priority:', required: true do %>
+          <%= g.select :priority, ['Low', 'Medium', 'High'], {:include_blank => "--select--"},{ class: 'form-control'}%>
+        <% end %>
+        <%= g.input :end_duration, label: 'Duration:', required: true, input_html: { class:"form-control input-duration" } %>
+        <div class="rule_actions">
+          <%= g.submit "Save" ,class: "btn btn-success", style: "margin-top:24px;" %>
+          <%= g.button :button , "Delete", type: "button" ,class: "btn btn-danger delete_rule", style: "margin-top:24px;", data:{"id":rule.id}%>
+        </div>
+      <% end %>
+    </fieldset>
+  <% end %>
+</div>

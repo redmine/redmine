@@ -1,0 +1,126 @@
+<%= error_messages_for 'role' %>
+
+<div class="box tabular">
+  <% unless @role.builtin? %>
+    <p><%= f.text_field :name, :required => true %></p>
+    <p><%= f.check_box :assignable %></p>
+  <% end %>
+
+  <% unless @role.anonymous? %>
+    <p class="view_issues_shown"><%= f.select :issues_visibility, Role::ISSUES_VISIBILITY_OPTIONS.collect {|v| [l(v.last), v.first]} %></p>
+  <% end %>
+
+  <% unless @role.anonymous? %>
+    <p class="view_time_entries_shown"><%= f.select :time_entries_visibility, Role::TIME_ENTRIES_VISIBILITY_OPTIONS.collect {|v| [l(v.last), v.first]} %></p>
+  <% end %>
+
+  <p><%= f.select :users_visibility, Role::USERS_VISIBILITY_OPTIONS.collect {|v| [l(v.last), v.first]} %></p>
+
+  <% unless @role.builtin? %>
+    <p class="manage_members_shown">
+      <label><%= l(:label_member_management) %></label>
+      <label class="block">
+        <%= radio_button_tag 'role[all_roles_managed]', 1, @role.all_roles_managed?, :id => 'role_all_roles_managed_on',
+              :data => {:disables => '.role_managed_role input'} %>
+        <%= l(:label_member_management_all_roles) %>
+      </label>
+      <label class="block">
+        <%= radio_button_tag 'role[all_roles_managed]', 0, !@role.all_roles_managed?, :id => 'role_all_roles_managed_off',
+              :data => {:enables => '.role_managed_role input'} %>
+        <%= l(:label_member_management_selected_roles_only) %>:
+      </label>
+      <% Role.givable.sorted.each do |role| %>
+        <label class="block role_managed_role" style="padding-left:2em;">
+          <%= check_box_tag 'role[managed_role_ids][]', role.id, @role.managed_roles.to_a.include?(role), :id => nil %>
+          <%= role.name %>
+        </label>
+      <% end %>
+      <%= hidden_field_tag 'role[managed_role_ids][]', '' %>
+  <% end %>
+
+  <% if @role.new_record? && @roles.any? %>
+    <p><label for="copy_workflow_from"><%= l(:label_copy_workflow_from) %></label>
+    <%= select_tag(:copy_workflow_from, content_tag("option") + options_from_collection_for_select(@roles, :id, :name, params[:copy_workflow_from] || @copy_from.try(:id))) %></p>
+  <% end %>
+</div>
+
+<h3><%= l(:label_permissions) %></h3>
+<div class="box tabular" id="permissions">
+
+<!-- custom permissions WISEMONKS -->
+<fieldset><legend><%= l_or_humanize(:custom_user_views, :prefix => 'project_module_') %></legend>
+  <label class="floating">
+  <%= check_box_tag 'role[permissions][]', :view_project_reports, (@role.permissions.include? :view_project_reports),
+        :id => "role_permissions_#{:view_project_reports}",
+        :data => {:shows => ".#{:view_project_reports}_shown"} %>
+  <%= l_or_humanize(:view_project_reports, :prefix => 'permission_') %>
+  </label>
+</fieldset>
+
+
+<% perms_by_module = @role.setable_permissions.group_by {|p| p.project_module.to_s} %>
+<% perms_by_module.keys.sort.each do |mod| %>
+    <fieldset><legend><%= mod.blank? ? l(:label_project) : l_or_humanize(mod, :prefix => 'project_module_') %></legend>
+    <% perms_by_module[mod].each do |permission| %>
+        <label class="floating">
+        <%= check_box_tag 'role[permissions][]', permission.name, (@role.permissions.include? permission.name),
+              :id => "role_permissions_#{permission.name}",
+              :data => {:shows => ".#{permission.name}_shown"} %>
+        <%= l_or_humanize(permission.name, :prefix => 'permission_') %>
+        </label>
+    <% end %>
+    </fieldset>
+<% end %>
+
+
+<br /><%= check_all_links 'permissions' %>
+<%= hidden_field_tag 'role[permissions][]', '' %>
+</div>
+
+<div id="role-permissions-trackers" class="view_issues_shown">
+<h3><%= l(:label_issue_tracking) %></h3>
+<% permissions = %w(view_issues add_issues edit_issues add_issue_notes delete_issues) %>
+
+<div class="autoscroll">
+<table class="list">
+  <thead>
+    <tr>
+      <th><%= l(:label_tracker) %></th>
+      <% permissions.each do |permission| %>
+      <th class="<%= "#{permission}_shown" %>"><%= l("permission_#{permission}") %></th>
+      <% end %>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="name"><b><%= l(:label_tracker_all) %></b></td>
+      <% permissions.each do |permission| %>
+      <td class="<%= "#{permission}_shown" %>">
+        <%= hidden_field_tag "role[permissions_all_trackers][#{permission}]", '0', :id => nil %>
+        <%= check_box_tag "role[permissions_all_trackers][#{permission}]",
+              '1',
+              @role.permissions_all_trackers?(permission),
+              :class => "#{permission}_shown",
+              :data => {:disables => ".#{permission}_tracker"} %>
+      </td>
+      <% end %>
+    </tr>
+    <% Tracker.sorted.all.each do |tracker| %>
+    <tr class="<%= cycle("odd", "even") %>">
+      <td class="name"><%= tracker.name %></td>
+      <% permissions.each do |permission| %>
+      <td class="<%= "#{permission}_shown" %>"><%= check_box_tag "role[permissions_tracker_ids][#{permission}][]",
+                tracker.id,
+                @role.permissions_tracker_ids?(permission, tracker.id),
+                :class => "#{permission}_tracker",
+                :id => "role_permissions_tracker_ids_add_issues_#{tracker.id}" %></td>
+      <% end %>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+<% permissions.each do |permission| %>
+  <%= hidden_field_tag "role[permissions_tracker_ids][#{permission}][]", '' %>
+<% end %>
+</div>

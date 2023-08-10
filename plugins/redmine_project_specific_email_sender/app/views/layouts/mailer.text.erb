@@ -1,0 +1,13 @@
+<% if @project && @project.emails_header.present? -%>
+    <%= @project.emails_header %>
+<% elsif Setting.emails_header.present? -%>
+    <%= Setting.emails_header %>
+<% end -%>
+<%= yield %>
+<% if @project && @project.emails_footer.present? -%>
+-- 
+    <%= @project.emails_footer %>
+<% elsif Setting.emails_footer.present? -%>
+-- 
+    <%= Setting.emails_footer %>
+<% end -%>

@@ -1,0 +1,7 @@
+# Sample plugin
+en:
+  project_email_label: Outbound Email
+  field_email: Email
+  notice_email_reset: Email was reset to system default.
+  permission_edit_project_email: Edit project email
+  project_watchers: Watcher groups
