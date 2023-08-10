@@ -176,6 +176,7 @@ GEM
     parser (3.2.2.3)
       ast (~> 2.4.1)
       racc
+    pg (1.5.3)
     public_suffix (5.0.3)
     puma (6.3.0)
       nio4r (~> 2.0)
@@ -346,6 +347,7 @@ DEPENDENCIES
   net-pop (~> 0.1.2)
   net-smtp (~> 0.3.3)
   nokogiri (~> 1.15.2)
+  pg (~> 1.5.3)
   puma
   rails (= 6.1.7.4)
   rails-dom-testing
