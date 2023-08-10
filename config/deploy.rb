@@ -6,7 +6,7 @@ set :repo_url, "git@github.com:wisemonks/redmine-5-softra.git"
 set :branch, "master"
 
 set :deploy_to, '/home/op'
-set :rails_env, "staging"
+set :rails_env, "production"
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
@@ -40,9 +40,7 @@ set :db_ignore_data_tables, []
 # configure location where the dump file should be created
 set :db_dump_dir, "./db"
 
-
 set :rbenv_map_bins, %w(rake gem bundle ruby rails pumactl puma)
-
 
 set :rbenv_custom_path, '/home/op/.rbenv'
 set :rbenv_type, :system
@@ -67,7 +65,7 @@ namespace :deploy do
   task :migrate_plugins do
     on roles(:app) do
       within "#{current_path}" do
-        execute :bundle, "exec rake redmine:plugins:migrate RAILS_ENV=staging"
+        execute :bundle, "exec rake redmine:plugins:migrate RAILS_ENV=production"
       end
       # execute "cd '#{release_path}'; bundle exec rake redmine:plugins:migrate RAILS_ENV=production"
     end
@@ -83,7 +81,7 @@ namespace :deploy do
 end
 
 # Default value for :linked_files is []
-append :linked_files, 'config/database.yml', 'config/secrets.yml', 'config/configuration.yml', 'config/environments/staging.rb'
+append :linked_files, 'config/database.yml', 'config/secrets.yml', 'config/configuration.yml', 'config/environments/production.rb'
 # Default value for linked_dirs is []
 append :linked_dirs, 'log', 'tmp/pids', 'rmp/cache', 'tmp/sockets', 'public/system', 'plugins/mail_tracker/log', 'files'
 
