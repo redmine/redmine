@@ -2,11 +2,11 @@
 # lock "3.7.2"
 
 set :application, "softra-redmine"
-set :repo_url, "git@github.com:wisemonks/softra-redmine.git"
+set :repo_url, "git@github.com:wisemonks/redmine-5-softra.git"
 set :branch, "master"
 
 set :deploy_to, '/home/op'
-set :rails_env, "production"
+set :rails_env, "staging"
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
@@ -67,7 +67,7 @@ namespace :deploy do
   task :migrate_plugins do
     on roles(:app) do
       within "#{current_path}" do
-        execute :bundle, "exec rake redmine:plugins:migrate RAILS_ENV=production"
+        execute :bundle, "exec rake redmine:plugins:migrate RAILS_ENV=staging"
       end
       # execute "cd '#{release_path}'; bundle exec rake redmine:plugins:migrate RAILS_ENV=production"
     end
@@ -83,7 +83,7 @@ namespace :deploy do
 end
 
 # Default value for :linked_files is []
-append :linked_files, 'config/database.yml', 'config/secrets.yml', 'config/configuration.yml', 'config/environments/production.rb'
+append :linked_files, 'config/database.yml', 'config/secrets.yml', 'config/configuration.yml', 'config/environments/staging.rb'
 # Default value for linked_dirs is []
 append :linked_dirs, 'log', 'tmp/pids', 'rmp/cache', 'tmp/sockets', 'public/system', 'plugins/mail_tracker/log', 'files'
 
