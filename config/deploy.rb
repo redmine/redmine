@@ -81,7 +81,7 @@ namespace :deploy do
 end
 
 # Default value for :linked_files is []
-append :linked_files, 'config/database.yml', 'config/secrets.yml', 'config/configuration.yml', 'config/environments/production.rb'
+append :linked_files, 'config/database.yml', 'config/secrets.yml', 'config/configuration.yml'
 # Default value for linked_dirs is []
 append :linked_dirs, 'log', 'tmp/pids', 'rmp/cache', 'tmp/sockets', 'public/system', 'plugins/mail_tracker/log', 'files'
 
