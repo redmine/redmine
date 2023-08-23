@@ -1891,9 +1891,18 @@ class Issue < ActiveRecord::Base
         next if issue.project.nil? || issue.fixed_version.nil?
 
         unless issue.project.shared_versions.include?(issue.fixed_version)
-          issue.init_journal(User.current)
-          issue.fixed_version = nil
-          issue.save
+          retried = false
+          begin
+            issue.init_journal(User.current)
+            issue.fixed_version = nil
+            issue.save
+          rescue ActiveRecord::StaleObjectError
+            raise if retried
+
+            retried = true
+            issue.reload
+            retry
+          end
         end
       end
     end
