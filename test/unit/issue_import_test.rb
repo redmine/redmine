@@ -110,7 +110,7 @@ class IssueImportTest < ActiveSupport::TestCase
     import.save!
 
     issues = new_records(Issue, 3) {import.run}
-    assert_equal ['New', 'New', 'Assigned'], issues.map(&:status).map(&:name)
+    assert_equal ['New', 'New', 'Assigned'], issues.map {|x| x.status.name}
   end
 
   def test_parent_should_be_set

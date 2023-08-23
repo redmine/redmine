@@ -340,7 +340,7 @@ module Redmine
   class ControllerTest < ActionController::TestCase
     # Returns the issues that are displayed in the list in the same order
     def issues_in_list
-      ids = css_select('tr.issue td.id').map(&:text).map(&:to_i)
+      ids = css_select('tr.issue td.id').map {|e| e.text.to_i}
       Issue.where(:id => ids).sort_by {|issue| ids.index(issue.id)}
     end
 

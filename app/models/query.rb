@@ -996,7 +996,7 @@ class Query < ActiveRecord::Base
 
       if field == 'project_id' || (self.type == 'ProjectQuery' && %w[id parent_id].include?(field))
         if v.delete('mine')
-          v += User.current.memberships.map(&:project_id).map(&:to_s)
+          v += User.current.memberships.map {|m| m.project_id.to_s}
         end
         if v.delete('bookmarks')
           v += User.current.bookmarked_project_ids

@@ -61,8 +61,8 @@ class UserTest < ActiveSupport::TestCase
 
   def test_sorted_scope_should_sort_user_by_display_name
     # Use .active to ignore anonymous with localized display name
-    assert_equal User.active.map(&:name).map(&:downcase).sort,
-                 User.active.sorted.map(&:name).map(&:downcase)
+    assert_equal User.active.map {|u| u.name.downcase}.sort,
+                 User.active.sorted.map {|u| u.name.downcase}
   end
 
   def test_generate
