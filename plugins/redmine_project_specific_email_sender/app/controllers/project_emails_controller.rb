@@ -1,7 +1,7 @@
 class ProjectEmailsController < ApplicationController
   unloadable
 
-  before_filter :load_project, :authorize
+  after_action :load_project, :authorize
 
   def update
     url = project_settings_tab_url
