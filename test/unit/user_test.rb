@@ -577,6 +577,12 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  def test_lastname_should_accept_255_characters
+    u = User.first
+    u.lastname = 'a' * 255
+    assert u.save
+  end
+
   def test_today_should_return_the_day_according_to_user_time_zone
     preference = User.find(1).pref
     date = Date.new(2012, 05, 15)
