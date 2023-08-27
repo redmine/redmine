@@ -444,24 +444,22 @@ class MyControllerTest < Redmine::ControllerTest
 
     assert_select 'form[data-cm-url=?]', '/issues/context_menu'
 
-    assert_select 'table.cal' do
-      assert_select 'tr' do
-        assert_select 'td' do
+    assert_select 'ul.cal' do
+      assert_select 'li' do
+        assert_select(
+          'div.issue.hascontextmenu.tooltip.starting.ending',
+          :text => /eCookbook.*#{subject}/m
+        ) do
           assert_select(
-            'div.issue.hascontextmenu.tooltip.starting.ending',
-            :text => /eCookbook.*#{subject}/m
-          ) do
-            assert_select(
-              'a.issue[href=?]', "/issues/#{issue.id}",
-              :text => "Bug ##{issue.id}"
-            )
-            assert_select(
-              'input[name=?][type=?][value=?]',
-              'ids[]',
-              'checkbox',
-              issue.id.to_s
-            )
-          end
+            'a.issue[href=?]', "/issues/#{issue.id}",
+            :text => "Bug ##{issue.id}"
+          )
+          assert_select(
+            'input[name=?][type=?][value=?]',
+            'ids[]',
+            'checkbox',
+            issue.id.to_s
+          )
         end
       end
     end
