@@ -199,6 +199,18 @@ class MailerTest < ActiveSupport::TestCase
     end
   end
 
+  def test_thumbnail_macro_in_email
+    set_tmp_attachments_directory
+    issue = Issue.generate!(:description => '{{thumbnail(image.png)}}')
+    issue.attachments << Attachment.new(:file => mock_file_with_options(:original_filename => 'image.png'), :author => User.find(1))
+    issue.save!
+
+    assert Mailer.deliver_issue_add(issue)
+    assert_select_email do
+      assert_select 'img[alt="image.png"]'
+    end
+  end
+
   def test_email_headers
     with_settings :mail_from => 'Redmine <redmine@example.net>' do
       issue = Issue.find(1)
