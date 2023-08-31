@@ -12,6 +12,7 @@
   <th><%=l(:field_done_ratio)%></th>
   <% end %>
   <th><%=l(:field_is_closed)%></th>
+  <th><%=l(:field_description)%></th>
   <th></th>
   <th></th>
   </tr></thead>
@@ -23,6 +24,7 @@
   <td><%= status.default_done_ratio %></td>
   <% end %>
   <td><%= checked_image status.is_closed? %></td>
+  <td class="description"><%= status.description %></td>
   <td>
     <% unless WorkflowTransition.where('old_status_id = ? OR new_status_id = ?', status.id, status.id).exists? %>
       <span class="icon icon-warning">

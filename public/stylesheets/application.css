@@ -578,9 +578,9 @@ body.controller-issues h2.inline-flex {padding-right: 0}
 #issue_tree .issue > td.assigned_to, #relations .issue > td.assigned_to {
   white-space: nowrap;
 }
-#trackers_description {display:none;}
-#trackers_description dt {font-weight: bold; text-decoration: underline;}
-#trackers_description dd {margin: 0; padding: 0 0 1em 0;}
+#trackers_description, #issue_statuses_description {display:none;}
+#trackers_description dt, #issue_statuses_description dt {font-weight: bold; text-decoration: underline;}
+#trackers_description dd, #issue_statuses_description dd {margin: 0; padding: 0 0 1em 0;}
 
 #issue-form .assign-to-me-link { padding-left: 5px; }
 

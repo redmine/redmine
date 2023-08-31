@@ -3881,6 +3881,49 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'div#trackers_description', 0
   end
 
+  def test_get_new_should_show_issue_status_description
+    @request.session[:user_id] = 2
+    get :new, :params => {
+      :project_id => 1,
+      :issue => {
+        :status_id => 2
+      }
+    }
+    assert_response :success
+
+    assert_select 'form#issue-form' do
+      assert_select 'a[title=?]', 'View all issue statuses description', :text => 'View all issue statuses description'
+      assert_select 'select[name=?][title=?]', 'issue[status_id]', 'Description for Assigned issue status'
+    end
+
+    assert_select 'div#issue_statuses_description' do
+      assert_select 'h3', :text => 'Issue statuses description', :count => 1
+      assert_select 'dt', 2
+      assert_select 'dt', :text => 'New', :count => 1
+      assert_select 'dd', :text => 'Description for New issue status', :count => 1
+    end
+  end
+
+  def test_get_new_should_not_show_issue_status_description
+    IssueStatus.update_all(:description => '')
+
+    @request.session[:user_id] = 2
+    get :new, :params => {
+      :project_id => 1,
+      :issue => {
+        :status_id => 2
+      }
+    }
+    assert_response :success
+
+    assert_select 'form#issue-form' do
+      assert_select 'a[title=?]', 'View all issue statuses description', 0
+      assert_select 'select[name=?][title=?]', 'issue[status_id]', ''
+    end
+
+    assert_select 'div#issue_statuses_description', 0
+  end
+
   def test_get_new_should_show_create_and_follow_button_when_issue_is_subtask_and_back_url_is_present
     @request.session[:user_id] = 2
     get :new, params: {
