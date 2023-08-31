@@ -1498,3 +1498,6 @@
   label_has_been: 曾經是
   label_has_never_been: 未曾是
   label_changed_from: 前一個是
+  label_issue_statuses_description: Issue statuses description
+  label_open_issue_statuses_description: View all issue statuses description
+  text_select_apply_issue_status: Select issue status

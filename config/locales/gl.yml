@@ -1486,3 +1486,6 @@ gl:
   label_has_been: ten sido
   label_has_never_been: nunca ten sido
   label_changed_from: cambiou de
+  label_issue_statuses_description: Issue statuses description
+  label_open_issue_statuses_description: View all issue statuses description
+  text_select_apply_issue_status: Select issue status
