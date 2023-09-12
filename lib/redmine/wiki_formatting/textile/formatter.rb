@@ -115,7 +115,7 @@ module Redmine
                 # original language for extension development
                 langattr = " data-language=\"#{CGI.escapeHTML language}\"" if language.present?
                 if Redmine::SyntaxHighlighting.language_supported?(language)
-                  text.gsub!(/x%x%/, '&')
+                  text.gsub!("x%x%", '&')
                   content = "<code class=\"#{CGI.escapeHTML language} syntaxhl\"#{langattr}>" +
                     Redmine::SyntaxHighlighting.highlight_by_language(text, language)
                 else

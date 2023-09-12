@@ -1102,7 +1102,6 @@ fa:
   label_font_monospace: قلم یکنواخت
   label_font_proportional: قلم متناسب
   label_optgroup_bookmarks: منتخب
-  label_optgroup_others: سایر پروژه‌ها
   label_optgroup_recents: اخیراً دیده‌شده
   label_last_notes: آخرین یادداشت‌ها
   label_default_queries:
@@ -1427,3 +1426,6 @@ fa:
   label_has_been: has been
   label_has_never_been: has never been
   label_changed_from: changed from
+  label_issue_statuses_description: Issue statuses description
+  label_open_issue_statuses_description: View all issue statuses description
+  text_select_apply_issue_status: Select issue status

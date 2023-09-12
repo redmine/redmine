@@ -1284,7 +1284,6 @@ de:
   label_import_notifications: Versende E-Mail-Benachrichtigungen während des Imports
   field_recently_used_projects: Anzahl kürzlich verwendeter Projekte in der Projekt-Jump-Box
   label_optgroup_bookmarks: Lesezeichen
-  label_optgroup_others: Andere Projekte
   label_optgroup_recents: Kürzlich verwendet
   button_project_bookmark: Lesezeichen hinzufügen
   button_project_bookmark_delete: Lesezeichen entfernen
@@ -1445,3 +1444,6 @@ de:
   label_has_been: has been
   label_has_never_been: has never been
   label_changed_from: changed from
+  label_issue_statuses_description: Issue statuses description
+  label_open_issue_statuses_description: View all issue statuses description
+  text_select_apply_issue_status: Select issue status

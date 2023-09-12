@@ -1308,7 +1308,6 @@ sv:
   text_gs_available: ImageMagick PDF support tillgänglig (frivillig)
   field_recently_used_projects: Antal nyligen använda projekt
   label_optgroup_bookmarks: Bokmärken
-  label_optgroup_others: Andra projekt
   label_optgroup_recents: Nyligen använda
   button_project_bookmark: Lägg till bokmärke
   button_project_bookmark_delete: Ta bort bokmärke
@@ -1514,3 +1513,6 @@ sv:
   label_has_been: has been
   label_has_never_been: has never been
   label_changed_from: changed from
+  label_issue_statuses_description: Issue statuses description
+  label_open_issue_statuses_description: View all issue statuses description
+  text_select_apply_issue_status: Select issue status

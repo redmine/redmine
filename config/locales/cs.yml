@@ -1264,7 +1264,6 @@ cs:
   text_gs_available: ImageMagick PDF podpora k dispozici (volitelné)
   field_recently_used_projects: Počet nedávno použitých projektů v rychlém výběru
   label_optgroup_bookmarks: Záložky
-  label_optgroup_others: Jiné projekty
   label_optgroup_recents: Nedávno použité
   button_project_bookmark: Přidat záložku
   button_project_bookmark_delete: Odstranit záložku
@@ -1464,3 +1463,6 @@ cs:
   label_has_been: has been
   label_has_never_been: has never been
   label_changed_from: changed from
+  label_issue_statuses_description: Issue statuses description
+  label_open_issue_statuses_description: View all issue statuses description
+  text_select_apply_issue_status: Select issue status

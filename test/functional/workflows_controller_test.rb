@@ -52,7 +52,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
     statuses = IssueStatus.where(:id => [2, 3, 5]).sorted.pluck(:name)
     assert_equal(
       ["New issue"] + statuses,
-      css_select('table.workflows.transitions-always tbody tr td:first').map(&:text).map(&:strip)
+      css_select('table.workflows.transitions-always tbody tr td:first').map {|e| e.text.strip}
     )
     # allowed transitions
     assert_select 'input[type=checkbox][name=?][value="1"][checked=checked]', 'transitions[3][5][always]'
@@ -79,7 +79,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
     statuses = IssueStatus.where(:id => [2, 3]).sorted.pluck(:name)
     assert_equal(
       ["New issue"] + statuses,
-      css_select('table.workflows.transitions-always tbody tr td:first').map(&:text).map(&:strip)
+      css_select('table.workflows.transitions-always tbody tr td:first').map {|e| e.text.strip}
     )
   end
 
@@ -95,7 +95,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
     statuses = IssueStatus.where(:id => [2, 3]).sorted.pluck(:name)
     assert_equal(
       ["New issue"] + statuses,
-      css_select('table.workflows.transitions-always tbody tr td:first').map(&:text).map(&:strip)
+      css_select('table.workflows.transitions-always tbody tr td:first').map {|e| e.text.strip}
     )
   end
 
@@ -130,7 +130,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
     statuses = IssueStatus.all.sorted.pluck(:name)
     assert_equal(
       ["New issue"] + statuses,
-      css_select('table.workflows.transitions-always tbody tr td:first').map(&:text).map(&:strip)
+      css_select('table.workflows.transitions-always tbody tr td:first').map {|e| e.text.strip}
     )
     assert_select 'input[type=checkbox][name=?]', 'transitions[0][1][always]'
   end
@@ -343,7 +343,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
     statuses = IssueStatus.all.sorted.pluck(:name)
     assert_equal(
       statuses,
-      css_select('table.workflows.fields_permissions thead tr:nth-child(2) td:not(:first-child)').map(&:text).map(&:strip)
+      css_select('table.workflows.fields_permissions thead tr:nth-child(2) td:not(:first-child)').map {|e| e.text.strip}
     )
   end
 

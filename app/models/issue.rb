@@ -1435,9 +1435,9 @@ class Issue < ActiveRecord::Base
   end
 
   def <=>(issue)
-    if issue.nil?
-      -1
-    elsif root_id != issue.root_id
+    return nil unless issue.is_a?(Issue)
+
+    if root_id != issue.root_id
       (root_id || 0) <=> (issue.root_id || 0)
     else
       (lft || 0) <=> (issue.lft || 0)
@@ -1891,9 +1891,18 @@ class Issue < ActiveRecord::Base
         next if issue.project.nil? || issue.fixed_version.nil?
 
         unless issue.project.shared_versions.include?(issue.fixed_version)
-          issue.init_journal(User.current)
-          issue.fixed_version = nil
-          issue.save
+          retried = false
+          begin
+            issue.init_journal(User.current)
+            issue.fixed_version = nil
+            issue.save
+          rescue ActiveRecord::StaleObjectError
+            raise if retried
+
+            retried = true
+            issue.reload
+            retry
+          end
         end
       end
     end

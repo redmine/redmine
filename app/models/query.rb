@@ -996,7 +996,7 @@ class Query < ActiveRecord::Base
 
       if field == 'project_id' || (self.type == 'ProjectQuery' && %w[id parent_id].include?(field))
         if v.delete('mine')
-          v += User.current.memberships.map(&:project_id).map(&:to_s)
+          v += User.current.memberships.map {|m| m.project_id.to_s}
         end
         if v.delete('bookmarks')
           v += User.current.bookmarked_project_ids
@@ -1458,11 +1458,13 @@ class Query < ActiveRecord::Base
           " AND " +
           queried_class.send(:sanitize_sql_for_conditions, ["#{JournalDetail.table_name}.old_value IN (?)", value.map(&:to_s)]) +
           ")"
-        if %w[ev !ev].include?(operator)
-          subquery <<
+        sql_ev =
+          if %w[ev !ev].include?(operator)
             " OR " + queried_class.send(:sanitize_sql_for_conditions, ["#{db_table}.#{db_field} IN (?)", value.map(&:to_s)])
-        end
-        sql = "#{neg} EXISTS (#{subquery})"
+          else
+            ''
+          end
+        sql = "#{neg} (EXISTS (#{subquery})#{sql_ev})"
       else
         sql = '1=0'
       end

@@ -2235,7 +2235,7 @@ class IssueTest < ActiveSupport::TestCase
     assert parent.closable?
     assert_nil parent.transition_warning
     assert allowed_statuses.any?
-    assert allowed_statuses.select(&:is_closed?).any?
+    assert allowed_statuses.any?(&:is_closed?)
   end
 
   def test_reschedule_an_issue_without_dates
@@ -3486,6 +3486,41 @@ class IssueTest < ActiveSupport::TestCase
 
     assert_no_difference 'Watcher.count' do
       assert_equal true, issue.save
+    end
+  end
+
+  def test_change_of_project_parent_should_update_shared_versions_with_derived_priorities
+    with_settings('parent_issue_priority' => 'derived') do
+      parent = Project.find 1
+      child = Project.find 3
+      assert_equal parent, child.parent
+      assert version = parent.versions.create(name: 'test', sharing: 'descendants')
+      assert version.persisted?
+      assert child.shared_versions.include?(version)
+
+      # create a situation where the child issue id is lower than the parent issue id.
+      # When the parent project is removed, the version inherited from there will be removed from
+      # both issues. At least on MySQL the record with the lower Id will be processed first.
+      #
+      # If this update on the child triggers an update on the parent record (here, due to the derived
+      # priority), the already loaded parent issue is considered stale when it's version is updated.
+      assert child_issue = child.issues.first
+      parent_issue = Issue.create! project: child, subject: 'test', tracker: child_issue.tracker, author: child_issue.author, status: child_issue.status, fixed_version: version
+      assert child_issue.update fixed_version: version, priority_id: 6, parent: parent_issue
+      parent_issue.update_column :priority_id, 4 # force a priority update when the version is nullified
+
+      assert child.update parent: nil
+
+      child.reload
+      assert !child.shared_versions.include?(version)
+
+      child_issue.reload
+      assert_nil child_issue.fixed_version
+      assert_equal 6, child_issue.priority_id
+
+      parent_issue.reload
+      assert_nil parent_issue.fixed_version
+      assert_equal 6, parent_issue.priority_id
     end
   end
 

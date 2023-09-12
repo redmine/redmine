@@ -76,6 +76,7 @@ class Mailer < ActionMailer::Base
                     'Issue-Id' => issue.id,
                     'Issue-Author' => issue.author.login,
                     'Issue-Assignee' => assignee_for_header(issue)
+    redmine_headers 'Issue-Priority' => issue.priority.name if issue.priority
     message_id issue
     references issue
     @author = issue.author
@@ -108,6 +109,7 @@ class Mailer < ActionMailer::Base
                     'Issue-Id' => issue.id,
                     'Issue-Author' => issue.author.login,
                     'Issue-Assignee' => assignee_for_header(issue)
+    redmine_headers 'Issue-Priority' => issue.priority.name if issue.priority
     message_id journal
     references issue
     @author = journal.user

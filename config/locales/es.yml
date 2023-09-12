@@ -1305,7 +1305,6 @@ es:
   text_gs_available: ImageMagick PDF support available (optional)
   field_recently_used_projects: Number of recently used projects in jump box
   label_optgroup_bookmarks: Bookmarks
-  label_optgroup_others: Other projects
   label_optgroup_recents: Recently used
   button_project_bookmark: Add bookmark
   button_project_bookmark_delete: Remove bookmark
@@ -1342,7 +1341,6 @@ es:
   text_gs_available: Disponible soporte ImageMagick PDF (opcional)
   field_recently_used_projects: Número de proyectos recientemente usados en el selector
   label_optgroup_bookmarks: Marcadores
-  label_optgroup_others: Otros proyectos
   label_optgroup_recents: Utilizados recientemente
   button_project_bookmark: Añadir marcador
   button_project_bookmark_delete: Quitar marcador
@@ -1548,3 +1546,6 @@ es:
   label_has_been: has been
   label_has_never_been: has never been
   label_changed_from: changed from
+  label_issue_statuses_description: Issue statuses description
+  label_open_issue_statuses_description: View all issue statuses description
+  text_select_apply_issue_status: Select issue status

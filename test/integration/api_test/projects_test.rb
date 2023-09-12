@@ -86,11 +86,16 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
   end
 
   test "GET /projects.xml with include=issue_custom_fields should return custom fields" do
+    IssueCustomField.find(6).update_attribute :is_for_all, true
+    IssueCustomField.find(8).update_attribute :is_for_all, false
     get '/projects.xml?include=issue_custom_fields'
     assert_response :success
     assert_equal 'application/xml', @response.media_type
 
     assert_select 'issue_custom_fields[type=array] custom_field[name="Project 1 cf"]'
+    # Custom field for all projects
+    assert_select 'issue_custom_fields[type=array] custom_field[id="6"]'
+    assert_select 'issue_custom_fields[type=array] custom_field[id="8"]', 0
   end
 
   test "GET /projects/:id.xml should return the project" do

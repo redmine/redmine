@@ -101,7 +101,7 @@ class NewsControllerTest < Redmine::ControllerTest
     get(:show, :params => {:id => 1})
     assert_response :success
 
-    comments = css_select('#comments .wiki').map(&:text).map(&:strip)
+    comments = css_select('#comments .wiki').map {|e| e.text.strip}
     assert_equal ["This is an other comment", "my first comment"], comments
   end
 

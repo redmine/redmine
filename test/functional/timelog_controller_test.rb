@@ -768,7 +768,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_select 'select[id=?]', 'time_entry_activity_id' do
       assert_select 'option', 3
-      assert_select 'option[value=?]', '11', 0, :text => 'QA'
+      assert_select 'option[value=?]', '11', 0
     end
   end
 
@@ -1177,7 +1177,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     }
     assert_response :success
     assert_equal(
-      [t2, t1, t3].map(&:id).map(&:to_s),
+      [t2, t1, t3].map {|t| t.id.to_s},
       css_select('input[name="ids[]"]').map {|e| e.attr(:value)}
     )
     get(
@@ -1192,7 +1192,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     )
     assert_response :success
     assert_equal(
-      [t3, t1, t2].map(&:id).map(&:to_s),
+      [t3, t1, t2].map {|t| t.id.to_s},
       css_select('input[name="ids[]"]').map {|e| e.attr(:value)}
     )
   end
@@ -1218,7 +1218,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     ].each do |sort_criteria, expected|
       get :index, :params => params.dup.merge(sort_criteria)
       assert_response :success
-      expected_ids = expected.map(&:id).map(&:to_s)
+      expected_ids = expected.map {|t| t.id.to_s}
       actual_ids = css_select('input[name="ids[]"]').map {|e| e.attr(:value)}
       assert_equal expected_ids, actual_ids
     end
@@ -1255,7 +1255,7 @@ class TimelogControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
-    assert_equal [entry].map(&:id).map(&:to_s), css_select('input[name="ids[]"]').map {|e| e.attr(:value)}
+    assert_equal [entry.id.to_s], css_select('input[name="ids[]"]').map {|e| e.attr(:value)}
   end
 
   def text_index_with_issue_subject_filter
@@ -1334,7 +1334,7 @@ class TimelogControllerTest < Redmine::ControllerTest
       :v => {'issue.tracker_id' => ['2']}
     }
     assert_response :success
-    assert_equal [entry].map(&:id).map(&:to_s), css_select('input[name="ids[]"]').map {|e| e.attr(:value)}
+    assert_equal [entry.id.to_s], css_select('input[name="ids[]"]').map {|e| e.attr(:value)}
   end
 
   def test_index_with_issue_tracker_column
@@ -1518,7 +1518,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     }
     assert_response :success
     assert_equal(
-      [entry].map(&:id).map(&:to_s),
+      [entry.id.to_s],
       css_select('input[name="ids[]"]').map {|e| e.attr(:value)}
     )
   end

@@ -313,7 +313,7 @@ class RedCloth3 < String
         retrieve text
 
         text.gsub!( /<\/?notextile>/, '' )
-        text.gsub!( /x%x%/, '&#38;' )
+        text.gsub!( "x%x%", '&#38;' )
         clean_html text if filter_html
         text.strip!
         text
@@ -498,7 +498,7 @@ class RedCloth3 < String
           c.starts_with?('wiki-class-') ? c : "wiki-class-#{c}"
         end.join(' ') if cls
 
-        id = id.starts_with?('wiki-id-') ? id : "wiki-id-#{id}" if id
+        id = "wiki-id-#{id}" if id && !id.start_with?('wiki-id-')
 
         atts = +''
         atts << " style=\"#{style.join}\"" unless style.empty?
@@ -1016,9 +1016,9 @@ class RedCloth3 < String
 
     def clean_white_space( text )
         # normalize line breaks
-        text.gsub!( /\r\n/, "\n" )
+        text.gsub!( "\r\n", "\n" )
         text.tr!( "\r", "\n" )
-        text.gsub!( /\t/, '    ' )
+        text.gsub!( "\t", '    ' )
         text.gsub!( /^ +$/, '' )
         text.gsub!( /\n{3,}/, "\n\n" )
         text.gsub!( /"$/, "\" " )
@@ -1184,7 +1184,7 @@ class RedCloth3 < String
     }
 
     def clean_html( text, tags = BASIC_TAGS )
-        text.gsub!( /<!\[CDATA\[/, '' )
+        text.gsub!( "<![CDATA[", '' )
         text.gsub!( /<(\/*)(\w+)([^>]*)>/ ) do
             raw = $~
             tag = raw[2].downcase

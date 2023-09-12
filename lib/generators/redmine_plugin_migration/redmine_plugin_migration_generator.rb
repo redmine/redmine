@@ -34,6 +34,6 @@ class RedminePluginMigrationGenerator < Rails::Generators::NamedBase
     plugin_name = file_name.underscore
     plugin_path = File.join(Redmine::Plugin.directory, plugin_name)
     migration_template "migration.rb",
-                       "#{plugin_path}/db/migrate/#{@migration}.rb"
+                       "#{plugin_path}/db/migrate/#{@migration.underscore}.rb"
   end
 end

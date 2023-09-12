@@ -85,8 +85,8 @@ class PrincipalTest < ActiveSupport::TestCase
     users = scope.select {|p| p.is_a?(User)}.sort
     groups = scope.select {|p| p.is_a?(Group)}.sort
 
-    assert_equal (users + groups).map(&:name).map(&:downcase),
-                 scope.sorted.map(&:name).map(&:downcase)
+    assert_equal (users + groups).map {|p| p.name.downcase},
+                 scope.sorted.map {|p| p.name.downcase}
   end
 
   test "like scope should search login" do

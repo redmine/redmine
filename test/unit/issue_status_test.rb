@@ -151,4 +151,9 @@ class IssueStatusTest < ActiveSupport::TestCase
     assert !issue.closed?
     assert_nil issue.closed_on
   end
+
+  def test_issue_status_should_have_description
+    issue_status = IssueStatus.find(1)
+    assert_equal 'Description for New issue status', issue_status.description
+  end
 end

@@ -141,7 +141,7 @@ class EnumerationTest < ActiveSupport::TestCase
     b = IssuePriority.create!(:name => 'B')
     c = DocumentCategory.create!(:name => 'C')
 
-    assert_equal [1, 2, 1], [a, b, c].map(&:reload).map(&:position)
+    assert_equal [1, 2, 1], [a, b, c].map {|e| e.reload.position}
   end
 
   def test_override_should_be_created_with_same_position_as_parent
@@ -151,7 +151,7 @@ class EnumerationTest < ActiveSupport::TestCase
     b = IssuePriority.create!(:name => 'B')
     override = IssuePriority.create!(:name => 'BB', :parent_id => b.id)
 
-    assert_equal [1, 2, 2], [a, b, override].map(&:reload).map(&:position)
+    assert_equal [1, 2, 2], [a, b, override].map {|e| e.reload.position}
   end
 
   def test_override_position_should_be_updated_with_parent_position
@@ -163,7 +163,7 @@ class EnumerationTest < ActiveSupport::TestCase
     b.position -= 1
     b.save!
 
-    assert_equal [2, 1, 1], [a, b, override].map(&:reload).map(&:position)
+    assert_equal [2, 1, 1], [a, b, override].map {|e| e.reload.position}
   end
 
   def test_destroying_override_should_not_update_positions
@@ -174,9 +174,15 @@ class EnumerationTest < ActiveSupport::TestCase
     b = IssuePriority.create!(:name => 'B')
     c = IssuePriority.create!(:name => 'C')
     override = IssuePriority.create!(:name => 'BB', :parent_id => b.id)
-    assert_equal [1, 2, 3, 2], [a, b, c, override].map(&:reload).map(&:position)
+    assert_equal [1, 2, 3, 2], [a, b, c, override].map {|e| e.reload.position}
 
     override.destroy
-    assert_equal [1, 2, 3], [a, b, c].map(&:reload).map(&:position)
+    assert_equal [1, 2, 3], [a, b, c].map {|e| e.reload.position}
+  end
+
+  def test_spaceship_operator_with_incomparable_value_should_return_nil
+    e = Enumeration.first
+    assert_nil e <=> nil
+    assert_nil e <=> 'foo'
   end
 end

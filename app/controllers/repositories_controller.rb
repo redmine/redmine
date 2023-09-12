@@ -66,7 +66,7 @@ class RepositoriesController < ApplicationController
   def committers
     @committers = @repository.committers
     @users = @project.users.to_a
-    additional_user_ids = @committers.collect(&:last).collect(&:to_i) - @users.collect(&:id)
+    additional_user_ids = @committers.collect {|c| c.last.to_i} - @users.collect(&:id)
     @users += User.where(:id => additional_user_ids).to_a unless additional_user_ids.empty?
     @users.compact!
     @users.sort!
