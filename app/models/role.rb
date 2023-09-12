@@ -155,14 +155,14 @@ class Role < ActiveRecord::Base
   end
 
   def <=>(role)
-    if role
-      if builtin == role.builtin
-        position <=> role.position
-      else
-        builtin <=> role.builtin
-      end
+    # returns -1 for nil since r2726
+    return -1 if role.nil?
+    return nil unless role.is_a?(Role)
+
+    if builtin == role.builtin
+      position <=> role.position
     else
-      -1
+      builtin <=> role.builtin
     end
   end
 

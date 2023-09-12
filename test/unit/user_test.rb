@@ -61,8 +61,8 @@ class UserTest < ActiveSupport::TestCase
 
   def test_sorted_scope_should_sort_user_by_display_name
     # Use .active to ignore anonymous with localized display name
-    assert_equal User.active.map(&:name).map(&:downcase).sort,
-                 User.active.sorted.map(&:name).map(&:downcase)
+    assert_equal User.active.map {|u| u.name.downcase}.sort,
+                 User.active.sorted.map {|u| u.name.downcase}
   end
 
   def test_generate
@@ -575,6 +575,12 @@ class UserTest < ActiveSupport::TestCase
     with_settings :user_format => :lastname do
       assert_equal 'Smith', @jsmith.reload.name
     end
+  end
+
+  def test_lastname_should_accept_255_characters
+    u = User.first
+    u.lastname = 'a' * 255
+    assert u.save
   end
 
   def test_today_should_return_the_day_according_to_user_time_zone

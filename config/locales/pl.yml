@@ -1121,7 +1121,6 @@ pl:
   label_font_monospace: Czcionka o stałej szerokości
   label_font_proportional: Czcionka proporcjonalna
   label_optgroup_bookmarks: Zakładki
-  label_optgroup_others: Inne projekty
   label_optgroup_recents: Ostatnio używane
   label_last_notes: Ostatnie notatki
   label_default_queries:
@@ -1425,3 +1424,6 @@ pl:
   label_has_been: has been
   label_has_never_been: has never been
   label_changed_from: changed from
+  label_issue_statuses_description: Issue statuses description
+  label_open_issue_statuses_description: View all issue statuses description
+  text_select_apply_issue_status: Select issue status

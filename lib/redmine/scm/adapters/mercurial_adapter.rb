@@ -358,7 +358,7 @@ module Redmine
         def as_ary(o)
           return [] unless o
 
-          o.is_a?(Array) ? o : Array[o]
+          o.is_a?(Array) ? o : [o]
         end
         private :as_ary
       end

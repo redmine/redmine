@@ -725,7 +725,6 @@ class IssueQuery < Query
       relation_type = relation_options[:reverse] || relation_type
       join_column, target_join_column = target_join_column, join_column
     end
-    ids = value.first.to_s.scan(/\d+/).map(&:to_i).uniq
     sql =
       case operator
       when "*", "!*"
@@ -736,13 +735,18 @@ class IssueQuery < Query
              " WHERE #{IssueRelation.table_name}.relation_type =" \
                   " '#{self.class.connection.quote_string(relation_type)}')"
       when "=", "!"
-        op = (operator == "=" ? 'IN' : 'NOT IN')
-        "#{Issue.table_name}.id #{op}" \
-         " (SELECT DISTINCT #{IssueRelation.table_name}.#{join_column}" \
-           " FROM #{IssueRelation.table_name}" \
-             " WHERE #{IssueRelation.table_name}.relation_type =" \
-                  " '#{self.class.connection.quote_string(relation_type)}'" \
-               " AND #{IssueRelation.table_name}.#{target_join_column} IN (#{ids.join(",")}))"
+        ids = value.first.to_s.scan(/\d+/).map(&:to_i).uniq
+        if ids.present?
+          op = (operator == "=" ? 'IN' : 'NOT IN')
+          "#{Issue.table_name}.id #{op}" \
+           " (SELECT DISTINCT #{IssueRelation.table_name}.#{join_column}" \
+             " FROM #{IssueRelation.table_name}" \
+               " WHERE #{IssueRelation.table_name}.relation_type =" \
+                    " '#{self.class.connection.quote_string(relation_type)}'" \
+                 " AND #{IssueRelation.table_name}.#{target_join_column} IN (#{ids.join(",")}))"
+        else
+          "1=0"
+        end
       when "=p", "=!p", "!p"
         op = (operator == "!p" ? 'NOT IN' : 'IN')
         comp = (operator == "=!p" ? '<>' : '=')

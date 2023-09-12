@@ -1268,7 +1268,6 @@ it:
   text_gs_available: ImageMagick PDF support available (optional)
   field_recently_used_projects: Numero dei progetti recenti mostrati nella jump box
   label_optgroup_bookmarks: Segnalibri
-  label_optgroup_others: Altri progetti
   label_optgroup_recents: Recenti
   button_project_bookmark: Aggiungi segnalibro
   button_project_bookmark_delete: Elimina segnalibro
@@ -1474,3 +1473,6 @@ it:
   label_has_been: has been
   label_has_never_been: has never been
   label_changed_from: changed from
+  label_issue_statuses_description: Issue statuses description
+  label_open_issue_statuses_description: View all issue statuses description
+  text_select_apply_issue_status: Select issue status

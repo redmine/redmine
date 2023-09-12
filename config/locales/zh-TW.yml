@@ -1331,7 +1331,6 @@
   text_gs_available: 可使用 ImageMagick 轉換 PDF 格式 (選配)
   field_recently_used_projects: 跳轉下拉方塊中最近用過的專案數目
   label_optgroup_bookmarks: 書籤
-  label_optgroup_others: 其他專案
   label_optgroup_recents: 最近用過的
   button_project_bookmark: 新增書籤
   button_project_bookmark_delete: 移除書籤
@@ -1496,6 +1495,9 @@
   label_contains_any_of: 包含任何(任一個字)
   button_apply_issues_filter: 套用議題篩選條件
   label_view_previous_annotation: 檢視此變更之前的註釋
-  label_has_been: has been
-  label_has_never_been: has never been
-  label_changed_from: changed from
+  label_has_been: 曾經是
+  label_has_never_been: 未曾是
+  label_changed_from: 前一個是
+  label_issue_statuses_description: 議題狀態說明
+  label_open_issue_statuses_description: 檢視所有議題狀態的說明
+  text_select_apply_issue_status: 選擇議題狀態

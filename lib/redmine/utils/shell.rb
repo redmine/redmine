@@ -24,9 +24,9 @@ module Redmine
 
       def shell_quote(str)
         if Redmine::Platform.mswin?
-          '"' + str.gsub(/"/, '\\"') + '"'
+          '"' + str.gsub('"', '\\"') + '"'
         else
-          "'" + str.gsub(/'/, "'\"'\"'") + "'"
+          "'" + str.gsub("'", "'\"'\"'") + "'"
         end
       end
 

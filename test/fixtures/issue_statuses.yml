@@ -2,21 +2,24 @@
 issue_statuses_001: 
   id: 1
   name: New
+  description: Description for New issue status
   is_closed: false
   position: 1
 issue_statuses_002: 
   id: 2
   name: Assigned
+  description: Description for Assigned issue status
   is_closed: false
   position: 2
 issue_statuses_003: 
   id: 3
   name: Resolved
+  description: Description for Resolved issue status
   is_closed: false
   position: 3
 issue_statuses_004: 
-  name: Feedback
   id: 4
+  name: Feedback
   is_closed: false
   position: 4
 issue_statuses_005: 

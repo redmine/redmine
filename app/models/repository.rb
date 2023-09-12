@@ -141,6 +141,8 @@ class Repository < ActiveRecord::Base
   end
 
   def <=>(repository)
+    return nil unless repository.is_a?(Repository)
+
     if is_default?
       -1
     elsif repository.is_default?

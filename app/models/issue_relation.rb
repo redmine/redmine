@@ -198,6 +198,8 @@ class IssueRelation < ActiveRecord::Base
   end
 
   def <=>(relation)
+    return nil unless relation.is_a?(IssueRelation)
+
     r = TYPES[self.relation_type][:order] <=> TYPES[relation.relation_type][:order]
     r == 0 ? id <=> relation.id : r
   end

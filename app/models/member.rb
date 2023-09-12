@@ -81,6 +81,8 @@ class Member < ActiveRecord::Base
   end
 
   def <=>(member)
+    return nil unless member.is_a?(Member)
+
     a, b = roles.sort, member.roles.sort
     if a == b
       if principal

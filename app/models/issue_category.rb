@@ -43,6 +43,8 @@ class IssueCategory < ActiveRecord::Base
   end
 
   def <=>(category)
+    return nil unless category.is_a?(IssueCategory)
+
     name <=> category.name
   end
 

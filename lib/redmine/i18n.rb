@@ -103,6 +103,10 @@ module Redmine
       ::I18n.t('date.day_names')[day % 7]
     end
 
+    def abbr_day_name(day)
+      ::I18n.t('date.abbr_day_names')[day % 7]
+    end
+
     def day_letter(day)
       ::I18n.t('date.abbr_day_names')[day % 7].first
     end

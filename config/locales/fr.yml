@@ -1272,7 +1272,6 @@ fr:
   text_gs_available: "Support PDF ImageMagick disponible (optionnel)"
   field_recently_used_projects: "Nombre de projets consultés récemment affichés dans le menu"
   label_optgroup_bookmarks: "Favoris"
-  label_optgroup_others: "Autres projets"
   label_optgroup_recents: "Consultés récemment"
   button_project_bookmark: "Ajouter aux favoris"
   button_project_bookmark_delete: "Retirer des favoris"
@@ -1462,3 +1461,6 @@ fr:
   label_has_been: a été
   label_has_never_been: n'a jamais été
   label_changed_from: modifié depuis
+  label_issue_statuses_description: Issue statuses description
+  label_open_issue_statuses_description: View all issue statuses description
+  text_select_apply_issue_status: Select issue status

@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '>= 2.7.0', '< 3.3.0'
 
-gem 'rails', '6.1.7.3'
+gem 'rails', '6.1.7.4'
 gem 'rouge', '~> 4.1.0'
 gem 'request_store', '~> 1.5.0'
 gem 'mini_mime', '~> 1.1.0'
@@ -10,8 +10,8 @@ gem "actionpack-xml_parser"
 gem 'roadie-rails', '~> 3.0.0'
 gem 'marcel'
 gem 'mail', '~> 2.8.1'
-gem 'nokogiri', '~> 1.14.0'
-gem 'i18n', '~> 1.13.0'
+gem 'nokogiri', '~> 1.15.2'
+gem 'i18n', '~> 1.14.1'
 gem 'rbpdf', '~> 1.21.1'
 gem 'addressable'
 gem 'rubyzip', '~> 2.3.0'
@@ -70,7 +70,7 @@ if File.exist?(database_file)
       when 'mysql2'
         gem "mysql2", "~> 0.5.0", :platforms => [:mri, :mingw, :x64_mingw]
       when /postgresql/
-        gem "pg", "~> 1.4.2", :platforms => [:mri, :mingw, :x64_mingw]
+        gem 'pg', '~> 1.5.3', :platforms => [:mri, :mingw, :x64_mingw]
       when /sqlite3/
         gem 'sqlite3', '~> 1.6.0', :platforms => [:mri, :mingw, :x64_mingw]
       when /sqlserver/
@@ -103,9 +103,9 @@ group :test do
   gem "selenium-webdriver", "~> 3.142.7"
   gem 'webdrivers', '4.6.1', require: false
   # RuboCop
-  gem 'rubocop', '~> 1.50.0', require: false
-  gem 'rubocop-performance', '~> 1.17.1', require: false
-  gem 'rubocop-rails', '~> 2.19.1', require: false
+  gem 'rubocop', '~> 1.56.0', require: false
+  gem 'rubocop-performance', '~> 1.19.0', require: false
+  gem 'rubocop-rails', '~> 2.20.2', require: false
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), "Gemfile.local")

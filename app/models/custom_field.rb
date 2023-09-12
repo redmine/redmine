@@ -263,6 +263,8 @@ class CustomField < ActiveRecord::Base
   end
 
   def <=>(field)
+    return nil unless field.is_a?(CustomField)
+
     position <=> field.position
   end
 
