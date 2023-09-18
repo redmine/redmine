@@ -96,7 +96,7 @@ end
 
 group :test do
   gem "rails-dom-testing"
-  gem 'mocha', (Gem.ruby_version < Gem::Version.new('2.7.0') ? ['>= 1.4.0', '< 2.0.0'] : '>= 1.4.0')
+  gem 'mocha', '>= 2.0.1'
   gem 'simplecov', '~> 0.18.5', :require => false
   gem "ffi", platforms: [:mingw, :x64_mingw, :mswin]
   # For running system tests
