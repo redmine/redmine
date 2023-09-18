@@ -1214,9 +1214,9 @@ class RedCloth3 < String
             all, tag, close = $1, $2, $3
 
             if close.present? && (ALLOWED_TAGS.include?(tag) || (tag =~ /\Aredpre#\d+\z/))
-                "<#{all}#{close}"
+                "<#{htmlesc all}#{close}"
             else
-                "&lt;#{all}#{'&gt;' unless close.blank?}"
+                "&lt;#{htmlesc all}#{'&gt;' unless close.blank?}"
             end
         end
     end
