@@ -841,7 +841,7 @@ class RedCloth3 < String
             end
 
             url = htmlesc(url.dup)
-            next all if url.downcase.start_with?('javascript:')
+            next all unless uri_with_link_safe_scheme?(url)
 
             atts = pba(atts)
             atts = +" href=\"#{url}#{slash}\"#{atts}"
@@ -965,7 +965,7 @@ class RedCloth3 < String
             next m unless uri_with_safe_scheme?(url.partition('?').first)
             if href
               href = htmlesc(href.dup)
-              next m if href.downcase.start_with?('javascript:')
+              next m unless uri_with_link_safe_scheme?(href)
             end
 
             out = +''
