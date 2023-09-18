@@ -89,7 +89,7 @@ class AttachmentsController < ApplicationController
           tbnail,
           :filename => filename_for_content_disposition(@attachment.filename),
           :type => detect_content_type(@attachment, true),
-          :disposition => 'inline')
+          :disposition => 'attachment')
       end
     else
       # No thumbnail for the attachment or thumbnail could not be created
