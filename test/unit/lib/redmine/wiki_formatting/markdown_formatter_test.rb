@@ -261,10 +261,87 @@ class Redmine::WikiFormatting::MarkdownFormatterTest < ActionView::TestCase
 
   def test_should_support_underlined_text
     text = 'This _text_ should be underlined'
-    assert_equal '<p>This <u>text</u> should be underlined</p>', @formatter.new(text).to_html.strip
+    assert_equal '<p>This <u>text</u> should be underlined</p>', format(text)
+  end
+
+  def test_should_autolink_mails
+    input = "foo@example.org"
+    assert_equal %(<p><a href="mailto:foo@example.org">foo@example.org</a></p>), format(input)
+
+    # The redcloth autolinker parses "plain" mailto links a bit unfortunately.
+    # We do the best we can here...
+    input = "mailto:foo@example.org"
+    assert_equal %(<p>mailto:<a href="mailto:foo@example.org">foo@example.org</a></p>), format(input)
+  end
+
+  def test_should_fixup_mailto_links
+    input = "<mailto:foo@example.org>"
+    assert_equal %(<p><a href="mailto:foo@example.org">foo@example.org</a></p>), format(input)
+  end
+
+  def test_should_fixup_autolinked_user_references
+    text = "user:user@example.org"
+    assert_equal "<p>#{text}</p>", format(text)
+
+    text = "@user@example.org"
+    assert_equal "<p>#{text}</p>", format(text)
+  end
+
+  def test_should_fixup_autolinked_hires_files
+    text = "printscreen@2x.png"
+    assert_equal "<p>#{text}</p>", format(text).strip
+  end
+
+  def test_should_allow_links_with_safe_url_schemes
+    safe_schemes = %w(http https ftp)
+    link_safe_schemes = %w(ssh foo)
+
+    (safe_schemes + link_safe_schemes).each do |scheme|
+      input = "[#{scheme}](#{scheme}://example.com)"
+      expected = %(<p><a href="#{scheme}://example.com" class="external">#{scheme}</a></p>)
+
+      assert_equal expected, format(input)
+    end
+  end
+
+  def test_should_not_allow_links_with_unsafe_url_schemes
+    unsafe_schemes = %w(data javascript vbscript)
+
+    unsafe_schemes.each do |scheme|
+      input = "[#{scheme}](#{scheme}:something)"
+      assert_equal "<p>#{input}</p>", format(input)
+    end
+  end
+
+  def test_should_allow_autolinks_with_safe_url_schemes
+    safe_schemes = %w(http https ftp)
+    link_safe_schemes = %w(ssh foo)
+
+    (safe_schemes + link_safe_schemes).each do |scheme|
+      input = "#{scheme}://example.org"
+      expected = %(<p><a href="#{input}" class="external">#{input}</a></p>)
+
+      assert_equal expected, format(input) if safe_schemes.include?(scheme)
+      assert_equal expected, format("<#{input}>")
+    end
+  end
+
+  def test_should_not_autolink_unsafe_schemes
+    unsafe_schemes = %w(data javascript vbscript)
+
+    unsafe_schemes.each do |scheme|
+      link = "#{scheme}:something"
+
+      assert_equal "<p>#{link}</p>", format(link)
+      assert_equal "<p>#{link}</p>", format("<#{link}>")
+    end
   end
 
   private
+
+  def format(text)
+    @formatter.new(text).to_html.strip
+  end
 
   def assert_section_with_hash(expected, text, index)
     result = @formatter.new(text).get_section(index)
