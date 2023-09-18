@@ -321,4 +321,9 @@ class AttachmentsController < ApplicationController
       request.raw_post
     end
   end
+
+  def send_file(path, options={})
+    headers['content-security-policy'] = "default-src 'none'; style-src 'unsafe-inline'; sandbox"
+    super
+  end
 end

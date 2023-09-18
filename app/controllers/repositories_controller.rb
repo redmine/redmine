@@ -431,6 +431,11 @@ class RepositoriesController < ApplicationController
     end
   end
 
+  def send_file(path, options={})
+    headers['content-security-policy'] = "default-src 'none'; style-src 'unsafe-inline'; sandbox"
+    super
+  end
+
   def valid_name?(rev)
     return true if rev.nil?
     return true if REV_PARAM_RE.match?(rev)
