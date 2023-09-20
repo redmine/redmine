@@ -171,6 +171,16 @@ class TimeEntryTest < ActiveSupport::TestCase
     end
   end
 
+  def test_should_require_spent_on
+    with_settings :timelog_accept_future_dates => '0' do
+      entry = TimeEntry.find(1)
+      entry.spent_on = ''
+
+      assert !entry.save
+      assert entry.errors[:spent_on].present?
+    end
+  end
+
   def test_spent_on_with_blank
     c = TimeEntry.new
     c.spent_on = ''
