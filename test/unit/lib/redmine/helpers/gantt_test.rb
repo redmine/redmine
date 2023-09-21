@@ -574,4 +574,9 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
 
     assert_equal versions.sort, Redmine::Helpers::Gantt.sort_versions!(versions.dup)
   end
+
+  def test_magick_text
+    create_gantt
+    assert_equal "'foo\\'bar\\\\baz'", @gantt.send(:magick_text, "foo'bar\\baz")
+  end
 end

@@ -421,7 +421,7 @@ module Redmine
             gc.stroke('transparent')
             gc.strokewidth(1)
             gc.draw('text %d,%d %s' % [
-              left.round + 8, 14, Redmine::Utils::Shell.shell_quote("#{month_f.year}-#{month_f.month}")
+              left.round + 8, 14, magick_text("#{month_f.year}-#{month_f.month}")
             ])
             left = left + width
             month_f = month_f >> 1
@@ -457,7 +457,7 @@ module Redmine
               gc.stroke('transparent')
               gc.strokewidth(1)
               gc.draw('text %d,%d %s' % [
-                left.round + 2, header_height + 14, Redmine::Utils::Shell.shell_quote(week_f.cweek.to_s)
+                left.round + 2, header_height + 14, magick_text(week_f.cweek.to_s)
               ])
               left = left + width
               week_f = week_f + 7
@@ -823,7 +823,7 @@ module Redmine
         params[:image].stroke('transparent')
         params[:image].strokewidth(1)
         params[:image].draw('text %d,%d %s' % [
-          params[:indent], params[:top] + 2, Redmine::Utils::Shell.shell_quote(subject)
+          params[:indent], params[:top] + 2, magick_text(subject)
         ])
       end
 
@@ -1073,9 +1073,15 @@ module Redmine
           params[:image].draw('text %d,%d %s' % [
             params[:subject_width] + (coords[:bar_end] || 0) + 5,
             params[:top] + 1,
-            Redmine::Utils::Shell.shell_quote(label)
+            magick_text(label)
           ])
         end
+      end
+
+      # Escape the passed string as a text argument in a draw rule for
+      # mini_magick. Note that the returned string is not shell-safe on its own.
+      def magick_text(str)
+        "'#{str.to_s.gsub(/['\\]/, '\\\\\0')}'"
       end
     end
   end
