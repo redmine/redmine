@@ -68,6 +68,8 @@ GEM
     airbrussh (1.4.2)
       sshkit (>= 1.6.1, != 1.7.0)
     ast (2.4.2)
+    awesome_nested_set (3.5.0)
+      activerecord (>= 4.0.0, < 7.1)
     bcrypt_pbkdf (1.1.0)
     builder (3.2.4)
     business_time (0.13.0)
@@ -133,6 +135,11 @@ GEM
       concurrent-ruby (~> 1.0)
     json (2.6.3)
     language_server-protocol (3.17.0.3)
+    launchy (2.5.2)
+      addressable (~> 2.8)
+    letter_opener (1.8.1)
+      launchy (>= 2.2, < 3)
+    liquid (2.6.3)
     listen (3.8.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -224,6 +231,10 @@ GEM
       rbpdf-font (~> 1.19.0)
     rbpdf-font (1.19.1)
     redcarpet (3.6.0)
+    redmine_crm (0.0.60)
+      liquid (< 2.6.4)
+      rails
+      rubyzip
     regexp_parser (2.8.1)
     request_store (1.5.1)
       rack (>= 1.4)
@@ -309,6 +320,7 @@ GEM
       chronic (>= 0.6.3)
     xpath (3.2.0)
       nokogiri (~> 1.8)
+    ya2yaml (0.31)
     yard (0.9.34)
     zeitwerk (2.6.11)
 
@@ -320,6 +332,7 @@ PLATFORMS
 DEPENDENCIES
   actionpack-xml_parser
   addressable
+  awesome_nested_set
   bcrypt_pbkdf
   business_time
   capistrano
@@ -338,6 +351,7 @@ DEPENDENCIES
   html-pipeline (~> 2.13.2)
   httparty
   i18n (~> 1.14.1)
+  letter_opener
   listen (~> 3.3)
   mail (~> 2.8.1)
   mail_xoauth2
@@ -356,6 +370,7 @@ DEPENDENCIES
   rails-dom-testing
   rbpdf (~> 1.21.1)
   redcarpet (~> 3.6.0)
+  redmine_crm
   request_store (~> 1.5.0)
   rexml
   roadie-rails (~> 3.0.0)
@@ -375,6 +390,7 @@ DEPENDENCIES
   tzinfo-data
   webdrivers (= 4.6.1)
   whenever
+  ya2yaml
   yard
 
 RUBY VERSION

@@ -101,6 +101,7 @@ group :development do
   gem "yard"
   gem 'ed25519'
   gem 'bcrypt_pbkdf'
+  gem 'letter_opener'
 end
 
 group :test do
