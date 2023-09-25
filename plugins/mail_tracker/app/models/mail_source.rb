@@ -15,8 +15,7 @@ class MailSource < ActiveRecord::Base
   ].map(&:chr)
   DEFAULT_PROTOCOL = 'pop3'.freeze
   DEFAULT_EMAIL_SUBJECT = 'Jūsų užduotis užregistruota redmine sistemoje'.freeze
-  # REDIRECT_URI = 'https://crm.softra.lt/oauth/callback'
-  REDIRECT_URI = 'https://df4f-88-119-95-51.ngrok-free.app/oauth/callback'
+  REDIRECT_URI = 'https://88.216.169.97:53019/oauth/callback'
 
   # def initialize
   #   @email = self.first.username
