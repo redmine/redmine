@@ -1,0 +1,6 @@
+var flashNotice = $("#flash_notice");
+flashNotice.remove();
+$("#flash_error").remove();
+$("#content").prepend("<div class='flash notice' id='flash_notice'><%=flash[:notice]%></div>");
+$('#time_entries_report').html("<%= escape_javascript(render :partial => 'time_entries_report') %>");
+flashNotice.fadeOut(3000);

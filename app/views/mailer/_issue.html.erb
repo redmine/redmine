@@ -3,7 +3,7 @@
   <%= issue_status_type_badge(issue.status) %>
 </h1>
 
-<%= render_email_issue_attributes(issue, user, true) %>
+<%= render_email_issue_attributes(issue, users.first, true) %>
 
 <%= textilizable(issue, :description, :only_path => false) %>
 

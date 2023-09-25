@@ -246,6 +246,19 @@ class Journal < ActiveRecord::Base
       )
   end
 
+  def each_notification(users, &block)
+    if users.any?
+      users_by_details_visibility = users.group_by do |user|
+        visible_details(user)
+      end
+      users_by_details_visibility.each do |visible_details, users|
+        if notes? || visible_details.any?
+          yield(users)
+        end
+      end
+    end
+  end
+
   private
 
   # Generates journal details for attribute and custom field changes

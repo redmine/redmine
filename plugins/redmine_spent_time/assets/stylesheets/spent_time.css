@@ -1,0 +1,61 @@
+/* 
+    Document   : spent_time
+    Created on : Nov 13, 2009, 9:14:08 AM
+    Author     : eduardo.yanez
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+td.hours {
+    font-size: 0.9em;
+}
+
+td.issue-hours {
+    text-align: right;
+    padding-right: 0.5em;
+    font-size: 0.9em;
+}
+
+td.less_than_8_hours {
+    text-align: right;
+    padding-right: 0.5em;
+    font-weight: bold;
+    color: red;
+    font-size: 0.9em;
+}
+
+td.more_than_8_hours {
+    text-align: right;
+    padding-right: 0.5em;
+    font-weight: bold;
+    color: blue;
+    font-size: 0.9em;
+}
+
+.weekend_row {
+    background-color: #ffdfe6;
+}
+
+#new_time_entry_form {
+    margin-bottom: 10px;
+}
+
+input#time_entry_comments {
+    width: 20%;
+}
+
+.centered {
+    text-align: center;
+}
+
+.subject { 
+    text-align: left;
+    white-space: pre-wrap; 
+    wordwrap: break-word;
+}
+
+.comments { 
+    text-align: left;
+    white-space: pre-wrap; 
+    wordwrap: break-word;
+}

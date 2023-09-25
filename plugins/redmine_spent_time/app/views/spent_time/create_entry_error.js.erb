@@ -1,0 +1,3 @@
+$("#flash_notice").remove();
+$("#flash_error").remove();
+$("#content").prepend("<div class='flash error' id='flash_error'><%=flash[:error]%></div>");

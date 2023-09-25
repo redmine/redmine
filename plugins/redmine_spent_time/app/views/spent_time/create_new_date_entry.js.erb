@@ -1,0 +1,2 @@
+$('time_entry.' + <%= @previous_time_entry.id %>).append(render(:partial => 'time_entry_row', :locals => {:entry => @time_entry}))
+$('time_entry.' + <%= @time_entry.id %>).effect("highlight", {color:'#92A6FF'}, 3000)

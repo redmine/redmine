@@ -1,0 +1,7 @@
+.svn
+.project
+master
+Gemfile.lock
+.idea
+*.iml
+

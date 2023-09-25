@@ -1,0 +1,4 @@
+<div id="report_menu_options" style='display:none;'>
+  <%= link_to_function(l(:label_add_entry), "$('#new_time_entry_form').toggle();$('#report_menu_options').toggle();".html_safe) if @same_user %>
+</div>
+

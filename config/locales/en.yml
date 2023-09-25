@@ -1119,6 +1119,8 @@ en:
   label_inherited_from_group: "Inherited from group %{name}"
   label_trackers_description: Trackers description
   label_open_trackers_description: View all trackers description
+  label_issue_statuses_description: Issue statuses description
+  label_open_issue_statuses_description: View all issue statuses description
   label_preferred_body_part_text: Text
   label_preferred_body_part_html: HTML
   label_issue_history_properties: Property changes
@@ -1314,6 +1316,7 @@ en:
   text_project_closed: This project is closed and read-only.
   text_turning_multiple_off: "If you disable multiple values, multiple values will be removed in order to preserve only one value per item."
   text_select_apply_tracker: "Select tracker"
+  text_select_apply_issue_status: "Select issue status"
   text_avatar_server_config_html: The current avatar server is <a href="%{url}">%{url}</a>. You can configure it in config/configuration.yml.
   text_no_subject: no subject
   text_allowed_queries_to_select: Public (to any users) queries only selectable

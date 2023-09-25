@@ -1,0 +1,33 @@
+<%= form_tag(:url => {:action => :create_entries}, :update => 'report', :remote => true) do %>
+    <%= hidden_field_tag('issue', @issue.id) %>
+    <%= hidden_field_tag('init_date', @init_date) %>
+    <%= hidden_field_tag('end_date', @end_date) %>
+  <table class="list time-entries">
+    <thead>
+      <th><%= l(:label_date) %></th>
+      <th><%= l(:label_activity) %></th>
+      <th><%= l(:field_hours) %></th>
+      <th><%= l(:field_comments) %></th>
+    </thead>
+    <tbody>
+    <% i = 0
+       @init_date.upto(@end_date) do |date|
+         # Si no es un sábado o un domingo...
+         unless [0,6].include?(date.wday)
+           prefix = "time_log#{i.to_s}."
+           i += 1 %>
+           <tr>
+             <td><%= date%></td>
+             <%= hidden_field_tag(prefix + 'date', date) %>
+             <td><%= select_tag(prefix + 'activity', options_for_select(@activities))%> </td>
+             <td><%= text_field_tag(prefix + 'hours', '', :size => 6)%> </td>
+             <td><%= text_field_tag(prefix + 'comment', '', :size => 100)%> </td>
+           </tr>
+        <% end %>
+    <% end -%>
+    </tbody>
+  </table>
+  <%= hidden_field_tag('number_of_dates', i - 1) %>
+  <%= submit_tag l(:button_apply), :name => nil %>
+<% end -%>
+

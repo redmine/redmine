@@ -1,0 +1,28 @@
+# Simplified Chinese strings go here for Rails i18n
+# Author: Steven.W
+# Based on file: en.yml
+
+zh:
+  spent_time_title: "工时统计"
+  label_total_time: "总计工时"
+  label_new_entry: "新增工时项"
+  label_add_entry: "新增工时项"
+  weekend: "周末"
+  select_issues_option: "选择事务"
+  issue_not_exists: "事务不存在。"
+  select_project_option: "选择项目"
+  label_person: "用户"
+  label_interval: "间隔"    
+  permission_view_spent_time: "View spent time"
+  permission_view_others_spent_time: "View others spent time"
+  permission_view_every_project_spent_time: "View every project spent time"
+  time_entry_added_notice: "Time entry added"
+  time_entry_updated_notice: "Time entry updated"
+  invalid_date_error: "Invalid date format"
+  invalid_hours_error: "Invalid hours format"
+  not_allowed_error: "It's not allowed to log time to project '%{project}'"
+  issue_not_in_project_error: "Issue #%{issue} isn't in project '%{project}'"
+  issue_not_found_error: "Issue with id=%{issue_id} not found"
+  cannot_find_project_error: "Cannot find project with id=%{project_id}"
+  project_is_mandatory_error: "You must select a project"
+  label_total_estimated_time: "Total estimated time"

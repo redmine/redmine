@@ -1,0 +1,19 @@
+<div id='new_time_entry_form' <%= "style='display:none'" unless @same_user %>>
+  <fieldset>
+    <legend><%= l(:label_new_entry) %></legend>
+    <%= form_tag(spent_time_create_entry_path(:from => @from, :to => @to), :id => "form_new_entry", :remote => true) do -%>
+      <p>
+        <%= l(:label_project) %>
+        <% if user_projects_ordered.length == 1
+           then %>
+            <%= select_tag('project_id', "<option value='#{user_projects_ordered.first.id}' selected>#{user_projects_ordered.first.name}</option>".html_safe)%>
+        <% else %>
+        	<%= render_project_tree %>                                                     
+        <% end %>
+      </p>
+      <p>
+        <%= render :partial => 'fields_for_new_entry_form' %>
+      </p>
+    <% end -%>
+  </fieldset>
+</div>

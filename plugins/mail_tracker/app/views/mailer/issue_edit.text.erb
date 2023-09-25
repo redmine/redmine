@@ -9,7 +9,9 @@
 
 <% end -%>
 ----------------------------------------
-<% if Setting.emails_info.present? -%>
+<% if @project && @project.emails_info.present? -%>
+  <%= Redmine::WikiFormatting.to_html(Setting.text_formatting, @project.emails_info).html_safe %>
+<% elsif Setting.emails_info.present? -%>
   <%= Redmine::WikiFormatting.to_html(Setting.text_formatting, Setting.emails_info).html_safe %>
 <% end -%>
 ----------------------------------------

@@ -1,0 +1,22 @@
+<div id="time_entries_report">
+  <div class="total-hours">
+    <p><%= t(:label_total_time) %> <%= l_hours("%.2f" % @entries.sum(:hours).to_f) %> <%= l(:field_hours) %> / <span style="font-weight: normal;"><%= t(:label_total_estimated_time) %> <%= l_hours("%.2f" % @total_estimated_time) %> <%= l(:field_hours) %></span></p>
+  </div>
+
+  <table class="list time-entries">
+    <thead>
+      <th><%= l(:label_activity) %></th>
+      <th><%= l(:label_issue) %></th>
+      <th><%= l(:field_comments) %></th>
+      <th><%= l(:field_hours) %></th>
+      <th><%= l(:field_estimated_hours) %></th>
+      <th><%= l(:label_spent_time) %></th>
+      <th></th>
+    </thead>
+    <tbody>
+    <% @to.downto(@from) do |day| %>
+      <%= render :partial => 'time_entries_by_date', :locals => {:day => day} %>
+    <% end %>
+    </tbody>
+  </table>
+</div>

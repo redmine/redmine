@@ -15,7 +15,8 @@ class MailSource < ActiveRecord::Base
   ].map(&:chr)
   DEFAULT_PROTOCOL = 'pop3'.freeze
   DEFAULT_EMAIL_SUBJECT = 'Jūsų užduotis užregistruota redmine sistemoje'.freeze
-  REDIRECT_URI = 'https://crm.softra.lt/oauth/callback'
+  # REDIRECT_URI = 'https://crm.softra.lt/oauth/callback'
+  REDIRECT_URI = 'https://df4f-88-119-95-51.ngrok-free.app/oauth/callback'
 
   # def initialize
   #   @email = self.first.username
@@ -154,25 +155,26 @@ class MailSource < ActiveRecord::Base
 
   def last(count = 10)
     try_connection do
-      Mail.find(what: :last, count: count, order: :dsc, read_only: true)
+      Mail.find(what: :last, count: count, order: :dsc, read_only: true).select { |mail| mail.from.addresses.include?('rytis@wisemonks.com') }
     end
   end
 
   def find(id)
     try_connection do
-      Mail.find(what: :first, keys: ['HEADER', 'MESSAGE-ID', id], read_only: true).first
+      Mail.find(what: :first, keys: ['HEADER', 'MESSAGE-ID', id], read_only: true).find { |mail| mail.from.addresses.include?('rytis@wisemonks.com') } 
     end
   end
 
   def unseen
     try_connection do
-      Mail.find(what: :all, keys: %w[NOT SEEN], read_only: true)
+      # find only by specific sender
+      Mail.find(what: :all, keys: %w[NOT SEEN], read_only: true).select { |mail| mail.from.addresses.include?('rytis@wisemonks.com') }
     end
   end
 
   def mark_as_seen(id)
     try_connection do
-      Mail.find(what: :first, keys: ['HEADER', 'MESSAGE-ID', id]).first
+      Mail.find(what: :first, keys: ['HEADER', 'MESSAGE-ID', id]).find { |mail| mail.from.addresses.include?('rytis@wisemonks.com') } 
     end
   end
 
@@ -214,6 +216,9 @@ class MailSource < ActiveRecord::Base
   end
 
   def create_from_mail(mail)
+    # return if mail from is rytis@wisemonks.com
+    return if mail.from.addresses.include?('rytis@wisemonks.com')
+
     remove_from_to = '<Undisclosed recipients:>'
 
     content_part = mail.html_part.presence || mail.text_part.presence || mail

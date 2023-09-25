@@ -60,7 +60,7 @@ module RedmineApp
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
-    config.action_mailer.perform_deliveries = false
+    config.action_mailer.perform_deliveries = true
 
     # Do not include all helpers
     config.action_controller.include_all_helpers = false
@@ -96,5 +96,7 @@ module RedmineApp
     if File.exist?(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
       instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
     end
+
+    config.hosts << "df4f-88-119-95-51.ngrok-free.app"
   end
 end

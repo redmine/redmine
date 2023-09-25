@@ -1,0 +1,5 @@
+var report = $('#report');
+report.html("<%= escape_javascript(render :partial => 'new_time_entry_form') %>");
+report.append("<%= escape_javascript(render :partial => 'report_menu_options') %>");
+report.append("<%= escape_javascript(render :partial => 'time_entries_report') %>");
+

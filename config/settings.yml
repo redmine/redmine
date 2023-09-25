@@ -297,6 +297,9 @@ repository_log_display_limit:
   default: 100
 ui_theme:
   default: ''
+emails_info:
+  default: |-
+    Norėdami atsakyti ar pateikti pastabas, paspauskite nuorodą į užduotį.
 emails_footer:
   default: |-
     You have received this notification because you have either subscribed to it, or are involved in it.
@@ -341,3 +344,9 @@ timelog_accept_future_dates:
   default: 1
 show_status_changes_in_mail_subject:
   default: 1
+
+
+warrant_default_pricing:
+  default: ''
+non_warrant_default_pricing:
+  default: ''

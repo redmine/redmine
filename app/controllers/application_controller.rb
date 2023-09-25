@@ -203,6 +203,7 @@ class ApplicationController < ActionController::Base
   # check if login is globally required to access the application
   def check_if_login_required
     # no check needed if user is already logged in
+    p User.current
     return true if User.current.logged?
 
     require_login if Setting.login_required?

@@ -1,0 +1,109 @@
+== Release notes
+<b>3.1.2 - 2015-10-01</b>
+* #77 Refactored routes.rb and fixed projects combo box (@alexandermeindl).
+
+<b>3.1.0 - 2015-09-24</b>
+* Tested on Redmine 3.1.1, Rails 4.2, Ruby 2.1.6
+* Fix: #73 Closed projects are not included in report
+* Fix: #74 Time displays 0.00 when time entry is not linked to an issue
+* Fix: #75 Incomplete issues list in combo box
+
+<b>3.0.0 - 2015-04-09</b>
+* Request: #68 Updated in order to work in Redmine 3.0 under Rails 4.2
+* Removed: #69 Updating spent times in line with best_in_place plugin doesn't work in Redmine 3 (Rails 4.2)
+
+<b>2.6.6 - 2014-10-16</b>
+* Fix: #67 View every projects spent time doesn't work as expected
+
+<b>2.6.5 - 2014-03-31</b>
+* Translate: #60 Completed Italian translation by @R-i-c-k-y
+
+<b>2.6.4 - 2014-03-17</b>
+* Translate: #59 Added Japanese translation by Hajime (@momibun926)
+
+<b>2.6.3 - 2014-03-03</b>
+* Fix: #57 undefined method `estimated_hours'
+* Enhancement: #58 German translation completed
+
+<b>2.6.2 - 2014-02-26</b>
+* Fix: #53 undefined local variable or method `project_id'...
+* Fix: #54 Problem with permission
+* Enhancement: #56 Added total estimated time to report
+
+<b>2.6.1 - 2014-02-20</b>
+* Fix: #50 Sorting is not working
+* Fix: #51 Interval's filter not working
+* Fix: #52 Issue column content is not being wrapped up
+
+<b>2.6.0 - 2014-02-10</b>
+* Allows to insert time entries on weekends, and show the hours.
+* Custom fields on time entries insertion.
+* Notify when time entry is created or updated.
+* Only shows active projects by default (@Weptun).
+* Check permissions before create entries (@nick7ikin).
+* More errors controls (@nick7ikin).
+
+<b>2.5.0 - 2013-02-28</b>
+* Link to 'Spent time' is not shown for users who don't have permissions to acces it.
+* Added edit in-place feature for already existent time entries (@lauer)
+* Added notifications when time entries are added or when errors happen inserting new entries.
+* Default time period 'Last 7 days' (@lauer)
+* Project selection combo-box as tree (@lauer)
+* New time period 'Last 2 weeks'.
+* Showed estimated time in time report
+
+<b>2.4.2 - 2012-11-13</b>
+* Added Russian translation (@ilya-yurtaev)
+
+<b>2.4.1 - 2012-10-24</b>
+* Added Simplified Chinese translation (@archonwang)
+
+<b>2.4.0 - 2012-10-23</b>
+* Replaced all references to prototype and scriptaculous helpers for jQuery.
+* Compatible with Redmine 2.1
+
+<b>2.3.1 - 2012-08-21</b>
+* Fixed main report's date selectors  
+
+<b>2.3.0 - 2012-08-20</b>
+* Removed dependencies with 'remote' helpers from Prototype library to be compatible with Redmine 2.1  
+
+<b>2.2.1 - 2012-08-17</b>
+* Fix: New entry form hidden when the query is for another user
+* Fixed Polish translation (@krewetka)
+
+<b>2.2.0 - 2012-08-17</b>
+* Fix: Issues combo-box was not updated when the projects selection changed
+* Project selected by default when there is only one 
+* Added Polish translation
+* Added Catalán translation
+* Added French translation
+
+<b>2.1.0 - 2012-08-16</b> 
+* Fix: Projects combo-box didn't work in new entry form (@krewetka)
+* Fix: Issues combo-box didn't work in new entry form
+* Query form compacted
+* New entry form shown by default
+* Default date is today in the new entry form when today is between the report's interval
+
+<b>2.0.0 - 2012-08-07</b> 
+* Adapted to Redmine 2 (@pedrosnk)
+* Added German translation (@mjanser)
+* Select current user by default (@mjanser)
+
+<b>1.2.0 - 2012-04-30</b> 
+* Added Hungarian translation (@burci)
+* Now is possible to add time entries to projects without selecting an issue (@burci)
+* Fix: 'Apply' button from query form was disabled after querying by dates (@burci)
+* Fix: Query used GROUP BY in a non-standard way that caused Postgres didn't work right (@burci)
+
+<b>1.1.0 - 2012-04-16</b> 
+* Added routes compatibles with Redmine 1.4 (@lauer)
+* Added Portuguese translation (@heslei)
+* New time entry form: Projects list ordered alphabetically
+* New time entry form: Issues list ordered by Id & Last update
+* New time entry form: Activity list ordered alphabetically
+
+<b>1.0.2 - 2012-03-21</b> 
+* First public release
+

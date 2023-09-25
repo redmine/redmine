@@ -1,0 +1,15 @@
+<%= form_tag(:url => {:action => :create_entries}, :remote => true) do %>
+  <p>
+    <%= l(:label_issue) %>
+    <%= select_tag 'issue', options_for_select(@assigned_issues.collect {|issue| ["##{issue.id} - #{issue.subject}", issue.id]}) %>
+  </p>
+  <p>
+    <%= l(:label_date_from) %>
+    <%= text_field_tag('init_date', '', :size => 10) %> <%= calendar_for('init_date') %>
+    <%= l(:label_date_to) %>
+    <%= text_field_tag('end_date', '', :size => 10) %> <%= calendar_for('end_date') %>
+  </p>
+<% end %>
+
+
+

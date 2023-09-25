@@ -3,6 +3,7 @@
 get '/mail_tracker', :to => 'mail_tracker#index'
 get '/issues_collision_check', :to => 'issue_collisions#check'
 post '/oauth/callback', :to => 'mail_sources#activate_oauth'
+get '/oauth/callback', :to => 'mail_sources#activate_oauth'
 
 resources :mail_sources do
   collection do
@@ -17,5 +18,11 @@ resources :email_templates
 resources :mail_tracking_rules do
   collection do
     get 'add_rule'
+  end
+end
+
+scope '/projects/:project_id', :as => 'project' do
+  resource :project_email, :as => 'outbound_email', :only => [:update, :destroy] do
+    put 'watchers'
   end
 end

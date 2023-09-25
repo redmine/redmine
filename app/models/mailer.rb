@@ -33,7 +33,9 @@ class Mailer < ActionMailer::Base
   # The first argument of all actions of this Mailer must be a User (the recipient),
   # otherwise an ArgumentError is raised.
   def process(action, *args)
-    user = args.first
+    p args
+    # user = args.first
+    user = args.first.is_a?(Array) ? args.first.first : args.first
     raise ArgumentError, "First argument has to be a user, was #{user.inspect}" unless user.is_a?(User)
 
     initial_user = User.current
@@ -102,42 +104,74 @@ class Mailer < ActionMailer::Base
   end
 
   # Builds a mail for notifying user about an issue update
-  def issue_edit(user, journal)
+  # def issue_edit(user, journal)
+  #   issue = journal.journalized
+  #   redmine_headers 'Project' => issue.project.identifier,
+  #                   'Issue-Tracker' => issue.tracker.name,
+  #                   'Issue-Id' => issue.id,
+  #                   'Issue-Author' => issue.author.login,
+  #                   'Issue-Assignee' => assignee_for_header(issue)
+  #   redmine_headers 'Issue-Priority' => issue.priority.name if issue.priority
+  #   message_id journal
+  #   references issue
+  #   @author = journal.user
+  #   s = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] "
+  #   s += "(#{issue.status.name}) " if journal.new_value_for('status_id') && Setting.show_status_changes_in_mail_subject?
+  #   s += issue.subject
+  #   @issue = issue
+  #   @user = user
+  #   @journal = journal
+  #   @journal_details = journal.visible_details
+  #   @issue_url = url_for(:controller => 'issues', :action => 'show', :id => issue, :anchor => "change-#{journal.id}")
+
+  #   mail :to => user,
+  #     :subject => s
+  # end
+  def issue_edit(users, journal)
     issue = journal.journalized
     redmine_headers 'Project' => issue.project.identifier,
-                    'Issue-Tracker' => issue.tracker.name,
                     'Issue-Id' => issue.id,
-                    'Issue-Author' => issue.author.login,
-                    'Issue-Assignee' => assignee_for_header(issue)
-    redmine_headers 'Issue-Priority' => issue.priority.name if issue.priority
+                    'Issue-Author' => issue.author.login
+    redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
     message_id journal
     references issue
     @author = journal.user
     s = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] "
-    s += "(#{issue.status.name}) " if journal.new_value_for('status_id') && Setting.show_status_changes_in_mail_subject?
-    s += issue.subject
+    s << "(#{issue.status.name}) " if journal.new_value_for('status_id')
+    s << issue.subject
     @issue = issue
-    @user = user
+    @users = users
     @journal = journal
-    @journal_details = journal.visible_details
+    @journal_details = journal.visible_details(@users.first)
     @issue_url = url_for(:controller => 'issues', :action => 'show', :id => issue, :anchor => "change-#{journal.id}")
-
-    mail :to => user,
+    mail :to => @users,
+      :cc => @users,
       :subject => s
   end
-
   # Notifies users about an issue update.
   #
   # Example:
   #   Mailer.deliver_issue_edit(journal)
   def self.deliver_issue_edit(journal)
-    users  = journal.notified_users | journal.notified_watchers | journal.notified_mentions | journal.journalized.notified_mentions
-    users.select! do |user|
-      journal.notes? || journal.visible_details(user).any?
-    end
-    users.each do |user|
-      issue_edit(user, journal).deliver_later
-    end
+    users = journal.notified_users | journal.notified_watchers | journal.notified_mentions | journal.journalized.notified_mentions
+    issue = journal.journalized.reload
+    # to = journal.notified_users
+    # cc = journal.notified_watchers | journal.notified_mentions | journal.journalized.notified_mentions - to
+    issue_edit(users, journal).deliver_now
+    # users.each do |user|
+    #   issue_edit(user, journal).deliver_now
+    # end
+    # journal.each_notification(to + cc) do |users|
+    #   issue.each_notification(users) do |users2|
+    #     issue_edit(to & cc & users2, journal).deliver_now
+    #   end
+    # end
+    # users.select! do |user|
+    #   journal.notes? || journal.visible_details(user).any?
+    # end
+    # users.each do |user|
+    #   issue_edit(user, journal).deliver_now
+    # end
   end
 
   # Builds a mail to user about a new document.

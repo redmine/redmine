@@ -1,0 +1,19 @@
+<div id='new_entries_form'  style='display:none;'>
+  <%= form_tag(:url => {:action => :dates_for_create_entries}, :remote => true, :update => 'new_entries_dates') do %>
+    <p>
+      <%= l(:label_issue) %>
+    </p>
+    <p>
+      <%= l(:label_date_from) %>
+      <%= text_field_tag('init_date', '', :size => 10) %> <%= calendar_for('init_date') %>
+      <%= l(:label_date_to) %>
+      <%= text_field_tag('end_date', '', :size => 10) %> <%= calendar_for('end_date') %>
+      <%= submit_tag l(:button_apply), :name => nil %>
+    </p>
+  <% end %>
+  <div id="new_entries_dates">
+    <%= form_tag(:url => {:action => :create_entries}, :remote => true) do %>
+    <% end %>
+  </div>
+</div>
+

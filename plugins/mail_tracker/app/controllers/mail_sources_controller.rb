@@ -1,7 +1,7 @@
 class MailSourcesController < ApplicationController
   unloadable
   # protect_from_forgery with: :null_session, only: [:activate]
-  skip_before_action :verify_authenticity_token, only: [:activate, :activate_oauth]
+  skip_before_action :verify_authenticity_token, :check_if_login_required, only: [:activate, :activate_oauth]
 
 
   def index

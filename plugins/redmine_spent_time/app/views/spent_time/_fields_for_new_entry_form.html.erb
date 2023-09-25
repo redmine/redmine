@@ -1,0 +1,28 @@
+<div id='fields_for_new_entry_form'>
+
+  <%= l(:label_issue) %>
+  <% if @project.blank? %>
+    <%= select_tag('issue_id', "<option value='-1'>-</option>".html_safe) %>
+  <% else %>
+    <%= select_tag('issue_id',
+                   options_for_select([[l(:select_issues_option), 0]] + @assigned_issues.collect { |i| ["##{i.id} - #{i.subject}".html_safe, i.id] }), :style => 'width:250px') %>
+  <% end -%>
+  <%= l(:label_date) %>
+  <%= text_field_tag('time_entry_spent_on', if (Date.today >= @from && Date.today <= @to) then Date.today else '' end, :size => 10) %> <%= calendar_for('time_entry_spent_on') %>
+  <%= l(:label_activity) %>
+  <%= select(:time_entry, :activity_id, activities_for_select)%>
+  <%= l(:field_hours) %>
+  <%= text_field_tag('time_entry[hours]', '', :size => 6)%>
+  <%= l(:field_comments) %>
+  <%= text_field_tag('time_entry[comments]', '', :size => 30)%>
+  <%# Añadir campos definidos por el usuario %>
+  <% if @time_entry && @time_entry.custom_field_values
+       @time_entry.custom_field_values.each do |value| %>
+    <%= custom_field_tag_with_label :time_entry, value %>
+    <% end 
+     end %>
+  <p>
+    <%= submit_tag l(:button_save), :name => nil %>
+    <%= link_to_function(l(:button_cancel), "$('#new_time_entry_form').toggle();$('#report_menu_options').toggle();".html_safe) %>
+  </p>
+</div>

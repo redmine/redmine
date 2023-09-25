@@ -1,10 +1,8 @@
 <%= title [l(:label_plugins), {:controller => 'admin', :action => 'plugins'}], @plugin.name %>
 
 <div id="settings" class="plugin plugin-<%= @plugin.id %>">
-<%= form_tag({:action => 'plugin'}) do %>
-<div class="box tabular settings">
-<%= render :partial => @partial, :locals => {:settings => @settings}%>
-</div>
-<%= submit_tag l(:button_apply) %>
-<% end %>
+    <div class="box tabular settings">
+      <%= render :partial => @partial, :locals => {:settings => @settings}%>
+    </div>
+    <%= submit_tag l(:button_apply) %>
 </div>
