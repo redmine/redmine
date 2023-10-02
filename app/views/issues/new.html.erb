@@ -1,8 +1,13 @@
 <!-- to support view override using hooks -->
-<% rendered_hooks_content = call_hook(:view_issues_new_view_override) %>
+<% call_hook(:view_issues_new_view_override) %>
+<% if @view_issues_new_view_override[:assets].present? %>
+  <% @view_issues_new_view_override[:assets].each do |hook_assets| %>
+    <%= hook_assets.html_safe %>
+  <% end %>
+<% end %>
 
-<% if rendered_hooks_content.present? %>
-  <%= rendered_hooks_content %>
+<% if @view_issues_new_view_override[:content].present? %>
+  <%= @view_issues_new_view_override[:content] %>
 <% else %>
   <%= title l(:label_issue_new) %>
 

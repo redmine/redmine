@@ -1,10 +1,15 @@
 <!-- to support view override using hooks -->
-<% rendered_hooks_content = call_hook(:view_issues_show_view_override, issue: @issue, project: @project) %>
+<% call_hook(:view_issues_show_view_override, issue: @issue, project: @project) %>
 
-<% if rendered_hooks_content.present? %>
-  <%= rendered_hooks_content %>
+<% if @view_issues_show_view_override[:assets].present? %>
+  <% @view_issues_show_view_override[:assets].each do |hook_assets| %>
+    <%= hook_assets.html_safe %>
+  <% end %>
+<% end %>
+
+<% if @view_issues_show_view_override[:content].present? %>
+  <%= @view_issues_show_view_override[:content].html_safe %>
 <% else %>
-
 <%= render :partial => 'action_menu' %>
 
 <h2 class="inline-flex"><%= issue_heading(@issue) %></h2>
