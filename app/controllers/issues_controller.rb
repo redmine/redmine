@@ -136,7 +136,7 @@ class IssuesController < ApplicationController
   def new
     respond_to do |format|
       format.html {render :action => 'new', :layout => !request.xhr?}
-      format.js
+      format.js { render 'new.js', layout: false }
     end
   end
 
