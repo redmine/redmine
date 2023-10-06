@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../test_helper', __FILE__)
+require File.expand_path('../../test_helper', __dir__)
 
 class RoutingPluginsTest < Redmine::RoutingTest
   setup do
@@ -27,7 +27,7 @@ class RoutingPluginsTest < Redmine::RoutingTest
       "config/routes.rb" => <<~ROUTES_CONTENT,
         resources :plugin_articles, only: %i[index]
       ROUTES_CONTENT
-      "app/contrtollers/plugin_articles_controller.rb" => <<~CONTROLLER_CONTENT,
+      "app/contrtollers/plugin_articles_controller.rb" => <<~CONTROLLER_CONTENT
         class PluginArticlesController < ApplicationController
           def index
             render plain: "foo PluginArticlesController#index"
@@ -41,7 +41,7 @@ class RoutingPluginsTest < Redmine::RoutingTest
         # same path helper name with foo's
         get '/bar_plugin_articles', as: :plugin_articles, to: 'bar_plugin_articles#index'
       ROUTES_CONTENT
-      "app/contrtollers/bar_plugin_articles_controller.rb" => <<~CONTROLLER_CONTENT,
+      "app/contrtollers/bar_plugin_articles_controller.rb" => <<~CONTROLLER_CONTENT
         class BarPluginArticlesController < ApplicationController
           def index
             render plain: "bar BarPluginArticlesController#index"
@@ -71,7 +71,7 @@ class RoutingPluginsTest < Redmine::RoutingTest
   def setup_plugin(plugin_name, **relative_path_to_content)
     plugin_path = Redmine::Plugin.directory / plugin_name.to_s
     plugin_path.mkpath
-    (plugin_path / "init.rb").write(<<~EOS)
+    (plugin_path / "init.rb").write(<<~INITRB)
       Redmine::Plugin.register :#{plugin_name} do
         name 'Test plugin #{plugin_name}'
         author 'Author name'
@@ -82,7 +82,7 @@ class RoutingPluginsTest < Redmine::RoutingTest
       Pathname(__dir__).glob("app/**/*.rb").sort.each do |path|
         require path
       end
-    EOS
+    INITRB
 
     relative_path_to_content.each do |relative_path, content|
       path = plugin_path / relative_path
