@@ -404,7 +404,7 @@ Rails.application.routes.draw do
 
   get 'robots', :to => 'welcome#robots'
 
-  Dir.glob File.expand_path("#{Redmine::Plugin.directory}/*") do |plugin_dir|
+  Dir.glob(File.expand_path("#{Redmine::Plugin.directory}/*")).sort.each do |plugin_dir|
     file = File.join(plugin_dir, "config/routes.rb")
     if File.exist?(file)
       begin
