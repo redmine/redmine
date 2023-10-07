@@ -20,8 +20,6 @@
 class EmailAddress < ActiveRecord::Base
   include Redmine::SafeAttributes
 
-  EMAIL_REGEXP = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+(?:(?:xn--[-a-z0-9]+)|(?:[a-z]{2,})))\z/i
-
   belongs_to :user
 
   after_update :destroy_tokens
@@ -32,7 +30,7 @@ class EmailAddress < ActiveRecord::Base
   after_destroy_commit :deliver_security_notification_destroy
 
   validates_presence_of :address
-  validates_format_of :address, :with => EMAIL_REGEXP, :allow_blank => true
+  validates_format_of :address, :with => URI::MailTo::EMAIL_REGEXP, :allow_blank => true
   validates_length_of :address, :maximum => User::MAIL_LENGTH_LIMIT, :allow_nil => true
   validates_uniqueness_of :address, :case_sensitive => false,
     :if => Proc.new {|email| email.address_changed? && email.address.present?}

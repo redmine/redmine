@@ -64,4 +64,8 @@ class EmailAddressTest < ActiveSupport::TestCase
       assert email.valid?
     end
   end
+
+  def test_should_reject_invalid_email
+    assert_not EmailAddress.new(address: 'invalid,email@example.com').valid?
+  end
 end
