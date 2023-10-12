@@ -208,7 +208,7 @@ module ObjectHelpers
   def IssueCustomField.generate!(attributes={})
     super do |field|
       field.is_for_all = true unless attributes.key?(:is_for_all)
-      field.tracker_ids = Tracker.all.ids unless attributes.key?(:tracker_ids) || attributes.key?(:trackers)
+      field.tracker_ids = Tracker.ids unless attributes.key?(:tracker_ids) || attributes.key?(:trackers)
       yield field if block_given?
     end
   end

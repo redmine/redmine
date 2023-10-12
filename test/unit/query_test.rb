@@ -860,7 +860,7 @@ class QueryTest < ActiveSupport::TestCase
       }
     )
     result = find_issues_with_query(query)
-    expected = Issue.all.order(:id).ids - [8, 11, 12]
+    expected = Issue.order(:id).ids - [8, 11, 12]
     assert_equal expected, result.map(&:id).sort
   end
 

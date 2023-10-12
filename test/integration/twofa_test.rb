@@ -56,7 +56,7 @@ class TwofaTest < Redmine::IntegrationTest
     user = User.find_by_login 'jsmith'
     assert_not user.must_activate_twofa?
 
-    group = Group.all.first
+    group = Group.first
     group.update_column :twofa_required, true
     group.users << user
     user.reload

@@ -361,7 +361,7 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
         assert_select "input[type=checkbox][name=?][value=#{tracker_id}][checked=checked]", 'custom_field[tracker_ids][]'
       end
       # tracker not checked
-      (Tracker.all.pluck(:id) - tracker_ids).each do |tracker_id|
+      (Tracker.pluck(:id) - tracker_ids).each do |tracker_id|
         assert_select "input[type=checkbox][name=?][value=#{tracker_id}]", 'custom_field[tracker_ids][]'
       end
       # project checked
@@ -369,7 +369,7 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
         assert_select "input[type=checkbox][name=?][value=#{project_id}][checked=checked]", 'custom_field[project_ids][]'
       end
       # project not checked
-      (Project.all.pluck(:id) - project_ids).each do |project_id|
+      (Project.pluck(:id) - project_ids).each do |project_id|
         assert_select "input[type=checkbox][name=?][value=#{project_id}]", 'custom_field[project_ids][]'
       end
     end
