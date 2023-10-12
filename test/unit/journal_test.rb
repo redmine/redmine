@@ -279,6 +279,6 @@ class JournalTest < ActiveSupport::TestCase
 
     # User "dlopper" has "Developer" role on project "eCookbook"
     # Role "Developer" does not have the "View private notes" permission
-    assert_equal [1, 2], journal.notified_mentions.map(&:id)
+    assert_equal [1, 2], journal.notified_mentions.map(&:id).sort
   end
 end
