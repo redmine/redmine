@@ -615,7 +615,7 @@ class MailHandler < ActionMailer::Base
       unless user.valid?
         user.login = "user#{Redmine::Utils.random_hex(6)}" unless user.errors[:login].blank?
         user.firstname = "-" unless user.errors[:firstname].blank?
-        (puts user.errors[:lastname]; user.lastname  = "-") unless user.errors[:lastname].blank?
+        user.lastname  = "-" unless user.errors[:lastname].blank?
       end
       user
     end
