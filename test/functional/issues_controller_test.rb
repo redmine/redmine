@@ -2947,7 +2947,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 
   def test_show_export_to_pdf
     issue = Issue.find(3)
-    assert issue.relations.select{|r| r.other_issue(issue).visible?}.present?
+    assert issue.relations.any? {|r| r.other_issue(issue).visible?}
     get(
       :show,
       :params => {
