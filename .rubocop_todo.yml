@@ -566,23 +566,6 @@ Rails/Exit:
     - 'config/initializers/10-patches.rb'
     - 'config/routes.rb'
 
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: Include, AllowedMethods, AllowedPatterns.
-# Include: app/models/**/*.rb
-# AllowedMethods: order, limit, select, lock
-Rails/FindEach:
-  Exclude:
-    - 'app/models/auth_source.rb'
-    - 'app/models/group.rb'
-    - 'app/models/issue.rb'
-    - 'app/models/issue_status.rb'
-    - 'app/models/project.rb'
-    - 'app/models/query.rb'
-    - 'app/models/repository.rb'
-    - 'app/models/setting.rb'
-    - 'app/models/watcher.rb'
-    - 'app/models/wiki_page.rb'
-
 # Configuration parameters: Include.
 # Include: app/models/**/*.rb
 Rails/HasAndBelongsToMany:

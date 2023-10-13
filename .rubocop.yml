@@ -146,6 +146,9 @@ Rails/EnvironmentVariableAccess:
 Rails/FilePath:
   Enabled: false
 
+Rails/FindEach:
+  Enabled: false
+
 Rails/HelperInstanceVariable:
   Enabled: false
 
