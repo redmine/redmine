@@ -1436,3 +1436,4 @@ ja:
   label_issue_statuses_description: ステータスの説明
   label_open_issue_statuses_description: すべてのステータスの説明を表示
   text_select_apply_issue_status: このステータスを適用
+  field_name_or_email_or_login: Name, email or login
