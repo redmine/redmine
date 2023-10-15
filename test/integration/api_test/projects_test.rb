@@ -45,6 +45,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
       assert_select '>status', :text => '1'
       assert_select '>is_public', :text => 'true'
       assert_select '>inherit_members', :text => 'true'
+      assert_select '>homepage', :text => 'http://ecookbook.somenet.foo/'
     end
   end
 
@@ -59,6 +60,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_kind_of Hash, json['projects'].first
     assert json['projects'].first.has_key?('id')
     assert json['projects'].first.has_key?('inherit_members')
+    assert json['projects'].first.has_key?('homepage')
   end
 
   test "GET /projects.xml with include=issue_categories should return categories" do
@@ -109,6 +111,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_select 'project>status', :text => '1'
     assert_select 'project>is_public', :text => 'true'
     assert_select 'project>inherit_members', :text => 'true'
+    assert_select 'project>homepage', :text => 'http://ecookbook.somenet.foo/'
     assert_select 'custom_field[name="Development status"]', :text => 'Stable'
 
     assert_select 'trackers', 0
@@ -125,6 +128,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_equal false, json['project']['inherit_members']
     assert_equal false, json['project'].has_key?('default_version')
     assert_equal false, json['project'].has_key?('default_assignee')
+    assert_equal 'http://ecookbook.somenet.foo/', json['project']['homepage']
   end
 
   test "GET /projects/:id.xml with hidden custom fields should not display hidden custom fields" do
