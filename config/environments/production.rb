@@ -92,5 +92,7 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = false
 
   # No email in production log
-  config.action_mailer.logger = nil
+  if ENV["RAILS_DISABLE_MAILER_LOG"].present?
+    config.action_mailer.logger = nil
+  end
 end
