@@ -132,10 +132,10 @@ en-GB:
         greater_than_start_date: "must be greater than start date"
         not_same_project: "doesn't belong to the same project"
         circular_dependency: "This relation would create a circular dependency"
-        cant_link_an_issue_with_a_descendant: "An issue cannot be linked to one of its subtasks"
-        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
+        cant_link_an_issue_with_a_descendant: "A ticket cannot be linked to one of its subtasks"
+        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding tickets"
         not_a_regexp: "is not a valid regular expression"
-        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
+        open_issue_with_closed_parent: "An open ticket cannot be attached to a closed parent task"
         must_contain_uppercase: "must contain uppercase letters (A-Z)"
         must_contain_lowercase: "must contain lowercase letters (a-z)"
         must_contain_digits: "must contain digits (0-9)"
@@ -176,13 +176,13 @@ en-GB:
   notice_email_error: "An error occurred while sending mail (%{value})"
   notice_feeds_access_key_reseted: Your Atom access key was reset.
   notice_api_access_key_reseted: Your API access key was reset.
-  notice_failed_to_save_issues: "Failed to save %{count} issue(s) on %{total} selected: %{ids}."
+  notice_failed_to_save_issues: "Failed to save %{count} ticket(s) on %{total} selected: %{ids}."
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   notice_account_pending: "Your account was created and is now pending administrator approval."
   notice_default_data_loaded: Default configuration successfully loaded.
   notice_unable_delete_version: Unable to delete version.
   notice_unable_delete_time_entry: Unable to delete time log entry.
-  notice_issue_done_ratios_updated: Issue done ratios updated.
+  notice_issue_done_ratios_updated: Ticket done ratios updated.
   notice_gantt_chart_truncated: "The chart was truncated because it exceeds the maximum number of items that can be displayed (%{max})"
 
   error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
@@ -190,18 +190,18 @@ en-GB:
   error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
   error_scm_annotate: "The entry does not exist or cannot be annotated."
   error_scm_annotate_big_text_file: "The entry cannot be annotated, as it exceeds the maximum text file size."
-  error_issue_not_found_in_project: 'The issue was not found or does not belong to this project'
+  error_issue_not_found_in_project: 'The ticket was not found or does not belong to this project'
   error_no_tracker_in_project: 'No tracker is associated to this project. Please check the Project settings.'
-  error_no_default_issue_status: 'No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").'
+  error_no_default_issue_status: 'No default ticket status is defined. Please check your configuration (Go to "Administration -> Ticket statuses").'
   error_can_not_delete_custom_field: Unable to delete custom field
-  error_can_not_delete_tracker: "This tracker contains issues and cannot be deleted."
+  error_can_not_delete_tracker: "This tracker contains tickets and cannot be deleted."
   error_can_not_remove_role: "This role is in use and cannot be deleted."
-  error_can_not_reopen_issue_on_closed_version: 'An issue assigned to a closed version cannot be reopened'
+  error_can_not_reopen_issue_on_closed_version: 'A ticket assigned to a closed version cannot be reopened'
   error_can_not_archive_project: This project cannot be archived
-  error_issue_done_ratios_not_updated: "Issue done ratios not updated."
+  error_issue_done_ratios_not_updated: "Ticket done ratios not updated."
   error_workflow_copy_source: 'Please select a source tracker or role'
   error_workflow_copy_target: 'Please select target tracker(s) and role(s)'
-  error_unable_delete_issue_status: 'Unable to delete issue status (%{value})'
+  error_unable_delete_issue_status: 'Unable to delete ticket status (%{value})'
   error_unable_to_connect: "Unable to connect (%{value})"
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
 
@@ -213,8 +213,8 @@ en-GB:
   mail_body_account_information: Your account information
   mail_subject_account_activation_request: "%{value} account activation request"
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
-  mail_subject_reminder: "%{count} issue(s) due in the next %{days} days"
-  mail_body_reminder: "%{count} issue(s) that are assigned to you are due in the next %{days} days:"
+  mail_subject_reminder: "%{count} ticket(s) due in the next %{days} days"
+  mail_body_reminder: "%{count} ticket(s) that are assigned to you are due in the next %{days} days:"
   mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
   mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
@@ -244,10 +244,10 @@ en-GB:
   field_category: Category
   field_title: Title
   field_project: Project
-  field_issue: Issue
+  field_issue: Ticket
   field_status: Status
   field_notes: Notes
-  field_is_closed: Issue closed
+  field_is_closed: Ticket closed
   field_is_default: Default value
   field_tracker: Tracker
   field_subject: Subject
@@ -261,7 +261,7 @@ en-GB:
   field_homepage: Homepage
   field_is_public: Public
   field_parent: Subproject of
-  field_is_in_roadmap: Issues displayed in roadmap
+  field_is_in_roadmap: Tickets displayed in roadmap
   field_login: Login
   field_mail_notification: Email notifications
   field_admin: Administrator
@@ -295,9 +295,9 @@ en-GB:
   field_spent_on: Date
   field_identifier: Identifier
   field_is_filter: Used as a filter
-  field_issue_to: Related issue
+  field_issue_to: Related ticket
   field_delay: Delay
-  field_assignable: Issues can be assigned to this role
+  field_assignable: Tickets can be assigned to this role
   field_redirect_existing_links: Redirect existing links
   field_estimated_hours: Estimated time
   field_column_names: Columns
@@ -325,7 +325,7 @@ en-GB:
   setting_login_required: Authentication required
   setting_self_registration: Self-registration
   setting_attachment_max_size: Attachment max. size
-  setting_issues_export_limit: Issues export limit
+  setting_issues_export_limit: Tickets export limit
   setting_mail_from: Emission email address
   setting_plain_text_mail: Plain text mail (no HTML)
   setting_host_name: Host name and path
@@ -340,15 +340,15 @@ en-GB:
   setting_autologin: Autologin
   setting_date_format: Date format
   setting_time_format: Time format
-  setting_cross_project_issue_relations: Allow cross-project issue relations
-  setting_issue_list_default_columns: Default columns displayed on the issue list
+  setting_cross_project_issue_relations: Allow cross-project ticket relations
+  setting_issue_list_default_columns: Default columns displayed on the ticket list
   setting_emails_header: Email header
   setting_emails_footer: Email footer
   setting_protocol: Protocol
   setting_per_page_options: Objects per page options
   setting_user_format: Users display format
   setting_activity_days_default: Days displayed on project activity
-  setting_display_subprojects_issues: Display subprojects issues on main projects by default
+  setting_display_subprojects_issues: Display subprojects tickets on main projects by default
   setting_enabled_scm: Enabled SCM
   setting_mail_handler_body_delimiters: "Truncate emails after one of these lines"
   setting_mail_handler_api_enabled: Enable WS for incoming emails
@@ -362,9 +362,9 @@ en-GB:
   setting_password_min_length: Minimum password length
   setting_new_project_user_role_id: Role given to a non-admin user who creates a project
   setting_default_projects_modules: Default enabled modules for new projects
-  setting_issue_done_ratio: Calculate the issue done ratio with
-  setting_issue_done_ratio_issue_field: Use the issue field
-  setting_issue_done_ratio_issue_status: Use the issue status
+  setting_issue_done_ratio: Calculate the ticket done ratio with
+  setting_issue_done_ratio_issue_field: Use the ticket field
+  setting_issue_done_ratio_issue_status: Use the ticket status
   setting_start_of_week: Start calendars on
   setting_rest_api_enabled: Enable REST web service
   setting_cache_formatted_text: Cache formatted text
@@ -372,8 +372,8 @@ en-GB:
   setting_commit_logtime_enabled: Enable time logging
   setting_commit_logtime_activity_id: Activity for logged time
   setting_gantt_items_limit: Maximum number of items displayed on the gantt chart
-  setting_issue_group_assignment: Allow issue assignment to groups
-  setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
+  setting_issue_group_assignment: Allow ticket assignment to groups
+  setting_default_issue_start_date_to_creation_date: Use current date as start date for new tickets
 
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
@@ -382,15 +382,15 @@ en-GB:
   permission_manage_members: Manage members
   permission_manage_project_activities: Manage project activities
   permission_manage_versions: Manage versions
-  permission_manage_categories: Manage issue categories
-  permission_view_issues: View Issues
-  permission_add_issues: Add issues
-  permission_edit_issues: Edit issues
-  permission_manage_issue_relations: Manage issue relations
+  permission_manage_categories: Manage ticket categories
+  permission_view_issues: View Tickets
+  permission_add_issues: Add tickets
+  permission_edit_issues: Edit tickets
+  permission_manage_issue_relations: Manage ticket relations
   permission_add_issue_notes: Add notes
   permission_edit_issue_notes: Edit notes
   permission_edit_own_issue_notes: Edit own notes
-  permission_delete_issues: Delete issues
+  permission_delete_issues: Delete tickets
   permission_manage_public_queries: Manage public queries
   permission_save_queries: Save queries
   permission_view_gantt: View gantt chart
@@ -429,7 +429,7 @@ en-GB:
   permission_export_wiki_pages: Export wiki pages
   permission_manage_subtasks: Manage subtasks
 
-  project_module_issue_tracking: Issue tracking
+  project_module_issue_tracking: Ticket tracking
   project_module_time_tracking: Time tracking
   project_module_news: News
   project_module_documents: Documents
@@ -453,13 +453,13 @@ en-GB:
     other: "%{count} projects"
   label_project_all: All Projects
   label_project_latest: Latest projects
-  label_issue: Issue
-  label_issue_new: New issue
-  label_issue_plural: Issues
-  label_issue_view_all: View all issues
-  label_issues_by: "Issues by %{value}"
-  label_issue_added: Issue added
-  label_issue_updated: Issue updated
+  label_issue: Ticket
+  label_issue_new: New ticket
+  label_issue_plural: Tickets
+  label_issue_view_all: View all tickets
+  label_issues_by: "Tickets by %{value}"
+  label_issue_added: Ticket added
+  label_issue_updated: Ticket updated
   label_document: Document
   label_document_new: New document
   label_document_plural: Documents
@@ -477,11 +477,11 @@ en-GB:
   label_tracker_plural: Trackers
   label_tracker_new: New tracker
   label_workflow: Workflow
-  label_issue_status: Issue status
-  label_issue_status_plural: Issue statuses
+  label_issue_status: Ticket status
+  label_issue_status_plural: Ticket statuses
   label_issue_status_new: New status
-  label_issue_category: Issue category
-  label_issue_category_plural: Issue categories
+  label_issue_category: Ticket category
+  label_issue_category_plural: Ticket categories
   label_issue_category_new: New category
   label_custom_field: Custom field
   label_custom_field_plural: Custom fields
@@ -500,8 +500,8 @@ en-GB:
   label_login: Sign in
   label_logout: Sign out
   label_help: Help
-  label_reported_issues: Reported issues
-  label_assigned_to_me_issues: Issues assigned to me
+  label_reported_issues: Reported tickets
+  label_assigned_to_me_issues: Tickets assigned to me
   label_last_login: Last connection
   label_registered_on: Registered on
   label_activity: Activity
@@ -648,7 +648,7 @@ en-GB:
   label_roadmap: Roadmap
   label_roadmap_due_in: "Due in %{value}"
   label_roadmap_overdue: "%{value} late"
-  label_roadmap_no_issues: No issues for this version
+  label_roadmap_no_issues: No tickets for this version
   label_search: Search
   label_result_plural: Results
   label_all_words: All words
@@ -663,7 +663,7 @@ en-GB:
   label_preview: Preview
   label_feed_plural: Feeds
   label_changes_details: Details of all changes
-  label_issue_tracking: Issue tracking
+  label_issue_tracking: Ticket tracking
   label_spent_time: Spent time
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
@@ -678,8 +678,8 @@ en-GB:
   label_options: Options
   label_copy_workflow_from: Copy workflow from
   label_permissions_report: Permissions report
-  label_watched_issues: Watched issues
-  label_related_issues: Related issues
+  label_watched_issues: Watched tickets
+  label_related_issues: Related tickets
   label_applied_status: Applied status
   label_loading: Loading...
   label_relation_new: New relation
@@ -727,7 +727,7 @@ en-GB:
   label_changeset_plural: Changesets
   label_default_columns: Default columns
   label_no_change_option: (No change)
-  label_bulk_edit_selected_issues: Bulk edit selected issues
+  label_bulk_edit_selected_issues: Bulk edit selected tickets
   label_theme: Theme
   label_default: Default
   label_search_titles_only: Search titles only
@@ -772,7 +772,7 @@ en-GB:
   label_version_sharing_hierarchy: With project hierarchy
   label_version_sharing_tree: With project tree
   label_version_sharing_system: With all projects
-  label_update_issue_done_ratios: Update issue done ratios
+  label_update_issue_done_ratios: Update ticket done ratios
   label_copy_source: Source
   label_copy_target: Target
   label_copy_same_as_target: Same as target
@@ -864,28 +864,28 @@ en-GB:
   text_unallowed_characters: Unallowed characters
   text_comma_separated: Multiple values allowed (comma separated).
   text_line_separated: Multiple values allowed (one line for each value).
-  text_issues_ref_in_commit_messages: Referencing and fixing issues in commit messages
-  text_issue_added: "Issue %{id} has been reported by %{author}."
-  text_issue_updated: "Issue %{id} has been updated by %{author}."
+  text_issues_ref_in_commit_messages: Referencing and fixing tickets in commit messages
+  text_issue_added: "Ticket %{id} has been reported by %{author}."
+  text_issue_updated: "Ticket %{id} has been updated by %{author}."
   text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content?
-  text_issue_category_destroy_question: "Some issues (%{count}) are assigned to this category. What do you want to do?"
+  text_issue_category_destroy_question: "Some tickets (%{count}) are assigned to this category. What do you want to do?"
   text_issue_category_destroy_assignments: Remove category assignments
-  text_issue_category_reassign_to: Reassign issues to this category
-  text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
-  text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
+  text_issue_category_reassign_to: Reassign tickets to this category
+  text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. tickets you're the author or assignee)."
+  text_no_configuration_data: "Roles, trackers, ticket statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
   text_load_default_configuration: Load the default configuration
   text_status_changed_by_changeset: "Applied in changeset %{value}."
   text_time_logged_by_changeset: "Applied in changeset %{value}."
-  text_issues_destroy_confirmation: 'Are you sure you want to delete the selected issue(s)?'
+  text_issues_destroy_confirmation: 'Are you sure you want to delete the selected ticket(s)?'
   text_select_project_modules: 'Select modules to enable for this project:'
   text_default_administrator_account_changed: Default administrator account changed
   text_file_repository_writable: Attachments directory writable
   text_plugin_assets_writable: Plugin assets directory writable
   text_minimagick_available: MiniMagick available (optional)
-  text_destroy_time_entries_question: "%{hours} hours were reported on the issues you are about to delete. What do you want to do?"
+  text_destroy_time_entries_question: "%{hours} hours were reported on the tickets you are about to delete. What do you want to do?"
   text_destroy_time_entries: Delete reported hours
   text_assign_time_entries_to_project: Assign reported hours to the project
-  text_reassign_time_entries: 'Reassign reported hours to this issue:'
+  text_reassign_time_entries: 'Reassign reported hours to this ticket:'
   text_user_wrote: "%{value} wrote:"
   text_user_wrote_in: "%{value} wrote in %{link}:"
   text_enumeration_destroy_question: "%{count} objects are assigned to this value."
@@ -925,7 +925,7 @@ en-GB:
   default_activity_design: Design
   default_activity_development: Development
 
-  enumeration_issue_priorities: Issue priorities
+  enumeration_issue_priorities: Ticket priorities
   enumeration_doc_categories: Document categories
   enumeration_activities: Activities (time tracking)
   enumeration_system_activity: System Activity
@@ -936,13 +936,13 @@ en-GB:
   label_issue_note_added: Note added
   label_issue_status_updated: Status updated
   label_issue_priority_updated: Priority updated
-  label_issues_visibility_own: Issues created by or assigned to the user
-  field_issues_visibility: Issues visibility
-  label_issues_visibility_all: All issues
-  permission_set_own_issues_private: Set own issues public or private
+  label_issues_visibility_own: Tickets created by or assigned to the user
+  field_issues_visibility: Tickets visibility
+  label_issues_visibility_all: All tickets
+  permission_set_own_issues_private: Set own tickets public or private
   field_is_private: Private
-  permission_set_issues_private: Set issues public or private
-  label_issues_visibility_public: All non private issues
+  permission_set_issues_private: Set tickets public or private
+  label_issues_visibility_public: All non private tickets
   text_issues_destroy_descendants_confirmation: This will also delete %{count} subtask(s).
   field_commit_logs_encoding: Commit messages encoding
   field_scm_path_encoding: Path encoding
@@ -957,7 +957,7 @@ en-GB:
   label_git_report_last_commit: Report last commit for files and directories
   text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
   text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.
-  notice_issue_successful_create: Issue %{id} created.
+  notice_issue_successful_create: Ticket %{id} created.
   label_between: between
   label_diff: diff
   text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
@@ -967,7 +967,7 @@ en-GB:
   description_user_mail_notification: Mail notification settings
   description_message_content: Message content
   description_available_columns: Available Columns
-  description_issue_category_reassign: Choose issue category
+  description_issue_category_reassign: Choose ticket category
   description_search: Searchfield
   description_notes: Notes
   description_choose_project: Projects
@@ -984,21 +984,21 @@ en-GB:
   error_attachment_too_big: This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})
   notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
   label_x_issues:
-    zero:  0 issue
-    one:   1 issue
-    other: "%{count} issues"
+    zero:  0 ticket
+    one:   1 ticket
+    other: "%{count} tickets"
   label_repository_new: New repository
   field_repository_is_default: Main repository
   label_copy_attachments: Copy attachments
   label_item_position: "%{position} of %{count}"
   label_completed_versions: Completed versions
   field_multiple: Multiple values
-  setting_commit_cross_project_ref: Allow issues of all the other projects to be referenced and fixed
+  setting_commit_cross_project_ref: Allow tickets of all the other projects to be referenced and fixed
   text_issue_conflict_resolution_add_notes: Add my notes and discard my other changes
   text_issue_conflict_resolution_overwrite: Apply my changes anyway (previous notes will be kept but some changes may be overwritten)
-  notice_issue_update_conflict: The issue has been updated by an other user while you were editing it.
+  notice_issue_update_conflict: The ticket has been updated by an other user while you were editing it.
   text_issue_conflict_resolution_cancel: Discard all my changes and redisplay %{link}
-  permission_manage_related_issues: Manage related issues
+  permission_manage_related_issues: Manage related tickets
   field_auth_source_ldap_filter: LDAP filter
   label_search_for_watchers: Search for watchers to add
   notice_account_deleted: Your account has been permanently deleted.
@@ -1037,14 +1037,14 @@ en-GB:
   label_copy_subtasks: Copy subtasks
   label_copied_to: copied to
   label_copied_from: copied from
-  label_any_issues_in_project: any issues in project
-  label_any_issues_not_in_project: any issues not in project
+  label_any_issues_in_project: any tickets in project
+  label_any_issues_not_in_project: any tickets not in project
   field_private_notes: Private notes
   permission_view_private_notes: View private notes
   permission_set_notes_private: Set notes as private
-  label_no_issues_in_project: no issues in project
-  label_any_open_issues: any open issues
-  label_no_open_issues: no open issues
+  label_no_issues_in_project: no tickets in project
+  label_any_open_issues: any open tickets
+  label_no_open_issues: no open tickets
   label_any: all
   label_last_n_weeks: last %{count} weeks
   setting_cross_project_subtasks: Allow cross-project subtasks
@@ -1059,7 +1059,7 @@ en-GB:
   label_attribute_of_user: User's %{name}
   text_turning_multiple_off: If you disable multiple values, multiple values will be
     removed in order to preserve only one value per item.
-  label_attribute_of_issue: Issue's %{name}
+  label_attribute_of_issue: Ticket's %{name}
   permission_add_documents: Add documents
   permission_edit_documents: Edit documents
   permission_delete_documents: Delete documents
@@ -1108,13 +1108,13 @@ en-GB:
   label_users_visibility_all: All active users
   label_users_visibility_members_of_visible_projects: Members of visible projects
   label_edit_attachments: Edit attached files
-  setting_link_copied_issue: Link issues on copy
-  label_link_copied_issue: Link copied issue
+  setting_link_copied_issue: Link tickets on copy
+  label_link_copied_issue: Link copied ticket
   label_ask: Ask
   label_search_attachments_yes: Search attachment filenames and descriptions
   label_search_attachments_no: Do not search attachments
   label_search_attachments_only: Search attachments only
-  label_search_open_issues_only: Open issues only
+  label_search_open_issues_only: Open tickets only
   field_address: Email
   setting_max_additional_emails: Maximum number of additional email addresses
   label_email_address_plural: Emails
@@ -1123,7 +1123,7 @@ en-GB:
   label_disable_notifications: Disable notifications
   setting_search_results_per_page: Search results per page
   label_blank_value: blank
-  permission_copy_issues: Copy issues
+  permission_copy_issues: Copy tickets
   error_password_expired: Your password has expired or the administrator requires you
     to change it.
   field_time_entries_visibility: Time logs visibility
@@ -1144,8 +1144,8 @@ en-GB:
   error_invalid_csv_file_or_settings: The file is not a CSV file or does not match the
     settings below (%{value})
   error_can_not_read_import_file: An error occurred while reading the file to import
-  permission_import_issues: Import issues
-  label_import_issues: Import issues
+  permission_import_issues: Import tickets
+  label_import_issues: Import tickets
   label_select_file_to_import: Select the file to import
   label_fields_separator: Field separator
   label_fields_wrapper: Field wrapper
@@ -1161,7 +1161,7 @@ en-GB:
   field_total_estimated_hours: Total estimated time
   label_api: API
   label_total_plural: Totals
-  label_assigned_issues: Assigned issues
+  label_assigned_issues: Assigned tickets
   label_field_format_enumeration: Key/value list
   label_f_hour_short: '%{value} h'
   field_default_version: Default version
@@ -1190,7 +1190,7 @@ en-GB:
   error_no_tracker_allowed_for_new_issue_in_project: The project doesn't have any trackers
     for which you can create an issue
   label_tracker_all: All trackers
-  label_new_project_issue_tab_enabled: Display the "New issue" tab
+  label_new_project_issue_tab_enabled: Display the "New ticket" tab
   setting_new_item_menu_tab: Project menu tab for creating new objects
   label_new_object_tab_enabled: Display the "+" drop-down
   error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
@@ -1223,7 +1223,7 @@ en-GB:
   permission_view_news: View news
   label_no_preview_alternative_html: No preview available. %{link} the file instead.
   label_no_preview_download: Download
-  setting_close_duplicate_issues: Close duplicate issues automatically
+  setting_close_duplicate_issues: Close duplicate tickets automatically
   error_exceeds_maximum_hours_per_day: Cannot log more than %{max_hours} hours on the
     same day (%{logged_hours} hours have already been logged)
   setting_time_entry_list_defaults: Timelog list defaults
@@ -1262,7 +1262,7 @@ en-GB:
   text_role_no_workflow: No workflow defined for this role
   text_status_no_workflow: No tracker uses this status in the workflows
   setting_mail_handler_preferred_body_part: Preferred part of multipart (HTML) emails
-  setting_show_status_changes_in_mail_subject: Show status changes in issue mail notifications
+  setting_show_status_changes_in_mail_subject: Show status changes in ticket mail notifications
     subject
   label_inherited_from_parent_project: Inherited from parent project
   label_inherited_from_group: Inherited from group %{name}
@@ -1271,9 +1271,9 @@ en-GB:
   label_preferred_body_part_text: Text
   label_preferred_body_part_html: HTML (experimental)
   field_parent_issue_subject: Parent task subject
-  permission_edit_own_issues: Edit own issues
+  permission_edit_own_issues: Edit own tickets
   text_select_apply_tracker: Select tracker
-  label_updated_issues: Updated issues
+  label_updated_issues: Updated tickets
   text_avatar_server_config_html: The current avatar server is <a href="%{url}">%{url}</a>.
     You can configure it in config/configuration.yml.
   setting_gantt_months_limit: Maximum number of months displayed on the gantt chart
@@ -1285,7 +1285,7 @@ en-GB:
   label_optgroup_recents: Recently used
   button_project_bookmark: Add bookmark
   button_project_bookmark_delete: Remove bookmark
-  field_history_default_tab: Issue's history default tab
+  field_history_default_tab: Ticket's history default tab
   label_issue_history_properties: Property changes
   label_issue_history_notes: Notes
   label_last_tab_visited: Last visited tab
@@ -1307,14 +1307,14 @@ en-GB:
   label_my_bookmarks: My bookmarks
   label_import_time_entries: Import time entries
   field_toolbar_language_options: Code highlighting toolbar languages
-  label_user_mail_notify_about_high_priority_issues_html: Also notify me about issues
+  label_user_mail_notify_about_high_priority_issues_html: Also notify me about tickets
     with a priority of <em>%{prio}</em> or higher
   label_assign_to_me: Assign to me
-  notice_issue_not_closable_by_open_tasks: This issue cannot be closed because it has
+  notice_issue_not_closable_by_open_tasks: This ticket cannot be closed because it has
     at least one open subtask.
-  notice_issue_not_closable_by_blocking_issue: This issue cannot be closed because it
+  notice_issue_not_closable_by_blocking_issue: This ticket cannot be closed because it
     is blocked by at least one open issue.
-  notice_issue_not_reopenable_by_closed_parent_issue: This issue cannot be reopened
+  notice_issue_not_reopenable_by_closed_parent_issue: This ticket cannot be reopened
     because its parent issue is closed.
   error_bulk_download_size_too_big: These attachments cannot be bulk downloaded because
     the total file size exceeds the maximum allowed size (%{max_size})
@@ -1424,7 +1424,7 @@ en-GB:
   twofa_text_group_disabled: This setting is only effective when the global two factor
     authentication setting is set to 'optional'. Currently, two factor authentication
     is disabled.
-  field_default_issue_query: Default issue query
+  field_default_issue_query: Default ticket query
   label_default_queries:
     for_all_projects: For all projects
     for_current_project: For current project
@@ -1447,4 +1447,4 @@ en-GB:
     like optional, but will require all users with administration rights to set up two-factor
     authentication at their next login.
   label_auto_watch_on: Auto watch
-  label_auto_watch_on_issue_contributed_to: Issues I contributed to
+  label_auto_watch_on_issue_contributed_to: Tickets I contributed to
