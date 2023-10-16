@@ -226,6 +226,9 @@ Style/IdenticalConditionalBranches:
     - 'config/initializers/10-patches.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
 
+Style/InverseMethods:
+  Enabled: false
+
 Style/NegatedIfElseCondition:
   Enabled: false
 

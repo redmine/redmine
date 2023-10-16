@@ -1159,30 +1159,6 @@ Style/IfWithBooleanLiteralBranches:
     - 'app/models/query.rb'
     - 'lib/redmine/field_format.rb'
 
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: InverseMethods, InverseBlocks.
-Style/InverseMethods:
-  Exclude:
-    - 'app/helpers/application_helper.rb'
-    - 'app/helpers/issues_helper.rb'
-    - 'app/helpers/repositories_helper.rb'
-    - 'app/models/document.rb'
-    - 'app/models/issue.rb'
-    - 'app/models/member.rb'
-    - 'app/models/message.rb'
-    - 'app/models/project.rb'
-    - 'app/models/tracker.rb'
-    - 'app/models/version.rb'
-    - 'app/models/wiki_content.rb'
-    - 'db/migrate/096_add_commit_access_permission.rb'
-    - 'lib/redmine/default_data/loader.rb'
-    - 'lib/redmine/helpers/diff.rb'
-    - 'lib/redmine/scm/adapters/abstract_adapter.rb'
-    - 'lib/redmine/scm/adapters/git_adapter.rb'
-    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
-    - 'test/unit/issue_test.rb'
-    - 'test/unit/query_test.rb'
-
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: line_count_dependent, lambda, literal
