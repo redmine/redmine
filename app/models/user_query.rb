@@ -176,7 +176,7 @@ class UserQuery < Query
     else
       # match = (operator == '~')
       match = !operator.start_with?('!')
-      matching_operator = operator.sub /^\!/, ''
+      matching_operator = operator.sub /^!/, ''
       name_sql = %w(login firstname lastname).map{|field| sql_for_field(:name, operator, value, User.table_name, field)}
 
       emails = EmailAddress.table_name
@@ -191,6 +191,5 @@ class UserQuery < Query
       op = match ? " OR " : " AND "
       "(#{conditions.map{|s| "(#{s})"}.join(op)})"
     end
-
   end
 end
