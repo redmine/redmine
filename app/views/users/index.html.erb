@@ -56,7 +56,7 @@
   <td class="firstname"><%= user.firstname %></td>
   <td class="lastname"><%= user.lastname %></td>
   <td class="email"><%= mail_to(user.mail) %></td>
-  <td class="tick"><%= checked_image user.admin? %></td>
+  <td class="tick"><%= checked_image user.admin? %><%= call_hook(:view_users_admin_extra, { user: user }) %></td>
   <% if Setting.twofa_required? || Setting.twofa_optional? %>
     <td class="twofa tick"><%= checked_image user.twofa_active? %></td>
   <% end %>
