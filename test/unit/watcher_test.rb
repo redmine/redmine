@@ -20,7 +20,7 @@
 require_relative '../test_helper'
 
 class WatcherTest < ActiveSupport::TestCase
-  fixtures :projects, :groups_users, :users, :email_addresses, :members, :member_roles, :roles, :enabled_modules,
+  fixtures :projects, :groups_users, :users, :user_preferences, :email_addresses, :members, :member_roles, :roles, :enabled_modules,
            :issues, :issue_statuses, :enumerations, :trackers, :projects_trackers,
            :boards, :messages,
            :wikis, :wiki_pages,
