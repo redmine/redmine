@@ -48,6 +48,7 @@
   <%= sort_header_tag('created_on', :caption => l(:field_created_on), :default_order => 'desc') %>
   <%= sort_header_tag('last_login_on', :caption => l(:field_last_login_on), :default_order => 'desc') %>
     <th></th>
+  <%= sort_header_tag('auth_source_id', :caption => 'Auth.Mode') %>
   </tr></thead>
   <tbody>
 <% for user in @users -%>
@@ -66,6 +67,9 @@
       <%= change_status_link(user) %>
       <%= delete_link user_path(user, :back_url => request.original_fullpath), :data => {} unless User.current == user %>
     </td>
+  <td class="auth_source_id">
+       <%= user.auth_source.name unless user.auth_source_id.nil? %>
+  </td>
   </tr>
 <% end -%>
   </tbody>
