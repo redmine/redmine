@@ -64,6 +64,7 @@
         <%= render_menu :account_menu -%>
     </div>
     <%= content_tag('div', "#{l(:label_logged_as)} #{link_to_user(User.current, :format => :username)}".html_safe, :id => 'loggedas') if User.current.logged? %>
+    <%= call_hook :view_layouts_base_top_menu %>
     <%= render_menu :top_menu if User.current.logged? || !Setting.login_required? -%>
 </div>
 
