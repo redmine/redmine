@@ -45,7 +45,7 @@ class UsersController < ApplicationController
     use_session = !request.format.csv?
     retrieve_query(UserQuery, use_session)
 
-    # API backwards compatibility: handle legacy status and name filter parameters
+    # API backwards compatibility: handle legacy filter parameters
     unless request.format.html?
       if status_id = params[:status].presence
         @query.add_filter 'status', '=', [status_id]
