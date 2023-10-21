@@ -323,7 +323,7 @@ module QueriesHelper
   def query_to_csv(items, query, options={})
     columns = query.columns
 
-    Redmine::Export::CSV.generate(:encoding => params[:encoding]) do |csv|
+    Redmine::Export::CSV.generate(encoding: params[:encoding], field_separator: params[:field_separator]) do |csv|
       # csv header fields
       csv << columns.map {|c| c.caption.to_s}
       # csv lines

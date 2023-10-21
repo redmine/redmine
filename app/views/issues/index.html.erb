@@ -59,6 +59,7 @@
     </fieldset>
   <% end %>
   <%= export_csv_encoding_select_tag %>
+  <%= export_csv_separator_select_tag %>
   <% if @issue_count > Setting.issues_export_limit.to_i %>
   <p class="icon icon-warning">
     <%= l(:setting_issues_export_limit) %>: <%= Setting.issues_export_limit.to_i %>
