@@ -1483,3 +1483,5 @@ tr:
   label_open_issue_statuses_description: Tüm iş durumu açıklamalarını görüntüle
   text_select_apply_issue_status: İş durumu seç
   field_name_or_email_or_login: İsim, e-posta veya giriş
+  text_default_active_job_queue_changed: Default queue adapter which is well suited
+    only for dev/test changed
