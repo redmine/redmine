@@ -85,5 +85,6 @@ class AdminController < ApplicationController
       [:text_convert_available,        Redmine::Thumbnail.convert_available?],
       [:text_gs_available,             Redmine::Thumbnail.gs_available?]
     ]
+    @checklist << [:text_default_active_job_queue_changed, Rails.application.config.active_job.queue_adapter == :asyncs] #if Rails.env == 'production'
   end
 end
