@@ -72,8 +72,8 @@ ca:
         one:   "més d'un any"
         other: "més de %{count} anys"
       almost_x_years:
-        one:   "casi 1 any"
-        other: "casi %{count} anys"
+        one:   "quasi 1 any"
+        other: "quasi %{count} anys"
 
   number:
     # Default format for numbers
@@ -132,15 +132,15 @@ ca:
         greater_than_start_date: "ha de ser superior que la data inicial"
         not_same_project: "no pertany al mateix projecte"
         circular_dependency: "Aquesta relació crearia una dependència circular"
-        cant_link_an_issue_with_a_descendant: "Un assumpte no es pot enllaçar a una de les seves subtasques"
+        cant_link_an_issue_with_a_descendant: "Una incidència no es pot enllaçar a una de les seves subtasques"
         earlier_than_minimum_start_date: "no pot ser anterior a %{date} derivat a les peticions precedents"
-        not_a_regexp: "is not a valid regular expression"
-        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
-        must_contain_uppercase: "must contain uppercase letters (A-Z)"
-        must_contain_lowercase: "must contain lowercase letters (a-z)"
-        must_contain_digits: "must contain digits (0-9)"
-        must_contain_special_chars: "must contain special characters (!, $, %, ...)"
-        domain_not_allowed: "contains a domain not allowed (%{domain})"
+        not_a_regexp: "no és una expressió regular vàlida"
+        open_issue_with_closed_parent: "Una incidència oberta no es pot assignar auna tasca pare tancada "
+        must_contain_uppercase: "ha de tenir lletres majuscules (A-Z)"
+        must_contain_lowercase: "ha de tenir lletres minúscules (a-z)"
+        must_contain_digits: "ha de tenir digits (0-9)"
+        must_contain_special_chars: "ha de tenir caràcters especials (!, $, %, ...)"
+        domain_not_allowed: "conté un domini no permès (%{domain})"
 
   actionview_instancetag_blank_option: "Seleccionar"
 
@@ -175,30 +175,30 @@ ca:
   notice_email_error: "S'ha produït un error en enviar el correu (%{value})"
   notice_feeds_access_key_reseted: "S'ha reiniciat la clau d'accés del Atom."
   notice_api_access_key_reseted: "S'ha reiniciat la clau d'accés a l'API."
-  notice_failed_to_save_issues: "No s'han pogut desar %{count} assumptes de %{total} seleccionats: %{ids}."
+  notice_failed_to_save_issues: "No s'han pogut desar %{count} incidències de %{total} seleccionades: %{ids}."
   notice_failed_to_save_members: "No s'han pogut desar els membres: %{errors}."
   notice_account_pending: "S'ha creat el compte i ara està pendent de l'aprovació de l'administrador."
   notice_default_data_loaded: "S'ha carregat correctament la configuració predeterminada."
   notice_unable_delete_version: "No s'ha pogut suprimir la versió."
   notice_unable_delete_time_entry: "No s'ha pogut suprimir l'entrada del registre de temps."
-  notice_issue_done_ratios_updated: "S'ha actualitzat el percentatge dels assumptes."
+  notice_issue_done_ratios_updated: "S'ha actualitzat el percentatge de les incidències."
 
   error_can_t_load_default_data: "No s'ha pogut carregar la configuració predeterminada: %{value} "
   error_scm_not_found: "No s'ha trobat l'entrada o la revisió en el repositori."
   error_scm_command_failed: "S'ha produït un error en intentar accedir al repositori: %{value}"
   error_scm_annotate: "L'entrada no existeix o no s'ha pogut anotar."
-  error_issue_not_found_in_project: "No s'ha trobat l'assumpte o no pertany a aquest projecte"
-  error_no_tracker_in_project: "Aquest projecte no té cap tipus d'assumpte associat. Comproveu els paràmetres del projecte."
-  error_no_default_issue_status: "No s'ha definit cap estat d'assumpte predeterminat. Comproveu la configuració (aneu a «Administració -> Estats de l'assumpte»)."
+  error_issue_not_found_in_project: "No s'ha trobat la incidència o no pertany a aquest projecte"
+  error_no_tracker_in_project: "Aquest projecte no té cap tipus d'incidència associada. Comproveu els paràmetres del projecte."
+  error_no_default_issue_status: "No s'ha definit cap estat d'incidència predeterminada. Comproveu la configuració (aneu a «Administració -> Estats de la incidència»)."
   error_can_not_delete_custom_field: "No s'ha pogut suprimir el camp personalitat"
-  error_can_not_delete_tracker: "Aquest tipus d'assumpte conté assumptes i no es pot suprimir."
+  error_can_not_delete_tracker: "Aquest tipus d'incidència conté incidències i no es pot suprimir."
   error_can_not_remove_role: "Aquest rol s'està utilitzant i no es pot suprimir."
-  error_can_not_reopen_issue_on_closed_version: "Un assumpte assignat a una versió tancada no es pot tornar a obrir"
+  error_can_not_reopen_issue_on_closed_version: "Una incidència assignada a una versió tancada no es pot tornar a obrir"
   error_can_not_archive_project: "Aquest projecte no es pot arxivar"
-  error_issue_done_ratios_not_updated: "No s'ha actualitzat el percentatge dels assumptes."
-  error_workflow_copy_source: "Seleccioneu un tipus d'assumpte o rol font"
-  error_workflow_copy_target: "Seleccioneu tipus d'assumptes i rols objectiu"
-  error_unable_delete_issue_status: "No s'ha pogut suprimir l'estat de l'assumpte (%{value})"
+  error_issue_done_ratios_not_updated: "No s'ha actualitzat el percentatge de les incidències."
+  error_workflow_copy_source: "Seleccioneu un tipus d'incidència o rol font"
+  error_workflow_copy_target: "Seleccioneu tipus de incidències i rols objectiu"
+  error_unable_delete_issue_status: "No s'ha pogut suprimir l'estat de la incidència (%{value})"
   error_unable_to_connect: "No s'ha pogut connectar (%{value})"
   warning_attachments_not_saved: "No s'han pogut desar %{count} fitxers."
   error_ldap_bind_credentials: "Compte/Contrasenya LDAP incorrecte"
@@ -211,8 +211,8 @@ ca:
   mail_body_account_information: "Informació del compte"
   mail_subject_account_activation_request: "Sol·licitud d'activació del compte de %{value}"
   mail_body_account_activation_request: "S'ha registrat un usuari nou (%{value}). El seu compte està pendent d'aprovació:"
-  mail_subject_reminder: "%{count} assumptes venceran els següents %{days} dies"
-  mail_body_reminder: "%{count} assumptes que teniu assignades venceran els següents %{days} dies:"
+  mail_subject_reminder: "%{count} incidències venceran els següents %{days} dies"
+  mail_body_reminder: "%{count} incidències que teniu assignades venceran els següents %{days} dies:"
   mail_subject_wiki_content_added: "S'ha afegit la pàgina wiki «%{id}»"
   mail_body_wiki_content_added: "En %{author} ha afegit la pàgina wiki «%{id}»."
   mail_subject_wiki_content_updated: "S'ha actualitzat la pàgina wiki «%{id}»"
@@ -241,12 +241,12 @@ ca:
   field_category: "Categoria"
   field_title: "Títol"
   field_project: "Projecte"
-  field_issue: "Assumpte"
+  field_issue: "Incidència"
   field_status: "Estat"
   field_notes: "Notes"
-  field_is_closed: "Assumpte tancat"
+  field_is_closed: "Incidència tancada"
   field_is_default: "Estat predeterminat"
-  field_tracker: "Tipus d'assumpte"
+  field_tracker: "Tipus d'incidència"
   field_subject: "Tema"
   field_due_date: "Data de venciment"
   field_assigned_to: "Assignat a"
@@ -258,7 +258,7 @@ ca:
   field_homepage: "Pàgina web"
   field_is_public: "Públic"
   field_parent: "Subprojecte de"
-  field_is_in_roadmap: "Assumptes mostrats en la planificació"
+  field_is_in_roadmap: "Incidències mostrades en la planificació"
   field_login: "Identificador"
   field_mail_notification: "Notificacions per correu electrònic"
   field_admin: "Administrador"
@@ -292,9 +292,9 @@ ca:
   field_spent_on: "Data"
   field_identifier: "Identificador"
   field_is_filter: "Utilitzat com filtre"
-  field_issue_to: "Assumpte relacionat"
+  field_issue_to: "Incidència relacionada"
   field_delay: "Retràs"
-  field_assignable: "Es poden assignar assumptes a aquest rol"
+  field_assignable: "Es poden assignar incidències a aquest rol"
   field_redirect_existing_links: "Redirigeix els enllaços existents"
   field_estimated_hours: "Temps previst"
   field_column_names: "Columnes"
@@ -305,7 +305,7 @@ ca:
   field_comments_sorting: "Mostra els comentaris"
   field_parent_title: "Pàgina pare"
   field_editable: "Es pot editar"
-  field_watcher: "Vigilància"
+  field_watcher: "Vigilant"
   field_content: "Contingut"
   field_group_by: "Agrupa els resultats per"
   field_sharing: "Compartir"
@@ -317,7 +317,7 @@ ca:
   setting_login_required: "Es necessita autenticació"
   setting_self_registration: "Registre automàtic"
   setting_attachment_max_size: "Mida màxima dels fitxers adjunts"
-  setting_issues_export_limit: "Límit d'exportació d'assumptes"
+  setting_issues_export_limit: "Límit d'exportació d'incidències"
   setting_mail_from: "Adreça de correu electrònic d'emissió"
   setting_plain_text_mail: "només text pla (no HTML)"
   setting_host_name: "Nom del Servidor"
@@ -332,14 +332,14 @@ ca:
   setting_autologin: "Entrada automàtica"
   setting_date_format: "Format de la data"
   setting_time_format: "Format de hora"
-  setting_cross_project_issue_relations: "Permet les relacions d'assumptes entre projectes"
-  setting_issue_list_default_columns: "Columnes mostrades per defecte en la llista d'assumptes"
+  setting_cross_project_issue_relations: "Permet les relacions d'incidències entre projectes"
+  setting_issue_list_default_columns: "Columnes mostrades per defecte en la llista d'incidències"
   setting_emails_footer: "Peu dels correus electrònics"
   setting_protocol: "Protocol"
   setting_per_page_options: "Opcions dels objectes per pàgina"
   setting_user_format: "Format de com mostrar l'usuari"
   setting_activity_days_default: "Dies a mostrar l'activitat del projecte"
-  setting_display_subprojects_issues: "Mostra els assumptes d'un subprojecte en el projecte pare per defecte"
+  setting_display_subprojects_issues: "Mostra les incidències d'un subprojecte en el projecte pare per defecte"
   setting_enabled_scm: "Activar SCM"
   setting_mail_handler_body_delimiters: "Trunca els correus electrònics després d'una d'aquestes línies"
   setting_mail_handler_api_enabled: "Activar WS per correus electrònics d'entrada"
@@ -353,9 +353,9 @@ ca:
   setting_password_min_length: "Longitud mínima de la contrasenya"
   setting_new_project_user_role_id: "Aquest rol es dóna a un usuari no administrador per a crear projectes"
   setting_default_projects_modules: "Mòduls activats per defecte en els projectes nous"
-  setting_issue_done_ratio: "Calcula tant per cent realitzat de l'assumpte amb"
-  setting_issue_done_ratio_issue_status: "Utilitza l'estat de l'assumpte"
-  setting_issue_done_ratio_issue_field: "Utilitza el camp de l'assumpte"
+  setting_issue_done_ratio: "Calcula tant per cent realitzat de la incidència amb"
+  setting_issue_done_ratio_issue_status: "Utilitza l'estat de la incidència"
+  setting_issue_done_ratio_issue_field: "Utilitza el camp de la incidència"
   setting_start_of_week: "Inicia les setmanes en"
   setting_rest_api_enabled: "Habilita el servei web REST"
   setting_cache_formatted_text: "Cache formatted text"
@@ -367,22 +367,22 @@ ca:
   permission_manage_members: "Gestionar els membres"
   permission_manage_project_activities: "Gestionar les activitats del projecte"
   permission_manage_versions: "Gestionar les versions"
-  permission_manage_categories: "Gestionar les categories dels assumptes"
-  permission_view_issues: "Visualitza els assumptes"
-  permission_add_issues: "Afegir assumptes"
-  permission_edit_issues: "Editar assumptes"
-  permission_manage_issue_relations: "Gestiona les relacions dels assumptes"
+  permission_manage_categories: "Gestionar les categories de les incidències"
+  permission_view_issues: "Visualitza les incidències"
+  permission_add_issues: "Afegir incidències"
+  permission_edit_issues: "Editar incidències"
+  permission_manage_issue_relations: "Gestiona les relacions de les incidències"
   permission_add_issue_notes: "Afegir notes"
   permission_edit_issue_notes: "Editar notes"
   permission_edit_own_issue_notes: "Editar notes pròpies"
-  permission_delete_issues: "Suprimir assumptes"
+  permission_delete_issues: "Suprimir incidències"
   permission_manage_public_queries: "Gestionar consultes públiques"
   permission_save_queries: "Desar consultes"
   permission_view_gantt: "Visualitzar gràfica de Gantt"
   permission_view_calendar: "Visualitzar calendari"
-  permission_view_issue_watchers: "Visualitzar la llista de vigilàncies"
-  permission_add_issue_watchers: "Afegir vigilàncies"
-  permission_delete_issue_watchers: "Suprimir vigilants"
+  permission_view_issue_watchers: "Veure la llista de vigilants"
+  permission_add_issue_watchers: "Afegir vigilants"
+  permission_delete_issue_watchers: "Eliminar vigilants"
   permission_log_time: "Registrar el temps invertit"
   permission_view_time_entries: "Visualitzar el temps invertit"
   permission_edit_time_entries: "Editar els registres de temps"
@@ -414,7 +414,7 @@ ca:
   permission_export_wiki_pages: "Exportar les pàgines wiki"
   permission_manage_subtasks: "Gestionar subtasques"
 
-  project_module_issue_tracking: "Tipus d'assumptes"
+  project_module_issue_tracking: "Tipus d'incidències"
   project_module_time_tracking: "Seguidor de temps"
   project_module_news: "Noticies"
   project_module_documents: "Documents"
@@ -438,13 +438,13 @@ ca:
     other: "%{count} projectes"
   label_project_all: "Tots els projectes"
   label_project_latest: "Els últims projectes"
-  label_issue: "Assumpte"
-  label_issue_new: "Nou assumpte"
-  label_issue_plural: "Assumptes"
-  label_issue_view_all: "Visualitzar tots els assumptes"
-  label_issues_by: "Assumptes per %{value}"
-  label_issue_added: "Assumpte afegit"
-  label_issue_updated: "Assumpte actualitzat"
+  label_issue: "Incidència"
+  label_issue_new: "Nova incidència"
+  label_issue_plural: "Incidències"
+  label_issue_view_all: "Visualitzar totes les incidències"
+  label_issues_by: "Incidències per %{value}"
+  label_issue_added: "Incidència afegida"
+  label_issue_updated: "Incidència actualitzada"
   label_document: "Document"
   label_document_new: "Nou document"
   label_document_plural: "Documents"
@@ -456,15 +456,15 @@ ca:
   label_member: "Membre"
   label_member_new: "Nou membre"
   label_member_plural: "Membres"
-  label_tracker: "Tipus d'assumpte"
-  label_tracker_plural: "Tipus d'assumptes"
-  label_tracker_new: "Nou tipus d'assumpte"
+  label_tracker: "Tipus d'incidència"
+  label_tracker_plural: "Tipus d'incidències"
+  label_tracker_new: "Nou tipus d'incidència"
   label_workflow: "Flux de treball"
-  label_issue_status: "Estat de l'assumpte"
-  label_issue_status_plural: "Estats de l'assumpte"
+  label_issue_status: "Estat de la incidència"
+  label_issue_status_plural: "Estats de les incidències"
   label_issue_status_new: "Nou estat"
-  label_issue_category: "Categoria de l'assumpte"
-  label_issue_category_plural: "Categories de l'assumpte"
+  label_issue_category: "Categoria de la incidència"
+  label_issue_category_plural: "Categories de la incidència"
   label_issue_category_new: "Nova categoria"
   label_custom_field: "Camp personalitzat"
   label_custom_field_plural: "Camps personalitzats"
@@ -483,8 +483,9 @@ ca:
   label_login: "Iniciar sessió"
   label_logout: "Tancar sessió"
   label_help: "Ajuda"
-  label_reported_issues: "Assumptes informats"
-  label_assigned_to_me_issues: "Assumptes assignats a mi"
+  label_reported_issues: "Incidències informades"
+  label_assigned_to_me_issues: "Incidències assignades a mi"
+  label_last_login: "Última connexió"
   label_registered_on: "Informat el"
   label_activity: "Activitat"
   label_user_activity: "Activitat de %{value}"
@@ -622,7 +623,7 @@ ca:
   label_roadmap: "Planificació"
   label_roadmap_due_in: "Venç en %{value}"
   label_roadmap_overdue: "%{value} tard"
-  label_roadmap_no_issues: "No hi ha assumptes per a aquesta versió"
+  label_roadmap_no_issues: "No hi ha incidències per a aquesta versió"
   label_search: "Cerca"
   label_result_plural: "Resultats"
   label_all_words: "Totes les paraules"
@@ -637,7 +638,7 @@ ca:
   label_preview: "Previsualitzar"
   label_feed_plural: "Canals"
   label_changes_details: "Detalls de tots els canvis"
-  label_issue_tracking: "Seguiment d'assumptes"
+  label_issue_tracking: "Seguiment d'incidències"
   label_spent_time: "Temps invertit"
   label_f_hour: "%{value} hora"
   label_f_hour_plural: "%{value} hores"
@@ -652,8 +653,8 @@ ca:
   label_options: "Opcions"
   label_copy_workflow_from: "Copia el flux de treball des de"
   label_permissions_report: "Informe de permisos"
-  label_watched_issues: "Assumptes vigilats"
-  label_related_issues: "Assumptes relacionats"
+  label_watched_issues: "Incidències vigilades"
+  label_related_issues: "Incidències relacionades"
   label_applied_status: "Estat aplicat"
   label_loading: "S'està carregant..."
   label_relation_new: "Nova Relació"
@@ -701,7 +702,7 @@ ca:
   label_changeset_plural: "Conjunt de canvis"
   label_default_columns: "Columnes predeterminades"
   label_no_change_option: (sense canvis)
-  label_bulk_edit_selected_issues: "Editar en bloc els assumptes seleccionats"
+  label_bulk_edit_selected_issues: "Editar en bloc les incidències seleccionades"
   label_theme: "Tema"
   label_default: "Predeterminat"
   label_search_titles_only: "Cerca només per títol"
@@ -726,7 +727,7 @@ ca:
   label_reverse_chronological_order: "En ordre cronològic invers"
   label_incoming_emails: "Correu electrònics d'entrada"
   label_generate_key: "Generar una clau"
-  label_issue_watchers: "Vigilàncies"
+  label_issue_watchers: "Vigilants"
   label_example: "Exemple"
   label_display: "Mostrar"
   label_sort: "Ordenar"
@@ -744,11 +745,11 @@ ca:
   label_version_sharing_descendants: "Amb tots els subprojectes"
   label_version_sharing_tree: "Amb l'arbre del projecte"
   label_version_sharing_none: "Sense compartir"
-  label_update_issue_done_ratios: "Actualitza el tant per cent dels assumptes realitzats"
+  label_update_issue_done_ratios: "Actualitza el tant per cent de les incidències realitzades"
   label_copy_source: "Font"
   label_copy_target: "Objectiu"
   label_copy_same_as_target: "El mateix que l'objectiu"
-  label_display_used_statuses_only: "Mostra només els estats que utilitza aquest tipus d'assumpte"
+  label_display_used_statuses_only: "Mostra només els estats que utilitza aquest tipus d'incidència"
   label_api_access_key: "Clau d'accés API"
   label_missing_api_access_key: "Falta una clau d'accés API"
   label_api_access_key_created_on: "Clau d'accés API creada fa %{value}"
@@ -813,7 +814,7 @@ ca:
   text_regexp_info: "ex. ^[A-Z0-9]+$"
   text_project_destroy_confirmation: "Segur que voleu suprimir aquest projecte i les dades relacionades?"
   text_subprojects_destroy_warning: "També seran suprimits els seus subprojectes: %{value}."
-  text_workflow_edit: "Seleccioneu un rol i un tipus d'assumpte per a editar el flux de treball"
+  text_workflow_edit: "Seleccioneu un rol i un tipus d'incidència per a editar el flux de treball"
   text_are_you_sure: "Segur?"
   text_journal_changed: "%{label} ha canviat de %{old} a %{new}"
   text_journal_set_to: "%{label} s'ha establert a %{value}"
@@ -825,31 +826,31 @@ ca:
   text_caracters_maximum: "%{count} caràcters com a màxim."
   text_caracters_minimum: "Com a mínim ha de tenir %{count} caràcters."
   text_length_between: "Longitud entre %{min} i %{max} caràcters."
-  text_tracker_no_workflow: "No s'ha definit cap flux de treball per a aquest tipus d'assumpte"
+  text_tracker_no_workflow: "No s'ha definit cap flux de treball per a aquest tipus d'incidència"
   text_unallowed_characters: "Caràcters no permesos"
   text_comma_separated: "Es permeten valors múltiples (separats per una coma)."
   text_line_separated: "Es permeten diversos valors (una línia per cada valor)."
-  text_issues_ref_in_commit_messages: "Referència i soluciona els assumptes en els missatges publicats"
-  text_issue_added: "L'assumpte %{id} ha sigut informat per %{author}."
-  text_issue_updated: "L'assumpte %{id} ha sigut actualitzat per %{author}."
+  text_issues_ref_in_commit_messages: "Referència i soluciona les incidències en els missatges publicats"
+  text_issue_added: "la incidència %{id} ha sigut informada per %{author}."
+  text_issue_updated: "la incidència %{id} ha sigut actualitzada per %{author}."
   text_wiki_destroy_confirmation: "Segur que voleu suprimir aquesta wiki i tot el seu contingut?"
-  text_issue_category_destroy_question: "Alguns assumptes (%{count}) estan assignats a aquesta categoria. Què voleu fer?"
+  text_issue_category_destroy_question: "Algunes incidències (%{count}) estan assignades a aquesta categoria. Què voleu fer?"
   text_issue_category_destroy_assignments: "Suprimir les assignacions de la categoria"
-  text_issue_category_reassign_to: "Tornar a assignar els assumptes a aquesta categoria"
-  text_user_mail_option: "Per als projectes no seleccionats, només rebreu notificacions sobre les coses que vigileu o que hi esteu implicat (ex. assumptes que en sou l'autor o hi esteu assignat)."
-  text_no_configuration_data: "Encara no s'han configurat els rols, tipus d'assumpte, estats de l'assumpte i flux de treball.\nÉs altament recomanable que carregueu la configuració predeterminada. Podreu modificar-la un cop carregada."
+  text_issue_category_reassign_to: "Tornar a assignar les incidències a aquesta categoria"
+  text_user_mail_option: "Per als projectes no seleccionats, només rebreu notificacions sobre les coses que vigileu o que hi esteu implicat (ex. incidències on sou l'autor o hi esteu assignat)."
+  text_no_configuration_data: "Encara no s'han configurat els rols, tipus d'incidència, estats de la incidència i flux de treball.\nÉs altament recomanable que carregueu la configuració predeterminada. Podreu modificar-la un cop carregada."
   text_load_default_configuration: "Carregar la configuració predeterminada"
   text_status_changed_by_changeset: "Aplicat en el conjunt de canvis %{value}."
-  text_issues_destroy_confirmation: "Segur que voleu suprimir els assumptes seleccionats?"
+  text_issues_destroy_confirmation: "Segur que voleu suprimir les incidències seleccionades?"
   text_select_project_modules: "Seleccionar els mòduls a habilitar per a aquest projecte:"
   text_default_administrator_account_changed: "S'ha canviat el compte d'administrador predeterminat"
   text_file_repository_writable: "Es pot escriure en el repositori de fitxers"
   text_plugin_assets_writable: "Es pot escriure als complements actius"
   text_minimagick_available: "MiniMagick disponible (opcional)"
-  text_destroy_time_entries_question: "S'han informat %{hours} hores en els assumptes que aneu a suprimir. Què voleu fer?"
+  text_destroy_time_entries_question: "S'han informat %{hours} hores en les incidències que aneu a suprimir. Què voleu fer?"
   text_destroy_time_entries: "Suprimir les hores informades"
   text_assign_time_entries_to_project: "Assignar les hores informades al projecte"
-  text_reassign_time_entries: "Tornar a assignar les hores informades a aquest assumpte:"
+  text_reassign_time_entries: "Tornar a assignar les hores informades a aquesta incidència:"
   text_user_wrote: "%{value} va escriure:"
   text_user_wrote_in: "%{value} va escriure (%{link}):"
   text_enumeration_destroy_question: "%{count} objectes estan assignats a aquest valor."
@@ -861,7 +862,7 @@ ca:
   text_wiki_page_destroy_question: "Aquesta pàgina té %{descendants} pàgines fill(es) i descendent(s). Què voleu fer?"
   text_wiki_page_nullify_children: "Deixar les pàgines filles com a pàgines arrel"
   text_wiki_page_destroy_children: "Suprimir les pàgines filles i tots els seus descendents"
-  text_wiki_page_reassign_children: "Reasignar les pàgines filles a aquesta pàgina pare"
+  text_wiki_page_reassign_children: "Reassignar les pàgines filles a aquesta pàgina pare"
   text_own_membership_delete_confirmation: "Esteu a punt de suprimir algun o tots els vostres permisos i potser no podreu editar més aquest projecte.\nSegur que voleu continuar?"
   text_zoom_in: "Reduir"
   text_zoom_out: "Ampliar"
@@ -888,7 +889,7 @@ ca:
   default_activity_design: "Disseny"
   default_activity_development: "Desenvolupament"
 
-  enumeration_issue_priorities: "Prioritat dels assumptes"
+  enumeration_issue_priorities: "Prioritat de les incidències"
   enumeration_doc_categories: "Categories del document"
   enumeration_activities: "Activitats (seguidor de temps)"
   enumeration_system_activity: "Activitat del sistema"
@@ -916,8 +917,8 @@ ca:
   label_news_comment_added: "S'ha afegit un comentari a la notícia"
   button_expand_all: "Expandir tot"
   button_collapse_all: "Col·lapsar tot"
-  label_additional_workflow_transitions_for_assignee: "Operacions addicionals permeses quan l'usuari té assignat l'assumpte"
-  label_additional_workflow_transitions_for_author: "Operacions addicionals permeses quan l'usuari és propietari de l'assumpte"
+  label_additional_workflow_transitions_for_assignee: "Operacions addicionals permeses quan l'usuari té assignat la incidència"
+  label_additional_workflow_transitions_for_author: "Operacions addicionals permeses quan l'usuari és propietari de la incidència"
   label_bulk_edit_selected_time_entries: "Editar en bloc els registres de temps seleccionats"
   text_time_entries_destroy_confirmation: "Està segur de voler eliminar (l'hora seleccionada/les hores seleccionades)?"
   label_role_anonymous: "Anònim"
@@ -944,9 +945,9 @@ ca:
   text_scm_command: "Comanda"
   text_scm_command_version: "Versió"
   label_git_report_last_commit: "Informar de l'ultim canvi(commit) per fitxers i directoris"
-  notice_issue_successful_create: "Assumpte %{id} creat correctament."
+  notice_issue_successful_create: "Incidència %{id} creada correctament."
   label_between: "entre"
-  setting_issue_group_assignment: "Permetre assignar assumptes als grups"
+  setting_issue_group_assignment: "Permetre assignar incidències als grups"
   label_diff: "diferencies"
   text_git_repository_note: Directori repositori local (p.e. /hgrepo, c:\hgrepo)
   description_query_sort_criteria_direction: "Ordre d'ordenació"
@@ -955,7 +956,7 @@ ca:
   description_user_mail_notification: "Configuració de les notificacions per correu"
   description_message_content: "Contingut del missatge"
   description_available_columns: "Columnes disponibles"
-  description_issue_category_reassign: "Escollir una categoria de l'assumpte"
+  description_issue_category_reassign: "Escollir una categoria de la incidència"
   description_search: "Camp de cerca"
   description_notes: "Notes"
   description_choose_project: "Projectes"
@@ -974,9 +975,9 @@ ca:
   error_attachment_too_big: "Aquest fitxer no es pot pujar perquè excedeix de la mida màxima (%{max_size})"
   notice_failed_to_save_time_entries: "Error al desar %{count} entrades de temps de les %{total} selecionades: %{ids}."
   label_x_issues:
-    zero:  "0 assumpte"
-    one:   "1 assumpte"
-    other: "%{count} assumptes"
+    zero:  "0 incidències"
+    one:   "1 incidència"
+    other: "%{count} incidències"
   label_repository_new: "Nou repositori"
   field_repository_is_default: "Repositori principal"
   label_copy_attachments: "Copiar adjunts"
@@ -987,13 +988,13 @@ ca:
   setting_commit_cross_project_ref: "Permetre referenciar i resoldre peticions de tots els altres projectes"
   text_issue_conflict_resolution_add_notes: "Afegir les meves notes i descartar els altres canvis"
   text_issue_conflict_resolution_overwrite: "Aplicar els meus canvis de totes formes (les notes anteriors es mantindran però alguns canvis poden ser sobreescrits)"
-  notice_issue_update_conflict: "L'assumpte ha sigut actualitzat per un altre membre mentre s'editava"
+  notice_issue_update_conflict: "la incidència ha sigut actualitzada per un altre membre mentre s'editava"
   text_issue_conflict_resolution_cancel: "Descartar tots els meus canvis i mostrar de nou %{link}"
   permission_manage_related_issues: "Gestionar peticions relacionades"
   field_auth_source_ldap_filter: "Filtre LDAP"
-  label_search_for_watchers: "Cercar seguidors per afegir-los"
+  label_search_for_watchers: "Cercar vigilants per afegir-los"
   notice_account_deleted: "El seu compte ha sigut eliminat de forma permanent."
-  setting_unsubscribe: "Permetre als usuaris d'esborrar el seu propi compte"
+  setting_unsubscribe: "Permetre als usuaris eliminar el seu propi compte"
   button_delete_my_account: "Eliminar el meu compte"
   text_account_destroy_confirmation: |-
     Estàs segur de continuar?
@@ -1028,8 +1029,8 @@ ca:
   label_copy_subtasks: "Copiar subtasques"
   label_copied_to: "copiada a"
   label_copied_from: "copiada des de"
-  label_any_issues_in_project: "qualsevol assumpte del projecte"
-  label_any_issues_not_in_project: "qualsevol assumpte que no sigui del projecte"
+  label_any_issues_in_project: "qualsevol incidència del projecte"
+  label_any_issues_not_in_project: "qualsevol incidència que no sigui del projecte"
   field_private_notes: "Notes privades"
   permission_view_private_notes: "Veure notes privades"
   permission_set_notes_private: "Posar notes com privades"
@@ -1047,7 +1048,7 @@ ca:
   label_in_the_past_days: "en els anteriors"
   label_attribute_of_user: "%{name} de l'usuari"
   text_turning_multiple_off: "Si es desactiva els valors múltiples, aquest seran eliminats per deixar només un únic valor per element."
-  label_attribute_of_issue: "%{name} de l'assumpte"
+  label_attribute_of_issue: "%{name} de la incidència"
   permission_add_documents: "Afegir document"
   permission_edit_documents: "Editar document"
   permission_delete_documents: "Eliminar document"
@@ -1056,7 +1057,7 @@ ca:
   field_inherit_members: "Heretar membres"
   field_closed_on: "Tancada"
   field_generate_password: "Generar contrasenya"
-  setting_default_projects_tracker_ids: "Tipus d'estats d'assumpte habilitat per defecte"
+  setting_default_projects_tracker_ids: "Tipus d'estats d'incidència habilitat per defecte"
   label_total_time: "Total"
   text_scm_config: "Pot configurar les ordres SCM en el fitxer config/configuration.yml. Sis us plau, una vegada fet ha de reiniciar l'aplicació per aplicar els canvis."
   text_scm_command_not_available: "L'ordre SCM que es vol utilitzar no és troba disponible. Si us plau, comprovi la configuració dins del menú d'administració"
@@ -1093,8 +1094,8 @@ ca:
   label_users_visibility_all: "Tots els usuaris actius"
   label_users_visibility_members_of_visible_projects: "Membres dels projectes visibles"
   label_edit_attachments: "Editar fitxers adjunts"
-  setting_link_copied_issue: "Enllaçar assumpte quan es realitzi la còpia"
-  label_link_copied_issue: "Enllaçar assumpte copiat"
+  setting_link_copied_issue: "Enllaçar incidència quan es realitzi la còpia"
+  label_link_copied_issue: "Enllaçar incidència copiada"
   label_ask: "Demanar"
   label_search_attachments_yes: "Cercar per fitxer adjunt i descripció"
   label_search_attachments_no: "Sense fitxers adjunts"
@@ -1108,7 +1109,7 @@ ca:
   label_disable_notifications: "Desactivar notificacions"
   setting_search_results_per_page: "Cercar resultats per pàgina"
   label_blank_value: "blanc"
-  permission_copy_issues: "Copiar assumpte"
+  permission_copy_issues: "Copiar incidència"
   error_password_expired: "La teva contrasenya ha expirat, és necessari canviar-la"
   field_time_entries_visibility: "Visibilitat de les entrades de temps"
   setting_password_max_age: "Requereix canviar la contrasenya després de"
@@ -1127,32 +1128,32 @@ ca:
   error_invalid_file_encoding: "El fitxer no utilitza una codificació valida (%{encoding})"
   error_invalid_csv_file_or_settings: "El fitxer no es un CSV o no coincideix amb la configuració (%{value})"
   error_can_not_read_import_file: "S'ha produït un error mentre es llegia el fitxer a importar"
-  permission_import_issues: "Importar assumptes"
-  label_import_issues: "Importar assumptes"
+  permission_import_issues: "Importar incidències"
+  label_import_issues: "Importar incidències"
   label_select_file_to_import: "Escull el fitxer per importar"
   label_fields_separator: "Separador dels camps"
   label_fields_wrapper: "Envoltori dels camps"
   label_encoding: "Codificació"
   label_comma_char: "Coma"
   label_semi_colon_char: "Punt i coma"
-  label_quote_char: "Comilla simple"
-  label_double_quote_char: "Comilla doble"
-  label_fields_mapping: "Mapat de camps"
+  label_quote_char: "Cometa simple"
+  label_double_quote_char: "Cometa doble"
+  label_fields_mapping: "Mapejat de camps"
   label_file_content_preview: "Vista prèvia del contingut"
   label_create_missing_values: "Crear valors no presents"
   button_import: "Importar"
   field_total_estimated_hours: "Temps total estimat"
   label_api: "API"
   label_total_plural: "Totals"
-  label_assigned_issues: "Assumptes assignats"
+  label_assigned_issues: "Incidències assignades"
   label_field_format_enumeration: "Llistat clau/valor"
   label_f_hour_short: "%{value} h"
   field_default_version: "Versió per defecte"
   error_attachment_extension_not_allowed: "L'extensió %{extension} no està permesa"
   setting_attachment_extensions_allowed: "Extensions permeses"
   setting_attachment_extensions_denied: "Extensions no permeses"
-  label_any_open_issues: "qualsevol assumpte obert"
-  label_no_open_issues: "cap assumpte obert"
+  label_any_open_issues: "qualsevol incidència oberta"
+  label_no_open_issues: "cap incidència oberta"
   label_default_values_for_new_users: "Valors per defecte pels nous usuaris"
   setting_sys_api_key: "Clau API"
   setting_lost_password: "Has oblidat la contrasenya?"
@@ -1170,68 +1171,67 @@ ca:
   button_filter: Filtre
   mail_body_password_updated: "La seva contrasenya s'ha canviat."
   label_no_preview: Previsualització no disponible
-  error_no_tracker_allowed_for_new_issue_in_project: "El projecte no disposa de cap tipus d'assumpte sobre el qual vostè pugui crear un assumpte"
-  label_tracker_all: "Tots els tipus d'assumpte"
-  label_new_project_issue_tab_enabled: Mostrar la pestanya "Nou assumpte"
+  error_no_tracker_allowed_for_new_issue_in_project: "El projecte no disposa de cap tipus d'incidència sobre el qual vostè pugui crear una incidència"
+  label_tracker_all: "Tots els tipus d'incidència"
+  label_new_project_issue_tab_enabled: Mostrar la pestanya "Nova incidència"
   setting_new_item_menu_tab: Pestanya de nous objectes en el menu de cada projecte
   label_new_object_tab_enabled: Mostrar el llistat desplegable "+"
-  error_no_projects_with_tracker_allowed_for_new_issue: "Cap projecte disposa d'un tipus d'assumpte sobre el qual vostè pugui crear un assumpte"
+  error_no_projects_with_tracker_allowed_for_new_issue: "Cap projecte disposa d'un tipus d'incidència sobre el qual vostè pugui crear una incidència"
   field_textarea_font: Font utilitzada en les text àrea
   label_font_default: Font per defecte
   label_font_monospace: Font Monospaced
   label_font_proportional: Font Proportional
   setting_timespan_format: Time span format
-  label_table_of_contents: Table of contents
+  label_table_of_contents: Taula de continguts
   setting_commit_logs_formatting: Apply text formatting to commit messages
-  setting_mail_handler_enable_regex: Enable regular expressions
+  setting_mail_handler_enable_regex: Activar les expressions regulars
   error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
     project: %{errors}'
-  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
-    be reassigned to an issue that is about to be deleted
-  setting_timelog_required_fields: Required fields for time logs
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: El temps consumit no es pot reassignar
+    a una incidència que està a punt d'eliminar-se
+  setting_timelog_required_fields: Camps obligatoria per el registre de temps
   label_attribute_of_object: '%{object_name}''s %{name}'
-  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
-  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
-  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
-    of values from one or more fields on the selected objects
-  field_updated_by: Updated by
-  field_last_updated_by: Last updated by
-  field_full_width_layout: Full width layout
-  label_last_notes: Last notes
+  label_user_mail_option_only_assigned: Només per coses que segueixo o a les que estic assignat
+  label_user_mail_option_only_owner: Només per coses que segueixo o a les que soc propietari
+  warning_fields_cleared_on_bulk_edit: Els canvis implicaran en l'esborrat automàtic
+    dels valors de un o més camps dels objectes seleccionats
+  field_updated_by: Actualitzat per
+  field_last_updated_by: Última actualtizació per
+  field_full_width_layout: Amplada sencera
+  label_last_notes: Últimes notes
   field_digest: Checksum
-  field_default_assigned_to: Default assignee
-  setting_show_custom_fields_on_registration: Show custom fields on registration
-  permission_view_news: View news
-  label_no_preview_alternative_html: No preview available. %{link} the file instead.
-  label_no_preview_download: Download
-  setting_close_duplicate_issues: Close duplicate issues automatically
-  error_exceeds_maximum_hours_per_day: Cannot log more than %{max_hours} hours on the
-    same day (%{logged_hours} hours have already been logged)
-  setting_time_entry_list_defaults: Timelog list defaults
-  setting_timelog_accept_0_hours: Accept time logs with 0 hours
-  setting_timelog_max_hours_per_day: Maximum hours that can be logged per day and user
+  field_default_assigned_to: Assignat per defecte
+  setting_show_custom_fields_on_registration: Mostrar els camps personalitzat al registrar-se
+  permission_view_news: Veure notícies
+  label_no_preview_alternative_html: Sense vista prèvia. %{link} el fitxer.
+  label_no_preview_download: Descarreguèu
+  setting_close_duplicate_issues: Tanca incidències duplicades automàticament
+  error_exceeds_maximum_hours_per_day: No es poden registrar més de %{max_hours} hores el mateix
+    dia (ja s'han registrat %{logged_hours} hores)
+  setting_time_entry_list_defaults: Llista del registre de temps per defecte
+  setting_timelog_accept_0_hours: Accepta registres de temps amb 0 hores
+  setting_timelog_max_hours_per_day: Màxim d'hores que es poden registrar per usuari i dia
   label_x_revisions: "%{count} revisions"
-  error_can_not_delete_auth_source: This authentication mode is in use and cannot be
-    deleted.
-  button_actions: Actions
-  mail_body_lost_password_validity: Please be aware that you may change the password
-    only once using this link.
+  error_can_not_delete_auth_source: Aquest mode d'autenticació està en ús i no es pot eliminar.
+  button_actions: Accions
+  mail_body_lost_password_validity: Tingueu en compte que podeu canviar la contrasenya només un cop
+    fent servir aquest enllaç.
   text_login_required_html: When not requiring authentication, public projects and their
     contents are openly available on the network. You can <a href="%{anonymous_role_path}">edit
     the applicable permissions</a>.
   label_login_required_yes: 'Yes'
-  label_login_required_no: No, allow anonymous access to public projects
-  text_project_is_public_non_member: Public projects and their contents are available
-    to all logged-in users.
-  text_project_is_public_anonymous: Public projects and their contents are openly available
-    on the network.
-  label_version_and_files: Versions (%{count}) and Files
+  label_login_required_no: No, permetre accés anonim als projectes públics
+  text_project_is_public_non_member: Els projectes públics i el seu contingut son disponibles
+    per tots els usuaris registrats.
+  text_project_is_public_anonymous: Els projectes públics i el seu contingut son disponibles de forma oberta
+    a la xarxa.
+  label_version_and_files: Versions (%{count}) i Fitxers
   label_ldap: LDAP
-  label_ldaps_verify_none: LDAPS (without certificate check)
+  label_ldaps_verify_none: LDAPS (sense comprovació de certificat)
   label_ldaps_verify_peer: LDAPS
-  label_ldaps_warning: It is recommended to use an encrypted LDAPS connection with certificate
-    check to prevent any manipulation during the authentication process.
-  label_nothing_to_preview: Nothing to preview
+  label_ldaps_warning: La recomanació es fer servir una connexió xifrada amb LDSPS amb verificació del certificat
+    certificat per prevenir qualsevol manipulació durant el procés d'autenticació.
+  label_nothing_to_preview: Res a previsualitzar
   error_token_expired: This password recovery link has expired, please try again.
   error_spent_on_future_date: Cannot log time on a future date
   setting_timelog_accept_future_dates: Accept time logs on future dates
@@ -1239,24 +1239,24 @@ ca:
   error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
     for other users
   permission_log_time_for_other_users: Log spent time for other users
-  label_tomorrow: tomorrow
-  label_next_week: next week
-  label_next_month: next month
+  label_tomorrow: demà
+  label_next_week: la setmana vinent
+  label_next_month: el mes vinent
   text_role_no_workflow: No workflow defined for this role
   text_status_no_workflow: No tracker uses this status in the workflows
   setting_mail_handler_preferred_body_part: Preferred part of multipart (HTML) emails
-  setting_show_status_changes_in_mail_subject: Show status changes in issue mail notifications
-    subject
-  label_inherited_from_parent_project: Inherited from parent project
-  label_inherited_from_group: Inherited from group %{name}
+  setting_show_status_changes_in_mail_subject: Mostrar els canvis d'estat de les incidències en l'assumpte
+    de les notificacions per correu
+  label_inherited_from_parent_project: Heretats del projecte pare
+  label_inherited_from_group: Heretats del grup %{name}
   label_trackers_description: Trackers description
   label_open_trackers_description: View all trackers description
   label_preferred_body_part_text: Text
   label_preferred_body_part_html: HTML
   field_parent_issue_subject: Parent task subject
-  permission_edit_own_issues: Edit own issues
+  permission_edit_own_issues: Editar les pròpies incidències
   text_select_apply_tracker: Select tracker
-  label_updated_issues: Updated issues
+  label_updated_issues: Incidències actualitzades
   text_avatar_server_config_html: The current avatar server is <a href="%{url}">%{url}</a>.
     You can configure it in config/configuration.yml.
   setting_gantt_months_limit: Maximum number of months displayed on the gantt chart
@@ -1265,49 +1265,50 @@ ca:
   text_gs_available: ImageMagick PDF support available (optional)
   field_recently_used_projects: Number of recently used projects in jump box
   label_optgroup_bookmarks: Bookmarks
+  label_optgroup_others: Other projects
   label_optgroup_recents: Recently used
   button_project_bookmark: Add bookmark
   button_project_bookmark_delete: Remove bookmark
-  field_history_default_tab: Issue's history default tab
+  field_history_default_tab: Pestanya per defecte de l'historic de la incidència
   label_issue_history_properties: Property changes
   label_issue_history_notes: Notes
-  label_last_tab_visited: Last visited tab
+  label_last_tab_visited: Última pestanya visitada
   field_unique_id: Unique ID
-  text_no_subject: no subject
+  text_no_subject: sense assumpte
   setting_password_required_char_classes: Required character classes for passwords
-  label_password_char_class_uppercase: uppercase letters
-  label_password_char_class_lowercase: lowercase letters
+  label_password_char_class_uppercase: lletres majuscules
+  label_password_char_class_lowercase: lletres minúscules
   label_password_char_class_digits: digits
-  label_password_char_class_special_chars: special characters
-  text_characters_must_contain: Must contain %{character_classes}.
-  label_starts_with: starts with
-  label_ends_with: ends with
-  label_issue_fixed_version_updated: Target version updated
+  label_password_char_class_special_chars: caràcters especials
+  text_characters_must_contain: Ha de tenir %{character_classes}.
+  label_starts_with: comença amb
+  label_ends_with: acaba amb
+  label_issue_fixed_version_updated: Versió de destí al dia
   setting_project_list_defaults: Projects list defaults
-  label_display_type: Display results as
-  label_display_type_list: List
-  label_display_type_board: Board
+  label_display_type: Mostrar resultats en
+  label_display_type_list: Llista
+  label_display_type_board: Taula
   label_my_bookmarks: My bookmarks
   label_import_time_entries: Import time entries
   field_toolbar_language_options: Code highlighting toolbar languages
-  label_user_mail_notify_about_high_priority_issues_html: Also notify me about issues
+  label_user_mail_notify_about_high_priority_issues_html: Informar-me també de les incidències
     with a priority of <em>%{prio}</em> or higher
   label_assign_to_me: Assign to me
-  notice_issue_not_closable_by_open_tasks: This issue cannot be closed because it has
-    at least one open subtask.
-  notice_issue_not_closable_by_blocking_issue: This issue cannot be closed because it
-    is blocked by at least one open issue.
-  notice_issue_not_reopenable_by_closed_parent_issue: This issue cannot be reopened
-    because its parent issue is closed.
+  notice_issue_not_closable_by_open_tasks: Aquesta incidència no es pot tancar perquè té
+    almenys una subtasca oberta.
+  notice_issue_not_closable_by_blocking_issue: Aquesta incidència no es pot tancar perquè està
+    bloquejada al menys per una incidència oberta.
+  notice_issue_not_reopenable_by_closed_parent_issue: Aquesta incidència no es pot reobrir perquè la incidència
+    pare ja està tancada.
   error_bulk_download_size_too_big: These attachments cannot be bulk downloaded because
     the total file size exceeds the maximum allowed size (%{max_size})
   setting_bulk_download_max_size: Maximum total size for bulk download
-  label_download_all_attachments: Download all files
+  label_download_all_attachments: Descarregar tots els fitxers
   error_attachments_too_many: This file cannot be uploaded because it exceeds the maximum
     number of files that can be attached simultaneously (%{max_number_of_files})
-  setting_email_domains_allowed: Allowed email domains
-  setting_email_domains_denied: Disallowed email domains
-  field_passwd_changed_on: Password last changed
+  setting_email_domains_allowed: Dominis de correu permesos
+  setting_email_domains_denied: Dominis de correu no permesos
+  field_passwd_changed_on: Últim canvi de contrasenya
   label_relations_mapping: Relations mapping
   label_import_users: Import users
   label_days_to_html: "%{days} days up to %{date}"
@@ -1374,105 +1375,104 @@ ca:
   error_attachment_not_found: Attachment %{name} not found
   permission_delete_project: Delete the project
   field_twofa_scheme: Two-factor authentication scheme
-  text_user_destroy_confirmation: Are you sure you want to delete this user and remove
-    all references to them? This cannot be undone. Often, locking a user instead of
-    deleting them is the better solution. To confirm, please enter their login (%{login})
+  text_user_destroy_confirmation: Esteu segurs que voleu eliminiar aquest usuari i totes les seves
+    referències? Això no es pot desfer. Sovint, bloquejar un usuari en lloc d'eliminar-lo
+    es millor solució. Per cofirmar, entreu el seu inici de sessió (%{login})
     below.
-  text_project_destroy_enter_identifier: To confirm, please enter the project's identifier
-    (%{identifier}) below.
-  button_add_subtask: Add subtask
-  notice_invalid_watcher: 'Invalid watcher: User will not receive any notifications
-    because it does not have access to view this object.'
-  button_fetch_changesets: Fetch commits
-  permission_view_message_watchers: View message watchers list
-  permission_add_message_watchers: Add message watchers
-  permission_delete_message_watchers: Delete message watchers
-  label_message_watchers: Watchers
-  button_copy_link: Copy link
-  error_invalid_authenticity_token: Invalid form authenticity token.
-  error_query_statement_invalid: An error occurred while executing the query and has
-    been logged. Please report this error to your Redmine administrator.
-  permission_view_wiki_page_watchers: View wiki page watchers list
-  permission_add_wiki_page_watchers: Add wiki page watchers
-  permission_delete_wiki_page_watchers: Delete wiki page watchers
-  label_wiki_page_watchers: Watchers
-  label_attachment_description: File description
-  error_no_data_in_file: The file does not contain any data
-  field_twofa_required: Require two factor authentication
-  twofa_hint_optional_html: Setting <strong>%{label}</strong> will let users set up
-    two-factor authentication at will, unless it is required by one of their groups.
-  twofa_text_group_required: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is required for all users.
-  twofa_text_group_disabled: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is disabled.
-  field_default_issue_query: Default issue query
+  text_project_destroy_enter_identifier: Per confirmar, entreu l'indentificador del projecte
+    (%{identifier}) a sota.
+  button_add_subtask: Afegir subtasca
+  notice_invalid_watcher: 'Vigilant incorrecte: L''usuari no rebrà notificacions perquè
+    no te accés a veure aquest objecte.'
+  button_fetch_changesets: Otenir comissions
+  permission_view_message_watchers: Veure la llista de vigilants del missatge
+  permission_add_message_watchers: Afegir vigilants al missatge
+  permission_delete_message_watchers: Eliminar vigilants del missatge
+  label_message_watchers: Vigilants
+  button_copy_link: Copiar enllaç
+  error_invalid_authenticity_token: Tipus de token d'autenticació invalid.
+  error_query_statement_invalid: Hi ha hagut un error quan s'executava la consulta i s'ha registrat.
+    Reporteu aquest error a l'administrador del Redmine.
+  permission_view_wiki_page_watchers: Veure els vigilants de la pàgina de la wiki
+  permission_add_wiki_page_watchers: Afegir vigilants a la pàgina de la wiki
+  permission_delete_wiki_page_watchers: Eliminar vigilants de la pàgina de la wiki
+  label_wiki_page_watchers: Vigilants
+  label_attachment_description: Descripció del fitxer
+  error_no_data_in_file: El fitxer no conté dades
+  field_twofa_required: Requerir doble factor
+  twofa_hint_optional_html: Posar <strong>%{label}</strong> permetrà els usuaris configurar
+    autenticació de doble factor com vulguin, a no se que ho requereixi algun dels seus grups.
+  twofa_text_group_required: Aquesta configuració només és efectiva quen l'autenticació de
+     segon factor global està posada coma 'opcional'. Actualment, l'autenticació amb segon
+    factor és obligatoria per tots els usuaris.
+  twofa_text_group_disabled: Aquesta configuració només és efectiva quan l'autenticació
+    de segon factor global està posada com a 'opcional'. Actualtment, l'autenticació amb segon
+    factor està desactivada.
+  field_default_issue_query: Consulta per defecte de incidències
   label_default_queries:
-    for_all_projects: For all projects
-    for_current_project: For current project
-    for_all_users: For all users
-    for_this_user: For this user
-  text_allowed_queries_to_select: Public (to any users) queries only selectable
-  text_all_migrations_have_been_run: All database migrations have been run
-  button_save_object: Save %{object_name}
-  button_edit_object: Edit %{object_name}
-  button_delete_object: Delete %{object_name}
-  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
-    Please restart the application after editing it.
-  label_bulk_edit: Bulk edit
-  button_create_and_follow: Create and follow
-  label_subtask: Subtask
-  label_default_query: Default query
-  field_default_project_query: Default project query
-  label_required_administrators: required for administrators
-  twofa_hint_required_administrators_html: Setting <strong>%{label}</strong> behaves
-    like optional, but will require all users with administration rights to set up two-factor
-    authentication at their next login.
-  label_auto_watch_on: Auto watch
-  label_auto_watch_on_issue_contributed_to: Issues I contributed to
-  text_project_close_confirmation: Are you sure you want to close the '%{value}' project
-    to make it read-only?
-  text_project_reopen_confirmation: Are you sure you want to reopen the '%{value}' project?
-  text_project_archive_confirmation: Are you sure you want to archive the '%{value}'
-    project?
-  mail_destroy_project_failed: Project %{value} could not be deleted.
-  mail_destroy_project_successful: Project %{value} was deleted successfully.
-  mail_destroy_project_with_subprojects_successful: Project %{value} and its subprojects
-    were deleted successfully.
-  project_status_scheduled_for_deletion: scheduled for deletion
-  text_projects_bulk_destroy_confirmation: Are you sure you want to delete the selected
-    projects and related data?
+    for_all_projects: Per tots els projectes
+    for_current_project: Per el projecte actual
+    for_all_users: Per tots els usuaris
+    for_this_user: Per aquest usuari
+  text_allowed_queries_to_select: Publicar (a quasevol usuari) consultes només que puguin seleccionar
+  text_all_migrations_have_been_run: Totes les migracions de base de dades s'han fet
+  button_save_object: Guardar %{object_name}
+  button_edit_object: Editar %{object_name}
+  button_delete_object: Eliminar %{object_name}
+  text_setting_config_change: Podeu configurar aquest comportament a config/configuration.yml.
+    Reinicieu l'aplicació després d'editar.
+  label_bulk_edit: Edició en bloc
+  button_create_and_follow: Crear i seguir
+  label_subtask: Subtasca
+  label_default_query: Consulta per defecte
+  field_default_project_query: Consulta per defecte del projecte
+  label_required_administrators: requirit per administradors
+  twofa_hint_required_administrators_html: Indicar <strong>%{label}</strong> es comporta
+    com opcional, per requerirà que tots els usuaris amb drets d'administració configurin l'autenticació amb
+     doble factor quan tornin a entrar.
+  label_auto_watch_on: Vigilar automàticament
+  label_auto_watch_on_issue_contributed_to: Incidències on he contribuït
+  text_project_close_confirmation: Esteu segur que voleu tancar el projecte '%{value}'
+    per fer-lo només de lectura?
+  text_project_reopen_confirmation: Esteu segur que voleu reobrir el projecte '%{value}'?
+  text_project_archive_confirmation: Esteu segur que voleu arxivar el projecte '%{value}'?
+  mail_destroy_project_failed: El projecte %{value} no s'ha pogut eliminar.
+  mail_destroy_project_successful: El projecte %{value} s'ha eliminat correctament.
+  mail_destroy_project_with_subprojects_successful: El projecte %{value} i els seus subprojectes
+    s'han eliminat correctament.
+  project_status_scheduled_for_deletion: programat per eliminar
+  text_projects_bulk_destroy_confirmation: Esteu segur que voleu eliminar els projectes seleccionats
+    i les seves dades relacionades?
   text_projects_bulk_destroy_head: |
-    You are about to permanently delete the following projects, including possible subprojects and any related data.
-    Please review the information below and confirm that this is indeed what you want to do.
-    This action cannot be undone.
-  text_projects_bulk_destroy_confirm: To confirm, please enter "%{yes}" in the box below.
-  text_subprojects_bulk_destroy: 'including its subproject(s): %{value}'
-  field_current_password: Current password
-  sudo_mode_new_info_html: "<strong>What's happening?</strong> You need to reconfirm
-    your password before taking any administrative actions, this ensures your account
-    stays protected."
-  label_edited: Edited
-  label_time_by_author: "%{time} by %{author}"
-  field_default_time_entry_activity: Default spent time activity
-  field_is_member_of_group: Member of group
-  text_users_bulk_destroy_head: You are about to delete the following users and remove
-    all references to them. This cannot be undone. Often, locking users instead of deleting
-    them is the better solution.
-  text_users_bulk_destroy_confirm: To confirm, please enter "%{yes}" below.
-  permission_select_project_publicity: Set project public or private
-  label_auto_watch_on_issue_created: Issues I created
-  field_any_searchable: Any searchable text
-  label_contains_any_of: contains any of
-  button_apply_issues_filter: Apply issues filter
-  label_view_previous_annotation: View annotation prior to this change
-  label_has_been: has been
-  label_has_never_been: has never been
-  label_changed_from: changed from
+    Esteu a punt d'eliminar permanentment els següents projectes, incloent possible subprojectes i dades relacionades.
+    Reviseu la informació de sotat i confirmeu si és el que voleu fer.
+    Aquesta acció no es pot desfer.
+  text_projects_bulk_destroy_confirm: Per confirmar, entreu "%{yes}" en el recuadre de sota.
+  text_subprojects_bulk_destroy: 'incloent el(s) subprojecte(s): %{value}'
+  field_current_password: Contrasenya actual
+  sudo_mode_new_info_html: "<strong>Que està passant?</strong> Necesiteu reconfirmar
+    la contrasenya abans de fer cap canvi adminstratiu, això assegura que el vostre compte
+    segueix protegit."
+  label_edited: Editat
+  label_time_by_author: "%{time} per %{author}"
+  field_default_time_entry_activity: Temps consumit per defecte de l'activitat
+  field_is_member_of_group: Membre del grup
+  text_users_bulk_destroy_head: Esteu a punt d'eliminar els següents usuaris i totes les referències
+    cap a ells. Aquesta acció no es pot desfer. Sovint, bloquejar usuaris enlloc de eliminar-los és
+    una solució millor.
+  text_users_bulk_destroy_confirm: Per confirmar, entreu "%{yes}" a sota.
+  permission_select_project_publicity: Marcar projecte com a públic o privat
+  label_auto_watch_on_issue_created: Incidències que he creat
+  field_any_searchable: Qualsevol text buscable
+  label_contains_any_of: conté algun de
+  button_apply_issues_filter: Aplicar el filtre de incidències
+  label_view_previous_annotation: Veure nota d'abans d'aquest canvi
+  label_has_been: ha sigut
+  label_has_never_been: mai ha sigut
+  label_changed_from: canviat de
   label_issue_statuses_description: Issue statuses description
   label_open_issue_statuses_description: View all issue statuses description
-  text_select_apply_issue_status: Select issue status
-  field_name_or_email_or_login: Name, email or login
   text_default_active_job_queue_changed: Default queue adapter which is well suited
     only for dev/test changed
+  text_select_apply_issue_status: Select issue status
+  field_name_or_email_or_login: Name, email or login
