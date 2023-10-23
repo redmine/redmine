@@ -1502,5 +1502,4 @@
   label_open_issue_statuses_description: 檢視所有議題狀態的說明
   text_select_apply_issue_status: 選擇議題狀態
   field_name_or_email_or_login: 姓名, 電子郵件或帳戶名稱
-  text_default_active_job_queue_changed: Default queue adapter which is well suited
-    only for dev/test changed
+  text_default_active_job_queue_changed: 已變更僅適用於開發/測試環境的佇列適配器 (queue adapter)
