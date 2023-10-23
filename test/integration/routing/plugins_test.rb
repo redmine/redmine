@@ -27,7 +27,7 @@ class RoutingPluginsTest < Redmine::RoutingTest
       "config/routes.rb" => <<~ROUTES_CONTENT,
         resources :plugin_articles, only: %i[index]
       ROUTES_CONTENT
-      "app/contrtollers/plugin_articles_controller.rb" => <<~CONTROLLER_CONTENT
+      "app/controllers/plugin_articles_controller.rb" => <<~CONTROLLER_CONTENT
         class PluginArticlesController < ApplicationController
           def index
             render plain: "foo PluginArticlesController#index"
@@ -41,7 +41,7 @@ class RoutingPluginsTest < Redmine::RoutingTest
         # same path helper name with foo's
         get '/bar_plugin_articles', as: :plugin_articles, to: 'bar_plugin_articles#index'
       ROUTES_CONTENT
-      "app/contrtollers/bar_plugin_articles_controller.rb" => <<~CONTROLLER_CONTENT
+      "app/controllers/bar_plugin_articles_controller.rb" => <<~CONTROLLER_CONTENT
         class BarPluginArticlesController < ApplicationController
           def index
             render plain: "bar BarPluginArticlesController#index"
