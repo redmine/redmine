@@ -24,9 +24,7 @@ class WikisController < ApplicationController
   # Delete a project's wiki
   def destroy
     if request.post? && params[:confirm] && @project.wiki
-      if @project.wiki.destroy
-        Wiki.create_default(@project) unless @wiki
-      end
+      @project.wiki.destroy
       redirect_to project_path(@project)
     end
   end
