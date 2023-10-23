@@ -97,6 +97,10 @@ class Wiki < ActiveRecord::Base
     end
   end
 
+  def self.create_default(project)
+    create(:project => project, :start_page => 'Wiki')
+  end
+
   # turn a string into a valid page title
   def self.titleize(title)
     # replace spaces with _ and remove unwanted caracters
