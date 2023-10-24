@@ -60,7 +60,7 @@ class RoutingPluginsTest < Redmine::RoutingTest
   end
 
   teardown do
-    @setup_plugin_paths.each(&:rmtree)
+    FileUtils.rm_rf @tmp_plugins_path
     Redmine::PluginLoader.load
     RedmineApp::Application.instance.routes_reloader.reload!
   end
