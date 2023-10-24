@@ -21,6 +21,8 @@ require File.expand_path('../../test_helper', __dir__)
 
 class RoutingPluginsTest < Redmine::RoutingTest
   setup do
+    @tmp_plugins_path = Rails.root.join('tmp/test/plugins')
+
     @setup_plugin_paths = []
     @setup_plugin_paths << setup_plugin(
       :redmine_test_plugin_foo,
@@ -49,6 +51,9 @@ class RoutingPluginsTest < Redmine::RoutingTest
         end
       CONTROLLER_CONTENT
     )
+
+    # Change plugin loader's directory for testing
+    Redmine::PluginLoader.directory = @tmp_plugins_path
     Redmine::PluginLoader.load
     Redmine::PluginLoader.directories.each(&:run_initializer) # to define relative controllers
     RedmineApp::Application.instance.routes_reloader.reload!
@@ -69,7 +74,8 @@ class RoutingPluginsTest < Redmine::RoutingTest
   private
 
   def setup_plugin(plugin_name, **relative_path_to_content)
-    plugin_path = Redmine::Plugin.directory / plugin_name.to_s
+    Redmine::Plugin.directory = @tmp_plugins_path
+    plugin_path =  Redmine::Plugin.directory / plugin_name.to_s
     plugin_path.mkpath
     (plugin_path / "init.rb").write(<<~INITRB)
       Redmine::Plugin.register :#{plugin_name} do
