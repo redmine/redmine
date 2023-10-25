@@ -1434,7 +1434,7 @@ fr:
   text_projects_bulk_destroy_confirmation: Etes-vous sûr de vouloir supprimer le projet
     sélectionné et toutes les données associées?
   text_projects_bulk_destroy_head: |
-    Vous êtes sur le point de supprimer définnitement les projets suivants, incluant tous les éventuels sous projets ainsi
+    Vous êtes sur le point de supprimer définitivement les projets suivants, incluant tous les éventuels sous projets ainsi
     que les données associées.
     Merci de vérifier les informations ci dessous et de confirmer que c'est bien ce que vous souhaitez faire.
     Cette suppression est irréversible.
@@ -1462,5 +1462,7 @@ fr:
   label_has_never_been: n'a jamais été
   label_changed_from: modifié depuis
   label_issue_statuses_description: Description du statut des demandes
-  label_open_issue_statuses_description: Voir toutes descriptions des statuts des demandes
-  text_select_apply_issue_status: Sélectionner les statuts des demandes
+  label_open_issue_statuses_description: Voir toutes les descriptions des statuts des demandes
+  text_select_apply_issue_status: Choississez le statut de la demande
+  field_name_or_email_or_login: Nom, email ou login
+  text_default_active_job_queue_changed: Gestionnaire de file par défaut le plus adapté

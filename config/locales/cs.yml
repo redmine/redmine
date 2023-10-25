@@ -1449,20 +1449,22 @@ cs:
   label_edited: Upraveno
   label_time_by_author: "%{time} %{author}"
   field_default_time_entry_activity: Výchozí aktivita stráveného času
-  field_is_member_of_group: Member of group
-  text_users_bulk_destroy_head: You are about to delete the following users and remove
-    all references to them. This cannot be undone. Often, locking users instead of deleting
-    them is the better solution.
-  text_users_bulk_destroy_confirm: To confirm, please enter "%{yes}" below.
-  permission_select_project_publicity: Set project public or private
-  label_auto_watch_on_issue_created: Issues I created
-  field_any_searchable: Any searchable text
-  label_contains_any_of: contains any of
-  button_apply_issues_filter: Apply issues filter
-  label_view_previous_annotation: View annotation prior to this change
-  label_has_been: has been
-  label_has_never_been: has never been
-  label_changed_from: changed from
-  label_issue_statuses_description: Issue statuses description
-  label_open_issue_statuses_description: View all issue statuses description
-  text_select_apply_issue_status: Select issue status
+  field_is_member_of_group: Člen skupiny
+  text_users_bulk_destroy_head: Chystáte se zmazat následující uživatele a všechna jejich data. Tato operace je 
+    nevratná. Zamčení uživatelů bývá lepším řešením.
+  text_users_bulk_destroy_confirm: Pro potvrzení zadej "%{yes}" níže.
+  permission_select_project_publicity: Nastav projekt jako veřejný nebo soukromý
+  label_auto_watch_on_issue_created: Úkoly, které jsem vytvořil
+  field_any_searchable: Jakýkoli vyhledávatelný text
+  label_contains_any_of: obsahuje jakýkoli z
+  button_apply_issues_filter: Použít filtr úkolů
+  label_view_previous_annotation: Zobrazit poznámky před touto změnou
+  label_has_been: byl
+  label_has_never_been: nikdy nebyl
+  label_changed_from: změněno od
+  label_issue_statuses_description: Popis stavů úkolů
+  label_open_issue_statuses_description: Zobraz popis všech stavů úkolů
+  text_select_apply_issue_status: Vyber stav úkolu
+  field_name_or_email_or_login: Name, email or login
+  text_default_active_job_queue_changed: Default queue adapter which is well suited
+    only for dev/test changed

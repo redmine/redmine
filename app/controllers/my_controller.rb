@@ -55,7 +55,6 @@ class MyController < ApplicationController
       @user.pref.safe_attributes = params[:pref]
       if @user.save
         @user.pref.save
-        set_language_if_valid @user.language
         respond_to do |format|
           format.html do
             flash[:notice] = l(:notice_account_updated)

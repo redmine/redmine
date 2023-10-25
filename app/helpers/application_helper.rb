@@ -1805,6 +1805,23 @@ module ApplicationHelper
     end
   end
 
+  def export_csv_separator_select_tag
+    options = [[l(:label_comma_char), ','], [l(:label_semi_colon_char), ';']]
+    # Add the separator from translations if it is missing
+    general_csv_separator = l(:general_csv_separator)
+    unless options.index { |option| option.last == general_csv_separator }
+      options << Array.new(2, general_csv_separator)
+    end
+    content_tag(:p) do
+      concat(
+        content_tag(:label) do
+          concat l(:label_fields_separator) + ' '
+          concat select_tag('field_separator', options_for_select(options, general_csv_separator))
+        end
+      )
+    end
+  end
+
   # Returns an array of error messages for bulk edited items (issues, time entries)
   def bulk_edit_error_messages(items)
     messages = {}

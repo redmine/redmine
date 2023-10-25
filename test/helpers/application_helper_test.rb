@@ -1296,12 +1296,13 @@ class ApplicationHelperTest < Redmine::HelperTest
   def test_html_tags
     to_test = {
       "<div>content</div>" => "<p>&lt;div&gt;content&lt;/div&gt;</p>",
-      "<div class=\"bold\">content</div>" => "<p>&lt;div class=\"bold\"&gt;content&lt;/div&gt;</p>",
+      "<div class=\"bold\">content</div>" => "<p>&lt;div class=&quot;bold&quot;&gt;content&lt;/div&gt;</p>",
       "<script>some script;</script>" => "<p>&lt;script&gt;some script;&lt;/script&gt;</p>",
       # do not escape pre/code tags
       "<pre>\nline 1\nline2</pre>" => "<pre>\nline 1\nline2</pre>",
       "<pre><code>\nline 1\nline2</code></pre>" => "<pre><code>\nline 1\nline2</code></pre>",
-      "<pre><div>content</div></pre>" => "<pre>&lt;div&gt;content&lt;/div&gt;</pre>",
+      "<pre><div class=\"foo\">content</div></pre>" => "<pre>&lt;div class=\"foo\"&gt;content&lt;/div&gt;</pre>",
+      "<pre><div class=\"<foo\">content</div></pre>" => "<pre>&lt;div class=\"&lt;foo\"&gt;content&lt;/div&gt;</pre>",
       "<!-- opening comment" => "<p>&lt;!-- opening comment</p>",
       # remove attributes including class
       "<pre class='foo'>some text</pre>" => "<pre>some text</pre>",
@@ -2240,6 +2241,20 @@ class ApplicationHelperTest < Redmine::HelperTest
       with_settings text_formatting: text_formatting do
         assert_equal expected, markdown_formatter
       end
+    end
+  end
+
+  def test_export_csv_separator_select_tag
+    with_locale 'en' do
+      result = export_csv_separator_select_tag
+      assert_equal ',', l(:general_csv_separator)
+      assert_select_in result, 'option[value=?][selected=selected]', ',', text: 'Comma'
+      assert_select_in result, 'option[value=?]', ';', text: 'Semicolon'
+    end
+    with_locale 'fr' do
+      result = export_csv_separator_select_tag
+      assert_equal ';', l(:general_csv_separator)
+      assert_select_in result, 'option[value=?][selected=selected]', ';'
     end
   end
 

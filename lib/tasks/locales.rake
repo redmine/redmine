@@ -10,12 +10,12 @@ namespace :locales do
   task :update do
     dir = ENV['DIR'] || './config/locales'
 
-    en_strings = YAML.load(File.read(File.join(dir,'en.yml')))['en']
+    en_strings = YAML.load_file(File.join(dir,'en.yml'))['en']
 
     files = Dir.glob(File.join(dir,'*.{yaml,yml}'))
     files.sort.each do |file|
       puts "Updating file #{file}"
-      file_strings = YAML.load(File.read(file))
+      file_strings = YAML.load_file(file)
       file_strings = file_strings[file_strings.keys.first]
 
       missing_keys = en_strings.keys - file_strings.keys
@@ -39,7 +39,7 @@ namespace :locales do
   desc 'Checks interpolation arguments in locals against en.yml'
   task :check_interpolation do
     dir = ENV['DIR'] || './config/locales'
-    en_strings = YAML.load(File.read(File.join(dir,'en.yml')))['en']
+    en_strings = YAML.load_file(File.join(dir,'en.yml'))['en']
     files = Dir.glob(File.join(dir,'*.{yaml,yml}'))
     files.sort.each do |file|
       puts "parsing #{file}..."

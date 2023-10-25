@@ -35,6 +35,12 @@ class WikiTest < ActiveSupport::TestCase
     assert wiki.save
   end
 
+  def test_create_default
+    wiki = Wiki.create_default(Project.find(1))
+    assert wiki.save
+    assert_equal "Wiki", wiki.start_page
+  end
+
   def test_update
     @wiki = Wiki.find(1)
     @wiki.start_page = "Another start page"

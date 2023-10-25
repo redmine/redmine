@@ -44,4 +44,20 @@ class CsvTest < ActiveSupport::TestCase
       assert_equal l(:general_csv_encoding), string.encoding.name
     end
   end
+
+  def test_generate_should_use_general_csv_separator_by_default
+    with_locale 'fr' do
+      string = Redmine::Export::CSV.generate {|csv| csv << %w(Foo Bar)}
+      assert_equal ';', l(:general_csv_separator)
+      assert 'Foo;Bar', string
+    end
+  end
+
+  def test_generate_should_use_given_separator
+    with_locale 'fr' do
+      string = Redmine::Export::CSV.generate({field_separator: ','}) {|csv| csv << %w(Foo Bar)}
+      assert_equal ';', l(:general_csv_separator)
+      assert 'Foo,Bar', string
+    end
+  end
 end

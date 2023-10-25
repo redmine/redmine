@@ -58,7 +58,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_create
     issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => 3,
-                      :status_id => 1, :priority => IssuePriority.all.first,
+                      :status_id => 1, :priority => IssuePriority.first,
                       :subject => 'test_create',
                       :description => 'IssueTest#test_create', :estimated_hours => '1:30')
     assert issue.save
@@ -375,7 +375,7 @@ class IssueTest < ActiveSupport::TestCase
 
     with_settings :issue_group_assignment => '1' do
       issue = Issue.create!(:project_id => 1, :tracker_id => 1, :author_id => 3,
-        :status_id => 1, :priority => IssuePriority.all.first,
+        :status_id => 1, :priority => IssuePriority.first,
         :subject => 'Assignment test',
         :assigned_to => group,
         :is_private => true)
@@ -798,7 +798,7 @@ class IssueTest < ActiveSupport::TestCase
 
   def test_category_based_assignment
     issue = Issue.create(:project_id => 1, :tracker_id => 1, :author_id => 3,
-                         :status_id => 1, :priority => IssuePriority.all.first,
+                         :status_id => 1, :priority => IssuePriority.first,
                          :subject => 'Assignment test',
                          :description => 'Assignment test', :category_id => 1)
     assert_equal IssueCategory.find(1).assigned_to, issue.assigned_to
@@ -2690,7 +2690,7 @@ class IssueTest < ActiveSupport::TestCase
     ActionMailer::Base.deliveries.clear
     issue = Issue.new(:project_id => 1, :tracker_id => 1,
                       :author_id => 3, :status_id => 1,
-                      :priority => IssuePriority.all.first,
+                      :priority => IssuePriority.first,
                       :subject => 'test_create', :estimated_hours => '1:30')
     with_settings :notified_events => %w(issue_added) do
       assert issue.save
@@ -2702,7 +2702,7 @@ class IssueTest < ActiveSupport::TestCase
     ActionMailer::Base.deliveries.clear
     issue = Issue.new(:project_id => 1, :tracker_id => 1,
                       :author_id => 3, :status_id => 1,
-                      :priority => IssuePriority.all.first,
+                      :priority => IssuePriority.first,
                       :subject => 'test_create', :estimated_hours => '1:30')
     with_settings :notified_events => %w(issue_added issue_updated) do
       assert issue.save
@@ -2714,7 +2714,7 @@ class IssueTest < ActiveSupport::TestCase
     ActionMailer::Base.deliveries.clear
     issue = Issue.new(:project_id => 1, :tracker_id => 1,
                       :author_id => 3, :status_id => 1,
-                      :priority => IssuePriority.all.first,
+                      :priority => IssuePriority.first,
                       :subject => 'test_create', :estimated_hours => '1:30')
     with_settings :notified_events => [] do
       assert issue.save

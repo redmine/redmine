@@ -4,6 +4,74 @@ Redmine - project management software
 Copyright (C) 2006-2023  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2023-09-30 v5.0.6
+
+=== [Code cleanup/refactoring]
+
+* Defect #38797: Fix incorrect argument format for assert_select
+
+=== [Custom fields]
+
+* Defect #38464: Rendering a custom field with a URL pattern set and containing " :" in the value raises Addressable::URI::InvalidURIError
+
+=== [Gantt]
+
+* Defect #38728: Correctly escape issue text in Gantt PNG export for ImageMagick convert
+
+=== [Gems support]
+
+* Patch #39070: Allow using the latest version of mocha even when using Ruby < 2.7
+
+=== [Groups]
+
+* Defect #38443: Cannot add a user to a group if the group is a member without roles in a certain project
+
+=== [PDF export]
+
+* Defect #37694: CommonMark Markdown task list item markers are not exported to PDF
+
+=== [Project settings]
+
+* Defect #37166: Roles of a project member should not be made empty
+
+=== [Projects]
+
+* Defect #38286: "Cannot delete enumeration" error may occur when attempting to delete a project with time entries
+
+=== [Rails support]
+
+* Patch #38374: Update Rails to 6.1.7.6
+
+=== [Ruby support]
+
+* Defect #38617: Redmine 4.2 on Ruby 2.4 is not compatible with loofah 2.21 or higher
+
+=== [Security]
+
+* Defect #38539: Update Nokogiri to 1.15.2 in 5.0-stable and 4.2-stable
+* Defect #38807: XSS in Textile formatter
+* Defect #38806: XSS in Markdown formatter
+* Defect #38417: XSS Vulnerability in Thumbnails
+
+=== [Text formatting]
+
+* Defect #38697: Exception during thumbnail macro to image tag conversion in emails
+
+=== [Time tracking]
+
+* Defect #39079: NoMethodError when trying to remove the date of an existing time entry
+
+=== [Translations]
+
+* Defect #38507: Fix typo in French translation of setting_bulk_download_max_size
+* Patch #38533: Improve the clarity of German translation of label_user_mail_notify_about_high_priority_issues_html
+
+=== [UI]
+
+* Defect #33502: Issue field labels for fields with descriptions are missing styling on issues show view
+* Defect #38448: The margin below the Submit button on the issue edit page is too narrow
+* Patch #38359: Render numeric axes in charts as Integers
+
 == 2023-03-05 v5.0.5
 
 === [Code cleanup/refactoring]

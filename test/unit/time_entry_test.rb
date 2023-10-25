@@ -141,7 +141,7 @@ class TimeEntryTest < ActiveSupport::TestCase
 
   def test_activity_id_should_be_set_automatically_if_there_is_only_one_activity_available
     project = Project.find(1)
-    TimeEntry.all.destroy_all
+    TimeEntry.destroy_all
     TimeEntryActivity.destroy_all
     only_one_activity = TimeEntryActivity.create!(
       name: 'Development',
@@ -168,6 +168,16 @@ class TimeEntryTest < ActiveSupport::TestCase
 
       assert !entry.save
       assert entry.errors[:base].present?
+    end
+  end
+
+  def test_should_require_spent_on
+    with_settings :timelog_accept_future_dates => '0' do
+      entry = TimeEntry.find(1)
+      entry.spent_on = ''
+
+      assert !entry.save
+      assert entry.errors[:spent_on].present?
     end
   end
 
@@ -211,7 +221,7 @@ class TimeEntryTest < ActiveSupport::TestCase
     anon     = User.anonymous
     project  = Project.find(1)
     issue    = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => anon.id, :status_id => 1,
-                         :priority => IssuePriority.all.first, :subject => 'test_create',
+                         :priority => IssuePriority.first, :subject => 'test_create',
                          :description => 'IssueTest#test_create', :estimated_hours => '1:30')
     assert issue.save
     activity = TimeEntryActivity.find_by_name('Design')
@@ -244,7 +254,7 @@ class TimeEntryTest < ActiveSupport::TestCase
     anon     = User.anonymous
     project  = Project.find(1)
     issue    = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => anon.id, :status_id => 1,
-                         :priority => IssuePriority.all.first, :subject => 'test_create',
+                         :priority => IssuePriority.first, :subject => 'test_create',
                          :description => 'IssueTest#test_create', :estimated_hours => '1:30')
     assert issue.save
     activity = TimeEntryActivity.find_by_name('Design')

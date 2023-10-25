@@ -566,8 +566,11 @@ class IssueQuery < Query
     when "*", "!*" # Member / Not member
       sw = operator == "!*" ? 'NOT' : ''
       nl = operator == "!*" ? "#{Issue.table_name}.assigned_to_id IS NULL OR" : ''
-      "(#{nl} #{Issue.table_name}.assigned_to_id #{sw} IN (SELECT DISTINCT #{Member.table_name}.user_id FROM #{Member.table_name}" +
-        " WHERE #{Member.table_name}.project_id = #{Issue.table_name}.project_id))"
+      subquery =
+        "SELECT DISTINCT #{Member.table_name}.user_id" +
+        " FROM #{Member.table_name}" +
+        " WHERE #{Member.table_name}.project_id = #{Issue.table_name}.project_id"
+      "(#{nl} #{Issue.table_name}.assigned_to_id #{sw} IN (#{subquery}))"
     when "=", "!"
       role_cond =
         if value.any?
@@ -577,8 +580,11 @@ class IssueQuery < Query
         end
       sw = operator == "!" ? 'NOT' : ''
       nl = operator == "!" ? "#{Issue.table_name}.assigned_to_id IS NULL OR" : ''
-      "(#{nl} #{Issue.table_name}.assigned_to_id #{sw} IN (SELECT DISTINCT #{Member.table_name}.user_id FROM #{Member.table_name}, #{MemberRole.table_name}" +
-        " WHERE #{Member.table_name}.project_id = #{Issue.table_name}.project_id AND #{Member.table_name}.id = #{MemberRole.table_name}.member_id AND #{role_cond}))"
+      subquery =
+        "SELECT DISTINCT #{Member.table_name}.user_id, #{Member.table_name}.project_id" +
+        " FROM #{Member.table_name}, #{MemberRole.table_name}" +
+        " WHERE #{Member.table_name}.id = #{MemberRole.table_name}.member_id AND #{role_cond}"
+      "(#{nl} (#{Issue.table_name}.assigned_to_id, #{Issue.table_name}.project_id) #{sw} IN (#{subquery}))"
     end
   end
 

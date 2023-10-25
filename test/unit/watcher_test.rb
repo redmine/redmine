@@ -20,7 +20,7 @@
 require_relative '../test_helper'
 
 class WatcherTest < ActiveSupport::TestCase
-  fixtures :projects, :groups_users, :users, :email_addresses, :members, :member_roles, :roles, :enabled_modules,
+  fixtures :projects, :groups_users, :users, :user_preferences, :email_addresses, :members, :member_roles, :roles, :enabled_modules,
            :issues, :issue_statuses, :enumerations, :trackers, :projects_trackers,
            :boards, :messages,
            :wikis, :wiki_pages,
@@ -122,6 +122,43 @@ class WatcherTest < ActiveSupport::TestCase
     addable_watcher_users.each do |addable_watcher|
       assert_equal true, addable_watcher.is_a?(User) || addable_watcher.is_a?(Group)
     end
+  end
+
+  def test_add_watcher_with_unsaved_object
+    issue = Issue.new(project: Project.find(1), tracker_id: 1, subject: "test", author: User.find(2))
+    assert_not issue.persisted?
+
+    issue.add_watcher(@user)
+    assert issue.watched_by?(@user)
+
+    assert_equal [@user.id], issue.watcher_user_ids
+    assert_equal [@user], issue.watcher_users
+
+    assert_equal [nil], issue.watcher_ids
+    assert_equal 1, issue.watchers.size
+
+    issue.save!
+    assert 1, Watcher.where(watchable: issue).count
+  end
+
+  def test_remove_watcher_with_unsaved_object
+    issue = Issue.new(project: Project.find(1), tracker_id: 1, subject: "test", author: User.find(2))
+    assert_not issue.persisted?
+
+    issue.add_watcher(@user)
+    assert_equal [@user], issue.watcher_users
+
+    issue.remove_watcher(@user)
+    assert_not issue.watched_by?(@user)
+
+    assert_equal [], issue.watcher_user_ids
+    assert_equal [], issue.watcher_users
+
+    assert_equal [], issue.watcher_ids
+    assert_equal [], issue.watchers
+
+    issue.save!
+    assert 0, Watcher.where(watchable: issue).count
   end
 
   def test_addable_watcher_users_should_not_include_user_that_cannot_view_the_object

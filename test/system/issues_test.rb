@@ -443,8 +443,8 @@ class IssuesSystemTest < ApplicationSystemTestCase
     # wait for ajax response
     assert page.has_select?('issue_project_id', selected: 'OnlineStore')
 
+    assert_selector 'input[type=submit]', count: 2
     submit_buttons = page.all('input[type=submit]')
-    assert_equal 2, submit_buttons.size
     assert_equal 'Move', submit_buttons[0].value
     assert_equal 'Move and follow', submit_buttons[1].value
 
@@ -507,8 +507,9 @@ class IssuesSystemTest < ApplicationSystemTestCase
     # wait for ajax response
     assert page.has_select?('issue_project_id', selected: 'OnlineStore')
 
+    assert_selector 'input[type=submit]', count: 2
     submit_buttons = page.all('input[type=submit]')
-    assert_equal 2, submit_buttons.size
+
     assert_equal 'Copy', submit_buttons[0].value
     assert_equal 'Copy and follow', submit_buttons[1].value
     page.find('#issue_priority_id').select('High')
@@ -645,7 +646,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
     wait_for_ajax
 
     # assert log time form does not exist anymore for user without required permissions on the new project
-    assert_not page.has_css?('#log_time')
+    assert page.has_no_css?('#log_time')
   end
 
   def test_update_issue_form_should_include_add_notes_form_only_for_users_with_permission
@@ -665,6 +666,6 @@ class IssuesSystemTest < ApplicationSystemTestCase
     wait_for_ajax
 
     # assert add notes form does not exist anymore for user without required permissions on the new project
-    assert_not page.has_css?('#add_notes')
+    assert page.has_no_css?('#add_notes')
   end
 end

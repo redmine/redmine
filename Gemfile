@@ -2,17 +2,17 @@ source 'https://rubygems.org'
 
 ruby '>= 2.7.0', '< 3.3.0'
 
-gem 'rails', '6.1.7.4'
+gem 'rails', '6.1.7.6'
 gem 'rouge', '~> 4.1.0'
 gem 'request_store', '~> 1.5.0'
 gem 'mini_mime', '~> 1.1.0'
 gem "actionpack-xml_parser"
-gem 'roadie-rails', '~> 3.0.0'
+gem 'roadie-rails', '~> 3.1.0'
 gem 'marcel'
 gem 'mail', '~> 2.8.1'
 gem 'nokogiri', '~> 1.15.2'
 gem 'i18n', '~> 1.14.1'
-gem 'rbpdf', '~> 1.21.1'
+gem 'rbpdf', '~> 1.21.3'
 gem 'addressable'
 gem 'rubyzip', '~> 2.3.0'
 
@@ -94,7 +94,7 @@ end
 
 group :test do
   gem "rails-dom-testing"
-  gem 'mocha', '>= 1.4.0'
+  gem 'mocha', '>= 2.0.1'
   gem 'simplecov', '~> 0.22.0', :require => false
   gem "ffi", platforms: [:mingw, :x64_mingw, :mswin]
   # For running system tests
@@ -103,9 +103,9 @@ group :test do
   gem "selenium-webdriver", "~> 3.142.7"
   gem 'webdrivers', '4.6.1', require: false
   # RuboCop
-  gem 'rubocop', '~> 1.56.0', require: false
+  gem 'rubocop', '~> 1.57.0', require: false
   gem 'rubocop-performance', '~> 1.19.0', require: false
-  gem 'rubocop-rails', '~> 2.20.2', require: false
+  gem 'rubocop-rails', '~> 2.21.2', require: false
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), "Gemfile.local")

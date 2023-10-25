@@ -107,7 +107,7 @@ class TrackersControllerTest < Redmine::ControllerTest
         assert_select "input[type=checkbox][name=?][value=#{project_id}][checked=checked]", 'tracker[project_ids][]'
       end
       # project not checked
-      (Project.all.pluck(:id) - project_ids).each do |project_id|
+      (Project.pluck(:id) - project_ids).each do |project_id|
         assert_select "input[type=checkbox][name=?][value=#{project_id}]", 'tracker[project_ids][]'
       end
       # workflow copy selected

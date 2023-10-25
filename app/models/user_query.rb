@@ -51,6 +51,7 @@ class UserQuery < Query
         type: :list_optional,
         values: ->{ Redmine::Twofa.available_schemes.map {|s| [I18n.t("twofa__#{s}__name"), s] } }
     end
+    add_available_filter "name", type: :text, label: :field_name_or_email_or_login
     add_available_filter "login", type: :string
     add_available_filter "firstname", type: :string
     add_available_filter "lastname", type: :string
@@ -164,5 +165,31 @@ class UserQuery < Query
     end
 
     joins.any? ? joins.join(' ') : nil
+  end
+
+  def sql_for_name_field(field, operator, value)
+    case operator
+    when '*'
+      '1=1'
+    when '!*'
+      '1=0'
+    else
+      # match = (operator == '~')
+      match = !operator.start_with?('!')
+      matching_operator = operator.sub /^!/, ''
+      name_sql = %w(login firstname lastname).map{|field| sql_for_field(:name, operator, value, User.table_name, field)}
+
+      emails = EmailAddress.table_name
+      email_sql = <<-SQL
+        #{match ? "EXISTS" : "NOT EXISTS"}
+        (SELECT 1 FROM #{emails} WHERE
+          #{emails}.user_id = #{User.table_name}.id AND
+          #{sql_for_field(:name, matching_operator, value, emails, 'address')})
+      SQL
+
+      conditions = name_sql + [email_sql]
+      op = match ? " OR " : " AND "
+      "(#{conditions.map{|s| "(#{s})"}.join(op)})"
+    end
   end
 end

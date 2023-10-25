@@ -45,6 +45,19 @@ class UsersController < ApplicationController
     use_session = !request.format.csv?
     retrieve_query(UserQuery, use_session)
 
+    # API backwards compatibility: handle legacy filter parameters
+    unless request.format.html?
+      if status_id = params[:status].presence
+        @query.add_filter 'status', '=', [status_id]
+      end
+      if name = params[:name].presence
+        @query.add_filter 'name', '~', [name]
+      end
+      if group_id = params[:group_id].presence
+        @query.add_filter 'is_member_of_group', '=', [group_id]
+      end
+    end
+
     if @query.valid?
       scope = @query.results_scope
 

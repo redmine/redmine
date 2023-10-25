@@ -179,7 +179,7 @@ class TimeEntry < ActiveRecord::Base
     end
     errors.add :issue_id, :invalid if (issue_id && !issue) || (issue && project!=issue.project) || @invalid_issue_id
     errors.add :activity_id, :inclusion if activity_id_changed? && project && !project.activities.include?(activity)
-    if spent_on_changed? && user
+    if spent_on && spent_on_changed? && user
       errors.add :base, I18n.t(:error_spent_on_future_date) if !Setting.timelog_accept_future_dates? && (spent_on > user.today)
     end
   end

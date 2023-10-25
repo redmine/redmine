@@ -89,7 +89,7 @@ class AttachmentsController < ApplicationController
           tbnail,
           :filename => filename_for_content_disposition(@attachment.filename),
           :type => detect_content_type(@attachment, true),
-          :disposition => 'inline')
+          :disposition => 'attachment')
       end
     else
       # No thumbnail for the attachment or thumbnail could not be created
@@ -320,5 +320,10 @@ class AttachmentsController < ApplicationController
     else
       request.raw_post
     end
+  end
+
+  def send_file(path, options={})
+    headers['content-security-policy'] = "default-src 'none'; style-src 'unsafe-inline'; sandbox"
+    super
   end
 end
