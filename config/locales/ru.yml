@@ -213,7 +213,7 @@ ru:
         must_contain_lowercase: "должен содержать строчные латинские буквы (a-z)"
         must_contain_digits: "должен содержать цифры (0-9)"
         must_contain_special_chars: "должен содержать специальные символы (!, $, %, ...)"
-        domain_not_allowed: "contains a domain not allowed (%{domain})"
+        domain_not_allowed: "содержит запрещенный домен (%{domain})"
 
   support:
     array:
@@ -992,7 +992,7 @@ ru:
   label_close_versions: Закрыть завершённые версии
   label_board_sticky: Прикреплена
   label_board_locked: Заблокирована
-  field_principal: User or Group
+  field_principal: Пользователь или группа
   text_zoom_out: Отдалить
   text_zoom_in: Приблизить
   notice_unable_delete_time_entry: Невозможно удалить запись журнала.
@@ -1022,7 +1022,7 @@ ru:
   label_bulk_edit_selected_time_entries: Массовое изменение выбранных записей трудозатрат
   text_time_entries_destroy_confirmation: Вы уверены что хотите удалить выбранные трудозатраты?
   label_role_anonymous: Аноним
-  label_role_non_member: Не участник
+  label_role_non_member: Не участник проекта
   label_issue_note_added: Примечание добавлено
   label_issue_status_updated: Статус обновлён
   label_issue_priority_updated: Приоритет обновлён
@@ -1496,7 +1496,7 @@ ru:
     for_all_projects: Для всех проектов
     for_current_project: Для текущего проекта
     for_all_users: Для всех пользователей
-    for_this_user: For this user
+    for_this_user: Для этого пользователя
   text_allowed_queries_to_select: Выбор производится из публичных запросов (видимых для всех пользователей)
   text_all_migrations_have_been_run: Миграция база данных полностью выполнена
   button_save_object: Записать %{object_name}
@@ -1507,46 +1507,43 @@ ru:
   label_bulk_edit: Массовое редактирование
   button_create_and_follow: Создать и перейти
   label_subtask: Подзадача
-  label_default_query: Запрос по умолчанию
-  field_default_project_query: Проекты по умолчанию
+  label_default_query: Базовый запрос
+  field_default_project_query: Базовый запрос проекта
   label_required_administrators: обязательна для администраторов
   twofa_hint_required_administrators_html: Настройка <strong>%{label}</strong> ведёт себя
     аналогично необязательной двухфакторной аутентификации, однако администраторам
     потребуется включить двухфакторную аутентификацию при следующем входе.
   label_auto_watch_on: Следить автоматически
   label_auto_watch_on_issue_contributed_to: За задачами, в которых я принимаю участие
-  text_project_close_confirmation: Are you sure you want to close the '%{value}' project
-    to make it read-only?
-  text_project_reopen_confirmation: Are you sure you want to reopen the '%{value}' project?
-  text_project_archive_confirmation: Are you sure you want to archive the '%{value}'
-    project?
-  mail_destroy_project_failed: Project %{value} could not be deleted.
-  mail_destroy_project_successful: Project %{value} was deleted successfully.
-  mail_destroy_project_with_subprojects_successful: Project %{value} and its subprojects
-    were deleted successfully.
-  project_status_scheduled_for_deletion: scheduled for deletion
-  text_projects_bulk_destroy_confirmation: Are you sure you want to delete the selected
-    projects and related data?
+  text_project_close_confirmation: Закрыть проект '%{value}' и сделать его доступным только для чтения?
+  text_project_reopen_confirmation: Открыть проект '%{value}' заново?
+  text_project_archive_confirmation: Переместить проект '%{value}' в архив?
+  mail_destroy_project_failed: Проект %{value} не может быть удален.
+  mail_destroy_project_successful: Проект %{value} успешно удален.
+  mail_destroy_project_with_subprojects_successful: Проект %{value} и его под-проекты успешно удалены.
+  project_status_scheduled_for_deletion: запланировано удаление
+  text_projects_bulk_destroy_confirmation: Удалить выделенный проект и все связанные с ним данные?
   text_projects_bulk_destroy_head: |
-    You are about to permanently delete the following projects, including possible subprojects and any related data.
-    Please review the information below and confirm that this is indeed what you want to do.
-    This action cannot be undone.
-  text_projects_bulk_destroy_confirm: To confirm, please enter "%{yes}" in the box below.
-  text_subprojects_bulk_destroy: 'including its subproject(s): %{value}'
-  field_current_password: Current password
-  sudo_mode_new_info_html: "<strong>What's happening?</strong> You need to reconfirm
-    your password before taking any administrative actions, this ensures your account
-    stays protected."
-  label_edited: Edited
-  label_time_by_author: "%{time} by %{author}"
-  field_default_time_entry_activity: Default spent time activity
-  field_is_member_of_group: Member of group
-  text_users_bulk_destroy_head: You are about to delete the following users and remove
-    all references to them. This cannot be undone. Often, locking users instead of deleting
-    them is the better solution.
-  text_users_bulk_destroy_confirm: To confirm, please enter "%{yes}" below.
-  permission_select_project_publicity: Set project public or private
-  label_auto_watch_on_issue_created: Issues I created
+    Операция <strong>НЕВОССТАНОВИМО</strong> удалит проекты и все под-проекты, включая все относящиеся к ним данные.
+    Пожалуйста просмотрите информацию ниже и подтвердите удаление.
+    <strong>ВНИМАНИЕ</strong>: Это действие не может быть потом отменено.
+  text_projects_bulk_destroy_confirm: Для подтверждения введите "%{yes}" в поле ниже.
+  text_subprojects_bulk_destroy: 'включая под-проект(ы): %{value}'
+  field_current_password: Текущий пароль
+  sudo_mode_new_info_html: "<strong>Что случилось?</strong> Вам необходимо подтвердить Ваш пароль
+    перед тем, как совершать какие-либо административные действия.
+    Это предназначено для защиты вашей учетной записи."
+  label_edited: Изменено
+  label_time_by_author: "%{time} %{author}-ом"
+  field_default_time_entry_activity: Действие использованного времени по умолчанию
+  field_is_member_of_group: Член группы
+  text_users_bulk_destroy_head: Следующие пользователи и все ссылки на них будут удалены.
+    Это действие <strong>не может быть</strong> отменено.
+    Как правило, блокировка пользоваетелей - это лучшее решение, вместо полного удаления их
+    учетных записей.
+  text_users_bulk_destroy_confirm: Для подтверждения введите "%{yes}" ниже.
+  permission_select_project_publicity: Установить публичность или приватность проекта
+  label_auto_watch_on_issue_created: Задачи созданные мной
   field_any_searchable: Any searchable text
   label_contains_any_of: contains any of
   button_apply_issues_filter: Apply issues filter
