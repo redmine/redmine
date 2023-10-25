@@ -1464,6 +1464,5 @@ fr:
   label_issue_statuses_description: Description du statut des demande
   label_open_issue_statuses_description: Voir toutes descriptions des statuts des demandes
   text_select_apply_issue_status: Sélectionner les statuts des demandes
-  field_name_or_email_or_login: Name, email or login
-  text_default_active_job_queue_changed: Default queue adapter which is well suited
-    only for dev/test changed
+  field_name_or_email_or_login: Nom, email ou login
+  text_default_active_job_queue_changed: Gestionnaire de file par défaut le plus adapté
