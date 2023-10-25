@@ -77,7 +77,7 @@ fa:
   number:
     format:
       separator: "٫"
-      delimiter: ""
+      delimiter: "٬"
       precision: 3
 
     human:
@@ -226,7 +226,7 @@ fa:
   error_invalid_file_encoding: "این پرونده یک پرونده با کدگذاری %{encoding} نیست"
   error_invalid_csv_file_or_settings: "این پرونده یک پرونده CSV نیست یا با تنظیمات زیر همخوان نیست. (%{value})"
   error_can_not_read_import_file: "در هنگام خواندن پرونده برای ورود، خطایی رخ داد"
-  error_no_data_in_file: The file does not contain any data
+  error_no_data_in_file: پرونده شامل هیچ داده‌ای نیست
   error_attachment_extension_not_allowed: "پسوند %{extension} برای پیوست یک پسوند مجاز نیست"
   error_ldap_bind_credentials: "حساب/گذرواژه نامعتبر LDAP"
   error_no_tracker_allowed_for_new_issue_in_project: "پروژه هیچ نوع مسأله‌ای ندارد که بتوانید مسأله‌ای بسازید"
@@ -416,9 +416,9 @@ fa:
   field_history_default_tab: برگه پیش‌فرض در سابقه مسأله
   field_unique_id: شناسه یکتا
   field_toolbar_language_options: زبان‌های برنامه‌نویسیِ قابل انتخاب در نوارابزار‌
-  field_twofa_required: Require two factor authentication
-  field_default_issue_query: Default issue query
-  field_default_project_query: Default project query
+  field_twofa_required: احراز هویت دوعاملی مورد نیاز است
+  field_default_issue_query: جستار پیش‌فرض مسئله‌ها
+  field_default_project_query: جستار پیش‌فرض پروژه
   field_default_time_entry_activity: Default spent time activity
 
   setting_app_title: عنوان برنامه
@@ -570,9 +570,9 @@ fa:
   permission_view_wiki_edits: مشاهده سابقه دانش‌نامه
   permission_edit_wiki_pages: ویرایش صفحه‌های دانش‌نامه
   permission_delete_wiki_pages_attachments: حذف کردن پیوست‌های صفحه دانش‌نامه
-  permission_view_wiki_page_watchers: View wiki page watchers list
-  permission_add_wiki_page_watchers: Add wiki page watchers
-  permission_delete_wiki_page_watchers: Delete wiki page watchers
+  permission_view_wiki_page_watchers: مشاهده فهرست ناظرهای صفحه دانش‌نامه
+  permission_add_wiki_page_watchers: افزودن ناظر به صفحه دانش‌نامه
+  permission_delete_wiki_page_watchers: حذف ناظر از صفحه دانش‌نامه
   permission_protect_wiki_pages: محافظت صفحه‌های دانش‌نامه
   permission_manage_repository: مدیریت مخزن
   permission_browse_repository: مرور مخزن
@@ -710,7 +710,7 @@ fa:
   label_attachment_delete: حذف پیوست
   label_attachment_plural: پیوست‌ها
   label_file_added: پرونده افزوده شد
-  label_attachment_description: File description
+  label_attachment_description: توضیحات پیوست
   label_report: گزارش
   label_report_plural: گزارش‌ها
   label_news: مطلب
@@ -930,7 +930,7 @@ fa:
   label_changeset_plural: تغییرها
   label_default_columns: ستون‌های پیش‌فرض
   label_no_change_option: (بدون تغییر)
-  label_bulk_edit: Bulk edit
+  label_bulk_edit: ویرایش گروهی
   label_bulk_edit_selected_issues: ویرایش دسته‌ای مسأله‌های انتخاب‌شده
   label_bulk_edit_selected_time_entries: ویرایش دسته‌جمعی ورودی‌های زمان انتخاب‌شده
   label_theme: پوسته
@@ -961,8 +961,8 @@ fa:
   label_downloads_abbr: دریافت
   label_optional_description: توضیح اختیاری
   label_add_another_file: افزودن پرونده دیگر
-  label_auto_watch_on: Auto watch
-  label_auto_watch_on_issue_contributed_to: Issues I contributed to
+  label_auto_watch_on: ناظر خودکار
+  label_auto_watch_on_issue_contributed_to: مسئله‌هایی که در آن‌ها مشارکت داشته‌ام
   label_preferences: ترجیح‌ها
   label_chronological_order: به ترتیب تاریخ
   label_reverse_chronological_order: برعکس ترتیب تاریخ
@@ -970,7 +970,7 @@ fa:
   label_generate_key: ساخت کلید
   label_issue_watchers: ناظرها
   label_message_watchers: ناظرها
-  label_wiki_page_watchers: Watchers
+  label_wiki_page_watchers: ناظرها
   label_example: نمونه
   label_display: نمایش
   label_sort: مرتب‌سازی
@@ -1000,7 +1000,7 @@ fa:
   label_missing_api_access_key: کلید دست‌رسی API در دست‌رس نیست
   label_api_access_key_created_on: "کلید دست‌رسی API در %{value} پیش ساخته شده است"
   label_profile: نمایه
-  label_subtask: Subtask
+  label_subtask: زیرمسئله
   label_subtask_plural: زیرکار
   label_project_copy_notifications: در هنگام رونویسی پروژه، رایانامه‌های آگاه‌سازی را بفرست
   label_import_notifications: در هنگام وارد کردن، رایانامه‌های آگاه‌سازی را بفرست
@@ -1026,7 +1026,7 @@ fa:
   label_readonly: فقط‌خواندنی
   label_required: الزامی
   label_required_lower: الزامی
-  label_required_administrators: required for administrators
+  label_required_administrators: الزامی برای راه‌برها
   label_hidden: مخفی
   label_attribute_of_project: "%{name} پروژه"
   label_attribute_of_issue: "%{name} مسأله"
@@ -1105,10 +1105,10 @@ fa:
   label_optgroup_recents: اخیراً دیده‌شده
   label_last_notes: آخرین یادداشت‌ها
   label_default_queries:
-    for_all_projects: For all projects
-    for_current_project: For current project
-    for_all_users: For all users
-    for_this_user: For this user
+    for_all_projects: برای همه پروژه‌ها
+    for_current_project: برای پروژه جاری
+    for_all_users: برای همه کاربران
+    for_this_user: برای این کاربر
   label_nothing_to_preview: محتوایی برای مشاهده وجود ندارد
   label_inherited_from_parent_project: "ارث‌بری از پروژه پدر"
   label_inherited_from_group: "ارث‌بری از گروه %{name}"
@@ -1128,7 +1128,7 @@ fa:
   label_display_type_board: فهرست
   label_my_bookmarks: منتخب من
   label_assign_to_me: واگذاری به من
-  label_default_query: Default query
+  label_default_query: جستار پیش‌فرض
   label_edited: Edited
   label_time_by_author: "%{time} by %{author}"
 
@@ -1192,10 +1192,10 @@ fa:
   button_filter: غربال
   button_actions: فعالیت‌ها
   button_add_subtask: افزودن زیرکار
-  button_save_object: Save %{object_name}
-  button_edit_object: Edit %{object_name}
-  button_delete_object: Delete %{object_name}
-  button_create_and_follow: Create and follow
+  button_save_object: ذخیره %{object_name}
+  button_edit_object: ویرایش %{object_name}
+  button_delete_object: حذف %{object_name}
+  button_create_and_follow: ساخت و برگشت
 
   status_active: فعال
   status_registered: ثبت‌نام‌شده
@@ -1273,7 +1273,7 @@ fa:
   text_default_administrator_account_changed: حساب راه‌بری پیش‌فرض تغییر کرده است
   text_file_repository_writable: پوشه پیوست‌ها نوشتنی است
   text_plugin_assets_writable: پوشه دارایی‌های افزونه‌ها نوشتنی است
-  text_all_migrations_have_been_run: All database migrations have been run
+  text_all_migrations_have_been_run: همه تغییرات پایگاه داده اعمال شده اند
   text_minimagick_available: MiniMagick در دست‌رس است (اختیاری)
   text_convert_available: تبدیل ImageMagick در دست‌رس است (اختیاری)
   text_gs_available: پشتیبانی ImageMagick PDF موجود است (اختیاری)
@@ -1315,9 +1315,9 @@ fa:
   text_select_apply_tracker: "انتخاب نوع مسأله"
   text_avatar_server_config_html: خادم فعلی آواتار <a href="%{url}">%{url}</a> می‌باشد. شما می‌توانید آن را در config/configuration.yml تغییر دهید.
   text_no_subject: بدون موضوع
-  text_allowed_queries_to_select: Public (to any users) queries only selectable
-  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
-    Please restart the application after editing it.
+  text_allowed_queries_to_select: تنها جستارهای عمومی (برای همه کاربران) قابل انتخاب است
+  text_setting_config_change: می‌توانید رفتار را در config/configuration.yml ویرایش کنید.
+    لطفا پس از تغییر، برنامه را دوباره اجرا کنید.
 
   default_role_manager: مدیر
   default_role_developer: برنامه‌نویس
@@ -1380,12 +1380,12 @@ fa:
   twofa_not_active: فعال نشده است
   twofa_label_code: کد
   twofa_hint_disabled_html: تنظیم <strong>%{label}</strong> احراز هویت دو عاملی را غیرفعال کرده و اتصال همه دستگاه‌های تمامی کاربران را قطع می‌کند.
-  twofa_hint_optional_html: Setting <strong>%{label}</strong> will let users set up
-    two-factor authentication at will, unless it is required by one of their groups.
+  twofa_hint_optional_html: تنظیم <strong>%{label}</strong> به کاربران اجازه می‌دهد
+    احراز هویت دوعاملی را در صورت تمایل فعال کنند، مگر این‌که توسط یکی از گروه‌های کاربری الزامی شده باشد.
   twofa_hint_required_html: تنظیم <strong>%{label}</strong> تمامی کاربران را ملزم می‌کند تا احراز هویت دو عاملی را در اولین ورود بعدی فعال کنند.
-  twofa_hint_required_administrators_html: Setting <strong>%{label}</strong> behaves
-    like optional, but will require all users with administration rights to set up two-factor
-    authentication at their next login.
+  twofa_hint_required_administrators_html: تنظیم <strong>%{label}</strong> شبیه
+   احراز هویت دوعاملی اختیاری عمل می‌کند, اما برای راه‌برها احراز هویت دوعاملی را
+    در اولین ورود بعدی الزامی می‌کند.
   twofa_label_setup: فعال‌سازی احراز هویت دو عاملی
   twofa_label_deactivation_confirmation: غیرفعال‌سازی احراز هویت دو عاملی
   twofa_notice_select: 'لطفاً طرح دو عاملی را که می خواهید استفاده کنید انتخاب کنید:'
@@ -1409,10 +1409,10 @@ fa:
   twofa_text_backup_codes_hint: اگر به عامل دوم دسترسی ندارید، از این کدها به جای گذرواژه یک‌بارمصرف استفاده کنید. هر کد فقط یک‌بار قابل استفاده است. توصیه می شود آنها را چاپ کرده و در مکانی امن ذخیره کنید.
   twofa_text_backup_codes_created_at: کدهای پشتیبان ایجاد شد. %{datetime}.
   twofa_backup_codes_already_shown: کدهای پشتیبان را نمی توان دوباره نشان داد، لطفاً <a data-method = "post" href = "%{bc_path}"> در صورت نیاز کدهای پشتیبان جدید ایجاد کنید </a>.
-  twofa_text_group_required: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is required for all users.
-  twofa_text_group_disabled: This setting is only effective when the global two factor
+  twofa_text_group_required: این تنظیم تنها زمانی مؤثر است که احراز هویت دوعاملی
+    روی «اختیاری» تنظیم شده باشد. در حال حاضر، احراز هویت دوعاملی
+    برای همه کاربران الزامی است.
+  twofa_text_group_disabled: این تنظیم تنها زمانی مؤثر است که احراز هویت دوعاملی
     authentication setting is set to 'optional'. Currently, two factor authentication
     is disabled.
   text_user_destroy_confirmation: مطمئنید که می خواهید این کاربر و همه ارجاع‌های مربوط به او را حذف کنید؟ این کار قابل بازگشت نیست. غالبا، قفل کردن کاربر به جای حذف، راه حل به‌تری است. برای تأیید، لطفاً شناسه ورود کاربر (%{login}) را در زیر وارد کنید.
