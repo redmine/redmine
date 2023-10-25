@@ -160,7 +160,6 @@ ta-IN:
   notice_account_password_updated: கடவுச்சொல் வெற்றிகரமாக புதுப்பிக்கப்பட்டது.
   notice_account_wrong_password: தவறான கடவுச்சொல்
   notice_account_register_done: கணக்கு வெற்றிகரமாக உருவாக்கப்பட்டது.  உங்கள் கணக்கை செயல்படுத்துவதற்கான வழிமுறைகளைக் கொண்ட  %{email}க்கு அனுப்பப்பட்டது.
-  notice_account_unknown_email: தெரியாத பயனர்.
   notice_can_t_change_password: இந்த கணக்கு வெளிப்புற அங்கீகார மூலத்தைப் பயன்படுத்துகிறது. கடவுச்சொல்லை மாற்றுவது சாத்தியமில்லை.
   notice_account_lost_email_sent: புதிய கடவுச்சொல்லைத் தேர்ந்தெடுப்பதற்கான வழிமுறைகளைக் கொண்ட மின்னஞ்சல் உங்களுக்கு அனுப்பப்பட்டுள்ளது.
   notice_account_activated: உங்கள் கணக்கு செயல்படுத்தப்பட்டது. நீங்கள் இப்போது உள்நுழையலாம்.
@@ -178,7 +177,6 @@ ta-IN:
   notice_api_access_key_reseted: உங்கள் API அணுகல் சாவி மீட்டமைக்கப்பட்டது.
   notice_failed_to_save_issues: "தேர்ந்தெடுக்கப்பட்ட %{total}%{count} சிக்கலை (s) சேமிப்பதில் தோல்வி: %{ids}."
   notice_failed_to_save_members: "உறுப்பினர் (கள்) சேமிப்பதில் தோல்வி: %{errors}."
-  notice_no_issue_selected: "எந்த சிக்கலும் தேர்ந்தெடுக்கப்படவில்லை! தயவுசெய்து, நீங்கள் திருத்த விரும்பும் சிக்கல்களைச் சரிபார்க்கவும்."
   notice_account_pending: "உங்கள் கணக்கு உருவாக்கப்பட்டது, இப்போது நிர்வாகி ஒப்புதல் நிலுவையில் உள்ளது."
   notice_default_data_loaded: இயல்புநிலை உள்ளமைவு வெற்றிகரமாக ஏற்றப்பட்டது.
   notice_unable_delete_version: பதிப்பை நீக்க முடியவில்லை.
@@ -310,7 +308,6 @@ ta-IN:
   field_parent_title: மேல் பக்கம்
   field_editable: திருத்தக்கூடியது
   field_watcher: பார்வையாளர்
-  field_identity_url: OpenID URL
   field_content: உள்ளடக்கம்
   field_group_by: குழு முடிவுகள்
   field_sharing: பகிர்வு
@@ -329,7 +326,6 @@ ta-IN:
   setting_attachment_max_size: இணைப்பு அதிகபட்சம். அளவு
   setting_issues_export_limit: ஏற்றுமதி வரம்பை சிக்கல்கள்
   setting_mail_from: உமிழ்வு மின்னஞ்சல் முகவரி
-  setting_bcc_recipients: குருட்டு கார்பன் நகல் பெறுநர்கள் (bcc)
   setting_plain_text_mail: எளிய உரை அஞ்சல் (no HTML)
   setting_host_name: புரவலன் பெயர் மற்றும் பாதை
   setting_text_formatting: உரை வடிவமைத்தல்
@@ -362,7 +358,6 @@ ta-IN:
   setting_diff_max_lines_displayed: காட்டப்படும் அதிகபட்ச வேறுபாடு கோடுகள்
   setting_file_max_size_displayed: கோட்டில் காட்டப்படும் உரை கோப்புகளின் அதிகபட்ச அளவு
   setting_repository_log_display_limit: கோப்பு பதிவில் காட்டப்படும் அதிகபட்ச திருத்தங்கள்
-  setting_openid: OpenID உள்நுழைவு மற்றும் பதிவை அனுமதிக்கவும்
   setting_password_min_length: குறைந்தபட்ச கடவுச்சொல் நீளம்
   setting_new_project_user_role_id: ஒரு திட்டத்தை உருவாக்கும் நிர்வாகமற்ற பயனருக்கு வழங்கப்படும் பாத்திரங்கள்
   setting_default_projects_modules: புதிய திட்டங்களுக்கான இயல்புநிலை இயக்கப்பட்ட தொகுதிகள்
@@ -495,7 +490,6 @@ ta-IN:
   label_information: தகவல்
   label_information_plural: தகவல்
   label_register: பதிவு
-  label_login_with_open_id_option: அல்லது OpenID உடன் உள்நுழைக
   label_password_lost: கடவுச்சொல்லை இழந்தது
   label_home: இல்லம்
   label_my_page: என் பக்கம்
@@ -507,10 +501,8 @@ ta-IN:
   label_help: உதவி
   label_reported_issues: புகாரளிக்கப்பட்ட சிக்கல்கள்
   label_assigned_to_me_issues: எனக்கு ஒதுக்கப்பட்ட சிக்கல்கள்
-  label_last_login: கடைசி இணைப்பு
   label_registered_on: இல் பதிவு செய்யப்பட்டுள்ளது
   label_activity: செயல்பாடு
-  label_overall_activity: ஒட்டுமொத்த செயல்பாடு
   label_user_activity: "%{value}'கள் செயல்பாடு"
   label_new: புதியது
   label_logged_as: உள்நுழைந்துள்ளீர்
@@ -647,10 +639,6 @@ ta-IN:
   label_view_revisions: திருத்தங்களைக் காண்க
   label_view_all_revisions: எல்லா திருத்தங்களையும் காண்க
   label_max_size: அதிகபட்ச அளவு
-  label_sort_highest: மேலே நகர்த்தவும்
-  label_sort_higher: மேலே நகர்த்து
-  label_sort_lower: கீழே இறங்கு
-  label_sort_lowest: கீழே நகர்த்தவும்
   label_roadmap: வழித்தடம்
   label_roadmap_due_in: "காரணமாக %{value}"
   label_roadmap_overdue: "%{value} தாமதமாக"
@@ -671,7 +659,6 @@ ta-IN:
   label_changes_details: அனைத்து மாற்றங்களின் விவரங்கள்
   label_issue_tracking: சிக்கல் கண்காணிப்பு
   label_spent_time: நேரம் செலவிட்டார்
-  label_overall_spent_time: ஒட்டுமொத்தமாக நேரம் செலவிட்டார்
   label_f_hour: "%{value} மணி"
   label_f_hour_plural: "%{value} மணி"
   label_time_tracking: நேர கண்காணிப்பு
@@ -851,7 +838,6 @@ ta-IN:
 
   text_select_mail_notifications: எந்த மின்னஞ்சல் அறிவிப்புகளை அனுப்ப வேண்டும் என்பதற்கான செயல்களைத் தேர்ந்தெடுக்கவும்.
   text_regexp_info: eg. ^[A-Z0-9]+$
-  text_min_max_length_info: 0  என்றால் கட்டுப்பாடு இல்லை
   text_project_destroy_confirmation: நிச்சயமாக இந்த திட்டம், அதனுடன் தொடர்புடைய தரவும் நீக்க விரும்புகிறீர்களா?
   text_subprojects_destroy_warning: "அதன் துணை திட்டம்(s): %{value} நீக்கப்படும்."
   text_workflow_edit: பணிப்பாய்வு திருத்த ஒரு பாத்திரங்கள் மற்றும் தடம் தேர்ந்தெடுக்கவும்
@@ -1288,7 +1274,6 @@ ta-IN:
   label_import_notifications: இறக்குமதியின் போது மின்னஞ்சல் அறிவிப்புகளை அனுப்பவும்
   field_recently_used_projects: ஜம்ப் பெட்டியில் சமீபத்தில் பயன்படுத்தப்பட்ட திட்டங்களின் எண்ணிக்கை
   label_optgroup_bookmarks: புத்தகப்பக்க அடையாளம்
-  label_optgroup_others: பிற திட்டங்கள்
   label_optgroup_recents:  சமீபத்தில் பயன்படுத்தப்பட்டது
   button_project_bookmark:  புத்தகப்பக்க அடையாளம் சேர்க்கவும்
   button_project_bookmark_delete: புத்தகப்பக்க அடையாளம் அகற்று
