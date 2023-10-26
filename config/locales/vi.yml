@@ -992,11 +992,11 @@ vi:
   field_cvsroot: CVSROOT
   text_mercurial_repository_note: Kho chứa cục bộ (vd. /hgrepo, c:\hgrepo)
   text_scm_command: Lệnh
-  text_scm_command_version: Phiên bản  
-  label_git_report_last_commit: Báo cáo lần Commit cuối cùng cho file và thư mục  
+  text_scm_command_version: Phiên bản
+  label_git_report_last_commit: Báo cáo lần Commit cuối cùng cho file và thư mục
   text_scm_config: Bạn có thể cấu hình lệnh Scm trong file config/configuration.yml. Vui lòng khởi động lại ứng dụng sau khi chỉnh sửa nó.
-  text_scm_command_not_available: Lệnh Scm không có sẵn. Vui lòng kiểm tra lại thiết đặt trong phần Quản trị.  
-  notice_issue_successful_create: "Vấn đề %{id} đã được tạo."  
+  text_scm_command_not_available: Lệnh Scm không có sẵn. Vui lòng kiểm tra lại thiết đặt trong phần Quản trị.
+  notice_issue_successful_create: "Vấn đề %{id} đã được tạo."
   label_between: Ở giữa
   setting_issue_group_assignment: Cho phép gán vấn đề đến các nhóm
   label_diff: Sự khác nhau
@@ -1036,7 +1036,7 @@ vi:
   text_project_identifier_info: Chỉ cho phép chữ cái thường (a-z), con số và dấu gạch ngang.<br />Sau khi lưu, chỉ số ID không thể thay đổi.
   field_multiple: Nhiều giá trị
   setting_commit_cross_project_ref: Sử dụng thời gian hiện tại khi tạo vấn đề mới
-  text_issue_conflict_resolution_add_notes: Thêm ghi chú của tôi và loại bỏ các thay đổi khác 
+  text_issue_conflict_resolution_add_notes: Thêm ghi chú của tôi và loại bỏ các thay đổi khác
   text_issue_conflict_resolution_overwrite: Áp dụng thay đổi bằng bất cứ giá nào, ghi chú trước đó có thể bị ghi đè
   notice_issue_update_conflict: Vấn đề này đã được cập nhật bởi một người dùng khác trong khi bạn đang chỉnh sửa nó.
   text_issue_conflict_resolution_cancel: "Loại bỏ tất cả các thay đổi và hiển thị lại %{link}"
@@ -1049,7 +1049,7 @@ vi:
   text_account_destroy_confirmation: |-
     Bạn đồng ý không ?
     Tài khoản của bạn sẽ bị xóa vĩnh viễn, không thể khôi phục lại!
-  error_session_expired: Phiên làm việc của bạn bị quá hạn, hãy đăng nhập lại 
+  error_session_expired: Phiên làm việc của bạn bị quá hạn, hãy đăng nhập lại
   text_session_expiration_settings: "Chú ý : Thay đổi các thiết lập này có thể gây vô hiệu hóa Session hiện tại"
   setting_session_lifetime: Thời gian tồn tại lớn nhất của Session
   setting_session_timeout: Thời gian vô hiệu hóa Session
