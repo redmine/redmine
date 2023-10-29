@@ -99,9 +99,13 @@ group :test do
   gem "ffi", platforms: [:mingw, :x64_mingw, :mswin]
   # For running system tests
   gem 'puma'
-  gem 'capybara', '~> 3.38.0'
-  gem "selenium-webdriver", "~> 3.142.7"
-  gem 'webdrivers', '4.6.1', require: false
+  gem "capybara", ">= 3.39"
+  if Gem.ruby_version < Gem::Version.new('3.0')
+    gem "selenium-webdriver", "<= 4.9.0"
+    gem "webdrivers", require: false
+  else
+    gem "selenium-webdriver", ">= 4.11.0"
+  end
   # RuboCop
   gem 'rubocop', '~> 1.57.0', require: false
   gem 'rubocop-performance', '~> 1.19.0', require: false

@@ -18,39 +18,37 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require_relative 'test_helper'
-require 'webdrivers/chromedriver'
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   DOWNLOADS_PATH = File.expand_path(File.join(Rails.root, 'tmp', 'downloads'))
-  GOOGLE_CHROME_OPTS_ARGS = []
 
   # Allow running Capybara default server on custom IP address and/or port
   Capybara.server_host = ENV['CAPYBARA_SERVER_HOST'] if ENV['CAPYBARA_SERVER_HOST']
   Capybara.server_port = ENV['CAPYBARA_SERVER_PORT'] if ENV['CAPYBARA_SERVER_PORT']
 
   # Allow defining Google Chrome options arguments based on a comma-delimited string environment variable
-  GOOGLE_CHROME_OPTS_ARGS = ENV['GOOGLE_CHROME_OPTS_ARGS'].split(",") if ENV['GOOGLE_CHROME_OPTS_ARGS']
+  GOOGLE_CHROME_OPTS_ARGS = ENV['GOOGLE_CHROME_OPTS_ARGS'].present? ? ENV['GOOGLE_CHROME_OPTS_ARGS'].split(",") : []
 
   options = {}
-  # Allow running tests using a remote Selenium hub
-  options[:url] = ENV['SELENIUM_REMOTE_URL'] if ENV['SELENIUM_REMOTE_URL']
-  options[:desired_capabilities] = Selenium::WebDriver::Remote::Capabilities.chrome(
-                  'goog:chromeOptions' => {
-                    'args' => GOOGLE_CHROME_OPTS_ARGS,
-                    'prefs' => {
-                      'download.default_directory' => DOWNLOADS_PATH.gsub(File::SEPARATOR, File::ALT_SEPARATOR || File::SEPARATOR),
-                      'download.prompt_for_download' => false,
-                      'plugins.plugins_disabled' => ["Chrome PDF Viewer"]
-                    }
-                  }
-                )
+  if ENV['SELENIUM_REMOTE_URL']
+    options[:url] = ENV['SELENIUM_REMOTE_URL']
+    options[:browser] = :remote
+  elsif Gem.ruby_version < Gem::Version.new('3.0')
+    require 'webdrivers/chromedriver'
+  end
 
-  driven_by(
-    :selenium, using: :chrome, screen_size: [1024, 900],
-    options: options
-  )
+  # Allow running tests using a remote Selenium hub
+  driven_by :selenium, using: :chrome, screen_size: [1024, 900], options: options do |driver_option|
+    GOOGLE_CHROME_OPTS_ARGS.each do |arg|
+      driver_option.add_argument arg
+    end
+    driver_option.add_preference 'download.default_directory',   DOWNLOADS_PATH.gsub(File::SEPARATOR, File::ALT_SEPARATOR || File::SEPARATOR)
+    driver_option.add_preference 'download.prompt_for_download', false
+    driver_option.add_preference 'plugins.plugins_disabled',     ["Chrome PDF Viewer"]
+  end
 
   setup do
+    Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"
     # Allow defining a custom app host (useful when using a remote Selenium hub)
     if ENV['CAPYBARA_APP_HOST']
       Capybara.configure do |config|
