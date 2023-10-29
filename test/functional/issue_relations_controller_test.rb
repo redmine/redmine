@@ -316,7 +316,7 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
     end
 
     assert_difference 'IssueRelation.count', -1 do
-      delete(:destroy, :params => {:id => '2'}, :xhr => true)
+      delete(:destroy, :params => {:id => '2', :issue_id => '2'}, :xhr => true)
       assert_response :success
       assert_equal 'text/javascript', response.media_type
       assert_include 'relation-2', response.body
