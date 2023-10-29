@@ -68,7 +68,7 @@ class IssueRelationsController < ApplicationController
     respond_to do |format|
       format.html {redirect_to issue_path(@issue)}
       format.js do
-        @relations = @issue.reload.relations.select {|r| r.other_issue(@issue) && r.other_issue(@issue).visible?}
+        @relations = select_relations(@issue)
         @unsaved_relations = unsaved_relations
       end
       format.api do
@@ -89,7 +89,10 @@ class IssueRelationsController < ApplicationController
 
     respond_to do |format|
       format.html {redirect_to issue_path(@relation.issue_from)}
-      format.js
+      format.js do
+        find_issue
+        @relations = select_relations(@issue)
+      end
       format.api  {render_api_ok}
     end
   end
@@ -122,5 +125,9 @@ class IssueRelationsController < ApplicationController
     # We return a empty array just to loop once and return a validation error
     # ToDo: Find a better method to return an error if the param is missing.
     ['']
+  end
+
+  def select_relations(issue)
+    issue.reload.relations.select {|r| r.other_issue(issue) && r.other_issue(issue).visible?}
   end
 end

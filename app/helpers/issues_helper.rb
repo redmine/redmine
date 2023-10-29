@@ -208,7 +208,7 @@ module IssuesHelper
         if manage_relations
           link_to(
             l(:label_relation_delete),
-            relation_path(relation),
+            relation_path(relation, issue_id: issue.id),
             :remote => true,
             :method => :delete,
             :data => {:confirm => l(:text_are_you_sure)},
