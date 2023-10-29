@@ -1,6 +1,6 @@
 {
   "dependencies": {},
   "devDependencies": {
-    "stylelint": "^14.16.0"
+    "stylelint": "^15.11.0"
   }
 }
