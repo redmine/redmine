@@ -485,7 +485,6 @@ ca:
   label_help: "Ajuda"
   label_reported_issues: "Incidències informades"
   label_assigned_to_me_issues: "Incidències assignades a mi"
-  label_last_login: "Última connexió"
   label_registered_on: "Informat el"
   label_activity: "Activitat"
   label_user_activity: "Activitat de %{value}"
@@ -1265,7 +1264,6 @@ ca:
   text_gs_available: ImageMagick PDF support available (optional)
   field_recently_used_projects: Number of recently used projects in jump box
   label_optgroup_bookmarks: Bookmarks
-  label_optgroup_others: Other projects
   label_optgroup_recents: Recently used
   button_project_bookmark: Add bookmark
   button_project_bookmark_delete: Remove bookmark
