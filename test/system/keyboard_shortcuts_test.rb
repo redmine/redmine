@@ -116,7 +116,8 @@ class InlineAutocompleteSystemTest < ApplicationSystemTestCase
     within('.jstBlock .jstElements') do
       assert_equal "Strong (#{modifier_key_title}B)", find('button.jstb_strong')['title']
       assert_equal "Italic (#{modifier_key_title}I)", find('button.jstb_em')['title']
-      assert_equal "Underline (#{modifier_key_title}U)", find('button.jstb_ins')['title']
+      # assert button without shortcut
+      assert_equal "Deleted", find('button.jstb_del')['title']
     end
   end
 
