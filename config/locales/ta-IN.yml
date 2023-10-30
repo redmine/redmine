@@ -1262,7 +1262,7 @@ ta-IN:
   label_trackers_description: தடம்களின் விளக்கம்
   label_open_trackers_description: அனைத்து தடம் விளக்கத்தையும் காண்க
   label_preferred_body_part_text: உரை
-  label_preferred_body_part_html: HTML (சோதனை)
+  label_preferred_body_part_html: HTML
   field_parent_issue_subject: மேல் பணி பொருள்
   permission_edit_own_issues: சொந்த சிக்கல்களைத் திருத்தவும்
   text_select_apply_tracker: தடத்தை தேர்ந்தெடுக்கவும்
