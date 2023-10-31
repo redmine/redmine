@@ -103,7 +103,11 @@ class RepositoriesController < ApplicationController
 
   def fetch_changesets
     @repository.fetch_changesets if @project.active? && @path.empty? && !Setting.autofetch_changesets?
-    show
+
+    redirect_to(
+      controller: :repositories, action: :show,
+      id: @project, repository_id: @repository.identifier_param
+    )
   end
 
   def changes

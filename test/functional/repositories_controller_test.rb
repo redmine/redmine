@@ -237,7 +237,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
       role.add_permission! :manage_repository
       Repository::Subversion.any_instance.expects(:fetch_changesets).once
       post(:fetch_changesets, :params => {:id => 1, :repository_id => 10})
-      assert_response :success
+      assert_redirected_to '/projects/ecookbook/repository/10'
 
       role.remove_permission! :manage_repository
       Repository::Subversion.any_instance.expects(:fetch_changesets).never
