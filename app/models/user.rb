@@ -422,12 +422,6 @@ class User < Principal
     atom_token.value
   end
 
-  # TODO: remove in Redmine 6.0
-  def rss_key
-    ActiveSupport::Deprecation.warn "User.rss_key is deprecated and will be removed in Redmine 6.0. Please use User.atom_key instead."
-    atom_key
-  end
-
   # Return user's API key (a 40 chars long string), used to access the API
   def api_key
     if api_token.nil?
@@ -537,12 +531,6 @@ class User < Principal
 
   def self.find_by_atom_key(key)
     Token.find_active_user('feeds', key)
-  end
-
-  # TODO: remove in Redmine 6.0
-  def self.find_by_rss_key(key)
-    ActiveSupport::Deprecation.warn "User.find_by_rss_key is deprecated and will be removed in Redmine 6.0. Please use User.find_by_atom_key instead."
-    self.find_by_atom_key(key)
   end
 
   def self.find_by_api_key(key)
