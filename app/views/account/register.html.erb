@@ -2,6 +2,14 @@
 
 <%= labelled_form_for @user, :html => { :class => "form-horizontal new-user" }, :url => register_path do |f| %>
     <%= error_messages_for 'user' %>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+	    <p><b>Please note: There is a different user database for OSBv1 and OSBv2. This is to sign up to OSBv1 only.</b></p>
+        <p>Learn more about OSBv1 and OSBv2 <a href="https://docs.opensourcebrain.org/General/GettingStarted.html#which-version-of-osb-should-i-use">here</a>.</p>
+        </div>
+    </div>
+
     <% if @user.auth_source_id.nil? %>
         <div class="form-group">
             <label class="col-sm-2 control-label" for="user_login">
