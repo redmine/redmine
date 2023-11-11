@@ -1172,7 +1172,12 @@ function inlineAutoComplete(element) {
           fillAttr: 'label',
           requireLeadingSpace: true,
           selectTemplate: function (issue) {
-            return '#' + issue.original.id;
+            let leadingHash = "#"
+            // keep ## syntax which is a valid issue syntax to show issue with title.
+            if (this.currentMentionTextSnapshot.charAt(0) === "#") {
+              leadingHash = "##"
+            }
+            return leadingHash + issue.original.id;
           },
           menuItemTemplate: function (issue) {
             return sanitizeHTML(issue.original.label);
