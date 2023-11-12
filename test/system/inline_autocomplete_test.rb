@@ -43,6 +43,22 @@ class InlineAutocompleteSystemTest < ApplicationSystemTestCase
     assert_equal '#12 ', find('#issue_description').value
   end
 
+  def test_inline_autocomplete_for_issues_with_double_hash_keep_syntax
+    log_user('admin', 'admin')
+    visit 'projects/ecookbook/issues/new'
+
+    fill_in 'Description', :with => '##Closed'
+
+    within('.tribute-container') do
+      assert page.has_text? 'Bug #12: Closed issue on a locked version'
+      assert page.has_text? 'Bug #11: Closed issue on a closed version'
+
+      first('li').click
+    end
+
+    assert_equal '##12 ', find('#issue_description').value
+  end
+
   def test_inline_autocomplete_filters_autocomplete_items
     log_user('jsmith', 'jsmith')
     visit 'issues/new'
