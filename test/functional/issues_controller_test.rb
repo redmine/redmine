@@ -1182,6 +1182,29 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_equal 'application/pdf', @response.media_type
   end
 
+  def test_index_pdf_with_query_grouped_by_full_width_text_custom_field
+    field = IssueCustomField.
+      create!(
+        :name => 'Long text', :field_format => 'text',
+        :full_width_layout => '1',
+        :tracker_ids => [1,3], :is_for_all => true
+      )
+    issue = Issue.find(1)
+    issue.custom_field_values = {field.id => 'This is a long text'}
+    issue.save!
+
+    get(
+      :index,
+      :params => {
+        :set_filter => 1,
+        :c => ['subject', 'description', "cf_#{field.id}"],
+        :format => 'pdf'
+      }
+    )
+    assert_response :success
+    assert_equal 'application/pdf', @response.media_type
+  end
+
   def test_index_atom
     get(
       :index,
