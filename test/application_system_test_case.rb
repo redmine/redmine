@@ -49,6 +49,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
   setup do
     Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"
+
     # Allow defining a custom app host (useful when using a remote Selenium hub)
     if ENV['CAPYBARA_APP_HOST']
       Capybara.configure do |config|

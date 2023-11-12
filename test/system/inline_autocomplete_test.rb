@@ -52,6 +52,7 @@ class InlineAutocompleteSystemTest < ApplicationSystemTestCase
     within('.tribute-container') do
       assert page.has_text? 'Bug #12: Closed issue on a locked version'
       assert page.has_text? 'Bug #11: Closed issue on a closed version'
+      assert page.has_text? 'Bug #8: Closed issue'
 
       first('li').click
     end
