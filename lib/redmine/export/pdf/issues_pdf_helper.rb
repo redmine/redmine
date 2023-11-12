@@ -339,7 +339,7 @@ module Redmine
                   issue.visible_custom_field_values.detect do |v|
                     v.custom_field_id == column.custom_field.id
                   end
-                is_html = cv.custom_field.full_text_formatting?
+                is_html = cv.custom_field.full_text_formatting? if cv
                 text = show_value(cv, is_html)
               else
                 text = pdf_format_text issue, column.name.to_sym
