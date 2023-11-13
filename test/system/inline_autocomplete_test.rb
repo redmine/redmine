@@ -218,4 +218,23 @@ class InlineAutocompleteSystemTest < ApplicationSystemTestCase
 
     assert_equal '@dlopper ', find('#notes').value
   end
+
+  def test_inline_autocomplete_for_users_on_issues_without_edit_issue_permission
+    role_developer = Role.find(2)
+    role_developer.remove_permission!(:edit_issues)
+    role_developer.add_permission!(:add_issue_watchers)
+
+    log_user('jsmith', 'jsmith')
+    visit '/issues/4/edit'
+
+    find('#issue_notes').click
+    fill_in 'issue[notes]', :with => '@'
+
+    within('.tribute-container') do
+      assert page.has_text? 'John Smith'
+      first('li').click
+    end
+
+    assert_equal '@jsmith ', find('#issue_notes').value
+  end
 end
