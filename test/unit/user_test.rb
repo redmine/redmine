@@ -1043,15 +1043,15 @@ class UserTest < ActiveSupport::TestCase
 
   def test_valid_notification_options
     # without memberships
-    assert_equal 5, User.find(7).valid_notification_options.size
+    assert_equal 6, User.find(7).valid_notification_options.size
     # with memberships
-    assert_equal 6, User.find(2).valid_notification_options.size
+    assert_equal 7, User.find(2).valid_notification_options.size
   end
 
   def test_valid_notification_options_class_method
-    assert_equal 5, User.valid_notification_options.size
-    assert_equal 5, User.valid_notification_options(User.find(7)).size
-    assert_equal 6, User.valid_notification_options(User.find(2)).size
+    assert_equal 6, User.valid_notification_options.size
+    assert_equal 6, User.valid_notification_options(User.find(7)).size
+    assert_equal 7, User.valid_notification_options(User.find(2)).size
   end
 
   def test_notified_project_ids_setter_should_coerce_to_unique_integer_array
@@ -1250,8 +1250,8 @@ class UserTest < ActiveSupport::TestCase
     issue = Issue.generate!(:project => project, :assigned_to => assignee, :author => author)
 
     tests = {
-      author => %w(all only_my_events only_owner selected),
-      assignee => %w(all only_my_events only_assigned selected),
+      author => %w(all only_my_events only_owner selected bookmarked),
+      assignee => %w(all only_my_events only_assigned selected bookmarked),
       member => %w(all)
     }
 
