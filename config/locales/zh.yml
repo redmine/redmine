@@ -1346,98 +1346,79 @@ zh:
   text_user_destroy_confirmation: 您是否确定要删除这个用户并且移除该用户所有的参照？ 这是无法被复原的动作。通常锁定一个用户是比较好的方案，而非将用户删除。若要确认，请在下面输入用户的帐号名称 (%{login})。
   text_project_destroy_enter_identifier: 若要确认, 请在下面输入项目的标识 (%{identifier})。
   button_add_subtask: 新建子任务
-  notice_invalid_watcher: 'Invalid watcher: User will not receive any notifications
-    because it does not have access to view this object.'
-  button_fetch_changesets: Fetch commits
-  permission_view_message_watchers: View message watchers list
-  permission_add_message_watchers: Add message watchers
-  permission_delete_message_watchers: Delete message watchers
-  label_message_watchers: Watchers
-  button_copy_link: Copy link
-  error_invalid_authenticity_token: Invalid form authenticity token.
-  error_query_statement_invalid: An error occurred while executing the query and has
-    been logged. Please report this error to your Redmine administrator.
-  permission_view_wiki_page_watchers: View wiki page watchers list
-  permission_add_wiki_page_watchers: Add wiki page watchers
-  permission_delete_wiki_page_watchers: Delete wiki page watchers
-  label_wiki_page_watchers: Watchers
-  label_attachment_description: File description
-  error_no_data_in_file: The file does not contain any data
-  field_twofa_required: Require two factor authentication
-  twofa_hint_optional_html: Setting <strong>%{label}</strong> will let users set up
-    two-factor authentication at will, unless it is required by one of their groups.
-  twofa_text_group_required: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is required for all users.
-  twofa_text_group_disabled: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is disabled.
-  field_default_issue_query: Default issue query
+  notice_invalid_watcher: '无效的关注者：因为它无权查看此对象，所以用户将不会收到任何通知。'
+  button_fetch_changesets: 获取提交记录
+  permission_view_message_watchers: 查看消息关注者列表
+  permission_add_message_watchers: 添加消息关注者
+  permission_delete_message_watchers: 删除消息关注者
+  label_message_watchers: 关注者
+  button_copy_link: 复制链接
+  error_invalid_authenticity_token: 无效的表单验证令牌。
+  error_query_statement_invalid: 执行查询时发生错误并已记录。请向您的Redmine管理员报告此错误。
+  permission_view_wiki_page_watchers: 查看Wiki页面关注者列表
+  permission_add_wiki_page_watchers: 添加Wiki页面关注者
+  permission_delete_wiki_page_watchers: 删除Wiki页面关注者
+  label_wiki_page_watchers: 关注者
+  label_attachment_description: 文件描述
+  error_no_data_in_file: 文件不包含任何数据
+  field_twofa_required: 要求双因素身份验证
+  twofa_hint_optional_html: 设置 <strong>%{label}</strong>，用户可以自行设置双因素身份验证，除非其所在组要求必须设置。
+  twofa_text_group_required: 仅当全局双因素身份验证设置为“选用项”时，此设置才有效。目前，所有用户都需要进行双因素身份验证。
+  twofa_text_group_disabled: 仅当全局双因素身份验证设置为“选用项”时，此设置才有效。目前，双因素身份验证已禁用。
+  field_default_issue_query: 默认问题查询
   label_default_queries:
-    for_all_projects: For all projects
-    for_current_project: For current project
-    for_all_users: For all users
-    for_this_user: For this user
-  text_allowed_queries_to_select: Public (to any users) queries only selectable
-  text_all_migrations_have_been_run: All database migrations have been run
-  button_save_object: Save %{object_name}
-  button_edit_object: Edit %{object_name}
-  button_delete_object: Delete %{object_name}
-  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
-    Please restart the application after editing it.
-  label_bulk_edit: Bulk edit
-  button_create_and_follow: Create and follow
-  label_subtask: Subtask
-  label_default_query: Default query
-  field_default_project_query: Default project query
-  label_required_administrators: required for administrators
-  twofa_hint_required_administrators_html: Setting <strong>%{label}</strong> behaves
-    like optional, but will require all users with administration rights to set up two-factor
-    authentication at their next login.
-  label_auto_watch_on: Auto watch
-  label_auto_watch_on_issue_contributed_to: Issues I contributed to
-  text_project_close_confirmation: Are you sure you want to close the '%{value}' project
-    to make it read-only?
-  text_project_reopen_confirmation: Are you sure you want to reopen the '%{value}' project?
-  text_project_archive_confirmation: Are you sure you want to archive the '%{value}'
-    project?
-  mail_destroy_project_failed: Project %{value} could not be deleted.
-  mail_destroy_project_successful: Project %{value} was deleted successfully.
-  mail_destroy_project_with_subprojects_successful: Project %{value} and its subprojects
-    were deleted successfully.
-  project_status_scheduled_for_deletion: scheduled for deletion
-  text_projects_bulk_destroy_confirmation: Are you sure you want to delete the selected
-    projects and related data?
+    for_all_projects: 对于所有项目
+    for_current_project: 对于当前项目
+    for_all_users: 对于所有用户
+    for_this_user: 对于此用户
+  text_allowed_queries_to_select: 只允许选择公开（对任何用户开放）的查询
+  text_all_migrations_have_been_run: 所有数据库迁移已完成
+  button_save_object: 保存 %{object_name}
+  button_edit_object: 编辑 %{object_name}
+  button_delete_object: 删除 %{object_name}
+  text_setting_config_change: 您可以在 config/configuration.yml 中配置此行为。请在编辑后重新启动应用程序。
+  label_bulk_edit: 批量编辑
+  button_create_and_follow: 创建并关注
+  label_subtask: 子任务
+  label_default_query: 默认查询
+  field_default_project_query: 默认项目查询
+  label_required_administrators: 管理员所需
+  twofa_hint_required_administrators_html: 设置 <strong>%{label}</strong> 与 选用项 类似，但会要求所有具有管理权限的用户在下次登录时设置双因素身份验证。
+  label_auto_watch_on: 自动关注
+  label_auto_watch_on_issue_contributed_to: 我更新的问题
+  text_project_close_confirmation: 您确定要关闭项目“%{value}”并将其设置为只读吗？
+  text_project_reopen_confirmation: 您确定要重新打开项目“%{value}”吗？
+  text_project_archive_confirmation: 您确定要归档项目“%{value}”吗？
+  mail_destroy_project_failed: 无法删除项目 %{value}。
+  mail_destroy_project_successful: 项目 %{value} 已成功删除。
+  mail_destroy_project_with_subprojects_successful: 项目 %{value} 及其子项目已成功删除。
+  project_status_scheduled_for_deletion: 计划删除
+  text_projects_bulk_destroy_confirmation: 您确定要删除所选的项目及其相关数据吗？
   text_projects_bulk_destroy_head: |
-    You are about to permanently delete the following projects, including possible subprojects and any related data.
-    Please review the information below and confirm that this is indeed what you want to do.
-    This action cannot be undone.
-  text_projects_bulk_destroy_confirm: To confirm, please enter "%{yes}" in the box below.
-  text_subprojects_bulk_destroy: 'including its subproject(s): %{value}'
-  field_current_password: Current password
-  sudo_mode_new_info_html: "<strong>What's happening?</strong> You need to reconfirm
-    your password before taking any administrative actions, this ensures your account
-    stays protected."
-  label_edited: Edited
-  label_time_by_author: "%{time} by %{author}"
-  field_default_time_entry_activity: Default spent time activity
-  field_is_member_of_group: Member of group
-  text_users_bulk_destroy_head: You are about to delete the following users and remove
-    all references to them. This cannot be undone. Often, locking users instead of deleting
-    them is the better solution.
-  text_users_bulk_destroy_confirm: To confirm, please enter "%{yes}" below.
-  permission_select_project_publicity: Set project public or private
-  label_auto_watch_on_issue_created: Issues I created
-  field_any_searchable: Any searchable text
-  label_contains_any_of: contains any of
-  button_apply_issues_filter: Apply issues filter
-  label_view_previous_annotation: View annotation prior to this change
-  label_has_been: has been
-  label_has_never_been: has never been
-  label_changed_from: changed from
-  label_issue_statuses_description: Issue statuses description
-  label_open_issue_statuses_description: View all issue statuses description
-  text_select_apply_issue_status: Select issue status
-  field_name_or_email_or_login: Name, email or login
-  text_default_active_job_queue_changed: Default queue adapter which is well suited
-    only for dev/test changed
+    您即将永久删除以下项目，包括可能的子项目和所有相关数据。
+    请仔细查看下面的信息，并确认这确实是您要执行的操作。
+    此操作无法撤销。
+  text_projects_bulk_destroy_confirm: 请在以下方框中输入 "%{yes}"，以确认操作。
+  text_subprojects_bulk_destroy: '包括其子项目：%{value}'
+  field_current_password: 当前密码
+  sudo_mode_new_info_html: "<strong>发生了什么？</strong> 在执行任何管理操作之前，您需要重新确认密码，以确保您的帐户安全。"
+  label_edited: 已编辑
+  label_time_by_author: "%{time}，作者：%{author}"
+  field_default_time_entry_activity: 默认记录时间活动
+  field_is_member_of_group: 所属组
+  text_users_bulk_destroy_head: 您即将删除以下用户并删除所有与之相关的引用。此操作无法撤销。通常，锁定用户而不是删除用户是更好的解决方案。
+  text_users_bulk_destroy_confirm: 请在下面输入 "%{yes}"，以确认操作。
+  permission_select_project_publicity:  设置项目为公开或私有
+  label_auto_watch_on_issue_created: 我创建的问题
+  field_any_searchable: 任意可搜索的文本
+  label_contains_any_of: 包含以下任意项之一
+  button_apply_issues_filter: 应用问题筛选器
+  label_view_previous_annotation: 查看此更改前的注释
+  label_has_been: 目前/曾经是
+  label_has_never_been: 从未是
+  label_changed_from: 变更自
+  label_issue_statuses_description: 问题状态描述
+  label_open_issue_statuses_description: 查看全部问题状态描述
+  text_select_apply_issue_status: 选择问题状态
+  field_name_or_email_or_login: 姓名、电子邮件或登录名
+  text_default_active_job_queue_changed: 仅适用于开发/测试环境的默认队列适配器已改变
