@@ -103,7 +103,9 @@ module Redmine
             \s|
             \]|
             <|
-            $)
+            [[:punct:]]?
+            $
+          )
         /ix
       end
     end
