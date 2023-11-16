@@ -463,4 +463,19 @@ class IssueImportTest < ActiveSupport::TestCase
       assert_equal 'CP932', guessed_encoding
     end
   end
+
+  def test_set_default_settings_should_detect_field_wrapper
+    to_test = {
+      'import_issues.csv' => '"',
+      'import_issues_single_quotation.csv' => "'",
+      # Use '"' as a wrapper for CSV file with no wrappers
+      'import_dates.csv' => '"',
+    }
+
+    to_test.each do |file, expected|
+      import = generate_import(file)
+      import.set_default_settings
+      assert_equal expected, import.settings['wrapper']
+    end
+  end
 end
