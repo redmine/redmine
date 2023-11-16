@@ -1422,3 +1422,4 @@ zh:
   text_select_apply_issue_status: 选择问题状态
   field_name_or_email_or_login: 姓名、电子邮件或登录名
   text_default_active_job_queue_changed: 仅适用于开发/测试环境的默认队列适配器已改变
+  label_user_mail_option_bookmarked: For any event on my bookmarked projects
