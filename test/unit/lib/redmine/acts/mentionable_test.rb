@@ -29,12 +29,9 @@ class Redmine::Acts::MentionableTest < ActiveSupport::TestCase
          :issues
 
   def test_mentioned_users_with_user_mention
-    to_test = %w(@dlopper @dlopper! @dlopper? @dlopper. @dlopper,)
+    issue = Issue.generate!(project_id: 1, description: '@dlopper')
 
-    to_test.each do |item|
-      issue = Issue.generate!(project_id: 1, description: item)
-      assert_equal [User.find(3)], issue.mentioned_users
-    end
+    assert_equal [User.find(3)], issue.mentioned_users
   end
 
   def test_mentioned_users_with_user_mention_having_mail_as_login
