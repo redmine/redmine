@@ -89,7 +89,7 @@ end
 
 group :development do
   gem 'listen', '~> 3.3'
-  gem "yard"
+  gem 'yard', require: false
 end
 
 group :test do
