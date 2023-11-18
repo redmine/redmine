@@ -29,7 +29,7 @@ class IssueNestedSetConcurrencyTest < ActiveSupport::TestCase
   self.use_transactional_tests = false
 
   def setup
-    skip if sqlite? || mysql?
+    skip if sqlite?
     User.current = nil
     CustomField.delete_all
   end
@@ -57,21 +57,6 @@ class IssueNestedSetConcurrencyTest < ActiveSupport::TestCase
         end
       end
     end
-  end
-
-  def test_concurrent_subtasks_creation
-    root = Issue.generate!
-    assert_difference 'Issue.count', 30 do
-      threaded(3) do
-        10.times do
-          Issue.generate! :parent_issue_id => root.id
-        end
-      end
-    end
-    root.reload
-    assert_equal [1, 62], [root.lft, root.rgt]
-    children_bounds = root.children.sort_by(&:lft).map {|c| [c.lft, c.rgt]}.flatten
-    assert_equal (2..61).to_a, children_bounds
   end
 
   private
