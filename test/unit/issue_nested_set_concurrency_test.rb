@@ -30,6 +30,11 @@ class IssueNestedSetConcurrencyTest < ActiveSupport::TestCase
 
   def setup
     skip if sqlite?
+    if mysql?
+      connection = ActiveRecord::Base.connection_db_config.configuration_hash.deep_dup
+      connection[:variables] = { transaction_isolation: "READ-COMMITTED" }
+      ActiveRecord::Base.establish_connection connection
+    end
     User.current = nil
     CustomField.delete_all
   end
