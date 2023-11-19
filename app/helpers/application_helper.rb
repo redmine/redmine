@@ -1837,6 +1837,10 @@ module ApplicationHelper
   end
 
   def render_if_exist(options = {}, locals = {}, &block)
+    # Remove test_render_if_exist_should_be_render_partial and test_render_if_exist_should_be_render_nil
+    # along with this method in Redmine 7.0
+    ActiveSupport::Deprecation.warn 'ApplicationHelper#render_if_exist is deprecated and will be removed in Redmine 7.0.'
+
     if options[:partial]
       if lookup_context.exists?(options[:partial], lookup_context.prefixes, true)
         render(options, locals, &block)
