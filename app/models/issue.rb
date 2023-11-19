@@ -119,13 +119,14 @@ class Issue < ActiveRecord::Base
   after_save :reschedule_following_issues, :update_nested_set_attributes,
              :update_parent_attributes, :delete_selected_attachments, :create_journal
   # Should be after_create but would be called before previous after_save callbacks
-  after_save :after_create_from_copy, :create_parent_issue_journal
-  after_destroy :update_parent_attributes, :create_parent_issue_journal
+  after_save :after_create_from_copy
+  after_destroy :update_parent_attributes
   # add_auto_watcher needs to run before sending notifications, thus it needs
   # to be added after send_notification (after_ callbacks are run in inverse order)
   # https://api.rubyonrails.org/v5.2.3/classes/ActiveSupport/Callbacks/ClassMethods.html#method-i-set_callback
   after_create_commit :send_notification
   after_create_commit :add_auto_watcher
+  after_commit :create_parent_issue_journal
 
   # Returns a SQL conditions string used to find all issues visible by the specified user
   def self.visible_condition(user, options={})
@@ -2027,15 +2028,24 @@ class Issue < ActiveRecord::Base
         [nil, parent_id]
       end
 
-    if old_parent_id.present? && old_parent_issue = Issue.visible.find_by_id(old_parent_id)
-      old_parent_issue.init_journal(User.current)
-      old_parent_issue.current_journal.__send__(:add_attribute_detail, 'child_id', child_id, nil)
-      old_parent_issue.save
+    if old_parent_id.present?
+      Issue.transaction do
+        if old_parent_issue = Issue.visible.lock.find_by_id(old_parent_id)
+          old_parent_issue.init_journal(User.current)
+          old_parent_issue.current_journal.__send__(:add_attribute_detail, 'child_id', child_id, nil)
+          old_parent_issue.save
+        end
+      end
     end
-    if new_parent_id.present? && new_parent_issue = Issue.visible.find_by_id(new_parent_id)
-      new_parent_issue.init_journal(User.current)
-      new_parent_issue.current_journal.__send__(:add_attribute_detail, 'child_id', nil, child_id)
-      new_parent_issue.save
+
+    if new_parent_id.present?
+      Issue.transaction do
+        if new_parent_issue = Issue.visible.lock.find_by_id(new_parent_id)
+          new_parent_issue.init_journal(User.current)
+          new_parent_issue.current_journal.__send__(:add_attribute_detail, 'child_id', nil, child_id)
+          new_parent_issue.save
+        end
+      end
     end
   end
 
