@@ -32,7 +32,7 @@ class IssueNestedSetConcurrencyTest < ActiveSupport::TestCase
     skip if sqlite?
     if mysql?
       connection = ActiveRecord::Base.connection_db_config.configuration_hash.deep_dup
-      connection[:variables] = { transaction_isolation: "READ-COMMITTED" }
+      connection[:variables] = mysql8? ? { transaction_isolation: "READ-COMMITTED" } : { tx_isolation: "READ-COMMITTED" }
       ActiveRecord::Base.establish_connection connection
     end
     User.current = nil

@@ -61,6 +61,10 @@ module Redmine
         /mysql/i.match?(ActiveRecord::Base.connection.adapter_name)
       end
 
+      def mysql_version
+        mysql? ? ActiveRecord::Base.connection.select_value("SELECT VERSION()") : nil
+      end
+
       # Returns a SQL statement for case/accent (if possible) insensitive match
       def like(left, right, options={})
         neg = (options[:match] == false ? 'NOT ' : '')

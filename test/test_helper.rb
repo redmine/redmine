@@ -203,6 +203,10 @@ class ActiveSupport::TestCase
     Redmine::Database.mysql?
   end
 
+  def mysql8?
+    Gem::Version.new(Redmine::Database.mysql_version) >= Gem::Version.new('8.0.0')
+  end
+
   def postgresql?
     Redmine::Database.postgresql?
   end
