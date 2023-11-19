@@ -3,7 +3,7 @@ begin
 
   YARD::Rake::YardocTask.new do |t|
     files = ['app/**/*.rb']
-    files << Dir['lib/**/*.rb', 'plugins/**/*.rb'].reject {|f| f.match(/test/) }
+    files += Dir['lib/**/*.rb', 'plugins/**/*.rb'].reject {|f| f.match(/test/)}
     t.files = files
 
     static_files = ['doc/CHANGELOG',
