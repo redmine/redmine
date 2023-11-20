@@ -69,7 +69,7 @@ file 'config/database.yml' do
     test_conf = dev_conf.merge('database' => test_db_name)
   when /postgresql/
     dev_conf =  {'adapter' => 'postgresql', 'database' => dev_db_name,
-                 'host' => 'localhost'}
+                 'host' => (ENV['CI_PG_HOST'] || 'localhost')}
     if ENV['RUN_ON_NOT_OFFICIAL']
       dev_conf['username'] = 'postgres'
     else
