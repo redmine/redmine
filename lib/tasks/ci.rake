@@ -58,7 +58,7 @@ file 'config/database.yml' do
   case database
   when /(mysql|mariadb)/
     dev_conf =  {'adapter' => 'mysql2',
-                 'database' => dev_db_name, 'host' => 'localhost',
+                 'database' => dev_db_name, 'host' => (ENV['CI_MYSQL_HOST'] || 'localhost'),
                  'encoding' => 'utf8'}
     if ENV['RUN_ON_NOT_OFFICIAL']
       dev_conf['username'] = 'root'
