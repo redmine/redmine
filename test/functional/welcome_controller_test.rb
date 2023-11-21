@@ -117,6 +117,16 @@ class WelcomeControllerTest < Redmine::ControllerTest
     assert_select 'body.textarea-proportional'
   end
 
+  def test_data_text_setting_attribute
+    formats = %w(textile common_mark)
+    formats.each do |format|
+      with_settings text_formatting: format do
+        get :index
+        assert_select 'body[data-text-formatting=?]', format
+      end
+    end
+  end
+
   def test_logout_link_should_post
     @request.session[:user_id] = 2
 

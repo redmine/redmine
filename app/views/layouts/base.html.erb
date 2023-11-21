@@ -17,7 +17,7 @@
 <!-- page specific tags -->
 <%= yield :header_tags -%>
 </head>
-<body class="<%= body_css_classes %>">
+<body class="<%= body_css_classes %>" data-text-formatting="<%= Setting.text_formatting %>">
 <%= call_hook :view_layouts_base_body_top %>
 <div id="wrapper">
 
