@@ -170,9 +170,13 @@ module Redmine
       end
     end
 
+    class CurrentSudoMode < ActiveSupport::CurrentAttributes
+      attribute :was_used, :active, :disabled
+    end
+
     # true if the sudo mode state was queried during this request
     def self.was_used?
-      !!RequestStore.store[:sudo_mode_was_used]
+      !!CurrentSudoMode.was_used
     end
 
     # true if sudo mode is currently active.
@@ -184,13 +188,13 @@ module Redmine
     # If you do it wrong, timeout of the sudo mode will happen too late or not at
     # all.
     def self.active?
-      if !!RequestStore.store[:sudo_mode]
-        RequestStore.store[:sudo_mode_was_used] = true
+      if !!CurrentSudoMode.active
+        CurrentSudoMode.was_used = true
       end
     end
 
     def self.active!
-      RequestStore.store[:sudo_mode] = true
+      CurrentSudoMode.active = true
     end
 
     def self.possible?
@@ -199,16 +203,16 @@ module Redmine
 
     # Turn off sudo mode (never require password entry).
     def self.disable!
-      RequestStore.store[:sudo_mode_disabled] = true
+      CurrentSudoMode.disabled = true
     end
 
     # Turn sudo mode back on
     def self.enable!
-      RequestStore.store[:sudo_mode_disabled] = nil
+      CurrentSUdoMode.disabled = nil
     end
 
     def self.enabled?
-      Redmine::Configuration['sudo_mode'] && !RequestStore.store[:sudo_mode_disabled]
+      Redmine::Configuration['sudo_mode'] && !CurrentSudoMode.disabled
     end
 
     # Timespan after which sudo mode expires when unused.

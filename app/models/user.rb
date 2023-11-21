@@ -854,12 +854,16 @@ class User < Principal
     self.pref.notify_about_high_priority_issues
   end
 
+  class CurrentUser < ActiveSupport::CurrentAttributes
+    attribute :user
+  end
+
   def self.current=(user)
-    RequestStore.store[:current_user] = user
+    CurrentUser.user = user
   end
 
   def self.current
-    RequestStore.store[:current_user] ||= User.anonymous
+    CurrentUser.user ||= User.anonymous
   end
 
   # Returns the anonymous user.  If the anonymous user does not exist, it is created.  There can be only
