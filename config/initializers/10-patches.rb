@@ -26,6 +26,14 @@ module ActiveRecord
     end
   end
   class Relation ; undef open ; end
+
+  # Backport of Rails 7.1 Relation#intersect? method
+  # see also https://www.shakacode.com/blog/rails-7-1-adds-support-for-intersect-to-activerecord-relation/
+  unless Relation.respond_to?(:intersect?)
+    class Relation
+      delegate :intersect?, :to => :records
+    end
+  end
 end
 
 module ActionView
