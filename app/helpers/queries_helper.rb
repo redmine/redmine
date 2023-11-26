@@ -26,15 +26,15 @@ module QueriesHelper
     ungrouped = []
     grouped = {label_string: [], label_date: [], label_time_tracking: [], label_attachment: []}
     query.available_filters.map do |field, field_options|
-      if field =~ /^(.+)\./
+      if /^cf_\d+\./.match?(field)
+        group = (field_options[:through] || field_options[:field]).try(:name)
+      elsif field =~ /^(.+)\./
         # association filters
         group = "field_#{$1}".to_sym
       elsif field_options[:type] == :relation
         group = :label_relations
       elsif field_options[:type] == :tree
         group = query.is_a?(IssueQuery) ? :label_relations : nil
-      elsif /^cf_\d+\./.match?(field)
-        group = (field_options[:through] || field_options[:field]).try(:name)
       elsif %w(member_of_group assigned_to_role).include?(field)
         group = :field_assigned_to
       elsif field_options[:type] == :date_past || field_options[:type] == :date
