@@ -10,8 +10,8 @@ http://www.redmine.org/
 * Ruby 2.7, 3.0, 3.1, 3.2
 
 * A database:
-  * MySQL (tested with MySQL 5.7)
-  * PostgreSQL (tested with PostgreSQL 9.5)
+  * MySQL (tested with MySQL 8)
+  * PostgreSQL (tested with PostgreSQL 14)
   * SQLite3 (tested with SQLite 3.11)
   * SQLServer (tested with SQLServer 2012)
 
@@ -85,6 +85,26 @@ The current version of Firefox, Safari, Chrome, Chromium and Microsoft Edge.
 
    Go to "Administration" to load the default configuration data (roles,
    trackers, statuses, workflow) and to adjust the application settings
+
+== Database server configuration
+
+When using MySQL with Redmine 5.1.1 or later, it is necessary to change
+the transaction isolation level from the default REPEATABLE READ to
+READ_COMMITTED. To modify this setting, either change the database
+configuration file or alter the settings on your MySQL server.
+
+To set the transaction isolation level in the database configuration file,
+add transaction_isolation variable as below:
+
+  production:
+    adapter: mysql2
+    database: redmine
+    host: localhost
+    [...]
+    variables:
+      transaction_isolation: "READ-COMMITTED"
+
+More details can be found in https://www.redmine.org/projects/redmine/wiki/MySQL_configuration.
 
 == SMTP server Configuration
 
