@@ -21,6 +21,7 @@
 */
 
 /* Modified by JP LANG for textile formatting */
+
 let lastJstPreviewed = null;
 const isMac = Boolean(navigator.platform.toLowerCase().match(/mac/));
 
