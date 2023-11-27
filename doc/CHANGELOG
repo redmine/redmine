@@ -4,6 +4,43 @@ Redmine - project management software
 Copyright (C) 2006-2023  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2023-11-27 v5.1.1
+
+=== [Database]
+
+* Defect #39437: MySQL / MariaDB issue nested set deadlocks and consistency
+* Defect #39443: Invalid statement query error on MSSQL when role filter is used in issues query
+* Patch #39737: Support MySQL 8
+
+=== [Email notifications]
+
+* Defect #39553: Mention notification is not sent (MENTION_PATTERN / LINKS_RE inconsistency)
+
+=== [Filters]
+
+* Defect #39714: Query grouping filter not working for custom field relations
+
+=== [Gems support]
+
+* Defect #39576: `rake yard` does not work with Ruby >= 3.2
+
+=== [Issues]
+
+* Defect #39521: Mention autocomplete not displaying for users without "Edit issues" permission
+
+=== [PDF export]
+
+* Defect #39534: Error (undefined method) in issue list PDF export
+
+=== [Text formatting]
+
+* Defect #38852: ## issue syntax is not kept when selecting an issue from the inline autocomplete
+
+=== [Translations]
+
+* Patch #39513: Bulgarian translation update for 5.1-stable
+* Patch #39551: Simplified Chinese translation update for 5.1-stable
+
 == 2023-10-31 v5.1.0
 
 === [Accounts / authentication]
