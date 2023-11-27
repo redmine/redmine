@@ -259,7 +259,7 @@ module ApplicationHelper
     when Array
       formatted_objects = object.map {|o| format_object(o, html)}
       html ? safe_join(formatted_objects, ', ') : formatted_objects.join(', ')
-    when Time
+    when Time, ActiveSupport::TimeWithZone
       format_time(object)
     when Date
       format_date(object)
@@ -634,7 +634,7 @@ module ApplicationHelper
                  'span', nil,
                  :class => "name icon icon-#{principal.class.name.downcase}"
                )
-            ) + principal
+            ) + principal.to_s
         )
     end
     s.html_safe

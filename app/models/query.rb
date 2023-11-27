@@ -257,8 +257,8 @@ class Query < ActiveRecord::Base
   has_and_belongs_to_many :roles, :join_table => "#{table_name_prefix}queries_roles#{table_name_suffix}", :foreign_key => "query_id"
   serialize :filters
   serialize :column_names
-  serialize :sort_criteria, Array
-  serialize :options, Hash
+  serialize :sort_criteria, type: Array
+  serialize :options, type: Hash
 
   validates_presence_of :name
   validates_length_of :name, :maximum => 255
@@ -1631,7 +1631,7 @@ class Query < ActiveRecord::Base
       else
         from = from - 1 # second
       end
-      if self.class.default_timezone == :utc
+      if ActiveRecord.default_timezone == :utc
         from = from.utc
       end
       s << ("#{table}.#{field} > '%s'" % [quoted_time(from, is_custom_filter)])
@@ -1640,7 +1640,7 @@ class Query < ActiveRecord::Base
       if to.is_a?(Date)
         to = date_for_user_time_zone(to.year, to.month, to.day).end_of_day
       end
-      if self.class.default_timezone == :utc
+      if ActiveRecord.default_timezone == :utc
         to = to.utc
       end
       s << ("#{table}.#{field} <= '%s'" % [quoted_time(to, is_custom_filter)])

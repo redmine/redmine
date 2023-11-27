@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '>= 2.7.0', '< 3.3.0'
 
-gem 'rails', '6.1.7.6'
+gem 'rails', '7.1.2'
 gem 'rouge', '~> 4.2.0'
 gem 'mini_mime', '~> 1.1.0'
 gem "actionpack-xml_parser"
@@ -85,6 +85,10 @@ if File.exist?(database_file)
   end
 else
   warn("Please configure your config/database.yml first")
+end
+
+group :development, :test do
+  gem 'debug'
 end
 
 group :development do

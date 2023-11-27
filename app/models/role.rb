@@ -76,7 +76,7 @@ class Role < ActiveRecord::Base
   has_many :members, :through => :member_roles
   acts_as_positioned :scope => :builtin
 
-  serialize :permissions, ::Role::PermissionsAttributeCoder
+  serialize :permissions, coder: ::Role::PermissionsAttributeCoder
   store :settings, :accessors => [:permissions_all_trackers, :permissions_tracker_ids]
 
   validates_presence_of :name
