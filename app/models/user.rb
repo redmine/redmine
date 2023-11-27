@@ -428,13 +428,24 @@ class User < Principal
     api_token.value
   end
 
+  # Returns the ids of visible projects
+  def self.redis_session_store?
+    Rails.application.config.session_store.name == "ActionDispatch::Session::RedisStore"
+  end
+  
   # Generates a new session token and returns its value
   def generate_session_token
+    # shortcut for redis sessions, just generate a random id
+    return Redmine::Utils.random_hex(20) if self.redis_session_store?
+
     token = Token.create!(:user_id => id, :action => 'session')
     token.value
   end
 
   def delete_session_token(value)
+    # shortcut for redis sessions, nothing to do
+    return if self.redis_session_store?
+
     Token.where(:user_id => id, :action => 'session', :value => value).delete_all
   end
 
@@ -449,6 +460,9 @@ class User < Principal
   # Returns true if token is a valid session token for the user whose id is user_id
   def self.verify_session_token(user_id, token)
     return false if user_id.blank? || token.blank?
+
+    # shortcut for redis sessions, existence proves validity
+    return true if self.redis_session_store?
 
     scope = Token.where(:user_id => user_id, :value => token.to_s, :action => 'session')
     if Setting.session_lifetime?
