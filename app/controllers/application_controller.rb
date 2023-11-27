@@ -51,7 +51,6 @@ class ApplicationController < ActionController::Base
       rescue ActionController::InvalidAuthenticityToken => e
         logger.error("ActionController::InvalidAuthenticityToken: #{e.message}") if logger
       ensure
-        cookies.delete(autologin_cookie_name)
         self.logged_user = nil
         set_localization
         render_error :status => 422, :message => l(:error_invalid_authenticity_token)
@@ -73,7 +72,7 @@ class ApplicationController < ActionController::Base
 
   def session_expiration
     if session[:user_id] && Rails.application.config.redmine_verify_sessions != false
-      if session_expired? && !try_to_autologin
+      if session_expired?
         set_localization(User.active.find_by_id(session[:user_id]))
         self.logged_user = nil
         flash[:error] = l(:error_session_expired)
@@ -118,8 +117,6 @@ class ApplicationController < ActionController::Base
           rescue
             nil
           end
-      elsif autologin_user = try_to_autologin
-        user = autologin_user
       elsif params[:format] == 'atom' && params[:key] && request.get? && accept_atom_auth?
         # ATOM key authentication does not start a session
         user = User.find_by_atom_key(params[:key])
@@ -162,22 +159,6 @@ class ApplicationController < ActionController::Base
     user
   end
 
-  def autologin_cookie_name
-    Redmine::Configuration['autologin_cookie_name'].presence || 'autologin'
-  end
-
-  def try_to_autologin
-    if cookies[autologin_cookie_name] && Setting.autologin?
-      # auto-login feature starts a new session
-      user = User.try_to_autologin(cookies[autologin_cookie_name])
-      if user
-        reset_session
-        start_user_session(user)
-      end
-      user
-    end
-  end
-
   # Sets the logged in user
   def logged_user=(user)
     reset_session
@@ -192,9 +173,6 @@ class ApplicationController < ActionController::Base
   # Logs out current user
   def logout_user
     if User.current.logged?
-      if autologin = cookies.delete(autologin_cookie_name)
-        User.current.delete_autologin_token(autologin)
-      end
       User.current.delete_session_token(session[:tk])
       self.logged_user = nil
     end

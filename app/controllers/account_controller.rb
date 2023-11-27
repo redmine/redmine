@@ -251,9 +251,8 @@ class AccountController < ApplicationController
       return
     end
 
-    # copy back_url, autologin back to params where they are expected
+    # copy back_url back to params where they are expected
     params[:back_url] ||= session[:twofa_back_url]
-    params[:autologin] ||= session[:twofa_autologin]
 
     # set locale for the twofa user
     set_localization(@user)
@@ -273,7 +272,6 @@ class AccountController < ApplicationController
     session[:twofa_session_token] = token.value
     session[:twofa_tries_counter] = previous_tries
     session[:twofa_back_url] = params[:back_url]
-    session[:twofa_autologin] = params[:autologin]
   end
 
   # Prevent replay attacks by using each twofa_session_token only for exactly one request
@@ -289,7 +287,6 @@ class AccountController < ApplicationController
     session[:twofa_session_token] = nil
     session[:twofa_tries_counter] = nil
     session[:twofa_back_url] = nil
-    session[:twofa_autologin] = nil
   end
 
   def authenticate_user
@@ -331,29 +328,8 @@ class AccountController < ApplicationController
     logger.info "Successful authentication for '#{user.login}' from #{request.remote_ip} at #{Time.now.utc}"
     # Valid user
     self.logged_user = user
-    # generate a key and set cookie if autologin
-    if params[:autologin] && Setting.autologin?
-      set_autologin_cookie(user)
-    end
     call_hook(:controller_account_success_authentication_after, {:user => user})
     redirect_back_or_default my_page_path
-  end
-
-  def set_autologin_cookie(user)
-    token = user.generate_autologin_token
-    secure = Redmine::Configuration['autologin_cookie_secure']
-    if secure.nil?
-      secure = request.ssl?
-    end
-    cookie_options = {
-      :value => token,
-      :expires => 1.year.from_now,
-      :path => (Redmine::Configuration['autologin_cookie_path'] || RedmineApp::Application.config.relative_url_root || '/'),
-      :same_site => :lax,
-      :secure => secure,
-      :httponly => true
-    }
-    cookies[autologin_cookie_name] = cookie_options
   end
 
   # Onthefly creation failed, display the registration form to fill/fix attributes

@@ -3,20 +3,16 @@
 <div id="login-form">
   <%= form_tag(signin_path, onsubmit: 'return keepAnchorOnSignIn(this);') do %>
   <%= back_url_hidden_field_tag %>
-  
+
   <label for="username"><%=l(:field_login)%></label>
   <%= text_field_tag 'username', params[:username], :tabindex => '1' %>
-  
+
   <label for="password">
     <%=l(:field_password)%>
     <%= link_to l(:label_password_lost), lost_password_path, :class => "lost_password" if Setting.lost_password? %>
   </label>
   <%= password_field_tag 'password', nil, :tabindex => '2' %>
-  
-  <% if Setting.autologin? %>
-    <label for="autologin"><%= check_box_tag 'autologin', 1, false, :tabindex => 4 %> <%= l(:label_stay_logged_in) %></label>
-  <% end %>
-  
+
   <input type="submit" name="login" value="<%=l(:button_login)%>" tabindex="5" id="login-submit" />
   <% end %>
 </div>
