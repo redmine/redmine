@@ -174,6 +174,7 @@ class ApplicationController < ActionController::Base
   def logout_user
     if User.current.logged?
       User.current.delete_session_token(session[:tk])
+      session.delete(:tk)
       self.logged_user = nil
     end
   end

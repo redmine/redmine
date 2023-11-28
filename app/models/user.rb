@@ -436,7 +436,7 @@ class User < Principal
   # Generates a new session token and returns its value
   def generate_session_token
     # shortcut for redis sessions, just generate a random id
-    return Redmine::Utils.random_hex(20) if self.redis_session_store?
+    return Redmine::Utils.random_hex(20) if User.redis_session_store?
 
     token = Token.create!(:user_id => id, :action => 'session')
     token.value
@@ -444,7 +444,7 @@ class User < Principal
 
   def delete_session_token(value)
     # shortcut for redis sessions, nothing to do
-    return if self.redis_session_store?
+    return if User.redis_session_store?
 
     Token.where(:user_id => id, :action => 'session', :value => value).delete_all
   end
