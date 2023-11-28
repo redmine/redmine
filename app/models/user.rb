@@ -432,7 +432,7 @@ class User < Principal
   def self.redis_session_store?
     Rails.application.config.session_store.name == "ActionDispatch::Session::RedisStore"
   end
-  
+
   # Generates a new session token and returns its value
   def generate_session_token
     # shortcut for redis sessions, just generate a random id
@@ -458,26 +458,38 @@ class User < Principal
   end
 
   # Returns true if token is a valid session token for the user whose id is user_id
-  def self.verify_session_token(user_id, token)
+  def self.verify_session_token(session)
+    user_id    = session[:user_id]
+    token      = session[:tk]
+
     return false if user_id.blank? || token.blank?
 
-    # shortcut for redis sessions, existence proves validity
-    return true if self.redis_session_store?
+    # for redis sessions, check times
+    if self.redis_session_store?
+      created_on = session[:created_on]
+      return false if Setting.session_lifetime? && created_on <= Setting.session_lifetime.to_i.minutes.ago
 
-    scope = Token.where(:user_id => user_id, :value => token.to_s, :action => 'session')
-    if Setting.session_lifetime?
-      scope = scope.where("created_on > ?", Setting.session_lifetime.to_i.minutes.ago)
-    end
-    if Setting.session_timeout?
-      scope = scope.where("updated_on > ?", Setting.session_timeout.to_i.minutes.ago)
-    end
-    last_updated = scope.maximum(:updated_on)
-    if last_updated.nil?
-      false
-    elsif last_updated <= 1.minute.ago
-      scope.update_all(:updated_on => Time.now) == 1
+      updated_on = session[:updated_on]
+      return false if Setting.session_timeout?  && updated_on <= Setting.session_timeout.to_i.minutes.ago
+
+      session[:updated_on] = Time.now if updated_on <= 1.minute.ago
+      return true
     else
-      true
+      scope = Token.where(:user_id => user_id, :value => token.to_s, :action => 'session')
+      if Setting.session_lifetime?
+        scope = scope.where("created_on > ?", Setting.session_lifetime.to_i.minutes.ago)
+      end
+      if Setting.session_timeout?
+        scope = scope.where("updated_on > ?", Setting.session_timeout.to_i.minutes.ago)
+      end
+      last_updated = scope.maximum(:updated_on)
+      if last_updated.nil?
+        false
+      elsif last_updated <= 1.minute.ago
+        scope.update_all(:updated_on => Time.now) == 1
+      else
+        true
+      end
     end
   end
 

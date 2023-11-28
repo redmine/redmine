@@ -82,12 +82,14 @@ class ApplicationController < ActionController::Base
   end
 
   def session_expired?
-    ! User.verify_session_token(session[:user_id], session[:tk])
+    ! User.verify_session_token(session)
   end
 
   def start_user_session(user)
     session[:user_id] = user.id
     session[:tk] = user.generate_session_token
+    session[:created_on] = Time.now
+    session[:updated_on] = Time.now
     if user.must_change_password?
       session[:pwd] = '1'
     end
@@ -175,6 +177,8 @@ class ApplicationController < ActionController::Base
     if User.current.logged?
       User.current.delete_session_token(session[:tk])
       session.delete(:tk)
+      session.delete(:created_on)
+      session.delete(:updated_on)
       self.logged_user = nil
     end
   end
