@@ -1298,191 +1298,148 @@ ta-IN:
   label_display_type_board: வாரியம்
   label_my_bookmarks: எனது புத்தகப்பக்க அடையாளம்
   label_import_time_entries: நேர உள்ளீடுகளை இறக்குமதி செய்க
-  notice_issue_not_closable_by_open_tasks: This issue cannot be closed because it has
-    at least one open subtask.
-  notice_issue_not_closable_by_blocking_issue: This issue cannot be closed because it
-    is blocked by at least one open issue.
-  notice_issue_not_reopenable_by_closed_parent_issue: This issue cannot be reopened
-    because its parent issue is closed.
-  notice_invalid_watcher: 'Invalid watcher: User will not receive any notifications
-    because it does not have access to view this object.'
-  error_attachments_too_many: This file cannot be uploaded because it exceeds the maximum
-    number of files that can be attached simultaneously (%{max_number_of_files})
-  error_bulk_download_size_too_big: These attachments cannot be bulk downloaded because
-    the total file size exceeds the maximum allowed size (%{max_size})
-  error_no_data_in_file: The file does not contain any data
-  error_can_not_execute_macro_html: Error executing the <strong>%{name}</strong> macro
-    (%{error})
-  error_macro_does_not_accept_block: This macro does not accept a block of text
-  error_childpages_macro_no_argument: With no argument, this macro can be called from
-    wiki pages only
-  error_circular_inclusion: Circular inclusion detected
-  error_page_not_found: Page not found
-  error_filename_required: Filename required
-  error_invalid_size_parameter: Invalid size parameter
-  error_attachment_not_found: Attachment %{name} not found
-  error_invalid_authenticity_token: Invalid form authenticity token.
-  error_query_statement_invalid: An error occurred while executing the query and has
-    been logged. Please report this error to your Redmine administrator.
-  mail_destroy_project_failed: Project %{value} could not be deleted.
-  mail_destroy_project_successful: Project %{value} was deleted successfully.
-  mail_destroy_project_with_subprojects_successful: Project %{value} and its subprojects
-    were deleted successfully.
-  field_is_member_of_group: Member of group
-  field_passwd_changed_on: Password last changed
-  field_current_password: Current password
-  field_twofa_scheme: Two-factor authentication scheme
-  field_toolbar_language_options: Code highlighting toolbar languages
-  field_twofa_required: Require two factor authentication
-  field_default_issue_query: Default issue query
-  field_default_project_query: Default project query
-  field_default_time_entry_activity: Default spent time activity
-  field_any_searchable: Any searchable text
-  setting_bulk_download_max_size: Maximum total size for bulk download
-  setting_email_domains_allowed: Allowed email domains
-  setting_email_domains_denied: Disallowed email domains
-  setting_twofa: Two-factor authentication
-  permission_delete_project: Delete the project
-  permission_select_project_publicity: Set project public or private
-  permission_view_wiki_page_watchers: View wiki page watchers list
-  permission_add_wiki_page_watchers: Add wiki page watchers
-  permission_delete_wiki_page_watchers: Delete wiki page watchers
-  permission_view_message_watchers: View message watchers list
-  permission_add_message_watchers: Add message watchers
-  permission_delete_message_watchers: Delete message watchers
-  label_attachment_description: File description
-  label_contains_any_of: contains any of
-  label_has_been: has been
-  label_has_never_been: has never been
-  label_changed_from: changed from
-  label_view_previous_annotation: View annotation prior to this change
-  label_optional: optional
-  label_bulk_edit: Bulk edit
-  label_user_mail_notify_about_high_priority_issues_html: Also notify me about issues
-    with a priority of <em>%{prio}</em> or higher
-  label_auto_watch_on: Auto watch
-  label_auto_watch_on_issue_created: Issues I created
-  label_auto_watch_on_issue_contributed_to: Issues I contributed to
-  label_message_watchers: Watchers
-  label_wiki_page_watchers: Watchers
-  label_days_to_html: "%{days} days up to %{date}"
-  label_subtask: Subtask
-  label_required_lower: required
-  label_required_administrators: required for administrators
-  label_download_all_attachments: Download all files
-  label_relations_mapping: Relations mapping
+  notice_issue_not_closable_by_open_tasks: இந்தச் சிக்கலை மூட இயலாது, ஒரு திறந்த துணைப் பணி உள்ளது.
+  notice_issue_not_closable_by_blocking_issue: இந்த சிக்கலை மூட இயலாது, ஒரு திறந்த சிக்கலால் தடுக்கிறது.
+  notice_issue_not_reopenable_by_closed_parent_issue: மூலச் சிக்கல் மூடப்பட்டுள்ளதால், இந்தச் சிக்கலை மீண்டும் திறக்க இயலாது.
+  notice_invalid_watcher: 'தவறான பார்வையாளர்கள்: இந்தப் பொருளைப் பார்ப்பதற்கான அணுமதி இல்லாததால், பயனர் எந்த அறிவிப்புகளையும் பெறமாட்டார்.'
+  error_attachments_too_many: அதிகபட்ச கோப்புகளின் எண்ணிக்கையை தாண்டிவிட்டதால். இந்தக் கோப்பைப் பதிவேற்ற இயலாது (%{max_number_of_files})
+  error_bulk_download_size_too_big: இந்த கோப்பை பதிவிறக்க இயலாது, மொத்த கோப்பு அளவு அனுமதிக்கப்பட்ட அதிகபட்ச அளவை விட அதிகமாக உள்ளது (%{max_size})
+  error_no_data_in_file: கோப்பில் தரவு எதுவும் இல்லை
+  error_can_not_execute_macro_html: மேக்ரோவை இயக்குவதில் பிழை <strong>%{name}</strong>  (%{error})
+  error_macro_does_not_accept_block: இந்த மேக்ரோ உரையின் தொகுதியை ஏற்காது
+  error_childpages_macro_no_argument: எந்த அளவுரும் இல்லாததால், இந்த மேக்ரோவை விக்கி பக்கங்களிலிருந்து மட்டுமே அழைக்க முடியும்
+  error_circular_inclusion: சுழற்சி சேர்க்கை கண்டறியப்பட்டது
+  error_page_not_found: பக்கம் கிடைக்கவில்லை
+  error_filename_required: கோப்பு பெயர் தேவை
+  error_invalid_size_parameter: தவறான அளவுருவின் அளவு
+  error_attachment_not_found: இணைப்பு %{name} காணப்படவில்லை
+  error_invalid_authenticity_token: தவறான நம்பகத்தன்மை டோக்கன்.
+  error_query_statement_invalid: வினவலை இயக்கும் போது பிழை ஏற்பட்டு உள்நுழைந்துள்ளது. உங்கள் ரெட்மைன் நிர்வாகியிடம் இந்தப் பிழையைப் புகாரளிக்கவும்.
+  mail_destroy_project_failed: திட்டத்தை %{value} நீக்க இயலாது.
+  mail_destroy_project_successful: திட்டம் %{value} வெற்றிகரமாக நீக்கப்பட்டது.
+  mail_destroy_project_with_subprojects_successful: திட்டம் %{value} மற்றும் அதன் துணைத் திட்டங்கள் வெற்றிகரமாக நீக்கப்பட்டன.
+  field_is_member_of_group: குழுவின் உறுப்பினர்
+  field_passwd_changed_on: கடவுச்சொல் கடைசியாக மாற்றப்பட்டது
+  field_current_password: தற்போதைய கடவுச்சொல்
+  field_twofa_scheme: இரண்டு காரணி அங்கீகார திட்டம்
+  field_toolbar_language_options: கருவிப்பட்டியின் மொழிகளைக் குறிக்கும் குறியீடு
+  field_twofa_required: இரண்டு காரணி அங்கீகாரம் தேவை
+  field_default_issue_query: இயல்பான சிக்கல் வினவல்
+  field_default_project_query: இயல்பான திட்ட வினவல்
+  field_default_time_entry_activity: இயல்பான செலவிடும் நேரச்  செயல்பாடு
+  field_any_searchable: தேடக்கூடிய எந்த உரையும்
+  setting_bulk_download_max_size: பதிவிறக்கத்திற்கான அதிகபட்ச மொத்த அளவு
+  setting_email_domains_allowed: அனுமதிக்கப்பட்ட மின்னஞ்சல் களங்கள்
+  setting_email_domains_denied: அனுமதியில்லா மின்னஞ்சல் களங்கள்
+  setting_twofa: இரட்டை காரணி அங்கீகாரம்
+  permission_delete_project: திட்டத்தை நீக்கு
+  permission_select_project_publicity: திட்டத்தை பொது அல்லது தனியாக  அமை
+  permission_view_wiki_page_watchers: விக்கி பக்க பார்வையாளர்கள் பட்டியலைக் காண்க
+  permission_add_wiki_page_watchers: விக்கி பக்க பார்வையாளர்களைச் சேர்க்கவும்
+  permission_delete_wiki_page_watchers: விக்கி பக்க பார்வையாளர்களை நீக்கவும்
+  permission_view_message_watchers: செய்தி பார்வையாளர்கள் பட்டியலைக் காண்க
+  permission_add_message_watchers: செய்தி பார்வையாளர்கள் சேர்க்கவும்
+  permission_delete_message_watchers: செய்தி பார்ப்பவர்களை நீக்கவும்
+  label_attachment_description: கோப்பு விளக்கம்
+  label_contains_any_of: ஏதேனும் அடங்கிய
+  label_has_been: இருந்த
+  label_has_never_been: இருந்ததில்லை
+  label_changed_from: இதிலிருந்து மாற்றப்பட்ட
+  label_view_previous_annotation: இந்த மாற்றத்திற்கு முன் சிறுகுறிப்பைப் பார்க்கவும்
+  label_optional: விருப்பத் தேர்வு
+  label_bulk_edit: மொத்த திருத்தம்
+  label_user_mail_notify_about_high_priority_issues_html: மேலும் சிக்கல்களைப் பற்றி எனக்குத் தெரிவிக்கவும் <em>%{prio}</em> அல்லது அதற்கு மேற்பட்ட முன்னுரிமையுடன்
+  label_auto_watch_on: தானியங்கி கண்காணிப்பு
+  label_auto_watch_on_issue_created: நான் உருவாக்கிய சிக்கல்கள்
+  label_auto_watch_on_issue_contributed_to: நான் பங்களித்த சிக்கல்கள்
+  label_message_watchers: பார்வையாளர்கள்
+  label_wiki_page_watchers: பார்வையாளர்கள்
+  label_days_to_html: "%{days} நாட்கள் வரை %{date}"
+  label_subtask: துணைப் பணி
+  label_required_lower: தேவை
+  label_required_administrators: நிர்வாகிகளுக்கு தேவை
+  label_download_all_attachments: எல்லா கோப்புகளையும் பதிவிறக்கவும்
+  label_relations_mapping: உறவுகள் இணைப்பு
   label_default_queries:
-    for_all_projects: For all projects
-    for_current_project: For current project
-    for_all_users: For all users
-    for_this_user: For this user
-  label_issue_statuses_description: Issue statuses description
-  label_open_issue_statuses_description: View all issue statuses description
-  label_assign_to_me: Assign to me
-  label_default_query: Default query
-  label_edited: Edited
-  label_time_by_author: "%{time} by %{author}"
-  button_disable: Disable
-  button_copy_link: Copy link
-  button_fetch_changesets: Fetch commits
-  button_add_subtask: Add subtask
-  button_save_object: Save %{object_name}
-  button_edit_object: Edit %{object_name}
-  button_delete_object: Delete %{object_name}
-  button_create_and_follow: Create and follow
-  button_apply_issues_filter: Apply issues filter
-  project_status_scheduled_for_deletion: scheduled for deletion
-  text_projects_bulk_destroy_confirmation: Are you sure you want to delete the selected
-    projects and related data?
+    for_all_projects: அனைத்து திட்டங்களுக்கும்
+    for_current_project: தற்போதைய திட்டத்திற்கு
+    for_all_users: அனைத்து பயனர்களுக்கும்
+    for_this_user: இந்த பயனருக்கு
+  label_issue_statuses_description: சிக்கலின் நிலைகள் விளக்கம்
+  label_open_issue_statuses_description: அனைத்து சிக்கல் நிலைகளின் விளக்கத்தையும் காண்க
+  label_assign_to_me: எனக்கு ஒதுக்கு
+  label_default_query: இயல்பான வினவல்
+  label_edited: திருத்தப்பட்டது
+  label_time_by_author: "%{time} மூலம்  %{author}"
+  button_disable: முடக்கு
+  button_copy_link: நகல் இணைப்பு
+  button_fetch_changesets: உறுதியளிப்பை எடு
+  button_add_subtask: துணைப் பணியைச் சேர்க்கவும்
+  button_save_object: சேமி %{object_name}
+  button_edit_object: திருத்து %{object_name}
+  button_delete_object: நீக்கு %{object_name}
+  button_create_and_follow: உருவாக்கி தொடர்
+  button_apply_issues_filter: சிக்கல் வடிப்பானைப் பயன்படுத்தவும்
+  project_status_scheduled_for_deletion: நீக்க திட்டமிடப்பட்டுள்ளது
+  text_projects_bulk_destroy_confirmation: தேர்ந்தெடுக்கப்பட்ட திட்டப்பணிகளையும் தொடர்புடைய தரவையும் நிச்சயமாக நீக்க விரும்புகிறீர்களா?
   text_projects_bulk_destroy_head: |
-    You are about to permanently delete the following projects, including possible subprojects and any related data.
-    Please review the information below and confirm that this is indeed what you want to do.
-    This action cannot be undone.
-  text_projects_bulk_destroy_confirm: To confirm, please enter "%{yes}" in the box below.
-  text_subprojects_bulk_destroy: 'including its subproject(s): %{value}'
-  text_project_close_confirmation: Are you sure you want to close the '%{value}' project
-    to make it read-only?
-  text_project_reopen_confirmation: Are you sure you want to reopen the '%{value}' project?
-  text_project_archive_confirmation: Are you sure you want to archive the '%{value}'
-    project?
-  text_users_bulk_destroy_head: You are about to delete the following users and remove
-    all references to them. This cannot be undone. Often, locking users instead of deleting
-    them is the better solution.
-  text_users_bulk_destroy_confirm: To confirm, please enter "%{yes}" below.
-  text_all_migrations_have_been_run: All database migrations have been run
-  text_select_apply_issue_status: Select issue status
-  text_allowed_queries_to_select: Public (to any users) queries only selectable
-  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
-    Please restart the application after editing it.
-  label_import_users: Import users
-  sudo_mode_new_info_html: "<strong>What's happening?</strong> You need to reconfirm
-    your password before taking any administrative actions, this ensures your account
-    stays protected."
-  twofa__totp__name: Authenticator app
-  twofa__totp__text_pairing_info_html: Scan this QR code or enter the plain text key
-    into a TOTP app (e.g. <a href="https://support.google.com/accounts/answer/1066447">Google
-    Authenticator</a>, <a href="https://authy.com/download/">Authy</a>, <a href="https://guide.duo.com/third-party-accounts">Duo
-    Mobile</a>) and enter the code in the field below to activate two-factor authentication.
-  twofa__totp__label_plain_text_key: Plain text key
-  twofa__totp__label_activate: Enable authenticator app
-  twofa_currently_active: 'Currently active: %{twofa_scheme_name}'
-  twofa_not_active: Not activated
-  twofa_label_code: Code
-  twofa_hint_disabled_html: Setting <strong>%{label}</strong> will deactivate and unpair
-    two-factor authentication devices for all users.
-  twofa_hint_optional_html: Setting <strong>%{label}</strong> will let users set up
-    two-factor authentication at will, unless it is required by one of their groups.
-  twofa_hint_required_html: Setting <strong>%{label}</strong> will require all users
-    to set up two-factor authentication at their next login.
-  twofa_hint_required_administrators_html: Setting <strong>%{label}</strong> behaves
-    like optional, but will require all users with administration rights to set up two-factor
-    authentication at their next login.
-  twofa_label_setup: Enable two-factor authentication
-  twofa_label_deactivation_confirmation: Disable two-factor authentication
-  twofa_notice_select: 'Please select the two-factor scheme you would like to use:'
-  twofa_warning_require: The administrator requires you to enable two-factor authentication.
-  twofa_activated: Two-factor authentication successfully enabled. It is recommended
-    to <a data-method="post" href="%{bc_path}">generate backup codes</a> for your account.
-  twofa_deactivated: Two-factor authentication disabled.
-  twofa_mail_body_security_notification_paired: Two-factor authentication successfully
-    enabled using %{field}.
-  twofa_mail_body_security_notification_unpaired: Two-factor authentication disabled
-    for your account.
-  twofa_mail_body_backup_codes_generated: New two-factor authentication backup codes
-    generated.
-  twofa_mail_body_backup_code_used: A two-factor authentication backup code has been
-    used.
-  twofa_invalid_code: Code is invalid or outdated.
-  twofa_label_enter_otp: Please enter your two-factor authentication code.
-  twofa_too_many_tries: Too many tries.
-  twofa_resend_code: Resend code
-  twofa_code_sent: An authentication code has been sent to you.
-  twofa_generate_backup_codes: Generate backup codes
-  twofa_text_generate_backup_codes_confirmation: This will invalidate all existing backup
-    codes and generate new ones. Would you like to continue?
-  twofa_notice_backup_codes_generated: Your backup codes have been generated.
-  twofa_warning_backup_codes_generated_invalidated: New backup codes have been generated.
-    Your existing codes from %{time} are now invalid.
-  twofa_label_backup_codes: Two-factor authentication backup codes
-  twofa_text_backup_codes_hint: Use these codes instead of a one-time password should
-    you not have access to your second factor. Each code can only be used once. It is
-    recommended to print and store them in a safe place.
-  twofa_text_backup_codes_created_at: Backup codes generated %{datetime}.
-  twofa_backup_codes_already_shown: Backup codes cannot be shown again, please <a data-method="post"
-    href="%{bc_path}">generate new backup codes</a> if required.
-  twofa_text_group_required: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is required for all users.
-  twofa_text_group_disabled: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is disabled.
-  text_user_destroy_confirmation: Are you sure you want to delete this user and remove
-    all references to them? This cannot be undone. Often, locking a user instead of
-    deleting them is the better solution. To confirm, please enter their login (%{login})
-    below.
-  text_project_destroy_enter_identifier: To confirm, please enter the project's identifier
-    (%{identifier}) below.
-  field_name_or_email_or_login: Name, email or login
+    துணைத் திட்டங்கள் மற்றும் தொடர்புடைய தரவு உட்பட பின்வரும் திட்டங்களை நிரந்தரமாக நீக்க உள்ளீர்கள். கீழேயுள்ள தகவலை ஆய்வு செய்து, இதைத்தான் நீங்கள் செய்ய விரும்புகிறீர்கள் என்பதை உறுதிப்படுத்தவும். இந்தச் செயலை திரும்ப பெற இயலாது.
+  text_projects_bulk_destroy_confirm:  உறுதிப்படுத்த, கீழே உள்ள பெட்டியில் "%{yes}" உள்ளிடவும்.
+  text_subprojects_bulk_destroy: 'துணைத் திட்டம் உட்பட(s): %{value}'
+  text_project_close_confirmation: திட்டப்பணியை முடி அதை படிக்க மட்டுமேயானதாக மாற்றுவதற்கு நிச்சயமாக விரும்புகிறீர்களா?  '%{value}'
+  text_project_reopen_confirmation: திட்டத்தை மீண்டும் திறக்க விரும்புகிறீர்களா?'%{value}'
+  text_project_archive_confirmation: திட்டத்தைக் காப்பகப்படுத்த விரும்புகிறீர்களா?'%{value}'
+  text_users_bulk_destroy_head: பின்வரும் பயனர்களை நீக்கி, அவர்களுக்கான அனைத்து குறிப்புகளையும் நீக்க உள்ளீர்கள். இதை திரும்ப பெற இயலாது.. பெரும்பாலும், பயனர்களை நீக்குவதற்குப் பதிலாக அவர்களைப் பூட்டுவது சிறந்த தீர்வாகும்.
+  text_users_bulk_destroy_confirm: உறுதிப்படுத்த, கீழே "%{yes}" உள்ளிடவும்.
+  text_all_migrations_have_been_run: அனைத்து தரவுத்தள நகர்வுகளும் இயக்கப்பட்டன
+  text_select_apply_issue_status: சிக்கல் நிலையைத் தேர்ந்தெடுக்கவும்
+  text_allowed_queries_to_select: பொது (எந்தப் பயனர்களுக்கும்) வினவல்கள் மட்டுமே தேர்ந்தெடுக்கலாம்
+  text_setting_config_change: நீங்கள் இயங்குகிற முறையை config/configuration.yml இல் கட்டமைக்கலாம். திருத்திய பின் செயலியை மீண்டும் தொடங்கவும்.
+  label_import_users: பயனர்களை இறக்குமதி செய்
+  sudo_mode_new_info_html: "<strong>என்ன நடக்கிறது?</strong> எந்தவொரு நிர்வாக நடவடிக்கைகளையும் எடுப்பதற்கு முன், நீங்கள் மீண்டும் உங்கள் கடவுச்சொல்லை உறுதிப்படுத்த வேண்டும்.  இது உங்கள் கணக்கு பாதுகாக்கப்படுவதை உறுதி செய்கிறது."
+  twofa__totp__name: அங்கீகரிப்பு செயலி
+  twofa__totp__text_pairing_info_html: இந்த QR குறியீட்டை ஸ்கேன் செய்யவும் அல்லது எளிய உரை விசையை TOTP செயலி உள்ளிடவும்
+      (எ.கா. <a href="https://support.google.com/accounts/answer/1066447">கூகுள்
+     அங்கீகரிப்பாளர்</a>, <a href="https://authy.com/download/">Authy</a>, <a href="https://guide.duo.com/third-party-accounts" > இரட்டையர்
+     மொபைல்</a>) மற்றும் இரண்டு காரணி அங்கீகாரத்தை செயல்படுத்த கீழே உள்ள புலத்தில் குறியீட்டை உள்ளிடவும்.
+  twofa__totp__label_plain_text_key: எளிய உரை விசை
+  twofa__totp__label_activate: அங்கீகரிப்பு செயலியை செயல்படுத்தவும்
+  twofa_currently_active: 'தற்போது அமலில் உள்ளது: %{twofa_scheme_name}'
+  twofa_not_active: அமலில் இல்லை
+  twofa_label_code: குறியீடு
+  twofa_hint_disabled_html: அமைப்பு <strong>%{label}</strong> அனைத்து பயனர்களுக்கும் இரு காரணி அங்கீகார சாதனங்களை செயலிழக்கச் செய்யும்.
+  twofa_hint_optional_html: அமைப்பு <strong>%{label}</strong> பயனர்களை இரு காரணி அங்கீகாரத்தை அமைக்க அனுமதிக்கும், விருப்பப்பத்தோடோ அல்ல்து குழுவில் ஒருவருக்குத் தேவைப்படாவிட்டாலோ .
+  twofa_hint_required_html: அமைப்பு <strong>%{label}</strong> அனைத்து பயனர்களும் தங்களின் அடுத்த உள்நுழைவில் இரு காரணி அங்கீகாரத்தை அமைக்க வைக்கும்.
+  twofa_hint_required_administrators_html: அமைப்பு <strong>%{label}</strong>  விருப்பமானது போல் செயல்படும், ஆனால் நிர்வாக உரிமையாளர்கள் தங்களின் அடுத்த உள்நுழைவில் இரு காரணி அங்கீகாரத்தை அமைக்க வைக்கும்.
+  twofa_label_setup: இரட்டை காரணி அங்கீகாரத்தை அமல்படுத்து
+  twofa_label_deactivation_confirmation: இரட்டை காரணி அங்கீகாரத்தை அமல்படுத்தாதே
+  twofa_notice_select: 'நீங்கள் பயன்படுத்த விரும்பும் இரட்டை காரணி திட்டத்தைத் தேர்ந்தெடுக்கவும்:'
+  twofa_warning_require: இரட்டை காரணி அங்கீகாரத்தை நீங்கள் இயக்க வேண்டும் என்று நிர்வாகி கோருகிறார்.
+  twofa_activated: இரட்டை காரணி அங்கீகாரம் வெற்றிகரமாக அமல்படுத்தப்பட்டது. உங்கள் கணக்கிற்கான <a data-method="post" href="%{bc_path}">காப்புக் குறியீடுகளை உருவாக்க</a> பரிந்துரைக்கப்படுகிறது.
+  twofa_deactivated: இரட்டை காரணி அங்கீகாரம் செயலிழந்தது.
+  twofa_mail_body_security_notification_paired: இரட்டை-காரணி அங்கீகாரம்  %{field}ஐ பயன்படுத்தி வெற்றிகரமாக அமல்படுத்தப்பட்டது .
+  twofa_mail_body_security_notification_unpaired: உங்கள் கணக்கிற்கு இரு காரணி அங்கீகாரம் செயலிழக்க வைக்கப்பட்டது.
+  twofa_mail_body_backup_codes_generated: புதிய இரு-காரணி அங்கீகார காப்பு குறியீடுகள் உருவாக்கப்பட்டன.
+  twofa_mail_body_backup_code_used: இரட்டை காரணி அங்கீகார காப்பு குறியீடு பயன்படுத்தப்பட்டது.
+  twofa_invalid_code: குறியீடு தவறானது அல்லது காலாவதியானது.
+  twofa_label_enter_otp: உங்கள் இரு காரணி அங்கீகாரக் குறியீட்டை உள்ளிடவும்.
+  twofa_too_many_tries: பல முயற்சிகள்.
+  twofa_resend_code: குறியீட்டை மீண்டும் அனுப்பு
+  twofa_code_sent: அங்கீகாரக் குறியீடு உங்களுக்கு அனுப்பப்பட்டுள்ளது.
+  twofa_generate_backup_codes: மாற்று குறியீடுகளை உருவாக்கவும்
+  twofa_text_generate_backup_codes_confirmation: இது ஏற்கனவே உள்ள அனைத்து மாற்று குறியீடுகளையும் செல்லாததாக்கி புதியவற்றை உருவாக்கும். நீங்கள் தொடர விரும்புகிறீர்களா?
+  twofa_notice_backup_codes_generated: உங்கள் மாற்று குறியீடுகள் உருவாக்கப்பட்டன.
+  twofa_warning_backup_codes_generated_invalidated: புதிய மாற்று குறியீடுகள் உருவாக்கப்பட்டுள்ளன. %{time} இலிருந்து ஏற்கனவே உள்ள உங்கள் குறியீடுகள் இப்போது தவறானவை.
+  twofa_label_backup_codes: இரண்டு காரணி அங்கீகார மாற்று குறியீடுகள்
+  twofa_text_backup_codes_hint: ஒரு முறை கடவுச்சொல்லுக்குப் பதிலாக இந்தக் குறியீடுகளைப் பயன்படுத்தவும்
+     இரண்டாவது காரணிக்கான அணுகல் உங்களிடம் இல்லையெனில். ஒவ்வொரு குறியீட்டையும் ஒரு முறை மட்டுமே பயன்படுத்த முடியும். அவற்றை அச்சிட்டு பாதுகாப்பான இடத்தில் சேமிக்க பரிந்துரைக்கப்படுகிறது
+  twofa_text_backup_codes_created_at: மாற்று குறியீடுகள் %{datetime} உருவாக்கப்பட்டது.
+  twofa_backup_codes_already_shown: மாற்று பிரதி குறியீடுகளை மீண்டும் காட்ட இயலாது, தேவைப்பட்டால் <a data-method="post" href="%{bc_path}">புதிய மாற்று பிரதி குறியீடுகளை உருவாக்கவும்</a>.
+  twofa_text_group_required: உலகளாவிய இரு காரணி அங்கீகார அமைப்பு 'கட்டாயமற்றதாக' அமைக்கப்படும் போது மட்டுமே இந்த அமைப்பு பயனுள்ளதாக இருக்கும். தற்போது, அனைத்து பயனர்களுக்கும் இரண்டு காரணி அங்கீகாரம் தேவைப்படுகிறது.
+  twofa_text_group_disabled: அமைப்பு பரந்த இரு காரணி அங்கீகார அமைப்பு 'கட்டாயமற்றதாக' அமைக்கப்படும் போது மட்டுமே இந்த அமைப்பு பயனுள்ளதாக இருக்கும். தற்போது, இரண்டு காரணி அங்கீகாரம் முடக்கப்பட்டுள்ளது.
+  text_user_destroy_confirmation: இந்தப் பயனரை நிச்சயமாக நீக்கி, அவர்களுக்கான அனைத்துக் குறிப்புகளையும் அகற்ற விரும்புகிறீர்களா? இதை திரும்ப பெற இயலாது. பெரும்பாலும், ஒரு பயனரை நீக்குவதற்குப் பதிலாக அவர்களைப் பூட்டுவது சிறந்த தீர்வாகும். உறுதிப்படுத்த, கீழே அவர்களின் உள்நுழைவை (%{login}) உள்ளிடவும்.
+  text_project_destroy_enter_identifier: உறுதிப்படுத்த, திட்டத்தின் அடையாளங்காட்டியை (%{identifier}) கீழே உள்ளிடவும்.
+  field_name_or_email_or_login: பெயர், மின்னஞ்சல் அல்லது உள்நுழைவு
   text_default_active_job_queue_changed: Default queue adapter which is well suited
     only for dev/test changed
   label_user_mail_option_bookmarked: For any event on my bookmarked projects
