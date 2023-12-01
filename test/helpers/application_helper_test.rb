@@ -2188,24 +2188,24 @@ class ApplicationHelperTest < Redmine::HelperTest
 
   # TODO: Remove this test when ApplicationHelper#render_if_exist is removed
   def test_render_if_exist_should_be_render_partial
-    saved_behavior = ActiveSupport::Deprecation.behavior
-    ActiveSupport::Deprecation.behavior = :silence
+    saved_behavior = Rails.application.deprecators[:active_support].behavior
+    Rails.application.deprecators[:active_support].behavior = :silence
 
     controller.prepend_view_path "test/fixtures/views"
     assert_equal "partial html\n", render_if_exist(:partial => 'partial')
   ensure
-    ActiveSupport::Deprecation.behavior = saved_behavior
+    Rails.application.deprecators[:active_support].behavior = saved_behavior
   end
 
   # TODO: Remove this test when ApplicationHelper#render_if_exist is removed
   def test_render_if_exist_should_be_render_nil
-    saved_behavior = ActiveSupport::Deprecation.behavior
-    ActiveSupport::Deprecation.behavior = :silence
+    saved_behavior = Rails.application.deprecators[:active_support].behavior
+    Rails.application.deprecators[:active_support].behavior = :silence
 
     controller.prepend_view_path "test/fixtures/views"
     assert_nil render_if_exist(:partial => 'non_exist_partial')
   ensure
-    ActiveSupport::Deprecation.behavior = saved_behavior
+    Rails.application.deprecators[:active_support].behavior = saved_behavior
   end
 
   def test_export_csv_encoding_select_tag_should_return_nil_when_general_csv_encoding_is_UTF8
