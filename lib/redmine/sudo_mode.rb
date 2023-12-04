@@ -225,7 +225,7 @@ module Redmine
 
     # Turn sudo mode back on
     def self.enable!
-      CurrentSUdoMode.disabled = nil
+      CurrentSudoMode.disabled = nil
     end
 
     def self.enabled?
