@@ -10,6 +10,4 @@ class AddSelectProjectPublicityPermission < ActiveRecord::Migration[6.1]
       r.remove_permission!(:select_project_publicity)
     end
   end
-
-  def run_in_request?; true end
 end
