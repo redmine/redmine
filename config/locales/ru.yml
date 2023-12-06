@@ -1544,17 +1544,16 @@ ru:
   text_users_bulk_destroy_confirm: Для подтверждения введите "%{yes}" ниже.
   permission_select_project_publicity: Установить публичность или приватность проекта
   label_auto_watch_on_issue_created: Задачи созданные мной
-  field_any_searchable: Any searchable text
-  label_contains_any_of: contains any of
-  button_apply_issues_filter: Apply issues filter
-  label_view_previous_annotation: View annotation prior to this change
-  label_has_been: has been
-  label_has_never_been: has never been
-  label_changed_from: changed from
-  label_issue_statuses_description: Issue statuses description
-  label_open_issue_statuses_description: View all issue statuses description
-  text_select_apply_issue_status: Select issue status
-  field_name_or_email_or_login: Name, email or login
-  text_default_active_job_queue_changed: Default queue adapter which is well suited
-    only for dev/test changed
-  label_user_mail_option_bookmarked: For any event on my bookmarked projects
+  field_any_searchable: Любой доступный для поиска текст
+  label_contains_any_of: содержит любой из
+  button_apply_issues_filter: Применить фильтр задач
+  label_view_previous_annotation: Посмотреть аннотацию до этого изменения
+  label_has_been: был
+  label_has_never_been: никогда не был
+  label_changed_from: изменено с
+  label_issue_statuses_description: Описание статусов задач
+  label_open_issue_statuses_description: Посмотреть описание всех статусов задач
+  text_select_apply_issue_status: Выберите статус задачи
+  field_name_or_email_or_login: Имя, email или логин
+  text_default_active_job_queue_changed: Изменен адаптер очереди по умолчанию, который хорошо подходит только для разработки/тестирования
+  label_user_mail_option_bookmarked: На любое событие из моих проектов в закладках
