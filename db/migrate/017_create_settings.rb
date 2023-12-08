@@ -5,9 +5,9 @@ class CreateSettings < ActiveRecord::Migration[4.2]
       t.column "value", :text
     end
 
-    # Persist text_formatting default setting for new installations
-    setting = Setting.new(:name => "text_formatting", :value => Setting.text_formatting)
-    setting.save!
+    # Persist default settings for new installations
+    Setting.create!(name: 'default_notification_option', value: Setting.default_notification_option)
+    Setting.create!(name: 'text_formatting', value: Setting.text_formatting)
   end
 
   def self.down
