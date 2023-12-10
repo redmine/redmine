@@ -54,7 +54,7 @@ module Redmine
     cattr_accessor :directory
     self.directory = PluginLoader.directory
 
-    # Absolute path to the plublic directory where plugins assets are copied
+    # Absolute path to the public directory where plugins assets are copied
     cattr_accessor :public_directory
     self.public_directory = PluginLoader.public_directory
 
