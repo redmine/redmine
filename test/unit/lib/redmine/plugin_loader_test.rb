@@ -23,8 +23,9 @@ class Redmine::PluginLoaderTest < ActiveSupport::TestCase
   def setup
     clear_public
 
+    # Change plugin directory for testing to default in config/environments/tesr.rb.
+    # plugins/foo => test/fixtures/plugins/foo
     @klass = Redmine::PluginLoader
-    @klass.directory = Rails.root.join('test/fixtures/plugins')
     @klass.public_directory = Rails.root.join('tmp/public/plugin_assets')
     @klass.load
   end

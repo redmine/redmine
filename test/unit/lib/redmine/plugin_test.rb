@@ -22,9 +22,8 @@ require_relative '../../../test_helper'
 class Redmine::PluginTest < ActiveSupport::TestCase
   def setup
     @klass = Redmine::Plugin
-    # Change plugin directory for testing to default
+    # Change plugin directory for testing to default in config/environments/test.rb.
     # plugins/foo => test/fixtures/plugins/foo
-    @klass.directory = Rails.root.join('test/fixtures/plugins')
     # In case some real plugins are installed
     @klass.clear
 
