@@ -148,8 +148,10 @@ module ActionView
       super values
     end
   end)
+end
 
-  Rendering.prepend(Module.new do
+module ActionController
+  Base.prepend(Module.new do
     def rendered_format
       if lookup_context.formats.first == :api
         return request.format
