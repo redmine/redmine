@@ -56,6 +56,10 @@ class Redmine::PluginLoaderTest < ActiveSupport::TestCase
     assert File.exist?("#{@klass.public_directory}/foo_plugin/stylesheets/foo.css")
   end
 
+  def test_autoload
+    assert_equal true, Object.const_defined?(:Foo)
+  end
+
   def clear_public
     FileUtils.rm_rf 'tmp/public'
   end
