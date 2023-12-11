@@ -27,8 +27,6 @@ class Redmine::PluginTest < ActiveSupport::TestCase
     # In case some real plugins are installed
     @klass.clear
 
-    # Change plugin loader's directory for testing
-    Redmine::PluginLoader.directory = @klass.directory
     Redmine::PluginLoader.setup
   end
 
