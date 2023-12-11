@@ -314,7 +314,7 @@ jsonp_enabled:
   default: 0
   security_notifications: 1
 default_notification_option:
-  default: 'only_assigned'
+  default: 'only_my_events'
 emails_header:
   default: ''
 thumbnails_enabled:

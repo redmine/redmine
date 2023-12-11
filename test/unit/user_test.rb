@@ -192,7 +192,7 @@ class UserTest < ActiveSupport::TestCase
 
   def test_user_before_create_should_set_the_mail_notification_to_the_default_setting
     user1 = User.generate!
-    assert_equal 'only_assigned', user1.mail_notification
+    assert_equal 'only_my_events', user1.mail_notification
     with_settings :default_notification_option => 'all' do
       user2 = User.generate!
       assert_equal 'all', user2.mail_notification

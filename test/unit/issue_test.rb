@@ -3017,7 +3017,7 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   test "Issue#recipients should include the author if the author is active" do
-    issue = Issue.generate!(:author => User.generate!(:mail_notification => 'only_my_events'))
+    issue = Issue.generate!(:author => User.generate!)
     assert issue.author, "No author set for Issue"
     assert issue.recipients.include?(issue.author.mail)
   end
