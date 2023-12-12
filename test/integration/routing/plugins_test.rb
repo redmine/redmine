@@ -20,6 +20,25 @@
 require File.expand_path('../../test_helper', __dir__)
 
 class RoutingPluginsTest < Redmine::RoutingTest
+  def setup
+    @original_plugin_dir = Redmine::PluginLoader.directory
+
+    Redmine::Plugin.clear
+    Redmine::PluginLoader.directory = Rails.root.join('test/fixtures/plugins')
+    Redmine::Plugin.directory = Rails.root.join('test/fixtures/plugins')
+    Redmine::PluginLoader.load
+    Redmine::PluginLoader.directories.each(&:run_initializer) # to define relative controllers
+    RedmineApp::Application.instance.routes_reloader.reload!
+  end
+
+  def teardown
+    Redmine::Plugin.clear
+    Redmine::PluginLoader.directory = @original_plugin_dir
+    Redmine::Plugin.directory = @original_plugin_dir
+    Redmine::PluginLoader.load
+    RedmineApp::Application.instance.routes_reloader.reload!
+  end
+
   def test_plugins
     should_route 'GET /plugin_articles' => 'plugin_articles#index'
     should_route 'GET /bar_plugin_articles' => 'bar_plugin_articles#index'
