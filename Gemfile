@@ -3,7 +3,6 @@ source 'https://rubygems.org'
 ruby '>= 2.7.0', '< 3.3.0'
 
 gem 'rails', '7.1.2'
-gem 'rack-session', '~> 1.0'
 gem 'rouge', '~> 4.2.0'
 gem 'mini_mime', '~> 1.1.0'
 gem "actionpack-xml_parser"
