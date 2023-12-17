@@ -21,6 +21,7 @@ require File.expand_path('../../test_helper', __dir__)
 
 class RoutingPluginsTest < Redmine::RoutingTest
   setup do
+    @original_plugin_dir = Redmine::PluginLoader.directory
     @tmp_plugins_path = Rails.root.join('tmp/test/plugins')
 
     @setup_plugin_paths = []
@@ -61,6 +62,9 @@ class RoutingPluginsTest < Redmine::RoutingTest
 
   teardown do
     FileUtils.rm_rf @tmp_plugins_path
+
+    Redmine::Plugin.clear
+    Redmine::PluginLoader.directory = @original_plugin_dir
     Redmine::PluginLoader.load
     RedmineApp::Application.instance.routes_reloader.reload!
   end
