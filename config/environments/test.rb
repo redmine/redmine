@@ -18,6 +18,12 @@ Rails.application.configure do
   # preloads Rails for running tests, you may have to set it to true.
   config.eager_load = false
 
+  # Change default plugins dir if env variable is present
+  # This is used by redmine plugins autoload test.
+  if ENV["REDMINE_PLUGINS_DIRECTORY"].present?
+    config.redmine_plugins_directory = ENV["REDMINE_PLUGINS_DIRECTORY"]
+  end
+
   # Configure public file server for tests with Cache-Control for performance.
   config.public_file_server.enabled = true
   config.public_file_server.headers = {

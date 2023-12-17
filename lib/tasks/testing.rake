@@ -114,4 +114,11 @@ namespace :test do
     Rails::TestUnit::Runner.run_from_rake 'test', FileList['test/integration/routing/*_test.rb'] + FileList['test/integration/api_test/*_routing_test.rb']
   end
   Rake::Task['test:routing'].comment = "Run the routing tests"
+
+  task(:autoload) do |t|
+    $: << "test"
+    ENV["REDMINE_PLUGINS_DIRECTORY"] = "test/fixtures/plugins"
+    Rails::TestUnit::Runner.run_from_rake 'test', FileList['test/autoload/*_test.rb']
+  end
+  Rake::Task['test:autoload'].comment = "Run the plugin autoload tests"
 end

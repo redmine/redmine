@@ -84,7 +84,7 @@ module Redmine
   class PluginLoader
     # Absolute path to the directory where plugins are located
     cattr_accessor :directory
-    self.directory = Rails.root.join('plugins')
+    self.directory = Rails.root.join Rails.application.config.redmine_plugins_directory
 
     # Absolute path to the public directory where plugins assets are copied
     cattr_accessor :public_directory
