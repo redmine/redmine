@@ -259,7 +259,7 @@ module ApplicationHelper
     when Array
       formatted_objects = object.map {|o| format_object(o, html)}
       html ? safe_join(formatted_objects, ', ') : formatted_objects.join(', ')
-    when Time
+    when Time, ActiveSupport::TimeWithZone
       format_time(object)
     when Date
       format_date(object)
@@ -634,7 +634,7 @@ module ApplicationHelper
                  'span', nil,
                  :class => "name icon icon-#{principal.class.name.downcase}"
                )
-            ) + principal
+            ) + principal.to_s
         )
     end
     s.html_safe
@@ -1837,6 +1837,10 @@ module ApplicationHelper
   end
 
   def render_if_exist(options = {}, locals = {}, &block)
+    # Remove test_render_if_exist_should_be_render_partial and test_render_if_exist_should_be_render_nil
+    # along with this method in Redmine 7.0
+    ActiveSupport::Deprecation.warn 'ApplicationHelper#render_if_exist is deprecated and will be removed in Redmine 7.0.'
+
     if options[:partial]
       if lookup_context.exists?(options[:partial], lookup_context.prefixes, true)
         render(options, locals, &block)

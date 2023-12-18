@@ -28,6 +28,14 @@ class Mailer < ActionMailer::Base
   include Redmine::I18n
   include Roadie::Rails::Automatic
 
+  class DeliveryJob < ActionMailer::MailDeliveryJob
+    include Redmine::JobWrapper
+
+    around_enqueue :keep_current_user
+  end
+
+  self.delivery_job = DeliveryJob
+
   # Overrides ActionMailer::Base#process in order to set the recipient as the current user
   # and his language as the default locale.
   # The first argument of all actions of this Mailer must be a User (the recipient),

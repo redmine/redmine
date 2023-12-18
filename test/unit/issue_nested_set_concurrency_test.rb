@@ -29,7 +29,12 @@ class IssueNestedSetConcurrencyTest < ActiveSupport::TestCase
   self.use_transactional_tests = false
 
   def setup
-    skip if sqlite? || mysql?
+    skip if sqlite?
+    if mysql?
+      connection = ActiveRecord::Base.connection_db_config.configuration_hash.deep_dup
+      connection[:variables] = mysql8? ? { transaction_isolation: "READ-COMMITTED" } : { tx_isolation: "READ-COMMITTED" }
+      ActiveRecord::Base.establish_connection connection
+    end
     User.current = nil
     CustomField.delete_all
   end
@@ -72,6 +77,49 @@ class IssueNestedSetConcurrencyTest < ActiveSupport::TestCase
     assert_equal [1, 62], [root.lft, root.rgt]
     children_bounds = root.children.sort_by(&:lft).map {|c| [c.lft, c.rgt]}.flatten
     assert_equal (2..61).to_a, children_bounds
+  end
+
+  def test_concurrent_subtask_removal
+    with_settings :notified_events => [] do
+      root = Issue.generate!
+      60.times do
+        Issue.generate! :parent_issue_id => root.id
+      end
+      # pick 40 random subtask ids
+      child_ids = Issue.where(root_id: root.id, parent_id: root.id).pluck(:id)
+      ids_to_remove = child_ids.sample(40).shuffle
+      ids_to_keep = child_ids - ids_to_remove
+      # remove these from the set, using four parallel threads
+      threads = []
+      ids_to_remove.each_slice(10) do |ids|
+        threads << Thread.new do
+          ActiveRecord::Base.connection_pool.with_connection do
+            begin
+              ids.each do |id|
+                Issue.find(id).update(parent_id: nil)
+              end
+            rescue => e
+              Thread.current[:exception] = e.message
+            end
+          end
+        end
+      end
+      threads.each do |thread|
+        thread.join
+        assert_nil thread[:exception]
+      end
+      assert_equal 20, Issue.where(parent_id: root.id).count
+      Issue.where(id: ids_to_remove).each do |issue|
+        assert_nil issue.parent_id
+        assert_equal issue.id, issue.root_id
+        assert_equal 1, issue.lft
+        assert_equal 2, issue.rgt
+      end
+      root.reload
+      assert_equal [1, 42], [root.lft, root.rgt]
+      children_bounds = root.children.sort_by(&:lft).map {|c| [c.lft, c.rgt]}.flatten
+      assert_equal (2..41).to_a, children_bounds
+    end
   end
 
   private

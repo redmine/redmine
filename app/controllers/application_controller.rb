@@ -635,19 +635,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def self.accept_rss_auth(*actions)
-    ActiveSupport::Deprecation.warn "Application#self.accept_rss_auth is deprecated and will be removed in Redmine 6.0. Please use #self.accept_atom_auth instead."
-    self.class.accept_atom_auth(*actions)
-  end
-
   def accept_atom_auth?(action=action_name)
     self.class.accept_atom_auth.include?(action.to_sym)
-  end
-
-  # TODO: remove in Redmine 6.0
-  def accept_rss_auth?(action=action_name)
-    ActiveSupport::Deprecation.warn "Application#accept_rss_auth? is deprecated and will be removed in Redmine 6.0. Please use #accept_atom_auth? instead."
-    accept_atom_auth?(action)
   end
 
   def self.accept_api_auth(*actions)

@@ -522,7 +522,7 @@ class IssuesController < ApplicationController
         limit = 500
         issue_ids = @query.issue_ids(:limit => (limit + 1))
         if (idx = issue_ids.index(@issue.id)) && idx < limit
-          if issue_ids.size < 500
+          if issue_ids.size < limit
             @issue_position = idx + 1
             @issue_count = issue_ids.size
           end

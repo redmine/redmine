@@ -139,7 +139,7 @@ fa:
         must_contain_lowercase: "باید شامل حروف کوچک باشد (a-z)"
         must_contain_digits: "باید شامل عدد باشد (0-9)"
         must_contain_special_chars: "باید شامل نویسه‌های خاص باشد (!, $, %, ...)"
-        domain_not_allowed: "contains a domain not allowed (%{domain})"
+        domain_not_allowed: "شامل دامنه‌ی غیرمجازست (%{domain})"
 
   actionview_instancetag_blank_option: انتخاب کنید
 
@@ -292,7 +292,7 @@ fa:
   field_author: نویسنده
   field_created_on: ساخته شده در
   field_updated_on: به‌روزشده در
-  field_closed_on: بسته‌شده در
+  field_closed_on: بسته شده در
   field_field_format: قالب
   field_is_for_all: برای همه پروژه‌ها
   field_possible_values: مقادیر ممکن
@@ -304,10 +304,10 @@ fa:
   field_title: عنوان
   field_project: پروژه
   field_issue: مسئله
-  field_is_member_of_group: Member of group
+  field_is_member_of_group: عضو گروه
   field_status: وضعیت
   field_notes: یادداشت‌ها
-  field_is_closed: مسئله بسته شده
+  field_is_closed: مسئله‌، بسته شده
   field_is_default: مقدار پیش‌فرض
   field_tracker: نوع مسئله
   field_subject: موضوع
@@ -316,7 +316,7 @@ fa:
   field_priority: اولویت
   field_fixed_version: نسخه هدف
   field_user: کاربر
-  field_principal: User or Group
+  field_principal: کاربر یا گروه
   field_role: نقش
   field_homepage: صفحه خانه
   field_is_public: عمومی
@@ -330,7 +330,7 @@ fa:
   field_language: زبان
   field_effective_date: تاریخ
   field_password: گذرواژه
-  field_current_password: Current password
+  field_current_password: گذرواژه فعلی
   field_new_password: گذرواژه جدید
   field_password_confirmation: تکرار گذرواژه
   field_twofa_scheme: طرح احراز هویت دو عاملی
@@ -419,7 +419,7 @@ fa:
   field_twofa_required: احراز هویت دوعاملی مورد نیاز است
   field_default_issue_query: جستار پیش‌فرض مسئله‌ها
   field_default_project_query: جستار پیش‌فرض پروژه
-  field_default_time_entry_activity: Default spent time activity
+  field_default_time_entry_activity: دسته‌بندی پیش‌فرض زمان صرف شده
 
   setting_app_title: عنوان برنامه
   setting_welcome_text: متن خوش‌آمد گویی
@@ -447,7 +447,7 @@ fa:
   setting_timespan_format: قالب فاصله زمان
   setting_cross_project_issue_relations: اجازه ارتباط بین‌پروژه‌ای مسئله‌ها
   setting_cross_project_subtasks: اجازه زیرکارهای بین‌پروژه‌ای
-  setting_issue_list_default_columns: ستون‌های پیش‌فرض نمایش‌داده‌شده در فهرست مسئله‌ها
+  setting_issue_list_default_columns: ستون‌های پیش‌فرض نمایش داده شده در فهرست مسئله‌ها
   setting_repositories_encodings: کدگذاری پیوست‌ها و مخزن‌ها
   setting_emails_header: سرنویس رایانامه
   setting_emails_footer: پانویس رایانامه
@@ -613,9 +613,9 @@ fa:
   label_project_new: پروژه جدید
   label_project_plural: پروژه‌ها
   label_x_projects:
-    zero:  0 مسئله
-    one:   1 مسئله
-    other: "%{count} مسئله"
+    zero:  بدون پروژه
+    one:   "۱ پروژه"
+    other: "%{count} پروژه"
   label_project_all: همه پروژه‌ها
   label_project_latest: آخرین پروژه‌ها
   label_issue: مسئله
@@ -736,13 +736,13 @@ fa:
   label_closed_issues: بسته
   label_closed_issues_plural: بسته‌ها
   label_x_open_issues_abbr:
-    zero:  0 مسئله
-    one:   1 مسئله
-    other: "%{count} مسئله"
+    zero:  0 باز
+    one:   1 باز
+    other: "%{count} باز"
   label_x_closed_issues_abbr:
-    zero:  0 مسئله
-    one:   1 مسئله
-    other: "%{count} مسئله"
+    zero:  0 بسته
+    one:   1 بسته
+    other: "%{count} بسته"
   label_x_issues:
     zero:  0 مسئله
     one:   1 مسئله
@@ -771,9 +771,9 @@ fa:
   label_comment: نظر
   label_comment_plural: نظرات
   label_x_comments:
-    zero:  0 مسئله
-    one:   1 مسئله
-    other: "%{count} مسئله"
+    zero: بدون نظر
+    one: ۱ نظر
+    other: "%{count} نظر"
   label_comment_add: افزودن نظر
   label_comment_added: نظر افزوده شد
   label_comment_delete: حذف نظرات
@@ -927,7 +927,7 @@ fa:
   label_updated_time: "به‌روزشده در %{value} پیش"
   label_jump_to_a_project: انتخاب پروژه
   label_file_plural: پرونده‌ها
-  label_changeset_plural: تغییرها
+  label_changeset_plural: تغییرهای مخزن کد
   label_default_columns: ستون‌های پیش‌فرض
   label_no_change_option: (بدون تغییر)
   label_bulk_edit: ویرایش گروهی
@@ -943,7 +943,7 @@ fa:
   label_user_mail_option_only_assigned: "تنها برای چیزهایی که به من واگذار شده"
   label_user_mail_option_only_owner: "تنها برای چیزهایی که من ایجاد کرده‌ام"
   label_user_mail_no_self_notified: "نمی‌خواهم از تغییراتی که خودم می‌دهم آگاه شوم"
-  label_user_mail_notify_about_high_priority_issues_html: مرا در مورد مسایلی با اولویت <em>%{prio}</em> و بالاتر، آگاه کن
+  label_user_mail_notify_about_high_priority_issues_html: مرا در مورد مسائلی با اولویت <em>%{prio}</em> و بالاتر، آگاه کن
   label_registration_activation_by_email: فعال‌سازی حساب با رایانامه
   label_registration_manual_activation: فعال‌سازی دستی حساب
   label_registration_automatic_activation: فعال‌سازی خودکار حساب
@@ -1000,8 +1000,8 @@ fa:
   label_missing_api_access_key: کلید دست‌رسی API در دست‌رس نیست
   label_api_access_key_created_on: "کلید دست‌رسی API در %{value} پیش ساخته شده است"
   label_profile: نمایه
-  label_subtask: زیرمسئله
-  label_subtask_plural: زیرکار
+  label_subtask: زیرکار
+  label_subtask_plural: زیرکارها
   label_project_copy_notifications: در هنگام رونویسی پروژه، رایانامه‌های آگاه‌سازی را بفرست
   label_import_notifications: در هنگام وارد کردن، رایانامه‌های آگاه‌سازی را بفرست
   label_principal_search: "جست‌وجو برای کاربر یا دسته:"
@@ -1129,8 +1129,8 @@ fa:
   label_my_bookmarks: منتخب من
   label_assign_to_me: واگذاری به من
   label_default_query: جستار پیش‌فرض
-  label_edited: Edited
-  label_time_by_author: "%{time} by %{author}"
+  label_edited: ویرایش شده
+  label_time_by_author: "%{time} توسط %{author}"
 
   button_login: ورود
   button_submit: ثبت
@@ -1204,7 +1204,7 @@ fa:
   project_status_active: فعال
   project_status_closed: بسته
   project_status_archived: بایگانی‌شده
-  project_status_scheduled_for_deletion: scheduled for deletion
+  project_status_scheduled_for_deletion: برای حذف، زمان‌بنده شده است
 
   version_status_open: باز
   version_status_locked: قفل
@@ -1215,24 +1215,19 @@ fa:
   text_select_mail_notifications: رویدادهایی که برای آن‌ها باید رایانامه فرستاده شود را انتخاب کنید.
   text_regexp_info: برای نمونه ^[A-Z0-9]+$
   text_project_destroy_confirmation: آیا واقعاً می‌خواهید این پروژه و همه داده‌های آن را حذف کنید؟
-  text_projects_bulk_destroy_confirmation: Are you sure you want to delete the selected
-    projects and related data?
+  text_projects_bulk_destroy_confirmation: آیا مطمین هستید که می‌خواهید پروژه‌ی انتخاب شده و داده‌های مربوطه را حذف کنید؟
   text_projects_bulk_destroy_head: |
-    You are about to permanently delete the following projects, including possible subprojects and any related data.
-    Please review the information below and confirm that this is indeed what you want to do.
-    This action cannot be undone.
-  text_projects_bulk_destroy_confirm: To confirm, please enter "%{yes}" in the box below.
+    شما در آستانه حذف دائمی پروژه‌های زیر، شامل زیرپروژه‌های احتمالی و هر داده مرتبط هستید.
+     لطفاً اطلاعات زیر را مرور کنید و تأیید کنید که این واقعاً همان کاری است که می‌خواهید انجام دهید.
+     این کار غیرقابل بازگشت است.
+  text_projects_bulk_destroy_confirm: برای تایید، لطفا در بخش زیر "%{yes}" را وارد کنید.
   text_subprojects_destroy_warning: "زیرپروژه‌های آن: %{value} هم حذف خواهند شد."
-  text_subprojects_bulk_destroy: 'including its subproject(s): %{value}'
-  text_project_close_confirmation: Are you sure you want to close the '%{value}' project
-    to make it read-only?
-  text_project_reopen_confirmation: Are you sure you want to reopen the '%{value}' project?
-  text_project_archive_confirmation: Are you sure you want to archive the '%{value}'
-  text_users_bulk_destroy_head: You are about to delete the following users and remove
-    all references to them. This cannot be undone. Often, locking users instead of deleting
-    them is the better solution.
-    project?
-  text_users_bulk_destroy_confirm: To confirm, please enter "%{yes}" below.
+  text_subprojects_bulk_destroy: 'شامل زیرپروژه‌هایش: %{value}'
+  text_project_close_confirmation: آیا مطمئن هستید که می‌خواهید پروژه '%{value}' ببندید تا فقط خواندنی باشد؟
+  text_project_reopen_confirmation: آیا مطمئن هستید که می‌خو‌اهید پروژه '%{value}' را بازگشایی کنید؟
+  text_project_archive_confirmation: آیا مطمئن هستید که می‌خواهید پروژه '%{value}' را بایگانی کنید؟
+  text_users_bulk_destroy_head: "شما می خواهید کاربران زیر و همه ارجاع‌ها به آن‌ها را حذف کنید. این کار قابل بازگشت نیست. در بیش‌تر مواقع، قفل کردن کاربران به جای حذف آن‌ها راه بهتری است."
+  text_users_bulk_destroy_confirm: برای تایید، لطفا در بخش زیر "%{yes}" را وارد کنید.
   text_workflow_edit: یک نقش و یک نوع مسئله را برای ویرایش گردش کار انتخاب کنید
   text_are_you_sure: آیا این کار انجام شود؟
   text_journal_changed: "%{label} از «%{old}» به «%{new}» تغییر کرد"
@@ -1282,7 +1277,7 @@ fa:
   text_assign_time_entries_to_project: ساعت‌های ثبت شده به پروژه واگذار شوند
   text_reassign_time_entries: 'ساعت‌های ثبت شده به این مسئله واگذار شوند:'
   text_user_wrote: "%{value} نوشت:"
-  text_user_wrote_in: "%{value} نوشت در %{link}:"
+  text_user_wrote_in: "%{value} نوشت (%{link}):"
   text_enumeration_destroy_question: "%{count} مورد از مقدار «%{name}» استفاده کرده‌اند."
   text_enumeration_category_reassign_to: 'به این مقدار تغییر کنند:'
   text_email_delivery_not_configured: "دریافت رایانامه تنظیمات نشده است و آگاه‌سازی‌ها غیر فعال هستند.\nکارگزار SMTP خود را در config/email.yml تنظیمات کنید و برنامه را بازنشانی کنید تا فعال شوند."
@@ -1356,7 +1351,7 @@ fa:
   description_user_mail_notification: تنظیمات آگاه‌سازی رایانامه‌ای
   description_available_columns: ستون‌های موجود
   description_selected_columns: ستون‌های منتخب
-  description_all_columns: /text_project_is_public_anonymousهمه ستون‌ها
+  description_all_columns: همه ستون‌ها
   description_issue_category_reassign: انتخاب دسته مسئله
   description_wiki_subpages_reassign: انتخاب صفحه پدر جدید
   text_repository_identifier_info: 'تنها حروف کوچک (a-z)، ارقام، خط تیره (-) و زیرخط (_) مجاز است و باید با یک حرف کوچک شروع شود.<br />پس از ذخیره‌سازی، شناسه نمی‌تواند تغییر کند.'
@@ -1367,9 +1362,7 @@ fa:
   text_project_is_public_anonymous: پروژه‌های عمومی و محتوای آنان برای همه در دسترس خواهد بود.
   label_import_time_entries: ورود زمان‌ها
   label_import_users: وارد کردن فهرست کاربران
-  sudo_mode_new_info_html: "<strong>What's happening?</strong> You need to reconfirm
-    your password before taking any administrative actions, this ensures your account
-    stays protected."
+  sudo_mode_new_info_html: "<strong>چه اتفاقی می‌افتد؟</strong> قبل از انجام هرگونه اقداماتِ راه‌بری باید گذرواژه خود را دوباره وارد کنید، این کار تضمین می‌کند که حساب شما محافظت شود."
   twofa__totp__name: برنامک احراز هویت
   twofa__totp__text_pairing_info_html: لطفا کد QR را را در یک برنامه TOTP اسکن کنید یا کلید متنی  را در آن وارد کنید (به عنوان مثال <a href="https://support.google.com/accounts/answer/1066447"> Google
     Authenticator </a>، <a href="https://authy.com/download/"> Authy </a>، <a href = "https://guide.duo.com/third-party-accounts" > Duo
@@ -1409,26 +1402,22 @@ fa:
   twofa_text_backup_codes_hint: اگر به عامل دوم دسترسی ندارید، از این کدها به جای گذرواژه یک‌بارمصرف استفاده کنید. هر کد فقط یک‌بار قابل استفاده است. توصیه می شود آنها را چاپ کرده و در مکانی امن ذخیره کنید.
   twofa_text_backup_codes_created_at: کدهای پشتیبان ایجاد شد. %{datetime}.
   twofa_backup_codes_already_shown: کدهای پشتیبان را نمی توان دوباره نشان داد، لطفاً <a data-method = "post" href = "%{bc_path}"> در صورت نیاز کدهای پشتیبان جدید ایجاد کنید </a>.
-  twofa_text_group_required: این تنظیم تنها زمانی مؤثر است که احراز هویت دوعاملی
-    روی «اختیاری» تنظیم شده باشد. در حال حاضر، احراز هویت دوعاملی
-    برای همه کاربران الزامی است.
-  twofa_text_group_disabled: این تنظیم تنها زمانی مؤثر است که احراز هویت دوعاملی
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is disabled.
+  twofa_text_group_required: "این تنظیم تنها زمانی مؤثر است که احراز هویت دوعاملی روی «اختیاری» تنظیم شده باشد. در حال حاضر، احراز هویت دوعاملی برای همه کاربران الزامی است."
+  twofa_text_group_disabled: "این تنظیم تنها زمانی مؤثر است که احراز هویت دوعاملی روی «اختیاری» تنظیم شده باشد. در حال حاضر، احراز هویت دوعاملی غیرفعال است."
   text_user_destroy_confirmation: مطمئنید که می خواهید این کاربر و همه ارجاع‌های مربوط به او را حذف کنید؟ این کار قابل بازگشت نیست. غالبا، قفل کردن کاربر به جای حذف، راه حل به‌تری است. برای تأیید، لطفاً شناسه ورود کاربر (%{login}) را در زیر وارد کنید.
   text_project_destroy_enter_identifier: برای تایید، لطفا شناسه پروژه (%{identifier}) را وارد کنید.
-  permission_select_project_publicity: Set project public or private
-  label_auto_watch_on_issue_created: Issues I created
-  field_any_searchable: Any searchable text
-  label_contains_any_of: contains any of
-  button_apply_issues_filter: Apply issues filter
-  label_view_previous_annotation: View annotation prior to this change
-  label_has_been: has been
-  label_has_never_been: has never been
-  label_changed_from: changed from
-  label_issue_statuses_description: Issue statuses description
-  label_open_issue_statuses_description: View all issue statuses description
-  text_select_apply_issue_status: Select issue status
-  field_name_or_email_or_login: Name, email or login
-  text_default_active_job_queue_changed: Default queue adapter which is well suited
-    only for dev/test changed
+  permission_select_project_publicity: تنظیم عمومی یا خصوصی بودن پروژه
+  label_auto_watch_on_issue_created: مسئله‌هایی که من ساخته‌ام
+  field_any_searchable: هر متن قابل جستجویی
+  label_contains_any_of: شامل یکی از
+  button_apply_issues_filter: اعمال غربال مسئله‌ها
+  label_view_previous_annotation: مشاهده حاشیه‌نویسی قبل از این تغییر
+  label_has_been: بوده است
+  label_has_never_been: نبوده است
+  label_changed_from: تغییر یافته از
+  label_issue_statuses_description: توضیحات وضعیت‌های مسئله
+  label_open_issue_statuses_description: مشاهده توضیحات همه وضعیت‌های مسئله‌ها
+  text_select_apply_issue_status: وضعیت مسئله را انتخاب کنید
+  field_name_or_email_or_login: نام، رایانامه یا شناسه کاربری
+  text_default_active_job_queue_changed: آداپتور پیش‌فرض صف که به شکل مناسبی کار می‌کند تنها برای توسعه/آزمون تغییر کرد
+  label_user_mail_option_bookmarked: For any event on my bookmarked projects

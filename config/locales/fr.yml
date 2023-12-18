@@ -1466,3 +1466,4 @@ fr:
   text_select_apply_issue_status: Sélectionner les statuts des demandes
   field_name_or_email_or_login: Nom, email ou login
   text_default_active_job_queue_changed: Gestionnaire de file par défaut le plus adapté
+  label_user_mail_option_bookmarked: For any event on my bookmarked projects

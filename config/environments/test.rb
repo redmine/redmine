@@ -10,13 +10,19 @@ require 'active_support/core_ext/integer/time'
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
-  config.cache_classes = true
+  config.enable_reloading = false
   # config.action_view.cache_template_loading = true
 
   # Do not eager load code on boot. This avoids loading your whole application
   # just for the purpose of running a single test. If you are using a tool that
   # preloads Rails for running tests, you may have to set it to true.
   config.eager_load = false
+
+  # Change default plugins dir if env variable is present
+  # This is used by redmine plugins autoload test.
+  if ENV["REDMINE_PLUGINS_DIRECTORY"].present?
+    config.redmine_plugins_directory = ENV["REDMINE_PLUGINS_DIRECTORY"]
+  end
 
   # Configure public file server for tests with Cache-Control for performance.
   config.public_file_server.enabled = true
@@ -30,7 +36,7 @@ Rails.application.configure do
   config.cache_store = :null_store
 
   # Raise exceptions instead of rendering exception templates.
-  config.action_dispatch.show_exceptions = true
+  config.action_dispatch.show_exceptions = :all
 
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false

@@ -38,7 +38,7 @@ class ProjectNestedSetConcurrencyTest < ActiveSupport::TestCase
     p = generate_project!
     p.destroy
 
-    assert_difference 'Project.count', 60 do
+    assert_difference 'Project.async_count.value', 60 do
       threads = []
       3.times do |i|
         threads << Thread.new(i) do

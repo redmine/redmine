@@ -345,14 +345,14 @@ class Attachment < ActiveRecord::Base
   #   })
   #
   def self.update_attachments(attachments, params)
-    params = params.transform_keys {|key| key.to_i}
-
+    converted = {}
+    params.each {|key, val| converted[key.to_i] = val}
     saved = true
     transaction do
       attachments.each do |attachment|
-        if p = params[attachment.id]
-          attachment.filename = p[:filename] if p.key?(:filename)
-          attachment.description = p[:description] if p.key?(:description)
+        if file = converted[attachment.id]
+          attachment.filename = file[:filename] if file.key?(:filename)
+          attachment.description = file[:description] if file.key?(:description)
           saved &&= attachment.save
         end
       end

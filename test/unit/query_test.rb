@@ -1549,13 +1549,13 @@ class QueryTest < ActiveSupport::TestCase
     query = IssueQuery.new(:name => '_')
     filter_name = "fixed_version.due_date"
     assert_include filter_name, query.available_filters.keys
-    query.filters = {filter_name => {:operator => '=', :values => [20.day.from_now.to_date.to_s(:db)]}}
+    query.filters = {filter_name => {:operator => '=', :values => [20.day.from_now.to_date.to_fs(:db)]}}
     issues = find_issues_with_query(query)
     assert_equal [2], issues.map(&:fixed_version_id).uniq.sort
     assert_equal [2, 12], issues.map(&:id).sort
 
     query = IssueQuery.new(:name => '_')
-    query.filters = {filter_name => {:operator => '>=', :values => [21.day.from_now.to_date.to_s(:db)]}}
+    query.filters = {filter_name => {:operator => '>=', :values => [21.day.from_now.to_date.to_fs(:db)]}}
     assert_equal 0, find_issues_with_query(query).size
   end
 
@@ -2962,7 +2962,7 @@ class QueryTest < ActiveSupport::TestCase
     User.current.pref.update_attribute :time_zone, 'Hawaii'
 
     # assume timestamps are stored as utc
-    ActiveRecord::Base.default_timezone = :utc
+    ActiveRecord.default_timezone = :utc
 
     from = Date.parse '2016-03-20'
     to = Date.parse '2016-03-22'
@@ -2973,7 +2973,7 @@ class QueryTest < ActiveSupport::TestCase
     t = Time.new(2016, 3, 23, 9, 59, 59, 0).end_of_hour
     assert_equal "table.field > '#{Query.connection.quoted_date f}' AND table.field <= '#{Query.connection.quoted_date t}'", c
   ensure
-    ActiveRecord::Base.default_timezone = :local # restore Redmine default
+    ActiveRecord.default_timezone = :local # restore Redmine default
   end
 
   def test_project_statement_with_closed_subprojects

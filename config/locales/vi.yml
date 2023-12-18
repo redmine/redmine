@@ -1291,7 +1291,7 @@ vi:
   label_trackers_description: Mô tả trình theo dõi
   label_open_trackers_description: Xem tất cả mô tả của trình theo dõi
   label_preferred_body_part_text: Text
-  label_preferred_body_part_html: HTML (thực nghiệm)
+  label_preferred_body_part_html: HTML
   field_parent_issue_subject: Chủ đề của tác vụ cha
   permission_edit_own_issues: Chỉnh sửa các vấn đề riêng
   text_select_apply_tracker: Chọn trình theo dõi
@@ -1491,3 +1491,4 @@ vi:
   field_name_or_email_or_login: Name, email or login
   text_default_active_job_queue_changed: Default queue adapter which is well suited
     only for dev/test changed
+  label_user_mail_option_bookmarked: For any event on my bookmarked projects

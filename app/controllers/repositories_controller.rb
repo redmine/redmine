@@ -103,7 +103,11 @@ class RepositoriesController < ApplicationController
 
   def fetch_changesets
     @repository.fetch_changesets if @project.active? && @path.empty? && !Setting.autofetch_changesets?
-    show
+
+    redirect_to(
+      controller: :repositories, action: :show,
+      id: @project, repository_id: @repository.identifier_param
+    )
   end
 
   def changes
@@ -284,8 +288,7 @@ class RepositoriesController < ApplicationController
       @changeset = @repository.find_changeset_by_name(@rev)
       @changeset_to = @rev_to ? @repository.find_changeset_by_name(@rev_to) : nil
       @diff_format_revisions = @repository.diff_format_revisions(@changeset, @changeset_to)
-      # TODO: Fix DEPRECATION WARNING: Rendering actions with '.' in the name is deprecated
-      render :diff, :formats => :html, :layout => 'base.html.erb'
+      render :diff, :formats => :html
     end
   end
 

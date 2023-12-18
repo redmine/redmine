@@ -54,7 +54,7 @@ module Redmine
     cattr_accessor :directory
     self.directory = PluginLoader.directory
 
-    # Absolute path to the plublic directory where plugins assets are copied
+    # Absolute path to the public directory where plugins assets are copied
     cattr_accessor :public_directory
     self.public_directory = PluginLoader.public_directory
 
@@ -467,7 +467,7 @@ module Redmine
           else
             migrations
           end
-        Migrator.new(:up, selected_migrations, schema_migration, target_version).migrate
+        Migrator.new(:up, selected_migrations, schema_migration, internal_metadata, target_version).migrate
       end
 
       def down(target_version = nil)
@@ -477,15 +477,15 @@ module Redmine
           else
             migrations
           end
-        Migrator.new(:down, selected_migrations, schema_migration, target_version).migrate
+        Migrator.new(:down, selected_migrations, schema_migration, internal_metadata, target_version).migrate
       end
 
       def run(direction, target_version)
-        Migrator.new(direction, migrations, schema_migration, target_version).run
+        Migrator.new(direction, migrations, schema_migration, internal_metadata, target_version).run
       end
 
       def open
-        Migrator.new(:up, migrations, schema_migration)
+        Migrator.new(:up, migrations, schema_migration, internal_metadata)
       end
 
       def current_version
@@ -510,7 +510,7 @@ module Redmine
           # Delete migrations that don't match .. to_i will work because the number comes first
           @all_versions ||= {}
           @all_versions[plugin.id.to_s] ||= begin
-            sm_table = ::ActiveRecord::SchemaMigration.table_name
+            sm_table = ::ActiveRecord::Base.connection.schema_migration.table_name
             migration_versions  = ActiveRecord::Base.connection.select_values("SELECT version FROM #{sm_table}")
             versions_by_plugins = migration_versions.group_by {|version| version.match(/-(.*)$/).try(:[], 1)}
             @all_versions       = versions_by_plugins.transform_values! {|versions| versions.map!(&:to_i).sort!}

@@ -2,9 +2,8 @@ source 'https://rubygems.org'
 
 ruby '>= 2.7.0', '< 3.3.0'
 
-gem 'rails', '6.1.7.6'
+gem 'rails', '7.1.2'
 gem 'rouge', '~> 4.2.0'
-gem 'request_store', '~> 1.5.0'
 gem 'mini_mime', '~> 1.1.0'
 gem "actionpack-xml_parser"
 gem 'roadie-rails', '~> 3.1.0'
@@ -69,6 +68,7 @@ if File.exist?(database_file)
       case adapter
       when 'mysql2'
         gem "mysql2", "~> 0.5.0", :platforms => [:mri, :mingw, :x64_mingw]
+        gem "with_advisory_lock"
       when /postgresql/
         gem 'pg', '~> 1.5.3', :platforms => [:mri, :mingw, :x64_mingw]
       when /sqlite3/
@@ -87,9 +87,13 @@ else
   warn("Please configure your config/database.yml first")
 end
 
+group :development, :test do
+  gem 'debug'
+end
+
 group :development do
   gem 'listen', '~> 3.3'
-  gem "yard"
+  gem 'yard', require: false
 end
 
 group :test do
@@ -109,7 +113,7 @@ group :test do
   # RuboCop
   gem 'rubocop', '~> 1.57.0', require: false
   gem 'rubocop-performance', '~> 1.19.0', require: false
-  gem 'rubocop-rails', '~> 2.21.2', require: false
+  gem 'rubocop-rails', '~> 2.22.1', require: false
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), "Gemfile.local")

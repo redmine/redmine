@@ -84,9 +84,9 @@ module Redmine
   class PluginLoader
     # Absolute path to the directory where plugins are located
     cattr_accessor :directory
-    self.directory = Rails.root.join('plugins')
+    self.directory = Rails.root.join Rails.application.config.redmine_plugins_directory
 
-    # Absolute path to the plublic directory where plugins assets are copied
+    # Absolute path to the public directory where plugins assets are copied
     cattr_accessor :public_directory
     self.public_directory = Rails.public_path.join('plugin_assets')
 
@@ -126,7 +126,7 @@ module Redmine
         # Add the plugin directories to rails autoload paths
         engine_cfg = Rails::Engine::Configuration.new(directory.to_s)
         engine_cfg.paths.add 'lib', eager_load: true
-        engine_cfg.eager_load_paths.each do |dir|
+        engine_cfg.all_eager_load_paths.each do |dir|
           Rails.autoloaders.main.push_dir dir
           Rails.application.config.watchable_dirs[dir] = [:rb]
         end

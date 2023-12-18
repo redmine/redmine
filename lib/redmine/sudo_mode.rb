@@ -1,5 +1,22 @@
 # frozen_string_literal: true
 
+# Redmine - project management software
+# Copyright (C) 2006-2023  Jean-Philippe Lang
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
 require 'active_support/core_ext/object/to_query'
 require 'rack/utils'
 
@@ -170,9 +187,13 @@ module Redmine
       end
     end
 
+    class CurrentSudoMode < ActiveSupport::CurrentAttributes
+      attribute :was_used, :active, :disabled
+    end
+
     # true if the sudo mode state was queried during this request
     def self.was_used?
-      !!RequestStore.store[:sudo_mode_was_used]
+      !!CurrentSudoMode.was_used
     end
 
     # true if sudo mode is currently active.
@@ -184,13 +205,13 @@ module Redmine
     # If you do it wrong, timeout of the sudo mode will happen too late or not at
     # all.
     def self.active?
-      if !!RequestStore.store[:sudo_mode]
-        RequestStore.store[:sudo_mode_was_used] = true
+      if !!CurrentSudoMode.active
+        CurrentSudoMode.was_used = true
       end
     end
 
     def self.active!
-      RequestStore.store[:sudo_mode] = true
+      CurrentSudoMode.active = true
     end
 
     def self.possible?
@@ -199,16 +220,16 @@ module Redmine
 
     # Turn off sudo mode (never require password entry).
     def self.disable!
-      RequestStore.store[:sudo_mode_disabled] = true
+      CurrentSudoMode.disabled = true
     end
 
     # Turn sudo mode back on
     def self.enable!
-      RequestStore.store[:sudo_mode_disabled] = nil
+      CurrentSudoMode.disabled = nil
     end
 
     def self.enabled?
-      Redmine::Configuration['sudo_mode'] && !RequestStore.store[:sudo_mode_disabled]
+      Redmine::Configuration['sudo_mode'] && !CurrentSudoMode.disabled
     end
 
     # Timespan after which sudo mode expires when unused.

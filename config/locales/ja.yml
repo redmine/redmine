@@ -756,6 +756,7 @@ ja:
   label_search_titles_only: タイトルのみ
   label_user_mail_option_all: "参加しているプロジェクトのすべての通知"
   label_user_mail_option_selected: "選択したプロジェクトのすべての通知..."
+  label_user_mail_option_bookmarked: "ブックマークしているプロジェクトのすべての通知"
   label_user_mail_option_none: "通知しない"
   label_user_mail_option_only_my_events: "ウォッチ中または自分が関係しているもの"
   label_user_mail_option_only_assigned: "ウォッチ中または自分が担当しているもの"
@@ -1437,5 +1438,4 @@ ja:
   label_open_issue_statuses_description: すべてのステータスの説明を表示
   text_select_apply_issue_status: このステータスを適用
   field_name_or_email_or_login: 姓名・メールアドレス・ログインID
-  text_default_active_job_queue_changed: Default queue adapter which is well suited
-    only for dev/test changed
+  text_default_active_job_queue_changed: キューアダプターがデフォルト (開発・テスト用) 以外のものに変更済み

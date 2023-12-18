@@ -130,12 +130,6 @@ class MyController < ApplicationController
     redirect_to my_account_path
   end
 
-  # TODO: remove in Redmine 6.0
-  def reset_rss_key
-    ActiveSupport::Deprecation.warn "My#reset_rss_key is deprecated and will be removed in Redmine 6.0. Please use #reset_atom_key instead."
-    reset_atom_key
-  end
-
   def show_api_key
     @user = User.current
   end

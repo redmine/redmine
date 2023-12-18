@@ -75,6 +75,7 @@ class User < Principal
   MAIL_NOTIFICATION_OPTIONS = [
     ['all', :label_user_mail_option_all],
     ['selected', :label_user_mail_option_selected],
+    ['bookmarked', :label_user_mail_option_bookmarked],
     ['only_my_events', :label_user_mail_option_only_my_events],
     ['only_assigned', :label_user_mail_option_only_assigned],
     ['only_owner', :label_user_mail_option_only_owner],
@@ -422,12 +423,6 @@ class User < Principal
     atom_token.value
   end
 
-  # TODO: remove in Redmine 6.0
-  def rss_key
-    ActiveSupport::Deprecation.warn "User.rss_key is deprecated and will be removed in Redmine 6.0. Please use User.atom_key instead."
-    atom_key
-  end
-
   # Return user's API key (a 40 chars long string), used to access the API
   def api_key
     if api_token.nil?
@@ -498,12 +493,24 @@ class User < Principal
   # Updates per project notifications (after_save callback)
   def update_notified_project_ids
     if @notified_projects_ids_changed
-      ids = (mail_notification == 'selected' ? Array.wrap(notified_projects_ids).reject(&:blank?) : [])
+      ids = []
+      if mail_notification == 'selected'
+        ids = Array.wrap(notified_projects_ids).reject(&:blank?)
+      elsif mail_notification == 'bookmarked'
+        ids = Array.wrap(bookmarked_project_ids).reject(&:blank?)
+      end
       members.update_all(:mail_notification => false)
       members.where(:project_id => ids).update_all(:mail_notification => true) if ids.any?
     end
   end
   private :update_notified_project_ids
+
+  def update_notified_bookmarked_project_ids(project_id)
+    if mail_notification == 'bookmarked'
+      @notified_projects_ids_changed = true
+      self.update_notified_project_ids
+    end
+  end
 
   def valid_notification_options
     self.class.valid_notification_options(self)
@@ -537,12 +544,6 @@ class User < Principal
 
   def self.find_by_atom_key(key)
     Token.find_active_user('feeds', key)
-  end
-
-  # TODO: remove in Redmine 6.0
-  def self.find_by_rss_key(key)
-    ActiveSupport::Deprecation.warn "User.find_by_rss_key is deprecated and will be removed in Redmine 6.0. Please use User.find_by_atom_key instead."
-    self.find_by_atom_key(key)
   end
 
   def self.find_by_api_key(key)
@@ -834,7 +835,7 @@ class User < Principal
       case object
       when Issue
         case mail_notification
-        when 'selected', 'only_my_events'
+        when 'selected', 'only_my_events', 'bookmarked'
           # user receives notifications for created/assigned issues on unselected projects
           object.author == self || is_or_belongs_to?(object.assigned_to) || is_or_belongs_to?(object.previous_assignee)
         when 'only_assigned'
@@ -853,12 +854,16 @@ class User < Principal
     self.pref.notify_about_high_priority_issues
   end
 
+  class CurrentUser < ActiveSupport::CurrentAttributes
+    attribute :user
+  end
+
   def self.current=(user)
-    RequestStore.store[:current_user] = user
+    CurrentUser.user = user
   end
 
   def self.current
-    RequestStore.store[:current_user] ||= User.anonymous
+    CurrentUser.user ||= User.anonymous
   end
 
   # Returns the anonymous user.  If the anonymous user does not exist, it is created.  There can be only

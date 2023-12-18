@@ -1284,7 +1284,7 @@ ko:
   label_trackers_description: 일감유형 설명
   label_open_trackers_description: 모든 일감유형의 설명 보기
   label_preferred_body_part_text: Text
-  label_preferred_body_part_html: HTML (experimental)
+  label_preferred_body_part_html: HTML
   field_parent_issue_subject: 상위 일감 제목
   permission_edit_own_issues: 나의 일감 편집
   text_select_apply_tracker: 일감유형 선택
@@ -1507,3 +1507,4 @@ ko:
   field_name_or_email_or_login: Name, email or login
   text_default_active_job_queue_changed: Default queue adapter which is well suited
     only for dev/test changed
+  label_user_mail_option_bookmarked: For any event on my bookmarked projects
