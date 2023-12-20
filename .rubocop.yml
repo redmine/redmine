@@ -239,6 +239,9 @@ Style/RedundantConstantBase:
   Exclude:
     - 'config/environments/production.rb'
 
+Style/RedundantParentheses:
+  Enabled: false
+
 Style/Semicolon:
   Enabled: false
 
