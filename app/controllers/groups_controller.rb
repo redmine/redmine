@@ -153,10 +153,6 @@ class GroupsController < ApplicationController
   end
 
   def user_count_by_group_id
-    h = User.joins(:groups).group('group_id').count
-    h.keys.each do |key|
-      h[key.to_i] = h.delete(key)
-    end
-    h
+    User.joins(:groups).group(:group_id).count.transform_keys(&:to_i)
   end
 end

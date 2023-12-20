@@ -129,7 +129,7 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       assert_equal 'One', attributes[:lastname]
       assert_equal 'example1@redmine.org', attributes[:mail]
       assert_equal auth.id, attributes[:auth_source_id]
-      attributes.keys.each do |attribute|
+      attributes.each_key do |attribute|
         assert User.new.respond_to?("#{attribute}="), "Unexpected :#{attribute} attribute returned"
       end
     end

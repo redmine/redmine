@@ -57,7 +57,7 @@ module Redmine
           mentionable_attrs = self.mentionable_attributes
           saved_mentionable_attrs = self.saved_changes.select{|a| mentionable_attrs.include?(a)}
 
-          saved_mentionable_attrs.each do |key, attr|
+          saved_mentionable_attrs.each_value do |attr|
             old_value, new_value =  attr
             get_mentioned_users(old_value, new_value)
           end

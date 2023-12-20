@@ -264,7 +264,7 @@ class Journal < ActiveRecord::Base
     # custom fields changes
     if @custom_values_before_change
       values_by_custom_field_id = {}
-      @custom_values_before_change.each do |custom_field_id, value|
+      @custom_values_before_change.each_key do |custom_field_id|
         values_by_custom_field_id[custom_field_id] = nil
       end
       journalized.custom_field_values.each do |c|

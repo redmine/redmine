@@ -224,7 +224,7 @@ class Role < ActiveRecord::Base
 
   def permissions_tracker_ids=(arg)
     h = arg.to_hash
-    h.values.each {|v| v.reject!(&:blank?)}
+    h.each_value {|v| v.reject!(&:blank?)}
     super(h)
   end
 

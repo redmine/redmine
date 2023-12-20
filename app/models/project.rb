@@ -1128,7 +1128,7 @@ class Project < ActiveRecord::Base
 
     # Store status and reopen locked/closed versions
     version_statuses = versions.reject(&:open?).map {|version| [version, version.status]}
-    version_statuses.each do |version, status|
+    version_statuses.each do |version, _| # rubocop:disable Style/HashEachMethods
       version.update_attribute :status, 'open'
     end
 

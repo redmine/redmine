@@ -1106,17 +1106,6 @@ Style/HashAsLastArrayItem:
     - 'app/controllers/enumerations_controller.rb'
     - 'app/models/board.rb'
 
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: AllowedReceivers.
-# AllowedReceivers: Thread.current
-Style/HashEachMethods:
-  Exclude:
-    - 'app/controllers/groups_controller.rb'
-    - 'app/models/mailer.rb'
-    - 'app/models/role.rb'
-    - 'test/functional/issues_custom_fields_visibility_test.rb'
-    - 'test/unit/auth_source_ldap_test.rb'
-
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AllowIfModifier.
 Style/IfInsideElse:

@@ -221,6 +221,11 @@ Style/GlobalStdStream:
 Style/HashSyntax:
   EnforcedStyle: no_mixed_keys
 
+Style/HashEachMethods:
+  Exclude:
+    - 'db/migrate/072_add_enumerations_position.rb'
+    - 'db/migrate/078_add_custom_fields_position.rb'
+
 Style/IdenticalConditionalBranches:
   Exclude:
     - 'config/initializers/10-patches.rb'

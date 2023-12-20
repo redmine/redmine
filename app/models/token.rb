@@ -78,7 +78,7 @@ class Token < ActiveRecord::Base
     # Unknown actions have default validity_time
     condition = t[:action].not_in(self.actions.keys).and(t[:created_on].lt(invalid_when_created_before))
 
-    self.actions.each do |action, options|
+    self.actions.each_key do |action|
       validity_time = invalid_when_created_before(action)
 
       # Do not delete tokens, which don't become invalid

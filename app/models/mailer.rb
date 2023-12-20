@@ -620,7 +620,7 @@ class Mailer < ActionMailer::Base
     scope = scope.where(:tracker_id => tracker.id) if tracker
     issues_by_assignee = scope.includes(:status, :assigned_to, :project, :tracker).
                               group_by(&:assigned_to)
-    issues_by_assignee.keys.each do |assignee|
+    issues_by_assignee.keys.each do |assignee|  # rubocop:disable Style/HashEachMethods
       if assignee.is_a?(Group)
         assignee.users.each do |user|
           issues_by_assignee[user] ||= []

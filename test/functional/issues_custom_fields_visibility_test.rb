@@ -323,7 +323,7 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
     # anonymous user is never notified
     users_to_test = @users_to_test.reject {|k, v| k.anonymous?}
 
-    users_to_test.keys.each do |user|
+    users_to_test.each_key do |user|
       Watcher.create!(:user => user, :watchable => @issue)
     end
     ActionMailer::Base.deliveries.clear
@@ -362,7 +362,7 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
     # anonymous user is never notified
     users_to_test = @users_to_test.reject {|k, v| k.anonymous?}
 
-    users_to_test.keys.each do |user|
+    users_to_test.each_key do |user|
       Watcher.create!(:user => user, :watchable => @issue)
     end
     ActionMailer::Base.deliveries.clear

@@ -45,8 +45,8 @@ class WorkflowsController < ApplicationController
   def update
     if @roles && @trackers && params[:transitions]
       transitions = params[:transitions].deep_dup
-      transitions.each do |old_status_id, transitions_by_new_status|
-        transitions_by_new_status.each do |new_status_id, transition_by_rule|
+      transitions.each_value do |transitions_by_new_status|
+        transitions_by_new_status.each_value do |transition_by_rule|
           transition_by_rule.reject! {|rule, transition| transition == 'no_change'}
         end
       end
@@ -68,7 +68,7 @@ class WorkflowsController < ApplicationController
   def update_permissions
     if @roles && @trackers && params[:permissions]
       permissions = params[:permissions].deep_dup
-      permissions.each do |field, rule_by_status_id|
+      permissions.each_value do |rule_by_status_id|
         rule_by_status_id.reject! {|status_id, rule| rule == 'no_change'}
       end
       WorkflowPermission.replace_permissions(@trackers, @roles, permissions)
