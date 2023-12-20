@@ -169,10 +169,13 @@ DESC
 
     desc 'Runs the plugins tests.'
     task :test do
-      Rake::Task["redmine:plugins:test:units"].invoke
-      Rake::Task["redmine:plugins:test:functionals"].invoke
-      Rake::Task["redmine:plugins:test:integration"].invoke
-      Rake::Task["redmine:plugins:test:system"].invoke
+      $: << "test"
+      Rails::TestUnit::Runner.run_from_rake 'test', FileList[
+        "plugins/#{ENV['NAME'] || '*'}/test/unit/**/*_test.rb",
+        "plugins/#{ENV['NAME'] || '*'}/test/functional/**/*_test.rb",
+        "plugins/#{ENV['NAME'] || '*'}/test/integration/**/*_test.rb",
+        "plugins/#{ENV['NAME'] || '*'}/test/system/**/*_test.rb"
+      ]
     end
 
     namespace :test do
