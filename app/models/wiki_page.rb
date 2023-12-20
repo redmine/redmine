@@ -108,7 +108,7 @@ class WikiPage < ActiveRecord::Base
       end
     end
 
-    super attrs, user
+    super(attrs, user)
   end
 
   # Manages redirects if page is renamed or moved

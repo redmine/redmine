@@ -97,7 +97,7 @@ class IssueQuery < Query
   end
 
   def initialize(attributes=nil, *args)
-    super attributes
+    super(attributes)
     self.filters ||= {'status_id' => {:operator => "o", :values => [""]}}
   end
 

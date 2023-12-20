@@ -1675,7 +1675,7 @@ module ApplicationHelper
         source
       end
     end
-    super *sources, options
+    super(*sources, options)
   end
 
   # Overrides Rails' image_tag with themes and plugins support.
@@ -1689,7 +1689,7 @@ module ApplicationHelper
     elsif current_theme && current_theme.images.include?(source)
       source = current_theme.image_path(source)
     end
-    super source, options
+    super(source, options)
   end
 
   # Overrides Rails' javascript_include_tag with plugins support
@@ -1708,7 +1708,7 @@ module ApplicationHelper
         end
       end
     end
-    super *sources, options
+    super(*sources, options)
   end
 
   def sidebar_content?

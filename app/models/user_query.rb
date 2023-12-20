@@ -34,7 +34,7 @@ class UserQuery < Query
   ]
 
   def initialize(attributes=nil, *args)
-    super attributes
+    super(attributes)
     self.filters ||= { 'status' => {operator: "=", values: [User::STATUS_ACTIVE]} }
   end
 

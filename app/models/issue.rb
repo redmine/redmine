@@ -475,7 +475,7 @@ class Issue < ActiveRecord::Base
         send "#{attr}=", attrs.delete(attr)
       end
     end
-    super attrs, *args
+    super(attrs, *args)
   end
 
   def attributes=(new_attributes)

@@ -489,7 +489,7 @@ module Redmine
 
         API_FORMATS.each do |format|
           format_request = request.sub /$/, ".#{format}"
-          super options.merge(format_request => arg[request], :format => format)
+          super(options.merge(format_request => arg[request], :format => format))
         end
       end
     end

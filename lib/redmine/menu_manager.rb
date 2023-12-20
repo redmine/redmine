@@ -453,7 +453,7 @@ module Redmine
         @parent = options[:parent]
         @child_menus = options[:children]
         @last = options[:last] || false
-        super @name.to_sym
+        super(@name.to_sym)
       end
 
       def caption(project=nil)

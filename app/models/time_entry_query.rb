@@ -40,7 +40,7 @@ class TimeEntryQuery < Query
   ]
 
   def initialize(attributes=nil, *args)
-    super attributes
+    super(attributes)
     self.filters ||= {'spent_on' => {:operator => "*", :values => []}}
   end
 
