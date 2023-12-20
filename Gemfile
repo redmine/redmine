@@ -113,7 +113,7 @@ group :test do
   # RuboCop
   gem 'rubocop', '~> 1.59.0', require: false
   gem 'rubocop-performance', '~> 1.20.0', require: false
-  gem 'rubocop-rails', '~> 2.22.1', require: false
+  gem 'rubocop-rails', '~> 2.23.0', require: false
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), "Gemfile.local")
