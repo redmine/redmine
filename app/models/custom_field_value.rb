@@ -23,7 +23,7 @@ class CustomFieldValue
 
   def initialize(attributes={})
     attributes.each do |name, v|
-      send "#{name}=", v
+      send :"#{name}=", v
     end
   end
 

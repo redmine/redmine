@@ -255,7 +255,7 @@ class RedCloth3 < String
     #     #=>"<h1>A &lt;b&gt;bold&lt;/b&gt; man</h1>"
     #
     def initialize( string, restrictions = [] )
-        restrictions.each { |r| method( "#{r}=" ).call( true ) }
+        restrictions.each { |r| method( :"#{r}=" ).call( true ) }
         super( string )
     end
 
@@ -724,10 +724,10 @@ class RedCloth3 < String
 
             # pass to prefix handler
             replacement = nil
-            if respond_to? "textile_#{tag}", true
-              replacement = method( "textile_#{tag}" ).call( tag, atts, cite, content )
-            elsif respond_to? "textile_#{tagpre}_", true
-              replacement = method( "textile_#{tagpre}_" ).call( tagpre, num, atts, cite, content )
+            if respond_to? :"textile_#{tag}", true
+              replacement = method( :"textile_#{tag}" ).call( tag, atts, cite, content )
+            elsif respond_to? :"textile_#{tagpre}_", true
+              replacement = method( :"textile_#{tagpre}_" ).call( tagpre, num, atts, cite, content )
             end
             text.gsub!( $& ) { replacement } if replacement
         end

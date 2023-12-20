@@ -472,7 +472,7 @@ class Issue < ActiveRecord::Base
 
     %w(project project_id tracker tracker_id).each do |attr|
       if attrs.has_key?(attr)
-        send "#{attr}=", attrs.delete(attr)
+        send :"#{attr}=", attrs.delete(attr)
       end
     end
     super(attrs, *args)
@@ -2067,7 +2067,7 @@ class Issue < ActiveRecord::Base
   def clear_disabled_fields
     if tracker
       tracker.disabled_core_fields.each do |attribute|
-        send "#{attribute}=", nil
+        send :"#{attribute}=", nil
       end
       self.priority_id ||= IssuePriority.default&.id || IssuePriority.active.first.id
       self.done_ratio ||= 0

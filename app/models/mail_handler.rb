@@ -578,7 +578,7 @@ class MailHandler < ActionMailer::Base
   def self.assign_string_attribute_with_limit(object, attribute, value, limit=nil)
     limit ||= object.class.columns_hash[attribute.to_s].limit || 255
     value = value.to_s.slice(0, limit)
-    object.send("#{attribute}=", value)
+    object.send(:"#{attribute}=", value)
   end
   private_class_method :assign_string_attribute_with_limit
 

@@ -1110,7 +1110,7 @@ class Query < ActiveRecord::Base
       custom_field = column.custom_field
       send :total_for_custom_field, custom_field, scope
     else
-      send "total_for_#{column.name}", scope
+      send :"total_for_#{column.name}", scope
     end
   rescue ::ActiveRecord::StatementInvalid => e
     raise StatementInvalid.new(e.message)

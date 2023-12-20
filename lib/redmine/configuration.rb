@@ -66,7 +66,7 @@ module Redmine
                 "Please update your config/configuration.yml to use :#$1 delivery method instead."
             end
             v.symbolize_keys! if v.respond_to?(:symbolize_keys!)
-            ActionMailer::Base.send("#{k}=", v)
+            ActionMailer::Base.send(:"#{k}=", v)
           end
         end
 

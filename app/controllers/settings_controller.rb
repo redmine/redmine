@@ -70,12 +70,12 @@ class SettingsController < ApplicationController
 
     if request.post?
       setting = params[:settings] ? params[:settings].permit!.to_h : {}
-      Setting.send "plugin_#{@plugin.id}=", setting
+      Setting.send :"plugin_#{@plugin.id}=", setting
       flash[:notice] = l(:notice_successful_update)
       redirect_to plugin_settings_path(@plugin)
     else
       @partial = @plugin.settings[:partial]
-      @settings = Setting.send "plugin_#{@plugin.id}"
+      @settings = Setting.send :"plugin_#{@plugin.id}"
     end
   rescue Redmine::PluginNotFound
     render_404

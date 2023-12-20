@@ -184,7 +184,7 @@ class Import < ActiveRecord::Base
   def do_callbacks(position, object)
     if callbacks = (settings['callbacks'] || {}).delete(position)
       callbacks.each do |name, args|
-        send "#{name}_callback", object, *args
+        send :"#{name}_callback", object, *args
       end
       save!
     end

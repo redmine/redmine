@@ -25,7 +25,7 @@ class Redmine::SafeAttributesTest < ActiveSupport::TestCase
   class Base
     def attributes=(attrs)
       attrs.each do |key, value|
-        send("#{key}=", value)
+        send(:"#{key}=", value)
       end
     end
   end

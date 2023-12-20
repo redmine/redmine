@@ -41,7 +41,7 @@ class Comment < ActiveRecord::Base
   def send_notification
     event = "#{commented.class.name.underscore}_comment_added"
     if Setting.notified_events.include?(event)
-      Mailer.public_send("deliver_#{event}", self)
+      Mailer.public_send(:"deliver_#{event}", self)
     end
   end
 end

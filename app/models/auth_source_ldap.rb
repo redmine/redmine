@@ -86,7 +86,7 @@ class AuthSourceLdap < AuthSource
 
   # Returns true if this source can be searched for users
   def searchable?
-    !account.to_s.include?("$login") && %w(login firstname lastname mail).all? {|a| send("attr_#{a}?")}
+    !account.to_s.include?("$login") && %w(login firstname lastname mail).all? {|a| send(:"attr_#{a}?")}
   end
 
   # Searches the source for users and returns an array of results

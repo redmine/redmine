@@ -61,7 +61,7 @@ module MyHelper
         return nil
       end
     else
-      send "render_#{block_definition[:name]}_block", block, settings
+      send :"render_#{block_definition[:name]}_block", block, settings
     end
   end
 

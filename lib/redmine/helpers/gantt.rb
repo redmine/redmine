@@ -270,8 +270,8 @@ module Redmine
 
       def render_object_row(object, options)
         class_name = object.class.name.downcase
-        send("subject_for_#{class_name}", object, options) unless options[:only] == :lines || options[:only] == :selected_columns
-        send("line_for_#{class_name}", object, options) unless options[:only] == :subjects || options[:only] == :selected_columns
+        send(:"subject_for_#{class_name}", object, options) unless options[:only] == :lines || options[:only] == :selected_columns
+        send(:"line_for_#{class_name}", object, options) unless options[:only] == :subjects || options[:only] == :selected_columns
         column_content_for_issue(object, options) if options[:only] == :selected_columns && options[:column].present? && object.is_a?(Issue)
         options[:top] += options[:top_increment]
         @number_of_rows += 1
@@ -361,14 +361,14 @@ module Redmine
       end
 
       def subject(label, options, object=nil)
-        send "#{options[:format]}_subject", options, label, object
+        send :"#{options[:format]}_subject", options, label, object
       end
 
       def line(start_date, end_date, done_ratio, markers, label, options, object=nil)
         options[:zoom] ||= 1
         options[:g_width] ||= (self.date_to - self.date_from + 1) * options[:zoom]
         coords = coordinates(start_date, end_date, done_ratio, options[:zoom])
-        send "#{options[:format]}_task", options, coords, markers, label, object
+        send :"#{options[:format]}_task", options, coords, markers, label, object
       end
 
       # Generates a gantt image

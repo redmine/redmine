@@ -1503,7 +1503,7 @@ module ApplicationHelper
 
   # Render the error messages for the given objects
   def error_messages_for(*objects)
-    objects = objects.filter_map {|o| o.is_a?(String) ? instance_variable_get("@#{o}") : o}
+    objects = objects.filter_map {|o| o.is_a?(String) ? instance_variable_get(:"@#{o}") : o}
     errors = objects.map {|o| o.errors.full_messages}.flatten
     render_error_messages(errors)
   end
