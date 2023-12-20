@@ -62,7 +62,7 @@ class SearchController < ApplicationController
       # don't search projects
       @object_types.delete('projects')
       # only show what the user is allowed to view
-      @object_types = @object_types.select {|o| User.current.allowed_to?("view_#{o}".to_sym, projects_to_search)}
+      @object_types = @object_types.select {|o| User.current.allowed_to?(:"view_#{o}", projects_to_search)}
     end
 
     @scope = @object_types.select {|t| params[t].present?}

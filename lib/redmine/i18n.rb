@@ -43,7 +43,7 @@ module Redmine
     end
 
     def l_or_humanize(s, options={})
-      k = "#{options[:prefix]}#{s}".to_sym
+      k = :"#{options[:prefix]}#{s}"
       ::I18n.t(k, :default => s.to_s.humanize)
     end
 

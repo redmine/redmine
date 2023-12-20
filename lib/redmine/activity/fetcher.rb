@@ -45,7 +45,7 @@ module Redmine
               options = provider.activity_provider_options[event_type]
               permission = options[:permission]
               unless options.key?(:permission)
-                permission ||= "view_#{event_type}".to_sym
+                permission ||= :"view_#{event_type}"
               end
               if permission
                 keep |= projects.any? {|p| @user.allowed_to?(permission, p)}

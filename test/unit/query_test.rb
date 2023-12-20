@@ -2099,7 +2099,7 @@ class QueryTest < ActiveSupport::TestCase
         :field_format => 'user'
       )
     q = IssueQuery.new
-    assert q.groupable_columns.detect {|c| c.name == "cf_#{cf.id}".to_sym}
+    assert q.groupable_columns.detect {|c| c.name == :"cf_#{cf.id}"}
   end
 
   def test_groupable_columns_should_include_version_custom_fields
@@ -2109,7 +2109,7 @@ class QueryTest < ActiveSupport::TestCase
         :tracker_ids => [1], :field_format => 'version'
       )
     q = IssueQuery.new
-    assert q.groupable_columns.detect {|c| c.name == "cf_#{cf.id}".to_sym}
+    assert q.groupable_columns.detect {|c| c.name == :"cf_#{cf.id}"}
   end
 
   def test_grouped_with_valid_column
@@ -2360,13 +2360,13 @@ class QueryTest < ActiveSupport::TestCase
   def test_available_totalable_columns_should_include_int_custom_field
     field = IssueCustomField.generate!(:field_format => 'int', :is_for_all => true)
     q = IssueQuery.new
-    assert_include "cf_#{field.id}".to_sym, q.available_totalable_columns.map(&:name)
+    assert_include :"cf_#{field.id}", q.available_totalable_columns.map(&:name)
   end
 
   def test_available_totalable_columns_should_include_float_custom_field
     field = IssueCustomField.generate!(:field_format => 'float', :is_for_all => true)
     q = IssueQuery.new
-    assert_include "cf_#{field.id}".to_sym, q.available_totalable_columns.map(&:name)
+    assert_include :"cf_#{field.id}", q.available_totalable_columns.map(&:name)
   end
 
   def test_available_totalable_columns_should_sort_in_position_order_for_custom_field

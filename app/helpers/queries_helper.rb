@@ -30,7 +30,7 @@ module QueriesHelper
         group = (field_options[:through] || field_options[:field]).try(:name)
       elsif field =~ /^(.+)\./
         # association filters
-        group = "field_#{$1}".to_sym
+        group = :"field_#{$1}"
       elsif field_options[:type] == :relation
         group = :label_relations
       elsif field_options[:type] == :tree

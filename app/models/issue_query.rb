@@ -837,7 +837,7 @@ class IssueQuery < Query
   alias :find_author_id_filter_values :find_assigned_to_id_filter_values
 
   IssueRelation::TYPES.each_key do |relation_type|
-    alias_method "sql_for_#{relation_type}_field".to_sym, :sql_for_relations
+    alias_method :"sql_for_#{relation_type}_field", :sql_for_relations
   end
 
   def joins_for_order_statement(order_options)

@@ -81,7 +81,7 @@ module VersionsHelper
   end
 
   def status_by_options_for_select(value)
-    options_for_select(STATUS_BY_CRITERIAS.collect {|criteria| [l("field_#{criteria}".to_sym), criteria]}, value)
+    options_for_select(STATUS_BY_CRITERIAS.collect {|criteria| [l(:"field_#{criteria}"), criteria]}, value)
   end
 
   def link_to_new_issue(version, project)

@@ -30,7 +30,7 @@ class QueryColumn
     self.totalable = options[:totalable] || false
     self.default_order = options[:default_order]
     @inline = options.key?(:inline) ? options[:inline] : true
-    @caption_key = options[:caption] || "field_#{name}".to_sym
+    @caption_key = options[:caption] || :"field_#{name}"
     @frozen = options[:frozen]
   end
 
@@ -108,7 +108,7 @@ class QueryAssociationColumn < QueryColumn
   def initialize(association, attribute, options={})
     @association = association
     @attribute = attribute
-    name_with_assoc = "#{association}.#{attribute}".to_sym
+    name_with_assoc = :"#{association}.#{attribute}"
     super(name_with_assoc, options)
   end
 
@@ -126,7 +126,7 @@ end
 
 class QueryCustomFieldColumn < QueryColumn
   def initialize(custom_field, options={})
-    name = "cf_#{custom_field.id}".to_sym
+    name = :"cf_#{custom_field.id}"
     super(
       name,
       :sortable => custom_field.order_statement || false,
@@ -181,7 +181,7 @@ end
 class QueryAssociationCustomFieldColumn < QueryCustomFieldColumn
   def initialize(association, custom_field, options={})
     super(custom_field, options)
-    self.name = "#{association}.cf_#{custom_field.id}".to_sym
+    self.name = :"#{association}.cf_#{custom_field.id}"
     # TODO: support sorting by association custom field
     self.sortable = false
     self.groupable = false

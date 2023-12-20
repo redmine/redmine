@@ -46,7 +46,7 @@ module WatchersHelper
 
   # Returns a comma separated list of users watching the given object
   def watchers_list(object)
-    remove_allowed = User.current.allowed_to?("delete_#{object.class.name.underscore}_watchers".to_sym, object.project)
+    remove_allowed = User.current.allowed_to?(:"delete_#{object.class.name.underscore}_watchers", object.project)
     content = ''.html_safe
     lis = object.watcher_users.sorted.collect do |user|
       s = ''.html_safe
