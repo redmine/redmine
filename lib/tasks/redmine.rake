@@ -169,44 +169,62 @@ DESC
 
     desc 'Runs the plugins tests.'
     task :test do
-      $: << "test"
-      Rails::TestUnit::Runner.run_from_rake 'test', FileList[
+      test_files = FileList[
         "plugins/#{ENV['NAME'] || '*'}/test/unit/**/*_test.rb",
         "plugins/#{ENV['NAME'] || '*'}/test/functional/**/*_test.rb",
         "plugins/#{ENV['NAME'] || '*'}/test/integration/**/*_test.rb",
         "plugins/#{ENV['NAME'] || '*'}/test/system/**/*_test.rb"
       ]
+      if test_files.any?
+        $: << "test"
+        Rails::TestUnit::Runner.run_from_rake 'test', test_files
+      end
     end
 
     namespace :test do
       desc 'Runs the plugins unit tests.'
       task :units => "db:test:prepare" do |t|
-        $: << "test"
-        Rails::TestUnit::Runner.run_from_rake 'test', ["plugins/#{ENV['NAME'] || '*'}/test/unit/**/*_test.rb"]
+        test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/unit/**/*_test.rb"]
+        if test_files.any?
+          $: << "test"
+          Rails::TestUnit::Runner.run_from_rake 'test', test_files
+        end
       end
 
       desc 'Runs the plugins functional tests.'
       task :functionals => "db:test:prepare" do |t|
-        $: << "test"
-        Rails::TestUnit::Runner.run_from_rake 'test', ["plugins/#{ENV['NAME'] || '*'}/test/functional/**/*_test.rb"]
+        test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/functional/**/*_test.rb"]
+        if test_files.any?
+          $: << "test"
+          Rails::TestUnit::Runner.run_from_rake 'test', test_files
+        end
       end
 
       desc 'Runs the plugins integration tests.'
       task :integration => "db:test:prepare" do |t|
-        $: << "test"
-        Rails::TestUnit::Runner.run_from_rake 'test', ["plugins/#{ENV['NAME'] || '*'}/test/integration/**/*_test.rb"]
+        test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/integration/**/*_test.rb"]
+        if test_files.any?
+          $: << "test"
+          Rails::TestUnit::Runner.run_from_rake 'test', test_files
+        end
       end
 
       desc 'Runs the plugins system tests.'
       task :system => "db:test:prepare" do |t|
-        $: << "test"
-        Rails::TestUnit::Runner.run_from_rake 'test', ["plugins/#{ENV['NAME'] || '*'}/test/system/**/*_test.rb"]
+        test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/system/**/*_test.rb"]
+        if test_files.any?
+          $: << "test"
+          Rails::TestUnit::Runner.run_from_rake 'test', test_files
+        end
       end
 
       desc 'Runs the plugins ui tests.'
       task :ui => "db:test:prepare" do |t|
-        $: << "test"
-        Rails::TestUnit::Runner.run_from_rake 'test', ["plugins/#{ENV['NAME'] || '*'}/test/ui/**/*_test.rb"]
+        test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/ui/**/*_test.rb"]
+        if test_files.any?
+          $: << "test"
+          Rails::TestUnit::Runner.run_from_rake 'test', test_files
+        end
       end
     end
   end
