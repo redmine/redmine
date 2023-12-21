@@ -156,6 +156,12 @@ class WatchersControllerTest < Redmine::ControllerTest
     assert_match /ajax-modal/, response.body
   end
 
+  def test_new_as_html_should_respond_with_404
+    @request.session[:user_id] = 2
+    get :new, :params => {:object_type => 'issue', :object_id => '2'}
+    assert_response 404
+  end
+
   def test_new_for_message
     @request.session[:user_id] = 2
     get :new, :params => {:object_type => 'message', :object_id => '1'}, :xhr => true

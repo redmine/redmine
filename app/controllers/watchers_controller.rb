@@ -32,7 +32,12 @@ class WatchersController < ApplicationController
   accept_api_auth :create, :destroy
 
   def new
-    @users = users_for_new_watcher
+    respond_to do |format|
+      format.html { render_404 }
+      format.js do
+        @users = users_for_new_watcher
+      end
+    end
   end
 
   def create
