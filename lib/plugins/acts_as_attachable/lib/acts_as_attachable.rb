@@ -20,6 +20,30 @@
 module Redmine
   module Acts
     module Attachable
+
+      class ObjectTypeConstraint
+        cattr_accessor :object_types
+
+        self.object_types = Concurrent::Set.new(%w[
+          issues versions news messages wiki_pages projects documents journals
+        ])
+
+        class << self
+          def matches?(request)
+            request.path_parameters[:object_type] =~ param_expression
+          end
+
+          def register_object_type(type)
+            object_types << type
+            @param_expression = nil
+          end
+
+          def param_expression
+            @param_expression ||= Regexp.new("^(#{object_types.join("|")})$")
+          end
+        end
+      end
+
       def self.included(base)
         base.extend ClassMethods
       end
