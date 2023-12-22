@@ -1474,7 +1474,7 @@ module ApplicationHelper
   end
 
   def lang_options_for_select(blank=true)
-    (blank ? [["(auto)", ""]] : []) + languages_options
+    (blank ? [["(#{l('label_option_auto_lang')})", ""]] : []) + languages_options
   end
 
   def labelled_form_for(*args, &proc)

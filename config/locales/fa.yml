@@ -875,6 +875,7 @@ fa:
   label_diff_inline: هم‌ردیف
   label_diff_side_by_side: پهلوبه‌پهلو
   label_options: گزینه‌ها
+  label_option_auto_lang: خودکار
   label_copy_workflow_from: رونویسی گردش کار از روی
   label_permissions_report: گزارش دست‌رسی‌ها
   label_watched_issues: مسئله‌های نظارت‌شده
