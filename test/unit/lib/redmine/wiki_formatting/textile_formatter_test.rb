@@ -770,6 +770,23 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
       }, false)
   end
 
+  def test_should_allow_multiple_footnotes
+    text = <<~STR
+      Some demo[1][2] And a sentence.[1]
+
+      fn1. One
+
+      fn2. Two
+    STR
+
+    expected = <<~EXPECTED
+      <p>Some demo<sup><a href="#fn1">1</a></sup><sup><a href="#fn2">2</a></sup> And a sentence.[1]</p>
+      <p id="fn1" class="footnote"><sup>1</sup> One</p>
+      <p id="fn2" class="footnote"><sup>2</sup> Two</p>
+    EXPECTED
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), to_html(text).gsub(%r{[\r\n\t]}, '')
+  end
+
   private
 
   def assert_html_output(to_test, expect_paragraph = true)

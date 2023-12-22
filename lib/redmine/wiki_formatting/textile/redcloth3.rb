@@ -1042,7 +1042,7 @@ class RedCloth3 < String
     end
 
     def footnote_ref( text )
-        text.gsub!(/\b\[([0-9]+?)\](\s)?/,
+        text.gsub!(/(?<=[\p{Word}\]])\[([0-9]+?)\](\s)?/,
                    '<sup><a href="#fn\1">\1</a></sup>\2')
     end
 
