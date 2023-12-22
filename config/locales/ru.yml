@@ -1557,3 +1557,4 @@ ru:
   field_name_or_email_or_login: Имя, email или логин
   text_default_active_job_queue_changed: Изменен адаптер очереди по умолчанию, который хорошо подходит только для разработки/тестирования
   label_user_mail_option_bookmarked: На любое событие из моих проектов в закладках
+  label_option_auto_lang: auto

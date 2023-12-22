@@ -1492,3 +1492,4 @@ gl:
   field_name_or_email_or_login: Nome, correo electrónico ou usuario
   text_default_active_job_queue_changed: Cambiado o adaptador do sistema de colas por defecto dado que só está pensado para desenvolvemento/probas
   label_user_mail_option_bookmarked: For any event on my bookmarked projects
+  label_option_auto_lang: auto
