@@ -905,7 +905,7 @@ label.block {
   color: #bb0000;
 }
 
-.tabular label.error + * {
+.tabular label.error + *:not(#issue_description_and_toolbar), .tabular label.error + span#issue_description_and_toolbar div.jstBlock {
   border: 1px solid #bb0000;
 }
 

@@ -32,7 +32,6 @@
 <% if @issue.safe_attribute? 'description' %>
 <p>
   <%= f.label_for_field :description, :required => @issue.required_attribute?('description') %>
-  <%= link_to_function content_tag(:span, l(:button_edit), :class => 'icon icon-edit'), '$(this).hide(); $("#issue_description_and_toolbar").show()' unless @issue.new_record? %>
   <%= content_tag 'span', :id => "issue_description_and_toolbar", :style => (@issue.new_record? ? nil : 'display:none') do %>
     <%= f.text_area :description, :cols => 60, :accesskey => accesskey(:edit), :class => 'wiki-edit',
                    :rows => [[10, @issue.description.to_s.length / 50].max, 20].min,
@@ -41,6 +40,7 @@
                    },
                    :no_label => true %>
   <% end %>
+  <%= link_to_function content_tag(:span, l(:button_edit), :class => 'icon icon-edit'), '$(this).hide(); $("#issue_description_and_toolbar").show()' unless @issue.new_record? %>
 </p>
 <%= wikitoolbar_for 'issue_description', preview_issue_path(:project_id => @issue.project, :issue_id => @issue.id) %>
 <% end %>
