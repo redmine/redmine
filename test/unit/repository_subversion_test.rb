@@ -24,7 +24,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
 
   include Redmine::I18n
 
-  NUM_REV = 14
+  NUM_REV = 16
 
   def setup
     User.current = nil
