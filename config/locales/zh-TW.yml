@@ -1503,5 +1503,5 @@
   text_select_apply_issue_status: 選擇議題狀態
   field_name_or_email_or_login: 姓名, 電子郵件或帳戶名稱
   text_default_active_job_queue_changed: 已變更僅適用於開發/測試環境的佇列適配器 (queue adapter)
-  label_user_mail_option_bookmarked: For any event on my bookmarked projects
-  label_option_auto_lang: auto
+  label_user_mail_option_bookmarked: 提醒與我書籤中專案有關的全部事件
+  label_option_auto_lang: 自動選取語言
