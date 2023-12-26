@@ -48,7 +48,7 @@
 <% end -%>
 
 <% other_formats_links do |f| %>
-  <%= f.link_to_with_query_parameters 'Diff', {}, :caption => 'Unified diff' %>
+  <%= f.link_to_with_query_parameters 'Diff', { path: nil }, :caption => 'Unified diff' %>
 <% end %>
 
 <% html_title(with_leading_slash(@path), 'Diff') -%>

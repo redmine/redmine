@@ -299,12 +299,13 @@ Rails.application.routes.draw do
 
   get "projects/:id/repository/:repository_id/revisions/:rev/diff(/*path)",
       :to => 'repositories#diff',
-      :format => false,
-      :constraints => {:rev => /[a-z0-9\.\-_]+/, :path => /.*/}
+      :format => 'html',
+      :constraints => {:rev => /[a-z0-9\.\-_]+/, :path => /.*/, format: /(html|diff)/ }
+
   get "projects/:id/repository/:repository_id/diff(/*path)",
       :to => 'repositories#diff',
-      :format => false,
-      :constraints => {:path => /.*/}
+      :format => 'html',
+      :constraints => {:path => /.*/, format: /(html|diff)/ }
 
   get 'projects/:id/repository/:repository_id/show/*path', :to => 'repositories#show', :format => 'html', :constraints => {:path => /.*/}
 
