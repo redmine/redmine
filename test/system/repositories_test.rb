@@ -20,7 +20,6 @@
 require_relative '../application_system_test_case'
 
 class RepositoriesTest < ApplicationSystemTestCase
-
   fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles, :enabled_modules,
            :repositories, :issues, :issue_statuses, :changesets, :changes,
            :issue_categories, :enumerations, :custom_fields, :custom_values, :trackers
