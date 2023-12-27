@@ -39,7 +39,7 @@ module Redmine
           end
 
           def param_expression
-            @param_expression ||= Regexp.new("^(#{object_types.join("|")})$")
+            @param_expression ||= Regexp.new("^(#{object_types.to_a.join("|")})$")
           end
         end
       end
