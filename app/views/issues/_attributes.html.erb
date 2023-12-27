@@ -32,8 +32,8 @@
 </p>
 <% end %>
 
-<% if @issue.safe_attribute?('category_id') && @issue.project.issue_categories.any? %>
-<p><%= f.select :category_id, (@issue.project.issue_categories.collect {|c| [c.name, c.id]}),
+<% if @issue.safe_attribute?('category_id') && (category_options = @issue.project.issue_categories.pluck(:name, :id)).present? %>
+<p><%= f.select :category_id, category_options,
                 {:include_blank => true, :required => @issue.required_attribute?('category_id')},
                  :onchange => ("updateIssueFrom('#{escape_javascript(update_issue_form_path(@project, @issue))}', this)" if @issue.new_record?) %>
 <%= link_to(l(:label_issue_category_new),
