@@ -45,8 +45,8 @@ class RoutingPluginsTest < Redmine::RoutingTest
     assert_equal("/bar_plugin_articles", plugin_articles_path)
     should_route(
       'GET /attachments/plugin_articles/12/edit' => 'attachments#edit_all',
-      object_id: '12',
-      object_type: 'plugin_articles'
+      :object_id => '12',
+      :object_type => 'plugin_articles'
     )
   end
 end
