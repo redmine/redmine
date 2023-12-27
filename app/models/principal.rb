@@ -48,8 +48,8 @@ class Principal < ActiveRecord::Base
       all
     else
       view_all_active = false
-      if user.memberships.to_a.any?
-        view_all_active = user.memberships.any? {|m| m.roles.any? {|r| r.users_visibility == 'all'}}
+      if user.memberships.any?
+        view_all_active = User.where(id: user.id).joins(memberships: :roles).where("#{Role.table_name}.users_visibility = ?", 'all').any?
       else
         view_all_active = user.builtin_role.users_visibility == 'all'
       end
