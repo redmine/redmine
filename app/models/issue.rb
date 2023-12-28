@@ -1166,7 +1166,10 @@ class Issue < ActiveRecord::Base
   end
 
   def relations
-    @relations ||= IssueRelation::Relations.new(self, (relations_from + relations_to).sort)
+    @relations ||= IssueRelation::Relations.new(
+      self,
+      IssueRelation.where('issue_from_id = ? OR issue_to_id = ?', id, id).sort
+    )
   end
 
   def last_updated_by
