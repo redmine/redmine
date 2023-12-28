@@ -428,15 +428,25 @@ div.table-list.boards .table-list-cell.name {width: 30%;}
   min-width: 1em;
 }
 
-.query-columns>span {
-  display:inline-block;
-  height:100%;
-  vertical-align: middle;
+/* query form - options */
+#list-definition {
+  margin: 0 15px;
+  width: auto !important;
+}
+#list-definition > div {
+  margin: 6px 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px 10px;
+}
+#list-definition > div .field{
+  width: 160px;
 }
 .query-columns label {
   display:block;
 }
-.query-columns .buttons input[type=button] {
+#list-definition .buttons input[type=button] {
   width:35px;
   display:block;
 }
@@ -448,6 +458,13 @@ div.table-list.boards .table-list-cell.name {width: 30%;}
 .query-totals>span:not(:first-child) {margin-left:0.6em;}
 .query-totals .value {font-weight:bold;}
 body.controller-timelog .query-totals {margin-top:initial;}
+
+body.controller-gantts fieldset#options > div > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 5px 10px;
+}
 
 td.center {text-align:center;}
 
@@ -605,16 +622,28 @@ fieldset.collapsible {border-width: 1px 0 0 0;}
 fieldset.collapsible>legend { cursor:pointer; padding-left: 18px; background-position: 4px;}
 
 fieldset#date-range p { margin: 2px 0 2px 0; }
-fieldset#filters table { border-collapse: collapse; }
-fieldset#filters table td { padding: 0; vertical-align: middle; }
-fieldset#filters tr.filter { height: 2.1em; }
-fieldset#filters td.field { width:230px; }
-fieldset#filters td.operator { width:130px; }
-fieldset#filters td.operator select {max-width:140px;}
-fieldset#filters td.values { white-space:nowrap; }
-fieldset#filters td.values select {min-width:130px;}
 
-#filters-table {width:60%; float:left;}
+#query_form_content > fieldset {
+  min-width: 0;
+  width: 100%;
+}
+#filters-table {
+  float:left;
+  width: auto;
+}
+#filters-table .field {
+  width: 230px;
+}
+#filters-table .filter {
+  margin: 5px 0 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 10px;
+}
+#filters-table .filter .operator select {
+  width: 120px;
+}
+
 .add-filter {width:35%; float:right; text-align: right; vertical-align: top;}
 
 #issue_is_private_wrap {float:right; margin-right:1em;}

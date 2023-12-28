@@ -17,36 +17,36 @@
         <div class="hidden">
           <% if @query.available_display_types.size > 1 %>
           <div>
-            <span class="field"><label for='display_type'><%= l(:label_display_type) %></label></span>
+            <div class="field"><label for='display_type'><%= l(:label_display_type) %></label></div>
             <%= available_display_types_tags(@query) %>
           </div>
           <% end %>
-          <table id="list-definition" class="<%= 'hidden' if (@query.display_type != 'list') %>">
+          <div id="list-definition" class="<%= 'hidden' if (@query.display_type != 'list') %>">
           <% if @query.available_columns.any? %>
-            <tr>
-              <td class="field"><%= l(:field_column_names) %></td>
-              <td><%= render_query_columns_selection(@query) %></td>
-            </tr>
+            <div>
+              <div class="field"><%= l(:field_column_names) %></div>
+              <%= render_query_columns_selection(@query) %>
+            </div>
           <% end %>
           <% if @query.groupable_columns.any? %>
-            <tr>
-              <td class="field"><label for='group_by'><%= l(:field_group_by) %></label></td>
-              <td><%= group_by_column_select_tag(@query) %></td>
-            </tr>
+            <div>
+              <div class="field"><label for='group_by'><%= l(:field_group_by) %></label></div>
+              <div><%= group_by_column_select_tag(@query) %></div>
+            </div>
           <% end %>
           <% if @query.available_block_columns.any? %>
-            <tr>
-              <td class="field"><%= l(:button_show) %></td>
-              <td><%= available_block_columns_tags(@query) %></td>
-            </tr>
+            <div>
+              <div class="field"><%= l(:button_show) %></div>
+              <div><%= available_block_columns_tags(@query) %></div>
+            </div>
           <% end %>
           <% if @query.available_totalable_columns.any? %>
-            <tr>
-              <td><%= l(:label_total_plural) %></td>
-              <td><%= available_totalable_columns_tags(@query) %></td>
-            </tr>
+            <div>
+              <div class="field"><%= l(:label_total_plural) %></div>
+              <div><%= available_totalable_columns_tags(@query) %></div>
+            </div>
           <% end %>
-        </table>
+        </div>
       </div>
     </fieldset>
   <% end %>

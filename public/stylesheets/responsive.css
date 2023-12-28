@@ -878,4 +878,7 @@
   .pagination ul.pages li.next {display:inline-block; width:32%; overflow:hidden;}
 
   #login-form {width:100%; margin-top:2em;}
+
+  #filters-table .filter .field, #list-definition > div .field { width: 100%; }
+  #filters-table .values { width: auto; max-width: 100%; }
 }
