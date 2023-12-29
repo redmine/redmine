@@ -159,7 +159,8 @@ class IssueQuery < Query
     )
     add_available_filter(
       "priority_id",
-      :type => :list_with_history, :values => IssuePriority.all.collect{|s| [s.name, s.id.to_s]}
+      :type => :list_with_history,
+      :values => IssuePriority.pluck(:name, :id).map {|name, id| [name, id.to_s]}
     )
     add_available_filter(
       "author_id",
@@ -171,11 +172,13 @@ class IssueQuery < Query
     )
     add_available_filter(
       "member_of_group",
-      :type => :list_optional, :values => lambda {Group.givable.visible.collect {|g| [g.name, g.id.to_s]}}
+      :type => :list_optional,
+      :values => lambda {Group.givable.visible.pluck(:name, :id).map {|name, id| [name, id.to_s]}}
     )
     add_available_filter(
       "assigned_to_role",
-      :type => :list_optional, :values => lambda {Role.givable.collect {|r| [r.name, r.id.to_s]}}
+      :type => :list_optional,
+      :values => lambda {Role.givable.pluck(:name, :id).map {|name, id| [name, id.to_s]}}
     )
     add_available_filter(
       "fixed_version_id",
@@ -195,7 +198,7 @@ class IssueQuery < Query
     add_available_filter(
       "category_id",
       :type => :list_optional_with_history,
-      :values => lambda {project.issue_categories.collect{|s| [s.name, s.id.to_s]}}
+      :values => lambda {project.issue_categories.pluck(:name, :id).map {|name, id| [name, id.to_s]}}
     ) if project
     add_available_filter "subject", :type => :text
     add_available_filter "description", :type => :text

@@ -589,7 +589,7 @@ class Query < ActiveRecord::Base
   end
 
   def subproject_values
-    project.descendants.visible.collect{|s| [s.name, s.id.to_s]}
+    project.descendants.visible.pluck(:name, :id).map {|name, id| [name, id.to_s]}
   end
 
   def principals
@@ -651,7 +651,7 @@ class Query < ActiveRecord::Base
     else
       statuses = IssueStatus.all.sorted
     end
-    statuses.collect{|s| [s.name, s.id.to_s]}
+    statuses.pluck(:name, :id).map {|name, id| [name, id.to_s]}
   end
 
   def watcher_values
@@ -996,7 +996,7 @@ class Query < ActiveRecord::Base
 
       if field == 'project_id' || (self.type == 'ProjectQuery' && %w[id parent_id].include?(field))
         if v.delete('mine')
-          v += User.current.memberships.map {|m| m.project_id.to_s}
+          v += User.current.memberships.pluck(:project_id).map(&:to_s)
         end
         if v.delete('bookmarks')
           v += User.current.bookmarked_project_ids

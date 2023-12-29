@@ -80,7 +80,7 @@ class TimeEntryQuery < Query
       "issue.category_id",
       :type => :list_optional,
       :name => l("label_attribute_of_issue", :name => l(:field_category)),
-      :values => lambda {project.issue_categories.collect{|s| [s.name, s.id.to_s]}}
+      :values => lambda {project.issue_categories.pluck(:name, :id).map {|name, id| [name, id.to_s]}}
     ) if project
     add_available_filter(
       "issue.subject",

@@ -47,16 +47,10 @@ class Group < Principal
     'custom_fields',
     :if => lambda {|group, user| user.admin? && !group.builtin?})
 
+  alias_attribute :name, :lastname
+
   def to_s
     name.to_s
-  end
-
-  def name
-    lastname
-  end
-
-  def name=(arg)
-    self.lastname = arg
   end
 
   def builtin_type
