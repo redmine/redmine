@@ -1819,6 +1819,31 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal [], find_issues_with_query(query)
   end
 
+  def test_operator_contains_on_parent_id_should_accept_comma_separated_values
+    parent1 = Issue.generate!
+    children_of_parent1 = [
+      Issue.generate!(parent_id: parent1.id),
+      Issue.generate!(parent_id: parent1.id)
+    ]
+    parent2 = Issue.generate!
+    children_of_parent2 = [
+      Issue.generate!(parent_id: parent2.id),
+      Issue.generate!(parent_id: parent2.id)
+    ]
+    grandchild_of_parent2 = [
+      Issue.generate!(parent_id: children_of_parent2.first.id)
+    ]
+
+    query = IssueQuery.new(name: '_')
+    query.add_filter('parent_id', '~', ["#{parent1.id},#{parent2.id}"])
+    issues = find_issues_with_query(query)
+
+    expected =
+      children_of_parent1 + children_of_parent2 + grandchild_of_parent2
+    assert_equal expected.size, issues.size
+    assert_equal expected.map(&:id).sort, issues.map(&:id).sort
+  end
+
   def test_filter_on_child
     Issue.delete_all
     parent = Issue.generate_with_descendants!

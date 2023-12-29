@@ -662,9 +662,18 @@ class IssueQuery < Query
         "1=0"
       end
     when "~"
-      root_id, lft, rgt = Issue.where(:id => value.first.to_i).pick(:root_id, :lft, :rgt)
-      if root_id && lft && rgt
-        "#{Issue.table_name}.root_id = #{root_id} AND #{Issue.table_name}.lft > #{lft} AND #{Issue.table_name}.rgt < #{rgt}"
+      ids = value.first.to_s.scan(/\d+/).map(&:to_i).uniq
+      conditions = ids.filter_map do |id|
+        root_id, lft, rgt = Issue.where(id: id).pick(:root_id, :lft, :rgt)
+        if root_id && lft && rgt
+          "(#{Issue.table_name}.root_id = #{root_id} AND #{Issue.table_name}.lft > #{lft} AND #{Issue.table_name}.rgt < #{rgt})"
+        else
+          nil
+        end
+      end
+
+      if conditions.any?
+        "(#{conditions.join(' OR ')})"
       else
         "1=0"
       end
