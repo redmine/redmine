@@ -9,7 +9,7 @@ gem "actionpack-xml_parser"
 gem 'roadie-rails', '~> 3.1.0'
 gem 'marcel'
 gem 'mail', '~> 2.8.1'
-gem 'nokogiri', '~> 1.15.2'
+gem 'nokogiri', (Gem.ruby_version >= Gem::Version.new('3.0') ? '~> 1.16.0' : '~> 1.15.5')
 gem 'i18n', '~> 1.14.1'
 gem 'rbpdf', '~> 1.21.3'
 gem 'addressable'
