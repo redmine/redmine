@@ -367,7 +367,7 @@ module Redmine
         menu.push :repository,
                   {:controller => 'repositories', :action => 'show',
                    :repository_id => nil, :path => nil, :rev => nil},
-                  :if => Proc.new {|p| p.repositories.any? {|r| !r.new_record?}}
+                  :if => Proc.new {|p| p.repositories.exists?}
         menu.push :settings, {:controller => 'projects', :action => 'settings'},
                   :last => true
       end
