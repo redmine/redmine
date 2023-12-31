@@ -142,8 +142,10 @@ class Journal < ActiveRecord::Base
   end
 
   def attachments
-    ids = details.select {|d| d.property == 'attachment' && d.value.present?}.map(&:prop_key)
-    Attachment.where(id: ids).sort_by {|a| ids.index(a.id.to_s)}
+    @attachments ||= begin
+      ids = details.select {|d| d.property == 'attachment' && d.value.present?}.map(&:prop_key)
+      ids.empty? ? [] : Attachment.where(id: ids).sort_by {|a| ids.index(a.id.to_s)}
+    end
   end
 
   def visible?(*args)
