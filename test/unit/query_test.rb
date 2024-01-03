@@ -214,7 +214,7 @@ class QueryTest < ActiveSupport::TestCase
     assert issues.all? {|i| i.custom_field_value(2).blank?}
   end
 
-  def test_operator_none_for_text
+  def test_operator_none_for_blank_text
     query = IssueQuery.new(:name => '_')
     query.add_filter('status_id', '*', [''])
     query.add_filter('description', '!*', [''])
@@ -224,6 +224,19 @@ class QueryTest < ActiveSupport::TestCase
     assert issues.any?
     assert issues.all? {|i| i.description.blank?}
     assert_equal [11, 12], issues.map(&:id).sort
+  end
+
+  def test_operator_any_for_blank_text
+    Issue.where(id: [1, 2]).update_all(description: '')
+    query = IssueQuery.new(:name => '_')
+    query.add_filter('status_id', '*', [''])
+    query.add_filter('description', '*', [''])
+    assert query.has_filter?('description')
+    issues = find_issues_with_query(query)
+
+    assert issues.any?
+    assert issues.all? {|i| i.description.present?}
+    assert_empty issues.map(&:id) & [1, 2]
   end
 
   def test_operator_all
