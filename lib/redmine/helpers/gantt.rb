@@ -765,7 +765,7 @@ module Redmine
           tag_options[:id] = "issue-#{object.id}"
           tag_options[:class] = "issue-subject hascontextmenu"
           tag_options[:title] = object.subject
-          children = object.children & project_issues(object.project)
+          children = object.leaf? ? [] : object.children & project_issues(object.project)
           has_children =
             children.present? &&
               (children.collect(&:fixed_version).uniq & [object.fixed_version]).present?
