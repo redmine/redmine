@@ -311,6 +311,19 @@ class MessagesControllerTest < Redmine::ControllerTest
     assert_include '> An other reply', response.body
   end
 
+  def test_quote_as_html_should_respond_with_404
+    @request.session[:user_id] = 2
+    get(
+      :quote,
+      :params => {
+        :board_id => 1,
+        :id => 3
+      },
+    )
+
+    assert_response 404
+  end
+
   def test_preview_new
     @request.session[:user_id] = 2
     post(
