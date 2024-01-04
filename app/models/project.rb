@@ -34,6 +34,7 @@ class Project < ActiveRecord::Base
   # Memberships of active users only
   has_many :members,
            lambda {joins(:principal).where(:users => {:type => 'User', :status => Principal::STATUS_ACTIVE})}
+  has_many :users, through: :members
   has_many :enabled_modules, :dependent => :delete_all
   has_and_belongs_to_many :trackers, lambda {order(:position)}
   has_many :issues, :dependent => :destroy
@@ -625,13 +626,7 @@ class Project < ActiveRecord::Base
 
   # Returns the users that should be notified on project events
   def notified_users
-    # TODO: User part should be extracted to User#notify_about?
-    users =
-      members.preload(:principal).select do |m|
-        m.principal.present? &&
-         (m.mail_notification? || m.principal.mail_notification == 'all')
-      end
-    users.collect {|m| m.principal}
+    users.where('members.mail_notification = ? OR users.mail_notification = ?', true, 'all')
   end
 
   # Returns a scope of all custom fields enabled for project issues
