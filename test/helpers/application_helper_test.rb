@@ -2171,6 +2171,17 @@ class ApplicationHelperTest < Redmine::HelperTest
     end
   end
 
+  def test_format_hours_should_use_locale_decimal_separator
+    to_test = {'en' => '0.75', 'de' => '0,75'}
+    with_settings :timespan_format => 'decimal' do
+      to_test.each do |locale, expected|
+        with_locale locale do
+          assert_equal expected, format_hours(0.75)
+        end
+      end
+    end
+  end
+
   def test_html_hours
     assert_equal '<span class="hours hours-int">0</span><span class="hours hours-dec">:45</span>',
                  html_hours('0:45')

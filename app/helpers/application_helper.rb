@@ -684,7 +684,7 @@ module ApplicationHelper
 
   def html_hours(text)
     text.gsub(
-      %r{(\d+)([\.:])(\d+)},
+      %r{(\d+)([\.,:])(\d+)},
       '<span class="hours hours-int">\1</span><span class="hours hours-dec">\2\3</span>'
     ).html_safe
   end
