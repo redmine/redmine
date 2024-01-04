@@ -266,7 +266,7 @@ module ApplicationHelper
     when Integer
       object.to_s
     when Float
-      sprintf "%.2f", object
+      number_with_delimiter(sprintf('%.2f', object), delimiter: nil)
     when User, Group
       html ? link_to_principal(object) : object.to_s
     when Project

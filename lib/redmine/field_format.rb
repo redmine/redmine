@@ -539,8 +539,9 @@ module Redmine
       end
 
       def validate_single_value(custom_field, value, customized=nil)
+        value = normalize_float(value)
         errs = super
-        errs << ::I18n.t('activerecord.errors.messages.invalid') unless (Kernel.Float(value) rescue nil)
+        errs << ::I18n.t('activerecord.errors.messages.invalid') unless Kernel.Float(value, exception: false)
         errs
       end
 

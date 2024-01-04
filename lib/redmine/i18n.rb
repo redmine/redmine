@@ -99,6 +99,18 @@ module Redmine
       end
     end
 
+    # Will consider language specific separator in user input
+    # and normalize them to a unified format to be accepted by Kernel.Float().
+    #
+    # @param value [String] A string represenation of a float value.
+    #
+    # @note The delimiter cannot be used here if it is a decimal point since it
+    #       will clash with the dot separator.
+    def normalize_float(value)
+      separator = ::I18n.t('number.format.separator')
+      value.gsub(/[#{separator}]/, separator => '.')
+    end
+
     def day_name(day)
       ::I18n.t('date.day_names')[day % 7]
     end
