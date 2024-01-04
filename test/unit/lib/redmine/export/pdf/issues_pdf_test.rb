@@ -33,8 +33,13 @@ class IssuesPdfHelperTest < ActiveSupport::TestCase
     time_entry = TimeEntry.create!(:spent_on => Date.today, :hours => 4.3432, :user => user, :author => user,
                      :project_id => 1, :issue => issue, :activity => TimeEntryActivity.first)
 
-    results = fetch_row_values(issue, query, 0)
-    assert_equal ["2", "Add ingredients categories", "4.34"], results
+    to_test = {'en' => '4.34', 'de' => '4,34'}
+    to_test.each do |locale, expected|
+      with_locale locale do
+        results = fetch_row_values(issue, query, 0)
+        assert_equal ['2', 'Add ingredients categories', expected], results
+      end
+    end
   end
 
   def test_fetch_row_values_should_be_able_to_handle_parent_issue_subject
