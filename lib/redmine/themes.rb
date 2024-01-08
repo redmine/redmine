@@ -110,7 +110,7 @@ module Redmine
 
       def assets(dir, ext=nil)
         if ext
-          Dir.glob("#{path}/#{dir}/*.#{ext}").collect {|f| File.basename(f).delete_suffix(".#{ext}")}
+          Dir.glob("#{path}/#{dir}/*.#{ext}").collect {|f| File.basename(f, ".#{ext}")}
         else
           Dir.glob("#{path}/#{dir}/*").collect {|f| File.basename(f)}
         end
