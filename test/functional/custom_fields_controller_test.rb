@@ -594,10 +594,10 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
   end
 
   def custom_field_classes
-    files =
-      Dir.glob(File.join(Rails.root, 'app/models/*_custom_field.rb')).
-        map {|f| File.basename(f).delete_suffix('.rb')}
-    classes = files.map {|x| x.classify.constantize}
+    classes =
+      Dir.glob(Rails.root.join('app/models/*_custom_field.rb')).map do |f|
+        File.basename(f, '.rb').classify.constantize
+      end
     assert classes.size > 0
     classes
   end
