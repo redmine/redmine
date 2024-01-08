@@ -26,7 +26,7 @@
       </tr>
       <% Tracker::CORE_FIELDS.each do |field| %>
       <tr>
-        <% field_name = l("field_#{field}".sub(/_id$/, '')) %>
+        <% field_name = l("field_#{field}".delete_suffix('_id')) %>
         <td class="name">
           <%= link_to_function('', "toggleCheckboxesBySelector('input.core-field-#{field}')",
                                :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",

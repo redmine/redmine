@@ -51,7 +51,7 @@ module Redmine
       end
 
       def shortened_filename(source_file)
-        source_file.filename.gsub(SimpleCov.root, '.').gsub(/^\.\//, '')
+        source_file.filename.gsub(SimpleCov.root, '.').delete_prefix('./')
       end
 
       def link_to_source_file(source_file)

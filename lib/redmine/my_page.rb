@@ -81,7 +81,7 @@ module Redmine
         Dir.glob(
           "#{Redmine::Plugin.directory}/*/app/views/my/blocks/_*.{rhtml,erb}"
         ).inject({}) do |h, file|
-          name = File.basename(file).split('.').first.gsub(/^_/, '')
+          name = File.basename(file).split('.').first.delete_prefix('_')
           h[name] = {:label => name.to_sym, :partial => "my/blocks/#{name}"}
           h
         end

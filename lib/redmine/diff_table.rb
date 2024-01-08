@@ -91,12 +91,12 @@ module Redmine
       if both_git_diff
         if file_name && arg == "/dev/null"
           # keep the original file name
-          @file_name = file_name.sub(%r{^a/}, '')
+          @file_name = file_name.delete_prefix('a/')
         else
           # remove leading a/
-          @previous_file_name = file_name.sub(%r{^a/}, '') unless file_name == "/dev/null"
+          @previous_file_name = file_name.delete_prefix('a/') unless file_name == "/dev/null"
           # remove leading b/
-          @file_name = arg.sub(%r{^b/}, '')
+          @file_name = arg.delete_prefix('b/')
 
           @previous_file_name = nil if @previous_file_name == @file_name
         end

@@ -17,7 +17,7 @@
   <% Tracker::CORE_FIELDS.each do |field| %>
   <label class="block">
     <%= check_box_tag 'tracker[core_fields][]', field, @tracker.core_fields.include?(field), :id => nil %>
-    <%= l("field_#{field}".sub(/_id$/, '')) %>
+    <%= l("field_#{field}".delete_suffix('_id')) %>
   </label>
   <% end %>
 </p>

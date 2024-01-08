@@ -328,7 +328,7 @@ class IssueQuery < Query
                         :sortable => "#{Issue.table_name}.is_private", :groupable => true)
     end
 
-    disabled_fields = Tracker.disabled_core_fields(trackers).map {|field| field.sub(/_id$/, '')}
+    disabled_fields = Tracker.disabled_core_fields(trackers).map {|field| field.delete_suffix('_id')}
     disabled_fields << "total_estimated_hours" if disabled_fields.include?("estimated_hours")
     @available_columns.reject! do |column|
       disabled_fields.include?(column.name.to_s)
@@ -479,7 +479,7 @@ class IssueQuery < Query
   def sql_for_notes_field(field, operator, value)
     subquery = "SELECT 1 FROM #{Journal.table_name}" +
       " WHERE #{Journal.table_name}.journalized_type='Issue' AND #{Journal.table_name}.journalized_id=#{Issue.table_name}.id" +
-      " AND (#{sql_for_field field, operator.sub(/^!/, ''), value, Journal.table_name, 'notes'})" +
+      " AND (#{sql_for_field field, operator.delete_prefix('!'), value, Journal.table_name, 'notes'})" +
       " AND (#{Journal.visible_notes_condition(User.current, :skip_pre_condition => true)})"
     "#{/^!/.match?(operator) ? "NOT EXISTS" : "EXISTS"} (#{subquery})"
   end

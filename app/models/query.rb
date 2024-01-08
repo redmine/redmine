@@ -211,7 +211,7 @@ class QueryFilter
   def initialize(field, options)
     @field = field.to_s
     @options = options
-    @options[:name] ||= l(options[:label] || "field_#{field}".gsub(/_id$/, ''))
+    @options[:name] ||= l(options[:label] || "field_#{field}".delete_suffix('_id'))
     # Consider filters with a Proc for values as remote by default
     @remote = options.key?(:remote) ? options[:remote] : options[:values].is_a?(Proc)
   end

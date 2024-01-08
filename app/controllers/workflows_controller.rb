@@ -58,7 +58,9 @@ class WorkflowsController < ApplicationController
 
   def permissions
     if @roles && @trackers
-      @fields = (Tracker::CORE_FIELDS_ALL - @trackers.map(&:disabled_core_fields).reduce(:&)).map {|field| [field, l("field_"+field.sub(/_id$/, ''))]}
+      @fields = (Tracker::CORE_FIELDS_ALL - @trackers.map(&:disabled_core_fields).reduce(:&)).map do |field|
+        [field, l("field_#{field.delete_suffix('_id')}")]
+      end
       @custom_fields = @trackers.map(&:custom_fields).flatten.uniq.sort
       @permissions = WorkflowPermission.rules_by_status_id(@trackers, @roles)
       @statuses.each {|status| @permissions[status.id] ||= {}}

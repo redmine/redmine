@@ -4,7 +4,7 @@ module ActiveRecord
   class Base
     # Translate attribute names for validation errors display
     def self.human_attribute_name(attr, options = {})
-      prepared_attr = attr.to_s.sub(/_id$/, '').sub(/^.+\./, '')
+      prepared_attr = attr.to_s.delete_suffix('_id').sub(/^.+\./, '')
       class_prefix = name.underscore.tr('/', '_')
 
       redmine_default = [
