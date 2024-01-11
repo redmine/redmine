@@ -1,22 +1,5 @@
 # frozen_string_literal: true
 
-# Redmine - project management software
-# Copyright (C) 2006-2023  Jean-Philippe Lang
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
 require 'test/unit'
 
 require 'rubygems'
@@ -62,7 +45,7 @@ end
 class Mixin < ActiveRecord::Base
 end
 
-class TreeMixin < Mixin 
+class TreeMixin < Mixin
   acts_as_tree :foreign_key => "parent_id", :order => "id"
 end
 
@@ -76,7 +59,7 @@ class RecursivelyCascadedTreeMixin < Mixin
 end
 
 class TreeTest < Test::Unit::TestCase
-  
+
   def setup
     setup_db
     @root1 = TreeMixin.create!
@@ -165,12 +148,12 @@ class TreeTest < Test::Unit::TestCase
     assert_equal [@root_child1, @root_child2], @root_child2.self_and_siblings
     assert_equal [@root1, @root2, @root3], @root2.self_and_siblings
     assert_equal [@root1, @root2, @root3], @root3.self_and_siblings
-  end           
+  end
 end
 
 class TreeTestWithEagerLoading < Test::Unit::TestCase
-  
-  def setup 
+
+  def setup
     teardown_db
     setup_db
     @root1 = TreeMixin.create!
@@ -179,9 +162,9 @@ class TreeTestWithEagerLoading < Test::Unit::TestCase
     @root_child2 = TreeMixin.create! :parent_id => @root1.id
     @root2 = TreeMixin.create!
     @root3 = TreeMixin.create!
-    
+
     @rc1 = RecursivelyCascadedTreeMixin.create!
-    @rc2 = RecursivelyCascadedTreeMixin.create! :parent_id => @rc1.id 
+    @rc2 = RecursivelyCascadedTreeMixin.create! :parent_id => @rc1.id
     @rc3 = RecursivelyCascadedTreeMixin.create! :parent_id => @rc2.id
     @rc4 = RecursivelyCascadedTreeMixin.create! :parent_id => @rc3.id
   end
@@ -189,36 +172,36 @@ class TreeTestWithEagerLoading < Test::Unit::TestCase
   def teardown
     teardown_db
   end
-    
+
   def test_eager_association_loading
     roots = TreeMixin.find(:all, :include => :children, :conditions => "mixins.parent_id IS NULL", :order => "mixins.id")
-    assert_equal [@root1, @root2, @root3], roots                     
+    assert_equal [@root1, @root2, @root3], roots
     assert_no_queries do
       assert_equal 2, roots[0].children.size
       assert_equal 0, roots[1].children.size
       assert_equal 0, roots[2].children.size
-    end   
+    end
   end
-  
+
   def test_eager_association_loading_with_recursive_cascading_three_levels_has_many
     root_node = RecursivelyCascadedTreeMixin.find(:first, :include => { :children => { :children => :children } }, :order => 'mixins.id')
     assert_equal @rc4, assert_no_queries { root_node.children.first.children.first.children.first }
   end
-  
+
   def test_eager_association_loading_with_recursive_cascading_three_levels_has_one
     root_node = RecursivelyCascadedTreeMixin.find(:first, :include => { :first_child => { :first_child => :first_child } }, :order => 'mixins.id')
     assert_equal @rc4, assert_no_queries { root_node.first_child.first_child.first_child }
   end
-  
+
   def test_eager_association_loading_with_recursive_cascading_three_levels_belongs_to
     leaf_node = RecursivelyCascadedTreeMixin.find(:first, :include => { :parent => { :parent => :parent } }, :order => 'mixins.id DESC')
     assert_equal @rc1, assert_no_queries { leaf_node.parent.parent.parent }
-  end 
+  end
 end
 
 class TreeTestWithoutOrder < Test::Unit::TestCase
-  
-  def setup                               
+
+  def setup
     setup_db
     @root1 = TreeMixinWithoutOrder.create!
     @root2 = TreeMixinWithoutOrder.create!
@@ -231,8 +214,8 @@ class TreeTestWithoutOrder < Test::Unit::TestCase
   def test_root
     assert [@root1, @root2].include?(TreeMixinWithoutOrder.root)
   end
-  
+
   def test_roots
     assert_equal [], [@root1, @root2] - TreeMixinWithoutOrder.roots
   end
-end 
+end
