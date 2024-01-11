@@ -1,19 +1,8 @@
-/* Redmine - project management software
+/**
+ * Redmine - project management software
  * Copyright (C) 2006-2023  Jean-Philippe Lang
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- *  of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA. */
+ * This code is released under the GNU General Public License.
+ */
 
 var contextMenuObserving;
 
@@ -108,8 +97,8 @@ function contextMenuCreate() {
 
 function contextMenuShow(event) {
   var mouse_x = event.pageX;
-  var mouse_y = event.pageY;  
-  var mouse_y_c = event.clientY;  
+  var mouse_y = event.pageY;
+  var mouse_y_c = event.clientY;
   var render_x = mouse_x;
   var render_y = mouse_y;
   var dims;
@@ -161,7 +150,7 @@ function contextMenuShow(event) {
         // adding class for submenu
         if (window_height - mouse_y_c < 345) {
           $('#context-menu .folder').addClass('up');
-        } 
+        }
         $('#context-menu').removeClass('reverse-y');
       }
 
@@ -235,7 +224,7 @@ function contextMenuClearDocumentSelection() {
 function contextMenuInit() {
   contextMenuCreate();
   contextMenuUnselectAll();
-  
+
   if (!contextMenuObserving) {
     $(document).click(contextMenuClick);
     $(document).contextmenu(contextMenuRightClick);
