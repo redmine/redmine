@@ -8,6 +8,9 @@ Rails.application.config.to_prepare do
   # Forces I18n to load available locales from the backend
   I18n.config.available_locales = nil
 
+  # Use Nokogiri as XML backend instead of Rexml
+  ActiveSupport::XmlMini.backend = 'Nokogiri'
+
   Redmine::Preparation.prepare
 end
 
