@@ -194,7 +194,7 @@ module Redmine
 
         def target(path, sq=true)
           path ||= ''
-          base = /^\//.match?(path) ? root_url : url
+          base = path.start_with?('/') ? root_url : url
           str = "#{base}/#{path}".gsub(/[?<>\*]/, '')
           if sq
             str = shell_quote(str)

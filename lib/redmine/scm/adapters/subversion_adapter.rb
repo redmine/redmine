@@ -299,7 +299,7 @@ module Redmine
         end
 
         def target(path = '')
-          base = /^\//.match?(path) ? root_url : url
+          base = path.start_with?('/') ? root_url : url
           uri = "#{base}/#{path}"
           uri = Addressable::URI.encode(uri)
           shell_quote(uri.gsub(/[?<>\*]/, ''))

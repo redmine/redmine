@@ -173,7 +173,7 @@ module Redmine
             file_state = nil
             branch_map = nil
             io.each_line() do |line|
-              if state != "revision" && /^#{ENDLOG}/o.match?(line)
+              if state != "revision" && line.start_with?(ENDLOG)
                 commit_log = ""
                 revision   = nil
                 state      = "entry_start"
@@ -186,9 +186,9 @@ module Redmine
                   logger.debug("Path #{entry_path} <=> Name #{entry_name}")
                 elsif /^head: (.+)$/ =~ line
                   entry_headRev = $1
-                elsif /^symbolic names:/.match?(line)
+                elsif line.start_with?('symbolic names:')
                   state = "symbolic"
-                elsif /^#{STARTLOG}/o.match?(line)
+                elsif line.start_with?(STARTLOG)
                   commit_log = ""
                   state      = "revision"
                 end
@@ -201,15 +201,15 @@ module Redmine
                   next
                 end
               elsif state == "tags"
-                if /^#{STARTLOG}/o.match?(line)
+                if line.start_with?(STARTLOG)
                   commit_log = ""
                   state = "revision"
-                elsif /^#{ENDLOG}/o.match?(line)
+                elsif line.start_with?(ENDLOG)
                   state = "head"
                 end
                 next
               elsif state == "revision"
-                if /^#{ENDLOG}/o =~ line || /^#{STARTLOG}/o =~ line
+                if line.start_with?(ENDLOG, STARTLOG)
                   if revision
                     revHelper = CvsRevisionHelper.new(revision)
                     revBranch = "HEAD"
@@ -239,7 +239,7 @@ module Redmine
                   end
                   commit_log = ""
                   revision   = nil
-                  if /^#{ENDLOG}/o.match?(line)
+                  if line.start_with?(ENDLOG)
                     state = "entry_start"
                   end
                   next
@@ -267,7 +267,7 @@ module Redmine
                   #                  version.line_minus = 0
                   #                end
                 else
-                  commit_log += line unless /^\*\*\* empty log message \*\*\*/.match?(line)
+                  commit_log += line unless line.start_with?('*** empty log message ***')
                 end
               end
             end

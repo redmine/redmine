@@ -481,7 +481,7 @@ class IssueQuery < Query
       " WHERE #{Journal.table_name}.journalized_type='Issue' AND #{Journal.table_name}.journalized_id=#{Issue.table_name}.id" +
       " AND (#{sql_for_field field, operator.delete_prefix('!'), value, Journal.table_name, 'notes'})" +
       " AND (#{Journal.visible_notes_condition(User.current, :skip_pre_condition => true)})"
-    "#{/^!/.match?(operator) ? "NOT EXISTS" : "EXISTS"} (#{subquery})"
+    "#{operator.start_with?('!') ? "NOT EXISTS" : "EXISTS"} (#{subquery})"
   end
 
   def sql_for_updated_by_field(field, operator, value)
