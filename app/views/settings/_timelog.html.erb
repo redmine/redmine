@@ -16,8 +16,12 @@
 
   <% query = TimeEntryQuery.new(Setting.time_entry_list_defaults) %>
   <%= hidden_field_tag('settings[time_entry_list_defaults][column_names][]', '') %>
-  <%= render_query_columns_selection(query,
-        :name => 'settings[time_entry_list_defaults][column_names]') %>
+  <div id="list-definition">
+    <div>
+      <%= render_query_columns_selection(query,
+            :name => 'settings[time_entry_list_defaults][column_names]') %>
+    </div>
+  </div>
   <p>
     <label><%= l(:label_total_plural) %></label>
     <%= available_totalable_columns_tags(query,
