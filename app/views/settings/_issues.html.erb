@@ -41,9 +41,9 @@
   <legend><%= l(:setting_issue_list_default_columns) %></legend>
   <div id="list-definition">
     <div>
-  <%= render_query_columns_selection(
-        IssueQuery.new(:column_names => Setting.issue_list_default_columns),
-        :name => 'settings[issue_list_default_columns]') %>
+      <%= render_query_columns_selection(
+            IssueQuery.new(:column_names => Setting.issue_list_default_columns),
+            :name => 'settings[issue_list_default_columns]') %>
     </div>
   </div>
 
