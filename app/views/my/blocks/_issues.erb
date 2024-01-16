@@ -10,8 +10,10 @@
 
 <div id="<%= block %>-settings" style="display:none;">
   <%= form_tag(my_page_path, :remote => true) do %>
+    <div id="list-definition">
     <div class="box">
       <%= render_query_columns_selection(query, :name => "settings[#{block}][columns]") %>
+    </div>
     </div>
     <p>
       <%= submit_tag l(:button_save) %>
