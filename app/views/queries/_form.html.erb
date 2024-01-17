@@ -96,7 +96,11 @@
 <% unless params[:calendar] %>
   <%= content_tag 'fieldset', :id => 'columns' do %>
   <legend><%= l(:field_column_names) %></legend>
-  <%= render_query_columns_selection(query) %>
+  <div id="list-definition">
+    <div>
+      <%= render_query_columns_selection(query) %>
+    </div>
+  </div>
   <% end %>
 <% end %>
 
