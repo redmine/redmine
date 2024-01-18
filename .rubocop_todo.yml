@@ -910,7 +910,6 @@ Style/CaseLikeIf:
     - 'app/models/setting.rb'
     - 'app/models/workflow_transition.rb'
     - 'lib/redmine/export/pdf/issues_pdf_helper.rb'
-    - 'lib/redmine/scm/adapters/bazaar_adapter.rb'
     - 'lib/redmine/scm/adapters/cvs_adapter.rb'
     - 'lib/redmine/scm/adapters/git_adapter.rb'
 
@@ -1406,9 +1405,7 @@ Style/RedundantInterpolation:
 # This cop supports safe autocorrection (--autocorrect).
 Style/RedundantRegexpEscape:
   Exclude:
-    - 'app/controllers/settings_controller.rb'
     - 'app/helpers/application_helper.rb'
-    - 'app/helpers/issues_helper.rb'
     - 'app/models/mail_handler.rb'
     - 'app/models/mailer.rb'
     - 'app/models/repository/subversion.rb'
