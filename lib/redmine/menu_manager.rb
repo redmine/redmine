@@ -367,9 +367,9 @@ module Redmine
         @children.inject(1) {|sum, node| sum + node.size}
       end
 
-      def each(&block)
+      def each(...)
         yield self
-        children {|child| child.each(&block)}
+        children {|child| child.each(...)}
       end
 
       # Adds a child at first position
