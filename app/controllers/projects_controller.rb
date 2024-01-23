@@ -263,14 +263,11 @@ class ProjectsController < ApplicationController
   end
 
   def bookmark
-    user = User.current
-    jump_box = Redmine::ProjectJumpBox.new user
+    jump_box = Redmine::ProjectJumpBox.new User.current
     if request.delete?
       jump_box.delete_project_bookmark @project
-      user.update_notified_bookmarked_project_ids(@project)
     elsif request.post?
       jump_box.bookmark_project @project
-      user.update_notified_bookmarked_project_ids(@project)
     end
     respond_to do |format|
       format.js

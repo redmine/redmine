@@ -1045,9 +1045,6 @@ class ProjectTest < ActiveSupport::TestCase
     only_my_events_user = User.generate!(:mail_notification => 'only_my_events')
     Member.create!(:project => project, :roles => [role], :principal => only_my_events_user)
 
-    bookmarked_user = User.generate!(:mail_notification => 'bookmarked')
-    Member.create!(:project => project, :roles => [role], :principal => bookmarked_user)
-
     only_assigned_user = User.generate!(:mail_notification => 'only_assigned')
     Member.create!(:project => project, :roles => [role], :principal => only_assigned_user)
 
@@ -1062,8 +1059,6 @@ class ProjectTest < ActiveSupport::TestCase
            "should not include users with the 'none' notification option"
     assert !project.notified_users.include?(only_my_events_user),
            "should not include users with the 'only_my_events' notification option"
-    assert !project.notified_users.include?(bookmarked_user),
-           "should not include users with the 'bookmarked' notification option"
     assert !project.notified_users.include?(only_assigned_user),
            "should not include users with the 'only_assigned' notification option"
     assert !project.notified_users.include?(only_owned_user),

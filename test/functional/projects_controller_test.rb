@@ -1499,18 +1499,6 @@ class ProjectsControllerTest < Redmine::ControllerTest
     refute jb.bookmark?(Project.find('ecookbook'))
   end
 
-  def test_bookmark_should_update_notified_project_ids_if_mail_notification_is_bookmarked
-    user = User.find(2)
-    @request.session[:user_id] = user.id
-    user.update(mail_notification: 'bookmarked')
-
-    post(:bookmark, :params => {:id => 'ecookbook'})
-    assert_equal [true, false, false], user.members.order(:id).pluck(:mail_notification)
-
-    delete(:bookmark, :params => {:id => 'ecookbook'})
-    assert_equal [false, false, false], user.members.order(:id).pluck(:mail_notification)
-  end
-
   def test_index_jump_without_project_id_should_redirect_to_active_tab
     get(:index, :params => {:jump => 'issues'})
     assert_redirected_to '/issues'

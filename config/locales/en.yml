@@ -943,7 +943,6 @@ en:
   label_search_titles_only: Search titles only
   label_user_mail_option_all: "For any event on all my projects"
   label_user_mail_option_selected: "For any event on the selected projects only..."
-  label_user_mail_option_bookmarked: "For any event on my bookmarked projects"
   label_user_mail_option_none: "No events"
   label_user_mail_option_only_my_events: "Only for things I watch or I'm involved in"
   label_user_mail_option_only_assigned: "Only for things I watch or I am assigned to"

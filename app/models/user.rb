@@ -75,7 +75,6 @@ class User < Principal
   MAIL_NOTIFICATION_OPTIONS = [
     ['all', :label_user_mail_option_all],
     ['selected', :label_user_mail_option_selected],
-    ['bookmarked', :label_user_mail_option_bookmarked],
     ['only_my_events', :label_user_mail_option_only_my_events],
     ['only_assigned', :label_user_mail_option_only_assigned],
     ['only_owner', :label_user_mail_option_only_owner],
@@ -493,24 +492,12 @@ class User < Principal
   # Updates per project notifications (after_save callback)
   def update_notified_project_ids
     if @notified_projects_ids_changed
-      ids = []
-      if mail_notification == 'selected'
-        ids = Array.wrap(notified_projects_ids).reject(&:blank?)
-      elsif mail_notification == 'bookmarked'
-        ids = Array.wrap(bookmarked_project_ids).reject(&:blank?)
-      end
+      ids = (mail_notification == 'selected' ? Array.wrap(notified_projects_ids).reject(&:blank?) : [])
       members.update_all(:mail_notification => false)
       members.where(:project_id => ids).update_all(:mail_notification => true) if ids.any?
     end
   end
   private :update_notified_project_ids
-
-  def update_notified_bookmarked_project_ids(project_id)
-    if mail_notification == 'bookmarked'
-      @notified_projects_ids_changed = true
-      self.update_notified_project_ids
-    end
-  end
 
   def valid_notification_options
     self.class.valid_notification_options(self)
@@ -835,7 +822,7 @@ class User < Principal
       case object
       when Issue
         case mail_notification
-        when 'selected', 'only_my_events', 'bookmarked'
+        when 'selected', 'only_my_events'
           # user receives notifications for created/assigned issues on unselected projects
           object.author == self || is_or_belongs_to?(object.assigned_to) || is_or_belongs_to?(object.previous_assignee)
         when 'only_assigned'
