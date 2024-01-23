@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class WikiRedirect < ActiveRecord::Base
+class WikiRedirect < ApplicationRecord
   belongs_to :wiki
 
   validates_presence_of :wiki_id, :title, :redirects_to

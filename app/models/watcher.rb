@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class Watcher < ActiveRecord::Base
+class Watcher < ApplicationRecord
   belongs_to :watchable, :polymorphic => true
   belongs_to :user, :class_name => 'Principal'
 

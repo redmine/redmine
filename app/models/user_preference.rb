@@ -19,7 +19,7 @@
 
 require 'redmine/my_page'
 
-class UserPreference < ActiveRecord::Base
+class UserPreference < ApplicationRecord
   include Redmine::SafeAttributes
 
   belongs_to :user

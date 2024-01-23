@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class Message < ActiveRecord::Base
+class Message < ApplicationRecord
   include Redmine::SafeAttributes
   belongs_to :board
   belongs_to :author, :class_name => 'User'

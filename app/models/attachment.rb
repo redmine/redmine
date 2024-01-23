@@ -21,7 +21,7 @@ require "digest"
 require "fileutils"
 require "zip"
 
-class Attachment < ActiveRecord::Base
+class Attachment < ApplicationRecord
   include Redmine::SafeAttributes
   belongs_to :container, :polymorphic => true
   belongs_to :author, :class_name => "User"

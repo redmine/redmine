@@ -19,7 +19,7 @@
 
 require 'redmine/string_array_diff/diff'
 
-class WikiPage < ActiveRecord::Base
+class WikiPage < ApplicationRecord
   include Redmine::SafeAttributes
 
   belongs_to :wiki

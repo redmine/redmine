@@ -497,10 +497,6 @@ Rails/ApplicationMailer:
     - 'app/models/mail_handler.rb'
     - 'app/models/mailer.rb'
 
-# This cop supports unsafe autocorrection (--autocorrect-all).
-Rails/ApplicationRecord:
-  Enabled: false
-
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: Include.
 # Include: **/test/**/*

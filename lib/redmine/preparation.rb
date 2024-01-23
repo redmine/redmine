@@ -20,9 +20,9 @@
 module Redmine
   module Preparation
     def self.prepare
-      ActiveRecord::Base.include Redmine::Acts::Positioned
-      ActiveRecord::Base.include Redmine::Acts::Mentionable
-      ActiveRecord::Base.include Redmine::I18n
+      ApplicationRecord.include Redmine::Acts::Positioned
+      ApplicationRecord.include Redmine::Acts::Mentionable
+      ApplicationRecord.include Redmine::I18n
 
       Scm::Base.add "Subversion"
       Scm::Base.add "Mercurial"

@@ -63,6 +63,6 @@ class RedminePluginModelGenerator < Rails::Generators::NamedBase
   end
 
   def parent_class_name
-    options[:parent] || "ActiveRecord::Base"
+    options[:parent] || "ApplicationRecord"
   end
 end

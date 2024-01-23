@@ -42,7 +42,7 @@ def teardown_db
   end
 end
 
-class Mixin < ActiveRecord::Base
+class Mixin < ApplicationRecord
 end
 
 class TreeMixin < Mixin

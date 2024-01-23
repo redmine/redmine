@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class IssueCategory < ActiveRecord::Base
+class IssueCategory < ApplicationRecord
   include Redmine::SafeAttributes
   belongs_to :project
   belongs_to :assigned_to, :class_name => 'Principal'

@@ -19,7 +19,7 @@
 
 require 'csv'
 
-class Import < ActiveRecord::Base
+class Import < ApplicationRecord
   has_many :items, :class_name => 'ImportItem', :dependent => :delete_all
   belongs_to :user
   serialize :settings

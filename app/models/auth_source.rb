@@ -22,7 +22,7 @@
 class AuthSourceException < StandardError; end
 class AuthSourceTimeoutException < AuthSourceException; end
 
-class AuthSource < ActiveRecord::Base
+class AuthSource < ApplicationRecord
   include Redmine::SafeAttributes
   include Redmine::SubclassFactory
   include Redmine::Ciphering

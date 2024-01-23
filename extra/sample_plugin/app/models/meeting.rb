@@ -1,4 +1,4 @@
-class Meeting < ActiveRecord::Base
+class Meeting < ApplicationRecord
   belongs_to :project
 
   acts_as_event :title => Proc.new {|o| "#{o.scheduled_on} Meeting"},

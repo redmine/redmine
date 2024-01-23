@@ -108,7 +108,7 @@ module FixedIssuesExtension
   end
 end
 
-class Version < ActiveRecord::Base
+class Version < ApplicationRecord
   include Redmine::SafeAttributes
 
   after_update :update_issues_from_sharing_change

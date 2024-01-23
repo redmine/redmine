@@ -1,22 +1,6 @@
 # frozen_string_literal: true
 
 module ActiveRecord
-  class Base
-    # Translate attribute names for validation errors display
-    def self.human_attribute_name(attr, options = {})
-      prepared_attr = attr.to_s.delete_suffix('_id').sub(/^.+\./, '')
-      class_prefix = name.underscore.tr('/', '_')
-
-      redmine_default = [
-        :"field_#{class_prefix}_#{prepared_attr}",
-        :"field_#{prepared_attr}"
-      ]
-
-      options[:default] = redmine_default + Array(options[:default])
-
-      super
-    end
-  end
 
   # Undefines private Kernel#open method to allow using `open` scopes in models.
   # See Defect #11545 (http://www.redmine.org/issues/11545) for details.

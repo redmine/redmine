@@ -209,7 +209,7 @@ class WatchersController < ApplicationController
         nil
       end
     return unless klass && Class === klass # rubocop:disable Style/CaseEquality
-    return unless klass < ActiveRecord::Base
+    return unless klass < ApplicationRecord
     return unless klass < Redmine::Acts::Watchable::InstanceMethods
 
     scope = klass.where(:id => Array.wrap(params[:object_id]))

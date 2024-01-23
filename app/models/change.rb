@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class Change < ActiveRecord::Base
+class Change < ApplicationRecord
   belongs_to :changeset
 
   validates_presence_of :changeset_id, :action, :path

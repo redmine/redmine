@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class Tracker < ActiveRecord::Base
+class Tracker < ApplicationRecord
   include Redmine::SafeAttributes
 
   CORE_FIELDS_UNDISABLABLE = %w(project_id tracker_id subject is_private).freeze

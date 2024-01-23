@@ -239,7 +239,7 @@ class QueryFilter
   end
 end
 
-class Query < ActiveRecord::Base
+class Query < ApplicationRecord
   class StatementInvalid < ::ActiveRecord::StatementInvalid
   end
 

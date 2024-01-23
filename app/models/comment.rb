@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class Comment < ActiveRecord::Base
+class Comment < ApplicationRecord
   include Redmine::SafeAttributes
   belongs_to :commented, :polymorphic => true, :counter_cache => true
   belongs_to :author, :class_name => 'User'

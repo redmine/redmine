@@ -19,7 +19,7 @@
 
 require 'zlib'
 
-class WikiContent < ActiveRecord::Base
+class WikiContent < ApplicationRecord
   self.locking_column = 'version'
   belongs_to :page, :class_name => 'WikiPage'
   belongs_to :author, :class_name => 'User'

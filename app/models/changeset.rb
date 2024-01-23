@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class Changeset < ActiveRecord::Base
+class Changeset < ApplicationRecord
   belongs_to :repository
   belongs_to :user
   has_many :filechanges, :class_name => 'Change', :dependent => :delete_all

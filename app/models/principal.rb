@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class Principal < ActiveRecord::Base
+class Principal < ApplicationRecord
   self.table_name = "#{table_name_prefix}users#{table_name_suffix}"
 
   # Account statuses

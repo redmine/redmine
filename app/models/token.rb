@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class Token < ActiveRecord::Base
+class Token < ApplicationRecord
   belongs_to :user
   validates_uniqueness_of :value, :case_sensitive => true
 

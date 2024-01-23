@@ -19,7 +19,7 @@
 
 class ScmFetchError < StandardError; end
 
-class Repository < ActiveRecord::Base
+class Repository < ApplicationRecord
   include Redmine::Ciphering
   include Redmine::SafeAttributes
 

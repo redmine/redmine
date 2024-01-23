@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class News < ActiveRecord::Base
+class News < ApplicationRecord
   include Redmine::SafeAttributes
   belongs_to :project
   belongs_to :author, :class_name => 'User'

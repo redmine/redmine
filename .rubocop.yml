@@ -129,6 +129,10 @@ Rails/ActiveSupportOnLoad:
     # TODO: Need to check the impact on plugins. Disable for now.
     - 'lib/redmine/preparation.rb'
 
+Rails/ApplicationRecord:
+  Exclude:
+    - 'db/migrate/0*.rb'
+
 Rails/BulkChangeTable:
   Exclude:
     - 'db/migrate/20120714122200_add_workflows_rule_fields.rb'

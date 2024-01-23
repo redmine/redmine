@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class Board < ActiveRecord::Base
+class Board < ApplicationRecord
   include Redmine::SafeAttributes
   belongs_to :project
   has_many :messages, lambda {order("#{Message.table_name}.created_on DESC")}, :dependent => :destroy

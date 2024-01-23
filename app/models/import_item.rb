@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class ImportItem < ActiveRecord::Base
+class ImportItem < ApplicationRecord
   belongs_to :import
 
   validates_presence_of :import_id, :position

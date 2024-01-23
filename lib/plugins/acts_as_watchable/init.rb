@@ -19,4 +19,6 @@
 
 # Include hook code here
 require_relative 'lib/acts_as_watchable'
-ActiveRecord::Base.send(:include, Redmine::Acts::Watchable)
+Rails.application.reloader.to_prepare do
+  ApplicationRecord.send(:include, Redmine::Acts::Watchable)
+end

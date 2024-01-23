@@ -18,4 +18,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require_relative 'lib/acts_as_searchable'
-ActiveRecord::Base.send(:include, Redmine::Acts::Searchable)
+Rails.application.reloader.to_prepare do
+  ApplicationRecord.send(:include, Redmine::Acts::Searchable)
+end
