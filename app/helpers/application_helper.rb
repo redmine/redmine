@@ -1759,10 +1759,7 @@ module ApplicationHelper
 
   # Returns the full URL to the favicon
   def favicon_url
-    # TODO: use #image_url introduced in Rails4
-    path = favicon_path
-    base = url_for(:controller => 'welcome', :action => 'index', :only_path => false)
-    base.sub(%r{/+$}, '') + '/' + path.sub(%r{^/+}, '')
+    image_url(favicon_path)
   end
 
   def robot_exclusion_tag
