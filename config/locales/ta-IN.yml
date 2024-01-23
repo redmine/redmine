@@ -1442,5 +1442,4 @@ ta-IN:
   field_name_or_email_or_login: பெயர், மின்னஞ்சல் அல்லது உள்நுழைவு
   text_default_active_job_queue_changed: Default queue adapter which is well suited
     only for dev/test changed
-  label_user_mail_option_bookmarked: For any event on my bookmarked projects
   label_option_auto_lang: auto
