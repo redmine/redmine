@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module ActiveRecord
-
   # Undefines private Kernel#open method to allow using `open` scopes in models.
   # See Defect #11545 (http://www.redmine.org/issues/11545) for details.
   class Base
