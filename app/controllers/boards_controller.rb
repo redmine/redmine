@@ -56,12 +56,12 @@ class BoardsController < ApplicationController
         render :action => 'show', :layout => !request.xhr?
       end
       format.atom do
-        @messages = @board.messages.
+        messages = @board.messages.
           reorder(:id => :desc).
           includes(:author, :board).
           limit(Setting.feeds_limit.to_i).
           to_a
-        render_feed(@messages, :title => "#{@project}: #{@board}")
+        render_feed(messages, :title => "#{@project}: #{@board}")
       end
     end
   end

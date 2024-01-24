@@ -73,8 +73,8 @@ class UsersController < ApplicationController
         end
         format.csv do
           # Export all entries
-          @entries = scope.to_a
-          send_data(query_to_csv(@entries, @query, params), :type => 'text/csv; header=present', :filename => "#{filename_for_export(@query, 'users')}.csv")
+          entries = scope.to_a
+          send_data(query_to_csv(entries, @query, params), :type => 'text/csv; header=present', :filename => "#{filename_for_export(@query, 'users')}.csv")
         end
         format.api do
           @offset, @limit = api_offset_and_limit

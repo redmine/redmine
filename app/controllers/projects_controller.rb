@@ -77,8 +77,8 @@ class ProjectsController < ApplicationController
       end
       format.csv do
         # Export all entries
-        @entries = scope.to_a
-        send_data(query_to_csv(@entries, @query, params), :type => 'text/csv; header=present', :filename => 'projects.csv')
+        entries = scope.to_a
+        send_data(query_to_csv(entries, @query, params), :type => 'text/csv; header=present', :filename => 'projects.csv')
       end
     end
   end
