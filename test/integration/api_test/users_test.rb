@@ -70,6 +70,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     json['users'].zip(users) do |user_json, user|
       assert_equal user.id, user_json['id']
       assert_equal user.updated_on.iso8601, user_json['updated_on']
+      assert_equal user.status, user_json['status']
 
       # No one has changed password.
       assert_nil user_json['passwd_changed_on']
