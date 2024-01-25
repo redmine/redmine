@@ -179,6 +179,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     assert_equal Time.zone.parse('2006-07-19T20:42:15Z').iso8601, json['user']['updated_on']
     assert_nil json['user']['passwd_changed_on']
     assert_nil json['user']['twofa_scheme']
+    assert_nil json['user']['auth_source']
   end
 
   test "GET /users/:id.xml with include=memberships should include memberships" do
@@ -199,6 +200,42 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
       "project"=>{"name"=>"eCookbook", "id"=>1},
       "roles"=>[{"name"=>"Manager", "id"=>1}]
     }], json['user']['memberships']
+  end
+
+  test "GET /users/:id.json with include=auth_source should include auth_source for administrators" do
+    user = User.find(2)
+    user.update(:auth_source_id => 1)
+    get '/users/2.json?include=auth_source', :headers => credentials('admin')
+
+    assert_response :success
+    json = ActiveSupport::JSON.decode(response.body)
+
+    assert_equal user.auth_source.id, json['user']['auth_source']['id']
+    assert_equal user.auth_source.name, json['user']['auth_source']['name']
+  end
+
+  test "GET /users/:id.json without include=auth_source should not include auth_source" do
+    user = User.find(2)
+    user.update(:auth_source_id => 1)
+    get '/users/2.json', :headers => credentials('admin')
+
+    assert_response :success
+    json = ActiveSupport::JSON.decode(response.body)
+
+    assert_response :success
+    assert_nil json['user']['auth_source']
+  end
+
+  test "GET /users/:id.json should not include auth_source for standard user" do
+    user = User.find(2)
+    user.update(:auth_source_id => 1)
+    get '/users/2.json?include=auth_source', :headers => credentials('jsmith')
+
+    assert_response :success
+    json = ActiveSupport::JSON.decode(response.body)
+
+    assert_equal user.id, json['user']['id']
+    assert_nil json['user']['auth_source']
   end
 
   test "GET /users/current.xml should require authentication" do

@@ -16,6 +16,11 @@ api.user do
 
   render_api_custom_values @user.visible_custom_field_values, api
 
+  api.auth_source do
+    api.id @user.auth_source.id
+    api.name @user.auth_source.name
+  end if User.current.admin? && include_in_api_response?('auth_source') && @user.auth_source.present?
+
   api.array :groups do |groups|
     @user.groups.each do |group|
       api.group :id => group.id, :name => group.name
