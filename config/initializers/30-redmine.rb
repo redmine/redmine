@@ -21,17 +21,25 @@ if secret.present?
 end
 
 Redmine::PluginLoader.load
-plugin_assets_reloader = Redmine::PluginLoader.create_assets_reloader
-
-Rails.application.reloaders << plugin_assets_reloader
-unless Redmine::Configuration['mirror_plugins_assets_on_startup'] == false
-  plugin_assets_reloader.execute
-end
 
 Rails.application.config.to_prepare do
+  default_paths = []
+  default_paths << Rails.public_path.join('javascripts')
+  default_paths << Rails.public_path.join('stylesheets')
+  default_paths << Rails.public_path.join('images')
+  Rails.application.config.assets.redmine_default_asset_path = Redmine::AssetPath.new(Rails.public_path, default_paths)
+
   Redmine::FieldFormat::RecordList.subclasses.each do |klass|
     klass.instance.reset_target_class
   end
 
-  plugin_assets_reloader.execute_if_updated
+  Redmine::Plugin.all.each do |plugin|
+    paths = plugin.asset_paths
+    Rails.application.config.assets.redmine_extension_paths << paths if paths.present?
+  end
+
+  Redmine::Themes.themes.each do |theme|
+    paths = theme.asset_paths
+    Rails.application.config.assets.redmine_extension_paths << paths if paths.present?
+  end
 end

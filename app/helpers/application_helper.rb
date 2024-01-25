@@ -1668,7 +1668,7 @@ module ApplicationHelper
     plugin = options.delete(:plugin)
     sources = sources.map do |source|
       if plugin
-        "/plugin_assets/#{plugin}/stylesheets/#{source}"
+        "plugin_assets/#{plugin}/#{source}"
       elsif current_theme && current_theme.stylesheets.include?(source)
         current_theme.stylesheet_path(source)
       else
@@ -1685,7 +1685,7 @@ module ApplicationHelper
   #
   def image_tag(source, options={})
     if plugin = options.delete(:plugin)
-      source = "/plugin_assets/#{plugin}/images/#{source}"
+      source = "plugin_assets/#{plugin}/#{source}"
     elsif current_theme && current_theme.images.include?(source)
       source = current_theme.image_path(source)
     end
@@ -1702,7 +1702,7 @@ module ApplicationHelper
     if plugin = options.delete(:plugin)
       sources = sources.map do |source|
         if plugin
-          "/plugin_assets/#{plugin}/javascripts/#{source}"
+          "plugin_assets/#{plugin}/#{source}"
         else
           source
         end

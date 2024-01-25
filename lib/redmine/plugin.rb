@@ -186,6 +186,18 @@ module Redmine
       path.assets_dir
     end
 
+    def asset_prefix
+      File.join(self.class.public_directory.basename, id.to_s)
+    end
+
+    def asset_paths
+      if path.has_assets_dir?
+        base_dir = Pathname.new(path.assets_dir)
+        paths = base_dir.children.filter_map{|child| child if child.directory? }
+        Redmine::AssetPath.new(base_dir, paths, asset_prefix)
+      end
+    end
+
     def <=>(plugin)
       return nil unless plugin.is_a?(Plugin)
 

@@ -88,6 +88,10 @@ module RedmineApp
     # Sets default plugin directory
     config.redmine_plugins_directory = 'plugins'
 
+    # Paths for plugin and theme assets. Nothing is set here, as the actual
+    # configuration is performed in the initializer.
+    config.assets.redmine_extension_paths = []
+
     # Configure log level here so that additional environment file
     # can change it (environments/ENV.rb would take precedence over it)
     config.log_level = Rails.env.production? ? :info : :debug

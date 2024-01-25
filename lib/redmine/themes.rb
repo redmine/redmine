@@ -91,19 +91,31 @@ module Redmine
       end
 
       def stylesheet_path(source)
-        "/themes/#{dir}/stylesheets/#{source}"
+        "#{asset_prefix}#{source}"
       end
 
       def image_path(source)
-        "/themes/#{dir}/images/#{source}"
+        "#{asset_prefix}#{source}"
       end
 
       def javascript_path(source)
-        "/themes/#{dir}/javascripts/#{source}"
+        "#{asset_prefix}#{source}"
       end
 
       def favicon_path
-        "/themes/#{dir}/favicon/#{favicon}"
+        "#{asset_prefix}#{favicon}"
+      end
+
+      def asset_prefix
+        "themes/#{dir}/"
+      end
+
+      def asset_paths
+        base_dir = Pathname.new(path)
+        paths = base_dir.children.filter_map{|child| child if child.directory? &&
+                                                              child.basename.to_s != "src" &&
+                                                              !child.basename.to_s.start_with?('.') }
+        Redmine::AssetPath.new(base_dir, paths, asset_prefix)
       end
 
       private

@@ -34,6 +34,7 @@ module Redmine
       include ActionView::Helpers::TextHelper
       include Rails.application.routes.url_helpers
       include ApplicationHelper
+      include Propshaft::Helper
 
       # Default to creating links using only the path.  Subclasses can
       # change this default as needed

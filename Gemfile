@@ -14,6 +14,7 @@ gem 'i18n', '~> 1.14.1'
 gem 'rbpdf', '~> 1.21.3'
 gem 'addressable'
 gem 'rubyzip', '~> 2.3.0'
+gem 'propshaft', '~> 0.8.0'
 
 #  Ruby Standard Gems
 gem 'csv', '~> 3.2.8'
