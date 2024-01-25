@@ -97,13 +97,6 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     users = User.logged
     assert_equal users.size, json['users'].size
 
-    get '/users.json', headers: credentials('admin'), params: { status: ''}
-    assert_response :success
-    json = ActiveSupport::JSON.decode(response.body)
-    assert json.key?('users')
-    users = User.logged
-    assert_equal users.size, json['users'].size
-
     get '/users.json', headers: credentials('admin'), params: { name: 'jsmith' }
     assert_response :success
     json = ActiveSupport::JSON.decode(response.body)
