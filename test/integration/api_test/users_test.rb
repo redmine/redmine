@@ -90,6 +90,20 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     users = User.where(status: 3)
     assert_equal users.size, json['users'].size
 
+    get '/users.json', headers: credentials('admin'), params: { status: '*' }
+    assert_response :success
+    json = ActiveSupport::JSON.decode(response.body)
+    assert json.key?('users')
+    users = User.logged
+    assert_equal users.size, json['users'].size
+
+    get '/users.json', headers: credentials('admin'), params: { status: ''}
+    assert_response :success
+    json = ActiveSupport::JSON.decode(response.body)
+    assert json.key?('users')
+    users = User.logged
+    assert_equal users.size, json['users'].size
+
     get '/users.json', headers: credentials('admin'), params: { name: 'jsmith' }
     assert_response :success
     json = ActiveSupport::JSON.decode(response.body)
@@ -118,6 +132,15 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     json = ActiveSupport::JSON.decode(response.body)
     assert json.key?('users')
     assert_equal 0, json['users'].size
+  end
+
+  test "GET /users.json with short filters" do
+    get '/users.json', headers: credentials('admin'), params: { status: "1|3" }
+    assert_response :success
+    json = ActiveSupport::JSON.decode(response.body)
+    assert json.key?('users')
+    users = User.where(status: [1,3])
+    assert_equal users.size, json['users'].size
   end
 
   test "GET /users/:id.xml should return the user" do
