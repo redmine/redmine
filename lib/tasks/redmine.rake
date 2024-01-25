@@ -156,17 +156,6 @@ DESC
       Rake::Task["db:schema:dump"].invoke
     end
 
-    desc 'Copies plugins assets into the public directory.'
-    task :assets => :environment do
-      name = ENV['NAME']
-
-      begin
-        Redmine::PluginLoader.mirror_assets(name)
-      rescue Redmine::PluginNotFound
-        abort "Plugin #{name} was not found."
-      end
-    end
-
     desc 'Runs the plugins tests.'
     task :test do
       test_files = FileList[
