@@ -35,7 +35,7 @@ class ThemesTest < Redmine::IntegrationTest
     get '/'
 
     assert_response :success
-    assert_select "link[rel=stylesheet][href^=?]", "/themes/#{@theme.dir}/stylesheets/application.css"
+    assert_select "link[rel=stylesheet]:match('href', ?)", %r{/assets/themes/#{@theme.dir}/application-\w+\.css}
   end
 
   def test_without_theme_js
@@ -44,7 +44,7 @@ class ThemesTest < Redmine::IntegrationTest
     get '/'
 
     assert_response :success
-    assert_select "script[src^=?]", "/themes/#{@theme.dir}/javascripts/theme.js", 0
+    assert_select "script[src^=?]", "/assets/themes/#{@theme.dir}/theme.js", 0
   end
 
   def test_with_theme_js
@@ -53,7 +53,7 @@ class ThemesTest < Redmine::IntegrationTest
     get '/'
 
     assert_response :success
-    assert_select "script[src^=?]", "/themes/#{@theme.dir}/javascripts/theme.js", 1
+    assert_select "script[src^=?]", "/assets/themes/#{@theme.dir}/theme.js", 1
   ensure
     @theme.javascripts.delete 'theme'
   end
@@ -72,7 +72,7 @@ class ThemesTest < Redmine::IntegrationTest
     get '/'
 
     assert_response :success
-    assert_select 'link[rel="shortcut icon"][href^=?]', "/themes/#{@theme.dir}/favicon/a.ico"
+    assert_select 'link[rel="shortcut icon"][href^=?]', "/assets/themes/#{@theme.dir}/a.ico"
   ensure
     @theme.favicons.delete 'a.ico'
   end
@@ -83,7 +83,7 @@ class ThemesTest < Redmine::IntegrationTest
 
     assert_response :success
     assert_select 'link[rel="shortcut icon"]', 1
-    assert_select 'link[rel="shortcut icon"][href^=?]', "/themes/#{@theme.dir}/favicon/b.ico"
+    assert_select 'link[rel="shortcut icon"][href^=?]', "/assets/themes/#{@theme.dir}/b.ico"
   ensure
     @theme.favicons.delete("b.ico")
     @theme.favicons.delete("a.png")
@@ -96,9 +96,9 @@ class ThemesTest < Redmine::IntegrationTest
     get '/'
 
     assert_response :success
-    assert_select "link[rel=stylesheet][href^=?]", "/foo/themes/#{@theme.dir}/stylesheets/application.css"
-    assert_select "script[src^=?]", "/foo/themes/#{@theme.dir}/javascripts/theme.js"
-    assert_select 'link[rel="shortcut icon"][href^=?]', "/foo/themes/#{@theme.dir}/favicon/a.ico"
+    assert_select "link[rel=stylesheet]:match('href', ?)", %r{/foo/assets/themes/#{@theme.dir}/application-\w+\.css}
+    assert_select "script[src^=?]", "/foo/assets/themes/#{@theme.dir}/theme.js"
+    assert_select 'link[rel="shortcut icon"][href^=?]', "/foo/assets/themes/#{@theme.dir}/a.ico"
   ensure
     Redmine::Utils.relative_url_root = ''
   end

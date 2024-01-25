@@ -65,29 +65,29 @@ class LayoutTest < Redmine::IntegrationTest
     Role.anonymous.add_permission! :add_issues
 
     get '/projects/ecookbook/issues/new'
-    assert_select 'head script[src^=?]', '/javascripts/jstoolbar/jstoolbar.js?'
+    assert_select "head script:match('src',?)", %r{/assets/jstoolbar/jstoolbar-\w+.js}
     assert_include "var userHlLanguages = #{UserPreference::DEFAULT_TOOLBAR_LANGUAGE_OPTIONS.to_json};", response.body
   end
 
   def test_calendar_header_tags
     with_settings :default_language => 'fr' do
       get '/issues'
-      assert_include "/javascripts/i18n/datepicker-fr.js", response.body
+      assert_match %r{/assets/i18n/datepicker-fr-\w+.js}, response.body
     end
 
     with_settings :default_language => 'en-GB' do
       get '/issues'
-      assert_include "/javascripts/i18n/datepicker-en-GB.js", response.body
+      assert_match %r{/assets/i18n/datepicker-en-GB-\w+.js}, response.body
     end
 
     with_settings :default_language => 'en' do
       get '/issues'
-      assert_not_include "/javascripts/i18n/datepicker", response.body
+      assert_not_include "/assets/i18n/datepicker", response.body
     end
 
     with_settings :default_language => 'es' do
       get '/issues'
-      assert_include "/javascripts/i18n/datepicker-es.js", response.body
+      assert_match %r{/assets/i18n/datepicker-es-\w+.js}, response.body
     end
 
     with_settings :default_language => 'es-PA' do
@@ -99,22 +99,22 @@ class LayoutTest < Redmine::IntegrationTest
 
     with_settings :default_language => 'zh' do
       get '/issues'
-      assert_include "/javascripts/i18n/datepicker-zh-CN.js", response.body
+      assert_match %r{/assets/i18n/datepicker-zh-CN-\w+.js}, response.body
     end
 
     with_settings :default_language => 'zh-TW' do
       get '/issues'
-      assert_include "/javascripts/i18n/datepicker-zh-TW.js", response.body
+      assert_match %r{/assets/i18n/datepicker-zh-TW-\w+.js}, response.body
     end
 
     with_settings :default_language => 'pt' do
       get '/issues'
-      assert_include "/javascripts/i18n/datepicker-pt.js", response.body
+      assert_match %r{/assets/i18n/datepicker-pt-\w+.js}, response.body
     end
 
     with_settings :default_language => 'pt-BR' do
       get '/issues'
-      assert_include "/javascripts/i18n/datepicker-pt-BR.js", response.body
+      assert_match %r{/assets/i18n/datepicker-pt-BR-\w+.js}, response.body
     end
   end
 
