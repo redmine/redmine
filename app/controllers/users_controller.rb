@@ -47,8 +47,8 @@ class UsersController < ApplicationController
 
     # API backwards compatibility: handle legacy filter parameters
     unless request.format.html?
-      if status_id = params[:status].presence
-        @query.add_filter 'status', '=', [status_id]
+      if params.include?(:status) && params[:status].blank?
+        @query.add_filter 'status', '*'
       end
       if name = params[:name].presence
         @query.add_filter 'name', '~', [name]
