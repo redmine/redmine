@@ -25,34 +25,11 @@ class Redmine::PluginLoaderTest < ActiveSupport::TestCase
 
     @klass = Redmine::PluginLoader
     @klass.directory = Rails.root.join('test/fixtures/plugins')
-    @klass.public_directory = Rails.root.join('tmp/public/plugin_assets')
     @klass.load
   end
 
   def teardown
     clear_public
-  end
-
-  def test_create_assets_reloader
-    plugin_assets = @klass.create_assets_reloader
-    plugin_assets.execute.inspect
-
-    assert File.exist?("#{@klass.public_directory}/foo_plugin")
-    assert File.exist?("#{@klass.public_directory}/foo_plugin/stylesheets/foo.css")
-  end
-
-  def test_mirror_assets
-    Redmine::PluginLoader.mirror_assets
-
-    assert File.exist?("#{@klass.public_directory}/foo_plugin")
-    assert File.exist?("#{@klass.public_directory}/foo_plugin/stylesheets/foo.css")
-  end
-
-  def test_mirror_assets_with_plugin_name
-    Redmine::PluginLoader.mirror_assets('foo_plugin')
-
-    assert File.exist?("#{@klass.public_directory}/foo_plugin")
-    assert File.exist?("#{@klass.public_directory}/foo_plugin/stylesheets/foo.css")
   end
 
   def clear_public

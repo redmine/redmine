@@ -35,43 +35,6 @@ module Redmine
       @dir
     end
 
-    def mirror_assets
-      return unless has_assets_dir?
-
-      destination = File.join(PluginLoader.public_directory, File.basename(@dir))
-
-      source_files = Dir["#{assets_dir}/**/*"]
-      source_dirs = source_files.select { |d| File.directory?(d)}
-      source_files -= source_dirs
-      unless source_files.empty?
-        base_target_dir = File.join(destination, File.dirname(source_files.first).gsub(assets_dir, ''))
-        begin
-          FileUtils.mkdir_p(base_target_dir)
-        rescue => e
-          raise "Could not create directory #{base_target_dir}: " + e.message
-        end
-      end
-
-      source_dirs.each do |dir|
-        # strip down these paths so we have simple, relative paths we can
-        # add to the destination
-        target_dir = File.join(destination, dir.gsub(assets_dir, ''))
-        begin
-          FileUtils.mkdir_p(target_dir)
-        rescue => e
-          raise "Could not create directory #{target_dir}: " + e.message
-        end
-      end
-      source_files.each do |file|
-        target = File.join(destination, file.gsub(assets_dir, ''))
-        unless File.exist?(target) && FileUtils.identical?(file, target)
-          FileUtils.cp(file, target)
-        end
-      rescue => e
-        raise "Could not copy #{file} to #{target}: " + e.message
-      end
-    end
-
     def has_assets_dir?
       File.directory?(@assets_dir)
     end
@@ -89,16 +52,6 @@ module Redmine
     # Absolute path to the public directory where plugins assets are copied
     cattr_accessor :public_directory
     self.public_directory = Rails.public_path.join('plugin_assets')
-
-    def self.create_assets_reloader
-      plugin_assets_dirs = {}
-      directories.each do |dir|
-        plugin_assets_dirs[dir.assets_dir] = ['*']
-      end
-      ActiveSupport::FileUpdateChecker.new([], plugin_assets_dirs) do
-        mirror_assets
-      end
-    end
 
     def self.load
       setup
@@ -135,14 +88,6 @@ module Redmine
 
     def self.directories
       @plugin_directories
-    end
-
-    def self.mirror_assets(name=nil)
-      if name.present?
-        directories.find{|d| d.to_s == File.join(directory, name)}.mirror_assets
-      else
-        directories.each(&:mirror_assets)
-      end
     end
   end
 end
