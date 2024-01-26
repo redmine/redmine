@@ -82,13 +82,13 @@ module Redmine
       def parent_path?(path, other)
         return nil if other == path
 
-        path.ascend.any?{|v| v == other}
+        path.ascend.any?(other)
       end
 
       def child_path?(path, other)
         return nil if path == other
 
-        other.ascend.any?{|v| v == path}
+        other.ascend.any?(path)
       end
 
       def update(transition_map)
