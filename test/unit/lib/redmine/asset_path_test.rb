@@ -25,8 +25,6 @@ class Redmine::AssetPathTest < ActiveSupport::TestCase
     @assets = {}
     @transition_map = {}
     @asset_path.update(transition_map: @transition_map, assets: @assets)
-    puts "################# Debug asset_path"
-    puts @asset_path.inspect
   end
 
   test "asset path size" do
