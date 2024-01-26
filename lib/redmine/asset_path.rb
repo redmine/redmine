@@ -19,7 +19,6 @@
 
 module Redmine
   class AssetPath
-
     attr_reader :paths, :prefix, :version
 
     def initialize(base_dir, paths, prefix=nil)
@@ -34,8 +33,11 @@ module Redmine
       each_file do |file, intermediate_path, logical_path|
         @transition.add_src  intermediate_path, logical_path
         @transition.add_dest intermediate_path, logical_path
-        asset = file.extname == '.css' ? Redmine::Asset.new(file,   logical_path: logical_path, version: version, transition_map: transition_map)
-                  : Propshaft::Asset.new(file, logical_path: logical_path, version: version)
+        asset = if file.extname == '.css'
+                  Redmine::Asset.new(file,   logical_path: logical_path, version: version, transition_map: transition_map)
+                else
+                  Propshaft::Asset.new(file, logical_path: logical_path, version: version)
+                end
         assets[asset.logical_path.to_s] ||= asset
       end
       @transition.update(transition_map)
@@ -56,13 +58,13 @@ module Redmine
     private
 
     Transition = Struct.new(:src, :dest, keyword_init: true) do
-
       def add_src(file, logical_path)
         src.add  path_pair(file, logical_path) if file.extname == '.css'
       end
 
       def add_dest(file, logical_path)
         return if file.extname == '.js' || file.extname == '.map'
+
         # No parent-child directories are needed in dest.
         dirname = file.dirname
         if child = dest.find{|d| child_path? dirname, d[0]}
@@ -79,11 +81,13 @@ module Redmine
 
       def parent_path?(path, other)
         return nil if other == path
+
         path.ascend.any?{|v| v == other}
       end
 
       def child_path?(path, other)
         return nil if path == other
+
         other.ascend.any?{|v| v == path}
       end
 
@@ -102,7 +106,6 @@ module Redmine
     end
 
     AssetPathMap = Struct.new(:src, :dest, :logical_src, :logical_dest, keyword_init: true) do
-
       def dirname
         key = logical_src.to_s.sub('/', '')
         key == '' ? '.' : key
@@ -127,7 +130,6 @@ module Redmine
   end
 
   class AssetLoadPath < Propshaft::LoadPath
-
     attr_reader :extension_paths, :default_asset_path, :transition_map
 
     def initialize(config)
@@ -141,6 +143,7 @@ module Redmine
         Rails.logger.info all_paths
         all_paths.each do |path|
           next unless path.exist?
+
           without_dotfiles(all_files_from_tree(path)).each do |file|
             y << file
           end
@@ -149,7 +152,7 @@ module Redmine
     end
 
     def assets_by_path
-      merge_required = @cached_assets_by_path == nil
+      merge_required = @cached_assets_by_path.nil?
       super
       if merge_required
         @transition_map = {}
@@ -167,12 +170,12 @@ module Redmine
 
     def cache_sweeper
       @cache_sweeper ||= begin
-                           exts_to_watch  = Mime::EXTENSION_LOOKUP.map(&:first)
-                           files_to_watch = Array(all_paths).collect { |dir| [ dir.to_s, exts_to_watch ] }.to_h
-                           Rails.application.config.file_watcher.new([], files_to_watch) do
-                             clear_cache
-                           end
-                         end
+        exts_to_watch  = Mime::EXTENSION_LOOKUP.map(&:first)
+        files_to_watch = Array(all_paths).collect { |dir| [dir.to_s, exts_to_watch] }.to_h
+        Rails.application.config.file_watcher.new([], files_to_watch) do
+          clear_cache
+        end
+      end
     end
 
     def all_paths
