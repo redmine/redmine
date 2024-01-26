@@ -171,7 +171,7 @@ module Redmine
     def cache_sweeper
       @cache_sweeper ||= begin
         exts_to_watch  = Mime::EXTENSION_LOOKUP.map(&:first)
-        files_to_watch = Array(all_paths).collect { |dir| [dir.to_s, exts_to_watch] }.to_h
+        files_to_watch = Array(all_paths).to_h { |dir| [dir.to_s, exts_to_watch] }
         Rails.application.config.file_watcher.new([], files_to_watch) do
           clear_cache
         end
