@@ -80,13 +80,13 @@ module Redmine
       end
 
       def parent_path?(path, other)
-        return nil if other == path
+        return false if other == path
 
         path.ascend.any?(other)
       end
 
       def child_path?(path, other)
-        return nil if path == other
+        return false if path == other
 
         other.ascend.any?(path)
       end
