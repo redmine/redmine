@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '>= 2.7.0', '< 3.4.0'
+ruby '>= 3.0.0', '< 3.4.0'
 
 gem 'rails', '7.1.2'
 gem 'rouge', '~> 4.2.0'
@@ -9,7 +9,7 @@ gem "actionpack-xml_parser"
 gem 'roadie-rails', '~> 3.1.0'
 gem 'marcel'
 gem 'mail', '~> 2.8.1'
-gem 'nokogiri', (Gem.ruby_version >= Gem::Version.new('3.0') ? '~> 1.16.0' : '~> 1.15.5')
+gem 'nokogiri', '~> 1.16.0'
 gem 'i18n', '~> 1.14.1'
 gem 'rbpdf', '~> 1.21.3'
 gem 'addressable'
@@ -72,7 +72,7 @@ if File.exist?(database_file)
       when /postgresql/
         gem 'pg', '~> 1.5.3'
       when /sqlite3/
-        gem 'sqlite3', (Gem.ruby_version >= Gem::Version.new('3.0') ? '~> 1.7.0' : '~> 1.6.9')
+        gem 'sqlite3', '~> 1.7.0'
       when /sqlserver/
         gem 'tiny_tds', '~> 2.1.2'
         gem 'activerecord-sqlserver-adapter', '~> 6.1.0'
@@ -104,12 +104,7 @@ group :test do
   # For running system tests
   gem 'puma'
   gem "capybara", ">= 3.39"
-  if Gem.ruby_version < Gem::Version.new('3.0')
-    gem "selenium-webdriver", "<= 4.9.0"
-    gem "webdrivers", require: false
-  else
-    gem "selenium-webdriver", ">= 4.11.0"
-  end
+  gem 'selenium-webdriver', '>= 4.11.0'
   # RuboCop
   gem 'rubocop', '~> 1.60.0', require: false
   gem 'rubocop-performance', '~> 1.20.0', require: false
