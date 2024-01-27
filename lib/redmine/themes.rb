@@ -112,9 +112,11 @@ module Redmine
 
       def asset_paths
         base_dir = Pathname.new(path)
-        paths = base_dir.children.filter_map{|child| child if child.directory? &&
-                                                              child.basename.to_s != "src" &&
-                                                              !child.basename.to_s.start_with?('.') }
+        paths = base_dir.children.filter_map do |child|
+          child if child.directory? &&
+                   child.basename.to_s != "src" &&
+                   !child.basename.to_s.start_with?('.')
+        end
         Redmine::AssetPath.new(base_dir, paths, asset_prefix)
       end
 
