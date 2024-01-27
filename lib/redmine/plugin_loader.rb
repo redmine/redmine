@@ -67,7 +67,7 @@ module Redmine
     def self.setup
       @plugin_directories = []
 
-      Dir.glob(File.join(directory, '*')).sort.each do |directory|
+      Dir.glob(File.join(directory, '*')).each do |directory|
         next unless File.directory?(directory)
 
         @plugin_directories << PluginPath.new(directory)
