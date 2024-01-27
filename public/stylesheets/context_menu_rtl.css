@@ -6,7 +6,7 @@
 
 #context-menu li.folder ul { left:auto; right:168px; }
 #context-menu li.folder>ul { left:auto; right:148px; }
-#context-menu li a.submenu { background:url("../images/arrow_left.png") left no-repeat; }
+#context-menu li a.submenu { background:url("arrow_left.png") left no-repeat; }
 
 #context-menu a {
    background-position: 100% 40%;
