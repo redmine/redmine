@@ -385,7 +385,7 @@ class Redmine::UnifiedDiffTest < ActiveSupport::TestCase
   end
 
   def test_keep_similar_git_footer_line
-    raw = <<~DIFF
+    raw = <<~'DIFF'
       diff --git a/test1.txt b/test1.txt
       --- a/test1.txt
       +++ b/test1.txt
@@ -425,7 +425,7 @@ class Redmine::UnifiedDiffTest < ActiveSupport::TestCase
   end
 
   def test_git_footer_line
-    raw = <<~DIFF
+    raw = <<~'DIFF'
       From 1ed13eda266a3e0a5a8624e79ae28874ebcdeb5c Mon Sep 17 00:00:00 2001
       From: test <none@none>
       Date: Thu, 30 Apr 2020 11:40:20 +0900
