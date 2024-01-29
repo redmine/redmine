@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA. */
 
-@import url(../../../stylesheets/application.css);
+@import url(/application.css);
 
 body{ color:#303030; background:#e8eaec; }
 
@@ -51,7 +51,7 @@ h2, h3, h4, .wiki h1, .wiki h2, .wiki h3 { border-bottom: 0px; color:#606060; fo
 h2, .wiki h1 { letter-spacing:-1px; }
 h4 { border-bottom: dotted 1px #c0c0c0; }
 
-#top-menu a.home, #top-menu a.my-page, #top-menu a.projects, #top-menu a.administration, #top-menu a.help { 
+#top-menu a.home, #top-menu a.my-page, #top-menu a.projects, #top-menu a.administration, #top-menu a.help {
     background-position: 0% 40%;
     background-repeat: no-repeat;
     padding-left: 20px;
