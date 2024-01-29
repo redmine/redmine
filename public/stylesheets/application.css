@@ -150,6 +150,7 @@ div.modal .box p {margin: 0.3em 0;}
 
 .mobile-show {display: none;}
 .hidden {display: none;}
+.inline-block {display: inline-block;}
 .inline-flex {display: inline-flex;}
 
 /***** Links *****/
@@ -1573,6 +1574,7 @@ td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
   border-radius: 2px;
   text-transform: uppercase;
   text-decoration: none;
+  user-select: none;
 }
 .badge-private {
   background: #d22;
