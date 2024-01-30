@@ -441,7 +441,7 @@ module Redmine
       module ScmData
         def self.binary?(data)
           unless data.empty?
-            data.count("^ -~", "^\r\n").fdiv(data.size) > 0.3 || data.index("\x00")
+            data.index("\x00") || data.count("\x00-\x1f\x7f", "^\t\r\n").fdiv(data.size) > 0.1
           end
         end
       end
