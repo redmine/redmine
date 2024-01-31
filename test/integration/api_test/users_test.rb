@@ -128,6 +128,25 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     assert_equal 0, json['users'].size
   end
 
+  test "GET /users.json with include=auth_source" do
+    user = User.find(2)
+    user.update(:auth_source_id => 1)
+    get '/users.json?include=auth_source', :headers => credentials('admin')
+
+    json = ActiveSupport::JSON.decode(response.body)
+    assert json.key?('users')
+
+    json['users'].each do | user_json |
+      if user_json['id'] == user.id
+        assert_kind_of Hash, user_json['auth_source']
+        assert_equal user.auth_source.id, user_json['auth_source']['id']
+        assert_equal user.auth_source.name, user_json['auth_source']['name']
+      else
+        assert_nil user_json['auth_source']
+      end
+    end
+  end
+
   test "GET /users.json with short filters" do
     get '/users.json', headers: credentials('admin'), params: { status: "1|3" }
     assert_response :success
