@@ -379,16 +379,17 @@ class Query < ApplicationRecord
       scope.where("#{table_name}.visibility <> ? OR #{table_name}.user_id = ?", VISIBILITY_PRIVATE, user.id)
     elsif user.memberships.any?
       scope.where(
-        "#{table_name}.visibility = ?" +
-          " OR (#{table_name}.visibility = ? AND #{table_name}.id IN (" +
-          "SELECT DISTINCT q.id FROM #{table_name} q" +
-          " INNER JOIN #{table_name_prefix}queries_roles#{table_name_suffix} qr on qr.query_id = q.id" +
-          " INNER JOIN #{MemberRole.table_name} mr ON mr.role_id = qr.role_id" +
-          " INNER JOIN #{Member.table_name} m ON m.id = mr.member_id AND m.user_id = ?" +
-          " INNER JOIN #{Project.table_name} p ON p.id = m.project_id AND p.status <> ?" +
-          " WHERE q.project_id IS NULL OR q.project_id = m.project_id))" +
-          " OR #{table_name}.user_id = ?",
-        VISIBILITY_PUBLIC, VISIBILITY_ROLES, user.id, Project::STATUS_ARCHIVED, user.id)
+        "#{table_name}.visibility = ?" \
+        " OR (#{table_name}.visibility = ? AND EXISTS (SELECT 1" \
+        " FROM #{table_name_prefix}queries_roles#{table_name_suffix} qr" \
+        " INNER JOIN #{MemberRole.table_name} mr ON mr.role_id = qr.role_id" \
+        " INNER JOIN #{Member.table_name} m ON m.id = mr.member_id AND m.user_id = ?" \
+        " INNER JOIN #{Project.table_name} p ON p.id = m.project_id AND p.status <> ?" \
+        " WHERE qr.query_id = #{table_name}.id" \
+        " AND (#{table_name}.project_id IS NULL OR #{table_name}.project_id = m.project_id)))" \
+        " OR #{table_name}.user_id = ?",
+        VISIBILITY_PUBLIC, VISIBILITY_ROLES, user.id, Project::STATUS_ARCHIVED, user.id
+      )
     elsif user.logged?
       scope.where("#{table_name}.visibility = ? OR #{table_name}.user_id = ?", VISIBILITY_PUBLIC, user.id)
     else
