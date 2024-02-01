@@ -136,7 +136,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     json = ActiveSupport::JSON.decode(response.body)
     assert json.key?('users')
 
-    json['users'].each do | user_json |
+    json['users'].each do |user_json|
       if user_json['id'] == user.id
         assert_kind_of Hash, user_json['auth_source']
         assert_equal user.auth_source.id, user_json['auth_source']['id']
