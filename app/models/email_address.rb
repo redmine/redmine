@@ -39,7 +39,17 @@ class EmailAddress < ApplicationRecord
   safe_attributes 'address'
 
   def address=(arg)
-    write_attribute(:address, arg.to_s.strip)
+    normalized_address = arg.to_s.strip
+
+    # Convert internationalized domain name (IDN) to Punycode
+    # e.g. 'marie@société.example' => 'marie@xn--socit-esab.example'
+    local_part, _at, domain = normalized_address.partition('@')
+    if domain.present?
+      ascii_domain = Addressable::IDNA.to_ascii(domain)
+      normalized_address = "#{local_part}@#{ascii_domain}"
+    end
+
+    write_attribute(:address, normalized_address)
   end
 
   def destroy
