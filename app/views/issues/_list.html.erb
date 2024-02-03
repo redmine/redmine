@@ -10,7 +10,7 @@
     <tr>
       <th class="checkbox hide-when-print">
         <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection',
-              :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
+              :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}" %>
       </th>
       <% query.inline_columns.each do |column| %>
         <%= column_header(query, column, query_options) %>
