@@ -960,364 +960,337 @@
   text_mercurial_repository_note: Helyi repository (e.g. /hgrepo, c:\hgrepo)
   text_scm_command: Parancs
   text_scm_command_version: Verzió
-  label_git_report_last_commit: Report last commit for files and directories
-  notice_issue_successful_create: Issue %{id} created.
-  label_between: between
-  setting_issue_group_assignment: Allow issue assignment to groups
-  label_diff: diff
-  text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
-  description_query_sort_criteria_direction: Sort direction
-  description_project_scope: Search scope
-  description_filter: Filter
-  description_user_mail_notification: Mail notification settings
-  description_message_content: Message content
-  description_available_columns: Available Columns
-  description_issue_category_reassign: Choose issue category
-  description_search: Searchfield
-  description_notes: Notes
-  description_choose_project: Projects
-  description_query_sort_criteria_attribute: Sort attribute
-  description_wiki_subpages_reassign: Choose new parent page
-  description_selected_columns: Selected Columns
-  label_parent_revision: Parent
-  label_child_revision: Child
-  error_scm_annotate_big_text_file: The entry cannot be annotated, as it exceeds the maximum text file size.
-  setting_default_issue_start_date_to_creation_date: Use current date as start date for new issues
-  button_edit_section: Edit this section
-  setting_repositories_encodings: Attachments and repositories encodings
-  description_all_columns: All Columns
-  button_export: Export
-  label_export_options: "%{export_format} export options"
-  error_attachment_too_big: This file cannot be uploaded because it exceeds the maximum allowed file size (%{max_size})
-  notice_failed_to_save_time_entries: "Failed to save %{count} time entrie(s) on %{total} selected: %{ids}."
+  label_git_report_last_commit: Legutóbbi commit adatainak megjelenítése a fájllistában
+  notice_issue_successful_create: "A feladat létrejött: %{id}."
+  label_between: intervallum
+  setting_issue_group_assignment: Felelősként csoport is megadható
+  label_diff: különbség
+  text_git_repository_note: 'Csupasz és helyi tároló (pl. /gitrepo, c:\gitrepo)'
+  description_query_sort_criteria_direction: Rendezés iránya
+  description_project_scope: Keresés hatóköre
+  description_filter: Szűrő
+  description_user_mail_notification: E-mail-értesítek beállításai
+  description_message_content: Hozzászólás tartalma
+  description_available_columns: Kiválasztható oszlopok
+  description_issue_category_reassign: Válasszon feladatkategóriát
+  description_search: Keresési mező
+  description_notes: Megjegyzések
+  description_choose_project: Projektek
+  description_query_sort_criteria_attribute: Rendezési szempont
+  description_wiki_subpages_reassign: Válasszon új szülőoldalt
+  description_selected_columns: Kiválasztott oszlopok
+  label_parent_revision: Szülő
+  label_child_revision: Gyerek
+  error_scm_annotate_big_text_file: "A bejegyzést nem lehet jegyzetekkel ellátni, mert túllépné a maximális fájlméretet."
+  setting_default_issue_start_date_to_creation_date: A feladatok kezdő dátuma a létrehozás időpontja
+  button_edit_section: Fejezet szerkesztése
+  setting_repositories_encodings: Csatolmányok és tárolók kódolása
+  description_all_columns: Minden oszlop
+  button_export: Exportálás
+  label_export_options: "%{export_format}-exportálás paraméterei"
+  error_attachment_too_big: "A fájlt nem lehet feltölteni, mert nagyobb a megengedett méretnél (%{max_size})"
+  notice_failed_to_save_time_entries: "Nem sikerült a kijelölt %{total} időráfordításból %{count} mentése: %{ids}."
   label_x_issues:
     zero:  0 feladat
     one:   1 feladat
     other: "%{count} feladatok"
-  label_repository_new: New repository
+  label_repository_new: Új tárolók
   field_repository_is_default: Main repository
-  label_copy_attachments: Copy attachments
+  label_copy_attachments: Csatolmányok másolása
   label_item_position: "%{position}/%{count}"
-  label_completed_versions: Completed versions
-  text_project_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
-  field_multiple: Multiple values
-  setting_commit_cross_project_ref: Allow issues of all the other projects to be referenced and fixed
-  text_issue_conflict_resolution_add_notes: Add my notes and discard my other changes
-  text_issue_conflict_resolution_overwrite: Apply my changes anyway (previous notes will be kept but some changes may be overwritten)
-  notice_issue_update_conflict: The issue has been updated by an other user while you were editing it.
-  text_issue_conflict_resolution_cancel: Discard all my changes and redisplay %{link}
-  permission_manage_related_issues: Manage related issues
-  field_auth_source_ldap_filter: LDAP filter
-  label_search_for_watchers: Search for watchers to add
-  notice_account_deleted: Your account has been permanently deleted.
-  setting_unsubscribe: Allow users to delete their own account
-  button_delete_my_account: Delete my account
-  text_account_destroy_confirmation: |-
-    Are you sure you want to proceed?
-    Your account will be permanently deleted, with no way to reactivate it.
-  error_session_expired: Your session has expired. Please login again.
-  text_session_expiration_settings: "Warning: changing these settings may expire the current sessions including yours."
-  setting_session_lifetime: Session maximum lifetime
-  setting_session_timeout: Session inactivity timeout
-  label_session_expiration: Session expiration
-  permission_close_project: Close / reopen the project
-  button_close: Close
-  button_reopen: Reopen
-  project_status_active: active
-  project_status_closed: closed
-  project_status_archived: archived
-  text_project_closed: This project is closed and read-only.
-  notice_user_successful_create: User %{id} created.
-  field_core_fields: Standard fields
-  field_timeout: Timeout (in seconds)
-  setting_thumbnails_enabled: Display attachment thumbnails
-  setting_thumbnails_size: Thumbnails size (in pixels)
-  label_status_transitions: Status transitions
-  label_fields_permissions: Fields permissions
-  label_readonly: Read-only
-  label_required: Required
-  text_repository_identifier_info: Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.
-  field_board_parent: Parent forum
-  label_attribute_of_project: Project's %{name}
-  label_attribute_of_author: Author's %{name}
-  label_attribute_of_assigned_to: Assignee's %{name}
-  label_attribute_of_fixed_version: Target version's %{name}
-  label_copy_subtasks: Copy subtasks
-  label_copied_to: copied to
-  label_copied_from: copied from
-  label_any_issues_in_project: any issues in project
-  label_any_issues_not_in_project: any issues not in project
-  field_private_notes: Private notes
-  permission_view_private_notes: View private notes
-  permission_set_notes_private: Set notes as private
-  label_no_issues_in_project: no issues in project
-  label_any: mind
-  label_last_n_weeks: last %{count} weeks
-  setting_cross_project_subtasks: Allow cross-project subtasks
+  label_completed_versions: Kész verziók
+  text_project_identifier_info: Csak kisbetűk (a-z), számjegyek, kötőjelek és aláhúzásjelek megengedettek, és kisbetűvel kell kezdődnie.<br />Mentés után az azonosító nem változtatható meg.
+  field_multiple: Több is kiválasztható
+  setting_commit_cross_project_ref: Engedélyezett más projekt feladatainak hivatkozása és megoldása
+  text_issue_conflict_resolution_add_notes: Megjegyzésem hozzáadása a többi változás mentése nélkül
+  text_issue_conflict_resolution_overwrite: Módosításaim mentése (a másik tranzakció megjegyzései megmaradnak, de egyéb mezők felülíródhat)
+  notice_issue_update_conflict: A feladatot másik felhasználó is módosította, amíg Ön szerkesztette.
+  text_issue_conflict_resolution_cancel: "Módosításaim elvetése, és frissítés: %{link}"
+  permission_manage_related_issues: Kapcsolódó feladatok kezelése
+  field_auth_source_ldap_filter: LDAP-szűrő
+  label_search_for_watchers: Megfigyelőként beállítandó felhasználók keresése
+  notice_account_deleted: A felhasználói fiókja végleg törlődött.
+  setting_unsubscribe: A felhasználók törölhetik saját fiókjukat
+  button_delete_my_account: Felhasználói fiókom törlése
+  text_account_destroy_confirmation: "Biztosan folytatni szeretné? A felhasználói fiókja végleg törlődni fog, és visszaállítani nem lehet."
+  error_session_expired: "A munkamenete lejárt. Kérem, lépjen be újra."
+  text_session_expiration_settings: "Figyelem: módosítás hatására az aktuális munkamenetek érvényüket veszthetik. Az Öné is."
+  setting_session_lifetime: Munkamenet maximális ideje
+  setting_session_timeout: Munkamenet maximális tétlenségi ideje
+  label_session_expiration: Munkamenet lejárata
+  permission_close_project: Projekt lezárása / megnyitása
+  button_close: Lezárás
+  button_reopen: Újranyitás
+  project_status_active: aktív
+  project_status_closed: lezárt
+  project_status_archived: archivált
+  text_project_closed: Ez a projekt le van zárva, és csak olvasható.
+  notice_user_successful_create: "A felhasználói fiók létrejött: %{id}."
+  field_core_fields: Alapmezők
+  field_timeout: Időtúllépés (másodpercben)
+  setting_thumbnails_enabled: Csatolmányokhoz bélyegképek megjelenítése
+  setting_thumbnails_size: Bélyegképek mérete képpontban
+  label_status_transitions: Státusz-átmenetek
+  label_fields_permissions: Mező-jogosultságok
+  label_readonly: Csak olvasható
+  label_required: Kötelező
+  text_repository_identifier_info: Csak kisbetűk (a-z), számjegyek, kötőjelek és aláhúzásjelek megengedettek.<br />Mentés után az azonosító nem változtatható meg.
+  field_board_parent: Szülőfórum
+  label_attribute_of_project: "Projekt/%{name}"
+  label_attribute_of_author: "Szerző/%{name}"
+  label_attribute_of_assigned_to: "Felelős/%{name}"
+  label_attribute_of_fixed_version: "Célverzió/%{name}"
+  label_copy_subtasks: Alfeladatok másolása
+  label_copied_to: "Ide van másolva:"
+  label_copied_from: "Innen van másolva:"
+  label_any_issues_in_project: a következő projekt bármely feladata
+  label_any_issues_not_in_project: bármely, a következő projekten kívüli feladat
+  field_private_notes: Privát megjegyzés
+  permission_view_private_notes: Privát megjegyzések megtekintése
+  permission_set_notes_private: Megjegyzések beállítása privátként
+  label_no_issues_in_project: a következő projekt egyetlen feladata sem
+  label_any: bármelyik
+  label_last_n_weeks: "az elmúlt %{count} hétben"
+  setting_cross_project_subtasks: Alfeladatok lehetnek másik projektben
   label_cross_project_descendants: Alprojektekkel
   label_cross_project_tree: Projekt fával
   label_cross_project_hierarchy: Projekt hierarchiával
   label_cross_project_system: Minden projekttel
-  button_hide: Hide
-  setting_non_working_week_days: Non-working days
-  label_in_the_next_days: in the next
-  label_in_the_past_days: in the past
-  label_attribute_of_user: User's %{name}
-  text_turning_multiple_off: If you disable multiple values, multiple values will be
-    removed in order to preserve only one value per item.
-  label_attribute_of_issue: Issue's %{name}
-  permission_add_documents: Add documents
-  permission_edit_documents: Edit documents
-  permission_delete_documents: Delete documents
-  label_gantt_progress_line: Progress line
-  setting_jsonp_enabled: Enable JSONP support
-  field_inherit_members: Inherit members
-  field_closed_on: Closed
-  field_generate_password: Generate password
-  setting_default_projects_tracker_ids: Default trackers for new projects
+  button_hide: Elrejtés
+  setting_non_working_week_days: Munkaszüneti napok
+  label_in_the_next_days: a következő
+  label_in_the_past_days: az elmúlt
+  label_attribute_of_user: "Felhasználó/%{name}"
+  text_turning_multiple_off: Ha megszünteti a többes kiválasztás lehetőségét, el lesznek távolítva értéket, hogy csak egy maradjon.
+  label_attribute_of_issue: "Feladat/%{name}"
+  permission_add_documents: Dokumentumok hozzáadása
+  permission_edit_documents: Dokumentumok szerkesztése
+  permission_delete_documents: Dokumentumok törlése
+  label_gantt_progress_line: Folyamatvonal
+  setting_jsonp_enabled: JSONP engedélyezése
+  field_inherit_members: Résztvevők örököltetése
+  field_closed_on: Lezárva
+  field_generate_password: Generált jelszó
+  setting_default_projects_tracker_ids: Alapértelmezett feladattípusok új projektekhez
   label_total_time: Összesen
-  text_scm_config: You can configure your SCM commands in config/configuration.yml. Please restart the application after editing it.
-  text_scm_command_not_available: SCM command is not available. Please check settings on the administration panel.
-  notice_account_not_activated_yet: You haven't activated your account yet. If you want
-    to receive a new activation email, please <a href="%{url}">click this link</a>.
+  text_scm_config: A verziókezelő parancsokat a config/configuration.yml fájlban konfigurálhatja. Utána újra kell indítani az alkalmazást.
+  text_scm_command_not_available: A verziókezelő parancs nem elérhető. Kérem, ellenőrizze a beállításokat az adminisztrációs panelen.
+  notice_account_not_activated_yet: Még nem aktiválta a felhasználói fiókját. Ha új aktiváló e-mailt szeretne, kattintson <a href="%{url}">ide</a>.
   notice_account_locked: Az Ön fiókja zárolva van.
-  label_hidden: Hidden
-  label_visibility_private: to me only
-  label_visibility_roles: to these roles only
-  label_visibility_public: to any users
-  field_must_change_passwd: Must change password at next logon
-  notice_new_password_must_be_different: The new password must be different from the
-    current password
-  setting_mail_handler_excluded_filenames: Exclude attachments by name
-  text_convert_available: ImageMagick convert available (optional)
-  label_link: Link
-  label_only: only
-  label_drop_down_list: drop-down list
-  label_checkboxes: checkboxes
-  label_link_values_to: Link values to URL
-  setting_force_default_language_for_anonymous: Force default language for anonymous
-    users
-  setting_force_default_language_for_loggedin: Force default language for logged-in
-    users
-  label_custom_field_select_type: Select the type of object to which the custom field
-    is to be attached
-  label_issue_assigned_to_updated: Assignee updated
-  label_check_for_updates: Check for updates
-  label_latest_compatible_version: Latest compatible version
-  label_unknown_plugin: Ismeretlen plugin
-  label_radio_buttons: radio buttons
-  label_group_anonymous: Anonymous users
-  label_group_non_member: Non member users
-  label_add_projects: Add projects
-  field_default_status: Default status
-  text_subversion_repository_note: 'Examples: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
-  field_users_visibility: Users visibility
-  label_users_visibility_all: All active users
-  label_users_visibility_members_of_visible_projects: Members of visible projects
-  label_edit_attachments: Edit attached files
-  setting_link_copied_issue: Link issues on copy
-  label_link_copied_issue: Link copied issue
-  label_ask: Ask
-  label_search_attachments_yes: Search attachment filenames and descriptions
-  label_search_attachments_no: Do not search attachments
-  label_search_attachments_only: Search attachments only
-  label_search_open_issues_only: Open issues only
+  label_hidden: Rejtett
+  label_visibility_private: csak nekem
+  label_visibility_roles: csak ezen szerepköröknek
+  label_visibility_public: bármely felhasználónak
+  field_must_change_passwd: Jelszót kell változtatni következő belépésnél
+  notice_new_password_must_be_different: Az új jelszónak különböznie kell a jelenlegitől
+  setting_mail_handler_excluded_filenames: Csatolmányok kihagyása név alapján
+  text_convert_available: ImageMagick convert elérhető (nem kötelező)
+  label_link: Hivatkozás
+  label_only: csak
+  label_drop_down_list: legördülő lista
+  label_checkboxes: jelölőnégyzet
+  label_link_values_to: URL-sablon
+  setting_force_default_language_for_anonymous: Névtelen felhasználók nem válthatnak nyelvet
+  setting_force_default_language_for_loggedin: Belépett felhasználók nem válthatnak nyelvet
+  label_custom_field_select_type: Válassza ki, milyen típusú objektumhoz kapcsolódjon a mező
+  label_issue_assigned_to_updated: Felelős módosítva
+  label_check_for_updates: Frissítések keresése
+  label_latest_compatible_version: Legutóbbi kompatibilis verzió
+  label_unknown_plugin: Ismeretlen bővítmény
+  label_radio_buttons: rádiógomok
+  label_group_anonymous: Névtelen felhasználók
+  label_group_non_member: Nem résztvevő felhasználók
+  label_add_projects: Projektek hozzáadása
+  field_default_status: Alapértelmezett státusz
+  text_subversion_repository_note: 'Pl.: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
+  field_users_visibility: Felhasználók láthatósága
+  label_users_visibility_all: Minden aktív felhasználó
+  label_users_visibility_members_of_visible_projects: Látható projektek résztvevői
+  label_edit_attachments: Csatolt fájlok szerkesztése
+  setting_link_copied_issue: Feladat hivatkozása másoláskor
+  label_link_copied_issue: Másolt feladat hivatkozása
+  label_ask: Választható
+  label_search_attachments_yes: Keresés a csatolt fájlok neveiben és leírásokban
+  label_search_attachments_no: Csatolmányok kihagyása a keresésből
+  label_search_attachments_only: Keresés csak a csatolmányokban
+  label_search_open_issues_only: Csak nyitott feladatok
   field_address: E-mail
-  setting_max_additional_emails: Maximum number of additional email addresses
-  label_email_address_plural: Emails
+  setting_max_additional_emails: Másodlagos e-mail címek maximális száma
+  label_email_address_plural: E-mail címek
   label_email_address_add: Email cím hozzáadása
-  label_enable_notifications: Enable notifications
-  label_disable_notifications: Disable notifications
-  setting_search_results_per_page: Search results per page
-  label_blank_value: blank
-  permission_copy_issues: Copy issues
-  error_password_expired: Your password has expired or the administrator requires you
-    to change it.
-  field_time_entries_visibility: Time logs visibility
-  setting_password_max_age: Require password change after
-  label_parent_task_attributes: Parent tasks attributes
-  label_parent_task_attributes_derived: Calculated from subtasks
-  label_parent_task_attributes_independent: Independent of subtasks
-  label_time_entries_visibility_all: All time entries
-  label_time_entries_visibility_own: Time entries created by the user
-  label_member_management: Member management
-  label_member_management_all_roles: All roles
-  label_member_management_selected_roles_only: Only these roles
-  label_password_required: Confirm your password to continue
+  label_enable_notifications: Értesítések engedélyezése
+  label_disable_notifications: Értesítések letiltása
+  setting_search_results_per_page: Találati eredmények száma oldalanként
+  label_blank_value: üres
+  permission_copy_issues: Feladatok másolása
+  error_password_expired: "A jelszava lejárt, vagy az adminisztrátor kérte a megváltoztatását."
+  field_time_entries_visibility: Időráfordítások láthatósága
+  setting_password_max_age: Jelszó érvényességi ideje
+  label_parent_task_attributes: Szülőfeladatok tulajdonságai/
+  label_parent_task_attributes_derived: Alfeladatokból számítva
+  label_parent_task_attributes_independent: Alfeladatoktól függetlenül
+  label_time_entries_visibility_all: Minden időráfordítás
+  label_time_entries_visibility_own: A felhasználó által rögzített időráfordítások
+  label_member_management: Résztvevők kezelése
+  label_member_management_all_roles: Minden szerepkör
+  label_member_management_selected_roles_only: Csak ezek a szerepkörök
+  label_password_required: Erősítse meg a jelszavát a folytatáshoz
   label_total_spent_time: Összes ráfordított idő
-  notice_import_finished: "%{count} items have been imported"
-  notice_import_finished_with_errors: "%{count} out of %{total} items could not be imported"
-  error_invalid_file_encoding: The file is not a valid %{encoding} encoded file
-  error_invalid_csv_file_or_settings: The file is not a CSV file or does not match the
-    settings below (%{value})
-  error_can_not_read_import_file: An error occurred while reading the file to import
-  permission_import_issues: Import issues
-  label_import_issues: Import issues
-  label_select_file_to_import: Select the file to import
-  label_fields_separator: Field separator
-  label_fields_wrapper: Field wrapper
-  label_encoding: Encoding
-  label_comma_char: Comma
-  label_semi_colon_char: Semicolon
-  label_quote_char: Quote
-  label_double_quote_char: Double quote
-  label_fields_mapping: Fields mapping
-  label_file_content_preview: File content preview
-  label_create_missing_values: Create missing values
-  button_import: Import
-  field_total_estimated_hours: Total estimated time
+  notice_import_finished: "%{count} elem importálva"
+  notice_import_finished_with_errors: "Az összes %{total} elemből %{count} importálása nem sikerült"
+  error_invalid_file_encoding: "A fájl %{encoding} kódolása érvénytelen"
+  error_invalid_csv_file_or_settings: "Ez a fájl nem CSV, vagy nem a lenti beállítások megfelelő"
+  error_can_not_read_import_file: "Hiba történt az importálandó fájl beolvasásakor"
+  permission_import_issues: Feladatok importálása
+  label_import_issues: Feladatok importálása
+  label_select_file_to_import: Válassza ki az importálandó fájlt
+  label_fields_separator: Mezőelválasztó
+  label_fields_wrapper: Mezőegybefogó
+  label_encoding: Kódolás
+  label_comma_char: Vessző
+  label_semi_colon_char: Pontosvessző
+  label_quote_char: Aposztróf
+  label_double_quote_char: Idézőjel
+  label_fields_mapping: Mezőleképzés
+  label_file_content_preview: Fájltartalom előnézete
+  label_create_missing_values: Hiányzó értékek létrehozása
+  button_import: Importálás
+  field_total_estimated_hours: Összes becsült óra
   label_api: API
-  label_total_plural: Totals
-  label_assigned_issues: Assigned issues
-  label_field_format_enumeration: Key/value list
+  label_total_plural: Összesítések
+  label_assigned_issues: Neki kiosztott feladatok
+  label_field_format_enumeration: Értékpár-lista
   label_f_hour_short: '%{value} h'
-  field_default_version: Default version
-  error_attachment_extension_not_allowed: Attachment extension %{extension} is not allowed
-  setting_attachment_extensions_allowed: Allowed extensions
-  setting_attachment_extensions_denied: Disallowed extensions
-  label_any_open_issues: any open issues
-  label_no_open_issues: no open issues
-  label_default_values_for_new_users: Default values for new users
-  error_ldap_bind_credentials: Invalid LDAP Account/Password
+  field_default_version: Alapértelmezett verzió
+  error_attachment_extension_not_allowed: "Nem engedélyezett %{extension} kiterjesztésű fájl csatolása"
+  setting_attachment_extensions_allowed: Engedélyezett kiterjesztések
+  setting_attachment_extensions_denied: Tiltott kiterjesztések
+  label_any_open_issues: bármely nyitott feladat
+  label_no_open_issues: egyetlen nyitott feladat sem
+  label_default_values_for_new_users: Alapértelmezések új felhasználóknak
+  error_ldap_bind_credentials: "Érvénytelen LDAP-felhasználó/-jelszó"
   setting_sys_api_key: API kulcs
   setting_lost_password: Elfelejtett jelszó
-  mail_subject_security_notification: Security notification
-  mail_body_security_notification_change: ! '%{field} was changed.'
-  mail_body_security_notification_change_to: ! '%{field} was changed to %{value}.'
-  mail_body_security_notification_add: ! '%{field} %{value} was added.'
-  mail_body_security_notification_remove: ! '%{field} %{value} was removed.'
-  mail_body_security_notification_notify_enabled: Email address %{value} now receives
-    notifications.
-  mail_body_security_notification_notify_disabled: Email address %{value} no longer
-    receives notifications.
-  mail_body_settings_updated: ! 'The following settings were changed:'
+  mail_subject_security_notification: "Biztonsági értesítés"
+  mail_body_security_notification_change: '%{field} megváltozott.'
+  mail_body_security_notification_change_to: '%{field} a következőre változott: %{value}.'
+  mail_body_security_notification_add: '%{field} %{value} lett beállítva.'
+  mail_body_security_notification_remove: '%{field} %{value} törölve lett.'
+  mail_body_security_notification_notify_enabled: "%{value} e-mail címre fog értesítéseket kapni."
+  mail_body_security_notification_notify_disabled: "%{value} e-mail címre nem fog értesítéseket kapni."
+  mail_body_settings_updated: "A következő beállítások módosultak:"
   field_remote_ip: IP-cím
   label_wiki_page_new: Új wiki oldal
   label_relations: Relations
   button_filter: Szűrés
   mail_body_password_updated: A jelszava megváltozott.
-  label_no_preview: No preview available
-  error_no_tracker_allowed_for_new_issue_in_project: The project doesn't have any trackers
-    for which you can create an issue
-  label_tracker_all: All trackers
-  label_new_project_issue_tab_enabled: Display the "New issue" tab
-  setting_new_item_menu_tab: Project menu tab for creating new objects
-  label_new_object_tab_enabled: Display the "+" drop-down
-  error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
-    for which you can create an issue
-  field_textarea_font: Font used for text areas
+  label_no_preview: Nincs előnézet
+  error_no_tracker_allowed_for_new_issue_in_project: "Nincs olyan feladattípus a projektben, amellyel feladatot hozhatna létre"
+  label_tracker_all: Minden feladattípus
+  label_new_project_issue_tab_enabled: '"Új feladat" fül megjelenítése'
+  setting_new_item_menu_tab: Projektfül új objektumok létrehozásához
+  label_new_object_tab_enabled: '"+" legördülő lista megjelenítése'
+  error_no_projects_with_tracker_allowed_for_new_issue: "Nincs olyan projekt, amelyben feladatot hozhatna létre"
+  field_textarea_font: Szövegmezőkhöz használt betűkészlet
   label_font_default: Alapértelmezett betűtípus
-  label_font_monospace: Monospaced font
-  label_font_proportional: Proportional font
-  setting_timespan_format: Time span format
-  label_table_of_contents: Table of contents
-  setting_commit_logs_formatting: Apply text formatting to commit messages
+  label_font_monospace: Fix szélességű betűkészlet
+  label_font_proportional: Arányos betűkészlet
+  setting_timespan_format: Időráfordítások formátuma
+  label_table_of_contents: Tartalomjegyzék
+  setting_commit_logs_formatting: Commitüzenetek formázása
   setting_mail_handler_enable_regex: Enable regular expressions
-  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
-    project: %{errors}'
-  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
-    be reassigned to an issue that is about to be deleted
-  setting_timelog_required_fields: Required fields for time logs
-  label_attribute_of_object: '%{object_name}''s %{name}'
-  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
-  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
-  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
-    of values from one or more fields on the selected objects
+  error_move_of_child_not_possible: "%{child} alfeladat nem helyezhető át az új projektbe: %{errors}"
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: "Nem lehet törlendő feladathoz rendelni időráfordítást"
+  setting_timelog_required_fields: Időráfordítás kötelező mezői
+  label_attribute_of_object: "%{object_name}/%{name}"
+  label_user_mail_option_only_assigned: "Csak a hozzám rendelt vagy megfigyelt dolgokról"
+  label_user_mail_option_only_owner: "Csak arról, aminek szerzője vagy megfigyelője vagyok"
+  warning_fields_cleared_on_bulk_edit: "A változások eredményeként egy vagy több mező törlődni fog a kiválasztott objektumokban"
   field_updated_by: Frissítette
   field_last_updated_by: Utoljára frissítette
-  field_full_width_layout: Full width layout
-  label_last_notes: Last notes
-  field_digest: Checksum
-  field_default_assigned_to: Default assignee
-  setting_show_custom_fields_on_registration: Show custom fields on registration
-  permission_view_news: View news
-  label_no_preview_alternative_html: No preview available. %{link} the file instead.
+  field_full_width_layout: Széles megjelenítés
+  label_last_notes: Legutóbbi megjegyzések
+  field_digest: Lenyomat
+  field_default_assigned_to: Alapértelmezett felelős
+  setting_show_custom_fields_on_registration: Egyéni mezők megjelenítése regisztráláskor
+  permission_view_news: Hírek megtekintése
+  label_no_preview_alternative_html: Nincs előnézet. %{link}
   label_no_preview_download: Letöltés
-  setting_close_duplicate_issues: Close duplicate issues automatically
-  error_exceeds_maximum_hours_per_day: Cannot log more than %{max_hours} hours on the
-    same day (%{logged_hours} hours have already been logged)
-  setting_time_entry_list_defaults: Timelog list defaults
-  setting_timelog_accept_0_hours: Accept time logs with 0 hours
-  setting_timelog_max_hours_per_day: Maximum hours that can be logged per day and user
-  label_x_revisions: "%{count} revisions"
-  error_can_not_delete_auth_source: This authentication mode is in use and cannot be
-    deleted.
-  button_actions: Actions
-  mail_body_lost_password_validity: Please be aware that you may change the password
-    only once using this link.
-  text_login_required_html: When not requiring authentication, public projects and their
-    contents are openly available on the network. You can <a href="%{anonymous_role_path}">edit
-    the applicable permissions</a>.
-  label_login_required_yes: 'Yes'
-  label_login_required_no: No, allow anonymous access to public projects
-  text_project_is_public_non_member: Public projects and their contents are available
-    to all logged-in users.
-  text_project_is_public_anonymous: Public projects and their contents are openly available
-    on the network.
-  label_version_and_files: Versions (%{count}) and Files
+  setting_close_duplicate_issues: Duplikált (másodlagos) feladatok automatikus zárása
+  error_exceeds_maximum_hours_per_day: "Nem lehet %{max_hours} óránál többet rögzíteni ugyanarra a napra. (Már %{logged_hours} óra rögzítve van.)"
+  setting_time_entry_list_defaults: Időráfordítási lista alapértelmezései
+  setting_timelog_accept_0_hours: 0 órás időráfordítás elfogadása
+  setting_timelog_max_hours_per_day: Naponként én felhasználónként elfogadható órák maximális száma
+  label_x_revisions: "%{count} revízió"
+  error_can_not_delete_auth_source: "Ez a bejelentkezési mód használatban van, így nem törölhető."
+  button_actions: Műveletek
+  mail_body_lost_password_validity: 'Ezzel a linkkel csak egyszer lehet jelszót változtatni.'
+  text_login_required_html: Amikor nem szükséges bejelentkezés, a nyilvános projektek és a tartalmuk elérhetők a hálózatról. A vonatkozó jogosultság <a href="%{anonymous_role_path}">szerkeszthető</a>.
+  label_login_required_yes: "Igen"
+  label_login_required_no: "Nem, az anoním hozzáférés a nyilvános projektekhez engedélyezett"
+  text_project_is_public_non_member: A nyilvános projektek és a tartalmuk minden belépett felhasználó számára elérhetők.
+  text_project_is_public_anonymous: A nyilvános projektek és a tartalmuk szabadon elérhetők a hálózatról.
+  label_version_and_files: Verziók (%{count}) és fájlok
   label_ldap: LDAP
-  label_ldaps_verify_none: LDAPS (without certificate check)
+  label_ldaps_verify_none: LDAPS a tanúsítvány ellenőrzése nélkül
   label_ldaps_verify_peer: LDAPS
-  label_ldaps_warning: It is recommended to use an encrypted LDAPS connection with certificate
-    check to prevent any manipulation during the authentication process.
-  label_nothing_to_preview: Nothing to preview
-  error_token_expired: This password recovery link has expired, please try again.
-  error_spent_on_future_date: Cannot log time on a future date
-  setting_timelog_accept_future_dates: Accept time logs on future dates
-  label_delete_link_to_subtask: Kapcsolat törlése
-  error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
-    for other users
-  permission_log_time_for_other_users: Log spent time for other users
+  label_ldaps_warning: Javasolt a biztonságos LDAPS használata a kiszolgáló tanúsítványának ellenőrzésével.
+  label_nothing_to_preview: Nincs megjelenítendő tartalom
+  error_token_expired: "Ez a jelszóvál/error_spent_on_future_datetoztatási link elévült."
+  error_spent_on_future_date: "Nem lehet jövőbeli dátumra rögzíteni"
+  setting_timelog_accept_future_dates: Jövőbeli időráfordítás elfogadása
+  label_delete_link_to_subtask: Alfeladat kapcsolatának törlése
+  error_not_allowed_to_log_time_for_other_users: "Nem rögzítheti más felhasználó időráfordítását"
+  permission_log_time_for_other_users: Más felhasználók időráfordításának rögzítése
   label_tomorrow: holnap
   label_next_week: jövő hét
   label_next_month: jövő hónap
-  text_role_no_workflow: No workflow defined for this role
-  text_status_no_workflow: No tracker uses this status in the workflows
-  setting_mail_handler_preferred_body_part: Preferred part of multipart (HTML) emails
-  setting_show_status_changes_in_mail_subject: Show status changes in issue mail notifications
-    subject
-  label_inherited_from_parent_project: Inherited from parent project
-  label_inherited_from_group: Inherited from group %{name}
-  label_trackers_description: Trackers description
-  label_open_trackers_description: View all trackers description
+  text_role_no_workflow: Nincs munkafolyamat definiálva ehhez a szerepkörhöz
+  text_status_no_workflow: Ezt a státuszt semelyik munkafolymat feladattípusa sem használja.
+  setting_show_status_changes_in_mail_subject: Státuszváltozás jelzése az e-mail tárgyában
+  setting_mail_handler_preferred_body_part: MIME multipart e-mailek preferált része
+  setting_show_status_changes_/in_mail_subject: Státuszváltozás jelzése az e-mail tárgyában
+  label_inherited_from_parent_project: "A szülőprojektből öröklődött"
+  label_inherited_from_group: "%{name} csoportból öröklődött"
+  label_trackers_description: Feladattípusok leírása
+  label_open_trackers_description: Minden feladattípus leírásának megjelenítése
   label_preferred_body_part_text: Text
   label_preferred_body_part_html: HTML
-  field_parent_issue_subject: Parent task subject
-  permission_edit_own_issues: Edit own issues
-  text_select_apply_tracker: Select tracker
-  label_updated_issues: Updated issues
-  text_avatar_server_config_html: The current avatar server is <a href="%{url}">%{url}</a>.
-    You can configure it in config/configuration.yml.
-  setting_gantt_months_limit: Maximum number of months displayed on the gantt chart
-  permission_import_time_entries: Import time entries
-  label_import_notifications: Send email notifications during the import
-  text_gs_available: ImageMagick PDF support available (optional)
-  field_recently_used_projects: Number of recently used projects in jump box
-  label_optgroup_bookmarks: Bookmarks
-  label_optgroup_recents: Recently used
-  button_project_bookmark: Add bookmark
-  button_project_bookmark_delete: Remove bookmark
-  field_history_default_tab: Issue's history default tab
-  label_issue_history_properties: Property changes
-  label_issue_history_notes: Notes
-  label_last_tab_visited: Last visited tab
-  field_unique_id: Unique ID
-  text_no_subject: no subject
-  setting_password_required_char_classes: Required character classes for passwords
-  label_password_char_class_uppercase: uppercase letters
-  label_password_char_class_lowercase: lowercase letters
-  label_password_char_class_digits: digits
-  label_password_char_class_special_chars: special characters
-  text_characters_must_contain: Must contain %{character_classes}.
-  label_starts_with: starts with
-  label_ends_with: ends with
-  label_issue_fixed_version_updated: Target version updated
-  setting_project_list_defaults: Projects list defaults
-  label_display_type: Display results as
-  label_display_type_list: List
-  label_display_type_board: Board
-  label_my_bookmarks: My bookmarks
-  label_import_time_entries: Import time entries
+  field_parent_issue_subject: Szülőfeladat tárgya
+  permission_edit_own_issues: Saját feladatok szerkesztése
+  text_select_apply_tracker: "Feladattípus kiválasztása"
+  label_updated_issues: Módosított feladatok
+  text_avatar_server_config_html: 'Az aktuális avatarkiszolgáló: <a href="%{url}">%{url}</a>. A config/configuration.yml-ben lehet beállítani.'
+  setting_gantt_months_limit:  A gantt diagramon megjeleníthető maximális hónapok száma
+  permission_import_time_entries: Időráfordítások importálása
+  label_import_notifications: E-mail-értesítések küldése importálás közben
+  text_gs_available: ImageMagick PDF-támogatása elérhető (nem kötelező)
+  field_recently_used_projects: Legutóbb használt projektek maximális számla a projektválasztóban
+  label_optgroup_bookmarks: Kedvencek
+  label_optgroup_recents: Legutóbb használt
+  button_project_bookmark: Kendvencként jelölés
+  button_project_bookmark_delete: Törlés a kedvencekből
+  field_history_default_tab: Feladattörténet alapértelmezett füle
+  label_issue_history_properties: Tulajdonságok változásai
+  label_issue_history_notes: Megjegyzések
+  label_last_tab_visited: Legutóbbi fül
+  field_unique_id: Egyedi azonosító
+  text_no_subject: nincs tárgy
+  setting_password_required_char_classes : Jelszavakhoz megkövetelt karakterosztályok
+  label_password_char_class_uppercase: nagybetű
+  label_password_char_class_lowercase: kisbetű
+  label_password_char_class_digits: számjegy
+  label_password_char_class_special_chars: különleges karakter
+  text_characters_must_contain: "Megkövetelet karakterek: %{character_classes}."
+  label_starts_with: kezdete
+  label_ends_with: vége
+  label_issue_fixed_version_updated: Célverzió módosítva
+  setting_project_list_defaults: Projektlista alapértelmezései
+  label_display_type: Eredmény megjelenítése
+  label_display_type_list: táblázatként
+  label_display_type_board: panelként
+  label_my_bookmarks: Kedvencek
+  label_import_time_entries: Időráfordítások importálása
   field_toolbar_language_options: Code highlighting toolbar languages
   label_user_mail_notify_about_high_priority_issues_html: Also notify me about issues
     with a priority of <em>%{prio}</em> or higher
