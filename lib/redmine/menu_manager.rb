@@ -292,6 +292,8 @@ module Redmine
           target_root = @menu_items.root
         end
 
+        target_root.children.reject! {|item| item.name == name}
+
         # menu item position
         if first = options.delete(:first)
           target_root.prepend(MenuItem.new(name, url, options))
@@ -379,8 +381,6 @@ module Redmine
 
       # Adds a child at given position
       def add_at(child, position)
-        raise "Child already added" if find {|node| node.name == child.name}
-
         @children = @children.insert(position, child)
         child.parent = self
         child

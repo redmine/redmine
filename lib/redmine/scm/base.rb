@@ -28,6 +28,7 @@ module Redmine
         # Add a new SCM adapter and repository
         def add(scm_name)
           @scms ||= []
+          @scms.delete(scm_name)
           @scms << scm_name
         end
 

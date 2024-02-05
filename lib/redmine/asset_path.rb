@@ -202,7 +202,7 @@ module Redmine
       end
     end
 
-    ASSET_URL_PATTERN = /(url\(\s*["']?([^"'\s)]+)\s*["']?\s*\))/
+    ASSET_URL_PATTERN = /(url\(\s*["']?([^"'\s)]+)\s*["']?\s*\))/ unless defined? ASSET_URL_PATTERN
 
     def convert_path(input, conversion)
       input.gsub(ASSET_URL_PATTERN) do |matched|

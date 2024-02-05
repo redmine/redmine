@@ -125,7 +125,7 @@ module Redmine
       # Warn for potential settings[:partial] collisions
       if p.configurable?
         partial = p.settings[:partial]
-        if @used_partials[partial]
+        if @used_partials[partial] && @used_partials[partial] != p.id
           Rails.logger.warn(
             "WARNING: settings partial '#{partial}' is declared in '#{p.id}' plugin " \
               "but it is already used by plugin '#{@used_partials[partial]}'. " \

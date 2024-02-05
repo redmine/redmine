@@ -84,6 +84,7 @@ module Redmine
 
       def permission(name, hash, options={})
         @permissions ||= []
+        @permissions.reject! {|p| p.name == name}
         options[:project_module] = @project_module
         @permissions << Permission.new(name, hash, options)
       end

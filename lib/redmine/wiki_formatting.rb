@@ -34,7 +34,6 @@ module Redmine
       def register(name, *args)
         options = args.last.is_a?(Hash) ? args.pop : {}
         name = name.to_s
-        raise ArgumentError, "format name '#{name}' is already taken" if @@formatters[name]
 
         formatter, helper, parser =
           if args.any?
@@ -44,12 +43,16 @@ module Redmine
           end
         raise "A formatter class is required" if formatter.nil?
 
-        @@formatters[name] = {
+        entry = {
           :formatter => formatter,
           :helper => helper,
           :html_parser => parser,
           :label => options[:label] || name.humanize
         }
+        if @@formatters[name] && @@formatters[name] != entry
+          raise ArgumentError, "format name '#{name}' is already taken"
+        end
+        @@formatters[name] = entry
       end
 
       def formatter
