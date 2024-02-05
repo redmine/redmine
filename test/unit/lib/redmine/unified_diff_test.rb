@@ -430,7 +430,7 @@ class Redmine::UnifiedDiffTest < ActiveSupport::TestCase
       From: test <none@none>
       Date: Thu, 30 Apr 2020 11:40:20 +0900
       Subject: [PATCH] add 'rpm -q git' and its result
-      
+
       ---
        test.txt | 2 ++
        1 file changed, 2 insertions(+)
@@ -447,7 +447,7 @@ class Redmine::UnifiedDiffTest < ActiveSupport::TestCase
       +git-1.8.3.1-21.el7_7.x86_64
       --\s
       1.8.3.1
-      
+
     DIFF
     lines = raw.split("\n")
     lines << ""
