@@ -65,7 +65,10 @@ module Redmine
 
       # Destructively replaces email addresses into clickable links
       def auto_mailto!(text)
-        text.gsub!(/([\w\.!#\$%\-+.\/]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)+)/) do
+        # The maximum length of a local part is 64 characters (RFC 5321
+        # Section 4.5.3.1.1), and the maximum length of a DNS label is
+        # 63 characters (RFC 1034 Section 3.1).
+        text.gsub!(/([\w\.!#\$%\-+.\/]{1,64}@[A-Za-z0-9\-]{1,63}(\.[A-Za-z0-9\-]{1,63})+)/) do
           mail = $1
           if /<a\b[^>]*>(.*)(#{Regexp.escape(mail)})(.*)<\/a>/.match?(text)
             mail
