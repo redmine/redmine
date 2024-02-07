@@ -65,11 +65,11 @@ The current version of Firefox, Safari, Chrome, Chromium and Microsoft Edge.
 7. Setting up permissions (Windows users have to skip this section)
 
    The user who runs Redmine must have write permission on the following
-   subdirectories: files, log, tmp & public/plugin_assets.
+   subdirectories: files, log, tmp & public/assets.
 
    Assuming you run Redmine with a user named "redmine":
-     sudo chown -R redmine:redmine files log tmp public/plugin_assets
-     sudo chmod -R 755 files log tmp public/plugin_assets
+     sudo chown -R redmine:redmine files log tmp public/assets
+     sudo chmod -R 755 files log tmp public/assets
 
 8. Test the installation by running the Puma web server
 
