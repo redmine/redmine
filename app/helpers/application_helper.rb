@@ -1749,12 +1749,12 @@ module ApplicationHelper
   end
 
   def favicon
-    "<link rel='shortcut icon' href='#{favicon_path}' />".html_safe
+    favicon_link_tag(favicon_path, rel: "icon shortcut")
   end
 
   # Returns the path to the favicon
   def favicon_path
-    icon = (current_theme && current_theme.favicon?) ? current_theme.favicon_path : '/favicon.ico'
+    icon = (current_theme && current_theme.favicon?) ? current_theme.favicon_path : 'favicon.ico'
     image_path(icon)
   end
 
