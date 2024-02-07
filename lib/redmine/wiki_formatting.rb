@@ -52,6 +52,7 @@ module Redmine
         if @@formatters[name] && @@formatters[name] != entry
           raise ArgumentError, "format name '#{name}' is already taken"
         end
+
         @@formatters[name] = entry
       end
 
