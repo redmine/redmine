@@ -68,10 +68,9 @@ namespace :redmine do
     Repository.fetch_changesets
   end
 
-  desc 'Migrates and copies plugins assets.'
+  desc 'Migrates plugins.'
   task :plugins do
     Rake::Task["redmine:plugins:migrate"].invoke
-    Rake::Task["redmine:plugins:assets"].invoke
   end
 
 desc <<-DESC
