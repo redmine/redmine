@@ -654,6 +654,10 @@ div#activity dl dt:first-child {
   border: 0px;
 }
 
+#activity_scope_form select#user_id {
+  max-width: 100%;
+}
+
 #search-results dd { margin-bottom: 1em; padding-left: 20px; margin-left:0px; }
 
 div#search-results-counts {float:right;}
