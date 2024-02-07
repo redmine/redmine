@@ -24,6 +24,9 @@ Redmine::PluginLoader.load
 
 Rails.application.config.to_prepare do
   default_paths = []
+  default_paths << Rails.public_path.join('javascripts')
+  default_paths << Rails.public_path.join('stylesheets')
+  default_paths << Rails.public_path.join('images')
   Rails.application.config.assets.redmine_default_asset_path = Redmine::AssetPath.new(Rails.public_path, default_paths)
 
   Redmine::FieldFormat::RecordList.subclasses.each do |klass|
