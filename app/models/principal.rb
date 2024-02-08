@@ -103,8 +103,8 @@ class Principal < ApplicationRecord
   end)
   # Principals that are not members of projects
   scope :not_member_of, (lambda do |projects|
-    projects = [projects] unless projects.is_a?(Array)
-    if projects.empty?
+    projects = [projects] if projects.is_a?(Project)
+    if projects.blank?
       where("1=0")
     else
       ids = projects.map(&:id)

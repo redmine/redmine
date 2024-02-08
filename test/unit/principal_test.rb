@@ -76,6 +76,12 @@ class PrincipalTest < ActiveSupport::TestCase
     end
   end
 
+  def test_not_member_of_scope_should_accept_active_record_relation
+    projects = Project.where(id: [1, 2])
+    expected = (Principal.all - projects.map(&:memberships).flatten.map(&:principal)).sort
+    assert_equal expected, Principal.not_member_of(projects).sort
+  end
+
   def test_not_member_of_scope_should_be_empty_for_no_projects
     assert_equal [], Principal.not_member_of([]).sort
   end
