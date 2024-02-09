@@ -397,7 +397,7 @@ Rails.application.routes.draw do
 
   match 'uploads', :to => 'attachments#upload', :via => :post
 
-  get 'robots', :to => 'welcome#robots'
+  get 'robots.:format', :to => 'welcome#robots', :constraints => {:format => 'txt'}
 
   Dir.glob File.expand_path("#{Redmine::Plugin.directory}/*") do |plugin_dir|
     file = File.join(plugin_dir, "config/routes.rb")

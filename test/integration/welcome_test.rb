@@ -37,4 +37,11 @@ class WelcomeTest < Redmine::IntegrationTest
     assert @response.body.match(%r{^Disallow: /account/register\r?$})
     assert @response.body.match(%r{^Disallow: /account/lost_password\r?$})
   end
+
+  def test_robots_should_not_respond_to_formats_other_than_txt
+    %w(robots.json robots).each do |file|
+      get "/#{file}"
+      assert_response :not_found
+    end
+  end
 end
