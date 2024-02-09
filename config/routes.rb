@@ -405,7 +405,7 @@ Rails.application.routes.draw do
 
   match 'uploads', :to => 'attachments#upload', :via => :post
 
-  get 'robots', :to => 'welcome#robots'
+  get 'robots.:format', :to => 'welcome#robots', :constraints => {:format => 'txt'}
 
   Redmine::Plugin.directory.glob("*/config/routes.rb").sort.each do |plugin_routes_path|
     instance_eval(plugin_routes_path.read, plugin_routes_path.to_s)
