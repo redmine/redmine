@@ -34,20 +34,8 @@ end
 
 ActionView::Base.field_error_proc = Proc.new{ |html_tag, instance| html_tag || ''.html_safe }
 
-# HTML5: <option value=""></option> is invalid, use <option value="">&nbsp;</option> instead
 module ActionView
   module Helpers
-    module Tags
-      SelectRenderer.prepend(Module.new do
-        def add_options(option_tags, options, value = nil)
-          if options.delete(:include_blank)
-            options[:prompt] = '&nbsp;'.html_safe
-          end
-          super
-        end
-      end)
-    end
-
     module FormHelper
       alias :date_field_without_max :date_field
       def date_field(object_name, method, options = {})
@@ -56,27 +44,9 @@ module ActionView
     end
 
     module FormTagHelper
-      alias :select_tag_without_non_empty_blank_option :select_tag
-      def select_tag(name, option_tags = nil, options = {})
-        if options.delete(:include_blank)
-          options[:prompt] = '&nbsp;'.html_safe
-        end
-        select_tag_without_non_empty_blank_option(name, option_tags, options)
-      end
-
       alias :date_field_tag_without_max :date_field_tag
       def date_field_tag(name, value = nil, options = {})
         date_field_tag_without_max(name, value, options.reverse_merge(max: '9999-12-31'))
-      end
-    end
-
-    module FormOptionsHelper
-      alias :options_for_select_without_non_empty_blank_option :options_for_select
-      def options_for_select(container, selected = nil)
-        if container.is_a?(Array)
-          container = container.map {|element| element.presence || ["&nbsp;".html_safe, ""]}
-        end
-        options_for_select_without_non_empty_blank_option(container, selected)
       end
     end
   end
