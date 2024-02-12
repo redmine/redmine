@@ -22,7 +22,10 @@
 app_title:
   default: Redmine
 welcome_text:
-  default:
+  default: |-
+    Welcome to Redmine, an open-source, flexible project management software.
+
+    Note: You can modify this message in the "Welcome text" setting (Administration > Settings > General).
 login_required:
   default: 0
   security_notifications: 1
