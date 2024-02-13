@@ -502,20 +502,19 @@ class ApplicationController < ActionController::Base
     end
 
     begin
-      uri = URI.parse(back_url)
-    rescue URI::InvalidURIError
+      uri = Addressable::URI.parse(back_url)
+      [:scheme, :host, :port].each do |component|
+        if uri.send(component).present? && uri.send(component) != request.send(component)
+          return false
+        end
+
+        uri.send(:"#{component}=", nil)
+      end
+      # Always ignore basic user:password in the URL
+      uri.userinfo = nil
+    rescue Addressable::URI::InvalidURIError
       return false
     end
-
-    [:scheme, :host, :port].each do |component|
-      if uri.send(component).present? && uri.send(component) != request.send(component)
-        return false
-      end
-
-      uri.send(:"#{component}=", nil)
-    end
-    # Always ignore basic user:password in the URL
-    uri.userinfo = nil
 
     path = uri.to_s
     # Ensure that the remaining URL starts with a slash, followed by a
