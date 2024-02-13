@@ -475,11 +475,6 @@ class ApplicationController < ActionController::Base
     url = params[:back_url]
     if url.nil? && referer = request.env['HTTP_REFERER']
       url = CGI.unescape(referer.to_s)
-      # URLs that contains the utf8=[checkmark] parameter added by Rails are
-      # parsed as invalid by URI.parse so the redirect to the back URL would
-      # not be accepted (ApplicationController#validate_back_url would return
-      # false)
-      url.gsub!(/(\?|&)utf8=\u2713&?/, '\1')
     end
     url
   end
