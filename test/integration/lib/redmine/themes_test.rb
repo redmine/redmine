@@ -23,7 +23,7 @@ class ThemesTest < Redmine::IntegrationTest
 
   def setup
     Redmine::Themes.rescan
-    @theme = Redmine::Themes.themes.last
+    @theme = Redmine::Themes.theme('classic')
     Setting.ui_theme = @theme.id
   end
 
