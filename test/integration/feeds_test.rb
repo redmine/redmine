@@ -28,6 +28,6 @@ class FeedsTest < Redmine::IntegrationTest
   def test_feeds_should_include_icon_tag
     get '/projects.atom'
     assert_response :success
-    assert_select 'feed>icon', :text => %r{^http://www.example.com/favicon.ico}
+    assert_select 'feed>icon', :text => %r{^http://www.example.com/assets/favicon-\w+.ico}
   end
 end
