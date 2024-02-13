@@ -2118,23 +2118,23 @@ class ApplicationHelperTest < Redmine::HelperTest
   end
 
   def test_favicon_path
-    assert_match %r{^/favicon\.ico}, favicon_path
+    assert_match %r{^/assets/favicon-\w+\.ico}, favicon_path
   end
 
   def test_favicon_path_with_suburi
     Redmine::Utils.relative_url_root = '/foo'
-    assert_match %r{^/foo/favicon\.ico}, favicon_path
+    assert_match %r{^/foo/assets/favicon-\w+\.ico}, favicon_path
   ensure
     Redmine::Utils.relative_url_root = ''
   end
 
   def test_favicon_url
-    assert_match %r{^http://test\.host/favicon\.ico}, favicon_url
+    assert_match %r{^http://test\.host/assets/favicon-\w+\.ico}, favicon_url
   end
 
   def test_favicon_url_with_suburi
     Redmine::Utils.relative_url_root = '/foo'
-    assert_match %r{^http://test\.host/foo/favicon\.ico}, favicon_url
+    assert_match %r{^http://test\.host/foo/assets/favicon-\w+\.ico}, favicon_url
   ensure
     Redmine::Utils.relative_url_root = ''
   end
