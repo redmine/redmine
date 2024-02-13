@@ -20,7 +20,7 @@ http://www.redmine.org/
 
 4. Copy the folders of the installed plugins and themes into new installation
    Plugins must be stored in the [redmine_root]/plugins directory
-   Themes must be stored in the [redmine_root]/public/themes directory
+   Themes must be stored in the [redmine_root]/themes directory
 
    WARNING: plugins from your previous Redmine version may not be compatible
    with the Redmine version you're upgrading to.
