@@ -1749,7 +1749,7 @@ module ApplicationHelper
   end
 
   def favicon
-    favicon_link_tag(favicon_path, rel: "icon shortcut")
+    favicon_link_tag(favicon_path, rel: "shortcut icon")
   end
 
   # Returns the path to the favicon

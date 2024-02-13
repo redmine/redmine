@@ -63,7 +63,7 @@ class ThemesTest < Redmine::IntegrationTest
     get '/'
 
     assert_response :success
-    assert_select 'link[rel="shortcut icon"][href^="/favicon.ico"]'
+    assert_select "link[rel='shortcut icon']:match('href',?)", %r{/assets/favicon-\w+\.ico}
   end
 
   def test_use_theme_favicon_if_theme_provides_one
