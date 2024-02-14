@@ -33,7 +33,6 @@ class Mailer < ActionMailer::Base
   # The first argument of all actions of this Mailer must be a User (the recipient),
   # otherwise an ArgumentError is raised.
   def process(action, *args)
-    p args
     # user = args.first
     user = args.first.is_a?(Array) ? args.first.first : args.first
     raise ArgumentError, "First argument has to be a user, was #{user.inspect}" unless user.is_a?(User)
