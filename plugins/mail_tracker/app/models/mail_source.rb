@@ -15,7 +15,8 @@ class MailSource < ActiveRecord::Base
   ].map(&:chr)
   DEFAULT_PROTOCOL = 'pop3'.freeze
   DEFAULT_EMAIL_SUBJECT = 'Jūsų užduotis užregistruota redmine sistemoje'.freeze
-  REDIRECT_URI = 'https://88.216.169.97:53019/oauth/callback'
+  # REDIRECT_URI = 'https://88.216.169.97:53019/oauth/callback'
+  REDIRECT_URI = 'https://mail.softra.lt:53019/oauth/callback'
 
   # def initialize
   #   @email = self.first.username
@@ -154,26 +155,26 @@ class MailSource < ActiveRecord::Base
 
   def last(count = 10)
     try_connection do
-      Mail.find(what: :last, count: count, order: :dsc, read_only: true).select { |mail| mail.from.addresses.include?('rytis@wisemonks.com') }
+      Mail.find(what: :last, count: count, order: :dsc, read_only: true)#.select { |mail| mail.from.addresses.include?('rytis@wisemonks.com') }
     end
   end
 
   def find(id)
     try_connection do
-      Mail.find(what: :first, keys: ['HEADER', 'MESSAGE-ID', id], read_only: true).find { |mail| mail.from.addresses.include?('rytis@wisemonks.com') } 
+      Mail.find(what: :first, keys: ['HEADER', 'MESSAGE-ID', id], read_only: true)#.find { |mail| mail.from.addresses.include?('rytis@wisemonks.com') } 
     end
   end
 
   def unseen
     try_connection do
       # find only by specific sender
-      Mail.find(what: :all, keys: %w[NOT SEEN], read_only: true).select { |mail| mail.from.addresses.include?('rytis@wisemonks.com') }
+      Mail.find(what: :all, keys: %w[NOT SEEN], read_only: true)#.select { |mail| mail.from.addresses.include?('rytis@wisemonks.com') }
     end
   end
 
   def mark_as_seen(id)
     try_connection do
-      Mail.find(what: :first, keys: ['HEADER', 'MESSAGE-ID', id]).find { |mail| mail.from.addresses.include?('rytis@wisemonks.com') } 
+      Mail.find(what: :first, keys: ['HEADER', 'MESSAGE-ID', id])#.find { |mail| mail.from.addresses.include?('rytis@wisemonks.com') } 
     end
   end
 
@@ -215,8 +216,7 @@ class MailSource < ActiveRecord::Base
   end
 
   def create_from_mail(mail)
-    # return if mail from is rytis@wisemonks.com
-    return if mail.from.addresses.include?('rytis@wisemonks.com')
+    # return if mail.from.addresses.include?('rytis@wisemonks.com')
 
     remove_from_to = '<Undisclosed recipients:>'
 
