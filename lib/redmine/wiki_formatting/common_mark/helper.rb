@@ -23,24 +23,13 @@ module Redmine
       module Helper
         def wikitoolbar_for(field_id, preview_url = preview_text_path)
           heads_for_wiki_formatter
-          url = help_path(current_language)
 
           javascript_tag(
             "var wikiToolbar = new jsToolBar(document.getElementById('#{field_id}')); " \
-            "wikiToolbar.setHelpLink('#{escape_javascript url}'); " \
+            "wikiToolbar.setHelpLink('#{escape_javascript help_wiki_syntax_path }'); " \
             "wikiToolbar.setPreviewUrl('#{escape_javascript preview_url}'); " \
             "wikiToolbar.draw();"
           )
-        end
-
-        def help_path(lang)
-          help_file = "help/#{lang.to_s.downcase}/wiki_syntax_common_mark.html"
-          # fall back to the english help page if there is none for the current
-          # language
-          unless Rails.public_path.join(help_file).readable?
-            help_file = "help/en/wiki_syntax_common_mark.html"
-          end
-          File.join(Redmine::Utils.relative_url_root, help_file)
         end
 
         def initial_page_content(page)
