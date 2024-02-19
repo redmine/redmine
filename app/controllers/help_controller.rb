@@ -20,6 +20,6 @@
 class HelpController < ApplicationController
   def show_wiki_syntax
     type = params[:type].nil? ? "" : "#{params[:type]}_"
-    render :template => "help/wiki_syntax/#{current_language.to_s}/wiki_syntax_#{type}#{Setting.text_formatting}", :layout => nil
+    render :template => "help/wiki_syntax/#{Setting.text_formatting}/#{current_language.to_s}/wiki_syntax_#{type}#{Setting.text_formatting}", :layout => nil
   end
 end
