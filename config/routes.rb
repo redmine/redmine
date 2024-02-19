@@ -407,6 +407,8 @@ Rails.application.routes.draw do
 
   get 'robots.:format', :to => 'welcome#robots', :constraints => {:format => 'txt'}
 
+  match 'help/wiki_syntax/(:type)', :controller => 'help', :action => 'show_wiki_syntax', :via => :get, :constraints => { :type => /detailed/ }
+
   Redmine::Plugin.directory.glob("*/config/routes.rb").sort.each do |plugin_routes_path|
     instance_eval(plugin_routes_path.read, plugin_routes_path.to_s)
   rescue SyntaxError, StandardError => e
