@@ -50,6 +50,11 @@ class MembersController < ApplicationController
 
   def new
     @member = Member.new
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def create
