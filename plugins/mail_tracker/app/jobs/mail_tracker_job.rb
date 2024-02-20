@@ -57,7 +57,8 @@ class MailTrackerJob < ApplicationJob
       retried = true
       retry
     rescue StandardError => e
-      MailTrackerCustomLogger.logger.error(e, email.message_id, email.from, email.subject, email.date, email.to, email.cc, @issue_params)
+      p e, email.message_id, email.from, email.to, email.subject, email.date
+      # MailTrackerCustomLogger.logger.error({ message: e.message, backtrace: e.backtrace, message_id: email.message_id, issue_params: @issue_params })
       raise e
     ensure
       @issue = nil
