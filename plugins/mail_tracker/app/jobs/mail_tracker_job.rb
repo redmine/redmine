@@ -50,8 +50,6 @@ class MailTrackerJob < ApplicationJob
 
       upload_attachments(email)
       notify_sender(email)
-    rescue ActiveRecord::RecordNotUnique
-      MailTrackerCustomLogger.logger.error('Issue was not generated. These are errors: ActiveRecord::RecordNotUnique', email.message_id, email.from, email.subject, email.date, email.to, email.cc)
     rescue ActiveRecord::StatementInvalid => e
       raise e if retried
 
@@ -59,7 +57,7 @@ class MailTrackerJob < ApplicationJob
       retried = true
       retry
     rescue StandardError => e
-      MailTrackerCustomLogger.logger.error(e)
+      MailTrackerCustomLogger.logger.error(e, email.message_id, email.from, email.subject, email.date, email.to, email.cc, @issue_params)
       raise e
     ensure
       @issue = nil
