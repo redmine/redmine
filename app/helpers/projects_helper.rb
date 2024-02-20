@@ -39,7 +39,9 @@ module ProjectsHelper
         {:name => 'boards', :action => :manage_boards,
          :partial => 'projects/settings/boards', :label => :label_board_plural},
         {:name => 'activities', :action => :manage_project_activities,
-         :partial => 'projects/settings/activities', :label => :label_time_tracking}
+         :partial => 'projects/settings/activities', :label => :label_time_tracking},
+         {:name => 'outbound_email', :action => :edit_project_email,
+            :partial => 'project_emails/edit', :label => :project_email_label}
       ]
     tabs.
       select {|tab| User.current.allowed_to?(tab[:action], @project)}.

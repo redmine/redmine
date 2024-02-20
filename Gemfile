@@ -102,6 +102,7 @@ group :development do
   gem 'ed25519'
   gem 'bcrypt_pbkdf'
   gem 'letter_opener'
+  gem 'pry'
 end
 
 group :test do

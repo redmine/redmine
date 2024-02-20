@@ -384,9 +384,14 @@ class IssueQuery < Query
       order_option << "#{Issue.table_name}.id DESC"
     end
 
+    # This is some kind of hack to make sure that the select clause has all the columns
+    # We get error: SELECT DISTINCT, ORDER BY expressions must appear in select list
+    select_clause = order_option.map do |s| s.split[0] end
+
     scope = base_scope.
       preload(:priority).
       includes(([:status, :project] + (options[:include] || [])).uniq).
+      select(select_clause).
       where(options[:conditions]).
       order(order_option).
       joins(joins_for_order_statement(order_option.join(','))).

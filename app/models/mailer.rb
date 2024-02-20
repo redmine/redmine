@@ -33,8 +33,7 @@ class Mailer < ActionMailer::Base
   # The first argument of all actions of this Mailer must be a User (the recipient),
   # otherwise an ArgumentError is raised.
   def process(action, *args)
-    # user = args.first
-    user = args.first.is_a?(Array) ? args.first.first : args.first
+    user = args.first # args.first.is_a?(Array) ? args.first.first : args.first
     raise ArgumentError, "First argument has to be a user, was #{user.inspect}" unless user.is_a?(User)
 
     initial_user = User.current
@@ -87,6 +86,10 @@ class Mailer < ActionMailer::Base
     subject = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}]"
     subject += " (#{issue.status.name})" if Setting.show_status_changes_in_mail_subject?
     subject += " #{issue.subject}"
+
+    @project = @issue.project
+    @issue_url_by_project = url_for(:controller => 'issues', :action => 'show', :id => @issue, :host => @project.crm_host_name)
+
     mail :to => user,
       :subject => subject
   end
@@ -126,7 +129,7 @@ class Mailer < ActionMailer::Base
   #   mail :to => user,
   #     :subject => s
   # end
-  def issue_edit(users, journal)
+  def issue_edit(user, journal)
     issue = journal.journalized
     redmine_headers 'Project' => issue.project.identifier,
                     'Issue-Id' => issue.id,
@@ -139,12 +142,16 @@ class Mailer < ActionMailer::Base
     s << "(#{issue.status.name}) " if journal.new_value_for('status_id')
     s << issue.subject
     @issue = issue
-    @users = users
+    @user = user
     @journal = journal
-    @journal_details = journal.visible_details(@users.first)
+    @journal_details = journal.visible_details(@user)
     @issue_url = url_for(:controller => 'issues', :action => 'show', :id => issue, :anchor => "change-#{journal.id}")
-    mail :to => @users,
-      :cc => @users,
+
+    @project = @issue.project
+    @issue_url_by_project = url_for(:controller => 'issues', :action => 'show', :id => @issue, :anchor => "change-#{@issue.id}", :host => @project.crm_host_name)
+
+    mail :to => @user,
+      :cc => @user,
       :subject => s
   end
   # Notifies users about an issue update.
@@ -156,7 +163,7 @@ class Mailer < ActionMailer::Base
     issue = journal.journalized.reload
     # to = journal.notified_users
     # cc = journal.notified_watchers | journal.notified_mentions | journal.journalized.notified_mentions - to
-    issue_edit(users, journal).deliver_now
+    # issue_edit(users, journal).deliver_now
     # users.each do |user|
     #   issue_edit(user, journal).deliver_now
     # end
@@ -168,9 +175,9 @@ class Mailer < ActionMailer::Base
     # users.select! do |user|
     #   journal.notes? || journal.visible_details(user).any?
     # end
-    # users.each do |user|
-    #   issue_edit(user, journal).deliver_now
-    # end
+    users.each do |user|
+      issue_edit(user, journal).deliver_now
+    end
   end
 
   # Builds a mail to user about a new document.
@@ -180,6 +187,9 @@ class Mailer < ActionMailer::Base
     @document = document
     @user = user
     @document_url = url_for(:controller => 'documents', :action => 'show', :id => document)
+
+    @project = @document.project
+
     mail :to => user,
       :subject => "[#{document.project.name}] #{l(:label_document_new)}: #{document.title}"
   end
@@ -217,8 +227,11 @@ class Mailer < ActionMailer::Base
     @user = user
     @added_to = added_to
     @added_to_url = added_to_url
+
+    @project = container.project
+
     mail :to => user,
-      :subject => "[#{container.project.name}] #{l(:label_attachment_new)}"
+      :subject => "[#{@project.name}] #{l(:label_attachment_new)}"
   end
 
   # Notifies users about new attachments
@@ -248,8 +261,11 @@ class Mailer < ActionMailer::Base
     @news = news
     @user = user
     @news_url = url_for(:controller => 'news', :action => 'show', :id => news)
+
+    @project = news.project
+
     mail :to => user,
-      :subject => "[#{news.project.name}] #{l(:label_news)}: #{news.title}"
+      :subject => "[#{@project.name}] #{l(:label_news)}: #{news.title}"
   end
 
   # Notifies users about new news
@@ -300,8 +316,11 @@ class Mailer < ActionMailer::Base
     @message = message
     @user = user
     @message_url = url_for(message.event_url)
+
+    @project = message.board.project
+
     mail :to => user,
-      :subject => "[#{message.board.project.name} - #{message.board.name} - msg#{message.root.id}] #{message.subject}"
+         :subject => "[#{@project.name} - #{message.board.name} - msg#{message.root.id}] #{message.subject}"
   end
 
   # Notifies users about a new forum message.
@@ -329,10 +348,13 @@ class Mailer < ActionMailer::Base
     @wiki_content_url = url_for(:controller => 'wiki', :action => 'show',
                                       :project_id => wiki_content.project,
                                       :id => wiki_content.page.title)
+
+    @project = wiki_content.project
+
     mail(
       :to => user,
       :subject =>
-        "[#{wiki_content.project.name}] #{l(:mail_subject_wiki_content_added, :id => wiki_content.page.pretty_title)}"
+        "[#{@project.name}] #{l(:mail_subject_wiki_content_added, :id => wiki_content.page.pretty_title)}"
     )
   end
 
@@ -363,10 +385,13 @@ class Mailer < ActionMailer::Base
       url_for(:controller => 'wiki', :action => 'diff',
               :project_id => wiki_content.project, :id => wiki_content.page.title,
               :version => wiki_content.version)
+
+    @project = wiki_content.project
+
     mail(
       :to => user,
       :subject =>
-        "[#{wiki_content.project.name}] #{l(:mail_subject_wiki_content_updated, :id => wiki_content.page.pretty_title)}"
+        "[#{@project.name}] #{l(:mail_subject_wiki_content_updated, :id => wiki_content.page.pretty_title)}"
     )
   end
 
@@ -738,13 +763,12 @@ class Mailer < ActionMailer::Base
       headers[:references] = @references_objects.collect {|o| "<#{self.class.references_for(o, @user)}>"}.join(' ')
     end
 
-    if block
-      super headers, &block
-    else
-      super headers do |format|
-        format.text
-        format.html unless Setting.plain_text_mail?
-      end
+    headers['X-Redmine-Project-Specific-Sender'] = @project.email if @project.present?
+    @issue_url = @issue_url_by_project if @issue_url_by_project.present?
+
+    super headers do |format|
+      format.text
+      format.html unless Setting.plain_text_mail?
     end
   end
 

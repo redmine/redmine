@@ -17,5 +17,5 @@
   <%= Redmine::WikiFormatting.to_html(Setting.text_formatting, Setting.emails_info).html_safe %>
 <% end -%>
 <hr />
-<%= render :partial => 'issue', :formats => [:html], :locals => { :issue => @issue, :users => @users, :issue_url => @issue_url } %>
+<%= render :partial => 'issue', :formats => [:html], :locals => { :issue => @issue, :user => @user, :issue_url => @issue_url } %>
 

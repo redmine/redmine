@@ -413,7 +413,7 @@ class MailSource < ActiveRecord::Base
 
   def self.each_mail_source_fetch_mails
     MailSource.where(enabled_sync: true).each do |mail_source|
-      mail_source.fetch_mails
+      MailTrackerJob.perform_now(mail_source.id)
     end
   end
 
