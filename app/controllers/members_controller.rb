@@ -50,11 +50,7 @@ class MembersController < ApplicationController
 
   def new
     @member = Member.new
-
-    respond_to do |format|
-      format.html
-      format.js
-    end
+    render :action => 'new', :layout => !request.xhr?
   end
 
   def create
