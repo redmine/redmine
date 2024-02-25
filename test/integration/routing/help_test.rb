@@ -23,5 +23,7 @@ class RoutingHelpTest < Redmine::RoutingTest
   def test_help
     should_route 'GET /help/wiki_syntax' => 'help#show_wiki_syntax'
     should_route 'GET /help/wiki_syntax/detailed' => 'help#show_wiki_syntax', :type => "detailed"
+
+    should_route 'GET /help/code_highlighting' => 'help#show_code_highlighting'
   end
 end

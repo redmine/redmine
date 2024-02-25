@@ -81,4 +81,11 @@ class HelpControllerTest < Redmine::ControllerTest
 
     assert_match "Wiki Syntax Quick Reference (CommonMark Markdown (GitHub Flavored))", response.body
   end
+
+  def test_get_help_code_highlighting
+    get :show_code_highlighting
+    assert_response :success
+
+    assert_select 'h1', :text =>  "List of languages supported by Redmine code highlighter"
+  end
 end
