@@ -67,7 +67,7 @@ class HelpControllerTest < Redmine::ControllerTest
     get :show_wiki_syntax
     assert_response :success
 
-    assert_match "Wiki Syntax Schnellreferenz (CommonMark Markdown (GitHub Flavored))", response.body
+    assert_select 'h1', :text => "Wiki Syntax Schnellreferenz (CommonMark Markdown (GitHub Flavored))"
   end
 
   def test_get_help_wiki_syntax_should_fallback_to_english
@@ -79,7 +79,7 @@ class HelpControllerTest < Redmine::ControllerTest
     get :show_wiki_syntax
     assert_response :success
 
-    assert_match "Wiki Syntax Quick Reference (CommonMark Markdown (GitHub Flavored))", response.body
+    assert_select 'h1', :text => "Wiki Syntax Quick Reference (CommonMark Markdown (GitHub Flavored))"
   end
 
   def test_get_help_code_highlighting
