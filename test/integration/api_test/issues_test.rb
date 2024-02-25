@@ -23,6 +23,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
   fixtures(
     :projects,
     :users,
+    :user_preferences,
     :roles,
     :members,
     :member_roles,
