@@ -25,7 +25,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
            :issue_statuses, :issues, :issue_categories,
            :enumerations, :custom_fields, :custom_values, :custom_fields_trackers,
            :watchers, :journals, :journal_details, :versions,
-           :workflows
+           :workflows, :user_preferences
 
   def test_create_issue
     log_user('jsmith', 'jsmith')
