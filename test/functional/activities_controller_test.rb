@@ -45,6 +45,34 @@ class ActivitiesControllerTest < Redmine::ControllerTest
     assert_select 'dl dt.issue-edit a', :text => /(#{IssueStatus.find(2).name})/
   end
 
+  def test_index_subproject_checkbox_should_check_descendants_visibility
+    @request.session[:user_id] = 2
+    get(
+      :index,
+      :params => {
+        :id => 5,
+      }
+    )
+    assert_response :success
+
+    assert_select '#sidebar input#with_subprojects'
+
+    project = Project.find(6)
+    project.is_public = false
+    project.save
+
+    get(
+      :index,
+      :params => {
+        :id => 5,
+      }
+    )
+    assert_response :success
+
+    assert_select '#sidebar input#with_subprojects', :count => 0
+
+  end
+
   def test_project_index_with_invalid_project_id_should_respond_404
     get(:index, :params => {:id => 299})
     assert_response 404
