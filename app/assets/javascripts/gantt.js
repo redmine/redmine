@@ -1,6 +1,6 @@
 /**
  * Redmine - project management software
- * Copyright (C) 2006-2023  Jean-Philippe Lang
+ * Copyright (C) 2006-  Jean-Philippe Lang
  * This code is released under the GNU General Public License.
  */
 
