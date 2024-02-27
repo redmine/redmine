@@ -20,7 +20,7 @@
       <%= check_box_tag "completed", 1, params[:completed] %> <%= l(:label_show_completed_versions) %>
     </label>
   </li>
-  <% if @project.descendants.active.any? %>
+  <% if @project.descendants.allowed_to(:view_issues).any? %>
   <li>
     <%= hidden_field_tag 'with_subprojects', 0, :id => nil %>
     <label>
