@@ -231,7 +231,7 @@ class TimelogReportTest < Redmine::ControllerTest
     get :report, :params => {:project_id => 1, :criteria => ['activity']}
     assert_response :success
 
-    assert_select 'tr.last-level:first' do
+    assert_select 'tr.last-level' do
       assert_select 'td.name', :text => 'Design'
       assert_select 'td.hours:last', :text => '165:15'
     end
