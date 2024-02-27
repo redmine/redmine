@@ -1164,7 +1164,7 @@ function inlineAutoComplete(element) {
             if (event.target.type === 'text' && $(element).attr('autocomplete') != 'off') {
               $(element).attr('autocomplete', 'off');
             }
-            remoteSearch(getDataSource('issues') + text, function (issues) {
+            remoteSearch(getDataSource('issues') + encodeURIComponent(text), function (issues) {
               return cb(issues);
             });
           },
@@ -1186,7 +1186,7 @@ function inlineAutoComplete(element) {
         {
           trigger: '[[',
           values: function (text, cb) {
-            remoteSearch(getDataSource('wiki_pages') + text, function (wikiPages) {
+            remoteSearch(getDataSource('wiki_pages') + encodeURIComponent(text), function (wikiPages) {
               return cb(wikiPages);
             });
           },
@@ -1208,7 +1208,7 @@ function inlineAutoComplete(element) {
           values: function (text, cb) {
             const url = getDataSource('users');
             if (url) {
-              remoteSearch(url + text, function (users) {
+              remoteSearch(url + encodeURIComponent(text), function (users) {
                 return cb(users);
               });
             }
