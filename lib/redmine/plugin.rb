@@ -414,6 +414,18 @@ module Redmine
       Redmine::WikiFormatting.register(name, *args)
     end
 
+    # Register plugin models that use acts_as_attachable.
+    #
+    # Example:
+    #   attachment_object_type SomeAttachableModel
+    #
+    # This is necessary for the core attachments controller routes and attachments/_form to work.
+    def attachment_object_type(*args)
+      args.each do |klass|
+        Redmine::Acts::Attachable::ObjectTypeConstraint.register_object_type(klass.name.underscore.pluralize)
+      end
+    end
+
     # Returns +true+ if the plugin can be configured.
     def configurable?
       settings && settings.is_a?(Hash) && !settings[:partial].blank?
