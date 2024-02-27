@@ -62,6 +62,14 @@ class Redmine::PluginTest < ActiveSupport::TestCase
     assert_equal File.join(@klass.directory, 'foo_plugin', 'assets'), plugin.assets_directory
   end
 
+  ::FooModel = Class.new(ActiveRecord::Base)
+  def test_register_attachment_object_type
+    Redmine::Acts::Attachable::ObjectTypeConstraint.expects(:register_object_type).with("foo_models")
+    @klass.register :foo_plugin do
+      attachment_object_type FooModel
+    end
+  end
+
   def test_register_should_raise_error_if_plugin_directory_does_not_exist
     e = assert_raises Redmine::PluginNotFound do
       @klass.register(:bar_plugin) {}
