@@ -86,6 +86,8 @@ class VersionsControllerTest < Redmine::ControllerTest
     assert_select 'h3', :text => Version.find(4).name
     # Subproject version
     assert_select 'h3', :text => /#{version_name}/
+    # Subproject checkbox
+    assert_select '#sidebar input[id=?][value=?]', "with_subprojects", 1
   end
 
   def test_index_should_prepend_shared_versions
@@ -116,6 +118,20 @@ class VersionsControllerTest < Redmine::ControllerTest
         end
       end
     end
+  end
+
+  def test_index_subproject_checkbox_should_check_descendants_visibility
+    project = Project.find(6)
+    project.is_public = false
+    project.save
+
+    @request.session[:user_id] = 2
+
+    get :index, :params => {:project_id => 5, :with_subprojects => 1}
+    assert_response :success
+
+    # Subproject checkbox should not be shown
+    assert_select '#sidebar input[id=?]', "with_subprojects", :count => 0
   end
 
   def test_show
