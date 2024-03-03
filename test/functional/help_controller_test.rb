@@ -29,14 +29,14 @@ class HelpControllerTest < Redmine::ControllerTest
       :common_mark => "Wiki Syntax Quick Reference (CommonMark Markdown (GitHub Flavored))"
     }
 
-    formatters.each {|formatter, result|
+    formatters.each do |formatter, result|
       with_settings :text_formatting => formatter do
         get :show_wiki_syntax
 
         assert_response :success
         assert_select 'h1', :text => result
       end
-    }
+    end
   end
 
   def test_get_help_wiki_syntax_detailed
@@ -46,7 +46,7 @@ class HelpControllerTest < Redmine::ControllerTest
       :common_mark => "Wiki formatting (CommonMark Markdown (GitHub Flavored))"
     }
 
-    formatters.each {|formatter, result|
+    formatters.each do |formatter, result|
       with_settings :text_formatting => formatter do
         get :show_wiki_syntax, :params => {
           :type => 'detailed'
@@ -55,7 +55,7 @@ class HelpControllerTest < Redmine::ControllerTest
         assert_response :success
         assert_select 'h1', :text => result
       end
-    }
+    end
   end
 
   def test_get_help_wiki_syntax_should_return_lang_if_available
