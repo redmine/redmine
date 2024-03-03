@@ -318,7 +318,7 @@ class MessagesControllerTest < Redmine::ControllerTest
       :params => {
         :board_id => 1,
         :id => 3
-      },
+      }
     )
 
     assert_response 404

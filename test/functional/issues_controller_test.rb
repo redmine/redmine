@@ -1199,7 +1199,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       create!(
         :name => 'Long text', :field_format => 'text',
         :full_width_layout => '1',
-        :tracker_ids => [1,3], :is_for_all => true
+        :tracker_ids => [1, 3], :is_for_all => true
       )
     issue = Issue.find(1)
     issue.custom_field_values = {field.id => 'This is a long text'}

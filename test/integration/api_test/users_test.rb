@@ -139,7 +139,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     assert_response :success
     json = ActiveSupport::JSON.decode(response.body)
     assert json.key?('users')
-    users = User.where(status: [1,3])
+    users = User.where(status: [1, 3])
     assert_equal users.size, json['users'].size
   end
 

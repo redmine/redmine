@@ -29,7 +29,7 @@ class Redmine::Acts::MentionableTest < ActiveSupport::TestCase
          :issues
 
   def test_mentioned_users_with_user_mention
-    to_test = %w(@dlopper @dlopper! @dlopper? @dlopper. @dlopper,)
+    to_test = %w(@dlopper @dlopper! @dlopper? @dlopper. @dlopper)
 
     to_test.each do |item|
       issue = Issue.generate!(project_id: 1, description: item)
