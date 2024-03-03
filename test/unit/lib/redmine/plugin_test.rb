@@ -62,7 +62,7 @@ class Redmine::PluginTest < ActiveSupport::TestCase
     assert_equal File.join(@klass.directory, 'foo_plugin', 'assets'), plugin.assets_directory
   end
 
-  ::FooModel = Class.new(ActiveRecord::Base)
+  ::FooModel = Class.new(ApplicationRecord)
   def test_register_attachment_object_type
     Redmine::Acts::Attachable::ObjectTypeConstraint.expects(:register_object_type).with("foo_models")
     @klass.register :foo_plugin do
