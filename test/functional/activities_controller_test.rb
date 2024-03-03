@@ -70,7 +70,6 @@ class ActivitiesControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_select '#sidebar input#with_subprojects', :count => 0
-
   end
 
   def test_project_index_with_invalid_project_id_should_respond_404
