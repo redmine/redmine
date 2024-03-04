@@ -4,6 +4,77 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2024-03-04 v5.1.2
+
+=== [Activity view]
+
+* Defect #39995: Project Activities and Roadmap views disclose presence of private sub projects
+
+=== [Administration]
+
+* Defect #40166: Internationalize "Check all / Uncheck all" tooltip in project list for admins
+
+=== [Code cleanup/refactoring]
+
+* Defect #39864: Backport fix of random failing integration test for plugin routes
+* Defect #40239: Add missing fixtures in Redmine::ApiTest::IssuesTest
+* Patch #39894: Explicitly render a 404 on non-JS requests to watchers#new
+* Patch #39999: Explicitly render a 404 on non-JS requests to messages#quote
+* Patch #40043: Remove year ranges from all copyright headers
+
+=== [Database]
+
+* Patch #39865: Extend mysql8? test helper to handle complex version strings
+
+=== [Filters]
+
+* Defect #39991: Fix "any" operator for text filters to exclude empty text values
+
+=== [Issues]
+
+* Defect #39932: Incorrect position of "Edited" mark in issue notes with h4 headings
+
+=== [Plugin API]
+
+* Defect #39862: Attachments functionality for (custom) plugins broken since fix for CVE-2022-44030
+* Feature #39948: Add Redmine::Plugin proxy method for Redmine::Acts::Attachable::ObjectTypeConstraint.register_object_type
+
+=== [REST API]
+
+* Defect #40099: User api filtering by status=* broke on upgrade from 5.0 to 5.1
+
+=== [Rails support]
+
+* Patch #40319: Update Rails to 6.1.7.7
+
+=== [SEO]
+
+* Defect #40208: An ActionController::RespondToMismatchError occurred in welcome#robots
+
+=== [Security]
+
+* Defect #39875: Mitigate CVE-2023-23913 (rails-ujs)
+
+=== [Text formatting]
+
+* Defect #39755: CommonMark Markdown help page does not reflect user's language setting
+* Defect #40193: Performance issue with email address auto-linking in the default ("none") formatter
+* Feature #39884: Allow multiple footnotes per single word
+
+=== [Translations]
+
+* Defect #39801: Fix typo in Russian translation of text_status_no_workflow
+* Patch #39751: Additional translation for Tamil language
+* Patch #39781: Persian translation update for 5.1-stable
+* Patch #39782: Russian translation update for 5.1-stable
+* Patch #40240: Catalan translation update for 5.1-stable
+
+=== [UI]
+
+* Defect #39780: User select element on activity sidebar views cutoff when displaying long user names
+* Defect #39802: Fix click event handling in mobile view after closing flyout menu
+* Defect #40237: Error in autocomplete (`ActionController::BadRequest (Invalid query parameters: invalid %-encoding (%)`)
+
 == 2023-11-27 v5.1.1
 
 === [Database]
