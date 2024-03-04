@@ -1246,6 +1246,16 @@ class IssuesControllerTest < Redmine::ControllerTest
       assert_select 'link[rel=self][href=?]', 'http://test.host/projects/ecookbook/issues.atom'
       assert_select 'link[rel=alternate][href=?]', 'http://test.host/projects/ecookbook/issues'
       assert_select 'entry link[href=?]', 'http://test.host/issues/1'
+
+      assert_select 'entry' do |entries|
+        entries.each do |entry|
+          issue_id = entry.at('id').text.split('/').last.to_i
+          issue = Issue.find(issue_id)
+          formatted_updated_on = issue.updated_on.utc.iso8601
+          # <updated> element should use the value of `Issue#updated_on`
+          assert_select entry, 'updated', text: formatted_updated_on
+        end
+      end
     end
   end
 
