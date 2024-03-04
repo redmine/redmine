@@ -4,6 +4,54 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2024-03-04 v5.0.8
+
+=== [Activity view]
+
+* Defect #39995: Project Activities and Roadmap views disclose presence of private sub projects
+
+=== [Code cleanup/refactoring]
+
+* Patch #39894: Explicitly render a 404 on non-JS requests to watchers#new
+* Patch #39999: Explicitly render a 404 on non-JS requests to messages#quote
+* Patch #40043: Remove year ranges from all copyright headers
+
+=== [Filters]
+
+* Defect #39991: Fix "any" operator for text filters to exclude empty text values
+
+=== [Plugin API]
+
+* Defect #39862: Attachments functionality for (custom) plugins broken since fix for CVE-2022-44030
+* Feature #39948: Add Redmine::Plugin proxy method for Redmine::Acts::Attachable::ObjectTypeConstraint.register_object_type
+
+=== [Rails support]
+
+* Patch #40319: Update Rails to 6.1.7.7
+
+=== [SEO]
+
+* Defect #40208: An ActionController::RespondToMismatchError occurred in welcome#robots
+
+=== [Security]
+
+* Defect #39875: Mitigate CVE-2023-23913 (rails-ujs)
+
+=== [Text formatting]
+
+* Defect #40193: Performance issue with email address auto-linking in the default ("none") formatter
+* Feature #39884: Allow multiple footnotes per single word
+
+=== [Translations]
+
+* Defect #39801: Fix typo in Russian translation of text_status_no_workflow
+
+=== [UI]
+
+* Defect #39780: User select element on activity sidebar views cutoff when displaying long user names
+* Defect #39802: Fix click event handling in mobile view after closing flyout menu
+* Defect #40237: Error in autocomplete (`ActionController::BadRequest (Invalid query parameters: invalid %-encoding (%)`)
+
 == 2023-11-27 v5.0.7
 
 === [Email notifications]
