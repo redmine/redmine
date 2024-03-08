@@ -26,7 +26,7 @@ module Redmine
 
           javascript_tag(
             "var wikiToolbar = new jsToolBar(document.getElementById('#{field_id}')); " \
-            "wikiToolbar.setHelpLink('#{escape_javascript help_wiki_syntax_path }'); " \
+            "wikiToolbar.setHelpLink('#{escape_javascript help_wiki_syntax_path}'); " \
             "wikiToolbar.setPreviewUrl('#{escape_javascript preview_url}'); " \
             "wikiToolbar.draw();"
           )
