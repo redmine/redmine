@@ -97,6 +97,5 @@ module RedmineApp
       instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
     end
 
-    config.hosts << "df4f-88-119-95-51.ngrok-free.app"
   end
 end
