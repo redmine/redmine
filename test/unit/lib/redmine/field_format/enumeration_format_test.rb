@@ -21,8 +21,6 @@ require_relative '../../../../test_helper'
 require 'redmine/field_format'
 
 class Redmine::EnumerationFieldFormatTest < ActionView::TestCase
-  include ApplicationHelper
-
   def setup
     User.current = nil
     set_language_if_valid 'en'

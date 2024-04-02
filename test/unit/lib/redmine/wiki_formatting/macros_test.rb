@@ -20,7 +20,6 @@
 require_relative '../../../../test_helper'
 
 class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
-  include ApplicationHelper
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::SanitizeHelper
   include ERB::Util

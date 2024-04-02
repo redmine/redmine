@@ -21,8 +21,6 @@ require_relative '../../../../test_helper'
 require 'redmine/field_format'
 
 class Redmine::NumericFieldFormatTest < ActionView::TestCase
-  include ApplicationHelper
-
   fixtures :projects, :users, :issue_statuses, :enumerations,
            :trackers, :projects_trackers, :roles, :member_roles,
            :members, :enabled_modules

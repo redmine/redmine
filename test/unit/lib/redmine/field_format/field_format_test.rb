@@ -20,8 +20,6 @@
 require_relative '../../../../test_helper'
 
 class Redmine::FieldFormatTest < ActionView::TestCase
-  include ApplicationHelper
-
   def setup
     User.current = nil
     set_language_if_valid 'en'

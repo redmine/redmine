@@ -21,7 +21,6 @@ require_relative '../../../../test_helper'
 require 'redmine/field_format'
 
 class Redmine::ListFieldFormatTest < ActionView::TestCase
-  include ApplicationHelper
   include Redmine::I18n
 
   def setup

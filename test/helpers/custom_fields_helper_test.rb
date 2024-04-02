@@ -20,7 +20,6 @@
 require_relative '../test_helper'
 
 class CustomFieldsHelperTest < Redmine::HelperTest
-  include ApplicationHelper
   include CustomFieldsHelper
   include ERB::Util
 
