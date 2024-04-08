@@ -391,7 +391,7 @@ class IssueQuery < Query
     scope = base_scope.
       preload(:priority).
       includes(([:status, :project] + (options[:include] || [])).uniq).
-      select(select_clause).
+      # select(select_clause). # Commented out to fix the error Issue::ActiveRecord_Relation ActiveModel::MissingAttributeError
       where(options[:conditions]).
       order(order_option).
       joins(joins_for_order_statement(order_option.join(','))).
