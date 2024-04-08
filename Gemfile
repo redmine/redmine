@@ -91,6 +91,14 @@ end
 group :development do
   gem 'listen', '~> 3.3'
   gem "yard"
+  gem 'capistrano'
+gem 'capistrano-rails'
+gem 'capistrano3-puma'
+gem 'capistrano-rbenv'
+gem 'capistrano-rvm'
+gem "capistrano-db-tasks", '0.4', require: false
+gem "sentry-ruby"
+gem "sentry-rails"
 end
 
 group :test do
@@ -122,3 +130,4 @@ end
 Dir.glob File.expand_path("../plugins/*/{Gemfile,PluginGemfile}", __FILE__) do |file|
   eval_gemfile file
 end
+
