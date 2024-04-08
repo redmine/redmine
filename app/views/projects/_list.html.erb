@@ -8,7 +8,8 @@
   <tr>
     <% if @admin_list %>
       <th class="checkbox hide-when-print">
-        <input type="checkbox" name="check_all" id="check_all" value="" class="toggle-selection" title="Check all/Uncheck all">
+        <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection',
+          :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}" %>
       </th>
     <% end %>
     <% @query.inline_columns.each do |column| %>
@@ -66,6 +67,7 @@
     <label><%= radio_button_tag 'c[]', 'all_inline' %> <%= l(:description_all_columns) %></label>
   </p>
   <%= export_csv_encoding_select_tag %>
+  <%= export_csv_separator_select_tag %>
   <p class="buttons">
     <%= submit_tag l(:button_export), :name => nil, :onclick => "hideModal(this);", :data => { :disable_with => false } %>
     <%= link_to_function l(:button_cancel), "hideModal(this);" %>

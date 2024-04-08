@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2023  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -615,7 +615,7 @@ class MailHandler < ActionMailer::Base
       unless user.valid?
         user.login = "user#{Redmine::Utils.random_hex(6)}" unless user.errors[:login].blank?
         user.firstname = "-" unless user.errors[:firstname].blank?
-        (puts user.errors[:lastname]; user.lastname  = "-") unless user.errors[:lastname].blank?
+        user.lastname  = "-" unless user.errors[:lastname].blank?
       end
       user
     end

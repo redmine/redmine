@@ -2,17 +2,17 @@ source 'https://rubygems.org'
 
 ruby '>= 2.7.0', '< 3.3.0'
 
-gem 'rails', '6.1.7.4'
-gem 'rouge', '~> 4.1.0'
+gem 'rails', '6.1.7.7'
+gem 'rouge', '~> 4.2.0'
 gem 'request_store', '~> 1.5.0'
 gem 'mini_mime', '~> 1.1.0'
 gem "actionpack-xml_parser"
-gem 'roadie-rails', '~> 3.0.0'
+gem 'roadie-rails', '~> 3.1.0'
 gem 'marcel'
 gem 'mail', '~> 2.8.1'
 gem 'nokogiri', '~> 1.15.2'
 gem 'i18n', '~> 1.14.1'
-gem 'rbpdf', '~> 1.21.1'
+gem 'rbpdf', '~> 1.21.3'
 gem 'addressable'
 gem 'rubyzip', '~> 2.3.0'
 
@@ -33,15 +33,6 @@ gem 'rqrcode'
 # HTML pipeline and sanitization
 gem "html-pipeline", "~> 2.13.2"
 gem "sanitize", "~> 6.0"
-
-gem 'capistrano'
-gem 'capistrano-rails'
-gem 'capistrano3-puma'
-gem 'capistrano-rbenv'
-gem 'capistrano-rvm'
-gem "capistrano-db-tasks", '0.4', require: false
-gem "sentry-ruby"
-gem "sentry-rails"
 
 # Optional gem for LDAP authentication
 group :ldap do
@@ -78,8 +69,9 @@ if File.exist?(database_file)
       case adapter
       when 'mysql2'
         gem "mysql2", "~> 0.5.0", :platforms => [:mri, :mingw, :x64_mingw]
+        gem "with_advisory_lock"
       when /postgresql/
-        gem 'pg', '~> 1.5.3'
+        gem 'pg', '~> 1.5.3', :platforms => [:mri, :mingw, :x64_mingw]
       when /sqlite3/
         gem 'sqlite3', '~> 1.6.0', :platforms => [:mri, :mingw, :x64_mingw]
       when /sqlserver/
@@ -99,26 +91,26 @@ end
 group :development do
   gem 'listen', '~> 3.3'
   gem "yard"
-  gem 'ed25519'
-  gem 'bcrypt_pbkdf'
-  gem 'letter_opener'
-  gem 'pry'
 end
 
 group :test do
   gem "rails-dom-testing"
-  gem 'mocha', '>= 1.4.0'
+  gem 'mocha', '>= 2.0.1'
   gem 'simplecov', '~> 0.22.0', :require => false
   gem "ffi", platforms: [:mingw, :x64_mingw, :mswin]
   # For running system tests
   gem 'puma'
-  gem 'capybara', '~> 3.38.0'
-  gem "selenium-webdriver", "~> 3.142.7"
-  gem 'webdrivers', '4.6.1', require: false
+  gem "capybara", ">= 3.39"
+  if Gem.ruby_version < Gem::Version.new('3.0')
+    gem "selenium-webdriver", "<= 4.9.0"
+    gem "webdrivers", require: false
+  else
+    gem "selenium-webdriver", ">= 4.11.0"
+  end
   # RuboCop
-  gem 'rubocop', '~> 1.54.0', require: false
-  gem 'rubocop-performance', '~> 1.18.0', require: false
-  gem 'rubocop-rails', '~> 2.20.2', require: false
+  gem 'rubocop', '~> 1.57.0', require: false
+  gem 'rubocop-performance', '~> 1.19.0', require: false
+  gem 'rubocop-rails', '~> 2.22.1', require: false
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), "Gemfile.local")

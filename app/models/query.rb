@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2023  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -996,7 +996,7 @@ class Query < ActiveRecord::Base
 
       if field == 'project_id' || (self.type == 'ProjectQuery' && %w[id parent_id].include?(field))
         if v.delete('mine')
-          v += User.current.memberships.map(&:project_id).map(&:to_s)
+          v += User.current.memberships.map {|m| m.project_id.to_s}
         end
         if v.delete('bookmarks')
           v += User.current.bookmarked_project_ids
@@ -1276,7 +1276,7 @@ class Query < ActiveRecord::Base
       sql += " OR #{db_table}.#{db_field} = ''" if is_custom_filter || [:text, :string].include?(type_for(field))
     when "*"
       sql = "#{db_table}.#{db_field} IS NOT NULL"
-      sql += " AND #{db_table}.#{db_field} <> ''" if is_custom_filter
+      sql += " AND #{db_table}.#{db_field} <> ''" if is_custom_filter || [:text, :string].include?(type_for(field))
     when ">="
       if [:date, :date_past].include?(type_for(field))
         sql = date_clause(db_table, db_field, parse_date(value.first), nil, is_custom_filter)

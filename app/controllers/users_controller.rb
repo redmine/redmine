@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2023  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -44,6 +44,20 @@ class UsersController < ApplicationController
   def index
     use_session = !request.format.csv?
     retrieve_query(UserQuery, use_session)
+
+    # API backwards compatibility: handle legacy filter parameters
+    unless request.format.html?
+      if params.include?(:status) && params[:status].blank?
+        ActiveSupport::Deprecation.warn "Getting all users from API using an empty status param (status=) is deprecated and it will be removed in Redmine 6.0. Please use \"status=*\"."
+        @query.add_filter 'status', '*'
+      end
+      if name = params[:name].presence
+        @query.add_filter 'name', '~', [name]
+      end
+      if group_id = params[:group_id].presence
+        @query.add_filter 'is_member_of_group', '=', [group_id]
+      end
+    end
 
     if @query.valid?
       scope = @query.results_scope

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2023  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -31,6 +31,7 @@ class IssueStatus < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name, :case_sensitive => true
   validates_length_of :name, :maximum => 30
+  validates_length_of :description, :maximum => 255
   validates_inclusion_of :default_done_ratio, :in => 0..100, :allow_nil => true
 
   scope :sorted, lambda {order(:position)}
@@ -38,6 +39,7 @@ class IssueStatus < ActiveRecord::Base
 
   safe_attributes(
     'name',
+    'description',
     'is_closed',
     'position',
     'default_done_ratio')

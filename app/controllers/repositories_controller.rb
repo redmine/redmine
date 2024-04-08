@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2023  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -66,7 +66,7 @@ class RepositoriesController < ApplicationController
   def committers
     @committers = @repository.committers
     @users = @project.users.to_a
-    additional_user_ids = @committers.collect(&:last).collect(&:to_i) - @users.collect(&:id)
+    additional_user_ids = @committers.collect {|c| c.last.to_i} - @users.collect(&:id)
     @users += User.where(:id => additional_user_ids).to_a unless additional_user_ids.empty?
     @users.compact!
     @users.sort!
@@ -429,6 +429,11 @@ class RepositoriesController < ApplicationController
     else
       'attachment'
     end
+  end
+
+  def send_file(path, options={})
+    headers['content-security-policy'] = "default-src 'none'; style-src 'unsafe-inline'; sandbox"
+    super
   end
 
   def valid_name?(rev)

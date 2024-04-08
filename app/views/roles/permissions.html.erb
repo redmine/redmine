@@ -36,7 +36,7 @@
     <th>
         <%= link_to_function('',
                              "toggleCheckboxesBySelector('input.role-#{role.id}')",
-                             :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
+                             :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}",
                              :class => 'icon-only icon-checked') %>
         <%= content_tag(role.builtin? ? 'em' : 'span', role.name) %>
     </th>
@@ -63,7 +63,7 @@
         <td class="name">
             <%= link_to_function('',
                                  "toggleCheckboxesBySelector('.permission-#{permission.name} input')",
-                                 :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
+                                 :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}",
                                  :class => 'icon-only icon-checked') %>
             <%= humanized_perm_name %>
         </td>
@@ -92,6 +92,7 @@
   <h3 class="title"><%= l(:label_export_options, :export_format => 'CSV') %></h3>
   <%= form_tag(permissions_roles_path(:format => 'csv'), :method => :get, :id => 'csv-export-form') do %>
   <%= export_csv_encoding_select_tag %>
+  <%= export_csv_separator_select_tag %>
   <p class="buttons">
     <%= submit_tag l(:button_export), :name => nil, :onclick => 'hideModal(this);', :data => {:disable_with => false} %>
     <%= link_to_function l(:button_cancel), 'hideModal(this);' %>

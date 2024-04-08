@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2023  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -244,19 +244,6 @@ class Journal < ActiveRecord::Base
         :prop_key  => relation.relation_type_for(journalized),
         key => relation.other_issue(journalized).try(:id)
       )
-  end
-
-  def each_notification(users, &block)
-    if users.any?
-      users_by_details_visibility = users.group_by do |user|
-        visible_details(user)
-      end
-      users_by_details_visibility.each do |visible_details, users|
-        if notes? || visible_details.any?
-          yield(users)
-        end
-      end
-    end
   end
 
   private

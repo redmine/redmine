@@ -1,3 +1,12 @@
+GIT
+  remote: https://github.com/seuros/capistrano-puma.git
+  revision: 2cc11846540489edda10d83e026c9bea04e6fab1
+  specs:
+    capistrano3-puma (6.0.0.beta.1)
+      capistrano (~> 3.7)
+      capistrano-bundler
+      puma (>= 5.1, < 7.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -91,9 +100,6 @@ GEM
     capistrano-rvm (0.1.2)
       capistrano (~> 3.0)
       sshkit (~> 1.2)
-    capistrano3-puma (1.2.1)
-      capistrano (~> 3.0)
-      puma (>= 2.6)
     capybara (3.38.0)
       addressable
       matrix
@@ -188,7 +194,7 @@ GEM
       coderay (~> 1.1)
       method_source (~> 1.0)
     public_suffix (5.0.3)
-    puma (6.4.0)
+    puma (6.4.2)
       nio4r (~> 2.0)
     racc (1.7.1)
     rack (2.2.8)
@@ -335,7 +341,7 @@ DEPENDENCIES
   capistrano-rails
   capistrano-rbenv
   capistrano-rvm
-  capistrano3-puma
+  capistrano3-puma!
   capybara (~> 3.38.0)
   commonmarker (~> 0.23.8)
   csv (~> 3.2.6)

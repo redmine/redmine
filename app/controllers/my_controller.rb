@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2023  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -33,7 +33,6 @@ class MyController < ApplicationController
   helper :custom_fields
   helper :queries
   helper :activities
-  helper :calendars
 
   def index
     page
@@ -56,7 +55,6 @@ class MyController < ApplicationController
       @user.pref.safe_attributes = params[:pref]
       if @user.save
         @user.pref.save
-        set_language_if_valid @user.language
         respond_to do |format|
           format.html do
             flash[:notice] = l(:notice_account_updated)

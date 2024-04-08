@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2023  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -203,7 +203,6 @@ class ApplicationController < ActionController::Base
   # check if login is globally required to access the application
   def check_if_login_required
     # no check needed if user is already logged in
-    p User.current
     return true if User.current.logged?
 
     require_login if Setting.login_required?

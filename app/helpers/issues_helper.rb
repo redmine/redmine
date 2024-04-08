@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2023  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -208,7 +208,7 @@ module IssuesHelper
         if manage_relations
           link_to(
             l(:label_relation_delete),
-            relation_path(relation),
+            relation_path(relation, issue_id: issue.id),
             :remote => true,
             :method => :delete,
             :data => {:confirm => l(:text_are_you_sure)},

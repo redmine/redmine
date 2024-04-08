@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2023  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -110,7 +110,8 @@ class User < Principal
   # Login must contain letters, numbers, underscores only
   validates_format_of :login, :with => /\A[a-z0-9_\-@\.]*\z/i
   validates_length_of :login, :maximum => LOGIN_LENGTH_LIMIT
-  validates_length_of :firstname, :lastname, :maximum => 30
+  validates_length_of :firstname, :maximum => 30
+  validates_length_of :lastname, :maximum => 255
   validates_inclusion_of :mail_notification, :in => MAIL_NOTIFICATION_OPTIONS.collect(&:first), :allow_blank => true
   Setting::PASSWORD_CHAR_CLASSES.each do |k, v|
     validates_format_of :password, :with => v, :message => :"must_contain_#{k}", :allow_blank => true, :if => Proc.new {Setting.password_required_char_classes.include?(k)}
