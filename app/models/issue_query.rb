@@ -386,12 +386,40 @@ class IssueQuery < Query
 
     # This is some kind of hack to make sure that the select clause has all the columns
     # We get error: SELECT DISTINCT, ORDER BY expressions must appear in select list
+
+    ["tracker_id",
+      "project_id",
+      "subject",
+      "description",
+      "due_date",
+      "category_id",
+      "status_id",
+      "assigned_to_id",
+      "priority_id",
+      "fixed_version_id",
+      "author_id",
+      "lock_version",
+      "created_on",
+      "updated_on",
+      "start_date",
+      "done_ratio",
+      "estimated_hours",
+      "parent_id",
+      "root_id",
+      "lft",
+      "rgt",
+      "is_private",
+      "closed_on",
+      "message_id",
+      "reply_message_id"].each{ |e| order_option << "issues.#{e}" }    
+     
+
     select_clause = order_option.map do |s| s.split[0] end
 
     scope = base_scope.
       preload(:priority).
       includes(([:status, :project] + (options[:include] || [])).uniq).
-      # select(select_clause). # Commented out to fix the error Issue::ActiveRecord_Relation ActiveModel::MissingAttributeError
+      select(select_clause). 
       where(options[:conditions]).
       order(order_option).
       joins(joins_for_order_statement(order_option.join(','))).
