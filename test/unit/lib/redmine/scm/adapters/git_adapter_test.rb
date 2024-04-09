@@ -75,10 +75,7 @@ class GitAdapterTest < ActiveSupport::TestCase
     end
 
     def test_branches
-      brs = []
-      @adapter.branches.each do |b|
-        brs << b
-      end
+      brs = @adapter.branches
       assert_equal 8, brs.length
       br_issue_8857 = brs[0]
       assert_equal 'issue-8857', br_issue_8857.to_s
