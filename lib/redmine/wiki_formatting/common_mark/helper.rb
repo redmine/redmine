@@ -33,7 +33,7 @@ module Redmine
         end
 
         def initial_page_content(page)
-          "# #{@page.pretty_title}"
+          "# #{page.pretty_title}"
         end
 
         def heads_for_wiki_formatter
