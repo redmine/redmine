@@ -11,13 +11,13 @@
 
 <table style="width:100%">
 <tr><th colspan="3">Estilo de fuentes <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "5") %>" target="_blank">more</a>)</span></th></tr>
-<tr><th><%= image_tag("images/jstoolbar/bt_strong.png", { alt: "Negrita" }) %></th><td style="width:50%;">*Negrita*</td><td style="width:50%;"><strong>Negrita</strong></td></tr>
-<tr><th><%= image_tag("images/jstoolbar/bt_em.png", { alt: "Cursiva" }) %></th><td>_Cursiva_</td><td><em>Cursiva</em></td></tr>
-<tr><th><%= image_tag("images/jstoolbar/bt_ins.png", { alt: "Subrayado" }) %></th><td>+Subrayado+</td><td><ins>Subrayado</ins></td></tr>
-<tr><th><%= image_tag("images/jstoolbar/bt_del.png", { alt: "Tachado" }) %></th><td>-Tachado-</td><td><del>Tachado</del></td></tr>
+<tr><th><%= image_tag("jstoolbar/bt_strong.png", { alt: "Negrita" }) %></th><td style="width:50%;">*Negrita*</td><td style="width:50%;"><strong>Negrita</strong></td></tr>
+<tr><th><%= image_tag("jstoolbar/bt_em.png", { alt: "Cursiva" }) %></th><td>_Cursiva_</td><td><em>Cursiva</em></td></tr>
+<tr><th><%= image_tag("jstoolbar/bt_ins.png", { alt: "Subrayado" }) %></th><td>+Subrayado+</td><td><ins>Subrayado</ins></td></tr>
+<tr><th><%= image_tag("jstoolbar/bt_del.png", { alt: "Tachado" }) %></th><td>-Tachado-</td><td><del>Tachado</del></td></tr>
 <tr><th></th><td>??Cita??</td><td><cite>Cita</cite></td></tr>
-<tr><th><%= image_tag("images/jstoolbar/bt_code.png", { alt: "C&oacute;digo en linea" }) %></th><td>@C&oacute;digo en linea@</td><td><code>C&oacute;digo en linea</code></td></tr>
-<tr><th><%= image_tag("images/jstoolbar/bt_pre.png", { alt: "C&oacute; preformateado" }) %></th><td>&lt;pre&gt;<br />&nbsp;L&iacute;neas<br />&nbsp;de c&oacute;<br />&lt;/pre&gt;</td><td>
+<tr><th><%= image_tag("jstoolbar/bt_code.png", { alt: "C&oacute;digo en linea" }) %></th><td>@C&oacute;digo en linea@</td><td><code>C&oacute;digo en linea</code></td></tr>
+<tr><th><%= image_tag("jstoolbar/bt_pre.png", { alt: "C&oacute; preformateado" }) %></th><td>&lt;pre&gt;<br />&nbsp;L&iacute;neas<br />&nbsp;de c&oacute;<br />&lt;/pre&gt;</td><td>
 <pre>
  l&iacute;neas
  de c&oacute;digo
@@ -25,7 +25,7 @@
 </td></tr>
 
 <tr><th colspan="3">Highlighted code <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "13") %>" target="_blank">more</a> | <a href="<%= help_code_highlighting_path %>" target="_blank">supported languages</a>)</span></th></tr>
-<tr><th><%= image_tag("images/jstoolbar/bt_precode.png", { alt: "Código resaltado" }) %></th><td>&lt;pre&gt;&lt;code class="ruby"&gt;<br />3.times do<br />&nbsp;&nbsp;puts 'Hello'<br />end<br />&lt;/code&gt;&lt;/pre&gt;</td><td>
+<tr><th><%= image_tag("jstoolbar/bt_precode.png", { alt: "Código resaltado" }) %></th><td>&lt;pre&gt;&lt;code class="ruby"&gt;<br />3.times do<br />&nbsp;&nbsp;puts 'Hello'<br />end<br />&lt;/code&gt;&lt;/pre&gt;</td><td>
 <pre><code class="ruby syntaxhl"><span class="mi">3</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span>
   <span class="nb">puts</span> <span class="s1">'Hello'</span>
 <span class="k">end</span>
@@ -33,21 +33,21 @@
 </td></tr>
 
 <tr><th colspan="3">Listas</th></tr>
-<tr><th><%= image_tag("images/jstoolbar/bt_ul.png", { alt: "Lista no ordenada" }) %></th><td>* art&iacute;culo 1<br />** Sub<br />* art&iacute;culo 2</td><td><ul><li>art&iacute;culo 1<ul><li>Sub</li></ul></li><li>art&iacute;culo</li></ul></td></tr>
-<tr><th><%= image_tag("images/jstoolbar/bt_ol.png", { alt: "Lista ordenada" }) %></th><td># art&iacute;culo 1<br />## Sub<br /># art&iacute;culo 2</td><td><ol><li>art&iacute;culo 1<ol><li>Sub</li></ol></li><li>art&iacute;culo 2</li></ol></td></tr>
+<tr><th><%= image_tag("jstoolbar/bt_ul.png", { alt: "Lista no ordenada" }) %></th><td>* art&iacute;culo 1<br />** Sub<br />* art&iacute;culo 2</td><td><ul><li>art&iacute;culo 1<ul><li>Sub</li></ul></li><li>art&iacute;culo</li></ul></td></tr>
+<tr><th><%= image_tag("jstoolbar/bt_ol.png", { alt: "Lista ordenada" }) %></th><td># art&iacute;culo 1<br />## Sub<br /># art&iacute;culo 2</td><td><ol><li>art&iacute;culo 1<ol><li>Sub</li></ol></li><li>art&iacute;culo 2</li></ol></td></tr>
 
 <tr><th colspan="3">Cabeceras <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "8") %>" target="_blank">more</a>)</span></th></tr>
-<tr><th><%= image_tag("images/jstoolbar/bt_h1.png", { alt: "Cabecera 1" }) %></th><td>h1. T&iacute;tulo 1</td><td><h1>T&iacute;tulo 1</h1></td></tr>
-<tr><th><%= image_tag("images/jstoolbar/bt_h2.png", { alt: "Cabecera 2" }) %></th><td>h2. T&iacute;tulo 2</td><td><h2>T&iacute;tulo 2</h2></td></tr>
-<tr><th><%= image_tag("images/jstoolbar/bt_h3.png", { alt: "Cabecera 3" }) %></th><td>h3. T&iacute;tulo 3</td><td><h3>T&iacute;tulo 3</h3></td></tr>
+<tr><th><%= image_tag("jstoolbar/bt_h1.png", { alt: "Cabecera 1" }) %></th><td>h1. T&iacute;tulo 1</td><td><h1>T&iacute;tulo 1</h1></td></tr>
+<tr><th><%= image_tag("jstoolbar/bt_h2.png", { alt: "Cabecera 2" }) %></th><td>h2. T&iacute;tulo 2</td><td><h2>T&iacute;tulo 2</h2></td></tr>
+<tr><th><%= image_tag("jstoolbar/bt_h3.png", { alt: "Cabecera 3" }) %></th><td>h3. T&iacute;tulo 3</td><td><h3>T&iacute;tulo 3</h3></td></tr>
 
 <tr><th colspan="3">Enlaces <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">more</a>)</span></th></tr>
 <tr><th></th><td>http://foo.bar</td><td><a href="#">http://foo.bar</a></td></tr>
 <tr><th></th><td>"Foo":http://foo.bar</td><td><a href="#">Foo</a></td></tr>
 
 <tr><th colspan="3">Enlaces de Redmine <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">more</a>)</span></th></tr>
-<tr><th><%= image_tag("images/jstoolbar/bt_link.png", { alt: "Enlace a una p&aacute;gina de la Wiki" }) %></th><td>[[pagina Wiki]]</td><td><a href="#">Pagina Wiki</a></td></tr>
-<tr><th><%= image_tag("images/jstoolbar/bt_link.png", { alt: "Enlace a una p&aacute;gina de la Wiki con nombre descripciptivo" }) %></th><td>[[pagina Wiki|Nombre descriptivo]]</td><td><a href="#">Nombre descriptivo</a></td></tr>
+<tr><th><%= image_tag("jstoolbar/bt_link.png", { alt: "Enlace a una p&aacute;gina de la Wiki" }) %></th><td>[[pagina Wiki]]</td><td><a href="#">Pagina Wiki</a></td></tr>
+<tr><th><%= image_tag("jstoolbar/bt_link.png", { alt: "Enlace a una p&aacute;gina de la Wiki con nombre descripciptivo" }) %></th><td>[[pagina Wiki|Nombre descriptivo]]</td><td><a href="#">Nombre descriptivo</a></td></tr>
 <tr><th></th><td>Petici&oacute;n  #12</td><td>Petici&oacute;n <a href="#">#12</a></td></tr>
 <tr><th></th><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
 <tr><th></th><td>Revisi&oacute;n r43</td><td>Revisi&oacute;n <a href="#">r43</a></td></tr>
@@ -55,7 +55,7 @@
 <tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
 
 <tr><th colspan="3">Im&aacute;genes en l&iacute;nea <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">more</a>)</span></th></tr>
-<tr><th><%= image_tag("images/jstoolbar/bt_img.png", { alt: "Imagen" }) %></th><td>!<em>imagen_url</em>!</td><td></td></tr>
+<tr><th><%= image_tag("jstoolbar/bt_img.png", { alt: "Imagen" }) %></th><td>!<em>imagen_url</em>!</td><td></td></tr>
 <tr><th></th><td>!<em>imagen_adjunta</em>!</td><td></td></tr>
 
 <tr><th colspan="3">Tables</th></tr>
