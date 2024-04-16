@@ -1644,7 +1644,7 @@ module ApplicationHelper
           javascript_tag(
             "var datepickerOptions={dateFormat: 'yy-mm-dd', firstDay: #{start_of_week}, " \
               "showOn: 'button', buttonImageOnly: true, buttonImage: '" +
-            path_to_image('/images/calendar.png') +
+            asset_path('calendar.png') +
               "', showButtonPanel: true, showWeek: true, showOtherMonths: true, " \
               "selectOtherMonths: true, changeMonth: true, changeYear: true, " \
               "beforeShow: beforeShowDatePicker};"
