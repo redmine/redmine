@@ -1357,6 +1357,9 @@ div.wiki table, div.wiki td, div.wiki th {
   padding: 4px;
 }
 
+div.wiki table td[align=left], div.wiki table th[align=left] { text-align: left; }
+div.wiki table td[align=right], div.wiki table th[align=right] { text-align: right; }
+
 div.wiki .wiki-class-noborder, div.wiki .wiki-class-noborder td, div.wiki .wiki-class-noborder th {border:0;}
 
 div.wiki .external {
