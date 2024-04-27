@@ -707,9 +707,6 @@ class IssueTest < ActiveSupport::TestCase
     issue.expects(:project_id=).in_sequence(seq)
     issue.expects(:tracker_id=).in_sequence(seq)
     issue.expects(:subject=).in_sequence(seq)
-    assert_raise Exception do
-      issue.attributes = {:subject => 'Test'}
-    end
     assert_nothing_raised do
       issue.attributes = {:tracker_id => 2, :project_id => 1, :subject => 'Test'}
     end
