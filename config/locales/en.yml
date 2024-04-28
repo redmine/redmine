@@ -629,6 +629,7 @@ en:
   label_issue_assigned_to_updated: Assignee updated
   label_issue_priority_updated: Priority updated
   label_issue_fixed_version_updated: Target version updated
+  label_issue_attachment_added: Attachment added
   label_document: Document
   label_document_new: New document
   label_document_plural: Documents

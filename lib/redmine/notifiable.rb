@@ -34,6 +34,7 @@ module Redmine
       notifications << Notifiable.new('issue_assigned_to_updated', 'issue_updated')
       notifications << Notifiable.new('issue_priority_updated', 'issue_updated')
       notifications << Notifiable.new('issue_fixed_version_updated', 'issue_updated')
+      notifications << Notifiable.new('issue_attachment_added', 'issue_updated')
       notifications << Notifiable.new('news_added')
       notifications << Notifiable.new('news_comment_added')
       notifications << Notifiable.new('document_added')
