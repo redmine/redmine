@@ -104,6 +104,14 @@ class TimestampQueryColumn < QueryColumn
   end
 end
 
+class WatcherQueryColumn < QueryColumn
+  def value_object(object)
+    return nil unless User.current.allowed_to?(:"view_#{object.class.name.underscore}_watchers", object.try(:project))
+
+    super
+  end
+end
+
 class QueryAssociationColumn < QueryColumn
   def initialize(association, attribute, options={})
     @association = association

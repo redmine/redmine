@@ -61,7 +61,7 @@ tr.project.idnt-7 td.name {padding-left:0; padding-right:9.5em;}
 tr.project.idnt-8 td.name {padding-left:0; padding-right:11em;}
 tr.project.idnt-9 td.name {padding-left:0; padding-right:12.5em;}
 
-tr.issue td.subject, tr.issue td.relations { text-align:right; }
+tr.issue td.subject, tr.issue td.relations, tr.issue td.watcher_users { text-align:right; }
 tr.issue td.done_ratio table.progress { margin-left:auto; margin-right: auto;}
 
 table.issues td.description {padding:4px 24px 4px 4px; text-align:right;}

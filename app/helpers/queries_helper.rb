@@ -277,6 +277,8 @@ module QueriesHelper
         link_to_if(value > 0, format_hours(value), project_time_entries_path(item.project, :issue_id => "~#{item.id}"))
       when :attachments
         value.to_a.map {|a| format_object(a)}.join(" ").html_safe
+      when :watcher_users
+        content_tag('ul', value.to_a.map {|user| content_tag('li', format_object(user))}.join.html_safe)
       else
         format_object(value)
       end
@@ -300,6 +302,8 @@ module QueriesHelper
     case column.name
     when :attachments
       value.to_a.map {|a| a.filename}.join("\n")
+    when :watcher_users
+      value.to_a.join("\n")
     else
       format_object(value, false) do |value|
         case value.class.name

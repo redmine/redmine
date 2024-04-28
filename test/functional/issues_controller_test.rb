@@ -1923,6 +1923,67 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_include "\"source.rb\npicture.jpg\"", response.body
   end
 
+  def test_index_with_watchers_column
+    @request.session[:user_id] = 2
+    get(
+      :index,
+      :params => {
+        :c => %w(subject watcher_users),
+        :set_filter => '1',
+        :sort => 'id',
+      }
+    )
+
+    assert_response :success
+    assert_select 'td.watcher_users'
+    assert_select 'tr#issue-2' do
+      assert_select 'td.watcher_users' do
+        assert_select 'a[href=?]', '/users/1', :text => User.find(1).name
+        assert_select 'a[href=?]', '/users/3', :text => User.find(3).name
+      end
+    end
+  end
+
+  def test_index_with_watchers_column_only_visible_watchers
+    @request.session[:user_id] = 3
+    User.find(3).roles.first.remove_permission! :view_issue_watchers
+    get(
+      :index,
+      :params => {
+        :c => %w(subject watcher_users),
+        :set_filter => '1',
+        :sort => 'id',
+      }
+    )
+
+    assert_response :success
+    assert_select 'td.watcher_users'
+    assert_select 'tr#issue-2' do
+      assert_select 'td.watcher_users' do
+        assert_select 'a[href=?]', '/users/1', 0
+        # Currently not implemented, see https://www.redmine.org/issues/29894#note-17
+        # You can only know that you are a watcher yourself
+        # assert_select 'a[href=?]', '/users/3', :text => User.find(3).name
+      end
+    end
+  end
+
+  def test_index_with_watchers_column_as_csv
+    @request.session[:user_id] = 2
+    get(
+      :index,
+      :params => {
+        :c => %w(subject watcher_users),
+        :set_filter => '1',
+        :sort => 'id',
+        :format => 'csv',
+      }
+    )
+
+    assert_response :success
+    assert_include "\"#{User.find(1).name}\n#{User.find(3).name}\"", response.body
+  end
+
   def test_index_with_estimated_hours_total
     Issue.delete_all
     Issue.generate!(:estimated_hours => '5:30')

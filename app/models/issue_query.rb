@@ -40,6 +40,7 @@ class IssueQuery < Query
     QueryColumn.new(:assigned_to,
                     :sortable => lambda {User.fields_for_order_statement},
                     :groupable => true),
+    WatcherQueryColumn.new(:watcher_users, :caption => :label_issue_watchers),
     TimestampQueryColumn.new(:updated_on, :sortable => "#{Issue.table_name}.updated_on",
                              :default_order => 'desc', :groupable => true),
     QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name", :groupable => true),
@@ -403,6 +404,9 @@ class IssueQuery < Query
       )
     if has_custom_field_column?
       scope = scope.preload(:custom_values)
+    end
+    if has_column?(:watcher_users)
+      scope = scope.preload(:watcher_users)
     end
 
     issues = scope.to_a

@@ -402,6 +402,8 @@ module Redmine
                   value = "  " * level + value
                 when :attachments
                   value = value.to_a.map {|a| a.filename}.join("\n")
+                when :watcher_users
+                  value = value.to_a.join("\n")
                 end
                 if value.is_a?(Date)
                   format_date(value)
