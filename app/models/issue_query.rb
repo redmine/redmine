@@ -535,6 +535,9 @@ class IssueQuery < Query
           sql_for_field(field, '=', others, db_table, 'user_id') +
         ')'
       else
+        Rails.logger.debug "****"*50
+        Rails.logger.debug me.inspect
+        exit 1
         "SELECT #{db_table}.watchable_id FROM #{db_table} " +
         "WHERE #{db_table}.watchable_type='Issue' AND " +
         sql_for_field(field, '=', me, db_table, 'user_id')
