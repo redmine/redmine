@@ -4778,6 +4778,24 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'input[name=?][value="8"][checked=checked]', 'issue[watcher_user_ids][]'
   end
 
+  def test_post_create_with_failure_should_not_dereference_group_watchers
+    @request.session[:user_id] = 1
+    post(
+      :create,
+      :params => {
+        :project_id => 5,
+        :issue => {
+          :tracker_id => 1,
+          :watcher_user_ids => ['11']
+        }
+      }
+    )
+    assert_response :success
+
+    assert_select 'input[name=?][value="8"][checked=checked]', 'issue[watcher_user_ids][]', 0
+    assert_select 'input[name=?][value="11"][checked=checked]', 'issue[watcher_user_ids][]', 1
+  end
+
   def test_post_create_should_ignore_non_safe_attributes
     @request.session[:user_id] = 2
     assert_nothing_raised do
