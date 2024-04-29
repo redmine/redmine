@@ -74,7 +74,7 @@ module WatchersHelper
 
   def watchers_checkboxes(object, users, checked=nil)
     users.map do |user|
-      c = checked.nil? ? object.watched_by?(user) : checked
+      c = checked.nil? ? object.watcher_user_ids.include?(user.id) : checked
       tag = check_box_tag 'issue[watcher_user_ids][]', user.id, c, :id => nil
       content_tag 'label', "#{tag} #{h(user)}".html_safe,
                   :id => "issue_watcher_user_ids_#{user.id}",
