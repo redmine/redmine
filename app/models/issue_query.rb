@@ -22,7 +22,7 @@ class IssueQuery < Query
     COLUMN_SQL = Arel.sql("COALESCE(#{Issue.table_name}.estimated_hours, 0) * (100 - COALESCE(#{Issue.table_name}.done_ratio, 0)) / 100")
 
     def initialize
-      super :estimated_remaining_hours, totalable: true, sortable: COLUMN_SQL
+      super(:estimated_remaining_hours, totalable: true, sortable: COLUMN_SQL)
     end
 
     def value(object)
