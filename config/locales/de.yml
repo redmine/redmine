@@ -399,6 +399,7 @@ de:
   field_watcher: Beobachter
   field_default_assigned_to: Standardbearbeiter
   field_unique_id: Eindeutige ID
+  field_estimated_remaining_hours: Geschätzter verbleibender Aufwand
 
   general_csv_decimal_separator: ','
   general_csv_encoding: ISO-8859-1

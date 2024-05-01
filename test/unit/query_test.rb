@@ -2388,6 +2388,11 @@ class QueryTest < ActiveSupport::TestCase
     assert_include :estimated_hours, q.available_totalable_columns.map(&:name)
   end
 
+  def test_available_totalable_columns_should_include_estimated_remaining_hours
+    q = IssueQuery.new
+    assert_include :estimated_remaining_hours, q.available_totalable_columns.map(&:name)
+  end
+
   def test_available_totalable_columns_should_include_spent_hours
     User.current = User.find(1)
 
@@ -2458,6 +2463,29 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal(
       {nil => 3.5, User.find(2) => 5.5, User.find(3) => 1.1},
       q.total_by_group_for(:estimated_hours)
+    )
+  end
+
+  def test_total_for_estimated_remaining_hours
+    Issue.delete_all
+    Issue.generate!(:estimated_hours => 5.5, :done_ratio => 50)
+    Issue.generate!(:estimated_hours => 1.1, :done_ratio => 100)
+    Issue.generate!
+
+    q = IssueQuery.new
+    assert_equal 2.75, q.total_for(:estimated_remaining_hours)
+  end
+
+  def test_total_by_group_for_estimated_remaining_hours
+    Issue.delete_all
+    Issue.generate!(:estimated_hours => 5.5, :assigned_to_id => 2, :done_ratio => 50)
+    Issue.generate!(:estimated_hours => 1.1, :assigned_to_id => 3, :done_ratio => 100)
+    Issue.generate!(:estimated_hours => 3.5, :done_ratio => 0)
+
+    q = IssueQuery.new(:group_by => 'assigned_to')
+    assert_equal(
+      {nil => 3.5, User.find(2) => 2.75, User.find(3) => 0},
+      q.total_by_group_for(:estimated_remaining_hours)
     )
   end
 

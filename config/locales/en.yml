@@ -418,6 +418,7 @@ en:
   field_default_project_query: Default project query
   field_default_time_entry_activity: Default spent time activity
   field_any_searchable: Any searchable text
+  field_estimated_remaining_hours: Estimated remaining time
 
   setting_app_title: Application title
   setting_welcome_text: Welcome text

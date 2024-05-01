@@ -18,6 +18,22 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class IssueQuery < Query
+  class EstimatedRemainingHoursColumn < QueryColumn
+    COLUMN_SQL = Arel.sql("COALESCE(#{Issue.table_name}.estimated_hours, 0) * (100 - COALESCE(#{Issue.table_name}.done_ratio, 0)) / 100")
+
+    def initialize
+      super :estimated_remaining_hours, totalable: true, sortable: COLUMN_SQL
+    end
+
+    def value(object)
+      (object.estimated_hours || 0) * (100 - (object.done_ratio || 0)) / 100
+    end
+
+    def value_object(object)
+      value(object)
+    end
+  end
+
   self.queried_class = Issue
   self.view_permission = :view_issues
 
@@ -50,6 +66,7 @@ class IssueQuery < Query
     QueryColumn.new(:due_date, :sortable => "#{Issue.table_name}.due_date", :groupable => true),
     QueryColumn.new(:estimated_hours, :sortable => "#{Issue.table_name}.estimated_hours",
                     :totalable => true),
+    EstimatedRemainingHoursColumn.new,
     QueryColumn.new(
       :total_estimated_hours,
       :sortable =>
@@ -330,7 +347,9 @@ class IssueQuery < Query
     end
 
     disabled_fields = Tracker.disabled_core_fields(trackers).map {|field| field.delete_suffix('_id')}
-    disabled_fields << "total_estimated_hours" if disabled_fields.include?("estimated_hours")
+    if disabled_fields.include?("estimated_hours")
+      disabled_fields += %w[total_estimated_hours estimated_remaining_hours]
+    end
     @available_columns.reject! do |column|
       disabled_fields.include?(column.name.to_s)
     end
@@ -368,6 +387,10 @@ class IssueQuery < Query
   # Returns sum of all the issue's estimated_hours
   def total_for_estimated_hours(scope)
     map_total(scope.sum(:estimated_hours)) {|t| t.to_f.round(2)}
+  end
+
+  def total_for_estimated_remaining_hours(scope)
+    map_total(scope.sum(EstimatedRemainingHoursColumn::COLUMN_SQL)) {|t| t.to_f.round(2)}
   end
 
   # Returns sum of all the issue's time entries hours

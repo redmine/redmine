@@ -190,7 +190,7 @@ module QueriesHelper
   def total_tag(column, value)
     label = content_tag('span', "#{column.caption}:")
     value =
-      if [:hours, :spent_hours, :total_spent_hours, :estimated_hours, :total_estimated_hours].include? column.name
+      if [:hours, :spent_hours, :total_spent_hours, :estimated_hours, :total_estimated_hours, :estimated_remaining_hours].include? column.name
         format_hours(value)
       else
         format_object(value)
@@ -269,7 +269,7 @@ module QueriesHelper
           'span',
           value.to_s(item) {|other| link_to_issue(other, :subject => false, :tracker => false)}.html_safe,
           :class => value.css_classes_for(item))
-      when :hours, :estimated_hours, :total_estimated_hours
+      when :hours, :estimated_hours, :total_estimated_hours, :estimated_remaining_hours
         format_hours(value)
       when :spent_hours
         link_to_if(value > 0, format_hours(value), project_time_entries_path(item.project, :issue_id => "#{item.id}"))
