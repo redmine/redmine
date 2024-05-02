@@ -155,7 +155,7 @@ class VersionTest < ActiveSupport::TestCase
     with_settings :parent_issue_done_ratio => 'derived' do
       parent = Issue.generate!
       parent.generate_child!(:estimated_hours => 2, :done_ratio => 0, :fixed_version => v)
-      child = parent.generate_child!( :fixed_version => v)
+      child = parent.generate_child!(:fixed_version => v)
       child.generate_child!(:estimated_hours => 2, :done_ratio => 50)
       child.generate_child!(:estimated_hours => 2, :done_ratio => 50)
 
