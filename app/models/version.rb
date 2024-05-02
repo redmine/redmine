@@ -78,9 +78,11 @@ module FixedIssuesExtension
   # Used to weight unestimated issues in progress calculation
   def estimated_average
     if @estimated_average.nil?
-      average = average(:estimated_hours).to_f
-      if average == 0
-        average = 1
+      issues_with_total_estimated_hours = select {|c| c.total_estimated_hours.to_f > 0.0}
+      if issues_with_total_estimated_hours.any?
+        average = issues_with_total_estimated_hours.map(&:total_estimated_hours).sum.to_f / issues_with_total_estimated_hours.count
+      else
+        average = 1.0
       end
       @estimated_average = average
     end
@@ -98,9 +100,12 @@ module FixedIssuesExtension
     @issues_progress[open] ||= begin
       progress = 0
       if count > 0
-        ratio = open ? 'done_ratio' : 100
-
-        done = open(open).sum("COALESCE(estimated_hours, #{estimated_average}) * #{ratio}").to_f
+        done = open(open).map {|c|
+          estimated = c.total_estimated_hours.to_f
+          estimated = estimated_average unless estimated > 0.0
+          ratio = c.closed? ? 100 : (c.done_ratio || 0)
+          estimated * ratio
+        }.sum
         progress = done / (estimated_average * count)
       end
       progress

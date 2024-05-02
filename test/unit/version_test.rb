@@ -117,6 +117,16 @@ class VersionTest < ActiveSupport::TestCase
     assert_progress_equal (100.0)/3, v.closed_percent
   end
 
+  def test_progress_should_consider_closed_issues_with_0h_estimated_as_completed
+    project = Project.find(1)
+    closed = IssueStatus.where(:is_closed => true).first
+    v = Version.create!(:project => project, :name => 'Progress')
+    add_issue(v, :done_ratio => 100, :estimated_hours => 0)
+    add_issue(v, :done_ratio => 100, :estimated_hours => 0, :status => closed)
+    assert_progress_equal 100, v.completed_percent
+    assert_progress_equal 50, v.closed_percent
+  end
+
   def test_progress_should_consider_estimated_hours_to_weight_issues
     project = Project.find(1)
     v = Version.create!(:project => project, :name => 'Progress')
