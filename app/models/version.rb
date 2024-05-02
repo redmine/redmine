@@ -80,7 +80,7 @@ module FixedIssuesExtension
     if @estimated_average.nil?
       issues_with_total_estimated_hours = select {|c| c.total_estimated_hours.to_f > 0.0}
       if issues_with_total_estimated_hours.any?
-        average = issues_with_total_estimated_hours.map(&:total_estimated_hours).sum.to_f / issues_with_total_estimated_hours.count
+        average = issues_with_total_estimated_hours.sum(&:total_estimated_hours).to_f / issues_with_total_estimated_hours.count
       else
         average = 1.0
       end
@@ -100,12 +100,12 @@ module FixedIssuesExtension
     @issues_progress[open] ||= begin
       progress = 0
       if count > 0
-        done = open(open).map {|c|
+        done = open(open).sum do |c|
           estimated = c.total_estimated_hours.to_f
           estimated = estimated_average unless estimated > 0.0
           ratio = c.closed? ? 100 : (c.done_ratio || 0)
           estimated * ratio
-        }.sum
+        end
         progress = done / (estimated_average * count)
       end
       progress
