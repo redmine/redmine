@@ -149,6 +149,20 @@ class VersionTest < ActiveSupport::TestCase
     assert_progress_equal 25.0/100.0*100, v.closed_percent
   end
 
+  def test_progress_should_be_weighted_by_estimated_times_if_any_with_grandchildren
+    project = Project.find(1)
+    v = Version.create!(:project => project, :name => 'Progress')
+    with_settings :parent_issue_done_ratio => 'derived' do
+      parent = Issue.generate!
+      parent.generate_child!(:estimated_hours => 2, :done_ratio => 0, :fixed_version => v)
+      child = parent.generate_child!( :fixed_version => v)
+      child.generate_child!(:estimated_hours => 2, :done_ratio => 50)
+      child.generate_child!(:estimated_hours => 2, :done_ratio => 50)
+
+      assert_progress_equal 200.0 / (3.0 * 2), v.completed_percent
+    end
+  end
+
   def test_should_sort_scheduled_then_unscheduled_versions
     Version.delete_all
     v4 = Version.create!(:project_id => 1, :name => 'v4')
