@@ -31,11 +31,11 @@ class AvatarsHelperTest < Redmine::HelperTest
   end
 
   def test_avatar_with_user
-    assert_include Digest::MD5.hexdigest('jsmith@somenet.foo'), avatar(User.find_by_mail('jsmith@somenet.foo'))
+    assert_include Digest::SHA256.hexdigest('jsmith@somenet.foo'), avatar(User.find_by_mail('jsmith@somenet.foo'))
   end
 
   def test_avatar_with_email_string
-    assert_include Digest::MD5.hexdigest('jsmith@somenet.foo'), avatar('jsmith <jsmith@somenet.foo>')
+    assert_include Digest::SHA256.hexdigest('jsmith@somenet.foo'), avatar('jsmith <jsmith@somenet.foo>')
   end
 
   def test_avatar_with_anonymous_user
