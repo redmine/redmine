@@ -1468,3 +1468,4 @@ fr:
   text_default_active_job_queue_changed: Gestionnaire de file par défaut le plus adapté
   label_option_auto_lang: auto
   label_issue_attachment_added: Attachment added
+  field_estimated_remaining_hours: Estimated remaining time

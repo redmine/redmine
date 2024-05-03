@@ -1440,3 +1440,4 @@ ja:
   text_default_active_job_queue_changed: キューアダプターがデフォルト (開発・テスト用) 以外のものに変更済み
   label_option_auto_lang: 自動設定
   label_issue_attachment_added: Attachment added
+  field_estimated_remaining_hours: Estimated remaining time

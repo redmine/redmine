@@ -1484,3 +1484,4 @@ th:
     only for dev/test changed
   label_option_auto_lang: auto
   label_issue_attachment_added: Attachment added
+  field_estimated_remaining_hours: Estimated remaining time

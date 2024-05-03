@@ -1558,3 +1558,4 @@ ru:
   text_default_active_job_queue_changed: Изменен адаптер очереди по умолчанию, который хорошо подходит только для разработки/тестирования
   label_option_auto_lang: auto
   label_issue_attachment_added: Attachment added
+  field_estimated_remaining_hours: Estimated remaining time
