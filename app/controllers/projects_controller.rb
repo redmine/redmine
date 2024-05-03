@@ -53,31 +53,30 @@ class ProjectsController < ApplicationController
 
     retrieve_default_query
     retrieve_project_query
-    scope = project_scope
 
     respond_to do |format|
       format.html do
         # TODO: see what to do with the board view and pagination
         if @query.display_type == 'board'
-          @entries = scope.to_a
+          @entries = project_scope.to_a
         else
-          @entry_count = scope.count
+          @entry_count = @query.result_count
           @entry_pages = Paginator.new @entry_count, per_page_option, params['page']
-          @entries = scope.offset(@entry_pages.offset).limit(@entry_pages.per_page).to_a
+          @entries = project_scope(:offset => @entry_pages.offset, :limit => @entry_pages.per_page).to_a
         end
       end
       format.api do
         @offset, @limit = api_offset_and_limit
-        @project_count = scope.count
-        @projects = scope.offset(@offset).limit(@limit).to_a
+        @project_count = @query.result_count
+        @projects = project_scope(:offset => @offset, :limit => @limit)
       end
       format.atom do
-        projects = scope.reorder(:created_on => :desc).limit(Setting.feeds_limit.to_i).to_a
+        projects = project_scope(:order => {:created_on => :desc}, :limit => Setting.feeds_limit.to_i).to_a
         render_feed(projects, :title => "#{Setting.app_title}: #{l(:label_project_latest)}")
       end
       format.csv do
         # Export all entries
-        entries = scope.to_a
+        entries = project_scope.to_a
         send_data(query_to_csv(entries, @query, params), :type => 'text/csv; header=present', :filename => 'projects.csv')
       end
     end

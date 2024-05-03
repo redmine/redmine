@@ -252,6 +252,18 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert_select ".total-for-cf-#{field.id} span.value", :text => '9'
   end
 
+  def test_index_with_last_activity_date_column
+    with_settings :project_list_defaults => {'column_names' => %w(name short_description last_activity_date)} do
+      get :index, :params => {
+        :display_type => 'list'
+      }
+      assert_response :success
+    end
+    assert_equal ['Name', 'Description', 'Last activity'], columns_in_list
+    assert_select 'tr#project-1 td.last_activity_date', :text => format_time(Journal.find(3).created_on)
+    assert_select 'tr#project-4 td.last_activity_date', :text => ''
+  end
+
   def test_index_should_retrieve_default_query
     query = ProjectQuery.find(11)
     ProjectQuery.stubs(:default).returns query

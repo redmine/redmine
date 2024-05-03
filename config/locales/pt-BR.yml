@@ -299,6 +299,7 @@ pt-BR:
   field_default_value: Padrão
   field_comments_sorting: Visualizar comentários
   field_parent_title: Página pai
+  field_last_activity_date: Última atividade
 
   setting_app_title: Título da aplicação
   setting_welcome_text: Texto de boas-vindas

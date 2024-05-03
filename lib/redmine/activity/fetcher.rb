@@ -87,6 +87,7 @@ module Redmine
       def events(from = nil, to = nil, options={})
         e = []
         @options[:limit] = options[:limit]
+        @options[:last_by_project] = options[:last_by_project] if options[:last_by_project]
 
         @scope.each do |event_type|
           constantized_providers(event_type).each do |provider|
@@ -94,10 +95,14 @@ module Redmine
           end
         end
 
-        e.sort! {|a, b| b.event_datetime <=> a.event_datetime}
+        if options[:last_by_project]
+          e.sort!
+        else
+          e.sort! {|a, b| b.event_datetime <=> a.event_datetime}
 
-        if options[:limit]
-          e = e.slice(0, options[:limit])
+          if options[:limit]
+            e = e.slice(0, options[:limit])
+          end
         end
         e
       end

@@ -379,6 +379,7 @@ class Project < ApplicationRecord
     @due_date = nil
     @override_members = nil
     @assignable_users = nil
+    @last_activity_date = nil
     base_reload(*args)
   end
 
@@ -1005,6 +1006,20 @@ class Project < ApplicationRecord
     end
   end
 
+  def last_activity_date
+    @last_activity_date || fetch_last_activity_date
+  end
+
+  # Preloads last activity date for a collection of projects
+  def self.load_last_activity_date(projects, user=User.current)
+    if projects.any?
+      last_activities = Redmine::Activity::Fetcher.new(User.current).events(nil, nil, :last_by_project => true).to_h
+      projects.each do |project|
+        project.instance_variable_set(:@last_activity_date, last_activities[project.id])
+      end
+    end
+  end
+
   private
 
   def update_inherited_members
@@ -1311,5 +1326,10 @@ class Project < ApplicationRecord
       subproject.send :archive!
     end
     update_attribute :status, STATUS_ARCHIVED
+  end
+
+  def fetch_last_activity_date
+    latest_activities = Redmine::Activity::Fetcher.new(User.current, :project => self).events(nil, nil, :last_by_project => true)
+    latest_activities.empty? ? nil : latest_activities.to_h[self.id]
   end
 end

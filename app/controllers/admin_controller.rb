@@ -38,11 +38,10 @@ class AdminController < ApplicationController
   def projects
     retrieve_query(ProjectQuery, false, :defaults => @default_columns_names)
     @query.admin_projects = 1
-    scope = @query.results_scope
 
-    @entry_count = scope.count
+    @entry_count = @query.result_count
     @entry_pages = Paginator.new @entry_count, per_page_option, params['page']
-    @projects = scope.limit(@entry_pages.per_page).offset(@entry_pages.offset).to_a
+    @projects = @query.results_scope(:limit => @entry_pages.per_page, :offset => @entry_pages.offset).to_a
 
     render :action => "projects", :layout => false if request.xhr?
   end
