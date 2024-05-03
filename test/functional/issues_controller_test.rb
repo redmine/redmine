@@ -1981,7 +1981,13 @@ class IssuesControllerTest < Redmine::ControllerTest
     )
 
     assert_response :success
-    assert_include "\"#{User.find(1).name}\n#{User.find(3).name}\"", response.body
+
+    lines = CSV.parse(response.body)
+    # Issue with ID 2 is the second issue in the CSV
+    # Column 3 is watchers_users
+    watchers = lines[2][2].split("\n").sort
+
+    assert_equal [User.find(3).name, User.find(1).name], watchers
   end
 
   def test_index_with_estimated_hours_total
