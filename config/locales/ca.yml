@@ -1474,3 +1474,4 @@ ca:
   text_select_apply_issue_status: Marca l'estat de la incidència
   field_name_or_email_or_login: Nom, correu o login
   label_option_auto_lang: auto
+  label_issue_attachment_added: Attachment added

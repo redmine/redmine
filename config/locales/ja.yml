@@ -1439,3 +1439,4 @@ ja:
   field_name_or_email_or_login: 姓名・メールアドレス・ログインID
   text_default_active_job_queue_changed: キューアダプターがデフォルト (開発・テスト用) 以外のものに変更済み
   label_option_auto_lang: 自動設定
+  label_issue_attachment_added: Attachment added

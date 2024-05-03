@@ -1423,3 +1423,4 @@ zh:
   field_name_or_email_or_login: 姓名、电子邮件或登录名
   text_default_active_job_queue_changed: 仅适用于开发/测试环境的默认队列适配器已改变
   label_option_auto_lang: auto
+  label_issue_attachment_added: Attachment added
