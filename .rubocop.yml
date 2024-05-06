@@ -137,6 +137,9 @@ Rails/BulkChangeTable:
   Exclude:
     - 'db/migrate/20120714122200_add_workflows_rule_fields.rb'
     - 'db/migrate/20131214094309_remove_custom_fields_min_max_length_default_values.rb'
+    - 'db/migrate/20190510070108_add_unique_id_to_import_items.rb'
+    - 'db/migrate/20200826153402_add_totp_to_user.rb'
+    - 'db/migrate/20221012135202_add_index_to_custom_values.rb'
 
 Rails/CompactBlank:
   Enabled: false
