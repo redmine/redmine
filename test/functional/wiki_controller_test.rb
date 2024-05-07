@@ -677,7 +677,7 @@ class WikiControllerTest < Redmine::ControllerTest
               :version => 3
             },
             :section => 2,
-            :section_hash => Digest::MD5.hexdigest("wrong hash")
+            :section_hash => ActiveSupport::Digest.hexdigest("wrong hash")
           }
         end
       end

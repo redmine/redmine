@@ -18,7 +18,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require_relative 'wiki_formatting/textile/redcloth3'
-require 'digest/md5'
 
 module Redmine
   module WikiFormatting
@@ -110,7 +109,7 @@ module Redmine
       # Returns a cache key for the given text +format+, +text+, +object+ and +attribute+ or nil if no caching should be done
       def cache_key_for(format, text, object, attribute)
         if object && attribute && !object.new_record? && format.present?
-          "formatted_text/#{format}/#{object.class.model_name.cache_key}/#{object.id}-#{attribute}-#{Digest::MD5.hexdigest text}"
+          "formatted_text/#{format}/#{object.class.model_name.cache_key}/#{object.id}-#{attribute}-#{ActiveSupport::Digest.hexdigest text}"
         end
       end
 

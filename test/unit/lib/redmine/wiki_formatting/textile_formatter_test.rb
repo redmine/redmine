@@ -19,7 +19,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require_relative '../../../../test_helper'
-require 'digest/md5'
 
 class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
   def setup
@@ -491,13 +490,13 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
     assert_equal(
       [STR_WITHOUT_PRE[0], replacement, STR_WITHOUT_PRE[2..4]].flatten.join("\n\n"),
       @formatter.new(TEXT_WITHOUT_PRE).
-        update_section(2, replacement, Digest::MD5.hexdigest(STR_WITHOUT_PRE[1]))
+        update_section(2, replacement, ActiveSupport::Digest.hexdigest(STR_WITHOUT_PRE[1]))
     )
   end
 
   def test_update_section_with_wrong_hash_should_raise_an_error
     assert_raise Redmine::WikiFormatting::StaleSectionError do
-      @formatter.new(TEXT_WITHOUT_PRE).update_section(2, "New text", Digest::MD5.hexdigest("Old text"))
+      @formatter.new(TEXT_WITHOUT_PRE).update_section(2, "New text", ActiveSupport::Digest.hexdigest("Old text"))
     end
   end
 
@@ -809,6 +808,6 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
     assert_kind_of Array, result
     assert_equal 2, result.size
     assert_equal expected, result.first, "section content did not match"
-    assert_equal Digest::MD5.hexdigest(expected), result.last, "section hash did not match"
+    assert_equal ActiveSupport::Digest.hexdigest(expected), result.last, "section hash did not match"
   end
 end

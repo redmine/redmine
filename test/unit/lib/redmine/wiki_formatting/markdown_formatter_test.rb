@@ -349,6 +349,6 @@ class Redmine::WikiFormatting::MarkdownFormatterTest < ActionView::TestCase
     assert_kind_of Array, result
     assert_equal 2, result.size
     assert_equal expected, result.first, "section content did not match"
-    assert_equal Digest::MD5.hexdigest(expected), result.last, "section hash did not match"
+    assert_equal ActiveSupport::Digest.hexdigest(expected), result.last, "section hash did not match"
   end
 end
