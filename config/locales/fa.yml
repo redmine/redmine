@@ -1423,3 +1423,4 @@ fa:
   text_default_active_job_queue_changed: آداپتور پیش‌فرض صف که به شکل مناسبی کار می‌کند تنها برای توسعه/آزمون تغییر کرد
   label_issue_attachment_added: Attachment added
   field_estimated_remaining_hours: Estimated remaining time
+  field_last_activity_date: Last activity

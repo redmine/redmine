@@ -1441,3 +1441,4 @@ ja:
   label_option_auto_lang: 自動設定
   label_issue_attachment_added: Attachment added
   field_estimated_remaining_hours: Estimated remaining time
+  field_last_activity_date: Last activity
