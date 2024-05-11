@@ -1504,6 +1504,6 @@
   field_name_or_email_or_login: 姓名, 電子郵件或帳戶名稱
   text_default_active_job_queue_changed: 已變更僅適用於開發/測試環境的佇列適配器 (queue adapter)
   label_option_auto_lang: 自動選取語言
-  label_issue_attachment_added: Attachment added
-  field_estimated_remaining_hours: Estimated remaining time
-  field_last_activity_date: Last activity
+  label_issue_attachment_added: 附加檔案已新增
+  field_estimated_remaining_hours: 預估剩餘工時
+  field_last_activity_date: 最近一次活動
