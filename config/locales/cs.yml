@@ -1445,14 +1445,14 @@ cs:
   text_subprojects_bulk_destroy: 'včetně jeho prodprojektu/ů: %{value}'
   field_current_password: Aktuální heslo
   sudo_mode_new_info_html: "<strong>Co se děje?</strong> Musíte znovu potvrdit vaše heslo, než učiníte jakoukoli
-    administrativní akci. To zaručí, že váš účet zůstane chráněný."
+    administrativní akci. To zaručí, že Váš účet zůstane chráněný."
   label_edited: Upraveno
   label_time_by_author: "%{time} %{author}"
   field_default_time_entry_activity: Výchozí aktivita stráveného času
   field_is_member_of_group: Člen skupiny
-  text_users_bulk_destroy_head: Chystáte se zmazat následující uživatele a všechna jejich data. Tato operace je 
+  text_users_bulk_destroy_head: Chystáte se smazat následující uživatele a všechna jejich data. Tato operace je
     nevratná. Zamčení uživatelů bývá lepším řešením.
-  text_users_bulk_destroy_confirm: Pro potvrzení zadej "%{yes}" níže.
+  text_users_bulk_destroy_confirm: Pro potvrzení zadejte "%{yes}" níže.
   permission_select_project_publicity: Nastav projekt jako veřejný nebo soukromý
   label_auto_watch_on_issue_created: Úkoly, které jsem vytvořil
   field_any_searchable: Jakýkoli vyhledávatelný text
@@ -1464,7 +1464,7 @@ cs:
   label_changed_from: změněno od
   label_issue_statuses_description: Popis stavů úkolů
   label_open_issue_statuses_description: Zobraz popis všech stavů úkolů
-  text_select_apply_issue_status: Vyber stav úkolu
-  field_name_or_email_or_login: Name, email or login
-  text_default_active_job_queue_changed: Default queue adapter which is well suited
-    only for dev/test changed
+  text_select_apply_issue_status: Vyberte stav úkolu
+  field_name_or_email_or_login: Jméno, email nebo přihlášení
+  text_default_active_job_queue_changed: Výchozí adaptér fronty, vhodný pouze pro
+    vývoj/testování, byl změněn
