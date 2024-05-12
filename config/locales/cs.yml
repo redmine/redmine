@@ -1469,6 +1469,6 @@ cs:
   text_default_active_job_queue_changed: Výchozí adaptér fronty, vhodný pouze pro
     vývoj/testování, byl změněn
   label_option_auto_lang: auto
-  label_issue_attachment_added: Attachment added
-  field_estimated_remaining_hours: Estimated remaining time
+  label_issue_attachment_added: Příloha přidána
+  field_estimated_remaining_hours: Odhadovaný zbývající čas
   field_last_activity_date: Last activity
