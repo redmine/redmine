@@ -381,7 +381,7 @@ module Redmine
 
       # Adds a child at given position
       def add_at(child, position)
-        @children = @children.insert(position, child)
+        @children.insert(position, child)
         child.parent = self
         child
       end

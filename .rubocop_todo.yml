@@ -1421,11 +1421,6 @@ Style/RedundantReturn:
 Style/RedundantSelf:
   Enabled: false
 
-# This cop supports unsafe autocorrection (--autocorrect-all).
-Style/RedundantSelfAssignment:
-  Exclude:
-    - 'lib/redmine/menu_manager.rb'
-
 # This cop supports safe autocorrection (--autocorrect).
 Style/RedundantSelfAssignmentBranch:
   Exclude:
