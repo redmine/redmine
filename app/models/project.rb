@@ -110,7 +110,7 @@ class Project < ApplicationRecord
   scope :like, (lambda do |arg|
     if arg.present?
       pattern = "%#{sanitize_sql_like arg.to_s.strip}%"
-      where("LOWER(identifier) LIKE LOWER(:p) ESCAPE :s OR LOWER(name) LIKE LOWER(:p) ESCAPE :s", :p => pattern, :s => '\\')
+      where("LOWER(#{Project.table_name}.identifier) LIKE LOWER(:p) ESCAPE :s OR LOWER(#{Project.table_name}.name) LIKE LOWER(:p) ESCAPE :s", :p => pattern, :s => '\\')
     end
   end)
   scope :sorted, lambda {order(:lft)}
