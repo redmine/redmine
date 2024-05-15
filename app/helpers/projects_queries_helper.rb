@@ -27,7 +27,13 @@ module ProjectsQueriesHelper
           (tag.span(class: 'icon icon-user my-project', title: l(:label_my_projects)) if User.current.member_of?(item)) +
           (tag.span(class: 'icon icon-bookmarked-project', title: l(:label_my_bookmarks)) if User.current.bookmarked_project_ids.include?(item.id))
       when :short_description
-        item.description? ? content_tag('div', textilizable(item, :short_description), :class => "wiki") : ''
+        if item.description?
+          # Sets :inline_attachments to false to avoid performance issues
+          # caused by unnecessary loading of attachments
+          content_tag('div', textilizable(item, :short_description, :inline_attachments => false), :class => 'wiki')
+        else
+          ''
+        end
       when :homepage
         item.homepage? ? content_tag('div', textilizable(item, :homepage), :class => "wiki") : ''
       when :status
