@@ -829,6 +829,8 @@ module Redmine
     end
 
     class EnumerationFormat < RecordList
+      self.customized_class_names = nil
+
       add 'enumeration'
       self.form_partial = 'custom_fields/formats/enumeration'
 

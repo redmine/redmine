@@ -98,4 +98,8 @@ class Redmine::EnumerationFieldFormatTest < ActionView::TestCase
     assert_equal [@foo.id], @field.value_from_keyword('foo, baz', nil)
     assert_equal [], @field.value_from_keyword('baz', nil)
   end
+
+  def test_customized_class_names_should_overrided_to_nil
+    assert_nil Redmine::FieldFormat::EnumerationFormat.customized_class_names
+  end
 end
