@@ -43,3 +43,5 @@
 
 /node_modules
 yarn-error.log
+db/.DS_Store
+.DS_Store

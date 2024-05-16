@@ -64,7 +64,7 @@ namespace :deploy do
   desc "Migrate plugins"
   task :migrate_plugins do
     on roles(:app) do
-      within "#{current_path}" do
+      within release_path do
         execute :bundle, "exec rake redmine:plugins:migrate RAILS_ENV=production"
       end
       # execute "cd '#{release_path}'; bundle exec rake redmine:plugins:migrate RAILS_ENV=production"
