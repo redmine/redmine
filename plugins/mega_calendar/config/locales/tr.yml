@@ -1,0 +1,37 @@
+tr:
+  calendar: "Takvim"
+  holidays: "Tatil"
+  holiday:  "Tatil"
+  my_issues: "İşlerim"
+  all_issues: "Tüm İşler"
+  user: "Kullanıcı"
+  group: "Grup"
+  start: "Başlangıç"
+  end: "Bitiş"
+  action: "İşlem"
+  show: "Göster"
+  edit: "Düzenle"
+  new: "Yeni"
+  destroy: "Yoket"
+  prev: "Önceki"
+  next: "Sonraki"
+  save: "Kaydet"
+  list: "Liste"
+  def_holiday_color: "Tatil için öntanımlı renk"
+  def_color: "Öntanımlı renk"
+  project: "Birim"
+  status: "Durum"
+  save_question: "Kaydetmek istiyor musunuz?"
+  field_start: "Başlangıç"
+  field_end: "Bitiş"
+  select_default: "Seçiniz..."
+  sub_path: "Alt yol URL"
+  no_right: "Bu bölüm için gereken yetki sizde yok!"
+  allowed_users: "İzin Verilen Kullanıcılar"
+  activerecord:
+    errors:
+      models:
+        holiday:
+          attributes:
+            end:
+              greater_than_start: "başlangıçtan büyük olmalı"

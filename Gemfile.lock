@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/sam-github/vpim.git
+  revision: b33ec0e9cee9899331ebc5838c69d622fcbe6970
+  ref: b33ec0e9cee9899331ebc5838c69d622fcbe6970
+  specs:
+    vpim (13.11.11)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -377,6 +384,7 @@ DEPENDENCIES
   simple_form
   simplecov (~> 0.22.0)
   tzinfo-data
+  vpim!
   whenever
   yard
 

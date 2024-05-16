@@ -1,0 +1,21 @@
+<h1><%= translate 'holiday' %></h1>
+<%
+  user = @holiday.user.login rescue ''
+%>
+  <table>
+    <tr>
+      <td><label><%= translate 'user' %></label></td>
+      <td><%= user %></td>
+    </tr>
+    <tr>
+      <td><label><%= translate 'start' %></label></td>
+      <td><%= @holiday.start.blank? ? '' : format_date(@holiday.start.to_date) %></td>
+    </tr>
+    <tr>
+      <td><label><%= translate 'end' %></label></td>
+      <td><%= @holiday.end.blank? ? '' : format_date(@holiday.end.to_date) %></td>
+    </tr>
+  </table>
+<a href="<%= Setting.plugin_mega_calendar['sub_path'] %>holidays/edit?id=<%= @holiday.id.to_s %>"><%= translate 'edit' %></a>
+<a href="<%= Setting.plugin_mega_calendar['sub_path'] %>holidays/destroy?id=<%= @holiday.id.to_s %>"><%= translate 'destroy' %></a>
+<a href="<%= Setting.plugin_mega_calendar['sub_path'] %>holidays/index"><%= translate 'list' %></a>

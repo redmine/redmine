@@ -1,0 +1,71 @@
+<script src='<%= Setting.plugin_mega_calendar['sub_path'] %>plugin_assets/mega_calendar/javascripts/jscolor/jscolor.js'></script>
+<%= error_messages_for 'user' %>
+<%
+  user_color = UserColor.where({:user_id => @user.id}).first.color_code rescue ''
+%>
+
+<div id="user_form">
+<!--[form:user]-->
+<div class="splitcontentleft">
+<fieldset class="box tabular">
+  <legend><%=l(:label_information_plural)%></legend>
+  <p><%= f.text_field :login, :required => true, :size => 25  %></p>
+  <p><%= f.text_field :firstname, :required => true %></p>
+  <p><%= f.text_field :lastname, :required => true %></p>
+  <p><%= f.text_field :mail, :required => true %></p>
+  <p><label>Color:</label><input name="user[color]" class="color" type="text" value="<%= user_color %>" /></p>
+  <% unless @user.force_default_language? %>
+  <p><%= f.select :language, lang_options_for_select %></p>
+  <% end %>
+
+  <% @user.custom_field_values.each do |value| %>
+    <p><%= custom_field_tag_with_label :user, value %></p>
+  <% end %>
+
+  <p><%= f.check_box :admin, :disabled => (@user == User.current) %></p>
+  <%= call_hook(:view_users_form, :user => @user, :form => f) %>
+</fieldset>
+
+<fieldset class="box tabular">
+  <legend><%=l(:label_authentication)%></legend>
+  <% unless @auth_sources.empty? %>
+  <p><%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }), {}, :onchange => "if (this.value=='') {$('#password_fields').show();} else {$('#password_fields').hide();}" %></p>
+  <% end %>
+  <div id="password_fields" style="<%= 'display:none;' if @user.auth_source %>">
+  <p><%= f.password_field :password, :required => true, :size => 25  %>
+  <em class="info"><%= l(:text_caracters_minimum, :count => Setting.password_min_length) %></em></p>
+  <p><%= f.password_field :password_confirmation, :required => true, :size => 25  %></p>
+  <p><%= f.check_box :generate_password %></p>
+  <p><%= f.check_box :must_change_passwd %></p>
+  </div>
+</fieldset>
+</div>
+
+<div class="splitcontentright">
+<fieldset class="box">
+  <legend><%=l(:field_mail_notification)%></legend>
+  <%= render :partial => 'users/mail_notifications' %>
+</fieldset>
+
+<fieldset class="box tabular">
+  <legend><%=l(:label_preferences)%></legend>
+  <%= render :partial => 'users/preferences' %>
+  <%= call_hook(:view_users_form_preferences, :user => @user, :form => f) %>
+</fieldset>
+</div>
+</div>
+<div style="clear:left;"></div>
+<!--[eoform:user]-->
+
+<%= javascript_tag do %>
+$(document).ready(function(){
+  $('#user_generate_password').change(function(){
+    var passwd = $('#user_password, #user_password_confirmation');
+    if ($(this).is(':checked')){
+      passwd.val('').attr('disabled', true);
+    }else{
+      passwd.removeAttr('disabled');
+    }
+  }).trigger('change');
+});
+<% end %>

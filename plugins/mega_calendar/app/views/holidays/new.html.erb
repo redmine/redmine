@@ -1,0 +1,58 @@
+<link rel='stylesheet' href='<%= Setting.plugin_mega_calendar['sub_path'] %>plugin_assets/mega_calendar/javascripts/datetimepicker/jquery.datetimepicker.css' />
+<script src='<%= Setting.plugin_mega_calendar['sub_path'] %>plugin_assets/mega_calendar/javascripts/datetimepicker/build/jquery.datetimepicker.full.min.js'></script>
+
+<h1><%= translate 'holiday' %></h1>
+
+<%= error_messages_for 'holiday' %>
+
+<form action="<%= Setting.plugin_mega_calendar['sub_path'] %>holidays/create">
+  <table>
+    <tr>
+      <td><label><%= translate 'user' %></label></td>
+      <td>
+        <select name="holiday[user_id]">
+            <option value=""><%= translate 'select_default' %></option>
+          <% Holiday.get_activated_users.each do |u| %>
+            <option value="<%= u.id.to_s %>"><%= u.login.to_s %></option>
+          <% end %>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td><label><%= translate 'start' %></label></td>
+      <td><input type="text" id="holiday_start" name="holiday[start]" autocomplete="off" /></td>
+    </tr>
+    <tr>
+      <td><label><%= translate 'end' %></label></td>
+      <td><input type="text" id="holiday_end" name="holiday[end]" autocomplete="off" /></td>
+    </tr>
+  </table>
+<input type="submit" value="<%= translate 'save' %>" />
+</form>
+
+<%
+  js_locale = User.current.language  rescue nil
+  if js_locale.blank?
+    js_locale = Setting.default_language
+  end
+%>
+
+<script type="text/javascript">
+ $(document).ready(function() {
+ $.datetimepicker.setLocale('<%= js_locale %>');
+ var options = {
+   i18n: {
+    de: {
+     months: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+     dayOfWeek: ["So.", "Mo", "Di", "Mi","Do", "Fr", "Sa."]
+    }
+   },
+   timepicker: false,
+   datepicker: true,
+   format: 'Y-m-d',
+   dayOfWeekStart: <%= (Setting.plugin_mega_calendar['week_start'].blank? ? '1' : Setting.plugin_mega_calendar['week_start'].to_s ) %>
+ };
+ $("#holiday_start").datetimepicker(options);
+ $("#holiday_end").datetimepicker(options);
+ });
+</script>

@@ -36,6 +36,7 @@ module RedmineApp
       Date,
       Time,
       Symbol,
+      Set,
       ActiveSupport::HashWithIndifferentAccess,
       ActionController::Parameters
     ]

@@ -1,0 +1,37 @@
+pl:
+  calendar: "Kalendarz"
+  holidays: "Urlopy"
+  holiday:  "Urlop"
+  my_issues: "Moje zagadnienia"
+  all_issues: "Wszystkie zagadnienia"
+  user: "Użytkownik"
+  group: "Grupa"
+  start: "Początek"
+  end: "Koniec"
+  action: "Akcja"
+  show: "Pokaż"
+  edit: "Edytuj"
+  new: "Nowy"
+  destroy: "Usuń"
+  prev: "Poprzednia"
+  next: "Następna"
+  save: "Zapisz"
+  list: "Lista"
+  def_holiday_color: "Domyślny kolor Twojego urlopu"
+  def_color: "Domyślny kolor"
+  project: "Projekt"
+  status: "Status"
+  save_question: "Czy napewno chcesz zapisać?"
+  field_start: "Początek"
+  field_end: "Koniec"
+  select_default: "Wybierz..."
+  sub_path: "Sub path URL"
+  no_right: "Nie masz wystarczających uprawnień do przeglądania tej sekcji!"
+  allowed_users: "Użytkownicy z dostępem"
+  activerecord:
+    errors:
+      models:
+        holiday:
+          attributes:
+            end:
+              greater_than_start: "musi być po dacie początkowj"

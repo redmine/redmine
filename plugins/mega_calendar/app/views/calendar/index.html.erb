@@ -1,0 +1,66 @@
+<%
+  js_locale = request.env['HTTP_ACCEPT_LANGUAGE'].scan(/^[a-z]{2}/).first rescue nil
+  if js_locale.blank? || (js_locale != 'en' && js_locale != 'de' && js_locale != 'fr' && js_locale != 'ru')
+    js_locale = 'en'
+  end
+%>
+
+<%= render :partial => 'calendar/megacalendar', :locals => {:show_view_buttons => true, :default_view => 'dayGridMonth', :use_values_from_session => true, :calendar_height => '700', :calendar_style => 'padding: 0px 100px;'} %>
+
+<link rel='stylesheet' href='<%= Setting.plugin_mega_calendar['sub_path'] %>plugin_assets/mega_calendar/javascripts/datetimepicker/jquery.datetimepicker.css' />
+<script src='<%= Setting.plugin_mega_calendar['sub_path'] %>plugin_assets/mega_calendar/javascripts/datetimepicker/build/jquery.datetimepicker.full.min.js'></script>
+
+<a href="#" onclick="show_time_range();"><%= translate 'export_to_ics' %></a>
+<input type="hidden" name="time_start" value=""/>
+<input type="hidden" name="time_end"   value=""/>
+<div id="div_export_time_range" class="mega_calendar__export_ics_div">
+  <p class="mega_calendar__export_ics_div_title"><%= translate 'select_time_range_for_export' %></p>
+  <div class="mega_calendar__export_ics_div_table">
+    <div class="mega_calendar__export_ics_div_table_row">
+      <div class="mega_calendar__export_ics_div_table_cell"><%= translate 'field_start' %>:</div>
+      <div class="mega_calendar__export_ics_div_table_cell"><input id="inp_export_start" type="text" name="time_start" /></div>
+    </div>
+    <div class="mega_calendar__export_ics_div_table_row">
+      <div class="mega_calendar__export_ics_div_table_cell"><%= translate 'field_end' %>:</div>
+      <div class="mega_calendar__export_ics_div_table_cell"><input id="inp_export_end" type="text" name="time_end" /></div>
+    </div>
+  </div>
+  <br/>
+  <div class="mega_calendar__export_ics_div_cancel_btn" onclick="remove_time_range();"><%= translate 'cancel' %></div>&nbsp;<div class="mega_calendar__export_ics_div_submit_btn" onclick="submit_time_range();"><%= translate 'export' %></div>
+  <br/>
+</div>
+
+<script type="text/javascript">
+ $(document).ready(function() {
+ $.datetimepicker.setLocale('<%= js_locale %>');
+ var options = {
+   i18n: {
+    de: {
+     months: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+     dayOfWeek: ["So.", "Mo", "Di", "Mi","Do", "Fr", "Sa."]
+    }
+   },
+   timepicker: false,
+   datepicker: true,
+   format: 'Y-m-d'
+ };
+ $("#inp_export_start").datetimepicker(options);
+ $("#inp_export_end").datetimepicker(options);
+ });
+ function show_time_range() {
+   $('#div_export_time_range').fadeIn();
+ }
+ function remove_time_range() {
+   $('#div_export_time_range').fadeOut();
+ }
+ function submit_time_range() {
+   var time_start = $("#inp_export_start").val();
+   var time_end = $("#inp_export_end").val();
+   if(time_start !== "" && time_end !== "") {
+     remove_time_range();
+     window.open("<%= Setting.plugin_mega_calendar['sub_path'] %>calendar/export?time_start="+time_start+"&time_end="+time_end,"_blank");
+   } else {
+     alert("<%= translate 'please_select_time_range' %>");
+   }
+ }
+</script>

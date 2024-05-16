@@ -1,0 +1,5 @@
+<% if !Setting.plugin_mega_calendar['allowed_users'].blank? && Setting.plugin_mega_calendar['allowed_users'].include?(User.current.id.to_s) %>
+  <%= render :partial => 'calendar/megacalendar', :locals => {:show_view_buttons => false, :default_view => 'timeGridWeek', :use_values_from_session => false, :calendar_height => '300', :calendar_style => ''} %>
+<% else %>
+  <%= translate 'no_right' %>
+<% end %>

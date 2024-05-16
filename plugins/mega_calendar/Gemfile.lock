@@ -1,0 +1,10 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    vpim (13.11.11)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  vpim (= 13.11.11)

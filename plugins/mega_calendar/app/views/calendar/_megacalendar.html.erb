@@ -1,0 +1,210 @@
+<%
+  if use_values_from_session
+    js_default_date = session[:mega_calendar_js_default_date]
+    js_user_query = session[:mega_calendar_js_user_query]
+  else
+    js_default_date = Date.today.to_s
+    js_user_query = true
+  end
+  if js_user_query.nil?
+    js_user_query = true
+    session[:mega_calendar_js_user_query] = js_user_query
+  end
+  if js_default_date.nil?
+    js_default_date = Date.today.to_s
+    session[:mega_calendar_js_default_date] = js_default_date
+  end
+%>
+
+<link rel='stylesheet' href='<%= Setting.plugin_mega_calendar['sub_path'] %>plugin_assets/mega_calendar/stylesheets/mega_calendar.css' />
+<script src='<%= Setting.plugin_mega_calendar['sub_path'] %>plugin_assets/mega_calendar/javascripts/fullcalendar-6.1.9/dist/index.global.min.js'></script>
+<script src='<%= Setting.plugin_mega_calendar['sub_path'] %>plugin_assets/mega_calendar/javascripts/fullcalendar-6.1.9/packages/core/locales-all.global.min.js'></script>
+<script src='<%= Setting.plugin_mega_calendar['sub_path'] %>plugin_assets/mega_calendar/javascripts/moment-with-locales.js'></script>
+<script src='<%= Setting.plugin_mega_calendar['sub_path'] %>plugin_assets/mega_calendar/javascripts/jquery-serialize-object.min.js'></script>
+<h2><%= translate 'calendar' %></h2>
+<%= render :partial => 'calendar/filter_panel', :locals => {} %>
+<center><div id='mega_calendar__calendar'" style="<%= calendar_style %>"></div></center>
+
+<%
+  js_locale = User.current.language  rescue nil
+  if js_locale.blank?
+    js_locale = Setting.default_language
+  end
+%>
+
+<script type="text/javascript">
+  var user_query = <%= js_user_query.to_s %>;
+  function set_active_button(user) {
+    var btn_mytickets = $('.fc-myTickets-button');
+    var btn_alltickets = $('.fc-allTickets-button');
+    if(user === true) {
+      btn_mytickets.addClass('fc-button-active');
+      btn_alltickets.removeClass('fc-button-active');
+    } else {
+      btn_mytickets.removeClass('fc-button-active');
+      btn_alltickets.addClass('fc-button-active');
+    }
+  }
+  $(document).ready(function() {
+    var calendarEl = document.getElementById('mega_calendar__calendar');
+
+    window.calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: '<%= default_view %>',
+      locale: '<%= js_locale %>',
+      selectable: true,
+      editable: true,
+      eventDurationEditable: true,
+      eventOverlap: true,
+      height: <%= calendar_height %>,
+      displayEventEnd: true,
+      dayMaxEventRows: true,
+      eventDisplay: 'block',
+      firstDay: <%= (Setting.plugin_mega_calendar['week_start'].blank? ? '1' : Setting.plugin_mega_calendar['week_start'].to_s ) %>,
+      customButtons: {
+        myTickets: {
+          text: '<%= translate 'my_issues' %>',
+          click: function() {
+            user_query = true;
+            set_active_button(user_query);
+            calendar.refetchEvents();
+          }
+        },
+        allTickets: {
+          text: '<%= translate 'all_issues' %>',
+          click: function() {
+            user_query = false;
+            set_active_button(user_query);
+            calendar.refetchEvents();
+          }
+        }
+      },
+      headerToolbar: {
+        left: '<%= (show_view_buttons == false ? '' : 'prev,next today ') %>allTickets,myTickets',
+        center: 'title',
+        right: '<%= (show_view_buttons == false ? '' : 'dayGridMonth,timeGridWeek,timeGridDay') %>'
+      },
+      eventSources: [
+        {
+          url: '<%= Setting.plugin_mega_calendar['sub_path'] %>calendar/get_events',
+          extraParams:  function() {
+            return {
+              // start: start.format("YYYY-MM-DD HH:MM"),
+              // end: end.format("YYYY-MM-DD HH:MM"),
+              user: user_query,
+              save_values: <%= use_values_from_session %>,
+              filter: JSON.stringify($('#calendar_filter').serializeObject()["filter"])
+            };
+          }
+        }
+      ],
+      eventDidMount: function(info) {
+        info.el.title = info.event.extendedProps.description;
+        $(info.el).tooltip({
+          content: function () {
+            return $(this).prop('title');
+          }
+        });
+      },
+      select: function(info) {
+        calendar.unselect();
+        window.open('<%= Setting.plugin_mega_calendar['sub_path'] %>issues/new?issue[start_date]='+moment(info.start).format("YYYY-MM-DD")+'&issue[due_date]='+moment(info.end).format("YYYY-MM-DD")+'&issue[time_begin]='+moment(info.start).format("HH:mm")+'&issue[time_end]='+moment(info.end).format("HH:mm"), '_blank');
+      },
+      eventResize: function(info) {
+        if(!confirm("<%= (translate 'save_question') %>")) {
+          info.revert();
+        } else {
+          $.get('<%= Setting.plugin_mega_calendar['sub_path'] %>calendar/change_' + info.event.extendedProps.controller_name, { id: info.event.id, event_begin: moment(info.event.start).format("YYYY-MM-DD HH:mm"), event_end: moment(info.event.end).format("YYYY-MM-DD HH:mm") });
+        }
+      },
+      eventDrop: function(info) {
+        if(!confirm("<%= (translate 'save_question') %>")) {
+          info.revert();
+        } else {
+          var event_begin = moment(info.event.start).format();
+          var event_end = (info.event.end !== null ? moment(info.event.end).format() : null);
+          var allDay = info.event.allDay;
+          $.get('<%= Setting.plugin_mega_calendar['sub_path'] %>calendar/change_' + info.event.extendedProps.controller_name, { id: info.event.id, event_begin: moment(event_begin).format("YYYY-MM-DD HH:mm"), event_end: moment(event_end).format("YYYY-MM-DD HH:mm"), allDay: allDay });
+        }
+      },
+    });
+    calendar.render();
+    set_active_button(user_query);
+  //   $('#mega_calendar__calendar').fullCalendar({
+  //       lang: '<%= js_locale %>',
+  //       defaultView: '<%= default_view %>',
+  //       height: <%= calendar_height %>,
+  //       selectable: true,
+  //       customButtons: {
+  //               myTickets: {
+  //                       text: '<%= translate 'my_issues' %>',
+  //                       click: function() {
+  //                         user_query = true;
+  //                         set_active_button(user_query);
+  //                         $('#calendar').fullCalendar( 'refetchEvents' );
+  //                       }
+  //               },
+  //               allTickets: {
+  //                       text: '<%= translate 'all_issues' %>',
+  //                       click: function() {
+  //                         user_query = false;
+  //                         set_active_button(user_query);
+  //                         $('#calendar').fullCalendar( 'refetchEvents' );
+  //                       }
+  //               }
+
+  //       },
+  //       header: {
+  //                       left: '<%= (show_view_buttons == false ? '' : 'prev,next today ') %>allTickets,myTickets',
+  //                       center: 'title',
+  //                       right: '<%= (show_view_buttons == false ? '' : 'month,agendaWeek,agendaDay') %>'
+  //               },
+  //       displayEventEnd: true,
+  //       defaultDate: '<%= js_default_date %>',
+	// firstDay: <%= (Setting.plugin_mega_calendar['week_start'].blank? ? '1' : Setting.plugin_mega_calendar['week_start'].to_s ) %>,
+  //       events: function(start, end, timezone, callback) {
+  //         $.ajax({
+  //           url: '<%= Setting.plugin_mega_calendar['sub_path'] %>calendar/get_events',
+  //           dataType: 'json',
+  //           data: {
+  //             start: start.format("YYYY-MM-DD HH:MM"),
+  //             end: end.format("YYYY-MM-DD HH:MM"),
+  //             user: user_query,
+  //             save_values: <%= use_values_from_session %>,
+  //             filter: $('#calendar_filter').serializeObject()["filter"]
+  //           },
+  //           success: function(doc) {
+  //             var events = [];
+  //             $(doc).each(function() { events.push(this); });
+  //             callback(events);
+  //           }
+  //       });
+  //     },
+  //     eventRender: function(event, element) {
+  //         // element.qtip({ content: event.description, position: { target: 'mouse', adjust: { x: 5, y: 5}} });
+  //     },
+  //     eventLimit: true,
+  //     editable: true,
+  //     eventDrop: function(event, delta, revertFunc) {
+  //       if(!confirm("<%= (translate 'save_question') %>")) {
+  //         revertFunc();
+  //       } else {
+  //         var event_begin = event.start.format();
+  //         var event_end = (event.end !== null ? event.end.format() : null);
+  //         var allDay = event.allDay;
+  //         $.get('<%= Setting.plugin_mega_calendar['sub_path'] %>calendar/change_' + event.controller_name, { id: event.id, event_begin: event_begin, event_end: event_end, allDay: allDay });
+  //       }
+  //     },
+  //     eventResize: function(event, delta, revertFunc) {
+  //       if(!confirm("<%= (translate 'save_question') %>")) {
+  //         revertFunc();
+  //       } else {
+  //         $.get('<%= Setting.plugin_mega_calendar['sub_path'] %>calendar/change_' + event.controller_name, { id: event.id, event_begin: event.start.format(), event_end: event.end.format() });
+  //       }
+  //     },
+  //     select: function(start, end) {
+  //       $('#calendar').fullCalendar('unselect');
+  //       window.open('<%= Setting.plugin_mega_calendar['sub_path'] %>issues/new?issue[start_date]='+start.format("YYYY-MM-DD")+'&issue[due_date]='+end.format("YYYY-MM-DD")+'&issue[time_begin]='+start.format("HH:mm")+'&issue[time_end]='+end.format("HH:mm"), '_blank');
+  //     },
+  //   });
+  });
+</script>

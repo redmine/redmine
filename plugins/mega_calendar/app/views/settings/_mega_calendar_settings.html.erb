@@ -1,0 +1,62 @@
+<script src='<%= Setting.plugin_mega_calendar['sub_path'] %>plugin_assets/mega_calendar/javascripts/jscolor/jscolor.js'></script>
+<table>
+  <tbody>
+    <tr>
+      <th><%= translate 'def_holiday_color' %></th>
+      <td>
+        <input type="text" id="settings_default_holiday_color" value="<%= settings['default_holiday_color'] %>" name="settings[default_holiday_color]" class="color" />
+      </td>
+    </tr>
+    <tr>
+      <th><%= translate 'def_color' %></th>
+      <td>
+        <input type="text" id="settings_default_event_color" value="<%= settings['default_event_color'] %>" name="settings[default_event_color]" class="color" />
+      </td>
+    </tr>
+    <tr>
+      <th><%= translate 'sub_path' %></th>
+      <td>
+        <input type="text" id="settings_sub_path" value="<%= settings['sub_path'] %>" name="settings[sub_path]" />
+      </td>
+    </tr>
+    <tr>
+      <th><%= translate 'display_empty_dates' %></th>
+      <td>
+        <select name="settings[display_empty_dates]">
+          <option value="0" <%= (Setting.plugin_mega_calendar['display_empty_dates'].to_i == 0 ? 'selected' : '') %>><%= translate 'general_text_No' %></option>
+          <option value="1" <%= (Setting.plugin_mega_calendar['display_empty_dates'].to_i == 1 ? 'selected' : '') %>><%= translate 'general_text_Yes' %></option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <th><%= translate 'week_start' %></th>
+      <td>
+	<select id="settings_week_start" name="settings[week_start]">
+          <% (0..6).each do |d| %>
+            <option value="<%= d.to_s %>" <%= (!Setting.plugin_mega_calendar['week_start'].blank? && Setting.plugin_mega_calendar['week_start'] == d.to_s ? 'selected' : '') %>><%= translate 'day'+d.to_s %></option>
+          <% end %>
+	</select>
+      </td>
+    </tr>
+    <tr>
+      <th><%= translate 'allowed_users' %></th>
+      <td>
+        <select style="height: 200px;" id="settings_allowed_users" value="<%= settings['allowed_users'] %>" name="settings[allowed_users][]" multiple size="5">
+          <% User.where(["users.login IS NOT NULL AND users.login <> ''"]).order("users.login ASC").each do |u| %>
+            <option value="<%= u.id.to_s %>" <%= (!Setting.plugin_mega_calendar['allowed_users'].blank? && Setting.plugin_mega_calendar['allowed_users'].include?(u.id.to_s) ? 'selected' : '') %>><%= u.login.to_s %></option>
+          <% end %>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <th><%= translate 'displayed_within_calendar' %></th>
+      <td>
+        <select style="height: 200px;" id="settings_displayed_users" value="<%= settings['displayed_users'] %>" name="settings[displayed_users][]" multiple>
+          <% (User.where(["type IN (?)",['User','Group']]).order("users.login ASC") + Group.where(["type IN (?)",['User','Group']]).order("users.lastname ASC")).each do |u| %>
+            <option value="<%= u.id.to_s %>" <%= (!Setting.plugin_mega_calendar['displayed_users'].blank? && Setting.plugin_mega_calendar['displayed_users'].include?(u.id.to_s) ? 'selected' : '') %>><%= u.login.to_s + ' ' + u.lastname.to_s %></option>
+          <% end %>
+        </select>
+      </td>
+    </tr>
+  </tbody>
+</table>

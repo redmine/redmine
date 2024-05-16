@@ -1,0 +1,103 @@
+<form id="calendar_filter">
+<fieldset id="filters" class="collapsible collapsed mega_calendar__filter_fieldset">
+  <legend onclick="toggleFieldset(this);"><%= translate 'description_filter' %></legend>
+  <div class="mega_calendar__hide">
+    <table>
+    <% $mc_filters.keys.each do |filter_name|%>
+    <% filter = $mc_filters[filter_name] %>
+      <tr>
+        <td class="mega_calendar__filter_td">
+          <input type="checkbox" id="filter_id_<%= filter_name %>_enabled" name="filter[<%= filter_name %>][enabled]" />
+        </td>
+        <td class="mega_calendar__filter_td">
+          <%= translate filter[:label] %>
+        </td>
+        <td class="mega_calendar__filter_td">
+          <select class="mega_calendar__select_operator" id="filter_id_<%= filter_name %>_operator" name="filter[<%= filter_name %>][operator]" data-sel="filter_operator">
+            <% filter[:operators].each do |op| %>
+              <option value="<%= op.to_s %>"><%= translate 'label_'+op.to_s %></option>
+            <% end %>
+          </select>
+        </td>
+        <td class="mega_calendar__filter_td">
+          <% if filter[:type] == 'lookup' %>
+            <%
+              lookup_query = filter[:lookup_query_model].constantize.send(filter[:lookup_query_method])
+              if filter[:lookup_query_order]
+                lookup_query = lookup_query.order(filter[:lookup_query_order])
+              end
+              lookup_items = lookup_query.collect {|x| [x.send(filter[:lookup_id]),x.send(filter[:lookup_value])]}
+            %>
+            <select class="mega_calendar__select_value" id="filter_id_<%= filter_name %>_value" name="filter[<%= filter_name %>][value][]" data-sel="filter_value_select" multiple>
+              <% lookup_items.each do |item| %>
+                <option value="<%= item[0] %>"><%= item[1] %></option>
+              <% end %>
+            </select>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </table>
+    <a href="#" class="icon icon-checked" onclick="window.calendar.refetchEvents();"><%= translate 'button_apply' %></a> &nbsp; <a href="#" class="icon icon-reload" onclick="reset_and_reload_filters();"><%= translate 'button_reset' %></a>
+    <div>
+      <hr>
+      <table>
+        <tr>
+          <td><%= translate 'filter_name' %></td>
+          <td class="mega_calendar__filter_td"><input type="text" id="inp_filter_name" name="filter_name" /></td>
+        </tr>
+        <tr>
+          <td><%= translate 'global_filter' %></td>
+          <td class="mega_calendar__filter_td"><input type="checkbox" id="inp_filter_global" name="filter_global" /></td>
+        </tr>
+      </table>
+      <a href="#" class="icon icon-save" onclick="save_filters();"><%= translate 'button_save' %></a>
+      <hr>
+      <table>
+        <tr>
+          <td><%= translate 'use_saved_filter' %></td>
+          <td class="mega_calendar__filter_td">
+            <select id="sel_saved_filter" name="saved_filter">
+              <option value=""></option>
+              <% UserFilter.where(["user_filters.user_id = ? OR user_filters.user_id IS NULL",User.current.id]).each do |saved_filter| %>
+                <option value="<%= saved_filter.id %>"><%= saved_filter.filter_name %></option>
+              <% end %>
+            </select>
+          </td>
+        </tr>
+      </table>
+      <a href="#" class="icon icon-checked" onclick="use_saved_filter($('#sel_saved_filter').val());"><%= translate 'button_update' %></a>&nbsp;<a href="#" class="icon icon-del" onclick="window.location = '<%= Setting.plugin_mega_calendar['sub_path'] %>calendar/destroy_filter?id='+$('#sel_saved_filter').val();"><%= translate 'button_delete' %></a>
+    </div>
+  </div>
+</fieldset>
+</form>
+<script type="text/javascript">
+  function reset_and_reload_filters() {
+    $('#calendar_filter input[type="checkbox"]').prop( "checked", false );
+    $('#calendar_filter select[data-sel="filter_operator"] option:first-child').attr("selected", "selected");
+    $('#calendar_filter select[data-sel="filter_value_select"] option:selected').removeAttr("selected");
+    calendar.refetchEvents();
+  }
+  function save_filters() {
+    form_data = {
+      "filter": $('#calendar_filter').serializeObject()["filter"],
+      "global": $('#inp_filter_global').prop('checked'),
+      "name": $('#inp_filter_name').val(),
+    };
+    $.get('<%= Setting.plugin_mega_calendar['sub_path'] %>calendar/save_filters', form_data, function(data) {
+      use_saved_filter(data);
+    });
+  }
+  function use_saved_filter(id) {
+    $.get('<%= Setting.plugin_mega_calendar['sub_path'] %>calendar/get_saved_filters', {id: id}, function(data) {
+      Object.keys(data["filter"]).forEach(function(key,index) {
+        $("#filter_id_"+key+"_enabled").prop('checked', (data["filter"][key]["enabled"] === "true" ? true : false));
+        $("#filter_id_"+key+"_value").val(data["filter"][key]["value"]);
+        $("#filter_id_"+key+"_operator").val(data["filter"][key]["operator"]);
+      });
+      $("#inp_filter_name").val(data["name"]);
+      $("#inp_filter_global").prop('checked', data["global"]);
+      calendar.refetchEvents();
+    });
+  }
+</script>

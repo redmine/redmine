@@ -1,0 +1,160 @@
+<%= render :partial => 'action_menu' %>
+
+<h2 class="inline-flex"><%= issue_heading(@issue) %></h2>
+<%= issue_status_type_badge(@issue.status) %>
+<% if @issue.is_private? %>
+  <span class="badge badge-private private"><%= l(:field_is_private) %></span>
+<% end %>
+
+<div class="<%= @issue.css_classes %> details">
+  <% if @prev_issue_id || @next_issue_id %>
+    <div class="next-prev-links contextual">
+      <%= link_to_if @prev_issue_id,
+                     "\xc2\xab #{l(:label_previous)}",
+                     (@prev_issue_id ? issue_path(@prev_issue_id) : nil),
+                     :title => "##{@prev_issue_id}",
+                     :accesskey => accesskey(:previous) %> |
+      <% if @issue_position && @issue_count %>
+        <span class="position">
+          <%= link_to_if @query_path,
+                         l(:label_item_position, :position => @issue_position, :count => @issue_count),
+                         @query_path %>
+        </span> |
+      <% end %>
+      <%= link_to_if @next_issue_id,
+                     "#{l(:label_next)} \xc2\xbb",
+                     (@next_issue_id ? issue_path(@next_issue_id) : nil),
+                     :title => "##{@next_issue_id}",
+                     :accesskey => accesskey(:next) %>
+    </div>
+  <% end %>
+
+  <div class="gravatar-with-child">
+    <%= author_avatar(@issue.author, :size => "50") %>
+    <%= assignee_avatar(@issue.assigned_to, :size => "22", :class => "gravatar-child") if @issue.assigned_to %>
+  </div>
+
+<div class="subject">
+<%= render_issue_subject_with_tree(@issue) %>
+</div>
+        <p class="author">
+        <%= authoring @issue.created_on, @issue.author %>.
+        <% if @issue.created_on != @issue.updated_on %>
+        <%= l(:label_updated_time, time_tag(@issue.updated_on)).html_safe %>.
+        <% end %>
+        </p>
+
+<div class="attributes">
+<%= issue_fields_rows do |rows|
+  rows.left l(:field_status), @issue.status.name, :class => 'status'
+  rows.left l(:field_priority), @issue.priority.name, :class => 'priority'
+
+  unless @issue.disabled_core_fields.include?('assigned_to_id')
+    rows.left l(:field_assigned_to), (@issue.assigned_to ? link_to_principal(@issue.assigned_to) : "-"), :class => 'assigned-to'
+  end
+  unless @issue.disabled_core_fields.include?('category_id') || (@issue.category.nil? && @issue.project.issue_categories.none?)
+    rows.left l(:field_category), (@issue.category ? @issue.category.name : "-"), :class => 'category'
+  end
+  unless @issue.disabled_core_fields.include?('fixed_version_id') || (@issue.fixed_version.nil? && @issue.assignable_versions.none?)
+    rows.left l(:field_fixed_version), (@issue.fixed_version ? link_to_version(@issue.fixed_version) : "-"), :class => 'fixed-version'
+  end
+
+  tt = TicketTime.where({:issue_id => @issue.id}).first rescue nil
+  unless @issue.disabled_core_fields.include?('start_date')
+    if !tt.blank? && !tt.time_begin.blank?
+      rows.right l(:field_start_date), format_date(@issue.start_date).to_s + (!tt.blank? && !tt.time_begin.blank? ? tt.time_begin.strftime(' %H:%M') : ''), :class => 'start-date'
+    else
+      rows.right l(:field_start_date), format_date(@issue.start_date), :class => 'start-date'
+    end
+  end
+  unless @issue.disabled_core_fields.include?('due_date')
+    if !tt.blank? && !tt.time_end.blank?
+      rows.right l(:field_due_date), format_date(@issue.due_date).to_s +  (!tt.blank? && !tt.time_begin.blank? ? tt.time_end.strftime(' %H:%M') : ''), :class => 'due-date'
+    else
+      rows.right l(:field_due_date), format_date(@issue.due_date), :class => 'due-date'
+    end
+  end
+  unless @issue.disabled_core_fields.include?('done_ratio')
+    rows.right l(:field_done_ratio), progress_bar(@issue.done_ratio, :legend => "#{@issue.done_ratio}%"), :class => 'progress'
+  end
+  unless @issue.disabled_core_fields.include?('estimated_hours')
+    rows.right l(:field_estimated_hours), issue_estimated_hours_details(@issue), :class => 'estimated-hours'
+  end
+  if User.current.allowed_to?(:view_time_entries, @project) && @issue.total_spent_hours > 0
+    rows.right l(:label_spent_time), issue_spent_hours_details(@issue), :class => 'spent-time'
+  end
+end %>
+<%= render_half_width_custom_fields_rows(@issue) %>
+<%= call_hook(:view_issues_show_details_bottom, :issue => @issue) %>
+</div>
+
+<% if @issue.description? %>
+<hr />
+<div class="description">
+  <div class="contextual">
+  <%= link_to l(:button_quote), quoted_issue_path(@issue), :remote => true, :method => 'post', :class => 'icon icon-comment' if @issue.notes_addable? %>
+  </div>
+
+  <p><strong><%=l(:field_description)%></strong></p>
+  <div class="wiki">
+  <%= textilizable @issue, :description, :attachments => @issue.attachments %>
+  </div>
+</div>
+<% end %>
+<% if @issue.attachments.any? %>
+  <hr />
+  <p><strong><%=l(:label_attachment_plural)%></strong></p>
+  <%= link_to_attachments @issue, :thumbnails => true %>
+<% end %>
+
+<%= render_full_width_custom_fields_rows(@issue) %>
+
+<%= call_hook(:view_issues_show_description_bottom, :issue => @issue) %>
+
+<% if !@issue.leaf? || User.current.allowed_to?(:manage_subtasks, @project) %>
+<hr />
+<div id="issue_tree">
+<%= render :partial => 'subtasks' %>
+</div>
+<% end %>
+
+<% if @relations.present? || User.current.allowed_to?(:manage_issue_relations, @project) %>
+<hr />
+<div id="relations">
+<%= render :partial => 'relations' %>
+</div>
+<% end %>
+
+</div>
+
+<%= render partial: 'action_menu_edit' if User.current.wants_comments_in_reverse_order? %>
+
+<div id="history">
+<%= render_tabs issue_history_tabs, issue_history_default_tab %>
+</div>
+
+<%= render partial: 'action_menu_edit' unless User.current.wants_comments_in_reverse_order? %>
+
+<% other_formats_links do |f| %>
+  <%= f.link_to 'Atom', :url => {:key => User.current.atom_key} %>
+  <%= f.link_to 'PDF' %>
+<% end %>
+
+<% html_title "#{@issue.tracker.name} ##{@issue.id}: #{@issue.subject}" %>
+
+<% content_for :sidebar do %>
+  <%= render :partial => 'issues/sidebar' %>
+
+  <% if User.current.allowed_to?(:add_issue_watchers, @project) ||
+    (@issue.watchers.present? && User.current.allowed_to?(:view_issue_watchers, @project)) %>
+    <div id="watchers">
+      <%= render :partial => 'watchers/watchers', :locals => {:watched => @issue} %>
+    </div>
+  <% end %>
+<% end %>
+
+<% content_for :header_tags do %>
+    <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.atom_key}, :title => "#{@issue.project} - #{@issue.tracker} ##{@issue.id}: #{@issue.subject}") %>
+<% end %>
+
+<%= context_menu %>

@@ -1,0 +1,86 @@
+@media screen and (max-width: 900px) {
+    #mega_calendar__calendar {
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+    }
+}
+
+.mega_calendar_event {
+    pointer: cursor !important;
+    color:#000000 !important;
+}
+
+.mega_calendar_event_closed {
+    text-decoration: line-through !important;
+    opacity: 0.6 !important;
+}
+
+.mega_calendar__filter_fieldset {
+    padding-bottom: 20px;
+}
+
+.mega_calendar__filter_td {
+    padding-left: 10px !important;
+}
+
+.mega_calendar__select_operator {
+    width: 100px;
+}
+
+.mega_calendar__select_value {
+    width: 200px;
+    height: 80px;
+}
+
+.mega_calendar__hide {
+    display: none;
+}
+
+.mega_calendar__export_ics_div {
+    width: 250px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -125px;
+    margin-left:-125px;
+    background-color:#628DB6;
+    z-index:99;
+    text-align: center;
+    box-shadow: 0px 0px 10px grey;
+    padding: 10px;
+    display: none;
+}
+
+.mega_calendar__export_ics_div_title {
+    font-weight: bold;
+}
+
+.mega_calendar__export_ics_div_table {
+    display: table; width:250px; padding: 5px;
+}
+
+.mega_calendar__export_ics_div_table_row {
+    display: table-row;
+}
+
+.mega_calendar__export_ics_div_table_cell {
+    display: table-cell;
+}
+
+.mega_calendar__export_ics_div_cancel_btn {
+    background-color: #E6E6E6;
+    cursor: pointer;
+    display: inline;
+    padding: 3px;
+}
+
+.mega_calendar__export_ics_div_submit_btn {
+    background-color: #E6E6E6;
+    cursor: pointer;
+    display: inline;
+    padding: 3px;
+}
+
+#mega_calendar__calendar th[role=columnheader]:hover:after {
+    display: none !important;
+}
