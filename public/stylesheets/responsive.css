@@ -819,6 +819,36 @@
     margin-left: 0;
     width: 100%;
   }
+  ul.cal {
+    display: block
+  }
+  .cal .calhead {
+    display: none
+  }
+
+  .cal .calbody {
+    min-height: calc(1.2em * 3);
+  }
+
+  .cal .calbody .abbr-day {
+    display: inline;
+  }
+
+  .cal .week-number {
+    border: 1px solid #c0c0c0;
+    text-align: left;
+    font-weight: bold;
+    background-color: #def;
+  }
+
+  .cal .week-number .label-week {
+    display: inline;
+  }
+
+  .cal .calbody p.day-num {
+    font-size: 1.1em;
+    text-align: left;
+  }
 }
 
 @media all and (max-width: 599px) {

@@ -115,6 +115,9 @@ module Redmine
       ::I18n.available_locales
     end
 
+    def abbr_day_name(day)
+      ::I18n.t('date.abbr_day_names')[day % 7]
+    end
     # Returns an array of languages names and code sorted by names, example:
     # [["Deutsch", "de"], ["English", "en"] ...]
     #
