@@ -78,6 +78,12 @@ namespace :deploy do
   end
   after "deploy:migrate", "migrate_plugins"
   before "deploy:symlink:release", "clear_whenever"
+
+  after :finishing, :restart_puma do
+    on roles(:app) do
+      execute :sudo, :systemctl, :restart, :puma
+    end
+  end
 end
 
 # Default value for :linked_files is []
