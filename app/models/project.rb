@@ -494,6 +494,7 @@ class Project < ApplicationRecord
   def rolled_up_statuses
     issue_status_ids = WorkflowTransition.
       where(:tracker_id => rolled_up_trackers.map(&:id)).
+      where('old_status_id <> new_status_id').
       distinct.
       pluck(:old_status_id, :new_status_id).
       flatten.

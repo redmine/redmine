@@ -107,6 +107,8 @@ class ReportsControllerTest < Redmine::ControllerTest
     WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 4)
     WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 2, :new_status_id => 5)
     WorkflowTransition.create(:role_id => 1, :tracker_id => 2, :old_status_id => 1, :new_status_id => 6)
+    WorkflowTransition.create(:role_id => 1, :tracker_id => 2, :old_status_id => 3, :new_status_id => 3)
+
     with_settings :display_subprojects_issues => '0' do
       get(:issue_report_details, :params => {:id => 1, :detail => 'tracker'})
     end
