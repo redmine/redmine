@@ -534,6 +534,8 @@ class ProjectTest < ActiveSupport::TestCase
     WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 4)
     WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 2, :new_status_id => 3)
     WorkflowTransition.create(:role_id => 1, :tracker_id => 2, :old_status_id => 1, :new_status_id => 3)
+    WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 5, :new_status_id => 5)
+    WorkflowTransition.create(:role_id => 1, :tracker_id => 2, :old_status_id => 5, :new_status_id => 5)
 
     assert_kind_of IssueStatus, project.rolled_up_statuses.first
     assert_equal IssueStatus.find(1), project.rolled_up_statuses.first
