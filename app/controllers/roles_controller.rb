@@ -85,12 +85,12 @@ class RolesController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_to roles_path(:page => params[:page])
         end
-        format.js {head 200}
+        format.js {head :ok}
       end
     else
       respond_to do |format|
         format.html {render :action => 'edit'}
-        format.js   {head 422}
+        format.js   {head :unprocessable_entity}
       end
     end
   end

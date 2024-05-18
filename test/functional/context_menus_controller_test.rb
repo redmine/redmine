@@ -384,12 +384,12 @@ class ContextMenusControllerTest < Redmine::ControllerTest
         :ids => [1, 4] # issue 4 is not visible
       }
     )
-    assert_response 302
+    assert_response :found
   end
 
   def test_should_respond_with_404_without_ids
     get :issues
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_time_entries_context_menu

@@ -588,28 +588,6 @@ Rails/HasManyOrHasOneDependent:
     - 'app/models/wiki.rb'
     - 'app/models/wiki_page.rb'
 
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: numeric, symbolic
-Rails/HttpStatus:
-  Exclude:
-    - 'app/controllers/attachments_controller.rb'
-    - 'app/controllers/boards_controller.rb'
-    - 'app/controllers/custom_fields_controller.rb'
-    - 'app/controllers/enumerations_controller.rb'
-    - 'app/controllers/issue_relations_controller.rb'
-    - 'app/controllers/issue_statuses_controller.rb'
-    - 'app/controllers/issues_controller.rb'
-    - 'app/controllers/mail_handler_controller.rb'
-    - 'app/controllers/members_controller.rb'
-    - 'app/controllers/my_controller.rb'
-    - 'app/controllers/repositories_controller.rb'
-    - 'app/controllers/roles_controller.rb'
-    - 'app/controllers/sys_controller.rb'
-    - 'app/controllers/timelog_controller.rb'
-    - 'app/controllers/trackers_controller.rb'
-    - 'app/controllers/watchers_controller.rb'
-
 # Configuration parameters: Include.
 # Include: spec/**/*.rb, test/**/*.rb
 Rails/I18nLocaleAssignment:

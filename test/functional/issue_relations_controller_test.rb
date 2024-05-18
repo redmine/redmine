@@ -71,7 +71,7 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
           }
         }
       )
-      assert_response 404
+      assert_response :not_found
     end
   end
 
@@ -305,7 +305,7 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
   def test_destroy_invalid_relation
     assert_no_difference 'IssueRelation.count' do
       delete(:destroy, :params => {:id => '999'})
-      assert_response 404
+      assert_response :not_found
     end
   end
 

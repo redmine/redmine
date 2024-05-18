@@ -48,7 +48,7 @@ class AuthSourcesControllerTest < Redmine::ControllerTest
         :type => 'foo'
       }
     )
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_create
@@ -129,7 +129,7 @@ class AuthSourcesControllerTest < Redmine::ControllerTest
         :id => 99
       }
     )
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_update

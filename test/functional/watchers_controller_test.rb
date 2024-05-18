@@ -86,7 +86,7 @@ class WatchersControllerTest < Redmine::ControllerTest
 
     assert_no_difference 'Watcher.count' do
       post :watch, :params => {:object_type => 'enabled_module', :object_id => m.id.to_s}, :xhr => true
-      assert_response 403
+      assert_response :forbidden
     end
   end
 
@@ -95,7 +95,7 @@ class WatchersControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 3
     assert_no_difference('Watcher.count') do
       post :watch, :params => {:object_type => 'issue', :object_id => '1'}, :xhr => true
-      assert_response 403
+      assert_response :forbidden
     end
   end
 
@@ -103,7 +103,7 @@ class WatchersControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 3
     assert_no_difference('Watcher.count') do
       post :watch, :params => {:object_type => 'foo', :object_id => '1'}, :xhr => true
-      assert_response 404
+      assert_response :not_found
     end
   end
 
@@ -111,7 +111,7 @@ class WatchersControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 3
     assert_no_difference('Watcher.count') do
       post :watch, :params => {:object_type => 'issue', :object_id => '999'}, :xhr => true
-      assert_response 404
+      assert_response :not_found
     end
   end
 
@@ -159,7 +159,7 @@ class WatchersControllerTest < Redmine::ControllerTest
   def test_new_as_html_should_respond_with_404
     @request.session[:user_id] = 2
     get :new, :params => {:object_type => 'issue', :object_id => '2'}
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_new_for_message
@@ -581,7 +581,7 @@ class WatchersControllerTest < Redmine::ControllerTest
       delete :destroy, :params => {
         :object_type => 'issue', :object_id => '2', :user_id => '999'
       }
-      assert_response 404
+      assert_response :not_found
     end
   end
 end

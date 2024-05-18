@@ -81,12 +81,12 @@ class MessagesControllerTest < Redmine::ControllerTest
 
   def test_show_message_not_found
     get(:show, :params => {:board_id => 1, :id => 99999})
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_show_message_from_invalid_board_should_respond_with_404
     get(:show, :params => {:board_id => 999, :id => 1})
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_show_should_display_watchers
@@ -125,7 +125,7 @@ class MessagesControllerTest < Redmine::ControllerTest
   def test_get_new_with_invalid_board
     @request.session[:user_id] = 2
     get(:new, :params => {:board_id => 99})
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_post_new
@@ -321,7 +321,7 @@ class MessagesControllerTest < Redmine::ControllerTest
       }
     )
 
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_preview_new

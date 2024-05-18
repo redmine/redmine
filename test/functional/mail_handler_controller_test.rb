@@ -49,7 +49,7 @@ class MailHandlerControllerTest < Redmine::ControllerTest
         )
       end
     end
-    assert_response 201
+    assert_response :created
   end
 
   def test_should_create_issue_with_options
@@ -74,7 +74,7 @@ class MailHandlerControllerTest < Redmine::ControllerTest
         )
       end
     end
-    assert_response 201
+    assert_response :created
     issue = Issue.order(:id => :desc).first
     assert_equal true, issue.is_private
   end
@@ -97,7 +97,7 @@ class MailHandlerControllerTest < Redmine::ControllerTest
         end
       end
     end
-    assert_response 201
+    assert_response :created
   end
 
   def test_should_respond_with_422_if_not_created
@@ -117,7 +117,7 @@ class MailHandlerControllerTest < Redmine::ControllerTest
         )
       end
     end
-    assert_response 422
+    assert_response :unprocessable_entity
   end
 
   def test_should_not_allow_with_api_disabled
@@ -137,7 +137,7 @@ class MailHandlerControllerTest < Redmine::ControllerTest
         )
       end
     end
-    assert_response 403
+    assert_response :forbidden
     assert_include 'Access denied', response.body
   end
 
@@ -157,7 +157,7 @@ class MailHandlerControllerTest < Redmine::ControllerTest
         )
       end
     end
-    assert_response 403
+    assert_response :forbidden
     assert_include 'Access denied', response.body
   end
 

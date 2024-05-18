@@ -723,7 +723,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
       '/issues.json',
       :params => {:issue => {:project_id => 999, :subject => "API"}},
       :headers => credentials('jsmith'))
-    assert_response 422
+    assert_response :unprocessable_entity
   end
 
   test "POST /issues.json with invalid project_id and any assigned_to_id should respond with 422" do
@@ -737,7 +737,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
         }
       },
       :headers => credentials('jsmith'))
-    assert_response 422
+    assert_response :unprocessable_entity
   end
 
   test "POST /issues.json with invalid project_id and any fixed_version_id should respond with 422" do
@@ -751,7 +751,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
         }
       },
       :headers => credentials('jsmith'))
-    assert_response 422
+    assert_response :unprocessable_entity
   end
 
   test "PUT /issues/:id.xml" do

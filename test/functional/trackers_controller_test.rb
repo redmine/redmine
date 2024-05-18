@@ -42,7 +42,7 @@ class TrackersControllerTest < Redmine::ControllerTest
   def test_index_by_user_should_respond_with_406
     @request.session[:user_id] = 2
     get :index
-    assert_response 406
+    assert_response :not_acceptable
   end
 
   def test_new

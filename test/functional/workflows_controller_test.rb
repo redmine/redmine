@@ -158,7 +158,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
         '3' => {'1' => {'always' => '1'}, '2' => {'always' => '1'}}
       }
     }
-    assert_response 302
+    assert_response :found
 
     assert_equal 3, WorkflowTransition.where(:tracker_id => 1, :role_id => 2).count
     assert          WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 2).exists?
@@ -175,7 +175,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
         '0' => {'1' => {'always' => '1'}, '2' => {'always' => '1'}}
       }
     }
-    assert_response 302
+    assert_response :found
 
     assert WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 0, :new_status_id => 1).any?
     assert WorkflowTransition.where(:role_id => 2, :tracker_id => 1, :old_status_id => 0, :new_status_id => 2).any?
@@ -195,7 +195,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
                 '4' => {'always' => '0', 'author' => '1', 'assignee' => '1'}}
       }
     }
-    assert_response 302
+    assert_response :found
 
     assert_equal 4, WorkflowTransition.where(:tracker_id => 1, :role_id => 2).count
 
@@ -371,7 +371,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
         '3' => {'assigned_to_id' => '',  'fixed_version_id' => '', 'due_date' => ''}
       }
     }
-    assert_response 302
+    assert_response :found
 
     workflows = WorkflowPermission.all
     assert_equal 3, workflows.size
@@ -409,7 +409,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
       :source_tracker_id => '1', :source_role_id => '2',
       :target_tracker_ids => ['3'], :target_role_ids => ['1']
     }
-    assert_response 302
+    assert_response :found
     assert_equal source_transitions, status_transitions(:tracker_id => 3, :role_id => 1)
   end
 
@@ -420,7 +420,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
       :source_tracker_id => '1', :source_role_id => '2',
       :target_tracker_ids => ['2', '3'], :target_role_ids => ['1', '3']
     }
-    assert_response 302
+    assert_response :found
     assert_equal source_transitions, status_transitions(:tracker_id => 2, :role_id => 1)
     assert_equal source_transitions, status_transitions(:tracker_id => 3, :role_id => 1)
     assert_equal source_transitions, status_transitions(:tracker_id => 2, :role_id => 3)
@@ -435,7 +435,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
       :source_tracker_id => 'any', :source_role_id => '2',
       :target_tracker_ids => ['2', '3'], :target_role_ids => ['1', '3']
     }
-    assert_response 302
+    assert_response :found
     assert_equal source_t2, status_transitions(:tracker_id => 2, :role_id => 1)
     assert_equal source_t3, status_transitions(:tracker_id => 3, :role_id => 1)
     assert_equal source_t2, status_transitions(:tracker_id => 2, :role_id => 3)
@@ -448,7 +448,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
         :source_tracker_id => '', :source_role_id => '2',
         :target_tracker_ids => ['2', '3'], :target_role_ids => ['1', '3']
       }
-      assert_response 200
+      assert_response :ok
       assert_select 'div.flash.error', :text => 'Please select a source tracker or role'
     end
   end
@@ -459,7 +459,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
         :source_tracker_id => '1', :source_role_id => '2',
         :target_tracker_ids => ['2', '3']
       }
-      assert_response 200
+      assert_response :ok
       assert_select 'div.flash.error', :text => 'Please select target tracker(s) and role(s)'
     end
   end

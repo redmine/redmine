@@ -300,7 +300,7 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
           }
         }
       )
-      assert_response 302
+      assert_response :found
     end
 
     assert_equal users_to_test.keys.size, ActionMailer::Base.deliveries.size
@@ -341,7 +341,7 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
         }
       }
     )
-    assert_response 302
+    assert_response :found
     assert_equal users_to_test.keys.size, ActionMailer::Base.deliveries.size
     # tests that each user receives 1 email with the custom fields he is allowed to see only
     users_to_test.each do |user, fields|
@@ -378,7 +378,7 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
         }
       }
     )
-    assert_response 302
+    assert_response :found
     users_to_test.each do |user, fields|
       mails = ActionMailer::Base.deliveries.select {|m| m.to.include? user.mail}
       if (fields & [@field2, @field3]).any?

@@ -90,7 +90,7 @@ class TimelogController < ApplicationController
   def show
     respond_to do |format|
       # TODO: Implement html response
-      format.html {head 406}
+      format.html {head :not_acceptable}
       format.api
     end
   end

@@ -70,7 +70,7 @@ class MailHandlerController < ActionController::Base
   def check_credential
     User.current = nil
     unless Setting.mail_handler_api_enabled? && secure_compare(params[:key].to_s, Setting.mail_handler_api_key.to_s)
-      render :plain => 'Access denied. Incoming emails WS is disabled or key is invalid.', :status => 403
+      render :plain => 'Access denied. Incoming emails WS is disabled or key is invalid.', :status => :forbidden
     end
   end
 end

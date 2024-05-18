@@ -63,7 +63,7 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
         }
       )
     end
-    assert_response 302
+    assert_response :found
     repository = Repository.order('id DESC').first
     assert_kind_of Repository::Git, repository
     assert_equal '/test', repository.url
@@ -78,7 +78,7 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
         }
       }
     )
-    assert_response 302
+    assert_response :found
     repo2 = Repository.find(repository.id)
     assert_equal false, repo2.report_last_commit
   end
@@ -764,7 +764,7 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
             :rev => r
           }
         )
-        assert_response 404
+        assert_response :not_found
         assert_select_error /was not found/
       end
     end
@@ -784,7 +784,7 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
           }
         )
       end
-      assert_response 302
+      assert_response :found
       @project.reload
       assert_nil @project.repository
     end
@@ -811,7 +811,7 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
           }
         )
       end
-      assert_response 302
+      assert_response :found
       @project.reload
       assert_nil @project.repository
     end

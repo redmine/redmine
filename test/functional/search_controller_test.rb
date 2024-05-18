@@ -48,18 +48,18 @@ class SearchControllerTest < Redmine::ControllerTest
   def test_search_on_archived_project_should_return_403
     Project.find(3).archive
     get :index, :params => {:id => 3}
-    assert_response 403
+    assert_response :forbidden
   end
 
   def test_search_on_invisible_project_by_user_should_be_denied
     @request.session[:user_id] = 7
     get :index, :params => {:id => 2}
-    assert_response 403
+    assert_response :forbidden
   end
 
   def test_search_on_invisible_project_by_anonymous_user_should_redirect
     get :index, :params => {:id => 2}
-    assert_response 302
+    assert_response :found
   end
 
   def test_search_on_private_project_by_member_should_succeed
@@ -352,7 +352,7 @@ class SearchControllerTest < Redmine::ControllerTest
 
   def test_search_with_invalid_project_id
     get :index, :params => {:id => 195, :q => 'recipe'}
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_search_should_include_closed_projects

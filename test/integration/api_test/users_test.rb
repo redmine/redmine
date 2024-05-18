@@ -261,7 +261,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
   test "GET /users/current.xml should require authentication" do
     get '/users/current.xml'
 
-    assert_response 401
+    assert_response :unauthorized
   end
 
   test "GET /users/current.xml should return current user" do

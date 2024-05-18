@@ -246,7 +246,7 @@ class IssuesControllerTransactionTest < Redmine::ControllerTest
       )
     end
 
-    assert_response 302
+    assert_response :found
     issue = Issue.find(1)
     assert_equal 4, issue.fixed_version_id
     journal = Journal.order('id DESC').first
@@ -272,7 +272,7 @@ class IssuesControllerTransactionTest < Redmine::ControllerTest
       )
     end
 
-    assert_response 302
+    assert_response :found
     issue = Issue.find(1)
     assert_nil issue.fixed_version_id
     journal = Journal.order('id DESC').first
@@ -300,7 +300,7 @@ class IssuesControllerTransactionTest < Redmine::ControllerTest
       )
     end
 
-    assert_response 302
+    assert_response :found
     assert_equal 'add_privates_notes_conflict_resolution', journal.notes
     assert_equal true, journal.private_notes
     assert journal.details.empty?
@@ -361,7 +361,7 @@ class IssuesControllerTransactionTest < Redmine::ControllerTest
     IssueQuery.any_instance.stubs(:statement).returns("INVALID STATEMENT")
 
     get :index
-    assert_response 500
+    assert_response :internal_server_error
     assert_select 'p', :text => /An error occurred/
     assert_nil session[:query]
     assert_nil session[:issues_index_sort]

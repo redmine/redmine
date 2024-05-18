@@ -512,7 +512,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
           :path => repository_path_hash(['sources', 'welcome_controller.rb'])[:param]
         }
       )
-      assert_response 404
+      assert_response :not_found
       assert_select_error /was not found/
     end
 
@@ -614,7 +614,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
             :rev => r
           }
         )
-        assert_response 404
+        assert_response :not_found
         assert_select_error /was not found/
       end
     end
@@ -633,7 +633,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
           }
         )
       end
-      assert_response 302
+      assert_response :found
       @project.reload
       assert_nil @project.repository
     end
@@ -658,7 +658,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
           }
         )
       end
-      assert_response 302
+      assert_response :found
       @project.reload
       assert_nil @project.repository
     end

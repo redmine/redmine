@@ -24,7 +24,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
 
   test "GET /groups.xml should require authentication" do
     get '/groups.xml'
-    assert_response 401
+    assert_response :unauthorized
   end
 
   test "GET /groups.xml should return givable groups" do
@@ -61,7 +61,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
 
   test "GET /groups.json should require authentication" do
     get '/groups.json'
-    assert_response 401
+    assert_response :unauthorized
   end
 
   test "GET /groups.json should return groups" do

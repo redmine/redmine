@@ -27,7 +27,7 @@ class UsersTest < Redmine::IntegrationTest
 
     assert_no_difference 'User.count' do
       get '/users/destroy/2'
-      assert_response 404
+      assert_response :not_found
     end
   end
 end

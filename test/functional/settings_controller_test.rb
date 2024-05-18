@@ -219,7 +219,7 @@ class SettingsControllerTest < Redmine::ControllerTest
 
   def test_get_invalid_plugin_settings
     get :plugin, :params => {:id => 'none'}
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_get_non_configurable_plugin_settings
@@ -228,7 +228,7 @@ class SettingsControllerTest < Redmine::ControllerTest
     end
 
     get :plugin, :params => {:id => 'foo'}
-    assert_response 404
+    assert_response :not_found
 
   ensure
     Redmine::Plugin.unregister(:foo)
@@ -274,7 +274,7 @@ class SettingsControllerTest < Redmine::ControllerTest
       :id => 'foo',
       :settings => {'sample_setting' => 'Value'}
     }
-    assert_response 404
+    assert_response :not_found
 
   ensure
     Redmine::Plugin.unregister(:foo)

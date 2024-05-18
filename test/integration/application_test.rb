@@ -57,23 +57,23 @@ class ApplicationTest < Redmine::IntegrationTest
   def test_token_based_access_should_not_start_session
     # issue of a private project
     get '/issues/4.atom'
-    assert_response 302
+    assert_response :found
 
     atom_key = User.find(2).atom_key
     get "/issues/4.atom?key=#{atom_key}"
-    assert_response 200
+    assert_response :ok
     assert_nil session[:user_id]
   end
 
   def test_missing_template_should_respond_with_4xx
     get '/login.png'
-    assert_response 406
+    assert_response :not_acceptable
   end
 
   def test_invalid_token_should_call_custom_handler
     ActionController::Base.allow_forgery_protection = true
     post '/issues'
-    assert_response 422
+    assert_response :unprocessable_entity
     assert_include "Invalid form authenticity token.", response.body
   ensure
     ActionController::Base.allow_forgery_protection = false
@@ -83,7 +83,7 @@ class ApplicationTest < Redmine::IntegrationTest
     ActionController::Base.allow_forgery_protection = true
     Setting.default_language = 'en'
     post '/issues', :headers => {'HTTP_ACCEPT_LANGUAGE' => 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'}
-    assert_response 422
+    assert_response :unprocessable_entity
     assert_equal :fr, current_language
     assert_select "html[lang=?]", "fr"
   ensure
@@ -93,7 +93,7 @@ class ApplicationTest < Redmine::IntegrationTest
   def test_require_login_with_pdf_format_should_not_error
     with_settings :login_required => '1' do
       get '/issues/1.pdf'
-      assert_response 302
+      assert_response :found
     end
   end
 
@@ -101,7 +101,7 @@ class ApplicationTest < Redmine::IntegrationTest
     Role.anonymous.remove_permission! :view_gantt
     with_settings :login_required => '0' do
       get '/projects/nonexistingproject/issues/gantt'
-      assert_response 302
+      assert_response :found
     end
   end
 
@@ -109,6 +109,6 @@ class ApplicationTest < Redmine::IntegrationTest
     log_user('jsmith', 'jsmith')
 
     get '/projects/nonexistingproject/issues/gantt'
-    assert_response 404
+    assert_response :not_found
   end
 end

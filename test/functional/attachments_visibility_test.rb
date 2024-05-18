@@ -55,6 +55,6 @@ class AttachmentsVisibilityTest < Redmine::ControllerTest
 
     @field.update!(:visible => false, :role_ids => [1])
     get :show, :params => {:id => @attachment.id}
-    assert_response 403
+    assert_response :forbidden
   end
 end

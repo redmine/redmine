@@ -61,7 +61,7 @@ class ImportsControllerTest < Redmine::ControllerTest
           :file => uploaded_test_file('import_issues.csv', 'text/csv')
         }
       )
-      assert_response 302
+      assert_response :found
     end
     assert_equal 2, import.user_id
     assert_match /\A[0-9a-f]+\z/, import.filename
@@ -123,7 +123,7 @@ class ImportsControllerTest < Redmine::ControllerTest
         }
       }
     )
-    assert_response 302
+    assert_response :found
     import.reload
     assert_equal 2, import.total_items
   end
@@ -142,7 +142,7 @@ class ImportsControllerTest < Redmine::ControllerTest
         }
       }
     )
-    assert_response 200
+    assert_response :ok
     import.reload
     assert_nil import.total_items
     assert_select 'div#flash_error', /not a valid UTF-8 encoded file/
@@ -162,7 +162,7 @@ class ImportsControllerTest < Redmine::ControllerTest
         }
       }
     )
-    assert_response 200
+    assert_response :ok
     import.reload
     assert_nil import.total_items
     assert_select 'div#flash_error', /not a valid Shift_JIS encoded file/
@@ -182,7 +182,7 @@ class ImportsControllerTest < Redmine::ControllerTest
         }
       }
     )
-    assert_response 200
+    assert_response :ok
     import.reload
     assert_nil import.total_items
 
@@ -203,7 +203,7 @@ class ImportsControllerTest < Redmine::ControllerTest
         }
       }
     )
-    assert_response 200
+    assert_response :ok
     import.reload
     assert_equal 0, import.total_items
 

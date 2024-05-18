@@ -37,16 +37,16 @@ class SysController < ActionController::Base
   def create_project_repository
     project = Project.find(params[:id])
     if project.repository
-      head 409
+      head :conflict
     else
       logger.info "Repository for #{project.name} was reported to be created by #{request.remote_ip}."
       repository = Repository.factory(params[:vendor])
       repository.safe_attributes = params[:repository]
       repository.project = project
       if repository.save
-        render :json => {repository.class.name.underscore.tr('/', '-') => {:id => repository.id, :url => repository.url}}, :status => 201
+        render :json => {repository.class.name.underscore.tr('/', '-') => {:id => repository.id, :url => repository.url}}, :status => :created
       else
-        head 422
+        head :unprocessable_entity
       end
     end
   end
@@ -72,9 +72,9 @@ class SysController < ActionController::Base
         repository.fetch_changesets
       end
     end
-    head 200
+    head :ok
   rescue ActiveRecord::RecordNotFound
-    head 404
+    head :not_found
   end
 
   protected
@@ -82,7 +82,7 @@ class SysController < ActionController::Base
   def check_enabled
     User.current = nil
     unless Setting.sys_api_enabled? && secure_compare(params[:key].to_s, Setting.sys_api_key.to_s)
-      render :plain => 'Access denied. Repository management WS is disabled or key is invalid.', :status => 403
+      render :plain => 'Access denied. Repository management WS is disabled or key is invalid.', :status => :forbidden
       return false
     end
   end

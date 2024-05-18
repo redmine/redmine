@@ -72,7 +72,7 @@ class GroupsControllerTest < Redmine::ControllerTest
 
   def test_show_invalid_should_return_404
     get(:show, :params => {:id => 99})
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_show_group_that_is_not_visible_should_return_404
@@ -80,7 +80,7 @@ class GroupsControllerTest < Redmine::ControllerTest
 
     @request.session[:user_id] = nil
     get :show, :params => {:id => 10}
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_show_should_display_only_visible_users

@@ -195,6 +195,6 @@ class MyController < ApplicationController
     @user = User.current
     @user.pref.order_blocks params[:group], params[:blocks]
     @user.pref.save
-    head 200
+    head :ok
   end
 end

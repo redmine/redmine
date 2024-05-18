@@ -33,9 +33,9 @@ class ProjectsTest < Redmine::IntegrationTest
     assert !Project.find(1).active?
 
     get '/projects/1'
-    assert_response 403
+    assert_response :forbidden
     get "/projects/#{subproject.id}"
-    assert_response 403
+    assert_response :forbidden
 
     post "/projects/1/unarchive"
     assert_redirected_to "/admin/projects"
@@ -49,7 +49,7 @@ class ProjectsTest < Redmine::IntegrationTest
 
     assert_no_difference 'EnabledModule.count' do
       get '/projects/1/modules', :params => {:enabled_module_names => ['']}
-      assert_response 404
+      assert_response :not_found
     end
   end
 end

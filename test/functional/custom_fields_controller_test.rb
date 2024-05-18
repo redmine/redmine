@@ -445,7 +445,7 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
           }
         }
       )
-      assert_response 302
+      assert_response :found
     end
     field = IssueCustomField.order("id desc").first
     assert_equal [1, 3], field.projects.map(&:id).sort
@@ -514,7 +514,7 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
           :custom_field => {:name => 'Copy'}
         }
       )
-      assert_response 302
+      assert_response :found
     end
     field = IssueCustomField.order('id desc').first
     assert_equal 'Copy', field.name
@@ -540,7 +540,7 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
         :id => 99
       }
     )
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_update

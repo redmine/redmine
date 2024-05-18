@@ -35,7 +35,7 @@ class EnumerationsControllerTest < Redmine::ControllerTest
   def test_index_should_require_admin
     @request.session[:user_id] = nil
     get :index
-    assert_response 302
+    assert_response :found
   end
 
   def test_new
@@ -48,7 +48,7 @@ class EnumerationsControllerTest < Redmine::ControllerTest
 
   def test_new_with_invalid_type_should_respond_with_404
     get(:new, :params => {:type => 'UnknownType'})
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_create
@@ -128,7 +128,7 @@ class EnumerationsControllerTest < Redmine::ControllerTest
 
   def test_edit_invalid_should_respond_with_404
     get(:edit, :params => {:id => 999})
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_update
@@ -177,7 +177,7 @@ class EnumerationsControllerTest < Redmine::ControllerTest
         }
       }
     )
-    assert_response 302
+    assert_response :found
     assert_equal 1, Enumeration.find(2).position
   end
 
@@ -194,7 +194,7 @@ class EnumerationsControllerTest < Redmine::ControllerTest
         }
       }
     )
-    assert_response 302
+    assert_response :found
     assert_equal "sample", enumeration.reload.custom_field_values.last.value
   end
 

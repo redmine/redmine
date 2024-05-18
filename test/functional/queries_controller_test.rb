@@ -34,7 +34,7 @@ class QueriesControllerTest < Redmine::ControllerTest
   def test_index
     get :index
     # HTML response not implemented
-    assert_response 406
+    assert_response :not_acceptable
   end
 
   def test_new_project_query
@@ -62,7 +62,7 @@ class QueriesControllerTest < Redmine::ControllerTest
   def test_new_on_invalid_project
     @request.session[:user_id] = 2
     get(:new, :params => {:project_id => 'invalid'})
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_new_should_not_render_show_inline_columns_option_for_query_without_available_inline_columns
@@ -359,7 +359,7 @@ class QueriesControllerTest < Redmine::ControllerTest
         }
       )
     end
-    assert_response 403
+    assert_response :forbidden
   end
 
   def test_create_global_query_without_permission_should_fail
@@ -369,7 +369,7 @@ class QueriesControllerTest < Redmine::ControllerTest
     assert_no_difference '::Query.count' do
       post(:create, :params => {:query => {:name => 'Foo'}})
     end
-    assert_response 403
+    assert_response :forbidden
   end
 
   def test_create_global_query_from_gantt
@@ -393,7 +393,7 @@ class QueriesControllerTest < Redmine::ControllerTest
           }
         }
       )
-      assert_response 302
+      assert_response :found
     end
     query = IssueQuery.order('id DESC').first
     assert_redirected_to "/issues/gantt?query_id=#{query.id}"
@@ -424,7 +424,7 @@ class QueriesControllerTest < Redmine::ControllerTest
           }
         }
       )
-      assert_response 302
+      assert_response :found
     end
     query = IssueQuery.order('id DESC').first
     assert_redirected_to "/projects/ecookbook/issues/gantt?query_id=#{query.id}"
@@ -445,7 +445,7 @@ class QueriesControllerTest < Redmine::ControllerTest
           }
         }
       )
-      assert_response 302
+      assert_response :found
     end
     assert_not_nil query.project
     assert_equal Query::VISIBILITY_PRIVATE, query.visibility
@@ -464,7 +464,7 @@ class QueriesControllerTest < Redmine::ControllerTest
           }
         }
       )
-      assert_response 302
+      assert_response :found
     end
     assert_nil query.project
     assert_equal Query::VISIBILITY_PRIVATE, query.visibility
@@ -482,7 +482,7 @@ class QueriesControllerTest < Redmine::ControllerTest
           }
         }
       )
-      assert_response 302
+      assert_response :found
     end
     assert_not_nil query.project
     assert_equal Query::VISIBILITY_PUBLIC, query.visibility
@@ -501,7 +501,7 @@ class QueriesControllerTest < Redmine::ControllerTest
           }
         }
       )
-      assert_response 302
+      assert_response :found
     end
     assert_nil query.project
     assert_equal Query::VISIBILITY_PRIVATE, query.visibility
@@ -520,7 +520,7 @@ class QueriesControllerTest < Redmine::ControllerTest
           }
         }
       )
-      assert_response 302
+      assert_response :found
     end
     assert_nil query.project
     assert_equal Query::VISIBILITY_PUBLIC, query.visibility
@@ -662,7 +662,7 @@ class QueriesControllerTest < Redmine::ControllerTest
   def test_edit_invalid_query
     @request.session[:user_id] = 2
     get(:edit, :params => {:id => 99})
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_update_global_private_query

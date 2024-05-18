@@ -242,7 +242,7 @@ class ReportsControllerTest < Redmine::ControllerTest
         :detail => 'invalid'
       }
     )
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_issue_report_details_should_csv_export

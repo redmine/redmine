@@ -414,7 +414,7 @@ class RepositoriesSubversionControllerTest < Redmine::RepositoryControllerTest
           :rev => 'something_weird'
         }
       )
-      assert_response 404
+      assert_response :not_found
       assert_select_error /was not found/
     end
 
@@ -428,7 +428,7 @@ class RepositoriesSubversionControllerTest < Redmine::RepositoryControllerTest
           :rev_to => 'something_weird'
         }
       )
-      assert_response 404
+      assert_response :not_found
       assert_select_error /was not found/
     end
 
@@ -446,7 +446,7 @@ class RepositoriesSubversionControllerTest < Redmine::RepositoryControllerTest
             :rev => r
           }
         )
-        assert_response 404
+        assert_response :not_found
         assert_select_error /was not found/
       end
     end
@@ -599,7 +599,7 @@ class RepositoriesSubversionControllerTest < Redmine::RepositoryControllerTest
       assert_difference 'Repository.count', -1 do
         delete(:destroy, :params => {:id => @repository.id})
       end
-      assert_response 302
+      assert_response :found
       @project.reload
       assert_nil @project.repository
     end
@@ -619,7 +619,7 @@ class RepositoriesSubversionControllerTest < Redmine::RepositoryControllerTest
       assert_difference 'Repository.count', -1 do
         delete(:destroy, :params => {:id => @repository.id})
       end
-      assert_response 302
+      assert_response :found
       @project.reload
       assert_nil @project.repository
     end

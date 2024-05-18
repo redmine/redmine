@@ -44,14 +44,14 @@ class NewsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
 
     get(:index, :params => {:project_id => 999})
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_index_with_invalid_project_should_respond_with_302_for_anonymous
     Role.anonymous.remove_permission! :view_news
     with_settings :login_required => '0' do
       get(:index, :params => {:project_id => 999})
-      assert_response 302
+      assert_response :found
     end
   end
 
@@ -60,7 +60,7 @@ class NewsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 2
 
     get :index
-    assert_response 403
+    assert_response :forbidden
   end
 
   def test_index_without_manage_news_permission_should_not_display_add_news_link
@@ -107,7 +107,7 @@ class NewsControllerTest < Redmine::ControllerTest
 
   def test_show_not_found
     get(:show, :params => {:id => 999})
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_get_new_with_project_id
