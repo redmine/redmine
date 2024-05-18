@@ -40,7 +40,7 @@ module Redmine
 
       def target_lft
         siblings_rgt =
-          self.class.where(:parent_id => parent_id).where("name < ?", name).maximum(:rgt)
+          self.class.where(:parent_id => parent_id).where(name: ...name).maximum(:rgt)
         if siblings_rgt
           siblings_rgt + 1
         elsif parent_id
