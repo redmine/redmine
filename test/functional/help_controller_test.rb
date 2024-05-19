@@ -87,5 +87,13 @@ class HelpControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_select 'h1', :text =>  "List of languages supported by Redmine code highlighter"
+
+    # 1-based index + 1 for the header row
+    index = Rouge::Lexer.all.sort_by(&:tag).index(Rouge::Lexers::Ruby) + 2
+    assert_select "table tr:nth-of-type(#{index})" do
+      assert_select '>td:nth-of-type(1)', :text => 'ruby'
+      assert_select '>td:nth-of-type(2)', :text => /The Ruby programming language/
+      assert_select '>td:nth-of-type(2)', :text => /\[aliases: rb\]/
+    end
   end
 end

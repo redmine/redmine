@@ -30,6 +30,7 @@ class HelpController < ApplicationController
   end
 
   def show_code_highlighting
+    @available_lexers = Rouge::Lexer.all.sort_by(&:tag)
     render template: "help/wiki_syntax/code_highlighting_languages", layout: nil
   end
 end
