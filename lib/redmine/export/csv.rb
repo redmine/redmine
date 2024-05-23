@@ -57,7 +57,7 @@ module Redmine
               field
             end
           end
-          super(row)
+          super
         end
       end
     end

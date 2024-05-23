@@ -1689,7 +1689,7 @@ module ApplicationHelper
     elsif current_theme && current_theme.images.include?(source)
       source = current_theme.image_path(source)
     end
-    super(source, options)
+    super
   end
 
   # Overrides Rails' javascript_include_tag with plugins support

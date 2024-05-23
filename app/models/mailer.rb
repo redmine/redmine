@@ -53,7 +53,7 @@ class Mailer < ActionMailer::Base
       lang ||= Setting.default_language
       set_language_if_valid(lang)
 
-      super(action, *args)
+      super
     ensure
       User.current = initial_user
       ::I18n.locale = initial_language
@@ -714,7 +714,7 @@ class Mailer < ActionMailer::Base
     end
 
     if block
-      super(headers, &block)
+      super
     else
       super(headers) do |format|
         format.text

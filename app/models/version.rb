@@ -187,7 +187,7 @@ class Version < ApplicationRecord
       attrs['custom_fields'].reject! {|c| !editable_custom_field_ids.include?(c['id'].to_s)}
     end
 
-    super(attrs, user)
+    super
   end
 
   # Returns true if +user+ or current user is allowed to view the version

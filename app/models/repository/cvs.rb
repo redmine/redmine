@@ -204,7 +204,7 @@ class Repository::Cvs < Repository
   # Overrides Repository#validate_repository_path to validate
   # against root_url attribute.
   def validate_repository_path(attribute=:root_url)
-    super(attribute)
+    super
   end
 
   private

@@ -108,7 +108,7 @@ class WikiPage < ApplicationRecord
       end
     end
 
-    super(attrs, user)
+    super
   end
 
   # Manages redirects if page is renamed or moved
@@ -210,7 +210,7 @@ class WikiPage < ApplicationRecord
   end
 
   def attachments_deletable?(usr=User.current)
-    editable_by?(usr) && super(usr)
+    editable_by?(usr) && super
   end
 
   def parent_title

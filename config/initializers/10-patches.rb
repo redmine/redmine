@@ -98,7 +98,7 @@ module ActionView
       if (Array(values) & [:xml, :json]).any?
         values << :api
       end
-      super(values)
+      super
     end
   end)
 end

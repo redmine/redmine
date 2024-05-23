@@ -27,7 +27,7 @@ module Redmine
       # options
       class MarkdownFilter < HTML::Pipeline::TextFilter
         def initialize(text, context = nil, result = nil)
-          super(text, context, result)
+          super
           @text = @text.delete "\r"
         end
 

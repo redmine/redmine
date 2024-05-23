@@ -28,6 +28,6 @@ class ProjectCustomField < CustomField
 
   def visibility_by_project_condition(project_key=nil, user=User.current, id_column=nil)
     project_key ||= "#{Project.table_name}.id"
-    super(project_key, user, id_column)
+    super
   end
 end

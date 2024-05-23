@@ -902,7 +902,7 @@ class Project < ApplicationRecord
       attrs['custom_fields'].reject! {|c| !editable_custom_field_ids.include?(c['id'].to_s)}
     end
 
-    super(attrs, user)
+    super
   end
 
   # Returns an auto-generated project identifier based on the last identifier used
