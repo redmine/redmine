@@ -198,6 +198,39 @@ class ApplicationHelperTest < Redmine::HelperTest
     end
   end
 
+  def test_attached_image_alt_attribute_with_textile
+    attachments = Attachment.all
+    with_settings text_formatting: 'textile' do
+      # When alt text is set
+      assert_match %r[<img src=".+?" title="This is a logo" alt="This is a logo" loading=".+?" title="alt text" alt="alt text" />],
+        textilizable('!logo.gif(alt text)!', attachments: attachments)
+
+      # When alt text and style are set
+      assert_match %r[<img src=".+?" title="This is a logo" alt="This is a logo" loading=".+?" style="width:100px;" title="alt text" alt="alt text" />],
+        textilizable('!{width:100px}logo.gif(alt text)!', attachments: attachments)
+
+      # When alt text is not set
+      assert_match %r[<img src=".+?" title="This is a logo" alt="This is a logo" loading=".+?" />],
+        textilizable('!logo.gif!', attachments: attachments)
+
+      # When alt text is not set and the attachment has no description
+      assert_match %r[<img src=".+?" alt="" loading=".+?" />],
+        textilizable('!testfile.PNG!', attachments: attachments)
+
+      # When no matching attachments are found
+      assert_match %r[<img src=".+?" alt="" />],
+        textilizable('!no-match.jpg!', attachments: attachments)
+      assert_match %r[<img src=".+?" alt="alt text" />],
+        textilizable('!no-match.jpg(alt text)!', attachments: attachments)
+
+      # When no attachment is registered
+      assert_match %r[<img src=".+?" alt="" />],
+        textilizable('!logo.gif!', attachments: [])
+      assert_match %r[<img src=".+?" alt="alt text" />],
+        textilizable('!logo.gif(alt text)!', attachments: [])
+    end
+  end
+
   def test_attached_images_on_issue
     issue = Issue.generate!
     attachment_1 = Attachment.generate!(:file => mock_file_with_options(:original_filename => "attached_on_issue.png"), :container => issue)
