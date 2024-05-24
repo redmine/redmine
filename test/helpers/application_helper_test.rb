@@ -202,11 +202,11 @@ class ApplicationHelperTest < Redmine::HelperTest
     attachments = Attachment.all
     with_settings text_formatting: 'textile' do
       # When alt text is set
-      assert_match %r[<img src=".+?" title="This is a logo" alt="This is a logo" loading=".+?" title="alt text" alt="alt text" />],
+      assert_match %r[<img src=".+?" title="alt text" alt="alt text" loading=".+?" />],
         textilizable('!logo.gif(alt text)!', attachments: attachments)
 
       # When alt text and style are set
-      assert_match %r[<img src=".+?" title="This is a logo" alt="This is a logo" loading=".+?" style="width:100px;" title="alt text" alt="alt text" />],
+      assert_match %r[<img src=".+?" title="alt text" alt="alt text" loading=".+?" style="width:100px;" />],
         textilizable('!{width:100px}logo.gif(alt text)!', attachments: attachments)
 
       # When alt text is not set
