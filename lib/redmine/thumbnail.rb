@@ -18,6 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require 'fileutils'
+require 'timeout'
 
 module Redmine
   module Thumbnail
@@ -51,8 +52,20 @@ module Redmine
         else
           cmd = "#{shell_quote CONVERT_BIN} #{shell_quote source} -auto-orient -thumbnail #{shell_quote size_option} #{shell_quote target}"
         end
-        unless system(cmd)
-          logger.error("Creating thumbnail failed (#{$?}):\nCommand: #{cmd}")
+
+        pid = nil
+        begin
+          Timeout.timeout(Redmine::Configuration['thumbnails_generation_timeout'].to_i) do
+            pid = Process.spawn(cmd)
+            _, status = Process.wait2(pid)
+            unless status.success?
+              logger.error("Creating thumbnail failed (#{status.exitstatus}):\nCommand: #{cmd}")
+              return nil
+            end
+          end
+        rescue Timeout::Error
+          Process.kill('KILL', pid)
+          logger.error("Creating thumbnail timed out:\nCommand: #{cmd}")
           return nil
         end
       end

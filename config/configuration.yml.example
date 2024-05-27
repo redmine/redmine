@@ -178,6 +178,10 @@ default:
   # the `gs` binary. Used to generate attachment thumbnails of PDF files.
   #gs_command:
 
+  # Timeout when generating thumbnails using the `convert` or `gs` command.
+  # Timeout is set in seconds.
+  #thumbnails_generation_timeout: 10
+
   # Configuration of MiniMagick font.
   #
   # Redmine uses MiniMagick in order to export a gantt chart to a PNG image.

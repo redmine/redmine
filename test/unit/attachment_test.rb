@@ -626,6 +626,25 @@ class AttachmentTest < ActiveSupport::TestCase
     ensure
       set_tmp_attachments_directory
     end
+
+    def test_thumbnail_should_timeout
+      dummy_pid = 37530
+      Process.stubs(:spawn).returns(dummy_pid)
+      Process.stubs(:wait2).raises(Timeout::Error)
+      Process.stubs(:kill).returns(1)
+      Process.stubs(:wait).returns(dummy_pid)
+      Rails.logger.expects(:error).with(regexp_matches(/Creating thumbnail timed out/))
+
+      set_fixtures_attachments_directory
+      Attachment.clear_thumbnails
+
+      attachment = Attachment.find(16)
+      thumbnail = attachment.thumbnail
+
+      assert_nil thumbnail
+    ensure
+      set_tmp_attachments_directory
+    end
   else
     puts '(ImageMagick convert not available)'
   end
