@@ -242,6 +242,8 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
 
     assert_select 'issue journals[type=array]' do
       assert_select 'journal[id="1"]' do
+        assert_select 'updated_on', :text => Issue.find(1).journals[0].updated_on.iso8601
+        assert_select 'updated_by[id="1"][name="Redmine Admin"]'
         assert_select 'private_notes', :text => 'false'
         assert_select 'details[type=array]' do
           assert_select 'detail[name=status_id]' do

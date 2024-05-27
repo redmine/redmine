@@ -59,6 +59,8 @@ api.issue do
         api.user(:id => journal.user_id, :name => journal.user.name) unless journal.user.nil?
         api.notes journal.notes
         api.created_on journal.created_on
+        api.updated_on journal.updated_on
+        api.updated_by(:id => journal.updated_by.id, :name => journal.updated_by.name) unless journal.updated_by.nil?
         api.private_notes journal.private_notes
         api.array :details do
           journal.visible_details.each do |detail|
