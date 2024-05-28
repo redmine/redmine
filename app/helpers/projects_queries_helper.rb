@@ -40,6 +40,16 @@ module ProjectsQueriesHelper
         get_project_status_label[column.value_object(item)]
       when :parent_id
         link_to_project(item.parent) unless item.parent.nil?
+      when :last_activity_date
+        formatted_value = super
+        if value.present? && formatted_value.present?
+          link_to(
+            formatted_value,
+            project_activity_path(item, :from => User.current.time_to_date(value))
+          )
+        else
+          formatted_value
+        end
       else
         super
       end

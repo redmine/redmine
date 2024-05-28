@@ -260,7 +260,10 @@ class ProjectsControllerTest < Redmine::ControllerTest
       assert_response :success
     end
     assert_equal ['Name', 'Description', 'Last activity'], columns_in_list
-    assert_select 'tr#project-1 td.last_activity_date', :text => format_time(Journal.find(3).created_on)
+    activity_time = Journal.find(3).created_on
+    assert_select "tr#project-1 td.last_activity_date a[href=?]",
+      project_activity_path(Project.find(1), :from => User.current.time_to_date(activity_time)),
+      :text => format_time(activity_time)
     assert_select 'tr#project-4 td.last_activity_date', :text => ''
   end
 
