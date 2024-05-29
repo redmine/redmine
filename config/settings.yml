@@ -256,6 +256,9 @@ default_project_query:
   default: ''
 issue_done_ratio:
   default: 'issue_field'
+issue_done_ratio_interval:
+  format: int
+  default: 10
 default_projects_public:
   default: 1
 default_projects_modules:

@@ -88,7 +88,7 @@
 <% end %>
 
 <% if @issue.safe_attribute?('done_ratio') && Issue.use_field_for_done_ratio? %>
-<p><%= f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }), :required => @issue.required_attribute?('done_ratio') %></p>
+<p><%= f.select :done_ratio, ((0..100).step(Setting.issue_done_ratio_interval.to_i).to_a.collect {|r| ["#{r} %", r]}), :required => @issue.required_attribute?('done_ratio') %></p>
 <% end %>
 </div>
 </div>

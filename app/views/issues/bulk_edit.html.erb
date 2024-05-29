@@ -178,7 +178,7 @@
 <% if @safe_attributes.include?('done_ratio') && Issue.use_field_for_done_ratio? %>
 <p>
   <label for='issue_done_ratio'><%= l(:field_done_ratio) %></label>
-  <%= select_tag 'issue[done_ratio]', options_for_select([[l(:label_no_change_option), '']] + (0..10).to_a.collect {|r| ["#{r*10} %", r*10] }, @issue_params[:done_ratio]) %>
+  <%= select_tag 'issue[done_ratio]', options_for_select([[l(:label_no_change_option), '']] + (0..100).step(Setting.issue_done_ratio_interval.to_i).to_a.collect {|r| ["#{r} %", r]}, @issue_params[:done_ratio]) %>
 </p>
 <% end %>
 </div>

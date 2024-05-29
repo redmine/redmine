@@ -8736,4 +8736,19 @@ class IssuesControllerTest < Redmine::ControllerTest
       end
     end
   end
+
+  def test_get_new_with_issue_field_five_percent_increments
+    with_settings :issue_done_ratio => 'issue_field', :issue_done_ratio_interval => 5 do
+      @request.session[:user_id] = 1
+      get :new
+      assert_response :success
+
+      assert_select 'select#issue_done_ratio' do
+        assert_select 'option', count: 21
+        assert_select 'option:nth-of-type(1)', text: '0 %'
+        assert_select 'option:nth-of-type(2)', text: '5 %'
+        assert_select 'option:nth-of-type(21)', text: '100 %'
+      end
+    end
+  end
 end
