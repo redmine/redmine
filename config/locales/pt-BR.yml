@@ -1495,3 +1495,4 @@ pt-BR:
   label_option_auto_lang: auto
   label_issue_attachment_added: Attachment added
   field_estimated_remaining_hours: Estimated remaining time
+  setting_issue_done_ratio_interval: Done ratio options interval

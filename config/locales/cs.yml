@@ -1472,3 +1472,4 @@ cs:
   label_issue_attachment_added: Příloha přidána
   field_estimated_remaining_hours: Odhadovaný zbývající čas
   field_last_activity_date: Last activity
+  setting_issue_done_ratio_interval: Done ratio options interval

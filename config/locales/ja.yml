@@ -1442,3 +1442,4 @@ ja:
   label_issue_attachment_added: 添付ファイルの追加
   field_estimated_remaining_hours: 残工数
   field_last_activity_date: 最終活動日
+  setting_issue_done_ratio_interval: Done ratio options interval
