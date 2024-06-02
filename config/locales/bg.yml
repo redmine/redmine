@@ -420,7 +420,9 @@ bg:
   field_default_issue_query: Заявка по подразбиране
   field_default_project_query: Заявка по подразбиране за проекта
   field_default_time_entry_activity: Дейност по подразбиране за изразходвано време
+  field_estimated_remaining_hours: Изчислено оставащо време
   field_any_searchable: Всички обекти с текст (заглавие, описание, коментари на задачи, потребителски полета)
+  field_last_activity_date: Последна активност
 
   setting_app_title: Заглавие
   setting_welcome_text: Допълнителен текст
@@ -478,6 +480,7 @@ bg:
   setting_default_projects_modules: Активирани модули по подразбиране за нов проект
   setting_issue_done_ratio: Изчисление на процента на готови задачи с
   setting_issue_done_ratio_issue_field: Използване на поле '% Прогрес'
+  setting_issue_done_ratio_interval: Done ratio options interval
   setting_issue_done_ratio_issue_status: Използване на състоянието на задачите
   setting_start_of_week: Първи ден на седмицата
   setting_rest_api_enabled: Разрешаване на REST web сървис
@@ -632,6 +635,7 @@ bg:
   label_issue_assigned_to_updated: Задачата е с назначен нов изпълнител
   label_issue_priority_updated: Обновен приоритет
   label_issue_fixed_version_updated: Променена версия
+  label_issue_attachment_added: Добавен файл
   label_document: Документ
   label_document_new: Нов документ
   label_document_plural: Документи
@@ -882,6 +886,7 @@ bg:
   label_diff_inline: хоризонтално
   label_diff_side_by_side: вертикално
   label_options: Опции
+  label_option_auto_lang: автоматично
   label_copy_workflow_from: Копирай работния процес от
   label_permissions_report: Справка за права
   label_watched_issues: Наблюдавани задачи
@@ -1431,8 +1436,3 @@ bg:
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
   field_name_or_email_or_login: Име, e-mail или login име
-  label_option_auto_lang: auto
-  label_issue_attachment_added: Attachment added
-  field_estimated_remaining_hours: Estimated remaining time
-  field_last_activity_date: Last activity
-  setting_issue_done_ratio_interval: Done ratio options interval
