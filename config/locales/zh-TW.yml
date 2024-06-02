@@ -1507,4 +1507,4 @@
   label_issue_attachment_added: 附加檔案已新增
   field_estimated_remaining_hours: 預估剩餘工時
   field_last_activity_date: 最近一次活動
-  setting_issue_done_ratio_interval: Done ratio options interval
+  setting_issue_done_ratio_interval: 完成百分比選項的間隔值
