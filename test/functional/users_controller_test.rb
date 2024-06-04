@@ -189,6 +189,15 @@ class UsersControllerTest < Redmine::ControllerTest
     assert_select 'tr#user-1', 1
   end
 
+  def test_index_with_query
+    query = UserQuery.create!(:name => 'My User Query', :description => 'Description for My User Query', :visibility => UserQuery::VISIBILITY_PUBLIC)
+    get :index, :params => { :query_id => query.id }
+    assert_response :success
+
+    assert_select 'h2', :text => query.name
+    assert_select '#sidebar a.query.selected[title=?]', query.description, :text => query.name
+  end
+
   def test_index_csv
     with_settings :default_language => 'en' do
       user = User.logged.status(1).first

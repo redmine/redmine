@@ -5,6 +5,7 @@ queries_001:
   project_id: 1
   visibility: 2
   name: Multiple custom fields query
+  description: Description for Multiple custom fields query
   filters: |
     --- 
     cf_1: 
@@ -28,6 +29,7 @@ queries_002:
   project_id: 1
   visibility: 0
   name: Private query for cookbook
+  description: Description for Private query for cookbook
   filters: |
     --- 
     tracker_id: 
@@ -47,6 +49,7 @@ queries_003:
   project_id: 
   visibility: 0
   name: Private query for all projects
+  description: Description for Private query for all projects
   filters: |
     --- 
     tracker_id: 
@@ -62,6 +65,7 @@ queries_004:
   project_id: 
   visibility: 2
   name: Public query for all projects
+  description: Description for Public query for all projects
   filters: |
     --- 
     tracker_id: 
@@ -77,6 +81,7 @@ queries_005:
   project_id: 
   visibility: 2
   name: Open issues by priority and tracker
+  description: Description for Oepn issues by priority and tracker
   filters: |
     --- 
     status_id: 
@@ -98,6 +103,7 @@ queries_006:
   project_id: 
   visibility: 2
   name: Open issues grouped by tracker
+  description: Description for Open issues grouped by tracker
   filters: |
     --- 
     status_id: 
@@ -118,6 +124,7 @@ queries_007:
   project_id: 2
   visibility: 2
   name: Public query for project 2
+  description: Description for Public query for project 2
   filters: |
     --- 
     tracker_id: 
@@ -133,6 +140,7 @@ queries_008:
   project_id: 2
   visibility: 0
   name: Private query for project 2
+  description: Description for Private query for project 2
   filters: |
     --- 
     tracker_id: 
@@ -148,6 +156,7 @@ queries_009:
   project_id: 
   visibility: 2
   name: Open issues grouped by list custom field
+  description: Description for Open issues grouped by list custom field
   filters: |
     --- 
     status_id: 
@@ -168,6 +177,7 @@ queries_010:
   project_id: 1
   visibility: 2
   name: My spent time
+  description: Description for My spent time
   filters: |
     --- 
     user_id: 
@@ -187,6 +197,7 @@ queries_011:
   type: ProjectQuery
   visibility: 2
   name: Projects as list
+  description: Description for Projects as list
   filters: |
     ---
     id:
@@ -205,6 +216,7 @@ queries_012:
   type: ProjectQuery
   visibility: 1
   name: My bookmarks
+  description: Description for My bookmarks
   filters: |
     ---
     id:

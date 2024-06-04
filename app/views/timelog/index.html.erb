@@ -14,6 +14,7 @@
 </div>
 
 <h2><%= @query.new_record? ? l(:label_spent_time) : @query.name %></h2>
+<%= @query.persisted? && @query.description.present? ? content_tag('p', @query.description, class: 'subtitle') : '' %>
 
 <%= form_tag(_time_entries_path(@project, nil), :method => :get, :id => 'query_form') do %>
 <%= render :partial => 'date_range' %>

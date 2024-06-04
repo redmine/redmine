@@ -267,6 +267,14 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert_select 'tr#project-4 td.last_activity_date', :text => ''
   end
 
+  def test_index_with_query
+    query = ProjectQuery.find(11)
+    get :index, :params => { :query_id => query.id }
+    assert_response :success
+    assert_select 'h2', :text => query.name
+    assert_select '#sidebar a.query.selected[title=?]', query.description, :text => query.name
+  end
+
   def test_index_should_retrieve_default_query
     query = ProjectQuery.find(11)
     ProjectQuery.stubs(:default).returns query
@@ -275,6 +283,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
       @request.session[:user_id] = user_id
       get :index
       assert_select 'h2', text: query.name
+      assert_select '#sidebar a.query.selected[title=?]', query.description, :text => query.name
     end
   end
 

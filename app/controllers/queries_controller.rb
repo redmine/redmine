@@ -133,6 +133,7 @@ class QueriesController < ApplicationController
     @query.column_names = nil if params[:default_columns]
     @query.sort_criteria = (params[:query] && params[:query][:sort_criteria]) || @query.sort_criteria
     @query.name = params[:query] && params[:query][:name]
+    @query.description = params[:query] && params[:query][:description]
     if User.current.allowed_to?(:manage_public_queries, @query.project) || User.current.admin?
       @query.visibility = (params[:query] && params[:query][:visibility]) || Query::VISIBILITY_PRIVATE
       @query.role_ids = params[:query] && params[:query][:role_ids]

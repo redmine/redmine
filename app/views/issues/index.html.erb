@@ -19,6 +19,7 @@
 
 <h2><%= @query.new_record? ? l(:label_issue_plural) : @query.name %></h2>
 <% html_title(@query.new_record? ? l(:label_issue_plural) : @query.name) %>
+<%= @query.persisted? && @query.description.present? ? content_tag('p', @query.description, class: 'subtitle') : '' %>
 
 <%= form_tag(_project_issues_path(@project), :method => :get, :id => 'query_form') do %>
   <%= render :partial => 'queries/query_form' %>

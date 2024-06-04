@@ -1,4 +1,5 @@
 <h2><%= @query.new_record? ? l(:label_calendar) : @query.name %></h2>
+<%= @query.persisted? && @query.description.present? ? content_tag('p', @query.description, class: 'subtitle') : '' %>
 
 <%= form_tag({:controller => 'calendars', :action => 'show', :project_id => @project},
              :method => :get, :id => 'query_form') do %>

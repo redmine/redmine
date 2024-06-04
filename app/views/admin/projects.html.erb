@@ -3,6 +3,7 @@
 </div>
 
 <h2><%= @query.new_record? ? l(:label_project_plural) : @query.name %></h2>
+<%= @query.persisted? && @query.description.present? ? content_tag('p', @query.description, class: 'subtitle') : '' %>
 
 <%= form_tag(admin_projects_path(@project, nil), :method => :get, :id => 'query_form') do %>
 <%= hidden_field_tag 'admin_projects', '1' %>

@@ -155,15 +155,16 @@ class CalendarsControllerTest < Redmine::ControllerTest
   end
 
   def test_show_should_run_custom_queries
-    @query = IssueQuery.create!(:name => 'Calendar Query', :visibility => IssueQuery::VISIBILITY_PUBLIC)
+    query = IssueQuery.create!(:name => 'Calendar Query', :description => 'Description for Calendar Query', :visibility => IssueQuery::VISIBILITY_PUBLIC)
     get(
       :show,
       :params => {
-        :query_id => @query.id
+        :query_id => query.id
       }
     )
     assert_response :success
-    assert_select 'h2', :text => 'Calendar Query'
+    assert_select 'h2', :text => query.name
+    assert_select '#sidebar a.query.selected[title=?]', query.description, :text => query.name
   end
 
   def test_cross_project_calendar

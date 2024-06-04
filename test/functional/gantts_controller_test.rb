@@ -118,6 +118,19 @@ class GanttsControllerTest < Redmine::ControllerTest
     assert_response :success
   end
 
+  def test_show_should_run_custom_query
+    query = IssueQuery.create!(:name => 'Gantt Query', :description => 'Description for Gantt Query', :visibility => IssueQuery::VISIBILITY_PUBLIC)
+    get(
+      :show,
+      :params => {
+        :query_id => query.id
+      }
+    )
+    assert_response :success
+    assert_select 'h2', :text => query.name
+    assert_select '#sidebar a.query.selected[title=?]', query.description, :text => query.name
+  end
+
   def test_gantt_should_work_cross_project
     get :show
     assert_response :success

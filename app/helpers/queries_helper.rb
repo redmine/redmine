@@ -506,7 +506,8 @@ module QueriesHelper
           content_tag('li',
                       link_to(query.name,
                               url_params.merge(:query_id => query),
-                              :class => css) +
+                              :class => css,
+                              :title => query.description) +
                         clear_link.html_safe)
         end.join("\n").html_safe,
         :class => 'queries'

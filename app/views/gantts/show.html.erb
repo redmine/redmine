@@ -3,6 +3,7 @@
 </div>
 
 <h2><%= @query.new_record? ? l(:label_gantt) : @query.name %></h2>
+<%= @query.persisted? && @query.description.present? ? content_tag('p', @query.description, class: 'subtitle') : '' %>
 
 <%= form_tag({:controller => 'gantts', :action => 'show',
              :project_id => @project, :month => params[:month],
