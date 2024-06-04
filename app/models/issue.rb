@@ -1165,6 +1165,11 @@ class Issue < ApplicationRecord
     end
   end
 
+  # Returns the number of estimated remaining hours on this issue
+  def estimated_remaining_hours
+    (estimated_hours || 0) * (100 - (done_ratio || 0)) / 100
+  end
+
   def relations
     @relations ||= IssueRelation::Relations.new(
       self,

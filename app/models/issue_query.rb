@@ -18,25 +18,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class IssueQuery < Query
-  class EstimatedRemainingHoursColumn < QueryColumn
-    COLUMN_SQL = Arel.sql("COALESCE(#{Issue.table_name}.estimated_hours, 0) * (100 - COALESCE(#{Issue.table_name}.done_ratio, 0)) / 100")
-
-    def initialize
-      super(:estimated_remaining_hours, totalable: true, sortable: COLUMN_SQL)
-    end
-
-    def value(object)
-      (object.estimated_hours || 0) * (100 - (object.done_ratio || 0)) / 100
-    end
-
-    def value_object(object)
-      value(object)
-    end
-  end
-
   self.queried_class = Issue
   self.view_permission = :view_issues
 
+  ESTIMATED_REMAINING_HOURS_SQL = Arel.sql("COALESCE(#{Issue.table_name}.estimated_hours, 0) * (100 - COALESCE(#{Issue.table_name}.done_ratio, 0)) / 100")
   self.available_columns = [
     QueryColumn.new(:id, :sortable => "#{Issue.table_name}.id",
                     :default_order => 'desc', :caption => '#', :frozen => true),
@@ -66,7 +51,9 @@ class IssueQuery < Query
     QueryColumn.new(:due_date, :sortable => "#{Issue.table_name}.due_date", :groupable => true),
     QueryColumn.new(:estimated_hours, :sortable => "#{Issue.table_name}.estimated_hours",
                     :totalable => true),
-    EstimatedRemainingHoursColumn.new,
+    QueryColumn.new(:estimated_remaining_hours,
+                    :sortable => ESTIMATED_REMAINING_HOURS_SQL,
+                    :totalable => true),
     QueryColumn.new(
       :total_estimated_hours,
       :sortable =>
@@ -390,7 +377,7 @@ class IssueQuery < Query
   end
 
   def total_for_estimated_remaining_hours(scope)
-    map_total(scope.sum(EstimatedRemainingHoursColumn::COLUMN_SQL)) {|t| t.to_f.round(2)}
+    map_total(scope.sum(ESTIMATED_REMAINING_HOURS_SQL)) {|t| t.to_f.round(2)}
   end
 
   # Returns sum of all the issue's time entries hours
