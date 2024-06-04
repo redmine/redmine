@@ -502,8 +502,9 @@ class IssuesController < ApplicationController
       return
     end
     if !params[:set_filter] && use_session && session[:issue_query]
+      # Don't apply the default query if a valid query id is set in the session
       query_id, project_id = session[:issue_query].values_at(:id, :project_id)
-      return if IssueQuery.where(id: query_id).exists? && project_id == @project&.id
+      return if query_id && project_id == @project&.id && IssueQuery.exists?(id: query_id)
     end
     if default_query = IssueQuery.default(project: @project)
       params[:query_id] = default_query.id
