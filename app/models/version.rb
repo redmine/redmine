@@ -24,6 +24,12 @@ module FixedIssuesExtension
     @estimated_hours ||= sum(:estimated_hours).to_f
   end
 
+  # Returns the total estimated remaining time for this version
+  # (sum of leaves remaining_estimated_hours)
+  def estimated_remaining_hours
+    @estimated_remaining_hours ||= sum(IssueQuery::ESTIMATED_REMAINING_HOURS_SQL).to_f
+  end
+
   # Returns the total amount of open issues for this version.
   def open_count
     load_counts
@@ -239,6 +245,12 @@ class Version < ApplicationRecord
   # (sum of leaves estimated_hours)
   def estimated_hours
     fixed_issues.estimated_hours
+  end
+
+  # Returns the total estimated remaining time for this version
+  # (sum of leaves estimated_remaining_hours)
+  def estimated_remaining_hours
+    @remaining_hours ||= fixed_issues.estimated_remaining_hours
   end
 
   # Returns the total reported time for this version

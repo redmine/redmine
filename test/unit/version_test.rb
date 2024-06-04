@@ -225,30 +225,34 @@ class VersionTest < ActiveSupport::TestCase
     assert_equal false, version.behind_schedule?
   end
 
-  test "#estimated_hours should return 0 with no assigned issues" do
+  test "#estimated_hours and estimated_remaining_hours should return 0 with no assigned issues" do
     version = Version.generate!
     assert_equal 0, version.estimated_hours
+    assert_equal 0, version.estimated_remaining_hours
   end
 
-  test "#estimated_hours should return 0 with no estimated hours" do
+  test "#estimated_hours and estimated_remaining_hours should return 0 with no estimated hours" do
     version = Version.create!(:project_id => 1, :name => 'test')
     add_issue(version)
     assert_equal 0, version.estimated_hours
+    assert_equal 0, version.estimated_remaining_hours
   end
 
-  test "#estimated_hours should return return the sum of estimated hours" do
+  test "#estimated_hours and estimated_remaining_hours should return the sum of estimated hours and estimated remaining hours" do
     version = Version.create!(:project_id => 1, :name => 'test')
-    add_issue(version, :estimated_hours => 2.5)
-    add_issue(version, :estimated_hours => 5)
+    add_issue(version, :estimated_hours => 2.5, :done_ratio => 90)
+    add_issue(version, :estimated_hours => 5, :done_ratio => 50)
     assert_equal 7.5, version.estimated_hours
+    assert_equal 2.75, version.estimated_remaining_hours
   end
 
-  test "#estimated_hours should return the sum of leaves estimated hours" do
+  test "#estimated_hours and remaining_hours should return the sum of leaves estimated hours and estimated remaining hours" do
     version = Version.create!(:project_id => 1, :name => 'test')
     parent = add_issue(version)
-    add_issue(version, :estimated_hours => 2.5, :parent_issue_id => parent.id)
-    add_issue(version, :estimated_hours => 5, :parent_issue_id => parent.id)
+    add_issue(version, :estimated_hours => 2.5, :done_ratio => 90, :parent_issue_id => parent.id)
+    add_issue(version, :estimated_hours => 5, :done_ratio => 50, :parent_issue_id => parent.id)
     assert_equal 7.5, version.estimated_hours
+    assert_equal 2.75, version.estimated_remaining_hours
   end
 
   test "should update all issue's fixed_version associations in case the hierarchy changed XXX" do

@@ -22,6 +22,13 @@
     <td class="total-hours"><%= link_to html_hours(l_hours(@version.visible_fixed_issues.estimated_hours)),
                                         project_issues_path(@version.project, :set_filter => 1, :status_id => '*', :fixed_version_id => @version.id, :c => [:tracker, :status, :subject, :estimated_hours], :t => [:estimated_hours]) %></td>
 </tr>
+<tr>
+  <th><%= l(:field_estimated_remaining_hours) %></th>
+  <td class="total-hours">
+    <%= link_to html_hours(l_hours(@version.visible_fixed_issues.estimated_remaining_hours)),
+          project_issues_path(@version.project, :set_filter => 1, :status_id => '*', :fixed_version_id => @version.id, :c => [:tracker, :status, :subject, :estimated_remaining_hours], :t => [:estimated_remaining_hours]) %>
+  </td>
+</tr>
 <% if User.current.allowed_to_view_all_time_entries?(@project) %>
 <tr>
     <th><%= l(:label_spent_time) %></th>
