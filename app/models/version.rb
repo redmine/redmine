@@ -250,7 +250,7 @@ class Version < ApplicationRecord
   # Returns the total estimated remaining time for this version
   # (sum of leaves estimated_remaining_hours)
   def estimated_remaining_hours
-    @remaining_hours ||= fixed_issues.estimated_remaining_hours
+    @estimated_remaining_hours ||= fixed_issues.estimated_remaining_hours
   end
 
   # Returns the total reported time for this version
