@@ -245,6 +245,9 @@ Style/InverseMethods:
 Style/NegatedIfElseCondition:
   Enabled: false
 
+Style/NumericPredicate:
+  Enabled: false
+
 Style/RaiseArgs:
   Enabled: false
 
