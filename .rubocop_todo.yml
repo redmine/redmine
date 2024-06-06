@@ -802,10 +802,6 @@ Security/IoMethods:
     - 'test/functional/mail_handler_controller_test.rb'
     - 'test/unit/mail_handler_test.rb'
 
-Security/Open:
-  Exclude:
-    - 'app/models/version.rb'
-
 # This cop supports unsafe autocorrection (--autocorrect-all).
 Security/YAMLLoad:
   Exclude:

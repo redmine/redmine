@@ -106,7 +106,7 @@ module FixedIssuesExtension
     @issues_progress[open] ||= begin
       progress = 0
       if count > 0
-        done = open(open).sum do |c|
+        done = self.open(open).sum do |c|
           estimated = c.total_estimated_hours.to_f
           estimated = estimated_average unless estimated > 0.0
           ratio = c.closed? ? 100 : (c.done_ratio || 0)
