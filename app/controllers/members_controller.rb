@@ -115,7 +115,7 @@ class MembersController < ApplicationController
         if @member.destroyed?
           render_api_ok
         else
-          head :unprocessable_entity
+          head :unprocessable_content
         end
       end
     end

@@ -118,7 +118,7 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
       :params => {:attachment => {:filename => '', :description => 'updated'}},
       :headers => credentials('jsmith')
     )
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
     assert_equal 'application/json', response.media_type
     json = ActiveSupport::JSON.decode(response.body)
     assert_include "File cannot be blank", json['errors']
@@ -224,7 +224,7 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
             "CONTENT_TYPE" => 'application/octet-stream'
           }.merge(credentials('jsmith'))
         )
-        assert_response :unprocessable_entity
+        assert_response :unprocessable_content
         assert_select 'error', :text => /exceeds the maximum allowed file size/
       end
     end

@@ -75,7 +75,7 @@ class CustomFieldsController < ApplicationController
     else
       respond_to do |format|
         format.html {render :action => 'edit'}
-        format.js {head :unprocessable_entity}
+        format.js {head :unprocessable_content}
       end
     end
   end

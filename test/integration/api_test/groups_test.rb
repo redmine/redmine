@@ -150,7 +150,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
         :headers => credentials('admin')
       )
     end
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
     assert_equal 'application/xml', response.media_type
 
     assert_select 'errors' do
@@ -179,7 +179,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
       :params => {:group => {:name => ''}},
       :headers => credentials('admin')
     )
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
     assert_equal 'application/xml', response.media_type
 
     assert_select 'errors' do
@@ -220,7 +220,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
         :params => {:user_id => 5},
         :headers => credentials('admin')
       )
-      assert_response :unprocessable_entity
+      assert_response :unprocessable_content
     end
 
     assert_select 'errors' do

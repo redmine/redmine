@@ -81,7 +81,7 @@ class TrackersController < ApplicationController
           edit
           render :action => 'edit'
         end
-        format.js {head :unprocessable_entity}
+        format.js {head :unprocessable_content}
       end
     end
   end

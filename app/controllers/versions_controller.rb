@@ -165,7 +165,7 @@ class VersionsController < ApplicationController
           flash[:error] = l(:notice_unable_delete_version)
           redirect_to settings_project_path(@project, :tab => 'versions')
         end
-        format.api  {head :unprocessable_entity}
+        format.api  {head :unprocessable_content}
       end
     end
   end

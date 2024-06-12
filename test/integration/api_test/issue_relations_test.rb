@@ -87,7 +87,7 @@ class Redmine::ApiTest::IssueRelationsTest < Redmine::ApiTest::Base
       )
     end
 
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
     assert_select 'errors error', :text => /Relation type is not included in the list/
   end
 

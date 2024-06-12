@@ -81,7 +81,7 @@ class Redmine::ApiTest::MyTest < Redmine::ApiTest::Base
         }
       },
       :headers => credentials('dlopper', 'foo'))
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
     assert_equal 'application/xml', @response.media_type
     assert_select 'errors error', :text => "First name cannot be blank"
   end
@@ -95,7 +95,7 @@ class Redmine::ApiTest::MyTest < Redmine::ApiTest::Base
         }
       },
       :headers => credentials('dlopper', 'foo'))
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
     assert_equal 'application/json', @response.media_type
     json = ActiveSupport::JSON.decode(response.body)
     assert_kind_of Hash, json

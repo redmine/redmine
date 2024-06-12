@@ -766,7 +766,7 @@ class ApplicationController < ActionController::Base
 
   def render_api_errors(*messages)
     @error_messages = messages.flatten
-    render :template => 'common/error_messages', :format => [:api], :status => :unprocessable_entity, :layout => nil
+    render :template => 'common/error_messages', :format => [:api], :status => :unprocessable_content, :layout => nil
   end
 
   # Overrides #_include_layout? so that #render with no arguments

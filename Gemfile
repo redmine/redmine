@@ -15,6 +15,7 @@ gem 'rbpdf', '~> 1.21.3'
 gem 'addressable'
 gem 'rubyzip', '~> 2.3.0'
 gem 'propshaft', '~> 0.8.0'
+gem 'rack', '>= 3.1.3'
 
 #  Ruby Standard Gems
 gem 'csv', '~> 3.2.8'

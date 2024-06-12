@@ -304,7 +304,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
       )
     end
 
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
     assert_equal 'application/xml', @response.media_type
     assert_select 'errors error', :text => "Identifier cannot be blank"
   end
@@ -366,7 +366,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
       )
     end
 
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
     assert_equal 'application/xml', @response.media_type
     assert_select 'errors error', :text => "Name cannot be blank"
   end

@@ -81,7 +81,7 @@ class UsersController < ApplicationController
     else
       respond_to do |format|
         format.html {render :layout => !request.xhr?}
-        format.csv {head :unprocessable_entity}
+        format.csv {head :unprocessable_content}
         format.api {render_validation_errors(@query)}
       end
     end

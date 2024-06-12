@@ -61,7 +61,7 @@ class MailHandlerController < ActionController::Base
     if MailHandler.safe_receive(email, options)
       head :created
     else
-      head :unprocessable_entity
+      head :unprocessable_content
     end
   end
 

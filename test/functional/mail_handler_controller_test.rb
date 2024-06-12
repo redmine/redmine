@@ -117,7 +117,7 @@ class MailHandlerControllerTest < Redmine::ControllerTest
         )
       end
     end
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
   end
 
   def test_should_not_allow_with_api_disabled

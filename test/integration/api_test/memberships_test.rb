@@ -101,7 +101,7 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
         :params => {:membership => {:role_ids => [2, 3]}},
         :headers => credentials('jsmith')
       )
-      assert_response :unprocessable_entity
+      assert_response :unprocessable_content
       assert_equal 'application/xml', @response.media_type
       assert_select 'errors error', :text => 'User or Group cannot be blank'
     end
@@ -158,7 +158,7 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
       :params => {:membership => {:user_id => 3, :role_ids => [99]}},
       :headers => credentials('jsmith')
     )
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
     assert_equal 'application/xml', @response.media_type
     assert_select 'errors error', :text => "Role cannot be empty"
   end
@@ -179,7 +179,7 @@ class Redmine::ApiTest::MembershipsTest < Redmine::ApiTest::Base
       Member.find(2).member_roles.first.update_attribute :inherited_from, 99
       delete '/memberships/2.xml', :headers => credentials('jsmith')
 
-      assert_response :unprocessable_entity
+      assert_response :unprocessable_content
     end
   end
 end

@@ -84,7 +84,7 @@ class IssuesController < ApplicationController
     else
       respond_to do |format|
         format.html {render :layout => !request.xhr?}
-        format.any(:atom, :csv, :pdf) {head :unprocessable_entity}
+        format.any(:atom, :csv, :pdf) {head :unprocessable_content}
         format.api {render_validation_errors(@query)}
       end
     end

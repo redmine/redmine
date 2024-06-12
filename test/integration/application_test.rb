@@ -73,7 +73,7 @@ class ApplicationTest < Redmine::IntegrationTest
   def test_invalid_token_should_call_custom_handler
     ActionController::Base.allow_forgery_protection = true
     post '/issues'
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
     assert_include "Invalid form authenticity token.", response.body
   ensure
     ActionController::Base.allow_forgery_protection = false
@@ -83,7 +83,7 @@ class ApplicationTest < Redmine::IntegrationTest
     ActionController::Base.allow_forgery_protection = true
     Setting.default_language = 'en'
     post '/issues', :headers => {'HTTP_ACCEPT_LANGUAGE' => 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'}
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
     assert_equal :fr, current_language
     assert_select "html[lang=?]", "fr"
   ensure

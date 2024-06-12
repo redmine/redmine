@@ -46,7 +46,7 @@ class SysController < ActionController::Base
       if repository.save
         render :json => {repository.class.name.underscore.tr('/', '-') => {:id => repository.id, :url => repository.url}}, :status => :created
       else
-        head :unprocessable_entity
+        head :unprocessable_content
       end
     end
   end
