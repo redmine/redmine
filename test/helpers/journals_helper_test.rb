@@ -29,7 +29,8 @@ class JournalsHelperTest < Redmine::HelperTest
            :enabled_modules,
            :custom_fields,
            :attachments,
-           :versions
+           :versions,
+           :journal_details
 
   def test_journal_thumbnail_attachments_should_return_thumbnailable_attachments
     skip unless convert_installed?
