@@ -4,6 +4,27 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2024-06-12 v5.0.9
+
+=== [Gems support]
+
+* Defect #40603: Mocha 2.2.0 causes test failure: "unexpected invocation"
+* Patch #40802: Support builder 3.3.0
+
+=== [Issues]
+
+* Defect #40410: Watcher groups on new issue form get dereferenced on validation error
+* Defect #40412: Issue list filter "Watched by: me" only shows issues watched via group for projects with the view_issue_watchers permission
+* Feature #40556: Focus on the textarea after clicking the Edit Journal button
+
+=== [Performance]
+
+* Defect #40610: Slow display of projects list when including project description column
+
+=== [Rails support]
+
+* Patch #40818: Update Rails to 6.1.7.8
+
 == 2024-03-04 v5.0.8
 
 === [Activity view]
