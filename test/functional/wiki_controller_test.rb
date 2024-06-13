@@ -233,6 +233,20 @@ class WikiControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_show_should_display_revisions_count
+    # To ensure that the number of versions is correctly displayed instead of
+    # the last version number of the wiki page, make a situation where the
+    # those two numbers are different.
+    content_versions = WikiContentVersion.where(page_id: 1)
+    content_versions.first.destroy
+    assert 3, content_versions.last.version
+    assert 2, content_versions.size
+
+    get :show, :params => {:project_id => 1, :id => 'CookBook_documentation'}
+    assert_response :success
+    assert_select 'a[href=?]', '/projects/1/wiki/CookBook_documentation/history', :text => /2 revisions/
+  end
+
   def test_get_new
     @request.session[:user_id] = 2
 
