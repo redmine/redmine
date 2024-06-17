@@ -54,6 +54,7 @@ module FixedIssuesExtension
   # Returns the percentage of issues that have been marked as 'closed'.
   def closed_percent
     return 0 if open_count + closed_count == 0
+    return 100 if open_count == 0
 
     issues_progress(false)
   end
