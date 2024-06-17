@@ -269,14 +269,11 @@ class Version < ApplicationRecord
   end
 
   def behind_schedule?
-    if completed_percent == 100
-      return false
-    elsif due_date && start_date
-      done_date = start_date + ((due_date - start_date+1)* completed_percent/100).floor
-      return done_date <= User.current.today
-    else
-      false # No issues so it's not late
-    end
+    # Blank due date, no issues, or 100% completed, so it's not late
+    return false if due_date.nil? || start_date.nil? || completed_percent == 100
+
+    done_date = start_date + ((due_date - start_date + 1) * completed_percent / 100).floor
+    done_date <= User.current.today
   end
 
   # Returns the completion percentage of this version based on the amount of open/closed issues
