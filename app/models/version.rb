@@ -45,22 +45,17 @@ module FixedIssuesExtension
   # Returns the completion percentage of this version based on the amount of open/closed issues
   # and the time spent on the open issues.
   def completed_percent
-    if count == 0
-      0
-    elsif open_count == 0
-      100
-    else
-      issues_progress(false) + issues_progress(true)
-    end
+    return 0 if open_count + closed_count == 0
+    return 100 if open_count == 0
+
+    issues_progress(false) + issues_progress(true)
   end
 
   # Returns the percentage of issues that have been marked as 'closed'.
   def closed_percent
-    if count == 0
-      0
-    else
-      issues_progress(false)
-    end
+    return 0 if open_count + closed_count == 0
+
+    issues_progress(false)
   end
 
   private
@@ -105,14 +100,15 @@ module FixedIssuesExtension
     @issues_progress ||= {}
     @issues_progress[open] ||= begin
       progress = 0
-      if count > 0
+      issues_count = open_count + closed_count
+      if issues_count > 0
         done = self.open(open).sum do |c|
           estimated = c.total_estimated_hours.to_f
           estimated = estimated_average unless estimated > 0.0
           ratio = c.closed? ? 100 : (c.done_ratio || 0)
           estimated * ratio
         end
-        progress = done / (estimated_average * count)
+        progress = done / (estimated_average * issues_count)
       end
       progress
     end
