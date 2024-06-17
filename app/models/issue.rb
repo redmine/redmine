@@ -21,6 +21,8 @@ class Issue < ApplicationRecord
   include Redmine::SafeAttributes
   include Redmine::Utils::DateCalculation
   include Redmine::I18n
+  before_validation :default_assign, on: :create
+  before_validation :clear_disabled_fields
   before_save :set_parent_id
   include Redmine::NestedSet::IssueNestedSet
 
@@ -107,8 +109,6 @@ class Issue < ApplicationRecord
     end
   end)
 
-  before_validation :default_assign, on: :create
-  before_validation :clear_disabled_fields
   before_save :close_duplicates, :update_done_ratio_from_issue_status,
               :force_updated_on_change, :update_closed_on
   after_save do |issue|
@@ -116,11 +116,11 @@ class Issue < ApplicationRecord
       issue.send :after_project_change
     end
   end
+  after_destroy :update_parent_attributes
   after_save :reschedule_following_issues, :update_nested_set_attributes,
              :update_parent_attributes, :delete_selected_attachments, :create_journal
   # Should be after_create but would be called before previous after_save callbacks
   after_save :after_create_from_copy
-  after_destroy :update_parent_attributes
   # add_auto_watcher needs to run before sending notifications, thus it needs
   # to be added after send_notification (after_ callbacks are run in inverse order)
   # https://api.rubyonrails.org/v5.2.3/classes/ActiveSupport/Callbacks/ClassMethods.html#method-i-set_callback

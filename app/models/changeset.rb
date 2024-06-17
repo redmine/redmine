@@ -60,8 +60,8 @@ class Changeset < ApplicationRecord
     where(Project.allowed_to_condition(args.shift || User.current, :view_changesets, *args))
   end)
 
-  after_create :scan_for_issues
   before_create :before_create_cs
+  after_create :scan_for_issues
 
   def revision=(r)
     write_attribute :revision, (r.nil? ? nil : r.to_s)

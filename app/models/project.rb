@@ -87,13 +87,13 @@ class Project < ApplicationRecord
   validates_exclusion_of :identifier, :in => %w(new)
   validate :validate_parent
 
+  after_update :update_versions_from_hierarchy_change,
+               :if => proc {|project| project.saved_change_to_parent_id?}
+  before_destroy :delete_all_members
   after_save :update_inherited_members,
              :if => proc {|project| project.saved_change_to_inherit_members?}
   after_save :remove_inherited_member_roles, :add_inherited_member_roles,
              :if => proc {|project| project.saved_change_to_parent_id?}
-  after_update :update_versions_from_hierarchy_change,
-               :if => proc {|project| project.saved_change_to_parent_id?}
-  before_destroy :delete_all_members
 
   scope :has_module, (lambda do |mod|
     where("#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s)

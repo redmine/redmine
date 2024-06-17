@@ -84,9 +84,9 @@ class Attachment < ApplicationRecord
   @@thumbnails_storage_path = File.join(Rails.root, "tmp", "thumbnails")
 
   before_create :files_to_final_location
-  after_rollback :delete_from_disk, :on => :create
   after_commit :delete_from_disk, :on => :destroy
   after_commit :reuse_existing_file_if_possible, :on => :create
+  after_rollback :delete_from_disk, :on => :create
 
   safe_attributes 'filename', 'content_type', 'description'
 

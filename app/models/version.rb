@@ -123,8 +123,8 @@ class Version < ApplicationRecord
   include Redmine::SafeAttributes
 
   after_update :update_issues_from_sharing_change
-  after_save :update_default_project_version
   before_destroy :nullify_projects_default_version
+  after_save :update_default_project_version
 
   belongs_to :project
   has_many :fixed_issues, :class_name => 'Issue', :foreign_key => 'fixed_version_id', :dependent => :nullify, :extend => FixedIssuesExtension

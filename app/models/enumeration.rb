@@ -28,8 +28,8 @@ class Enumeration < ApplicationRecord
   acts_as_customizable
   acts_as_tree
 
-  before_destroy :check_integrity
   before_save    :check_default
+  before_destroy :check_integrity
   after_save     :update_children_name
 
   validates_presence_of :name
