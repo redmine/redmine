@@ -1405,8 +1405,10 @@ div.wiki ul.toc {
 }
 * html div.wiki ul.toc { width: 50%; } /* IE6 doesn't autosize div */
 
-div.wiki ul.toc.right { float: right; margin-left: 12px; margin-right: 0; width: auto; }
-div.wiki ul.toc.left  { float: left; margin-right: 12px; margin-left: 0; width: auto; }
+div.wiki ul.toc.right { float: right; margin-left: 12px; margin-right: 0; width: auto; clear: right
+;}
+div.wiki ul.toc.left  { float: left; margin-right: 12px; margin-left: 0; width: auto; clear: left
+  ; }
 div.wiki ul.toc ul { margin: 0; padding: 0; }
 div.wiki ul.toc li {list-style-type:none; margin: 0; font-size:12px;}
 div.wiki ul.toc>li:first-child {margin-bottom: .5em; color: #777;}
