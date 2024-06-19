@@ -135,7 +135,11 @@ module Redmine
       def tokens
         # extract tokens from the question
         # eg. hello "bye bye" => ["hello", "bye bye"]
-        tokens = @question.scan(%r{(([[:space:]]|^)"[^"]+"([[:space:]]|$)|[[:^space:]]+)}).collect {|m| m.first.gsub(%r{(^[[:space:]]*"[[:space:]]*|[[:space:]]*"[[:space:]]*$)}, '')}
+        tokens = @question.scan(/"[^"]+"|[^\p{Zs}]+/).map do |token|
+          # Remove quotes from quoted tokens, strip surrounding whitespace
+          # e.g. "\" foo bar \"" => "foo bar"
+          token.gsub(/\A"\p{Zs}*|\p{Zs}*"\Z/, '')
+        end
         # tokens must be at least 2 characters long
         # but for Chinese characters (Chinese HANZI/Japanese KANJI), tokens can be one character
         # no more than 5 tokens to search for
