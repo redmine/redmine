@@ -114,6 +114,7 @@ en:
         blank: "cannot be blank"
         too_long: "is too long (maximum is %{count} characters)"
         too_short: "is too short (minimum is %{count} characters)"
+        too_simple: "is too simple"
         wrong_length: "is the wrong length (should be %{count} characters)"
         taken: "has already been taken"
         not_a_number: "is not a number"

@@ -558,6 +558,24 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  def test_validate_password_complexity
+    user = users(:users_002)
+    bad_passwords = [
+      user.login,
+      user.lastname,
+      user.firstname,
+      user.mail,
+      user.login.upcase
+    ]
+
+    bad_passwords.each do |p|
+      user.password = p
+      user.password_confirmation = p
+      assert_not user.save
+      assert user.errors.full_messages.include?('Password is too simple')
+    end
+  end
+
   def test_name_format
     assert_equal 'John S.', @jsmith.name(:firstname_lastinitial)
     assert_equal 'Smith, John', @jsmith.name(:lastname_comma_firstname)

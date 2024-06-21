@@ -117,6 +117,7 @@ class User < Principal
     validates_format_of :password, :with => v, :message => :"must_contain_#{k}", :allow_blank => true, :if => Proc.new {Setting.password_required_char_classes.include?(k)}
   end
   validate :validate_password_length
+  validate :validate_password_complexity
   validate do
     if password_confirmation && password != password_confirmation
       errors.add(:password, :confirmation)
@@ -899,6 +900,16 @@ class User < Principal
     if !password.nil? && password.size < Setting.password_min_length.to_i
       errors.add(:password, :too_short, :count => Setting.password_min_length.to_i)
     end
+  end
+
+  def validate_password_complexity
+    return if password.blank? && generate_password?
+    return if password.nil?
+
+    # TODO: Enhance to check for more common and simple passwords
+    # like 'password', '123456', 'qwerty', etc.
+    bad_passwords = [login, firstname, lastname, mail] + email_addresses.map(&:address)
+    errors.add(:password, :too_simple) if bad_passwords.any? {|p| password.casecmp?(p)}
   end
 
   def instantiate_email_address
