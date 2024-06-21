@@ -1310,7 +1310,7 @@ cs:
   label_relations_mapping: Mapování vazeb
   label_import_users: Import uživatelů
   label_days_to_html: "%{days} dní do %{date}"
-  setting_twofa: Dvou-fázové ověření
+  setting_twofa: Dvoufázové ověření
   label_optional: volitelné
   label_required_lower: povinné
   button_disable: Zakázat
@@ -1318,33 +1318,33 @@ cs:
   twofa__totp__text_pairing_info_html: Oskenujte tento QR kód nebo zadejte klíč v prostém textu
     do TOTP aplikace (např. <a href="https://support.google.com/accounts/answer/1066447">Google
     Authenticator</a>, <a href="https://authy.com/download/">Authy</a>, <a href="https://guide.duo.com/third-party-accounts">Duo
-    Mobile</a>) následně zadejte kód do pole níže pro aktivaci dvou-fázového ověření.
+    Mobile</a>) následně zadejte kód do pole níže pro aktivaci dvoufázového ověření.
   twofa__totp__label_plain_text_key: Klíč v prostém textu
   twofa__totp__label_activate: Povolit ověřování aplikace
   twofa_currently_active: 'Aktuálně aktivní: %{twofa_scheme_name}'
   twofa_not_active: Neaktivní
   twofa_label_code: Kód
   twofa_hint_disabled_html: Nastavení <strong>%{label}</strong> deaktivuje a odpáruje
-    dvou-fázové ověření zařízení pro všechny uživatele.
+    dvoufázové ověření zařízení pro všechny uživatele.
   twofa_hint_required_html: Nastavení <strong>%{label}</strong> bude vyžadovat od všech uživatelů
-    aktivaci dvou-fázového ověření při příštím přihlášení.
-  twofa_label_setup: Povolit dvou-fázové ověření
-  twofa_label_deactivation_confirmation: Deaktivovat dvou-fázové ověření
-  twofa_notice_select: 'Prosím vyberte schéma dvou-fázového ověření, které chcete použít:'
-  twofa_warning_require: Administrátor Vás žádá o povolení dvou-fázového ověření.
-  twofa_activated: Dvou-fázové ověření úspěšně povoleno. Je doporučeno
+    aktivaci dvoufázového ověření při příštím přihlášení.
+  twofa_label_setup: Povolit dvoufázové ověření
+  twofa_label_deactivation_confirmation: Deaktivovat dvoufázové ověření
+  twofa_notice_select: 'Prosím vyberte schéma dvoufázového ověření, které chcete použít:'
+  twofa_warning_require: Administrátor Vás žádá o povolení dvoufázového ověření.
+  twofa_activated: Dvoufázové ověření úspěšně povoleno. Je doporučeno
     <a data-method="post" href="%{bc_path}">vygenerovat záložní kódy</a> pro Váš účet.
-  twofa_deactivated: Dvou-fázové ověření zakázáno.
-  twofa_mail_body_security_notification_paired: Dvou-fázové ověření úspěšně
+  twofa_deactivated: Dvoufázové ověření zakázáno.
+  twofa_mail_body_security_notification_paired: Dvoufázové ověření úspěšně
     povoleno s použitím %{field}.
-  twofa_mail_body_security_notification_unpaired: Dvou-fázové ověření bylo na Vašem účtu
+  twofa_mail_body_security_notification_unpaired: Dvoufázové ověření bylo na Vašem účtu
     deaktivováno.
-  twofa_mail_body_backup_codes_generated: Nové záložní kódy dvou-fázového ověření byly
+  twofa_mail_body_backup_codes_generated: Nové záložní kódy dvoufázového ověření byly
     vygenerovány.
-  twofa_mail_body_backup_code_used: Byl použit záložní kód dvou-fázového
+  twofa_mail_body_backup_code_used: Byl použit záložní kód dvoufázového
     ověření.
   twofa_invalid_code: Kód je neplatný nebo zastralý.
-  twofa_label_enter_otp: Prosím zadejte Váš kód dvou-fázového ověření.
+  twofa_label_enter_otp: Prosím zadejte Váš kód dvoufázového ověření.
   twofa_too_many_tries: Příliš mnoho pokusů.
   twofa_resend_code: Znovu zaslat kód
   twofa_code_sent: Ověřovací kód Vám byl zaslán.
@@ -1354,7 +1354,7 @@ cs:
   twofa_notice_backup_codes_generated: Vaše záložní kódy byly vygenerovány.
   twofa_warning_backup_codes_generated_invalidated: Nové záložní kódy byly vygenerovány.
     Vaše současné kódy z %{time} jsou nyní zneplatněny.
-  twofa_label_backup_codes: Záložní kódy dvou-fázového ověření
+  twofa_label_backup_codes: Záložní kódy dvoufázového ověření
   twofa_text_backup_codes_hint: Použijte tyto kódy místo jednorázového hesla v případě, že nemáte přístup k Vašemu původnímu ověření.
     Každý z kódů lze použít pouze jednou. Je doporučeno vytisknout a uložit je na bezpečné místo.
   twofa_text_backup_codes_created_at: Záložní kódy vygenerovány %{datetime}.
@@ -1371,7 +1371,7 @@ cs:
   error_invalid_size_parameter: Neplatný parametr velikosti
   error_attachment_not_found: Příloha %{name} nenalezena
   permission_delete_project: Odstranit projekt
-  field_twofa_scheme: Schéma dvou-fázového ověření
+  field_twofa_scheme: Schéma dvoufázového ověření
   text_user_destroy_confirmation: Jste si jisti, že chcete odstranit tohoto uživatele a
     všechny reference na něj? Tato akce nemůže být vzata zpět. Často je užamčení uživatele
     místo jeho smazání vhodnějším řešením. Pro potvrzení, prosím zadjte níže jeho login (%{login}).
@@ -1395,14 +1395,14 @@ cs:
   label_wiki_page_watchers: Sledující
   label_attachment_description: Popis souboru
   error_no_data_in_file: Soubor neobsahuje žádná data
-  field_twofa_required: Vyžadovat dvou-fázové ověření
+  field_twofa_required: Vyžadovat dvoufázové ověření
   twofa_hint_optional_html: Nastavení <strong>%{label}</strong> nechá uživatele nastavit
-    dvou-fázové ověření dle přání, pokud není vyžadováno některou z jeho skupin.
-  twofa_text_group_required: Toto nastavení je účinné pouze pokud je globální nastavení dvou-fázového ověření
-    nastaveno jako 'volitelné'. Aktuálně je dvou-fázové ověření
+    dvoufázové ověření dle přání, pokud není vyžadováno některou z jeho skupin.
+  twofa_text_group_required: Toto nastavení je účinné pouze pokud je globální nastavení dvoufázového ověření
+    nastaveno jako 'volitelné'. Aktuálně je dvoufázové ověření
     vyžadováno pro všechny uživatele.
-  twofa_text_group_disabled: Toto nastavení je účinné pouze pokud je globální nastavení dvou-fázového ověření
-    nastaveno jako 'volitelné'. Aktuálně je dvou-fázové ověření
+  twofa_text_group_disabled: Toto nastavení je účinné pouze pokud je globální nastavení dvoufázového ověření
+    nastaveno jako 'volitelné'. Aktuálně je dvoufázové ověření
     vypnuté.
   field_default_issue_query: Výchozí dotaz úkolů
   label_default_queries:
@@ -1424,7 +1424,7 @@ cs:
   field_default_project_query: Výchozí dotaz projektů
   label_required_administrators: vyžadováno pro administrátory
   twofa_hint_required_administrators_html: Nastavení <strong>%{label}</strong> se chová
-    jako volitelné, ale bude vyžadovat od všech uživatelů s administrátorskými právy nastavení dvou-fázového ověření
+    jako volitelné, ale bude vyžadovat od všech uživatelů s administrátorskými právy nastavení dvoufázového ověření
     při jejich příštím přihlášení.
   label_auto_watch_on: Automaticky sledovat
   label_auto_watch_on_issue_contributed_to: Úkoly ke kterým jsem přispěl
