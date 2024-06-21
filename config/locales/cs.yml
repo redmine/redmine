@@ -1471,5 +1471,5 @@ cs:
   label_option_auto_lang: auto
   label_issue_attachment_added: Příloha přidána
   field_estimated_remaining_hours: Odhadovaný zbývající čas
-  field_last_activity_date: Last activity
-  setting_issue_done_ratio_interval: Done ratio options interval
+  field_last_activity_date: Poslední aktivita
+  setting_issue_done_ratio_interval: Krok koeficientu dokončení
