@@ -140,6 +140,7 @@ fa:
         must_contain_digits: "باید شامل عدد باشد (0-9)"
         must_contain_special_chars: "باید شامل نویسه‌های خاص باشد (!, $, %, ...)"
         domain_not_allowed: "شامل دامنه‌ی غیرمجازست (%{domain})"
+        too_simple: "is too simple"
 
   actionview_instancetag_blank_option: انتخاب کنید
 

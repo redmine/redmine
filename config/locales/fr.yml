@@ -157,6 +157,7 @@ fr:
         must_contain_digits: "doit contenir des chiffres (0-9)"
         must_contain_special_chars: "doit contenir des caractères spéciaux (!, $, %, ...)"
         domain_not_allowed: "contains a domain not allowed (%{domain})"
+        too_simple: "is too simple"
 
   actionview_instancetag_blank_option: Choisir
 

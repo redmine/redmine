@@ -194,6 +194,7 @@
         must_contain_digits: "必須包含數字 (0-9)"
         must_contain_special_chars: "必須包含特殊字元 (!, $, %, ...)"
         domain_not_allowed: "包含不允許的網域 (%{domain})"
+        too_simple: "is too simple"
 
       # You can define own errors for models or model attributes.
       # The values :model, :attribute and :value are always available for interpolation.

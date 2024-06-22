@@ -141,6 +141,7 @@ zh:
         must_contain_digits: "必须包含数字 (0-9)"
         must_contain_special_chars: "必须包含特殊字符 (!, $, %, ...)"
         domain_not_allowed: "contains a domain not allowed (%{domain})"
+        too_simple: "is too simple"
 
   actionview_instancetag_blank_option: 请选择
 

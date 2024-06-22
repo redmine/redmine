@@ -214,6 +214,7 @@ ru:
         must_contain_digits: "должен содержать цифры (0-9)"
         must_contain_special_chars: "должен содержать специальные символы (!, $, %, ...)"
         domain_not_allowed: "содержит запрещенный домен (%{domain})"
+        too_simple: "is too simple"
 
   support:
     array:

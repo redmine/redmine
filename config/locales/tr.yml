@@ -151,6 +151,7 @@ tr:
         must_contain_digits: "sayı içermelidir (0-9)"
         must_contain_special_chars: "özel karakterler içermelidir (!, $, %, ...)"
         domain_not_allowed: "izin verilmeyen bir alan adı içeriyor (%{domain})"
+        too_simple: "is too simple"
       models:
 
   actionview_instancetag_blank_option: Lütfen Seçin

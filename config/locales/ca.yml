@@ -141,6 +141,7 @@ ca:
         must_contain_digits: "ha de tenir digits (0-9)"
         must_contain_special_chars: "ha de tenir caràcters especials (!, $, %, ...)"
         domain_not_allowed: "conté un domini no permès (%{domain})"
+        too_simple: "is too simple"
 
   actionview_instancetag_blank_option: "Seleccionar"
 

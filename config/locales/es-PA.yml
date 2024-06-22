@@ -147,6 +147,7 @@ es-PA:
         must_contain_digits: "must contain digits (0-9)"
         must_contain_special_chars: "must contain special characters (!, $, %, ...)"
         domain_not_allowed: "contains a domain not allowed (%{domain})"
+        too_simple: "is too simple"
 
         # Append your own errors here or at the model/attributes scope.
 
