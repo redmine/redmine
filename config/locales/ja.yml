@@ -158,7 +158,7 @@ ja:
         must_contain_digits: "は数字 (0-9) を含む必要があります"
         must_contain_special_chars: "は記号 (!, $, %, ...) を含む必要があります"
         domain_not_allowed: "は許可されていないドメインを含んでいます (%{domain})"
-        too_simple: "is too simple"
+        too_simple: "が簡単すぎます"
 
   actionview_instancetag_blank_option: 選んでください
 
