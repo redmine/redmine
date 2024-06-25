@@ -83,6 +83,16 @@ class IssueTest < ActiveSupport::TestCase
     assert_save issue
   end
 
+  def test_create_with_no_priority_defined
+    IssuePriority.delete_all
+    issue = Issue.new(
+      project_id: 1, tracker_id: 1, author_id: 3, subject: 'test_create_with_no_priority_defined'
+    )
+
+    assert_nothing_raised {assert_not issue.save}
+    assert_include 'Priority cannot be blank', issue.errors.full_messages
+  end
+
   def test_default_priority_should_be_set_when_priority_field_is_disabled
     tracker = Tracker.find(1)
     tracker.core_fields = tracker.core_fields - ['priority_id']
