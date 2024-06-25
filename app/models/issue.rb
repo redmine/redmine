@@ -2077,7 +2077,7 @@ class Issue < ApplicationRecord
       tracker.disabled_core_fields.each do |attribute|
         send :"#{attribute}=", nil
       end
-      self.priority_id ||= IssuePriority.default&.id || IssuePriority.active.first.id
+      self.priority_id ||= IssuePriority.default&.id || IssuePriority.active.first&.id
       self.done_ratio ||= 0
     end
   end
