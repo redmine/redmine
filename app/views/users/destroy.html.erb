@@ -12,9 +12,7 @@
   </p>
 </div>
 
-<p>
-  <%= submit_tag l(:button_delete) %>
-  <%= submit_tag l(:button_lock), name: 'lock' unless @user.locked? %>
-  <%= link_to l(:button_cancel), users_path %>
-</p>
+<%= submit_tag l(:button_delete) %>
 <% end %>
+<%= button_to l(:button_lock), bulk_lock_users_path(ids: [@user.id]), method: :post, class: 'btn', name: 'lock' unless @user.locked? %>
+<%= link_to l(:button_cancel), users_path %>
