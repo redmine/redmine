@@ -614,7 +614,6 @@ zh:
   label_day_plural: 天
   label_repository: 版本库
   label_repository_plural: 版本库
-  label_browse: 浏览
   label_branch: 分支
   label_tag: 标签
   label_revision: 修订

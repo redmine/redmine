@@ -729,7 +729,6 @@ lt:
   label_repository: Saugykla
   label_repository_new: Nauja saugykla
   label_repository_plural: Saugyklos
-  label_browse: Naršyti
   label_branch: Šaka
   label_tag: Tag'as
   label_revision: Revizija

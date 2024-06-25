@@ -545,7 +545,6 @@ ro:
   label_day_plural: zile
   label_repository: Depozit
   label_repository_plural: Depozite
-  label_browse: Afișează
   label_revision: Revizie
   label_revision_plural: Revizii
   label_associated_revisions: Revizii asociate

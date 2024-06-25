@@ -635,7 +635,6 @@ ar:
   label_day_plural: أيام
   label_repository: المستودع
   label_repository_plural: المستودعات
-  label_browse: تصفح
   label_branch: فرع
   label_tag: ربط
   label_revision: مراجعة

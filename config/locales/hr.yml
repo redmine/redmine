@@ -576,7 +576,6 @@ hr:
   label_day_plural: dana
   label_repository: Skladište
   label_repository_plural: Skladišta
-  label_browse: Pregled
   label_branch: Branch
   label_tag: Tag
   label_revision: Revizija

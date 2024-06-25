@@ -603,7 +603,6 @@ ca:
   label_day_plural: "dies"
   label_repository: "Repositori"
   label_repository_plural: "Repositoris"
-  label_browse: "Navegar"
   label_branch: "Branca"
   label_tag: "Etiqueta"
   label_revision: "Revisió"

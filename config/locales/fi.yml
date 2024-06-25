@@ -479,7 +479,6 @@ fi:
   label_day_plural: päivää
   label_repository: Tietovarasto
   label_repository_plural: Tietovarastot
-  label_browse: Selaus
   label_revision: Versio
   label_revision_plural: Versiot
   label_added: lisätty

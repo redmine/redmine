@@ -840,7 +840,6 @@ pl:
   label_repository: Repozytorium
   label_repository_new: Nowe repozytorium
   label_repository_plural: Repozytoria
-  label_browse: Przegląd
   label_branch: Branch
   label_tag: Tag
   label_revision: Rewizja

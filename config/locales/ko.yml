@@ -603,7 +603,6 @@ ko:
   label_day_plural: 일
   label_repository: 저장소
   label_repository_plural: 저장소
-  label_browse: 저장소 둘러보기
   label_revision: 개정판
   label_revision_plural: 개정판
   label_associated_revisions: 관련된 개정판들

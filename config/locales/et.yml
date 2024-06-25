@@ -666,7 +666,6 @@ et:
   label_repository: "Hoidla"
   label_repository_new: "Uus hoidla"
   label_repository_plural: "Hoidlad"
-  label_browse: "Sirvi"
   label_branch: "Haru"
   label_tag: "Sildiga"
   label_revision: "Sissekanne"

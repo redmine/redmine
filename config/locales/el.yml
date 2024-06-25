@@ -563,7 +563,6 @@ el:
   label_day_plural: μέρες
   label_repository: Αποθετήριο
   label_repository_plural: Αποθετήρια
-  label_browse: Πλοήγηση
   label_branch: Branch
   label_tag: Tag
   label_revision: Αναθεώρηση

@@ -599,7 +599,6 @@ mk:
   label_day_plural: денови
   label_repository: Складиште
   label_repository_plural: Складишта
-  label_browse: Прелистувај
   label_branch: Гранка
   label_tag: Tag
   label_revision: Ревизија

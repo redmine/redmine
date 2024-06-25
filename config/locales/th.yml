@@ -482,7 +482,6 @@ th:
   label_day_plural: วัน
   label_repository: ที่เก็บต้นฉบับ
   label_repository_plural: ที่เก็บต้นฉบับ
-  label_browse: เปิดหา
   label_revision: การแก้ไข
   label_revision_plural: การแก้ไข
   label_associated_revisions: การแก้ไขที่เกี่ยวข้อง

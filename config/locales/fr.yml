@@ -763,7 +763,6 @@ fr:
   label_repository: Dépôt
   label_repository_new: Nouveau dépôt
   label_repository_plural: Dépôts
-  label_browse: Parcourir
   label_branch: Branche
   label_tag: Tag
   label_revision: Révision

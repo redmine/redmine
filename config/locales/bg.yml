@@ -833,7 +833,6 @@ bg:
   label_repository: Хранилище
   label_repository_new: Ново хранилище
   label_repository_plural: Хранилища
-  label_browse: Разглеждане
   label_branch: работен вариант
   label_tag: Версия
   label_revision: Ревизия

@@ -439,7 +439,6 @@ it:
   label_not_contains: non contiene
   label_day_plural: giorni
   label_repository: Repository
-  label_browse: Sfoglia
   label_revision: Versione
   label_revision_plural: Versioni
   label_added: aggiunto
