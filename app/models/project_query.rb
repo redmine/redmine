@@ -37,6 +37,7 @@ class ProjectQuery < Query
     QueryColumn.new(:parent_id, :sortable => "#{Project.table_name}.lft ASC", :default_order => 'desc', :caption => :field_parent),
     QueryColumn.new(:is_public, :sortable => "#{Project.table_name}.is_public", :groupable => true),
     QueryColumn.new(:created_on, :sortable => "#{Project.table_name}.created_on", :default_order => 'desc'),
+    QueryColumn.new(:updated_on, :sortable => "#{Project.table_name}.updated_on", :default_order => 'desc'),
     QueryColumn.new(:last_activity_date)
   ]
 
@@ -78,6 +79,7 @@ class ProjectQuery < Query
       :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]]
     )
     add_available_filter "created_on", :type => :date_past
+    add_available_filter "updated_on", :type => :date_past
     add_custom_fields_filters(project_custom_fields)
   end
 
