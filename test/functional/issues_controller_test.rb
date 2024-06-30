@@ -8272,14 +8272,16 @@ class IssuesControllerTest < Redmine::ControllerTest
     leaf = Issue.generate!
     TimeEntry.generate!(:issue => leaf)
     @request.session[:user_id] = 2
-    delete(
-      :destroy,
-      :params => {
-        :ids => [parent.id, leaf.id]
-      }
-    )
+    with_settings :timespan_format => 'minutes' do
+      delete(
+        :destroy,
+        :params => {
+          :ids => [parent.id, leaf.id]
+        }
+      )
+    end
     assert_response :success
-    assert_select 'p', :text => /3\.00 hours were reported/
+    assert_select 'p', :text => /3:00 hours were reported/
   end
 
   def test_destroy_issues_and_destroy_time_entries
