@@ -727,12 +727,14 @@ class TimelogControllerTest < Redmine::ControllerTest
   def test_get_bulk_edit
     @request.session[:user_id] = 2
 
-    get :bulk_edit, :params => {:ids => [1, 2]}
+    with_settings :timespan_format => 'minutes' do
+      get :bulk_edit, :params => {:ids => [1, 2]}
+    end
     assert_response :success
 
     assert_select 'ul#bulk-selection' do
       assert_select 'li', 2
-      assert_select 'li a', :text => '03/23/2007 - eCookbook: 4.25 hours (John Smith)'
+      assert_select 'li a', :text => '03/23/2007 - eCookbook: 4:15 hours (John Smith)'
     end
 
     assert_select 'form#bulk_edit_form[action=?]', '/time_entries/bulk_update' do
