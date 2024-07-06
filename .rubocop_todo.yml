@@ -1359,7 +1359,6 @@ Style/RedundantRegexpEscape:
     - 'lib/redmine/scm/adapters/bazaar_adapter.rb'
     - 'lib/redmine/wiki_formatting/links_helper.rb'
     - 'lib/redmine/wiki_formatting/macros.rb'
-    - 'lib/redmine/wiki_formatting/section_helper.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
     - 'test/helpers/application_helper_test.rb'
 
