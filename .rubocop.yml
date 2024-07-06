@@ -248,6 +248,9 @@ Style/NegatedIfElseCondition:
 Style/NumericPredicate:
   Enabled: false
 
+Style/PerlBackrefs:
+  Enabled: false
+
 Style/RaiseArgs:
   Enabled: false
 

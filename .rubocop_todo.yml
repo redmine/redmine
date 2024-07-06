@@ -1242,10 +1242,6 @@ Style/ParenthesesAroundCondition:
 Style/PercentLiteralDelimiters:
   Enabled: false
 
-# This cop supports safe autocorrection (--autocorrect).
-Style/PerlBackrefs:
-  Enabled: false
-
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: short, verbose
