@@ -477,11 +477,11 @@ class WatchersControllerTest < Redmine::ControllerTest
 
     assert_response :success
 
-    # All users from two projects eCookbook (7) and Private child of eCookbook (9)
-    assert_select 'input', :count => 5
+    # All users from two projects eCookbook (7) and Private child of eCookbook
+    # (9) who can see both issues
+    assert_select 'input', :count => 4
     assert_select 'input[name=?][value="1"]', 'watcher[user_ids][]'
     assert_select 'input[name=?][value="2"]', 'watcher[user_ids][]'
-    assert_select 'input[name=?][value="3"]', 'watcher[user_ids][]'
     assert_select 'input[name=?][value="8"]', 'watcher[user_ids][]'
     assert_select 'input[name=?][value="10"]', 'watcher[user_ids][]'
   end

@@ -70,6 +70,14 @@ module Redmine
           end
         end
 
+        # true if user can be added as a watcher
+        def valid_watcher?(user)
+          return true unless respond_to?(:visible?)
+          return true unless user.is_a?(User)
+
+          visible?(user)
+        end
+
         # Adds user as a watcher
         def add_watcher(user)
           if persisted?

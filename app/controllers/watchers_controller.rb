@@ -53,7 +53,9 @@ class WatchersController < ApplicationController
     users = Principal.assignable_watchers.where(:id => user_ids).to_a
     users.each do |user|
       @watchables.each do |watchable|
-        Watcher.create(:watchable => watchable, :user => user)
+        if watchable.valid_watcher?(user)
+          Watcher.create(:watchable => watchable, :user => user)
+        end
       end
     end
     respond_to do |format|
@@ -161,10 +163,9 @@ class WatchersController < ApplicationController
     if @watchables && @watchables.size == 1
       watchable_object = @watchables.first
       users -= watchable_object.visible_watcher_users
-
-      if watchable_object.respond_to?(:visible?)
-        users.reject! {|user| user.is_a?(User) && !watchable_object.visible?(user)}
-      end
+    end
+    @watchables&.each do |watchable|
+      users.reject!{|user| !watchable.valid_watcher?(user)}
     end
     users
   end
