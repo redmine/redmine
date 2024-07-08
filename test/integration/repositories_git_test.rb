@@ -26,7 +26,7 @@ class RepositoriesGitTest < Redmine::IntegrationTest
   REPOSITORY_PATH = Rails.root.join('tmp/test/git_repository').to_s
   REPOSITORY_PATH.tr!('/', "\\") if Redmine::Platform.mswin?
   PRJ_ID     = 3
-  NUM_REV = 28
+  NUM_REV = 29
 
   def setup
     User.current = nil
