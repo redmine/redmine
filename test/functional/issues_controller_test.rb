@@ -2801,6 +2801,17 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_show_should_not_display_watchers_without_permission
+    @request.session[:user_id] = 2
+    Role.find(1).remove_permission! :view_issue_watchers
+    issue = Issue.find(1)
+    issue.add_watcher User.find(2)
+    issue.add_watcher Group.find(10)
+    get(:show, :params => {:id => 1})
+    assert_select 'div#watchers ul', 0
+    assert_select 'h3', {text: /Watchers \(\d*\)/, count: 0}
+  end
+
   def test_show_should_display_watchers_with_gravatars
     @request.session[:user_id] = 2
     issue = Issue.find(1)

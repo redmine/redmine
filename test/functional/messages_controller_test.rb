@@ -114,6 +114,17 @@ class MessagesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_show_should_not_display_watchers_without_permission
+    @request.session[:user_id] = 2
+    Role.find(1).remove_permission! :view_message_watchers
+    message = Message.find(1)
+    message.add_watcher User.find(2)
+    message.add_watcher Group.find(10)
+    get(:show, :params => {:board_id => 1, :id => 1})
+    assert_select 'div#watchers ul', 0
+    assert_select 'h3', {text: /Watchers \(\d*\)/, count: 0}
+  end
+
   def test_get_new
     @request.session[:user_id] = 2
     get(:new, :params => {:board_id => 1})

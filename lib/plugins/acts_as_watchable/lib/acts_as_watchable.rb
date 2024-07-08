@@ -60,6 +60,16 @@ module Redmine
           users
         end
 
+        # array of watchers that the given user is allowed to see
+        def visible_watcher_users(user = User.current)
+          if user.allowed_to?(:"view_#{self.class.name.underscore}_watchers", project)
+            watcher_users
+          else
+            # without permission, the user can only see themselves (if they're a watcher)
+            watcher_users & [user]
+          end
+        end
+
         # Adds user as a watcher
         def add_watcher(user)
           if persisted?
