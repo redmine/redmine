@@ -216,9 +216,9 @@ class WatchersControllerTest < Redmine::ControllerTest
     Role.find(1).remove_permission! :view_issue_watchers
     get :new, :params => {:object_type => 'issue', :object_id => '2'}, :xhr => true
     assert_response :success
-    assert_match %r{name=\\\"watcher\[user_ids\]\[\]\\\" value=\\\"2\\\"}, response.body
+    assert_match %r{name=\\"watcher\[user_ids\]\[\]\\" value=\\"2\\"}, response.body
     # User should not be able to reverse engineer that User 3 is watching the issue already
-    assert_match %r{name=\\\"watcher\[user_ids\]\[\]\\\" value=\\\"3\\\"}, response.body
+    assert_match %r{name=\\"watcher\[user_ids\]\[\]\\" value=\\"3\\"}, response.body
   end
 
   def test_new_dont_show_self_when_watching_without_view_watchers_permission
@@ -227,7 +227,7 @@ class WatchersControllerTest < Redmine::ControllerTest
     Issue.find(2).add_watcher(User.find(2))
     get :new, :params => {:object_type => 'issue', :object_id => '2'}, :xhr => true
     assert_response :success
-    assert_no_match %r{name=\\\"watcher\[user_ids\]\[\]\\\" value=\\\"2\\\"}, response.body
+    assert_no_match %r{name=\\"watcher\[user_ids\]\[\]\\" value=\\"2\\"}, response.body
   end
 
   def test_create_as_html
@@ -589,7 +589,7 @@ class WatchersControllerTest < Redmine::ControllerTest
       delete :destroy, :params => {
         :object_type => 'wiki_page', :object_id => '1', :user_id => '1'
       }, :xhr => true
-      assert_response 403
+      assert_response :forbidden
     end
     wiki_page.reload
     assert wiki_page.watched_by?(user)
@@ -607,7 +607,7 @@ class WatchersControllerTest < Redmine::ControllerTest
       post :create, :params => {
         :object_type => 'wiki_page', :object_id => '1', :user_id => '1'
       }, :xhr => true
-      assert_response 403
+      assert_response :forbidden
     end
     wiki_page.reload
     assert_not wiki_page.watched_by?(user)
