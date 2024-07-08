@@ -166,7 +166,7 @@ gl:
         must_contain_digits: "debe conter díxitos (0-9)"
         must_contain_special_chars: "debe conter caracteres especiais (!, $, %, ...)"
         domain_not_allowed: "contén un dominio non permitido (%{domain})"
-        too_simple: "is too simple"
+        too_simple: "é demasiado sinxela"
 
   actionview_instancetag_blank_option: Por favor seleccione
 
@@ -1492,7 +1492,7 @@ gl:
   field_name_or_email_or_login: Nome, correo electrónico ou usuario
   text_default_active_job_queue_changed: Cambiado o adaptador do sistema de colas por defecto dado que só está pensado para desenvolvemento/probas
   label_option_auto_lang: auto
-  label_issue_attachment_added: Attachment added
-  field_estimated_remaining_hours: Estimated remaining time
-  field_last_activity_date: Last activity
-  setting_issue_done_ratio_interval: Done ratio options interval
+  label_issue_attachment_added: Engadido o ficheiro
+  field_estimated_remaining_hours: Tempo restante estimado
+  field_last_activity_date: Última actividade
+  setting_issue_done_ratio_interval: Intervalo de proporción de completado
