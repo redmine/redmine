@@ -41,6 +41,8 @@ class WatchersController < ApplicationController
   end
 
   def create
+    return unless authorize_for_watchable_type(:add)
+
     user_ids = []
     if params[:watcher]
       user_ids << (params[:watcher][:user_ids] || params[:watcher][:user_id])
@@ -76,6 +78,8 @@ class WatchersController < ApplicationController
   end
 
   def destroy
+    return unless authorize_for_watchable_type(:delete)
+
     user = Principal.find(params[:user_id])
     @watchables.each do |watchable|
       watchable.set_watcher(user, false)
@@ -227,5 +231,15 @@ class WatchersController < ApplicationController
     end
 
     objects
+  end
+
+  # Check permission for the watchable type for each watchable involved
+  def authorize_for_watchable_type(action)
+    if @watchables.any?{|watchable| !User.current.allowed_to?(:"#{action}_#{watchable.class.name.underscore}_watchers", watchable.project)}
+      render_403
+      return false
+    else
+      return true
+    end
   end
 end

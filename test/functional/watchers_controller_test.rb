@@ -578,6 +578,41 @@ class WatchersControllerTest < Redmine::ControllerTest
     assert !wiki_page.watched_by?(user)
   end
 
+  def test_destroy_without_permission
+    @request.session[:user_id] = 2
+    wiki_page = WikiPage.find(1)
+    user = User.find(1)
+    Role.find(1).remove_permission! :delete_wiki_page_watchers
+
+    assert wiki_page.watched_by?(user)
+    assert_no_difference('Watcher.count') do
+      delete :destroy, :params => {
+        :object_type => 'wiki_page', :object_id => '1', :user_id => '1'
+      }, :xhr => true
+      assert_response 403
+    end
+    wiki_page.reload
+    assert wiki_page.watched_by?(user)
+  end
+
+  def test_create_without_permission
+    @request.session[:user_id] = 2
+    wiki_page = WikiPage.find(1)
+    user = User.find(1)
+    Role.find(1).remove_permission! :add_wiki_page_watchers
+    Watcher.delete_all
+
+    assert_not wiki_page.watched_by?(user)
+    assert_no_difference('Watcher.count') do
+      post :create, :params => {
+        :object_type => 'wiki_page', :object_id => '1', :user_id => '1'
+      }, :xhr => true
+      assert_response 403
+    end
+    wiki_page.reload
+    assert_not wiki_page.watched_by?(user)
+  end
+
   def test_destroy_locked_user
     user = User.find(3)
     user.lock!
