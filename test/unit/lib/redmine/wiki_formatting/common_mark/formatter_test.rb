@@ -207,6 +207,21 @@ class Redmine::WikiFormatting::CommonMark::FormatterTest < ActionView::TestCase
       assert_section_with_hash STR_WITH_PRE[2], text, 3
     end
 
+    def test_get_section_should_not_recognize_double_hash_issue_reference_as_heading
+      text = <<~STR
+        ## Section A
+
+        This text is a part of Section A.
+
+        ##1 : This is an issue reference, not an ATX heading.
+
+        This text is also a part of Section A.
+        <!-- Section A ends here -->
+      STR
+
+      assert_section_with_hash text.chomp, text, 1
+    end
+
     def test_update_section_should_not_escape_pre_content_outside_section
       text = STR_WITH_PRE.join("\n\n")
       replacement = "New text"
