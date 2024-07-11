@@ -179,7 +179,6 @@ Layout/MultilineOperationIndentation:
 # This cop supports safe autocorrection (--autocorrect).
 Layout/SpaceAfterComma:
   Exclude:
-    - 'app/controllers/projects_controller.rb'
     - 'lib/redmine/configuration.rb'
     - 'lib/redmine/helpers/time_report.rb'
     - 'lib/redmine/imap.rb'
@@ -899,14 +898,6 @@ Style/ClassVars:
     - 'lib/redmine/wiki_formatting/macros.rb'
     - 'lib/redmine/wiki_formatting/markdown/formatter.rb'
     - 'test/helpers/activities_helper_test.rb'
-
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: AllowedReceivers.
-Style/CollectionCompact:
-  Exclude:
-    - 'app/controllers/issues_controller.rb'
-    - 'app/controllers/projects_controller.rb'
-    - 'lib/redmine/sudo_mode.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
 Style/ColonMethodCall:

@@ -115,7 +115,7 @@ class ProjectsController < ApplicationController
         format.html do
           flash[:notice] = l(:notice_successful_create)
           if params[:continue]
-            attrs = {:parent_id => @project.parent_id}.reject {|k,v| v.nil?}
+            attrs = {:parent_id => @project.parent_id}.compact
             redirect_to new_project_path(attrs)
           else
             redirect_to settings_project_path(@project)

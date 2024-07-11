@@ -700,11 +700,10 @@ class IssuesController < ApplicationController
   def redirect_after_create
     if params[:continue]
       url_params = {}
-      url_params[:issue] =
-        {
-          :tracker_id => @issue.tracker,
-          :parent_issue_id => @issue.parent_issue_id
-        }.reject {|k, v| v.nil?}
+      url_params[:issue] = {
+        :tracker_id => @issue.tracker,
+        :parent_issue_id => @issue.parent_issue_id
+      }.compact
       url_params[:back_url] = params[:back_url].presence
 
       if params[:project_id]
