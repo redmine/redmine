@@ -191,11 +191,11 @@ module Redmine
     end
 
     def asset_paths
-      if path.has_assets_dir?
-        base_dir = Pathname.new(path.assets_dir)
-        paths = base_dir.children.filter_map{|child| child if child.directory? }
-        Redmine::AssetPath.new(base_dir, paths, asset_prefix)
-      end
+      return unless path.has_assets_dir?
+
+      base_dir = Pathname.new(path.assets_dir)
+      paths = base_dir.children.select(&:directory?)
+      Redmine::AssetPath.new(base_dir, paths, asset_prefix)
     end
 
     def <=>(plugin)

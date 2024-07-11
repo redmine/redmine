@@ -22,7 +22,7 @@ require_relative '../../../test_helper'
 class Redmine::AssetPathTest < ActiveSupport::TestCase
   def setup
     assets_dir = Rails.root.join('test/fixtures/asset_path/foo')
-    paths = assets_dir.children.filter_map{|child| child if child.directory? && !child.basename.to_s.starts_with?(".")}
+    paths = assets_dir.children.select { |child| child.directory? && !child.basename.to_s.starts_with?('.') }
     @asset_path = Redmine::AssetPath.new(assets_dir, paths, 'plugin_assets/foo/')
     @assets = {}
     @transition_map = {}
