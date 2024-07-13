@@ -30,7 +30,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
   REPOSITORY_UTF8_PATH = Rails.root.join('tmp/test/git_utf8_repository').to_s
   REPOSITORY_UTF8_PATH.tr!('/', "\\") if Redmine::Platform.mswin?
 
-  NUM_REV = 28
+  NUM_REV = 29
   NUM_HEAD = 8
 
   def setup
@@ -135,7 +135,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @project.reload
 
       assert_equal NUM_REV, @repository.changesets.count
-      assert_equal 39, @repository.filechanges.count
+      assert_equal 40, @repository.filechanges.count
 
       commit = @repository.changesets.find_by_revision("7234cb2750b63f47bff735edc50a1c0a433c2518")
       assert_equal "7234cb2750b63f47bff735edc50a1c0a433c2518", commit.scmid
