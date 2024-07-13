@@ -113,6 +113,7 @@ Rails.application.routes.draw do
     collection do
       delete 'bulk_destroy'
       post :bulk_lock
+      post :bulk_unlock
     end
     resources :memberships, :controller => 'principal_memberships'
     resources :email_addresses, :only => [:index, :create, :update, :destroy]
