@@ -190,6 +190,8 @@ parent_issue_done_ratio:
   default: 'derived'
 link_copied_issue:
   default: 'ask'
+copy_attachments_on_issue_copy:
+  default: 'ask'
 close_duplicate_issues:
   default: 1
 issue_group_assignment:

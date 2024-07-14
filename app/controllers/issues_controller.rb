@@ -328,7 +328,8 @@ class IssuesController < ApplicationController
     @versions = target_projects.map {|p| p.shared_versions.open}.reduce(:&)
     @categories = target_projects.map {|p| p.issue_categories}.reduce(:&)
     if @copy
-      @attachments_present = @issues.detect {|i| i.attachments.any?}.present?
+      @attachments_present = @issues.detect {|i| i.attachments.any?}.present? &&
+                               (Setting.copy_attachments_on_issue_copy == 'ask')
       @subtasks_present = @issues.detect {|i| !i.leaf?}.present?
       @watchers_present = User.current.allowed_to?(:add_issue_watchers, @projects) &&
                             Watcher.where(:watchable_type => 'Issue',
@@ -347,7 +348,6 @@ class IssuesController < ApplicationController
 
     attributes = parse_params_for_bulk_update(params[:issue])
     copy_subtasks = (params[:copy_subtasks] == '1')
-    copy_attachments = (params[:copy_attachments] == '1')
     copy_watchers = (params[:copy_watchers] == '1')
 
     if @copy
@@ -386,7 +386,7 @@ class IssuesController < ApplicationController
       if @copy
         issue = orig_issue.copy(
           {},
-          :attachments => copy_attachments,
+          :attachments => copy_attachments?(params[:copy_attachments]),
           :subtasks => copy_subtasks,
           :watchers => copy_watchers,
           :link => link_copy?(params[:link_copy])
@@ -593,7 +593,7 @@ class IssuesController < ApplicationController
         end
 
         @link_copy = link_copy?(params[:link_copy]) || request.get?
-        @copy_attachments = params[:copy_attachments].present? || request.get?
+        @copy_attachments = copy_attachments?(params[:copy_attachments]) || request.get?
         @copy_subtasks = params[:copy_subtasks].present? || request.get?
         @copy_watchers = User.current.allowed_to?(:add_issue_watchers, @project)
         @issue.copy_from(@copy_from, :attachments => @copy_attachments,
@@ -687,6 +687,19 @@ class IssuesController < ApplicationController
   # to the original issue
   def link_copy?(param)
     case Setting.link_copied_issue
+    when 'yes'
+      true
+    when 'no'
+      false
+    when 'ask'
+      param == '1'
+    end
+  end
+
+  # Returns true if the attachments should be copied
+  # from the original issue
+  def copy_attachments?(param)
+    case Setting.copy_attachments_on_issue_copy
     when 'yes'
       true
     when 'no'

@@ -166,6 +166,16 @@ module SettingsHelper
     options.map {|label, value| [l(label), value.to_s]}
   end
 
+  def copy_attachments_on_issue_copy_options
+    options = [
+      [:general_text_Yes, 'yes'],
+      [:general_text_No, 'no'],
+      [:label_ask, 'ask']
+    ]
+
+    options.map {|label, value| [l(label), value.to_s]}
+  end
+
   def default_global_issue_query_options
     [[l(:label_none), '']] + IssueQuery.only_public.where(project_id: nil).pluck(:name, :id)
   end

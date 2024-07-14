@@ -5624,6 +5624,47 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_create_as_copy_should_always_copy_attachments_by_settings
+    assert_equal 4, Issue.find(3).attachments.size
+    with_settings :copy_attachments_on_issue_copy => 'yes' do
+      @request.session[:user_id] = 2
+      assert_difference 'Issue.count' do
+        assert_difference 'Attachment.count', 4 do
+          post(
+            :create,
+            :params => {
+              :project_id => 1,
+              :copy_from => 3,
+              :issue => {
+                :subject => 'Copy'
+              }
+            }
+          )
+        end
+      end
+    end
+  end
+
+  def test_create_as_copy_should_never_copy_attachments_by_settings
+    with_settings :copy_attachments_on_issue_copy => 'no' do
+      @request.session[:user_id] = 2
+      assert_difference 'Issue.count' do
+        assert_no_difference 'Attachment.count' do
+          post(
+            :create,
+            :params => {
+              :project_id => 1,
+              :copy_from => 3,
+              :issue => {
+                :subject => 'Copy'
+              }
+            }
+          )
+        end
+      end
+    end
+  end
+
   def test_create_as_copy_should_copy_subtasks
     @request.session[:user_id] = 2
     issue = Issue.generate_with_descendants!
@@ -8081,6 +8122,47 @@ class IssuesControllerTest < Redmine::ControllerTest
             }
           }
         )
+      end
+    end
+  end
+
+  def test_bulk_copy_should_never_copy_attachments_by_settings
+    with_settings :copy_attachments_on_issue_copy => 'no' do
+      @request.session[:user_id] = 2
+      assert_difference 'Issue.count' do
+        assert_no_difference 'Attachment.count' do
+          post(
+            :bulk_update,
+            :params => {
+              :ids => [3],
+              :copy => '1',
+              :issue => {
+                :project_id => ''
+              }
+            }
+          )
+        end
+      end
+    end
+  end
+
+  def test_bulk_copy_should_always_copy_attachments_by_settings
+    assert_equal 4, Issue.find(3).attachments.size
+    with_settings :copy_attachments_on_issue_copy => 'yes' do
+      @request.session[:user_id] = 2
+      assert_difference 'Issue.count' do
+        assert_difference 'Attachment.count', 4 do
+          post(
+            :bulk_update,
+            :params => {
+              :ids => [3],
+              :copy => '1',
+              :issue => {
+                :project_id => ''
+              }
+            }
+          )
+        end
       end
     end
   end

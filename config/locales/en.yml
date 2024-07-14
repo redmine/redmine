@@ -503,6 +503,7 @@ en:
   setting_force_default_language_for_anonymous: Force default language for anonymous users
   setting_force_default_language_for_loggedin: Force default language for logged-in users
   setting_link_copied_issue: Link issues on copy
+  setting_copy_attachments_on_issue_copy: Copy attachments on copy
   setting_max_additional_emails: Maximum number of additional email addresses
   setting_email_domains_allowed: Allowed email domains
   setting_email_domains_denied: Disallowed email domains
