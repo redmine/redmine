@@ -30,5 +30,9 @@ class RoutingUsersTest < Redmine::RoutingTest
     should_route 'GET /users/44/edit' => 'users#edit', :id => '44'
     should_route 'PUT /users/44' => 'users#update', :id => '44'
     should_route 'DELETE /users/44' => 'users#destroy', :id => '44'
+
+    should_route  'DELETE /users/bulk_destroy' => 'users#bulk_destroy'
+    should_route  'POST /users/bulk_lock' => 'users#bulk_lock'
+    should_route  'POST /users/bulk_unlock' => 'users#bulk_unlock'
   end
 end
