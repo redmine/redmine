@@ -1186,6 +1186,22 @@ class UsersControllerTest < Redmine::ControllerTest
     assert User.find_by_id(2).locked?
   end
 
+  def test_bulk_unlock
+    [8, 9].each do |id|
+      user = User.find(id)
+      user.status = User::STATUS_LOCKED
+      user.save!
+    end
+
+    assert_difference 'User.status(User::STATUS_LOCKED).count', -2 do
+      post :bulk_unlock, :params => {:ids => [8, 9]}
+    end
+
+    assert_redirected_to '/users'
+    assert User.find_by_id(8).active?
+    assert User.find_by_id(9).active?
+  end
+
   def test_bulk_lock_should_not_lock_current_user
     assert_difference 'User.status(User::STATUS_LOCKED).count', 1 do
       delete :bulk_lock, :params => {:ids => [2, 1]}
