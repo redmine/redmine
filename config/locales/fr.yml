@@ -89,7 +89,7 @@ fr:
     format:
       precision: 3
       separator: ','
-      delimiter: ' '
+      delimiter: ' '
     currency:
       format:
         unit: '€'

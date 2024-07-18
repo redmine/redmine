@@ -75,7 +75,7 @@ mn:
   number:
     format:
       separator: "."
-      delimiter: ""
+      delimiter: " "
       precision: 3
     human:
       format:

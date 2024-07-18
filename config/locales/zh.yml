@@ -79,7 +79,7 @@ zh:
     # Default format for numbers
     format:
       separator: "."
-      delimiter: ""
+      delimiter: ","
       precision: 3
     human:
       format:
