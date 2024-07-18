@@ -251,13 +251,28 @@ module ApplicationHelper
   end
 
   # Helper that formats object for html or text rendering
-  def format_object(object, html=true, &block)
+  # Options:
+  # * :html - If true, format the object as HTML (default: true)
+  def format_object(object, *args, &block)
+    options =
+      if args.first.is_a?(Hash)
+        args.first
+      elsif !args.empty?
+        # Support the old syntax `format_object(object, html_flag)`
+        # TODO: Display a deprecation warning in a future version, then remove this
+        {:html => args.first}
+      else
+        {}
+      end
+
+    html = options.fetch(:html, true)
+
     if block
       object = yield object
     end
     case object
     when Array
-      formatted_objects = object.map {|o| format_object(o, html)}
+      formatted_objects = object.map {|o| format_object(o, html: html)}
       html ? safe_join(formatted_objects, ', ') : formatted_objects.join(', ')
     when Time, ActiveSupport::TimeWithZone
       format_time(object)
@@ -302,7 +317,7 @@ module ApplicationHelper
         if f.nil? || f.is_a?(String)
           f
         else
-          format_object(f, html, &block)
+          format_object(f, html: html, &block)
         end
       else
         object.value.to_s

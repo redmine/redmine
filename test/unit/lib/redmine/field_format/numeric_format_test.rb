@@ -56,7 +56,7 @@ class Redmine::NumericFieldFormatTest < ActionView::TestCase
     to_test = {'en' => '1234.56', 'de' => '1234,56'}
     to_test.each do |locale, expected|
       with_locale locale do
-        assert_equal expected, format_object(issue.reload.custom_field_values.last, false)
+        assert_equal expected, format_object(issue.reload.custom_field_values.last, html: false)
       end
     end
   end

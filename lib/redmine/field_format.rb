@@ -250,7 +250,7 @@ module Redmine
         casted = cast_value(custom_field, value, customized)
         if html && custom_field.url_pattern.present?
           texts_and_urls = Array.wrap(casted).map do |single_value|
-            text = view.format_object(single_value, false).to_s
+            text = view.format_object(single_value, html: false).to_s
             url = url_from_pattern(custom_field, single_value, customized)
             [text, url]
           end

@@ -84,7 +84,7 @@ module TimelogHelper
           "##{obj.id}"
         end
       else
-        format_object(obj, html)
+        format_object(obj, html: html)
       end
     elsif cf = criteria_options[:custom_field]
       format_value(value, cf)
