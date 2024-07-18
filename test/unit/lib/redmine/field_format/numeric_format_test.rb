@@ -60,4 +60,15 @@ class Redmine::NumericFieldFormatTest < ActionView::TestCase
       end
     end
   end
+
+  def test_integer_field_should_format_with_thousands_delimiter
+    field = IssueCustomField.generate!(field_format: 'int', thousands_delimiter: '1')
+    custom_value = CustomValue.new(custom_field: field, customized: Issue.find(1), value: '1234567')
+    to_test = {'en' => '1,234,567', 'de' => '1.234.567', 'fr' => '1 234 567'}
+    to_test.each do |locale, expected|
+      with_locale locale do
+        assert_equal expected, format_object(custom_value, html: false), locale
+      end
+    end
+  end
 end

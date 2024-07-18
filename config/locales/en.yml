@@ -421,6 +421,7 @@ en:
   field_any_searchable: Any searchable text
   field_estimated_remaining_hours: Estimated remaining time
   field_last_activity_date: Last activity
+  field_thousands_delimiter: Thousands delimiter
 
   setting_app_title: Application title
   setting_welcome_text: Welcome text

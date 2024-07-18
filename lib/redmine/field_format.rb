@@ -476,6 +476,7 @@ module Redmine
     class Numeric < Unbounded
       self.form_partial = 'custom_fields/formats/numeric'
       self.totalable_supported = true
+      field_attributes :thousands_delimiter
 
       def order_statement(custom_field)
         # Make the database cast values into numeric

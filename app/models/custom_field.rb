@@ -100,7 +100,9 @@ class CustomField < ApplicationRecord
     'user_role',
     'version_status',
     'extensions_allowed',
-    'full_width_layout')
+    'full_width_layout',
+    'thousands_delimiter'
+  )
 
   def copy_from(arg, options={})
     return if arg.blank?
@@ -223,6 +225,10 @@ class CustomField < ApplicationRecord
 
   def full_text_formatting?
     text_formatting == 'full'
+  end
+
+  def thousands_delimiter?
+    thousands_delimiter == '1'
   end
 
   # Returns a ORDER BY clause that can used to sort customized

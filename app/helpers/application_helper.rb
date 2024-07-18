@@ -253,6 +253,7 @@ module ApplicationHelper
   # Helper that formats object for html or text rendering
   # Options:
   # * :html - If true, format the object as HTML (default: true)
+  # * :thousands_delimiter - If true, format the numeric object with thousands delimiter (default: false)
   def format_object(object, *args, &block)
     options =
       if args.first.is_a?(Hash)
@@ -266,22 +267,26 @@ module ApplicationHelper
       end
 
     html = options.fetch(:html, true)
+    thousands_delimiter = options.fetch(:thousands_delimiter, false)
+    delimiter_char = thousands_delimiter ? ::I18n.t('number.format.delimiter') : nil
 
     if block
       object = yield object
     end
     case object
     when Array
-      formatted_objects = object.map {|o| format_object(o, html: html)}
+      formatted_objects = object.map do |o|
+        format_object(o, html: html, thousands_delimiter: thousands_delimiter)
+      end
       html ? safe_join(formatted_objects, ', ') : formatted_objects.join(', ')
     when Time, ActiveSupport::TimeWithZone
       format_time(object)
     when Date
       format_date(object)
     when Integer
-      object.to_s
+      number_with_delimiter(object, delimiter: delimiter_char)
     when Float
-      number_with_delimiter(sprintf('%.2f', object), delimiter: nil)
+      number_with_delimiter(sprintf('%.2f', object), delimiter: delimiter_char)
     when User, Group
       html ? link_to_principal(object) : object.to_s
     when Project
@@ -317,7 +322,7 @@ module ApplicationHelper
         if f.nil? || f.is_a?(String)
           f
         else
-          format_object(f, html: html, &block)
+          format_object(f, html: html, thousands_delimiter: object.custom_field.thousands_delimiter?, &block)
         end
       else
         object.value.to_s
