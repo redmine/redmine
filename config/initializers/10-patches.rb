@@ -8,6 +8,7 @@ module ActiveRecord
       undef open
     end
   end
+
   class Relation ; undef open ; end
 end
 

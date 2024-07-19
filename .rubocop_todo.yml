@@ -29,12 +29,6 @@ Layout/EmptyLineAfterGuardClause:
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EmptyLineBetweenMethodDefs, EmptyLineBetweenClassDefs, EmptyLineBetweenModuleDefs, DefLikeMacros, AllowAdjacentOneLineDefs, NumberOfEmptyLines.
-Layout/EmptyLineBetweenDefs:
-  Exclude:
-    - 'config/initializers/10-patches.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
 Layout/EmptyLines:
   Exclude:
     - 'config/routes.rb'
