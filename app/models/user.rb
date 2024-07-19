@@ -887,7 +887,7 @@ class User < Principal
     project_ids.map(&:to_i)
   end
 
-  def self.prune(age)
+  def self.prune(age=30.days)
     User.where("created_on < ? AND status = ?", Time.now - age, STATUS_REGISTERED).destroy_all
   end
 
