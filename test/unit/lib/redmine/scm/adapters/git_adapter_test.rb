@@ -102,12 +102,12 @@ class GitAdapterTest < ActiveSupport::TestCase
       assert_equal false, br_latin_1_path.is_default
       br_master = brs[4]
       assert_equal 'master', br_master.to_s
-      assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', br_master.revision
+      assert_equal 'b1650eac7c505a6dab9f19858afc9ecb481eccc2', br_master.revision
       assert_equal br_master.scmid, br_master.revision
       assert_equal false, br_master.is_default
       br_master_20120212 = brs[5]
       assert_equal 'master-20120212', br_master_20120212.to_s
-      assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', br_master_20120212.revision
+      assert_equal 'b1650eac7c505a6dab9f19858afc9ecb481eccc2', br_master_20120212.revision
       assert_equal br_master_20120212.scmid, br_master_20120212.revision
       assert_equal true, br_master_20120212.is_default
       br_latin_1 = brs[-2]
@@ -161,8 +161,8 @@ class GitAdapterTest < ActiveSupport::TestCase
       @adapter.revisions('', nil, "master", {}) do |rev|
         revs1 << rev
       end
-      assert_equal 15, revs1.length
-      assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', revs1[0].identifier
+      assert_equal 16, revs1.length
+      assert_equal 'b1650eac7c505a6dab9f19858afc9ecb481eccc2', revs1[0].identifier
       assert_equal '7234cb2750b63f47bff735edc50a1c0a433c2518', revs1[-1].identifier
 
       revs2 = []
@@ -170,8 +170,8 @@ class GitAdapterTest < ActiveSupport::TestCase
                          {:reverse => true}) do |rev|
         revs2 << rev
       end
-      assert_equal 15, revs2.length
-      assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', revs2[-1].identifier
+      assert_equal 16, revs2.length
+      assert_equal 'b1650eac7c505a6dab9f19858afc9ecb481eccc2', revs2[-1].identifier
       assert_equal '7234cb2750b63f47bff735edc50a1c0a433c2518', revs2[0].identifier
     end
 
@@ -183,14 +183,14 @@ class GitAdapterTest < ActiveSupport::TestCase
                          {:reverse => true}) do |rev|
         revs1 << rev
       end
-      assert_equal 8, revs1.length
+      assert_equal 9, revs1.length
       assert_equal 'fba357b886984ee71185ad2065e65fc0417d9b92', revs1[0].identifier
       assert_equal '7e61ac704deecde634b51e59daa8110435dcb3da', revs1[1].identifier
       # 4a07fe31b is not a child of 713f49446
       assert_equal '4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8', revs1[2].identifier
       # Merged revision
       assert_equal '32ae898b720c2f7eec2723d5bdd558b4cb2d3ddf', revs1[3].identifier
-      assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', revs1[-1].identifier
+      assert_equal 'b1650eac7c505a6dab9f19858afc9ecb481eccc2', revs1[-1].identifier
 
       revs2 = []
       @adapter.revisions('',
@@ -199,13 +199,13 @@ class GitAdapterTest < ActiveSupport::TestCase
                          {:reverse => true}) do |rev|
         revs2 << rev
       end
-      assert_equal 7, revs2.length
+      assert_equal 8, revs2.length
       assert_equal '7e61ac704deecde634b51e59daa8110435dcb3da', revs2[0].identifier
       # 4a07fe31b is not a child of fba357b8869
       assert_equal '4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8', revs2[1].identifier
       # Merged revision
       assert_equal '32ae898b720c2f7eec2723d5bdd558b4cb2d3ddf', revs2[2].identifier
-      assert_equal '83ca5fd546063a3c7dc2e568ba3355661a9e2b2c', revs2[-1].identifier
+      assert_equal 'b1650eac7c505a6dab9f19858afc9ecb481eccc2', revs2[-1].identifier
     end
 
     def test_revisions_branch_latin_1_path_encoding_all
@@ -392,7 +392,7 @@ class GitAdapterTest < ActiveSupport::TestCase
                          {:reverse => true}) do |rev|
         revs1 << rev
       end
-      assert_equal 15, revs1.length
+      assert_equal 16, revs1.length
       assert_equal "7234cb2750b63f47bff735edc50a1c0a433c2518",
                    revs1[0].identifier
       assert_nil revs1[0].parents

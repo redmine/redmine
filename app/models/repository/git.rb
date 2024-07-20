@@ -225,7 +225,7 @@ class Repository::Git < Repository
         :repository   => self,
         :revision     => rev.identifier,
         :scmid        => rev.scmid,
-        :committer    => rev.author,
+        :committer    => rev.author.truncate(255),
         :committed_on => rev.time,
         :comments     => rev.message,
         :parents      => parents
