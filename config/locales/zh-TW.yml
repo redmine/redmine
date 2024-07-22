@@ -1508,5 +1508,5 @@
   field_estimated_remaining_hours: 預估剩餘工時
   field_last_activity_date: 最近一次活動
   setting_issue_done_ratio_interval: 完成百分比選項的間隔值
-  setting_copy_attachments_on_issue_copy: Copy attachments on copy
-  field_thousands_delimiter: Thousands delimiter
+  setting_copy_attachments_on_issue_copy: 連同附件檔案一起複製
+  field_thousands_delimiter: 千分位分隔符號
