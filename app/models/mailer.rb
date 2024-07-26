@@ -661,16 +661,25 @@ class Mailer < ActionMailer::Base
   end
 
   def mail(headers={}, &block)
-    # Add a display name to the From field if Setting.mail_from does not
-    # include it
     begin
+      # Add a display name to the From field if Setting.mail_from does not
+      # include it
       mail_from = Mail::Address.new(Setting.mail_from)
       if mail_from.display_name.blank? && mail_from.comments.blank?
         mail_from.display_name =
           @author&.logged? ? @author.name : Setting.app_title
       end
       from = mail_from.format
-      list_id = "<#{mail_from.address.to_s.tr('@', '.')}>"
+
+      # Construct the value of the List-Id header field
+      from_addr = mail_from.address.to_s
+      project_identifier = self.headers['X-Redmine-Project']&.value
+      list_id = if project_identifier.present?
+                  "<#{project_identifier}.#{from_addr.tr('@', '.')}>"
+                else
+                  # Emails outside of a project context
+                  "<#{from_addr.tr('@', '.')}>"
+                end
     rescue Mail::Field::IncompleteParseError
       # Use Setting.mail_from as it is if Mail::Address cannot parse it
       # (probably the emission address is not RFC compliant)
