@@ -23,7 +23,7 @@
       </div>
       <div style="margin-top:15px;">
         <% @mail_sources.each do |mail_source| %>
-          <%= simple_form_for mail_source, :url => mail_source_path(mail_source.id), :method => :put , class: "form-control" do |y| %>
+          <%= simple_form_for mail_source, :url => mail_source_path(mail_source.id), :method => :put , class: "form-control", html: { id: 'nx' } do |y| %>
             <div class="col-xs-12 form-group">
               <% if mail_source.enabled_sync %>
                 <%=link_to "Deactivate sync", {controller: "mail_sources", action: "deactivate", id: mail_source.id}, class: "btn btn-warning pull-right", style:"color: #FFF" %>
@@ -81,7 +81,7 @@
             </div>
 
             <div class="col-xs-12 form-group">
-              <%= y.submit "Save" , class: "btn btn-success pull-left", style: "display:block; margin-top:15px;" %>
+              <%= y.submit "Save", class: "btn btn-success pull-left", style: "display:block; margin-top:15px;" %>
               <%= link_to l(:button_delete), mail_source_path(mail_source),
                     :method => :delete, 
                     :data => {:confirm => l(:text_are_you_sure)},

@@ -40,7 +40,7 @@
   </div>
   <div class="tab-pane" id="settings">
     <div class="col-xs-4 form-group" style="margin-top:15px;">
-      <%= simple_form_for @mail_source, class: "form-control" do |f| %>
+      <%= simple_form_for @mail_source, class: "form-control", html: {id: 'nxxx'} do |f| %>
         <%= f.label :host %>
         <%= f.text_field :host , required: true, label: 'Mail host:' , class: "form-control"%>
         <%= f.label :username %>
