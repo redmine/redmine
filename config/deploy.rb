@@ -74,8 +74,10 @@ namespace :deploy do
   desc "Clear prev whenever crontab"
   task :clear_whenever do
     on roles(:app) do
-      execute "cd '#{capture("readlink #{current_path}")}/plugins/mail_tracker'"
-      execute "bundle exec whenever --update-crontab"
+      within release_path do
+        # execute "cd '#{capture("readlink #{current_path}")}/plugins/mail_tracker'"
+        execute :bundle, "exec whenever --update-crontab"
+      end
     end
   end
 
