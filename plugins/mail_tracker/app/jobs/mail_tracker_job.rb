@@ -37,6 +37,8 @@ class MailTrackerJob < ApplicationJob
 
     begin
       mail_tracking_rule(email, content)
+      raise StandardError, "No mail tracking rule found for email: #{email}" unless @mail_tracking_rule.present?
+
       issue_duplicate(email)
 
       if @issue.present?
@@ -142,19 +144,19 @@ class MailTrackerJob < ApplicationJob
   def issue_params(email, content)
     @issue_params = {
       "subject": email.subject,
-      "tracker_id": @mail_tracking_rule.tracker_name.presence || @mail_source.default_tracker_id,
-      "project_id": @mail_tracking_rule.assigned_project_id.presence || @mail_source.no_rules_project_id,
-      "author_id": @mail_tracking_rule.login_name.presence || @mail_source.default_user_id,
-      "status_id": IssueStatus.find_by(name: 'New').id.presence || 1,
+      "tracker_id": @mail_tracking_rule&.tracker_name&.presence || @mail_source.default_tracker_id,
+      "project_id": @mail_tracking_rule&.assigned_project_id&.presence || @mail_source.no_rules_project_id,
+      "author_id": @mail_tracking_rule&.login_name&.presence || @mail_source.default_user_id,
+      "status_id": IssueStatus.find_by(name: 'New')&.id&.presence || 1,
       "is_private": false,
-      "description": content.to_s.gsub("\u0000", ''),
+      "description": content&.to_s&.gsub("\u0000", ''),
       "message_id": email.message_id,
       "start_date": Time.now,
       "due_date": @due_date,
-      "assigned_to_id": @mail_tracking_rule.assigned_group_id.presence,
+      "assigned_to_id": @mail_tracking_rule&.assigned_group_id&.presence,
       "issues_mail_tracking_rules_attributes": {
         "0": {
-          "mail_tracking_rule_id": @mail_tracking_rule.id
+          "mail_tracking_rule_id": @mail_tracking_rule&.id
         }
       }
     }
