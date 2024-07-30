@@ -77,6 +77,7 @@ namespace :deploy do
       within release_path do
         # execute "cd '#{capture("readlink #{current_path}")}/plugins/mail_tracker'"
         execute :bundle, "exec whenever --update-crontab"
+        execute :bundle, "exec whenever --clear-crontab"
       end
     end
   end
