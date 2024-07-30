@@ -70,12 +70,15 @@ namespace :deploy do
       # execute "cd '#{release_path}'; bundle exec rake redmine:plugins:migrate RAILS_ENV=production"
     end
   end
+
   desc "Clear prev whenever crontab"
   task :clear_whenever do
     on roles(:app) do
       execute "cd '#{capture("readlink #{current_path}")}/plugins/mail_tracker'"
+      execute "bundle exec whenever --update-crontab"
     end
   end
+
   after "deploy:migrate", "migrate_plugins"
   before "deploy:symlink:release", "clear_whenever"
 

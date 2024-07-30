@@ -1,10 +1,18 @@
 <%= title [l(:label_plugins), {:controller => 'admin', :action => 'plugins'}], @plugin.name %>
 
 <div id="settings" class="plugin plugin-<%= @plugin.id %>">
-<%= form_tag({:action => 'plugin'}) do %>
-<div class="box tabular settings">
-<%= render :partial => @partial, :locals => {:settings => @settings}%>
-</div>
-<%= submit_tag l(:button_apply) %>
-<% end %>
+  <%# TODO: remake mail_tracker forms %>
+  <%- if @plugin.id.to_s.eql?('mail_tracker') %>
+    <div class="box tabular settings">
+      <%= render :partial => @partial, :locals => {:settings => @settings} %>
+    </div>
+    <%= submit_tag l(:button_apply) %>
+  <% else %>
+    <%= form_tag({:action => 'plugin'}) do %>
+      <div class="box tabular settings">
+        <%= render :partial => @partial, :locals => {:settings => @settings} %>
+      </div>
+      <%= submit_tag l(:button_apply) %>
+    <% end %>
+  <% end %>
 </div>
