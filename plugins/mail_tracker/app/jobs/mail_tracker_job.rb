@@ -27,7 +27,7 @@ class MailTrackerJob < ApplicationJob
     content = get_content_body(content_part.body)
 
     parse_email(email, content_part) if (content || email.attachments.any?) && email.date.present?
-    @mail_source.mark_as_seen(email.message_id) if email.message_id.present?
+    @mail_source.mark_as_seen(email.message_id) if email.message_id.present? && @issue.present?
   end
 
   def parse_email(email, content_part)
@@ -67,7 +67,6 @@ class MailTrackerJob < ApplicationJob
       @due_date = nil
       @to = nil
       @support_cc_email = nil
-      @domains = nil
     end
   end
 
@@ -240,7 +239,7 @@ class MailTrackerJob < ApplicationJob
   def to_email(email)
     @to ||= begin
       email.to.find do |mail_address|
-        Mail::Address.new(@domains.include?(Mail::Address.new(mail_address).domain))
+        Mail::Address.new(available_domains.include?(Mail::Address.new(mail_address).domain))
       end
     rescue StandardError
       Mail::Address.new(email.to.to_s.gsub(@mail_source.remove_from_to, ''))
@@ -248,7 +247,7 @@ class MailTrackerJob < ApplicationJob
   end
 
   def support_email
-    support_emails = @domains.map { |item| "support@#{item}" }
+    support_emails = available_domains.map { |item| "support@#{item}" }
     @support_cc_email = begin
       mail.cc.find do |mail_address|
         support_emails.include?(mail_address)
@@ -260,7 +259,7 @@ class MailTrackerJob < ApplicationJob
   end
 
   def available_domains
-    @domains ||= ProjectEmail.all_uniq_domains
+    ProjectEmail.all_uniq_domains
   end
 
   def get_content_body(mail_body)
