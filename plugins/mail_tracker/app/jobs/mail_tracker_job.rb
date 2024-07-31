@@ -37,8 +37,6 @@ class MailTrackerJob < ApplicationJob
 
     begin
       mail_tracking_rule(email, content)
-      raise StandardError, "No mail tracking rule found for email: #{email}" unless @mail_tracking_rule.present?
-
       issue_duplicate(email)
 
       if @issue.present?
