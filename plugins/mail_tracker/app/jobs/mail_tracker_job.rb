@@ -47,7 +47,7 @@ class MailTrackerJob < ApplicationJob
 
       return unless @issue.present?
     rescue ActiveRecord::StatementInvalid => e
-      raise e if retried
+      raise StandardError, "Issue not saved: #{@issue_params}" if retried || content.blank? || content_part.charset.blank?
 
       content = handle_invalid_encoding(content, content_part.charset)
       retried = true
