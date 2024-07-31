@@ -152,12 +152,15 @@ class MailTrackerJob < ApplicationJob
       "start_date": Time.now,
       "due_date": @due_date,
       "assigned_to_id": @mail_tracking_rule&.assigned_group_id&.presence,
+    }
+
+    @issue_params.merge!({
       "issues_mail_tracking_rules_attributes": {
         "0": {
           "mail_tracking_rule_id": @mail_tracking_rule&.id
         }
       }
-    }
+    }) if @mail_tracking_rule&.id.present?
   end
 
   def mail_tracking_rule(email, content)
