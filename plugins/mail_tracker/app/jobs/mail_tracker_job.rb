@@ -54,7 +54,7 @@ class MailTrackerJob < ApplicationJob
       log_string = "Message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}, Error: #{e}"
       MailTrackerCustomLogger.logger.error(log_string)
 
-      if e.eql?('Validation failed: Message has already been taken')
+      if e.to_s.include?('Message has already been taken')
         @mail_source.mark_as_seen(email.message_id)
       end
     ensure
