@@ -68,7 +68,7 @@ class MailTrackerJob < ApplicationJob
   end
 
   def notify_sender(email)
-    link = issue_url(@issue)
+    link = issue_url(@issue, host: Setting.host_name)
     user = User.find(@issue.author_id).try(:login)
     user = 'mail_no_username' if @issue.author_id == @mail_source.default_user_id || user.blank?
     replaced_body_keywords = EmailTemplate.template_by_domain(domain: email.domain).converted_body(link, user)
