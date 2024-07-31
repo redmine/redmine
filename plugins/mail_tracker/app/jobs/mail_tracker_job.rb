@@ -48,9 +48,6 @@ class MailTrackerJob < ApplicationJob
       end
 
       return unless @issue.present?
-
-      upload_attachments(email)
-      notify_sender(email)
     rescue ActiveRecord::StatementInvalid => e
       raise e if retried
 
@@ -112,7 +109,14 @@ class MailTrackerJob < ApplicationJob
   def assign_issue(email, content)
     unless email.cc.present? && support_email.present? && email.cc.join(',').upcase.include?(support_email.upcase) && (email.to.present? && !email.to.join(',').upcase.include?(support_email.upcase))
       issue_params(email, content)
-      @issue = Issue.new(@issue_params).save!
+      @issue = Issue.new(@issue_params)
+      if @issue.save!
+        upload_attachments(email)
+        assign_watchers(email)
+        notify_sender(email)
+      else
+        raise StandardError, "Issue not saved: #{@issue_params}"
+      end
     end
   end
 
