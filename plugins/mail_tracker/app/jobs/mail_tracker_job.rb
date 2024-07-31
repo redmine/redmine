@@ -61,7 +61,6 @@ class MailTrackerJob < ApplicationJob
     rescue StandardError => e
       log_string = "Message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}, Error: #{e}"
       MailTrackerCustomLogger.logger.error(log_string)
-      raise e
     ensure
       @issue = nil
       @issue_params = nil
@@ -115,8 +114,7 @@ class MailTrackerJob < ApplicationJob
   def assign_issue(email, content)
     unless email.cc.present? && support_email.present? && email.cc.join(',').upcase.include?(support_email.upcase) && (email.to.present? && !email.to.join(',').upcase.include?(support_email.upcase))
       issue_params(email, content)
-      @issue = Issue.new(@issue_params).save!
-      assign_watchers(email)
+      @issue = Issue.new(@issue_params)
     end
   end
 
@@ -228,14 +226,16 @@ class MailTrackerJob < ApplicationJob
 
   def issue_duplicate(email)
     @issue ||= if email.in_reply_to.present?
-                          if email.in_reply_to.to_s[%r{^<?redmine\.([a-z0-9_]+)\-(\d+)\.\d+(\.[a-f0-9]+)?@}]
-                            if $1.to_s == 'journal'
-                              Journal.find_by(id: $2.to_i).issue if Journal.exists?(id: $2.to_i)
-                            end
-                          else
-                            Issue.find_by(reply_message_id: email.in_reply_to)
-                          end
-                        end
+                  if email.in_reply_to.to_s[%r{^<?redmine\.([a-z0-9_]+)\-(\d+)\.\d+(\.[a-f0-9]+)?@}]
+                    if $1.to_s == 'journal'
+                      Journal.find_by(id: $2.to_i).issue if Journal.exists?(id: $2.to_i)
+                    end
+                  else
+                    Issue.find_by(reply_message_id: email.in_reply_to)
+                  end
+                else
+                  Issue.find_by(message_id: email.message_id)
+                end
   end
 
   def to_email(email)
