@@ -24,6 +24,10 @@ class MailSource < ActiveRecord::Base
   #   @server = self.first.host
   #   @ssl = true
   # end
+  def default_tracker_id
+    default_tracker = Tracker.find_by(name: "Support")
+    default_tracker.present? ? default_tracker.id : 1
+  end
 
   def permission_request
     "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?nonce=mailtracer&client_id=#{application_id}&response_type=code%20id_token&redirect_uri=#{REDIRECT_URI}&response_mode=form_post&scope=openid%20offline_access%20https%3A%2F%2Foutlook.office365.com%2FIMAP.AccessAsUser.All%20https%3A%2F%2Foutlook.office365.com%2FSMTP.Send%20https%3A%2F%2Foutlook.office365.com%2Femail&state=redminemail"
