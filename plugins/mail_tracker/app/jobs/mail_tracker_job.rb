@@ -138,6 +138,7 @@ class MailTrackerJob < ApplicationJob
       user_id: User.having_mail(email.try(:from).try(:presence)).try(:first).try(:id) || @issue.author_id
       })
     journal.save!
+    MailTrackerCustomLogger.logger.info("Journal created: #{journal}")
     @issue.update_column(:reply_message_id, email.message_id)
   end
 
