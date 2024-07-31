@@ -124,6 +124,7 @@ class MailTrackerJob < ApplicationJob
         upload_attachments(email)
         assign_watchers(email)
         notify_sender(email)
+        MailTrackerCustomLogger.logger.info("Issue created. Details: #{@issue.inspect}")
       else
         raise StandardError, "Issue not saved: #{@issue_params}"
       end
