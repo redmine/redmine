@@ -44,8 +44,6 @@ class MailTrackerJob < ApplicationJob
       elsif email.subject.present?
         assign_issue(email, content)
       end
-
-      return unless @issue.present?
     rescue ActiveRecord::StatementInvalid => e
       raise StandardError, "Issue not saved: #{@issue_params}" if retried || content.blank? || content_part.charset.blank?
 
@@ -55,6 +53,10 @@ class MailTrackerJob < ApplicationJob
     rescue StandardError => e
       log_string = "Message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}, Error: #{e}"
       MailTrackerCustomLogger.logger.error(log_string)
+
+      if e.eql?('Validation failed: Message has already been taken')
+        @mail_source.mark_as_seen(email.message_id)
+      end
     ensure
       @issue = nil
       @issue_params = nil
