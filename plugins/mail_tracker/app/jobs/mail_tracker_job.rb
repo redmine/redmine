@@ -27,7 +27,7 @@ class MailTrackerJob < ApplicationJob
     content = get_content_body(content_part.body)
 
     parse_email(email, content_part) if (content || email.attachments.any?) && email.date.present?
-    mark_as_seen(email.message_id) if email.message_id.present?
+    @mail_source.mark_as_seen(email.message_id) if email.message_id.present?
   end
 
   def parse_email(email, content_part)
@@ -47,7 +47,6 @@ class MailTrackerJob < ApplicationJob
         assign_issue(email, content)
       end
 
-      mark_as_seen(email.message_id) if email.message_id.present?
       return unless @issue.present?
 
       upload_attachments(email)
