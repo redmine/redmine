@@ -47,8 +47,7 @@ class MailTrackerJob < ApplicationJob
         assign_issue(email, content)
       end
     rescue ActiveRecord::StatementInvalid => e
-      raise StandardError, "Issue not saved: #{@issue_params}" if retried || content.blank? || content_part.charset.blank?
-
+      raise StandardError, "Invalid email: #{@issue_params}; Charset: #{content_part&.charset}; Content: #{content}" if retried
       content = handle_invalid_encoding(content, content_part.charset)
       retried = true
       retry
@@ -59,7 +58,12 @@ class MailTrackerJob < ApplicationJob
       if e.to_s.include?('Message has already been taken')
         @mail_source.mark_as_seen(email.message_id)
       end
+    rescue
+      log_string = "Message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}"
+      MailTrackerCustomLogger.logger.error(log_string)
     ensure
+      log_string = "*** Message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}"
+      MailTrackerCustomLogger.logger.info(log_string)
       @issue = nil
       @issue_params = nil
       @mail_tracking_rule = nil
@@ -93,6 +97,8 @@ class MailTrackerJob < ApplicationJob
   end
 
   def handle_invalid_encoding(content, charset)
+    return content if content.blank?
+
     encoded = content.dup.force_encoding(BIN_ENCODING)
 
     if INVALID_CHARACTERS.any?(&encoded.method(:include?)) && content.encoding.to_s == ENCODING
@@ -130,7 +136,7 @@ class MailTrackerJob < ApplicationJob
       journalized_type: "Issue",
       user_id: User.having_mail(email.try(:from).try(:presence)).try(:first).try(:id) || @issue.author_id
       })
-    journal.save
+    journal.save!
     @issue.update_column(:reply_message_id, email.message_id)
   end
 
