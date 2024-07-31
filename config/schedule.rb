@@ -15,9 +15,9 @@ end
 set :environment, 'production'
 set :output, { :error => 'log/cron_error_log.log', :standard => 'log/cron_log.log' }
 
-every 5.minutes do
-  runner "MailSource.each_mail_source_fetch_mails"
-end
+# every 5.minutes do
+#   runner "MailSource.each_mail_source_fetch_mails"
+# end
 
 # every 30.minutes do
 #   runner "MailSource.check_issues_validity"
