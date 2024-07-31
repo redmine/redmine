@@ -43,7 +43,8 @@ class MailTrackerJob < ApplicationJob
 
       if @issue.present?
         assign_journal(email, content)
-      elsif email.subject.present?
+      # elsif email.subject.present?
+      else
         assign_issue(email, content)
       end
     rescue ActiveRecord::StatementInvalid => e
