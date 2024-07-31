@@ -131,7 +131,7 @@ class MailTrackerJob < ApplicationJob
   end
 
   def assign_watchers(email)
-    cc_users = email.cc.map { |mail_address| User.having_mail(mail_address).try(:first).try(:id) }.compact
+    cc_users = email&.cc&.map { |mail_address| User.having_mail(mail_address).try(:first).try(:id) }&.compact || []
     from_users = Group.find_by(group_email: email.from.first).try(:user_ids) || []
     (cc_users + from_users).uniq.each do |user|
       Watcher.create(watchable_type: 'Issue', watchable_id: @issue.id, user_id: user)
