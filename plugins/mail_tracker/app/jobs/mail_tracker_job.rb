@@ -17,7 +17,7 @@ class MailTrackerJob < ApplicationJob
     @mail_source = MailSource.find_by(id: mail_source_id)
     @mail_source&.unseen&.each do |email|
       log_string = "***** Message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}"
-      MailTrackerCustomLogger.logger.error(log_string)
+      MailTrackerCustomLogger.logger.info(log_string)
       create_issue_from_email(email)
     end
   end
