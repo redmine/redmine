@@ -112,7 +112,7 @@ class MailTrackerJob < ApplicationJob
   def assign_issue(email, content)
     unless email.cc.present? && support_email.present? && email.cc.join(',').upcase.include?(support_email.upcase) && (email.to.present? && !email.to.join(',').upcase.include?(support_email.upcase))
       issue_params(email, content)
-      @issue = Issue.new(@issue_params)
+      @issue = Issue.new(@issue_params).save!
     end
   end
 
