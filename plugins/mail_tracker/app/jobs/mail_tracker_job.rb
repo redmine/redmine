@@ -184,11 +184,11 @@ class MailTrackerJob < ApplicationJob
     # MailTrackingRule.build_attachments_from_mail(email, @issue)
     email.attachments.to_a.map do |attachment|
       # validate if attachment is bigger than 1000 bytes
-      file = DataStringIO.new(attachment.filename, attachment.mime_type, attachment.body.decoded)
+      file = DataStringIo.new(attachment.filename, attachment.mime_type, attachment.body.decoded)
       if file.size > 10.kilobytes && file.size < Setting.attachment_max_size.to_i.kilobytes && ((attachment.content_type.start_with?('image/')) || (attachment.content_type.start_with?('audio/')))
         content_id = attachment.content_id.tr('<>', '') if attachment.inline? && attachment.content_id.present?
         doc = Attachment.new(
-          file: DataStringIO.new(attachment.filename, attachment.mime_type, attachment.body.decoded),
+          file: DataStringIo.new(attachment.filename, attachment.mime_type, attachment.body.decoded),
           filename: attachment.filename,
           author_id: @issue.author_id,
           container_type: "Issue",
