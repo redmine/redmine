@@ -47,7 +47,7 @@ class MailTrackerJob < ApplicationJob
         assign_issue(email, content)
       end
     rescue ActiveRecord::StatementInvalid => e
-      raise StandardError, "Invalid email: #{@issue_params}; Charset: #{content_part&.charset}; Content: #{content}" if retried
+      raise StandardError, "Invalid email: #{@issue_params}; Charset: #{content_part&.charset}; Content: #{content}; Note: #{e}" if retried
       content = handle_invalid_encoding(content, content_part.charset)
       retried = true
       retry
