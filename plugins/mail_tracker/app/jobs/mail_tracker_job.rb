@@ -93,7 +93,7 @@ class MailTrackerJob < ApplicationJob
     unless email.from.present? && %w[support-ru support-en support-lt admin-ru admin-en
                                     admin-lt].include?(Mail::Address.new([email.from].flatten.first).local)
       @mail_source.deliver(temp_mail)
-      @issue.update_column(:reply_message_id, temp_mail.message_id)
+      @issue.update!(reply_message_id: temp_mail.message_id)
     end
   end
 
@@ -140,7 +140,7 @@ class MailTrackerJob < ApplicationJob
       user_id: User.having_mail(email.try(:from).try(:presence)).try(:first).try(:id) || @issue.author_id
       })
     journal.save!
-    @issue.update!(:reply_message_id, email.message_id)
+    @issue.update!(reply_message_id: email.message_id)
     MailTrackerCustomLogger.logger.info("Journal created. Details: #{journal.inspect}")
   end
 
