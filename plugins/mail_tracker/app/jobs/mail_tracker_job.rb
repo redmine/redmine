@@ -46,6 +46,8 @@ class MailTrackerJob < ApplicationJob
       else
         assign_issue(email, content)
       end
+
+      @mail_source.mark_as_seen(email.message_id)
     rescue ActiveRecord::RecordInvalid => e
       # log_string = "Message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}, Error: #{e}"
       # MailTrackerCustomLogger.logger.error(log_string)
