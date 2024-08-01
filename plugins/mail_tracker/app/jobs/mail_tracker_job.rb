@@ -117,7 +117,7 @@ class MailTrackerJob < ApplicationJob
 
   def assign_issue(email, content)
     MailTrackerCustomLogger.logger.info("Assign issue: #{[email.cc.present?, support_email.present?, email.cc.join(',').upcase.include?(support_email.upcase), (email.to.present? && !email.to.join(',').upcase.include?(support_email.upcase))]}")
-    unless email.cc.present? && support_email.present? && email.cc.join(',').upcase.include?(support_email.upcase) && (email.to.present? && !email.to.join(',').upcase.include?(support_email.upcase))
+    return unless email.cc.present? && support_email.present? && email.cc.join(',').upcase.include?(support_email.upcase) && (email.to.present? && !email.to.join(',').upcase.include?(support_email.upcase))
       issue_params(email, content)
       @issue = Issue.new(@issue_params)
       if @issue.save!
@@ -140,8 +140,8 @@ class MailTrackerJob < ApplicationJob
       user_id: User.having_mail(email.try(:from).try(:presence)).try(:first).try(:id) || @issue.author_id
       })
     journal.save!
+    @issue.update!(:reply_message_id, email.message_id)
     MailTrackerCustomLogger.logger.info("Journal created. Details: #{journal.inspect}")
-    @issue.update_column(:reply_message_id, email.message_id)
   end
 
   def assign_watchers(email)
