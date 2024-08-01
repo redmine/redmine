@@ -37,7 +37,7 @@ class MailTrackerJob < ApplicationJob
     content = content.inner_html.encode(ENCODING, invalid: :replace, undef: :replace, replace: '') if content
     retried = false
 
-    begin
+    # begin
       mail_tracking_rule(email, content)
       issue_duplicate(email)
 
@@ -47,22 +47,22 @@ class MailTrackerJob < ApplicationJob
       else
         assign_issue(email, content)
       end
-    rescue ActiveRecord::StatementInvalid => e
-      raise StandardError, "Invalid email: #{@issue_params}; Charset: #{content_part&.charset}; Content: #{content}; Note: #{e}" if retried
-      content = handle_invalid_encoding(content, content_part.charset)
-      retried = true
-      retry
-    rescue StandardError => e
-      log_string = "Message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}, Error: #{e}"
-      MailTrackerCustomLogger.logger.error(log_string)
+    # rescue ActiveRecord::StatementInvalid => e
+    #   raise StandardError, "Invalid email: #{@issue_params}; Charset: #{content_part&.charset}; Content: #{content}; Note: #{e}" if retried
+    #   content = handle_invalid_encoding(content, content_part.charset)
+    #   retried = true
+    #   retry
+    # rescue StandardError => e
+    #   log_string = "Message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}, Error: #{e}"
+    #   MailTrackerCustomLogger.logger.error(log_string)
 
-      if e.to_s.include?('Message has already been taken')
-        @mail_source.mark_as_seen(email.message_id)
-      end
-    rescue
-      log_string = "Message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}"
-      MailTrackerCustomLogger.logger.error(log_string)
-    ensure
+    #   if e.to_s.include?('Message has already been taken')
+    #     @mail_source.mark_as_seen(email.message_id)
+    #   end
+    # rescue
+    #   log_string = "Message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}"
+    #   MailTrackerCustomLogger.logger.error(log_string)
+    # ensure
       log_string = "*** Message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}"
       MailTrackerCustomLogger.logger.info(log_string)
       @issue = nil
@@ -71,7 +71,7 @@ class MailTrackerJob < ApplicationJob
       @due_date = nil
       @to = nil
       @support_cc_email = nil
-    end
+    # end
   end
 
   def notify_sender(email)
