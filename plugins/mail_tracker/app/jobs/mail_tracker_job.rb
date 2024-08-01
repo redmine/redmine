@@ -56,11 +56,13 @@ class MailTrackerJob < ApplicationJob
         MailTrackerCustomLogger.logger.error(log_string)
         @mail_source.mark_as_seen(email.message_id)
       else
+        Sentry.capture_exception(e)
         log_string = "Error message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}, Error: #{e}, Trace: #{e.backtrace}"
         MailTrackerCustomLogger.logger.error(log_string)
         Sentry.capture_exception(e)
       end
     rescue => e
+      Sentry.capture_exception(e)
       log_string = "General error message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}, Error: #{e}, Trace: #{e.backtrace}"
       MailTrackerCustomLogger.logger.error(log_string)
       Sentry.capture_exception(e)
