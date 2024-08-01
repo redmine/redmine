@@ -52,16 +52,16 @@ class MailTrackerJob < ApplicationJob
       # log_string = "Message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}, Error: #{e}"
       # MailTrackerCustomLogger.logger.error(log_string)
       if e.to_s.include?('Message has already been taken')
-        log_string = "Taken message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}"
+        log_string = "Taken message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}, Trace: #{e.backtrace}"
         MailTrackerCustomLogger.logger.error(log_string)
         @mail_source.mark_as_seen(email.message_id)
       else
-        log_string = "Error message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}, Error: #{e}"
+        log_string = "Error message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}, Error: #{e}, Trace: #{e.backtrace}"
         MailTrackerCustomLogger.logger.error(log_string)
         Sentry.capture_exception(e)
       end
     rescue => e
-      log_string = "General error message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}, Error: #{e}"
+      log_string = "General error message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}, Error: #{e}, Trace: #{e.backtrace}"
       MailTrackerCustomLogger.logger.error(log_string)
       Sentry.capture_exception(e)
     ensure
