@@ -191,7 +191,7 @@ class MailTrackerJob < ApplicationJob
     watchers.concat(group_user_ids) if group_user_ids.present?
 
     # Add the issue author as a watcher
-    watchers << issue.author_id if issue.author_id.present?
+    watchers << @issue.author_id if @issue.author_id.present?
 
     # Ensure watcher user IDs are unique
     watchers.uniq!
