@@ -82,11 +82,11 @@ class MailTrackerJob < ApplicationJob
 
     avilable_domains = ProjectEmail.all_uniq_domains
     email = begin
-      mail.to.find do |mail_address|
+      email.to.find do |mail_address|
         avilable_domains.include?(Mail::Address.new(mail_address).domain)
       end
     rescue StandardError
-      mail.to.to_s.gsub(remove_from_to, '')
+      email.to.to_s.gsub(remove_from_to, '')
     end
     email = Mail::Address.new(email)
     replaced_body_keywords = EmailTemplate.template_by_domain(domain: email.domain).converted_body(link, user)
