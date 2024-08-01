@@ -12,11 +12,12 @@ class MailTrackerJob < ApplicationJob
     158,
     194
   ].map(&:chr)
+  REMOVE_FROM_TO = '<Undisclosed recipients:>'.freeze
 
   def perform(mail_source_id)
     @mail_source = MailSource.find_by(id: mail_source_id)
     @mail_source&.unseen&.each do |email|
-      log_string = "***** Message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}"
+      log_string = "*****\nMessage id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}"
       MailTrackerCustomLogger.logger.info(log_string)
       create_issue_from_email(email)
     end
@@ -40,7 +41,7 @@ class MailTrackerJob < ApplicationJob
       mail_tracking_rule(email, content)
       issue_duplicate(email)
 
-      if @issue.present?
+      if @issue.present? # if issue is duplicate
         assign_journal(email, content)
       # elsif email.subject.present?
       else
@@ -49,8 +50,6 @@ class MailTrackerJob < ApplicationJob
 
       @mail_source.mark_as_seen(email.message_id)
     rescue ActiveRecord::RecordInvalid => e
-      # log_string = "Message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}, Error: #{e}"
-      # MailTrackerCustomLogger.logger.error(log_string)
       if e.to_s.include?('Message has already been taken')
         log_string = "Taken message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}, Trace: #{e.backtrace}"
         MailTrackerCustomLogger.logger.error(log_string)
@@ -59,30 +58,13 @@ class MailTrackerJob < ApplicationJob
         Sentry.capture_exception(e)
         log_string = "Error message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}, Error: #{e}, Trace: #{e.backtrace}"
         MailTrackerCustomLogger.logger.error(log_string)
-        Sentry.capture_exception(e)
       end
     rescue => e
       Sentry.capture_exception(e)
       log_string = "General error message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}, Error: #{e}, Trace: #{e.backtrace}"
       MailTrackerCustomLogger.logger.error(log_string)
-      Sentry.capture_exception(e)
     ensure
-      # rescue ActiveRecord::StatementInvalid => e
-      #   raise StandardError, "Invalid email: #{@issue_params}; Charset: #{content_part&.charset}; Content: #{content}; Note: #{e}" if retried
-      #   content = handle_invalid_encoding(content, content_part.charset)
-      #   retried = true
-      #   retry
-      # rescue StandardError => e
-      #   log_string = "Message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}, Error: #{e}"
-      #   MailTrackerCustomLogger.logger.error(log_string)
-      #   if e.to_s.include?('Message has already been taken')
-      #     @mail_source.mark_as_seen(email.message_id)
-      #   end
-      # rescue
-      #   log_string = "Message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}"
-      #   MailTrackerCustomLogger.logger.error(log_string)
-
-      log_string = "*** Message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}"
+      log_string = "***\nMessage id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}"
       MailTrackerCustomLogger.logger.info(log_string)
       @issue = nil
       @issue_params = nil
@@ -97,7 +79,18 @@ class MailTrackerJob < ApplicationJob
     link = issue_url(@issue, host: Setting.host_name)
     user = User.find(@issue.author_id).try(:login)
     user = 'mail_no_username' if @issue.author_id == @mail_source.default_user_id || user.blank?
+
+    avilable_domains = ProjectEmail.all_uniq_domains
+    email = begin
+      mail.to.find do |mail_address|
+        avilable_domains.include?(Mail::Address.new(mail_address).domain)
+      end
+    rescue StandardError
+      mail.to.to_s.gsub(remove_from_to, '')
+    end
+    email = Mail::Address.new(email)
     replaced_body_keywords = EmailTemplate.template_by_domain(domain: email.domain).converted_body(link, user)
+
     temp_mail = Mail.new do
       from        @issue.project.email
       to          email.from
@@ -136,7 +129,7 @@ class MailTrackerJob < ApplicationJob
 
   def assign_issue(email, content)
     MailTrackerCustomLogger.logger.info("Assign issue: #{[email.cc.present?, support_email.present?, email&.cc&.join(',')&.upcase&.include?(support_email.upcase), (email.to.present? && !email.to&.join(',')&.upcase&.include?(support_email&.upcase))]}")
-    return unless email.cc.present? && support_email.present? && email&.cc&.join(',')&.upcase&.include?(support_email.upcase) && (email.to.present? && !email.to&.join(',')&.upcase&.include?(support_email.upcase))
+    return if email.cc.present? && support_email.present? && email&.cc&.join(',')&.upcase&.include?(support_email.upcase) && (email.to.present? && !email.to&.join(',')&.upcase&.include?(support_email.upcase))
 
     issue_params(email, content)
     @issue = Issue.new(@issue_params)
@@ -146,7 +139,7 @@ class MailTrackerJob < ApplicationJob
       notify_sender(email)
       MailTrackerCustomLogger.logger.info("Issue created. Details: #{@issue.inspect}")
     else
-      raise StandardError, "Issue not saved: #{@issue_params}"
+      raise StandardError, "Issue not saved: #{@issue_params}, Errors: #{@issue&.errors}"
     end
   end
 
@@ -160,16 +153,53 @@ class MailTrackerJob < ApplicationJob
       })
     journal.save!
     @issue.update!(reply_message_id: email.message_id)
+    upload_attachments(email)
     MailTrackerCustomLogger.logger.info("Journal created. Details: #{journal.inspect}")
   end
 
   def assign_watchers(email)
-    cc_users = email&.cc&.map { |mail_address| User.having_mail(mail_address).try(:first).try(:id) }&.compact || []
-    from_users = Group.find_by(group_email: email.from.first).try(:user_ids) || []
-    (cc_users + from_users).uniq.each do |user|
-      Watcher.create(watchable_type: 'Issue', watchable_id: @issue.id, user_id: user)
+    # Initialize an empty array for watchers
+    watchers = []
+
+    # Add watchers from project watcher groups
+    if issue.project.watcher_groups.present?
+      watcher_users = issue.project.watcher_groups.flat_map(&:user_ids).uniq
+      watchers.concat(watcher_users) if watcher_users.present?
+
+    # Add watchers from assigned group
+    elsif issue.assigned_to_id.present?
+      group_users = Group.find(issue.assigned_to_id)&.users&.pluck(:id)
+      watchers.concat(group_users) if group_users.present?
+
+    # Add watchers from the support group
+    else
+      support_group_users = Group.find_by(lastname: 'Support')&.users&.pluck(:id)
+      watchers.concat(support_group_users) if support_group_users.present?
     end
-    Watcher.create(watchable_type: 'Issue', watchable_id: @issue.id, user_id: @issue.author_id)
+
+    # Add watchers from email CC
+    if mail.cc.present?
+      email_addresses = EmailAddress.pluck(:address, :user_id).to_h
+      mail_cc_addresses = mail.cc
+      cc_user_ids = email_addresses.slice(*mail_cc_addresses).values
+      watchers.concat(cc_user_ids) if cc_user_ids.present?
+    end
+
+    # Add watchers from group emails
+    emails = mail.from + (mail.cc || [])
+    group_user_ids = Group.where(group_email: emails).flat_map(&:user_ids)
+    watchers.concat(group_user_ids) if group_user_ids.present?
+
+    # Add the issue author as a watcher
+    watchers << issue.author_id if issue.author_id.present?
+
+    # Ensure watcher user IDs are unique
+    watchers.uniq!
+
+    # Save each watcher
+    watchers.each do |user_id|
+      Watcher.create(watchable_type: 'Issue', watchable_id: issue.id, user_id: user_id)
+    end
   end
 
   def issue_params(email, content)
@@ -198,6 +228,7 @@ class MailTrackerJob < ApplicationJob
 
   def mail_tracking_rule(email, content)
     @mail_tracking_rule ||= MailTrackingRule.apply_rules(email, content)
+    due_date(@mail_tracking_rule) if @mail_tracking_rule.present?
   end
 
   def due_date(mail_tracking_rule)
@@ -212,7 +243,7 @@ class MailTrackerJob < ApplicationJob
                     hh.business_hours.after(Time.now + mm)
                     BusinessTime::Config.work_week = [:mon, :tue, :wed, :thu, :fri]
                   when 'High'
-                    due_date = (Time.now + hh.hours + mm.minutes)
+                    (Time.now + hh.hours + mm.minutes)
                   else
                     nil
                   end
