@@ -133,8 +133,8 @@ class MailTrackerJob < ApplicationJob
   end
 
   def assign_issue(email, content)
-    MailTrackerCustomLogger.logger.info("Assign issue: #{[email.cc.present?, support_email.present?, email.cc.join(',').upcase.include?(support_email.upcase), (email.to.present? && !email.to.join(',').upcase.include?(support_email.upcase))]}")
-    return unless email.cc.present? && support_email.present? && email.cc.join(',').upcase.include?(support_email.upcase) && (email.to.present? && !email.to.join(',').upcase.include?(support_email.upcase))
+    MailTrackerCustomLogger.logger.info("Assign issue: #{[email.cc.present?, support_email.present?, email&.cc&.join(',')&.upcase&.include?(support_email.upcase), (email.to.present? && !email.to&.join(',')&.upcase&.include?(support_email&.upcase))]}")
+    return unless email.cc.present? && support_email.present? && email&.cc&.join(',')&.upcase&.include?(support_email.upcase) && (email.to.present? && !email.to&.join(',')&.upcase&.include?(support_email.upcase))
 
     issue_params(email, content)
     @issue = Issue.new(@issue_params)
