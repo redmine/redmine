@@ -162,13 +162,13 @@ class MailTrackerJob < ApplicationJob
     watchers = []
 
     # Add watchers from project watcher groups
-    if issue.project.watcher_groups.present?
-      watcher_users = issue.project.watcher_groups.flat_map(&:user_ids).uniq
+    if @issue.project.watcher_groups.present?
+      watcher_users = @issue.project.watcher_groups.flat_map(&:user_ids).uniq
       watchers.concat(watcher_users) if watcher_users.present?
 
     # Add watchers from assigned group
-    elsif issue.assigned_to_id.present?
-      group_users = Group.find(issue.assigned_to_id)&.users&.pluck(:id)
+    elsif @issue.assigned_to_id.present?
+      group_users = Group.find(@issue.assigned_to_id)&.users&.pluck(:id)
       watchers.concat(group_users) if group_users.present?
 
     # Add watchers from the support group
@@ -178,15 +178,15 @@ class MailTrackerJob < ApplicationJob
     end
 
     # Add watchers from email CC
-    if mail.cc.present?
+    if email.cc.present?
       email_addresses = EmailAddress.pluck(:address, :user_id).to_h
-      mail_cc_addresses = mail.cc
+      mail_cc_addresses = email.cc
       cc_user_ids = email_addresses.slice(*mail_cc_addresses).values
       watchers.concat(cc_user_ids) if cc_user_ids.present?
     end
 
     # Add watchers from group emails
-    emails = mail.from + (mail.cc || [])
+    emails = email.from + (email.cc || [])
     group_user_ids = Group.where(group_email: emails).flat_map(&:user_ids)
     watchers.concat(group_user_ids) if group_user_ids.present?
 
@@ -198,7 +198,7 @@ class MailTrackerJob < ApplicationJob
 
     # Save each watcher
     watchers.each do |user_id|
-      Watcher.create(watchable_type: 'Issue', watchable_id: issue.id, user_id: user_id)
+      Watcher.create(watchable_type: 'Issue', watchable_id: @issue.id, user_id: user_id)
     end
   end
 
