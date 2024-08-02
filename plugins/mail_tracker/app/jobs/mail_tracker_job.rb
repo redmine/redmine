@@ -102,6 +102,7 @@ class MailTrackerJob < ApplicationJob
         body ApplicationController.helpers.textilizable(replaced_body_keywords)
       end
     end
+
     unless email.from.present? && %w[support-ru support-en support-lt admin-ru admin-en
                                     admin-lt].include?(Mail::Address.new([email.from].flatten.first).local)
       @mail_source.deliver(temp_mail)
@@ -134,12 +135,12 @@ class MailTrackerJob < ApplicationJob
     issue_params(email, content)
     @issue = Issue.new(@issue_params)
     if @issue.save!
+      MailTrackerCustomLogger.logger.info("Issue created. Details: #{@issue.inspect}")
       upload_attachments(email)
       assign_watchers(email)
       notify_sender(email)
-      MailTrackerCustomLogger.logger.info("Issue created. Details: #{@issue.inspect}")
     else
-      raise StandardError, "Issue not saved: #{@issue_params}, Errors: #{@issue&.errors}"
+      raise StandardError, "Issue not saved: #{@issue_params}, Errors: #{@issue&.errors}, Trace: #{@issue&errors&full_messages}"
     end
   end
 
