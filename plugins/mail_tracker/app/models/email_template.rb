@@ -16,7 +16,7 @@ class EmailTemplate < ActiveRecord::Base
   
       replacement = case key
                     when '###ISSUE_LINK###'
-                      "<a href=\"#{issue_link}\">#{issue_link.split('/').last}</a>"
+                      "[#{issue_link.split('/').last}](#{issue_link})"
                     when '###USERNAME_LT###'
                       username == "mail_no_username" ? I18n.t(username.to_sym, locale: :lt) : username
                     when '###USERNAME_EN###'
