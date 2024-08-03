@@ -27,13 +27,13 @@ class MailTrackerJob < ApplicationJob
 
   def create_issue_from_email(email)
     content_part = email.html_part.presence || email.text_part.presence || email
-    content = get_content_body(content_part.body)
+    email_body = get_content_body(content_part.body)
 
-    parse_email(email, content_part) if (content || email.attachments.any?) && email.date.present?
+    parse_email(email, content_part, email_body) if (email_body || email.attachments.any?) && email.date.present?
   end
 
-  def parse_email(email, content_part)
-    content = Nokogiri::HTML(content, nil, content_part.charset).at('body')
+  def parse_email(email, content_part, email_body)
+    content = Nokogiri::HTML(email_body, nil, content_part.charset).at('body')
     content = content.inner_html.encode(ENCODING, invalid: :replace, undef: :replace, replace: '') if content
     retried = false
 
@@ -41,9 +41,8 @@ class MailTrackerJob < ApplicationJob
       mail_tracking_rule(email, content)
       issue_duplicate(email)
 
-      if @issue.present? # if issue is duplicate
+      if @issue.present?
         assign_journal(email, content)
-      # elsif email.subject.present?
       else
         assign_issue(email, content)
       end
