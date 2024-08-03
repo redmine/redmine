@@ -80,28 +80,26 @@ class MailTrackerJob < ApplicationJob
     user = User.find(@issue.author_id).try(:login)
     user = 'mail_no_username' if @issue.author_id == @mail_source.default_user_id || user.blank?
 
+    # Remove undisclosured recipients
     avilable_domains = ProjectEmail.all_uniq_domains
-    email = begin
+    email.to = begin
       email.to.find do |mail_address|
         avilable_domains.include?(Mail::Address.new(mail_address).domain)
       end
     rescue StandardError
-      email.to.to_s.gsub(remove_from_to, '')
+      email.to.to_s.gsub(REMOVE_FROM_TO, '')
     end
-    email = Mail::Address.new(email)
-    replaced_body_keywords = EmailTemplate.template_by_domain(domain: email.domain).converted_body(link, user)
-
-    temp_mail = Mail.new do
-      from        @issue.project.email
-      to          email.from
-      in_reply_to email.message_id
-      references  email.message_id
-      subject(email.subject ? "RE: #{email.subject}" : DEFAULT_EMAIL_SUBJECT)
-      html_part do
-        content_type 'text/html; charset=UTF-8'
-        body ApplicationController.helpers.textilizable(replaced_body_keywords)
-      end
-    end
+    replaced_body_keywords = EmailTemplate.template_by_domain(domain: Mail::Address.new([email.to].flatten.first).domain).converted_body(link, user)
+    
+    temp_mail = Mail.new
+    temp_mail.from = @issue.project.email
+    temp_mail.to = email.from
+    temp_mail.in_reply_to = email.message_id
+    temp_mail.references = email.message_id
+    temp_mail.subject = email.subject ? "RE: #{email.subject}" : DEFAULT_EMAIL_SUBJECT
+    temp_mail.html_part = Mail::Part.new
+    temp_mail.html_part.content_type = 'text/html; charset=UTF-8'
+    temp_mail.html_part.body = ApplicationController.helpers.textilizable(replaced_body_keywords)
 
     unless email.from.present? && %w[support-ru support-en support-lt admin-ru admin-en
                                     admin-lt].include?(Mail::Address.new([email.from].flatten.first).local)
