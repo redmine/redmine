@@ -63,7 +63,7 @@ class MailTrackerJob < ApplicationJob
       log_string = "General error message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}, Error: #{e}, Trace: #{e.backtrace}"
       MailTrackerCustomLogger.logger.error(log_string)
     ensure
-      log_string = "***\nMessage id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}"
+      log_string = "Message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}\n***"
       MailTrackerCustomLogger.logger.info(log_string)
       @issue = nil
       @issue_params = nil
@@ -103,6 +103,7 @@ class MailTrackerJob < ApplicationJob
     unless email.from.present? && %w[support-ru support-en support-lt admin-ru admin-en
                                     admin-lt].include?(Mail::Address.new([email.from].flatten.first).local)
       @mail_source.deliver(temp_mail)
+      @issue.reload
       @issue.update!(reply_message_id: temp_mail.message_id)
     end
   end

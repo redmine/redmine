@@ -223,28 +223,30 @@ lt:
   error_attachment_extension_not_allowed: "Priedo plėtinys %{extension} negalimas"
   error_ldap_bind_credentials: "Netinkamas LDAP Vartotojo vardas/Slaptažodis"
 
-  mail_subject_lost_password: "Jūsų %{value} slaptažodis"
-  mail_body_lost_password: 'Norėdami pakeisti slaptažodį, spauskite nuorodą:'
-  mail_subject_register: "Jūsų %{value} paskyros aktyvavimas"
-  mail_body_register: 'Norėdami aktyvuoti paskyrą, spauskite nuorodą:'
-  mail_body_account_information_external: "Jūs galite naudoti savo %{value} paskyrą, norėdami prisijungti."
-  mail_body_account_information: Informacija apie Jūsų paskyrą
-  mail_subject_account_activation_request: "%{value} paskyros aktyvavimo prašymas"
-  mail_body_account_activation_request: "Užsiregistravo naujas vartotojas (%{value}). Jo paskyra laukia jūsų patvirtinimo:"
-  mail_subject_reminder: "%{count} darbų(ai) baigiasi per artimiausias %{days} dienų(as)"
-  mail_body_reminder: "%{count} darbas(ai), kurie yra jums priskirti, baigiasi per artimiausias %{days} dienų(as):"
-  mail_subject_wiki_content_added: "Wiki puslapis '%{id}' pridėtas"
-  mail_body_wiki_content_added: "Wiki puslapis '%{id}' buvo pridėtas %{author}."
-  mail_subject_wiki_content_updated: "Wiki puslapis '%{id}' buvo atnaujintas"
-  mail_body_wiki_content_updated: "'%{id}' wiki puslapį atnaujino %{author}."
-  mail_subject_security_notification: "Saugumo pranešimas"
-  mail_body_security_notification_change: "%{field} buvo pakeista(as)."
-  mail_body_security_notification_change_to: "%{field} buvo pakeista(as) į %{value}."
-  mail_body_security_notification_add: "Prie %{field} pridėta %{value}."
-  mail_body_security_notification_remove: "Iš %{field} pašalinta vertė %{value}."
-  mail_body_security_notification_notify_enabled: "Elektroninis paštas %{value} dabar gauna pranešimus."
-  mail_body_security_notification_notify_disabled: "Elektroninis paštas %{value} nebegauna pranešimų."
-  mail_body_settings_updated: "Tokie nustatymai buvo pakeisti:"
+  mail_subject_lost_password: "Your %{value} password"
+  mail_body_lost_password: 'To change your password, click on the following link:'
+  mail_subject_register: "Your %{value} account activation"
+  mail_body_register: 'To activate your account, click on the following link:'
+  mail_body_account_information_external: "You can use your %{value} account to log in."
+  mail_body_account_information: Your account information
+  mail_subject_account_activation_request: "%{value} account activation request"
+  mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
+  mail_subject_reminder: "%{count} issue(s) due in the next %{days} days"
+  mail_body_reminder: "%{count} issue(s) that are assigned to you are due in the next %{days} days:"
+  mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
+  mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
+  mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
+  mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_no_username: "We could not find your login name"
+  mail_subject_security_notification: "Security notification"
+  mail_body_security_notification_change: "%{field} was changed."
+  mail_body_security_notification_change_to: "%{field} was changed to %{value}."
+  mail_body_security_notification_add: "%{field} %{value} was added."
+  mail_body_security_notification_remove: "%{field} %{value} was removed."
+  mail_body_security_notification_notify_enabled: "Email address %{value} now receives notifications."
+  mail_body_security_notification_notify_disabled: "Email address %{value} no longer receives notifications."
+  mail_body_settings_updated: "The following settings were changed:"
+  mail_body_password_updated: "Your password has been changed."
 
   field_name: Pavadinimas
   field_description: Aprašas
