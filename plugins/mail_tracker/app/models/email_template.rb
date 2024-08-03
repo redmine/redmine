@@ -8,22 +8,25 @@ class EmailTemplate < ActiveRecord::Base
   ].freeze
 
   def converted_body(issue_link, username)
-    new_body = self.body
-
+    new_body = self.body.dup
+  
     KEYWORDS.each do |key|
       next unless new_body.include?(key)
-      case key
-      when '###ISSUE_LINK###'
-        new_body.gsub!(key, "+*\"#{issue_link.split('/').last}\":#{issue_link}*+")
-      when '###USERNAME_LT###'
-        new_body.gsub!(key, username == "mail_no_username" ? I18n.t(username.to_sym, locale: :lt) : username)
-      when '###USERNAME_EN###'
-        new_body.gsub!(key, username == "mail_no_username" ? I18n.t(username.to_sym, locale: :en) : username)
-      end
+  
+      replacement = case key
+                    when '###ISSUE_LINK###'
+                      "<a href=\"#{issue_link}\">#{issue_link.split('/').last}</a>"
+                    when '###USERNAME_LT###'
+                      username == "mail_no_username" ? I18n.t(username.to_sym, locale: :lt) : username
+                    when '###USERNAME_EN###'
+                      username == "mail_no_username" ? I18n.t(username.to_sym, locale: :en) : username
+                    end
+  
+      new_body.gsub!(key, replacement) if replacement
     end
-
+  
     new_body
-  end
+  end  
 
   def self.domains_without_template
     available_domains = ProjectEmail.all_uniq_domains

@@ -261,6 +261,7 @@ en:
   mail_body_wiki_content_added: "The '%{id}' wiki page has been added by %{author}."
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_no_username: "We could not find your login name"
   mail_subject_security_notification: "Security notification"
   mail_body_security_notification_change: "%{field} was changed."
   mail_body_security_notification_change_to: "%{field} was changed to %{value}."
@@ -273,7 +274,6 @@ en:
   mail_destroy_project_failed: Project %{value} could not be deleted.
   mail_destroy_project_successful: Project %{value} was deleted successfully.
   mail_destroy_project_with_subprojects_successful: Project %{value} and its subprojects were deleted successfully.
-
 
   field_name: Name
   field_description: Description
