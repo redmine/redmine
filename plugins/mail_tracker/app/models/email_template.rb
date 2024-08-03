@@ -1,4 +1,5 @@
 class EmailTemplate < ActiveRecord::Base
+  include Rails.application.routes.url_helpers
   unloadable
 
   KEYWORDS = [
