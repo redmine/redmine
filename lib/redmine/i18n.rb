@@ -92,12 +92,12 @@ module Redmine
     def format_hours(hours)
       return "" if hours.blank?
 
+      minutes = (hours * 60).round
       if Setting.timespan_format == 'minutes'
-        h = hours.floor
-        m = ((hours - h) * 60).round
+        h, m = minutes.divmod(60)
         "%d:%02d" % [h, m]
       else
-        number_with_delimiter(sprintf('%.2f', hours.to_f), delimiter: nil)
+        number_with_delimiter(sprintf('%.2f', minutes.fdiv(60)), delimiter: nil)
       end
     end
 

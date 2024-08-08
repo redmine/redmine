@@ -2204,6 +2204,21 @@ class ApplicationHelperTest < Redmine::HelperTest
     end
   end
 
+  def test_format_hours_rounds_to_nearest_minute
+    set_language_if_valid 'en'
+
+    # 7h 59m 29s (7.991388888888889) -> 7h 59m (7.98)
+    # 7h 59m 30s (7.991666666666667) -> 8h  0m (8.00)
+    with_settings :timespan_format => 'minutes' do
+      assert_equal '7:59', format_hours(7.991388888888889)
+      assert_equal '8:00', format_hours(7.991666666666667)
+    end
+    with_settings :timespan_format => 'decimal' do
+      assert_equal '7.98', format_hours(7.991388888888889)
+      assert_equal '8.00', format_hours(7.991666666666667)
+    end
+  end
+
   def test_format_hours_should_use_locale_decimal_separator
     to_test = {'en' => '0.75', 'de' => '0,75'}
     with_settings :timespan_format => 'decimal' do
