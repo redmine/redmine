@@ -628,7 +628,7 @@ class Query < ApplicationRecord
     author_values = []
     author_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
     author_values +=
-      users.sort_by(&:status).
+      users.sort_by{|p| [p.status, p]}.
         collect{|s| [s.name, s.id.to_s, l("status_#{User::LABEL_BY_STATUS[s.status]}")]}
     author_values << [l(:label_user_anonymous), User.anonymous.id.to_s]
     author_values
@@ -638,7 +638,7 @@ class Query < ApplicationRecord
     assigned_to_values = []
     assigned_to_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
     assigned_to_values +=
-      (Setting.issue_group_assignment? ? principals : users).sort_by(&:status).
+      (Setting.issue_group_assignment? ? principals : users).sort_by{|p| [p.status, p]}.
         collect{|s| [s.name, s.id.to_s, l("status_#{User::LABEL_BY_STATUS[s.status]}")]}
     assigned_to_values
   end
@@ -668,7 +668,7 @@ class Query < ApplicationRecord
     watcher_values = [["<< #{l(:label_me)} >>", "me"]]
     if User.current.allowed_to?(:view_issue_watchers, self.project, global: true)
       watcher_values +=
-        principals.sort_by(&:status).
+        principals.sort_by{|p| [p.status, p]}.
           collect{|s| [s.name, s.id.to_s, l("status_#{User::LABEL_BY_STATUS[s.status]}")]}
     end
     watcher_values
