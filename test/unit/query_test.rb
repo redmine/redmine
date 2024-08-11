@@ -3344,4 +3344,19 @@ class QueryTest < ActiveSupport::TestCase
 
     assert_equal 'board', query.display_type
   end
+
+  def test_assigned_to_values_should_be_sorted_by_status_and_name
+    User.delete_all
+    20.times do |i|
+      str = format('%03d', i)
+      status = i.even? ? User::STATUS_ACTIVE : User::STATUS_LOCKED
+      User.create!(firstname: str, lastname: str, login: str, mail: "#{str}@example.net", status: status)
+    end
+    query = IssueQuery.new(:name => '_')
+    query.stubs(:users).returns(User.all)
+
+    expected_names = User.order(:status, :firstname).all.map(&:name)
+    assigned_to_values = query.assigned_to_values
+    assert_equal expected_names, assigned_to_values[1..].map(&:first)
+  end
 end
