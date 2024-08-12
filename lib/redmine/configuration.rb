@@ -84,7 +84,7 @@ module Redmine
       def with(settings)
         settings.stringify_keys!
         load unless @config
-        was = settings.keys.inject({}) {|h,v| h[v] = @config[v]; h}
+        was = settings.keys.inject({}) {|h, v| h[v] = @config[v]; h}
         @config.merge! settings
         yield if block_given?
         @config.merge! was

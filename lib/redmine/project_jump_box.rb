@@ -77,7 +77,7 @@ module Redmine
     end
 
     def recently_used_project_ids
-      pref_project_ids(:recently_used_project_ids)[0,recent_projects_count]
+      pref_project_ids(:recently_used_project_ids)[0, recent_projects_count]
     end
 
     def recently_used_project_ids=(new_ids)

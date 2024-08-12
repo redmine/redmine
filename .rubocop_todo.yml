@@ -109,24 +109,6 @@ Layout/MultilineOperationIndentation:
   Enabled: false
 
 # This cop supports safe autocorrection (--autocorrect).
-Layout/SpaceAfterComma:
-  Exclude:
-    - 'lib/redmine/configuration.rb'
-    - 'lib/redmine/helpers/time_report.rb'
-    - 'lib/redmine/imap.rb'
-    - 'lib/redmine/pop3.rb'
-    - 'lib/redmine/project_jump_box.rb'
-    - 'lib/redmine/safe_attributes.rb'
-    - 'lib/redmine/scm/adapters/cvs_adapter.rb'
-    - 'lib/redmine/sort_criteria.rb'
-    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
-    - 'test/functional/imports_controller_test.rb'
-    - 'test/integration/layout_test.rb'
-    - 'test/system/timelog_test.rb'
-    - 'test/unit/attachment_test.rb'
-    - 'test/unit/lib/redmine/field_format/version_field_format_test.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
 Layout/SpaceAfterNot:
   Exclude:
     - 'app/controllers/application_controller.rb'

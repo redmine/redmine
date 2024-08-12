@@ -94,7 +94,7 @@ module Redmine
           cmd_args << path_with_proj(path)
           scm_cmd(*cmd_args) do |io|
             io.each_line() do |line|
-              fields = line.chop.split('/',-1)
+              fields = line.chop.split('/', -1)
               logger.debug(">>InspectLine #{fields.inspect}")
               if fields[0]!="D"
                 time = nil
@@ -362,11 +362,11 @@ module Redmine
         end
 
         def normalize_cvs_path(path)
-          normalize_path(path.gsub("Attic/",''))
+          normalize_path(path.gsub("Attic/", ''))
         end
 
         def normalize_path(path)
-          path.sub(/^(\/)*(.*)/,'\2').sub(/(.*)(,v)+/,'\1')
+          path.sub(/^(\/)*(.*)/, '\2').sub(/(.*)(,v)+/, '\1')
         end
 
         def path_with_proj(path)

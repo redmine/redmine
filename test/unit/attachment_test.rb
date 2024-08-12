@@ -467,7 +467,7 @@ class AttachmentTest < ActiveSupport::TestCase
     assert(
       Attachment.update_attachments(
         attachments,
-        {2 => {:filename => 'newname?.txt'},}
+        {2 => {:filename => 'newname?.txt'}}
       )
     )
     attachment = Attachment.find(2)

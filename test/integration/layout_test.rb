@@ -38,7 +38,7 @@ class LayoutTest < Redmine::IntegrationTest
   end
 
   test "browsing to an unauthorized page should render the base layout" do
-    log_user('jsmith','jsmith')
+    log_user('jsmith', 'jsmith')
 
     get "/admin"
     assert_response :forbidden

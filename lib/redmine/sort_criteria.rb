@@ -34,7 +34,7 @@ module Redmine
     end
 
     def to_param
-      self.collect {|k,o| k + (o == 'desc' ? ':desc' : '')}.join(',')
+      self.collect {|k, o| k + (o == 'desc' ? ':desc' : '')}.join(',')
     end
 
     def to_a
@@ -43,7 +43,7 @@ module Redmine
 
     def add!(key, asc)
       key = key.to_s
-      delete_if {|k,o| k == key}
+      delete_if {|k, o| k == key}
       prepend([key, asc])
       normalize!
     end
@@ -74,10 +74,10 @@ module Redmine
 
     def sort_clause(sortable_columns)
       if sortable_columns.is_a?(Array)
-        sortable_columns = sortable_columns.inject({}) {|h,k| h[k]=k; h}
+        sortable_columns = sortable_columns.inject({}) {|h, k| h[k]=k; h}
       end
 
-      sql = self.collect do |k,o|
+      sql = self.collect do |k, o|
         if s = sortable_columns[k]
           s = [s] unless s.is_a?(Array)
           s.collect {|c| append_order(c, o)}

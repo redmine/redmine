@@ -40,7 +40,7 @@ module Redmine
         apop = (pop_options[:apop].to_s == '1')
         delete_unprocessed = (pop_options[:delete_unprocessed].to_s == '1')
 
-        pop = Net::POP3.APOP(apop).new(host,port)
+        pop = Net::POP3.APOP(apop).new(host, port)
         logger.debug "Connecting to #{host}..." if logger && logger.debug?
         pop.start(pop_options[:username], pop_options[:password]) do |pop_session|
           if pop_session.mails.empty?

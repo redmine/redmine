@@ -76,7 +76,7 @@ module Redmine
     #   # => {'title' => 'My book'}
     def delete_unsafe_attributes(attrs, user=User.current)
       safe = safe_attribute_names(user)
-      attrs.dup.delete_if {|k,v| !safe.include?(k.to_s)}
+      attrs.dup.delete_if {|k, v| !safe.include?(k.to_s)}
     end
 
     # Sets attributes from attrs that are safe

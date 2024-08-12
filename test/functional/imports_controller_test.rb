@@ -435,7 +435,7 @@ class ImportsControllerTest < Redmine::ControllerTest
     )
     ActionMailer::Base.deliveries.clear
     assert_difference 'Issue.count', 3 do
-      post(:run, :params => {:id => import,})
+      post(:run, :params => {:id => import})
       assert_response :found
     end
     actual_email_count = ActionMailer::Base.deliveries.size
