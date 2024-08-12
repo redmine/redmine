@@ -37,7 +37,7 @@ class Redmine::MenuManager::MapperTest < ActiveSupport::TestCase
     menu_mapper = Redmine::MenuManager::Mapper.new(:test_menu, {})
     menu_mapper.push :test_overview, {:controller => 'projects', :action => 'show'}, {}
 
-    menu_mapper.exists?(:test_overview)
+    assert menu_mapper.exists?(:test_overview)
   end
 
   def test_push_onto_parent
