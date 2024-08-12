@@ -18,7 +18,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module EmailAddressesHelper
-
   # Returns a link to enable or disable notifications for the address
   def toggle_email_address_notify_link(address)
     if address.notify?

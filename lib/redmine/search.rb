@@ -19,7 +19,6 @@
 
 module Redmine
   module Search
-
     mattr_accessor :available_search_types
     @@available_search_types = []
 

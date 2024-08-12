@@ -18,7 +18,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module ReportsHelper
-
   def aggregate(data, criteria)
     a = 0
     data.each do |row|

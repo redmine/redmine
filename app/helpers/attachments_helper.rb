@@ -18,7 +18,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module AttachmentsHelper
-
   def container_attachments_edit_path(container)
     object_attachments_edit_path container.class.name.underscore.pluralize, container.id
   end

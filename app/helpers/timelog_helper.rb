@@ -146,5 +146,4 @@ module TimelogHelper
     fallback_path = project ? project_time_entries_path(project) : time_entries_path
     cancel_button_tag(fallback_path)
   end
-
 end

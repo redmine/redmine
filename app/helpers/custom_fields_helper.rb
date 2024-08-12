@@ -18,7 +18,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module CustomFieldsHelper
-
   CUSTOM_FIELDS_TABS = [
     {:name => 'IssueCustomField', :partial => 'custom_fields/index',
      :label => :label_issue_plural},

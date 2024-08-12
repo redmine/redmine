@@ -19,7 +19,6 @@
 
 module Redmine
   module CodesetUtil
-
     def self.replace_invalid_utf8(str)
       return nil if str.nil?
 

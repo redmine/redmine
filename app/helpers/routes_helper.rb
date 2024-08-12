@@ -18,7 +18,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module RoutesHelper
-
   # Returns the path to project issues or to the cross-project
   # issue list if project is nil
   def _project_issues_path(project, *args)

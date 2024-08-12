@@ -19,7 +19,6 @@
 
 module Redmine
   module AccessControl
-
     class << self
       def map
         mapper = Mapper.new

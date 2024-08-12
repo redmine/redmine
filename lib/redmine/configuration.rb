@@ -21,7 +21,6 @@ require 'redmine'
 
 module Redmine
   module Configuration
-
     # Configuration default values
     @defaults = {
       'avatar_server_url' => 'https://www.gravatar.com',

@@ -19,7 +19,6 @@
 
 module Redmine
   module Activity
-
     mattr_accessor :available_event_types, :default_event_types, :providers
 
     @@available_event_types = []

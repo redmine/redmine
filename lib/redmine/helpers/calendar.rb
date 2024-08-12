@@ -19,7 +19,6 @@
 
 module Redmine
   module Helpers
-
     # Simple class to compute the start and end dates of a calendar
     class Calendar
       include Redmine::I18n

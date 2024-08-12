@@ -18,7 +18,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module Redmine
-
   # Exception raised when a plugin cannot be found given its id.
   class PluginNotFound < StandardError; end
 
