@@ -832,6 +832,6 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
   def puts_pass_on_not_utf8
     puts "TODO: This test fails " +
          "when Encoding.default_external is not UTF-8. " +
-         "Current value is '#{Encoding.default_external.to_s}'"
+         "Current value is '#{Encoding.default_external}'"
   end
 end

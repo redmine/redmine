@@ -232,13 +232,6 @@ Lint/ParenthesesAsGroupedExpression:
     - 'test/unit/lib/redmine/export/pdf_test.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
-Lint/RedundantStringCoercion:
-  Exclude:
-    - 'lib/redmine/export/pdf/issues_pdf_helper.rb'
-    - 'test/functional/repositories_filesystem_controller_test.rb'
-    - 'test/functional/repositories_git_controller_test.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
 Lint/SendWithMixinArgument:
   Exclude:
     - 'test/object_helpers.rb'
