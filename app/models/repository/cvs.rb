@@ -59,7 +59,7 @@ class Repository::Cvs < Repository
     entries = scm.entries(path, rev.nil? ? nil : rev.committed_on)
     if entries
       entries.each do |entry|
-        if ( ! entry.lastrev.nil? ) && ( ! entry.lastrev.revision.nil? )
+        if (! entry.lastrev.nil?) && (! entry.lastrev.revision.nil?)
           change =
             filechanges.where(
               :revision => entry.lastrev.revision,

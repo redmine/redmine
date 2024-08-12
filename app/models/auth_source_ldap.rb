@@ -229,7 +229,7 @@ class AuthSourceLdap < AuthSource
     end
     attrs = {}
     search_filter = base_filter & Net::LDAP::Filter.eq(self.attr_login, login)
-    ldap_con.search( :base => self.base_dn,
+    ldap_con.search(:base => self.base_dn,
                      :filter => search_filter,
                      :attributes=> search_attributes) do |entry|
       if onthefly_register?

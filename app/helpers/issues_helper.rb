@@ -392,7 +392,7 @@ module IssuesHelper
 
       content =
         content_tag('hr') +
-        content_tag('p', content_tag('strong', custom_field_name_tag(value.custom_field) )) +
+        content_tag('p', content_tag('strong', custom_field_name_tag(value.custom_field))) +
         content_tag('div', attr_value_tag, class: 'value')
       s << content_tag('div', content, class: "#{value.custom_field.css_classes} attribute")
     end

@@ -146,21 +146,6 @@ Layout/SpaceInsideArrayLiteralBrackets:
 
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnforcedStyle.
-# SupportedStyles: space, compact, no_space
-Layout/SpaceInsideParens:
-  Exclude:
-    - 'app/helpers/issues_helper.rb'
-    - 'app/models/auth_source_ldap.rb'
-    - 'app/models/repository/cvs.rb'
-    - 'lib/redmine/sudo_mode.rb'
-    - 'lib/redmine/wiki_formatting/textile/formatter.rb'
-    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
-    - 'test/unit/changeset_test.rb'
-    - 'test/unit/issue_subtasking_test.rb'
-    - 'test/unit/lib/redmine/export/pdf_test.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
 # SupportedStyles: space, no_space
 Layout/SpaceInsideStringInterpolation:
   Exclude:

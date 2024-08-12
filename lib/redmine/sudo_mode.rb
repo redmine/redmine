@@ -121,7 +121,7 @@ module Redmine
       # display the sudo password form
       def render_sudo_form(param_names)
         @sudo_form ||= SudoMode::Form.new
-        @sudo_form.original_fields = params.slice( *param_names )
+        @sudo_form.original_fields = params.slice(*param_names)
         # a simple 'render "sudo_mode/new"' works when used directly inside an
         # action, but not when called from a before_action:
         respond_to do |format|
@@ -157,7 +157,7 @@ module Redmine
           if controller.api_request?
             true
           elsif SudoMode.possible? && method_matches
-            controller.require_sudo_mode( *parameters )
+            controller.require_sudo_mode(*parameters)
           else
             true
           end
