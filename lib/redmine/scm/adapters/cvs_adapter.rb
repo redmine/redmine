@@ -113,7 +113,6 @@ module Redmine
                   Entry.new(
                     {
                       :name => scm_iconv('UTF-8', @path_encoding, fields[-5]),
-                      #:path => fields[-4].include?(path)?fields[-4]:(path + "/"+ fields[-4]),
                       :path => scm_iconv('UTF-8', @path_encoding, "#{path_locale}/#{fields[-5]}"),
                       :kind => 'file',
                       :size => nil,

@@ -85,12 +85,6 @@ Layout/IndentationWidth:
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowDoxygenCommentStyle, AllowGemfileRubyComment.
-Layout/LeadingCommentSpace:
-  Exclude:
-    - 'lib/redmine/scm/adapters/cvs_adapter.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnforcedStyle, IndentationWidth.
 # SupportedStyles: aligned, indented
 Layout/LineEndStringConcatenationIndentation:
