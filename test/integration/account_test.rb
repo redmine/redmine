@@ -293,7 +293,6 @@ class AccountTest < Redmine::IntegrationTest
 
       assert_equal false, User.find_by_login('jsmith').must_change_passwd?
     end
-
   end
 
   def test_register_with_automatic_activation

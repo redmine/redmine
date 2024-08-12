@@ -113,7 +113,6 @@ class JournalsControllerTest < Redmine::ControllerTest
         end
       end
     end
-
   end
 
   def test_diff_for_description_change

@@ -53,17 +53,6 @@ Layout/EmptyLinesAroundExceptionHandlingKeywords:
     - 'test/functional/settings_controller_test.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
-Layout/EmptyLinesAroundMethodBody:
-  Exclude:
-    - 'app/models/query.rb'
-    - 'db/migrate/001_setup.rb'
-    - 'db/migrate/20111201201315_add_unique_index_to_issue_relations.rb'
-    - 'test/functional/journals_controller_test.rb'
-    - 'test/functional/users_controller_test.rb'
-    - 'test/integration/account_test.rb'
-    - 'test/unit/attachment_test.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: empty_lines, empty_lines_except_namespace, empty_lines_special, no_empty_lines
 Layout/EmptyLinesAroundModuleBody:

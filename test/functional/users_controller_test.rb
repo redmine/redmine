@@ -962,7 +962,6 @@ class UsersControllerTest < Redmine::ControllerTest
     ActionMailer::Base.deliveries.clear
     delete :destroy, :params => {:id => 1, :confirm => User.find(1).login}
     assert_nil ActionMailer::Base.deliveries.last
-
   end
 
   def test_update_unlock_admin_should_send_security_notification

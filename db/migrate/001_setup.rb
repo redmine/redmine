@@ -295,8 +295,6 @@ class Setup < ActiveRecord::Migration[4.2]
     user.hashed_password = "d033e22ae348aeb5660fc2140aec35850c4da997"
     user.admin = true
     user.save
-
-
   end
 
   def self.down

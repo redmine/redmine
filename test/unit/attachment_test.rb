@@ -80,7 +80,6 @@ class AttachmentTest < ActiveSupport::TestCase
   end
 
   def test_copy_should_preserve_attributes
-
     # prevent re-use of data from other attachments with equal contents
     Attachment.where('id <> 1').destroy_all
 
