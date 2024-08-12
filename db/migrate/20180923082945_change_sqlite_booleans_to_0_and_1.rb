@@ -1,5 +1,4 @@
 class ChangeSqliteBooleansTo0And1 < ActiveRecord::Migration[5.2]
-
   COLUMNS = {
     AuthSource => ['onthefly_register', 'tls'],
     CustomFieldEnumeration => ['active'],

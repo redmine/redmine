@@ -20,7 +20,6 @@
 require_relative '../../test_helper'
 
 class RoutingRepositoriesTest < Redmine::RoutingTest
-
   def setup
     @paths = ['path/to/index.html',
               'path/to/file.c', 'path/to/file.yaml', 'path/to/file.txt',

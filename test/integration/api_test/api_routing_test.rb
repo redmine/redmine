@@ -20,7 +20,6 @@
 require_relative '../../test_helper'
 
 class Redmine::ApiTest::ApiRoutingTest < Redmine::ApiTest::Routing
-
   def test_attachments
     should_route 'GET /attachments/1' => 'attachments#show', :id => '1'
     should_route 'PATCH /attachments/1' => 'attachments#update', :id => '1'

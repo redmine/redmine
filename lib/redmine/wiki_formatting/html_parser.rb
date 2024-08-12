@@ -22,7 +22,6 @@ require 'loofah/helpers'
 module Redmine
   module WikiFormatting
     class HtmlParser
-
       class_attribute :tags
       self.tags = {
         'br' => {:post => "\n"},

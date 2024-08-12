@@ -16,7 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Setup < ActiveRecord::Migration[4.2]
-
   class User < ActiveRecord::Base
   end
 

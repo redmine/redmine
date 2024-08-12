@@ -45,28 +45,6 @@ Layout/EmptyLinesAroundAttributeAccessor:
     - 'test/unit/lib/redmine/safe_attributes_test.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: empty_lines, empty_lines_except_namespace, empty_lines_special, no_empty_lines, beginning_only, ending_only
-Layout/EmptyLinesAroundClassBody:
-  Exclude:
-    - 'db/migrate/001_setup.rb'
-    - 'db/migrate/007_create_journals.rb'
-    - 'db/migrate/20110223180953_salt_user_passwords.rb'
-    - 'db/migrate/20131215104612_store_relation_type_in_journal_details.rb'
-    - 'db/migrate/20180923082945_change_sqlite_booleans_to_0_and_1.rb'
-    - 'lib/redmine/notifiable.rb'
-    - 'lib/redmine/scm/adapters/cvs_adapter.rb'
-    - 'lib/redmine/scm/adapters/filesystem_adapter.rb'
-    - 'lib/redmine/wiki_formatting/html_parser.rb'
-    - 'lib/redmine/wiki_formatting/markdown/html_parser.rb'
-    - 'lib/redmine/wiki_formatting/textile/html_parser.rb'
-    - 'test/integration/api_test/api_routing_test.rb'
-    - 'test/integration/lib/redmine/themes_test.rb'
-    - 'test/integration/routing/activities_test.rb'
-    - 'test/integration/routing/repositories_test.rb'
-    - 'test/unit/lib/redmine/field_format/link_format_test.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
 Layout/EmptyLinesAroundExceptionHandlingKeywords:
   Exclude:
     - 'app/controllers/activities_controller.rb'

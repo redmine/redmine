@@ -20,7 +20,6 @@
 require_relative '../../../test_helper'
 
 class ThemesTest < Redmine::IntegrationTest
-
   def setup
     Redmine::Themes.rescan
     @theme = Redmine::Themes.theme('classic')

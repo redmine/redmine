@@ -21,7 +21,6 @@ module Redmine
   module WikiFormatting
     module Textile
       class HtmlParser < Redmine::WikiFormatting::HtmlParser
-
         self.tags = tags.merge(
           'b' => {:pre => '*', :post => '*'},
           'strong' => {:pre => '*', :post => '*'},

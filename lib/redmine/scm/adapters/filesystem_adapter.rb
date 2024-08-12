@@ -26,7 +26,6 @@ module Redmine
   module Scm
     module Adapters
       class FilesystemAdapter < AbstractAdapter
-
         class << self
           def client_available
             true

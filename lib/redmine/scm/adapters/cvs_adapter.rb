@@ -23,7 +23,6 @@ module Redmine
   module Scm
     module Adapters
       class CvsAdapter < AbstractAdapter
-
         # CVS executable name
         CVS_BIN = Redmine::Configuration['scm_cvs_command'] || "cvs"
 

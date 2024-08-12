@@ -20,7 +20,6 @@
 require_relative '../../test_helper'
 
 class RoutingActivitiesTest < Redmine::RoutingTest
-
   def test_activity
     should_route 'GET /activity' => 'activities#index'
     should_route 'GET /activity.atom' => 'activities#index', :format => 'atom'
