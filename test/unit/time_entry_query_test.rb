@@ -136,6 +136,69 @@ class TimeEntryQueryTest < ActiveSupport::TestCase
     assert !query.available_filters.has_key?('project.status')
   end
 
+  def test_user_group_filter_should_consider_spacified_groups_time_entries
+    Group.find(10).users << User.find(2)
+    Group.find(11).users << User.find(3)
+
+    TimeEntry.delete_all
+    t1 = TimeEntry.generate!(:hours => 1.0, :user_id => 2)
+    t2 = TimeEntry.generate!(:hours => 2.0, :user_id => 2)
+    t3 = TimeEntry.generate!(:hours => 4.0, :user_id => 3)
+
+    query = TimeEntryQuery.new(:name => '_')
+    result = query.base_scope.to_a
+    assert result.include?(t1)
+    assert result.include?(t2)
+    assert result.include?(t3)
+    assert_equal 7.0, query.results_scope.sum(:hours)
+
+    query.add_filter('user.group', '=', ['10'])
+    result = query.base_scope.to_a
+    assert result.include?(t1)
+    assert result.include?(t2)
+    assert_not result.include?(t3)
+    assert_equal 3.0, query.results_scope.sum(:hours)
+
+    query.add_filter('user.group', '=', ['10', '11'])
+    result = query.base_scope.to_a
+    assert result.include?(t1)
+    assert result.include?(t2)
+    assert result.include?(t3)
+    assert_equal 7.0, query.results_scope.sum(:hours)
+  end
+
+  def test_user_role_filter_should_consider_spacified_roles_time_entries
+    project = Project.find(1)
+    project.members << Member.new(:user_id => 2, :roles => [Role.find(1)])
+    project.members << Member.new(:user_id => 3, :roles => [Role.find(2)])
+
+    TimeEntry.delete_all
+    t1 = TimeEntry.generate!(:project => project, :hours => 1.0, :user_id => 2)
+    t2 = TimeEntry.generate!(:project => project, :hours => 2.0, :user_id => 2)
+    t3 = TimeEntry.generate!(:project => project, :hours => 4.0, :user_id => 3)
+
+    query = TimeEntryQuery.new(:project => project, :name => '_')
+    result = query.base_scope.to_a
+    assert result.include?(t1)
+    assert result.include?(t2)
+    assert result.include?(t3)
+    assert_equal 7.0, query.results_scope.sum(:hours)
+
+    query.add_filter('user.role', '=', ['1'])
+    result = query.base_scope.to_a
+    assert result.include?(t1)
+    assert result.include?(t2)
+    assert_not result.include?(t3)
+    assert_equal 3.0, query.results_scope.sum(:hours)
+
+    query.add_filter('user.role', '=', ['1', '2'])
+    result = query.base_scope.to_a
+    assert result.include?(t1)
+    assert result.include?(t2)
+    assert result.include?(t3)
+    assert_equal 7.0, query.results_scope.sum(:hours)
+  end
+
   def test_results_scope_should_be_in_the_same_order_when_paginating
     4.times {TimeEntry.generate!}
     q = TimeEntryQuery.new

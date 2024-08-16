@@ -92,6 +92,18 @@ class TimeEntryQuery < Query
       :type => :list_optional, :values => lambda {author_values}
     )
     add_available_filter(
+      "user.group",
+      :type => :list_optional,
+      :name => l("label_attribute_of_user", :name => l(:label_group)),
+      :values => lambda {Group.givable.visible.pluck(:name, :id).map {|name, id| [name, id.to_s]}}
+    )
+    add_available_filter(
+      "user.role",
+      :type => :list_optional,
+      :name => l("label_attribute_of_user", :name => l(:field_role)),
+      :values => lambda {Role.givable.pluck(:name, :id).map {|name, id| [name, id.to_s]}}
+    )
+    add_available_filter(
       "author_id",
       :type => :list_optional, :values => lambda {author_values}
     )
@@ -262,6 +274,53 @@ class TimeEntryQuery < Query
 
   def sql_for_project_status_field(field, operator, value, options={})
     sql_for_field(field, operator, value, Project.table_name, "status")
+  end
+
+  def sql_for_user_group_field(field, operator, value)
+    if operator == '*' # Any group
+      groups = Group.givable
+      operator = '='
+    elsif operator == '!*'
+      groups = Group.givable
+      operator = '!'
+    else
+      groups = Group.where(:id => value).to_a
+    end
+    groups ||= []
+
+    members_of_groups = groups.inject([]) do |user_ids, group|
+      user_ids + group.user_ids
+    end.uniq.compact.sort.collect(&:to_s)
+
+    '(' + sql_for_field('user_id', operator, members_of_groups, TimeEntry.table_name, "user_id", false) + ')'
+  end
+
+  def sql_for_user_role_field(field, operator, value)
+    case operator
+    when "*", "!*"
+      sw = operator == "!*" ? "NOT" : ""
+      nl = operator == "!*" ? "#{TimeEntry.table_name}.user_id IS NULL OR" : ""
+
+      subquery =
+        "SELECT 1" +
+        " FROM #{Member.table_name}" +
+        " WHERE #{TimeEntry.table_name}.project_id = #{Member.table_name}.project_id AND #{Member.table_name}.user_id = #{TimeEntry.table_name}.user_id"
+      "(#{nl} #{sw} EXISTS (#{subquery}))"
+    when "=", "!"
+      role_cond =
+        if value.any?
+          "#{MemberRole.table_name}.role_id IN (" + value.collect{|val| "'#{self.class.connection.quote_string(val)}'"}.join(",") + ")"
+        else
+          "1=0"
+        end
+      sw = operator == "!" ? 'NOT' : ''
+      nl = operator == "!" ? "#{TimeEntry.table_name}.user_id IS NULL OR" : ''
+      subquery =
+        "SELECT 1" +
+        " FROM #{Member.table_name} inner join #{MemberRole.table_name} on members.id = member_roles.member_id" +
+        " WHERE #{TimeEntry.table_name}.project_id = #{Member.table_name}.project_id AND #{Member.table_name}.user_id = #{TimeEntry.table_name}.user_id AND #{role_cond}"
+      "(#{nl} #{sw} EXISTS (#{subquery}))"
+    end
   end
 
   # Accepts :from/:to params as shortcut filters
