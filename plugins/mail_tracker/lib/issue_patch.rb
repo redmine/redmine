@@ -1,6 +1,9 @@
 module IssuePatch
   extend ActiveSupport::Concern
   included do
+
+    attr_accessor :add_pricing, :warranty, :sla_1, :sla_2, :cloud, :rent
+
     # validates :message_id, uniqueness: true, if: message_id.present?
     after_create :assign_watchers
 
@@ -10,6 +13,26 @@ module IssuePatch
                      .where(Issue.visible_condition(args.shift || User.current, *args))
                      .distinct
     }
+
+    def warranty
+      project.warrant_start.present? && project.warrant_month.present? && (project.warrant_start <= Time.now) && ((project.warrant_start + project.warrant_month.to_i.month) >= Time.now)
+    end
+
+    def sla_1
+      project.sla_1_enabled && project.sla_1_start.present? && project.sla_1_month.present? && (project.sla_1_start <= Time.now) && ((project.sla_1_start + project.sla_1_month.to_i.month) >= Time.now)
+    end
+
+    def sla_2
+      project.sla_2_enabled && project.sla_2_start.present? && project.sla_2_month.present? && (project.sla_2_start <= Time.now) && ((project.sla_2_start + project.sla_2_month.to_i.month) >= Time.now)
+    end
+
+    def cloud
+      project.cloud_enabled && project.cloud_start.present? && project.cloud_month.present? && (project.cloud_start <= Time.now) && ((project.cloud_start + project.cloud_month.to_i.month) >= Time.now)
+    end
+
+    def rent
+      project.rent_enabled && project.rent_start.present? && project.rent_month.present? && (project.rent_start <= Time.now) && ((project.rent_start + project.rent_month.to_i.month) >= Time.now)
+    end
 
     def assign_watchers
       [].tap do |watchers|
@@ -32,7 +55,7 @@ module IssuePatch
     end
 
     def editable?(user=User.current)
-      return false unless User.current.allowed_to?(:edit_after_close_issues, project)
+      return false if !User.current.allowed_to?(:edit_after_close_issues, project) && self.closed?
 
       attributes_editable?(user) || notes_addable?(user)
     end
@@ -163,6 +186,53 @@ module IssuePatch
         end
       end
     end
+
+    safe_attributes(
+      'project_id',
+      'tracker_id',
+      'status_id',
+      'category_id',
+      'assigned_to_id',
+      'priority_id',
+      'fixed_version_id',
+      'subject',
+      'description',
+      'start_date',
+      'due_date',
+      'done_ratio',
+      'estimated_hours',
+      'custom_field_values',
+      'custom_fields',
+      'lock_version',
+      'add_pricing',
+      'warranty',
+      'notes',  
+      :if => lambda {|issue, user| issue.new_record? || issue.attributes_editable?(user)})
+    safe_attributes(
+      'notes',
+      :if => lambda {|issue, user| issue.notes_addable?(user)})
+    safe_attributes(
+      'private_notes',
+      :if => lambda {|issue, user| !issue.new_record? && user.allowed_to?(:set_notes_private, issue.project)})
+    safe_attributes(
+      'watcher_user_ids',
+      :if => lambda {|issue, user| issue.new_record? && user.allowed_to?(:add_issue_watchers, issue.project)})
+    safe_attributes(
+      'is_private',
+      :if => lambda do |issue, user|
+        user.allowed_to?(:set_issues_private, issue.project) ||
+          (issue.author_id == user.id && user.allowed_to?(:set_own_issues_private, issue.project))
+      end)
+    safe_attributes(
+      'parent_issue_id',
+      :if => lambda do |issue, user|
+        (issue.new_record? || issue.attributes_editable?(user)) &&
+          user.allowed_to?(:manage_subtasks, issue.project)
+      end)
+    safe_attributes(
+      'deleted_attachment_ids',
+      :if => lambda {|issue, user| issue.attachments_deletable?(user)})
+  
 
   end
 end

@@ -403,6 +403,29 @@ en:
   field_total_estimated_hours: Total estimated time
   field_default_version: Default version
   field_remote_ip: IP address
+  field_warrant_pricing: Warrant template
+  field_non_warrant_pricing: Non-warrant template
+  field_warrant_start: Warranty start time
+  field_warrant_month: Warranty period in months
+  field_add_pricing: Add pricing
+  field_warranty: Warranty
+  field_warrant_comment: Warranty comment
+  field_sla_1_enabled: SLA 1
+  field_sla_2_enabled: SLA 2
+  field_sla_1_start: SLA 1 start time
+  field_sla_2_start: SLA 2 start time
+  field_sla_1_month: SLA 1 period in months
+  field_sla_2_month: SLA 2 period in months
+  field_sla_1_comment: SLA 1 comment
+  field_sla_2_comment: SLA 2 comment
+  field_cloud_enabled: Cloud
+  field_rent_enabled: Rent
+  field_cloud_start: Cloud start time
+  field_rent_start: Rent start time
+  field_cloud_month: Cloud period in months
+  field_rent_month: Rent period in months
+  field_cloud_comment: Cloud comment
+  field_rent_comment: Rent comment
   field_textarea_font: Font used for text areas
   field_updated_by: Updated by
   field_last_updated_by: Last updated by

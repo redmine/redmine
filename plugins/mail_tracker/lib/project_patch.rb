@@ -6,6 +6,29 @@ module ProjectPatch
       has_one :project_email
       has_many :project_watchers, dependent: :destroy
       has_many :watcher_groups, through: :project_watchers, source: :group
+
+      safe_attributes(
+        'warrant_pricing',
+        'non_warrant_pricing',
+        'warrant_start',
+        'warrant_month',
+        'warrant_comment',
+        'sla_1_enabled',
+        'sla_2_enabled',
+        'sla_1_start',
+        'sla_2_start',
+        'sla_1_month',
+        'sla_2_month',
+        'sla_1_comment',
+        'sla_2_comment',
+        'cloud_enabled',
+        'rent_enabled',
+        'cloud_start',
+        'rent_start',
+        'cloud_month',
+        'rent_month',
+        'cloud_comment',
+        'rent_comment')
     end
   end
 

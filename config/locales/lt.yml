@@ -371,6 +371,16 @@ lt:
   field_total_estimated_hours: Visas įsivertinas laikas
   field_default_version: Numatytoji versija
   field_remote_ip: IP adresas
+  field_warrant_pricing: Garantinis šablonas
+  field_non_warrant_pricing: Negarantinis šablonas
+  field_warrant_start: Garantinio laikotarpio pradžia
+  field_warrant_month: Garantinis periodas mėnesiais
+  field_add_pricing: Pridėti kainoraštį
+  field_warranty: Garantinis.
+  field_sla_1: SLA 1.
+  field_sla_2: SLA 2.
+  field_cloud: Cloud.
+  field_rent: Rent.
 
   setting_app_title: Programos pavadinimas
   setting_welcome_text: Pasveikinimas
