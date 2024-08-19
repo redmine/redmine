@@ -1,4 +1,4 @@
-module TrackerTheWise
+module IssuePatch
   extend ActiveSupport::Concern
   included do
     # validates :message_id, uniqueness: true, if: message_id.present?
@@ -32,7 +32,7 @@ module TrackerTheWise
     end
 
     def editable?(user=User.current)
-      return false if status.is_closed && !User.current.allowed_to?(:edit_after_close_issues, project)
+      return false unless User.current.allowed_to?(:edit_after_close_issues, project)
       attributes_editable?(user) || notes_addable?(user)
     end
 

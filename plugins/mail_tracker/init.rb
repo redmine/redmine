@@ -11,7 +11,7 @@ end
 
 Proc.new do
   Group.send(:include, GroupUpdate)
-  Issue.send(:include, TrackerTheWise)
+  Issue.send(:include, IssuePatch)
   IssueQuery.send(:include, QueryTracker)
   Project.send(:include, ProjectPatch)
   ReportsController.send(:include, ReportsControllerPatch)
