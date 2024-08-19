@@ -15,4 +15,5 @@ Proc.new do
   IssueQuery.send(:include, QueryTracker)
   Project.send(:include, ProjectPatch)
   ReportsController.send(:include, ReportsControllerPatch)
+  WatchersController.send(:include, WatchersControllerPatch)
 end.call
