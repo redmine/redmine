@@ -21,7 +21,6 @@ require_relative '../test_helper'
 
 class AvatarsHelperTest < Redmine::HelperTest
   include ERB::Util
-  include Rails.application.routes.url_helpers
   include AvatarsHelper
 
   fixtures :users, :email_addresses

@@ -21,7 +21,6 @@ require_relative '../test_helper'
 
 class WikiHelperTest < Redmine::HelperTest
   include WikiHelper
-  include Rails.application.routes.url_helpers
 
   fixtures :projects, :users,
            :roles, :member_roles, :members,

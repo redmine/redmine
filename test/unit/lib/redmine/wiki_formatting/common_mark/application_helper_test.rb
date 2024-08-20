@@ -23,7 +23,6 @@ class Redmine::WikiFormatting::CommonMark::ApplicationHelperTest < Redmine::Help
   if Object.const_defined?(:CommonMarker)
 
     include ERB::Util
-    include Rails.application.routes.url_helpers
 
     fixtures :projects, :enabled_modules,
              :users, :email_addresses,

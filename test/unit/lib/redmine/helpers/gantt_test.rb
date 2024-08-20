@@ -29,7 +29,6 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
   include AvatarsHelper
 
   include ERB::Util
-  include Rails.application.routes.url_helpers
 
   def setup
     setup_with_controller

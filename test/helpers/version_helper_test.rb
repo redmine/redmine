@@ -20,7 +20,6 @@
 require_relative '../test_helper'
 
 class VersionsHelperTest < Redmine::HelperTest
-  include Rails.application.routes.url_helpers
 
   fixtures :projects, :versions, :enabled_modules,
            :users, :members, :roles, :member_roles,

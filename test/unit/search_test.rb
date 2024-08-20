@@ -181,6 +181,8 @@ class SearchTest < ActiveSupport::TestCase
       r = Issue.search_results('ÖÖ')
       assert_include issue1, r
       assert_include issue2, r
+    else
+      skip
     end
   end
 
@@ -191,6 +193,8 @@ class SearchTest < ActiveSupport::TestCase
       r = Issue.search_results('ÖÖ')
       assert_include issue1, r
       assert_include issue2, r
+    else
+      skip
     end
   end
 

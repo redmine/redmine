@@ -77,4 +77,6 @@ Rails.application.configure do
   # config.action_view.annotate_rendered_view_with_filenames = true
 
   config.secret_key_base = 'a secret token for running the tests'
+
+  config.active_support.assertionless_tests_behavior = :raise
 end

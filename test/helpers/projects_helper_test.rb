@@ -22,7 +22,6 @@ require_relative '../test_helper'
 class ProjectsHelperTest < Redmine::HelperTest
   include ProjectsHelper
   include ERB::Util
-  include Rails.application.routes.url_helpers
 
   fixtures :projects, :trackers, :issue_statuses, :issues,
            :enumerations, :users, :issue_categories,

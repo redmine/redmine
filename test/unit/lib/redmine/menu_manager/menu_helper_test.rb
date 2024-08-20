@@ -22,7 +22,6 @@ require_relative '../../../../test_helper'
 class Redmine::MenuManager::MenuHelperTest < Redmine::HelperTest
   include Redmine::MenuManager::MenuHelper
   include ERB::Util
-  include Rails.application.routes.url_helpers
 
   fixtures :users, :members, :projects, :enabled_modules, :roles, :member_roles
 
