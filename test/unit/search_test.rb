@@ -175,27 +175,23 @@ class SearchTest < ActiveSupport::TestCase
   end
 
   def test_search_should_be_case_insensitive_with_accented_characters
-    unless sqlite? || postgresql?
-      issue1 = Issue.generate!(:subject => "Special chars: ÖÖ")
-      issue2 = Issue.generate!(:subject => "Special chars: Öö")
-      r = Issue.search_results('ÖÖ')
-      assert_include issue1, r
-      assert_include issue2, r
-    else
-      skip
-    end
+    skip if sqlite? || postgresql?
+
+    issue1 = Issue.generate!(:subject => "Special chars: ÖÖ")
+    issue2 = Issue.generate!(:subject => "Special chars: Öö")
+    r = Issue.search_results('ÖÖ')
+    assert_include issue1, r
+    assert_include issue2, r
   end
 
   def test_search_should_be_case_and_accent_insensitive_with_mysql
-    if mysql?
-      issue1 = Issue.generate!(:subject => "OO")
-      issue2 = Issue.generate!(:subject => "oo")
-      r = Issue.search_results('ÖÖ')
-      assert_include issue1, r
-      assert_include issue2, r
-    else
-      skip
-    end
+    skip unless mysql?
+
+    issue1 = Issue.generate!(:subject => "OO")
+    issue2 = Issue.generate!(:subject => "oo")
+    r = Issue.search_results('ÖÖ')
+    assert_include issue1, r
+    assert_include issue2, r
   end
 
   def test_search_should_be_case_and_accent_insensitive_with_postgresql_and_noaccent_extension
