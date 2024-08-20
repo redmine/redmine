@@ -195,18 +195,18 @@ class SearchTest < ActiveSupport::TestCase
   end
 
   def test_search_should_be_case_and_accent_insensitive_with_postgresql_and_noaccent_extension
-    if postgresql?
-      skip unless Redmine::Database.postgresql_version >= 90000
-      # Extension will be rollbacked with the test transaction
-      ActiveRecord::Base.connection.execute("CREATE EXTENSION IF NOT EXISTS unaccent")
-      Redmine::Database.reset
-      assert Redmine::Database.postgresql_unaccent?
-      issue1 = Issue.generate!(:subject => "OO")
-      issue2 = Issue.generate!(:subject => "oo")
-      r = Issue.search_results('ÖÖ')
-      assert_include issue1, r
-      assert_include issue2, r
-    end
+    skip unless postgresql?
+    skip unless Redmine::Database.postgresql_version >= 90000
+
+    # Extension will be rollbacked with the test transaction
+    ActiveRecord::Base.connection.execute("CREATE EXTENSION IF NOT EXISTS unaccent")
+    Redmine::Database.reset
+    assert Redmine::Database.postgresql_unaccent?
+    issue1 = Issue.generate!(:subject => "OO")
+    issue2 = Issue.generate!(:subject => "oo")
+    r = Issue.search_results('ÖÖ')
+    assert_include issue1, r
+    assert_include issue2, r
   ensure
     Redmine::Database.reset
   end
