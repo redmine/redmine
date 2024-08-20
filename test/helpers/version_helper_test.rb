@@ -20,7 +20,6 @@
 require_relative '../test_helper'
 
 class VersionsHelperTest < Redmine::HelperTest
-
   fixtures :projects, :versions, :enabled_modules,
            :users, :members, :roles, :member_roles,
            :trackers, :projects_trackers,
