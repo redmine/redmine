@@ -2,7 +2,7 @@ inherit_from: .rubocop_todo.yml
 
 AllCops:
   TargetRubyVersion: 3.0
-  TargetRailsVersion: 7.1
+  TargetRailsVersion: 7.2
 
   NewCops: enable
 
