@@ -1,6 +1,12 @@
 /* Redmine - project management software
    Copyright (C) 2006-2023  Jean-Philippe Lang */
 
+// CUSTOM FOR SOFTRA
+$(document).ready(function() {
+   $('.search-select').select2();
+});
+// END CUSTOM FOR SOFTRA
+
 function sanitizeHTML(string) {
   var temp = document.createElement('span');
   temp.textContent = string;

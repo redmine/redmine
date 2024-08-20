@@ -12,7 +12,7 @@
 
 <% if @issue.safe_attribute?('project_id') && (!@issue.new_record? || @project.nil? || @issue.copy?) %>
 <p><%= f.select :project_id, project_tree_options_for_select(@issue.allowed_target_projects, :selected => @issue.project), {:required => true},
-                :onchange => "updateIssueFrom('#{escape_javascript update_issue_form_path(@project, @issue)}')" %></p>
+                :onchange => "updateIssueFrom('#{escape_javascript update_issue_form_path(@project, @issue)}')", :class => 'search-select' %></p>
 <% end %>
 
 <% if @issue.safe_attribute? 'tracker_id' %>
