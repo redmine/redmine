@@ -29,7 +29,7 @@ class IssueCustomField < CustomField
   end
 
   def visible_by?(project, user=User.current)
-    super || (roles & user.roles_for_project(project)).present?
+    super || roles.intersect?(user.roles_for_project(project))
   end
 
   def visibility_by_project_condition(project_key=nil, user=User.current, id_column=nil)

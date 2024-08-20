@@ -100,7 +100,7 @@ module Redmine
         end
 
         def position_scope_changed?
-          (saved_changes.keys & self.class.positioned_options[:scope].map(&:to_s)).any?
+          saved_changes.keys.intersect?(self.class.positioned_options[:scope].map(&:to_s))
         end
 
         def shift_positions

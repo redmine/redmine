@@ -398,7 +398,7 @@ class MailHandler < ActionMailer::Base
           if options.key?(:override)
             options[:override]
           else
-            (handler_options[:allow_override] & [attr.to_s.downcase.gsub(/\s+/, '_'), 'all']).present?
+            handler_options[:allow_override].intersect?([attr.to_s.downcase.gsub(/\s+/, '_'), 'all'])
           end
         if override && (v = extract_keyword!(cleaned_up_text_body, attr, options[:format]))
           v

@@ -381,7 +381,7 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
     assert_response :found
     users_to_test.each do |user, fields|
       mails = ActionMailer::Base.deliveries.select {|m| m.to.include? user.mail}
-      if (fields & [@field2, @field3]).any?
+      if fields.intersect?([@field2, @field3])
         assert_equal 1, mails.size, "User #{user.id} was not notified"
       else
         assert_equal 0, mails.size, "User #{user.id} was notified"

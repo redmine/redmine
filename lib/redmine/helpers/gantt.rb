@@ -768,7 +768,7 @@ module Redmine
           children = object.leaf? ? [] : object.children & project_issues(object.project)
           has_children =
             children.present? &&
-              (children.collect(&:fixed_version).uniq & [object.fixed_version]).present?
+              children.collect(&:fixed_version).uniq.intersect?([object.fixed_version])
         when Version
           tag_options[:id] = "version-#{object.id}"
           tag_options[:class] = "version-name"

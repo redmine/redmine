@@ -96,7 +96,7 @@ end
 module ActionView
   LookupContext.prepend(Module.new do
     def formats=(values)
-      if (Array(values) & [:xml, :json]).any?
+      if Array(values).intersect?([:xml, :json])
         values << :api
       end
       super

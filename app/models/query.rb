@@ -417,7 +417,7 @@ class Query < ApplicationRecord
       true
     when VISIBILITY_ROLES
       if project
-        (user.roles_for_project(project) & roles).any?
+        user.roles_for_project(project).intersect?(roles)
       else
         user.memberships.joins(:member_roles).where(:member_roles => {:role_id => roles.map(&:id)}).any?
       end
