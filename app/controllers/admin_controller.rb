@@ -78,7 +78,7 @@ class AdminController < ApplicationController
     @checklist = [
       [:text_default_administrator_account_changed, User.default_admin_account_changed?],
       [:text_file_repository_writable, File.writable?(Attachment.storage_path)],
-      [:text_all_migrations_have_been_run, !ActiveRecord::Base.connection.migration_context.needs_migration?],
+      [:text_all_migrations_have_been_run, !ActiveRecord::Base.connection.pool.migration_context.needs_migration?],
       [:text_minimagick_available,     Object.const_defined?(:MiniMagick)],
       [:text_convert_available,        Redmine::Thumbnail.convert_available?],
       [:text_gs_available,             Redmine::Thumbnail.gs_available?]

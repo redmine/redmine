@@ -234,7 +234,7 @@ class Redmine::PluginTest < ActiveSupport::TestCase
     migration_dir = File.join(@klass.directory, 'db', 'migrate')
 
     Redmine::Plugin::Migrator.current_plugin = plugin
-    context = Redmine::Plugin::MigrationContext.new(migration_dir, ::ActiveRecord::Base.connection.schema_migration)
+    context = Redmine::Plugin::MigrationContext.new(migration_dir, ::ActiveRecord::Base.connection.pool.schema_migration)
     # current_version should be zero because Foo plugin has no migration
     assert_equal 0, context.current_version
   end
