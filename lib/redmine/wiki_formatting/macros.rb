@@ -38,7 +38,10 @@ module Redmine
 
           method_name = "macro_#{name}"
           unless macro_options[:parse_args] == false
-            args = args.split(',').map(&:strip)
+            # Split the arguments by commas, but only if the commas
+            # are not within double quotes
+            args = args.split(/\s*,\s*(?=(?:[^"]*"[^"]*")*[^"]*$)/)
+                       .map {|i| i.gsub(/^"(.*)"$/, '\1').gsub('""', '"')}
           end
 
           begin
@@ -57,7 +60,7 @@ module Redmine
         def extract_macro_options(args, *keys)
           options = {}
           while args.last.to_s.strip =~ %r{^(.+?)\=(.+)$} && keys.include?($1.downcase.to_sym)
-            options[$1.downcase.to_sym] = $2
+            options[$1.downcase.to_sym] = $2.gsub(/^"(.*)"$/, '\1')
             args.pop
           end
           return [args, options]
