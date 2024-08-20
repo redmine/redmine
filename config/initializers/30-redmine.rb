@@ -40,3 +40,5 @@ Rails.application.config.to_prepare do
     Rails.application.config.assets.redmine_extension_paths << paths if paths.present?
   end
 end
+
+Rails.application.deprecators[:redmine] = ActiveSupport::Deprecation.new('7.0', 'Redmine')

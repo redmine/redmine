@@ -25,7 +25,7 @@ module Redmine
       def initialize(*args)
         if args.first.is_a?(ActionController::Base)
           args.shift
-          ActiveSupport::Deprecation.warn "Paginator no longer takes a controller instance as the first argument. Remove it from #new arguments."
+          Rails.application.deprecators[:redmine].warn "Paginator no longer takes a controller instance as the first argument. Remove it from #new arguments."
         end
         item_count, per_page, page, page_param = *args
 
@@ -95,12 +95,12 @@ module Redmine
       end
 
       def items_per_page
-        ActiveSupport::Deprecation.warn "Paginator#items_per_page will be removed. Use #per_page instead."
+        Rails.application.deprecators[:redmine].warn "Paginator#items_per_page will be removed. Use #per_page instead."
         per_page
       end
 
       def current
-        ActiveSupport::Deprecation.warn "Paginator#current will be removed. Use .offset instead of .current.offset."
+        Rails.application.deprecators[:redmine].warn "Paginator#current will be removed. Use .offset instead of .current.offset."
         self
       end
     end
