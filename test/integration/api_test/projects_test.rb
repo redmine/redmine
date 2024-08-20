@@ -416,4 +416,8 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert p = Project.find(1)
     assert p.active?
   end
+
+  def queue_adapter_for_test
+    ActiveJob::QueueAdapters::TestAdapter.new
+  end
 end

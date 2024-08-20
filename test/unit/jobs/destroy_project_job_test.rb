@@ -66,4 +66,8 @@ class DestroyProjectJobTest < ActiveJob::TestCase
       )
     end
   end
+
+  def queue_adapter_for_test
+    ActiveJob::QueueAdapters::TestAdapter.new
+  end
 end

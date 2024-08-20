@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 # Redmine - project management software
 # Copyright (C) 2006-  Jean-Philippe Lang
 #
@@ -65,5 +64,9 @@ class DestroyProjectsJobTest < ActiveJob::TestCase
         }
       )
     end
+  end
+
+  def queue_adapter_for_test
+    ActiveJob::QueueAdapters::TestAdapter.new
   end
 end
