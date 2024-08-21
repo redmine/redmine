@@ -152,7 +152,7 @@ module Redmine
 
       # Yields the given block with the text and parameters
       # for each pagination link and returns a string that represents the links
-      def pagination_links_each(paginator, count=nil, options={}, &block)
+      def pagination_links_each(paginator, count=nil, options={}, &)
         options.assert_valid_keys :per_page_links
 
         per_page_links = options.delete(:per_page_links)
@@ -205,7 +205,7 @@ module Redmine
 
         info = ''.html_safe
         info << content_tag('span', "(#{paginator.first_item}-#{paginator.last_item}/#{paginator.item_count})", :class => 'items') + ' '
-        if per_page_links != false && links = per_page_links(paginator, &block)
+        if per_page_links != false && links = per_page_links(paginator, &)
           info << content_tag('span', links.to_s, :class => 'per-page')
         end
         html << content_tag('span', info)
@@ -214,7 +214,7 @@ module Redmine
       end
 
       # Renders the "Per page" links.
-      def per_page_links(paginator, &block)
+      def per_page_links(paginator, &)
         values = per_page_options(paginator.per_page, paginator.item_count)
         if values.any?
           links = values.collect do |n|

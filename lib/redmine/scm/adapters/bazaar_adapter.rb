@@ -297,7 +297,7 @@ module Redmine
           @aro
         end
 
-        def scm_cmd(*args, &block)
+        def scm_cmd(*args, &)
           full_args = []
           full_args += args
           full_args_locale = []
@@ -308,7 +308,7 @@ module Redmine
             shellout(
               self.class.sq_bin + ' ' +
                 full_args_locale.map {|e| shell_quote e.to_s}.join(' '),
-              &block
+              &
             )
           if $? && $?.exitstatus != 0
             raise ScmCommandAborted, "bzr exited with non-zero status: #{$?.exitstatus}"
@@ -318,7 +318,7 @@ module Redmine
         end
         private :scm_cmd
 
-        def scm_cmd_no_raise(*args, &block)
+        def scm_cmd_no_raise(*args, &)
           full_args = []
           full_args += args
           full_args_locale = []
@@ -329,7 +329,7 @@ module Redmine
             shellout(
               self.class.sq_bin + ' ' +
                 full_args_locale.map {|e| shell_quote e.to_s}.join(' '),
-              &block
+              &
             )
           ret
         end

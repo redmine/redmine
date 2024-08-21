@@ -72,7 +72,7 @@ module Redmine
           @formatter = formatter
         end
 
-        def stream(tokens, &b)
+        def stream(tokens, &)
           token_lines(tokens) do |line|
             line.each do |tok, val|
               yield @formatter.span(tok, val)

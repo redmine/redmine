@@ -137,7 +137,7 @@ class AuthSourceLdap < AuthSource
 
   private
 
-  def with_timeout(&block)
+  def with_timeout(&)
     timeout = self.timeout
     timeout = 20 unless timeout && timeout > 0
     Timeout.timeout(timeout) do

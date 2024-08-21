@@ -131,7 +131,7 @@ class MailerLocalisationTest < ActiveSupport::TestCase
 
   private
 
-  def with_each_user_language(&block)
+  def with_each_user_language(&)
     user = User.find(2)
     valid_languages.each do |lang|
       user.update_attribute :language, lang

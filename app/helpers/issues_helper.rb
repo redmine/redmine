@@ -22,7 +22,7 @@ module IssuesHelper
   include Redmine::Export::PDF::IssuesPdfHelper
   include IssueStatusesHelper
 
-  def issue_list(issues, &block)
+  def issue_list(issues, &)
     ancestors = []
     issues.each do |issue|
       while ancestors.any? &&
@@ -34,7 +34,7 @@ module IssuesHelper
     end
   end
 
-  def grouped_issue_list(issues, query, &block)
+  def grouped_issue_list(issues, query, &)
     ancestors = []
     grouped_query_results(issues, query) do |issue, group_name, group_count, group_totals|
       while ancestors.any? &&

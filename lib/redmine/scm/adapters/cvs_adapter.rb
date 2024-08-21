@@ -152,7 +152,7 @@ module Redmine
         # Returns all revisions found between identifier_from and identifier_to
         # in the repository. both identifier have to be dates or nil.
         # these method returns nothing but yield every result in block
-        def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={}, &block)
+        def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={}, &)
           path_with_project_utf8   = path_with_proj(path)
           path_with_project_locale = scm_iconv(@path_encoding, 'UTF-8', path_with_project_utf8)
           logger.debug "<cvs> revisions path:" +
@@ -381,7 +381,7 @@ module Redmine
           end
         end
 
-        def scm_cmd(*args, &block)
+        def scm_cmd(*args, &)
           full_args = ['-d', root_url]
           full_args += args
           full_args_locale = []
@@ -392,7 +392,7 @@ module Redmine
             shellout(
               self.class.sq_bin + ' ' +
                 full_args_locale.map {|e| shell_quote e.to_s}.join(' '),
-              &block
+              &
             )
           if $? && $?.exitstatus != 0
             raise ScmCommandAborted, "cvs exited with non-zero status: #{$?.exitstatus}"

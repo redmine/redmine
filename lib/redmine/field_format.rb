@@ -187,7 +187,7 @@ module Redmine
         end
       end
 
-      def parse_keyword(custom_field, keyword, &block)
+      def parse_keyword(custom_field, keyword, &)
         separator = Regexp.escape ","
         keyword = keyword.dup.to_s
 

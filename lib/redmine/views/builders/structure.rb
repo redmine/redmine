@@ -27,7 +27,7 @@ module Redmine
           @response = response
         end
 
-        def array(tag, options={}, &block)
+        def array(tag, options={}, &)
           @struct << []
           yield(self)
           ret = @struct.pop

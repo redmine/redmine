@@ -87,7 +87,7 @@ class ActiveSupport::TestCase
     Attachment.storage_path = "#{Rails.root}/test/fixtures/files"
   end
 
-  def with_settings(options, &block)
+  def with_settings(options, &)
     saved_settings = options.keys.inject({}) do |h, k|
       h[k] =
         case Setting[k]
@@ -105,7 +105,7 @@ class ActiveSupport::TestCase
   end
 
   # Yields the block with user as the current user
-  def with_current_user(user, &block)
+  def with_current_user(user, &)
     saved_user = User.current
     User.current = user
     yield
@@ -113,7 +113,7 @@ class ActiveSupport::TestCase
     User.current = saved_user
   end
 
-  def with_locale(locale, &block)
+  def with_locale(locale, &)
     saved_localed = ::I18n.locale
     ::I18n.locale = locale
     yield
@@ -219,13 +219,13 @@ class ActiveSupport::TestCase
 
   # Asserts that a new record for the given class is created
   # and returns it
-  def new_record(klass, &block)
-    new_records(klass, 1, &block).first
+  def new_record(klass, &)
+    new_records(klass, 1, &).first
   end
 
   # Asserts that count new records for the given class are created
   # and returns them as an array order by object id
-  def new_records(klass, count, &block)
+  def new_records(klass, count, &)
     assert_difference "#{klass}.count", count do
       yield
     end

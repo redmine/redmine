@@ -73,8 +73,8 @@ ActionMailer::Base.add_delivery_method :tmp_file, DeliveryMethods::TmpFile
 module ActionController
   module MimeResponds
     class Collector
-      def api(&block)
-        any(:xml, :json, &block)
+      def api(&)
+        any(:xml, :json, &)
       end
     end
   end

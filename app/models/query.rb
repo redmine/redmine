@@ -1097,7 +1097,7 @@ class Query < ApplicationRecord
 
   private
 
-  def grouped_query(&block)
+  def grouped_query(&)
     r = nil
     if grouped?
       r = yield base_group_scope
@@ -1136,13 +1136,13 @@ class Query < ApplicationRecord
       group(group_by_statement)
   end
 
-  def total_for_custom_field(custom_field, scope, &block)
+  def total_for_custom_field(custom_field, scope, &)
     total = custom_field.format.total_for_scope(custom_field, scope)
     total = map_total(total) {|t| custom_field.format.cast_total_value(custom_field, t)}
     total
   end
 
-  def map_total(total, &block)
+  def map_total(total, &)
     if total.is_a?(Hash)
       total.each_key {|k| total[k] = yield total[k]}
     else

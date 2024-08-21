@@ -639,7 +639,7 @@ class Mailer < ActionMailer::Base
   end
 
   # Activates/desactivates email deliveries during +block+
-  def self.with_deliveries(enabled = true, &block)
+  def self.with_deliveries(enabled = true, &)
     was_enabled = ActionMailer::Base.perform_deliveries
     ActionMailer::Base.perform_deliveries = !!enabled
     yield
@@ -652,7 +652,7 @@ class Mailer < ActionMailer::Base
   # Using the asynchronous queue from a Rake task will generally not work because
   # Rake will likely end, causing the in-process thread pool to be deleted, before
   # any/all of the .deliver_later emails are processed
-  def self.with_synched_deliveries(&block)
+  def self.with_synched_deliveries(&)
     adapter = ActionMailer::MailDeliveryJob.queue_adapter
     ActionMailer::MailDeliveryJob.queue_adapter = ActiveJob::QueueAdapters::InlineAdapter.new
     yield

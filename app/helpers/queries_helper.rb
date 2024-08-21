@@ -151,7 +151,7 @@ module QueriesHelper
     tags
   end
 
-  def grouped_query_results(items, query, &block)
+  def grouped_query_results(items, query, &)
     result_count_by_group = query.result_count_by_group
     previous_group, first = false, true
     totals_by_group = query.totalable_columns.inject({}) do |h, column|

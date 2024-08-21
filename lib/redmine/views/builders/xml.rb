@@ -33,16 +33,16 @@ module Redmine
         end
 
         # Overrides Builder::XmlBase#tag! to format timestamps in ISO 8601
-        def tag!(sym, *args, &block)
+        def tag!(sym, *args, &)
           if args.size == 1 && args.first.is_a?(::Time)
-            tag! sym, args.first.xmlschema, &block
+            tag!(sym, args.first.xmlschema, &)
           else
             super
           end
         end
 
-        def array(name, options={}, &block)
-          __send__ name, (options || {}).merge(:type => 'array'), &block
+        def array(name, options={}, &)
+          __send__(name, (options || {}).merge(:type => 'array'), &)
         end
       end
     end

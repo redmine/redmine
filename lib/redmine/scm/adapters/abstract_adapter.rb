@@ -206,8 +206,8 @@ module Redmine
           self.class.logger
         end
 
-        def shellout(cmd, options = {}, &block)
-          self.class.shellout(cmd, options, &block)
+        def shellout(cmd, options = {}, &)
+          self.class.shellout(cmd, options, &)
         end
 
         # Path to the file where scm stderr output is logged

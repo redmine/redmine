@@ -313,7 +313,7 @@ module Redmine
         private_constant :HG_EARLY_BOOL_ARG, :HG_EARLY_LIST_ARG
 
         # Runs 'hg' command with the given args
-        def hg(*args, &block)
+        def hg(*args, &)
           # as of hg 4.4.1, early parsing of bool options is not terminated at '--'
           if args.any? {|s| HG_EARLY_BOOL_ARG.match?(s)}
             raise HgCommandArgumentError, "malicious command argument detected"
@@ -331,7 +331,7 @@ module Redmine
           ret =
             shellout(
               self.class.sq_bin + ' ' + full_args.map {|e| shell_quote e.to_s}.join(' '),
-              &block
+              &
             )
           if $? && $?.exitstatus != 0
             raise HgCommandAborted, "hg exited with non-zero status: #{$?.exitstatus}"

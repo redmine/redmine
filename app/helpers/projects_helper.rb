@@ -194,7 +194,7 @@ module ProjectsHelper
     link_to text, url, remote: true, method: method, class: css
   end
 
-  def grouped_project_list(projects, query, &block)
+  def grouped_project_list(projects, query, &)
     ancestors = []
     grouped_query_results(projects, query) do |project, group_name, group_count, group_totals|
       ancestors.pop while ancestors.any? && !project.is_descendant_of?(ancestors.last)

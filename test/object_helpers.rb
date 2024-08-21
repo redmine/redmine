@@ -72,8 +72,8 @@ module ObjectHelpers
     tracker
   end
 
-  def Tracker.generate!(attributes={}, &block)
-    tracker = Tracker.generate(attributes, &block)
+  def Tracker.generate!(attributes={}, &)
+    tracker = Tracker.generate(attributes, &)
     tracker.save!
     tracker
   end
@@ -102,8 +102,8 @@ module ObjectHelpers
 
   # Generates a saved Issue
   # Doesn't send notifications by default, use :notify => true to send them
-  def Issue.generate!(attributes={}, &block)
-    issue = Issue.generate(attributes, &block)
+  def Issue.generate!(attributes={}, &)
+    issue = Issue.generate(attributes, &)
     issue.save!
     issue.reload
   end
@@ -155,8 +155,8 @@ module ObjectHelpers
     entry
   end
 
-  def TimeEntry.generate!(attributes={}, &block)
-    entry = TimeEntry.generate(attributes, &block)
+  def TimeEntry.generate!(attributes={}, &)
+    entry = TimeEntry.generate(attributes, &)
     entry.save!
     entry
   end

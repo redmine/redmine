@@ -440,7 +440,7 @@ module Redmine
 
         private
 
-        def git_cmd(args, options = {}, &block)
+        def git_cmd(args, options = {}, &)
           repo_path = root_url || url
           full_args = ['--git-dir', repo_path]
           if self.class.client_version_above?([1, 7, 2])
@@ -452,7 +452,7 @@ module Redmine
             shellout(
               self.class.sq_bin + ' ' + full_args.map {|e| shell_quote e.to_s}.join(' '),
               options,
-              &block
+              &
             )
           if $? && $?.exitstatus != 0
             raise ScmCommandAborted, "git exited with non-zero status: #{$?.exitstatus}"

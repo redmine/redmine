@@ -822,7 +822,7 @@ class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
 
   private
 
-  def with_cache(&block)
+  def with_cache(&)
     before = ActionController::Base.perform_caching
     ActionController::Base.perform_caching = true
     yield

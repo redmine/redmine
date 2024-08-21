@@ -26,7 +26,7 @@ module Redmine
     @@providers = Hash.new {|h, k| h[k]=[]}
 
     class << self
-      def map(&block)
+      def map(&)
         yield self
       end
 

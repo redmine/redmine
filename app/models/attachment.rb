@@ -553,7 +553,7 @@ class Attachment < ApplicationRecord
   # Singleton class method is public
   class << self
     # Claims a unique ASCII or hashed filename, yields the open file handle
-    def create_diskfile(filename, directory=nil, &block)
+    def create_diskfile(filename, directory=nil, &)
       timestamp = DateTime.now.strftime("%y%m%d%H%M%S")
       ascii = ''
       if %r{^[a-zA-Z0-9_\.\-]*$}.match?(filename) && filename.length <= 50
@@ -572,7 +572,7 @@ class Attachment < ApplicationRecord
           File.join(path, name),
           flags: File::CREAT | File::EXCL | File::WRONLY,
           binmode: true,
-          &block
+          &
         )
       rescue Errno::EEXIST
         timestamp.succ!

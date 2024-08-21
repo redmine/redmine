@@ -90,9 +90,9 @@ module Redmine
     #     version '0.0.1'
     #     requires_redmine version_or_higher: '3.0.0'
     #   end
-    def self.register(id, &block)
+    def self.register(id, &)
       p = new(id)
-      p.instance_eval(&block)
+      p.instance_eval(&)
 
       # Set a default name if it was not provided during registration
       p.name(id.to_s.humanize) if p.name.nil?
@@ -378,9 +378,9 @@ module Redmine
     #     permission :view_contacts, { :contacts => [:list, :show] }, :public => true
     #     permission :destroy_contacts, { :contacts => :destroy }
     #   end
-    def project_module(name, &block)
+    def project_module(name, &)
       @project_module = name
-      self.instance_eval(&block)
+      self.instance_eval(&)
       @project_module = nil
     end
 

@@ -638,8 +638,8 @@ module ApplicationHelper
   # Yields the given block for each project with its level in the tree
   #
   # Wrapper for Project#project_tree
-  def project_tree(projects, options={}, &block)
-    Project.project_tree(projects, options, &block)
+  def project_tree(projects, options={}, &)
+    Project.project_tree(projects, options, &)
   end
 
   def principals_check_box_tags(name, principals)
@@ -755,7 +755,7 @@ module ApplicationHelper
     elements.any? ? content_tag('p', (args.join(" \xc2\xbb ") + " \xc2\xbb ").html_safe, :class => 'breadcrumb') : nil
   end
 
-  def other_formats_links(&block)
+  def other_formats_links(&)
     concat('<p class="other-formats">'.html_safe + l(:label_export_to))
     yield Redmine::Views::OtherFormatsBuilder.new(self)
     concat('</p>'.html_safe)
@@ -820,8 +820,8 @@ module ApplicationHelper
     end
   end
 
-  def actions_dropdown(&block)
-    content = capture(&block)
+  def actions_dropdown(&)
+    content = capture(&)
     if content.present?
       trigger =
         content_tag('span', l(:button_actions), :class => 'icon-only icon-actions',
@@ -1508,21 +1508,21 @@ module ApplicationHelper
     (blank ? [["(#{l('label_option_auto_lang')})", ""]] : []) + languages_options
   end
 
-  def labelled_form_for(*args, &proc)
+  def labelled_form_for(*args, &)
     args << {} unless args.last.is_a?(Hash)
     options = args.last
     if args.first.is_a?(Symbol)
       options[:as] = args.shift
     end
     options[:builder] = Redmine::Views::LabelledFormBuilder
-    form_for(*args, &proc)
+    form_for(*args, &)
   end
 
-  def labelled_fields_for(*args, &proc)
+  def labelled_fields_for(*args, &)
     args << {} unless args.last.is_a?(Hash)
     options = args.last
     options[:builder] = Redmine::Views::LabelledFormBuilder
-    fields_for(*args, &proc)
+    fields_for(*args, &)
   end
 
   def form_tag_html(html_options)
@@ -1866,17 +1866,17 @@ module ApplicationHelper
     end
   end
 
-  def render_if_exist(options = {}, locals = {}, &block)
+  def render_if_exist(options = {}, locals = {}, &)
     # Remove test_render_if_exist_should_be_render_partial and test_render_if_exist_should_be_render_nil
     # along with this method in Redmine 7.0
     Rails.application.deprecators[:redmine].warn 'ApplicationHelper#render_if_exist is deprecated and will be removed in Redmine 7.0.'
 
     if options[:partial]
       if lookup_context.exists?(options[:partial], lookup_context.prefixes, true)
-        render(options, locals, &block)
+        render(options, locals, &)
       end
     else
-      render(options, locals, &block)
+      render(options, locals, &)
     end
   end
 

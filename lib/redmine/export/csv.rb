@@ -30,7 +30,7 @@ module Redmine
         include Redmine::I18n
 
         class << self
-          def generate(options = {}, &block)
+          def generate(options = {}, &)
             col_sep = (options[:field_separator].presence || l(:general_csv_separator))
             encoding = Encoding.find(options[:encoding]) rescue Encoding.find(l(:general_csv_encoding))
 
@@ -41,7 +41,7 @@ module Redmine
                 (+'').force_encoding(encoding)
               end
 
-            super(str, :col_sep => col_sep, :encoding => encoding, &block)
+            super(str, :col_sep => col_sep, :encoding => encoding, &)
           end
         end
 
