@@ -38,6 +38,7 @@ class GroupTest < ActiveSupport::TestCase
     assert g.save
     g.reload
     assert_equal 'New group', g.name
+    assert_equal true, g.active?
   end
 
   def test_name_should_accept_255_characters

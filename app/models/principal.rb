@@ -136,6 +136,10 @@ class Principal < ApplicationRecord
     nil
   end
 
+  def active?
+    self.status == STATUS_ACTIVE
+  end
+
   def visible?(user=User.current)
     Principal.visible(user).find_by(:id => id) == self
   end

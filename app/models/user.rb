@@ -273,10 +273,6 @@ class User < Principal
     end
   end
 
-  def active?
-    self.status == STATUS_ACTIVE
-  end
-
   def registered?
     self.status == STATUS_REGISTERED
   end
