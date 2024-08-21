@@ -6,7 +6,7 @@
 
 <% if @issue.safe_attribute? 'is_private' %>
 <p style="float:right; margin-right:1em;">
-  <%= f.check_box :is_private, :no_label => true %><label class="inline" for="issue_is_private" id="issue_is_private_label"><%= l(:field_is_private) %></label>
+  <%= f.check_box :is_private, :checked => (@issue.new_record? && @issue.tracker.private_issues_is_checked?) || (!@issue.new_record? && @issue.is_private?), :no_label => true %><label class="inline" for="issue_is_private" id="issue_is_private_label"><%= l(:field_is_private) %></label>
 </p>
 <% end %>
 
