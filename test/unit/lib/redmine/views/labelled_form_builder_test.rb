@@ -33,7 +33,9 @@ class Redmine::Views::LabelledFormBuilderTest < Redmine::HelperTest
     entry.validate
 
     labelled_form_for(entry) do |f|
-      assert_include 'value="2:30"', f.hours_field(:hours)
+      field_html = f.hours_field(:hours)
+      assert_include 'value="2:30"', field_html
+      assert_include 'placeholder="h:mm"', field_html
     end
   end
 
