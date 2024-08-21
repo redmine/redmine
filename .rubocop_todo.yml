@@ -758,13 +758,6 @@ Style/CaseLikeIf:
 Style/ClassAndModuleChildren:
   Enabled: false
 
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: AllowedMethods, AllowedPatterns.
-# AllowedMethods: ==, equal?, eql?
-Style/ClassEqualityComparison:
-  Exclude:
-    - 'app/models/principal.rb'
-
 # This cop supports safe autocorrection (--autocorrect).
 Style/ClassMethods:
   Exclude:

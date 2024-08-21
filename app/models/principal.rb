@@ -159,7 +159,7 @@ class Principal < ApplicationRecord
     return -1 if principal.nil?
     return nil unless principal.is_a?(Principal)
 
-    if self.class.name == principal.class.name
+    if self.instance_of?(principal.class)
       self.to_s.casecmp(principal.to_s)
     else
       # groups after users
