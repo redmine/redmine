@@ -172,6 +172,18 @@ class IssueQuery < Query
       :type => :list, :values => lambda {author_values}
     )
     add_available_filter(
+      "author.group",
+      :type => :list,
+      :values => lambda {Group.givable.visible.pluck(:name, :id).map {|name, id| [name, id.to_s]}},
+      :name => l(:label_attribute_of_author, :name => l(:label_group))
+    )
+    add_available_filter(
+      "author.role",
+      :type => :list,
+      :values => lambda {Role.givable.pluck(:name, :id).map {|name, id| [name, id.to_s]}},
+      :name => l(:label_attribute_of_author, :name => l(:field_role))
+    )
+    add_available_filter(
       "assigned_to_id",
       :type => :list_optional_with_history, :values => lambda {assigned_to_values}
     )
@@ -606,6 +618,32 @@ class IssueQuery < Query
         " WHERE #{Issue.table_name}.project_id = #{Member.table_name}.project_id AND #{Member.table_name}.user_id = #{Issue.table_name}.assigned_to_id AND #{role_cond}"
       "(#{nl} #{sw} EXISTS (#{subquery}))"
     end
+  end
+
+  def sql_for_author_group_field(field, operator, value)
+    groups = value.empty? ? Group.givable : Group.where(:id => value).to_a
+
+    author_groups = groups.inject([]) do |user_ids, group|
+      user_ids + group.user_ids + [group.id]
+    end.uniq.compact.sort.collect(&:to_s)
+
+    '(' + sql_for_field("author_id", operator, author_groups, Issue.table_name, "author_id", false) + ')'
+  end
+
+  def sql_for_author_role_field(field, operator, value)
+    role_cond =
+      if value.any?
+        "#{MemberRole.table_name}.role_id IN (" + value.collect{|val| "'#{self.class.connection.quote_string(val)}'"}.join(",") + ")"
+      else
+        "1=0"
+      end
+    sw = operator == "!" ? 'NOT' : ''
+    nl = operator == "!" ? "#{Issue.table_name}.author_id IS NULL OR" : ''
+    subquery =
+      "SELECT 1" +
+      " FROM #{Member.table_name} inner join #{MemberRole.table_name} on members.id = member_roles.member_id" +
+      " WHERE #{Issue.table_name}.project_id = #{Member.table_name}.project_id AND #{Member.table_name}.user_id = #{Issue.table_name}.author_id AND #{role_cond}"
+    "(#{nl} #{sw} EXISTS (#{subquery}))"
   end
 
   def sql_for_fixed_version_status_field(field, operator, value)
