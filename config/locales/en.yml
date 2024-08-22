@@ -627,6 +627,11 @@ en:
   project_module_calendar: Calendar
   project_module_gantt: Gantt
 
+  label_warranty: Warranty
+  label_sla_1_enabled: SLA 1
+  label_sla_2_enabled: SLA 2
+  label_cloud_enabled: Cloud
+  label_rent_enabled: Rent
   label_user: User
   label_user_plural: Users
   label_user_new: New user
