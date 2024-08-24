@@ -23,7 +23,7 @@
                :rev        => nil},
                :method     => :get) do %>
     <%= text_field_tag 'rev', @rev, :size => 8 %>
-    <%= submit_tag l(:button_view), :name => nil %>
+    <%= submit_tag 'OK', :name => nil %>
   <% end %>
 </div>
 <%= render :partial => 'changeset' %>
