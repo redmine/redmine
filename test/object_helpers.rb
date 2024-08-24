@@ -288,7 +288,7 @@ module TrackerObjectHelpers
     end
   end
 end
-Tracker.send :include, TrackerObjectHelpers
+Tracker.include TrackerObjectHelpers
 
 module IssueObjectHelpers
   def close!
@@ -300,4 +300,4 @@ module IssueObjectHelpers
     Issue.generate!(attributes.merge(:parent_issue_id => self.id))
   end
 end
-Issue.send :include, IssueObjectHelpers
+Issue.include IssueObjectHelpers

@@ -231,11 +231,6 @@ Lint/ParenthesesAsGroupedExpression:
     - 'test/unit/attachment_test.rb'
     - 'test/unit/lib/redmine/export/pdf_test.rb'
 
-# This cop supports safe autocorrection (--autocorrect).
-Lint/SendWithMixinArgument:
-  Exclude:
-    - 'test/object_helpers.rb'
-
 Lint/ShadowingOuterLocalVariable:
   Enabled: false
 
