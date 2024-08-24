@@ -70,10 +70,26 @@ class MemberRole < ApplicationRecord
   def add_role_to_subprojects
     return if member.project.leaf?
 
-    member.project.children.where(:inherit_members => true).ids.each do |subproject_id|
-      child_member = Member.find_or_initialize_by(:project_id => subproject_id, :user_id => member.user_id)
-      child_member.member_roles << MemberRole.new(:role => role, :inherited_from => id)
-      child_member.save!
+    ActiveRecord::Base.transaction do
+      subproject_ids = member.project.children.where(:inherit_members => true).pluck(:id)
+      existing_member_ids = []
+      new_member_attrs = []
+      subproject_ids.each do |subproject_id|
+        child_member = Member.find_or_initialize_by(:project_id => subproject_id, :user_id => member.user_id)
+        if child_member.id.present?
+          existing_member_ids << child_member.id
+        else
+          new_member_attrs << child_member.attributes.except('id')
+        end
+      end
+      new_member_ids = Member.insert_all!(new_member_attrs).to_a.pluck("id")
+      all_member_ids = existing_member_ids + new_member_ids
+      member_role_attrs = []
+      all_member_ids.each do |member_id|
+        member_role = MemberRole.new(:member_id => member_id, :role_id => role_id, :inherited_from => id)
+        member_role_attrs << member_role.attributes.except('id')
+      end
+      MemberRole.insert_all!(member_role_attrs)
     end
   end
 

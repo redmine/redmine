@@ -1037,25 +1037,53 @@ class Project < ApplicationRecord
   end
 
   def remove_inherited_member_roles
-    member_roles = MemberRole.where(:member_id => membership_ids).to_a
-    member_role_ids = member_roles.map(&:id)
-    member_roles.each do |member_role|
-      if member_role.inherited_from && !member_role_ids.include?(member_role.inherited_from)
-        member_role.destroy
+    MemberRole.transaction do
+      member_roles = MemberRole.where(:member_id => membership_ids).to_a
+      member_role_ids = member_roles.map(&:id)
+      target_member_role_ids = []
+      member_roles.each do |member_role|
+        if member_role.inherited_from && !member_role_ids.include?(member_role.inherited_from)
+          target_member_role_ids.append(member_role.id)
+        end
+      end
+      if target_member_role_ids.present?
+        MemberRole.where(:id => target_member_role_ids).destroy_all
       end
     end
   end
 
   def add_inherited_member_roles
-    if inherit_members? && parent
-      parent.memberships.each do |parent_member|
-        member = Member.find_or_initialize_by(:project_id => self.id, :user_id => parent_member.user_id)
-        parent_member.member_roles.each do |parent_member_role|
-          member.member_roles <<
-            MemberRole.new(:role => parent_member_role.role,
-                           :inherited_from => parent_member_role.id)
+    if inherit_members? && parent && parent.memberships.present?
+      ActiveRecord::Base.transaction do
+        existing_member_ids = []
+        new_member_attrs = []
+        parent.memberships.each do |parent_member|
+          member = Member.find_or_initialize_by(:project_id => self.id, :user_id => parent_member.user_id)
+          if member.id.present?
+            existing_member_ids << member.id
+          else
+            new_member_attrs << member.attributes.except('id')
+          end
         end
-        member.save!
+        new_member_ids = Member.insert_all!(new_member_attrs).to_a.pluck("id")
+        all_member_ids = existing_member_ids + new_member_ids
+        member_role_attrs = []
+        parent.memberships.each do |parent_member|
+          # Member should exist
+          member = Member.find_by(:project_id => self.id, :user_id => parent_member.user_id)
+          parent_member.member_roles.each do |parent_member_role|
+            member_role = MemberRole.new(
+              :member_id => member.id,
+              :role => parent_member_role.role,
+              :inherited_from => parent_member_role.id
+            )
+            member_role_attrs << member_role.attributes.except('id')
+          end
+        end
+        inserted_ids = MemberRole.insert_all!(member_role_attrs).to_a.pluck("id")
+        inserted_ids.each do |id|
+          MemberRole.find(id).run_callbacks(:create)
+        end
       end
       memberships.reset
     end
