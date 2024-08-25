@@ -113,13 +113,13 @@ class AttachmentTest < ActiveSupport::TestCase
   end
 
   def test_filesize_greater_than_2gb_should_be_supported
-    with_settings :attachment_max_size => (50.gigabyte / 1024) do
+    with_settings :attachment_max_size => (50.gigabytes / 1024) do
       a = Attachment.create!(:container => Issue.find(1),
                              :file => uploaded_test_file("testfile.txt", "text/plain"),
                              :author => User.find(1))
-      a.filesize = 20.gigabyte
+      a.filesize = 20.gigabytes
       a.save!
-      assert_equal 20.gigabyte, a.reload.filesize
+      assert_equal 20.gigabytes, a.reload.filesize
     end
   end
 

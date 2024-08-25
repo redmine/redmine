@@ -201,7 +201,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
   def test_show_text_file_should_show_other_if_too_big
     @request.session[:user_id] = 2
     with_settings :file_max_size_displayed => 512 do
-      Attachment.find(4).update_attribute :filesize, 754.kilobyte
+      Attachment.find(4).update_attribute :filesize, 754.kilobytes
       get(:show, :params => {:id => 4})
       assert_response :success
       assert_equal 'text/html', @response.media_type

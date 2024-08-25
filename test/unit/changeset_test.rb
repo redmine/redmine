@@ -661,10 +661,10 @@ class ChangesetTest < ActiveSupport::TestCase
                       :committed_on => Time.now,
                       :revision     => '123',
                       :scmid        => '12345',
-                      :comments     => "a" * 500.kilobyte)
+                      :comments     => "a" * 500.kilobytes)
     assert c.save
     c.reload
-    assert_equal 500.kilobyte, c.comments.size
+    assert_equal 500.kilobytes, c.comments.size
   end
 
   def test_identifier
