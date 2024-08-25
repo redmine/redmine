@@ -79,7 +79,7 @@ class MessagesController < ApplicationController
     @reply.safe_attributes = params[:reply]
     @reply.save_attachments(params[:attachments])
     @topic.children << @reply
-    if !@reply.new_record?
+    unless @reply.new_record?
       call_hook(:controller_messages_reply_after_save, {:params => params, :message => @reply})
       render_attachment_warning_if_needed(@reply)
     end

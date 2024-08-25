@@ -52,7 +52,7 @@ class Repository::Cvs < Repository
 
   def scm_entries(path=nil, identifier=nil)
     rev = nil
-    if ! identifier.nil?
+    unless identifier.nil?
       rev = changesets.find_by_revision(identifier)
       return nil if rev.nil?
     end
@@ -80,7 +80,7 @@ class Repository::Cvs < Repository
 
   def cat(path, identifier=nil)
     rev = nil
-    if ! identifier.nil?
+    unless identifier.nil?
       rev = changesets.find_by_revision(identifier)
       return nil if rev.nil?
     end
@@ -89,7 +89,7 @@ class Repository::Cvs < Repository
 
   def annotate(path, identifier=nil)
     rev = nil
-    if ! identifier.nil?
+    unless identifier.nil?
       rev = changesets.find_by_revision(identifier)
       return nil if rev.nil?
     end

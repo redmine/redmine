@@ -301,7 +301,7 @@ class CustomField < ApplicationRecord
 
     unless errs.any?
       if value.is_a?(Array)
-        if !multiple?
+        unless multiple?
           errs << ::I18n.t('activerecord.errors.messages.invalid')
         end
         if is_required? && value.detect(&:present?).nil?

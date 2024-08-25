@@ -56,7 +56,7 @@ module RepositoriesHelper
       case change.action
       when 'A'
         # Detects moved/copied files
-        if !change.from_path.blank?
+        if change.from_path.present?
           change.action =
             @changeset.filechanges.detect {|c| c.action == 'D' && c.path == change.from_path} ? 'R' : 'C'
         end

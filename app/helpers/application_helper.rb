@@ -916,7 +916,7 @@ module ApplicationHelper
     s = StringScanner.new(text)
     tags = []
     parsed = +''
-    while !s.eos?
+    until s.eos?
       s.scan(/(.*?)(<(\/)?(pre|code)(.*?)>|\z)/im)
       text, full_tag, closing, tag = s[1], s[2], s[3], s[4]
       if tags.empty?

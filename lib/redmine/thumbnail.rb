@@ -40,7 +40,7 @@ module Redmine
       unless File.exist?(target)
         # Make sure we only invoke Imagemagick if the file type is allowed
         mime_type = File.open(source) {|f| Marcel::MimeType.for(f)}
-        return nil if !ALLOWED_TYPES.include? mime_type
+        return nil unless ALLOWED_TYPES.include? mime_type
         return nil if is_pdf && mime_type != "application/pdf"
 
         directory = File.dirname(target)

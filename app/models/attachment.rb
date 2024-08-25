@@ -412,12 +412,12 @@ class Attachment < ApplicationRecord
 
     return if src == dest
 
-    if !FileUtils.mkdir_p(File.dirname(dest))
+    unless FileUtils.mkdir_p(File.dirname(dest))
       logger.error "Could not create directory #{File.dirname(dest)}" if logger
       return
     end
 
-    if !FileUtils.mv(src, dest)
+    unless FileUtils.mv(src, dest)
       logger.error "Could not move attachment from #{src} to #{dest}" if logger
       return
     end

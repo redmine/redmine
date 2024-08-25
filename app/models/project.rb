@@ -121,6 +121,7 @@ class Project < ApplicationRecord
   def initialize(attributes=nil, *args)
     super
 
+    # rubocop:disable Style/NegatedIf
     initialized = (attributes || {}).stringify_keys
     if !initialized.key?('identifier') && Setting.sequential_project_identifiers?
       self.identifier = Project.next_identifier
@@ -139,6 +140,7 @@ class Project < ApplicationRecord
         self.trackers = Tracker.sorted.to_a
       end
     end
+    # rubocop:enable Style/NegatedIf
   end
 
   def identifier=(identifier)

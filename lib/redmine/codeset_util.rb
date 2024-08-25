@@ -24,7 +24,7 @@ module Redmine
 
       str = str.dup
       str.force_encoding('UTF-8')
-      if ! str.valid_encoding?
+      unless str.valid_encoding?
         str = str.encode("UTF-16LE", :invalid => :replace,
               :undef => :replace, :replace => '?').encode("UTF-8")
       end

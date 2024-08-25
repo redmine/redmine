@@ -81,7 +81,7 @@ module Redmine
           }
         }
 
-        if !thresh.empty?
+        unless thresh.empty?
           link = links[thresh.length-1]
           while link
             mvector[link[1]] = link[2]

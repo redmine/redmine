@@ -261,7 +261,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_login
-    if !User.current.logged?
+    unless User.current.logged?
       # Extract only the basic url parameters on non-GET requests
       if request.get?
         url = request.original_url
@@ -297,7 +297,7 @@ class ApplicationController < ActionController::Base
   def require_admin
     return unless require_login
 
-    if !User.current.admin?
+    unless User.current.admin?
       render_403
       return false
     end
@@ -519,7 +519,7 @@ class ApplicationController < ActionController::Base
     path = uri.to_s
     # Ensure that the remaining URL starts with a slash, followed by a
     # non-slash character or the end
-    if !%r{\A/([^/]|\z)}.match?(path)
+    unless %r{\A/([^/]|\z)}.match?(path)
       return false
     end
 
