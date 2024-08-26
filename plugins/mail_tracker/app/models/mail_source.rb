@@ -152,7 +152,7 @@ class MailSource < ActiveRecord::Base
     begin
       mail.deliver!
     rescue StandardError => e
-      MailTrackerCustomLogger.logger.info("Delivering error - #{e}")
+      MailTrackerCustomLogger.logger.error("Delivering error - #{e}")
       raise e
     end
   end

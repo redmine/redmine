@@ -50,17 +50,17 @@ class MailTrackerJob < ApplicationJob
       @mail_source.mark_as_seen(email.message_id)
     rescue ActiveRecord::RecordInvalid => e
       if e.to_s.include?('Message has already been taken')
-        log_string = "Taken message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}, Trace: #{e.backtrace}"
+        log_string = "Taken message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Error message: #{e}, Trace: #{e.backtrace}"
         MailTrackerCustomLogger.logger.error(log_string)
         @mail_source.mark_as_seen(email.message_id)
       else
         Sentry.capture_exception(e)
-        log_string = "Error message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}, Error: #{e}, Trace: #{e.backtrace}"
+        log_string = "Error message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}, Error message: #{e}, Error: #{e}, Trace: #{e.backtrace}"
         MailTrackerCustomLogger.logger.error(log_string)
       end
     rescue => e
       Sentry.capture_exception(e)
-      log_string = "General error message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}, Error: #{e}, Trace: #{e.backtrace}"
+      log_string = "General error message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}, Error message: #{e}, Error: #{e}, Trace: #{e.backtrace}"
       MailTrackerCustomLogger.logger.error(log_string)
     ensure
       log_string = "Message id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}, Issue params: #{@issue_params}\n***"
