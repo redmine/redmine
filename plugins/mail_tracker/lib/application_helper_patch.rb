@@ -12,24 +12,40 @@ module ApplicationHelperPatch
           /\*\*.*?\*\*/, # Bold text like **bold**
           /\*.*?\*/,     # Italic text like *italic*
           /\[.*?\]\(.*?\)/, # Links like [text](url)
-          /\!\[.*?\]\(.*?\)/ # Images like ![alt text](url)
+          /\!\[.*?\]\(.*?\)/, # Images like ![alt text](url)
+          /<h\d>/,  # Headings like <h1>, <h2>, <h3>, etc.
+          /<strong>.*?<\/strong>/, # Bold text like <strong>bold</strong>
+          /<em>.*?<\/em>/,     # Italic text like <em>italic</em>
+          /<a.*?>.*?<\/a>/, # Links like <a href="url">text</a>
+          /<img.*?>/, # Images like <img src="url" alt="alt text">
+          /<table.*?>.*?<\/table>/, # Tables like <table>...</table>
+          /<ul>.*?<\/ul>/, # Unordered lists like <ul>...</ul>
+          /<ol>.*?<\/ol>/, # Ordered lists like <ol>...</ol>
+          /<li>.*?<\/li>/, # List items like <li>...</li>
+          /<code>.*?<\/code>/, # Code blocks like <code>...</code>
+          /<pre>.*?<\/pre>/, # Preformatted text like <pre>...</pre>
+          /<blockquote>.*?<\/blockquote>/, # Blockquotes like <blockquote>...</blockquote>
+          /<hr>/, # Horizontal rules like <hr>
+          /<br>/, # Line breaks like <br>
+          /<p>.*?<\/p>/, # Paragraphs like <p>...</p>
+          /<span.*?>.*?<\/span>/, # Spans like <span>...</span>
+          /<div.*?>.*?<\/div>/ # Divs like <div>...</div>
         ]
       
         # Textile patterns
         textile_patterns = [
-          /^h[1-6]\.\s/,   # Headings like h1., h2., etc.
-          /\*\*.*?\*\*/,   # Bold text like **bold**
-          /_.*?_/,         # Italic text like _italic_
-          /\".*?\":.*?/,   # Links like "text":url
-          /!\{.*?\}/       # Images like !{image-url}
+          /^\s*h\d\.\s/,  # Headings like h1., h2., h3., etc.
+          /\*\*.*?\*\*/, # Bold text like **bold**
+          /\*.*?\*/,     # Italic text like *italic*
+          /\[.*?\]\(.*?\)/, # Links like [text](url)
+          /\!\[.*?\]\(.*?\)/, # Images like ![alt text](url)
         ]
-      
+
         # Check for Markdown patterns
         markdown_detected = markdown_patterns.any? { |pattern| text.match?(pattern) }
       
         # Check for Textile patterns
         textile_detected = textile_patterns.any? { |pattern| text.match?(pattern) }
-      
         if markdown_detected && !textile_detected
           'common_mark'
         elsif textile_detected && !markdown_detected
