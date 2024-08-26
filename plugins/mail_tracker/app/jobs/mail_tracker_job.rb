@@ -98,7 +98,8 @@ class MailTrackerJob < ApplicationJob
     temp_mail.subject = email.subject ? "RE: #{email.subject}" : DEFAULT_EMAIL_SUBJECT
     temp_mail.html_part = Mail::Part.new
     temp_mail.html_part.content_type = 'text/html; charset=UTF-8'
-    temp_mail.html_part.body = ApplicationController.helpers.textilizable(replaced_body_keywords)
+    # temp_mail.html_part.body = ApplicationController.helpers.textilizable(replaced_body_keywords)
+    temp_mail.html_part.body = replaced_body_keywords
 
     unless email.from.present? && %w[support-ru support-en support-lt admin-ru admin-en
                                     admin-lt].include?(Mail::Address.new([email.from].flatten.first).local)
