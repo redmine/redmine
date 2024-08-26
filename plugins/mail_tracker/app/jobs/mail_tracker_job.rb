@@ -206,7 +206,7 @@ class MailTrackerJob < ApplicationJob
       "subject": email.subject.try(:truncate, 255) || 'No subject',
       "tracker_id": @mail_tracking_rule&.tracker_name&.presence || 5, # 'Support'
       "project_id": @mail_tracking_rule&.assigned_project_id&.presence || @mail_source.no_rules_project_id,
-      "author_id": @mail_tracking_rule&.login_name&.presence || @mail_source.default_user_id,
+      "author_id": User.find_by_login(@mail_tracking_rule&.login_name).try(:id) || @mail_source.default_user_id,
       "status_id": IssueStatus.find_by(name: 'New')&.id&.presence || 1,
       "is_private": false,
       "description": content&.to_s&.gsub("\u0000", ''),
