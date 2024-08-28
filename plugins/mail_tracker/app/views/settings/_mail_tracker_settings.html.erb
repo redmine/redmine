@@ -14,6 +14,7 @@
      <li class="active"><a href="#setting" data-toggle="tab">Settings</a></li>
      <li><a href="#validations" data-toggle="tab">Clean up</a></li>
      <li><a href="#email-text" data-toggle="tab">Email template</a></li>
+     <li><a href="#email-blacklist" data-toggle="tab">Blacklist</a></li>
   </ul>
 
   <div class="tab-content">
@@ -164,6 +165,24 @@
           </div>
         <% end %>
        <% end %>
+    </div>
+    <div id="email-blacklist" class="tab-pane">
+      <div class="col-xs-12 form-group" style="margin-top:15px;">
+        <div class="alert alert-danger" id="blacklist-error" style="display: none;"></div>
+
+        <%= simple_form_for MailSourceBlacklist.new, :url => mail_source_blacklists_path, :method => :post , remote: true, class: "" do |f| %>
+          <div class="col-xs-12 col-md-6 col-lg-4">
+            <%= f.label :email, 'Email'%>
+            <%= f.text_field :email, required: true, class: "form-control", placeholder: 'test@test.com' %>
+          </div>
+
+          <%= f.submit "Add to blacklist" , class: "btn btn-success", style: "margin-top: 24px;" %>
+        <% end %>
+      </div>
+    
+      <div class="col-xs-12 form-group" id="blacklist-table">
+        <%= render partial: 'mail_source_blacklists' %>
+      </div>
     </div>
   </div>
 </div>

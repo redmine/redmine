@@ -18,12 +18,6 @@ class MailSource < ActiveRecord::Base
   REDIRECT_URI = 'https://88.216.169.97:53016/oauth/callback' # production
   # REDIRECT_URI = 'https://mail.softra.lt:53019/oauth/callback'
 
-  # def initialize
-  #   @email = self.first.username
-  #   @password = self.first.password
-  #   @server = self.first.host
-  #   @ssl = true
-  # end
   def default_tracker_id
     default_tracker = Tracker.find_by(name: "Support")
     default_tracker.present? ? default_tracker.id : 1

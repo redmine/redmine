@@ -1,0 +1,29 @@
+<table class="table table-bordered table-condensed table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Email</th>
+      <th>Created by</th>
+      <th>Created at</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody class="mail-source-blacklist-tbody">
+    <% MailSourceBlacklist.all.order(id: :desc).each do |mail_source_blacklist| %>
+      <tr>
+        <td><%= mail_source_blacklist.id %></td>
+        <td><%= mail_source_blacklist.email %></td>
+        <td><%= mail_source_blacklist.user.login %></td>
+        <td><%= mail_source_blacklist.created_at.strftime('%Y-%M-%d') %></td>
+        <td>
+          <%= link_to l(:button_delete), mail_source_blacklist_path(mail_source_blacklist),
+            :method => :delete,
+            :remote => true,
+            :data => {:confirm => l(:text_are_you_sure)},
+            :class => "icon icon-del", 
+            style: "color: white" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

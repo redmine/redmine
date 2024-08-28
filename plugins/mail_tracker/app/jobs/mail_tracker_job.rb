@@ -18,12 +18,22 @@ class MailTrackerJob < ApplicationJob
     @mail_source = MailSource.find_by(id: mail_source_id)
     @mail_source&.unseen&.each do |email|
       log_string = "*****\nMessage id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}"
+      blacklist_check(email.from)
       MailTrackerCustomLogger.logger.info(log_string)
       create_issue_from_email(email)
     end
   end
 
   private
+
+  def blacklist_check(email)
+    if MailSourceBlacklist.blacklisted?(email)
+      log_string = "Blacklisted email: #{email}"
+      MailTrackerCustomLogger.logger.info(log_string)
+      @mail_source.mark_as_seen(email.message_id)
+      raise StandardError, log_string
+    end
+  end
 
   def create_issue_from_email(email)
     content_part = email.html_part.presence || email.text_part.presence || email

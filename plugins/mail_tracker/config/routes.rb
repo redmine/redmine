@@ -13,8 +13,6 @@ resources :mail_sources do
   end
 end
 
-resources :email_templates
-
 resources :mail_tracking_rules do
   collection do
     get 'add_rule'
@@ -26,3 +24,6 @@ scope '/projects/:project_id', :as => 'project' do
     put 'watchers'
   end
 end
+
+resources :email_templates, only: [:create, :destroy]
+resources :mail_source_blacklists
