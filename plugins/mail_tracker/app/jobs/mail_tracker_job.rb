@@ -248,15 +248,17 @@ class MailTrackerJob < ApplicationJob
     t = mail_tracking_rule.end_duration.seconds
     mm, ss = t.divmod(60)
     hh, mm = mm.divmod(60)
+  
     @due_date ||= case mail_tracking_rule.priority
                   when 'Low'
                     hh.business_hours.after(Time.now + mm.minutes)
                   when 'Medium'
                     BusinessTime::Config.work_week = [:mon, :tue, :wed, :thu, :fri, :sat, :sun]
-                    hh.business_hours.after(Time.now + mm)
-                    BusinessTime::Config.work_week = [:mon, :tue, :wed, :thu, :fri]
+                    result = hh.business_hours.after(Time.now + mm.minutes)
+                    BusinessTime::Config.work_week = [:mon, :tue, :wed, :thu, :fri] # Reset work week
+                    result
                   when 'High'
-                    (Time.now + hh.hours + mm.minutes)
+                    Time.now + hh.hours + mm.minutes
                   else
                     nil
                   end
