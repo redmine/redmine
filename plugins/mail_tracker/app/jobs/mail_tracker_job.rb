@@ -27,7 +27,6 @@ class MailTrackerJob < ApplicationJob
 
   def blacklisted(email)
     if MailSourceBlacklist.blacklisted?(email)
-      
       return true
     end
     false
@@ -46,7 +45,10 @@ class MailTrackerJob < ApplicationJob
     retried = false
 
     begin
-      @mail_source.mark_as_seen(email.message_id) && raise StandardError if blacklisted(email.from&.first)
+      if blacklisted(email.from&.first)
+        @mail_source.mark_as_seen(email.message_id)
+        raise StandardError
+      end
 
       mail_tracking_rule(email, content)
       issue_duplicate(email)
