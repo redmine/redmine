@@ -122,9 +122,11 @@ module IssuePatch
 
     def validate_issue
       if due_date && start_date && (start_date_changed? || due_date_changed?)
-        if due_date.is_a?(Time) && start_date.is_a?(Time) && due_date < start_date
-          errors.add :due_date, :greater_than_start_date
-        elsif !due_date.is_a?(Time)
+        if (due_date.is_a?(Time) || due_date.is_a?(Date)) && (start_date.is_a?(Time) || start_date.is_a?(Date)) && (due_date.is_a?(DateTime) || start_date.is_a?(DateTime))
+          if due_date < start_date
+            errors.add :due_date, :greater_than_start_date
+          end
+        else
           errors.add :due_date, "is not a valid time"
         end
       end
