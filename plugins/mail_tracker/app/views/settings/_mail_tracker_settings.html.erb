@@ -173,7 +173,7 @@
         <%= simple_form_for MailSourceBlacklist.new, :url => mail_source_blacklists_path, :method => :post , remote: true, class: "" do |f| %>
           <div class="col-xs-12 col-md-6 col-lg-4">
             <%= f.label :email, 'Email'%>
-            <%= f.text_field :email, required: true, class: "form-control", placeholder: 'test@test.com' %>
+            <%= f.text_field :email, required: true, class: "form-control", placeholder: 'name@email.com' %>
           </div>
 
           <%= f.submit "Add to blacklist" , class: "btn btn-success", style: "margin-top: 24px;" %>
