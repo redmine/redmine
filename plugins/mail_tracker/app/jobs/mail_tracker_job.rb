@@ -18,7 +18,6 @@ class MailTrackerJob < ApplicationJob
     @mail_source = MailSource.find_by(id: mail_source_id)
     @mail_source&.unseen&.each do |email|
       log_string = "*****\nMessage id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}"
-      blacklist_check(email.from)
       MailTrackerCustomLogger.logger.info(log_string)
       create_issue_from_email(email)
     end
@@ -26,13 +25,12 @@ class MailTrackerJob < ApplicationJob
 
   private
 
-  def blacklist_check(email)
+  def blacklisted(email)
     if MailSourceBlacklist.blacklisted?(email)
-      log_string = "Blacklisted email: #{email}"
-      MailTrackerCustomLogger.logger.info(log_string)
-      @mail_source.mark_as_seen(email.message_id)
-      raise StandardError, log_string
+      
+      return true
     end
+    false
   end
 
   def create_issue_from_email(email)
@@ -48,6 +46,8 @@ class MailTrackerJob < ApplicationJob
     retried = false
 
     begin
+      @mail_source.mark_as_seen(email.message_id) && raise StandardError if blacklisted(email.from&.first)
+
       mail_tracking_rule(email, content)
       issue_duplicate(email)
 
