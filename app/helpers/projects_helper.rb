@@ -63,10 +63,10 @@ module ProjectsHelper
   def render_project_action_links
     links = (+"").html_safe
     if User.current.allowed_to?(:add_project, nil, :global => true)
-      links << link_to(l(:label_project_new), new_project_path, :class => 'icon icon-add')
+      links << link_to(icon_with_label('add', l(:label_project_new)), new_project_path, :class => 'icon icon-add')
     end
     if User.current.admin?
-      links << link_to(l(:label_administration), admin_projects_path, :class => 'icon icon-settings')
+      links << link_to(icon_with_label('settings', l(:label_administration)), admin_projects_path, :class => 'icon icon-settings')
     end
     links
   end
@@ -182,12 +182,14 @@ module ProjectsHelper
 
     if bookmarked
       css << "icon-bookmark"
+      icon = "bookmark"
       method = "delete"
-      text = l(:button_project_bookmark_delete)
+      text = icon_with_label(icon, l(:button_project_bookmark_delete))
     else
       css << "icon-bookmark-off"
+      icon = "bookmark-off"
       method = "post"
-      text = l(:button_project_bookmark)
+      text = icon_with_label(icon, l(:button_project_bookmark))
     end
 
     url = bookmark_project_path(project)

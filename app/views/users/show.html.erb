@@ -1,5 +1,5 @@
 <div class="contextual">
-<%= link_to(l(:button_edit), edit_user_path(@user), :class => 'icon icon-edit') if User.current.admin? && @user.logged? %>
+<%= link_to(icon_with_label('edit', l(:button_edit)), edit_user_path(@user), :class => 'icon icon-edit') if User.current.admin? && @user.logged? %>
 </div>
 
 <h2><%= avatar @user, :size => "50" %> <%= @user.name %></h2>

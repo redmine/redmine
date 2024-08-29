@@ -31,37 +31,37 @@ module JournalsHelper
 
     dropbown_links << copy_object_url_link(issue_url(issue, anchor: "note-#{indice}", only_path: false))
     if journal.attachments.size > 1
-      dropbown_links << link_to(l(:label_download_all_attachments),
+      dropbown_links << link_to(icon_with_label('download', l(:label_download_all_attachments)),
                                 container_attachments_download_path(journal),
                                 :title => l(:label_download_all_attachments),
-                                :class => 'icon icon-download'
+                                :class => 'icon icon-download '
                                )
     end
 
     if journal.notes.present?
       if options[:reply_links]
-        links << link_to(l(:button_quote),
+        links << link_to(icon_with_label('comment', l(:button_quote)),
                          quoted_issue_path(issue, :journal_id => journal, :journal_indice => indice),
                          :remote => true,
                          :method => 'post',
                          :title => l(:button_quote),
-                         :class => 'icon-only icon-comment'
+                         :class => 'icon-only icon-comment '
                         )
       end
       if journal.editable_by?(User.current)
-        links << link_to(l(:button_edit),
+        links << link_to(icon_with_label('edit', l(:button_edit)),
                          edit_journal_path(journal),
                          :remote => true,
                          :method => 'get',
                          :title => l(:button_edit),
-                         :class => 'icon-only icon-edit'
+                         :class => 'icon-only icon-edit '
                         )
-        dropbown_links << link_to(l(:button_delete),
+        dropbown_links << link_to(icon_with_label('del', l(:button_delete)),
                                   journal_path(journal, :journal => {:notes => ""}),
                                   :remote => true,
                                   :method => 'put',
                                   :data => {:confirm => l(:text_are_you_sure)},
-                                  :class => 'icon icon-del'
+                                  :class => 'icon icon-del '
                                  )
       end
     end

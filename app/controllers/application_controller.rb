@@ -28,9 +28,11 @@ class ApplicationController < ActionController::Base
   include Redmine::Hook::Helper
   include RoutesHelper
   include AvatarsHelper
+  include IconsHelper
 
   helper :routes
   helper :avatars
+  helper :icons
 
   class_attribute :accept_api_auth_actions
   class_attribute :accept_atom_auth_actions

@@ -84,7 +84,7 @@ end %>
 <hr />
 <div class="description">
   <div class="contextual">
-  <%= link_to l(:button_quote), quoted_issue_path(@issue), :remote => true, :method => 'post', :class => 'icon icon-comment' if @issue.notes_addable? %>
+  <%= link_to icon_with_label('comment', l(:button_quote)), quoted_issue_path(@issue), :remote => true, :method => 'post', :class => 'icon icon-comment ' if @issue.notes_addable? %>
   </div>
 
   <p><strong><%=l(:field_description)%></strong></p>

@@ -2,10 +2,10 @@
   <%= call_hook(:view_issues_context_menu_start, {:issues => @issues, :can => @can, :back => @back }) %>
 
   <% if @issue -%>
-    <li><%= context_menu_link l(:button_edit), edit_issue_path(@issue),
+    <li><%= context_menu_link icon_with_label('edit', l(:button_edit)), edit_issue_path(@issue),
             :class => 'icon icon-edit', :disabled => !@can[:edit] %></li>
   <% else %>
-    <li><%= context_menu_link l(:label_bulk_edit), bulk_edit_issues_path(:ids => @issue_ids),
+    <li><%= context_menu_link icon_with_label('edit', l(:label_bulk_edit)), bulk_edit_issues_path(:ids => @issue_ids),
             :class => 'icon icon-edit', :disabled => !@can[:edit] %></li>
   <% end %>
 
@@ -130,7 +130,7 @@
   <li class="folder">
     <a href="#" class="submenu"><%= l(:label_issue_watchers) %></a>
     <ul>
-      <li><%= context_menu_link l(:button_add),
+      <li><%= context_menu_link icon_with_label('add', l(:button_add)),
                 new_watchers_path(:object_type => 'issue', :object_id => @issue_ids),
                 :remote => true,
                 :class => 'icon icon-add' %></li>
@@ -143,28 +143,28 @@
 <% end %>
 
 <% unless @issue %>
-  <li><%= context_menu_link l(:button_filter), _project_issues_path(@project, :set_filter => 1, :status_id => "*", :issue_id => @issue_ids.join(","), :c => @columns),
+  <li><%= context_menu_link icon_with_label('list', l(:button_filter)), _project_issues_path(@project, :set_filter => 1, :status_id => "*", :issue_id => @issue_ids.join(","), :c => @columns),
           :class => 'icon icon-list' %></li>
 <% end %>
 
 <% if @issue.present? %>
   <% if @can[:log_time] -%>
-  <li><%= context_menu_link l(:button_log_time), new_issue_time_entry_path(@issue),
+  <li><%= context_menu_link icon_with_label('time', l(:button_log_time)), new_issue_time_entry_path(@issue),
           :class => 'icon icon-time-add' %></li>
   <% end %>
   <% if @can[:add_subtask] -%>
-  <li><%= context_menu_link l(:button_add_subtask), url_for_new_subtask(@issue),
+  <li><%= context_menu_link icon_with_label('add', l(:button_add_subtask)), url_for_new_subtask(@issue),
           :class => 'icon icon-add' %></li>
   <% end %>
   <li><%= copy_object_url_link(issue_url(@issue)) %></li>
-  <li><%= context_menu_link l(:button_copy), project_copy_issue_path(@project, @issue),
+  <li><%= context_menu_link icon_with_label('copy', l(:button_copy)), project_copy_issue_path(@project, @issue),
           :class => 'icon icon-copy', :disabled => !@can[:copy] %></li>
 <% else %>
   <li><%= copy_object_url_link(_project_issues_url(@project, set_filter: 1, status_id: '*', issue_id: @issue_ids.join(','))) %></li>
-  <li><%= context_menu_link l(:button_copy), bulk_edit_issues_path(:ids => @issue_ids, :copy => '1'),
+  <li><%= context_menu_link icon_with_label('copy', l(:button_copy)), bulk_edit_issues_path(:ids => @issue_ids, :copy => '1'),
                           :class => 'icon icon-copy', :disabled => !@can[:copy] %></li>
 <% end %>
-  <li><%= context_menu_link l(:button_delete_object, object_name: (@issue_ids.size > 1 ? l(:label_issue_plural) : l(:label_issue)).downcase), issues_path(:ids => @issue_ids, :back_url => @back),
+  <li><%= context_menu_link icon_with_label('del', l(:button_delete_object, object_name: (@issue_ids.size > 1 ? l(:label_issue_plural) : l(:label_issue)).downcase)), issues_path(:ids => @issue_ids, :back_url => @back),
                             :method => :delete, :data => {:confirm => issues_destroy_confirmation_message(@issues)}, :class => 'icon icon-del', :disabled => !@can[:delete] %></li>
 
   <%= call_hook(:view_issues_context_menu_end, {:issues => @issues, :can => @can, :back => @back }) %>

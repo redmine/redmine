@@ -1,4 +1,4 @@
-<p><%= link_to l(:label_issue_category_new), new_project_issue_category_path(@project), :class => 'icon icon-add' if User.current.allowed_to?(:manage_categories, @project) %></p>
+<p><%= link_to icon_with_label('add', l(:label_issue_category_new)), new_project_issue_category_path(@project), :class => 'icon icon-add' if User.current.allowed_to?(:manage_categories, @project) %></p>
 
 <% if @project.issue_categories.any? %>
 <table class="list">
@@ -15,7 +15,7 @@
     <td><%= category.assigned_to.name if category.assigned_to %></td>
     <td class="buttons">
       <% if User.current.allowed_to?(:manage_categories, @project) %>
-        <%= link_to l(:button_edit), edit_issue_category_path(category), :class => 'icon icon-edit' %>
+        <%= link_to icon_with_label('edit', l(:button_edit)), edit_issue_category_path(category), :class => 'icon icon-edit' %>
         <%= delete_link issue_category_path(category) %>
       <% end %>
     </td>

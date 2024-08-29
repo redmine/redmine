@@ -22,7 +22,7 @@
       <% end %>
       <td class="buttons">
         <%= reorder_handle(custom_field, :url => custom_field_path(custom_field), :param => 'custom_field') %>
-        <%= link_to_function l(:button_copy), "location.href = '#{new_custom_field_path(:copy => custom_field)}&type=' + encodeURIComponent(($('.tabs a.selected').attr('id')||'').split('tab-').pop())", :class => 'icon icon-copy' %>
+        <%= link_to_function icon_with_label('copy', l(:button_copy)), "location.href = '#{new_custom_field_path(:copy => custom_field)}&type=' + encodeURIComponent(($('.tabs a.selected').attr('id')||'').split('tab-').pop())", :class => 'icon icon-copy' %>
         <%= delete_link custom_field_path(custom_field) %>
       </td>
     </tr>

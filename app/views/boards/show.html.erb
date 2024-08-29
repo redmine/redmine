@@ -1,12 +1,12 @@
 <%= board_breadcrumb(@board) %>
 
 <div class="contextual">
-<%= link_to l(:label_message_new),
+<%= link_to icon_with_label('add', l(:label_message_new)),
             new_board_message_path(@board),
             :class => 'icon icon-add',
             :onclick => 'showAndScrollTo("add-message", "message_subject"); return false;' if User.current.allowed_to?(:add_messages, @board.project) %>
 <%= watcher_link(@board, User.current) %>
-<%= link_to_if_authorized l(:label_settings),
+<%= link_to_if_authorized icon_with_label('settings', l(:label_settings)),
             {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'boards'},
             :class => 'icon icon-settings' if User.current.allowed_to?(:manage_boards, @project) %>
 

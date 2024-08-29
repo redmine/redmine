@@ -11,7 +11,7 @@
     <% end %>
 
     <li>
-      <%= context_menu_link l(:button_edit), edit_user_path(@user, back_url: @back), class: 'icon icon-edit' %>
+      <%= context_menu_link icon_with_label('edit', l(:button_edit)), edit_user_path(@user, back_url: @back), class: 'icon icon-edit' %>
     </li>
 
     <% unless User.current == @user %>

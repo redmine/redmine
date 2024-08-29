@@ -1,6 +1,6 @@
 <div class="contextual">
-<%= link_to l(:label_role_new), new_role_path, :class => 'icon icon-add' %>
-<%= link_to l(:label_permissions_report), permissions_roles_path, :class => 'icon icon-summary' %>
+<%= link_to icon_with_label('add', l(:label_role_new)), new_role_path, :class => 'icon icon-add' %>
+<%= link_to icon_with_label('summary', l(:label_permissions_report)), permissions_roles_path, :class => 'icon icon-summary' %>
 </div>
 
 <h2><%=l(:label_role_plural)%></h2>
@@ -24,7 +24,7 @@
   </td>
   <td class="buttons">
     <%= reorder_handle(role) unless role.builtin? %>
-    <%= link_to l(:button_copy), new_role_path(:copy => role), :class => 'icon icon-copy' %>
+    <%= link_to icon_with_label('copy', l(:button_copy)), new_role_path(:copy => role), :class => 'icon icon-copy' %>
     <%= delete_link role_path(role) unless role.builtin? %>
   </td>
   </tr>

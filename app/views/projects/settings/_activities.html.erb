@@ -1,10 +1,10 @@
 <div class="contextual">
-<%= link_to(l(:button_reset), project_enumerations_path(@project),
+<%= link_to(icon_with_label('del', l(:button_reset)), project_enumerations_path(@project),
             :method => :delete,
             :data => {:confirm => l(:text_are_you_sure)},
             :class => 'icon icon-del') %>
 <% if User.current.admin? %>
-<%= link_to l(:label_administration), enumerations_path, :class => "icon icon-settings" %>
+<%= link_to icon_with_label('settings', l(:label_administration)), enumerations_path, :class => "icon icon-settings" %>
 <% end %>
 </div>
 

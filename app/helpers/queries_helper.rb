@@ -517,7 +517,7 @@ module QueriesHelper
 
   def link_to_clear_query(params = {:set_filter => 1, :sort => '', :project_id => @project})
     link_to(
-      l(:button_clear),
+      icon_with_label('clear-query', l(:button_clear)),
       params,
       :class => 'icon-only icon-clear-query',
       :title => l(:button_clear)

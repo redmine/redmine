@@ -6,7 +6,7 @@
       <li><%= context_menu_link l(:button_archive), archive_project_path(@project), data: {confirm: l(:text_project_archive_confirmation, @project.to_s)}, method: :post, class: 'icon icon-lock' %></li>
     <% end %>
     <li>
-      <%= context_menu_link l(:button_copy), copy_project_path(@projects), class: 'icon icon-copy' %>
+      <%= context_menu_link icon_with_label('copy', l(:button_copy)), copy_project_path(@projects), class: 'icon icon-copy' %>
     </li>
     <li>
       <%= context_menu_link l(:button_delete), project_path(@project, back_url: @back), method: :delete, class: 'icon icon-del' %>

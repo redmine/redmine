@@ -1,8 +1,8 @@
 <div class="contextual">
-  <%= link_to(l(:label_version_new), new_project_version_path(@project),
+  <%= link_to(icon_with_label('add', l(:label_version_new)), new_project_version_path(@project),
               :class => 'icon icon-add') if User.current.allowed_to?(:manage_versions, @project) %>
   <%= actions_dropdown do %>
-  <%= link_to_if_authorized l(:label_settings),
+  <%= link_to_if_authorized icon_with_label('settings', l(:label_settings)),
               {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'versions'},
               :class => 'icon icon-settings' if User.current.allowed_to?(:manage_versions, @project) %>
   <% end %>
@@ -18,7 +18,7 @@
   <article class="version-article <%= version.css_classes %>">
     <% if User.current.allowed_to?(:manage_versions, version.project) %>
       <div class="contextual">
-        <%= link_to l(:button_edit), edit_version_path(version), :title => l(:button_edit), :class => 'icon-only icon-edit' %>
+        <%= link_to icon_with_label('edit', l(:button_edit)), edit_version_path(version), :title => l(:button_edit), :class => 'icon-only icon-edit' %>
       </div>
     <% end %>
     <header>

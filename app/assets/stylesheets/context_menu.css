@@ -41,7 +41,7 @@
 
 #context-menu a {
   text-decoration:none !important;
-  padding: 2px 0px 2px 20px;
+  padding: 4px 8px;
   width:100%; /* IE */
 }
 #context-menu li>a { width:auto; } /* others */

@@ -20,7 +20,7 @@
   <%= f.select :tracker_id, trackers_options_for_select(@issue), {:required => true},
                :onchange => "updateIssueFrom('#{escape_javascript update_issue_form_path(@project, @issue)}', this)",
                :title => @issue.tracker.description %>
-  <%= content_tag 'a', l(:label_open_trackers_description), :class => 'icon-only icon-help', :title => l(:label_open_trackers_description), :onclick => "showModal('trackers_description', '500px'); return false;", :href => '#' if trackers_for_select(@issue).any? {|t| t.description.present? } %>
+  <%= content_tag 'a', icon_with_label('help', l(:label_open_trackers_description)), :class => 'icon-only icon-help', :title => l(:label_open_trackers_description), :onclick => "showModal('trackers_description', '500px'); return false;", :href => '#' if trackers_for_select(@issue).any? {|t| t.description.present? } %>
 </p>
   <%= render partial: 'issues/trackers_description', locals: {trackers: trackers_for_select(@issue)} %>
 <% end %>
@@ -40,7 +40,7 @@
                    },
                    :no_label => true %>
   <% end %>
-  <%= link_to_function content_tag(:span, l(:button_edit), :class => 'icon icon-edit'), '$(this).hide(); $("#issue_description_and_toolbar").show()' unless @issue.new_record? %>
+  <%= link_to_function content_tag(:span, icon_with_label('edit', l(:button_edit)), :class => 'icon icon-edit'), '$(this).hide(); $("#issue_description_and_toolbar").show()' unless @issue.new_record? %>
 </p>
 <%= wikitoolbar_for 'issue_description', preview_issue_path(:project_id => @issue.project, :issue_id => @issue.id) %>
 <% end %>

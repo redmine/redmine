@@ -38,10 +38,10 @@
     <% end %>
     <td class="buttons">
     <% if entry.editable_by?(User.current) -%>
-        <%= link_to l(:button_edit), edit_time_entry_path(entry),
+        <%= link_to icon_with_label('edit', l(:button_edit)), edit_time_entry_path(entry),
                     :title => l(:button_edit),
                     :class => 'icon-only icon-edit' %>
-        <%= link_to l(:button_delete), time_entry_path(entry),
+        <%= link_to icon_with_label('del', l(:button_delete)), time_entry_path(entry),
                     :data => {:confirm => l(:text_are_you_sure)},
                     :method => :delete,
                     :title => l(:button_delete),

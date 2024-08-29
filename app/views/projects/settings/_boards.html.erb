@@ -1,5 +1,5 @@
 <% if User.current.allowed_to?(:manage_boards, @project) %>
-<p><%= link_to l(:label_board_new), new_project_board_path(@project), :class => 'icon icon-add' %></p>
+<p><%= link_to icon_with_label('add', l(:label_board_new)), new_project_board_path(@project), :class => 'icon icon-add' %></p>
 <% end %>
 
 <% if @project.boards.any? %>
@@ -16,7 +16,7 @@
     <div class="table-list-cell buttons">
     <% if User.current.allowed_to?(:manage_boards, @project) %>
       <%= reorder_handle(board) %>
-      <%= link_to l(:button_edit), edit_project_board_path(@project, board), :class => 'icon icon-edit' %>
+      <%= link_to icon_with_label('edit', l(:button_edit)), edit_project_board_path(@project, board), :class => 'icon icon-edit' %>
       <%= delete_link project_board_path(@project, board) %>
     <% end %>
     </div>

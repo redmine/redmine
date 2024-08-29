@@ -3,19 +3,19 @@
 
   <%= actions_dropdown do %>
   <% if User.current.allowed_to?(:add_subprojects, @project) %>
-    <%= link_to l(:label_subproject_new), new_project_path(:parent_id => @project), :class => 'icon icon-add' %>
+    <%= link_to icon_with_label('add', l(:label_subproject_new)), new_project_path(:parent_id => @project), :class => 'icon icon-add' %>
   <% end %>
   <% if User.current.allowed_to?(:close_project, @project) %>
     <% if @project.active? %>
-      <%= link_to l(:button_close), close_project_path(@project), :data => {:confirm => l(:text_project_close_confirmation, @project.to_s)}, :method => :post, :class => 'icon icon-lock' %>
+      <%= link_to icon_with_label('lock', l(:button_close)), close_project_path(@project), :data => {:confirm => l(:text_project_close_confirmation, @project.to_s)}, :method => :post, :class => 'icon icon-lock' %>
     <% else %>
-      <%= link_to l(:button_reopen), reopen_project_path(@project), :data => {:confirm => l(:text_project_reopen_confirmation, @project.to_s)}, :method => :post, :class => 'icon icon-unlock' %>
+      <%= link_to icon_with_label('unlock', l(:button_reopen)), reopen_project_path(@project), :data => {:confirm => l(:text_project_reopen_confirmation, @project.to_s)}, :method => :post, :class => 'icon icon-unlock' %>
     <% end %>
   <% end %>
   <% if @project.deletable? %>
-    <%= link_to l(:button_delete), project_path(@project), :method => :delete, :class => 'icon icon-del' %>
+    <%= link_to icon_with_label('del', l(:button_delete)), project_path(@project), :method => :delete, :class => 'icon icon-del' %>
   <% end %>
-  <%= link_to_if_authorized l(:label_settings),
+  <%= link_to_if_authorized icon_with_label('settings', l(:label_settings)),
               {:controller => 'projects', :action => 'settings', :id => @project},
               :class => 'icon icon-settings' if User.current.allowed_to?(:edit_project, @project) %>
   <% end %>
@@ -137,7 +137,7 @@
 	<ul class="subprojects">
 	  <% @subprojects.each do |project| %>
 	  <li><%= link_to(project.name, project_path(project), :class => project.css_classes).html_safe %></li>
-	  <% end %> 
+	  <% end %>
     </ul>
   </div>
   <% end %>

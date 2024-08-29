@@ -1,7 +1,7 @@
 <%= breadcrumb link_to(l(:label_news_plural), project_news_index_path(@project)) %>
 <div class="contextual">
 <%= watcher_link(@news, User.current) %>
-<%= link_to(l(:button_edit),
+<%= link_to(icon_with_label('edit', l(:button_edit)),
       edit_news_path(@news),
       :class => 'icon icon-edit',
       :accesskey => accesskey(:edit),
@@ -38,7 +38,7 @@
 <% @comments.each do |comment| %>
     <% next if comment.new_record? %>
     <div class="contextual">
-    <%= link_to_if_authorized l(:button_delete), {:controller => 'comments', :action => 'destroy', :id => @news, :comment_id => comment},
+    <%= link_to_if_authorized icon_with_label('del', l(:button_delete)), {:controller => 'comments', :action => 'destroy', :id => @news, :comment_id => comment},
                               :data => {:confirm => l(:text_are_you_sure)}, :method => :delete,
                               :title => l(:button_delete),
                               :class => 'icon-only icon-del' %>

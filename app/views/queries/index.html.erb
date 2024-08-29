@@ -15,7 +15,7 @@
       </td>
       <td class="buttons">
         <% if query.editable_by?(User.current) %>
-        <%= link_to l(:button_edit), edit_query_path(query), :class => 'icon icon-edit' %>
+        <%= link_to icon_with_label('edit', l(:button_edit)), edit_query_path(query), :class => 'icon icon-edit' %>
         <%= delete_link query_path(query) %>
       <% end %>
       </td>

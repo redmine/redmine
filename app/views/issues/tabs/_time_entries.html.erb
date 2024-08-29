@@ -4,14 +4,14 @@
     <% if time_entry.editable_by?(User.current) -%>
       <div class="contextual">
         <span class="journal-actions">
-        <%= link_to l(:button_edit), edit_time_entry_path(time_entry),
+        <%= link_to icon_with_label('edit', l(:button_edit)), edit_time_entry_path(time_entry),
                     :title => l(:button_edit),
-                    :class => 'icon-only icon-edit' %>
-        <%= link_to l(:button_delete), time_entry_path(time_entry),
+                    :class => 'icon-only icon-edit ' %>
+        <%= link_to icon_with_label('del', l(:button_delete)), time_entry_path(time_entry),
                     :data => {:confirm => l(:text_are_you_sure)},
                     :method => :delete,
                     :title => l(:button_delete),
-                    :class => 'icon-only icon-del' %>
+                    :class => 'icon-only icon-del ' %>
         </span>
       </div>
     <% end -%>

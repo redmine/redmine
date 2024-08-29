@@ -3,18 +3,18 @@
 <div class="contextual">
     <%= watcher_link(@topic, User.current) %>
     <%= link_to(
-          l(:button_quote),
+          icon_with_label('comment', l(:button_quote)),
           {:action => 'quote', :id => @topic},
           :method => 'get',
           :class => 'icon icon-comment',
           :remote => true) if !@topic.locked? && authorize_for('messages', 'reply') %>
     <%= link_to(
-          l(:button_edit),
+          icon_with_label('edit', l(:button_edit)),
           {:action => 'edit', :id => @topic},
           :class => 'icon icon-edit'
         ) if @message.editable_by?(User.current) %>
     <%= link_to(
-          l(:button_delete),
+          icon_with_label('del', l(:button_delete)),
           {:action => 'destroy', :id => @topic},
           :method => :post,
           :data => {:confirm => l(:text_are_you_sure)},

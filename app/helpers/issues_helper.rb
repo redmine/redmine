@@ -101,7 +101,7 @@ module IssuesHelper
       buttons =
         if manage_relations
           link_to(
-            l(:label_delete_link_to_subtask),
+            icon_with_label('link-break', l(:label_delete_link_to_subtask)),
             issue_path(
               {:id => child.id, :issue => {:parent_issue_id => ''},
                :back_url => issue_path(issue.id), :no_flash => '1'}
@@ -207,7 +207,7 @@ module IssuesHelper
       buttons =
         if manage_relations
           link_to(
-            l(:label_relation_delete),
+            icon_with_label('link-break', l(:label_relation_delete)),
             relation_path(relation, issue_id: issue.id),
             :remote => true,
             :method => :delete,
