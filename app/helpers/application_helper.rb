@@ -28,6 +28,7 @@ module ApplicationHelper
   include Redmine::Themes::Helper
   include Redmine::Hook::Helper
   include Redmine::Helpers::URL
+  include IconsHelper
 
   extend Forwardable
   def_delegators :wiki_helper, :wikitoolbar_for, :heads_for_wiki_formatter
