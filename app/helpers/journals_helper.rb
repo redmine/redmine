@@ -34,7 +34,7 @@ module JournalsHelper
       dropbown_links << link_to(icon_with_label('download', l(:label_download_all_attachments)),
                                 container_attachments_download_path(journal),
                                 :title => l(:label_download_all_attachments),
-                                :class => 'icon icon-download '
+                                :class => 'icon icon-download'
                                )
     end
 
@@ -45,7 +45,7 @@ module JournalsHelper
                          :remote => true,
                          :method => 'post',
                          :title => l(:button_quote),
-                         :class => 'icon-only icon-comment '
+                         :class => 'icon-only icon-comment'
                         )
       end
       if journal.editable_by?(User.current)
@@ -54,14 +54,14 @@ module JournalsHelper
                          :remote => true,
                          :method => 'get',
                          :title => l(:button_edit),
-                         :class => 'icon-only icon-edit '
+                         :class => 'icon-only icon-edit'
                         )
         dropbown_links << link_to(icon_with_label('del', l(:button_delete)),
                                   journal_path(journal, :journal => {:notes => ""}),
                                   :remote => true,
                                   :method => 'put',
                                   :data => {:confirm => l(:text_are_you_sure)},
-                                  :class => 'icon icon-del '
+                                  :class => 'icon icon-del'
                                  )
       end
     end

@@ -26,7 +26,7 @@ module WatchersHelper
 
     watched = Watcher.any_watched?(objects, user)
     icon = watched ? 'fav' : 'fav-off'
-    css = [watcher_css(objects), '', 'icon', icon].join(' ')
+    css = [watcher_css(objects), 'icon', "icon-#{icon}"].join(' ')
     text = watched ? l(:button_unwatch) : l(:button_watch)
     url = watch_path(
       :object_type => objects.first.class.to_s.underscore,
