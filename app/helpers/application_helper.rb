@@ -128,9 +128,9 @@ module ApplicationHelper
   # * :download - Force download (default: false)
   def link_to_attachment(attachment, options={})
     text = options.delete(:text) || attachment.filename
-    icon = 'attachment'
+    icon = options.fetch(:icon, false)
+
     if options.delete(:download)
-      icon = 'download'
       route_method = :download_named_attachment_url
       options[:filename] = attachment.filename
     else
@@ -142,7 +142,9 @@ module ApplicationHelper
 
     options[:only_path] = true unless options.key?(:only_path)
     url = send(route_method, attachment, options)
-    link_to icon_with_label(icon, text), url, html_options
+
+    label = icon ? icon_with_label(icon, text) : text
+    link_to label, url, html_options
   end
 
   # Generates a link to a SCM revision
