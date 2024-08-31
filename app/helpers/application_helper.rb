@@ -830,7 +830,7 @@ module ApplicationHelper
     content = capture(&)
     if content.present?
       trigger =
-        content_tag('span', icon_with_label('3-bullets', l(:button_actions)), :class => 'icon-only icon-actions ',
+        content_tag('span', icon_with_label('3-bullets', l(:button_actions)), :class => 'icon-only icon-actions',
                     :title => l(:button_actions))
       trigger = content_tag('span', trigger, :class => 'drdn-trigger')
       content = content_tag('div', content, :class => 'drdn-items')
@@ -1904,7 +1904,7 @@ module ApplicationHelper
   def copy_object_url_link(url)
     link_to_function(
       icon_with_label('copy-link', l(:button_copy_link)), 'copyTextToClipboard(this);',
-      class: 'icon icon-copy-link ',
+      class: 'icon icon-copy-link',
       data: {'clipboard-text' => url}
     )
   end
