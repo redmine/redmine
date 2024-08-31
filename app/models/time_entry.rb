@@ -191,7 +191,14 @@ class TimeEntry < ApplicationRecord
   def hours
     h = read_attribute(:hours)
     if h.is_a?(Float)
-      h.round(2)
+      # Convert the float value to a rational with a denominator of 60 to
+      # avoid floating point errors.
+      #
+      # Examples:
+      #  0.38333333333333336 => (23/60)   # 23m
+      #  0.9913888888888889  => (59/60)   # 59m 29s is rounded to 59m
+      #  0.9919444444444444  => (1/1)     # 59m 30s is rounded to 60m
+      (h * 60).round / 60r
     else
       h
     end

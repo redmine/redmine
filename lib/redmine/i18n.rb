@@ -50,12 +50,12 @@ module Redmine
     end
 
     def l_hours(hours)
-      hours = hours.to_f
+      hours = hours.to_f unless hours.is_a?(Numeric)
       l((hours < 2.0 ? :label_f_hour : :label_f_hour_plural), :value => format_hours(hours))
     end
 
     def l_hours_short(hours)
-      l(:label_f_hour_short, :value => format_hours(hours.to_f))
+      l(:label_f_hour_short, :value => format_hours(hours.is_a?(Numeric) ? hours : hours.to_f))
     end
 
     def ll(lang, str, arg=nil)

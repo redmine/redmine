@@ -87,11 +87,25 @@ class TimeEntryTest < ActiveSupport::TestCase
       "3 hours"  => 3.0,
       "12min"    => 0.2,
       "12 Min"    => 0.2,
+      "0:23"   => Rational(23, 60), # 0.38333333333333336
+      "0.9913888888888889" => Rational(59, 60), # 59m 29s is rounded to 59m
+      "0.9919444444444444" => 1     # 59m 30s is rounded to 60m
     }
     assertions.each do |k, v|
       t = TimeEntry.new(:hours => k)
-      assert_equal v, t.hours, "Converting #{k} failed:"
+      assert v == t.hours && t.hours.is_a?(Rational), "Converting #{k} failed:"
     end
+  end
+
+  def test_hours_sum_precision
+    # The sum of 10, 10, and 40 minutes should be 1 hour, but in older
+    # versions of Redmine, the result was 1.01 hours. This was because
+    # TimeEntry#hours was a float value rounded to 2 decimal places.
+    #  [0.17, 0.17, 0.67].sum => 1.01
+
+    hours = %w[10m 10m 40m].map {|m| TimeEntry.new(hours: m).hours}
+    assert_equal 1, hours.sum
+    hours.map {|h| assert h.is_a?(Rational)}
   end
 
   def test_hours_should_default_to_nil
