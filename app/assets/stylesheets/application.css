@@ -1704,8 +1704,8 @@ span.icon-label {
 .icon-stats:not(:has(svg)) { background-image: url(/stats.png); }
 .icon-warning  { background-image: url(/warning.png); }
 .icon-error { background-image: url(/exclamation.png); }
-.icon-fav  { background-image: url(/fav.png); }
-.icon-fav-off  { background-image: url(/fav_off.png); }
+.icon-fav:not(:has(svg))  { background-image: url(/fav.png); }
+.icon-fav-off:not(:has(svg))  { background-image: url(/fav_off.png); }
 .icon-reload:not(:has(svg)) { background-image: url(/reload.png); }
 .icon-lock:not(:has(svg)), .icon-locked:not(:has(svg))  { background-image: url(/locked.png); }
 .icon-unlock:not(:has(svg)) { background-image: url(/unlock.png); }
