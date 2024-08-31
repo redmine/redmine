@@ -1715,8 +1715,8 @@ span.icon-label {
 .icon-summary:not(:has(svg)) { background-image: url(/lightning.png); }
 .icon-server-authentication { background-image: url(/server_key.png); }
 .icon-issue { background-image: url(/ticket.png); }
-.icon-zoom-in { background-image: url(/zoom_in.png); }
-.icon-zoom-out { background-image: url(/zoom_out.png); }
+.icon-zoom-in:not(:has(svg)) { background-image: url(/zoom_in.png); }
+.icon-zoom-out:not(:has(svg)) { background-image: url(/zoom_out.png); }
 .icon-magnifier { background-image: url(/magnifier.png); }
 .icon-passwd { background-image: url(/textfield_key.png); }
 .icon-arrow-right, .icon-test:not(:has(svg)), .icon-sticky { background-image: url(/bullet_go.png); }
