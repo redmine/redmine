@@ -4,7 +4,7 @@
 <div class="splitcontentleft">
 <h3>
   <%=l(:field_tracker)%>&nbsp;
-  <%= link_to l(:label_details),
+  <%= link_to icon_with_label('zoom-in', l(:label_details)),
         project_issues_report_details_path(@project, :detail => 'tracker'),
         :class => 'icon-only icon-zoom-in',
         :title => l(:label_details) %>
@@ -13,7 +13,7 @@
 <br />
 <h3>
   <%=l(:field_priority)%>&nbsp;
-  <%= link_to l(:label_details),
+  <%= link_to icon_with_label('zoom-in', l(:label_details)),
         project_issues_report_details_path(@project, :detail => 'priority'),
         :class => 'icon-only icon-zoom-in',
         :title => l(:label_details) %>
@@ -22,7 +22,7 @@
 <br />
 <h3>
   <%=l(:field_assigned_to)%>&nbsp;
-  <%= link_to l(:label_details),
+  <%= link_to icon_with_label('zoom-in', l(:label_details)),
         project_issues_report_details_path(@project, :detail => 'assigned_to'),
         :class => 'icon-only icon-zoom-in',
         :title => l(:label_details) %>
@@ -31,7 +31,7 @@
 <br />
 <h3>
   <%=l(:field_author)%>&nbsp;
-  <%= link_to l(:label_details),
+  <%= link_to icon_with_label('zoom-in', l(:label_details)),
         project_issues_report_details_path(@project, :detail => 'author'),
         :class => 'icon-only icon-zoom-in',
         :title => l(:label_details) %>
@@ -44,7 +44,7 @@
 <div class="splitcontentright">
 <h3>
   <%=l(:field_version)%>&nbsp;
-  <%= link_to l(:label_details),
+  <%= link_to icon_with_label('zoom-in', l(:label_details)),
         project_issues_report_details_path(@project, :detail => 'version'),
         :class => 'icon-only icon-zoom-in',
         :title => l(:label_details) %>
@@ -54,7 +54,7 @@
 <% if @project.children.any? %>
 <h3>
   <%=l(:field_subproject)%>&nbsp;
-  <%= link_to l(:label_details),
+  <%= link_to icon_with_label('zoom-in', l(:label_details)),
         project_issues_report_details_path(@project, :detail => 'subproject'),
         :class => 'icon-only icon-zoom-in',
         :title => l(:label_details) %>
@@ -64,7 +64,7 @@
 <% end %>
 <h3>
   <%=l(:field_category)%>&nbsp;
-  <%= link_to l(:label_details),
+  <%= link_to icon_with_label('zoom-in', l(:label_details)),
         project_issues_report_details_path(@project, :detail => 'category'),
         :class => 'icon-only icon-zoom-in',
         :title => l(:label_details) %>
