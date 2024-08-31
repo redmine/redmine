@@ -1718,11 +1718,11 @@ span.icon-label {
 .icon-zoom-in:not(:has(svg)) { background-image: url(/zoom_in.png); }
 .icon-zoom-out:not(:has(svg)) { background-image: url(/zoom_out.png); }
 .icon-magnifier { background-image: url(/magnifier.png); }
-.icon-passwd { background-image: url(/textfield_key.png); }
+.icon-passwd:not(:has(svg)) { background-image: url(/textfield_key.png); }
 .icon-arrow-right, .icon-test:not(:has(svg)), .icon-sticky { background-image: url(/bullet_go.png); }
-.icon-email { background-image: url(/email.png); }
-.icon-email-disabled { background-image: url(/email_disabled.png); }
-.icon-email-add { background-image: url(/email_add.png); }
+.icon-email:not(:has(svg)) { background-image: url(/email.png); }
+.icon-email-disabled:not(:has(svg)) { background-image: url(/email_disabled.png); }
+.icon-email-add:not(:has(svg)) { background-image: url(/email_add.png); }
 .icon-ok { background-image: url(/true.png); }
 .icon-not-ok { background-image: url(/false.png); }
 .icon-link-break:not(:has(svg)) { background-image: url(/link_break.png); }
