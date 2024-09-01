@@ -641,7 +641,7 @@ class User < Principal
   def projects_by_role
     return @projects_by_role if @projects_by_role
 
-    result = Hash.new([])
+    result = {}
     project_ids_by_role.each do |role, ids|
       result[role] = Project.where(:id => ids).to_a
     end
@@ -674,7 +674,7 @@ class User < Principal
         hash[role_id] << project_id
       end
 
-      result = Hash.new([])
+      result = {}
       if hash.present?
         roles = Role.where(:id => hash.keys).to_a
         hash.each do |role_id, proj_ids|
