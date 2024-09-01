@@ -203,11 +203,6 @@ Lint/FloatComparison:
     - 'test/system/timelog_test.rb'
 
 # This cop supports unsafe autocorrection (--autocorrect-all).
-Lint/InterpolationCheck:
-  Exclude:
-    - 'app/models/user.rb'
-
-# This cop supports unsafe autocorrection (--autocorrect-all).
 Lint/Loop:
   Exclude:
     - 'lib/redmine/helpers/gantt.rb'

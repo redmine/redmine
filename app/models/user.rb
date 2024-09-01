@@ -24,6 +24,7 @@ class User < Principal
   include Redmine::SafeAttributes
 
   # Different ways of displaying/sorting users
+  # rubocop:disable Lint/InterpolationCheck
   USER_FORMATS = {
     :firstname_lastname => {
       :string => '#{firstname} #{lastname}',
@@ -71,6 +72,7 @@ class User < Principal
       :setting_order => 8
     },
   }
+  # rubocop:enable Lint/InterpolationCheck
 
   MAIL_NOTIFICATION_OPTIONS = [
     ['all', :label_user_mail_option_all],
