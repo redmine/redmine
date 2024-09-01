@@ -371,7 +371,7 @@ class User < Principal
     end
     chars = chars_list.flatten
     length.times {password << chars[SecureRandom.random_number(chars.size)]}
-    password = password.split('').shuffle(random: SecureRandom).join
+    password = password.chars.shuffle(random: SecureRandom).join
     self.password = password
     self.password_confirmation = password
     self

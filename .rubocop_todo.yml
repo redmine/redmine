@@ -1272,11 +1272,6 @@ Style/StderrPuts:
     - 'config/initializers/10-patches.rb'
 
 # This cop supports unsafe autocorrection (--autocorrect-all).
-Style/StringChars:
-  Exclude:
-    - 'app/models/user.rb'
-
-# This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: Mode.
 Style/StringConcatenation:
   Enabled: false
