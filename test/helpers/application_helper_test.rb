@@ -2277,12 +2277,10 @@ class ApplicationHelperTest < Redmine::HelperTest
 
   def test_export_csv_encoding_select_tag_should_have_two_option_when_general_csv_encoding_is_not_UTF8
     with_locale 'en' do
-      assert_not_equal l(:general_csv_encoding), 'UTF-8'
+      assert_equal l(:general_csv_encoding), 'ISO-8859-1'
       result = export_csv_encoding_select_tag
-      assert_select_in result,
-                       "option[selected='selected'][value=#{l(:general_csv_encoding)}]",
-                       :text => l(:general_csv_encoding)
-      assert_select_in result, "option[value='UTF-8']", :text => 'UTF-8'
+      assert_select_in result, "option[selected='selected'][value='UTF-8']", :text => 'UTF-8'
+      assert_select_in result, "option[value='ISO-8859-1']", :text => 'ISO-8859-1'
     end
   end
 
