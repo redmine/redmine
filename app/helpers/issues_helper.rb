@@ -96,7 +96,7 @@ module IssuesHelper
       issue.descendants.visible.
         preload(:status, :priority, :tracker,
                 :assigned_to).sort_by(&:lft)) do |child, level|
-      css = +"issue issue-#{child.id} hascontextmenu #{child.css_classes}"
+      css = "issue issue-#{child.id} hascontextmenu #{child.css_classes}"
       css << " idnt idnt-#{level}" if level > 0
       buttons =
         if manage_relations

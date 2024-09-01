@@ -72,7 +72,7 @@ class Principal < ApplicationRecord
       where({})
     else
       pattern = "%#{sanitize_sql_like q}%"
-      sql = +"LOWER(#{table_name}.login) LIKE LOWER(:p) ESCAPE :s"
+      sql = "LOWER(#{table_name}.login) LIKE LOWER(:p) ESCAPE :s"
       sql << " OR #{table_name}.id IN (SELECT user_id FROM #{EmailAddress.table_name} WHERE LOWER(address) LIKE LOWER(:p) ESCAPE :s)"
       params = {:p => pattern, :s => '\\'}
 

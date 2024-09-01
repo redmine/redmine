@@ -25,7 +25,7 @@ module WikiHelper
     s = (+'').html_safe
     if pages.has_key?(parent)
       pages[parent].each do |page|
-        attrs = +"value='#{page.id}'"
+        attrs = "value='#{page.id}'"
         attrs << " selected='selected'" if selected == page
         indent = (level > 0) ? ('&nbsp;' * level * 2 + '&#187; ') : ''
 

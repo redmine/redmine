@@ -361,7 +361,7 @@ module ApplicationHelper
   end
 
   def toggle_link(name, id, options={})
-    onclick = +"$('##{id}').toggle(); "
+    onclick = "$('##{id}').toggle(); "
     onclick << (options[:focus] ? "$('##{options[:focus]}:visible').focus(); " : "this.blur(); ")
     onclick << "$(window).scrollTop($('##{options[:focus]}').position().top); " if options[:scroll]
     onclick << "return false;"
@@ -1479,7 +1479,7 @@ module ApplicationHelper
         div_class = +'toc'
         div_class << ' right' if right_align
         div_class << ' left' if left_align
-        out = +"<ul class=\"#{div_class}\"><li><strong>#{l :label_table_of_contents}</strong></li><li>"
+        out = "<ul class=\"#{div_class}\"><li><strong>#{l :label_table_of_contents}</strong></li><li>"
         root = headings.map(&:first).min
         current = root
         started = false

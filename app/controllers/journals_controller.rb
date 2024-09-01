@@ -68,11 +68,11 @@ class JournalsController < ApplicationController
     if @journal
       user = @journal.user
       text = @journal.notes
-      @content = +"#{ll(Setting.default_language, :text_user_wrote_in, {:value => user, :link => "#note-#{params[:journal_indice]}"})}\n> "
+      @content = "#{ll(Setting.default_language, :text_user_wrote_in, {:value => user, :link => "#note-#{params[:journal_indice]}"})}\n> "
     else
       user = @issue.author
       text = @issue.description
-      @content = +"#{ll(Setting.default_language, :text_user_wrote, user)}\n> "
+      @content = "#{ll(Setting.default_language, :text_user_wrote, user)}\n> "
     end
     # Replaces pre blocks with [...]
     text = text.to_s.strip.gsub(%r{<pre>(.*?)</pre>}m, '[...]')

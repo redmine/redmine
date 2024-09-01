@@ -310,7 +310,7 @@ class RepositoryTest < ActiveSupport::TestCase
         )
     long_whitespace = "                                                "
     expected_comment = "This is a loooooooooooooooooooooooooooong comment"
-    comment = +"#{expected_comment}#{long_whitespace}\n"
+    comment = "#{expected_comment}#{long_whitespace}\n"
     3.times {comment << "#{long_whitespace}\n"}
     changeset = Changeset.new(
       :comments => comment, :commit_date => Time.now,

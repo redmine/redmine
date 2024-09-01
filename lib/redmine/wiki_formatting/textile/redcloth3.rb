@@ -580,9 +580,9 @@ class RedCloth3 < String
                         depth << tl
                         atts = pba(atts)
                         atts = shelve(atts) if atts
-                        lines[line_id] = +"\t<#{lT(tl)}l#{atts}>\n\t<li>#{content}"
+                        lines[line_id] = "\t<#{lT(tl)}l#{atts}>\n\t<li>#{content}"
                     else
-                        lines[line_id] = +"\t\t<li>#{content}"
+                        lines[line_id] = "\t\t<li>#{content}"
                     end
                     last_line = line_id
                 else
@@ -632,7 +632,7 @@ class RedCloth3 < String
         text.gsub!(CODE_RE) do |m|
             before, lang, code, after = $~[1..4]
             lang = " lang=\"#{lang}\"" if lang
-            rip_offtags(+"#{before}<code#{lang}>#{code}</code>#{after}", false)
+            rip_offtags("#{before}<code#{lang}>#{code}</code>#{after}", false)
         end
     end
 
@@ -844,7 +844,7 @@ class RedCloth3 < String
             next all unless uri_with_link_safe_scheme?(url)
 
             atts = pba(atts)
-            atts = +" href=\"#{url}#{slash}\"#{atts}"
+            atts = " href=\"#{url}#{slash}\"#{atts}"
             atts << " title=\"#{htmlesc title}\"" if title
             atts = shelve(atts) if atts
             external = (url =~ /^https?:\/\//) ? ' class="external"' : ''
@@ -953,7 +953,7 @@ class RedCloth3 < String
             stln, algn, atts, url, title, href, href_a1, href_a2 = $~[1..8]
             htmlesc title
             atts = pba(atts)
-            atts = +" src=\"#{htmlesc url.dup}\"#{atts}"
+            atts = " src=\"#{htmlesc url.dup}\"#{atts}"
             atts << " title=\"#{title}\"" if title
             atts << " alt=\"#{title}\""
             # size = @getimagesize($url);
@@ -1099,12 +1099,12 @@ class RedCloth3 < String
                         ### NB: some changes were made not to use $N variables, because we use "match"
                         ###   and it breaks following lines
                         htmlesc(aftertag, :NoQuotes) if aftertag && escape_aftertag && !first.match(/<code\s+class="(\w+)">/)
-                        line = +"<redpre##{@pre_list.length}>"
+                        line = "<redpre##{@pre_list.length}>"
                         first =~ /<#{OFFTAGS}([^>]*)>/o
                         tag = $1
                         $2.to_s =~ /(class\=("[^"]+"|'[^']+'))/i
                         tag << " #{$1}" if $1 && tag == 'code'
-                        @pre_list << +"<#{tag}>#{aftertag}"
+                        @pre_list << "<#{tag}>#{aftertag}"
                     end
                 elsif $1 and codepre > 0
                     if codepre - used_offtags.length > 0

@@ -60,7 +60,7 @@ module Redmine
 
         # Get info about the svn repository
         def info
-          cmd = +"#{self.class.sq_bin} info --xml #{target}"
+          cmd = "#{self.class.sq_bin} info --xml #{target}"
           cmd << credentials_string
           info = nil
           shellout(cmd) do |io|
@@ -98,7 +98,7 @@ module Redmine
           path ||= ''
           identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
           entries = Entries.new
-          cmd = +"#{self.class.sq_bin} list --xml #{target(path)}@#{identifier}"
+          cmd = "#{self.class.sq_bin} list --xml #{target(path)}@#{identifier}"
           cmd << credentials_string
           shellout(cmd) do |io|
             output = io.read.force_encoding('UTF-8')
@@ -146,7 +146,7 @@ module Redmine
           return nil unless self.class.client_version_above?([1, 5, 0])
 
           identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
-          cmd = +"#{self.class.sq_bin} proplist --verbose --xml #{target(path)}@#{identifier}"
+          cmd = "#{self.class.sq_bin} proplist --verbose --xml #{target(path)}@#{identifier}"
           cmd << credentials_string
           properties = {}
           shellout(cmd) do |io|
@@ -169,7 +169,7 @@ module Redmine
           identifier_from = (identifier_from && identifier_from.to_i > 0) ? identifier_from.to_i : "HEAD"
           identifier_to = (identifier_to && identifier_to.to_i > 0) ? identifier_to.to_i : 1
           revisions = Revisions.new
-          cmd = +"#{self.class.sq_bin} log --xml -r #{identifier_from}:#{identifier_to}"
+          cmd = "#{self.class.sq_bin} log --xml -r #{identifier_from}:#{identifier_to}"
           cmd << credentials_string
           cmd << " --verbose " if  options[:with_paths]
           cmd << " --limit #{options[:limit].to_i}" if options[:limit]
@@ -218,7 +218,7 @@ module Redmine
 
           identifier_to = (identifier_to and identifier_to.to_i > 0) ? identifier_to.to_i : (identifier_from.to_i - 1)
 
-          cmd = +"#{self.class.sq_bin} diff -r "
+          cmd = "#{self.class.sq_bin} diff -r "
           cmd << "#{identifier_to}:"
           cmd << "#{identifier_from}"
           cmd << " #{target(path)}@#{identifier_from}"
@@ -236,7 +236,7 @@ module Redmine
 
         def cat(path, identifier=nil)
           identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
-          cmd = +"#{self.class.sq_bin} cat #{target(path)}@#{identifier}"
+          cmd = "#{self.class.sq_bin} cat #{target(path)}@#{identifier}"
           cmd << credentials_string
           cat = nil
           shellout(cmd) do |io|
@@ -250,7 +250,7 @@ module Redmine
 
         def annotate(path, identifier=nil)
           identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : "HEAD"
-          cmd = +"#{self.class.sq_bin} blame #{target(path)}@#{identifier}"
+          cmd = "#{self.class.sq_bin} blame #{target(path)}@#{identifier}"
           cmd << credentials_string
           blame = Annotate.new
           shellout(cmd) do |io|
