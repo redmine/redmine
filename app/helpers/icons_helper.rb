@@ -25,9 +25,12 @@ module IconsHelper
     sprite_icon(icon_name) + content_tag(:span, label_text, class: "icon-label")
   end
 
-  def icon_for_file(entry, label_text)
+  def icon_for_file(entry, name)
     if entry.is_dir?
-      icon_with_label("folder", label_text)
+      icon_with_label("folder", name)
+    else
+      icon = icon_for_mime_type(Redmine::MimeType.css_class_of(name))
+      icon_with_label(icon, name)
     end
   end
 
@@ -42,5 +45,18 @@ module IconsHelper
         hidden: true
       }
     )
+  end
+
+  private
+
+  def icon_for_mime_type(mime)
+    if %w(text-plain text-x-c text-x-csharp text-x-java text-x-php
+          text-x-ruby text-xml text-css text-html text-css text-html
+          image-gif image-jpeg image-png image-tiff
+          application-pdf application-zip application-gzip application-javascript).include?(mime)
+      mime
+    else
+      "file"
+    end
   end
 end
