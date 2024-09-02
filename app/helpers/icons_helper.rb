@@ -25,6 +25,12 @@ module IconsHelper
     sprite_icon(icon_name) + content_tag(:span, label_text, class: "icon-label")
   end
 
+  def icon_for_file(entry, label_text)
+    if entry.is_dir?
+      icon_with_label("folder", label_text)
+    end
+  end
+
   def sprite_icon(icon_name, size: DEFAULT_ICON_SIZE, sprite: DEFAULT_SPRITE)
     sprite_path = "#{sprite}.svg"
 

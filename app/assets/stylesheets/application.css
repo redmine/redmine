@@ -1691,8 +1691,8 @@ span.icon-label {
 .icon-download:not(:has(svg)) { background-image: url(/download.png); }
 .icon-cancel:not(:has(svg)) { background-image: url(/cancel.png); }
 .icon-multiple:not(:has(svg)) { background-image: url(/table_multiple.png); }
-.icon-folder { background-image: url(/folder.png); }
-.open .icon-folder { background-image: url(/folder_open.png); }
+.icon-folder:not(:has(svg)) { background-image: url(/folder.png); }
+.open .icon-folder:not(:has(svg)) { background-image: url(/folder_open.png); }
 .icon-package { background-image: url(/package.png); }
 .icon-user:not(:has(svg)) { background-image: url(/user.png); }
 .icon-project, .icon-projects { background-image: url(/projects.png); }

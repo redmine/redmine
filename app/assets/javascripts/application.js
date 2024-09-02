@@ -552,17 +552,28 @@ function expandScmEntry(id) {
   $('#'+id).addClass('open');
 }
 
+function switchScmFolderIcon(el, from, to) {
+  var iconEl = el.find('svg use')
+  var iconHref = iconEl.attr('href')
+
+  iconEl.attr('href', iconHref.replace(from, to))
+}
+
 function scmEntryClick(id, url) {
     var el = $('#'+id);
     if (el.hasClass('open')) {
         collapseScmEntry(id);
         el.find('.expander').switchClass('icon-expanded', 'icon-collapsed');
         el.addClass('collapsed');
+        switchScmFolderIcon(el, 'icon--folder-open', 'icon--folder')
+
         return false;
     } else if (el.hasClass('loaded')) {
         expandScmEntry(id);
         el.find('.expander').switchClass('icon-collapsed', 'icon-expanded');
         el.removeClass('collapsed');
+        switchScmFolderIcon(el, 'icon--folder', 'icon--folder-open')
+
         return false;
     }
     if (el.hasClass('loading')) {
@@ -574,6 +585,7 @@ function scmEntryClick(id, url) {
       success: function(data) {
         el.after(data);
         el.addClass('open').addClass('loaded').removeClass('loading');
+        switchScmFolderIcon(el, 'icon--folder', 'icon--folder-open')
         el.find('.expander').switchClass('icon-collapsed', 'icon-expanded');
       }
     });
