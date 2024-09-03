@@ -123,7 +123,7 @@
 <div class="splitcontentright">
   <% if @news.any? && authorize_for('news', 'index') %>
   <div class="news box">
-    <h3 class="icon icon-news"><%=l(:label_news_latest)%></h3>
+    <h3 class="icon icon-news"><%= icon_with_label('news', l(:label_news_latest))%></h3>
     <%= render :partial => 'news/news', :collection => @news %>
     <p><%= link_to l(:label_news_view_all), project_news_index_path(@project) %></p>
   </div>

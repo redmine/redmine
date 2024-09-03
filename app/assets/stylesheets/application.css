@@ -1736,7 +1736,7 @@ span.icon-label {
 .icon-workflows { background-image: url(/ticket_go.png); }
 .icon-custom-fields { background-image: url(/textfield.png); }
 .icon-plugins { background-image: url(/plugin.png); }
-.icon-news { background-image: url(/news.png); }
+.icon-news:not(:has(svg)) { background-image: url(/news.png); }
 .icon-issue-closed { background-image: url(/ticket_checked.png); }
 .icon-issue-note { background-image: url(/ticket_note.png); }
 .icon-changeset { background-image: url(/changeset.png); }
