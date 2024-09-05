@@ -130,7 +130,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
     }
 
     assert_response :success
-    assert_select 'tr[id=?] td.name span[class=?]', 'project-5', 'icon icon-user my-project'
+    assert_select 'tr[id=?] td.name span[class=?]', 'project-5', 'icon-only icon-user my-project'
   end
 
   def test_index_as_list_should_indent_projects

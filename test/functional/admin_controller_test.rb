@@ -64,7 +64,7 @@ class AdminControllerTest < Redmine::ControllerTest
     )
     assert_response :success
     assert_select 'tr.project', 1
-    assert_select 'tr.project td.name', :text => p.name
+    assert_select 'tr.project td.name a', :text => p.name
   end
 
   def test_projects_with_name_filter
