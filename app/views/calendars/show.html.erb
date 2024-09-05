@@ -54,9 +54,9 @@
 <%= call_hook(:view_calendars_show_bottom, :year => @year, :month => @month, :project => @project, :query => @query) %>
 
 <p class="legend cal">
-  <span class="starting"><%= l(:text_tip_issue_begin_day) %></span>
-  <span class="ending"><%= l(:text_tip_issue_end_day) %></span>
-  <span class="starting ending"><%= l(:text_tip_issue_begin_end_day) %></span>
+  <span class="starting"><%= icon_with_label('bullet-go', l(:text_tip_issue_begin_day)) %></span>
+  <span class="ending"><%= icon_with_label('bullet-end', l(:text_tip_issue_end_day)) %></span>
+  <span class="starting ending"><%= icon_with_label('bullet-go-end', l(:text_tip_issue_begin_end_day)) %></span>
 </p>
 <% end %>
 

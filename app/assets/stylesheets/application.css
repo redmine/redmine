@@ -1193,11 +1193,8 @@ ul.cal {
 
 .cal .calbody .icon {padding-top: 2px; padding-bottom: 3px;}
 .cal .calbody.nwday:not(.odd) {background-color:#f1f1f1;}
-.cal .starting a.issue, p.cal.legend .starting {background: url(/bullet_go.png) no-repeat -1px -2px; padding-left:16px;}
-.cal .ending a.issue, p.cal.legend .ending {background: url(/bullet_end.png) no-repeat -1px -2px; padding-left:16px;}
-.cal .starting.ending a.issue, p.cal.legend .starting.ending {background: url(/bullet_diamond.png) no-repeat -1px -2px; padding-left:16px;}
 
-p.cal.legend span {display:block;}
+p.cal.legend span {display:flex;}
 .controller-calendars p.buttons {margin-top: unset;}
 
 /***** Tooltips ******/
