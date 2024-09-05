@@ -1703,7 +1703,7 @@ span.icon-label {
 .icon-help:not(:has(svg)) { background-image: url(/help.png); }
 .icon-attachment:not(:has(svg)) { background-image: url(/attachment.png); }
 .icon-history:not(:has(svg)) { background-image: url(/history.png); }
-.icon-time-entry, .icon-time:not(:has(svg))  { background-image: url(/time.png); }
+.icon-time-entry:not(:has(svg)), .icon-time:not(:has(svg))  { background-image: url(/time.png); }
 .icon-time-add:not(:has(svg)) { background-image: url(/time_add.png); }
 .icon-stats:not(:has(svg)) { background-image: url(/stats.png); }
 .icon-warning  { background-image: url(/warning.png); }
@@ -1736,18 +1736,18 @@ span.icon-label {
 .icon-settings:not(:has(svg)) { background-image: url(/changeset.png); }
 .icon-group:not(:has(svg)),.icon-groupnonmember, .icon-groupanonymous { background-image: url(/group.png); }
 .icon-roles { background-image: url(/database_key.png); }
-.icon-issue-edit { background-image: url(/ticket_edit.png); }
+.icon-issue-edit:not(:has(svg)) { background-image: url(/ticket_edit.png); }
 .icon-workflows { background-image: url(/ticket_go.png); }
 .icon-custom-fields { background-image: url(/textfield.png); }
 .icon-plugins { background-image: url(/plugin.png); }
 .icon-news:not(:has(svg)) { background-image: url(/news.png); }
-.icon-issue-closed { background-image: url(/ticket_checked.png); }
-.icon-issue-note { background-image: url(/ticket_note.png); }
-.icon-changeset { background-image: url(/changeset.png); }
-.icon-message { background-image: url(/message.png); }
-.icon-reply { background-image: url(/comments.png); }
-.icon-wiki-page { background-image: url(/wiki_edit.png); }
-.icon-document { background-image: url(/document.png); }
+.icon-issue-closed:not(:has(svg)) { background-image: url(/ticket_checked.png); }
+.icon-issue-note:not(:has(svg)) { background-image: url(/ticket_note.png); }
+.icon-changeset:not(:has(svg)) { background-image: url(/changeset.png); }
+.icon-message:not(:has(svg)) { background-image: url(/message.png); }
+.icon-reply:not(:has(svg)) { background-image: url(/comments.png); }
+.icon-wiki-page:not(:has(svg)) { background-image: url(/wiki_edit.png); }
+.icon-document:not(:has(svg)) { background-image: url(/document.png); }
 .icon-add-bullet { background-image: url(/bullet_add.png); }
 .icon-shared { background-image: url(/link.png); }
 .icon-actions:not(:has(svg)) { background-image: url(/3_bullets.png); }

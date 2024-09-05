@@ -36,6 +36,21 @@ module IconsHelper
     end
   end
 
+  def icon_for_event_type(event_type)
+    icon = case event_type
+           when 'reply', 'issue-note'
+             'comments'
+           when 'time-entry'
+             'time'
+           when 'message'
+             'comment'
+           else
+             event_type
+           end
+
+    sprite_icon icon
+  end
+
   def sprite_icon(icon_name, size: DEFAULT_ICON_SIZE, sprite: DEFAULT_SPRITE)
     sprite_path = "#{sprite}.svg"
 
