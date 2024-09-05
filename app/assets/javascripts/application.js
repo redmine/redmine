@@ -1176,8 +1176,8 @@ function inlineAutoComplete(element) {
         {
           trigger: '#',
           values: function (text, cb) {
-            if (event.target.type === 'text' && $(element).attr('autocomplete') != 'off') {
-              $(element).attr('autocomplete', 'off');
+            if (event.target.type === 'text' && element.getAttribute('autocomplete') != 'off') {
+              element.setAttribute('autocomplete', 'off');
             }
             // When triggered with text starting with "##", like "##a", the search term will become "#a",
             // causing the SQL query to fail in finding issues with "a" in the subject.
