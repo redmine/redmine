@@ -22,7 +22,9 @@ module IconsHelper
   DEFAULT_SPRITE = "icons"
 
   def icon_with_label(icon_name, label_text, icon_only: false)
-    sprite_icon(icon_name) + content_tag(:span, label_text, class: "icon-label")
+    label_classes = ["icon-label"]
+    label_classes << "hidden" if icon_only
+    sprite_icon(icon_name) + content_tag(:span, label_text, class: label_classes.join(' '))
   end
 
   def icon_for_file(entry, name)

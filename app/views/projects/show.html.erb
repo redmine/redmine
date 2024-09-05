@@ -24,7 +24,7 @@
 <h2><%=l(:label_overview)%></h2>
 
 <% unless @project.active? %>
-  <p class="warning"><span class="icon icon-lock"><%= l(:text_project_closed) %></span></p>
+  <p class="warning"><span class="icon icon-lock"><%= icon_with_label('lock', l(:text_project_closed)) %></span></p>
 <% end %>
 
 <div class="splitcontent">
@@ -48,8 +48,8 @@
   <% if User.current.allowed_to?(:view_issues, @project) %>
   <div class="issues box">
     <h3 class="icon icon-issue">
-      <%=l(:label_issue_tracking)%>&nbsp;
-      <%= link_to l(:label_details),
+      <%= icon_with_label('issue', l(:label_issue_tracking)) %>&nbsp;
+      <%= link_to icon_with_label('zoom-in', l(:label_details)),
             project_issues_report_details_path(@project, :detail => 'tracker'),
             :class => 'icon-only icon-zoom-in',
             :title => l(:label_details) %>
@@ -99,7 +99,7 @@
 
   <% if User.current.allowed_to?(:view_time_entries, @project) %>
   <div class="spent_time box">
-    <h3 class="icon icon-time"><%= l(:label_time_tracking) %></h3>
+    <h3 class="icon icon-time"><%= icon_with_label('time', l(:label_time_tracking)) %></h3>
     <ul>
       <% if @total_estimated_hours.present? %>
         <li><%= l(:field_estimated_hours) %>: <%= l_hours(@total_estimated_hours) %>
@@ -133,7 +133,7 @@
 
   <% if @subprojects.any? %>
   <div class="projects box">
-    <h3 class="icon icon-projects"><%=l(:label_subproject_plural)%></h3>
+    <h3 class="icon icon-projects"><%= icon_with_label('projects', l(:label_subproject_plural)) %></h3>
 	<ul class="subprojects">
 	  <% @subprojects.each do |project| %>
 	  <li><%= link_to(project.name, project_path(project), :class => project.css_classes).html_safe %></li>
