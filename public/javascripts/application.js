@@ -1161,6 +1161,12 @@ function inlineAutoComplete(element) {
             if (event.target.type === 'text' && $(element).attr('autocomplete') != 'off') {
               $(element).attr('autocomplete', 'off');
             }
+            // When triggered with text starting with "##", like "##a", the search term will become "#a",
+            // causing the SQL query to fail in finding issues with "a" in the subject.
+            // To avoid this, remove the first "#" from the search term.
+            if (text) {
+              text = text.replace(/^#/, '');
+            }
             remoteSearch(getDataSource('issues') + encodeURIComponent(text), function (issues) {
               return cb(issues);
             });
