@@ -38,7 +38,11 @@
   <tbody>
   <% @topics.each do |topic| %>
     <tr id="message-<%= topic.id %>" class="message <%= topic.sticky? ? 'sticky' : '' %> <%= topic.locked? ? 'locked' : '' %>">
-      <td class="subject icon <%= 'icon-sticky' if topic.sticky? %> <%= 'icon-locked' if topic.locked? %>"><%= link_to topic.subject, board_message_path(@board, topic) %></td>
+      <td class="subject icon <%= 'icon-sticky' if topic.sticky? %> <%= 'icon-locked' if topic.locked? %>">
+        <%= sprite_icon "arrow-right" if topic.sticky? %>
+        <%= sprite_icon "lock" if topic.locked? %>
+        <%= link_to topic.subject, board_message_path(@board, topic) %>
+      </td>
       <td class="author"><%= link_to_user(topic.author) %></td>
       <td class="created_on"><%= format_time(topic.created_on) %></td>
       <td class="reply-count"><%= topic.replies_count %></td>

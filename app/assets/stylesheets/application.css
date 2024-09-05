@@ -406,7 +406,6 @@ tr.builtin td.name {font-style:italic;}
 
 a.sort { padding-right: 16px; background-position: 100% 50%; background-repeat: no-repeat; }
 
-table.boards a.board { background: url(/comment.png) no-repeat 0% 50%; padding-left: 20px; }
 table.boards td.last-message {text-align:left;font-size:80%;}
 
 div.table-list.boards .table-list-cell.name {width: 30%;}
@@ -1715,7 +1714,7 @@ span.icon-label {
 .icon-unlock:not(:has(svg)) { background-image: url(/unlock.png); }
 .icon-checked:not(:has(svg)) { background-image: url(/toggle_check.png); }
 .icon-report { background-image: url(/report.png); }
-.icon-comment:not(:has(svg)), .icon-comments  { background-image: url(/comment.png); }
+.icon-comment:not(:has(svg)), .icon-comments:not(:has(svg)) { background-image: url(/comment.png); }
 .icon-summary:not(:has(svg)) { background-image: url(/lightning.png); }
 .icon-server-authentication { background-image: url(/server_key.png); }
 .icon-issue:not(:has(svg)) { background-image: url(/ticket.png); }
@@ -1723,7 +1722,7 @@ span.icon-label {
 .icon-zoom-out:not(:has(svg)) { background-image: url(/zoom_out.png); }
 .icon-magnifier { background-image: url(/magnifier.png); }
 .icon-passwd:not(:has(svg)) { background-image: url(/textfield_key.png); }
-.icon-arrow-right, .icon-test:not(:has(svg)), .icon-sticky { background-image: url(/bullet_go.png); }
+.icon-arrow-right, .icon-test:not(:has(svg)), .icon-sticky:not(:has(svg)) { background-image: url(/bullet_go.png); }
 .icon-email:not(:has(svg)) { background-image: url(/email.png); }
 .icon-email-disabled:not(:has(svg)) { background-image: url(/email_disabled.png); }
 .icon-email-add:not(:has(svg)) { background-image: url(/email_add.png); }

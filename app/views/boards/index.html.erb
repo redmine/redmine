@@ -21,7 +21,7 @@
     <tr class="board">
   <% end %>
     <td class="name">
-      <%= link_to board.name, project_board_path(board.project, board), :class => "board" %>
+      <%= link_to icon_with_label('comment', board.name), project_board_path(board.project, board), :class => "board icon icon-comment" %>
       <p class="description"><%= board.description %></p>
     </td>
     <td class="topic-count"><%= board.topics_count %></td>

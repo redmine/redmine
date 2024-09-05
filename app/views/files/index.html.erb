@@ -22,7 +22,7 @@
     <% if container.is_a?(Version) -%>
     <tr>
       <th colspan="6">
-        <%= link_to(container, {:controller => 'versions', :action => 'show', :id => container}, :class => "icon icon-package") %>
+        <%= link_to(icon_with_label('package', container), {:controller => 'versions', :action => 'show', :id => container}, :class => "icon icon-package") %>
       </th>
     </tr>
     <% end -%>
@@ -34,7 +34,7 @@
       <td class="downloads"><%= file.downloads %></td>
       <td class="digest"><%= file.digest_type %>: <%= file.digest %></td>
       <td class="buttons">
-      <%= link_to_attachment file, class: 'icon-only icon-download', title: l(:button_download), download: true %>
+      <%= link_to_attachment file, class: 'icon-only icon-download', title: l(:button_download), download: true, icon: 'download' %>
       <%= link_to(icon_with_label('del', l(:button_delete)), attachment_path(file), :class => 'icon-only icon-del',
                                           :data => {:confirm => l(:text_are_you_sure)}, :method => :delete) if delete_allowed %>
       </td>
