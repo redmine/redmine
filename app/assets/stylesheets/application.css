@@ -709,6 +709,7 @@ div#roadmap .wiki h1:first-child { display: none; }
 div#roadmap .wiki h1 { font-size: 120%; }
 div#roadmap .wiki h2 { font-size: 110%; }
 div#roadmap h2, div#roadmap h3 {padding-right: 0;}
+div#roadmap h3 svg {margin-right: 4px;}
 body.controller-versions.action-show div#roadmap .related-issues {width:70%;}
 
 div#roadmap .version-article {padding-bottom: 12px;}
@@ -1696,7 +1697,7 @@ span.icon-label {
 .icon-multiple:not(:has(svg)) { background-image: url(/table_multiple.png); }
 .icon-folder:not(:has(svg)) { background-image: url(/folder.png); }
 .open .icon-folder:not(:has(svg)) { background-image: url(/folder_open.png); }
-.icon-package { background-image: url(/package.png); }
+.icon-package:not(:has(svg)) { background-image: url(/package.png); }
 .icon-user:not(:has(svg)) { background-image: url(/user.png); }
 .icon-project, .icon-projects:not(:has(svg)) { background-image: url(/projects.png); }
 .icon-help:not(:has(svg)) { background-image: url(/help.png); }
