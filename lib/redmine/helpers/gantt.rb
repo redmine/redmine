@@ -726,6 +726,7 @@ module Redmine
             css_classes << ' over-end-date' if progress_date > self.date_to
           end
           s = (+"").html_safe
+          s << view.sprite_icon('issue').html_safe
           s << view.assignee_avatar(issue.assigned_to, :size => 13, :class => 'icon-gravatar')
           s << view.link_to_issue(issue).html_safe
           s << view.content_tag(:input, nil, :type => 'checkbox', :name => 'ids[]',
@@ -745,14 +746,18 @@ module Redmine
             html_class << ' behind-start-date' if progress_date < self.date_from
             html_class << ' over-end-date' if progress_date > self.date_to
           end
-          s = view.link_to_version(version).html_safe
+          s = (+"").html_safe
+          s << view.sprite_icon('package').html_safe
+          s << view.link_to_version(version).html_safe
           view.content_tag(:span, s, :class => html_class).html_safe
         when Project
           project = object
           html_class = +""
           html_class << 'icon icon-projects '
           html_class << (project.overdue? ? 'project-overdue' : '')
-          s = view.link_to_project(project).html_safe
+          s = (+"").html_safe
+          s << view.sprite_icon('projects').html_safe
+          s << view.link_to_project(project).html_safe
           view.content_tag(:span, s, :class => html_class).html_safe
         end
       end
