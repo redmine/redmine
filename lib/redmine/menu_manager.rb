@@ -180,7 +180,14 @@ module Redmine
           url = '#'
           options.reverse_merge!(:onclick => 'return false;')
         end
-        link_to(h(caption), use_absolute_controller(url), options)
+
+        label = if item.icon.present?
+          icon_with_label(item.icon, h(caption))
+        else
+          h(caption)
+        end
+
+        link_to(label, use_absolute_controller(url), options)
       end
 
       def render_unattached_menu_item(menu_item, project)
@@ -424,7 +431,7 @@ module Redmine
     class MenuItem < MenuNode
       include Redmine::I18n
       attr_reader :name, :url, :param, :condition, :parent,
-                  :child_menus, :last, :permission
+                  :child_menus, :last, :permission, :icon
 
       def initialize(name, url, options={})
         if options[:if] && !options[:if].respond_to?(:call)
@@ -447,6 +454,7 @@ module Redmine
         @permission ||= false if options.key?(:permission)
         @param = options[:param] || :id
         @caption = options[:caption]
+        @icon = options[:icon]
         @html_options = options[:html] || {}
         # Adds a unique class to each menu item based on its name
         @html_options[:class] = [@html_options[:class], @name.to_s.dasherize].compact.join(' ')

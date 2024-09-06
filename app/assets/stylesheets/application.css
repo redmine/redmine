@@ -1713,7 +1713,7 @@ span.icon-label {
 .icon-report { background-image: url(/report.png); }
 .icon-comment:not(:has(svg)), .icon-comments:not(:has(svg)) { background-image: url(/comment.png); }
 .icon-summary:not(:has(svg)) { background-image: url(/lightning.png); }
-.icon-server-authentication { background-image: url(/server_key.png); }
+.icon-server-authentication:not(:has(svg)) { background-image: url(/server_key.png); }
 .icon-issue:not(:has(svg)) { background-image: url(/ticket.png); }
 .icon-zoom-in:not(:has(svg)) { background-image: url(/zoom_in.png); }
 .icon-zoom-out:not(:has(svg)) { background-image: url(/zoom_out.png); }
@@ -1731,11 +1731,11 @@ span.icon-label {
 .icon-close:hover:not(:has(svg)) { background-image: url(/close_hl.png); }
 .icon-settings:not(:has(svg)) { background-image: url(/changeset.png); }
 .icon-group:not(:has(svg)),.icon-groupnonmember, .icon-groupanonymous { background-image: url(/group.png); }
-.icon-roles { background-image: url(/database_key.png); }
+.icon-roles:not(:has(svg)) { background-image: url(/database_key.png); }
 .icon-issue-edit:not(:has(svg)) { background-image: url(/ticket_edit.png); }
-.icon-workflows { background-image: url(/ticket_go.png); }
-.icon-custom-fields { background-image: url(/textfield.png); }
-.icon-plugins { background-image: url(/plugin.png); }
+.icon-workflows:not(:has(svg)) { background-image: url(/ticket_go.png); }
+.icon-custom-fields:not(:has(svg)) { background-image: url(/textfield.png); }
+.icon-plugins:not(:has(svg)) { background-image: url(/plugin.png); }
 .icon-news:not(:has(svg)) { background-image: url(/news.png); }
 .icon-issue-closed:not(:has(svg)) { background-image: url(/ticket_checked.png); }
 .icon-issue-note:not(:has(svg)) { background-image: url(/ticket_note.png); }
