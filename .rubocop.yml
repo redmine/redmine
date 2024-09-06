@@ -168,6 +168,9 @@ Rails/Pluck:
 Rails/RootPathnameMethods:
   Enabled: false
 
+Rails/SkipsModelValidations:
+  Enabled: false
+
 Rails/SquishedSQLHeredocs:
   Enabled: false
 
