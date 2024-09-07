@@ -182,10 +182,10 @@ module Redmine
         end
 
         label = if item.icon.present?
-          icon_with_label(item.icon, h(caption))
-        else
-          h(caption)
-        end
+                  icon_with_label(item.icon, h(caption))
+                else
+                  h(caption)
+                end
 
         link_to(label, use_absolute_controller(url), options)
       end
