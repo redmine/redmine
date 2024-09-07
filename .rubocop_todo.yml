@@ -178,10 +178,6 @@ Lint/AmbiguousRegexpLiteral:
 Lint/AssignmentInCondition:
   Enabled: false
 
-Lint/BinaryOperatorWithIdenticalOperands:
-  Exclude:
-    - 'lib/redmine/helpers/calendar.rb'
-
 # Configuration parameters: IgnoreLiteralBranches, IgnoreConstantBranches.
 Lint/DuplicateBranch:
   Exclude:
@@ -290,7 +286,6 @@ Naming/MemoizedInstanceVariableName:
     - 'app/models/query.rb'
     - 'app/models/role.rb'
     - 'lib/redmine/field_format.rb'
-    - 'lib/redmine/helpers/calendar.rb'
     - 'lib/redmine/search.rb'
 
 # Configuration parameters: EnforcedStyle, AllowedPatterns.
