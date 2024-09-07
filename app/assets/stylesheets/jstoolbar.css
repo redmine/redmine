@@ -36,7 +36,7 @@
     display: inline-block;
     vertical-align: bottom;
     line-height: 19px;
-  border-bottom: 1px solid transparent;
+    border-bottom: 1px solid transparent;
 }
 .jstElements {
     display: inline-block;
@@ -105,59 +105,65 @@
 /* Buttons
 -------------------------------------------------------- */
 .jstb_strong {
-    background-image: url(/jstoolbar/bt_strong.png);
+    background-image: url(/jstoolbar/bold.svg);
 }
 .jstb_em {
-    background-image: url(/jstoolbar/bt_em.png);
+    background-image: url(/jstoolbar/italic.svg);
 }
 .jstb_ins {
-    background-image: url(/jstoolbar/bt_ins.png);
+    background-image: url(/jstoolbar/underlined.svg);
 }
 .jstb_del {
-    background-image: url(/jstoolbar/bt_del.png);
+    background-image: url(/jstoolbar/strikethrough.svg);
 }
-.jstb_code {
-    background-image: url(/jstoolbar/bt_code.png);
+.jstb_code::before {
+    content: "C";
+    font-size: 14px;
+    color: #333;
+    font-weight: 700
 }
 .jstb_h1 {
-    background-image: url(/jstoolbar/bt_h1.png);
+    background-image: url(/jstoolbar/h1.svg);
 }
 .jstb_h2 {
-    background-image: url(/jstoolbar/bt_h2.png);
+    background-image: url(/jstoolbar/h2.svg);
 }
 .jstb_h3 {
-    background-image: url(/jstoolbar/bt_h3.png);
+    background-image: url(/jstoolbar/h3.svg);
 }
 .jstb_ul {
-    background-image: url(/jstoolbar/bt_ul.png);
+    background-image: url(/jstoolbar/list_bulleted.svg);
 }
 .jstb_ol {
-    background-image: url(/jstoolbar/bt_ol.png);
+    background-image: url(/jstoolbar/list_numbered.svg);
 }
 .jstb_tl {
-    background-image: url(/jstoolbar/bt_tl.png);
+    background-image: url(/jstoolbar/checklist.svg);
 }
 .jstb_bq {
-    background-image: url(/jstoolbar/bt_bq.png);
+    background-image: url(/jstoolbar/indent_increase.svg);
 }
 .jstb_unbq {
-    background-image: url(/jstoolbar/bt_bq_remove.png);
+    background-image: url(/jstoolbar/indent_decrease.svg);
 }
-.jstb_pre {
-    background-image: url(/jstoolbar/bt_pre.png);
+.jstb_pre::before {
+    content: "pre";
+    font-size: 10px;
+    color: #333;
+    font-weight: 700
 }
 .jstb_precode {
-    background-image: url(/jstoolbar/bt_precode.png);
+    background-image: url(/jstoolbar/code_blocks.svg);
 }
 .jstb_link {
-    background-image: url(/jstoolbar/bt_link.png);
+    background-image: url(/jstoolbar/wiki_link.svg);
 }
 .jstb_img {
-    background-image: url(/jstoolbar/bt_img.png);
+    background-image: url(/jstoolbar/image.svg);
 }
 .jstb_table {
-    background-image: url(/jstoolbar/bt_table.png);
+    background-image: url(/jstoolbar/table.svg);
 }
 .jstb_help {
-    background-image: url(/help.png);
+    background-image: url(/jstoolbar/help.svg);
 }
