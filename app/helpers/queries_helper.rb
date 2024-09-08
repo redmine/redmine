@@ -205,9 +205,11 @@ module QueriesHelper
       if column.name.to_s == query.sort_criteria.first_key
         if query.sort_criteria.first_asc?
           css = 'sort asc icon icon-sorted-desc'
+          icon = 'angle-up'
           order = 'desc'
         else
           css = 'sort desc icon icon-sorted-asc'
+          icon = 'angle-down'
           order = 'asc'
         end
       end
@@ -223,7 +225,7 @@ module QueriesHelper
       end
       content =
         link_to(
-          column.caption,
+          icon_with_label(icon, column.caption),
           {:params => request.query_parameters.deep_merge(sort_param)},
           link_options
         )

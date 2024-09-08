@@ -1776,8 +1776,8 @@ span.icon-label {
 .icon-bookmark:not(:has(svg)) { background-image: url(/tag_blue_delete.png); }
 .icon-bookmark-off:not(:has(svg)) { background-image: url(/tag_blue_add.png); }
 .icon-bookmarked-project:not(:has(svg)) { background-image: url(/tag_blue.png); }
-.icon-sorted-asc { background-image: url(/arrow_down.png); }
-.icon-sorted-desc { background-image: url(/arrow_up.png); }
+.icon-sorted-asc:not(:has(svg)) { background-image: url(/arrow_down.png); }
+.icon-sorted-desc:not(:has(svg)) { background-image: url(/arrow_up.png); }
 .icon-toggle-plus { background-image: url(/bullet_toggle_plus.png) }
 .icon-toggle-minus { background-image: url(/bullet_toggle_minus.png) }
 .icon-clear-query:not(:has(svg)) { background-image: url(/close_hl.png); }
