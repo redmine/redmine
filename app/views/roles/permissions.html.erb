@@ -2,7 +2,10 @@
 
 <div class="hide-when-print">
   <fieldset id="filters" class="collapsible collapsed">
-    <legend onclick="toggleFieldset(this);" class="icon icon-collapsed"><%= l(:label_filter_plural) %></legend>
+    <legend onclick="toggleFieldset(this);" class="icon icon-collapsed">
+      <%= sprite_icon("angle-right") %>
+      <%= l(:label_filter_plural) %>
+    </legend>
     <div style="display: none;">
       <%= form_tag({}, :method => :get) do %>
         <fieldset>
@@ -49,7 +52,7 @@
     <% unless mod.blank? %>
         <tr class="group open">
           <td>
-            <span class="expander icon icon-expanded" onclick="toggleRowGroup(this);">&nbsp;</span>
+            <span class="expander icon icon-expanded" onclick="toggleRowGroup(this);"><%= sprite_icon("angle-down") %></span>
             <%= l_or_humanize(mod, :prefix => 'project_module_') %>
           </td>
           <% @roles.each do |role| %>

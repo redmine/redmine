@@ -15,14 +15,20 @@
 <div id="query_form_with_buttons" class="hide-when-print">
 <div id="query_form_content">
   <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
-    <legend onclick="toggleFieldset(this);" class="icon icon-<%= @query.new_record? ? "expanded" : "collapsed" %>"><%= l(:label_filter_plural) %></legend>
+    <legend onclick="toggleFieldset(this);" class="icon icon-<%= @query.new_record? ? "expanded" : "collapsed" %>">
+      <%= sprite_icon(@query.new_record? ? "angle-down" : "angle-right") %>
+      <%= l(:label_filter_plural) %>
+    </legend>
     <div style="<%= @query.new_record? ? "" : "display: none;" %>">
       <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
     </div>
   </fieldset>
 
   <fieldset id="options" class="collapsible collapsed">
-    <legend onclick="toggleFieldset(this);" class="icon icon-collapsed"><%= l(:label_options) %></legend>
+    <legend onclick="toggleFieldset(this);" class="icon icon-collapsed">
+      <%= sprite_icon("angle-right") %>
+      <%= l(:label_options) %>
+    </legend>
     <div style="display: none;">
       <div>
             <fieldset>

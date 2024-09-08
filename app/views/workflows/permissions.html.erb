@@ -54,7 +54,7 @@
     <tbody>
       <tr class="group open">
         <td colspan="<%= @statuses.size + 1 %>">
-          <span class="expander icon icon-expanded" onclick="toggleRowGroup(this);">&nbsp;</span>
+          <span class="expander icon icon-expanded" onclick="toggleRowGroup(this);"><%= sprite_icon("angle-down") %></span>
           <%= l(:field_core_fields) %>
         </td>
       </tr>
@@ -74,7 +74,7 @@
       <% if @custom_fields.any? %>
         <tr class="group open">
           <td colspan="<%= @statuses.size + 1 %>">
-            <span class="expander icon icon-expanded" onclick="toggleRowGroup(this);">&nbsp;</span>
+            <span class="expander icon icon-expanded" onclick="toggleRowGroup(this);"><%= sprite_icon("angle-down") %></span>
             <%= l(:label_custom_field_plural) %>
           </td>
         </tr>
