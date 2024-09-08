@@ -152,6 +152,7 @@ div.modal .box p {margin: 0.3em 0;}
 .hidden {display: none;}
 .inline-block {display: inline-block;}
 .inline-flex {display: inline-flex;}
+.decoration-red, a.decoration-red {color: #c22 !important;}
 
 /***** Links *****/
 a, a:link, a:visited{ color: #169; text-decoration: none; }
@@ -1746,7 +1747,7 @@ span.icon-label {
 .icon-email-disabled:not(:has(svg)) { background-image: url(/email_disabled.png); }
 .icon-email-add:not(:has(svg)) { background-image: url(/email_add.png); }
 .icon-ok:not(svg) { background-image: url(/true.png); }
-.icon-not-ok { background-image: url(/false.png); }
+.icon-not-ok:not(svg) { background-image: url(/false.png); }
 .icon-link-break:not(:has(svg)) { background-image: url(/link_break.png); }
 .icon-list:not(:has(svg)) { background-image: url(/text_list_bullets.png); }
 .icon-close:not(:has(svg)) { background-image: url(/close.png); }
