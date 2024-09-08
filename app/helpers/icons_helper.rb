@@ -37,7 +37,7 @@ module IconsHelper
   end
 
   def icon_for_principal(principal_class, size: DEFAULT_ICON_SIZE, css_class: nil)
-    sprite_icon('group', size: size, css_class:css_class) if ['groupanonymous', 'groupnonmember', 'group'].include?(principal_class)
+    sprite_icon('group', size: size, css_class: css_class) if ['groupanonymous', 'groupnonmember', 'group'].include?(principal_class)
   end
 
   def icon_for_event_type(event_type, size: DEFAULT_ICON_SIZE, css_class: nil)
