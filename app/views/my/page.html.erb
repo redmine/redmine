@@ -3,6 +3,7 @@
     <%= label_tag('block-select', l(:button_add)) %>:
     <%= block_select_tag(@user) %>
   <% end %>
+  <%= call_hook(:view_my_page_contextual, :user => @user) %>
 </div>
 
 <h2><%=l(:label_my_page)%></h2>
@@ -13,6 +14,7 @@
     <%= render_blocks(@blocks[group], @user) %>
   </div>
 <% end %>
+<%= call_hook(:view_my_page_splitcontent, :user => @user) %>
 </div>
 
 <%= context_menu %>
