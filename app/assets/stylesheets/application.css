@@ -612,8 +612,8 @@ body.controller-issues h2.inline-flex {padding-right: 0}
 #issue-form .assign-to-me-link { padding-left: 5px; }
 
 fieldset.collapsible {border-width: 1px 0 0 0;}
-fieldset.collapsible>legend { cursor:pointer; padding-left: 18px; background-position: 4px;}
-
+fieldset.collapsible>legend { cursor:pointer;}
+fieldset.collapsible>legend:not(:has(svg)) {padding-left: 18px; background-position: 4px;}
 fieldset#date-range p { margin: 2px 0 2px 0; }
 
 #query_form_content > fieldset {
