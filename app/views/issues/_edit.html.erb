@@ -54,6 +54,7 @@
         <div id="existing-attachments" style="<%= @issue.deleted_attachment_ids.blank? ? 'display:none;' : '' %>">
           <% @issue.attachments.each do |attachment| %>
           <span class="existing-attachment">
+            <%= sprite_icon('attachment', size: 12) %>
             <%= text_field_tag '', attachment.filename, :class => "icon icon-attachment filename", :disabled => true %>
             <label>
               <%= check_box_tag 'issue[deleted_attachment_ids][]',

@@ -1,5 +1,5 @@
 <div class="contextual">
-<%= link_to l(:label_profile), user_path(@user), :class => 'icon icon-user' %>
+<%= link_to icon_with_label('user', l(:label_profile)), user_path(@user), :class => 'icon icon-user' %>
 <%= additional_emails_link(@user) %>
 <%= change_status_link(@user) %>
 <%= delete_link user_path(@user) if User.current != @user %>

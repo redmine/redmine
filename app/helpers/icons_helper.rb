@@ -21,22 +21,26 @@ module IconsHelper
   DEFAULT_ICON_SIZE = "14"
   DEFAULT_SPRITE = "icons"
 
-  def icon_with_label(icon_name, label_text, icon_only: false)
+  def icon_with_label(icon_name, label_text, icon_only: false, size: DEFAULT_ICON_SIZE, css_class: nil)
     label_classes = ["icon-label"]
     label_classes << "hidden" if icon_only
-    sprite_icon(icon_name) + content_tag(:span, label_text, class: label_classes.join(' '))
+    sprite_icon(icon_name, size: size, css_class: css_class) + content_tag(:span, label_text, class: label_classes.join(' '))
   end
 
-  def icon_for_file(entry, name)
+  def icon_for_file(entry, name, size: DEFAULT_ICON_SIZE, css_class: nil)
     if entry.is_dir?
-      icon_with_label("folder", name)
+      icon_with_label("folder", name, size: size, css_class: css_class)
     else
       icon = icon_for_mime_type(Redmine::MimeType.css_class_of(name))
-      icon_with_label(icon, name)
+      icon_with_label(icon, name, size: size, css_class: css_class)
     end
   end
 
-  def icon_for_event_type(event_type)
+  def icon_for_principal(principal_class, size: DEFAULT_ICON_SIZE, css_class: nil)
+    sprite_icon('group', size: size, css_class:css_class) if ['groupanonymous', 'groupnonmember', 'group'].include?(principal_class)
+  end
+
+  def icon_for_event_type(event_type, size: DEFAULT_ICON_SIZE, css_class: nil)
     icon = case event_type
            when 'reply', 'issue-note'
              'comments'
@@ -48,10 +52,10 @@ module IconsHelper
              event_type
            end
 
-    sprite_icon icon
+    sprite_icon(icon, size: size, css_class: css_class)
   end
 
-  def sprite_icon(icon_name, size: DEFAULT_ICON_SIZE, sprite: DEFAULT_SPRITE)
+  def sprite_icon(icon_name, size: DEFAULT_ICON_SIZE, sprite: DEFAULT_SPRITE, css_class: nil)
     sprite_path = "#{sprite}.svg"
 
     content_tag(

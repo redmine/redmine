@@ -6,7 +6,7 @@
 <% @checklist.each do |label, result| %>
   <tr>
     <td class="name"><%= label.is_a?(Symbol) ? l(label) : label %></td>
-    <td class="tick"><span class="icon-only <%= (result ? 'icon-ok' : 'icon-error') %>"></span></td>
+    <td class="tick"><%= result ? sprite_icon('checked', css_class: "icon-ok") : sprite_icon('error', css_class: "icon-error") %></td>
   </tr>
 <% end %>
 </table>

@@ -4,7 +4,7 @@
 <% end %>
 <%= watcher_link(@wiki, User.current) %>
 <% if User.current.allowed_to?(:manage_wiki, @project) %>
-<%= link_to l(:button_delete), {:controller => 'wikis', :action => 'destroy', :id => @project}, :class => 'icon icon-del' %>
+<%= link_to icon_with_label('del', l(:button_delete)), {:controller => 'wikis', :action => 'destroy', :id => @project}, :class => 'icon icon-del' %>
 <% end %>
 </div>
 

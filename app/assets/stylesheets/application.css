@@ -171,7 +171,7 @@ a.user.user-mention {
 #sidebar a.selected:hover {text-decoration:none;}
 #sidebar .query.default {font-weight: bold;}
 #admin-menu a {line-height:1.7em;}
-#admin-menu a.selected {padding-left: 20px !important; background-position: 2px 40%;}
+#admin-menu a.selected:not(:has(svg))  {padding-left: 20px !important; background-position: 2px 40%;}
 
 a.collapsible {padding-left: 12px; }
 
@@ -354,10 +354,11 @@ body.avatars-on #replies .message.reply {padding-left: 32px;}
 #replies h4 img.gravatar {margin-left:-32px;}
 
 tr.version.closed, tr.version.closed a { color: #999; }
-tr.version td.name { padding-left: 20px; }
+tr.version td.name:not(.icon-shared) { padding-left: 20px; }
 tr.version td.date, tr.version td.status, tr.version td.sharing { text-align: center; white-space:nowrap; }
 
 tr.member td.icon-user, #principals_for_new_member .icon-user {background:transparent;}
+#principals_for_new_member svg {margin-right: 4px;}
 
 tr.user td {width:13%;white-space: nowrap;}
 td.username, td.firstname, td.lastname, td.email {text-align:left !important;}
@@ -1000,6 +1001,8 @@ span.required {color: #bb0000;}
 
 .attachments_fields input.description, #existing-attachments input.description {margin-left:4px; width:340px;}
 .attachments_fields>span, #existing-attachments>span {display:block; white-space:nowrap;}
+/* ToDo: delete this line when legacy icons are deleted */
+.attachments_fields , #existing-attachments .icon-attachment {background-image: none; padding-left: 0}
 .attachments_fields input.filename, #existing-attachments .filename {border:0; width:250px; color:#555; background-color:inherit; }
 .tabular input.filename {max-width:75% !important;}
 .attachments_fields input.filename {height:1.8em;}
@@ -1634,6 +1637,18 @@ a.icon:hover svg, a.icon-only:hover svg {
   fill: #c61a1a;
 }
 
+svg.icon-error {
+  fill: #f37c60;
+}
+
+svg.icon-ok {
+  fill: #5db651;
+}
+
+.icon-warning svg {
+  fill: #e4bc4b;
+}
+
 .icon-only span {
   display: none;
 }
@@ -1646,6 +1661,11 @@ svg {
     width: 14px;
     height: 14px;
   }
+
+  &.s12 {
+    width: 12px;
+    height: 12px;
+  }
 }
 
 span.icon-label {
@@ -1655,6 +1675,7 @@ span.icon-label {
 .icon-bookmarked-project svg {
   fill: #169;
 }
+
 .icon-user svg {
   fill: #169;
 }
@@ -1703,8 +1724,8 @@ span.icon-label {
 .icon-time-entry:not(:has(svg)), .icon-time:not(:has(svg))  { background-image: url(/time.png); }
 .icon-time-add:not(:has(svg)) { background-image: url(/time_add.png); }
 .icon-stats:not(:has(svg)) { background-image: url(/stats.png); }
-.icon-warning  { background-image: url(/warning.png); }
-.icon-error { background-image: url(/exclamation.png); }
+.icon-warning:not(:has(svg)) { background-image: url(/warning.png); }
+.icon-error:not(svg) { background-image: url(/exclamation.png); }
 .icon-fav:not(:has(svg))  { background-image: url(/fav.png); }
 .icon-fav-off:not(:has(svg))  { background-image: url(/fav_off.png); }
 .icon-reload:not(:has(svg)) { background-image: url(/reload.png); }
@@ -1724,14 +1745,14 @@ span.icon-label {
 .icon-email:not(:has(svg)) { background-image: url(/email.png); }
 .icon-email-disabled:not(:has(svg)) { background-image: url(/email_disabled.png); }
 .icon-email-add:not(:has(svg)) { background-image: url(/email_add.png); }
-.icon-ok { background-image: url(/true.png); }
+.icon-ok:not(svg) { background-image: url(/true.png); }
 .icon-not-ok { background-image: url(/false.png); }
 .icon-link-break:not(:has(svg)) { background-image: url(/link_break.png); }
 .icon-list:not(:has(svg)) { background-image: url(/text_list_bullets.png); }
 .icon-close:not(:has(svg)) { background-image: url(/close.png); }
 .icon-close:hover:not(:has(svg)) { background-image: url(/close_hl.png); }
 .icon-settings:not(:has(svg)) { background-image: url(/changeset.png); }
-.icon-group:not(:has(svg)),.icon-groupnonmember, .icon-groupanonymous { background-image: url(/group.png); }
+.icon-group:not(:has(svg)),.icon-groupnonmember:not(:has(svg)), .icon-groupanonymous:not(:has(svg)) { background-image: url(/group.png); }
 .icon-roles:not(:has(svg)) { background-image: url(/database_key.png); }
 .icon-issue-edit:not(:has(svg)) { background-image: url(/ticket_edit.png); }
 .icon-workflows:not(:has(svg)) { background-image: url(/ticket_go.png); }
@@ -1745,8 +1766,8 @@ span.icon-label {
 .icon-reply:not(:has(svg)) { background-image: url(/comments.png); }
 .icon-wiki-page:not(:has(svg)) { background-image: url(/wiki_edit.png); }
 .icon-document:not(:has(svg)) { background-image: url(/document.png); }
-.icon-add-bullet { background-image: url(/bullet_add.png); }
-.icon-shared { background-image: url(/link.png); }
+.icon-add-bullet:not(:has(svg)) { background-image: url(/bullet_add.png); }
+.icon-shared:not(:has(svg)) { background-image: url(/link.png); }
 .icon-actions:not(:has(svg)) { background-image: url(/3_bullets.png); }
 .icon-sort-handle:not(:has(svg)) { background-image: url(/reorder.png); }
 .icon-expanded { background-image: url(/arrow_down.png); }

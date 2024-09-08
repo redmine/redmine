@@ -18,7 +18,7 @@
   <td>
     <% unless role.builtin? || role.workflow_rules.exists? %>
       <span class="icon icon-warning">
-        <%= l(:text_role_no_workflow) %> (<%= link_to l(:button_edit), edit_workflows_path(:role_id => role) %>)
+        <%= icon_with_label('warning', l(:text_role_no_workflow)) %> (<%= link_to l(:button_edit), edit_workflows_path(:role_id => role) %>)
       </span>
     <% end %>
   </td>

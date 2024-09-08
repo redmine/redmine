@@ -34,7 +34,11 @@
   <tbody>
 <% @versions.each do |version| %>
     <tr class="version <%=h version.status %> <%= 'shared' if version.project != @project %>">
-    <td class="name <%= 'icon icon-shared' if version.project != @project %>"><%= link_to_version version %></td>
+    <% is_shared = version.project != @project %>
+    <td class="name <%= 'icon icon-shared' if is_shared %>">
+      <%= sprite_icon('link') if is_shared %>
+      <%= link_to_version version %>
+    </td>
     <td class="tick"><%= checked_image(version.id == @project.default_version_id) %></td>
     <td class="date"><%= format_date(version.effective_date) %></td>
     <td class="description"><%= version.description %></td>

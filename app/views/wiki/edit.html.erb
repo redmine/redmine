@@ -41,6 +41,7 @@
 <div id="existing-attachments" style="<%= @page.deleted_attachment_ids.blank? ? 'display:none;' : '' %>">
   <% @page.attachments.each do |attachment| %>
   <span class="existing-attachment">
+    <%= sprite_icon('attachment', size: 12) %>
     <%= text_field_tag '', attachment.filename, :class => "icon icon-attachment filename", :disabled => true %>
     <label class='inline'>
       <%= check_box_tag 'wiki_page[deleted_attachment_ids][]',
