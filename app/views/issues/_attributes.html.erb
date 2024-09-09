@@ -84,7 +84,7 @@
 <% end %>
 
 <% if @issue.safe_attribute? 'estimated_hours' %>
-<p><%= f.hours_field :estimated_hours, :size => 3, :required => @issue.required_attribute?('estimated_hours') %> <%= l(:field_hours) %></p>
+<p><%= f.hours_field :estimated_hours, :size => 6, :required => @issue.required_attribute?('estimated_hours') %> <%= l(:field_hours) %></p>
 <% end %>
 
 <% if @issue.safe_attribute?('done_ratio') && Issue.use_field_for_done_ratio? %>
