@@ -9,9 +9,7 @@
         <th></th>
         <% @trackers.each do |tracker| %>
         <th>
-          <%= link_to_function('', "toggleCheckboxesBySelector('input.tracker-#{tracker.id}')",
-                               :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}",
-                               :class => 'icon-only icon-checked') %>
+          <%= toggle_checkboxes_link("input.tracker-#{tracker.id}") %>
           <%= tracker.name %>
         </th>
         <% end %>
@@ -28,9 +26,7 @@
       <tr>
         <% field_name = l("field_#{field}".delete_suffix('_id')) %>
         <td class="name">
-          <%= link_to_function('', "toggleCheckboxesBySelector('input.core-field-#{field}')",
-                               :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}",
-                               :class => 'icon-only icon-checked') %>
+          <%= toggle_checkboxes_link("input.core-field-#{field}") %>
           <%= field_name %>
         </td>
         <% @trackers.each do |tracker| %>
@@ -51,9 +47,7 @@
         <% @custom_fields.each do |field| %>
         <tr>
           <td class="name">
-            <%= link_to_function('', "toggleCheckboxesBySelector('input.custom-field-#{field.id}')",
-                                 :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}",
-                                 :class => 'icon-only icon-checked') %>
+            <%= toggle_checkboxes_link("input.custom-field-#{field.id}") %>
             <%= field.name %>
           </td>
           <% @trackers.each do |tracker| %>

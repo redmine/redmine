@@ -1597,11 +1597,13 @@ module ApplicationHelper
     link_to_function(l(:button_uncheck_all), "checkAll('#{form_name}', false)")
   end
 
-  def toggle_checkboxes_link(selector)
-    link_to_function '',
+  def toggle_checkboxes_link(selector, options={})
+    css_classes = 'icon icon-checked'
+    css_classes += ' ' + options[:class] if options[:class]
+    link_to_function icon_with_label('checked', ''),
                      "toggleCheckboxesBySelector('#{selector}')",
                      :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}",
-                     :class => 'icon icon-checked'
+                     :class => css_classes
   end
 
   def progress_bar(pcts, options={})
