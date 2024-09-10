@@ -1018,7 +1018,7 @@ class Issue < ApplicationRecord
 
   # Returns true if this issue is blocked by another issue that is still open
   def blocked?
-    !relations_to.detect {|ir| ir.relation_type == 'blocks' && !ir.issue_from.closed?}.nil?
+    relations_to.any? {|ir| ir.relation_type == 'blocks' && ir.issue_from&.closed? == false}
   end
 
   # Returns true if this issue can be closed and if not, returns false and populates the reason

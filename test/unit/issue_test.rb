@@ -2222,6 +2222,16 @@ class IssueTest < ActiveSupport::TestCase
     assert !blocking_issue.blocked?
   end
 
+  def test_blocked_should_not_raise_exception_when_blocking_issue_id_is_invalid
+    ir = IssueRelation.find_by(issue_from_id: 10, issue_to_id: 9, relation_type: 'blocks')
+    issue = Issue.find(9)
+    assert issue.blocked?
+
+    ir.update_column :issue_from_id, 0  # invalid issue id
+    issue.reload
+    assert_nothing_raised {assert_not issue.blocked?}
+  end
+
   def test_blocked_issues_dont_allow_closed_statuses
     blocked_issue = Issue.find(9)
 
