@@ -2,13 +2,13 @@
 
   <%= l(:label_issue) %>
   <% if @project.blank? %>
-    <%= select_tag('issue_id', "<option value='-1'>-</option>".html_safe) %>
+    <%= select_tag('time_entry[issue_id]', "<option value='-1'>-</option>".html_safe) %>
   <% else %>
-    <%= select_tag('issue_id',
+    <%= select_tag('time_entry[issue_id]',
                    options_for_select([[l(:select_issues_option), 0]] + @assigned_issues.collect { |i| ["##{i.id} - #{i.subject}".html_safe, i.id] }), :style => 'width:250px') %>
   <% end -%>
   <%= l(:label_date) %>
-  <%= text_field_tag('time_entry_spent_on', if (Date.today >= @from && Date.today <= @to) then Date.today else '' end, :size => 10) %> <%= calendar_for('time_entry_spent_on') %>
+  <%= text_field_tag('time_entry[spent_on]', if (Date.today >= @from && Date.today <= @to) then Date.today else '' end, :size => 10) %> <%= calendar_for('time_entry_spent_on') %>
   <%= l(:label_activity) %>
   <%= select(:time_entry, :activity_id, activities_for_select)%>
   <%= l(:field_hours) %>

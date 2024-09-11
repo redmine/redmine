@@ -72,51 +72,36 @@ class SpentTimeController < ApplicationController
   # Create a new time entry
   def create_entry
     @user = User.current
-    raise t('project_is_mandatory_error') if params[:project_id].to_i < 0
+    @from, @to = params[:from].to_date, params[:to].to_date
+    raise t('project_is_mandatory_error') unless time_entry_params[:project_id].present?
+    raise 'invalid_date_error' unless @time_entry_date = time_entry_params[:spent_on].to_s.to_date.presence
+    raise 'invalid_hours_error' unless is_numeric?(time_entry_params[:hours].to_f)
 
+    # Project check
     begin
-      @time_entry_date = params[:time_entry_spent_on].to_s.to_date
-    rescue
-      raise 'invalid_date_error'
-    end
-
-    raise 'invalid_hours_error' unless is_numeric?(params[:time_entry][:hours].to_f)
-    params[:time_entry][:spent_on] = @time_entry_date
-    @from = params[:from].to_s.to_date
-    @to = params[:to].to_s.to_date
-
-    # Save the new record
-    @time_entry = TimeEntry.new(:user => @user)
-    @time_entry.attributes = params[:time_entry]
-
-    begin
-      @project = Project.find(params[:project_id])
-
-      unless allowed_project?(params[:project_id])
+      @project = Project.find(time_entry_params[:project_id])
+      unless allowed_project?(time_entry_params[:project_id])
         raise t('not_allowed_error', :project => @project)
       end
     rescue ActiveRecord::RecordNotFound
-      raise t('cannot_find_project_error', project_id=>params[:project_id])
+      raise t('cannot_find_project_error', project_id=>time_entry_params[:project_id])
     end
 
-    @time_entry.project = @project
-    issue_id = (params[:issue_id] == nil) ? 0 : params[:issue_id].to_i
+    # Issue check
+    issue_id = (time_entry_params[:issue_id] == nil) ? 0 : time_entry_params[:issue_id].to_i
     if issue_id > 0
       begin
         @issue = Issue.find(issue_id)
       rescue ActiveRecord::RecordNotFound
         raise t('issue_not_found_error', :issue_id=> issue_id)
       end
-
-      if @project.id==@issue.project_id
-        @time_entry.issue = @issue
-      else
-        raise t('issue_not_in_project_error', issue=>@issue, project=>@project)
-      end
+      raise t('issue_not_in_project_error', issue=>@issue, project=>@project) unless @project.id==@issue.project_id
     end
 
+    # Save the new record
+    @time_entry = TimeEntry.new(time_entry_params.merge(:user => @user))
     render_403 and return if @time_entry && !@time_entry.editable_by?(@user)
-    @time_entry.user = @user
+
     if @time_entry.save!
       flash[:notice] = l('time_entry_added_notice')
       respond_to do |format|
@@ -160,4 +145,7 @@ class SpentTimeController < ApplicationController
     allowed ? project : nil
   end
 
+  def time_entry_params
+    params.require(:time_entry).permit(:project_id, :issue_id, :spent_on, :hours, :activity_id, :comments, :from, :to)
+  end
 end
