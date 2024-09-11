@@ -13,13 +13,15 @@ class MailTrackingRulesController < ApplicationController
   def add_rule
     empty = MailTrackingRule.new(login_name: params[:user_id])
     empty.save!
-    render :nothing => true, :status => 200, :content_type => 'text/html'
+    # render :nothing => true, :status => 200, :content_type => 'text/html'
+    render :json => {id: empty.id}
   end
 
   def destroy
     rule = MailTrackingRule.find(params[:id]) if params[:id].present?
     rule.destroy!
-    render :nothing => true, :status => 200, :content_type => 'text/html'
+    # render :nothing => true, :status => 200, :content_type => 'text/html'
+    render :json => {id: params[:id]}
   end
 
 
