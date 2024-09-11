@@ -777,7 +777,15 @@ ul.projects div.description ul li {list-style-type:initial;}
   width: 100%;
 }
 #projects-index ul.projects li.child {margin-top: 1em;}
-#projects-index ul.projects div.root a.project { font-family: "Trebuchet MS", Verdana, sans-serif; font-weight: bold; font-size: 16px; margin: 0 0 10px 0; }
+#projects-index ul.projects div.root a.project {
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  margin: 0 0 10px 0;
+  /* @ToDo: Remove below lines when legacy icon styles are removed */
+  background-image: none;
+  padding-left: 0;
+}
 #projects-index ul.projects div.description {
   padding-top: 0.5em;
 }
