@@ -9,8 +9,6 @@ module ApplicationHelperPatch
         # Markdown patterns
         markdown_patterns = [
           /^\#{1,6}\s/,  # Headings like #, ##, ###, etc.
-          /\*\*.*?\*\*/, # Bold text like **bold**
-          /\*.*?\*/,     # Italic text like *italic*
           /\[.*?\]\(.*?\)/, # Links like [text](url)
           /\!\[.*?\]\(.*?\)/, # Images like ![alt text](url)
           /<h\d>/,  # Headings like <h1>, <h2>, <h3>, etc.
@@ -35,10 +33,9 @@ module ApplicationHelperPatch
         # Textile patterns
         textile_patterns = [
           /^\s*h\d\.\s/,  # Headings like h1., h2., h3., etc.
-          /\*\*.*?\*\*/, # Bold text like **bold**
-          /\*.*?\*/,     # Italic text like *italic*
-          /\[.*?\]\(.*?\)/, # Links like [text](url)
-          /\!\[.*?\]\(.*?\)/, # Images like ![alt text](url)
+          /".*?":http.*?/, # Links like "text":http://example.com
+          /!\[.*?\]:.*?|!\[.*?\]:.*?|!\[.*?\]!/, # images like !"alt text":http://example.com OR !image_url!
+          /\|.*?\|/, # Tables like |...|
         ]
 
         # Check for Markdown patterns
@@ -87,7 +84,9 @@ module ApplicationHelperPatch
           # formatting = Setting.text_formatting
 
           # New dynamic text_formatting which resolves the text formatting from the given text
+          p text
           formatting = detect_format(text)
+          p formatting, text
           text = Redmine::WikiFormatting.to_html(formatting, text, :object => obj, :attribute => attr)
         end
 
