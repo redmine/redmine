@@ -1,6 +1,5 @@
 replaceIssueFormWith('<%= escape_javascript(render :partial => 'form') %>');
 $('.search-select').select2();
-console.log("where")
 <% if User.current.allowed_to?(:log_time, @issue.project) %>
   $('#log_time').show();
 <% else %>

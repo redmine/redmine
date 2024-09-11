@@ -14,11 +14,12 @@
 <% end %>
 
 <hr/>
+
 <% @rules = MailTrackingRule.where(login_name: @user.id).order(:created_at) %>
 <div class="mail_tracker_rules">
 <h3> 
   Mail tracker rules:
-  <button class="btn btn-info" style="margin-left:10px;" id="add_rule" data-user-id="<%= @user.id %>">+ Add rule</button>
+  <button class="btn btn-info" style="margin-left:10px; height: 32px;" id="add_rule" data-user-id="<%= @user.id %>">+ Add rule</button>
 </h3>
 
   <% @rules.each do |rule| %>
@@ -43,8 +44,8 @@
         <% end %>
         <%= g.input :end_duration, label: 'Duration:', required: true, input_html: { class:"form-control input-duration" } %>
         <div class="rule_actions">
-          <%= g.submit "Save" ,class: "btn btn-success", style: "margin-top:24px;" %>
-          <%= g.button :button , "Delete", type: "button" ,class: "btn btn-danger delete_rule", style: "margin-top:24px;", data:{"id":rule.id}%>
+          <%= g.submit "Save" ,class: "btn btn-success", style: "margin-left:10px; height: 32px;" %>
+          <%= g.button :button , "Delete", type: "button" ,class: "btn btn-danger delete_rule", style: "margin-left:10px; height: 32px;", data:{"id":rule.id}%>
         </div>
       <% end %>
     </fieldset>

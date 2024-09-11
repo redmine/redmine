@@ -1,5 +1,4 @@
 $( document ).ready(function() {
-  $('.search-select').select2();
   $('.input-duration').durationPicker();
   $('#duration').durationPicker({
     lang: 'en',
@@ -18,7 +17,6 @@ $( document ).ready(function() {
       data: {
         obj: "realThing",
         user_id: userId,
-
       },
       success: function(resp) {
         location.reload();
