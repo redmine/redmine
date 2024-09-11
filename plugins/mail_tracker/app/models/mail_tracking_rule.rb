@@ -25,18 +25,18 @@ class MailTrackingRule < ActiveRecord::Base
   # def self.apply_rules(email, no_rules_project_id, default_user, content, source_email)
   def self.apply_rules(email, content)
     MailTrackingRule.where(
-      "mail_part = 'From' AND includes like ?", "%#{email.from.first}%"
+      "mail_part = 'From' AND includes ILIKE ?", "%#{email.from.first}%"
     ).or(
       MailTrackingRule.where(
-        "mail_part = 'CC' AND includes like ?", "%#{email.cc}%"
+        "mail_part = 'CC' AND includes ILIKE ?", "%#{email.cc}%"
       )
     ).or(
       MailTrackingRule.where(
-        "mail_part = 'Subject' AND includes like ?", "%#{email.subject}%"
+        "mail_part = 'Subject' AND includes ILIKE ?", "%#{email.subject}%"
       )
     ).or(
       MailTrackingRule.where(
-        "mail_part = 'Body' AND includes like ?", "%#{content.to_s.gsub("\u0000", '')}%"
+        "mail_part = 'Body' AND includes ILIKE ?", "%#{content.to_s.gsub("\u0000", '')}%"
       )
     ).group(:id).order(created_at: :asc).first
   end
