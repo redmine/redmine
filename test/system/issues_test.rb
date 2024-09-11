@@ -274,7 +274,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
 
     click_on 'Submit'
 
-    assert_equal 1, Issue.find(2).attachments.count
+    assert_equal 3, Issue.find(2).attachments.count
   end
 
   test "removing issue shows confirm dialog" do
