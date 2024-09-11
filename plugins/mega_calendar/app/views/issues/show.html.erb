@@ -106,9 +106,39 @@ end %>
   </div>
 
   <p><strong><%=l(:field_description)%></strong></p>
-  <div class="wiki">
-  <%= textilizable @issue, :description, :attachments => @issue.attachments %>
-  </div>
+  <% if @issue.message_id.present? %>
+    <div class="wiki" style="margin-left: 25px;">
+      <% @doc = Nokogiri::HTML(@issue.description) %>
+      <% @doc.search('base').each do |base|
+        base.remove
+      end %>
+      <% @doc.css('img').each do |node|
+        if node.attributes["src"].present? && node.attributes["src"].value.present? && (node.attributes["src"].value.split(":").first == "cid")
+          attachment = @issue.attachments.find_by(mail_content_id: node.attributes["src"].value.split(":").last)
+          if attachment.present?
+            node.attributes["src"].value = download_named_attachment_url(attachment, attachment.filename)
+          else
+            node.replace("")
+          end
+        else
+          node.replace("")
+        end
+      end %>
+      <%= @doc.to_s.html_safe %>
+    </div>
+  <% else %>
+    <div class="wiki">
+      <%= textilizable @issue, :description, :attachments => @issue.attachments %>
+    </div>
+  <% end %>
+
+
+
+
+
+
+
+
 </div>
 <% end %>
 <% if @issue.attachments.any? %>
