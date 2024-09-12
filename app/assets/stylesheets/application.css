@@ -412,6 +412,7 @@ a.sort { padding-right: 16px; background-position: 100% 50%; background-repeat: 
 table.boards td.last-message {text-align:left;font-size:80%;}
 
 div.table-list.boards .table-list-cell.name {width: 30%;}
+#message_subject { max-width: 99%; }
 
 #query_form_content {font-size:90%;}
 #query_form_with_buttons > p.contextual {font-size:12px; margin:12px 0px;}
