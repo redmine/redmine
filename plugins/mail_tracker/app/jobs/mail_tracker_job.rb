@@ -16,6 +16,13 @@ class MailTrackerJob < ApplicationJob
 
   def perform(mail_source_id)
     @mail_source = MailSource.find_by(id: mail_source_id)
+    refresh_token if @mail_source.oauth_enabled
+    parse_emails
+  end
+
+  private
+
+  def parse_emails
     @mail_source&.unseen&.each do |email|
       log_string = "*****\nMessage id: #{email.message_id}, From: #{email.from}, To: #{email.to}, Subject: #{email.subject}, Date: #{email.date}"
       MailTrackerCustomLogger.logger.info(log_string)
@@ -23,7 +30,10 @@ class MailTrackerJob < ApplicationJob
     end
   end
 
-  private
+  def refresh_token
+    @mail_source.token_refresher if @mail_source.refresh_token
+    @mail_source.token_receiver if @mail_source.refresh_token.nil?
+  end
 
   def blacklisted(email)
     if MailSourceBlacklist.blacklisted?(email)
