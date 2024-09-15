@@ -3257,6 +3257,15 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal was_closed_on, issue.closed_on
   end
 
+  def test_prior_assigned_to
+    issue = Issue.generate!(assigned_to_id: 2)
+    issue.init_journal(User.find(2), 'update')
+    issue.assigned_to_id = 3
+    issue.save
+
+    assert_equal User.find(2), issue.prior_assigned_to
+  end
+
   def test_status_was_should_return_nil_for_new_issue
     issue = Issue.new
     assert_nil issue.status_was

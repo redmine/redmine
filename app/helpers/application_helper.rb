@@ -672,16 +672,35 @@ module ApplicationHelper
     if collection.include?(User.current)
       s << content_tag('option', "<< #{l(:label_me)} >>", :value => User.current.id)
     end
-    groups = +''
+
+    involved_principals_html = +''
+    # This optgroup is displayed only when editing a single issue
+    if @issue.present? && !@issue.new_record?
+      involved_principals = [@issue.author, @issue.prior_assigned_to].uniq.compact
+      involved_principals_html = involved_principals.map do |p|
+        content_tag('option', p.name, value: p.id, disabled: !collection.include?(p))
+      end.join
+    end
+
+    users_html = +''
+    groups_html = +''
     collection.sort.each do |element|
       if option_value_selected?(element, selected) || element.id.to_s == selected
         selected_attribute = ' selected="selected"'
       end
-      (element.is_a?(Group) ? groups : s) <<
+      (element.is_a?(Group) ? groups_html : users_html) <<
         %(<option value="#{element.id}"#{selected_attribute}>#{h element.name}</option>)
     end
-    unless groups.empty?
-      s << %(<optgroup label="#{h(l(:label_group_plural))}">#{groups}</optgroup>)
+    if involved_principals_html.blank? && groups_html.blank?
+      s << users_html
+    else
+      [
+        [l(:label_involved_principals), involved_principals_html],
+        [l(:label_user_plural), users_html],
+        [l(:label_group_plural), groups_html]
+      ].each do |label, options_html|
+        s << %(<optgroup label="#{h(label)}">#{options_html}</optgroup>) if options_html.present?
+      end
     end
     s.html_safe
   end

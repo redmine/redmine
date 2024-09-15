@@ -925,6 +925,18 @@ class Issue < ApplicationRecord
     result
   end
 
+  # Returns the assignee immediately prior to the current one from the issue history
+  def prior_assigned_to
+    prior_assigned_to_id =
+      journals.joins(:details)
+              .where(details: {prop_key: 'assigned_to_id'})
+              .where.not(details: {old_value: nil})
+              .order(id: :desc)
+              .pick(:old_value)
+
+    prior_assigned_to_id && Principal.find_by(id: prior_assigned_to_id)
+  end
+
   # Returns the initial status of the issue
   # Returns nil for a new issue
   def status_was

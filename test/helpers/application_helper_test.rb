@@ -2052,10 +2052,16 @@ class ApplicationHelperTest < Redmine::HelperTest
     User.current = nil
     set_language_if_valid 'en'
     users = [User.find(2), Group.find(11), User.find(4), Group.find(10)]
-    assert_equal(
-      %(<option value="2">John Smith</option><option value="4">Robert Hill</option>) +
-      %(<optgroup label="Groups"><option value="10">A Team</option><option value="11">B Team</option></optgroup>),
-      principals_options_for_select(users))
+    result = principals_options_for_select(users)
+
+    assert_select_in result, 'optgroup[label="Users"]' do
+      assert_select 'option[value="2"]', text: 'John Smith'
+      assert_select 'option[value="4"]', text: 'Robert Hill'
+    end
+    assert_select_in result, 'optgroup[label="Groups"]' do
+      assert_select 'option[value="10"]', text: 'A Team'
+      assert_select 'option[value="11"]', text: 'B Team'
+    end
   end
 
   def test_principals_options_for_select_with_empty_collection
@@ -2068,6 +2074,21 @@ class ApplicationHelperTest < Redmine::HelperTest
     User.current = User.find(4)
     assert_include '<option value="4">&lt;&lt; me &gt;&gt;</option>',
                    principals_options_for_select(users)
+  end
+
+  def test_principals_options_for_select_should_include_author_and_previous_assignee
+    set_language_if_valid 'en'
+    users = [User.find(2), User.find(3), User.find(1)]
+    @issue = Issue.generate!(author_id: 1, assigned_to_id: 2)
+    @issue.init_journal(users.first, 'update')
+    @issue.assigned_to_id = 3
+    @issue.save
+
+    result = principals_options_for_select(users)
+    assert_select_in result, 'optgroup[label="Author / Previous assignee"]' do
+      assert_select 'option:nth-of-type(1)', text: 'Redmine Admin'  # Author
+      assert_select 'option:nth-of-type(2)', text: 'John Smith'     # Prior assignee
+    end
   end
 
   def test_stylesheet_link_tag_should_pick_the_default_stylesheet
