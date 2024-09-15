@@ -1482,3 +1482,4 @@ sk:
   setting_issue_done_ratio_interval: Done ratio options interval
   setting_copy_attachments_on_issue_copy: Copy attachments on copy
   field_thousands_delimiter: Thousands delimiter
+  label_involved_principals: Author / Previous assignee
