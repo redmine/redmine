@@ -1510,4 +1510,4 @@
   setting_issue_done_ratio_interval: 完成百分比選項的間隔值
   setting_copy_attachments_on_issue_copy: 連同附件檔案一起複製
   field_thousands_delimiter: 千分位分隔符號
-  label_involved_principals: Author / Previous assignee
+  label_involved_principals: 作者 / 歷任被分派者
