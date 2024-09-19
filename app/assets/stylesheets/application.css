@@ -1663,7 +1663,7 @@ svg.icon-ok {
   display: none;
 }
 
-svg {
+svg:not(div#gantt_draw_area svg, div.revision-graph svg) {
   width: 0;
   height: 0;
 
