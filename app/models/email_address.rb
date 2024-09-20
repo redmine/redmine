@@ -36,21 +36,19 @@ class EmailAddress < ApplicationRecord
     :if => Proc.new {|email| email.address_changed? && email.address.present?}
   validate :validate_email_domain, :if => proc {|email| email.address.present?}
 
-  safe_attributes 'address'
-
-  def address=(arg)
-    normalized_address = arg.to_s.strip
-
-    # Convert internationalized domain name (IDN) to Punycode
-    # e.g. 'marie@société.example' => 'marie@xn--socit-esab.example'
+  normalizes :address, with: lambda { |address|
+    normalized_address = address.to_s.strip
     local_part, _at, domain = normalized_address.partition('@')
     if domain.present?
+      # Convert internationalized domain name (IDN) to Punycode
+      # e.g. 'marie@société.example' => 'marie@xn--socit-esab.example'
       ascii_domain = Addressable::IDNA.to_ascii(domain)
       normalized_address = "#{local_part}@#{ascii_domain}"
     end
+    normalized_address
+  }
 
-    write_attribute(:address, normalized_address)
-  end
+  safe_attributes 'address'
 
   def destroy
     if is_default?
