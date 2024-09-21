@@ -2,6 +2,7 @@ syntax: glob
 
 .project
 .idea
+.vscode
 .loadpath
 .powrc
 .rvmrc
