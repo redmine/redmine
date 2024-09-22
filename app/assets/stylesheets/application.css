@@ -44,7 +44,14 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 
 #account {float:right;}
 
-#header {min-height:5.3em;margin:0;background-color:#628DB6;color:#f8f8f8; padding: 4px 16px 20px 16px; position:relative;}
+#header {
+  min-height :5.3em;
+  margin: 0;
+  background: linear-gradient(180deg, #628DB6 30%, #356D92);
+  color: #f8f8f8;
+  padding: 4px 16px 20px 16px;
+  position: relative;
+}
 #header a {color:#f8f8f8;}
 #header h1 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
 #header h1 .breadcrumbs { display:block; font-size: .5em; font-weight: normal; }
