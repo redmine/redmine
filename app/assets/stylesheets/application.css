@@ -113,7 +113,7 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 
 #main {flex-grow: 2; display: flex; flex-direction: row-reverse;}
 
-#sidebar{ flex-shrink: 0; padding-left: 20px; padding-right: 8px; background: #EEEEEE; border-left: 1px solid #ddd}
+#sidebar{ flex-shrink: 0; padding-left: 20px; padding-right: 8px; background: #f9fafb; border-left: 1px solid #d0d7de}
 @media screen and (min-width: 0px) and (max-width: 1089px) {#sidebar{width: 22%;}}
 @media screen and (min-width: 1090px) and (max-width: 1279px) {#sidebar{width: 240px;}}
 @media screen and (min-width: 1280px) and (max-width: 1599px) {#sidebar{width: 280px;}}
@@ -137,7 +137,7 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 
 #main.nosidebar #sidebar{ display: none; }
 
-#footer {clear: both; border-top: 1px solid #bbb; font-size: 0.9em; color: #aaa; padding: 5px; text-align:center; background:#fff;}
+#footer {clear: both; border-top: 1px solid #d0d7de; font-size: 0.9em; color: #aaa; padding: 5px; text-align:center; background:#fff;}
 
 #login-form {margin:5em auto 2em auto; padding:20px; width:340px; border:1px solid #FDBF3B; background-color:#FFEBC1; border-radius:4px; box-sizing: border-box;}
 #login-form label {display:block; margin-bottom:5px; font-weight:bold;}
@@ -269,7 +269,15 @@ div + .drdn-items {border-top:1px solid #ccc;}
 #project-jump .drdn-items>a:hover {background-color:#759FCF; color:#fff !important;}
 
 /***** Tables *****/
-table.list, .table-list { border: 1px solid #e4e4e4; width: 100%; margin-bottom: 4px; border-radius: 3px; border-spacing: 0; overflow: hidden;}
+table.list, .table-list {
+  border: 1px solid #d0d7de;
+  width: 100%;
+  margin-bottom: 4px;
+  border-radius: 3px;
+  border-spacing: 0;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
 table.list th, .table-list-header { background-color:#EEEEEE; padding: 4px; white-space:nowrap; font-weight:bold; }
 table.list th.whitespace-normal {white-space: normal;}
 table.list td {text-align:center; vertical-align:middle; padding-right:10px;}
@@ -491,14 +499,14 @@ input:disabled, select:disabled, textarea:disabled {
 .highlight.token-3 { background-color: #aaf;}
 
 .box{
-  padding:6px;
-  margin-bottom: 10px;
-  background-color:#f6f6f6;
-  color:#505050;
-  line-height:1.5em;
-  border: 1px solid #e4e4e4;
+  padding: 8px;
+  margin-bottom: 12px;
+  background-color: #f9fafb;
+  color: #505050;
+  border: 1px solid #d0d7de;
   word-wrap: break-word;
   border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
 div.square {
@@ -563,7 +571,7 @@ input:placeholder-shown {
 }
 
 select[multiple=multiple] {background: #fff; padding-right: initial; height: auto;}
-fieldset {border: 1px solid #e4e4e4; margin:0; min-width: inherit;}
+fieldset {border: 1px solid #d0d7de; margin:0; min-width: inherit;}
 legend {color: #333;}
 hr { width: 100%; height: 1px; background: #ccc; border: 0;}
 blockquote { font-style: italic; border-left: 3px solid #e0e0e0; padding-left: 0.6em; margin-left: 0;}
@@ -573,7 +581,14 @@ textarea.wiki-edit {width:99%; resize:vertical; box-sizing: border-box;}
 body.textarea-monospace textarea.wiki-edit {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace; font-size: 12px;}
 body.textarea-proportional textarea.wiki-edit {font-family: Verdana, sans-serif; font-size: 12px;}
 li p {margin-top: 0;}
-div.issue {background:#ffffdd; padding:6px; margin-bottom:6px; border: 1px solid #d7d7d7; border-radius:3px;}
+div.issue {
+  background: #ffffdd;
+  padding: 8px;
+  margin-bottom: 6px;
+  border: 1px solid #d0d7de;
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
 p.breadcrumb { font-size: 0.9em; margin: 4px 0 4px 0;}
 p.subtitle { font-size: 0.9em; margin: -6px 0 12px 0; font-style: italic; }
 p.footnote { font-size: 0.9em; margin-top: 0px; margin-bottom: 0px; }
@@ -668,12 +683,13 @@ div.journal span.update-info {color: #666; font-size: 0.9em;}
 #update {margin-bottom: 1.4em;}
 
 #history .tab-content {
-  padding: 0 6px;
+  padding: 0 8px;
   margin-bottom: 10px;
-  border-right: 1px solid #d7d7d7;
-  border-bottom: 1px solid #d7d7d7;
-  border-left: 1px solid #d7d7d7;
+  border-right: 1px solid #d0d7de;
+  border-bottom: 1px solid #d0d7de;
+  border-left: 1px solid #d0d7de;
   border-radius: 0 0 3px 3px / 0 0 3px 3px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
 #history div:target h4.note-header {background-color:#DDEEFF;}
@@ -1171,9 +1187,10 @@ ul.cal {
   display: grid;
   grid-template-columns: 2rem repeat(7, 1fr);
   margin: 0;
-  border: 1px solid #c0c0c0;
+  border: 1px solid #d0d7de;
   border-spacing: 0;
   border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
 .cal .calhead {
@@ -1196,7 +1213,7 @@ ul.cal {
 }
 
 .cal .calbody {
-  border: 1px solid #d7d7d7;
+  border: 1px solid #d0d7de;
   vertical-align: top;
   font-size: 0.9em;
   border-bottom: 0;
@@ -1204,6 +1221,7 @@ ul.cal {
   line-height: 1.2;
   min-height: calc(1.2em * 6);
   padding: 2px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
 .cal .calbody p.day-num {font-size: 1.1em; text-align:right;}
@@ -1279,7 +1297,7 @@ p.progress-info {clear: left; font-size: 80%; margin-top:-4px; color:#777;}
 
 /***** Tabs *****/
 #content .tabs {height: 2.6em; margin-bottom:1.2em; position:relative; overflow:hidden;}
-#content .tabs ul {margin:0; position:absolute; bottom:0; padding-left:0.5em; min-width: 2000px; width: 100%;  border-bottom: 1px solid #bbbbbb;}
+#content .tabs ul {margin:0; position:absolute; bottom:0; padding-left:0.5em; min-width: 2000px; width: 100%;  border-bottom: 1px solid #d0d7de;}
 #content .tabs ul li {
   float:left;
   list-style-type:none;
@@ -1294,8 +1312,8 @@ p.progress-info {clear: left; font-size: 80%; margin-top:-4px; color:#777;}
   text-decoration:none;
   line-height:1.3em;
   padding:4px 6px 4px 6px;
-  border: 1px solid #ccc;
-  border-bottom: 1px solid #bbbbbb;
+  border: 1px solid #d0d7de;
+  border-bottom: 1px solid #d0d7de;
   color:#999;
   font-weight:bold;
   border-top-left-radius:3px;
@@ -1309,9 +1327,10 @@ p.progress-info {clear: left; font-size: 80%; margin-top:-4px; color:#777;}
 
 #content .tabs ul li a.selected {
   background-color: #fff;
-  border: 1px solid #bbbbbb;
+  border: 1px solid #d0d7de;
   border-bottom: 1px solid #fff;
   color:#444;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
 #content .tabs ul li a.selected:hover {background-color: #fff;}
