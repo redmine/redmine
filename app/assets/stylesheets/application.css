@@ -503,6 +503,7 @@ input:disabled, select:disabled, textarea:disabled {
   margin-bottom: 12px;
   background-color: #f9fafb;
   color: #505050;
+  line-height: 1.5em;
   border: 1px solid #d0d7de;
   word-wrap: break-word;
   border-radius: 3px;
