@@ -626,7 +626,7 @@ fieldset#date-range p { margin: 2px 0 2px 0; }
 
 #query_form_content > fieldset {
   min-width: 0;
-  width: 100%;
+  max-width: 100%;
 }
 #filters-table {
   float:left;
