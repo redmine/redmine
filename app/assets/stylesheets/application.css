@@ -788,9 +788,10 @@ ul.projects div.description ul li {list-style-type:initial;}
 #projects-index ul.projects li.root {
   margin-bottom: 1em;
   padding: 15px 20px;
-  border: 1px solid #d7d7d7;
+  border: 1px solid #d0d7de;
   border-radius: 3px;
   box-sizing: border-box;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   break-inside: avoid-column;
