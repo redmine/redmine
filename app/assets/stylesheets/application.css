@@ -1488,12 +1488,13 @@ div.wiki .task-list input.task-list-item-checkbox {
   margin-bottom: 20px;
 }
 .mypage-box {
-  border:1px solid #ddd;
+  border:1px solid #d0d7de;
   padding:8px;
   margin:0 0 20px 0;
   color:#505050;
   line-height:1.5em;
   border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
 .mypage-box>.contextual {opacity:0.001; transition: opacity 0.2s;}
