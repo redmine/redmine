@@ -134,12 +134,14 @@
   <% if @subprojects.any? %>
   <div class="projects box">
     <h3 class="icon icon-projects"><%= icon_with_label('projects', l(:label_subproject_plural)) %></h3>
-	<ul class="subprojects">
-	  <% @subprojects.each do |project| %>
-	  <li><%= link_to(project.name, project_path(project), :class => project.css_classes).html_safe %></li>
-	  <% end %>
-    </ul>
-  </div>
+    <div>
+      <ul class="subprojects">
+        <% @subprojects.each do |project| %>
+        <li><%= link_to(project.name, project_path(project), :class => project.css_classes).html_safe %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
   <% end %>
 
   <%= call_hook(:view_projects_show_right, :project => @project) %>

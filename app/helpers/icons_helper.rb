@@ -18,7 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module IconsHelper
-  DEFAULT_ICON_SIZE = "14"
+  DEFAULT_ICON_SIZE = "18"
   DEFAULT_SPRITE = "icons"
 
   def icon_with_label(icon_name, label_text, icon_only: false, size: DEFAULT_ICON_SIZE, css_class: nil)
@@ -42,7 +42,7 @@ module IconsHelper
 
   def icon_for_event_type(event_type, size: DEFAULT_ICON_SIZE, css_class: nil)
     icon = case event_type
-           when 'reply', 'issue-note'
+           when 'reply'
              'comments'
            when 'time-entry'
              'time'

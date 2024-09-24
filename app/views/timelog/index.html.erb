@@ -1,5 +1,5 @@
 <div class="contextual">
-<%= link_to icon_with_label('time', l(:button_log_time)),
+<%= link_to icon_with_label('time-add', l(:button_log_time)),
             _new_time_entry_path(@project, @query.filtered_issue_id),
             :class => 'icon icon-time-add' if User.current.allowed_to?(:log_time, @project, :global => true) %>
 <%= actions_dropdown do %>

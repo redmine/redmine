@@ -518,7 +518,6 @@ div.square {
   width: .6em; height: .6em;
 }
 .contextual {float:right; white-space: nowrap; line-height:1.4em;margin:5px 0px; padding-left: 10px; font-size:0.9em;}
-.contextual .icon {padding-top: 2px; padding-bottom: 3px;}
 .contextual input, .contextual select {font-size:0.9em;}
 .message .contextual { margin-top: 0; }
 
@@ -699,13 +698,12 @@ div.journal span.update-info {color: #666; font-size: 0.9em;}
 div#activity dl, #search-results { margin-left: 2em; }
 div#activity dd, #search-results dd { margin-bottom: 1em; padding-left: 18px; font-size: 0.9em; }
 div#activity dt.me .time { border-bottom: 1px solid #999; }
-div#activity dt .time { color: #777; font-size: 80%; }
+div#activity dt .time { color: #777; font-size: 80%; margin-right: 4px; }
 div#activity dd .description, #search-results dd .description { font-style: italic; }
 div#activity span.project:after, #search-results span.project:after { content: " -"; }
 div#activity dd span.description, #search-results dd span.description { display:block; color: #808080; }
 div#activity dt.grouped {margin-left:5em;}
 div#activity dd.grouped {margin-left:9em;}
-div#activity dt.icon {background-position: 0 10px !important;}
 div#activity h3 {
   padding: 5px;
   background-color: #eeeeee;
@@ -1621,7 +1619,7 @@ td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
   position:relative;
   font-weight:bold;
   font-size: 10px;
-  bottom: 2px;
+  bottom: 4px;
   padding: 1px 3px;
   margin-right: 2px;
   margin-left: 2px;
@@ -1666,8 +1664,9 @@ td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
 }
 
 /***** SVG Icons *****/
-a.icon, a.icon-only {
+.icon, .icon-only {
   display: inline-flex;
+  align-items: center;
 }
 
 a.icon svg, a.icon-only svg {
@@ -1694,9 +1693,16 @@ svg.icon-ok {
   display: none;
 }
 
-svg:not(div#gantt_draw_area svg, div.revision-graph svg) {
-  width: 0;
-  height: 0;
+svg {
+  &.s20 {
+    width: 18px;
+    height: 18px;
+  }
+
+  &.s18 {
+    width: 18px;
+    height: 18px;
+  }
 
   &.s14 {
     width: 14px;
@@ -1710,7 +1716,7 @@ svg:not(div#gantt_draw_area svg, div.revision-graph svg) {
 }
 
 span.icon-label {
-  margin-left: 4px;
+  margin-left: 2px;
 }
 
 .icon-bookmarked-project svg {

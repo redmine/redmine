@@ -149,7 +149,7 @@
 
 <% if @issue.present? %>
   <% if @can[:log_time] -%>
-  <li><%= context_menu_link icon_with_label('time', l(:button_log_time)), new_issue_time_entry_path(@issue),
+  <li><%= context_menu_link icon_with_label('time-add', l(:button_log_time)), new_issue_time_entry_path(@issue),
           :class => 'icon icon-time-add' %></li>
   <% end %>
   <% if @can[:add_subtask] -%>

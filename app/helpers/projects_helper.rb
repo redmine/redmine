@@ -185,12 +185,12 @@ module ProjectsHelper
 
     if bookmarked
       css << "icon-bookmark"
-      icon = "bookmark"
+      icon = "bookmark-delete"
       method = "delete"
       text = icon_with_label(icon, l(:button_project_bookmark_delete))
     else
       css << "icon-bookmark-off"
-      icon = "bookmark-off"
+      icon = "bookmark-add"
       method = "post"
       text = icon_with_label(icon, l(:button_project_bookmark))
     end
