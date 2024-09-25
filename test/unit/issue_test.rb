@@ -3368,7 +3368,7 @@ class IssueTest < ActiveSupport::TestCase
     user_in_europe.pref.update! :time_zone => 'UTC'
 
     user_in_asia = users(:users_002)
-    user_in_asia.pref.update! :time_zone => 'Hongkong'
+    user_in_asia.pref.update! :time_zone => 'Asia/Hong_Kong'
 
     issue = Issue.generate! :due_date => Date.parse('2016-03-20')
 
