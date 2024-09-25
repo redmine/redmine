@@ -6,13 +6,13 @@
 
 html, body { min-height: 100vh; }
 html {overflow-y:scroll;}
-body { font-family: Verdana, sans-serif; font-size: 12px; color:#333; margin: 0; padding: 0; min-width: 900px; }
+body { font-family: Verdana, sans-serif; font-size: 0.75rem; color:#333; margin: 0; padding: 0; min-width: 900px; }
 
 h1, h2, h3, h4, h5, h6 {font-family: "Trebuchet MS", Verdana, sans-serif;padding: 2px 10px 1px 0px;margin: 0 0 10px 0;}
 #content h1, h2, h3, h4, h5, h6 {color: #555;}
-h2 {font-size: 20px;}
-h3 {font-size: 16px;}
-h4 {font-size: 13px; border-bottom: 1px solid #ccc; font-weight:normal;}
+h2 {font-size: 1.25rem;}
+h3 {font-size: 1rem;}
+h4 {font-size: 0.8125rem; border-bottom: 1px solid #ccc; font-weight:normal;}
 pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 .wiki h1 {font-size: 2em;}
 .wiki h2 {font-size: 1.8em;}
@@ -120,7 +120,7 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 @media screen and (min-width: 1600px) and (max-width: 1919px) {#sidebar{width: 320px;}}
 @media screen and (min-width: 1920px) and (max-width: 2559px) {#sidebar{width: 360px;}}
 @media screen and (min-width: 2560px) {#sidebar{width: 380px;}}
-#sidebar h3{ font-size: 14px; margin-top:14px; color: #666;  }
+#sidebar h3{ font-size: 0.875rem; margin-top:14px; color: #666;  }
 #sidebar hr{ width: 100%; margin: 0 auto; height: 1px; background: #ccc; border: 0; }
 * html #sidebar hr{ width: 95%; position: relative; left: -6px; color: #ccc; }
 #sidebar .contextual { margin-right: 1em; }
@@ -430,7 +430,7 @@ div.table-list.boards .table-list-cell.name {width: 30%;}
 #message_subject { max-width: 99%; }
 
 #query_form_content {font-size:90%;}
-#query_form_with_buttons > p.contextual {font-size:12px; margin:12px 0px;}
+#query_form_with_buttons > p.contextual {font-size:0.75rem; margin:12px 0px;}
 
 .query_sort_criteria_count {
   display: inline-block;
@@ -578,8 +578,8 @@ blockquote { font-style: italic; border-left: 3px solid #e0e0e0; padding-left: 0
 blockquote blockquote { margin-left: 0;}
 abbr, span.field-description[title] { border-bottom: 1px dotted #aaa; cursor: help; }
 textarea.wiki-edit {width:99%; resize:vertical; box-sizing: border-box;}
-body.textarea-monospace textarea.wiki-edit {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace; font-size: 12px;}
-body.textarea-proportional textarea.wiki-edit {font-family: Verdana, sans-serif; font-size: 12px;}
+body.textarea-monospace textarea.wiki-edit {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace; font-size: 0.75rem;}
+body.textarea-proportional textarea.wiki-edit {font-family: Verdana, sans-serif; font-size:  0.75rem;}
 li p {margin-top: 0;}
 div.issue {
   background: #ffffdd;
@@ -804,7 +804,7 @@ ul.projects div.description ul li {list-style-type:initial;}
 #projects-index ul.projects div.root a.project {
   font-family: "Trebuchet MS", Verdana, sans-serif;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 1rem;
   margin: 0 0 10px 0;
   /* @ToDo: Remove below lines when legacy icon styles are removed */
   background-image: none;
@@ -923,7 +923,7 @@ html>body .tabular p {overflow:hidden;}
 .tabular textarea {width:95%; resize:vertical;}
 input#twofa_code, img#twofa_code { width: 140px; }
 ul.twofa_backup_codes { list-style-type: none; padding: 0; display: inline-block; columns: 14em 2;}
-ul.twofa_backup_codes code { font-size: 16px; line-height: 2em }
+ul.twofa_backup_codes code { font-size: 1rem; line-height: 2em }
 
 .tabular label{
   font-weight: bold;
@@ -1451,9 +1451,9 @@ div.wiki ul.toc.right { float: right; margin-left: 12px; margin-right: 0; width:
 div.wiki ul.toc.left  { float: left; margin-right: 12px; margin-left: 0; width: auto; clear: left
   ; }
 div.wiki ul.toc ul { margin: 0; padding: 0; }
-div.wiki ul.toc li {list-style-type:none; margin: 0; font-size:12px;}
+div.wiki ul.toc li {list-style-type:none; margin: 0; font-size: 0.75rem;}
 div.wiki ul.toc>li:first-child {margin-bottom: .5em; color: #777;}
-div.wiki ul.toc li li {margin-left: 1.5em; font-size:10px;}
+div.wiki ul.toc li li {margin-left: 1.5em; font-size: 0.625rem;}
 div.wiki ul.toc a {
   font-size: 0.9em;
   font-weight: normal;
@@ -1618,7 +1618,7 @@ td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
 .badge {
   position:relative;
   font-weight:bold;
-  font-size: 10px;
+  font-size: 0.625rem;
   bottom: 4px;
   padding: 1px 3px;
   margin-right: 2px;
@@ -1695,23 +1695,23 @@ svg.icon-ok {
 
 svg {
   &.s20 {
-    width: 18px;
-    height: 18px;
+    width: 1.25rem;
+    height: 1.25rem;
   }
 
   &.s18 {
-    width: 18px;
-    height: 18px;
+    width: 1.125rem;
+    height: 1.125rem;
   }
 
   &.s14 {
-    width: 14px;
-    height: 14px;
+    width: 0.875rem;
+    height: 0.875rem;
   }
 
   &.s12 {
-    width: 12px;
-    height: 12px;
+    width: 0.75rem;
+    height: 0.75rem;
   }
 }
 
@@ -1743,7 +1743,7 @@ span.icon-label {
   overflow: hidden;
   padding-top: 0;
   padding-bottom: 0;
-  font-size: 8px;
+  font-size: 0.5rem;
   vertical-align: middle;
 }
 .icon-only:not(:has(svg))::after {
