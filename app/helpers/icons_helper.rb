@@ -61,7 +61,7 @@ module IconsHelper
     content_tag(
       :svg,
       content_tag(:use, '', { 'href' => "#{asset_path(sprite_path)}#icon--#{icon_name}" }),
-      class: "s#{size}",
+      class: "s#{size} icon-svg",
       aria: {
         hidden: true
       }

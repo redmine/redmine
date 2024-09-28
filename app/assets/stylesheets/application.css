@@ -1669,24 +1669,20 @@ td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
   align-items: center;
 }
 
-a.icon svg, a.icon-only svg {
-  fill: #169;
-}
-
 a.icon:hover svg, a.icon-only:hover svg {
-  fill: #c61a1a;
+  stroke: #c61a1a;
 }
 
 svg.icon-error {
-  fill: #f37c60;
+  stroke: #f37c60;
 }
 
 svg.icon-ok {
-  fill: #5db651;
+  stroke: #5db651;
 }
 
 .icon-warning svg {
-  fill: #e4bc4b;
+  stroke: #e4bc4b;
 }
 
 .icon-only span {
@@ -1694,6 +1690,12 @@ svg.icon-ok {
 }
 
 svg {
+  &.icon-svg {
+    stroke: #169;
+    fill: none;
+    stroke-width: 2;
+  }
+
   &.s20 {
     width: 1.25rem;
     height: 1.25rem;
@@ -1717,14 +1719,6 @@ svg {
 
 span.icon-label {
   margin-left: 4px;
-}
-
-.icon-bookmarked-project svg {
-  fill: #169;
-}
-
-.icon-user svg {
-  fill: #169;
 }
 
 /***** Legacy icons *****/
