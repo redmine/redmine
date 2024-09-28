@@ -1716,7 +1716,7 @@ class ApplicationHelperTest < Redmine::HelperTest
         Regexp.new(
           '<div class="contextual heading-2" title="Edit this section" id="section-4">' \
           '<a class="icon-only icon-edit" href="/projects/1/wiki/Test/edit\?section=4">' \
-          '<svg class="s14" aria-hidden="true"><use href="\/assets\/icons-.*.svg#icon--edit"></use></svg>' \
+          '<svg class="s18" aria-hidden="true"><use href="\/assets\/icons-.*.svg#icon--edit"></use></svg>' \
           '<span class="icon-label">Edit this section</span>' \
           '</a></div>' \
           '<a name="Subtitle-with-inline-code"></a>' \
@@ -1731,7 +1731,7 @@ class ApplicationHelperTest < Redmine::HelperTest
         Regexp.new(
           '<div class="contextual heading-2" title="Edit this section" id="section-5">' \
           '<a class="icon-only icon-edit" href="/projects/1/wiki/Test/edit\?section=5">' \
-          '<svg class="s14" aria-hidden="true"><use href="\/assets\/icons-.*.svg#icon--edit"></use></svg>' \
+          '<svg class="s18" aria-hidden="true"><use href="\/assets\/icons-.*.svg#icon--edit"></use></svg>' \
           '<span class="icon-label">Edit this section</span>' \
           '</a></div>' \
           '<a name="Subtitle-after-pre-tag"></a>' \
