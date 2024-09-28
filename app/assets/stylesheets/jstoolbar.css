@@ -111,16 +111,13 @@
     background-image: url(/jstoolbar/italic.svg);
 }
 .jstb_ins {
-    background-image: url(/jstoolbar/underlined.svg);
+    background-image: url(/jstoolbar/underline.svg);
 }
 .jstb_del {
     background-image: url(/jstoolbar/strikethrough.svg);
 }
-.jstb_code::before {
-    content: "C";
-    font-size: 14px;
-    color: #333;
-    font-weight: 700
+.jstb_code {
+    background-image: url(/jstoolbar/letter-c.svg);
 }
 .jstb_h1 {
     background-image: url(/jstoolbar/h1.svg);
@@ -132,19 +129,19 @@
     background-image: url(/jstoolbar/h3.svg);
 }
 .jstb_ul {
-    background-image: url(/jstoolbar/list_bulleted.svg);
+    background-image: url(/jstoolbar/list.svg);
 }
 .jstb_ol {
-    background-image: url(/jstoolbar/list_numbered.svg);
+    background-image: url(/jstoolbar/list-numbers.svg);
 }
 .jstb_tl {
-    background-image: url(/jstoolbar/checklist.svg);
+    background-image: url(/jstoolbar/list-check.svg);
 }
 .jstb_bq {
-    background-image: url(/jstoolbar/indent_increase.svg);
+    background-image: url(/jstoolbar/indent-increase.svg);
 }
 .jstb_unbq {
-    background-image: url(/jstoolbar/indent_decrease.svg);
+    background-image: url(/jstoolbar/indent-decrease.svg);
 }
 .jstb_pre::before {
     content: "pre";
@@ -153,7 +150,7 @@
     font-weight: 700
 }
 .jstb_precode {
-    background-image: url(/jstoolbar/code_blocks.svg);
+    background-image: url(/jstoolbar/code.svg);
 }
 .jstb_link {
     background-image: url(/jstoolbar/wiki_link.svg);
