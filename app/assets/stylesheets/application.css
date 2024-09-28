@@ -1693,7 +1693,7 @@ svg {
   &.icon-svg {
     stroke: #169;
     fill: none;
-    stroke-width: 2;
+    stroke-width: 1.5;
   }
 
   &.s20 {
