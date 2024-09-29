@@ -28,7 +28,7 @@ class WatchersHelperTest < Redmine::HelperTest
 
   test '#watcher_link with a non-watched object' do
     expected = link_to(
-      icon_with_label("fav-off", "Watch"),
+      icon_with_label("fav", "Watch"),
       "/watchers/watch?object_id=1&object_type=issue",
       :remote => true, :method => 'post', :class => "issue-1-watcher icon icon-fav-off"
     )
@@ -37,7 +37,7 @@ class WatchersHelperTest < Redmine::HelperTest
 
   test '#watcher_link with a single object array' do
     expected = link_to(
-      icon_with_label("fav-off", "Watch"),
+      icon_with_label("fav", "Watch"),
       "/watchers/watch?object_id=1&object_type=issue",
       :remote => true, :method => 'post', :class => "issue-1-watcher icon icon-fav-off"
     )
@@ -46,7 +46,7 @@ class WatchersHelperTest < Redmine::HelperTest
 
   test '#watcher_link with a multiple objects array' do
     expected = link_to(
-      icon_with_label("fav-off", "Watch"),
+      icon_with_label("fav", "Watch"),
       "/watchers/watch?object_id%5B%5D=1&object_id%5B%5D=3&object_type=issue",
       :remote => true, :method => 'post', :class => "issue-bulk-watcher icon icon-fav-off"
     )

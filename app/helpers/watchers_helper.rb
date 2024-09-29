@@ -25,8 +25,7 @@ module WatchersHelper
     return '' unless objects.any?
 
     watched = Watcher.any_watched?(objects, user)
-    icon = watched ? 'fav' : 'fav-off'
-    css = [watcher_css(objects), 'icon', "icon-#{icon}"].join(' ')
+    css = [watcher_css(objects), watched ? 'icon icon-fav' : 'icon icon-fav-off'].join(' ')
     text = watched ? l(:button_unwatch) : l(:button_watch)
     url = watch_path(
       :object_type => objects.first.class.to_s.underscore,
@@ -34,7 +33,7 @@ module WatchersHelper
     )
     method = watched ? 'delete' : 'post'
 
-    link_to icon_with_label(icon, text), url, :remote => true, :method => method, :class => css
+    link_to icon_with_label('fav', text), url, :remote => true, :method => method, :class => css
   end
 
   # Returns the css class used to identify watch links for a given +object+

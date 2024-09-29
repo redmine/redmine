@@ -1689,6 +1689,11 @@ svg.icon-ok {
   display: none;
 }
 
+.icon-fav svg.icon-svg {
+  fill: #ffc400;
+  stroke: #ffc400;
+}
+
 svg {
   &.icon-svg {
     stroke: #169;
