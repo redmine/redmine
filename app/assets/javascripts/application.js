@@ -575,18 +575,19 @@ function expandScmEntry(id) {
 
 function scmEntryClick(id, url) {
     var el = $('#'+id);
+
     if (el.hasClass('open')) {
         collapseScmEntry(id);
         el.find('.expander').switchClass('icon-expanded', 'icon-collapsed');
         el.addClass('collapsed');
-        updateSVGIcon(el[0], 'folder')
+        updateSVGIcon(el.find('.icon-folder')[0], 'folder')
 
         return false;
     } else if (el.hasClass('loaded')) {
         expandScmEntry(id);
         el.find('.expander').switchClass('icon-collapsed', 'icon-expanded');
         el.removeClass('collapsed');
-        updateSVGIcon(el[0], 'folder-open')
+        updateSVGIcon(el.find('.icon-folder-open')[0], 'folder-open')
 
         return false;
     }
@@ -599,7 +600,7 @@ function scmEntryClick(id, url) {
       success: function(data) {
         el.after(data);
         el.addClass('open').addClass('loaded').removeClass('loading');
-        updateSVGIcon(el[0], 'folder-open')
+        updateSVGIcon(el.find('.icon-folder')[0], 'folder-open')
         el.find('.expander').switchClass('icon-collapsed', 'icon-expanded');
       }
     });
