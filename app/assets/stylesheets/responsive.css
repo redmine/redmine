@@ -604,7 +604,7 @@
   p.buttons a {
     font-weight: bold;
 
-    display: inline-block;
+    display: inline-flex;
 
     margin: 5px 0;
     margin-right: 2px;
@@ -624,8 +624,8 @@
     padding-bottom: 9px;
   }
 
-  #content>.contextual a.icon,
-  p.buttons a.icon {
+  #content>.contextual a.icon:not(:has(svg)),
+  p.buttons a.icon:not(:has(svg)) {
     background-position-x: 4px;
     padding-left: 25px;
   }

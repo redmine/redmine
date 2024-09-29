@@ -1667,6 +1667,7 @@ td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
 .icon, .icon-only {
   display: inline-flex;
   align-items: center;
+  vertical-align: middle;
 }
 
 a.icon:hover svg, a.icon-only:hover svg {
@@ -1699,6 +1700,7 @@ svg {
     stroke: #169;
     fill: none;
     stroke-width: 1.5;
+    vertical-align: middle;
   }
 
   &.s20 {
