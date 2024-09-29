@@ -57,11 +57,13 @@ module IconsHelper
 
   def sprite_icon(icon_name, size: DEFAULT_ICON_SIZE, sprite: DEFAULT_SPRITE, css_class: nil)
     sprite_path = "#{sprite}.svg"
+    css_classes = "s#{size} icon-svg"
+    css_classes += " #{css_class}" unless css_class.nil?
 
     content_tag(
       :svg,
       content_tag(:use, '', { 'href' => "#{asset_path(sprite_path)}#icon--#{icon_name}" }),
-      class: "s#{size} icon-svg",
+      class: css_classes,
       aria: {
         hidden: true
       }

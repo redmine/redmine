@@ -1673,12 +1673,12 @@ a.icon:hover svg, a.icon-only:hover svg {
   stroke: #c61a1a;
 }
 
-svg.icon-error {
-  stroke: #f37c60;
-}
-
 svg.icon-ok {
   stroke: #5db651;
+}
+
+.icon-error svg.icon-svg {
+  stroke: #c61a1a
 }
 
 .icon-warning svg {
@@ -1771,7 +1771,7 @@ span.icon-label {
 .icon-time-add:not(:has(svg)) { background-image: url(/time_add.png); }
 .icon-stats:not(:has(svg)) { background-image: url(/stats.png); }
 .icon-warning:not(:has(svg)) { background-image: url(/warning.png); }
-.icon-error:not(svg) { background-image: url(/exclamation.png); }
+.icon-error:not(:has(svg)) { background-image: url(/exclamation.png); }
 .icon-fav:not(:has(svg))  { background-image: url(/fav.png); }
 .icon-fav-off:not(:has(svg))  { background-image: url(/fav_off.png); }
 .icon-reload:not(:has(svg)) { background-image: url(/reload.png); }
@@ -1791,7 +1791,7 @@ span.icon-label {
 .icon-email:not(:has(svg)) { background-image: url(/email.png); }
 .icon-email-disabled:not(:has(svg)) { background-image: url(/email_disabled.png); }
 .icon-email-add:not(:has(svg)) { background-image: url(/email_add.png); }
-.icon-ok:not(svg) { background-image: url(/true.png); }
+.icon-ok:not(:has(svg)) { background-image: url(/true.png); }
 .icon-not-ok:not(svg) { background-image: url(/false.png); }
 .icon-link-break:not(:has(svg)) { background-image: url(/link_break.png); }
 .icon-list:not(:has(svg)) { background-image: url(/text_list_bullets.png); }

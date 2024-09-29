@@ -158,11 +158,6 @@
       <path d="M3 7l9 6l.565 -.377m2.435 -1.623l6 -4"/>
       <path d="M3 3l18 18"/>
     </symbol>
-    <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--error">
-      <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/>
-      <path d="M12 9v4"/>
-      <path d="M12 16v.01"/>
-    </symbol>
     <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--fav">
       <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z"/>
     </symbol>
