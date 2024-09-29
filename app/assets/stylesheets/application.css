@@ -611,7 +611,7 @@ div.issue .attribute.text_cf .value .wiki p:first-of-type {margin-top: 0;}
 div.issue.overdue .due-date .value { color: #c22; }
 body.controller-issues h2.inline-flex {padding-right: 0}
 
-#issue_tree table.issues, #relations table.issues { border: 0; }
+#issue_tree table.issues, #relations table.issues {border: 0; box-shadow: none;}
 #issue_tree td.checkbox, #relations td.checkbox {display:none;}
 #issue_tree td.buttons, #relations td.buttons {padding:0;}
 #issue_tree .issues-stat, #relations .issues-stat {font-size: 80%}
