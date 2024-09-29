@@ -810,18 +810,18 @@ ul.projects div.description ul li {list-style-type:initial;}
   background-image: none;
   padding-left: 0;
 }
+#projects-index ul.projects div.root svg {
+  stroke-width: 2;
+}
 #projects-index ul.projects div.description {
   padding-top: 0.5em;
 }
-#projects-index a.icon-user.icon-bookmarked-project {
+#projects-index a.icon-user, #projects-index a.icon-bookmarked-project {
   background-image: none;
   padding-left: 0;
 }
 #projects-index a.project ~ svg, table.projects tr.project td.name svg {
   margin-left: 4px;
-}
-#projects-index a.project ~ svg {
-  fill: #169;
 }
 
 #notified-projects>ul, #tracker_project_ids>ul, #custom_field_project_ids>ul {max-height:250px; overflow-y:auto;}
