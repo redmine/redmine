@@ -394,11 +394,11 @@ module Redmine
         font_path =
           Redmine::Configuration['minimagick_font_path'].presence ||
             Redmine::Configuration['rmagick_font_path'].presence
-        img = MiniMagick::Image.create(".#{format}", false)
+        img = MiniMagick::Image.create(".#{format}")
         if Redmine::Configuration['imagemagick_convert_command'].present?
           MiniMagick.cli_path = File.dirname(Redmine::Configuration['imagemagick_convert_command'])
         end
-        MiniMagick::Tool::Convert.new do |gc|
+        MiniMagick.convert do |gc|
           gc.size('%dx%d' % [subject_width + g_width + 1, height])
           gc.xc('white')
           gc.font(font_path) if font_path.present?
