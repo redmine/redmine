@@ -1638,7 +1638,7 @@ td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
 .badge {
   position:relative;
   font-weight:bold;
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   bottom: 4px;
   padding: 1px 4px;
   margin-right: 2px;
