@@ -2063,8 +2063,9 @@ img {
 .filecontent.wiki {
   position: relative;
   padding: 1em;
-  border: 1px solid #e4e4e4;
+  border: 1px solid #d0d7de;
   border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
 /* Fixes for IE 11 */
