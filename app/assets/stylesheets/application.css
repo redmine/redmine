@@ -831,6 +831,7 @@ ul.projects div.description ul li {list-style-type:initial;}
 }
 #projects-index ul.projects div.root svg {
   stroke-width: 2;
+  margin-bottom: 10px;
 }
 #projects-index ul.projects div.description {
   padding-top: 0.5em;
