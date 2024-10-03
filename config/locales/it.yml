@@ -2,6 +2,7 @@
 # by Claudio Poli (masterkain@gmail.com)
 # by Diego Pierotto (ita.translations@tiscali.it)
 # by Emidio Stani (emidiostani@gmail.com)
+# by Albano Battistella (albanobattistella@gmail.com)
 
 it:
   direction: ltr
@@ -17,10 +18,10 @@ it:
     month_names: [~, Gennaio, Febbraio, Marzo, Aprile, Maggio, Giugno, Luglio, Agosto, Settembre, Ottobre, Novembre, Dicembre]
     abbr_month_names: [~, Gen, Feb, Mar, Apr, Mag, Giu, Lug, Ago, Set, Ott, Nov, Dic]
     order:
-      - :day
-      - :month
-      - :year
-
+      - :giorno
+      - :mese
+      - :anno
+      
   time:
     formats:
       default: "%a %d %b %Y, %H:%M:%S %z"
@@ -135,14 +136,14 @@ it:
         circular_dependency: "Questa relazione creerebbe una dipendenza circolare"
         cant_link_an_issue_with_a_descendant: "Una segnalazione non può essere collegata a una delle sue discendenti"
         earlier_than_minimum_start_date: "non può essere precedente a %{date} a causa di una precedente segnalazione"
-        not_a_regexp: "is not a valid regular expression"
-        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
-        must_contain_uppercase: "must contain uppercase letters (A-Z)"
-        must_contain_lowercase: "must contain lowercase letters (a-z)"
-        must_contain_digits: "must contain digits (0-9)"
-        must_contain_special_chars: "must contain special characters (!, $, %, ...)"
-        domain_not_allowed: "contains a domain not allowed (%{domain})"
-        too_simple: "is too simple"
+        not_a_regexp: "non è un'espressione regolare valida"
+        open_issue_with_closed_parent: "Non è possibile allegare una questione aperta a un'attività padre chiusa"
+        must_contain_uppercase: "deve contenere lettere maiuscole (A-Z)"
+        must_contain_lowercase: "deve contenere lettere minuscole (a-z)"
+        must_contain_digits: "deve contenere cifre (0-9)"
+        must_contain_special_chars: "deve contenere caratteri speciali (!, $, %, ...)"
+        domain_not_allowed: "contiene un dominio non consentito (%{domain})"
+        too_simple: "è troppo semplice"
 
   actionview_instancetag_blank_option: Scegli
 
@@ -1020,9 +1021,9 @@ it:
   text_repository_identifier_info: Consentiti solo lettere minuscole (a-z), numeri, trattini e trattini bassi.<br />Una volta salvato, ll'identificatore non può essere modificato.
   field_board_parent: Forum padre
   label_attribute_of_project: del progetto %{name}
-  label_attribute_of_author: Author's %{name}
+  label_attribute_of_author: Autori %{name}
   label_attribute_of_assigned_to: Assegnatari %{name}
-  label_attribute_of_fixed_version: Target version's %{name}
+  label_attribute_of_fixed_version: Versione di destinazione %{name}
   label_copy_subtasks: Copia sottoattività
   label_copied_to: copia
   label_copied_from: copiata da
@@ -1072,7 +1073,7 @@ it:
   text_convert_available: ImageMagick convert disponibile (opzionale)
   label_link: Link
   label_only: solo
-  label_drop_down_list: drop-down list
+  label_drop_down_list: elenco a discesa
   label_checkboxes: checkboxes
   label_link_values_to: Collega valori ad un URL
   setting_force_default_language_for_anonymous: Forza la lingua di default per gli utenti anonimi
@@ -1082,7 +1083,7 @@ it:
   label_check_for_updates: Verifica aggiornamenti
   label_latest_compatible_version: Ultima versione compatibile
   label_unknown_plugin: Plugin sconosciuto
-  label_radio_buttons: radio buttons
+  label_radio_buttons: pulsanti radio
   label_group_anonymous: Utenti anonimi
   label_group_non_member: Utenti non membri
   label_add_projects: Aggiungi progetti
@@ -1123,64 +1124,59 @@ it:
   label_total_spent_time: Totale tempo impiegato
   notice_import_finished: "%{count} items have been imported"
   notice_import_finished_with_errors: "%{count} out of %{total} items could not be imported"
-  error_invalid_file_encoding: The file is not a valid %{encoding} encoded file
-  error_invalid_csv_file_or_settings: The file is not a CSV file or does not match the
-    settings below (%{value})
-  error_can_not_read_import_file: An error occurred while reading the file to import
-  permission_import_issues: Import issues
+  error_invalid_file_encoding: Il file non è un file codificato %{encoding} valido
+  error_invalid_csv_file_or_settings: Il file non è un file CSV o non corrisponde alle impostazioni seguenti (%{value})
+  error_can_not_read_import_file: Si è verificato un errore durante la lettura del file da importare
+  permission_import_issues: Problemi di importazione
   label_import_issues: Importa segnalazioni
-  label_select_file_to_import: Select the file to import
-  label_fields_separator: Field separator
+  label_select_file_to_import: Seleziona il file da importare
+  label_fields_separator: Separatore di campo
   label_fields_wrapper: Field wrapper
   label_encoding: Encoding
   label_comma_char: Virgola
   label_semi_colon_char: Punto e virgola
   label_quote_char: Apici
   label_double_quote_char: Doppi apici
-  label_fields_mapping: Fields mapping
-  label_file_content_preview: File content preview
-  label_create_missing_values: Create missing values
-  button_import: Import
+  label_fields_mapping: Mappatura campi
+  label_file_content_preview: Anteprima del contenuto del file
+  label_create_missing_values: Crea valori mancanti
+  button_import: Importa
   field_total_estimated_hours: Totale tempo stimato
   label_api: API
   label_total_plural: Totali
   label_assigned_issues: Segnalazioni assegnate
-  label_field_format_enumeration: Key/value list
+  label_field_format_enumeration: Chiave/elenco valore
   label_f_hour_short: '%{value} h'
   field_default_version: Versione predefinita
-  error_attachment_extension_not_allowed: Attachment extension %{extension} is not allowed
+  error_attachment_extension_not_allowed: L'estensione dell'allegato %{extension} non è consentita
   setting_attachment_extensions_allowed: Estensioni abilitate
   setting_attachment_extensions_denied: Estensioni disabilitate
-  label_any_open_issues: any open issues
-  label_no_open_issues: no open issues
-  label_default_values_for_new_users: Default values for new users
-  error_ldap_bind_credentials: Invalid LDAP Account/Password
+  label_any_open_issues: eventuali problemi aperti
+  label_no_open_issues: nessun problema aperto
+  label_default_values_for_new_users: Valori predefiniti per i nuovi utenti
+  error_ldap_bind_credentials: Account/password LDAP non validi
   setting_sys_api_key: Chiave API
   setting_lost_password: Password dimenticata
-  mail_subject_security_notification: Security notification
-  mail_body_security_notification_change: ! '%{field} was changed.'
-  mail_body_security_notification_change_to: ! '%{field} was changed to %{value}.'
-  mail_body_security_notification_add: ! '%{field} %{value} was added.'
-  mail_body_security_notification_remove: ! '%{field} %{value} was removed.'
-  mail_body_security_notification_notify_enabled: Email address %{value} now receives
-    notifications.
-  mail_body_security_notification_notify_disabled: Email address %{value} no longer
-    receives notifications.
-  mail_body_settings_updated: ! 'The following settings were changed:'
+  mail_subject_security_notification: Notifica di sicurezza
+  mail_body_security_notification_change: ! '%{field} è stato cambiato.'
+  mail_body_security_notification_change_to: ! '%{field} è stato cambiato in%{value}.'
+  mail_body_security_notification_add: ! '%{field} %{value} è stato aggiunto.'
+  mail_body_security_notification_remove: ! '%{field} %{value} è stato rimosso.'
+  mail_body_security_notification_notify_enabled: L'indirizzo email %{value} ora riceve le notifiche.
+  mail_body_security_notification_notify_disabled: L'indirizzo email %{value} non riceve più notifiche.
+  mail_body_settings_updated: ! 'Sono state modificate le seguenti impostazioni:'
   field_remote_ip: IP address
-  label_wiki_page_new: New wiki page
+  label_wiki_page_new: Nuova pagina wiki
   label_relations: Relazioni
-  button_filter: Filter
-  mail_body_password_updated: Your password has been changed.
-  label_no_preview: No preview available
-  error_no_tracker_allowed_for_new_issue_in_project: The project doesn't have any trackers
-    for which you can create an issue
-  label_tracker_all: All trackers
+  button_filter: Filtro
+  mail_body_password_updated: La tua password è stata modificata.
+  label_no_preview: Nessuna anteprima disponibile
+  error_no_tracker_allowed_for_new_issue_in_project: Il progetto non ha tracker per i quali puoi creare un problema
+  label_tracker_all: Tutti i tracker
   label_new_project_issue_tab_enabled: Mostra la scheda "Nuova segnalazione"
   setting_new_item_menu_tab: Scheda di creazione oggetti nel menu del progetto
   label_new_object_tab_enabled: Mostra l'elenco a discesa "+"
-  error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
-    for which you can create an issue
+  error_no_projects_with_tracker_allowed_for_new_issue: Non ci sono progetti con tracker per i quali puoi creare un problema
   field_textarea_font: Font utilizzato per le aree di testo
   label_font_default: Font predefinito
   label_font_monospace: Font monospace
@@ -1189,73 +1185,73 @@ it:
   label_table_of_contents: Sommario
   setting_commit_logs_formatting: Formatta il testo dei messaggi di commit
   setting_mail_handler_enable_regex: Abilita espressioni regolari
-  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
-    project: %{errors}'
-  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
-    be reassigned to an issue that is about to be deleted
+  error_move_of_child_not_possible: 'Il subtask %{child} non può essere spostato nel nuovo
+    progetto: %{errors}'
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Il tempo trascorso non può
+    essere riassegnato a un problema che sta per essere eliminato
   setting_timelog_required_fields: Campi obbligatori per le registrazioni del tempo impiegato
   label_attribute_of_object: '%{object_name}''s %{name}'
   label_user_mail_option_only_assigned: Solo se sono un osservatore o sono assegnatario
   label_user_mail_option_only_owner: Solo se sono un osservatore o sono autore
-  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
-    of values from one or more fields on the selected objects
+  warning_fields_cleared_on_bulk_edit: Le modifiche comporteranno l'eliminazione automatica
+    di valori da uno o più campi sugli oggetti selezionati
   field_updated_by: Aggiornato da
   field_last_updated_by: Ultimo aggiornamento di
-  field_full_width_layout: Full width layout
-  label_last_notes: Last notes
+  field_full_width_layout: Layout a larghezza intera
+  label_last_notes: Ultime note
   field_digest: Checksum
   field_default_assigned_to: Assegnatario predefinito
   setting_show_custom_fields_on_registration: Alla registrazione mostra i campi personalizzati
-  permission_view_news: View news
-  label_no_preview_alternative_html: No preview available. %{link} the file instead.
+  permission_view_news: Vista news
+  label_no_preview_alternative_html: Nessuna anteprima disponibile. %{link} il file invece.
   label_no_preview_download: Download
   setting_close_duplicate_issues: Chiudi automaticamente le segnalazioni duplicate
-  error_exceeds_maximum_hours_per_day: Cannot log more than %{max_hours} hours on the
-    same day (%{logged_hours} hours have already been logged)
+  error_exceeds_maximum_hours_per_day: Non è possibile registrare più di %{max_hours} ore sullo
+    stesso giorno (sono già state registrate %{logged_hours} ore)
   setting_time_entry_list_defaults: Colonne predefinite mostrate nell'elenco del tempo impiegato
   setting_timelog_accept_0_hours: Accetta registrazioni di tempo impiegato con 0 ore
   setting_timelog_max_hours_per_day: Numero massimo di ore che possono essere registrate al giorno per utente
-  label_x_revisions: "%{count} revisions"
-  error_can_not_delete_auth_source: This authentication mode is in use and cannot be
-    deleted.
-  button_actions: Actions
-  mail_body_lost_password_validity: Please be aware that you may change the password
-    only once using this link.
+  label_x_revisions: "%{count} revisioni"
+  error_can_not_delete_auth_source: Questa modalità di autenticazione è in uso e non può essere
+    cancellata.
+  button_actions: Azioni
+  mail_body_lost_password_validity: Tieni presente che puoi modificare la password
+    solo una volta usando questo link.
   text_login_required_html: Disattivando l'autenticazione obbligatoria, i progetti pubblici e il loro
     contenuto, saranno liberamente accessibili in rete. Si possono <a href="%{anonymous_role_path}">modificare
     i permessi applicabili</a>.
   label_login_required_yes: 'Si'
   label_login_required_no: No, consenti accesso anonimo ai progetti pubblici
-  text_project_is_public_non_member: Public projects and their contents are available
-    to all logged-in users.
-  text_project_is_public_anonymous: Public projects and their contents are openly available
-    on the network.
-  label_version_and_files: Versioni (%{count}) e Files
+  text_project_is_public_non_member: Sono disponibili i progetti pubblici e i loro contenuti
+    a tutti gli utenti registrati.
+  text_project_is_public_anonymous: I progetti pubblici e i loro contenuti sono accessibili a tutti
+    sulla rete.
+  label_version_and_files: Versioni (%{count}) e File
   label_ldap: LDAP
-  label_ldaps_verify_none: LDAPS (without certificate check)
+  label_ldaps_verify_none: LDAPS (senza controllo del certificato)
   label_ldaps_verify_peer: LDAPS
-  label_ldaps_warning: It is recommended to use an encrypted LDAPS connection with certificate
-    check to prevent any manipulation during the authentication process.
+  label_ldaps_warning: Si consiglia di utilizzare una connessione LDAPS crittografata con controllo
+    del certificato per evitare qualsiasi manipolazione durante il processo di autenticazione.
   label_nothing_to_preview: Nessuna anteprima da visualizzare
-  error_token_expired: This password recovery link has expired, please try again.
-  error_spent_on_future_date: Cannot log time on a future date
+  error_token_expired: Questo link per il recupero della password è scaduto, riprova.
+  error_spent_on_future_date: Impossibile registrare il tempo in una data futura
   setting_timelog_accept_future_dates: Accetta registrazioni di tempo impiegato in date future
   label_delete_link_to_subtask: Elimina relazione
-  error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
-    for other users
-  permission_log_time_for_other_users: Log spent time for other users
+  error_not_allowed_to_log_time_for_other_users: Non ti è consentito registrare il tempo
+    per altri utenti
+  permission_log_time_for_other_users: Registra il tempo trascorso dagli altri utenti
   label_tomorrow: domani
   label_next_week: prossima settimana
   label_next_month: prossimo mese
-  text_role_no_workflow: No workflow defined for this role
-  text_status_no_workflow: No tracker uses this status in the workflows
-  setting_mail_handler_preferred_body_part: Preferred part of multipart (HTML) emails
+  text_role_no_workflow: Nessun flusso di lavoro definito per questo ruolo
+  text_status_no_workflow: Nessun tracker utilizza questo stato nei flussi di lavoro
+  setting_mail_handler_preferred_body_part: Parte preferita delle email multiparte (HTML)
   setting_show_status_changes_in_mail_subject: Mostra i cambiamenti di stato nell'oggetto delle emails di notifica
   label_inherited_from_parent_project: Inherited from parent project
   label_inherited_from_group: Inherited from group %{name}
   label_trackers_description: Trackers description
   label_open_trackers_description: View all trackers description
-  label_preferred_body_part_text: Text
+  label_preferred_body_part_text: Testo
   label_preferred_body_part_html: HTML
   field_parent_issue_subject: Parent task subject
   permission_edit_own_issues: Edit own issues
