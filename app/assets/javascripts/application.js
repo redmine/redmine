@@ -185,7 +185,7 @@ function buildFilterRow(field, operator, values) {
   if (!filterOptions) return;
   var operators = operatorByType[filterOptions['type']];
   var filterValues = filterOptions['values'];
-  var i, select;
+  var select;
 
   var tr = $('<div class="filter">').attr('id', 'tr_'+fieldId).html(
     '<div class="field"><input checked="checked" id="cb_'+fieldId+'" name="f[]" value="'+field+'" type="checkbox"><label for="cb_'+fieldId+'"> '+filterOptions['name']+'</label></div>' +
@@ -195,11 +195,11 @@ function buildFilterRow(field, operator, values) {
   filterTable.append(tr);
 
   select = tr.find('.operator select');
-  for (i = 0; i < operators.length; i++) {
-    var option = $('<option>').val(operators[i]).text(operatorLabels[operators[i]]);
-    if (operators[i] == operator) { option.prop('selected', true); }
+  operators.forEach(function(op) {
+    var option = $('<option>').val(op).text(operatorLabels[op]);
+    if (op == operator) { option.prop('selected', true); }
     select.append(option);
-  }
+  });
   select.change(function(){ toggleOperator(field); });
 
   switch (filterOptions['type']) {
@@ -215,8 +215,7 @@ function buildFilterRow(field, operator, values) {
     );
     select = tr.find('.values select');
     if (values.length > 1) { select.attr('multiple', true); }
-    for (i = 0; i < filterValues.length; i++) {
-      var filterValue = filterValues[i];
+    filterValues.forEach(function(filterValue) {
       var option = $('<option>');
       if ($.isArray(filterValue)) {
         option.val(filterValue[1]).text(filterValue[0]);
@@ -231,7 +230,7 @@ function buildFilterRow(field, operator, values) {
         if ($.inArray(filterValue, values) > -1) {option.prop('selected', true);}
       }
       select.append(option);
-    }
+    });
     break;
   case "date":
   case "date_past":
@@ -259,13 +258,12 @@ function buildFilterRow(field, operator, values) {
     );
     $('#values_'+fieldId).val(values[0]);
     select = tr.find('.values select');
-    for (i = 0; i < filterValues.length; i++) {
-      var filterValue = filterValues[i];
+    filterValues.forEach(function(filterValue) {
       var option = $('<option>');
       option.val(filterValue[1]).text(filterValue[0]);
       if (values[0] == filterValue[1]) { option.prop('selected', true); }
       select.append(option);
-    }
+    });
     break;
   case "integer":
   case "float":
