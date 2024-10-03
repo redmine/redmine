@@ -164,7 +164,6 @@
     /* achieve dropdwon arrow by scaling a caret character */
     content: '^';
     -webkit-transform: scale(1,-.8);
-        -ms-transform: scale(1,-.8);
             transform: scale(1,-.8);
     text-align: right;
     pointer-events: none;
@@ -173,7 +172,6 @@
   }
   #project-jump.expanded .drdn-trigger:before {
     -webkit-transform: scale(1,.8);
-        -ms-transform: scale(1,.8);
             transform: scale(1,.8);
     padding-top:8px;
   }
@@ -398,13 +396,11 @@
 
   .flyout-menu #watchers {
     display: -webkit-flex;
-    display: -ms-flexbox;
     display: -webkit-box;
     display: flex;
     flex-direction: column;
 
     -webkit-flex-direction: column;
-    -ms-flex-direction: column;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
   }
@@ -412,7 +408,6 @@
   .flyout-menu #watchers .contextual {
     -webkit-box-ordinal-group: 4;
     -webkit-order: 3;
-    -ms-flex-order: 3;
     order: 3;
   }
 
@@ -422,17 +417,14 @@
 
   .flyout-menu #watchers ul li {
     display: -webkit-flex;
-    display: -ms-flexbox;
     display: -webkit-box;
     display: flex;
     flex-direction: row;
 
     -webkit-flex-direction: row;
-    -ms-flex-direction: row;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
     -webkit-align-items: center;
-    -ms-flex-align: center;
     -webkit-box-align: center;
     align-items: center;
   }
@@ -492,7 +484,6 @@
   .flyout-menu__avatar {
     display: -webkit-box;
     display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
     width: 100%;
     border-top: 1px solid rgba(255,255,255,.1);
@@ -528,7 +519,6 @@
     overflow: hidden;
     white-space: nowrap;
     -webkit-flex-grow: 1;
-        -ms-flex-grow: 1;
             flex-grow: 1;
   }
 

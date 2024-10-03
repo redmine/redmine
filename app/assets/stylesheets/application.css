@@ -140,7 +140,6 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 @media screen and (min-width: 2560px) {#sidebar{width: 380px;}}
 #sidebar h3{ font-size: 0.875rem; margin-top:14px; color: #666;  }
 #sidebar hr{ width: 100%; margin: 0 auto; height: 1px; background: #ccc; border: 0; }
-* html #sidebar hr{ width: 95%; position: relative; left: -6px; color: #ccc; }
 #sidebar .contextual { margin-right: 1em; }
 #sidebar ul, ul.flat {margin: 0;  padding: 0;}
 #sidebar ul li, ul.flat li {list-style-type:none;margin: 0px 2px 0px 0px; padding: 0px 0px 0px 0px;}
@@ -551,7 +550,6 @@ input, select, textarea, button { color: #333; background-color: #fff; border:1p
 select {
   -webkit-appearance: none;
   -moz-appearance: none;
-  -ms-appearance: none;
   -o-appearance: none;
   appearance: none;
   background-color: #fff;
@@ -2069,14 +2067,6 @@ img {
   box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
-/* Fixes for IE 11 */
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-  select::-ms-expand {
-    display: none;
-  }
-  select[multiple=multiple] {padding-right: 0;}
-}
-
 /* tablesort */
 th[role=columnheader]:not(.no-sort) {
 	cursor: pointer;
@@ -2091,7 +2081,6 @@ th[role=columnheader]:not(.no-sort):after {
 	border-color: #404040 transparent;
 	display: none;
 	opacity: 0;
-	-ms-user-select: none;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	user-select: none;
