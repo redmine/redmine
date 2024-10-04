@@ -1365,6 +1365,8 @@ lt:
   error_filename_required: Failo pavadinimas būtinas
   error_invalid_size_parameter: Netinkamas dydžio parametras
   error_attachment_not_found: Pridėtas failas %{name} nerastas
+  error_warranty_pricing_missing: "Kainoraščio pridėti negalima. Trūksta garantijos pradžios datos arba garantijos trukmės termino."
+
   permission_delete_project: Pašalinti projektą
   field_twofa_scheme: Dviejų veiksnių autentifikavimo schema
   text_user_destroy_confirmation: Ar tikrai norite pašalinti naudotoją ir visas sąsajas su juo? Po šio veiksmo informacijos atkūrimas negalimas.
@@ -1466,3 +1468,8 @@ lt:
   label_issue_statuses_description: Issue statuses description
   label_open_issue_statuses_description: View all issue statuses description
   text_select_apply_issue_status: Select issue status
+  label_warranty: Garantinis
+  label_sla_1: SLA 1
+  label_sla_2: SLA 2
+  label_rent: Rent
+  label_cloud: Cloud

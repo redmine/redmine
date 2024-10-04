@@ -1,3 +1,4 @@
+<%= javascript_include_tag 'issue_collision' %>
 <%= render :partial => 'action_menu' %>
 
 <h2 class="inline-flex"><%= issue_heading(@issue) %></h2>
@@ -47,8 +48,10 @@
 <div class="attributes">
 <%= issue_fields_rows do |rows|
   rows.left l(:field_status), @issue.status.name, :class => 'status'
-  rows.left l(:field_priority), @issue.priority.name, :class => 'priority'
 
+  unless @issue.disabled_core_fields.include?('priority_id')
+    rows.left l(:field_priority), @issue.priority.name, :class => 'priority'
+  end
   unless @issue.disabled_core_fields.include?('assigned_to_id')
     rows.left l(:field_assigned_to), (@issue.assigned_to ? link_to_principal(@issue.assigned_to) : "-"), :class => 'assigned-to'
   end
@@ -80,18 +83,16 @@
   unless @issue.disabled_core_fields.include?('estimated_hours')
     rows.right l(:field_estimated_hours), issue_estimated_hours_details(@issue), :class => 'estimated-hours'
   end
-  if User.current.allowed_to?(:view_time_entries, @project)
-    if @issue.total_spent_hours > 0
-      rows.right l(:label_spent_time), issue_spent_hours_details(@issue), :class => 'spent-time'
-    end
+  if User.current.allowed_to?(:view_time_entries, @project) && @issue.total_spent_hours > 0
+    rows.right l(:label_spent_time), issue_spent_hours_details(@issue), :class => 'spent-time'
+  end
 
-    if @issue.try(:tracker).try(:name).try(:eql?, 'Support')
-      rows.right l(:label_warranty), (@issue.warranty ? I18n.t('general_text_Yes') : I18n.t('general_text_No')), :class => "warranty #{@issue.warranty ? 'valid' : 'not-valid'}", :comment => @issue.project.warrant_comment
-      rows.right l(:label_sla_1_enabled), (@issue.sla_1 ? I18n.t('general_text_Yes') : I18n.t('general_text_No')), :class => "warranty #{@issue.sla_1 ? 'valid' : 'not-valid'}", :comment => @issue.project.sla_1_comment
-      rows.right l(:label_sla_2_enabled), (@issue.sla_2 ? I18n.t('general_text_Yes') : I18n.t('general_text_No')), :class => "warranty #{@issue.sla_2 ? 'valid' : 'not-valid'}", :comment => @issue.project.sla_2_comment
-      rows.right l(:label_cloud_enabled), (@issue.cloud ? I18n.t('general_text_Yes') : I18n.t('general_text_No')), :class => "warranty #{@issue.cloud ? 'valid' : 'not-valid'}", :comment => @issue.project.cloud_comment
-      rows.right l(:label_rent_enabled), (@issue.rent ? I18n.t('general_text_Yes') : I18n.t('general_text_No')), :class => "warranty #{@issue.rent ? 'valid' : 'not-valid'}", :comment => @issue.project.rent_comment
-    end
+  if @issue.try(:tracker).try(:name).try(:eql?, 'Support')
+    rows.right l(:label_warranty), (@issue.warranty ? I18n.t('general_text_Yes') : I18n.t('general_text_No')), :class => "warranty #{@issue.warranty ? 'valid' : 'not-valid'}", :comment => @issue.project.warrant_comment
+    rows.right l(:label_sla_1_enabled), (@issue.sla_1 ? I18n.t('general_text_Yes') : I18n.t('general_text_No')), :class => "warranty #{@issue.sla_1 ? 'valid' : 'not-valid'}", :comment => @issue.project.sla_1_comment
+    rows.right l(:label_sla_2_enabled), (@issue.sla_2 ? I18n.t('general_text_Yes') : I18n.t('general_text_No')), :class => "warranty #{@issue.sla_2 ? 'valid' : 'not-valid'}", :comment => @issue.project.sla_2_comment
+    rows.right l(:label_cloud_enabled), (@issue.cloud ? I18n.t('general_text_Yes') : I18n.t('general_text_No')), :class => "warranty #{@issue.cloud ? 'valid' : 'not-valid'}", :comment => @issue.project.cloud_comment
+    rows.right l(:label_rent_enabled), (@issue.rent ? I18n.t('general_text_Yes') : I18n.t('general_text_No')), :class => "warranty #{@issue.rent ? 'valid' : 'not-valid'}", :comment => @issue.project.rent_comment
   end
 end %>
 <%= render_half_width_custom_fields_rows(@issue) %>
@@ -131,14 +132,6 @@ end %>
       <%= textilizable @issue, :description, :attachments => @issue.attachments %>
     </div>
   <% end %>
-
-
-
-
-
-
-
-
 </div>
 <% end %>
 <% if @issue.attachments.any? %>

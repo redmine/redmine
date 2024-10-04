@@ -1,0 +1,93 @@
+<%= javascript_include_tag 'issue_collision' %>
+<%= labelled_form_for @issue, :html => {:id => 'issue-form', :multipart => true} do |f| %>
+    <%= error_messages_for 'issue', 'time_entry' %>
+    <%= render :partial => 'conflict' if @conflict %>
+    <div class="box">
+    <% if @issue.attributes_editable? %>
+        <fieldset class="tabular"><legend><%= l(:label_change_properties) %></legend>
+        <div id="all_attributes">
+        <%= render :partial => 'form', :locals => {:f => f} %>
+        </div>
+        </fieldset>
+    <% end %>
+    <% if User.current.allowed_to?(:log_time, @issue.project) %>
+        <fieldset class="tabular" id="log_time"><legend><%= l(:button_log_time) %></legend>
+        <%= labelled_fields_for :time_entry, @time_entry do |time_entry| %>
+        <div class="splitcontent">
+        <div class="splitcontentleft">
+        <p><%= time_entry.hours_field :hours, :size => 6, :label => :label_spent_time %> <%= l(:field_hours) %></p>
+        </div>
+        <div class="splitcontentright">
+        <p><%= time_entry.select :activity_id, activity_collection_for_select_options %></p>
+        </div>
+        </div>
+        <p><%= time_entry.text_field :comments, :size => 60 %></p>
+        <% @time_entry.editable_custom_field_values.each do |value| %>
+          <p><%= custom_field_tag_with_label :time_entry, value %></p>
+        <% end %>
+        <% end %>
+    </fieldset>
+    <% end %>
+    <% if @issue.notes_addable? %>
+      <fieldset id="add_notes"><legend><%= l(:field_notes) %></legend>
+      <%= f.text_area :notes, :cols => 60, :rows => 10, :class => 'wiki-edit',
+            :data => {
+                :auto_complete => true
+            },
+            :no_label => true %>
+      <%= wikitoolbar_for 'issue_notes', preview_issue_path(:project_id => @project, :issue_id => @issue) %>
+
+      <% if @issue.safe_attribute? 'private_notes' %>
+      <%= f.check_box :private_notes, :no_label => true %> <label for="issue_private_notes"><%= l(:field_private_notes) %></label>
+      <% end %>
+
+      <% if @issue.safe_attribute? 'add_pricing' %>
+      <%= f.check_box :add_pricing, :no_label => true %> <label for="issue_add_pricing"><%= l(:field_add_pricing) %></label>
+      <% end %>
+
+      <%= call_hook(:view_issues_edit_notes_bottom, { :issue => @issue, :notes => @notes, :form => f }) %>
+      </fieldset>
+    <% end %>
+    <% if !@issue.attributes_editable? && User.current.allowed_to?(:add_issue_watchers, @issue.project) %>
+      <%= update_data_sources_for_auto_complete({users: watchers_autocomplete_for_mention_path(project_id: @issue.project, q: '', object_type: 'issue',
+                                                                                               object_id: @issue.id)}) %>
+    <% end %>
+    <% if @issue.attachments_addable? %>
+      <fieldset id="add_attachments"><legend><%= l(:label_attachment_plural) %></legend>
+        <% if @issue.attachments.any? && @issue.safe_attribute?('deleted_attachment_ids') %>
+        <div class="contextual"><%= link_to l(:label_edit_attachments), '#', :onclick => "$('#existing-attachments').toggle(); return false;" %></div>
+        <div id="existing-attachments" style="<%= @issue.deleted_attachment_ids.blank? ? 'display:none;' : '' %>">
+          <% @issue.attachments.each do |attachment| %>
+          <span class="existing-attachment">
+            <%= text_field_tag '', attachment.filename, :class => "icon icon-attachment filename", :disabled => true %>
+            <label>
+              <%= check_box_tag 'issue[deleted_attachment_ids][]',
+                                attachment.id,
+                                @issue.deleted_attachment_ids.include?(attachment.id),
+                                :id => nil, :class => "deleted_attachment" %> <%= l(:button_delete) %>
+            </label>
+          </span>
+          <% end %>
+          <hr />
+        </div>
+        <% end %>
+
+        <div id="new-attachments" style="display:inline-block;">
+          <%= render :partial => 'attachments/form', :locals => {:container => @issue} %>
+        </div>
+      </fieldset>
+    <% end %>
+    </div>
+
+    <%= f.hidden_field :lock_version %>
+    <%= hidden_field_tag 'last_journal_id', params[:last_journal_id] || @issue.last_journal_id %>
+    <%= submit_tag l(:button_submit) %>
+    <%= link_to(
+          l(:button_cancel), issue_path(id: @issue.id),
+          :onclick => params[:action] == 'show' ? "$('#update').hide(); return false;" : ''
+        ) %>
+    <%= hidden_field_tag 'prev_issue_id', @prev_issue_id if @prev_issue_id %>
+    <%= hidden_field_tag 'next_issue_id', @next_issue_id if @next_issue_id %>
+    <%= hidden_field_tag 'issue_position', @issue_position if @issue_position %>
+    <%= hidden_field_tag 'issue_count', @issue_count if @issue_count %>
+<% end %>

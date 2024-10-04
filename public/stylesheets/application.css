@@ -840,7 +840,7 @@ span.pagination>span {white-space:nowrap;}
   min-height: 2em;
   clear:left;
 }
-html>body .tabular p {overflow:hidden;}
+/* html>body .tabular p {overflow:hidden;} */
 
 .tabular input, .tabular select {max-width:95%}
 .tabular textarea {width:95%; resize:vertical;}
