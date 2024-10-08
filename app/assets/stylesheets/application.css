@@ -359,10 +359,9 @@ tr.entry td.age { text-align: right; }
 tr.entry.file td.filename a { margin-left: 26px; }
 tr.entry.file td.filename_no_report a { margin-left: 16px; }
 
-tr span.expander, .gantt_subjects div > span.expander {padding-left: 4px; margin-left: 0; cursor: pointer;}
-.gantt_subjects div > span.expander {padding-left: 12px;}
+tr span.expander, .gantt_subjects div > span.expander {margin-left: 0; cursor: pointer;}
 .gantt_subjects div > span .icon-gravatar {float: none;}
-.gantt_subjects svg {margin-left: 4px; margin-right: 4px;}
+.gantt_subjects div.project-name a, .gantt_subjects div.version-name a {margin-left: 4px;}
 
 tr.changeset { height: 20px }
 tr.changeset ul, ol { margin-top: 0px; margin-bottom: 0px; }
@@ -1578,6 +1577,7 @@ table.gantt-table td {
 .gantt_subjects .issue-subject img.icon-gravatar {
   margin: 2px 5px 0px 2px;
 }
+
 .gantt_hdr_selected_column_name {
   position: absolute;
   top: 50%;

@@ -234,7 +234,7 @@ function resizableSubjectColumn(){
 }
 
 ganttEntryClick = function(e){
-  var icon_expander = e.target;
+  var icon_expander = e.currentTarget;
   var subject = $(icon_expander.parentElement);
   var subject_left = parseInt(subject.css('left')) + parseInt(icon_expander.offsetWidth);
   var target_shown = null;
@@ -244,13 +244,21 @@ ganttEntryClick = function(e){
   var iconChange = null;
   if(subject.hasClass('open'))
     iconChange = function(element){
-      $(element).find('.expander').switchClass('icon-expanded', 'icon-collapsed');
+      var expander = $(element).find('.expander')
+      expander.switchClass('icon-expanded', 'icon-collapsed');
       $(element).removeClass('open');
+      if (expander.find('svg').length === 1) {
+        updateSVGIcon(expander[0], 'angle-right')
+      }
     };
   else
     iconChange = function(element){
-      $(element).find('.expander').switchClass('icon-collapsed', 'icon-expanded');
+      var expander = $(element).find('.expander')
+      expander.find('.expander').switchClass('icon-collapsed', 'icon-expanded');
       $(element).addClass('open');
+      if (expander.find('svg').length === 1) {
+        updateSVGIcon(expander[0], 'angle-down')
+      }
     };
   iconChange(subject);
   subject.nextAll('div').each(function(_, element){
