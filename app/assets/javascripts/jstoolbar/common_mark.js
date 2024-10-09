@@ -26,6 +26,16 @@ jsToolBar.prototype.elements.em = {
   }
 }
 
+// u
+jsToolBar.prototype.elements.ins = {
+  type: 'button',
+  title: 'Underline',
+  shortcut: 'u',
+  fn: {
+    wiki: function() { this.singleTag('<u>', '</u>') }
+  }
+}
+
 // del
 jsToolBar.prototype.elements.del = {
   type: 'button',

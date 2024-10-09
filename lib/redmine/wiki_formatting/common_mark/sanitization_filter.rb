@@ -111,6 +111,9 @@ module Redmine
             end
           }
 
+          # Allow `u` element to enable underline
+          allowlist[:elements].push('u')
+
           allowlist
         end
       end
