@@ -29,6 +29,7 @@ class MessagesController < ApplicationController
   helper :watchers
   helper :attachments
   include AttachmentsHelper
+  include Redmine::QuoteReply::Builder
 
   REPLIES_PER_PAGE = 25 unless const_defined?(:REPLIES_PER_PAGE)
 
@@ -119,12 +120,11 @@ class MessagesController < ApplicationController
     @subject = @message.subject
     @subject = "RE: #{@subject}" unless @subject.starts_with?('RE:')
 
-    if @message.root == @message
-      @content = "#{ll(Setting.default_language, :text_user_wrote, @message.author)}\n> "
-    else
-      @content = "#{ll(Setting.default_language, :text_user_wrote_in, {:value => @message.author, :link => "message##{@message.id}"})}\n> "
-    end
-    @content << @message.content.to_s.strip.gsub(%r{<pre>(.*?)</pre>}m, '[...]').gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
+    @content = if @message.root == @message
+                 quote_root_message(@message, partial_quote: params[:quote])
+               else
+                 quote_message(@message, partial_quote: params[:quote])
+               end
 
     respond_to do |format|
       format.html { render_404 }

@@ -1261,7 +1261,6 @@ function inlineAutoComplete(element) {
     tribute.attach(element);
 }
 
-
 $(document).ready(setupAjaxIndicator);
 $(document).ready(hideOnLoad);
 $(document).ready(addFormObserversForDoubleSubmit);

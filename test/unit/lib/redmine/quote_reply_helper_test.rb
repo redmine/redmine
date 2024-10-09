@@ -17,6 +17,24 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-module MessagesHelper
+require_relative '../../../test_helper'
+
+class QuoteReplyHelperTest < ActionView::TestCase
+  include ERB::Util
   include Redmine::QuoteReply::Helper
+
+  fixtures :issues
+
+  def test_quote_reply
+    url = quoted_issue_path(issues(:issues_001))
+
+    a_tag = quote_reply(url, '#issue_description_wiki')
+    assert_includes a_tag, %|onclick="#{h "quoteReply('/issues/1/quoted', '#issue_description_wiki', 'common_mark'); return false;"}"|
+    assert_includes a_tag, %|class="icon icon-comment"|
+    assert_not_includes a_tag, 'title='
+
+    # When icon_only is true
+    a_tag = quote_reply(url, '#issue_description_wiki', icon_only: true)
+    assert_includes a_tag, %|title="Quote"|
+  end
 end

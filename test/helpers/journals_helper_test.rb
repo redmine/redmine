@@ -57,7 +57,7 @@ class JournalsHelperTest < Redmine::HelperTest
     journals = issue.visible_journals_with_index # add indice
     journal_actions = render_journal_actions(issue, journals.first, {reply_links: true})
 
-    assert_select_in journal_actions, 'a[title=?][class="icon-only icon-comment"]', 'Quote'
+    assert_select_in journal_actions, 'a[title=?][class="icon icon-comment"]', 'Quote'
     assert_select_in journal_actions, 'a[title=?][class="icon-only icon-edit"]', 'Edit'
     assert_select_in journal_actions, 'div[class="drdn-items"] a[class="icon icon-del"]'
     assert_select_in journal_actions, 'div[class="drdn-items"] a[class="icon icon-copy-link"]'

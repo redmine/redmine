@@ -1,3 +1,7 @@
+<% content_for :header_tags do %>
+  <%= javascripts_for_quote_reply_include_tag %>
+<% end %>
+
 <%= render :partial => 'action_menu' %>
 
 <h2 class="inline-block"><%= issue_heading(@issue) %></h2><%= issue_status_type_badge(@issue.status) %>
@@ -84,11 +88,11 @@ end %>
 <hr />
 <div class="description">
   <div class="contextual">
-  <%= link_to icon_with_label('comment', l(:button_quote)), quoted_issue_path(@issue), :remote => true, :method => 'post', :class => 'icon icon-comment ' if @issue.notes_addable? %>
+  <%= quote_reply(quoted_issue_path(@issue), '#issue_description_wiki') if @issue.notes_addable? %>
   </div>
 
   <p><strong><%=l(:field_description)%></strong></p>
-  <div class="wiki">
+  <div id="issue_description_wiki" class="wiki">
   <%= textilizable @issue, :description, :attachments => @issue.attachments %>
   </div>
 </div>

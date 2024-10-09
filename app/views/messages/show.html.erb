@@ -1,13 +1,15 @@
+<% content_for :header_tags do %>
+  <%= javascripts_for_quote_reply_include_tag %>
+<% end %>
+
 <%= board_breadcrumb(@message) %>
 
 <div class="contextual">
     <%= watcher_link(@topic, User.current) %>
-    <%= link_to(
-          icon_with_label('comment', l(:button_quote)),
-          {:action => 'quote', :id => @topic},
-          :method => 'get',
-          :class => 'icon icon-comment',
-          :remote => true) if !@topic.locked? && authorize_for('messages', 'reply') %>
+    <%= quote_reply(
+          url_for(:action => 'quote', :id => @topic, :format => 'js'),
+          '#message_topic_wiki'
+        ) if !@topic.locked? && authorize_for('messages', 'reply') %>
     <%= link_to(
           icon_with_label('edit', l(:button_edit)),
           {:action => 'edit', :id => @topic},
@@ -26,7 +28,7 @@
 
 <div class="message">
 <p><span class="author"><%= authoring @topic.created_on, @topic.author %></span></p>
-<div class="wiki">
+<div id="message_topic_wiki" class="wiki">
 <%= textilizable(@topic, :content) %>
 </div>
 <%= link_to_attachments @topic, :author => false, :thumbnails => true %>
@@ -42,13 +44,10 @@
 <% @replies.each do |message| %>
   <div class="message reply" id="<%= "message-#{message.id}" %>">
     <div class="contextual">
-      <%= link_to(
-            icon_with_label('comment', l(:button_quote), icon_only: true),
-            {:action => 'quote', :id => message},
-            :remote => true,
-            :method => 'get',
-            :title => l(:button_quote),
-            :class => 'icon icon-comment'
+      <%= quote_reply(
+            url_for(:action => 'quote', :id => message, :format => 'js'),
+            "#message-#{message.id} .wiki",
+            icon_only: true
           ) if !@topic.locked? && authorize_for('messages', 'reply') %>
       <%= link_to(
             icon_with_label('edit', l(:button_edit), icon_only: true),
