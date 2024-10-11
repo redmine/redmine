@@ -33,6 +33,7 @@ a.new { color: #b73535; }
 
 table.sample { border-collapse: collapse; border-spacing: 0; margin: 4px; margin-left: 30px;}
 table.sample th, table.sample td { border: solid 1px #bbb; padding: 4px; height: 1em; }
+table.list td { background-color: #f5f5f5; vertical-align: middle; padding: 0.3em;}
 
 .syntaxhl .c1 { color: #888888 }
 .syntaxhl .k { color: #008800; font-weight: bold }

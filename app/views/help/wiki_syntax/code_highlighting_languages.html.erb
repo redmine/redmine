@@ -1,22 +1,22 @@
-<!doctype html
+<!doctype html>
 <html lang="en">
 <head>
   <title>List of languages supported by Redmine code highlighter</title>
-  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <%= stylesheet_link_tag "wiki_syntax.css" %>
+  <meta charset="UTF-8">
+  <%= stylesheet_link_tag "wiki_syntax_detailed.css" %>
 </head>
 
 <body>
   <h1>List of languages supported by Redmine code highlighter</h1>
 
-  <table>
+  <table class="list">
     <tr>
       <th>Language</th>
       <th>Description</th>
     </tr>
     <% @available_lexers.each do |lexer| %>
       <tr>
-        <td><%= lexer.tag %></td>
+        <td><code><%= lexer.tag %></code></td>
         <td>
           <%= lexer.desc %>
           <%= " [aliases: #{lexer.aliases.uniq.join(', ')}]" if lexer.aliases.any? %>
