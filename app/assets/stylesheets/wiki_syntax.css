@@ -1,5 +1,23 @@
-h1 { font-family: Verdana, sans-serif; font-size: 14px; text-align: center; color: #444; }
-body { font-family: Verdana, sans-serif; font-size: 12px; color: #444; }
+@font-face {
+    font-family: "Noto Sans";
+    src: url("/NotoSans-VariableFont_wdth,wght.woff2") format("woff2");
+    font-weight: 100 900;
+    font-stretch: 75% 125%;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Noto Sans";
+    src: url("/NotoSans-Italic-VariableFont_wdth,wght.woff2") format("woff2");
+    font-weight: 100 900;
+    font-stretch: 75% 125%;
+    font-style: italic;
+    font-display: swap;
+}
+
+h1 { font-family: "Noto Sans", sans-serif; font-size: 14px; text-align: center; color: #444; }
+body { font-family: "Noto Sans", sans-serif; font-size: 12px; color: #444; }
 pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace; }
 table th { padding-top: 1em; }
 table th img { border: 1px solid #bbb; }

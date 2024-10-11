@@ -1,7 +1,23 @@
-body { font:80% Verdana,Tahoma,Arial,sans-serif; }
-h1, h2, h3, h4 {  font-family: Trebuchet MS,Georgia,"Times New Roman",serif; }
-pre, code { font-size:120%; font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace; }
-pre code { font-size:100%; }
+@font-face {
+    font-family: "Noto Sans";
+    src: url("/NotoSans-VariableFont_wdth,wght.woff2") format("woff2");
+    font-weight: 100 900;
+    font-stretch: 75% 125%;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Noto Sans";
+    src: url("/NotoSans-Italic-VariableFont_wdth,wght.woff2") format("woff2");
+    font-weight: 100 900;
+    font-stretch: 75% 125%;
+    font-style: italic;
+    font-display: swap;
+}
+
+body { font-family: "Noto Sans", sans-serif; font-size: 0.875rem; color:#333;}
+pre, code { font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace; }
 pre {
     margin: 1em 1em 1em 1.6em;
     padding: 2px;
