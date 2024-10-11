@@ -16,7 +16,7 @@
     font-display: swap;
 }
 
-body { font-family: "Noto Sans", sans-serif; font-size: 0.875rem; color:#333;}
+body { font-family: "Noto Sans", sans-serif; font-size: 0.875rem; color:#333; line-height: 1.6;}
 pre, code { font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace; }
 pre {
     margin: 1em 1em 1em 1.6em;
@@ -26,6 +26,7 @@ pre {
     width: auto;
     overflow-x: auto;
     overflow-y: hidden;
+    line-height: normal;
 }
 a, a:link, a:visited{ color: #169; text-decoration: none; }
 a:hover, a:active{ color: #c61a1a; text-decoration: underline;}
