@@ -432,6 +432,9 @@ it:
   field_default_project_query: Query predefinita progetto
   field_default_time_entry_activity: Attività predefinita tempo speso
   field_any_searchable: Qualsiasi testo ricercabile
+  field_estimated_remaining_hours: Tempo rimanente stimato
+  field_last_activity_date: Ultima attività
+  field_thousands_delimiter: Delimitatore delle migliaia
 
   setting_app_title: Titolo applicazione
   setting_welcome_text: Testo di benvenuto
@@ -489,6 +492,7 @@ it:
   setting_default_projects_modules: Moduli predefiniti abilitati per i nuovi progetti
   setting_issue_done_ratio: Calcola la percentuale di segnalazioni completate con
   setting_issue_done_ratio_issue_field: Usa il campo segnalazioni
+  setting_issue_done_ratio_interval: Intervallo opzioni percentuale di completamento
   setting_issue_done_ratio_issue_status: Usa lo stato segnalazioni
   setting_start_of_week: Avvia calendari il
   setting_rest_api_enabled: Abilita il servizio web REST
@@ -513,6 +517,7 @@ it:
   setting_force_default_language_for_anonymous: Forza la lingua di default per gli utenti anonimi
   setting_force_default_language_for_loggedin: Forza la lingua di default per gli utenti loggati
   setting_link_copied_issue: Collega le segnalazioni dopo la copia
+  setting_copy_attachments_on_issue_copy: Copia allegati sulla copia
   setting_max_additional_emails: Numero massimo di email aggiuntive
   setting_email_domains_allowed: Domini di posta elettronica consentiti
   setting_email_domains_denied: Domini di posta elettronica non consentiti
@@ -643,6 +648,7 @@ it:
   label_issue_assigned_to_updated: Assegnatario aggiornato
   label_issue_priority_updated: Priorità aggiornata
   label_issue_fixed_version_updated: Versione prevista aggiornata
+  label_issue_attachment_added: File aggiunto
   label_document: Documento
   label_document_new: Nuovo documento
   label_document_plural: Documenti
@@ -892,6 +898,7 @@ it:
   label_diff_inline: in linea
   label_diff_side_by_side: fianco a fianco
   label_options: Opzioni
+  label_option_auto_lang: auto
   label_copy_workflow_from: Copia workflow da
   label_permissions_report: Report permessi
   label_watched_issues: Segnalazioni osservate
@@ -1151,6 +1158,7 @@ it:
   label_default_query: Query predefinita
   label_edited: Modificato
   label_time_by_author: "%{time} da %{author}"
+  label_involved_principals: Autore / Assegnatario precedente
 
   button_login: Entra
   button_submit: Invia
@@ -1425,11 +1433,3 @@ it:
   text_user_destroy_confirmation: "Vuoi davvero eliminare questo utente e rimuovere tutti i riferimenti ad esso associati? Questa operazione non può essere annullata. Spesso, bloccare un utente anziché eliminarlo è la soluzione migliore. Per confermare, inserisci il suo login (%{login}) qui sotto."
   text_project_destroy_enter_identifier: "Per confermare, inserisci l'identificativo del progetto (%{identifier}) qui sotto."
   field_name_or_email_or_login: Nome, email o login
-  label_option_auto_lang: auto
-  label_issue_attachment_added: Attachment added
-  field_estimated_remaining_hours: Estimated remaining time
-  field_last_activity_date: Last activity
-  setting_issue_done_ratio_interval: Done ratio options interval
-  setting_copy_attachments_on_issue_copy: Copy attachments on copy
-  field_thousands_delimiter: Thousands delimiter
-  label_involved_principals: Author / Previous assignee
