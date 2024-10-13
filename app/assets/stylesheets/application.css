@@ -288,17 +288,17 @@ div + .drdn-items {border-top:1px solid #ccc;}
 /***** Tables *****/
 table.list, .table-list {
   font-size: 0.8125rem;
-  border: 1px solid #d0d7de;
+  border-top: 1px solid #d0d7de;
+  border-bottom: 1px solid #d0d7de;
+  border-collapse: collapse;
   width: 100%;
   margin-bottom: 4px;
-  border-radius: 3px;
-  border-spacing: 0;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
   overflow: hidden;
 }
 table.list th, .table-list-header { background-color:#EEEEEE; padding: 4px; white-space:nowrap; font-weight:bold; }
 table.list th.whitespace-normal {white-space: normal;}
-table.list td {text-align:center; vertical-align:middle; padding-right:10px;}
+table.list td {text-align:center; vertical-align:middle; padding-top: 3px; padding-right: 10px; padding-bottom: 3px; border-top: 1px solid #d0d7de;}
+table.list td.icon {width: 100%;} /* Prevents border from disappearing due to inline-flex shrinking */
 table.list td.id { width: 2%; text-align: center;}
 table.list td.name, table.list td.description, table.list td.subject, table.list td.parent-subject, table.list td.comments, table.list td.roles, table.list td.attachments, table.list td.text,  table.list td.short_description {text-align: left;}
 
@@ -627,7 +627,8 @@ div.issue .attribute.text_cf .value .wiki p:first-of-type {margin-top: 0;}
 div.issue.overdue .due-date .value { color: #c22; }
 body.controller-issues h2.inline-flex {padding-right: 0}
 
-#issue_tree table.issues, #relations table.issues {border: 0; box-shadow: none;}
+#issue_tree table.issues, #relations table.issues {border: 0;}
+#issue_tree table.issues td, #relations table.issues td {border: 0;}
 #issue_tree td.checkbox, #relations td.checkbox {display:none;}
 #issue_tree td.buttons, #relations td.buttons {padding:0;}
 #issue_tree .issues-stat, #relations .issues-stat {font-size: 93%}
