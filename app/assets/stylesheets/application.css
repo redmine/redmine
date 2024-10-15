@@ -417,7 +417,7 @@ table.plugins span.url { display: block; font-size: 0.9em; }
 
 table.list.enumerations {table-layout: fixed; margin-bottom: 2em;}
 
-tr.group td { padding: 0.8em 0 0.5em 0.3em; border-bottom: 1px solid #ccc; text-align:left; background-color: #fff;}
+tr.group td { padding: 0.8em 0 0.5em 0.3em; border-bottom: 2px solid #d0d7de; text-align:left; background-color: #fff;}
 tr.group span.count {top:-1px;}
 tr.group span.name {font-weight:bold;}
 tr.group span.totals {color: #aaa; font-size: 93%;}
