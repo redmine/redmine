@@ -295,7 +295,7 @@ table.list, .table-list {
   margin-bottom: 4px;
   overflow: hidden;
 }
-table.list th, .table-list-header { background-color:#EEEEEE; padding: 4px; white-space:nowrap; font-weight:bold; }
+table.list th, .table-list-header { background-color:#EEEEEE; padding: 4px; white-space:nowrap; font-weight:bold; border-bottom: 2px solid #d0d7de; }
 table.list th.whitespace-normal {white-space: normal;}
 table.list td {text-align:center; vertical-align:middle; padding-top: 3px; padding-right: 10px; padding-bottom: 3px; border-top: 1px solid #d0d7de;}
 table.list td.icon {width: 100%;} /* Prevents border from disappearing due to inline-flex shrinking */
