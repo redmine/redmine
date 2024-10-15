@@ -349,7 +349,6 @@ tr.idnt-9 td.subject, tr.idnt-9 td.name {padding-left: 152px; background-positio
 table.issue-report {table-layout:fixed;}
 .issue-report-graph {width: 75%; margin: 2em 0;}
 
-tr.entry { border: 1px solid #f8f8f8; }
 tr.entry td { white-space: nowrap; }
 tr.entry td.filename {width:30%; text-align:left;}
 tr.entry td.filename_no_report {width:70%; text-align:left;}
