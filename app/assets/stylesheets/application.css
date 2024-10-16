@@ -728,6 +728,7 @@ div#activity h3 {
 div#activity dt {
   padding-top: 10px;
   border-top: 1px solid #eeeeee;
+  width: 100%; /* Prevents border from disappearing due to inline-flex shrinking */
 }
 div#activity dl dt:first-child {
   border: 0px;
