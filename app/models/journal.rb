@@ -339,7 +339,7 @@ class Journal < ApplicationRecord
 
   def add_watcher
     if user&.active? &&
-        user&.allowed_to?(:add_issue_watchers, project) &&
+        user.allowed_to?(:add_issue_watchers, project) &&
         user.pref.auto_watch_on?('issue_contributed_to') &&
         !Watcher.any_watched?(Array.wrap(journalized), user)
       journalized.set_watcher(user, true)
