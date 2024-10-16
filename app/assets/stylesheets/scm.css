@@ -45,7 +45,7 @@ li.change .copied-from:before { content: " - "}
 #changes-legend li { float: left; background-position: 5px 0; }
 
 table.filecontent { border: 1px solid #e2e2e2;  border-collapse: collapse; width:98%; background-color: #fafafa; }
-table.filecontent tbody {font-family:Consolas, Menlo, "Liberation Mono", Courier, monospace; font-size:12px;}
+table.filecontent tbody {font-family:Consolas, Menlo, "Liberation Mono", Courier, monospace; font-size:0.75rem;}
 table.filecontent th { border: 1px solid #e2e2e2; background-color: #eee; }
 table.filecontent th.filename { background-color: #e4e4d4; text-align: left; padding:5px;}
 table.filecontent tr.spacing th { text-align:center; }
@@ -77,7 +77,7 @@ table.filecontent td.line-code {padding: 0 0 0 4px;}
 table.filecontent td.line-code pre, table.filecontent td.line-code div {
     margin: 0px;
     white-space: pre-wrap;
-    font-family:Consolas, Menlo, "Liberation Mono", Courier, monospace; font-size:12px;
+    font-family:Consolas, Menlo, "Liberation Mono", Courier, monospace; font-size:0.75rem;
 }
 
 table.filecontent tr:target th.line-num { background-color:#E0E0E0; color: #777; }
