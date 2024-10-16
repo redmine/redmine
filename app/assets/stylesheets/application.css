@@ -407,8 +407,8 @@ tr.wiki-page-version td.updated_on, tr.wiki-page-version td.author {text-align:c
 
 tr.time-entry { text-align: center; white-space: nowrap; }
 tr.time-entry td.issue, tr.time-entry td.comments, tr.time-entry td.subject, tr.time-entry td.activity, tr.time-entry td.project { text-align: left; white-space: normal; }
-td.hours { text-align: right; font-weight: bold; padding-right: 0.5em; }
-td.hours .hours-dec { font-size: 0.9em; }
+table.time-entries td.hours { text-align: right; font-weight: bold; padding-right: 0.5em; }
+table.time-entries td.hours .hours-dec { font-size: 0.9em; }
 
 table.plugins td { vertical-align: middle; }
 table.plugins td.configure { text-align: right; padding-right: 1em; }
