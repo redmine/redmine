@@ -288,6 +288,7 @@ div + .drdn-items {border-top:1px solid #ccc;}
 /***** Tables *****/
 table.list, .table-list {
   font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
   border-top: 1px solid #d0d7de;
   border-bottom: 1px solid #d0d7de;
   border-collapse: collapse;
@@ -1406,6 +1407,13 @@ button.tab-left.disabled, button.tab-right.disabled {
 }
 
 /***** Wiki *****/
+div.wiki {
+  font-variant-numeric: proportional-nums;
+  & table, & pre, & code, & ol>li::marker {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
 div.wiki table {
   border-collapse: collapse;
   margin-bottom: 1em;
