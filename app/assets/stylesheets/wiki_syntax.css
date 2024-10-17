@@ -16,8 +16,8 @@
     font-display: swap;
 }
 
-h1 { font-family: "Noto Sans", sans-serif; font-size: 14px; text-align: center; color: #444; }
-body { font-family: "Noto Sans", sans-serif; font-size: 12px; color: #444; }
+h1 { font-family: "Noto Sans", sans-serif; font-size: 0.875rem; text-align: center; color: #444; }
+body { font-family: "Noto Sans", sans-serif; font-size: 0.75rem; color: #444; }
 pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace; }
 table th { padding-top: 1em; }
 table th {
@@ -34,7 +34,7 @@ table th {
 
     &:before {
       content: "pre";
-      font-size: 10px;
+      font-size: 0.625rem;
       color: #666;
     }
   }
