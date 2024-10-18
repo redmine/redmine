@@ -424,6 +424,7 @@ bg:
   field_estimated_remaining_hours: Изчислено оставащо време
   field_any_searchable: Всички обекти с текст (заглавие, описание, коментари на задачи, потребителски полета)
   field_last_activity_date: Последна активност
+  field_thousands_delimiter: Раделител на хилядите
 
   setting_app_title: Заглавие
   setting_welcome_text: Допълнителен текст
@@ -506,6 +507,7 @@ bg:
   setting_force_default_language_for_anonymous: Задължително език по подразбиране за анонимните потребители
   setting_force_default_language_for_loggedin: Задължително език по подразбиране за потребителите, влезли в Redmine
   setting_link_copied_issue: Свързване на задачите при копиране
+  setting_copy_attachments_on_issue_copy: Копиране на файловете при копиране
   setting_max_additional_emails: Максимален брой на допълнителните имейл адреси
   setting_email_domains_allowed: Разрешени имейл домейни
   setting_email_domains_denied: Забранени имейл домейни
@@ -1146,6 +1148,7 @@ bg:
   label_default_query: Заявка по подразбиране
   label_edited: Редактирано
   label_time_by_author: "%{time} от %{author}"
+  label_involved_principals: Автор / Предишен назначен
 
   button_login: Вход
   button_submit: Изпращане
@@ -1436,6 +1439,3 @@ bg:
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
   field_name_or_email_or_login: Име, e-mail или login име
-  setting_copy_attachments_on_issue_copy: Copy attachments on copy
-  field_thousands_delimiter: Thousands delimiter
-  label_involved_principals: Author / Previous assignee
