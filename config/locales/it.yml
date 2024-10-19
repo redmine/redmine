@@ -238,7 +238,7 @@ it:
   error_can_not_read_import_file: "Si è verificato un errore durante la lettura del file da importare"
   error_no_data_in_file: "Il file non contiene dati"
   error_attachment_extension_not_allowed: "L'estensione dell'allegato %{extension} non è consentita"
-  error_ldap_bind_credentials: "Account/password LDAP non validi"
+  error_ldap_bind_credentials: "Account/Password LDAP non validi"
   error_no_tracker_allowed_for_new_issue_in_project: "Il progetto non ha tracker per i quali è possibile creare una segnalazione"
   error_no_projects_with_tracker_allowed_for_new_issue: "Non ci sono progetti con tracker per i quali è possibile creare una segnalazione"
   error_move_of_child_not_possible: "Impossibile spostare la sottoattività %{child} nel nuovo progetto: %{errors}"
@@ -252,7 +252,7 @@ it:
   error_macro_does_not_accept_block: "Questa macro non accetta un blocco di testo"
   error_childpages_macro_no_argument: "Questa macro può essere chiamata senza argomenti solo dalle pagine wiki"
   error_circular_inclusion: "Inclusione circolare rilevata"
-  error_page_not_found: Page not found
+  error_page_not_found: Pagina non trovata
   error_filename_required: "Nome file obbligatorio"
   error_invalid_size_parameter: "Parametro dimensione non valido"
   error_attachment_not_found: "Allegato %{name} non trovato"
@@ -415,7 +415,7 @@ it:
   field_time_entries_visibility: Visibilità Time logs
   field_total_estimated_hours: Totale tempo stimato
   field_default_version: Versione predefinita
-  field_remote_ip: IP address
+  field_remote_ip: Indirizzo IP
   field_textarea_font: Font utilizzato per le aree di testo
   field_updated_by: Aggiornato da
   field_last_updated_by: Ultimo aggiornamento di
@@ -801,8 +801,8 @@ it:
   label_in_more_than: è maggiore di
   label_in_the_next_days: nei prossimi
   label_in_the_past_days: nei passati
-  label_greater_or_equal: ">="
-  label_less_or_equal: <=
+  label_greater_or_equal: '>='
+  label_less_or_equal: '<='
   label_between: tra
   label_in: in
   label_today: oggi
@@ -960,7 +960,7 @@ it:
   label_user_mail_option_only_assigned: Solo se sono un osservatore o sono assegnatario
   label_user_mail_option_only_owner: Solo se sono un osservatore o sono autore
   label_user_mail_no_self_notified: "Non voglio notifiche riguardanti modifiche da me apportate"
-  label_user_mail_notify_about_high_priority_issues_html: Also notify me about issues
+  label_user_mail_notify_about_high_priority_issues_html: "Notificami anche delle segnalazioni con priorità <em>%{prio}</em> o superiore"
   label_registration_activation_by_email: attivazione account via email
   label_registration_manual_activation: attivazione account manuale
   label_registration_automatic_activation: attivazione account automatica
@@ -1063,9 +1063,9 @@ it:
   label_visibility_public: a tutti gli utenti
   label_link: Link
   label_only: solo
-  label_drop_down_list: drop-down list
-  label_checkboxes: checkboxes
-  label_radio_buttons: radio buttons
+  label_drop_down_list: menu a tendina
+  label_checkboxes: caselle di controllo
+  label_radio_buttons: pulsanti di opzione
   label_link_values_to: Collega valori ad un URL
   label_custom_field_select_type: Seleziona il tipo di oggetto a cui il campo personalizzato è collegato
   label_check_for_updates: Verifica aggiornamenti
@@ -1098,15 +1098,15 @@ it:
   label_import_issues: Importa segnalazioni
   permission_import_time_entries: Importa tempo impiegato
   label_select_file_to_import: Seleziona il file da importare
-  label_fields_separator: Field separator
-  label_fields_wrapper: Field wrapper
-  label_encoding: Encoding
+  label_fields_separator: Separatore di campo
+  label_fields_wrapper: Delimitatore di stringa
+  label_encoding: Codifica
   label_comma_char: Virgola
   label_semi_colon_char: Punto e virgola
   label_quote_char: Apici
   label_double_quote_char: Doppi apici
-  label_fields_mapping: Fields mapping
-  label_relations_mapping: Relations mapping
+  label_fields_mapping: Mappatura dei campi
+  label_relations_mapping: Mappatura delle relazioni
   label_file_content_preview: Anteprima del contenuto del file
   label_create_missing_values: Crea valori mancanti
   label_api: API
@@ -1236,7 +1236,7 @@ it:
   text_select_mail_notifications: Seleziona le azioni per cui deve essere inviata una notifica.
   text_regexp_info: es. ^[A-Z0-9]+$
   text_project_destroy_confirmation: Sei sicuro di voler eliminare il progetto e tutti i dati ad esso collegati?
-  text_projects_bulk_destroy_confirmation: Are you sure you want to delete the selected
+  text_projects_bulk_destroy_confirmation: Vuoi davvero eliminare i progetti selezionati e i dati correlati?
   text_projects_bulk_destroy_head: |
     Stai per eliminare definitivamente i seguenti progetti, inclusi possibili sottoprogetti e tutti i dati correlati.
     Rivedi le informazioni di seguito e conferma che è effettivamente ciò che vuoi fare.
@@ -1316,7 +1316,7 @@ it:
   text_warn_on_leaving_unsaved: La pagina corrente contiene del testo non salvato che verrà perso se lasci questa pagina.
   text_scm_path_encoding_note: "Predefinito: UTF-8"
   text_subversion_repository_note: 'Esempio: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
-  text_git_repository_note: Il repository è spoglio e locale (e.g. /gitrepo, c:\gitrepo)
+  text_git_repository_note: Il repository è vuoto e locale (e.g. /gitrepo, c:\gitrepo)
   text_mercurial_repository_note: Repository locale (es. /hgrepo, c:\hgrepo)
   text_scm_command: Comando
   text_scm_command_version: Versione
