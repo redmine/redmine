@@ -21,8 +21,10 @@ module IconsHelper
   DEFAULT_ICON_SIZE = "18"
   DEFAULT_SPRITE = "icons"
   
-  def sprite_icon(icon_name, label = nil, icon_only: false, size: DEFAULT_ICON_SIZE, css_class: nil)
-    svg_icon = svg_sprite_icon(icon_name, size: size, css_class: css_class)
+  def sprite_icon(icon_name, label = nil, icon_only: false, size: DEFAULT_ICON_SIZE, css_class: nil, sprite: DEFAULT_SPRITE, plugin: nil)
+    sprite = plugin ? "plugin_assets/#{plugin}/#{sprite}.svg" : "#{sprite}.svg"
+
+    svg_icon = svg_sprite_icon(icon_name, size: size, css_class: css_class, sprite: sprite)
 
     if label
       label_classes = ["icon-label"]
@@ -45,7 +47,7 @@ module IconsHelper
   end
 
   def principal_icon(principal_class, size: DEFAULT_ICON_SIZE, css_class: nil)
-    svg_sprite_icon('group', size: size, css_class: css_class) if ['groupanonymous', 'groupnonmember', 'group'].include?(principal_class)
+    sprite_icon('group', size: size, css_class: css_class) if ['groupanonymous', 'groupnonmember', 'group'].include?(principal_class)
   end
 
   def activity_event_type_icon(event_type, size: DEFAULT_ICON_SIZE, css_class: nil)
@@ -60,19 +62,18 @@ module IconsHelper
              event_type
            end
 
-    svg_sprite_icon(icon_name, size: size, css_class: css_class)
+    sprite_icon(icon_name, size: size, css_class: css_class)
   end
 
   private
 
   def svg_sprite_icon(icon_name, size: DEFAULT_ICON_SIZE, sprite: DEFAULT_SPRITE, css_class: nil)
-    sprite_path = "#{sprite}.svg"
     css_classes = "s#{size} icon-svg"
     css_classes += " #{css_class}" unless css_class.nil?
 
     content_tag(
       :svg,
-      content_tag(:use, '', { 'href' => "#{asset_path(sprite_path)}#icon--#{icon_name}" }),
+      content_tag(:use, '', { 'href' => "#{asset_path(sprite)}#icon--#{icon_name}" }),
       class: css_classes,
       aria: {
         hidden: true
