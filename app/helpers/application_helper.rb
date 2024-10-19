@@ -143,7 +143,7 @@ module ApplicationHelper
     options[:only_path] = true unless options.key?(:only_path)
     url = send(route_method, attachment, options)
 
-    label = icon ? icon_with_label(icon, text) : text
+    label = icon ? sprite_icon(icon, text) : text
     link_to label, url, html_options
   end
 
@@ -657,7 +657,7 @@ module ApplicationHelper
           check_box_tag(name, principal.id, false, :id => nil) +
             (avatar(principal, :size => 16).presence ||
                content_tag(
-                 'span', icon_for_principal(principal.class.name.downcase),
+                 'span', principal_icon(principal.class.name.downcase),
                  :class => "name icon icon-#{principal.class.name.downcase}"
                )
             ) + principal.to_s
@@ -769,7 +769,7 @@ module ApplicationHelper
       :reorder_url => options[:url] || url_for(object),
       :reorder_param => options[:param] || object.class.name.underscore
     }
-    content_tag('span', icon_with_label('reorder', ''),
+    content_tag('span', sprite_icon('reorder', ''),
                 :class => "icon-only icon-sort-handle sort-handle",
                 :data => data,
                 :title => l(:button_sort))
@@ -849,7 +849,7 @@ module ApplicationHelper
     content = capture(&)
     if content.present?
       trigger =
-        content_tag('span', icon_with_label('3-bullets', l(:button_actions)), :class => 'icon-only icon-actions',
+        content_tag('span', sprite_icon('3-bullets', l(:button_actions)), :class => 'icon-only icon-actions',
                     :title => l(:button_actions))
       trigger = content_tag('span', trigger, :class => 'drdn-trigger')
       content = content_tag('div', content, :class => 'drdn-items')
@@ -1390,7 +1390,7 @@ module ApplicationHelper
         content_tag(
           'div',
           link_to(
-            icon_with_label('edit', l(:button_edit_section)),
+            sprite_icon('edit', l(:button_edit_section)),
             options[:edit_section_links].merge(
               :section => @current_section),
             :class => 'icon-only icon-edit'),
@@ -1584,7 +1584,7 @@ module ApplicationHelper
       :class => 'icon icon-del'
     }.merge(options)
 
-    link_to icon_with_label('del', button_name), url, options
+    link_to sprite_icon('del', button_name), url, options
   end
 
   def link_to_function(name, function, html_options={})
@@ -1592,7 +1592,7 @@ module ApplicationHelper
   end
 
   def link_to_context_menu
-    link_to icon_with_label('3-bullets', l(:button_actions)), '#', title: l(:button_actions), class: 'icon-only icon-actions js-contextmenu '
+    link_to sprite_icon('3-bullets', l(:button_actions)), '#', title: l(:button_actions), class: 'icon-only icon-actions js-contextmenu '
   end
 
   # Helper to render JSON in views
@@ -1619,7 +1619,7 @@ module ApplicationHelper
   def toggle_checkboxes_link(selector, options={})
     css_classes = 'icon icon-checked'
     css_classes += ' ' + options[:class] if options[:class]
-    link_to_function icon_with_label('checked', ''),
+    link_to_function sprite_icon('checked', ''),
                      "toggleCheckboxesBySelector('#{selector}')",
                      :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}",
                      :class => css_classes
@@ -1924,7 +1924,7 @@ module ApplicationHelper
 
   def copy_object_url_link(url)
     link_to_function(
-      icon_with_label('copy-link', l(:button_copy_link)), 'copyTextToClipboard(this);',
+      sprite_icon('copy-link', l(:button_copy_link)), 'copyTextToClipboard(this);',
       class: 'icon icon-copy-link',
       data: {'clipboard-text' => url}
     )

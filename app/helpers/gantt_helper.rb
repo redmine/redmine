@@ -23,21 +23,21 @@ module GanttHelper
     when :in
       if gantt.zoom < 4
         link_to(
-          icon_with_label('zoom-in', l(:text_zoom_in)),
+          sprite_icon('zoom-in', l(:text_zoom_in)),
           {:params => request.query_parameters.merge(gantt.params.merge(:zoom => (gantt.zoom + 1)))},
           :class => 'icon icon-zoom-in')
       else
-        content_tag(:span, icon_with_label('zoom-in', l(:text_zoom_in)), :class => 'icon icon-zoom-in').html_safe
+        content_tag(:span, sprite_icon('zoom-in', l(:text_zoom_in)), :class => 'icon icon-zoom-in').html_safe
       end
 
     when :out
       if gantt.zoom > 1
         link_to(
-          icon_with_label('zoom-out', l(:text_zoom_out)),
+          sprite_icon('zoom-out', l(:text_zoom_out)),
           {:params => request.query_parameters.merge(gantt.params.merge(:zoom => (gantt.zoom - 1)))},
           :class => 'icon icon-zoom-out')
       else
-        content_tag(:span, icon_with_label('zoom-out', l(:text_zoom_out)), :class => 'icon icon-zoom-out').html_safe
+        content_tag(:span, sprite_icon('zoom-out', l(:text_zoom_out)), :class => 'icon icon-zoom-out').html_safe
       end
     end
   end

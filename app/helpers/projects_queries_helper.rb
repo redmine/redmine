@@ -24,8 +24,8 @@ module ProjectsQueriesHelper
       case column.name
       when :name
         link_to_project(item) +
-          (tag.span(icon_with_label('user', l(:label_my_projects), icon_only: true), class: 'icon-only icon-user my-project') if User.current.member_of?(item)) +
-          (tag.span(icon_with_label('bookmarked', l(:label_my_bookmarks), icon_only: true), class: 'icon-only icon-bookmarked-project') if User.current.bookmarked_project_ids.include?(item.id))
+          (tag.span(sprite_icon('user', l(:label_my_projects), icon_only: true), class: 'icon-only icon-user my-project') if User.current.member_of?(item)) +
+          (tag.span(sprite_icon('bookmarked', l(:label_my_bookmarks), icon_only: true), class: 'icon-only icon-bookmarked-project') if User.current.bookmarked_project_ids.include?(item.id))
       when :short_description
         if item.description?
           # Sets :inline_attachments to false to avoid performance issues

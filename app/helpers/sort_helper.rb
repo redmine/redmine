@@ -127,7 +127,7 @@ module SortHelper
     caption = column.to_s.humanize unless caption
 
     sort_options = {:sort => @sort_criteria.add(column.to_s, order).to_param}
-    link_to(icon_with_label(icon, caption), {:params => request.query_parameters.merge(sort_options)}, :class => css)
+    link_to(sprite_icon(icon, caption), { :params => request.query_parameters.merge(sort_options)}, :class => css)
   end
 
   # Returns a table header <th> tag with a sort link for the named column

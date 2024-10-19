@@ -1,11 +1,11 @@
 <div class="contextual">
-  <%= link_to_function icon_with_label('settings', l(:label_options)), "$('#timelog-settings').toggle();", :class => 'icon-only icon-settings', :title => l(:label_options) %>
+  <%= link_to_function sprite_icon('settings', l(:label_options)), "$('#timelog-settings').toggle();", :class => 'icon-only icon-settings', :title => l(:label_options) %>
 </div>
 
 <h3>
   <%= link_to l(:label_spent_time), time_entries_path(:user_id => 'me') %>
   (<%= l(:label_last_n_days, days) %>: <%= l_hours_short entries.sum(&:hours) %>)
-  <%= link_to icon_with_label('time-add', l(:button_log_time)), new_time_entry_path, :class => "icon-only icon-add", :title => l(:button_log_time) if User.current.allowed_to?(:log_time, nil, :global => true) %>
+  <%= link_to sprite_icon('time-add', l(:button_log_time)), new_time_entry_path, :class => "icon-only icon-add", :title => l(:button_log_time) if User.current.allowed_to?(:log_time, nil, :global => true) %>
 </h3>
 
 

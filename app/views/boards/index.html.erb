@@ -1,7 +1,7 @@
 <div class="contextual">
-  <%= link_to_if_authorized icon_with_label('settings', l(:label_settings)),
-              {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'boards'},
-              :class => 'icon icon-settings' if User.current.allowed_to?(:manage_boards, @project) %>
+  <%= link_to_if_authorized sprite_icon('settings', l(:label_settings)),
+                            {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'boards'},
+                            :class => 'icon icon-settings' if User.current.allowed_to?(:manage_boards, @project) %>
 </div>
 
 <h2><%= l(:label_board_plural) %></h2>
@@ -21,7 +21,7 @@
     <tr class="board">
   <% end %>
     <td class="name">
-      <%= link_to icon_with_label('comment', board.name), project_board_path(board.project, board), :class => "board icon icon-comment" %>
+      <%= link_to sprite_icon('comment', board.name), project_board_path(board.project, board), :class => "board icon icon-comment" %>
       <p class="description"><%= board.description %></p>
     </td>
     <td class="topic-count"><%= board.topics_count %></td>

@@ -1,6 +1,6 @@
 <div class="contextual">
-<%= link_to(icon_with_label('edit', l(:button_edit)), edit_version_path(@version), :class => 'icon icon-edit') if User.current.allowed_to?(:manage_versions, @version.project) %>
-<%= link_to_if_authorized(icon_with_label('edit', l(:button_edit_associated_wikipage, :page_title => @version.wiki_page_title)), {:controller => 'wiki', :action => 'edit', :project_id => @version.project, :id => Wiki.titleize(@version.wiki_page_title)}, :class => 'icon icon-edit') unless @version.wiki_page_title.blank? || @version.project.wiki.nil? %>
+<%= link_to(sprite_icon('edit', l(:button_edit)), edit_version_path(@version), :class => 'icon icon-edit') if User.current.allowed_to?(:manage_versions, @version.project) %>
+<%= link_to_if_authorized(sprite_icon('edit', l(:button_edit_associated_wikipage, :page_title => @version.wiki_page_title)), { :controller => 'wiki', :action => 'edit', :project_id => @version.project, :id => Wiki.titleize(@version.wiki_page_title)}, :class => 'icon icon-edit') unless @version.wiki_page_title.blank? || @version.project.wiki.nil? %>
 <%= delete_link version_path(@version, :back_url => url_for(:controller => 'versions', :action => 'index', :project_id => @version.project)) if User.current.allowed_to?(:manage_versions, @version.project) %>
 <%= link_to_new_issue(@version, @project) %>
 <%= call_hook(:view_versions_show_contextual, { :version => @version, :project => @project }) %>

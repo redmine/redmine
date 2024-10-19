@@ -69,17 +69,17 @@ module UsersHelper
     url = {:controller => 'users', :action => 'update', :id => user, :page => params[:page], :status => params[:status], :tab => nil}
 
     if user.locked?
-      link_to icon_with_label('unlock', l(:button_unlock)), url.merge(:user => {:status => User::STATUS_ACTIVE}), :method => :put, :class => 'icon icon-unlock'
+      link_to sprite_icon('unlock', l(:button_unlock)), url.merge(:user => { :status => User::STATUS_ACTIVE}), :method => :put, :class => 'icon icon-unlock'
     elsif user.registered?
-      link_to icon_with_label('unlock', l(:button_activate)), url.merge(:user => {:status => User::STATUS_ACTIVE}), :method => :put, :class => 'icon icon-unlock'
+      link_to sprite_icon('unlock', l(:button_activate)), url.merge(:user => { :status => User::STATUS_ACTIVE}), :method => :put, :class => 'icon icon-unlock'
     elsif user != User.current
-      link_to icon_with_label('lock', l(:button_lock)), url.merge(:user => {:status => User::STATUS_LOCKED}), :method => :put, :class => 'icon icon-lock'
+      link_to sprite_icon('lock', l(:button_lock)), url.merge(:user => { :status => User::STATUS_LOCKED}), :method => :put, :class => 'icon icon-lock'
     end
   end
 
   def additional_emails_link(user)
     if user.email_addresses.count > 1 || Setting.max_additional_emails.to_i > 0
-      link_to icon_with_label('email', l(:label_email_address_plural)), user_email_addresses_path(@user), :class => 'icon icon-email-add', :remote => true
+      link_to sprite_icon('email', l(:label_email_address_plural)), user_email_addresses_path(@user), :class => 'icon icon-email-add', :remote => true
     end
   end
 

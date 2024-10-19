@@ -225,7 +225,7 @@ module QueriesHelper
       end
       content =
         link_to(
-          icon_with_label(icon, column.caption),
+          sprite_icon(icon, column.caption),
           {:params => request.query_parameters.deep_merge(sort_param)},
           link_options
         )
@@ -519,7 +519,7 @@ module QueriesHelper
 
   def link_to_clear_query(params = {:set_filter => 1, :sort => '', :project_id => @project})
     link_to(
-      icon_with_label('clear-query', l(:button_clear)),
+      sprite_icon('clear-query', l(:button_clear)),
       params,
       :class => 'icon-only icon-clear-query',
       :title => l(:button_clear)

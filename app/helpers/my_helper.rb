@@ -34,8 +34,8 @@ module MyHelper
   def render_block(block, user)
     content = render_block_content(block, user)
     if content.present?
-      handle = content_tag('span', icon_with_label('reorder', ''), :class => 'icon-only icon-sort-handle sort-handle', :title => l(:button_move))
-      close = link_to(icon_with_label('close', l(:button_delete)),
+      handle = content_tag('span', sprite_icon('reorder', ''), :class => 'icon-only icon-sort-handle sort-handle', :title => l(:button_move))
+      close = link_to(sprite_icon('close', l(:button_delete)),
                       {:action => "remove_block", :block => block},
                       :remote => true, :method => 'post',
                       :class => "icon-only icon-close", :title => l(:button_delete))

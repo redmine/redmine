@@ -31,7 +31,7 @@ module Redmine
         html_options[:title] = l(:button_quote) if icon_only
 
         link_to_function(
-          icon_with_label('comment', l(:button_quote), icon_only: icon_only),
+          sprite_icon('comment', l(:button_quote), icon_only: icon_only),
           quote_reply_function,
           html_options
         )

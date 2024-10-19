@@ -33,7 +33,7 @@ module WatchersHelper
     )
     method = watched ? 'delete' : 'post'
 
-    link_to icon_with_label('fav', text), url, :remote => true, :method => method, :class => css
+    link_to sprite_icon('fav', text), url, :remote => true, :method => method, :class => css
   end
 
   # Returns the css class used to identify watch links for a given +object+
@@ -61,7 +61,7 @@ module WatchersHelper
                :object_id => object.id,
                :user_id => user}
         s << ' '
-        s << link_to(icon_with_label('del', l(:button_delete)), url,
+        s << link_to(sprite_icon('del', l(:button_delete)), url,
                      :remote => true, :method => 'delete',
                      :class => "delete icon-only icon-del",
                      :title => l(:button_delete))

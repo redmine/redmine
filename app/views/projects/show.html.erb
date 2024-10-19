@@ -3,28 +3,28 @@
 
   <%= actions_dropdown do %>
   <% if User.current.allowed_to?(:add_subprojects, @project) %>
-    <%= link_to icon_with_label('add', l(:label_subproject_new)), new_project_path(:parent_id => @project), :class => 'icon icon-add' %>
+    <%= link_to sprite_icon('add', l(:label_subproject_new)), new_project_path(:parent_id => @project), :class => 'icon icon-add' %>
   <% end %>
   <% if User.current.allowed_to?(:close_project, @project) %>
     <% if @project.active? %>
-      <%= link_to icon_with_label('lock', l(:button_close)), close_project_path(@project), :data => {:confirm => l(:text_project_close_confirmation, @project.to_s)}, :method => :post, :class => 'icon icon-lock' %>
+      <%= link_to sprite_icon('lock', l(:button_close)), close_project_path(@project), :data => { :confirm => l(:text_project_close_confirmation, @project.to_s)}, :method => :post, :class => 'icon icon-lock' %>
     <% else %>
-      <%= link_to icon_with_label('unlock', l(:button_reopen)), reopen_project_path(@project), :data => {:confirm => l(:text_project_reopen_confirmation, @project.to_s)}, :method => :post, :class => 'icon icon-unlock' %>
+      <%= link_to sprite_icon('unlock', l(:button_reopen)), reopen_project_path(@project), :data => { :confirm => l(:text_project_reopen_confirmation, @project.to_s)}, :method => :post, :class => 'icon icon-unlock' %>
     <% end %>
   <% end %>
   <% if @project.deletable? %>
-    <%= link_to icon_with_label('del', l(:button_delete)), project_path(@project), :method => :delete, :class => 'icon icon-del' %>
+    <%= link_to sprite_icon('del', l(:button_delete)), project_path(@project), :method => :delete, :class => 'icon icon-del' %>
   <% end %>
-  <%= link_to_if_authorized icon_with_label('settings', l(:label_settings)),
-              {:controller => 'projects', :action => 'settings', :id => @project},
-              :class => 'icon icon-settings' if User.current.allowed_to?(:edit_project, @project) %>
+  <%= link_to_if_authorized sprite_icon('settings', l(:label_settings)),
+                            {:controller => 'projects', :action => 'settings', :id => @project},
+                            :class => 'icon icon-settings' if User.current.allowed_to?(:edit_project, @project) %>
   <% end %>
 </div>
 
 <h2><%=l(:label_overview)%></h2>
 
 <% unless @project.active? %>
-  <p class="warning"><span class="icon icon-lock"><%= icon_with_label('lock', l(:text_project_closed)) %></span></p>
+  <p class="warning"><span class="icon icon-lock"><%= sprite_icon('lock', l(:text_project_closed)) %></span></p>
 <% end %>
 
 <div class="splitcontent">
@@ -48,11 +48,11 @@
   <% if User.current.allowed_to?(:view_issues, @project) %>
   <div class="issues box">
     <h3 class="icon icon-issue">
-      <%= icon_with_label('issue', l(:label_issue_tracking)) %>&nbsp;
-      <%= link_to icon_with_label('zoom-in', l(:label_details)),
-            project_issues_report_details_path(@project, :detail => 'tracker'),
-            :class => 'icon-only icon-zoom-in',
-            :title => l(:label_details) %>
+      <%= sprite_icon('issue', l(:label_issue_tracking)) %>&nbsp;
+      <%= link_to sprite_icon('zoom-in', l(:label_details)),
+                  project_issues_report_details_path(@project, :detail => 'tracker'),
+                  :class => 'icon-only icon-zoom-in',
+                  :title => l(:label_details) %>
     </h3>
     <% if @trackers.present? %>
     <table class="list issue-report">
@@ -99,7 +99,7 @@
 
   <% if User.current.allowed_to?(:view_time_entries, @project) %>
   <div class="spent_time box">
-    <h3 class="icon icon-time"><%= icon_with_label('time', l(:label_time_tracking)) %></h3>
+    <h3 class="icon icon-time"><%= sprite_icon('time', l(:label_time_tracking)) %></h3>
     <ul>
       <% if @total_estimated_hours.present? %>
         <li><%= l(:field_estimated_hours) %>: <%= l_hours(@total_estimated_hours) %>
@@ -123,7 +123,7 @@
 <div class="splitcontentright">
   <% if @news.any? && authorize_for('news', 'index') %>
   <div class="news box">
-    <h3 class="icon icon-news"><%= icon_with_label('news', l(:label_news_latest))%></h3>
+    <h3 class="icon icon-news"><%= sprite_icon('news', l(:label_news_latest))%></h3>
     <%= render :partial => 'news/news', :collection => @news %>
     <p><%= link_to l(:label_news_view_all), project_news_index_path(@project) %></p>
   </div>
@@ -133,7 +133,7 @@
 
   <% if @subprojects.any? %>
   <div class="projects box">
-    <h3 class="icon icon-projects"><%= icon_with_label('projects', l(:label_subproject_plural)) %></h3>
+    <h3 class="icon icon-projects"><%= sprite_icon('projects', l(:label_subproject_plural)) %></h3>
     <div>
       <ul class="subprojects">
         <% @subprojects.each do |project| %>

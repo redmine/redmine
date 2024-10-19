@@ -2,27 +2,27 @@
 
 <% if @editable %>
 <% if @content.current_version? %>
-  <%= link_to_if_authorized(icon_with_label('edit', l(:button_edit)), {:action => 'edit', :id => @page.title}, :class => 'icon icon-edit', :accesskey => accesskey(:edit)) %>
+  <%= link_to_if_authorized(sprite_icon('edit', l(:button_edit)), { :action => 'edit', :id => @page.title}, :class => 'icon icon-edit', :accesskey => accesskey(:edit)) %>
   <%= watcher_link(@page, User.current) %>
 <% end %>
 <% end %>
 
   <%= actions_dropdown do %>
-    <%= link_to_if_authorized(icon_with_label('history', l(:label_history)), {:action => 'history', :id => @page.title}, :class => 'icon icon-history') %>
+    <%= link_to_if_authorized(sprite_icon('history', l(:label_history)), { :action => 'history', :id => @page.title}, :class => 'icon icon-history') %>
 
     <% if @editable %>
     <% if @content.current_version? %>
-      <%= link_to_if_authorized(icon_with_label('lock', l(:button_lock)), {:action => 'protect', :id => @page.title, :protected => 1}, :method => :post, :class => 'icon icon-lock') if !@page.protected? %>
-      <%= link_to_if_authorized(icon_with_label('unlock', l(:button_unlock)), {:action => 'protect', :id => @page.title, :protected => 0}, :method => :post, :class => 'icon icon-unlock') if @page.protected? %>
-      <%= link_to_if_authorized(icon_with_label('move', l(:button_rename)), {:action => 'rename', :id => @page.title}, :class => 'icon icon-move') %>
-      <%= link_to_if_authorized(icon_with_label('del', l(:button_delete)), {:action => 'destroy', :id => @page.title}, :method => :delete, :data => {:confirm => l(:text_are_you_sure)}, :class => 'icon icon-del') %>
+      <%= link_to_if_authorized(sprite_icon('lock', l(:button_lock)), { :action => 'protect', :id => @page.title, :protected => 1}, :method => :post, :class => 'icon icon-lock') if !@page.protected? %>
+      <%= link_to_if_authorized(sprite_icon('unlock', l(:button_unlock)), { :action => 'protect', :id => @page.title, :protected => 0}, :method => :post, :class => 'icon icon-unlock') if @page.protected? %>
+      <%= link_to_if_authorized(sprite_icon('move', l(:button_rename)), { :action => 'rename', :id => @page.title}, :class => 'icon icon-move') %>
+      <%= link_to_if_authorized(sprite_icon('del', l(:button_delete)), { :action => 'destroy', :id => @page.title}, :method => :delete, :data => { :confirm => l(:text_are_you_sure)}, :class => 'icon icon-del') %>
     <% else %>
-      <%= link_to_if_authorized(icon_with_label('cancel', l(:button_rollback)), {:action => 'edit', :id => @page.title, :version => @content.version }, :class => 'icon icon-cancel') %>
+      <%= link_to_if_authorized(sprite_icon('cancel', l(:button_rollback)), { :action => 'edit', :id => @page.title, :version => @content.version }, :class => 'icon icon-cancel') %>
     <% end %>
     <% end %>
 
     <% if User.current.allowed_to?(:edit_wiki_pages, @project) %>
-      <%= link_to icon_with_label('add', l(:label_wiki_page_new)), new_project_wiki_page_path(@project, :parent => @page.title), :remote => true, :class => 'icon icon-add' %>
+      <%= link_to sprite_icon('add', l(:label_wiki_page_new)), new_project_wiki_page_path(@project, :parent => @page.title), :remote => true, :class => 'icon icon-add' %>
     <% end %>
   <% end %>
 </div>

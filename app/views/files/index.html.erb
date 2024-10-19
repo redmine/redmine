@@ -1,5 +1,5 @@
 <div class="contextual">
-<%= link_to(icon_with_label('add', l(:label_attachment_new)), new_project_file_path(@project), :class => 'icon icon-add') if User.current.allowed_to?(:manage_files, @project) %>
+<%= link_to(sprite_icon('add', l(:label_attachment_new)), new_project_file_path(@project), :class => 'icon icon-add') if User.current.allowed_to?(:manage_files, @project) %>
 </div>
 
 <h2><%=l(:label_attachment_plural)%></h2>
@@ -22,7 +22,7 @@
     <% if container.is_a?(Version) -%>
     <tr>
       <th colspan="6">
-        <%= link_to(icon_with_label('package', container), {:controller => 'versions', :action => 'show', :id => container}, :class => "icon icon-package") %>
+        <%= link_to(sprite_icon('package', container), { :controller => 'versions', :action => 'show', :id => container}, :class => "icon icon-package") %>
       </th>
     </tr>
     <% end -%>
@@ -34,9 +34,9 @@
       <td class="downloads"><%= file.downloads %></td>
       <td class="digest"><%= file.digest_type %>: <%= file.digest %></td>
       <td class="buttons">
-      <%= link_to_attachment file, class: 'icon-only icon-download', title: l(:button_download), download: true, icon: 'download' %>
-      <%= link_to(icon_with_label('del', l(:button_delete)), attachment_path(file), :class => 'icon-only icon-del',
-                                          :data => {:confirm => l(:text_are_you_sure)}, :method => :delete) if delete_allowed %>
+      <%= link_to_attachment file, class: 'icon-only icon-download', title: l(:button_download), download: true, sprite_icon: 'download' %>
+      <%= link_to(sprite_icon('del', l(:button_delete)), attachment_path(file), :class => 'icon-only icon-del',
+                  :data => {:confirm => l(:text_are_you_sure)}, :method => :delete) if delete_allowed %>
       </td>
     </tr>
     <% end %>

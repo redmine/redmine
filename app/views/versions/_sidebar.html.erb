@@ -42,7 +42,7 @@
 </ul>
 <% if @completed_versions.present? %>
 <p>
-  <%= link_to_function icon_with_label('angle-right', l(:label_completed_versions)),
+  <%= link_to_function sprite_icon('angle-right', l(:label_completed_versions)),
                        '$("#toggle-completed-versions").toggleClass("icon-collapsed icon-expanded"); $("#completed-versions").toggle()',
                        :id => 'toggle-completed-versions', :class => 'icon icon-collapsed collapsible' %>
   <ul id = "completed-versions" style = "display:none;">

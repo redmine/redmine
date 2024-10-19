@@ -1,5 +1,5 @@
 <div class="contextual">
-<%= link_to_function icon_with_label('add', l(:label_custom_field_new)), "location.href = '#{new_custom_field_path}?tab=' + encodeURIComponent(($('.tabs a.selected').attr('id')||'').split('tab-').pop())", :class => 'icon icon-add' %>
+<%= link_to_function sprite_icon('add', l(:label_custom_field_new)), "location.href = '#{new_custom_field_path}?tab=' + encodeURIComponent(($('.tabs a.selected').attr('id')||'').split('tab-').pop())", :class => 'icon icon-add' %>
 </div>
 
 <%= title l(:label_custom_field_plural) %>

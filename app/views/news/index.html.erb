@@ -1,5 +1,5 @@
 <div class="contextual">
-<%= link_to(icon_with_label('add', l(:label_news_new)),
+<%= link_to(sprite_icon('add', l(:label_news_new)),
             (@project ? project_news_index_path(@project) : news_index_path),
             :class => 'icon icon-add add-news-link',
             :onclick => 'showAndScrollTo("add-news", "news_title"); return false;') if User.current.allowed_to?(:manage_news, @project, global: true) %>

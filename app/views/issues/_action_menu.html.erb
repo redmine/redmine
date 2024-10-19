@@ -1,15 +1,15 @@
 <div class="contextual">
-<%= link_to icon_with_label('edit', l(:button_edit)), edit_issue_path(@issue),
+<%= link_to sprite_icon('edit', l(:button_edit)), edit_issue_path(@issue),
             :onclick => 'showAndScrollTo("update", "issue_notes"); return false;',
             :class => 'icon icon-edit ', :accesskey => accesskey(:edit) if @issue.editable? %>
-<%= link_to icon_with_label('time-add', l(:button_log_time)), new_issue_time_entry_path(@issue),
+<%= link_to sprite_icon('time-add', l(:button_log_time)), new_issue_time_entry_path(@issue),
             :class => 'icon icon-time-add ' if User.current.allowed_to?(:log_time, @project) %>
 <%= watcher_link(@issue, User.current) %>
-<%= link_to icon_with_label('copy', l(:button_copy)), project_copy_issue_path(@project, @issue),
+<%= link_to sprite_icon('copy', l(:button_copy)), project_copy_issue_path(@project, @issue),
             :class => 'icon icon-copy ' if User.current.allowed_to?(:copy_issues, @project) && Issue.allowed_target_projects.any? %>
 <%= actions_dropdown do %>
   <%= copy_object_url_link(issue_url(@issue, only_path: false)) %>
-  <%= link_to icon_with_label('del', l(:button_delete_object, object_name: l(:label_issue).downcase)), issue_path(@issue),
+  <%= link_to sprite_icon('del', l(:button_delete_object, object_name: l(:label_issue).downcase)), issue_path(@issue),
               :data => {:confirm => issues_destroy_confirmation_message(@issue)},
               :method => :delete, :class => 'icon icon-del ' if @issue.deletable? %>
 <% end %>

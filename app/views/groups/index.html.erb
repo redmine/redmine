@@ -1,5 +1,5 @@
 <div class="contextual">
-<%= link_to icon_with_label('add', l(:label_group_new)), new_group_path, :class => 'icon icon-add' %>
+<%= link_to sprite_icon('add', l(:label_group_new)), new_group_path, :class => 'icon icon-add' %>
 </div>
 
 <%= title l(:label_group_plural) %>
@@ -9,7 +9,7 @@
   <label for='name'><%= l(:label_group) %>:</label>
   <%= text_field_tag 'name', params[:name], :size => 30 %>
   <%= submit_tag l(:button_apply), :class => "small", :name => nil %>
-  <%= link_to icon_with_label('reload', l(:button_clear)), groups_path, :class => 'icon icon-reload' %>
+  <%= link_to sprite_icon('reload', l(:button_clear)), groups_path, :class => 'icon icon-reload' %>
   </fieldset>
 <% end %>
 &nbsp;

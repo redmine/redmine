@@ -182,7 +182,7 @@ module Redmine
         end
 
         label = if item.icon.present?
-                  icon_with_label(item.icon, h(caption))
+                  sprite_icon(item.icon, h(caption))
                 else
                   h(caption)
                 end

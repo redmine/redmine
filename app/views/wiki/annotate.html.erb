@@ -1,6 +1,6 @@
 <div class="contextual">
-<%= link_to(icon_with_label('edit', l(:button_edit)), {:action => 'edit', :id => @page.title}, :class => 'icon icon-edit') %>
-<%= link_to(icon_with_label('history', l(:label_history)),
+<%= link_to(sprite_icon('edit', l(:button_edit)), { :action => 'edit', :id => @page.title}, :class => 'icon icon-edit') %>
+<%= link_to(sprite_icon('history', l(:label_history)),
             {:action => 'history', :id => @page.title}, :class => 'icon icon-history') %>
 </div>
 

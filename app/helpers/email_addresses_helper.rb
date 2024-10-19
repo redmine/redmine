@@ -22,14 +22,14 @@ module EmailAddressesHelper
   def toggle_email_address_notify_link(address)
     if address.notify?
       link_to(
-        icon_with_label('email', l(:label_disable_notifications)),
+        sprite_icon('email', l(:label_disable_notifications)),
         user_email_address_path(address.user, address, :notify => '0'),
         :method => :put, :remote => true,
         :title => l(:label_disable_notifications),
         :class => 'icon-only icon-email')
     else
       link_to(
-        icon_with_label('email-disabled', l(:label_enable_notifications)),
+        sprite_icon('email-disabled', l(:label_enable_notifications)),
         user_email_address_path(address.user, address, :notify => '1'),
         :method => :put, :remote => true,
         :title => l(:label_enable_notifications),

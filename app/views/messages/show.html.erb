@@ -11,12 +11,12 @@
           '#message_topic_wiki'
         ) if !@topic.locked? && authorize_for('messages', 'reply') %>
     <%= link_to(
-          icon_with_label('edit', l(:button_edit)),
+          sprite_icon('edit', l(:button_edit)),
           {:action => 'edit', :id => @topic},
           :class => 'icon icon-edit'
         ) if @message.editable_by?(User.current) %>
     <%= link_to(
-          icon_with_label('del', l(:button_delete)),
+          sprite_icon('del', l(:button_delete)),
           {:action => 'destroy', :id => @topic},
           :method => :post,
           :data => {:confirm => l(:text_are_you_sure)},
@@ -37,7 +37,7 @@
 
 <% unless @replies.empty? %>
 <div id="replies">
-<h3 class="comments icon icon-comments"><%= icon_with_label('comments', l(:label_reply_plural)) %> (<%= @reply_count %>)</h3>
+<h3 class="comments icon icon-comments"><%= sprite_icon('comments', l(:label_reply_plural)) %> (<%= @reply_count %>)</h3>
 <% if !@topic.locked? && authorize_for('messages', 'reply') && @replies.size >= 3 %>
   <p><%= toggle_link l(:button_reply), "reply", :focus => 'message_content', :scroll => "message_content" %></p>
 <% end %>
@@ -50,13 +50,13 @@
             icon_only: true
           ) if !@topic.locked? && authorize_for('messages', 'reply') %>
       <%= link_to(
-            icon_with_label('edit', l(:button_edit), icon_only: true),
+            sprite_icon('edit', l(:button_edit), icon_only: true),
             {:action => 'edit', :id => message},
             :title => l(:button_edit),
             :class => 'icon icon-edit'
           ) if message.editable_by?(User.current) %>
       <%= link_to(
-            icon_with_label('del', l(:button_delete), icon_only: true),
+            sprite_icon('del', l(:button_delete), icon_only: true),
             {:action => 'destroy', :id => message},
             :method => :post,
             :data => {:confirm => l(:text_are_you_sure)},

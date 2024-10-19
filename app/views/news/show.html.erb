@@ -1,11 +1,11 @@
 <%= breadcrumb link_to(l(:label_news_plural), project_news_index_path(@project)) %>
 <div class="contextual">
 <%= watcher_link(@news, User.current) %>
-<%= link_to(icon_with_label('edit', l(:button_edit)),
-      edit_news_path(@news),
-      :class => 'icon icon-edit',
-      :accesskey => accesskey(:edit),
-      :onclick => '$("#edit-news").show(); return false;') if User.current.allowed_to?(:manage_news, @project) %>
+<%= link_to(sprite_icon('edit', l(:button_edit)),
+            edit_news_path(@news),
+            :class => 'icon icon-edit',
+            :accesskey => accesskey(:edit),
+            :onclick => '$("#edit-news").show(); return false;') if User.current.allowed_to?(:manage_news, @project) %>
 <%= delete_link news_path(@news) if User.current.allowed_to?(:manage_news, @project) %>
 </div>
 
@@ -38,7 +38,7 @@
 <% @comments.each do |comment| %>
     <% next if comment.new_record? %>
     <div class="contextual">
-    <%= link_to_if_authorized icon_with_label('del', l(:button_delete)), {:controller => 'comments', :action => 'destroy', :id => @news, :comment_id => comment},
+    <%= link_to_if_authorized sprite_icon('del', l(:button_delete)), { :controller => 'comments', :action => 'destroy', :id => @news, :comment_id => comment},
                               :data => {:confirm => l(:text_are_you_sure)}, :method => :delete,
                               :title => l(:button_delete),
                               :class => 'icon-only icon-del' %>

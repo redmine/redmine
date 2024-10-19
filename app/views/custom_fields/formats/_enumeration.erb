@@ -1,7 +1,7 @@
 <% unless @custom_field.new_record? %>
 <p>
   <label><%= l(:field_possible_values) %></label>
-  <%= link_to icon_with_label('edit', l(:button_edit)), custom_field_enumerations_path(@custom_field), :class => 'icon icon-edit' %>
+  <%= link_to sprite_icon('edit', l(:button_edit)), custom_field_enumerations_path(@custom_field), :class => 'icon icon-edit' %>
 </p>
 <% if @custom_field.enumerations.active.any? %>
   <p><%= f.select :default_value, @custom_field.enumerations.active.map{|v| [v.name, v.id.to_s]}, :include_blank => true %></p>

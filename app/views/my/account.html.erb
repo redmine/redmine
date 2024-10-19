@@ -1,6 +1,6 @@
 <div class="contextual">
 <%= additional_emails_link(@user) %>
-<%= link_to(icon_with_label('key', l(:button_change_password)), {:action => 'password'}, :class => 'icon icon-passwd') if @user.change_password_allowed? %>
+<%= link_to(sprite_icon('key', l(:button_change_password)), { :action => 'password'}, :class => 'icon icon-passwd') if @user.change_password_allowed? %>
 <%= call_hook(:view_my_account_contextual, :user => @user)%>
 </div>
 
