@@ -20,7 +20,7 @@
 module IconsHelper
   DEFAULT_ICON_SIZE = "18"
   DEFAULT_SPRITE = "icons"
-  
+
   def sprite_icon(icon_name, label = nil, icon_only: false, size: DEFAULT_ICON_SIZE, css_class: nil, sprite: DEFAULT_SPRITE, plugin: nil)
     sprite = plugin ? "plugin_assets/#{plugin}/#{sprite}.svg" : "#{sprite}.svg"
 
@@ -36,7 +36,6 @@ module IconsHelper
     end
   end
 
-  #
   def file_icon(entry, name, size: DEFAULT_ICON_SIZE, css_class: nil)
     if entry.is_dir?
       sprite_icon("folder", name, size: size, css_class: css_class)
@@ -52,15 +51,15 @@ module IconsHelper
 
   def activity_event_type_icon(event_type, size: DEFAULT_ICON_SIZE, css_class: nil)
     icon_name = case event_type
-           when 'reply'
-             'comments'
-           when 'time-entry'
-             'time'
-           when 'message'
-             'comment'
-           else
-             event_type
-           end
+                when 'reply'
+                  'comments'
+                when 'time-entry'
+                  'time'
+                when 'message'
+                  'comment'
+                else
+                  event_type
+                end
 
     sprite_icon(icon_name, size: size, css_class: css_class)
   end
