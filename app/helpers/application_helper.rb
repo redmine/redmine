@@ -863,7 +863,7 @@ module ApplicationHelper
   def body_css_classes
     css = []
     if theme = Redmine::Themes.theme(Setting.ui_theme)
-      css << 'theme-' + theme.name
+      css << 'theme-' + theme.name.tr(' ', '_')
     end
 
     css << 'project-' + @project.identifier if @project && @project.identifier.present?

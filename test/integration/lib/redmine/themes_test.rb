@@ -101,4 +101,12 @@ class ThemesTest < Redmine::IntegrationTest
   ensure
     Redmine::Utils.relative_url_root = ''
   end
+
+  def test_body_css_class_with_spaces_in_theme_name
+    @theme.instance_variable_set(:@name, 'Foo bar baz')
+    get '/'
+
+    assert_response :success
+    assert_select 'body[class~="theme-Foo_bar_baz"]'
+  end
 end
