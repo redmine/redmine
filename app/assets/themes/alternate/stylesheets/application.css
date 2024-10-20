@@ -55,30 +55,30 @@ table.list thead th {
 table.list tr.issue a { color: #666; }
 
 tr.odd.priority-highest, table.list tbody tr.odd.priority-highest:hover { color: #900; font-weight: bold; }
-tr.odd.priority-highest { background: #ffc4c4; }
+tr.odd.priority-highest { background: #ffd4d4; }
 tr.even.priority-highest, table.list tbody tr.even.priority-highest:hover { color: #900; font-weight: bold; }
-tr.even.priority-highest { background: #ffd4d4; }
+tr.even.priority-highest { background: #ffc4c4; }
 tr.priority-highest a, tr.priority-5:hover a { color: #900; }
 tr.odd.priority-highest td, tr.even.priority-highest td { border-color: #ffb4b4; }
 
 tr.odd.priority-high2, table.list tbody tr.odd.priority-high4:hover { color: #900; }
-tr.odd.priority-high2 { background: #ffc4c4; }
+tr.odd.priority-high2 { background: #ffd4d4; }
 tr.even.priority-high2, table.list tbody tr.even.priority-high4:hover { color: #900; }
-tr.even.priority-high2 { background: #ffd4d4; }
+tr.even.priority-high2 { background: #ffc4c4; }
 tr.priority-high2 a { color: #900; }
 tr.odd.priority-high2 td, tr.even.priority-high4 td { border-color: #ffb4b4; }
 
 tr.odd.priority-high3, table.list tbody tr.odd.priority-high3:hover { color: #900; }
-tr.odd.priority-high3 { background: #fee; }
+tr.odd.priority-high3 { background: #fff2f2; }
 tr.even.priority-high3, table.list tbody tr.even.priority-high3:hover { color: #900; }
-tr.even.priority-high3 { background: #fff2f2; }
+tr.even.priority-high3 { background: #fee; }
 tr.priority-high3 a { color: #900; }
 tr.odd.priority-high3 td, tr.even.priority-high3 td { border-color: #fcc; }
 
 tr.odd.priority-lowest, table.list tbody tr.odd.priority-lowest:hover { color: #559; }
-tr.odd.priority-lowest { background: #eaf7ff; }
+tr.odd.priority-lowest { background: #f2faff; }
 tr.even.priority-lowest, table.list tbody tr.even.priority-lowest:hover { color: #559; }
-tr.even.priority-lowest { background: #f2faff; }
+tr.even.priority-lowest { background: #eaf7ff; }
 tr.priority-lowest a { color: #559; }
 tr.odd.priority-lowest td, tr.even.priority-lowest td { border-color: #add7f3; }
 
