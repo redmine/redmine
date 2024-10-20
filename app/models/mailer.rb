@@ -187,13 +187,16 @@ class Mailer < ActionMailer::Base
       added_to_url = url_for(:controller => 'documents', :action => 'show', :id => container.id)
       added_to = "#{l(:label_document)}: #{container.title}"
     end
+    summary = l(:label_attachment_summary,
+                :filename => attachments.first.filename,
+                :count => attachments.length - 1)
     redmine_headers 'Project' => container.project.identifier
     @attachments = attachments
     @user = user
     @added_to = added_to
     @added_to_url = added_to_url
     mail :to => user,
-      :subject => "[#{container.project.name}] #{l(:label_attachment_new)}"
+         :subject => "[#{container.project.name}] #{l(:label_attachment_new)}: #{summary}"
   end
 
   # Notifies users about new attachments

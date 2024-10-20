@@ -107,7 +107,7 @@ class FilesControllerTest < Redmine::ControllerTest
 
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
-    assert_equal "[eCookbook] New file", mail.subject
+    assert_equal '[eCookbook] New file: testfile.txt', mail.subject
     assert_mail_body_match 'testfile.txt', mail
   end
 

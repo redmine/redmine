@@ -717,6 +717,10 @@ en:
   label_attachment_plural: Files
   label_file_added: File added
   label_attachment_description: File description
+  label_attachment_summary:
+    zero: "%{filename}"
+    one: "%{filename} and 1 file"
+    other: "%{filename} and %{count} files"
   label_report: Report
   label_report_plural: Reports
   label_news: News
