@@ -1433,3 +1433,7 @@ it:
   text_user_destroy_confirmation: "Vuoi davvero eliminare questo utente e rimuovere tutti i riferimenti ad esso associati? Questa operazione non può essere annullata. Spesso, bloccare un utente anziché eliminarlo è la soluzione migliore. Per confermare, inserisci il suo login (%{login}) qui sotto."
   text_project_destroy_enter_identifier: "Per confermare, inserisci l'identificativo del progetto (%{identifier}) qui sotto."
   field_name_or_email_or_login: Nome, email o login
+  label_attachment_summary:
+    zero: "%{filename}"
+    one: "%{filename} and 1 file"
+    other: "%{filename} and %{count} files"

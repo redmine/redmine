@@ -1483,3 +1483,7 @@ sk:
   setting_copy_attachments_on_issue_copy: Copy attachments on copy
   field_thousands_delimiter: Thousands delimiter
   label_involved_principals: Author / Previous assignee
+  label_attachment_summary:
+    zero: "%{filename}"
+    one: "%{filename} and 1 file"
+    other: "%{filename} and %{count} files"

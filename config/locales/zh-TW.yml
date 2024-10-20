@@ -1511,3 +1511,7 @@
   setting_copy_attachments_on_issue_copy: 連同附件檔案一起複製
   field_thousands_delimiter: 千分位分隔符號
   label_involved_principals: 作者 / 歷任被分派者
+  label_attachment_summary:
+    zero: "%{filename}"
+    one: "%{filename} and 1 file"
+    other: "%{filename} and %{count} files"
