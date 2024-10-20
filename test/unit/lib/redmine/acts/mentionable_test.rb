@@ -113,7 +113,7 @@ class Redmine::Acts::MentionableTest < ActiveSupport::TestCase
       ```
     STR
 
-    with_settings text_formatting: 'markdown' do
+    with_settings text_formatting: 'common_mark' do
       issue = Issue.generate!(project_id: 1, description: description)
 
       assert_equal [], issue.mentioned_users

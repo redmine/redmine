@@ -90,7 +90,7 @@ class InlineAutocompleteSystemTest < ApplicationSystemTestCase
   end
 
   def test_keyboard_shortcuts_for_wiki_toolbar_buttons_using_markdown
-    with_settings :text_formatting => 'markdown' do
+    with_settings :text_formatting => 'common_mark' do
       log_user('jsmith', 'jsmith')
       visit 'issues/new'
 

@@ -86,7 +86,7 @@ module Redmine
           case text_formatting
           when 'textile'
             content = content.gsub(%r{<pre>(.*?)</pre>}m, '')
-          when 'markdown', 'common_mark'
+          when 'common_mark'
             content = content.gsub(%r{(~~~|```)(.*?)(~~~|```)}m, '')
           end
 

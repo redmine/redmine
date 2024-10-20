@@ -25,11 +25,6 @@ rescue LoadError
   # MiniMagick is not available
 end
 begin
-  require 'redcarpet' unless Object.const_defined?(:Redcarpet)
-rescue LoadError
-  # Redcarpet is not available
-end
-begin
   require 'commonmarker' unless Object.const_defined?(:CommonMarker)
 rescue LoadError
   # CommonMarker is not available

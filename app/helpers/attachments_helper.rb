@@ -91,7 +91,7 @@ module AttachmentsHelper
 
   def render_file_content(attachment, content)
     if attachment.is_markdown?
-      render :partial => 'common/markup', :locals => {:markup_text_formatting => markdown_formatter, :markup_text => content}
+      render :partial => 'common/markup', :locals => {:markup_text_formatting => 'common_mark', :markup_text => content}
     elsif attachment.is_textile?
       render :partial => 'common/markup', :locals => {:markup_text_formatting => 'textile', :markup_text => content}
     else

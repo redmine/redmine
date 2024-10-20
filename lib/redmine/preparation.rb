@@ -408,7 +408,6 @@ module Redmine
 
       WikiFormatting.map do |format|
         format.register :textile
-        format.register :markdown, label: 'Markdown (deprecated)' if Object.const_defined?(:Redcarpet)
         if Object.const_defined?(:CommonMarker)
           format.register :common_mark, label: 'CommonMark Markdown (GitHub Flavored)'
         end

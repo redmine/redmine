@@ -44,11 +44,6 @@ group :minimagick do
   gem 'mini_magick', '~> 5.0.1'
 end
 
-# Optional Markdown support
-group :markdown do
-  gem 'redcarpet', '~> 3.6.0'
-end
-
 # Optional CommonMark support, not for JRuby
 group :common_mark do
   gem "commonmarker", '~> 0.23.8'
