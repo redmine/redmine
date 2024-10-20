@@ -1245,12 +1245,14 @@ ul.cal {
 
 .cal .calbody p.day-num {font-size: 1.1em; text-align:right;}
 .cal .calbody .abbr-day {display:none}
-.cal .calbody.odd p.day-num {color: #bbb;}
+.cal .calbody.this-month {background-color:#fff;}
+.cal .calbody.other-month {background-color:#f6f7f8;}
+.cal .calbody.other-month p.day-num {color: #bbb;}
 .cal .calbody.today {background:#ffd;}
 .cal .calbody.today p.day-num {font-weight: bold;}
 
 .cal .calbody .icon {padding-top: 2px; padding-bottom: 3px;}
-.cal .calbody.nwday:not(.odd) {background-color:#f1f1f1;}
+.cal .calbody.nwday:not(.other-month) {background-color:#f1f1f1;}
 
 p.cal.legend span {display:flex;}
 .controller-calendars p.buttons {margin-top: unset;}

@@ -219,14 +219,14 @@ class CalendarsControllerTest < Redmine::ControllerTest
 
     assert_select 'ul' do
       assert_select 'li.week-number:nth-of-type(2)', :text => /53$/
-      assert_select 'li.odd', :text => /^27/
-      assert_select 'li.even', :text => /^2/
+      assert_select 'li.other-month', :text => /^27/
+      assert_select 'li.this-month', :text => /^2/
     end
 
     assert_select 'ul' do
       assert_select 'li.week-number', :text => /1$/
-      assert_select 'li.odd', :text => /^3/
-      assert_select 'li.even', :text => /^9/
+      assert_select 'li.other-month', :text => /^3/
+      assert_select 'li.this-month', :text => /^9/
     end
 
     with_settings :start_of_week => 1 do
@@ -242,14 +242,14 @@ class CalendarsControllerTest < Redmine::ControllerTest
 
     assert_select 'ul' do
       assert_select 'li.week-number:nth-of-type(2)', :text => /53$/
-      assert_select 'li.even', :text => /^28/
-      assert_select 'li.even', :text => /^3/
+      assert_select 'li.this-month', :text => /^28/
+      assert_select 'li.this-month', :text => /^3/
     end
 
     assert_select 'ul' do
       assert_select 'li.week-number', :text => /1$/
-      assert_select 'li.even', :text => /^4/
-      assert_select 'li.even', :text => /^10/
+      assert_select 'li.this-month', :text => /^4/
+      assert_select 'li.this-month', :text => /^10/
     end
   end
 
