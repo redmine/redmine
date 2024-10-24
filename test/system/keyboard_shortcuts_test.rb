@@ -100,7 +100,7 @@ class InlineAutocompleteSystemTest < ApplicationSystemTestCase
       # Clear textarea value
       fill_in 'Description', :with => ''
       find('#issue_description').send_keys([modifier_key, 'u'])
-      assert_equal '__', find('#issue_description').value
+      assert_equal '<u></u>', find('#issue_description').value
 
       # Clear textarea value
       fill_in 'Description', :with => ''
