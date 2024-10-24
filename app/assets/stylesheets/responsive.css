@@ -155,7 +155,7 @@
   }
   #project-jump .drdn-trigger:before {
     /* set a font-size in order to achive same result in different themes */
-    font-family: "Noto Sans", sans-serif;
+    font-family: var(--fonts-main);
     font-size: 1.5em;
 
     position: absolute;
@@ -253,7 +253,7 @@
   }
 
   .mobile-toggle-button:after {
-    font-family: "Noto Sans", sans-serif;
+    font-family: var(--fonts-main);
     display: block;
     margin-top: -3px;
     content: '\2261';
@@ -261,7 +261,7 @@
 
   /* search magnifier icon */
   .search-magnifier {
-    font-family: "Noto Sans", sans-serif;
+    font-family: var(--fonts-main);
     color: #bbb;
 
     cursor: pointer;

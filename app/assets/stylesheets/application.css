@@ -22,11 +22,15 @@
   font-display: swap;
 }
 
+:root {
+  --fonts-main: "Noto Sans", sans-serif;
+}
+
 html, body { min-height: 100vh; }
 html {overflow-y:scroll;}
-body { font-family: "Noto Sans", sans-serif; font-size: 0.875rem; color:#333; margin: 0; padding: 0; min-width: 900px; }
+body { font-family: var(--fonts-main); font-size: 0.875rem; color:#333; margin: 0; padding: 0; min-width: 900px; }
 
-h1, h2, h3, h4, h5, h6 {font-family: "Noto Sans", sans-serif;padding: 2px 10px 1px 0px;margin: 0 0 10px 0;}
+h1, h2, h3, h4, h5, h6 {font-family: var(--fonts-main);padding: 2px 10px 1px 0px;margin: 0 0 10px 0;}
 #content h1, h2, h3, h4, h5, h6 {color: #555;}
 h2 {font-size: 1.25rem;}
 h3 {font-size: 1.0625rem;}
@@ -595,7 +599,7 @@ blockquote blockquote { margin-left: 0;}
 abbr, span.field-description[title] { border-bottom: 1px dotted #aaa; cursor: help; }
 textarea.wiki-edit {width:99%; resize:vertical; box-sizing: border-box;}
 body.textarea-monospace textarea.wiki-edit {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace; font-size: 0.75rem;}
-body.textarea-proportional textarea.wiki-edit {font-family: "Noto Sans", sans-serif; font-size:  0.75rem;}
+body.textarea-proportional textarea.wiki-edit {font-family: var(--fonts-main); font-size:  0.75rem;}
 li p {margin-top: 0;}
 div.issue {
   background: #ffffdd;
@@ -820,7 +824,7 @@ ul.projects div.description ul li {list-style-type:initial;}
 }
 #projects-index ul.projects li.child {margin-top: 1em;}
 #projects-index ul.projects div.root a.project {
-  font-family: "Noto Sans", sans-serif;
+  font-family: var(--fonts-main);
   font-weight: bold;
   font-size: 1rem;
   margin: 0 0 10px 0;

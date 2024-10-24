@@ -16,7 +16,11 @@
     font-display: swap;
 }
 
-body { font-family: "Noto Sans", sans-serif; font-size: 0.875rem; color:#333; line-height: 1.6;}
+:root {
+  --fonts-main: "Noto Sans", sans-serif;
+}
+
+body { font-family: var(--fonts-main); font-size: 0.875rem; color:#333; line-height: 1.6;}
 pre, code { font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace; }
 pre {
     margin: 1em 1em 1em 1.6em;
