@@ -2190,6 +2190,28 @@ class IssueTest < ActiveSupport::TestCase
     end
   end
 
+  def test_destroy_should_delete_attachments_on_custom_values
+    cf = IssueCustomField.create!(:name => 'Attachable field', :field_format => 'attachment', :is_for_all => true, :tracker_ids => [1])
+    user = User.find(2)
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :subject => 'test', :author_id => user.id)
+    attachment = Attachment.create!(:container => issue, :file => uploaded_test_file('testfile.txt', 'text/plain'), :author_id => user.id)
+    issue.send(
+      :safe_attributes=,
+      {
+        'custom_fields' =>
+          [
+            {'id' => cf.id.to_s, 'value' => attachment.id.to_s},
+          ]
+      }, user
+    )
+
+    assert_difference 'CustomValue.where(:customized_type => "Issue").count', -(issue.custom_values.count) do
+      assert_difference 'Attachment.count', -1 do
+        issue.destroy
+      end
+    end
+  end
+
   def test_destroying_a_deleted_issue_should_not_raise_an_error
     issue = Issue.find(1)
     Issue.find(1).destroy

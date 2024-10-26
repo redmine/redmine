@@ -29,6 +29,7 @@ module Redmine
           return if self.included_modules.include?(Redmine::Acts::Customizable::InstanceMethods)
           cattr_accessor :customizable_options
           self.customizable_options = options
+          before_destroy :store_attachment_custom_value_ids
           has_many :custom_values, lambda {includes(:custom_field)},
                                    :as => :customized,
                                    :inverse_of => :customized,
@@ -38,6 +39,7 @@ module Redmine
           send :include, Redmine::Acts::Customizable::InstanceMethods
           validate :validate_custom_field_values
           after_save :save_custom_field_values
+          after_destroy :destroy_custom_value_attachments
         end
       end
 
@@ -168,6 +170,17 @@ module Redmine
           @custom_field_values = nil
           @custom_field_values_changed = false
           super
+        end
+
+        def store_attachment_custom_value_ids
+          @attachment_custom_value_ids =
+            custom_values.select {|cv| cv.custom_field.field_format == 'attachment'}
+                         .map(&:id)
+        end
+
+        def destroy_custom_value_attachments
+          Attachment.where(:container_id => @attachment_custom_value_ids, :container_type => 'CustomValue')
+                    .destroy_all
         end
 
         module ClassMethods
