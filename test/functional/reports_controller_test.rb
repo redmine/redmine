@@ -208,6 +208,17 @@ class ReportsControllerTest < Redmine::ControllerTest
       assert_select ':nth-child(9)', :text => '1' # closed
       assert_select ':nth-child(10)', :text => '3' # total
     end
+    assert_select 'table.list tfoot :nth-child(1)' do
+      assert_select 'td', :text => 'Total'
+      assert_select ':nth-child(2)', :text => '3' # status:1
+      assert_select ':nth-child(3)', :text => '0' # status:2
+      assert_select ':nth-child(4)', :text => '0' # status:3
+      assert_select ':nth-child(5)', :text => '0' # status:4
+      assert_select ':nth-child(6)', :text => '1' # status:5
+      assert_select ':nth-child(8)', :text => '3' # open
+      assert_select ':nth-child(9)', :text => '1' # closed
+      assert_select ':nth-child(10)', :text => '4' # total
+    end
   end
 
   def test_get_issue_report_details_by_assignee_should_show_non_assigned_issue_count

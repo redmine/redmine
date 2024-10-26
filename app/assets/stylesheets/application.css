@@ -352,6 +352,7 @@ tr.idnt-8 td.subject, tr.idnt-8 td.name {padding-left: 136px; background-positio
 tr.idnt-9 td.subject, tr.idnt-9 td.name {padding-left: 152px; background-position: 136px 50%;}
 
 table.issue-report {table-layout:fixed;}
+table.issue-report tr.total, table.issue-report-detailed tr.total { font-weight: bold; border-top:2px solid #d0d7de;}
 .issue-report-graph {width: 75%; margin: 2em 0;}
 
 tr.entry td { white-space: nowrap; }
