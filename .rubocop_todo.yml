@@ -370,11 +370,6 @@ Rails/Blank:
     - 'lib/redmine/field_format.rb'
     - 'lib/redmine/wiki_formatting/macros.rb'
 
-# This cop supports safe autocorrection (--autocorrect).
-Rails/ContentTag:
-  Exclude:
-    - 'lib/redmine/wiki_formatting/markdown/formatter.rb'
-
 # Configuration parameters: Include.
 # Include: db/**/*.rb
 Rails/CreateTableWithTimestamps:
@@ -683,7 +678,6 @@ Style/Alias:
     - 'lib/redmine/export/pdf.rb'
     - 'lib/redmine/menu_manager.rb'
     - 'lib/redmine/plugin.rb'
-    - 'lib/redmine/wiki_formatting/markdown/formatter.rb'
     - 'lib/redmine/wiki_formatting/textile/formatter.rb'
 
 # This cop supports unsafe autocorrection (--autocorrect-all).
@@ -753,7 +747,6 @@ Style/ClassVars:
     - 'lib/redmine/twofa.rb'
     - 'lib/redmine/wiki_formatting.rb'
     - 'lib/redmine/wiki_formatting/macros.rb'
-    - 'lib/redmine/wiki_formatting/markdown/formatter.rb'
     - 'test/helpers/activities_helper_test.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
@@ -1108,7 +1101,6 @@ Style/RedundantAssignment:
     - 'lib/redmine/scm/adapters/bazaar_adapter.rb'
     - 'lib/redmine/scm/adapters/filesystem_adapter.rb'
     - 'lib/redmine/wiki_formatting.rb'
-    - 'lib/redmine/wiki_formatting/markdown/formatter.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
 Style/RedundantBegin:
@@ -1211,7 +1203,6 @@ Style/RescueModifier:
     - 'lib/redmine/field_format.rb'
     - 'lib/redmine/search.rb'
     - 'lib/redmine/wiki_formatting.rb'
-    - 'test/unit/lib/redmine/wiki_formatting/markdown_formatter_test.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnforcedStyle.
