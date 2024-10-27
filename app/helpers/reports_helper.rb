@@ -20,17 +20,17 @@
 module ReportsHelper
   def aggregate(data, criteria)
     a = 0
-    data.each do |row|
+    data&.each do |row|
       match = 1
-      criteria.each do |k, v|
+      criteria&.each do |k, v|
         unless (row[k].to_s == v.to_s) ||
                  (k == 'closed' &&
                    (v == 0 ? ['f', false] : ['t', true]).include?(row[k]))
           match = 0
         end
-      end unless criteria.nil?
+      end
       a = a + row["total"].to_i if match == 1
-    end unless data.nil?
+    end
     a
   end
 

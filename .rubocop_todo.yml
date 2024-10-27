@@ -950,7 +950,6 @@ Style/MultilineIfModifier:
     - 'app/helpers/attachments_helper.rb'
     - 'app/helpers/custom_fields_helper.rb'
     - 'app/helpers/projects_helper.rb'
-    - 'app/helpers/reports_helper.rb'
     - 'app/helpers/repositories_helper.rb'
     - 'app/helpers/search_helper.rb'
     - 'app/models/issue_query.rb'
