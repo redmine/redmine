@@ -309,9 +309,9 @@ class Issue < ActiveRecord::Base
         attachement.copy(:container => self)
       end
     end
+
     unless options[:watchers] == false
-      self.watcher_user_ids =
-        issue.watcher_users.select{|u| u.status == User::STATUS_ACTIVE}.map(&:id)
+      self.watcher_user_ids = issue.visible_watcher_users.select{|u| u.status == User::STATUS_ACTIVE}.map(&:id)
     end
     @copied_from = issue
     @copy_options = options

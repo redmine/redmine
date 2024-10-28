@@ -211,6 +211,25 @@ class WatchersControllerTest < Redmine::ControllerTest
     )
   end
 
+  def test_new_without_view_watchers_permission
+    @request.session[:user_id] = 2
+    Role.find(1).remove_permission! :view_issue_watchers
+    get :new, :params => {:object_type => 'issue', :object_id => '2'}, :xhr => true
+    assert_response :success
+    assert_match %r{name=\\"watcher\[user_ids\]\[\]\\" value=\\"2\\"}, response.body
+    # User should not be able to reverse engineer that User 3 is watching the issue already
+    assert_match %r{name=\\"watcher\[user_ids\]\[\]\\" value=\\"3\\"}, response.body
+  end
+
+  def test_new_dont_show_self_when_watching_without_view_watchers_permission
+    @request.session[:user_id] = 2
+    Role.find(1).remove_permission! :view_issue_watchers
+    Issue.find(2).add_watcher(User.find(2))
+    get :new, :params => {:object_type => 'issue', :object_id => '2'}, :xhr => true
+    assert_response :success
+    assert_no_match %r{name=\\"watcher\[user_ids\]\[\]\\" value=\\"2\\"}, response.body
+  end
+
   def test_create_as_html
     @request.session[:user_id] = 2
     assert_difference('Watcher.count') do
@@ -458,11 +477,11 @@ class WatchersControllerTest < Redmine::ControllerTest
 
     assert_response :success
 
-    # All users from two projects eCookbook (7) and Private child of eCookbook (9)
-    assert_select 'input', :count => 5
+    # All users from two projects eCookbook (7) and Private child of eCookbook
+    # (9) who can see both issues
+    assert_select 'input', :count => 4
     assert_select 'input[name=?][value="1"]', 'watcher[user_ids][]'
     assert_select 'input[name=?][value="2"]', 'watcher[user_ids][]'
-    assert_select 'input[name=?][value="3"]', 'watcher[user_ids][]'
     assert_select 'input[name=?][value="8"]', 'watcher[user_ids][]'
     assert_select 'input[name=?][value="10"]', 'watcher[user_ids][]'
   end
@@ -557,6 +576,41 @@ class WatchersControllerTest < Redmine::ControllerTest
     end
     wiki_page.reload
     assert !wiki_page.watched_by?(user)
+  end
+
+  def test_destroy_without_permission
+    @request.session[:user_id] = 2
+    wiki_page = WikiPage.find(1)
+    user = User.find(1)
+    Role.find(1).remove_permission! :delete_wiki_page_watchers
+
+    assert wiki_page.watched_by?(user)
+    assert_no_difference('Watcher.count') do
+      delete :destroy, :params => {
+        :object_type => 'wiki_page', :object_id => '1', :user_id => '1'
+      }, :xhr => true
+      assert_response :forbidden
+    end
+    wiki_page.reload
+    assert wiki_page.watched_by?(user)
+  end
+
+  def test_create_without_permission
+    @request.session[:user_id] = 2
+    wiki_page = WikiPage.find(1)
+    user = User.find(1)
+    Role.find(1).remove_permission! :add_wiki_page_watchers
+    Watcher.delete_all
+
+    assert_not wiki_page.watched_by?(user)
+    assert_no_difference('Watcher.count') do
+      post :create, :params => {
+        :object_type => 'wiki_page', :object_id => '1', :user_id => '1'
+      }, :xhr => true
+      assert_response :forbidden
+    end
+    wiki_page.reload
+    assert_not wiki_page.watched_by?(user)
   end
 
   def test_destroy_locked_user

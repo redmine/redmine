@@ -1456,11 +1456,31 @@ class IssueTest < ActiveSupport::TestCase
     user2 = User.find(3)
     issue = Issue.find(8)
 
+    User.current = user
+
     Watcher.create!(:user => user, :watchable => issue)
     Watcher.create!(:user => user2, :watchable => issue)
 
     user2.status = User::STATUS_LOCKED
     user2.save!
+
+    issue = Issue.new.copy_from(8)
+
+    assert issue.save
+    assert issue.watched_by?(user)
+    assert !issue.watched_by?(user2)
+  end
+
+  def test_copy_should_not_copy_watchers_without_permission
+    user = User.find(2)
+    user2 = User.find(3)
+    issue = Issue.find(8)
+
+    Role.find(1).remove_permission! :view_issue_watchers
+    User.current = user
+
+    Watcher.create!(:user => user, :watchable => issue)
+    Watcher.create!(:user => user2, :watchable => issue)
 
     issue = Issue.new.copy_from(8)
 
