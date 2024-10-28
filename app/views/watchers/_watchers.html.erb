@@ -8,6 +8,10 @@
 </div>
 <% end %>
 
+<% if User.current.allowed_to?(:"view_#{watched_klass_name}_watchers", watched.project) %>
 <h3><%= l(:"label_#{watched_klass_name}_watchers") %> (<%= watched.watcher_users.size %>)</h3>
 
 <%= watchers_list(watched) %>
+<% else %>
+<h3><%= l(:"label_#{watched_klass_name}_watchers") %></h3>
+<% end %>

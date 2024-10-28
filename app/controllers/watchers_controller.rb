@@ -41,6 +41,8 @@ class WatchersController < ApplicationController
   end
 
   def create
+    return unless authorize_for_watchable_type(:add)
+
     user_ids = []
     if params[:watcher]
       user_ids << (params[:watcher][:user_ids] || params[:watcher][:user_id])
@@ -51,7 +53,9 @@ class WatchersController < ApplicationController
     users = Principal.assignable_watchers.where(:id => user_ids).to_a
     users.each do |user|
       @watchables.each do |watchable|
-        Watcher.create(:watchable => watchable, :user => user)
+        if watchable.valid_watcher?(user)
+          Watcher.create(:watchable => watchable, :user => user)
+        end
       end
     end
     respond_to do |format|
@@ -76,6 +80,8 @@ class WatchersController < ApplicationController
   end
 
   def destroy
+    return unless authorize_for_watchable_type(:delete)
+
     user = Principal.find(params[:user_id])
     @watchables.each do |watchable|
       watchable.set_watcher(user, false)
@@ -156,11 +162,10 @@ class WatchersController < ApplicationController
     users = scope.sorted.like(params[:q]).to_a
     if @watchables && @watchables.size == 1
       watchable_object = @watchables.first
-      users -= watchable_object.watcher_users
-
-      if watchable_object.respond_to?(:visible?)
-        users.reject! {|user| user.is_a?(User) && !watchable_object.visible?(user)}
-      end
+      users -= watchable_object.visible_watcher_users
+    end
+    @watchables&.each do |watchable|
+      users.reject!{|user| !watchable.valid_watcher?(user)}
     end
     users
   end
@@ -227,5 +232,15 @@ class WatchersController < ApplicationController
     end
 
     objects
+  end
+
+  # Check permission for the watchable type for each watchable involved
+  def authorize_for_watchable_type(action)
+    if @watchables.any?{|watchable| !User.current.allowed_to?(:"#{action}_#{watchable.class.name.underscore}_watchers", watchable.project)}
+      render_403
+      return false
+    else
+      return true
+    end
   end
 end
