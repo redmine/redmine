@@ -945,6 +945,7 @@ class User < Principal
     Issue.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
     Issue.where(['assigned_to_id = ?', id]).update_all('assigned_to_id = NULL')
     Journal.where(['user_id = ?', id]).update_all(['user_id = ?', substitute.id])
+    Journal.where(['updated_by_id = ?', id]).update_all(['updated_by_id = ?', substitute.id])
     JournalDetail.
       where(["property = 'attr' AND prop_key = 'assigned_to_id' AND old_value = ?", id.to_s]).
       update_all(['old_value = ?', substitute.id.to_s])

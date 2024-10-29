@@ -308,12 +308,17 @@ class UserTest < ActiveSupport::TestCase
   def test_destroy_should_update_journals
     issue = Issue.generate!(:project_id => 1, :author_id => 2,
                           :tracker_id => 1, :subject => 'foo')
+    # Prepare a journal with both user_id and updated_by_id set to 2
     issue.init_journal(User.find(2), "update")
     issue.save!
+    journal = issue.journals.first
+    journal.update_columns(updated_by_id: 2)
 
     User.find(2).destroy
     assert_nil User.find_by_id(2)
-    assert_equal User.anonymous, issue.journals.first.reload.user
+    journal.reload
+    assert_equal User.anonymous, journal.user
+    assert_equal User.anonymous, journal.updated_by
   end
 
   def test_destroy_should_update_journal_details_old_value
