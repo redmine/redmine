@@ -83,6 +83,8 @@ attachment_extensions_denied:
 issues_export_limit:
   format: int
   default: 500
+support_popup_interval:
+  default: 600
 activity_days_default:
   format: int
   default: 10
