@@ -1954,9 +1954,6 @@ th[role=columnheader]:not(.no-sort):hover:after {
 	opacity: 1;
 }
 
-
-
-
 /* EXTENSION BY WISE MONKS */
 table.issues > tbody >  tr.odd.overdue {
   background-color: #ffc4c4 !important;
