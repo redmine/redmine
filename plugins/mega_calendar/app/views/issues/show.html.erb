@@ -35,16 +35,19 @@
   </div>
 
 <div class="subject">
-<%= render_issue_subject_with_tree(@issue) %>
+  <%= render_issue_subject_with_tree(@issue) %>
 </div>
-        <p class="author">
-        <%= authoring @issue.created_on, @issue.author %>.
-        <% if @issue.created_on != @issue.updated_on %>
-        <%= l(:label_updated_time, time_tag(@issue.updated_on)).html_safe %>.
-        <% end %>
-        </p>
+<p class="author">
+  <%= authoring @issue.created_on, @issue.author %>.
+  <% if @issue.created_on != @issue.updated_on %>
+    <%= l(:label_updated_time, time_tag(@issue.updated_on)).html_safe %>.
+  <% end %>
+</p>
 
 <div class="attributes">
+<%= @issue.project.identifier %>
+<%= @issue.project.sla_1_comment %>
+
 <%= issue_fields_rows do |rows|
   rows.left l(:field_status), @issue.status.name, :class => 'status'
   rows.left l(:field_priority), @issue.priority.name, :class => 'priority'

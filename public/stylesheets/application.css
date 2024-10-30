@@ -1953,3 +1953,33 @@ th[role=columnheader]:not(.no-sort):hover:after {
 	display: inline;
 	opacity: 1;
 }
+
+
+
+
+/* EXTENSION BY WISE MONKS */
+table.issues > tbody >  tr.odd.overdue {
+  background-color: #ffc4c4 !important;
+  color: #900 !important;
+}
+table.issues > tbody >  tr.even.overdue {
+  background-color: #ffd4d4 !important;
+  color: #900 !important;
+}
+
+div.issue .warranty.valid .value {
+  color: #5cb85c !important;
+}
+div.issue .warranty.not-valid .value {
+  color: #c22 !important;
+}
+
+div.issue .warranty.valid .value .comment {
+  color: #000 !important;
+  margin-left: 1rem;
+}
+div.issue .warranty.not-valid .value .comment {
+  color: #000 !important;
+  margin-left: 1rem;
+}
+/* END OF EXTENSION BY WISE MONKS */
