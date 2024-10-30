@@ -41,6 +41,7 @@ class WikiController < ApplicationController
 
   helper :attachments
   include AttachmentsHelper
+  include ApplicationHelper
   helper :watchers
   include Redmine::Export::PDF
 
@@ -146,7 +147,7 @@ class WikiController < ApplicationController
     @text = @content.text
     if params[:section].present? && Redmine::WikiFormatting.supports_section_edit?
       @section = params[:section].to_i
-      @text, @section_hash = Redmine::WikiFormatting.formatter.new(@text).get_section(@section)
+      @text, @section_hash = Redmine::WikiFormatting.formatter_for(detect_format(@text)).new(@text).get_section(@section)
       render_404 if @text.blank?
     end
   end

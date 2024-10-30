@@ -21,6 +21,7 @@ module Redmine
   module WikiFormatting
     module SectionHelper
       def get_section(index)
+        p 'indexas', index
         section = extract_sections(index)[1]
         hash = Digest::MD5.hexdigest(section)
         return section, hash
@@ -70,6 +71,7 @@ module Redmine
           end
           sections[offset] << part
         end
+        p 'sectionai', sections.size, sections
         sections.map(&:strip)
       end
     end
