@@ -1697,6 +1697,7 @@ td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
   border: 0;
   box-shadow: none;
   white-space: pre-wrap;
+  pointer-events: none;
 }
 
 /***** SVG Icons *****/
