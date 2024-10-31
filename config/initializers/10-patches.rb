@@ -132,7 +132,7 @@ module Propshaft
     end
 
     def load_path
-      @load_path ||= Redmine::AssetLoadPath.new(config)
+      @load_path ||= Redmine::AssetLoadPath.new(config, compilers)
     end
   end)
 

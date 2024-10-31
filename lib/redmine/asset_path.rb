@@ -29,14 +29,14 @@ module Redmine
       @version = Rails.application.config.assets.version
     end
 
-    def update(transition_map:, assets:)
+    def update(transition_map:, assets:, load_path:)
       each_file do |file, intermediate_path, logical_path|
         @transition.add_src  intermediate_path, logical_path
         @transition.add_dest intermediate_path, logical_path
         asset = if file.extname == '.css'
-                  Redmine::Asset.new(file,   logical_path: logical_path, version: version, transition_map: transition_map)
+                  Redmine::Asset.new(file,   logical_path: logical_path, load_path: load_path, transition_map: transition_map)
                 else
-                  Propshaft::Asset.new(file, logical_path: logical_path, version: version)
+                  Propshaft::Asset.new(file, logical_path: logical_path, load_path: load_path)
                 end
         assets[asset.logical_path.to_s] ||= asset
       end
@@ -132,10 +132,10 @@ module Redmine
   class AssetLoadPath < Propshaft::LoadPath
     attr_reader :extension_paths, :default_asset_path, :transition_map
 
-    def initialize(config)
+    def initialize(config, compilers)
       @extension_paths    = config.redmine_extension_paths
       @default_asset_path = config.redmine_default_asset_path
-      super(config.paths, version: config.version)
+      super(config.paths, compilers: compilers, version: config.version)
     end
 
     def asset_files
@@ -156,13 +156,13 @@ module Redmine
       super
       if merge_required
         @transition_map = {}
-        default_asset_path.update(assets: @cached_assets_by_path, transition_map: transition_map)
+        default_asset_path.update(assets: @cached_assets_by_path, transition_map: transition_map, load_path: self)
         extension_paths.each do |asset_path|
           # Support link from extension assets to assets in the application
           default_asset_path.each_file do |file, intermediate_path, logical_path|
             asset_path.instance_eval { @transition.add_dest intermediate_path, logical_path }
           end
-          asset_path.update(assets: @cached_assets_by_path, transition_map: transition_map)
+          asset_path.update(assets: @cached_assets_by_path, transition_map: transition_map, load_path: self)
         end
       end
       @cached_assets_by_path
@@ -189,9 +189,9 @@ module Redmine
   end
 
   class Asset < Propshaft::Asset
-    def initialize(file, logical_path:, version:, transition_map:)
+    def initialize(file, logical_path:, load_path:, transition_map:)
       @transition_map = transition_map
-      super(file, logical_path: logical_path, version: version)
+      super(file, logical_path: logical_path, load_path: load_path)
     end
 
     def content

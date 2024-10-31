@@ -26,7 +26,7 @@ class Redmine::AssetPathTest < ActiveSupport::TestCase
     @asset_path = Redmine::AssetPath.new(assets_dir, paths, 'plugin_assets/foo/')
     @assets = {}
     @transition_map = {}
-    @asset_path.update(transition_map: @transition_map, assets: @assets)
+    @asset_path.update(transition_map: @transition_map, assets: @assets, load_path: nil)
   end
 
   test "asset path size" do
