@@ -117,9 +117,9 @@ class ThemesTest < Redmine::IntegrationTest
     Rails.application.assets.load_path.clear_cache
 
     asset = Rails.application.assets.load_path.find('themes/foo_theme/application.css')
-    get "/assets/#{asset.digested_path.to_s}"
+    get "/assets/#{asset.digested_path}"
 
     assert_response :success
-    assert_match %r{url\(\"/assets/application-\w+\.css\"\)}, response.body
+    assert_match %r{url\("/assets/application-\w+\.css"\)}, response.body
   end
 end
