@@ -2,7 +2,7 @@
 
 Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
-http://www.redmine.org/
+https://www.redmine.org/
 
 
 == Requirements
@@ -53,7 +53,7 @@ The current version of Firefox, Safari, Chrome, Chromium and Microsoft Edge.
      bundle exec rake generate_secret_token
 
    Alternatively, you can store this secret in config/secrets.yml:
-   http://guides.rubyonrails.org/upgrading_ruby_on_rails.html#config-secrets-yml
+   https://guides.rubyonrails.org/upgrading_ruby_on_rails.html#config-secrets-yml
 
 6. Create the database structure
 
@@ -116,10 +116,10 @@ Please do not enter your SMTP settings in environment.rb.
 
 == References
 
-* http://www.redmine.org/wiki/redmine/RedmineInstall
-* http://www.redmine.org/wiki/redmine/EmailConfiguration
-* http://www.redmine.org/wiki/redmine/RedmineSettings
-* http://www.redmine.org/wiki/redmine/RedmineRepositories
-* http://www.redmine.org/wiki/redmine/RedmineReceivingEmails
-* http://www.redmine.org/wiki/redmine/RedmineReminderEmails
-* http://www.redmine.org/wiki/redmine/RedmineLDAP
+* https://www.redmine.org/wiki/redmine/RedmineInstall
+* https://www.redmine.org/wiki/redmine/EmailConfiguration
+* https://www.redmine.org/wiki/redmine/RedmineSettings
+* https://www.redmine.org/wiki/redmine/RedmineRepositories
+* https://www.redmine.org/wiki/redmine/RedmineReceivingEmails
+* https://www.redmine.org/wiki/redmine/RedmineReminderEmails
+* https://www.redmine.org/wiki/redmine/RedmineLDAP

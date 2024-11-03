@@ -58,7 +58,7 @@ Running Redmine.pm tests
 
 Running the tests for the Redmine.pm perl module needs a bit more setup.
 You need an Apache server with mod_perl, mod_dav_svn and Redmine.pm configured.
-See: http://www.redmine.org/projects/redmine/wiki/Repositories_access_control_with_apache_mod_dav_svn_and_mod_perl
+See: https://www.redmine.org/projects/redmine/wiki/Repositories_access_control_with_apache_mod_dav_svn_and_mod_perl
 
 You need an empty repository accessible at http://127.0.0.1/svn/ecookbook
 Then, you can run the tests with:

@@ -2,7 +2,7 @@
 
 Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
-http://www.redmine.org/
+https://www.redmine.org/
 
 
 == Upgrading
@@ -52,7 +52,7 @@ http://www.redmine.org/
      bundle exec rake generate_secret_token
 
    Alternatively, you can store this secret in config/secrets.yml:
-   http://guides.rubyonrails.org/upgrading_ruby_on_rails.html#config-secrets-yml
+   https://guides.rubyonrails.org/upgrading_ruby_on_rails.html#config-secrets-yml
 
    DO NOT REPLACE OR EDIT ANY OTHER FILES.
 
@@ -81,4 +81,4 @@ http://www.redmine.org/
 
 == References
 
-* http://www.redmine.org/wiki/redmine/RedmineUpgrade
+* https://www.redmine.org/wiki/redmine/RedmineUpgrade
