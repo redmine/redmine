@@ -164,7 +164,7 @@
   <li><%= context_menu_link sprite_icon('copy', l(:button_copy)), bulk_edit_issues_path(:ids => @issue_ids, :copy => '1'),
                             :class => 'icon icon-copy', :disabled => !@can[:copy] %></li>
 <% end %>
-  <li><%= context_menu_link sprite_icon('del', l(:button_delete_object, object_name: (@issue_ids.size > 1 ? l(:label_issue_plural) : l(:label_issue))).capitalize.doiw), issues_path(:ids => @issue_ids, :back_url => @back),
+  <li><%= context_menu_link sprite_icon('del', l(:button_delete_object, object_name: (@issue_ids.size > 1 ? l(:label_issue_plural) : l(:label_issue))).capitalize), issues_path(:ids => @issue_ids, :back_url => @back),
                             :method => :delete, :data => {:confirm => issues_destroy_confirmation_message(@issues)}, :class => 'icon icon-del', :disabled => !@can[:delete] %></li>
 
   <%= call_hook(:view_issues_context_menu_end, {:issues => @issues, :can => @can, :back => @back }) %>
