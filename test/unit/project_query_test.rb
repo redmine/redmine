@@ -26,7 +26,8 @@ class ProjectQueryTest < ActiveSupport::TestCase
            :groups_users,
            :enabled_modules,
            :custom_fields, :custom_values,
-           :queries
+           :queries,
+           :issues, :journals, :journal_details
 
   include Redmine::I18n
 
@@ -148,5 +149,17 @@ class ProjectQueryTest < ActiveSupport::TestCase
     q = ProjectQuery.new
     q.admin_projects = 1
     assert_equal Project.all, q.base_scope
+  end
+
+  def test_results_scope_has_last_activity_date
+    q = ProjectQuery.generate!(column_names: [:last_activity_date])
+    result_projects = q.results_scope({})
+
+    assert_kind_of ActiveRecord::Relation, result_projects
+    assert_equal Project, result_projects.klass
+
+    last_activitiy_date = result_projects.find{|p| p.id == 1}.instance_variable_get(:@last_activity_date)
+    assert_not_nil last_activitiy_date
+    assert_equal Redmine::Activity::Fetcher.new(User.current).events(nil, nil, :project => Project.find(1)).first.updated_on, last_activitiy_date
   end
 end
