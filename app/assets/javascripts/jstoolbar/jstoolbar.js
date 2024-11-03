@@ -140,15 +140,14 @@ jsButton.prototype.draw = function() {
   return button;
 }
 
-function jsSpace(id) {
-  this.id = id || null;
+function jsSpace(className) {
+  this.className = className || null;
   this.width = null;
 }
 jsSpace.prototype.draw = function() {
   var span = document.createElement('span');
-  if (this.id) span.id = this.id;
   span.appendChild(document.createTextNode(String.fromCharCode(160)));
-  span.className = 'jstSpacer';
+  span.className = 'jstSpacer' + (this.className ? ' ' + this.className : '');
   if (this.width) span.style.marginRight = this.width+'px';
 
   return span;
