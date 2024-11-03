@@ -32,12 +32,8 @@ module Redmine
         end
 
         def call
-          html = Commonmarker.to_html(@text, options: {
-            extension: extensions,
-            render: render_options,
-            parse: parse_options
-          }, plugins: plugins )
-
+          doc = CommonMarker.render_doc(@text, parse_options, extensions)
+          html = doc.to_html render_options, extensions
           html.rstrip!
           html
         end
@@ -45,19 +41,15 @@ module Redmine
         private
 
         def extensions
-          context.fetch :commonmarker_extensions, {}
+          context.fetch :commonmarker_extensions, []
         end
 
         def parse_options
-          context.fetch :commonmarker_parse_options, {}
+          context.fetch :commonmarker_parse_options, :DEFAULT
         end
 
         def render_options
-          context.fetch :commonmarker_render_options, {}
-        end
-
-        def plugins
-          context.fetch :commonmarker_plugins, {}
+          context.fetch :commonmarker_render_options, :DEFAULT
         end
       end
     end

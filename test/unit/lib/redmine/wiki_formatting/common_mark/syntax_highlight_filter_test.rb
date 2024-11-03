@@ -18,7 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require_relative '../../../../../test_helper'
-if Object.const_defined?(:Commonmarker)
+if Object.const_defined?(:CommonMarker)
   require 'redmine/wiki_formatting/common_mark/syntax_highlight_filter'
 
   class Redmine::WikiFormatting::CommonMark::SyntaxHighlightFilterTest < ActiveSupport::TestCase

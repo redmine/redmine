@@ -25,7 +25,7 @@ rescue LoadError
   # MiniMagick is not available
 end
 begin
-  require 'commonmarker' unless Object.const_defined?(:Commonmarker)
+  require 'commonmarker' unless Object.const_defined?(:CommonMarker)
 rescue LoadError
   # CommonMarker is not available
 end

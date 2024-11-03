@@ -408,7 +408,7 @@ module Redmine
 
       WikiFormatting.map do |format|
         format.register :textile
-        if Object.const_defined?(:Commonmarker)
+        if Object.const_defined?(:CommonMarker)
           format.register :common_mark, label: 'CommonMark Markdown (GitHub Flavored)'
         end
       end

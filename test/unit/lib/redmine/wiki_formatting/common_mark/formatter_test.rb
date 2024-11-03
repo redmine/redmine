@@ -20,7 +20,7 @@
 require_relative '../../../../../test_helper'
 
 class Redmine::WikiFormatting::CommonMark::FormatterTest < ActionView::TestCase
-  if Object.const_defined?(:Commonmarker)
+  if Object.const_defined?(:CommonMarker)
 
     def setup
       @formatter = Redmine::WikiFormatting::CommonMark::Formatter
