@@ -43,6 +43,9 @@ module Redmine
           unsafe: true,
           hardbreaks: Redmine::Configuration['common_mark_enable_hardbreaks'] == true ? true : false,
         }.freeze,
+        commonmarker_plugins: {
+          syntax_highlighter: nil
+        }.freeze,
       }.freeze
 
       MarkdownPipeline = HTML::Pipeline.new [
