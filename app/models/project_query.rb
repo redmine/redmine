@@ -166,11 +166,10 @@ class ProjectQuery < Query
       scope = scope.preload(:parent)
     end
 
-    projects = scope.to_a
     if has_column?(:last_activity_date)
       Project.load_last_activity_date(scope)
     end
 
-    projects
+    scope
   end
 end
