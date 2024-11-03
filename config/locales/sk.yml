@@ -875,7 +875,7 @@ sk:
   error_can_not_delete_custom_field: Nie je možné vymazať vlastné pole
   error_unable_to_connect: Nie je možné sa pripojiť (%{value})
   error_can_not_remove_role: "Táto rola sa používa a nemôže byť vymazaná."
-  error_can_not_delete_tracker: "Tento front obsahuje úlohy a nemôže byť vymazaný."
+  error_can_not_delete_tracker_html: "Tento front obsahuje úlohy a nemôže byť vymazaný.<p>The following projects have issues with this tracker:<br>%{projects}</p>"
   field_principal: User or Group
   notice_failed_to_save_members: "Nepodarilo sa uložiť členov: %{errors}."
   text_zoom_out: Oddialiť

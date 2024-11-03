@@ -878,7 +878,7 @@ sl:
   error_can_not_delete_custom_field: Polja po meri ni mogoče izbrisati
   error_unable_to_connect: Povezava ni mogoča (%{value})
   error_can_not_remove_role: Ta vloga je v uporabi in je ni mogoče izbrisati.
-  error_can_not_delete_tracker: Ta sledilnik vsebuje zahtevke in se ga ne more izbrisati.
+  error_can_not_delete_tracker_html: Ta sledilnik vsebuje zahtevke in se ga ne more izbrisati.<p>The following projects have issues with this tracker:<br>%{projects}</p>
   field_principal: User or Group
   notice_failed_to_save_members: "Shranjevanje uporabnika(ov) ni uspelo: %{errors}."
   text_zoom_out: Približaj

@@ -881,7 +881,7 @@ mn:
   error_can_not_delete_custom_field: Unable to delete custom field
   error_unable_to_connect: Unable to connect (%{value})
   error_can_not_remove_role: This role is in use and can not be deleted.
-  error_can_not_delete_tracker: This tracker contains issues and cannot be deleted.
+  error_can_not_delete_tracker_html: This tracker contains issues and cannot be deleted.<p>The following projects have issues with this tracker:<br>%{projects}</p>
   field_principal: User or Group
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
   text_zoom_out: Zoom out

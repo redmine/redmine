@@ -204,7 +204,7 @@ sq:
   error_no_tracker_in_project: 'S’ka ndjekës përshoqëruar këtij projekti. Ju lutemi, kontrolloni rregullimet e Projektit.'
   error_no_default_issue_status: 'S’është përkufizuar gjendje parazgjedhje çështjesh. Ju lutemi, kontrolloni formësimin tuaj (Shkoni te "Administrim -> Gjendje çështjesh").'
   error_can_not_delete_custom_field: S’arrihet të fshihet fushë vetjake
-  error_can_not_delete_tracker: "Ky ndjekës përmban çështje dhe s’mund të fshihet."
+  error_can_not_delete_tracker_html: "Ky ndjekës përmban çështje dhe s’mund të fshihet.<p>The following projects have issues with this tracker:<br>%{projects}</p>"
   error_can_not_remove_role: "Ky rol është në përdorim dhe s’mund të fshihet."
   error_can_not_reopen_issue_on_closed_version: 'S’mund të rihapet një çështje caktuar një versioni të mbyllur'
   error_can_not_archive_project: Ky projekt s’mund të arkivohet

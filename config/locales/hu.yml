@@ -899,7 +899,7 @@
   field_parent_issue: Szülő feladat
   error_unable_delete_issue_status: Nem lehet törölni a feladat állapotát (%{value})
   label_subtask_plural: Alfeladatok
-  error_can_not_delete_tracker: Ebbe a kategóriába feladatok tartoznak és ezért nem törölhető.
+  error_can_not_delete_tracker_html: Ebbe a kategóriába feladatok tartoznak és ezért nem törölhető.<p>The following projects have issues with this tracker:<br>%{projects}</p>
   label_project_copy_notifications: Küldjön e-mail értesítéseket projektmásolás közben.
   field_principal: Felelős
   notice_failed_to_save_members: "Nem sikerült menteni a tago(ka)t: %{errors}."

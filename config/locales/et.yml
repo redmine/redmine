@@ -212,7 +212,7 @@ et:
   error_no_tracker_in_project: "Selle projektiga ei ole seostatud ühtegi valdkonda. Palun vaata üle projekti seaded."
   error_no_default_issue_status: 'Teema algolek on määramata. Palun vaata asetused üle ("Seadistused -> Olekud").'
   error_can_not_delete_custom_field: "Omaloodud välja kustutamine ei õnnestunud"
-  error_can_not_delete_tracker: "See valdkond on mõnes teemas kasutusel ja seda ei saa kustutada."
+  error_can_not_delete_tracker_html: "See valdkond on mõnes teemas kasutusel ja seda ei saa kustutada.<p>The following projects have issues with this tracker:<br>%{projects}</p>"
   error_can_not_remove_role: "See roll on mõnes projektis kasutusel ja seda ei saa kustutada."
   error_can_not_reopen_issue_on_closed_version: "Suletud versiooni juurde kuulunud teemat ei saa taasavada"
   error_can_not_archive_project: "Seda projekti ei saa arhiveerida"

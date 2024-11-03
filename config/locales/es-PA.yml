@@ -922,7 +922,7 @@ es-PA:
   error_can_not_delete_custom_field: Fue imposible eliminar el campo personalizado
   error_unable_to_connect: Fue imposible conectarse (%{value})
   error_can_not_remove_role: Este rol está en uso y no puede ser eliminado.
-  error_can_not_delete_tracker: Este tipo contiene incidencias y no puede ser eliminado.
+  error_can_not_delete_tracker_html: Este tipo contiene incidencias y no puede ser eliminado.<p>The following projects have issues with this tracker:<br>%{projects}</p>
   field_principal: User or Group
   notice_failed_to_save_members: "Fallo al guardar miembro(s): %{errors}."
   text_zoom_out: Alejar

@@ -194,7 +194,7 @@ zh:
   error_no_tracker_in_project: 该项目未设定跟踪标签，请检查项目配置。
   error_no_default_issue_status: 未设置默认的问题状态。请检查系统设置（"管理" -> "问题状态"）。
   error_can_not_delete_custom_field: 无法删除自定义属性
-  error_can_not_delete_tracker: "该跟踪标签已包含问题,无法删除"
+  error_can_not_delete_tracker_html: "该跟踪标签已包含问题,无法删除<p>The following projects have issues with this tracker:<br>%{projects}</p>"
   error_can_not_remove_role: "该角色正在使用中，无法删除"
   error_can_not_reopen_issue_on_closed_version: 该问题被关联到一个已经关闭的版本，因此无法重新打开。
   error_can_not_archive_project: 该项目无法被存档

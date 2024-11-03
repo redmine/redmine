@@ -192,7 +192,7 @@ ar:
   error_no_tracker_in_project: 'لا يوجد انواع بنود عمل لهذا المشروع، الرجاء التحقق من إعدادات المشروع. '
   error_no_default_issue_status: 'لم يتم التعرف على اي وضع افتراضي، الرجاء التحقق من التكوين الخاص بك (اذهب الى إدارة-إصدار الحالات)'
   error_can_not_delete_custom_field: غير قادر على حذف الحقل المظلل
-  error_can_not_delete_tracker: "هذا النوع من بنود العمل يحتوي على بنود نشطة ولا يمكن حذفه"
+  error_can_not_delete_tracker_html: "هذا النوع من بنود العمل يحتوي على بنود نشطة ولا يمكن حذفه<p>The following projects have issues with this tracker:<br>%{projects}</p>"
   error_can_not_remove_role: "هذا الدور قيد الاستخدام، لا يمكن حذفه"
   error_can_not_reopen_issue_on_closed_version: 'لا يمكن إعادة فتح بند عمل معين لاصدار مقفل'
   error_can_not_archive_project: لا يمكن ارشفة هذا المشروع

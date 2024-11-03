@@ -191,7 +191,7 @@ sr-YU:
   error_no_tracker_in_project: 'Ni jedno praćenje nije povezano sa ovim projektom. Molimo proverite podešavanja projekta.'
   error_no_default_issue_status: 'Podrazumevani status problema nije definisan. Molimo proverite vaše konfigurisanje (idite na "Administracija -> Statusi problema").'
   error_can_not_delete_custom_field: Nemoguće je izbrisati prilagođeno polje
-  error_can_not_delete_tracker: "Ovo praćenje sadrži probleme i ne može biti obrisano."
+  error_can_not_delete_tracker_html: "Ovo praćenje sadrži probleme i ne može biti obrisano.<p>The following projects have issues with this tracker:<br>%{projects}</p>"
   error_can_not_remove_role: "Ova uloga je u upotrebi i ne može biti obrisana."
   error_can_not_reopen_issue_on_closed_version: 'Problem dodeljen zatvorenoj verziji ne može biti ponovo otvoren'
   error_can_not_archive_project: Ovaj projekat se ne može arhivirati

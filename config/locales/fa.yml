@@ -208,7 +208,7 @@ fa:
   error_no_tracker_in_project: 'هیچ نوع مسئله‌ای به این پروژه مرتبط نشده است. تنظیمات پروژه را بررسی کنید.'
   error_no_default_issue_status: 'هیچ وضعیت مسئله پیش‌فرض‌ای مشخص نشده است. تنظیمات را بررسی کنید (به «تنظیمات -> وضعیت‌های مسئله» بروید).'
   error_can_not_delete_custom_field: بخش سفارشی را نمی‌توان حذف کرد.
-  error_can_not_delete_tracker: "این نوع مسئله دارای مسئله است و نمی‌توان آن را حذف کرد."
+  error_can_not_delete_tracker_html: "این نوع مسئله دارای مسئله است و نمی‌توان آن را حذف کرد.<p>The following projects have issues with this tracker:<br>%{projects}</p>"
   error_can_not_remove_role: "از این نقش استفاده شده است و نمی‌توان آن را حذف کرد."
   error_can_not_reopen_issue_on_closed_version: 'یک مسئله که به یک نسخه بسته‌شده متعلق است را نمی‌توان باز کرد.'
   error_can_not_archive_project: این پروژه را نمی‌توان بایگانی کرد.

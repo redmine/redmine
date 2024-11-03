@@ -194,7 +194,7 @@ cs:
   error_no_tracker_in_project: Žádná fronta nebyla přiřazena tomuto projektu. Prosím zkontroluje nastavení projektu.
   error_no_default_issue_status: Není nastaven výchozí stav úkolů. Prosím zkontrolujte nastavení ("Administrace -> Stavy úkolů").
   error_can_not_delete_custom_field: Nelze smazat volitelné pole
-  error_can_not_delete_tracker: Tato fronta obsahuje úkoly a nemůže být smazána.
+  error_can_not_delete_tracker_html: Tato fronta obsahuje úkoly a nemůže být smazána.<p>The following projects have issues with this tracker:<br>%{projects}</p>
   error_can_not_remove_role: Tato role je právě používaná a nelze ji smazat.
   error_can_not_reopen_issue_on_closed_version: Úkol přiřazený k uzavřené verzi nemůže být znovu otevřen
   error_can_not_archive_project: Tento projekt nemůže být archivován

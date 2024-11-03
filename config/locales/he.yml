@@ -194,7 +194,7 @@ he:
   error_no_tracker_in_project: לא הוגדר סיווג לפרויקט זה. נא בדוק את הגדרות הפרויקט.
   error_no_default_issue_status: לא מוגדר מצב ברירת מחדל לנושאים. נא בדוק את התצורה ("ניהול -> מצבי נושא").
   error_can_not_delete_custom_field: לא ניתן למחוק שדה מותאם אישית
-  error_can_not_delete_tracker: קיימים נושאים בסיווג זה, ולא ניתן למחוק אותו.
+  error_can_not_delete_tracker_html: קיימים נושאים בסיווג זה, ולא ניתן למחוק אותו.<p>The following projects have issues with this tracker:<br>%{projects}</p>
   error_can_not_remove_role: תפקיד זה נמצא בשימוש, ולא ניתן למחוק אותו.
   error_can_not_reopen_issue_on_closed_version: לא ניתן לפתוח מחדש נושא שמשויך לגירסה סגורה
   error_can_not_archive_project: לא ניתן לארכב פרויקט זה

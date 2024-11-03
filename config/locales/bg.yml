@@ -208,7 +208,7 @@ bg:
   error_no_tracker_in_project: Няма асоциирани тракери с този проект. Проверете настройките на проекта.
   error_no_default_issue_status: Няма установено подразбиращо се състояние за задачите. Моля проверете вашата конфигурация (Вижте "Администрация -> Състояния на задачи").
   error_can_not_delete_custom_field: Невъзможност за изтриване на потребителско поле
-  error_can_not_delete_tracker: Този тракер съдържа задачи и не може да бъде изтрит.
+  error_can_not_delete_tracker_html: Този тракер съдържа задачи и не може да бъде изтрит.<p>The following projects have issues with this tracker:<br>%{projects}</p>
   error_can_not_remove_role: Тази роля се използва и не може да бъде изтрита.
   error_can_not_reopen_issue_on_closed_version: Задача, асоциирана със затворена версия не може да бъде отворена отново
   error_can_not_archive_project: Този проект не може да бъде архивиран

@@ -882,7 +882,7 @@ eu:
   error_can_not_delete_custom_field: Ezin da eremu pertsonalizatua ezabatu
   error_unable_to_connect: Ezin da konektatu (%{value})
   error_can_not_remove_role: Rol hau erabiltzen hari da eta ezin da ezabatu.
-  error_can_not_delete_tracker: Aztarnari honek zereginak ditu eta ezin da ezabatu.
+  error_can_not_delete_tracker_html: Aztarnari honek zereginak ditu eta ezin da ezabatu.<p>The following projects have issues with this tracker:<br>%{projects}</p>
   field_principal: User or Group
   notice_failed_to_save_members: "Kidea(k) gordetzean errorea: %{errors}."
   text_zoom_out: Zooma txikiagotu

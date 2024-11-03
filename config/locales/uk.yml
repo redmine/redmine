@@ -892,7 +892,7 @@ uk:
   error_can_not_delete_custom_field: Неможливо видалити поле що налаштовується
   error_unable_to_connect: Неможливо підключитись (%{value})
   error_can_not_remove_role: Ця роль використовується і не може бути видалена.
-  error_can_not_delete_tracker: Цей трекер містить задачі і не може бути видалений.
+  error_can_not_delete_tracker_html: Цей трекер містить задачі і не може бути видалений.<p>The following projects have issues with this tracker:<br>%{projects}</p>
   field_principal: User or Group
   notice_failed_to_save_members: "Не вдалось зберегти учасника(ів): %{errors}."
   text_zoom_out: Віддалити

@@ -891,7 +891,7 @@ tr:
   error_can_not_delete_custom_field: Özel alan silinemiyor
   error_unable_to_connect: Bağlanılamıyor (%{value})
   error_can_not_remove_role: Bu rol kullanımda olduğundan silinemez.
-  error_can_not_delete_tracker: Bu iş tipi içerisinde iş barındırdığından silinemiyor.
+  error_can_not_delete_tracker_html: Bu iş tipi içerisinde iş barındırdığından silinemiyor.<p>The following projects have issues with this tracker:<br>%{projects}</p>
   field_principal: User or Group
   notice_failed_to_save_members: "Üyeler kaydedilemiyor: %{errors}."
   text_zoom_out: Uzaklaş

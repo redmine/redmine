@@ -868,7 +868,7 @@
   error_can_not_delete_custom_field: Kan ikke slette eget felt
   error_unable_to_connect: Kunne ikke koble til (%{value})
   error_can_not_remove_role: Denne rollen er i bruk og kan ikke slettes.
-  error_can_not_delete_tracker: Denne sakstypen inneholder saker og kan ikke slettes.
+  error_can_not_delete_tracker_html: Denne sakstypen inneholder saker og kan ikke slettes.<p>The following projects have issues with this tracker:<br>%{projects}</p>
   field_principal: User or Group
   notice_failed_to_save_members: "Feil ved lagring av medlem(mer): %{errors}."
   text_zoom_out: Zoom ut

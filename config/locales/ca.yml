@@ -192,7 +192,7 @@ ca:
   error_no_tracker_in_project: "Aquest projecte no té cap tipus d'incidència associada. Comproveu els paràmetres del projecte."
   error_no_default_issue_status: "No s'ha definit cap estat d'incidència predeterminada. Comproveu la configuració (aneu a «Administració -> Estats de la incidència»)."
   error_can_not_delete_custom_field: "No s'ha pogut suprimir el camp personalitat"
-  error_can_not_delete_tracker: "Aquest tipus d'incidència conté incidències i no es pot suprimir."
+  error_can_not_delete_tracker_html: "Aquest tipus d'incidència conté incidències i no es pot suprimir.<p>The following projects have issues with this tracker:<br>%{projects}</p>"
   error_can_not_remove_role: "Aquest rol s'està utilitzant i no es pot suprimir."
   error_can_not_reopen_issue_on_closed_version: "Una incidència assignada a una versió tancada no es pot tornar a obrir"
   error_can_not_archive_project: "Aquest projecte no es pot arxivar"

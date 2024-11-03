@@ -219,7 +219,7 @@ ja:
   error_issue_done_ratios_not_updated: "チケットの進捗率が更新できません。"
   error_workflow_copy_source: 'コピー元となるトラッカーまたはロールを選択してください'
   error_workflow_copy_target: 'コピー先となるトラッカーとロールを選択してください'
-  error_can_not_delete_tracker: 'このトラッカーは使用中です。削除できません。'
+  error_can_not_delete_tracker_html: 'このトラッカーは使用中です。削除できません。<p>以下のプロジェクトにこのトラッカーを使用しているチケットがあります:<br>%{projects}</p>'
 
   warning_attachments_not_saved: "%{count}個の添付ファイルが保存できませんでした。"
 

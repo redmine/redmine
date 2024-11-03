@@ -863,7 +863,7 @@ nl:
   error_can_not_delete_custom_field: Custom field verwijderen is niet mogelijk
   error_unable_to_connect: Geen connectie (%{value})
   error_can_not_remove_role: Deze rol is in gebruik en kan niet worden verwijderd.
-  error_can_not_delete_tracker: Deze tracker bevat nog issues en kan niet verwijderd worden.
+  error_can_not_delete_tracker_html: Deze tracker bevat nog issues en kan niet verwijderd worden.<p>The following projects have issues with this tracker:<br>%{projects}</p>
   field_principal: User or Group
   notice_failed_to_save_members: "Het is niet gelukt om lid/leden op te slaan: %{errors}."
   text_zoom_out: Uitzoomen

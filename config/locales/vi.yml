@@ -932,7 +932,7 @@ vi:
   error_can_not_delete_custom_field: Không thể xóa trường tùy biến
   error_unable_to_connect: "Không thể kết nối (%{value})"
   error_can_not_remove_role: Quyền này đang được dùng và không thể xóa được.
-  error_can_not_delete_tracker: Theo dõi này chứa vấn đề và không thể xóa được.
+  error_can_not_delete_tracker_html: Theo dõi này chứa vấn đề và không thể xóa được.<p>The following projects have issues with this tracker:<br>%{projects}</p>
   field_principal: Chủ yếu
   notice_failed_to_save_members: "Thất bại khi lưu thành viên : %{errors}."
   text_zoom_out: Thu nhỏ

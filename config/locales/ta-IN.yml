@@ -193,7 +193,7 @@ ta-IN:
   error_no_tracker_in_project: 'இந்த திட்டத்துடன் எந்த தடமும் இணைக்கப்படவில்லை. இந்த திட்டத்தின் அமைப்பை சரி பார்க்கவும்..'
   error_no_default_issue_status: 'இயல்புநிலை சிக்கல் நிலை எதுவும் வரையறுக்கப்படவில்லை. உங்கள் உள் அமைப்பை சரி பார்க்கவும் ("நிர்வாகம் -> வெளியீட்டு நிலைகள்" என்பதற்குச் செல்லவும்).'
   error_can_not_delete_custom_field: தனிப்பயன் புலத்தை நீக்க முடியவில்லை
-  error_can_not_delete_tracker: "இந்த தடத்தில் சிக்கல்கள் உள்ளன, அவற்றை நீக்க முடியாது."
+  error_can_not_delete_tracker_html: "இந்த தடத்தில் சிக்கல்கள் உள்ளன, அவற்றை நீக்க முடியாது.<p>The following projects have issues with this tracker:<br>%{projects}</p>"
   error_can_not_remove_role: "இந்த பாத்திரங்கள் பயன்பாட்டில் உள்ளது மற்றும் நீக்க முடியாது."
   error_can_not_reopen_issue_on_closed_version: 'மூடிய பதிப்பிற்கு ஒதுக்கப்பட்ட சிக்கலை மீண்டும் திறக்க முடியாது'
   error_can_not_archive_project: இந்த திட்டத்தை காப்பகப்படுத்த முடியாது

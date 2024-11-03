@@ -925,7 +925,7 @@ ko:
   error_can_not_delete_custom_field: 사용자 정의 필드를 삭제할 수 없습니다.
   error_unable_to_connect: 연결할 수 없습니다((%{value})
   error_can_not_remove_role: 이 역할은 현재 사용 중이이서 삭제할 수 없습니다.
-  error_can_not_delete_tracker: 이 유형의 일감들이 있어서 삭제할 수 없습니다.
+  error_can_not_delete_tracker_html: 이 유형의 일감들이 있어서 삭제할 수 없습니다.<p>The following projects have issues with this tracker:<br>%{projects}</p>
   field_principal: 신원
   notice_failed_to_save_members: "%{errors}:구성원을 저장 중 실패하였습니다"
   text_zoom_out: 더 작게

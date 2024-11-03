@@ -892,7 +892,7 @@ bs:
   error_can_not_delete_custom_field: Nije moguće obrisati proizvoljno polje
   error_unable_to_connect: Nije se moguće povezati (%{value})
   error_can_not_remove_role: Ova uloga je u upotrebi i nije je moguće obrisati.
-  error_can_not_delete_tracker: Ovaj tok rada sadrži tikete i nije ga moguće obrisati.
+  error_can_not_delete_tracker_html: Ovaj tok rada sadrži tikete i nije ga moguće obrisati.<p>The following projects have issues with this tracker:<br>%{projects}</p>
   field_principal: Glavni
   notice_failed_to_save_members: "Neuspješno snimanje članova: %{errors}."
   text_zoom_out: Smanji

@@ -895,7 +895,7 @@ gl:
   error_can_not_delete_custom_field: "Non foi posíbel eliminar o campo personalizado."
   error_unable_to_connect: "Non foi posíbel conectarse (%{value})."
   error_can_not_remove_role: "Este rol non pode eliminarse porque está a usarse."
-  error_can_not_delete_tracker: "Este tipo de petición non pode eliminarse porque existen peticións deste tipo."
+  error_can_not_delete_tracker_html: "Este tipo de petición non pode eliminarse porque existen peticións deste tipo.<p>The following projects have issues with this tracker:<br>%{projects}</p>"
   field_principal: Usuario ou Grupo
   notice_failed_to_save_members: "Non foi posíbel gardar os membros: %{errors}."
   text_zoom_out: "Afastar"

@@ -218,7 +218,7 @@ it:
   error_no_tracker_in_project: 'Nessun tracker è associato a questo progetto. Per favore verifica le impostazioni del Progetto.'
   error_no_default_issue_status: 'Nessuno stato predefinito delle segnalazioni è configurato. Per favore verifica le impostazioni (Vai in "Amministrazione -> Stati segnalazioni").'
   error_can_not_delete_custom_field: Impossibile eliminare il campo personalizzato
-  error_can_not_delete_tracker: "Questo tracker contiene segnalazioni e non può essere eliminato."
+  error_can_not_delete_tracker_html: "Questo tracker contiene segnalazioni e non può essere eliminato.<p>The following projects have issues with this tracker:<br>%{projects}</p>"
   error_can_not_remove_role: "Questo ruolo è in uso e non può essere eliminato."
   error_can_not_reopen_issue_on_closed_version: Una segnalazione assegnata ad una versione chiusa non può essere riaperta
   error_can_not_archive_project: Questo progetto non può essere archiviato

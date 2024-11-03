@@ -189,7 +189,7 @@ sr:
   error_no_tracker_in_project: 'Ни једно праћење није повезано са овим пројектом. Молимо проверите подешавања пројекта.'
   error_no_default_issue_status: 'Подразумевани статус проблема није дефинисан. Молимо проверите ваше конфигурисање (идите на "Администрација -> Статуси проблема").'
   error_can_not_delete_custom_field: Немогуће је избрисати прилагођено поље
-  error_can_not_delete_tracker: "Ово праћење садржи проблеме и не може бити обрисано."
+  error_can_not_delete_tracker_html: "Ово праћење садржи проблеме и не може бити обрисано.<p>The following projects have issues with this tracker:<br>%{projects}</p>"
   error_can_not_remove_role: "Ова улога је у употреби и не може бити обрисана."
   error_can_not_reopen_issue_on_closed_version: 'Проблем додељен затвореној верзији не може бити поново отворен'
   error_can_not_archive_project: Овај пројекат се не може архивирати

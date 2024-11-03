@@ -217,7 +217,7 @@ pl:
   error_no_tracker_in_project: Projekt nie posiada powiązanych typów zagadnień. Sprawdź ustawienia projektu.
   error_no_default_issue_status: 'Nie zdefiniowano domyślnego statusu zagadnień. Sprawdź konfigurację (Przejdź do "Administracja -> Statusy zagadnień").'
   error_can_not_delete_custom_field: Nie można usunąć tego pola
-  error_can_not_delete_tracker: Ten typ przypisany jest do części zagadnień i nie może zostać usunięty.
+  error_can_not_delete_tracker_html: Ten typ przypisany jest do części zagadnień i nie może zostać usunięty.<p>The following projects have issues with this tracker:<br>%{projects}</p>
   error_can_not_remove_role: Ta rola przypisana jest niektórym użytkownikom i nie może zostać usunięta.
   error_can_not_reopen_issue_on_closed_version: Zagadnienie przydzielone do zakończonej wersji nie może zostać ponownie otwarte
   error_can_not_archive_project: Ten projekt nie może zostać zarchiwizowany

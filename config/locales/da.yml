@@ -897,7 +897,7 @@ da:
   error_can_not_delete_custom_field: Kan ikke slette brugerdefineret felt
   error_unable_to_connect: Kan ikke forbinde (%{value})
   error_can_not_remove_role: Denne rolle er i brug og kan ikke slettes.
-  error_can_not_delete_tracker: Denne type indeholder sager og kan ikke slettes.
+  error_can_not_delete_tracker_html: Denne type indeholder sager og kan ikke slettes.<p>The following projects have issues with this tracker:<br>%{projects}</p>
   field_principal: User or Group
   notice_failed_to_save_members: "Fejl under lagring af medlem(mer): %{errors}."
   text_zoom_out: Zoom ud

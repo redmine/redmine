@@ -205,7 +205,7 @@ lt:
   error_no_tracker_in_project: 'Joks pėdsekys nesusietas su šiuo projektu. Prašom patikrinti Projekto nustatymus.'
   error_no_default_issue_status: 'Nenustatyta numatytoji darbo būsena. Prašome patikrinti nustatymus ("Administravimas -> Darbų būsenos").'
   error_can_not_delete_custom_field: Negalima ištrinti kliento lauko
-  error_can_not_delete_tracker: "Šis pėdsekys turi įrašų ir todėl negali būti ištrintas."
+  error_can_not_delete_tracker_html: "Šis pėdsekys turi įrašų ir todėl negali būti ištrintas.<p>The following projects have issues with this tracker:<br>%{projects}</p>"
   error_can_not_remove_role: "Ši rolė yra naudojama ir negali būti ištrinta."
   error_can_not_reopen_issue_on_closed_version: 'Uždarytai versijai priskirtas darbas negali būti atnaujintas.'
   error_can_not_archive_project: Šio projekto negalima suarchyvuoti

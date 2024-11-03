@@ -221,7 +221,7 @@ fr:
   error_no_tracker_in_project: "Aucun tracker n'est associé à ce projet. Vérifier la configuration du projet."
   error_no_default_issue_status: "Aucun statut de demande n'est défini par défaut. Vérifier votre configuration (Administration -> Statuts de demandes)."
   error_can_not_delete_custom_field: Impossible de supprimer le champ personnalisé
-  error_can_not_delete_tracker: Ce tracker contient des demandes et ne peut pas être supprimé.
+  error_can_not_delete_tracker_html: Ce tracker contient des demandes et ne peut pas être supprimé.<p>The following projects have issues with this tracker:<br>%{projects}</p>
   error_can_not_remove_role: Ce rôle est utilisé et ne peut pas être supprimé.
   error_can_not_reopen_issue_on_closed_version: 'Une demande assignée à une version fermée ne peut pas être réouverte'
   error_can_not_archive_project: "Ce projet ne peut pas être archivé"
