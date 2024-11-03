@@ -50,7 +50,7 @@ class IssueImport < Import
   end
 
   def self.authorized?(user)
-    user.allowed_to?(:import_issues, nil, :global => true)
+    user.allowed_to?(:import_issues, nil, :global => true) && user.allowed_to?(:add_issues, nil, :global => true)
   end
 
   # Returns the objects that were imported

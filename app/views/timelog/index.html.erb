@@ -3,7 +3,7 @@
             _new_time_entry_path(@project, @query.filtered_issue_id),
             :class => 'icon icon-time-add' if User.current.allowed_to?(:log_time, @project, :global => true) %>
 <%= actions_dropdown do %>
-  <% if User.current.allowed_to?(:import_time_entries, @project, :global => true) %>
+  <% if User.current.allowed_to?(:import_time_entries, @project, :global => true) && User.current.allowed_to?(:log_time, @project, :global => true) %>
     <%= link_to l(:button_import), new_time_entries_import_path(:project_id => @project), :class => 'icon icon-import' %>
   <% end %>
 
