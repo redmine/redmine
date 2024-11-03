@@ -274,11 +274,21 @@ class TrackersControllerTest < Redmine::ControllerTest
   end
 
   def test_destroy_tracker_in_use
-    assert_no_difference 'Tracker.count' do
-      delete :destroy, :params => {:id => 1}
+    tracker = Tracker.generate!(name: 'In use')
+    projects = Array.new(2) do
+      project = Project.generate!
+      Issue.generate!(project: project, tracker: tracker)
+      project
     end
-    assert_redirected_to :action => 'index'
-    assert_not_nil flash[:error]
+
+    assert_no_difference 'Tracker.count' do
+      delete :destroy, params: {id: tracker.id}
+    end
+    assert_redirected_to action: 'index'
+    assert_match /The following projects have issues with this tracker:/, flash[:error]
+    projects.each do |project|
+      assert_match /#{project.name}/, flash[:error]
+    end
   end
 
   def test_get_fields

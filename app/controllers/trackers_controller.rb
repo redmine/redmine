@@ -89,7 +89,11 @@ class TrackersController < ApplicationController
   def destroy
     @tracker = Tracker.find(params[:id])
     unless @tracker.issues.empty?
-      flash[:error] = l(:error_can_not_delete_tracker)
+      projects = Project.joins(:issues).where(issues: {tracker_id: @tracker.id}).sorted.distinct
+      links = projects.map do |p|
+        view_context.link_to(p, project_issues_path(p, set_filter: 1, tracker_id: @tracker.id))
+      end.join(', ')
+      flash[:error] = l(:error_can_not_delete_tracker_html, projects: links.html_safe)
     else
       @tracker.destroy
     end
