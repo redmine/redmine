@@ -63,15 +63,15 @@
   <%= link_to sprite_icon('reload', l(:button_clear)), { :set_filter => 1, :sort => '', :project_id => @project }, :class => 'icon icon-reload'  %>
   <% if @query.new_record? %>
     <% if User.current.allowed_to?(:save_queries, @project, :global => true) %>
-      <%= link_to_function sprite_icon('save', l(:button_save_object, object_name: l(:label_query).downcase)),
+      <%= link_to_function sprite_icon('save', l(:button_save_object, object_name: l(:label_query)).capitalize),
                            "$('#query_type').prop('disabled',false);$('#query_form').attr('action', '#{ @project ? new_project_query_path(@project) : new_query_path }').submit()",
                            :class => 'icon icon-save' %>
     <% end %>
   <% else %>
     <% if @query.editable_by?(User.current) %>
       <% redirect_params = (controller_name == 'admin' && action_name == 'projects') ? {:admin_projects => 1} : {} %>
-      <%= link_to sprite_icon('edit', l(:button_edit_object, object_name: l(:label_query).downcase)), edit_query_path(@query, redirect_params), :class => 'icon icon-edit' %>
-      <%= delete_link query_path(@query, redirect_params), {}, l(:button_delete_object, object_name: l(:label_query).downcase) %>
+      <%= link_to sprite_icon('edit', l(:button_edit_object, object_name: l(:label_query)).capitalize), edit_query_path(@query, redirect_params), :class => 'icon icon-edit' %>
+      <%= delete_link query_path(@query, redirect_params), {}, l(:button_delete_object, object_name: l(:label_query)).capitalize %>
     <% end %>
   <% end %>
 </p>
