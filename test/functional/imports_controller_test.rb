@@ -52,6 +52,18 @@ class ImportsControllerTest < Redmine::ControllerTest
     assert_select 'input[name=?][type=?][value=?]', 'project_id', 'hidden', 'subproject1'
   end
 
+  def test_new_issue_import_without_add_issues_permission
+    Role.all.map { |role| role.remove_permission! :add_issues }
+    get(:new, :params => {:type => 'IssueImport', :project_id => 'subproject1'})
+    assert_response :forbidden
+  end
+
+  def test_new_time_entry_import_without_log_time_permission
+    Role.all.map { |role| role.remove_permission! :log_time }
+    get(:new, :params => {:type => 'TimeEntryImport', :project_id => 'subproject1'})
+    assert_response :forbidden
+  end
+
   def test_create_should_save_the_file
     import = new_record(Import) do
       post(
