@@ -32,7 +32,7 @@ class TimeEntryImport < Import
   end
 
   def self.authorized?(user)
-    user.allowed_to?(:import_time_entries, nil, :global => true)
+    user.allowed_to?(:import_time_entries, nil, :global => true) && user.allowed_to?(:log_time, nil, :global => true)
   end
 
   # Returns the objects that were imported
