@@ -4,6 +4,74 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2024-11-03 v5.1.4
+
+=== [Code cleanup/refactoring]
+
+* Patch #41313: Fix test/unit/issue_test.rb to use correct IANA timezone name "Asia/Hong_Kong" instead of deprecated "Hongkong"
+
+=== [Filters]
+
+* Defect #41079: Incorrect sorting of users grouped by status in issue filters for administrators
+
+=== [Gantt]
+
+* Defect #41263: Gantt progress line misrendering for 0% progress issues/versions with future start dates beyond chart range
+
+=== [I18n]
+
+* Defect #37072: Capitalization issue for object names in I18n keys: button_save_object, button_edit_object, and button_delete_object
+* Defect #39778: Untranslated string "OK" in the repository browser
+
+=== [Importers]
+
+* Defect #41465: "Import issues" and "Import time entries" pages are visible to users without "Add issues" and "Log spent time" permissions
+
+=== [Issues]
+
+* Defect #8539: Fix NoMethodError in Issue#blocked? due to invalid issue_from_id in Issue#relations_from
+* Defect #40860: Creating a new issue fails with an internal error if no issue priorities are defined
+
+=== [Projects]
+
+* Defect #41217: Broken project list table when filter scheduled for deletion
+
+=== [Ruby support]
+
+* Patch #41489: Update Rails to 6.1.7.10
+
+=== [Security]
+
+* Defect #40946: Watcher list visible with only add watchers permissions
+
+=== [SCM]
+
+* Defect #40948: ActiveRecord::ValueTooLong error with git author longer than 255 characters
+
+=== [Text formatting]
+
+* Defect #41096: "##" syntax auto complete does not work
+
+=== [Time tracking]
+
+* Defect #40924: Spent Hours ignoring "Time Span Format" Setting on several pages
+
+=== [Translations]
+
+* Patch #40875: Improve Czech translation for "two-factor authentication"
+* Patch #40950: Improve english translation for invalid watcher notice
+* Patch #41254: Brazilian Portuguese translation update for 5.1-stable
+* Patch #41420: Italian translation update for 5.1-stable
+
+=== [UI]
+
+* Patch #41624: CSS-fix to prevent 'blinking' tooltips
+
+=== [Wiki]
+
+* Defect #40655: Revisions count is wrong on the wiki content page
+* Defect #40716: "Edit this section" on Wiki pages misinterprets issue links with double hash (##nnn) as ATX headings
+
 == 2024-06-12 v5.1.3
 
 === [Code cleanup/refactoring]
