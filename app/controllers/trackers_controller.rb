@@ -91,7 +91,7 @@ class TrackersController < ApplicationController
     unless @tracker.issues.empty?
       projects = Project.joins(:issues).where(issues: {tracker_id: @tracker.id}).sorted.distinct
       links = projects.map do |p|
-        view_context.link_to(p, project_issues_path(p, set_filter: 1, tracker_id: @tracker.id))
+        view_context.link_to(p, project_issues_path(p, set_filter: 1, tracker_id: @tracker.id, status_id: '*'))
       end.join(', ')
       flash[:error] = l(:error_can_not_delete_tracker_html, projects: links.html_safe)
     else
