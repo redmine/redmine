@@ -8,7 +8,6 @@ module MegaCalendar
         alias_method :original_create, :create
 
         def create
-          super
           original_create
 
           unless @issue.id.blank?
