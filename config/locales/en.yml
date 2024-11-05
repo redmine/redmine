@@ -245,6 +245,7 @@ en:
   error_attachment_not_found: "Attachment %{name} not found"
   error_invalid_authenticity_token: "Invalid form authenticity token."
   error_query_statement_invalid: "An error occurred while executing the query and has been logged. Please report this error to your Redmine administrator."
+  error_warranty_pricing_missing: "Pricing template invalid. Set pricing in settings, check if warranty period is valid."
 
   mail_subject_lost_password: "Your %{value} password"
   mail_body_lost_password: 'To change your password, click on the following link:'

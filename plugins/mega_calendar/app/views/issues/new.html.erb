@@ -1,0 +1,50 @@
+<%= javascript_include_tag 'issue_collision' %>
+<%= title l(:label_issue_new) %>
+
+<%= call_hook(:view_issues_new_top, {:issue => @issue}) %>
+
+<%= labelled_form_for @issue, :url => _project_issues_path(@project),
+                             :html => {:id => 'issue-form', :multipart => true} do |f| %>
+  <%= error_messages_for 'issue' %>
+  <%= hidden_field_tag 'copy_from', params[:copy_from] if params[:copy_from] %>
+  <div class="box tabular">
+    <div id="all_attributes">
+    <%= render :partial => 'issues/form', :locals => {:f => f} %>
+    </div>
+
+    <% if @copy_from && Setting.link_copied_issue == 'ask' %>
+    <p>
+      <label for="link_copy"><%= l(:label_link_copied_issue) %></label>
+      <%= check_box_tag 'link_copy', '1', @link_copy %>
+    </p>
+    <% end %>
+    <% if @copy_from && @copy_from.attachments.any? %>
+    <p>
+      <label for="copy_attachments"><%= l(:label_copy_attachments) %></label>
+      <%= check_box_tag 'copy_attachments', '1', @copy_attachments %>
+    </p>
+    <% end %>
+    <% if @copy_from && !@copy_from.leaf? %>
+    <p>
+      <label for="copy_subtasks"><%= l(:label_copy_subtasks) %></label>
+      <%= check_box_tag 'copy_subtasks', '1', @copy_subtasks %>
+    </p>
+    <% end %>
+
+    <p id="attachments_form"><label><%= l(:label_attachment_plural) %></label><%= render :partial => 'attachments/form', :locals => {:container => @issue} %></p>
+
+    <div id="watchers_form_container">
+      <%= render :partial => 'issues/watchers_form' %>
+    </div>
+  </div>
+
+  <%= submit_tag l(:button_create) %>
+  <% if params[:back_url] && params[:issue] && params[:issue][:parent_issue_id] %>
+    <%= submit_tag l(:button_create_and_follow), name: 'follow' %>
+  <% end %>
+  <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
+<% end %>
+
+<% content_for :header_tags do %>
+    <%= robot_exclusion_tag %>
+<% end %>

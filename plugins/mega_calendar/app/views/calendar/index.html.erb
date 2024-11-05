@@ -1,3 +1,4 @@
+<%= javascript_include_tag 'issue_collision' %>
 <%
   js_locale = request.env['HTTP_ACCEPT_LANGUAGE'].scan(/^[a-z]{2}/).first rescue nil
   if js_locale.blank? || (js_locale != 'en' && js_locale != 'de' && js_locale != 'fr' && js_locale != 'ru')
