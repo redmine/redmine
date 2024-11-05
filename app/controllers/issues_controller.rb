@@ -42,9 +42,6 @@ class IssuesController < ApplicationController
   helper :repositories
   helper :timelog
 
-  p '*********'*100
-  logger.info '*********'*100
-
   def pending
     if session && session[:user_id]
       @timer = Setting.support_popup_interval
