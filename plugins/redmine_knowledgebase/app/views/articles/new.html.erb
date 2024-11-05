@@ -1,0 +1,13 @@
+<% html_title l(:title_create_article) %>
+
+<h2><%= l(:title_create_article) %></h2>
+
+<%= raw("<p>#{l(:description_create_article)}</p>") %>
+
+<%= labelled_form_for :article, @article, :url => { :action => "create" }, :html => {  :multipart => true, :id => "articles-form" } do |form| %>
+  <%= render :partial => 'form', :locals => { :f => form } %>
+  <%= submit_tag l(:button_create) %>
+  <%= create_preview_link %>
+<% end %>
+
+<div id="preview" class="wiki"></div>

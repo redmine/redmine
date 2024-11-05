@@ -1,0 +1,115 @@
+--- 
+hu: 
+  allow_anon_access: "Anonymous hozzáférése engedélyezett?"
+  allow_sort_category_tree: "Kategória-fa ABC sorrend szerint legyen rendezve?"
+  disable_article_summaries: "Cikk összesítő letiltása"
+  field_article_author: Létrehozta
+  field_article_destroyer: Törölte
+  field_article_updater: Frissítette
+  field_tag_list: "Cimke lista"
+  field_updated_at: Frissítve
+  field_version: Verzió
+  field_version_comments: "Hozzászólások módosítása"
+  knowledgebase_title: Tudásbázis
+  label_article_created: "Cikk létrehozva '%{title}'"
+  label_article_plural: Cikkek
+  label_article_removed: "Cikk törölve"
+  label_article_updated: "Cikk frissítve"
+  label_article_version: "Cikk verzió: %{version} - "
+  label_article_viewed: 
+    one: "Megtekintve egyszer"
+    other: "Megtekintve %{count} alkalommal"
+  label_attachment_add: "Add files"
+  label_authored_by: "Articles authored by"
+  label_category: Kategória
+  label_category_created: "'%{title}' kategória létrehozva"
+  label_category_deleted: "Kategória törölve"
+  label_category_has_subcategory_cannot_delete: "Category can not be deleted because it contains a subcategory."
+  label_category_not_empty_cannot_delete: "A kategória cikk(ek)hez van rendelve, ezért nem törölhető"
+  label_category_plural: Kategóriák
+  label_category_updated: "Kategória frissítve"
+  label_content: Tartalom
+  label_delete_article: Törlés
+  label_delete_category: "Kategória törlése"
+  label_description: Leírás
+  label_edit_article: Szerkesztés
+  label_edit_category: "Kategória szerkesztése"
+  label_filter_by_tag: "Filter by Tag"
+  label_filtered_by_tag: "Filtered by tag:"
+  label_jump_category: "Ugrás kategóriára"
+  label_kb_article_plural: "Tudásbázis cikkek"
+  label_kb_home: _
+  label_kb_link: "KB#%{kb_id}"
+  label_new_article: "Új cikk"
+  label_new_category: "Új kategória"
+  label_new_comment: "Új hozzászólás"
+  label_overview_my_articles: "Általam létrehozott cikkek: %{total_articles_by_me}"
+  label_overview_total_articles: "Összes cikk száma: %{total_articles}"
+  label_overview_total_categories: "Összes kategória száma: %{total_categories}"
+  label_parent_category: "Szülő kategória"
+  label_root_category: "Fő kategória"
+  label_subcategories: Alkategóriák
+  label_summary: Összesítő
+  label_summary_newest_articles: "Létrehozva %{ago} itt:  %{category}"
+  label_summary_popular_articles: 
+    one: "Egyszer megtekintve %{created} óta"
+    other: "%{count} alkalommal megtekintve %{created} óta"
+  label_summary_toprated_articles: 
+    one: "Minősítés: %{rating_avg}/%{rating_max} egy szavazat alapján"
+    other: "Minősítés: %{rating_avg}/%{rating_max} %{count} szavazat alapján"
+  label_summary_updated_articles: "Frissítve %{ago}"
+  label_title: Cím
+  label_title_articles: Cikkek
+  label_title_category: Kategória
+  label_unrated_article: Unrated
+  label_updated_who: "Frissítve %{updater} által %{age}"
+  message_no_articles: "Még nem lettek cikkek létrehozva. Kattints a Cikkek létrehozására."
+  message_no_categories: "Még nem lettek kategóriák létrehozva. Kattints a Kategóriák létrehozására."
+  message_no_permissions: "Nincs jogosultságod a cikkek és a ketegóriák megtekintéséhez. Fordulj a rendszergazdához!"
+  message_summary_count_not_available: "Összesítő számláló nem elérhető!"
+  permission_comment_and_rate_articles: "Szólj hozzá a cikkekhez!"
+  permission_create_article_categories: "Hozz létre cikk kategóriákat!"
+  permission_create_articles: "Cikkek létrehozása"
+  permission_edit_articles: "Cikkek szerkesztése"
+  permission_manage_article_categories: "Cikk kategóriák kezelése"
+  permission_manage_article_history: "Cikk történetének kezelése"
+  permission_manage_articles: "Cikkek kezelése"
+  permission_manage_articles_comments: "Cikk hozzászólásainak kezelése"
+  permission_manage_own_articles: "Manage own articles"
+  permission_view_article_history: "Cikk történetének megtekintése"
+  permission_view_articles: "Cikkek megtekintése"
+  permission_view_kb_articles: "Cikkek megtekintése"
+  permission_view_most_popular_articles: "A legnépszerűbb cikkek megtekintése"
+  permission_view_recent_articles: "A legfrissebb cikkek megtekintése"
+  permission_view_top_rated_articles: "A legjobb minősítésű cikkek megtekintése"
+  permission_watch_articles: "Cikkek megfigyelése"
+  permission_watch_categories: "Kategóriák megfigyelése"
+  project_module_knowledgebase: Tudásbázis
+  show_article_without_tabs: "Show articles without tabs?"
+  show_attachments_first: "Show attachments before article content?"
+  show_breadcrumbs_for_article_lists: "Show breadcrumbs for articles in lists?"
+  show_category_totals: "Mutassuk a kategória összesítőket a fában?"
+  show_thumbnails_for_articles: "Show thumbnails for articles in lists?"
+  summary_item_limit: "Tudásbázis összesítőben megjelenített cikkek száma"
+  text_confirm_versions_delete: "A művelet visszaállítja és törli az összes újabb verzióját ennek a dokumentumnak. Biztos vagy benne?"
+  text_current_version: Aktuális
+  title_add_comment: Hozzászólás
+  title_article_rating: "Cikk minősítése"
+  title_browse_by_category: "Tallózás kategória alapján"
+  title_browse_by_tags: "Tallózás cimke alapján"
+  title_create_article: "Cikk létrehozása"
+  title_create_category: "Kategória létrehozása"
+  title_edit_article: "Cikk szerkesztése"
+  title_edit_category: "Kategória szerkesztése"
+  title_most_popular_articles: "A legnépszerűbb cikkek"
+  title_new_category: "Új kategória"
+  title_newest_articles: "Legújabb cikkek"
+  title_overview_summary: "Tudásbázis összesítés"
+  title_recently_updated_articles: "Legújabb cikkek"
+  title_tagged_articles: "Cikkek megjelölve: %{tag}"
+  title_tags: Cimkék
+  title_top_rated_articles: "A legjobb minősítésű cikkek"
+  title_votes: 
+    one: "egy szavazat"
+    other: "%{count} szavazat"
+    zero: "nincsenek szavazatok"

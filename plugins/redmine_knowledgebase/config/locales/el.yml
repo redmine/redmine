@@ -1,0 +1,115 @@
+--- 
+el: 
+  allow_anon_access: "Να επιτραπεί ανώνυμη πρόσβαση;"
+  allow_sort_category_tree: "Ταξινόμηση δέντρου κατα αλφαβητική σειρά;"
+  disable_article_summaries: "Disable Article Summaries"
+  field_article_author: "Created by"
+  field_article_destroyer: "Deleted by"
+  field_article_updater: "Updated by"
+  field_tag_list: "Λίστα ετικετών"
+  field_updated_at: "Updated at"
+  field_version: Version
+  field_version_comments: "Change comments"
+  knowledgebase_title: "Γνωσιακή βάση"
+  label_article_created: "Δημιουργηθέν άρθρο '%{title}'"
+  label_article_plural: Άρθρα
+  label_article_removed: "Το άρθρο διαγράφηκε"
+  label_article_updated: "Το άρθρο επικαιροποιήθηκε"
+  label_article_version: "Article version: %{version} - "
+  label_article_viewed: 
+    one: "Προβλήθηκε μία φορά"
+    other: "Προβλήθηκε %{count} φορές"
+  label_attachment_add: "Add files"
+  label_authored_by: "Articles authored by"
+  label_category: Κατηγορία
+  label_category_created: "Δημιουργημένη κατηγορία '%{title}'"
+  label_category_deleted: "Η κατηγορία διαγράφηκε"
+  label_category_has_subcategory_cannot_delete: "Category can not be deleted because it contains a subcategory."
+  label_category_not_empty_cannot_delete: "Η κατηγορία έχει ανατεθεί σε άρθρα με αποτέλεσμα να μη μπορεί να διαγραφεί."
+  label_category_plural: Κατηγορίες
+  label_category_updated: "Η κατηγορία επικαιροποιήθηκε"
+  label_content: Περιεχόμενο
+  label_delete_article: Διαγραφή
+  label_delete_category: "Διαγραφή Κατηγορίας"
+  label_description: Περιγραφή
+  label_edit_article: Επεξεργασία
+  label_edit_category: "Επεξεργασία Κατηγορίας"
+  label_filter_by_tag: "Filter by Tag"
+  label_filtered_by_tag: "Filtered by tag:"
+  label_jump_category: "Μεταπήδηση σε Κατηγορία"
+  label_kb_article_plural: "Knowledgebase articles"
+  label_kb_home: Αρχική
+  label_kb_link: "KB#%{kb_id}"
+  label_new_article: "Νέο Άρθρο"
+  label_new_category: "Νέα Κατηγορία"
+  label_new_comment: "Νέο Σχόλιο"
+  label_overview_my_articles: "Articles written by me: %{total_articles_by_me}"
+  label_overview_total_articles: "Total number of articles: %{total_articles}"
+  label_overview_total_categories: "Total number of categories: %{total_categories}"
+  label_parent_category: "Μητρική Κατηγορία"
+  label_root_category: "Αρχική Κατηγορία"
+  label_subcategories: Υποκατηγορείες
+  label_summary: Περίληψη
+  label_summary_newest_articles: "Δημιουργήθηκε πριν από %{ago} στην %{category}"
+  label_summary_popular_articles: 
+    one: "Προβλήθηκε μία φορά την %{created}"
+    other: "Προβλήθηκε %{count} φορές από την %{created}"
+  label_summary_toprated_articles: 
+    one: "Βαθμολογία: %{rating_avg}/%{rating_max} από μία ψήφο"
+    other: "Βαθμολογία: %{rating_avg}/%{rating_max} από %{count} ψήφους"
+  label_summary_updated_articles: "Επικαιροποιήθηκε πριν %{ago}"
+  label_title: Τίτλος
+  label_title_articles: Άρθρο
+  label_title_category: Κατηγορία
+  label_unrated_article: Unrated
+  label_updated_who: "Updated by %{updater} %{age} ago"
+  message_no_articles: "Δεν έχουν προστεθέι άρθρα στην Γνωσιακή Βάση για την ώρα. Ίσως θέλετε να κάνετε την αρχή ..."
+  message_no_categories: "Δυστυχώς, δεν έχουν καθοριστεί κατηγορίες, πρέπει να να συνδεθεί για να δημιουργήσετε νέες κατηγορίες."
+  message_no_permissions: "You do not have permission to view any articles or categories. Please contact your administrator."
+  message_summary_count_not_available: "Summary Count Not Available!"
+  permission_comment_and_rate_articles: "Comment and rate articles"
+  permission_create_article_categories: "Create article categories"
+  permission_create_articles: "Create articles"
+  permission_edit_articles: "Edit articles"
+  permission_manage_article_categories: "Manage article categories"
+  permission_manage_article_history: "manage article history"
+  permission_manage_articles: "Manage articles"
+  permission_manage_articles_comments: "Manage articles comments"
+  permission_manage_own_articles: "Manage own articles"
+  permission_view_article_history: "view article history"
+  permission_view_articles: "View articles"
+  permission_view_kb_articles: "View articles"
+  permission_view_most_popular_articles: "view most popular articles"
+  permission_view_recent_articles: "View recent articles"
+  permission_view_top_rated_articles: "view top rated articles"
+  permission_watch_articles: "Watch articles"
+  permission_watch_categories: "Watch categories"
+  project_module_knowledgebase: Knowledgebase
+  show_article_without_tabs: "Show articles without tabs?"
+  show_attachments_first: "Show attachments before article content?"
+  show_breadcrumbs_for_article_lists: "Show breadcrumbs for articles in lists?"
+  show_category_totals: "Εμφάνιση συνόλων κατηγοριών στο δέντρο;"
+  show_thumbnails_for_articles: "Show thumbnails for articles in lists?"
+  summary_item_limit: "Όριο σύνοψης σελίδας της Γνωσιακής Βάσης"
+  text_confirm_versions_delete: "This will revert and delete any newer versions of this document that may exist. Are you sure?"
+  text_current_version: Current
+  title_add_comment: "Προσθήκη Σχολίου"
+  title_article_rating: "Βαθμολογία Άρθρου"
+  title_browse_by_category: "Περιήγηση στην Κατηγορία"
+  title_browse_by_tags: "Browse by Tags"
+  title_create_article: "Δημιουργία Άρθρου"
+  title_create_category: "Δημιουργία Κατηγορίας"
+  title_edit_article: "Επεξεργασία Άρθρου"
+  title_edit_category: "Έπεξεργασία Κατηγορίας"
+  title_most_popular_articles: "Δημοφιλέστερα Άρθρα"
+  title_new_category: "Νέα Κατηγορία"
+  title_newest_articles: "Νεότερα Άρθρα"
+  title_overview_summary: "Knowledgebase Summary"
+  title_recently_updated_articles: "Πρόσφατα ενημερωμένα άρθρα"
+  title_tagged_articles: "Άρθα επισημασμένα με %{tag}"
+  title_tags: Ετικέτες
+  title_top_rated_articles: "Κορυφαία βαθμολογημένα άρθρα"
+  title_votes: 
+    one: "μία ψήφος"
+    other: "%{count} ψήφοι"
+    zero: "χωρίς ψήφους"

@@ -1,0 +1,112 @@
+<% html_title @article.title %>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'scm' %>
+  <%= javascript_include_tag 'jquery.form.js', 'jquery.MetaData.js', 'jquery.rating.pack.js', :plugin => 'redmine_knowledgebase' %>
+<% end %>
+
+<% if not User.current.allowed_to?(:view_kb_articles, @project) %>
+     <p class="nodata"><%=l(:message_no_permissions)%></p>
+<% else %>
+
+
+<div class="contextual">
+  <%= render :partial => "categories/jump_box" %>
+
+  <% if @project.categories.length > 0 %>
+    <%= link_to_if_authorized l(:title_create_article), { :controller => 'articles', :action => 'new', :project_id => @project}, :class => 'icon icon-add' %>
+  <% end %>
+</div>
+
+<% content_for :sidebar do %>
+<ul id="options">
+  <% if @article.editable_by?(User.current) %>
+    <li><%= link_to l(:label_edit_article), { :controller => 'articles', :action => 'edit', :id => @article.id, :project_id => @project}, :class => 'icon icon-edit' %></li>
+    <li><%= link_to l(:label_delete_article), { :controller => 'articles', :action => 'destroy', :id => @article.id, :project_id => @project}, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %></li>
+  <% end %>
+
+  <li><%= link_to_if_authorized l(:label_new_comment), { :controller => "articles", :action => "comment", :article_id => @article.id, :project_id => @project}, :class => "icon icon-comment", :remote => true, :method => :get %></li>
+  <li> <%= watcher_link(@article, User.current) %></li>
+  <li>
+      <%= render :partial => 'articles/watchers', :locals => {:watched => @article} %>
+  </li>
+</ul>
+	<br />
+  <div id='rating-container'>
+    <%= render :partial => "rating" %>
+  </div>
+	<% unless @article.tag_list.empty? %>
+	<br /><br /><br />
+	<div class="rating-title"><%= l(:title_tags) %></div>
+
+	<div id="taglist">
+	  <% @article.tag_list.each do |tag| %>
+	    <%= link_to tag, { :controller => 'categories', :action => "index", :tag => tag, :project_id => @project }, :class => "tag" %>
+    <% end %>
+	</div>
+
+  <% end %>
+<% end %>
+
+<p id="category-crumbs" class="breadcrumb">
+	<%= link_to l(:label_kb_home), { :controller => 'articles', :action => 'index', :project_id => @project} %>
+	<% @article.category.ancestors.each do |ancestor| %>
+	&nbsp;&raquo;&nbsp;
+	<%= link_to ancestor.title, { :controller => 'categories', :action => 'show', :id => ancestor.id, :project_id => @project} %>
+	<% end %>
+	&nbsp;&raquo;&nbsp;
+	<%= link_to @article.category.title, { :controller => 'categories', :action => 'show', :id => @article.category.id, :project_id => @project} %>
+</p>
+
+<% other_formats_links do |f| %>
+  <%= f.link_to 'PDF', :url => params.to_unsafe_hash %>
+<% end %>
+
+<div class="wiki"><h1><%= @article.title %></h1></div>
+
+<% unless redmine_knowledgebase_settings_value(:disable_article_summaries) %>
+
+  <% if redmine_knowledgebase_settings_value(:show_thumbnails_for_articles) %>
+    <%= image_tag( get_article_thumbnail_url( @article ), :class => 'article-summary-thumbnail' ) %>
+  <% end %>
+
+  <div class="article-summary">
+    <p><%= @article.summary %></p>
+  </div>
+<% end %>
+
+<% unless redmine_knowledgebase_settings_value(:show_article_without_tabs) %>
+  <%= render_tabs article_tabs %>
+
+<% else %>
+
+
+
+  <% if redmine_knowledgebase_settings_value(:show_attachments_first) %>
+    <%= render :partial => "articles/sections/attachments" %>
+  <% end %>
+
+  <h2><%= l(:label_description) %></h2>
+  <%= render :partial => "articles/sections/content" %>
+
+
+  <h2><%= l(:label_comment_plural) %></h2>
+
+  <p><%= link_to_if_authorized l(:label_new_comment), { :controller => "articles", :action => "comment", :article_id => @article.id, :project_id => @project}, :class => "icon icon-comment", :remote => true, :method => :get %></p>
+
+  <%= render :partial => "articles/sections/comments" %>
+
+
+
+  <% unless redmine_knowledgebase_settings_value(:show_attachments_first) %>
+    <%= render :partial => "articles/sections/attachments" %>
+  <% end %>
+
+  <% if User.current.allowed_to?(:view_article_history, @project) %>
+    <h2><%= l(:label_history) %></h2>
+    <%= render :partial => "articles/sections/history" %>
+  <% end %>
+
+<% end %>
+
+<% end %>

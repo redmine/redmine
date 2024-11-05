@@ -1,0 +1,7 @@
+<% if User.current.allowed_to?(:view_article_history, @project) %>
+
+  <% unless @article.versions.size == 0 %>
+    <%= render :partial => 'articles/history', :locals => {:article_id => @article, :project_id => @project } %>
+  <% end %>
+
+<% end %>

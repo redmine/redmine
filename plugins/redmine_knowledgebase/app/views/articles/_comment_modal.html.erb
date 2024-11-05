@@ -1,0 +1,8 @@
+<h3 class="title"><%= l(:title_add_comment) %></h3>
+
+<%= form_tag({:action => 'add_comment', :id => @article_id, :project_id => @project}, :id => "add_comment_form") do %>
+  <div class="box">
+      <%= text_area 'comment', 'comments', :cols => 80, :rows => 15, :class => 'wiki-edit' %>    
+  </div>
+  <p><%= submit_tag l(:button_add) %></p>
+<% end %>

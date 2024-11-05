@@ -1,0 +1,68 @@
+<div class="autoscroll">
+<table class="list">
+  <thead>
+	<tr>
+	  <% if redmine_knowledgebase_settings_value(:show_thumbnails_for_articles) %>
+	  <th><%= "Thumbnail" %></th>
+	  <% end %>
+	  <th><%= sortable "title" %></th>
+
+	  <% if not @category and redmine_knowledgebase_settings_value(:show_breadcrumbs_for_article_lists) %>
+	  <th><%= "Category" %></th>
+	  <% end %>
+
+	  <th><%= "Rating" %></th>
+
+	  <% unless @author_id %><th><%= sortable "author_id", "Author" %></th><% end %>
+	  <th><%= sortable "created_at", "Created" %></th>
+	  <th><%= sortable "updated_at", "Updated" %></th>
+	</tr>
+  </thead>
+  <tbody>
+    <% articles.each do |article| %>
+    <tr id="article-<%= article %>" class="<%= cycle('odd', 'even') %>">
+
+      <% if redmine_knowledgebase_settings_value(:show_thumbnails_for_articles) %>
+      <td class="thumbnail">
+	<%= render :partial => "articles/thumbnail", :locals => { :article => article, :imgclass => 'thumbnail-table', :project_id => @project } %>
+      </td>
+      <% end %>
+
+      <td class="title">
+        <%= link_to article.title, { :controller => 'articles', 
+                                     :action => 'show', 
+                                     :id => article.id, 
+                                     :project_id => @project} %> 
+        <% unless redmine_knowledgebase_settings_value(:disable_article_summaries) %>
+          <br/> 
+          <div class="summary">
+            <%= article.summary %>
+          </div>
+        <% end %>
+      </td>
+
+      <% if  not @category and redmine_knowledgebase_settings_value(:show_breadcrumbs_for_article_lists) %>
+      <td class="category">
+	<%= render :partial => "articles/breadcrumb", :locals => { :article => article, :project => @project } %>
+      </td>
+      <% end %>
+
+      <td class="rating"><% rating = article.rating_average.to_i %><%= rating != 0 ? "#{rating} / 5" : "-" %></td>
+
+      <% unless @author_id %>
+        <td class="author">        
+	  <%= link_to article.author.name, { :controller => 'articles', 
+          :action => 'authored', 
+          :author_id => article.author.id, 
+          :project_id => @project} %> 
+	</td>
+      <% end %>
+
+      <td class="created_at"><%= time_ago_in_words article.created_at %> ago</td>
+      <td class="updated_at"><%= time_ago_in_words article.updated_at %> ago</td>
+	</tr>
+	<% end %>
+  </tbody>
+</table>
+</div>
+

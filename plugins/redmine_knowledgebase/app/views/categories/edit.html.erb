@@ -1,0 +1,8 @@
+<% html_title l(:title_edit_category) << " " << @category.title %>
+
+<h2><%= l(:title_edit_category) %></h2>
+
+<%= labelled_form_for :category, @category, :url => { :action => 'update', :id => @category.id } do |form| %>
+  <%= render :partial => 'form', :locals => { :f => form } %>
+  <%= submit_tag l(:button_update) %>
+<% end %>

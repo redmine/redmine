@@ -1,0 +1,9 @@
+
+<% if articles.count > 1 %>
+<table><tr><td>Sort by:</td>
+    <th class="sortbar"><%= sortable "title" %></th>
+    <th class="sortbar"><%= sortable "updated_at", "Updated" %></th>
+</tr>
+</table>
+<% end %>
+

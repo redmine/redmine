@@ -1,0 +1,6 @@
+<% cats = @project.categories %>
+<% if cats.count > 0 %>
+<label for="category_id"><strong><%= l(:label_jump_category) %></strong></label>
+&nbsp;
+<%= select_tag :category_id, options_for_select([""] + nested_set_options(cats) {|i| raw("#{'&#9657;' * i.level} #{i.title}") }), :onchange => "if (this.value != \'\') { window.location = '#{categories_path}/' + this.value; }" %>
+<% end %>

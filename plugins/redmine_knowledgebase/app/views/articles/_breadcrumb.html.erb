@@ -1,0 +1,11 @@
+
+
+<p class="breadcrumb list-breadcrumb">
+  <% article.category.ancestors.each do |ancestor| %>
+  &nbsp;&raquo;&nbsp;
+  <%= link_to ancestor.title, { :controller => 'categories', :action => 'show', :id => ancestor.id, :project_id => @project} %>
+  <% end %>
+  &nbsp;&raquo;&nbsp;
+  <%= link_to article.category.title, { :controller => 'categories', :action => 'show', :id => article.category.id, :project_id => @project} %>
+</p>
+

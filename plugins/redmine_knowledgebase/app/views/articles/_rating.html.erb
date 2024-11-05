@@ -1,0 +1,23 @@
+<div class="rating-title"><%= l(:title_article_rating) %> <span>(<%= l(:title_votes, :count => @article.rated_count) %>)</span></div>
+<div id='article-ratings'>
+  <% avg = @article.rating_average.to_i %>
+  <% (1..5).each do |star| %>
+    <input name='rating' type='radio' class='rate' value='<%= star %>' <%= "checked='checked'" if star <= avg %> />
+  <% end %>
+</div>
+<script type='text/javascript' language='javascript'>
+$(function(){ 
+  $('#article-ratings :radio.rate').rating({
+    required: true,
+    callback: function(value, link) {
+      $.ajax({
+        type: "POST",
+        url: "<%= rate_article_url(@project, @article) %>",
+        data: {
+          rating: value
+        }
+      });
+    }
+  });
+});
+</script>

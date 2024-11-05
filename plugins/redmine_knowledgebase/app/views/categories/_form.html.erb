@@ -1,0 +1,23 @@
+<script type="text/javascript">
+function parentshow() {
+var checkbox = document.getElementById('chk_root');
+if (checkbox.checked)
+  document.getElementById("parent_category").style.display = "none";
+else
+  document.getElementById("parent_category").style.display = "block";
+};
+</script>
+
+<%= error_messages_for 'category' %>
+<div class="box tabular">
+  <p><%= check_box_tag 'root_category', 'yes', @parent_id.nil?, :id => "chk_root", :onclick => "parentshow();"  %><label for="root_category"><%= l(:label_root_category) %></label><br /></p>
+  <div id="parent_category" style="display:none;">
+    <p>
+      <label for="parent_id"><%= l(:label_parent_category) %></label>
+      <%= select_tag :parent_id, options_for_select(nested_set_options(@categories) {|i| "#{'»' * i.level} #{i.title}" }, @parent_id.to_i) %>
+    </p>
+  </div>
+  <%= hidden_field_tag 'project_id', @project.id %>
+  <p><%= f.text_field :title, :label => l(:label_title), :required => true %></p>
+  <p><%= f.text_area :description, :cols => 60, :rows => 10, :label => l(:label_description) %></p>
+</div>

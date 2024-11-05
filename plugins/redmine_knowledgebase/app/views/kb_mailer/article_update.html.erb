@@ -1,0 +1,7 @@
+<h1><%= l(:label_article_updated) %>: <%= link_to(h(@article.title), @article_url) %></h1>
+
+<ul>
+<li><b><%=l(:field_version_comments)%>:</b> <%=h @article.version_comments %></li>
+<li><b><%=l(:field_article_updater)%>:</b> <%=h @article.updater %></li>
+<li><b><%=l(:label_category)%>:</b> <%=h @article.category.title %></li>
+</ul>

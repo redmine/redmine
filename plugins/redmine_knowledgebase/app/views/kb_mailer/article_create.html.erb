@@ -1,0 +1,27 @@
+<h1><%= l(:label_new_article) %>: <%= link_to(h(@article.title), @article_url) %>
+(<%=h @article.category.title %>)</h1>
+
+<% if thumb = get_article_thumbnail_url_absolute( @article ) %>
+  <p><img src="<%= thumb %>" alt="[Thumbnail]"></p>
+<% end %>
+
+<p>
+  <b><%= l(:label_summary) %>:</b> <%=h @article.summary %>
+</p>
+
+
+<% unless @article.tag_list.empty? %>
+  <p><b><%= l(:title_tags) %>:</b> <%= @article.tag_list.join(", ") %>
+  </p>
+<% end %>
+
+<p>
+  <b><%=l(:field_article_author)%>:</b> <%=h @article.author %>
+</p>
+
+<% if @article.version_comments.to_s != '' %>
+<p>
+  <b><%=l(:field_version_comments)%>:</b> <%=h @article.version_comments %>
+</p>
+<% end %>
+

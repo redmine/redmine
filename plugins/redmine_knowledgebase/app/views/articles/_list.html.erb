@@ -1,0 +1,31 @@
+<% articles.each do |article| %>
+
+  <% category = "category"
+     allcats = ""
+     article.category.ancestors.each do |ancestor|
+       category = category + "-" + ancestor.title.gsub(/\s+/, "_") 
+       allcats = allcats + " " + category 
+     end
+     category = category + "-" + article.category.title.gsub(/\s+/, "_")
+     allcats = allcats + " " + category 
+  %>
+
+  <div class="article-icon <%= default_icon %> <%= allcats.downcase %>">
+
+  <% truncate_length = 100 if local_assigns[:truncate_length].nil? %>
+  <%= link_to truncate(article.title, :length => truncate_length), { :controller => 'articles', :action => 'show', :id => article.id, :project_id => @project}, :title => article.title %>
+
+  <% if redmine_knowledgebase_settings_value(:show_breadcrumbs_for_article_lists) %>
+    <%= render :partial => "articles/breadcrumb", :locals => { :article => article, :project => @project } %>
+  <% end %>
+
+  <% if redmine_knowledgebase_settings_value(:show_thumbnails_for_articles) %>
+  <div class="article-list-thumbnail">
+    <%= render :partial => "articles/thumbnail", :locals => { :article => article, :imgclass => 'thumbnail-list', :project_id => @project } %>
+  </div>
+  <% end %>
+  
+  <%= format_article_summary(article, summary_format, :truncate => truncate_length ) %>
+
+</div>	
+<% end %>

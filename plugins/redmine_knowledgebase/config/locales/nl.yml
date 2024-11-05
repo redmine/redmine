@@ -1,0 +1,115 @@
+--- 
+nl: 
+  allow_anon_access: "Anonieme toegang toestaan?"
+  allow_sort_category_tree: "Categoriën alfabetisch rangschikken?"
+  disable_article_summaries: "Uitschakelen artikel samenvattingen"
+  field_article_author: "Aangemaakt door"
+  field_article_destroyer: "Verwijderd door"
+  field_article_updater: "Bijgewerkt door"
+  field_tag_list: "Overzicht labels"
+  field_updated_at: "Bijgewerkt op"
+  field_version: Version
+  field_version_comments: "Opmerkingen wijzigen"
+  knowledgebase_title: Kennisbank
+  label_article_created: "Artikel aangemaakt '%{title}'"
+  label_article_plural: Artikelen
+  label_article_removed: "Artikel verwijderd"
+  label_article_updated: "Artikel bijgewerkt"
+  label_article_version: "Artikel versie %{version} - "
+  label_article_viewed: 
+    one: "Eenmaal gezien"
+    other: "Gezien: %{count} keer"
+  label_attachment_add: "Add files"
+  label_authored_by: "Articles authored by"
+  label_category: Categorie
+  label_category_created: "Aangemaakt categorie '%{title}'"
+  label_category_deleted: "Categorie verwijderd"
+  label_category_has_subcategory_cannot_delete: "Category can not be deleted because it contains a subcategory."
+  label_category_not_empty_cannot_delete: "De categorie is aan een of meerdere artikelen toegewezen en kan nu niet worden verwijderd."
+  label_category_plural: Categoriën
+  label_category_updated: "Categorie bijgewerkt"
+  label_content: Inhoud
+  label_delete_article: Verwijderen
+  label_delete_category: "Verwijder categorie"
+  label_description: Beschrijving
+  label_edit_article: Bewerken
+  label_edit_category: "Bewerk categorie"
+  label_filter_by_tag: "Filter by Tag"
+  label_filtered_by_tag: "Filtered by tag:"
+  label_jump_category: "Snel naar categorie"
+  label_kb_article_plural: "Kennisbank artikelen"
+  label_kb_home: Home
+  label_kb_link: "KB#%{kb_id}"
+  label_new_article: "Nieuw artikel"
+  label_new_category: "Nieuwe categorie"
+  label_new_comment: "Nieuwe reactie"
+  label_overview_my_articles: "Artikelen geschreven door mijzelf: %{total_articles_by_me}"
+  label_overview_total_articles: "Totaal aantal artikelen: %{total_articles}"
+  label_overview_total_categories: "Totaal aantal categoriën: %{total_categories}"
+  label_parent_category: Bovenliggende-categorie
+  label_root_category: Hoofdcategorie
+  label_subcategories: Subcategoriën
+  label_summary: Samenvatting
+  label_summary_newest_articles: "Gemaakt %{ago} geleden in %{category}"
+  label_summary_popular_articles: 
+    one: "Eenmaal bekeken sinds %{created}"
+    other: "Bekeken %{count} keer sinds %{created}"
+  label_summary_toprated_articles: 
+    one: "Waardering: %{rating_avg}/%{rating_max} van een stem"
+    other: "Waardering: %{rating_avg}/%{rating_max} van %{count} stemmers"
+  label_summary_updated_articles: "Bijgewerkt %{ago} geleden"
+  label_title: Titel
+  label_title_articles: Artikel
+  label_title_category: Categorie
+  label_unrated_article: Unrated
+  label_updated_who: "Bijgewerkt door %{updater} %{age} geleden"
+  message_no_articles: "Er zijn nog geen artikelen toegevoegd. Klik op 'Maak artikel' om er een te beginnen."
+  message_no_categories: "Er zijn nog geen categoriën toegevoegd. Klik op 'Maak categorie' om er een te beginnen."
+  message_no_permissions: "Je hebt geen toestemming om artikelen of categoriën te bekijken. Neem contact met een beheerder op."
+  message_summary_count_not_available: "Samenvatting teller niet beschikbaar!"
+  permission_comment_and_rate_articles: "Reageer en waardeer artikelen"
+  permission_create_article_categories: "Maak artikelcategoriën"
+  permission_create_articles: "Maak artikelen"
+  permission_edit_articles: "Bewerk artikelen"
+  permission_manage_article_categories: "Beheer artikelcategoriën"
+  permission_manage_article_history: "Beheer artikelgeschiedenis"
+  permission_manage_articles: "Beheer artikelen"
+  permission_manage_articles_comments: "Beheer gebruikersreacties"
+  permission_manage_own_articles: "Manage own articles"
+  permission_view_article_history: "Weergeven artikelgeschiedenis"
+  permission_view_articles: "Weergeven artikelen"
+  permission_view_kb_articles: "Weergeven artikelen"
+  permission_view_most_popular_articles: "bekijk meest populaire artikelen"
+  permission_view_recent_articles: "Bekijk recent gepubliceerde"
+  permission_view_top_rated_articles: "bekijk meest gewaardeerde artikelen"
+  permission_watch_articles: "Bekijk artikelen"
+  permission_watch_categories: "Bekijk categoriën"
+  project_module_knowledgebase: Kennisbank
+  show_article_without_tabs: "Show articles without tabs?"
+  show_attachments_first: "Show attachments before article content?"
+  show_breadcrumbs_for_article_lists: "Show breadcrumbs for articles in lists?"
+  show_category_totals: "Totalen categorie in hierarchie?"
+  show_thumbnails_for_articles: "Show thumbnails for articles in lists?"
+  summary_item_limit: "KB samenvatting artikel limiet per pagina"
+  text_confirm_versions_delete: "Dit zal nieuwere versies en recente wijzigingen mogelijk verwijderen. Weet je dat zeker?"
+  text_current_version: Huidige
+  title_add_comment: "Reactie toevoegen"
+  title_article_rating: "Waardering artikel"
+  title_browse_by_category: "Blader door categorieindeling"
+  title_browse_by_tags: "Labels doorbladeren"
+  title_create_article: "Maak artikel"
+  title_create_category: "Maak categorie"
+  title_edit_article: "Bewerk artikel"
+  title_edit_category: "Bewerk categorie"
+  title_most_popular_articles: "Meest populaire artikelen"
+  title_new_category: "Nieuwe categorie"
+  title_newest_articles: "Nieuwste artikelen"
+  title_overview_summary: "Kennisbank samenvatting"
+  title_recently_updated_articles: "Recente artikelen"
+  title_tagged_articles: "Artikelen gelabeled met %{tag}"
+  title_tags: Labels
+  title_top_rated_articles: "Meest gewaardeerde artikelen"
+  title_votes: 
+    one: "een stem"
+    other: "%{count} stemmen"
+    zero: "geen stemmen"

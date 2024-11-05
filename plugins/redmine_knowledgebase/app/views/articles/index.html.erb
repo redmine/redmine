@@ -1,0 +1,43 @@
+<% html_title l(:knowledgebase_title) %>
+
+<% if not User.current.allowed_to?(:view_kb_articles, @project) %>
+     <p class="nodata"><%=l(:message_no_permissions)%></p>
+<% else %>
+
+
+<div class="contextual">
+  <%= render :partial => "categories/jump_box" %>
+  <%= link_to_if_authorized l(:title_create_category), { :controller => 'categories', :action => 'new', :project_id => @project}, :class => 'icon icon-add' %>
+  <% if @project.categories.length > 0 %>	
+    <%= link_to_if_authorized l(:title_create_article), { :controller => 'articles', :action => 'new', :project_id => @project}, :class => 'icon icon-add' %>
+  <% end %>
+</div>
+
+<% if @project.categories.count == 0 %>
+  <h2><%= l(:knowledgebase_title) %></h2>
+  <p class="nodata"><%= l(:message_no_categories) %></p>
+  
+<% elsif @project.articles.count == 0 %>
+  <h2><%= l(:knowledgebase_title) %></h2>
+  <p class="nodata"><%= l(:message_no_articles) %></p>
+  
+<% else %>
+
+    <% if redmine_knowledgebase_settings_value(:show_tiled_article_lists) %>
+      <%= render :partial => 'articles/index_tiled', :locals => { :articles => @articles } %>
+    <% else %>
+      <%= render :partial => 'articles/index_original', :locals => { :articles => @articles } %>
+    <% end %>
+    
+    <% content_for :sidebar do %>
+            <h3><%= l(:title_browse_by_category) %></h3>
+            <%= render :partial => "categories/tree" %>
+            <br>
+
+  <%= render :partial => "categories/tags", :locals => { :controller => 'categories', :action => 'index', :id => '', :author_id => '' } %>
+
+    <% end %>
+<% end %>
+
+<% end %>
+

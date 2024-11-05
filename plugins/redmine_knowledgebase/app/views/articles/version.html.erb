@@ -1,0 +1,54 @@
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'scm' %>
+<% end %>
+
+<p id="category-crumbs" class="breadcrumb">
+	<%= link_to l(:label_kb_home), { :controller => 'articles', :action => 'index', :project_id => @project} %>
+	<% @article.category.ancestors.each do |ancestor| %>
+	&nbsp;&raquo;&nbsp; 
+	<%= link_to ancestor.title, { :controller => 'categories', :action => 'show', :id => ancestor.id, :project_id => @project} %>
+	<% end %>
+	&nbsp;&raquo;&nbsp; 
+	<%= link_to @article.category.title, { :controller => 'categories', :action => 'show', :id => @article.category.id, :project_id => @project} %>
+</p>
+
+<% content_for :sidebar do %>
+	<h3><%= l(:title_edit_article) %></h3>
+	<ul id="options">
+      <%= link_to_if_authorized l(:button_rollback), {:action => 'revert', :id => @article.id, :version => @articleversion.version }, :confirm => l(:text_confirm_versions_delete), :class => 'icon icon-cancel' %>
+	</ul>
+	<br />
+<% end %>
+
+    <p>
+    <%= link_to(("\xc2\xab " + l(:label_previous)),
+                :action => 'version', :id => @articleversion.kb_article_id, :project_id => @project,
+                :version => (@articleversion.version - 1)) + " - " if @articleversion.version > 1 %>
+    <%= "#{l(:label_version)} #{@articleversion.version}/#{@article.version}" %>
+    <%= '('.html_safe + link_to(l(:label_diff), :controller => 'articles', :action => 'diff',
+                      :id => @articleversion.kb_article_id, :project_id => @project,
+                      :version => @articleversion.version) + ')'.html_safe if @articleversion.version > 1 %> - 
+    <%= link_to((l(:label_next) + " \xc2\xbb"), :action => 'version',
+                :id => @articleversion.kb_article_id, :project_id => @project,
+                :version => (@articleversion.version + 1)) + " - " if @articleversion.version < @article.version %>
+    <%= link_to(l(:label_current_version), :action => 'show', :id => @article.id, :project_id => @project) %>
+    <br />
+	</p>
+	<div class="article-info">
+    <%= @articleversion.author ? link_to_user(@articleversion.author) : l(:label_user_anonymous)
+         %>, <%= format_time(@articleversion.updated_at) %> | <%= l(:field_version_comments) %>: <%= @articleversion.version_comments %>
+    </div>
+    <hr />
+
+<% html_title @articleversion.title %>
+
+<h1><%= @articleversion.title %></h1>
+
+<div id="section-subtitle" ><%= l(:label_summary) %></div>
+<div class="article-summary"><%= @articleversion.summary %></div>
+
+<div id="section-subtitle" ><%= l(:label_content) %></div>
+
+<div id="article">
+  <div class="wiki"><%= textilizable @articleversion, :content %></div>
+</div>
