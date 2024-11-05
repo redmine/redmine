@@ -24,7 +24,6 @@ class MailTrackerJob < ApplicationJob
 
   def parse_emails
     @mail_source&.unseen&.each do |email|
-      MailTrackerCustomLogger.logger.info(log_string)
       create_issue_from_email(email)
     end
   end
