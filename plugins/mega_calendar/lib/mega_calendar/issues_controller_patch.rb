@@ -1,12 +1,16 @@
 require_dependency 'issues_controller'
+
 module MegaCalendar
   module IssuesControllerPatch
     def self.included(base)
       base.class_eval do
         before_action :update_notes_with_pricing, :only => [:new, :create, :update]
+        alias_method :original_create, :create
 
         def create
           super
+          original_create
+
           unless @issue.id.blank?
             if !params[:issue][:start_date].blank? && !params[:issue][:due_date].blank? && !params[:issue][:time_begin].blank? && !params[:issue][:time_end].blank?
               tbegin = params[:issue][:start_date] + ' ' + params[:issue][:time_begin]
