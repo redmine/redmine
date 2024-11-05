@@ -1,0 +1,37 @@
+
+    <div class="splitcontentleft">
+        <h2><%=l(:label_overview)%></h2>
+        <div class="articles box">
+        <h3><%= l(:title_overview_summary) %></h3>
+        <ul>
+            <li><%= l(:label_overview_total_categories, :total_categories => @total_categories.to_i) %></li>
+            <li><%= l(:label_overview_total_articles, :total_articles => @total_articles.to_i) %></li>
+
+            <% if User.current.allowed_to?(:create_articles, @project) %>
+	    <li><%= link_to_if_authorized l(:label_overview_my_articles, :total_articles_by_me => @total_articles_by_me.to_i), { :controller => 'articles', :action => 'authored', :project_id => @project, :author_id => User.current.id} %></li>
+            <% end %>
+        </ul>
+        </div>
+        <% if User.current.allowed_to?(:view_recent_articles, @project) %>
+          <h3><%= l(:title_recently_updated_articles) %></h3>
+          <div class="articles index-summary">
+              <%= render :partial => 'articles/list', :locals => { :summary_format => "updated", :articles => @articles_latest, :default_icon => 'recently-changed' } %>
+          </div>
+        <% end %>
+    </div>
+
+    <div class="splitcontentright">
+        <% if User.current.allowed_to?(:view_most_popular_articles,@project) %>
+          <h3><%= l(:title_most_popular_articles) %></h3>
+          <div class="articles index-summary">
+              <%= render :partial => 'articles/list', :locals => { :summary_format => "popular", :articles => @articles_popular, :default_icon => 'popular' } %>
+          </div>
+        <% end %>
+        <% if User.current.allowed_to?(:view_top_rated_articles, @project) %>
+          <h3><%= l(:title_top_rated_articles) %></h3>
+          <div class="articles index-summary">
+              <%= render :partial => 'articles/list', :locals => { :summary_format => "toprated", :articles => @articles_toprated, :default_icon => 'top-rated' } %>
+          </div>
+        <% end %>
+    </div>
+    

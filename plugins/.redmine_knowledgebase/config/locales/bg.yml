@@ -1,0 +1,115 @@
+--- 
+bg: 
+  allow_anon_access: "Разрешаване на анонимен достъп?"
+  allow_sort_category_tree: "Азбучно сортиране на дървото на категориите?"
+  disable_article_summaries: "Disable Article Summaries"
+  field_article_author: "Created by"
+  field_article_destroyer: "Deleted by"
+  field_article_updater: "Updated by"
+  field_tag_list: "Сипсък на маркерите"
+  field_updated_at: "Updated at"
+  field_version: Version
+  field_version_comments: "Change comments"
+  knowledgebase_title: "База знания"
+  label_article_created: "Създадена статия '%{title}'"
+  label_article_plural: Статии
+  label_article_removed: "Статията е премахната"
+  label_article_updated: "Статията е обновена"
+  label_article_version: "Article version: %{version} - "
+  label_article_viewed: 
+    one: "Разглеждана един път"
+    other: "Разглеждана %{count} пъти"
+  label_attachment_add: "Add files"
+  label_authored_by: "Articles authored by"
+  label_category: Категория
+  label_category_created: "Създадена категория '%{title}'"
+  label_category_deleted: "Категорията е премахната"
+  label_category_has_subcategory_cannot_delete: "Category can not be deleted because it contains a subcategory."
+  label_category_not_empty_cannot_delete: "В категорията има статии и поради това не може да бъде премахната."
+  label_category_plural: Категории
+  label_category_updated: "Категорията е обновена"
+  label_content: Съдържание
+  label_delete_article: Премахване
+  label_delete_category: "Премахване на категория"
+  label_description: Описание
+  label_edit_article: Редактиране
+  label_edit_category: "Редактиране на категория"
+  label_filter_by_tag: "Filter by Tag"
+  label_filtered_by_tag: "Filtered by tag:"
+  label_jump_category: "Преход към категория"
+  label_kb_article_plural: "Knowledgebase articles"
+  label_kb_home: Начало
+  label_kb_link: "KB#%{kb_id}"
+  label_new_article: "Нова статия"
+  label_new_category: "Нова категория"
+  label_new_comment: "Нов коментар"
+  label_overview_my_articles: "Articles written by me: %{total_articles_by_me}"
+  label_overview_total_articles: "Total number of articles: %{total_articles}"
+  label_overview_total_categories: "Total number of categories: %{total_categories}"
+  label_parent_category: "Родителска категория"
+  label_root_category: "Коренна категория"
+  label_subcategories: Под-категории
+  label_summary: Анотация
+  label_summary_newest_articles: "Създадена преди %{ago} в %{category}"
+  label_summary_popular_articles: 
+    one: "Разглеждана един път след %{created}"
+    other: "Разглеждана %{count} пъти след %{created}"
+  label_summary_toprated_articles: 
+    one: "Рейтинг: %{rating_avg}/%{rating_max} от един вот"
+    other: "Рейтинг: %{rating_avg}/%{rating_max} от %{count} вота"
+  label_summary_updated_articles: "Обновени преди %{ago}"
+  label_title: Заглавие
+  label_title_articles: Статия
+  label_title_category: Категория
+  label_unrated_article: Unrated
+  label_updated_who: "Обновено от %{updater} преди %{age}"
+  message_no_articles: "Все още няма добавени статии в базата знания. Може би сега ще започнете с първата ..."
+  message_no_categories: "За съжаление няма дефинирани категории, и вие трябва да влезете в Redmine за да създадете нови категории."
+  message_no_permissions: "You do not have permission to view any articles or categories. Please contact your administrator."
+  message_summary_count_not_available: "Summary Count Not Available!"
+  permission_comment_and_rate_articles: "Коментиране и оценка на статии"
+  permission_create_article_categories: "Създаване на категории"
+  permission_create_articles: "Създаване на статии"
+  permission_edit_articles: "Редкатиране на статии"
+  permission_manage_article_categories: "Управление на категориите"
+  permission_manage_article_history: "manage article history"
+  permission_manage_articles: "Управление на статии"
+  permission_manage_articles_comments: "Управление на коментарите"
+  permission_manage_own_articles: "Manage own articles"
+  permission_view_article_history: "view article history"
+  permission_view_articles: "Разглеждане на статии"
+  permission_view_kb_articles: "View articles"
+  permission_view_most_popular_articles: "view most popular articles"
+  permission_view_recent_articles: "View recent articles"
+  permission_view_top_rated_articles: "view top rated articles"
+  permission_watch_articles: "Watch articles"
+  permission_watch_categories: "Watch categories"
+  project_module_knowledgebase: Knowledgebase
+  show_article_without_tabs: "Show articles without tabs?"
+  show_attachments_first: "Show attachments before article content?"
+  show_breadcrumbs_for_article_lists: "Show breadcrumbs for articles in lists?"
+  show_category_totals: "Показване на информацията за категориите в дървовидна структура?"
+  show_thumbnails_for_articles: "Show thumbnails for articles in lists?"
+  summary_item_limit: "Ограничение на анотациите по размер"
+  text_confirm_versions_delete: "This will revert and delete any newer versions of this document that may exist. Are you sure?"
+  text_current_version: Current
+  title_add_comment: "Добавяне на коментар"
+  title_article_rating: "Рейтинг на статията"
+  title_browse_by_category: "Разглеждане по категории"
+  title_browse_by_tags: "Browse by Tags"
+  title_create_article: "Създаване на статия"
+  title_create_category: "Създаване на категория"
+  title_edit_article: "Редактиране на статия"
+  title_edit_category: "Редактиране на категория"
+  title_most_popular_articles: "Най-популярни статии"
+  title_new_category: "Нова категория"
+  title_newest_articles: "Нови статии"
+  title_overview_summary: "Knowledgebase Summary"
+  title_recently_updated_articles: "Наскоро обновени статии"
+  title_tagged_articles: "Статии, маркирани с %{tag}"
+  title_tags: Маркери
+  title_top_rated_articles: "Статии с най-голям рейтинг"
+  title_votes: 
+    one: "един глас"
+    other: "%{count} гласа"
+    zero: гласа

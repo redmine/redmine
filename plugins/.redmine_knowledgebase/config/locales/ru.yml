@@ -1,0 +1,127 @@
+--- 
+ru: 
+  allow_anon_access: "Разрешить анонимный доступ?"
+  allow_sort_category_tree: "Сортировать дерево каталогов по алфавиту?"
+  disable_article_summaries: "Отключить сводки для статей"
+  field_article_author: Автор
+  field_article_destroyer: Удалил
+  field_article_updater: Редактировал
+  field_tag_list: "Список меток"
+  field_updated_at: "Изменено в"
+  field_version: Версия
+  field_version_comments: "Комментарий к изменению"
+  knowledgebase_title: "База знаний"
+  label_article_created: "Создана статья '%{title}'"
+  label_article_plural: Статьи
+  label_article_removed: "Статья удалена"
+  label_article_updated: "Статья обновлена"
+  label_article_version: "Версия статьи: %{version} - "
+  label_article_viewed: 
+    one: "Просмотрена один раз"
+    few: "Просмотрена %{count} раза"
+    many: "Просмотрена %{count} раз"
+    other: "Просмотрена %{count} раза"
+  label_attachment_add: "Добавить файлы"
+  label_authored_by: "Автор статей"
+  label_category: Категория
+  label_category_created: "Создана категория '%{title}'"
+  label_category_deleted: "Категория удалена"
+  label_category_has_subcategory_cannot_delete: "Категорию нельзя удалить, так как она содержит подкатегорию."
+  label_category_not_empty_cannot_delete: "Категория содержит статьи и не может быть удалена."
+  label_category_plural: Категории
+  label_category_updated: "Категория обновлена"
+  label_content: "Текст статьи"
+  label_delete_article: "Удалить статью"
+  label_delete_category: "Удалить категорию"
+  label_description: Описание
+  label_edit_article: Редактировать
+  label_edit_category: "Редактировать категорию"
+  label_filter_by_tag: "Фильтр по тегу"
+  label_filtered_by_tag: "Отфильтровано по тегу:"
+  label_jump_category: "Перейти к категории"
+  label_kb_article_plural: "Статьи базы знаний"
+  label_kb_home: Начало
+  label_kb_link: "KB#%{kb_id}"
+  label_new_article: "Новая статья"
+  label_new_category: "Новая категория"
+  label_new_comment: "Создать комментарий"
+  label_overview_my_articles: "Статьи написанные мной: %{total_articles_by_me}"
+  label_overview_total_articles: "Общее число статей: %{total_articles}"
+  label_overview_total_categories: "Общее число категорий: %{total_categories}"
+  label_parent_category: "Родительская категория"
+  label_root_category: "Корневая категория"
+  label_subcategories: Подкатегории
+  label_summary: Сводка
+  label_summary_newest_articles: "Создан %{ago} в категории %{category}"
+  label_summary_popular_articles: 
+    one: "Один просмотр с %{created}"
+    few: "Было %{count} просмотра с %{created}"
+    many: "Было %{count} просмотров с %{created}"
+    other: "Было %{count} просмотров с %{created}"
+  label_summary_toprated_articles: 
+    one: "Рейтинг: %{rating_avg}/%{rating_max} после одного голоса"
+    few: "Рейтинг: %{rating_avg}/%{rating_max} после %{count} голосов"
+    many: "Рейтинг: %{rating_avg}/%{rating_max} после %{count} голосов"
+    other: "Рейтинг: %{rating_avg}/%{rating_max} после %{count} голосов"
+    zero: "Голосов нет"
+  label_summary_updated_articles: "Обновлено %{ago}"
+  label_title: Заголовок
+  label_title_articles: Статьи
+  label_title_category: Категория
+  label_unrated_article: Голосов нет
+  label_updated_who: "Обновлено %{updater} %{age} назад"
+  message_no_articles: "В базе знаний нет ни одной статьи. Чтобы начать нажмите Создать статью..."
+  message_no_categories: "В базе знаний нет ни одной категории. Чтобы начать нажмите Создать категорию..."
+  message_no_permissions: "У вас нет прав на просмотр статей или категорий. Свяжитесь с вашим Администратором."
+  message_summary_count_not_available: "Счетчик сводок не доступен!"
+  permission_comment_and_rate_articles: "Комментировать и голосовать за статьи"
+  permission_create_article_categories: "Создавать категории"
+  permission_create_articles: "Создавать статьи"
+  permission_edit_articles: "Редактировать статьи"
+  permission_manage_article_categories: "Управлять категориями"
+  permission_manage_article_history: "Управлять историей статей"
+  permission_manage_articles: "Управлять статьями"
+  permission_manage_articles_comments: "Управлять комментариями к статьям"
+  permission_manage_own_articles: "Управлять своими статьями"
+  permission_view_article_history: "Просматривать историю статей"
+  permission_view_articles: "Просматривать статьи"
+  permission_view_kb_articles: "Просматривать статьи базы знаний"
+  permission_view_most_popular_articles: "Просматривать наиболее популярные"
+  permission_view_recent_articles: "Просматривать недавние статьи"
+  permission_view_top_rated_articles: "Просматривать статьи с наивысшим рейтингом"
+  permission_watch_articles: "Следить за статьями"
+  permission_watch_categories: "Следить за категориями"
+  project_module_knowledgebase: Knowledgebase
+  show_article_without_tabs: "Показать статьи без вкладок"
+  show_attachments_first: "Показать вложения перед содержимым статьи"
+  show_breadcrumbs_for_article_lists: "Показать \"хлебные крошки\" для статей в списках"
+  show_tiled_article_lists: "Показать список статей в виде плитки"
+  show_category_totals: "Показать информацию по категориям в виде дерева?"
+  show_thumbnails_for_articles: "Показать эскизы статей в списках"
+  critical_tags: "Показать важные теги первыми (разделять запятыми)"
+  summary_item_limit: "Лимит статей на странице сводки"
+  articles_per_list_page: "Лимит статей на страницу"
+  text_confirm_versions_delete: "Данное изменение отменит и удалит все возможные новые версии данного докмуента. Вы уверены?"
+  text_current_version: Текущая
+  title_add_comment: "Добавить комментарий"
+  title_article_rating: "Рейтинг статьи"
+  title_browse_by_category: "Просмотр по категориям"
+  title_browse_by_tags: "Просмотр по тегам"
+  title_create_article: "Создать статью"
+  title_create_category: "Создать категорию"
+  title_edit_article: "Редактировать статью"
+  title_edit_category: "Редактировать категорию"
+  title_most_popular_articles: "Наиболее популярные статьи"
+  title_new_category: "Новая категория"
+  title_newest_articles: "Последние статьи"
+  title_overview_summary: "Сводка по базе знаний"
+  title_recently_updated_articles: "Недавно обновлённые статьи"
+  title_tagged_articles: "Статьи отмеченные тегом %{tag}"
+  title_tags: Тег
+  title_top_rated_articles: "Статьи с наибольшим рейтингом"
+  title_votes: 
+    one: "один голос"
+    few: "%{count} голоса"
+    many: "%{count} голосов"
+    other: "%{count} голосов"
+    zero: "голосов нет"

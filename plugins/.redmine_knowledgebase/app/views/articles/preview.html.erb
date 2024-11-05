@@ -1,0 +1,11 @@
+<% if @summary %>
+	<fieldset class="preview"><legend><%= l(:label_summary) %></legend>
+		<%= textilizable @summary, :object => @article %>
+	</fieldset>
+<% end %>
+
+<% if @content %>
+	<fieldset class="preview"><legend><%= l(:label_content) %></legend>
+		<%= textilizable @content, :object => @article %>
+	</fieldset>
+<% end %>

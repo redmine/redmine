@@ -1,0 +1,41 @@
+
+<% articles.each do |article| %>
+
+  <% category_id = article.category.ancestors.first ? article.category.ancestors.first.id : article.category.id %>
+
+  <div id="article-<%= article.id %>" class="flex-item box" >
+
+      <% style = '' %>
+      <% thumb = get_article_thumbnail_url( article ) %>
+      <% if thumb %>
+          <% style = 'background-image: url(' + thumb + ');' %>
+      <% end %>
+
+      <div class="tile-thumbnail category-<%= category_id %>" style='<%= style %>'>
+      </div>
+
+      <%= link_to '', { :controller => 'articles', 
+      :action => 'show', 
+      :id => article.id, 
+      :project_id => @project}, :class => 'flex-link', :title => article.title %>
+
+      <div class="tile-overlay">
+
+      <div class="tile-title icon-category-<%= category_id %>"><%= article.title %></div>
+
+      <% unless @author_id %>
+        <span class="tile-author">        
+	  <%= link_to article.author.name, { :controller => 'articles', 
+          :action => 'authored', 
+          :author_id => article.author.id, 
+          :project_id => @project} %> 
+	</span>
+      <% end %>
+
+      <div class="tile-rating"><% rating = article.rating_average.to_i %>
+	<% for i in 1..rating do %> &#9733; <% end %>
+      </div>
+
+      </div>
+    </div>
+    <% end %>

@@ -1,0 +1,121 @@
+--- 
+zh-TW: 
+  articles_per_list_page: "文章列表每頁顯示文章數量"
+  allow_anon_access: "允許匿名使用者存取?"
+  allow_sort_category_tree: "依字母排序類別瀏覽?"
+  critical_tags: "優先顯示的重要標籤 (以逗號【,】分隔)."
+  disable_article_summaries: "關閉文章摘要？"
+  description_create_article: ""
+  field_article_author: 作者
+  field_article_destroyer: 刪除者
+  field_article_updater: 修訂人
+  field_tag_list: 標籤
+  field_updated_at: 更新於
+  field_version: 版本
+  field_version_comments: 版本註解
+  knowledgebase_title: 知識庫
+  label_article_created: "文章【'%{title}'】已建立。"
+  label_article_plural: 文章
+  label_article_removed: "文章已移除。"
+  label_article_updated: "文章已更新。"
+  label_article_version: "文章版本: %{version} - "
+  label_article_viewed: 
+    one: "已被閱讀 1 次。"
+    other: "已被閱讀 %{count} 次。"
+  label_attachment_add: 新增附件
+  label_authored_by: 作者
+  label_category: 類別
+  label_category_created: "類別【'%{title}'】已建立"
+  label_category_deleted: 類別已刪除
+  label_category_has_subcategory_cannot_delete: "該類別包含子類別，不能刪除。"
+  label_category_not_empty_cannot_delete: "該類別下有文章，不能刪除。"
+  label_category_plural: 類別
+  label_category_updated: "類別已更新。"
+  label_content: 內容
+  label_delete_article: 刪除文章
+  label_delete_category: 刪除類別
+  label_description: 描述
+  label_edit_article: 編輯文章
+  label_edit_category: 編輯類別
+  label_filter_by_tag: "依標籤過濾"
+  label_filtered_by_tag: "依標籤過濾："
+  label_jump_category: "移動到類別"
+  label_kb_article_plural: 知識庫文章
+  label_kb_home: 知識庫主頁
+  label_kb_link: "KB#%{kb_id}"
+  label_new_article: "新建文章"
+  label_new_category: "新建類別"
+  label_new_comment: "新增回應"
+  label_overview_my_articles: "我所撰寫的文章：%{total_articles_by_me}"
+  label_overview_total_articles: "文章總數：%{total_articles}"
+  label_overview_total_categories: "知識類別總數：%{total_categories}"
+  label_parent_category: 上層類別
+  label_root_category: 主要類別
+  label_subcategories: 子類別
+  label_summary: 摘要
+  label_summary_newest_articles: "%{ago} 前建立於 【%{category}】"
+  label_summary_popular_articles: 
+    one: "自 %{created} 起，已被閱讀 1 次。"
+    other: "自 %{created} 起，已被閱讀 %{count} 次。"
+  label_summary_toprated_articles: 
+    one: "綜合評分: %{rating_avg}/%{rating_max} 來自於 1 次評分。"
+    other: "綜合評分: %{rating_avg}/%{rating_max} 來自於 %{count} 次評分。"
+  label_summary_updated_articles: "%{ago} 之前更新"
+  label_title: 標題
+  label_title_articles: 文章標題
+  label_title_category: 所屬類別
+  label_unrated_article: 未評分
+  label_updated_who: "%{updater} 於 %{age} 前更新"
+  label_unrated_article: "未評分"  
+  message_no_articles: "目前尚未有任何文章。"
+  message_no_categories: "目前未定義任何類別。您需要至少建立一個知識類別。"
+  message_no_permissions: "您無權檢視任何文章或類別，請聯絡管理員。"
+  message_summary_count_not_available: "摘要不可用！"
+  permission_comment_and_rate_articles: 文章回應和評分
+  permission_create_article_categories: 建立知識類別
+  permission_create_articles: 建立文章
+  permission_edit_articles: 編輯文章
+  permission_manage_article_categories: 管理文章類別
+  permission_manage_article_history: 管理文章歷史
+  permission_manage_articles: 管理文章
+  permission_manage_articles_comments: 管理文章回應
+  permission_manage_own_articles: 管理自己的文章
+  permission_view_article_history: 檢視文章歷史
+  permission_view_articles: 檢視文章
+  permission_view_kb_articles: 檢視文章
+  permission_view_most_popular_articles: 檢視人氣最高的文章
+  permission_view_recent_articles: 檢視最近的文章
+  permission_view_top_rated_articles: 檢視評分最高的文章
+  permission_watch_articles: 關注文章
+  permission_watch_categories: 關注類別
+  project_module_knowledgebase: 知識庫
+  show_article_without_tabs: "文章內容不以頁籤方式顯示？"
+  show_attachments_first: "在文章內容前先顯示附件？"
+  show_breadcrumbs_for_article_lists: "在文章列表中顯示類別導覽？"
+  show_category_totals: "在類別瀏覽中顯示數量？"
+  show_thumbnails_for_articles: "顯示文章縮略圖？"
+  show_tiled_article_lists: "以磚型縮略圖顯示文章列表？"  
+  summary_item_limit: 知識庫摘要中每個列表的文章數量
+  text_confirm_versions_delete: "還原文章內容並刪除較該版本新的內容，是否繼續？"
+  text_current_version: 目前版本
+  thumbnail_explanation: "在新增附件時，在敘述欄中填寫 \"thumbnail\" ，則該圖片會優先被用作縮略圖。否則，以最後上傳的圖片作為縮略圖。"
+  title_add_comment: 新增回應
+  title_article_rating: 文章評分
+  title_browse_by_category: 依類別瀏覽
+  title_browse_by_tags: 依標籤瀏覽
+  title_create_article: 新建文章
+  title_create_category: 新建類別
+  title_edit_article: 編輯文章
+  title_edit_category: 編輯類別
+  title_most_popular_articles: 最熱門文章
+  title_new_category: 新類別
+  title_newest_articles: 最新文章
+  title_overview_summary: 知識庫摘要
+  title_recently_updated_articles: 最近更新的文章
+  title_tagged_articles: "含【%{tag}】標籤的文章"
+  title_tags: 標籤
+  title_top_rated_articles: 評分最高的文章
+  title_votes: 
+    one: "被評分 1 次。"
+    other: "被評分 %{count} 次。"
+    zero: "未被評分。"

@@ -1,0 +1,6 @@
+<h1><%= l(:label_comment_added) %>: <%= link_to(h(@article.title), @article_url) %></h1>
+<br />
+<b><%= l(:label_comment) %>:</b> <%= @comment.comments %>
+<br />
+<br />
+<%= l(:label_added_time_by, :author => link_to_user(@comment.author), :age => content_tag('abbr', distance_of_time_in_words(Time.now, @comment.created_on), :title => format_time(@comment.created_on))).html_safe %>

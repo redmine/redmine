@@ -1,0 +1,11 @@
+<% html_title l(:title_edit_article) %>
+
+<h2><%= l(:title_edit_article) %></h2>
+
+<%= labelled_form_for :article, @article, :url => { :action => "update" }, :html => {  :multipart => true, :id => "articles-form" } do |form| %>
+  <%= render :partial => 'form', :locals => { :f => form } %>
+  <%= submit_tag l(:button_update) %>
+  <%= create_preview_link %>
+<% end %>
+
+<div id="preview" class="wiki"></div>

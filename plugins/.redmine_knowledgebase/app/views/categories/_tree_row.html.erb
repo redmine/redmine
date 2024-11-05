@@ -1,0 +1,14 @@
+<tr class="project child leaf <%= category.level > 0 ? "idnt idnt-#{category.level}" : nil %>">
+  <td class="name">
+    <span>
+      <%= link_to(category.title, {:controller => 'categories', :action => 'show', :id => category.id, :project_id => @project} ) %>
+      <%= " (#{category.articles.count})" if (category.articles.count > 0 && show_category_totals?) %>
+    </span>
+  </td>
+</tr>
+
+<% subs = category.children %>
+<% subs = subs.sort_by(&:title) if sort_categories? %>
+<% subs.each do |subcat| %>
+  <%= render :partial => 'categories/tree_row', :locals => { :category => subcat } %>
+<% end %>

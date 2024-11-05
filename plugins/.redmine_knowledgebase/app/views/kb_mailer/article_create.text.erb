@@ -1,0 +1,12 @@
+<%= l(:label_new_article) %>: <%= @article.title %> (<%= @article.category.title %>)
+=================================
+
+<%= l(:label_summary) %>: <%= @article.summary %>
+
+<% unless @article.tag_list.empty? %><%= l(:title_tags) %>: <%= @article.tag_list.join(", ") %>
+<% end %>
+<%=l(:field_article_author)%>: <%= @article.author %>
+
+<% if @article.version_comments.to_s != '' %><%=l(:field_version_comments)%>: <%= @article.version_comments %>
+<% end %>
+Link: <%= @article_url %>

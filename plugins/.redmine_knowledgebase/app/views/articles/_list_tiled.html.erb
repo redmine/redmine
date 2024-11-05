@@ -1,0 +1,9 @@
+<div class="autoscroll">
+
+  <%= render :partial => 'articles/sortbar', :locals => { :articles => articles } %>
+
+  <div class="flex-container">
+  <%= render :partial => 'articles/list_articles', :locals => { :articles => articles, :project_id => @project } %>
+  </div>
+</div>
+

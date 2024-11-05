@@ -1,0 +1,38 @@
+
+<div class="contextual">
+  <%= render :partial => "categories/jump_box" %>
+</div>
+
+<h3><%= l(:label_authored_by) %> <%= link_to_user(User.find(@author_id)) %></h3>
+
+
+<% content_for :sidebar do %>
+
+	<h3><%= l(:title_browse_by_category) %></h3>
+  <%= render :partial => "categories/tree" %>
+
+  <%= render :partial => "categories/tags", :locals => { :controller => 'articles', :action => 'authored', :author_id => @author_id } %>
+
+<% end %>
+
+
+<% if @tag %>
+  <div class="category-tag-filter"><p><%= l(:label_filtered_by_tag) %>
+      <% n = 0 %>
+      <% @tag_array.each do |tag| %><%= n >= 1 ? ', ' : '' %><%= tag %><% n += 1 %><% end %>
+      <%= link_to("", {:controller => 'articles', :action => 'authored', :author_id => @author_id, :project_id => @project }, :class => "icon icon-del") %>
+</p></div>
+<% end %>
+
+<% if @articles.length > 0%>
+  <div class="articles">
+    <% if redmine_knowledgebase_settings_value(:show_tiled_article_lists) %>
+      <%= render :partial => 'articles/list_tiled', :locals => { :articles => @articles } %>
+    <% else %>
+      <%= render :partial => 'articles/list_table', :locals => { :articles => @articles } %>
+    <% end %>
+  </div>
+<% end %>
+
+<span class="pagination"><%= pagination_links_full @article_pages, @article_count %></span>
+

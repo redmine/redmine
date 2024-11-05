@@ -1,0 +1,3 @@
+$('#ajax-modal').html('<%= escape_javascript(render :partial => 'articles/comment_modal') %>');
+showModal('ajax-modal', '600px');
+document.getElementById('comment_comments').focus();

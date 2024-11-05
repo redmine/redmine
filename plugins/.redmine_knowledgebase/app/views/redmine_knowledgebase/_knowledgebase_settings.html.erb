@@ -1,0 +1,51 @@
+<p>
+  <%= label_tag :settings_sort_category_tree, l(:allow_sort_category_tree) %>
+  <%= check_box_tag 'settings[sort_category_tree]', 1, @settings[:sort_category_tree] %>
+</p>
+<p>
+  <%= label_tag :settings_show_category_totals, l(:show_category_totals) %>
+  <%= check_box_tag 'settings[show_category_totals]', 1, @settings[:show_category_totals] %>
+</p>
+<p>
+  <%= label_tag :settings_summary_limit, l(:summary_item_limit) %>
+  <%= text_field_tag "settings[summary_limit]", @settings[:summary_limit] %>
+</p>
+<p>
+  <%= label_tag :articles_per_list_page, l(:articles_per_list_page) %>
+  <%= text_field_tag "settings[articles_per_list_page]", @settings[:articles_per_list_page] %>
+</p>
+<p>
+  <%= label_tag :settings_disable_article_summaries, l(:disable_article_summaries) %>
+  <%= check_box_tag 'settings[disable_article_summaries]', 1, @settings[:disable_article_summaries] %>
+  <%= redmine_knowledgebase_count_article_summaries rescue I18n.t(:message_summary_count_not_available) %>
+</p>
+
+<p>
+  <%= label_tag :settings_show_article_without_tabs, l(:show_article_without_tabs) %>
+  <%= check_box_tag 'settings[show_article_without_tabs]', 1, @settings[:show_article_without_tabs] %>
+</p>
+
+<p>
+  <%= label_tag :settings_show_attachments_first, l(:show_attachments_first) %>
+  <%= check_box_tag 'settings[show_attachments_first]', 1, @settings[:show_attachments_first] %>
+</p>
+
+<p>
+  <%= label_tag :settings_show_thumbnails_for_articles, l(:show_thumbnails_for_articles) %>
+  <%= check_box_tag 'settings[show_thumbnails_for_articles]', 1, @settings[:show_thumbnails_for_articles] %>
+</p>
+
+<p>
+  <%= label_tag :settings_show_breadcrumbs_for_article_lists, l(:show_breadcrumbs_for_article_lists) %>
+  <%= check_box_tag 'settings[show_breadcrumbs_for_article_lists]', 1, @settings[:show_breadcrumbs_for_article_lists] %>
+</p>
+
+<p>
+  <%= label_tag :settings_tiled_article_lists, l(:show_tiled_article_lists) %>
+  <%= check_box_tag 'settings[show_tiled_article_lists]', 1, @settings[:show_tiled_article_lists] %>
+</p>
+
+<p>
+  <%= label_tag :settings_critical_tags, l(:critical_tags) %>
+  <%= text_field_tag "settings[critical_tags]", @settings[:critical_tags] %>
+</p>

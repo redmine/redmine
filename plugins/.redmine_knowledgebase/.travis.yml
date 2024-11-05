@@ -1,0 +1,16 @@
+language: ruby
+rvm:
+  - 2.0.0
+  - 1.9.3
+env:
+  - REDMINE_VERSION=2.3.3 VERBOSE=yes
+script:
+  - export WORKSPACE=$(pwd)/workspace
+  - export PLUGIN=redmine_knowledgebase
+  - export PATH_TO_PLUGIN=$(pwd)
+  - export PATH_TO_REDMINE=$WORKSPACE/redmine
+  - mkdir $WORKSPACE
+  - bash -x ./.travis-init.sh -r || exit 1
+  - bash -x ./.travis-init.sh -i || exit 1
+  - bash -x ./.travis-init.sh -t || exit 1
+  - bash -x ./.travis-init.sh -u || exit 1

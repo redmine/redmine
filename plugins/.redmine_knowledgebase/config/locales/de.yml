@@ -1,0 +1,115 @@
+--- 
+de: 
+  allow_anon_access: "Anonymen Zugriff erlauben?"
+  allow_sort_category_tree: "Den Katgegoriebaum alphabetisch sortieren?"
+  disable_article_summaries: "Artikelzusammenfassungen deaktivieren"
+  field_article_author: "Erstellt von"
+  field_article_destroyer: "Gelöscht von"
+  field_article_updater: "Aktualisiert von"
+  field_tag_list: "Tag Liste"
+  field_updated_at: "Aktualisiert am"
+  field_version: Version
+  field_version_comments: Änderungskommentare
+  knowledgebase_title: Wissensbasis
+  label_article_created: "Artikel '%{title}' erstellt"
+  label_article_plural: Artikel
+  label_article_removed: "Artikel entfernt"
+  label_article_updated: "Artikel aktualisiert"
+  label_article_version: "Article version: %{version} - "
+  label_article_viewed: 
+    one: "Einmal gesehen"
+    other: "%{count} mal gesehen"
+  label_attachment_add: "Add files"
+  label_authored_by: "Articles authored by"
+  label_category: Kategorie
+  label_category_created: "Kategorie '%{title}' erstellt"
+  label_category_deleted: "Kategorie gelöscht"
+  label_category_has_subcategory_cannot_delete: "Category can not be deleted because it contains a subcategory."
+  label_category_not_empty_cannot_delete: "Dieser Kategorie sind noch Artikel zugewiesen und kann nicht gelöscht werden,"
+  label_category_plural: Kategorien
+  label_category_updated: "Kategorie aktualisiert"
+  label_content: Inhalt
+  label_delete_article: Löschen
+  label_delete_category: "Kategorie entfernen"
+  label_description: Beschreibung
+  label_edit_article: Bearbeiten
+  label_edit_category: "Kategorie bearbeiten"
+  label_filter_by_tag: "Filter by Tag"
+  label_filtered_by_tag: "Filtered by tag:"
+  label_jump_category: "Zur Kategorie wechseln "
+  label_kb_article_plural: "Wissensbasis Artikel"
+  label_kb_home: Home
+  label_kb_link: "KB#%{kb_id}"
+  label_new_article: "Artikel erstellen"
+  label_new_category: "Kategorie erstellen"
+  label_new_comment: "Neuer Kommentar"
+  label_overview_my_articles: "Von mir geschriebene Artikel: %{total_articles_by_me}"
+  label_overview_total_articles: "Artikelanzahl: %{total_articles}"
+  label_overview_total_categories: "Kategorieanzahl: %{total_categories}"
+  label_parent_category: "Übergeordnete Kategorie"
+  label_root_category: "Root Kategorie"
+  label_subcategories: Unterkategorien
+  label_summary: Zusammenfassung
+  label_summary_newest_articles: "Erstellt vor %{ago} in %{category}"
+  label_summary_popular_articles: 
+    one: "Einmal angezeigt seit %{created}"
+    other: "%{count} mal angezeigt seit %{created}"
+  label_summary_toprated_articles: 
+    one: "Rating: %{rating_avg}/%{rating_max} aus einer Stimme"
+    other: "Rating: %{rating_avg}/%{rating_max} aus %{count} Stimmen"
+  label_summary_updated_articles: "Vor %{ago} aktualisiert"
+  label_title: Titel
+  label_title_articles: Artikel
+  label_title_category: Kategorie
+  label_unrated_article: Unrated
+  label_updated_who: "Aktualisiert von %{updater} vor %{age}"
+  message_no_articles: "Es wurde noch kein Artikel eingegeben. Beginnen Sie mit einem Artikel zum Thema..."
+  message_no_categories: "Leider sind keine Kategorien definiert und Sie müssen eingeloggt sein um neue Kategorien zu erstellen."
+  message_no_permissions: "Sie haben nicht die Berechtigungen Artikel oder Kategorien zu sehen. Bitte kontaktieren Sie ihren Administrator."
+  message_summary_count_not_available: "Additionsnummer nicht verfügbar!"
+  permission_comment_and_rate_articles: "Artikel kommentieren und bewerten"
+  permission_create_article_categories: "Artikelkategorien erstellen"
+  permission_create_articles: "Artikel erstellen"
+  permission_edit_articles: "Artikel bearbeiten"
+  permission_manage_article_categories: "Artikelkategorien verwalten"
+  permission_manage_article_history: "Artikelhistorie verwalten"
+  permission_manage_articles: "Artikel verwalten"
+  permission_manage_articles_comments: "Artikelkommentare verwalten"
+  permission_manage_own_articles: "Manage own articles"
+  permission_view_article_history: "Artikelhistorie ansehen"
+  permission_view_articles: "Artikel anzeigen"
+  permission_view_kb_articles: "Artikel anzeigen"
+  permission_view_most_popular_articles: "Beliebteste Artikel ansehen"
+  permission_view_recent_articles: "Zuletzt geänderte Artikel ansehen"
+  permission_view_top_rated_articles: "Bestbewerteste Artikel ansehen"
+  permission_watch_articles: "Artikel beobachten"
+  permission_watch_categories: "Kategorien beobachten"
+  project_module_knowledgebase: Wissensbasis
+  show_article_without_tabs: "Show articles without tabs?"
+  show_attachments_first: "Show attachments before article content?"
+  show_breadcrumbs_for_article_lists: "Show breadcrumbs for articles in lists?"
+  show_category_totals: "Anzahl der Artikel pro Katgeorie im Katgeoriebaum anzeigen?"
+  show_thumbnails_for_articles: "Show thumbnails for articles in lists?"
+  summary_item_limit: "Maximale Artikel in der Übersicht"
+  text_confirm_versions_delete: "Diese Aktion wird alle eventuell vorliegenden neueren Versionen dieses Dokumentes revidieren und löschen. Sind Sie sicher?"
+  text_current_version: Aktuell
+  title_add_comment: "Kommentar hinzufügen"
+  title_article_rating: "Artikel Rating"
+  title_browse_by_category: "Nach Kategorie filtern"
+  title_browse_by_tags: "Nach Tags filtern"
+  title_create_article: "Artikel erstellen"
+  title_create_category: "Kategorie erzeugen"
+  title_edit_article: "Artikel ändern"
+  title_edit_category: "Kategorie ändern"
+  title_most_popular_articles: "Beliebteste Artikel"
+  title_new_category: "Neue Kategorie"
+  title_newest_articles: "Neueste Artikel"
+  title_overview_summary: "Wissensbasis Zusammenfassung"
+  title_recently_updated_articles: "Artikel zuletzt aktualisiert"
+  title_tagged_articles: "Artikel getaggt mit %{tag}"
+  title_tags: Tags
+  title_top_rated_articles: "Bestbewertete Artikel"
+  title_votes: 
+    one: "Eine Stimme"
+    other: "%{count} Stimmen"
+    zero: "Keine Stimmen"

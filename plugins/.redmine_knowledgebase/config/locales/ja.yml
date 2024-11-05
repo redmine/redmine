@@ -1,0 +1,117 @@
+---
+ja:
+  articles_per_list_page: "1ページに表示する記事数"
+  allow_anon_access: 匿名アクセス許可
+  allow_sort_category_tree: カテゴリをアルファベット順に並び替える
+  critical_tags: "重要なタグを最初に表示する(カンマ区切り)"
+  disable_article_summaries: 記事要約の非表示
+  description_create_article: ""
+  field_article_author: 作成者
+  field_article_destroyer: 削除者
+  field_article_updater: 更新者
+  field_tag_list: タグリスト
+  field_updated_at: 更新日
+  field_version: バージョン
+  field_version_comments: 変更コメント
+  knowledgebase_title: ナレッジベース
+  label_article_created: "'%{title}'の記事を作成しました。"
+  label_article_plural: ナレッジベース記事
+  label_article_removed: 記事を削除しました。
+  label_article_updated: 記事を更新しました。
+  label_article_version: "記事のバージョン: %{version} - "
+  label_article_viewed:
+    one: 1人が閲覧
+    other: "%{count}人が閲覧"
+  label_attachment_add: "ファイルを追加"
+  label_authored_by: "指定著者による記事:"
+  label_category: カテゴリ
+  label_category_created: "'%{title}'カテゴリーを作成しました。"
+  label_category_deleted: カテゴリーを削除しました。
+  label_category_has_subcategory_cannot_delete: "サブカテゴリがあるためこのカテゴリを削除できません。"
+  label_category_not_empty_cannot_delete: 関連記事があるため，カテゴリーを削除できません。
+  label_category_plural: カテゴリ一覧
+  label_category_updated: カテゴリーを更新しました。
+  label_content: 詳細
+  label_delete_article: 削除
+  label_delete_category: カテゴリを削除
+  label_description: 説明
+  label_edit_article: 編集
+  label_edit_category: カテゴリを編集
+  label_filter_by_tag: "タグによるフィルタリング"
+  label_filtered_by_tag: "指定タグによるフィルタ結果:"
+  label_jump_category: カテゴリー選択
+  label_kb_article_plural: ナレッジベースの記事
+  label_kb_home: ホーム
+  label_kb_link: "KB#%{kb_id}"
+  label_new_article: 新しい記事
+  label_new_category: 新しいカテゴリ
+  label_new_comment: コメントする
+  label_overview_my_articles: "自分で作成した記事数の合計: %{total_articles_by_me}"
+  label_overview_total_articles: "記事数の合計: %{total_articles}"
+  label_overview_total_categories: "カテゴリ数の合計: %{total_categories}"
+  label_parent_category: 親カテゴリ
+  label_root_category: 最上位カテゴリ
+  label_subcategories: サブカテゴリ群
+  label_summary: 概要
+  label_summary_newest_articles: "%{ago}前に作成 in %{category}"
+  label_summary_popular_articles:
+    one: "作成日:%{created} / 閲覧者数:1"
+    other: "作成日:%{created} / 閲覧者数:%{count}"
+  label_summary_toprated_articles:
+    one: "評価: %{rating_avg}/%{rating_max} from 1票"
+    other: "評価: %{rating_avg}/%{rating_max} from %{count} 票"
+  label_summary_updated_articles: "%{ago}前に更新"
+  label_title: タイトル
+  label_title_articles: 記事
+  label_title_category: カテゴリ
+  label_unrated_article: 投票なし
+  label_updated_who: "%{updater}によって%{age}に更新"
+  message_no_articles: ナレッジベースに追加された記事はありません。早速作りましょう！
+  message_no_categories: 定義されたカテゴリがありません。新しいカテゴリを作成するにはログインする必要があります。
+  message_no_permissions: 記事やカテゴリの閲覧権限がありません。管理者にお問い合わせください。
+  message_summary_count_not_available: サマリーの集計が有効ではありません！
+  permission_comment_and_rate_articles: 記事のコメントとレーティング
+  permission_create_article_categories: 記事のカテゴリ追加
+  permission_create_articles: 記事の追加
+  permission_edit_articles: 記事の編集
+  permission_manage_article_categories: 記事のカテゴリ管理
+  permission_manage_article_history: 記事の履歴管理
+  permission_manage_articles: 記事の管理
+  permission_manage_articles_comments: 記事のコメント管理
+  permission_manage_own_articles: "所有する記事の管理"
+  permission_view_article_history: 記事履歴の閲覧
+  permission_view_articles: 記事の閲覧
+  permission_view_kb_articles: 記事の閲覧
+  permission_view_most_popular_articles: 人気記事の閲覧
+  permission_view_recent_articles: 最近の記事閲覧
+  permission_view_top_rated_articles: トップレート記事の閲覧
+  permission_watch_articles: 記事のウォッチ
+  permission_watch_categories: カテゴリのウォッチ
+  project_module_knowledgebase: ナレッジベース
+  show_article_without_tabs: "TABなしの記事を表示しますか?"
+  show_attachments_first: "記事の前に添付ファイルを表示しますか?"
+  show_breadcrumbs_for_article_lists: "記事一覧の記事にパンくずを表示しますか?"
+  show_category_totals: ツリーの全てのカテゴリを表示する
+  show_thumbnails_for_articles: "記事一覧の記事にサムネイルを表示しますか?"
+  show_tiled_article_lists: "記事一覧をタイル表示しますか?"
+  summary_item_limit: ナレッジベースに表示する記事数
+  text_confirm_versions_delete: このドキュメントの新しいバージョンが存在する場合、記事は逆戻りして削除されます。よろしいですか?
+  text_current_version: 現在のバージョン
+  thumbnail_explanation: "ファイルを登録する場合、説明欄に\"thumbnail\"が設定している画像ファイルが記事のサムネイルとして表示します。それ以外の場合は最後に登録した画像ファイルをサムネイルとして表示します。"
+  title_add_comment: コメントを追加
+  title_article_rating: 評価レート
+  title_browse_by_category: カテゴリ別一覧
+  title_browse_by_tags: タグ別一覧
+  title_create_article: 新規記事発行
+  title_create_category: カテゴリを追加
+  title_edit_article: 記事を編集
+  title_edit_category: カテゴリを編集
+  title_most_popular_articles: 人気の記事
+  title_new_category: 新規カテゴリ
+  title_newest_articles: 最新の記事
+  title_overview_summary: ナレッジベース要約
+  title_recently_updated_articles: 最近更新された記事
+  title_tagged_articles: "「%{tag}」のタグが付いている記事"
+  title_tags: タグ
+  title_top_rated_articles: 評価の高い記事
+  title_votes: 投票数

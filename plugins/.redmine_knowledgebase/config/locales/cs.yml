@@ -1,0 +1,117 @@
+--- 
+cs: 
+  allow_anon_access: "Dovolit anonymní přístup?"
+  allow_sort_category_tree: "Řadit strom kategorií podle abecedy?"
+  disable_article_summaries: "Disable Article Summaries"
+  field_article_author: "Created by"
+  field_article_destroyer: "Deleted by"
+  field_article_updater: "Updated by"
+  field_tag_list: "Seznam štítků"
+  field_updated_at: "Updated at"
+  field_version: Version
+  field_version_comments: "Change comments"
+  knowledgebase_title: "Znalostní databáze"
+  label_article_created: "Byl vytvořen článek %{title}"
+  label_article_plural: Články
+  label_article_removed: "Článek byl smazán"
+  label_article_updated: "Článek byl aktualizován"
+  label_article_version: "Article version: %{version} - "
+  label_article_viewed: 
+    one: "Zobrazeno jednou"
+    other: "Zobrazeno %{count} krát"
+  label_attachment_add: "Add files"
+  label_authored_by: "Articles authored by"
+  label_category: Kategorie
+  label_category_created: "Byla vytvořena kategorie %{title}"
+  label_category_deleted: "Kategorie byla smazána"
+  label_category_has_subcategory_cannot_delete: "Category can not be deleted because it contains a subcategory."
+  label_category_not_empty_cannot_delete: "Kategorie obsahuje články a nemůže být smazána."
+  label_category_plural: Kategorie
+  label_category_updated: "Kategorie byla aktualizována"
+  label_content: Obsah
+  label_delete_article: Smazat
+  label_delete_category: "Odstranit kategorii"
+  label_description: Popis
+  label_edit_article: Upravit
+  label_edit_category: "Upravit kategorii"
+  label_filter_by_tag: "Filter by Tag"
+  label_filtered_by_tag: "Filtered by tag:"
+  label_home: Úvodní
+  label_jump_category: "Skočit na kategorii"
+  label_kb_article_plural: "Knowledgebase articles"
+  label_kb_home: Home
+  label_kb_link: "KB#%{kb_id}"
+  label_new_article: "Nový článek"
+  label_new_category: "Nová kategorie"
+  label_new_comment: "Nový komentář"
+  label_overview_my_articles: "Articles written by me: %{total_articles_by_me}"
+  label_overview_total_articles: "Total number of articles: %{total_articles}"
+  label_overview_total_categories: "Total number of categories: %{total_categories}"
+  label_parent_category: "Nadřazená kategorie"
+  label_root_category: "Kategorie nejvyšší úrovně"
+  label_subcategories: Podkategorie
+  label_summary: Souhrn
+  label_summary_newest_articles: "Vytvořeno před %{ago} v %{category}"
+  label_summary_popular_articles: 
+    one: "Zobrazeno jednou od %{created}"
+    other: "Zobrazeno %{count} krát od %{created}"
+  label_summary_toprated_articles: 
+    one: "Hodnoceno jedním hlasem, %{rating_avg}/%{rating_max}"
+    other: "Hodnoceno %{count} hlasy, %{rating_avg}/%{rating_max}"
+  label_summary_updated_articles: "Aktualizováno před %{ago}"
+  label_title: Název
+  label_title_articles: Články
+  label_title_category: Kategorie
+  label_unrated_article: Unrated
+  label_updated_who: "Updated by %{updater} %{age} ago"
+  message_no_articles: "Zatím nejsou ve znalostní databázi žádné články. Asi byste měli začít něco dělat..."
+  message_no_categories: "Unfortunately, there aren't any Categories defined, and you need to be logged in to create new categories."
+  message_no_permissions: "You do not have permission to view any articles or categories. Please contact your administrator."
+  message_summary_count_not_available: "Summary Count Not Available!"
+  permission_comment_and_rate_articles: "Komentovat a hodnotit články"
+  permission_create_article_categories: "Vytvářet kategorie"
+  permission_create_articles: "Vytvářet články"
+  permission_edit_articles: "Upravovat články"
+  permission_manage_article_categories: "Spravovat kategorie"
+  permission_manage_article_history: "manage article history"
+  permission_manage_articles: "Spravovat články"
+  permission_manage_articles_comments: "Spravovat komentáře"
+  permission_manage_own_articles: "Manage own articles"
+  permission_view_article_history: "view article history"
+  permission_view_articles: "Zobrazit články"
+  permission_view_kb_articles: "View articles"
+  permission_view_most_popular_articles: "view most popular articles"
+  permission_view_recent_articles: "View recent articles"
+  permission_view_top_rated_articles: "view top rated articles"
+  permission_watch_articles: "Watch articles"
+  permission_watch_categories: "Watch categories"
+  project_module_knowledgebase: Knowledgebase
+  show_article_without_tabs: "Show articles without tabs?"
+  show_attachments_first: "Show attachments before article content?"
+  show_breadcrumbs_for_article_lists: "Show breadcrumbs for articles in lists?"
+  show_category_totals: "Zobrazit součty pro kategorie ve stromě?"
+  show_thumbnails_for_articles: "Show thumbnails for articles in lists?"
+  summary_item_limit: "Limit pro délku souhrnu"
+  text_confirm_versions_delete: "This will revert and delete any newer versions of this document that may exist. Are you sure?"
+  text_current_version: Current
+  title_add_comment: "Přidat komentář"
+  title_article_rating: "Hodnocení článku"
+  title_browse_by_category: "Procházet podle kategorie"
+  title_browse_by_tags: "Browse by Tags"
+  title_create_article: "Vytvořit článek"
+  title_create_category: "Vytvořit kategorii"
+  title_edit_article: "Upravit článek"
+  title_edit_category: "Upravit kategrii"
+  title_most_popular_articles: "Nejpopulárnější články"
+  title_new_category: "Nová kategorie"
+  title_newest_articles: "Nejnovější články"
+  title_overview_summary: "Knowledgebase Summary"
+  title_recently_updated_articles: "Nedávno upravené články"
+  title_tagged_articles: "Články se štítkem %{tag}"
+  title_tags: Štítky
+  title_top_rated_articles: "Nejlépe hodnocené články"
+  title_votes: 
+    few: hlasy
+    one: "jeden hlas"
+    other: "%{count} hlasů"
+    zero: "žádné hlasy"

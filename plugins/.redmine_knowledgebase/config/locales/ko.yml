@@ -1,0 +1,113 @@
+--- 
+ko: 
+  allow_anon_access: "익명 접근허가"
+  allow_sort_category_tree: "카테고리를 알파벳순 정렬"
+  disable_article_summaries: "Disable Article Summaries"
+  field_article_author: "Created by"
+  field_article_destroyer: "Deleted by"
+  field_article_updater: "Updated by"
+  field_tag_list: 태그목록
+  field_updated_at: "Updated at"
+  field_version: Version
+  field_version_comments: "Change comments"
+  knowledgebase_title: 지식자료
+  label_article_created: "'%{title}' 지식을 작성했습니다."
+  label_article_plural: 지식자료
+  label_article_removed: "지식을 삭제했습니다．"
+  label_article_updated: "지식을 수정했습니다.．"
+  label_article_version: "Article version: %{version} - "
+  label_article_viewed: 
+    one: "1회 조회"
+    other: "%{count}회 조회"
+  label_attachment_add: "Add files"
+  label_authored_by: "Articles authored by"
+  label_category: 카테고리
+  label_category_created: "'%{title}' 카테고리를 작성했습니다."
+  label_category_deleted: "카테고리를 삭제했습니다.．"
+  label_category_has_subcategory_cannot_delete: "Category can not be deleted because it contains a subcategory."
+  label_category_not_empty_cannot_delete: "관련지식이 있는 관계로 카테고리를 삭제할 수 없습니다."
+  label_category_plural: "카테고리 목록"
+  label_category_updated: "카테고리를 수정했습니다."
+  label_content: 상세
+  label_delete_article: 삭제
+  label_delete_category: "카테고리 삭제"
+  label_description: 설명
+  label_edit_article: 수정
+  label_edit_category: "카테고리 수정"
+  label_filter_by_tag: "Filter by Tag"
+  label_filtered_by_tag: "Filtered by tag:"
+  label_home: Home
+  label_jump_category: "카테고리 선택"
+  label_kb_article_plural: "Knowledgebase articles"
+  label_kb_home: Home
+  label_kb_link: "KB#{{kb_id}}"
+  label_new_article: "새로운 지식"
+  label_new_category: "새로운 카테고리"
+  label_new_comment: 댓글달기
+  label_overview_my_articles: "Articles written by me: %{total_articles_by_me}"
+  label_overview_total_articles: "Total number of articles: %{total_articles}"
+  label_overview_total_categories: "Total number of categories: %{total_categories}"
+  label_parent_category: "상위 카테고리"
+  label_root_category: "최상위 카테고리"
+  label_subcategories: "하위 카테고리들"
+  label_summary: 개요
+  label_summary_newest_articles: "%{ago}전에 작성 in %{category}"
+  label_summary_popular_articles: 
+    one: "1회 조회 %{created}"
+    other: "%{count}회 조회 %{created}부터"
+  label_summary_toprated_articles: 
+    one: "평가: %{rating_avg}/%{rating_max} from 1표"
+    other: "평가: %{rating_avg}/%{rating_max} from %{count}표"
+  label_summary_updated_articles: "%{ago}전에 수정"
+  label_title: 제목
+  label_title_articles: 지식명
+  label_title_category: 카테고리명
+  label_unrated_article: Unrated
+  label_updated_who: "%{updater}이(가) %{age}전에 수정했습니다."
+  message_no_articles: "지식 데이터베이스에 추가된 지식이 없습니다."
+  message_no_categories: "죄송합니다. 등록된 카테고리가 없습니다. 새로운 카테고리를 작성하시려면 로그인이 필요합니다."
+  message_no_permissions: "You do not have permission to view any articles or categories. Please contact your administrator."
+  message_summary_count_not_available: "Summary Count Not Available!"
+  permission_comment_and_rate_articles: "지식에 댓글과 평가"
+  permission_create_article_categories: "지식 카테고리 생성"
+  permission_create_articles: "지식 생성"
+  permission_edit_articles: "지식 수정"
+  permission_manage_article_categories: "지식 카테고리 관리"
+  permission_manage_article_history: "manage article history"
+  permission_manage_articles: "지식 관리"
+  permission_manage_articles_comments: "지식 댓글 관리"
+  permission_manage_own_articles: "Manage own articles"
+  permission_view_article_history: "view article history"
+  permission_view_articles: "지식 보기"
+  permission_view_kb_articles: "View articles"
+  permission_view_most_popular_articles: "view most popular articles"
+  permission_view_recent_articles: "View recent articles"
+  permission_view_top_rated_articles: "view top rated articles"
+  permission_watch_articles: "Watch articles"
+  permission_watch_categories: "Watch categories"
+  project_module_knowledgebase: Knowledgebase
+  show_article_without_tabs: "Show articles without tabs?"
+  show_attachments_first: "Show attachments before article content?"
+  show_breadcrumbs_for_article_lists: "Show breadcrumbs for articles in lists?"
+  show_category_totals: "모든 카테고리 표시"
+  show_thumbnails_for_articles: "Show thumbnails for articles in lists?"
+  summary_item_limit: "지식자료에 표시되는 지식수"
+  text_confirm_versions_delete: "This will revert and delete any newer versions of this document that may exist. Are you sure?"
+  text_current_version: Current
+  title_add_comment: "댓글 추가"
+  title_article_rating: 평가순위
+  title_browse_by_category: "카테고리 목록"
+  title_browse_by_tags: "Browse by Tags"
+  title_create_article: "새로운 지식 작성"
+  title_create_category: "카테고리 추가"
+  title_edit_article: "지식 수정"
+  title_edit_category: "카테고리 수정"
+  title_most_popular_articles: "인기 지식"
+  title_new_category: "새로운 카테고리"
+  title_newest_articles: "최근 지식"
+  title_overview_summary: "Knowledgebase Summary"
+  title_recently_updated_articles: "최근에 수정된 지식"
+  title_tagged_articles: "이 지식은 %{tag}로 태그됨"
+  title_tags: 태그
+  title_top_rated_articles: "평가가 높은 지식"
+  title_votes: 투표수

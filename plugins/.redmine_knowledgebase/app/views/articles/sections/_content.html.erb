@@ -1,0 +1,14 @@
+<div class="article-info">
+  <% unless @article.versions.size == 0 %>
+  <%= l(:label_article_version, :version => @article.version) %>
+  <% end %>
+  <%= authoring @article.created_at, @article.author %>
+  <% if @article.created_at != @article.updated_at %>
+  | <%= updated_by @article.updated_at, @article.updater %>.
+  <% end %>
+  | <%= l(:label_article_viewed, :count => @article.view_count) %>
+</div>
+
+<div id="article">
+  <div class="wiki"><%= textilizable @article, :content, :attachments => @article.attachments %></div>
+</div>

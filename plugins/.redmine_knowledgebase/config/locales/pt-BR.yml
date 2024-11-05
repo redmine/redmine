@@ -1,0 +1,112 @@
+--- 
+pt-BR: 
+  allow_anon_access: "Allow anonymous access?"
+  allow_sort_category_tree: "Sort the category tree alphabetically?"
+  disable_article_summaries: "Disable Article Summaries"
+  field_article_author: "Created by"
+  field_article_destroyer: "Deleted by"
+  field_article_updater: "Updated by"
+  field_tag_list: "Lista de Tags"
+  field_updated_at: "Updated at"
+  field_version: Version
+  field_version_comments: "Change comments"
+  knowledgebase_title: "Base de conhecimento"
+  label_article_created: "Created article '%{title}'"
+  label_article_plural: Artigos
+  label_article_removed: "Article removed"
+  label_article_updated: "Article updated"
+  label_article_version: "Article version: %{version} - "
+  label_article_viewed: 
+    one: "Viewed once"
+    other: "Viewed %{count} times"
+  label_attachment_add: "Add files"
+  label_authored_by: "Articles authored by"
+  label_category: Categoria
+  label_category_created: "Created category '%{title}'"
+  label_category_deleted: "Category deleted"
+  label_category_has_subcategory_cannot_delete: "Category can not be deleted because it contains a subcategory."
+  label_category_not_empty_cannot_delete: "Category is assigned to articles and could not be deleted."
+  label_category_plural: Categorias
+  label_category_updated: "Category updated"
+  label_content: Conteúdo
+  label_delete_article: Delete
+  label_delete_category: "Delete Category"
+  label_description: Descrição
+  label_edit_article: Edit
+  label_edit_category: "Edit Category"
+  label_filter_by_tag: "Filter by Tag"
+  label_filtered_by_tag: "Filtered by tag:"
+  label_jump_category: "Ir para Categoria"
+  label_kb_article_plural: "Knowledgebase articles"
+  label_kb_home: "Página Inicial"
+  label_kb_link: "KB#%{kb_id}"
+  label_new_article: "New Article"
+  label_new_category: "New Category"
+  label_new_comment: "New Comment"
+  label_overview_my_articles: "Articles written by me: %{total_articles_by_me}"
+  label_overview_total_articles: "Total number of articles: %{total_articles}"
+  label_overview_total_categories: "Total number of categories: %{total_categories}"
+  label_parent_category: "Categoria Pai"
+  label_root_category: "Categoria Raiz"
+  label_subcategories: Sub-categories
+  label_summary: Resumo
+  label_summary_newest_articles: "Created %{ago} ago in %{category}"
+  label_summary_popular_articles: 
+    one: "Viewed once since %{created}"
+    other: "Viewed %{count} times since %{created}"
+  label_summary_toprated_articles: 
+    one: "Rating: %{rating_avg}/%{rating_max} from one vote"
+    other: "Rating: %{rating_avg}/%{rating_max} from %{count} votes"
+  label_summary_updated_articles: "Updated %{ago} ago"
+  label_title: Título
+  label_title_articles: Artigo
+  label_title_category: Categoria
+  label_unrated_article: Unrated
+  label_updated_who: "Updated by %{updater} %{age} ago"
+  message_no_articles: "Nenhum artigo cadastrado ainda, talvez você queira começar..."
+  message_no_categories: "Unfortunately, there aren't any Categories defined, and you need to be logged in to create new categories."
+  message_no_permissions: "You do not have permission to view any articles or categories. Please contact your administrator."
+  message_summary_count_not_available: "Summary Count Not Available!"
+  permission_comment_and_rate_articles: "Comment and rate articles"
+  permission_create_article_categories: "Create article categories"
+  permission_create_articles: "Create articles"
+  permission_edit_articles: "Edit articles"
+  permission_manage_article_categories: "Manage article categories"
+  permission_manage_article_history: "manage article history"
+  permission_manage_articles: "Manage articles"
+  permission_manage_articles_comments: "Manage articles comments"
+  permission_manage_own_articles: "Manage own articles"
+  permission_view_article_history: "view article history"
+  permission_view_articles: "View articles"
+  permission_view_kb_articles: "View articles"
+  permission_view_most_popular_articles: "view most popular articles"
+  permission_view_recent_articles: "View recent articles"
+  permission_view_top_rated_articles: "view top rated articles"
+  permission_watch_articles: "Watch articles"
+  permission_watch_categories: "Watch categories"
+  project_module_knowledgebase: Knowledgebase
+  show_article_without_tabs: "Show articles without tabs?"
+  show_attachments_first: "Show attachments before article content?"
+  show_breadcrumbs_for_article_lists: "Show breadcrumbs for articles in lists?"
+  show_category_totals: "Show category totals in tree?"
+  show_thumbnails_for_articles: "Show thumbnails for articles in lists?"
+  summary_item_limit: "Knowledgebase summary page article limit"
+  text_confirm_versions_delete: "This will revert and delete any newer versions of this document that may exist. Are you sure?"
+  text_current_version: Current
+  title_add_comment: "Add Comment"
+  title_article_rating: "Classificação do Artigo"
+  title_browse_by_category: "Navegar por Categoria"
+  title_browse_by_tags: "Browse by Tags"
+  title_create_article: "Criar Artigo"
+  title_create_category: "Criar Categoria"
+  title_edit_article: "Editar Artigo"
+  title_edit_category: "Editar Categoria"
+  title_most_popular_articles: "Artigos Mais Populares"
+  title_new_category: "Nova Categoria"
+  title_newest_articles: "Novos Artigos"
+  title_overview_summary: "Knowledgebase Summary"
+  title_recently_updated_articles: "Artigos Recentemente Atualizados"
+  title_tagged_articles: "Articles tagged with %{tag}"
+  title_tags: Tags
+  title_top_rated_articles: "Artigos Mais Bem Classificados"
+  title_votes: Votos
