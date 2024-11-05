@@ -4,6 +4,55 @@
 // CUSTOM FOR SOFTRA
 $(document).ready(function() {
    $('.search-select').select2();
+
+  let interval = Number(localStorage.getItem('issues_timer'));
+  if(!!interval && Number.isInteger(interval)){
+    issuesFetcher(interval);
+  }else{
+    issuesFetcher(0);
+  }
+  
+  function issuesFetcher(interval) {
+    let time_left = interval - 1
+    if(time_left <= 0){
+      let auth = $('meta[name=csrf-token]').attr('content');
+      pending_issues_request(auth)
+    }else{
+      localStorage.setItem('issues_timer', time_left)
+      setTimeout(function() {
+        issuesFetcher(time_left)
+      }, 1000);
+    }
+  }
+
+  function pending_issues_request(token) {
+    $.ajax({
+      method: 'get',
+      accept: 'application/json',
+      url: "/issues/pending?authenticity_token=" + token,
+      success: function(data, status, xhr){
+        if(xhr.status === 200){
+          if(!!data.issues && data.issues.length > 0){
+            let elements = '';
+            for(i in data.issues){
+              elements += `<div class="col-sm-12"><a href="/issues/${data.issues[i].id}" target="_blank">[${data.issues[i].id}] ${data.issues[i].subject}</a></div>`;
+            }
+            $('#ajax-modal').html(elements);
+            showModal('ajax-modal', '300px', data.title);
+            localStorage.setItem('issues_timer', data.timer)
+            setTimeout(function() {
+              issuesFetcher(data.timer);
+            }, 1000);
+          }else if(!!data && !!data.timer){
+            localStorage.setItem('issues_timer', data.timer)
+            setTimeout(function() {
+              issuesFetcher(data.timer);
+            }, 1000);
+          }
+        }
+      },
+    });
+  }
 });
 // END CUSTOM FOR SOFTRA
 
@@ -1226,7 +1275,7 @@ function inlineAutoComplete(element) {
     });
 
     tribute.attach(element);
-}
+  }
 
 
 $(document).ready(setupAjaxIndicator);

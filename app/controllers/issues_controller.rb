@@ -22,11 +22,11 @@ class IssuesController < ApplicationController
 
   before_action :find_issue, :only => [:show, :edit, :update, :issue_tab]
   before_action :find_issues, :only => [:bulk_edit, :bulk_update, :destroy]
-  before_action :authorize, :except => [:index, :new, :create]
+  before_action :authorize, :except => [:index, :new, :create, :pending]
   before_action :find_optional_project, :only => [:index, :new, :create]
   before_action :build_new_issue_from_params, :only => [:new, :create]
   accept_atom_auth :index, :show
-  accept_api_auth :index, :show, :create, :update, :destroy
+  accept_api_auth :index, :show, :create, :update, :destroy, :pending
 
   rescue_from Query::StatementInvalid, :with => :query_statement_invalid
   rescue_from Query::QueryError, :with => :query_error
@@ -41,6 +41,36 @@ class IssuesController < ApplicationController
   include QueriesHelper
   helper :repositories
   helper :timelog
+
+  p '*********'*100
+  logger.info '*********'*100
+
+  def pending
+    if session && session[:user_id]
+      @timer = Setting.support_popup_interval
+      support_group = Group.find_by(lastname: 'Support')
+      current_user = User.find(session[:user_id])
+
+      if current_user.groups.include?(support_group)
+        issue_status = IssueStatus.find_by(name: 'New')
+        support_tracker = Tracker.find_by(name: 'Support')
+        project_ids = Project.active.to_a.keep_if { |project| !project.principals.where(type: 'Group', id: support_group).empty? }
+        @title = lu(current_user, :label_issues_unassigned)
+        @issues = Issue.joins(:project, :status)
+                      .where('issues.assigned_to_id IS NULL OR issues.assigned_to_id = ? AND projects.id in (?)', support_group, project_ids)
+                      .where('issues.status_id = ?', issue_status)
+                      .where('issues.tracker_id = ?', support_tracker)
+
+        respond_to do |format|
+          format.json { render json: { issues: @issues, timer: @timer, title: @title } }
+        end
+      else
+        render json: { timer: @timer }
+      end
+    else
+      render nothing: true, status: 403
+    end
+  end
 
   def index
     use_session = !request.format.csv?
