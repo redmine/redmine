@@ -1,6 +1,0 @@
-<h3><%= l(:title_tagged_articles, :tag => @tag) %></h3>
-
-<% if @list.length > 0 %>
-  <%= render :partial => 'articles/list_table', :locals => { :articles => @list } %>
-<% end %>
-
