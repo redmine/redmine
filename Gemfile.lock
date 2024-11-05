@@ -129,6 +129,7 @@ GEM
     docile (1.4.1)
     erubi (1.13.0)
     ffi (1.17.0-arm64-darwin)
+    ffi (1.17.0-x86_64-linux-gnu)
     globalid (1.2.1)
       activesupport (>= 6.1)
     holidays (8.8.0)
@@ -190,6 +191,8 @@ GEM
     net-ssh (7.3.0)
     nio4r (2.7.4)
     nokogiri (1.15.6-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.15.6-x86_64-linux)
       racc (~> 1.4)
     ostruct (0.6.0)
     parallel (1.26.3)
@@ -342,6 +345,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-21
+  x86_64-linux
 
 DEPENDENCIES
   actionpack-xml_parser
