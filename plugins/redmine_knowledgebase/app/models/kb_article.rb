@@ -1,5 +1,7 @@
-require Rails.version > '5.0' ? 'redmine/string_array_diff/diff' : 'diff'
 
+# require Rails.version > '5.0' ? 'redmine/string_array_diff/diff' : 'diff'
+
+# require_dependency 'redmine/helpers/diff'
 class KbArticle < ApplicationRecord
   include Redmine::SafeAttributes
 
@@ -146,15 +148,5 @@ class KbArticle < ApplicationRecord
       KbArticle.version == self.version
     end
 
-  end
-end
-
-class KbDiff < Redmine::Helpers::Diff
-  attr_reader :content_to, :content_from
-
-  def initialize(content_to, content_from)
-    @content_to = content_to
-    @content_from = content_from
-    super(content_to.content, content_from.content)
   end
 end

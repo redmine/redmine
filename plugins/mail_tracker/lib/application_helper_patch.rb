@@ -8,7 +8,7 @@ module ApplicationHelperPatch
       
         # Markdown patterns
         markdown_patterns = [
-          /^\#{1,6}\s/,  # Headings like #, ##, ###, etc.
+          # /^\#{1,6}\s/,  # Headings like #, ##, ###, etc.
           /\[.*?\]\(.*?\)/, # Links like [text](url)
           /\!\[.*?\]\(.*?\)/, # Images like ![alt text](url)
           /<h\d>/,  # Headings like <h1>, <h2>, <h3>, etc.
@@ -39,10 +39,10 @@ module ApplicationHelperPatch
         ]
 
         # Check for Markdown patterns
-        markdown_detected = markdown_patterns.any? { |pattern| text.match?(pattern) }
+        markdown_detected = markdown_patterns.any? { |pattern| m = text.match?(pattern); p pattern.to_s + ' ' + m.to_s; m }
       
         # Check for Textile patterns
-        textile_detected = textile_patterns.any? { |pattern| text.match?(pattern) }
+        textile_detected = textile_patterns.any? { |pattern| m = text.match?(pattern); p pattern.to_s + ' ' + m.to_s; m }
         if markdown_detected && !textile_detected
           'common_mark'
         elsif textile_detected && !markdown_detected
@@ -82,11 +82,9 @@ module ApplicationHelperPatch
         else
           # Old non dynamic text_formatting
           # formatting = Setting.text_formatting
-
+          # formatting = 'textile'
           # New dynamic text_formatting which resolves the text formatting from the given text
-          p text
           formatting = detect_format(text)
-          p formatting, text
           text = Redmine::WikiFormatting.to_html(formatting, text, :object => obj, :attribute => attr)
         end
 
