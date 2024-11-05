@@ -17,6 +17,7 @@ Redmine::Plugin.register :mail_tracker do
 end
 
 Proc.new do
+  Journal.send(:include, JournalPatch)
   Group.send(:include, GroupUpdate)
   Issue.send(:include, IssuePatch)
   IssueQuery.send(:include, QueryTracker)
