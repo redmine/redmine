@@ -9,10 +9,8 @@ Project.send :include, KnowledgebaseProjectExtension
 SettingsHelper.send :include, KnowledgebaseSettingsHelper
 ApplicationHelper.send :include, Redmineup::TagsHelper
 
-Rails.configuration.to_prepare do
-  Redmine::Activity.register :kb_articles
-  Redmine::Search.available_search_types << 'kb_articles'
-end
+Redmine::Activity.register :kb_articles
+Redmine::Search.register :kb_articles
 
 Redmine::Plugin.register :redmine_knowledgebase do
   name        'Knowledgebase'
