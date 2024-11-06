@@ -177,7 +177,7 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 
 #content { flex-grow: 1; background-color: #fff; margin: 0px; padding: 10px 16px 10px 16px; overflow-x: auto;}
 
-#main.nosidebar #sidebar { width: 0; padding-right: 0 }
+#main.nosidebar #sidebar { display: none; }
 #main.collapsedsidebar #sidebar { width: 0; padding-right: 0 }
 #main.collapsedsidebar #sidebar-wrapper { display: none; }
 
