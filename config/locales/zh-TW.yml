@@ -285,7 +285,7 @@
   error_no_tracker_in_project: '此專案尚未指定追蹤標籤。請檢查專案的設定資訊。'
   error_no_default_issue_status: '尚未定義議題狀態的預設值。請您前往「網站管理」->「議題狀態清單」頁面，檢查相關組態設定。'
   error_can_not_delete_custom_field: 無法刪除自訂欄位
-  error_can_not_delete_tracker_html: "此追蹤標籤已包含議題，無法被刪除。<p>The following projects have issues with this tracker:<br>%{projects}</p>"
+  error_can_not_delete_tracker_html: "此追蹤標籤已包含議題，無法被刪除。<p>下列專案包含了使用此追蹤標籤的項目：<br>%{projects}</p>"
   error_can_not_remove_role: "此角色已被使用，無法將其刪除。"
   error_can_not_reopen_issue_on_closed_version: '分派給「已結束」版本的議題，無法再將其狀態變更為「進行中」'
   error_can_not_archive_project: 此專案無法被封存
