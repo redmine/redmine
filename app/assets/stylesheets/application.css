@@ -142,7 +142,7 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 @media screen and (min-width: 1600px) and (max-width: 1919px) {#sidebar{width: 320px;}}
 @media screen and (min-width: 1920px) and (max-width: 2559px) {#sidebar{width: 360px;}}
 @media screen and (min-width: 2560px) {#sidebar{width: 380px;}}
-#sidebar h3{ font-size: 0.875rem; margin-top:14px; color: #555; }
+#sidebar h3{ font-size: 0.875rem; color: #555; }
 #sidebar hr{ width: 100%; margin: 0 auto; height: 1px; background: #ccc; border: 0; }
 #sidebar .contextual { margin-right: 1em; }
 #sidebar ul, ul.flat {margin: 0;  padding: 0;}
@@ -154,9 +154,32 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 #sidebar span.icon-warning {margin-left: 5px;}
 #sidebar li input[type=checkbox] {height: 20px;}
 
+#sidebar-switch-panel {
+  margin-left: -20px;
+  padding-right: 28px;
+  width: 100%;
+}
+
+#sidebar-switch-button {
+  display: block;
+  padding: 3px 0;
+  padding-right: 28px;
+  width: 100%;
+
+  svg {
+    stroke: #555;
+  }
+
+  &:hover {
+    background-color: #eeeeee;
+  }
+}
+
 #content { flex-grow: 1; background-color: #fff; margin: 0px; padding: 10px 16px 10px 16px; overflow-x: auto;}
 
-#main.nosidebar #sidebar{ display: none; }
+#main.nosidebar #sidebar { display: none; }
+#main.collapsedsidebar #sidebar { width: 0; padding-right: 0 }
+#main.collapsedsidebar #sidebar-wrapper { display: none; }
 
 #footer {clear: both; border-top: 1px solid #d0d7de; font-size: 0.9em; color: #aaa; padding: 5px; text-align:center; background:#fff;}
 

@@ -191,4 +191,7 @@
   svg: file-type-zip
 - name: application-gzip
   svg: file-zip
-
+- name: chevrons-right
+  svg: chevrons-right
+- name: chevrons-left
+  svg: chevrons-left

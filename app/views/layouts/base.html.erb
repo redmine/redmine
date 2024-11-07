@@ -100,10 +100,20 @@
     <% end %>
 </div>
 
-<div id="main" class="<%= sidebar_content? ? '' : 'nosidebar' %>">
+<div id="main" class="<%= sidebar_content? ? 'collapsiblesidebar' : 'nosidebar' %>">
+  <%= javascript_tag "$('#main.collapsiblesidebar').collapsibleSidebar();" if sidebar_content? %>
     <div id="sidebar">
-        <%= yield :sidebar %>
-        <%= view_layouts_base_sidebar_hook_response %>
+        <% if sidebar_content? %>
+          <div id="sidebar-switch-panel" style="visibility: hidden;">
+            <a id="sidebar-switch-button" class="" href="#">
+              <%= sprite_icon("chevrons-right", size: 20) %></a>
+          </div>
+          <%= javascript_tag "$('#sidebar-switch-panel').css('visibility', 'visible');" %>
+        <% end %>
+        <div id=sidebar-wrapper %>
+          <%= yield :sidebar %>
+          <%= view_layouts_base_sidebar_hook_response %>
+        </div>
     </div>
 
     <div id="content">

@@ -96,6 +96,14 @@
     <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--checked">
       <path d="M5 12l5 5l10 -10"/>
     </symbol>
+    <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--chevrons-left">
+      <path d="M11 7l-5 5l5 5"/>
+      <path d="M17 7l-5 5l5 5"/>
+    </symbol>
+    <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--chevrons-right">
+      <path d="M7 7l5 5l-5 5"/>
+      <path d="M13 7l5 5l-5 5"/>
+    </symbol>
     <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--clear-query">
       <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"/>
       <path d="M9 9l6 6m0 -6l-6 6"/>
