@@ -76,7 +76,7 @@ module ApplicationHelper
     end
 
     css_classes += " #{options[:class]}" if css_classes && options[:class].present?
-    url ? link_to(name, url, :class => css_classes) : name
+    url ? link_to(principal_icon(principal.class.name.downcase).to_s + name, url, :class => css_classes) : name
   end
 
   # Displays a link to edit group page if current user is admin
@@ -1661,7 +1661,7 @@ module ApplicationHelper
 
   def checked_image(checked=true)
     if checked
-      @checked_image_tag ||= content_tag(:span, nil, :class => 'icon-only icon-checked')
+      @checked_image_tag ||= content_tag(:span, sprite_icon("checked"), :class => 'icon-only icon-checked')
     end
   end
 
