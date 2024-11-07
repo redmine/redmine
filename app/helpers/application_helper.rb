@@ -1661,7 +1661,7 @@ module ApplicationHelper
 
   def checked_image(checked=true)
     if checked
-      @checked_image_tag ||= content_tag(:span, nil, :class => 'icon-only icon-checked')
+      @checked_image_tag ||= content_tag(:span, sprite_icon("checked"), :class => 'icon-only icon-checked')
     end
   end
 
