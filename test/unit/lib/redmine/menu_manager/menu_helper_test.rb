@@ -43,7 +43,7 @@ class Redmine::MenuManager::MenuHelperTest < Redmine::HelperTest
   end
 
   def test_render_single_menu_node_with_plugin_icon
-    node = Redmine::MenuManager::MenuItem.new(:testing, '/test', { :icon => 'plugin_icon_name',:plugin => 'test_plugin_name' })
+    node = Redmine::MenuManager::MenuItem.new(:testing, '/test', { :icon => 'plugin_icon_name', :plugin => 'test_plugin_name' })
     @output_buffer = render_single_menu_node(node, 'This is a test', node.url, false)
 
     assert_select("a.testing", "This is a test") do
