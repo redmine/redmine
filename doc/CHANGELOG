@@ -4,6 +4,250 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2024-11-10 v6.0.0
+
+=== [Accounts / authentication]
+
+* Defect #28243: Principal.not_member_of scope does not accept ActiveRecord::Relation
+* Feature #37279: Reject passwords that are the same as login, first name, last name, or email
+* Feature #38853: Changes user visibility from "all" to "member of visible projects" for new roles and existing builtin roles
+* Feature #39500: Change the default notification option for users to "Only for things I watch or I am assigned to"
+
+=== [Administration]
+
+* Feature #12521: Improve tracker deletion error message to display projects containing issues under the tracker
+* Feature #40913: Add bulk lock/unlock feature to user list context menu
+
+=== [Attachments]
+
+* Defect #38966: Attachment custom fields not removed when issue is deleted
+* Feature #37530: Add timeout for thumbnail generation process
+
+=== [Calendar]
+
+* Patch #41509: Replace "even" and "odd" CSS classes with "this-month" and "other-month" for calendar days
+
+=== [Code cleanup/refactoring]
+
+* Defect #31507: Test fails if trailing whitespaces are removed
+* Defect #31831: Back url parse in validation
+* Defect #32985: Remove unnecessary use of instance variables in CSV and Atom response handlers
+* Defect #37730: Missing copyright headers in source files
+* Defect #39527: Deprecate unused ApplicationHelper#render_if_exist
+* Defect #40205: ThemesTest may fail if a third-party theme having theme.js is installed
+* Feature #39111: Enable Asset Pipeline Integration using Propshaft
+* Feature #40190: Stop appending the utf8 checkmark parameter to form URLs
+* Patch #27510: Introduce active? method to Group via Principal model
+* Patch #32523: Replace `for` loops with `forEach` in buildFilterRow function
+* Patch #35217: Replace use of Digest::MD5 / Digest::SHA1 with ActiveSupport::Digest
+* Patch #36806: Remove rss_* deprecated methods
+* Patch #38975: Use ApplicationRecord instead of ActiveRecord::Base
+* Patch #39110: Replacing request_store with ActiveSupport::CurrentAttributes
+* Patch #39380: Replace hardcoded issues count check with `limit` variable in IssuesController#retrieve_previous_and_next_issue_ids
+* Patch #39558: Remove deprecated methods in Repository and AbstractAdapter
+* Patch #39777: Remove useless method #run_in_request? from db/migrate/20221214173537_add_select_project_publicity_permission.rb
+* Patch #39971: Remove specific platform constraints for database adapter gems
+* Patch #40087: Rewrite ApplicationHelper#favicon_url method using image_url
+* Patch #40124: Remove deprecated empty status param to get all users from API
+* Patch #40210: Remove overrides that inserts a non-breaking space (nbsp) to empty option elements
+* Patch #40211: Remove appveyor.yml
+* Patch #40506: Remove redundant ApplicationHelper inclusions
+* Patch #40513: Fix initial_page_content method to avoid referencing @page instance variable in wiki formatting helpers
+* Patch #40652: Replace MD5 with SHA256 when creating the hash for gravatar URL
+* Patch #40691: Remove ambiguity in queries utilizing a Project scope
+* Patch #40801: Add missing fixture journal_details to JournalsHelperTest
+* Patch #40882: Remove unused "label_browse" from all locales
+* Patch #41023: Set default age parameter for User.prune to 30 days
+* Patch #41142: Add missing assertion in Redmine::MenuManager::MapperTest#test_push_onto_root
+* Patch #41188: Refactor Calendar#first_wday method for improved readability and efficiency
+* Patch #41238: Fix test failure in IssuesSystemTest due to incorrect attachment count expectation
+* Patch #41287: Add .vscode to svn:ignore, .gitignore, and .hgignore
+* Patch #41402: Remove Internet Explorer-specific CSS rules and vendor prefixes
+
+=== [Custom fields]
+
+* Defect #27543: Key/value-pair custom field type not available to all customisable contents
+* Feature #39997: Add an option to render values of Integer- and Float-format custom fields with thousands delimiters
+
+=== [Database]
+
+* Feature #35014: Review and update supported database engines and versions
+* Patch #34218: Increase size of value field in settings
+
+=== [Documentation]
+
+* Feature #40681: Dynamic generation of supported code highlighting languages in help section
+* Patch #40202: Add LICENSE.txt in the root directory
+* Patch #41011: Add more configuration examples to config/additional_environment.rb.example
+* Patch #41469: Update helps and docs to use HTTPS links instead of HTTP
+
+=== [Email notifications]
+
+* Feature #13359: Add project identifier to List-Id header in notification emails for better Gmail filtering
+* Feature #40569: Add an option to send email notification when an attachment is added
+* Feature #41450: Include attachment filename in "File added" email notification subject
+
+=== [Feeds]
+
+* Feature #34025: Raise the maximum length of the title element in the Atom feed from 100 to 300 characters
+
+=== [Forums]
+
+* Defect #41234: Forum message's subject field overflows beyond container
+
+=== [Gems support]
+
+* Patch #37258: Switch default backend of ActiveSupport::XmlMini from rexml to Nokogiri
+* Patch #39547: Prevent automatic requiring of unnecessary gems at runtime
+* Patch #39887: Update RuboCop to 1.68
+* Patch #39888: Update RuboCop Performance to 1.22
+* Patch #39889: Update RuboCop Rails to 2.27
+* Patch #39972: Update Nokogiri to 1.16.0
+* Patch #39985: Update SQLite3 gem to 1.7
+* Patch #40685: Update roadie-rails to 3.2.0
+* Patch #41312: Update MiniMagick to 5.0
+
+=== [Hook requests]
+
+* Feature #41044: Add view hooks in My page
+
+=== [I18n]
+
+* Feature #21677: Support localized decimal separator for hours in the web UI
+* Feature #22024: Support localized decimal separators for float values
+* Feature #29208: Support email addresses with IDN (internationalized domain names) in user accounts
+* Patch #39879: Fix hardcoded string on user preferences page
+
+=== [Importers]
+
+* Defect #41464: CSV file encoding auto-detection may fail with multibyte characters
+* Feature #39511: Auto-detection of field wrapper type when importing CSV file
+
+=== [Issues]
+
+* Defect #41572: `updated_by_id` in Journal retains deleted user id instead of being set to `User.anonymous`
+* Feature #691: Add column totals to Issues Summary Report
+* Feature #9309: Add description field to custom queries
+* Feature #16045: Add "Author / Previous assignee" group to assignee dropdown in issue form
+* Feature #31756: Introduce setting for done ratio options interval
+* Feature #36197: Add configurable setting for copying attachments when copying an issue
+* Feature #41202: Change the default CSV export encoding to UTF-8
+
+=== [Issues filter]
+
+* Feature #7867: Add filters for "Author's group" and "Author's role" to issues list
+* Feature #39805: Extend "contains" operator in "Parent task" filter to support multiple issue IDs
+
+=== [Issues list]
+
+* Feature #29894: View watchers on the issue list
+* Feature #37862: Estimated time remaining issue query column
+
+=== [Performance]
+
+* Patch #23328: Optimize Project#notified_users to improve issue create/update speed
+* Patch #39835: Optimize repository menu visibility check
+* Patch #39837: Optimize query models by replacing `map` with `pluck`
+* Patch #39840: Optimize `Issue#relations` method to fetch both `relations_from` and `relations_to` using a single query
+* Patch #39847: Cache the result of `Journal#attachments`
+* Patch #39849: Optimize IssueCategory SQL queries when showing an issue
+* Patch #39852: Optimize queries visibility check
+* Patch #39857: Optimize users visibility check
+* Patch #39993: Optimize loading of journals, relations, and allowed_statuses in IssuesController#show for API requests
+* Patch #40000: Optimize gantt chart rendering for issues without subtasks
+* Patch #40008: Replace String#sub with delete_prefix / delete_suffix
+* Patch #40010: Replace regular expression matches with String#start_with? / end_with?
+* Patch #40775: Reduce an extra SQL query in IssuesController#retrieve_default_query
+* Patch #40798: Optimize Version model
+
+=== [Projects]
+
+* Feature #23954: Shows the date of the last activity on Projects administration
+* Feature #40829: Expose project updated_on column and filter in project query
+
+=== [REST API]
+
+* Feature #23307: Include auth_source field in User API response
+* Feature #38948: Add user status to users list API
+* Feature #40449: Add updated_on and updated_by fields to Issues API journal response
+
+=== [Rails support]
+
+* Defect #38155: RuntimeError when reloading Rails console
+* Feature #36320: Migrate to Rails 7.2
+* Feature #40092: Drop FastCGI support
+
+=== [Roadmap]
+
+* Defect #4682: Completed version with wrong progress bar status
+* Defect #24457: Progress of version should be calculated the same way as parent tasks
+
+=== [Ruby support]
+
+* Feature #38585: Drop Ruby 2.7 and 3.0 support
+* Feature #39761: Ruby 3.3 support
+
+=== [SCM]
+
+* Defect #39747: Diff of a javascript file in repository module is not displayed with layout
+* Defect #40020: ScmData.binary? incorrectly considers UTF-8 text as binary
+* Feature #39238: Redirect to repositories#show after repositories#fetch_changesets to avoid the user-visible browser URL
+
+=== [Search engine]
+
+* Feature #38446: Support multiple multi-word phrases in the search engine
+
+=== [Text formatting]
+
+* Defect #34473: Displaying the table of content on the right causes wrong position
+* Defect #40515: Displaying issue descriptions in the issues list ignores CommonMark table alignment
+* Defect #40650: Fix duplicate alt and title attributes when alt text is specified for attached images in Textile formatter
+* Defect #41467: Unexpected font size on CommonMark Markdown help pages due to missing doctype declaration
+* Feature #20620: Add data-text-formatting attribute for selected markup language to body tag
+* Feature #36594: Relax rouge version dependency in Gemfile
+* Feature #40149: Drop deprecated Redcarpet based Markdown formatter
+* Patch #40014: Add support for quoted arguments containing commas in wiki macros
+* Patch #40939: Add "underline" button to jsToolbar for CommonMark Markdown formatting
+
+=== [Themes]
+
+* Defect #26778: Invalid "theme-*" CSS class in body element when theme name contains spaces
+
+=== [Third-party libraries]
+
+* Feature #40853: Upgrade jQuery to 3.7.1
+* Feature #40864: Upgrade jQuery UI to 1.13.3
+
+=== [Time tracking]
+
+* Defect #36897: The minutes part of a time entry is displayed as 60 instead of being carried over
+* Defect #40914: Fix precision issues in TimeEntry#hours calculation by returning Rational instead of Float
+* Defect #41401: Hours column in "Details" tab of Spent time is not right-aligned
+* Feature #41053: Add "User's group" and "User's role" filters to Spent time list
+
+=== [UI]
+
+* Defect #37390: Extraneous whitespace when selecting and copying issue number on Chrome/Windows
+* Defect #38915: Duplicate spacer id in jsToolBar
+* Defect #39795: Fix improper error highlighting for description field in issue form
+* Feature #2464: Add placeholder "h:mm" to hours field for better user guidance
+* Feature #2499: Change CSS font-size units from px to rem to respect browser font settings
+* Feature #21808: Make the Sidebar collapsible, stateful
+* Feature #23980: Replace icon images with Tabler SVG icons
+* Feature #40901: Disable custom query links while loading to prevent multiple requests
+* Feature #41266: Improve header design with gradient background
+* Feature #41272: Improve tooltip positioning for thumbnails
+* Feature #41294: Partial quoting feature for Issues and Forums
+* Feature #41298: Refine UI with updated box styling and border colors
+* Feature #41321: Improve readability by refining font sizes and switching to Noto Sans font
+* Feature #41475: Improve table readability by adding row borders
+* Feature #41500: Swap odd and even table row background colors
+* Patch #33638: Add informative default welcome text for new installations
+
+=== [UI - Responsive]
+
+* Feature #39806: Improve filter rendering on narrow screens by replacing the layout tables with a flex layout
+
 == 2024-11-03 v5.1.4
 
 === [Code cleanup/refactoring]
