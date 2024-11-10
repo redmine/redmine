@@ -36,20 +36,23 @@ module IconsHelper
     end
   end
 
-  def file_icon(entry, name, size: DEFAULT_ICON_SIZE, css_class: nil)
+  def file_icon(entry, name, **options)
     if entry.is_dir?
-      sprite_icon("folder", name, size: size, css_class: css_class)
+      sprite_icon("folder", name, **options)
     else
       icon_name = icon_for_mime_type(Redmine::MimeType.css_class_of(name))
-      sprite_icon(icon_name, name, size: size, css_class: css_class)
+      sprite_icon(icon_name, name, **options)
     end
   end
 
-  def principal_icon(principal_class, size: DEFAULT_ICON_SIZE, css_class: nil)
-    sprite_icon('group', size: size, css_class: css_class) if ['groupanonymous', 'groupnonmember', 'group'].include?(principal_class)
+  def principal_icon(principal, **options)
+    raise ArgumentError, "First argument has to be a Principal, was #{principal.inspect}" unless principal.is_a?(Principal)
+
+    principal_class = principal.class.name.downcase
+    sprite_icon('group', **options) if ['groupanonymous', 'groupnonmember', 'group'].include?(principal_class)
   end
 
-  def activity_event_type_icon(event_type, size: DEFAULT_ICON_SIZE, css_class: nil)
+  def activity_event_type_icon(event_type, **options)
     icon_name = case event_type
                 when 'reply'
                   'comments'
@@ -61,7 +64,7 @@ module IconsHelper
                   event_type
                 end
 
-    sprite_icon(icon_name, size: size, css_class: css_class)
+    sprite_icon(icon_name, **options)
   end
 
   private

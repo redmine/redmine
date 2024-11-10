@@ -60,23 +60,23 @@ module ApplicationHelper
     only_path = options[:only_path].nil? ? true : options[:only_path]
     case principal
     when User
-      name = h(principal.name(options[:format]))
-      name = "@".html_safe + name if options[:mention]
+      name = principal.name(options[:format])
+      name = "@#{name}" if options[:mention]
       css_classes = ''
       if principal.active? || (User.current.admin? && principal.logged?)
         url = user_url(principal, :only_path => only_path)
         css_classes += principal.css_classes
       end
     when Group
-      name = h(principal.to_s)
+      name = principal.to_s
       url = group_url(principal, :only_path => only_path)
       css_classes = principal.css_classes
     else
-      name = h(principal.to_s)
+      name = principal.to_s
     end
 
     css_classes += " #{options[:class]}" if css_classes && options[:class].present?
-    url ? link_to(principal_icon(principal.class.name.downcase).to_s + name, url, :class => css_classes) : name
+    url ? link_to(principal_icon(principal).to_s + name, url, :class => css_classes) : h(name)
   end
 
   # Displays a link to edit group page if current user is admin
@@ -657,7 +657,7 @@ module ApplicationHelper
           check_box_tag(name, principal.id, false, :id => nil) +
             (avatar(principal, :size => 16).presence ||
                content_tag(
-                 'span', principal_icon(principal.class.name.downcase),
+                 'span', principal_icon(principal),
                  :class => "name icon icon-#{principal.class.name.downcase}"
                )
             ) + principal.to_s

@@ -1868,8 +1868,8 @@ class ApplicationHelperTest < Redmine::HelperTest
 
   def test_link_to_principal_should_link_to_group
     group = Group.find(10)
-    result = link_to('A Team', '/groups/10', :class => 'group')
-    assert_equal result, link_to_principal(group)
+    result = %r{<a class="group" href="/groups/10"><svg class="s18 icon-svg" aria-hidden="true"><use href="/assets/icons-\w+.svg#icon--group"></use></svg>A Team</a>}
+    assert_match result, link_to_principal(group)
   end
 
   def test_link_to_principal_should_return_string_representation_for_unknown_type_principal
@@ -2027,7 +2027,7 @@ class ApplicationHelperTest < Redmine::HelperTest
       tags = principals_check_box_tags(name, principals)
       principals.each_with_index do |principal, i|
         assert_not_include avatar_tags[i], tags
-        assert_include content_tag('span', principal_icon(principal.class.name.downcase), :class => "name icon icon-#{principal.class.name.downcase}"), tags
+        assert_include content_tag('span', principal_icon(principal), :class => "name icon icon-#{principal.class.name.downcase}"), tags
       end
     end
   end
