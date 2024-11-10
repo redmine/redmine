@@ -195,3 +195,5 @@
   svg: chevrons-right
 - name: chevrons-left
   svg: chevrons-left
+- name: key
+  svg: key
