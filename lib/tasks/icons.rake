@@ -75,7 +75,7 @@ unless Rails.env.production?
         end
 
         input_path = Rails.root.join("tmp", "icons", name)
-        sprite_path = Rails.root.join('plugins', name, 'app', 'assets', 'images', 'icons.svg')
+        sprite_path = Rails.root.join('plugins', name, 'assets', 'images', 'icons.svg')
 
         generate_svg_sprite(input_path, sprite_path)
       end
