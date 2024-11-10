@@ -20,7 +20,7 @@
   <% next if member.new_record? %>
   <tr id="member-<%= member.id %>" class="member">
   <td class="name icon icon-<%= member.principal.class.name.downcase %>">
-    <%= principal_icon(member.principal.class.name.downcase) %>
+    <%= principal_icon(member.principal) %>
     <%= link_to_user member.principal %>
   </td>
   <td class="roles">

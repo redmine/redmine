@@ -76,7 +76,7 @@ module ApplicationHelper
     end
 
     css_classes += " #{options[:class]}" if css_classes && options[:class].present?
-    url ? link_to(principal_icon(principal.class.name.downcase).to_s + name, url, :class => css_classes) : h(name)
+    url ? link_to(principal_icon(principal).to_s + name, url, :class => css_classes) : h(name)
   end
 
   # Displays a link to edit group page if current user is admin
@@ -657,7 +657,7 @@ module ApplicationHelper
           check_box_tag(name, principal.id, false, :id => nil) +
             (avatar(principal, :size => 16).presence ||
                content_tag(
-                 'span', principal_icon(principal.class.name.downcase),
+                 'span', principal_icon(principal),
                  :class => "name icon icon-#{principal.class.name.downcase}"
                )
             ) + principal.to_s

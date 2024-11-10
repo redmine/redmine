@@ -2027,7 +2027,7 @@ class ApplicationHelperTest < Redmine::HelperTest
       tags = principals_check_box_tags(name, principals)
       principals.each_with_index do |principal, i|
         assert_not_include avatar_tags[i], tags
-        assert_include content_tag('span', principal_icon(principal.class.name.downcase), :class => "name icon icon-#{principal.class.name.downcase}"), tags
+        assert_include content_tag('span', principal_icon(principal), :class => "name icon icon-#{principal.class.name.downcase}"), tags
       end
     end
   end

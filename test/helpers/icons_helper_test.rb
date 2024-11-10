@@ -22,6 +22,8 @@ require_relative '../test_helper'
 class IconsHelperTest < Redmine::HelperTest
   include IconsHelper
 
+  fixtures :users
+
   def test_sprite_icon_should_return_svg_with_defaults
     expected = %r{<svg class="s18 icon-svg" aria-hidden="true"><use href="/assets/icons-\w+.svg#icon--edit"></use></svg>$}
     icon = sprite_icon('edit')
@@ -98,8 +100,8 @@ class IconsHelperTest < Redmine::HelperTest
   def test_principal_icon_should_return_group_icon_for_group_classes
     expected = %r{<svg class="s18 icon-svg" aria-hidden="true"><use href="/assets/icons-\w+.svg#icon--group"></use></svg>}
 
-    %w(groupanonymous groupnonmember group).each do |principal_class|
-      assert_match expected, principal_icon(principal_class)
+    [Principal.find(12), Principal.find(13), Principal.find(10)].each do |principal|
+      assert_match expected, principal_icon(principal)
     end
   end
 

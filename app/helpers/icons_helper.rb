@@ -45,7 +45,10 @@ module IconsHelper
     end
   end
 
-  def principal_icon(principal_class, **options)
+  def principal_icon(principal, **options)
+    raise ArgumentError, "First argument has to be a Principal, was #{principal.inspect}" unless principal.is_a?(Principal)
+
+    principal_class = principal.class.name.downcase
     sprite_icon('group', **options) if ['groupanonymous', 'groupnonmember', 'group'].include?(principal_class)
   end
 
