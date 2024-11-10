@@ -28,7 +28,7 @@ class ContextMenusHelperTest < Redmine::HelperTest
 
     # When :selected is true
     html = context_menu_link('name', 'url', selected: true, class: 'class-a class-b')
-    assert_select_in html, 'a.class-a.class-b.icon.disabled.disabled[href=?]', '#' do
+    assert_select_in html, 'a.class-a.class-b.icon.disabled[href=?]', '#' do
       assert_select 'svg.icon-svg'
     end
 

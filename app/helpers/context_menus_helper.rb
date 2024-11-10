@@ -20,19 +20,23 @@
 module ContextMenusHelper
   def context_menu_link(name, url, options={})
     label = name
-    options[:class] ||= ''
+    css_classes = [options[:class]]
+
     if options.delete(:selected)
-      options[:class] += ' icon disabled'
+      css_classes << 'icon disabled'
       options[:disabled] = true
       label = sprite_icon('checked', name)
     end
+
     if options.delete(:disabled)
       options.delete(:method)
       options.delete(:data)
       options[:onclick] = 'return false;'
-      options[:class] += ' disabled'
+      css_classes << 'disabled'
       url = '#'
     end
+
+    options[:class] = class_names(css_classes)
     link_to label, url, options
   end
 
