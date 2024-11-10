@@ -182,7 +182,7 @@ module Redmine
         end
 
         label = if item.icon.present?
-                  sprite_icon(item.icon, h(caption))
+                  sprite_icon(item.icon, h(caption), plugin: item.plugin)
                 else
                   h(caption)
                 end
@@ -431,7 +431,7 @@ module Redmine
     class MenuItem < MenuNode
       include Redmine::I18n
       attr_reader :name, :url, :param, :condition, :parent,
-                  :child_menus, :last, :permission, :icon
+                  :child_menus, :last, :permission, :icon, :plugin
 
       def initialize(name, url, options={})
         if options[:if] && !options[:if].respond_to?(:call)
@@ -461,6 +461,7 @@ module Redmine
         @parent = options[:parent]
         @child_menus = options[:children]
         @last = options[:last] || false
+        @plugin = options[:plugin]
         super(@name.to_sym)
       end
 

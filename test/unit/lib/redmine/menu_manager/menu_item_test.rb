@@ -102,6 +102,13 @@ class Redmine::MenuManager::MenuItemTest < ActiveSupport::TestCase
     end
   end
 
+  def test_new_menu_item_should_allow_setting_the_plugin
+    menu_item = Redmine::MenuManager::MenuItem.new(
+      :test_plugin_menu, '/test', {:plugin => 'test_plugin_name'}
+    )
+    assert_equal 'test_plugin_name', menu_item.plugin
+  end
+
   def test_has_children
     parent_item = get_menu_item(:test_menu, :parent)
     assert parent_item.children.present?
