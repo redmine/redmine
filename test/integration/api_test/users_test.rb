@@ -20,7 +20,7 @@
 require_relative '../../test_helper'
 
 class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
-  fixtures :users, :groups_users, :email_addresses, :members, :member_roles, :roles, :projects
+  fixtures :users, :groups_users, :email_addresses, :members, :member_roles, :roles, :projects, :auth_sources
 
   test "GET /users.xml should return users" do
     users = User.active.order('login')
