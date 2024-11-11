@@ -36,7 +36,7 @@ module Redmine
             extension: extensions,
             render: render_options,
             parse: parse_options
-          })
+          }, plugins: plugins )
 
           html.rstrip!
           html
@@ -54,6 +54,10 @@ module Redmine
 
         def render_options
           context.fetch :commonmarker_render_options, {}
+        end
+
+        def plugins
+          context.fetch :commonmarker_plugins, {}
         end
       end
     end
