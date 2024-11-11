@@ -1669,7 +1669,7 @@ class ApplicationHelperTest < Redmine::HelperTest
     end
   end
 
-  if Object.const_defined?(:CommonMarker)
+  if Object.const_defined?(:Commonmarker)
     def test_toc_with_markdown_formatting_should_be_parsed
       with_settings :text_formatting => 'common_mark' do
         assert_select_in textilizable("{{toc}}\n\n# Heading"), 'ul.toc li', :text => 'Heading'
