@@ -41,7 +41,7 @@ module Redmine
         # https://github.com/gjtorikian/commonmarker#render-options
         commonmarker_render_options: {
           unsafe: true,
-          hardbreaks: Redmine::Configuration['common_mark_enable_hardbreaks'] == true ? true : false,
+          hardbreaks: Redmine::Configuration['common_mark_enable_hardbreaks'] == true,
         }.freeze,
         commonmarker_plugins: {
           syntax_highlighter: nil
