@@ -20,7 +20,7 @@
 require_relative '../../../../../test_helper'
 
 class Redmine::WikiFormatting::CommonMark::ApplicationHelperTest < Redmine::HelperTest
-  if Object.const_defined?(:CommonMarker)
+  if Object.const_defined?(:Commonmarker)
 
     include ERB::Util
 

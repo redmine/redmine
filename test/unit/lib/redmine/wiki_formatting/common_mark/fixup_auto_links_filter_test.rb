@@ -19,7 +19,7 @@
 
 require_relative '../../../../../test_helper'
 
-if Object.const_defined?(:CommonMarker)
+if Object.const_defined?(:Commonmarker)
   require 'redmine/wiki_formatting/common_mark/fixup_auto_links_filter'
 
   class Redmine::WikiFormatting::CommonMark::FixupAutoLinksFilterTest < ActiveSupport::TestCase
