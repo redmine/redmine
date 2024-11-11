@@ -6,7 +6,7 @@ gem 'rails', '7.2.2'
 gem 'rouge', '~> 4.2'
 gem 'mini_mime', '~> 1.1.0'
 gem "actionpack-xml_parser"
-gem 'roadie-rails', '~> 3.2.0'
+gem 'roadie-rails', '~> 3.3.0'
 gem 'marcel'
 gem 'mail', '~> 2.8.1'
 gem 'nokogiri', '~> 1.16.0'
