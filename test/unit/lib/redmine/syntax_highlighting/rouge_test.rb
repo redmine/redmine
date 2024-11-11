@@ -24,7 +24,7 @@ class Redmine::SyntaxHighlighting::RougeTest < ActiveSupport::TestCase
     to_test = {
       'application.js' => true,
       'Gemfile' => true,
-      'HELLO.CBL' => false,  # Rouge does not support COBOL
+      'HELLO.abc' => false,
       'HELLO.C' => true
     }
     to_test.each do |filename, expected|
