@@ -92,5 +92,16 @@ jobs:
           RAILS_ENV: test
         run: bundle exec rake db:migrate
 
+      - name: Run SCM setup for Git, Git UTF8, Subversion and Filesystem
+        env:
+          RAILS_ENV: test
+        run: |
+          bundle exec rake test:scm:setup:git
+          bundle exec rake test:scm:setup:git_utf8
+          bundle exec rake test:scm:setup:subversion
+          bundle exec rake test:scm:setup:filesystem
+
       - name: Run tests
-        run: bin/rails test
+        run: |
+          bin/rails test
+          bin/rails test:autoload
