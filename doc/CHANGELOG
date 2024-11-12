@@ -4,6 +4,17 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2024-11-12 v6.0.1
+
+=== [Gems support]
+
+* Defect #41729: Installing Redmine 6.0.0 may cause a LoadError for svg_sprite
+* Patch #41728: Update Rouge gem to 4.5
+
+=== [Issues list]
+
+* Defect #40303: Layout distortion in issue list descriptions with code blocks
+
 == 2024-11-10 v6.0.0
 
 === [Accounts / authentication]
