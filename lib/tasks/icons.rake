@@ -16,8 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 unless Rails.env.production?
-  require "svg_sprite"
-
   ICON_RELEASE_VERSION = "v3.19.0"
   ICON_DEFAULT_STYLE = "outline"
   SOURCE = URI.parse("https://raw.githubusercontent.com/tabler/tabler-icons/#{ICON_RELEASE_VERSION}/icons")
@@ -121,6 +119,8 @@ unless Rails.env.production?
   end
 
   def generate_svg_sprite(input_path, sprite_path)
+    require "svg_sprite"
+
     SvgSprite.call(
       input: input_path,
       name: 'icon',
