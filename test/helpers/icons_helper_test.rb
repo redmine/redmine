@@ -106,7 +106,7 @@ class IconsHelperTest < Redmine::HelperTest
   end
 
   def test_principal_icon_should_return_nil_for_non_group_classes
-    assert_nil principal_icon('user')
+    assert_nil principal_icon(Principal.find(1))
   end
 
   def test_activity_event_type_icon_should_return_correct_icon_for_reply_events
