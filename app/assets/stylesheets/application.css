@@ -360,8 +360,8 @@ tr.issue td.done_ratio table.progress { margin-left:auto; margin-right: auto;}
 tr.issue td.relations span, tr.issue td.watcher_users a {white-space: nowrap;}
 tr.issue td.watcher_users ul {list-style: none; padding: 0; margin: 0}
 table.issues td.block_column {color:#777; font-size:90%; padding:4px 4px 4px 24px; text-align:left; white-space:normal;}
-table.issues td.block_column span {font-weight: bold; display: block; margin-bottom: 4px;}
-table.issues td.block_column pre {white-space:normal;}
+table.issues td.block_column>span {font-weight: bold; display: block; margin-bottom: 4px;}
+table.issues td.block_column>pre {white-space:normal;}
 
 tr.idnt td.subject, tr.idnt td.name {background: url(/arrow_right.png) no-repeat 2px 50%;}
 tr.idnt-1 td.subject, tr.idnt-1 td.name {padding-left: 24px; background-position: 8px 50%;}
