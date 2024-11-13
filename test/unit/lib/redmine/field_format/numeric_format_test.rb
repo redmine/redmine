@@ -23,7 +23,7 @@ require 'redmine/field_format'
 class Redmine::NumericFieldFormatTest < ActionView::TestCase
   fixtures :projects, :users, :issue_statuses, :enumerations,
            :trackers, :projects_trackers, :roles, :member_roles,
-           :members, :enabled_modules
+           :members, :enabled_modules, :issues
 
   def setup
     User.current = nil
