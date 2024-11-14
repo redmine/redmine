@@ -47,10 +47,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install package dependencies
-        run: >
-          sudo apt-get install --yes --quiet
-          ghostscript
-          gsfonts
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --quiet ghostscript gsfonts
 
       - name: Allow imagemagick to read PDF files
         run: |
