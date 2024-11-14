@@ -206,7 +206,7 @@ tr:
 
 
   field_name: İsim
-  field_description: Yorum
+  field_description: Açıklama
   field_summary: Özet
   field_is_required: Gerekli
   field_firstname: Ad
