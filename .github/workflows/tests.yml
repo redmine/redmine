@@ -96,4 +96,4 @@ jobs:
           LANG: en_US.ISO8859-1
           LC_ALL: en_US.ISO8859-1
         run: |
-          bundle exec rake test TEST=test/unit/repository_bazaar_test.rb
+          bin/rails test test/unit/repository_bazaar_test.rb
