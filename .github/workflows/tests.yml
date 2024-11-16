@@ -86,14 +86,14 @@ jobs:
           bundle exec rake ci:setup
           bundle exec rake db:environment:set
 
+      - name: Run tests
+        run: |
+          bin/rails test
+          bin/rails test:autoload
+
       - name: Run bazaar non ascii test
         env:
           LANG: en_US.ISO8859-1
           LC_ALL: en_US.ISO8859-1
         run: |
           bundle exec rake test TEST=test/unit/repository_bazaar_test.rb
-
-      - name: Run tests
-        run: |
-          bin/rails test
-          bin/rails test:autoload
