@@ -97,3 +97,7 @@ jobs:
           LC_ALL: en_US.ISO8859-1
         run: |
           bin/rails test test/unit/repository_bazaar_test.rb
+
+      - name: Run autoload test
+        run: |
+          bin/rails test:autoload
