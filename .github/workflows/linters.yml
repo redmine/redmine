@@ -19,3 +19,21 @@ jobs:
 
       - name: Lint code for consistent style
         run: bundle exec rubocop --parallel
+
+  stylelint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Lint CSS and SCSS files
+        run: npx stylelint "app/assets/stylesheets/**/*.css"
