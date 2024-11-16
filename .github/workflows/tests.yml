@@ -46,10 +46,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install package dependencies
+      - name: Install dependencies and configure environment
         run: |
           sudo apt-get update
-          sudo apt-get install --yes --quiet ghostscript gsfonts
+          sudo apt-get install --yes --quiet ghostscript gsfonts locales bzr cvs
+          sudo locale-gen en_US # for bazaar non ascii test
 
       - name: Allow imagemagick to read PDF files
         run: |
@@ -79,11 +80,18 @@ jobs:
       - name: Run prepare test environment
         env:
           RAILS_ENV: test
-          SCMS: subversion,git,git_utf8,filesystem
+          SCMS: subversion,git,git_utf8,filesystem,bazaar,cvs
         run: |
           bundle exec rake ci:about
           bundle exec rake ci:setup
           bundle exec rake db:environment:set
+
+      - name: Run bazaar non ascii test
+        env:
+          LANG: en_US.ISO8859-1
+          LC_ALL: en_US.ISO8859-1
+        run: |
+          bundle exec rake test TEST=test/unit/repository_bazaar_test.rb
 
       - name: Run tests
         run: |
