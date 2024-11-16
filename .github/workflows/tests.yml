@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         ruby: ['3.1', '3.2', '3.3']
-        db: ['postgresql', 'mysql']
+        db: ['postgresql', 'mysql2']
       fail-fast: false
 
     services:
@@ -59,46 +59,31 @@ jobs:
           sudo rm /etc/ImageMagick-6/policy.xml
           sudo mv policy.xml /etc/ImageMagick-6/policy.xml
 
+      - name: Prepare Redmine database configuration
+        run: |
+          cat > config/database.yml <<EOF
+          test:
+            adapter: ${{ matrix.db }}
+            database: redmine_test
+            username: root
+            password: root
+            host: 127.0.0.1
+          EOF
+
       - name: Install Ruby and gems
         uses: ruby/setup-ruby@v1.176.0
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
 
-      - name: Prepare Redmine configuration for PostgreSQL
-        run: |
-          cp config/database.yml.example config/database.yml
-          sed -i -e "s/mysql2$/postgresql/g" config/database.yml
-          sed -i -e "s/host:.*$/host: localhost/g" config/database.yml
-          sed -i -e "s/password:.*$/password: root/g" config/database.yml
-          sed -i -e "41,43d" config/database.yml
-        if: matrix.db == 'postgresql'
-
-      - name: Prepare Redmine configuration for MySQL
-        run: |
-          cp config/database.yml.example config/database.yml
-          sed -i -e "s/host:.*$/host: 127.0.0.1/g" config/database.yml
-          sed -i -e "s/password:.*$/password: root/g" config/database.yml
-        if: matrix.db == 'mysql'
-
-      - name: Install dependencies
+      - name: Run prepare test environment
         env:
           RAILS_ENV: test
-        run: bundle install --jobs=4 --retry=3
-
-      - name: Run DB migration
-        env:
-          RAILS_ENV: test
-        run: bundle exec rake db:migrate
-
-      - name: Run SCM setup for Git, Git UTF8, Subversion and Filesystem
-        env:
-          RAILS_ENV: test
+          SCMS: subversion,git,git_utf8,filesystem
         run: |
-          bundle exec rake test:scm:setup:git
-          bundle exec rake test:scm:setup:git_utf8
-          bundle exec rake test:scm:setup:subversion
-          bundle exec rake test:scm:setup:filesystem
+          bundle exec rake ci:about
+          bundle exec rake ci:setup
+          bundle exec rake db:environment:set
 
       - name: Run tests
         run: |
