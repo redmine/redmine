@@ -23,8 +23,9 @@
 h1 { font-family: var(--fonts-main); font-size: 0.875rem; text-align: center; color: #444; }
 body { font-family: var(--fonts-main); font-size: 0.75rem; color: #444; }
 pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace; }
-table th { padding-top: 1em; }
 table th {
+  padding-top: 1em;
+
   img {
     border: 1px solid #bbb;
     opacity: 0.7;
