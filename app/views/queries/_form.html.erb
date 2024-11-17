@@ -6,8 +6,13 @@
 <%= hidden_field_tag 'calendar', '1' if params[:calendar] %>
 <%= hidden_field_tag 'admin_projects', '1' if params[:admin_projects] %>
 
-<p><label for="query_name"><%=l(:field_name)%></label>
-<%= text_field 'query', 'name', :size => 80 %></p>
+<p>
+  <label for="query_name">
+    <%= l(:field_name) %>
+    <span class="required">*</span>
+  </label>
+  <%= text_field 'query', 'name', :size => 80 %>
+</p>
 <p><label for="query_description"><%=l(:field_description)%></label>
 <%= text_field 'query', 'description', :size => 80 %></p>
 
