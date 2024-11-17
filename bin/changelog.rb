@@ -2,6 +2,10 @@
 require 'optparse'
 require 'ostruct'
 require 'date'
+require 'uri'
+require 'net/http'
+require 'json'
+require 'base64'
 
 VERSION = '1.0.0'
 
@@ -10,9 +14,8 @@ ARGV << '-h' if ARGV.empty?
 class OptionsParser
   def self.parse(args)
     options = OpenStruct.new
-    options.version_name = ''
     options.release_date = ''
-    options.new_branch = 'auto'
+    options.api_url = 'https://www.redmine.org'
 
     opt_parser = OptionParser.new do |opts|
       opts.banner = 'Usage: changelog_generator.rb [options]'
@@ -28,17 +31,19 @@ class OptionsParser
       opts.separator ''
       opts.separator 'Optional specific options:'
 
-      opts.on('-n', '--version_name VERSIONNAME',
-              'Name of the version [string]') do |n|
-        options.version_name = n
-      end
       opts.on('-d', '--release_date RELEASEDATE',
               'Date of the release [string: YYYY-MM-DD]') do |d|
         options.release_date = d
       end
-      opts.on('-b', '--new_branch NEWBRANCH',
-              'New release branch indicator [string: true/false/auto (default)]') do |b|
-        options.new_branch = b
+
+      opts.on('-u', '--api-url URL',
+              'Redmine API URL for requests. Default is https://www.redmine.org') do |u|
+        options.api_url = u
+      end
+
+      opts.on('-a', '--api_key APIKEY',
+              'Redmine API-Key to authenticate to the API. Default mode is anonymous') do |a|
+        options.api_key = a
       end
 
       opts.separator ''
@@ -58,101 +63,88 @@ class OptionsParser
     opt_parser.parse!(args)
     options
   end
-end
 
-# Gracely handle missing required options
-begin
-  options = OptionsParser.parse(ARGV)
-  required = [:version_id]
-  missing = required.select{ |param| options[param].nil? }
-  unless missing.empty?
-    raise OptionParser::MissingArgument.new(missing.join(', '))
+  # Gracely handle missing required options
+  begin
+    options = OptionsParser.parse(ARGV)
+    required = [:version_id]
+    missing = required.select{ |param| options[param].nil? }
+    unless missing.empty?
+      raise OptionParser::MissingArgument.new(missing.join(', '))
+    end
+  rescue OptionParser::ParseError => e
+    puts e
+    exit
   end
-rescue OptionParser::ParseError => e
-  puts e
-  exit
-end
 
-# Extract options values into global variables
-$v_id = options[:version_id]
-$v_name = options[:version_name]
-$r_date = options[:release_date]
-$n_branch = options[:new_branch]
+  # Extract options values into global variables
+  $v_id = options[:version_id]
+  $r_date = options[:release_date]
+  $api_url = options[:api_url]
+  $api_key = options[:api_key]
+end
 
 module Redmine
   module ChangelogGenerator
-    require 'nokogiri'
     require 'open-uri'
 
     @v_id = $v_id
-    @v_name = $v_name
     @r_date = $r_date
-    @n_branch = $n_branch
-
-    ISSUES_URL = 'https://www.redmine.org/projects/redmine/issues' +
-                 '?utf8=%E2%9C%93&set_filter=1' +
-                 '&f%5B%5D=status_id&op%5Bstatus_id%5D=*' +
-                 '&f%5B%5D=fixed_version_id&op%5Bfixed_version_id%5D=%3D' +
-                   '&v%5Bfixed_version_id%5D%5B%5D=' + @v_id +
-                 '&f%5B%5D=&c%5B%5D=tracker&c%5B%5D=subject' +
-                 '&c%5B%5D=category&group_by='
-    VERSIONS_URL = 'https://www.redmine.org/versions/' + @v_id
-
-    PAGINATION_ITEMS_SPAN_SELECTOR = 'div#content span.pagination span.items'
-    ISSUE_TR_SELECTOR = 'div#content table.list.issues > tbody > tr'
-    VERSION_DETAILS_SELECTOR = 'div#content'
-    VERSION_NAME_SELECTOR = 'div#roadmap > h2'
-    RELEASE_DATE_SELECTOR = 'div#roadmap > div.version-overview p'
-
-    PAGINATION_ITEMS_SPAN_REGEX = %r{(?:[(])([\d]+)(?:-)([\d]+)(?:[\/])([\d]+)(?:[)])}
-    RELEASE_DATE_REGEX_INCOMPLETE = %r{\((\d{4}-\d{2}-\d{2})\)}
-    RELEASE_DATE_REGEX_COMPLETE = %r{^(\d{4}-\d{2}-\d{2})}
-    VERSION_REGEX = %r{^(\d+)(?:\.(\d+))?(?:\.(\d+))?}
+    @api_url = $api_url
+    @api_key = $api_key
 
     CONNECTION_ERROR_MSG = "Connection error: couldn't retrieve data from " +
-                           "https://www.redmine.org.\n" +
-                           "Please try again later..."
+      "https://www.redmine.org.\n" +
+      "Please try again later..."
+
+    # Page size (number of issues per request)
+    PAGE_SIZE = 100
 
     class << self
       def generate
-        parse_pagination_items_span_content
-        get_changelog_items(@no_of_pages)
+        get_changelog_items
         sort_changelog_items
-        build_output(@changelog_items, @no_of_issues, version_name, release_date,
-                     new_branch?, 'packaged_file')
-        build_output(@changelog_items, @no_of_issues, version_name, release_date,
-                     new_branch?, 'website')
+
+        build_output(@changelog_items, @no_of_issues, @version_name, release_date, 'packaged_file')
+        build_output(@changelog_items, @no_of_issues, @version_name, release_date, 'website')
       end
 
-      def parse_pagination_items_span_content
-        items_span = retrieve_pagination_items_span_content
-        items_span = items_span.match(PAGINATION_ITEMS_SPAN_REGEX)
+      def api_issues_get(page)
+        uri = URI(@api_url + "/issues.json?fixed_version_id=#{@v_id}&status_id=*&limit=#{PAGE_SIZE}&offset=#{page * PAGE_SIZE}")
 
-        items_per_page = items_span[2].to_i
-        @no_of_issues = items_span[3].to_i
+        https = Net::HTTP.new(uri.host, uri.port)
+        https.use_ssl = true if @api_url.start_with?("https")
 
-        begin
-          raise if items_per_page == 0 || @no_of_issues == 0
-        rescue => e
-          puts "No changelog items to process.\n" +
-               "Make sure to provide a valid version id as the -i parameter."
-          exit
-        end
+        request = Net::HTTP::Get.new(uri)
+        request['Content-Type'] = "application/json"
+        request['X-Redmine-API-Key'] = @api_key
 
-        @no_of_pages = @no_of_issues / items_per_page
-        @no_of_pages += 1 if @no_of_issues % items_per_page > 0
-      end
+        response = https.request(request)
 
-      def retrieve_pagination_items_span_content
-        begin
-          Nokogiri::HTML(URI.open(ISSUES_URL)).css(PAGINATION_ITEMS_SPAN_SELECTOR).text
-        rescue OpenURI::HTTPError
+        unless response.is_a?(Net::HTTPSuccess)
           puts CONNECTION_ERROR_MSG
           exit
         end
+
+        JSON.parse(response.body)
       end
 
-      def get_changelog_items(no_of_pages)
+      def retrieve_issues
+        page = 0
+        issues_request = api_issues_get(page)
+        @no_of_issues = issues_request['total_count']
+
+        issues = issues_request['issues']
+        while issues.length > 0 && @no_of_issues > issues.length
+          page += 1
+          new_issues = api_issues_get(page)
+          issues.concat(new_issues['issues'])
+        end
+
+        issues
+      end
+
+      def get_changelog_items
         # Initialize @changelog_items hash
         #
         # We'll store categories as hash keys and issues, as nested
@@ -167,32 +159,24 @@ module Redmine
         #
         @changelog_items = Hash.new
 
-        (1..no_of_pages).each do |page_number|
-          page = retrieve_issues_list_page(page_number)
-          page_trs = page.css(ISSUE_TR_SELECTOR).to_a
-          store_changelog_items(page_trs)
-        end
+        issues = retrieve_issues
+        store_changelog_items(issues)
       end
 
-      def retrieve_issues_list_page(page_number)
-        begin
-          Nokogiri::HTML(URI.open(ISSUES_URL + '&page=' + page_number.to_s))
-        rescue OpenURI::HTTPError
-          puts CONNECTION_ERROR_MSG
-          exit
-        end
-      end
+      def store_changelog_items(issues)
+        issues.each do |issue|
+          cat = issue.has_key?('category') ? issue['category']['name'] : "No category"
 
-      def store_changelog_items(page_trs)
-        page_trs.each do |tr|
-          cat = tr.css('td.category').text
           unless @changelog_items.keys.include?(cat)
             @changelog_items.store(cat, [])
           end
 
-          issue_hash = { 'id'       => tr.css('td.id > a').text.to_i,
-                         'tracker'  => tr.css('td.tracker').text,
-                         'subject'  => tr.css('td.subject> a').text.strip }
+          parse_version_name(issue['fixed_version']['name'])
+          issue_hash = { 'id'       => issue['id'],
+                         'tracker'  => issue['tracker']['name'],
+                         'subject'  => issue['subject']
+          }
+
           @changelog_items[cat].push(issue_hash)
         end
       end
@@ -207,60 +191,22 @@ module Redmine
         @changelog_items = @changelog_items.sort
       end
 
-      def version_name
-        @v_name.empty? ? (@version_name || parse_version_name) : @v_name
-      end
-
-      def parse_version_name
-        version_details = retrieve_version_details
-        @version_name = version_details.css(VERSION_NAME_SELECTOR).text
+      def parse_version_name(version)
+        begin
+          if !@version_name || Gem::Version.new(version) > Gem::Version.new(@version_name)
+            @version_name = version
+          end
+        rescue
+          @version_name = version
+        end
       end
 
       def release_date
         @r_date.empty? ? (@release_date || Date.today.strftime("%Y-%m-%d")) : @r_date
       end
 
-      def retrieve_version_details
-        begin
-          Nokogiri::HTML(URI.open(VERSIONS_URL)).css(VERSION_DETAILS_SELECTOR)
-        rescue OpenURI::HTTPError
-          puts CONNECTION_ERROR_MSG
-          exit
-        end
-      end
-
-      def new_branch?
-        @new_branch.nil? ? parse_new_branch : @new_branch
-      end
-
-      def parse_new_branch
-        @version_name =~ VERSION_REGEX
-        version = Array.new([$1, $2, $3])
-
-        case @n_branch
-        when 'auto'
-          # New branch version detection logic:
-          #
-          #   [x.x.0]  => true
-          #   [x.x.>0] => false
-          #   [x.x]    => true
-          #   [x]      => true
-          #
-          if (version[2] != nil && version[2] == '0') ||
-             (version[2] == nil && version[1] != nil) ||
-             (version[2] == nil && version[1] == nil && version[0] != nil)
-            new_branch = true
-          end
-        when 'true'
-          new_branch = true
-        when 'false'
-          new_branch = false
-        end
-        @new_branch = new_branch
-      end
-
       # Build and write the changelog file
-      def build_output(items, no_of_issues, v_name, r_date, n_branch, target)
+      def build_output(items, no_of_issues, v_name, r_date, target)
         target = target
 
         output_filename = v_name + '_changelog_for_' + target + '.txt'
@@ -276,7 +222,6 @@ module Redmine
         if target == 'packaged_file'
           out_file << "== #{r_date} v#{v_name}\n\n"
         elsif target == 'website'
-          out_file << "h1. Changelog #{v_name}\n\n" if n_branch == true
           out_file << "h2. version:#{v_name} (#{r_date})\n\n"
         end
 
@@ -308,9 +253,9 @@ module Redmine
       def summary(v_name, target, i_cnt, nc_i_cnt, no_of_issues, c_cnt)
         summary = (('-' * 72) + "\n")
         summary << "Generation of the #{v_name} changelog for '#{target}' has " +
-                   "#{result_label(i_cnt, nc_i_cnt, no_of_issues)}:\n"
+          "#{result_label(i_cnt, nc_i_cnt, no_of_issues)}:\n"
         summary << "* #{i_cnt} #{issue_label(i_cnt)} within #{c_cnt} issue " +
-                   "#{category_label(c_cnt)}\n"
+          "#{category_label(c_cnt)}\n"
         if nc_i_cnt > 0
           summary << "* #{nc_i_cnt} #{issue_label(nc_i_cnt)} without issue category\n"
         end
