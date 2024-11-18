@@ -37,3 +37,19 @@ jobs:
 
       - name: Lint CSS and SCSS files
         run: npx stylelint "app/assets/stylesheets/**/*.css"
+
+  bundle-audit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Run bundle-audit
+        run: bundle exec bundle audit check --update

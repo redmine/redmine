@@ -113,6 +113,7 @@ group :test do
   gem 'rubocop', '~> 1.68.0', require: false
   gem 'rubocop-performance', '~> 1.23.0', require: false
   gem 'rubocop-rails', '~> 2.27.0', require: false
+  gem 'bundle-audit', require: false
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), "Gemfile.local")
