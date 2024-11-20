@@ -1624,7 +1624,7 @@ table.gantt-table td {
   height: 16px;
   overflow: hidden;
   white-space: nowrap;
-  text-overflow: ellipsis;
+  text-overflow: clip;
   width: 100%;
 }
 .gantt_subjects div.issue-subject:hover { background-color:#ffffdd; }
