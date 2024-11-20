@@ -239,8 +239,6 @@ a.user.user-mention {
 #admin-menu a {line-height:1.7em;}
 #admin-menu a.selected:not(:has(svg))  {padding-left: 20px !important; background-position: 2px 40%;}
 
-a.collapsible {padding-left: 12px; }
-
 a#toggle-completed-versions {color:#999;}
 
 /***** Dropdown *****/
