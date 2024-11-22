@@ -31,7 +31,7 @@ class MailerTest < ActiveSupport::TestCase
            :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions,
            :versions,
            :comments,
-           :groups_users, :watchers
+           :groups_users, :watchers, :issue_categories
 
   def setup
     ActionMailer::Base.deliveries.clear
