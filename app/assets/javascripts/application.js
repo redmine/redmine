@@ -1293,10 +1293,10 @@ function inlineAutoComplete(element) {
   };
   var applyState = function(){
     if(main.hasClass('collapsedsidebar')){
-      updateSVGIcon(main[0], 'chevrons-left')
+      updateSVGIcon(document.getElementById('sidebar-switch-button'), 'chevrons-left')
       setState('hidden');
     } else {
-      updateSVGIcon(main[0], 'chevrons-right')
+      updateSVGIcon(document.getElementById('sidebar-switch-button'), 'chevrons-right')
       setState('visible');
     }
   };
