@@ -33,7 +33,9 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
     get '/time_entries.xml', :headers => credentials('jsmith')
     assert_response :success
     assert_equal 'application/xml', @response.media_type
-    assert_select 'time_entries[type=array] time_entry id', :text => '2'
+    assert_select 'time_entries[type=array] time_entry id', :text => '4'
+    assert_select 'time_entry:has(id:contains(4)) hours', :text => '7.65'
+    assert_select 'time_entry:has(id:contains(3)) hours', :text => '1.0'
   end
 
   test "GET /time_entries.xml with limit should return limited results" do
@@ -44,10 +46,11 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
   end
 
   test "GET /time_entries/:id.xml should return the time entry" do
-    get '/time_entries/2.xml', :headers => credentials('jsmith')
+    get '/time_entries/4.xml', :headers => credentials('jsmith')
     assert_response :success
     assert_equal 'application/xml', @response.media_type
-    assert_select 'time_entry id', :text => '2'
+    assert_select 'time_entry id', :text => '4'
+    assert_select 'time_entry hours', :text => '7.65'
   end
 
   test "GET /time_entries/:id.xml on closed project should return the time entry" do
