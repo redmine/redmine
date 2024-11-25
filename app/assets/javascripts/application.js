@@ -760,8 +760,10 @@ $(document).ready(function(){
     } else {
       $(".drdn").removeClass("expanded");
       drdn.addClass("expanded");
-      selected = $('.drdn-items a.selected'); // Store selected project
-      selected.focus(); // Calling focus to scroll to selected project
+      if ($(this).parent('#project-jump').length) {
+        selected = $('.drdn-items a.selected'); // Store selected project
+        selected.focus(); // Calling focus to scroll to selected project
+      }
       if (!isMobile()) {
         drdn.find(".autocomplete").focus();
       }
