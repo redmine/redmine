@@ -83,8 +83,7 @@ class WikiContentVersion < ApplicationRecord
               # uncompressed data
               data
             end
-      str.force_encoding("UTF-8")
-      str
+      (+str).force_encoding('UTF-8')
     end
   end
 
