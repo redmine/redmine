@@ -1,10 +1,10 @@
 <div class="contextual">
-<%= link_to l(:button_log_time),
+<%= link_to sprite_icon('time-add', l(:button_log_time)),
             _new_time_entry_path(@project, @issue),
             :class => 'icon icon-time-add' if User.current.allowed_to?(:log_time, @project, :global => true) %>
-<%= link_to_if_authorized l(:label_settings),
-            {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'activities'},
-            :class => 'icon icon-settings' if User.current.allowed_to?(:manage_project_activities, @project) %>
+<%= link_to_if_authorized sprite_icon('settings', l(:label_settings)),
+                          {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'activities'},
+                          :class => 'icon icon-settings' if User.current.allowed_to?(:manage_project_activities, @project) %>
 </div>
 
 <h2><%= @query.new_record? ? l(:label_spent_time) : @query.name %></h2>
@@ -26,7 +26,7 @@
                                                           :style => 'width: 200px',
                                                           :disabled => (@report.criteria.length >= 3),
                                                           :id => "criterias") %>
-     <%= link_to l(:button_clear), {:params => request.query_parameters.merge(:criteria => nil)}, :class => 'icon icon-reload' %></p>
+     <%= link_to sprite_icon('reload', l(:button_clear)), {:params => request.query_parameters.merge(:criteria => nil)}, :class => 'icon icon-reload' %></p>
   <%= hidden_field_tag 'encoding', l(:general_csv_encoding) unless l(:general_csv_encoding).casecmp('UTF-8') == 0 %>
 <% end %>
 
