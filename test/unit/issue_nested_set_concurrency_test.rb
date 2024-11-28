@@ -36,7 +36,7 @@ class IssueNestedSetConcurrencyTest < ActiveSupport::TestCase
       ActiveRecord::Base.establish_connection connection
     end
     User.current = nil
-    CustomField.delete_all
+    CustomField.destroy_all
   end
 
   def teardown
