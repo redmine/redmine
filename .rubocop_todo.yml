@@ -644,7 +644,6 @@ Security/Eval:
 # This cop supports unsafe autocorrection (--autocorrect-all).
 Security/IoMethods:
   Exclude:
-    - 'Gemfile'
     - 'app/models/attachment.rb'
     - 'test/functional/mail_handler_controller_test.rb'
     - 'test/unit/mail_handler_test.rb'
