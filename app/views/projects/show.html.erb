@@ -129,7 +129,9 @@
   </div>
   <% end %>
 
-  <%= render :partial => 'members_box' %>
+  <% if User.current.allowed_to?(:view_project_members, @project) %>
+    <%= render :partial => 'members_box' %>
+  <% end %>
 
   <% if @subprojects.any? %>
   <div class="projects box">

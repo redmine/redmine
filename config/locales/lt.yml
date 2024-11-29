@@ -461,6 +461,7 @@ lt:
   setting_attachment_extensions_allowed: Leistini plėtiniai
   setting_attachment_extensions_denied: Neleistini plėtiniai
 
+  permission_view_project_members: Matyt projekto narius
   permission_add_project: Sukurti projektą
   permission_add_subprojects: Kurti sub-projektus
   permission_edit_project: Redaguoti projektą

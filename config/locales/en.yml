@@ -542,6 +542,7 @@ en:
   setting_project_list_defaults: Projects list defaults
   setting_twofa: Two-factor authentication
 
+  permission_view_project_members: View project members
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects
   permission_edit_project: Edit project
