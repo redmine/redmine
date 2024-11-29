@@ -94,4 +94,34 @@ class WatchersHelperTest < Redmine::HelperTest
       end
     end
   end
+
+  def test_watchers_list_should_include_avatar_and_user_name
+    issue = Issue.find(1)
+    Watcher.create!(:watchable => issue, :user => User.find(1))
+
+    with_settings :gravatar_enabled => '1' do
+      result = watchers_list(issue)
+      assert_select_in result, 'ul.watchers' do
+        assert_select 'li', 1
+        assert_select 'li:nth-of-type(1)>img.gravatar', 1
+        assert_select 'li:nth-of-type(1)>a[href=?]', '/users/1', text: 'Redmine Admin'
+        assert_select 'li:nth-of-type(1)>a.group>svg.icon-svg', 0
+      end
+    end
+  end
+
+  def test_watchers_list_should_include_svg_icon_and_group_name
+    issue = Issue.find(1)
+    Watcher.create!(:watchable => issue, :user => Group.find(10))
+
+    with_settings :gravatar_enabled => '1' do
+      result = watchers_list(issue)
+      assert_select_in result, 'ul.watchers' do
+        assert_select 'li', 1
+        assert_select 'li:nth-of-type(1)>a.group>svg.icon-svg', 1
+        assert_select 'li:nth-of-type(1)>a[href=?]', '/groups/10', text: 'A Team'
+        assert_select 'li:nth-of-type(1)>img.gravatar', 0
+      end
+    end
+  end
 end

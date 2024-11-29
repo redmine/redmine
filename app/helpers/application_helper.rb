@@ -651,17 +651,12 @@ module ApplicationHelper
   def principals_check_box_tags(name, principals)
     s = +''
     principals.each do |principal|
-      s <<
-        content_tag(
-          'label',
-          check_box_tag(name, principal.id, false, :id => nil) +
-            (avatar(principal, :size => 16).presence ||
-               content_tag(
-                 'span', principal_icon(principal),
-                 :class => "name icon icon-#{principal.class.name.downcase}"
-               )
-            ) + principal.to_s
-        )
+      principal_check_box = +''
+      principal_check_box << check_box_tag(name, principal.id, false, :id => nil)
+      principal_check_box << avatar(principal, :size => 16).to_s if principal.is_a?(User)
+      principal_check_box << content_tag('span', principal_icon(principal), :class => "name icon icon-#{principal.class.to_s.downcase}")
+      principal_check_box << principal.to_s
+      s << content_tag('label', principal_check_box.html_safe)
     end
     s.html_safe
   end

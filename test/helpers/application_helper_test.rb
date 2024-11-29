@@ -2008,18 +2008,31 @@ class ApplicationHelperTest < Redmine::HelperTest
   end
 
   def test_principals_check_box_tag_with_avatar
-    principals = [User.find(1), Group.find(10)]
+    principals = [User.find(1), User.find(2)]
     with_settings :gravatar_enabled => '1' do
       tags = principals_check_box_tags("watcher[user_ids][]", principals)
       principals.each do |principal|
         assert_include avatar(principal, :size => 16), tags
-        assert_not_include content_tag('span', nil, :class => "name icon icon-#{principal.class.name.downcase}"), tags
+        assert_include content_tag('span', nil, :class => "name icon icon-#{principal.class.name.downcase}"), tags
+        assert_include principal.to_s, tags
       end
     end
   end
 
-  def test_principals_check_box_tag_without_avatar
-    principals = [User.find(1), Group.find(10)]
+  def test_principals_check_box_tag_without_avatar_when_principal_is_group
+    principals = [Group.find(10), Group.find(11)]
+    with_settings :gravatar_enabled => '1' do
+      tags = principals_check_box_tags("watcher[user_ids][]", principals)
+      principals.each do |principal|
+        assert_not_include avatar(principal, :size => 16), tags
+        assert_include content_tag('span', principal_icon(principal), :class => "name icon icon-#{principal.class.name.downcase}"), tags
+        assert_include principal.to_s, tags
+      end
+    end
+  end
+
+  def test_principals_check_box_tag_without_avatar_when_gravatar_disabled
+    principals = [User.find(1), User.find(2)]
     Setting.gravatar_enabled = '1'
     avatar_tags = principals.collect{|p| avatar(p, :size => 16)}
 
@@ -2027,7 +2040,8 @@ class ApplicationHelperTest < Redmine::HelperTest
       tags = principals_check_box_tags(name, principals)
       principals.each_with_index do |principal, i|
         assert_not_include avatar_tags[i], tags
-        assert_include content_tag('span', principal_icon(principal), :class => "name icon icon-#{principal.class.name.downcase}"), tags
+        assert_include content_tag('span', nil, :class => "name icon icon-#{principal.class.name.downcase}"), tags
+        assert_include principal.to_s, tags
       end
     end
   end
