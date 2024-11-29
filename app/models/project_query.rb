@@ -156,7 +156,9 @@ class ProjectQuery < Query
     order_option << "#{Project.table_name}.lft ASC"
     scope = base_scope.
       order(order_option).
-      joins(joins_for_order_statement(order_option.join(',')))
+      joins(joins_for_order_statement(order_option.join(','))).
+      limit(options[:limit]).
+      offset(options[:offset])
 
     if has_custom_field_column?
       scope = scope.preload(:custom_values)

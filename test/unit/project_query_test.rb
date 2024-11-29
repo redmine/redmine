@@ -162,4 +162,18 @@ class ProjectQueryTest < ActiveSupport::TestCase
     assert_not_nil last_activitiy_date
     assert_equal Redmine::Activity::Fetcher.new(User.current).events(nil, nil, :project => Project.find(1)).first.updated_on, last_activitiy_date
   end
+
+  def test_results_scope_with_offset_and_limit
+    q = ProjectQuery.new
+
+    ((q.results_scope.count / 2) + 1).times do |i|
+      limit = 2
+      offset = i * 2
+
+      scope_without = q.results_scope.offset(offset).limit(limit).ids
+      scope_with = q.results_scope(:offset => offset, :limit => limit).ids
+
+      assert_equal scope_without, scope_with
+    end
+  end
 end
