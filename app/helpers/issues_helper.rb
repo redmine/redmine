@@ -618,7 +618,7 @@ module IssuesHelper
         value = link_to_attachment(atta, only_path: options[:only_path])
         if options[:only_path] != false
           value += ' '
-          value += link_to_attachment atta, class: 'icon-only icon-download', title: l(:button_download), download: true
+          value += link_to_attachment atta, class: 'icon-only icon-download', title: l(:button_download), download: true, icon: 'download'
         end
       else
         value = content_tag("i", h(value)) if value
