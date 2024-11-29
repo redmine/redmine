@@ -217,7 +217,7 @@ class WatchersController < ApplicationController
     return unless klass < ApplicationRecord
     return unless klass < Redmine::Acts::Watchable::InstanceMethods
 
-    scope = klass.where(:id => Array.wrap(params[:object_id]))
+    scope = klass.where(:id => Array.wrap(params[:object_id])).order(:id)
     if klass.reflect_on_association(:project)
       scope = scope.preload(:project => :enabled_modules)
     end
