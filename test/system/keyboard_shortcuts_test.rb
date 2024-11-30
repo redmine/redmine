@@ -19,7 +19,7 @@
 
 require_relative '../application_system_test_case'
 
-class InlineAutocompleteSystemTest < ApplicationSystemTestCase
+class KeyboardShortcutsTest < ApplicationSystemTestCase
   fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
            :trackers, :projects_trackers, :enabled_modules, :issue_statuses, :issues,
            :enumerations, :custom_fields, :custom_values, :custom_fields_trackers,
