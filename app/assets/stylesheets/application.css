@@ -433,8 +433,6 @@ tr.version td.date, tr.version td.status, tr.version td.sharing { text-align: ce
 
 tr.member td.icon-user, #principals_for_new_member .icon-user {background:transparent;}
 #principals_for_new_member svg {margin-right: 4px;}
-#principals_for_new_member img.gravatar {margin-right: 4px;}
-#principals_for_new_member span.icon:empty { display: none; }
 
 tr.user td {width:13%;white-space: nowrap;}
 td.username, td.firstname, td.lastname, td.email {text-align:left !important;}
@@ -539,10 +537,7 @@ td.center {text-align:center;}
 
 #watchers select {width: 95%; display: block;}
 #watchers img.gravatar {margin: 0 4px 2px 0;}
-#watchers svg.icon-svg {margin: 0 2px 2px 0;}
 #users_for_watcher img.gravatar {padding-bottom: 2px; margin-right: 4px;}
-#users_for_watcher svg.icon-svg {padding-bottom: 2px; margin-right: 2px;}
-#users_for_watcher span.icon:empty { display: none; }
 
 span#watchers_inputs {overflow:auto; display:block;}
 span.search_for_watchers {display:block;}
