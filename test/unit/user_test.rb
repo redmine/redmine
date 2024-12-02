@@ -564,6 +564,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_validate_password_complexity
+    set_language_if_valid 'en'
     user = users(:users_002)
     bad_passwords = [
       user.login,
@@ -577,7 +578,7 @@ class UserTest < ActiveSupport::TestCase
       user.password = p
       user.password_confirmation = p
       assert_not user.save
-      assert user.errors.full_messages.include?('Password is too simple')
+      assert_includes user.errors.full_messages, 'Password is too simple'
     end
   end
 
