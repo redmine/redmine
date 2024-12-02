@@ -564,6 +564,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_validate_password_complexity
+    set_language_if_valid 'en'
     user = users(:users_002)
     bad_passwords = [
       user.login,
