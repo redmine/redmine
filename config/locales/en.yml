@@ -959,9 +959,9 @@ en:
   label_user_mail_option_only_owner: "Only for things I watch or I am the owner of"
   label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
   label_user_mail_notify_about_high_priority_issues_html: "Also notify me about issues with a priority of <em>%{prio}</em> or higher"
-  label_registration_activation_by_email: account activation by email
-  label_registration_manual_activation: manual account activation
-  label_registration_automatic_activation: automatic account activation
+  label_registration_activation_by_email: Self account activation by email verification
+  label_registration_manual_activation: Account activation by administrator approval
+  label_registration_automatic_activation: Automatic account activation
   label_display_per_page: "Per page: %{value}"
   label_age: Age
   label_change_properties: Change properties
