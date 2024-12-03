@@ -422,6 +422,7 @@ tr.message { height: 2.6em; }
 tr.message td.created_on { white-space: nowrap; }
 tr.message td.last_message { font-size: 93%; white-space: nowrap; }
 tr.message.sticky td.subject { font-weight: bold; }
+tr.message td.subject:not(:has(.icon)) { padding-left: 20px; }
 
 body.avatars-on #replies .message.reply {padding-left: 32px;}
 #replies .reply:target h4.reply-header {background-color:#DDEEFF;}
