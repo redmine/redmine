@@ -309,7 +309,7 @@ module QueriesHelper
     else
       format_object(value, html: false) do |value|
         case value.class.name
-        when 'Float'
+        when 'Float', 'Rational'
           sprintf("%.2f", value).gsub('.', l(:general_csv_decimal_separator))
         when 'IssueRelation'
           value.to_s(object)

@@ -1740,6 +1740,16 @@ class TimelogControllerTest < Redmine::ControllerTest
       get :index, :params => {:format => 'csv'}
       assert_response :success
       assert_equal 'text/csv; header=present', response.media_type
+
+      parsed_csv = CSV.parse(response.body)
+      assert_equal %w[Project Date User Activity Issue Comment Hours], parsed_csv.first
+      assert_equal(
+        [
+          'eCookbook', '03/12/2007', 'Redmine Admin', 'Design',
+          'Bug #1: Cannot print recipes', '', '150.00'
+        ],
+        parsed_csv.last
+      )
     end
   end
 
