@@ -1278,7 +1278,7 @@ sv:
   label_nothing_to_preview: Ingenting att visa
   error_token_expired: Lösenordslänken gäller inte längre, var god försök igen.
   error_spent_on_future_date: Kan inte stämpla tid på framtida datum
-  setting_timelog_accept_future_dates: Acceptera tidsloggningar på framtida datum
+  setting_timelog_accept_future_dates: Acceptera tidsstämplingar på framtida datum
   label_delete_link_to_subtask: Ta bort relation
   error_not_allowed_to_log_time_for_other_users: Du får inte stämpla tid
     för andra användare
