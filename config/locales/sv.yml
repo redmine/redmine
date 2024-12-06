@@ -1447,7 +1447,7 @@ sv:
   twofa_text_group_disabled: Den här inställningen är endast giltig när den globala inställningen
     för tvåfaktorsautentisering är inställd på "valfritt". För närvarande är tvåfaktorsautentisering
     inaktiverad.
-  field_default_issue_query: Standardfråga för ärenden
+  field_default_issue_query: Standardfiltrering för ärenden
   label_default_queries:
     for_all_projects: För alla projekt
     for_current_project: För aktivt projekt
@@ -1463,8 +1463,8 @@ sv:
   label_bulk_edit: Massredigera
   button_create_and_follow: Skapa och följ
   label_subtask: Underaktivitet
-  label_default_query: Standardfråga
-  field_default_project_query: Standardfråga för projekt
+  label_default_query: Standardfiltrering
+  field_default_project_query: Standardfiltrering för projekt
   label_required_administrators: obligatoriskt för administratörer
   twofa_hint_required_administrators_html: Inställningen <strong>%{label}</strong> fungerar som valfri,
     men kommer att kräva att alla användare med administratörsrättigheter konfigurerar
