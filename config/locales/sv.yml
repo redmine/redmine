@@ -923,7 +923,7 @@ sv:
   button_expand_all: Expandera alla
   button_delete: Ta bort
   button_create: Skapa
-  button_create_and_continue: Skapa och fortsätt
+  button_create_and_continue: Skapa och ny
   button_test: Testa
   button_edit: Ändra
   button_edit_associated_wikipage: "Ändra associerad Wikisida: %{page_title}"
@@ -1461,7 +1461,7 @@ sv:
   text_setting_config_change: Du kan konfigurera beteendet i <strong>config/configuration.yml</strong>.
     Vänligen starta om applikationen efter att du har redigerat den.
   label_bulk_edit: Massredigera
-  button_create_and_follow: Skapa och följ
+  button_create_and_follow: Skapa och öppna
   label_subtask: Underaktivitet
   label_default_query: Standardfiltrering
   field_default_project_query: Standardfiltrering för projekt
