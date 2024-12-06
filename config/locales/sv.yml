@@ -1287,7 +1287,7 @@ sv:
   label_next_week: nästa vecka
   label_next_month: nästa månad
   text_role_no_workflow: Inget arbetsflöde definierat för denna roll
-  text_status_no_workflow: Ingen bevakare använder denna status i arbetsflödet
+  text_status_no_workflow: Ingen arbetstyp använder denna status i arbetsflödet
   setting_mail_handler_preferred_body_part: Föredragen del av epost i flera delar (HTML)
   setting_show_status_changes_in_mail_subject: Visa statusändringar för ärenden i
     ämnet för e-postaviseringar
