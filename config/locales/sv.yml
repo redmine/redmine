@@ -239,7 +239,7 @@ sv:
   error_no_tracker_in_project: 'Ingen ärendetyp är associerad med projektet. Vänligen kontrollera projektinställningarna.'
   error_no_default_issue_status: 'Ingen status är definierad som standard för nya ärenden. Vänligen kontrollera din konfiguration (gå till "Administration -> Ärendestatus").'
   error_can_not_delete_custom_field: Kan inte ta bort anpassat fält
-  error_can_not_delete_tracker_html: "Det finns ärenden av denna typ och den är därför inte möjlig att ta bort.<p>Följande projekt har ärenden kopplad till denna bevakare:<br>%{projects}</p>"
+  error_can_not_delete_tracker_html: "Det finns ärenden av denna typ och den är därför inte möjlig att ta bort.<p>Följande projekt har ärenden kopplad till denna ärendetyp:<br>%{projects}</p>"
   error_can_not_remove_role: "Denna roll används och den är därför inte möjlig att ta bort."
   error_can_not_reopen_issue_on_closed_version: 'Ett ärende tilldelat en stängd version kan inte öppnas på nytt'
   error_can_not_archive_project: Detta projekt kan inte arkiveras
@@ -1212,13 +1212,13 @@ sv:
   button_filter: Filtrering
   mail_body_password_updated: Ditt lösenord är ändrat.
   label_no_preview: Ingen förhandsvisning tillgänglig
-  error_no_tracker_allowed_for_new_issue_in_project: Projektet har ingen bevakare
+  error_no_tracker_allowed_for_new_issue_in_project: Projektet har ingen ärendetyp
     som du kan skapa ett ärende för
-  label_tracker_all: All bevakare
+  label_tracker_all: All ärendetyper
   label_new_project_issue_tab_enabled: Visa fliken "Nya ärenden"
   setting_new_item_menu_tab: Projektmenyflik för att skapa nya objekt
   label_new_object_tab_enabled: Visa "+" rullgardinsmenyn
-  error_no_projects_with_tracker_allowed_for_new_issue: Inga projekt med bevakare
+  error_no_projects_with_tracker_allowed_for_new_issue: Inga projekt med ärendetyper
     tillåtna för nya ärenden
   field_textarea_font: Font som används för textytor
   label_font_default: Default font
@@ -1293,13 +1293,13 @@ sv:
     ämnet för e-postaviseringar
   label_inherited_from_parent_project: Ärvd från föräldraprojekt
   label_inherited_from_group: Ärvd från grupp%{name}
-  label_trackers_description: Beskrivning för bevakare
-  label_open_trackers_description: Visa beskrivning för alla bevakare
+  label_trackers_description: Beskrivning för ärendetyp
+  label_open_trackers_description: Visa beskrivning för alla ärendetyper
   label_preferred_body_part_text: Text
   label_preferred_body_part_html: HTML
   field_parent_issue_subject: Ämne för föräldraärende
   permission_edit_own_issues: Ändra egna ärenden
-  text_select_apply_tracker: Välj bevakare
+  text_select_apply_tracker: Välj ärendetyp
   label_updated_issues: Uppdaterade ärenden
   text_avatar_server_config_html: Nuvarande avatar-server <a href="%{url}">%{url}</a>.
     Du kan konfigurera det i <strong>config/configuration.yml</strong>.
