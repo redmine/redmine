@@ -184,9 +184,14 @@
     font-size:0.9375rem;
     font-weight:normal;
   }
+  #project-jump .drdn-content svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
   #project-jump .drdn-content .autocomplete {
     height:40px;
     font-size:1.25rem;
+    padding-left: 28px !important;
   }
   #project-jump .drdn-content a {
     padding:8px;
@@ -259,21 +264,7 @@
     content: '\2261';
   }
 
-  /* search magnifier icon */
-  .search-magnifier {
-    font-family: var(--fonts-main);
-    color: #bbb;
-
-    cursor: pointer;
-    -webkit-transform: rotate(-45deg);
-    -moz-transform: rotate(45deg);
-    -o-transform: rotate(45deg);
-  }
-
   .search-magnifier--flyout {
-    font-size: 1.5625rem;
-    line-height: 54px;
-
     position: absolute;
     z-index: 1;
     left: 12px;

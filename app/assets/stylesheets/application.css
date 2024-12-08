@@ -268,7 +268,9 @@ a#toggle-completed-versions {color:#999;}
 }
 .drdn.expanded .drdn-content {display:block;}
 
-.drdn-content .quick-search {margin:8px;}
+.drdn-content .quick-search {margin:8px; display: flex; align-items: center;}
+.drdn-content .quick-search svg {margin-left: 5px; position: absolute;}
+.drdn-content .quick-search input.autocomplete {background: none; padding-left: 24px !important;}
 .drdn-content .autocomplete {box-sizing: border-box; width:100% !important; height:28px;}
 .drdn-content .autocomplete:focus {border-color:#5ad;}
 .drdn-items {max-height:400px; overflow:auto;}
