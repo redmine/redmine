@@ -202,25 +202,27 @@ class IssueRelationTest < ActiveSupport::TestCase
   def test_create_with_initialized_journals_should_create_journals
     from = Issue.find(1)
     to   = Issue.find(2)
-    from_journals = from.journals.size
-    to_journals   = to.journals.size
     relation = IssueRelation.new(:issue_from => from, :issue_to => to,
                                  :relation_type => IssueRelation::TYPE_PRECEDES)
     relation.init_journals User.find(1)
-    assert relation.save
-    from.reload
-    to.reload
-    relation.reload
-    assert_equal from.journals.size, (from_journals + 1)
-    assert_equal to.journals.size, (to_journals + 1)
-    assert_equal 'relation', from.journals.last.details.last.property
-    assert_equal 'precedes', from.journals.last.details.last.prop_key
-    assert_equal '2', from.journals.last.details.last.value
-    assert_nil   from.journals.last.details.last.old_value
-    assert_equal 'relation', to.journals.last.details.last.property
-    assert_equal 'follows', to.journals.last.details.last.prop_key
-    assert_equal '1', to.journals.last.details.last.value
-    assert_nil   to.journals.last.details.last.old_value
+
+    assert_difference(
+      ->{ from.reload.journals.size } => +1,
+      ->{ to.reload.journals.size } => +1
+    ) do
+      assert relation.save
+    end
+
+    from.journals.last.details.then do |details|
+      assert details.exists?(property: 'relation', prop_key: 'precedes', value: '2')
+    end
+
+    to.journals.last.details.then do |details|
+      assert_equal 3, details.count
+      assert details.exists?(property: 'relation', prop_key: 'follows', value: '1', old_value: nil)
+      assert details.exists?(property: 'attr', prop_key: 'due_date')
+      assert details.exists?(property: 'attr', prop_key: 'start_date')
+    end
   end
 
   def test_destroy_with_initialized_journals_should_create_journals
