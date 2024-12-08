@@ -12,7 +12,7 @@
         <%= render partial: "twofa/#{@twofa_view[:scheme_name]}/new", locals: { twofa_view: @twofa_view } -%>
         <p>
           <label for="twofa_code"><%=l 'twofa_label_code' -%></label>
-          <%= text_field_tag :twofa_code, nil, autocomplete: 'off', autofocus: true -%>
+          <%= text_field_tag :twofa_code, nil, autocomplete: 'one-time-code', autofocus: true -%>
         </p>
       </div>
     </div>
