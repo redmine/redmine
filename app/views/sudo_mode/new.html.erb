@@ -8,7 +8,7 @@
   <div class="box">
     <p>
       <label for="sudo_password"><%= l :field_password %><span class="required">*</span></label>
-      <%= password_field_tag :sudo_password, nil, size: 25, autofocus: true %>
+      <%= password_field_tag :sudo_password, nil, size: 25, :autocomplete => 'current-password', autofocus: true %>
       </br><%= link_to l(:label_password_lost), lost_password_path, :class => "lost_password" if Setting.lost_password? %>
     </p>
   </div>

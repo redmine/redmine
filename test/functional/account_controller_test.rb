@@ -30,8 +30,8 @@ class AccountControllerTest < Redmine::ControllerTest
     get :login
     assert_response :success
 
-    assert_select 'input[name=username]'
-    assert_select 'input[name=password]'
+    assert_select 'input[name=username][autocomplete=username]'
+    assert_select 'input[name=password][autocomplete=current-password]'
   end
 
   def test_get_login_while_logged_in_should_redirect_to_back_url_if_present
