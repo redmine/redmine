@@ -605,9 +605,9 @@ class MyControllerTest < Redmine::ControllerTest
   def test_change_password
     get :password
     assert_response :success
-    assert_select 'input[type=password][name=password]'
-    assert_select 'input[type=password][name=new_password]'
-    assert_select 'input[type=password][name=new_password_confirmation]'
+    assert_select 'input[type=password][name=password][autocomplete=current-password]'
+    assert_select 'input[type=password][name=new_password][autocomplete=new-password]'
+    assert_select 'input[type=password][name=new_password_confirmation][autocomplete=new-password]'
   end
 
   def test_update_password

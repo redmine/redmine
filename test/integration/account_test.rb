@@ -136,8 +136,8 @@ class AccountTest < Redmine::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_select 'input[type=hidden][name=token][value=?]', token.value
-    assert_select 'input[name=new_password]'
-    assert_select 'input[name=new_password_confirmation]'
+    assert_select 'input[name=new_password][autocomplete=new-password]'
+    assert_select 'input[name=new_password_confirmation][autocomplete=new-password]'
 
     post(
       "/account/lost_password",
