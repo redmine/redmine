@@ -720,6 +720,10 @@ bg:
   label_attachment_plural: Файлове
   label_file_added: Добавен файл
   label_attachment_description: Описание на файла
+  label_attachment_summary:
+    zero: "%{filename}"
+    one: "%{filename} и 1 файл"
+    other: "%{filename} и %{count} файла"
   label_report: Справка
   label_report_plural: Справки
   label_news: Новини
@@ -1439,7 +1443,3 @@ bg:
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
   field_name_or_email_or_login: Име, e-mail или login име
-  label_attachment_summary:
-    zero: "%{filename}"
-    one: "%{filename} and 1 file"
-    other: "%{filename} and %{count} files"
