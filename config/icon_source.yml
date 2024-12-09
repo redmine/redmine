@@ -197,3 +197,5 @@
   svg: chevrons-left
 - name: key
   svg: key
+- name: search
+  svg: search

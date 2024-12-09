@@ -27,7 +27,7 @@
         <div class="flyout-menu__search">
             <%= form_tag(search_path(id: @project), :method => :get ) do %>
             <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
-            <%= label_tag 'flyout-search', '&#9906;'.html_safe, :class => 'search-magnifier search-magnifier--flyout' %>
+            <%= label_tag 'flyout-search', sprite_icon('search', l(:label_search), icon_only: true), :class => 'search-magnifier search-magnifier--flyout' %>
             <%= text_field_tag 'q', @question, :id => 'flyout-search', :class => 'small js-search-input', :placeholder => l(:label_search) %>
             <% end %>
         </div>
