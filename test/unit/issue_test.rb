@@ -889,7 +889,7 @@ class IssueTest < ActiveSupport::TestCase
     WorkflowTransition.create!(:role_id => 2, :tracker_id => 1, :old_status_id => 1, :new_status_id => 3)
 
     # status 3 is not displayed
-    expected_statuses = IssueStatus.where(:id => [1, 2])
+    expected_statuses = IssueStatus.where(:id => [1, 2]).order(:id)
 
     admin = User.find(1)
     assert_equal expected_statuses, issue.new_statuses_allowed_to(admin)
