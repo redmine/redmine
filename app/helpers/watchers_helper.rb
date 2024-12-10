@@ -49,7 +49,7 @@ module WatchersHelper
     content = ''.html_safe
     lis = object.watcher_users.sorted.collect do |user|
       s = ''.html_safe
-      s << avatar(user, :size => "16").to_s
+      s << avatar(user, :size => "16").to_s if user.is_a?(User)
       s << link_to_principal(user, class: user.class.to_s.downcase)
       if object.respond_to?(:visible?) && user.is_a?(User) && !object.visible?(user)
         s << content_tag('span', l(:notice_invalid_watcher), class: 'icon-only icon-warning', title: l(:notice_invalid_watcher))
