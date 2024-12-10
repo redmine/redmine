@@ -180,14 +180,14 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
   padding: 3px 0;
   padding-right: 28px;
   width: 100%;
+}
 
-  svg {
-    stroke: #555;
-  }
+#sidebar-switch-button svg {
+  stroke: #555;
+}
 
-  &:hover {
-    background-color: #eeeeee;
-  }
+#sidebar-switch-button:hover {
+  background-color: #eeeeee;
 }
 
 #content { flex-grow: 1; background-color: #fff; margin: 0px; padding: 10px 16px 10px 16px; overflow-x: auto;}
@@ -1455,13 +1455,10 @@ button.tab-left.disabled, button.tab-right.disabled {
 }
 
 /***** Wiki *****/
-div.wiki {
-  font-variant-numeric: proportional-nums;
-  & table, & pre, & code, & ol>li::marker {
-    font-variant-numeric: tabular-nums;
-  }
-}
+div.wiki { font-variant-numeric: proportional-nums; }
+div.wiki table, div.wiki pre, div.wiki code, div.wiki ol>li::marker { font-variant-numeric: tabular-nums; }
 
+/* Wiki tables */
 div.wiki table {
   border-collapse: collapse;
   margin-bottom: 1em;
@@ -1776,33 +1773,31 @@ svg.icon-ok {
   stroke: #ffc400;
 }
 
-svg {
-  &.icon-svg {
-    stroke: #169;
-    fill: none;
-    stroke-width: 1.5;
-    vertical-align: middle;
-  }
+svg.icon-svg {
+  stroke: #169;
+  fill: none;
+  stroke-width: 1.5;
+  vertical-align: middle;
+}
 
-  &.s20 {
-    width: 1.25rem;
-    height: 1.25rem;
-  }
+svg.s20 {
+  width: 1.25rem;
+  height: 1.25rem;
+}
 
-  &.s18 {
-    width: 1.125rem;
-    height: 1.125rem;
-  }
+svg.s18 {
+  width: 1.125rem;
+  height: 1.125rem;
+}
 
-  &.s14 {
-    width: 0.875rem;
-    height: 0.875rem;
-  }
+svg.s14 {
+  width: 0.875rem;
+  height: 0.875rem;
+}
 
-  &.s12 {
-    width: 0.75rem;
-    height: 0.75rem;
-  }
+svg.s12 {
+  width: 0.75rem;
+  height: 0.75rem;
 }
 
 span.icon-label {
