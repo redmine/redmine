@@ -19,10 +19,11 @@
 
 module Redmine
   module Activity
-    mattr_accessor :available_event_types, :default_event_types, :providers
+    mattr_accessor :available_event_types, :default_event_types, :plugins_event_types, :providers
 
     @@available_event_types = []
     @@default_event_types = []
+    @@plugins_event_types = {}
     @@providers = Hash.new {|h, k| h[k]=[]}
 
     class << self
@@ -32,7 +33,7 @@ module Redmine
 
       # Registers an activity provider
       def register(event_type, options={})
-        options.assert_valid_keys(:class_name, :default)
+        options.assert_valid_keys(:class_name, :default, :plugin)
 
         event_type = event_type.to_s
         providers = options[:class_name] || event_type.classify
@@ -40,13 +41,19 @@ module Redmine
 
         @@available_event_types << event_type unless @@available_event_types.include?(event_type)
         @@default_event_types << event_type unless options[:default] == false
+        @@plugins_event_types = { event_type => options[:plugin].to_s } unless options[:plugin].nil?
         @@providers[event_type] += providers
       end
 
       def delete(event_type)
         @@available_event_types.delete event_type
         @@default_event_types.delete event_type
+        @@plugins_event_types.delete(event_type)
         @@providers.delete(event_type)
+      end
+
+      def plugin_name(event_type)
+        @@plugins_event_types[event_type]
       end
     end
   end

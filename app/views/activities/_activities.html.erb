@@ -4,7 +4,7 @@
 <dl>
 <% sort_activity_events(events_by_day[day]).each do |e, in_group| -%>
   <dt class="<%= e.event_type %> icon icon-<%= e.event_type %> <%= "grouped" if in_group %> <%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>">
-  <%= activity_event_type_icon e.event_type %>
+  <%= activity_event_type_icon e.event_type, plugin: Redmine::Activity.plugin_name(e.activity_provider_options.keys[0]) %>
   <%= avatar(e.event_author) if e.respond_to?(:event_author) %>
   <span class="time"><%= format_time(e.event_datetime, false) %></span>
   <%= content_tag('span', e.project, :class => 'project') if @project.nil? || @project != e.project %>
