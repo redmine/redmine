@@ -22,7 +22,7 @@ div.changeset-changes ul > ul { margin-left: 18px; padding: 0; }
 li.change {
     list-style-type:none;
     background-image: url(/bullet_black.png);
-    background-position: 1px 1px;
+    background-position: 1px 2px;
     background-repeat: no-repeat;
     padding-top: 1px;
     padding-bottom: 1px;
@@ -41,8 +41,8 @@ li.change.change-D { background-image: url(/bullet_delete.png); }
 li.change .copied-from { font-style: italic; color: #999; font-size: 0.9em; }
 li.change .copied-from:before { content: " - "}
 
-#changes-legend { float: right; font-size: 0.8em; margin: 0; }
-#changes-legend li { float: left; background-position: 5px 0; }
+#changes-legend { float: right; font-size: 0.75rem; margin: 0; }
+#changes-legend li { float: left; background-position: 5px 1px; }
 
 table.filecontent { border: 1px solid #e2e2e2;  border-collapse: collapse; width:98%; background-color: #fafafa; }
 table.filecontent tbody {font-family:Consolas, Menlo, "Liberation Mono", Courier, monospace; font-size:0.75rem;}
