@@ -4,6 +4,37 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2024-12-11 v5.1.5
+
+=== [Accounts / authentication]
+
+* Feature #41927: Enable browser autocomplete for 2FA input fields
+* Feature #41937: Enable browser autocomplete for login input fields
+
+=== [Code cleanup/refactoring]
+
+* Defect #41795: Missing fixture: a test does not pass if the 'issue_categories' fixtures are not already loaded
+* Patch #41881: Improper deletion of custom fields in IssueNestedSetConcurrencyTest causes test failures of other tests
+* Patch #41889: Fix random test failures in Redmine::Acts::MentionableTest due to unsorted mentioned_users
+* Patch #41894: Fix random test failure by ensuring WatchersController#find_objects_from_params returns results in consistent order
+* Patch #41901: Fix random test failure in DestroyProjectsJobTest due to unsorted @projects
+* Patch #41902: Fix class name to match file name in keyboard_shortcuts_test.rb
+* Patch #41931: Fix random failures in IssueRelationTest#test_create_with_initialized_journals due to ambiguous conditions for retrieving the expected detail
+* Patch #41934: Fix random test failure in ProjectsControllerTest::test_post_copy_should_copy_requested_items due to missing :issue_categories fixture
+* Patch #41951: Fix random test failure in IssueTest due to unsorted expected_statuses
+
+=== [Gems support]
+
+* Defect #41749: Warning during startup: "Unresolved or ambiguous specs during Gem::Specification.reset"
+
+=== [Issues]
+
+* Defect #40301: Error when create a version with custom field of "File" type from Issue page
+
+=== [UI]
+
+* Defect #41778: Name field in custom query creation/edit form is not marked as required
+
 == 2024-11-03 v5.1.4
 
 === [Code cleanup/refactoring]
