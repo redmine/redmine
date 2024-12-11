@@ -91,11 +91,11 @@
   end
 
   if @issue.try(:tracker).try(:name).try(:eql?, 'Support')
-    rows.right l(:label_warranty), (@issue.warranty ? I18n.t('general_text_Yes') : I18n.t('general_text_No')), :class => "warranty #{@issue.warranty ? 'valid' : 'not-valid'}", :comment => @issue.project.warrant_comment
-    rows.right l(:label_sla_1_enabled), (@issue.sla_1 ? I18n.t('general_text_Yes') : I18n.t('general_text_No')), :class => "warranty #{@issue.sla_1 ? 'valid' : 'not-valid'}", :comment => @issue.project.sla_1_comment
-    rows.right l(:label_sla_2_enabled), (@issue.sla_2 ? I18n.t('general_text_Yes') : I18n.t('general_text_No')), :class => "warranty #{@issue.sla_2 ? 'valid' : 'not-valid'}", :comment => @issue.project.sla_2_comment
-    rows.right l(:label_cloud_enabled), (@issue.cloud ? I18n.t('general_text_Yes') : I18n.t('general_text_No')), :class => "warranty #{@issue.cloud ? 'valid' : 'not-valid'}", :comment => @issue.project.cloud_comment
-    rows.right l(:label_rent_enabled), (@issue.rent ? I18n.t('general_text_Yes') : I18n.t('general_text_No')), :class => "warranty #{@issue.rent ? 'valid' : 'not-valid'}", :comment => @issue.project.rent_comment
+    rows.right l(:label_warranty), (@issue.warranty ? I18n.t('general_text_Yes') : I18n.t('general_text_No')), :class => "warranty #{@issue.warranty ? 'valid' : 'not-valid'}", :comment => User.current.admin? ? @issue.project.warrant_comment : ''
+    rows.right l(:label_sla_1_enabled), (@issue.sla_1 ? I18n.t('general_text_Yes') : I18n.t('general_text_No')), :class => "warranty #{@issue.sla_1 ? 'valid' : 'not-valid'}", :comment => User.current.admin? ? @issue.project.sla_1_comment : ''
+    rows.right l(:label_sla_2_enabled), (@issue.sla_2 ? I18n.t('general_text_Yes') : I18n.t('general_text_No')), :class => "warranty #{@issue.sla_2 ? 'valid' : 'not-valid'}", :comment => User.current.admin? ? @issue.project.sla_2_comment : ''
+    rows.right l(:label_cloud_enabled), (@issue.cloud ? I18n.t('general_text_Yes') : I18n.t('general_text_No')), :class => "warranty #{@issue.cloud ? 'valid' : 'not-valid'}", :comment => User.current.admin? ? @issue.project.cloud_comment : ''
+    rows.right l(:label_rent_enabled), (@issue.rent ? I18n.t('general_text_Yes') : I18n.t('general_text_No')), :class => "warranty #{@issue.rent ? 'valid' : 'not-valid'}", :comment => User.current.admin? ? @issue.project.rent_comment : ''
   end
 end %>
 <%= render_half_width_custom_fields_rows(@issue) %>
