@@ -9,7 +9,7 @@
     :title => @issue.status.description %>
   <%= content_tag 'a', sprite_icon('help', l(:label_open_issue_statuses_description)), :class => 'icon-only icon-help', :title => l(:label_open_issue_statuses_description), :onclick => "showModal('issue_statuses_description', '500px'); return false;", :href => '#' if @allowed_statuses.any? {|s| s.description.present? } %>
   <% if @issue.transition_warning %>
-    <span class="icon-only icon-warning" title="<%= @issue.transition_warning %>"><%= @issue.transition_warning %></span>
+    <span class="icon-only icon-warning" title="<%= @issue.transition_warning %>"><%= sprite_icon('warning', l(:notice_issue_not_closable_by_open_tasks)) %></span>
   <% end %>
 </p>
 <%= render partial: 'issues/issue_status_description', locals: { issue_statuses: @allowed_statuses } %>

@@ -1763,7 +1763,7 @@ svg.icon-ok {
   stroke: #c61a1a
 }
 
-.icon-warning svg {
+.icon-warning svg.icon-svg {
   stroke: #e4bc4b;
 }
 
