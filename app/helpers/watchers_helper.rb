@@ -52,7 +52,7 @@ module WatchersHelper
       s << avatar(user, :size => "16").to_s if user.is_a?(User)
       s << link_to_principal(user, class: user.class.to_s.downcase)
       if object.respond_to?(:visible?) && user.is_a?(User) && !object.visible?(user)
-        s << content_tag('span', l(:notice_invalid_watcher), class: 'icon-only icon-warning', title: l(:notice_invalid_watcher))
+        s << content_tag('span', sprite_icon('warning', l(:notice_invalid_watcher)), class: 'icon-only icon-warning', title: l(:notice_invalid_watcher))
       end
       if remove_allowed
         url = {:controller => 'watchers',
