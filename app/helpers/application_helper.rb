@@ -655,7 +655,7 @@ module ApplicationHelper
         content_tag(
           'label',
           check_box_tag(name, principal.id, false, :id => nil) +
-            (avatar(principal, :size => 16).presence ||
+            ((avatar(principal, :size => 16).presence if principal.is_a?(User)) ||
                content_tag(
                  'span', principal_icon(principal),
                  :class => "name icon icon-#{principal.class.name.downcase}"

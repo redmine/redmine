@@ -2008,13 +2008,18 @@ class ApplicationHelperTest < Redmine::HelperTest
   end
 
   def test_principals_check_box_tag_with_avatar
-    principals = [User.find(1), Group.find(10)]
+    user = User.find(1)
+    group = Group.find(10)
     with_settings :gravatar_enabled => '1' do
-      tags = principals_check_box_tags("watcher[user_ids][]", principals)
-      principals.each do |principal|
-        assert_include avatar(principal, :size => 16), tags
-        assert_not_include content_tag('span', nil, :class => "name icon icon-#{principal.class.name.downcase}"), tags
-      end
+      tags = principals_check_box_tags("watcher[user_ids][]", [user, group])
+
+      # User should have avatar
+      assert_include avatar(user, :size => 16), tags
+      assert_not_include content_tag('span', nil, :class => "name icon icon-#{user.class.name.downcase}"), tags
+
+      # Group should have group icon
+      assert_not_include avatar(group, :size => 16), tags
+      assert_include content_tag('span', principal_icon(group), :class => "name icon icon-#{group.class.name.downcase}"), tags
     end
   end
 

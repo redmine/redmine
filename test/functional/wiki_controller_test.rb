@@ -142,7 +142,8 @@ class WikiControllerTest < Redmine::ControllerTest
           assert_select 'a[class*=delete]'
         end
         assert_select 'li.user-10' do
-          assert_select 'img.gravatar[title=?]', 'A Team', is_display_gravatar
+          assert_select 'a.group', :text => 'A Team'
+          assert_select 'svg'
           assert_select 'a[href="/users/10"]', false
           assert_select 'a[class*=delete]'
         end
