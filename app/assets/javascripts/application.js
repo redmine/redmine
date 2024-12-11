@@ -1130,6 +1130,7 @@ function setupAttachmentDetail() {
 }
 
 function setupWikiTableSortableHeader() {
+  if (typeof Tablesort === 'undefined') { return; }
   $('div.wiki table').each(function(i, table){
     if (table.rows.length < 3) return true;
     var tr = $(table.rows).first();
