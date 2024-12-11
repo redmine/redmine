@@ -55,14 +55,34 @@ The current version of Firefox, Safari, Chrome, Chromium and Microsoft Edge.
    Alternatively, you can store this secret in config/secrets.yml:
    https://guides.rubyonrails.org/upgrading_ruby_on_rails.html#config-secrets-yml
 
-6. Create the database structure
+6. Compile assets (optional)
+
+   Compile the assets such as stylesheets, javascripts and images into the public/assets
+   directory for web server delivery.
+
+   By default, Redmine automatically recompiles assets in production mode when the application starts.
+   This behavior can be controlled using the "config.assets.redmine_detect_update" flag in the configuration file.
+
+   To manually compile assets or if automatic compilation is disabled:
+
+   using:
+     bundle exec rake assets:precompile RAILS_ENV="production"
+    
+   If deploying to a sub-uri, set the relative URL root as follows:
+     bundle exec rake assets:precompile RAILS_ENV="production" RAILS_RELATIVE_URL_ROOT=/sub-uri
+  
+   If you experience issues with missing assets in the browser, try
+   removing the public/assets directory before re-running the precompile:
+     bundle exec rake assets:clobber RAILS_ENV="production"
+
+7. Create the database structure
 
    Under the application main directory run:
      bundle exec rake db:migrate RAILS_ENV="production"
 
    It will create all the tables and an administrator account.
 
-7. Setting up permissions (Windows users have to skip this section)
+8. Setting up permissions (Windows users have to skip this section)
 
    The user who runs Redmine must have write permission on the following
    subdirectories: files, log, tmp & public/assets.
@@ -71,7 +91,7 @@ The current version of Firefox, Safari, Chrome, Chromium and Microsoft Edge.
      sudo chown -R redmine:redmine files log tmp public/assets
      sudo chmod -R 755 files log tmp public/assets
 
-8. Test the installation by running the Puma web server
+9. Test the installation by running the Puma web server
 
    Under the main application directory run:
      ruby bin/rails server -e production
@@ -79,7 +99,7 @@ The current version of Firefox, Safari, Chrome, Chromium and Microsoft Edge.
    Once Puma has started, point your browser to http://localhost:3000/
    You should now see the application welcome page.
 
-9. Use the default administrator account to log in:
+10. Use the default administrator account to log in:
    login: admin
    password: admin
 
