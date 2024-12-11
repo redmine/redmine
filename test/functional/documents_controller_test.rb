@@ -20,10 +20,6 @@
 require_relative '../test_helper'
 
 class DocumentsControllerTest < Redmine::ControllerTest
-  fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
-           :enabled_modules, :documents, :enumerations,
-           :groups_users, :attachments, :user_preferences
-
   def setup
     User.current = nil
   end

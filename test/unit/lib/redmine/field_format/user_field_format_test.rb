@@ -21,12 +21,6 @@ require_relative '../../../../test_helper'
 require 'redmine/field_format'
 
 class Redmine::UserFieldFormatTest < ActionView::TestCase
-  fixtures :projects, :roles, :users, :members, :member_roles,
-           :trackers,
-           :issue_statuses, :issue_categories, :issue_relations, :workflows,
-           :enumerations,
-           :custom_fields, :custom_fields_trackers, :custom_fields_projects
-
   def setup
     User.current = nil
   end

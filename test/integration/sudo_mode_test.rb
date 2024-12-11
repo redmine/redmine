@@ -3,8 +3,6 @@
 require_relative '../test_helper'
 
 class SudoModeTest < Redmine::IntegrationTest
-  fixtures :projects, :members, :member_roles, :roles, :users, :email_addresses
-
   def setup
     Redmine::SudoMode.stubs(:enabled?).returns(true)
   end

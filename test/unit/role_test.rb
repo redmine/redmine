@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class RoleTest < ActiveSupport::TestCase
-  fixtures :roles, :workflows, :trackers, :users
-
   def setup
     User.current = nil
   end

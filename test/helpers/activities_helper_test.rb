@@ -22,8 +22,6 @@ require_relative '../test_helper'
 class ActivitiesHelperTest < Redmine::HelperTest
   include ActivitiesHelper
 
-  fixtures :projects, :members, :users
-
   class MockEvent
     attr_reader :event_datetime, :event_group, :name
 

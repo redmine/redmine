@@ -20,8 +20,6 @@
 require_relative '../../../test_helper'
 
 class Redmine::WikiFormattingTest < ActiveSupport::TestCase
-  fixtures :issues
-
   def test_textile_formatter
     assert_equal Redmine::WikiFormatting::Textile::Formatter, Redmine::WikiFormatting.formatter_for('textile')
     assert_equal Redmine::WikiFormatting::Textile::Helper, Redmine::WikiFormatting.helper_for('textile')

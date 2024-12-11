@@ -20,8 +20,6 @@
 require_relative '../../test_helper'
 
 class Redmine::ApiTest::RolesTest < Redmine::ApiTest::Base
-  fixtures :roles
-
   test "GET /roles.xml should return the roles" do
     get '/roles.xml'
 

@@ -23,8 +23,6 @@ class AvatarsHelperTest < Redmine::HelperTest
   include ERB::Util
   include AvatarsHelper
 
-  fixtures :users, :email_addresses
-
   def setup
     Setting.gravatar_enabled = '1'
   end

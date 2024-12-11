@@ -22,9 +22,6 @@ require_relative '../test_helper'
 class RepositoriesGitControllerTest < Redmine::RepositoryControllerTest
   tests RepositoriesController
 
-  fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
-           :repositories, :enabled_modules
-
   REPOSITORY_PATH = Rails.root.join('tmp/test/git_repository').to_s
   REPOSITORY_PATH.tr!('/', "\\") if Redmine::Platform.mswin?
   PRJ_ID     = 3

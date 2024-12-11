@@ -20,17 +20,6 @@
 require_relative '../test_helper'
 
 class ProjectEnumerationsControllerTest < Redmine::ControllerTest
-  fixtures :projects, :trackers, :issue_statuses, :issues,
-           :enumerations, :users, :issue_categories,
-           :projects_trackers,
-           :roles,
-           :member_roles,
-           :members,
-           :enabled_modules,
-           :custom_fields, :custom_fields_projects,
-           :custom_fields_trackers, :custom_values,
-           :time_entries
-
   self.use_transactional_tests = false
 
   def setup

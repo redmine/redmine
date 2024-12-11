@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class SettingTest < ActiveSupport::TestCase
-  fixtures :users
-
   def setup
     User.current = nil
   end

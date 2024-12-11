@@ -25,14 +25,6 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
   include ERB::Util
   extend ActionView::Helpers::SanitizeHelper::ClassMethods
 
-  fixtures :projects, :roles, :enabled_modules, :users,
-           :repositories, :changesets,
-           :trackers, :issue_statuses, :issues,
-           :versions, :documents,
-           :wikis, :wiki_pages, :wiki_contents,
-           :boards, :messages,
-           :attachments, :enumerations
-
   def setup
     super
     @project = nil

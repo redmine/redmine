@@ -20,16 +20,6 @@
 require_relative '../test_helper'
 
 class TimeEntryActivityTest < ActiveSupport::TestCase
-  fixtures :enumerations, :time_entries,
-           :custom_fields, :custom_values,
-           :issues, :projects, :users,
-           :members, :roles, :member_roles,
-           :trackers, :issue_statuses,
-           :projects_trackers,
-           :issue_categories,
-           :groups_users,
-           :enabled_modules
-
   include Redmine::I18n
 
   def setup

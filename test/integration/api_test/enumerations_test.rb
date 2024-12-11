@@ -20,8 +20,6 @@
 require_relative '../../test_helper'
 
 class Redmine::ApiTest::EnumerationsTest < Redmine::ApiTest::Base
-  fixtures :enumerations
-
   test "GET /enumerations/issue_priorities.xml should return priorities" do
     get '/enumerations/issue_priorities.xml'
     assert_response :success

@@ -19,9 +19,6 @@
 require_relative '../test_helper'
 
 class UserQueryTest < ActiveSupport::TestCase
-  fixtures :users, :groups_users, :email_addresses,
-           :custom_fields, :custom_values, :auth_sources
-
   def test_available_columns_should_include_user_custom_fields
     query = UserQuery.new
     assert_include :cf_4, query.available_columns.map(&:name)

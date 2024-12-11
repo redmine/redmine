@@ -21,8 +21,6 @@ require_relative '../test_helper'
 
 class DefaultDataTest < ActiveSupport::TestCase
   include Redmine::I18n
-  fixtures :roles
-
   def setup
     User.current = nil
   end

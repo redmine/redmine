@@ -21,18 +21,6 @@ require_relative '../test_helper'
 
 class VersionsCustomFieldsVisibilityTest < Redmine::ControllerTest
   tests VersionsController
-  fixtures :projects,
-           :users, :email_addresses,
-           :roles,
-           :members,
-           :member_roles,
-           :issue_statuses,
-           :trackers,
-           :projects_trackers,
-           :enabled_modules,
-           :versions,
-           :custom_fields, :custom_values, :custom_fields_trackers
-
   def test_show_should_display_only_custom_fields_visible_to_user
     cf1 = VersionCustomField.create!(:name => 'cf1', :field_format => 'string')
     cf2 = VersionCustomField.create!(:name => 'cf2', :field_format => 'string', :visible => false, :role_ids => [1])

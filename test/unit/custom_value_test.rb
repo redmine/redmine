@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class CustomValueTest < ActiveSupport::TestCase
-  fixtures :custom_fields, :custom_values, :users
-
   def setup
     User.current = nil
   end

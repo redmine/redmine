@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class TrackersControllerTest < Redmine::ControllerTest
-  fixtures :trackers, :projects, :projects_trackers, :users, :issues, :custom_fields, :issue_statuses, :enumerations;
-
   def setup
     User.current = nil
     @request.session[:user_id] = 1 # admin

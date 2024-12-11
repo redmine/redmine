@@ -20,11 +20,6 @@
 require_relative '../test_helper'
 
 class FeedsTest < Redmine::IntegrationTest
-  fixtures :projects, :trackers, :issue_statuses, :issues,
-           :enumerations, :users, :issue_categories,
-           :projects_trackers, :enabled_modules,
-           :roles, :member_roles, :members
-
   def test_feeds_should_include_icon_tag
     get '/projects.atom'
     assert_response :success

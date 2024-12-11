@@ -22,14 +22,6 @@ require_relative '../test_helper'
 class ApplicationTest < Redmine::IntegrationTest
   include Redmine::I18n
 
-  fixtures :projects, :trackers, :issue_statuses, :issues,
-           :enumerations, :users, :issue_categories,
-           :projects_trackers,
-           :roles,
-           :member_roles,
-           :members,
-           :enabled_modules
-
   def test_set_localization
     Setting.default_language = 'en'
 

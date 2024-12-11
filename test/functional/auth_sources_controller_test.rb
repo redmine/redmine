@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class AuthSourcesControllerTest < Redmine::ControllerTest
-  fixtures :users, :auth_sources
-
   def setup
     @request.session[:user_id] = 1
   end

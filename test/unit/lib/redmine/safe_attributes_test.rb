@@ -20,8 +20,6 @@
 require_relative '../../../test_helper'
 
 class Redmine::SafeAttributesTest < ActiveSupport::TestCase
-  fixtures :users
-
   class Base
     def attributes=(attrs)
       attrs.each do |key, value|

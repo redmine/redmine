@@ -23,8 +23,6 @@ class Redmine::MenuManager::MenuHelperTest < Redmine::HelperTest
   include Redmine::MenuManager::MenuHelper
   include ERB::Util
 
-  fixtures :users, :members, :projects, :enabled_modules, :roles, :member_roles
-
   def setup
     setup_with_controller
     # Stub the current menu item in the controller

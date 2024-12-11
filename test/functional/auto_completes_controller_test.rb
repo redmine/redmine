@@ -20,17 +20,6 @@
 require_relative '../test_helper'
 
 class AutoCompletesControllerTest < Redmine::ControllerTest
-  fixtures :projects, :issues, :issue_statuses,
-           :enumerations, :users, :issue_categories,
-           :trackers,
-           :projects_trackers,
-           :roles,
-           :member_roles,
-           :members,
-           :enabled_modules,
-           :journals, :journal_details,
-           :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions
-
   def test_issues_should_not_be_case_sensitive
     get(
       :issues,

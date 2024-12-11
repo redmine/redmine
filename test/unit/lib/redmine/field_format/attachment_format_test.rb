@@ -23,8 +23,6 @@ require 'redmine/field_format'
 class Redmine::AttachmentFieldFormatTest < ActionView::TestCase
   include Redmine::I18n
 
-  fixtures :users
-
   def setup
     User.current = nil
     set_language_if_valid 'en'

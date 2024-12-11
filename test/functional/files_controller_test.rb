@@ -20,19 +20,6 @@
 require_relative '../test_helper'
 
 class FilesControllerTest < Redmine::ControllerTest
-  fixtures :projects, :trackers, :issue_statuses, :issues,
-           :enumerations, :users,
-           :email_addresses,
-           :issue_categories,
-           :projects_trackers,
-           :roles,
-           :member_roles,
-           :members,
-           :enabled_modules,
-           :journals, :journal_details,
-           :attachments,
-           :versions
-
   def setup
     @request.session[:user_id] = nil
     Setting.default_language = 'en'

@@ -20,10 +20,6 @@
 require_relative '../test_helper'
 
 class AttachmentsControllerTest < Redmine::ControllerTest
-  fixtures :users, :user_preferences, :projects, :roles, :members, :member_roles,
-           :enabled_modules, :issues, :trackers, :attachments, :issue_statuses, :journals, :journal_details,
-           :versions, :wiki_pages, :wikis, :documents, :enumerations
-
   def setup
     User.current = nil
     set_fixtures_attachments_directory

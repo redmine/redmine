@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class CustomFieldEnumerationsControllerTest < Redmine::ControllerTest
-  fixtures :users, :email_addresses
-
   def setup
     @request.session[:user_id] = 1
     @field = GroupCustomField.create!(:name => 'List', :field_format => 'enumeration', :is_required => false)

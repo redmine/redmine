@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class WikiRedirectTest < ActiveSupport::TestCase
-  fixtures :projects, :wikis, :wiki_pages
-
   def setup
     User.current = nil
     @wiki = Wiki.find(1)

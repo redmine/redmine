@@ -20,16 +20,6 @@
 require_relative '../test_helper'
 
 class TimeEntryQueryTest < ActiveSupport::TestCase
-  fixtures :issues, :projects, :users,
-           :members, :roles, :member_roles,
-           :trackers, :issue_statuses,
-           :projects_trackers,
-           :journals, :journal_details,
-           :issue_categories, :enumerations,
-           :groups_users,
-           :enabled_modules,
-           :custom_fields, :custom_fields_trackers, :custom_fields_projects
-
   def setup
     User.current = nil
   end

@@ -24,8 +24,6 @@ class WatchersHelperTest < Redmine::HelperTest
   include AvatarsHelper
   include ERB::Util
 
-  fixtures :users, :issues
-
   test '#watcher_link with a non-watched object' do
     expected = link_to(
       sprite_icon("fav", "Watch"),

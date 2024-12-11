@@ -20,8 +20,6 @@
 require_relative '../../test_helper'
 
 class DestroyProjectJobTest < ActiveJob::TestCase
-  fixtures :users, :projects, :email_addresses
-
   setup do
     @project = Project.find 1
     @user = User.find_by_admin true

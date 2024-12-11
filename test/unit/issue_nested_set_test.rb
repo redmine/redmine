@@ -20,12 +20,6 @@
 require_relative '../test_helper'
 
 class IssueNestedSetTest < ActiveSupport::TestCase
-  fixtures :projects, :users, :roles,
-           :trackers, :projects_trackers,
-           :issue_statuses, :issue_categories, :issue_relations,
-           :enumerations,
-           :issues
-
   def setup
     User.current = nil
   end

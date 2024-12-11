@@ -20,12 +20,6 @@
 require_relative '../test_helper'
 
 class WatcherTest < ActiveSupport::TestCase
-  fixtures :projects, :groups_users, :users, :user_preferences, :email_addresses, :members, :member_roles, :roles, :enabled_modules,
-           :issues, :issue_statuses, :enumerations, :trackers, :projects_trackers,
-           :boards, :messages,
-           :wikis, :wiki_pages,
-           :watchers
-
   def setup
     User.current = nil
     @user = User.find(1)

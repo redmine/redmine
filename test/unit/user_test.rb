@@ -20,18 +20,6 @@
 require_relative '../test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  fixtures :users, :email_addresses, :members, :projects, :roles, :member_roles, :auth_sources,
-           :trackers, :issue_statuses,
-           :projects_trackers,
-           :watchers,
-           :issue_categories, :enumerations, :issues,
-           :journals, :journal_details,
-           :groups_users,
-           :enabled_modules,
-           :tokens,
-           :user_preferences,
-           :custom_fields, :custom_fields_projects, :custom_fields_trackers, :custom_values
-
   include Redmine::I18n
 
   def setup

@@ -21,8 +21,6 @@ require_relative 'test_case'
 require 'tmpdir'
 
 class RedminePmTest::RepositoryGitTest < RedminePmTest::TestCase
-  fixtures :projects, :users, :members, :roles, :member_roles
-
   GIT_BIN = Redmine::Configuration['scm_git_command'] || "git"
 
   def test_anonymous_read_on_public_repo_with_permission_should_succeed

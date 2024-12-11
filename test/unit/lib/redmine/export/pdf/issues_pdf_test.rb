@@ -20,9 +20,6 @@
 require_relative '../../../../../test_helper'
 
 class IssuesPdfHelperTest < ActiveSupport::TestCase
-  fixtures :users, :projects, :roles, :members, :member_roles,
-           :enabled_modules, :issues, :trackers, :enumerations, :versions
-
   include Redmine::Export::PDF::IssuesPdfHelper
 
   def test_fetch_row_values_should_round_float_values

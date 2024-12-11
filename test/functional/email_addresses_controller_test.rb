@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class EmailAddressesControllerTest < Redmine::ControllerTest
-  fixtures :users, :email_addresses
-
   def setup
     User.current = nil
   end

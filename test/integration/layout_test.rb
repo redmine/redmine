@@ -20,14 +20,6 @@
 require_relative '../test_helper'
 
 class LayoutTest < Redmine::IntegrationTest
-  fixtures :projects, :trackers, :issue_statuses, :issues,
-           :enumerations, :users, :issue_categories,
-           :projects_trackers,
-           :roles,
-           :member_roles,
-           :members,
-           :enabled_modules
-
   test "browsing to a missing page should render the base layout" do
     get "/users/100000000"
 

@@ -22,8 +22,6 @@ require_relative '../test_helper'
 class IconsHelperTest < Redmine::HelperTest
   include IconsHelper
 
-  fixtures :users
-
   def test_sprite_icon_should_return_svg_with_defaults
     expected = %r{<svg class="s18 icon-svg" aria-hidden="true"><use href="/assets/icons-\w+.svg#icon--edit"></use></svg>$}
     icon = sprite_icon('edit')

@@ -20,8 +20,6 @@
 require_relative '../../test_helper'
 
 class Redmine::ApiTest::AuthenticationTest < Redmine::ApiTest::Base
-  fixtures :users
-
   def teardown
     User.current = nil
   end

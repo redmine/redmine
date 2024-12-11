@@ -20,10 +20,6 @@
 require_relative '../test_helper'
 
 class RepositoriesControllerTest < Redmine::RepositoryControllerTest
-  fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles, :enabled_modules,
-           :repositories, :issues, :issue_statuses, :changesets, :changes,
-           :issue_categories, :enumerations, :custom_fields, :custom_values, :trackers
-
   def setup
     super
     User.current = nil

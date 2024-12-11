@@ -20,9 +20,6 @@
 require_relative '../../../../test_helper'
 
 class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
-  fixtures :projects, :trackers, :projects_trackers, :issue_statuses,
-           :enumerations, :users, :issue_categories
-
   include ProjectsHelper
   include IssuesHelper
   include QueriesHelper
