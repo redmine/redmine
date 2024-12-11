@@ -46,8 +46,6 @@
 </p>
 
 <div class="attributes">
-<%= @issue.project.identifier %>
-<%= @issue.project.sla_1_comment %>
 
 <%= issue_fields_rows do |rows|
   rows.left l(:field_status), @issue.status.name, :class => 'status'
