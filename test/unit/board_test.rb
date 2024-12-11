@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class BoardTest < ActiveSupport::TestCase
-  fixtures :projects, :boards, :messages, :attachments, :watchers
-
   include Redmine::I18n
 
   def setup

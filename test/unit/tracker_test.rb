@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class TrackerTest < ActiveSupport::TestCase
-  fixtures :trackers, :workflows, :issue_statuses, :roles, :issues, :custom_fields, :projects, :projects_trackers, :enabled_modules
-
   def setup
     User.current = nil
   end

@@ -20,22 +20,6 @@
 require_relative '../test_helper'
 
 class CalendarsControllerTest < Redmine::ControllerTest
-  fixtures :projects,
-           :trackers,
-           :projects_trackers,
-           :roles,
-           :member_roles,
-           :members,
-           :enabled_modules,
-           :issues,
-           :issue_statuses,
-           :issue_relations,
-           :issue_categories,
-           :enumerations,
-           :queries,
-           :users, :email_addresses,
-           :versions
-
   def test_show
     # Ensure that an issue to which a user is assigned is in the current
     # month's calendar in order to test Gravatar

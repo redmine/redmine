@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class HelpControllerTest < Redmine::ControllerTest
-  fixtures :users, :email_addresses
-
   def test_get_help_wiki_syntax
     formatters = {
       :textile => "Wiki Syntax Quick Reference",

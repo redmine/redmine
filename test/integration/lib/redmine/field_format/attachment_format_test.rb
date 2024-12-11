@@ -20,22 +20,6 @@
 require_relative '../../../../test_helper'
 
 class AttachmentFieldFormatTest < Redmine::IntegrationTest
-  fixtures :projects,
-           :users, :email_addresses,
-           :roles,
-           :members,
-           :member_roles,
-           :trackers,
-           :projects_trackers,
-           :enabled_modules,
-           :issue_statuses,
-           :issues,
-           :enumerations,
-           :custom_fields,
-           :custom_values,
-           :custom_fields_trackers,
-           :attachments
-
   def setup
     User.current = nil
     set_tmp_attachments_directory

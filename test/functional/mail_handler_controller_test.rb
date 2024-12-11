@@ -20,10 +20,6 @@
 require_relative '../test_helper'
 
 class MailHandlerControllerTest < Redmine::ControllerTest
-  fixtures :users, :email_addresses, :projects, :enabled_modules,
-           :roles, :members, :member_roles, :issues, :issue_statuses,
-           :trackers, :projects_trackers, :enumerations, :versions
-
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
 
   def setup

@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class RepositoryGitTest < ActiveSupport::TestCase
-  fixtures :projects, :repositories, :enabled_modules, :users, :roles, :changesets
-
   include Redmine::I18n
 
   REPOSITORY_PATH = Rails.root.join('tmp/test/git_repository').to_s

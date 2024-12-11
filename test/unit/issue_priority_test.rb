@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class IssuePriorityTest < ActiveSupport::TestCase
-  fixtures :enumerations, :issues
-
   def setup
     User.current = nil
   end

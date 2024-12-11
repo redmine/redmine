@@ -20,11 +20,6 @@
 require_relative '../test_helper'
 
 class VersionsHelperTest < Redmine::HelperTest
-  fixtures :projects, :versions, :enabled_modules,
-           :users, :members, :roles, :member_roles,
-           :trackers, :projects_trackers,
-           :issue_statuses
-
   def test_version_filtered_issues_path_sharing_none
     version = Version.new(:name => 'test', :sharing => 'none')
     version.project = Project.find(5)

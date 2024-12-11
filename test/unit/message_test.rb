@@ -20,9 +20,6 @@
 require_relative '../test_helper'
 
 class MessageTest < ActiveSupport::TestCase
-  fixtures :projects, :roles, :members, :member_roles, :boards, :messages,
-           :users, :watchers, :enabled_modules
-
   def setup
     User.current = nil
     @board = Board.find(1)

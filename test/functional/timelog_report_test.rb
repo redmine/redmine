@@ -22,13 +22,6 @@ require_relative '../test_helper'
 class TimelogReportTest < Redmine::ControllerTest
   tests TimelogController
 
-  fixtures :projects, :enabled_modules, :roles, :members, :member_roles,
-           :email_addresses,
-           :issues, :time_entries, :users, :trackers, :enumerations,
-           :issue_statuses, :custom_fields, :custom_values,
-           :projects_trackers, :custom_fields_trackers,
-           :custom_fields_projects
-
   include Redmine::I18n
 
   def setup

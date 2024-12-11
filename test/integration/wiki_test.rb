@@ -20,18 +20,6 @@
 require_relative '../test_helper'
 
 class WikiIntegrationTest < Redmine::IntegrationTest
-  fixtures :projects,
-           :users, :email_addresses,
-           :roles,
-           :members,
-           :member_roles,
-           :trackers,
-           :projects_trackers,
-           :enabled_modules,
-           :wikis,
-           :wiki_pages,
-           :wiki_contents
-
   def test_updating_a_renamed_page
     log_user('jsmith', 'jsmith')
 

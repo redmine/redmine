@@ -20,8 +20,6 @@
 require_relative '../../test_helper'
 
 class Redmine::ApiTest::TrackersTest < Redmine::ApiTest::Base
-  fixtures :trackers
-
   test "GET /trackers.xml should return trackers" do
     Tracker.find(2).update_attribute :core_fields, %w[assigned_to_id due_date]
     get '/trackers.xml'

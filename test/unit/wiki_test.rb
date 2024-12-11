@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class WikiTest < ActiveSupport::TestCase
-  fixtures :projects, :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions
-
   def setup
     User.current = nil
   end

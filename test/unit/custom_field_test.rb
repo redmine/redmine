@@ -20,10 +20,6 @@
 require_relative '../test_helper'
 
 class CustomFieldTest < ActiveSupport::TestCase
-  fixtures :custom_fields, :roles, :projects,
-           :trackers, :issue_statuses,
-           :issues, :users
-
   def setup
     User.current = nil
   end

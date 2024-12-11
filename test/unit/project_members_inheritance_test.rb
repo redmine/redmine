@@ -20,9 +20,6 @@
 require_relative '../test_helper'
 
 class ProjectMembersInheritanceTest < ActiveSupport::TestCase
-  fixtures :roles, :users,
-           :projects, :trackers, :issue_statuses
-
   def setup
     User.current = nil
     @parent = Project.generate!

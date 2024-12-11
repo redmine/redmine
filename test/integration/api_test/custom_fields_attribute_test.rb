@@ -20,8 +20,6 @@
 require_relative '../../test_helper'
 
 class Redmine::ApiTest::CustomFieldsAttributeTest < Redmine::ApiTest::Base
-  fixtures :users
-
   def test_integer_custom_fields_should_accept_strings
     field = GroupCustomField.generate!(:field_format => 'int')
     post(

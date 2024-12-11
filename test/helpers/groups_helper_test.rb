@@ -24,8 +24,6 @@ class GroupsHelperTest < Redmine::HelperTest
   include GroupsHelper
   include AvatarsHelper
 
-  fixtures :users
-
   def test_render_principals_for_new_group_users
     group = Group.generate!
 

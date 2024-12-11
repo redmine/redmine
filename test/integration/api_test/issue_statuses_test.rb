@@ -20,8 +20,6 @@
 require_relative '../../test_helper'
 
 class Redmine::ApiTest::IssueStatusesTest < Redmine::ApiTest::Base
-  fixtures :issue_statuses
-
   test "GET /issue_statuses.xml should return issue statuses" do
     get '/issue_statuses.xml'
 

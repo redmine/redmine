@@ -22,16 +22,6 @@ require_relative '../test_helper'
 class QueryTest < ActiveSupport::TestCase
   include Redmine::I18n
 
-  fixtures :projects, :enabled_modules, :users, :user_preferences, :members,
-           :member_roles, :roles, :trackers, :issue_statuses,
-           :issue_categories, :enumerations, :issues,
-           :watchers, :custom_fields, :custom_values, :versions,
-           :queries,
-           :projects_trackers,
-           :custom_fields_trackers,
-           :workflows, :journals,
-           :attachments, :time_entries
-
   def setup
     User.current = nil
   end

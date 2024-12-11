@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class RepositoryCvsTest < ActiveSupport::TestCase
-  fixtures :projects
-
   include Redmine::I18n
 
   REPOSITORY_PATH = repository_path('cvs')

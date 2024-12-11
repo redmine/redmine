@@ -20,13 +20,6 @@
 require_relative '../../test_helper'
 
 class Redmine::ApiTest::JournalTest < Redmine::ApiTest::Base
-  fixtures :projects, :issues, :issue_statuses, :journals, :journal_details,
-           :issue_relations, :workflows,
-           :users, :members, :member_roles, :roles, :enabled_modules,
-           :groups_users, :email_addresses,
-           :enumerations,
-           :projects_trackers, :trackers, :custom_fields
-
   test "PUT /journals/:id.xml with valid parameters should update the journal notes" do
     put(
       '/journals/1.xml',

@@ -20,11 +20,6 @@
 require_relative '../application_system_test_case'
 
 class MessagesTest < ApplicationSystemTestCase
-  fixtures :projects, :users, :roles, :members, :member_roles,
-           :enabled_modules, :enumerations,
-           :custom_fields, :custom_values, :custom_fields_trackers,
-           :watchers, :boards, :messages, :attachments
-
   def test_reply_to_topic_message
     with_text_formatting 'common_mark' do
       within '#content > .contextual' do

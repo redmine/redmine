@@ -20,13 +20,6 @@
 require_relative '../test_helper'
 
 class IssueSubtaskingTest < ActiveSupport::TestCase
-  fixtures :projects, :users, :roles, :members, :member_roles,
-           :trackers, :projects_trackers,
-           :issue_statuses, :issue_categories, :enumerations,
-           :issues,
-           :enabled_modules,
-           :workflows
-
   def setup
     User.current = nil
   end

@@ -20,9 +20,6 @@
 require_relative '../test_helper'
 
 class CommentTest < ActiveSupport::TestCase
-  fixtures :users, :email_addresses, :news, :comments, :projects, :enabled_modules,
-           :user_preferences, :roles, :members, :member_roles
-
   def setup
     User.current = nil
     @jsmith = User.find(2)

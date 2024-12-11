@@ -20,20 +20,6 @@
 require_relative '../test_helper'
 
 class MemberTest < ActiveSupport::TestCase
-  fixtures :projects, :trackers, :issue_statuses, :issues,
-           :enumerations, :users, :issue_categories,
-           :projects_trackers,
-           :roles,
-           :member_roles,
-           :members,
-           :enabled_modules,
-           :groups_users,
-           :watchers,
-           :journals, :journal_details,
-           :messages,
-           :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions,
-           :boards
-
   include Redmine::I18n
 
   def setup

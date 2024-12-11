@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class TwofaTest < Redmine::IntegrationTest
-  fixtures :projects, :users, :email_addresses
-
   test "should require twofa setup when configured" do
     with_settings twofa: "2" do
       assert Setting.twofa_required?

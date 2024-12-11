@@ -20,9 +20,6 @@
 require_relative '../test_helper'
 
 class MessagesControllerTest < Redmine::ControllerTest
-  fixtures :projects, :users, :email_addresses, :user_preferences, :members, :member_roles, :roles, :boards, :messages, :enabled_modules,
-           :watchers
-
   def setup
     User.current = nil
   end

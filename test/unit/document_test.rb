@@ -20,11 +20,6 @@
 require_relative '../test_helper'
 
 class DocumentTest < ActiveSupport::TestCase
-  fixtures :projects, :enumerations, :documents, :attachments,
-           :enabled_modules,
-           :users, :email_addresses, :members, :member_roles, :roles,
-           :groups_users
-
   def setup
     User.current = nil
   end

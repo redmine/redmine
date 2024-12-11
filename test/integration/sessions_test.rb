@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class SessionsTest < Redmine::IntegrationTest
-  fixtures :users, :email_addresses, :roles
-
   def setup
     Rails.application.config.redmine_verify_sessions = true
   end

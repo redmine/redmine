@@ -20,9 +20,6 @@
 require_relative '../../../../../test_helper'
 
 class VersionsTextHelperTest < ActiveSupport::TestCase
-  fixtures :users, :projects, :roles, :members, :member_roles,
-           :enabled_modules, :issues, :trackers, :enumerations, :versions
-
   include Redmine::I18n
   include Redmine::Export::Text::VersionsTextHelper
 
