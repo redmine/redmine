@@ -24,24 +24,20 @@ h1 { font-family: var(--fonts-main); font-size: 0.875rem; text-align: center; co
 body { font-family: var(--fonts-main); font-size: 0.75rem; color: #444; }
 pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace; }
 table th { padding-top: 1em; }
-table th {
-  img {
-    border: 1px solid #bbb;
-    opacity: 0.7;
-  }
-
-  .syntax-pre {
-    display: inline-block;
-    border: 1px solid #bbb;
-    width: 18px;
-    height: 18px;
-
-    &:before {
-      content: "pre";
-      font-size: 0.625rem;
-      color: #666;
-    }
-  }
+table th img {
+  border: 1px solid #bbb;
+  opacity: 0.7;
+}
+table th .syntax-pre {
+  display: inline-block;
+  border: 1px solid #bbb;
+  width: 18px;
+  height: 18px;
+}
+table th .syntax-pre:before {
+  content: "pre";
+  font-size: 0.625rem;
+  color: #666;
 }
 table td { background-color: #f5f5f5; height: 2em; vertical-align: middle;}
 table td code { font-size: 1.2em; }
