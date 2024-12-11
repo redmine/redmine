@@ -1745,10 +1745,10 @@ td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
   display: inline-flex;
   align-items: center;
   vertical-align: middle;
+}
 
-  svg {
-    flex-shrink: 0;
-  }
+.icon svg, .icon-only svg {
+  flex-shrink: 0;
 }
 
 a.icon:hover svg, a.icon-only:hover svg {
