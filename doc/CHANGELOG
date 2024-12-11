@@ -4,6 +4,93 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2024-12-11 v6.0.2
+
+=== [Accounts / authentication]
+
+* Feature #41927: Enable browser autocomplete for 2FA input fields
+* Feature #41937: Enable browser autocomplete for login input fields
+
+=== [Code cleanup/refactoring]
+
+* Defect #41795: Missing fixture: a test does not pass if the 'issue_categories' fixtures are not already loaded
+* Patch #41623: Fix tests that randomly failed due to required fixtures not being loaded
+* Patch #41861: Add License URLs to Icons Credits
+* Patch #41881: Improper deletion of custom fields in IssueNestedSetConcurrencyTest causes test failures of other tests
+* Patch #41889: Fix random test failures in Redmine::Acts::MentionableTest due to unsorted mentioned_users
+* Patch #41894: Fix random test failure by ensuring WatchersController#find_objects_from_params returns results in consistent order
+* Patch #41901: Fix random test failure in DestroyProjectsJobTest due to unsorted @projects
+* Patch #41902: Fix class name to match file name in keyboard_shortcuts_test.rb
+* Patch #41914: Fix random test failure in UserTest#test_validate_password_complexity due to missing explicit language setting
+* Patch #41931: Fix random failures in IssueRelationTest#test_create_with_initialized_journals due to ambiguous conditions for retrieving the expected detail
+* Patch #41934: Fix random test failure in ProjectsControllerTest::test_post_copy_should_copy_requested_items due to missing :issue_categories fixture
+* Patch #41951: Fix random test failure in IssueTest due to unsorted expected_statuses
+
+=== [Documentation]
+
+* Feature #41754: Add asset precompilation instructions to doc/INSTALL and doc/UPGRADING
+
+=== [Email receiving]
+
+* Defect #41737: Deprecation warning for IMAP4 email receiving: "Call Net::IMAP.new with keyword options"
+
+=== [Gantt]
+
+* Defect #41786: Long subject may not be displayed in Gantt chart with narrow column width
+
+=== [Gems support]
+
+* Defect #41749: Warning during startup: "Unresolved or ambiguous specs during Gem::Specification.reset"
+* Defect #41860: FrozenError when using SQLite3 gem version 2.0.0 or later
+
+=== [Issues]
+
+* Defect #40301: Error when create a version with custom field of "File" type from Issue page
+
+=== [Plugin API]
+
+* Defect #41880: Plugin activity icons broken after switching to SVG icons
+
+=== [REST API]
+
+* Defect #41791: Projects endpoint returns list of all projects
+* Defect #41819: Time entry API returning `hours` as Rational instead of Float
+
+=== [SCM]
+
+* Patch #41775: Adjust the vertical alignment of icons in the tree view of the repository browser
+
+=== [Time tracking]
+
+* Defect #41895: Spent time CSV report returning `hours` as Rational instead of Float
+
+=== [Translations]
+
+* Patch #41736: Update Turkish translation of label_description from "Yorum" to "Açıklama"
+* Patch #41945: Bulgarian translation update for 6.0-stable
+
+=== [UI]
+
+* Defect #41714: Replace search and magnifier icons with SVG icon
+* Defect #41756: An unnecessary scroll bar is displayed on the user's profile page
+* Defect #41778: Name field in custom query creation/edit form is not marked as required
+* Defect #41779: Restore `margin-top` for `#sidebar h3`
+* Defect #41780: Unnecessary indentation for "Completed versions" in the Roadmap sidebar
+* Defect #41789: HTML syntax broken for sidebar-wrapper
+* Defect #41818: Redundant tooltip appearing after clicking the ellipsis button in the action menus
+* Defect #41821: Icons shrink in the Activity view when event titles are long
+* Defect #41853: Group icons in watchers and membership modals are using a mix of legacy and SVG icons
+* Defect #41864: Report tab of Spent time page still displays deprecated raster icons instead of SVGs
+* Defect #41873: Table layout breaks due to .icon class on td elements
+* Defect #41883: Download button in issue comments still uses deprecated raster icon
+* Defect #41918: Replaces warning icon with SVG in watcher list and workflow warnings
+* Defect #41957: Remove nesting selectors because are not support in old browsers
+* Feature #41748: Optimize font loading by replacing variable fonts with specific weights for Noto Sans
+
+=== [UI - Responsive]
+
+* Defect #41822: First icon on the Activity page is replaced with chevrons-left or chevrons-right in responsive mode
+
 == 2024-11-12 v6.0.1
 
 === [Gems support]
