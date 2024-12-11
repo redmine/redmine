@@ -82,7 +82,7 @@ jobs:
           EOF
 
       - name: Install Ruby and gems
-        uses: ruby/setup-ruby@v1.176.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
