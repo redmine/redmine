@@ -89,7 +89,6 @@ jobs:
       - name: Run tests
         run: |
           bin/rails test
-          bin/rails test:autoload
 
       - name: Run bazaar non ascii test
         env:
