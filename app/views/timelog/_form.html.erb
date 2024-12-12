@@ -25,7 +25,7 @@
       <span><%= link_to_user(@time_entry.user) %></span>
     </p>
   <% end %>
-  <p><%= f.date_field :spent_on, :size => 10, :required => true %><%= calendar_for('time_entry_spent_on') %></p>
+  <p><%= f.date_field :spent_on, :size => 10, :required => true, :min => minimum_time(User.current) %><%= calendar_for('time_entry_spent_on') %></p>
   <p><%= f.hours_field :hours, :size => 6, :required => true %></p>
   <p><%= f.text_field :comments, :size => 100, :maxlength => 1024, :required => Setting.timelog_required_fields.include?('comments') %></p>
   <p><%= f.select :activity_id, activity_collection_for_select_options(@time_entry), :required => true %></p>

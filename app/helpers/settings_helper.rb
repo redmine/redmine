@@ -106,6 +106,16 @@ module SettingsHelper
         check_box_tag("settings[#{setting}]", 1, setting_value(setting).to_s != '0', options).html_safe
   end
 
+  def setting_time_field(setting, options={})
+    setting_label(setting, options).html_safe +
+      time_select(
+        "settings[#{setting}]",
+        setting.to_s,
+        { default: { hour: Setting.send(setting).to_time.hour, min: Setting.send(setting).to_time.min } },
+        {}
+      ).html_safe
+  end
+
   def setting_label(setting, options={})
     label = options.delete(:label)
     if label == false

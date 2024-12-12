@@ -200,6 +200,8 @@ class Setting < ActiveRecord::Base
     params = params.dup
     params.delete_if {|v| v.blank?} if params.is_a?(Array)
     params.symbolize_keys! if params.is_a?(Hash)
+    params = parse_time_params(params) if name.to_s.eql? 'allow_logging_time_till'
+
 
     m = "#{name}_from_params"
     if respond_to? m
@@ -207,6 +209,13 @@ class Setting < ActiveRecord::Base
     else
       self[name.to_sym] = params
     end
+  end
+
+  def self.parse_time_params(params)
+    time = Time.new(*(1..params.size).map do |i|
+      params[:"allow_logging_time_till(#{i}i)"]
+    end)
+    time
   end
 
   # Returns a hash suitable for commit_update_keywords setting
