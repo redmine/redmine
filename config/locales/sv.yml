@@ -299,7 +299,7 @@ sv:
   field_tracker: Ärendetyp
   field_subject: Ämne
   field_due_date: Deadline
-  field_assigned_to: Tilldelad till
+  field_assigned_to: Tilldelad
   field_priority: Prioritet
   field_fixed_version: Versionsmål
   field_user: Användare
@@ -1145,8 +1145,7 @@ sv:
   setting_search_results_per_page: Sökresultat per sida
   label_blank_value: blank
   permission_copy_issues: Kopiera ärenden
-  error_password_expired: Ditt lösenord har gått ut eller administratören kräver att
-    du ändrar det.
+  error_password_expired: Ditt lösenord har gått ut eller administratören kräver att du ändrar det.
   field_time_entries_visibility: Synlighet för tidsstämplingar
   setting_password_max_age: Kräv lösenordsändring efter
   label_parent_task_attributes: Attribut för föräldraaktiviteter
@@ -1162,8 +1161,7 @@ sv:
   notice_import_finished: "%{count} artiklar har importerats"
   notice_import_finished_with_errors: "%{count} av %{total} artiklar kunde inte importeras"
   error_invalid_file_encoding: Filen är inte en %{encoding}-kodad fil
-  error_invalid_csv_file_or_settings: Filen är inte en CSV-fil eller stämmer inte med
-    inställningarna nedan (%{value})
+  error_invalid_csv_file_or_settings: Filen är inte en CSV-fil eller stämmer inte med inställningarna nedan (%{value})
   error_can_not_read_import_file: Fel vid läsning av fil att importera
   permission_import_issues: Importera ärenden
   label_import_issues: Importera ärenden
@@ -1200,10 +1198,8 @@ sv:
   mail_body_security_notification_change_to: ! '%{field} ändrades till %{value}.'
   mail_body_security_notification_add: ! '%{field} %{value} las till.'
   mail_body_security_notification_remove: ! '%{field} %{value} togs bort.'
-  mail_body_security_notification_notify_enabled: E-postadress %{value} kommer att få
-    aviseringar.
-  mail_body_security_notification_notify_disabled: E-postadress %{value} får inga fler
-    aviseringar.
+  mail_body_security_notification_notify_enabled: E-postadress %{value} kommer att få aviseringar.
+  mail_body_security_notification_notify_disabled: E-postadress %{value} får inga fler aviseringar.
   mail_body_settings_updated: ! 'Följande inställningar ändrades:'
   field_remote_ip: IP-adress
   label_wiki_page_new: Ny wiki-sida
@@ -1211,14 +1207,12 @@ sv:
   button_filter: Filtrering
   mail_body_password_updated: Ditt lösenord är ändrat.
   label_no_preview: Ingen förhandsvisning tillgänglig
-  error_no_tracker_allowed_for_new_issue_in_project: Projektet har ingen ärendetyp
-    som du kan skapa ett ärende för
+  error_no_tracker_allowed_for_new_issue_in_project: Projektet har ingen ärendetyp som du kan skapa ett ärende för
   label_tracker_all: All ärendetyper
   label_new_project_issue_tab_enabled: Visa fliken "Nya ärenden"
   setting_new_item_menu_tab: Projektmenyflik för att skapa nya objekt
   label_new_object_tab_enabled: Visa "+" rullgardinsmenyn
-  error_no_projects_with_tracker_allowed_for_new_issue: Inga projekt med ärendetyper
-    tillåtna för nya ärenden
+  error_no_projects_with_tracker_allowed_for_new_issue: Inga projekt med ärendetyper tillåtna för nya ärenden
   field_textarea_font: Font som används för textytor
   label_font_default: Default font
   label_font_monospace: Monospaced font
@@ -1229,14 +1223,12 @@ sv:
   setting_mail_handler_enable_regex: Aktivera reguljära uttryck (RegEx)
   error_move_of_child_not_possible: 'Underaktivitet %{child} kunde inte flyttas till det nya
     projektet: %{errors}'
-  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spenderad tid kan inte
-    flyttas till ett ärende som är på väg att tas bort
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spenderad tid kan inte flyttas till ett ärende som är på väg att tas bort
   setting_timelog_required_fields: Nödvändiga fält för tidsstämplingar
   label_attribute_of_object: '%{object_name}s %{name}'
   label_user_mail_option_only_assigned: Bara för saker som jag följer eller är tilldelad
   label_user_mail_option_only_owner: Bara för saker som jag följer eller äger
-  warning_fields_cleared_on_bulk_edit: Ändringar kommer att orsaka automatiskt borttagande
-    av värden från ett eller flera fält för de valda objekten
+  warning_fields_cleared_on_bulk_edit: Ändringar kommer att orsaka automatiskt borttagande av värden från ett eller flera fält för de valda objekten
   field_updated_by: Uppdaterad av
   field_last_updated_by: Senast uppdaterad av
   field_full_width_layout: Layout med full bredd
@@ -1248,39 +1240,30 @@ sv:
   label_no_preview_alternative_html: Ingen förhandsvisning tillgänglig. %{link} filen istället.
   label_no_preview_download: Nedladdning
   setting_close_duplicate_issues: Stäng duplicerade ärenden automatiskt
-  error_exceeds_maximum_hours_per_day: Kan inte stämpla mer än %{max_hours} timmar
-    samma dag (%{logged_hours} timmar har redan stämplats)
+  error_exceeds_maximum_hours_per_day: Kan inte stämpla mer än %{max_hours} timmar samma dag (%{logged_hours} timmar har redan stämplats)
   setting_time_entry_list_defaults: Standard för tidsstämplingar
   setting_timelog_accept_0_hours: Acceptera tidsstämplingar på 0 timmar
   setting_timelog_max_hours_per_day: Max timmar som kan stämplas per dag och användare
   label_x_revisions: "%{count} revisioner"
-  error_can_not_delete_auth_source: Denna autentiseringsmetod är i bruk och kan inte
-    tas bort.
+  error_can_not_delete_auth_source: Denna autentiseringsmetod är i bruk och kan inte tas bort.
   button_actions: Handlingar
-  mail_body_lost_password_validity: Observera att du endast kan ändra lösenordet en gång
-    via denna länk.
-  text_login_required_html: När autentisering inte krävs, är publika projekt och deras
-    innehåll tillgängliga på nätverket. Du kan <a href="%{anonymous_role_path}"> ändra
-    tillämpliga behörigheter</a>.
+  mail_body_lost_password_validity: Observera att du endast kan ändra lösenordet en gång via denna länk.
+  text_login_required_html: 'När autentisering inte krävs, är publika projekt och deras innehåll tillgängliga på nätverket. Du kan <a href="%{anonymous_role_path}"> ändra tillämpliga behörigheter</a>.'
   label_login_required_yes: 'Ja'
   label_login_required_no: Nej, tillåt anonym access till publika projekt
-  text_project_is_public_non_member: Publika projekt och deras innehåll är tillgängliga
-    för alla inloggade användare.
-  text_project_is_public_anonymous: Publika projekt och deras innehåll är tillgängliga
-    på nätverket.
+  text_project_is_public_non_member: Publika projekt och deras innehåll är tillgängliga för alla inloggade användare.
+  text_project_is_public_anonymous: Publika projekt och deras innehåll är tillgängliga på nätverket.
   label_version_and_files: Versioner (%{count}) och filer
   label_ldap: LDAP
   label_ldaps_verify_none: LDAPS (utan certifikatkontroll)
   label_ldaps_verify_peer: LDAPS
-  label_ldaps_warning: Det rekommenderas att använda krypterad LDAPS-koppling med
-     certifikatkontroll för att hindra manipulation av autentiseringsprocessen.
+  label_ldaps_warning: Det rekommenderas att använda krypterad LDAPS-koppling med certifikatkontroll för att hindra manipulation av autentiseringsprocessen.
   label_nothing_to_preview: Ingenting att visa
   error_token_expired: Lösenordslänken gäller inte längre, var god försök igen.
   error_spent_on_future_date: Kan inte stämpla tid på framtida datum
   setting_timelog_accept_future_dates: Acceptera tidsstämplingar på framtida datum
   label_delete_link_to_subtask: Ta bort relation
-  error_not_allowed_to_log_time_for_other_users: Du får inte stämpla tid
-    för andra användare
+  error_not_allowed_to_log_time_for_other_users: Du får inte stämpla tid för andra användare
   permission_log_time_for_other_users: Stämpla spenderad tid för andra användare
   label_tomorrow: imorgon
   label_next_week: nästa vecka
@@ -1288,8 +1271,7 @@ sv:
   text_role_no_workflow: Inget arbetsflöde definierat för denna roll
   text_status_no_workflow: Ingen arbetstyp använder denna status i arbetsflödet
   setting_mail_handler_preferred_body_part: Föredragen del av epost i flera delar (HTML)
-  setting_show_status_changes_in_mail_subject: Visa statusändringar för ärenden i
-    ämnet för e-postaviseringar
+  setting_show_status_changes_in_mail_subject: Visa statusändringar för ärenden i ämnet för e-postaviseringar
   label_inherited_from_parent_project: Ärvd från föräldraprojekt
   label_inherited_from_group: Ärvd från grupp%{name}
   label_trackers_description: Beskrivning för ärendetyp
@@ -1300,8 +1282,7 @@ sv:
   permission_edit_own_issues: Ändra egna ärenden
   text_select_apply_tracker: Välj ärendetyp
   label_updated_issues: Uppdaterade ärenden
-  text_avatar_server_config_html: Nuvarande avatar-server <a href="%{url}">%{url}</a>.
-    Du kan konfigurera det i <strong>config/configuration.yml</strong>.
+  text_avatar_server_config_html: 'Nuvarande avatar-server <a href="%{url}">%{url}</a>. Du kan konfigurera det i <strong>config/configuration.yml</strong>.'
   setting_gantt_months_limit: Max antal månader på Gantt-schemat
   permission_import_time_entries: Importera tidsstämplingar
   label_import_notifications: Skicka aviseringar med e-post under importen
@@ -1332,20 +1313,14 @@ sv:
   label_display_type_board: Anslagstavla
   label_my_bookmarks: Mina bokmärken
   label_import_time_entries: Importera tidsstämplingar
-  notice_issue_not_closable_by_open_tasks: Det här ärendet kan inte stängas eftersom
-    det har minst en öppen underaktivitet.
-  notice_issue_not_closable_by_blocking_issue: Det här ärendet kan inte stängas eftersom
-    det blockeras av minst ett öppet ärende.
-  notice_issue_not_reopenable_by_closed_parent_issue: Det här ärendet kan inte återöppnas
-    eftersom dess överordnade ärende är stängt.
-  error_attachments_too_many: Den här filen kan inte laddas upp eftersom den överskrider
-    det maximala antalet filer som kan bifogas samtidigt (%{max_number_of_files}).
-  error_bulk_download_size_too_big: Dessa bilagor kan inte laddas ner samtidigt eftersom
-    den totala filstorleken överskrider den maximalt tillåtna storleken (%{max_size}).
-  error_can_not_execute_macro_html: Fel vid körning av makrot <strong>%{name}</strong> (%{error}).
+  notice_issue_not_closable_by_open_tasks: Det här ärendet kan inte stängas eftersom det har minst en öppen underaktivitet.
+  notice_issue_not_closable_by_blocking_issue: Det här ärendet kan inte stängas eftersom det blockeras av minst ett öppet ärende.
+  notice_issue_not_reopenable_by_closed_parent_issue: Det här ärendet kan inte återöppnas eftersom dess överordnade ärende är stängt.
+  error_attachments_too_many: 'Den här filen kan inte laddas upp eftersom den överskriderdet maximala antalet filer som kan bifogas samtidigt (%{max_number_of_files}).'
+  error_bulk_download_size_too_big: 'Dessa bilagor kan inte laddas ner samtidigt eftersom den totala filstorleken överskrider den maximalt tillåtna storleken (%{max_size}).'
+  error_can_not_execute_macro_html: 'Fel vid körning av makrot <strong>%{name}</strong> (%{error}).'
   error_macro_does_not_accept_block: Det här makrot accepterar inte ett textblock
-  error_childpages_macro_no_argument: Utan argument kan det här makrot endast anropas
-    från wikisidor
+  error_childpages_macro_no_argument: Utan argument kan det här makrot endast anropas från wikisidor
   error_circular_inclusion: Cirkulär inbäddning upptäckt
   error_page_not_found: Sidan kunde inte hittas
   error_filename_required: Filnamn krävs
@@ -1359,8 +1334,7 @@ sv:
   setting_twofa: Tvåfaktorsautentisering
   permission_delete_project: Ta bort projektet
   label_optional: valfritt
-  label_user_mail_notify_about_high_priority_issues_html: Avisera mig också om ärenden med en
-    prioritet på <em>%{prio}</em> eller högre
+  label_user_mail_notify_about_high_priority_issues_html: 'Avisera mig också om ärenden med en prioritet på <em>%{prio}</em> eller högre'
   label_days_to_html: "%{days} dagar fram till %{date}"
   label_required_lower: obligatorisk
   label_download_all_attachments: Ladda ner samtliga filer
@@ -1369,28 +1343,21 @@ sv:
   button_disable: Inaktivera
   label_import_users: Importera användare
   twofa__totp__name: Autentiseringsapp
-  twofa__totp__text_pairing_info_html: Skanna den här QR-koden eller ange nyckeln i en autentiseringsapp
-    (t.ex. <a href="https://support.google.com/accounts/answer/1066447">Google Authenticator</a>,
-    <a href="https://authy.com/download/">Authy</a>, <a href="https://guide.duo.com/third-party-accounts">
-    Duo Mobile</a>) och ange sedan koden i fältet nedan för att aktivera tvåfaktorsautentisering.
+  twofa__totp__text_pairing_info_html: 'Skanna den här QR-koden eller ange nyckeln i en autentiseringsapp (t.ex. <a href="https://support.google.com/accounts/answer/1066447">Google Authenticator</a>, <a href="https://authy.com/download/">Authy</a>, <a href="https://guide.duo.com/third-party-accounts"> Duo Mobile</a>) och ange sedan koden i fältet nedan för att aktivera tvåfaktorsautentisering.'
   twofa__totp__label_plain_text_key: Nyckel i klartext
   twofa__totp__label_activate: Aktivera autentiseringsapp
   twofa_currently_active: 'För närvarande aktiv: %{twofa_scheme_name}'
   twofa_not_active: Inte aktiverad
   twofa_label_code: Kod
-  twofa_hint_disabled_html: Inställningen <strong>%{label}</strong> kommer att inaktivera och koppla
-    bort tvåfaktorsautentiseringsenheter för alla användare.
-  twofa_hint_required_html: Inställningen <strong>%{label}</strong> kommer att kräva att alla
-    användare konfigurerar tvåfaktorsautentisering vid sin nästa inloggning.
+  twofa_hint_disabled_html: Inställningen <strong>%{label}</strong> kommer att inaktivera och koppla bort tvåfaktorsautentiseringsenheter för alla användare.
+  twofa_hint_required_html: Inställningen <strong>%{label}</strong> kommer att kräva att alla användare konfigurerar tvåfaktorsautentisering vid sin nästa inloggning.
   twofa_label_setup: Aktivera tvåfaktorsautentisering
   twofa_label_deactivation_confirmation: Inaktivera tvåfaktorsautentisering
   twofa_notice_select: 'Välj det tvåfaktorsalternativ du vill använda:'
   twofa_warning_require: Administratören kräver att du aktiverar tvåfaktorsautentisering.
-  twofa_activated: Tvåfaktorsautentisering har aktiverats framgångsrikt. Det rekommenderas att
-    du <a data-method="post" href="%{bc_path}">genererar reservkoder</a> för ditt konto.
+  twofa_activated: 'Tvåfaktorsautentisering har aktiverats framgångsrikt. Det rekommenderas att du <a data-method="post" href="%{bc_path}">genererar reservkoder</a> för ditt konto.'
   twofa_deactivated: Tvåfaktorsautentisering inaktiverad.
-  twofa_mail_body_security_notification_paired: Tvåfaktorsautentisering har framgångsrikt
-    aktiverats med hjälp av %{field}.
+  twofa_mail_body_security_notification_paired: 'Tvåfaktorsautentisering har framgångsrikt aktiverats med hjälp av %{field}.'
   twofa_mail_body_security_notification_unpaired: Tvåfaktorsautentisering har inaktiverats för ditt konto.
   twofa_mail_body_backup_codes_generated: Nya reservkoder för tvåfaktorsautentisering har genererats.
   twofa_mail_body_backup_code_used: En reservkod för tvåfaktorsautentisering har använts.
@@ -1400,27 +1367,18 @@ sv:
   twofa_resend_code: Skicka kod på nytt
   twofa_code_sent: En autentiseringskod har skickats till dig.
   twofa_generate_backup_codes: Generera reservkoder
-  twofa_text_generate_backup_codes_confirmation: Detta kommer att göra alla befintliga reservkoder
-    obrukbara och generera nya. Vill du fortsätta?
+  twofa_text_generate_backup_codes_confirmation: Detta kommer att göra alla befintliga reservkoder obrukbara och generera nya. Vill du fortsätta?
   twofa_notice_backup_codes_generated: Dina reservkoder har genererats
-  twofa_warning_backup_codes_generated_invalidated: Nya reservkoder har genererats. Dina befintliga
-    koder från %{time} är nu obrukbara.
+  twofa_warning_backup_codes_generated_invalidated: 'Nya reservkoder har genererats. Dina befintliga koder från %{time} är nu obrukbara.'
   twofa_label_backup_codes: Reservkoder för tvåfaktorsautentisering.
-  twofa_text_backup_codes_hint: Använd dessa koder istället för en engångslösenkod om du inte har
-    tillgång till din tvåfaktorsautentiseringsapp. Varje kod kan endast användas en gång. Det
-    rekommenderas att skriva ut dem och förvara dem på en säker plats.
+  twofa_text_backup_codes_hint: Använd dessa koder istället för en engångslösenkod om du inte har tillgång till din tvåfaktorsautentiseringsapp. Varje kod kan endast användas en gång. Det rekommenderas att skriva ut dem och förvara dem på en säker plats.
   twofa_text_backup_codes_created_at: Reservkoder genererades %{datetime}.
-  twofa_backup_codes_already_shown: Reservkoder kan inte visas igen, men du kan
-    <a data-method="post" href="%{bc_path}">generera nya reservkoder</a> om så behövs.
+  twofa_backup_codes_already_shown: 'Reservkoder kan inte visas igen, men du kan <a data-method="post" href="%{bc_path}">generera nya reservkoder</a> om så behövs.'
   field_twofa_scheme: Tvåfaktorsautentiseringssystem
-  text_user_destroy_confirmation: Är du säker på att du vill ta bort den här användaren och ta bort alla
-    referenser till denne? Detta kan inte ångras. Ofta är det bättre att låsa en användare istället för
-    att ta bort den. För att bekräfta, vänligen ange deras inloggning (%{login}) nedan.
-  text_project_destroy_enter_identifier: För att bekräfta, vänligen ange projektets identifierare
-    (%{identifier}) nedan.
+  text_user_destroy_confirmation: 'Är du säker på att du vill ta bort den här användaren och ta bort alla referenser till denne? Detta kan inte ångras. Ofta är det bättre att låsa en användare istället för att ta bort den. För att bekräfta, vänligen ange deras inloggning (%{login}) nedan.'
+  text_project_destroy_enter_identifier: 'För att bekräfta, vänligen ange projektets identifierare (%{identifier}) nedan.'
   button_add_subtask: Lägg till underaktivitet
-  notice_invalid_watcher: 'Ogiltig bevakare: Användaren kommer inte att ta emot några aviseringar
-    eftersom de inte har åtkomst att visa detta objekt.'
+  notice_invalid_watcher: 'Ogiltig bevakare: Användaren kommer inte att ta emot några aviseringar eftersom de inte har åtkomst att visa detta objekt.'
   button_fetch_changesets: Hämta commits
   permission_view_message_watchers: Visa lista över meddelandebevakare
   permission_add_message_watchers: Lägg till meddelandebevakare
@@ -1428,8 +1386,7 @@ sv:
   label_message_watchers: Bevakare
   button_copy_link: Kopiera länk
   error_invalid_authenticity_token: Ogiltig autentiseringstoken för formuläret.
-  error_query_statement_invalid: Ett fel inträffade vid körning av frågan och har loggats.
-    Vänligen rapportera detta fel till din Redmine-administratör.
+  error_query_statement_invalid: Ett fel inträffade vid körning av frågan och har loggats. Vänligen rapportera detta fel till din Redmine-administratör.
   permission_view_wiki_page_watchers: Visa lista över bevakare för wikisida
   permission_add_wiki_page_watchers: Lägg till bevakare för wikisida
   permission_delete_wiki_page_watchers: Ta bort bevakare för wikisida
@@ -1437,15 +1394,9 @@ sv:
   label_attachment_description: Filbeskrivning
   error_no_data_in_file: Filen innehåller inga data
   field_twofa_required: Kräv tvåfaktorsautentisering
-  twofa_hint_optional_html: Inställningen <strong>%{label}</strong> kommer att låta
-    användare konfigurera tvåfaktorsautentisering efter eget önskemål, om det inte krävs
-    av någon av deras grupper.
-  twofa_text_group_required: Den här inställningen är endast giltig när den globala inställningen
-    för tvåfaktorsautentisering är inställd på "valfritt". För närvarande krävs tvåfaktorsautentisering
-    för alla användare.
-  twofa_text_group_disabled: Den här inställningen är endast giltig när den globala inställningen
-    för tvåfaktorsautentisering är inställd på "valfritt". För närvarande är tvåfaktorsautentisering
-    inaktiverad.
+  twofa_hint_optional_html: Inställningen <strong>%{label}</strong> kommer att låta användare konfigurera tvåfaktorsautentisering efter eget önskemål, om det inte krävs av någon av deras grupper.
+  twofa_text_group_required: Den här inställningen är endast giltig när den globala inställningen för tvåfaktorsautentisering är inställd på "valfritt". För närvarande krävs tvåfaktorsautentisering för alla användare.
+  twofa_text_group_disabled: Den här inställningen är endast giltig när den globala inställningen för tvåfaktorsautentisering är inställd på "valfritt". För närvarande är tvåfaktorsautentisering inaktiverad.
   field_default_issue_query: Standardfiltrering för ärenden
   label_default_queries:
     for_all_projects: För alla projekt
@@ -1454,50 +1405,38 @@ sv:
     for_this_user: För den här användaren
   text_allowed_queries_to_select: Endast publika (för alla användare) filtreringar kan väljas
   text_all_migrations_have_been_run: Alla databas-migrationer har körts
-  button_save_object: Spara %{object_name}
-  button_edit_object: Redigera %{object_name}
-  button_delete_object: Ta bort %{object_name}
-  text_setting_config_change: Du kan konfigurera beteendet i <strong>config/configuration.yml</strong>.
-    Vänligen starta om applikationen efter att du har redigerat den.
+  button_save_object: 'Spara %{object_name}'
+  button_edit_object: 'Redigera %{object_name}'
+  button_delete_object: 'Ta bort %{object_name}'
+  text_setting_config_change: 'Du kan konfigurera beteendet i <strong>config/configuration.yml</strong>. Vänligen starta om applikationen efter att du har redigerat den.'
   label_bulk_edit: Massredigera
   button_create_and_follow: Skapa och öppna
   label_subtask: Underaktivitet
   label_default_query: Standardfiltrering
   field_default_project_query: Standardfiltrering för projekt
   label_required_administrators: obligatoriskt för administratörer
-  twofa_hint_required_administrators_html: Inställningen <strong>%{label}</strong> fungerar som valfri,
-    men kommer att kräva att alla användare med administratörsrättigheter konfigurerar
-    tvåfaktorsautentisering vid sin nästa inloggning.
+  twofa_hint_required_administrators_html: 'Inställningen <strong>%{label}</strong> fungerar som valfri, men kommer att kräva att alla användare med administratörsrättigheter konfigurerar tvåfaktorsautentisering vid sin nästa inloggning.'
   label_auto_watch_on: Automatisk bevakning
   label_auto_watch_on_issue_contributed_to: Ärenden jag varit delaktig i
-  text_project_close_confirmation: Är du säker på att du vill stänga projektet '%{value}' för att
-    göra det skrivskyddat?
-  text_project_reopen_confirmation: Är du säker på att du vill återöppna projektet '%{value}'?
-  text_project_archive_confirmation: Är du säker på att du vill arkivera projektet '%{value}'?
-  mail_destroy_project_failed: Projektet %{value} kunde inte raderas.
-  mail_destroy_project_successful: Projektet %{value} raderades framgångsrikt.
-  mail_destroy_project_with_subprojects_successful: Projektet %{value} och dess underprojekt
-    raderades framgångsrikt.
+  text_project_close_confirmation: 'Är du säker på att du vill stänga projektet "%{value}" för att göra det skrivskyddat?'
+  text_project_reopen_confirmation: 'Är du säker på att du vill återöppna projektet "%{value}"?'
+  text_project_archive_confirmation: 'Är du säker på att du vill arkivera projektet "%{value}"?'
+  mail_destroy_project_failed: 'Projektet %{value} kunde inte raderas.'
+  mail_destroy_project_successful: 'Projektet %{value} raderades framgångsrikt.'
+  mail_destroy_project_with_subprojects_successful: 'Projektet %{value} och dess underprojekt raderades framgångsrikt.'
   project_status_scheduled_for_deletion: schemalagd för radering
-  text_projects_bulk_destroy_confirmation: Är du säker på att du vill radera de valda projekten
-    och relaterad data?
-  text_projects_bulk_destroy_head: |
-    Du är på väg att permanent radera följande projekt, inklusive eventuella underprojekt och relaterad
-    data. Vänligen granska informationen nedan och bekräfta att detta verkligen är vad du vill göra.
-    Denna åtgärd kan inte ångras.
-  text_projects_bulk_destroy_confirm: För att bekräfta, vänligen ange "%{yes}" i rutan nedan.
+  text_projects_bulk_destroy_confirmation: Är du säker på att du vill radera de valda projekten och relaterad data?
+  text_projects_bulk_destroy_head: Du är på väg att permanent radera följande projekt, inklusive eventuella underprojekt och relaterad data. Vänligen granska informationen nedan och bekräfta att detta verkligen är vad du vill göra. Denna åtgärd kan inte ångras.
+  text_projects_bulk_destroy_confirm: 'För att bekräfta, vänligen ange "%{yes}" i rutan nedan.'
   text_subprojects_bulk_destroy: 'inklusive dess underprojekt: %{value}'
   field_current_password: Nuvarande lösenord
-  sudo_mode_new_info_html: <strong>Vad händer?</strong> Du måste bekräfta ditt lösenord
-    igen innan du vidtar några administrativa åtgärder, detta säkerställer att ditt konto förblir skyddat.
+  sudo_mode_new_info_html: '<strong>Vad händer?</strong> Du måste bekräfta ditt lösenord igen innan du vidtar några administrativa åtgärder, detta säkerställer att ditt konto förblir skyddat.'
   label_edited: Redigerad
-  label_time_by_author: "%{time} av %{author}"
+  label_time_by_author: '%{time} av %{author}'
   field_default_time_entry_activity: Standardaktivitet för spenderad tid
   field_is_member_of_group: Medlem i grupp
-  text_users_bulk_destroy_head: Du är på väg att ta bort följande användare och ta bort alla
-    referenser till dem. Detta kan inte ångras. Ofta är det bättre att låsa användare istället för
-    att ta bort dem.
-  text_users_bulk_destroy_confirm: För att bekräfta, vänligen ange "%{yes}" nedan.
+  text_users_bulk_destroy_head: Du är på väg att ta bort följande användare och ta bort alla referenser till dem. Detta kan inte ångras. Ofta är det bättre att låsa användare istället för att ta bort dem.
+  text_users_bulk_destroy_confirm: 'För att bekräfta, vänligen ange "%{yes}" nedan.'
   permission_select_project_publicity: Ställ in projektet som publikt eller privat
   label_auto_watch_on_issue_created: Ärenden jag har skapat
   field_any_searchable: All sökbart text
@@ -1511,17 +1450,16 @@ sv:
   label_open_issue_statuses_description: Visa alla beskrivningar av ärendestatusar
   text_select_apply_issue_status: Välj ärendestatus
   field_name_or_email_or_login: Namn, e-post eller inloggning
-  text_default_active_job_queue_changed: Standardköadapter som är lämpad endast för
-    utveckling/test har ändrats
+  text_default_active_job_queue_changed: Standardköadapter som är lämpad endast för utveckling/test har ändrats
   label_option_auto_lang: automatisk
   label_issue_attachment_added: Bilaga tillagd
   field_estimated_remaining_hours: Beräknad återstående tid
   field_last_activity_date: Senaste aktivitet
-  setting_issue_done_ratio_interval: Alternativ för intervall för "% Klar"
+  setting_issue_done_ratio_interval: 'Alternativ för intervall för "% Klar"'
   setting_copy_attachments_on_issue_copy: Kopiera bilagor vid kopiering
   field_thousands_delimiter: Tusenavgränsare
-  label_involved_principals: Skapare / Tidigare tilldelad
+  label_involved_principals: 'Skapare / Tidigare tilldelad'
   label_attachment_summary:
-    zero: "%{filename}"
-    one: "%{filename} och 1 fil"
-    other: "%{filename} och %{count} filer"
+    zero: '%{filename}'
+    one: '%{filename} och 1 fil'
+    other: '%{filename} och %{count} filer'
