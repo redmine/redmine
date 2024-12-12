@@ -20,18 +20,6 @@
 require_relative '../test_helper'
 
 class ChangesetTest < ActiveSupport::TestCase
-  fixtures :projects, :repositories,
-           :issues, :issue_statuses, :issue_categories,
-           :journals, :journal_details,
-           :workflows,
-           :changesets, :changes,
-           :enumerations,
-           :custom_fields, :custom_values,
-           :users, :members, :member_roles,
-           :email_addresses,
-           :trackers, :projects_trackers,
-           :enabled_modules, :roles
-
   def setup
     User.current = nil
   end

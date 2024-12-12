@@ -20,22 +20,6 @@
 require_relative '../test_helper'
 
 class ContextMenusControllerTest < Redmine::ControllerTest
-  fixtures :projects,
-           :trackers,
-           :projects_trackers,
-           :roles,
-           :member_roles,
-           :members,
-           :enabled_modules,
-           :workflows,
-           :journals, :journal_details,
-           :versions,
-           :issues, :issue_statuses, :issue_categories,
-           :users,
-           :enumerations,
-           :time_entries,
-           :custom_fields, :custom_fields_trackers, :custom_fields_projects
-
   def test_context_menu_one_issue_should_link_to_issue_path
     @request.session[:user_id] = 2
     get(

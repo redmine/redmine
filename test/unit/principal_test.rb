@@ -20,9 +20,6 @@
 require_relative '../test_helper'
 
 class PrincipalTest < ActiveSupport::TestCase
-  fixtures :users, :projects, :members, :member_roles, :roles,
-           :email_addresses
-
   def setup
     User.current = nil
   end

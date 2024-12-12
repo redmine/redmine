@@ -20,9 +20,6 @@
 require_relative '../test_helper'
 
 class IssueCategoriesControllerTest < Redmine::ControllerTest
-  fixtures :projects, :users, :members, :member_roles, :roles, :enabled_modules, :issue_categories,
-           :issues
-
   def setup
     User.current = nil
     @request.session[:user_id] = 2

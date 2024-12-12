@@ -20,34 +20,6 @@
 require_relative '../../test_helper'
 
 class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
-  fixtures(
-    :projects,
-    :users,
-    :user_preferences,
-    :roles,
-    :members,
-    :member_roles,
-    :issues,
-    :issue_statuses,
-    :issue_relations,
-    :versions,
-    :trackers,
-    :projects_trackers,
-    :issue_categories,
-    :enabled_modules,
-    :enumerations,
-    :attachments,
-    :workflows,
-    :custom_fields,
-    :custom_values,
-    :custom_fields_projects,
-    :custom_fields_trackers,
-    :time_entries,
-    :journals,
-    :journal_details,
-    :queries,
-    :attachments)
-
   test "GET /issues.xml should contain metadata" do
     get '/issues.xml'
     assert_select 'issues[type=array][total_count][limit="25"][offset="0"]'

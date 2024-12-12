@@ -20,10 +20,6 @@
 require_relative '../test_helper'
 
 class ActivityTest < ActiveSupport::TestCase
-  fixtures :projects, :versions, :attachments, :users, :roles, :members, :member_roles, :issues, :journals, :journal_details,
-           :trackers, :projects_trackers, :issue_statuses, :enabled_modules, :enumerations, :boards, :messages, :time_entries,
-           :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions
-
   def setup
     User.current = nil
     @project = Project.find(1)

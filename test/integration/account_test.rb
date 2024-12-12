@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class AccountTest < Redmine::IntegrationTest
-  fixtures :users, :email_addresses, :roles
-
   def test_login
     get "/my/page"
     assert_redirected_to "/login?back_url=http%3A%2F%2Fwww.example.com%2Fmy%2Fpage"

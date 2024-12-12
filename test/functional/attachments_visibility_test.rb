@@ -21,11 +21,6 @@ require_relative '../test_helper'
 
 class AttachmentsVisibilityTest < Redmine::ControllerTest
   tests AttachmentsController
-  fixtures :users, :email_addresses, :projects, :roles, :members, :member_roles,
-           :enabled_modules, :projects_trackers, :issue_statuses, :enumerations,
-           :issues, :trackers, :versions,
-           :custom_fields, :custom_fields_trackers, :custom_fields_projects
-
   def setup
     User.current = nil
     set_tmp_attachments_directory

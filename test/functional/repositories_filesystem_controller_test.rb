@@ -22,9 +22,6 @@ require_relative '../test_helper'
 class RepositoriesFilesystemControllerTest < Redmine::RepositoryControllerTest
   tests RepositoriesController
 
-  fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
-           :repositories, :enabled_modules
-
   REPOSITORY_PATH = Rails.root.join('tmp/test/filesystem_repository').to_s
   PRJ_ID = 3
 

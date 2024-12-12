@@ -25,9 +25,6 @@ class MembersHelperTest < Redmine::HelperTest
   include AvatarsHelper
   include Rails.application.routes.url_helpers
 
-  fixtures :projects, :users, :members, :member_roles,
-           :trackers, :issue_statuses
-
   def test_render_principals_for_new_members
     project = Project.generate!
 

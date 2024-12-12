@@ -20,14 +20,6 @@
 require_relative '../../../../test_helper'
 
 class Redmine::Acts::MentionableTest < ActiveSupport::TestCase
-  fixtures :projects, :users, :email_addresses, :members, :member_roles, :roles,
-         :groups_users,
-         :trackers, :projects_trackers,
-         :enabled_modules,
-         :issue_statuses, :issue_categories, :issue_relations, :workflows,
-         :enumerations,
-         :issues
-
   def test_mentioned_users_with_user_mention
     to_test = %w(@dlopper @dlopper! @dlopper? @dlopper. @dlopper)
 

@@ -20,19 +20,6 @@
 require_relative '../test_helper'
 
 class IssueRelationTest < ActiveSupport::TestCase
-  fixtures :projects,
-           :users,
-           :roles,
-           :members,
-           :member_roles,
-           :issues,
-           :issue_statuses,
-           :issue_relations,
-           :enabled_modules,
-           :enumerations,
-           :trackers,
-           :projects_trackers
-
   include Redmine::I18n
 
   def setup

@@ -20,13 +20,6 @@
 require_relative '../application_system_test_case'
 
 class IssuesSystemTest < ApplicationSystemTestCase
-  fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
-           :trackers, :projects_trackers, :enabled_modules,
-           :issue_statuses, :issues, :issue_categories,
-           :enumerations, :custom_fields, :custom_values, :custom_fields_trackers,
-           :watchers, :journals, :journal_details, :versions,
-           :workflows, :user_preferences
-
   def test_create_issue
     log_user('jsmith', 'jsmith')
     visit '/projects/ecookbook/issues/new'

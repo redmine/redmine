@@ -25,8 +25,6 @@ class WatchersHelperTest < Redmine::HelperTest
   include ERB::Util
   include Rails.application.routes.url_helpers
 
-  fixtures :users, :issues
-
   test '#watcher_link with a non-watched object' do
     expected = link_to(
       "Watch",

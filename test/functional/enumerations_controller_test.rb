@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class EnumerationsControllerTest < Redmine::ControllerTest
-  fixtures :enumerations, :issues, :users
-
   def setup
     @request.session[:user_id] = 1 # admin
   end

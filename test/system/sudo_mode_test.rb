@@ -20,8 +20,6 @@
 require_relative '../application_system_test_case'
 
 class SudoModeSystemTest < ApplicationSystemTestCase
-  fixtures :users, :email_addresses
-
   def setup
     Redmine::SudoMode.stubs(:enabled?).returns(true)
     super

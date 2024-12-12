@@ -20,19 +20,6 @@
 require_relative '../test_helper'
 
 class CustomFieldsControllerTest < Redmine::ControllerTest
-  fixtures :custom_fields, :custom_values,
-           :custom_fields_projects, :custom_fields_trackers,
-           :roles, :users,
-           :members, :member_roles,
-           :groups_users,
-           :trackers, :projects_trackers,
-           :enabled_modules,
-           :projects, :issues,
-           :issue_statuses,
-           :issue_categories,
-           :enumerations,
-           :workflows
-
   def setup
     @request.session[:user_id] = 1
   end

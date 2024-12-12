@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class WelcomeControllerTest < Redmine::ControllerTest
-  fixtures :projects, :news, :users, :members, :roles, :member_roles, :enabled_modules
-
   def setup
     Setting.default_language = 'en'
     User.current = nil

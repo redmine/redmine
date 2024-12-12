@@ -20,15 +20,6 @@
 require_relative '../../test_helper'
 
 class Redmine::ApiTest::FilesTest < Redmine::ApiTest::Base
-  fixtures :projects,
-           :users,
-           :members,
-           :roles,
-           :member_roles,
-           :enabled_modules,
-           :attachments,
-           :versions
-
   test "GET /projects/:project_id/files.xml should return the list of uploaded files" do
     get '/projects/1/files.xml', :headers => credentials('jsmith')
     assert_response :success

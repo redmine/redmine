@@ -20,16 +20,6 @@
 require_relative '../../../test_helper'
 
 class Redmine::Hook::ManagerTest < ActionView::TestCase
-  fixtures :projects, :users, :members, :member_roles, :roles,
-           :groups_users,
-           :email_addresses,
-           :trackers, :projects_trackers,
-           :enabled_modules,
-           :versions,
-           :issue_statuses, :issue_categories, :issue_relations,
-           :enumerations,
-           :issues
-
   # Some hooks that are manually registered in these tests
   class TestHook < Redmine::Hook::ViewListener; end
 

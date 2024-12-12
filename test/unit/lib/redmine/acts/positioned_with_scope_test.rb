@@ -20,8 +20,6 @@
 require_relative '../../../../test_helper'
 
 class Redmine::Acts::PositionedWithScopeTest < ActiveSupport::TestCase
-  fixtures :projects, :boards
-
   def test_create_should_default_to_last_position
     b = Board.generate!(:project_id => 1)
     assert_equal 3, b.reload.position

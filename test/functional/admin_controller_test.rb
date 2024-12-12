@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class AdminControllerTest < Redmine::ControllerTest
-  fixtures :projects, :users, :email_addresses, :roles
-
   def setup
     User.current = nil
     @request.session[:user_id] = 1 # admin

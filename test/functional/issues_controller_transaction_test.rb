@@ -22,30 +22,6 @@ require 'issues_controller'
 
 class IssuesControllerTransactionTest < Redmine::ControllerTest
   tests IssuesController
-  fixtures :projects,
-           :users,
-           :roles,
-           :members,
-           :member_roles,
-           :issues,
-           :issue_statuses,
-           :versions,
-           :trackers,
-           :projects_trackers,
-           :issue_categories,
-           :enabled_modules,
-           :enumerations,
-           :attachments,
-           :workflows,
-           :custom_fields,
-           :custom_values,
-           :custom_fields_projects,
-           :custom_fields_trackers,
-           :time_entries,
-           :journals,
-           :journal_details,
-           :queries
-
   self.use_transactional_tests = false
 
   def setup

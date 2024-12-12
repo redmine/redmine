@@ -20,17 +20,6 @@
 require_relative '../test_helper'
 
 class ActivitiesControllerTest < Redmine::ControllerTest
-  fixtures :projects, :trackers, :issue_statuses, :issues,
-           :enumerations, :users, :issue_categories,
-           :projects_trackers,
-           :roles,
-           :member_roles,
-           :members,
-           :groups_users,
-           :enabled_modules,
-           :journals, :journal_details,
-           :attachments, :changesets, :documents, :messages, :news, :time_entries, :wiki_content_versions
-
   def test_project_index
     get(
       :index,

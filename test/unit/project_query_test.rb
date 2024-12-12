@@ -20,14 +20,6 @@
 require_relative '../test_helper'
 
 class ProjectQueryTest < ActiveSupport::TestCase
-  fixtures :projects, :users,
-           :members, :roles, :member_roles,
-           :issue_categories, :enumerations,
-           :groups_users,
-           :enabled_modules,
-           :custom_fields, :custom_values,
-           :queries
-
   include Redmine::I18n
 
   def test_filter_values_be_arrays

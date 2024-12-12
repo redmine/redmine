@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class EnumerationTest < ActiveSupport::TestCase
-  fixtures :enumerations, :issues, :custom_fields, :custom_values
-
   def setup
     User.current = nil
   end

@@ -20,13 +20,6 @@
 require_relative '../test_helper'
 
 class QueriesControllerTest < Redmine::ControllerTest
-  fixtures :projects, :enabled_modules,
-           :users, :email_addresses,
-           :members, :member_roles, :roles,
-           :trackers, :issue_statuses, :issue_categories, :enumerations, :versions,
-           :issues, :custom_fields, :custom_values,
-           :queries
-
   def setup
     User.current = nil
   end

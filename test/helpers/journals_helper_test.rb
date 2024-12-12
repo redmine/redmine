@@ -22,15 +22,6 @@ require_relative '../test_helper'
 class JournalsHelperTest < Redmine::HelperTest
   include JournalsHelper
 
-  fixtures :projects, :trackers, :issue_statuses, :issues, :journals,
-           :enumerations, :issue_categories,
-           :projects_trackers,
-           :users, :roles, :member_roles, :members,
-           :enabled_modules,
-           :custom_fields,
-           :attachments,
-           :versions
-
   def test_journal_thumbnail_attachments_should_return_thumbnailable_attachments
     skip unless convert_installed?
     set_tmp_attachments_directory

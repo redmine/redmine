@@ -20,14 +20,6 @@
 require_relative '../../test_helper'
 
 class Redmine::ApiTest::DisabledRestApiTest < Redmine::ApiTest::Base
-  fixtures :projects, :trackers, :issue_statuses, :issues,
-           :enumerations, :users, :issue_categories,
-           :projects_trackers,
-           :roles,
-           :member_roles,
-           :members,
-           :enabled_modules
-
   def setup
     Setting.rest_api_enabled = '0'
     Setting.login_required = '1'

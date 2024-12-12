@@ -23,10 +23,6 @@ class WikiHelperTest < Redmine::HelperTest
   include WikiHelper
   include Rails.application.routes.url_helpers
 
-  fixtures :projects, :users,
-           :roles, :member_roles, :members,
-           :enabled_modules, :wikis, :wiki_pages
-
   def test_wiki_page_edit_cancel_path_for_new_page_without_parent_should_be_wiki_index
     wiki = Wiki.find(1)
     page = WikiPage.new(:wiki => wiki)

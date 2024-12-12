@@ -20,8 +20,6 @@
 require_relative '../../test_helper'
 
 class Redmine::ApiTest::JsonpTest < Redmine::ApiTest::Base
-  fixtures :trackers
-
   def test_should_ignore_jsonp_callback_with_jsonp_disabled
     with_settings :jsonp_enabled => '0' do
       get '/trackers.json?jsonp=handler'

@@ -20,9 +20,6 @@
 require_relative '../test_helper'
 
 class WelcomeTest < Redmine::IntegrationTest
-  fixtures :users, :email_addresses,
-           :projects, :enabled_modules, :members, :member_roles, :roles
-
   def test_robots
     Project.find(3).update_attribute :status, Project::STATUS_CLOSED
 

@@ -21,8 +21,6 @@ require_relative '../test_helper'
 
 class AuthSourceLdapTest < ActiveSupport::TestCase
   include Redmine::I18n
-  fixtures :auth_sources
-
   def setup
     User.current = nil
   end

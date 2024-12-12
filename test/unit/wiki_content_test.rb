@@ -20,11 +20,6 @@
 require_relative '../test_helper'
 
 class WikiContentTest < ActiveSupport::TestCase
-  fixtures :projects, :enabled_modules,
-           :users, :members, :member_roles, :roles,
-           :email_addresses,
-           :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions
-
   def setup
     User.current = nil
     @wiki = Wiki.find(1)

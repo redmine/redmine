@@ -25,17 +25,6 @@ class IssuesHelperTest < Redmine::HelperTest
   include ERB::Util
   include Rails.application.routes.url_helpers
 
-  fixtures :projects, :trackers, :issue_statuses, :issues,
-           :enumerations, :users, :issue_categories,
-           :projects_trackers,
-           :roles,
-           :member_roles,
-           :members,
-           :enabled_modules,
-           :custom_fields,
-           :attachments,
-           :versions, :workflows
-
   def test_issue_heading
     assert_equal "Bug #1", issue_heading(Issue.find(1))
   end

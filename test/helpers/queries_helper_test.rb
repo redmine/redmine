@@ -22,14 +22,6 @@ require_relative '../test_helper'
 class QueriesHelperTest < Redmine::HelperTest
   include QueriesHelper
 
-  fixtures :projects, :enabled_modules, :users, :members,
-           :member_roles, :roles, :trackers, :issue_statuses,
-           :issue_categories, :enumerations, :issues,
-           :watchers, :custom_fields, :custom_values, :versions,
-           :queries,
-           :projects_trackers,
-           :custom_fields_trackers
-
   def test_filters_options_for_select_should_have_a_blank_option
     options = filters_options_for_select(IssueQuery.new)
     assert_select_in options, 'option[value=""]'

@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class UserImportTest < ActiveSupport::TestCase
-  fixtures :users, :auth_sources, :custom_fields
-
   include Redmine::I18n
 
   def setup

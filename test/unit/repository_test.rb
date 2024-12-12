@@ -20,26 +20,6 @@
 require_relative '../test_helper'
 
 class RepositoryTest < ActiveSupport::TestCase
-  fixtures :projects,
-           :trackers,
-           :projects_trackers,
-           :enabled_modules,
-           :repositories,
-           :issues,
-           :issue_statuses,
-           :issue_categories,
-           :changesets,
-           :changes,
-           :users,
-           :email_addresses,
-           :members,
-           :member_roles,
-           :roles,
-           :enumerations,
-           :user_preferences,
-           :watchers,
-           :versions
-
   include Redmine::I18n
 
   def setup

@@ -20,11 +20,6 @@
 require_relative '../test_helper'
 
 class JournalObserverTest < ActiveSupport::TestCase
-  fixtures :issues, :issue_statuses, :journals, :journal_details, :projects,
-           :projects_trackers, :trackers, :enabled_modules, :enumerations,
-           :users, :user_preferences, :email_addresses, :roles, :members, :member_roles,
-           :versions, :issue_categories
-
   def setup
     User.current = nil
     ActionMailer::Base.deliveries.clear

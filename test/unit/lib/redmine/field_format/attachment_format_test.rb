@@ -24,8 +24,6 @@ class Redmine::AttachmentFieldFormatTest < ActionView::TestCase
   include ApplicationHelper
   include Redmine::I18n
 
-  fixtures :users
-
   def setup
     User.current = nil
     set_language_if_valid 'en'

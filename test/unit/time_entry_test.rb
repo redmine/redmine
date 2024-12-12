@@ -22,16 +22,6 @@ require_relative '../test_helper'
 class TimeEntryTest < ActiveSupport::TestCase
   include Redmine::I18n
 
-  fixtures :issues, :projects, :users, :time_entries,
-           :members, :roles, :member_roles,
-           :trackers, :issue_statuses,
-           :projects_trackers,
-           :journals, :journal_details,
-           :issue_categories, :enumerations,
-           :groups_users,
-           :enabled_modules,
-           :custom_fields, :custom_fields_projects, :custom_values
-
   def setup
     User.current = nil
   end

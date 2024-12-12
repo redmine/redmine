@@ -20,16 +20,6 @@
 require_relative '../test_helper'
 
 class PreviewsControllerTest < Redmine::ControllerTest
-  fixtures :projects, :trackers, :issue_statuses, :issues,
-           :enumerations, :users, :issue_categories,
-           :projects_trackers,
-           :roles,
-           :member_roles,
-           :members,
-           :enabled_modules,
-           :journals, :journal_details,
-           :news
-
   def test_preview_new_issue_description
     @request.session[:user_id] = 2
     post(

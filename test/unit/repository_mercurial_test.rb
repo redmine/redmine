@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class RepositoryMercurialTest < ActiveSupport::TestCase
-  fixtures :projects
-
   include Redmine::I18n
 
   REPOSITORY_PATH = Rails.root.join('tmp/test/mercurial_repository').to_s

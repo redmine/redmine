@@ -22,11 +22,6 @@ require_relative '../application_system_test_case'
 Capybara.default_max_wait_time = 2
 
 class TimelogTest < ApplicationSystemTestCase
-  fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
-           :trackers, :projects_trackers, :enabled_modules, :issue_statuses, :issues,
-           :enumerations, :custom_fields, :custom_values, :custom_fields_trackers,
-           :time_entries
-
   def test_changing_project_should_update_activities
     project = Project.find(1)
     TimeEntryActivity.create!(:name => 'Design', :project => project, :parent => TimeEntryActivity.find_by_name('Design'), :active => false)

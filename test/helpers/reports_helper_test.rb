@@ -23,8 +23,6 @@ class ReportsHlperTest < Redmine::HelperTest
   include ReportsHelper
   include Rails.application.routes.url_helpers
 
-  fixtures :projects, :users
-
   def test_aggregate_path_for_spacified_row
     project = Project.find(1)
     field = 'assigned_to_id'

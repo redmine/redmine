@@ -21,19 +21,6 @@ require_relative '../test_helper'
 
 class TimelogCustomFieldsVisibilityTest < Redmine::ControllerTest
   tests TimelogController
-  fixtures :projects,
-           :users, :email_addresses,
-           :roles,
-           :members,
-           :member_roles,
-           :issues, :issue_statuses,
-           :trackers,
-           :projects_trackers,
-           :enabled_modules,
-           :time_entries, :enumerations,
-           :workflows,
-           :custom_fields, :custom_values, :custom_fields_trackers
-
   def test_index_should_show_visible_custom_fields_only
     prepare_test_data
 

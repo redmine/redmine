@@ -20,22 +20,6 @@
 require_relative '../test_helper'
 
 class SearchTest < ActiveSupport::TestCase
-  fixtures :users,
-           :members,
-           :member_roles,
-           :projects,
-           :projects_trackers,
-           :roles,
-           :enabled_modules,
-           :issues,
-           :trackers,
-           :issue_statuses,
-           :enumerations,
-           :journals,
-           :journal_details,
-           :repositories,
-           :changesets
-
   def setup
     User.current = nil
     @project = Project.find(1)

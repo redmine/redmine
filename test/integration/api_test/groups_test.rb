@@ -20,8 +20,6 @@
 require_relative '../../test_helper'
 
 class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
-  fixtures :users, :groups_users, :email_addresses
-
   test "GET /groups.xml should require authentication" do
     get '/groups.xml'
     assert_response 401

@@ -24,8 +24,6 @@ class AvatarsHelperTest < Redmine::HelperTest
   include Rails.application.routes.url_helpers
   include AvatarsHelper
 
-  fixtures :users, :email_addresses
-
   def setup
     Setting.gravatar_enabled = '1'
   end

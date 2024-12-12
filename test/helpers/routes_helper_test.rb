@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class RoutesHelperTest < Redmine::HelperTest
-  fixtures :projects, :issues
-
   include Rails.application.routes.url_helpers
 
   def test_time_entries_path

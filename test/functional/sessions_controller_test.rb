@@ -23,8 +23,6 @@ class SessionsControllerTest < Redmine::ControllerTest
   include Redmine::I18n
   tests WelcomeController
 
-  fixtures :users, :email_addresses
-
   def setup
     Rails.application.config.redmine_verify_sessions = true
   end

@@ -22,15 +22,6 @@ require_relative '../../../test_helper'
 class MenuManagerTest < Redmine::IntegrationTest
   include Redmine::I18n
 
-  fixtures :projects, :trackers, :issue_statuses, :issues,
-           :enumerations, :users, :issue_categories,
-           :projects_trackers,
-           :roles,
-           :member_roles,
-           :members,
-           :enabled_modules,
-           :repositories
-
   def test_project_menu_with_specific_locale
     get '/projects/ecookbook/issues',
         :headers => {'HTTP_ACCEPT_LANGUAGE' => 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'}

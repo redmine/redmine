@@ -20,12 +20,6 @@
 require_relative '../../test_helper'
 
 class Redmine::ApiTest::RepositoriesTest < Redmine::ApiTest::Base
-  fixtures :users,
-           :projects, :enabled_modules,
-           :members, :roles, :member_roles,
-           :issues,
-           :repositories, :changesets, :changes
-
   test 'POST /projects/:id/repository/:repository_id/revisions/:rev/issues.xml should add related issue' do
     changeset = Changeset.find(103)
     assert_equal [], changeset.issue_ids

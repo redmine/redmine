@@ -21,11 +21,6 @@ require_relative '../../test_helper'
 
 class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
   include ActiveJob::TestHelper
-  fixtures :projects, :versions, :users, :roles, :members, :member_roles, :issues, :journals, :journal_details,
-           :trackers, :projects_trackers, :issue_statuses, :enabled_modules, :enumerations, :boards, :messages,
-           :attachments, :custom_fields, :custom_values, :custom_fields_projects, :time_entries, :issue_categories,
-           :queries
-
   def setup
     super
     set_tmp_attachments_directory

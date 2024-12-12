@@ -20,16 +20,6 @@
 require_relative '../test_helper'
 
 class ReportsControllerTest < Redmine::ControllerTest
-  fixtures :projects, :trackers, :issue_statuses, :issues,
-           :enumerations, :users, :issue_categories,
-           :projects_trackers,
-           :roles,
-           :member_roles,
-           :members,
-           :enabled_modules,
-           :versions,
-           :workflows
-
   def test_get_issue_report
     get(
       :issue_report,

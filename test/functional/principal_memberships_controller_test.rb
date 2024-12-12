@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class PrincipalMembershipsControllerTest < Redmine::ControllerTest
-  fixtures :projects, :users, :members, :member_roles, :roles, :groups_users
-
   def setup
     @request.session[:user_id] = 1
   end

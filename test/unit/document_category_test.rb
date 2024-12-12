@@ -20,8 +20,6 @@
 require_relative '../test_helper'
 
 class DocumentCategoryTest < ActiveSupport::TestCase
-  fixtures :enumerations, :documents, :issues
-
   def setup
     User.current = nil
   end

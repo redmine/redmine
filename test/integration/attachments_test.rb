@@ -20,15 +20,6 @@
 require_relative '../test_helper'
 
 class AttachmentsTest < Redmine::IntegrationTest
-  fixtures :projects, :enabled_modules,
-           :users, :email_addresses,
-           :roles, :members, :member_roles,
-           :trackers, :projects_trackers,
-           :issues, :issue_statuses, :enumerations,
-           :attachments,
-           :wiki_content_versions, :wiki_contents, :wiki_pages,
-           :journals, :journal_details
-
   def test_upload_should_set_default_content_type
     log_user('jsmith', 'jsmith')
     assert_difference 'Attachment.count' do

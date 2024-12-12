@@ -20,14 +20,6 @@
 require_relative '../test_helper'
 
 class IssueScopesTest < ActiveSupport::TestCase
-  fixtures :projects, :users, :members, :member_roles, :roles,
-           :groups_users,
-           :trackers, :projects_trackers,
-           :enabled_modules,
-           :versions, :issue_statuses, :issue_categories, :enumerations,
-           :issues,
-           :custom_fields, :custom_fields_projects, :custom_fields_trackers, :custom_values
-
   def setup
     User.current = nil
   end
