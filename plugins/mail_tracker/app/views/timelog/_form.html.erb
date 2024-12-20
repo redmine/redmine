@@ -1,0 +1,88 @@
+<%= error_messages_for 'time_entry' %>
+<%= back_url_hidden_field_tag %>
+
+<div class="box tabular">
+  <% if @time_entry.new_record? && params[:project_id] %>
+    <%= hidden_field_tag 'project_id', params[:project_id] %>
+  <% elsif @time_entry.new_record? && params[:issue_id] %>
+    <%= hidden_field_tag 'issue_id', params[:issue_id] %>
+  <% else %>
+    <p><%= f.select :project_id, project_tree_options_for_select(Project.allowed_to(:log_time).to_a, :selected => @time_entry.project, :include_blank => true), :required => true %></p>
+  <% end %>
+
+  <p>
+    <%= f.text_field :issue_id, :size => 6, :required => Setting.timelog_required_fields.include?('issue_id') %>
+    <span id="time_entry_issue">
+      <%=  link_to_issue(@time_entry.issue) if @time_entry.issue.try(:visible?) %>
+    </span>
+  </p>
+
+  <% if User.current.allowed_to?(:log_time_for_other_users, @project) %>
+    <p><%= f.select :user_id, user_collection_for_select_options(@time_entry), :required => true %></p>
+  <% elsif !@time_entry.new_record? %>
+    <p>
+      <%= f.label_for_field :user_id %>
+      <span><%= link_to_user(@time_entry.user) %></span>
+    </p>
+  <% end %>
+  <p><%= f.date_field :spent_on, :size => 10, :required => true, :min => minimum_time(User.current) %><%= calendar_for('time_entry_spent_on') %></p>
+  <p><%= f.hours_field :hours, :size => 6, :required => true %></p>
+  <p><%= f.text_field :comments, :size => 100, :maxlength => 1024, :required => Setting.timelog_required_fields.include?('comments') %></p>
+  <p><%= f.select :activity_id, activity_collection_for_select_options(@time_entry), :required => true %></p>
+  <% @time_entry.editable_custom_field_values.each do |value| %>
+    <p><%= custom_field_tag_with_label :time_entry, value %></p>
+    <% if value.custom_field.full_text_formatting? %>
+      <%= wikitoolbar_for "time_entry_custom_field_values_#{value.custom_field_id}", preview_issue_path(:project_id => @project) %>
+    <% end %>
+  <% end %>
+  <%= call_hook(:view_timelog_edit_form_bottom, { :time_entry => @time_entry, :form => f }) %>
+</div>
+
+<%= javascript_tag do %>
+  $(document).ready(function(){
+    $('#time_entry_project_id').change(function(){
+      $('#time_entry_issue_id').val('');
+    });
+    $('#time_entry_project_id, #time_entry_issue_id').change(function(){
+      $.ajax({
+        url: '<%= escape_javascript(@time_entry.new_record? ? new_time_entry_path(:format => 'js') : edit_time_entry_path(:format => 'js')) %>',
+        type: 'post',
+        data: $(this).closest('form').serialize()
+      });
+    });
+  });
+
+  observeAutocompleteField('time_entry_issue_id',
+    function(request, callback) {
+      var url = '<%= j auto_complete_issues_path %>';
+      var data = {
+        term: request.term
+      };
+      var project_id;
+      <% if @time_entry.new_record? && @project %>
+      project_id = '<%= @project.id %>';
+      <% else %>
+      project_id = $('#time_entry_project_id').val();
+      <% end %>
+      if(project_id){
+        data['project_id'] = project_id;
+      } else {
+        data['scope'] = 'all';
+      }
+
+      $.get(url, data, null, 'json')
+        .done(function(data){
+          callback(data);
+        })
+        .fail(function(jqXHR, status, error){
+          callback([]);
+        });
+    },
+    {
+      select: function(event, ui) {
+        $('#time_entry_issue').text('');
+        $('#time_entry_issue_id').val(ui.item.value).change();
+      }
+    }
+  );
+<% end %>

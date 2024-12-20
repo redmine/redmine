@@ -36,6 +36,7 @@ class TimelogController < ApplicationController
 
   helper :issues
   include TimelogHelper
+  helper :timelog
   helper :custom_fields
   include CustomFieldsHelper
   helper :queries
