@@ -541,7 +541,9 @@ en:
   setting_show_status_changes_in_mail_subject: Show status changes in issue mail notifications subject
   setting_project_list_defaults: Projects list defaults
   setting_twofa: Two-factor authentication
-
+  setting_allow_logging_time: Enable logging time till
+  setting_allow_logging_time_till: Set logging time till
+  
   permission_view_project_members: View project members
   permission_add_project: Create project
   permission_add_subprojects: Create subprojects

@@ -78,6 +78,11 @@ bulk_download_max_size:
   default: 102400
 attachment_extensions_allowed:
   default:
+allow_logging_time:
+  default: 1
+allow_logging_time_till:
+  format: date
+  default: '2021-01-01 10:00:00 +0300'
 attachment_extensions_denied:
   default:
 issues_export_limit:

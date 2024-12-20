@@ -25,6 +25,15 @@
 
 <p><%= setting_text_field :gantt_months_limit, :size => 6 %></p>
 
+<p>
+  <span>
+    <%= setting_check_box :allow_logging_time, { label: false } %>
+  </span>
+  <span>
+    <%= setting_time_field :allow_logging_time_till %>
+  </span>
+</p>
+
 </div>
 
 <fieldset class="box">

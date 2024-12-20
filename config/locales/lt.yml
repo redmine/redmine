@@ -428,6 +428,8 @@ lt:
   setting_repository_log_display_limit: Maksimalus revizijų skaičius rodomas failo žurnale
   setting_password_max_age: Reikalauti slaptažodžio pakeitimo po
   setting_password_min_length: Minimalus slaptažodžio ilgis
+  setting_allow_logging_time: Įjungti darbų laiko registravimo pabaigą
+  setting_allow_logging_time_till: Darbų laiko registravimo pabaiga
   setting_lost_password: Leisti slaptažodžio atstatymą elektroninu laišku
   setting_new_project_user_role_id: Vaidmuo suteiktas vartotojui, kuris nėra administratorius ir kuris sukuria projektą
   setting_default_projects_modules: Pagal nutylėjimą naujame projekte įjungti moduliai
