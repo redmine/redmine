@@ -37,6 +37,8 @@ Available IMAP options:
   host=HOST                IMAP server host (default: 127.0.0.1)
   port=PORT                IMAP server port (default: 143)
   ssl=SSL                  Use SSL/TLS? (default: false)
+                           Setting `ssl=force` disables server certificate
+                           verification
   starttls=STARTTLS        Use STARTTLS? (default: false)
   username=USERNAME        IMAP account
   password=PASSWORD        IMAP password

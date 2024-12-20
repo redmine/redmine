@@ -25,7 +25,15 @@ module Redmine
       def check(imap_options={}, options={})
         host = imap_options[:host] || '127.0.0.1'
         port = imap_options[:port] || '143'
-        ssl = !imap_options[:ssl].nil?
+        if imap_options[:ssl]
+          if imap_options[:ssl] == 'force'
+            ssl = {verify_mode: OpenSSL::SSL::VERIFY_NONE}
+          else
+            ssl = {verify_mode: OpenSSL::SSL::VERIFY_PEER}
+          end
+        else
+          ssl = false
+        end
         starttls = !imap_options[:starttls].nil?
         folder = imap_options[:folder] || 'INBOX'
 
