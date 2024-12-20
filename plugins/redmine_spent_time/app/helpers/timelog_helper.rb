@@ -164,4 +164,20 @@ module TimelogHelper
     activities.each { |a| collection << [a.name, a.id] }
     collection
   end
+
+  def minimum_time(current_user)
+    return nil unless Setting.allow_logging_time.eql?('1') || !current_user.admin
+
+    if Time.current.monday?
+      if Time.current.hour.to_i >= Setting.allow_logging_time_till.to_time.hour.to_i
+        Date.current.strftime('%Y-%m-%d')
+      else
+        prior_friday(Date.current)
+      end
+    elsif Time.current.hour.to_i >= Setting.allow_logging_time_till.to_time.hour.to_i
+      Date.current.strftime('%Y-%m-%d')
+    else
+      Date.yesterday.strftime('%Y-%m-%d')
+    end
+  end
 end
