@@ -1,4 +1,4 @@
-module Setting
+module SettingPatch
   def self.included(base)
     base.class_eval do
       def self.set_from_params(name, params)
