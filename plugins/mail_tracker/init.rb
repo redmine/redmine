@@ -25,4 +25,5 @@ Proc.new do
   ReportsController.send(:include, ReportsControllerPatch)
   WatchersController.send(:include, WatchersControllerPatch)
   ApplicationHelper.send(:include, ApplicationHelperPatch)
+  IssuesController.send(:include, IssuesControllerPatch)
 end.call
