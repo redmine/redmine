@@ -1850,7 +1850,7 @@ span.icon-label {
 .open .icon-folder:not(:has(svg)) { background-image: url(/folder_open.png); }
 .icon-package:not(:has(svg)) { background-image: url(/package.png); }
 .icon-user:not(:has(svg)) { background-image: url(/user.png); }
-.icon-project, .icon-projects:not(:has(svg)) { background-image: url(/projects.png); }
+.icon-project:not(:has(svg)), .icon-projects:not(:has(svg)) { background-image: url(/projects.png); }
 .icon-help:not(:has(svg)) { background-image: url(/help.png); }
 .icon-attachment:not(:has(svg)) { background-image: url(/attachment.png); }
 .icon-history:not(:has(svg)) { background-image: url(/history.png); }

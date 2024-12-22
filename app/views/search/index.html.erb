@@ -51,12 +51,13 @@
     <h3><%= l(:label_result_plural) %> (<%= @result_count %>)</h3>
     <% if @result_count_by_type['issues'].to_i > 0 && @search_attachments == '0' %>
       <p class="buttons">
-        <%= link_to l(:button_apply_issues_filter), issues_filter_path(@question, projects_scope: params[:scope], all_words: @all_words, titles_only: @titles_only, open_issues: @open_issues), :class => 'icon icon-list' %>
+        <%= link_to sprite_icon('list', l(:button_apply_issues_filter)), issues_filter_path(@question, projects_scope: params[:scope], all_words: @all_words, titles_only: @titles_only, open_issues: @open_issues), :class => 'icon icon-list' %>
       </p>
     <% end %>
     <dl id="search-results">
       <% @results.each do |e| %>
         <dt class="<%= e.event_type %> icon icon-<%= e.event_type %>">
+          <%= sprite_icon(e.event_type) %>
           <%= content_tag('span', e.project, :class => 'project') unless @project == e.project %>
           <%= link_to(highlight_tokens(e.event_title.truncate(255), @tokens), e.event_url) %>
         </dt>
