@@ -760,7 +760,8 @@ div.journal span.update-info {color: #666; font-size: 0.9em;}
 #history p.nodata {display: none;}
 
 div#activity dl, #search-results { margin-left: 2em; }
-div#activity dd, #search-results dd { margin-bottom: 1em; padding-left: 18px; font-size: 0.9em; }
+div#activity dd, #search-results dd { margin-bottom: 1em; padding-left: 22px; font-size: 0.9em; }
+div#activity dt svg.icon-svg {margin-right: 4px;}
 div#activity dt.me .time { border-bottom: 1px solid #999; }
 div#activity dt .time { color: #777; font-size: 93%; margin-right: 4px; }
 div#activity dd .description, #search-results dd .description { font-style: italic; }
@@ -777,6 +778,8 @@ div#activity dt {
   border-top: 1px solid #eeeeee;
   width: 100%; /* Prevents border from disappearing due to inline-flex shrinking */
   box-sizing: border-box;
+  display: flex;
+  align-items: flex-end;
 }
 div#activity dl dt:first-child {
   border: 0px;
@@ -1960,7 +1963,7 @@ div.gravatar-with-child > img.gravatar:nth-child(2) {
 h2 img.gravatar, h3 img.gravatar {margin-right: 4px;}
 h4 img.gravatar {margin: -2px 4px -4px 0;}
 td.username img.gravatar {margin: 0 0.5em 0 0; vertical-align: top;}
-#activity dt img.gravatar {float: left; margin: 0 1em 1em 0;}
+#activity dt img.gravatar {margin: 0 1em 0 0;}
 /* Used on 12px Gravatar img tags without the icon background */
 .icon-gravatar {float: left; margin-right: 4px;}
 
