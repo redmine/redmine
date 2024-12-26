@@ -112,7 +112,7 @@ group :test do
   # RuboCop
   gem 'rubocop', '~> 1.69.0', require: false
   gem 'rubocop-performance', '~> 1.23.0', require: false
-  gem 'rubocop-rails', '~> 2.27.0', require: false
+  gem 'rubocop-rails', '~> 2.28.0', require: false
   gem 'bundle-audit', require: false
 end
 
