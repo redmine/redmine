@@ -414,7 +414,7 @@ module ApplicationHelper
   end
 
   def format_activity_description(text)
-    h(text.to_s.truncate(120).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')).
+    h(text.to_s.truncate(240).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')).
       gsub(/[\r\n]+/, "<br />").html_safe
   end
 
