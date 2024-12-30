@@ -178,6 +178,7 @@ function drawSelectedColumns(){
         $(this).show();
         var column_name = $(this).attr('id');
         $(this).resizable({
+          zIndex: 30,
           alsoResize: '.gantt_' + column_name + '_container, .gantt_' + column_name + '_container > .gantt_hdr',
           minWidth: 20,
           handles: "e",
@@ -220,6 +221,7 @@ function resizableSubjectColumn(){
     alsoResize: '.gantt_subjects_container, .gantt_subjects_container>.gantt_hdr, .project-name, .issue-subject, .version-name',
     minWidth: 100,
     handles: 'e',
+    zIndex: 30,
     create: function( event, ui ) {
       $('.ui-resizable-e').css('cursor','ew-resize');
     }
