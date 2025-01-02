@@ -2329,6 +2329,35 @@ class ApplicationHelperTest < Redmine::HelperTest
     end
   end
 
+  def test_format_activity_description_should_strip_quoted_text
+    text = <<~TEXT
+      John Smith wrote in #note-1:
+      > The quick brown fox
+      > jumps over the lazy dog.
+
+      Brick quiz whangs jumpy veldt fox.
+
+      > The five
+
+      > boxing wizards
+
+      > jump quickly.
+
+      The quick onyx goblin jumps over the lazy dwarf.
+    TEXT
+
+    expected =
+      'John Smith wrote in #note-1:<br>' \
+      '&gt; The quick brown fox<br>' \
+      '&gt; ...<br>' \
+      'Brick quiz whangs jumpy veldt fox.<br>' \
+      '&gt; The five<br>' \
+      '&gt; ...<br>' \
+      'The quick onyx goblin jumps over the lazy dwarf.<br>'
+
+    assert_equal expected, format_activity_description(text)
+  end
+
   private
 
   def wiki_links_with_special_characters

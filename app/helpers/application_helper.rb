@@ -414,8 +414,16 @@ module ApplicationHelper
   end
 
   def format_activity_description(text)
-    h(text.to_s.truncate(240).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')).
-      gsub(/[\r\n]+/, "<br />").html_safe
+    h(
+      # Limit input to avoid regex performance issues
+      text.to_s.slice(0, 10240)
+      # Abbreviate consecutive quoted lines as '> ...', keeping the first line
+      .gsub(%r{(^>.*?(?:\r?\n))(?:>.*?(?:\r?\n)+)+}m, "\\1> ...\n")
+      # Remove all content following the first <pre> or <code> tag
+      .sub(%r{[\r\n]*<(pre|code)>.*$}m, '')
+      # Truncate the description to a specified length and append '...'
+      .truncate(240)
+    ).gsub(/[\r\n]+/, "<br>").html_safe
   end
 
   def format_version_name(version)
