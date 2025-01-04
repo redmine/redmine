@@ -763,13 +763,13 @@ div.journal span.update-info {color: #666; font-size: 0.9em;}
 #history p.nodata {display: none;}
 
 div#activity dl, #search-results { margin-left: 2em; }
-div#activity dd, #search-results dd { margin-bottom: 1em; padding-left: 22px; font-size: 0.9em; }
+div#activity dd, #search-results dd { margin-bottom: 1em; padding-left: 22px; font-size: 0.8125rem;}
 div#activity dt svg.icon-svg {margin-right: 4px;}
 div#activity dt.me .time { border-bottom: 1px solid #999; }
-div#activity dt .time { color: #777; font-size: 93%; margin-right: 4px; }
-div#activity dd .description, #search-results dd .description { font-style: italic; }
+div#activity dt .time { color: #555; font-size: 0.8125rem; margin-right: 4px; }
+div#activity dd .description, #search-results dd .description { font-style: italic; margin: 2px 0;}
 div#activity span.project:after, #search-results span.project:after { content: " -"; }
-div#activity dd span.description, #search-results dd span.description { display:block; color: #808080; }
+div#activity dd span.description, #search-results dd span.description { display:block; color: #666; }
 div#activity dt.grouped {padding-left:5em;}
 div#activity dd.grouped {margin-left:9em;}
 div#activity h3 {
