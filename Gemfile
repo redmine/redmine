@@ -13,7 +13,7 @@ gem 'nokogiri', '~> 1.18.0'
 gem 'i18n', '~> 1.14.1'
 gem 'rbpdf', '~> 1.21.3'
 gem 'addressable'
-gem 'rubyzip', '~> 2.3.0'
+gem 'rubyzip', '~> 2.4.0'
 gem 'propshaft', '~> 1.1.0'
 gem 'rack', '>= 3.1.3'
 
