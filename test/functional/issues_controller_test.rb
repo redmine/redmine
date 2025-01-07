@@ -2642,18 +2642,47 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_show_should_not_display_prev_next_links_for_issue_not_in_query_results
-    @request.session[:issue_query] =
-      {
-        :filters => {
-          'status_id' => {:values => [''], :operator => 'c'}
-        },
-        :project_id => 1,
-        :sort => [['id', 'asc']]
-      }
-    get(:show, :params => {:id => 1})
+    @request.session[:issue_query] = {
+      filters: {
+        'status_id' => {operator: 'o', values: ['']}
+      },
+      project_id: 1,
+      sort: [['id', 'asc']]
+    }
+    get(:show, params: {id: 8})
+
     assert_response :success
-    assert_select 'a', :text => /Previous/, :count => 0
-    assert_select 'a', :text => /Next/, :count => 0
+    assert_select 'a', text: /Previous/, count: 0
+    assert_select 'a', text: /Next/, count: 0
+  end
+
+  def test_show_should_display_prev_next_links_for_issue_not_in_query_when_flash_contains_previous_and_next_issue_ids
+    @request.session[:issue_query] = {
+      filters: {
+        'status_id' => {operator: 'o', values: ['']}
+      },
+      project_id: 1,
+      sort: [['id', 'asc']]
+    }
+    get(
+      :show,
+      params: { id: 8 }, # The issue#8 is closed
+      flash: {
+        previous_and_next_issue_ids: {
+          prev_issue_id: 7,
+          next_issue_id: 9,
+          issue_position: 7,
+          issue_count: 10
+        }
+      }
+    )
+
+    assert_response :success
+    assert_select 'div.next-prev-links' do
+      assert_select 'a[href="/issues/7"]', text: /Previous/
+      assert_select 'a[href="/issues/9"]', text: /Next/
+      assert_select 'span.position', text: "7 of 10"
+    end
   end
 
   def test_show_show_should_display_prev_next_links_with_query_sort_by_user_custom_field
@@ -2681,25 +2710,6 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'div.next-prev-links' do
       assert_select 'a[href="/issues/2"]', :text => /Previous/
       assert_select 'a[href="/issues/1"]', :text => /Next/
-    end
-  end
-
-  def test_show_should_display_prev_next_links_when_request_has_previous_and_next_issue_ids_params
-    get(
-      :show,
-      :params => {
-        :id => 1,
-        :prev_issue_id => 1,
-        :next_issue_id => 3,
-        :issue_position => 2,
-        :issue_count => 4
-      }
-    )
-    assert_response :success
-    assert_select 'div.next-prev-links' do
-      assert_select 'a[href="/issues/1"]', :text => /Previous/
-      assert_select 'a[href="/issues/3"]', :text => /Next/
-      assert_select 'span.position', :text => "2 of 4"
     end
   end
 
@@ -6903,7 +6913,11 @@ class IssuesControllerTest < Redmine::ControllerTest
         :issue_count => 3
       }
     )
-    assert_redirected_to '/issues/11?issue_count=3&issue_position=2&next_issue_id=12&prev_issue_id=8'
+    assert_redirected_to '/issues/11'
+    assert_equal(
+      { issue_count: '3', issue_position: '2', next_issue_id: '12', prev_issue_id: '8' },
+      flash[:previous_and_next_issue_ids]
+    )
   end
 
   def test_update_with_permission_on_tracker_should_be_allowed

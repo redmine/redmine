@@ -224,9 +224,8 @@ class IssuesController < ApplicationController
       end
       respond_to do |format|
         format.html do
-          redirect_back_or_default(
-            issue_path(@issue, previous_and_next_issue_ids_params)
-          )
+          redirect_back_or_default issue_path(@issue),
+            flash: { previous_and_next_issue_ids: previous_and_next_issue_ids_params }
         end
         format.api  {render_api_ok}
       end
@@ -512,11 +511,14 @@ class IssuesController < ApplicationController
   end
 
   def retrieve_previous_and_next_issue_ids
-    if params[:prev_issue_id].present? || params[:next_issue_id].present?
-      @prev_issue_id = params[:prev_issue_id].presence.try(:to_i)
-      @next_issue_id = params[:next_issue_id].presence.try(:to_i)
-      @issue_position = params[:issue_position].presence.try(:to_i)
-      @issue_count = params[:issue_count].presence.try(:to_i)
+    if flash.key?(:previous_and_next_issue_ids)
+      flash[:previous_and_next_issue_ids].then do |info|
+        @prev_issue_id = info[:prev_issue_id].presence.try(:to_i)
+        @next_issue_id = info[:next_issue_id].presence.try(:to_i)
+        @issue_position = info[:issue_position].presence.try(:to_i)
+        @issue_count = info[:issue_count].presence.try(:to_i)
+      end
+      flash.delete(:previous_and_next_issue_ids)
     else
       retrieve_query_from_session
       if @query
