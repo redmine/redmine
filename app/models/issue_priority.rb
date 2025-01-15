@@ -60,11 +60,15 @@ class IssuePriority < Enumeration
   end
 
   def high?
-    position > self.class.default_or_middle.position
+    return false unless (baseline_position = self.class.default_or_middle&.position)
+
+    position > baseline_position
   end
 
   def low?
-    position < self.class.default_or_middle.position
+    return false unless (baseline_position = self.class.default_or_middle&.position)
+
+    position < baseline_position
   end
 
   # Updates position_name for active priorities
