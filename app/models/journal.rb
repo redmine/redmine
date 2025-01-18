@@ -104,6 +104,15 @@ class Journal < ApplicationRecord
     (details.empty? && notes.blank?) ? false : super()
   end
 
+  def journalized
+    if journalized_type == 'Issue' && association(:issue).loaded?
+      # Avoid extra query by using preloaded association
+      issue
+    else
+      super
+    end
+  end
+
   # Returns journal details that are visible to user
   def visible_details(user=User.current)
     details.select do |detail|
