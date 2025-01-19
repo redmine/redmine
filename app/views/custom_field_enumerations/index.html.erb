@@ -6,7 +6,7 @@
   <ul id="custom_field_enumerations" class="flat">
   <% @custom_field.enumerations.each_with_index do |value, position| %>
     <li>
-      <span class="icon-only icon-sort-handle sort-handle"></span>
+      <%= tag.span(sprite_icon('reorder', ''), :class => 'icon-only icon-sort-handle sort-handle', :title => l(:button_move)) %>
       <%= hidden_field_tag "custom_field_enumerations[#{value.id}][position]", position, :class => 'position' %>
       <%= text_field_tag "custom_field_enumerations[#{value.id}][name]", value.name, :size => 40 %>
       <%= hidden_field_tag "custom_field_enumerations[#{value.id}][active]", 0 %>
