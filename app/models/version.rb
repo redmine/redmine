@@ -312,10 +312,7 @@ class Version < ApplicationRecord
   end
 
   def wiki_page
-    if project.wiki && !wiki_page_title.blank?
-      @wiki_page ||= project.wiki.find_page(wiki_page_title)
-    end
-    @wiki_page
+    @wiki_page ||= project.wiki&.find_page(wiki_page_title) if wiki_page_title.present?
   end
 
   def to_s; name end
