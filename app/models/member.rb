@@ -67,15 +67,13 @@ class Member < ApplicationRecord
     ids |= member_roles.select {|mr| !mr.inherited_from.nil?}.collect(&:role_id)
 
     new_role_ids = ids - role_ids
+    obsolete_role_ids = role_ids - ids
     # Add new roles
     new_role_ids.each do |id|
       member_roles << MemberRole.new(:role_id => id, :member => self)
     end
     # Remove roles (Rails' #role_ids= will not trigger MemberRole#on_destroy)
-    member_roles_to_destroy = member_roles.select {|mr| !ids.include?(mr.role_id)}
-    if member_roles_to_destroy.any?
-      member_roles_to_destroy.each(&:destroy)
-    end
+    member_roles.where(role_id: obsolete_role_ids).destroy_all
     member_roles.reload
     super(ids)
   end
