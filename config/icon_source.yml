@@ -115,6 +115,8 @@
   svg: refresh
 - name: projects
   svg: packages
+- name: project
+  svg: packages
 - name: package
   svg: package
 - name: custom-fields
@@ -131,6 +133,10 @@
   svg: message
 - name: comment
   svg: message
+- name: message
+  svg: message
+- name: reply
+  svg: messages
 - name: arrow-right
   svg: arrow-big-right
 - name: wiki-page
