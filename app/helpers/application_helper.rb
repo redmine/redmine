@@ -352,6 +352,7 @@ module ApplicationHelper
         :srcset => "#{thumbnail_path} 2x",
         :style => "max-width: #{thumbnail_size}px; max-height: #{thumbnail_size}px;",
         :title => attachment.filename,
+        :alt => attachment.filename,
         :loading => "lazy"
       ),
       attachment_path(
