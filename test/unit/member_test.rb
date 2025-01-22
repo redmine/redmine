@@ -58,6 +58,39 @@ class MemberTest < ActiveSupport::TestCase
     assert_equal 2, @jsmith.reload.roles.size
   end
 
+  def test_update_roles_with_inherited_roles
+    User.current = User.find(1)
+
+    project = Project.find(1)
+    group_a = Group.generate!
+    group_b = Group.generate!
+    test_user = User.generate!
+    group_a.users << test_user
+    group_b.users << test_user
+
+    # Verify that inherited roles are correctly assigned
+    group_a_member = Member.new(project: project, user_id: group_a.id)
+    group_a_member.set_editable_role_ids([1]) # Add Manager role to Group A
+    group_b_member = Member.new(project: project, user_id: group_b.id)
+    group_b_member.set_editable_role_ids([1, 2]) # Add Manager and Developer roles to Group B
+    project.members << [group_a_member, group_b_member]
+    test_user_member = test_user.members.find_by(project_id: project.id)
+    assert_equal [ # [role_id, inherited_from]
+      [1, group_a_member.member_roles.find_by(role_id: 1).id],
+      [1, group_b_member.member_roles.find_by(role_id: 1).id],
+      [2, group_b_member.member_roles.find_by(role_id: 2).id],
+    ], test_user_member.member_roles.map{|r| [r.role_id, r.inherited_from]}
+
+    # Verify that a new non-inherited role is added and inherited roles are maintained
+    test_user_member.set_editable_role_ids([3]) # Add Reporter role to test_user
+    assert_equal [ # [role_id, inherited_from]
+      [1, group_a_member.member_roles.find_by(role_id: 1).id],
+      [1, group_b_member.member_roles.find_by(role_id: 1).id],
+      [2, group_b_member.member_roles.find_by(role_id: 2).id],
+      [3, nil]
+    ], test_user_member.member_roles.map{|r| [r.role_id, r.inherited_from]}
+  end
+
   def test_validate
     member = Member.new(:project_id => 1, :user_id => 2, :role_ids => [2])
     # same use cannot have more than one membership for a project
