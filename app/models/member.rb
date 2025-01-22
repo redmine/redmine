@@ -64,7 +64,7 @@ class Member < ActiveRecord::Base
   def role_ids=(arg)
     ids = (arg || []).collect(&:to_i) - [0]
     # Keep inherited roles
-    ids += member_roles.select {|mr| !mr.inherited_from.nil?}.collect(&:role_id)
+    ids |= member_roles.select {|mr| !mr.inherited_from.nil?}.collect(&:role_id)
 
     new_role_ids = ids - role_ids
     # Add new roles
