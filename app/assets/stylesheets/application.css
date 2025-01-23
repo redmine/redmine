@@ -1126,8 +1126,8 @@ div.attachments img { vertical-align: middle; }
 div.attachments span.author { font-size: 0.9em; color: #888; }
 
 div.thumbnails {margin:0.6em;}
-div.thumbnails div {background:#fff;border:2px solid #ddd;display:inline-block;margin-right:2px;}
-div.thumbnails img {margin: 3px; vertical-align: middle;}
+div.thumbnail {background:#fff;border:2px solid #ddd;display:inline-block;margin-right:2px;}
+div.thumbnail img {margin: 3px; vertical-align: middle;}
 #history div.thumbnails {margin-left: 2em;}
 
 p.other-formats { text-align: right; font-size:0.9em; color: #666; }

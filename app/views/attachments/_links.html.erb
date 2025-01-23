@@ -42,7 +42,7 @@
   <% if images.any? %>
   <div class="thumbnails">
     <% images.each do |attachment| %>
-      <div><%= thumbnail_tag(attachment) %></div>
+      <%= thumbnail_tag(attachment) %>
     <% end %>
   </div>
   <% end %>

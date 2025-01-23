@@ -346,19 +346,18 @@ module ApplicationHelper
   def thumbnail_tag(attachment)
     thumbnail_size = Setting.thumbnails_size.to_i
     thumbnail_path = thumbnail_path(attachment, :size => thumbnail_size * 2)
-    link_to(
-      image_tag(
-        thumbnail_path,
-        :srcset => "#{thumbnail_path} 2x",
-        :style => "max-width: #{thumbnail_size}px; max-height: #{thumbnail_size}px;",
-        :title => attachment.filename,
-        :alt => attachment.filename,
-        :loading => "lazy"
-      ),
-      attachment_path(
-        attachment
+    tag.div class: 'thumbnail', title: attachment.filename do
+      link_to(
+        image_tag(
+          thumbnail_path,
+          :srcset => "#{thumbnail_path} 2x",
+          :style => "max-width: #{thumbnail_size}px; max-height: #{thumbnail_size}px;",
+          :alt => attachment.filename,
+          :loading => "lazy"
+        ),
+        attachment_path(attachment)
       )
-    )
+    end
   end
 
   def toggle_link(name, id, options={})
