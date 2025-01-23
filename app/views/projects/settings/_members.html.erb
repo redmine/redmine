@@ -19,9 +19,11 @@
   <% members.each do |member| %>
   <% next if member.new_record? %>
   <tr id="member-<%= member.id %>" class="member">
-  <td class="name icon icon-<%= member.principal.class.name.downcase %>">
-    <%= principal_icon(member.principal) %>
-    <%= link_to_user member.principal %>
+  <td class="name">
+    <span class="icon">
+      <%= principal_icon(member.principal) %>
+      <%= link_to_user member.principal %>
+    </span>
   </td>
   <td class="roles">
     <span id="member-<%= member.id %>-roles"><%= member.roles.sort.collect(&:to_s).join(', ') %></span>
