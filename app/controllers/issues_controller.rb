@@ -112,8 +112,13 @@ class IssuesController < ApplicationController
     respond_to do |format|
       format.html do
         @priorities = IssuePriority.active
-        @time_entry = TimeEntry.new(:issue => @issue, :project => @issue.project)
-        @time_entries = @issue.time_entries.visible.preload(:activity, :user)
+        if @project.module_enabled?(:time_tracking)
+          @time_entry = TimeEntry.new(:issue => @issue, :project => @issue.project)
+          @time_entries = @issue.time_entries.visible.preload(:activity, :user)
+        else
+          @time_entry = nil
+          @time_entries = []
+        end
         @relation = IssueRelation.new
         @has_changesets = @issue.changesets.visible.preload(:repository, :user).exists?
         retrieve_previous_and_next_issue_ids
