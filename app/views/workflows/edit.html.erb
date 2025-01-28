@@ -15,12 +15,12 @@
 <p>
   <label><%=l(:label_role)%>:
   <%= options_for_workflow_select 'role_id[]', Role.sorted.select(&:consider_workflow?), @roles, :id => 'role_id', :class => 'expandable' %>
-  <span class="toggle-multiselect icon-only"></span>
+  <span class="toggle-multiselect icon-only"><%= sprite_icon('') %></span>
   </label>
 
   <label><%=l(:label_tracker)%>:
   <%= options_for_workflow_select 'tracker_id[]', Tracker.sorted, @trackers, :id => 'tracker_id', :class => 'expandable' %>
-  <span class="toggle-multiselect icon-only"></span>
+  <span class="toggle-multiselect icon-only"><%= sprite_icon('') %></span>
   </label>
 
   <%= submit_tag l(:button_edit), :name => nil %>

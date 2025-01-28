@@ -209,9 +209,20 @@ function buildFilterRow(field, operator, values) {
   case "list_optional_with_history":
   case "list_status":
   case "list_subprojects":
+    const iconType = values.length > 1 ? 'toggle-minus' : 'toggle-plus';
+    const clonedIcon = document.querySelector('#icon-copy-source svg').cloneNode(true);
+    updateSVGIcon(clonedIcon, iconType);
+
     tr.find('.values').append(
-      '<span style="display:none;"><select class="value" id="values_'+fieldId+'_1" name="v['+field+'][]"></select>' +
-      ' <span class="toggle-multiselect icon-only '+(values.length > 1 ? 'icon-toggle-minus' : 'icon-toggle-plus')+'">&nbsp;</span></span>'
+      $('<span>', { style: 'display:none;' }).append(
+        $('<select>', {
+          class: 'value',
+          id: `values_${fieldId}_1`,
+          name: `v[${field}][]`,
+        }),
+        '\n',
+        $('<span>', { class: `toggle-multiselect icon-only icon-${iconType}` }).append(clonedIcon)
+      )
     );
     select = tr.find('.values select');
     if (values.length > 1) { select.attr('multiple', true); }
@@ -1010,12 +1021,16 @@ function toggleDisabledInit() {
   $('input[data-disables], input[data-enables], input[data-shows]').each(toggleDisabledOnChange);
 }
 function toggleMultiSelectIconInit() {
-  $('.toggle-multiselect:not(.icon-toggle-minus), .toggle-multiselect:not(.icon-toggle-plus)').each(function(){
-    if ($(this).siblings('select').find('option:selected').length > 1){
-      $(this).addClass('icon-toggle-minus');
+  $('.toggle-multiselect:not(.icon-toggle-minus):not(.icon-toggle-plus)').each(function(){
+    let iconType;
+    if ($(this).siblings('select').find('option:selected').length > 1) {
+      iconType = 'toggle-minus';
     } else {
-      $(this).addClass('icon-toggle-plus');
+      iconType = 'toggle-plus';
     }
+
+    $(this).addClass(`icon-${iconType}`);
+    updateSVGIcon($(this).find('svg')[0], iconType);
   });
 }
 
@@ -1061,6 +1076,7 @@ $(document).ready(function(){
   $('#content').on('click', '.toggle-multiselect', function() {
     toggleMultiSelect($(this).siblings('select'));
     $(this).toggleClass('icon-toggle-plus icon-toggle-minus');
+    updateSVGIcon($(this).find('svg')[0], $(this).hasClass('icon-toggle-plus') ? 'toggle-plus' : 'toggle-minus');
   });
   toggleMultiSelectIconInit();
 
