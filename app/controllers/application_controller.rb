@@ -513,7 +513,7 @@ class ApplicationController < ActionController::Base
         end
       end
       # Remove unnecessary components to convert the URL into a relative URL
-      uri.omit!(:scheme, :userinfo, :host, :port)
+      uri.omit!(:scheme, :authority)
     rescue Addressable::URI::InvalidURIError
       return false
     end
