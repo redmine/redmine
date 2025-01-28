@@ -1910,8 +1910,8 @@ span.icon-label {
 .icon-bookmarked-project:not(:has(svg)) { background-image: url(/tag_blue.png); }
 .icon-sorted-asc:not(:has(svg)) { background-image: url(/arrow_down.png); }
 .icon-sorted-desc:not(:has(svg)) { background-image: url(/arrow_up.png); }
-.icon-toggle-plus { background-image: url(/bullet_toggle_plus.png) }
-.icon-toggle-minus { background-image: url(/bullet_toggle_minus.png) }
+.icon-toggle-plus:not(:has(svg)) { background-image: url(/bullet_toggle_plus.png) }
+.icon-toggle-minus:not(:has(svg)) { background-image: url(/bullet_toggle_minus.png) }
 .icon-clear-query:not(:has(svg)) { background-image: url(/close_hl.png); }
 .icon-import:not(:has(svg)) { background-image: url(/database_go.png); }
 

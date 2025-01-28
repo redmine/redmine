@@ -142,8 +142,6 @@ fieldset.collapsible.collapsed>legend { background-image: url(/arrow_left.png); 
 
 fieldset#filters td.add-filter {text-align:left; }
 
-.toggle-multiselect {background: url(/bullet_toggle_plus.png) no-repeat right 40%; padding-left:0px; padding-right:8px; margin-right:0;}
-
 div#issue-changesets {float:left;  margin-left:0em; margin-right:1em; padding-left:0em; padding-right:1em;}
 
 .journal ul.details img {margin:0 4px -3px 0;}
