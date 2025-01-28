@@ -511,11 +511,9 @@ class ApplicationController < ActionController::Base
         if uri.send(component).present? && uri.send(component) != request.send(component)
           return false
         end
-
-        uri.send(:"#{component}=", nil)
       end
-      # Always ignore basic user:password in the URL
-      uri.userinfo = nil
+      # Remove unnecessary components to convert the URL into a relative URL
+      uri.omit!(:scheme, :userinfo, :host, :port)
     rescue Addressable::URI::InvalidURIError
       return false
     end
