@@ -4,6 +4,60 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2025-01-29 v6.0.3
+
+=== [Accounts / authentication]
+
+* Defect #41930: Redirection after signing in fails when the back_url includes a port number
+
+=== [Activity view]
+
+* Defect #42003: Misalignment of icons and titles in Activity view
+* Defect #42070: Whitespace missing after hyphen between project name and event title in Activity view
+* Feature #42038: Improve readability by adjusting font sizes and colors in activity view and search results
+
+=== [Attachments]
+
+* Defect #42084: Placeholder icon for non-existent thumbnail flickers rapidly on hover
+
+=== [Code cleanup/refactoring]
+
+* Defect #42088: Fix incorrect syntax in application.css on 6.0-stable
+* Patch #41961: Use `fixtures :all` to ensure consistent test data and improve test reliability
+* Patch #42089: Fix Lint workflow error on 6.0-stable due to unsupported ruby/setup-ruby on Ubuntu 24.04
+* Patch #42140: Update footer copyright year to 2025
+
+=== [Gantt]
+
+* Defect #41925: Context menu submenus close unexpectedly on Gantt chart due to z-index conflict
+
+=== [Gems support]
+
+* Defect #42013: Redmine fails to start with error: Unknown database adapter `"mysql2"` found in config/database.yml
+
+=== [Issues]
+
+* Defect #42066: NoMethodError exception occurs in IssuePriority#high and #low when both default and active priorities are absent
+
+=== [Permissions and roles]
+
+* Defect #42106: Member roles are incorrectly added when a user's memberships are updated
+
+=== [Rails support]
+
+* Defect #42113: Redmine 5.x not starting with ActiveSupport Logger error
+* Patch #41970: Updates Rails to 7.2.2.1
+
+=== [UI]
+
+* Defect #42023: Search results page uses legacy icons
+* Defect #42051: "Font used for text areas" setting causes inconsistent font size
+* Defect #42117: Key-value list reorder icon uses legacy icon
+* Defect #42126: The member table layout breaks due to .icon class on td elements
+* Defect #42130: Multiselect toggle uses legacy icons
+* Feature #42005: Improve readability of error pages by updating fonts and layout
+* Feature #42072: Adjust font size for breadcrumb and subtitle to improve readability and consistency
+
 == 2024-12-11 v6.0.2
 
 === [Accounts / authentication]
