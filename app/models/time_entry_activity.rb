@@ -58,36 +58,36 @@ class TimeEntryActivity < Enumeration
   end
 
   def self.default_activity_id(user=nil, project=nil)
-    default_activities = []
-    default_activity = nil
     available_activities = self.available_activities(project)
+    return nil if available_activities.empty?
+    return available_activities.first.id if available_activities.one?
+
+    find_matching_activity = ->(ids) do
+      ids.each do |id|
+        activity = available_activities.detect { |a| a.id == id || a.parent_id == id }
+        return activity.id if activity
+      end
+      nil
+    end
 
     if project && user
-      user_membership = user.membership(project)
-      if user_membership
-        default_activities = user_membership.roles.where.not(:default_time_entry_activity_id => nil).sort.pluck(:default_time_entry_activity_id)
+      if (user_membership = user.membership(project))
+        activity_ids = user_membership.roles.where.not(:default_time_entry_activity_id => nil).sort.pluck(:default_time_entry_activity_id)
+        aid = find_matching_activity.call(activity_ids)
+        return aid if aid
       end
 
-      project_default_activity = self.default(project)
-      if project_default_activity && !default_activities.include?(project_default_activity.id)
-        default_activities << project_default_activity.id
+      if (project_default_activity = self.default(project))
+        aid = find_matching_activity.call([project_default_activity.id])
+        return aid if aid
       end
     end
 
-    global_activity = self.default
-    if global_activity && !default_activities.include?(global_activity.id)
-      default_activities << global_activity.id
+    if (global_activity = self.default)
+      aid = find_matching_activity.call([global_activity.id])
+      return aid if aid
     end
 
-    if available_activities.count == 1 && !default_activities.include?(available_activities.first.id)
-      default_activities << available_activities.first.id
-    end
-
-    default_activities.each do |id|
-      default_activity = available_activities.detect{ |a| a.id == id || a.parent_id == id }
-      break unless default_activity.nil?
-    end
-
-    default_activity&.id
+    nil
   end
 end
