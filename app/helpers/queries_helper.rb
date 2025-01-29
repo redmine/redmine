@@ -363,7 +363,7 @@ module QueriesHelper
             session[session_key].nil? ||
             session[session_key][:project_id] != (@project ? @project.id : nil)
       # Give it a name, required to be valid
-      @query = klass.new(:name => "_", :project => @project)
+      @query = klass.new(:name => "_", :project => @project, :visibility => 0)
       @query.build_from_params(params, options[:defaults])
       if use_session
         session[session_key] = {
