@@ -24,7 +24,7 @@ class OptionsParser
       opts.separator 'Required specific options:'
 
       opts.on('-i', '--version_id VERSIONID',
-              'Numerical id of the version [int]') do |i|
+              'Numerical id of the version [int]. Multiple IDs can be specified using the format `"196|197"`') do |i|
         options.version_id = i
       end
 
