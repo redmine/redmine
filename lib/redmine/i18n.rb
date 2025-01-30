@@ -94,8 +94,9 @@ module Redmine
 
       minutes = (hours * 60).round
       if Setting.timespan_format == 'minutes'
-        h, m = minutes.divmod(60)
-        "%d:%02d" % [h, m]
+        h, m = minutes.abs.divmod(60)
+        sign = minutes.negative? ? '-' : ''
+        "%s%d:%02d" % [sign, h, m]
       else
         number_with_delimiter(sprintf('%.2f', minutes.fdiv(60)), delimiter: nil)
       end
