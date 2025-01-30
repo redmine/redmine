@@ -58,7 +58,7 @@ class TimeEntryActivity < Enumeration
   end
 
   def self.default_activity_id(user=nil, project=nil)
-    available_activities = self.available_activities(project)
+    available_activities = self.available_activities(project).load
     return nil if available_activities.empty?
     return available_activities.first.id if available_activities.one?
 
