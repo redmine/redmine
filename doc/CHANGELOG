@@ -4,6 +4,16 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2025-01-30 v5.0.11
+
+=== [Code cleanup/refactoring]
+
+* Patch #42140: Update footer copyright year to 2025
+
+=== [Rails support]
+
+* Defect #42113: Redmine 5.x not starting with ActiveSupport Logger error
+
 == 2024-11-03 v5.0.10
 
 === [Code cleanup/refactoring]
