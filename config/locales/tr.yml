@@ -280,7 +280,7 @@ tr:
   field_is_filter: süzgeç olarak kullanılmış
   field_issue_to: İlişkili iş
   field_delay: Gecikme
-  field_assignable: Bu role atanabilecek işler
+  field_assignable: Bu roldeki kullanıcılara iş atanabilir
   field_redirect_existing_links: Mevcut bağlantıları yönlendir
   field_estimated_hours: Kalan zaman
   field_column_names: Sütunlar
