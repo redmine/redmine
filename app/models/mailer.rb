@@ -728,7 +728,7 @@ class Mailer < ActionMailer::Base
     if block
       super
     else
-      super(headers) do |format|
+      super do |format|
         format.text
         format.html unless Setting.plain_text_mail?
       end
