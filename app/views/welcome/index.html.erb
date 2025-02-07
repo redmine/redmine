@@ -11,7 +11,7 @@
 <div class="splitcontentright">
   <% if @news.any? %>
   <div class="news box">
-  <h3><%=l(:label_news_latest)%></h3>
+  <h3 class="icon icon-news"><%= sprite_icon('news', l(:label_news_latest))%></h3>
     <%= render :partial => 'news/news', :collection => @news %>
     <%= link_to l(:label_news_view_all), :controller => 'news' %>
   </div>
