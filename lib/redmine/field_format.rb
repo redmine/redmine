@@ -130,6 +130,8 @@ module Redmine
           if value.empty?
             value << ''
           end
+        elsif custom_field.field_format == 'float'
+          value = normalize_float(value)
         else
           value = value.to_s
         end
@@ -540,7 +542,6 @@ module Redmine
       end
 
       def validate_single_value(custom_field, value, customized=nil)
-        value = normalize_float(value)
         errs = super
         errs << ::I18n.t('activerecord.errors.messages.invalid') unless Kernel.Float(value, exception: false)
         errs

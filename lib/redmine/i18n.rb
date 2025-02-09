@@ -111,7 +111,7 @@ module Redmine
     #       will clash with the dot separator.
     def normalize_float(value)
       separator = ::I18n.t('number.format.separator')
-      value.gsub(/[#{separator}]/, separator => '.')
+      value.to_s.gsub(/[#{separator}]/, separator => '.')
     end
 
     def day_name(day)
