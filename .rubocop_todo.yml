@@ -966,14 +966,6 @@ Style/MultilineTernaryOperator:
     - 'lib/redmine/ciphering.rb'
     - 'lib/redmine/scm/adapters/filesystem_adapter.rb'
 
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowMethodComparison, ComparisonsThreshold.
-Style/MultipleComparison:
-  Exclude:
-    - 'app/helpers/application_helper.rb'
-    - 'app/models/version.rb'
-    - 'app/models/wiki_page.rb'
-
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: literals, strict
