@@ -1449,3 +1449,4 @@ ja:
   label_attachment_summary:
     zero: "%{filename}"
     other: "%{filename} ほか%{count}件"
+  setting_wiki_tablesort_enabled: Javascript based table sorting in wiki content

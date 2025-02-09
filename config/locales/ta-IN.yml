@@ -1453,3 +1453,4 @@ ta-IN:
     zero: "%{filename}"
     one: "%{filename} and 1 file"
     other: "%{filename} and %{count} files"
+  setting_wiki_tablesort_enabled: Javascript based table sorting in wiki content

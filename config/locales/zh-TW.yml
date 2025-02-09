@@ -1515,3 +1515,4 @@
     zero: "%{filename}"
     one: "%{filename} 與另 1 個檔案"
     other: "%{filename} 與另外 %{count} 個檔案"
+  setting_wiki_tablesort_enabled: Javascript based table sorting in wiki content

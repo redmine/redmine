@@ -1480,3 +1480,4 @@ cs:
     zero: "%{filename}"
     one: "%{filename} a 1 soubor"
     other: "%{filename} a %{count} soubory(ů)"
+  setting_wiki_tablesort_enabled: Javascript based table sorting in wiki content

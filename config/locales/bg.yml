@@ -1443,3 +1443,4 @@ bg:
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
   field_name_or_email_or_login: Име, e-mail или login име
+  setting_wiki_tablesort_enabled: Javascript based table sorting in wiki content
