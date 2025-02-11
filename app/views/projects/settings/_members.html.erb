@@ -21,8 +21,10 @@
   <tr id="member-<%= member.id %>" class="member">
   <td class="name">
     <span class="icon">
-      <%= principal_icon(member.principal) %>
-      <%= link_to_user member.principal %>
+      <% if member.principal %>
+        <%= principal_icon(member.principal) %>
+        <%= link_to_user member.principal %>
+      <% end %>
     </span>
   </td>
   <td class="roles">
