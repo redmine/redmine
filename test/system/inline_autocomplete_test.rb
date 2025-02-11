@@ -77,7 +77,7 @@ class InlineAutocompleteSystemTest < ApplicationSystemTestCase
       fill_in 'Description', :with => '#'
     end
 
-    page.has_css?('.tribute-container li', minimum: 1)
+    assert_selector '.tribute-container li', minimum: 1
   end
 
   def test_inline_autocomplete_on_issue_edit_notes_should_show_autocomplete
@@ -88,7 +88,7 @@ class InlineAutocompleteSystemTest < ApplicationSystemTestCase
     find('#issue_notes').click
     fill_in 'issue[notes]', :with => '#'
 
-    page.has_css?('.tribute-container li', minimum: 1)
+    assert_selector '.tribute-container li', minimum: 1
   end
 
   def test_inline_autocomplete_on_issue_custom_field_with_full_text_formatting_should_show_autocomplete
@@ -103,7 +103,7 @@ class InlineAutocompleteSystemTest < ApplicationSystemTestCase
 
     fill_in 'Full width field', :with => '#'
 
-    page.has_css?('.tribute-container li', minimum: 1)
+    assert_selector '.tribute-container li', minimum: 1
   end
 
   def test_inline_autocomplete_on_wiki_should_show_autocomplete
@@ -114,7 +114,7 @@ class InlineAutocompleteSystemTest < ApplicationSystemTestCase
     find('.wiki-edit').click
     fill_in 'content[text]', :with => '#'
 
-    page.has_css?('.tribute-container li', minimum: 1)
+    assert_selector '.tribute-container li', minimum: 1
   end
 
   def test_inline_autocomplete_on_news_description_should_show_autocomplete
@@ -127,7 +127,7 @@ class InlineAutocompleteSystemTest < ApplicationSystemTestCase
     find('.wiki-edit').click
     fill_in 'Description', :with => '#'
 
-    page.has_css?('.tribute-container li', minimum: 1)
+    assert_selector '.tribute-container li', minimum: 1
   end
 
   def test_inline_autocomplete_on_new_message_description_should_show_autocomplete
@@ -140,7 +140,7 @@ class InlineAutocompleteSystemTest < ApplicationSystemTestCase
     find('.wiki-edit').click
     fill_in 'message[content]', :with => '#'
 
-    page.has_css?('.tribute-container li', minimum: 1)
+    assert_selector '.tribute-container li', minimum: 1
   end
 
   def test_inline_autocompletion_of_wiki_page_links
