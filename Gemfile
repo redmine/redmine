@@ -74,7 +74,7 @@ if File.exist?(database_file)
   if adapters.any?
     adapters.each do |adapter|
       case adapter.strip
-      when 'mysql2'
+      when /mysql2/
         gem "mysql2", "~> 0.5.0", :platforms => [:mri, :mingw, :x64_mingw]
         gem "with_advisory_lock"
       when /postgresql/
