@@ -13,12 +13,16 @@ gem 'roadie-rails', (Gem.ruby_version < Gem::Version.new('2.6.0') ? '~> 2.2.0' :
 gem 'marcel'
 gem "mail", "~> 2.7.1"
 gem 'csv', '~> 3.2.0'
-gem 'nokogiri', (if Gem.ruby_version < Gem::Version.new('2.6.0')
-                   '~> 1.12.5'
-                 elsif Gem.ruby_version < Gem::Version.new('2.7.0')
+gem 'nokogiri', (if Gem.ruby_version >= Gem::Version.new('3.1.0')
+                   '~> 1.18.3'
+                 elsif Gem.ruby_version >= Gem::Version.new('3.0.0')
+                   '~> 1.17.2'
+                 elsif Gem.ruby_version >= Gem::Version.new('2.7.0')
+                   '~> 1.15.7'
+                 elsif Gem.ruby_version >= Gem::Version.new('2.6.0')
                    '~> 1.13.10'
                  else
-                   '~> 1.15.2'
+                   '~> 1.12.5'
                  end)
 gem "rexml", require: false if Gem.ruby_version >= Gem::Version.new('3.0')
 gem 'i18n', '~> 1.10.0'
