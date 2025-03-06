@@ -53,7 +53,7 @@ module Redmine
               send(method_name, obj, args)
             end
           rescue => e
-            %|<div class="flash error">#{::I18n.t(:error_can_not_execute_macro_html, :name => name, :error => e.to_s)}</div>|.html_safe
+            %|<div class="flash error">#{::I18n.t(:error_can_not_execute_macro_html, :name => ::ERB::Util.h(name), :error => ::ERB::Util.h(e.to_s))}</div>|.html_safe
           end
         end
 
