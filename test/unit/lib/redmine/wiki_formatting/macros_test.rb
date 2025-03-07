@@ -142,12 +142,12 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
 
   def test_macro_exception_should_be_displayed
     Redmine::WikiFormatting::Macros.macro :exception do |obj, args|
-      raise "My message"
+      raise "My exception's message"
     end
 
     text = "{{exception}}"
     assert_include(
-      '<div class="flash error">Error executing the <strong>exception</strong> macro (My message)</div>',
+      '<div class="flash error">Error executing the <strong>exception</strong> macro (My exception&#39;s message)</div>',
       textilizable(text)
     )
   end
