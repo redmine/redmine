@@ -676,7 +676,7 @@ class QueriesControllerTest < Redmine::ControllerTest
     get(:edit, :params => {:id => 5})
     assert_response :success
 
-    assert_select 'input[name="query[description]"][value=?]', 'Description for Oepn issues by priority and tracker'
+    assert_select 'input[name="query[description]"][value=?]', 'Description for Open issues by priority and tracker'
   end
 
   def test_edit_invalid_query

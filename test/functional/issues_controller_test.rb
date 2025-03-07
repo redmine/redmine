@@ -332,7 +332,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       # assert link properties
       assert_select(
         'a.query.selected[title=?][href=?]',
-        'Description for Oepn issues by priority and tracker',
+        'Description for Open issues by priority and tracker',
         '/projects/ecookbook/issues?query_id=5',
         :text => "Open issues by priority and tracker"
       )
