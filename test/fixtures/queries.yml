@@ -81,7 +81,7 @@ queries_005:
   project_id: 
   visibility: 2
   name: Open issues by priority and tracker
-  description: Description for Oepn issues by priority and tracker
+  description: Description for Open issues by priority and tracker
   filters: |
     --- 
     status_id: 
