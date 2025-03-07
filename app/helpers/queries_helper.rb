@@ -510,7 +510,7 @@ module QueriesHelper
                               url_params.merge(:query_id => query),
                               :class => css,
                               :title => query.description,
-                              :data => { :disable_with => query.name }) +
+                              :data => { :disable_with => CGI.escapeHTML(query.name) }) +
                         clear_link.html_safe)
         end.join("\n").html_safe,
         :class => 'queries'
