@@ -34,6 +34,15 @@ class UserQuery < Query
     QueryAssociationColumn.new(:auth_source, :name, caption: :field_auth_source, sortable: "#{AuthSource.table_name}.name")
   ]
 
+  def self.visible(*args)
+    user = args.shift || User.current
+    if user.admin?
+      where('1=1')
+    else
+      where('1=0')
+    end
+  end
+
   def initialize(attributes=nil, *args)
     super(attributes)
     self.filters ||= { 'status' => {operator: "=", values: [User::STATUS_ACTIVE]} }
@@ -63,6 +72,14 @@ class UserQuery < Query
       type: :list,
       values: [[l(:general_text_yes), '1'], [l(:general_text_no), '0']]
     add_custom_fields_filters(user_custom_fields)
+  end
+
+  def visible?(user=User.current)
+    user&.admin?
+  end
+
+  def editable_by?(user)
+    user&.admin?
   end
 
   def auth_sources_values
