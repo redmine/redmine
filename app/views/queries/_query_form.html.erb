@@ -69,9 +69,8 @@
     <% end %>
   <% else %>
     <% if @query.editable_by?(User.current) %>
-      <% redirect_params = (controller_name == 'admin' && action_name == 'projects') ? {:admin_projects => 1} : {} %>
-      <%= link_to sprite_icon('edit', l(:button_edit_object, object_name: l(:label_query)).capitalize), edit_query_path(@query, redirect_params), :class => 'icon icon-edit' %>
-      <%= delete_link query_path(@query, redirect_params), {}, l(:button_delete_object, object_name: l(:label_query)).capitalize %>
+      <%= link_to sprite_icon('edit', l(:button_edit_object, object_name: l(:label_query)).capitalize), edit_query_path(@query), :class => 'icon icon-edit' %>
+      <%= delete_link query_path(@query), {}, l(:button_delete_object, object_name: l(:label_query)).capitalize %>
     <% end %>
   <% end %>
 </p>

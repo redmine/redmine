@@ -64,7 +64,7 @@ class QueriesController < ApplicationController
 
     if @query.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to_items(:query_id => @query, :admin_projects => params[:admin_projects])
+      redirect_to_items(:query_id => @query)
     else
       render :action => 'new', :layout => !request.xhr?
     end
@@ -78,7 +78,7 @@ class QueriesController < ApplicationController
 
     if @query.save
       flash[:notice] = l(:notice_successful_update)
-      redirect_to_items(:query_id => @query, :admin_projects => params[:admin_projects])
+      redirect_to_items(:query_id => @query)
     else
       render :action => 'edit'
     end
@@ -122,7 +122,6 @@ class QueriesController < ApplicationController
 
   def find_query
     @query = Query.find(params[:id])
-    @query.admin_projects = params[:admin_projects] if @query.is_a?(ProjectQuery)
     @project = @query.project
     render_403 unless @query.editable_by?(User.current)
   rescue ActiveRecord::RecordNotFound
@@ -173,11 +172,11 @@ class QueriesController < ApplicationController
   end
 
   def redirect_to_project_query(options)
-    if params[:admin_projects]
-      redirect_to admin_projects_path(options)
-    else
-      redirect_to projects_path(options)
-    end
+    redirect_to projects_path(options)
+  end
+
+  def redirect_to_project_admin_query(options)
+    redirect_to admin_projects_path(options)
   end
 
   def redirect_to_user_query(options)
