@@ -17,6 +17,7 @@
 # along with this program; if not, write to the Free Software
 
 class UserQuery < Query
+  self.layout = 'admin'
   self.queried_class = Principal # must be Principal (not User) for custom field filters to work
 
   self.available_columns = [

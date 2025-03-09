@@ -19,6 +19,8 @@
 
 class QueriesController < ApplicationController
   menu_item :issues
+  layout :query_layout
+
   before_action :find_query, :only => [:edit, :update, :destroy]
   before_action :find_optional_project, :only => [:new, :create]
 
@@ -52,7 +54,6 @@ class QueriesController < ApplicationController
     @query.user = User.current
     @query.project = @project
     @query.build_from_params(params)
-    render :layout => 'admin' if params[:admin_projects]
   end
 
   def create
@@ -70,7 +71,6 @@ class QueriesController < ApplicationController
   end
 
   def edit
-    render :layout => 'admin' if params[:admin_projects]
   end
 
   def update
@@ -109,11 +109,13 @@ class QueriesController < ApplicationController
   end
 
   def current_menu_item
-    @query ? @query.queried_class.to_s.underscore.pluralize.to_sym : nil
+    return unless @query
+    return if query_layout == 'admin'
+    @query.queried_class.to_s.underscore.pluralize.to_sym
   end
 
   def current_menu(project)
-    super if params[:admin_projects].nil?
+    super unless query_layout == 'admin'
   end
 
   private
@@ -180,6 +182,14 @@ class QueriesController < ApplicationController
 
   def redirect_to_user_query(options)
     redirect_to users_path(options)
+  end
+
+  def query_layout
+    @query&.layout || 'base'
+  end
+
+  def menu_items
+    {self.controller_name.to_sym => {:actions => {}, :default => current_menu_item}}
   end
 
   # Returns the Query subclass, IssueQuery by default

@@ -174,4 +174,8 @@ class ProjectQuery < Query
 
     scope
   end
+
+  def layout
+    admin_projects ? 'admin' : super
+  end
 end
