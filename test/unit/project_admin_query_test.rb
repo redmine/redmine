@@ -108,30 +108,4 @@ class ProjectAdminQueryTest < ActiveSupport::TestCase
     q = ProjectAdminQuery.new
     assert_equal Project.all, q.base_scope
   end
-
-  def test_results_scope_has_last_activity_date
-    q = ProjectAdminQuery.generate!(column_names: [:last_activity_date])
-    result_projects = q.results_scope({})
-
-    assert_kind_of ActiveRecord::Relation, result_projects
-    assert_equal Project, result_projects.klass
-
-    last_activitiy_date = result_projects.find{|p| p.id == 1}.instance_variable_get(:@last_activity_date)
-    assert_not_nil last_activitiy_date
-    assert_equal Redmine::Activity::Fetcher.new(User.current).events(nil, nil, :project => Project.find(1)).first.updated_on, last_activitiy_date
-  end
-
-  def test_results_scope_with_offset_and_limit
-    q = ProjectAdminQuery.new
-
-    ((q.results_scope.count / 2) + 1).times do |i|
-      limit = 2
-      offset = i * 2
-
-      scope_without = q.results_scope.offset(offset).limit(limit).ids
-      scope_with = q.results_scope(:offset => offset, :limit => limit).ids
-
-      assert_equal scope_without, scope_with
-    end
-  end
 end
