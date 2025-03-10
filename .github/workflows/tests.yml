@@ -1,0 +1,112 @@
+name: Tests
+
+on:
+  push:
+
+jobs:
+  tests:
+    name: test ${{matrix.db}} ruby-${{ matrix.ruby }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        ruby: ['3.1', '3.2', '3.3']
+        db: ['postgresql', 'mysql2', 'sqlite3']
+      fail-fast: false
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_DB: redmine_test
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: root
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: redmine_test
+          MYSQL_ROOT_PASSWORD: 'root'
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies and configure environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --quiet ghostscript gsfonts locales bzr cvs
+          sudo locale-gen en_US # for bazaar non ascii test
+
+      - name: Allow imagemagick to read PDF files
+        run: |
+          echo '<policymap>' > policy.xml
+          echo '<policy domain="coder" rights="read | write" pattern="PDF" />' >> policy.xml
+          echo '</policymap>' >> policy.xml
+          sudo rm /etc/ImageMagick-6/policy.xml
+          sudo mv policy.xml /etc/ImageMagick-6/policy.xml
+
+      - if: ${{ matrix.db == 'sqlite3' }}
+        name: Prepare test database for sqlite3
+        run: |
+          cat > config/database.yml <<EOF
+          test:
+            adapter: sqlite3
+            database: db/test.sqlite3
+          EOF
+
+      - if: ${{ matrix.db == 'mysql2' || matrix.db == 'postgresql' }}
+        name: Prepare test database for mysql2 and postgresql
+        run: |
+          cat > config/database.yml <<EOF
+          test:
+            adapter: ${{ matrix.db }}
+            database: redmine_test
+            username: root
+            password: root
+            host: 127.0.0.1
+          EOF
+
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+
+      - name: Run prepare test environment
+        env:
+          RAILS_ENV: test
+          SCMS: subversion,git,git_utf8,filesystem,bazaar,cvs
+        run: |
+          bundle exec rake ci:about
+          bundle exec rake ci:setup
+          bundle exec rake db:environment:set
+
+      - name: Run tests
+        run: |
+          bin/rails test
+
+      - name: Run bazaar non ascii test
+        env:
+          LANG: en_US.ISO8859-1
+          LC_ALL: en_US.ISO8859-1
+        run: |
+          bin/rails test test/unit/repository_bazaar_test.rb
+
+      - name: Run autoload test
+        run: |
+          bin/rails test:autoload

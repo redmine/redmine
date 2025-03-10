@@ -22,5 +22,8 @@
     "no-duplicate-selectors": true,
     "no-empty-source": true,
     "no-invalid-double-slash-comments": true,
-  }
+  },
+  "ignoreFiles": [
+    "app/assets/stylesheets/jquery/*.css"
+  ]
 }
