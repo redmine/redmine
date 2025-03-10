@@ -522,7 +522,7 @@ class IssueQuery < Query
   def sql_for_watcher_id_field(field, operator, value)
     db_table = Watcher.table_name
     me_ids = [0, User.current.id]
-    me_ids = me_ids.concat(User.current.groups.pluck(:id))
+    me_ids.concat(User.current.groups.pluck(:id))
     me, others = value.partition {|id| me_ids.include?(id.to_i)}
     sql =
       if others.any?
