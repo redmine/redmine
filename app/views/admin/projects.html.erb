@@ -5,7 +5,6 @@
 <h2><%= @query.new_record? ? l(:label_project_plural) : @query.name %></h2>
 
 <%= form_tag(admin_projects_path(@project, nil), :method => :get, :id => 'query_form') do %>
-<%= hidden_field_tag 'admin_projects', '1' %>
 <%= render :partial => 'queries/query_form' %>
 <% end %>
 
@@ -18,5 +17,6 @@
 <% end %>
 
 <% content_for :sidebar do %>
-  <%= render :partial => 'projects/sidebar' %>
+  <%= render_sidebar_queries(ProjectAdminQuery, @project) %>
+  <%= call_hook(:view_admin_projects_sidebar_queries_bottom) %>
 <% end %>

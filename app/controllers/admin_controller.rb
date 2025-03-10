@@ -36,8 +36,7 @@ class AdminController < ApplicationController
   end
 
   def projects
-    retrieve_query(ProjectQuery, false, :defaults => @default_columns_names)
-    @query.admin_projects = 1
+    retrieve_query(ProjectAdminQuery, false, :defaults => @default_columns_names)
     scope = @query.results_scope
 
     @entry_count = scope.count
