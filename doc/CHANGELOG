@@ -4,6 +4,57 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2025-03-10 v6.0.4
+
+=== [Administration]
+
+* Feature #42008: Expose default Rails health check endpoint "/up" for load balancers and uptime monitoring
+
+=== [Code cleanup/refactoring]
+
+* Defect #42200: InlineAutocompleteSystemTest login test fails randomly
+* Patch #42244: Fix random failures in IssuesTest#test_bulk_copy due to StaleElementReferenceError
+
+=== [Custom fields]
+
+* Defect #42233: Float custom values with ',' as decimal separator are not converted to '.' and cause SQL errors when sorting or summing
+
+=== [Gems support]
+
+* Defect #42245: 5.1-stable: Redmine fails to start with error: Unknown database adapter `"mysql2"` found in config/database.yml
+
+=== [No category]
+
+* Feature #30069: Use GitHub Actions as a secondary CI solution to run tests through the existing mirroring
+
+=== [Project settings]
+
+* Defect #42192: Project settings members tab may raise ArgumentError if orphaned member records exist
+
+=== [Security]
+* Defect #42238: Stored Cross-Site Scripting (XSS) in custom query
+* Defect #42326: Stored Cross-Site Scripting (XSS) in macros
+* Defect #42352: ProjectQuery leaks details of private projects
+* Defect #42194: /my/account does not correctly enforce sudo mode
+* Patch #42333: Update Nokogiri to 1.18.3
+
+=== [Time tracking]
+
+* Defect #42172: `format_hours` method produces incorrect output for negative time values when `Setting.timespan_format` is "minutes"
+
+=== [Translations]
+
+* Defect #42170: Fix Turkish translation of field_assignable
+* Patch #42239: Czech translation update for 6.0-stable
+
+=== [UI]
+
+* Defect #42229: Latest news box on home page misses icons
+
+=== [UI - Responsive]
+
+* Defect #42182: Poor color contrast of icons on flyout menu
+
 == 2025-01-29 v6.0.3
 
 === [Accounts / authentication]
