@@ -201,7 +201,7 @@ Style/EmptyElse:
   EnforcedStyle: empty
 
 Style/FormatString:
-  EnforcedStyle: sprintf
+  Enabled: false
 
 Style/FormatStringToken:
   Enabled: false
