@@ -111,6 +111,7 @@ class QueriesController < ApplicationController
   def current_menu_item
     return unless @query
     return if query_layout == 'admin'
+
     @query.queried_class.to_s.underscore.pluralize.to_sym
   end
 
