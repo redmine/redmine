@@ -4,6 +4,27 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2025-03-10 v5.1.7
+
+=== [Code cleanup/refactoring]
+
+* Defect #42200: InlineAutocompleteSystemTest login test fails randomly
+* Patch #42244: Fix random failures in IssuesTest#test_bulk_copy due to StaleElementReferenceError
+
+=== [Gems support]
+
+* Defect #42245: 5.1-stable: Redmine fails to start with error: Unknown database adapter `"mysql2"` found in config/database.yml
+
+=== [No category]
+
+* Feature #30069: Use GitHub Actions as a secondary CI solution to run tests through the existing mirroring
+
+=== [Security]
+* Defect #42326: Stored Cross-Site Scripting (XSS) in macros
+* Defect #42352: ProjectQuery leaks details of private projects
+* Defect #42194: /my/account does not correctly enforce sudo mode
+* Patch #42333: Update Nokogiri to 1.18.3
+
 == 2025-01-29 v5.1.6
 
 === [Code cleanup/refactoring]
