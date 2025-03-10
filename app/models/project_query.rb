@@ -18,14 +18,19 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class ProjectQuery < Query
-  attr_accessor :admin_projects
-
   self.queried_class = Project
   self.view_permission = :search_project
 
   validate do |query|
     # project must be blank for ProjectQuery
     errors.add(:project_id, :exclusion) if query.project_id.present?
+  end
+
+  # Inheriting ProjectAdminQuery from ProjectQuery introduces the problem that
+  # ProjectQuery.visible also yields ProjectAdminQueries, as
+  # well. We fix that by adding a condition on the actual class name.
+  def self.visible(*)
+    super.where type: name
   end
 
   self.available_columns = [
@@ -83,12 +88,6 @@ class ProjectQuery < Query
     add_custom_fields_filters(project_custom_fields)
   end
 
-  def build_from_params(params, defaults={})
-    query = super
-    query.admin_projects = params[:admin_projects]
-    query
-  end
-
   def available_columns
     return @available_columns if @available_columns
 
@@ -99,28 +98,7 @@ class ProjectQuery < Query
   end
 
   def available_display_types
-    if self.admin_projects
-      ['list']
-    else
-      ['board', 'list']
-    end
-  end
-
-  def display_type
-    if self.admin_projects
-      'list'
-    else
-      super
-    end
-  end
-
-  def project_statuses_values
-    values = super
-    if self.admin_projects
-      values << [l(:project_status_archived), Project::STATUS_ARCHIVED.to_s]
-      values << [l(:project_status_scheduled_for_deletion), Project::STATUS_SCHEDULED_FOR_DELETION.to_s]
-    end
-    values
+    ['board', 'list']
   end
 
   def default_columns_names
@@ -136,11 +114,7 @@ class ProjectQuery < Query
   end
 
   def base_scope
-    if self.admin_projects
-      Project.where(statement)
-    else
-      Project.visible.where(statement)
-    end
+    Project.visible.where(statement)
   end
 
   # Returns the project count

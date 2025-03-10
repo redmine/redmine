@@ -480,8 +480,6 @@ module QueriesHelper
     url_params =
       if controller_name == 'issues'
         {:controller => 'issues', :action => 'index', :project_id => @project}
-      elsif controller_name == 'admin' && action_name == 'projects'
-        {:admin_projects => '1'}
       else
         {}
       end

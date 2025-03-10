@@ -355,6 +355,8 @@ class Query < ApplicationRecord
   # Permission required to view the queries, set on subclasses.
   class_attribute :view_permission
 
+  class_attribute :layout, default: 'base'
+
   # Scope of queries that are global or on the given project
   scope :global_or_on_project, (lambda do |project|
     where(:project_id => (project.nil? ? nil : [nil, project.id]))
@@ -1004,7 +1006,7 @@ class Query < ApplicationRecord
         end
       end
 
-      if field == 'project_id' || (self.type == 'ProjectQuery' && %w[id parent_id].include?(field))
+      if field == 'project_id' || (is_a?(ProjectQuery) && %w[id parent_id].include?(field))
         if v.delete('mine')
           v += User.current.memberships.pluck(:project_id).map(&:to_s)
         end
