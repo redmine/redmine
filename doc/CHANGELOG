@@ -4,6 +4,12 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2025-03-10 v5.0.12
+
+=== [Security]
+* Defect #42194: /my/account does not correctly enforce sudo mode
+* Patch #42333: Update Nokogiri to 1.18.3
+
 == 2025-01-30 v5.0.11
 
 === [Code cleanup/refactoring]
