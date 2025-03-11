@@ -1,0 +1,7 @@
+table.list td, table.list th {
+  height: 40px;
+  vertical-align: middle;
+}
+td.name, td.username, td.firstname, td.lastname, td.email {
+  text-align: center !important;
+}

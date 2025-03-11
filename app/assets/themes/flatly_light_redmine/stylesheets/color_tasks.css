@@ -1,0 +1,86 @@
+/*
+1 New
+2 Assigned
+3 Resolved
+4 Feedback
+5 Closed
+*/
+
+/* new */
+tr.odd.priority-1, table.list tbody tr.odd.priority-1:hover { }
+tr.odd.priority-1 { background: #d9edf7; }
+tr.even.priority-1, table.list tbody tr.even.priority-1:hover { }
+tr.even.priority-1 { background: #d9edf7; }
+tr.priority-1 a { }
+tr.odd.priority-1 td, tr.even.priority-1 td { border-color: #d9edf7; }
+
+/* assigned */
+tr.odd.priority-2, table.list tbody tr.odd.priority-2:hover { }
+tr.odd.priority-2 { background: #fff; }
+tr.even.priority-2, table.list tbody tr.even.priority-2:hover { }
+tr.even.priority-2 { background: #fff; }
+tr.priority-2 a { }
+tr.odd.priority-2 td, tr.even.priority-2 td { border-color: #fff; }
+
+/* resolved */
+tr.odd.priority-3, table.list tbody tr.odd.priority-3:hover { }
+tr.odd.priority-3 { background: #dff0d8; }
+tr.even.priority-3, table.list tbody tr.even.priority-3:hover { }
+tr.even.priority-3 { background: #dff0d8; }
+tr.priority-3 a { }
+tr.odd.priority-3 td, tr.even.priority-3 td { border-color:#dff0d8; }
+
+/* feedback */
+tr.odd.priority-4, table.list tbody tr.odd.priority-4:hover { }
+tr.odd.priority-4 { background: #fbf8ca; }
+tr.even.priority-4, table.list tbody tr.even.priority-4:hover { }
+tr.even.priority-4 { background: #fbf8ca; }
+tr.priority-4 a { }
+tr.odd.priority-4 td, tr.even.priority-4 td { border-color:#fbf8ca; }
+
+/* closed */
+tr.odd.priority-5, table.list tbody tr.odd.priority-5:hover { }
+tr.odd.priority-5 { background: #f2dede; }
+tr.even.priority-5, table.list tbody tr.even.priority-5:hover { }
+tr.even.priority-5 { background: #f2dede; }
+tr.priority-5 a { }
+tr.odd.priority-5 td, tr.even.priority-5 td { border-color:#f2dede; }
+
+/* table design*/
+tr.issue{ border: 1px solid #eeeff3; }
+table.list{
+  border-radius: 6px;
+  overflow: hidden;
+  height: 50px;
+  border: 2px solid #eeeff3;
+  border-spacing: 0;
+  color: #6b7d94;
+}
+table.list th{ color: #f5f6f7;}
+body.controller-dmsf table.list th{ color: #6b7d94;}
+body.controller-dmsf table.list th > div{text-align: right;}
+table.list.issues th[title='Sort by "Assigned To"'], table.list.issues th[title='Sort by "% Done"'] { width: 10%; }
+table.list.issues td{ vertical-align: middle; }
+table.list.issues td.id{ width: 35px; }
+table.list th { background-color: #6f7c93; text-align: center !important; }
+table.list th a{ color: #f5f6f7; }
+table.list tbody tr:hover { background-color: #dee4e9; transition: .5s; }
+table.list th.checkbox{ width: 50px; text-align: none; }
+tr.issue td.done_ratio table.progress{ width: 100% !important; }
+table.progress{
+  width: 80% !important;
+  border-radius: 2px;
+  border-collapse: separate !important;
+  overflow: hidden;
+}
+table.progress td.todo{
+  height: 5px !important;
+  border-right: 5px !important;
+  background-color: #d8e3ea;
+}
+table.progress td.closed{
+  height: 5px !important;
+  border-right: 5px !important;
+  background-color: #4cbac1;
+}
+table.progress{ height: 5px !important; border-right: 5px !important; }

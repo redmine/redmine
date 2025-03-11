@@ -1,0 +1,20 @@
+/*
+  redmine's body is set to min-width: 900px
+  add first breakpoint here and start adding responsiveness
+*/
+
+@media all and (max-width: 899px) {
+  #main {
+    margin: 0;
+  }
+  div#content {
+    > div.contextual {
+      margin-top: 0;
+      margin-right: 0;
+    }
+  }
+  div#content > h2,
+  div#content h2.contacts_header {
+    @include github-pagehead;
+  }
+}

@@ -1,0 +1,41 @@
+// Wiki Extensions
+// http://www.r-labs.org/projects/r-labs/wiki/Wiki_Extensions_en
+
+// #18 adjust margin
+.jstt_smiles {
+  #group_of_smiles {
+    border: 1px solid #ddd !important;
+    margin-top: -6px;
+    padding: 6px;
+  }
+}
+
+// Redmine Gantt plugin
+// https://www.easyredmine.com/redmine-gantt-plugin
+// #38
+.easy-gantt {
+  #top-menu & {
+    background-image: none;
+  }
+}
+.gantt {
+  .easy-gantt__menu {
+    .gantt-menu-problems-count.gantt-with-problems {
+      width: 24px;
+      line-height: 24px;
+    }
+  }
+  .gantt-menu-button {
+    background-repeat: no-repeat;
+    text-shadow: none;
+    &.active {
+    }
+    &.button-positive {
+      background-color: #4ebf67;
+      border-color: #338d47;
+    }
+    &#button_sample {
+      background-image: none;
+    }
+  }
+}

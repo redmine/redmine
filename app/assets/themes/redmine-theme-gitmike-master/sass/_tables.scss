@@ -1,0 +1,202 @@
+// Tables
+
+table.list {
+  tbody {
+    td, tr:hover td {
+      border: solid 1px #ddd;
+    }
+  }
+  thead th {
+    border-width: 1px;
+    border-style: solid;
+    border-top-color: #ddd;
+    border-right-color: #ddd;
+    border-left-color: #ddd;
+    border-bottom-color: #ddd;
+  }
+}
+
+.tabular label {
+  padding-top: 4px;
+}
+
+tr.assigned-to-me td.assigned_to,
+tr.created-by-me td.author {
+  font-weight: bold;
+}
+
+// Quick search
+
+#quick-search {
+  margin-top: 8px;
+}
+
+// Grid styles by priorities
+
+table.list {
+  td {
+    padding: 4px;
+  }
+  input[type="checkbox"] {
+    margin-top: 6px;
+  }
+
+  tbody {
+    tr {
+      &:hover {
+        background-color: #EFF5F8;
+      }
+    }
+    tr.group {
+      span.count {
+        display: inline-block;
+        padding: 2px 5px;
+        font: 12px Helvetica, arial, freesans, clean, sans-serif;
+        font-weight: bold;
+        line-height: 1;
+        color: #555;
+        background-color: #eee;
+        border-radius: 20px;
+      }
+    }
+  }
+  tr.issue{
+    a {
+      color: #666;
+    }
+  }
+}
+
+/*tr.odd {background-color: transparent;}
+tr.even {background-color: transparent;}
+table.list th {background-color: transparent;}*/
+
+tr.odd.priority-highest, table.list tbody tr.odd.priority-highest:hover {
+  color: #900;
+  font-weight: bold;
+}
+
+tr {
+  &.odd.priority-highest {
+    background: #ffc4c4;
+  }
+  &.even.priority-highest {
+    color: #900;
+    font-weight: bold;
+  }
+}
+
+table.list tbody tr.even.priority-highest:hover {
+  color: #900;
+  font-weight: bold;
+}
+
+tr {
+  &.even.priority-highest {
+    background: #ffd4d4;
+  }
+  &.priority-highest {
+    a, &:hover a {
+      color: #900;
+    }
+  }
+  &.odd.priority-highest td, &.even.priority-highest td {
+    border-color: #ffb4b4;
+  }
+  &.odd.priority-high2 {
+    color: #900;
+  }
+}
+
+table.list tbody tr.odd.priority-high2:hover {
+  color: #900;
+}
+
+tr {
+  &.odd.priority-high2 {
+    background: #ffc4c4;
+  }
+  &.even.priority-high2 {
+    color: #900;
+  }
+}
+
+table.list tbody tr.even.priority-high2:hover {
+  color: #900;
+}
+
+tr {
+  &.even.priority-high2 {
+    background: #ffd4d4;
+  }
+  &.priority-high2 a {
+    color: #900;
+  }
+  &.odd.priority-high2 td, &.even.priority-high2 td {
+    border-color: #ffb4b4;
+  }
+  &.odd.priority-high3 {
+    color: #900;
+  }
+}
+
+table.list tbody tr.odd.priority-high3:hover {
+  color: #900;
+}
+
+tr {
+  &.odd.priority-high3 {
+    background: #fee;
+  }
+  &.even.priority-high3 {
+    color: #900;
+  }
+}
+
+table.list tbody tr.even.priority-high3:hover {
+  color: #900;
+}
+
+tr {
+  &.even.priority-high3 {
+    background: #fff2f2;
+  }
+  &.priority-high3 a {
+    color: #900;
+  }
+  &.odd.priority-high3 td, &.even.priority-high3 td {
+    border-color: #fcc;
+  }
+  &.odd.priority-lowest {
+    color: #559;
+  }
+}
+
+table.list tbody tr.odd.priority-lowest:hover {
+  color: #559;
+}
+
+tr {
+  &.odd.priority-lowest {
+    background: #eaf7ff;
+  }
+  &.even.priority-lowest {
+    color: #559;
+  }
+}
+
+table.list tbody tr.even.priority-lowest:hover {
+  color: #559;
+}
+
+tr {
+  &.even.priority-lowest {
+    background: #f2faff;
+  }
+  &.priority-lowest a {
+    color: #559;
+  }
+  &.odd.priority-lowest td, &.even.priority-lowest td {
+    border-color: #add7f3;
+  }
+}

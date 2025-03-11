@@ -1,0 +1,26 @@
+{
+  "name": "gitmike",
+  "version": "1.2.1",
+  "description": "Redmine gitmike theme",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/makotokw/redmine-theme-gitmike.git"
+  },
+  "author": "Makoto Kawasaki",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/makotokw/redmine-theme-gitmike/issues"
+  },
+  "homepage": "https://github.com/makotokw/redmine-theme-gitmike",
+  "devDependencies": {
+    "browser-sync": "^2.26.14",
+    "github-markdown-css": "^4.0.0",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-sass": "^4.1.0",
+    "node-sass": "^5.0.0"
+  },
+  "browserslist": [
+    "defaults"
+  ]
+}

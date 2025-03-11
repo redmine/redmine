@@ -1,0 +1,30 @@
+.previous, .page, .items, .next, .current{
+  position: relative;
+  float: left;
+  padding: 5px 12px;
+  margin-left: -1px;
+  line-height: 1.42857143;
+  color: #428bca;
+  text-decoration: none;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  -webkit-border: 1px solid #ddd;
+  -moz-border: 1px solid #ddd;
+}
+.items{
+  clear: both;
+  color: #647082;
+}
+.previous:hover,
+.page:hover,
+.next:hover{
+  color: #2a6496;
+  background-color: #eee;
+  border-color: #ddd;
+}
+.current, .current:hover{
+  color: #fff;
+  cursor: default;
+  background-color: #428bca;
+  border-color: #428bca;
+}

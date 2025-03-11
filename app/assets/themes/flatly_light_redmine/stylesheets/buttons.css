@@ -1,0 +1,24 @@
+/* buttons */
+input[type="submit"], button{
+  border: 2px solid #d4dbe3;
+  -webkit-border-radius: 4;
+  -moz-border-radius: 4;
+  border-radius: 4px;
+  color: #647082;
+  background: #fff;
+  padding: 4px 7px 4px 7px;
+  text-decoration: none;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover, button:hover {
+  border-color: #129cf7;
+  color: #000;
+}
+
+.buttons a,
+.buttons a:hover,
+.buttons a:focus {
+  text-decoration: none;
+}

@@ -1,0 +1,22 @@
+### gitmike ###
+.tmp/
+
+### Node ###
+node_modules
+
+### Bower ###
+bower_components/
+
+### Sass ###
+.sass-cache
+*.css.map
+
+### Intellij ###
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm
+*.iml
+.idea/
+
+### OSX ###
+.DS_Store
+.AppleDouble
+.LSOverride

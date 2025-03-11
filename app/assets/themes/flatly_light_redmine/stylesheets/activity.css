@@ -1,0 +1,29 @@
+.controller-activities #activity h3{
+  margin: 15px 5px 5px 0;
+}
+.controller-activities #activity dl{
+  background: #f6f6f6;
+  border: 1px solid #d7d7d7;
+  margin: 0 0 10px 25px;
+  padding: 10px 0 0 10px;
+  line-height: 24px;
+}
+.controller-activities #content div > a{
+  border: 2px solid #d4dbe3;
+  -webkit-border-radius: 4;
+  -moz-border-radius: 4;
+  border-radius: 4px;
+  color: #647082;
+  background: #fff;
+  padding: 4px 7px 4px 7px;
+  text-decoration: none;
+  font-size: 15px;
+}
+.controller-activities #content div > a:hover {
+  border-color: #129cf7;
+  color: #000;
+}
+
+div#activity dd, #search-results dd {
+  line-height: 22px;
+}

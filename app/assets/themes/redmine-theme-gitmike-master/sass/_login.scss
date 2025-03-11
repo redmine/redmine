@@ -1,0 +1,47 @@
+// Login form
+
+body.action-login {
+  #content, #main.nosidebar #content {
+    background: inherit;
+    border: 0;
+    box-shadow: none;
+  }
+  #login-form table {
+    padding: 3em;
+    background: white;
+    box-shadow: 0 0 3px #CCC;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+}
+
+#login-form input {
+  &#username, &#password {
+    outline: none;
+    margin: 0;
+    border: 1px solid #ccc;
+    padding: 6px;
+    font-size: 140%;
+    border-radius: 2px;
+  }
+}
+
+.controller-account.action-login div.flash, div.wiki div.flash {
+  box-shadow: 0 0 3px #CCC;
+  border: 1px solid #ddd !important;
+  border-radius: 8px;
+  margin: 5px;
+}
+
+#content .tabs ul li a {
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  line-height: 1.3em;
+  padding: 6px 10px 6px 10px;
+}
+
+#sidebar a.selected {
+  background-color: transparent;
+  color: gray;
+  font-weight: bold;
+}

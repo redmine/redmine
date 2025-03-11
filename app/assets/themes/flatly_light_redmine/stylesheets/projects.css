@@ -1,0 +1,14 @@
+ul.projects li.root {
+  background: #f6f6f6;
+  padding: 10px;
+  border: 1px solid #d7d7d7;
+}
+
+#projects-index {
+  column-count: auto;
+  column-width: auto;
+  -webkit-column-count: auto;
+  -webkit-column-width: auto;
+  -moz-column-count: auto;
+  -moz-column-width: auto;
+}

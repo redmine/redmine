@@ -1,0 +1,31 @@
+.wrapper {
+  text-align: center;
+  margin: 200px auto 50px auto;
+}
+
+.burger {
+  height: 30px;
+  width: 33px;
+  cursor: pointer;
+  margin-left: 20px;
+  padding-top: 10px;
+  display: block;
+  z-index: 101;
+}
+.burger .one,
+.burger .two,
+.burger .three {
+  margin-top: 3px;
+  background: #258ecd;
+  width: 33px;
+  height: 4px;
+  position: absolute;
+  border-radius: 2px;
+}
+.burger .two {
+  margin-top: 13px;
+}
+.burger .three {
+  margin-top: 23px;
+}
+

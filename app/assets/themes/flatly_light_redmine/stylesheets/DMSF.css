@@ -1,0 +1,8 @@
+.dmfs_entries a.icon.icon-file{
+	background-repeat: no-repeat;
+  padding-left: 26px;
+}
+.dmfs_entries table.display.entries .icon{ padding-left: 5px; }
+.dmfs_entries table.display.entries td{ text-align: center; }
+.dmfs_entries table.display.entries td.title{ text-align: left; }
+.dmfs_entries table.display.entries .icon:first-child{ padding-left: 0; }

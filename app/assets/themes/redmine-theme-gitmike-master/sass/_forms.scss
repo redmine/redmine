@@ -1,0 +1,239 @@
+
+// Buttons
+
+/*input[type="button"], input[type="submit"], input[type="reset"] { background-color: #f2f2f2; color: #222222; border: 1px outset #cccccc; }
+input[type="button"]:hover, input[type="submit"]:hover, input[type="reset"]:hover { background-color: #ccccbb; }
+*/
+$grayDark:              #333 !default;
+$gray:                  #555 !default;
+$grayLight:             #999 !default;
+$btnBackground: $grayLight;
+$btnBackgroundHighlight: lighten($btnBackground, 10%);
+$btnBorder: #ddd;
+
+@mixin buttonBackground($startColor, $endColor, $textColor: #fff, $textShadow: 0 -1px 0 rgba(0,0,0,.25)) {
+// gradientBar will set the background to a pleasing blend of these, to support IE<=9
+  @include gradientBar($startColor, $endColor, $textColor, $textShadow);
+  *background-color: $endColor; /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+  @include reset-filter();
+
+// in these cases the gradient won't cover the background, so we override
+  &:hover, &:focus, &:active, &.active, &.disabled, &[disabled] {
+    color: $textColor;
+    background-color: $endColor;
+    *background-color: darken($endColor, 5%);
+  }
+
+// IE 7 + 8 can't handle box-shadow to show active, so we darken a bit ourselves
+  &:active,
+  &.active {
+    background-color: darken($endColor, 10%) \9;
+  }
+}
+
+.button {
+  position: relative;
+  display: inline-block;
+  //@include ie7-inline-block();
+  padding: 5px 11px;
+  font-weight: bold;
+  color: #333;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+  white-space: nowrap;
+  background-color: #eaeaea;
+  background-repeat: repeat-x;
+  background-image: linear-gradient(#fafafa, #eaeaea);
+  border-radius: 3px;
+  border: 1px solid #ddd;
+  border-bottom-color: darken(#ddd, 10%);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-appearance: none;
+
+  &:hover {
+    text-decoration: none;
+    background-color: #dadada;
+    background-image: linear-gradient(#eaeaea, #dadada);
+    border-color: #ccc #ccc #b5b5b5
+  }
+
+  &:active {
+    background-color: #dadada;
+    background-image: none;
+    border-color: #b5b5b5;
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.15);
+  }
+
+  &:disabled,
+  &:disabled:hover,
+  &[disabled],
+  &[disabled]:hover {
+    opacity: .5;
+    color: #666;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+    background-image: none;
+    background-color: #e5e5e5;
+    border-color: #c5c5c5;
+    cursor: default;
+    box-shadow: none;
+  }
+}
+
+.btn {
+  display: inline-block;
+  //@include ie7-inline-block();
+  padding: 4px 12px;
+  margin-bottom: 0; // For input.btn
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  @include buttonBackground($btnBackground, $btnBackgroundHighlight, $grayDark, 0 1px 1px rgba(255,255,255,.75));
+  border: 1px solid $btnBorder;
+  *border: 0; // Remove the border to prevent IE7's black border on input:focus
+  border-bottom-color: darken($btnBorder, 10%);
+  border-radius: 3px;
+  @include ie7-restore-left-whitespace(); // Give IE7 some love
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+
+  // Hover/focus state
+  &:hover,
+  &:focus {
+    color: $grayDark;
+    text-decoration: none;
+    background-position: 0 -15px;
+
+    // transition is only when going to hover/focus, otherwise the background
+    // behind the gradient (there for IE<=9 fallback) gets mismatched
+    transition: background-position .1s linear;
+  }
+
+  // Focus state for keyboard and accessibility
+  &:focus {
+    @include tab-focus();
+  }
+
+  // Active state
+  &.active,
+  &:active {
+    background-image: none;
+    outline: 0;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05);
+  }
+
+  // Disabled state
+  &.disabled,
+  &[disabled] {
+    cursor: default;
+    background-image: none;
+    opacity: .65;
+    box-shadow: none;
+  }
+
+}
+
+// Fields
+
+input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="tel"], input[type="url"]
+, input.date
+, textarea
+, select {
+  outline: none;
+  padding: 3px 4px;
+  color: $text-color;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.075);
+  border-radius: 3px;
+  vertical-align: middle;
+
+  #content & {
+    background-color: #fafafa;
+  }
+
+  &:focus {
+    border-color: #51a7e8;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075), 0 0 5px rgba(81, 167, 232, 0.5);
+  }
+}
+
+input[type="submit"] {
+  @extend .button;
+}
+
+input {
+  &.autocomplete {
+    padding-left: 20px;
+  }
+  &#issue_subject {
+    width: 98%;
+  }
+}
+
+textarea {
+  &.wiki-edit {
+    width: 98%;
+  }
+}
+
+option {
+  border-bottom: 1px dotted #ddd;
+}
+
+// Form
+
+.controller-messages.action-show .message {
+  &.reply {
+    padding: 0 10px;
+    margin: -1px;
+    background: white;
+    border: 1px solid #D9D9D9;
+  }
+  background: #EAF7FF;
+  padding: 0 15px 10px;
+  border: 1px solid silver;
+  margin: -11px -11px 15px -11px;
+  .contextual {
+    margin-top: 10px;
+  }
+}
+
+.controller-boards p.breadcrumb {
+  position: relative;
+  background: white;
+  border: 0 solid;
+  padding: 9px 13px 10px;
+  margin: -5px -10px 1px -10px;
+  background-position-x: 12px !important;
+  background-position-y: 9px !important;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom: 1px solid #AECCD7;
+}
+
+#add-news, #add-message, #add-document {
+  background-color: white;
+  position: relative;
+  border-bottom: 1px solid #AECCD7;
+  margin: -5px -10px 1px -10px;
+  padding: 5px 10px 10px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+// search
+
+#quick-search #q {
+  outline: none;
+  padding: 3px 5px !important;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-top: 1px solid #CDCDCD;
+  box-shadow: 0 1px 0 #F1F1F1,inset 0 1px 1px #E0E0E0;
+  border-radius: 3px;
+  box-sizing: content-box;
+  color: #333;
+  font-size: 12px;
+}

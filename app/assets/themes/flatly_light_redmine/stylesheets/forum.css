@@ -1,0 +1,83 @@
+/*=========== FORUM ============*/
+table.list.boards td{
+  height: 40px;
+  vertical-align: middle;
+  padding-left: 20px !important;
+  font-size: 100%;
+}
+table.list.messages td{ height: 40px; vertical-align: middle; }
+table.list.messages td.subject { background-position: left center; }
+table.list.messages td.author { font-size: 1em; }
+tr.message td.last_message { font-size: 100%; }
+.controller-messages  div.message.details .wiki{ padding-top: 0px; }
+.controller-messages.action-show h2,
+.controller-messages.action-show .message{
+  background: #f6f6f6;
+  padding: 10px;
+  border: 1px solid #d7d7d7;
+}
+.controller-messages.action-show h2{
+  border-bottom: none;
+  margin: 0 0 -20px 0;
+}
+.controller-messages.action-show .message{
+  border-top: none;
+}
+.controller-messages.action-show .message > p{
+  border-bottom: 1px dotted #bbb;
+}
+.controller-messages.action-show .message.reply{
+  border: none;
+  margin-bottom: 15px;
+}
+.controller-messages.action-show .message p{
+  padding: 10px 0 15px 0;
+  margin: 0;
+}
+.controller-messages.action-show .message.reply p{
+  padding: 10px 0 10px 0;;
+}
+.controller-messages.action-show .message.reply div.attachments {
+  margin-top: 8px;
+}
+.controller-messages.action-show .message.reply h4{
+  padding-bottom: 10px;
+}
+.controller-messages .contextual{
+  margin: 10px;
+}
+.controller-messages p.breadcrumb {
+  padding: 8px 15px;
+  margin-bottom: 20px;
+  list-style: none;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+.message.reply {
+  background-color: #f5f5f5;
+  padding: 10px;
+}
+.controller-messages .pagination{
+  float: right;
+}
+.controller-messages .pagination a{
+  text-decoration: none;
+}
+a[onclick="$('#reply').toggle(); $('#message_content').focus(); return false;"]{
+  border: 2px solid #d4dbe3;
+  -webkit-border-radius: 4;
+  -moz-border-radius: 4;
+  border-radius: 4px;
+  color: #647082;
+  background: #fff;
+  padding: 4px 7px 4px 7px;
+  text-decoration: none;
+  font-size: 15px;
+}
+/* TODO: Find a way rewrite it */
+a[onclick="$('#reply').toggle(); $('#message_content').focus(); return false;"]:hover {
+  border-color: #129cf7;
+  color: #000;
+}

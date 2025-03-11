@@ -1,0 +1,79 @@
+// Menu
+
+#main-menu {
+  left: 0;
+  width: 100%;
+  // height: 40px;
+  // overflow: hidden;
+  background: #FAFAFA;
+  background: linear-gradient(to bottom, #fafafa, #eaeaea);
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#fafafa',endColorstr='#eaeaea')";
+  border: 1px solid #EAEAEA;
+  border-bottom-color: #CACACA;
+  border-radius: 3px;
+
+  margin-right: 0;
+  position: relative;
+
+  ul {
+
+    @include clearfix();
+
+    margin-top: 0;
+    padding-left: 0;
+    background-color: transparent !important;
+
+    .menu-children {
+      background: #fff !important;
+      border: 1px solid #EAEAEA;
+      border-bottom-color: #CACACA;
+
+      // hack Redmine 3.3.0 and 3.3.1
+      // http://www.redmine.org/issues/24000#note-4
+      z-index: 45;
+
+      li {
+        a {
+          border-bottom: none;
+          &:hover {
+            color: $link-color;
+            background: none;
+            border-bottom: none;
+          }
+        }
+      }
+    }
+
+    li {
+      margin: 0;
+      padding: 0;
+
+      a {
+        background-color: transparent !important;
+        display: block;
+        padding: 10px 12px;
+        color: #333;
+        text-shadow: 0 1px 0 #fff;
+        font-weight: bold;
+        text-decoration: none;
+        border-bottom: 2px solid #DADADA;
+        height: 20px;
+        line-height: 20px;
+
+        &.selected {
+          color: #000;
+          border-bottom: 2px solid #D26911 !important;
+          background-color: #ebebeb;
+          background-image: linear-gradient(#fcfcfc, #ebebeb);
+          background-repeat: repeat-x;
+          &:hover {
+            color: #000;
+          }
+        }
+        &:hover {
+          color: $link-color;
+        }
+      }
+    }
+  }
+}
