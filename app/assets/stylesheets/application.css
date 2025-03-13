@@ -241,6 +241,8 @@ a.user.user-mention {
 #admin-menu a.selected:not(:has(svg))  {padding-left: 20px !important; background-position: 2px 40%;}
 
 a#toggle-completed-versions {color:#999;}
+a#toggle-completed-versions span.icon-label {margin-left: 0}
+a#toggle-completed-versions svg, a#toggle-completed-versions:hover svg {stroke:#999}
 
 /***** Dropdown *****/
 .drdn {position:relative;}
