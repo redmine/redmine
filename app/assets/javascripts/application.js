@@ -67,6 +67,7 @@ function collapseAllRowGroups(el) {
     if ($(this).hasClass('group')) {
       $(this).removeClass('open');
       $(this).find('.expander').switchClass('icon-expanded', 'icon-collapsed');
+      updateSVGIcon($(this).find('.expander')[0], 'angle-right')
     } else {
       $(this).hide();
     }
@@ -79,6 +80,7 @@ function expandAllRowGroups(el) {
     if ($(this).hasClass('group')) {
       $(this).addClass('open');
       $(this).find('.expander').switchClass('icon-collapsed', 'icon-expanded');
+      updateSVGIcon($(this).find('.expander')[0], 'angle-down')
     } else {
       $(this).show();
     }
