@@ -45,7 +45,8 @@
 }
 #context-menu li>a { flex-grow: 1; }
 #context-menu a.disabled, #context-menu a.disabled:hover {color: #aaa;}
-#context-menu li a.submenu { padding-right:16px; background:url("/arrow_right.png") right no-repeat; padding-left: 28px;}
+#context-menu li a.submenu:not(:has(+ span)) { padding-right:16px; background:url("/arrow_right.png") right no-repeat;}
+#context-menu li a.submenu { padding-left: 28px;}
 #context-menu li:hover { border:1px solid #628db6; background-color:#eef5fd; border-radius:3px; }
 #context-menu a:hover {color:#2A5685;}
 #context-menu li.folder ul li a:not(.icon) {
