@@ -40,8 +40,8 @@ div.modal p.buttons {text-align:left;}
 #sidebar a.selected {padding:1px 2px 2px 3px; margin-left:0px; margin-right:-2px;}
 #admin-menu a.selected {padding-left:0!important; padding-right:20px!important; background-position:right 2px 40%;}
 
-a.collapsible {padding-left:0px; padding-right:12px; background: url(/arrow_down.png) no-repeat right 0px top 50%;}
-a.collapsible.collapsed {background-image: url(/arrow_left.png);}
+a.collapsible:not(:has(svg)) {padding-left:0px; padding-right:12px; background: url(/arrow_down.png) no-repeat right 0px top 50%;}
+a.collapsible.collapsed:not(:has(svg)) {background-image: url(/arrow_left.png);}
 
 /***** Tables *****/
 table.list td {padding-left:0px; padding-right:10px;}
@@ -137,8 +137,8 @@ div.issue div.subject div div {padding-left:0px; padding-right:16px;}
 
 div.issue span.private, div.journal span.private {margin-right:0px; margin-left:2px;}
 
-fieldset.collapsible>legend {padding-left:0px; padding-right:18px; background: url(/arrow_down.png) no-repeat right 50%;}
-fieldset.collapsible.collapsed>legend { background-image: url(/arrow_left.png); }
+fieldset.collapsible>legend:not(:has(svg)) {padding-left:0px; padding-right:18px; background: url(/arrow_down.png) no-repeat right 50%;}
+fieldset.collapsible.collapsed>legend:not(:has(svg)) { background-image: url(/arrow_left.png); }
 
 fieldset#filters td.add-filter {text-align:left; }
 
@@ -345,7 +345,7 @@ a.wiki-anchor {margin-left:0px; margin-right:6px;}
 .project.marker {margin-left:0; margin-right:-4px;}
 
 /***** Icons *****/
-.icon {
+.icon:not(:has(svg)) {
   background-position: right 50%;
   padding-left:0; padding-right:20px;
 }
@@ -358,6 +358,10 @@ div.issue img.gravatar {
 div.issue table img.gravatar {
   float: right;
   margin: 0 0em 0 0.5em;
+}
+
+span.icon-label {
+  margin-right: 4px;
 }
 
 h2 img.gravatar {margin: -2px 0 -4px 4px;}
