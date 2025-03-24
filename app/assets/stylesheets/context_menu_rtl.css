@@ -7,9 +7,8 @@
 #context-menu li.folder ul { left:auto; right:168px; }
 #context-menu li.folder>ul { left:auto; right:148px; }
 #context-menu li a.submenu { background:url("/arrow_left.png") left no-repeat; }
-
-#context-menu a {
-   background-position: 100% 40%;
-   padding-right: 20px;
-   padding-left: 0px;
+#context-menu li.folder ul li a:not(.icon) {padding-right: 28px;}
+#context-menu li a.submenu {
+   padding-right: 28px;
+   padding-left: 0;
 }
