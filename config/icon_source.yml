@@ -209,3 +209,8 @@
   svg: square-rounded-plus
 - name: toggle-minus
   svg: square-rounded-minus
+- name: circle-minus
+  svg: circle-minus
+- name: circle-dot-filled
+  svg: circle-dot
+  style: filled

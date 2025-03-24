@@ -96,7 +96,7 @@ module RepositoriesHelper
       if s = tree[file][:s]
         style << ' folder'
         path_param = to_path_param(@repository.relative_path(file))
-        text = link_to(h(text), :controller => 'repositories',
+        text = link_to(sprite_icon("folder-open", h(text)), :controller => 'repositories',
                              :action => 'show',
                              :id => @project,
                              :repository_id => @repository.identifier_param,
@@ -108,7 +108,7 @@ module RepositoriesHelper
       elsif c = tree[file][:c]
         style << " change-#{c.action}"
         path_param = to_path_param(@repository.relative_path(c.path))
-        text = link_to(h(text), :controller => 'repositories',
+        text = link_to(scm_change_icon(c.action, h(text)), :controller => 'repositories',
                              :action => 'entry',
                              :id => @project,
                              :repository_id => @repository.identifier_param,
