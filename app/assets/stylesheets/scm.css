@@ -19,24 +19,48 @@ div.revision-graph { position: absolute; min-width: 1px; }
 div.changeset-changes ul { margin: 0; padding: 0; }
 div.changeset-changes ul > ul { margin-left: 18px; padding: 0; }
 
+div.changeset-changes ul:first-child > li {padding-left: 0}
 li.change {
     list-style-type:none;
-    background-image: url(/bullet_black.png);
-    background-position: 1px 2px;
-    background-repeat: no-repeat;
     padding-top: 1px;
     padding-bottom: 1px;
     padding-left: 20px;
     margin: 0;
 }
-li.change.folder { background-image: url(/folder_open.png); }
+li.change:not(:has(svg)) {
+    background-image: url(/bullet_black.png);
+    background-position: 1px 2px;
+    background-repeat: no-repeat;
+}
+li.change.folder:not(:has(svg)) { background-image: url(/folder_open.png); }
 li.change.folder.change-A { background-image: url(/folder_open_add.png); }
 li.change.folder.change-M { background-image: url(/folder_open_orange.png); }
-li.change.change-A { background-image: url(/bullet_add.png); }
-li.change.change-M { background-image: url(/bullet_orange.png); }
-li.change.change-C { background-image: url(/bullet_blue.png); }
-li.change.change-R { background-image: url(/bullet_purple.png); }
-li.change.change-D { background-image: url(/bullet_delete.png); }
+
+li.change.change-A:not(:has(svg)) { background-image: url(/bullet_add.png); }
+li.change.change-A svg.icon-svg {
+    fill: #5db651;
+    stroke: #ffffff;
+}
+li.change.change-M:not(:has(svg)) { background-image: url(/bullet_orange.png); }
+li.change.change-M svg.icon-svg {
+    fill: #f0a810;
+    stroke: #ffffff;
+}
+li.change.change-C:not(:has(svg)) { background-image: url(/bullet_blue.png); }
+li.change.change-C svg.icon-svg {
+    fill: #049cec;
+    stroke: #ffffff;
+}
+li.change.change-R:not(:has(svg)) { background-image: url(/bullet_purple.png); }
+li.change.change-R svg.icon-svg {
+    fill: #8404ee;
+    stroke: #ffffff;
+}
+li.change.change-D:not(:has(svg)) { background-image: url(/bullet_delete.png); }
+li.change.change-D svg.icon-svg {
+    fill: #c61a1a;
+    stroke: #ffffff;
+}
 
 li.change .copied-from { font-style: italic; color: #999; font-size: 0.9em; }
 li.change .copied-from:before { content: " - "}

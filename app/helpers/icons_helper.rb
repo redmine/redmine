@@ -67,6 +67,18 @@ module IconsHelper
     sprite_icon(icon_name, **options)
   end
 
+  def scm_change_icon(action, name, **options)
+    icon_name = case action
+                when 'A'
+                  "add"
+                when 'D'
+                  "circle-minus"
+                else
+                  "circle-dot-filled"
+                end
+    sprite_icon(icon_name, name, size: 14)
+  end
+
   private
 
   def svg_sprite_icon(icon_name, size: DEFAULT_ICON_SIZE, sprite: DEFAULT_SPRITE, css_class: nil)
