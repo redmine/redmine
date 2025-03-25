@@ -214,3 +214,7 @@
 - name: circle-dot-filled
   svg: circle-dot
   style: filled
+- name: watch
+  svg: eye
+- name: unwatch
+  svg: eye-off
