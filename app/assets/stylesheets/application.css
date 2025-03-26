@@ -1194,11 +1194,9 @@ input.autocomplete.ajax-loading {
 }
 
 div.flash {margin-top: 8px;}
-div.flash:has(svg) {
-  padding-left: 10px;
-}
-div.flash svg.icon-svg {
+div.flash svg.icon-svg, #errorExplanation svg.icon-svg {
   margin-right: 4px;
+  margin-left: -26px;
 }
 
 div.flash.error, #errorExplanation {
@@ -1206,11 +1204,23 @@ div.flash.error, #errorExplanation {
   border-color: #d88;
   color: #880000;
 }
-div.flash.error:not(:has(svg)), #errorExplanation {
+div.flash.error:not(:has(svg)), #errorExplanation:not(:has(svg)) {
   background: url(/exclamation.png) 8px 50% no-repeat #ffe3e3;
 }
-div.flash.error svg.icon-svg {
+div.flash.error svg.icon-svg, #errorExplanation svg.icon-svg {
   stroke: #880000;
+}
+
+#errorExplanation:has(svg) {
+  position: relative;
+}
+
+#errorExplanation:has(svg) > svg.icon-svg {
+  position: absolute;
+  top: 50%;
+  bottom: 50%;
+  margin-left: -24px;
+  margin-top: -9px;
 }
 
 div.flash.notice {

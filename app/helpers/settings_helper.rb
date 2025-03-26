@@ -48,7 +48,11 @@ module SettingsHelper
     errors.each do |name, message|
       s << content_tag('li', content_tag('b', l("setting_#{name}")) + " " + message)
     end
-    content_tag('div', content_tag('ul', s), :id => 'errorExplanation')
+
+    h = ''.html_safe
+    h << notice_icon('error')
+    h << content_tag('ul', s)
+    content_tag('div', h, :id => 'errorExplanation')
   end
 
   def setting_value(setting)

@@ -1,7 +1,10 @@
 <h2><%= @status %></h2>
 
 <% if @message.present? %>
-  <p id="errorExplanation"><%= @message %></p>
+  <p id="errorExplanation">
+    <%= notice_icon('error') %>
+    <%= @message %>
+  </p>
 <% end %>
 
 <% if @archived_project && User.current.admin? %>

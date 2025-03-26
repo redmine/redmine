@@ -2,6 +2,7 @@
 
 <% if @unsaved_time_entries.present? %>
 <div id="errorExplanation">
+  <%= notice_icon('error') %>
   <span>
     <%= l(:notice_failed_to_save_time_entries,
         :count => @unsaved_time_entries.size,

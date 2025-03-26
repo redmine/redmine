@@ -1576,7 +1576,9 @@ module ApplicationHelper
   def render_error_messages(errors)
     html = +""
     if errors.present?
-      html << "<div id='errorExplanation'><ul>\n"
+      html << "<div id='errorExplanation'>\n"
+      html << notice_icon('error')
+      html << "<ul>\n"
       errors.each do |error|
         html << "<li>#{h error}</li>\n"
       end

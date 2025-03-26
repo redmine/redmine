@@ -2,6 +2,7 @@
 
 <% if @saved_issues && @unsaved_issues.present? %>
 <div id="errorExplanation">
+  <%= notice_icon('error') %>
   <span>
     <%= l(:notice_failed_to_save_issues,
         :count => @unsaved_issues.size,
@@ -241,6 +242,7 @@
 
 <% if @values_by_custom_field.present? %>
 <div class="flash warning">
+  <%= notice_icon('warning') %>
   <%= l(:warning_fields_cleared_on_bulk_edit) %>:<br />
   <%= safe_join(@values_by_custom_field.map {|field, ids| content_tag "span", "#{field.name} (#{ids.size})"}, ', ') %>
 </div>
