@@ -85,6 +85,8 @@
   svg: chevron-right
 - name: angle-up
   svg: chevron-up
+- name: angle-left
+  svg: chevron-left
 - name: email
   svg: mail
 - name: email-disabled

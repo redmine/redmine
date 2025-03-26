@@ -14,6 +14,9 @@
     <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--angle-down">
       <path d="M6 9l6 6l6 -6"/>
     </symbol>
+    <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--angle-left">
+      <path d="M15 6l-6 6l6 6"/>
+    </symbol>
     <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--angle-right">
       <path d="M9 6l6 6l-6 6"/>
     </symbol>
