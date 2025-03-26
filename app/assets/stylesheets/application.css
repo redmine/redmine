@@ -1461,17 +1461,25 @@ button.tab-left:hover, button.tab-right:hover {
 button.tab-left:focus, button.tab-right:focus {
   outline: 0;
 }
+button.tab-left svg.icon-svg, button.tab-right svg.icon-svg {
+  stroke: #999;
+  stroke-width: 2;
+}
 
 button.tab-left {
   right: 28px;
-  background: #eeeeee url(/arrow_left.png) no-repeat 50% 50%;
   border-top-left-radius:3px;
+}
+button.tab-left:not(:has(svg)) {
+  background: #eeeeee url(/arrow_left.png) no-repeat 50% 50%;
 }
 
 button.tab-right {
   right: 4px;
-  background: #eeeeee url(/arrow_right.png) no-repeat 50% 50%;
   border-top-right-radius:3px;
+}
+button.tab-right:not(:has(svg)) {
+  background: #eeeeee url(/arrow_right.png) no-repeat 50% 50%;
 }
 
 button.tab-left.disabled, button.tab-right.disabled {
