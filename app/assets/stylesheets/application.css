@@ -1194,7 +1194,7 @@ input.autocomplete.ajax-loading {
 }
 
 div.flash {margin-top: 8px;}
-div.flash svg.icon-svg, #errorExplanation svg.icon-svg {
+div.flash svg.icon-svg, #errorExplanation svg.icon-svg, .conflict svg.icon-svg {
   margin-right: 4px;
   margin-left: -26px;
 }
@@ -1241,10 +1241,10 @@ div.flash.warning, .conflict {
   color: #A6750C;
   text-align: left;
 }
-div.flash.warning:not(:has(svg)) {
+div.flash.warning:not(:has(svg)), .conflict:not(:has(svg)) {
   background: url(/warning.png) 8px 5px no-repeat #F3EDD1;
 }
-div.flash.warning svg.icon-svg {
+div.flash.warning svg.icon-svg, .conflict svg.icon-svg {
   stroke: #A6750C;
 }
 
