@@ -1150,6 +1150,7 @@ en:
   label_edited: Edited
   label_time_by_author: "%{time} by %{author}"
   label_involved_principals: Author / Previous assignee
+  label_progressbar: Progress bar
 
   button_login: Login
   button_submit: Submit

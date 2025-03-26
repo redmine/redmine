@@ -1025,6 +1025,7 @@ fr:
     for_this_user: For this user
   label_trackers_description: Description des trackers
   label_open_trackers_description: Afficher la description des trackers
+  label_progressbar: Barre de progression
 
   button_login: Connexion
   button_submit: Soumettre

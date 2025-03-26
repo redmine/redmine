@@ -1082,5 +1082,61 @@ module Redmine
             })
       end
     end
+
+    class ProgressbarFormat < Numeric
+      add 'progressbar'
+
+      self.form_partial = nil
+      self.totalable_supported = false
+
+      def label
+        "label_progressbar"
+      end
+
+      def cast_single_value(custom_field, value, customized=nil)
+        value.to_i.clamp(0, 100)
+      end
+
+      def validate_single_value(custom_field, value, customized=nil)
+        errs = super
+        errs << ::I18n.t('activerecord.errors.messages.not_a_number') unless /^\d*$/.match?(value.to_s.strip)
+        errs << ::I18n.t('activerecord.errors.messages.invalid') unless value.to_i.between?(0, 100)
+        errs
+      end
+
+      def query_filter_options(custom_field, query)
+        {:type => :integer}
+      end
+
+      def group_statement(custom_field)
+        order_statement(custom_field)
+      end
+
+      def edit_tag(view, tag_id, tag_name, custom_value, options={})
+        view.select_tag(
+          tag_name,
+          view.options_for_select(
+            (0..100).step(Setting.issue_done_ratio_interval.to_i).to_a.collect {|r| ["#{r} %", r]},
+            custom_value.value
+          ),
+          options.merge(id: tag_id, style: "width: 75px;")
+        )
+      end
+
+      def bulk_edit_tag(view, tag_id, tag_name, custom_field, objects, value, options={})
+        opts = view.options_for_select([[l(:label_no_change_option), '']] + (0..100).step(Setting.issue_done_ratio_interval.to_i).to_a.collect {|r| ["#{r} %", r]})
+        view.select_tag(tag_name, opts, options.merge(id: tag_id, style: "width: 75px;")) +
+          bulk_clear_tag(view, tag_id, tag_name, custom_field, value)
+      end
+
+      def formatted_value(view, custom_field, value, customized=nil, html=false)
+        text = "#{value}%"
+        if html
+          view.progress_bar(value.to_i, legend: (text if view.action_name == 'show'))
+        else
+          text
+        end
+      end
+    end
   end
 end
