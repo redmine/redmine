@@ -511,7 +511,7 @@ module ApplicationHelper
   def render_flash_messages
     s = +''
     flash.each do |k, v|
-      s << content_tag('div', v.html_safe, :class => "flash #{k}", :id => "flash_#{k}")
+      s << content_tag('div', notice_icon(k) + v.html_safe, :class => "flash #{k}", :id => "flash_#{k}")
     end
     s.html_safe
   end
@@ -1569,7 +1569,9 @@ module ApplicationHelper
   def render_error_messages(errors)
     html = +""
     if errors.present?
-      html << "<div id='errorExplanation'><ul>\n"
+      html << "<div id='errorExplanation'>\n"
+      html << notice_icon('error')
+      html << "<ul>\n"
       errors.each do |error|
         html << "<li>#{h error}</li>\n"
       end

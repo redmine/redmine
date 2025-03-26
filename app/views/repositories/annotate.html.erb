@@ -51,7 +51,10 @@
 </table>
 </div>
 <% else %>
-<p id="errorExplanation"><%= @error_message %></p>
+<p id="errorExplanation">
+  <%= notice_icon('error') %>
+  <%= @error_message %>
+</p>
 <% end %>
 
 <% html_title(l(:button_annotate)) -%>

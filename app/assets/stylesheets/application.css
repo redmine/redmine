@@ -1191,27 +1191,58 @@ input.autocomplete.ajax-loading {
 }
 
 div.flash {margin-top: 8px;}
+div.flash svg.icon-svg, #errorExplanation svg.icon-svg, .conflict svg.icon-svg {
+  margin-right: 4px;
+  margin-left: -26px;
+}
 
 div.flash.error, #errorExplanation {
-  background: url(/exclamation.png) 8px 50% no-repeat;
   background-color: #ffe3e3;
   border-color: #d88;
   color: #880000;
 }
+div.flash.error:not(:has(svg)), #errorExplanation:not(:has(svg)) {
+  background: url(/exclamation.png) 8px 50% no-repeat #ffe3e3;
+}
+div.flash.error svg.icon-svg, #errorExplanation svg.icon-svg {
+  stroke: #880000;
+}
+
+#errorExplanation:has(svg) {
+  position: relative;
+}
+
+#errorExplanation:has(svg) > svg.icon-svg {
+  position: absolute;
+  top: 50%;
+  bottom: 50%;
+  margin-left: -24px;
+  margin-top: -9px;
+}
 
 div.flash.notice {
-  background: url(/true.png) 8px 5px no-repeat;
   background-color: #dfffdf;
   border-color: #9fcf9f;
   color: #005f00;
 }
+div.flash.notice:not(:has(svg)) {
+  background: url(/true.png) 8px 50% no-repeat #dfffdf;
+}
+div.flash.notice svg.icon-svg {
+  stroke: #005f00;
+}
 
 div.flash.warning, .conflict {
-  background: url(/warning.png) 8px 5px no-repeat;
   background-color: #F3EDD1;
   border-color: #eadbbc;
   color: #A6750C;
   text-align: left;
+}
+div.flash.warning:not(:has(svg)), .conflict:not(:has(svg)) {
+  background: url(/warning.png) 8px 5px no-repeat #F3EDD1;
+}
+div.flash.warning svg.icon-svg, .conflict svg.icon-svg {
+  stroke: #A6750C;
 }
 
 .nodata, .warning {

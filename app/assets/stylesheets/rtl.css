@@ -241,16 +241,21 @@ input.autocomplete {
   padding: 4px 30px 4px 4px;
 }
 
-div.flash.error, #errorExplanation {
-  background: url(/exclamation.png) right 8px top 50% no-repeat;
+div.flash svg.icon-svg, #errorExplanation svg.icon-svg {
+  margin-right: -26px;
+  margin-left: 4px;
 }
 
-div.flash.notice {
-  background: url(/true.png) right 8px top 5px no-repeat;
+div.flash.error:not(:has(svg)), #errorExplanation:not(:has(svg)) {
+  background: url(/exclamation.png) right 8px top 50% no-repeat #ffe3e3;
 }
 
-div.flash.warning, .conflict {
-  background: url(/warning.png) right 8px top 5px no-repeat;
+div.flash.notice:not(:has(svg)) {
+  background: url(/true.png) right 8px top 5px no-repeat #dfffdf;
+}
+
+div.flash.warning:not(:has(svg)), .conflict {
+  background: url(/warning.png) right 8px top 5px no-repeat #F3EDD1;
   text-align:right;
 }
 
