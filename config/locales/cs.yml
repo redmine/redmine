@@ -1481,3 +1481,4 @@ cs:
     one: "%{filename} a 1 soubor"
     other: "%{filename} a %{count} soubory(ů)"
   setting_wiki_tablesort_enabled: Javascript based table sorting in wiki content
+  label_progressbar: Progress bar
