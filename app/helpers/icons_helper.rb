@@ -83,9 +83,7 @@ module IconsHelper
     icon_name = case type
                 when 'notice'
                   'checked'
-                when 'warning'
-                  'warning'
-                when 'error'
+                when 'warning', 'error'
                   'warning'
                 end
 
