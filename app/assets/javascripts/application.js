@@ -775,7 +775,7 @@ $(document).ready(function(){
       drdn.addClass("expanded");
       if ($(this).parent('#project-jump').length) {
         selected = $('.drdn-items a.selected'); // Store selected project
-        selected.focus(); // Calling focus to scroll to selected project
+        selected.first().focus(); // Calling focus to scroll to selected project
       }
       if (!isMobile()) {
         drdn.find(".autocomplete").focus();
