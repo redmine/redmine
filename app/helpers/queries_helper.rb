@@ -192,6 +192,8 @@ module QueriesHelper
     value =
       if [:hours, :spent_hours, :total_spent_hours, :estimated_hours, :total_estimated_hours, :estimated_remaining_hours].include? column.name
         format_hours(value)
+      elsif column.is_a?(QueryCustomFieldColumn)
+        format_object(value, thousands_delimiter: column.custom_field.thousands_delimiter?)
       else
         format_object(value)
       end
