@@ -30,7 +30,7 @@
 
 <% unless @query.is_a?(ProjectQuery) %>
   <p><label for="query_is_for_all"><%=l(:field_is_for_all)%></label>
-  <%= check_box_tag 'query_is_for_all', 1, @query.project.nil?, :class => (User.current.admin? ? '' : 'disable-unless-private') %></p>
+  <%= check_box_tag 'query_is_for_all', 1, @query.project.nil?, :disabled => (!@query.new_record? && @query.project.nil?), :class => (User.current.admin? ? '' : 'disable-unless-private') %></p>
 <% end %>
 
 <% unless params[:calendar] %>

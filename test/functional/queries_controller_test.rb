@@ -986,4 +986,44 @@ class QueriesControllerTest < Redmine::ControllerTest
     assert_include ["Development", "10"], json
     assert_include ["Inactive Activity", "14"], json
   end
+
+  def test_new_query_is_for_all_checkbox_not_disabled
+    @request.session[:user_id] = 1
+    get :new
+    assert_response :success
+    # Verify that the "For all projects" checkbox is not disabled when creating a new query
+    assert_select 'input[name=query_is_for_all][type=checkbox][checked]:not([disabled])'
+  end
+
+  def test_new_project_query_is_for_all_checkbox_not_disabled
+    @request.session[:user_id] = 1
+    get(:new, :params => {:project_id => 1})
+    assert_response :success
+    # Verify that the checkbox is not disabled when creating a new query within a project
+    assert_select 'input[name=query_is_for_all][type=checkbox]:not([checked]):not([disabled])'
+  end
+
+  def test_edit_global_query_is_for_all_checkbox_disabled
+    @request.session[:user_id] = 1
+    # Create a global query (project_id = nil)
+    query = IssueQuery.create!(:name => 'test_global_query', :user_id => 1, :project_id => nil)
+
+    get(:edit, :params => {:id => query.id})
+    assert_response :success
+
+    # Verify that the "For all projects" checkbox is disabled when editing an existing global query
+    assert_select 'input[name=query_is_for_all][type=checkbox][checked][disabled]'
+  end
+
+  def test_edit_project_query_is_for_all_checkbox_not_disabled
+    @request.session[:user_id] = 1
+    # Create a project-specific query
+    query = IssueQuery.create!(:name => 'test_project_query', :user_id => 1, :project_id => 1)
+
+    get(:edit, :params => {:id => query.id})
+    assert_response :success
+
+    # Verify that the checkbox is not disabled when editing a project-specific query
+    assert_select 'input[name=query_is_for_all][type=checkbox]:not([checked]):not([disabled])'
+  end
 end
