@@ -26,7 +26,7 @@ class RoutingAttachmentsTest < Redmine::RoutingTest
     should_route 'GET /attachments/1/filename.txt' => 'attachments#show', :id => '1', :filename => 'filename.txt', :format => 'html'
 
     should_route 'GET /attachments/download/1' => 'attachments#download', :id => '1'
-    should_route 'GET /attachments/download/1/filename.ext' => 'attachments#download', :id => '1', :filename => 'filename.ext'
+    should_route 'GET /attachments/download/1/filename.ext' => 'attachments#download', :id => '1', :filename => 'filename.ext', :format => 'html'
 
     should_route 'GET /attachments/thumbnail/1' => 'attachments#thumbnail', :id => '1'
     should_route 'GET /attachments/thumbnail/1/200' => 'attachments#thumbnail', :id => '1', :size => '200'
