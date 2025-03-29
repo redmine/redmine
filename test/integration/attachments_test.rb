@@ -267,6 +267,16 @@ class AttachmentsTest < Redmine::IntegrationTest
     end
   end
 
+  def test_unauthorized_named_download_link_should_redirect_to_login
+    with_settings login_required: '1' do
+      get "/attachments/download/1"
+      assert_redirected_to "/login?back_url=http%3A%2F%2Fwww.example.com%2Fattachments%2Fdownload%2F1"
+
+      get "/attachments/download/1/error281.txt"
+      assert_redirected_to "/login?back_url=http%3A%2F%2Fwww.example.com%2Fattachments%2Fdownload%2F1%2Ferror281.txt"
+    end
+  end
+
   private
 
   def ajax_upload(filename, content, attachment_id=1)
