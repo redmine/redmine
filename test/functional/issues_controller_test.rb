@@ -5917,6 +5917,16 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'input[name=?]', 'time_entry[hours]', 0
   end
 
+  def test_get_edit_should_not_display_the_time_entry_form_on_closed_issue
+    with_settings :timelog_accept_closed_issues => '0' do
+      @request.session[:user_id] = 2
+      issue = Issue.find(1)
+      issue.update :status => IssueStatus.find(5)
+      get(:edit, :params => {:id => 1})
+      assert_select 'input[name=?]', 'time_entry[hours]', 0
+    end
+  end
+
   def test_get_edit_with_params
     @request.session[:user_id] = 2
     get(
@@ -6371,6 +6381,57 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_mail_body_match "Status changed from New to Assigned", mail
     # subject should contain the new status
     assert mail.subject.include?("(#{IssueStatus.find(2).name})")
+  end
+
+  def test_update_should_accept_time_entry_when_closing_issue
+    with_settings :timelog_accept_closed_issues => '0' do
+      issue = Issue.find(1)
+      assert_equal 1, issue.status_id
+      @request.session[:user_id] = 2
+      assert_difference('TimeEntry.count', 1) do
+        put(
+          :update,
+          :params => {
+            :id => 1,
+            :issue => {
+              :status_id => 5,
+            },
+            :time_entry => {
+              :hours => '2',
+              :comments => '',
+              :activity_id => TimeEntryActivity.first
+            }
+          }
+        )
+      end
+      assert_redirected_to :action => 'show', :id => '1'
+      issue.reload
+      assert issue.closed?
+    end
+  end
+
+  def test_update_should_not_accept_time_entry_on_closed_issue
+    with_settings :timelog_accept_closed_issues => '0' do
+      issue = Issue.find(1)
+      issue.update :status => IssueStatus.find(5)
+      @request.session[:user_id] = 2
+      assert_no_difference('TimeEntry.count') do
+        put(
+          :update,
+          :params => {
+            :id => 1,
+            :issue => {
+            },
+            :time_entry => {
+              :hours => '2',
+              :comments => '',
+              :activity_id => TimeEntryActivity.first
+            }
+          }
+        )
+      end
+      assert_response :success
+    end
   end
 
   def test_put_update_with_note_only

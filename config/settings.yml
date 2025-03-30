@@ -347,6 +347,8 @@ timelog_max_hours_per_day:
   default: 999
 timelog_accept_future_dates:
   default: 1
+timelog_accept_closed_issues:
+  default: 1
 show_status_changes_in_mail_subject:
   default: 1
 wiki_tablesort_enabled:

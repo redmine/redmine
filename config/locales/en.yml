@@ -235,6 +235,7 @@ en:
   error_exceeds_maximum_hours_per_day: "Cannot log more than %{max_hours} hours on the same day (%{logged_hours} hours have already been logged)"
   error_can_not_delete_auth_source: "This authentication mode is in use and cannot be deleted."
   error_spent_on_future_date: "Cannot log time on a future date"
+  error_spent_on_closed_issue: "Cannot log time on a closed issue"
   error_not_allowed_to_log_time_for_other_users: "You are not allowed to log time for other users"
   error_can_not_execute_macro_html: "Error executing the <strong>%{name}</strong> macro (%{error})"
   error_macro_does_not_accept_block: "This macro does not accept a block of text"
@@ -519,6 +520,7 @@ en:
   setting_timelog_accept_0_hours: Accept time logs with 0 hours
   setting_timelog_max_hours_per_day: Maximum hours that can be logged per day and user
   setting_timelog_accept_future_dates: Accept time logs on future dates
+  setting_timelog_accept_closed_issues: Accept time logs on closed issues
   setting_show_status_changes_in_mail_subject: Show status changes in issue mail notifications subject
   setting_project_list_defaults: Projects list defaults
   setting_twofa: Two-factor authentication

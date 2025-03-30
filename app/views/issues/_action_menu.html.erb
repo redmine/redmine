@@ -3,7 +3,7 @@
             :onclick => 'showAndScrollTo("update", "issue_notes"); return false;',
             :class => 'icon icon-edit ', :accesskey => accesskey(:edit) if @issue.editable? %>
 <%= link_to sprite_icon('time-add', l(:button_log_time)), new_issue_time_entry_path(@issue),
-            :class => 'icon icon-time-add ' if User.current.allowed_to?(:log_time, @project) %>
+            :class => 'icon icon-time-add ' if @issue.time_loggable? %>
 <%= watcher_link(@issue, User.current) %>
 <%= link_to sprite_icon('copy', l(:button_copy)), project_copy_issue_path(@project, @issue),
             :class => 'icon icon-copy ' if User.current.allowed_to?(:copy_issues, @project) && Issue.allowed_target_projects.any? %>

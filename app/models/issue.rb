@@ -188,6 +188,11 @@ class Issue < ApplicationRecord
     end
   end
 
+  # Returns true if user or current user is allowed to log time on the issue
+  def time_loggable?(user=User.current)
+    user.allowed_to?(:log_time, project) && (!Setting.timelog_accept_future_dates? || !closed?)
+  end
+
   # Returns true if user or current user is allowed to edit or add notes to the issue
   def editable?(user=User.current)
     attributes_editable?(user) || notes_addable?(user)

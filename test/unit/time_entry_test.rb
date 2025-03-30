@@ -175,6 +175,18 @@ class TimeEntryTest < ActiveSupport::TestCase
     end
   end
 
+  def test_should_not_accept_closed_issue
+    with_settings :timelog_accept_closed_issues => '0' do
+      project = Project.find(1)
+      entry = TimeEntry.generate project: project
+      issue = project.issues.to_a.detect(&:closed?)
+      entry.issue = issue
+      assert !entry.save
+      assert entry.errors[:base].present?
+      assert_equal 'Cannot log time on a closed issue', entry.errors[:base].first
+    end
+  end
+
   def test_should_require_spent_on
     with_settings :timelog_accept_future_dates => '0' do
       entry = TimeEntry.find(1)

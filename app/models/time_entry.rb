@@ -182,6 +182,9 @@ class TimeEntry < ApplicationRecord
     if spent_on && spent_on_changed? && user
       errors.add :base, I18n.t(:error_spent_on_future_date) if !Setting.timelog_accept_future_dates? && (spent_on > user.today)
     end
+    if !Setting.timelog_accept_closed_issues? && issue&.closed? && issue&.was_closed?
+      errors.add :base, I18n.t(:error_spent_on_closed_issue)
+    end
   end
 
   def hours=(h)
