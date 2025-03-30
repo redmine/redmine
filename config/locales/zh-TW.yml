@@ -1517,3 +1517,5 @@
     other: "%{filename} 與另外 %{count} 個檔案"
   setting_wiki_tablesort_enabled: 在維基頁面的內容中, 啟用基於 Javascript 的表格排序功能
   label_progressbar: 進度條
+  error_spent_on_closed_issue: Cannot log time on a closed issue
+  setting_timelog_accept_closed_issues: Accept time logs on closed issues
