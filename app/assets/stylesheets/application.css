@@ -588,7 +588,7 @@ div.square {
 }
 .contextual {float:right; white-space: nowrap; line-height:1.4em;margin:5px 0px; padding-left: 10px; font-size:0.9em;}
 .contextual input, .contextual select {font-size:0.9em;}
-.message .contextual { margin-top: 0; }
+.message .contextual, #comments .contextual { margin-top: 0; }
 
 .splitcontent {overflow: auto; display: flex; flex-wrap: wrap;}
 .splitcontentleft {flex: 1; margin-right: 5px;}
