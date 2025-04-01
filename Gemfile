@@ -41,7 +41,7 @@ end
 
 # Optional gem for exporting the gantt to a PNG file
 group :minimagick do
-  gem 'mini_magick', '~> 5.1.0'
+  gem 'mini_magick', '~> 5.2.0'
 end
 
 # Optional CommonMark support, not for JRuby
