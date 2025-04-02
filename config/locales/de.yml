@@ -1060,6 +1060,8 @@ de:
   setting_user_format: Benutzer-Anzeigeformat
   setting_welcome_text: Willkommenstext
   setting_wiki_compression: Wiki-Historie komprimieren
+  setting_related_issues_default_columns: Standard-Spalten für verknüpfte und untergeordnete Aufgaben
+  setting_display_related_issues_table_headers: Spaltenüberschriften anzeigen
 
   status_active: aktiv
   status_locked: gesperrt

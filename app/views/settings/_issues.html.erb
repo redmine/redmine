@@ -62,5 +62,24 @@
   </p>
 </fieldset>
 
+<fieldset class="box">
+  <legend><%= l(:setting_related_issues_default_columns) %></legend>
+  <div id="list-definition">
+    <div>
+      <%= render_query_columns_selection(
+            IssueQuery.new(:column_names => Setting.related_issues_default_columns),
+            :name => 'settings[related_issues_default_columns]') %>
+      <%= javascript_tag do %>
+        $('#available_settings_related_issues_default_columns option[value="tracker"]').remove();
+        $('#available_settings_related_issues_default_columns option[value="subject"]').remove();
+      <% end %>
+    </div>
+  </div>
+
+  <div class="tabular settings">
+    <p><%= setting_check_box :display_related_issues_table_headers %></p>
+  </div>
+</fieldset>
+
 <%= submit_tag l(:button_save) %>
 <% end %>

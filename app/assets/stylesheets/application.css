@@ -361,6 +361,7 @@ table.list td.reorder {width:15%; white-space:nowrap; text-align:center; }
 table.list table.progress td {padding-right:0px;}
 table.list caption { text-align: left; padding: 0.5em 0.5em 0.5em 0; }
 table.list tr.overdue td.due_date  { color: #c22; }
+table.list thead.related-issues th { background-color: inherit; font-size: 11px; border: none; }
 #role-permissions-trackers table.list th {white-space:normal;}
 
 .table-list-cell {display: table-cell; vertical-align: top; padding:2px; }

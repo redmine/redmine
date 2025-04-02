@@ -231,6 +231,16 @@ issue_list_default_columns:
 issue_list_default_totals:
   serialized: true
   default: []
+related_issues_default_columns:
+  serialized: true
+  default:
+  - status
+  - assigned_to
+  - start_date
+  - due_date
+  - done_ratio
+display_related_issues_table_headers:
+  default: 0
 display_subprojects_issues:
   default: 1
 time_entry_list_defaults:

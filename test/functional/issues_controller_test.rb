@@ -8920,4 +8920,15 @@ class IssuesControllerTest < Redmine::ControllerTest
       end
     end
   end
+
+  def test_related_issues_columns_setting
+    with_settings :related_issues_default_columns => ['status', 'total_estimated_hours'], :display_related_issues_table_headers => 1 do
+      Issue.find(1).update!(parent_id: 2)
+      get :show, params: { id: 2 }
+      assert_response :success
+      assert_select 'thead.related-issues th', text: 'Subject'
+      assert_select 'thead.related-issues th', text: 'Status'
+      assert_select 'thead.related-issues th', text: 'Total estimated time'
+    end
+  end
 end

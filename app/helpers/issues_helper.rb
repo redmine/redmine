@@ -21,6 +21,7 @@ module IssuesHelper
   include ApplicationHelper
   include Redmine::Export::PDF::IssuesPdfHelper
   include IssueStatusesHelper
+  include QueriesHelper
 
   def issue_list(issues, &)
     ancestors = []
@@ -89,9 +90,28 @@ module IssuesHelper
     s.html_safe
   end
 
+  def get_related_issues_columns_for_project(issue)
+    query = IssueQuery.new project: issue.project
+    available_columns = query.available_inline_columns
+    column_names = Setting.related_issues_default_columns
+
+    (column_names - %w[tracker subject]).filter_map do |name|
+      available_columns.find { |f| f.name.to_s == name }
+    end
+  end
+
   def render_descendants_tree(issue)
+    columns_list = get_related_issues_columns_for_project(issue)
+
     manage_relations = User.current.allowed_to?(:manage_subtasks, issue.project)
     s = +'<table class="list issues odd-even">'
+
+    if Setting.display_related_issues_table_headers?
+      headers = [l(:field_subject)]
+      headers += columns_list.map(&:caption)
+      s << content_tag(:thead, content_tag(:tr, safe_join(headers.map{|h| content_tag :th, h})), class: "related-issues")
+    end
+
     issue_list(
       issue.descendants.visible.
         preload(:status, :priority, :tracker,
@@ -115,29 +135,17 @@ module IssuesHelper
           "".html_safe
         end
       buttons << link_to_context_menu
-      s <<
-        content_tag(
-          'tr',
-          content_tag('td', check_box_tag("ids[]", child.id, false, :id => nil),
-                      :class => 'checkbox') +
-             content_tag('td',
-                         link_to_issue(
-                           child,
-                           :project => (issue.project_id != child.project_id)),
-                         :class => 'subject') +
-             content_tag('td', h(child.status), :class => 'status') +
-             content_tag('td', link_to_user(child.assigned_to), :class => 'assigned_to') +
-             content_tag('td', format_date(child.start_date), :class => 'start_date') +
-             content_tag('td', format_date(child.due_date), :class => 'due_date') +
-             content_tag('td',
-                         (if child.disabled_core_fields.include?('done_ratio')
-                            ''
-                          else
-                            progress_bar(child.done_ratio)
-                          end),
-                         :class=> 'done_ratio') +
-             content_tag('td', buttons, :class => 'buttons'),
-          :class => css)
+
+      row_content =
+        content_tag('td', check_box_tag('ids[]', child.id, false, id: nil), class: 'checkbox') +
+        content_tag('td', link_to_issue(child, project: (issue.project_id != child.project_id)), class: 'subject')
+
+      columns_list.each do |column|
+        row_content << content_tag('td', column_content(column, child), class: column.css_classes.to_s)
+      end
+
+      row_content << content_tag('td', buttons, class: 'buttons')
+      s << content_tag('tr', row_content, class: css, id: "issue-#{child.id}").html_safe
     end
     s << '</table>'
     s.html_safe
@@ -199,8 +207,17 @@ module IssuesHelper
 
   # Renders the list of related issues on the issue details view
   def render_issue_relations(issue, relations)
+    columns_list = get_related_issues_columns_for_project(issue)
+
     manage_relations = User.current.allowed_to?(:manage_issue_relations, issue.project)
     s = ''.html_safe
+
+    if Setting.display_related_issues_table_headers?
+      headers = [l(:field_subject)]
+      headers += columns_list.map(&:caption)
+      s = content_tag :thead, content_tag(:tr, safe_join(headers.map{|h| content_tag :th, h})), class: "related-issues"
+    end
+
     relations.each do |relation|
       other_issue = relation.other_issue(issue)
       css = "issue hascontextmenu #{other_issue.css_classes} #{relation.css_classes_for(other_issue)}"
@@ -219,36 +236,19 @@ module IssuesHelper
           "".html_safe
         end
       buttons << link_to_context_menu
-      s <<
-        content_tag(
-          'tr',
-          content_tag('td',
-                      check_box_tag(
-                        "ids[]", other_issue.id,
-                        false, :id => nil),
-                      :class => 'checkbox') +
-             content_tag('td',
-                         relation.to_s(@issue) do |other|
-                           link_to_issue(
-                             other,
-                             :project => Setting.cross_project_issue_relations?
-                           )
-                         end.html_safe,
-                         :class => 'subject') +
-             content_tag('td', other_issue.status, :class => 'status') +
-             content_tag('td', link_to_user(other_issue.assigned_to), :class => 'assigned_to') +
-             content_tag('td', format_date(other_issue.start_date), :class => 'start_date') +
-             content_tag('td', format_date(other_issue.due_date), :class => 'due_date') +
-             content_tag('td',
-                         (if other_issue.disabled_core_fields.include?('done_ratio')
-                            ''
-                          else
-                            progress_bar(other_issue.done_ratio)
-                          end),
-                         :class=> 'done_ratio') +
-             content_tag('td', buttons, :class => 'buttons'),
-          :id => "relation-#{relation.id}",
-          :class => css)
+
+      subject_content = relation.to_s(@issue) { |other| link_to_issue other, project: Setting.cross_project_issue_relations? }.html_safe
+
+      row_content =
+        content_tag('td', check_box_tag('ids[]', other_issue.id, false, id: nil), class: 'checkbox') +
+        content_tag('td', subject_content, class: 'subject')
+
+      columns_list.each do |column|
+        row_content << content_tag('td', column_content(column, other_issue), class: column.css_classes.to_s)
+      end
+
+      row_content << content_tag('td', buttons, class: 'buttons')
+      s << content_tag('tr', row_content, id: "relation-#{relation.id}", class: css)
     end
     content_tag('table', s, :class => 'list issues odd-even')
   end
