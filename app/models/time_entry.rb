@@ -243,8 +243,11 @@ class TimeEntry < ApplicationRecord
   def assignable_users
     users = []
     if project
-      users = project.members.active.preload(:user)
-      users = users.map(&:user).select{|u| u.allowed_to?(:log_time, project)}
+      user_ids =
+        project.members.active.preload(:roles).filter_map do |m|
+          m.roles.any? {|role| role.allowed_to?(:log_time)} ? m.user_id : nil
+        end.uniq
+      users = User.where(:id => user_ids).sorted.to_a
     end
     users << User.current if User.current.logged? && !users.include?(User.current)
     users
