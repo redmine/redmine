@@ -396,7 +396,15 @@ module Redmine
             Redmine::Configuration['rmagick_font_path'].presence
         img = MiniMagick::Image.create(".#{format}")
         if Redmine::Configuration['imagemagick_convert_command'].present?
-          MiniMagick.cli_path = File.dirname(Redmine::Configuration['imagemagick_convert_command'])
+          if MiniMagick.respond_to?(:cli_path)
+            MiniMagick.cli_path = File.dirname(Redmine::Configuration['imagemagick_convert_command'])
+          else
+            Rails.logger.warn(
+              'imagemagick_convert_command option is ignored ' \
+              'because MiniMagick has removed the option to define a custom path for the binary. ' \
+              'Please ensure the convert binary is available in your PATH.'
+            )
+          end
         end
         MiniMagick.convert do |gc|
           gc.size('%dx%d' % [subject_width + g_width + 1, height])
