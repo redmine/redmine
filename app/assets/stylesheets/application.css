@@ -322,7 +322,7 @@ div + .drdn-items {border-top:1px solid #ccc;}
   margin:0 !important;
   vertical-align:middle;
   color:#555;
-  background:#fff url(/arrow_down.png) no-repeat 97% 50%;
+  background:#fff url(/chevron-down.svg) no-repeat 98% 50%;
 }
 #project-jump .drdn.expanded .drdn-trigger {background-image:url(/arrow_up.png);}
 #project-jump .drdn-content {width:280px;}
@@ -601,9 +601,9 @@ select {
   -o-appearance: none;
   appearance: none;
   background-color: #fff;
-  background-image: url(/arrow_down.png);
+  background-image: url(/chevron-down.svg);
   background-repeat: no-repeat;
-  background-position: calc(100% - 7px) 50%;
+  background-position: calc(100% - 2px) 50%;
   padding-right: 20px;
 }
 input[type="file"] {border: 0; padding-left: 0; padding-right: 0; height: initial; background-color: initial; }
