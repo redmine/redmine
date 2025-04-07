@@ -66,8 +66,9 @@ function collapseAllRowGroups(el) {
   tbody.children('tr').each(function(index) {
     if ($(this).hasClass('group')) {
       $(this).removeClass('open');
-      $(this).find('.expander').switchClass('icon-expanded', 'icon-collapsed');
-      updateSVGIcon($(this).find('.expander')[0], 'angle-right')
+      var expander = $(this).find('.expander');
+      expander.switchClass('icon-expanded', 'icon-collapsed');
+      toggleExpendCollapseIcon(expander[0]);
     } else {
       $(this).hide();
     }
@@ -79,8 +80,9 @@ function expandAllRowGroups(el) {
   tbody.children('tr').each(function(index) {
     if ($(this).hasClass('group')) {
       $(this).addClass('open');
-      $(this).find('.expander').switchClass('icon-collapsed', 'icon-expanded');
-      updateSVGIcon($(this).find('.expander')[0], 'angle-down')
+      var expander = $(this).find('.expander');
+      expander.switchClass('icon-collapsed', 'icon-expanded');
+      toggleExpendCollapseIcon(expander[0]);
     } else {
       $(this).show();
     }
