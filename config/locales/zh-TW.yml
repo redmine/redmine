@@ -1519,3 +1519,5 @@
   label_progressbar: 進度條
   error_spent_on_closed_issue: 無法在已結束的議題上記錄工時
   setting_timelog_accept_closed_issues: 允許在已結束的議題上紀錄工時
+  setting_related_issues_default_columns: Related and sub issues list defaults
+  setting_display_related_issues_table_headers: Show table headers
