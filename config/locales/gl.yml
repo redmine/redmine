@@ -1496,16 +1496,16 @@ gl:
   field_estimated_remaining_hours: Tempo restante estimado
   field_last_activity_date: Última actividade
   setting_issue_done_ratio_interval: Intervalo de proporción de completado
-  setting_copy_attachments_on_issue_copy: Copy attachments on copy
-  field_thousands_delimiter: Thousands delimiter
-  label_involved_principals: Author / Previous assignee
+  setting_copy_attachments_on_issue_copy: Copiar os anexos ao copiar
+  field_thousands_delimiter: Separador de miles
+  label_involved_principals: Autor / Asignado previo
   label_attachment_summary:
     zero: "%{filename}"
-    one: "%{filename} and 1 file"
-    other: "%{filename} and %{count} files"
-  setting_wiki_tablesort_enabled: Javascript based table sorting in wiki content
-  label_progressbar: Progress bar
-  error_spent_on_closed_issue: Cannot log time on a closed issue
-  setting_timelog_accept_closed_issues: Accept time logs on closed issues
-  setting_related_issues_default_columns: Related and sub issues list defaults
-  setting_display_related_issues_table_headers: Show table headers
+    one: "%{filename} e 1 ficheiro"
+    other: "%{filename} e %{count} ficheiros"
+  setting_wiki_tablesort_enabled: Ordenación de táboas empregando Javascript no contido de wiki
+  label_progressbar: Barra de progreso
+  error_spent_on_closed_issue: Non se pode imputar tempo nunha tarefa pechada
+  setting_timelog_accept_closed_issues: Permitir imputar tempo en tarefas pechadas
+  setting_related_issues_default_columns: Configuración por defecto para listaxes de tarefas relacionadas e fillas
+  setting_display_related_issues_table_headers: Amosar as cabeceiras da táboa
