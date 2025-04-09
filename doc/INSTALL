@@ -67,10 +67,10 @@ The current version of Firefox, Safari, Chrome, Chromium and Microsoft Edge.
 
    using:
      bundle exec rake assets:precompile RAILS_ENV="production"
-    
+
    If deploying to a sub-uri, set the relative URL root as follows:
      bundle exec rake assets:precompile RAILS_ENV="production" RAILS_RELATIVE_URL_ROOT=/sub-uri
-  
+
    If you experience issues with missing assets in the browser, try
    removing the public/assets directory before re-running the precompile:
      bundle exec rake assets:clobber RAILS_ENV="production"
