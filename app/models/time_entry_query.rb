@@ -152,12 +152,19 @@ class TimeEntryQuery < Query
   end
 
   def base_scope
-    TimeEntry.visible.
-      joins(:project, :user).
-      includes(:activity).
-      references(:activity).
-      left_join_issue.
-      where(statement)
+    scope = TimeEntry.visible
+                     .joins(:project, :user)
+                     .includes(:activity)
+                     .references(:activity)
+                     .left_join_issue
+                     .where(statement)
+
+    if Redmine::Database.mysql? && ActiveRecord::Base.connection.supports_optimizer_hints?
+      # Provides MySQL with a hint to use a better join order and avoid slow response times
+      scope.optimizer_hints('JOIN_ORDER(time_entries, projects, users)')
+    else
+      scope
+    end
   end
 
   def results_scope(options={})
