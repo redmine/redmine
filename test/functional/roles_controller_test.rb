@@ -239,11 +239,33 @@ class RolesControllerTest < Redmine::ControllerTest
     assert_nil Role.find_by_id(r.id)
   end
 
-  def test_destroy_role_in_use
-    delete :destroy, :params => {:id => 1}
-    assert_redirected_to '/roles'
-    assert_equal 'This role is in use and cannot be deleted.', flash[:error]
-    assert_not_nil Role.find_by_id(1)
+  def test_destroy_role_with_members
+    role = Role.find(2) # Developer, has members
+
+    delete :destroy, params: { id: role.id }
+
+    assert_redirected_to roles_path
+    assert Role.find_by(id: role.id)
+
+    assert flash[:error].present?
+    assert_includes flash[:error], I18n.t(:error_can_not_remove_role)
+
+    expected_dependency_projects = Project.where(identifier: ['ecookbook', 'onlinestore', 'private-child'])
+    expected_dependency_projects.each do |project|
+      assert_includes flash[:error], project.name
+      assert_includes flash[:error], settings_project_path(project, tab: 'members')
+    end
+  end
+
+  def test_destroy_builtin
+    role = Role.anonymous
+
+    delete :destroy, params: { id: role.id }
+
+    assert_redirected_to roles_path
+    assert Role.find_by(id: role.id)
+    assert flash[:error].present?
+    assert_equal flash[:error], I18n.t(:error_can_not_remove_role)
   end
 
   def test_permissions
