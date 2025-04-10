@@ -1509,3 +1509,5 @@ gl:
   setting_timelog_accept_closed_issues: Permitir imputar tempo en tarefas pechadas
   setting_related_issues_default_columns: Configuración por defecto para listaxes de tarefas relacionadas e fillas
   setting_display_related_issues_table_headers: Amosar as cabeceiras da táboa
+  error_can_not_remove_role_reason_members_html: "<p>The following projects have members
+    with this role:<br>%{projects}</p>"

@@ -1468,3 +1468,5 @@ de:
   setting_wiki_tablesort_enabled: Javascript-basierte Tabellensortierung in Wiki-Inhalten
   error_spent_on_closed_issue: Cannot log time on a closed issue
   setting_timelog_accept_closed_issues: Accept time logs on closed issues
+  error_can_not_remove_role_reason_members_html: "<p>The following projects have members
+    with this role:<br>%{projects}</p>"

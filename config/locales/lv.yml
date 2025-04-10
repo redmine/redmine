@@ -1498,3 +1498,5 @@ lv:
   setting_timelog_accept_closed_issues: Accept time logs on closed issues
   setting_related_issues_default_columns: Related and sub issues list defaults
   setting_display_related_issues_table_headers: Show table headers
+  error_can_not_remove_role_reason_members_html: "<p>The following projects have members
+    with this role:<br>%{projects}</p>"
