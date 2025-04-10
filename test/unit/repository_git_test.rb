@@ -41,6 +41,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
         :path_encoding => 'ISO-8859-1'
       )
     assert @repository
+    skip "SCM command is unavailable" unless @repository.class.scm_available
   end
 
   def test_nondefault_repo_with_blank_identifier_destruction

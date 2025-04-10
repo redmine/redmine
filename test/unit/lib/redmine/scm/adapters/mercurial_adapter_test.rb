@@ -30,12 +30,6 @@ class MercurialAdapterTest < ActiveSupport::TestCase
 
   if File.directory?(REPOSITORY_PATH)
     def setup
-      adapter_class = Redmine::Scm::Adapters::MercurialAdapter
-      assert adapter_class
-      assert adapter_class.client_command
-      assert_equal true, adapter_class.client_available
-      assert_equal true, adapter_class.client_version_above?([0, 9, 5])
-
       @adapter =
         Redmine::Scm::Adapters::MercurialAdapter.new(
           REPOSITORY_PATH,
@@ -44,6 +38,8 @@ class MercurialAdapterTest < ActiveSupport::TestCase
           nil,
           'ISO-8859-1'
         )
+      skip "SCM command is unavailable" unless @adapter.class.client_available
+
       @diff_c_support = true
       @char_1        = 'Ü'
       @tag_char_1    = 'tag-Ü-00'

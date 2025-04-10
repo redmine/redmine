@@ -37,6 +37,8 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
         :path_encoding => 'ISO-8859-1'
       )
     assert @repository
+    skip "SCM command is unavailable" unless @repository.class.scm_available
+
     @diff_c_support = true
   end
 

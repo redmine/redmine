@@ -42,13 +42,6 @@ class GitAdapterTest < ActiveSupport::TestCase
     WINDOWS_SKIP_STR = "TODO: This test fails in Git for Windows above 1.7.10"
 
     def setup
-      adapter_class = Redmine::Scm::Adapters::GitAdapter
-      assert adapter_class
-      assert adapter_class.client_command
-      assert_equal true, adapter_class.client_available
-      assert_equal true, adapter_class.client_version_above?([1])
-      assert_equal true, adapter_class.client_version_above?([1, 0])
-
       @adapter =
         Redmine::Scm::Adapters::GitAdapter.
           new(
@@ -59,6 +52,8 @@ class GitAdapterTest < ActiveSupport::TestCase
             'ISO-8859-1'
           )
       assert @adapter
+      skip "SCM is unavailable" unless @adapter.class.client_available
+
       @char_1 = 'Ü'
       @str_felix_hex  = "Felix Sch\xC3\xA4fer".b
     end

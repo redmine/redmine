@@ -36,6 +36,7 @@ class RepositoryCvsTest < ActiveSupport::TestCase
                                          :url      => MODULE_NAME,
                                          :log_encoding => 'UTF-8')
     assert @repository
+    skip "SCM command is unavailable" unless @repository.class.scm_available
   end
 
   def test_blank_module_error_message
