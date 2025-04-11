@@ -125,6 +125,7 @@ module Redmine
           'java_script' => 'javascript',
           'xhtml' => 'html'
         }
+        private_constant :LANG_ALIASES
 
         def find_lexer(language)
           ::Rouge::Lexer.find(language) ||
