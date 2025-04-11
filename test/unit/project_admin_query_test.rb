@@ -95,6 +95,7 @@ class ProjectAdminQueryTest < ActiveSupport::TestCase
   end
 
   def test_project_statuses_values_should_return_all_statuses
+    set_language_if_valid 'en'
     q = ProjectAdminQuery.new
     assert_equal [
       ["active", "1"],
