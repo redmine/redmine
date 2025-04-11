@@ -1136,11 +1136,6 @@ Style/RedundantConditional:
     - 'lib/redmine/field_format.rb'
 
 # This cop supports unsafe autocorrection (--autocorrect-all).
-Style/RedundantFormat:
-  Exclude:
-    - 'test/unit/lib/redmine/wiki_formatting/common_mark/formatter_test.rb'
-
-# This cop supports unsafe autocorrection (--autocorrect-all).
 Style/RedundantInterpolation:
   Exclude:
     - 'app/helpers/my_helper.rb'
