@@ -623,7 +623,7 @@ class QueryTest < ActiveSupport::TestCase
     query.add_filter('due_date', '><t+', ['15'])
     issues = find_issues_with_query(query)
     assert !issues.empty?
-    issues.each {|issue| assert(issue.due_date >= Date.today && issue.due_date <= (Date.today + 15))}
+    issues.each {|issue| assert(issue.due_date.between?(Date.today, (Date.today + 15)))}
   end
 
   def test_operator_less_than_ago
@@ -641,7 +641,7 @@ class QueryTest < ActiveSupport::TestCase
     query.add_filter('due_date', '><t-', ['3'])
     issues = find_issues_with_query(query)
     assert !issues.empty?
-    issues.each {|issue| assert(issue.due_date >= (Date.today - 3) && issue.due_date <= Date.today)}
+    issues.each {|issue| assert(issue.due_date.between?((Date.today - 3), Date.today))}
   end
 
   def test_operator_more_than_ago

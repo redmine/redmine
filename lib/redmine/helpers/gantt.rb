@@ -502,7 +502,7 @@ module Redmine
           lines(:image => gc, :top => top, :zoom => zoom,
                 :subject_width => subject_width, :format => :image)
           # today red line
-          if User.current.today >= @date_from and User.current.today <= date_to
+          if User.current.today.between?(@date_from, date_to)
             gc.stroke('red')
             x = (User.current.today - @date_from + 1) * zoom + subject_width
             gc.draw('line %g,%g %g,%g' % [
