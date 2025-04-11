@@ -254,14 +254,6 @@ Lint/UnusedMethodArgument:
 Lint/UselessAssignment:
   Enabled: false
 
-Lint/UselessConstantScoping:
-  Exclude:
-    - 'app/controllers/repositories_controller.rb'
-    - 'app/models/mail_handler.rb'
-    - 'lib/redmine/acts/mentionable.rb'
-    - 'lib/redmine/asset_path.rb'
-    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
-
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AutoCorrect, CheckForMethodsWithNoSideEffects.
 Lint/Void:

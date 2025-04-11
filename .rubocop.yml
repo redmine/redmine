@@ -89,6 +89,14 @@ Lint/MissingSuper:
 Lint/SuppressedException:
   AllowComments: true
 
+Lint/UselessConstantScoping:
+  Exclude:
+    - 'app/controllers/repositories_controller.rb'
+    - 'app/models/mail_handler.rb'
+    - 'lib/redmine/acts/mentionable.rb'
+    - 'lib/redmine/asset_path.rb'
+    - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
+
 Layout/LineContinuationLeadingSpace:
   Enabled: false
 
