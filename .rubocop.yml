@@ -270,6 +270,9 @@ Style/PerlBackrefs:
 Style/RaiseArgs:
   Enabled: false
 
+Style/RedundantCondition:
+  Enabled: false
+
 Style/RedundantConstantBase:
   Exclude:
     - 'config/environments/production.rb'
