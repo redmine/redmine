@@ -134,7 +134,7 @@ class MessagesController < ApplicationController
 
   def preview
     message = @board.messages.find_by_id(params[:id])
-    @text = params[:text] ? params[:text] : nil
+    @text = params[:text] || nil
     @previewed = message
     render :partial => 'common/preview'
   end

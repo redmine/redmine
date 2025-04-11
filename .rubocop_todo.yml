@@ -1107,13 +1107,6 @@ Style/RedundantBegin:
     - 'test/unit/query_test.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
-Style/RedundantCondition:
-  Exclude:
-    - 'app/controllers/messages_controller.rb'
-    - 'app/controllers/previews_controller.rb'
-    - 'app/models/issue.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
 Style/RedundantConditional:
   Exclude:
     - 'app/controllers/workflows_controller.rb'

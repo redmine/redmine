@@ -1203,11 +1203,7 @@ class Issue < ApplicationRecord
   end
 
   def last_notes
-    if @last_notes
-      @last_notes
-    else
-      journals.visible.where.not(notes: '').reorder(:id => :desc).first.try(:notes)
-    end
+    @last_notes || journals.visible.where.not(notes: '').reorder(:id => :desc).first.try(:notes)
   end
 
   # Preloads relations for a collection of issues
