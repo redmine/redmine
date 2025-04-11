@@ -39,7 +39,7 @@ module Redmine
           end
           # 2,5 => 2.5
           s.tr!(',', '.')
-          begin; Kernel.Float(s); rescue; nil; end
+          Kernel.Float(s, exception: false)
         end
       end
     end

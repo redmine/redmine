@@ -232,12 +232,6 @@ Lint/SuppressedException:
     - 'lib/redmine/scm/adapters/cvs_adapter.rb'
     - 'lib/redmine/scm/adapters/subversion_adapter.rb'
 
-# This cop supports unsafe autocorrection (--autocorrect-all).
-Lint/SuppressedExceptionInNumberConversion:
-  Exclude:
-    - 'lib/redmine/core_ext/string/conversions.rb'
-    - 'test/unit/query_test.rb'
-
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AutoCorrect, IgnoreEmptyBlocks, AllowUnusedKeywordArguments.
 Lint/UnusedBlockArgument:

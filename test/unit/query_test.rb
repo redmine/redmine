@@ -2326,7 +2326,7 @@ class QueryTest < ActiveSupport::TestCase
     values =
       issues.filter_map do |i|
         begin
-          Kernel.Float(i.custom_value_for(c.custom_field).to_s)
+          Kernel.Float(i.custom_value_for(c.custom_field).to_s, exception: false)
         rescue
           nil
         end
