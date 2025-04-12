@@ -18,10 +18,10 @@ gem 'propshaft', '~> 1.1.0'
 gem 'rack', '>= 3.1.3'
 
 #  Ruby Standard Gems
-gem 'csv', '~> 3.2.8'
-gem 'net-imap', '~> 0.4.8'
+gem 'csv', '~> 3.3.2'
+gem 'net-imap', '~> 0.5.4'
 gem 'net-pop', '~> 0.1.2'
-gem 'net-smtp', '~> 0.4.0'
+gem 'net-smtp', '~> 0.5.0'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :x64_mingw, :mswin]
