@@ -200,6 +200,9 @@ Style/AsciiComments:
     # We can not change nor remove it.
     - 'app/models/repository/git.rb'
 
+Style/BarePercentLiterals:
+  Enabled: false
+
 Style/BlockComments:
   Exclude:
     - 'lib/redmine/string_array_diff/diff.rb'

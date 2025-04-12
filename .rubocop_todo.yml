@@ -694,13 +694,6 @@ Style/AndOr:
     - 'lib/redmine/scm/adapters/subversion_adapter.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
 
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: percent_q, bare_percent
-Style/BarePercentLiterals:
-  Exclude:
-    - 'test/integration/api_test/api_test.rb'
-
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: MinBranchesCount.
 Style/CaseLikeIf:
