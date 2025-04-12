@@ -250,7 +250,7 @@ module Redmine
               )
             end
           elsif req.is_a?(Range)
-            unless compare_versions(req.first, current) <= 0 && compare_versions(req.last, current) >= 0
+            unless compare_versions(req.first, current) <= 0 && compare_versions(req.last, current) >= 0  # rubocop:disable Style/ComparableBetween
               raise PluginRequirementError.new(
                 "#{id} plugin requires a Redmine version between #{req.first} " \
                 "and #{req.last} but current is #{current.join('.')}"
