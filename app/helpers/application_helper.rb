@@ -1607,7 +1607,7 @@ module ApplicationHelper
 
   # Helper to render JSON in views
   def raw_json(arg)
-    arg.to_json.to_s.gsub('/', '\/').html_safe
+    arg.to_json.gsub('/', '\/').html_safe
   end
 
   def back_url_hidden_field_tag
