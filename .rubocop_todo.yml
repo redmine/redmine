@@ -692,7 +692,6 @@ Style/AndOr:
     - 'db/migrate/022_serialize_possibles_values.rb'
     - 'lib/redmine/export/pdf.rb'
     - 'lib/redmine/field_format.rb'
-    - 'lib/redmine/helpers/gantt.rb'
     - 'lib/redmine/scm/adapters/abstract_adapter.rb'
     - 'lib/redmine/scm/adapters/bazaar_adapter.rb'
     - 'lib/redmine/scm/adapters/filesystem_adapter.rb'
