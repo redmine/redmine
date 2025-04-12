@@ -565,12 +565,6 @@ Rails/RedundantTravelBack:
     - 'test/integration/sudo_mode_test.rb'
     - 'test/system/sudo_mode_test.rb'
 
-# This cop supports unsafe autocorrection (--autocorrect-all).
-Rails/ReflectionClassName:
-  Exclude:
-    - 'lib/redmine/nested_set/issue_nested_set.rb'
-    - 'lib/redmine/nested_set/project_nested_set.rb'
-
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnforcedStyle, Include.
 # SupportedStyles: assert_not, refute

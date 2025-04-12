@@ -17,13 +17,9 @@ AllCops:
     - '**/files/**/*'
     - 'db/schema.rb'
 
-# Enable extensions
-
-require:
-  - rubocop-rails
-
 plugins:
   - rubocop-performance
+  - rubocop-rails
 
 # Rules for Redmine
 
