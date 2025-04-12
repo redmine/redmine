@@ -23,6 +23,7 @@ class SubversionAdapterTest < ActiveSupport::TestCase
   if repository_configured?('subversion')
     def setup
       @adapter = Redmine::Scm::Adapters::SubversionAdapter.new(self.class.subversion_repository_url)
+      skip "SCM command is unavailable" unless @adapter.class.client_available
     end
 
     def test_client_version

@@ -34,6 +34,7 @@ class RepositoriesSubversionControllerTest < Redmine::RepositoryControllerTest
     @repository = Repository::Subversion.create(:project => @project,
                :url => self.class.subversion_repository_url)
     assert @repository
+    skip "SCM command is unavailable" unless @repository.class.scm_available
   end
 
   if repository_configured?('subversion')

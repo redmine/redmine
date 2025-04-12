@@ -27,6 +27,7 @@ class CvsAdapterTest < ActiveSupport::TestCase
   if File.directory?(REPOSITORY_PATH)
     def setup
       @adapter = Redmine::Scm::Adapters::CvsAdapter.new(MODULE_NAME, REPOSITORY_PATH)
+      skip "SCM command is unavailable" unless @adapter.class.client_available
     end
 
     def test_scm_version
