@@ -186,6 +186,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
 
   def test_show_without_main_repository_should_display_first_repository
     skip unless repository_configured?('subversion')
+    skip unless Repository::Subversion.scm_available
 
     project = Project.find(1)
     repos = project.repositories
@@ -208,6 +209,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
 
   def test_show_should_show_diff_button_depending_on_browse_repository_permission
     skip unless repository_configured?('subversion')
+    skip unless Repository::Subversion.scm_available
 
     @request.session[:user_id] = 2
     role = Role.find(1)

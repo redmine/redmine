@@ -27,6 +27,7 @@ class BazaarAdapterTest < ActiveSupport::TestCase
     def setup
       @adapter = Redmine::Scm::Adapters::BazaarAdapter.
                    new(File.join(REPOSITORY_PATH, "trunk"))
+      skip "SCM command is unavailable" unless @adapter.class.client_available
     end
 
     def test_scm_version

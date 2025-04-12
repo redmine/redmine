@@ -40,6 +40,7 @@ class RepositoriesCvsControllerTest < Redmine::RepositoryControllerTest
                                           :url          => MODULE_NAME,
                                           :log_encoding => 'UTF-8')
     assert @repository
+    skip "SCM command is unavailable" unless @repository.class.scm_available
   end
 
   if File.directory?(REPOSITORY_PATH)

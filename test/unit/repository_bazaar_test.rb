@@ -50,6 +50,7 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
         :log_encoding => 'UTF-8'
       )
     assert @repository
+    skip "SCM command is unavailable" unless @repository.class.scm_available
   end
 
   def test_blank_path_to_repository_error_message

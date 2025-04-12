@@ -35,6 +35,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
         :path_encoding => 'ISO-8859-1'
       )
     assert @repository
+    skip "SCM command is unavailable" unless @repository.class.scm_available
   end
 
   def test_blank_path_to_repository_error_message
