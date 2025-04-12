@@ -79,7 +79,7 @@ class MemberTest < ActiveSupport::TestCase
       [1, group_a_member.member_roles.find_by(role_id: 1).id],
       [1, group_b_member.member_roles.find_by(role_id: 1).id],
       [2, group_b_member.member_roles.find_by(role_id: 2).id],
-    ], test_user_member.member_roles.map{|r| [r.role_id, r.inherited_from]}
+    ].sort, test_user_member.member_roles.map{|r| [r.role_id, r.inherited_from]}.sort
 
     # Verify that a new non-inherited role is added and inherited roles are maintained
     test_user_member.set_editable_role_ids([3]) # Add Reporter role to test_user
@@ -88,7 +88,7 @@ class MemberTest < ActiveSupport::TestCase
       [1, group_b_member.member_roles.find_by(role_id: 1).id],
       [2, group_b_member.member_roles.find_by(role_id: 2).id],
       [3, nil]
-    ], test_user_member.member_roles.map{|r| [r.role_id, r.inherited_from]}
+    ].sort, test_user_member.member_roles.map{|r| [r.role_id, r.inherited_from]}.sort
   end
 
   def test_validate
