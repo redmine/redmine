@@ -372,6 +372,10 @@ a.wiki-anchor {margin-left:0px; margin-right:6px;}
   padding-left:0; padding-right:20px;
 }
 
+svg.icon-svg.icon-rtl {
+  transform: scaleX(-1);
+}
+
 div.issue img.gravatar {
   float: right;
   margin: 0 0 0 6px;

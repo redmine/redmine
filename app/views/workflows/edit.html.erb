@@ -41,7 +41,7 @@
 
       <fieldset class="collapsible" style="padding: 0; margin-top: 0.5em;">
         <legend onclick="toggleFieldset(this);" class="icon icon-<%= @workflows['author'].present? ? "expanded" : "collapsed" %>">
-          <%= sprite_icon(@workflows['author'].present? ? "angle-down" : "angle-right") %>
+          <%= sprite_icon(@workflows['author'].present? ? "angle-down" : "angle-right", rtl: !@workflows['author'].present?) %>
           <%= l(:label_additional_workflow_transitions_for_author) %>
         </legend>
         <div id="author_workflows" style="margin: 0.5em 0 0.5em 0;">
@@ -52,7 +52,7 @@
 
       <fieldset class="collapsible" style="padding: 0;">
         <legend onclick="toggleFieldset(this);" class="icon icon-<%= @workflows['assignee'].present? ? "expanded" : "collapsed" %>">
-          <%= sprite_icon(@workflows['assignee'].present? ? "angle-down" : "angle-right") %>
+          <%= sprite_icon(@workflows['assignee'].present? ? "angle-down" : "angle-right", rtl: !@workflows['assignee'].present?) %>
           <%= l(:label_additional_workflow_transitions_for_assignee) %>
         </legend>
         <div id="assignee_workflows" style="margin: 0.5em 0 0.5em 0;">

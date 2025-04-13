@@ -63,7 +63,7 @@
 
 <fieldset class="collapsible collapsed hide-when-print">
   <legend onclick="toggleFieldset(this);" class="icon icon-collapsed">
-    <%= sprite_icon("angle-right") %>
+    <%= sprite_icon("angle-right", rtl: true) %>
     <%= l(:label_attachment_plural) %> (<%= @page.attachments.length %>)
   </legend>
   <div style="display: none;">

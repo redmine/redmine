@@ -248,7 +248,7 @@ module Redmine
         hide_label = args[1] || args[0] || l(:button_hide)
         js = "$('##{html_id}-show, ##{html_id}-hide').toggle(); $('##{html_id}').fadeToggle(150);"
         out = ''.html_safe
-        out << link_to_function(sprite_icon('angle-right', show_label), js, :id => "#{html_id}-show", :class => 'icon icon-collapsed collapsible')
+        out << link_to_function(sprite_icon('angle-right', show_label, rtl: true), js, :id => "#{html_id}-show", :class => 'icon icon-collapsed collapsible')
         out <<
           link_to_function(
             sprite_icon('angle-down', hide_label), js,

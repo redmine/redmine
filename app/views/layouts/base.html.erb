@@ -106,7 +106,7 @@
         <% if sidebar_content? %>
           <div id="sidebar-switch-panel" style="visibility: hidden;">
             <a id="sidebar-switch-button" class="" href="#">
-              <%= sprite_icon("chevrons-right", size: 20) %></a>
+              <%= sprite_icon("chevrons-right", size: 20, rtl: true) %></a>
           </div>
           <%= javascript_tag "$('#sidebar-switch-panel').css('visibility', 'visible');" %>
         <% end %>

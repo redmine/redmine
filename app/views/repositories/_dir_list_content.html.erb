@@ -14,7 +14,7 @@
                        :path   => to_path_param(ent_path),
                        :rev    => @rev,
                        :depth  => (depth + 1),
-                       :parent_id => tr_id)) %>');"><%= sprite_icon('angle-right') %></span>
+                       :parent_id => tr_id)) %>');"><%= sprite_icon('angle-right', rtl: true) %></span>
 <% end %>
 <%=  link_to file_icon(entry, ent_name),
              {:action => (entry.is_dir? ? 'show' : 'entry'), :id => @project, :repository_id => @repository.identifier_param, :path => to_path_param(ent_path), :rev => @rev},
