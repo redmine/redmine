@@ -248,7 +248,7 @@ table.members td.name {padding-right: 20px; padding-left:0; }
 table.members td.group, table.members td.groupnonmember, table.members td.groupanonymous {background: url(/group.png) no-repeat right 50%;}
 
 input.autocomplete {
-  background: #fff url(/magnifier.png) no-repeat right 2px top 50%; padding-left:0px !important; padding-right:20px !important;
+  background: #fff url(/search.svg) no-repeat right 2px top 50%; padding-left:0px !important; padding-right:20px !important;
 }
 
 .role-visibility {padding-right:2em; padding-left:0;}
