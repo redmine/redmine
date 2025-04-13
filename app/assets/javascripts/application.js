@@ -43,10 +43,18 @@ function toggleRowGroup(el) {
 }
 
 function toggleExpendCollapseIcon(el) {
+  const svg = el.getElementsByTagName('svg').item(0)
+
+  if (svg === null) {
+    return false;
+  }
+
   if (el.classList.contains('icon-expanded')) {
-    updateSVGIcon(el, 'angle-down')
+    updateSVGIcon(svg, 'angle-down')
+    svg.classList.remove('icon-rtl')
   } else {
-    updateSVGIcon(el, 'angle-right')
+    updateSVGIcon(svg, 'angle-right')
+    svg.classList.add('icon-rtl')
   }
 }
 
