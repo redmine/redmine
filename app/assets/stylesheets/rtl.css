@@ -23,10 +23,27 @@ h1, h2, h3, h4 {padding:2px 00px 1px 10px;}
 
 #admin-menu a {padding-left:0;padding-right:20px;}
 
-#sidebar {float:left;}
-* html #sidebar hr{ left: auto; right: -6px; }
+#sidebar {float:left; padding-right: 20px; padding-left: 8px; border-left: 0; border-right: 1px solid #d0d7de;}
+* html #sidebar hr {left: auto; right: -6px;}
+
+#main.collapsedsidebar #sidebar {
+  padding-left: 0;
+  padding-right: 20px;
+}
+
 #sidebar .contextual { margin-right: 0;  margin-left: 1em;}
-#sidebar ul li {margin: 0px 0px 0px 2px;}
+#sidebar ul li {margin: 0 0 0 2px;}
+#sidebar #sidebar-switch-panel {
+  margin-left: 0;
+  margin-right: -20px;
+  padding-left: 28px;
+  padding-right: 0;
+}
+
+#sidebar #sidebar-switch-panel #sidebar-switch-button {
+  padding-right: 0;
+  padding-left: 28px;
+}
 
 #content {border-right:0 solid #ddd; border-left:1px solid #ddd;}
 * html #content{padding-right:0;}
