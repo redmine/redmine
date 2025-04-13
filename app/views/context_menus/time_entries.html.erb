@@ -12,7 +12,7 @@
   <% if @activities.present? -%>
   <li class="folder">
     <a href="#" class="submenu"><%= l(:field_activity) %></a>
-    <span class="icon-only"><%= sprite_icon('angle-right') %></span>
+    <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
     <ul>
     <% @activities.each do |u| -%>
         <li><%= context_menu_link u.name, {:controller => 'timelog', :action => 'bulk_update', :ids => @time_entries.collect(&:id), :time_entry => {'activity_id' => u}, :back_url => @back}, :method => :post,
@@ -25,7 +25,7 @@
   <% @options_by_custom_field.each do |field, options| %>
     <li class="folder <%= field.css_classes %>">
       <a href="#" class="submenu"><%= field.name %></a>
-      <span class="icon-only"><%= sprite_icon('angle-right') %></span>
+      <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
       <ul>
       <% options.each do |text, value| %>
         <li><%= bulk_update_time_entry_custom_field_context_menu_link(field, text, value || text) %></li>

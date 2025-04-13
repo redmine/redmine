@@ -12,7 +12,7 @@
   <% if @allowed_statuses.present? %>
   <li class="folder">
     <a href="#" class="submenu"><%= l(:field_status) %></a>
-    <span class="icon-only"><%= sprite_icon('angle-right') %></span>
+    <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
     <ul>
     <% @allowed_statuses.each do |s| -%>
         <li>
@@ -34,7 +34,7 @@
   <% if @trackers.present? %>
   <li class="folder">
     <a href="#" class="submenu"><%= l(:field_tracker) %></a>
-    <span class="icon-only"><%= sprite_icon('angle-right') %></span>
+    <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
     <ul>
     <% @trackers.each do |t| -%>
         <li><%= context_menu_link t.name, _bulk_update_issues_path(@issue, :ids => @issue_ids, :issue => {'tracker_id' => t}, :back_url => @back), :method => :patch,
@@ -47,7 +47,7 @@
   <% if @safe_attributes.include?('priority_id') && @priorities.present? -%>
   <li class="folder">
     <a href="#" class="submenu"><%= l(:field_priority) %></a>
-    <span class="icon-only"><%= sprite_icon('angle-right') %></span>
+    <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
     <ul>
     <% @priorities.each do |p| -%>
         <li><%= context_menu_link p.name, _bulk_update_issues_path(@issue, :ids => @issue_ids, :issue => {'priority_id' => p}, :back_url => @back), :method => :patch,
@@ -60,7 +60,7 @@
   <% if @safe_attributes.include?('fixed_version_id') && @versions.present? -%>
   <li class="folder">
     <a href="#" class="submenu"><%= l(:field_fixed_version) %></a>
-    <span class="icon-only"><%= sprite_icon('angle-right') %></span>
+    <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
     <ul>
     <% @versions.sort.each do |v| -%>
         <li><%= context_menu_link format_version_name(v), _bulk_update_issues_path(@issue, :ids => @issue_ids, :issue => {'fixed_version_id' => v}, :back_url => @back), :method => :patch,
@@ -75,7 +75,7 @@
   <% if @safe_attributes.include?('assigned_to_id') && @assignables.present? -%>
   <li class="folder">
     <a href="#" class="submenu"><%= l(:field_assigned_to) %></a>
-    <span class="icon-only"><%= sprite_icon('angle-right') %></span>
+    <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
     <ul>
     <% if @assignables.include?(User.current) %>
         <li><%= context_menu_link "<< #{l(:label_me)} >>", _bulk_update_issues_path(@issue, :ids => @issue_ids, :issue => {'assigned_to_id' => User.current}, :back_url => @back), :method => :patch,
@@ -94,7 +94,7 @@
   <% if @safe_attributes.include?('category_id') && @project && @project.issue_categories.any? -%>
   <li class="folder">
     <a href="#" class="submenu"><%= l(:field_category) %></a>
-    <span class="icon-only"><%= sprite_icon('angle-right') %></span>
+    <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
     <ul>
     <% @project.issue_categories.each do |u| -%>
         <li><%= context_menu_link u.name, _bulk_update_issues_path(@issue, :ids => @issue_ids, :issue => {'category_id' => u}, :back_url => @back), :method => :patch,
@@ -109,7 +109,7 @@
   <% if @safe_attributes.include?('done_ratio') && Issue.use_field_for_done_ratio? %>
   <li class="folder">
     <a href="#" class="submenu"><%= l(:field_done_ratio) %></a>
-    <span class="icon-only"><%= sprite_icon('angle-right') %></span>
+    <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
     <ul>
     <% (0..10).map{|x|x*10}.each do |p| -%>
         <li><%= context_menu_link "#{p}%", _bulk_update_issues_path(@issue, :ids => @issue_ids, :issue => {'done_ratio' => p}, :back_url => @back), :method => :patch,
@@ -122,7 +122,7 @@
   <% @options_by_custom_field.each do |field, options| %>
     <li class="folder <%= field.css_classes %>">
       <a href="#" class="submenu"><%= field.name %></a>
-      <span class="icon-only"><%= sprite_icon('angle-right') %></span>
+      <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
       <ul>
       <% options.each do |text, value| %>
         <li><%= bulk_update_custom_field_context_menu_link(field, text, value || text) %></li>
@@ -137,7 +137,7 @@
 <% if @can[:add_watchers] %>
   <li class="folder">
     <a href="#" class="submenu"><%= l(:label_issue_watchers) %></a>
-    <span class="icon-only"><%= sprite_icon('angle-right') %></span>
+    <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
     <ul>
       <li><%= context_menu_link sprite_icon('add', l(:button_add)),
                                 new_watchers_path(:object_type => 'issue', :object_id => @issue_ids),

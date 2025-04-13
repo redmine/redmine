@@ -21,7 +21,7 @@ h1, h2, h3, h4 {padding:2px 00px 1px 10px;}
 #main-menu {left:auto;right:6px;margin-right:0;margin-left:-500px;}
 #main-menu li {float:right;margin:0px 0px 0px 2px;}
 
-#admin-menu a {padding-left:0;padding-right:20px;}
+#admin-menu a:not(:has(svg)) {padding-left:0;padding-right:20px;}
 
 #sidebar {float:left; padding-right: 20px; padding-left: 8px; border-left: 0; border-right: 1px solid #d0d7de;}
 * html #sidebar hr {left: auto; right: -6px;}
@@ -55,7 +55,7 @@ div.modal p.buttons {text-align:left;}
 /***** Links *****/
 
 #sidebar a.selected {padding:1px 2px 2px 3px; margin-left:0px; margin-right:-2px;}
-#admin-menu a.selected {padding-left:0!important; padding-right:20px!important; background-position:right 2px 40%;}
+#admin-menu a.selected:not(:has(svg)) {padding-left:0!important; padding-right:20px!important; background-position:right 2px 40%;}
 
 a.collapsible:not(:has(svg)) {padding-left:0px; padding-right:12px; background: url(/arrow_down.png) no-repeat right 0px top 50%;}
 a.collapsible.collapsed:not(:has(svg)) {background-image: url(/arrow_left.png);}
@@ -139,7 +139,7 @@ div.projects h3 {padding-left:0px; padding-right:20px;}
 #watchers li {margin: 0px 0px 0px 2px; padding: 0px 0px 0px 0px;}
 #watchers img.gravatar {margin: 0 0 2px 4px;}
 
-span.search_for_watchers a, span.add_attachment a {padding-left:px; padding-right:16px; background: url(/bullet_add.png) no-repeat right 50%; }
+span.search_for_watchers a:not(:has(svg)), span.add_attachment a:not(:has(svg)) {padding-left:0px; padding-right:16px; background: url(/bullet_add.png) no-repeat right 50%; }
 
 div.square {float:right;}
 .contextual {float:left; padding-left:0px; padding-right:10px;}
@@ -248,7 +248,7 @@ table.members td.name {padding-right: 20px; padding-left:0; }
 table.members td.group, table.members td.groupnonmember, table.members td.groupanonymous {background: url(/group.png) no-repeat right 50%;}
 
 input.autocomplete {
-  background: #fff url(/magnifier.png) no-repeat right 2px top 50%; padding-left:0px !important; padding-right:20px !important;
+  background: #fff url(/search.svg) no-repeat right 2px top 50%; padding-left:0px !important; padding-right:20px !important;
 }
 
 .role-visibility {padding-right:2em; padding-left:0;}
@@ -370,6 +370,10 @@ a.wiki-anchor {margin-left:0px; margin-right:6px;}
 .icon:not(:has(svg)) {
   background-position: right 50%;
   padding-left:0; padding-right:20px;
+}
+
+svg.icon-svg.icon-rtl {
+  transform: scaleX(-1);
 }
 
 div.issue img.gravatar {

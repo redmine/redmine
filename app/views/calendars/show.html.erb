@@ -10,7 +10,7 @@
 <div id="query_form_content">
   <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
     <legend onclick="toggleFieldset(this);" class="icon icon-<%= @query.new_record? ? "expanded" : "collapsed" %>">
-      <%= sprite_icon(@query.new_record? ? "angle-down" : "angle-right") %>
+      <%= sprite_icon(@query.new_record? ? "angle-down" : "angle-right", rtl: !@query.new_record?) %>
       <%= l(:label_filter_plural) %>
     </legend>
     <div style="<%= @query.new_record? ? "" : "display: none;" %>">
