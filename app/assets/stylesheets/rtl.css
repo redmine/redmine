@@ -139,7 +139,7 @@ div.projects h3 {padding-left:0px; padding-right:20px;}
 #watchers li {margin: 0px 0px 0px 2px; padding: 0px 0px 0px 0px;}
 #watchers img.gravatar {margin: 0 0 2px 4px;}
 
-span.search_for_watchers a, span.add_attachment a {padding-left:px; padding-right:16px; background: url(/bullet_add.png) no-repeat right 50%; }
+span.search_for_watchers a:not(:has(svg)), span.add_attachment a:not(:has(svg)) {padding-left:0px; padding-right:16px; background: url(/bullet_add.png) no-repeat right 50%; }
 
 div.square {float:right;}
 .contextual {float:left; padding-left:0px; padding-right:10px;}
