@@ -97,8 +97,9 @@ eu:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "eta"
-      skip_last_comma: false
+      last_word_connector: " eta "
+      two_words_connector: " eta "
+      words_connector: ", "
 
   activerecord:
     errors:

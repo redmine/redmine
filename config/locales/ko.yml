@@ -140,8 +140,6 @@ ko:
       words_connector: ", "
       two_words_connector: "과 "
       last_word_connector: ", "
-      sentence_connector: "그리고"
-      skip_last_comma: false
 
   activerecord:
     errors:
@@ -487,7 +485,7 @@ ko:
   label_logout: 로그아웃
   label_help: 도움말
   label_reported_issues: 보고한 일감
-  label_assigned_to_me_issues: 내가 맡은 일감 
+  label_assigned_to_me_issues: 내가 맡은 일감
   label_registered_on: 등록시각
   label_activity: 작업내역
   label_user_activity: "%{value}의 작업내역"
@@ -648,7 +646,7 @@ ko:
   label_options: 옵션
   label_copy_workflow_from: 업무흐름 복사하기
   label_permissions_report: 권한 보고서
-  label_watched_issues: 지켜보고 있는 일감 
+  label_watched_issues: 지켜보고 있는 일감
   label_related_issues: 연결된 일감
   label_applied_status: 적용된 상태
   label_loading: 읽는 중...
@@ -847,7 +845,7 @@ ko:
   enumeration_doc_categories: 문서 범주
   enumeration_activities: 작업분류(시간추적)
 
-  field_issue_to: 관련 일감 
+  field_issue_to: 관련 일감
   label_view_all_revisions: 모든 개정판 표시
   label_tag: 태그(Tag)
   label_branch: 브랜치(Branch)
@@ -1021,7 +1019,7 @@ ko:
   notice_failed_to_save_time_entries: "%{total} 개의 시간입력중 다음 %{count} 개의 저장에 실패했습니다:: %{ids}."
   label_x_issues:
     zero:  0 일감
-    one:   1 일감 
+    one:   1 일감
     other: "%{count} 일감"
   label_repository_new: 저장소 추가
   field_repository_is_default: 주 저장소

@@ -109,8 +109,9 @@ uk:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "і"
-      skip_last_comma: false
+      last_word_connector: " та "
+      two_words_connector: " і "
+      words_connector: ", "
 
   activerecord:
     errors:

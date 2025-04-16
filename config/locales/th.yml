@@ -93,8 +93,9 @@ th:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "and"
-      skip_last_comma: false
+      last_word_connector: ", และ "
+      two_words_connector: " และ "
+      words_connector: ", "
 
   activerecord:
     errors:

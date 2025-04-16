@@ -95,8 +95,9 @@ sq:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "dhe"
-      skip_last_comma: false
+      last_word_connector: ", dhe "
+      two_words_connector: " dhe "
+      words_connector: ", "
 
   activerecord:
     errors:

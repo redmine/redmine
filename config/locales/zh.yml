@@ -99,8 +99,9 @@ zh:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "和"
-      skip_last_comma: false
+      words_connector: ", "
+      two_words_connector: " 和 "
+      last_word_connector: ", 和 "
 
   activerecord:
     errors:

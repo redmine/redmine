@@ -96,8 +96,9 @@ el:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "and"
-      skip_last_comma: false
+      last_word_connector: " και "
+      two_words_connector: " και "
+      words_connector: ", "
 
   activerecord:
     errors:

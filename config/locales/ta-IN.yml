@@ -99,8 +99,9 @@ ta-IN:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "மற்றும்"
-      skip_last_comma: false
+      last_word_connector: ", மற்றும் "
+      two_words_connector: " மற்றும் "
+      words_connector: ", "
 
   activerecord:
     errors:

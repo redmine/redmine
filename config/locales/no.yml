@@ -2,7 +2,9 @@
 "no":
   support:
     array:
-      sentence_connector: "og"
+      last_word_connector: " og "
+      two_words_connector: " og "
+      words_connector: ", "
   direction: ltr
   date:
     formats:

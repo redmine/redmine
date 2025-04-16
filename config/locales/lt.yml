@@ -103,8 +103,9 @@ lt:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "ir"
-      skip_last_comma: false
+      last_word_connector: " ir "
+      two_words_connector: " ir "
+      words_connector: ", "
 
   activerecord:
     errors:

@@ -123,7 +123,9 @@ gl:
 
   support:
     array:
-      sentence_connector: e
+      last_word_connector: " e "
+      two_words_connector: " e "
+      words_connector: ", "
 
   activerecord:
     models:

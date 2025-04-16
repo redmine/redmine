@@ -95,8 +95,9 @@ id:
 
   support:
     array:
-      sentence_connector: "dan"
-      skip_last_comma: false
+      last_word_connector: ", dan "
+      two_words_connector: " dan "
+      words_connector: ", "
 
   activerecord:
     errors:

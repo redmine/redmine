@@ -107,8 +107,9 @@ pl:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "i"
-      skip_last_comma: true
+      last_word_connector: " oraz "
+      two_words_connector: " i "
+      words_connector: ", "
 
   activerecord:
     errors:

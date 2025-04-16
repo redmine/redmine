@@ -111,8 +111,6 @@ fr:
 
   support:
     array:
-      sentence_connector: 'et'
-      skip_last_comma: true
       word_connector: ", "
       two_words_connector: " et "
       last_word_connector: " et "

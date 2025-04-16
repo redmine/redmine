@@ -90,8 +90,9 @@ ro:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "și"
-      skip_last_comma: true
+      last_word_connector: " și "
+      two_words_connector: " și "
+      words_connector: ", "
 
   activerecord:
     errors:

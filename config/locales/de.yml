@@ -109,8 +109,9 @@ de:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "und"
-      skip_last_comma: true
+      last_word_connector: " und "
+      two_words_connector: " und "
+      words_connector: ", "
 
   activerecord:
     errors:

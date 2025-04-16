@@ -98,8 +98,9 @@ fa:
   # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "و"
-      skip_last_comma: false
+      last_word_connector: " و "
+      two_words_connector: " و "
+      words_connector: "، "
 
   activerecord:
     errors:

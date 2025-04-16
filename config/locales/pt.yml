@@ -6,8 +6,9 @@
 pt:
   support:
     array:
-      sentence_connector: "e"
-      skip_last_comma: true
+      last_word_connector: " e "
+      two_words_connector: " e "
+      words_connector: ", "
 
   direction: ltr
   date:

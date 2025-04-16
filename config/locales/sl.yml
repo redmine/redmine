@@ -94,8 +94,9 @@ sl:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "in"
-      skip_last_comma: false
+      last_word_connector: " in "
+      two_words_connector: " in "
+      words_connector: ", "
 
   activerecord:
     errors:

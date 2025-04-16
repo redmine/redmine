@@ -93,8 +93,9 @@ nl:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "en"
-      skip_last_comma: false
+      last_word_connector: " en "
+      two_words_connector: " en "
+      words_connector: ", "
 
   activerecord:
     errors:

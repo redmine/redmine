@@ -114,8 +114,6 @@
 
   support:
     array:
-#      sentence_connector: "és"
-#      skip_last_comma: true
       words_connector: ", "
       two_words_connector: " és "
       last_word_connector: " és "

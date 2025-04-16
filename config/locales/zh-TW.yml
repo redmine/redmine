@@ -42,8 +42,6 @@
       words_connector: ", "
       two_words_connector: " 和 "
       last_word_connector: ", 和 "
-      sentence_connector: "且"
-      skip_last_comma: false
 
   number:
     # 使用於 number_with_delimiter()

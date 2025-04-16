@@ -94,8 +94,9 @@ sk:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "a"
-      skip_last_comma: false
+      last_word_connector: " a "
+      two_words_connector: " a "
+      words_connector: ", "
 
   activerecord:
     errors:

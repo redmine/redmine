@@ -178,8 +178,9 @@ sv:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "och"
-      skip_last_comma: true
+      last_word_connector: " och "
+      two_words_connector: " och "
+      words_connector: ", "
 
   actionview_instancetag_blank_option: Var god välj
 

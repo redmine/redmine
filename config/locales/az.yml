@@ -208,9 +208,9 @@ az:
 
   support:
     array:
-      # Rails 2.2
-      sentence_connector: "və"
-      skip_last_comma: true
+      last_word_connector: " və "
+      two_words_connector: " və "
+      words_connector: ", "
 
       # Rails 2.3
       words_connector: ", "

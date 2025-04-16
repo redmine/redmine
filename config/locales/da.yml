@@ -30,8 +30,9 @@ da:
 
   support:
     array:
-      sentence_connector: "og"
-      skip_last_comma: true
+      last_word_connector: " og "
+      two_words_connector: " og "
+      words_connector: ", "
 
   datetime:
     distance_in_words:

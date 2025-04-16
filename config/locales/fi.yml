@@ -33,8 +33,6 @@ fi:
       two_words_connector: " ja "
       last_word_connector: " ja "
 
-
-
   number:
     format:
       separator: ","

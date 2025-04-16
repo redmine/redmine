@@ -108,8 +108,9 @@ tr:
 
   support:
     array:
-      sentence_connector: "ve"
-      skip_last_comma: true
+      last_word_connector: " ve "
+      two_words_connector: " ve "
+      words_connector: ", "
 
   activerecord:
     errors:

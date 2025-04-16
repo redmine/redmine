@@ -189,7 +189,9 @@ es:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "y"
+      last_word_connector: " y "
+      two_words_connector: " y "
+      words_connector: ", "
 
   actionview_instancetag_blank_option: Por favor seleccione
 

@@ -95,8 +95,9 @@ mn:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "бас"
-      skip_last_comma: false
+      last_word_connector: " болон "
+      two_words_connector: " болон "
+      words_connector: ", "
 
   activerecord:
     errors:

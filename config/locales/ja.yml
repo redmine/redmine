@@ -114,8 +114,9 @@ ja:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "及び"
-      skip_last_comma: true
+      last_word_connector: "、"
+      two_words_connector: "、"
+      words_connector: "、"
 
   activerecord:
     errors:

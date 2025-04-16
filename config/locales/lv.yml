@@ -89,8 +89,9 @@ lv:
 
   support:
     array:
-      sentence_connector: "un"
-      skip_last_comma: false
+      last_word_connector: " un "
+      two_words_connector: " un "
+      words_connector: ", "
 
   activerecord:
     errors:

@@ -99,8 +99,9 @@ en-GB:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "and"
-      skip_last_comma: false
+      last_word_connector: ", and "
+      two_words_connector: " and "
+      words_connector: ", "
 
   activerecord:
     errors:

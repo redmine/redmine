@@ -112,8 +112,9 @@ et:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "ja"
-      skip_last_comma: false
+      last_word_connector: " ja "
+      two_words_connector: " ja "
+      words_connector: ", "
 
   activerecord:
     errors:

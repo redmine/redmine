@@ -96,8 +96,9 @@ sr:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "и"
-      skip_last_comma: false
+      last_word_connector: ", и "
+      two_words_connector: " и "
+      words_connector: ", "
 
   activerecord:
     errors:
