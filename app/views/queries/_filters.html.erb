@@ -22,6 +22,5 @@ $(document).ready(function(){
 <%= select_tag 'add_filter_select', filters_options_for_select(query), :name => nil %>
 </div>
 
-<div id="icon-copy-source" style="display: none;"><%= sprite_icon('') %></div>
 <%= hidden_field_tag 'f[]', '' %>
 <% include_calendar_headers_tags %>

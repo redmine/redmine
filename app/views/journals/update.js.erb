@@ -15,6 +15,8 @@
     journal_header.append('<%= escape_javascript(render_journal_update_info(@journal)) %>');
   }
   setupWikiTableSortableHeader();
+  setupCopyButtonsToPreElements();
+  setupHoverTooltips();
 <% end %>
 
 <%= call_hook(:view_journals_update_js_bottom, { :journal => @journal }) %>

@@ -1540,6 +1540,10 @@ div.wiki ul, div.wiki ol {margin-bottom:1em;}
 div.wiki li {line-height: 1.6; margin-bottom: 0.125rem;}
 div.wiki li>ul, div.wiki li>ol {margin-bottom: 0;}
 
+div.wiki div.pre-wrapper {
+  position: relative;
+}
+
 div.wiki pre {
   margin: 1em 1em 1em 1.6em;
   padding: 8px;
@@ -1555,6 +1559,22 @@ div.wiki *:not(pre)>code, div.wiki>code {
   background: rgba(62, 91, 118, 0.08);
   padding: 0.1em 0.1em;
   border-radius: 0.1em;
+}
+
+div.pre-wrapper a.copy-pre-content-link {
+  position: absolute;
+  top: 3px;
+  right: calc(1em + 3px);
+  cursor: pointer;
+  display: none;
+  border-radius: 3px;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 2px;
+}
+
+div.pre-wrapper:hover a.copy-pre-content-link {
+  display: block;
 }
 
 div.wiki ul.toc {

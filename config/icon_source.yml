@@ -220,3 +220,5 @@
   svg: eye
 - name: unwatch
   svg: eye-off
+- name: copy-pre-content
+  svg: clipboard

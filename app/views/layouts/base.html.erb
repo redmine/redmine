@@ -12,6 +12,7 @@
 <%= stylesheet_link_tag 'rtl', :media => 'all' if l(:direction) == 'rtl' %>
 <%= javascript_heads %>
 <%= heads_for_theme %>
+<%= heads_for_i18n %>
 <%= heads_for_auto_complete(@project) %>
 <%= call_hook :view_layouts_base_html_head %>
 <!-- page specific tags -->
@@ -129,6 +130,7 @@
 
 <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
 <div id="ajax-modal" style="display:none;"></div>
+<div id="icon-copy-source" style="display: none;"><%= sprite_icon('') %></div>
 
 </div>
 <%= call_hook :view_layouts_base_body_bottom %>

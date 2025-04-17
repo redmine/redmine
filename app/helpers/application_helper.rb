@@ -1917,6 +1917,14 @@ module ApplicationHelper
     end
   end
 
+  def heads_for_i18n
+    javascript_tag(
+      "rm = window.rm || {};" \
+      "rm.I18n = rm.I18n || {};" \
+      "rm.I18n = Object.freeze({buttonCopy: '#{l(:button_copy)}'});"
+    )
+  end
+
   def heads_for_auto_complete(project)
     data_sources = autocomplete_data_sources(project)
     javascript_tag(
@@ -1934,7 +1942,7 @@ module ApplicationHelper
 
   def copy_object_url_link(url)
     link_to_function(
-      sprite_icon('copy-link', l(:button_copy_link)), 'copyTextToClipboard(this);',
+      sprite_icon('copy-link', l(:button_copy_link)), 'copyDataClipboardTextToClipboard(this);',
       class: 'icon icon-copy-link',
       data: {'clipboard-text' => url}
     )
