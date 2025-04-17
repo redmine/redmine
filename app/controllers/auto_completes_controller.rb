@@ -26,7 +26,7 @@ class AutoCompletesController < ApplicationController
     status = params[:status].to_s
     issue_id = params[:issue_id].to_s
 
-    scope = Issue.cross_project_scope(@project, params[:scope]).visible
+    scope = Issue.cross_project_scope(@project, params[:scope]).includes(:tracker).visible
     scope = scope.open(status == 'o') if status.present?
     scope = scope.where.not(:id => issue_id.to_i) if issue_id.present?
     if q.present?
