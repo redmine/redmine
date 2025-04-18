@@ -436,7 +436,7 @@ module ApplicationHelper
 
   def format_changeset_comments(changeset, options={})
     method = options[:short] ? :short_comments : :comments
-    textilizable changeset, method, :formatting => Setting.commit_logs_formatting?
+    textilizable changeset, method, project: changeset.project, formatting: Setting.commit_logs_formatting?
   end
 
   def due_date_distance_in_words(date)
