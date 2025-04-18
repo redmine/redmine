@@ -5,9 +5,13 @@
  */
 
 function addFile(inputEl, file, eagerUpload) {
-  var attachmentsFields = $(inputEl).closest('.attachments_form').find('.attachments_fields');
-  var addAttachment = $(inputEl).closest('.attachments_form').find('.add_attachment');
+  var attachmentsForm = $(inputEl).closest('.attachments_form')
+  var attachmentsFields = attachmentsForm.find('.attachments_fields');
+  var attachmentsIcons = attachmentsForm.find('.attachments_icons');
+  var addAttachment = attachmentsForm.find('.add_attachment');
   var maxFiles = ($(inputEl).attr('multiple') == 'multiple' ? 10 : 1);
+  var delIcon = attachmentsIcons.find('svg.svg-del').clone();
+  var attachmentIcon = attachmentsIcons.find('svg.svg-attachment').clone();
 
   if (attachmentsFields.children().length < maxFiles) {
     var attachmentId = addFile.nextAttachmentId++;
@@ -16,11 +20,13 @@ function addFile(inputEl, file, eagerUpload) {
     if (!param) {param = 'attachments'};
 
     fileSpan.append(
+        attachmentIcon,
         $('<input>', { type: 'text', 'class': 'icon icon-attachment filename readonly', name: param +'[' + attachmentId + '][filename]', readonly: 'readonly'} ).val(file.name),
         $('<input>', { type: 'text', 'class': 'description', name: param + '[' + attachmentId + '][description]', maxlength: 255, placeholder: $(inputEl).data('description-placeholder') } ).toggle(!eagerUpload),
         $('<input>', { type: 'hidden', 'class': 'token', name: param + '[' + attachmentId + '][token]'} ),
-        $('<a>&nbsp</a>').attr({ href: "#", 'class': 'icon-only icon-del remove-upload' }).click(removeFile).toggle(!eagerUpload)
+        $('<a>', { href: "#", 'class': 'icon-only icon-del remove-upload' }).append(delIcon).click(removeFile).toggle(!eagerUpload)
     ).appendTo(attachmentsFields);
+
 
     if ($(inputEl).data('description') == 0) {
       fileSpan.find('input.description').remove();
@@ -63,7 +69,7 @@ function ajaxUpload(file, attachmentId, fileSpan, inputEl) {
       .done(function(result) {
         addInlineAttachmentMarkup(file);
         progressSpan.progressbar( 'value', 100 ).remove();
-        fileSpan.find('input.description, a').css('display', 'inline-block');
+        fileSpan.find('input.description, a').css('display', 'inline-flex');
       })
       .fail(function(result) {
         progressSpan.text(result.statusText);
