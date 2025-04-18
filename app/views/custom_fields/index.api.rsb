@@ -15,6 +15,7 @@ api.array :custom_fields do
       api.multiple          field.multiple?
       api.default_value     field.default_value
       api.visible           field.visible?
+      api.editable          field.editable?
 
       values = field.possible_values_options
       if values.present?

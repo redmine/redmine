@@ -37,6 +37,8 @@ class Redmine::ApiTest::CustomFieldsTest < Redmine::ApiTest::Base
         end
         assert_select 'trackers[type=array]'
         assert_select 'roles[type=array]'
+        assert_select 'visible', :text => 'true'
+        assert_select 'editable', :text => 'true'
       end
     end
   end
