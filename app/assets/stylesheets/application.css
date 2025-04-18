@@ -1111,10 +1111,10 @@ span.required {color: #bb0000;}
 .attachments_fields input.description, #existing-attachments input.description {margin-left:4px; width:340px;}
 .attachments_fields>span, #existing-attachments>span {display:block; white-space:nowrap;}
 /* ToDo: delete this line when legacy icons are deleted */
-.attachments_fields , #existing-attachments .icon-attachment {background-image: none; padding-left: 0}
+.attachments_fields .icon-attachment, #existing-attachments .icon-attachment {background-image: none; padding-left: 0}
 .attachments_fields input.filename, #existing-attachments .filename {border:0; width:250px; color:#555; background-color:inherit; }
 .tabular input.filename {max-width:75% !important;}
-.attachments_fields input.filename {height:1.8em;}
+.attachments_fields input.filename {height:1.8em;padding-right: 0;}
 .attachments_fields .ajax-waiting input.filename {background:url(/hourglass.png) no-repeat 0px 50%;}
 .attachments_fields .ajax-loading input.filename {background:url(/loading.gif) no-repeat 0px 50%;}
 .attachments_fields div.ui-progressbar { width: 100px; height:14px; margin: 2px 0 -5px 8px; display: inline-block; }
@@ -1854,6 +1854,11 @@ svg.s20 {
 svg.s18 {
   width: 1.125rem;
   height: 1.125rem;
+}
+
+svg.s16 {
+  width: 1rem;
+  height: 1rem;
 }
 
 svg.s14 {

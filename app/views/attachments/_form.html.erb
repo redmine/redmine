@@ -7,17 +7,21 @@
 <% css_class = (defined?(filedrop) && filedrop == false ? '' : (attachment_format_custom_field ? 'custom-field-filedrop' : 'filedrop')) %>
 
 <span class="attachments_form">
+  <span class="attachments_icons hidden">
+    <%= sprite_icon('del', icon_only: true, css_class: 'svg-del') %>
+    <%= sprite_icon('attachment', icon_only: true, size: 16, css_class: 'svg-attachment') %>
+  </span>
   <span class="attachments_fields">
   <% if saved_attachments.present? %>
     <% saved_attachments.each_with_index do |attachment, i| %>
       <span id="attachments_p<%= i %>">
         <%= text_field_tag("#{attachment_param}[p#{i}][filename]", attachment.filename, :class => 'filename') %>
         <% if attachment.container_id.present? %>
-          <%= link_to l(:label_delete), "#", :onclick => "$(this).closest('.attachments_form').find('.add_attachment').show(); $(this).parent().remove(); return false;", :class => 'icon-only icon-del' %>
+          <%= link_to sprite_icon('del', l(:button_delete), icon_only: true), "#", :onclick => "$(this).closest('.attachments_form').find('.add_attachment').show(); $(this).parent().remove(); return false;", :class => 'icon-only icon-del' %>
           <%= hidden_field_tag "#{attachment_param}[p#{i}][id]", attachment.id %>
         <% else %>
           <%= text_field_tag("#{attachment_param}[p#{i}][description]", attachment.description, :maxlength => 255, :placeholder => l(:label_optional_description), :class => 'description') if description %>
-          <%= link_to('&nbsp;'.html_safe, attachment_path(attachment, :attachment_id => "p#{i}", :format => 'js'), :method => 'delete', :remote => true, :class => 'icon-only icon-del remove-upload') %>
+          <%= link_to(sprite_icon('del', l(:button_delete), icon_only: true), attachment_path(attachment, :attachment_id => "p#{i}", :format => 'js'), :method => 'delete', :remote => true, :class => 'icon-only icon-del remove-upload') %>
           <%= hidden_field_tag "#{attachment_param}[p#{i}][token]", attachment.token %>
         <% end %>
       </span>
