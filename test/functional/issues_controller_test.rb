@@ -3255,6 +3255,22 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_show_render_changeset_comments_in_original_context
+    issue = Issue.find(9)
+    issue.changeset_ids = [110]
+    issue.save!
+
+    @request.session[:user_id] = 2
+    get :issue_tab, params: {id: issue.id, name: 'changesets', format: 'js'}, xhr: true
+
+    assert_select 'div#changeset-110' do
+      # assert_select 'div.tabs a[id=?]', 'tab-changesets', text: 'unicorns'
+      assert_select 'div.changeset-comments' do
+        assert_select 'a[href=?]', '/projects/ecookbook/wiki/Wiki', text: 'wiki'
+      end
+    end
+  end
+
   def test_show_should_display_spent_time_tab_for_issue_with_time_entries
     @request.session[:user_id] = 1
     get :show, :params => {:id => 3}

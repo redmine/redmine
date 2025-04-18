@@ -455,7 +455,7 @@ class RepositoryTest < ActiveSupport::TestCase
   def test_stats_by_author_reflect_changesets_and_changes
     repository = Repository.find(10)
 
-    expected = {"Dave Lopper"=>{:commits_count=>10, :changes_count=>3}}
+    expected = {"Dave Lopper"=>{:commits_count=>11, :changes_count=>3}}
     assert_equal expected, repository.stats_by_author
 
     set = Changeset.create!(
@@ -467,7 +467,7 @@ class RepositoryTest < ActiveSupport::TestCase
     )
     Change.create!(:changeset => set, :action => 'A', :path => '/path/to/file1')
     Change.create!(:changeset => set, :action => 'A', :path => '/path/to/file2')
-    expected = {"Dave Lopper"=>{:commits_count=>11, :changes_count=>5}}
+    expected = {"Dave Lopper"=>{:commits_count=>12, :changes_count=>5}}
     assert_equal expected, repository.stats_by_author
   end
 
@@ -476,7 +476,7 @@ class RepositoryTest < ActiveSupport::TestCase
     # to ensure things are dynamically linked to Users
     User.find_by_login("dlopper").update_attribute(:firstname, "Dave's")
     repository = Repository.find(10)
-    expected = {"Dave's Lopper"=>{:commits_count=>10, :changes_count=>3}}
+    expected = {"Dave's Lopper"=>{:commits_count=>11, :changes_count=>3}}
     assert_equal expected, repository.stats_by_author
   end
 
@@ -502,7 +502,7 @@ class RepositoryTest < ActiveSupport::TestCase
     # with committer="dlopper <dlopper@somefoo.net>"
     repository = Repository.find(10)
 
-    expected = {"Dave Lopper"=>{:commits_count=>10, :changes_count=>3}}
+    expected = {"Dave Lopper"=>{:commits_count=>11, :changes_count=>3}}
     assert_equal expected, repository.stats_by_author
 
     set = Changeset.create!(
@@ -513,7 +513,7 @@ class RepositoryTest < ActiveSupport::TestCase
       :comments => 'Another commit by foo.'
     )
 
-    expected = {"Dave Lopper"=>{:commits_count=>11, :changes_count=>3}}
+    expected = {"Dave Lopper"=>{:commits_count=>12, :changes_count=>3}}
     assert_equal expected, repository.stats_by_author
   end
 
