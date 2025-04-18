@@ -479,7 +479,7 @@ class ChangesetTest < ActiveSupport::TestCase
   end
 
   def test_next_nil
-    changeset = Changeset.find_by_revision('10')
+    changeset = Changeset.find_by_revision('11')
     assert_nil changeset.next
   end
 
