@@ -5996,6 +5996,16 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_get_edit_with_custom_field_progress_bar
+    cf = IssueCustomField.generate!(:tracker_ids => [1], :is_for_all => true, :field_format => 'progressbar')
+
+    @request.session[:user_id] = 1
+    get(:edit, :params => {:id => 1})
+    assert_response :success
+
+    assert_select "select[id=?]", "issue_custom_field_values_#{cf.id}", 1
+  end
+
   def test_get_edit_with_me_assigned_to_id
     @request.session[:user_id] = 2
     get(

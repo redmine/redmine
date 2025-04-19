@@ -21,7 +21,7 @@ require_relative '../../../../test_helper'
 require 'redmine/field_format'
 
 module Redmine::FieldFormat
-  class ProgressbarFormatTest < ActiveSupport::TestCase
+  class ProgressbarFormatTest < ActionView::TestCase
     def setup
       @field = IssueCustomField.new(name: 'ProgressbarTest', field_format: 'progressbar')
       @format = Redmine::FieldFormat::ProgressbarFormat.instance
@@ -80,6 +80,41 @@ module Redmine::FieldFormat
     def test_query_filter_options
       options = @format.query_filter_options(@field, nil)
       assert_equal :integer, options[:type]
+    end
+
+    def test_default_ratio_interval_should_be_default_issue_done_ratio_interval
+      @field.save
+      assert_equal 10, @field.ratio_interval
+    end
+
+    def test_ratio_interval
+      @field.update(ratio_interval: 5)
+      assert_equal 5, @field.ratio_interval
+    end
+
+    def test_edit_tag_possible_values_with_ratio_interval
+      [5, 10].each do |ratio_interval|
+        @field.update(ratio_interval: ratio_interval)
+        value = CustomValue.new(custom_field: @field, value: '90')
+
+        tag = @field.format.edit_tag(self, 'id', 'name', value)
+        assert_select_in tag, 'select' do
+          assert_select 'option', 100 / ratio_interval + 1
+        end
+      end
+    end
+
+    def test_bulk_edit_tag_possible_values_with_ratio_interval
+      [5, 10].each do |ratio_interval|
+        @field.update(ratio_interval: ratio_interval)
+        value = CustomValue.new(custom_field: @field, value: '90')
+        objects = [Issue.new, Issue.new]
+
+        tag = @field.format.bulk_edit_tag(self, 'id', 'name', @field, objects, value)
+        assert_select_in tag, 'select' do |select|
+          assert_select select.first, 'option', 100 / ratio_interval + 2
+        end
+      end
     end
   end
 end

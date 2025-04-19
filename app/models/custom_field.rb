@@ -101,7 +101,8 @@ class CustomField < ApplicationRecord
     'version_status',
     'extensions_allowed',
     'full_width_layout',
-    'thousands_delimiter'
+    'thousands_delimiter',
+    'ratio_interval'
   )
 
   def copy_from(arg, options={})

@@ -1086,8 +1086,15 @@ module Redmine
     class ProgressbarFormat < Numeric
       add 'progressbar'
 
-      self.form_partial = nil
+      self.form_partial = 'custom_fields/formats/progressbar'
       self.totalable_supported = false
+      field_attributes :ratio_interval
+
+      # Take the default value from Setting.issue_done_ratio_interval.to_i
+      # in order to have a consistent behaviour for default ratio interval.
+      def self.default_ratio_interval
+        Setting.issue_done_ratio_interval.to_i
+      end
 
       def label
         "label_progressbar"
@@ -1112,11 +1119,19 @@ module Redmine
         order_statement(custom_field)
       end
 
+      def before_custom_field_save(custom_field)
+        super
+
+        if custom_field.ratio_interval.blank?
+          custom_field.ratio_interval = self.class.default_ratio_interval
+        end
+      end
+
       def edit_tag(view, tag_id, tag_name, custom_value, options={})
         view.select_tag(
           tag_name,
           view.options_for_select(
-            (0..100).step(Setting.issue_done_ratio_interval.to_i).to_a.collect {|r| ["#{r} %", r]},
+            (0..100).step(custom_value.custom_field.ratio_interval.to_i).to_a.collect {|r| ["#{r} %", r]},
             custom_value.value
           ),
           options.merge(id: tag_id, style: "width: 75px;")
@@ -1124,7 +1139,7 @@ module Redmine
       end
 
       def bulk_edit_tag(view, tag_id, tag_name, custom_field, objects, value, options={})
-        opts = view.options_for_select([[l(:label_no_change_option), '']] + (0..100).step(Setting.issue_done_ratio_interval.to_i).to_a.collect {|r| ["#{r} %", r]})
+        opts = view.options_for_select([[l(:label_no_change_option), '']] + (0..100).step(custom_field.ratio_interval.to_i).to_a.collect {|r| ["#{r} %", r]})
         view.select_tag(tag_name, opts, options.merge(id: tag_id, style: "width: 75px;")) +
           bulk_clear_tag(view, tag_id, tag_name, custom_field, value)
       end
