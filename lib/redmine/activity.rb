@@ -42,7 +42,7 @@ module Redmine
         @@available_event_types << event_type unless @@available_event_types.include?(event_type)
         @@default_event_types << event_type unless options[:default] == false
         if options[:plugin]
-          providers.each do | provider |
+          providers.each do |provider|
             @@plugins_event_classes[provider] = options[:plugin].to_s
           end
         end
