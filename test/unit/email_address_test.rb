@@ -63,6 +63,12 @@ class EmailAddressTest < ActiveSupport::TestCase
     end
   end
 
+  def test_domain_in_should_not_raise_exception_when_domain_is_nil
+    assert_nothing_raised do
+      assert_not EmailAddress.domain_in?(nil, 'example.com')
+    end
+  end
+
   def test_should_reject_invalid_email
     assert_not EmailAddress.new(address: 'invalid,email@example.com').valid?
   end
