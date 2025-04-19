@@ -66,7 +66,7 @@ class EmailAddress < ActiveRecord::Base
 
   # Returns true if domain belongs to domains list.
   def self.domain_in?(domain, domains)
-    domain = domain.downcase
+    domain = domain.to_s.downcase
     domains = domains.to_s.split(/[\s,]+/) unless domains.is_a?(Array)
     domains.reject(&:blank?).map(&:downcase).any? do |s|
       s.start_with?('.') ? domain.end_with?(s) : domain == s
@@ -142,6 +142,10 @@ class EmailAddress < ActiveRecord::Base
 
   def validate_email_domain
     domain = address.partition('@').last
+    # Skip domain validation if the email does not contain a domain part,
+    # to avoid an incomplete error message like "domain not allowed ()"
+    return if domain.empty?
+
     return if self.class.valid_domain?(domain)
 
     if User.current.logged?
