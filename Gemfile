@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '>= 3.1.0', '< 3.5.0'
+ruby '>= 3.2.0', '< 3.5.0'
 
 gem 'rails', '7.2.2.1'
 gem 'rouge', '~> 4.5'
