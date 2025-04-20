@@ -4,6 +4,49 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2025-04-20 v5.1.8
+
+=== [Administration]
+
+* Defect #42584: NoMethodError when creating a user with an invalid email address and domain restrictions are enabled
+
+=== [Attachments]
+
+* Defect #42394: Inconsistent behaviour between attachment download routes with and without filename
+
+=== [Code cleanup/refactoring]
+
+* Patch #42562: Fix random test failure in ProjectAdminQueryTest due to missing language setting
+* Patch #42572: Fix random test failure in MemberTest#test_update_roles_with_inherited_roles due to non-deterministic ordering
+
+=== [Custom fields]
+
+* Patch #41935: Add "editable" attribute in the custom fields API response
+
+=== [Gantt]
+
+* Defect #42145: MiniMagick (> 5) removed cli_path, result crash when supplied imagemagick_convert_command
+
+=== [Issues]
+
+* Defect #42458: "For all projects" checkbox should be disabled when editing an existing query in which the checkbox is already checked
+
+=== [Performance]
+
+* Defect #40728: Slow loading of global spent time list in MySQL
+* Feature #42574: Optimize autocomplete issue listing triggered by typing "##" by eager loading trackers
+
+=== [Text formatting]
+
+* Defect #42545: Commit message in issue history might be rendered in incorrect context
+
+=== [UI]
+
+* Defect #41828: In mobile view, delete relation svg icon in 'Related Issues' on an issue page, overflow text
+* Defect #41947: Collapse arrow shows the wrong direction at /workflows/edit
+* Patch #42497: Adjust the position of the news comment delete button
+* Patch #42596: Do not show user icon in add watchers modal when gravatar is disabled
+
 == 2025-03-10 v5.1.7
 
 === [Code cleanup/refactoring]
