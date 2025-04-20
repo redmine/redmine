@@ -4,6 +4,76 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2025-04-20 v6.0.5
+
+=== [Administration]
+
+* Defect #42584: NoMethodError when creating a user with an invalid email address and domain restrictions are enabled
+
+=== [Attachments]
+
+* Defect #42394: Inconsistent behaviour between attachment download routes with and without filename
+
+=== [Code cleanup/refactoring]
+
+* Patch #42562: Fix random test failure in ProjectAdminQueryTest due to missing language setting
+* Patch #42572: Fix random test failure in MemberTest#test_update_roles_with_inherited_roles due to non-deterministic ordering
+
+=== [Custom fields]
+
+* Defect #42342: Missing thousands separator in Integer and Float custom field totals
+* Patch #41935: Add "editable" attribute in the custom fields API response
+
+=== [Gantt]
+
+* Defect #42145: MiniMagick (> 5) removed cli_path, result crash when supplied imagemagick_convert_command
+
+=== [Issues]
+
+* Defect #42458: "For all projects" checkbox should be disabled when editing an existing query in which the checkbox is already checked
+
+=== [Performance]
+
+* Defect #40728: Slow loading of global spent time list in MySQL
+* Feature #42574: Optimize autocomplete issue listing triggered by typing "##" by eager loading trackers
+
+=== [Plugin API]
+
+* Defect #42509: Plugin activity icons broken when multiple plugins are loaded
+
+=== [Projects]
+
+* Patch #42440: Fix project selector focus by explicitly targeting the first selected item
+
+=== [SCM]
+
+* Patch #42500: Skip repository tests when the SCM client command is unavailable
+
+=== [Text formatting]
+
+* Defect #42545: Commit message in issue history might be rendered in incorrect context
+
+=== [UI]
+
+* Defect #41828: In mobile view, delete relation svg icon in 'Related Issues' on an issue page, overflow text
+* Defect #41833: Tabs left / right buttons use legacy icons
+* Defect #41947: Collapse arrow shows the wrong direction at /workflows/edit
+* Defect #41952: Flash notice icons use the legacy icons
+* Defect #41967: Replace SCM action legacy icons with SVG icons in the tree view of the repository browser
+* Defect #42181: Project jump box uses legacy caret icons
+* Defect #42285: Icon expanded for closed fixed versions missing
+* Defect #42286: Context menu right arrow uses the legacy icon
+* Defect #42369: Expander icons not switch in Collapse all/Expand all
+* Defect #42465: Improve SVG icon compatibility with RTL languages
+* Defect #42487: Improve SVG contrast when a row is selected on table list
+* Defect #42520: PNG icon displayed instead of SVG in subtasks list when viewing all tasks
+* Defect #42532: Expander icon not working in repository tree
+* Defect #42575: Fix sidebar switch button display in RTL language
+* Defect #42576: Newly attached files are displayed using the legacy icons
+* Patch #42497: Adjust the position of the news comment delete button
+* Patch #42577: Replace legacy Atom icon with SVG icon
+* Patch #42596: Do not show user icon in add watchers modal when gravatar is disabled
+
 == 2025-03-10 v6.0.4
 
 === [Administration]
