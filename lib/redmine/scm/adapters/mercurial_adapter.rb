@@ -50,7 +50,10 @@ module Redmine
           end
 
           def client_available
-            client_version_above?([5, 1])
+            client_version_above?([5, 1]) &&
+            # Redmine >= 6.1 has dropped support for Python 2.7, and
+            # Mercurial has never supported Python 3.0 to 3.4
+            (python_version <=> [3, 5]) >= 0
           end
 
           def hgversion
@@ -65,6 +68,23 @@ module Redmine
 
           def hgversion_from_command_line
             shellout("#{sq_bin} --version") {|io| io.read}.to_s
+          end
+
+          def python_version
+            @@python_version ||= begin
+              debuginstall = hgdebuginstall_from_command_line
+              if (m = debuginstall.match(/checking Python version \(([\d.]+)\)/))
+                m[1].scan(%r{\d+})
+                    .collect(&:to_i)
+                    .presence
+              else
+                nil
+              end
+            end
+          end
+
+          def hgdebuginstall_from_command_line
+            shellout("#{sq_bin} debuginstall") {|io| io.read}.to_s
           end
 
           def template_path
