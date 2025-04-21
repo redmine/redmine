@@ -157,8 +157,8 @@ class Journal < ApplicationRecord
     end
   end
 
-  def visible?(*args)
-    journalized.visible?(*args)
+  def visible?(*)
+    journalized.visible?(*)
   end
 
   # Returns a string of css classes

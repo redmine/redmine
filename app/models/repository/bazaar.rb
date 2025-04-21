@@ -22,12 +22,12 @@ require 'redmine/scm/adapters/bazaar_adapter'
 class Repository::Bazaar < Repository
   validates_presence_of :url, :log_encoding
 
-  def self.human_attribute_name(attribute_key_name, *args)
+  def self.human_attribute_name(attribute_key_name, *)
     attr_name = attribute_key_name.to_s
     if attr_name == "url"
       attr_name = "path_to_repository"
     end
-    super(attr_name, *args)
+    super(attr_name, *)
   end
 
   def self.scm_adapter_class

@@ -268,7 +268,7 @@ class Issue < ApplicationRecord
   end
 
   alias :base_reload :reload
-  def reload(*args)
+  def reload(*)
     @workflow_rule_by_attribute = nil
     @assignable_versions = nil
     @relations = nil
@@ -277,7 +277,7 @@ class Issue < ApplicationRecord
     @total_estimated_hours = nil
     @last_updated_by = nil
     @last_notes = nil
-    base_reload(*args)
+    base_reload(*)
   end
 
   # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
@@ -469,7 +469,7 @@ class Issue < ApplicationRecord
   end
 
   # Overrides assign_attributes so that project and tracker get assigned first
-  def assign_attributes(new_attributes, *args)
+  def assign_attributes(new_attributes, *)
     return if new_attributes.nil?
 
     attrs = new_attributes.dup
@@ -480,7 +480,7 @@ class Issue < ApplicationRecord
         send :"#{attr}=", attrs.delete(attr)
       end
     end
-    super(attrs, *args)
+    super(attrs, *)
   end
 
   def attributes=(new_attributes)

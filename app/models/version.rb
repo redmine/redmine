@@ -211,8 +211,8 @@ class Version < ApplicationRecord
   end
 
   # Version files have same visibility as project files
-  def attachments_visible?(*args)
-    project.present? && project.attachments_visible?(*args)
+  def attachments_visible?(*)
+    project.present? && project.attachments_visible?(*)
   end
 
   def attachments_deletable?(usr=User.current)
@@ -220,10 +220,10 @@ class Version < ApplicationRecord
   end
 
   alias :base_reload :reload
-  def reload(*args)
+  def reload(*)
     @default_project_version = nil
     @visible_fixed_issues = nil
-    base_reload(*args)
+    base_reload(*)
   end
 
   def start_date

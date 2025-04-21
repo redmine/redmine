@@ -25,10 +25,10 @@ class Repository::Git < Repository
 
   safe_attributes 'report_last_commit'
 
-  def self.human_attribute_name(attribute_key_name, *args)
+  def self.human_attribute_name(attribute_key_name, *)
     attr_name = attribute_key_name.to_s
     attr_name = 'path_to_repository' if attr_name == 'url'
-    super(attr_name, *args)
+    super(attr_name, *)
   end
 
   def self.scm_adapter_class

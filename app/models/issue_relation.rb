@@ -22,9 +22,9 @@ class IssueRelation < ApplicationRecord
   class Relations < Array
     include Redmine::I18n
 
-    def initialize(issue, *args)
+    def initialize(issue, *)
       @issue = issue
-      super(*args)
+      super(*)
     end
 
     def to_s(*args)

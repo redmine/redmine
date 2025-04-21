@@ -25,12 +25,12 @@ require 'redmine/scm/adapters/filesystem_adapter'
 class Repository::Filesystem < Repository
   validates_presence_of :url
 
-  def self.human_attribute_name(attribute_key_name, *args)
+  def self.human_attribute_name(attribute_key_name, *)
     attr_name = attribute_key_name.to_s
     if attr_name == "url"
       attr_name = "root_directory"
     end
-    super(attr_name, *args)
+    super(attr_name, *)
   end
 
   def self.scm_adapter_class

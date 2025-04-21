@@ -406,8 +406,8 @@ module Redmine
     #   Meeting.find_events('scrums', User.current, 5.days.ago, Date.today, :project => foo) # events for project foo only
     #
     # Note that :view_scrums permission is required to view these events in the activity view.
-    def activity_provider(*args)
-      Redmine::Activity.register(*args)
+    def activity_provider(*)
+      Redmine::Activity.register(*)
     end
 
     # Registers a wiki formatter.
@@ -423,8 +423,8 @@ module Redmine
     # Examples:
     #   wiki_format_provider(:custom_formatter, CustomFormatter, :label => "My custom formatter")
     #
-    def wiki_format_provider(name, *args)
-      Redmine::WikiFormatting.register(name, *args)
+    def wiki_format_provider(name, *)
+      Redmine::WikiFormatting.register(name, *)
     end
 
     # Register plugin models that use acts_as_attachable.

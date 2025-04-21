@@ -170,7 +170,7 @@ class User < Principal
   end
 
   alias :base_reload :reload
-  def reload(*args)
+  def reload(*)
     @name = nil
     @roles = nil
     @projects_by_role = nil
@@ -181,7 +181,7 @@ class User < Principal
     @builtin_role = nil
     @visible_project_ids = nil
     @managed_roles = nil
-    base_reload(*args)
+    base_reload(*)
   end
 
   def mail

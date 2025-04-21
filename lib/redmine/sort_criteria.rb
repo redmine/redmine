@@ -48,8 +48,8 @@ module Redmine
       normalize!
     end
 
-    def add(*args)
-      self.class.new(self).add!(*args)
+    def add(*)
+      self.class.new(self).add!(*)
     end
 
     def first_key

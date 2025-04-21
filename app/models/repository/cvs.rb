@@ -27,14 +27,14 @@ class Repository::Cvs < Repository
     'root_url',
     :if => lambda {|repository, user| repository.new_record?})
 
-  def self.human_attribute_name(attribute_key_name, *args)
+  def self.human_attribute_name(attribute_key_name, *)
     attr_name = attribute_key_name.to_s
     if attr_name == "root_url"
       attr_name = "cvsroot"
     elsif attr_name == "url"
       attr_name = "cvs_module"
     end
-    super(attr_name, *args)
+    super(attr_name, *)
   end
 
   def self.scm_adapter_class

@@ -336,12 +336,12 @@ class CustomField < ApplicationRecord
     args.include?(field_format)
   end
 
-  def self.human_attribute_name(attribute_key_name, *args)
+  def self.human_attribute_name(attribute_key_name, *)
     attr_name = attribute_key_name.to_s
     if attr_name == 'url_pattern'
       attr_name = "url"
     end
-    super(attr_name, *args)
+    super(attr_name, *)
   end
 
   def css_classes

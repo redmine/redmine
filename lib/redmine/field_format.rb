@@ -110,8 +110,8 @@ module Redmine
       end
       private_class_method :add
 
-      def self.field_attributes(*args)
-        CustomField.store_accessor :format_store, *args
+      def self.field_attributes(*)
+        CustomField.store_accessor(:format_store, *)
       end
 
       field_attributes :url_pattern, :full_width_layout

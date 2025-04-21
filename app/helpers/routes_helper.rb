@@ -20,83 +20,83 @@
 module RoutesHelper
   # Returns the path to project issues or to the cross-project
   # issue list if project is nil
-  def _project_issues_path(project, *args)
+  def _project_issues_path(project, *)
     if project
-      project_issues_path(project, *args)
+      project_issues_path(project, *)
     else
-      issues_path(*args)
+      issues_path(*)
     end
   end
 
-  def _project_issues_url(project, *args)
+  def _project_issues_url(project, *)
     if project
-      project_issues_url(project, *args)
+      project_issues_url(project, *)
     else
-      issues_url(*args)
+      issues_url(*)
     end
   end
 
-  def _project_news_path(project, *args)
+  def _project_news_path(project, *)
     if project
-      project_news_index_path(project, *args)
+      project_news_index_path(project, *)
     else
-      news_index_path(*args)
+      news_index_path(*)
     end
   end
 
-  def _new_project_issue_path(project, *args)
+  def _new_project_issue_path(project, *)
     if project
-      new_project_issue_path(project, *args)
+      new_project_issue_path(project, *)
     else
-      new_issue_path(*args)
+      new_issue_path(*)
     end
   end
 
-  def _project_calendar_path(project, *args)
-    project ? project_calendar_path(project, *args) : issues_calendar_path(*args)
+  def _project_calendar_path(project, *)
+    project ? project_calendar_path(project, *) : issues_calendar_path(*)
   end
 
-  def _project_gantt_path(project, *args)
-    project ? project_gantt_path(project, *args) : issues_gantt_path(*args)
+  def _project_gantt_path(project, *)
+    project ? project_gantt_path(project, *) : issues_gantt_path(*)
   end
 
-  def _time_entries_path(project, issue, *args)
+  def _time_entries_path(project, issue, *)
     if project
-      project_time_entries_path(project, *args)
+      project_time_entries_path(project, *)
     else
-      time_entries_path(*args)
+      time_entries_path(*)
     end
   end
 
-  def _report_time_entries_path(project, issue, *args)
+  def _report_time_entries_path(project, issue, *)
     if project
-      report_project_time_entries_path(project, *args)
+      report_project_time_entries_path(project, *)
     else
-      report_time_entries_path(*args)
+      report_time_entries_path(*)
     end
   end
 
-  def _new_time_entry_path(project, issue, *args)
+  def _new_time_entry_path(project, issue, *)
     if issue
-      new_issue_time_entry_path(issue, *args)
+      new_issue_time_entry_path(issue, *)
     elsif project
-      new_project_time_entry_path(project, *args)
+      new_project_time_entry_path(project, *)
     else
-      new_time_entry_path(*args)
+      new_time_entry_path(*)
     end
   end
 
   # Returns the path to bulk update issues or to issue path
   # if only one issue is selected for bulk update
-  def _bulk_update_issues_path(issue, *args)
+  def _bulk_update_issues_path(issue, *)
     if issue
-      issue_path(issue, *args)
+      issue_path(issue, *)
     else
-      bulk_update_issues_path(*args)
+      bulk_update_issues_path(*)
     end
   end
 
-  def board_path(board, *args)
-    project_board_path(board.project, board, *args)
+  def board_path(board, *)
+    project_board_path(board.project, board, *)
   end
 end

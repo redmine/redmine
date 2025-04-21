@@ -34,9 +34,9 @@ module ReportsHelper
     a
   end
 
-  def aggregate_link(data, criteria, *args)
+  def aggregate_link(data, criteria, *)
     a = aggregate data, criteria
-    a > 0 ? link_to(h(a), *args) : '-'
+    a > 0 ? link_to(h(a), *) : '-'
   end
 
   def aggregate_path(project, field, row, options={})

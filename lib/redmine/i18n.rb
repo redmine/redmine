@@ -65,9 +65,9 @@ module Redmine
     end
 
     # Localizes the given args with user's language
-    def lu(user, *args)
+    def lu(user, *)
       lang = user.try(:language).presence || Setting.default_language
-      ll(lang, *args)
+      ll(lang, *)
     end
 
     def format_date(date)

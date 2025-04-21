@@ -358,12 +358,12 @@ class Project < ApplicationRecord
     end
   end
 
-  def self.find_by_param(*args)
-    self.find(*args)
+  def self.find_by_param(*)
+    self.find(*)
   end
 
   alias :base_reload :reload
-  def reload(*args)
+  def reload(*)
     @principals = nil
     @users = nil
     @shared_versions = nil
@@ -382,7 +382,7 @@ class Project < ApplicationRecord
     @override_members = nil
     @assignable_users = nil
     @last_activity_date = nil
-    base_reload(*args)
+    base_reload(*)
   end
 
   def to_param

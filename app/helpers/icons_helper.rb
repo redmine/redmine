@@ -36,23 +36,23 @@ module IconsHelper
     end
   end
 
-  def file_icon(entry, name, **options)
+  def file_icon(entry, name, **)
     if entry.is_dir?
-      sprite_icon("folder", name, **options)
+      sprite_icon("folder", name, **)
     else
       icon_name = icon_for_mime_type(Redmine::MimeType.css_class_of(name))
-      sprite_icon(icon_name, name, **options)
+      sprite_icon(icon_name, name, **)
     end
   end
 
-  def principal_icon(principal, **options)
+  def principal_icon(principal, **)
     raise ArgumentError, "First argument has to be a Principal, was #{principal.inspect}" unless principal.is_a?(Principal)
 
     principal_class = principal.class.name.downcase
-    sprite_icon('group', **options) if ['groupanonymous', 'groupnonmember', 'group'].include?(principal_class)
+    sprite_icon('group', **) if ['groupanonymous', 'groupnonmember', 'group'].include?(principal_class)
   end
 
-  def activity_event_type_icon(event_type, **options)
+  def activity_event_type_icon(event_type, **)
     icon_name = case event_type
                 when 'reply'
                   'comments'
@@ -64,7 +64,7 @@ module IconsHelper
                   event_type
                 end
 
-    sprite_icon(icon_name, **options)
+    sprite_icon(icon_name, **)
   end
 
   def scm_change_icon(action, name, **options)
@@ -79,7 +79,7 @@ module IconsHelper
     sprite_icon(icon_name, name, size: 14)
   end
 
-  def notice_icon(type, **options)
+  def notice_icon(type, **)
     icon_name = case type
                 when 'notice'
                   'checked'
@@ -87,7 +87,7 @@ module IconsHelper
                   'warning'
                 end
 
-    sprite_icon(icon_name, **options)
+    sprite_icon(icon_name, **)
   end
 
   private

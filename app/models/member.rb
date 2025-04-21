@@ -45,9 +45,9 @@ class Member < ApplicationRecord
   end)
 
   alias :base_reload :reload
-  def reload(*args)
+  def reload(*)
     @managed_roles = nil
-    base_reload(*args)
+    base_reload(*)
   end
 
   def role
