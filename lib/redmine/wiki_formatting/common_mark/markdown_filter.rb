@@ -33,10 +33,10 @@ module Redmine
 
         def call
           html = Commonmarker.to_html(@text, options: {
-            extension: extensions,
+                                        extension: extensions,
             render: render_options,
             parse: parse_options
-          }, plugins: plugins)
+                                      }, plugins: plugins)
 
           html.rstrip!
           html
