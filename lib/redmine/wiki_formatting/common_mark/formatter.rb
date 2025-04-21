@@ -32,6 +32,9 @@ module Redmine
           tagfilter: true,
           autolink: true,
           footnotes: true,
+          header_ids: nil,
+          tasklist: false,
+          shortcodes: false,
         }.freeze,
 
         # https://github.com/gjtorikian/commonmarker#parse-options
@@ -41,6 +44,7 @@ module Redmine
         # https://github.com/gjtorikian/commonmarker#render-options
         commonmarker_render_options: {
           unsafe: true,
+          github_pre_lang: false,
           hardbreaks: Redmine::Configuration['common_mark_enable_hardbreaks'] == true,
         }.freeze,
         commonmarker_plugins: {
