@@ -165,6 +165,10 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
     end
 
     def test_fetch_changesets_from_scratch
+      # This test fails when using Mercurial >= 5.1 due to a change in behavior.
+      # See https://repo.mercurial-scm.org/hg/rev/0c72eddb4be5 for details.
+      skip "Test skipped because Mercurial >= 5.1 is used" if @repository.scm.class.client_version_above?([5, 1])
+
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
       @project.reload
@@ -248,6 +252,10 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
     end
 
     def test_latest_changesets
+      # This test fails when using Mercurial >= 5.1 due to a change in behavior.
+      # See https://repo.mercurial-scm.org/hg/rev/0c72eddb4be5 for details.
+      skip "Test skipped because Mercurial >= 5.1 is used" if @repository.scm.class.client_version_above?([5, 1])
+
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
       @project.reload
