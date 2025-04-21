@@ -16,6 +16,8 @@ gem 'addressable'
 gem 'rubyzip', '~> 2.4.0'
 gem 'propshaft', '~> 1.1.0'
 gem 'rack', '>= 3.1.3'
+gem "stimulus-rails", "~> 1.3"
+gem "importmap-rails", "~> 2.0"
 
 #  Ruby Standard Gems
 gem 'csv', '~> 3.3.2'
