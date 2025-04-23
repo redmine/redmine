@@ -1451,10 +1451,9 @@ ja:
     zero: "%{filename}"
     other: "%{filename} ほか%{count}件"
   setting_wiki_tablesort_enabled: Javascript based table sorting in wiki content
-  label_progressbar: Progress bar
-  error_spent_on_closed_issue: Cannot log time on a closed issue
-  setting_timelog_accept_closed_issues: Accept time logs on closed issues
-  setting_related_issues_default_columns: Related and sub issues list defaults
-  setting_display_related_issues_table_headers: Show table headers
-  error_can_not_remove_role_reason_members_html: "<p>The following projects have members
-    with this role:<br>%{projects}</p>"
+  label_progressbar: 進捗バー
+  error_spent_on_closed_issue: 完了したチケットに作業時間を記録することはできません
+  setting_timelog_accept_closed_issues: 完了したチケットへの作業時間の記録を許可
+  setting_related_issues_default_columns: 関連するチケットと子チケットの一覧で表示する項目
+  setting_display_related_issues_table_headers: テーブルヘッダを表示
+  error_can_not_remove_role_reason_members_html: "<p>以下のプロジェクトにこのロールのメンバーがいます:<br>%{projects}</p>"
