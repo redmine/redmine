@@ -111,7 +111,7 @@ group :test do
   gem 'selenium-webdriver', '>= 4.11.0'
   # RuboCop
   gem 'rubocop', '~> 1.68.0', require: false
-  gem 'rubocop-ast', '~> 1.40.0'
+  gem 'rubocop-ast', '~> 1.40.0', require: false
   gem 'rubocop-performance', '~> 1.22.0', require: false
   gem 'rubocop-rails', '~> 2.27.0', require: false
   gem 'bundle-audit', require: false
