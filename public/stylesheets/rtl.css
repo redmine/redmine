@@ -217,7 +217,7 @@ a.remove-upload {background: url(../images/delete.png) no-repeat right 1px top 5
 
 div.thumbnails div {margin-right:0px; margin-left:2px;}
 
-p.other-formats { text-align:left; }
+p.other-formats, p.query-totals { text-align:left; }
 
 a.atom { background: url(../images/feed.png) no-repeat right 1px top 50%; padding: 2px 16px 3px 0; }
 
