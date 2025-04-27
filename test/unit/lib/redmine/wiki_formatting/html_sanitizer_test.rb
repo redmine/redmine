@@ -54,6 +54,5 @@ class Redmine::WikiFormatting::HtmlSanitizerTest < ActiveSupport::TestCase
     to_test.each do |input, result|
       assert_equal result, @sanitizer.call(input)
     end
-
   end
 end
