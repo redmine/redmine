@@ -48,7 +48,9 @@ module WatchersHelper
   def watchers_list(object)
     remove_allowed = User.current.allowed_to?(:"delete_#{object.class.name.underscore}_watchers", object.project)
     content = ''.html_safe
-    lis = object.watcher_users.sorted.collect do |user|
+    scope = object.watcher_users
+    scope = scope.includes(:email_address) if Setting.gravatar_enabled?
+    lis = scope.sorted.collect do |user|
       s = ''.html_safe
       s << avatar(user, :size => "16").to_s if user.is_a?(User)
       s << link_to_principal(user, class: user.class.to_s.downcase)
