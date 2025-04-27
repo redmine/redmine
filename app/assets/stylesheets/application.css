@@ -1571,7 +1571,7 @@ div.pre-wrapper a.copy-pre-content-link {
   border-radius: 3px;
   background: #fff;
   border: 1px solid #ccc;
-  padding: 2px;
+  padding: 0px 3px 3px 3px;
 }
 
 div.pre-wrapper:hover a.copy-pre-content-link {
