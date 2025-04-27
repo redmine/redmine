@@ -287,7 +287,7 @@ class Redmine::WikiFormatting::CommonMark::FormatterTest < ActionView::TestCase
 
       expected = <<~EXPECTED
         <p>Task list:</p>
-        <ul class="task-list">
+        <ul class="contains-task-list">
         <li class="task-list-item">
         <input type="checkbox" class="task-list-item-checkbox" disabled> Task 1
         </li>

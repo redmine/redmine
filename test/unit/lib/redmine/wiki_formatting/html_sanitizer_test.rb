@@ -35,4 +35,25 @@ class Redmine::WikiFormatting::HtmlSanitizerTest < ActiveSupport::TestCase
     input = %(<a href="javascript:alert('hello');">foo</a>)
     assert_equal "<a>foo</a>", @sanitizer.call(input)
   end
+
+  def test_should_be_strict_with_task_list_items
+    to_test = {
+      %(<input type="checkbox" class="">) => "",
+      %(<input type="checkbox" class="task-list-item-checkbox other">) => "",
+      %(<input type="checkbox" class="task-list-item-checkbox" id="item1">) => %(<input type="checkbox" class="task-list-item-checkbox">),
+      %(<input type="text" class="">) => "",
+      %(<input />) => "",
+      %(<ul class="other"></ul) => "<ul></ul>",
+      %(<ul class="contains-task-list"></ul) => "<ul class=\"contains-task-list\"></ul>",
+      %(<ul class="contains-task-list" id="list1"></ul) => "<ul class=\"contains-task-list\"></ul>",
+      %(<li class="other"></li>) => "",
+      %(<li id="other"></li>) => "",
+      %(<li class="task-list-item"></li>) => "",
+      %(<li class="task-list-item">Item 1</li>) => "Item 1",
+    }
+    to_test.each do |input, result|
+      assert_equal result, @sanitizer.call(input)
+    end
+
+  end
 end

@@ -78,18 +78,56 @@ module Redmine
           # allowlist[:attributes]["td"] = %w(style)
           # allowlist[:css] = { properties: ["text-align"] }
 
-          # Allow `id` in a and li elements for footnotes
-          # and remove any `id` properties not matching for footnotes
+          # Allow `id` in a elements for footnotes
           allowlist[:attributes]["a"].push "id"
-          allowlist[:attributes]["li"] = %w(id)
+          # Remove any `id` property not matching for footnotes
           allowlist[:transformers].push lambda{|env|
             node = env[:node]
-            return unless node.name == "a" || node.name == "li"
+            return unless node.name == "a"
             return unless node.has_attribute?("id")
             return if node.name == "a" && node["id"] =~ /\Afnref-\d+\z/
-            return if node.name == "li" && node["id"] =~ /\Afn-\d+\z/
 
             node.remove_attribute("id")
+          }
+
+          # allow `id` in li element for footnotes
+          # allow `class` in li element for task list items
+          allowlist[:attributes]["li"] = %w(id class)
+          allowlist[:transformers].push lambda{|env|
+            node = env[:node]
+            return unless node.name == "li"
+
+            if node.has_attribute?("id") && !(node["id"] =~ /\Afn-\d+\z/)
+              node.remove_attribute("id")
+            end
+
+            if node.has_attribute?("class") && node["class"] != "task-list-item"
+              node.remove_attribute("class")
+            end
+          }
+
+          # allow input type = "checkbox" with class "task-list-item-checkbox"
+          # for task list items
+          allowlist[:elements].push('input')
+          allowlist[:attributes]["input"] = %w(class type)
+          allowlist[:transformers].push lambda{|env|
+            node = env[:node]
+
+            return unless node.name == "input"
+            return if node['type'] == "checkbox" && node['class'] == "task-list-item-checkbox"
+
+            node.replace(node.children)
+          }
+
+          # allow class "contains-task-list" on ul for task list items
+          allowlist[:attributes]["ul"] = %w(class)
+          allowlist[:transformers].push lambda{|env|
+            node = env[:node]
+
+            return unless node.name == "ul"
+            return if node["class"] == "contains-task-list"
+
+            node.remove_attribute("class")
           }
 
           # https://github.com/rgrove/sanitize/issues/209

@@ -18,7 +18,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 require 'html/pipeline'
-require 'task_list/filter'
 
 module Redmine
   module WikiFormatting
@@ -33,7 +32,7 @@ module Redmine
           autolink: true,
           footnotes: true,
           header_ids: nil,
-          tasklist: false,
+          tasklist: true,
           shortcodes: false,
         }.freeze,
 
@@ -46,6 +45,7 @@ module Redmine
           unsafe: true,
           github_pre_lang: false,
           hardbreaks: Redmine::Configuration['common_mark_enable_hardbreaks'] == true,
+          tasklist_classes: true,
         }.freeze,
         commonmarker_plugins: {
           syntax_highlighter: nil
@@ -57,8 +57,7 @@ module Redmine
         SanitizationFilter,
         SyntaxHighlightFilter,
         FixupAutoLinksFilter,
-        ExternalLinksFilter,
-        TaskList::Filter
+        ExternalLinksFilter
       ], PIPELINE_CONFIG
 
       class Formatter
