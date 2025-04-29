@@ -34,6 +34,7 @@ module Redmine
           header_ids: nil,
           tasklist: true,
           shortcodes: false,
+          alerts: true,
         }.freeze,
 
         # https://github.com/gjtorikian/commonmarker#parse-options

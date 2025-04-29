@@ -1262,6 +1262,38 @@ div.flash.warning svg.icon-svg, .conflict svg.icon-svg {
 
 .conflict-details {font-size:93%;}
 
+/***** CommonMark Alerts *****/
+.markdown-alert {
+  border-left: 4px solid;
+  padding: 10px 10px 1px 10px;
+  margin: 10px 0;
+}
+
+.markdown-alert-title + p {
+  margin-top: 2px;
+}
+
+.markdown-alert-title {
+  font-weight: bold;
+  margin-bottom: 0.5em;
+  margin: 0;
+}
+
+.markdown-alert-tip { border-color: #5db651; }
+.markdown-alert-tip .markdown-alert-title { color: #005f00; }
+
+.markdown-alert-important { border-color: #800080; }
+.markdown-alert-important .markdown-alert-title { color: #4b006e; }
+
+.markdown-alert-caution { border-color: #c22; }
+.markdown-alert-caution .markdown-alert-title { color: #880000; }
+
+.markdown-alert-warning { border-color: #e4bc4b; }
+.markdown-alert-warning .markdown-alert-title { color: #a7760c; }
+
+.markdown-alert-note { border-color: #169; }
+.markdown-alert-note .markdown-alert-title { color: #1e40af; }
+
 /***** Ajax indicator ******/
 #ajax-indicator {
 position: absolute; /* fixed not supported by IE */

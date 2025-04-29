@@ -163,39 +163,39 @@ class Redmine::WikiFormatting::CommonMark::FormatterTest < ActionView::TestCase
       # 0
       <<~STR.chomp,
         # Title
-  
+
         Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.
       STR
       # 1
       <<~STR.chomp,
         ## Heading 2
-  
+
         ~~~ruby
           def foo
           end
         ~~~
-  
+
         Morbi facilisis accumsan orci non pharetra.
-  
+
         ~~~ ruby
         def foo
         end
         ~~~
-  
+
         ```
         Pre Content:
-  
+
         ## Inside pre
-  
+
         <tag> inside pre block
-  
+
         Morbi facilisis accumsan orci non pharetra.
         ```
       STR
       # 2
       <<~STR.chomp,
         ### Heading 3
-  
+
         Nulla nunc nisi, egestas in ornare vel, posuere ac libero.
       STR
     ]
@@ -297,6 +297,45 @@ class Redmine::WikiFormatting::CommonMark::FormatterTest < ActionView::TestCase
       EXPECTED
 
       assert_equal expected.gsub(%r{[\r\n\t]}, ''), to_html(text).gsub(%r{[\r\n\t]}, '').rstrip
+    end
+
+    def test_should_render_alert_blocks
+      text = <<~MD
+        > [!note]
+        > This is a note.
+
+        > [!tip]
+        > This is a tip.
+
+        > [!warning]
+        > This is a warning.
+
+        > [!caution]
+        > This is a caution.
+
+        > [!important]
+        > This is a important.
+      MD
+
+      html = to_html(text)
+      %w[note tip warning caution important].each do |alert|
+        assert_include "<div class=\"markdown-alert markdown-alert-note\">\n<p class=\"markdown-alert-title\">Note</p>\n<p>This is a note.</p>\n</div>", html
+      end
+    end
+
+    def test_should_not_render_unknown_alert_type
+      text = <<~MD
+        > [!unknown]
+        > This should not become an alert.
+      MD
+
+      html = to_html(text)
+
+      assert_include "<blockquote>", html
+      assert_include "[!unknown]", html
+      assert_include "This should not become an alert.", html
+
+      assert_not_include 'markdown-alert', html
     end
 
     private

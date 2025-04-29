@@ -68,6 +68,26 @@ module Redmine
             end
           }
 
+          # Allow class on div and p tags only for alert blocks
+          # (must be exactly: "markdown-alert markdown-alert-*" for div, and "markdown-alert-title" for p)
+          (allowlist[:attributes]["div"] ||= []) << "class"
+          (allowlist[:attributes]["p"] ||= []) << "class"
+          allowlist[:transformers].push lambda{|env|
+            node = env[:node]
+            return unless node.element?
+
+            case node.name
+            when 'div'
+              unless node['class'] =~ /\Amarkdown-alert markdown-alert-[a-z]+\z/
+                node.remove_attribute('class')
+              end
+            when 'p'
+              unless node['class'] == 'markdown-alert-title'
+                node.remove_attribute('class')
+              end
+            end
+          }
+
           # Allow table cell alignment by style attribute
           #
           # Only necessary if we used the TABLE_PREFER_STYLE_ATTRIBUTES

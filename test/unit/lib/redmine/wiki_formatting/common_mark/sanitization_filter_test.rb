@@ -71,6 +71,32 @@ if Object.const_defined?(:Commonmarker)
       assert_equal %(<code>foo</code>), filter(input)
     end
 
+    def test_should_allow_valid_alert_div_and_p_classes
+      html = <<~HTML
+        <div class="markdown-alert markdown-alert-tip">
+          <p class="markdown-alert-title">Tip</p>
+          <p>Useful tip.</p>
+        </div>
+      HTML
+
+      sanitized = filter(html)
+
+      assert_include 'class="markdown-alert markdown-alert-tip"', sanitized
+      assert_include 'class="markdown-alert-title"', sanitized
+    end
+
+    def test_should_remove_invalid_div_class
+      html = '<div class="bad-class">Text</div>'
+      sanitized = filter(html)
+      refute_include 'bad-class', sanitized
+    end
+
+    def test_should_remove_invalid_p_class
+      html = '<p class="bad-class">Text</p>'
+      sanitized = filter(html)
+      assert_not_include 'bad-class', sanitized
+    end
+
     def test_should_allow_links_with_safe_url_schemes
       %w(http https ftp ssh foo).each do |scheme|
         input = %(<a href="#{scheme}://example.org/">foo</a>)
