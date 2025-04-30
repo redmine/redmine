@@ -51,7 +51,7 @@ if Object.const_defined?(:Commonmarker)
         %(<a href="#fn-1" id="fnref-1">foo</a>),
         %(<a href="#fn-1" id="fnref-1-2">foo</a>),
         %(<ol><li id="fn-1">footnote</li></ol>),
-      ].each do | input |
+      ].each do |input|
         assert_equal input, filter(input)
         assert_equal input, filter(input)
       end

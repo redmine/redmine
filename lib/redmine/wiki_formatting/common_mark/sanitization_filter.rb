@@ -78,7 +78,7 @@ module Redmine
 
             case node.name
             when 'div'
-              unless node['class'] =~ /\Amarkdown-alert markdown-alert-[a-z]+\z/
+              unless /\Amarkdown-alert markdown-alert-[a-z]+\z/.match?(node['class'])
                 node.remove_attribute('class')
               end
             when 'p'
