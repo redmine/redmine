@@ -88,7 +88,7 @@ if Object.const_defined?(:Commonmarker)
     def test_should_remove_invalid_div_class
       html = '<div class="bad-class">Text</div>'
       sanitized = filter(html)
-      refute_include 'bad-class', sanitized
+      refute_includes 'bad-class', sanitized
     end
 
     def test_should_remove_invalid_p_class
