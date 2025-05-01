@@ -1,19 +1,33 @@
 @font-face {
-    font-family: "Noto Sans";
-    src: url("/NotoSans-VariableFont_wdth,wght.woff2") format("woff2");
-    font-weight: 100 900;
-    font-stretch: 75% 125%;
-    font-style: normal;
-    font-display: swap;
+  font-family: "Noto Sans";
+  src: url("/NotoSans-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-    font-family: "Noto Sans";
-    src: url("/NotoSans-Italic-VariableFont_wdth,wght.woff2") format("woff2");
-    font-weight: 100 900;
-    font-stretch: 75% 125%;
-    font-style: italic;
-    font-display: swap;
+  font-family: "Noto Sans";
+  src: url("/NotoSans-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Noto Sans";
+  src: url("/NotoSans-Italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Noto Sans";
+  src: url("/NotoSans-BoldItalic.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
 }
 
 :root {
