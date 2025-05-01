@@ -86,7 +86,7 @@ module Redmine
             node = env[:node]
             return unless node.name == "a" || node.name == "li"
             return unless node.has_attribute?("id")
-            return if node.name == "a" && node["id"] =~ /\Afnref-\d+\z/
+            return if node.name == "a" && node["id"] =~ /\Afnref(-\d+){1,2}\z/
             return if node.name == "li" && node["id"] =~ /\Afn-\d+\z/
 
             node.remove_attribute("id")
