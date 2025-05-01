@@ -1275,8 +1275,7 @@ div.flash.warning svg.icon-svg, .conflict svg.icon-svg {
 
 .markdown-alert-title {
   font-weight: bold;
-  margin-bottom: 0.5em;
-  margin: 0;
+  margin: 0 0 0.5em 0;
 }
 
 .markdown-alert-tip { border-color: #5db651; }
