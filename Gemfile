@@ -18,6 +18,7 @@ gem 'propshaft', '~> 1.1.0'
 gem 'rack', '>= 3.1.3'
 gem "stimulus-rails", "~> 1.3"
 gem "importmap-rails", "~> 2.0"
+gem 'commonmarker', '~> 2.3.0'
 
 #  Ruby Standard Gems
 gem 'csv', '~> 3.3.2'
@@ -44,11 +45,6 @@ end
 # Optional gem for exporting the gantt to a PNG file
 group :minimagick do
   gem 'mini_magick', '~> 5.2.0'
-end
-
-# Optional CommonMark support, not for JRuby
-group :common_mark do
-  gem "commonmarker", '~> 2.3.0'
 end
 
 # Include database gems for the adapters found in the database
