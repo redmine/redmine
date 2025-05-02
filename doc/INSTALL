@@ -136,10 +136,10 @@ Please do not enter your SMTP settings in environment.rb.
 
 == References
 
-* https://www.redmine.org/wiki/redmine/RedmineInstall
-* https://www.redmine.org/wiki/redmine/EmailConfiguration
-* https://www.redmine.org/wiki/redmine/RedmineSettings
-* https://www.redmine.org/wiki/redmine/RedmineRepositories
-* https://www.redmine.org/wiki/redmine/RedmineReceivingEmails
-* https://www.redmine.org/wiki/redmine/RedmineReminderEmails
-* https://www.redmine.org/wiki/redmine/RedmineLDAP
+* https://www.redmine.org/projects/redmine/wiki/RedmineInstall
+* https://www.redmine.org/projects/redmine/wiki/EmailConfiguration
+* https://www.redmine.org/projects/redmine/wiki/RedmineSettings
+* https://www.redmine.org/projects/redmine/wiki/RedmineRepositories
+* https://www.redmine.org/projects/redmine/wiki/RedmineReceivingEmails
+* https://www.redmine.org/projects/redmine/wiki/RedmineReminderEmails
+* https://www.redmine.org/projects/redmine/wiki/RedmineLDAP
