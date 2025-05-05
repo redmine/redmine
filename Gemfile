@@ -19,7 +19,7 @@ gem 'rack', '>= 3.1.3'
 
 #  Ruby Standard Gems
 gem 'csv', '~> 3.2.8'
-gem 'net-imap', '~> 0.4.8'
+gem 'net-imap', '~> 0.4.20'
 gem 'net-pop', '~> 0.1.2'
 gem 'net-smtp', '~> 0.4.0'
 
