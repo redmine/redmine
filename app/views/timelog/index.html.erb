@@ -29,8 +29,8 @@
 <span class="pagination"><%= pagination_links_full @entry_pages, @entry_count %></span>
 
 <% other_formats_links do |f| %>
-  <%= f.link_to_with_query_parameters 'Atom', :key => User.current.atom_key %>
   <%= f.link_to_with_query_parameters 'CSV', {}, :onclick => "showModal('csv-export-options', '330px'); return false;" %>
+  <%= f.link_to_with_query_parameters 'Atom', :key => User.current.atom_key %>
 <% end %>
 
 <div id="csv-export-options" style="display:none;">
