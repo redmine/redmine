@@ -18,7 +18,7 @@ gem 'rubyzip', '~> 2.3.0'
 
 #  Ruby Standard Gems
 gem 'csv', '~> 3.2.6'
-gem 'net-imap', '~> 0.3.4'
+gem 'net-imap', '~> 0.3.9'
 gem 'net-pop', '~> 0.1.2'
 gem 'net-smtp', '~> 0.3.3'
 gem 'rexml', require: false if Gem.ruby_version >= Gem::Version.new('3.0')
