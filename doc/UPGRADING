@@ -62,7 +62,7 @@ https://www.redmine.org/
    directory for web server delivery.
 
    By default, Redmine automatically recompiles assets in production mode when the application starts.
-   This behavior can be controlled using the "config.assets.redmine_detect_update flag" from configuration file.
+   This behavior can be controlled using the "config.assets.redmine_detect_update" flag from configuration file.
 
    To manually compile assets or if automatic compilation is disabled:
 
@@ -101,4 +101,4 @@ https://www.redmine.org/
 
 == References
 
-* https://www.redmine.org/wiki/redmine/RedmineUpgrade
+* https://www.redmine.org/projects/redmine/wiki/RedmineUpgrade
