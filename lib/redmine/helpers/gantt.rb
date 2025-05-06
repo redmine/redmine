@@ -748,7 +748,7 @@ module Redmine
           html_class << (version.behind_schedule? ? 'version-behind-schedule' : '') << " "
           html_class << (version.overdue? ? 'version-overdue' : '')
           html_class << ' version-closed' unless version.open?
-          if version.start_date && version.due_date && version.visible_fixed_issues.completed_percent
+          if version.due_date && version.start_date && version.visible_fixed_issues.completed_percent
             progress_date = calc_progress_date(version.start_date,
                                                version.due_date, version.visible_fixed_issues.completed_percent)
             html_class << ' behind-start-date' if progress_date < self.date_from
