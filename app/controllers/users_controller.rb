@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -34,40 +34,56 @@ class UsersController < ApplicationController
   helper :principal_memberships
   helper :activities
   include ActivitiesHelper
+  helper :queries
+  include QueriesHelper
+  helper :user_queries
+  include UserQueriesHelper
 
   require_sudo_mode :create, :update, :destroy
 
   def index
-    sort_init 'login', 'asc'
-    sort_update %w(login firstname lastname admin created_on last_login_on)
+    use_session = !request.format.csv?
+    retrieve_query(UserQuery, use_session)
 
-    case params[:format]
-    when 'xml', 'json'
-      @offset, @limit = api_offset_and_limit
-    else
-      @limit = per_page_option
+    # API backwards compatibility: handle legacy filter parameters
+    unless request.format.html?
+      if name = params[:name].presence
+        @query.add_filter 'name', '~', [name]
+      end
+      if group_id = params[:group_id].presence
+        @query.add_filter 'is_member_of_group', '=', [group_id]
+      end
     end
 
-    @status = params[:status] || 1
+    if @query.valid?
+      scope = @query.results_scope
 
-    scope = User.logged.status(@status).preload(:email_address)
-    scope = scope.like(params[:name]) if params[:name].present?
-    scope = scope.in_group(params[:group_id]) if params[:group_id].present?
+      @user_count = scope.count
 
-    @user_count = scope.count
-    @user_pages = Paginator.new @user_count, @limit, params['page']
-    @offset ||= @user_pages.offset
-    @users =  scope.order(sort_clause).limit(@limit).offset(@offset).to_a
-
-    respond_to do |format|
-      format.html do
-        @groups = Group.givable.sort
-        render :layout => !request.xhr?
+      respond_to do |format|
+        format.html do
+          @limit = per_page_option
+          @user_pages = Paginator.new @user_count, @limit, params['page']
+          @offset ||= @user_pages.offset
+          @users = scope.limit(@limit).offset(@offset).to_a
+          render :layout => !request.xhr?
+        end
+        format.csv do
+          # Export all entries
+          entries = scope.to_a
+          send_data(query_to_csv(entries, @query, params), :type => 'text/csv; header=present', :filename => "#{filename_for_export(@query, 'users')}.csv")
+        end
+        format.api do
+          @offset, @limit = api_offset_and_limit
+          @users = scope.limit(@limit).offset(@offset).to_a
+        end
       end
-      format.csv do
-        send_data(users_to_csv(scope.order(sort_clause)), :type => 'text/csv; header=present', :filename => 'users.csv')
+    else
+      respond_to do |format|
+        format.html {render :layout => !request.xhr?}
+        format.csv {head :unprocessable_content}
+        format.api {render_validation_errors(@query)}
       end
-      format.api
     end
   end
 
@@ -199,14 +215,35 @@ class UsersController < ApplicationController
     if api_request? || params[:lock] || params[:confirm] == @user.login
       if params[:lock]
         @user.update_attribute :status, User::STATUS_LOCKED
+        flash[:notice] = l(:notice_successful_update)
       else
         @user.destroy
+        flash[:notice] = l(:notice_successful_delete)
       end
       respond_to do |format|
         format.html {redirect_back_or_default(users_path)}
         format.api  {render_api_ok}
       end
     end
+  end
+
+  def bulk_destroy
+    @users = User.logged.where(id: params[:ids]).where.not(id: User.current)
+    (render_404; return) unless @users.any?
+
+    if params[:confirm] == I18n.t(:general_text_Yes)
+      @users.destroy_all
+      flash[:notice] = l(:notice_successful_delete)
+      redirect_to users_path
+    end
+  end
+
+  def bulk_lock
+    bulk_update_status(params[:ids], User::STATUS_LOCKED)
+  end
+
+  def bulk_unlock
+    bulk_update_status(params[:ids], User::STATUS_ACTIVE)
   end
 
   private
@@ -222,5 +259,14 @@ class UsersController < ApplicationController
     end
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def bulk_update_status(user_ids, status)
+    users = User.logged.where(id: user_ids).where.not(id: User.current)
+    (render_404; return) unless users.any?
+
+    users.update_all status: status
+    flash[:notice] = l(:notice_successful_update)
+    redirect_to users_path
   end
 end

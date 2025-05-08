@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,15 +17,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class AttachmentsVisibilityTest < Redmine::ControllerTest
   tests AttachmentsController
-  fixtures :users, :email_addresses, :projects, :roles, :members, :member_roles,
-           :enabled_modules, :projects_trackers, :issue_statuses, :enumerations,
-           :issues, :trackers, :versions,
-           :custom_fields, :custom_fields_trackers, :custom_fields_projects
-
   def setup
     User.current = nil
     set_tmp_attachments_directory
@@ -55,6 +50,6 @@ class AttachmentsVisibilityTest < Redmine::ControllerTest
 
     @field.update!(:visible => false, :role_ids => [1])
     get :show, :params => {:id => @attachment.id}
-    assert_response 403
+    assert_response :forbidden
   end
 end

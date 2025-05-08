@@ -1,10 +1,10 @@
 <ul>
   <% if !@time_entry.nil? -%>
-    <li><%= context_menu_link l(:button_edit), {:controller => 'timelog', :action => 'edit', :id => @time_entry},
-            :class => 'icon icon-edit', :disabled => !@can[:edit] %></li>
+    <li><%= context_menu_link sprite_icon('edit', l(:button_edit)), { :controller => 'timelog', :action => 'edit', :id => @time_entry},
+                              :class => 'icon icon-edit', :disabled => !@can[:edit] %></li>
   <% else %>
-    <li><%= context_menu_link l(:label_bulk_edit), {:controller => 'timelog', :action => 'bulk_edit', :ids => @time_entries.collect(&:id)},
-            :class => 'icon icon-edit', :disabled => !@can[:edit] %></li>
+    <li><%= context_menu_link sprite_icon('edit', l(:label_bulk_edit)), { :controller => 'timelog', :action => 'bulk_edit', :ids => @time_entries.collect(&:id)},
+                              :class => 'icon icon-edit', :disabled => !@can[:edit] %></li>
   <% end %>
 
   <%= call_hook(:view_time_entries_context_menu_start, {:time_entries => @time_entries, :can => @can, :back => @back }) %>
@@ -12,6 +12,7 @@
   <% if @activities.present? -%>
   <li class="folder">
     <a href="#" class="submenu"><%= l(:field_activity) %></a>
+    <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
     <ul>
     <% @activities.each do |u| -%>
         <li><%= context_menu_link u.name, {:controller => 'timelog', :action => 'bulk_update', :ids => @time_entries.collect(&:id), :time_entry => {'activity_id' => u}, :back_url => @back}, :method => :post,
@@ -24,6 +25,7 @@
   <% @options_by_custom_field.each do |field, options| %>
     <li class="folder <%= field.css_classes %>">
       <a href="#" class="submenu"><%= field.name %></a>
+      <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
       <ul>
       <% options.each do |text, value| %>
         <li><%= bulk_update_time_entry_custom_field_context_menu_link(field, text, value || text) %></li>
@@ -38,8 +40,8 @@
   <%= call_hook(:view_time_entries_context_menu_end, {:time_entries => @time_entries, :can => @can, :back => @back }) %>
 
   <li>
-    <%= context_menu_link l(:button_delete),
-      {:controller => 'timelog', :action => 'destroy', :ids => @time_entries.collect(&:id), :back_url => @back},
-      :method => :delete, :data => {:confirm => l(:text_time_entries_destroy_confirmation)}, :class => 'icon icon-del', :disabled => !@can[:delete] %>
+    <%= context_menu_link sprite_icon('del', l(:button_delete)),
+                          {:controller => 'timelog', :action => 'destroy', :ids => @time_entries.collect(&:id), :back_url => @back},
+                          :method => :delete, :data => {:confirm => l(:text_time_entries_destroy_confirmation)}, :class => 'icon icon-del', :disabled => !@can[:delete] %>
   </li>
 </ul>

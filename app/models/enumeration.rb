@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class Enumeration < ActiveRecord::Base
+class Enumeration < ApplicationRecord
   include Redmine::SubclassFactory
 
   default_scope lambda {order(:position)}
@@ -28,8 +28,8 @@ class Enumeration < ActiveRecord::Base
   acts_as_customizable
   acts_as_tree
 
-  before_destroy :check_integrity
   before_save    :check_default
+  before_destroy :check_integrity
   after_save     :update_children_name
 
   validates_presence_of :name
@@ -91,6 +91,8 @@ class Enumeration < ActiveRecord::Base
   end
 
   def <=>(enumeration)
+    return nil unless enumeration.is_a?(Enumeration)
+
     position <=> enumeration.position
   end
 

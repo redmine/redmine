@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class Journal < ActiveRecord::Base
+class Journal < ApplicationRecord
   include Redmine::SafeAttributes
 
   belongs_to :journalized, :polymorphic => true
@@ -26,6 +26,7 @@ class Journal < ActiveRecord::Base
   belongs_to :issue, :foreign_key => :journalized_id
 
   belongs_to :user
+  belongs_to :updated_by, :class_name => 'User'
   has_many :details, :class_name => "JournalDetail", :dependent => :delete_all, :inverse_of => :journal
   attr_accessor :indice
 
@@ -52,13 +53,15 @@ class Journal < ActiveRecord::Base
     :author_key => :user_id,
     :scope =>
       proc do
-        preload({:issue => :project}, :user).
+        preload({:issue => :project}, {:issue => :tracker}, :user).
           joins("LEFT OUTER JOIN #{JournalDetail.table_name} ON #{JournalDetail.table_name}.journal_id = #{Journal.table_name}.id").
             where("#{Journal.table_name}.journalized_type = 'Issue' AND" +
                   " (#{JournalDetail.table_name}.prop_key = 'status_id' OR #{Journal.table_name}.notes <> '')").distinct
       end
   )
+  acts_as_mentionable :attributes => ['notes']
   before_create :split_private_notes
+  before_create :add_watcher
   after_create_commit :send_notification
 
   scope :visible, (lambda do |*args|
@@ -76,6 +79,7 @@ class Journal < ActiveRecord::Base
   safe_attributes(
     'private_notes',
     :if => lambda {|journal, user| user.allowed_to?(:set_notes_private, journal.project)})
+  safe_attributes 'updated_by'
 
   # Returns a SQL condition to filter out journals with notes that are not visible to user
   def self.visible_notes_condition(user=User.current, options={})
@@ -98,6 +102,15 @@ class Journal < ActiveRecord::Base
     journalize_changes
     # Do not save an empty journal
     (details.empty? && notes.blank?) ? false : super()
+  end
+
+  def journalized
+    if journalized_type == 'Issue' && association(:issue).loaded?
+      # Avoid extra query by using preloaded association
+      issue
+    else
+      super
+    end
   end
 
   # Returns journal details that are visible to user
@@ -138,7 +151,14 @@ class Journal < ActiveRecord::Base
   end
 
   def attachments
-    details.select{ |d| d.property == 'attachment' }.map{ |d| Attachment.find_by(:id => d.prop_key) }.compact
+    @attachments ||= begin
+      ids = details.select {|d| d.property == 'attachment' && d.value.present?}.map(&:prop_key)
+      ids.empty? ? [] : Attachment.where(id: ids).sort_by {|a| ids.index(a.id.to_s)}
+    end
+  end
+
+  def visible?(*)
+    journalized.visible?(*)
   end
 
   # Returns a string of css classes
@@ -172,10 +192,12 @@ class Journal < ActiveRecord::Base
 
   def notified_watchers
     notified = journalized.notified_watchers
-    if private_notes?
-      notified = notified.select {|user| user.allowed_to?(:view_private_notes, journalized.project)}
-    end
-    notified
+    select_journal_visible_user(notified)
+  end
+
+  def notified_mentions
+    notified = super
+    select_journal_visible_user(notified)
   end
 
   def watcher_recipients
@@ -253,7 +275,7 @@ class Journal < ActiveRecord::Base
     # custom fields changes
     if @custom_values_before_change
       values_by_custom_field_id = {}
-      @custom_values_before_change.each do |custom_field_id, value|
+      @custom_values_before_change.each_key do |custom_field_id|
         values_by_custom_field_id[custom_field_id] = nil
       end
       journalized.custom_field_values.each do |c|
@@ -324,6 +346,15 @@ class Journal < ActiveRecord::Base
     true
   end
 
+  def add_watcher
+    if user&.active? &&
+        user.allowed_to?(:add_issue_watchers, project) &&
+        user.pref.auto_watch_on?('issue_contributed_to') &&
+        !Watcher.any_watched?(Array.wrap(journalized), user)
+      journalized.set_watcher(user, true)
+    end
+  end
+
   def send_notification
     if notify? &&
         (
@@ -332,9 +363,17 @@ class Journal < ActiveRecord::Base
           (Setting.notified_events.include?('issue_status_updated') && new_status.present?) ||
           (Setting.notified_events.include?('issue_assigned_to_updated') && detail_for_attribute('assigned_to_id').present?) ||
           (Setting.notified_events.include?('issue_priority_updated') && new_value_for('priority_id').present?) ||
-          (Setting.notified_events.include?('issue_fixed_version_updated') && detail_for_attribute('fixed_version_id').present?)
+          (Setting.notified_events.include?('issue_fixed_version_updated') && detail_for_attribute('fixed_version_id').present?) ||
+          (Setting.notified_events.include?('issue_attachment_added') && details.any? {|d| d.property == 'attachment' && d.value })
         )
       Mailer.deliver_issue_edit(self)
     end
+  end
+
+  def select_journal_visible_user(notified)
+    if private_notes?
+      notified = notified.select {|user| user.allowed_to?(:view_private_notes, journalized.project)}
+    end
+    notified
   end
 end

@@ -1,0 +1,14 @@
+/**
+ * Redmine - project management software
+ * Copyright (C) 2006-  Jean-Philippe Lang
+ * This code is released under the GNU General Public License.
+ */
+
+#context-menu li.folder ul { left:auto; right:168px; }
+#context-menu li.folder>ul { left:auto; right:148px; }
+#context-menu li a.submenu:not(:has(+ span)) { background:url("/arrow_left.png") left no-repeat; }
+#context-menu li.folder ul li a:not(.icon) {padding-right: 28px;}
+#context-menu li a.submenu {
+   padding-right: 28px;
+   padding-left: 0;
+}

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,6 +23,7 @@ module Redmine
     attr_reader :diff_type, :diff_style
 
     def initialize(diff, options={})
+      super()
       options.assert_valid_keys(:type, :style, :max_lines)
       diff = diff.split("\n") if diff.is_a?(String)
       @diff_type = options[:type] || 'inline'

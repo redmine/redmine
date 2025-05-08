@@ -6,7 +6,7 @@
 <% diff.each do |table_file| -%>
 <div class="autoscroll">
 <% if diff.diff_type == 'sbs' -%>
-<table class="filecontent">
+<table class="filecontent diffcontent">
 <thead>
 <tr>
   <th colspan="4" class="filename">
@@ -21,17 +21,17 @@
 <% table_file.each_line do |spacing, line| -%>
 <% if spacing -%>
 <tr class="spacing">
-  <th class="line-num">...</th><td></td><th class="line-num">...</th><td></td>
+  <th class="line-num" data-txt="..."></th><td></td><th class="line-num" data-txt="..."></th><td></td>
 </tr>
 <% end -%>
 <tr>
-  <th class="line-num"><%= line.nb_line_left %></th>
+  <th class="line-num" data-txt="<%= line.nb_line_left %>"></th>
   <td class="line-code <%= line.type_diff_left %>">
-    <pre><%= line.html_line_left.html_safe %></pre>
+    <div><%= line.html_line_left.html_safe %></div>
   </td>
-  <th class="line-num"><%= line.nb_line_right %></th>
+  <th class="line-num" data-txt="<%= line.nb_line_right %>"></th>
   <td class="line-code <%= line.type_diff_right %>">
-    <pre><%= line.html_line_right.html_safe %></pre>
+    <div><%= line.html_line_right.html_safe %></div>
   </td>
 </tr>
 <% end -%>
@@ -39,7 +39,7 @@
 </table>
 
 <% else -%>
-<table class="filecontent">
+<table class="filecontent diffcontent">
 <thead>
   <tr>
     <th colspan="3" class="filename">
@@ -58,10 +58,10 @@
 </tr>
 <% end -%>
 <tr>
-  <th class="line-num"><%= line.nb_line_left %></th>
-  <th class="line-num"><%= line.nb_line_right %></th>
+  <th class="line-num" data-txt="<%= line.nb_line_left %>"></th>
+  <th class="line-num" data-txt="<%= line.nb_line_right %>"></th>
   <td class="line-code <%= line.type_diff %>">
-    <pre><%= line.html_line.html_safe %></pre>
+    <div><%= line.html_line.html_safe %></div>
   </td>
 </tr>
 <% end -%>

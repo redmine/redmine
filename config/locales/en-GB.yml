@@ -73,7 +73,7 @@ en-GB:
   number:
     format:
       separator: "."
-      delimiter: " "
+      delimiter: ","
       precision: 3
 
     currency:
@@ -99,8 +99,9 @@ en-GB:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "and"
-      skip_last_comma: false
+      last_word_connector: ", and "
+      two_words_connector: " and "
+      words_connector: ", "
 
   activerecord:
     errors:
@@ -140,6 +141,8 @@ en-GB:
         must_contain_lowercase: "must contain lowercase letters (a-z)"
         must_contain_digits: "must contain digits (0-9)"
         must_contain_special_chars: "must contain special characters (!, $, %, ...)"
+        domain_not_allowed: "contains a domain not allowed (%{domain})"
+        too_simple: "is too simple"
 
   actionview_instancetag_blank_option: Please select
 
@@ -160,7 +163,6 @@ en-GB:
   notice_account_password_updated: Password was successfully updated.
   notice_account_wrong_password: Wrong password
   notice_account_register_done: Account was successfully created. An email containing the instructions to activate your account was sent to %{email}.
-  notice_account_unknown_email: Unknown user.
   notice_can_t_change_password: This account uses an external authentication source. Impossible to change the password.
   notice_account_lost_email_sent: An email with instructions to choose a new password has been sent to you.
   notice_account_activated: Your account has been activated. You can now log in.
@@ -194,7 +196,7 @@ en-GB:
   error_no_tracker_in_project: 'No tracker is associated to this project. Please check the Project settings.'
   error_no_default_issue_status: 'No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").'
   error_can_not_delete_custom_field: Unable to delete custom field
-  error_can_not_delete_tracker: "This tracker contains issues and cannot be deleted."
+  error_can_not_delete_tracker_html: "This tracker contains issues and cannot be deleted.<p>The following projects have issues with this tracker:<br>%{projects}</p>"
   error_can_not_remove_role: "This role is in use and cannot be deleted."
   error_can_not_reopen_issue_on_closed_version: 'An issue assigned to a closed version cannot be reopened'
   error_can_not_archive_project: This project cannot be archived
@@ -256,7 +258,7 @@ en-GB:
   field_priority: Priority
   field_fixed_version: Target version
   field_user: User
-  field_principal: Principal
+  field_principal: User or Group
   field_role: Role
   field_homepage: Homepage
   field_is_public: Public
@@ -265,7 +267,7 @@ en-GB:
   field_login: Login
   field_mail_notification: Email notifications
   field_admin: Administrator
-  field_last_login_on: Last connection
+  field_last_login_on: Last sign in
   field_language: Language
   field_effective_date: Due date
   field_password: Password
@@ -502,7 +504,6 @@ en-GB:
   label_help: Help
   label_reported_issues: Reported issues
   label_assigned_to_me_issues: Issues assigned to me
-  label_last_login: Last connection
   label_registered_on: Registered on
   label_activity: Activity
   label_user_activity: "%{value}'s activity"
@@ -624,7 +625,6 @@ en-GB:
   label_day_plural: days
   label_repository: Repository
   label_repository_plural: Repositories
-  label_browse: Browse
   label_branch: Branch
   label_tag: Tag
   label_revision: Revision
@@ -641,10 +641,6 @@ en-GB:
   label_view_revisions: View revisions
   label_view_all_revisions: View all revisions
   label_max_size: Maximum size
-  label_sort_highest: Move to top
-  label_sort_higher: Move up
-  label_sort_lower: Move down
-  label_sort_lowest: Move to bottom
   label_roadmap: Roadmap
   label_roadmap_due_in: "Due in %{value}"
   label_roadmap_overdue: "%{value} late"
@@ -1269,7 +1265,7 @@ en-GB:
   label_trackers_description: Trackers description
   label_open_trackers_description: View all trackers description
   label_preferred_body_part_text: Text
-  label_preferred_body_part_html: HTML (experimental)
+  label_preferred_body_part_html: HTML
   field_parent_issue_subject: Parent task subject
   permission_edit_own_issues: Edit own issues
   text_select_apply_tracker: Select tracker
@@ -1281,7 +1277,6 @@ en-GB:
   label_import_notifications: Send email notifications during the import
   field_recently_used_projects: Number of recently used projects in jump box
   label_optgroup_bookmarks: Bookmarks
-  label_optgroup_others: Other projects
   label_optgroup_recents: Recently used
   button_project_bookmark: Add bookmark
   button_project_bookmark_delete: Remove bookmark
@@ -1399,7 +1394,7 @@ en-GB:
     (%{identifier}) below.
   button_add_subtask: Add subtask
   notice_invalid_watcher: 'Invalid watcher: User will not receive any notifications
-    because it does not have access to view this object.'
+    because they do not have access to view this object.'
   button_fetch_changesets: Fetch commits
   permission_view_message_watchers: View message watchers list
   permission_add_message_watchers: Add message watchers
@@ -1429,6 +1424,7 @@ en-GB:
     for_all_projects: For all projects
     for_current_project: For current project
     for_all_users: For all users
+    for_this_user: For this user
   text_allowed_queries_to_select: Public (to any users) queries only selectable
   text_all_migrations_have_been_run: All database migrations have been run
   button_save_object: Save %{object_name}
@@ -1441,3 +1437,74 @@ en-GB:
   label_subtask: Subtask
   label_default_query: Default query
   field_default_project_query: Default project query
+  label_required_administrators: required for administrators
+  twofa_hint_required_administrators_html: Setting <strong>%{label}</strong> behaves
+    like optional, but will require all users with administration rights to set up two-factor
+    authentication at their next login.
+  label_auto_watch_on: Auto watch
+  label_auto_watch_on_issue_contributed_to: Issues I contributed to
+  text_project_close_confirmation: Are you sure you want to close the '%{value}' project
+    to make it read-only?
+  text_project_reopen_confirmation: Are you sure you want to reopen the '%{value}' project?
+  text_project_archive_confirmation: Are you sure you want to archive the '%{value}'
+    project?
+  mail_destroy_project_failed: Project %{value} could not be deleted.
+  mail_destroy_project_successful: Project %{value} was deleted successfully.
+  mail_destroy_project_with_subprojects_successful: Project %{value} and its subprojects
+    were deleted successfully.
+  project_status_scheduled_for_deletion: scheduled for deletion
+  text_projects_bulk_destroy_confirmation: Are you sure you want to delete the selected
+    projects and related data?
+  text_projects_bulk_destroy_head: |
+    You are about to permanently delete the following projects, including possible subprojects and any related data.
+    Please review the information below and confirm that this is indeed what you want to do.
+    This action cannot be undone.
+  text_projects_bulk_destroy_confirm: To confirm, please enter "%{yes}" in the box below.
+  text_subprojects_bulk_destroy: 'including its subproject(s): %{value}'
+  field_current_password: Current password
+  sudo_mode_new_info_html: "<strong>What's happening?</strong> You need to reconfirm
+    your password before taking any administrative actions, this ensures your account
+    stays protected."
+  label_edited: Edited
+  label_time_by_author: "%{time} by %{author}"
+  field_default_time_entry_activity: Default spent time activity
+  field_is_member_of_group: Member of group
+  text_users_bulk_destroy_head: You are about to delete the following users and remove
+    all references to them. This cannot be undone. Often, locking users instead of deleting
+    them is the better solution.
+  text_users_bulk_destroy_confirm: To confirm, please enter "%{yes}" below.
+  permission_select_project_publicity: Set project public or private
+  label_auto_watch_on_issue_created: Issues I created
+  field_any_searchable: Any searchable text
+  label_contains_any_of: contains any of
+  button_apply_issues_filter: Apply issues filter
+  label_view_previous_annotation: View annotation prior to this change
+  label_has_been: has been
+  label_has_never_been: has never been
+  label_changed_from: changed from
+  label_issue_statuses_description: Issue statuses description
+  label_open_issue_statuses_description: View all issue statuses description
+  text_select_apply_issue_status: Select issue status
+  field_name_or_email_or_login: Name, email or login
+  text_default_active_job_queue_changed: Default queue adapter which is well suited
+    only for dev/test changed
+  label_option_auto_lang: auto
+  label_issue_attachment_added: Attachment added
+  field_estimated_remaining_hours: Estimated remaining time
+  field_last_activity_date: Last activity
+  setting_issue_done_ratio_interval: Done ratio options interval
+  setting_copy_attachments_on_issue_copy: Copy attachments on copy
+  field_thousands_delimiter: Thousands delimiter
+  label_involved_principals: Author / Previous assignee
+  label_attachment_summary:
+    zero: "%{filename}"
+    one: "%{filename} and 1 file"
+    other: "%{filename} and %{count} files"
+  setting_wiki_tablesort_enabled: Javascript based table sorting in wiki content
+  label_progressbar: Progress bar
+  error_spent_on_closed_issue: Cannot log time on a closed issue
+  setting_timelog_accept_closed_issues: Accept time logs on closed issues
+  setting_related_issues_default_columns: Related and sub issues list defaults
+  setting_display_related_issues_table_headers: Show table headers
+  error_can_not_remove_role_reason_members_html: "<p>The following projects have members
+    with this role:<br>%{projects}</p>"

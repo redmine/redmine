@@ -144,6 +144,8 @@ es:
         must_contain_lowercase: "must contain lowercase letters (a-z)"
         must_contain_digits: "must contain digits (0-9)"
         must_contain_special_chars: "must contain special characters (!, $, %, ...)"
+        domain_not_allowed: "contains a domain not allowed (%{domain})"
+        too_simple: "is too simple"
 
         # Append your own errors here or at the model/attributes scope.
 
@@ -187,7 +189,9 @@ es:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "y"
+      last_word_connector: " y "
+      two_words_connector: " y "
+      words_connector: ", "
 
   actionview_instancetag_blank_option: Por favor seleccione
 
@@ -385,7 +389,6 @@ es:
   label_board_new: Nuevo foro
   label_board_plural: Foros
   label_boolean: Booleano
-  label_browse: Hojear
   label_bulk_edit_selected_issues: Editar las peticiones seleccionadas
   label_calendar: Calendario
   label_change_plural: Cambios
@@ -495,7 +498,6 @@ es:
   label_jump_to_a_project: Ir al proyecto...
   label_language_based: Basado en el idioma
   label_last_changes: "últimos %{count} cambios"
-  label_last_login: Última conexión
   label_last_month: último mes
   label_last_n_days: "últimos %{count} días"
   label_last_week: última semana
@@ -604,10 +606,6 @@ es:
   label_settings: Configuración
   label_show_completed_versions: Muestra las versiones terminadas
   label_sort_by: "Ordenar por %{value}"
-  label_sort_higher: Subir
-  label_sort_highest: Primero
-  label_sort_lower: Bajar
-  label_sort_lowest: Último
   label_spent_time: Tiempo dedicado
   label_statistics: Estadísticas
   label_stay_logged_in: Mantener la sesión abierta
@@ -666,7 +664,6 @@ es:
   notice_account_password_updated: Contraseña modificada correctamente.
   notice_account_pending: "Su cuenta ha sido creada y está pendiende de la aprobación por parte del administrador."
   notice_account_register_done: Cuenta creada correctamente. Para activarla, haga clic sobre el enlace que le ha sido enviado por correo.
-  notice_account_unknown_email: Usuario desconocido.
   notice_account_updated: Cuenta actualizada correctamente.
   notice_account_wrong_password: Contraseña incorrecta.
   notice_can_t_change_password: Esta cuenta utiliza una fuente de autenticación externa. No es posible cambiar la contraseña.
@@ -911,7 +908,7 @@ es:
     Está a punto de eliminar algún o todos sus permisos y podría perder la posibilidad de modificar este proyecto tras hacerlo.
     ¿Está seguro de querer continuar?
   label_close_versions: Cerrar versiones completadas
-  label_board_sticky: Pegajoso
+  label_board_sticky: Fijado
   label_board_locked: Bloqueado
   permission_export_wiki_pages: Exportar páginas wiki
   setting_cache_formatted_text: Cachear texto formateado
@@ -925,8 +922,8 @@ es:
   error_can_not_delete_custom_field: Fue imposible eliminar el campo personalizado
   error_unable_to_connect: Fue imposible conectarse (%{value})
   error_can_not_remove_role: Este rol está en uso y no puede ser eliminado.
-  error_can_not_delete_tracker: Este tipo contiene peticiones y no puede ser eliminado.
-  field_principal: Principal
+  error_can_not_delete_tracker_html: Este tipo contiene peticiones y no puede ser eliminado.<p>The following projects have issues with this tracker:<br>%{projects}</p>
+  field_principal: User or Group
   notice_failed_to_save_members: "Fallo al guardar miembro(s): %{errors}."
   text_zoom_out: Alejar
   text_zoom_in: Acercar
@@ -1296,7 +1293,7 @@ es:
   label_trackers_description: Descripción del tipo de petición
   label_open_trackers_description: Ver todas las descripciones de los tipos de petición
   label_preferred_body_part_text: Texto
-  label_preferred_body_part_html: HTML (experimental)
+  label_preferred_body_part_html: HTML
 
   field_parent_issue_subject: Parent task subject
   permission_edit_own_issues: Edit own issues
@@ -1310,7 +1307,6 @@ es:
   text_gs_available: ImageMagick PDF support available (optional)
   field_recently_used_projects: Number of recently used projects in jump box
   label_optgroup_bookmarks: Bookmarks
-  label_optgroup_others: Other projects
   label_optgroup_recents: Recently used
   button_project_bookmark: Add bookmark
   button_project_bookmark_delete: Remove bookmark
@@ -1347,7 +1343,6 @@ es:
   text_gs_available: Disponible soporte ImageMagick PDF (opcional)
   field_recently_used_projects: Número de proyectos recientemente usados en el selector
   label_optgroup_bookmarks: Marcadores
-  label_optgroup_others: Otros proyectos
   label_optgroup_recents: Utilizados recientemente
   button_project_bookmark: Añadir marcador
   button_project_bookmark_delete: Quitar marcador
@@ -1465,7 +1460,7 @@ es:
     (%{identifier}) below.
   button_add_subtask: Add subtask
   notice_invalid_watcher: 'Invalid watcher: User will not receive any notifications
-    because it does not have access to view this object.'
+    because they do not have access to view this object.'
   button_fetch_changesets: Fetch commits
   permission_view_message_watchers: View message watchers list
   permission_add_message_watchers: Add message watchers
@@ -1495,6 +1490,7 @@ es:
     for_all_projects: For all projects
     for_current_project: For current project
     for_all_users: For all users
+    for_this_user: For this user
   text_allowed_queries_to_select: Public (to any users) queries only selectable
   text_all_migrations_have_been_run: All database migrations have been run
   button_save_object: Save %{object_name}
@@ -1507,3 +1503,74 @@ es:
   label_subtask: Subtask
   label_default_query: Default query
   field_default_project_query: Default project query
+  label_required_administrators: required for administrators
+  twofa_hint_required_administrators_html: Setting <strong>%{label}</strong> behaves
+    like optional, but will require all users with administration rights to set up two-factor
+    authentication at their next login.
+  label_auto_watch_on: Auto watch
+  label_auto_watch_on_issue_contributed_to: Issues I contributed to
+  text_project_close_confirmation: Are you sure you want to close the '%{value}' project
+    to make it read-only?
+  text_project_reopen_confirmation: Are you sure you want to reopen the '%{value}' project?
+  text_project_archive_confirmation: Are you sure you want to archive the '%{value}'
+    project?
+  mail_destroy_project_failed: Project %{value} could not be deleted.
+  mail_destroy_project_successful: Project %{value} was deleted successfully.
+  mail_destroy_project_with_subprojects_successful: Project %{value} and its subprojects
+    were deleted successfully.
+  project_status_scheduled_for_deletion: scheduled for deletion
+  text_projects_bulk_destroy_confirmation: Are you sure you want to delete the selected
+    projects and related data?
+  text_projects_bulk_destroy_head: |
+    You are about to permanently delete the following projects, including possible subprojects and any related data.
+    Please review the information below and confirm that this is indeed what you want to do.
+    This action cannot be undone.
+  text_projects_bulk_destroy_confirm: To confirm, please enter "%{yes}" in the box below.
+  text_subprojects_bulk_destroy: 'including its subproject(s): %{value}'
+  field_current_password: Current password
+  sudo_mode_new_info_html: "<strong>What's happening?</strong> You need to reconfirm
+    your password before taking any administrative actions, this ensures your account
+    stays protected."
+  label_edited: Edited
+  label_time_by_author: "%{time} by %{author}"
+  field_default_time_entry_activity: Default spent time activity
+  field_is_member_of_group: Member of group
+  text_users_bulk_destroy_head: You are about to delete the following users and remove
+    all references to them. This cannot be undone. Often, locking users instead of deleting
+    them is the better solution.
+  text_users_bulk_destroy_confirm: To confirm, please enter "%{yes}" below.
+  permission_select_project_publicity: Set project public or private
+  label_auto_watch_on_issue_created: Issues I created
+  field_any_searchable: Any searchable text
+  label_contains_any_of: contains any of
+  button_apply_issues_filter: Apply issues filter
+  label_view_previous_annotation: View annotation prior to this change
+  label_has_been: has been
+  label_has_never_been: has never been
+  label_changed_from: changed from
+  label_issue_statuses_description: Issue statuses description
+  label_open_issue_statuses_description: View all issue statuses description
+  text_select_apply_issue_status: Select issue status
+  field_name_or_email_or_login: Name, email or login
+  text_default_active_job_queue_changed: Default queue adapter which is well suited
+    only for dev/test changed
+  label_option_auto_lang: auto
+  label_issue_attachment_added: Attachment added
+  field_estimated_remaining_hours: Estimated remaining time
+  field_last_activity_date: Last activity
+  setting_issue_done_ratio_interval: Done ratio options interval
+  setting_copy_attachments_on_issue_copy: Copy attachments on copy
+  field_thousands_delimiter: Thousands delimiter
+  label_involved_principals: Author / Previous assignee
+  label_attachment_summary:
+    zero: "%{filename}"
+    one: "%{filename} and 1 file"
+    other: "%{filename} and %{count} files"
+  setting_wiki_tablesort_enabled: Javascript based table sorting in wiki content
+  label_progressbar: Progress bar
+  error_spent_on_closed_issue: Cannot log time on a closed issue
+  setting_timelog_accept_closed_issues: Accept time logs on closed issues
+  setting_related_issues_default_columns: Related and sub issues list defaults
+  setting_display_related_issues_table_headers: Show table headers
+  error_can_not_remove_role_reason_members_html: "<p>The following projects have members
+    with this role:<br>%{projects}</p>"

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,14 +17,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../test_helper', __FILE__)
+require_relative '../../test_helper'
 
 class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
-  fixtures :projects, :versions, :users, :roles, :members, :member_roles, :issues, :journals, :journal_details,
-           :trackers, :projects_trackers, :issue_statuses, :enabled_modules, :enumerations, :boards, :messages,
-           :attachments, :custom_fields, :custom_values, :custom_fields_projects, :time_entries, :issue_categories,
-           :queries
-
+  include ActiveJob::TestHelper
   def setup
     super
     set_tmp_attachments_directory
@@ -44,6 +40,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
       assert_select '>status', :text => '1'
       assert_select '>is_public', :text => 'true'
       assert_select '>inherit_members', :text => 'true'
+      assert_select '>homepage', :text => 'http://ecookbook.somenet.foo/'
     end
   end
 
@@ -58,6 +55,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_kind_of Hash, json['projects'].first
     assert json['projects'].first.has_key?('id')
     assert json['projects'].first.has_key?('inherit_members')
+    assert json['projects'].first.has_key?('homepage')
   end
 
   test "GET /projects.xml with include=issue_categories should return categories" do
@@ -85,11 +83,16 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
   end
 
   test "GET /projects.xml with include=issue_custom_fields should return custom fields" do
+    IssueCustomField.find(6).update_attribute :is_for_all, true
+    IssueCustomField.find(8).update_attribute :is_for_all, false
     get '/projects.xml?include=issue_custom_fields'
     assert_response :success
     assert_equal 'application/xml', @response.media_type
 
     assert_select 'issue_custom_fields[type=array] custom_field[name="Project 1 cf"]'
+    # Custom field for all projects
+    assert_select 'issue_custom_fields[type=array] custom_field[id="6"]'
+    assert_select 'issue_custom_fields[type=array] custom_field[id="8"]', 0
   end
 
   test "GET /projects/:id.xml should return the project" do
@@ -103,6 +106,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_select 'project>status', :text => '1'
     assert_select 'project>is_public', :text => 'true'
     assert_select 'project>inherit_members', :text => 'true'
+    assert_select 'project>homepage', :text => 'http://ecookbook.somenet.foo/'
     assert_select 'custom_field[name="Development status"]', :text => 'Stable'
 
     assert_select 'trackers', 0
@@ -119,6 +123,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_equal false, json['project']['inherit_members']
     assert_equal false, json['project'].has_key?('default_version')
     assert_equal false, json['project'].has_key?('default_assignee')
+    assert_equal 'http://ecookbook.somenet.foo/', json['project']['homepage']
   end
 
   test "GET /projects/:id.xml with hidden custom fields should not display hidden custom fields" do
@@ -294,7 +299,7 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
       )
     end
 
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
     assert_equal 'application/xml', @response.media_type
     assert_select 'errors error', :text => "Identifier cannot be blank"
   end
@@ -356,18 +361,21 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
       )
     end
 
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
     assert_equal 'application/xml', @response.media_type
     assert_select 'errors error', :text => "Name cannot be blank"
   end
 
-  test "DELETE /projects/:id.xml should delete the project" do
-    assert_difference('Project.count', -1) do
+  test "DELETE /projects/:id.xml should schedule deletion of the project" do
+    assert_no_difference('Project.count') do
       delete '/projects/2.xml', :headers => credentials('admin')
     end
+    assert_enqueued_with(job: DestroyProjectJob,
+                         args: ->(job_args){ job_args[0] == 2})
     assert_response :no_content
     assert_equal '', @response.body
-    assert_nil Project.find_by_id(2)
+    assert p = Project.find_by_id(2)
+    assert_equal Project::STATUS_SCHEDULED_FOR_DELETION, p.status
   end
 
   test "PUT /projects/:id/archive.xml should archive project" do
@@ -402,5 +410,9 @@ class Redmine::ApiTest::ProjectsTest < Redmine::ApiTest::Base
     assert_equal '', @response.body
     assert p = Project.find(1)
     assert p.active?
+  end
+
+  def queue_adapter_for_test
+    ActiveJob::QueueAdapters::TestAdapter.new
   end
 end

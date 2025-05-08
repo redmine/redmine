@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -40,6 +40,22 @@ namespace :redmine do
     end
   end
 
+  namespace :users do
+    desc 'Removes registered users that have not been activated after a number of days. Use DAYS to set the number of days, defaults to 30 days.'
+    task :prune => :environment do
+      days = 30
+      env_days = ENV['DAYS']
+      if env_days
+        if env_days.to_i <= 0
+          abort "Invalid DAYS #{env_days} given. The value must be a integer."
+        else
+          days = env_days.to_i
+        end
+      end
+      User.prune(days.days)
+    end
+  end
+
   namespace :watchers do
     desc 'Removes watchers from what they can no longer view.'
     task :prune => :environment do
@@ -52,10 +68,9 @@ namespace :redmine do
     Repository.fetch_changesets
   end
 
-  desc 'Migrates and copies plugins assets.'
+  desc 'Migrates plugins.'
   task :plugins do
     Rake::Task["redmine:plugins:migrate"].invoke
-    Rake::Task["redmine:plugins:assets"].invoke
   end
 
 desc <<-DESC
@@ -137,62 +152,67 @@ DESC
         abort "Plugin #{name} was not found."
       end
 
-      case ActiveRecord::Base.schema_format
-      when :ruby
-        Rake::Task["db:schema:dump"].invoke
-      when :sql
-        Rake::Task["db:structure:dump"].invoke
-      end
-    end
-
-    desc 'Copies plugins assets into the public directory.'
-    task :assets => :environment do
-      name = ENV['NAME']
-
-      begin
-        Redmine::PluginLoader.mirror_assets(name)
-      rescue Redmine::PluginNotFound
-        abort "Plugin #{name} was not found."
-      end
+      Rake::Task["db:schema:dump"].invoke
     end
 
     desc 'Runs the plugins tests.'
     task :test do
-      Rake::Task["redmine:plugins:test:units"].invoke
-      Rake::Task["redmine:plugins:test:functionals"].invoke
-      Rake::Task["redmine:plugins:test:integration"].invoke
-      Rake::Task["redmine:plugins:test:system"].invoke
+      test_files = FileList[
+        "plugins/#{ENV['NAME'] || '*'}/test/unit/**/*_test.rb",
+        "plugins/#{ENV['NAME'] || '*'}/test/functional/**/*_test.rb",
+        "plugins/#{ENV['NAME'] || '*'}/test/integration/**/*_test.rb",
+        "plugins/#{ENV['NAME'] || '*'}/test/system/**/*_test.rb"
+      ]
+      if test_files.any?
+        $: << "test"
+        Rails::TestUnit::Runner.run_from_rake 'test', test_files
+      end
     end
 
     namespace :test do
       desc 'Runs the plugins unit tests.'
       task :units => "db:test:prepare" do |t|
-        $: << "test"
-        Rails::TestUnit::Runner.rake_run ["plugins/#{ENV['NAME'] || '*'}/test/unit/**/*_test.rb"]
+        test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/unit/**/*_test.rb"]
+        if test_files.any?
+          $: << "test"
+          Rails::TestUnit::Runner.run_from_rake 'test', test_files
+        end
       end
 
       desc 'Runs the plugins functional tests.'
       task :functionals => "db:test:prepare" do |t|
-        $: << "test"
-        Rails::TestUnit::Runner.rake_run ["plugins/#{ENV['NAME'] || '*'}/test/functional/**/*_test.rb"]
+        test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/functional/**/*_test.rb"]
+        if test_files.any?
+          $: << "test"
+          Rails::TestUnit::Runner.run_from_rake 'test', test_files
+        end
       end
 
       desc 'Runs the plugins integration tests.'
       task :integration => "db:test:prepare" do |t|
-        $: << "test"
-        Rails::TestUnit::Runner.rake_run ["plugins/#{ENV['NAME'] || '*'}/test/integration/**/*_test.rb"]
+        test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/integration/**/*_test.rb"]
+        if test_files.any?
+          $: << "test"
+          Rails::TestUnit::Runner.run_from_rake 'test', test_files
+        end
       end
 
       desc 'Runs the plugins system tests.'
       task :system => "db:test:prepare" do |t|
-        $: << "test"
-        Rails::TestUnit::Runner.rake_run ["plugins/#{ENV['NAME'] || '*'}/test/system/**/*_test.rb"]
+        test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/system/**/*_test.rb"]
+        if test_files.any?
+          $: << "test"
+          Rails::TestUnit::Runner.run_from_rake 'test', test_files
+        end
       end
 
       desc 'Runs the plugins ui tests.'
       task :ui => "db:test:prepare" do |t|
-        $: << "test"
-        Rails::TestUnit::Runner.rake_run ["plugins/#{ENV['NAME'] || '*'}/test/ui/**/*_test.rb"]
+        test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/ui/**/*_test.rb"]
+        if test_files.any?
+          $: << "test"
+          Rails::TestUnit::Runner.run_from_rake 'test', test_files
+        end
       end
     end
   end

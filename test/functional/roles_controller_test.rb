@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,11 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class RolesControllerTest < Redmine::ControllerTest
-  fixtures :roles, :users, :members, :member_roles, :workflows, :trackers
-
   def setup
     User.current = nil
     @request.session[:user_id] = 1 # admin
@@ -160,7 +158,7 @@ class RolesControllerTest < Redmine::ControllerTest
           }
         }
       )
-      assert_response 302
+      assert_response :found
     end
     assert_equal false, role.all_roles_managed
     assert_equal [2, 3], role.managed_role_ids.sort
@@ -186,7 +184,7 @@ class RolesControllerTest < Redmine::ControllerTest
 
   def test_edit_invalid_should_respond_with_404
     get :edit, :params => {:id => 999}
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_update
@@ -241,11 +239,33 @@ class RolesControllerTest < Redmine::ControllerTest
     assert_nil Role.find_by_id(r.id)
   end
 
-  def test_destroy_role_in_use
-    delete :destroy, :params => {:id => 1}
-    assert_redirected_to '/roles'
-    assert_equal 'This role is in use and cannot be deleted.', flash[:error]
-    assert_not_nil Role.find_by_id(1)
+  def test_destroy_role_with_members
+    role = Role.find(2) # Developer, has members
+
+    delete :destroy, params: { id: role.id }
+
+    assert_redirected_to roles_path
+    assert Role.find_by(id: role.id)
+
+    assert flash[:error].present?
+    assert_includes flash[:error], I18n.t(:error_can_not_remove_role)
+
+    expected_dependency_projects = Project.where(identifier: ['ecookbook', 'onlinestore', 'private-child'])
+    expected_dependency_projects.each do |project|
+      assert_includes flash[:error], project.name
+      assert_includes flash[:error], settings_project_path(project, tab: 'members')
+    end
+  end
+
+  def test_destroy_builtin
+    role = Role.anonymous
+
+    delete :destroy, params: { id: role.id }
+
+    assert_redirected_to roles_path
+    assert Role.find_by(id: role.id)
+    assert flash[:error].present?
+    assert_equal flash[:error], I18n.t(:error_can_not_remove_role)
   end
 
   def test_permissions

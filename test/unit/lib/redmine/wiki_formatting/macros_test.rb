@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,23 +17,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../../../test_helper', __FILE__)
+require_relative '../../../../test_helper'
 
 class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
-  include ApplicationHelper
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::SanitizeHelper
   include ERB::Util
-  include Rails.application.routes.url_helpers
   extend ActionView::Helpers::SanitizeHelper::ClassMethods
-
-  fixtures :projects, :roles, :enabled_modules, :users,
-           :repositories, :changesets,
-           :trackers, :issue_statuses, :issues,
-           :versions, :documents,
-           :wikis, :wiki_pages, :wiki_contents,
-           :boards, :messages,
-           :attachments, :enumerations
 
   def setup
     super
@@ -50,10 +40,12 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
       end
     end
 
-    assert_equal '<p>Foo: 0 () (Array)</p>', textilizable("{{foo}}")
-    assert_equal '<p>Foo: 0 () (Array)</p>', textilizable("{{foo()}}")
-    assert_equal '<p>Foo: 1 (arg1) (Array)</p>', textilizable("{{foo(arg1)}}")
-    assert_equal '<p>Foo: 2 (arg1,arg2) (Array)</p>', textilizable("{{foo(arg1, arg2)}}")
+    with_settings :text_formatting => 'textile' do
+      assert_equal '<p>Foo: 0 () (Array)</p>', textilizable('{{foo}}')
+      assert_equal '<p>Foo: 0 () (Array)</p>', textilizable('{{foo()}}')
+      assert_equal '<p>Foo: 1 (arg1) (Array)</p>', textilizable('{{foo(arg1)}}')
+      assert_equal '<p>Foo: 2 (arg1,arg2) (Array)</p>', textilizable('{{foo(arg1, arg2)}}')
+    end
   end
 
   def test_macro_registration_parse_args_set_to_false_should_disable_arguments_parsing
@@ -63,9 +55,11 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
       end
     end
 
-    assert_equal '<p>Bar: (args, more args) (String)</p>', textilizable("{{bar(args, more args)}}")
-    assert_equal '<p>Bar: () (String)</p>', textilizable("{{bar}}")
-    assert_equal '<p>Bar: () (String)</p>', textilizable("{{bar()}}")
+    with_settings :text_formatting => 'textile' do
+      assert_equal '<p>Bar: (args, more args) (String)</p>', textilizable('{{bar(args, more args)}}')
+      assert_equal '<p>Bar: () (String)</p>', textilizable('{{bar}}')
+      assert_equal '<p>Bar: () (String)</p>', textilizable('{{bar()}}')
+    end
   end
 
   def test_macro_registration_with_3_args_should_receive_text_argument
@@ -75,16 +69,19 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
       end
     end
 
-    assert_equal "<p>Baz: () (NilClass) ()</p>", textilizable("{{baz}}")
-    assert_equal "<p>Baz: () (NilClass) ()</p>", textilizable("{{baz()}}")
-    assert_equal "<p>Baz: () (String) (line1\nline2)</p>", textilizable("{{baz()\nline1\nline2\n}}")
-    assert_equal "<p>Baz: (arg1,arg2) (String) (line1\nline2)</p>", textilizable("{{baz(arg1, arg2)\nline1\nline2\n}}")
+    with_settings :text_formatting => 'textile' do
+      assert_equal '<p>Baz: () (NilClass) ()</p>', textilizable('{{baz}}')
+      assert_equal '<p>Baz: () (NilClass) ()</p>', textilizable('{{baz()}}')
+      assert_equal "<p>Baz: () (String) (line1\nline2)</p>", textilizable("{{baz()\nline1\nline2\n}}")
+      assert_equal "<p>Baz: (arg1,arg2) (String) (line1\nline2)</p>", textilizable("{{baz(arg1, arg2)\nline1\nline2\n}}")
+    end
   end
 
   def test_macro_name_with_upper_case
-    Redmine::WikiFormatting::Macros.macro(:UpperCase) {|obj, args| "Upper"}
-
-    assert_equal "<p>Upper</p>", textilizable("{{UpperCase}}")
+    with_settings :text_formatting => 'textile' do
+      Redmine::WikiFormatting::Macros.macro(:UpperCase) {|obj, args| 'Upper'}
+      assert_equal '<p>Upper</p>', textilizable('{{UpperCase}}')
+    end
   end
 
   def test_multiple_macros_on_the_same_line
@@ -92,27 +89,33 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
       args.any? ? "args: #{args.join(',')}" : "no args"
     end
 
-    assert_equal '<p>no args no args</p>', textilizable("{{foo}} {{foo}}")
-    assert_equal '<p>args: a,b no args</p>', textilizable("{{foo(a,b)}} {{foo}}")
-    assert_equal '<p>args: a,b args: c,d</p>', textilizable("{{foo(a,b)}} {{foo(c,d)}}")
-    assert_equal '<p>no args args: c,d</p>', textilizable("{{foo}} {{foo(c,d)}}")
+    with_settings :text_formatting => 'textile' do
+      assert_equal '<p>no args no args</p>', textilizable('{{foo}} {{foo}}')
+      assert_equal '<p>args: a,b no args</p>', textilizable('{{foo(a,b)}} {{foo}}')
+      assert_equal '<p>args: a,b args: c,d</p>', textilizable('{{foo(a,b)}} {{foo(c,d)}}')
+      assert_equal '<p>no args args: c,d</p>', textilizable('{{foo}} {{foo(c,d)}}')
+    end
   end
 
   def test_macro_should_receive_the_object_as_argument_when_with_object_and_attribute
     issue = Issue.find(1)
     issue.description = "{{hello_world}}"
-    assert_equal(
-      '<p>Hello world! Object: Issue, Called with no argument and no block of text.</p>',
-      textilizable(issue, :description)
-    )
+    with_settings :text_formatting => 'textile' do
+      assert_equal(
+        '<p>Hello world! Object: Issue, Called with no argument and no block of text.</p>',
+        textilizable(issue, :description)
+      )
+    end
   end
 
   def test_macro_should_receive_the_object_as_argument_when_called_with_object_option
-    text = "{{hello_world}}"
-    assert_equal(
-      '<p>Hello world! Object: Issue, Called with no argument and no block of text.</p>',
-      textilizable(text, :object => Issue.find(1))
-    )
+    with_settings :text_formatting => 'textile' do
+      text = '{{hello_world}}'
+      assert_equal(
+        '<p>Hello world! Object: Issue, Called with no argument and no block of text.</p>',
+        textilizable(text, :object => Issue.find(1))
+      )
+    end
   end
 
   def test_extract_macro_options_should_with_args
@@ -137,12 +140,12 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
 
   def test_macro_exception_should_be_displayed
     Redmine::WikiFormatting::Macros.macro :exception do |obj, args|
-      raise "My message"
+      raise "My exception's message"
     end
 
     text = "{{exception}}"
     assert_include(
-      '<div class="flash error">Error executing the <strong>exception</strong> macro (My message)</div>',
+      '<div class="flash error">Error executing the <strong>exception</strong> macro (My exception&#39;s message)</div>',
       textilizable(text)
     )
   end
@@ -153,40 +156,52 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
   end
 
   def test_exclamation_mark_should_not_run_macros
-    text = "!{{hello_world}}"
-    assert_equal '<p>{{hello_world}}</p>', textilizable(text)
+    with_settings :text_formatting => 'textile' do
+      text = '!{{hello_world}}'
+      assert_equal '<p>{{hello_world}}</p>', textilizable(text)
+    end
   end
 
   def test_exclamation_mark_should_escape_macros
-    text = "!{{hello_world(<tag>)}}"
-    assert_equal '<p>{{hello_world(&lt;tag&gt;)}}</p>', textilizable(text)
+    with_settings :text_formatting => 'textile' do
+      text = '!{{hello_world(<tag>)}}'
+      assert_equal '<p>{{hello_world(&lt;tag&gt;)}}</p>', textilizable(text)
+    end
   end
 
   def test_unknown_macros_should_not_be_replaced
-    text = "{{unknown}}"
-    assert_equal '<p>{{unknown}}</p>', textilizable(text)
+    with_settings :text_formatting => 'textile' do
+      text = '{{unknown}}'
+      assert_equal '<p>{{unknown}}</p>', textilizable(text)
+    end
   end
 
   def test_unknown_macros_should_parsed_as_text
-    text = "{{unknown(*test*)}}"
-    assert_equal '<p>{{unknown(<strong>test</strong>)}}</p>', textilizable(text)
+    with_settings :text_formatting => 'textile' do
+      text = '{{unknown(*test*)}}'
+      assert_equal '<p>{{unknown(<strong>test</strong>)}}</p>', textilizable(text)
+    end
   end
 
   def test_unknown_macros_should_be_escaped
-    text = "{{unknown(<tag>)}}"
-    assert_equal '<p>{{unknown(&lt;tag&gt;)}}</p>', textilizable(text)
+    with_settings :text_formatting => 'textile' do
+      text = '{{unknown(<tag>)}}'
+      assert_equal '<p>{{unknown(&lt;tag&gt;)}}</p>', textilizable(text)
+    end
   end
 
   def test_html_safe_macro_output_should_not_be_escaped
-    Redmine::WikiFormatting::Macros.macro :safe_macro do |obj, args|
-      "<tag>".html_safe
+    with_settings :text_formatting => 'textile' do
+      Redmine::WikiFormatting::Macros.macro :safe_macro do |obj, args|
+        '<tag>'.html_safe
+      end
+      assert_equal '<p><tag></p>', textilizable('{{safe_macro}}')
     end
-    assert_equal '<p><tag></p>', textilizable("{{safe_macro}}")
   end
 
   def test_macro_hello_world
     text = "{{hello_world}}"
-    assert textilizable(text).match(/Hello world!/)
+    assert textilizable(text).include?('Hello world!')
   end
 
   def test_macro_hello_world_should_escape_arguments
@@ -220,32 +235,45 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
   def test_macro_collapse
     text = "{{collapse\n*Collapsed* block of text\n}}"
     with_locale 'en' do
-      result = textilizable(text)
+      with_settings :text_formatting => 'textile' do
+        result = textilizable(text)
 
-      assert_select_in result, 'div.collapsed-text'
-      assert_select_in result, 'strong', :text => 'Collapsed'
-      assert_select_in result, 'a.collapsible.icon-collapsed', :text => 'Show'
-      assert_select_in result, 'a.collapsible.icon-expanded', :text => 'Hide'
+        assert_select_in result, 'div.collapsed-text'
+        assert_select_in result, 'strong', :text => 'Collapsed'
+        assert_select_in result, 'a.collapsible.icon-collapsed', :text => 'Show'
+        assert_select_in result, 'a.collapsible.icon-expanded', :text => 'Hide'
+      end
     end
   end
 
   def test_macro_collapse_with_one_arg
     text = "{{collapse(Example)\n*Collapsed* block of text\n}}"
-    result = textilizable(text)
+    with_settings :text_formatting => 'textile' do
+      result = textilizable(text)
 
-    assert_select_in result, 'div.collapsed-text'
-    assert_select_in result, 'strong', :text => 'Collapsed'
-    assert_select_in result, 'a.collapsible.icon-collapsed', :text => 'Example'
-    assert_select_in result, 'a.collapsible.icon-expanded', :text => 'Example'
+      assert_select_in result, 'div.collapsed-text'
+      assert_select_in result, 'strong', :text => 'Collapsed'
+      assert_select_in result, 'a.collapsible.icon-collapsed', :text => 'Example'
+      assert_select_in result, 'a.collapsible.icon-expanded', :text => 'Example'
+    end
   end
 
   def test_macro_collapse_with_two_args
     text = "{{collapse(Show example, Hide example)\n*Collapsed* block of text\n}}"
-    result = textilizable(text)
+    with_settings :text_formatting => 'textile' do
+      result = textilizable(text)
 
-    assert_select_in result, 'div.collapsed-text'
-    assert_select_in result, 'strong', :text => 'Collapsed'
-    assert_select_in result, 'a.collapsible.icon-collapsed', :text => 'Show example'
+      assert_select_in result, 'div.collapsed-text'
+      assert_select_in result, 'strong', :text => 'Collapsed'
+      assert_select_in result, 'a.collapsible.icon-collapsed', :text => 'Show example'
+      assert_select_in result, 'a.collapsible.icon-expanded', :text => 'Hide example'
+    end
+  end
+
+  def test_macro_collapse_with_arg_contains_comma
+    text = %|{{collapse("Click here, to see the example", Hide example)\n*Collapsed* block of text\n}}|
+    result = textilizable(text)
+    assert_select_in result, 'a.collapsible.icon-collapsed', :text => 'Click here, to see the example'
     assert_select_in result, 'a.collapsible.icon-expanded', :text => 'Hide example'
   end
 
@@ -264,7 +292,9 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
     expected_toc =
       '<ul class="toc"><li><strong>Table of contents</strong></li>' \
       '<li><a href="#Title">Title</a><ul><li><a href="#Heading">Heading</a></li></ul></li></ul>'
-    assert_include expected_toc, textilizable(text).gsub(/[\r\n]/, '')
+    with_settings :text_formatting => 'textile' do
+      assert_include expected_toc, textilizable(text).gsub(/[\r\n]/, '')
+    end
   end
 
   def test_macro_child_pages
@@ -276,13 +306,15 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
       "<li><a href=\"/projects/ecookbook/wiki/Child_2\">Child 2</a></li>\n" \
       "</ul>\n</p>"
     @project = Project.find(1)
-    # child pages of the current wiki page
-    assert_equal expected, textilizable("{{child_pages}}", :object => WikiPage.find(2).content)
-    # child pages of another page
-    assert_equal expected, textilizable("{{child_pages(Another_page)}}", :object => WikiPage.find(1).content)
+    with_settings :text_formatting => 'textile' do
+      # child pages of the current wiki page
+      assert_equal expected, textilizable('{{child_pages}}', :object => WikiPage.find(2).content)
+      # child pages of another page
+      assert_equal expected, textilizable('{{child_pages(Another_page)}}', :object => WikiPage.find(1).content)
 
-    @project = Project.find(2)
-    assert_equal expected, textilizable("{{child_pages(ecookbook:Another_page)}}", :object => WikiPage.find(1).content)
+      @project = Project.find(2)
+      assert_equal expected, textilizable('{{child_pages(ecookbook:Another_page)}}', :object => WikiPage.find(1).content)
+    end
   end
 
   def test_macro_child_pages_with_parent_option
@@ -297,18 +329,20 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
       "</ul>\n</li>\n</ul>\n</p>"
 
     @project = Project.find(1)
-    # child pages of the current wiki page
-    assert_equal expected, textilizable("{{child_pages(parent=1)}}", :object => WikiPage.find(2).content)
-    # child pages of another page
-    assert_equal(
-      expected,
-      textilizable("{{child_pages(Another_page, parent=1)}}", :object => WikiPage.find(1).content)
-    )
-    @project = Project.find(2)
-    assert_equal(
-      expected,
-      textilizable("{{child_pages(ecookbook:Another_page, parent=1)}}", :object => WikiPage.find(1).content)
-    )
+    with_settings :text_formatting => 'textile' do
+      # child pages of the current wiki page
+      assert_equal expected, textilizable('{{child_pages(parent=1)}}', :object => WikiPage.find(2).content)
+      # child pages of another page
+      assert_equal(
+        expected,
+        textilizable('{{child_pages(Another_page, parent=1)}}', :object => WikiPage.find(1).content)
+      )
+      @project = Project.find(2)
+      assert_equal(
+        expected,
+        textilizable('{{child_pages(ecookbook:Another_page, parent=1)}}', :object => WikiPage.find(1).content)
+      )
+    end
   end
 
   def test_macro_child_pages_with_depth_option
@@ -318,7 +352,9 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
         "<li><a href=\"/projects/ecookbook/wiki/Child_2\">Child 2</a></li>\n" \
         "</ul>\n</p>"
     @project = Project.find(1)
-    assert_equal expected, textilizable("{{child_pages(depth=1)}}", :object => WikiPage.find(2).content)
+    with_settings :text_formatting => 'textile' do
+      assert_equal expected, textilizable("{{child_pages(depth=1)}}", :object => WikiPage.find(2).content)
+    end
   end
 
   def test_macro_child_pages_without_wiki_page_should_fail
@@ -326,39 +362,47 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
   end
 
   def test_macro_thumbnail
-    link = link_to('<img alt="testfile.PNG" src="/attachments/thumbnail/17/200" />'.html_safe,
-                   "/attachments/17",
-                   :class => "thumbnail",
-                   :title => "testfile.PNG")
-    assert_equal "<p>#{link}</p>",
-                 textilizable("{{thumbnail(testfile.png)}}", :object => Issue.find(14))
+    with_settings :text_formatting => 'textile' do
+      link = link_to('<img alt="testfile.PNG" src="/attachments/thumbnail/17/200" />'.html_safe,
+                     '/attachments/17',
+                     :class => 'thumbnail',
+                     :title => 'testfile.PNG')
+      assert_equal "<p>#{link}</p>",
+                   textilizable('{{thumbnail(testfile.png)}}', :object => Issue.find(14))
+    end
   end
 
   def test_macro_thumbnail_with_full_path
-    link = link_to('<img alt="testfile.PNG" src="http://test.host/attachments/thumbnail/17/200" />'.html_safe,
-                   "http://test.host/attachments/17",
-                   :class => "thumbnail",
-                   :title => "testfile.PNG")
-    assert_equal "<p>#{link}</p>",
-                 textilizable("{{thumbnail(testfile.png)}}", :object => Issue.find(14), :only_path => false)
+    with_settings :text_formatting => 'textile' do
+      link = link_to('<img alt="testfile.PNG" src="http://test.host/attachments/thumbnail/17/200" />'.html_safe,
+                     'http://test.host/attachments/17',
+                     :class => 'thumbnail',
+                     :title => 'testfile.PNG')
+      assert_equal "<p>#{link}</p>",
+                   textilizable('{{thumbnail(testfile.png)}}', :object => Issue.find(14), :only_path => false)
+    end
   end
 
   def test_macro_thumbnail_with_size
-    link = link_to('<img alt="testfile.PNG" src="/attachments/thumbnail/17/400" />'.html_safe,
-                   "/attachments/17",
-                   :class => "thumbnail",
-                   :title => "testfile.PNG")
-    assert_equal "<p>#{link}</p>",
-                 textilizable("{{thumbnail(testfile.png, size=400)}}", :object => Issue.find(14))
+    with_settings :text_formatting => 'textile' do
+      link = link_to('<img alt="testfile.PNG" src="/attachments/thumbnail/17/400" />'.html_safe,
+                     '/attachments/17',
+                     :class => 'thumbnail',
+                     :title => 'testfile.PNG')
+      assert_equal "<p>#{link}</p>",
+                   textilizable('{{thumbnail(testfile.png, size=400)}}', :object => Issue.find(14))
+    end
   end
 
   def test_macro_thumbnail_with_title
-    link = link_to('<img alt="testfile.PNG" src="/attachments/thumbnail/17/200" />'.html_safe,
-                   "/attachments/17",
-                   :class => "thumbnail",
-                   :title => "Cool image")
-    assert_equal "<p>#{link}</p>",
-                 textilizable("{{thumbnail(testfile.png, title=Cool image)}}", :object => Issue.find(14))
+    with_settings :text_formatting => 'textile' do
+      link = link_to('<img alt="testfile.PNG" src="/attachments/thumbnail/17/200" />'.html_safe,
+                     '/attachments/17',
+                     :class => 'thumbnail',
+                     :title => 'Cool image')
+      assert_equal "<p>#{link}</p>",
+                   textilizable('{{thumbnail(testfile.png, title=Cool image)}}', :object => Issue.find(14))
+    end
   end
 
   def test_macro_thumbnail_with_invalid_filename_should_fail
@@ -387,20 +431,26 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
 
       <p>Hello world! Object: NilClass, Arguments: bar and no block of text.</p>
     EXPECTED
-    assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(text).gsub(%r{[\r\n\t]}, '')
+    with_settings :text_formatting => 'textile' do
+      assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(text).gsub(%r{[\r\n\t]}, '')
+    end
   end
 
   def test_macros_should_be_escaped_in_pre_tags
-    text = "<pre>{{hello_world(<tag>)}}</pre>"
-    assert_equal "<pre>{{hello_world(&lt;tag&gt;)}}</pre>", textilizable(text)
+    with_settings :text_formatting => 'textile' do
+      text = '<pre>{{hello_world(<tag>)}}</pre>'
+      assert_equal '<pre>{{hello_world(&lt;tag&gt;)}}</pre>', textilizable(text)
+    end
   end
 
   def test_macros_should_not_mangle_next_macros_outputs
-    text = '{{macro(2)}} !{{macro(2)}} {{hello_world(foo)}}'
-    assert_equal(
-      '<p>{{macro(2)}} {{macro(2)}} Hello world! Object: NilClass, Arguments: foo and no block of text.</p>',
-      textilizable(text)
-    )
+    with_settings :text_formatting => 'textile' do
+      text = '{{macro(2)}} !{{macro(2)}} {{hello_world(foo)}}'
+      assert_equal(
+        '<p>{{macro(2)}} {{macro(2)}} Hello world! Object: NilClass, Arguments: foo and no block of text.</p>',
+        textilizable(text)
+      )
+    end
   end
 
   def test_macros_with_text_should_not_mangle_following_macros
@@ -421,26 +471,32 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
   end
 
   def test_macro_should_support_phrase_modifiers
-    text = "*{{hello_world}}*"
-    assert_match %r|\A<p><strong>Hello world!.*</strong></p>\z|, textilizable(text)
+    with_settings :text_formatting => 'textile' do
+      text = '*{{hello_world}}*'
+      assert_match %r|\A<p><strong>Hello world!.*</strong></p>\z|, textilizable(text)
+    end
   end
 
   def test_issue_macro_should_not_render_link_if_not_visible
-    assert_equal "<p>#123</p>", textilizable('{{issue(123)}}')
+    with_settings :text_formatting => 'textile' do
+      assert_equal '<p>#123</p>', textilizable('{{issue(123)}}')
+    end
   end
 
   def test_issue_macro_should_render_link_to_issue
     issue = Issue.find(1)
-    assert_equal(
-      %{<p><a class="issue tracker-1 status-1 priority-4 priority-lowest behind-schedule" } +
-      %{href="/issues/1">Bug #1</a>: #{issue.subject}</p>},
-      textilizable("{{issue(1)}}")
-    )
-    assert_equal(
-      %{<p>eCookbook - } +
-      %{<a class="issue tracker-1 status-1 priority-4 priority-lowest behind-schedule" } +
-      %{href="/issues/1">Bug #1</a>: #{issue.subject}</p>},
-      textilizable("{{issue(1, project=true)}}")
-    )
+    with_settings :text_formatting => 'textile' do
+      assert_equal(
+        %{<p><a class="issue tracker-1 status-1 priority-4 priority-lowest behind-schedule" } +
+        %{href="/issues/1">Bug #1</a>: #{issue.subject}</p>},
+        textilizable('{{issue(1)}}')
+      )
+      assert_equal(
+        %{<p>eCookbook - } +
+        %{<a class="issue tracker-1 status-1 priority-4 priority-lowest behind-schedule" } +
+        %{href="/issues/1">Bug #1</a>: #{issue.subject}</p>},
+        textilizable('{{issue(1, project=true)}}')
+      )
+    end
   end
 end

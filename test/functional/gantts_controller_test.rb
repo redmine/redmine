@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,19 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class GanttsControllerTest < Redmine::ControllerTest
-  fixtures :projects, :trackers, :issue_statuses, :issues,
-           :enumerations, :users, :issue_categories,
-           :projects_trackers,
-           :roles,
-           :member_roles,
-           :members,
-           :enabled_modules,
-           :versions,
-           :email_addresses
-
   def test_gantt_should_work
     i2 = Issue.find(2)
     i2.update_attribute(:due_date, 1.month.from_now)
@@ -116,6 +106,19 @@ class GanttsControllerTest < Redmine::ControllerTest
     Version.update_all("effective_date = NULL")
     get(:show, :params => {:project_id => 1})
     assert_response :success
+  end
+
+  def test_show_should_run_custom_query
+    query = IssueQuery.create!(:name => 'Gantt Query', :description => 'Description for Gantt Query', :visibility => IssueQuery::VISIBILITY_PUBLIC)
+    get(
+      :show,
+      :params => {
+        :query_id => query.id
+      }
+    )
+    assert_response :success
+    assert_select 'h2', :text => query.name
+    assert_select '#sidebar a.query.selected[title=?]', query.description, :text => query.name
   end
 
   def test_gantt_should_work_cross_project

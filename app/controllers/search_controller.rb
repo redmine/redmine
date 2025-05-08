@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -49,6 +49,8 @@ class SearchController < ApplicationController
         nil
       when 'my_projects'
         User.current.projects
+      when 'bookmarks'
+        Project.where(id: User.current.bookmarked_project_ids)
       when 'subprojects'
         @project ? (@project.self_and_descendants.to_a) : nil
       else
@@ -60,7 +62,7 @@ class SearchController < ApplicationController
       # don't search projects
       @object_types.delete('projects')
       # only show what the user is allowed to view
-      @object_types = @object_types.select {|o| User.current.allowed_to?("view_#{o}".to_sym, projects_to_search)}
+      @object_types = @object_types.select {|o| User.current.allowed_to?(:"view_#{o}", projects_to_search)}
     end
 
     @scope = @object_types.select {|t| params[t].present?}

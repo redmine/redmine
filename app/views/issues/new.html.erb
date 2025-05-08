@@ -17,7 +17,7 @@
       <%= check_box_tag 'link_copy', '1', @link_copy %>
     </p>
     <% end %>
-    <% if @copy_from && @copy_from.attachments.any? %>
+    <% if @copy_from && Setting.copy_attachments_on_issue_copy == 'ask' && @copy_from.attachments.any? %>
     <p>
       <label for="copy_attachments"><%= l(:label_copy_attachments) %></label>
       <%= check_box_tag 'copy_attachments', '1', @copy_attachments %>

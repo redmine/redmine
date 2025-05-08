@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,7 +26,7 @@ class PreviewsController < ApplicationController
     if @issue
       @previewed = @issue
     end
-    @text = params[:text] ? params[:text] : nil
+    @text = params[:text] || nil
     render :partial => 'common/preview'
   end
 
@@ -34,12 +34,12 @@ class PreviewsController < ApplicationController
     if params[:id].present? && news = News.visible.find_by_id(params[:id])
       @previewed = news
     end
-    @text = params[:text] ? params[:text] : nil
+    @text = params[:text] || nil
     render :partial => 'common/preview'
   end
 
   def text
-    @text = params[:text] ? params[:text] : nil
+    @text = params[:text] || nil
     render :partial => 'common/preview'
   end
 

@@ -1,0 +1,95 @@
+/* Redmine - project management software
+ * Copyright (C) 2006-  Jean-Philippe Lang
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ *  of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA. */
+
+@import url(/application.css);
+
+body, #wrapper { background-color:#EEEEEE; }
+#header, #top-menu { margin: 0px 10px 0px 11px; }
+#main { background: #EEEEEE; margin: 8px 10px 0px 10px; }
+#content, #main.nosidebar #content { background: #fff; border-right: 1px solid #bbb; border-bottom: 1px solid #bbb; border-left: 1px solid #d7d7d7; border-top: 1px solid #d7d7d7; }
+#footer { background-color:#EEEEEE; border: 0px; }
+
+/* Headers */
+h2, h3, h4, .wiki h1, .wiki h2, .wiki h3 {border-bottom: 0px;}
+
+/* Menu */
+#main-menu li a { background-color: #507AAA; font-weight: bold;}
+#main-menu li a:hover { background: #507AAA; text-decoration: underline; }
+#main-menu li a.selected, #main-menu li a.selected:hover { background-color:#EEEEEE; }
+#main-menu li a.new-object { background-color:#507AAA; text-decoration: none; }
+
+#main-menu .menu-children {
+  border-right: 1px solid #507AAA;
+  border-bottom: 1px solid #507AAA;
+  border-left: 1px solid #507AAA;
+}
+#main-menu .menu-children li a:hover { background-color: #507AAA;}
+
+
+/* Tables */
+table.list tbody td, table.list tbody tr:hover td { border: solid 1px #d7d7d7; }
+table.list thead th {
+    border-width: 1px;
+    border-style: solid;
+    border-top-color: #d7d7d7;
+    border-right-color: #d7d7d7;
+    border-left-color: #d7d7d7;
+    border-bottom-color: #999999;
+}
+
+/* Issues grid styles by priorities (provided by Wynn Netherland) */
+table.list tr.issue a { color: #666; }
+
+tr.odd.priority-highest, table.list tbody tr.odd.priority-highest:hover { color: #900; font-weight: bold; }
+tr.odd.priority-highest { background: #ffd4d4; }
+tr.even.priority-highest, table.list tbody tr.even.priority-highest:hover { color: #900; font-weight: bold; }
+tr.even.priority-highest { background: #ffc4c4; }
+tr.priority-highest a, tr.priority-5:hover a { color: #900; }
+tr.odd.priority-highest td, tr.even.priority-highest td { border-color: #ffb4b4; }
+
+tr.odd.priority-high2, table.list tbody tr.odd.priority-high4:hover { color: #900; }
+tr.odd.priority-high2 { background: #ffd4d4; }
+tr.even.priority-high2, table.list tbody tr.even.priority-high4:hover { color: #900; }
+tr.even.priority-high2 { background: #ffc4c4; }
+tr.priority-high2 a { color: #900; }
+tr.odd.priority-high2 td, tr.even.priority-high4 td { border-color: #ffb4b4; }
+
+tr.odd.priority-high3, table.list tbody tr.odd.priority-high3:hover { color: #900; }
+tr.odd.priority-high3 { background: #fff2f2; }
+tr.even.priority-high3, table.list tbody tr.even.priority-high3:hover { color: #900; }
+tr.even.priority-high3 { background: #fee; }
+tr.priority-high3 a { color: #900; }
+tr.odd.priority-high3 td, tr.even.priority-high3 td { border-color: #fcc; }
+
+tr.odd.priority-lowest, table.list tbody tr.odd.priority-lowest:hover { color: #559; }
+tr.odd.priority-lowest { background: #f2faff; }
+tr.even.priority-lowest, table.list tbody tr.even.priority-lowest:hover { color: #559; }
+tr.even.priority-lowest { background: #eaf7ff; }
+tr.priority-lowest a { color: #559; }
+tr.odd.priority-lowest td, tr.even.priority-lowest td { border-color: #add7f3; }
+
+/* Buttons */
+input[type="button"], input[type="submit"], input[type="reset"] { background-color: #f2f2f2; color: #222222; border: 1px outset #cccccc; }
+input[type="button"]:hover, input[type="submit"]:hover, input[type="reset"]:hover { background-color: #ccccbb; }
+
+/* Fields */
+input[type="text"], input[type="password"], textarea, select { border: 1px solid #d7d7d7; }
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:focus { border: 1px solid #888866; }
+option { border-bottom: 1px dotted #d7d7d7; }
+
+/* Misc */
+.box { background-color: #fcfcfc; }

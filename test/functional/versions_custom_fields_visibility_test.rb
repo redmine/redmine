@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,22 +17,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class VersionsCustomFieldsVisibilityTest < Redmine::ControllerTest
   tests VersionsController
-  fixtures :projects,
-           :users, :email_addresses,
-           :roles,
-           :members,
-           :member_roles,
-           :issue_statuses,
-           :trackers,
-           :projects_trackers,
-           :enabled_modules,
-           :versions,
-           :custom_fields, :custom_values, :custom_fields_trackers
-
   def test_show_should_display_only_custom_fields_visible_to_user
     cf1 = VersionCustomField.create!(:name => 'cf1', :field_format => 'string')
     cf2 = VersionCustomField.create!(:name => 'cf2', :field_format => 'string', :visible => false, :role_ids => [1])

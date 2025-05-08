@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -29,6 +29,7 @@ class MessagesController < ApplicationController
   helper :watchers
   helper :attachments
   include AttachmentsHelper
+  include Redmine::QuoteReply::Builder
 
   REPLIES_PER_PAGE = 25 unless const_defined?(:REPLIES_PER_PAGE)
 
@@ -79,7 +80,7 @@ class MessagesController < ApplicationController
     @reply.safe_attributes = params[:reply]
     @reply.save_attachments(params[:attachments])
     @topic.children << @reply
-    if !@reply.new_record?
+    unless @reply.new_record?
       call_hook(:controller_messages_reply_after_save, {:params => params, :message => @reply})
       render_attachment_warning_if_needed(@reply)
     end
@@ -119,17 +120,21 @@ class MessagesController < ApplicationController
     @subject = @message.subject
     @subject = "RE: #{@subject}" unless @subject.starts_with?('RE:')
 
-    if @message.root == @message
-      @content = +"#{ll(Setting.default_language, :text_user_wrote, @message.author)}\n> "
-    else
-      @content = +"#{ll(Setting.default_language, :text_user_wrote_in, {:value => @message.author, :link => "message##{@message.id}"})}\n> "
+    @content = if @message.root == @message
+                 quote_root_message(@message, partial_quote: params[:quote])
+               else
+                 quote_message(@message, partial_quote: params[:quote])
+               end
+
+    respond_to do |format|
+      format.html { render_404 }
+      format.js
     end
-    @content << @message.content.to_s.strip.gsub(%r{<pre>(.*?)</pre>}m, '[...]').gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
   end
 
   def preview
     message = @board.messages.find_by_id(params[:id])
-    @text = params[:text] ? params[:text] : nil
+    @text = params[:text] || nil
     @previewed = message
     render :partial => 'common/preview'
   end

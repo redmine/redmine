@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,23 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class ImportsControllerTest < Redmine::ControllerTest
-  fixtures :projects, :enabled_modules,
-           :users, :email_addresses, :user_preferences,
-           :roles, :members, :member_roles,
-           :issues, :issue_statuses,
-           :trackers, :projects_trackers,
-           :versions,
-           :issue_categories,
-           :enumerations,
-           :workflows,
-           :custom_fields,
-           :custom_values,
-           :custom_fields_projects,
-           :custom_fields_trackers
-
   include Redmine::I18n
 
   def setup
@@ -52,6 +38,18 @@ class ImportsControllerTest < Redmine::ControllerTest
     assert_select 'input[name=?][type=?][value=?]', 'project_id', 'hidden', 'subproject1'
   end
 
+  def test_new_issue_import_without_add_issues_permission
+    Role.all.map { |role| role.remove_permission! :add_issues }
+    get(:new, :params => {:type => 'IssueImport', :project_id => 'subproject1'})
+    assert_response :forbidden
+  end
+
+  def test_new_time_entry_import_without_log_time_permission
+    Role.all.map { |role| role.remove_permission! :log_time }
+    get(:new, :params => {:type => 'TimeEntryImport', :project_id => 'subproject1'})
+    assert_response :forbidden
+  end
+
   def test_create_should_save_the_file
     import = new_record(Import) do
       post(
@@ -61,7 +59,7 @@ class ImportsControllerTest < Redmine::ControllerTest
           :file => uploaded_test_file('import_issues.csv', 'text/csv')
         }
       )
-      assert_response 302
+      assert_response :found
     end
     assert_equal 2, import.user_id
     assert_match /\A[0-9a-f]+\z/, import.filename
@@ -123,7 +121,7 @@ class ImportsControllerTest < Redmine::ControllerTest
         }
       }
     )
-    assert_response 302
+    assert_response :found
     import.reload
     assert_equal 2, import.total_items
   end
@@ -142,7 +140,7 @@ class ImportsControllerTest < Redmine::ControllerTest
         }
       }
     )
-    assert_response 200
+    assert_response :ok
     import.reload
     assert_nil import.total_items
     assert_select 'div#flash_error', /not a valid UTF-8 encoded file/
@@ -162,7 +160,7 @@ class ImportsControllerTest < Redmine::ControllerTest
         }
       }
     )
-    assert_response 200
+    assert_response :ok
     import.reload
     assert_nil import.total_items
     assert_select 'div#flash_error', /not a valid Shift_JIS encoded file/
@@ -182,7 +180,7 @@ class ImportsControllerTest < Redmine::ControllerTest
         }
       }
     )
-    assert_response 200
+    assert_response :ok
     import.reload
     assert_nil import.total_items
 
@@ -203,7 +201,7 @@ class ImportsControllerTest < Redmine::ControllerTest
         }
       }
     )
-    assert_response 200
+    assert_response :ok
     import.reload
     assert_equal 0, import.total_items
 
@@ -435,7 +433,7 @@ class ImportsControllerTest < Redmine::ControllerTest
     )
     ActionMailer::Base.deliveries.clear
     assert_difference 'Issue.count', 3 do
-      post(:run, :params => {:id => import,})
+      post(:run, :params => {:id => import})
       assert_response :found
     end
     actual_email_count = ActionMailer::Base.deliveries.size

@@ -2,7 +2,7 @@
 # frozen_string_literal: false
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -153,6 +153,9 @@ END_DESC
 
     headers = { 'User-Agent' => "Redmine mail handler/#{VERSION}" }
 
+    # MailHandlerController#index should permit all options set by
+    # RedmineMailHandler#submit in rdm-mailhandler.rb.
+    # It must be kept in sync.
     data = { 'key' => key, 'email' => email.gsub(/(?<!\r)\n|\r(?!\n)/, "\r\n"),
                            'allow_override' => allow_override,
                            'unknown_user' => unknown_user,

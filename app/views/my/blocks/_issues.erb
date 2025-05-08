@@ -1,5 +1,5 @@
 <div class="contextual">
-  <%= link_to_function l(:label_options), "$('##{block}-settings').toggle();", :class => 'icon-only icon-settings', :title => l(:label_options) %>
+  <%= link_to_function sprite_icon('settings', l(:label_options)), "$('##{block}-settings').toggle();", :class => 'icon-only icon-settings', :title => l(:label_options) %>
 </div>
 
 <h3>
@@ -10,8 +10,10 @@
 
 <div id="<%= block %>-settings" style="display:none;">
   <%= form_tag(my_page_path, :remote => true) do %>
-    <div class="box">
-      <%= render_query_columns_selection(query, :name => "settings[#{block}][columns]") %>
+    <div id="list-definition">
+      <div class="box">
+        <%= render_query_columns_selection(query, :name => "settings[#{block}][columns]") %>
+      </div>
     </div>
     <p>
       <%= submit_tag l(:button_save) %>
@@ -36,6 +38,6 @@
 
 <% content_for :header_tags do %>
 <%= auto_discovery_link_tag(:atom,
-                            _project_issues_path(query.project, query.as_params.merge(:format => 'atom', :key => User.current.rss_key)),
+                            _project_issues_path(query.project, query.as_params.merge(:format => 'atom', :key => User.current.atom_key)),
                             {:title => query.name}) %>
 <% end %>

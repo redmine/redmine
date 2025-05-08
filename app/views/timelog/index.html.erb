@@ -1,19 +1,20 @@
 <div class="contextual">
-<%= link_to l(:button_log_time),
+<%= link_to sprite_icon('time-add', l(:button_log_time)),
             _new_time_entry_path(@project, @query.filtered_issue_id),
             :class => 'icon icon-time-add' if User.current.allowed_to?(:log_time, @project, :global => true) %>
 <%= actions_dropdown do %>
-  <% if User.current.allowed_to?(:import_time_entries, @project, :global => true) %>
-    <%= link_to l(:button_import), new_time_entries_import_path(:project_id => @project), :class => 'icon icon-import' %>
+  <% if User.current.allowed_to?(:import_time_entries, @project, :global => true) && User.current.allowed_to?(:log_time, @project, :global => true) %>
+    <%= link_to sprite_icon('import', l(:button_import)), new_time_entries_import_path(:project_id => @project), :class => 'icon icon-import' %>
   <% end %>
 
-  <%= link_to_if_authorized l(:label_settings),
-            {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'activities'},
-            :class => 'icon icon-settings' if User.current.allowed_to?(:manage_project_activities, @project) %>
+  <%= link_to_if_authorized sprite_icon('settings', l(:label_settings)),
+                            {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'activities'},
+                            :class => 'icon icon-settings' if User.current.allowed_to?(:manage_project_activities, @project) %>
 <% end %>
 </div>
 
 <h2><%= @query.new_record? ? l(:label_spent_time) : @query.name %></h2>
+<%= @query.persisted? && @query.description.present? ? content_tag('p', @query.description, class: 'subtitle') : '' %>
 
 <%= form_tag(_time_entries_path(@project, nil), :method => :get, :id => 'query_form') do %>
 <%= render :partial => 'date_range' %>
@@ -28,14 +29,15 @@
 <span class="pagination"><%= pagination_links_full @entry_pages, @entry_count %></span>
 
 <% other_formats_links do |f| %>
-  <%= f.link_to_with_query_parameters 'Atom', :key => User.current.rss_key %>
   <%= f.link_to_with_query_parameters 'CSV', {}, :onclick => "showModal('csv-export-options', '330px'); return false;" %>
+  <%= f.link_to_with_query_parameters 'Atom', :key => User.current.atom_key %>
 <% end %>
 
 <div id="csv-export-options" style="display:none;">
   <h3 class="title"><%= l(:label_export_options, :export_format => 'CSV') %></h3>
   <%= form_tag(_time_entries_path(@project, nil, :format => 'csv'), :method => :get, :id => 'csv-export-form') do %>
   <%= query_as_hidden_field_tags @query %>
+  <%= hidden_field_tag('query_name', @query.name) %>
   <p>
     <label><%= radio_button_tag 'c[]', '', true %> <%= l(:description_selected_columns) %></label><br />
     <label><%= radio_button_tag 'c[]', 'all_inline' %> <%= l(:description_all_columns) %></label>
@@ -51,6 +53,7 @@
     </fieldset>
   <% end %>
   <%= export_csv_encoding_select_tag %>
+  <%= export_csv_separator_select_tag %>
   <p class="buttons">
     <%= submit_tag l(:button_export), :name => nil, :onclick => "hideModal(this);", :data => { :disable_with => false } %>
     <%= link_to_function l(:button_cancel), "hideModal(this);" %>
@@ -67,5 +70,5 @@
 <% html_title(@query.new_record? ? l(:label_spent_time) : @query.name, l(:label_details)) %>
 
 <% content_for :header_tags do %>
-    <%= auto_discovery_link_tag(:atom, {:issue_id => @issue, :format => 'atom', :key => User.current.rss_key}, :title => l(:label_spent_time)) %>
+    <%= auto_discovery_link_tag(:atom, {:issue_id => @issue, :format => 'atom', :key => User.current.atom_key}, :title => l(:label_spent_time)) %>
 <% end %>

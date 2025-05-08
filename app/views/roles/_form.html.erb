@@ -39,6 +39,10 @@
     </p>
   <% end %>
 
+  <% unless @role.anonymous? %>
+    <p><%= f.select :default_time_entry_activity_id, options_from_collection_for_select(TimeEntryActivity.active.shared, :id, :name, @role.default_time_entry_activity_id), :include_blank => l(:label_none) %></p>
+  <% end %>
+
   <% if @role.new_record? && @roles.any? %>
     <p><label for="copy_workflow_from"><%= l(:label_copy_workflow_from) %></label>
     <%= select_tag(:copy_workflow_from, content_tag("option") + options_from_collection_for_select(@roles, :id, :name, params[:copy_workflow_from] || @copy_from.try(:id))) %></p>

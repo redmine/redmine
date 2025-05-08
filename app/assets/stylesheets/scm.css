@@ -1,0 +1,167 @@
+/**
+ * Redmine - project management software
+ * Copyright (C) 2006-  Jean-Philippe Lang
+ * This code is released under the GNU General Public License.
+ */
+
+table.entries a {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+table.revision-info td {
+    margin:  0px;
+    padding: 0px;
+}
+
+div.revision-graph { position: absolute; min-width: 1px; }
+
+div.changeset-changes ul { margin: 0; padding: 0; }
+div.changeset-changes ul > ul { margin-left: 18px; padding: 0; }
+
+div.changeset-changes ul:first-child > li {padding-left: 0}
+li.change {
+    list-style-type:none;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 20px;
+    margin: 0;
+}
+li.change:not(:has(svg)) {
+    background-image: url(/bullet_black.png);
+    background-position: 1px 2px;
+    background-repeat: no-repeat;
+}
+li.change.folder:not(:has(svg)) { background-image: url(/folder_open.png); }
+li.change.folder.change-A { background-image: url(/folder_open_add.png); }
+li.change.folder.change-M { background-image: url(/folder_open_orange.png); }
+
+li.change.change-A:not(:has(svg)) { background-image: url(/bullet_add.png); }
+li.change.change-A svg.icon-svg {
+    fill: #5db651;
+    stroke: #ffffff;
+}
+li.change.change-M:not(:has(svg)) { background-image: url(/bullet_orange.png); }
+li.change.change-M svg.icon-svg {
+    fill: #f0a810;
+    stroke: #ffffff;
+}
+li.change.change-C:not(:has(svg)) { background-image: url(/bullet_blue.png); }
+li.change.change-C svg.icon-svg {
+    fill: #049cec;
+    stroke: #ffffff;
+}
+li.change.change-R:not(:has(svg)) { background-image: url(/bullet_purple.png); }
+li.change.change-R svg.icon-svg {
+    fill: #8404ee;
+    stroke: #ffffff;
+}
+li.change.change-D:not(:has(svg)) { background-image: url(/bullet_delete.png); }
+li.change.change-D svg.icon-svg {
+    fill: #c61a1a;
+    stroke: #ffffff;
+}
+
+li.change .copied-from { font-style: italic; color: #999; font-size: 0.9em; }
+li.change .copied-from:before { content: " - "}
+
+#changes-legend { float: right; font-size: 0.75rem; margin: 0; }
+#changes-legend li { float: left; background-position: 5px 1px; }
+
+table.filecontent { border: 1px solid #e2e2e2;  border-collapse: collapse; width:98%; background-color: #fafafa; }
+table.filecontent tbody {font-family:Consolas, Menlo, "Liberation Mono", Courier, monospace; font-size:0.75rem;}
+table.filecontent th { border: 1px solid #e2e2e2; background-color: #eee; }
+table.filecontent th.filename { background-color: #e4e4d4; text-align: left; padding:5px;}
+table.filecontent tr.spacing th { text-align:center; }
+table.filecontent tr.spacing td { height: 0.4em; background: #EAF2F5;}
+table.filecontent th.line-num {
+    border: 1px solid #e2e2e2;
+    text-align: right;
+    width: 2%;
+    padding: 0 3px 0 0;
+    color: #999;
+    user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    font-weight:normal;
+}
+table.filecontent th.line-num a {
+    text-decoration: none;
+    color: inherit;
+}
+table.filecontent th.line-num a:after {
+    content:  attr(data-txt);
+}
+table.diffcontent th.line-num:after {
+    content:  attr(data-txt);
+}
+table.filecontent td.line-code {padding: 0 0 0 4px;}
+table.filecontent td.line-code pre, table.filecontent td.line-code div {
+    margin: 0px;
+    white-space: pre-wrap;
+    font-family:Consolas, Menlo, "Liberation Mono", Courier, monospace; font-size:0.75rem;
+}
+
+table.filecontent tr:target th.line-num { background-color:#E0E0E0; color: #777; }
+table.filecontent tr:target td.line-code { background-color:#DDEEFF; }
+
+img.filecontent, video.filecontent { max-width: 100%; }
+
+.previous-filename {
+  font-weight: normal;
+}
+
+/* 12 different colors for the annonate view */
+table.annotate tr.bloc-0 td.line-code {border-left-color: #FFFFBF;}
+table.annotate tr.bloc-1 td.line-code {border-left-color: #EABFFF;}
+table.annotate tr.bloc-2 td.line-code {border-left-color: #BFFFFF;}
+table.annotate tr.bloc-3 td.line-code {border-left-color: #FFD9BF;}
+table.annotate tr.bloc-4 td.line-code {border-left-color: #E6FFBF;}
+table.annotate tr.bloc-5 td.line-code {border-left-color: #BFCFFF;}
+table.annotate tr.bloc-6 td.line-code {border-left-color: #FFBFEF;}
+table.annotate tr.bloc-7 td.line-code {border-left-color: #FFE6BF;}
+table.annotate tr.bloc-8 td.line-code {border-left-color: #FFE680;}
+table.annotate tr.bloc-9 td.line-code {border-left-color: #AA80FF;}
+table.annotate tr.bloc-10 td.line-code {border-left-color: #FFBFDC;}
+table.annotate tr.bloc-11 td.line-code {border-left-color: #BFE4FF;}
+table.annotate tr.bloc-change {border-top:1px solid #e5e5e5;}
+
+table.annotate td.revision {
+    padding:0;
+    text-align: center;
+    width: 2%;
+    padding-left: 1em;
+    background: inherit;
+}
+
+table.annotate td.author {
+    padding:0;
+    text-align: center;
+    white-space: nowrap;
+    padding-left: 1em;
+    padding-right: 1em;
+    width: 3%;
+    background: inherit;
+}
+
+table.annotate td.previous {
+    padding: 0;
+    text-align: center;
+    width: 1%;
+    background: inherit;
+}
+
+table.annotate td.line-code {
+    background-color: #fafafa;
+    border-left: 6px solid #d7d7d7;
+}
+
+div.action_M { background: #fd8 }
+div.action_D { background: #f88 }
+div.action_A { background: #bfb }
+
+.breadcrumbs>.separator::before, .breadcrumbs>.separator::after {
+    content: " ";
+}

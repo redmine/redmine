@@ -2,16 +2,17 @@
   <%= call_hook(:view_issues_context_menu_start, {:issues => @issues, :can => @can, :back => @back }) %>
 
   <% if @issue -%>
-    <li><%= context_menu_link l(:button_edit), edit_issue_path(@issue),
-            :class => 'icon icon-edit', :disabled => !@can[:edit] %></li>
+    <li><%= context_menu_link sprite_icon('edit', l(:button_edit)), edit_issue_path(@issue),
+                              :class => 'icon icon-edit', :disabled => !@can[:edit] %></li>
   <% else %>
-    <li><%= context_menu_link l(:label_bulk_edit), bulk_edit_issues_path(:ids => @issue_ids),
-            :class => 'icon icon-edit', :disabled => !@can[:edit] %></li>
+    <li><%= context_menu_link sprite_icon('edit', l(:label_bulk_edit)), bulk_edit_issues_path(:ids => @issue_ids),
+                              :class => 'icon icon-edit', :disabled => !@can[:edit] %></li>
   <% end %>
 
   <% if @allowed_statuses.present? %>
   <li class="folder">
     <a href="#" class="submenu"><%= l(:field_status) %></a>
+    <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
     <ul>
     <% @allowed_statuses.each do |s| -%>
         <li>
@@ -33,6 +34,7 @@
   <% if @trackers.present? %>
   <li class="folder">
     <a href="#" class="submenu"><%= l(:field_tracker) %></a>
+    <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
     <ul>
     <% @trackers.each do |t| -%>
         <li><%= context_menu_link t.name, _bulk_update_issues_path(@issue, :ids => @issue_ids, :issue => {'tracker_id' => t}, :back_url => @back), :method => :patch,
@@ -45,6 +47,7 @@
   <% if @safe_attributes.include?('priority_id') && @priorities.present? -%>
   <li class="folder">
     <a href="#" class="submenu"><%= l(:field_priority) %></a>
+    <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
     <ul>
     <% @priorities.each do |p| -%>
         <li><%= context_menu_link p.name, _bulk_update_issues_path(@issue, :ids => @issue_ids, :issue => {'priority_id' => p}, :back_url => @back), :method => :patch,
@@ -57,6 +60,7 @@
   <% if @safe_attributes.include?('fixed_version_id') && @versions.present? -%>
   <li class="folder">
     <a href="#" class="submenu"><%= l(:field_fixed_version) %></a>
+    <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
     <ul>
     <% @versions.sort.each do |v| -%>
         <li><%= context_menu_link format_version_name(v), _bulk_update_issues_path(@issue, :ids => @issue_ids, :issue => {'fixed_version_id' => v}, :back_url => @back), :method => :patch,
@@ -71,6 +75,7 @@
   <% if @safe_attributes.include?('assigned_to_id') && @assignables.present? -%>
   <li class="folder">
     <a href="#" class="submenu"><%= l(:field_assigned_to) %></a>
+    <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
     <ul>
     <% if @assignables.include?(User.current) %>
         <li><%= context_menu_link "<< #{l(:label_me)} >>", _bulk_update_issues_path(@issue, :ids => @issue_ids, :issue => {'assigned_to_id' => User.current}, :back_url => @back), :method => :patch,
@@ -89,6 +94,7 @@
   <% if @safe_attributes.include?('category_id') && @project && @project.issue_categories.any? -%>
   <li class="folder">
     <a href="#" class="submenu"><%= l(:field_category) %></a>
+    <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
     <ul>
     <% @project.issue_categories.each do |u| -%>
         <li><%= context_menu_link u.name, _bulk_update_issues_path(@issue, :ids => @issue_ids, :issue => {'category_id' => u}, :back_url => @back), :method => :patch,
@@ -103,6 +109,7 @@
   <% if @safe_attributes.include?('done_ratio') && Issue.use_field_for_done_ratio? %>
   <li class="folder">
     <a href="#" class="submenu"><%= l(:field_done_ratio) %></a>
+    <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
     <ul>
     <% (0..10).map{|x|x*10}.each do |p| -%>
         <li><%= context_menu_link "#{p}%", _bulk_update_issues_path(@issue, :ids => @issue_ids, :issue => {'done_ratio' => p}, :back_url => @back), :method => :patch,
@@ -115,6 +122,7 @@
   <% @options_by_custom_field.each do |field, options| %>
     <li class="folder <%= field.css_classes %>">
       <a href="#" class="submenu"><%= field.name %></a>
+      <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
       <ul>
       <% options.each do |text, value| %>
         <li><%= bulk_update_custom_field_context_menu_link(field, text, value || text) %></li>
@@ -129,11 +137,12 @@
 <% if @can[:add_watchers] %>
   <li class="folder">
     <a href="#" class="submenu"><%= l(:label_issue_watchers) %></a>
+    <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
     <ul>
-      <li><%= context_menu_link l(:button_add),
-                new_watchers_path(:object_type => 'issue', :object_id => @issue_ids),
-                :remote => true,
-                :class => 'icon icon-add' %></li>
+      <li><%= context_menu_link sprite_icon('add', l(:button_add)),
+                                new_watchers_path(:object_type => 'issue', :object_id => @issue_ids),
+                                :remote => true,
+                                :class => 'icon icon-add' %></li>
     </ul>
   </li>
 <% end %>
@@ -143,28 +152,28 @@
 <% end %>
 
 <% unless @issue %>
-  <li><%= context_menu_link l(:button_filter), _project_issues_path(@project, :set_filter => 1, :status_id => "*", :issue_id => @issue_ids.join(","), :c => @columns),
-          :class => 'icon icon-list' %></li>
+  <li><%= context_menu_link sprite_icon('list', l(:button_filter)), _project_issues_path(@project, :set_filter => 1, :status_id => "*", :issue_id => @issue_ids.join(","), :c => @columns),
+                            :class => 'icon icon-list' %></li>
 <% end %>
 
 <% if @issue.present? %>
   <% if @can[:log_time] -%>
-  <li><%= context_menu_link l(:button_log_time), new_issue_time_entry_path(@issue),
-          :class => 'icon icon-time-add' %></li>
+  <li><%= context_menu_link sprite_icon('time-add', l(:button_log_time)), new_issue_time_entry_path(@issue),
+                            :class => 'icon icon-time-add' %></li>
   <% end %>
   <% if @can[:add_subtask] -%>
-  <li><%= context_menu_link l(:button_add_subtask), url_for_new_subtask(@issue),
-          :class => 'icon icon-add' %></li>
+  <li><%= context_menu_link sprite_icon('add', l(:button_add_subtask)), url_for_new_subtask(@issue),
+                            :class => 'icon icon-add' %></li>
   <% end %>
   <li><%= copy_object_url_link(issue_url(@issue)) %></li>
-  <li><%= context_menu_link l(:button_copy), project_copy_issue_path(@project, @issue),
-          :class => 'icon icon-copy', :disabled => !@can[:copy] %></li>
+  <li><%= context_menu_link sprite_icon('copy', l(:button_copy)), project_copy_issue_path(@project, @issue),
+                            :class => 'icon icon-copy', :disabled => !@can[:copy] %></li>
 <% else %>
   <li><%= copy_object_url_link(_project_issues_url(@project, set_filter: 1, status_id: '*', issue_id: @issue_ids.join(','))) %></li>
-  <li><%= context_menu_link l(:button_copy), bulk_edit_issues_path(:ids => @issue_ids, :copy => '1'),
-                          :class => 'icon icon-copy', :disabled => !@can[:copy] %></li>
+  <li><%= context_menu_link sprite_icon('copy', l(:button_copy)), bulk_edit_issues_path(:ids => @issue_ids, :copy => '1'),
+                            :class => 'icon icon-copy', :disabled => !@can[:copy] %></li>
 <% end %>
-  <li><%= context_menu_link l(:button_delete_object, object_name: (@issue_ids.size > 1 ? l(:label_issue_plural) : l(:label_issue)).downcase), issues_path(:ids => @issue_ids, :back_url => @back),
+  <li><%= context_menu_link sprite_icon('del', l(:button_delete_object, object_name: (@issue_ids.size > 1 ? l(:label_issue_plural) : l(:label_issue))).capitalize), issues_path(:ids => @issue_ids, :back_url => @back),
                             :method => :delete, :data => {:confirm => issues_destroy_confirmation_message(@issues)}, :class => 'icon icon-del', :disabled => !@can[:delete] %></li>
 
   <%= call_hook(:view_issues_context_menu_end, {:issues => @issues, :can => @can, :back => @back }) %>

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -34,7 +34,7 @@ class RepositoriesController < ApplicationController
   before_action :find_project_repository, :except => [:new, :create, :edit, :update, :destroy, :committers]
   before_action :find_changeset, :only => [:revision, :add_related_issue, :remove_related_issue]
   before_action :authorize
-  accept_rss_auth :revisions
+  accept_atom_auth :revisions
   accept_api_auth :add_related_issue, :remove_related_issue
 
   rescue_from Redmine::Scm::Adapters::CommandFailed, :with => :show_error_command_failed
@@ -66,7 +66,7 @@ class RepositoriesController < ApplicationController
   def committers
     @committers = @repository.committers
     @users = @project.users.to_a
-    additional_user_ids = @committers.collect(&:last).collect(&:to_i) - @users.collect(&:id)
+    additional_user_ids = @committers.collect {|c| c.last.to_i} - @users.collect(&:id)
     @users += User.where(:id => additional_user_ids).to_a unless additional_user_ids.empty?
     @users.compact!
     @users.sort!
@@ -89,7 +89,7 @@ class RepositoriesController < ApplicationController
     @entries = @repository.entries(@path, @rev)
     @changeset = @repository.find_changeset_by_name(@rev)
     if request.xhr?
-      @entries ? render(:partial => 'dir_list_content') : head(200)
+      @entries ? render(:partial => 'dir_list_content') : head(:ok)
     else
       (show_error_not_found; return) unless @entries
       @changesets = @repository.latest_changesets(@path, @rev)
@@ -103,7 +103,11 @@ class RepositoriesController < ApplicationController
 
   def fetch_changesets
     @repository.fetch_changesets if @project.active? && @path.empty? && !Setting.autofetch_changesets?
-    show
+
+    redirect_to(
+      controller: :repositories, action: :show,
+      id: @project, repository_id: @repository.identifier_param
+    )
   end
 
   def changes
@@ -202,18 +206,16 @@ class RepositoriesController < ApplicationController
     (show_error_not_found; return) unless @entry
 
     @annotate = @repository.scm.annotate(@path, @rev)
-    if @annotate.nil? || @annotate.empty?
+    if @annotate.blank?
       @annotate = nil
       @error_message = l(:error_scm_annotate)
+    elsif @annotate.lines.sum(&:size) > Setting.file_max_size_displayed.to_i.kilobyte
+      @annotate = nil
+      @error_message = l(:error_scm_annotate_big_text_file)
     else
-      ann_buf_size = 0
-      @annotate.lines.each do |buf|
-        ann_buf_size += buf.size
-      end
-      if ann_buf_size > Setting.file_max_size_displayed.to_i.kilobyte
-        @annotate = nil
-        @error_message = l(:error_scm_annotate_big_text_file)
-      end
+      # the SCM adapter supports "View annotation prior to this change" links
+      # and the entry has previous annotations
+      @has_previous = @annotate.previous_annotations.any?
     end
     @changeset = @repository.find_changeset_by_name(@rev)
   end
@@ -228,7 +230,7 @@ class RepositoriesController < ApplicationController
   # Adds a related issue to a changeset
   # POST /projects/:project_id/repository/(:repository_id/)revisions/:rev/issues
   def add_related_issue
-    issue_id = params[:issue_id].to_s.sub(/^#/, '')
+    issue_id = params[:issue_id].to_s.delete_prefix('#')
     @issue = @changeset.find_referenced_issue_by_id(issue_id)
     if @issue && (!@issue.visible? || @changeset.issues.include?(@issue))
       @issue = nil
@@ -262,7 +264,7 @@ class RepositoriesController < ApplicationController
     if params[:format] == 'diff'
       @diff = @repository.diff(@path, @rev, @rev_to)
       (show_error_not_found; return) unless @diff
-      filename = +"changeset_r#{@rev}"
+      filename = "changeset_r#{@rev}"
       filename << "_r#{@rev_to}" if @rev_to
       send_data @diff.join, :filename => "#{filename}.diff",
                             :type => 'text/x-patch',
@@ -277,7 +279,7 @@ class RepositoriesController < ApplicationController
         User.current.preference.save
       end
       @cache_key = "repositories/diff/#{@repository.id}/" +
-                      Digest::MD5.hexdigest("#{@path}-#{@rev}-#{@rev_to}-#{@diff_type}-#{current_language}")
+                      ActiveSupport::Digest.hexdigest("#{@path}-#{@rev}-#{@rev_to}-#{@diff_type}-#{current_language}")
       unless read_fragment(@cache_key)
         @diff = @repository.diff(@path, @rev, @rev_to)
         (show_error_not_found; return) unless @diff
@@ -286,7 +288,7 @@ class RepositoriesController < ApplicationController
       @changeset = @repository.find_changeset_by_name(@rev)
       @changeset_to = @rev_to ? @repository.find_changeset_by_name(@rev_to) : nil
       @diff_format_revisions = @repository.diff_format_revisions(@changeset, @changeset_to)
-      render :diff, :formats => :html, :layout => 'base'
+      render :diff, :formats => :html
     end
   end
 
@@ -337,7 +339,7 @@ class RepositoriesController < ApplicationController
     if params[:repository_id].present?
       @repository = @project.repositories.find_by_identifier_param(params[:repository_id])
     else
-      @repository = @project.repository
+      @repository = @project.repository || @project.repositories.first
     end
     (render_404; return false) unless @repository
     @path = params[:path].is_a?(Array) ? params[:path].join('/') : params[:path].to_s
@@ -430,6 +432,11 @@ class RepositoriesController < ApplicationController
     else
       'attachment'
     end
+  end
+
+  def send_file(path, options={})
+    headers['content-security-policy'] = "default-src 'none'; style-src 'unsafe-inline'; sandbox"
+    super
   end
 
   def valid_name?(rev)

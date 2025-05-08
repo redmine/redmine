@@ -1,89 +1,62 @@
 <div class="contextual">
-<%= link_to l(:label_user_new), new_user_path, :class => 'icon icon-add' %>
+<%= link_to sprite_icon('add', l(:label_user_new)), new_user_path, :class => 'icon icon-add' %>
   <%= actions_dropdown do %>
     <% if User.current.allowed_to?(:import_users, nil, :global => true) %>
-      <%= link_to l(:button_import), new_users_import_path, :class => 'icon icon-import' %>
+      <%= link_to sprite_icon('import', l(:button_import)), new_users_import_path, :class => 'icon icon-import' %>
     <% end %>
   <% end %>
 </div>
 
-<h2><%=l(:label_user_plural)%></h2>
+<h2><%= @query.new_record? ? l(:label_user_plural) : @query.name %></h2>
+<%= @query.persisted? && @query.description.present? ? content_tag('p', @query.description, class: 'subtitle') : '' %>
 
-<%= form_tag(users_path, { :method => :get, :id => 'users_form' }) do %>
-<fieldset><legend><%= l(:label_filter_plural) %></legend>
-<label for='status'><%= l(:field_status) %>:</label>
-<%= select_tag 'status', users_status_options_for_select(@status), :class => "small", :onchange => "this.form.submit(); return false;"  %>
-
-<% if @groups.present? %>
-<label for='group_id'><%= l(:label_group) %>:</label>
-<%= select_tag 'group_id', content_tag('option') + options_from_collection_for_select(@groups, :id, :name, params[:group_id].to_i), :onchange => "this.form.submit(); return false;"  %>
+<%= form_tag(users_path, method: :get, id: 'query_form') do %>
+  <%= render partial: 'queries/query_form' %>
 <% end %>
 
-<label for='name'><%= l(:label_user) %>:</label>
-<%= text_field_tag 'name', params[:name], :size => 30 %>
-<%= submit_tag l(:button_apply), :class => "small", :name => nil %>
-<%= link_to l(:button_clear), users_path, :class => 'icon icon-reload' %>
-</fieldset>
-<%= hidden_field_tag 'encoding', l(:general_csv_encoding) unless l(:general_csv_encoding).casecmp('UTF-8') == 0 %>
-<% end %>
-&nbsp;
+<% if @query.valid? %>
+  <% if @users.empty? %>
+    <p class="nodata"><%= l(:label_no_data) %></p>
+  <% else %>
+    <%= render_query_totals(@query) %>
+    <%= render partial: 'list', :locals => { :users => @users }%>
+    <span class="pagination"><%= pagination_links_full @user_pages, @user_count %></span>
+  <% end %>
+  <% other_formats_links do |f| %>
+    <%= f.link_to_with_query_parameters 'CSV', {}, :onclick => "showModal('csv-export-options', '350px'); return false;" %>
+  <% end %>
 
-<% if @users.any? %>
-<div class="autoscroll">
-<table class="list users">
-  <thead><tr>
-  <%= sort_header_tag('login', :caption => l(:field_login)) %>
-  <%= sort_header_tag('firstname', :caption => l(:field_firstname)) %>
-  <%= sort_header_tag('lastname', :caption => l(:field_lastname)) %>
-  <th><%= l(:field_mail) %></th>
-  <%= sort_header_tag('admin', :caption => l(:field_admin), :default_order => 'desc') %>
-  <%= sort_header_tag('created_on', :caption => l(:field_created_on), :default_order => 'desc') %>
-  <%= sort_header_tag('last_login_on', :caption => l(:field_last_login_on), :default_order => 'desc') %>
-    <th></th>
-  </tr></thead>
-  <tbody>
-<% for user in @users -%>
-  <tr class="<%= user.css_classes %>">
-  <td class="username"><%= avatar(user, :size => "14") %><%= link_to user.login, edit_user_path(user) %></td>
-  <td class="firstname"><%= user.firstname %></td>
-  <td class="lastname"><%= user.lastname %></td>
-  <td class="email"><%= mail_to(user.mail) %></td>
-  <td class="tick"><%= checked_image user.admin? %></td>
-  <td class="created_on"><%= format_time(user.created_on) %></td>
-  <td class="last_login_on"><%= format_time(user.last_login_on) unless user.last_login_on.nil? %></td>
-    <td class="buttons">
-      <%= change_status_link(user) %>
-      <%= delete_link user_path(user, :back_url => request.original_fullpath), :data => {} unless User.current == user %>
-    </td>
-  </tr>
-<% end -%>
-  </tbody>
-</table>
-</div>
-<span class="pagination"><%= pagination_links_full @user_pages, @user_count %></span>
-<% other_formats_links do |f| %>
-  <%= f.link_to_with_query_parameters 'CSV', {}, :onclick => "showModal('csv-export-options', '330px'); return false;" %>
-<% end %>
-<div id="csv-export-options" style="display: none;">
-  <h3 class="title"><%= l(:label_export_options, :export_format => 'CSV') %></h3>
-  <%= export_csv_encoding_select_tag %>
-  <p class="buttons">
-    <%= submit_tag l(:button_export), :name => nil, :id => 'csv-export-button' %>
-    <%= submit_tag l(:button_cancel), :name => nil, :onclick => 'hideModal(this);', :type => 'button' %>
-  </p>
-</div>
-<%= javascript_tag do %>
-$(document).ready(function(){
-  $('input#csv-export-button').click(function(){
-    $('form input#encoding').val($('select#encoding option:selected').val());
-    $('form#users_form').attr('action', "<%= users_path(:format => 'csv') %>").submit();
-    $('form#users_form').attr('action', '<%= users_path %>');
-    hideModal(this);
-  });
-});
-<% end %>
-<% else %>
-<p class="nodata"><%= l(:label_no_data) %></p>
+  <div id="csv-export-options" style="display:none;">
+    <h3 class="title"><%= l(:label_export_options, :export_format => 'CSV') %></h3>
+    <%= form_tag(users_path(format: 'csv'), method: :get, id: 'csv-export-form') do %>
+    <%= query_as_hidden_field_tags(@query) %>
+    <%= hidden_field_tag('query_name', @query.name) %>
+    <p>
+      <label><%= radio_button_tag 'c[]', '', true %> <%= l(:description_selected_columns) %></label><br />
+      <label><%= radio_button_tag 'c[]', 'all_inline' %> <%= l(:description_all_columns) %></label>
+    </p>
+    <% if @query.available_block_columns.any? %>
+      <fieldset id="csv-export-block-columns">
+        <legend>
+          <%= toggle_checkboxes_link('#csv-export-block-columns input[type=checkbox]') %>
+        </legend>
+        <% @query.available_block_columns.each do |column| %>
+          <label><%= check_box_tag 'c[]', column.name, @query.has_column?(column), :id => nil %> <%= column.caption %></label>
+        <% end %>
+      </fieldset>
+    <% end %>
+    <%= export_csv_encoding_select_tag %>
+    <%= export_csv_separator_select_tag %>
+    <p class="buttons">
+      <%= submit_tag l(:button_export), :name => nil, :onclick => "hideModal(this);", :data => { :disable_with => false } %>
+      <%= link_to_function l(:button_cancel), "hideModal(this);" %>
+    </p>
+    <% end %>
+  </div>
 <% end %>
 
+<% content_for :sidebar do %>
+  <%= render_sidebar_queries(UserQuery, nil) %>
+  <%= call_hook(:view_users_sidebar_queries_bottom) %>
+<% end %>
 <% html_title(l(:label_user_plural)) -%>

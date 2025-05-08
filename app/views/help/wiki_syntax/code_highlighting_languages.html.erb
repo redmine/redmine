@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>List of languages supported by Redmine code highlighter</title>
+  <meta charset="UTF-8">
+  <%= stylesheet_link_tag "wiki_syntax_detailed.css" %>
+</head>
+
+<body>
+  <h1>List of languages supported by Redmine code highlighter</h1>
+
+  <table class="list">
+    <tr>
+      <th>Language</th>
+      <th>Description</th>
+    </tr>
+    <% @available_lexers.each do |lexer| %>
+      <tr>
+        <td><code><%= lexer.tag %></code></td>
+        <td>
+          <%= lexer.desc %>
+          <%= " [aliases: #{lexer.aliases.uniq.join(', ')}]" if lexer.aliases.any? %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</body>
+</html>

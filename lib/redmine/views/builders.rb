@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -30,9 +30,11 @@ module Redmine
             when 'xml',  :xml  then Builders::Xml.new(request, response)
             when 'json', :json then Builders::Json.new(request, response)
             else
-              raise "No builder for format #{format}"
+              Rails.logger.error "No builder for format #{format.inspect}"
+              response.status = 406
+              return "We couldn't handle your request, sorry. If you were trying to access the API, make sure to append .json or .xml to your request URL.\n"
             end
-          if block_given?
+          if block
             yield(builder)
           else
             builder

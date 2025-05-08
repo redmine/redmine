@@ -1,6 +1,7 @@
 --- 
 custom_fields_001: 
   name: Database
+  description: Select one of the databases
   regexp: ""
   is_for_all: true
   is_filter: true

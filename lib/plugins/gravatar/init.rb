@@ -1,4 +1,6 @@
 # frozen_string_literal: true
 
-require File.dirname(__FILE__) + '/lib/gravatar'
-ActionView::Base.send :include, GravatarHelper::PublicMethods
+require_relative 'lib/gravatar'
+Rails.application.reloader.to_prepare do
+  ApplicationRecord.send :include, GravatarHelper::PublicMethods
+end

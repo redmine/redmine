@@ -1,0 +1,65 @@
+@font-face {
+  font-family: "Noto Sans";
+  src: url("/NotoSans-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Noto Sans";
+  src: url("/NotoSans-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Noto Sans";
+  src: url("/NotoSans-Italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Noto Sans";
+  src: url("/NotoSans-BoldItalic.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  --fonts-main: "Noto Sans", sans-serif;
+}
+
+body { font-family: var(--fonts-main); font-size: 0.875rem; color:#333; line-height: 1.6;}
+pre, code { font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace; }
+pre {
+    margin: 1em 1em 1em 1.6em;
+    padding: 2px;
+    background-color: #fafafa;
+    border: 1px solid #e2e2e2;
+    width: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    line-height: normal;
+}
+a, a:link, a:visited{ color: #169; text-decoration: none; }
+a:hover, a:active{ color: #c61a1a; text-decoration: underline;}
+a.new { color: #b73535; }
+
+table.sample { border-collapse: collapse; border-spacing: 0; margin: 4px; margin-left: 30px;}
+table.sample th, table.sample td { border: solid 1px #bbb; padding: 4px; height: 1em; }
+table.list td { background-color: #f5f5f5; vertical-align: middle; padding: 0.3em;}
+
+.syntaxhl .c1 { color: #888888 }
+.syntaxhl .k { color: #008800; font-weight: bold }
+.syntaxhl .nc { color: #BB0066; font-weight: bold }
+.syntaxhl .nf { color: #0066BB; font-weight: bold }
+.syntaxhl .nb { color: #007020 }
+.syntaxhl .vi { color: #3333BB }
+.syntaxhl .o { color: #333333 }
+.syntaxhl .s2 { background-color: #fff0f0 }
+.syntaxhl .si { background-color: #eeeeee }

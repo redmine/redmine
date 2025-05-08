@@ -2,7 +2,7 @@
 # by Ozgun Ataman (ozataman@gmail.com)
 # by Burak Yigit Kaya (ben@byk.im)
 # by Mert Salih Kaplan (mail@mertskaplan.com)
-
+# by Ömer Taha Öztop (omertahaoztop@gmail.com)
 tr:
   direction: ltr
   date:
@@ -108,8 +108,9 @@ tr:
 
   support:
     array:
-      sentence_connector: "ve"
-      skip_last_comma: true
+      last_word_connector: " ve "
+      two_words_connector: " ve "
+      words_connector: ", "
 
   activerecord:
     errors:
@@ -143,13 +144,15 @@ tr:
         not_same_project: "aynı projeye ait değil"
         circular_dependency: "Bu ilişki döngüsel bağımlılık meydana getirecektir"
         cant_link_an_issue_with_a_descendant: "Bir iş, alt işlerinden birine bağlanamaz"
-        earlier_than_minimum_start_date: "cannot be earlier than %{date} because of preceding issues"
-        not_a_regexp: "is not a valid regular expression"
-        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
-        must_contain_uppercase: "must contain uppercase letters (A-Z)"
-        must_contain_lowercase: "must contain lowercase letters (a-z)"
-        must_contain_digits: "must contain digits (0-9)"
-        must_contain_special_chars: "must contain special characters (!, $, %, ...)"
+        earlier_than_minimum_start_date: "önceki sorunlardan dolayı %{date} tarihinden önce olamaz"
+        not_a_regexp: "geçerli bir düzenli ifade (REGEX) değil"
+        open_issue_with_closed_parent: "açık bir sorun, kapalı bir ana göreve eklenemez"
+        must_contain_uppercase: "büyük harf içermelidir (A-Z)"
+        must_contain_lowercase: "küçük harf içermelidir (a-z)"
+        must_contain_digits: "sayı içermelidir (0-9)"
+        must_contain_special_chars: "özel karakterler içermelidir (!, $, %, ...)"
+        domain_not_allowed: "izin verilmeyen bir alan adı içeriyor (%{domain})"
+        too_simple: "is too simple"
       models:
 
   actionview_instancetag_blank_option: Lütfen Seçin
@@ -170,7 +173,6 @@ tr:
   notice_account_password_updated: Parola başarıyla güncellendi.
   notice_account_wrong_password: Yanlış parola
   notice_account_register_done: Hesap başarıyla oluşturuldu. Hesabınızı etkinleştirmek için, size gönderilen e-postadaki bağlantıya tıklayın.
-  notice_account_unknown_email: Tanınmayan kullanıcı.
   notice_can_t_change_password: Bu hesap harici bir denetim kaynağı kullanıyor. Parolayı değiştirmek mümkün değil.
   notice_account_lost_email_sent: Yeni parola seçme talimatlarını içeren e-postanız gönderildi.
   notice_account_activated: Hesabınız etkinleştirildi. Şimdi giriş yapabilirsiniz.
@@ -184,7 +186,7 @@ tr:
   notice_email_sent: "E-posta gönderildi %{value}"
   notice_email_error: "E-posta gönderilirken bir hata oluştu (%{value})"
   notice_feeds_access_key_reseted: Atom erişim anahtarınız sıfırlandı.
-  notice_failed_to_save_issues: "Failed to save %{count} issue(s) on %{total} selected: %{ids}."
+  notice_failed_to_save_issues: "Seçilen %{total} öğenin %{count}'ini kaydetme başarısız oldu: %{ids}."
   notice_account_pending: "Hesabınız oluşturuldu ve yönetici onayı bekliyor."
   notice_default_data_loaded: Varasayılan konfigürasyon başarılıyla yüklendi.
 
@@ -205,7 +207,7 @@ tr:
 
 
   field_name: İsim
-  field_description: Yorum
+  field_description: Açıklama
   field_summary: Özet
   field_is_required: Gerekli
   field_firstname: Ad
@@ -258,7 +260,7 @@ tr:
   field_host: Host
   field_port: Port
   field_account: Hesap
-  field_base_dn: Base DN
+  field_base_dn: Temel DN
   field_attr_login: Giriş Niteliği
   field_attr_firstname: Ad Niteliği
   field_attr_lastname: Soyad Niteliği
@@ -279,7 +281,7 @@ tr:
   field_is_filter: süzgeç olarak kullanılmış
   field_issue_to: İlişkili iş
   field_delay: Gecikme
-  field_assignable: Bu role atanabilecek işler
+  field_assignable: Bu roldeki kullanıcılara iş atanabilir
   field_redirect_existing_links: Mevcut bağlantıları yönlendir
   field_estimated_hours: Kalan zaman
   field_column_names: Sütunlar
@@ -385,7 +387,6 @@ tr:
   label_help: Yardım
   label_reported_issues: Rapor edilmiş işler
   label_assigned_to_me_issues: Bana atanmış işler
-  label_last_login: Son bağlantı
   label_registered_on: Kayıt tarihi
   label_activity: Faaliyet
   label_new: Yeni
@@ -497,7 +498,6 @@ tr:
   label_day_plural: Günler
   label_repository: Depo
   label_repository_plural: Depolar
-  label_browse: Gözat
   label_revision: Değişiklik
   label_revision_plural: Değişiklikler
   label_associated_revisions: Birleştirilmiş değişiklikler
@@ -508,10 +508,6 @@ tr:
   label_latest_revision_plural: En son değişiklikler
   label_view_revisions: Değişiklikleri izle
   label_max_size: En büyük boyut
-  label_sort_highest: Üste taşı
-  label_sort_higher: Yukarı taşı
-  label_sort_lower: Aşağı taşı
-  label_sort_lowest: Dibe taşı
   label_roadmap: Yol Haritası
   label_roadmap_due_in: "%{value} içinde bitmeli"
   label_roadmap_overdue: "%{value} geç"
@@ -896,8 +892,8 @@ tr:
   error_can_not_delete_custom_field: Özel alan silinemiyor
   error_unable_to_connect: Bağlanılamıyor (%{value})
   error_can_not_remove_role: Bu rol kullanımda olduğundan silinemez.
-  error_can_not_delete_tracker: Bu iş tipi içerisinde iş barındırdığından silinemiyor.
-  field_principal: Temel
+  error_can_not_delete_tracker_html: Bu iş tipi içerisinde iş barındırdığından silinemiyor.<p>The following projects have issues with this tracker:<br>%{projects}</p>
+  field_principal: User or Group
   notice_failed_to_save_members: "Üyeler kaydedilemiyor: %{errors}."
   text_zoom_out: Uzaklaş
   text_zoom_in: Yakınlaş
@@ -1174,276 +1170,339 @@ tr:
   error_ldap_bind_credentials: Invalid LDAP Account/Password
   setting_sys_api_key: API anahtarı
   setting_lost_password: Parolamı unuttum
-  mail_subject_security_notification: Security notification
-  mail_body_security_notification_change: ! '%{field} was changed.'
-  mail_body_security_notification_change_to: ! '%{field} was changed to %{value}.'
-  mail_body_security_notification_add: ! '%{field} %{value} was added.'
-  mail_body_security_notification_remove: ! '%{field} %{value} was removed.'
-  mail_body_security_notification_notify_enabled: Email address %{value} now receives
-    notifications.
-  mail_body_security_notification_notify_disabled: Email address %{value} no longer
-    receives notifications.
-  mail_body_settings_updated: ! 'The following settings were changed:'
-  field_remote_ip: IP address
-  label_wiki_page_new: New wiki page
-  label_relations: Relations
-  button_filter: Filter
-  mail_body_password_updated: Your password has been changed.
-  label_no_preview: No preview available
-  error_no_tracker_allowed_for_new_issue_in_project: The project doesn't have any trackers
-    for which you can create an issue
-  label_tracker_all: All trackers
-  label_new_project_issue_tab_enabled: Display the "New issue" tab
-  setting_new_item_menu_tab: Project menu tab for creating new objects
-  label_new_object_tab_enabled: Display the "+" drop-down
-  error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
-    for which you can create an issue
-  field_textarea_font: Font used for text areas
-  label_font_default: Default font
-  label_font_monospace: Monospaced font
-  label_font_proportional: Proportional font
-  setting_timespan_format: Time span format
-  label_table_of_contents: Table of contents
-  setting_commit_logs_formatting: Apply text formatting to commit messages
-  setting_mail_handler_enable_regex: Enable regular expressions
-  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
-    project: %{errors}'
-  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
-    be reassigned to an issue that is about to be deleted
-  setting_timelog_required_fields: Required fields for time logs
-  label_attribute_of_object: '%{object_name}''s %{name}'
-  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
-  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
-  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
-    of values from one or more fields on the selected objects
-  field_updated_by: Updated by
-  field_last_updated_by: Last updated by
-  field_full_width_layout: Full width layout
-  label_last_notes: Last notes
-  field_digest: Checksum
-  field_default_assigned_to: Default assignee
-  setting_show_custom_fields_on_registration: Show custom fields on registration
-  permission_view_news: View news
-  label_no_preview_alternative_html: No preview available. %{link} the file instead.
-  label_no_preview_download: Download
-  setting_close_duplicate_issues: Close duplicate issues automatically
-  error_exceeds_maximum_hours_per_day: Cannot log more than %{max_hours} hours on the
-    same day (%{logged_hours} hours have already been logged)
-  setting_time_entry_list_defaults: Timelog list defaults
-  setting_timelog_accept_0_hours: Accept time logs with 0 hours
-  setting_timelog_max_hours_per_day: Maximum hours that can be logged per day and user
-  label_x_revisions: "%{count} revisions"
-  error_can_not_delete_auth_source: This authentication mode is in use and cannot be
-    deleted.
-  button_actions: Actions
-  mail_body_lost_password_validity: Please be aware that you may change the password
-    only once using this link.
-  text_login_required_html: When not requiring authentication, public projects and their
-    contents are openly available on the network. You can <a href="%{anonymous_role_path}">edit
-    the applicable permissions</a>.
-  label_login_required_yes: 'Yes'
-  label_login_required_no: No, allow anonymous access to public projects
-  text_project_is_public_non_member: Public projects and their contents are available
-    to all logged-in users.
-  text_project_is_public_anonymous: Public projects and their contents are openly available
-    on the network.
-  label_version_and_files: Versions (%{count}) and Files
+  mail_subject_security_notification: Güvenlik bildirimi
+  mail_body_security_notification_change: ! '%{field} değiştirildi.'
+  mail_body_security_notification_change_to: ! '%{field}, %{value} olarak değiştirildi.'
+  mail_body_security_notification_add: ! '%{field} %{value} eklendi.'
+  mail_body_security_notification_remove: ! '%{field} %{value} kaldırıldı.'
+  mail_body_security_notification_notify_enabled: E-posta adresi %{value} artık
+    bildirimler alıyor.
+  mail_body_security_notification_notify_disabled: E-posta adresi %{value} artık
+    bildirim almıyor.
+  mail_body_settings_updated: ! 'Aşağıdaki ayarlar değiştirildi:'
+  field_remote_ip: IP Adres
+  label_wiki_page_new: Yeni Wiki Sayfası
+  label_relations: Bağlantılar
+  button_filter: Filtre
+  mail_body_password_updated: Şifreniz değiştirildi
+  label_no_preview: Önizleme uygun değil
+  error_no_tracker_allowed_for_new_issue_in_project: Projede iş oluşturabileceğiniz
+    herhangi bir izleyici yok
+  label_tracker_all: Bütün izleyiciler
+  label_new_project_issue_tab_enabled: "'Yeni iş' sekmesini görüntüle"
+  setting_new_item_menu_tab: Yeni nesne oluşturmak için Proje Sekmesi
+  label_new_object_tab_enabled: '"+" açılır menüyü görüntüle'
+  error_no_projects_with_tracker_allowed_for_new_issue: İş oluşturabileceğiniz izleyicisi olan
+    hiçbir proje yok
+  field_textarea_font: Metin alanları için kullanılan yazı tipi
+  label_font_default: Varsayılan yazı tipi
+  label_font_monospace: Monospaced yazı tipi
+  label_font_proportional: Orantılı yazı tipi
+  setting_timespan_format: Zaman aralığı biçimi
+  label_table_of_contents: Tablo içeriği
+  setting_commit_logs_formatting: Commit mesajlarına metin biçimlendirme uygula
+  setting_mail_handler_enable_regex: Düzenli ifadeleri (REGEX) etkinleştir
+  error_move_of_child_not_possible: 'Alt görev %{child}, yeni projeye taşınamadı:
+    %{errors}'
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Harcanan zaman, silinmeye hazırlanan
+    bir işe yeniden atanamaz
+  setting_timelog_required_fields: Zaman girişi için gerekli alanlar
+  label_attribute_of_object: '%{object_name}''in %{name}'
+  label_user_mail_option_only_assigned: Sadece takipçi olduğum ve bana atanan işler
+  label_user_mail_option_only_owner: Sadece takipçi olduğum ve oluşturduğum işler
+  warning_fields_cleared_on_bulk_edit: Değişiklikler, seçilen nesnelerin bir veya daha fazla alanındaki
+    değerlerin otomatik olarak silinmesine neden olacaktır.
+  field_updated_by: Tarafından güncellendi
+  field_last_updated_by: Son olarak tarafından güncellendi
+  field_full_width_layout: Tam genişlik düzeni
+  label_last_notes: Son notlar
+  field_digest: Sağlama
+  field_default_assigned_to: Varsayılan Atanan
+  setting_show_custom_fields_on_registration: Kayıt için özel alanları göster
+  permission_view_news: Haberleri görme izni
+  label_no_preview_alternative_html: Önizleme mevcut değil. Dosyayı indirin %{link}.
+  label_no_preview_download: İndir
+  setting_close_duplicate_issues: Kopya işleri otomatik kapat
+  error_exceeds_maximum_hours_per_day: Aynı günde %{max_hours} saatten fazla kayıt yapamazsınız
+    (%{logged_hours} saat zaten kaydedilmiş)
+  setting_time_entry_list_defaults: Zaman kaydı listesi varsayılanları
+  setting_timelog_accept_0_hours: 0 saatlik zaman kayıtlarını kabul et
+  setting_timelog_max_hours_per_day: Günde ve kullanıcı başına kaydedilebilecek maksimum saatler
+  label_x_revisions: "%{count} revizyon"
+  error_can_not_delete_auth_source: Bu kimlik doğrulama yöntemi kullanımda ve
+    silinemez.
+  button_actions: Aksiyonlar
+  mail_body_lost_password_validity: Lütfen bu bağlantıyı kullanarak şifreyi yalnızca
+    bir kez değiştirebileceğinizi unutmayın.
+  text_login_required_html: Kimlik doğrulama gerektirmeyen durumlarda,
+    public projeler ve içerikleri ağ üzerinde herkese açıktır.
+    İlgili izinleri <a href='%{anonymous_role_path}'>düzenleyebilirsiniz</a>.
+  label_login_required_yes: 'Evet'
+  label_login_required_no: Hayır, public projelere anonim erişime izin ver
+  text_project_is_public_non_member: Public projeler ve içerikleri giriş yapan
+    tüm kullanıcılara açıktır.
+  text_project_is_public_anonymous: Public projeler ve içerikleri
+    ağ üzerinde herkese açıktır.
+  label_version_and_files: Sürümler (%{count}) ve Dosyalar
   label_ldap: LDAP
-  label_ldaps_verify_none: LDAPS (without certificate check)
+  label_ldaps_verify_none: LDAPS (sertifika kontrolü olmadan)
   label_ldaps_verify_peer: LDAPS
-  label_ldaps_warning: It is recommended to use an encrypted LDAPS connection with certificate
-    check to prevent any manipulation during the authentication process.
-  label_nothing_to_preview: Nothing to preview
-  error_token_expired: This password recovery link has expired, please try again.
-  error_spent_on_future_date: Cannot log time on a future date
-  setting_timelog_accept_future_dates: Accept time logs on future dates
+  label_ldaps_warning: Kimlik doğrulama işlemi sırasında herhangi bir manipülasyonu önlemek için
+    sertifika kontrolü yapılmış şifreli bir LDAPS bağlantısı kullanılması önerilir.
+  label_nothing_to_preview: Önizlenecek bir şey yok
+  error_token_expired: Bu şifre kurtarma bağlantısı süresi doldu, lütfen tekrar deneyin.
+  error_spent_on_future_date: İleri tarihli bir zaman kaydedilemez.
+  setting_timelog_accept_future_dates: İleri tarihli zaman kayıtlarını kabul et
   label_delete_link_to_subtask: İlişkiyi sil
-  error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
-    for other users
-  permission_log_time_for_other_users: Log spent time for other users
-  label_tomorrow: tomorrow
-  label_next_week: next week
-  label_next_month: next month
-  text_role_no_workflow: No workflow defined for this role
-  text_status_no_workflow: No tracker uses this status in the workflows
-  setting_mail_handler_preferred_body_part: Preferred part of multipart (HTML) emails
-  setting_show_status_changes_in_mail_subject: Show status changes in issue mail notifications
-    subject
-  label_inherited_from_parent_project: Inherited from parent project
-  label_inherited_from_group: Inherited from group %{name}
-  label_trackers_description: Trackers description
-  label_open_trackers_description: View all trackers description
-  label_preferred_body_part_text: Text
-  label_preferred_body_part_html: HTML (experimental)
-  field_parent_issue_subject: Parent task subject
-  permission_edit_own_issues: Edit own issues
-  text_select_apply_tracker: Select tracker
-  label_updated_issues: Updated issues
-  text_avatar_server_config_html: The current avatar server is <a href="%{url}">%{url}</a>.
-    You can configure it in config/configuration.yml.
-  setting_gantt_months_limit: Maximum number of months displayed on the gantt chart
-  permission_import_time_entries: Import time entries
-  label_import_notifications: Send email notifications during the import
-  text_gs_available: ImageMagick PDF support available (optional)
-  field_recently_used_projects: Number of recently used projects in jump box
-  label_optgroup_bookmarks: Bookmarks
-  label_optgroup_others: Other projects
-  label_optgroup_recents: Recently used
-  button_project_bookmark: Add bookmark
-  button_project_bookmark_delete: Remove bookmark
-  field_history_default_tab: Issue's history default tab
-  label_issue_history_properties: Property changes
-  label_issue_history_notes: Notes
-  label_last_tab_visited: Last visited tab
-  field_unique_id: Unique ID
-  text_no_subject: no subject
-  setting_password_required_char_classes: Required character classes for passwords
-  label_password_char_class_uppercase: uppercase letters
-  label_password_char_class_lowercase: lowercase letters
-  label_password_char_class_digits: digits
-  label_password_char_class_special_chars: special characters
-  text_characters_must_contain: Must contain %{character_classes}.
-  label_starts_with: starts with
-  label_ends_with: ends with
-  label_issue_fixed_version_updated: Target version updated
-  setting_project_list_defaults: Projects list defaults
-  label_display_type: Display results as
-  label_display_type_list: List
-  label_display_type_board: Board
-  label_my_bookmarks: My bookmarks
-  label_import_time_entries: Import time entries
-  field_toolbar_language_options: Code highlighting toolbar languages
-  label_user_mail_notify_about_high_priority_issues_html: Also notify me about issues
-    with a priority of <em>%{prio}</em> or higher
-  label_assign_to_me: Assign to me
-  notice_issue_not_closable_by_open_tasks: This issue cannot be closed because it has
-    at least one open subtask.
-  notice_issue_not_closable_by_blocking_issue: This issue cannot be closed because it
-    is blocked by at least one open issue.
-  notice_issue_not_reopenable_by_closed_parent_issue: This issue cannot be reopened
-    because its parent issue is closed.
-  error_bulk_download_size_too_big: These attachments cannot be bulk downloaded because
-    the total file size exceeds the maximum allowed size (%{max_size})
-  setting_bulk_download_max_size: Maximum total size for bulk download
-  label_download_all_attachments: Download all files
-  error_attachments_too_many: This file cannot be uploaded because it exceeds the maximum
-    number of files that can be attached simultaneously (%{max_number_of_files})
-  setting_email_domains_allowed: Allowed email domains
-  setting_email_domains_denied: Disallowed email domains
-  field_passwd_changed_on: Password last changed
-  label_relations_mapping: Relations mapping
-  label_import_users: Import users
-  label_days_to_html: "%{days} days up to %{date}"
-  setting_twofa: Two-factor authentication
-  label_optional: optional
-  label_required_lower: required
-  button_disable: Disable
-  twofa__totp__name: Authenticator app
-  twofa__totp__text_pairing_info_html: Scan this QR code or enter the plain text key
-    into a TOTP app (e.g. <a href="https://support.google.com/accounts/answer/1066447">Google
-    Authenticator</a>, <a href="https://authy.com/download/">Authy</a>, <a href="https://guide.duo.com/third-party-accounts">Duo
-    Mobile</a>) and enter the code in the field below to activate two-factor authentication.
-  twofa__totp__label_plain_text_key: Plain text key
-  twofa__totp__label_activate: Enable authenticator app
-  twofa_currently_active: 'Currently active: %{twofa_scheme_name}'
-  twofa_not_active: Not activated
-  twofa_label_code: Code
-  twofa_hint_disabled_html: Setting <strong>%{label}</strong> will deactivate and unpair
-    two-factor authentication devices for all users.
-  twofa_hint_required_html: Setting <strong>%{label}</strong> will require all users
-    to set up two-factor authentication at their next login.
-  twofa_label_setup: Enable two-factor authentication
-  twofa_label_deactivation_confirmation: Disable two-factor authentication
-  twofa_notice_select: 'Please select the two-factor scheme you would like to use:'
-  twofa_warning_require: The administrator requires you to enable two-factor authentication.
-  twofa_activated: Two-factor authentication successfully enabled. It is recommended
-    to <a data-method="post" href="%{bc_path}">generate backup codes</a> for your account.
-  twofa_deactivated: Two-factor authentication disabled.
-  twofa_mail_body_security_notification_paired: Two-factor authentication successfully
-    enabled using %{field}.
-  twofa_mail_body_security_notification_unpaired: Two-factor authentication disabled
-    for your account.
-  twofa_mail_body_backup_codes_generated: New two-factor authentication backup codes
-    generated.
-  twofa_mail_body_backup_code_used: A two-factor authentication backup code has been
-    used.
-  twofa_invalid_code: Code is invalid or outdated.
-  twofa_label_enter_otp: Please enter your two-factor authentication code.
-  twofa_too_many_tries: Too many tries.
-  twofa_resend_code: Resend code
-  twofa_code_sent: An authentication code has been sent to you.
-  twofa_generate_backup_codes: Generate backup codes
-  twofa_text_generate_backup_codes_confirmation: This will invalidate all existing backup
-    codes and generate new ones. Would you like to continue?
-  twofa_notice_backup_codes_generated: Your backup codes have been generated.
-  twofa_warning_backup_codes_generated_invalidated: New backup codes have been generated.
-    Your existing codes from %{time} are now invalid.
-  twofa_label_backup_codes: Two-factor authentication backup codes
-  twofa_text_backup_codes_hint: Use these codes instead of a one-time password should
-    you not have access to your second factor. Each code can only be used once. It is
-    recommended to print and store them in a safe place.
-  twofa_text_backup_codes_created_at: Backup codes generated %{datetime}.
-  twofa_backup_codes_already_shown: Backup codes cannot be shown again, please <a data-method="post"
-    href="%{bc_path}">generate new backup codes</a> if required.
-  error_can_not_execute_macro_html: Error executing the <strong>%{name}</strong> macro
+  error_not_allowed_to_log_time_for_other_users: Diğer kullanıcılar için zaman girişi yapma yetkiniz yok
+  permission_log_time_for_other_users: Diğer kullanıcılar için zaman girişi
+  label_tomorrow: yarın
+  label_next_week: sonraki hafta
+  label_next_month: sonraki ay
+  text_role_no_workflow: Bu rol için tanımlanmış bir iş akışı yok
+  text_status_no_workflow: Bu durumu iş akışlarında kullanan bir izleyici yok
+  setting_mail_handler_preferred_body_part: Çoklu parçalı (HTML) e-postaların tercih edilen bölümü
+  setting_show_status_changes_in_mail_subject: İş e-posta bildirimlerinin konusunda durum
+    değişikliklerini göster
+  label_inherited_from_parent_project: Üst düzey projeden devralınmıştır
+  label_inherited_from_group: Grup %{name} tarafından devralınmıştır
+  label_trackers_description: İzleyicilerin açıklaması
+  label_open_trackers_description: Tüm izleyicilerin açıklamasını görüntüle
+  label_preferred_body_part_text: Metin
+  label_preferred_body_part_html: HTML
+  field_parent_issue_subject: Üst görev konusu
+  permission_edit_own_issues: Kendi işlerini düzenleme
+  text_select_apply_tracker: İzleyiciyi seç
+  label_updated_issues: Güncellenen işler
+  text_avatar_server_config_html: Geçerli avatar sunucusu <a href='%{url}'>%{url}</a>.
+    Yapılandırmasını config/configuration.yml içinde yapabilirsiniz.
+  setting_gantt_months_limit: Gantt grafiğinde görüntülenen maksimum ay sayısı
+  permission_import_time_entries: Zaman girişlerini içe aktar
+  label_import_notifications: Aktarım sırasında e-posta bildirimlerini gönder
+  text_gs_available: ImageMagick PDF desteği mevcut (isteğe bağlı)
+  field_recently_used_projects: Jump box'ta en son kullanılan projelerin sayısı
+  label_optgroup_bookmarks: Yer işaretleri
+  label_optgroup_recents: Son kullanılanlar
+  button_project_bookmark: Yer işareti ekle
+  button_project_bookmark_delete: Yer işaretini kaldır
+  field_history_default_tab: İş geçmişinin varsayılan sekmesi
+  label_issue_history_properties: Özellik değişiklikleri
+  label_issue_history_notes: Notlar
+  label_last_tab_visited: Son ziyaret edilen sekme
+  field_unique_id: Benzersiz Kimlik
+  text_no_subject: Başlıksız
+  setting_password_required_char_classes: Şifreler için gereken karakter sınıfları
+  label_password_char_class_uppercase: büyük harfler
+  label_password_char_class_lowercase: küçük harfler
+  label_password_char_class_digits: numerik
+  label_password_char_class_special_chars: özel karakterler
+  text_characters_must_contain:  İçermeli %{character_classes}.
+  label_starts_with: ile başlar
+  label_ends_with: ile biter
+  label_issue_fixed_version_updated: Hedef sürüm güncellendi
+  setting_project_list_defaults: Projeler listesi varsayılanları
+  label_display_type: Sonuçları şu şekilde görüntüle
+  label_display_type_list: Liste
+  label_display_type_board: Pano
+  label_my_bookmarks: Yer işaretlerim
+  label_import_time_entries: Zaman girişlerini içe aktar
+  field_toolbar_language_options: Kod vurgulama araç çubuğu dilleri
+  label_user_mail_notify_about_high_priority_issues_html: Ayrıca beni önceliği <em>%{prio}</em> veya
+    daha yüksek olan sorunlar hakkında bilgilendir
+  label_assign_to_me: Bana ata
+  notice_issue_not_closable_by_open_tasks: Alt işe sahip olduğu için bu iş kapatılamaz
+  notice_issue_not_closable_by_blocking_issue: Açık bir işe sahip olduğu için bu iş kapatılamaz
+  notice_issue_not_reopenable_by_closed_parent_issue: Bu iş, üst işi kapalı
+    olduğu için yeniden açılamaz.
+  error_bulk_download_size_too_big: Toplam dosya boyutu izin verilen maksimum
+    boyutu (%{max_size}) aştığı için bu ekler toplu olarak indirilemez.
+  setting_bulk_download_max_size: Toplu indirme için maksimum toplam boyut
+  label_download_all_attachments: Bütün dosyaları indir
+  error_attachments_too_many: Bu dosya, aynı anda eklenebilecek maksimum dosya
+    sayısını (%{max_number_of_files}) aştığı için yüklenemiyor
+  setting_email_domains_allowed: İzin verilen e-mail domainleri
+  setting_email_domains_denied: İzin verilmeyen e-mail domainleri
+  field_passwd_changed_on: Şifre en son ne zaman değiştirildi
+  label_relations_mapping: İlişkiler eşlemesi
+  label_import_users: Kullanıcıları içe aktar
+  label_days_to_html: "%{date} tarihine kadar %{days} gün"
+  setting_twofa: İki faktörlü kimlik doğrulama
+  label_optional: opsiyonel
+  label_required_lower: gerekli
+  button_disable: Devre dışı bırak
+  twofa__totp__name: Authenticator Uygulaması
+  twofa__totp__text_pairing_info_html: Bu QR kodunu tarayın veya düz metin anahtarını
+    bir TOTP uygulamasına (örneğin <a href='https://support.google.com/accounts/answer/1066447'>Google Authenticator</a>,
+    <a href='https://authy.com/download/'>Authy</a>, <a href='https://guide.duo.com/third-party-accounts'>Duo Mobile</a>)
+    girin ve iki faktörlü kimlik doğrulamayı etkinleştirmek için aşağıdaki alana kodu girin.
+  twofa__totp__label_plain_text_key: Düz metin anahtarı
+  twofa__totp__label_activate: Authenticator uygulamasını aktive et
+  twofa_currently_active: 'Şu anda etkin: %{twofa_scheme_name}'
+  twofa_not_active: Etkin değil
+  twofa_label_code: Kod
+  twofa_hint_disabled_html: <strong>%{label}</strong> ayarı, tüm kullanıcıların iki faktörlü kimlik doğrulama cihazlarını
+    devre dışı bırakacak ve eşlemesini kaldıracaktır.
+  twofa_hint_required_html: <strong>%{label}</strong> ayarı, tüm kullanıcıların bir sonraki oturum açmalarında
+    iki faktörlü kimlik doğrulamayı kurmalarını gerektirecektir.
+  twofa_label_setup: İki faktörlü kimlik doğrulamayı etkinleştir
+  twofa_label_deactivation_confirmation: İki faktörlü kimlik doğrulamayı devre dışı bırak
+  twofa_notice_select: 'Lütfen kullanmak istediğiniz iki faktörlü kimlik doğrulama şemasını seçiniz:'
+  twofa_warning_require: Yönetici, iki faktörlü kimlik doğrulamayı etkinleştirmenizi istiyor.
+  twofa_activated: İki faktörlü kimlik doğrulama başarıyla etkinleştirildi. Hesabınız için
+    <a data-method="post" href="%{bc_path}">yedek kodlar oluşturmanız</a> önerilir.
+  twofa_deactivated: İki faktörlü kimlik doğrulama devre dışı bırakıldı.
+  twofa_mail_body_security_notification_paired: "%{field} kullanılarak iki faktörlü kimlik doğrulama başarıyla etkinleştirildi."
+  twofa_mail_body_security_notification_unpaired: Hesabınız için iki faktörlü kimlik doğrulama
+    devre dışı bırakıldı.
+  twofa_mail_body_backup_codes_generated: Yeni iki faktörlü kimlik doğrulama yedek kodları
+    oluşturuldu.
+  twofa_mail_body_backup_code_used: İki faktörlü kimlik doğrulama yedek kodu
+    kullanıldı.
+  twofa_invalid_code: Kod geçersiz veya güncel değil.
+  twofa_label_enter_otp: Lütfen iki faktörlü kimlik doğrulama kodunuzu girin.
+  twofa_too_many_tries: Çok fazla deneme.
+  twofa_resend_code: Kodu yeniden gönder
+  twofa_code_sent: Size bir kimlik doğrulama kodu gönderildi.
+  twofa_generate_backup_codes: Yedek kodlar oluştur
+  twofa_text_generate_backup_codes_confirmation: Bu, mevcut tüm yedek kodları geçersiz kılacak ve
+    yeni kodlar oluşturacaktır. Devam etmek istiyor musunuz?
+  twofa_notice_backup_codes_generated: Yedek kodlarınız oluşturuldu.
+  twofa_warning_backup_codes_generated_invalidated: Yeni yedek kodlar oluşturuldu.
+    %{time} tarihine ait mevcut kodlarınız artık geçersiz.
+  twofa_label_backup_codes: İki faktörlü kimlik doğrulama yedek kodları
+  twofa_text_backup_codes_hint: İkinci faktöre erişiminiz olmadığında bu kodları
+    tek kullanımlık şifre yerine kullanın. Her kod yalnızca bir kez
+    kullanılabilir. Bunları yazdırmak ve güvenli bir yerde saklamak önerilir.
+  twofa_text_backup_codes_created_at: Yedek kodlar oluşturuldu %{datetime}.
+  twofa_backup_codes_already_shown: Yedek kodlar tekrar gösterilemez, gerekiyorsa
+    <a data-method='post' href='%{bc_path}'>yeni yedek kodlar oluşturun</a>.
+  error_can_not_execute_macro_html: <strong>%{name}</strong> makrosu çalıştırılırken hata oluştu
     (%{error})
-  error_macro_does_not_accept_block: This macro does not accept a block of text
-  error_childpages_macro_no_argument: With no argument, this macro can be called from
-    wiki pages only
-  error_circular_inclusion: Circular inclusion detected
-  error_page_not_found: Page not found
-  error_filename_required: Filename required
-  error_invalid_size_parameter: Invalid size parameter
-  error_attachment_not_found: Attachment %{name} not found
-  permission_delete_project: Delete the project
-  field_twofa_scheme: Two-factor authentication scheme
-  text_user_destroy_confirmation: Are you sure you want to delete this user and remove
-    all references to them? This cannot be undone. Often, locking a user instead of
-    deleting them is the better solution. To confirm, please enter their login (%{login})
-    below.
-  text_project_destroy_enter_identifier: To confirm, please enter the project's identifier
-    (%{identifier}) below.
-  button_add_subtask: Add subtask
-  notice_invalid_watcher: 'Invalid watcher: User will not receive any notifications
-    because it does not have access to view this object.'
-  button_fetch_changesets: Fetch commits
-  permission_view_message_watchers: View message watchers list
-  permission_add_message_watchers: Add message watchers
-  permission_delete_message_watchers: Delete message watchers
-  label_message_watchers: Watchers
-  button_copy_link: Copy link
-  error_invalid_authenticity_token: Invalid form authenticity token.
-  error_query_statement_invalid: An error occurred while executing the query and has
-    been logged. Please report this error to your Redmine administrator.
-  permission_view_wiki_page_watchers: View wiki page watchers list
-  permission_add_wiki_page_watchers: Add wiki page watchers
-  permission_delete_wiki_page_watchers: Delete wiki page watchers
-  label_wiki_page_watchers: Watchers
-  label_attachment_description: File description
-  error_no_data_in_file: The file does not contain any data
-  field_twofa_required: Require two factor authentication
-  twofa_hint_optional_html: Setting <strong>%{label}</strong> will let users set up
-    two-factor authentication at will, unless it is required by one of their groups.
-  twofa_text_group_required: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is required for all users.
-  twofa_text_group_disabled: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is disabled.
-  field_default_issue_query: Default issue query
+  error_macro_does_not_accept_block: Bu makro metin bloğunu kabul etmez
+  error_childpages_macro_no_argument: Argüman olmadan, bu makro yalnızca wiki
+    sayfalarından çağrılabilir
+  error_circular_inclusion: Döngüsel dahil etme tespit edildi
+  error_page_not_found: Sayfa bulunamadı
+  error_filename_required: Dosya ismi gerekli
+  error_invalid_size_parameter: Geçersiz boyut parametresi
+  error_attachment_not_found: Ek %{name} bulunamadı
+  permission_delete_project: Projeyi silme
+  field_twofa_scheme: İki Faktörlü Doğrulama Şeması
+  text_user_destroy_confirmation: Bu kullanıcıyı silmek ve ona yapılan tüm referansları
+    kaldırmak istediğinizden emin misiniz? Bu işlem geri alınamaz.
+    Genellikle bir kullanıcıyı silmek yerine onu kilitlemek daha iyi bir çözüm olabilir.
+    Onaylamak için lütfen giriş bilgilerini (%{login}) aşağıya girin.
+  text_project_destroy_enter_identifier: Onaylamak için lütfen proje kimliğini
+    (%{identifier}) aşağıya girin.
+  button_add_subtask: Alt iş ekle
+  notice_invalid_watcher: 'Geçersiz takipçi: Kullanıcı herhangi bir bildirim almayacak
+    çünkü bu nesneyi görüntüleme yetkisi yok.'
+  button_fetch_changesets: Değişiklikleri Getir
+  permission_view_message_watchers: Mesaj izleyici listesini görüntüle
+  permission_add_message_watchers: Mesaj izleyici ekle
+  permission_delete_message_watchers: Mesaj izleyici sil
+  label_message_watchers: İzleyiciler
+  button_copy_link: Bağlantıyı Kopyala
+  error_invalid_authenticity_token: Formun doğrulama 'token'ı geçersiz.
+  error_query_statement_invalid: Sorguyu çalıştırırken bir hata oluştu ve kaydedildi.
+    Lütfen bu hatayı Redmine yöneticinize bildirin.
+  permission_view_wiki_page_watchers: Wiki takipçi lsitesini görüntele
+  permission_add_wiki_page_watchers: Wikiye takipçi ekle
+  permission_delete_wiki_page_watchers: Wiki takipçilerini sil
+  label_wiki_page_watchers: Takipçiler
+  label_attachment_description: Dosya açıklaması
+  error_no_data_in_file: Dosya herhangi bir veri içermiyor
+  field_twofa_required: İki Faktörlü Doğrulama gerekiyor
+  twofa_hint_optional_html: <strong>%{label}</strong> ayarı, kullanıcıların istedikleri zaman iki faktörlü
+    kimlik doğrulama kurmalarına izin verecektir, ancak gruplarından biri tarafından gerektirilmediği sürece.
+  twofa_text_group_required: Bu ayar, küresel iki faktörlü kimlik doğrulama ayarı
+    'isteğe bağlı' olarak ayarlandığında yürürlüktedir. Şu anda tüm kullanıcılar için
+    iki faktörlü kimlik doğrulama gereklidir.
+  twofa_text_group_disabled: Bu ayar, küresel iki faktörlü kimlik doğrulama ayarı
+    'isteğe bağlı' olarak ayarlandığında yürürlüktedir.
+    Şu anda iki faktörlü kimlik doğrulama devre dışıdır.
+  field_default_issue_query: Varsayılan iş sorgusu
   label_default_queries:
-    for_all_projects: For all projects
-    for_current_project: For current project
-    for_all_users: For all users
-  text_allowed_queries_to_select: Public (to any users) queries only selectable
-  text_all_migrations_have_been_run: All database migrations have been run
-  button_save_object: Save %{object_name}
-  button_edit_object: Edit %{object_name}
-  button_delete_object: Delete %{object_name}
-  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
-    Please restart the application after editing it.
-  label_bulk_edit: Bulk edit
-  button_create_and_follow: Create and follow
-  label_subtask: Subtask
-  label_default_query: Default query
-  field_default_project_query: Default project query
+    for_all_projects: Bütün projeler için
+    for_current_project: Geçerli proje için
+    for_all_users: Bütün projeler için
+    for_this_user: Geçerli kullanıcı için
+  text_allowed_queries_to_select: Yalnızca herkese açık (herhangi bir kullanıcıya) sorgular seçilebilir
+  text_all_migrations_have_been_run: Tüm veritabanı geçişleri tamamlandı
+  button_save_object: Kaydet %{object_name}
+  button_edit_object: Düzenle %{object_name}
+  button_delete_object: Sil %{object_name}
+  text_setting_config_change: Davranışı config/configuration.yml dosyasında yapılandırabilirsiniz.
+    Lütfen düzenledikten sonra uygulamayı yeniden başlatın.
+  label_bulk_edit: Toplu Düzenle
+  button_create_and_follow: Oluştur ve izle
+  label_subtask: Alt Görev
+  label_default_query: Varsayılan Sorgu
+  field_default_project_query: Varsayılan proje sorgusu
+  label_required_administrators: yöneticiler için gereklidir
+  twofa_hint_required_administrators_html: <strong>%{label</strong> ayarı isteğe bağlı gibi davranır,
+    ancak yönetim haklarına sahip tüm kullanıcıların bir sonraki oturum açmalarında
+    iki faktörlü kimlik doğrulamayı ayarlamasını gerektirir.
+  label_auto_watch_on: Otomatik izle
+  label_auto_watch_on_issue_contributed_to: Katkıda bulunduğum işler
+  text_project_close_confirmation: Projeyi kapatıp '%{value}' projeyi salt-okunabilir yapmayı onaylıyor musunuz?
+  text_project_reopen_confirmation: Projeyi '%{value}' yeniden açmayı onaylıyor musunuz?
+  text_project_archive_confirmation: Projeyi '%{value}' arşive almayı onaylıyor musunuz?
+  mail_destroy_project_failed: Proje %{value} silinemez.
+  mail_destroy_project_successful: Proje %{value} başarıyla silindi.
+  mail_destroy_project_with_subprojects_successful: Proje %{value} ve alt projeleri başarıyla silindi.
+  project_status_scheduled_for_deletion: Silme için planlandı
+  text_projects_bulk_destroy_confirmation: İlgili veriler ve projelerin silinmesini onaylıyor musunuz?
+  text_projects_bulk_destroy_head: |
+    Olası alt projeler ve ilgili veriler de dahil olmak üzere aşağıdaki projeleri kalıcı olarak silmek üzeresiniz.
+    Lütfen aşağıdaki bilgileri inceleyin ve gerçekten yapmak istediğiniz şeyin bu olduğunu onaylayın.
+    Bu eylem geri alınamaz.
+  text_projects_bulk_destroy_confirm: Onaylamak için lütfen aşağıdaki kutuya "%{yes}" yazın.
+  text_subprojects_bulk_destroy: 'Şu alt projeleri içeriyor: %{value}'
+  field_current_password: Güncel şifre
+  sudo_mode_new_info_html: "<strong>Neler oluyor?</strong> Herhangi bir yönetimsel işlem yapmadan
+    önce şifrenizi yeniden onaylamanız gerekiyor, bu, hesabınızın
+    korunmasını sağlar."
+  label_edited: Düzenlendi
+  label_time_by_author: "%{time} - %{author} tarafından"
+  field_default_time_entry_activity: Varsayılan harcanan süre etkinliği
+  field_is_member_of_group: Grup üyesi
+  text_users_bulk_destroy_head: Aşağıdaki kullanıcıları silecek ve onlarla ilgili tüm referansları
+    kaldıracaksınız. Bu işlem geri alınamaz. Genellikle kullanıcıları
+    silmek yerine kilitlemek daha iyi bir çözümdür.
+  text_users_bulk_destroy_confirm: Onaylamak için lütfen aşağıya "%{yes}" yazın.
+  permission_select_project_publicity: Proje durumunu public veya private olarak ayarla
+  label_auto_watch_on_issue_created: Oluşturduğum işler
+  field_any_searchable: Herhangi bir aranabilir metin
+  label_contains_any_of: şunlardan herhangi birini içerir
+  button_apply_issues_filter: İşler filtresini uygula
+  label_view_previous_annotation: Bu değişiklikten önceki açıklamayı görüntüle
+  label_has_been: olmuştur
+  label_has_never_been: hiç olmamıştır
+  label_changed_from: şuradan değiştirildi
+  label_issue_statuses_description: İş durumu açıklaması
+  label_open_issue_statuses_description: Tüm iş durumu açıklamalarını görüntüle
+  text_select_apply_issue_status: İş durumu seç
+  field_name_or_email_or_login: İsim, e-posta veya giriş
+  text_default_active_job_queue_changed: Default queue adapter which is well suited
+    only for dev/test changed
+  label_option_auto_lang: auto
+  label_issue_attachment_added: Attachment added
+  field_estimated_remaining_hours: Estimated remaining time
+  field_last_activity_date: Last activity
+  setting_issue_done_ratio_interval: Done ratio options interval
+  setting_copy_attachments_on_issue_copy: Copy attachments on copy
+  field_thousands_delimiter: Thousands delimiter
+  label_involved_principals: Author / Previous assignee
+  label_attachment_summary:
+    zero: "%{filename}"
+    one: "%{filename} and 1 file"
+    other: "%{filename} and %{count} files"
+  setting_wiki_tablesort_enabled: Javascript based table sorting in wiki content
+  label_progressbar: Progress bar
+  error_spent_on_closed_issue: Cannot log time on a closed issue
+  setting_timelog_accept_closed_issues: Accept time logs on closed issues
+  setting_related_issues_default_columns: Related and sub issues list defaults
+  setting_display_related_issues_table_headers: Show table headers
+  error_can_not_remove_role_reason_members_html: "<p>The following projects have members
+    with this role:<br>%{projects}</p>"

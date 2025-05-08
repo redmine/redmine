@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 lib = Rails.root.join('lib/redmine')
-Rails.autoloaders.main.push_dir lib, namespace: Redmine
-
 IGNORE_LIST = [
   'wiki_formatting/textile/redcloth3.rb',
   'core_ext.rb',

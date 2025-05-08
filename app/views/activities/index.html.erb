@@ -16,17 +16,16 @@
 <%= link_to(l(:label_next) + " \xc2\xbb",
                    {:params => request.query_parameters.merge(:from => @date_to + @days - 1)},
                    :title => l(:label_date_from_to, :start => format_date(@date_to), :end => format_date(@date_to + @days - 1)),
-                   :accesskey => accesskey(:next)) %><% end %>
-    </li>
+                   :accesskey => accesskey(:next)) %></li><% end %>
   </ul>
 </span>
 &nbsp;
 <% other_formats_links do |f| %>
-  <%= f.link_to_with_query_parameters 'Atom', 'from' => nil, :key => User.current.rss_key %>
+  <%= f.link_to_with_query_parameters 'Atom', 'from' => nil, :key => User.current.atom_key %>
 <% end %>
 
 <% content_for :header_tags do %>
-<%= auto_discovery_link_tag(:atom, :params => request.query_parameters.merge(:from => nil, :key => User.current.rss_key), :format => 'atom') %>
+<%= auto_discovery_link_tag(:atom, :params => request.query_parameters.merge(:from => nil, :key => User.current.atom_key), :format => 'atom') %>
 <% end %>
 
 <% content_for :sidebar do %>
@@ -51,7 +50,7 @@
   </li>
 <% end %>
 </ul>
-<% if @project && @project.descendants.active.any? %>
+<% if @project && @project.descendants.visible.any? %>
     <%= hidden_field_tag 'with_subprojects', 0, :id => nil %>
     <p><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label></p>
 <% end %>

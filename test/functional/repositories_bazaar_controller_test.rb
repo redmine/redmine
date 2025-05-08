@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,13 +17,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class RepositoriesBazaarControllerTest < Redmine::RepositoryControllerTest
   tests RepositoriesController
-
-  fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
-           :repositories, :enabled_modules
 
   REPOSITORY_PATH = Rails.root.join('tmp/test/bazaar_repository').to_s
   REPOSITORY_PATH_TRUNK = File.join(REPOSITORY_PATH, "trunk")
@@ -40,6 +37,7 @@ class RepositoriesBazaarControllerTest < Redmine::RepositoryControllerTest
         :log_encoding => 'UTF-8'
       )
     assert @repository
+    skip "SCM command is unavailable" unless @repository.class.scm_available
   end
 
   if File.directory?(REPOSITORY_PATH)
@@ -181,7 +179,7 @@ class RepositoriesBazaarControllerTest < Redmine::RepositoryControllerTest
         )
         assert_response :success
         # Line 11 removed
-        assert_select 'th.line-num:contains(11) ~ td.diff_out', :text => /Display more information/
+        assert_select 'th.line-num[data-txt=11] ~ td.diff_out', :text => /Display more information/
       end
     end
 
@@ -196,7 +194,8 @@ class RepositoriesBazaarControllerTest < Redmine::RepositoryControllerTest
       )
       assert_response :success
 
-      assert_select "th.line-num", :text => '2' do
+      assert_select "th.line-num" do
+        assert_select 'a[data-txt=?]', '2'
         assert_select "+ td.revision" do
           assert_select "a", :text => '3'
           assert_select "+ td.author", :text => "jsmith@" do
@@ -226,7 +225,8 @@ class RepositoriesBazaarControllerTest < Redmine::RepositoryControllerTest
       )
       assert_response :success
 
-      assert_select "th.line-num", :text => '1' do
+      assert_select "th.line-num" do
+        assert_select "a[data-txt=?]", '1'
         assert_select "+ td.revision" do
           assert_select "a", :text => '2'
           assert_select "+ td.author", :text => "test &" do
@@ -262,7 +262,8 @@ class RepositoriesBazaarControllerTest < Redmine::RepositoryControllerTest
         )
         assert_response :success
 
-        assert_select "th.line-num", :text => '1' do
+        assert_select "th.line-num" do
+          assert_select 'a[data-txt=?]', '1'
           assert_select "+ td.revision" do
             assert_select "a", :text => '2'
             assert_select "+ td.author", :text => "test Ü" do
@@ -288,7 +289,7 @@ class RepositoriesBazaarControllerTest < Redmine::RepositoryControllerTest
           }
         )
       end
-      assert_response 302
+      assert_response :found
       @project.reload
       assert_nil @project.repository
     end
@@ -314,7 +315,7 @@ class RepositoriesBazaarControllerTest < Redmine::RepositoryControllerTest
           }
         )
       end
-      assert_response 302
+      assert_response :found
       @project.reload
       assert_nil @project.repository
     end

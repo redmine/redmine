@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,7 +19,6 @@
 
 module Redmine
   module AccessControl
-
     class << self
       def map
         mapper = Mapper.new
@@ -84,6 +83,7 @@ module Redmine
 
       def permission(name, hash, options={})
         @permissions ||= []
+        @permissions.reject! {|p| p.name == name}
         options[:project_module] = @project_module
         @permissions << Permission.new(name, hash, options)
       end

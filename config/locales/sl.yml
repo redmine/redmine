@@ -94,8 +94,9 @@ sl:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "in"
-      skip_last_comma: false
+      last_word_connector: " in "
+      two_words_connector: " in "
+      words_connector: ", "
 
   activerecord:
     errors:
@@ -135,6 +136,8 @@ sl:
         must_contain_lowercase: "must contain lowercase letters (a-z)"
         must_contain_digits: "must contain digits (0-9)"
         must_contain_special_chars: "must contain special characters (!, $, %, ...)"
+        domain_not_allowed: "contains a domain not allowed (%{domain})"
+        too_simple: "is too simple"
 
   actionview_instancetag_blank_option: Prosimo izberite
 
@@ -155,7 +158,6 @@ sl:
   notice_account_password_updated: Geslo je bilo uspešno posodobljeno.
   notice_account_wrong_password: Napačno geslo
   notice_account_register_done: Račun je bil uspešno ustvarjen. Za aktivacijo potrdite povezavo, ki vam je bila poslana v e-nabiralnik.
-  notice_account_unknown_email: Neznan uporabnik.
   notice_can_t_change_password: Ta račun za overovljanje uporablja zunanji. Gesla ni mogoče spremeniti.
   notice_account_lost_email_sent: Poslano vam je bilo e-pismo z navodili za izbiro novega gesla.
   notice_account_activated: Vaš račun je bil aktiviran. Sedaj se lahko prijavite.
@@ -428,7 +430,6 @@ sl:
   label_help: Pomoč
   label_reported_issues: Prijavljeni zahtevki
   label_assigned_to_me_issues: Zahtevki dodeljeni meni
-  label_last_login: Zadnja povezava
   label_registered_on: Registriran
   label_activity: Aktivnosti
   label_user_activity: "Aktivnost %{value}"
@@ -542,7 +543,6 @@ sl:
   label_day_plural: dni
   label_repository: Shramba
   label_repository_plural: Shrambe
-  label_browse: Prebrskaj
   label_revision: Revizija
   label_revision_plural: Revizije
   label_associated_revisions: Povezane revizije
@@ -555,10 +555,6 @@ sl:
   label_latest_revision_plural: Zadnje revizije
   label_view_revisions: Poglej revizije
   label_max_size: Največja velikost
-  label_sort_highest: Premakni na vrh
-  label_sort_higher: Premakni gor
-  label_sort_lower: Premakni dol
-  label_sort_lowest: Premakni na dno
   label_roadmap: Načrt
   label_roadmap_due_in: "Do %{value}"
   label_roadmap_overdue: "%{value} zakasnel"
@@ -883,8 +879,8 @@ sl:
   error_can_not_delete_custom_field: Polja po meri ni mogoče izbrisati
   error_unable_to_connect: Povezava ni mogoča (%{value})
   error_can_not_remove_role: Ta vloga je v uporabi in je ni mogoče izbrisati.
-  error_can_not_delete_tracker: Ta sledilnik vsebuje zahtevke in se ga ne more izbrisati.
-  field_principal: Upravnik varnosti
+  error_can_not_delete_tracker_html: Ta sledilnik vsebuje zahtevke in se ga ne more izbrisati.<p>The following projects have issues with this tracker:<br>%{projects}</p>
+  field_principal: User or Group
   notice_failed_to_save_members: "Shranjevanje uporabnika(ov) ni uspelo: %{errors}."
   text_zoom_out: Približaj
   text_zoom_in: Oddalji
@@ -1267,7 +1263,7 @@ sl:
   label_trackers_description: Trackers description
   label_open_trackers_description: View all trackers description
   label_preferred_body_part_text: Text
-  label_preferred_body_part_html: HTML (experimental)
+  label_preferred_body_part_html: HTML
   field_parent_issue_subject: Parent task subject
   permission_edit_own_issues: Edit own issues
   text_select_apply_tracker: Select tracker
@@ -1280,7 +1276,6 @@ sl:
   text_gs_available: ImageMagick PDF support available (optional)
   field_recently_used_projects: Number of recently used projects in jump box
   label_optgroup_bookmarks: Bookmarks
-  label_optgroup_others: Other projects
   label_optgroup_recents: Recently used
   button_project_bookmark: Add bookmark
   button_project_bookmark_delete: Remove bookmark
@@ -1398,7 +1393,7 @@ sl:
     (%{identifier}) below.
   button_add_subtask: Add subtask
   notice_invalid_watcher: 'Invalid watcher: User will not receive any notifications
-    because it does not have access to view this object.'
+    because they do not have access to view this object.'
   button_fetch_changesets: Fetch commits
   permission_view_message_watchers: View message watchers list
   permission_add_message_watchers: Add message watchers
@@ -1428,6 +1423,7 @@ sl:
     for_all_projects: For all projects
     for_current_project: For current project
     for_all_users: For all users
+    for_this_user: For this user
   text_allowed_queries_to_select: Public (to any users) queries only selectable
   text_all_migrations_have_been_run: All database migrations have been run
   button_save_object: Save %{object_name}
@@ -1440,3 +1436,74 @@ sl:
   label_subtask: Subtask
   label_default_query: Default query
   field_default_project_query: Default project query
+  label_required_administrators: required for administrators
+  twofa_hint_required_administrators_html: Setting <strong>%{label}</strong> behaves
+    like optional, but will require all users with administration rights to set up two-factor
+    authentication at their next login.
+  label_auto_watch_on: Auto watch
+  label_auto_watch_on_issue_contributed_to: Issues I contributed to
+  text_project_close_confirmation: Are you sure you want to close the '%{value}' project
+    to make it read-only?
+  text_project_reopen_confirmation: Are you sure you want to reopen the '%{value}' project?
+  text_project_archive_confirmation: Are you sure you want to archive the '%{value}'
+    project?
+  mail_destroy_project_failed: Project %{value} could not be deleted.
+  mail_destroy_project_successful: Project %{value} was deleted successfully.
+  mail_destroy_project_with_subprojects_successful: Project %{value} and its subprojects
+    were deleted successfully.
+  project_status_scheduled_for_deletion: scheduled for deletion
+  text_projects_bulk_destroy_confirmation: Are you sure you want to delete the selected
+    projects and related data?
+  text_projects_bulk_destroy_head: |
+    You are about to permanently delete the following projects, including possible subprojects and any related data.
+    Please review the information below and confirm that this is indeed what you want to do.
+    This action cannot be undone.
+  text_projects_bulk_destroy_confirm: To confirm, please enter "%{yes}" in the box below.
+  text_subprojects_bulk_destroy: 'including its subproject(s): %{value}'
+  field_current_password: Current password
+  sudo_mode_new_info_html: "<strong>What's happening?</strong> You need to reconfirm
+    your password before taking any administrative actions, this ensures your account
+    stays protected."
+  label_edited: Edited
+  label_time_by_author: "%{time} by %{author}"
+  field_default_time_entry_activity: Default spent time activity
+  field_is_member_of_group: Member of group
+  text_users_bulk_destroy_head: You are about to delete the following users and remove
+    all references to them. This cannot be undone. Often, locking users instead of deleting
+    them is the better solution.
+  text_users_bulk_destroy_confirm: To confirm, please enter "%{yes}" below.
+  permission_select_project_publicity: Set project public or private
+  label_auto_watch_on_issue_created: Issues I created
+  field_any_searchable: Any searchable text
+  label_contains_any_of: contains any of
+  button_apply_issues_filter: Apply issues filter
+  label_view_previous_annotation: View annotation prior to this change
+  label_has_been: has been
+  label_has_never_been: has never been
+  label_changed_from: changed from
+  label_issue_statuses_description: Issue statuses description
+  label_open_issue_statuses_description: View all issue statuses description
+  text_select_apply_issue_status: Select issue status
+  field_name_or_email_or_login: Name, email or login
+  text_default_active_job_queue_changed: Default queue adapter which is well suited
+    only for dev/test changed
+  label_option_auto_lang: auto
+  label_issue_attachment_added: Attachment added
+  field_estimated_remaining_hours: Estimated remaining time
+  field_last_activity_date: Last activity
+  setting_issue_done_ratio_interval: Done ratio options interval
+  setting_copy_attachments_on_issue_copy: Copy attachments on copy
+  field_thousands_delimiter: Thousands delimiter
+  label_involved_principals: Author / Previous assignee
+  label_attachment_summary:
+    zero: "%{filename}"
+    one: "%{filename} and 1 file"
+    other: "%{filename} and %{count} files"
+  setting_wiki_tablesort_enabled: Javascript based table sorting in wiki content
+  label_progressbar: Progress bar
+  error_spent_on_closed_issue: Cannot log time on a closed issue
+  setting_timelog_accept_closed_issues: Accept time logs on closed issues
+  setting_related_issues_default_columns: Related and sub issues list defaults
+  setting_display_related_issues_table_headers: Show table headers
+  error_can_not_remove_role_reason_members_html: "<p>The following projects have members
+    with this role:<br>%{projects}</p>"

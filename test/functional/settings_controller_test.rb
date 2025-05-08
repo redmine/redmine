@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,12 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class SettingsControllerTest < Redmine::ControllerTest
-  fixtures :projects, :trackers, :issue_statuses, :issues,
-           :users, :email_addresses
-
   def setup
     User.current = nil
     @request.session[:user_id] = 1 # admin
@@ -53,7 +50,7 @@ class SettingsControllerTest < Redmine::ControllerTest
       assert_response :success
     end
 
-    assert_select 'select[name=?]', 'settings[issue_list_default_columns][]' do
+    assert_select 'select#selected_settings_issue_list_default_columns' do
       assert_select 'option', 4
       assert_select 'option[value=tracker]', :text => 'Tracker'
       assert_select 'option[value=subject]', :text => 'Subject'
@@ -61,7 +58,7 @@ class SettingsControllerTest < Redmine::ControllerTest
       assert_select 'option[value=updated_on]', :text => 'Updated'
     end
 
-    assert_select 'select[name=?]', 'available_columns[]' do
+    assert_select 'select#available_settings_issue_list_default_columns' do
       assert_select 'option[value=tracker]', 0
       assert_select 'option[value=priority]', :text => 'Priority'
     end
@@ -219,7 +216,7 @@ class SettingsControllerTest < Redmine::ControllerTest
 
   def test_get_invalid_plugin_settings
     get :plugin, :params => {:id => 'none'}
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_get_non_configurable_plugin_settings
@@ -228,7 +225,7 @@ class SettingsControllerTest < Redmine::ControllerTest
     end
 
     get :plugin, :params => {:id => 'foo'}
-    assert_response 404
+    assert_response :not_found
 
   ensure
     Redmine::Plugin.unregister(:foo)
@@ -274,7 +271,7 @@ class SettingsControllerTest < Redmine::ControllerTest
       :id => 'foo',
       :settings => {'sample_setting' => 'Value'}
     }
-    assert_response 404
+    assert_response :not_found
 
   ensure
     Redmine::Plugin.unregister(:foo)

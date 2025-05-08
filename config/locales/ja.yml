@@ -114,8 +114,9 @@ ja:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "及び"
-      skip_last_comma: true
+      last_word_connector: "、"
+      two_words_connector: "、"
+      words_connector: "、"
 
   activerecord:
     errors:
@@ -157,6 +158,8 @@ ja:
         must_contain_lowercase: "は小文字 (a-z) を含む必要があります"
         must_contain_digits: "は数字 (0-9) を含む必要があります"
         must_contain_special_chars: "は記号 (!, $, %, ...) を含む必要があります"
+        domain_not_allowed: "は許可されていないドメインを含んでいます (%{domain})"
+        too_simple: "が簡単すぎます"
 
   actionview_instancetag_blank_option: 選んでください
 
@@ -177,7 +180,6 @@ ja:
   notice_account_password_updated: パスワードが更新されました。
   notice_account_wrong_password: パスワードが違います
   notice_account_register_done: アカウントを作成しました。アカウントを有効にするための手順を記載したメールを %{email} 宛に送信しました。
-  notice_account_unknown_email: ユーザーが存在しません。
   notice_can_t_change_password: このアカウントでは外部認証を使っています。パスワードは変更できません。
   notice_account_lost_email_sent: パスワードを再設定する手順を記載したメールを送信しました。
   notice_account_activated: アカウントが有効になりました。ログインできます。
@@ -218,7 +220,7 @@ ja:
   error_issue_done_ratios_not_updated: "チケットの進捗率が更新できません。"
   error_workflow_copy_source: 'コピー元となるトラッカーまたはロールを選択してください'
   error_workflow_copy_target: 'コピー先となるトラッカーとロールを選択してください'
-  error_can_not_delete_tracker: 'このトラッカーは使用中です。削除できません。'
+  error_can_not_delete_tracker_html: 'このトラッカーは使用中です。削除できません。<p>以下のプロジェクトにこのトラッカーを使用しているチケットがあります:<br>%{projects}</p>'
 
   warning_attachments_not_saved: "%{count}個の添付ファイルが保存できませんでした。"
 
@@ -274,7 +276,7 @@ ja:
   field_priority: 優先度
   field_fixed_version: 対象バージョン
   field_user: ユーザー
-  field_principal: 主体
+  field_principal: ユーザーまたはグループ
   field_role: ロール
   field_homepage: ホームページ
   field_is_public: 公開
@@ -283,7 +285,7 @@ ja:
   field_login: ログインID
   field_mail_notification: メール通知
   field_admin: システム管理者
-  field_last_login_on: 最終接続日
+  field_last_login_on: 最終ログイン
   field_language: 言語
   field_effective_date: 期日
   field_password: パスワード
@@ -527,7 +529,6 @@ ja:
   label_help: ヘルプ
   label_reported_issues: 報告したチケット
   label_assigned_to_me_issues: 担当しているチケット
-  label_last_login: 最近の接続
   label_registered_on: 登録日
   label_activity: 活動
   label_user_activity: "%{value} の活動"
@@ -650,7 +651,6 @@ ja:
   label_day_plural: 日
   label_repository: リポジトリ
   label_repository_plural: リポジトリ
-  label_browse: ブラウズ
   label_branch: ブランチ
   label_tag: タグ
   label_revision: リビジョン
@@ -667,10 +667,6 @@ ja:
   label_view_revisions: リビジョンを表示
   label_view_all_revisions: すべてのリビジョンを表示
   label_max_size: サイズの上限
-  label_sort_highest: 一番上へ
-  label_sort_higher: 上へ
-  label_sort_lower: 下へ
-  label_sort_lowest: 一番下へ
   label_roadmap: ロードマップ
   label_roadmap_due_in: "期日まで %{value}"
   label_roadmap_overdue: "%{value} 遅れ"
@@ -1270,7 +1266,7 @@ ja:
   label_trackers_description: トラッカーの説明
   label_open_trackers_description: すべてのトラッカーの説明を表示
   label_preferred_body_part_text: テキスト
-  label_preferred_body_part_html: HTML (experimental)
+  label_preferred_body_part_html: HTML
   field_parent_issue_subject: 親チケットの題名
   permission_edit_own_issues: 自分が追加したチケットの編集
   text_select_apply_tracker: このトラッカーを適用
@@ -1282,7 +1278,6 @@ ja:
   text_gs_available: ImageMagickのPDFサポートが利用可能 (オプション)
   field_recently_used_projects: 最近使用したプロジェクトの表示件数
   label_optgroup_bookmarks: ブックマーク
-  label_optgroup_others: 他のプロジェクト
   label_optgroup_recents: 最近使用したもの
   button_project_bookmark: ブックマークに追加
   button_project_bookmark_delete: ブックマークから削除
@@ -1396,6 +1391,7 @@ ja:
     for_all_projects: 全プロジェクト向け
     for_current_project: 現在のプロジェクト
     for_all_users: 全ユーザー向け
+    for_this_user: For this user
   text_allowed_queries_to_select: 公開クエリ (すべてのユーザーが表示できるクエリ) のみ選択できます
   text_all_migrations_have_been_run: すべてのデータベースマイグレーションが実行済
   text_setting_config_change: 動作はconfig/configuration.ymlで設定できます。設定後、Redmineを再起動してください。
@@ -1403,3 +1399,61 @@ ja:
   label_subtask: 子チケット
   label_default_query: デフォルトのクエリ
   field_default_project_query: デフォルトのプロジェクトクエリ
+  label_required_administrators: システム管理者のみ必須
+  twofa_hint_required_administrators_html: <strong>%{label}</strong> に設定するとシステム管理者であるユーザーに対し二要素認証の有効化を次回ログイン時に要求します。そのほかのユーザーに対しては 任意 に設定した場合と同じ動作です。
+  label_auto_watch_on: オートウォッチ
+  label_auto_watch_on_issue_contributed_to: 自分が更新したチケット
+  text_project_close_confirmation: 本当にプロジェクト '%{value}' を終了して読み取り専用にしますか?
+  text_project_reopen_confirmation: 本当にプロジェクト '%{value}' を再開しますか?
+  text_project_archive_confirmation: 本当にプロジェクト '%{value}' をアーカイブしますか?
+  mail_destroy_project_failed: プロジェクト %{value} は削除できませんでした。
+  mail_destroy_project_successful: プロジェクト %{value} を削除しました。
+  mail_destroy_project_with_subprojects_successful: Project %{value} とサブプロジェクトを削除しました。
+  project_status_scheduled_for_deletion: 削除処理待ち
+  text_projects_bulk_destroy_confirmation: 本当に選択したプロジェクトと関連データを削除しますか？
+  text_projects_bulk_destroy_head: |
+    以下のプロジェクト（それらのサブプロジェクトと関連データも含む）を恒久的に削除しようとしています。
+    以下の情報を確認し、本当にこの操作を行うのか確認してください。
+    この操作は元に戻せません。
+  text_projects_bulk_destroy_confirm: 削除する場合は確認のため "%{yes}" と入力してください。
+  text_subprojects_bulk_destroy: '次のサブプロジェクトを含む: %{value}'
+  field_current_password: 現在のパスワード
+  sudo_mode_new_info_html: "アカウントのセキュリティの維持のため、管理操作を行う前にパスワードの再確認が必要です。"
+  label_edited: 編集済み
+  label_time_by_author: "%{time} %{author}"
+  field_default_time_entry_activity: 時間管理におけるデフォルトの作業分類
+  field_is_member_of_group: グループ
+  text_users_bulk_destroy_head: 以下のユーザーとこれらのユーザーへのすべての参照を削除しようとしています。削除後は元に戻せません。通常は削除よりロックのほうが適切です。
+  text_users_bulk_destroy_confirm: 削除する場合は確認のため "%{yes}" と入力してください。
+  permission_select_project_publicity: プロジェクトの公開/非公開
+  label_auto_watch_on_issue_created: 自分が作成したチケット
+  field_any_searchable: 全検索対象テキスト
+  label_contains_any_of: いずれかを含む
+  button_apply_issues_filter: チケットのフィルタを適用
+  label_view_previous_annotation: この更新以前のアノテート
+  label_has_been: 現在/過去の値
+  label_has_never_been: 一度もない
+  label_changed_from: 過去の値
+  label_issue_statuses_description: ステータスの説明
+  label_open_issue_statuses_description: すべてのステータスの説明を表示
+  text_select_apply_issue_status: このステータスを適用
+  field_name_or_email_or_login: 姓名・メールアドレス・ログインID
+  text_default_active_job_queue_changed: キューアダプターがデフォルト (開発・テスト用) 以外のものに変更済み
+  label_option_auto_lang: 自動設定
+  label_issue_attachment_added: 添付ファイルの追加
+  field_estimated_remaining_hours: 残工数
+  field_last_activity_date: 最終活動日
+  setting_issue_done_ratio_interval: 進捗率の選択肢の間隔
+  setting_copy_attachments_on_issue_copy: チケットをコピーするとき添付ファイルもコピー
+  field_thousands_delimiter: 3桁区切り表示
+  label_involved_principals: 作成者 / 直前担当者
+  label_attachment_summary:
+    zero: "%{filename}"
+    other: "%{filename} ほか%{count}件"
+  setting_wiki_tablesort_enabled: Javascript based table sorting in wiki content
+  label_progressbar: 進捗バー
+  error_spent_on_closed_issue: 完了したチケットに作業時間を記録することはできません
+  setting_timelog_accept_closed_issues: 完了したチケットへの作業時間の記録を許可
+  setting_related_issues_default_columns: 関連するチケットと子チケットの一覧で表示する項目
+  setting_display_related_issues_table_headers: テーブルヘッダを表示
+  error_can_not_remove_role_reason_members_html: "<p>以下のプロジェクトにこのロールのメンバーがいます:<br>%{projects}</p>"

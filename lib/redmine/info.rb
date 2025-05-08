@@ -1,5 +1,22 @@
 # frozen_string_literal: true
 
+# Redmine - project management software
+# Copyright (C) 2006-  Jean-Philippe Lang
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
 module Redmine
   module Info
     class << self
@@ -20,16 +37,13 @@ module Redmine
           ["Mailer delivery", ActionMailer::Base.delivery_method]
         ].map {|info| "  %-30s %s" % info}.join("\n") + "\n"
 
-        theme = Setting.ui_theme.blank? ? 'Default' : Setting.ui_theme.capitalize
-        unless Setting.ui_theme.blank?
-          theme_js  = (if Redmine::Themes.theme(Setting.ui_theme).javascripts.include?('theme')
-                         ' (includes JavaScript)'
-                       else
-                         ''
-                       end
-                      )
+        theme_string = ''
+        theme_string += (Setting.ui_theme.blank? ? 'Default' : Setting.ui_theme.capitalize)
+        unless Setting.ui_theme.blank? ||
+          Redmine::Themes.theme(Setting.ui_theme).nil? ||
+          !Redmine::Themes.theme(Setting.ui_theme).javascripts.include?('theme')
+          theme_string += ' (includes JavaScript)'
         end
-        theme_string = (theme + theme_js.to_s).to_s
 
         s << "Redmine settings:\n"
         s << [

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -31,6 +31,7 @@ class TimeEntryQuery < Query
     QueryColumn.new(:activity, :sortable => "#{TimeEntryActivity.table_name}.position", :groupable => true),
     QueryColumn.new(:issue, :sortable => "#{Issue.table_name}.id", :groupable => true),
     QueryAssociationColumn.new(:issue, :tracker, :caption => :field_tracker, :sortable => "#{Tracker.table_name}.position"),
+    QueryAssociationColumn.new(:issue, :parent, :caption => :field_parent_issue, :sortable => ["#{Issue.table_name}.root_id", "#{Issue.table_name}.lft ASC"], :default_order => 'desc'),
     QueryAssociationColumn.new(:issue, :status, :caption => :field_status, :sortable => "#{IssueStatus.table_name}.position"),
     QueryAssociationColumn.new(:issue, :category, :caption => :field_category, :sortable => "#{IssueCategory.table_name}.name"),
     QueryAssociationColumn.new(:issue, :fixed_version, :caption => :field_fixed_version, :sortable => Version.fields_for_order_statement),
@@ -39,7 +40,7 @@ class TimeEntryQuery < Query
   ]
 
   def initialize(attributes=nil, *args)
-    super attributes
+    super(attributes)
     self.filters ||= {'spent_on' => {:operator => "*", :values => []}}
   end
 
@@ -62,6 +63,10 @@ class TimeEntryQuery < Query
       :name => l("label_attribute_of_issue", :name => l(:field_tracker)),
       :values => lambda {trackers.map {|t| [t.name, t.id.to_s]}})
     add_available_filter(
+      "issue.parent_id",
+      :type => :tree,
+      :name => l("label_attribute_of_issue", :name => l(:field_parent_issue)))
+    add_available_filter(
       "issue.status_id",
       :type => :list,
       :name => l("label_attribute_of_issue", :name => l(:field_status)),
@@ -75,11 +80,28 @@ class TimeEntryQuery < Query
       "issue.category_id",
       :type => :list_optional,
       :name => l("label_attribute_of_issue", :name => l(:field_category)),
-      :values => lambda {project.issue_categories.collect{|s| [s.name, s.id.to_s]}}
+      :values => lambda {project.issue_categories.pluck(:name, :id).map {|name, id| [name, id.to_s]}}
     ) if project
+    add_available_filter(
+      "issue.subject",
+      :type => :text,
+      :name => l("label_attribute_of_issue", :name => l(:field_subject))
+    )
     add_available_filter(
       "user_id",
       :type => :list_optional, :values => lambda {author_values}
+    )
+    add_available_filter(
+      "user.group",
+      :type => :list_optional,
+      :name => l("label_attribute_of_user", :name => l(:label_group)),
+      :values => lambda {Group.givable.visible.pluck(:name, :id).map {|name, id| [name, id.to_s]}}
+    )
+    add_available_filter(
+      "user.role",
+      :type => :list_optional,
+      :name => l("label_attribute_of_user", :name => l(:field_role)),
+      :values => lambda {Role.givable.pluck(:name, :id).map {|name, id| [name, id.to_s]}}
     )
     add_available_filter(
       "author_id",
@@ -88,7 +110,7 @@ class TimeEntryQuery < Query
     activities = (project ? project.activities : TimeEntryActivity.shared)
     add_available_filter(
       "activity_id",
-      :type => :list, :values => activities.map {|a| [a.name, a.id.to_s]}
+      :type => :list, :values => activities.map {|a| [a.name, (a.parent_id || a.id).to_s]}
     )
     add_available_filter(
       "project.status",
@@ -142,12 +164,19 @@ class TimeEntryQuery < Query
   end
 
   def base_scope
-    TimeEntry.visible.
-      joins(:project, :user).
-      includes(:activity).
-      references(:activity).
-      left_join_issue.
-      where(statement)
+    scope = TimeEntry.visible
+                     .joins(:project, :user)
+                     .includes(:activity)
+                     .references(:activity)
+                     .left_join_issue
+                     .where(statement)
+
+    if Redmine::Database.mysql? && ActiveRecord::Base.connection.supports_optimizer_hints?
+      # Provides MySQL with a hint to use a better join order and avoid slow response times
+      scope.optimizer_hints('JOIN_ORDER(time_entries, projects, users)')
+    else
+      scope
+    end
   end
 
   def results_scope(options={})
@@ -200,6 +229,30 @@ class TimeEntryQuery < Query
     end
   end
 
+  def sql_for_issue_parent_id_field(field, operator, value)
+    case operator
+    when "="
+      # accepts a comma separated list of ids
+      parent_ids = value.first.to_s.scan(/\d+/).map(&:to_i).uniq
+      issue_ids = Issue.where(:parent_id => parent_ids).pluck(:id)
+      if issue_ids.present?
+        "#{TimeEntry.table_name}.issue_id IN (#{issue_ids.join(',')})"
+      else
+        "1=0"
+      end
+    when "~"
+      root_id, lft, rgt = Issue.where(:id => value.first.to_i).pick(:root_id, :lft, :rgt)
+      issue_ids = Issue.where("#{Issue.table_name}.root_id = ? AND #{Issue.table_name}.lft > ? AND #{Issue.table_name}.rgt < ?", root_id, lft, rgt).pluck(:id) if root_id && lft && rgt
+      if issue_ids.present?
+        "#{TimeEntry.table_name}.issue_id IN (#{issue_ids.join(',')})"
+      else
+        "1=0"
+      end
+    else
+      sql_for_field("parent_id", operator, value, Issue.table_name, "parent_id")
+    end
+  end
+
   def sql_for_activity_id_field(field, operator, value)
     ids = value.map(&:to_i).join(',')
     table_name = Enumeration.table_name
@@ -222,8 +275,59 @@ class TimeEntryQuery < Query
     sql_for_field("category_id", operator, value, Issue.table_name, "category_id")
   end
 
+  def sql_for_issue_subject_field(field, operator, value)
+    sql_for_field("subject", operator, value, Issue.table_name, "subject")
+  end
+
   def sql_for_project_status_field(field, operator, value, options={})
     sql_for_field(field, operator, value, Project.table_name, "status")
+  end
+
+  def sql_for_user_group_field(field, operator, value)
+    if operator == '*' # Any group
+      groups = Group.givable
+      operator = '='
+    elsif operator == '!*'
+      groups = Group.givable
+      operator = '!'
+    else
+      groups = Group.where(:id => value).to_a
+    end
+    groups ||= []
+
+    members_of_groups = groups.inject([]) do |user_ids, group|
+      user_ids + group.user_ids
+    end.uniq.compact.sort.collect(&:to_s)
+
+    '(' + sql_for_field('user_id', operator, members_of_groups, TimeEntry.table_name, "user_id", false) + ')'
+  end
+
+  def sql_for_user_role_field(field, operator, value)
+    case operator
+    when "*", "!*"
+      sw = operator == "!*" ? "NOT" : ""
+      nl = operator == "!*" ? "#{TimeEntry.table_name}.user_id IS NULL OR" : ""
+
+      subquery =
+        "SELECT 1" +
+        " FROM #{Member.table_name}" +
+        " WHERE #{TimeEntry.table_name}.project_id = #{Member.table_name}.project_id AND #{Member.table_name}.user_id = #{TimeEntry.table_name}.user_id"
+      "(#{nl} #{sw} EXISTS (#{subquery}))"
+    when "=", "!"
+      role_cond =
+        if value.any?
+          "#{MemberRole.table_name}.role_id IN (" + value.collect{|val| "'#{self.class.connection.quote_string(val)}'"}.join(",") + ")"
+        else
+          "1=0"
+        end
+      sw = operator == "!" ? 'NOT' : ''
+      nl = operator == "!" ? "#{TimeEntry.table_name}.user_id IS NULL OR" : ''
+      subquery =
+        "SELECT 1" +
+        " FROM #{Member.table_name} inner join #{MemberRole.table_name} on members.id = member_roles.member_id" +
+        " WHERE #{TimeEntry.table_name}.project_id = #{Member.table_name}.project_id AND #{Member.table_name}.user_id = #{TimeEntry.table_name}.user_id AND #{role_cond}"
+      "(#{nl} #{sw} EXISTS (#{subquery}))"
+    end
   end
 
   # Accepts :from/:to params as shortcut filters

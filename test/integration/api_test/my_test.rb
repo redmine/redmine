@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,11 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../test_helper', __FILE__)
+require_relative '../../test_helper'
 
 class Redmine::ApiTest::MyTest < Redmine::ApiTest::Base
-  fixtures :users, :email_addresses, :members, :member_roles, :roles, :projects
-
   test "GET /my/account.json should return user" do
     assert Setting.rest_api_enabled?
     get '/my/account.json', :headers => credentials('dlopper', 'foo')
@@ -81,7 +79,7 @@ class Redmine::ApiTest::MyTest < Redmine::ApiTest::Base
         }
       },
       :headers => credentials('dlopper', 'foo'))
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
     assert_equal 'application/xml', @response.media_type
     assert_select 'errors error', :text => "First name cannot be blank"
   end
@@ -95,7 +93,7 @@ class Redmine::ApiTest::MyTest < Redmine::ApiTest::Base
         }
       },
       :headers => credentials('dlopper', 'foo'))
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
     assert_equal 'application/json', @response.media_type
     json = ActiveSupport::JSON.decode(response.body)
     assert_kind_of Hash, json

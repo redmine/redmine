@@ -23,7 +23,7 @@
                :rev        => nil},
                :method     => :get) do %>
     <%= text_field_tag 'rev', @rev, :size => 8 %>
-    <%= submit_tag 'OK', :name => nil %>
+    <%= submit_tag l(:button_view), :name => nil %>
   <% end %>
 </div>
 <%= render :partial => 'changeset' %>
@@ -48,7 +48,7 @@
 <% end -%>
 
 <% other_formats_links do |f| %>
-  <%= f.link_to_with_query_parameters 'Diff', {}, :caption => 'Unified diff' %>
+  <%= f.link_to_with_query_parameters 'Diff', { path: nil }, :caption => 'Unified diff' %>
 <% end %>
 
 <% html_title(with_leading_slash(@path), 'Diff') -%>

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,19 +17,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class JournalsHelperTest < Redmine::HelperTest
   include JournalsHelper
-
-  fixtures :projects, :trackers, :issue_statuses, :issues, :journals,
-           :enumerations, :issue_categories,
-           :projects_trackers,
-           :users, :roles, :member_roles, :members,
-           :enabled_modules,
-           :custom_fields,
-           :attachments,
-           :versions
 
   def test_journal_thumbnail_attachments_should_return_thumbnailable_attachments
     skip unless convert_installed?
@@ -56,7 +47,7 @@ class JournalsHelperTest < Redmine::HelperTest
     journals = issue.visible_journals_with_index # add indice
     journal_actions = render_journal_actions(issue, journals.first, {reply_links: true})
 
-    assert_select_in journal_actions, 'a[title=?][class="icon-only icon-comment"]', 'Quote'
+    assert_select_in journal_actions, 'a[title=?][class="icon icon-comment"]', 'Quote'
     assert_select_in journal_actions, 'a[title=?][class="icon-only icon-edit"]', 'Edit'
     assert_select_in journal_actions, 'div[class="drdn-items"] a[class="icon icon-del"]'
     assert_select_in journal_actions, 'div[class="drdn-items"] a[class="icon icon-copy-link"]'

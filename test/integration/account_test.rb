@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,11 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class AccountTest < Redmine::IntegrationTest
-  fixtures :users, :email_addresses, :roles
-
   def test_login
     get "/my/page"
     assert_redirected_to "/login?back_url=http%3A%2F%2Fwww.example.com%2Fmy%2Fpage"
@@ -97,7 +95,7 @@ class AccountTest < Redmine::IntegrationTest
             :autologin => 1
           }
         )
-        assert_response 302
+        assert_response :found
       end
       assert cookies['custom_autologin'].present?
       token = cookies['custom_autologin']
@@ -136,8 +134,8 @@ class AccountTest < Redmine::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_select 'input[type=hidden][name=token][value=?]', token.value
-    assert_select 'input[name=new_password]'
-    assert_select 'input[name=new_password_confirmation]'
+    assert_select 'input[name=new_password][autocomplete=new-password]'
+    assert_select 'input[name=new_password_confirmation][autocomplete=new-password]'
 
     post(
       "/account/lost_password",
@@ -293,7 +291,6 @@ class AccountTest < Redmine::IntegrationTest
 
       assert_equal false, User.find_by_login('jsmith').must_change_passwd?
     end
-
   end
 
   def test_register_with_automatic_activation

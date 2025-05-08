@@ -12,8 +12,12 @@
   <% end -%>
   </ul>
   <div class="tabs-buttons" style="display:none;">
-    <button class="tab-left" type="button" onclick="moveTabLeft(this);"></button>
-    <button class="tab-right" type="button" onclick="moveTabRight(this);"></button>
+    <button class="tab-left icon-only" type="button" onclick="moveTabLeft(this);">
+      <%= sprite_icon "angle-left" %>
+    </button>
+    <button class="tab-right icon-only" type="button" onclick="moveTabRight(this);">
+      <%= sprite_icon "angle-right" %>
+    </button>
   </div>
 </div>
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,13 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class CustomFieldTest < ActiveSupport::TestCase
-  fixtures :custom_fields, :roles, :projects,
-           :trackers, :issue_statuses,
-           :issues, :users
-
   def setup
     User.current = nil
   end
@@ -55,7 +51,7 @@ class CustomFieldTest < ActiveSupport::TestCase
   def test_default_value_should_be_validated
     field = CustomField.new(:name => 'Test', :field_format => 'int')
     field.default_value = 'abc'
-    assert !field.valid?
+    assert field.invalid?
     field.default_value = '6'
     assert field.valid?
   end
@@ -69,7 +65,7 @@ class CustomFieldTest < ActiveSupport::TestCase
 
   def test_field_format_should_be_validated
     field = CustomField.new(:name => 'Test', :field_format => 'foo')
-    assert !field.valid?
+    assert field.invalid?
   end
 
   def test_field_format_validation_should_accept_formats_added_at_runtime

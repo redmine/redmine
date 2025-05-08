@@ -1,4 +1,4 @@
-<p><%= link_to l(:label_user_new), new_group_users_path(@group), :remote => true, :class => "icon icon-add" %></p>
+<p><%= link_to sprite_icon('add', l(:label_user_new)), new_group_users_path(@group), :remote => true, :class => "icon icon-add" %></p>
 
 <% if @group.users.any? %>
   <table class="list users">

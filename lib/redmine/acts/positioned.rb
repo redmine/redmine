@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -100,7 +100,7 @@ module Redmine
         end
 
         def position_scope_changed?
-          (saved_changes.keys & self.class.positioned_options[:scope].map(&:to_s)).any?
+          saved_changes.keys.intersect?(self.class.positioned_options[:scope].map(&:to_s))
         end
 
         def shift_positions

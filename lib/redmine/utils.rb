@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,8 +17,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.dirname(__FILE__) + '/utils/date_calculation'
-require File.dirname(__FILE__) + '/utils/shell'
+require_relative 'utils/date_calculation'
+require_relative 'utils/shell'
 require 'fileutils'
 
 module Redmine
@@ -51,9 +51,7 @@ module Redmine
 
       def save_upload(upload, path)
         directory = File.dirname(path)
-        unless File.exist?(directory)
-          FileUtils.mkdir_p directory
-        end
+        FileUtils.mkdir_p directory
         File.open(path, "wb") do |f|
           if upload.respond_to?(:read)
             buffer = ""

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,19 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class TimeEntryActivityTest < ActiveSupport::TestCase
-  fixtures :enumerations, :time_entries,
-           :custom_fields, :custom_values,
-           :issues, :projects, :users,
-           :members, :roles, :member_roles,
-           :trackers, :issue_statuses,
-           :projects_trackers,
-           :issue_categories,
-           :groups_users,
-           :enabled_modules
-
   include Redmine::I18n
 
   def setup
@@ -37,7 +27,7 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
   end
 
   def test_should_be_an_enumeration
-    assert TimeEntryActivity.ancestors.include?(Enumeration)
+    assert TimeEntryActivity <= Enumeration
   end
 
   def test_objects_count
@@ -218,5 +208,99 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
         }
       )
     end
+  end
+
+  def test_default_should_return_default_activity_if_default_activity_is_included_in_the_project_activities
+    project = Project.find(1)
+    assert_equal TimeEntryActivity.default(project).id, 10
+  end
+
+  def test_default_should_return_project_specific_default_activity_if_default_activity_is_not_included_in_the_project_activities
+    project = Project.find(1)
+    project_specific_default_activity = TimeEntryActivity.create!(name: 'Development', parent_id: 10, project_id: project.id, is_default: false)
+    assert_not_equal TimeEntryActivity.default(project).id, 10
+    assert_equal TimeEntryActivity.default(project).id, project_specific_default_activity.id
+  end
+
+  def test_default_activity_id_without_user_and_project_should_return_global_default_activity
+    assert_equal 10, TimeEntryActivity.default_activity_id
+  end
+
+  def test_default_activity_id_with_user_and_project_should_return_role_default_activity
+    # set a default activity for Manager role
+    manager = Role.find(1)
+    manager.default_time_entry_activity_id = 9
+    manager.save
+
+    assert_equal 9, TimeEntryActivity.default_activity_id(User.find(2), Project.find(1))
+  end
+
+  def test_default_activity_id_with_user_and_project_should_consider_role_position
+    project = Project.find(1)
+    user = User.find(2)
+
+    # set a default activity for Manager role
+    manager = Role.find(1)
+    manager.default_time_entry_activity_id = 9
+    manager.save!
+
+    # set a default activity for Developer role
+    # and set the role position first
+    developer = Role.find(2)
+    developer.default_time_entry_activity_id = 11
+    developer.position = 1
+    developer.save!
+
+    member = Member.find_or_initialize_by(:project_id => project.id, :user_id => user.id)
+    member.role_ids = [1, 2]
+    member.save!
+
+    assert_equal 11, TimeEntryActivity.default_activity_id(user, project)
+  end
+
+  def test_default_activity_id_should_include_only_available_activities
+    # set a default activity for Manager role
+    manager = Role.find(1)
+    manager.default_time_entry_activity_id = 9
+    manager.save!
+
+    project = Project.find(1)
+
+    # disable role default activity
+    disable_activity = TimeEntryActivity.new({:name => "QA", :project => project, :parent => TimeEntryActivity.find(9), :active => false})
+    disable_activity.save!
+
+    assert_equal 10, TimeEntryActivity.default_activity_id(User.find(2), project)
+  end
+
+  def test_default_activity_id_should_selected_from_highest_priority_of_multiple_default_activity_candidates
+    project = Project.find(1)
+
+    manager = Role.find(1)
+    manager.default_time_entry_activity_id = 9
+    manager.save
+
+    # Returns the role_default_activity with the highest priority
+    assert_equal 9, TimeEntryActivity.default_activity_id(User.find(2), project)
+
+    # Returns the child activity of role_default_activity if there is an activity that has the id of role_default_activity as parent_id
+    design_project_activity = TimeEntryActivity.create!(name: 'Design', parent_id: 9, project_id: project.id, is_default: false)
+    development_project_activity = TimeEntryActivity.create!(name: 'Development', parent_id: 10, project_id: project.id, is_default: true)
+    qa_project_activity = TimeEntryActivity.create!(name: 'QA', parent_id: 11, project_id: project.id, is_default: false)
+    assert_equal design_project_activity.id, TimeEntryActivity.default_activity_id(User.find(2), project)
+
+    # Returns default project activity if role_default_activity is not present
+    manager.default_time_entry_activity_id = nil
+    manager.save
+    assert_equal development_project_activity.id, TimeEntryActivity.default_activity_id(User.find(2), project)
+
+    # Returns global default activity if role_default_activity and project activities are not present
+    [design_project_activity, development_project_activity, qa_project_activity].each {|activity| activity.destroy}
+    TimeEntryActivity.find(11).update(is_default: true)
+    assert_equal 11, TimeEntryActivity.default_activity_id(User.find(2), project)
+
+    # If there is only one activity available, it returns that activity.
+    [TimeEntryActivity.find(10), TimeEntryActivity.find(11)].each {|a| a.update(active: false)}
+    assert_equal 9, TimeEntryActivity.default_activity_id(User.find(2), project)
   end
 end

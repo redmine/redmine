@@ -6,7 +6,7 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
-  config.cache_classes = true
+  config.enable_reloading = false
 
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers
@@ -93,4 +93,7 @@ Rails.application.configure do
 
   # No email in production log
   config.action_mailer.logger = nil
+
+  # Automatically execute asset precompilation on startup in case of changes have been detected in assets
+  config.assets.redmine_detect_update = true
 end

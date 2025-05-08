@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -58,7 +58,7 @@ class ImportsController < ApplicationController
     end
 
   rescue CSV::MalformedCSVError, EncodingError => e
-    if e.is_a?(CSV::MalformedCSVError) && e.message !~ /Invalid byte sequence/
+    if e.is_a?(CSV::MalformedCSVError) && !e.message.include?('Invalid byte sequence')
       flash.now[:error] = l(:error_invalid_csv_file_or_settings, e.message)
     else
       flash.now[:error] = l(:error_invalid_file_encoding, :encoding => ERB::Util.h(@import.settings['encoding']))

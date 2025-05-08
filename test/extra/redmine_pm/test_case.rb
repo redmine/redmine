@@ -1,7 +1,7 @@
 # frozen_string_literal: false
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,21 +17,21 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../test_helper', __FILE__)
+require_relative '../../test_helper'
 
 module RedminePmTest
   class TestCase < ActiveSupport::TestCase
     attr_reader :command, :response, :status, :username, :password
-    
+
     # Cannot use transactional fixtures here: database
     # will be accessed from Redmine.pm with its own connection
     self.use_transactional_tests = false
-  
+
     def test_dummy
     end
-  
+
     protected
-  
+
     def assert_response(expected, msg=nil)
       case expected
       when :success
@@ -44,17 +44,17 @@ module RedminePmTest
         assert_equal expected, status, msg
       end
     end
-  
+
     def assert_success(*args)
       execute *args
       assert_response :success
     end
-  
+
     def assert_failure(*args)
       execute *args
       assert_response :failure
     end
-    
+
     def with_credentials(username, password)
       old_username, old_password = @username, @password
       @username, @password = username, password
@@ -62,7 +62,7 @@ module RedminePmTest
     ensure
       @username, @password = old_username, old_password
     end
-    
+
     def execute(*args)
       @command = args.join(' ')
       @status = nil
@@ -72,11 +72,11 @@ module RedminePmTest
       end
       @status = $?.exitstatus
     end
-  
+
     def formatted_response
       "#{'='*40}\n#{response}#{'='*40}"
     end
-  
+
     def random_filename
       Redmine::Utils.random_hex(16)
     end

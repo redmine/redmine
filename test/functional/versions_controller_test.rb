@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,16 +17,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class VersionsControllerTest < Redmine::ControllerTest
-  fixtures :projects, :enabled_modules,
-           :trackers, :projects_trackers,
-           :versions, :issue_statuses, :issue_categories, :enumerations,
-           :issues,
-           :users, :email_addresses,
-           :roles, :members, :member_roles
-
+  include Redmine::I18n
   def setup
     User.current = nil
   end
@@ -45,6 +39,9 @@ class VersionsControllerTest < Redmine::ControllerTest
     # Context menu on issues
     assert_select "form[data-cm-url=?]", '/issues/context_menu'
     assert_select "div#sidebar" do
+      # Tracker checkboxes
+      assert_select 'input[type=hidden][name=?]', 'tracker_ids[]'
+      assert_select 'input[type=checkbox][name=?]', 'tracker_ids[]', 3
       # Links to versions anchors
       assert_select 'a[href=?]', '#2.0'
       # Links to completed versions in the sidebar
@@ -83,6 +80,8 @@ class VersionsControllerTest < Redmine::ControllerTest
     assert_select 'h3', :text => Version.find(4).name
     # Subproject version
     assert_select 'h3', :text => /#{version_name}/
+    # Subproject checkbox
+    assert_select '#sidebar input[id=?][value=?]', "with_subprojects", 1
   end
 
   def test_index_should_prepend_shared_versions
@@ -113,6 +112,20 @@ class VersionsControllerTest < Redmine::ControllerTest
         end
       end
     end
+  end
+
+  def test_index_subproject_checkbox_should_check_descendants_visibility
+    project = Project.find(6)
+    project.is_public = false
+    project.save
+
+    @request.session[:user_id] = 2
+
+    get :index, :params => {:project_id => 5, :with_subprojects => 1}
+    assert_response :success
+
+    # Subproject checkbox should not be shown
+    assert_select '#sidebar input[id=?]', "with_subprojects", :count => 0
   end
 
   def test_show
@@ -215,6 +228,18 @@ class VersionsControllerTest < Redmine::ControllerTest
 
     assert_response :success
     assert_select 'a.icon.icon-add', :text => 'New issue'
+  end
+
+  def test_show_with_text_format
+    version = Version.find(2)
+    get :show, params: {id: version.id, format: :text}
+    assert_response :success
+    assert_equal 'text/plain', response.media_type
+
+    result = response.body.split("\n\n")
+    assert_equal "# #{version.name}", result[0]
+    assert_equal format_date(version.effective_date), result[1]
+    assert_equal version.description, result[2]
   end
 
   def test_new
@@ -333,7 +358,7 @@ class VersionsControllerTest < Redmine::ControllerTest
     end
     assert_redirected_to :controller => 'projects', :action => 'settings',
                          :tab => 'versions', :id => 'ecookbook'
-    assert flash[:error].match(/Unable to delete version/)
+    assert flash[:error].include?('Unable to delete version')
     assert Version.find_by_id(2)
   end
 

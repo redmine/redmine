@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,31 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class ProjectTest < ActiveSupport::TestCase
-  fixtures :projects, :trackers, :issue_statuses, :issues,
-           :journals, :journal_details,
-           :enumerations, :users, :issue_categories,
-           :projects_trackers,
-           :custom_fields,
-           :custom_fields_projects,
-           :custom_fields_trackers,
-           :custom_values,
-           :roles,
-           :member_roles,
-           :members,
-           :enabled_modules,
-           :versions,
-           :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions,
-           :groups_users,
-           :boards, :messages,
-           :repositories,
-           :news, :comments,
-           :documents,
-           :workflows,
-           :attachments
-
   def setup
     @ecookbook = Project.find(1)
     @ecookbook_sub1 = Project.find(3)
@@ -66,13 +44,13 @@ class ProjectTest < ActiveSupport::TestCase
     end
 
     with_settings :sequential_project_identifiers => '1' do
-      assert !Project.new.identifier.blank?
+      assert Project.new.identifier.present?
       assert Project.new(:identifier => '').identifier.blank?
     end
 
     with_settings :sequential_project_identifiers => '0' do
       assert Project.new.identifier.blank?
-      assert !Project.new(:identifier => 'test').blank?
+      assert Project.new(:identifier => 'test').present?
     end
 
     with_settings :default_projects_modules => ['issue_tracking', 'repository'] do
@@ -233,6 +211,13 @@ class ProjectTest < ActiveSupport::TestCase
     # some boards
     assert @ecookbook.boards.any?
 
+    # generate some dependent objects
+    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => @ecookbook})
+    assert overridden_activity.save!
+    TimeEntry.generate!(:project => @ecookbook, :activity_id => overridden_activity.id)
+
+    query = IssueQuery.generate!(:project => @ecookbook, :visibility => Query::VISIBILITY_ROLES, :roles => Role.where(:id => [1, 3]).to_a)
+
     @ecookbook.destroy
     # make sure that the project non longer exists
     assert_raise(ActiveRecord::RecordNotFound) {Project.find(@ecookbook.id)}
@@ -240,6 +225,10 @@ class ProjectTest < ActiveSupport::TestCase
     assert_not Member.where(:project_id => @ecookbook.id).exists?
     assert_not Board.where(:project_id => @ecookbook.id).exists?
     assert_not Issue.where(:project_id => @ecookbook.id).exists?
+    assert_not Enumeration.where(:project_id => @ecookbook.id).exists?
+
+    assert_not Query.where(:project_id => @ecookbook.id).exists?
+    assert_nil ActiveRecord::Base.connection.select_value("SELECT 1 FROM queries_roles WHERE query_id = #{query.id}")
   end
 
   def test_destroy_should_destroy_subtasks
@@ -346,6 +335,13 @@ class ProjectTest < ActiveSupport::TestCase
     parent.reload
     assert_equal 4, parent.children.size
     assert_equal parent.children.sort_by(&:name), parent.children.to_a
+  end
+
+  def test_validate_custom_field_values_of_project
+    User.current = User.find(3)
+    ProjectCustomField.generate!(:name => 'CustomFieldTest', :field_format => 'int', :is_required => true, :visible => false, :role_ids => [1])
+    p = Project.new(:name => 'Project test', :identifier => 'project-t')
+    assert p.save!
   end
 
   def test_set_parent_should_update_issue_fixed_version_associations_when_a_fixed_version_is_moved_out_of_the_hierarchy
@@ -516,6 +512,8 @@ class ProjectTest < ActiveSupport::TestCase
     WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 1, :new_status_id => 4)
     WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 2, :new_status_id => 3)
     WorkflowTransition.create(:role_id => 1, :tracker_id => 2, :old_status_id => 1, :new_status_id => 3)
+    WorkflowTransition.create(:role_id => 1, :tracker_id => 1, :old_status_id => 5, :new_status_id => 5)
+    WorkflowTransition.create(:role_id => 1, :tracker_id => 2, :old_status_id => 5, :new_status_id => 5)
 
     assert_kind_of IssueStatus, project.rolled_up_statuses.first
     assert_equal IssueStatus.find(1), project.rolled_up_statuses.first
@@ -1142,5 +1140,12 @@ class ProjectTest < ActiveSupport::TestCase
     project.update_column :name, 'Eco_kbook'
     r = Project.like('eco_k')
     assert_include project, r
+  end
+
+  def test_last_activity_date
+    # Note with id 3 is the last activity on Project 1
+    assert_equal Journal.find(3).created_on, Project.find(1).last_activity_date
+    # Project without activity should return nil
+    assert_nil Project.find(4).last_activity_date
   end
 end

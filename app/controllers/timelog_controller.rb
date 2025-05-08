@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -28,7 +28,7 @@ class TimelogController < ApplicationController
   before_action :find_optional_issue, :only => [:new, :create]
   before_action :find_optional_project, :only => [:index, :report]
 
-  accept_rss_auth :index
+  accept_atom_auth :index
   accept_api_auth :index, :show, :create, :update, :destroy
 
   rescue_from Query::StatementInvalid, :with => :query_statement_invalid
@@ -66,8 +66,8 @@ class TimelogController < ApplicationController
       end
       format.csv do
         # Export all entries
-        @entries = scope.to_a
-        send_data(query_to_csv(@entries, @query, params), :type => 'text/csv; header=present', :filename => 'timelog.csv')
+        entries = scope.to_a
+        send_data(query_to_csv(entries, @query, params), :type => 'text/csv; header=present', :filename => "#{filename_for_export(@query, 'timelog')}.csv")
       end
     end
   end
@@ -90,7 +90,7 @@ class TimelogController < ApplicationController
   def show
     respond_to do |format|
       # TODO: Implement html response
-      format.html {head 406}
+      format.html {head :not_acceptable}
       format.api
     end
   end
@@ -131,6 +131,7 @@ class TimelogController < ApplicationController
               :back_url => params[:back_url]
             }
             if params[:project_id] && @time_entry.project
+              options[:time_entry][:project_id] ||= @time_entry.project.id
               redirect_to new_project_time_entry_path(@time_entry.project, options)
             elsif params[:issue_id] && @time_entry.issue
               redirect_to new_issue_time_entry_path(@time_entry.issue, options)
@@ -280,7 +281,7 @@ class TimelogController < ApplicationController
     raise ActiveRecord::RecordNotFound if @time_entries.empty?
     raise Unauthorized unless @time_entries.all? {|t| t.editable_by?(User.current)}
 
-    @projects = @time_entries.collect(&:project).compact.uniq
+    @projects = @time_entries.filter_map(&:project).uniq
     @project = @projects.first if @projects.size == 1
   rescue ActiveRecord::RecordNotFound
     render_404

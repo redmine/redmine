@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,24 +17,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class IssuesHelperTest < Redmine::HelperTest
   include IssuesHelper
   include CustomFieldsHelper
   include ERB::Util
-  include Rails.application.routes.url_helpers
-
-  fixtures :projects, :trackers, :issue_statuses, :issues,
-           :enumerations, :users, :issue_categories,
-           :projects_trackers,
-           :roles,
-           :member_roles,
-           :members,
-           :enabled_modules,
-           :custom_fields,
-           :attachments,
-           :versions, :workflows
 
   def test_issue_heading
     assert_equal "Bug #1", issue_heading(Issue.find(1))
@@ -404,6 +392,36 @@ class IssuesHelperTest < Redmine::HelperTest
     assert_include '<a href="/issues?issue_id=15%2C16&amp;set_filter=true&amp;status_id=%2A">2</a>', html
     assert_include '<a href="/issues?issue_id=15%2C16&amp;set_filter=true&amp;status_id=o">1 open</a>', html
     assert_include '<a href="/issues?issue_id=15%2C16&amp;set_filter=true&amp;status_id=c">1 closed</a>', html
+  end
+
+  def test_render_issue_relations
+    issue = Issue.generate!(:status_id => 1)
+    closed_issue = Issue.generate!(:status_id => 5)
+    relation = IssueRelation.create!(:issue_from => closed_issue,
+                                     :issue_to => issue,
+                                     :relation_type => IssueRelation::TYPE_FOLLOWS)
+
+    html = render_issue_relations(issue, [relation])
+    assert_include(
+      "<tr id=\"relation-#{relation.id}\"" \
+      " class=\"issue hascontextmenu issue" \
+      " tracker-#{closed_issue.tracker_id}" \
+      " status-#{closed_issue.status_id}" \
+      " priority-#{closed_issue.priority_id} priority-default" \
+      " closed rel-follows\">",
+      html
+    )
+
+    html = render_issue_relations(closed_issue, [relation])
+    assert_include(
+      "<tr id=\"relation-#{relation.id}\"" \
+      " class=\"issue hascontextmenu issue" \
+      " tracker-#{issue.tracker_id}" \
+      " status-#{issue.status_id}" \
+      " priority-#{issue.priority_id} priority-default" \
+      " rel-precedes\">",
+      html
+    )
   end
 
   def test_render_descendants_stats

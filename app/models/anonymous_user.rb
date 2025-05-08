@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -38,7 +38,7 @@ class AnonymousUser < User
   def mail=(*args); nil end
   def mail; nil end
   def time_zone; nil end
-  def rss_key; nil end
+  def atom_key; nil end
 
   def pref
     UserPreference.new(:user => self)

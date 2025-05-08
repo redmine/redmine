@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -38,7 +38,7 @@ module Redmine
       def target_lft
         scope_for_max_rgt = self.class.where(:root_id => root_id).where(:parent_id => parent_id)
         if id
-          scope_for_max_rgt = scope_for_max_rgt.where("id < ?", id)
+          scope_for_max_rgt = scope_for_max_rgt.where(id: ...id)
         end
         max_rgt = scope_for_max_rgt.maximum(:rgt)
         if max_rgt
@@ -51,7 +51,14 @@ module Redmine
       end
 
       def add_to_nested_set(lock=true)
-        lock_nested_set if lock
+        if lock
+          lock_nested_set { add_to_nested_set_without_lock }
+        else
+          add_to_nested_set_without_lock
+        end
+      end
+
+      def add_to_nested_set_without_lock
         parent.send :reload_nested_set_values
         self.root_id = parent.root_id
         self.lft = target_lft
@@ -73,15 +80,16 @@ module Redmine
       end
 
       def handle_parent_change
-        lock_nested_set
-        reload_nested_set_values
-        if parent_id_was
-          remove_from_nested_set
+        lock_nested_set do
+          reload_nested_set_values
+          if parent_id_was
+            remove_from_nested_set
+          end
+          if parent
+            move_to_nested_set
+          end
+          reload_nested_set_values
         end
-        if parent
-          move_to_nested_set
-        end
-        reload_nested_set_values
       end
 
       def move_to_nested_set
@@ -124,20 +132,22 @@ module Redmine
       end
 
       def destroy_children
-        unless @without_nested_set_update
-          lock_nested_set
-          reload_nested_set_values
-        end
-        children.each {|c| c.send :destroy_without_nested_set_update}
-        reload
-        unless @without_nested_set_update
-          self.class.where(:root_id => root_id).where("lft > ? OR rgt > ?", lft, lft).update_all(
-            [
-              "lft = CASE WHEN lft > :lft THEN lft - :shift ELSE lft END, " +
-                "rgt = CASE WHEN rgt > :lft THEN rgt - :shift ELSE rgt END",
-              {:lft => lft, :shift => rgt - lft + 1}
-            ]
-          )
+        if @without_nested_set_update
+          children.each {|c| c.send :destroy_without_nested_set_update}
+          reload
+        else
+          lock_nested_set do
+            reload_nested_set_values
+            children.each {|c| c.send :destroy_without_nested_set_update}
+            reload
+            self.class.where(:root_id => root_id).where("lft > ? OR rgt > ?", lft, lft).update_all(
+              [
+                "lft = CASE WHEN lft > :lft THEN lft - :shift ELSE lft END, " +
+                  "rgt = CASE WHEN rgt > :lft THEN rgt - :shift ELSE rgt END",
+                {:lft => lft, :shift => rgt - lft + 1}
+              ]
+            )
+          end
         end
       end
 
@@ -166,9 +176,26 @@ module Redmine
           # before locking
           sets_to_lock = [root_id, parent.try(:root_id)].compact.uniq
           self.class.reorder(:id).where(:root_id => sets_to_lock).lock(lock).ids
+          yield
+        elsif Redmine::Database.mysql?
+          # Use a global lock to prevent concurrent modifications - MySQL row locks are broken, this will run into
+          # deadlock errors all the time otherwise.
+          # Trying to lock just the sets in question (by basing the lock name on root_id and parent&.root_id) will run
+          # into the same issues as the sqlserver branch above
+          Issue.with_advisory_lock!("lock_issues", timeout_seconds: 30) do
+            # still lock the issues in question, for good measure
+            sets_to_lock = [id, parent_id].compact
+            inner_join_statement = self.class.select(:root_id).where(id: sets_to_lock).distinct(:root_id).to_sql
+            self.class.reorder(:id).
+              joins("INNER JOIN (#{inner_join_statement}) as i2 ON #{self.class.table_name}.root_id = i2.root_id").
+              lock.ids
+
+            yield
+          end
         else
           sets_to_lock = [id, parent_id].compact
           self.class.reorder(:id).where("root_id IN (SELECT root_id FROM #{self.class.table_name} WHERE id IN (?))", sets_to_lock).lock.ids
+          yield
         end
       end
 

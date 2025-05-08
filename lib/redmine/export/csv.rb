@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -22,16 +22,16 @@ require 'csv'
 module Redmine
   module Export
     module CSV
-      def self.generate(*args, &block)
-        Base.generate(*args, &block)
+      def self.generate(...)
+        Base.generate(...)
       end
 
       class Base < ::CSV
         include Redmine::I18n
 
         class << self
-          def generate(options = {}, &block)
-            col_sep = l(:general_csv_separator)
+          def generate(options = {}, &)
+            col_sep = (options[:field_separator].presence || l(:general_csv_separator))
             encoding = Encoding.find(options[:encoding]) rescue Encoding.find(l(:general_csv_encoding))
 
             str =
@@ -41,7 +41,7 @@ module Redmine
                 (+'').force_encoding(encoding)
               end
 
-            super(str, :col_sep => col_sep, :encoding => encoding, &block)
+            super(str, :col_sep => col_sep, :encoding => encoding, &)
           end
         end
 
@@ -57,7 +57,7 @@ module Redmine
               field
             end
           end
-          super row
+          super
         end
       end
     end

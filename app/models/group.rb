@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -47,16 +47,10 @@ class Group < Principal
     'custom_fields',
     :if => lambda {|group, user| user.admin? && !group.builtin?})
 
+  alias_attribute :name, :lastname
+
   def to_s
     name.to_s
-  end
-
-  def name
-    lastname
-  end
-
-  def name=(arg)
-    self.lastname = arg
   end
 
   def builtin_type
@@ -78,35 +72,34 @@ class Group < Principal
   end
 
   def user_added(user)
-    members.each do |member|
-      next if member.project.nil?
+    members.preload(:member_roles).each do |member|
+      next if member.project_id.nil?
+      # skip if the group is a member without roles in the project
+      next if member.member_roles.empty?
 
       user_member =
-        Member.find_by_project_id_and_user_id(member.project_id, user.id) ||
-          Member.new(:project_id => member.project_id, :user_id => user.id)
-      member.member_roles.each do |member_role|
-        user_member.member_roles << MemberRole.new(:role => member_role.role,
-                                                   :inherited_from => member_role.id)
-      end
+        Member.find_or_initialize_by(:project_id => member.project_id, :user_id => user.id)
+      user_member.member_roles <<
+        member.member_roles.pluck(:id, :role_id).map do |id, role_id|
+          MemberRole.new(:role_id => role_id, :inherited_from => id)
+        end
       user_member.save!
     end
   end
 
   def user_removed(user)
-    members.each do |member|
-      MemberRole.
-        joins(:member).
-        where("#{Member.table_name}.user_id = ? AND #{MemberRole.table_name}.inherited_from IN (?)", user.id, member.member_role_ids).
-        each(&:destroy)
-    end
+    MemberRole.
+      joins(:member).
+      where("#{Member.table_name}.user_id = ? AND #{MemberRole.table_name}.inherited_from IN (?)", user.id, MemberRole.select(:id).where(:member => members)).
+      destroy_all
   end
 
-  def self.human_attribute_name(attribute_key_name, *args)
+  def self.human_attribute_name(attribute_key_name, *)
     attr_name = attribute_key_name.to_s
     if attr_name == 'lastname'
       attr_name = "name"
     end
-    super(attr_name, *args)
+    super(attr_name, *)
   end
 
   def self.anonymous

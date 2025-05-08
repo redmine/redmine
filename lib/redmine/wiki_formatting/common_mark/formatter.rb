@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -24,42 +24,50 @@ module Redmine
     module CommonMark
       # configuration of the rendering pipeline
       PIPELINE_CONFIG = {
-        # https://github.com/gjtorikian/commonmarker#extensions
-        commonmarker_extensions: [
-          :table,
-          :strikethrough,
-          :tagfilter,
-          :autolink
-        ].freeze,
+        # https://github.com/gjtorikian/commonmarker#extension-options
+        commonmarker_extensions: {
+          table: true,
+          strikethrough: true,
+          tagfilter: true,
+          autolink: true,
+          footnotes: true,
+          header_ids: nil,
+          tasklist: true,
+          shortcodes: false,
+          alerts: true,
+        }.freeze,
 
         # https://github.com/gjtorikian/commonmarker#parse-options
-        commonmarker_parse_options: [
-          :FOOTNOTES,
-          :STRIKETHROUGH_DOUBLE_TILDE,
-          :UNSAFE,
-          :VALIDATE_UTF8
-        ].freeze,
+        commonmarker_parse_options: {
+        }.freeze,
 
         # https://github.com/gjtorikian/commonmarker#render-options
-        commonmarker_render_options: [
-          :UNSAFE
-        ],
+        commonmarker_render_options: {
+          unsafe: true,
+          github_pre_lang: false,
+          hardbreaks: Redmine::Configuration['common_mark_enable_hardbreaks'] == true,
+          tasklist_classes: true,
+        }.freeze,
+        commonmarker_plugins: {
+          syntax_highlighter: nil
+        }.freeze,
       }.freeze
-
-      if Redmine::Configuration['common_mark_enable_hardbreaks'] == true
-        PIPELINE_CONFIG[:commonmarker_render_options].push(:HARDBREAKS)
-      end
-      PIPELINE_CONFIG[:commonmarker_render_options].freeze
 
       MarkdownPipeline = HTML::Pipeline.new [
         MarkdownFilter,
         SanitizationFilter,
         SyntaxHighlightFilter,
         FixupAutoLinksFilter,
-        ExternalLinksFilter,
+        ExternalLinksFilter
       ], PIPELINE_CONFIG
 
-      class Formatter < Redmine::WikiFormatting::Markdown::Formatter
+      class Formatter
+        include Redmine::WikiFormatting::SectionHelper
+
+        def initialize(text)
+          @text = text
+        end
+
         def to_html(*args)
           result = MarkdownPipeline.call @text
           result[:output].to_s

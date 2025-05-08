@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -27,8 +27,8 @@ module Redmine
       # - autolinked hi res image names that look like email addresses:
       #   <a href="mailto:printscreen@2x.png">printscreen@2x.png</a>
       class FixupAutoLinksFilter < HTML::Pipeline::Filter
-        USER_LINK_PREFIX = /(@|user:)\z/.freeze
-        HIRES_IMAGE = /.+@\dx\.(bmp|gif|jpg|jpe|jpeg|png)\z/.freeze
+        USER_LINK_PREFIX = /(@|user:)\z/
+        HIRES_IMAGE = /.+@\dx\.(bmp|gif|jpg|jpe|jpeg|png)\z/
 
         def call
           doc.search("a").each do |node|

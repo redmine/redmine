@@ -11,7 +11,7 @@
 <% end %></p>
 <p><%= f.text_field :homepage, :size => 60 %></p>
 <p>
-  <%= f.check_box :is_public %>
+  <%= f.check_box :is_public, :disabled => !@project.safe_attribute?(:is_public) %>
   <em class="info"><%= Setting.login_required? ? l(:text_project_is_public_non_member) : l(:text_project_is_public_anonymous) %></em>
 </p>
 

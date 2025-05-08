@@ -1,9 +1,11 @@
 /.project
 /.idea
+/.vscode
 /.loadpath
 /.powrc
 /.rvmrc
 /.ruby-version
+/.byebug_history
 /config/additional_environment.rb
 /config/configuration.yml
 /config/database.yml
@@ -23,12 +25,11 @@
 /log/mongrel_debug
 /plugins/*
 !/plugins/README
+/public/assets/*
 /public/dispatch.*
 /public/plugin_assets/*
-/public/themes/*
-!/public/themes/alternate
-!/public/themes/classic
-!/public/themes/README
+/themes/*
+!/themes/README
 /tmp/*
 /tmp/cache/*
 /tmp/pdf/*

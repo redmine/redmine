@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,8 +20,9 @@
 module Redmine
   module Preparation
     def self.prepare
-      ActiveRecord::Base.include Redmine::Acts::Positioned
-      ActiveRecord::Base.include Redmine::I18n
+      ApplicationRecord.include Redmine::Acts::Positioned
+      ApplicationRecord.include Redmine::Acts::Mentionable
+      ApplicationRecord.include Redmine::I18n
 
       Scm::Base.add "Subversion"
       Scm::Base.add "Mercurial"
@@ -38,6 +39,7 @@ module Redmine
         map.permission :edit_project, {:projects => [:settings, :edit, :update]}, :require => :member
         map.permission :close_project, {:projects => [:close, :reopen]}, :require => :member, :read => true
         map.permission :delete_project, {:projects => :destroy}, :require => :member, :read => true
+        map.permission :select_project_publicity, {}, :require => :member
         map.permission :select_project_modules, {:projects => :modules}, :require => :member
         map.permission :view_members, {:members => [:index, :show]}, :public => true, :read => true
         map.permission :manage_members, {:projects => :settings, :members => [:index, :show, :new, :create, :edit, :update, :destroy, :autocomplete]}, :require => :member
@@ -73,7 +75,7 @@ module Redmine
           map.permission :delete_issues, {:issues => :destroy}, :require => :member
           # Watchers
           map.permission :view_issue_watchers, {}, :read => true
-          map.permission :add_issue_watchers, {:watchers => [:new, :create, :append, :autocomplete_for_user]}
+          map.permission :add_issue_watchers, {:watchers => [:new, :create, :append, :autocomplete_for_user, :autocomplete_for_mention]}
           map.permission :delete_issue_watchers, {:watchers => :destroy}
           map.permission :import_issues, {}
           # Issue categories
@@ -123,7 +125,7 @@ module Redmine
           map.permission :delete_wiki_pages, {:wiki => [:destroy, :destroy_version]}, :require => :member
           map.permission :delete_wiki_pages_attachments, {}
           map.permission :view_wiki_page_watchers, {}, :read => true
-          map.permission :add_wiki_page_watchers, {:watchers => [:new, :create, :autocomplete_for_user]}
+          map.permission :add_wiki_page_watchers, {:watchers => [:new, :create, :autocomplete_for_user, :autocomplete_for_mention]}
           map.permission :delete_wiki_page_watchers, {:watchers => :destroy}
           map.permission :protect_wiki_pages, {:wiki => :protect}, :require => :member
           map.permission :manage_wiki, {:wikis => :destroy, :wiki => :rename}, :require => :member
@@ -145,7 +147,7 @@ module Redmine
           map.permission :delete_messages, {:messages => :destroy}, :require => :member
           map.permission :delete_own_messages, {:messages => :destroy}, :require => :loggedin
           map.permission :view_message_watchers, {}, :read => true
-          map.permission :add_message_watchers, {:watchers => [:new, :create, :autocomplete_for_user]}
+          map.permission :add_message_watchers, {:watchers => [:new, :create, :autocomplete_for_user, :autocomplete_for_mention]}
           map.permission :delete_message_watchers, {:watchers => :destroy}
           map.permission :manage_boards, {:projects => :settings, :boards => [:new, :create, :edit, :update, :destroy]}, :require => :member
         end
@@ -167,7 +169,7 @@ module Redmine
                   :caption => :label_project_plural
         menu.push :administration, {:controller => 'admin', :action => 'index'},
                   :if => Proc.new {User.current.admin?}, :last => true
-        menu.push :help, Info.help_url, :last => true
+        menu.push :help, Info.help_url, :html => {:target => '_blank', :rel => 'noopener'}, :last => true
       end
 
       MenuManager.map :account_menu do |menu|
@@ -240,38 +242,51 @@ module Redmine
       MenuManager.map :admin_menu do |menu|
         menu.push :projects, {:controller => 'admin', :action => 'projects'},
                   :caption => :label_project_plural,
+                  :icon => 'projects',
                   :html => {:class => 'icon icon-projects'}
         menu.push :users, {:controller => 'users'}, :caption => :label_user_plural,
+                  :icon => 'user',
                   :html => {:class => 'icon icon-user'}
         menu.push :groups, {:controller => 'groups'}, :caption => :label_group_plural,
+                  :icon => 'group',
                   :html => {:class => 'icon icon-group'}
         menu.push :roles, {:controller => 'roles'},
                   :caption => :label_role_and_permissions,
+                  :icon => 'roles',
                   :html => {:class => 'icon icon-roles'}
         menu.push :trackers, {:controller => 'trackers'},
                   :caption => :label_tracker_plural,
+                  :icon => 'issue',
                   :html => {:class => 'icon icon-issue'}
         menu.push :issue_statuses, {:controller => 'issue_statuses'},
                   :caption => :label_issue_status_plural,
+                  :icon => 'issue-edit',
                   :html => {:class => 'icon icon-issue-edit'}
         menu.push :workflows, {:controller => 'workflows', :action => 'edit'},
                   :caption => :label_workflow,
+                  :icon => 'workflows',
                   :html => {:class => 'icon icon-workflows'}
         menu.push :custom_fields, {:controller => 'custom_fields'},
                   :caption => :label_custom_field_plural,
+                  :icon => 'custom-fields',
                   :html => {:class => 'icon icon-custom-fields'}
         menu.push :enumerations, {:controller => 'enumerations'},
+                  :icon => 'list',
                   :html => {:class => 'icon icon-list'}
         menu.push :settings, {:controller => 'settings'},
+                  :icon => 'settings',
                   :html => {:class => 'icon icon-settings'}
         menu.push :ldap_authentication,
                   {:controller => 'auth_sources', :action => 'index'},
+                  :icon => 'server-authentication',
                   :html => {:class => 'icon icon-server-authentication'}
         menu.push :plugins, {:controller => 'admin', :action => 'plugins'},
                   :last => true,
+                  :icon => 'plugins',
                   :html => {:class => 'icon icon-plugins'}
         menu.push :info, {:controller => 'admin', :action => 'info'},
                   :caption => :label_information_plural,
+                  :icon => 'help',
                   :last => true,
                   :html => {:class => 'icon icon-help'}
       end
@@ -365,7 +380,7 @@ module Redmine
         menu.push :repository,
                   {:controller => 'repositories', :action => 'show',
                    :repository_id => nil, :path => nil, :rev => nil},
-                  :if => Proc.new {|p| p.repository && !p.repository.new_record?}
+                  :if => Proc.new {|p| p.repositories.exists?}
         menu.push :settings, {:controller => 'projects', :action => 'settings'},
                   :last => true
       end
@@ -393,10 +408,7 @@ module Redmine
 
       WikiFormatting.map do |format|
         format.register :textile
-        format.register :markdown if Object.const_defined?(:Redcarpet)
-        if Object.const_defined?(:CommonMarker)
-          format.register :common_mark, label: 'CommonMark Markdown (GitHub Flavored) - experimental'
-        end
+        format.register :common_mark, label: 'CommonMark Markdown (GitHub Flavored)'
       end
 
       ActionView::Template.register_template_handler :rsb, Views::ApiTemplateHandler

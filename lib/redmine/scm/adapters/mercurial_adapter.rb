@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -50,7 +50,10 @@ module Redmine
           end
 
           def client_available
-            client_version_above?([1, 2])
+            client_version_above?([5, 1]) &&
+            # Redmine >= 6.1 has dropped support for Python 2.7, and
+            # Mercurial has never supported Python 3.0 to 3.4
+            (python_version <=> [3, 5]) >= 0
           end
 
           def hgversion
@@ -67,6 +70,23 @@ module Redmine
             shellout("#{sq_bin} --version") {|io| io.read}.to_s
           end
 
+          def python_version
+            @@python_version ||= begin
+              debuginstall = hgdebuginstall_from_command_line
+              if (m = debuginstall.match(/checking Python version \(([\d.]+)\)/))
+                m[1].scan(%r{\d+})
+                    .collect(&:to_i)
+                    .presence
+              else
+                nil
+              end
+            end
+          end
+
+          def hgdebuginstall_from_command_line
+            shellout("#{sq_bin} debuginstall") {|io| io.read}.to_s
+          end
+
           def template_path
             @@template_path ||= template_path_for(client_version)
           end
@@ -74,11 +94,6 @@ module Redmine
           def template_path_for(version)
             "#{HELPERS_DIR}/#{TEMPLATE_NAME}-1.0.#{TEMPLATE_EXTENSION}"
           end
-        end
-
-        def initialize(url, root_url=nil, login=nil, password=nil, path_encoding=nil)
-          super
-          @path_encoding = path_encoding.blank? ? 'UTF-8' : path_encoding
         end
 
         def path_encoding
@@ -154,17 +169,17 @@ module Redmine
               # do nothing
             end
           end
-          path_prefix = path.blank? ? '' : with_trailling_slash(path)
+          path_prefix = path.blank? ? '' : with_trailing_slash(path)
 
           entries = Entries.new
           as_ary(manifest['dir']).each do |e|
-            n = scm_iconv('UTF-8', @path_encoding, CGI.unescape(e['name']))
+            n = CGI.unescape(e['name'])
             p = "#{path_prefix}#{n}"
             entries << Entry.new(:name => n, :path => p, :kind => 'dir')
           end
 
           as_ary(manifest['file']).each do |e|
-            n = scm_iconv('UTF-8', @path_encoding, CGI.unescape(e['name']))
+            n = CGI.unescape(e['name'])
             p = "#{path_prefix}#{n}"
             lr = Revision.new(:revision => e['revision'], :scmid => e['node'],
                               :identifier => e['node'],
@@ -230,7 +245,7 @@ module Redmine
                                    end
                                  ),
                                :time     => Time.parse(le['date']['__content__']),
-                               :message  => CGI.unescape(le['msg']['__content__']),
+                               :message  => CGI.unescape(le['msg']['__content__'] || ''),
                                :paths    => paths,
                                :parents  => parents_ary)
           end
@@ -318,7 +333,7 @@ module Redmine
         private_constant :HG_EARLY_BOOL_ARG, :HG_EARLY_LIST_ARG
 
         # Runs 'hg' command with the given args
-        def hg(*args, &block)
+        def hg(*args, &)
           # as of hg 4.4.1, early parsing of bool options is not terminated at '--'
           if args.any? {|s| HG_EARLY_BOOL_ARG.match?(s)}
             raise HgCommandArgumentError, "malicious command argument detected"
@@ -331,12 +346,13 @@ module Redmine
           full_args = ["-R#{repo_path}", '--encoding=utf-8']
           # don't use "--config=<value>" form for compatibility with ancient Mercurial
           full_args << '--config' << "extensions.redminehelper=#{HG_HELPER_EXT}"
+          full_args << '--config' << "redminehelper.path_encoding=#{@path_encoding}"
           full_args << '--config' << 'diff.git=false'
           full_args += args
           ret =
             shellout(
               self.class.sq_bin + ' ' + full_args.map {|e| shell_quote e.to_s}.join(' '),
-              &block
+              &
             )
           if $? && $?.exitstatus != 0
             raise HgCommandAborted, "hg exited with non-zero status: #{$?.exitstatus}"
@@ -363,7 +379,7 @@ module Redmine
         def as_ary(o)
           return [] unless o
 
-          o.is_a?(Array) ? o : Array[o]
+          o.is_a?(Array) ? o : [o]
         end
         private :as_ary
       end

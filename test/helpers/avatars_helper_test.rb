@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,33 +17,30 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class AvatarsHelperTest < Redmine::HelperTest
   include ERB::Util
-  include Rails.application.routes.url_helpers
   include AvatarsHelper
-
-  fixtures :users, :email_addresses
 
   def setup
     Setting.gravatar_enabled = '1'
   end
 
   def test_avatar_with_user
-    assert_include Digest::MD5.hexdigest('jsmith@somenet.foo'), avatar(User.find_by_mail('jsmith@somenet.foo'))
+    assert_include Digest::SHA256.hexdigest('jsmith@somenet.foo'), avatar(User.find_by_mail('jsmith@somenet.foo'))
   end
 
   def test_avatar_with_email_string
-    assert_include Digest::MD5.hexdigest('jsmith@somenet.foo'), avatar('jsmith <jsmith@somenet.foo>')
+    assert_include Digest::SHA256.hexdigest('jsmith@somenet.foo'), avatar('jsmith <jsmith@somenet.foo>')
   end
 
   def test_avatar_with_anonymous_user
-    assert_match %r{src="/images/anonymous.png(\?\d+)?"}, avatar(User.anonymous)
+    assert_match %r{src="/assets/anonymous(-\w+)?.png"}, avatar(User.anonymous)
   end
 
   def test_avatar_with_group
-    assert_match %r{src="/images/group.png(\?\d+)?"}, avatar(Group.first)
+    assert_match %r{src="/assets/group(-\w+)?.png"}, avatar(Group.first)
   end
 
   def test_avatar_with_invalid_arg_should_return_nil

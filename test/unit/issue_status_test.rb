@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,19 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class IssueStatusTest < ActiveSupport::TestCase
-  fixtures :projects, :users, :members, :member_roles, :roles,
-           :groups_users,
-           :trackers, :projects_trackers,
-           :enabled_modules,
-           :versions,
-           :issue_statuses, :issue_categories, :issue_relations, :workflows,
-           :enumerations,
-           :issues, :journals, :journal_details,
-           :custom_fields, :custom_fields_projects, :custom_fields_trackers, :custom_values
-
   def setup
     User.current = nil
   end
@@ -150,5 +140,10 @@ class IssueStatusTest < ActiveSupport::TestCase
     issue.reload
     assert !issue.closed?
     assert_nil issue.closed_on
+  end
+
+  def test_issue_status_should_have_description
+    issue_status = IssueStatus.find(1)
+    assert_equal 'Description for New issue status', issue_status.description
   end
 end

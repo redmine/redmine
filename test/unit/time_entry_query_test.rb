@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,19 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class TimeEntryQueryTest < ActiveSupport::TestCase
-  fixtures :issues, :projects, :users,
-           :members, :roles, :member_roles,
-           :trackers, :issue_statuses,
-           :projects_trackers,
-           :journals, :journal_details,
-           :issue_categories, :enumerations,
-           :groups_users,
-           :enabled_modules,
-           :custom_fields, :custom_fields_trackers, :custom_fields_projects
-
   def setup
     User.current = nil
   end
@@ -111,9 +101,9 @@ class TimeEntryQueryTest < ActiveSupport::TestCase
                                  :is_filter => true)
     query = TimeEntryQuery.new(:project => Project.find(3))
 
-    assert_include "issue.cf_#{global.id}", query.available_columns.map(&:name).map(&:to_s)
-    assert_include "issue.cf_#{field_on_project.id}", query.available_columns.map(&:name).map(&:to_s)
-    assert_not_include "issue.cf_#{field_not_on_project.id}", query.available_columns.map(&:name).map(&:to_s)
+    assert_include "issue.cf_#{global.id}", query.available_columns.map {|c| c.name.to_s}
+    assert_include "issue.cf_#{field_on_project.id}", query.available_columns.map  {|c| c.name.to_s}
+    assert_not_include "issue.cf_#{field_not_on_project.id}", query.available_columns.map {|c| c.name.to_s}
   end
 
   def test_issue_category_filter_should_not_be_available_in_global_queries
@@ -134,6 +124,69 @@ class TimeEntryQueryTest < ActiveSupport::TestCase
   def test_project_status_filter_should_not_be_available_when_project_is_leaf
     query = TimeEntryQuery.new(:project => Project.find(2), :name => '_')
     assert !query.available_filters.has_key?('project.status')
+  end
+
+  def test_user_group_filter_should_consider_spacified_groups_time_entries
+    Group.find(10).users << User.find(2)
+    Group.find(11).users << User.find(3)
+
+    TimeEntry.delete_all
+    t1 = TimeEntry.generate!(:hours => 1.0, :user_id => 2)
+    t2 = TimeEntry.generate!(:hours => 2.0, :user_id => 2)
+    t3 = TimeEntry.generate!(:hours => 4.0, :user_id => 3)
+
+    query = TimeEntryQuery.new(:name => '_')
+    result = query.base_scope.to_a
+    assert result.include?(t1)
+    assert result.include?(t2)
+    assert result.include?(t3)
+    assert_equal 7.0, query.results_scope.sum(:hours)
+
+    query.add_filter('user.group', '=', ['10'])
+    result = query.base_scope.to_a
+    assert result.include?(t1)
+    assert result.include?(t2)
+    assert_not result.include?(t3)
+    assert_equal 3.0, query.results_scope.sum(:hours)
+
+    query.add_filter('user.group', '=', ['10', '11'])
+    result = query.base_scope.to_a
+    assert result.include?(t1)
+    assert result.include?(t2)
+    assert result.include?(t3)
+    assert_equal 7.0, query.results_scope.sum(:hours)
+  end
+
+  def test_user_role_filter_should_consider_spacified_roles_time_entries
+    project = Project.find(1)
+    project.members << Member.new(:user_id => 2, :roles => [Role.find(1)])
+    project.members << Member.new(:user_id => 3, :roles => [Role.find(2)])
+
+    TimeEntry.delete_all
+    t1 = TimeEntry.generate!(:project => project, :hours => 1.0, :user_id => 2)
+    t2 = TimeEntry.generate!(:project => project, :hours => 2.0, :user_id => 2)
+    t3 = TimeEntry.generate!(:project => project, :hours => 4.0, :user_id => 3)
+
+    query = TimeEntryQuery.new(:project => project, :name => '_')
+    result = query.base_scope.to_a
+    assert result.include?(t1)
+    assert result.include?(t2)
+    assert result.include?(t3)
+    assert_equal 7.0, query.results_scope.sum(:hours)
+
+    query.add_filter('user.role', '=', ['1'])
+    result = query.base_scope.to_a
+    assert result.include?(t1)
+    assert result.include?(t2)
+    assert_not result.include?(t3)
+    assert_equal 3.0, query.results_scope.sum(:hours)
+
+    query.add_filter('user.role', '=', ['1', '2'])
+    result = query.base_scope.to_a
+    assert result.include?(t1)
+    assert result.include?(t2)
+    assert result.include?(t3)
+    assert_equal 7.0, query.results_scope.sum(:hours)
   end
 
   def test_results_scope_should_be_in_the_same_order_when_paginating

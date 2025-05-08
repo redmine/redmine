@@ -109,8 +109,9 @@ de:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "und"
-      skip_last_comma: true
+      last_word_connector: " und "
+      two_words_connector: " und "
+      words_connector: ", "
 
   activerecord:
     errors:
@@ -152,6 +153,8 @@ de:
         must_contain_lowercase: "muss Kleinbuchstaben (a-z) enthalten"
         must_contain_digits: "muss Zahlen (0-9) enthalten"
         must_contain_special_chars: "muss Sonderzeichen (!, $, %, ...) enthalten"
+        domain_not_allowed: "contains a domain not allowed (%{domain})"
+        too_simple: "is too simple"
 
   actionview_instancetag_blank_option: Bitte auswählen
 
@@ -255,7 +258,7 @@ de:
   error_attachment_too_big: Diese Datei kann nicht hochgeladen werden, da sie die maximale Dateigröße von (%{max_size}) überschreitet.
   error_can_not_archive_project: Dieses Projekt kann nicht archiviert werden.
   error_can_not_delete_custom_field: Kann das benutzerdefinierte Feld nicht löschen.
-  error_can_not_delete_tracker: Dieser Tracker enthält Tickets und kann nicht gelöscht werden.
+  error_can_not_delete_tracker_html: Dieser Tracker enthält Tickets und kann nicht gelöscht werden.<p>The following projects have issues with this tracker:<br>%{projects}</p>
   error_can_not_remove_role: Diese Rolle wird verwendet und kann nicht gelöscht werden.
   error_can_not_reopen_issue_on_closed_version: Das Ticket ist einer abgeschlossenen Version zugeordnet und kann daher nicht wieder geöffnet werden.
   error_can_t_load_default_data: "Die Standard-Konfiguration konnte nicht geladen werden: %{value}"
@@ -279,6 +282,7 @@ de:
   field_active: Aktiv
   field_activity: Aktivität
   field_admin: Administrator
+  field_any_searchable: Durchsuchbarer Text
   field_assignable: Tickets können dieser Rolle zugewiesen werden
   field_assigned_to: Zugewiesen an
   field_assigned_to_role: Zuständigkeitsrolle
@@ -330,6 +334,7 @@ de:
   field_is_filter: Als Filter benutzen
   field_is_for_all: Für alle Projekte
   field_is_in_roadmap: In der Roadmap anzeigen
+  field_is_member_of_group: Mitglied in Gruppe
   field_is_private: Privat
   field_is_public: Öffentlich
   field_is_required: Erforderlich
@@ -359,7 +364,7 @@ de:
   field_path_to_repository: Pfad zum Repository
   field_port: Port
   field_possible_values: Mögliche Werte
-  field_principal: Auftraggeber
+  field_principal: Benutzer oder Gruppe
   field_priority: Priorität
   field_private_notes: Privater Kommentar
   field_project: Projekt
@@ -396,6 +401,7 @@ de:
   field_watcher: Beobachter
   field_default_assigned_to: Standardbearbeiter
   field_unique_id: Eindeutige ID
+  field_estimated_remaining_hours: Geschätzter verbleibender Aufwand
 
   general_csv_decimal_separator: ','
   general_csv_encoding: ISO-8859-1
@@ -459,7 +465,6 @@ de:
   label_board_sticky: Wichtig (immer oben)
   label_boolean: Boolean
   label_branch: Zweig
-  label_browse: Codebrowser
   label_bulk_edit_selected_issues: Alle ausgewählten Tickets bearbeiten
   label_bulk_edit_selected_time_entries: Ausgewählte Zeitaufwände bearbeiten
   label_calendar: Kalender
@@ -517,6 +522,7 @@ de:
     for_all_projects: Für alle Projekte
     for_current_project: Für das aktuelle Projekt
     for_all_users: Für alle Benutzer
+    for_this_user: Für diesen Benutzer
   label_deleted: gelöscht
   label_descending: Absteigend
   label_details: Details
@@ -608,7 +614,6 @@ de:
   label_jump_to_a_project: Zu einem Projekt springen...
   label_language_based: Sprachabhängig
   label_last_changes: "%{count} letzte Änderungen"
-  label_last_login: Letzte Anmeldung
   label_last_month: voriger Monat
   label_last_n_days: "die letzten %{count} Tage"
   label_last_n_weeks: letzte %{count} Wochen
@@ -697,9 +702,9 @@ de:
   label_project_new: Neues Projekt
   label_project_plural: Projekte
   label_public_projects: Öffentliche Projekte
-  label_query: Benutzerdefinierte Abfrage
+  label_query: Abfrage
   label_query_new: Neue Abfrage
-  label_query_plural: Benutzerdefinierte Abfragen
+  label_query_plural: Abfragen
   label_radio_buttons: Radio-Buttons
   label_read: Lesen...
   label_readonly: Nur-Lese-Zugriff
@@ -748,10 +753,6 @@ de:
   label_show_completed_versions: Abgeschlossene Versionen anzeigen
   label_sort: Sortierung
   label_sort_by: "Sortiert nach %{value}"
-  label_sort_higher: Eins höher
-  label_sort_highest: An den Anfang
-  label_sort_lower: Eins tiefer
-  label_sort_lowest: Ans Ende
   label_spent_time: Aufgewendete Zeit
   label_statistics: Statistiken
   label_status_transitions: Statusänderungen
@@ -784,7 +785,7 @@ de:
   label_user_activity: "Aktivität von %{value}"
   label_user_anonymous: Anonym
   label_user_mail_no_self_notified: "Ich möchte nicht über Änderungen benachrichtigt werden, die ich selbst durchführe."
-  label_user_mail_notify_about_high_priority_issues_html: "Benachrichtige mich über Aufgaben mit einer Priorität von <em>%{prio}</em> oder höher"
+  label_user_mail_notify_about_high_priority_issues_html: "Benachrichtige mich zusätzlich über Aufgaben mit einer Priorität von <em>%{prio}</em> oder höher"
   label_user_mail_option_all: "Für alle Ereignisse in all meinen Projekten"
   label_user_mail_option_none: Keine Ereignisse
   label_user_mail_option_only_my_events: Nur für Angelegenheiten, die ich beobachte oder an denen ich beteiligt bin
@@ -843,6 +844,7 @@ de:
   label_year: Jahr
   label_yesterday: gestern
   label_default_query: Standardabfrage
+  label_progressbar: Fortschrittsbalken
 
   mail_body_account_activation_request: "Ein neuer Benutzer (%{value}) hat sich registriert. Sein Konto wartet auf Ihre Genehmigung:"
   mail_body_account_information: Ihre Konto-Informationen
@@ -876,7 +878,6 @@ de:
   notice_account_password_updated: Passwort wurde erfolgreich aktualisiert.
   notice_account_pending: "Ihr Konto wurde erstellt und wartet jetzt auf die Genehmigung des Administrators."
   notice_account_register_done: Konto wurde erfolgreich angelegt. Eine E-Mail mit Hinweisen zur Kontoaktivierung wurde an %{email} gesendet.
-  notice_account_unknown_email: Unbekannter Benutzer.
   notice_account_updated: Konto wurde erfolgreich aktualisiert.
   notice_account_wrong_password: Falsches Passwort.
   notice_api_access_key_reseted: Ihr API-Zugriffsschlüssel wurde zurückgesetzt.
@@ -954,6 +955,7 @@ de:
   permission_rename_wiki_pages: Wiki-Seiten umbenennen
   permission_save_queries: Filter speichern
   permission_select_project_modules: Projektmodule auswählen
+  permission_select_project_publicity: Projekt als privat oder öffentlich markieren
   permission_set_issues_private: Tickets als privat oder öffentlich markieren
   permission_set_notes_private: Kommentar als privat markieren
   permission_set_own_issues_private: Eigene Tickets als privat oder öffentlich markieren
@@ -1059,6 +1061,8 @@ de:
   setting_user_format: Benutzer-Anzeigeformat
   setting_welcome_text: Willkommenstext
   setting_wiki_compression: Wiki-Historie komprimieren
+  setting_related_issues_default_columns: Standard-Spalten für verknüpfte und untergeordnete Aufgaben
+  setting_display_related_issues_table_headers: Spaltenüberschriften anzeigen
 
   status_active: aktiv
   status_locked: gesperrt
@@ -1108,6 +1112,9 @@ de:
   text_plugin_assets_writable: Verzeichnis für Plugin-Assets beschreibbar
   text_project_closed: Dieses Projekt ist geschlossen und kann nicht bearbeitet werden.
   text_project_destroy_confirmation: Sind Sie sicher, dass Sie das Projekt löschen wollen?
+  text_project_close_confirmation: Sind Sie sicher, dass Sie das Projekt '%{value}' schließen wollen?
+  text_project_reopen_confirmation: Sind Sie sicher, dass Sie das Projekt '%{value}' wieder öffnen wollen?
+  text_project_archive_confirmation: Sind Sie sicher, dass Sie das Projekt '%{value}' archivieren wollen?
   text_project_identifier_info: 'Kleinbuchstaben (a-z), Ziffern, Binde- und Unterstriche erlaubt.<br />Einmal gespeichert, kann die Kennung nicht mehr geändert werden.'
   text_reassign_time_entries: 'Gebuchte Aufwände diesem Ticket zuweisen:'
   text_regexp_info: z. B. ^[A-Z0-9]+$
@@ -1269,7 +1276,7 @@ de:
   label_trackers_description: Beschreibung des Trackers
   label_open_trackers_description: Beschreibung aller Tracker anzeigen
   label_preferred_body_part_text: Text
-  label_preferred_body_part_html: HTML (experimentell)
+  label_preferred_body_part_html: HTML
   field_parent_issue_subject: Thema des übergeordneten Tickets
 
   permission_edit_own_issues: Eigene Tickets bearbeiten
@@ -1282,7 +1289,6 @@ de:
   label_import_notifications: Versende E-Mail-Benachrichtigungen während des Imports
   field_recently_used_projects: Anzahl kürzlich verwendeter Projekte in der Projekt-Jump-Box
   label_optgroup_bookmarks: Lesezeichen
-  label_optgroup_others: Andere Projekte
   label_optgroup_recents: Kürzlich verwendet
   button_project_bookmark: Lesezeichen hinzufügen
   button_project_bookmark_delete: Lesezeichen entfernen
@@ -1325,6 +1331,7 @@ de:
   field_passwd_changed_on: Passwort zuletzt geändert
   label_import_users: Benutzer importieren
   label_days_to_html: "%{days} Tage bis %{date}"
+  sudo_mode_new_info_html: <strong>Warum das ganze?</strong> Zu Ihrem Schutz bitten wir Sie Ihr Kennwort zu bestätigen, bevor Sie sicherheitsrelevante Einstellungen ändern.
   setting_twofa: Zwei-Faktor-Authentifizierung
   twofa__totp__name: Authentifizierungs-App
   twofa__totp__text_pairing_info_html: 'Bitte scannen Sie diesen QR-Code oder verwenden Sie den Klartext-Schlüssel in einer TOTP-kompatiblen Authentifizierungs-App (z.B. <a href="https://support.google.com/accounts/answer/1066447?hl=de">Google Authenticator</a>, <a href="https://authy.com/download/">Authy</a>, <a href="https://guide.duo.com/third-party-accounts">Duo Mobile</a>). Anschließend geben Sie bitte den in der App generierten Code unten ein.'
@@ -1384,29 +1391,83 @@ de:
   error_invalid_authenticity_token: Ungültiges Authentizitätstoken für Formular.
   error_query_statement_invalid: Während der Ausführung einer Abfrage ist ein Fehler aufgetreten, dieser wurde
     protokolliert. Bitte melden Sie diesen Fehler an ihren Redmine-Administrator.
-  permission_view_wiki_page_watchers: View wiki page watchers list
-  permission_add_wiki_page_watchers: Add wiki page watchers
-  permission_delete_wiki_page_watchers: Delete wiki page watchers
-  label_wiki_page_watchers: Watchers
-  label_attachment_description: File description
-  error_no_data_in_file: The file does not contain any data
-  field_twofa_required: Require two factor authentication
-  twofa_hint_optional_html: Setting <strong>%{label}</strong> will let users set up
-    two-factor authentication at will, unless it is required by one of their groups.
-  twofa_text_group_required: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is required for all users.
-  twofa_text_group_disabled: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is disabled.
-  field_default_issue_query: Default issue query
-  text_all_migrations_have_been_run: All database migrations have been run
-  button_save_object: Save %{object_name}
-  button_edit_object: Edit %{object_name}
-  button_delete_object: Delete %{object_name}
-  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
-    Please restart the application after editing it.
-  label_bulk_edit: Bulk edit
-  button_create_and_follow: Create and follow
-  label_subtask: Subtask
-  field_default_project_query: Default project query
+  permission_view_wiki_page_watchers: Beobachterliste einsehen
+  permission_add_wiki_page_watchers: Beobachter hinzufügen
+  permission_delete_wiki_page_watchers: Beobachter löschen
+  label_wiki_page_watchers: Beobachter
+  label_attachment_description: Dateibeschreibung
+  error_no_data_in_file: Diese Datei beinhaltet keine Daten
+  field_twofa_required: Zwei-Faktor-Authentifizierung erforderlich
+  twofa_hint_optional_html: Die Einstellung <strong>%{label}</strong> läßt den Benutzer
+    Zwei-Faktor-Authentifizierung optional verwenden, solange diese nicht durch eine Benutzergruppe erforderlich ist.
+  twofa_text_group_required: Die Einstellung wird nur verwendet, wenn die globale Zwei-Faktor-Authentifizierung 'optional' ist.
+    Aktuell ist Zwei-Faktor-Authentifizierung für alle Benutzer erforderlich.
+  twofa_text_group_disabled: Die Einstellung wird nur verwendet, wenn die globale Zwei-Faktor-Authentifizierung 'optional' ist.
+    Aktuell ist Zwei-Faktor-Authentifizierung deaktiviert.
+  field_default_issue_query: Standard-Ticketabfrage
+  text_all_migrations_have_been_run: Alle Datenbank-Migrationen wurden ausgeführt
+  button_save_object: "%{object_name} speichern"
+  button_edit_object: "%{object_name} bearbeiten"
+  button_delete_object: "%{object_name} löschen"
+  text_setting_config_change: Diese Verhalten kann in der Datei config/configuration.yml konfiguriert werden.
+    Ein Neustart der Anwendung ist nach einer Änderung erforderlich.
+  label_bulk_edit: Auswahl bearbeiten
+  button_create_and_follow: Erstellen und Ticket anzeigen
+  label_subtask: Untergeordnetes Ticket
+  field_default_project_query: Standard-Projektabfrage
+  label_required_administrators: erforderlich für Administratoren
+  twofa_hint_required_administrators_html: Die Einstellung <strong>%{label}</strong> verhält sich
+    wie 'optional', erfordert aber zusätzlich für alle Benutzer mit Administrator-Rechten die Aktivierung
+    der Zwei-Faktor-Authentifizierung beim nächsten Login.
+  label_auto_watch_on: Automatisch beobachten
+  label_auto_watch_on_issue_contributed_to: Tickets, zu denen ich beigetragen habe
+  mail_destroy_project_failed: Project %{value} could not be deleted.
+  mail_destroy_project_successful: Project %{value} was deleted successfully.
+  mail_destroy_project_with_subprojects_successful: Project %{value} and its subprojects
+    were deleted successfully.
+  project_status_scheduled_for_deletion: scheduled for deletion
+  text_projects_bulk_destroy_confirmation: Are you sure you want to delete the selected
+    projects and related data?
+  text_projects_bulk_destroy_head: |
+    You are about to permanently delete the following projects, including possible subprojects and any related data.
+    Please review the information below and confirm that this is indeed what you want to do.
+    This action cannot be undone.
+  text_projects_bulk_destroy_confirm: To confirm, please enter "%{yes}" in the box below.
+  text_subprojects_bulk_destroy: 'including its subproject(s): %{value}'
+  field_current_password: Current password
+  label_edited: Edited
+  label_time_by_author: "%{time} by %{author}"
+  field_default_time_entry_activity: Default spent time activity
+  text_users_bulk_destroy_head: You are about to delete the following users and remove
+    all references to them. This cannot be undone. Often, locking users instead of deleting
+    them is the better solution.
+  text_users_bulk_destroy_confirm: To confirm, please enter "%{yes}" below.
+  label_auto_watch_on_issue_created: Issues I created
+  label_contains_any_of: contains any of
+  button_apply_issues_filter: Apply issues filter
+  label_view_previous_annotation: View annotation prior to this change
+  label_has_been: has been
+  label_has_never_been: has never been
+  label_changed_from: changed from
+  label_issue_statuses_description: Issue statuses description
+  label_open_issue_statuses_description: View all issue statuses description
+  text_select_apply_issue_status: Select issue status
+  field_name_or_email_or_login: Name, email or login
+  text_default_active_job_queue_changed: Default queue adapter which is well suited
+    only for dev/test changed
+  label_option_auto_lang: auto
+  label_issue_attachment_added: Attachment added
+  field_last_activity_date: Last activity
+  setting_issue_done_ratio_interval: Done ratio options interval
+  setting_copy_attachments_on_issue_copy: Copy attachments on copy
+  field_thousands_delimiter: Thousands delimiter
+  label_involved_principals: Author / Previous assignee
+  label_attachment_summary:
+    zero: "%{filename}"
+    one: "%{filename} and 1 file"
+    other: "%{filename} and %{count} files"
+  setting_wiki_tablesort_enabled: Javascript-basierte Tabellensortierung in Wiki-Inhalten
+  error_spent_on_closed_issue: Cannot log time on a closed issue
+  setting_timelog_accept_closed_issues: Accept time logs on closed issues
+  error_can_not_remove_role_reason_members_html: "<p>The following projects have members
+    with this role:<br>%{projects}</p>"

@@ -5,6 +5,8 @@
 
 <p><%= setting_select :link_copied_issue, link_copied_issue_options %></p>
 
+<p><%= setting_select :copy_attachments_on_issue_copy, copy_attachments_on_issue_copy_options %></p>
+
 <p><%= setting_select :cross_project_subtasks, cross_project_subtasks_options %></p>
 
 <p><%= setting_check_box :close_duplicate_issues %></p>
@@ -16,6 +18,8 @@
 <p><%= setting_check_box :display_subprojects_issues %></p>
 
 <p><%= setting_select :issue_done_ratio, Issue::DONE_RATIO_OPTIONS.collect {|i| [l("setting_issue_done_ratio_#{i}"), i]} %></p>
+
+<p><%= setting_select :issue_done_ratio_interval, [5, 10].collect {|i| ["#{i} %", i]} %></p>
 
 <p><%= setting_multiselect :non_working_week_days, (1..7).map {|d| [day_name(d), d.to_s]}, :inline => true %></p>
 
@@ -39,9 +43,13 @@
 
 <fieldset class="box">
   <legend><%= l(:setting_issue_list_default_columns) %></legend>
-  <%= render_query_columns_selection(
-        IssueQuery.new(:column_names => Setting.issue_list_default_columns),
-        :name => 'settings[issue_list_default_columns]') %>
+  <div id="list-definition">
+    <div>
+      <%= render_query_columns_selection(
+            IssueQuery.new(:column_names => Setting.issue_list_default_columns),
+            :name => 'settings[issue_list_default_columns]') %>
+    </div>
+  </div>
 
   <p><%= setting_multiselect :issue_list_default_totals,
            IssueQuery.new(:totalable_names => Setting.issue_list_default_totals).available_totalable_columns.map {|c| [c.caption, c.name.to_s]},
@@ -52,6 +60,25 @@
     <label><%= l(:label_default_query) %></label>
     <%= setting_select :default_issue_query, default_global_issue_query_options, label: false %>
   </p>
+</fieldset>
+
+<fieldset class="box">
+  <legend><%= l(:setting_related_issues_default_columns) %></legend>
+  <div id="list-definition">
+    <div>
+      <%= render_query_columns_selection(
+            IssueQuery.new(:column_names => Setting.related_issues_default_columns),
+            :name => 'settings[related_issues_default_columns]') %>
+      <%= javascript_tag do %>
+        $('#available_settings_related_issues_default_columns option[value="tracker"]').remove();
+        $('#available_settings_related_issues_default_columns option[value="subject"]').remove();
+      <% end %>
+    </div>
+  </div>
+
+  <div class="tabular settings">
+    <p><%= setting_check_box :display_related_issues_table_headers %></p>
+  </div>
 </fieldset>
 
 <%= submit_tag l(:button_save) %>

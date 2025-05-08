@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -36,14 +36,14 @@ class MembersController < ApplicationController
     @members = scope.includes(:principal, :roles).order(:id).limit(@limit).offset(@offset).to_a
 
     respond_to do |format|
-      format.html {head 406}
+      format.html {head :not_acceptable}
       format.api
     end
   end
 
   def show
     respond_to do |format|
-      format.html {head 406}
+      format.html {head :not_acceptable}
       format.api
     end
   end
@@ -115,7 +115,7 @@ class MembersController < ApplicationController
         if @member.destroyed?
           render_api_ok
         else
-          head :unprocessable_entity
+          head :unprocessable_content
         end
       end
     end

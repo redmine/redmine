@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,7 +18,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module AttachmentsHelper
-
   def container_attachments_edit_path(container)
     object_attachments_edit_path container.class.name.underscore.pluralize, container.id
   end
@@ -70,7 +69,7 @@ module AttachmentsHelper
   def render_api_attachment(attachment, api, options={})
     api.attachment do
       render_api_attachment_attributes(attachment, api)
-      options.each {|key, value| eval("api.#{key} value")}
+      options.each_key {|key| eval("api.#{key} value")}
     end
   end
 
@@ -92,7 +91,7 @@ module AttachmentsHelper
 
   def render_file_content(attachment, content)
     if attachment.is_markdown?
-      render :partial => 'common/markup', :locals => {:markup_text_formatting => markdown_formatter, :markup_text => content}
+      render :partial => 'common/markup', :locals => {:markup_text_formatting => 'common_mark', :markup_text => content}
     elsif attachment.is_textile?
       render :partial => 'common/markup', :locals => {:markup_text_formatting => 'textile', :markup_text => content}
     else

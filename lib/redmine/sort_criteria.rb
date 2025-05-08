@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -34,7 +34,7 @@ module Redmine
     end
 
     def to_param
-      self.collect {|k,o| k + (o == 'desc' ? ':desc' : '')}.join(',')
+      self.collect {|k, o| k + (o == 'desc' ? ':desc' : '')}.join(',')
     end
 
     def to_a
@@ -43,13 +43,13 @@ module Redmine
 
     def add!(key, asc)
       key = key.to_s
-      delete_if {|k,o| k == key}
+      delete_if {|k, o| k == key}
       prepend([key, asc])
       normalize!
     end
 
-    def add(*args)
-      self.class.new(self).add!(*args)
+    def add(*)
+      self.class.new(self).add!(*)
     end
 
     def first_key
@@ -74,10 +74,10 @@ module Redmine
 
     def sort_clause(sortable_columns)
       if sortable_columns.is_a?(Array)
-        sortable_columns = sortable_columns.inject({}) {|h,k| h[k]=k; h}
+        sortable_columns = sortable_columns.inject({}) {|h, k| h[k]=k; h}
       end
 
-      sql = self.collect do |k,o|
+      sql = self.collect do |k, o|
         if s = sortable_columns[k]
           s = [s] unless s.is_a?(Array)
           s.collect {|c| append_order(c, o)}

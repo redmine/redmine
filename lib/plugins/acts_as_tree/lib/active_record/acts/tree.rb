@@ -10,7 +10,7 @@ module ActiveRecord
       # Specify this +acts_as+ extension if you want to model a tree structure by providing a parent association and a children
       # association. This requires that you have a foreign key column, which by default is called +parent_id+.
       #
-      #   class Category < ActiveRecord::Base
+      #   class Category < ApplicationRecord
       #     acts_as_tree :order => "name"
       #   end
       #

@@ -1,5 +1,5 @@
 <div class="contextual">
-  <%= link_to_attachment @attachment, :text => "#{l(:button_download)} (#{number_to_human_size(@attachment.filesize)})", :download => true, :class => 'icon icon-download' -%>
+  <%= link_to_attachment @attachment, :text => "#{l(:button_download)} (#{number_to_human_size(@attachment.filesize)})", :download => true, :class => 'icon icon-download', :icon => "download" -%>
 </div>
 
 <h2>

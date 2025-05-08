@@ -1,0 +1,21 @@
+<ul>
+  <% if @project && !@project.scheduled_for_deletion? %>
+    <% if @project.archived? %>
+      <li><%= context_menu_link sprite_icon('unlock', l(:button_unarchive)), unarchive_project_path(@project), method: :post, class: 'icon icon-unlock' %></li>
+    <% else %>
+      <li><%= context_menu_link sprite_icon('lock', l(:button_archive)), archive_project_path(@project), data: { confirm: l(:text_project_archive_confirmation, @project.to_s)}, method: :post, class: 'icon icon-lock' %></li>
+    <% end %>
+    <li>
+      <%= context_menu_link sprite_icon('copy', l(:button_copy)), copy_project_path(@projects), class: 'icon icon-copy' %>
+    </li>
+    <li>
+      <%= context_menu_link sprite_icon('del', l(:button_delete)), project_path(@project, back_url: @back), method: :delete, class: 'icon icon-del' %>
+    </li>
+  <% else %>
+    <li>
+      <%= context_menu_link sprite_icon('del', l(:button_delete)),
+                            {controller: 'projects', action: 'bulk_destroy', ids: @projects.map(&:id), back_url: @back},
+                            method: :delete, data: {confirm: l(:text_projects_bulk_destroy_confirmation)}, class: 'icon icon-del' %>
+    </li>
+  <% end %>
+</ul>

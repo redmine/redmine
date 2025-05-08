@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,18 +17,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../../test_helper', __FILE__)
+require_relative '../../../test_helper'
 
 class MenuManagerTest < Redmine::IntegrationTest
   include Redmine::I18n
-
-  fixtures :projects, :trackers, :issue_statuses, :issues,
-           :enumerations, :users, :issue_categories,
-           :projects_trackers,
-           :roles,
-           :member_roles,
-           :members,
-           :enabled_modules
 
   def test_project_menu_with_specific_locale
     get '/projects/ecookbook/issues',
@@ -77,6 +69,34 @@ class MenuManagerTest < Redmine::IntegrationTest
         menu.delete :bar
         menu.delete :hello
       end
+    end
+  end
+
+  def test_project_menu_should_display_repository_tab_when_exists_repository
+    project = Project.find('ecookbook')
+    repos = project.repositories
+    assert_equal true, repos.exists?
+
+    log_user('jsmith', 'jsmith')
+
+    assert_equal true, repos.exists?(:is_default => true)
+    get '/projects/ecookbook'
+    assert_select '#main-menu' do
+      assert_select 'a.repository', :count => 1
+    end
+
+    repos.update_all(:is_default => false)
+    assert_equal false, repos.exists?(:is_default => true)
+    get '/projects/ecookbook'
+    assert_select '#main-menu' do
+      assert_select 'a.repository', :count => 1
+    end
+
+    repos.delete_all
+    assert_equal false, repos.exists?
+    get '/projects/ecookbook'
+    assert_select '#main-menu' do
+      assert_select 'a.repository', :count => 0
     end
   end
 

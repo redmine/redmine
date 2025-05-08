@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,7 +18,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module Redmine
-
   # Exception raised when a plugin cannot be found given its id.
   class PluginNotFound < StandardError; end
 
@@ -54,7 +53,7 @@ module Redmine
     cattr_accessor :directory
     self.directory = PluginLoader.directory
 
-    # Absolute path to the plublic directory where plugins assets are copied
+    # Absolute path to the public directory where plugins assets are copied
     cattr_accessor :public_directory
     self.public_directory = PluginLoader.public_directory
 
@@ -71,7 +70,7 @@ module Redmine
         class_eval do
           names.each do |name|
             define_method(name) do |*args|
-              args.empty? ? instance_variable_get("@#{name}") : instance_variable_set("@#{name}", *args)
+              args.empty? ? instance_variable_get(:"@#{name}") : instance_variable_set(:"@#{name}", *args)
             end
           end
         end
@@ -91,9 +90,9 @@ module Redmine
     #     version '0.0.1'
     #     requires_redmine version_or_higher: '3.0.0'
     #   end
-    def self.register(id, &block)
+    def self.register(id, &)
       p = new(id)
-      p.instance_eval(&block)
+      p.instance_eval(&)
 
       # Set a default name if it was not provided during registration
       p.name(id.to_s.humanize) if p.name.nil?
@@ -104,7 +103,7 @@ module Redmine
         raise PluginNotFound, "Plugin not found. The directory for plugin #{p.id} should be #{p.directory}."
       end
 
-      p.path = PluginLoader.directories{ |d| d.dir == p.directory }
+      p.path = PluginLoader.directories.find {|d| d.to_s == p.directory}
 
       # Adds plugin locales if any
       # YAML translation files should be found under <plugin>/config/locales/
@@ -125,7 +124,7 @@ module Redmine
       # Warn for potential settings[:partial] collisions
       if p.configurable?
         partial = p.settings[:partial]
-        if @used_partials[partial]
+        if @used_partials[partial] && @used_partials[partial] != p.id
           Rails.logger.warn(
             "WARNING: settings partial '#{partial}' is declared in '#{p.id}' plugin " \
               "but it is already used by plugin '#{@used_partials[partial]}'. " \
@@ -183,10 +182,24 @@ module Redmine
 
     # Returns the absolute path to the plugin assets directory
     def assets_directory
-      path.assedts_dir
+      path.assets_dir
+    end
+
+    def asset_prefix
+      File.join(self.class.public_directory.basename, id.to_s)
+    end
+
+    def asset_paths
+      return unless path.has_assets_dir?
+
+      base_dir = Pathname.new(path.assets_dir)
+      paths = base_dir.children.select(&:directory?)
+      Redmine::AssetPath.new(base_dir, paths, asset_prefix)
     end
 
     def <=>(plugin)
+      return nil unless plugin.is_a?(Plugin)
+
       self.id.to_s <=> plugin.id.to_s
     end
 
@@ -237,7 +250,7 @@ module Redmine
               )
             end
           elsif req.is_a?(Range)
-            unless compare_versions(req.first, current) <= 0 && compare_versions(req.last, current) >= 0
+            unless compare_versions(req.first, current) <= 0 && compare_versions(req.last, current) >= 0  # rubocop:disable Style/ComparableBetween
               raise PluginRequirementError.new(
                 "#{id} plugin requires a Redmine version between #{req.first} " \
                 "and #{req.last} but current is #{current.join('.')}"
@@ -365,9 +378,9 @@ module Redmine
     #     permission :view_contacts, { :contacts => [:list, :show] }, :public => true
     #     permission :destroy_contacts, { :contacts => :destroy }
     #   end
-    def project_module(name, &block)
+    def project_module(name, &)
       @project_module = name
-      self.instance_eval(&block)
+      self.instance_eval(&)
       @project_module = nil
     end
 
@@ -393,8 +406,8 @@ module Redmine
     #   Meeting.find_events('scrums', User.current, 5.days.ago, Date.today, :project => foo) # events for project foo only
     #
     # Note that :view_scrums permission is required to view these events in the activity view.
-    def activity_provider(*args)
-      Redmine::Activity.register(*args)
+    def activity_provider(*)
+      Redmine::Activity.register(*)
     end
 
     # Registers a wiki formatter.
@@ -410,13 +423,25 @@ module Redmine
     # Examples:
     #   wiki_format_provider(:custom_formatter, CustomFormatter, :label => "My custom formatter")
     #
-    def wiki_format_provider(name, *args)
-      Redmine::WikiFormatting.register(name, *args)
+    def wiki_format_provider(name, *)
+      Redmine::WikiFormatting.register(name, *)
+    end
+
+    # Register plugin models that use acts_as_attachable.
+    #
+    # Example:
+    #   attachment_object_type SomeAttachableModel
+    #
+    # This is necessary for the core attachments controller routes and attachments/_form to work.
+    def attachment_object_type(*args)
+      args.each do |klass|
+        Redmine::Acts::Attachable::ObjectTypeConstraint.register_object_type(klass.name.underscore.pluralize)
+      end
     end
 
     # Returns +true+ if the plugin can be configured.
     def configurable?
-      settings && settings.is_a?(Hash) && !settings[:partial].blank?
+      settings && settings.is_a?(Hash) && settings[:partial].present?
     end
 
     # The directory containing this plugin's migrations (<tt>plugin/db/migrate</tt>)
@@ -465,7 +490,7 @@ module Redmine
           else
             migrations
           end
-        Migrator.new(:up, selected_migrations, schema_migration, target_version).migrate
+        Migrator.new(:up, selected_migrations, schema_migration, internal_metadata, target_version).migrate
       end
 
       def down(target_version = nil)
@@ -475,15 +500,19 @@ module Redmine
           else
             migrations
           end
-        Migrator.new(:down, selected_migrations, schema_migration, target_version).migrate
+        Migrator.new(:down, selected_migrations, schema_migration, internal_metadata, target_version).migrate
       end
 
       def run(direction, target_version)
-        Migrator.new(direction, migrations, schema_migration, target_version).run
+        Migrator.new(direction, migrations, schema_migration, internal_metadata, target_version).run
       end
 
       def open
-        Migrator.new(:up, migrations, schema_migration)
+        Migrator.new(:up, migrations, schema_migration, internal_metadata)
+      end
+
+      def current_version
+        Migrator.current_version
       end
     end
 
@@ -497,14 +526,14 @@ module Redmine
           self.current_plugin = plugin
           return if current_version(plugin) == version
 
-          MigrationContext.new(plugin.migration_directory, ::ActiveRecord::Base.connection.schema_migration).migrate(version)
+          MigrationContext.new(plugin.migration_directory, ::ActiveRecord::Base.connection.pool.schema_migration).migrate(version)
         end
 
         def get_all_versions(plugin = current_plugin)
           # Delete migrations that don't match .. to_i will work because the number comes first
           @all_versions ||= {}
           @all_versions[plugin.id.to_s] ||= begin
-            sm_table = ::ActiveRecord::SchemaMigration.table_name
+            sm_table = ::ActiveRecord::Base.connection.pool.schema_migration.table_name
             migration_versions  = ActiveRecord::Base.connection.select_values("SELECT version FROM #{sm_table}")
             versions_by_plugins = migration_versions.group_by {|version| version.match(/-(.*)$/).try(:[], 1)}
             @all_versions       = versions_by_plugins.transform_values! {|versions| versions.map!(&:to_i).sort!}

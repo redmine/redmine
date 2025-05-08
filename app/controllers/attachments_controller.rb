@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -83,25 +83,25 @@ class AttachmentsController < ApplicationController
   end
 
   def thumbnail
-    if @attachment.thumbnailable? && tbnail = @attachment.thumbnail(:size => params[:size])
+    if (tbnail = @attachment.thumbnail(:size => params[:size]))
       if stale?(:etag => tbnail, :template => false)
         send_file(
           tbnail,
           :filename => filename_for_content_disposition(@attachment.filename),
           :type => detect_content_type(@attachment, true),
-          :disposition => 'inline')
+          :disposition => 'attachment')
       end
     else
       # No thumbnail for the attachment or thumbnail could not be created
-      head 404
+      head :not_found
     end
   end
 
   def upload
     # Make sure that API users get used to set this content type
     # as it won't trigger Rails' automatic parsing of the request body for parameters
-    unless request.content_type == 'application/octet-stream'
-      head 406
+    unless request.media_type == 'application/octet-stream'
+      head :not_acceptable
       return
     end
 
@@ -219,19 +219,10 @@ class AttachmentsController < ApplicationController
   end
 
   def find_container
-    klass =
-      begin
-        params[:object_type].to_s.singularize.classify.constantize
-      rescue
-        nil
-      end
-    unless klass && (klass.reflect_on_association(:attachments) || klass.method_defined?(:attachments))
-      render_404
-      return
-    end
-
+    # object_type is constrained to valid values in routes
+    klass = params[:object_type].to_s.singularize.classify.constantize
     @container = klass.find(params[:object_id])
-    if @container.respond_to?(:visible?) && !@container.visible?
+    unless @container.visible?
       render_403
       return
     end
@@ -248,8 +239,25 @@ class AttachmentsController < ApplicationController
     if @attachments.sum(&:filesize) > bulk_download_max_size
       flash[:error] = l(:error_bulk_download_size_too_big,
                         :max_size => number_to_human_size(bulk_download_max_size.to_i))
-      redirect_to back_url
+      redirect_back_or_default(container_url, referer: true)
       return
+    end
+  end
+
+  def container_url
+    case @container
+    when Message
+      url_for(@container.event_url)
+    when Project
+      # project attachments are listed in the files view
+      project_files_url(@container)
+    when Version
+      # version attachments are listed in its project's files view
+      project_files_url(@container.project)
+    when WikiPage
+      project_wiki_page_url @container.wiki.project, @container
+    else
+      url_for(@container)
     end
   end
 
@@ -312,5 +320,10 @@ class AttachmentsController < ApplicationController
     else
       request.raw_post
     end
+  end
+
+  def send_file(path, options={})
+    headers['content-security-policy'] = "default-src 'none'; style-src 'unsafe-inline'; sandbox"
+    super
   end
 end

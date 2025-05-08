@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,11 +26,7 @@ module TimelogHelper
   def activity_collection_for_select_options(time_entry=nil, project=nil)
     project ||= time_entry.try(:project)
     project ||= @project
-    if project.nil?
-      activities = TimeEntryActivity.shared.active
-    else
-      activities = project.activities
-    end
+    activities = TimeEntryActivity.available_activities(project)
 
     collection = []
     if time_entry && time_entry.activity && !time_entry.activity.active?
@@ -50,6 +46,14 @@ module TimelogHelper
       collection << time_entry.user
     end
     principals_options_for_select(collection, time_entry.user_id.to_s)
+  end
+
+  def default_activity(time_entry)
+    if @project
+      time_entry.activity_id
+    else
+      TimeEntryActivity.default_activity_id(User.current, time_entry.project)
+    end
   end
 
   def select_hours(data, criteria, value)
@@ -80,7 +84,7 @@ module TimelogHelper
           "##{obj.id}"
         end
       else
-        format_object(obj, html)
+        format_object(obj, html: html)
       end
     elsif cf = criteria_options[:custom_field]
       format_value(value, cf)
@@ -142,5 +146,4 @@ module TimelogHelper
     fallback_path = project ? project_time_entries_path(project) : time_entries_path
     cancel_button_tag(fallback_path)
   end
-
 end

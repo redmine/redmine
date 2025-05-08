@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,23 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class IssueImportTest < ActiveSupport::TestCase
-  fixtures :projects, :enabled_modules,
-           :users, :email_addresses,
-           :roles, :members, :member_roles,
-           :issues, :issue_statuses,
-           :trackers, :projects_trackers,
-           :versions,
-           :issue_categories,
-           :enumerations,
-           :workflows,
-           :custom_fields,
-           :custom_values,
-           :custom_fields_projects,
-           :custom_fields_trackers
-
   include Redmine::I18n
 
   def setup
@@ -110,7 +96,7 @@ class IssueImportTest < ActiveSupport::TestCase
     import.save!
 
     issues = new_records(Issue, 3) {import.run}
-    assert_equal ['New', 'New', 'Assigned'], issues.map(&:status).map(&:name)
+    assert_equal ['New', 'New', 'Assigned'], issues.map {|x| x.status.name}
   end
 
   def test_parent_should_be_set
@@ -273,6 +259,28 @@ class IssueImportTest < ActiveSupport::TestCase
     assert_equal Date.new(2020, 2, 3), third.due_date
   end
 
+  def test_import_with_relations_and_invalid_issue_should_not_fail
+    import = generate_import_with_mapping('import_issues_with_relation_and_invalid_issues.csv')
+    import.settings['mapping'] = {
+      'project_id' => '1',
+
+      'tracker'          => '1',
+      'subject'          => '2',
+      'status'           => '3',
+      'relation_relates' => '4',
+    }
+    import.save!
+
+    first, second, third, fourth = new_records(Issue, 4) {import.run}
+
+    assert_equal 1, import.unsaved_items.count
+    item = import.unsaved_items.first
+    assert_include "Subject cannot be blank", item.message
+
+    assert_equal 1, first.relations_from.count
+    assert_equal 1, second.relations_to.count
+  end
+
   def test_assignee_should_be_set
     import = generate_import_with_mapping
     import.mapping['assigned_to'] = '11'
@@ -294,7 +302,7 @@ class IssueImportTest < ActiveSupport::TestCase
 
   def test_list_custom_field_should_be_set
     field = CustomField.find(1)
-    field.tracker_ids = Tracker.all.ids
+    field.tracker_ids = Tracker.ids
     field.save!
     import = generate_import_with_mapping
     import.mapping["cf_1"] = '8'
@@ -308,7 +316,7 @@ class IssueImportTest < ActiveSupport::TestCase
 
   def test_multiple_list_custom_field_should_be_set
     field = CustomField.find(1)
-    field.tracker_ids = Tracker.all.ids
+    field.tracker_ids = Tracker.ids
     field.multiple = true
     field.save!
     import = generate_import_with_mapping
@@ -439,6 +447,38 @@ class IssueImportTest < ActiveSupport::TestCase
       guessed_encoding = import.settings['encoding']
       assert_equal 'CP932', lu(user, :general_csv_encoding)
       assert_equal 'CP932', guessed_encoding
+    end
+  end
+
+  def test_encoding_guessing_respects_multibyte_boundaries
+    # Reading a specified number of bytes from the beginning of this file
+    # may stop in the middle of a multi-byte character, which can lead to
+    # an invalid UTF-8 string.
+    test_file = 'mbcs-multiline-text.txt'
+    chunk = File.read(Rails.root.join('test', 'fixtures', 'files', test_file), 4096)
+    chunk.force_encoding('UTF-8') # => "...😃😄😅\xF0\x9F"
+    assert_not chunk.valid_encoding?
+
+    import = generate_import(test_file)
+    with_settings :repositories_encodings => 'UTF-8,ISO-8859-1' do
+      import.set_default_settings
+      guessed_encoding = import.settings['encoding']
+      assert_equal 'UTF-8', guessed_encoding
+    end
+  end
+
+  def test_set_default_settings_should_detect_field_wrapper
+    to_test = {
+      'import_issues.csv' => '"',
+      'import_issues_single_quotation.csv' => "'",
+      # Use '"' as a wrapper for CSV file with no wrappers
+      'import_dates.csv' => '"',
+    }
+
+    to_test.each do |file, expected|
+      import = generate_import(file)
+      import.set_default_settings
+      assert_equal expected, import.settings['wrapper']
     end
   end
 end

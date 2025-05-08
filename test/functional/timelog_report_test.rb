@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,17 +17,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class TimelogReportTest < Redmine::ControllerTest
   tests TimelogController
-
-  fixtures :projects, :enabled_modules, :roles, :members, :member_roles,
-           :email_addresses,
-           :issues, :time_entries, :users, :trackers, :enumerations,
-           :issue_statuses, :custom_fields, :custom_values,
-           :projects_trackers, :custom_fields_trackers,
-           :custom_fields_projects
 
   include Redmine::I18n
 
@@ -110,8 +103,8 @@ class TimelogReportTest < Redmine::ControllerTest
     get :report, :params => {:project_id => 1, :columns => 'month', :criteria => ["user", "activity"]}
     assert_response :success
 
-    assert_select 'td.name a.user.active[href=?]', '/users/1', 1, :text => 'Redmine Admin'
-    assert_select 'td.name a.user.locked[href=?]', '/users/2', 1, :text => 'John Smith'
+    assert_select 'td.name a.user.active[href=?]', '/users/1', :text => 'Redmine Admin', :count => 1
+    assert_select 'td.name a.user.locked[href=?]', '/users/2', :text => 'John Smith', :count => 1
   end
 
   def test_report_custom_field_criteria_with_multiple_values_on_single_value_custom_field_should_not_fail
@@ -222,6 +215,19 @@ class TimelogReportTest < Redmine::ControllerTest
 
     assert_select 'th', :text => 'Status'
     assert_select 'td', :text => 'New'
+  end
+
+  def test_report_activity_criterion_should_aggregate_system_activity_and_project_activity
+    activity = TimeEntryActivity.create!(:name => 'Design', :parent_id => 9, :project_id => 3)
+    TimeEntry.generate!(:project_id => 3, :issue_id => 5, :activity_id => activity.id, :spent_on => '2007-05-23', :hours => 10.0)
+
+    get :report, :params => {:project_id => 1, :criteria => ['activity']}
+    assert_response :success
+
+    assert_select 'tr.last-level' do
+      assert_select 'td.name', :text => 'Design'
+      assert_select 'td.hours:last', :text => '165:15'
+    end
   end
 
   def test_report_all_projects_csv_export

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -60,11 +60,6 @@ module Redmine
           def scm_version_from_command_line
             shellout("#{sq_bin} --version") {|io| io.read}.to_s
           end
-        end
-
-        def initialize(url, root_url=nil, login=nil, password=nil, path_encoding=nil)
-          super
-          @path_encoding = path_encoding.blank? ? 'UTF-8' : path_encoding
         end
 
         def path_encoding
@@ -381,11 +376,14 @@ module Redmine
           identifier = ''
           # git shows commit author on the first occurrence only
           authors_by_commit = {}
+          prev_blames_by_commit = {}
           content.split("\n").each do |line|
             if line =~ /^([0-9a-f]{39,40})\s.*/
               identifier = $1
             elsif line =~ /^author (.+)/
               authors_by_commit[identifier] = $1.strip
+            elsif line =~ /^previous (.+)/
+              prev_blames_by_commit[identifier] = $1.strip
             elsif line =~ /^\t(.*)/
               blame.add_line(
                 $1,
@@ -394,7 +392,8 @@ module Redmine
                   :revision   => identifier,
                   :scmid      => identifier,
                   :author     => authors_by_commit[identifier]
-                )
+                ),
+                prev_blames_by_commit[identifier]
               )
               identifier = ''
               author = ''
@@ -441,7 +440,7 @@ module Redmine
 
         private
 
-        def git_cmd(args, options = {}, &block)
+        def git_cmd(args, options = {}, &)
           repo_path = root_url || url
           full_args = ['--git-dir', repo_path]
           if self.class.client_version_above?([1, 7, 2])
@@ -453,7 +452,7 @@ module Redmine
             shellout(
               self.class.sq_bin + ' ' + full_args.map {|e| shell_quote e.to_s}.join(' '),
               options,
-              &block
+              &
             )
           if $? && $?.exitstatus != 0
             raise ScmCommandAborted, "git exited with non-zero status: #{$?.exitstatus}"

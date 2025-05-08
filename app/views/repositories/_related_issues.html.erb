@@ -11,7 +11,7 @@
 <ul>
 <% @changeset.issues.visible.each do |issue| %>
   <li id="<%= "related-issue-#{issue.id}" %>"><%= link_to_issue issue %>
-    <%= link_to(l(:label_relation_delete),
+    <%= link_to(sprite_icon('link-break', l(:label_relation_delete)),
                 {:controller => 'repositories', :action => 'remove_related_issue',
                   :id => @project, :repository_id => @repository.identifier_param,
                   :rev => @changeset.identifier, :issue_id => issue},

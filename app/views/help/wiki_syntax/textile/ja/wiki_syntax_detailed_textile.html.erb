@@ -1,0 +1,346 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>RedmineWikiFormatting</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<%= stylesheet_link_tag "wiki_syntax_detailed.css" %>
+</head>
+
+<body>
+<h1><a name="1" class="wiki-page"></a>Wiki記法</h1>
+
+    <ul class='toc'>
+        <li><a href='#2'>リンク</a></li>
+        <ul>
+            <li><a href='#3'>Redmine内のリンク</a></li>
+            <li><a href='#4'>外部リンク</a></li>
+        </ul>
+        <li><a href='#5'>テキストの書式</a></li>
+        <ul>
+            <li><a href='#6'>文字の書式</a></li>
+            <li><a href='#7'>画像</a></li>
+            <li><a href='#8'>見出し</a></li>
+            <li><a href='#9'>段落</a></li>
+            <li><a href='#10'>引用</a></li>
+            <li><a href='#11'>目次</a></li>
+            <li><a href='#14'>区切り線</a></li>
+        </ul>
+        <li><a href='#12'>マクロ</a></li>
+        <li><a href='#13'>コードハイライト</a></li>
+    </ul>
+
+    <h2><a name="2" class="wiki-page"></a>リンク</h2>
+
+        <h3><a name="3" class="wiki-page"></a>Redmine内のリンク</h3>
+
+        <p>RedmineはWiki記法が使える箇所のどこからでも、チケット・チェンジセット・Wikiページなどのリソースへのリンクができます。</p>
+        <ul>
+            <li>チケットへのリンク: <strong>#124</strong> (終了したチケットは <del><a href="#" class="issue" title="bulk edit doesn't change the category or fixed version properties (Closed)">#124</a></del> のように取り消し線付きで表示されます)</li>
+            <li>チケットへのリンク (トラッカー名と題名も表示): <strong>##124</strong> (表示例: <a href="#" class="issue" title="bulk edit doesn't change the category or fixed version properties (New)">Bug #124</a>: bulk edit doesn't change the category or fixed version properties)</li>
+            <li>チケットのコメントへのリンク: <strong>#124-6</strong> または <strong>#124#note-6</strong></li>
+            <li>同じチケット内のコメントへのリンク: <strong>#note-6</strong></li>
+        </ul>
+
+        <p>Wikiへのリンク:</p>
+
+        <ul>
+            <li><strong>[[Guide]]</strong> "Guide"という名称のページへのリンク: <a href="#" class="wiki-page">Guide</a></li>
+            <li><strong>[[Guide#further-reading]]</strong> "Guide"というページ内の"further-reading"というアンカーに飛びます。見出しには自動的にアンカーが設定されるのでこのようにリンク先とすることができます: <a href="#" class="wiki-page">Guide</a></li>
+            <li><strong>[[#further-reading]]</strong> 同じページ内のアンカー"further-reading"へのリンク: <a href="#" class="wiki-page">#further-reading</a></li>
+            <li><strong>[[Guide|User manual]]</strong> "Guide"というページへのリンクを異なるテキストで表示: <a href="#" class="wiki-page">User manual</a></li>
+        </ul>
+
+        <p>別のプロジェクトのwikiへのリンクも可能です:</p>
+
+        <ul>
+          <li><strong>[[sandbox:some page]]</strong> sandboxというプロジェクトのwikiの"some page"という名称のページへのリンク</li>
+            <li><strong>[[sandbox:]]</strong> sanbdoxというプロジェクトのwikiのメインページへのリンク</li>
+        </ul>
+
+        <p>存在しないwikiページへのリンクは赤で表示されます。 例: <a href="#" class="wiki-page new">Nonexistent page</a>.</p>
+
+        <p>そのほかのリソースへのリンク:</p>
+
+        <ul>
+            <li>文書:
+                <ul>
+                    <li><strong>document#17</strong> (id 17の文書へのリンク)</li>
+                    <li><strong>document:Greetings</strong> ("Greetings" というタイトルの文書へのリンク)</li>
+                    <li><strong>document:"Some document"</strong> (文書のタイトルに空白が含まれる場合はダブルクォーテーションで囲んでください)</li>
+                    <li><strong>sandbox:document:"Some document"</strong> ("sandbox" というプロジェクトの "Some document" というタイトルの文書へのリンク)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>バージョン:
+                <ul>
+                    <li><strong>version#3</strong> (id 3のバージョンへのリンク)</li>
+                    <li><strong>version:1.0.0</strong> ("1.0.0"という名称のバージョンへのリンク)</li>
+                    <li><strong>version:"1.0 beta 2"</strong></li>
+                    <li><strong>sandbox:version:1.0.0</strong> ("sandbox"というプロジェクトの "1.0.0" という名称のバージョンへのリンク)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>添付ファイル:
+                <ul>
+                    <li><strong>attachment:file.zip</strong> (現在のオブジェクトに添付された file.zip というファイルへのリンク)</li>
+                    <li>現在のオブジェクト上の添付ファイルのみリンク先として指定できます (例えばあるチケットからは、そのチケットに添付されたファイルのみリンク先にできます)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>チェンジセット:
+                <ul>
+                    <li><strong>r758</strong>                       (チェンジセットへのリンク)</li>
+                    <li><strong>commit:c6f4d0fd</strong>            (ハッシュ値によるチェンジセットへのリンク)</li>
+                    <li><strong>svn1|r758</strong>                  (複数のリポジトリが設定されたプロジェクトで、特定のリポジトリのチェンジセットへのリンク)</li>
+                    <li><strong>commit:hg|c6f4d0fd</strong>         (ハッシュ値による、特定のリポジトリのチェンジセットへのリンク)</li>
+                    <li><strong>sandbox:r758</strong>               (他のプロジェクトのチェンジセットへのリンク)</li>
+                    <li><strong>sandbox:commit:c6f4d0fd</strong>    (ハッシュ値による、他のプロジェクトのチェンジセットへのリンク)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+             <li>リポジトリ内のファイル:
+                <ul>
+                    <li><strong>source:some/file</strong>           (プロジェクトのリポジトリ内の /some/file というファイルへのリンク)</li>
+                    <li><strong>source:some/file@52</strong>        (ファイルのリビジョン52へのリンク)</li>
+                    <li><strong>source:some/file#L120</strong>      (ファイルの120行目へのリンク)</li>
+                    <li><strong>source:some/file@52#L120</strong>   (リビジョン52のファイルの120行目へのリンク)</li>
+                    <li><strong>source:"some file@52#L120"</strong> (URLにスペースが含まれる場合はダブルクォーテーションで囲んでください)</li>
+                    <li><strong>export:some/file</strong>           (ファイルのダウンロードを強制)</li>
+                    <li><strong>source:svn1|some/file</strong>      (複数のリポジトリが設定されたプロジェクトで、特定のリポジトリのファイルへのリンク)</li>
+                    <li><strong>sandbox:source:some/file</strong>   ("sandbox" というプロジェクトのリポジトリ上の /some/file というファイルへのリンク)</li>
+                    <li><strong>sandbox:export:some/file</strong>   (ファイルのダウンロードを強制)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>フォーラム:
+                <ul>
+                    <li><strong>forum#1</strong> (id 1のフォーラムへのリンク)</li>
+                    <li><strong>forum:Support</strong> ("Support"という名称のフォーラムへのリンク)</li>
+                    <li><strong>forum:"Technical Support"</strong> (フォーラム名に空白が含まれる場合はダブルクォーテーションで囲んでください)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>フォーラムのメッセージ:
+                <ul>
+                    <li><strong>message#1218</strong> (id 1218のメッセージへのリンク)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>プロジェクト:
+                <ul>
+                    <li><strong>project#3</strong> (id 3のプロジェクトへのリンク)</li>
+                    <li><strong>project:someproject</strong> ("someproject"という名称のプロジェクトへのリンク)</li>
+                    <li><strong>project:"some project"</strong> (プロジェクト名に空白が含まれる場合はダブルクォーテーションで囲んでください)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>ニュース:
+                <ul>
+                    <li><strong>news#2</strong> (id 2のニュースへのリンク)</li>
+                    <li><strong>news:Greetings</strong> ("Greetings"というタイトルのニュースへのリンク)</li>
+                    <li><strong>news:"First Release"</strong> (タイトルに空白が含まれる場合はダブルクォーテーションで囲んでください)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>ユーザー:
+                <ul>
+                    <li><strong>user#2</strong> (id 2のユーザーへのリンク)</li>
+                    <li><strong>user:jsmith</strong> (jsmith というログインIDのユーザーへのリンク)</li>
+                    <li><strong>@jsmith</strong> (jsmith というログインIDのユーザーへのリンク)</li>
+                </ul>
+            </li>
+        </ul>
+
+        <p>エスケープ:</p>
+
+        <ul>
+            <li>テキストをRedmineのリンクとして解釈させたくない場合は感嘆符 ! を前につけてください。</li>
+        </ul>
+
+
+        <h3><a name="4" class="wiki-page"></a>外部リンク</h3>
+
+        <p>URL(starting with: www, http, https, ftp, ftps, sftp and sftps)とメールアドレスは自動的にリンクになります:</p>
+
+<pre>
+https://www.redmine.org, someone@foo.bar
+</pre>
+
+        <p>上記記述の表示例です: <a class="external" href="https://www.redmine.org">https://www.redmine.org</a>, <a href="mailto:someone@foo.bar" class="email">someone@foo.bar</a></p>
+
+        <p>URLのかわりに別のテキストを表示させたい場合は、標準的なtextile記法が利用できます:</p>
+
+<pre>
+"Redmine web site":https://www.redmine.org
+</pre>
+
+        <p>上記記述の表示例です: <a href="https://www.redmine.org" class="external">Redmine web site</a></p>
+
+
+    <h2><a name="5" class="wiki-page"></a>テキストの書式</h2>
+
+
+    <p>見出し、太字、テーブル、リスト等は、RedmineはTextile記法での記述に対応しています。Textile記法の詳細は <a class="external" href="https://en.wikipedia.org/wiki/Textile_%28markup_language%29">https://en.wikipedia.org/wiki/Textile_(markup_language)</a> を参照してください。Textileの一例を以下に示しますが、実際にはここで取り上げた以外の記法にも対応しています。</p>
+
+        <h3><a name="6" class="wiki-page"></a>文字の書式</h3>
+
+<pre>
+* *太字*
+* _斜体_
+* _*太字で斜体*_
+* +下線+
+* -取り消し線-
+</pre>
+
+        <p>表示例:</p>
+
+        <ul>
+            <li><strong>太字</strong></li>
+            <li><em>斜体</em></li>
+            <li><em><strong>太字で斜体</strong></em></li>
+            <li><ins>下線</ins></li>
+            <li><del>取り消し線</del></li>
+        </ul>
+
+        <h3><a name="7" class="wiki-page"></a>画像</h3>
+
+        <ul>
+            <li><strong>!image_url!</strong> image_urlで指定されたURLの画像を表示 (Textile記法)</li>
+            <li><strong>!&gt;image_url!</strong> 画像を右寄せ・テキスト回り込みありで表示</li>
+            <li>Wikiページに添付された画像があれば、ファイル名を指定して画像を表示させることができます: <strong>!attached_image.png!</strong></li>
+            <li>PCのクリップボード内の画像は Ctrl-v または Command-v で直接貼り付けることができます (Internet Explorerには対応していません)。</li>
+            <li>画像ファイルをテキストエリアにドロップするとアップロードと画像の埋め込みが行われます。</li>
+        </ul>
+
+        <h3><a name="8" class="wiki-page"></a>見出し</h3>
+
+<pre>
+h1. Heading
+
+h2. Subheading
+
+h3. Subsubheading
+</pre>
+
+        <p>Redmineは見出しにアンカーを設定するので、"#Heading", "#Subheading"のように記述して見出しへのリンクが行えます。</p>
+
+
+        <h3><a name="9" class="wiki-page"></a>段落</h3>
+
+<pre>
+p&gt;. 右寄せ
+p=. センタリング
+</pre>
+
+        <p style="text-align:center;">センタリングされた段落</p>
+
+
+        <h3><a name="10" class="wiki-page"></a>引用</h3>
+
+        <p>段落を <strong>bq.</strong> で開始してください。</p>
+
+<pre>
+bq. Rails is a full-stack framework for developing database-backed web applications according to the Model-View-Control pattern.
+To go live, all you need to add is a database and a web server.
+</pre>
+
+        <p>表示例:</p>
+
+        <blockquote>
+                <p>Rails is a full-stack framework for developing database-backed web applications according to the Model-View-Control pattern.<br />To go live, all you need to add is a database and a web server.</p>
+        </blockquote>
+
+
+        <h3><a name="11" class="wiki-page"></a>目次</h3>
+
+<pre>
+{{toc}} =&gt; 目次(左寄せ)
+{{&gt;toc}} =&gt; 目次(右寄せ)
+</pre>
+
+        <h3><a name="14" class="wiki-page"></a>区切り線</h3>
+
+<pre>
+---
+</pre>
+
+    <h2><a name="12" class="wiki-page"></a>マクロ</h2>
+
+    <p>Redmineには以下の組み込みマクロが用意されています:</p>
+
+    <p>
+    <dl>
+      <dt><code>hello_world</code></dt>
+      <dd><p>サンプルのマクロです。</p></dd>
+
+      <dt><code>macro_list</code></dt>
+      <dd><p>利用可能なマクロの一覧を表示します。マクロの説明があればそれも表示します。</p></dd>
+
+      <dt><code>child_pages</code></dt>
+      <dd><p>子ページの一覧を表示します。引数の指定が無ければ現在のwikiページの子ページを表示します。以下は使用例です:</p>
+      <pre><code>{{child_pages}} -- wikiページでのみ使用可能です
+{{child_pages(depth=2)}} -- 2階層分のみ表示します</code></pre></dd>
+
+      <dt><code>include</code></dt>
+      <dd><p>別のWikiページの内容を挿入します。 以下は使用例です:</p>
+      <pre><code>{{include(Foo)}}</code></pre>
+      <p>別プロジェクトのWikiページを挿入することもできます:</p>
+      <pre><code>{{include(projectname:Foo)}}</code></pre></dd>
+
+      <dt><code>collapse</code></dt>
+      <dd><p>折り畳まれた状態のテキストを挿入します。以下は使用例です:</p>
+      <pre><code>{{collapse(詳細を表示...)
+この部分はデフォルトでは折り畳まれた状態で表示されます。
+リンクをクリックすると展開されます。
+}}</code></pre></dd>
+
+      <dt><code>thumbnail</code></dt>
+      <dd><p>添付ファイルのクリック可能なサムネイル画像を表示します。以下は使用例です:</p>
+      <pre>{{thumbnail(image.png)}}
+{{thumbnail(image.png, size=300, title=Thumbnail)}}</pre></dd>
+
+      <dt><code>issue</code></dt>
+      <dd><p>チケットへのリンクをカスタマイズ可能なテキストとともに挿入します。以下は使用例です:</p>
+      <pre>{{issue(123)}}                              -- Issue #123: Enhance macro capabilities
+{{issue(123, project=true)}}                -- Andromeda - Issue #123:Enhance macro capabilities
+{{issue(123, tracker=false)}}               -- #123: Enhance macro capabilities
+{{issue(123, subject=false, project=true)}} -- Andromeda - Issue #123</pre></dd>
+    </dl>
+    </p>
+
+    <h2><a name="13" class="wiki-page"></a>コードハイライト</h2>
+
+    <p>RedmineはRubyで記述されたコードハイライト用ライブラリ <a href="https://rouge.jneen.net/" class="external">Rouge</a> を使用しています。Rougeは <strong>c</strong>, <strong>cpp</strong> (c++), <strong>csharp</strong> (c#, cs), <strong>css</strong>, <strong>diff</strong> (patch, udiff), <strong>go</strong> (golang), <strong>groovy</strong>, <strong>html</strong>, <strong>java</strong>, <strong>javascript</strong> (js), <strong>kotlin</strong>, <strong>objective_c</strong> (objc), <strong>perl</strong> (pl), <strong>php</strong>, <strong>python</strong> (py), <strong>r</strong>, <strong>ruby</strong> (rb), <strong>sass</strong>, <strong>scala</strong>, <strong>shell</strong> (bash, zsh, ksh, sh), <strong>sql</strong>, <strong>swift</strong>, <strong>xml</strong>, <strong>yaml</strong> (yml) など一般的に使われている多数の言語に対応しています（括弧内の名前はコードハイライトの指定に利用できる別名です）。全対応言語の一覧は <a href="<%= help_code_highlighting_path %>" target="_blank">List of languages supported by Redmine code highlighter</a> を参照してください。</p>
+
+    <p>Wiki記法に対応している箇所であればどこでも以下の記述によりコードハイライトが利用できます (言語名・別名では大文字・小文字は区別されません):</p>
+
+<pre>
+&lt;pre&gt;&lt;code class="ruby"&gt;
+  Place your code here.
+&lt;/code&gt;&lt;/pre&gt;
+</pre>
+
+    <p>表示例:</p>
+
+<pre><code class="ruby syntaxhl"><span class="c1"># The Greeter class</span>
+<span class="k">class</span> <span class="nc">Greeter</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+    <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span><span class="p">.</span><span class="nf">capitalize</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">salute</span>
+    <span class="nb">puts</span> <span class="s2">"Hello </span><span class="si">#{</span><span class="vi">@name</span><span class="si">}</span><span class="s2">!"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+</body>
+</html>

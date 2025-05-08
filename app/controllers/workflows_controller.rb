@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -45,8 +45,8 @@ class WorkflowsController < ApplicationController
   def update
     if @roles && @trackers && params[:transitions]
       transitions = params[:transitions].deep_dup
-      transitions.each do |old_status_id, transitions_by_new_status|
-        transitions_by_new_status.each do |new_status_id, transition_by_rule|
+      transitions.each_value do |transitions_by_new_status|
+        transitions_by_new_status.each_value do |transition_by_rule|
           transition_by_rule.reject! {|rule, transition| transition == 'no_change'}
         end
       end
@@ -58,7 +58,9 @@ class WorkflowsController < ApplicationController
 
   def permissions
     if @roles && @trackers
-      @fields = (Tracker::CORE_FIELDS_ALL - @trackers.map(&:disabled_core_fields).reduce(:&)).map {|field| [field, l("field_"+field.sub(/_id$/, ''))]}
+      @fields = (Tracker::CORE_FIELDS_ALL - @trackers.map(&:disabled_core_fields).reduce(:&)).map do |field|
+        [field, l("field_#{field.delete_suffix('_id')}")]
+      end
       @custom_fields = @trackers.map(&:custom_fields).flatten.uniq.sort
       @permissions = WorkflowPermission.rules_by_status_id(@trackers, @roles)
       @statuses.each {|status| @permissions[status.id] ||= {}}
@@ -68,7 +70,7 @@ class WorkflowsController < ApplicationController
   def update_permissions
     if @roles && @trackers && params[:permissions]
       permissions = params[:permissions].deep_dup
-      permissions.each do |field, rule_by_status_id|
+      permissions.each_value do |rule_by_status_id|
         rule_by_status_id.reject! {|status_id, rule| rule == 'no_change'}
       end
       WorkflowPermission.replace_permissions(@trackers, @roles, permissions)
@@ -161,6 +163,8 @@ class WorkflowsController < ApplicationController
       role_ids = Role.all.select(&:consider_workflow?).map(&:id)
       status_ids = WorkflowTransition.where(
         :tracker_id => @trackers.map(&:id), :role_id => role_ids
+      ).where(
+        'old_status_id <> new_status_id'
       ).distinct.pluck(:old_status_id, :new_status_id).flatten.uniq
       @statuses = IssueStatus.where(:id => status_ids).sorted.to_a.presence
     end

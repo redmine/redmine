@@ -1,18 +1,17 @@
 == Redmine installation
 
 Redmine - project management software
-Copyright (C) 2006-2022  Jean-Philippe Lang
-http://www.redmine.org/
+Copyright (C) 2006-  Jean-Philippe Lang
+https://www.redmine.org/
 
 
 == Requirements
 
-* Ruby 2.5, 2.6, 2.7, 3.0, 3.1
-* Bundler >= 1.12.0
+* Ruby 3.2, 3.3, 3.4
 
 * A database:
-  * MySQL (tested with MySQL 5.7)
-  * PostgreSQL (tested with PostgreSQL 9.5)
+  * MySQL (tested with MySQL 8)
+  * PostgreSQL (tested with PostgreSQL 14)
   * SQLite3 (tested with SQLite 3.11)
   * SQLServer (tested with SQLServer 2012)
 
@@ -20,6 +19,9 @@ Optional:
 * SCM binaries (e.g. svn, git...), for repository browsing (must be
   available in PATH)
 * ImageMagick (to enable Gantt export to png images)
+
+Supported browsers:
+The current version of Firefox, Safari, Chrome, Chromium and Microsoft Edge.
 
 == Installation
 
@@ -51,25 +53,45 @@ Optional:
      bundle exec rake generate_secret_token
 
    Alternatively, you can store this secret in config/secrets.yml:
-   http://guides.rubyonrails.org/upgrading_ruby_on_rails.html#config-secrets-yml
+   https://guides.rubyonrails.org/upgrading_ruby_on_rails.html#config-secrets-yml
 
-6. Create the database structure
+6. Compile assets (optional)
+
+   Compile the assets such as stylesheets, javascripts and images into the public/assets
+   directory for web server delivery.
+
+   By default, Redmine automatically recompiles assets in production mode when the application starts.
+   This behavior can be controlled using the "config.assets.redmine_detect_update" flag in the configuration file.
+
+   To manually compile assets or if automatic compilation is disabled:
+
+   using:
+     bundle exec rake assets:precompile RAILS_ENV="production"
+
+   If deploying to a sub-uri, set the relative URL root as follows:
+     bundle exec rake assets:precompile RAILS_ENV="production" RAILS_RELATIVE_URL_ROOT=/sub-uri
+
+   If you experience issues with missing assets in the browser, try
+   removing the public/assets directory before re-running the precompile:
+     bundle exec rake assets:clobber RAILS_ENV="production"
+
+7. Create the database structure
 
    Under the application main directory run:
      bundle exec rake db:migrate RAILS_ENV="production"
 
    It will create all the tables and an administrator account.
 
-7. Setting up permissions (Windows users have to skip this section)
+8. Setting up permissions (Windows users have to skip this section)
 
    The user who runs Redmine must have write permission on the following
-   subdirectories: files, log, tmp & public/plugin_assets.
+   subdirectories: files, log, tmp & public/assets.
 
    Assuming you run Redmine with a user named "redmine":
-     sudo chown -R redmine:redmine files log tmp public/plugin_assets
-     sudo chmod -R 755 files log tmp public/plugin_assets
+     sudo chown -R redmine:redmine files log tmp public/assets
+     sudo chmod -R 755 files log tmp public/assets
 
-8. Test the installation by running the Puma web server
+9. Test the installation by running the Puma web server
 
    Under the main application directory run:
      ruby bin/rails server -e production
@@ -77,12 +99,32 @@ Optional:
    Once Puma has started, point your browser to http://localhost:3000/
    You should now see the application welcome page.
 
-9. Use the default administrator account to log in:
+10. Use the default administrator account to log in:
    login: admin
    password: admin
 
    Go to "Administration" to load the default configuration data (roles,
    trackers, statuses, workflow) and to adjust the application settings
+
+== Database server configuration
+
+When using MySQL with Redmine 5.1.1 or later, it is necessary to change
+the transaction isolation level from the default REPEATABLE READ to
+READ_COMMITTED. To modify this setting, either change the database
+configuration file or alter the settings on your MySQL server.
+
+To set the transaction isolation level in the database configuration file,
+add transaction_isolation variable as below:
+
+  production:
+    adapter: mysql2
+    database: redmine
+    host: localhost
+    [...]
+    variables:
+      transaction_isolation: "READ-COMMITTED"
+
+More details can be found in https://www.redmine.org/projects/redmine/wiki/MySQL_configuration.
 
 == SMTP server Configuration
 
@@ -94,10 +136,10 @@ Please do not enter your SMTP settings in environment.rb.
 
 == References
 
-* http://www.redmine.org/wiki/redmine/RedmineInstall
-* http://www.redmine.org/wiki/redmine/EmailConfiguration
-* http://www.redmine.org/wiki/redmine/RedmineSettings
-* http://www.redmine.org/wiki/redmine/RedmineRepositories
-* http://www.redmine.org/wiki/redmine/RedmineReceivingEmails
-* http://www.redmine.org/wiki/redmine/RedmineReminderEmails
-* http://www.redmine.org/wiki/redmine/RedmineLDAP
+* https://www.redmine.org/projects/redmine/wiki/RedmineInstall
+* https://www.redmine.org/projects/redmine/wiki/EmailConfiguration
+* https://www.redmine.org/projects/redmine/wiki/RedmineSettings
+* https://www.redmine.org/projects/redmine/wiki/RedmineRepositories
+* https://www.redmine.org/projects/redmine/wiki/RedmineReceivingEmails
+* https://www.redmine.org/projects/redmine/wiki/RedmineReminderEmails
+* https://www.redmine.org/projects/redmine/wiki/RedmineLDAP

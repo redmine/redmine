@@ -72,8 +72,8 @@ module ObjectHelpers
     tracker
   end
 
-  def Tracker.generate!(attributes={}, &block)
-    tracker = Tracker.generate(attributes, &block)
+  def Tracker.generate!(attributes={}, &)
+    tracker = Tracker.generate(attributes, &)
     tracker.save!
     tracker
   end
@@ -102,8 +102,8 @@ module ObjectHelpers
 
   # Generates a saved Issue
   # Doesn't send notifications by default, use :notify => true to send them
-  def Issue.generate!(attributes={}, &block)
-    issue = Issue.generate(attributes, &block)
+  def Issue.generate!(attributes={}, &)
+    issue = Issue.generate(attributes, &)
     issue.save!
     issue.reload
   end
@@ -155,8 +155,8 @@ module ObjectHelpers
     entry
   end
 
-  def TimeEntry.generate!(attributes={}, &block)
-    entry = TimeEntry.generate(attributes, &block)
+  def TimeEntry.generate!(attributes={}, &)
+    entry = TimeEntry.generate(attributes, &)
     entry.save!
     entry
   end
@@ -208,7 +208,7 @@ module ObjectHelpers
   def IssueCustomField.generate!(attributes={})
     super do |field|
       field.is_for_all = true unless attributes.key?(:is_for_all)
-      field.tracker_ids = Tracker.all.ids unless attributes.key?(:tracker_ids) || attributes.key?(:trackers)
+      field.tracker_ids = Tracker.ids unless attributes.key?(:tracker_ids) || attributes.key?(:trackers)
       yield field if block_given?
     end
   end
@@ -288,7 +288,7 @@ module TrackerObjectHelpers
     end
   end
 end
-Tracker.send :include, TrackerObjectHelpers
+Tracker.include TrackerObjectHelpers
 
 module IssueObjectHelpers
   def close!
@@ -300,4 +300,4 @@ module IssueObjectHelpers
     Issue.generate!(attributes.merge(:parent_issue_id => self.id))
   end
 end
-Issue.send :include, IssueObjectHelpers
+Issue.include IssueObjectHelpers

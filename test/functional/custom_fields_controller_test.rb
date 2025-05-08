@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,22 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class CustomFieldsControllerTest < Redmine::ControllerTest
-  fixtures :custom_fields, :custom_values,
-           :custom_fields_projects, :custom_fields_trackers,
-           :roles, :users,
-           :members, :member_roles,
-           :groups_users,
-           :trackers, :projects_trackers,
-           :enabled_modules,
-           :projects, :issues,
-           :issue_statuses,
-           :issue_categories,
-           :enumerations,
-           :workflows
-
   def setup
     @request.session[:user_id] = 1
   end
@@ -295,6 +282,23 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
     assert_select '[name=?]', 'custom_field[full_width_layout]', 0
   end
 
+  def test_setting_ratio_interval_should_be_present_only_for_progressbar_format
+    get(
+      :new,
+      :params => {
+        :type => 'IssueCustomField',
+          :custom_field => {
+            :field_format => 'progressbar'
+          }
+      }
+    )
+    assert_response :success
+    assert_select '[name=?]', 'custom_field[ratio_interval]' do
+      assert_select 'option[value=?]', '5'
+      assert_select 'option[value=?][selected=?]', '10', 'selected'
+    end
+  end
+
   def test_new_js
     get(
       :new,
@@ -361,7 +365,7 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
         assert_select "input[type=checkbox][name=?][value=#{tracker_id}][checked=checked]", 'custom_field[tracker_ids][]'
       end
       # tracker not checked
-      (Tracker.all.pluck(:id) - tracker_ids).each do |tracker_id|
+      (Tracker.pluck(:id) - tracker_ids).each do |tracker_id|
         assert_select "input[type=checkbox][name=?][value=#{tracker_id}]", 'custom_field[tracker_ids][]'
       end
       # project checked
@@ -369,7 +373,7 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
         assert_select "input[type=checkbox][name=?][value=#{project_id}][checked=checked]", 'custom_field[project_ids][]'
       end
       # project not checked
-      (Project.all.pluck(:id) - project_ids).each do |project_id|
+      (Project.pluck(:id) - project_ids).each do |project_id|
         assert_select "input[type=checkbox][name=?][value=#{project_id}]", 'custom_field[project_ids][]'
       end
     end
@@ -445,7 +449,7 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
           }
         }
       )
-      assert_response 302
+      assert_response :found
     end
     field = IssueCustomField.order("id desc").first
     assert_equal [1, 3], field.projects.map(&:id).sort
@@ -514,7 +518,7 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
           :custom_field => {:name => 'Copy'}
         }
       )
-      assert_response 302
+      assert_response :found
     end
     field = IssueCustomField.order('id desc').first
     assert_equal 'Copy', field.name
@@ -540,7 +544,7 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
         :id => 99
       }
     )
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_update
@@ -594,10 +598,10 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
   end
 
   def custom_field_classes
-    files =
-      Dir.glob(File.join(Rails.root, 'app/models/*_custom_field.rb')).
-        map {|f| File.basename(f).sub(/\.rb$/, '')}
-    classes = files.map(&:classify).map(&:constantize)
+    classes =
+      Dir.glob(Rails.root.join('app/models/*_custom_field.rb')).map do |f|
+        File.basename(f, '.rb').classify.constantize
+      end
     assert classes.size > 0
     classes
   end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,7 +18,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module CustomFieldsHelper
-
   CUSTOM_FIELDS_TABS = [
     {:name => 'IssueCustomField', :partial => 'custom_fields/index',
      :label => :label_issue_plural},
@@ -79,20 +78,24 @@ module CustomFieldsHelper
 
   # Return custom field html tag corresponding to its format
   def custom_field_tag(prefix, custom_value)
-    css = custom_value.custom_field.css_classes
+    cf = custom_value.custom_field
+    css = cf.css_classes
+    placeholder = cf.description
+    placeholder&.tr!("\n", ' ') if cf.field_format != 'text'
     data = nil
-    if custom_value.custom_field.full_text_formatting?
+    if cf.full_text_formatting?
       css += ' wiki-edit'
       data = {
         :auto_complete => true
       }
     end
-    custom_value.custom_field.format.edit_tag(
+    cf.format.edit_tag(
       self,
-      custom_field_tag_id(prefix, custom_value.custom_field),
-      custom_field_tag_name(prefix, custom_value.custom_field),
+      custom_field_tag_id(prefix, cf),
+      custom_field_tag_name(prefix, cf),
       custom_value,
       :class => css,
+      :placeholder => placeholder,
       :data => data)
   end
 
@@ -151,7 +154,7 @@ module CustomFieldsHelper
   def custom_field_value_tag(value)
     attr_value = show_value(value)
 
-    if !attr_value.blank? && value.custom_field.full_text_formatting?
+    if attr_value.present? && value.custom_field.full_text_formatting?
       content_tag('div', attr_value, :class => 'wiki')
     else
       attr_value
@@ -160,12 +163,12 @@ module CustomFieldsHelper
 
   # Return a string used to display a custom value
   def show_value(custom_value, html=true)
-    format_object(custom_value, html)
+    format_object(custom_value, html: html)
   end
 
   # Return a string used to display a custom value
   def format_value(value, custom_field)
-    format_object(custom_field.format.formatted_value(self, custom_field, value, false), false)
+    format_object(custom_field.format.formatted_value(self, custom_field, value, false), html: false)
   end
 
   # Return an array of custom field formats which can be used in select_tag
@@ -175,7 +178,7 @@ module CustomFieldsHelper
 
   # Yields the given block for each custom field value of object that should be
   # displayed, with the custom field and the formatted value as arguments
-  def render_custom_field_values(object, &block)
+  def render_custom_field_values(object, &)
     object.visible_custom_field_values.each do |custom_value|
       formatted = show_value(custom_value)
       if formatted.present?

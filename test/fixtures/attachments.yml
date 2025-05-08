@@ -309,3 +309,17 @@ attachments_023:
   filename: ecookbook-gantt.pdf
   author_id: 2
   description: Gantt chart as of May 11
+attachments_024:
+  created_on: 2023-01-11 08:46:41 +00:00
+  content_type: image/webp
+  container_type: WikiPage
+  container_id: 1
+  downloads: 0
+  disk_filename: 230111173947_logo.webp
+  disk_directory: "2023/01"
+  digest: 9219249de57e601a0bb65845304bc44bb1961ea1c2b8ace28c38fa40c3c741e5
+  id: 24
+  filesize: 74974
+  filename: logo.webp
+  author_id: 2
+  description: WebP image

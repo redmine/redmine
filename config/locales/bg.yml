@@ -75,7 +75,7 @@ bg:
   number:
     format:
       separator: "."
-      delimiter: ""
+      delimiter: " "
       precision: 3
 
     human:
@@ -96,8 +96,9 @@ bg:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "и"
-      skip_last_comma: false
+      last_word_connector: " и "
+      two_words_connector: " и "
+      words_connector: ", "
 
   activerecord:
     errors:
@@ -137,6 +138,8 @@ bg:
         must_contain_lowercase: "трябва да съдържа малки букви (a-z)"
         must_contain_digits: "трябва да съдържа цифри (0-9)"
         must_contain_special_chars: "трябва да съдържа специални символи (!, $, %, ...)"
+        domain_not_allowed: "contains a domain not allowed (%{domain})"
+        too_simple: "is too simple"
 
   actionview_instancetag_blank_option: Изберете
 
@@ -158,7 +161,6 @@ bg:
   notice_account_wrong_password: Грешна парола
   notice_account_register_done: Профилът е създаден успешно. E-mail, съдържащ инструкции за активиране на профила
     е изпратен на %{email}.
-  notice_account_unknown_email: Непознат e-mail.
   notice_account_not_activated_yet: Вие не сте активирали вашия профил все още. Ако искате да
     получите нов e-mail за активиране, моля <a href="%{url}">натиснете тази връзка</a>.
   notice_account_locked: Вашият профил е блокиран.
@@ -207,7 +209,7 @@ bg:
   error_no_tracker_in_project: Няма асоциирани тракери с този проект. Проверете настройките на проекта.
   error_no_default_issue_status: Няма установено подразбиращо се състояние за задачите. Моля проверете вашата конфигурация (Вижте "Администрация -> Състояния на задачи").
   error_can_not_delete_custom_field: Невъзможност за изтриване на потребителско поле
-  error_can_not_delete_tracker: Този тракер съдържа задачи и не може да бъде изтрит.
+  error_can_not_delete_tracker_html: Този тракер съдържа задачи и не може да бъде изтрит.<p>The following projects have issues with this tracker:<br>%{projects}</p>
   error_can_not_remove_role: Тази роля се използва и не може да бъде изтрита.
   error_can_not_reopen_issue_on_closed_version: Задача, асоциирана със затворена версия не може да бъде отворена отново
   error_can_not_archive_project: Този проект не може да бъде архивиран
@@ -274,6 +276,9 @@ bg:
   mail_body_security_notification_notify_disabled: Имейл адрес %{value} вече не получава известия.
   mail_body_settings_updated: ! 'Изменения в конфигурацията:'
   mail_body_password_updated: Вашата парола е сменена.
+  mail_destroy_project_failed: Проект %{value} не беше изтрит.
+  mail_destroy_project_successful: Проект %{value} беше изтрит успешно.
+  mail_destroy_project_with_subprojects_successful: Проект %{value} и неговите подпроекти бяха изтрити успешно.
 
   field_name: Име
   field_description: Описание
@@ -301,6 +306,7 @@ bg:
   field_title: Заглавие
   field_project: Проект
   field_issue: Задача
+  field_is_member_of_group: Член на група
   field_status: Състояние
   field_notes: Бележка
   field_is_closed: Затворена задача
@@ -312,7 +318,7 @@ bg:
   field_priority: Приоритет
   field_fixed_version: Планувана версия
   field_user: Потребител
-  field_principal: Principal
+  field_principal: User or Group
   field_role: Роля
   field_homepage: Начална страница
   field_is_public: Публичен
@@ -326,6 +332,7 @@ bg:
   field_language: Език
   field_effective_date: Дата
   field_password: Парола
+  field_current_password: Текуща парола
   field_new_password: Нова парола
   field_password_confirmation: Потвърждение
   field_twofa_scheme: Схема за двуфакторна автентикация
@@ -414,6 +421,11 @@ bg:
   field_twofa_required: Изискване за двуфакторна автентикация
   field_default_issue_query: Заявка по подразбиране
   field_default_project_query: Заявка по подразбиране за проекта
+  field_default_time_entry_activity: Дейност по подразбиране за изразходвано време
+  field_estimated_remaining_hours: Изчислено оставащо време
+  field_any_searchable: Всички обекти с текст (заглавие, описание, коментари на задачи, потребителски полета)
+  field_last_activity_date: Последна активност
+  field_thousands_delimiter: Раделител на хилядите
 
   setting_app_title: Заглавие
   setting_welcome_text: Допълнителен текст
@@ -471,6 +483,7 @@ bg:
   setting_default_projects_modules: Активирани модули по подразбиране за нов проект
   setting_issue_done_ratio: Изчисление на процента на готови задачи с
   setting_issue_done_ratio_issue_field: Използване на поле '% Прогрес'
+  setting_issue_done_ratio_interval: Done ratio options interval
   setting_issue_done_ratio_issue_status: Използване на състоянието на задачите
   setting_start_of_week: Първи ден на седмицата
   setting_rest_api_enabled: Разрешаване на REST web сървис
@@ -495,6 +508,7 @@ bg:
   setting_force_default_language_for_anonymous: Задължително език по подразбиране за анонимните потребители
   setting_force_default_language_for_loggedin: Задължително език по подразбиране за потребителите, влезли в Redmine
   setting_link_copied_issue: Свързване на задачите при копиране
+  setting_copy_attachments_on_issue_copy: Копиране на файловете при копиране
   setting_max_additional_emails: Максимален брой на допълнителните имейл адреси
   setting_email_domains_allowed: Разрешени имейл домейни
   setting_email_domains_denied: Забранени имейл домейни
@@ -518,6 +532,7 @@ bg:
   permission_edit_project: Редактиране на проект
   permission_close_project: Затваряне / отваряне на проект
   permission_delete_project: Изтриване на проект
+  permission_select_project_publicity: Установяване на проект публичен или частен
   permission_select_project_modules: Избор на проектни модули
   permission_manage_members: Управление на членовете (на екип)
   permission_manage_project_activities: Управление на дейностите на проекта
@@ -624,6 +639,7 @@ bg:
   label_issue_assigned_to_updated: Задачата е с назначен нов изпълнител
   label_issue_priority_updated: Обновен приоритет
   label_issue_fixed_version_updated: Променена версия
+  label_issue_attachment_added: Добавен файл
   label_document: Документ
   label_document_new: Нов документ
   label_document_plural: Документи
@@ -670,7 +686,6 @@ bg:
   label_assigned_issues: Назначени задачи
   label_assigned_to_me_issues: Възложени на мен
   label_updated_issues: Задачи с промени
-  label_last_login: Последно свързване
   label_registered_on: Регистрация
   label_activity: Дейност
   label_user_activity: "Активност на %{value}"
@@ -706,6 +721,10 @@ bg:
   label_attachment_plural: Файлове
   label_file_added: Добавен файл
   label_attachment_description: Описание на файла
+  label_attachment_summary:
+    zero: "%{filename}"
+    one: "%{filename} и 1 файл"
+    other: "%{filename} и %{count} файла"
   label_report: Справка
   label_report_plural: Справки
   label_news: Новини
@@ -805,6 +824,7 @@ bg:
   label_more_than_ago: преди повече от
   label_ago: преди
   label_contains: съдържа
+  label_contains_any_of: съдържа което и да е от
   label_not_contains: не съдържа
   label_starts_with: започва с
   label_ends_with: завършва с
@@ -813,11 +833,13 @@ bg:
   label_no_issues_in_project: никакви задачи в проект
   label_any_open_issues: отворени задачи
   label_no_open_issues: без отворени задачи
+  label_has_been: някога е било
+  label_has_never_been: никога не е било
+  label_changed_from: променено от
   label_day_plural: дни
   label_repository: Хранилище
   label_repository_new: Ново хранилище
   label_repository_plural: Хранилища
-  label_browse: Разглеждане
   label_branch: работен вариант
   label_tag: Версия
   label_revision: Ревизия
@@ -833,12 +855,9 @@ bg:
   label_latest_revision_plural: Последни ревизии
   label_view_revisions: Виж ревизиите
   label_view_all_revisions: Разглеждане на всички ревизии
+  label_view_previous_annotation: Показване на анотацията преди промяната
   label_x_revisions: "%{count} ревизии"
   label_max_size: Максимална големина
-  label_sort_highest: Премести най-горе
-  label_sort_higher: Премести по-горе
-  label_sort_lower: Премести по-долу
-  label_sort_lowest: Премести най-долу
   label_roadmap: Пътна карта
   label_roadmap_due_in: "Излиза след %{value}"
   label_roadmap_overdue: "%{value} закъснение"
@@ -874,6 +893,7 @@ bg:
   label_diff_inline: хоризонтално
   label_diff_side_by_side: вертикално
   label_options: Опции
+  label_option_auto_lang: автоматично
   label_copy_workflow_from: Копирай работния процес от
   label_permissions_report: Справка за права
   label_watched_issues: Наблюдавани задачи
@@ -960,6 +980,9 @@ bg:
   label_downloads_abbr: D/L
   label_optional_description: Незадължително описание
   label_add_another_file: Добавяне на друг файл
+  label_auto_watch_on: Автоматично включване в наблюдателите
+  label_auto_watch_on_issue_created: Задачи, които съм създал
+  label_auto_watch_on_issue_contributed_to: Задачи, в които имам участие
   label_preferences: Предпочитания
   label_chronological_order: Хронологичен ред
   label_reverse_chronological_order: Обратен хронологичен ред
@@ -1023,6 +1046,7 @@ bg:
   label_readonly: Само за четене
   label_required: Задължително
   label_required_lower: задължително
+  label_required_administrators: изисквано за администратори
   label_hidden: Скрит
   label_attribute_of_project: Project's %{name}
   label_attribute_of_issue: Issue's %{name}
@@ -1098,20 +1122,22 @@ bg:
   label_font_monospace: Monospaced шрифт
   label_font_proportional: Пропорционален шрифт
   label_optgroup_bookmarks: Отметки
-  label_optgroup_others: Други проекти
   label_optgroup_recents: Последно използвани
   label_last_notes: Последни коментари
   label_default_queries:
     for_all_projects: За всички проекти
     for_current_project: За този проект
     for_all_users: За всички потребители
+    for_this_user: For this user
   label_nothing_to_preview: Няма нищо за предварителен преглед
   label_inherited_from_parent_project: Наследени от родителския проект
   label_inherited_from_group: Наследени от група %{name}
   label_trackers_description: Описание на тракерите
   label_open_trackers_description: Показване на описанията на всички тракери
+  label_issue_statuses_description: Описание на състоянията на задачите
+  label_open_issue_statuses_description: Показване на всички описания на състоянията на задачите
   label_preferred_body_part_text: Текст
-  label_preferred_body_part_html: HTML (експериментално)
+  label_preferred_body_part_html: HTML
   label_issue_history_properties: Промени в състоянието (състояние, версии, категории, процент на изпълнение...)
   label_issue_history_notes: Коментари
   label_last_tab_visited: Последно посетен таб
@@ -1125,6 +1151,9 @@ bg:
   label_my_bookmarks: Моите отметки
   label_assign_to_me: Назначи на мен
   label_default_query: Заявка по подразбиране
+  label_edited: Редактирано
+  label_time_by_author: "%{time} от %{author}"
+  label_involved_principals: Автор / Предишен назначен
 
   button_login: Вход
   button_submit: Изпращане
@@ -1190,6 +1219,7 @@ bg:
   button_edit_object: Редактиране %{object_name}
   button_delete_object: Изтриване %{object_name}
   button_create_and_follow: Създаване и продължаване
+  button_apply_issues_filter: Прилагане на филтъра
 
   status_active: активен
   status_registered: регистриран
@@ -1198,6 +1228,7 @@ bg:
   project_status_active: активен
   project_status_closed: затворен
   project_status_archived: архивиран
+  project_status_scheduled_for_deletion: определен за изтриване
 
   version_status_open: отворена
   version_status_locked: заключена
@@ -1208,7 +1239,19 @@ bg:
   text_select_mail_notifications: Изберете събития за изпращане на e-mail.
   text_regexp_info: пр. ^[A-Z0-9]+$
   text_project_destroy_confirmation: Сигурни ли сте, че искате да изтриете проекта и данните в него?
+  text_projects_bulk_destroy_confirmation: Сигурен ли сте, че искате да изтриете избраните проекти и техните данни?
+  text_projects_bulk_destroy_head: |
+    Вие сте на път да изтриете следващите проекти, включително и техните подпроекти и свързаните с тях данни.
+    Моля прегледайте информацията по-долу и потвърдете, че това наистина е вашето намерение.
+    Това действие не може да бъде върнато назад.
+  text_projects_bulk_destroy_confirm: За да потвърдите, моля въведете "%{yes}" в полето отдолу.
   text_subprojects_destroy_warning: "Неговите подпроекти: %{value} също ще бъдат изтрити."
+  text_subprojects_bulk_destroy: 'включително и неговите подпроекти: %{value}'
+  text_project_close_confirmation: Сигурни ли сте, че желаете да затворите проект '%{value}' и да го направите достъпен само за четене?
+  text_project_reopen_confirmation: Сигурни ли сте, че желаете да отворите отново проект %{value}'?
+  text_project_archive_confirmation: Сигурни ли сте, че желаете да архивирате проект '%{value}'?
+  text_users_bulk_destroy_head: Вие сте на път да изтриете следните потребители и всички връзки към тях. Това не може да бъде върнато назад. Често заключването на потребителите вместо изтриването им е по-добро решение.
+  text_users_bulk_destroy_confirm: За да потвърдите, моля въведете "%{yes}" по-долу.
   text_workflow_edit: Изберете роля и тракер за да редактирате работния процес
   text_are_you_sure: Сигурни ли сте?
   text_journal_changed: "%{label} променен от %{old} на %{new}"
@@ -1253,6 +1296,7 @@ bg:
   text_minimagick_available: Наличен MiniMagick (по избор)
   text_convert_available: Наличен ImageMagick convert (по избор)
   text_gs_available: Налична поддръжка за ImageMagick PDF (по избор)
+  text_default_active_job_queue_changed: Default queue adapter which is well suited only for dev/test changed
   text_destroy_time_entries_question: "%{hours} часа са отделени на задачите, които искате да изтриете. Какво избирате?"
   text_destroy_time_entries: Изтриване на отделеното време
   text_assign_time_entries_to_project: Прехвърляне на отделеното време към проект
@@ -1290,6 +1334,7 @@ bg:
   text_turning_multiple_off: Ако забраните възможността за повече от една стойност, повечето стойности ще бъдат
     премахнати с цел да остане само по една стойност за поле.
   text_select_apply_tracker: Изберете тракер
+  text_select_apply_issue_status: Изберете състояние
   text_avatar_server_config_html: Текущият сървър на аватари е <a href="%{url}">%{url}</a>.
     Бие можете да го конфигурирате в config/configuration.yml.
   text_allowed_queries_to_select: Само публичните (за всички потребители) заявки са достъпни за избор
@@ -1344,6 +1389,7 @@ bg:
   text_project_is_public_anonymous: Публичните проекти са достъпни и тяхното съдържание е видимо без ограничения в мрежата.
   label_import_time_entries: Импортиране на записи за използвано време
   label_import_users: Импортиране на потребители
+  sudo_mode_new_info_html: "<strong>Какво се случва?</strong> Трябва да потвърдите вашата парола преди да предприемете административни действия. Това осигурява вашият акаунт."
 
   twofa__totp__name: Authenticator app
   twofa__totp__text_pairing_info_html: Сканирайте този QR код или въведете текстовия ключ
@@ -1360,6 +1406,8 @@ bg:
     по желание, освен ако тя не е задължителна от някоя от техните групи.
   twofa_hint_required_html: Настройка <strong>%{label}</strong> ще изисква всички потребители
     да установят двуфакторна автентикация при тяхното следващо влизане в Redmine.
+  twofa_hint_required_administrators_html: <strong>%{label}</strong> изглежда като по желание, но ще изисква всички потребители с административни права да установят
+    двуфакторна автентикация при тяхното следващо влизане.
   twofa_label_setup: Активиране на двуфакторна автентикация
   twofa_label_deactivation_confirmation: Деактивация на двуфакторната автентикация
   twofa_notice_select: 'Моля изберете двуфакторна схема, която желаете да използвате:'
@@ -1395,3 +1443,12 @@ bg:
     Това действие не може да бъде отменено. Често заключването на потребителя е по-добро решение от изтриването му.
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
+  field_name_or_email_or_login: Име, e-mail или login име
+  setting_wiki_tablesort_enabled: Javascript based table sorting in wiki content
+  label_progressbar: Progress bar
+  error_spent_on_closed_issue: Cannot log time on a closed issue
+  setting_timelog_accept_closed_issues: Accept time logs on closed issues
+  setting_related_issues_default_columns: Related and sub issues list defaults
+  setting_display_related_issues_table_headers: Show table headers
+  error_can_not_remove_role_reason_members_html: "<p>The following projects have members
+    with this role:<br>%{projects}</p>"

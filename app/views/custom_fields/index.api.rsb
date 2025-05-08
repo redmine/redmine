@@ -3,6 +3,7 @@ api.array :custom_fields do
     api.custom_field do
       api.id                field.id
       api.name              field.name
+      api.description       field.description
       api.customized_type   field.class.customized_class.name.underscore if field.class.customized_class
       api.field_format      field.field_format
       api.regexp            field.regexp
@@ -14,6 +15,7 @@ api.array :custom_fields do
       api.multiple          field.multiple?
       api.default_value     field.default_value
       api.visible           field.visible?
+      api.editable          field.editable?
 
       values = field.possible_values_options
       if values.present?

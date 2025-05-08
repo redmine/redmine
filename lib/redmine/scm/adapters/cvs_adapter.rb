@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # redMine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,7 +23,6 @@ module Redmine
   module Scm
     module Adapters
       class CvsAdapter < AbstractAdapter
-
         # CVS executable name
         CVS_BIN = Redmine::Configuration['scm_cvs_command'] || "cvs"
 
@@ -63,16 +62,10 @@ module Redmine
         #  password -> unnecessary too
         def initialize(url, root_url=nil, login=nil, password=nil,
                        path_encoding=nil)
-          @path_encoding = path_encoding.presence || 'UTF-8'
-          @url      = url
           # TODO: better Exception here (IllegalArgumentException)
           raise CommandFailed if root_url.blank?
 
-          @root_url  = root_url
-
-          # These are unused.
-          @login    = login if login && !login.empty?
-          @password = (password || "") if @login
+          super
         end
 
         def path_encoding
@@ -101,7 +94,7 @@ module Redmine
           cmd_args << path_with_proj(path)
           scm_cmd(*cmd_args) do |io|
             io.each_line() do |line|
-              fields = line.chop.split('/',-1)
+              fields = line.chop.split('/', -1)
               logger.debug(">>InspectLine #{fields.inspect}")
               if fields[0]!="D"
                 time = nil
@@ -120,7 +113,6 @@ module Redmine
                   Entry.new(
                     {
                       :name => scm_iconv('UTF-8', @path_encoding, fields[-5]),
-                      #:path => fields[-4].include?(path)?fields[-4]:(path + "/"+ fields[-4]),
                       :path => scm_iconv('UTF-8', @path_encoding, "#{path_locale}/#{fields[-5]}"),
                       :kind => 'file',
                       :size => nil,
@@ -160,7 +152,7 @@ module Redmine
         # Returns all revisions found between identifier_from and identifier_to
         # in the repository. both identifier have to be dates or nil.
         # these method returns nothing but yield every result in block
-        def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={}, &block)
+        def revisions(path=nil, identifier_from=nil, identifier_to=nil, options={}, &)
           path_with_project_utf8   = path_with_proj(path)
           path_with_project_locale = scm_iconv(@path_encoding, 'UTF-8', path_with_project_utf8)
           logger.debug "<cvs> revisions path:" +
@@ -179,7 +171,7 @@ module Redmine
             file_state = nil
             branch_map = nil
             io.each_line() do |line|
-              if state != "revision" && /^#{ENDLOG}/.match?(line)
+              if state != "revision" && line.start_with?(ENDLOG)
                 commit_log = ""
                 revision   = nil
                 state      = "entry_start"
@@ -192,9 +184,9 @@ module Redmine
                   logger.debug("Path #{entry_path} <=> Name #{entry_name}")
                 elsif /^head: (.+)$/ =~ line
                   entry_headRev = $1
-                elsif /^symbolic names:/.match?(line)
+                elsif line.start_with?('symbolic names:')
                   state = "symbolic"
-                elsif /^#{STARTLOG}/.match?(line)
+                elsif line.start_with?(STARTLOG)
                   commit_log = ""
                   state      = "revision"
                 end
@@ -207,15 +199,15 @@ module Redmine
                   next
                 end
               elsif state == "tags"
-                if /^#{STARTLOG}/.match?(line)
+                if line.start_with?(STARTLOG)
                   commit_log = ""
                   state = "revision"
-                elsif /^#{ENDLOG}/.match?(line)
+                elsif line.start_with?(ENDLOG)
                   state = "head"
                 end
                 next
               elsif state == "revision"
-                if /^#{ENDLOG}/ =~ line || /^#{STARTLOG}/ =~ line
+                if line.start_with?(ENDLOG, STARTLOG)
                   if revision
                     revHelper = CvsRevisionHelper.new(revision)
                     revBranch = "HEAD"
@@ -245,7 +237,7 @@ module Redmine
                   end
                   commit_log = ""
                   revision   = nil
-                  if /^#{ENDLOG}/.match?(line)
+                  if line.start_with?(ENDLOG)
                     state = "entry_start"
                   end
                   next
@@ -273,7 +265,7 @@ module Redmine
                   #                  version.line_minus = 0
                   #                end
                 else
-                  commit_log += line unless /^\*\*\* empty log message \*\*\*/.match?(line)
+                  commit_log += line unless line.start_with?('*** empty log message ***')
                 end
               end
             end
@@ -370,11 +362,11 @@ module Redmine
         end
 
         def normalize_cvs_path(path)
-          normalize_path(path.gsub(/Attic\//,''))
+          normalize_path(path.gsub("Attic/", ''))
         end
 
         def normalize_path(path)
-          path.sub(/^(\/)*(.*)/,'\2').sub(/(.*)(,v)+/,'\1')
+          path.sub(/^(\/)*(.*)/, '\2').sub(/(.*)(,v)+/, '\1')
         end
 
         def path_with_proj(path)
@@ -389,7 +381,7 @@ module Redmine
           end
         end
 
-        def scm_cmd(*args, &block)
+        def scm_cmd(*args, &)
           full_args = ['-d', root_url]
           full_args += args
           full_args_locale = []
@@ -400,7 +392,7 @@ module Redmine
             shellout(
               self.class.sq_bin + ' ' +
                 full_args_locale.map {|e| shell_quote e.to_s}.join(' '),
-              &block
+              &
             )
           if $? && $?.exitstatus != 0
             raise ScmCommandAborted, "cvs exited with non-zero status: #{$?.exitstatus}"

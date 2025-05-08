@@ -5,15 +5,22 @@
 <%= hidden_field_tag 'gantt', '1' if params[:gantt] %>
 <%= hidden_field_tag 'calendar', '1' if params[:calendar] %>
 
-<p><label for="query_name"><%=l(:field_name)%></label>
-<%= text_field 'query', 'name', :size => 80 %></p>
+<p>
+  <label for="query_name">
+    <%= l(:field_name) %>
+    <span class="required">*</span>
+  </label>
+  <%= text_field 'query', 'name', :size => 80 %>
+</p>
+<p><label for="query_description"><%=l(:field_description)%></label>
+<%= text_field 'query', 'description', :size => 80 %></p>
 
 <% if User.current.admin? ||
       User.current.allowed_to?(:manage_public_queries, @query.project) %>
 <p><label><%=l(:field_visible)%></label>
   <label class="block"><%= radio_button 'query', 'visibility', Query::VISIBILITY_PRIVATE %> <%= l(:label_visibility_private) %></label>
   <label class="block"><%= radio_button 'query', 'visibility', Query::VISIBILITY_PUBLIC %> <%= l(:label_visibility_public) %></label>
-  <% unless @query.type == 'ProjectQuery' %>
+  <% unless @query.is_a?(ProjectQuery) %>
     <label class="block"><%= radio_button 'query', 'visibility', Query::VISIBILITY_ROLES %> <%= l(:label_visibility_roles) %>:</label>
       <% Role.givable.sorted.each do |role| %>
         <label class="block role-visibility"><%= check_box_tag 'query[role_ids][]', role.id, @query.roles.include?(role), :id => nil %> <%= role.name %></label>
@@ -23,9 +30,9 @@
 </p>
 <% end %>
 
-<% unless @query.type == 'ProjectQuery' %>
+<% unless @query.is_a?(ProjectQuery) %>
   <p><label for="query_is_for_all"><%=l(:field_is_for_all)%></label>
-  <%= check_box_tag 'query_is_for_all', 1, @query.project.nil?, :class => (User.current.admin? ? '' : 'disable-unless-private') %></p>
+  <%= check_box_tag 'query_is_for_all', 1, @query.project.nil?, :disabled => (!@query.new_record? && @query.project.nil?), :class => (User.current.admin? ? '' : 'disable-unless-private') %></p>
 <% end %>
 
 <% unless params[:calendar] %>
@@ -34,6 +41,8 @@
       <p><label for='display_type'><%= l(:label_display_type) %></label>
         <%= available_display_types_tags(@query) %>
       </p>
+    <% elsif @query.available_display_types.size == 1 %>
+      <%= hidden_field_tag 'query[display_type]', @query.available_display_types.first %>
     <% end %>
 
     <p id ="default_columns"><label for="query_default_columns"><%=l(:label_default_columns)%></label>
@@ -93,7 +102,11 @@
 <% unless params[:calendar] %>
   <%= content_tag 'fieldset', :id => 'columns' do %>
   <legend><%= l(:field_column_names) %></legend>
-  <%= render_query_columns_selection(query) %>
+  <div id="list-definition">
+    <div>
+      <%= render_query_columns_selection(query) %>
+    </div>
+  </div>
   <% end %>
 <% end %>
 

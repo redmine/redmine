@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -21,6 +21,8 @@ module Redmine
   module Export
     module PDF
       module IssuesPdfHelper
+        include ActionView::Helpers::NumberHelper
+
         # Returns a PDF string of a single issue
         def issue_to_pdf(issue, assoc={})
           pdf = ITCPDF.new(current_language)
@@ -36,7 +38,7 @@ module Redmine
           i = 1
           issue.ancestors.visible.each do |ancestor|
             pdf.set_x(base_x + i)
-            buf = "#{ancestor.tracker} # #{ancestor.id} (#{ancestor.status.to_s}): #{ancestor.subject}"
+            buf = "#{ancestor.tracker} # #{ancestor.id} (#{ancestor.status}): #{ancestor.subject}"
             pdf.RDMMultiCell(190 - i, 5, buf)
             i += 1 if i < 35
           end
@@ -60,7 +62,7 @@ module Redmine
           right << [l(:field_estimated_hours), l_hours(issue.estimated_hours)] unless issue.disabled_core_fields.include?('estimated_hours')
           right << [l(:label_spent_time), l_hours(issue.total_spent_hours)] if User.current.allowed_to?(:view_time_entries, issue.project)
 
-          rows = left.size > right.size ? left.size : right.size
+          rows = [left.size, right.size].max
           left  << nil while left.size  < rows
           right << nil while right.size < rows
 
@@ -82,7 +84,7 @@ module Redmine
             border_last  = 'R'
           end
 
-          rows = left.size > right.size ? left.size : right.size
+          rows = [left.size, right.size].max
           rows.times do |i|
             heights = []
             pdf.SetFontStyle('B', 9)
@@ -339,7 +341,7 @@ module Redmine
                   issue.visible_custom_field_values.detect do |v|
                     v.custom_field_id == column.custom_field.id
                   end
-                is_html = cv.custom_field.full_text_formatting?
+                is_html = cv.custom_field.full_text_formatting? if cv
                 text = show_value(cv, is_html)
               else
                 text = pdf_format_text issue, column.name.to_sym
@@ -400,13 +402,15 @@ module Redmine
                   value = "  " * level + value
                 when :attachments
                   value = value.to_a.map {|a| a.filename}.join("\n")
+                when :watcher_users
+                  value = value.to_a.join("\n")
                 end
                 if value.is_a?(Date)
                   format_date(value)
                 elsif value.is_a?(Time)
                   format_time(value)
                 elsif value.is_a?(Float)
-                  sprintf "%.2f", value
+                  number_with_delimiter(sprintf('%.2f', value), delimiter: nil)
                 else
                   value
                 end

@@ -5,13 +5,13 @@
   <%= back_url_hidden_field_tag %>
   
   <label for="username"><%=l(:field_login)%></label>
-  <%= text_field_tag 'username', params[:username], :tabindex => '1' %>
+  <%= text_field_tag 'username', params[:username], :tabindex => '1', :autocomplete => 'username', :autofocus => params[:username].blank? %>
   
   <label for="password">
     <%=l(:field_password)%>
     <%= link_to l(:label_password_lost), lost_password_path, :class => "lost_password" if Setting.lost_password? %>
   </label>
-  <%= password_field_tag 'password', nil, :tabindex => '2' %>
+  <%= password_field_tag 'password', nil, :tabindex => '2', :autocomplete => 'current-password', :autofocus => params[:username].present? %>
   
   <% if Setting.autologin? %>
     <label for="autologin"><%= check_box_tag 'autologin', 1, false, :tabindex => 4 %> <%= l(:label_stay_logged_in) %></label>
@@ -22,9 +22,3 @@
 </div>
 
 <%= call_hook :view_account_login_bottom %>
-
-<% if params[:username].present? %>
-<%= javascript_tag "$('#password').focus();" %>
-<% else %>
-<%= javascript_tag "$('#username').focus();" %>
-<% end %>

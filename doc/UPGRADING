@@ -1,8 +1,8 @@
 == Redmine upgrade
 
 Redmine - project management software
-Copyright (C) 2006-2022  Jean-Philippe Lang
-http://www.redmine.org/
+Copyright (C) 2006-  Jean-Philippe Lang
+https://www.redmine.org/
 
 
 == Upgrading
@@ -20,7 +20,7 @@ http://www.redmine.org/
 
 4. Copy the folders of the installed plugins and themes into new installation
    Plugins must be stored in the [redmine_root]/plugins directory
-   Themes must be stored in the [redmine_root]/public/themes directory
+   Themes must be stored in the [redmine_root]/themes directory
 
    WARNING: plugins from your previous Redmine version may not be compatible
    with the Redmine version you're upgrading to.
@@ -52,11 +52,31 @@ http://www.redmine.org/
      bundle exec rake generate_secret_token
 
    Alternatively, you can store this secret in config/secrets.yml:
-   http://guides.rubyonrails.org/upgrading_ruby_on_rails.html#config-secrets-yml
+   https://guides.rubyonrails.org/upgrading_ruby_on_rails.html#config-secrets-yml
 
    DO NOT REPLACE OR EDIT ANY OTHER FILES.
 
-7. Migrate your database
+7. Compile assets (optional)
+
+   Compile the assets such as stylesheets, javascripts and images into the public/assets
+   directory for web server delivery.
+
+   By default, Redmine automatically recompiles assets in production mode when the application starts.
+   This behavior can be controlled using the "config.assets.redmine_detect_update" flag from configuration file.
+
+   To manually compile assets or if automatic compilation is disabled:
+
+   using:
+     bundle exec rake assets:precompile RAILS_ENV="production"
+
+   If deploying to a sub-uri, set the relative URL root as follows:
+     bundle exec rake assets:precompile RAILS_ENV="production" RAILS_RELATIVE_URL_ROOT=/sub-uri
+
+   If you experience issues with missing assets in the browser, try
+   removing the public/assets directory before re-running the precompile:
+     bundle exec rake assets:clobber RAILS_ENV="production"
+
+8. Migrate your database
 
    If you are upgrading to Rails 2.3.14 as part of this migration, you
    need to upgrade the plugin migrations before running the plugin migrations
@@ -71,14 +91,14 @@ http://www.redmine.org/
    migrations using:
      bundle exec rake db:migrate_plugins RAILS_ENV="production"
 
-8. Clear the cache and the existing sessions by running:
+9. Clear the cache and the existing sessions by running:
      bundle exec rake tmp:cache:clear tmp:sessions:clear
 
-9. Restart the application server (e.g. mongrel, thin, passenger)
+10. Restart the application server (e.g. mongrel, thin, passenger)
 
-10. Finally go to "Administration -> Roles & permissions" to check/set permissions
+11. Finally go to "Administration -> Roles & permissions" to check/set permissions
     for new features, if any
 
 == References
 
-* http://www.redmine.org/wiki/redmine/RedmineUpgrade
+* https://www.redmine.org/projects/redmine/wiki/RedmineUpgrade

@@ -1,0 +1,339 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>RedmineWikiFormatting</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<%= stylesheet_link_tag "wiki_syntax_detailed.css" %>
+</head>
+
+<body>
+<h1><a name="1" class="wiki-page"></a>Mise en page Wiki</h1>
+
+    <ul class='toc'>
+        <li><a href='#2'>Liens</a></li>
+        <ul>
+            <li><a href='#3'>Liens Redmine</a></li>
+            <li><a href='#4'>Liens externes</a></li>
+        </ul>
+        <li><a href='#5'>Formatage du texte</a></li>
+        <ul>
+            <li><a href='#6'>Police d'écriture</a></li>
+            <li><a href='#7'>Afficher une image</a></li>
+            <li><a href='#8'>Titre</a></li>
+            <li><a href='#9'>Paragraphes</a></li>
+            <li><a href='#10'>Blockquotes</a></li>
+            <li><a href='#11'>Table des matières</a></li>
+            <li><a href='#14'>Règle horizontale</a></li>
+        </ul>
+        <li><a href='#12'>Macros</a></li>
+        <li><a href='#13'>Coloration syntaxique</a></li>
+    </ul>
+
+    <h2><a name="2" class="wiki-page"></a>Liens</h2>
+
+        <h3><a name="3" class="wiki-page"></a>Liens Redmine</h3>
+
+        <p>Redmine autorise les hyperliens entre différentes ressources (Demandes, révisions, pages wiki...) n'importe où la mise en page Wiki est utilisée.</p>
+        <ul>
+            <li>Lien vers une demande: <strong>#124</strong> (affiche <del><a href="#" class="issue" title="bulk edit doesn't change the category or fixed version properties (Closed)">#124</a></del>, le lien est barré si la demande est fermée)</li>
+            <li>Link to an issue including tracker name and subject: <strong>##124</strong> (displays <a href="#" class="issue" title="bulk edit doesn't change the category or fixed version properties (New)">Bug #124</a>: bulk edit doesn't change the category or fixed version properties)</li>
+            <li>Lien vers une note d'une demande: <strong>#124-6</strong>, ou <strong>#124#note-6</strong></li>
+            <li>Link to an issue note within the same issue: <strong>#note-6</strong></li>
+        </ul>
+
+        <p>Liens entre Wiki:</p>
+
+        <ul>
+            <li><strong>[[Guide]]</strong> affiche un lien vers la page nommé 'Guide': <a href="#" class="wiki-page">Guide</a></li>
+            <li><strong>[[Guide#balise-avancée]]</strong> vous emmène à la balise "balise-avancée". Les titres ont automatiquement une balise assignée afin de pouvoir s'y référer: <a href="#" class="wiki-page">Guide</a></li>
+            <li><strong>[[#further-reading]]</strong> link to the anchor "further-reading" of the current page: <a href="#" class="wiki-page">#further-reading</a></li>
+            <li><strong>[[Guide|Manuel Utilisateur]]</strong> affiche un lien vers la même page mais avec un texte différent: <a href="#" class="wiki-page">Manuel Utilisateur</a></li>
+        </ul>
+
+        <p>Vous pouvez aussi faire des liens vers des pages du Wiki d'un autre projet:</p>
+
+        <ul>
+            <li><strong>[[sandbox:une page]]</strong> affiche un lien vers une page nommée 'Une page' du Wiki du projet Sandbox</li>
+            <li><strong>[[sandbox:]]</strong> affiche un lien vers la page principal du Wiki du projet Sandbox</li>
+        </ul>
+
+        <p>Les liens Wiki sont affichés en rouge si la page n'existe pas encore, ie: <a href="#" class="wiki-page new">Page inexistante</a>.</p>
+
+        <p>Liens vers d'autres ressources:</p>
+
+        <ul>
+            <li>Documents:
+                <ul>
+                    <li><strong>document#17</strong> (lien vers le document dont l'id est 17)</li>
+                    <li><strong>document:Salutations</strong> (lien vers le document dont le titre est "Salutations")</li>
+                    <li><strong>document:"Un document"</strong> (Les guillements peuvent être utilisé quand le titre du document comporte des espaces)</li>
+                    <li><strong>sandbox:document:"Un document"</strong> (Lien vers le document dont le titre est "Un document" dans le projet différent "sandbox")</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>Versions:
+                <ul>
+                    <li><strong>version#3</strong> (lien vers la version dont l'id est 3)</li>
+                    <li><strong>version:1.0.0</strong> (lien vers la version nommée "1.0.0")</li>
+                    <li><strong>version:"1.0 beta 2"</strong></li>
+                    <li><strong>sandbox:version:1.0.0</strong> (lien vers la version nommée "1.0.0" dans le projet "sandbox")</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>Pièces jointes:
+                <ul>
+                    <li><strong>attachment:file.zip</strong> (lien vers la pièce jointe de l'objet nommée file.zip)</li>
+                    <li>Pour le moment, seules les pièces jointes de l'objet peuvent être référencées (si vous êtes sur une demande, il est possibe de faire référence aux pièces jointes de cette demande uniquement)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>Révisions:
+                <ul>
+                    <li><strong>r758</strong>                       (lien vers une révision)</li>
+                    <li><strong>commit:c6f4d0fd</strong>            (lien vers une révision sans référence numérique)</li>
+                    <li><strong>svn1|r758</strong>                  (lien vers un dépôt spécifique, pour les projets ayant plusieurs dépôts)</li>
+                    <li><strong>commit:hg|c6f4d0fd</strong>         (lien vers une révision sans référence numérique d'un dépôt spécifique)</li>
+                    <li><strong>sandbox:r758</strong>               (Lien vers une révision d'un projet différent)</li>
+                    <li><strong>sandbox:commit:c6f4d0fd</strong>    (lien vers une révision sans référence numérique d'un autre projet)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+             <li>Fichier de dépôt:
+                <ul>
+                    <li><strong>source:un/fichier</strong>           (Lien vers le fichier situé dans /un/fichier dans le dépôt du projet)</li>
+                    <li><strong>source:un/fichier@52</strong>        (Lien vers le fichier de la révison 52)</li>
+                    <li><strong>source:un/fichier#L120</strong>      (Lien vers la ligne 120 du fichier fichier)</li>
+                    <li><strong>source:un/fichier@52#L120</strong>   (Lien vers la ligne 120 du fichier de la révison 52)</li>
+                    <li><strong>source:"un fichier@52#L120"</strong> (Utilisez des guillemets quand l'url contient des espaces)</li>
+                    <li><strong>export:un/fichier</strong>           (Force le téléchargement du fichier)</li>
+                    <li><strong>source:svn1|un/fichier</strong>      (Lien vers le fichier dans un dépôt spécifique, pour les projets contenant plusieurs dépôts)</li>
+                    <li><strong>sandbox:source:un/fichier</strong>   (Lien vers le fichier situé dans /un/fichier dans le dépôt du projet "sandbox")</li>
+                    <li><strong>sandbox:export:un/fichier</strong>   (Force le téléchargement du fichier dans le dépôt du projet "sandbox")</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>Forums:
+                <ul>
+                    <li><strong>forum#1</strong> (link to forum with id 1</li>
+                    <li><strong>forum:Support</strong> (link to forum named Support)</li>
+                    <li><strong>forum:"Technical Support"</strong> (use double quotes if forum name contains spaces)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>Messages du forum:
+                <ul>
+                    <li><strong>message#1218</strong> (Lien vers le message dont l'id est 1218)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>Projet:
+                <ul>
+                    <li><strong>project#3</strong> (Lien vers le projet dont l'id est 3)</li>
+                    <li><strong>project:unprojet</strong> (Lien vers le projet nommé "unprojet")</li>
+                    <li><strong>project:"un projet"</strong> (use double quotes if project name contains spaces)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>News:
+                <ul>
+                    <li><strong>news#2</strong> (link to news item with id 2)</li>
+                    <li><strong>news:Greetings</strong> (link to news item named "Greetings")</li>
+                    <li><strong>news:"First Release"</strong> (use double quotes if news item name contains spaces)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>Users:
+                <ul>
+                    <li><strong>user#2</strong> (link to user with id 2)</li>
+                    <li><strong>user:jsmith</strong> (Link to user with login jsmith)</li>
+                    <li><strong>@jsmith</strong> (Link to user with login jsmith)</li>
+                </ul>
+            </li>
+        </ul>
+
+        <p>Eviter ces lien:</p>
+
+        <ul>
+            <li>Vous pouvez empêcher les liens Redmine de se faire en les précédant d'un point d'exclamaion : !</li>
+        </ul>
+
+
+        <h3><a name="4" class="wiki-page"></a>Liens externes</h3>
+
+        <p>URLs (starting with: www, http, https, ftp, ftps, sftp and sftps) and email addresses are automatically turned into clickable links:</p>
+
+<pre>
+https://www.redmine.org, someone@foo.bar
+</pre>
+
+        <p>affiche: <a class="external" href="https://www.redmine.org">https://www.redmine.org</a>, <a href="mailto:someone@foo.bar" class="email">someone@foo.bar</a></p>
+
+        <p>Si vous voulez afficher un texte spécifique à la place de l'URL, vous pouvez utilisez la syntaxe standard textile:</p>
+
+<pre>
+"Site Web Redmine":https://www.redmine.org
+</pre>
+
+        <p>affiche: <a href="https://www.redmine.org" class="external">Site Web Redmine</a></p>
+
+
+    <h2><a name="5" class="wiki-page"></a>Formatage du texte</h2>
+
+
+    <p>Pour les éléments tel que, gras, tableau, listes, Redmine utilise la syntaxe Textile. Voir <a class="external" href="http://fr.wikipedia.org/wiki/Textile_%28langage%29">http://fr.wikipedia.org/wiki/Textile_(langage)</a> pour les informations sur l'utilisation de ces fonctionnalités. Quelques exemples sont inclus ci-dessous, mais le moteur est capable de beaucoup plus.</p>
+
+        <h3><a name="6" class="wiki-page"></a>Police d'écriture</h3>
+
+<pre>
+* *gras*
+* _italique_
+* _*gras _italique_*_
+* +sous-ligné+
+* -barré-
+</pre>
+
+        <p>Affiche:</p>
+
+        <ul>
+            <li><strong>gras</strong></li>
+            <li><em>_italique_</em></li>
+            <li><em><strong>gras italique</strong></em></li>
+            <li><ins>sous-ligné</ins></li>
+            <li><del>barré</del></li>
+        </ul>
+
+        <h3><a name="7" class="wiki-page"></a>Afficher une image</h3>
+
+        <ul>
+            <li><strong>!url_de_l_image!</strong> affiche une image situé à l'adresse displays an image located at url_de_l_image (syntaxe Textile)</li>
+            <li><strong>!&gt;url_de_l_image!</strong> Image affichée à droite</li>
+            <li>Si vous avez une image en pièce jointe de votre page Wiki, elle peut être affiché en utilisant simplement sont nom: <strong>!image_en_piece_jointe.png!</strong></li>
+            <li>Images in your computer's clipboard can be pasted directly using Ctrl-v or Command-v (note that Internet Explorer is not supported).</li>
+            <li>Image files can be dragged onto the text area in order to be uploaded and embedded.</li>
+        </ul>
+
+        <h3><a name="8" class="wiki-page"></a>Titre</h3>
+
+<pre>
+h1. Titre
+
+h2. Sous-titre
+
+h3. Sous-sous-titre
+</pre>
+
+        <p>Redmine assigne une balise à chacun de ses titres, vous pouvez donc les lier avec "#Titre", "#Sous-titre" et ainsi de suite.</p>
+
+
+        <h3><a name="9" class="wiki-page"></a>Paragraphes</h3>
+
+<pre>
+p&gt;. aligné à droite
+p=. centré
+</pre>
+
+        <p style="text-align:center;">Ceci est un paragraphe centré.</p>
+
+
+        <h3><a name="10" class="wiki-page"></a>Blockquotes</h3>
+
+        <p>Commencer le paragraphe par <strong>bq.</strong></p>
+
+<pre>
+bq. Ruby on Rails, également appelé RoR ou Rails est un framework web libre écrit en Ruby. Il suit le motif de conception Modèle-Vue-Contrôleur aussi nommé MVC.
+Pour commencer à l'utiliser, il ne vous faut qu'un serveur web et une base de données.
+</pre>
+
+        <p>Affiche</p>
+
+        <blockquote>
+                <p>Ruby on Rails, également appelé RoR ou Rails est un framework web libre écrit en Ruby. Il suit le motif de conception Modèle-Vue-Contrôleur aussi nommé MVC.<br />Pour commencer à l'utiliser, il ne vous faut qu'un serveur web et une base de données.</p>
+        </blockquote>
+
+
+        <h3><a name="11" class="wiki-page"></a>Table des matières</h3>
+
+<pre>
+{{toc}} =&gt;  table des matières centrées à gauche
+{{&gt;toc}} =&gt; table des matières centrées à droite
+</pre>
+
+        <h3><a name="14" class="wiki-page"></a>Règle horizontale</h3>
+
+<pre>
+---
+</pre>
+
+    <h2><a name="12" class="wiki-page"></a>Macros</h2>
+
+    <p>Redmine possède les macros suivantes:</p>
+
+    <p>
+    <dl>
+      <dt><code>hello_world</code></dt>
+      <dd><p>Macro d'exemple.</p></dd>
+
+      <dt><code>macro_list</code></dt>
+      <dd><p>Affiche une liste de toutes les macros disponibles, les descriptions sont incluses si celles-ci sont disponibles.</p></dd>
+
+      <dt><code>child_pages</code></dt>
+      <dd><p>Affiche une liste des sous-pages. Sans argument, cela affiche les sous-pages de la page courante. Exemples :</p>
+      <pre><code>{{child_pages}} -- peut être utilisé depuis une page wiki uniquement
+{{child_pages(depth=2)}} -- affiche deux niveaux d'arborescence seulement</code></pre></dd>
+
+      <dt><code>include</code></dt>
+      <dd><p>Inclut une page Wiki. Exemple :</p>
+      <pre><code>{{include(Foo)}}</code></pre>
+      <p>ou pour inclure une page d'un wiki de projet spécifique :</p>
+      <pre><code>{{include(projectname:Foo)}}</code></pre></dd>
+
+      <dt><code>collapse</code></dt>
+      <dd><p>Insère un bloc de texte enroulé. Exemple :</p>
+      <pre><code>{{collapse(Voir les détails...)
+Ceci est un bloc de texte qui est caché par défaut.
+Il peut être déroulé en cliquant sur le lien.
+}}</code></pre></dd>
+
+      <dt><code>thumbnail</code></dt>
+      <dd><p>Affiche une miniature cliquable d'une image jointe. Exemples :</p>
+      <pre>{{thumbnail(image.png)}}
+{{thumbnail(image.png, size=300, title=Miniature)}}</pre></dd>
+    </dl>
+    </p>
+
+    <h2><a name="13" class="wiki-page"></a>Coloration syntaxique</h2>
+
+    <p>Default code highlighting relies on <a href="https://rouge.jneen.net/" class="external">Rouge</a>, a pure Ruby code highlighter. Rouge supports many commonly used languages such as <strong>c</strong>, <strong>cpp</strong> (c++), <strong>csharp</strong> (c#, cs), <strong>css</strong>, <strong>diff</strong> (patch, udiff), <strong>go</strong> (golang), <strong>groovy</strong>, <strong>html</strong>, <strong>java</strong>, <strong>javascript</strong> (js), <strong>kotlin</strong>, <strong>objective_c</strong> (objc), <strong>perl</strong> (pl), <strong>php</strong>, <strong>python</strong> (py), <strong>r</strong>, <strong>ruby</strong> (rb), <strong>sass</strong>, <strong>scala</strong>, <strong>shell</strong> (bash, zsh, ksh, sh), <strong>sql</strong>, <strong>swift</strong>, <strong>xml</strong> and <strong>yaml</strong> (yml) languages - the names inside parentheses are aliases. Please refer to the <a href="<%= help_code_highlighting_path %>" target="_blank">list of languages supported by Redmine code highlighter</a>.</p>
+
+    <p>You can highlight code at any place that supports wiki formatting using this syntax (note that the language name or alias is case-insensitive):</p>
+
+<pre>
+&lt;pre&gt;&lt;code class="ruby"&gt;
+  Placez votre code ici.
+&lt;/code&gt;&lt;/pre&gt;
+</pre>
+
+    <p>Exemple:</p>
+
+<pre><code class="ruby syntaxhl"><span class="c1"># The Greeter class</span>
+<span class="k">class</span> <span class="nc">Greeter</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+    <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span><span class="p">.</span><span class="nf">capitalize</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">salute</span>
+    <span class="nb">puts</span> <span class="s2">"Hello </span><span class="si">#{</span><span class="vi">@name</span><span class="si">}</span><span class="s2">!"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+</body>
+</html>

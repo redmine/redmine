@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../../test_helper', __FILE__)
+require_relative '../../../test_helper'
 
 class Redmine::UnifiedDiffTest < ActiveSupport::TestCase
   def test_subversion_diff
@@ -92,12 +92,12 @@ class Redmine::UnifiedDiffTest < ActiveSupport::TestCase
     raw = <<~DIFF
       --- test.orig.txt Wed Feb 15 16:10:39 2012
       +++ test.new.txt  Wed Feb 15 16:11:25 2012
-      @@ -1,5 +1,5 @@
+      @@ -1,4 +1,4 @@
        Semicolons were mysteriously appearing in code diffs in the repository
-        
+       ```
       -void DoSomething(std::auto_ptr<MyClass> myObj)
       +void DoSomething(const MyClass& myObj)
-       
+       ```
     DIFF
     diff = Redmine::UnifiedDiff.new(raw, :type => 'sbs')
     assert_equal 1, diff.size
@@ -395,22 +395,22 @@ class Redmine::UnifiedDiffTest < ActiveSupport::TestCase
        $ cd git_utf8_repository_hg
       --
       -Next line has white space after '-'
-      -- 
+      --\s
       ---
       --
        $ touch test.txt
        $ hg add test.txt
-       $ hg commit -m `echo -e "U+1F603\U1F603"` -u `echo -e "U+1F603\U1F603"`
+       $ hg commit -m `echo -e "U+1F603\\U1F603"` -u `echo -e "U+1F603\\U1F603"`
       diff --git a/test2.txt b/test2.txt
       --- a/test2.txt
       +++ b/test2.txt
       @@ -5,9 +5,4 @@
        $ hg add test.txt
-       $ hg commit -m `echo -e "U+1F603\U1F603"` -u `echo -e "U+1F603\U1F603"`
+       $ hg commit -m `echo -e "U+1F603\\U1F603"` -u `echo -e "U+1F603\\U1F603"`
        $ hg bookmark master
       --
       -Next line has white space after '-'
-      -- 
+      --\s
       ---
       --
        $ hg push ../git_utf8_repository
@@ -430,7 +430,7 @@ class Redmine::UnifiedDiffTest < ActiveSupport::TestCase
       From: test <none@none>
       Date: Thu, 30 Apr 2020 11:40:20 +0900
       Subject: [PATCH] add 'rpm -q git' and its result
-      
+
       ---
        test.txt | 2 ++
        1 file changed, 2 insertions(+)
@@ -440,14 +440,14 @@ class Redmine::UnifiedDiffTest < ActiveSupport::TestCase
       --- a/test.txt
       +++ b/test.txt
       @@ -6,3 +6,5 @@ $ hg add test.txt
-       $ hg commit -m `echo -e "U+1F603\U1F603"` -u `echo -e "U+1F603\U1F603"`
+       $ hg commit -m `echo -e "U+1F603\\U1F603"` -u `echo -e "U+1F603\\U1F603"`
        $ hg bookmark master
        $ hg push ../git_utf8_repository
       +$ rpm -q git
       +git-1.8.3.1-21.el7_7.x86_64
-      -- 
+      --\s
       1.8.3.1
-      
+
     DIFF
     lines = raw.split("\n")
     lines << ""

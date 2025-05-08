@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,17 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../test_helper', __FILE__)
+require_relative '../../test_helper'
 
 class Redmine::ApiTest::SearchTest < Redmine::ApiTest::Base
-  fixtures :projects, :projects_trackers,
-           :enabled_modules, :roles, :users, :members, :member_roles,
-           :issues, :trackers, :issue_statuses, :enumerations,
-           :workflows,
-           :custom_fields, :custom_values,
-           :custom_fields_projects, :custom_fields_trackers,
-           :repositories, :changesets
-
   test "GET /search.xml should return xml content" do
     get '/search.xml'
 
@@ -82,14 +74,14 @@ class Redmine::ApiTest::SearchTest < Redmine::ApiTest::Base
     assert_equal 11, json['total_count']
     assert_equal 0, json['offset']
     assert_equal 4, json['limit']
-    assert_equal issue[0..3], json['results'].map {|r| r['id']}
+    assert_equal issue[0..3], json['results'].pluck('id')
 
     get '/search.json', :params => {:q => 'search_with_limited_results', :offset => 8, :limit => 4}
     json = ActiveSupport::JSON.decode(response.body)
     assert_equal 11, json['total_count']
     assert_equal 8, json['offset']
     assert_equal 4, json['limit']
-    assert_equal issue[8..10], json['results'].map {|r| r['id']}
+    assert_equal issue[8..10], json['results'].pluck('id')
   end
 
   test "GET /search.xml should not quick jump to the issue with given id" do

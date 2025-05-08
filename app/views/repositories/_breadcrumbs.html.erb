@@ -9,7 +9,7 @@ breadcrumbs << link_to(
   @repository.identifier.presence || 'root', :action => 'show',
   :id => @project, :repository_id => @repository.identifier_param,
   :path => nil, :rev => @rev)
-link_path = ''
+link_path = +''
 
 dirs.each do |dir|
     next if dir.blank?

@@ -2,36 +2,34 @@
 <% available_tag_id = "available_#{tag_id}" %>
 <% selected_tag_id = "selected_#{tag_id}" %>
 
-<span class="query-columns">
-  <span>
+<div class="query-columns">
       <%= label_tag available_tag_id, l(:description_available_columns) %>
       <%= select_tag 'available_columns',
               options_for_select(query_available_inline_columns_options(query)),
               :id => available_tag_id,
               :multiple => true, :size => 10,
               :ondblclick => "moveOptions(this.form.#{available_tag_id}, this.form.#{selected_tag_id});" %>
-  </span>
-  <span class="buttons">
+</div>
+<div class="buttons">
       <input type="button" value="&#8594;" class="move-right"
        onclick="moveOptions(this.form.<%= available_tag_id %>, this.form.<%= selected_tag_id %>);" />
       <input type="button" value="&#8592;" class="move-left"
        onclick="moveOptions(this.form.<%= selected_tag_id %>, this.form.<%= available_tag_id %>);" />
-  </span>
-  <span>
+</div>
+<div class="query-columns">
       <%= label_tag selected_tag_id, l(:description_selected_columns) %>
       <%= select_tag tag_name,
               options_for_select(query_selected_inline_columns_options(query)),
               :id => selected_tag_id,
               :multiple => true, :size => 10,
               :ondblclick => "moveOptions(this.form.#{selected_tag_id}, this.form.#{available_tag_id});" %>
-  </span>
-  <span class="buttons">
+</div>
+<div class="buttons">
       <input type="button" value="&#8648;" onclick="moveOptionTop(this.form.<%= selected_tag_id %>);" />
       <input type="button" value="&#8593;" onclick="moveOptionUp(this.form.<%= selected_tag_id %>);" />
       <input type="button" value="&#8595;" onclick="moveOptionDown(this.form.<%= selected_tag_id %>);" />
       <input type="button" value="&#8650;" onclick="moveOptionBottom(this.form.<%= selected_tag_id %>);" />
-  </span>
-</span>
+</div>
 
 <%= javascript_tag do %>
 $(document).ready(function(){

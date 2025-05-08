@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,23 +23,17 @@ module Redmine
       module Helper
         def wikitoolbar_for(field_id, preview_url = preview_text_path)
           heads_for_wiki_formatter
-          help_file = "/help/#{current_language.to_s.downcase}/wiki_syntax_common_mark.html"
-          # fall back to the english help page if there is none for the current
-          # language
-          unless File.readable? Rails.root.join("public", help_file)
-            help_file = "/help/en/wiki_syntax_common_mark.html"
-          end
-          url = "#{Redmine::Utils.relative_url_root}#{help_file}"
+
           javascript_tag(
             "var wikiToolbar = new jsToolBar(document.getElementById('#{field_id}')); " \
-            "wikiToolbar.setHelpLink('#{escape_javascript url}'); " \
+            "wikiToolbar.setHelpLink('#{escape_javascript help_wiki_syntax_path}'); " \
             "wikiToolbar.setPreviewUrl('#{escape_javascript preview_url}'); " \
             "wikiToolbar.draw();"
           )
         end
 
         def initial_page_content(page)
-          "# #{@page.pretty_title}"
+          "# #{page.pretty_title}"
         end
 
         def heads_for_wiki_formatter

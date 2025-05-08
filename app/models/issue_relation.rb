@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,14 +17,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class IssueRelation < ActiveRecord::Base
+class IssueRelation < ApplicationRecord
   # Class used to represent the relations of an issue
   class Relations < Array
     include Redmine::I18n
 
-    def initialize(issue, *args)
+    def initialize(issue, *)
       @issue = issue
-      super(*args)
+      super(*)
     end
 
     def to_s(*args)
@@ -91,7 +91,7 @@ class IssueRelation < ActiveRecord::Base
 
     attrs = attrs.deep_dup
     if issue_id = attrs.delete('issue_to_id')
-      if issue_id.to_s.strip.match(/\A#?(\d+)\z/)
+      if issue_id.to_s.strip =~ /\A#?(\d+)\z/
         issue_id = $1.to_i
         self.issue_to = Issue.visible(user).find_by_id(issue_id)
       end
@@ -175,7 +175,7 @@ class IssueRelation < ActiveRecord::Base
   def handle_issue_order
     reverse_if_needed
 
-    if TYPE_PRECEDES == relation_type
+    if relation_type == TYPE_PRECEDES
       self.delay ||= 0
     else
       self.delay = nil
@@ -191,13 +191,15 @@ class IssueRelation < ActiveRecord::Base
   end
 
   def successor_soonest_start
-    if (TYPE_PRECEDES == self.relation_type) && delay && issue_from &&
+    if (self.relation_type == TYPE_PRECEDES) && delay && issue_from &&
            (issue_from.start_date || issue_from.due_date)
       add_working_days((issue_from.due_date || issue_from.start_date), (1 + delay))
     end
   end
 
   def <=>(relation)
+    return nil unless relation.is_a?(IssueRelation)
+
     r = TYPES[self.relation_type][:order] <=> TYPES[relation.relation_type][:order]
     r == 0 ? id <=> relation.id : r
   end

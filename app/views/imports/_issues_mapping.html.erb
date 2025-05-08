@@ -6,7 +6,10 @@
 </fieldset>
 
 <fieldset class="box tabular collapsible collapsed">
-  <legend onclick="toggleFieldset(this);" class="icon icon-collapsed"><%= l(:label_relations_mapping) %></legend>
+  <legend onclick="toggleFieldset(this);" class="icon icon-collapsed">
+    <%= sprite_icon("angle-right", rtl: true) %>
+    <%= l(:label_relations_mapping) %>
+  </legend>
   <div id="relations-mapping" style="display: none;">
     <%= render :partial => 'issues_relations_mapping' %>
   </div>

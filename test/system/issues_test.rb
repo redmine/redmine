@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,15 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../application_system_test_case', __FILE__)
+require_relative '../application_system_test_case'
 
 class IssuesSystemTest < ApplicationSystemTestCase
-  fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
-           :trackers, :projects_trackers, :enabled_modules, :issue_statuses, :issues,
-           :enumerations, :custom_fields, :custom_values, :custom_fields_trackers,
-           :watchers, :journals, :journal_details, :versions,
-           :workflows
-
   def test_create_issue
     log_user('jsmith', 'jsmith')
     visit '/projects/ecookbook/issues/new'
@@ -45,7 +39,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
     assert_kind_of Issue, issue
 
     # check redirection
-    find 'div#flash_notice', :visible => true, :text => "Issue \##{issue.id} created."
+    find 'div#flash_notice', :visible => true, :text => "Issue ##{issue.id} created."
     assert_equal issue_path(:id => issue), current_path
 
     # check issue attributes
@@ -152,6 +146,28 @@ class IssuesSystemTest < ApplicationSystemTestCase
     assert_equal 'Some description', issue.attachments.first.description
   end
 
+  def test_create_issue_with_attachment_when_user_is_not_a_member
+    set_tmp_attachments_directory
+    # Set no permission to non-member role
+    non_member_role = Role.where(:builtin => Role::BUILTIN_NON_MEMBER).first
+    non_member_role.permissions = []
+    non_member_role.save
+    # Set role "Reporter" to non-member users on project ecookbook
+    membership = Member.find_or_create_by(user_id: Group.non_member.id, project_id: 1)
+    membership.roles = [Role.find(3)] # Reporter
+    membership.save
+    log_user('someone', 'foo')
+    issue = new_record(Issue) do
+      visit '/projects/ecookbook/issues/new'
+      fill_in 'Subject', :with => 'Issue with attachment'
+      attach_file 'attachments[dummy][file]', Rails.root.join('test/fixtures/files/testfile.txt')
+      fill_in 'attachments[1][description]', :with => 'Some description'
+      click_on 'Create'
+    end
+    assert_equal 1, issue.attachments.count
+    assert_equal 'Some description', issue.attachments.first.description
+  end
+
   def test_create_issue_with_new_target_version
     log_user('jsmith', 'jsmith')
 
@@ -232,6 +248,26 @@ class IssuesSystemTest < ApplicationSystemTestCase
     end
     assert page.has_css?('#flash_notice')
     assert_equal 5, issue.reload.status.id
+  end
+
+  def test_update_issue_with_form_update_should_keep_newly_added_attachments
+    set_tmp_attachments_directory
+    log_user('jsmith', 'jsmith')
+
+    visit '/issues/2'
+    page.first(:link, 'Edit').click
+    attach_file 'attachments[dummy][file]', Rails.root.join('test/fixtures/files/testfile.txt')
+
+    assert page.has_css?('span#attachments_1')
+
+    page.find("#issue_status_id").select("Closed")
+
+    # check that attachment still exists on the page
+    assert page.has_css?('span#attachments_1')
+
+    click_on 'Submit'
+
+    assert_equal 3, Issue.find(2).attachments.count
   end
 
   test "removing issue shows confirm dialog" do
@@ -375,7 +411,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
 
     page.find('#issue_status_id').select('Assigned')
     assert_no_difference 'Issue.count' do
-      submit_buttons[0].click
+      click_button('commit')
       # wait for ajax response
       assert page.has_css?('#flash_notice')
       assert_current_path '/issues', :ignore_query => true
@@ -400,14 +436,14 @@ class IssuesSystemTest < ApplicationSystemTestCase
     # wait for ajax response
     assert page.has_select?('issue_project_id', selected: 'OnlineStore')
 
+    assert_selector 'input[type=submit]', count: 2
     submit_buttons = page.all('input[type=submit]')
-    assert_equal 2, submit_buttons.size
     assert_equal 'Move', submit_buttons[0].value
     assert_equal 'Move and follow', submit_buttons[1].value
 
     page.find('#issue_status_id').select('Feedback')
     assert_no_difference 'Issue.count' do
-      submit_buttons[1].click
+      click_button('follow')
       # wait for ajax response
       assert page.has_css?('#flash_notice')
       assert_current_path '/projects/onlinestore/issues', :ignore_query => true
@@ -461,11 +497,13 @@ class IssuesSystemTest < ApplicationSystemTestCase
     assert_equal 'Copy', submit_buttons[0].value
 
     page.find('#issue_project_id').select('OnlineStore')
-    # wait for ajax response
-    assert page.has_select?('issue_project_id', selected: 'OnlineStore')
+    # Verify that the target version field has been rewritten by the OnlineStore project settings
+    # and wait for the project change to complete.
+    assert_select 'issue_fixed_version_id', options: ['(No change)', 'none', 'Alpha', 'Systemwide visible version']
 
+    assert_selector 'input[type=submit]', count: 2
     submit_buttons = page.all('input[type=submit]')
-    assert_equal 2, submit_buttons.size
+
     assert_equal 'Copy', submit_buttons[0].value
     assert_equal 'Copy and follow', submit_buttons[1].value
     page.find('#issue_priority_id').select('High')
@@ -537,7 +575,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
 
     csv = CSV.read(downloaded_file("issues.csv"))
     subject_index = csv.shift.index('Subject')
-    subjects = csv.map {|row| row[subject_index]}
+    subjects = csv.pluck(subject_index)
     assert_equal subjects.sort, subjects
   end
 
@@ -586,5 +624,42 @@ class IssuesSystemTest < ApplicationSystemTestCase
       assert page.has_text? 'Related to Bug #12'
       assert page.has_text? 'Related to Bug #7'
     end
+  end
+
+  def test_update_issue_form_should_include_time_entry_form_only_for_users_with_permission
+    log_user('jsmith', 'jsmith')
+
+    visit '/issues/2'
+    page.first(:link, 'Edit').click
+
+    # assert log time form exits for user with required permissions on the current project
+    assert page.has_css?('#log_time')
+
+    # Change project to trigger an update on issue form
+    page.find('#issue_project_id').select('» Private child of eCookbook')
+    wait_for_ajax
+
+    # assert log time form does not exist anymore for user without required permissions on the new project
+    assert page.has_no_css?('#log_time')
+  end
+
+  def test_update_issue_form_should_include_add_notes_form_only_for_users_with_permission
+    log_user('jsmith', 'jsmith')
+
+    visit '/issues/2'
+    page.first(:link, 'Edit').click
+
+    # assert add notes form exits for user with required permissions on the current project
+    assert page.has_css?('#add_notes')
+
+    # remove add issue notes permission from Manager role
+    Role.find_by_name('Manager').remove_permission! :add_issue_notes
+
+    # Change project to trigger an update on issue form
+    page.find('#issue_project_id').select('» Private child of eCookbook')
+    wait_for_ajax
+
+    # assert add notes form does not exist anymore for user without required permissions on the new project
+    assert page.has_no_css?('#add_notes')
   end
 end

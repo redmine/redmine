@@ -23,7 +23,7 @@
   <p>
   <% has_branches = (!@repository.branches.nil? && @repository.branches.length > 0)
      sep = '' %>
-  <% if @repository.supports_all_revisions? && @path.blank? %>
+  <% if @repository.supports_history? && @path.blank? %>
     <%= link_to l(:label_view_all_revisions), :action => 'revisions', :id => @project,
                 :repository_id => @repository.identifier_param %>
     <% sep = '|' %>
@@ -39,20 +39,20 @@
                    :rev    => @rev %>
   <% end %>
   </p>
-  <% if @repository.supports_all_revisions? %>
+  <% if @repository.supports_history? %>
     <% content_for :header_tags do %>
       <%= auto_discovery_link_tag(
                    :atom,
                    :action => 'revisions', :id => @project,
                    :repository_id => @repository.identifier_param,
-                   :key => User.current.rss_key) %>
+                   :key => User.current.atom_key) %>
    <% end %>
 
    <% other_formats_links do |f| %>
     <%= f.link_to 'Atom',
                   :url => {:action => 'revisions', :id => @project,
                            :repository_id => @repository.identifier_param,
-                           :key => User.current.rss_key} %>
+                           :key => User.current.atom_key} %>
     <% end %>
   <% end %>
 <% end %>

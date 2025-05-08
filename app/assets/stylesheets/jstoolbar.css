@@ -1,0 +1,166 @@
+/**
+ * Redmine - project management software
+ * Copyright (C) 2006-  Jean-Philippe Lang
+ * This code is released under the GNU General Public License.
+ */
+
+.jstBlock .hidden {
+    display: none;
+}
+.jstEditor {
+    padding-left: 0px;
+}
+.jstEditor textarea, .jstEditor iframe {
+    margin: 0;
+}
+.jstHandle {
+    height: 10px;
+    font-size: 0.1em;
+    cursor: s-resize;
+    /*background: transparent url(img/resizer.png) no-repeat 45% 50%;*/
+}
+#content .jstTabs.tabs {
+    margin-bottom: -1px;
+}
+#content .jstTabs.tabs ul {border-bottom:0;}
+#content .jstTabs.tabs li {
+    height: 42px;
+}
+#content .jstTabs.tabs li:before{
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+}
+#content .jstTabs.tabs li a {
+    display: inline-block;
+    vertical-align: bottom;
+    line-height: 19px;
+    border-bottom: 1px solid transparent;
+}
+.jstElements {
+    display: inline-block;
+    vertical-align: bottom;
+    padding-left: 6px;
+    padding-bottom:2px;
+    height: 26px;
+}
+.wiki-preview {
+    background-color: #ffffff;
+    border: 1px solid #bbbbbb;
+}
+.wiki-preview p.empty-preview {color:#999; font-style:italic; margin-top:1em; text-align:center;}
+
+.jstElements button {
+    margin-right: 2px;
+    width : 24px;
+    height: 24px;
+    padding: 4px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #ddd;
+    background-color : #f7f7f7;
+    background-position : 50% 50%;
+    background-repeat: no-repeat;
+    cursor:pointer;
+    opacity:0.7;
+}
+.jstElements button:hover {
+    border-color: #bbb;
+    background-color: #e5e5e5;
+    opacity:1;
+}
+.jstElements button span {
+    display : none;
+}
+.jstElements span {
+    display : inline;
+}
+
+.jstSpacer {
+    width : 0px;
+    font-size: 1px;
+    margin-right: 6px;
+}
+
+.jstElements .help { float: right; margin-right: 0.5em; padding-top: 8px; font-size: 0.9em; }
+.jstElements .help a {padding: 2px 0 2px 20px; background: url(./help.png) no-repeat 0 50%;}
+
+.table-generator td {
+    border: 2px solid #ccc;
+    background-color: white;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.table-generator td.selected-cell, .table-generator td:hover {
+    background-color: #759FCF;
+}
+
+.table-generator {
+    position: absolute;
+    border-collapse: collapse;
+}
+
+/* Buttons
+-------------------------------------------------------- */
+.jstb_strong {
+    background-image: url(/jstoolbar/bold.svg);
+}
+.jstb_em {
+    background-image: url(/jstoolbar/italic.svg);
+}
+.jstb_ins {
+    background-image: url(/jstoolbar/underline.svg);
+}
+.jstb_del {
+    background-image: url(/jstoolbar/strikethrough.svg);
+}
+.jstb_code {
+    background-image: url(/jstoolbar/letter-c.svg);
+}
+.jstb_h1 {
+    background-image: url(/jstoolbar/h1.svg);
+}
+.jstb_h2 {
+    background-image: url(/jstoolbar/h2.svg);
+}
+.jstb_h3 {
+    background-image: url(/jstoolbar/h3.svg);
+}
+.jstb_ul {
+    background-image: url(/jstoolbar/list.svg);
+}
+.jstb_ol {
+    background-image: url(/jstoolbar/list-numbers.svg);
+}
+.jstb_tl {
+    background-image: url(/jstoolbar/list-check.svg);
+}
+.jstb_bq {
+    background-image: url(/jstoolbar/indent-increase.svg);
+}
+.jstb_unbq {
+    background-image: url(/jstoolbar/indent-decrease.svg);
+}
+.jstb_pre::before {
+    content: "pre";
+    font-size: 10px;
+    color: #333;
+    font-weight: 700
+}
+.jstb_precode {
+    background-image: url(/jstoolbar/code.svg);
+}
+.jstb_link {
+    background-image: url(/jstoolbar/wiki_link.svg);
+}
+.jstb_img {
+    background-image: url(/jstoolbar/image.svg);
+}
+.jstb_table {
+    background-image: url(/jstoolbar/table.svg);
+}
+.jstb_help {
+    background-image: url(/jstoolbar/help.svg);
+}

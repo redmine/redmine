@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,15 +17,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class WikiHelperTest < Redmine::HelperTest
   include WikiHelper
-  include Rails.application.routes.url_helpers
-
-  fixtures :projects, :users,
-           :roles, :member_roles, :members,
-           :enabled_modules, :wikis, :wiki_pages
 
   def test_wiki_page_edit_cancel_path_for_new_page_without_parent_should_be_wiki_index
     wiki = Wiki.find(1)

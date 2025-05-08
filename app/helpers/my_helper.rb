@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -34,8 +34,8 @@ module MyHelper
   def render_block(block, user)
     content = render_block_content(block, user)
     if content.present?
-      handle = content_tag('span', '', :class => 'icon-only icon-sort-handle sort-handle', :title => l(:button_move))
-      close = link_to(l(:button_delete),
+      handle = content_tag('span', sprite_icon('reorder', ''), :class => 'icon-only icon-sort-handle sort-handle', :title => l(:button_move))
+      close = link_to(sprite_icon('close', l(:button_delete)),
                       {:action => "remove_block", :block => block},
                       :remote => true, :method => 'post',
                       :class => "icon-only icon-close", :title => l(:button_delete))
@@ -61,7 +61,7 @@ module MyHelper
         return nil
       end
     else
-      send "render_#{block_definition[:name]}_block", block, settings
+      send :"render_#{block_definition[:name]}_block", block, settings
     end
   end
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,10 +19,11 @@
 
 module Redmine
   module Helpers
-
     # Simple class to compute the start and end dates of a calendar
     class Calendar
       include Redmine::I18n
+      include Redmine::Utils::DateCalculation
+
       attr_reader :startdt, :enddt
 
       def initialize(date, lang = current_language, period = :month)
@@ -47,6 +48,21 @@ module Redmine
         end
       end
 
+      def format_month
+        (@startdt..@enddt).to_a
+      end
+
+      def week_number(day)
+        (day + (11 - day.cwday) % 7).cweek
+      end
+
+      def day_css_classes(day)
+        css = day.month==month ? +'this-month' : +'other-month'
+        css << " today" if User.current.today == day
+        css << " nwday" if non_working_week_days.include?(day.cwday)
+        css
+      end
+
       # Sets calendar events
       def events=(events)
         @events = events
@@ -67,20 +83,19 @@ module Redmine
       # Return the first day of week
       # 1 = Monday ... 7 = Sunday
       def first_wday
-        case Setting.start_of_week.to_i
-        when 1
-          @first_dow ||= (1 - 1)%7 + 1
-        when 6
-          @first_dow ||= (6 - 1)%7 + 1
-        when 7
-          @first_dow ||= (7 - 1)%7 + 1
-        else
-          @first_dow ||= (l(:general_first_day_of_week).to_i - 1)%7 + 1
+        @first_wday ||= begin
+          start_of_week = Setting.start_of_week.to_i
+          case start_of_week
+          when 1, 6, 7
+            ((start_of_week - 1) % 7) + 1
+          else
+            ((l(:general_first_day_of_week).to_i - 1) % 7) + 1
+          end
         end
       end
 
       def last_wday
-        @last_dow ||= (first_wday + 5)%7 + 1
+        @last_wday ||= ((first_wday + 5) % 7) + 1
       end
     end
   end

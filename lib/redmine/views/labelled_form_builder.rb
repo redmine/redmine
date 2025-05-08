@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -49,6 +49,7 @@ class Redmine::Views::LabelledFormBuilder < ActionView::Helpers::FormBuilder
     # display the value before type cast when the entered value is not valid
     if @object.errors[field].blank?
       options = options.merge(:value => format_hours(@object.send field))
+                       .with_defaults(:placeholder => 'h:mm')
     end
     text_field field, options
   end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,11 +19,6 @@
 
 module UsersHelper
   include ApplicationHelper
-
-  def users_status_options_for_select(selected)
-    user_count_by_status = User.group('status').count.to_hash
-    options_for_select([[l(:label_all), '']] + (User.valid_statuses.map {|c| ["#{l('status_' + User::LABEL_BY_STATUS[c])} (#{user_count_by_status[c].to_i})", c]}), selected.to_s)
-  end
 
   def user_mail_notification_options(user)
     user.valid_notification_options.collect {|o| [l(o.last), o.first]}
@@ -66,21 +61,25 @@ module UsersHelper
      [l('label_last_tab_visited'), 'last_tab_visited']]
   end
 
+  def auto_watch_on_options
+    UserPreference::AUTO_WATCH_ON_OPTIONS.index_by {|o| l("label_auto_watch_on_#{o}")}
+  end
+
   def change_status_link(user)
     url = {:controller => 'users', :action => 'update', :id => user, :page => params[:page], :status => params[:status], :tab => nil}
 
     if user.locked?
-      link_to l(:button_unlock), url.merge(:user => {:status => User::STATUS_ACTIVE}), :method => :put, :class => 'icon icon-unlock'
+      link_to sprite_icon('unlock', l(:button_unlock)), url.merge(:user => { :status => User::STATUS_ACTIVE}), :method => :put, :class => 'icon icon-unlock'
     elsif user.registered?
-      link_to l(:button_activate), url.merge(:user => {:status => User::STATUS_ACTIVE}), :method => :put, :class => 'icon icon-unlock'
+      link_to sprite_icon('unlock', l(:button_activate)), url.merge(:user => { :status => User::STATUS_ACTIVE}), :method => :put, :class => 'icon icon-unlock'
     elsif user != User.current
-      link_to l(:button_lock), url.merge(:user => {:status => User::STATUS_LOCKED}), :method => :put, :class => 'icon icon-lock'
+      link_to sprite_icon('lock', l(:button_lock)), url.merge(:user => { :status => User::STATUS_LOCKED}), :method => :put, :class => 'icon icon-lock'
     end
   end
 
   def additional_emails_link(user)
     if user.email_addresses.count > 1 || Setting.max_additional_emails.to_i > 0
-      link_to l(:label_email_address_plural), user_email_addresses_path(@user), :class => 'icon icon-email-add', :remote => true
+      link_to sprite_icon('email', l(:label_email_address_plural)), user_email_addresses_path(@user), :class => 'icon icon-email-add', :remote => true
     end
   end
 
@@ -100,59 +99,5 @@ module UsersHelper
       tabs.insert 1, {:name => 'groups', :partial => 'users/groups', :label => :label_group_plural}
     end
     tabs
-  end
-
-  def csv_content(column_name, user)
-    case column_name
-    when 'status'
-      l("status_#{User::LABEL_BY_STATUS[user.status]}")
-    when 'twofa_scheme'
-      if user.twofa_active?
-        l("twofa__#{user.twofa_scheme}__name")
-      else
-        l(:label_disabled)
-      end
-    else
-      user.send(column_name)
-    end
-  end
-
-  def users_to_csv(users)
-    Redmine::Export::CSV.generate(:encoding => params[:encoding]) do |csv|
-      columns = [
-        'login',
-        'firstname',
-        'lastname',
-        'mail',
-        'admin',
-        'status',
-        'twofa_scheme',
-        'created_on',
-        'updated_on',
-        'last_login_on',
-        'passwd_changed_on'
-      ]
-      user_custom_fields = UserCustomField.sorted
-
-      # csv header fields
-      csv << columns.map {|column| l('field_' + column)} + user_custom_fields.pluck(:name)
-      # csv lines
-      users = users.preload(:custom_values)
-      users.each do |user|
-        values = columns.map {|c| csv_content(c, user)} +
-                 user_custom_fields.map {|custom_field| user.custom_value_for(custom_field)}
-
-        csv << values.map do |value|
-          format_object(value, false) do |v|
-            case v.class.name
-            when 'Float'
-              sprintf('%.2f', v).gsub('.', l(:general_csv_decimal_separator))
-            else
-              v
-            end
-          end
-        end
-      end
-    end
   end
 end

@@ -11,7 +11,7 @@
   <% @attachments.each do |attachment| %>
     <tr>
       <td colspan="2">
-        <span class="icon icon-attachment"><%= attachment.filename_was %></span>
+        <span class="icon icon-attachment"><%= sprite_icon('attachment', attachment.filename_was) %></span>
         <span class="size">(<%= number_to_human_size attachment.filesize %>)</span>
         <span class="author"><%= attachment.author %>, <%= format_time(attachment.created_on) %></span>
       </td>

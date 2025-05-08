@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../../../test_helper', __FILE__)
+require_relative '../../../../test_helper'
 
 class Redmine::MenuManager::MapperTest < ActiveSupport::TestCase
   test "Mapper#initialize should define a root MenuNode if menu is not present in items" do
@@ -37,7 +37,7 @@ class Redmine::MenuManager::MapperTest < ActiveSupport::TestCase
     menu_mapper = Redmine::MenuManager::Mapper.new(:test_menu, {})
     menu_mapper.push :test_overview, {:controller => 'projects', :action => 'show'}, {}
 
-    menu_mapper.exists?(:test_overview)
+    assert menu_mapper.exists?(:test_overview)
   end
 
   def test_push_onto_parent

@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Wikiformatierung</title>
+<%= stylesheet_link_tag "wiki_syntax.css" %>
+</head>
+<body>
+
+<h1>Wiki Syntax Schnellreferenz (Textile)</h1>
+
+<table style="width:100%">
+<tr><th colspan="3">Schriftarten <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "5") %>" target="_blank">mehr</a>)</span></th></tr>
+<tr><th><%= image_tag("jstoolbar/bold.svg", { alt: "Fett" }) %></th><td style="width:50%;">*Fett*</td><td style="width:50%;"><strong>Fett</strong></td></tr>
+<tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "Kursiv" }) %></th><td>_Kursiv_</td><td><em>Kursiv</em></td></tr>
+<tr><th><%= image_tag("jstoolbar/underline.svg", { alt: "Unterstrichen" }) %></th><td>+Unterstrichen+</td><td><ins>Unterstrichen</ins></td></tr>
+<tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "Durchgestrichen" }) %></th><td>-Durchgestrichen-</td><td><del>Durchgestrichen</del></td></tr>
+<tr><th></th><td>??Zitat??</td><td><cite>Zitat</cite></td></tr>
+<tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "Inline-Code" }) %></th><td>@Inline-Code@</td><td><code>Inline-Code</code></td></tr>
+<tr><th><span class="syntax-pre"/></th><td>&lt;pre&gt;<br />&nbsp;vorformatierte<br />&nbsp;Codezeilen<br />&lt;/pre&gt;</td><td>
+<pre>
+ vorformartierte
+ Codezeilen
+</pre>
+</td></tr>
+
+<tr><th colspan="3">Hervorgehobener Programmcode <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "13") %>" target="_blank">mehr</a> | <a href="<%= help_code_highlighting_path %>" target="_blank">Unterst&uuml;tzte Sprachen</a>)</span></th></tr>
+<tr><th><%= image_tag("jstoolbar/code.svg", { alt: "Hervorgehobener Programmcode" }) %></th><td>&lt;pre&gt;&lt;code class="ruby"&gt;<br />3.times do<br />&nbsp;&nbsp;puts 'Hello'<br />end<br />&lt;/code&gt;&lt;/pre&gt;</td><td>
+<pre><code class="ruby syntaxhl"><span class="mi">3</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span>
+  <span class="nb">puts</span> <span class="s1">'Hello'</span>
+<span class="k">end</span>
+</code></pre>
+</td></tr>
+
+<tr><th colspan="3">Listen</th></tr>
+<tr><th><%= image_tag("jstoolbar/list.svg", { alt: "Unsortierte Liste" }) %></th><td>* Element 1<br />** Sub<br />* Element 2</td><td><ul><li>Element 1<ul><li>Sub</li></ul></li><li>Element 2</li></ul></td></tr>
+<tr><th><%= image_tag("jstoolbar/list-numbers.svg", { alt: "Sortierte Liste" }) %></th><td># Element 1<br />## Sub<br /># Element 2</td><td><ol><li>Element 1<ol><li>Sub</li></ol></li><li>Element 2</li></ol></td></tr>
+
+<tr><th colspan="3">&Uuml;berschriften <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "8") %>" target="_blank">mehr</a>)</span></th></tr>
+<tr><th><%= image_tag("jstoolbar/h1.svg", { alt: "&Uuml;berschrift 1" }) %></th><td>h1. &Uuml;berschrift 1</td><td><h1>&Uuml;berschrift 1</h1></td></tr>
+<tr><th><%= image_tag("jstoolbar/h2.svg", { alt: "&Uuml;berschrift 2" }) %></th><td>h2. &Uuml;berschrift 2</td><td><h2>&Uuml;berschrift 2</h2></td></tr>
+<tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "&Uuml;berschrift 3" }) %></th><td>h3. &Uuml;berschrift 3</td><td><h3>&Uuml;berschrift 3</h3></td></tr>
+
+<tr><th colspan="3">Links <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">mehr</a>)</span></th></tr>
+<tr><th></th><td>http://foo.bar</td><td><a href="#">http://foo.bar</a></td></tr>
+<tr><th></th><td>"Foo":http://foo.bar</td><td><a href="#">Foo</a></td></tr>
+
+<tr><th colspan="3">Redmine Links <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">mehr</a>)</span></th></tr>
+<tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "Link zu einer Wiki Seite" }) %></th><td>[[Wiki Seite]]</td><td><a href="#">Wiki Seite</a></td></tr>
+<tr><th></th><td>Ticket #12</td><td>Ticket <a href="#">#12</a></td></tr>
+<tr><th></th><td>##12</td><td><a href="#">Bug #12</a>: Titel der Aufgabe</td></tr>
+<tr><th></th><td>Revision r43</td><td>Revision <a href="#">r43</a></td></tr>
+<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+
+<tr><th colspan="3">eingebettete Bilder <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">mehr</a>)</span></th></tr>
+<tr><th><%= image_tag("jstoolbar/image.svg", { alt: "Bild" }) %></th><td>!<em>URL_zu_dem_Bild</em>!</td><td></td></tr>
+<tr><th></th><td>!<em>angeh&auml;ngtes_Bild</em>!</td><td></td></tr>
+
+<tr><th colspan="3">Tabellen</th></tr>
+<tr>
+  <th></th>
+  <td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. 2 Zeilen | B | C |<br />|\2. 2 Spalten |</td>
+  <td>
+    <table class="sample">
+      <tbody>
+        <th>A</th><th>B</th><th>C</th>
+        <tr><td>A</td><td>B</td><td>C</td></tr>
+        <tr><td rowspan="2">2 Zeilen</td><td>B</td><td>C</td></tr>
+        <tr><td colspan="2">2 Spalten</td></tr>
+      </tbody>
+    </table>
+  </td>
+</tr>
+
+</table>
+
+<p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">weitere Informationen</a></p>
+
+</body>
+</html>

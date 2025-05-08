@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -72,9 +72,10 @@ module Redmine
         def initialize(url, root_url=nil, login=nil, password=nil,
                        path_encoding=nil)
           @url = url
-          @login = login if login && !login.empty?
+          @login = login if login.present?
           @password = (password || "") if @login
-          @root_url = root_url.blank? ? retrieve_root_url : root_url
+          @root_url = root_url.presence || retrieve_root_url
+          @path_encoding = path_encoding.presence || 'UTF-8'
         end
 
         def adapter_name
@@ -158,12 +159,12 @@ module Redmine
 
         def with_leading_slash(path)
           path ||= ''
-          (path[0, 1]!="/") ? "/#{path}" : path
+          path.start_with?('/') ? path : "/#{path}"
         end
 
-        def with_trailling_slash(path)
+        def with_trailing_slash(path)
           path ||= ''
-          (path[-1, 1] == "/") ? path : "#{path}/"
+          path.end_with?('/') ? path : "#{path}/"
         end
 
         def without_leading_slash(path)
@@ -171,9 +172,9 @@ module Redmine
           path.gsub(%r{^/+}, '')
         end
 
-        def without_trailling_slash(path)
+        def without_trailing_slash(path)
           path ||= ''
-          (path[-1, 1] == "/") ? path[0..-2] : path
+          path.end_with?('/') ? path[0..-2] : path
         end
 
         def valid_name?(name)
@@ -193,7 +194,7 @@ module Redmine
 
         def target(path, sq=true)
           path ||= ''
-          base = /^\//.match?(path) ? root_url : url
+          base = path.start_with?('/') ? root_url : url
           str = "#{base}/#{path}".gsub(/[?<>\*]/, '')
           if sq
             str = shell_quote(str)
@@ -205,8 +206,8 @@ module Redmine
           self.class.logger
         end
 
-        def shellout(cmd, options = {}, &block)
-          self.class.shellout(cmd, options, &block)
+        def shellout(cmd, options = {}, &)
+          self.class.shellout(cmd, options, &)
         end
 
         # Path to the file where scm stderr output is logged
@@ -255,7 +256,7 @@ module Redmine
               IO.popen(cmd, mode) do |io|
                 io.set_encoding("ASCII-8BIT") if io.respond_to?(:set_encoding)
                 io.close_write unless options[:write_stdin]
-                yield(io) if block_given?
+                yield(io) if block
               end
             rescue => e
               msg = strip_credential(e.message)
@@ -317,7 +318,7 @@ module Redmine
         end
 
         def revisions
-          revisions ||= Revisions.new(collect{|entry| entry.lastrev}.compact)
+          revisions ||= Revisions.new(filter_map{|entry| entry.lastrev})
         end
       end
 
@@ -410,16 +411,18 @@ module Redmine
       end
 
       class Annotate
-        attr_reader :lines, :revisions
+        attr_reader :lines, :revisions, :previous_annotations
 
         def initialize
           @lines = []
           @revisions = []
+          @previous_annotations = []
         end
 
-        def add_line(line, revision)
+        def add_line(line, revision, previous=nil)
           @lines << line
           @revisions << revision
+          @previous_annotations << previous
         end
 
         def content
@@ -438,7 +441,7 @@ module Redmine
       module ScmData
         def self.binary?(data)
           unless data.empty?
-            data.count("^ -~", "^\r\n").fdiv(data.size) > 0.3 || data.index("\x00")
+            data.index("\x00") || data.count("\x00-\x1f\x7f", "^\t\r\n").fdiv(data.size) > 0.1
           end
         end
       end

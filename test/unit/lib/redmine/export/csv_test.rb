@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../../../test_helper', __FILE__)
+require_relative '../../../../test_helper'
 
 class CsvTest < ActiveSupport::TestCase
   include Redmine::I18n
@@ -42,6 +42,22 @@ class CsvTest < ActiveSupport::TestCase
     with_locale 'en' do
       string = Redmine::Export::CSV.generate({encoding: 'invalid-encoding-name'}) {|csv| csv << %w(Foo Bar)}
       assert_equal l(:general_csv_encoding), string.encoding.name
+    end
+  end
+
+  def test_generate_should_use_general_csv_separator_by_default
+    with_locale 'fr' do
+      string = Redmine::Export::CSV.generate {|csv| csv << %w(Foo Bar)}
+      assert_equal ';', l(:general_csv_separator)
+      assert 'Foo;Bar', string
+    end
+  end
+
+  def test_generate_should_use_given_separator
+    with_locale 'fr' do
+      string = Redmine::Export::CSV.generate({field_separator: ','}) {|csv| csv << %w(Foo Bar)}
+      assert_equal ';', l(:general_csv_separator)
+      assert 'Foo,Bar', string
     end
   end
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,19 +17,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../../../test_helper', __FILE__)
+require_relative '../../../../test_helper'
 
 class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
-  fixtures :projects, :trackers, :projects_trackers, :issue_statuses,
-           :enumerations, :users, :issue_categories
-
   include ProjectsHelper
   include IssuesHelper
   include QueriesHelper
   include AvatarsHelper
 
   include ERB::Util
-  include Rails.application.routes.url_helpers
 
   def setup
     setup_with_controller
@@ -163,8 +159,8 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
     setup_subjects
     @output_buffer = @gantt.subjects
     assert_select "div.issue-subject", /#{@issue.subject}/
-    # subject 56px: 44px + 12px(collapse/expand icon's width)
-    assert_select 'div.issue-subject[style*="left:56px"]'
+    # subject 62px: 44px + 18px(collapse/expand icon's width)
+    assert_select 'div.issue-subject[style*="left:62px"]'
   end
 
   test "#subjects issue assigned to a shared version of another project should be rendered" do
@@ -212,10 +208,10 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
     assert_select 'div.issue-subject[style*="left:44px"]', /#{@issue.subject}/
     # children 64px
     assert_select 'div.issue-subject[style*="left:64px"]', /child1/
-    # children 76px: 64px + 12px(collapse/expand icon's width)
-    assert_select 'div.issue-subject[style*="left:76px"]', /child2/
-    # grandchild 96px: 84px + 12px(collapse/expand icon's width)
-    assert_select 'div.issue-subject[style*="left:96px"]', /grandchild/, @output_buffer
+    # children 76px: 64px + 18px(collapse/expand icon's width)
+    assert_select 'div.issue-subject[style*="left:82px"]', /child2/
+    # grandchild 96px: 84px + 18px(collapse/expand icon's width)
+    assert_select 'div.issue-subject[style*="left:102px"]', /grandchild/, @output_buffer
   end
 
   test "#lines" do
@@ -323,7 +319,7 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
     create_gantt
     @output_buffer = @gantt.subject('subject', :format => :html, :indent => 40)
     # subject 52px: 40px(indent) + 12px(collapse/expand icon's width)
-    assert_select 'div[style*="left:52px"]'
+    assert_select 'div[style*="left:58px"]'
   end
 
   test "#line_for_project" do
@@ -573,5 +569,10 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
     versions << Version.create!(:project => project, :name => 'test4', :effective_date => '2013-10-02')
 
     assert_equal versions.sort, Redmine::Helpers::Gantt.sort_versions!(versions.dup)
+  end
+
+  def test_magick_text
+    create_gantt
+    assert_equal "'foo\\'bar\\\\baz'", @gantt.send(:magick_text, "foo'bar\\baz")
   end
 end

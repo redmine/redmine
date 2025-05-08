@@ -42,8 +42,6 @@
       words_connector: ", "
       two_words_connector: " 和 "
       last_word_connector: ", 和 "
-      sentence_connector: "且"
-      skip_last_comma: false
 
   number:
     # 使用於 number_with_delimiter()
@@ -187,12 +185,14 @@
         circular_dependency: "這個關聯會導致環狀相依"
         cant_link_an_issue_with_a_descendant: "議題無法被連結至自己的子任務"
         earlier_than_minimum_start_date: "不能早於 %{date} 因為有前置議題"
-        not_a_regexp: "is not a valid regular expression"
-        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
-        must_contain_uppercase: "must contain uppercase letters (A-Z)"
-        must_contain_lowercase: "must contain lowercase letters (a-z)"
-        must_contain_digits: "must contain digits (0-9)"
-        must_contain_special_chars: "must contain special characters (!, $, %, ...)"
+        not_a_regexp: "不是一個有效的規則運算式"
+        open_issue_with_closed_parent: "進行中的議題不能被附加於已結束的父議題任務"
+        must_contain_uppercase: "必須包含大寫字母 (A-Z)"
+        must_contain_lowercase: "必須包含小寫字母 (a-z)"
+        must_contain_digits: "必須包含數字 (0-9)"
+        must_contain_special_chars: "必須包含特殊字元 (!, $, %, ...)"
+        domain_not_allowed: "包含不允許的網域 (%{domain})"
+        too_simple: "is too simple"
 
       # You can define own errors for models or model attributes.
       # The values :model, :attribute and :value are always available for interpolation.
@@ -240,7 +240,6 @@
   notice_account_password_updated: 帳戶新密碼已儲存
   notice_account_wrong_password: 密碼不正確
   notice_account_register_done: 帳號已建立成功。欲啟用您的帳號，請點擊系統確認信函中的啟用連結。
-  notice_account_unknown_email: 未知的使用者
   notice_account_not_activated_yet: 您尚未完成啟用您的帳號。若您要索取新的帳號啟用 Email ，請 <a href="%{url}">點擊此連結</a> 。
   notice_account_locked: 您的帳號已被鎖定。
   notice_can_t_change_password: 這個帳號使用外部驗證方式，無法變更其密碼。
@@ -284,7 +283,7 @@
   error_no_tracker_in_project: '此專案尚未指定追蹤標籤。請檢查專案的設定資訊。'
   error_no_default_issue_status: '尚未定義議題狀態的預設值。請您前往「網站管理」->「議題狀態清單」頁面，檢查相關組態設定。'
   error_can_not_delete_custom_field: 無法刪除自訂欄位
-  error_can_not_delete_tracker: "此追蹤標籤已包含議題，無法被刪除。"
+  error_can_not_delete_tracker_html: "此追蹤標籤已包含議題，無法被刪除。<p>下列專案包含了使用此追蹤標籤的項目：<br>%{projects}</p>"
   error_can_not_remove_role: "此角色已被使用，無法將其刪除。"
   error_can_not_reopen_issue_on_closed_version: '分派給「已結束」版本的議題，無法再將其狀態變更為「進行中」'
   error_can_not_archive_project: 此專案無法被封存
@@ -351,7 +350,7 @@
   field_field_format: 格式
   field_is_for_all: 給全部的專案
   field_possible_values: 可能值
-  field_regexp: 正規表示式
+  field_regexp: 規則運算式
   field_min_length: 最小長度
   field_max_length: 最大長度
   field_value: 值
@@ -370,7 +369,7 @@
   field_priority: 優先權
   field_fixed_version: 版本
   field_user: 用戶
-  field_principal: 原則
+  field_principal: User or Group
   field_role: 角色
   field_homepage: 網站首頁
   field_is_public: 公開
@@ -382,7 +381,7 @@
   field_last_login_on: 最近連線日期
   field_language: 語言
   field_effective_date: 日期
-  field_password: 目前密碼
+  field_password: 密碼
   field_new_password: 新密碼
   field_password_confirmation: 確認新密碼
   field_version: 版本
@@ -697,7 +696,6 @@
   label_reported_issues: 我通報的議題
   label_assigned_issues: 我被分派的議題
   label_assigned_to_me_issues: 分派給我的議題
-  label_last_login: 最近一次連線
   label_registered_on: 註冊於
   label_activity: 活動
   label_user_activity: "%{value} 的活動"
@@ -837,7 +835,6 @@
   label_repository: 儲存機制
   label_repository_new: 建立新儲存機制
   label_repository_plural: 儲存機制清單
-  label_browse: 瀏覽
   label_branch: 分支
   label_tag: 標籤
   label_revision: 修訂版
@@ -855,10 +852,6 @@
   label_view_all_revisions: 檢視所有的的修訂版清單
   label_x_revisions: "%{count} 個修訂版"
   label_max_size: 最大長度
-  label_sort_highest: 移動至開頭
-  label_sort_higher: 往上移動
-  label_sort_lower: 往下移動
-  label_sort_lowest: 移動至結尾
   label_roadmap: 版本藍圖
   label_roadmap_due_in: "剩餘 %{value}"
   label_roadmap_overdue: "逾期 %{value}"
@@ -1324,7 +1317,7 @@
   label_trackers_description: 追蹤標籤說明
   label_open_trackers_description: 檢視所有追蹤標籤的說明
   label_preferred_body_part_text: 純文字
-  label_preferred_body_part_html: HTML (實驗性)
+  label_preferred_body_part_html: HTML
   field_parent_issue_subject: 父議題主旨
   permission_edit_own_issues: 編輯自己的議題
   text_select_apply_tracker: 選擇追蹤標籤
@@ -1336,7 +1329,6 @@
   text_gs_available: 可使用 ImageMagick 轉換 PDF 格式 (選配)
   field_recently_used_projects: 跳轉下拉方塊中最近用過的專案數目
   label_optgroup_bookmarks: 書籤
-  label_optgroup_others: 其他專案
   label_optgroup_recents: 最近用過的
   button_project_bookmark: 新增書籤
   button_project_bookmark_delete: 移除書籤
@@ -1450,9 +1442,10 @@
   twofa_text_group_disabled: 此設定僅供系統的全域雙因素驗證設定'選用項'時才有效. 目前系統的雙因素驗證設定值是'關閉'.
   field_default_issue_query: 預設議題查詢
   label_default_queries:
-    for_all_projects: 對於全部專案
-    for_current_project: 對於目前專案
-    for_all_users: 對於全部用戶
+    for_all_projects: 針對全部專案
+    for_current_project: 針對目前專案
+    for_all_users: 針對全部用戶
+    for_this_user: 針對此用戶
   text_allowed_queries_to_select: 僅可選取公開 (給任何用戶) 的查詢
   text_all_migrations_have_been_run: 資料庫移轉已全部執行完畢
   button_save_object: 儲存 %{object_name}
@@ -1465,3 +1458,66 @@
   label_subtask: 子任務
   label_default_query: 預設查詢
   field_default_project_query: 預設專案查詢
+  label_required_administrators: 管理員必要項
+  twofa_hint_required_administrators_html: 設定為 <strong>%{label}</strong> 的行為方式類似於 <strong>選用項</strong> 設定,
+    但此設定會要求具有管理員權限的用戶, 在他們下次登入系統的時候, 必須設置雙因素驗證.
+  label_auto_watch_on: 自動監看
+  label_auto_watch_on_issue_contributed_to: 我有提供貢獻的議題
+  text_project_close_confirmation: 您是否確定要關閉 '%{value}' 專案以將其設為唯讀？
+  text_project_reopen_confirmation: 您是否確定要重新開啟 '%{value}' 專案？
+  text_project_archive_confirmation: 您是否確定要封存 '%{value}' 專案？
+  mail_destroy_project_failed: "%{value} 專案無法被刪除。"
+  mail_destroy_project_successful: "%{value} 專案已順利刪除。"
+  mail_destroy_project_with_subprojects_successful: "%{value} 專案與其子專案已順利刪除。"
+  project_status_scheduled_for_deletion: 排程刪除
+  text_projects_bulk_destroy_confirmation: 您是否確定要刪除選定的專案與其相關資料？
+  text_projects_bulk_destroy_head: |
+    您即將永久刪除下列專案， 包含可能的子專案與任何相關的資料。
+    請檢閱下方資訊， 確認這確實是您要執行的動作。
+    此動作無法復原。
+  text_projects_bulk_destroy_confirm: 請在下面方塊中， 輸入 "%{yes}" 以便確認。
+  text_subprojects_bulk_destroy: '包含它的子專案： %{value}'
+  field_current_password: 目前密碼
+  sudo_mode_new_info_html: "<strong>發生甚麼事？</strong> 執行任何系統管理動作之前，
+    必須再次確認您的密碼, 這樣可確保您的帳戶持續受到保護。"
+  label_edited: 已被編輯
+  label_time_by_author: "%{time} 編輯者為 %{author}"
+  field_default_time_entry_activity: 預設耗用工時活動
+  field_is_member_of_group: 群組的成員
+  text_users_bulk_destroy_head: 您即將刪除下列用戶，並移除與這些用戶相關聯的資料。
+    此動作無法復原。鎖定用戶經常是一個比刪除用戶還要來得更好的解決方案。
+  text_users_bulk_destroy_confirm: 請於下方輸入 "%{yes}" 以便確認。
+  permission_select_project_publicity: 設定專案為公開或私人
+  label_auto_watch_on_issue_created: 我所建立的議題
+  field_any_searchable: 任何可搜尋的文字
+  label_contains_any_of: 包含任何(任一個字)
+  button_apply_issues_filter: 套用議題篩選條件
+  label_view_previous_annotation: 檢視此變更之前的註釋
+  label_has_been: 曾經是
+  label_has_never_been: 未曾是
+  label_changed_from: 前一個是
+  label_issue_statuses_description: 議題狀態說明
+  label_open_issue_statuses_description: 檢視所有議題狀態的說明
+  text_select_apply_issue_status: 選擇議題狀態
+  field_name_or_email_or_login: 姓名, 電子郵件或帳戶名稱
+  text_default_active_job_queue_changed: 已變更僅適用於開發/測試環境的佇列適配器 (queue adapter)
+  label_option_auto_lang: 自動選取語言
+  label_issue_attachment_added: 附加檔案已新增
+  field_estimated_remaining_hours: 預估剩餘工時
+  field_last_activity_date: 最近一次活動
+  setting_issue_done_ratio_interval: 完成百分比選項的間隔值
+  setting_copy_attachments_on_issue_copy: 連同附件檔案一起複製
+  field_thousands_delimiter: 千分位分隔符號
+  label_involved_principals: 作者 / 歷任被分派者
+  label_attachment_summary:
+    zero: "%{filename}"
+    one: "%{filename} 與另 1 個檔案"
+    other: "%{filename} 與另外 %{count} 個檔案"
+  setting_wiki_tablesort_enabled: 在維基頁面的內容中, 啟用基於 Javascript 的表格排序功能
+  label_progressbar: 進度條
+  error_spent_on_closed_issue: 無法在已結束的議題上記錄工時
+  setting_timelog_accept_closed_issues: 允許在已結束的議題上紀錄工時
+  setting_related_issues_default_columns: 預設顯示於相關議題與子任務清單的欄位
+  setting_display_related_issues_table_headers: 顯示表格標題欄位
+  error_can_not_remove_role_reason_members_html: "<p>下列專案中有成員
+    屬於此角色:<br>%{projects}</p>"

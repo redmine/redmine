@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -28,6 +28,14 @@ class Mailer < ActionMailer::Base
   include Redmine::I18n
   include Roadie::Rails::Automatic
 
+  class DeliveryJob < ActionMailer::MailDeliveryJob
+    include Redmine::JobWrapper
+
+    around_enqueue :keep_current_user
+  end
+
+  self.delivery_job = DeliveryJob
+
   # Overrides ActionMailer::Base#process in order to set the recipient as the current user
   # and his language as the default locale.
   # The first argument of all actions of this Mailer must be a User (the recipient),
@@ -45,7 +53,7 @@ class Mailer < ActionMailer::Base
       lang ||= Setting.default_language
       set_language_if_valid(lang)
 
-      super(action, *args)
+      super
     ensure
       User.current = initial_user
       ::I18n.locale = initial_language
@@ -76,6 +84,7 @@ class Mailer < ActionMailer::Base
                     'Issue-Id' => issue.id,
                     'Issue-Author' => issue.author.login,
                     'Issue-Assignee' => assignee_for_header(issue)
+    redmine_headers 'Issue-Priority' => issue.priority.name if issue.priority
     message_id issue
     references issue
     @author = issue.author
@@ -94,7 +103,7 @@ class Mailer < ActionMailer::Base
   # Example:
   #   Mailer.deliver_issue_add(issue)
   def self.deliver_issue_add(issue)
-    users = issue.notified_users | issue.notified_watchers
+    users = issue.notified_users | issue.notified_watchers | issue.notified_mentions
     users.each do |user|
       issue_add(user, issue).deliver_later
     end
@@ -108,6 +117,7 @@ class Mailer < ActionMailer::Base
                     'Issue-Id' => issue.id,
                     'Issue-Author' => issue.author.login,
                     'Issue-Assignee' => assignee_for_header(issue)
+    redmine_headers 'Issue-Priority' => issue.priority.name if issue.priority
     message_id journal
     references issue
     @author = journal.user
@@ -129,7 +139,7 @@ class Mailer < ActionMailer::Base
   # Example:
   #   Mailer.deliver_issue_edit(journal)
   def self.deliver_issue_edit(journal)
-    users  = journal.notified_users | journal.notified_watchers
+    users  = journal.notified_users | journal.notified_watchers | journal.notified_mentions | journal.journalized.notified_mentions
     users.select! do |user|
       journal.notes? || journal.visible_details(user).any?
     end
@@ -177,13 +187,16 @@ class Mailer < ActionMailer::Base
       added_to_url = url_for(:controller => 'documents', :action => 'show', :id => container.id)
       added_to = "#{l(:label_document)}: #{container.title}"
     end
+    summary = l(:label_attachment_summary,
+                :filename => attachments.first.filename,
+                :count => attachments.length - 1)
     redmine_headers 'Project' => container.project.identifier
     @attachments = attachments
     @user = user
     @added_to = added_to
     @added_to_url = added_to_url
     mail :to => user,
-      :subject => "[#{container.project.name}] #{l(:label_attachment_new)}"
+         :subject => "[#{container.project.name}] #{l(:label_attachment_new)}: #{summary}"
   end
 
   # Notifies users about new attachments
@@ -306,7 +319,7 @@ class Mailer < ActionMailer::Base
   # Example:
   #   Mailer.deliver_wiki_content_added(wiki_content)
   def self.deliver_wiki_content_added(wiki_content)
-    users = wiki_content.notified_users | wiki_content.page.wiki.notified_watchers
+    users = wiki_content.notified_users | wiki_content.page.wiki.notified_watchers | wiki_content.notified_mentions
     users.each do |user|
       wiki_content_added(user, wiki_content).deliver_later
     end
@@ -343,6 +356,7 @@ class Mailer < ActionMailer::Base
     users  = wiki_content.notified_users
     users |= wiki_content.page.notified_watchers
     users |= wiki_content.page.wiki.notified_watchers
+    users |= wiki_content.notified_mentions
 
     users.each do |user|
       wiki_content_updated(user, wiki_content).deliver_later
@@ -609,7 +623,7 @@ class Mailer < ActionMailer::Base
     scope = scope.where(:tracker_id => tracker.id) if tracker
     issues_by_assignee = scope.includes(:status, :assigned_to, :project, :tracker).
                               group_by(&:assigned_to)
-    issues_by_assignee.keys.each do |assignee|
+    issues_by_assignee.keys.each do |assignee|  # rubocop:disable Style/HashEachMethods
       if assignee.is_a?(Group)
         assignee.users.each do |user|
           issues_by_assignee[user] ||= []
@@ -628,7 +642,7 @@ class Mailer < ActionMailer::Base
   end
 
   # Activates/desactivates email deliveries during +block+
-  def self.with_deliveries(enabled = true, &block)
+  def self.with_deliveries(enabled = true, &)
     was_enabled = ActionMailer::Base.perform_deliveries
     ActionMailer::Base.perform_deliveries = !!enabled
     yield
@@ -641,27 +655,34 @@ class Mailer < ActionMailer::Base
   # Using the asynchronous queue from a Rake task will generally not work because
   # Rake will likely end, causing the in-process thread pool to be deleted, before
   # any/all of the .deliver_later emails are processed
-  def self.with_synched_deliveries(&block)
+  def self.with_synched_deliveries(&)
     adapter = ActionMailer::MailDeliveryJob.queue_adapter
-    if adapter.is_a?(ActiveJob::QueueAdapters::AsyncAdapter)
-      ActionMailer::MailDeliveryJob.queue_adapter = ActiveJob::QueueAdapters::InlineAdapter.new
-    end
+    ActionMailer::MailDeliveryJob.queue_adapter = ActiveJob::QueueAdapters::InlineAdapter.new
     yield
   ensure
     ActionMailer::MailDeliveryJob.queue_adapter = adapter
   end
 
   def mail(headers={}, &block)
-    # Add a display name to the From field if Setting.mail_from does not
-    # include it
     begin
+      # Add a display name to the From field if Setting.mail_from does not
+      # include it
       mail_from = Mail::Address.new(Setting.mail_from)
       if mail_from.display_name.blank? && mail_from.comments.blank?
         mail_from.display_name =
           @author&.logged? ? @author.name : Setting.app_title
       end
       from = mail_from.format
-      list_id = "<#{mail_from.address.to_s.tr('@', '.')}>"
+
+      # Construct the value of the List-Id header field
+      from_addr = mail_from.address.to_s
+      project_identifier = self.headers['X-Redmine-Project']&.value
+      list_id = if project_identifier.present?
+                  "<#{project_identifier}.#{from_addr.tr('@', '.')}>"
+                else
+                  # Emails outside of a project context
+                  "<#{from_addr.tr('@', '.')}>"
+                end
     rescue Mail::Field::IncompleteParseError
       # Use Setting.mail_from as it is if Mail::Address cannot parse it
       # (probably the emission address is not RFC compliant)
@@ -704,10 +725,10 @@ class Mailer < ActionMailer::Base
       headers[:references] = @references_objects.collect {|o| "<#{self.class.references_for(o, @user)}>"}.join(' ')
     end
 
-    if block_given?
-      super headers, &block
+    if block
+      super
     else
-      super headers do |format|
+      super do |format|
         format.text
         format.html unless Setting.plain_text_mail?
       end

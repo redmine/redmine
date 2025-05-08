@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,25 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class SearchTest < ActiveSupport::TestCase
-  fixtures :users,
-           :members,
-           :member_roles,
-           :projects,
-           :projects_trackers,
-           :roles,
-           :enabled_modules,
-           :issues,
-           :trackers,
-           :issue_statuses,
-           :enumerations,
-           :journals,
-           :journal_details,
-           :repositories,
-           :changesets
-
   def setup
     User.current = nil
     @project = Project.find(1)
@@ -175,38 +159,38 @@ class SearchTest < ActiveSupport::TestCase
   end
 
   def test_search_should_be_case_insensitive_with_accented_characters
-    unless sqlite?
-      issue1 = Issue.generate!(:subject => "Special chars: ÖÖ")
-      issue2 = Issue.generate!(:subject => "Special chars: Öö")
-      r = Issue.search_results('ÖÖ')
-      assert_include issue1, r
-      assert_include issue2, r
-    end
+    skip if sqlite? || postgresql?
+
+    issue1 = Issue.generate!(:subject => "Special chars: ÖÖ")
+    issue2 = Issue.generate!(:subject => "Special chars: Öö")
+    r = Issue.search_results('ÖÖ')
+    assert_include issue1, r
+    assert_include issue2, r
   end
 
   def test_search_should_be_case_and_accent_insensitive_with_mysql
-    if mysql?
-      issue1 = Issue.generate!(:subject => "OO")
-      issue2 = Issue.generate!(:subject => "oo")
-      r = Issue.search_results('ÖÖ')
-      assert_include issue1, r
-      assert_include issue2, r
-    end
+    skip unless mysql?
+
+    issue1 = Issue.generate!(:subject => "OO")
+    issue2 = Issue.generate!(:subject => "oo")
+    r = Issue.search_results('ÖÖ')
+    assert_include issue1, r
+    assert_include issue2, r
   end
 
   def test_search_should_be_case_and_accent_insensitive_with_postgresql_and_noaccent_extension
-    if postgresql?
-      skip unless Redmine::Database.postgresql_version >= 90000
-      # Extension will be rollbacked with the test transaction
-      ActiveRecord::Base.connection.execute("CREATE EXTENSION IF NOT EXISTS unaccent")
-      Redmine::Database.reset
-      assert Redmine::Database.postgresql_unaccent?
-      issue1 = Issue.generate!(:subject => "OO")
-      issue2 = Issue.generate!(:subject => "oo")
-      r = Issue.search_results('ÖÖ')
-      assert_include issue1, r
-      assert_include issue2, r
-    end
+    skip unless postgresql?
+    skip unless Redmine::Database.postgresql_version >= 90000
+
+    # Extension will be rollbacked with the test transaction
+    ActiveRecord::Base.connection.execute("CREATE EXTENSION IF NOT EXISTS unaccent")
+    Redmine::Database.reset
+    assert Redmine::Database.postgresql_unaccent?
+    issue1 = Issue.generate!(:subject => "OO")
+    issue2 = Issue.generate!(:subject => "oo")
+    r = Issue.search_results('ÖÖ')
+    assert_include issue1, r
+    assert_include issue2, r
   ensure
     Redmine::Database.reset
   end

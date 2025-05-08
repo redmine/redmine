@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -22,7 +22,8 @@ class JournalsController < ApplicationController
   before_action :find_issue, :only => [:new]
   before_action :find_optional_project, :only => [:index]
   before_action :authorize, :only => [:new, :edit, :update, :diff]
-  accept_rss_auth :index
+  accept_atom_auth :index
+  accept_api_auth :update
   menu_item :issues
 
   helper :issues
@@ -30,6 +31,7 @@ class JournalsController < ApplicationController
   helper :queries
   helper :attachments
   include QueriesHelper
+  include Redmine::QuoteReply::Builder
 
   def index
     retrieve_query
@@ -64,18 +66,11 @@ class JournalsController < ApplicationController
 
   def new
     @journal = Journal.visible.find(params[:journal_id]) if params[:journal_id]
-    if @journal
-      user = @journal.user
-      text = @journal.notes
-      @content = +"#{ll(Setting.default_language, :text_user_wrote_in, {:value => user, :link => "#note-#{params[:journal_indice]}"})}\n> "
-    else
-      user = @issue.author
-      text = @issue.description
-      @content = +"#{ll(Setting.default_language, :text_user_wrote, user)}\n> "
-    end
-    # Replaces pre blocks with [...]
-    text = text.to_s.strip.gsub(%r{<pre>(.*?)</pre>}m, '[...]')
-    @content << text.gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
+    @content = if @journal
+                 quote_issue_journal(@journal, indice: params[:journal_indice], partial_quote: params[:quote])
+               else
+                 quote_issue(@issue, partial_quote: params[:quote])
+               end
   rescue ActiveRecord::RecordNotFound
     render_404
   end
@@ -90,13 +85,16 @@ class JournalsController < ApplicationController
 
   def update
     (render_403; return false) unless @journal.editable_by?(User.current)
-    @journal.safe_attributes = params[:journal]
+    journal_attributes = params[:journal]
+    journal_attributes[:updated_by] = User.current
+    @journal.safe_attributes = journal_attributes
     @journal.save
     @journal.destroy if @journal.details.empty? && @journal.notes.blank?
     call_hook(:controller_journals_edit_post, {:journal => @journal, :params => params})
     respond_to do |format|
       format.html {redirect_to issue_path(@journal.journalized)}
       format.js
+      format.api { render_api_ok }
     end
   end
 

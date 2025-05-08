@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,23 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class MemberTest < ActiveSupport::TestCase
-  fixtures :projects, :trackers, :issue_statuses, :issues,
-           :enumerations, :users, :issue_categories,
-           :projects_trackers,
-           :roles,
-           :member_roles,
-           :members,
-           :enabled_modules,
-           :groups_users,
-           :watchers,
-           :journals, :journal_details,
-           :messages,
-           :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions,
-           :boards
-
   include Redmine::I18n
 
   def setup
@@ -70,6 +56,39 @@ class MemberTest < ActiveSupport::TestCase
     @jsmith.role_ids = [1, 2]
     assert @jsmith.save
     assert_equal 2, @jsmith.reload.roles.size
+  end
+
+  def test_update_roles_with_inherited_roles
+    User.current = User.find(1)
+
+    project = Project.find(1)
+    group_a = Group.generate!
+    group_b = Group.generate!
+    test_user = User.generate!
+    group_a.users << test_user
+    group_b.users << test_user
+
+    # Verify that inherited roles are correctly assigned
+    group_a_member = Member.new(project: project, user_id: group_a.id)
+    group_a_member.set_editable_role_ids([1]) # Add Manager role to Group A
+    group_b_member = Member.new(project: project, user_id: group_b.id)
+    group_b_member.set_editable_role_ids([1, 2]) # Add Manager and Developer roles to Group B
+    project.members << [group_a_member, group_b_member]
+    test_user_member = test_user.members.find_by(project_id: project.id)
+    assert_equal [ # [role_id, inherited_from]
+      [1, group_a_member.member_roles.find_by(role_id: 1).id],
+      [1, group_b_member.member_roles.find_by(role_id: 1).id],
+      [2, group_b_member.member_roles.find_by(role_id: 2).id],
+    ].sort, test_user_member.member_roles.map{|r| [r.role_id, r.inherited_from]}.sort
+
+    # Verify that a new non-inherited role is added and inherited roles are maintained
+    test_user_member.set_editable_role_ids([3]) # Add Reporter role to test_user
+    assert_equal [ # [role_id, inherited_from]
+      [1, group_a_member.member_roles.find_by(role_id: 1).id],
+      [1, group_b_member.member_roles.find_by(role_id: 1).id],
+      [2, group_b_member.member_roles.find_by(role_id: 2).id],
+      [3, nil]
+    ].sort, test_user_member.member_roles.map{|r| [r.role_id, r.inherited_from]}.sort
   end
 
   def test_validate
@@ -224,5 +243,15 @@ class MemberTest < ActiveSupport::TestCase
         "Unsaved members were returned: #{members.select(&:new_record?).map{|m| m.errors.full_messages}*","}"
       )
     end
+  end
+
+  def test_destroy_member_when_member_role_is_empty
+    member = Member.find(1)
+
+    assert_difference 'Member.count', -1 do
+      member.role_ids = [] # Destroy roles associated with member
+    end
+    assert member.destroyed?
+    assert_raise(ActiveRecord::RecordNotFound) { Member.find(1) }
   end
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,14 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class JournalObserverTest < ActiveSupport::TestCase
-  fixtures :issues, :issue_statuses, :journals, :journal_details, :projects,
-           :projects_trackers, :trackers, :enabled_modules, :enumerations,
-           :users, :user_preferences, :email_addresses, :roles, :members, :member_roles,
-           :versions
-
   def setup
     User.current = nil
     ActionMailer::Base.deliveries.clear
@@ -193,6 +188,36 @@ class JournalObserverTest < ActiveSupport::TestCase
       issue = issues(:issues_001)
       issue.init_journal(user)
       issue.fixed_version = versions(:versions_003)
+
+      assert issue.save
+      assert_equal 0, ActionMailer::Base.deliveries.size
+    end
+  end
+
+  def test_create_should_send_email_notification_with_issue_attachment_added
+    set_tmp_attachments_directory
+    with_settings :notified_events => %w(issue_attachment_added) do
+      user = User.find_by_login('jsmith')
+      issue = issues(:issues_001)
+      issue.init_journal(user)
+      issue.save_attachments(
+        { 'p0' => {'file' => mock_file_with_options(:original_filename => 'upload')} }
+      )
+
+      assert issue.save
+      assert_equal 2, ActionMailer::Base.deliveries.size
+    end
+  end
+
+  def test_create_should_not_send_email_notification_without_issue_attachment_added
+    set_tmp_attachments_directory
+    with_settings :notified_events => [] do
+      user = User.find_by_login('jsmith')
+      issue = issues(:issues_001)
+      issue.init_journal(user)
+      issue.save_attachments(
+        { 'p0' => {'file' => mock_file_with_options(:original_filename => 'upload')} }
+      )
 
       assert issue.save
       assert_equal 0, ActionMailer::Base.deliveries.size

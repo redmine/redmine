@@ -5,7 +5,7 @@
        :method => :get
      ) do %>
   <%= l(:label_revision) %>: <%= text_field_tag 'rev', nil, :size => 8 %>
-  <%= submit_tag 'OK' %>
+  <%= submit_tag l(:button_view) %>
 <% end %>
 </div>
 
@@ -23,12 +23,12 @@
   <%= stylesheet_link_tag "scm" %>
   <%= auto_discovery_link_tag(
                :atom,
-               :params => request.query_parameters.merge(:page => nil, :key => User.current.rss_key),
+               :params => request.query_parameters.merge(:page => nil, :key => User.current.atom_key),
                :format => 'atom') %>
 <% end %>
 
 <% other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
+  <%= f.link_to 'Atom', :url => {:key => User.current.atom_key} %>
 <% end %>
 
 <% html_title(l(:label_revision_plural)) -%>

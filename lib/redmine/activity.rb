@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,21 +19,21 @@
 
 module Redmine
   module Activity
-
-    mattr_accessor :available_event_types, :default_event_types, :providers
+    mattr_accessor :available_event_types, :default_event_types, :plugins_event_classes, :providers
 
     @@available_event_types = []
     @@default_event_types = []
+    @@plugins_event_classes = {}
     @@providers = Hash.new {|h, k| h[k]=[]}
 
     class << self
-      def map(&block)
+      def map(&)
         yield self
       end
 
       # Registers an activity provider
       def register(event_type, options={})
-        options.assert_valid_keys(:class_name, :default)
+        options.assert_valid_keys(:class_name, :default, :plugin)
 
         event_type = event_type.to_s
         providers = options[:class_name] || event_type.classify
@@ -41,6 +41,11 @@ module Redmine
 
         @@available_event_types << event_type unless @@available_event_types.include?(event_type)
         @@default_event_types << event_type unless options[:default] == false
+        if options[:plugin]
+          providers.each do |provider|
+            @@plugins_event_classes[provider] = options[:plugin].to_s
+          end
+        end
         @@providers[event_type] += providers
       end
 
@@ -48,6 +53,10 @@ module Redmine
         @@available_event_types.delete event_type
         @@default_event_types.delete event_type
         @@providers.delete(event_type)
+      end
+
+      def plugin_name(class_name)
+        @@plugins_event_classes[class_name.to_s]
       end
     end
   end

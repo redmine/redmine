@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,18 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../test_helper', __FILE__)
+require_relative '../../test_helper'
 
 class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
-  fixtures :projects, :trackers, :issue_statuses, :issues,
-           :enumerations, :users, :issue_categories,
-           :projects_trackers,
-           :roles,
-           :member_roles,
-           :members,
-           :enabled_modules,
-           :attachments
-
   def setup
     super
     set_fixtures_attachments_directory
@@ -61,7 +52,7 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
 
   test "GET /attachments/:id.xml should deny access without credentials" do
     get '/attachments/7.xml'
-    assert_response 401
+    assert_response :unauthorized
   end
 
   test "GET /attachments/download/:id/:filename should return the attachment content" do
@@ -72,7 +63,7 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
 
   test "GET /attachments/download/:id/:filename should deny access without credentials" do
     get '/attachments/download/7/archive.zip'
-    assert_response 401
+    assert_response :redirect
   end
 
   test "GET /attachments/thumbnail/:id should return the thumbnail" do
@@ -118,7 +109,7 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
       :params => {:attachment => {:filename => '', :description => 'updated'}},
       :headers => credentials('jsmith')
     )
-    assert_response 422
+    assert_response :unprocessable_content
     assert_equal 'application/json', response.media_type
     json = ActiveSupport::JSON.decode(response.body)
     assert_include "File cannot be blank", json['errors']
@@ -209,7 +200,7 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
           "CONTENT_TYPE" => 'image/png'
         }.merge(credentials('jsmith'))
       )
-      assert_response 406
+      assert_response :not_acceptable
     end
   end
 
@@ -224,7 +215,7 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
             "CONTENT_TYPE" => 'application/octet-stream'
           }.merge(credentials('jsmith'))
         )
-        assert_response 422
+        assert_response :unprocessable_content
         assert_select 'error', :text => /exceeds the maximum allowed file size/
       end
     end

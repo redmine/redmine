@@ -2,7 +2,10 @@
 
 <div class="hide-when-print">
   <fieldset id="filters" class="collapsible collapsed">
-    <legend onclick="toggleFieldset(this);" class="icon icon-collapsed"><%= l(:label_filter_plural) %></legend>
+    <legend onclick="toggleFieldset(this);" class="icon icon-collapsed">
+      <%= sprite_icon("angle-right", rtl: true) %>
+      <%= l(:label_filter_plural) %>
+    </legend>
     <div style="display: none;">
       <%= form_tag({}, :method => :get) do %>
         <fieldset>
@@ -34,10 +37,7 @@
     <th><%=l(:label_permissions)%></th>
     <% @roles.each do |role| %>
     <th>
-        <%= link_to_function('',
-                             "toggleCheckboxesBySelector('input.role-#{role.id}')",
-                             :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
-                             :class => 'icon-only icon-checked') %>
+        <%= toggle_checkboxes_link("input.role-#{role.id}") %>
         <%= content_tag(role.builtin? ? 'em' : 'span', role.name) %>
     </th>
     <% end %>
@@ -49,7 +49,7 @@
     <% unless mod.blank? %>
         <tr class="group open">
           <td>
-            <span class="expander icon icon-expanded" onclick="toggleRowGroup(this);">&nbsp;</span>
+            <span class="expander icon icon-expanded" onclick="toggleRowGroup(this);"><%= sprite_icon("angle-down") %></span>
             <%= l_or_humanize(mod, :prefix => 'project_module_') %>
           </td>
           <% @roles.each do |role| %>
@@ -61,10 +61,7 @@
         <% humanized_perm_name = l_or_humanize(permission.name, :prefix => 'permission_') %>
         <tr class="permission-<%= permission.name %>">
         <td class="name">
-            <%= link_to_function('',
-                                 "toggleCheckboxesBySelector('.permission-#{permission.name} input')",
-                                 :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
-                                 :class => 'icon-only icon-checked') %>
+            <%= toggle_checkboxes_link(".permission-#{permission.name} input") %>
             <%= humanized_perm_name %>
         </td>
         <% @roles.each do |role| %>
@@ -92,6 +89,7 @@
   <h3 class="title"><%= l(:label_export_options, :export_format => 'CSV') %></h3>
   <%= form_tag(permissions_roles_path(:format => 'csv'), :method => :get, :id => 'csv-export-form') do %>
   <%= export_csv_encoding_select_tag %>
+  <%= export_csv_separator_select_tag %>
   <p class="buttons">
     <%= submit_tag l(:button_export), :name => nil, :onclick => 'hideModal(this);', :data => {:disable_with => false} %>
     <%= link_to_function l(:button_cancel), 'hideModal(this);' %>

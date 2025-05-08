@@ -24,7 +24,10 @@
 </fieldset>
 
 <fieldset class="collapsible collapsed">
-  <legend onclick="toggleFieldset(this);" class="icon icon-collapsed"><%= l(:label_options) %></legend>
+  <legend onclick="toggleFieldset(this);" class="icon icon-collapsed">
+    <%= sprite_icon("angle-right", rtl: true) %>
+    <%= l(:label_options) %>
+  </legend>
   <div id="options-content" style="display:none;">
     <p><label><%= check_box_tag 'open_issues', 1, @open_issues %> <%= l(:label_search_open_issues_only) %></label></p>
     <p>
@@ -46,9 +49,15 @@
       <%= render_results_by_type(@result_count_by_type) unless @scope.size == 1 %>
     </div>
     <h3><%= l(:label_result_plural) %> (<%= @result_count %>)</h3>
+    <% if @result_count_by_type['issues'].to_i > 0 && @search_attachments == '0' %>
+      <p class="buttons">
+        <%= link_to sprite_icon('list', l(:button_apply_issues_filter)), issues_filter_path(@question, projects_scope: params[:scope], all_words: @all_words, titles_only: @titles_only, open_issues: @open_issues), :class => 'icon icon-list' %>
+      </p>
+    <% end %>
     <dl id="search-results">
       <% @results.each do |e| %>
         <dt class="<%= e.event_type %> icon icon-<%= e.event_type %>">
+          <%= sprite_icon(e.event_type) %>
           <%= content_tag('span', e.project, :class => 'project') unless @project == e.project %>
           <%= link_to(highlight_tokens(e.event_title.truncate(255), @tokens), e.event_url) %>
         </dt>

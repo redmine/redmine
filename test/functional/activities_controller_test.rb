@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,20 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class ActivitiesControllerTest < Redmine::ControllerTest
-  fixtures :projects, :trackers, :issue_statuses, :issues,
-           :enumerations, :users, :issue_categories,
-           :projects_trackers,
-           :roles,
-           :member_roles,
-           :members,
-           :groups_users,
-           :enabled_modules,
-           :journals, :journal_details,
-           :attachments, :changesets, :documents, :messages, :news, :time_entries, :wiki_content_versions
-
   def test_project_index
     get(
       :index,
@@ -45,9 +34,36 @@ class ActivitiesControllerTest < Redmine::ControllerTest
     assert_select 'dl dt.issue-edit a', :text => /(#{IssueStatus.find(2).name})/
   end
 
+  def test_index_subproject_checkbox_should_check_descendants_visibility
+    @request.session[:user_id] = 2
+    get(
+      :index,
+      :params => {
+        :id => 5,
+      }
+    )
+    assert_response :success
+
+    assert_select '#sidebar input#with_subprojects'
+
+    project = Project.find(6)
+    project.is_public = false
+    project.save
+
+    get(
+      :index,
+      :params => {
+        :id => 5,
+      }
+    )
+    assert_response :success
+
+    assert_select '#sidebar input#with_subprojects', :count => 0
+  end
+
   def test_project_index_with_invalid_project_id_should_respond_404
     get(:index, :params => {:id => 299})
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_previous_project_index
@@ -104,7 +120,7 @@ class ActivitiesControllerTest < Redmine::ControllerTest
         :user_id => 299
       }
     )
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_user_index_with_non_visible_user_id_should_respond_404
@@ -116,7 +132,7 @@ class ActivitiesControllerTest < Redmine::ControllerTest
       :user_id => user.id
     }
 
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_index_atom_feed

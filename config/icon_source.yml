@@ -1,0 +1,224 @@
+# Redmine - project management software
+# Copyright (C) 2006-  Jean-Philippe Lang
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+# This file is used by icons rake task to download SVG icons from Tabler
+# Keys description:
+#   - name: destination icon name
+#     svg: source icon name from Github repository
+#     style: outline (default) or filled
+
+- name: edit
+  svg: pencil
+- name: add
+  svg: circle-plus
+- name: copy
+  svg: copy
+- name: del
+  svg: trash
+- name: save
+  svg: device-floppy
+- name: download
+  svg: download
+- name: attachment
+  svg: paperclip
+- name: time-add
+  svg: clock-plus
+- name: time
+  svg: clock
+- name: fav
+  svg: star
+- name: copy-link
+  svg: clipboard-copy
+- name: 3-bullets
+  svg: dots
+- name: history
+  svg: history
+- name: folder
+  svg: folder
+- name: folder-open
+  svg: folder-open
+- name: lock
+  svg: lock
+- name: unlock
+  svg: lock-open
+- name: link-break
+  svg: link-off
+- name: zoom-in
+  svg: zoom-in
+- name: zoom-out
+  svg: zoom-out
+- name: settings
+  svg: settings
+- name: news
+  svg: news
+- name: user
+  svg: user
+- name: group
+  svg: users-group
+- name: bookmarked
+  svg: bookmark
+- name: bookmark-delete
+  svg: bookmark-off
+- name: bookmark-add
+  svg: bookmark-plus
+- name: import
+  svg: database-export
+- name: summary
+  svg: bolt
+- name: angle-down
+  svg: chevron-down
+- name: angle-right
+  svg: chevron-right
+- name: angle-up
+  svg: chevron-up
+- name: angle-left
+  svg: chevron-left
+- name: email
+  svg: mail
+- name: email-disabled
+  svg: mail-off
+- name: stats
+  svg: chart-bar
+- name: reorder
+  svg: menu-order
+- name: close
+  svg: square-x
+- name: checked
+  svg: check
+- name: reload
+  svg: refresh
+- name: link
+  svg: link
+- name: plugins
+  svg: puzzle
+- name: roles
+  svg: shield-cog
+- name: list
+  svg: list
+- name: workflows
+  svg: jump-rope
+- name: server-authentication
+  svg: server
+- name: table-multiple
+  svg: refresh
+- name: projects
+  svg: packages
+- name: project
+  svg: packages
+- name: package
+  svg: package
+- name: custom-fields
+  svg: input-check
+- name: help
+  svg: info-circle
+- name: changeset
+  svg: code
+- name: clear-query
+  svg: square-x
+- name: warning
+  svg: alert-triangle
+- name: comments
+  svg: message
+- name: comment
+  svg: message
+- name: message
+  svg: message
+- name: reply
+  svg: messages
+- name: arrow-right
+  svg: arrow-big-right
+- name: wiki-page
+  svg: notebook
+- name: bullet-end
+  svg: circle-arrow-left
+- name: bullet-go
+  svg: circle-arrow-right
+- name: bullet-go-end
+  svg: diamonds
+- name: move
+  svg: arrow-forward-up
+- name: cancel
+  svg: arrow-back-up
+- name: document
+  svg: file-text
+- name: issue
+  svg: note
+- name: issue-closed
+  svg: square-check
+- name: issue-edit
+  svg: edit
+- name: issue-note
+  svg: message-plus
+- name: file
+  svg: file
+- name: text-plain
+  svg: file-text
+- name: text-x-c
+  svg: file-code
+- name: text-x-csharp
+  svg: brand-c-sharp
+- name: text-x-java
+  svg: file-code
+- name: text-x-php
+  svg: file-type-php
+- name: text-x-ruby
+  svg: file-code
+- name: text-xml
+  svg: file-type-xml
+- name: text-css
+  svg: file-type-css
+- name: text-html
+  svg: file-type-html
+- name: image-gif
+  svg: file
+- name: image-jpeg
+  svg: file-type-jpg
+- name: image-png
+  svg: file-type-png
+- name: image-tiff
+  svg: file
+- name: application-javascript
+  svg: file-type-js
+- name: application-pdf
+  svg: file-type-pdf
+- name: application-zip
+  svg: file-type-zip
+- name: application-gzip
+  svg: file-zip
+- name: chevrons-right
+  svg: chevrons-right
+- name: chevrons-left
+  svg: chevrons-left
+- name: key
+  svg: key
+- name: search
+  svg: search
+- name: toggle-plus
+  svg: square-rounded-plus
+- name: toggle-minus
+  svg: square-rounded-minus
+- name: circle-minus
+  svg: circle-minus
+- name: circle-dot-filled
+  svg: circle-dot
+  style: filled
+- name: watch
+  svg: eye
+- name: unwatch
+  svg: eye-off
+- name: copy-pre-content
+  svg: clipboard

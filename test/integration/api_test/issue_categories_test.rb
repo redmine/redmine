@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,15 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../test_helper', __FILE__)
+require_relative '../../test_helper'
 
 class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
-  fixtures :projects, :users, :issue_categories, :issues,
-           :roles,
-           :member_roles,
-           :members,
-           :enabled_modules
-
   test "GET /projects/:project_id/issue_categories.xml should return the issue categories" do
     get '/projects/1/issue_categories.xml', :headers => credentials('jsmith')
     assert_response :success
@@ -62,7 +56,7 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
         :params => {:issue_category => {:name => ''}},
         :headers => credentials('jsmith'))
     end
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
     assert_equal 'application/xml', @response.media_type
 
     assert_select 'errors error', :text => "Name cannot be blank"
@@ -87,7 +81,7 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
         :params => {:issue_category => {:name => ''}},
         :headers => credentials('jsmith'))
     end
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
     assert_equal 'application/xml', @response.media_type
 
     assert_select 'errors error', :text => "Name cannot be blank"

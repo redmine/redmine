@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -21,6 +21,7 @@ class ReportsController < ApplicationController
   menu_item :issues
   before_action :find_project, :authorize, :find_issue_statuses
 
+  include ReportsHelper
   def issue_report
     with_subprojects = Setting.display_subprojects_issues?
     @trackers = @project.rolled_up_trackers(with_subprojects).visible
@@ -81,6 +82,14 @@ class ReportsController < ApplicationController
       @report_title = l(:field_subproject)
     else
       render_404
+    end
+    respond_to do |format|
+      format.html
+      format.csv do
+        send_data(issue_report_details_to_csv(@field, @statuses, @rows, @data),
+                  :type => 'text/csv; header=present',
+                  :filename => "report-#{params[:detail]}.csv")
+      end
     end
   end
 

@@ -116,16 +116,18 @@ module SortHelper
     if column.to_s == @sort_criteria.first_key
       if @sort_criteria.first_asc?
         css = 'sort asc icon icon-sorted-desc'
+        icon = 'angle-up'
         order = 'desc'
       else
         css = 'sort desc icon icon-sorted-asc'
+        icon = 'angle-down'
         order = 'asc'
       end
     end
     caption = column.to_s.humanize unless caption
 
     sort_options = {:sort => @sort_criteria.add(column.to_s, order).to_param}
-    link_to(caption, {:params => request.query_parameters.merge(sort_options)}, :class => css)
+    link_to(sprite_icon(icon, caption), { :params => request.query_parameters.merge(sort_options)}, :class => css)
   end
 
   # Returns a table header <th> tag with a sort link for the named column

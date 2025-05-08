@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -52,11 +52,11 @@ module RepositoriesHelper
   end
 
   def render_changeset_changes
-    changes = @changeset.filechanges.limit(1000).reorder('path').collect do |change|
+    changes = @changeset.filechanges.limit(1000).reorder('path').filter_map do |change|
       case change.action
       when 'A'
         # Detects moved/copied files
-        if !change.from_path.blank?
+        if change.from_path.present?
           change.action =
             @changeset.filechanges.detect {|c| c.action == 'D' && c.path == change.from_path} ? 'R' : 'C'
         end
@@ -66,7 +66,7 @@ module RepositoriesHelper
       else
         change
       end
-    end.compact
+    end
 
     tree = {}
     changes.each do |change|
@@ -96,7 +96,7 @@ module RepositoriesHelper
       if s = tree[file][:s]
         style << ' folder'
         path_param = to_path_param(@repository.relative_path(file))
-        text = link_to(h(text), :controller => 'repositories',
+        text = link_to(sprite_icon("folder-open", h(text)), :controller => 'repositories',
                              :action => 'show',
                              :id => @project,
                              :repository_id => @repository.identifier_param,
@@ -108,7 +108,7 @@ module RepositoriesHelper
       elsif c = tree[file][:c]
         style << " change-#{c.action}"
         path_param = to_path_param(@repository.relative_path(c.path))
-        text = link_to(h(text), :controller => 'repositories',
+        text = link_to(scm_change_icon(c.action, h(text)), :controller => 'repositories',
                              :action => 'entry',
                              :id => @project,
                              :repository_id => @repository.identifier_param,

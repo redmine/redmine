@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class Principal < ActiveRecord::Base
+class Principal < ApplicationRecord
   self.table_name = "#{table_name_prefix}users#{table_name_suffix}"
 
   # Account statuses
@@ -35,6 +35,8 @@ class Principal < ActiveRecord::Base
            :foreign_key => 'user_id'
   has_many :projects, :through => :memberships
   has_many :issue_categories, :foreign_key => 'assigned_to_id', :dependent => :nullify
+  # Always returns nil for groups
+  has_one :email_address, lambda {where :is_default => true}, :autosave => true, :foreign_key => 'user_id'
 
   validate :validate_status
 
@@ -48,8 +50,8 @@ class Principal < ActiveRecord::Base
       all
     else
       view_all_active = false
-      if user.memberships.to_a.any?
-        view_all_active = user.memberships.any? {|m| m.roles.any? {|r| r.users_visibility == 'all'}}
+      if user.memberships.any?
+        view_all_active = User.where(id: user.id).joins(memberships: :roles).where("#{Role.table_name}.users_visibility = ?", 'all').any?
       else
         view_all_active = user.builtin_role.users_visibility == 'all'
       end
@@ -72,7 +74,7 @@ class Principal < ActiveRecord::Base
       where({})
     else
       pattern = "%#{sanitize_sql_like q}%"
-      sql = +"LOWER(#{table_name}.login) LIKE LOWER(:p) ESCAPE :s"
+      sql = "LOWER(#{table_name}.login) LIKE LOWER(:p) ESCAPE :s"
       sql << " OR #{table_name}.id IN (SELECT user_id FROM #{EmailAddress.table_name} WHERE LOWER(address) LIKE LOWER(:p) ESCAPE :s)"
       params = {:p => pattern, :s => '\\'}
 
@@ -103,8 +105,8 @@ class Principal < ActiveRecord::Base
   end)
   # Principals that are not members of projects
   scope :not_member_of, (lambda do |projects|
-    projects = [projects] unless projects.is_a?(Array)
-    if projects.empty?
+    projects = [projects] if projects.is_a?(Project)
+    if projects.blank?
       where("1=0")
     else
       ids = projects.map(&:id)
@@ -136,6 +138,10 @@ class Principal < ActiveRecord::Base
     nil
   end
 
+  def active?
+    self.status == STATUS_ACTIVE
+  end
+
   def visible?(user=User.current)
     Principal.visible(user).find_by(:id => id) == self
   end
@@ -151,9 +157,11 @@ class Principal < ActiveRecord::Base
   end
 
   def <=>(principal)
-    if principal.nil?
-      -1
-    elsif self.class.name == principal.class.name
+    # avoid an error when sorting members without roles (#10053)
+    return -1 if principal.nil?
+    return nil unless principal.is_a?(Principal)
+
+    if self.instance_of?(principal.class)
       self.to_s.casecmp(principal.to_s)
     else
       # groups after users
@@ -179,7 +187,7 @@ class Principal < ActiveRecord::Base
     principal ||= principals.detect {|a| keyword.casecmp(a.login.to_s) == 0}
     principal ||= principals.detect {|a| keyword.casecmp(a.mail.to_s) == 0}
 
-    if principal.nil? && / /.match?(keyword)
+    if principal.nil? && keyword.include?(' ')
       firstname, lastname = *(keyword.split) # "First Last Throwaway"
       principal ||=
         principals.detect do |a|

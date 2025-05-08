@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # FileSystem adapter
 # File written by Paul Rivier, at Demotera.
@@ -25,12 +25,12 @@ require 'redmine/scm/adapters/filesystem_adapter'
 class Repository::Filesystem < Repository
   validates_presence_of :url
 
-  def self.human_attribute_name(attribute_key_name, *args)
+  def self.human_attribute_name(attribute_key_name, *)
     attr_name = attribute_key_name.to_s
     if attr_name == "url"
       attr_name = "root_directory"
     end
-    super(attr_name, *args)
+    super(attr_name, *)
   end
 
   def self.scm_adapter_class
@@ -41,7 +41,7 @@ class Repository::Filesystem < Repository
     'Filesystem'
   end
 
-  def supports_all_revisions?
+  def supports_history?
     false
   end
 

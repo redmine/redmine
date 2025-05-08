@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../../test_helper', __FILE__)
+require_relative '../../../test_helper'
 
 class Redmine::I18nTest < ActiveSupport::TestCase
   include Redmine::I18n
@@ -254,5 +254,16 @@ class Redmine::I18nTest < ActiveSupport::TestCase
   def test_french_locale
     set_language_if_valid 'fr'
     assert_equal 'French (Français)', l(:general_lang_name)
+  end
+
+  def test_custom_pluralization_rules
+    pluralizers = I18n.backend.instance_variable_get(:@pluralizers)
+    I18n.backend.instance_variable_set(:@pluralizers, nil)
+    I18n.backend.store_translations :pt, i18n: {plural: {rule: ->(n) {[0, 1].include?(n) ? :one : :other }}}
+    I18n.backend.store_translations :pt, apples: {one: 'one or none', other: 'more than one'}
+    assert_equal 'one or none', ll(:pt, :apples, count: 0)
+    assert_equal 'more than one', ll(:pt, :apples, count: 2)
+  ensure
+    I18n.backend.instance_variable_set(:@pluralizers, pluralizers)
   end
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,14 +17,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../test_helper', __FILE__)
+require_relative '../../test_helper'
 
 class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
-  fixtures :users, :groups_users, :email_addresses
-
   test "GET /groups.xml should require authentication" do
     get '/groups.xml'
-    assert_response 401
+    assert_response :unauthorized
   end
 
   test "GET /groups.xml should return givable groups" do
@@ -61,7 +59,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
 
   test "GET /groups.json should require authentication" do
     get '/groups.json'
-    assert_response 401
+    assert_response :unauthorized
   end
 
   test "GET /groups.json should return groups" do
@@ -150,7 +148,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
         :headers => credentials('admin')
       )
     end
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
     assert_equal 'application/xml', response.media_type
 
     assert_select 'errors' do
@@ -179,7 +177,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
       :params => {:group => {:name => ''}},
       :headers => credentials('admin')
     )
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
     assert_equal 'application/xml', response.media_type
 
     assert_select 'errors' do
@@ -220,7 +218,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
         :params => {:user_id => 5},
         :headers => credentials('admin')
       )
-      assert_response :unprocessable_entity
+      assert_response :unprocessable_content
     end
 
     assert_select 'errors' do

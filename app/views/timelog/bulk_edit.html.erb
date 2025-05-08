@@ -2,6 +2,7 @@
 
 <% if @unsaved_time_entries.present? %>
 <div id="errorExplanation">
+  <%= notice_icon('error') %>
   <span>
     <%= l(:notice_failed_to_save_time_entries,
         :count => @unsaved_time_entries.size,
@@ -21,7 +22,7 @@
   <%=
     content_tag 'li',
       link_to(
-        "#{format_date(entry.spent_on)} - #{entry.project}: #{l(:label_f_hour_plural, :value => entry.hours)} (#{entry.user})",
+        "#{format_date(entry.spent_on)} - #{entry.project}: #{l(:label_f_hour_plural, :value => format_hours(entry.hours))} (#{entry.user})",
         edit_time_entry_path(entry)
       )
   %>

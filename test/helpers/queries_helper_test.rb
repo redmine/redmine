@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,18 +17,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class QueriesHelperTest < Redmine::HelperTest
   include QueriesHelper
-
-  fixtures :projects, :enabled_modules, :users, :members,
-           :member_roles, :roles, :trackers, :issue_statuses,
-           :issue_categories, :enumerations, :issues,
-           :watchers, :custom_fields, :custom_values, :versions,
-           :queries,
-           :projects_trackers,
-           :custom_fields_trackers
 
   def test_filters_options_for_select_should_have_a_blank_option
     options = filters_options_for_select(IssueQuery.new)
@@ -82,6 +74,16 @@ class QueriesHelperTest < Redmine::HelperTest
     end
   end
 
+  def test_filters_options_for_select_should_group_text_filters
+    with_locale 'en' do
+      options = filters_options_for_select(IssueQuery.new)
+      assert_select_in options, 'optgroup[label=?]', 'Text', 1
+      assert_select_in options, 'optgroup > option[value=subject]', :text => 'Subject'
+      assert_select_in options, 'optgroup > option[value=cf_2]', :text => 'Searchable field'
+      assert_select_in options, 'optgroup > option:last-of-type[value=any_searchable]', :text => 'Any searchable text'
+    end
+  end
+
   def test_query_to_csv_should_translate_boolean_custom_field_values
     f = IssueCustomField.generate!(:field_format => 'bool', :name => 'Boolean', :is_for_all => true, :trackers => Tracker.all)
     issues = [
@@ -94,5 +96,17 @@ class QueriesHelperTest < Redmine::HelperTest
       assert_include "Oui", csv
       assert_include "Non", csv
     end
+  end
+
+  def test_filters_options_for_select_should_group_custom_field_relations
+    i_cf = IssueCustomField.generate!(field_format: 'user', name: 'User', is_for_all: true, trackers: Tracker.all, is_filter: true)
+    u_cf = UserCustomField.find(4)
+    u_cf.is_filter = true
+    u_cf.save
+
+    options = filters_options_for_select(IssueQuery.new)
+
+    assert_select_in options, 'option[value=?]', "cf_#{i_cf.id}.cf_#{u_cf.id}", text: "User's Phone number"
+    assert_select_in options, 'optgroup[label=?]', 'User', 1
   end
 end

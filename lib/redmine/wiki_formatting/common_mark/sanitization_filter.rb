@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -27,6 +27,18 @@ module Redmine
           "a" => %w(href).freeze,
         }.freeze
 
+        ALLOWED_CSS_PROPERTIES = %w[
+          color background-color
+          width min-width max-width
+          height min-height max-height
+          padding padding-left padding-right padding-top padding-bottom
+          margin margin-left margin-right margin-top margin-bottom
+          border border-left border-right border-top border-bottom border-radius border-style border-collapse border-spacing
+          font font-style font-variant font-weight font-stretch font-size line-height font-family
+          text-align
+          float
+        ].freeze
+
         def allowlist
           @allowlist ||= customize_allowlist(super.deep_dup)
         end
@@ -39,6 +51,9 @@ module Redmine
           # Disallow `name` attribute globally, allow on `a`
           allowlist[:attributes][:all].delete("name")
           allowlist[:attributes]["a"].push("name")
+
+          allowlist[:attributes][:all].push("style")
+          allowlist[:css] = { properties: ALLOWED_CSS_PROPERTIES }
 
           # allow class on code tags (this holds the language info from fenced
           # code bocks and has the format language-foo)
@@ -53,6 +68,26 @@ module Redmine
             end
           }
 
+          # Allow class on div and p tags only for alert blocks
+          # (must be exactly: "markdown-alert markdown-alert-*" for div, and "markdown-alert-title" for p)
+          (allowlist[:attributes]["div"] ||= []) << "class"
+          (allowlist[:attributes]["p"] ||= []) << "class"
+          allowlist[:transformers].push lambda{|env|
+            node = env[:node]
+            return unless node.element?
+
+            case node.name
+            when 'div'
+              unless /\Amarkdown-alert markdown-alert-[a-z]+\z/.match?(node['class'])
+                node.remove_attribute('class')
+              end
+            when 'p'
+              unless node['class'] == 'markdown-alert-title'
+                node.remove_attribute('class')
+              end
+            end
+          }
+
           # Allow table cell alignment by style attribute
           #
           # Only necessary if we used the TABLE_PREFER_STYLE_ATTRIBUTES
@@ -63,18 +98,56 @@ module Redmine
           # allowlist[:attributes]["td"] = %w(style)
           # allowlist[:css] = { properties: ["text-align"] }
 
-          # Allow `id` in a and li elements for footnotes
-          # and remove any `id` properties not matching for footnotes
+          # Allow `id` in a elements for footnotes
           allowlist[:attributes]["a"].push "id"
-          allowlist[:attributes]["li"] = %w(id)
+          # Remove any `id` property not matching for footnotes
           allowlist[:transformers].push lambda{|env|
             node = env[:node]
-            return unless node.name == "a" || node.name == "li"
+            return unless node.name == "a"
             return unless node.has_attribute?("id")
-            return if node.name == "a" && node["id"] =~ /\Afnref\d+\z/
-            return if node.name == "li" && node["id"] =~ /\Afn\d+\z/
+            return if node.name == "a" && node["id"] =~ /\Afnref(-\d+){1,2}\z/
 
             node.remove_attribute("id")
+          }
+
+          # allow `id` in li element for footnotes
+          # allow `class` in li element for task list items
+          allowlist[:attributes]["li"] = %w(id class)
+          allowlist[:transformers].push lambda{|env|
+            node = env[:node]
+            return unless node.name == "li"
+
+            if node.has_attribute?("id") && !(node["id"] =~ /\Afn-\d+\z/)
+              node.remove_attribute("id")
+            end
+
+            if node.has_attribute?("class") && node["class"] != "task-list-item"
+              node.remove_attribute("class")
+            end
+          }
+
+          # allow input type = "checkbox" with class "task-list-item-checkbox"
+          # for task list items
+          allowlist[:elements].push('input')
+          allowlist[:attributes]["input"] = %w(class type)
+          allowlist[:transformers].push lambda{|env|
+            node = env[:node]
+
+            return unless node.name == "input"
+            return if node['type'] == "checkbox" && node['class'] == "task-list-item-checkbox"
+
+            node.replace(node.children)
+          }
+
+          # allow class "contains-task-list" on ul for task list items
+          allowlist[:attributes]["ul"] = %w(class)
+          allowlist[:transformers].push lambda{|env|
+            node = env[:node]
+
+            return unless node.name == "ul"
+            return if node["class"] == "contains-task-list"
+
+            node.remove_attribute("class")
           }
 
           # https://github.com/rgrove/sanitize/issues/209
@@ -95,6 +168,9 @@ module Redmine
               end
             end
           }
+
+          # Allow `u` element to enable underline
+          allowlist[:elements].push('u')
 
           allowlist
         end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,15 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../test_helper', __FILE__)
+require_relative '../../test_helper'
 
 class Redmine::ApiTest::RepositoriesTest < Redmine::ApiTest::Base
-  fixtures :users,
-           :projects, :enabled_modules,
-           :members, :roles, :member_roles,
-           :issues,
-           :repositories, :changesets, :changes
-
   test 'POST /projects/:id/repository/:repository_id/revisions/:rev/issues.xml should add related issue' do
     changeset = Changeset.find(103)
     assert_equal [], changeset.issue_ids
@@ -70,7 +64,7 @@ class Redmine::ApiTest::RepositoriesTest < Redmine::ApiTest::Base
     assert_no_difference 'Changeset.find(103).issues.size' do
       post '/projects/1/repository/10/revisions/4/issues.xml', :headers => credentials('jsmith'), :params => {:issue_id => '9999'}
     end
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
     assert_select 'errors error', :text => 'Issue is invalid'
   end
 
@@ -78,7 +72,7 @@ class Redmine::ApiTest::RepositoriesTest < Redmine::ApiTest::Base
     assert_no_difference 'Changeset.find(103).issues.size' do
       post '/projects/1/repository/10/revisions/4/issues.json', :headers => credentials('jsmith'), :params => {:issue_id => '9999'}
     end
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
     json = ActiveSupport::JSON.decode(response.body)
     assert json['errors'].include?('Issue is invalid')
   end

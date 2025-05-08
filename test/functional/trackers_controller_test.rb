@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,11 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class TrackersControllerTest < Redmine::ControllerTest
-  fixtures :trackers, :projects, :projects_trackers, :users, :issues, :custom_fields, :issue_statuses
-
   def setup
     User.current = nil
     @request.session[:user_id] = 1 # admin
@@ -42,7 +40,7 @@ class TrackersControllerTest < Redmine::ControllerTest
   def test_index_by_user_should_respond_with_406
     @request.session[:user_id] = 2
     get :index
-    assert_response 406
+    assert_response :not_acceptable
   end
 
   def test_new
@@ -107,7 +105,7 @@ class TrackersControllerTest < Redmine::ControllerTest
         assert_select "input[type=checkbox][name=?][value=#{project_id}][checked=checked]", 'tracker[project_ids][]'
       end
       # project not checked
-      (Project.all.pluck(:id) - project_ids).each do |project_id|
+      (Project.pluck(:id) - project_ids).each do |project_id|
         assert_select "input[type=checkbox][name=?][value=#{project_id}]", 'tracker[project_ids][]'
       end
       # workflow copy selected
@@ -209,6 +207,9 @@ class TrackersControllerTest < Redmine::ControllerTest
     assert_select 'input[name=?][value=category_id]', 'tracker[core_fields][]'
     assert_select 'input[name=?][value=category_id][checked=checked]', 'tracker[core_fields][]', 0
 
+    assert_select 'input[name=?][value=priority_id]', 'tracker[core_fields][]'
+    assert_select 'input[name=?][value=priority_id][checked=checked]', 'tracker[core_fields][]', 0
+
     assert_select 'input[name=?][value=""][type=hidden]', 'tracker[core_fields][]'
   end
 
@@ -271,11 +272,21 @@ class TrackersControllerTest < Redmine::ControllerTest
   end
 
   def test_destroy_tracker_in_use
-    assert_no_difference 'Tracker.count' do
-      delete :destroy, :params => {:id => 1}
+    tracker = Tracker.generate!(name: 'In use')
+    projects = Array.new(2) do
+      project = Project.generate!
+      Issue.generate!(project: project, tracker: tracker)
+      project
     end
-    assert_redirected_to :action => 'index'
-    assert_not_nil flash[:error]
+
+    assert_no_difference 'Tracker.count' do
+      delete :destroy, params: {id: tracker.id}
+    end
+    assert_redirected_to action: 'index'
+    assert_match /The following projects have issues with this tracker:/, flash[:error]
+    projects.each do |project|
+      assert_match /#{project.name}/, flash[:error]
+    end
   end
 
   def test_get_fields

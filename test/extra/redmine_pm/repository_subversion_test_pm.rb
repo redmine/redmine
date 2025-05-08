@@ -1,7 +1,7 @@
 # frozen_string_literal: false
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,12 +17,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../test_case', __FILE__)
+require_relative 'test_case'
 require 'tmpdir'
 
 class RedminePmTest::RepositorySubversionTest < RedminePmTest::TestCase
-  fixtures :projects, :users, :members, :roles, :member_roles, :auth_sources, :enabled_modules
-
   SVN_BIN = Redmine::Configuration['scm_subversion_command'] || "svn"
 
   def test_anonymous_read_on_public_repo_with_permission_should_succeed
@@ -256,13 +254,13 @@ class RedminePmTest::RepositorySubversionTest < RedminePmTest::TestCase
       ldap_user = User.new(:mail => 'example1@redmine.org', :firstname => 'LDAP', :lastname => 'user', :auth_source_id => 1)
       ldap_user.login = 'example1'
       ldap_user.save!
-  
+
       with_settings :login_required => '1' do
         with_credentials "example1", "123456" do
           assert_success "ls", svn_url
         end
       end
-  
+
       with_settings :login_required => '1' do
         with_credentials "example1", "wrong" do
           assert_failure "ls", svn_url

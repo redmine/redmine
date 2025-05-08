@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -35,43 +35,6 @@ module Redmine
       @dir
     end
 
-    def mirror_assets
-      return unless has_assets_dir?
-
-      destination = File.join(PluginLoader.public_directory, File.basename(@dir))
-
-      source_files = Dir["#{assets_dir}/**/*"]
-      source_dirs = source_files.select { |d| File.directory?(d)}
-      source_files -= source_dirs
-      unless source_files.empty?
-        base_target_dir = File.join(destination, File.dirname(source_files.first).gsub(assets_dir, ''))
-        begin
-          FileUtils.mkdir_p(base_target_dir)
-        rescue => e
-          raise "Could not create directory #{base_target_dir}: " + e.message
-        end
-      end
-
-      source_dirs.each do |dir|
-        # strip down these paths so we have simple, relative paths we can
-        # add to the destination
-        target_dir = File.join(destination, dir.gsub(assets_dir, ''))
-        begin
-          FileUtils.mkdir_p(target_dir)
-        rescue => e
-          raise "Could not create directory #{target_dir}: " + e.message
-        end
-      end
-      source_files.each do |file|
-        target = File.join(destination, file.gsub(assets_dir, ''))
-        unless File.exist?(target) && FileUtils.identical?(file, target)
-          FileUtils.cp(file, target)
-        end
-      rescue => e
-        raise "Could not copy #{file} to #{target}: " + e.message
-      end
-    end
-
     def has_assets_dir?
       File.directory?(@assets_dir)
     end
@@ -84,21 +47,11 @@ module Redmine
   class PluginLoader
     # Absolute path to the directory where plugins are located
     cattr_accessor :directory
-    self.directory = Rails.root.join('plugins')
+    self.directory = Rails.root.join Rails.application.config.redmine_plugins_directory
 
-    # Absolute path to the plublic directory where plugins assets are copied
+    # Absolute path to the public directory where plugins assets are copied
     cattr_accessor :public_directory
-    self.public_directory = Rails.root.join('public/plugin_assets')
-
-    def self.create_assets_reloader
-      plugin_assets_dirs = {}
-      directories.each do |dir|
-        plugin_assets_dirs[dir.assets_dir] = ['*']
-      end
-      ActiveSupport::FileUpdateChecker.new([], plugin_assets_dirs) do
-        mirror_assets
-      end
-    end
+    self.public_directory = Rails.public_path.join('plugin_assets')
 
     def self.load
       setup
@@ -114,7 +67,7 @@ module Redmine
     def self.setup
       @plugin_directories = []
 
-      Dir.glob(File.join(directory, '*')).sort.each do |directory|
+      Dir.glob(File.join(directory, '*')).each do |directory|
         next unless File.directory?(directory)
 
         @plugin_directories << PluginPath.new(directory)
@@ -126,22 +79,15 @@ module Redmine
         # Add the plugin directories to rails autoload paths
         engine_cfg = Rails::Engine::Configuration.new(directory.to_s)
         engine_cfg.paths.add 'lib', eager_load: true
-        engine_cfg.eager_load_paths.each do |dir|
+        engine_cfg.all_eager_load_paths.each do |dir|
           Rails.autoloaders.main.push_dir dir
+          Rails.application.config.watchable_dirs[dir] = [:rb]
         end
       end
     end
 
     def self.directories
       @plugin_directories
-    end
-
-    def self.mirror_assets(name=nil)
-      if name.present?
-        directories.find{|d| d.to_s == File.join(directory, name)}.mirror_assets
-      else
-        directories.each(&:mirror_assets)
-      end
     end
   end
 end

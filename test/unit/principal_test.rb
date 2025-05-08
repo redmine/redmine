@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,12 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class PrincipalTest < ActiveSupport::TestCase
-  fixtures :users, :projects, :members, :member_roles, :roles,
-           :email_addresses
-
   def setup
     User.current = nil
   end
@@ -76,6 +73,12 @@ class PrincipalTest < ActiveSupport::TestCase
     end
   end
 
+  def test_not_member_of_scope_should_accept_active_record_relation
+    projects = Project.where(id: [1, 2])
+    expected = (Principal.all - projects.map(&:memberships).flatten.map(&:principal)).sort
+    assert_equal expected, Principal.not_member_of(projects).sort
+  end
+
   def test_not_member_of_scope_should_be_empty_for_no_projects
     assert_equal [], Principal.not_member_of([]).sort
   end
@@ -85,8 +88,8 @@ class PrincipalTest < ActiveSupport::TestCase
     users = scope.select {|p| p.is_a?(User)}.sort
     groups = scope.select {|p| p.is_a?(Group)}.sort
 
-    assert_equal (users + groups).map(&:name).map(&:downcase),
-                 scope.sorted.map(&:name).map(&:downcase)
+    assert_equal (users + groups).map {|p| p.name.downcase},
+                 scope.sorted.map {|p| p.name.downcase}
   end
 
   test "like scope should search login" do

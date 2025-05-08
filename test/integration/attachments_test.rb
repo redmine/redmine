@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,16 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class AttachmentsTest < Redmine::IntegrationTest
-  fixtures :projects, :enabled_modules,
-           :users, :email_addresses,
-           :roles, :members, :member_roles,
-           :trackers, :projects_trackers,
-           :issues, :issue_statuses, :enumerations,
-           :attachments
-
   def test_upload_should_set_default_content_type
     log_user('jsmith', 'jsmith')
     assert_difference 'Attachment.count' do
@@ -56,7 +49,8 @@ class AttachmentsTest < Redmine::IntegrationTest
   def test_upload_as_js_and_attach_to_an_issue
     log_user('jsmith', 'jsmith')
 
-    token = ajax_upload('myupload.txt', 'File content')
+    file_content = 'File content'
+    token = ajax_upload('myupload.txt', file_content)
 
     assert_difference 'Issue.count' do
       post(
@@ -72,7 +66,7 @@ class AttachmentsTest < Redmine::IntegrationTest
           }
         }
       )
-      assert_response 302
+      assert_response :found
     end
 
     issue = Issue.order('id DESC').first
@@ -82,7 +76,7 @@ class AttachmentsTest < Redmine::IntegrationTest
     attachment = issue.attachments.first
     assert_equal 'myupload.txt', attachment.filename
     assert_equal 'My uploaded file', attachment.description
-    assert_equal 'File content'.length, attachment.filesize
+    assert_equal file_content.length, attachment.filesize
   end
 
   def test_upload_as_js_and_preview_as_inline_attachment
@@ -90,34 +84,37 @@ class AttachmentsTest < Redmine::IntegrationTest
 
     token = ajax_upload('myupload.jpg', 'JPEG content')
 
-    post(
-      '/issues/preview',
-      :params => {
-        :issue => {:tracker_id => 1, :project_id => 'ecookbook'},
-        :text => 'Inline upload: !myupload.jpg!',
-        :attachments => {
-          '1' => {
-            :filename => 'myupload.jpg',
-            :description => 'My uploaded file',
-            :token => token
+    with_settings :text_formatting => 'textile' do
+      post(
+        '/issues/preview',
+        :params => {
+          :issue => {:tracker_id => 1, :project_id => 'ecookbook'},
+          :text => 'Inline upload: !myupload.jpg!',
+          :attachments => {
+            '1' => {
+              :filename => 'myupload.jpg',
+              :description => 'My uploaded file',
+              :token => token
+            }
           }
         }
-      }
-    )
-    assert_response :success
+      )
+      assert_response :success
 
-    attachment_path = response.body.match(%r{<img src="(/attachments/download/\d+/myupload.jpg)"})[1]
-    assert_not_nil token, "No attachment path found in response:\n#{response.body}"
+      attachment_path = response.body.match(%r{<img src="(/attachments/download/\d+/myupload.jpg)"})[1]
+      assert_not_nil token, "No attachment path found in response:\n#{response.body}"
 
-    get attachment_path
-    assert_response :success
-    assert_equal 'JPEG content', response.body
+      get attachment_path
+      assert_response :success
+      assert_equal 'JPEG content', response.body
+    end
   end
 
   def test_upload_and_resubmit_after_validation_failure
     log_user('jsmith', 'jsmith')
 
-    token = ajax_upload('myupload.txt', 'File content')
+    file_content = 'File content'
+    token = ajax_upload('myupload.txt', file_content)
 
     assert_no_difference 'Issue.count' do
       post(
@@ -153,7 +150,7 @@ class AttachmentsTest < Redmine::IntegrationTest
           }
         }
       )
-      assert_response 302
+      assert_response :found
     end
 
     issue = Issue.order('id DESC').first
@@ -163,13 +160,14 @@ class AttachmentsTest < Redmine::IntegrationTest
     attachment = issue.attachments.first
     assert_equal 'myupload.txt', attachment.filename
     assert_equal 'My uploaded file', attachment.description
-    assert_equal 'File content'.length, attachment.filesize
+    assert_equal file_content.length, attachment.filesize
   end
 
   def test_upload_filename_with_plus
     log_user('jsmith', 'jsmith')
     filename = 'a+b.txt'
-    token = ajax_upload(filename, 'File content')
+    file_content = 'File content'
+    token = ajax_upload(filename, file_content)
     assert_difference 'Issue.count' do
       post(
         '/projects/ecookbook/issues',
@@ -178,7 +176,7 @@ class AttachmentsTest < Redmine::IntegrationTest
           :attachments => {'p0' => {:filename => filename, :token => token}}
         }
       )
-      assert_response 302
+      assert_response :found
     end
     issue = Issue.order('id DESC').first
     assert_equal 'Issue with upload', issue.subject
@@ -187,7 +185,7 @@ class AttachmentsTest < Redmine::IntegrationTest
     attachment = issue.attachments.first
     assert_equal filename, attachment.filename
     assert_equal '', attachment.description
-    assert_equal 'File content'.length, attachment.filesize
+    assert_equal file_content.length, attachment.filesize
   end
 
   def test_upload_as_js_and_destroy
@@ -219,6 +217,64 @@ class AttachmentsTest < Redmine::IntegrationTest
     assert_not_nil response.headers["X-Sendfile"]
   ensure
     set_tmp_attachments_directory
+  end
+
+  def test_download_all_with_wrong_container_type
+    set_tmp_attachments_directory
+
+    # make the attachment readable
+    assert a = Attachment.find(3)
+    FileUtils.mkdir_p File.dirname(a.diskfile)
+    (File.open(a.diskfile, 'wb') << 'test').close
+
+    # there is no 'download all' for WikiContentVersions
+    with_settings :login_required => '0' do
+      get "/attachments/wiki_content_versions/7/download"
+      assert_response :not_found
+    end
+    with_settings :login_required => '1' do
+      get "/attachments/wiki_content_versions/7/download"
+      assert_response :not_found
+    end
+  end
+
+  def test_download_all_for_journal_should_check_visibility
+    set_tmp_attachments_directory
+    Project.find(1).update_column :is_public, false
+
+    # make the attachment readable
+    assert a = Attachment.find(4)
+    FileUtils.mkdir_p File.dirname(a.diskfile)
+    (File.open(a.diskfile, 'wb') << 'test').close
+
+    with_settings :login_required => '0' do
+      get "/attachments/journals/3/download"
+      assert_response :forbidden
+    end
+    with_settings :login_required => '1' do
+      get "/attachments/journals/3/download"
+      assert_redirected_to "/login?back_url=http%3A%2F%2Fwww.example.com%2Fattachments%2Fjournals%2F3%2Fdownload"
+    end
+
+    Project.find(1).update_column :is_public, true
+    with_settings :login_required => '0' do
+      get "/attachments/journals/3/download"
+      assert_response :success
+    end
+    with_settings :login_required => '1' do
+      get "/attachments/journals/3/download"
+      assert_redirected_to "/login?back_url=http%3A%2F%2Fwww.example.com%2Fattachments%2Fjournals%2F3%2Fdownload"
+    end
+  end
+
+  def test_unauthorized_named_download_link_should_redirect_to_login
+    with_settings login_required: '1' do
+      get "/attachments/download/1"
+      assert_redirected_to "/login?back_url=http%3A%2F%2Fwww.example.com%2Fattachments%2Fdownload%2F1"
+
+      get "/attachments/download/1/error281.txt"
+      assert_redirected_to "/login?back_url=http%3A%2F%2Fwww.example.com%2Fattachments%2Fdownload%2F1%2Ferror281.txt"
+    end
   end
 
   private

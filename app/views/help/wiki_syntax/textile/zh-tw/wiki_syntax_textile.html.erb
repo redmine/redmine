@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Wiki 格式設定</title>
+<%= stylesheet_link_tag "wiki_syntax.css" %>
+</head>
+<body>
+
+<h1>Wiki 語法快速對照表</h1>
+
+<table style="width:100%">
+<tr><th colspan="3">字型樣式 <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "5") %>" target="_blank">more</a>)</span></th></tr>
+<tr><th><%= image_tag("jstoolbar/bold.svg", { alt: "強調粗體" }) %></th><td style="width:50%;">*強調粗體*</td><td style="width:50%;"><strong>強調粗體</strong></td></tr>
+<tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "斜體" }) %></th><td>_斜體_</td><td><em>斜體</em></td></tr>
+<tr><th><%= image_tag("jstoolbar/underline.svg", { alt: "底線" }) %></th><td>+底線+</td><td><ins>底線</ins></td></tr>
+<tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "刪除線" }) %></th><td>-刪除線-</td><td><del>刪除線</del></td></tr>
+<tr><th></th><td>??引文??</td><td><cite>引文</cite></td></tr>
+<tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "內嵌程式碼" }) %></th><td>@內嵌程式碼@</td><td><code>內嵌程式碼 (inline code)</code></td></tr>
+<tr><th><span class="syntax-pre"/></th><td>&lt;pre&gt;<br />&nbsp;格式化<br />&nbsp;的段落文字<br />&lt;/pre&gt;</td><td>
+<pre>
+ 格式化
+ 的段落文字
+</pre>
+</td></tr>
+
+<tr><th colspan="3">反白程式碼 <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "13") %>" target="_blank">more</a> | <a href="<%= help_code_highlighting_path %>" target="_blank">supported languages</a>)</span></th></tr>
+<tr><th><%= image_tag("jstoolbar/code.svg", { alt: "反白程式碼" }) %></th><td>&lt;pre&gt;&lt;code class="ruby"&gt;<br />3.times do<br />&nbsp;&nbsp;puts 'Hello'<br />end<br />&lt;/code&gt;&lt;/pre&gt;</td><td>
+<pre><code class="ruby syntaxhl"><span class="mi">3</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span>
+  <span class="nb">puts</span> <span class="s1">'Hello'</span>
+<span class="k">end</span>
+</code></pre>
+</td></tr>
+
+<tr><th colspan="3">清單</th></tr>
+<tr><th><%= image_tag("jstoolbar/list.svg", { alt: "不排序清單" }) %></th><td>* 清單項目 1<br />** 子清單項目<br />* 清單項目 2</td><td><ul><li>清單項目 1<ul><li>子清單項目</li></ul></li><li>清單項目 2</li></ul></td></tr>
+<tr><th><%= image_tag("jstoolbar/list-numbers.svg", { alt: "排序清單" }) %></th><td># 清單項目 1<br />## Sub<br /># 清單項目 2</td><td><ol><li>清單項目 1<ol><li>Sub</li></ol></li><li>清單項目 2</li></ol></td></tr>
+
+<tr><th colspan="3">標題 <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "8") %>" target="_blank">more</a>)</span></th></tr>
+<tr><th><%= image_tag("jstoolbar/h1.svg", { alt: "標題 1" }) %></th><td>h1. 標題 1</td><td><h1>標題 1</h1></td></tr>
+<tr><th><%= image_tag("jstoolbar/h2.svg", { alt: "標題 2" }) %></th><td>h2. 標題 2</td><td><h2>標題 2</h2></td></tr>
+<tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "標題 3" }) %></th><td>h3. 標題 3</td><td><h3>標題 3</h3></td></tr>
+
+<tr><th colspan="3">連結 <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">more</a>)</span></th></tr>
+<tr><th></th><td>http://foo.bar</td><td><a href="#">http://foo.bar</a></td></tr>
+<tr><th></th><td>"Foo":http://foo.bar</td><td><a href="#">Foo</a></td></tr>
+
+<tr><th colspan="3">Redmine 連結 <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">more</a>)</span></th></tr>
+<tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "連結至一個 Wiki 頁面" }) %></th><td>[[Wiki 頁面]]</td><td><a href="#">Wiki 頁面</a></td></tr>
+<tr><th></th><td>議題 #12</td><td>議題 <a href="#">#12</a></td></tr>
+<tr><th></th><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
+<tr><th></th><td>版次 r43</td><td>版次 <a href="#">r43</a></td></tr>
+<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+
+<tr><th colspan="3">內嵌圖像 <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">more</a>)</span></th></tr>
+<tr><th><%= image_tag("jstoolbar/image.svg", { alt: "圖像" }) %></th><td>!<em>圖像_url</em>!</td><td></td></tr>
+<tr><th></th><td>!<em>附加_圖像</em>!</td><td></td></tr>
+
+<tr><th colspan="3">表格</th></tr>
+<tr>
+  <th></th>
+  <td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. 資料列範圍 | B | C |<br />|\2. 資料行範圍 |</td>
+  <td>
+    <table class="sample">
+      <tbody>
+        <th>A</th><th>B</th><th>C</th>
+        <tr><td>A</td><td>B</td><td>C</td></tr>
+        <tr><td rowspan="2">資料列範圍</td><td>B</td><td>C</td></tr>
+        <tr><td colspan="2">資料行範圍</td></tr>
+      </tbody>
+    </table>
+  </td>
+</tr>
+
+</table>
+
+<p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">更多資訊</a></p>
+
+</body>
+</html>

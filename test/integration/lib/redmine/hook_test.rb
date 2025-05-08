@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,11 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../../test_helper', __FILE__)
+require_relative '../../../test_helper'
 
 class HookTest < Redmine::IntegrationTest
-  fixtures :users, :roles, :projects, :members, :member_roles
-
   # Hooks that are manually registered later
   class ProjectBasedTemplate < Redmine::Hook::ViewListener
     def view_layouts_base_html_head(context)
@@ -78,7 +76,7 @@ class HookTest < Redmine::IntegrationTest
     Redmine::Hook.add_listener(ProjectBasedTemplate)
 
     get '/projects/ecookbook'
-    assert_select 'head link[href=?]', '/stylesheets/ecookbook.css'
+    assert_select 'head link[href=?]', '/assets/ecookbook.css'
   end
 
   def test_empty_sidebar_should_be_hidden
@@ -102,8 +100,8 @@ class HookTest < Redmine::IntegrationTest
     assert_response :success
     assert_select 'p', :text => 'ContentForInsideHook content'
     assert_select 'head' do
-      assert_select 'script[src="/plugin_assets/test_plugin/javascripts/test_plugin.js"]'
-      assert_select 'link[href="/plugin_assets/test_plugin/stylesheets/test_plugin.css"]'
+      assert_select 'script[src="/assets/plugin_assets/test_plugin/test_plugin.js"]'
+      assert_select 'link[href="/assets/plugin_assets/test_plugin/test_plugin.css"]'
     end
   end
 

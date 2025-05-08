@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class TimeEntry < ActiveRecord::Base
+class TimeEntry < ApplicationRecord
   include Redmine::SafeAttributes
   # could have used polymorphic association
   # project association here allows easy loading of time entries at project level with one database trip
@@ -63,7 +63,11 @@ class TimeEntry < ActiveRecord::Base
     where(TimeEntry.visible_condition(args.shift || User.current, *args))
   end)
   scope :left_join_issue, (lambda do
-    joins("LEFT OUTER JOIN #{Issue.table_name} ON #{Issue.table_name}.id = #{TimeEntry.table_name}.issue_id")
+    joins(
+      "LEFT OUTER JOIN #{Issue.table_name}" \
+      " ON #{Issue.table_name}.id = #{TimeEntry.table_name}.issue_id" \
+      " AND (#{Issue.visible_condition(User.current)})"
+    )
   end)
   scope :on_issue, (lambda do |issue|
     joins(:issue).
@@ -103,9 +107,7 @@ class TimeEntry < ActiveRecord::Base
   def initialize(attributes=nil, *args)
     super
     if new_record? && self.activity.nil?
-      if default_activity = TimeEntryActivity.default
-        self.activity_id = default_activity.id
-      end
+      self.activity_id = TimeEntryActivity.default_activity_id(User.current, self.project)
       self.hours = nil if hours == 0
     end
   end
@@ -177,8 +179,11 @@ class TimeEntry < ActiveRecord::Base
     end
     errors.add :issue_id, :invalid if (issue_id && !issue) || (issue && project!=issue.project) || @invalid_issue_id
     errors.add :activity_id, :inclusion if activity_id_changed? && project && !project.activities.include?(activity)
-    if spent_on_changed? && user
+    if spent_on && spent_on_changed? && user
       errors.add :base, I18n.t(:error_spent_on_future_date) if !Setting.timelog_accept_future_dates? && (spent_on > user.today)
+    end
+    if !Setting.timelog_accept_closed_issues? && issue&.closed? && issue.was_closed?
+      errors.add :base, I18n.t(:error_spent_on_closed_issue)
     end
   end
 
@@ -189,7 +194,14 @@ class TimeEntry < ActiveRecord::Base
   def hours
     h = read_attribute(:hours)
     if h.is_a?(Float)
-      h.round(2)
+      # Convert the float value to a rational with a denominator of 60 to
+      # avoid floating point errors.
+      #
+      # Examples:
+      #  0.38333333333333336 => (23/60)   # 23m
+      #  0.9913888888888889  => (59/60)   # 59m 29s is rounded to 59m
+      #  0.9919444444444444  => (1/1)     # 59m 30s is rounded to 60m
+      (h * 60).round / 60r
     else
       h
     end
@@ -231,8 +243,11 @@ class TimeEntry < ActiveRecord::Base
   def assignable_users
     users = []
     if project
-      users = project.members.active.preload(:user)
-      users = users.map(&:user).select{|u| u.allowed_to?(:log_time, project)}
+      user_ids =
+        project.members.active.preload(:roles).filter_map do |m|
+          m.roles.any? {|role| role.allowed_to?(:log_time)} ? m.user_id : nil
+        end.uniq
+      users = User.where(:id => user_ids).sorted.to_a
     end
     users << User.current if User.current.logged? && !users.include?(User.current)
     users

@@ -5,7 +5,10 @@
 <div id="query_form_with_buttons" class="hide-when-print">
 <div id="query_form_content">
   <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
-    <legend onclick="toggleFieldset(this);" class="icon icon-<%= @query.new_record? ? "expanded" : "collapsed" %>"><%= l(:label_filter_plural) %></legend>
+    <legend onclick="toggleFieldset(this);" class="icon icon-<%= @query.new_record? ? "expanded" : "collapsed" %>">
+      <%= sprite_icon(@query.new_record? ? "angle-down" : "angle-right", rtl: !@query.new_record?) %>
+      <%= l(:label_filter_plural) %>
+    </legend>
     <div style="<%= @query.new_record? ? "" : "display: none;" %>">
       <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
     </div>
@@ -13,58 +16,61 @@
 
   <% if @query.available_columns.any? %>
     <fieldset id="options" class="collapsible collapsed">
-      <legend onclick="toggleFieldset(this);" class="icon icon-collapsed"><%= l(:label_options) %></legend>
+      <legend onclick="toggleFieldset(this);" class="icon icon-collapsed">
+        <%= sprite_icon("angle-right", rtl: true) %>
+        <%= l(:label_options) %>
+      </legend>
         <div class="hidden">
           <% if @query.available_display_types.size > 1 %>
           <div>
-            <span class="field"><label for='display_type'><%= l(:label_display_type) %></label></span>
+            <div class="field"><label for='display_type'><%= l(:label_display_type) %></label></div>
             <%= available_display_types_tags(@query) %>
           </div>
           <% end %>
-          <table id="list-definition" class="<%= 'hidden' if (@query.display_type != 'list') %>">
+          <div id="list-definition" class="<%= 'hidden' if (@query.display_type != 'list') %>">
           <% if @query.available_columns.any? %>
-            <tr>
-              <td class="field"><%= l(:field_column_names) %></td>
-              <td><%= render_query_columns_selection(@query) %></td>
-            </tr>
+            <div>
+              <div class="field"><%= l(:field_column_names) %></div>
+              <%= render_query_columns_selection(@query) %>
+            </div>
           <% end %>
           <% if @query.groupable_columns.any? %>
-            <tr>
-              <td class="field"><label for='group_by'><%= l(:field_group_by) %></label></td>
-              <td><%= group_by_column_select_tag(@query) %></td>
-            </tr>
+            <div>
+              <div class="field"><label for='group_by'><%= l(:field_group_by) %></label></div>
+              <div><%= group_by_column_select_tag(@query) %></div>
+            </div>
           <% end %>
           <% if @query.available_block_columns.any? %>
-            <tr>
-              <td class="field"><%= l(:button_show) %></td>
-              <td><%= available_block_columns_tags(@query) %></td>
-            </tr>
+            <div>
+              <div class="field"><%= l(:button_show) %></div>
+              <div><%= available_block_columns_tags(@query) %></div>
+            </div>
           <% end %>
           <% if @query.available_totalable_columns.any? %>
-            <tr>
-              <td><%= l(:label_total_plural) %></td>
-              <td><%= available_totalable_columns_tags(@query) %></td>
-            </tr>
+            <div>
+              <div class="field"><%= l(:label_total_plural) %></div>
+              <div><%= available_totalable_columns_tags(@query) %></div>
+            </div>
           <% end %>
-        </table>
+        </div>
       </div>
     </fieldset>
   <% end %>
 </div>
 
 <p class="buttons">
-  <%= link_to_function l(:button_apply), '$("#query_form").submit()', :class => 'icon icon-checked' %>
-  <%= link_to l(:button_clear), { :set_filter => 1, :sort => '', :project_id => @project }, :class => 'icon icon-reload'  %>
+  <%= link_to_function sprite_icon('checked', l(:button_apply)), '$("#query_form").submit()', :class => 'icon icon-checked' %>
+  <%= link_to sprite_icon('reload', l(:button_clear)), { :set_filter => 1, :sort => '', :project_id => @project }, :class => 'icon icon-reload'  %>
   <% if @query.new_record? %>
     <% if User.current.allowed_to?(:save_queries, @project, :global => true) %>
-      <%= link_to_function l(:button_save_object, object_name: l(:label_query).downcase),
+      <%= link_to_function sprite_icon('save', l(:button_save_object, object_name: l(:label_query)).capitalize),
                            "$('#query_type').prop('disabled',false);$('#query_form').attr('action', '#{ @project ? new_project_query_path(@project) : new_query_path }').submit()",
                            :class => 'icon icon-save' %>
     <% end %>
   <% else %>
     <% if @query.editable_by?(User.current) %>
-      <%= link_to l(:button_edit_object, object_name: l(:label_query).downcase), edit_query_path(@query), :class => 'icon icon-edit' %>
-      <%= delete_link query_path(@query), {}, l(:button_delete_object, object_name: l(:label_query).downcase) %>
+      <%= link_to sprite_icon('edit', l(:button_edit_object, object_name: l(:label_query)).capitalize), edit_query_path(@query), :class => 'icon icon-edit' %>
+      <%= delete_link query_path(@query), {}, l(:button_delete_object, object_name: l(:label_query)).capitalize %>
     <% end %>
   <% end %>
 </p>

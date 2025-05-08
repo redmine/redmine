@@ -1,14 +1,14 @@
 <%= board_breadcrumb(@board) %>
 
 <div class="contextual">
-<%= link_to l(:label_message_new),
+<%= link_to sprite_icon('add', l(:label_message_new)),
             new_board_message_path(@board),
             :class => 'icon icon-add',
             :onclick => 'showAndScrollTo("add-message", "message_subject"); return false;' if User.current.allowed_to?(:add_messages, @board.project) %>
 <%= watcher_link(@board, User.current) %>
-<%= link_to_if_authorized l(:label_settings),
-            {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'boards'},
-            :class => 'icon icon-settings' if User.current.allowed_to?(:manage_boards, @project) %>
+<%= link_to_if_authorized sprite_icon('settings', l(:label_settings)),
+                          {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'boards'},
+                          :class => 'icon icon-settings' if User.current.allowed_to?(:manage_boards, @project) %>
 
 </div>
 
@@ -38,7 +38,13 @@
   <tbody>
   <% @topics.each do |topic| %>
     <tr id="message-<%= topic.id %>" class="message <%= topic.sticky? ? 'sticky' : '' %> <%= topic.locked? ? 'locked' : '' %>">
-      <td class="subject icon <%= 'icon-sticky' if topic.sticky? %> <%= 'icon-locked' if topic.locked? %>"><%= link_to topic.subject, board_message_path(@board, topic) %></td>
+      <td class="subject">
+        <span class="<%= 'icon' if topic.sticky? || topic.locked? %>">
+          <%= sprite_icon "arrow-right" if topic.sticky? %>
+          <%= sprite_icon "lock" if topic.locked? %>
+          <%= link_to topic.subject, board_message_path(@board, topic) %>
+        </span>
+      </td>
       <td class="author"><%= link_to_user(topic.author) %></td>
       <td class="created_on"><%= format_time(topic.created_on) %></td>
       <td class="reply-count"><%= topic.replies_count %></td>
@@ -58,10 +64,10 @@
 <% end %>
 
 <% other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
+  <%= f.link_to 'Atom', :url => {:key => User.current.atom_key} %>
 <% end %>
 
 <% html_title @board.name %>
 <% content_for :header_tags do %>
-    <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{@project}: #{@board}") %>
+    <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.atom_key}, :title => "#{@project}: #{@board}") %>
 <% end %>

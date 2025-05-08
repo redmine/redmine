@@ -1,10 +1,13 @@
 <% @changesets.each do |changeset| %>
   <div id="changeset-<%= changeset.id %>" class="changeset journal">
-    <h4>
+    <div class="note">
+    <h4 class='note-header'>
       <%= avatar(changeset.user, :size => "24") %>
       <%= authoring changeset.committed_on, changeset.author, :label => :label_added_time_by %>
     </h4>
-    <p><%= link_to_revision(changeset, changeset.repository,
+    <p>
+    <%= "#{changeset.project.name} - " unless changeset.project == project %>
+    <%= link_to_revision(changeset, changeset.repository,
                         :text => "#{l(:label_revision)} #{changeset.format_identifier}") %>
     <% if changeset.filechanges.any? && User.current.allowed_to?(:browse_repository, changeset.project) %>
     (<%= link_to(l(:label_diff),
@@ -18,6 +21,7 @@
 
     <div class="wiki changeset-comments">
       <%= format_changeset_comments changeset %>
+    </div>
     </div>
   </div>
   <%= call_hook(:view_issues_history_changeset_bottom, { :changeset => changeset }) %>

@@ -20,7 +20,7 @@
   <%= f.select :tracker_id, trackers_options_for_select(@issue), {:required => true},
                :onchange => "updateIssueFrom('#{escape_javascript update_issue_form_path(@project, @issue)}', this)",
                :title => @issue.tracker.description %>
-  <%= content_tag 'a', l(:label_open_trackers_description), :class => 'icon-only icon-help', :title => l(:label_open_trackers_description), :onclick => "showModal('trackers_description', '500px'); return false;", :href => '#' if trackers_for_select(@issue).any? {|t| t.description.present? } %>
+  <%= content_tag 'a', sprite_icon('help', l(:label_open_trackers_description)), :class => 'icon-only icon-help', :title => l(:label_open_trackers_description), :onclick => "showModal('trackers_description', '500px'); return false;", :href => '#' if trackers_for_select(@issue).any? {|t| t.description.present? } %>
 </p>
   <%= render partial: 'issues/trackers_description', locals: {trackers: trackers_for_select(@issue)} %>
 <% end %>
@@ -32,7 +32,6 @@
 <% if @issue.safe_attribute? 'description' %>
 <p>
   <%= f.label_for_field :description, :required => @issue.required_attribute?('description') %>
-  <%= link_to_function content_tag(:span, l(:button_edit), :class => 'icon icon-edit'), '$(this).hide(); $("#issue_description_and_toolbar").show()' unless @issue.new_record? %>
   <%= content_tag 'span', :id => "issue_description_and_toolbar", :style => (@issue.new_record? ? nil : 'display:none') do %>
     <%= f.text_area :description, :cols => 60, :accesskey => accesskey(:edit), :class => 'wiki-edit',
                    :rows => [[10, @issue.description.to_s.length / 50].max, 20].min,
@@ -41,6 +40,7 @@
                    },
                    :no_label => true %>
   <% end %>
+  <%= link_to_function content_tag(:span, sprite_icon('edit', l(:button_edit)), :class => 'icon icon-edit'), '$(this).hide(); $("#issue_description_and_toolbar").show()' unless @issue.new_record? %>
 </p>
 <%= wikitoolbar_for 'issue_description', preview_issue_path(:project_id => @issue.project, :issue_id => @issue.id) %>
 <% end %>
@@ -54,6 +54,11 @@
 
 <% heads_for_wiki_formatter %>
 <%= heads_for_auto_complete(@issue.project) %>
+
+<% if User.current.allowed_to?(:add_issue_watchers, @issue.project)%>
+  <%= update_data_sources_for_auto_complete({users: watchers_autocomplete_for_mention_path(project_id: @issue.project, q: '', object_type: 'issue',
+   object_id: @issue.id)}) %>
+<% end %>
 
 <%= javascript_tag do %>
 $(document).ready(function(){

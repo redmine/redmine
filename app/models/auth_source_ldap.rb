@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -73,7 +73,7 @@ class AuthSourceLdap < AuthSource
       ldap_con.open {}
       if self.account.present? && !self.account.include?("$login") && self.account_password.present?
         ldap_auth = authenticate_dn(self.account, self.account_password)
-        raise AuthSourceException.new(l(:error_ldap_bind_credentials)) if !ldap_auth
+        raise AuthSourceException.new(l(:error_ldap_bind_credentials)) unless ldap_auth
       end
     end
   rescue *NETWORK_EXCEPTIONS => e
@@ -86,7 +86,7 @@ class AuthSourceLdap < AuthSource
 
   # Returns true if this source can be searched for users
   def searchable?
-    !account.to_s.include?("$login") && %w(login firstname lastname mail).all? {|a| send("attr_#{a}?")}
+    !account.to_s.include?("$login") && %w(login firstname lastname mail).all? {|a| send(:"attr_#{a}?")}
   end
 
   # Searches the source for users and returns an array of results
@@ -137,7 +137,7 @@ class AuthSourceLdap < AuthSource
 
   private
 
-  def with_timeout(&block)
+  def with_timeout(&)
     timeout = self.timeout
     timeout = 20 unless timeout && timeout > 0
     Timeout.timeout(timeout) do
@@ -229,7 +229,7 @@ class AuthSourceLdap < AuthSource
     end
     attrs = {}
     search_filter = base_filter & Net::LDAP::Filter.eq(self.attr_login, login)
-    ldap_con.search( :base => self.base_dn,
+    ldap_con.search(:base => self.base_dn,
                      :filter => search_filter,
                      :attributes=> search_attributes) do |entry|
       if onthefly_register?
@@ -245,7 +245,7 @@ class AuthSourceLdap < AuthSource
   # Singleton class method is public
   class << self
     def get_attr(entry, attr_name)
-      if !attr_name.blank?
+      if attr_name.present?
         value = entry[attr_name].is_a?(Array) ? entry[attr_name].first : entry[attr_name]
         (+value.to_s).force_encoding('UTF-8')
       end

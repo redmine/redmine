@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,21 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  fixtures :users, :email_addresses, :members, :projects, :roles, :member_roles, :auth_sources,
-           :trackers, :issue_statuses,
-           :projects_trackers,
-           :watchers,
-           :issue_categories, :enumerations, :issues,
-           :journals, :journal_details,
-           :groups_users,
-           :enabled_modules,
-           :tokens,
-           :user_preferences,
-           :custom_fields, :custom_fields_projects, :custom_fields_trackers, :custom_values
-
   include Redmine::I18n
 
   def setup
@@ -61,8 +49,8 @@ class UserTest < ActiveSupport::TestCase
 
   def test_sorted_scope_should_sort_user_by_display_name
     # Use .active to ignore anonymous with localized display name
-    assert_equal User.active.map(&:name).map(&:downcase).sort,
-                 User.active.sorted.map(&:name).map(&:downcase)
+    assert_equal User.active.map {|u| u.name.downcase}.sort,
+                 User.active.sorted.map {|u| u.name.downcase}
   end
 
   def test_generate
@@ -129,7 +117,7 @@ class UserTest < ActiveSupport::TestCase
   def test_login_length_validation
     user = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
     user.login = "x" * (User::LOGIN_LENGTH_LIMIT+1)
-    assert !user.valid?
+    assert user.invalid?
 
     user.login = "x" * (User::LOGIN_LENGTH_LIMIT)
     assert user.valid?
@@ -191,11 +179,11 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_user_before_create_should_set_the_mail_notification_to_the_default_setting
-    @user1 = User.generate!
-    assert_equal 'only_my_events', @user1.mail_notification
+    user1 = User.generate!
+    assert_equal 'only_assigned', user1.mail_notification
     with_settings :default_notification_option => 'all' do
-      @user2 = User.generate!
-      assert_equal 'all', @user2.mail_notification
+      user2 = User.generate!
+      assert_equal 'all', user2.mail_notification
     end
   end
 
@@ -308,12 +296,17 @@ class UserTest < ActiveSupport::TestCase
   def test_destroy_should_update_journals
     issue = Issue.generate!(:project_id => 1, :author_id => 2,
                           :tracker_id => 1, :subject => 'foo')
+    # Prepare a journal with both user_id and updated_by_id set to 2
     issue.init_journal(User.find(2), "update")
     issue.save!
+    journal = issue.journals.first
+    journal.update_columns(updated_by_id: 2)
 
     User.find(2).destroy
     assert_nil User.find_by_id(2)
-    assert_equal User.anonymous, issue.journals.first.reload.user
+    journal.reload
+    assert_equal User.anonymous, journal.user
+    assert_equal User.anonymous, journal.updated_by
   end
 
   def test_destroy_should_update_journal_details_old_value
@@ -558,6 +551,25 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  def test_validate_password_complexity
+    set_language_if_valid 'en'
+    user = users(:users_002)
+    bad_passwords = [
+      user.login,
+      user.lastname,
+      user.firstname,
+      user.mail,
+      user.login.upcase
+    ]
+
+    bad_passwords.each do |p|
+      user.password = p
+      user.password_confirmation = p
+      assert_not user.save
+      assert_includes user.errors.full_messages, 'Password is too simple'
+    end
+  end
+
   def test_name_format
     assert_equal 'John S.', @jsmith.name(:firstname_lastinitial)
     assert_equal 'Smith, John', @jsmith.name(:lastname_comma_firstname)
@@ -575,6 +587,12 @@ class UserTest < ActiveSupport::TestCase
     with_settings :user_format => :lastname do
       assert_equal 'Smith', @jsmith.reload.name
     end
+  end
+
+  def test_lastname_should_accept_255_characters
+    u = User.first
+    u.lastname = 'a' * 255
+    assert u.save
   end
 
   def test_today_should_return_the_day_according_to_user_time_zone
@@ -798,19 +816,19 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 1, anon2.errors.count
   end
 
-  def test_rss_key
-    assert_nil @jsmith.rss_token
-    key = @jsmith.rss_key
+  def test_atom_key
+    assert_nil @jsmith.atom_token
+    key = @jsmith.atom_key
     assert_equal 40, key.length
 
     @jsmith.reload
-    assert_equal key, @jsmith.rss_key
+    assert_equal key, @jsmith.atom_key
   end
 
-  def test_rss_key_should_not_be_generated_twice
+  def test_atom_key_should_not_be_generated_twice
     assert_difference 'Token.count', 1 do
-      key1 = @jsmith.rss_key
-      key2 = @jsmith.rss_key
+      key1 = @jsmith.atom_key
+      key2 = @jsmith.atom_key
       assert_equal key1, key2
     end
   end
@@ -1094,12 +1112,12 @@ class UserTest < ActiveSupport::TestCase
   def test_random_password
     u = User.new
     u.random_password
-    assert !u.password.blank?
-    assert !u.password_confirmation.blank?
+    assert u.password.present?
+    assert u.password_confirmation.present?
   end
 
   def test_random_password_include_required_characters
-    with_settings :password_required_char_classes => Setting::PASSWORD_CHAR_CLASSES do
+    with_settings :password_required_char_classes => Setting::PASSWORD_CHAR_CLASSES.keys do
       u = User.new(:firstname => "new", :lastname => "user", :login => "random", :mail => "random@somnet.foo")
       u.random_password
       assert u.valid?
@@ -1301,7 +1319,7 @@ class UserTest < ActiveSupport::TestCase
 
     user.reload
     # Salt added
-    assert !user.salt.blank?
+    assert user.salt.present?
     # Password still valid
     assert user.check_password?("unsalted")
     assert_equal user, User.try_to_login(user.login, "unsalted")
@@ -1347,5 +1365,15 @@ class UserTest < ActiveSupport::TestCase
 
     cv2a.reload
     assert_equal @dlopper.id.to_s, cv2a.value
+  end
+
+  def test_prune_should_destroy_unactivated_old_users
+    User.generate!(:status => User::STATUS_REGISTERED, :created_on => 6.days.ago)
+    User.generate!(:status => User::STATUS_REGISTERED, :created_on => 7.days.ago)
+    User.generate!(:status => User::STATUS_REGISTERED)
+
+    assert_difference 'User.count', -2 do
+      User.prune(7)
+    end
   end
 end

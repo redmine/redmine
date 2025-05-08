@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,12 +19,11 @@
 
 module Redmine
   module Search
-
     mattr_accessor :available_search_types
     @@available_search_types = []
 
     class << self
-      def map(&block)
+      def map(&)
         yield self
       end
 
@@ -82,9 +81,9 @@ module Redmine
           klass = scope.singularize.camelcase.constantize
           results_by_scope[scope] += klass.search_results_from_ids(scope_and_ids.map(&:last))
         end
-        result_ids_to_load.map do |scope, id|
+        result_ids_to_load.filter_map do |scope, id|
           results_by_scope[scope].detect {|record| record.id == id}
-        end.compact
+        end
       end
 
       # Returns the results ids, sorted by rank
@@ -135,7 +134,11 @@ module Redmine
       def tokens
         # extract tokens from the question
         # eg. hello "bye bye" => ["hello", "bye bye"]
-        tokens = @question.scan(%r{((\s|^)"[^"]+"(\s|$)|\S+)}).collect {|m| m.first.gsub(%r{(^\s*"\s*|\s*"\s*$)}, '')}
+        tokens = @question.scan(/"[^"]+"|[^\p{Zs}]+/).map do |token|
+          # Remove quotes from quoted tokens, strip surrounding whitespace
+          # e.g. "\" foo bar \"" => "foo bar"
+          token.gsub(/\A"\p{Zs}*|\p{Zs}*"\Z/, '')
+        end
         # tokens must be at least 2 characters long
         # but for Chinese characters (Chinese HANZI/Japanese KANJI), tokens can be one character
         # no more than 5 tokens to search for

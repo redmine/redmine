@@ -1,4 +1,3 @@
-# Update to 2.2, 2.4, 2.5, 2.6, 3.1, 3.3,.. by Karel Picman <karel.picman@kontron.com>
 # Update to 1.1 by Michal Gebauer <mishak@mishak.net>
 # Updated by Josef Liška <jl@chl.cz>
 # CZ translation by Maxim Krušina | Massimo Filippi, s.r.o. | maxim@mxm.cz
@@ -100,8 +99,9 @@ cs:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "a"
-      skip_last_comma: false
+      last_word_connector: " a "
+      two_words_connector: " a "
+      words_connector: ", "
 
   activerecord:
     errors:
@@ -141,6 +141,8 @@ cs:
         must_contain_lowercase: "musí obsahovat malá písmena (a-z)"
         must_contain_digits: "musí obsahovat čísla (0-9)"
         must_contain_special_chars: "musí obsahovat speciální znaky (!, $, %, ...)"
+        domain_not_allowed: "obsahuje nepovolenou doménu (%{domain})"
+        too_simple: "is too simple"
 
   actionview_instancetag_blank_option: Prosím vyberte
 
@@ -161,7 +163,6 @@ cs:
   notice_account_password_updated: Heslo bylo úspěšně změněno.
   notice_account_wrong_password: Chybné heslo
   notice_account_register_done: Účet byl úspěšně vytvořen. Pro aktivaci účtu klikněte na odkaz v emailu, který vám byl zaslán.
-  notice_account_unknown_email: Neznámý uživatel.
   notice_can_t_change_password: Tento účet používá externí autentifikaci. Zde heslo změnit nemůžete.
   notice_account_lost_email_sent: Byl vám zaslán email s intrukcemi jak si nastavíte nové heslo.
   notice_account_activated: Váš účet byl aktivován. Nyní se můžete přihlásit.
@@ -194,7 +195,7 @@ cs:
   error_no_tracker_in_project: Žádná fronta nebyla přiřazena tomuto projektu. Prosím zkontroluje nastavení projektu.
   error_no_default_issue_status: Není nastaven výchozí stav úkolů. Prosím zkontrolujte nastavení ("Administrace -> Stavy úkolů").
   error_can_not_delete_custom_field: Nelze smazat volitelné pole
-  error_can_not_delete_tracker: Tato fronta obsahuje úkoly a nemůže být smazána.
+  error_can_not_delete_tracker_html: Tato fronta obsahuje úkoly a nemůže být smazána.<p>The following projects have issues with this tracker:<br>%{projects}</p>
   error_can_not_remove_role: Tato role je právě používaná a nelze ji smazat.
   error_can_not_reopen_issue_on_closed_version: Úkol přiřazený k uzavřené verzi nemůže být znovu otevřen
   error_can_not_archive_project: Tento projekt nemůže být archivován
@@ -255,7 +256,7 @@ cs:
   field_priority: Priorita
   field_fixed_version: Cílová verze
   field_user: Uživatel
-  field_principal: Hlavní
+  field_principal: Uživatel nebo skupina
   field_role: Role
   field_homepage: Domovská stránka
   field_is_public: Veřejný
@@ -496,7 +497,6 @@ cs:
   label_help: Nápověda
   label_reported_issues: Nahlášené úkoly
   label_assigned_to_me_issues: Mé úkoly
-  label_last_login: Poslední přihlášení
   label_registered_on: Registrován
   label_activity: Aktivita
   label_user_activity: "Aktivita uživatele: %{value}"
@@ -614,7 +614,6 @@ cs:
   label_day_plural: dny
   label_repository: Repozitář
   label_repository_plural: Repozitáře
-  label_browse: Procházet
   label_branch: Větev
   label_tag: Tag
   label_revision: Revize
@@ -631,10 +630,6 @@ cs:
   label_view_revisions: Zobrazit revize
   label_view_all_revisions: Zobrazit všechny revize
   label_max_size: Maximální velikost
-  label_sort_highest: Přesunout na začátek
-  label_sort_higher: Přesunout nahoru
-  label_sort_lower: Přesunout dolů
-  label_sort_lowest: Přesunout na konec
   label_roadmap: Plán
   label_roadmap_due_in: "Zbývá %{value}"
   label_roadmap_overdue: "%{value} pozdě"
@@ -1257,7 +1252,7 @@ cs:
   label_trackers_description: Popis front
   label_open_trackers_description: Zobrazit popis všech trackerů
   label_preferred_body_part_text: Text
-  label_preferred_body_part_html: HTML (experimentální)
+  label_preferred_body_part_html: HTML
   field_parent_issue_subject: Předmět rodičovského úkolu
   permission_edit_own_issues: Upravování vlastních úkolů
   text_select_apply_tracker: Použít frontu
@@ -1270,7 +1265,6 @@ cs:
   text_gs_available: ImageMagick PDF podpora k dispozici (volitelné)
   field_recently_used_projects: Počet nedávno použitých projektů v rychlém výběru
   label_optgroup_bookmarks: Záložky
-  label_optgroup_others: Jiné projekty
   label_optgroup_recents: Nedávno použité
   button_project_bookmark: Přidat záložku
   button_project_bookmark_delete: Odstranit záložku
@@ -1317,7 +1311,7 @@ cs:
   label_relations_mapping: Mapování vazeb
   label_import_users: Import uživatelů
   label_days_to_html: "%{days} dní do %{date}"
-  setting_twofa: Dvou-fázové ověření
+  setting_twofa: Dvoufázové ověření
   label_optional: volitelné
   label_required_lower: povinné
   button_disable: Zakázat
@@ -1325,33 +1319,33 @@ cs:
   twofa__totp__text_pairing_info_html: Oskenujte tento QR kód nebo zadejte klíč v prostém textu
     do TOTP aplikace (např. <a href="https://support.google.com/accounts/answer/1066447">Google
     Authenticator</a>, <a href="https://authy.com/download/">Authy</a>, <a href="https://guide.duo.com/third-party-accounts">Duo
-    Mobile</a>) následně zadejte kód do pole níže pro aktivaci dvou-fázového ověření.
+    Mobile</a>) následně zadejte kód do pole níže pro aktivaci dvoufázového ověření.
   twofa__totp__label_plain_text_key: Klíč v prostém textu
   twofa__totp__label_activate: Povolit ověřování aplikace
   twofa_currently_active: 'Aktuálně aktivní: %{twofa_scheme_name}'
   twofa_not_active: Neaktivní
   twofa_label_code: Kód
   twofa_hint_disabled_html: Nastavení <strong>%{label}</strong> deaktivuje a odpáruje
-    dvou-fázové ověření zařízení pro všechny uživatele.
+    dvoufázové ověření zařízení pro všechny uživatele.
   twofa_hint_required_html: Nastavení <strong>%{label}</strong> bude vyžadovat od všech uživatelů
-    aktivaci dvou-fázového ověření při příštím přihlášení.
-  twofa_label_setup: Povolit dvou-fázové ověření
-  twofa_label_deactivation_confirmation: Deaktivovat dvou-fázové ověření
-  twofa_notice_select: 'Prosím vyberte schéma dvou-fázového ověření, které chcete použít:'
-  twofa_warning_require: Administrátor Vás žádá o povolení dvou-fázového ověření.
-  twofa_activated: Dvou-fázové ověření úspěšně povoleno. Je doporučeno
+    aktivaci dvoufázového ověření při příštím přihlášení.
+  twofa_label_setup: Povolit dvoufázové ověření
+  twofa_label_deactivation_confirmation: Deaktivovat dvoufázové ověření
+  twofa_notice_select: 'Prosím vyberte schéma dvoufázového ověření, které chcete použít:'
+  twofa_warning_require: Administrátor Vás žádá o povolení dvoufázového ověření.
+  twofa_activated: Dvoufázové ověření úspěšně povoleno. Je doporučeno
     <a data-method="post" href="%{bc_path}">vygenerovat záložní kódy</a> pro Váš účet.
-  twofa_deactivated: Dvou-fázové ověření zakázáno.
-  twofa_mail_body_security_notification_paired: Dvou-fázové ověření úspěšně
+  twofa_deactivated: Dvoufázové ověření zakázáno.
+  twofa_mail_body_security_notification_paired: Dvoufázové ověření úspěšně
     povoleno s použitím %{field}.
-  twofa_mail_body_security_notification_unpaired: Dvou-fázové ověření bylo na Vašem účtu
+  twofa_mail_body_security_notification_unpaired: Dvoufázové ověření bylo na Vašem účtu
     deaktivováno.
-  twofa_mail_body_backup_codes_generated: Nové záložní kódy dvou-fázového ověření byly
+  twofa_mail_body_backup_codes_generated: Nové záložní kódy dvoufázového ověření byly
     vygenerovány.
-  twofa_mail_body_backup_code_used: Byl použit záložní kód dvou-fázového
+  twofa_mail_body_backup_code_used: Byl použit záložní kód dvoufázového
     ověření.
   twofa_invalid_code: Kód je neplatný nebo zastralý.
-  twofa_label_enter_otp: Prosím zadejte Váš kód dvou-fázového ověření.
+  twofa_label_enter_otp: Prosím zadejte Váš kód dvoufázového ověření.
   twofa_too_many_tries: Příliš mnoho pokusů.
   twofa_resend_code: Znovu zaslat kód
   twofa_code_sent: Ověřovací kód Vám byl zaslán.
@@ -1361,7 +1355,7 @@ cs:
   twofa_notice_backup_codes_generated: Vaše záložní kódy byly vygenerovány.
   twofa_warning_backup_codes_generated_invalidated: Nové záložní kódy byly vygenerovány.
     Vaše současné kódy z %{time} jsou nyní zneplatněny.
-  twofa_label_backup_codes: Záložní kódy dvou-fázového ověření
+  twofa_label_backup_codes: Záložní kódy dvoufázového ověření
   twofa_text_backup_codes_hint: Použijte tyto kódy místo jednorázového hesla v případě, že nemáte přístup k Vašemu původnímu ověření.
     Každý z kódů lze použít pouze jednou. Je doporučeno vytisknout a uložit je na bezpečné místo.
   twofa_text_backup_codes_created_at: Záložní kódy vygenerovány %{datetime}.
@@ -1378,7 +1372,7 @@ cs:
   error_invalid_size_parameter: Neplatný parametr velikosti
   error_attachment_not_found: Příloha %{name} nenalezena
   permission_delete_project: Odstranit projekt
-  field_twofa_scheme: Schéma dvou-fázového ověření
+  field_twofa_scheme: Schéma dvoufázového ověření
   text_user_destroy_confirmation: Jste si jisti, že chcete odstranit tohoto uživatele a
     všechny reference na něj? Tato akce nemůže být vzata zpět. Často je užamčení uživatele
     místo jeho smazání vhodnějším řešením. Pro potvrzení, prosím zadjte níže jeho login (%{login}).
@@ -1396,35 +1390,102 @@ cs:
   error_invalid_authenticity_token: Neplatný token pravosti formuláře.
   error_query_statement_invalid: Nastala chyba při vykonávání dotazu a
     byla zaznamenána. Prosím oznamte tuto chybu svému Redmine administrátorovi.
-  permission_view_wiki_page_watchers: View wiki page watchers list
-  permission_add_wiki_page_watchers: Add wiki page watchers
-  permission_delete_wiki_page_watchers: Delete wiki page watchers
-  label_wiki_page_watchers: Watchers
-  label_attachment_description: File description
-  error_no_data_in_file: The file does not contain any data
-  field_twofa_required: Require two factor authentication
-  twofa_hint_optional_html: Setting <strong>%{label}</strong> will let users set up
-    two-factor authentication at will, unless it is required by one of their groups.
-  twofa_text_group_required: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is required for all users.
-  twofa_text_group_disabled: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is disabled.
-  field_default_issue_query: Default issue query
+  permission_view_wiki_page_watchers: Zobrazení seznamu sledovatelů Wiki stránek
+  permission_add_wiki_page_watchers: Přidávání sledovatelů na Wiki stránky
+  permission_delete_wiki_page_watchers: Mazání sledovatelů Wiki stránek
+  label_wiki_page_watchers: Sledující
+  label_attachment_description: Popis souboru
+  error_no_data_in_file: Soubor neobsahuje žádná data
+  field_twofa_required: Vyžadovat dvoufázové ověření
+  twofa_hint_optional_html: Nastavení <strong>%{label}</strong> nechá uživatele nastavit
+    dvoufázové ověření dle přání, pokud není vyžadováno některou z jeho skupin.
+  twofa_text_group_required: Toto nastavení je účinné pouze pokud je globální nastavení dvoufázového ověření
+    nastaveno jako 'volitelné'. Aktuálně je dvoufázové ověření
+    vyžadováno pro všechny uživatele.
+  twofa_text_group_disabled: Toto nastavení je účinné pouze pokud je globální nastavení dvoufázového ověření
+    nastaveno jako 'volitelné'. Aktuálně je dvoufázové ověření
+    vypnuté.
+  field_default_issue_query: Výchozí dotaz úkolů
   label_default_queries:
-    for_all_projects: For all projects
-    for_current_project: For current project
-    for_all_users: For all users
-  text_allowed_queries_to_select: Public (to any users) queries only selectable
-  text_all_migrations_have_been_run: All database migrations have been run
-  button_save_object: Save %{object_name}
-  button_edit_object: Edit %{object_name}
-  button_delete_object: Delete %{object_name}
-  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
-    Please restart the application after editing it.
-  label_bulk_edit: Bulk edit
-  button_create_and_follow: Create and follow
-  label_subtask: Subtask
-  label_default_query: Default query
-  field_default_project_query: Default project query
+    for_all_projects: Pro všechny projekty
+    for_current_project: Pro aktuální projekt
+    for_all_users: Pro všechny uživatele
+    for_this_user: For this user
+  text_allowed_queries_to_select: Lze vybrat pouze veřejné dotazy (viditelné pro všechny uživatele)
+  text_all_migrations_have_been_run: Všechny databázové migrace byly spušteny
+  button_save_object: Uložit %{object_name}
+  button_edit_object: Upravit %{object_name}
+  button_delete_object: Smazat %{object_name}
+  text_setting_config_change: Můžete nastavit chování v config/configuration.yml.
+    Po úpravě prosím restartujte aplikaci.
+  label_bulk_edit: Hromadná úprava
+  button_create_and_follow: Vytvořit a pokračovat
+  label_subtask: Podúkol
+  label_default_query: Výchozí dotaz
+  field_default_project_query: Výchozí dotaz projektů
+  label_required_administrators: vyžadováno pro administrátory
+  twofa_hint_required_administrators_html: Nastavení <strong>%{label}</strong> se chová
+    jako volitelné, ale bude vyžadovat od všech uživatelů s administrátorskými právy nastavení dvoufázového ověření
+    při jejich příštím přihlášení.
+  label_auto_watch_on: Automaticky sledovat
+  label_auto_watch_on_issue_contributed_to: Úkoly ke kterým jsem přispěl
+  text_project_close_confirmation: Opravdu chcete uzavřít projekt '%{value}' a změnit ho na pouze pro čtení?
+  text_project_reopen_confirmation: Opravdu chcete znovu otevřít projekt '%{value}'?
+  text_project_archive_confirmation: Opravdu chcete archivovat projekt '%{value}'
+    project?
+  mail_destroy_project_failed: Projekt %{value} nemůže být smazán.
+  mail_destroy_project_successful: Projekt %{value} byl úspěšně smazán.
+  mail_destroy_project_with_subprojects_successful: Projekt %{value} a jeho podprojekty byly úspěšně smazány.
+  project_status_scheduled_for_deletion: naplánován pro smazání
+  text_projects_bulk_destroy_confirmation: Opravdu chcete smazat vybrané projekty a jejich data?
+  text_projects_bulk_destroy_head: |
+    Chystáte se permanentně smazat následující projekty, včetně možných podprojektů a jejich dat.
+    Zkontrolujte informace uvedené níže a potvrďte, že to je to, co opravdu chcete.
+    Tato operace je nevratná.
+  text_projects_bulk_destroy_confirm: Pro potvrzení zadejte, prosím, "%{yes}" do textového pole dole.
+  text_subprojects_bulk_destroy: 'včetně jeho prodprojektu/ů: %{value}'
+  field_current_password: Aktuální heslo
+  sudo_mode_new_info_html: "<strong>Co se děje?</strong> Musíte znovu potvrdit vaše heslo, než učiníte jakoukoli
+    administrativní akci. To zaručí, že Váš účet zůstane chráněný."
+  label_edited: Upraveno
+  label_time_by_author: "%{time} %{author}"
+  field_default_time_entry_activity: Výchozí aktivita stráveného času
+  field_is_member_of_group: Člen skupiny
+  text_users_bulk_destroy_head: Chystáte se smazat následující uživatele a všechna jejich data. Tato operace je
+    nevratná. Zamčení uživatelů bývá lepším řešením.
+  text_users_bulk_destroy_confirm: Pro potvrzení zadejte "%{yes}" níže.
+  permission_select_project_publicity: Nastav projekt jako veřejný nebo soukromý
+  label_auto_watch_on_issue_created: Úkoly, které jsem vytvořil
+  field_any_searchable: Jakýkoli vyhledávatelný text
+  label_contains_any_of: obsahuje jakýkoli z
+  button_apply_issues_filter: Použít filtr úkolů
+  label_view_previous_annotation: Zobrazit poznámky před touto změnou
+  label_has_been: byl
+  label_has_never_been: nikdy nebyl
+  label_changed_from: změněno od
+  label_issue_statuses_description: Popis stavů úkolů
+  label_open_issue_statuses_description: Zobraz popis všech stavů úkolů
+  text_select_apply_issue_status: Vyberte stav úkolu
+  field_name_or_email_or_login: Jméno, email nebo přihlášení
+  text_default_active_job_queue_changed: Výchozí adaptér fronty, vhodný pouze pro
+    vývoj/testování, byl změněn
+  label_option_auto_lang: auto
+  label_issue_attachment_added: Příloha přidána
+  field_estimated_remaining_hours: Odhadovaný zbývající čas
+  field_last_activity_date: Poslední aktivita
+  setting_issue_done_ratio_interval: Krok koeficientu dokončení
+  setting_copy_attachments_on_issue_copy: Kopírovat přílohy při kopírování
+  field_thousands_delimiter: Oddělovač tisíců
+  label_involved_principals: Autor / Předchozí přiřazený uživatel
+  label_attachment_summary:
+    zero: "%{filename}"
+    one: "%{filename} a 1 soubor"
+    other: "%{filename} a %{count} soubory(ů)"
+  setting_wiki_tablesort_enabled: Javascript based table sorting in wiki content
+  label_progressbar: Progress bar
+  error_spent_on_closed_issue: Cannot log time on a closed issue
+  setting_timelog_accept_closed_issues: Accept time logs on closed issues
+  setting_related_issues_default_columns: Related and sub issues list defaults
+  setting_display_related_issues_table_headers: Show table headers
+  error_can_not_remove_role_reason_members_html: "<p>The following projects have members
+    with this role:<br>%{projects}</p>"

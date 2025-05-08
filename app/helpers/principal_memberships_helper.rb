@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -38,27 +38,27 @@ module PrincipalMembershipsHelper
     end
   end
 
-  def new_principal_membership_path(principal, *args)
+  def new_principal_membership_path(principal, *)
     if principal.is_a?(Group)
-      new_group_membership_path(principal, *args)
+      new_group_membership_path(principal, *)
     else
-      new_user_membership_path(principal, *args)
+      new_user_membership_path(principal, *)
     end
   end
 
-  def edit_principal_membership_path(principal, *args)
+  def edit_principal_membership_path(principal, *)
     if principal.is_a?(Group)
-      edit_group_membership_path(principal, *args)
+      edit_group_membership_path(principal, *)
     else
-      edit_user_membership_path(principal, *args)
+      edit_user_membership_path(principal, *)
     end
   end
 
-  def principal_membership_path(principal, membership, *args)
+  def principal_membership_path(principal, membership, *)
     if principal.is_a?(Group)
-      group_membership_path(principal, membership, *args)
+      group_membership_path(principal, membership, *)
     else
-      user_membership_path(principal, membership, *args)
+      user_membership_path(principal, membership, *)
     end
   end
 end

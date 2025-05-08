@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,11 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class SessionsTest < Redmine::IntegrationTest
-  fixtures :users, :email_addresses, :roles
-
   def setup
     Rails.application.config.redmine_verify_sessions = true
   end
@@ -38,8 +36,8 @@ class SessionsTest < Redmine::IntegrationTest
     jsmith.save!
 
     get '/my/account'
-    assert_response 302
-    assert flash[:error].match(/Your session has expired/)
+    assert_response :found
+    assert flash[:error].include?('Your session has expired')
   end
 
   def test_lock_user_kills_sessions
@@ -50,8 +48,8 @@ class SessionsTest < Redmine::IntegrationTest
     assert jsmith.activate!
 
     get '/my/account'
-    assert_response 302
-    assert flash[:error].match(/Your session has expired/)
+    assert_response :found
+    assert flash[:error].include?('Your session has expired')
   end
 
   def test_update_user_does_not_kill_sessions
@@ -62,7 +60,7 @@ class SessionsTest < Redmine::IntegrationTest
     jsmith.save!
 
     get '/my/account'
-    assert_response 200
+    assert_response :ok
   end
 
   def test_change_password_generates_a_new_token_for_current_session
@@ -70,7 +68,7 @@ class SessionsTest < Redmine::IntegrationTest
     assert_not_nil token = session[:tk]
 
     get '/my/password'
-    assert_response 200
+    assert_response :ok
     post(
       '/my/password',
       :params => {
@@ -79,11 +77,11 @@ class SessionsTest < Redmine::IntegrationTest
         :new_password_confirmation => 'secret123'
       }
     )
-    assert_response 302
+    assert_response :found
     assert_not_equal token, session[:tk]
 
     get '/my/account'
-    assert_response 200
+    assert_response :ok
   end
 
   def test_simultaneous_sessions_should_be_valid

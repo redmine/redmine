@@ -1,3 +1,20 @@
+# Redmine - project management software
+# Copyright (C) 2006-  Jean-Philippe Lang
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
 desc "Run the Continuous Integration tests for Redmine"
 task :ci do
   # RAILS_ENV and ENV[] can diverge so force them both to test
@@ -58,8 +75,9 @@ file 'config/database.yml' do
   case database
   when /(mysql|mariadb)/
     dev_conf =  {'adapter' => 'mysql2',
-                 'database' => dev_db_name, 'host' => 'localhost',
-                 'encoding' => 'utf8'}
+                 'database' => dev_db_name, 'host' => (ENV['CI_MYSQL_HOST'] || 'localhost'),
+                 'encoding' => 'utf8',
+                 'ssl_mode' => 'disabled'}
     if ENV['RUN_ON_NOT_OFFICIAL']
       dev_conf['username'] = 'root'
     else
@@ -69,7 +87,7 @@ file 'config/database.yml' do
     test_conf = dev_conf.merge('database' => test_db_name)
   when /postgresql/
     dev_conf =  {'adapter' => 'postgresql', 'database' => dev_db_name,
-                 'host' => 'localhost'}
+                 'host' => (ENV['CI_PG_HOST'] || 'localhost')}
     if ENV['RUN_ON_NOT_OFFICIAL']
       dev_conf['username'] = 'postgres'
     else

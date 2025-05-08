@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,29 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class ProjectCopyTest < ActiveSupport::TestCase
-  fixtures :projects, :trackers, :issue_statuses, :issues,
-           :journals, :journal_details,
-           :enumerations, :users, :issue_categories,
-           :projects_trackers,
-           :custom_fields,
-           :custom_fields_projects,
-           :custom_fields_trackers,
-           :custom_values,
-           :roles,
-           :member_roles,
-           :members,
-           :enabled_modules,
-           :versions,
-           :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions,
-           :groups_users,
-           :boards, :messages,
-           :repositories,
-           :news, :comments,
-           :documents, :attachments
-
   def setup
     User.current = nil
     ProjectCustomField.destroy_all
@@ -76,7 +56,7 @@ class ProjectCopyTest < ActiveSupport::TestCase
     assert_equal @source_project.issues.size, @project.issues.size
     @project.issues.each do |issue|
       assert issue.valid?
-      assert ! issue.assigned_to.blank?
+      assert issue.assigned_to.present?
       assert_equal @project, issue.project
     end
 
@@ -173,38 +153,38 @@ class ProjectCopyTest < ActiveSupport::TestCase
   end
 
   test "#copy should copy issue relations" do
-    Setting.cross_project_issue_relations = '1'
-
-    second_issue = Issue.generate!(:status_id => 5,
-                                   :subject => "copy issue relation",
-                                   :tracker_id => 1,
-                                   :assigned_to_id => 2,
-                                   :project_id => @source_project.id)
-    source_relation = IssueRelation.create!(:issue_from => Issue.find(4),
+    with_settings :cross_project_issue_relations => '1' do
+      second_issue = Issue.generate!(:status_id => 5,
+                                     :subject => "copy issue relation",
+                                     :tracker_id => 1,
+                                     :assigned_to_id => 2,
+                                     :project_id => @source_project.id)
+      source_relation = IssueRelation.create!(:issue_from => Issue.find(4),
                                               :issue_to => second_issue,
                                               :relation_type => "relates")
-    source_relation_cross_project = IssueRelation.create!(:issue_from => Issue.find(1),
+      source_relation_cross_project = IssueRelation.create!(:issue_from => Issue.find(1),
                                                             :issue_to => second_issue,
                                                             :relation_type => "duplicates")
 
-    assert @project.copy(@source_project)
-    assert_equal @source_project.issues.count, @project.issues.count
-    copied_issue = @project.issues.find_by_subject("Issue on project 2") # Was #4
-    copied_second_issue = @project.issues.find_by_subject("copy issue relation")
+      assert @project.copy(@source_project)
+      assert_equal @source_project.issues.count, @project.issues.count
+      copied_issue = @project.issues.find_by_subject("Issue on project 2") # Was #4
+      copied_second_issue = @project.issues.find_by_subject("copy issue relation")
 
-    # First issue with a relation on project
-    assert_equal 1, copied_issue.relations.size, "Relation not copied"
-    copied_relation = copied_issue.relations.first
-    assert_equal "relates", copied_relation.relation_type
-    assert_equal copied_second_issue.id, copied_relation.issue_to_id
-    assert_not_equal source_relation.id, copied_relation.id
+      # First issue with a relation on project
+      assert_equal 1, copied_issue.relations.size, "Relation not copied"
+      copied_relation = copied_issue.relations.first
+      assert_equal "relates", copied_relation.relation_type
+      assert_equal copied_second_issue.id, copied_relation.issue_to_id
+      assert_not_equal source_relation.id, copied_relation.id
 
-    # Second issue with a cross project relation
-    assert_equal 2, copied_second_issue.relations.size, "Relation not copied"
-    copied_relation = copied_second_issue.relations.find {|r| r.relation_type == 'duplicates'}
-    assert_equal "duplicates", copied_relation.relation_type
-    assert_equal 1, copied_relation.issue_from_id, "Cross project relation not kept"
-    assert_not_equal source_relation_cross_project.id, copied_relation.id
+      # Second issue with a cross project relation
+      assert_equal 2, copied_second_issue.relations.size, "Relation not copied"
+      copied_relation = copied_second_issue.relations.find {|r| r.relation_type == 'duplicates'}
+      assert_equal "duplicates", copied_relation.relation_type
+      assert_equal 1, copied_relation.issue_from_id, "Cross project relation not kept"
+      assert_not_equal source_relation_cross_project.id, copied_relation.id
+    end
   end
 
   test "#copy should copy issue attachments" do

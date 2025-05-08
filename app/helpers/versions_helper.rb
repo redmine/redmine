@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,6 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module VersionsHelper
+  include Redmine::Export::Text::VersionsTextHelper
 
   def version_anchor(version)
     if @project == version.project
@@ -75,12 +76,12 @@ module VersionsHelper
       sorted_keys.collect do |k|
         {:group => k, :total => h[k][0], :open => h[k][1], :closed => (h[k][0] - h[k][1])}
       end
-    max = counts.collect {|c| c[:total]}.max
+    max = counts.pluck(:total).max
     render :partial => 'issue_counts', :locals => {:version => version, :criteria => criteria, :counts => counts, :max => max}
   end
 
   def status_by_options_for_select(value)
-    options_for_select(STATUS_BY_CRITERIAS.collect {|criteria| [l("field_#{criteria}".to_sym), criteria]}, value)
+    options_for_select(STATUS_BY_CRITERIAS.collect {|criteria| [l(:"field_#{criteria}"), criteria]}, value)
   end
 
   def link_to_new_issue(version, project)
@@ -100,7 +101,7 @@ module VersionsHelper
           :tracker_id => new_issue_tracker,
           :fixed_version_id => version.id
         }
-        link_to l(:label_issue_new), new_project_issue_path(project, :issue => attrs, :back_url => version_path(version)), :class => 'icon icon-add'
+        link_to sprite_icon('add', l(:label_issue_new)), new_project_issue_path(project, :issue => attrs, :back_url => version_path(version)), :class => 'icon icon-add'
       end
     end
   end

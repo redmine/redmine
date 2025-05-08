@@ -153,12 +153,6 @@ default:
   # * encrypt data using 'rake db:encrypt RAILS_ENV=production'
   database_cipher_key:
 
-  # Set this to false to disable plugins' assets mirroring on startup.
-  # You can use `rake redmine:plugins:assets` to manually mirror assets
-  # to public/plugin_assets when you install/upgrade a Redmine plugin.
-  #
-  #mirror_plugins_assets_on_startup: false
-
   # Your secret key for verifying cookie session data integrity. If you
   # change this key, all old sessions will become invalid! Make sure the
   # secret is at least 30 characters and all random, no regular words or
@@ -183,6 +177,10 @@ default:
   # Absolute path (e.g. /usr/bin/gs, c:/ghostscript/gswin64c.exe) to
   # the `gs` binary. Used to generate attachment thumbnails of PDF files.
   #gs_command:
+
+  # Timeout when generating thumbnails using the `convert` or `gs` command.
+  # Timeout is set in seconds.
+  #thumbnails_generation_timeout: 10
 
   # Configuration of MiniMagick font.
   #

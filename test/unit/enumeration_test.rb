@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,11 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class EnumerationTest < ActiveSupport::TestCase
-  fixtures :enumerations, :issues, :custom_fields, :custom_values
-
   def setup
     User.current = nil
   end
@@ -141,7 +139,7 @@ class EnumerationTest < ActiveSupport::TestCase
     b = IssuePriority.create!(:name => 'B')
     c = DocumentCategory.create!(:name => 'C')
 
-    assert_equal [1, 2, 1], [a, b, c].map(&:reload).map(&:position)
+    assert_equal [1, 2, 1], [a, b, c].map {|e| e.reload.position}
   end
 
   def test_override_should_be_created_with_same_position_as_parent
@@ -151,7 +149,7 @@ class EnumerationTest < ActiveSupport::TestCase
     b = IssuePriority.create!(:name => 'B')
     override = IssuePriority.create!(:name => 'BB', :parent_id => b.id)
 
-    assert_equal [1, 2, 2], [a, b, override].map(&:reload).map(&:position)
+    assert_equal [1, 2, 2], [a, b, override].map {|e| e.reload.position}
   end
 
   def test_override_position_should_be_updated_with_parent_position
@@ -163,7 +161,7 @@ class EnumerationTest < ActiveSupport::TestCase
     b.position -= 1
     b.save!
 
-    assert_equal [2, 1, 1], [a, b, override].map(&:reload).map(&:position)
+    assert_equal [2, 1, 1], [a, b, override].map {|e| e.reload.position}
   end
 
   def test_destroying_override_should_not_update_positions
@@ -174,9 +172,15 @@ class EnumerationTest < ActiveSupport::TestCase
     b = IssuePriority.create!(:name => 'B')
     c = IssuePriority.create!(:name => 'C')
     override = IssuePriority.create!(:name => 'BB', :parent_id => b.id)
-    assert_equal [1, 2, 3, 2], [a, b, c, override].map(&:reload).map(&:position)
+    assert_equal [1, 2, 3, 2], [a, b, c, override].map {|e| e.reload.position}
 
     override.destroy
-    assert_equal [1, 2, 3], [a, b, c].map(&:reload).map(&:position)
+    assert_equal [1, 2, 3], [a, b, c].map {|e| e.reload.position}
+  end
+
+  def test_spaceship_operator_with_incomparable_value_should_return_nil
+    e = Enumeration.first
+    assert_nil e <=> nil
+    assert_nil e <=> 'foo'
   end
 end

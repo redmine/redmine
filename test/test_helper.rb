@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 
 if ENV["COVERAGE"]
   require 'simplecov'
-  require File.expand_path(File.dirname(__FILE__) + "/coverage/html_formatter")
+  require_relative 'coverage/html_formatter'
   SimpleCov.formatter = Redmine::Coverage::HtmlFormatter
   SimpleCov.start 'rails'
 end
@@ -27,10 +27,10 @@ end
 $redmine_test_ldap_server = ENV['REDMINE_TEST_LDAP_SERVER'] || '127.0.0.1'
 
 ENV["RAILS_ENV"] = "test"
-require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
+require_relative '../config/environment'
 require 'rails/test_help'
 
-require File.expand_path(File.dirname(__FILE__) + '/object_helpers')
+require_relative 'object_helpers'
 include ObjectHelpers
 
 require 'net/ldap'
@@ -55,6 +55,8 @@ class ActiveSupport::TestCase
   parallelize(workers: 1)
 
   include ActionDispatch::TestProcess
+
+  fixtures :all
 
   self.use_transactional_tests = true
   self.use_instantiated_fixtures  = false
@@ -87,7 +89,7 @@ class ActiveSupport::TestCase
     Attachment.storage_path = "#{Rails.root}/test/fixtures/files"
   end
 
-  def with_settings(options, &block)
+  def with_settings(options, &)
     saved_settings = options.keys.inject({}) do |h, k|
       h[k] =
         case Setting[k]
@@ -105,7 +107,7 @@ class ActiveSupport::TestCase
   end
 
   # Yields the block with user as the current user
-  def with_current_user(user, &block)
+  def with_current_user(user, &)
     saved_user = User.current
     User.current = user
     yield
@@ -113,7 +115,7 @@ class ActiveSupport::TestCase
     User.current = saved_user
   end
 
-  def with_locale(locale, &block)
+  def with_locale(locale, &)
     saved_localed = ::I18n.locale
     ::I18n.locale = locale
     yield
@@ -126,7 +128,7 @@ class ActiveSupport::TestCase
     return @test_ldap.bind
   rescue => e
     # LDAP is not listening
-    return nil
+    return false
   end
 
   def self.convert_installed?
@@ -203,6 +205,11 @@ class ActiveSupport::TestCase
     Redmine::Database.mysql?
   end
 
+  def mysql8?
+    version = Redmine::Database.mysql_version.sub(/^(\d+\.\d+\.\d+).*/, '\1')
+    Gem::Version.new(version) >= Gem::Version.new('8.0.0')
+  end
+
   def postgresql?
     Redmine::Database.postgresql?
   end
@@ -214,13 +221,13 @@ class ActiveSupport::TestCase
 
   # Asserts that a new record for the given class is created
   # and returns it
-  def new_record(klass, &block)
-    new_records(klass, 1, &block).first
+  def new_record(klass, &)
+    new_records(klass, 1, &).first
   end
 
   # Asserts that count new records for the given class are created
   # and returns them as an array order by object id
-  def new_records(klass, count, &block)
+  def new_records(klass, count, &)
     assert_difference "#{klass}.count", count do
       yield
     end
@@ -247,17 +254,17 @@ class ActiveSupport::TestCase
     assert !s.include?(expected), (message || "\"#{expected}\" found in \"#{s}\"")
   end
 
-  def assert_select_in(text, *args, &block)
+  def assert_select_in(text, ...)
     d = Nokogiri::HTML(CGI.unescapeHTML(String.new(text))).root
-    assert_select(d, *args, &block)
+    assert_select(d, ...)
   end
 
-  def assert_select_email(*args, &block)
+  def assert_select_email(...)
     email = ActionMailer::Base.deliveries.last
     assert_not_nil email
     html_body = email.parts.detect {|part| part.content_type.include?('text/html')}.try(&:body)
     assert_not_nil html_body
-    assert_select_in html_body.encoded, *args, &block
+    assert_select_in(html_body.encoded, ...)
   end
 
   def assert_mail_body_match(expected, mail, message=nil)
@@ -329,6 +336,7 @@ module Redmine
 
   class HelperTest < ActionView::TestCase
     include Redmine::I18n
+    include Propshaft::Helper
 
     def setup
       super
@@ -340,7 +348,7 @@ module Redmine
   class ControllerTest < ActionController::TestCase
     # Returns the issues that are displayed in the list in the same order
     def issues_in_list
-      ids = css_select('tr.issue td.id').map(&:text).map(&:to_i)
+      ids = css_select('tr.issue td.id').map {|e| e.text.to_i}
       Issue.where(:id => ids).sort_by {|issue| ids.index(issue.id)}
     end
 
@@ -485,7 +493,7 @@ module Redmine
 
         API_FORMATS.each do |format|
           format_request = request.sub /$/, ".#{format}"
-          super options.merge(format_request => arg[request], :format => format)
+          super(options.merge(format_request => arg[request], :format => format))
         end
       end
     end

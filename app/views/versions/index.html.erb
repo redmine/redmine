@@ -1,10 +1,10 @@
 <div class="contextual">
-  <%= link_to(l(:label_version_new), new_project_version_path(@project),
+  <%= link_to(sprite_icon('add', l(:label_version_new)), new_project_version_path(@project),
               :class => 'icon icon-add') if User.current.allowed_to?(:manage_versions, @project) %>
   <%= actions_dropdown do %>
-  <%= link_to_if_authorized l(:label_settings),
-              {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'versions'},
-              :class => 'icon icon-settings' if User.current.allowed_to?(:manage_versions, @project) %>
+  <%= link_to_if_authorized sprite_icon('settings', l(:label_settings)),
+                            {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'versions'},
+                            :class => 'icon icon-settings' if User.current.allowed_to?(:manage_versions, @project) %>
   <% end %>
 </div>
 
@@ -18,11 +18,14 @@
   <article class="version-article <%= version.css_classes %>">
     <% if User.current.allowed_to?(:manage_versions, version.project) %>
       <div class="contextual">
-        <%= link_to l(:button_edit), edit_version_path(version), :title => l(:button_edit), :class => 'icon-only icon-edit' %>
+        <%= link_to sprite_icon('edit', l(:button_edit)), edit_version_path(version), :title => l(:button_edit), :class => 'icon-only icon-edit' %>
       </div>
     <% end %>
     <header>
-      <h3 class="icon icon-package version inline-flex"><%= link_to_version version, :name => version_anchor(version) %></h3>
+      <h3 class="icon icon-package version inline-flex">
+        <%= sprite_icon 'package' %>
+        <%= link_to_version version, :name => version_anchor(version) %>
+      </h3>
       <span class="badge badge-status-<%= version.status %>"><%= l("version_status_#{version.status}") %></span>
     </header>
     <%= render :partial => 'versions/overview', :locals => {:version => version} %>

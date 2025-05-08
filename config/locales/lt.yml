@@ -103,8 +103,9 @@ lt:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "ir"
-      skip_last_comma: false
+      last_word_connector: " ir "
+      two_words_connector: " ir "
+      words_connector: ", "
 
   activerecord:
     errors:
@@ -141,6 +142,8 @@ lt:
         must_contain_lowercase: "must contain lowercase letters (a-z)"
         must_contain_digits: "must contain digits (0-9)"
         must_contain_special_chars: "must contain special characters (!, $, %, ...)"
+        domain_not_allowed: "contains a domain not allowed (%{domain})"
+        too_simple: "is too simple"
 
   actionview_instancetag_blank_option: Prašom parinkti
 
@@ -161,7 +164,6 @@ lt:
   notice_account_password_updated: Slaptažodis buvo sėkmingai atnaujintas.
   notice_account_wrong_password: Neteisingas slaptažodis
   notice_account_register_done: Paskyra buvo sėkmingai sukurta. Norint aktyvinti savo paskyrą, paspauskite nuorodą, kuri jums buvo siųsta į %{email}.
-  notice_account_unknown_email: Nežinomas vartotojas.
   notice_account_not_activated_yet: Dar nesatę aktyvavę savo paskyros. Jei norite gauti naują aktyvavimo laišką, paspauskite <a href="%{url}">šią nuorodą</a>
   notice_account_locked: Jūsų paskyra užblokuota.
   notice_can_t_change_password: Šis pranešimas naudoja išorinį autentiškumo nustatymo šaltinį. Neįmanoma pakeisti slaptažodžio.
@@ -204,7 +206,7 @@ lt:
   error_no_tracker_in_project: 'Joks pėdsekys nesusietas su šiuo projektu. Prašom patikrinti Projekto nustatymus.'
   error_no_default_issue_status: 'Nenustatyta numatytoji darbo būsena. Prašome patikrinti nustatymus ("Administravimas -> Darbų būsenos").'
   error_can_not_delete_custom_field: Negalima ištrinti kliento lauko
-  error_can_not_delete_tracker: "Šis pėdsekys turi įrašų ir todėl negali būti ištrintas."
+  error_can_not_delete_tracker_html: "Šis pėdsekys turi įrašų ir todėl negali būti ištrintas.<p>The following projects have issues with this tracker:<br>%{projects}</p>"
   error_can_not_remove_role: "Ši rolė yra naudojama ir negali būti ištrinta."
   error_can_not_reopen_issue_on_closed_version: 'Uždarytai versijai priskirtas darbas negali būti atnaujintas.'
   error_can_not_archive_project: Šio projekto negalima suarchyvuoti
@@ -592,7 +594,6 @@ lt:
   label_reported_issues: Pranešti darbai
   label_assigned_issues: Priskirti darbai
   label_assigned_to_me_issues: Darbai, priskirti man
-  label_last_login: Paskutinis prisijungimas
   label_registered_on: Užregistruota
   label_activity: Veikla
   label_user_activity: "%{value} veikla"
@@ -729,7 +730,6 @@ lt:
   label_repository: Saugykla
   label_repository_new: Nauja saugykla
   label_repository_plural: Saugyklos
-  label_browse: Naršyti
   label_branch: Šaka
   label_tag: Tag'as
   label_revision: Revizija
@@ -746,10 +746,6 @@ lt:
   label_view_revisions: Peržiūrėti revizijas
   label_view_all_revisions: Peržiūrėti visas revizijas
   label_max_size: Maksimalus dydis
-  label_sort_highest: Perkelti į viršūnę
-  label_sort_higher: Perkelti į viršų
-  label_sort_lower: Perkelti žemyn
-  label_sort_lowest: Perkelti į apačią
   label_roadmap: Veiklos grafikas
   label_roadmap_due_in: "Baigiasi po %{value}"
   label_roadmap_overdue: "%{value} vėluojama"
@@ -1250,7 +1246,7 @@ lt:
   label_trackers_description: Pėdsekio aprašymas
   label_open_trackers_description: Rodyti visų pėdsekių aprašymus
   label_preferred_body_part_text: Tekstas
-  label_preferred_body_part_html: HTML (bandomoji versija)
+  label_preferred_body_part_html: HTML
   field_parent_issue_subject: Tėvinės užduoties tema
   permission_edit_own_issues: Redaguoti savo darbus
   text_select_apply_tracker: Pasirinkti pėdsekį
@@ -1263,7 +1259,6 @@ lt:
   text_gs_available: ImageMagick PDF palaikomas (nebūtinas)
   field_recently_used_projects: Neseniai naudotų projektų skaičius jump box
   label_optgroup_bookmarks: Žymės
-  label_optgroup_others: Kiti projektai
   label_optgroup_recents: Pastaruoju metu naudota
   button_project_bookmark: Pridėti žymę
   button_project_bookmark_delete: Pašalinti žymę
@@ -1350,7 +1345,7 @@ lt:
   twofa_text_backup_codes_created_at: Atsarginiai kodai sukurti %{datetime}.
   twofa_backup_codes_already_shown: Atsarginiai kodai negali būti parodyti pakartotinai. Jei reikia - <a data-method="post"
     href="%{bc_path}">sugeneruokite naujus atsarginius kodus</a>.
-  error_can_not_execute_macro_html: Klaida vykdant <strong>%{name}</strong> mokrokomandą
+  error_can_not_execute_macro_html: Klaida vykdant <strong>%{name}</strong> makrokomandą
     (%{error})
   error_macro_does_not_accept_block: Ši makrokomanda nepriima teksto bloko
   error_childpages_macro_no_argument: Be jokių argumentų, šią makrokomandą gali iškviesti tik wiki puslapiai
@@ -1366,7 +1361,7 @@ lt:
   text_project_destroy_enter_identifier: Patvirtinimjui įveskite projekto identifikatorių (%{identifier}).
   button_add_subtask: Pridėti užduoties dedamąją
   notice_invalid_watcher: 'Neteisingas stebėtojas: Naudotojas negaus jokių pranešimų nes jam nėra suteikta prieiga prie šio objekto.'
-  button_fetch_changesets: Fetch commits
+  button_fetch_changesets: Gauti įkėlimus
   permission_view_message_watchers: Peržiūrėti pranešimo stebėtojų sąrašą
   permission_add_message_watchers: Pridėti pranešimo stebėtojus
   permission_delete_message_watchers: Pašalinti pranešimo stebėtojus
@@ -1375,35 +1370,101 @@ lt:
   error_invalid_authenticity_token: Netinkamas formos autentiškumo ženklas.
   error_query_statement_invalid: Užklausos vykdymo metu įvyko klaida kuri buvo įrašyta į įvykių žurnalą.
     Apie klaidą informuokite Redmine administratorių.
-  permission_view_wiki_page_watchers: View wiki page watchers list
-  permission_add_wiki_page_watchers: Add wiki page watchers
-  permission_delete_wiki_page_watchers: Delete wiki page watchers
-  label_wiki_page_watchers: Watchers
-  label_attachment_description: File description
-  error_no_data_in_file: The file does not contain any data
-  field_twofa_required: Require two factor authentication
-  twofa_hint_optional_html: Setting <strong>%{label}</strong> will let users set up
-    two-factor authentication at will, unless it is required by one of their groups.
-  twofa_text_group_required: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is required for all users.
-  twofa_text_group_disabled: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is disabled.
-  field_default_issue_query: Default issue query
+  permission_view_wiki_page_watchers: Peržiūrėkite wiki puslapio stebėtojų sąrašą
+  permission_add_wiki_page_watchers: Papildyti wiki puslapio stebėtojų sąrašą
+  permission_delete_wiki_page_watchers: Pašalinti wiki puslapio stebėtojus iš sąrašo
+  label_wiki_page_watchers: Stebėtojai
+  label_attachment_description: Failo aprašymas
+  error_no_data_in_file: Faile nėra jokių duomenų
+  field_twofa_required: Reikalinga dviejų veiksnių autentifikacija
+  twofa_hint_optional_html: Nustatant <strong>%{label}</strong> leis vartotojams įjungti dviejų veiksnių autentifikavimą savo nuožiūra, nebent to reikalauja viena iš jų grupių.
+  twofa_text_group_required: Šis nustatymas galioja tik tada kai globalus dviejų veiksnių autentifikavimas įjuntas kaip 'neprivalomas'. Šiuo metu dviejų veiksnių autentifikavimas yra įjungtas kaip privalomas visiems naudotojams.
+  twofa_text_group_disabled:  Šis nustatymas galioja tik tada kai globalus dviejų veiksnių autentifikavimas įjuntas kaip 'neprivalomas'. Šiuo metu dviejų veiksnių autentifikavimas yra išjungtas pilnai.
+  field_default_issue_query: Numatytoji darbo užklausa
   label_default_queries:
-    for_all_projects: For all projects
-    for_current_project: For current project
-    for_all_users: For all users
-  text_allowed_queries_to_select: Public (to any users) queries only selectable
-  text_all_migrations_have_been_run: All database migrations have been run
-  button_save_object: Save %{object_name}
-  button_edit_object: Edit %{object_name}
-  button_delete_object: Delete %{object_name}
-  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
-    Please restart the application after editing it.
-  label_bulk_edit: Bulk edit
-  button_create_and_follow: Create and follow
-  label_subtask: Subtask
-  label_default_query: Default query
-  field_default_project_query: Default project query
+    for_all_projects: Visiems projektams
+    for_current_project: Pasirinktam projektui
+    for_all_users: Visiems naudotojams
+    for_this_user: For this user
+  text_allowed_queries_to_select: Galima pasirinkti tik užklausas prieinamas (Viešas) visiems naudotojams
+  text_all_migrations_have_been_run: Buvo įvykdytos visos duomenų bazės migravimo procedūros
+  button_save_object: Išsaugoti %{object_name}
+  button_edit_object: Redaguoti %{object_name}
+  button_delete_object: Pašalinti %{object_name}
+  text_setting_config_change: Elgseną galite konfiguruoti faile config/configuration.yml.
+    Baigę redaguoti - nepamirškite perkrauti aplikacijos.
+  label_bulk_edit: Masinis redagavimas
+  button_create_and_follow: Kurti ir sekti
+  label_subtask: Subužduotis
+  label_default_query: Numatytoji užklausa
+  field_default_project_query: Numatytoji projekto užklausa
+  label_required_administrators: administratoriams privaloma
+  twofa_hint_required_administrators_html: Nustatymas <strong>%{label}</strong> veikia kaip neprivalomas, bet reikalauja, kad visi naudotojai
+    turintys administravimo teises kito prisijungimo metu aktyvuotų dviejų veiksnių autentifikaciją.
+  label_auto_watch_on: Automatinis stebėjimas
+  label_auto_watch_on_issue_contributed_to: Darbai prie kurių prisidėjau
+  text_project_close_confirmation: Are you sure you want to close the '%{value}' project
+    to make it read-only?
+  text_project_reopen_confirmation: Are you sure you want to reopen the '%{value}' project?
+  text_project_archive_confirmation: Are you sure you want to archive the '%{value}'
+    project?
+  mail_destroy_project_failed: Project %{value} could not be deleted.
+  mail_destroy_project_successful: Project %{value} was deleted successfully.
+  mail_destroy_project_with_subprojects_successful: Project %{value} and its subprojects
+    were deleted successfully.
+  project_status_scheduled_for_deletion: scheduled for deletion
+  text_projects_bulk_destroy_confirmation: Are you sure you want to delete the selected
+    projects and related data?
+  text_projects_bulk_destroy_head: |
+    You are about to permanently delete the following projects, including possible subprojects and any related data.
+    Please review the information below and confirm that this is indeed what you want to do.
+    This action cannot be undone.
+  text_projects_bulk_destroy_confirm: To confirm, please enter "%{yes}" in the box below.
+  text_subprojects_bulk_destroy: 'including its subproject(s): %{value}'
+  field_current_password: Current password
+  sudo_mode_new_info_html: "<strong>What's happening?</strong> You need to reconfirm
+    your password before taking any administrative actions, this ensures your account
+    stays protected."
+  label_edited: Edited
+  label_time_by_author: "%{time} by %{author}"
+  field_default_time_entry_activity: Default spent time activity
+  field_is_member_of_group: Member of group
+  text_users_bulk_destroy_head: You are about to delete the following users and remove
+    all references to them. This cannot be undone. Often, locking users instead of deleting
+    them is the better solution.
+  text_users_bulk_destroy_confirm: To confirm, please enter "%{yes}" below.
+  permission_select_project_publicity: Set project public or private
+  label_auto_watch_on_issue_created: Issues I created
+  field_any_searchable: Any searchable text
+  label_contains_any_of: contains any of
+  button_apply_issues_filter: Apply issues filter
+  label_view_previous_annotation: View annotation prior to this change
+  label_has_been: has been
+  label_has_never_been: has never been
+  label_changed_from: changed from
+  label_issue_statuses_description: Issue statuses description
+  label_open_issue_statuses_description: View all issue statuses description
+  text_select_apply_issue_status: Select issue status
+  field_name_or_email_or_login: Name, email or login
+  text_default_active_job_queue_changed: Default queue adapter which is well suited
+    only for dev/test changed
+  label_option_auto_lang: auto
+  label_issue_attachment_added: Attachment added
+  field_estimated_remaining_hours: Estimated remaining time
+  field_last_activity_date: Last activity
+  setting_issue_done_ratio_interval: Done ratio options interval
+  setting_copy_attachments_on_issue_copy: Copy attachments on copy
+  field_thousands_delimiter: Thousands delimiter
+  label_involved_principals: Author / Previous assignee
+  label_attachment_summary:
+    zero: "%{filename}"
+    one: "%{filename} and 1 file"
+    other: "%{filename} and %{count} files"
+  setting_wiki_tablesort_enabled: Javascript based table sorting in wiki content
+  label_progressbar: Progress bar
+  error_spent_on_closed_issue: Cannot log time on a closed issue
+  setting_timelog_accept_closed_issues: Accept time logs on closed issues
+  setting_related_issues_default_columns: Related and sub issues list defaults
+  setting_display_related_issues_table_headers: Show table headers
+  error_can_not_remove_role_reason_members_html: "<p>The following projects have members
+    with this role:<br>%{projects}</p>"

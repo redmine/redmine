@@ -79,7 +79,7 @@ zh:
     # Default format for numbers
     format:
       separator: "."
-      delimiter: ""
+      delimiter: ","
       precision: 3
     human:
       format:
@@ -99,8 +99,9 @@ zh:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "和"
-      skip_last_comma: false
+      words_connector: ", "
+      two_words_connector: " 和 "
+      last_word_connector: ", 和 "
 
   activerecord:
     errors:
@@ -140,6 +141,8 @@ zh:
         must_contain_lowercase: "必须包含小写字母 (a-z)"
         must_contain_digits: "必须包含数字 (0-9)"
         must_contain_special_chars: "必须包含特殊字符 (!, $, %, ...)"
+        domain_not_allowed: "contains a domain not allowed (%{domain})"
+        too_simple: "is too simple"
 
   actionview_instancetag_blank_option: 请选择
 
@@ -160,7 +163,6 @@ zh:
   notice_account_password_updated: 密码更新成功
   notice_account_wrong_password: 密码错误
   notice_account_register_done: 帐号创建成功，请使用注册确认邮件中的链接来激活您的帐号。
-  notice_account_unknown_email: 未知用户
   notice_can_t_change_password: 该帐号使用了外部认证，因此无法更改密码。
   notice_account_lost_email_sent: 系统已将引导您设置新密码的邮件发送给您。
   notice_account_activated: 您的帐号已被激活。您现在可以登录了。
@@ -193,7 +195,7 @@ zh:
   error_no_tracker_in_project: 该项目未设定跟踪标签，请检查项目配置。
   error_no_default_issue_status: 未设置默认的问题状态。请检查系统设置（"管理" -> "问题状态"）。
   error_can_not_delete_custom_field: 无法删除自定义属性
-  error_can_not_delete_tracker: "该跟踪标签已包含问题,无法删除"
+  error_can_not_delete_tracker_html: "该跟踪标签已包含问题,无法删除<p>The following projects have issues with this tracker:<br>%{projects}</p>"
   error_can_not_remove_role: "该角色正在使用中，无法删除"
   error_can_not_reopen_issue_on_closed_version: 该问题被关联到一个已经关闭的版本，因此无法重新打开。
   error_can_not_archive_project: 该项目无法被存档
@@ -496,7 +498,6 @@ zh:
   label_help: 帮助
   label_reported_issues: 已报告的问题
   label_assigned_to_me_issues: 指派给我的问题
-  label_last_login: 最后登录
   label_registered_on: 注册于
   label_activity: 活动
   label_user_activity: "%{value} 的活动"
@@ -614,7 +615,6 @@ zh:
   label_day_plural: 天
   label_repository: 版本库
   label_repository_plural: 版本库
-  label_browse: 浏览
   label_branch: 分支
   label_tag: 标签
   label_revision: 修订
@@ -631,10 +631,6 @@ zh:
   label_view_revisions: 查看修订
   label_view_all_revisions: 查看所有修订
   label_max_size: 最大尺寸
-  label_sort_highest: 置顶
-  label_sort_higher: 上移
-  label_sort_lower: 下移
-  label_sort_lowest: 置底
   label_roadmap: 路线图
   label_roadmap_due_in: "截止日期到  %{value}"
   label_roadmap_overdue: "%{value} 延期"
@@ -1246,7 +1242,7 @@ zh:
   label_trackers_description: 工作描述
   label_open_trackers_description: 查看全部跟踪标签描述
   label_preferred_body_part_text: Text
-  label_preferred_body_part_html: HTML (实验功能)
+  label_preferred_body_part_html: HTML
   field_parent_issue_subject: 父任务主题
   permission_edit_own_issues: 更新自己的问题
   text_select_apply_tracker: 选择跟踪标签
@@ -1258,7 +1254,6 @@ zh:
   text_gs_available: ImageMagick PDF 支持 (可选)
   field_recently_used_projects: 跳转框中最近使用的项目数量
   label_optgroup_bookmarks: 书签
-  label_optgroup_others: 其他项目
   label_optgroup_recents: 最近使用
   button_project_bookmark: 添加书签
   button_project_bookmark_delete: 移除书签
@@ -1352,46 +1347,99 @@ zh:
   text_user_destroy_confirmation: 您是否确定要删除这个用户并且移除该用户所有的参照？ 这是无法被复原的动作。通常锁定一个用户是比较好的方案，而非将用户删除。若要确认，请在下面输入用户的帐号名称 (%{login})。
   text_project_destroy_enter_identifier: 若要确认, 请在下面输入项目的标识 (%{identifier})。
   button_add_subtask: 新建子任务
-  notice_invalid_watcher: 'Invalid watcher: User will not receive any notifications
-    because it does not have access to view this object.'
-  button_fetch_changesets: Fetch commits
-  permission_view_message_watchers: View message watchers list
-  permission_add_message_watchers: Add message watchers
-  permission_delete_message_watchers: Delete message watchers
-  label_message_watchers: Watchers
-  button_copy_link: Copy link
-  error_invalid_authenticity_token: Invalid form authenticity token.
-  error_query_statement_invalid: An error occurred while executing the query and has
-    been logged. Please report this error to your Redmine administrator.
-  permission_view_wiki_page_watchers: View wiki page watchers list
-  permission_add_wiki_page_watchers: Add wiki page watchers
-  permission_delete_wiki_page_watchers: Delete wiki page watchers
-  label_wiki_page_watchers: Watchers
-  label_attachment_description: File description
-  error_no_data_in_file: The file does not contain any data
-  field_twofa_required: Require two factor authentication
-  twofa_hint_optional_html: Setting <strong>%{label}</strong> will let users set up
-    two-factor authentication at will, unless it is required by one of their groups.
-  twofa_text_group_required: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is required for all users.
-  twofa_text_group_disabled: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is disabled.
-  field_default_issue_query: Default issue query
+  notice_invalid_watcher: '无效的关注者：因为它无权查看此对象，所以用户将不会收到任何通知。'
+  button_fetch_changesets: 获取提交记录
+  permission_view_message_watchers: 查看消息关注者列表
+  permission_add_message_watchers: 添加消息关注者
+  permission_delete_message_watchers: 删除消息关注者
+  label_message_watchers: 关注者
+  button_copy_link: 复制链接
+  error_invalid_authenticity_token: 无效的表单验证令牌。
+  error_query_statement_invalid: 执行查询时发生错误并已记录。请向您的Redmine管理员报告此错误。
+  permission_view_wiki_page_watchers: 查看Wiki页面关注者列表
+  permission_add_wiki_page_watchers: 添加Wiki页面关注者
+  permission_delete_wiki_page_watchers: 删除Wiki页面关注者
+  label_wiki_page_watchers: 关注者
+  label_attachment_description: 文件描述
+  error_no_data_in_file: 文件不包含任何数据
+  field_twofa_required: 要求双因素身份验证
+  twofa_hint_optional_html: 设置 <strong>%{label}</strong>，用户可以自行设置双因素身份验证，除非其所在组要求必须设置。
+  twofa_text_group_required: 仅当全局双因素身份验证设置为“选用项”时，此设置才有效。目前，所有用户都需要进行双因素身份验证。
+  twofa_text_group_disabled: 仅当全局双因素身份验证设置为“选用项”时，此设置才有效。目前，双因素身份验证已禁用。
+  field_default_issue_query: 默认问题查询
   label_default_queries:
-    for_all_projects: For all projects
-    for_current_project: For current project
-    for_all_users: For all users
-  text_allowed_queries_to_select: Public (to any users) queries only selectable
-  text_all_migrations_have_been_run: All database migrations have been run
-  button_save_object: Save %{object_name}
-  button_edit_object: Edit %{object_name}
-  button_delete_object: Delete %{object_name}
-  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
-    Please restart the application after editing it.
-  label_bulk_edit: Bulk edit
-  button_create_and_follow: Create and follow
-  label_subtask: Subtask
-  label_default_query: Default query
-  field_default_project_query: Default project query
+    for_all_projects: 对于所有项目
+    for_current_project: 对于当前项目
+    for_all_users: 对于所有用户
+    for_this_user: 对于此用户
+  text_allowed_queries_to_select: 只允许选择公开（对任何用户开放）的查询
+  text_all_migrations_have_been_run: 所有数据库迁移已完成
+  button_save_object: 保存 %{object_name}
+  button_edit_object: 编辑 %{object_name}
+  button_delete_object: 删除 %{object_name}
+  text_setting_config_change: 您可以在 config/configuration.yml 中配置此行为。请在编辑后重新启动应用程序。
+  label_bulk_edit: 批量编辑
+  button_create_and_follow: 创建并关注
+  label_subtask: 子任务
+  label_default_query: 默认查询
+  field_default_project_query: 默认项目查询
+  label_required_administrators: 管理员所需
+  twofa_hint_required_administrators_html: 设置 <strong>%{label}</strong> 与 选用项 类似，但会要求所有具有管理权限的用户在下次登录时设置双因素身份验证。
+  label_auto_watch_on: 自动关注
+  label_auto_watch_on_issue_contributed_to: 我更新的问题
+  text_project_close_confirmation: 您确定要关闭项目“%{value}”并将其设置为只读吗？
+  text_project_reopen_confirmation: 您确定要重新打开项目“%{value}”吗？
+  text_project_archive_confirmation: 您确定要归档项目“%{value}”吗？
+  mail_destroy_project_failed: 无法删除项目 %{value}。
+  mail_destroy_project_successful: 项目 %{value} 已成功删除。
+  mail_destroy_project_with_subprojects_successful: 项目 %{value} 及其子项目已成功删除。
+  project_status_scheduled_for_deletion: 计划删除
+  text_projects_bulk_destroy_confirmation: 您确定要删除所选的项目及其相关数据吗？
+  text_projects_bulk_destroy_head: |
+    您即将永久删除以下项目，包括可能的子项目和所有相关数据。
+    请仔细查看下面的信息，并确认这确实是您要执行的操作。
+    此操作无法撤销。
+  text_projects_bulk_destroy_confirm: 请在以下方框中输入 "%{yes}"，以确认操作。
+  text_subprojects_bulk_destroy: '包括其子项目：%{value}'
+  field_current_password: 当前密码
+  sudo_mode_new_info_html: "<strong>发生了什么？</strong> 在执行任何管理操作之前，您需要重新确认密码，以确保您的帐户安全。"
+  label_edited: 已编辑
+  label_time_by_author: "%{time}，作者：%{author}"
+  field_default_time_entry_activity: 默认记录时间活动
+  field_is_member_of_group: 所属组
+  text_users_bulk_destroy_head: 您即将删除以下用户并删除所有与之相关的引用。此操作无法撤销。通常，锁定用户而不是删除用户是更好的解决方案。
+  text_users_bulk_destroy_confirm: 请在下面输入 "%{yes}"，以确认操作。
+  permission_select_project_publicity:  设置项目为公开或私有
+  label_auto_watch_on_issue_created: 我创建的问题
+  field_any_searchable: 任意可搜索的文本
+  label_contains_any_of: 包含以下任意项之一
+  button_apply_issues_filter: 应用问题筛选器
+  label_view_previous_annotation: 查看此更改前的注释
+  label_has_been: 目前/曾经是
+  label_has_never_been: 从未是
+  label_changed_from: 变更自
+  label_issue_statuses_description: 问题状态描述
+  label_open_issue_statuses_description: 查看全部问题状态描述
+  text_select_apply_issue_status: 选择问题状态
+  field_name_or_email_or_login: 姓名、电子邮件或登录名
+  text_default_active_job_queue_changed: 仅适用于开发/测试环境的默认队列适配器已改变
+  label_option_auto_lang: auto
+  label_issue_attachment_added: Attachment added
+  field_estimated_remaining_hours: Estimated remaining time
+  field_last_activity_date: Last activity
+  setting_issue_done_ratio_interval: Done ratio options interval
+  setting_copy_attachments_on_issue_copy: Copy attachments on copy
+  field_thousands_delimiter: Thousands delimiter
+  label_involved_principals: Author / Previous assignee
+  label_attachment_summary:
+    zero: "%{filename}"
+    one: "%{filename} and 1 file"
+    other: "%{filename} and %{count} files"
+  setting_wiki_tablesort_enabled: Javascript based table sorting in wiki content
+  label_progressbar: Progress bar
+  error_spent_on_closed_issue: Cannot log time on a closed issue
+  setting_timelog_accept_closed_issues: Accept time logs on closed issues
+  setting_related_issues_default_columns: Related and sub issues list defaults
+  setting_display_related_issues_table_headers: Show table headers
+  error_can_not_remove_role_reason_members_html: "<p>The following projects have members
+    with this role:<br>%{projects}</p>"

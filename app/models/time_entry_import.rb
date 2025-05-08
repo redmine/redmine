@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -32,7 +32,7 @@ class TimeEntryImport < Import
   end
 
   def self.authorized?(user)
-    user.allowed_to?(:import_time_entries, nil, :global => true)
+    user.allowed_to?(:import_time_entries, nil, :global => true) && user.allowed_to?(:log_time, nil, :global => true)
   end
 
   # Returns the objects that were imported
@@ -105,16 +105,22 @@ class TimeEntryImport < Import
     end
 
     attributes = {
-      :project_id  => project.id,
       :activity_id => activity_id,
       :author_id   => user.id,
       :user_id     => user_id,
 
-      :issue_id    => row_value(row, 'issue_id'),
       :spent_on    => row_date(row, 'spent_on'),
       :hours       => row_value(row, 'hours'),
       :comments    => row_value(row, 'comments')
     }
+
+    if issue_id = row_value(row, 'issue_id').presence
+      attributes[:issue_id] = issue_id
+      object.project = issue_project(issue_id)
+    else
+      attributes[:project_id] = project.id
+      object.project = project
+    end
 
     attributes['custom_field_values'] = object.custom_field_values.inject({}) do |h, v|
       value =
@@ -132,5 +138,11 @@ class TimeEntryImport < Import
 
     object.send(:safe_attributes=, attributes, user)
     object
+  end
+
+  def issue_project(issue_id)
+    if issue_project_id = Issue.where(id: issue_id).limit(1).pick(:project_id)
+      (@projects_cache ||= {})[issue_project_id] ||= allowed_target_projects.find_by_id(issue_project_id)
+    end
   end
 end

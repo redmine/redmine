@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,19 +19,25 @@
 
 module ContextMenusHelper
   def context_menu_link(name, url, options={})
-    options[:class] ||= ''
+    label = name
+    css_classes = [options[:class]]
+
     if options.delete(:selected)
-      options[:class] += ' icon icon-checked disabled'
+      css_classes << 'icon disabled'
       options[:disabled] = true
+      label = sprite_icon('checked', name)
     end
+
     if options.delete(:disabled)
       options.delete(:method)
       options.delete(:data)
       options[:onclick] = 'return false;'
-      options[:class] += ' disabled'
+      css_classes << 'disabled'
       url = '#'
     end
-    link_to h(name), url, options
+
+    options[:class] = class_names(css_classes)
+    link_to label, url, options
   end
 
   def bulk_update_custom_field_context_menu_link(field, text, value)

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -33,7 +33,7 @@ module IssueRelationsHelper
     end
 
     messages.map do |message, items|
-      ids = items.map(&:issue_to_id).compact
+      ids = items.filter_map(&:issue_to_id)
       if ids.empty?
         message
       else

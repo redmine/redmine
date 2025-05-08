@@ -1,0 +1,1464 @@
+ta-IN:
+  direction: ltr
+  date:
+    formats:
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
+      default: "%d/%m/%Y"
+      short: "%d %b"
+      long: "%d %B, %Y"
+
+    day_names: [ஞாயிறு, திங்கள், செவ்வாய், புதன், வியாழன், வெள்ளி, சனி]
+    abbr_day_names: [ஞா, திங், செவ், புதன், வியா, வெள், சனி]
+
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
+    month_names: [~, ஜனவரி, பிப்ரவரி, மார்ச், ஏப்ரல், மே, ஜூன், ஜூலை, ஆகஸ்ட், செப்டம்பர், அக்டோபர், நவம்பர், டிசம்பர்]
+    abbr_month_names: [~, ஜன, பிப், மார், ஏப்ர, மே, ஜூன், ஜூலை, ஆகஸ், செப், அக்டோ, நவம், டிசம்]
+    # Used in date_select and datime_select.
+    order:
+      - :year
+      - :month
+      - :day
+
+  time:
+    formats:
+      default: "%d/%m/%Y %I:%M %p"
+      time: "%I:%M %p"
+      short: "%d %b %H:%M"
+      long: "%d %B, %Y %H:%M"
+    am: "காலை"
+    pm: "மாலை"
+
+  datetime:
+    distance_in_words:
+      half_a_minute: "அரை நிமிடம்"
+      less_than_x_seconds:
+        one:   "1 வினாடிக்கு குறைவாக"
+        other: "% {count} விநாடிகளுக்கு குறைவாக"
+      x_seconds:
+        one:   "1 விநாடி"
+        other: "%{count} விநாடிகள்"
+      less_than_x_minutes:
+        one:   "ஒரு நிமிடத்திற்கும் குறைவானது"
+        other: "%{count} நிமிடங்களுக்கும் குறைவானது"
+      x_minutes:
+        one:   "1 நிமிடம்"
+        other: "%{count}நிமிடங்கள்"
+      about_x_hours:
+        one:   "சுமார் 1 மணி நேரம்"
+        other: "சுமார் %{count} மணிநேரம்"
+      x_hours:
+        one:   "1 மணி நேரம்"
+        other: "%{count} மணி"
+      x_days:
+        one:   "1 நாள்"
+        other: "%{count} நாட்கள்"
+      about_x_months:
+        one:   "சுமார் 1 மாதம்"
+        other: "சுமார் %{count} மாதங்கள்"
+      x_months:
+        one:   "1 மாதம்"
+        other: "%{count} மாதங்கள்"
+      about_x_years:
+        one:   "சுமார் 1 ஆண்டு"
+        other: "சுமார் %{count} ஆண்டுகள்"
+      over_x_years:
+        one:   "1 ஆண்டுக்கு மேல்"
+        other: "சுமார் %{count} ஆண்டுகள்"
+      almost_x_years:
+        one:   "கிட்டத்தட்ட 1 ஆண்டு"
+        other: "கிட்டத்தட்ட %{count} ஆண்டுகள்"
+
+  number:
+    format:
+      separator: "."
+      delimiter: ","
+      precision: 3
+
+    currency:
+      format:
+        format: "%u%n"
+        unit: "₹"
+
+    human:
+      format:
+        delimiter: ""
+        precision: 3
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: "பைட்"
+            other: "பைட்டுகள்"
+          kb: "KB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
+
+# Used in array.to_sentence.
+  support:
+    array:
+      last_word_connector: ", மற்றும் "
+      two_words_connector: " மற்றும் "
+      words_connector: ", "
+
+  activerecord:
+    errors:
+      template:
+        header:
+          one:    "1 பிழை இந்த %{model} சேமிப்பதை தடைசெய்தது"
+          other:  "%{count} பிழைகள் இந்த %{model} சேமிப்பதை தடைசெய்தது"
+      messages:
+        inclusion: "பட்டியலில் சேர்க்கப்படவில்லை"
+        exclusion: "ஒதுக்கப்பட்டுள்ளது"
+        invalid: "தவறானது"
+        confirmation: "உறுதிப்படுத்தலுடன் பொருந்தவில்லை"
+        accepted: "ஏற்றுக்கொள்ளப்பட வேண்டும்"
+        empty: "காலியாக இருக்க முடியாது"
+        blank: "காலியாக இருக்க முடியாது"
+        too_long: "மிக நீளமாக உள்ளது (அதிகபட்சம் %{count} எழுத்துக்களே)"
+        too_short: "மிக குறைவாக உள்ளது (குறைந்தபட்சம் %{count} எழுத்துக்களே)"
+        wrong_length: "தவறான நீளம் ( %{count} எழுத்துகளாக இருக்க வேண்டும்)"
+        taken: "ஏற்கனவே எடுத்துக்கொள்ளப்பட்டது"
+        not_a_number: "எண் அல்ல"
+        not_a_date: "சரியான தேதி அல்ல"
+        greater_than: " %{count} ஐ விட அதிகமாக இருக்க வேண்டும்"
+        greater_than_or_equal_to: " %{count} ஐ விட அதிகமாகவோ அல்லது சமமாகவோ இருக்க வேண்டும்"
+        equal_to: " %{count}க்கு சமமாக இருக்க வேண்டும்"
+        less_than: "%{count}க்கும் குறைவாக இருக்க வேண்டும்"
+        less_than_or_equal_to: "%{count}ஐ விட குறைவாகவோ அல்லது சமமாகவோ இருக்க வேண்டும்"
+        odd: "ஒற்றைப்படை இருக்க வேண்டும்"
+        even: "சமமாக இருக்க வேண்டும்"
+        greater_than_start_date: "தொடக்க தேதியை விட அதிகமாக இருக்க வேண்டும்"
+        not_same_project: "ஒரே திட்டத்திற்கு சொந்தமானது அல்ல"
+        circular_dependency: "இந்த தொடர்பு வட்ட சார்புநிலையை உருவாக்கும்"
+        cant_link_an_issue_with_a_descendant: "ஒரு சிக்கலை அதன் துணை பணிகளில் ஒன்றோடு இணைக்க முடியாது"
+        earlier_than_minimum_start_date: "முந்தைய சிக்கல்கள் காரணமாக %{date} ஐ விட முன்பாக இருக்க முடியாது"
+        not_a_regexp: "சரியான வழக்கமான வெளிப்பாடு அல்ல"
+        open_issue_with_closed_parent: "மூடிய மேல் பணியுடன் திறந்த சிக்கலை இணைக்க முடியாது"
+        must_contain_uppercase: "பெரிய எழுத்துக்கள் (A-Z) இருக்க வேண்டும்"
+        must_contain_lowercase: "சிறிய எழுத்துக்கள் (a-z) இருக்க வேண்டும்"
+        must_contain_digits: "எண்கள் (0-9) இருக்க வேண்டும்"
+        must_contain_special_chars: "சிறப்பு எழுத்துக்கள் (!, $, %, ...) இருக்க வேண்டும்"
+
+  actionview_instancetag_blank_option: தயவு செய்து தேர்வு செய்யவும்
+
+  general_text_No: 'இல்லை'
+  general_text_Yes: 'ஆம்'
+  general_text_no: 'இல்லை'
+  general_text_yes: 'ஆம்'
+  general_lang_name: 'Tamil (தமிழ்)'
+  general_csv_separator: ','
+  general_csv_decimal_separator: '.'
+  general_csv_encoding: ISO-8859-1
+  general_pdf_fontname: freesans
+  general_pdf_monospaced_fontname: freemono
+  general_first_day_of_week: '1'
+
+  notice_account_updated: கணக்கு வெற்றிகரமாக புதுப்பிக்கப்பட்டது.
+  notice_account_invalid_credentials: தவறான பயனர் அல்லது கடவுச்சொல்
+  notice_account_password_updated: கடவுச்சொல் வெற்றிகரமாக புதுப்பிக்கப்பட்டது.
+  notice_account_wrong_password: தவறான கடவுச்சொல்
+  notice_account_register_done: கணக்கு வெற்றிகரமாக உருவாக்கப்பட்டது.  உங்கள் கணக்கை செயல்படுத்துவதற்கான வழிமுறைகளைக் கொண்ட  %{email}க்கு அனுப்பப்பட்டது.
+  notice_can_t_change_password: இந்த கணக்கு வெளிப்புற அங்கீகார மூலத்தைப் பயன்படுத்துகிறது. கடவுச்சொல்லை மாற்றுவது சாத்தியமில்லை.
+  notice_account_lost_email_sent: புதிய கடவுச்சொல்லைத் தேர்ந்தெடுப்பதற்கான வழிமுறைகளைக் கொண்ட மின்னஞ்சல் உங்களுக்கு அனுப்பப்பட்டுள்ளது.
+  notice_account_activated: உங்கள் கணக்கு செயல்படுத்தப்பட்டது. நீங்கள் இப்போது உள்நுழையலாம்.
+  notice_successful_create: வெற்றிகரமான படைப்பு.
+  notice_successful_update: வெற்றிகரமான புதுப்பிப்பு.
+  notice_successful_delete: வெற்றிகரமாக நீக்குதல்.
+  notice_successful_connection: வெற்றிகரமான இணைப்பு.
+  notice_file_not_found: நீங்கள் அணுக முயற்சித்த பக்கம் இல்லை அல்லது அகற்றப்பட்டது.
+  notice_locking_conflict: மற்றொரு பயனரால் தரவு புதுப்பிக்கப்பட்டுள்ளது.
+  notice_not_authorized: இந்தப் பக்கத்தை அணுக உங்களுக்கு அங்கீகாரம் இல்லை.
+  notice_not_authorized_archived_project: நீங்கள் அணுக முயற்சிக்கும் திட்டம் காப்பகப்படுத்தப்பட்டுள்ளது.
+  notice_email_sent: "%{value}க்கு மின்னஞ்சல் அனுப்பப்பட்டது"
+  notice_email_error: "அஞ்சல் அனுப்பும்போது பிழை ஏற்பட்டது (%{value})"
+  notice_feeds_access_key_reseted: உங்கள் ஆட்டம் அணுகல் சாவி மீட்டமைக்கப்பட்டது.
+  notice_api_access_key_reseted: உங்கள் API அணுகல் சாவி மீட்டமைக்கப்பட்டது.
+  notice_failed_to_save_issues: "தேர்ந்தெடுக்கப்பட்ட %{total}%{count} சிக்கலை (s) சேமிப்பதில் தோல்வி: %{ids}."
+  notice_failed_to_save_members: "உறுப்பினர் (கள்) சேமிப்பதில் தோல்வி: %{errors}."
+  notice_account_pending: "உங்கள் கணக்கு உருவாக்கப்பட்டது, இப்போது நிர்வாகி ஒப்புதல் நிலுவையில் உள்ளது."
+  notice_default_data_loaded: இயல்புநிலை உள்ளமைவு வெற்றிகரமாக ஏற்றப்பட்டது.
+  notice_unable_delete_version: பதிப்பை நீக்க முடியவில்லை.
+  notice_unable_delete_time_entry: நேர பதிவு உள்ளீட்டை நீக்க முடியவில்லை.
+  notice_issue_done_ratios_updated: சிக்கல் செய்யப்பட்ட விகிதங்கள் புதுப்பிக்கப்பட்டன.
+  notice_gantt_chart_truncated: "காண்பிக்கக்கூடிய உருப்படிகளின் அதிகபட்ச எண்ணிக்கையை மீறுவதால் விளக்கப்படம் துண்டிக்கப்பட்டது (%{max})"
+
+  error_can_t_load_default_data: "இயல்புநிலை உள்ளமைவை ஏற்ற முடியவில்லை: %{value}"
+  error_scm_not_found: "நுழைவு அல்லது திருத்தம் களஞ்சியத்தில் காணப்படவில்லை."
+  error_scm_command_failed: "களஞ்சியத்தை அணுக முயற்சிக்கும்போது பிழை ஏற்பட்டது: %{value}"
+  error_scm_annotate: "நுழைவு இல்லை அல்லது சிறுகுறிப்பு செய்ய முடியாது."
+  error_scm_annotate_big_text_file: "நுழைவு சிறுகுறிப்பு செய்ய முடியாது, ஏனெனில் இது அதிகபட்ச உரை கோப்பு அளவை மீறுகிறது."
+  error_issue_not_found_in_project: 'சிக்கல் கண்டுபிடிக்கப்படவில்லை அல்லது இந்த திட்டத்திற்கு சொந்தமானது அல்ல'
+  error_no_tracker_in_project: 'இந்த திட்டத்துடன் எந்த தடமும் இணைக்கப்படவில்லை. இந்த திட்டத்தின் அமைப்பை சரி பார்க்கவும்..'
+  error_no_default_issue_status: 'இயல்புநிலை சிக்கல் நிலை எதுவும் வரையறுக்கப்படவில்லை. உங்கள் உள் அமைப்பை சரி பார்க்கவும் ("நிர்வாகம் -> வெளியீட்டு நிலைகள்" என்பதற்குச் செல்லவும்).'
+  error_can_not_delete_custom_field: தனிப்பயன் புலத்தை நீக்க முடியவில்லை
+  error_can_not_delete_tracker_html: "இந்த தடத்தில் சிக்கல்கள் உள்ளன, அவற்றை நீக்க முடியாது.<p>The following projects have issues with this tracker:<br>%{projects}</p>"
+  error_can_not_remove_role: "இந்த பாத்திரங்கள் பயன்பாட்டில் உள்ளது மற்றும் நீக்க முடியாது."
+  error_can_not_reopen_issue_on_closed_version: 'மூடிய பதிப்பிற்கு ஒதுக்கப்பட்ட சிக்கலை மீண்டும் திறக்க முடியாது'
+  error_can_not_archive_project: இந்த திட்டத்தை காப்பகப்படுத்த முடியாது
+  error_issue_done_ratios_not_updated: "சிக்கல் செய்யப்பட்ட விகிதங்கள் புதுப்பிக்கப்படவில்லை."
+  error_workflow_copy_source: 'ஒரு மூல தடத்தை அல்லது பாத்திரத்தைத் தேர்ந்தெடுக்கவும்'
+  error_workflow_copy_target: 'இலக்கு தடம் (கள்) மற்றும் பாத்திரங்கள் (கள்) ஐத் தேர்ந்தெடுக்கவும்'
+  error_unable_delete_issue_status: 'சிக்கல் நிலையை நீக்க முடியவில்லை (%{value})'
+  error_unable_to_connect: "இணைக்க முடியவில்லை (%{value})"
+  warning_attachments_not_saved: "%{count} கோப்பு (கள்) சேமிக்க முடியவில்லை."
+
+  mail_subject_lost_password: "உங்கள் %{value} கடவுச்சொல்"
+  mail_body_lost_password: 'உங்கள் கடவுச்சொல்லை மாற்ற, பின்வரும் இணைப்பைக் கிளிக் செய்க:'
+  mail_subject_register: "உங்கள் %{value} கணக்கு செயல்படுத்தல்"
+  mail_body_register: 'உங்கள் கணக்கைச் செயல்படுத்த, பின்வரும் இணைப்பைக் கிளிக் செய்க:'
+  mail_body_account_information_external: "உள்நுழைய உங்கள் %{value} கணக்கைப் பயன்படுத்தலாம்."
+  mail_body_account_information: உங்கள் கணக்கு தகவல்
+  mail_subject_account_activation_request: "%{value} கணக்கு செயல்படுத்தும் கோரிக்கை"
+  mail_body_account_activation_request: "புதிய பயனர் (%{value}) பதிவுசெய்துள்ளார். கணக்கு உங்கள் ஒப்புதலுக்காக நிலுவையில் உள்ளது:"
+  mail_subject_reminder: "%{count} சிக்கல் அடுத்த %{days} நாட்களில் கெடு"
+  mail_body_reminder: "%{count} உங்களுக்கு ஒதுக்கப்பட்டுள்ள சிக்கல்கள் அடுத்த %{days} நாட்களில் கெடு:"
+  mail_subject_wiki_content_added: "'%{id}' விக்கி பக்கம் சேர்க்கப்பட்டது"
+  mail_body_wiki_content_added: "இந்த '%{id}' விக்கி பக்கம் சேர்க்கப்பட்டுள்ளது %{author}."
+  mail_subject_wiki_content_updated: "'%{id}' விக்கி பக்கம் புதுப்பிக்கப்பட்டது"
+  mail_body_wiki_content_updated: "இந்த '%{id}' விக்கி பக்கம் புதுப்பிக்கப்பட்டது %{author}."
+
+
+  field_name: பெயர்
+  field_description: விளக்கம்
+  field_summary: சுருக்கம்
+  field_is_required: தேவை
+  field_firstname: முதல் பெயர்
+  field_lastname: கடைசி பெயர்
+  field_mail: மின்னஞ்சல்
+  field_filename: கோப்பு
+  field_filesize: அளவு
+  field_downloads: பதிவிறக்கங்கள்
+  field_author: நூலாசிரியர்
+  field_created_on: உருவாக்கப்பட்டது
+  field_updated_on: புதுப்பிக்கப்பட்டது
+  field_field_format: வடிவம்
+  field_is_for_all: அனைத்து திட்டங்களுக்கும்
+  field_possible_values: சாத்தியமான மதிப்புகள்
+  field_regexp: வழக்கமான வெளிப்பாடு
+  field_min_length: குறைந்தபட்ச நீளம்
+  field_max_length: அதிகபட்ச நீளம்
+  field_value: மதிப்பு
+  field_category: வகை
+  field_title: தலைப்பு
+  field_project: திட்டம்
+  field_issue: சிக்கல்
+  field_status: நிலை
+  field_notes: குறிப்புகள்
+  field_is_closed: சிக்கல் மூடப்பட்டது
+  field_is_default: இயல்புநிலை மதிப்பு
+  field_tracker: தடம்
+  field_subject: பொருள்
+  field_due_date: உரிய தேதி
+  field_assigned_to: நியமிக்கப்பட்ட
+  field_priority: முன்னுரிமை
+  field_fixed_version: இலக்கு பதிப்பு
+  field_user: பயனர்
+  field_principal: முதல்வர்
+  field_role: பாத்திரங்கள்
+  field_homepage: முகப்புப்பக்கம்
+  field_is_public: பொது
+  field_parent: இன் துணை திட்டம்
+  field_is_in_roadmap: வழித்தடத்தில் சிக்கல்கள் காட்டப்படும்
+  field_login: உள்நுழைய
+  field_mail_notification: மின்னஞ்சல் அறிவிப்புகள்
+  field_admin: நிர்வாகி
+  field_last_login_on: கடைசி இணைப்பு
+  field_language: மொழி
+  field_effective_date: உரிய தேதி
+  field_password: கடவுச்சொல்
+  field_new_password: புதிய கடவுச்சொல்
+  field_password_confirmation: உறுதிப்படுத்தல்
+  field_version: பதிப்பு
+  field_type: வகை
+  field_host: தாங்கி
+  field_port: துளை
+  field_account: கணக்கு
+  field_base_dn: அடிப்படை DN
+  field_attr_login: உள்நுழைவு பண்பு
+  field_attr_firstname: முதல் பெயர் பண்புக்கூறு
+  field_attr_lastname: கடைசி பெயர் பண்பு
+  field_attr_mail: மின்னஞ்சல் பண்புக்கூறு
+  field_onthefly: தற்போதைய பயனர் உருவாக்கம்
+  field_start_date: தொடக்க தேதி
+  field_done_ratio: "% முடிவு"
+  field_auth_source: அங்கீகார முறை
+  field_hide_mail: எனது மின்னஞ்சல் முகவரியை மறைக்கவும்
+  field_comments: கருத்து
+  field_url: URL
+  field_start_page: தொடக்க பக்கம்
+  field_subproject: துணை திட்டம்
+  field_hours: மணி
+  field_activity: செயல்பாடு
+  field_spent_on: தேதி
+  field_identifier: அடையாளங்காட்டி
+  field_is_filter: வடிப்பானாகப் பயன்படுத்தப்படுகிறது
+  field_issue_to: தொடர்புடைய பிரச்சினை
+  field_delay: தாமதம்
+  field_assignable: இந்த பாத்திரத்திற்கு சிக்கல்களை ஒதுக்கலாம்
+  field_redirect_existing_links: இருக்கும் இணைப்புகளை திருப்பி விடுங்கள்
+  field_estimated_hours: கணிக்கப்பட்ட நேரம்
+  field_column_names: நெடுவரிசைகள்
+  field_time_entries: பதிவு நேரம்
+  field_time_zone: நேரம் மண்டலம்
+  field_searchable: தேடக்கூடியது
+  field_default_value: இயல்புநிலை மதிப்பு
+  field_comments_sorting: கருத்துகளைக் காண்பி
+  field_parent_title: மேல் பக்கம்
+  field_editable: திருத்தக்கூடியது
+  field_watcher: பார்வையாளர்
+  field_content: உள்ளடக்கம்
+  field_group_by: குழு முடிவுகள்
+  field_sharing: பகிர்வு
+  field_parent_issue: மேல் பணி
+  field_member_of_group: "ஒதுக்குபவரின் குழு"
+  field_assigned_to_role: "ஒதுக்குபவரின் பாத்திரங்கள்"
+  field_text: உரை புலம்
+  field_visible: தெரியும்
+  field_warn_on_leaving_unsaved: "சேமிக்காத உரையுடன் ஒரு பக்கத்தை விட்டு வெளியேறும்போது என்னை எச்சரிக்கவும்"
+
+  setting_app_title: விண்ணப்ப தலைப்பு
+  setting_welcome_text: வரவேற்பு உரை
+  setting_default_language: இயல்புநிலை மொழி
+  setting_login_required: அங்கீகாரம் தேவை
+  setting_self_registration: சுய பதிவு
+  setting_attachment_max_size: இணைப்பு அதிகபட்சம். அளவு
+  setting_issues_export_limit: ஏற்றுமதி வரம்பை சிக்கல்கள்
+  setting_mail_from: உமிழ்வு மின்னஞ்சல் முகவரி
+  setting_plain_text_mail: எளிய உரை அஞ்சல் (no HTML)
+  setting_host_name: புரவலன் பெயர் மற்றும் பாதை
+  setting_text_formatting: உரை வடிவமைத்தல்
+  setting_wiki_compression: விக்கி வரலாறு சுருக்க
+  setting_feeds_limit: ஊட்ட வரம்பு
+  setting_default_projects_public: புதிய திட்டங்கள் இயல்பாகவே பொது
+  setting_autofetch_changesets: தானாக மாறுதலை பெறுதல்
+  setting_sys_api_enabled: களஞ்சிய மேலாண்மைக்கு WS ஐ இயக்கு
+  setting_commit_ref_keywords: முக்கிய வார்த்தைகளைக் குறிப்பிடுவது
+  setting_commit_fix_keywords: முக்கிய வார்த்தைகளை சரிசெய்தல்
+  setting_autologin: தானாக உள்நுழை
+  setting_date_format: தேதி வடிவம்
+  setting_time_format: நேர அமைப்பு
+  setting_cross_project_issue_relations: குறுக்கு திட்ட சிக்கல் உறவுகளை அனுமதிக்கவும்
+  setting_issue_list_default_columns: இயல்புநிலை நெடுவரிசைகள் சிக்கல் பட்டியலில் காட்டப்படும்
+  setting_emails_header: மின்னஞ்சல் தலைப்பு
+  setting_emails_footer: மின்னஞ்சல் அடிக்குறிப்பு
+  setting_protocol: நெறிமுறை
+  setting_per_page_options: பக்க விருப்பங்களுக்கு பொருள்கள்
+  setting_user_format: பயனர்கள் வடிவமைப்பைக் காண்பிக்கின்றனர்
+  setting_activity_days_default: திட்ட செயல்பாட்டில் நாட்கள் காட்டப்படும்
+  setting_display_subprojects_issues: முன்னிருப்பாக முக்கிய திட்டங்களில் துணை திட்ட சிக்கல்களைக் காண்பி
+  setting_enabled_scm: இயக்கப்பட்ட  SCM
+  setting_mail_handler_body_delimiters: "இந்த வரிகளில் ஒன்றிற்குப் பிறகு மின்னஞ்சல்களைக் குறைக்கவும்"
+  setting_mail_handler_api_enabled: உள்வரும் மின்னஞ்சல்களுக்கு WS ஐ இயக்கு
+  setting_mail_handler_api_key: API சாவி
+  setting_sequential_project_identifiers: தொடர்ச்சியான திட்ட அடையாளங்காட்டிகளை உருவாக்குங்கள்
+  setting_gravatar_enabled: கிராவதர் பயனர் சின்னம் பயன்படுத்தவும்
+  setting_gravatar_default: இயல்புநிலை கிராவதர் படம்
+  setting_diff_max_lines_displayed: காட்டப்படும் அதிகபட்ச வேறுபாடு கோடுகள்
+  setting_file_max_size_displayed: கோட்டில் காட்டப்படும் உரை கோப்புகளின் அதிகபட்ச அளவு
+  setting_repository_log_display_limit: கோப்பு பதிவில் காட்டப்படும் அதிகபட்ச திருத்தங்கள்
+  setting_password_min_length: குறைந்தபட்ச கடவுச்சொல் நீளம்
+  setting_new_project_user_role_id: ஒரு திட்டத்தை உருவாக்கும் நிர்வாகமற்ற பயனருக்கு வழங்கப்படும் பாத்திரங்கள்
+  setting_default_projects_modules: புதிய திட்டங்களுக்கான இயல்புநிலை இயக்கப்பட்ட தொகுதிகள்
+  setting_issue_done_ratio: சிக்கலைச் செய்த விகிதத்தைக் கணக்கிடுங்கள்
+  setting_issue_done_ratio_issue_field: சிக்கல் புலத்தைப் பயன்படுத்தவும்
+  setting_issue_done_ratio_issue_status: சிக்கல் நிலையைப் பயன்படுத்தவும்
+  setting_start_of_week: நாட்காட்டிகளைத் தொடங்கவும்
+  setting_rest_api_enabled: REST வலை சேவையை இயக்கு
+  setting_cache_formatted_text: தற்காலிக சேமிப்பு வடிவமைக்கப்பட்ட உரை
+  setting_default_notification_option: இயல்புநிலை அறிவிப்பு விருப்பம்
+  setting_commit_logtime_enabled: நேர பதிவை இயக்கு
+  setting_commit_logtime_activity_id: உள்நுழைந்த நேரத்திற்கான செயல்பாடு
+  setting_gantt_items_limit: கேன்ட் விளக்கப்படத்தில் காட்டப்படும் அதிகபட்ச உருப்படிகள்
+  setting_issue_group_assignment: குழுக்களுக்கு சிக்கல் ஒதுக்கலை அனுமதிக்கவும்
+  setting_default_issue_start_date_to_creation_date: புதிய சிக்கல்களுக்கு தொடக்க தேதியாக தற்போதைய தேதியைப் பயன்படுத்தவும்
+
+  permission_add_project: திட்டத்தை உருவாக்கவும்
+  permission_add_subprojects: துணை திட்டங்களை உருவாக்கவும்
+  permission_edit_project: திட்டத்தைத் திருத்து
+  permission_select_project_modules: திட்ட தொகுதிகள் தேர்ந்தெடுக்கவும்
+  permission_manage_members: உறுப்பினர்களை நிர்வகிக்கவும்
+  permission_manage_project_activities: திட்ட நடவடிக்கைகளை நிர்வகிக்கவும்
+  permission_manage_versions: பதிப்புகளை நிர்வகிக்கவும்
+  permission_manage_categories: சிக்கல் வகைகளை நிர்வகிக்கவும்
+  permission_view_issues: சிக்கல்களைக் காண்க
+  permission_add_issues: சிக்கல்களைச் சேர்க்கவும்
+  permission_edit_issues: சிக்கல்களைத் திருத்தவும்
+  permission_manage_issue_relations: சிக்கல் உறவுகளை நிர்வகிக்கவும்
+  permission_add_issue_notes: குறிப்புகளைச் சேர்க்கவும்
+  permission_edit_issue_notes: குறிப்புகளைத் திருத்து
+  permission_edit_own_issue_notes: சொந்த குறிப்புகளைத் திருத்தவும்
+  permission_delete_issues: சிக்கல்களை நீக்கு
+  permission_manage_public_queries: பொது வினவல்களை நிர்வகிக்கவும்
+  permission_save_queries: வினவல்களைச் சேமிக்கவும்
+  permission_view_gantt: கேன்ட் விளக்கப்படத்தைக் காண்க
+  permission_view_calendar: நாட்காட்டிகளை காண்க
+  permission_view_issue_watchers: கவனிப்பாளர பட்டியலைக் காண்க
+  permission_add_issue_watchers: கவனிப்பாளரை  சேர்க்கவும்
+  permission_delete_issue_watchers: கவனிப்பாளரை  நீக்கு
+  permission_log_time: பதிவு நேரம் செலவிட்டது
+  permission_view_time_entries: செலவழித்த நேரத்தைக் காண்க
+  permission_edit_time_entries: நேர பதிவுகளைத் திருத்தவும்
+  permission_edit_own_time_entries: சொந்த நேர பதிவுகளைத் திருத்தவும்
+  permission_manage_news: செய்திகளை நிர்வகிக்கவும்
+  permission_comment_news: கருத்து செய்தி
+  permission_view_documents: ஆவணங்களைக் காண்க
+  permission_manage_files: கோப்புகளை நிர்வகிக்கவும்
+  permission_view_files: கோப்புகளைக் காண்க
+  permission_manage_wiki: விக்கியை நிர்வகிக்கவும்
+  permission_rename_wiki_pages: விக்கி பக்கங்களை மறுபெயரிடுங்கள்
+  permission_delete_wiki_pages: விக்கி பக்கங்களை நீக்கு
+  permission_view_wiki_pages: விக்கியைக் காண்க
+  permission_view_wiki_edits: விக்கி வரலாற்றைக் காண்க
+  permission_edit_wiki_pages: விக்கி பக்கங்களைத் திருத்தவும்
+  permission_delete_wiki_pages_attachments: இணைப்புகளை நீக்கு
+  permission_protect_wiki_pages: விக்கி பக்கங்களைப் பாதுகாக்கவும்
+  permission_manage_repository: களஞ்சியத்தை நிர்வகிக்கவும்
+  permission_browse_repository: களஞ்சியத்தை உலாவுக
+  permission_view_changesets: மாற்றங்களைக் காண்க
+  permission_commit_access: மாற்றம் செய்ய
+  permission_manage_boards: மன்றங்களை நிர்வகிக்கவும்
+  permission_view_messages: செய்திகளைக் காண்க
+  permission_add_messages: செய்திகளை இடுங்கள்
+  permission_edit_messages: செய்திகளைத் திருத்தவும்
+  permission_edit_own_messages: சொந்த செய்திகளைத் திருத்தவும்
+  permission_delete_messages: செய்திகளை நீக்கு
+  permission_delete_own_messages: சொந்த செய்திகளை நீக்கு
+  permission_export_wiki_pages: விக்கி பக்கங்களை ஏற்றுமதி செய்க
+  permission_manage_subtasks: துணை பணிகளை நிர்வகிக்கவும்
+
+  project_module_issue_tracking: சிக்கல் கண்காணிப்பு
+  project_module_time_tracking: நேர கண்காணிப்பு
+  project_module_news: செய்தி
+  project_module_documents: ஆவணங்கள்
+  project_module_files: கோப்புகள்
+  project_module_wiki: விக்கி
+  project_module_repository: களஞ்சியம்
+  project_module_boards: மன்றங்கள்
+  project_module_calendar: நாட்காட்டி
+  project_module_gantt: காண்ட்
+
+  label_user: பயனர்
+  label_user_plural: பயனர்கள்
+  label_user_new: புதிய பயனர்
+  label_user_anonymous: பெயர் அறியப்படாத
+  label_project: திட்டம்
+  label_project_new: புதிய திட்டம்
+  label_project_plural: திட்டங்கள்
+  label_x_projects:
+    zero:  திட்டங்கள் இல்லை
+    one:   1 திட்டம்
+    other: "%{count} திட்டங்கள்"
+  label_project_all: அனைத்து திட்டங்களும்
+  label_project_latest: சமீபத்திய திட்டங்கள்
+  label_issue: சிக்கல்
+  label_issue_new: புதிய சிக்கல்
+  label_issue_plural: சிக்கல்கள்
+  label_issue_view_all: எல்லா சிக்கல்களையும் காண்க
+  label_issues_by: " சிக்கல்கள் மூலம் %{value}"
+  label_issue_added: சிக்கல் சேர்க்கப்பட்டது
+  label_issue_updated: சிக்கல் புதுப்பிக்கப்பட்டது
+  label_document: ஆவணம்
+  label_document_new: புதிய ஆவணம்
+  label_document_plural: ஆவணங்கள்
+  label_document_added: ஆவணம் சேர்க்கப்பட்டது
+  label_role: பாத்திரங்கள்
+  label_role_plural: பாத்திரங்கள்
+  label_role_new: புதிய பாத்திரங்கள்
+  label_role_and_permissions: பாத்திரங்கள் மற்றும் அனுமதிகள்
+  label_role_anonymous: பெயர் அறியப்படாத
+  label_role_non_member: உறுப்பினர் அல்லாதவர்
+  label_member: உறுப்பினர்
+  label_member_new: புதிய உறுப்பினர்
+  label_member_plural: உறுப்பினர்கள்
+  label_tracker: தடம்
+  label_tracker_plural: தடம்
+  label_tracker_new: புதிய தடம்
+  label_workflow: பணிப்பாய்வு
+  label_issue_status: வெளியீட்டு நிலை
+  label_issue_status_plural: வெளியீட்டு நிலைகள்
+  label_issue_status_new: புதிய நிலை
+  label_issue_category: வெளியீட்டு வகை
+  label_issue_category_plural: வெளியீட்டு பிரிவுகள்
+  label_issue_category_new: புதிய வகை
+  label_custom_field: தனிப்பயன் புலம்
+  label_custom_field_plural: விருப்ப புலங்கள்
+  label_custom_field_new: புதிய தனிப்பயன் புலம்
+  label_enumerations: கணக்கீடுகள்
+  label_enumeration_new: புதிய மதிப்பு
+  label_information: தகவல்
+  label_information_plural: தகவல்
+  label_register: பதிவு
+  label_password_lost: கடவுச்சொல்லை இழந்தது
+  label_home: இல்லம்
+  label_my_page: என் பக்கம்
+  label_my_account: என் கணக்கு
+  label_my_projects: எனது திட்டங்கள்
+  label_administration: நிர்வாகம்
+  label_login: உள்நுழைக
+  label_logout: வெளியேறு
+  label_help: உதவி
+  label_reported_issues: புகாரளிக்கப்பட்ட சிக்கல்கள்
+  label_assigned_to_me_issues: எனக்கு ஒதுக்கப்பட்ட சிக்கல்கள்
+  label_registered_on: இல் பதிவு செய்யப்பட்டுள்ளது
+  label_activity: செயல்பாடு
+  label_user_activity: "%{value}'கள் செயல்பாடு"
+  label_new: புதியது
+  label_logged_as: உள்நுழைந்துள்ளீர்
+  label_environment: சுற்றுச்சூழல்
+  label_authentication: அங்கீகார
+  label_auth_source: அங்கீகார முறை
+  label_auth_source_new: புதிய அங்கீகார முறை
+  label_auth_source_plural: அங்கீகார முறைகள்
+  label_subproject_plural: துணை திட்டங்கள்
+  label_subproject_new: புதிய துணை திட்டம்
+  label_and_its_subprojects: "%{value} மற்றும் அதன் துணை திட்டங்கள்"
+  label_min_max_length: குறைந்தபட்சம் - அதிகபட்ச நீளம்
+  label_list: பட்டியல்
+  label_date: தேதி
+  label_integer: முழு
+  label_float: மிதவை
+  label_boolean: பூலியன்
+  label_string: உரை
+  label_text: நீண்ட உரை
+  label_attribute: பண்பு
+  label_attribute_plural: பண்புக்கூறுகள்
+  label_no_data: காண்பிக்க தரவு இல்லை
+  label_no_preview: எந்த முன்னோட்டமும் கிடைக்கவில்லை
+  label_change_status: நிலையை மாற்றவும்
+  label_history: வரலாறு
+  label_attachment: கோப்பு
+  label_attachment_new: புதிய கோப்பு
+  label_attachment_delete: கோப்பை அழிக்கவும்
+  label_attachment_plural: கோப்புகள்
+  label_file_added: கோப்பு சேர்க்கப்பட்டது
+  label_report: அறிக்கை
+  label_report_plural: அறிக்கைகள்
+  label_news: செய்தி
+  label_news_new: செய்திகளைச் சேர்க்கவும்
+  label_news_plural: செய்தி
+  label_news_latest: சமீபத்திய செய்தி
+  label_news_view_all: எல்லா செய்திகளையும் காண்க
+  label_news_added: செய்தி சேர்க்கப்பட்டது
+  label_news_comment_added: ஒரு செய்தியில் கருத்து சேர்க்கப்பட்டது
+  label_settings: அமைப்புகள்
+  label_overview: கண்ணோட்டம்
+  label_version: பதிப்பு
+  label_version_new: புதிய பதிப்பு
+  label_version_plural: பதிப்புகள்
+  label_version_and_files: பதிப்புகள் (%{count}) மற்றும் கோப்புகள்
+  label_close_versions: பூர்த்தி செய்யப்பட்ட பதிப்புகளை மூடு
+  label_confirmation: உறுதிப்படுத்தல்
+  label_export_to: 'இல் கிடைக்கிறது:'
+  label_read: படி...
+  label_public_projects: பொது திட்டங்கள்
+  label_open_issues: திறந்த
+  label_open_issues_plural: திறந்த
+  label_closed_issues: மூடப்பட்டது
+  label_closed_issues_plural: மூடப்பட்டது
+  label_x_open_issues_abbr:
+    zero:  0 திறந்த
+    one:   1 திறந்த
+    other: "%{count} திறந்த"
+  label_x_closed_issues_abbr:
+    zero:  0 மூடப்பட்டது
+    one:   1 மூடப்பட்டது
+    other: "%{count} மூடப்பட்டது"
+  label_total: மொத்தம்
+  label_permissions: அனுமதிகள்
+  label_current_status: தற்போதைய நிலை
+  label_new_statuses_allowed: புதிய நிலைகள் அனுமதிக்கப்படுகின்றன
+  label_all: அனைத்தும்
+  label_none: எதுவும் இல்லை
+  label_nobody: யாரும் இல்லை
+  label_next: அடுத்தது
+  label_previous: முந்தையது
+  label_used_by: பயன்படுத்தியது
+  label_details: விவரங்கள்
+  label_add_note: ஒரு குறிப்பைச் சேர்க்கவும்
+  label_calendar: நாட்காட்டி
+  label_months_from: முதல் மாதங்கள்
+  label_gantt: காண்ட்
+  label_internal: உள்
+  label_last_changes: "கடைசி %{count} மாற்றங்கள்"
+  label_change_view_all: எல்லா மாற்றங்களையும் காண்க
+  label_comment: கருத்து
+  label_comment_plural: கருத்துரைகள்
+  label_x_comments:
+    zero: கருத்துகள் இல்லை
+    one: 1 கருத்து
+    other: "%{count} கருத்துகள்"
+  label_comment_add: ஒரு கருத்தைச் சேர்க்கவும்
+  label_comment_added: கருத்து சேர்க்கப்பட்டது
+  label_comment_delete: கருத்துகளை நீக்கு
+  label_query: விருப்ப கேள்வி
+  label_query_plural: விருப்ப கேள்விகளுக்கு
+  label_query_new: புதிய கேள்வி
+  label_my_queries: என் விருப்ப கேள்விகளுக்கு
+  label_filter_add: வடிப்பானைச் சேர்க்கவும்
+  label_filter_plural: வடிப்பான்கள்
+  label_equals: இருக்கிறது
+  label_not_equals: இல்லை
+  label_in_less_than: குறைவாக
+  label_in_more_than: விட
+  label_greater_or_equal: '>='
+  label_less_or_equal: '<='
+  label_in: இல்
+  label_today: இன்று
+  label_yesterday: நேற்று
+  label_this_week: இந்த வாரம்
+  label_last_week: கடந்த வாரம்
+  label_last_n_days: "கடைசி %{count} நாட்கள்"
+  label_this_month: இந்த மாதம்
+  label_last_month: கடந்த மாதம்
+  label_this_year: இந்த வருடம்
+  label_date_range: தேதி வரம்பு
+  label_less_than_ago: சில நாட்களுக்கு முன்பு
+  label_more_than_ago: நாட்களுக்கு முன்பு
+  label_ago: நாட்களுக்கு முன்பு
+  label_contains: கொண்டிருந்தால்
+  label_not_contains: இல்லை
+  label_day_plural: நாட்கள்
+  label_repository: களஞ்சியம்
+  label_repository_plural: களஞ்சியங்கள்
+  label_branch: கிளை
+  label_tag: குறிச்சொல்
+  label_revision: திருத்தம்
+  label_revision_plural: திருத்தங்கள்
+  label_revision_id: "திருத்தங்கள் %{value}"
+  label_associated_revisions: தொடர்புடைய திருத்தங்கள்
+  label_added: சேர்க்கப்பட்டது
+  label_modified: மாற்றப்பட்டது
+  label_copied: நகலெடுக்கப்பட்டது
+  label_renamed: மறுபெயரிடப்பட்டது
+  label_deleted: நீக்கப்பட்டது
+  label_latest_revision: சமீபத்திய திருத்தம்
+  label_latest_revision_plural: சமீபத்திய திருத்தங்கள்
+  label_view_revisions: திருத்தங்களைக் காண்க
+  label_view_all_revisions: எல்லா திருத்தங்களையும் காண்க
+  label_max_size: அதிகபட்ச அளவு
+  label_roadmap: வழித்தடம்
+  label_roadmap_due_in: "காரணமாக %{value}"
+  label_roadmap_overdue: "%{value} தாமதமாக"
+  label_roadmap_no_issues: இந்த பதிப்பிற்கான சிக்கல்கள் எதுவும் இல்லை
+  label_search: தேடல்
+  label_result_plural: முடிவுகள்
+  label_all_words: எல்லா வார்த்தைகளும்
+  label_wiki: விக்கி
+  label_wiki_edit: விக்கி திருத்த
+  label_wiki_edit_plural: விக்கி திருத்துகிறது
+  label_wiki_page: விக்கி பக்கம்
+  label_wiki_page_plural: விக்கி பக்கங்கள்
+  label_index_by_title: தலைப்பு மூலம் அட்டவணை
+  label_index_by_date: தேதி மூலம் அட்டவணை
+  label_current_version: நடப்பு வடிவம்
+  label_preview: முன்னோட்டம்
+  label_feed_plural: ஊட்டங்கள்
+  label_changes_details: அனைத்து மாற்றங்களின் விவரங்கள்
+  label_issue_tracking: சிக்கல் கண்காணிப்பு
+  label_spent_time: நேரம் செலவிட்டார்
+  label_f_hour: "%{value} மணி"
+  label_f_hour_plural: "%{value} மணி"
+  label_time_tracking: நேர கண்காணிப்பு
+  label_change_plural: மாற்றங்கள்
+  label_statistics: புள்ளிவிவரம்
+  label_commits_per_month: மாதத்திற்கு செய்துகொள்கிறார்
+  label_commits_per_author: ஒரு எழுத்தாளருக்கு கமிட்
+  label_view_diff: வேறுபாடுகளைக் காண்க
+  label_diff_inline: கோட்டில்
+  label_diff_side_by_side: அருகருகில்
+  label_options: விருப்பங்கள்
+  label_copy_workflow_from: பணிப்பாய்வு நகலெடுக்கவும்
+  label_permissions_report: அனுமதி அறிக்கை
+  label_watched_issues: கவனிக்கப்படும் சிக்கல்கள்
+  label_related_issues: தொடர்புடைய சிக்கல்கள்
+  label_applied_status: பயன்பாட்டு நிலை
+  label_loading: ஏற்றுகிறது...
+  label_relation_new: புதிய உறவு
+  label_relation_delete: உறவை நீக்கு
+  label_relates_to: தொடர்புடைய
+  label_duplicates: என்பது நகல்
+  label_duplicated_by: நகல் உள்ளது
+  label_blocks: தொகுதிகள்
+  label_blocked_by: ஆல் தடுக்கப்பட்டது
+  label_precedes: முந்தியது
+  label_follows: பின்வருமாறு
+  label_stay_logged_in: உள்நுழைந்திருங்கள்
+  label_disabled: முடக்கப்பட்டது
+  label_show_completed_versions: பூர்த்தி செய்யப்பட்ட பதிப்புகளைக் காட்டு
+  label_me: என்னை
+  label_board: மன்றம்
+  label_board_new: புதிய மன்றம்
+  label_board_plural: மன்றங்கள்
+  label_board_locked: பூட்டப்பட்டுள்ளது
+  label_board_sticky: ஒட்டும்
+  label_topic_plural: தலைப்புகள்
+  label_message_plural: செய்திகள்
+  label_message_last: கடைசி செய்தி
+  label_message_new: புதிய தகவல்
+  label_message_posted: செய்தி சேர்க்கப்பட்டது
+  label_reply_plural: பதில்கள்
+  label_send_information: கணக்கு தகவலை பயனருக்கு அனுப்பவும்
+  label_year: ஆண்டு
+  label_month: மாதம்
+  label_week: வாரம்
+  label_date_from: இருந்து
+  label_date_to: வரை
+  label_language_based: பயனரின் மொழியின் அடிப்படையில்
+  label_sort_by: "மூலம் வரிசைப்படுத்து %{value}"
+  label_send_test_email: சோதனை மின்னஞ்சலை அனுப்பவும்
+  label_feeds_access_key: அணு அணுகல் சாவி
+  label_missing_feeds_access_key: ஆட்டம் அணுகல் சாவியை காணவில்லை
+  label_feeds_access_key_created_on: "அணு அணுகல் சாவி %{value} முன்பு உருவாக்கப்பட்டது"
+  label_module_plural: தொகுதிகள்
+  label_added_time_by: "%{author} %{age} முன்பு சேர்க்கப்பட்டது"
+  label_updated_time_by: "%{author} %{age} முன்பு புதுப்பிக்கப்பட்டது"
+  label_updated_time: "புதுப்பிக்கப்பட்ட %{value} முன்பு"
+  label_jump_to_a_project: ஒரு திட்டத்திற்கு செல்லவும்...
+  label_file_plural: கோப்புகள்
+  label_changeset_plural: மாற்றங்கள்
+  label_default_columns: இயல்புநிலை நெடுவரிசைகள்
+  label_no_change_option: (மாற்றம் இல்லை)
+  label_bulk_edit_selected_issues: தேர்ந்தெடுக்கப்பட்ட சிக்கல்களை மொத்தமாக திருத்துங்கள்
+  label_theme:  நடை
+  label_default: இயல்புநிலை
+  label_search_titles_only: தலைப்புகளை மட்டும் தேடுங்கள்
+  label_user_mail_option_all: "எனது எல்லா திட்டங்களிலும் எந்தவொரு நிகழ்விற்கும்"
+  label_user_mail_option_selected: "தேர்ந்தெடுக்கப்பட்ட திட்டங்களில் மட்டுமே எந்தவொரு நிகழ்விற்கும்..."
+  label_user_mail_option_none: "நிகழ்வுகள் இல்லை"
+  label_user_mail_option_only_my_events: "ஒரே விஷயங்களை நான் பார்க்க அல்லது நான் ஈடுபட்டு வருகிறேன்"
+  label_user_mail_no_self_notified: "நான் செய்யும் மாற்றங்கள் குறித்து எனக்குத் தெரிவிக்க விரும்பவில்லை"
+  label_registration_activation_by_email: மின்னஞ்சல் மூலம் கணக்கு செயல்படுத்தல்
+  label_registration_manual_activation: கையேடு கணக்கு செயல்படுத்தல்
+  label_registration_automatic_activation: தானியங்கி கணக்கு செயல்படுத்தல்
+  label_display_per_page: "பக்கம் ஒன்றுக்கு: %{value}"
+  label_age: வயது
+  label_change_properties: பண்புகளை மாற்றவும்
+  label_general: பொது
+  label_scm: SCM
+  label_plugins: செருகுநிரல்கள்
+  label_ldap_authentication: LDAP அங்கீகாரம்
+  label_downloads_abbr: D/L
+  label_optional_description: விருப்ப விளக்கம்
+  label_add_another_file: மற்றொரு கோப்பைச் சேர்க்கவும்
+  label_preferences: விருப்பத்தேர்வுகள்
+  label_chronological_order: காலவரிசைப்படி
+  label_reverse_chronological_order: தலைகீழ் காலவரிசைப்படி
+  label_incoming_emails: உள்வரும் மின்னஞ்சல்கள்
+  label_generate_key: ஒரு விசையை உருவாக்கவும்
+  label_issue_watchers: பார்வையாளர்கள்
+  label_example: உதாரணமாக
+  label_display: காட்சி
+  label_sort: வரிசைப்படுத்து
+  label_ascending: ஏறுவரிசையின்படி
+  label_descending: இறங்குவரிசையின்படி
+  label_date_from_to: இருந்து %{start} வரை %{end}
+  label_wiki_content_added: விக்கி பக்கம் சேர்க்கப்பட்டது
+  label_wiki_content_updated: விக்கி பக்கம் புதுப்பிக்கப்பட்டது
+  label_group: குழு
+  label_group_plural: குழுக்கள்
+  label_group_new: புதிய குழு
+  label_time_entry_plural: நேரம் செலவிட்டார்
+  label_version_sharing_none: பகிரப்படவில்லை
+  label_version_sharing_descendants: துணை திட்டங்களுடன்
+  label_version_sharing_hierarchy: திட்ட வரிசைமுறையுடன்
+  label_version_sharing_tree: திட்ட மரத்துடன்
+  label_version_sharing_system: அனைத்து திட்டங்களுடனும்
+  label_update_issue_done_ratios: புதுப்பிக்கப்பட்ட சிக்கல் விகிதங்கள்
+  label_copy_source: ஆதாரம்
+  label_copy_target: இலக்கு
+  label_copy_same_as_target: இலக்கு அதே
+  label_display_used_statuses_only: இந்த தடம் பயன்படுத்தப்படும் நிலைகளை மட்டுமே காண்பி
+  label_api_access_key: API அணுகல் விசை
+  label_missing_api_access_key: API அணுகல் விசையை காணவில்லை
+  label_api_access_key_created_on: "API அணுகல் சாவி %{value} முன்பு உருவாக்கப்பட்டது"
+  label_profile: சுயவிவரம்
+  label_subtask_plural: துணை பணிகள்
+  label_project_copy_notifications: திட்ட நகலின் போது மின்னஞ்சல் அறிவிப்புகளை அனுப்பவும்
+  label_principal_search: "பயனர் அல்லது குழுவைத் தேடுங்கள்:"
+  label_user_search: "பயனரைத் தேடுங்கள்:"
+
+  button_login: உள் நுழை
+  button_submit: சமர்ப்பிக்கவும்
+  button_save: சேமி
+  button_check_all: அனைத்தையும் சரிபார்க்கவும்
+  button_uncheck_all: அனைத்தையும் தேர்வுநீக்கு
+  button_collapse_all: அனைத்தையும் சுருக்கவும்
+  button_expand_all: எல்லாவற்றையும் விரிவாக்கு
+  button_delete: நீக்கு
+  button_create: உருவாக்கு
+  button_create_and_continue: இன்னொன்றை உருவாக்கி சேர்க்கவும்
+  button_test: சோதனை
+  button_edit: திருத்து
+  button_edit_associated_wikipage: "தொடர்புடைய விக்கி பக்கத்தைத் திருத்தவும்: %{page_title}"
+  button_add: கூட்டு
+  button_change: மாற்றம்
+  button_apply: விண்ணப்பிக்கவும்
+  button_clear: தெளிவாக்கு
+  button_lock: அடை
+  button_unlock: திறத்தல்
+  button_download: பதிவிறக்கு
+  button_list: பட்டியல்
+  button_view: காண்க
+  button_move: நகர்வு
+  button_move_and_follow: நகர்த்தவும் பின்பற்றவும்
+  button_back: பின்
+  button_cancel: ரத்துசெய்
+  button_activate: செயல்படுத்து
+  button_sort: வரிசைப்படுத்து
+  button_log_time: பதிவு நேரம்
+  button_rollback: இந்த பதிப்பிற்கு திரும்பவும்
+  button_watch: பாருங்கள்
+  button_unwatch: கவனிப்புநீக்கு
+  button_reply: பதில்
+  button_archive: காப்பகம்
+  button_unarchive: ஒழுங்கற்றது
+  button_reset: மீட்டமை
+  button_rename: மறுபெயரிடு
+  button_change_password: கடவுச்சொல்லை மாற்று
+  button_copy: நகல்
+  button_copy_and_follow: நகலெடுத்து பின்பற்றவும்
+  button_annotate: விளக்கவுரை
+  button_update: புதுப்பிப்பு
+  button_configure: உள்ளமைக்கவும்
+  button_quote: மேற்கோள்
+  button_show: காட்டு
+
+  status_active: செயலில்
+  status_registered: பதிவுசெய்யப்பட்டது
+  status_locked: அடைக்கப்பட்டது
+
+  version_status_open: திறந்த
+  version_status_locked: அடைக்கப்பட்டது
+  version_status_closed: மூடப்பட்டது
+
+  field_active: செயலில்
+
+  text_select_mail_notifications: எந்த மின்னஞ்சல் அறிவிப்புகளை அனுப்ப வேண்டும் என்பதற்கான செயல்களைத் தேர்ந்தெடுக்கவும்.
+  text_regexp_info: eg. ^[A-Z0-9]+$
+  text_project_destroy_confirmation: நிச்சயமாக இந்த திட்டம், அதனுடன் தொடர்புடைய தரவும் நீக்க விரும்புகிறீர்களா?
+  text_subprojects_destroy_warning: "அதன் துணை திட்டம்(s): %{value} நீக்கப்படும்."
+  text_workflow_edit: பணிப்பாய்வு திருத்த ஒரு பாத்திரங்கள் மற்றும் தடம் தேர்ந்தெடுக்கவும்
+  text_are_you_sure: நீங்கள் உறுதியாக இருக்கிறீர்களா?
+  text_journal_changed: "%{label} இருந்து மாற்றப்பட்டது %{old} வரை %{new}"
+  text_journal_changed_no_detail: "%{label} புதுப்பிக்கப்பட்டது"
+  text_journal_set_to: "%{label} தயாராதல் %{value}"
+  text_journal_deleted: "%{label} நீக்கப்பட்டது (%{old})"
+  text_journal_added: "%{label} %{value} சேர்க்கப்பட்டது"
+  text_tip_issue_begin_day: இந்த நாள் தொடங்கும் பணி
+  text_tip_issue_end_day: இந்த நாள் முடிவடையும் பணி
+  text_tip_issue_begin_end_day: இந்த நாள் தொடங்கி முடிவடைகிறது
+  text_project_identifier_info: 'சிறிய எழுத்துக்கள் (a-z), எண்கள், dashes மற்றும் underscores அனுமதிக்கப்பட்டுள்ளது.<br />சேமத்தவுடன் அடையாளங்காட்டியை மாற்ற இயலாது'
+  text_caracters_maximum: "%{count} எழுத்துக்கள் அதிகபட்சம்."
+  text_caracters_minimum: "குறைந்தபட்சம் இருக்க வேண்டும் %{count} எழுத்துக்கள் நீளமானது."
+  text_length_between: " %{min} மற்றும் %{max} எழுத்துகளுக்கு இடையிலான நீளம்."
+  text_tracker_no_workflow: இந்த தடம் பணிப்பாய்வு எதுவும் வரையறுக்கப்படவில்லை
+  text_unallowed_characters: அனுமதிக்கப்படாத எழுத்துக்கள்
+  text_comma_separated: பல மதிப்புகள் அனுமதிக்கப்படுகின்றன (காற்பள்ளி பிரிக்கப்பட்டது).
+  text_line_separated: பல மதிப்புகள் அனுமதிக்கப்படுகின்றன (ஒவ்வொரு மதிப்புக்கும் ஒரு வரி).
+  text_issues_ref_in_commit_messages: குறிப்பிடும் மற்றும் செய்திகளை செய்து உள்ள பிரச்சினைகளை சரிசெய்ய
+  text_issue_added: "சிக்கல் %{id} மூலம் புகார் செய்யப்பட்டுள்ளது %{author}."
+  text_issue_updated: "சிக்கல் %{id} ஆல் புதுப்பிக்கப்பட்டது %{author}."
+  text_wiki_destroy_confirmation: இந்த விக்கியையும் அதன் அனைத்து உள்ளடக்கத்தையும் நீக்க விரும்புகிறீர்களா?
+  text_issue_category_destroy_question: "சில சிக்கல்கள் (%{count}) இந்த வகைக்கு ஒதுக்கப்பட்டுள்ளன. நீங்கள் என்ன செய்ய விரும்புகிறீர்கள்?"
+  text_issue_category_destroy_assignments: வகை பணிகளை அகற்று
+  text_issue_category_reassign_to: இந்த வகைக்கு சிக்கல்களை மறுசீரமைக்கவும்
+  text_user_mail_option: "தேர்வுசெய்யப்படாத திட்டங்களுக்கு, நீங்கள் பார்க்கும் விஷயங்கள் அல்லது நீங்கள் ஈடுபட்டுள்ள விஷயங்களைப் பற்றிய அறிவிப்புகளை மட்டுமே பெறுவீர்கள் (eg. issues you're the author or assignee)."
+  text_no_configuration_data: "பாத்திரங்கள், டிராக்கர்கள், வெளியீட்டு நிலைகள் மற்றும் பணிப்பாய்வு இன்னும் கட்டமைக்கப்படவில்லை.\nஇயல்புநிலை உள்ளமைவை ஏற்ற மிகவும் பரிந்துரைக்கப்படுகிறது. ஏற்றப்பட்டவுடன் அதை நீங்கள் மாற்ற முடியும்."
+  text_load_default_configuration: இயல்புநிலை உள்ளமைவை ஏற்றவும்
+  text_status_changed_by_changeset: "மாற்றங்கள் பயன்படுத்தப்பட்டது %{value}."
+  text_time_logged_by_changeset: "மாற்றங்கள்பயன்படுத்தப்பட்டது %{value}."
+  text_issues_destroy_confirmation: 'தேர்ந்தெடுக்கப்பட்ட சிக்கலை (s) நீக்க விரும்புகிறீர்களா?'
+  text_select_project_modules: 'இந்த திட்டத்தை இயக்க தொகுதிகள் தேர்ந்தெடுக்கவும்:'
+  text_default_administrator_account_changed: இயல்புநிலை நிர்வாகி கணக்கு மாற்றப்பட்டது
+  text_file_repository_writable: இணைப்புகள் அடைவு எழுதக்கூடியது
+  text_plugin_assets_writable: செருகுநிரல் சொத்து அடைவு எழுதக்கூடியது
+  text_minimagick_available: மினிமேஜிக் கிடைக்கிறது (optional)
+  text_destroy_time_entries_question: "%{hours} நீங்கள் நீக்கவிருக்கும் சிக்கல்களில் மணிநேரம் அறிவிக்கப்பட்டது. நீங்கள் என்ன செய்ய விரும்புகிறீர்கள்?"
+  text_destroy_time_entries: அறிவிக்கப்பட்ட நேரங்களை நீக்கு
+  text_assign_time_entries_to_project: திட்டத்திற்கு அறிவிக்கப்பட்ட மணிநேரங்களை ஒதுக்குங்கள்
+  text_reassign_time_entries: 'இந்த சிக்கலுக்கு மணிநேரங்களை மறுபரிசீலனை செய்யுங்கள்:'
+  text_user_wrote: "%{value} எழுதினார்:"
+  text_user_wrote_in: "%{value} இல் எழுதினார் %{link}:"
+  text_enumeration_destroy_question: "%{count} இந்த மதிப்புக்கு பொருள்கள் ஒதுக்கப்படுகின்றன."
+  text_enumeration_category_reassign_to: 'இந்த மதிப்புக்கு அவற்றை மீண்டும் ஒதுக்குங்கள்:'
+  text_email_delivery_not_configured: "மின்னஞ்சல் விநியோக உள்ளமைக்கப்படவில்லை மற்றும் அறிவிப்புகள் எல்லாம் முடக்கப்பட்டுள்ளன.\n உனது SMTP server ஐ config/configuration.yml கட்டமைத்து செயலியை மறுதொடக்கம் செய்க."
+  text_repository_usernames_mapping: "களஞ்சிய பதிவில் காணப்படும் ஒவ்வொரு பயனர்பெயருக்கும் மேப் செய்யப்பட்ட ரெட்மைன் பயனரைத் தேர்ந்தெடுக்கவும் அல்லது புதுப்பிக்கவும்.\n அதே பயனர் மற்றும் அதே களஞ்சிய பயனர் அல்லது மின்னஞ்சல் தானாக இனைக்கப்படும்."
+  text_diff_truncated: '... இந்த வேறுபாடு துண்டிக்கப்பட்டது, ஏனெனில் இது காண்பிக்கக்கூடிய அதிகபட்ச அளவை மீறுகிறது.'
+  text_custom_field_possible_values_info: 'ஒவ்வொரு மதிப்புக்கும் ஒரு வரி'
+  text_wiki_page_destroy_question: "இந்தப் பக்கத்தில்%{descendants} கீழ் பக்கம் (s) மற்றும் சந்ததி(s) உள்ளன. நீங்கள் என்ன செய்ய விரும்புகிறீர்கள்?"
+  text_wiki_page_nullify_children: "கீழ் பக்கங்களை ரூட் பக்கங்களாக வைத்திருங்கள்"
+  text_wiki_page_destroy_children: "கீழ் பக்கங்களையும் அவற்றின் சந்ததியினரையும் நீக்கு"
+  text_wiki_page_reassign_children: "இந்த மேல் பக்கத்திற்கு கீழ் பக்கங்களை மீண்டும் ஒதுக்குங்கள்"
+  text_own_membership_delete_confirmation: "உங்களது சில அல்லது அனைத்து அனுமதிகளையும் நீக்கப் போகிறீர்கள், அதன்பிறகு இந்த திட்டத்தை இனி திருத்த முடியாது.\n நீங்கள் தொடர விரும்புகிறீர்களா?"
+  text_zoom_in: பெரிதாக்க
+  text_zoom_out: சிறிதாக்குக
+  text_warn_on_leaving_unsaved: "தற்போதைய பக்கத்தில் சேமிக்கப்படாத உரை உள்ளது, நீங்கள் இந்த பக்கத்தை விட்டு வெளியேறினால் இழக்கப்படும்."
+
+  default_role_manager: மேலாளர்
+  default_role_developer: உருவாக்குபவர்
+  default_role_reporter: புகார் அளிப்பவர்
+  default_tracker_bug: பிழை
+  default_tracker_feature: அம்சம்
+  default_tracker_support: ஆதரவு
+  default_issue_status_new: புதியது
+  default_issue_status_in_progress: முன்னேற்றத்தில் உள்ளது
+  default_issue_status_resolved: தீர்க்கப்பட்டது
+  default_issue_status_feedback: கருத்தளிப்பு
+  default_issue_status_closed: மூடப்பட்டது
+  default_issue_status_rejected: நிராகரிக்கப்பட்டது
+  default_doc_category_user: பயனர் ஆவணங்கள்
+  default_doc_category_tech: தொழில்நுட்ப ஆவணங்கள்
+  default_priority_low: குறைந்த
+  default_priority_normal: இயல்பானது
+  default_priority_high: உயர்
+  default_priority_urgent: அவசரம்
+  default_priority_immediate: உடனடியாக
+  default_activity_design: வடிவமைப்பு
+  default_activity_development: வளர்ச்சி
+
+  enumeration_issue_priorities: முன்னுரிமைகள் வழங்கவும்
+  enumeration_doc_categories: ஆவண வகைகள்
+  enumeration_activities: செயல்பாடுகள் (நேர கண்காணிப்பு)
+  enumeration_system_activity: கணினி செயல்பாடு
+  label_additional_workflow_transitions_for_assignee: பயனர் ஒதுக்கீட்டாளராக இருக்கும்போது கூடுதல் மாற்றங்கள் அனுமதிக்கப்படுகின்றன
+  label_additional_workflow_transitions_for_author: பயனர் ஆசிரியராக இருக்கும்போது கூடுதல் மாற்றங்கள் அனுமதிக்கப்படுகின்றன
+  label_bulk_edit_selected_time_entries: தேர்ந்தெடுக்கப்பட்ட நேர உள்ளீடுகளை மொத்தமாக திருத்தவும்
+  text_time_entries_destroy_confirmation: தேர்ந்தெடுக்கப்பட்ட நேரத்தை (y / ies) நீக்க விரும்புகிறீர்களா?
+  label_issue_note_added: குறிப்பு சேர்க்கப்பட்டது
+  label_issue_status_updated: நிலை புதுப்பிக்கப்பட்டது
+  label_issue_priority_updated: முன்னுரிமை புதுப்பிக்கப்பட்டது
+  label_issues_visibility_own: பயனரால் உருவாக்கப்பட்ட அல்லது ஒதுக்கப்பட்ட சிக்கல்கள்
+  field_issues_visibility: சிக்கல்கள் தெரிவுநிலை
+  label_issues_visibility_all: அனைத்து சிக்கல்களும்
+  permission_set_own_issues_private: பொது அல்லது தனிப்பட்ட சொந்த சிக்கல்களை அமைக்கவும்
+  field_is_private: தனியார்
+  permission_set_issues_private: பொது அல்லது தனிப்பட்ட சிக்கல்களை அமைக்கவும்
+  label_issues_visibility_public: அனைத்து தனியார் அல்லாத சிக்கல்கள்
+  text_issues_destroy_descendants_confirmation: இதுவும் நீக்கப்படும் %{count} துணை பணி(s).
+  field_commit_logs_encoding: செய்திகளை குறியாக்கம் செய்யுங்கள்
+  field_scm_path_encoding: பாதை குறியாக்கம்
+  text_scm_path_encoding_note: "இயல்புநிலை: UTF-8"
+  field_path_to_repository: களஞ்சியத்திற்கு பாதை
+  field_root_directory: வேர் அடைவு
+  field_cvs_module: தொகுதி
+  field_cvsroot: CVSROOT
+  text_mercurial_repository_note: உள்ளூர் களஞ்சியம் (e.g. /hgrepo, c:\hgrepo)
+  text_scm_command: கட்டளை
+  text_scm_command_version: பதிப்பு
+  label_git_report_last_commit: கோப்புகள் மற்றும் கோப்பகங்களுக்கான கடைசி உறுதிப்பாட்டைப் புகாரளிக்கவும்
+  text_scm_config: உனது SCM commands ஐ config/configuration.yml கட்டமைக்கலாம். திருத்திய பின் செயலியை மறுதொடக்கம் செய்யுங்கள்.
+  text_scm_command_not_available: SCM கட்டளை கிடைக்கவில்லை. நிர்வாக குழுவில் அமைப்புகளை சரிபார்க்கவும்.
+  notice_issue_successful_create: சிக்கல் %{id} உருவாக்கப்பட்டது.
+  label_between: இடையில்
+  label_diff: வேறுபாடு
+  text_git_repository_note: களஞ்சியம் வெற்று மற்றும் உள்ளூர் (e.g. /gitrepo, c:\gitrepo)
+  description_query_sort_criteria_direction: வரிசை திசை
+  description_project_scope: தேடல் நோக்கம்
+  description_filter: வடிகட்டி
+  description_user_mail_notification: அஞ்சல் அறிவிப்பு அமைப்புகள்
+  description_message_content: செய்தி உள்ளடக்கம்
+  description_available_columns: கிடைக்கும் நெடுவரிசைகள்
+  description_issue_category_reassign: வெளியீட்டு வகையைத் தேர்வுசெய்க
+  description_search: தேடல் புலம்
+  description_notes: குறிப்புகள்
+  description_choose_project: திட்டங்கள்
+  description_query_sort_criteria_attribute: பண்புக்கூறு வரிசைப்படுத்து
+  description_wiki_subpages_reassign: புதிய மேல் பக்கத்தைத் தேர்வுசெய்க
+  description_selected_columns: தேர்ந்தெடுக்கப்பட்ட நெடுவரிசைகள்
+  label_parent_revision: மேல்
+  label_child_revision: கீழ்
+  button_edit_section: இந்த பகுதியைத் திருத்தவும்
+  setting_repositories_encodings: இணைப்புகள் மற்றும் களஞ்சியங்களின் குறியாக்கங்கள்
+  description_all_columns: அனைத்து நெடுவரிசைகளும்
+  button_export: ஏற்றுமதி
+  label_export_options: "%{export_format} ஏற்றுமதி விருப்பங்கள்"
+  error_attachment_too_big: அனுமதிக்கப்பட்ட அதிகபட்ச கோப்பின் அளவு மீறியுள்ளதால் இந்தக் கோப்பு பதிவேற்றிய இருக்க முடியாது (%{max_size})
+  notice_failed_to_save_time_entries: "சேமிப்பதில் தோல்வி %{count} நேர உள்ளீடுகள்(s) மீது %{total} தேர்ந்தெடுக்கப்பட்டது: %{ids}."
+  label_x_issues:
+    zero:  0 சிக்கல்
+    one:   1 சிக்கல்
+    other: "%{count} சிக்கல்கள்"
+  label_repository_new: புதிய களஞ்சியம்
+  field_repository_is_default: முதன்மை களஞ்சியம்
+  label_copy_attachments: இணைப்புகளை நகலெடுக்கவும்
+  label_item_position: "%{position} உள்ள %{count}"
+  label_completed_versions: பூர்த்தி செய்யப்பட்ட பதிப்புகள்
+  field_multiple: பல மதிப்புகள்
+  setting_commit_cross_project_ref: மற்ற அனைத்து திட்டங்களின் சிக்கல்களையும் குறிப்பிடவும் சரி செய்யவும் அனுமதிக்கவும்
+  text_issue_conflict_resolution_add_notes: எனது குறிப்புகளைச் சேர்த்து எனது பிற மாற்றங்களை நிராகரிக்கவும்
+  text_issue_conflict_resolution_overwrite: எனது மாற்றங்களை எப்படியும் பயன்படுத்துங்கள் (முந்தைய குறிப்புகள் வைக்கப்படும், ஆனால் சில மாற்றங்கள் மேலெழுதப்படலாம்)
+  notice_issue_update_conflict: நீங்கள் அதைத் திருத்தும்போது சிக்கல் மற்ற பயனரால் புதுப்பிக்கப்பட்டது.
+  text_issue_conflict_resolution_cancel: எனது எல்லா மாற்றங்களையும் நிராகரித்து மறுபகிர்வு செய்யுங்கள் %{link}
+  permission_manage_related_issues: தொடர்புடைய சிக்கல்களை நிர்வகிக்கவும்
+  field_auth_source_ldap_filter: LDAP வடிப்பான்
+  label_search_for_watchers: சேர்க்க பார்வையாளர்களைத் தேடுங்கள்
+  notice_account_deleted: உங்கள் கணக்கு நிரந்தரமாக நீக்கப்பட்டது.
+  setting_unsubscribe: பயனர்கள் தங்கள் சொந்த கணக்கை நீக்க அனுமதிக்கவும்
+  button_delete_my_account: எனது கணக்கை நீக்கு
+  text_account_destroy_confirmation: |-
+    உனக்கு தொடர நிச்சயமாக விருப்பமா?
+    உனது கணக்கு நிரந்தரமாக நீக்கப்படும், அதை மீண்டும் செயல்படுத்த இயலாது.
+  error_session_expired: உங்கள் அமர்வு காலாவதியாகி விட்டது. மீண்டும் உள்நுழைக.
+  text_session_expiration_settings: "எச்சரிக்கை: இந்த அமைப்புகளை மாற்றுவது உங்களுடையது உட்பட தற்போதைய அமர்வுகளின் காலாவதியாகும்."
+  setting_session_lifetime: அமர்வு அதிகபட்ச வாழ்நாள்
+  setting_session_timeout: அமர்வு செயலற்ற நேரம் முடிந்தது
+  label_session_expiration: அமர்வு காலாவதி
+  permission_close_project: திட்டத்தை மூடு / மீண்டும் திறக்கவும்
+  button_close: மூடு
+  button_reopen: மீண்டும் திறக்கவும்
+  project_status_active: செயலில்
+  project_status_closed: மூடப்பட்டது
+  project_status_archived: காப்பகப்படுத்தப்பட்டது
+  text_project_closed: இந்த திட்டம் மூடப்பட்டு படிக்க மட்டுமேயாகும்.
+  notice_user_successful_create: பயனர் %{id} உருவாக்கப்பட்டது.
+  field_core_fields: நிலையான புலங்கள்
+  field_timeout: முடிவு காலம் (விநாடி)
+  setting_thumbnails_enabled: இணைப்பு சிறுபடங்களைக் காண்பி
+  setting_thumbnails_size: சிறு உருவங்கள் (in pixels)
+  label_status_transitions: நிலை மாற்றங்கள்
+  label_fields_permissions: புலங்கள் அனுமதிகள்
+  label_readonly: படிக்க மட்டும்
+  label_required: தேவை
+  text_repository_identifier_info: 'சிறிய எழுத்துக்கள் (a-z), எண்கள், கோடுகள் மற்றும் அடிக்கோடிட்டுகள் மட்டுமே அனுமதிக்கப்படுகின்றன. <br /> சேமித்ததும், அடையாளங்காட்டியை மாற்ற முடியாது.'
+  field_board_parent: மேல் மன்றம்
+  label_attribute_of_project: திட்டத்தின் %{name}
+  label_attribute_of_author: ஆசிரியர் %{name}
+  label_attribute_of_assigned_to: ஒதுக்கீட்டாளர் %{name}
+  label_attribute_of_fixed_version: இலக்கு பதிப்பு %{name}
+  label_copy_subtasks: துணை பணிகளை நகலெடுக்கவும்
+  label_copied_to: நகலெடுக்கப்பட்டது
+  label_copied_from: இருந்து நகலெடுத்து
+  label_any_issues_in_project: திட்டத்தில் ஏதேனும் சிக்கல்கள்
+  label_any_issues_not_in_project: திட்டத்தில் இல்லாத சிக்கல்கள்
+  field_private_notes: தனியார் குறிப்புகள்
+  permission_view_private_notes: தனிப்பட்ட குறிப்புகளைக் காண்க
+  permission_set_notes_private: குறிப்புகளை தனிப்பட்டதாக அமைக்கவும்
+  label_no_issues_in_project: திட்டத்தில் சிக்கல்கள் இல்லை
+  label_any_open_issues: எந்த திறந்த சிக்கல்களும்
+  label_no_open_issues: திறந்த சிக்கல்கள் இல்லை
+  label_any: அனைத்தும்
+  label_last_n_weeks: கடைசியாக %{count} வாரங்கள்
+  setting_cross_project_subtasks: குறுக்கு திட்ட துணை பணிகளை அனுமதிக்கவும்
+  label_cross_project_descendants: துணை திட்டங்களுடன்
+  label_cross_project_tree: திட்ட மரத்துடன்
+  label_cross_project_hierarchy: திட்ட வரிசைமுறையுடன்
+  label_cross_project_system: அனைத்து திட்டங்களுடனும்
+  button_hide: மறை
+  setting_non_working_week_days: வேலை செய்யாத நாட்கள்
+  label_in_the_next_days: அடுத்து
+  label_in_the_past_days: கடந்த காலத்தில்
+  label_attribute_of_user: பயனரின் %{name}
+  text_turning_multiple_off: நீங்கள் பல மதிப்புகளை முடக்கினால், பல மதிப்புகள் இருக்கும்
+     ஒரு பொருளுக்கு ஒரு மதிப்பை மட்டுமே பாதுகாப்பதற்காக அகற்றப்பட்டது.
+  label_attribute_of_issue: சிக்கல் %{name}
+  permission_add_documents: ஆவணங்களைச் சேர்க்கவும்
+  permission_edit_documents: ஆவணங்களைத் திருத்து
+  permission_delete_documents: ஆவணங்களை நீக்கு
+  label_gantt_progress_line: முன்னேற்றக் கோடு
+  setting_jsonp_enabled: JSONP ஆதரவை இயக்கு
+  field_inherit_members: உறுப்பினர்களைப் பெறுங்கள்
+  field_closed_on: மூடப்பட்டது
+  field_generate_password: கடவுச்சொல்லை உருவாக்கவும்
+  setting_default_projects_tracker_ids: புதிய திட்டங்களுக்கான இயல்புநிலை டிராக்கர்கள்
+  label_total_time: மொத்தம்
+  notice_account_not_activated_yet: உங்கள் கணக்கை இதுவரை செயல்படுத்தவில்லை. உனக்கு வேண்டுமென்றால்
+    புதிய செயல்படுத்தும் மின்னஞ்சலைப் பெற, please <a href="%{url}">click this link</a>.
+  notice_account_locked: உங்கள் கணக்கு அடைக்கப்பட்டது.
+  label_hidden: மறைக்கப்பட்டுள்ளது
+  label_visibility_private: எனக்கு மட்டுமே
+  label_visibility_roles: இந்த பாத்திரங்களுக்கு மட்டுமே
+  label_visibility_public: எந்த பயனர்களுக்கும்
+  field_must_change_passwd: அடுத்த உள்நுழைவில் கடவுச்சொல்லை மாற்ற வேண்டும்
+  notice_new_password_must_be_different: புதிய கடவுச்சொல் வேறுபட்டதாக இருக்க வேண்டும்
+    தற்போதைய கடவுச்சொல்
+  setting_mail_handler_excluded_filenames: இணைப்புகளை பெயரால் விலக்கவும்
+  text_convert_available: ImageMagick மாற்றம் கிடைக்கிறது (optional)
+  text_gs_available: ImageMagick PDF ஆதரவு கிடைக்கிறது (optional)
+  label_link: இணைப்பு
+  label_only: மட்டும்
+  label_drop_down_list: கீழ்தோன்றும் பட்டியல்
+  label_checkboxes: தேர்வுப்பெட்டிகள்
+  label_link_values_to: URL உடன் மதிப்புகளை இணைக்கவும்
+  setting_force_default_language_for_anonymous: பெயர் அறியப்படாத இயல்புநிலை மொழியை கட்டாயப்படுத்தவும்
+    பயனர்கள்
+  setting_force_default_language_for_loggedin: உள்நுழைந்ததற்கு இயல்புநிலை மொழியை கட்டாயப்படுத்தவும்
+    பயனர்கள்
+  label_custom_field_select_type: தனிப்பயன் புலம் எந்த பொருளின் வகையைத் தேர்ந்தெடுக்கவும்
+    இணைக்கப்பட வேண்டும்
+  label_issue_assigned_to_updated: நியமிக்கப்பட்ட மேம்படுத்தப்பட்டது
+  label_check_for_updates: புதுப்பிப்புகளைச் சரிபார்க்கவும்
+  label_latest_compatible_version: சமீபத்திய இணக்கமான பதிப்பு
+  label_unknown_plugin: தெரியாத சொருகி
+  label_radio_buttons: வானொலி பொத்தான்கள்
+  label_group_anonymous: பெயர் அறியப்படாத பயனர்கள்
+  label_group_non_member: உறுப்பினர் அல்லாத பயனர்கள்
+  label_add_projects: திட்டங்களைச் சேர்க்கவும்
+  field_default_status: இயல்புநிலை நிலை
+  text_subversion_repository_note: 'உதாரணம்: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
+  field_users_visibility: பயனர்களின் தெரிவுநிலை
+  label_users_visibility_all: அனைத்து செயலில் உள்ள பயனர்களும்
+  label_users_visibility_members_of_visible_projects: புலப்படும் திட்டங்களின் உறுப்பினர்கள்
+  label_edit_attachments: இணைக்கப்பட்ட கோப்புகளைத் திருத்தவும்
+  setting_link_copied_issue: நகலில் சிக்கல்களை இணைக்கவும்
+  label_link_copied_issue: இணைப்பு நகலெடுக்கப்பட்டது சிக்கல்
+  label_ask: கேளுங்கள்
+  label_search_attachments_yes: இணைப்பு கோப்பு பெயர்கள் மற்றும் விளக்கங்களைத் தேடுங்கள்
+  label_search_attachments_no: இணைப்புகளைத் தேட வேண்டாம்
+  label_search_attachments_only: இணைப்புகளை மட்டும் தேடுங்கள்
+  label_search_open_issues_only: சிக்கல்களை மட்டும் திறக்கவும்
+  field_address: மின்னஞ்சல்
+  setting_max_additional_emails: கூடுதல் மின்னஞ்சல் முகவரிகளின் அதிகபட்ச எண்ணிக்கை
+  label_email_address_plural: மின்னஞ்சல்கள்
+  label_email_address_add: மின்னஞ்சல் முகவரியைச் சேர்க்கவும்
+  label_enable_notifications: அறிவிப்புகளை இயக்கு
+  label_disable_notifications: அறிவிப்புகளை முடக்கு
+  setting_search_results_per_page: ஒரு பக்கத்திற்கு தேடல் முடிவுகள்
+  label_blank_value: வெற்று
+  permission_copy_issues: சிக்கல்களை நகலெடுக்கவும்
+  error_password_expired: உங்கள் கடவுச்சொல் காலாவதியானது அல்லது நிர்வாகி உங்களுக்குத் தேவை
+    அதை மாற்ற.
+  field_time_entries_visibility: நேரம் பதிவுகள் தெரிவுநிலை
+  setting_password_max_age: கடவுச்சொல் மாற்றம் தேவை
+  label_parent_task_attributes: மேல் பணிகள் பண்புக்கூறுகள்
+  label_parent_task_attributes_derived: துணை பணிகளில் இருந்து கணக்கிடப்படுகிறது
+  label_parent_task_attributes_independent: துணை பணிகள் சுயாதீனமாக
+  label_time_entries_visibility_all: எல்லா நேர உள்ளீடுகளும்
+  label_time_entries_visibility_own: பயனரால் உருவாக்கப்பட்ட நேர உள்ளீடுகள்
+  label_member_management: உறுப்பினர் மேலாண்மை
+  label_member_management_all_roles: அனைத்துப் பாத்திரங்களும்
+  label_member_management_selected_roles_only: இந்தப் பாத்திரங்களை மட்டும்
+  label_password_required: தொடர உங்கள் கடவுச்சொல்லை உறுதிப்படுத்தவும்
+  label_total_spent_time: ஒட்டுமொத்தமாக நேரம் செலவிட்டார்
+  notice_import_finished: "%{count} பொருட்கள் இறக்குமதி செய்யப்பட்டுள்ளன"
+  notice_import_finished_with_errors: "%{count} வெளியே %{total} பொருட்களை இறக்குமதி செய்ய முடியவில்லை"
+  error_invalid_file_encoding: கோப்பு தவறானது %{encoding} குறியிடப்பட்ட கோப்பு
+  error_invalid_csv_file_or_settings: கோப்பு ஒரு CSV கோப்பு அல்ல அல்லது பொருந்தவில்லை
+    கீழே உள்ள அமைப்புகள்
+  error_can_not_read_import_file: இறக்குமதி செய்ய கோப்பைப் படிக்கும்போது பிழை ஏற்பட்டது
+  permission_import_issues: இறக்குமதி சிக்கல்கள்
+  label_import_issues: இறக்குமதி சிக்கல்கள்
+  label_select_file_to_import: இறக்குமதி செய்ய கோப்பைத் தேர்ந்தெடுக்கவும்
+  label_fields_separator: புல பிரிப்பான்
+  label_fields_wrapper: புலம் போர்த்தி
+  label_encoding: குறியாக்கம்
+  label_comma_char: காற்புள்ளி
+  label_semi_colon_char: அரைப்புள்ளி
+  label_quote_char: மேற்கோள்
+  label_double_quote_char: இரட்டை மேற்கோள்
+  label_fields_mapping: புலங்கள் மேப்பிங்
+  label_file_content_preview: கோப்பு உள்ளடக்க முன்னோட்டம்
+  label_create_missing_values: விடுபட்ட மதிப்புகளை உருவாக்கவும்
+  button_import: இறக்குமதி
+  field_total_estimated_hours: மொத்த மதிப்பிடப்பட்ட நேரம்
+  label_api: API
+  label_total_plural: மொத்தம்
+  label_assigned_issues: ஒதுக்கப்பட்ட சிக்கல்கள்
+  label_field_format_enumeration: சாவி / மதிப்பு பட்டியலில்
+  label_f_hour_short: '%{value} h'
+  field_default_version: இயல்புநிலை பதிப்பு
+  error_attachment_extension_not_allowed: இணைப்பு நீட்டிப்பு %{extension} அனுமதிக்கப்படவில்லை
+  setting_attachment_extensions_allowed: அனுமதிக்கப்பட்ட நீட்டிப்புகள்
+  setting_attachment_extensions_denied: அனுமதிக்கப்படாத நீட்டிப்புகள்
+  label_default_values_for_new_users: புதிய பயனர்களுக்கான இயல்புநிலை மதிப்புகள்
+  error_ldap_bind_credentials: தவறான LDAP கணக்கு / கடவுச்சொல்
+  setting_sys_api_key: API சாவி
+  setting_lost_password: இழந்தத கடவுச்சொல்
+  mail_subject_security_notification: பாதுகாப்பு அறிவிப்பு
+  mail_body_security_notification_change: ! '%{field} மாற்றப்பட்டது.'
+  mail_body_security_notification_change_to: ! '%{field} என மாற்றப்பட்டது%{value}.'
+  mail_body_security_notification_add: ! '%{field} %{value} சேர்க்கப்பட்டது.'
+  mail_body_security_notification_remove: ! '%{field} %{value} அகற்றப்பட்டது.'
+  mail_body_security_notification_notify_enabled: மின்னஞ்சல் முகவரி %{value} இப்போது பெறுகிறது
+    அறிவிப்புகளை.
+  mail_body_security_notification_notify_disabled: மின்னஞ்சல் முகவரி %{value} இனி இல்லை
+     அறிவிப்புகளைப் பெறுகிறது.
+  mail_body_settings_updated: ! 'பின்வரும் அமைப்புகள் மாற்றப்பட்டன:'
+  field_remote_ip: IP முகவரி
+  label_wiki_page_new: புதிய விக்கி பக்கம்
+  label_relations: தொடர்பு
+  button_filter: வடிகட்டி
+  mail_body_password_updated: உங்கள் கடவுச்சொல் மாற்றப்பட்டது.
+  error_no_tracker_allowed_for_new_issue_in_project: திட்டத்தில் எந்த தடம்களும் இல்லை
+     இதற்காக நீங்கள் ஒரு சிக்கலை உருவாக்கலாம்
+  label_tracker_all: அனைத்து தடம்
+  label_new_project_issue_tab_enabled: காட்சி "New issue" தாவல்
+  setting_new_item_menu_tab: புதிய பொருட்களை உருவாக்குவதற்கான திட்ட பட்டியல் தாவல்
+  label_new_object_tab_enabled: காட்சிப்படுத்து "+" drop-down
+  error_no_projects_with_tracker_allowed_for_new_issue: தடம்களுடன் திட்டங்கள் எதுவும் இல்லை
+     இதற்காக நீங்கள் ஒரு சிக்கலை உருவாக்கலாம்
+  field_textarea_font: உரை பகுதிகளுக்கு பயன்படுத்தப்படும் எழுத்துரு
+  label_font_default: இயல்புநிலை எழுத்துரு
+  label_font_monospace: அகலம் மாறா எழுத்துரு
+  label_font_proportional: விகிதாசார எழுத்துரு
+  setting_timespan_format: நேர இடைவெளி வடிவம்
+  label_table_of_contents: பொருளடக்கம்
+  setting_commit_logs_formatting: செய்திகளைச் செய்ய உரை வடிவமைப்பைப் பயன்படுத்துங்கள்
+  setting_mail_handler_enable_regex: வழக்கமான வெளிப்பாடுகளை இயக்கு
+  error_move_of_child_not_possible: 'துணை பணி %{child} புதியதுக்கு நகர்த்த முடியவில்லை
+    project: %{பிழைகள்}'
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: செலவழித்த நேரம் முடியாது
+     நீக்கப்படவிருக்கும் சிக்கலுக்கு மீண்டும் நியமிக்கப்பட வேண்டும்
+  setting_timelog_required_fields: நேர பதிவுகளுக்கு தேவையான புலங்கள்
+  label_attribute_of_object: '%{object_name}''s %{name}'
+  label_user_mail_option_only_assigned: நான் பார்க்கும் விஷயங்களுக்கு மட்டுமே அல்லது எனக்கு ஒதுக்கப்பட்டுள்ளது
+  label_user_mail_option_only_owner: நான் பார்க்கும் விஷயங்களுக்கு மட்டுமே அல்லது நான் அதன் உரிமையாளர்
+  warning_fields_cleared_on_bulk_edit: மாற்றங்கள் தானாக நீக்கப்படும்
+     தேர்ந்தெடுக்கப்பட்ட பொருள்களில் ஒன்று அல்லது அதற்கு மேற்பட்ட புலங்களிலிருந்து மதிப்புகள்
+  field_updated_by: புதுப்பித்தது
+  field_last_updated_by: கடைசியாக புதுப்பிக்கப்பட்டது
+  field_full_width_layout: முழு அகல தளவமைப்பு
+  label_last_notes: கடைசி குறிப்புகள்
+  field_digest: சரிபார்ப்புத் தொகை
+  field_default_assigned_to: இயல்புநிலை ஒதுக்கீட்டாளர்
+  setting_show_custom_fields_on_registration: பதிவில் தனிப்பயன் புலங்களைக் காட்டு
+  permission_view_news: செய்திகளைக் காண்க
+  label_no_preview_alternative_html: எந்த முன்னோட்டமும் கிடைக்கவில்லை. %{link} அதற்கு பதிலாக கோப்பு.
+  label_no_preview_download: பதிவிறக்கு
+  setting_close_duplicate_issues: நகல் சிக்கல்களை தானாக மூடு
+  error_exceeds_maximum_hours_per_day: இதை விட அதிகமாக பதிவு செய்ய முடியாது %{max_hours} மணிநேரம்
+     அதே நாள் (%{logged_hours} மணி நேரம் எற்கனவே பதியப்பட்டுள்ளது)
+  setting_time_entry_list_defaults: நேர பூட்டு பட்டியல் இயல்புநிலை
+  setting_timelog_accept_0_hours: நேர பதிவுகளை 0 மணிநேரத்துடன் ஏற்றுக்கொள்ளுங்கள்
+  setting_timelog_max_hours_per_day: ஒரு நாளைக்கு மற்றும் பயனருக்கு உள்நுழையக்கூடிய அதிகபட்ச மணிநேரம்
+  label_x_revisions: "%{count} திருத்தங்கள்"
+  error_can_not_delete_auth_source: இந்த அங்கீகார முறை பயன்பாட்டில் உள்ளது மற்றும் இருக்க முடியாது
+     நீக்கப்பட்டது.
+  button_actions: Actions
+  mail_body_lost_password_validity: நீங்கள் கடவுச்சொல்லை மாற்றலாம் என்பதை நினைவில் கொள்க
+     இந்த இணைப்பை ஒரு முறை மட்டுமே பயன்படுத்துங்கள்.
+  text_login_required_html: அங்கீகாரம் தேவையில்லை, பொது திட்டங்கள் மற்றும் அவற்றின்
+     உள்ளடக்கங்கள் பிணையத்தில் வெளிப்படையாகக் கிடைக்கின்றன. நீங்கள் <a href="%{anonymous_role_path}">
+    தேவையான அனுமதிகளை மாற்றலாம்</a>.
+  label_login_required_yes: 'ஆம்'
+  label_login_required_no: இல்லை, பொது திட்டங்களுக்கு அநாமதேய அணுகலை அனுமதிக்கவும்
+  text_project_is_public_non_member: பொது திட்டங்களும் அவற்றின் உள்ளடக்கங்களும் கிடைக்கின்றன
+     உள்நுழைந்த அனைத்து பயனர்களுக்கும்.
+  text_project_is_public_anonymous: பொது திட்டங்களும் அவற்றின் உள்ளடக்கங்களும் வெளிப்படையாகக் கிடைக்கின்றன
+     பிணையத்தில்.
+  label_ldap: LDAP
+  label_ldaps_verify_none: LDAP (சான்றிதழ் சரிபார்க்காமல்)
+  label_ldaps_verify_peer: LDAP
+  label_ldaps_warning: சான்றிதழுடன் மறைகுறியாக்கப்பட்ட LDAPS இணைப்பைப் பயன்படுத்த பரிந்துரைக்கப்படுகிறது
+     அங்கீகார செயல்பாட்டின் போது எந்த கையாளுதலையும் தடுக்க சரிபார்க்கவும்.
+  label_nothing_to_preview: முன்னோட்டமிட எதுவும் இல்லை
+  error_token_expired: இந்த கடவுச்சொல் மீட்பு இணைப்பு காலாவதியானது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்.
+  error_spent_on_future_date: எதிர்கால தேதியில் நேரத்தை பதிவு செய்ய முடியாது
+  setting_timelog_accept_future_dates: எதிர்கால தேதிகளில் நேர பதிவுகளை ஏற்றுக்கொள்ளுங்கள்
+  label_delete_link_to_subtask: உறவை நீக்கு
+  error_not_allowed_to_log_time_for_other_users: பிற பயனர்களுக்கான நேரத்தை பதிவு செய்ய உங்களுக்கு அனுமதி இல்லை
+  permission_log_time_for_other_users: பதிவு மற்ற பயனர்களுக்காக நேரத்தை செலவிட்டது
+  label_tomorrow:  நாளை
+  label_next_week: அடுத்த வாரம்
+  label_next_month: அடுத்த மாதம்
+  text_role_no_workflow: இந்த பாத்திரத்திற்கு பணிப்பாய்வு எதுவும் வரையறுக்கப்படவில்லை
+  text_status_no_workflow: எந்தவொரு தடம் இந்த நிலையை பணிப்பாய்வுகளில் பயன்படுத்துவதில்லை
+  setting_mail_handler_preferred_body_part: மல்டிபார்ட் (HTML) மின்னஞ்சல்களின் விருப்பமான பகுதி
+  setting_show_status_changes_in_mail_subject: வெளியீட்டு அஞ்சல் அறிவிப்புகள் பாடத்தில் நிலை மாற்றங்களைக் காட்டு
+  label_inherited_from_parent_project: மேல் திட்டத்திலிருந்து பெறப்பட்டது
+  label_inherited_from_group: குழுவிலிருந்து மரபுரிமை பெற்றது  %{name}
+  label_trackers_description: தடம்களின் விளக்கம்
+  label_open_trackers_description: அனைத்து தடம் விளக்கத்தையும் காண்க
+  label_preferred_body_part_text: உரை
+  label_preferred_body_part_html: HTML
+  field_parent_issue_subject: மேல் பணி பொருள்
+  permission_edit_own_issues: சொந்த சிக்கல்களைத் திருத்தவும்
+  text_select_apply_tracker: தடத்தை தேர்ந்தெடுக்கவும்
+  label_updated_issues: புதுப்பிக்கப்பட்ட சிக்கல்கள்
+  text_avatar_server_config_html: தற்போதைய அவதார் சேவையகம் <a href="%{url}">%{url}</a>.
+    You can configure it in config/configuration.yml கட்டமைக்கலாம்.
+  setting_gantt_months_limit: கேன்ட் விளக்கப்படத்தில் காட்டப்படும் அதிகபட்ச மாதங்கள்
+  permission_import_time_entries: நேர உள்ளீடுகளை இறக்குமதி செய்க
+  label_import_notifications: இறக்குமதியின் போது மின்னஞ்சல் அறிவிப்புகளை அனுப்பவும்
+  field_recently_used_projects: ஜம்ப் பெட்டியில் சமீபத்தில் பயன்படுத்தப்பட்ட திட்டங்களின் எண்ணிக்கை
+  label_optgroup_bookmarks: புத்தகப்பக்க அடையாளம்
+  label_optgroup_recents:  சமீபத்தில் பயன்படுத்தப்பட்டது
+  button_project_bookmark:  புத்தகப்பக்க அடையாளம் சேர்க்கவும்
+  button_project_bookmark_delete: புத்தகப்பக்க அடையாளம் அகற்று
+  field_history_default_tab: வெளியீட்டின் வரலாறு இயல்புநிலை தாவல்
+  label_issue_history_properties:  சொத்து மாற்றங்கள்
+  label_issue_history_notes: குறிப்புகள்
+  label_last_tab_visited: கடைசியாக பார்வையிட்ட தாவல்
+  field_unique_id: தனித்துவமான ID
+  text_no_subject: பொருள் இல்லை
+  setting_password_required_char_classes: கடவுச்சொற்களுக்கு தேவையான எழுத்து வகுப்புகள்
+  label_password_char_class_uppercase: பெரிய எழுத்துக்கள்
+  label_password_char_class_lowercase:  சிறிய எழுத்துக்கள்
+  label_password_char_class_digits: இலக்கங்கள்
+  label_password_char_class_special_chars: சிறப்பு எழுத்துக்கள்
+  text_characters_must_contain: கொண்டிருக்க வேண்டும் %{character_classes}.
+  label_starts_with:  தொடங்குகிறது
+  label_ends_with:  உடன் முடிகிறது
+  label_issue_fixed_version_updated: இலக்கு பதிப்பு புதுப்பிக்கப்பட்டது
+  setting_project_list_defaults: திட்டங்கள் பட்டியல் இயல்புநிலை
+  label_display_type: முடிவுகளைக் காண்பி
+  label_display_type_list: பட்டியல்
+  label_display_type_board: வாரியம்
+  label_my_bookmarks: எனது புத்தகப்பக்க அடையாளம்
+  label_import_time_entries: நேர உள்ளீடுகளை இறக்குமதி செய்க
+  notice_issue_not_closable_by_open_tasks: இந்தச் சிக்கலை மூட இயலாது, ஒரு திறந்த துணைப் பணி உள்ளது.
+  notice_issue_not_closable_by_blocking_issue: இந்த சிக்கலை மூட இயலாது, ஒரு திறந்த சிக்கலால் தடுக்கிறது.
+  notice_issue_not_reopenable_by_closed_parent_issue: மூலச் சிக்கல் மூடப்பட்டுள்ளதால், இந்தச் சிக்கலை மீண்டும் திறக்க இயலாது.
+  notice_invalid_watcher: 'தவறான பார்வையாளர்கள்: இந்தப் பொருளைப் பார்ப்பதற்கான அணுமதி இல்லாததால், பயனர் எந்த அறிவிப்புகளையும் பெறமாட்டார்.'
+  error_attachments_too_many: அதிகபட்ச கோப்புகளின் எண்ணிக்கையை தாண்டிவிட்டதால். இந்தக் கோப்பைப் பதிவேற்ற இயலாது (%{max_number_of_files})
+  error_bulk_download_size_too_big: இந்த கோப்பை பதிவிறக்க இயலாது, மொத்த கோப்பு அளவு அனுமதிக்கப்பட்ட அதிகபட்ச அளவை விட அதிகமாக உள்ளது (%{max_size})
+  error_no_data_in_file: கோப்பில் தரவு எதுவும் இல்லை
+  error_can_not_execute_macro_html: மேக்ரோவை இயக்குவதில் பிழை <strong>%{name}</strong>  (%{error})
+  error_macro_does_not_accept_block: இந்த மேக்ரோ உரையின் தொகுதியை ஏற்காது
+  error_childpages_macro_no_argument: எந்த அளவுரும் இல்லாததால், இந்த மேக்ரோவை விக்கி பக்கங்களிலிருந்து மட்டுமே அழைக்க முடியும்
+  error_circular_inclusion: சுழற்சி சேர்க்கை கண்டறியப்பட்டது
+  error_page_not_found: பக்கம் கிடைக்கவில்லை
+  error_filename_required: கோப்பு பெயர் தேவை
+  error_invalid_size_parameter: தவறான அளவுருவின் அளவு
+  error_attachment_not_found: இணைப்பு %{name} காணப்படவில்லை
+  error_invalid_authenticity_token: தவறான நம்பகத்தன்மை டோக்கன்.
+  error_query_statement_invalid: வினவலை இயக்கும் போது பிழை ஏற்பட்டு உள்நுழைந்துள்ளது. உங்கள் ரெட்மைன் நிர்வாகியிடம் இந்தப் பிழையைப் புகாரளிக்கவும்.
+  mail_destroy_project_failed: திட்டத்தை %{value} நீக்க இயலாது.
+  mail_destroy_project_successful: திட்டம் %{value} வெற்றிகரமாக நீக்கப்பட்டது.
+  mail_destroy_project_with_subprojects_successful: திட்டம் %{value} மற்றும் அதன் துணைத் திட்டங்கள் வெற்றிகரமாக நீக்கப்பட்டன.
+  field_is_member_of_group: குழுவின் உறுப்பினர்
+  field_passwd_changed_on: கடவுச்சொல் கடைசியாக மாற்றப்பட்டது
+  field_current_password: தற்போதைய கடவுச்சொல்
+  field_twofa_scheme: இரண்டு காரணி அங்கீகார திட்டம்
+  field_toolbar_language_options: கருவிப்பட்டியின் மொழிகளைக் குறிக்கும் குறியீடு
+  field_twofa_required: இரண்டு காரணி அங்கீகாரம் தேவை
+  field_default_issue_query: இயல்பான சிக்கல் வினவல்
+  field_default_project_query: இயல்பான திட்ட வினவல்
+  field_default_time_entry_activity: இயல்பான செலவிடும் நேரச்  செயல்பாடு
+  field_any_searchable: தேடக்கூடிய எந்த உரையும்
+  setting_bulk_download_max_size: பதிவிறக்கத்திற்கான அதிகபட்ச மொத்த அளவு
+  setting_email_domains_allowed: அனுமதிக்கப்பட்ட மின்னஞ்சல் களங்கள்
+  setting_email_domains_denied: அனுமதியில்லா மின்னஞ்சல் களங்கள்
+  setting_twofa: இரட்டை காரணி அங்கீகாரம்
+  permission_delete_project: திட்டத்தை நீக்கு
+  permission_select_project_publicity: திட்டத்தை பொது அல்லது தனியாக  அமை
+  permission_view_wiki_page_watchers: விக்கி பக்க பார்வையாளர்கள் பட்டியலைக் காண்க
+  permission_add_wiki_page_watchers: விக்கி பக்க பார்வையாளர்களைச் சேர்க்கவும்
+  permission_delete_wiki_page_watchers: விக்கி பக்க பார்வையாளர்களை நீக்கவும்
+  permission_view_message_watchers: செய்தி பார்வையாளர்கள் பட்டியலைக் காண்க
+  permission_add_message_watchers: செய்தி பார்வையாளர்கள் சேர்க்கவும்
+  permission_delete_message_watchers: செய்தி பார்ப்பவர்களை நீக்கவும்
+  label_attachment_description: கோப்பு விளக்கம்
+  label_contains_any_of: ஏதேனும் அடங்கிய
+  label_has_been: இருந்த
+  label_has_never_been: இருந்ததில்லை
+  label_changed_from: இதிலிருந்து மாற்றப்பட்ட
+  label_view_previous_annotation: இந்த மாற்றத்திற்கு முன் சிறுகுறிப்பைப் பார்க்கவும்
+  label_optional: விருப்பத் தேர்வு
+  label_bulk_edit: மொத்த திருத்தம்
+  label_user_mail_notify_about_high_priority_issues_html: மேலும் சிக்கல்களைப் பற்றி எனக்குத் தெரிவிக்கவும் <em>%{prio}</em> அல்லது அதற்கு மேற்பட்ட முன்னுரிமையுடன்
+  label_auto_watch_on: தானியங்கி கண்காணிப்பு
+  label_auto_watch_on_issue_created: நான் உருவாக்கிய சிக்கல்கள்
+  label_auto_watch_on_issue_contributed_to: நான் பங்களித்த சிக்கல்கள்
+  label_message_watchers: பார்வையாளர்கள்
+  label_wiki_page_watchers: பார்வையாளர்கள்
+  label_days_to_html: "%{days} நாட்கள் வரை %{date}"
+  label_subtask: துணைப் பணி
+  label_required_lower: தேவை
+  label_required_administrators: நிர்வாகிகளுக்கு தேவை
+  label_download_all_attachments: எல்லா கோப்புகளையும் பதிவிறக்கவும்
+  label_relations_mapping: உறவுகள் இணைப்பு
+  label_default_queries:
+    for_all_projects: அனைத்து திட்டங்களுக்கும்
+    for_current_project: தற்போதைய திட்டத்திற்கு
+    for_all_users: அனைத்து பயனர்களுக்கும்
+    for_this_user: இந்த பயனருக்கு
+  label_issue_statuses_description: சிக்கலின் நிலைகள் விளக்கம்
+  label_open_issue_statuses_description: அனைத்து சிக்கல் நிலைகளின் விளக்கத்தையும் காண்க
+  label_assign_to_me: எனக்கு ஒதுக்கு
+  label_default_query: இயல்பான வினவல்
+  label_edited: திருத்தப்பட்டது
+  label_time_by_author: "%{time} மூலம்  %{author}"
+  button_disable: முடக்கு
+  button_copy_link: நகல் இணைப்பு
+  button_fetch_changesets: உறுதியளிப்பை எடு
+  button_add_subtask: துணைப் பணியைச் சேர்க்கவும்
+  button_save_object: சேமி %{object_name}
+  button_edit_object: திருத்து %{object_name}
+  button_delete_object: நீக்கு %{object_name}
+  button_create_and_follow: உருவாக்கி தொடர்
+  button_apply_issues_filter: சிக்கல் வடிப்பானைப் பயன்படுத்தவும்
+  project_status_scheduled_for_deletion: நீக்க திட்டமிடப்பட்டுள்ளது
+  text_projects_bulk_destroy_confirmation: தேர்ந்தெடுக்கப்பட்ட திட்டப்பணிகளையும் தொடர்புடைய தரவையும் நிச்சயமாக நீக்க விரும்புகிறீர்களா?
+  text_projects_bulk_destroy_head: |
+    துணைத் திட்டங்கள் மற்றும் தொடர்புடைய தரவு உட்பட பின்வரும் திட்டங்களை நிரந்தரமாக நீக்க உள்ளீர்கள். கீழேயுள்ள தகவலை ஆய்வு செய்து, இதைத்தான் நீங்கள் செய்ய விரும்புகிறீர்கள் என்பதை உறுதிப்படுத்தவும். இந்தச் செயலை திரும்ப பெற இயலாது.
+  text_projects_bulk_destroy_confirm:  உறுதிப்படுத்த, கீழே உள்ள பெட்டியில் "%{yes}" உள்ளிடவும்.
+  text_subprojects_bulk_destroy: 'துணைத் திட்டம் உட்பட(s): %{value}'
+  text_project_close_confirmation: திட்டப்பணியை முடி அதை படிக்க மட்டுமேயானதாக மாற்றுவதற்கு நிச்சயமாக விரும்புகிறீர்களா?  '%{value}'
+  text_project_reopen_confirmation: திட்டத்தை மீண்டும் திறக்க விரும்புகிறீர்களா?'%{value}'
+  text_project_archive_confirmation: திட்டத்தைக் காப்பகப்படுத்த விரும்புகிறீர்களா?'%{value}'
+  text_users_bulk_destroy_head: பின்வரும் பயனர்களை நீக்கி, அவர்களுக்கான அனைத்து குறிப்புகளையும் நீக்க உள்ளீர்கள். இதை திரும்ப பெற இயலாது.. பெரும்பாலும், பயனர்களை நீக்குவதற்குப் பதிலாக அவர்களைப் பூட்டுவது சிறந்த தீர்வாகும்.
+  text_users_bulk_destroy_confirm: உறுதிப்படுத்த, கீழே "%{yes}" உள்ளிடவும்.
+  text_all_migrations_have_been_run: அனைத்து தரவுத்தள நகர்வுகளும் இயக்கப்பட்டன
+  text_select_apply_issue_status: சிக்கல் நிலையைத் தேர்ந்தெடுக்கவும்
+  text_allowed_queries_to_select: பொது (எந்தப் பயனர்களுக்கும்) வினவல்கள் மட்டுமே தேர்ந்தெடுக்கலாம்
+  text_setting_config_change: நீங்கள் இயங்குகிற முறையை config/configuration.yml இல் கட்டமைக்கலாம். திருத்திய பின் செயலியை மீண்டும் தொடங்கவும்.
+  label_import_users: பயனர்களை இறக்குமதி செய்
+  sudo_mode_new_info_html: "<strong>என்ன நடக்கிறது?</strong> எந்தவொரு நிர்வாக நடவடிக்கைகளையும் எடுப்பதற்கு முன், நீங்கள் மீண்டும் உங்கள் கடவுச்சொல்லை உறுதிப்படுத்த வேண்டும்.  இது உங்கள் கணக்கு பாதுகாக்கப்படுவதை உறுதி செய்கிறது."
+  twofa__totp__name: அங்கீகரிப்பு செயலி
+  twofa__totp__text_pairing_info_html: இந்த QR குறியீட்டை ஸ்கேன் செய்யவும் அல்லது எளிய உரை விசையை TOTP செயலி உள்ளிடவும்
+      (எ.கா. <a href="https://support.google.com/accounts/answer/1066447">கூகுள்
+     அங்கீகரிப்பாளர்</a>, <a href="https://authy.com/download/">Authy</a>, <a href="https://guide.duo.com/third-party-accounts" > இரட்டையர்
+     மொபைல்</a>) மற்றும் இரண்டு காரணி அங்கீகாரத்தை செயல்படுத்த கீழே உள்ள புலத்தில் குறியீட்டை உள்ளிடவும்.
+  twofa__totp__label_plain_text_key: எளிய உரை விசை
+  twofa__totp__label_activate: அங்கீகரிப்பு செயலியை செயல்படுத்தவும்
+  twofa_currently_active: 'தற்போது அமலில் உள்ளது: %{twofa_scheme_name}'
+  twofa_not_active: அமலில் இல்லை
+  twofa_label_code: குறியீடு
+  twofa_hint_disabled_html: அமைப்பு <strong>%{label}</strong> அனைத்து பயனர்களுக்கும் இரு காரணி அங்கீகார சாதனங்களை செயலிழக்கச் செய்யும்.
+  twofa_hint_optional_html: அமைப்பு <strong>%{label}</strong> பயனர்களை இரு காரணி அங்கீகாரத்தை அமைக்க அனுமதிக்கும், விருப்பப்பத்தோடோ அல்ல்து குழுவில் ஒருவருக்குத் தேவைப்படாவிட்டாலோ .
+  twofa_hint_required_html: அமைப்பு <strong>%{label}</strong> அனைத்து பயனர்களும் தங்களின் அடுத்த உள்நுழைவில் இரு காரணி அங்கீகாரத்தை அமைக்க வைக்கும்.
+  twofa_hint_required_administrators_html: அமைப்பு <strong>%{label}</strong>  விருப்பமானது போல் செயல்படும், ஆனால் நிர்வாக உரிமையாளர்கள் தங்களின் அடுத்த உள்நுழைவில் இரு காரணி அங்கீகாரத்தை அமைக்க வைக்கும்.
+  twofa_label_setup: இரட்டை காரணி அங்கீகாரத்தை அமல்படுத்து
+  twofa_label_deactivation_confirmation: இரட்டை காரணி அங்கீகாரத்தை அமல்படுத்தாதே
+  twofa_notice_select: 'நீங்கள் பயன்படுத்த விரும்பும் இரட்டை காரணி திட்டத்தைத் தேர்ந்தெடுக்கவும்:'
+  twofa_warning_require: இரட்டை காரணி அங்கீகாரத்தை நீங்கள் இயக்க வேண்டும் என்று நிர்வாகி கோருகிறார்.
+  twofa_activated: இரட்டை காரணி அங்கீகாரம் வெற்றிகரமாக அமல்படுத்தப்பட்டது. உங்கள் கணக்கிற்கான <a data-method="post" href="%{bc_path}">காப்புக் குறியீடுகளை உருவாக்க</a> பரிந்துரைக்கப்படுகிறது.
+  twofa_deactivated: இரட்டை காரணி அங்கீகாரம் செயலிழந்தது.
+  twofa_mail_body_security_notification_paired: இரட்டை-காரணி அங்கீகாரம்  %{field}ஐ பயன்படுத்தி வெற்றிகரமாக அமல்படுத்தப்பட்டது .
+  twofa_mail_body_security_notification_unpaired: உங்கள் கணக்கிற்கு இரு காரணி அங்கீகாரம் செயலிழக்க வைக்கப்பட்டது.
+  twofa_mail_body_backup_codes_generated: புதிய இரு-காரணி அங்கீகார காப்பு குறியீடுகள் உருவாக்கப்பட்டன.
+  twofa_mail_body_backup_code_used: இரட்டை காரணி அங்கீகார காப்பு குறியீடு பயன்படுத்தப்பட்டது.
+  twofa_invalid_code: குறியீடு தவறானது அல்லது காலாவதியானது.
+  twofa_label_enter_otp: உங்கள் இரு காரணி அங்கீகாரக் குறியீட்டை உள்ளிடவும்.
+  twofa_too_many_tries: பல முயற்சிகள்.
+  twofa_resend_code: குறியீட்டை மீண்டும் அனுப்பு
+  twofa_code_sent: அங்கீகாரக் குறியீடு உங்களுக்கு அனுப்பப்பட்டுள்ளது.
+  twofa_generate_backup_codes: மாற்று குறியீடுகளை உருவாக்கவும்
+  twofa_text_generate_backup_codes_confirmation: இது ஏற்கனவே உள்ள அனைத்து மாற்று குறியீடுகளையும் செல்லாததாக்கி புதியவற்றை உருவாக்கும். நீங்கள் தொடர விரும்புகிறீர்களா?
+  twofa_notice_backup_codes_generated: உங்கள் மாற்று குறியீடுகள் உருவாக்கப்பட்டன.
+  twofa_warning_backup_codes_generated_invalidated: புதிய மாற்று குறியீடுகள் உருவாக்கப்பட்டுள்ளன. %{time} இலிருந்து ஏற்கனவே உள்ள உங்கள் குறியீடுகள் இப்போது தவறானவை.
+  twofa_label_backup_codes: இரண்டு காரணி அங்கீகார மாற்று குறியீடுகள்
+  twofa_text_backup_codes_hint: ஒரு முறை கடவுச்சொல்லுக்குப் பதிலாக இந்தக் குறியீடுகளைப் பயன்படுத்தவும்
+     இரண்டாவது காரணிக்கான அணுகல் உங்களிடம் இல்லையெனில். ஒவ்வொரு குறியீட்டையும் ஒரு முறை மட்டுமே பயன்படுத்த முடியும். அவற்றை அச்சிட்டு பாதுகாப்பான இடத்தில் சேமிக்க பரிந்துரைக்கப்படுகிறது
+  twofa_text_backup_codes_created_at: மாற்று குறியீடுகள் %{datetime} உருவாக்கப்பட்டது.
+  twofa_backup_codes_already_shown: மாற்று பிரதி குறியீடுகளை மீண்டும் காட்ட இயலாது, தேவைப்பட்டால் <a data-method="post" href="%{bc_path}">புதிய மாற்று பிரதி குறியீடுகளை உருவாக்கவும்</a>.
+  twofa_text_group_required: உலகளாவிய இரு காரணி அங்கீகார அமைப்பு 'கட்டாயமற்றதாக' அமைக்கப்படும் போது மட்டுமே இந்த அமைப்பு பயனுள்ளதாக இருக்கும். தற்போது, அனைத்து பயனர்களுக்கும் இரண்டு காரணி அங்கீகாரம் தேவைப்படுகிறது.
+  twofa_text_group_disabled: அமைப்பு பரந்த இரு காரணி அங்கீகார அமைப்பு 'கட்டாயமற்றதாக' அமைக்கப்படும் போது மட்டுமே இந்த அமைப்பு பயனுள்ளதாக இருக்கும். தற்போது, இரண்டு காரணி அங்கீகாரம் முடக்கப்பட்டுள்ளது.
+  text_user_destroy_confirmation: இந்தப் பயனரை நிச்சயமாக நீக்கி, அவர்களுக்கான அனைத்துக் குறிப்புகளையும் அகற்ற விரும்புகிறீர்களா? இதை திரும்ப பெற இயலாது. பெரும்பாலும், ஒரு பயனரை நீக்குவதற்குப் பதிலாக அவர்களைப் பூட்டுவது சிறந்த தீர்வாகும். உறுதிப்படுத்த, கீழே அவர்களின் உள்நுழைவை (%{login}) உள்ளிடவும்.
+  text_project_destroy_enter_identifier: உறுதிப்படுத்த, திட்டத்தின் அடையாளங்காட்டியை (%{identifier}) கீழே உள்ளிடவும்.
+  field_name_or_email_or_login: பெயர், மின்னஞ்சல் அல்லது உள்நுழைவு
+  text_default_active_job_queue_changed: Default queue adapter which is well suited
+    only for dev/test changed
+  label_option_auto_lang: auto
+  label_issue_attachment_added: Attachment added
+  field_estimated_remaining_hours: Estimated remaining time
+  field_last_activity_date: Last activity
+  setting_issue_done_ratio_interval: Done ratio options interval
+  setting_copy_attachments_on_issue_copy: Copy attachments on copy
+  field_thousands_delimiter: Thousands delimiter
+  label_involved_principals: Author / Previous assignee
+  label_attachment_summary:
+    zero: "%{filename}"
+    one: "%{filename} and 1 file"
+    other: "%{filename} and %{count} files"
+  setting_wiki_tablesort_enabled: Javascript based table sorting in wiki content
+  label_progressbar: Progress bar
+  error_spent_on_closed_issue: Cannot log time on a closed issue
+  setting_timelog_accept_closed_issues: Accept time logs on closed issues
+  setting_related_issues_default_columns: Related and sub issues list defaults
+  setting_display_related_issues_table_headers: Show table headers
+  error_can_not_remove_role_reason_members_html: "<p>The following projects have members
+    with this role:<br>%{projects}</p>"

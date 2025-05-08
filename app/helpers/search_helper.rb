@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -47,6 +47,7 @@ module SearchHelper
   def project_select_tag
     options = [[l(:label_project_all), 'all']]
     options << [l(:label_my_projects), 'my_projects'] unless User.current.memberships.empty?
+    options << [l(:label_my_bookmarks), 'bookmarks'] unless User.current.bookmarked_project_ids.empty?
     options << [l(:label_and_its_subprojects, @project.name), 'subprojects'] unless @project.nil? || @project.descendants.active.empty?
     options << [@project.name, ''] unless @project.nil?
     label_tag("scope", l(:description_project_scope), :class => "hidden-for-sighted") +
@@ -67,5 +68,51 @@ module SearchHelper
     ('<ul>'.html_safe +
         links.map {|link| content_tag('li', link)}.join(' ').html_safe +
         '</ul>'.html_safe) unless links.empty?
+  end
+
+  def issues_filter_path(question, options)
+    projects_scope = options[:projects_scope]
+    titles_only = options[:titles_only]
+    all_words = options[:all_words]
+    open_issues = options[:open_issues]
+
+    field_to_search = titles_only ? 'subject' : 'any_searchable'
+    params = {
+      :set_filter => 1,
+      :f => ['status_id', field_to_search],
+      :op => {
+        'status_id' => open_issues ? 'o' : '*',
+        field_to_search => all_words ? '~' : '*~'
+      },
+      :v => {field_to_search => [question]},
+      :sort => 'updated_on:desc'
+    }
+
+    case projects_scope
+    when 'all'
+      # nothing to do
+    when 'my_projects'
+      params[:f] << 'project_id'
+      params[:op]['project_id'] = '='
+      params[:v]['project_id'] = ['mine']
+    when 'bookmarks'
+      params[:f] << 'project_id'
+      params[:op]['project_id'] = '='
+      params[:v]['project_id'] = ['bookmarks']
+    when 'subprojects'
+      params[:f] << 'subproject_id'
+      params[:op]['subproject_id'] = '*'
+      params[:project_id] = @project.id
+    else
+      if @project
+        # current project only
+        params[:f] << 'subproject_id'
+        params[:op]['subproject_id'] = '!*'
+        params[:project_id] = @project.id
+      end
+      # else all projects
+    end
+
+    issues_path(params)
   end
 end

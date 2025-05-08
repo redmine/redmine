@@ -1,4 +1,5 @@
 <h2><%= @query.new_record? ? l(:label_calendar) : @query.name %></h2>
+<%= @query.persisted? && @query.description.present? ? content_tag('p', @query.description, class: 'subtitle') : '' %>
 
 <%= form_tag({:controller => 'calendars', :action => 'show', :project_id => @project},
              :method => :get, :id => 'query_form') do %>
@@ -8,16 +9,25 @@
 <div id="query_form_with_buttons" class="hide-when-print">
 <div id="query_form_content">
   <fieldset id="filters" class="collapsible <%= @query.new_record? ? "" : "collapsed" %>">
-    <legend onclick="toggleFieldset(this);" class="icon icon-<%= @query.new_record? ? "expanded" : "collapsed" %>"><%= l(:label_filter_plural) %></legend>
+    <legend onclick="toggleFieldset(this);" class="icon icon-<%= @query.new_record? ? "expanded" : "collapsed" %>">
+      <%= sprite_icon(@query.new_record? ? "angle-down" : "angle-right", rtl: !@query.new_record?) %>
+      <%= l(:label_filter_plural) %>
+    </legend>
     <div style="<%= @query.new_record? ? "" : "display: none;" %>">
       <%= render :partial => 'queries/filters', :locals => {:query => @query} %>
     </div>
   </fieldset>
 </div>
 
-<p class="contextual">
-  <%= link_to_previous_month(@year, @month, :accesskey => accesskey(:previous)) %> | <%= link_to_next_month(@year, @month, :accesskey => accesskey(:next)) %>
-</p>
+<span class="contextual pagination">
+  <ul class="pages">
+    <li class="previous page">
+      <%= link_to_previous_month(@year, @month, :accesskey => accesskey(:previous)) %>
+    </li><li class="next page">
+      <%= link_to_next_month(@year, @month, :accesskey => accesskey(:next)) %>
+    </li>
+  </ul>
+</span>
 
 <p class="buttons">
   <%= label_tag('month', l(:label_month)) %>
@@ -25,16 +35,16 @@
   <%= label_tag('year', l(:label_year)) %>
   <%= select_year(@year, :prefix => "year", :discard_type => true) %>
 
-  <%= link_to_function l(:button_apply), '$("#query_form").submit()', :class => 'icon icon-checked' %>
-  <%= link_to l(:button_clear), { :project_id => @project, :set_filter => 1 }, :class => 'icon icon-reload' %>
+  <%= link_to_function sprite_icon('checked', l(:button_apply)), '$("#query_form").submit()', :class => 'icon icon-checked' %>
+  <%= link_to sprite_icon('reload', l(:button_clear)), { :project_id => @project, :set_filter => 1 }, :class => 'icon icon-reload' %>
   <% if @query.new_record? && User.current.allowed_to?(:save_queries, @project, :global => true) %>
-    <%= link_to_function l(:button_save_object, object_name: l(:label_query).downcase),
+    <%= link_to_function sprite_icon('save', l(:button_save_object, object_name: l(:label_query)).capitalize),
                          "$('#query_form').attr('action', '#{ @project ? new_project_query_path(@project) : new_query_path }').submit();",
                          :class => 'icon icon-save' %>
   <% end %>
   <% if !@query.new_record? && @query.editable_by?(User.current) %>
-    <%= link_to l(:button_edit_object, object_name: l(:label_query).downcase), edit_query_path(@query, :calendar => 1), :class => 'icon icon-edit' %>
-    <%= delete_link query_path(@query, :calendar => 1), {}, l(:button_delete_object, object_name: l(:label_query).downcase) %>
+    <%= link_to sprite_icon('edit', l(:button_edit_object, object_name: l(:label_query)).capitalize), edit_query_path(@query, :calendar => 1), :class => 'icon icon-edit' %>
+    <%= delete_link query_path(@query, :calendar => 1), {}, l(:button_delete_object, object_name: l(:label_query)).capitalize %>
   <% end %>
 </p>
 </div>
@@ -47,9 +57,9 @@
 <%= call_hook(:view_calendars_show_bottom, :year => @year, :month => @month, :project => @project, :query => @query) %>
 
 <p class="legend cal">
-  <span class="starting"><%= l(:text_tip_issue_begin_day) %></span>
-  <span class="ending"><%= l(:text_tip_issue_end_day) %></span>
-  <span class="starting ending"><%= l(:text_tip_issue_begin_end_day) %></span>
+  <span class="starting"><%= sprite_icon('bullet-go', l(:text_tip_issue_begin_day)) %></span>
+  <span class="ending"><%= sprite_icon('bullet-end', l(:text_tip_issue_end_day)) %></span>
+  <span class="starting ending"><%= sprite_icon('bullet-go-end', l(:text_tip_issue_begin_end_day)) %></span>
 </p>
 <% end %>
 

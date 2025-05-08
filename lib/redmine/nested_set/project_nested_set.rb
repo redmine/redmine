@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -40,7 +40,7 @@ module Redmine
 
       def target_lft
         siblings_rgt =
-          self.class.where(:parent_id => parent_id).where("name < ?", name).maximum(:rgt)
+          self.class.where(:parent_id => parent_id).where(name: ...name).maximum(:rgt)
         if siblings_rgt
           siblings_rgt + 1
         elsif parent_id

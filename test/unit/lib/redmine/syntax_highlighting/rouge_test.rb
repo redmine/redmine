@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,14 +17,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../../../test_helper', __FILE__)
+require_relative '../../../../test_helper'
 
 class Redmine::SyntaxHighlighting::RougeTest < ActiveSupport::TestCase
   def test_filename_supported
     to_test = {
       'application.js' => true,
       'Gemfile' => true,
-      'HELLO.CBL' => false,  # Rouge does not support COBOL
+      'HELLO.abc' => false,
       'HELLO.C' => true
     }
     to_test.each do |filename, expected|
@@ -33,6 +33,7 @@ class Redmine::SyntaxHighlighting::RougeTest < ActiveSupport::TestCase
   end
 
   def test_highlight_by_filename_should_distinguish_perl_and_prolog
+    # rubocop:disable Style/RedundantHeredocDelimiterQuotes
     raw_perl = <<~'RAW_PERL'
       #!/usr/bin/perl
       print "Hello, world!\n";
@@ -49,6 +50,7 @@ class Redmine::SyntaxHighlighting::RougeTest < ActiveSupport::TestCase
       <span class="c1">#!/usr/bin/swipl</span>
       <span class="p">:-</span> <span class="ss">writeln</span><span class="p">(</span><span class="ss">'Hello, world!'</span><span class="p">),</span><span class="ss">halt</span><span class="p">.</span>
     EXPECTED_PROLOG
+    # rubocop:enable Style/RedundantHeredocDelimiterQuotes
 
     filename = 'hello.pl'
 

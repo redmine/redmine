@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -50,13 +50,13 @@ module MembersHelper
 
   # Returns inheritance information for an inherited member role
   def render_role_inheritance(member, role)
-    content = member.role_inheritance(role).map do |h|
+    content = member.role_inheritance(role).filter_map do |h|
       if h.is_a?(Project)
         l(:label_inherited_from_parent_project)
       elsif h.is_a?(Group)
         l(:label_inherited_from_group, :name => h.name.to_s)
       end
-    end.compact.uniq
+    end.uniq
 
     if content.present?
       content_tag('em', content.join(", "), :class => "info")

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,11 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class SysControllerTest < Redmine::ControllerTest
-  fixtures :projects, :repositories, :enabled_modules
-
   def setup
     Setting.sys_api_enabled = '1'
     Setting.enabled_scm = %w(Subversion Git)
@@ -95,7 +93,7 @@ class SysControllerTest < Redmine::ControllerTest
         :repository => {:url => 'invalid url'}
       }
     )
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
   end
 
   def test_fetch_changesets
@@ -118,13 +116,13 @@ class SysControllerTest < Redmine::ControllerTest
 
   def test_fetch_changesets_unknown_project
     get :fetch_changesets, :params => {:id => 'unknown'}
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_disabled_ws_should_respond_with_403_error
     with_settings :sys_api_enabled => '0' do
       get :projects
-      assert_response 403
+      assert_response :forbidden
       assert_include 'Access denied', response.body
     end
   end
@@ -139,8 +137,15 @@ class SysControllerTest < Redmine::ControllerTest
   def test_wrong_key_should_respond_with_403_error
     with_settings :sys_api_enabled => 'my_secret_key' do
       get :projects, :params => {:key => 'wrong_key'}
-      assert_response 403
+      assert_response :forbidden
       assert_include 'Access denied', response.body
     end
+  end
+
+  def test_should_skip_verify_authenticity_token
+    ActionController::Base.allow_forgery_protection = true
+    assert_nothing_raised {test_create_project_repository}
+  ensure
+    ActionController::Base.allow_forgery_protection = false
   end
 end

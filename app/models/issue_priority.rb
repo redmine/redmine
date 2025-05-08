@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -60,11 +60,15 @@ class IssuePriority < Enumeration
   end
 
   def high?
-    position > self.class.default_or_middle.position
+    return false unless (baseline_position = self.class.default_or_middle&.position)
+
+    position > baseline_position
   end
 
   def low?
-    position < self.class.default_or_middle.position
+    return false unless (baseline_position = self.class.default_or_middle&.position)
+
+    position < baseline_position
   end
 
   # Updates position_name for active priorities

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,17 +17,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class RepositoriesSubversionControllerTest < Redmine::RepositoryControllerTest
   tests RepositoriesController
 
-  fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles, :enabled_modules,
-           :repositories, :issues, :issue_statuses, :changesets, :changes,
-           :issue_categories, :enumerations, :custom_fields, :custom_values, :trackers
-
   PRJ_ID = 3
-  NUM_REV = 13
+  NUM_REV = 16
 
   def setup
     super
@@ -38,6 +34,7 @@ class RepositoriesSubversionControllerTest < Redmine::RepositoryControllerTest
     @repository = Repository::Subversion.create(:project => @project,
                :url => self.class.subversion_repository_url)
     assert @repository
+    skip "SCM command is unavailable" unless @repository.class.scm_available
   end
 
   if repository_configured?('subversion')
@@ -121,12 +118,14 @@ class RepositoriesSubversionControllerTest < Redmine::RepositoryControllerTest
       assert_response :success
 
       assert_select 'table.entries tbody' do
-        assert_select 'tr', 5
+        assert_select 'tr', 7
         assert_select 'tr.dir td.filename a', :text => '[folder_with_brackets]'
         assert_select 'tr.dir td.filename a', :text => 'folder'
+        assert_select 'tr.file td.filename a', :text => '+.md'
         assert_select 'tr.file td.filename a', :text => '.project'
         assert_select 'tr.file td.filename a', :text => 'helloworld.c'
         assert_select 'tr.file td.filename a', :text => 'textfile.txt'
+        assert_select 'tr.file td.filename a', :text => 'foo.js'
       end
 
       assert_select 'a.text-x-c', :text => 'helloworld.c'
@@ -412,7 +411,7 @@ class RepositoriesSubversionControllerTest < Redmine::RepositoryControllerTest
           :rev => 'something_weird'
         }
       )
-      assert_response 404
+      assert_response :not_found
       assert_select_error /was not found/
     end
 
@@ -426,7 +425,7 @@ class RepositoriesSubversionControllerTest < Redmine::RepositoryControllerTest
           :rev_to => 'something_weird'
         }
       )
-      assert_response 404
+      assert_response :not_found
       assert_select_error /was not found/
     end
 
@@ -444,7 +443,7 @@ class RepositoriesSubversionControllerTest < Redmine::RepositoryControllerTest
             :rev => r
           }
         )
-        assert_response 404
+        assert_response :not_found
         assert_select_error /was not found/
       end
     end
@@ -557,14 +556,14 @@ class RepositoriesSubversionControllerTest < Redmine::RepositoryControllerTest
       assert_response :success
 
       assert_select 'tr' do
-        assert_select 'th.line-num', :text => '1'
+        assert_select 'th.line-num a[data-txt=?]', '1'
         assert_select 'td.revision', :text => '4'
         assert_select 'td.author', :text => 'jp'
         assert_select 'td', :text => /stdio.h/
       end
       # Same revision
       assert_select 'tr' do
-        assert_select 'th.line-num', :text => '2'
+        assert_select 'th.line-num a[data-txt=?]', '2'
         assert_select 'td.revision', :text => ''
         assert_select 'td.author', :text => ''
       end
@@ -597,7 +596,7 @@ class RepositoriesSubversionControllerTest < Redmine::RepositoryControllerTest
       assert_difference 'Repository.count', -1 do
         delete(:destroy, :params => {:id => @repository.id})
       end
-      assert_response 302
+      assert_response :found
       @project.reload
       assert_nil @project.repository
     end
@@ -617,7 +616,7 @@ class RepositoriesSubversionControllerTest < Redmine::RepositoryControllerTest
       assert_difference 'Repository.count', -1 do
         delete(:destroy, :params => {:id => @repository.id})
       end
-      assert_response 302
+      assert_response :found
       @project.reload
       assert_nil @project.repository
     end

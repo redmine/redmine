@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,11 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class RepositoryGitTest < ActiveSupport::TestCase
-  fixtures :projects, :repositories, :enabled_modules, :users, :roles
-
   include Redmine::I18n
 
   REPOSITORY_PATH = Rails.root.join('tmp/test/git_repository').to_s
@@ -30,7 +28,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
   REPOSITORY_UTF8_PATH = Rails.root.join('tmp/test/git_utf8_repository').to_s
   REPOSITORY_UTF8_PATH.tr!('/', "\\") if Redmine::Platform.mswin?
 
-  NUM_REV = 28
+  NUM_REV = 29
   NUM_HEAD = 8
 
   def setup
@@ -43,6 +41,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
         :path_encoding => 'ISO-8859-1'
       )
     assert @repository
+    skip "SCM command is unavailable" unless @repository.class.scm_available
   end
 
   def test_nondefault_repo_with_blank_identifier_destruction
@@ -135,7 +134,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @project.reload
 
       assert_equal NUM_REV, @repository.changesets.count
-      assert_equal 39, @repository.filechanges.count
+      assert_equal 40, @repository.filechanges.count
 
       commit = @repository.changesets.find_by_revision("7234cb2750b63f47bff735edc50a1c0a433c2518")
       assert_equal "7234cb2750b63f47bff735edc50a1c0a433c2518", commit.scmid
@@ -161,10 +160,11 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert_equal NUM_REV, @repository.changesets.count
       extra_info_heads = @repository.extra_info["heads"].dup
       assert_equal NUM_HEAD, extra_info_heads.size
-      extra_info_heads.delete_if {|x| x == "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c"}
+      extra_info_heads.delete_if {|x| x == "b1650eac7c505a6dab9f19858afc9ecb481eccc2"}
       assert_equal NUM_HEAD - 2, extra_info_heads.size
       del_revs =
         [
+          "b1650eac7c505a6dab9f19858afc9ecb481eccc2",
           "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c",
           "ed5bb786bbda2dee66a2d50faf51429dbc043a7b",
           "4f26664364207fa8b1af9f8722647ab2d4ac5d43",
@@ -177,7 +177,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       end
       @project.reload
       cs1 = @repository.changesets
-      assert_equal NUM_REV - 6, cs1.count
+      assert_equal NUM_REV - del_revs.size, cs1.count
       extra_info_heads << "4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8"
       h = {}
       h["heads"] = extra_info_heads
@@ -189,7 +189,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
       assert_equal NUM_HEAD, @repository.extra_info["heads"].size
-      assert @repository.extra_info["heads"].index("83ca5fd546063a3c7dc2e568ba3355661a9e2b2c")
+      assert @repository.extra_info["heads"].index("b1650eac7c505a6dab9f19858afc9ecb481eccc2")
     end
 
     def test_fetch_changesets_history_editing
@@ -199,10 +199,11 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert_equal NUM_REV, @repository.changesets.count
       extra_info_heads = @repository.extra_info["heads"].dup
       assert_equal NUM_HEAD, extra_info_heads.size
-      extra_info_heads.delete_if {|x| x == "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c"}
+      extra_info_heads.delete_if {|x| x == "b1650eac7c505a6dab9f19858afc9ecb481eccc2"}
       assert_equal NUM_HEAD - 2, extra_info_heads.size
       del_revs =
         [
+          "b1650eac7c505a6dab9f19858afc9ecb481eccc2",
           "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c",
           "ed5bb786bbda2dee66a2d50faf51429dbc043a7b",
           "4f26664364207fa8b1af9f8722647ab2d4ac5d43",
@@ -214,7 +215,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
         rev.destroy if del_revs.detect {|r| r == rev.scmid.to_s}
       end
       @project.reload
-      assert_equal NUM_REV - 6, @repository.changesets.count
+      assert_equal NUM_REV - del_revs.size, @repository.changesets.count
 
       c = Changeset.new(:repository   => @repository,
                         :committed_on => Time.now,
@@ -223,7 +224,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
                         :comments     => 'test')
       assert c.save
       @project.reload
-      assert_equal NUM_REV - 5, @repository.changesets.count
+      assert_equal NUM_REV - del_revs.size + 1, @repository.changesets.count
 
       extra_info_heads << "1234abcd5678"
       h = {}
@@ -237,7 +238,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
 
       @repository.fetch_changesets
       @project.reload
-      assert_equal NUM_REV - 5, @repository.changesets.count
+      assert_equal NUM_REV - del_revs.size + 1, @repository.changesets.count
       h2 = @repository.extra_info["heads"].dup
       assert_equal h1, h2
     end
@@ -312,9 +313,10 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert_equal 0, @repository.extra_info["db_consistent"]["ordering"]
 
       extra_info_heads = @repository.extra_info["heads"].dup
-      extra_info_heads.delete_if {|x| x == "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c"}
+      extra_info_heads.delete_if {|x| x == "b1650eac7c505a6dab9f19858afc9ecb481eccc2"}
       del_revs =
         [
+          "b1650eac7c505a6dab9f19858afc9ecb481eccc2",
           "83ca5fd546063a3c7dc2e568ba3355661a9e2b2c",
           "ed5bb786bbda2dee66a2d50faf51429dbc043a7b",
           "4f26664364207fa8b1af9f8722647ab2d4ac5d43",
@@ -327,7 +329,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       end
       @project.reload
       cs1 = @repository.changesets
-      assert_equal NUM_REV - 6, cs1.count
+      assert_equal NUM_REV - del_revs.size, cs1.count
       assert_equal 0, @repository.extra_info["db_consistent"]["ordering"]
 
       extra_info_heads << "4a07fe31bffcf2888791f3e6cbc9c4545cefe3e8"

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,7 +26,7 @@ class AutoCompletesController < ApplicationController
     status = params[:status].to_s
     issue_id = params[:issue_id].to_s
 
-    scope = Issue.cross_project_scope(@project, params[:scope]).visible
+    scope = Issue.cross_project_scope(@project, params[:scope]).includes(:tracker).visible
     scope = scope.open(status == 'o') if status.present?
     scope = scope.where.not(:id => issue_id.to_i) if issue_id.present?
     if q.present?

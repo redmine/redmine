@@ -1,10 +1,22 @@
+<% @admin_list = User.current.admin? && controller_name == 'admin' && action_name == 'projects' %>
 <%= render_query_totals(@query) %>
+<%= form_tag({}, data: {cm_url: projects_context_menu_path}) do -%>
+<%= hidden_field_tag 'back_url', url_for(params: request.query_parameters), id: nil %>
 <div class="autoscroll">
 <table class="list projects odd-even <%= @query.css_classes %>">
 <thead>
   <tr>
+    <% if @admin_list %>
+      <th class="checkbox hide-when-print">
+        <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection',
+          :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}" %>
+      </th>
+    <% end %>
     <% @query.inline_columns.each do |column| %>
       <%= column_header(@query, column) %>
+    <% end %>
+    <% if @admin_list %>
+      <th></th>
     <% end %>
   </tr>
 </thead>
@@ -14,7 +26,7 @@
     <% reset_cycle %>
     <tr class="group open">
       <td colspan="<%= @query.inline_columns.size %>">
-        <span class="expander icon icon-expanded" onclick="toggleRowGroup(this);">&nbsp;</span>
+        <span class="expander icon icon-expanded" onclick="toggleRowGroup(this);"><%= sprite_icon("angle-down") %></span>
         <span class="name"><%= group_name %></span>
         <% if group_count %>
         <span class="count"><%= group_count %></span>
@@ -23,17 +35,35 @@
         <%= link_to_function("#{l(:button_collapse_all)}/#{l(:button_expand_all)}",
                              "toggleAllRowGroups(this)", :class => 'toggle-all') %>
       </td>
+      <% if @admin_list %>
+        <td></td>
+      <% end %>
     </tr>
   <% end %>
-  <tr id="project-<%= entry.id %>" class="<%= cycle('odd', 'even') %> <%= entry.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+  <tr id="project-<%= entry.id %>" class="<%= cycle('odd', 'even') %> hascontextmenu <%= entry.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+    <% if @admin_list %>
+      <% if !entry.scheduled_for_deletion? %>
+        <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", entry.id, false, :id => nil) %></td>
+      <% else %>
+        <td class="checkbox hide-when-print"></td>
+      <% end %>
+    <% end %>
     <% @query.inline_columns.each do |column| %>
     <%= content_tag('td', column_content(column, entry), :class => column.css_classes) %>
+    <% end %>
+    <% if @admin_list %>
+      <% if !entry.scheduled_for_deletion? %>
+        <td class="buttons"><%= link_to_context_menu %></td>
+      <% else %>
+        <td class="buttons"></td>
+      <% end %>
     <% end %>
   </tr>
 <% end -%>
 </tbody>
 </table>
 </div>
+<% end -%>
 <span class="pagination"><%= pagination_links_full @entry_pages, @entry_count %></span>
 
 <div id="csv-export-options" style="display:none;">
@@ -45,9 +75,11 @@
     <label><%= radio_button_tag 'c[]', 'all_inline' %> <%= l(:description_all_columns) %></label>
   </p>
   <%= export_csv_encoding_select_tag %>
+  <%= export_csv_separator_select_tag %>
   <p class="buttons">
     <%= submit_tag l(:button_export), :name => nil, :onclick => "hideModal(this);", :data => { :disable_with => false } %>
     <%= link_to_function l(:button_cancel), "hideModal(this);" %>
   </p>
   <% end %>
 </div>
+<%= context_menu if @admin_list %>

@@ -4,22 +4,22 @@
 
 <% if @entry && !@entry.is_dir? && @repository.supports_cat? %>
   <% download_label = @entry.size ? "#{l :button_download} (#{number_to_human_size @entry.size})" : l(:button_download) %>
-  <%= link_to(download_label,
+  <%= link_to(sprite_icon('download', download_label),
               {:action => 'raw', :id => @project,
                :repository_id => @repository.identifier_param,
                :path => to_path_param(@path),
                :rev => @rev}, class: 'icon icon-download') %>
 <% end %>
 
-<%= link_to l(:label_statistics),
+<%= link_to sprite_icon('stats', l(:label_statistics)),
             {:action => 'stats', :id => @project, :repository_id => @repository.identifier_param},
-            :class => 'icon icon-stats' if @repository.supports_all_revisions? %>
+            :class => 'icon icon-stats' if @repository.supports_history? %>
 
 <%= actions_dropdown do %>
-  <%= link_to_if_authorized l(:label_settings),
-            {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'repositories'},
-            :class => 'icon icon-settings' if User.current.allowed_to?(:manage_repository, @project) %>
-  <%= link_to l(:button_fetch_changesets),
+  <%= link_to_if_authorized sprite_icon('settings', l(:label_settings)),
+                            {:controller => 'projects', :action => 'settings', :id => @project, :tab => 'repositories'},
+                            :class => 'icon icon-settings' if User.current.allowed_to?(:manage_repository, @project) %>
+  <%= link_to sprite_icon('reload', l(:button_fetch_changesets)),
               {:action => :fetch_changesets, :id => @project, :repository_id => @repository.identifier_param},
               :class => 'icon icon-reload', :method => :post if User.current.allowed_to?(:manage_repository, @project) && !Setting.autofetch_changesets? %>
 <% end %>
@@ -32,21 +32,21 @@
             {:method => :get, :id => 'revision_selector'}) do -%>
   <!-- Branches Dropdown -->
   <% if !@repository.branches.nil? && @repository.branches.length > 0 -%>
-    | <%= l(:label_branch) %>: 
+    | <%= l(:label_branch) %>:
     <%= select_tag :branch,
                    options_for_select([''] + @repository.branches, @rev),
                    :id => 'branch' %>
   <% end -%>
 
   <% if !@repository.tags.nil? && @repository.tags.length > 0 -%>
-    | <%= l(:label_tag) %>: 
+    | <%= l(:label_tag) %>:
     <%= select_tag :tag,
                    options_for_select([''] + @repository.tags, @rev),
                    :id => 'tag' %>
   <% end -%>
 
-  <% if @repository.supports_all_revisions? %>
-    | <%= l(:label_revision) %>: 
+  <% if @repository.supports_history? %>
+    | <%= l(:label_revision) %>:
     <%= text_field_tag 'rev', @rev, :size => 8 %>
   <% end %>
 <% end -%>

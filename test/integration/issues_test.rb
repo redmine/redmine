@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,25 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class IssuesTest < Redmine::IntegrationTest
-  fixtures :projects,
-           :users, :email_addresses,
-           :roles,
-           :members,
-           :member_roles,
-           :trackers,
-           :projects_trackers,
-           :enabled_modules,
-           :issue_statuses,
-           :issues,
-           :enumerations,
-           :custom_fields,
-           :custom_values,
-           :custom_fields_trackers, :custom_fields_projects,
-           :attachments
-
   # create an issue
   def test_add_issue
     log_user('jsmith', 'jsmith')
@@ -86,7 +70,7 @@ class IssuesTest < Redmine::IntegrationTest
         }
       )
     end
-    assert_response 302
+    assert_response :found
   end
 
   def test_create_issue_by_anonymous_with_custom_permission_should_succeed
@@ -103,7 +87,7 @@ class IssuesTest < Redmine::IntegrationTest
           }
         }
       )
-      assert_response 302
+      assert_response :found
     end
     assert_equal User.anonymous, issue.author
   end
@@ -137,6 +121,80 @@ class IssuesTest < Redmine::IntegrationTest
     # remove the attachments
     Issue.find(1).attachments.each(&:destroy)
     assert_equal 0, Issue.find(1).attachments.length
+  end
+
+  def test_edit_add_attachment_form
+    log_user('jsmith', 'jsmith')
+    role = Role.find(1)
+
+    role.add_permission! :edit_issues
+    role.remove_permission! :edit_own_issues
+    role.remove_permission! :add_issue_notes
+
+    get '/issues/1'
+    assert_response :success
+    assert_select 'div#new-attachments', 1
+
+    get '/issues/1/edit'
+    assert_response :success
+    assert_select 'div#new-attachments', 1
+
+    role.remove_permission! :edit_issues
+    role.add_permission! :edit_own_issues
+    role.remove_permission! :add_issue_notes
+
+    get '/issues/1'
+    assert_response :success
+    assert_select 'div#new-attachments', 1
+
+    get '/issues/1/edit'
+    assert_response :success
+    assert_select 'div#new-attachments', 1
+
+    role.remove_permission! :edit_issues
+    role.remove_permission! :edit_own_issues
+    role.add_permission! :add_issue_notes
+
+    get '/issues/1'
+    assert_response :success
+    assert_select 'div#new-attachments', 1
+
+    get '/issues/1/edit'
+    assert_response :success
+    assert_select 'div#new-attachments', 1
+  end
+
+  def test_edit_check_permission_for_add_attachment
+    log_user('jsmith', 'jsmith')
+    role = Role.find(1)
+
+    role.remove_permission! :edit_issues
+    role.remove_permission! :edit_own_issues
+    role.add_permission! :add_issue_notes
+
+    role.permissions_all_trackers = {'view_issues' => '0', 'add_issue_notes' => '0' }
+    role.permissions_tracker_ids = {'view_issues' => ['1'], 'add_issue_notes' => ['2'] }
+    role.save!
+
+    assert_no_difference 'Attachment.count' do
+      put(
+        '/issues/1',
+        :params => {
+          :issue => {:notes => 'Some notes'},
+          :attachments => {
+            '1' => {
+              'file' => uploaded_test_file('testfile.txt', 'text/plain'),
+              'description' => 'This is an attachment'
+            }
+          }
+        }
+      )
+    end
+    assert_redirected_to '/issues/1'
+
+    follow_redirect!
+    assert_response :success
+    assert_select '.flash', '1 file(s) could not be saved.'
   end
 
   def test_next_and_previous_links_should_be_displayed_after_query_grouped_and_sorted_by_version
@@ -266,7 +324,7 @@ class IssuesTest < Redmine::IntegrationTest
           }
         }
       )
-      assert_response 302
+      assert_response :found
     end
 
     # Issue view
@@ -306,11 +364,11 @@ class IssuesTest < Redmine::IntegrationTest
     subject = 'Updated by an invalid http verb'
 
     get '/issues/update/1', :params => {:issue => {:subject => subject}}
-    assert_response 404
+    assert_response :not_found
     assert_not_equal subject, Issue.find(1).subject
 
     post '/issues/1', :params => {:issue => {:subject => subject}}
-    assert_response 404
+    assert_response :not_found
     assert_not_equal subject, Issue.find(1).subject
   end
 
@@ -319,7 +377,7 @@ class IssuesTest < Redmine::IntegrationTest
 
     assert_no_difference 'Watcher.count' do
       get '/watchers/watch?object_type=issue&object_id=1'
-      assert_response 404
+      assert_response :not_found
     end
   end
 
@@ -331,6 +389,6 @@ class IssuesTest < Redmine::IntegrationTest
       'v' => {'cf_9' => ['2021-05-25']}
     }
 
-    assert_response 404
+    assert_response :not_found
   end
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -21,6 +21,7 @@ class IssueQuery < Query
   self.queried_class = Issue
   self.view_permission = :view_issues
 
+  ESTIMATED_REMAINING_HOURS_SQL = Arel.sql("COALESCE(#{Issue.table_name}.estimated_hours, 0) * (100 - COALESCE(#{Issue.table_name}.done_ratio, 0)) / 100")
   self.available_columns = [
     QueryColumn.new(:id, :sortable => "#{Issue.table_name}.id",
                     :default_order => 'desc', :caption => '#', :frozen => true),
@@ -40,6 +41,7 @@ class IssueQuery < Query
     QueryColumn.new(:assigned_to,
                     :sortable => lambda {User.fields_for_order_statement},
                     :groupable => true),
+    WatcherQueryColumn.new(:watcher_users, :caption => :label_issue_watchers),
     TimestampQueryColumn.new(:updated_on, :sortable => "#{Issue.table_name}.updated_on",
                              :default_order => 'desc', :groupable => true),
     QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name", :groupable => true),
@@ -48,6 +50,9 @@ class IssueQuery < Query
     QueryColumn.new(:start_date, :sortable => "#{Issue.table_name}.start_date", :groupable => true),
     QueryColumn.new(:due_date, :sortable => "#{Issue.table_name}.due_date", :groupable => true),
     QueryColumn.new(:estimated_hours, :sortable => "#{Issue.table_name}.estimated_hours",
+                    :totalable => true),
+    QueryColumn.new(:estimated_remaining_hours,
+                    :sortable => ESTIMATED_REMAINING_HOURS_SQL,
                     :totalable => true),
     QueryColumn.new(
       :total_estimated_hours,
@@ -78,16 +83,26 @@ class IssueQuery < Query
   scope :for_all_projects, ->{ where(project_id: nil) }
 
   def self.default(project: nil, user: User.current)
-    query = nil
-    if user&.logged?
-      query = find_by_id user.pref.default_issue_query
+    # user default
+    if user&.logged? && (query_id = user.pref.default_issue_query).present?
+      query = find_by(id: query_id)
+      return query if query&.visible?(user)
     end
-    query ||= project&.default_issue_query
-    query || find_by_id(Setting.default_issue_query)
+
+    # project default
+    query = project&.default_issue_query
+    return query if query&.visibility == VISIBILITY_PUBLIC
+
+    # global default
+    if (query_id = Setting.default_issue_query).present?
+      query = find_by(id: query_id)
+      return query if query&.visibility == VISIBILITY_PUBLIC
+    end
+    nil
   end
 
   def initialize(attributes=nil, *args)
-    super attributes
+    super(attributes)
     self.filters ||= {'status_id' => {:operator => "o", :values => [""]}}
   end
 
@@ -145,31 +160,46 @@ class IssueQuery < Query
     ) if project.nil?
     add_available_filter(
       "tracker_id",
-      :type => :list, :values => trackers.collect{|s| [s.name, s.id.to_s]}
+      :type => :list_with_history, :values => trackers.collect{|s| [s.name, s.id.to_s]}
     )
     add_available_filter(
       "priority_id",
-      :type => :list, :values => IssuePriority.all.collect{|s| [s.name, s.id.to_s]}
+      :type => :list_with_history,
+      :values => IssuePriority.pluck(:name, :id).map {|name, id| [name, id.to_s]}
     )
     add_available_filter(
       "author_id",
       :type => :list, :values => lambda {author_values}
     )
     add_available_filter(
+      "author.group",
+      :type => :list,
+      :values => lambda {Group.givable.visible.pluck(:name, :id).map {|name, id| [name, id.to_s]}},
+      :name => l(:label_attribute_of_author, :name => l(:label_group))
+    )
+    add_available_filter(
+      "author.role",
+      :type => :list,
+      :values => lambda {Role.givable.pluck(:name, :id).map {|name, id| [name, id.to_s]}},
+      :name => l(:label_attribute_of_author, :name => l(:field_role))
+    )
+    add_available_filter(
       "assigned_to_id",
-      :type => :list_optional, :values => lambda {assigned_to_values}
+      :type => :list_optional_with_history, :values => lambda {assigned_to_values}
     )
     add_available_filter(
       "member_of_group",
-      :type => :list_optional, :values => lambda {Group.givable.visible.collect {|g| [g.name, g.id.to_s]}}
+      :type => :list_optional,
+      :values => lambda {Group.givable.visible.pluck(:name, :id).map {|name, id| [name, id.to_s]}}
     )
     add_available_filter(
       "assigned_to_role",
-      :type => :list_optional, :values => lambda {Role.givable.collect {|r| [r.name, r.id.to_s]}}
+      :type => :list_optional,
+      :values => lambda {Role.givable.pluck(:name, :id).map {|name, id| [name, id.to_s]}}
     )
     add_available_filter(
       "fixed_version_id",
-      :type => :list_optional, :values => lambda {fixed_version_values}
+      :type => :list_optional_with_history, :values => lambda {fixed_version_values}
     )
     add_available_filter(
       "fixed_version.due_date",
@@ -184,8 +214,8 @@ class IssueQuery < Query
     )
     add_available_filter(
       "category_id",
-      :type => :list_optional,
-      :values => lambda {project.issue_categories.collect{|s| [s.name, s.id.to_s]}}
+      :type => :list_optional_with_history,
+      :values => lambda {project.issue_categories.pluck(:name, :id).map {|name, id| [name, id.to_s]}}
     ) if project
     add_available_filter "subject", :type => :text
     add_available_filter "description", :type => :text
@@ -262,6 +292,8 @@ class IssueQuery < Query
 
     add_available_filter "issue_id", :type => :integer, :label => :label_issue
 
+    add_available_filter "any_searchable", :type => :search
+
     Tracker.disabled_core_fields(trackers).each do |field|
       delete_available_filter field
     end
@@ -313,8 +345,10 @@ class IssueQuery < Query
                         :sortable => "#{Issue.table_name}.is_private", :groupable => true)
     end
 
-    disabled_fields = Tracker.disabled_core_fields(trackers).map {|field| field.sub(/_id$/, '')}
-    disabled_fields << "total_estimated_hours" if disabled_fields.include?("estimated_hours")
+    disabled_fields = Tracker.disabled_core_fields(trackers).map {|field| field.delete_suffix('_id')}
+    if disabled_fields.include?("estimated_hours")
+      disabled_fields += %w[total_estimated_hours estimated_remaining_hours]
+    end
     @available_columns.reject! do |column|
       disabled_fields.include?(column.name.to_s)
     end
@@ -354,6 +388,10 @@ class IssueQuery < Query
     map_total(scope.sum(:estimated_hours)) {|t| t.to_f.round(2)}
   end
 
+  def total_for_estimated_remaining_hours(scope)
+    map_total(scope.sum(ESTIMATED_REMAINING_HOURS_SQL)) {|t| t.to_f.round(2)}
+  end
+
   # Returns sum of all the issue's time entries hours
   def total_for_spent_hours(scope)
     total = scope.joins(:time_entries).
@@ -388,6 +426,9 @@ class IssueQuery < Query
       )
     if has_custom_field_column?
       scope = scope.preload(:custom_values)
+    end
+    if has_column?(:watcher_users)
+      scope = scope.preload(:watcher_users)
     end
 
     issues = scope.to_a
@@ -464,9 +505,9 @@ class IssueQuery < Query
   def sql_for_notes_field(field, operator, value)
     subquery = "SELECT 1 FROM #{Journal.table_name}" +
       " WHERE #{Journal.table_name}.journalized_type='Issue' AND #{Journal.table_name}.journalized_id=#{Issue.table_name}.id" +
-      " AND (#{sql_for_field field, operator.sub(/^!/, ''), value, Journal.table_name, 'notes'})" +
+      " AND (#{sql_for_field field, operator.delete_prefix('!'), value, Journal.table_name, 'notes'})" +
       " AND (#{Journal.visible_notes_condition(User.current, :skip_pre_condition => true)})"
-    "#{/^!/.match?(operator) ? "NOT EXISTS" : "EXISTS"} (#{subquery})"
+    "#{operator.start_with?('!') ? "NOT EXISTS" : "EXISTS"} (#{subquery})"
   end
 
   def sql_for_updated_by_field(field, operator, value)
@@ -509,7 +550,9 @@ class IssueQuery < Query
 
   def sql_for_watcher_id_field(field, operator, value)
     db_table = Watcher.table_name
-    me, others = value.partition {|id| ['0', User.current.id.to_s].include?(id)}
+    me_ids = [0, User.current.id]
+    me_ids.concat(User.current.groups.pluck(:id))
+    me, others = value.partition {|id| me_ids.include?(id.to_i)}
     sql =
       if others.any?
         "SELECT #{Issue.table_name}.id FROM #{Issue.table_name} " +
@@ -554,8 +597,12 @@ class IssueQuery < Query
     when "*", "!*" # Member / Not member
       sw = operator == "!*" ? 'NOT' : ''
       nl = operator == "!*" ? "#{Issue.table_name}.assigned_to_id IS NULL OR" : ''
-      "(#{nl} #{Issue.table_name}.assigned_to_id #{sw} IN (SELECT DISTINCT #{Member.table_name}.user_id FROM #{Member.table_name}" +
-        " WHERE #{Member.table_name}.project_id = #{Issue.table_name}.project_id))"
+
+      subquery =
+        "SELECT 1" +
+        " FROM #{Member.table_name}" +
+        " WHERE #{Issue.table_name}.project_id = #{Member.table_name}.project_id AND #{Member.table_name}.user_id = #{Issue.table_name}.assigned_to_id"
+      "(#{nl} #{sw} EXISTS (#{subquery}))"
     when "=", "!"
       role_cond =
         if value.any?
@@ -565,14 +612,44 @@ class IssueQuery < Query
         end
       sw = operator == "!" ? 'NOT' : ''
       nl = operator == "!" ? "#{Issue.table_name}.assigned_to_id IS NULL OR" : ''
-      "(#{nl} #{Issue.table_name}.assigned_to_id #{sw} IN (SELECT DISTINCT #{Member.table_name}.user_id FROM #{Member.table_name}, #{MemberRole.table_name}" +
-        " WHERE #{Member.table_name}.project_id = #{Issue.table_name}.project_id AND #{Member.table_name}.id = #{MemberRole.table_name}.member_id AND #{role_cond}))"
+      subquery =
+        "SELECT 1" +
+        " FROM #{Member.table_name} inner join #{MemberRole.table_name} on members.id = member_roles.member_id" +
+        " WHERE #{Issue.table_name}.project_id = #{Member.table_name}.project_id AND #{Member.table_name}.user_id = #{Issue.table_name}.assigned_to_id AND #{role_cond}"
+      "(#{nl} #{sw} EXISTS (#{subquery}))"
     end
+  end
+
+  def sql_for_author_group_field(field, operator, value)
+    groups = value.empty? ? Group.givable : Group.where(:id => value).to_a
+
+    author_groups = groups.inject([]) do |user_ids, group|
+      user_ids + group.user_ids + [group.id]
+    end.uniq.compact.sort.collect(&:to_s)
+
+    '(' + sql_for_field("author_id", operator, author_groups, Issue.table_name, "author_id", false) + ')'
+  end
+
+  def sql_for_author_role_field(field, operator, value)
+    role_cond =
+      if value.any?
+        "#{MemberRole.table_name}.role_id IN (" + value.collect{|val| "'#{self.class.connection.quote_string(val)}'"}.join(",") + ")"
+      else
+        "1=0"
+      end
+    sw = operator == "!" ? 'NOT' : ''
+    nl = operator == "!" ? "#{Issue.table_name}.author_id IS NULL OR" : ''
+    subquery =
+      "SELECT 1" +
+      " FROM #{Member.table_name} inner join #{MemberRole.table_name} on members.id = member_roles.member_id" +
+      " WHERE #{Issue.table_name}.project_id = #{Member.table_name}.project_id AND #{Member.table_name}.user_id = #{Issue.table_name}.author_id AND #{role_cond}"
+    "(#{nl} #{sw} EXISTS (#{subquery}))"
   end
 
   def sql_for_fixed_version_status_field(field, operator, value)
     where = sql_for_field(field, operator, value, Version.table_name, "status")
-    version_ids = versions(:conditions => [where]).map(&:id)
+    version_id_scope = project ? project.shared_versions : Version.visible
+    version_ids = version_id_scope.where(where).pluck(:id)
 
     nl = operator == "!" ? "#{Issue.table_name}.fixed_version_id IS NULL OR" : ''
     "(#{nl} #{sql_for_field("fixed_version_id", "=", version_ids, Issue.table_name, "fixed_version_id")})"
@@ -580,7 +657,8 @@ class IssueQuery < Query
 
   def sql_for_fixed_version_due_date_field(field, operator, value)
     where = sql_for_field(field, operator, value, Version.table_name, "effective_date")
-    version_ids = versions(:conditions => [where]).map(&:id)
+    version_id_scope = project ? project.shared_versions : Version.visible
+    version_ids = version_id_scope.where(where).pluck(:id)
 
     nl = operator == "!*" ? "#{Issue.table_name}.fixed_version_id IS NULL OR" : ''
     "(#{nl} #{sql_for_field("fixed_version_id", "=", version_ids, Issue.table_name, "fixed_version_id")})"
@@ -600,13 +678,13 @@ class IssueQuery < Query
     when "*", "!*"
       e = (operator == "*" ? "EXISTS" : "NOT EXISTS")
       "#{e} (SELECT 1 FROM #{Attachment.table_name} a WHERE a.container_type = 'Issue' AND a.container_id = #{Issue.table_name}.id)"
-    when "~", "!~"
-      c = sql_contains("a.filename", value.first)
-      e = (operator == "~" ? "EXISTS" : "NOT EXISTS")
-      "#{e} (SELECT 1 FROM #{Attachment.table_name} a WHERE a.container_type = 'Issue' AND a.container_id = #{Issue.table_name}.id AND #{c})"
+    when "~", "!~", "*~"
+      c = sql_contains("a.filename", value.first, :all_words => (operator != "*~"))
+      e = (operator == "!~" ? "NOT EXISTS" : "EXISTS")
+      "#{e} (SELECT 1 FROM #{Attachment.table_name} a WHERE a.container_type = 'Issue' AND a.container_id = #{Issue.table_name}.id AND (#{c}))"
     when "^", "$"
       c = sql_contains("a.filename", value.first, (operator == "^" ? :starts_with : :ends_with) => true)
-      "EXISTS (SELECT 1 FROM #{Attachment.table_name} a WHERE a.container_type = 'Issue' AND a.container_id = #{Issue.table_name}.id AND #{c})"
+      "EXISTS (SELECT 1 FROM #{Attachment.table_name} a WHERE a.container_type = 'Issue' AND a.container_id = #{Issue.table_name}.id AND (#{c}))"
     end
   end
 
@@ -616,15 +694,15 @@ class IssueQuery < Query
       case operator
       when '*', '!*'
         (operator == '*' ? cond_description : "NOT (#{cond_description})")
-      when '~', '!~'
+      when '~', '!~', '*~'
         (operator == '~' ? '' : "#{cond_description} AND ") +
-        sql_contains('a.description', value.first, :match => (operator == '~'))
+        sql_contains('a.description', value.first, :match => (operator != '!~'), :all_words => (operator != '*~'))
       when '^', '$'
         sql_contains('a.description', value.first, (operator == '^' ? :starts_with : :ends_with) => true)
       else
         '1=0'
       end
-    "EXISTS (SELECT 1 FROM #{Attachment.table_name} a WHERE a.container_type = 'Issue' AND a.container_id = #{Issue.table_name}.id AND #{c})"
+    "EXISTS (SELECT 1 FROM #{Attachment.table_name} a WHERE a.container_type = 'Issue' AND a.container_id = #{Issue.table_name}.id AND (#{c}))"
   end
 
   def sql_for_parent_id_field(field, operator, value)
@@ -638,9 +716,18 @@ class IssueQuery < Query
         "1=0"
       end
     when "~"
-      root_id, lft, rgt = Issue.where(:id => value.first.to_i).pick(:root_id, :lft, :rgt)
-      if root_id && lft && rgt
-        "#{Issue.table_name}.root_id = #{root_id} AND #{Issue.table_name}.lft > #{lft} AND #{Issue.table_name}.rgt < #{rgt}"
+      ids = value.first.to_s.scan(/\d+/).map(&:to_i).uniq
+      conditions = ids.filter_map do |id|
+        root_id, lft, rgt = Issue.where(id: id).pick(:root_id, :lft, :rgt)
+        if root_id && lft && rgt
+          "(#{Issue.table_name}.root_id = #{root_id} AND #{Issue.table_name}.lft > #{lft} AND #{Issue.table_name}.rgt < #{rgt})"
+        else
+          nil
+        end
+      end
+
+      if conditions.any?
+        "(#{conditions.join(' OR ')})"
       else
         "1=0"
       end
@@ -721,13 +808,18 @@ class IssueQuery < Query
              " WHERE #{IssueRelation.table_name}.relation_type =" \
                   " '#{self.class.connection.quote_string(relation_type)}')"
       when "=", "!"
-        op = (operator == "=" ? 'IN' : 'NOT IN')
-        "#{Issue.table_name}.id #{op}" \
-         " (SELECT DISTINCT #{IssueRelation.table_name}.#{join_column}" \
-           " FROM #{IssueRelation.table_name}" \
-             " WHERE #{IssueRelation.table_name}.relation_type =" \
-                  " '#{self.class.connection.quote_string(relation_type)}'" \
-               " AND #{IssueRelation.table_name}.#{target_join_column} = #{value.first.to_i})"
+        ids = value.first.to_s.scan(/\d+/).map(&:to_i).uniq
+        if ids.present?
+          op = (operator == "=" ? 'IN' : 'NOT IN')
+          "#{Issue.table_name}.id #{op}" \
+           " (SELECT DISTINCT #{IssueRelation.table_name}.#{join_column}" \
+             " FROM #{IssueRelation.table_name}" \
+               " WHERE #{IssueRelation.table_name}.relation_type =" \
+                    " '#{self.class.connection.quote_string(relation_type)}'" \
+                 " AND #{IssueRelation.table_name}.#{target_join_column} IN (#{ids.join(",")}))"
+        else
+          "1=0"
+        end
       when "=p", "=!p", "!p"
         op = (operator == "!p" ? 'NOT IN' : 'IN')
         comp = (operator == "=!p" ? '<>' : '=')
@@ -761,13 +853,57 @@ class IssueQuery < Query
     sql_for_field(field, operator, value, Project.table_name, "status")
   end
 
+  def sql_for_any_searchable_field(field, operator, value)
+    question = value.first
+
+    # Fetch search results only from the selected and visible (sub-)projects
+    project_scope = Project.allowed_to(:view_issues)
+    if project
+      projects = project_scope.where(project_statement)
+    elsif has_filter?('project_id')
+      case values_for('project_id').first
+      when 'mine'
+        project_ids = User.current.projects.ids
+      when 'bookmarks'
+        project_ids = User.current.bookmarked_project_ids
+      else
+        project_ids = values_for('project_id')
+      end
+      projects = project_scope.where(
+        sql_for_field('project_id', operator_for('project_id'), project_ids, Project.table_name, 'id')
+      )
+    else
+      projects = nil
+    end
+
+    is_all_words =
+      case operator
+      when '~'        then true
+      when '*~', '!~' then false
+      end
+
+    is_open_issues = has_filter?('status_id') && operator_for('status_id') == 'o'
+
+    fetcher = Redmine::Search::Fetcher.new(
+      question, User.current, ['issue'], projects,
+      all_words: is_all_words, open_issues: is_open_issues, attachments: '0'
+    )
+    ids = fetcher.result_ids.map(&:last)
+    if ids.present?
+      sw = operator == '!~' ? 'NOT' : ''
+      "#{Issue.table_name}.id #{sw} IN (#{ids.join(',')})"
+    else
+      operator == '!~' ? '1=1' : '1=0'
+    end
+  end
+
   def find_assigned_to_id_filter_values(values)
     Principal.visible.where(:id => values).map {|p| [p.name, p.id.to_s]}
   end
   alias :find_author_id_filter_values :find_assigned_to_id_filter_values
 
   IssueRelation::TYPES.each_key do |relation_type|
-    alias_method "sql_for_#{relation_type}_field".to_sym, :sql_for_relations
+    alias_method :"sql_for_#{relation_type}_field", :sql_for_relations
   end
 
   def joins_for_order_statement(order_options)

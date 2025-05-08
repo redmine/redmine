@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -45,7 +45,7 @@ module Redmine
               options = provider.activity_provider_options[event_type]
               permission = options[:permission]
               unless options.key?(:permission)
-                permission ||= "view_#{event_type}".to_sym
+                permission ||= :"view_#{event_type}"
               end
               if permission
                 keep |= projects.any? {|p| @user.allowed_to?(permission, p)}
@@ -60,7 +60,7 @@ module Redmine
       end
 
       # Yields to filter the activity scope
-      def scope_select(&block)
+      def scope_select(&)
         @scope = @scope.select {|t| yield t}
       end
 
@@ -87,6 +87,7 @@ module Redmine
       def events(from = nil, to = nil, options={})
         e = []
         @options[:limit] = options[:limit]
+        @options[:last_by_project] = options[:last_by_project] if options[:last_by_project]
 
         @scope.each do |event_type|
           constantized_providers(event_type).each do |provider|
@@ -94,10 +95,14 @@ module Redmine
           end
         end
 
-        e.sort! {|a, b| b.event_datetime <=> a.event_datetime}
+        if options[:last_by_project]
+          e.sort!
+        else
+          e.sort! {|a, b| b.event_datetime <=> a.event_datetime}
 
-        if options[:limit]
-          e = e.slice(0, options[:limit])
+          if options[:limit]
+            e = e.slice(0, options[:limit])
+          end
         end
         e
       end

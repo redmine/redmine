@@ -22,7 +22,7 @@
                :rev        => nil},
                :method     => :get) do %>
     <%= text_field_tag 'rev', @rev, :size => 8 %>
-    <%= submit_tag 'OK', :name => nil %>
+    <%= submit_tag l(:button_view), :name => nil %>
   <% end %>
 </div>
 
@@ -30,11 +30,11 @@
 
 <% if User.current.allowed_to?(:browse_repository, @project) %>
 <ul id="changes-legend">
-<li class="change change-A"><%= l(:label_added)    %></li>
-<li class="change change-M"><%= l(:label_modified) %></li>
-<li class="change change-C"><%= l(:label_copied)   %></li>
-<li class="change change-R"><%= l(:label_renamed)  %></li>
-<li class="change change-D"><%= l(:label_deleted)  %></li>
+<li class="change change-A"><%= scm_change_icon("A", (:label_added)) %></li>
+<li class="change change-M"><%= scm_change_icon("M", l(:label_modified)) %></li>
+<li class="change change-C"><%= scm_change_icon("C", l(:label_copied)) %></li>
+<li class="change change-R"><%= scm_change_icon("R", l(:label_renamed)) %></li>
+<li class="change change-D"><%= scm_change_icon("D", l(:label_deleted)) %></li>
 </ul>
 
 <div class="changeset-changes">

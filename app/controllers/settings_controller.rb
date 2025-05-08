@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -53,7 +53,7 @@ class SettingsController < ApplicationController
     @deliveries = ActionMailer::Base.perform_deliveries
 
     @guessed_host_and_path = request.host_with_port.dup
-    @guessed_host_and_path << ('/'+ Redmine::Utils.relative_url_root.gsub(%r{^\/}, '')) unless Redmine::Utils.relative_url_root.blank?
+    @guessed_host_and_path << ("/#{Redmine::Utils.relative_url_root.delete_prefix('/')}") unless Redmine::Utils.relative_url_root.blank?
 
     @commit_update_keywords = Setting.commit_update_keywords.dup
     @commit_update_keywords = [{}] unless @commit_update_keywords.is_a?(Array) && @commit_update_keywords.any?
@@ -70,12 +70,12 @@ class SettingsController < ApplicationController
 
     if request.post?
       setting = params[:settings] ? params[:settings].permit!.to_h : {}
-      Setting.send "plugin_#{@plugin.id}=", setting
+      Setting.send :"plugin_#{@plugin.id}=", setting
       flash[:notice] = l(:notice_successful_update)
       redirect_to plugin_settings_path(@plugin)
     else
       @partial = @plugin.settings[:partial]
-      @settings = Setting.send "plugin_#{@plugin.id}"
+      @settings = Setting.send :"plugin_#{@plugin.id}"
     end
   rescue Redmine::PluginNotFound
     render_404

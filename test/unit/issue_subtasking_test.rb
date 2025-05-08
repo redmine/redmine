@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,16 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class IssueSubtaskingTest < ActiveSupport::TestCase
-  fixtures :projects, :users, :roles, :members, :member_roles,
-           :trackers, :projects_trackers,
-           :issue_statuses, :issue_categories, :enumerations,
-           :issues,
-           :enabled_modules,
-           :workflows
-
   def setup
     User.current = nil
   end
@@ -53,7 +46,7 @@ class IssueSubtaskingTest < ActiveSupport::TestCase
     with_settings :parent_issue_dates => 'derived' do
       parent = Issue.generate!
       parent.generate_child!(:start_date => '2010-01-25', :due_date => '2010-02-15')
-      parent.generate_child!(                             :due_date => '2010-02-13')
+      parent.generate_child!(:due_date => '2010-02-13')
       parent.generate_child!(:start_date => '2010-02-01', :due_date => '2010-02-22')
       parent.reload
       assert_equal Date.parse('2010-01-25'), parent.start_date
@@ -243,11 +236,18 @@ class IssueSubtaskingTest < ActiveSupport::TestCase
 
   def test_done_ratio_of_parent_with_completed_children_should_not_be_99
     with_settings :parent_issue_done_ratio => 'derived' do
-      parent = Issue.generate!
-      parent.generate_child!(:estimated_hours => 8.0, :done_ratio => 100)
-      parent.generate_child!(:estimated_hours => 8.1, :done_ratio => 100)
+      parent1 = Issue.generate!
+      parent1.generate_child!(:estimated_hours => 8.0, :done_ratio => 100)
+      parent1.generate_child!(:estimated_hours => 8.1, :done_ratio => 100)
       # (8.0 * 100 + 8.1 * 100) / (8.0 + 8.1) => 99.99999999999999
-      assert_equal 100, parent.reload.done_ratio
+      assert_equal 100, parent1.reload.done_ratio
+
+      parent2 = Issue.generate!
+      parent2.generate_child!(:estimated_hours => 9.0, :done_ratio => 100)
+      10.times do
+        parent2.generate_child!(:estimated_hours => 10.0, :done_ratio => 100)
+      end
+      assert_equal 100, parent2.reload.done_ratio
     end
   end
 

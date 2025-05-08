@@ -2,23 +2,24 @@
 <html lang="<%= current_language %>">
 <head>
 <meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <title><%= html_title %></title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="<%= Redmine::Info.app_name %>" />
 <meta name="keywords" content="issue,bug,tracker" />
 <%= csrf_meta_tag %>
 <%= favicon %>
-<%= stylesheet_link_tag 'jquery/jquery-ui-1.12.1', 'tribute-5.1.3', 'application', 'responsive', :media => 'all' %>
+<%= stylesheet_link_tag 'jquery/jquery-ui-1.13.2', 'tribute-5.1.3', 'application', 'responsive', :media => 'all' %>
 <%= stylesheet_link_tag 'rtl', :media => 'all' if l(:direction) == 'rtl' %>
+<%= javascript_importmap_tags %>
 <%= javascript_heads %>
 <%= heads_for_theme %>
+<%= heads_for_i18n %>
 <%= heads_for_auto_complete(@project) %>
 <%= call_hook :view_layouts_base_html_head %>
 <!-- page specific tags -->
 <%= yield :header_tags -%>
 </head>
-<body class="<%= body_css_classes %>">
+<body class="<%= body_css_classes %>" data-text-formatting="<%= Setting.text_formatting %>">
 <%= call_hook :view_layouts_base_body_top %>
 <div id="wrapper">
 
@@ -28,7 +29,7 @@
         <div class="flyout-menu__search">
             <%= form_tag(search_path(id: @project), :method => :get ) do %>
             <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
-            <%= label_tag 'flyout-search', '&#9906;'.html_safe, :class => 'search-magnifier search-magnifier--flyout' %>
+            <%= label_tag 'flyout-search', sprite_icon('search', l(:label_search), icon_only: true), :class => 'search-magnifier search-magnifier--flyout' %>
             <%= text_field_tag 'q', @question, :id => 'flyout-search', :class => 'small js-search-input', :placeholder => l(:label_search) %>
             <% end %>
         </div>
@@ -101,10 +102,20 @@
     <% end %>
 </div>
 
-<div id="main" class="<%= sidebar_content? ? '' : 'nosidebar' %>">
+<div id="main" class="<%= sidebar_content? ? 'collapsiblesidebar' : 'nosidebar' %>">
+  <%= javascript_tag "$('#main.collapsiblesidebar').collapsibleSidebar();" if sidebar_content? %>
     <div id="sidebar">
-        <%= yield :sidebar %>
-        <%= view_layouts_base_sidebar_hook_response %>
+        <% if sidebar_content? %>
+          <div id="sidebar-switch-panel" style="visibility: hidden;">
+            <a id="sidebar-switch-button" class="" href="#">
+              <%= sprite_icon("chevrons-right", size: 20, rtl: true) %></a>
+          </div>
+          <%= javascript_tag "$('#sidebar-switch-panel').css('visibility', 'visible');" %>
+        <% end %>
+        <div id="sidebar-wrapper">
+          <%= yield :sidebar %>
+          <%= view_layouts_base_sidebar_hook_response %>
+        </div>
     </div>
 
     <div id="content">
@@ -115,11 +126,12 @@
     </div>
 </div>
 <div id="footer">
-    Powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %> &copy; 2006-2022 Jean-Philippe Lang
+    Powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url, :target => '_blank', :rel => 'noopener' %> &copy; 2006-2025 Jean-Philippe Lang
 </div>
 
 <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
 <div id="ajax-modal" style="display:none;"></div>
+<div id="icon-copy-source" style="display: none;"><%= sprite_icon('') %></div>
 
 </div>
 <%= call_hook :view_layouts_base_body_bottom %>

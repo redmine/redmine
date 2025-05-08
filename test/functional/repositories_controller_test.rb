@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,13 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class RepositoriesControllerTest < Redmine::RepositoryControllerTest
-  fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles, :enabled_modules,
-           :repositories, :issues, :issue_statuses, :changesets, :changes,
-           :issue_categories, :enumerations, :custom_fields, :custom_values, :trackers
-
   def setup
     super
     User.current = nil
@@ -93,7 +89,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
         }
       )
     end
-    assert_response 302
+    assert_response :found
     repository = Repository.order('id DESC').first
     assert_kind_of Repository::Subversion, repository
     assert_equal 'file:///test', repository.url
@@ -138,7 +134,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
         }
       }
     )
-    assert_response 302
+    assert_response :found
     assert_equal 'test_update', Repository.find(11).password
   end
 
@@ -162,7 +158,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
     assert_difference 'Repository.count', -1 do
       delete(:destroy, :params => {:id => 11})
     end
-    assert_response 302
+    assert_response :found
     assert_nil Repository.find_by_id(11)
   end
 
@@ -188,8 +184,32 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
     end
   end
 
+  def test_show_without_main_repository_should_display_first_repository
+    skip unless repository_configured?('subversion')
+    skip unless Repository::Subversion.scm_available
+
+    project = Project.find(1)
+    repos = project.repositories
+    repos << Repository::Subversion.create(:identifier => 'test', :url => 'svn://valid')
+    assert_equal true, repos.exists?(:is_default => true)
+
+    repos.update_all(:is_default => false)
+    repos.reload
+    assert_equal false, repos.exists?(:is_default => true)
+
+    repository = repos.sort.first  # rubocop:disable Style/RedundantSort
+    @request.session[:user_id] = 2
+
+    get(:show, :params => {:id => 1})
+    assert_response :success
+    assert_select '#sidebar' do
+      assert_select 'a.repository.selected[href=?]', "/projects/#{project.identifier}/repository/#{repository.identifier_param}"
+    end
+  end
+
   def test_show_should_show_diff_button_depending_on_browse_repository_permission
     skip unless repository_configured?('subversion')
+    skip unless Repository::Subversion.scm_available
 
     @request.session[:user_id] = 2
     role = Role.find(1)
@@ -215,7 +235,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
       role.add_permission! :manage_repository
       Repository::Subversion.any_instance.expects(:fetch_changesets).once
       post(:fetch_changesets, :params => {:id => 1, :repository_id => 10})
-      assert_response :success
+      assert_redirected_to '/projects/ecookbook/repository/10'
 
       role.remove_permission! :manage_repository
       Repository::Subversion.any_instance.expects(:fetch_changesets).never
@@ -257,7 +277,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
         :repository_id => 'foo'
       }
     )
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_revision
@@ -501,7 +521,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
           }
         }
       )
-      assert_response 302
+      assert_response :found
       assert_equal User.find(2), c.reload.user
     end
   end

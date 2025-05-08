@@ -22,9 +22,9 @@
   <% @roles.each do |role| -%>
   <% count = @workflow_counts[[tracker.id, role.id]] || 0 %>
     <td>
-      <%= link_to((count > 0 ? count : content_tag(:span, nil, :class => 'icon-only icon-not-ok')),
+      <%= link_to(count,
                   {:action => 'edit', :role_id => role, :tracker_id => tracker},
-                  :title => l(:button_edit)) %>
+                  :title => l(:button_edit), :class => ('decoration-red' if count == 0)) %>
     </td>
   <% end -%>
 </tr>

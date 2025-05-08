@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,25 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class ContextMenusControllerTest < Redmine::ControllerTest
-  fixtures :projects,
-           :trackers,
-           :projects_trackers,
-           :roles,
-           :member_roles,
-           :members,
-           :enabled_modules,
-           :workflows,
-           :journals, :journal_details,
-           :versions,
-           :issues, :issue_statuses, :issue_categories,
-           :users,
-           :enumerations,
-           :time_entries,
-           :custom_fields, :custom_fields_trackers, :custom_fields_projects
-
   def test_context_menu_one_issue_should_link_to_issue_path
     @request.session[:user_id] = 2
     get(
@@ -221,7 +205,7 @@ class ContextMenusControllerTest < Redmine::ControllerTest
       assert_select 'a[href="#"]', :text => 'List'
       assert_select 'ul' do
         assert_select 'a', 3
-        assert_select 'a.icon.icon-checked', :text => 'Bar'
+        assert_select 'a.icon', :text => 'Bar'
       end
     end
   end
@@ -384,12 +368,12 @@ class ContextMenusControllerTest < Redmine::ControllerTest
         :ids => [1, 4] # issue 4 is not visible
       }
     )
-    assert_response 302
+    assert_response :found
   end
 
   def test_should_respond_with_404_without_ids
     get :issues
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_time_entries_context_menu

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,11 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class AccountControllerTest < Redmine::ControllerTest
-  fixtures :users, :email_addresses, :roles
-
   def setup
     User.current = nil
   end
@@ -30,8 +28,8 @@ class AccountControllerTest < Redmine::ControllerTest
     get :login
     assert_response :success
 
-    assert_select 'input[name=username]'
-    assert_select 'input[name=password]'
+    assert_select 'input[name=username][autocomplete=username]'
+    assert_select 'input[name=password][autocomplete=current-password]'
   end
 
   def test_get_login_while_logged_in_should_redirect_to_back_url_if_present
@@ -230,7 +228,7 @@ class AccountControllerTest < Redmine::ControllerTest
         :password => 'jsmith'
       }
     )
-    assert_response 500
+    assert_response :internal_server_error
     assert_select_error /Something wrong/
   end
 
@@ -243,7 +241,7 @@ class AccountControllerTest < Redmine::ControllerTest
         :password => 'jsmith'
       }
     )
-    assert_response 302
+    assert_response :found
   end
 
   def test_login_should_strip_whitespaces_from_user_name
@@ -254,7 +252,7 @@ class AccountControllerTest < Redmine::ControllerTest
         :password => 'jsmith'
       }
     )
-    assert_response 302
+    assert_response :found
     assert_equal 2, @request.session[:user_id]
   end
 
@@ -283,7 +281,7 @@ class AccountControllerTest < Redmine::ControllerTest
 
     @request.session[:user_id] = 2
     post :logout
-    assert_response 302
+    assert_response :found
   end
 
   def test_get_register_with_registration_on
@@ -476,6 +474,7 @@ class AccountControllerTest < Redmine::ControllerTest
         }
       )
       assert_response :success
+      assert_equal I18n.t(:notice_account_lost_email_sent), flash[:notice]
     end
   end
 
@@ -658,5 +657,23 @@ class AccountControllerTest < Redmine::ControllerTest
         assert_redirected_to '/'
       end
     end
+  end
+
+  def test_validate_back_url
+    request.host = 'example.com'
+
+    assert_equal '/admin', @controller.send(:validate_back_url, 'http://example.com/admin')
+    assert_equal '/admin', @controller.send(:validate_back_url, 'http://dlopper:foo@example.com/admin')
+    assert_equal '/issues?query_id=1#top', @controller.send(:validate_back_url, 'http://example.com/issues?query_id=1#top')
+    assert_equal false, @controller.send(:validate_back_url, 'http://invalid.example.com/issues')
+  end
+
+  def test_validate_back_url_with_port
+    request.host = 'example.com:3000'
+
+    assert_equal '/admin', @controller.send(:validate_back_url, 'http://example.com:3000/admin')
+    assert_equal '/admin', @controller.send(:validate_back_url, 'http://dlopper:foo@example.com:3000/admin')
+    assert_equal '/issues?query_id=1#top', @controller.send(:validate_back_url, 'http://example.com:3000/issues?query_id=1#top')
+    assert_equal false, @controller.send(:validate_back_url, 'http://invalid.example.com:3000/issues')
   end
 end

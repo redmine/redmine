@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,12 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../../../test_helper', __FILE__)
+require_relative '../../../../test_helper'
 
 class PdfTest < ActiveSupport::TestCase
-  fixtures :users, :projects, :roles, :members, :member_roles,
-           :enabled_modules, :issues, :trackers, :attachments
-
   def test_fix_text_encoding_nil
     assert_equal '', Redmine::Export::PDF::RDMPdfEncoding::rdm_from_utf8(nil, "UTF-8")
     assert_equal '', Redmine::Export::PDF::RDMPdfEncoding::rdm_from_utf8(nil, "ISO-8859-1")
@@ -59,7 +56,7 @@ class PdfTest < ActiveSupport::TestCase
   def test_rdm_pdf_iconv_invalid_utf8_should_be_replaced_ja
     str1 = "Texte encod\xE9 en ISO-8859-1"
     str2 = "\xe9a\xe9b\xe9c\xe9d\xe9e test".b
-    encoding = ( RUBY_PLATFORM == 'java' ? "SJIS" : "CP932" )
+    encoding = (RUBY_PLATFORM == 'java' ? "SJIS" : "CP932")
     txt_1 = Redmine::Export::PDF::RDMPdfEncoding::rdm_from_utf8(str1, encoding)
     txt_2 = Redmine::Export::PDF::RDMPdfEncoding::rdm_from_utf8(str2, encoding)
     assert_equal "ASCII-8BIT", txt_1.encoding.to_s

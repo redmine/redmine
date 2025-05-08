@@ -114,13 +114,13 @@
         <%= select_tag("settings[commit_update_keywords][done_ratio][]",
                        options_for_select(
                           [["", ""]] +
-                          (0..10).to_a.collect {|r| ["#{r*10} %", "#{r*10}"] },
+                          (0..100).step(Setting.issue_done_ratio_interval.to_i).to_a.collect {|r| ["#{r} %", r]},
                        rule['done_ratio']),
                        :id => nil
                     ) %>
       </td>
       <td class="buttons">
-        <%= link_to(l(:button_delete), '#',
+        <%= link_to(sprite_icon('del', l(:button_delete)), '#',
                     :class => 'delete-commit-keywords icon-only icon-del',
                     :title => l(:button_delete)) %>
       </td>
@@ -132,7 +132,7 @@
       <td></td>
       <td></td>
       <td class="buttons">
-        <%= link_to(l(:button_add), '#',
+        <%= link_to(sprite_icon('add', l(:button_add)), '#',
                     :class => 'add-commit-keywords icon-only icon-add',
                     :title => l(:button_add)) %>
       </td>

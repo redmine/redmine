@@ -1,5 +1,5 @@
 <% @entries.each do |entry| %>
-<% tr_id = Digest::MD5.hexdigest(entry.path)
+<% tr_id = ActiveSupport::Digest.hexdigest(entry.path)
    depth = params[:depth].to_i %>
 <%  ent_path = Redmine::CodesetUtil.replace_invalid_utf8(entry.path)   %>
 <%  ent_name = Redmine::CodesetUtil.replace_invalid_utf8(entry.name)   %>
@@ -14,11 +14,11 @@
                        :path   => to_path_param(ent_path),
                        :rev    => @rev,
                        :depth  => (depth + 1),
-                       :parent_id => tr_id)) %>');">&nbsp;</span>
+                       :parent_id => tr_id)) %>');"><%= sprite_icon('angle-right', rtl: true) %></span>
 <% end %>
-<%=  link_to ent_name,
-          {:action => (entry.is_dir? ? 'show' : 'entry'), :id => @project, :repository_id => @repository.identifier_param, :path => to_path_param(ent_path), :rev => @rev},
-          :class => (entry.is_dir? ? 'icon icon-folder' : "icon icon-file #{Redmine::MimeType.css_class_of(ent_name)}")%>
+<%=  link_to file_icon(entry, ent_name),
+             {:action => (entry.is_dir? ? 'show' : 'entry'), :id => @project, :repository_id => @repository.identifier_param, :path => to_path_param(ent_path), :rev => @rev},
+             :class => (entry.is_dir? ? 'icon icon-folder' : "icon icon-file #{Redmine::MimeType.css_class_of(ent_name)}")%>
 </td>
 <td class="size"><%= (entry.size ? number_to_human_size(entry.size) : "?") unless entry.is_dir? %></td>
 <% if @repository.report_last_commit %>

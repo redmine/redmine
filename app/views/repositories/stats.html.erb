@@ -36,13 +36,18 @@ $(document).ready(function(){
       data: chartData,
       options: {
         elements: {
-          rectangle: {borderWidth: 2}
+          bar: {borderWidth: 2}
         },
         responsive: true,
-        legend: {position: 'right'},
-        title: {
-          display: true,
-          text: <%= raw l(:label_commits_per_month).to_json %>
+        plugins: {
+          legend: {position: 'right'},
+          title: {
+            display: true,
+            text: <%= raw l(:label_commits_per_month).to_json %>
+          }
+        },
+        scales: {
+          yAxis: {ticks: {precision: 0}}
         }
       }
     });
@@ -70,17 +75,23 @@ $(document).ready(function(){
     };
 
     new Chart(document.getElementById("commits_per_author").getContext("2d"), {
-      type: 'horizontalBar',
+      type: 'bar',
       data: chartData,
       options: {
+        indexAxis: 'y',
         elements: {
-          rectangle: {borderWidth: 2}
+          bar: {borderWidth: 2}
         },
         responsive: true,
-        legend: {position: 'right'},
-        title: {
-          display: true,
-          text: <%= raw l(:label_commits_per_author).to_json %>
+        plugins: {
+          legend: {position: 'right'},
+          title: {
+            display: true,
+            text: <%= raw l(:label_commits_per_author).to_json %>
+          }
+        },
+        scales: {
+          xAxis: {ticks: {precision: 0}}
         }
       }
     });
@@ -94,5 +105,5 @@ $(document).ready(function(){
 <% html_title(l(:label_repository), l(:label_statistics)) -%>
 
 <% content_for :header_tags do %>
-  <%= javascript_include_tag "Chart.bundle.min" %>
+  <%= javascript_include_tag "chart.min" %>
 <% end %>

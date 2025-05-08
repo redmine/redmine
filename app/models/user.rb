@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -24,6 +24,7 @@ class User < Principal
   include Redmine::SafeAttributes
 
   # Different ways of displaying/sorting users
+  # rubocop:disable Lint/InterpolationCheck
   USER_FORMATS = {
     :firstname_lastname => {
       :string => '#{firstname} #{lastname}',
@@ -71,6 +72,7 @@ class User < Principal
       :setting_order => 8
     },
   }
+  # rubocop:enable Lint/InterpolationCheck
 
   MAIL_NOTIFICATION_OPTIONS = [
     ['all', :label_user_mail_option_all],
@@ -87,9 +89,8 @@ class User < Principal
                           :after_remove => Proc.new {|user, group| group.user_removed(user)}
   has_many :changesets, :dependent => :nullify
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
-  has_one :rss_token, lambda {where "action='feeds'"}, :class_name => 'Token'
-  has_one :api_token, lambda {where "action='api'"}, :class_name => 'Token'
-  has_one :email_address, lambda {where :is_default => true}, :autosave => true
+  has_one :atom_token, lambda {where "#{table.name}.action='feeds'"}, :class_name => 'Token'
+  has_one :api_token, lambda {where "#{table.name}.action='api'"}, :class_name => 'Token'
   has_many :email_addresses, :dependent => :delete_all
   belongs_to :auth_source
 
@@ -103,19 +104,21 @@ class User < Principal
   attr_accessor :remote_ip
 
   LOGIN_LENGTH_LIMIT = 60
-  MAIL_LENGTH_LIMIT = 60
+  MAIL_LENGTH_LIMIT = 254
 
   validates_presence_of :login, :firstname, :lastname, :if => Proc.new {|user| !user.is_a?(AnonymousUser)}
   validates_uniqueness_of :login, :if => Proc.new {|user| user.login_changed? && user.login.present?}, :case_sensitive => false
   # Login must contain letters, numbers, underscores only
   validates_format_of :login, :with => /\A[a-z0-9_\-@\.]*\z/i
   validates_length_of :login, :maximum => LOGIN_LENGTH_LIMIT
-  validates_length_of :firstname, :lastname, :maximum => 30
+  validates_length_of :firstname, :maximum => 30
+  validates_length_of :lastname, :maximum => 255
   validates_inclusion_of :mail_notification, :in => MAIL_NOTIFICATION_OPTIONS.collect(&:first), :allow_blank => true
   Setting::PASSWORD_CHAR_CLASSES.each do |k, v|
     validates_format_of :password, :with => v, :message => :"must_contain_#{k}", :allow_blank => true, :if => Proc.new {Setting.password_required_char_classes.include?(k)}
   end
   validate :validate_password_length
+  validate :validate_password_complexity
   validate do
     if password_confirmation && password != password_confirmation
       errors.add(:password, :confirmation)
@@ -125,11 +128,11 @@ class User < Principal
   self.valid_statuses = [STATUS_ACTIVE, STATUS_REGISTERED, STATUS_LOCKED]
 
   before_validation :instantiate_email_address
-  before_create :set_mail_notification
   before_save   :generate_password_if_needed, :update_hashed_password
+  before_create :set_mail_notification
   before_destroy :remove_references_before_destroy
-  after_save :update_notified_project_ids, :destroy_tokens, :deliver_security_notification
   after_destroy :deliver_security_notification
+  after_save :update_notified_project_ids, :destroy_tokens, :deliver_security_notification
 
   scope :admin, (lambda do |*args|
     admin = args.size > 0 ? !!args.first : true
@@ -166,7 +169,7 @@ class User < Principal
   end
 
   alias :base_reload :reload
-  def reload(*args)
+  def reload(*)
     @name = nil
     @roles = nil
     @projects_by_role = nil
@@ -177,7 +180,7 @@ class User < Principal
     @builtin_role = nil
     @visible_project_ids = nil
     @managed_roles = nil
-    base_reload(*args)
+    base_reload(*)
   end
 
   def mail
@@ -235,8 +238,6 @@ class User < Principal
     end
     user.update_last_login_on! if user && !user.new_record? && user.active?
     user
-  rescue => text
-    raise text
   end
 
   # Returns the user who matches the given autologin +key+ or nil
@@ -271,10 +272,6 @@ class User < Principal
     else
       @name ||= eval('"' + f[:string] + '"')
     end
-  end
-
-  def active?
-    self.status == STATUS_ACTIVE
   end
 
   def registered?
@@ -373,7 +370,7 @@ class User < Principal
     end
     chars = chars_list.flatten
     length.times {password << chars[SecureRandom.random_number(chars.size)]}
-    password = password.split('').shuffle(random: SecureRandom).join
+    password = password.chars.shuffle(random: SecureRandom).join
     self.password = password
     self.password_confirmation = password
     self
@@ -384,10 +381,11 @@ class User < Principal
   end
 
   def must_activate_twofa?
-    (
-      Setting.twofa_required? ||
-      (Setting.twofa_optional? && groups.any?(&:twofa_required?))
-    ) && !twofa_active?
+    return false if twofa_active?
+
+    return true if Setting.twofa_required?
+    return true if Setting.twofa_required_for_administrators? && admin?
+    return true if Setting.twofa_optional? && groups.any?(&:twofa_required?)
   end
 
   def pref
@@ -414,12 +412,12 @@ class User < Principal
     self.pref[:comments_sorting] == 'desc'
   end
 
-  # Return user's RSS key (a 40 chars long string), used to access feeds
-  def rss_key
-    if rss_token.nil?
-      create_rss_token(:action => 'feeds')
+  # Return user's ATOM key (a 40 chars long string), used to access feeds
+  def atom_key
+    if atom_token.nil?
+      create_atom_token(:action => 'feeds')
     end
-    rss_token.value
+    atom_token.value
   end
 
   # Return user's API key (a 40 chars long string), used to access the API
@@ -469,7 +467,14 @@ class User < Principal
     if Setting.session_timeout?
       scope = scope.where("updated_on > ?", Setting.session_timeout.to_i.minutes.ago)
     end
-    scope.update_all(:updated_on => Time.now) == 1
+    last_updated = scope.maximum(:updated_on)
+    if last_updated.nil?
+      false
+    elsif last_updated <= 1.minute.ago
+      scope.update_all(:updated_on => Time.now) == 1
+    else
+      true
+    end
   end
 
   # Return an array of project ids for which the user has explicitly turned mail notifications on
@@ -522,7 +527,7 @@ class User < Principal
     end
   end
 
-  def self.find_by_rss_key(key)
+  def self.find_by_atom_key(key)
     Token.find_active_user('feeds', key)
   end
 
@@ -602,6 +607,15 @@ class User < Principal
       Role.joins(members: :project).
         where(["#{Project.table_name}.status <> ?", Project::STATUS_ARCHIVED]).
           where(Member.arel_table[:user_id].eq(id)).distinct
+
+    if @roles.blank?
+      group_class = anonymous? ? GroupAnonymous : GroupNonMember
+      @roles = Role.joins(members: :project).
+        where(["#{Project.table_name}.status <> ? AND #{Project.table_name}.is_public = ?", Project::STATUS_ARCHIVED, true]).
+        where(Member.arel_table[:user_id].eq(group_class.first.id)).distinct
+    end
+
+    @roles
   end
 
   # Returns the user's bult-in role
@@ -628,7 +642,7 @@ class User < Principal
   def projects_by_role
     return @projects_by_role if @projects_by_role
 
-    result = Hash.new([])
+    result = Hash.new {|_h, _k| []}
     project_ids_by_role.each do |role, ids|
       result[role] = Project.where(:id => ids).to_a
     end
@@ -661,7 +675,7 @@ class User < Principal
         hash[role_id] << project_id
       end
 
-      result = Hash.new([])
+      result = Hash.new {|_h, _k| []}
       if hash.present?
         roles = Role.where(:id => hash.keys).to_a
         hash.each do |role_id, proj_ids|
@@ -721,7 +735,7 @@ class User < Principal
       roles.any? do |role|
         (context.is_public? || role.member?) &&
         role.allowed_to?(action) &&
-        (block_given? ? yield(role, self) : true)
+        (block ? yield(role, self) : true)
       end
     elsif context && context.is_a?(Array)
       if context.empty?
@@ -740,7 +754,7 @@ class User < Principal
       roles = self.roles.to_a | [builtin_role]
       roles.any? do |role|
         role.allowed_to?(action) &&
-        (block_given? ? yield(role, self) : true)
+        (block ? yield(role, self) : true)
       end
     else
       false
@@ -753,8 +767,8 @@ class User < Principal
   # NB: this method is not used anywhere in the core codebase as of
   # 2.5.2, but it's used by many plugins so if we ever want to remove
   # it it has to be carefully deprecated for a version or two.
-  def allowed_to_globally?(action, options={}, &block)
-    allowed_to?(action, nil, options.reverse_merge(:global => true), &block)
+  def allowed_to_globally?(action, options={}, &)
+    allowed_to?(action, nil, options.reverse_merge(:global => true), &)
   end
 
   def allowed_to_view_all_time_entries?(context)
@@ -825,12 +839,16 @@ class User < Principal
     self.pref.notify_about_high_priority_issues
   end
 
+  class CurrentUser < ActiveSupport::CurrentAttributes
+    attribute :user
+  end
+
   def self.current=(user)
-    RequestStore.store[:current_user] = user
+    CurrentUser.user = user
   end
 
   def self.current
-    RequestStore.store[:current_user] ||= User.anonymous
+    CurrentUser.user ||= User.anonymous
   end
 
   # Returns the anonymous user.  If the anonymous user does not exist, it is created.  There can be only
@@ -866,6 +884,10 @@ class User < Principal
     project_ids.map(&:to_i)
   end
 
+  def self.prune(age=30.days)
+    User.where("created_on < ? AND status = ?", Time.now - age, STATUS_REGISTERED).destroy_all
+  end
+
   protected
 
   def validate_password_length
@@ -875,6 +897,16 @@ class User < Principal
     if !password.nil? && password.size < Setting.password_min_length.to_i
       errors.add(:password, :too_short, :count => Setting.password_min_length.to_i)
     end
+  end
+
+  def validate_password_complexity
+    return if password.blank? && generate_password?
+    return if password.nil?
+
+    # TODO: Enhance to check for more common and simple passwords
+    # like 'password', '123456', 'qwerty', etc.
+    bad_passwords = [login, firstname, lastname, mail] + email_addresses.map(&:address)
+    errors.add(:password, :too_simple) if bad_passwords.any? {|p| password.casecmp?(p)}
   end
 
   def instantiate_email_address
@@ -912,6 +944,7 @@ class User < Principal
     Issue.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
     Issue.where(['assigned_to_id = ?', id]).update_all('assigned_to_id = NULL')
     Journal.where(['user_id = ?', id]).update_all(['user_id = ?', substitute.id])
+    Journal.where(['updated_by_id = ?', id]).update_all(['updated_by_id = ?', substitute.id])
     JournalDetail.
       where(["property = 'attr' AND prop_key = 'assigned_to_id' AND old_value = ?", id.to_s]).
       update_all(['old_value = ?', substitute.id.to_s])

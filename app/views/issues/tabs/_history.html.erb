@@ -6,7 +6,7 @@
 <% reply_links = issue.notes_addable? -%>
 <% for journal in journals %>
   <div id="change-<%= journal.id %>" class="<%= journal.css_classes %>">
-    <div id="note-<%= journal.indice %>">
+    <div id="note-<%= journal.indice %>" class="note">
     <div class="contextual">
       <span class="journal-actions"><%= render_journal_actions(issue, journal, :reply_links => reply_links) %></span>
       <a href="#note-<%= journal.indice %>" class="journal-link">#<%= journal.indice %></a>
@@ -15,6 +15,7 @@
       <%= avatar(journal.user) %>
       <%= authoring journal.created_on, journal.user, :label => :label_updated_time_by %>
       <%= render_private_notes_indicator(journal) %>
+      <%= render_journal_update_info(journal) %>
     </h4>
 
     <% if journal.details.any? %>
@@ -26,7 +27,7 @@
     <% if Setting.thumbnails_enabled? && (thumbnail_attachments = journal_thumbnail_attachments(journal)).any? %>
       <div class="thumbnails">
         <% thumbnail_attachments.each do |attachment| %>
-          <div><%= thumbnail_tag(attachment) %></div>
+          <%= thumbnail_tag(attachment) %>
         <% end %>
       </div>
     <% end %>

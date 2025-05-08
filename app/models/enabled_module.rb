@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class EnabledModule < ActiveRecord::Base
+class EnabledModule < ApplicationRecord
   belongs_to :project
   acts_as_watchable
 
@@ -34,7 +34,7 @@ class EnabledModule < ActiveRecord::Base
     when 'wiki'
       # Create a wiki with a default start page
       if project && project.wiki.nil?
-        Wiki.create(:project => project, :start_page => 'Wiki')
+        Wiki.create_default(project)
       end
     end
   end

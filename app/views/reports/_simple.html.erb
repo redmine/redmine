@@ -17,6 +17,14 @@
   <td><%= aggregate_link data, { field_name => row.id }, aggregate_path(@project, field_name, row, :status_id => "*", :subproject_id => nil) %></td>
 </tr>
 <% end %>
+<tfoot>
+<tr class="total">
+  <td><%= l(:label_total) %></td>
+  <td><%= aggregate data, { "closed" => 0 } %></td>
+  <td><%= aggregate data, { "closed" => 1 } %></td>
+  <td><%= aggregate data, { } %></td>
+</tr>
+</tfoot>
 </tbody>
 </table>
 <% end %>

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -30,12 +30,12 @@ class Repository::Mercurial < Repository
   # number of changesets to fetch at once
   FETCH_AT_ONCE = 100
 
-  def self.human_attribute_name(attribute_key_name, *args)
+  def self.human_attribute_name(attribute_key_name, *)
     attr_name = attribute_key_name.to_s
     if attr_name == "url"
       attr_name = "path_to_repository"
     end
-    super(attr_name, *args)
+    super(attr_name, *)
   end
 
   def self.scm_adapter_class
@@ -193,9 +193,9 @@ class Repository::Mercurial < Repository
     (db_rev + 1).step(scm_rev, FETCH_AT_ONCE) do |i|
       scm.each_revision('', i, [i + FETCH_AT_ONCE - 1, scm_rev].min) do |re|
         transaction do
-          parents = (re.parents || []).collect do |rp|
+          parents = (re.parents || []).filter_map do |rp|
             find_changeset_by_name(scmid_for_inserting_db(rp))
-          end.compact
+          end
           cs = Changeset.create(:repository   => self,
                                 :revision     => re.revision,
                                 :scmid        => scmid_for_inserting_db(re.scmid),

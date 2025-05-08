@@ -89,7 +89,7 @@ fr:
     format:
       precision: 3
       separator: ','
-      delimiter: ' '
+      delimiter: ' '
     currency:
       format:
         unit: '€'
@@ -111,8 +111,6 @@ fr:
 
   support:
     array:
-      sentence_connector: 'et'
-      skip_last_comma: true
       word_connector: ", "
       two_words_connector: " et "
       last_word_connector: " et "
@@ -156,6 +154,8 @@ fr:
         must_contain_lowercase: "doit contenir des lettres minuscules (a-z)"
         must_contain_digits: "doit contenir des chiffres (0-9)"
         must_contain_special_chars: "doit contenir des caractères spéciaux (!, $, %, ...)"
+        domain_not_allowed: "contains a domain not allowed (%{domain})"
+        too_simple: "is too simple"
 
   actionview_instancetag_blank_option: Choisir
 
@@ -176,7 +176,6 @@ fr:
   notice_account_password_updated: Mot de passe mis à jour avec succès.
   notice_account_wrong_password: Mot de passe incorrect
   notice_account_register_done: Un message contenant les instructions pour activer votre compte vous a été envoyé à l'adresse %{email}.
-  notice_account_unknown_email: Aucun compte ne correspond à cette adresse.
   notice_account_not_activated_yet: Vous n'avez pas encore activé votre compte. Si vous voulez recevoir un nouveau message d'activation, veuillez <a href="%{url}">cliquer sur ce lien</a>.
   notice_account_locked: Votre compte est verrouillé.
   notice_can_t_change_password: Ce compte utilise une authentification externe. Impossible de changer le mot de passe.
@@ -220,7 +219,7 @@ fr:
   error_no_tracker_in_project: "Aucun tracker n'est associé à ce projet. Vérifier la configuration du projet."
   error_no_default_issue_status: "Aucun statut de demande n'est défini par défaut. Vérifier votre configuration (Administration -> Statuts de demandes)."
   error_can_not_delete_custom_field: Impossible de supprimer le champ personnalisé
-  error_can_not_delete_tracker: Ce tracker contient des demandes et ne peut pas être supprimé.
+  error_can_not_delete_tracker_html: Ce tracker contient des demandes et ne peut pas être supprimé.<p>The following projects have issues with this tracker:<br>%{projects}</p>
   error_can_not_remove_role: Ce rôle est utilisé et ne peut pas être supprimé.
   error_can_not_reopen_issue_on_closed_version: 'Une demande assignée à une version fermée ne peut pas être réouverte'
   error_can_not_archive_project: "Ce projet ne peut pas être archivé"
@@ -299,7 +298,7 @@ fr:
   field_priority: Priorité
   field_fixed_version: Version cible
   field_user: Utilisateur
-  field_principal: Principal
+  field_principal: User or Group
   field_role: Rôle
   field_homepage: Site web
   field_is_public: Public
@@ -626,7 +625,6 @@ fr:
   label_reported_issues: Demandes soumises
   label_assigned_issues: Demandes assignées
   label_assigned_to_me_issues: Demandes qui me sont assignées
-  label_last_login: Dernière connexion
   label_registered_on: Inscrit le
   label_activity: Activité
   label_user_activity: "Activité de %{value}"
@@ -763,7 +761,6 @@ fr:
   label_repository: Dépôt
   label_repository_new: Nouveau dépôt
   label_repository_plural: Dépôts
-  label_browse: Parcourir
   label_branch: Branche
   label_tag: Tag
   label_revision: Révision
@@ -781,10 +778,6 @@ fr:
   label_view_all_revisions: Voir toutes les révisions
   label_x_revisions: "%{count} révisions"
   label_max_size: Taille maximale
-  label_sort_highest: Remonter en premier
-  label_sort_higher: Remonter
-  label_sort_lower: Descendre
-  label_sort_lowest: Descendre en dernier
   label_roadmap: Roadmap
   label_roadmap_due_in: "Échéance dans %{value}"
   label_roadmap_overdue: "En retard de %{value}"
@@ -1027,8 +1020,10 @@ fr:
     for_all_projects: Pour tous les projets
     for_current_project: Pour le projet en cours
     for_all_users: Pour tous les utilisateurs
+    for_this_user: For this user
   label_trackers_description: Description des trackers
   label_open_trackers_description: Afficher la description des trackers
+  label_progressbar: Barre de progression
 
   button_login: Connexion
   button_submit: Soumettre
@@ -1264,7 +1259,7 @@ fr:
   setting_mail_handler_preferred_body_part: "Partie privilégiée des messages multipart (HTML)"
   setting_show_status_changes_in_mail_subject: "Inclure les changements de statut des demandes dans le sujet des notifications"
   label_preferred_body_part_text: "Texte"
-  label_preferred_body_part_html: "HTML (expérimental)"
+  label_preferred_body_part_html: "HTML"
   field_parent_issue_subject: "Sujet de la demande parent"
   permission_edit_own_issues: "Modifier ses propres demandes"
   text_select_apply_tracker: "Sélectionner un tracker"
@@ -1276,7 +1271,6 @@ fr:
   text_gs_available: "Support PDF ImageMagick disponible (optionnel)"
   field_recently_used_projects: "Nombre de projets consultés récemment affichés dans le menu"
   label_optgroup_bookmarks: "Favoris"
-  label_optgroup_others: "Autres projets"
   label_optgroup_recents: "Consultés récemment"
   button_project_bookmark: "Ajouter aux favoris"
   button_project_bookmark_delete: "Retirer des favoris"
@@ -1309,7 +1303,7 @@ fr:
   notice_issue_not_reopenable_by_closed_parent_issue: Cette demande ne peut être réouverte car sa demande parente est fermée.
   error_bulk_download_size_too_big: Ces pièces jointes ne peuvent pas être téléchargées en masse car
     la taille totale des fichiers dépasse la taille maximale autorisée (%{max_size})
-  setting_bulk_download_max_size: Taille totale maximale du télécharement groupé
+  setting_bulk_download_max_size: Taille totale maximale du téléchargement groupé
   label_download_all_attachments: Télécharger tous les fichiers
   error_attachments_too_many: Ce fichier ne peut être transmis car il excède le nombre maximum de fichier pouvant être attaché simultanément (%{max_number_of_files})
   setting_email_domains_allowed: Domaines de messagerie autorisés
@@ -1390,34 +1384,103 @@ fr:
   permission_view_message_watchers: Afficher la liste des observateurs de messages
   permission_add_message_watchers: Ajouter des observateurs de messages
   permission_delete_message_watchers: Supprimer des observateurs de messages
-  label_message_watchers: Obsvervateurs
+  label_message_watchers: Observateurs
   button_copy_link: Copier le lien
   error_invalid_authenticity_token: Jeton d'authenticité de formulaire invalide.
   error_query_statement_invalid: Une erreur s'est produite lors de l'exécution de la requête et a
     été enregistré. Veuillez signaler cette erreur à votre administrateur Redmine.
-  permission_view_wiki_page_watchers: View wiki page watchers list
-  permission_add_wiki_page_watchers: Add wiki page watchers
-  permission_delete_wiki_page_watchers: Delete wiki page watchers
-  label_wiki_page_watchers: Watchers
-  label_attachment_description: File description
-  error_no_data_in_file: The file does not contain any data
-  field_twofa_required: Require two factor authentication
-  twofa_hint_optional_html: Setting <strong>%{label}</strong> will let users set up
-    two-factor authentication at will, unless it is required by one of their groups.
-  twofa_text_group_required: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is required for all users.
-  twofa_text_group_disabled: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is disabled.
-  text_all_migrations_have_been_run: All database migrations have been run
-  button_save_object: Save %{object_name}
-  button_edit_object: Edit %{object_name}
-  button_delete_object: Delete %{object_name}
-  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
-    Please restart the application after editing it.
-  label_bulk_edit: Bulk edit
-  button_create_and_follow: Create and follow
-  label_subtask: Subtask
+  permission_view_wiki_page_watchers: Voir la liste des observateurs de la page wiki
+  permission_add_wiki_page_watchers: Ajouter des observateurs de la page wiki
+  permission_delete_wiki_page_watchers: Supprimer des observateurs de la page wiki
+  label_wiki_page_watchers: Observateurs
+  label_attachment_description: Description du fichier
+  error_no_data_in_file: Le fichier ne contient aucune donnée
+  field_twofa_required: Nécessite l'authentification à deux facteurs
+  twofa_hint_optional_html: Activer <strong>%{label}</strong> permettra aux utilisateurs de configurer
+    l'authentification à deux facteurs eux même, à moins qu'elle soit requise par un de leur groupe.
+  twofa_text_group_required: Ce paramètre est uniquement disponible quand l'authentification
+    à deux facteurs est globalement configurée sur 'optionnel'. Actuellement  l'authentification
+    à deux facteurs est obligatoire.
+  twofa_text_group_disabled: Ce paramètre est uniquement disponible quand l'authentification
+    à deux facteurs est globalement configurée sur 'optionnel'. Actuellement  l'authentification
+    à deux facteurs est désactivée.
+  text_all_migrations_have_been_run: Toutes les migrations de la base de donnée ont été jouées
+  button_save_object: Sauvegarder %{object_name}
+  button_edit_object: Editer %{object_name}
+  button_delete_object: Supprimer %{object_name}
+  text_setting_config_change: Vous pouvez modifier ce comportement dans config/configuration.yml.
+    Merci de redémarrer l'application après l'avoir modifiée.
+  label_bulk_edit: Edition par lot
+  button_create_and_follow: Créer et suivre
+  label_subtask: Sous-tâches
   label_default_query: Rapport par défaut
-  field_default_project_query: Default project query
+  field_default_project_query: Rapport par défaut du project
+  label_required_administrators: requis pour les administrateurs
+  twofa_hint_required_administrators_html: Activer <strong>%{label}</strong> comportement
+    commme optionnel, mais oblige tous les utilisateurs disposant de droit d'administration
+    d'activer l'authentification à deux facteurs à la prochaine connexion
+  label_auto_watch_on: Observation automatique
+  label_auto_watch_on_issue_contributed_to: Demandes auxquelles j'ai contribué
+  text_project_close_confirmation: Etes-vous sûr de vouloir fermer le project '%{value}'
+    et de le rendre accessible uniquement en lecture?
+  text_project_reopen_confirmation: Etes-vous sûr de vouloir réouvrir le project '%{value}'?
+  text_project_archive_confirmation: "Etes-vous sûr de vouloir archiver le projet '%{value}' ?"
+  mail_destroy_project_failed: "Le projet %{value} n'a pas pu être supprimé."
+  mail_destroy_project_successful: Project %{value} was deleted successfully.
+  mail_destroy_project_with_subprojects_successful: Project %{value} et ses sous projets
+    ont été supprimés avec succès.
+  project_status_scheduled_for_deletion: planifié pour suppression
+  text_projects_bulk_destroy_confirmation: Etes-vous sûr de vouloir supprimer le projet
+    sélectionné et toutes les données associées?
+  text_projects_bulk_destroy_head: |
+    Vous êtes sur le point de supprimer définnitement les projets suivants, incluant tous les éventuels sous projets ainsi
+    que les données associées.
+    Merci de vérifier les informations ci dessous et de confirmer que c'est bien ce que vous souhaitez faire.
+    Cette suppression est irréversible.
+  text_projects_bulk_destroy_confirm: Pour confirmer, taper "%{yes}" dans le champ suivant.
+  text_subprojects_bulk_destroy: 'incluant ces sous projet(s): %{value}'
+  field_current_password: Mot de passe actuel
+  sudo_mode_new_info_html: "<strong>Que ce passe-t-il?</strong> Vous devez reconfirmer
+    votre mot de passe avant de prendre d'effectuer toutes actions d'administration, ceci
+    pour assurer que votre compte reste protégé."
+  label_edited: Edité
+  label_time_by_author: "%{time} par %{author}"
+  field_default_time_entry_activity: Durée d'activité par défault
+  field_is_member_of_group: Membre du groupe
+  text_users_bulk_destroy_head: Vous êtes sur le point de supprimer les utilisateurs suivants
+    ainsi que toutes les référence à eux. Cette suppression est irréversible. Bien souvent,
+    verrouiller les comptes utilisateurs est une meiilleur solution que les supprimer.
+  text_users_bulk_destroy_confirm: Pour confirmer, taper "%{yes}" dans le champ suivant.
+  permission_select_project_publicity: Configurer les projets publique ou privé
+  label_auto_watch_on_issue_created: Demandes que j'ai créée
+  field_any_searchable: Tout texte indexable
+  label_contains_any_of: contenant un des
+  button_apply_issues_filter: Appliquer le filtre des demandes
+  label_view_previous_annotation: Voir les commentaires antérieur à ce changement
+  label_has_been: a été
+  label_has_never_been: n'a jamais été
+  label_changed_from: modifié depuis
+  label_issue_statuses_description: Description du statut des demande
+  label_open_issue_statuses_description: Voir toutes descriptions des statuts des demandes
+  text_select_apply_issue_status: Sélectionner les statuts des demandes
+  field_name_or_email_or_login: Nom, email ou login
+  text_default_active_job_queue_changed: Gestionnaire de file par défaut le plus adapté
+  label_option_auto_lang: auto
+  label_issue_attachment_added: Attachment added
+  field_estimated_remaining_hours: Estimated remaining time
+  field_last_activity_date: Last activity
+  setting_issue_done_ratio_interval: Done ratio options interval
+  setting_copy_attachments_on_issue_copy: Copy attachments on copy
+  field_thousands_delimiter: Thousands delimiter
+  label_involved_principals: Author / Previous assignee
+  label_attachment_summary:
+    zero: "%{filename}"
+    one: "%{filename} and 1 file"
+    other: "%{filename} and %{count} files"
+  setting_wiki_tablesort_enabled: Javascript based table sorting in wiki content
+  error_spent_on_closed_issue: Cannot log time on a closed issue
+  setting_timelog_accept_closed_issues: Accept time logs on closed issues
+  setting_related_issues_default_columns: Related and sub issues list defaults
+  setting_display_related_issues_table_headers: Show table headers
+  error_can_not_remove_role_reason_members_html: "<p>The following projects have members
+    with this role:<br>%{projects}</p>"

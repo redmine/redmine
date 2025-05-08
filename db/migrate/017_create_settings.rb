@@ -4,6 +4,10 @@ class CreateSettings < ActiveRecord::Migration[4.2]
       t.column "name", :string, :limit => 30, :default => "", :null => false
       t.column "value", :text
     end
+
+    # Persist default settings for new installations
+    Setting.create!(name: 'default_notification_option', value: Setting.default_notification_option)
+    Setting.create!(name: 'text_formatting', value: Setting.text_formatting)
   end
 
   def self.down

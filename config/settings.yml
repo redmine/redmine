@@ -1,5 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -22,7 +22,10 @@
 app_title:
   default: Redmine
 welcome_text:
-  default:
+  default: |-
+    Welcome to Redmine, an open-source, flexible project management software.
+
+    Note: You can modify this message in the "Welcome text" setting (Administration > Settings > General).
 login_required:
   default: 0
   security_notifications: 1
@@ -95,7 +98,7 @@ mail_from:
 plain_text_mail:
   default: 0
 text_formatting:
-  default: textile
+  default: common_mark
 cache_formatted_text:
   default: 0
 wiki_compression:
@@ -187,6 +190,8 @@ parent_issue_done_ratio:
   default: 'derived'
 link_copied_issue:
   default: 'ask'
+copy_attachments_on_issue_copy:
+  default: 'ask'
 close_duplicate_issues:
   default: 1
 issue_group_assignment:
@@ -226,6 +231,16 @@ issue_list_default_columns:
 issue_list_default_totals:
   serialized: true
   default: []
+related_issues_default_columns:
+  serialized: true
+  default:
+  - status
+  - assigned_to
+  - start_date
+  - due_date
+  - done_ratio
+display_related_issues_table_headers:
+  default: 0
 display_subprojects_issues:
   default: 1
 time_entry_list_defaults:
@@ -253,6 +268,9 @@ default_project_query:
   default: ''
 issue_done_ratio:
   default: 'issue_field'
+issue_done_ratio_interval:
+  format: int
+  default: 10
 default_projects_public:
   default: 1
 default_projects_modules:
@@ -314,7 +332,7 @@ jsonp_enabled:
   default: 0
   security_notifications: 1
 default_notification_option:
-  default: 'only_my_events'
+  default: 'only_assigned'
 emails_header:
   default: ''
 thumbnails_enabled:
@@ -339,5 +357,9 @@ timelog_max_hours_per_day:
   default: 999
 timelog_accept_future_dates:
   default: 1
+timelog_accept_closed_issues:
+  default: 1
 show_status_changes_in_mail_subject:
+  default: 1
+wiki_tablesort_enabled:
   default: 1

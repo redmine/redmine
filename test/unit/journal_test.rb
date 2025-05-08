@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,16 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class JournalTest < ActiveSupport::TestCase
-  fixtures :projects, :issues, :issue_statuses, :journals, :journal_details,
-           :issue_relations, :workflows,
-           :users, :members, :member_roles, :roles, :enabled_modules,
-           :groups_users, :email_addresses,
-           :enumerations,
-           :projects_trackers, :trackers, :custom_fields
-
   def setup
     @journal = Journal.find 1
     User.current = nil
@@ -117,6 +110,43 @@ class JournalTest < ActiveSupport::TestCase
         assert_equal '', journal.notes
         assert_equal 1, journal.details.size
       end
+    end
+  end
+
+  def test_create_should_add_wacher
+    user = User.first
+    user.pref.auto_watch_on=['issue_contributed_to']
+    user.save
+    journal = Journal.new(:journalized => Issue.first, :notes => 'notes', :user => user)
+
+    assert_difference 'Watcher.count', 1 do
+      assert_equal true, journal.save
+    end
+  end
+
+  def test_create_should_not_add_watcher
+    user = User.first
+    user.pref.auto_watch_on=[]
+    user.save
+    journal = Journal.new(:journalized => Issue.first, :notes => 'notes', :user => user)
+
+    assert_no_difference 'Watcher.count' do
+      assert_equal true, journal.save
+    end
+  end
+
+  def test_create_should_not_add_anonymous_as_watcher
+    Role.anonymous.add_permission!(:add_issue_watchers)
+
+    user = User.anonymous
+    assert user.pref.auto_watch_on?('issue_contributed_to')
+
+    journal = Journal.new(:journalized => Issue.first, :notes => 'notes', :user => user)
+
+    assert_no_difference 'Watcher.count' do
+      assert journal.save
+      assert journal.valid?
+      assert journal.journalized.valid?
     end
   end
 
@@ -235,5 +265,13 @@ class JournalTest < ActiveSupport::TestCase
       assert_kind_of Attachment, attachment
       assert_equal "image#{i}.png", attachment.filename
     end
+  end
+
+  def test_notified_mentions_should_not_include_users_who_cannot_view_private_notes
+    journal = Journal.generate!(journalized: Issue.find(2), user: User.find(1), private_notes: true, notes: 'Hello @dlopper, @jsmith and @admin.')
+
+    # User "dlopper" has "Developer" role on project "eCookbook"
+    # Role "Developer" does not have the "View private notes" permission
+    assert_equal [1, 2], journal.notified_mentions.map(&:id).sort
   end
 end

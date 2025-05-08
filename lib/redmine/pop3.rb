@@ -1,7 +1,7 @@
 # frozen_string_literal: false
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -40,7 +40,7 @@ module Redmine
         apop = (pop_options[:apop].to_s == '1')
         delete_unprocessed = (pop_options[:delete_unprocessed].to_s == '1')
 
-        pop = Net::POP3.APOP(apop).new(host,port)
+        pop = Net::POP3.APOP(apop).new(host, port)
         logger.debug "Connecting to #{host}..." if logger && logger.debug?
         pop.start(pop_options[:username], pop_options[:password]) do |pop_session|
           if pop_session.mails.empty?

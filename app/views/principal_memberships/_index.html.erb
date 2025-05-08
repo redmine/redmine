@@ -1,6 +1,6 @@
 <% memberships = principal.memberships.preload(:member_roles, :roles).sorted_by_project.to_a %>
 
-<p><%= link_to l(:label_add_projects), new_principal_membership_path(principal), :remote => true, :class => "icon icon-add" %></p>
+<p><%= link_to sprite_icon('add', l(:label_add_projects)), new_principal_membership_path(principal), :remote => true, :class => "icon icon-add" %></p>
 
 <% if memberships.any? %>
 <table class="list memberships">
@@ -22,7 +22,7 @@
     <div id="member-<%= membership.id %>-form"></div>
   </td>
   <td class="buttons">
-      <%= link_to l(:button_edit),
+      <%= link_to sprite_icon('edit', l(:button_edit)),
                   edit_principal_membership_path(principal, membership),
                   :remote => true,
                   :class => 'icon icon-edit'

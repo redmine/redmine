@@ -1,6 +1,6 @@
 <div class="contextual">
-<%= link_to(l(:button_edit), edit_version_path(@version), :class => 'icon icon-edit') if User.current.allowed_to?(:manage_versions, @version.project) %>
-<%= link_to_if_authorized(l(:button_edit_associated_wikipage, :page_title => @version.wiki_page_title), {:controller => 'wiki', :action => 'edit', :project_id => @version.project, :id => Wiki.titleize(@version.wiki_page_title)}, :class => 'icon icon-edit') unless @version.wiki_page_title.blank? || @version.project.wiki.nil? %>
+<%= link_to(sprite_icon('edit', l(:button_edit)), edit_version_path(@version), :class => 'icon icon-edit') if User.current.allowed_to?(:manage_versions, @version.project) %>
+<%= link_to_if_authorized(sprite_icon('edit', l(:button_edit_associated_wikipage, :page_title => @version.wiki_page_title)), { :controller => 'wiki', :action => 'edit', :project_id => @version.project, :id => Wiki.titleize(@version.wiki_page_title)}, :class => 'icon icon-edit') unless @version.wiki_page_title.blank? || @version.project.wiki.nil? %>
 <%= delete_link version_path(@version, :back_url => url_for(:controller => 'versions', :action => 'index', :project_id => @version.project)) if User.current.allowed_to?(:manage_versions, @version.project) %>
 <%= link_to_new_issue(@version, @project) %>
 <%= call_hook(:view_versions_show_contextual, { :version => @version, :project => @project }) %>
@@ -21,6 +21,13 @@
     <th><%= l(:field_estimated_hours) %></th>
     <td class="total-hours"><%= link_to html_hours(l_hours(@version.visible_fixed_issues.estimated_hours)),
                                         project_issues_path(@version.project, :set_filter => 1, :status_id => '*', :fixed_version_id => @version.id, :c => [:tracker, :status, :subject, :estimated_hours], :t => [:estimated_hours]) %></td>
+</tr>
+<tr>
+  <th><%= l(:field_estimated_remaining_hours) %></th>
+  <td class="total-hours">
+    <%= link_to html_hours(l_hours(@version.visible_fixed_issues.estimated_remaining_hours)),
+          project_issues_path(@version.project, :set_filter => 1, :status_id => '*', :fixed_version_id => @version.id, :c => [:tracker, :status, :subject, :estimated_remaining_hours], :t => [:estimated_remaining_hours]) %>
+  </td>
 </tr>
 <% if User.current.allowed_to_view_all_time_entries?(@project) %>
 <tr>
@@ -55,6 +62,10 @@
 <%= context_menu %>
 <% end %>
 </div>
+
+<% other_formats_links do |f| %>
+  <%= f.link_to_with_query_parameters 'TXT' %>
+<% end %>
 
 <%= call_hook :view_versions_show_bottom, :version => @version %>
 

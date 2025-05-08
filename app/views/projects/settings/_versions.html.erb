@@ -1,10 +1,10 @@
 <% if @versions.any? %>
   <div class="contextual">
-    <%= link_to l(:label_close_versions), close_completed_project_versions_path(@project), :class => 'icon icon-locked', :method => :put %>
+    <%= link_to sprite_icon('lock', l(:label_close_versions)), close_completed_project_versions_path(@project), :class => 'icon icon-locked', :method => :put %>
   </div>
 <% end %>
 <p>
-  <%= link_to l(:label_version_new), new_project_version_path(@project, :back_url => ''), :class => 'icon icon-add' if User.current.allowed_to?(:manage_versions, @project) %>
+  <%= link_to sprite_icon('add', l(:label_version_new)), new_project_version_path(@project, :back_url => ''), :class => 'icon icon-add' if User.current.allowed_to?(:manage_versions, @project) %>
 </p>
 
 <%= form_tag(settings_project_path(@project, :tab => 'versions'), :method => :get) do %>
@@ -14,7 +14,7 @@
 <label for='name'><%= l(:label_version) %>:</label>
 <%= text_field_tag 'version_name', @version_name, :size => 30 %>
 <%= submit_tag l(:button_apply), :name => nil %>
-<%= link_to l(:button_clear), settings_project_path(@project, :tab => 'versions'), :class => 'icon icon-reload' %>
+<%= link_to sprite_icon('reload', l(:button_clear)), settings_project_path(@project, :tab => 'versions'), :class => 'icon icon-reload' %>
 </fieldset>
 <% end %>
 &nbsp;
@@ -34,7 +34,13 @@
   <tbody>
 <% @versions.each do |version| %>
     <tr class="version <%=h version.status %> <%= 'shared' if version.project != @project %>">
-    <td class="name <%= 'icon icon-shared' if version.project != @project %>"><%= link_to_version version %></td>
+    <% is_shared = version.project != @project %>
+    <td class="name">
+      <span class="<%= 'icon' if is_shared %>">
+        <%= sprite_icon('link') if is_shared %>
+        <%= link_to_version version %>
+      </span>
+    </td>
     <td class="tick"><%= checked_image(version.id == @project.default_version_id) %></td>
     <td class="date"><%= format_date(version.effective_date) %></td>
     <td class="description"><%= version.description %></td>
@@ -43,7 +49,7 @@
     <td><%= link_to_if_authorized(version.wiki_page_title, {:controller => 'wiki', :action => 'show', :project_id => version.project, :id => Wiki.titleize(version.wiki_page_title)}) || h(version.wiki_page_title) unless version.wiki_page_title.blank? || version.project.wiki.nil? %></td>
     <td class="buttons">
       <% if version.project == @project && User.current.allowed_to?(:manage_versions, @project) %>
-        <%= link_to l(:button_edit), edit_version_path(version), :class => 'icon icon-edit' %>
+        <%= link_to sprite_icon('edit', l(:button_edit)), edit_version_path(version), :class => 'icon icon-edit' %>
         <%= delete_link version_path(version) %>
       <% end %>
      </td>

@@ -4,8 +4,6 @@
   <div id="import-progress"><div id="progress-label">0 / <%= @import.total_items.to_i %></div></div>
 </div>
 
-<%= render_if_exist :partial => "#{import_partial_prefix}_sidebar" %>
-
 <%= javascript_tag do %>
 $(document).ready(function() {
   $('#import-details').addClass('ajax-loading');

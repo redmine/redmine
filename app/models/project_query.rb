@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,6 +26,13 @@ class ProjectQuery < Query
     errors.add(:project_id, :exclusion) if query.project_id.present?
   end
 
+  # Inheriting ProjectAdminQuery from ProjectQuery introduces the problem that
+  # ProjectQuery.visible also yields ProjectAdminQueries, as
+  # well. We fix that by adding a condition on the actual class name.
+  def self.visible(*)
+    super.where type: name
+  end
+
   self.available_columns = [
     QueryColumn.new(:name, :sortable => "#{Project.table_name}.name"),
     QueryColumn.new(:status, :sortable => "#{Project.table_name}.status"),
@@ -34,19 +41,25 @@ class ProjectQuery < Query
     QueryColumn.new(:identifier, :sortable => "#{Project.table_name}.identifier"),
     QueryColumn.new(:parent_id, :sortable => "#{Project.table_name}.lft ASC", :default_order => 'desc', :caption => :field_parent),
     QueryColumn.new(:is_public, :sortable => "#{Project.table_name}.is_public", :groupable => true),
-    QueryColumn.new(:created_on, :sortable => "#{Project.table_name}.created_on", :default_order => 'desc')
+    QueryColumn.new(:created_on, :sortable => "#{Project.table_name}.created_on", :default_order => 'desc'),
+    QueryColumn.new(:updated_on, :sortable => "#{Project.table_name}.updated_on", :default_order => 'desc'),
+    QueryColumn.new(:last_activity_date)
   ]
 
   def self.default(project: nil, user: User.current)
-    query = nil
-    if user&.logged?
-      query = find_by_id user.pref.default_project_query
+    if user&.logged? && (query_id = user.pref.default_project_query).present?
+      query = find_by(id: query_id)
+      return query if query&.visible?
     end
-    query || find_by_id(Setting.default_project_query)
+    if (query_id = Setting.default_project_query).present?
+      query = find_by(id: query_id)
+      return query if query&.visibility == VISIBILITY_PUBLIC
+    end
+    nil
   end
 
   def initialize(attributes=nil, *args)
-    super attributes
+    super(attributes)
     self.filters ||= {'status' => {:operator => "=", :values => ['1']}}
   end
 
@@ -71,6 +84,7 @@ class ProjectQuery < Query
       :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]]
     )
     add_available_filter "created_on", :type => :date_past
+    add_available_filter "updated_on", :type => :date_past
     add_custom_fields_filters(project_custom_fields)
   end
 
@@ -103,13 +117,22 @@ class ProjectQuery < Query
     Project.visible.where(statement)
   end
 
+  # Returns the project count
+  def result_count
+    base_scope.count
+  rescue ::ActiveRecord::StatementInvalid => e
+    raise StatementInvalid, e.message
+  end
+
   def results_scope(options={})
     order_option = [group_by_sort_order, (options[:order] || sort_clause)].flatten.reject(&:blank?)
 
     order_option << "#{Project.table_name}.lft ASC"
     scope = base_scope.
       order(order_option).
-      joins(joins_for_order_statement(order_option.join(',')))
+      joins(joins_for_order_statement(order_option.join(','))).
+      limit(options[:limit]).
+      offset(options[:offset])
 
     if has_custom_field_column?
       scope = scope.preload(:custom_values)
@@ -117,6 +140,10 @@ class ProjectQuery < Query
 
     if has_column?(:parent_id)
       scope = scope.preload(:parent)
+    end
+
+    if has_column?(:last_activity_date)
+      Project.load_last_activity_date(scope)
     end
 
     scope

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,14 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class JournalsControllerTest < Redmine::ControllerTest
-  fixtures :projects, :users, :members, :member_roles, :roles,
-           :issues, :journals, :journal_details, :enabled_modules,
-           :trackers, :issue_statuses, :enumerations, :custom_fields,
-           :custom_values, :custom_fields_projects, :projects_trackers
-
   def setup
     User.current = nil
   end
@@ -43,7 +38,7 @@ class JournalsControllerTest < Redmine::ControllerTest
         :query_id => 999
       }
     )
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_index_should_return_privates_notes_with_permission_only
@@ -94,7 +89,7 @@ class JournalsControllerTest < Redmine::ControllerTest
         :index,
         :params => {
           :format => 'atom',
-          :key => user.rss_key
+          :key => user.atom_key
         }
       )
       @fields.each_with_index do |field, i|
@@ -113,7 +108,6 @@ class JournalsControllerTest < Redmine::ControllerTest
         end
       end
     end
-
   end
 
   def test_diff_for_description_change
@@ -156,7 +150,7 @@ class JournalsControllerTest < Redmine::ControllerTest
         :detail_id => detail.id
       }
     )
-    assert_response 302
+    assert_response :found
   end
 
   def test_diff_should_default_to_description_diff
@@ -169,7 +163,7 @@ class JournalsControllerTest < Redmine::ControllerTest
 
   def test_reply_to_issue
     @request.session[:user_id] = 2
-    get(:new, :params => {:id => 6}, :xhr => true)
+    post(:new, :params => {:id => 6}, :xhr => true)
     assert_response :success
 
     assert_equal 'text/javascript', response.media_type
@@ -178,13 +172,13 @@ class JournalsControllerTest < Redmine::ControllerTest
 
   def test_reply_to_issue_without_permission
     @request.session[:user_id] = 7
-    get(:new, :params => {:id => 6}, :xhr => true)
-    assert_response 403
+    post(:new, :params => {:id => 6}, :xhr => true)
+    assert_response :forbidden
   end
 
   def test_reply_to_note
     @request.session[:user_id] = 2
-    get(
+    post(
       :new,
       :params => {
         :id => 6,
@@ -203,7 +197,7 @@ class JournalsControllerTest < Redmine::ControllerTest
     journal = Journal.create!(:journalized => Issue.find(2), :notes => 'Privates notes', :private_notes => true)
     @request.session[:user_id] = 2
 
-    get(
+    post(
       :new,
       :params => {
         :id => 2,
@@ -216,7 +210,7 @@ class JournalsControllerTest < Redmine::ControllerTest
     assert_include '> Privates notes', response.body
 
     Role.find(1).remove_permission! :view_private_notes
-    get(
+    post(
       :new,
       :params => {
         :id => 2,
@@ -224,7 +218,31 @@ class JournalsControllerTest < Redmine::ControllerTest
       },
       :xhr => true
     )
-    assert_response 404
+    assert_response :not_found
+  end
+
+  def test_reply_to_issue_with_partial_quote
+    @request.session[:user_id] = 2
+
+    params = { id: 6, quote: 'a private subproject of cookbook' }
+    post :new, params: params, xhr: true
+
+    assert_response :success
+    assert_equal 'text/javascript', response.media_type
+    assert_include 'John Smith wrote:', response.body
+    assert_include '> a private subproject of cookbook', response.body
+  end
+
+  def test_reply_to_note_with_partial_quote
+    @request.session[:user_id] = 2
+
+    params = { id: 6, journal_id: 4, journal_indice: 1, quote: 'a private version' }
+    post :new, params: params, xhr: true
+
+    assert_response :success
+    assert_equal 'text/javascript', response.media_type
+    assert_include 'Redmine Admin wrote in #note-1:', response.body
+    assert_include '> a private version', response.body
   end
 
   def test_edit_xhr
@@ -247,7 +265,7 @@ class JournalsControllerTest < Redmine::ControllerTest
 
     Role.find(1).remove_permission! :view_private_notes
     get(:edit, :params => {:id => journal.id}, :xhr => true)
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_update_xhr

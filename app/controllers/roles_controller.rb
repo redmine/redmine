@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -63,7 +63,7 @@ class RolesController < ApplicationController
     @role.safe_attributes = params[:role]
     if request.post? && @role.save
       # workflow copy
-      if !params[:copy_workflow_from].blank? && (copy_from = Role.find_by_id(params[:copy_workflow_from]))
+      if params[:copy_workflow_from].present? && (copy_from = Role.find_by_id(params[:copy_workflow_from]))
         @role.copy_workflow_rules(copy_from)
       end
       flash[:notice] = l(:notice_successful_create)
@@ -85,12 +85,12 @@ class RolesController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_to roles_path(:page => params[:page])
         end
-        format.js {head 200}
+        format.js {head :ok}
       end
     else
       respond_to do |format|
         format.html {render :action => 'edit'}
-        format.js   {head 422}
+        format.js   {head :unprocessable_content}
       end
     end
   end
@@ -99,7 +99,15 @@ class RolesController < ApplicationController
     begin
       @role.destroy
     rescue
-      flash[:error] =  l(:error_can_not_remove_role)
+      flash[:error] = l(:error_can_not_remove_role)
+
+      if @role.members.present?
+        projects = Project.joins(members: :member_roles).where(member_roles: { role_id: @role.id }).distinct.sorted
+        links = projects.map do |p|
+          view_context.link_to(p, settings_project_path(p, tab: 'members'))
+        end.join(', ')
+        flash[:error] += l(:error_can_not_remove_role_reason_members_html, projects: links)
+      end
     end
     redirect_to roles_path
   end

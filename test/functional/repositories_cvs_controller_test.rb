@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,13 +17,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class RepositoriesCvsControllerTest < Redmine::RepositoryControllerTest
   tests RepositoriesController
-
-  fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
-           :repositories, :enabled_modules
 
   REPOSITORY_PATH = Rails.root.join('tmp/test/cvs_repository').to_s
   REPOSITORY_PATH.tr!('/', "\\") if Redmine::Platform.mswin?
@@ -43,6 +40,7 @@ class RepositoriesCvsControllerTest < Redmine::RepositoryControllerTest
                                           :url          => MODULE_NAME,
                                           :log_encoding => 'UTF-8')
     assert @repository
+    skip "SCM command is unavailable" unless @repository.class.scm_available
   end
 
   if File.directory?(REPOSITORY_PATH)
@@ -283,13 +281,13 @@ class RepositoriesCvsControllerTest < Redmine::RepositoryControllerTest
 
       # 1.1 line
       assert_select 'tr' do
-        assert_select 'th.line-num', :text => '21'
+        assert_select 'th.line-num a[data-txt=?]', '21'
         assert_select 'td.revision', :text => /1.1/
         assert_select 'td.author', :text => /LANG/
       end
       # 1.2 line
       assert_select 'tr' do
-        assert_select 'th.line-num', :text => '32'
+        assert_select 'th.line-num a[data-txt=?]', '32'
         assert_select 'td.revision', :text => /1.2/
         assert_select 'td.author', :text => /LANG/
       end
@@ -305,7 +303,7 @@ class RepositoriesCvsControllerTest < Redmine::RepositoryControllerTest
       assert_difference 'Repository.count', -1 do
         delete(:destroy, :params => {:id => @repository.id})
       end
-      assert_response 302
+      assert_response :found
       @project.reload
       assert_nil @project.repository
     end
@@ -327,7 +325,7 @@ class RepositoriesCvsControllerTest < Redmine::RepositoryControllerTest
       assert_difference 'Repository.count', -1 do
         delete(:destroy, :params => {:id => @repository.id})
       end
-      assert_response 302
+      assert_response :found
       @project.reload
       assert_nil @project.repository
     end

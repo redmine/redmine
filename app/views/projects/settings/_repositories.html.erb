@@ -1,5 +1,5 @@
 <% if User.current.allowed_to?(:manage_repository, @project) %>
-  <p><%= link_to l(:label_repository_new), new_project_repository_path(@project), :class => 'icon icon-add' %></p>
+  <p><%= link_to sprite_icon('add', l(:label_repository_new)), new_project_repository_path(@project), :class => 'icon icon-add' %></p>
 <% end %>
 
 <% if @project.repositories.any? %>
@@ -26,10 +26,10 @@
         <td><%= repository.url %></td>
         <td class="buttons">
         <% if User.current.allowed_to?(:manage_repository, @project) %>
-          <%= link_to(l(:label_user_plural), committers_repository_path(repository),
-               :class => 'icon icon-user') %>
-          <%= link_to(l(:button_edit), edit_repository_path(repository),
-               :class => 'icon icon-edit') %>
+          <%= link_to(sprite_icon('user', l(:label_user_plural)), committers_repository_path(repository),
+                      :class => 'icon icon-user') %>
+          <%= link_to(sprite_icon('edit', l(:button_edit)), edit_repository_path(repository),
+                      :class => 'icon icon-edit') %>
           <%= delete_link repository_path(repository) %>
         <% end %>
         </td>

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,16 +17,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../test_helper', __FILE__)
+require_relative '../../test_helper'
 
 class Redmine::ApiTest::WikiPagesTest < Redmine::ApiTest::Base
-  fixtures :projects, :users, :roles, :members, :member_roles,
-           :enabled_modules, :wikis, :wiki_pages, :wiki_contents,
-           :wiki_content_versions, :attachments
-
   test "GET /projects/:project_id/wiki/index.xml should return wiki pages" do
     get '/projects/ecookbook/wiki/index.xml'
-    assert_response 200
+    assert_response :ok
     assert_equal 'application/xml', response.media_type
     assert_select 'wiki_pages[type=array]' do
       assert_select 'wiki_page', :count => Wiki.find(1).pages.count
@@ -45,7 +41,7 @@ class Redmine::ApiTest::WikiPagesTest < Redmine::ApiTest::Base
 
   test "GET /projects/:project_id/wiki/:title.xml should return wiki page" do
     get '/projects/ecookbook/wiki/CookBook_documentation.xml'
-    assert_response 200
+    assert_response :ok
     assert_equal 'application/xml', response.media_type
     assert_select 'wiki_page' do
       assert_select 'title', :text => 'CookBook_documentation'
@@ -60,7 +56,7 @@ class Redmine::ApiTest::WikiPagesTest < Redmine::ApiTest::Base
 
   test "GET /projects/:project_id/wiki/:title.xml?include=attachments should include attachments" do
     get '/projects/ecookbook/wiki/Page_with_an_inline_image.xml?include=attachments'
-    assert_response 200
+    assert_response :ok
     assert_equal 'application/xml', response.media_type
     assert_select 'wiki_page' do
       assert_select 'title', :text => 'Page_with_an_inline_image'
@@ -75,13 +71,13 @@ class Redmine::ApiTest::WikiPagesTest < Redmine::ApiTest::Base
 
   test "GET /projects/:project_id/wiki/:title.xml with unknown title and edit permission should respond with 404" do
     get '/projects/ecookbook/wiki/Invalid_Page.xml', :headers => credentials('jsmith')
-    assert_response 404
+    assert_response :not_found
     assert_equal 'application/xml', response.media_type
   end
 
   test "GET /projects/:project_id/wiki/:title/:version.xml should return wiki page version" do
     get '/projects/ecookbook/wiki/CookBook_documentation/2.xml'
-    assert_response 200
+    assert_response :ok
     assert_equal 'application/xml', response.media_type
     assert_select 'wiki_page' do
       assert_select 'title', :text => 'CookBook_documentation'
@@ -98,7 +94,7 @@ class Redmine::ApiTest::WikiPagesTest < Redmine::ApiTest::Base
     Role.anonymous.remove_permission! :view_wiki_edits
 
     get '/projects/ecookbook/wiki/CookBook_documentation/2.xml'
-    assert_response 401
+    assert_response :unauthorized
     assert_equal 'application/xml', response.media_type
   end
 
@@ -124,6 +120,17 @@ class Redmine::ApiTest::WikiPagesTest < Redmine::ApiTest::Base
     assert_equal 4, page.content.version
     assert_equal 'API update', page.content.comments
     assert_equal 'jsmith', page.content.author.login
+  end
+
+  test "GET /projects/:project_id/wiki/:title/:version.xml should not includ author if not exists" do
+    WikiContentVersion.find_by_id(2).update(author_id: nil)
+
+    get '/projects/ecookbook/wiki/CookBook_documentation/2.xml'
+    assert_response :ok
+    assert_equal 'application/xml', response.media_type
+    assert_select 'wiki_page' do
+      assert_select 'author', 0
+    end
   end
 
   test "PUT /projects/:project_id/wiki/:title.xml with current versino should update wiki page" do
@@ -165,7 +172,7 @@ class Redmine::ApiTest::WikiPagesTest < Redmine::ApiTest::Base
           },
           :headers => credentials('jsmith')
         )
-        assert_response 409
+        assert_response :conflict
       end
     end
   end
@@ -183,7 +190,7 @@ class Redmine::ApiTest::WikiPagesTest < Redmine::ApiTest::Base
           },
           :headers => credentials('jsmith')
         )
-        assert_response 201
+        assert_response :created
       end
     end
 
@@ -216,7 +223,7 @@ class Redmine::ApiTest::WikiPagesTest < Redmine::ApiTest::Base
           },
           :headers => credentials('jsmith')
         )
-        assert_response 201
+        assert_response :created
       end
     end
 
@@ -240,7 +247,7 @@ class Redmine::ApiTest::WikiPagesTest < Redmine::ApiTest::Base
           },
           :headers => credentials('jsmith')
         )
-        assert_response 201
+        assert_response :created
       end
     end
 

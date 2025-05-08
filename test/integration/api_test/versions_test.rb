@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,20 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../test_helper', __FILE__)
+require_relative '../../test_helper'
 
 class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
-  fixtures :projects, :trackers, :issue_statuses, :issues,
-           :enumerations, :users, :issue_categories,
-           :projects_trackers,
-           :roles,
-           :member_roles,
-           :members,
-           :enabled_modules,
-           :versions,
-           :wikis, :wiki_pages,
-           :time_entries
-
   test "GET /projects/:project_id/versions.xml should return project versions" do
     get '/projects/1/versions.xml'
 
@@ -120,7 +109,7 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
         :params => {:version => {:name => ''}},
         :headers => credentials('jsmith'))
     end
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
     assert_select 'errors error', :text => "Name cannot be blank"
   end
 

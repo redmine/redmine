@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,15 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class MyControllerTest < Redmine::ControllerTest
-  fixtures :users, :email_addresses, :user_preferences,
-           :roles, :projects, :members, :member_roles,
-           :issues, :issue_statuses, :trackers, :enumerations,
-           :custom_fields, :auth_sources, :queries, :enabled_modules,
-           :journals, :projects_trackers
-
   def setup
     @request.session[:user_id] = 2
   end
@@ -272,7 +266,9 @@ class MyControllerTest < Redmine::ControllerTest
       assert_match 'v[updated_by][]=me', report_url
 
       assert_select 'table.issues tbody tr', 2
-      assert_select 'table.issues tbody tr[id=?]', 'issue-1', 1, :title => 'Cannot print recipes'
+      assert_select 'table.issues tbody tr[id=?]', 'issue-1' do
+        assert_select 'td.subject a', :text => 'Cannot print recipes', :count => 1
+      end
       assert_select 'table.issues tbody tr[id=?]', 'issue-14', 0
     end
   end
@@ -311,7 +307,9 @@ class MyControllerTest < Redmine::ControllerTest
       assert_match 'v%5Bproject.status%5D%5B%5D=1', report_url
 
       assert_select 'tr', 1
-      assert_select 'tr[id=?]', 'issue-1', 1, :title => 'Cannot print recipes'
+      assert_select 'tr[id=?]', 'issue-1' do
+        assert_select 'td.subject a', :text => 'Cannot print recipes', :count => 1
+      end
       assert_select 'tr[id=?]', 'issue-4', 0
     end
   end
@@ -339,7 +337,9 @@ class MyControllerTest < Redmine::ControllerTest
       assert_match 'v%5Bproject.status%5D%5B%5D=1', report_url
 
       assert_select 'table.issues tbody tr', 10
-      assert_select 'table.issues tbody tr[id=?]', 'issue-1', 1, :title => 'Cannot print recipes'
+      assert_select 'table.issues tbody tr[id=?]', 'issue-1' do
+        assert_select 'td.subject a', :text => 'Cannot print recipes', :count => 1
+      end
       assert_select 'table.issues tbody tr[id=?]', 'issue-4', 0
     end
   end
@@ -371,7 +371,9 @@ class MyControllerTest < Redmine::ControllerTest
       assert_match 'v%5Bproject.status%5D%5B%5D=1', report_url
 
       assert_select 'tr', 1
-      assert_select 'tr[id=?]', 'issue-1', 1, :title => 'Cannot print recipes'
+      assert_select 'tr[id=?]', 'issue-1' do
+        assert_select 'td.subject a', :text => 'Cannot print recipes', :count => 1
+      end
       assert_select 'tr[id=?]', 'issue-4', 0
     end
   end
@@ -436,24 +438,22 @@ class MyControllerTest < Redmine::ControllerTest
 
     assert_select 'form[data-cm-url=?]', '/issues/context_menu'
 
-    assert_select 'table.cal' do
-      assert_select 'tr' do
-        assert_select 'td' do
+    assert_select 'ul.cal' do
+      assert_select 'li' do
+        assert_select(
+          'div.issue.hascontextmenu.tooltip.starting.ending',
+          :text => /eCookbook.*#{subject}/m
+        ) do
           assert_select(
-            'div.issue.hascontextmenu.tooltip.starting.ending',
-            :text => /eCookbook.*#{subject}/m
-          ) do
-            assert_select(
-              'a.issue[href=?]', "/issues/#{issue.id}",
-              :text => "Bug ##{issue.id}"
-            )
-            assert_select(
-              'input[name=?][type=?][value=?]',
-              'ids[]',
-              'checkbox',
-              issue.id.to_s
-            )
-          end
+            'a.issue[href=?]', "/issues/#{issue.id}",
+            :text => "Bug ##{issue.id}"
+          )
+          assert_select(
+            'input[name=?][type=?][value=?]',
+            'ids[]',
+            'checkbox',
+            issue.id.to_s
+          )
         end
       end
     end
@@ -599,9 +599,9 @@ class MyControllerTest < Redmine::ControllerTest
   def test_change_password
     get :password
     assert_response :success
-    assert_select 'input[type=password][name=password]'
-    assert_select 'input[type=password][name=new_password]'
-    assert_select 'input[type=password][name=new_password_confirmation]'
+    assert_select 'input[type=password][name=password][autocomplete=current-password]'
+    assert_select 'input[type=password][name=new_password][autocomplete=new-password]'
+    assert_select 'input[type=password][name=new_password_confirmation][autocomplete=new-password]'
   end
 
   def test_update_password
@@ -724,7 +724,7 @@ class MyControllerTest < Redmine::ControllerTest
         :block => 'invalid'
       }
     )
-    assert_response 422
+    assert_response :unprocessable_content
   end
 
   def test_remove_block
@@ -787,22 +787,22 @@ class MyControllerTest < Redmine::ControllerTest
                  User.find(2).pref.my_page_layout)
   end
 
-  def test_reset_rss_key_with_existing_key
-    @previous_token_value = User.find(2).rss_key # Will generate one if it's missing
-    post :reset_rss_key
+  def test_reset_atom_key_with_existing_key
+    @previous_token_value = User.find(2).atom_key # Will generate one if it's missing
+    post :reset_atom_key
 
-    assert_not_equal @previous_token_value, User.find(2).rss_key
-    assert User.find(2).rss_token
+    assert_not_equal @previous_token_value, User.find(2).atom_key
+    assert User.find(2).atom_token
     assert_match /reset/, flash[:notice]
     assert_redirected_to '/my/account'
   end
 
-  def test_reset_rss_key_without_existing_key
+  def test_reset_atom_key_without_existing_key
     Token.delete_all
-    assert_nil User.find(2).rss_token
-    post :reset_rss_key
+    assert_nil User.find(2).atom_token
+    post :reset_atom_key
 
-    assert User.find(2).rss_token
+    assert User.find(2).atom_token
     assert_match /reset/, flash[:notice]
     assert_redirected_to '/my/account'
   end

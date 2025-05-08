@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class Token < ActiveRecord::Base
+class Token < ApplicationRecord
   belongs_to :user
   validates_uniqueness_of :value, :case_sensitive => true
 
@@ -78,7 +78,7 @@ class Token < ActiveRecord::Base
     # Unknown actions have default validity_time
     condition = t[:action].not_in(self.actions.keys).and(t[:created_on].lt(invalid_when_created_before))
 
-    self.actions.each do |action, options|
+    self.actions.each_key do |action|
       validity_time = invalid_when_created_before(action)
 
       # Do not delete tokens, which don't become invalid

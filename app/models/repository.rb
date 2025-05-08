@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 
 class ScmFetchError < StandardError; end
 
-class Repository < ActiveRecord::Base
+class Repository < ApplicationRecord
   include Redmine::Ciphering
   include Redmine::SafeAttributes
 
@@ -69,12 +69,12 @@ class Repository < ActiveRecord::Base
     end
   end
 
-  def self.human_attribute_name(attribute_key_name, *args)
+  def self.human_attribute_name(attribute_key_name, *)
     attr_name = attribute_key_name.to_s
     if attr_name == "log_encoding"
       attr_name = "commit_logs_encoding"
     end
-    super(attr_name, *args)
+    super(attr_name, *)
   end
 
   # Removes leading and trailing whitespace
@@ -141,6 +141,8 @@ class Repository < ActiveRecord::Base
   end
 
   def <=>(repository)
+    return nil unless repository.is_a?(Repository)
+
     if is_default?
       -1
     elsif repository.is_default?
@@ -184,7 +186,7 @@ class Repository < ActiveRecord::Base
     scm.supports_annotate?
   end
 
-  def supports_all_revisions?
+  def supports_history?
     true
   end
 
@@ -367,8 +369,8 @@ class Repository < ActiveRecord::Base
     subclasses.collect {|klass| [klass.scm_name, klass.name]}
   end
 
-  def self.factory(klass_name, *args)
-    repository_class(klass_name).new(*args) rescue nil
+  def self.factory(klass_name, *)
+    repository_class(klass_name).new(*) rescue nil
   end
 
   def self.repository_class(class_name)
@@ -431,7 +433,7 @@ class Repository < ActiveRecord::Base
     # commits.to_a.sort! {|x, y| x.last <=> y.last}
     changes = Change.joins(:changeset).where("#{Changeset.table_name}.repository_id = ?", id).
                 select("committer, user_id, count(*) as count").group("committer, user_id")
-    user_ids = changesets.map(&:user_id).compact.uniq
+    user_ids = changesets.filter_map(&:user_id).uniq
     authors_names = User.where(:id => user_ids).inject({}) do |memo, user|
       memo[user.id] = user.to_s
       memo

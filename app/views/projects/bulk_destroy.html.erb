@@ -1,0 +1,27 @@
+<%= title l(:label_confirmation) %>
+
+<%= form_tag(bulk_destroy_projects_path(ids: @projects.map(&:id)), method: :delete) do %>
+<div class="warning">
+
+<p><%= simple_format l :text_projects_bulk_destroy_head %></p>
+
+<% @projects.each do |project| %>
+  <p><%= l(:label_project) %>: <strong><%= project.to_s %></strong>
+    <% if project.descendants.any? %>
+      <br />
+      <%= l :text_subprojects_bulk_destroy, project.descendants.map(&:to_s).join(', ') %>
+    <% end %>
+  </p>
+<% end %>
+
+<p><%= l :text_projects_bulk_destroy_confirm, yes: l(:general_text_Yes) %></p>
+<p><%= text_field_tag 'confirm' %></p>
+
+</div>
+
+<p>
+  <%= submit_tag l(:button_delete), class: 'btn-alert btn-small' %>
+  <%= link_to l(:button_cancel), admin_projects_path %>
+</p>
+<% end %>
+

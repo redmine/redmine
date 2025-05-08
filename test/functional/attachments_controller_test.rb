@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,13 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class AttachmentsControllerTest < Redmine::ControllerTest
-  fixtures :users, :user_preferences, :projects, :roles, :members, :member_roles,
-           :enabled_modules, :issues, :trackers, :attachments, :issue_statuses, :journals, :journal_details,
-           :versions, :wiki_pages, :wikis, :documents, :enumerations
-
   def setup
     User.current = nil
     set_fixtures_attachments_directory
@@ -157,7 +153,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_equal 'text/html', @response.media_type
     assert_select 'tr#L1' do
-      assert_select 'th.line-num', :text => '1'
+      assert_select 'th.line-num a[data-txt=?]', '1'
       assert_select 'td', :text => /日本語/
     end
   end
@@ -174,7 +170,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
       assert_response :success
       assert_equal 'text/html', @response.media_type
       assert_select 'tr#L7' do
-        assert_select 'th.line-num', :text => '7'
+        assert_select 'th.line-num a[data-txt=?]', '7'
         assert_select 'td', :text => /Demande cr\?\?e avec succ\?s/
       end
     end
@@ -192,7 +188,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
       assert_response :success
       assert_equal 'text/html', @response.media_type
       assert_select 'tr#L7' do
-        assert_select 'th.line-num', :text => '7'
+        assert_select 'th.line-num a[data-txt=?]', '7'
         assert_select 'td', :text => /Demande créée avec succès/
       end
     end
@@ -201,7 +197,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
   def test_show_text_file_should_show_other_if_too_big
     @request.session[:user_id] = 2
     with_settings :file_max_size_displayed => 512 do
-      Attachment.find(4).update_attribute :filesize, 754.kilobyte
+      Attachment.find(4).update_attribute :filesize, 754.kilobytes
       get(:show, :params => {:id => 4})
       assert_response :success
       assert_equal 'text/html', @response.media_type
@@ -209,7 +205,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     end
   end
 
-  def test_show_text_file_formated_markdown
+  def test_show_text_file_formatted_markdown
     set_tmp_attachments_directory
     a = Attachment.new(:container => Issue.find(1),
                        :file => uploaded_test_file('testfile.md', 'text/plain'),
@@ -219,10 +215,10 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     get(:show, :params => {:id => a.id})
     assert_response :success
     assert_equal 'text/html', @response.media_type
-    assert_select 'div.wiki', :html => "<h1>Header 1</h1>\n\n<h2>Header 2</h2>\n\n<h3>Header 3</h3>"
+    assert_select 'div.wiki', :html => "<h1>Header 1</h1>\n<h2>Header 2</h2>\n<h3>Header 3</h3>"
   end
 
-  def test_show_text_file_fromated_textile
+  def test_show_text_file_formatted_textile
     set_tmp_attachments_directory
     a = Attachment.new(:container => Issue.find(1),
                        :file => uploaded_test_file('testfile.textile', 'text/plain'),
@@ -267,7 +263,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     attachment = Attachment.create!(:file => uploaded_test_file("testfile.txt", "text/plain"), :author_id => 2)
     @request.session[:user_id] = 2
     get(:show, :params => {:id => attachment.id})
-    assert_response 200
+    assert_response :ok
   end
 
   def test_show_file_without_container_should_be_denied_to_other_users
@@ -276,7 +272,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
 
     @request.session[:user_id] = 3
     get(:show, :params => {:id => attachment.id})
-    assert_response 403
+    assert_response :forbidden
   end
 
   def test_show_issue_attachment_should_highlight_issues_menu_item
@@ -287,7 +283,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
 
   def test_show_invalid_should_respond_with_404
     get(:show, :params => {:id => 999})
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_show_renders_pagination
@@ -307,7 +303,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
 
     @request.env["HTTP_IF_NONE_MATCH"] = etag
     get(:download, :params => {:id => 4})
-    assert_response 304
+    assert_response :not_modified
   end
 
   def test_download_js_file
@@ -352,7 +348,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
 
   def test_download_missing_file
     get(:download, :params => {:id => 2})
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_download_should_be_denied_without_permission
@@ -383,7 +379,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
           :id => 16
         }
       )
-      assert_response 304
+      assert_response :not_modified
     end
 
     def test_thumbnail_should_not_exceed_maximum_size
@@ -418,7 +414,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
           :id => 15
         }
       )
-      assert_response 404
+      assert_response :not_found
     end
 
     def test_thumbnail_should_return_404_if_thumbnail_generation_failed
@@ -430,7 +426,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
           :id => 16
         }
       )
-      assert_response 404
+      assert_response :not_found
     end
 
     def test_thumbnail_should_be_denied_without_permission
@@ -491,17 +487,6 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_select 'h2 a', :text => "Feature request #2"
   end
 
-  def test_edit_all_with_invalid_container_class_should_return_404
-    get(
-      :edit_all,
-      :params => {
-        :object_type => 'nuggets',
-        :object_id => '3'
-      }
-    )
-    assert_response 404
-  end
-
   def test_edit_all_with_invalid_object_should_return_404
     get(
       :edit_all,
@@ -510,7 +495,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
         :object_id => '999'
       }
     )
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_edit_all_for_object_that_is_not_visible_should_return_403
@@ -521,7 +506,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
         :object_id => '4'
       }
     )
-    assert_response 403
+    assert_response :forbidden
   end
 
   def test_edit_all_issue_attachment_by_user_without_edit_issue_permission_on_tracker_should_return_404
@@ -538,7 +523,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
         :object_id => '4'
       }
     )
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_update_all
@@ -560,7 +545,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
         }
       }
     )
-    assert_response 302
+    assert_response :found
     attachment = Attachment.find(4)
     assert_equal 'newname.rb', attachment.filename
     assert_equal 'Renamed', attachment.description
@@ -603,7 +588,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
         :object_id => '2'
       }
     )
-    assert_response 200
+    assert_response :ok
     assert_equal response.headers['Content-Type'], 'application/zip'
     assert_match /issue-2-attachments.zip/, response.headers['Content-Disposition']
     assert_not_includes Dir.entries(Rails.root.join('tmp')), /attachments_zip/
@@ -618,7 +603,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
         :object_id => '999'
       }
     )
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_download_all_without_readable_attachments
@@ -631,7 +616,23 @@ class AttachmentsControllerTest < Redmine::ControllerTest
       }
     )
     assert_equal Issue.find(1).attachments, []
-    assert_response 404
+    assert_response :not_found
+  end
+
+  def test_download_all_with_invisible_journal
+    Project.find(1).update_column :is_public, false
+    Member.delete_all
+    @request.session[:user_id] = 2
+    User.current = User.find(2)
+    assert_not Journal.find(3).journalized.visible?
+    get(
+      :download_all,
+      :params => {
+        :object_type => 'journals',
+        :object_id => '3'
+      }
+    )
+    assert_response :forbidden
   end
 
   def test_download_all_with_maximum_bulk_download_size_larger_than_attachments
@@ -642,7 +643,23 @@ class AttachmentsControllerTest < Redmine::ControllerTest
         :params => {
           :object_type => 'issues',
           :object_id => '2',
-          :back_url => '/issues/2'
+          :back_url => '/issues/123'
+        }
+      )
+      assert_redirected_to '/issues/123'
+      assert_equal flash[:error], 'These attachments cannot be bulk downloaded because the total file size exceeds the maximum allowed size (0 Bytes)'
+    end
+  end
+
+  def test_download_all_redirects_to_container_url_on_error
+    with_settings :bulk_download_max_size => 0 do
+      @request.session[:user_id] = 2
+      get(
+        :download_all,
+        :params => {
+          :object_type => 'issues',
+          :object_id => '2',
+          :back_url => 'https://example.com'
         }
       )
       assert_redirected_to '/issues/2'
@@ -684,7 +701,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
           :id => 3
         }
       )
-      assert_response 302
+      assert_response :found
     end
   end
 
@@ -698,7 +715,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
           :id => 8
         }
       )
-      assert_response 302
+      assert_response :found
     end
   end
 
@@ -712,7 +729,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
           :id => 9
         }
       )
-      assert_response 302
+      assert_response :found
     end
   end
 
@@ -727,7 +744,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
           :id => 9
         }
       )
-      assert_response 302
+      assert_response :found
     end
   end
 
@@ -741,7 +758,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
         }
       )
     end
-    assert_response 302
+    assert_response :found
     assert Attachment.find_by_id(3)
   end
 
@@ -762,7 +779,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
       )
     end
 
-    assert_response 403
+    assert_response :forbidden
     assert Attachment.find_by_id(7)
   end
 end

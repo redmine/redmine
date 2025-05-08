@@ -5,11 +5,14 @@
 <% if @issue.safe_attribute?('status_id') && @allowed_statuses.present? %>
 <p>
   <%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), {:required => true},
-                :onchange => "updateIssueFrom('#{escape_javascript(update_issue_form_path(@project, @issue))}', this)" %>
+    :onchange => "updateIssueFrom('#{escape_javascript(update_issue_form_path(@project, @issue))}', this)",
+    :title => @issue.status.description %>
+  <%= content_tag 'a', sprite_icon('help', l(:label_open_issue_statuses_description)), :class => 'icon-only icon-help', :title => l(:label_open_issue_statuses_description), :onclick => "showModal('issue_statuses_description', '500px'); return false;", :href => '#' if @allowed_statuses.any? {|s| s.description.present? } %>
   <% if @issue.transition_warning %>
-    <span class="icon-only icon-warning" title="<%= @issue.transition_warning %>"><%= @issue.transition_warning %></span>
+    <span class="icon-only icon-warning" title="<%= @issue.transition_warning %>"><%= sprite_icon('warning', l(:notice_issue_not_closable_by_open_tasks)) %></span>
   <% end %>
 </p>
+<%= render partial: 'issues/issue_status_description', locals: { issue_statuses: @allowed_statuses } %>
 <%= hidden_field_tag 'was_default_status', @issue.status_id, :id => nil if @issue.status == @issue.default_status %>
 <% else %>
 <p><label><%= l(:field_status) %></label> <%= @issue.status %></p>
@@ -29,11 +32,11 @@
 </p>
 <% end %>
 
-<% if @issue.safe_attribute?('category_id') && @issue.project.issue_categories.any? %>
-<p><%= f.select :category_id, (@issue.project.issue_categories.collect {|c| [c.name, c.id]}),
+<% if @issue.safe_attribute?('category_id') && (category_options = @issue.project.issue_categories.pluck(:name, :id)).present? %>
+<p><%= f.select :category_id, category_options,
                 {:include_blank => true, :required => @issue.required_attribute?('category_id')},
                  :onchange => ("updateIssueFrom('#{escape_javascript(update_issue_form_path(@project, @issue))}', this)" if @issue.new_record?) %>
-<%= link_to(l(:label_issue_category_new),
+<%= link_to(sprite_icon('add', l(:label_issue_category_new)),
             new_project_issue_category_path(@issue.project),
             :remote => true,
             :method => 'get',
@@ -46,7 +49,7 @@
 <% if @issue.safe_attribute?('fixed_version_id') && @issue.assignable_versions.any? %>
 <p><%= f.select :fixed_version_id, version_options_for_select(@issue.assignable_versions, @issue.fixed_version),
                 :include_blank => true, :required => @issue.required_attribute?('fixed_version_id') %>
-<%= link_to(l(:label_version_new),
+<%= link_to(sprite_icon('add', l(:label_version_new)),
             new_project_version_path(@issue.project),
             :remote => true,
             :method => 'get',
@@ -81,11 +84,11 @@
 <% end %>
 
 <% if @issue.safe_attribute? 'estimated_hours' %>
-<p><%= f.hours_field :estimated_hours, :size => 3, :required => @issue.required_attribute?('estimated_hours') %> <%= l(:field_hours) %></p>
+<p><%= f.hours_field :estimated_hours, :size => 6, :required => @issue.required_attribute?('estimated_hours') %> <%= l(:field_hours) %></p>
 <% end %>
 
 <% if @issue.safe_attribute?('done_ratio') && Issue.use_field_for_done_ratio? %>
-<p><%= f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }), :required => @issue.required_attribute?('done_ratio') %></p>
+<p><%= f.select :done_ratio, ((0..100).step(Setting.issue_done_ratio_interval.to_i).to_a.collect {|r| ["#{r} %", r]}), :required => @issue.required_attribute?('done_ratio') %></p>
 <% end %>
 </div>
 </div>

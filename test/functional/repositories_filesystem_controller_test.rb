@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,13 +17,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class RepositoriesFilesystemControllerTest < Redmine::RepositoryControllerTest
   tests RepositoriesController
-
-  fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
-           :repositories, :enabled_modules
 
   REPOSITORY_PATH = Rails.root.join('tmp/test/filesystem_repository').to_s
   PRJ_ID = 3
@@ -126,7 +123,7 @@ class RepositoriesFilesystemControllerTest < Redmine::RepositoryControllerTest
         if @ruby19_non_utf8_pass
           puts "TODO: show repository file contents test fails " \
                "when Encoding.default_external is not UTF-8. " \
-               "Current value is '#{Encoding.default_external.to_s}'"
+               "Current value is '#{Encoding.default_external}'"
         else
           assert_select 'tr#L3 td.line-code', :text => /日本語/
         end
@@ -176,7 +173,7 @@ class RepositoriesFilesystemControllerTest < Redmine::RepositoryControllerTest
           }
         )
       end
-      assert_response 302
+      assert_response :found
       @project.reload
       assert_nil @project.repository
     end
@@ -198,9 +195,27 @@ class RepositoriesFilesystemControllerTest < Redmine::RepositoryControllerTest
           }
         )
       end
-      assert_response 302
+      assert_response :found
       @project.reload
       assert_nil @project.repository
+    end
+
+    def test_show_should_only_show_view_tab
+      get(
+        :entry,
+        :params => {
+          :id => PRJ_ID,
+          :repository_id => @repository.id,
+          :path => repository_path_hash(['test'])[:param]
+        }
+      )
+      assert_response :success
+      assert @repository.supports_cat?
+      assert_select 'a#tab-entry', :text => /View/
+      assert_not @repository.supports_history?
+      assert_select 'a#tab-changes', 0
+      assert_not @repository.supports_annotate?
+      assert_select 'a#tab-annotate', 0
     end
   else
     puts "Filesystem test repository NOT FOUND. Skipping functional tests !!!"

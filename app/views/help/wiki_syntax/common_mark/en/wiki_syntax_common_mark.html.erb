@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Wiki formatting</title>
+<%= stylesheet_link_tag "wiki_syntax.css" %>
+</head>
+<body>
+
+<h1>Wiki Syntax Quick Reference (CommonMark Markdown (GitHub Flavored))</h1>
+
+<table style="width:100%">
+<tr><th colspan="3">Font Styles <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "5") %>" target="_blank">more</a>)</span></th></tr>
+<tr><th><%= image_tag("jstoolbar/bold.svg", { alt: "Strong" }) %></th><td style="width:50%;">**Strong**</td><td style="width:50%;"><strong>Strong</strong></td></tr>
+<tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "Italic" }) %></th><td>*Italic*</td><td><em>Italic</em></td></tr>
+<tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "Deleted" }) %></th><td>~~Deleted~~</td><td><del>Deleted</del></td></tr>
+<tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "Inline code" }) %></th><td>`Inline Code`</td><td><code>Inline Code</code></td></tr>
+<tr><th><span class="syntax-pre"/></th><td>```<br />&nbsp;lines<br />&nbsp;of code<br />```</td><td>
+<pre>
+ lines
+ of code
+</pre>
+</td></tr>
+
+<tr><th colspan="3">Highlighted code <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "13") %>" target="_blank">more</a>)</span></th></tr>
+<tr><th><%= image_tag("jstoolbar/code.svg", { alt: "Highlighted code" }) %></th><td>```ruby<br />3.times do<br />&nbsp;&nbsp;puts 'Hello'<br />end<br />```</td><td>
+<pre><code class="ruby syntaxhl"><span class="mi">3</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span>
+  <span class="nb">puts</span> <span class="s1">'Hello'</span>
+<span class="k">end</span>
+</code></pre>
+</td></tr>
+
+<tr><th colspan="3">Line breaks and Paragraphs</th></tr>
+<tr><th></th><td>An empty line<br><br>creates<br>a new paragraph.</td><td><p>An empty line</p><p>creates a new paragraph.</p></td></tr>
+<tr><th></th><td>End a line with a backslash\<br> or two spaces to insert a manual line break.</td><td><p>End a line with a backslash<br>or two spaces to insert a manual line break.</p></td></tr>
+
+<tr><th colspan="3">Lists</th></tr>
+<tr><th><%= image_tag("jstoolbar/list.svg", { alt: "Unordered list" }) %></th><td>* Item 1<br />&nbsp;&nbsp;* Sub<br />* Item 2</td><td><ul><li>Item 1<ul><li>Sub</li></ul></li><li>Item 2</li></ul></td></tr>
+<tr><th><%= image_tag("jstoolbar/list-numbers.svg", { alt: "Ordered list" }) %></th><td>1. Item 1<br />&nbsp;&nbsp;&nbsp;1. Sub<br />2. Item 2</td><td><ol><li>Item 1<ol><li>Sub</li></ol></li><li>Item 2</li></ol></td></tr>
+<tr><th><%= image_tag("jstoolbar/list-check.svg", { alt: "Task list" }) %></th><td>* [ ] Item 1<br />* [x] Item 2</td><td><ul style="list-style-type: none; padding-left: 12px;"><li><input type="checkbox" disabled>Item 1</li><li><input type="checkbox" disabled checked>Item 2</li></ul></td></tr>
+
+<tr><th colspan="3">Headings <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "8") %>" target="_blank">more</a>)</span></th></tr>
+<tr><th><%= image_tag("jstoolbar/h1.svg", { alt: "Heading 1" }) %></th><td># Title 1</td><td><h1>Title 1</h1></td></tr>
+<tr><th><%= image_tag("jstoolbar/h2.svg", { alt: "Heading 2" }) %></th><td>## Title 2</td><td><h2>Title 2</h2></td></tr>
+<tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "Heading 3" }) %></th><td>### Title 3</td><td><h3>Title 3</h3></td></tr>
+
+<tr><th colspan="3">Links <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">more</a>)</span></th></tr>
+<tr><th></th><td>www.foo.bar</td><td><a href="#">www.foo.bar</a></td></tr>
+<tr><th></th><td>http://foo.bar</td><td><a href="#">http://foo.bar</a></td></tr>
+<tr><th></th><td>[Foo](http://foo.bar)</td><td><a href="#">Foo</a></td></tr>
+
+<tr><th colspan="3">Redmine links <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">more</a>)</span></th></tr>
+<tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "Link to a Wiki page" }) %></th><td>[[Wiki page]]</td><td><a href="#">Wiki page</a></td></tr>
+<tr><th></th><td>Issue #12</td><td>Issue <a href="#">#12</a></td></tr>
+<tr><th></th><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
+<tr><th></th><td>Revision r43</td><td>Revision <a href="#">r43</a></td></tr>
+<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+
+<tr><th colspan="3">Inline images <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">more</a>)</span></th></tr>
+<tr><th><%= image_tag("jstoolbar/image.svg", { alt: "Image" }) %></th><td>![](<em>image_url</em>)</td><td></td></tr>
+<tr><th></th><td>![](<em>attached_image</em>)</td><td></td></tr>
+
+<tr><th colspan="3">Tables</th></tr>
+<tr>
+  <th></th>
+  <td>| A | B | C |<br />|---|---|---|<br />| A | B | C |<br />| D | E | F |</td>
+  <td>
+    <table class="sample">
+      <tbody>
+        <th>A</th><th>B</th><th>C</th>
+        <tr><td>A</td><td>B</td><td>C</td></tr>
+        <tr><td>D</td><td>E</td><td>F</td></tr>
+      </tbody>
+    </table>
+  </td>
+</tr>
+
+<tr><th colspan="3">Raw HTML <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "15") %>" target="_blank">more</a>)</span></th></tr>
+<tr>
+  <th></th><td>HTML is &lt;del&gt;not&lt;/del&gt; &lt;u&gt;allowed&lt;/u&gt;.</td><td>HTML is <del>not</del> <u>allowed</u>.</td>
+</tr>
+
+</table>
+
+<p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">More Information</a></p>
+</body>
+</html>

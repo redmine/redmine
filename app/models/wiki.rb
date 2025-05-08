@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class Wiki < ActiveRecord::Base
+class Wiki < ApplicationRecord
   include Redmine::SafeAttributes
   belongs_to :project
   has_many :pages, lambda {order(Arel.sql('LOWER(title)').asc)}, :class_name => 'WikiPage', :dependent => :destroy
@@ -95,6 +95,10 @@ class Wiki < ActiveRecord::Base
         page
       end
     end
+  end
+
+  def self.create_default(project)
+    create(:project => project, :start_page => 'Wiki')
   end
 
   # turn a string into a valid page title

@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class SudoModeTest < Redmine::IntegrationTest
-  fixtures :projects, :members, :member_roles, :roles, :users, :email_addresses
-
   def setup
     Redmine::SudoMode.stubs(:enabled?).returns(true)
   end
@@ -28,7 +26,7 @@ class SudoModeTest < Redmine::IntegrationTest
         }
       }
     )
-    assert_response 302
+    assert_response :found
 
     user = User.find_by_login("psmith")
     assert_kind_of User, user
@@ -68,7 +66,7 @@ class SudoModeTest < Redmine::IntegrationTest
         :sudo_password => 'admin'
       }
     )
-    assert_response 302
+    assert_response :found
 
     user = User.find_by_login("psmith")
     assert_kind_of User, user
@@ -192,7 +190,7 @@ class SudoModeTest < Redmine::IntegrationTest
     expire_sudo_mode!
     get '/my/account'
     assert_response :success
-    put('/my/account', :params => {:user => {:mail => 'newmail@test.com'}})
+    post('/my/account', :params => {:_method => 'put', :user => {:mail => 'newmail@test.com'}})
     assert_response :success
     assert_select 'h2', 'Confirm your password to continue'
     assert_select 'form[action="/my/account"]'

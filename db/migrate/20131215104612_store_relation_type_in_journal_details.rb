@@ -1,5 +1,4 @@
 class StoreRelationTypeInJournalDetails < ActiveRecord::Migration[4.2]
-
   MAPPING = {
     "label_relates_to" => "relates",
     "label_duplicates" => "duplicates",

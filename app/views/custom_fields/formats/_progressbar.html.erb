@@ -1,0 +1,6 @@
+<p>
+  <%= f.select :ratio_interval,
+               [5, 10].collect {|i| ["#{i} %", i]},
+               selected: f.object.new_record? ? Redmine::FieldFormat::ProgressbarFormat.default_ratio_interval : f.object.ratio_interval,
+               required: true %>
+</p>

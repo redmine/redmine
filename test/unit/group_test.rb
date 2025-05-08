@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,16 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class GroupTest < ActiveSupport::TestCase
-  fixtures :projects, :trackers, :issue_statuses, :issues,
-           :enumerations, :users,
-           :projects_trackers,
-           :roles, :member_roles, :members,
-           :groups_users,
-           :watchers
-
   include Redmine::I18n
 
   def setup
@@ -38,6 +31,7 @@ class GroupTest < ActiveSupport::TestCase
     assert g.save
     g.reload
     assert_equal 'New group', g.name
+    assert_equal true, g.active?
   end
 
   def test_name_should_accept_255_characters
@@ -176,5 +170,17 @@ class GroupTest < ActiveSupport::TestCase
     a = Group.generate!(:name => 'A')
 
     assert_equal %w(A B), Group.sorted.to_a.map(&:name)
+  end
+
+  def test_user_added_should_not_fail_when_group_role_is_empty
+    group = Group.find(11)
+    project = Project.first
+    user = User.find(9)
+
+    m = Member.create!(:principal => group, :project => project, :role_ids => [1])
+    MemberRole.where(:member_id => m.id).delete_all
+
+    assert_nothing_raised {group.users << user}
+    assert group.users.include?(user)
   end
 end

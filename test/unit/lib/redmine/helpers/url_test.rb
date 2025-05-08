@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../../../test_helper', __FILE__)
+require_relative '../../../../test_helper'
 
 class URLTest < ActiveSupport::TestCase
   include Redmine::Helpers::URL
@@ -42,7 +42,7 @@ class URLTest < ActiveSupport::TestCase
     "mailto:foo@example.org",
     " http://example.com/",
     "",
-    "/javascript:alert(\'filename\')",
+    "/javascript:alert('filename')",
   ]
 
   def test_uri_with_link_safe_scheme_should_recognize_safe_uris
@@ -52,18 +52,18 @@ class URLTest < ActiveSupport::TestCase
   end
 
   LINK_UNSAFE_URIS = [
-    "javascript:alert(\'XSS\');",
-    "javascript    :alert(\'XSS\');",
-    "javascript:    alert(\'XSS\');",
-    "javascript    :   alert(\'XSS\');",
-    ":javascript:alert(\'XSS\');",
+    "javascript:alert('XSS');",
+    "javascript    :alert('XSS');",
+    "javascript:    alert('XSS');",
+    "javascript    :   alert('XSS');",
+    ":javascript:alert('XSS');",
     "javascript&#58;",
     "javascript&#0058;",
     "javascript&#x3A;",
     "javascript&#x003A;",
     "java\0script:alert(\"XSS\")",
     "java\script:alert(\"XSS\")",
-    " \x0e  javascript:alert(\'XSS\');",
+    " \x0e  javascript:alert('XSS');",
     "data:image/png;base64,foobar",
     "vbscript:foobar",
     "data:text/html;base64,foobar",

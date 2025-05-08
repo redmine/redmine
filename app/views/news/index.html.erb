@@ -1,5 +1,5 @@
 <div class="contextual">
-<%= link_to(l(:label_news_new),
+<%= link_to(sprite_icon('add', l(:label_news_new)),
             (@project ? project_news_index_path(@project) : news_index_path),
             :class => 'icon icon-add add-news-link',
             :onclick => 'showAndScrollTo("add-news", "news_title"); return false;') if User.current.allowed_to?(:manage_news, @project, global: true) %>
@@ -38,11 +38,11 @@
 <span class="pagination"><%= pagination_links_full @news_pages %></span>
 
 <% other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => {:project_id => @project, :key => User.current.rss_key} %>
+  <%= f.link_to 'Atom', :url => {:project_id => @project, :key => User.current.atom_key} %>
 <% end %>
 
 <% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom, _project_news_path(@project, :key => User.current.rss_key, :format => 'atom')) %>
+  <%= auto_discovery_link_tag(:atom, _project_news_path(@project, :key => User.current.atom_key, :format => 'atom')) %>
   <%= stylesheet_link_tag 'scm' %>
 <% end %>
 

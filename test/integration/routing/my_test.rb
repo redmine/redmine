@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../test_helper', __FILE__)
+require_relative '../../test_helper'
 
 class RoutingMyTest < Redmine::RoutingTest
   def test_my
@@ -33,7 +33,7 @@ class RoutingMyTest < Redmine::RoutingTest
 
     should_route 'GET /my/api_key' => 'my#show_api_key'
     should_route 'POST /my/api_key' => 'my#reset_api_key'
-    should_route 'POST /my/rss_key' => 'my#reset_rss_key'
+    should_route 'POST /my/atom_key' => 'my#reset_atom_key'
 
     should_route 'GET /my/password' => 'my#password'
     should_route 'POST /my/password' => 'my#password'

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -56,10 +56,7 @@ module Redmine
         end
 
         def initialize(url, root_url=nil, login=nil, password=nil, path_encoding=nil)
-          @url = url
-          @root_url = url
-          @path_encoding = 'UTF-8'
-          # do not call *super* for non ASCII repository path
+          super(url, url, nil, nil, 'UTF-8')
         end
 
         def bzr_path_encodig=(encoding)
@@ -139,7 +136,7 @@ module Redmine
             revision = nil
             parsing  = nil
             io.each_line do |line|
-              if /^----/.match?(line)
+              if line.start_with?('----')
                 revisions << revision if revision
                 revision = Revision.new(:paths => [], :message => '')
                 parsing = nil
@@ -154,7 +151,7 @@ module Redmine
                   revision.scmid = $1.strip
                 elsif line =~ /^timestamp: (.+)$/
                   revision.time = Time.parse($1).localtime
-                elsif /^    -----/.match?(line)
+                elsif line.start_with?('    -----')
                   # partial revisions
                   parsing = nil unless parsing == 'message'
                 elsif line =~ /^(message|added|modified|removed|renamed):/
@@ -300,7 +297,7 @@ module Redmine
           @aro
         end
 
-        def scm_cmd(*args, &block)
+        def scm_cmd(*args, &)
           full_args = []
           full_args += args
           full_args_locale = []
@@ -311,7 +308,7 @@ module Redmine
             shellout(
               self.class.sq_bin + ' ' +
                 full_args_locale.map {|e| shell_quote e.to_s}.join(' '),
-              &block
+              &
             )
           if $? && $?.exitstatus != 0
             raise ScmCommandAborted, "bzr exited with non-zero status: #{$?.exitstatus}"
@@ -321,7 +318,7 @@ module Redmine
         end
         private :scm_cmd
 
-        def scm_cmd_no_raise(*args, &block)
+        def scm_cmd_no_raise(*args, &)
           full_args = []
           full_args += args
           full_args_locale = []
@@ -332,7 +329,7 @@ module Redmine
             shellout(
               self.class.sq_bin + ' ' +
                 full_args_locale.map {|e| shell_quote e.to_s}.join(' '),
-              &block
+              &
             )
           ret
         end

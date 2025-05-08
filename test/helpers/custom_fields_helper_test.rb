@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,10 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class CustomFieldsHelperTest < Redmine::HelperTest
-  include ApplicationHelper
   include CustomFieldsHelper
   include ERB::Util
 
@@ -94,6 +93,13 @@ class CustomFieldsHelperTest < Redmine::HelperTest
     value = CustomValue.new(:value => 'bar', :custom_field => field)
 
     assert_select_in custom_field_tag('object', value), "textarea.text_cf.wiki-edit.cf_#{field.id}"
+  end
+
+  def test_custom_field_tag_class_should_contain_placeholder
+    field = IssueCustomField.create!(:name => 'Text', :field_format => 'string', :description => "Foo\nBar\nBaz")
+    value = CustomValue.new(:value => 'bar', :custom_field => field)
+
+    assert_select_in custom_field_tag('object', value), "input.string_cf.cf_#{field.id}[placeholder=?]", 'Foo Bar Baz'
   end
 
   def test_select_type_radio_buttons

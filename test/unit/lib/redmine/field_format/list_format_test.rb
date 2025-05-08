@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,11 +17,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../../../test_helper', __FILE__)
+require_relative '../../../../test_helper'
 require 'redmine/field_format'
 
 class Redmine::ListFieldFormatTest < ActionView::TestCase
-  include ApplicationHelper
   include Redmine::I18n
 
   def setup
@@ -144,14 +143,14 @@ class Redmine::ListFieldFormatTest < ActionView::TestCase
   def test_field_with_url_pattern_should_link_value
     field = IssueCustomField.new(:field_format => 'list', :url_pattern => 'http://localhost/%value%')
     formatted = field.format.formatted_value(self, field, 'foo', Issue.new, true)
-    assert_equal '<a class="external" href="http://localhost/foo">foo</a>', formatted
+    assert_equal '<a href="http://localhost/foo" class="external">foo</a>', formatted
     assert formatted.html_safe?
   end
 
   def test_field_with_url_pattern_and_multiple_values_should_link_values
     field = IssueCustomField.new(:field_format => 'list', :url_pattern => 'http://localhost/%value%')
     formatted = field.format.formatted_value(self, field, ['foo', 'bar'], Issue.new, true)
-    assert_equal '<a class="external" href="http://localhost/bar">bar</a>, <a class="external" href="http://localhost/foo">foo</a>', formatted
+    assert_equal '<a href="http://localhost/bar" class="external">bar</a>, <a href="http://localhost/foo" class="external">foo</a>', formatted
     assert formatted.html_safe?
   end
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class Member < ActiveRecord::Base
+class Member < ApplicationRecord
   belongs_to :user
   belongs_to :principal, :foreign_key => 'user_id'
   has_many :member_roles, :dependent => :destroy
@@ -45,9 +45,9 @@ class Member < ActiveRecord::Base
   end)
 
   alias :base_reload :reload
-  def reload(*args)
+  def reload(*)
     @managed_roles = nil
-    base_reload(*args)
+    base_reload(*)
   end
 
   def role
@@ -64,23 +64,23 @@ class Member < ActiveRecord::Base
   def role_ids=(arg)
     ids = (arg || []).collect(&:to_i) - [0]
     # Keep inherited roles
-    ids += member_roles.select {|mr| !mr.inherited_from.nil?}.collect(&:role_id)
+    ids |= member_roles.select {|mr| !mr.inherited_from.nil?}.collect(&:role_id)
 
     new_role_ids = ids - role_ids
+    obsolete_role_ids = role_ids - ids
     # Add new roles
     new_role_ids.each do |id|
       member_roles << MemberRole.new(:role_id => id, :member => self)
     end
     # Remove roles (Rails' #role_ids= will not trigger MemberRole#on_destroy)
-    member_roles_to_destroy = member_roles.select {|mr| !ids.include?(mr.role_id)}
-    if member_roles_to_destroy.any?
-      member_roles_to_destroy.each(&:destroy)
-    end
+    member_roles.where(role_id: obsolete_role_ids).destroy_all
     member_roles.reload
     super(ids)
   end
 
   def <=>(member)
+    return nil unless member.is_a?(Member)
+
     a, b = roles.sort, member.roles.sort
     if a == b
       if principal
@@ -120,8 +120,7 @@ class Member < ActiveRecord::Base
   def role_inheritance(role)
     member_roles.
       select {|mr| mr.role_id == role.id && mr.inherited_from.present?}.
-      map {|mr| mr.inherited_from_member_role.try(:member)}.
-      compact.
+      filter_map {|mr| mr.inherited_from_member_role.try(:member)}.
       map {|m| m.project == project ? m.principal : m.project}
   end
 
@@ -208,23 +207,13 @@ class Member < ActiveRecord::Base
       project_ids = Array.wrap(attributes[:project_ids] || attributes[:project_id])
       role_ids = Array.wrap(attributes[:role_ids])
       project_ids.each do |project_id|
-        member = Member.find_or_new(project_id, principal)
+        member = Member.find_or_initialize_by(:project_id => project_id, :user_id => principal.id)
         member.role_ids |= role_ids
         member.save
         members << member
       end
     end
     members
-  end
-
-  # Finds or initializes a Member for the given project and principal
-  def self.find_or_new(project, principal)
-    project_id = project.is_a?(Project) ? project.id : project
-    principal_id = principal.is_a?(Principal) ? principal.id : principal
-
-    member = Member.find_by_project_id_and_user_id(project_id, principal_id)
-    member ||= Member.new(:project_id => project_id, :user_id => principal_id)
-    member
   end
 
   protected

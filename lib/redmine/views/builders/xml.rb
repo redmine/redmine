@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -33,16 +33,16 @@ module Redmine
         end
 
         # Overrides Builder::XmlBase#tag! to format timestamps in ISO 8601
-        def tag!(sym, *args, &block)
+        def tag!(sym, *args, &)
           if args.size == 1 && args.first.is_a?(::Time)
-            tag! sym, args.first.xmlschema, &block
+            tag!(sym, args.first.xmlschema, &)
           else
             super
           end
         end
 
-        def array(name, options={}, &block)
-          __send__ name, (options || {}).merge(:type => 'array'), &block
+        def array(name, options={}, &)
+          __send__(name, (options || {}).merge(:type => 'array'), &)
         end
       end
     end

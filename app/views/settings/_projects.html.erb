@@ -26,8 +26,12 @@
       <%= content_tag('label', l(:"label_display_type_#{t}"), :for => "settings_project_list_display_type_#{t}", :class => "inline") %>
     <% end %>
   </p>
-  <%= render_query_columns_selection(query,
-        :name => 'settings[project_list_defaults][column_names]') %>
+  <div id="list-definition">
+    <div>
+      <%= render_query_columns_selection(query,
+            :name => 'settings[project_list_defaults][column_names]') %>
+    </div>
+  </div>
 
   <p>
     <label><%= l(:label_default_query) %></label>

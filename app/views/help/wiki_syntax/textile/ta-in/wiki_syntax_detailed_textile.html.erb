@@ -1,0 +1,346 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>RedmineWikiவடிவமைத்தல்</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<%= stylesheet_link_tag "wiki_syntax_detailed.css" %>
+</head>
+
+<body>
+<h1><a name="1" class="wiki-page"></a>விக்கி வடிவமைத்தல்</h1>
+
+    <ul class='toc'>
+        <li><a href='#2'>இணைப்புகள்</a></li>
+        <ul>
+            <li><a href='#3'>ரெட்மைன் இணைப்புகளை</a></li>
+            <li><a href='#4'>வெளி இணைப்புகள்</a></li>
+        </ul>
+        <li><a href='#5'>உரை வடிவமைத்தல்</a></li>
+        <ul>
+            <li><a href='#6'>எழுத்துரு வகை</a></li>
+            <li><a href='#7'>இன்லைன் படங்கள்</a></li>
+            <li><a href='#8'>தலைப்புகள்</a></li>
+            <li><a href='#9'>பத்திகள்</a></li>
+            <li><a href='#10'>தொகுதிகள்</a></li>
+            <li><a href='#11'>உள்ளடக்க அட்டவணை</a></li>
+            <li><a href='#14'>கிடைமட்ட விதி</a></li>
+        </ul>
+        <li><a href='#12'>குறுநிரல்கள்</a></li>
+        <li><a href='#13'>சிறப்பம்ச குறியீடு</a></li>
+    </ul>
+
+    <h2><a name="2" class="wiki-page"></a>இணைப்புகள்</h2>
+
+        <h3><a name="3" class="wiki-page"></a>ரெட்மைன் இணைப்புகள்</h3>
+
+        <p>Redmine இருப்பிற்கும் இடையிலுள்ள ஹைப்பர்லிங்கிங் அனுமதிக்கிறது (சிக்கல்கள், மாற்றங்கள், விக்கி பக்கங்கள்...) எங்கிருந்தும் விக்கி வடிவமைத்தல் பயன்படுத்தப்படுகிறது.</p>
+        <ul>
+            <li>ஒரு சிக்கலுக்கான இணைப்பு: <strong>#124</strong> (displays <del><a href="#" class="issue" title="bulk edit doesn't change the category or fixed version properties (Closed)">#124</a></del>, சிக்கல் மூடப்பட்டால் இணைப்பு அடித்திருக்கும்)</li>
+            <li>தடம் பெயர் மற்றும் பொருள் உள்ளிட்ட சிக்கலுக்கான இணைப்பு: <strong>##124</strong> (displays <a href="#" class="issue" title="bulk edit doesn't change the category or fixed version properties (New)">Bug #124</a>: bulk edit doesn't change the category or fixed version properties)</li>
+            <li>>சிக்கல் குறிப்பிற்கான இணைப்பு: <strong>#124-6</strong>, or <strong>#124#note-6</strong></li>
+            <li>Link to an issue note within the same issue: <strong>#note-6</strong></li>
+        </ul>
+
+        <p>Wiki links:</p>
+
+        <ul>
+            <li><strong>[[வழிகாட்டி]]</strong>  'கையேடு' பக்கத்திற்கான இணைப்பு: <a href="#" class="wiki-page">வழிகாட்டி</a></li>
+            <li><strong>[[Guide#further-reading]]</strong> உங்களை "மேலும் படிக்க" இணைப்புக்கு  அழைத்துச் செல்லும் . தலைப்புகள் தானாக இணைப்பை பெறுவதால் அவற்றைக் குறிப்பிடலாம் : <a href="#" class="wiki-page">Guide</a></li>
+            <li><strong>[[#further-reading]]</strong> தற்போதைய பக்கத்தின் "மேலும் படிக்க" இணைப்பு: <a href="#" class="wiki-page">#further-reading</a></li>
+            <li><strong>[[வழிகாட்டி|பயனர் கையேடு]]</strong> ஒரே பக்கத்திற்கான இணைப்பைக் காட்டுகிறது, ஆனால் வேறு உரையுடன்: <a href="#" class="wiki-page">பயனர் கையேடு</a></li>
+        </ul>
+
+        <p>நீங்கள் வேறு திட்ட விக்கியின் பக்கங்களுக்கும் இணைக்கலாம்:</p>
+
+        <ul>
+            <li><strong>[[sandbox:சில பக்கம்]]</strong> Sandbox விக்கியின் 'Some page' பக்கத்தின் இணைப்பு  </li>
+            <li><strong>[[sandbox:]]</strong> Sandbox விக்கியின் பிரதான பக்கத்தின் இணைப்பு</li>
+        </ul>
+
+        <p>பக்கம் இன்னும் இல்லையென்றால் விக்கி இணைப்புகள் சிவப்பு நிறத்தில் காட்டப்படும், eg: <a href="#" class="wiki-page new">இல்லாத பக்கம்</a>.</p>
+
+        <p>பிற ஆதாரங்களுக்கான இணைப்புகள்:</p>
+
+        <ul>
+            <li>ஆவணங்கள்:
+                <ul>
+                    <li><strong>document#17</strong> (17 ஆம் ஆவணத்திற்கான இணைப்பு)</li>
+                    <li><strong>document:Greetings</strong> ("Greetings" தலைப்புடன் ஆவண இணைப்பு)</li>
+                    <li><strong>document:"சில ஆவணம்"</strong> (ஆவண தலைப்பில் இடைவெளிகள் இருக்கும்போது இரட்டை மேற்கோள்களைப் பயன்படுத்தலாம்)</li>
+                    <li><strong>sandbox:document:"Some document"</strong> ("sandbox" திட்டத்தின் "Some document" தலைப்புடன் ஆவண இணைப்பு)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>பதிப்புகள்:
+                <ul>
+                    <li><strong>version#3</strong> (3 ஆம் பதிப்பின் இணைப்பு)</li>
+                    <li><strong>version:1.0.0</strong> (.0.0" பதிப்பின் இணைப்பு)</li>
+                    <li><strong>version:"1.0 beta 2"</strong></li>
+                    <li><strong>sandbox:version:1.0.0</strong> ("sandbox" திட்டத்தின் "1.0.0" பதிப்பிற்கான இணைப்பு )</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>இணைப்புகள்:
+                <ul>
+                    <li><strong>attachment:file.zip</strong> (file.zip இணைப்புக்கான இணைப்பு )</li>
+                    <li>இப்போதைக்கு, தற்போதைய பொருளின் இணைப்புகளை மட்டுமே குறிப்பிட முடியும் (நீங்கள் ஒரு சிக்கலில் இருந்தால், இந்த சிக்கலின் இணைப்புகளை மட்டுமே குறிப்பிட முடியும்)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>மாற்றங்கள்:
+                <ul>
+                    <li><strong>r758</strong>                                                              (மாற்றத்திற்கான இணைப்பு)</li>
+                    <li><strong>commit:c6f4d0fd</strong>           	 (எண் அல்லாத ஹாஷ் கொண்ட மாற்றத்திற்கான இணைப்பு)</li>
+                    <li><strong>svn1|r758</strong>                                                 (பல களஞ்சியங்களைக் கொண்ட திட்டங்களுக்கு, ஒரு குறிப்பிட்ட களஞ்சியத்தின் மாற்றத்திற்கான இணைப்பு)</li>
+                    <li><strong>commit:hg|c6f4d0fd</strong>        	 (ஒரு குறிப்பிட்ட களஞ்சியத்தின் எண் அல்லாத ஹாஷுடன் ஒரு மாற்றத்திற்கான இணைப்பு)</li>
+                    <li><strong>sandbox:r758</strong>                                         (மற்றொரு திட்டத்தின் மாற்றத்திற்கான இணைப்பு)</li>
+                    <li><strong>sandbox:commit:c6f4d0fd</strong>           (மற்றொரு திட்டத்தின் எண் அல்லாத ஹாஷுடன் ஒரு மாற்றத்திற்கான இணைப்பு)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+             <li>Repository files:
+                <ul>
+                    <li><strong>source:some/file</strong>           (திட்டத்தின் களஞ்சியத்தில் / சில / கோப்பில் அமைந்துள்ள கோப்பிற்கான இணைப்பு)</li>
+                    <li><strong>source:some/file@52</strong>        (கோப்பின் திருத்தம் 52 உடன் இணைப்பு)</li>
+                    <li><strong>source:some/file#L120</strong>      (கோப்பின் 120 வது வரியுடன் இணைக்கவும்)</li>
+                    <li><strong>source:some/file@52#L120</strong>   (கோப்பின் திருத்தம் 52 இன் 120 வது வரியின் இணைப்பு)</li>
+                    <li><strong>source:"some file@52#L120"</strong> (URL இடைவெளிகளைக் கொண்டிருக்கும்போது இரட்டை மேற்கோள்களைப் பயன்படுத்தவும்)</li>
+                    <li><strong>export:some/file</strong>           (கோப்பைப் பதிவிறக்க கட்டாயப்படுத்தவும்)</li>
+                    <li><strong>source:svn1|some/file</strong>      (பல களஞ்சியங்களைக் கொண்ட திட்டங்களுக்கு, ஒரு குறிப்பிட்ட களஞ்சியத்தின் கோப்பிற்கான இணைப்பு)</li>
+                    <li><strong>sandbox:source:some/file</strong>   (திட்டத்தின் களஞ்சியத்தில் / சில / கோப்பில் அமைந்துள்ள கோப்பிற்கான இணைப்பு "sandbox")</li>
+                    <li><strong>sandbox:export:some/file</strong>   (கோப்பைப் பதிவிறக்க கட்டாயப்படுத்தவும்)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>மன்றங்கள்:
+                <ul>
+                    <li><strong>forum#1</strong> (1 ஆம் மன்றத்திற்கான இணைப்பு)</li>
+                    <li><strong>forum:Support</strong> (ஆதரவு என்ற மன்றத்திற்கான இணைப்பு)</li>
+                    <li><strong>forum:"Technical Support"</strong> (மன்றத்தின் பெயரில் இடைவெளிகள் இருந்தால் இரட்டை மேற்கோள்களைப் பயன்படுத்தவும்)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>கருத்துக்களம் செய்திகள்:
+                <ul>
+                    <li><strong>message#1218</strong> (1218 ஆம் செய்திக்கான இணைப்பு)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>திட்டங்கள்:
+                <ul>
+                    <li><strong>project#3</strong> (3 ஆம் திட்டத்திற்கான இணைப்பு)</li>
+                    <li><strong>project:some-project</strong> (பெயர் அல்லது slug மூலம் திட்டத்திற்கான இணைப்பு "சில திட்டம்")</li>
+                    <li><strong>project:"Some Project"</strong> (இடைவெளிகளைக் கொண்ட திட்ட பெயருக்கு இரட்டை மேற்கோள்களைப் பயன்படுத்தவும்)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>செய்தி:
+                <ul>
+                    <li><strong>news#2</strong> (2 ஆம் செய்தியின் இணைப்பு)</li>
+                    <li><strong>news:Greetings</strong> ("வாழ்த்துக்கள்" செய்திக்கான இணைப்பு)</li>
+                    <li><strong>news:"First Release"</strong> (செய்தி  பெயரில் இடைவெளிகள் இருந்தால் இரட்டை மேற்கோள்களைப் பயன்படுத்தவும்)</li>
+                </ul></li>
+        </ul>
+
+        <ul>
+            <li>பயனர்கள்:
+                <ul>
+                    <li><strong>user#2</strong> (2 ஆம் பயனர் இணைப்பு))</li>
+                    <li><strong>user:jsmith</strong> (உள்நுழைவு jsmith உடன் பயனருக்கான இணைப்பு)</li>
+                    <li><strong>@jsmith</strong> (உள்நுழைவு jsmith உடன் பயனருக்கான இணைப்பு))</li>
+                </ul>
+            </li>
+        </ul>
+
+        <p>தப்பித்தல்:</p>
+
+        <ul>
+            <li>ரெட்மைன் இணைப்புகள் ஆச்சரியக்குறியுடன் அவற்றை பாகுபடுத்துவதைத் தடுக்கலாம்: !</li>
+        </ul>
+
+
+        <h3><a name="4" class="wiki-page"></a>வெளி இணைப்புகள்</h3>
+
+        <p>URLs (starting with: www, http, https, ftp, ftps, sftp and sftps) மின்னஞ்சல் முகவரிகள் தானாக கிளிக் செய்யக்கூடிய இணைப்புகளாக மாற்றப்படும்:</p>
+
+<pre>
+https://www.redmine.org, someone@foo.bar
+</pre>
+
+        <p>காட்சிகள்: <a class="external" href="https://www.redmine.org">https://www.redmine.org</a>, <a href="mailto:someone@foo.bar" class="email">someone@foo.bar</a></p>
+
+        <p>URL க்கு பதிலாக ஒரு குறிப்பிட்ட உரையைக் காட்ட விரும்பினால், நீங்கள் நிலையான மார்க் டவுன் தொடரியல் பயன்படுத்தலாம்:</p>
+
+<pre>
+"Redmine web site":https://www.redmine.org
+</pre>
+
+        <p>காட்சிகள்: <a href="https://www.redmine.org" class="external">ரெட்மைன் வலைத்தளம்</a></p>
+
+
+    <h2><a name="5" class="wiki-page"></a>உரை வடிவமைத்தல்</h2>
+
+
+    <p>தலைப்புச் செய்திகள், தடித்த, அட்டவணைகள், பட்டியல்கள் போன்ற விஷயங்களுக்கு, ரெட்மைன் மார்க் டவுன் தொடரியல் ஆதரிக்கிறது.  See <a class="external" href="https://en.wikipedia.org/wiki/Textile_%28markup_language%29">https://en.wikipedia.org/wiki/Textile_(markup_language)</a> இந்த அம்சங்களில் ஏதேனும் ஒன்றைப் பயன்படுத்துவது பற்றிய தகவலுக்கு.  ஒரு சில மாதிரிகள் கீழே சேர்க்கப்பட்டுள்ளன, ஆனால் இயந்திரம் அதைவிட அதிக திறன் கொண்டது.</p>
+
+        <h3><a name="6" class="wiki-page"></a>எழுத்துரு வகை</h3>
+
+<pre>
+* *வலுவான*
+* _சாய்வு_
+* _*வலுவான சாய்வு*_
+* +அடிக்கோடிட்டுக் காட்டு+
+* -வேலைநிறுத்தம் மூலம்-
+</pre>
+
+        <p>காட்சி:</p>
+
+        <ul>
+            <li><strong>வலுவான</strong></li>
+            <li><em>சாய்வு</em></li>
+            <li><em><strong>தைரியமான சாய்வு</strong></em></li>
+            <li><ins>அடிக்கோடிட்டுக் காட்டு</ins></li>
+            <li><del>வேலைநிறுத்தம் மூலம்</del></li>
+        </ul>
+
+        <h3><a name="7" class="wiki-page"></a>இன்லைன் படங்கள்</h3>
+
+        <ul>
+            <li><strong>!image_url!</strong> displays an image located at image_url (ஜவுளி தொடரியல்)</li>
+            <li><strong>!&gt;image_url!</strong> வலது மிதக்கும் படம்</li>
+            <li>உங்கள் விக்கி பக்கத்தில் ஒரு படம் இணைக்கப்பட்டிருந்தால், அதன் கோப்பு பெயரைப் பயன்படுத்தி இன்லைனில் காட்டப்படும்: <strong>!attached_image.png!</strong></li>
+            <li>Images in your computer's clipboard can be pasted directly using Ctrl-v or Command-v (note that Internet Explorer is not supported).</li>
+            <li>Image files can be dragged onto the text area in order to be uploaded and embedded.</li>
+        </ul>
+
+        <h3><a name="8" class="wiki-page"></a>தலைப்புகள்</h3>
+
+<pre>
+h1. தலைப்பு
+
+h2. துணை தலைப்பு
+
+h3. துணை தலைப்பு
+</pre>
+
+        <p>ரெட்மைன் அந்த ஒவ்வொரு தலைப்பிற்கும் ஒரு நங்கூரத்தை ஒதுக்குகிறது, இதனால் நீங்கள் அவற்றுடன் இணைக்க முடியும் "#தலைப்பு", "#துணை தலைப்பு" மற்றும் முன்னும் பின்னுமாக.</p>
+
+
+        <h3><a name="9" class="wiki-page"></a>பத்திகள்</h3>
+
+<pre>
+p&gt;. வலது சீரமைக்கப்பட்டது
+p=. மையமாக
+</pre>
+
+        <p style="text-align:center;">இது ஒரு மையப்படுத்தப்பட்ட பத்தி.</p>
+
+
+        <h3><a name="10" class="wiki-page"></a>தொகுதிகள்</h3>
+
+        <p>உடன் பத்தியைத் தொடங்குங்கள் <strong>bq.</strong></p>
+
+<pre>
+bq. ரெயில்ஸ் என்பது மாடல்-வியூ-கண்ட்ரோல் முறைக்கு ஏற்ப தரவுத்தள ஆதரவுடைய வலை பயன்பாடுகளை உருவாக்குவதற்கான முழு அடுக்கு கட்டமைப்பாகும்.
+நேரலைக்குச் செல்ல, நீங்கள் சேர்க்க வேண்டியது தரவுத்தளம் மற்றும் வலை சேவையகம் மட்டுமே.
+</pre>
+
+        <p>காட்சி:</p>
+
+        <blockquote>
+                <p>ரெயில்ஸ் என்பது மாடல்-வியூ-கண்ட்ரோல் முறைக்கு ஏற்ப தரவுத்தள ஆதரவுடைய வலை பயன்பாடுகளை உருவாக்குவதற்கான முழு அடுக்கு கட்டமைப்பாகும்.<br />நேரலைக்குச் செல்ல, நீங்கள் சேர்க்க வேண்டியது தரவுத்தளம் மற்றும் வலை சேவையகம் மட்டுமே.</p>
+        </blockquote>
+
+
+        <h3><a name="11" class="wiki-page"></a>உள்ளடக்க அட்டவணை</h3>
+
+<pre>
+{{toc}} =&gt; இடது சீரமைக்கப்பட்ட உள்ளடக்க அட்டவணை
+{{&gt;toc}} =&gt; வலது சீரமைக்கப்பட்ட உள்ளடக்க அட்டவணை
+</pre>
+
+        <h3><a name="14" class="wiki-page"></a>Hகிடைமட்ட விதி</h3>
+
+<pre>
+---
+</pre>
+
+    <h2><a name="12" class="wiki-page"></a>குறுநிரல்கள்</h2>
+
+    <p>ரெட்மைனில் பின்வரும் பில்டின் குறுநிரல்கள் உள்ளன:</p>
+
+    <p>
+    <dl>
+      <dt><code>hello_world</code></dt>
+      <dd><p>மாதிரி குறுநிரல்.</p></dd>
+
+      <dt><code>macro_list</code></dt>
+      <dd><p>விளக்கம் கிடைத்தால் உட்பட, கிடைக்கக்கூடிய அனைத்து மேக்ரோக்களின் பட்டியலையும் காட்டுகிறது.</p></dd>
+
+      <dt><code>child_pages</code></dt>
+      <dd><p>கீழ் பக்கங்களின் பட்டியலைக் காட்டுகிறது. எந்த வாதமும் இல்லாமல், இது தற்போதைய விக்கி பக்கத்தின் கீழ் பக்கங்களைக் காட்டுகிறது. எடுத்துக்காட்டுகள்:</p>
+      <pre><code>{{child_pages}} -- விக்கி பக்கத்திலிருந்து மட்டுமே பயன்படுத்த முடியும்
+{{child_pages(depth=2)}} -- 2 நிலைகள் கூடுகளை மட்டும் காண்பி</code></pre></dd>
+
+      <dt><code>include</code></dt>
+      <dd><p>விக்கி பக்கத்தைச் சேர்க்கவும். எடுத்துக்காட்டுகள்:</p>
+      <pre><code>{{include(Foo)}}</code></pre>
+      <p>அல்லது ஒரு குறிப்பிட்ட திட்ட விக்கியின் பக்கத்தை சேர்க்க:</p>
+      <pre><code>{{include(projectname:Foo)}}</code></pre></dd>
+
+      <dt><code>collapse</code></dt>
+      <dd><p>சுருங்கிய தொகுதியின் செருகல்கள். எடுத்துக்காட்டுகள்:</p>
+      <pre><code>{{collapse(விபரங்களை பார்...)
+இது முன்னிருப்பாக சரிந்த உரையின் தொகுதி.
+இணைப்பைக் கிளிக் செய்வதன் மூலம் அதை விரிவாக்க முடியும்.
+}}</code></pre></dd>
+
+      <dt><code>thumbnail</code></dt>
+      <dd><p>இணைக்கப்பட்ட படத்தின் கிளிக் செய்யக்கூடிய சிறுபடத்தைக் காட்டுகிறது. எடுத்துக்காட்டுகள்:</p>
+      <pre>{{thumbnail(image.png)}}
+{{thumbnail(image.png, size=300, title=சிறுபடம்)}}</pre></dd>
+
+      <dt><code>issue</code></dt>
+      <dd><p>நெகிழ்வான உரையுடன் சிக்கலுக்கான இணைப்பைச் செருகும். எடுத்துக்காட்டுகள்:</p>
+      <pre>{{issue(123)}}                              -- Issue #123: Enhance macro capabilities
+{{issue(123, project=true)}}                -- Andromeda - Issue #123:Enhance macro capabilities
+{{issue(123, tracker=false)}}               -- #123: Enhance macro capabilities
+{{issue(123, subject=false, project=true)}} -- Andromeda - Issue #123</pre></dd>
+    </dl>
+    </p>
+
+    <h2><a name="13" class="wiki-page"></a>குறியீடு சிறப்பம்சமாக</h2>
+
+    <p>இயல்புநிலை குறியீடு சிறப்பம்சத்தை நம்பியுள்ளது <a href="https://rouge.jneen.net/" class="external">Rouge</a>, a syntax highlighting library written in pure Ruby. It supports many commonly used languages such as <strong>c</strong>, <strong>cpp</strong> (c++), <strong>csharp</strong> (c#, cs), <strong>css</strong>, <strong>diff</strong> (patch, udiff), <strong>go</strong> (golang), <strong>groovy</strong>, <strong>html</strong>, <strong>java</strong>, <strong>javascript</strong> (js), <strong>kotlin</strong>, <strong>objective_c</strong> (objc), <strong>perl</strong> (pl), <strong>php</strong>, <strong>python</strong> (py), <strong>r</strong>, <strong>ruby</strong> (rb), <strong>sass</strong>, <strong>scala</strong>, <strong>shell</strong> (bash, zsh, ksh, sh), <strong>sql</strong>, <strong>swift</strong>, <strong>xml</strong> and <strong>yaml</strong> (yml) languages, where the names inside parentheses are aliases. Please refer to the <a href="<%= help_code_highlighting_path %>" target="_blank">list of languages supported by Redmine code highlighter</a>.</p>
+
+    <p>இந்த தொடரியல் பயன்படுத்தி விக்கி வடிவமைப்பை ஆதரிக்கும் எந்த இடத்திலும் குறியீட்டை முன்னிலைப்படுத்தலாம் (மொழி பெயர் அல்லது மாற்று வழக்கு-உணர்வற்றது என்பதை நினைவில் கொள்க):</p>
+
+<pre>
+&lt;pre&gt;&lt;code class="ruby"&gt;
+  உங்கள் குறியீட்டை இங்கே வைக்கவும்.
+&lt;/code&gt;&lt;/pre&gt;
+</pre>
+
+    <p>எடுத்துக்காட்டுகள்:</p>
+
+<pre><code class="ruby syntaxhl"><span class="c1"># The Greeter class</span>
+<span class="k">class</span> <span class="nc">Greeter</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+    <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span><span class="p">.</span><span class="nf">capitalize</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">salute</span>
+    <span class="nb">puts</span> <span class="s2">"Hello </span><span class="si">#{</span><span class="vi">@name</span><span class="si">}</span><span class="s2">!"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+</body>
+</html>

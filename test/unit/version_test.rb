@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,14 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class VersionTest < ActiveSupport::TestCase
-  fixtures :projects, :users, :issues, :issue_statuses, :trackers,
-           :enumerations, :versions, :projects_trackers,
-           :custom_fields, :custom_fields_trackers, :custom_fields_projects,
-           :members, :member_roles, :roles
-
   def setup
     User.current = nil
   end
@@ -56,15 +51,15 @@ class VersionTest < ActiveSupport::TestCase
   def test_invalid_effective_date_validation
     v = Version.new(:project => Project.find(1), :name => '1.1',
                     :effective_date => '99999-01-01')
-    assert !v.valid?
+    assert v.invalid?
     v.effective_date = '2012-11-33'
-    assert !v.valid?
+    assert v.invalid?
     v.effective_date = '2012-31-11'
-    assert !v.valid?
+    assert v.invalid?
     v.effective_date = '-2012-31-11'
-    assert !v.valid?
+    assert v.invalid?
     v.effective_date = 'ABC'
-    assert !v.valid?
+    assert v.invalid?
     assert_include I18n.translate('activerecord.errors.messages.not_a_date'),
                    v.errors[:effective_date]
   end
@@ -117,6 +112,16 @@ class VersionTest < ActiveSupport::TestCase
     assert_progress_equal (100.0)/3, v.closed_percent
   end
 
+  def test_progress_should_consider_closed_issues_with_0h_estimated_as_completed
+    project = Project.find(1)
+    closed = IssueStatus.where(:is_closed => true).first
+    v = Version.create!(:project => project, :name => 'Progress')
+    add_issue(v, :done_ratio => 100, :estimated_hours => 0)
+    add_issue(v, :done_ratio => 100, :estimated_hours => 0, :status => closed)
+    assert_progress_equal 100, v.completed_percent
+    assert_progress_equal 50, v.closed_percent
+  end
+
   def test_progress_should_consider_estimated_hours_to_weight_issues
     project = Project.find(1)
     v = Version.create!(:project => project, :name => 'Progress')
@@ -137,6 +142,20 @@ class VersionTest < ActiveSupport::TestCase
     add_issue(v, :estimated_hours => 40, :done_ratio => 10)
     assert_progress_equal (25.0*0.2 + 25.0*1 + 10.0*0.3 + 40.0*0.1)/100.0*100, v.completed_percent
     assert_progress_equal 25.0/100.0*100, v.closed_percent
+  end
+
+  def test_progress_should_be_weighted_by_estimated_times_if_any_with_grandchildren
+    project = Project.find(1)
+    v = Version.create!(:project => project, :name => 'Progress')
+    with_settings :parent_issue_done_ratio => 'derived' do
+      parent = Issue.generate!
+      parent.generate_child!(:estimated_hours => 2, :done_ratio => 0, :fixed_version => v)
+      child = parent.generate_child!(:fixed_version => v)
+      child.generate_child!(:estimated_hours => 2, :done_ratio => 50)
+      child.generate_child!(:estimated_hours => 2, :done_ratio => 50)
+
+      assert_progress_equal 200.0 / (3.0 * 2), v.completed_percent
+    end
   end
 
   def test_should_sort_scheduled_then_unscheduled_versions
@@ -201,30 +220,34 @@ class VersionTest < ActiveSupport::TestCase
     assert_equal false, version.behind_schedule?
   end
 
-  test "#estimated_hours should return 0 with no assigned issues" do
+  test "#estimated_hours and estimated_remaining_hours should return 0 with no assigned issues" do
     version = Version.generate!
     assert_equal 0, version.estimated_hours
+    assert_equal 0, version.estimated_remaining_hours
   end
 
-  test "#estimated_hours should return 0 with no estimated hours" do
+  test "#estimated_hours and estimated_remaining_hours should return 0 with no estimated hours" do
     version = Version.create!(:project_id => 1, :name => 'test')
     add_issue(version)
     assert_equal 0, version.estimated_hours
+    assert_equal 0, version.estimated_remaining_hours
   end
 
-  test "#estimated_hours should return return the sum of estimated hours" do
+  test "#estimated_hours and estimated_remaining_hours should return the sum of estimated hours and estimated remaining hours" do
     version = Version.create!(:project_id => 1, :name => 'test')
-    add_issue(version, :estimated_hours => 2.5)
-    add_issue(version, :estimated_hours => 5)
+    add_issue(version, :estimated_hours => 2.5, :done_ratio => 90)
+    add_issue(version, :estimated_hours => 5, :done_ratio => 50)
     assert_equal 7.5, version.estimated_hours
+    assert_equal 2.75, version.estimated_remaining_hours
   end
 
-  test "#estimated_hours should return the sum of leaves estimated hours" do
+  test "#estimated_hours and remaining_hours should return the sum of leaves estimated hours and estimated remaining hours" do
     version = Version.create!(:project_id => 1, :name => 'test')
     parent = add_issue(version)
-    add_issue(version, :estimated_hours => 2.5, :parent_issue_id => parent.id)
-    add_issue(version, :estimated_hours => 5, :parent_issue_id => parent.id)
+    add_issue(version, :estimated_hours => 2.5, :done_ratio => 90, :parent_issue_id => parent.id)
+    add_issue(version, :estimated_hours => 5, :done_ratio => 50, :parent_issue_id => parent.id)
     assert_equal 7.5, version.estimated_hours
+    assert_equal 2.75, version.estimated_remaining_hours
   end
 
   test "should update all issue's fixed_version associations in case the hierarchy changed XXX" do

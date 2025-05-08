@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -27,13 +27,17 @@ module Redmine
       # options
       class MarkdownFilter < HTML::Pipeline::TextFilter
         def initialize(text, context = nil, result = nil)
-          super text, context, result
+          super
           @text = @text.delete "\r"
         end
 
         def call
-          doc = CommonMarker.render_doc(@text, parse_options, extensions)
-          html = doc.to_html render_options, extensions
+          html = Commonmarker.to_html(@text, options: {
+                                        extension: extensions,
+            render: render_options,
+            parse: parse_options
+                                      }, plugins: plugins)
+
           html.rstrip!
           html
         end
@@ -41,15 +45,19 @@ module Redmine
         private
 
         def extensions
-          context.fetch :commonmarker_extensions, []
+          context.fetch :commonmarker_extensions, {}
         end
 
         def parse_options
-          context.fetch :commonmarker_parse_options, :DEFAULT
+          context.fetch :commonmarker_parse_options, {}
         end
 
         def render_options
-          context.fetch :commonmarker_render_options, :DEFAULT
+          context.fetch :commonmarker_render_options, {}
+        end
+
+        def plugins
+          context.fetch :commonmarker_plugins, {}
         end
       end
     end

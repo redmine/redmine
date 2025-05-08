@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,20 +17,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class MailerLocalisationTest < ActiveSupport::TestCase
   include Redmine::I18n
   include Rails::Dom::Testing::Assertions
-  fixtures :projects, :enabled_modules, :issues, :users, :email_addresses, :user_preferences, :members,
-           :member_roles, :roles, :documents, :attachments, :news,
-           :tokens, :journals, :journal_details, :changesets,
-           :trackers, :projects_trackers,
-           :issue_statuses, :enumerations, :messages, :boards, :repositories,
-           :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions,
-           :versions,
-           :comments
-
   def setup
     ActionMailer::Base.deliveries.clear
     Setting.plain_text_mail = '0'
@@ -131,7 +122,7 @@ class MailerLocalisationTest < ActiveSupport::TestCase
 
   private
 
-  def with_each_user_language(&block)
+  def with_each_user_language(&)
     user = User.find(2)
     valid_languages.each do |lang|
       user.update_attribute :language, lang

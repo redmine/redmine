@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,12 +17,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../../../test_helper', __FILE__)
+require_relative '../../../../test_helper'
 require 'redmine/field_format'
 
 class Redmine::EnumerationFieldFormatTest < ActionView::TestCase
-  include ApplicationHelper
-
   def setup
     User.current = nil
     set_language_if_valid 'en'
@@ -99,5 +97,9 @@ class Redmine::EnumerationFieldFormatTest < ActionView::TestCase
     assert_equal [@foo.id, @bar.id], @field.value_from_keyword('foo, bar', nil)
     assert_equal [@foo.id], @field.value_from_keyword('foo, baz', nil)
     assert_equal [], @field.value_from_keyword('baz', nil)
+  end
+
+  def test_customized_class_names_should_overrided_to_nil
+    assert_nil Redmine::FieldFormat::EnumerationFormat.customized_class_names
   end
 end

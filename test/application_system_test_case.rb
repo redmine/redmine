@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,40 +17,41 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../test_helper', __FILE__)
-require 'webdrivers/chromedriver'
+require_relative 'test_helper'
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   DOWNLOADS_PATH = File.expand_path(File.join(Rails.root, 'tmp', 'downloads'))
-  GOOGLE_CHROME_OPTS_ARGS = []
 
   # Allow running Capybara default server on custom IP address and/or port
   Capybara.server_host = ENV['CAPYBARA_SERVER_HOST'] if ENV['CAPYBARA_SERVER_HOST']
   Capybara.server_port = ENV['CAPYBARA_SERVER_PORT'] if ENV['CAPYBARA_SERVER_PORT']
 
   # Allow defining Google Chrome options arguments based on a comma-delimited string environment variable
-  GOOGLE_CHROME_OPTS_ARGS = ENV['GOOGLE_CHROME_OPTS_ARGS'].split(",") if ENV['GOOGLE_CHROME_OPTS_ARGS']
+  GOOGLE_CHROME_OPTS_ARGS = ENV['GOOGLE_CHROME_OPTS_ARGS'].present? ? ENV['GOOGLE_CHROME_OPTS_ARGS'].split(",") : []
 
   options = {}
-  # Allow running tests using a remote Selenium hub
-  options[:url] = ENV['SELENIUM_REMOTE_URL'] if ENV['SELENIUM_REMOTE_URL']
-  options[:desired_capabilities] = Selenium::WebDriver::Remote::Capabilities.chrome(
-                  'goog:chromeOptions' => {
-                    'args' => GOOGLE_CHROME_OPTS_ARGS,
-                    'prefs' => {
-                      'download.default_directory' => DOWNLOADS_PATH.gsub(File::SEPARATOR, File::ALT_SEPARATOR || File::SEPARATOR),
-                      'download.prompt_for_download' => false,
-                      'plugins.plugins_disabled' => ["Chrome PDF Viewer"]
-                    }
-                  }
-                )
+  if ENV['SELENIUM_REMOTE_URL']
+    options[:url] = ENV['SELENIUM_REMOTE_URL']
+    options[:browser] = :remote
+  end
 
-  driven_by(
-    :selenium, using: :chrome, screen_size: [1024, 900],
-    options: options
-  )
+  # Allow running tests using a remote Selenium hub
+  driven_by :selenium, using: :chrome, screen_size: [1024, 900], options: options do |driver_option|
+    GOOGLE_CHROME_OPTS_ARGS.each do |arg|
+      driver_option.add_argument arg
+    end
+    driver_option.add_preference 'download.default_directory',   DOWNLOADS_PATH.gsub(File::SEPARATOR, File::ALT_SEPARATOR || File::SEPARATOR)
+    driver_option.add_preference 'download.prompt_for_download', false
+    driver_option.add_preference 'plugins.plugins_disabled',     ["Chrome PDF Viewer"]
+    # Disable "Change your password" popup shown after login due to leak detection
+    driver_option.add_preference 'profile.password_manager_leak_detection', false
+    # Disable password saving prompts
+    driver_option.add_preference 'profile.password_manager_enabled', false
+    driver_option.add_preference 'credentials_enable_service', false
+  end
 
   setup do
+    Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"
     # Allow defining a custom app host (useful when using a remote Selenium hub)
     if ENV['CAPYBARA_APP_HOST']
       Capybara.configure do |config|
@@ -79,6 +80,12 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
       find('input[name=login]').click
     end
     assert_equal '/my/page', current_path
+  end
+
+  def wait_for_ajax
+    Timeout.timeout(Capybara.default_max_wait_time) do
+      loop until page.evaluate_script("jQuery.active").zero?
+    end
   end
 
   def clear_downloaded_files

@@ -1,7 +1,7 @@
 <% if @statuses.empty? or rows.empty? %>
     <p><i><%=l(:label_no_data)%></i></p>
 <% else %>
-<table class="list issue-report">
+<table class="list issue-report-detailed">
 <thead><tr>
 <th></th>
 <% for status in @statuses %>
@@ -24,7 +24,33 @@
 </tr>
 <% end %>
 </tbody>
+<tfoot>
+<tr class="total">
+  <td><%= l(:label_total) %></td>
+  <% for status in @statuses %>
+  <td><%= aggregate data, { "status_id" => status.id } %></td>
+  <% end %>
+  <td><%= aggregate data, { "closed" => 0 } %></td>
+  <td><%= aggregate data, { "closed" => 1 } %></td>
+  <td><%= aggregate data, { } %></td>
+</tr>
+</tfoot>
 </table>
+<% other_formats_links do |f| %>
+  <%= f.link_to_with_query_parameters 'CSV', {}, :onclick => "showModal('csv-export-options', '330px'); return false;" %>
+<% end %>
+<div id="csv-export-options" style="display: none;">
+  <h3 class="title"><%= l(:label_export_options, :export_format => 'CSV') %></h3>
+  <%= form_tag(project_issues_report_details_path(@project, :detail => params[:detail], :format => 'csv'), :method => :get, :id => 'csv-export-form') do %>
+  <%= export_csv_encoding_select_tag %>
+  <%= export_csv_separator_select_tag %>
+  <p class="buttons">
+    <%= submit_tag l(:button_export), :name => nil, :onclick => 'hideModal(this);', :data => {:disable_with => false} %>
+    <%= link_to_function l(:button_cancel), 'hideModal(this);' %>
+  </p>
+  <% end %>
+</div>
+
 <div class="issue-report-graph hide-when-print">
   <canvas id="issues_by_<%= params[:detail] %>"></canvas>
 </div>
@@ -41,21 +67,24 @@
       chartData.datasets[i].borderWidth = 1;
     }
     new Chart($(canvas_id), {
-      type: 'horizontalBar',
+      type: 'bar',
       data: chartData,
       options: {
+        indexAxis: 'y',
         elements: {
-          rectangle: {borderWidth: 2}
+          bar: {borderWidth: 2}
         },
         responsive: true,
-        legend: {position: 'right'},
-        title: {
-          display: true,
-          text: title
+        plugins: {
+          legend: {position: 'right'},
+          title: {
+            display: true,
+            text: title
+          }
         },
         scales: {
-          yAxes: [{ stacked: true }],
-          xAxes: [{ stacked: true }]
+          yAxis: {stacked: true},
+          xAxis: {stacked: true, ticks: {precision: 0}}
         }
       }
     });
@@ -74,6 +103,6 @@
   });
 <% end %>
 <% content_for :header_tags do %>
-  <%= javascript_include_tag "Chart.bundle.min" %>
+  <%= javascript_include_tag "chart.min" %>
 <% end %>
 <% end %>

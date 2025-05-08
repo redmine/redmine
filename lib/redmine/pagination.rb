@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -25,7 +25,7 @@ module Redmine
       def initialize(*args)
         if args.first.is_a?(ActionController::Base)
           args.shift
-          ActiveSupport::Deprecation.warn "Paginator no longer takes a controller instance as the first argument. Remove it from #new arguments."
+          Rails.application.deprecators[:redmine].warn "Paginator no longer takes a controller instance as the first argument. Remove it from #new arguments."
         end
         item_count, per_page, page, page_param = *args
 
@@ -77,7 +77,7 @@ module Redmine
 
       def last_item
         l = first_item + per_page - 1
-        l > item_count ? item_count : l
+        [l, item_count].min
       end
 
       def linked_pages
@@ -95,12 +95,12 @@ module Redmine
       end
 
       def items_per_page
-        ActiveSupport::Deprecation.warn "Paginator#items_per_page will be removed. Use #per_page instead."
+        Rails.application.deprecators[:redmine].warn "Paginator#items_per_page will be removed. Use #per_page instead."
         per_page
       end
 
       def current
-        ActiveSupport::Deprecation.warn "Paginator#current will be removed. Use .offset instead of .current.offset."
+        Rails.application.deprecators[:redmine].warn "Paginator#current will be removed. Use .offset instead of .current.offset."
         self
       end
     end
@@ -152,7 +152,7 @@ module Redmine
 
       # Yields the given block with the text and parameters
       # for each pagination link and returns a string that represents the links
-      def pagination_links_each(paginator, count=nil, options={}, &block)
+      def pagination_links_each(paginator, count=nil, options={}, &)
         options.assert_valid_keys :per_page_links
 
         per_page_links = options.delete(:per_page_links)
@@ -205,7 +205,7 @@ module Redmine
 
         info = ''.html_safe
         info << content_tag('span', "(#{paginator.first_item}-#{paginator.last_item}/#{paginator.item_count})", :class => 'items') + ' '
-        if per_page_links != false && links = per_page_links(paginator, &block)
+        if per_page_links != false && links = per_page_links(paginator, &)
           info << content_tag('span', links.to_s, :class => 'per-page')
         end
         html << content_tag('span', info)
@@ -214,7 +214,7 @@ module Redmine
       end
 
       # Renders the "Per page" links.
-      def per_page_links(paginator, &block)
+      def per_page_links(paginator, &)
         values = per_page_options(paginator.per_page, paginator.item_count)
         if values.any?
           links = values.collect do |n|

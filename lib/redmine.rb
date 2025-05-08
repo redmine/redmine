@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,16 +23,6 @@ begin
   require 'mini_magick' unless Object.const_defined?(:MiniMagick)
 rescue LoadError
   # MiniMagick is not available
-end
-begin
-  require 'redcarpet' unless Object.const_defined?(:Redcarpet)
-rescue LoadError
-  # Redcarpet is not available
-end
-begin
-  require 'commonmarker' unless Object.const_defined?(:CommonMarker)
-rescue LoadError
-  # CommonMarker is not available
 end
 
 module Redmine

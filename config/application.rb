@@ -23,17 +23,30 @@ module RedmineApp
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
-    # Custom directories with classes and modules you want to be autoloadable.
-    config.autoloader = :zeitwerk
+    # Adds `lib` to `config.autoload_paths` and `config.eager_load_paths`.
+    config.autoload_lib(ignore: %w(tasks generators plugins))
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
 
+    config.active_support.remove_deprecated_time_with_zone_name = true
+    config.active_support.cache_format_version = 7.0
+
     config.active_record.store_full_sti_class = true
     config.active_record.default_timezone = :local
+    config.active_record.yaml_column_permitted_classes = [
+      Date,
+      Time,
+      Symbol,
+      ActiveSupport::HashWithIndifferentAccess,
+      ActionController::Parameters
+    ]
 
     config.action_mailer.delivery_job = "ActionMailer::MailDeliveryJob"
+
+    # Stop appending "utf8=✓" to form URLs
+    config.action_view.default_enforce_utf8 = false
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
@@ -58,6 +71,9 @@ module RedmineApp
     # Do not include all helpers
     config.action_controller.include_all_helpers = false
 
+    # Add forgery protection
+    config.action_controller.default_protect_from_forgery = true
+
     # Sets the Content-Length header on responses with fixed-length bodies
     config.middleware.insert_before Rack::Sendfile, Rack::ContentLength
 
@@ -71,6 +87,13 @@ module RedmineApp
     # See http://guides.rubyonrails.org/caching_with_rails.html#cache-stores
     # for more options (same options as config.cache_store).
     config.redmine_search_cache_store = :memory_store
+
+    # Sets default plugin directory
+    config.redmine_plugins_directory = 'plugins'
+
+    # Paths for plugin and theme assets. Nothing is set here, as the actual
+    # configuration is performed in the initializer.
+    config.assets.redmine_extension_paths = []
 
     # Configure log level here so that additional environment file
     # can change it (environments/ENV.rb would take precedence over it)

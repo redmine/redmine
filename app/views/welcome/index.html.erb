@@ -11,7 +11,7 @@
 <div class="splitcontentright">
   <% if @news.any? %>
   <div class="news box">
-  <h3><%=l(:label_news_latest)%></h3>
+  <h3 class="icon icon-news"><%= sprite_icon('news', l(:label_news_latest))%></h3>
     <%= render :partial => 'news/news', :collection => @news %>
     <%= link_to l(:label_news_view_all), :controller => 'news' %>
   </div>
@@ -21,8 +21,8 @@
 </div>
 
 <% content_for :header_tags do %>
-<%= auto_discovery_link_tag(:atom, {:controller => 'news', :action => 'index', :key => User.current.rss_key, :format => 'atom'},
+<%= auto_discovery_link_tag(:atom, {:controller => 'news', :action => 'index', :key => User.current.atom_key, :format => 'atom'},
                                    :title => "#{Setting.app_title}: #{l(:label_news_latest)}") %>
-<%= auto_discovery_link_tag(:atom, {:controller => 'activities', :action => 'index', :key => User.current.rss_key, :format => 'atom'},
+<%= auto_discovery_link_tag(:atom, {:controller => 'activities', :action => 'index', :key => User.current.atom_key, :format => 'atom'},
                                    :title => "#{Setting.app_title}: #{l(:label_activity)}") %>
 <% end %>

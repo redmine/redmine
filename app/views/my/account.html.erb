@@ -1,6 +1,6 @@
 <div class="contextual">
 <%= additional_emails_link(@user) %>
-<%= link_to(l(:button_change_password), {:action => 'password'}, :class => 'icon icon-passwd') if @user.change_password_allowed? %>
+<%= link_to(sprite_icon('key', l(:button_change_password)), { :action => 'password'}, :class => 'icon icon-passwd') if @user.change_password_allowed? %>
 <%= call_hook(:view_my_account_contextual, :user => @user)%>
 </div>
 
@@ -53,6 +53,11 @@
 <fieldset class="box">
   <legend><%=l(:field_mail_notification)%></legend>
   <%= render :partial => 'users/mail_notifications' %>
+</fieldset>
+
+<fieldset class="box">
+  <legend><%=l(:label_auto_watch_on)%></legend>
+  <%= render :partial => 'users/auto_watch_on' %>
 </fieldset>
 
 <fieldset class="box tabular">

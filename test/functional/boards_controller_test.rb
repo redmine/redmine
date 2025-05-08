@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,11 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class BoardsControllerTest < Redmine::ControllerTest
-  fixtures :projects, :users, :members, :member_roles, :roles, :boards, :messages, :enabled_modules
-
   def setup
     User.current = nil
   end
@@ -44,7 +42,7 @@ class BoardsControllerTest < Redmine::ControllerTest
         :project_id => 97
       }
     )
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_index_should_show_messages_if_only_one_board
@@ -159,7 +157,7 @@ class BoardsControllerTest < Redmine::ControllerTest
         :id => 97
       }
     )
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_new
@@ -177,10 +175,6 @@ class BoardsControllerTest < Redmine::ControllerTest
       assert_select 'option[value=""]'
       assert_select 'option[value="1"]', :text => 'Help'
     end
-
-    # &nbsp; replaced by nokogiri, not easy to test in DOM assertions
-    assert_not_include '<option value=""></option>', response.body
-    assert_include '<option value="">&nbsp;</option>', response.body
   end
 
   def test_new_without_project_boards

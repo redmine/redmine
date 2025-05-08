@@ -2,6 +2,7 @@
 
 <% if @saved_issues && @unsaved_issues.present? %>
 <div id="errorExplanation">
+  <%= notice_icon('error') %>
   <span>
     <%= l(:notice_failed_to_save_issues,
         :count => @unsaved_issues.size,
@@ -178,7 +179,7 @@
 <% if @safe_attributes.include?('done_ratio') && Issue.use_field_for_done_ratio? %>
 <p>
   <label for='issue_done_ratio'><%= l(:field_done_ratio) %></label>
-  <%= select_tag 'issue[done_ratio]', options_for_select([[l(:label_no_change_option), '']] + (0..10).to_a.collect {|r| ["#{r*10} %", r*10] }, @issue_params[:done_ratio]) %>
+  <%= select_tag 'issue[done_ratio]', options_for_select([[l(:label_no_change_option), '']] + (0..100).step(Setting.issue_done_ratio_interval.to_i).to_a.collect {|r| ["#{r} %", r]}, @issue_params[:done_ratio]) %>
 </p>
 <% end %>
 </div>
@@ -226,6 +227,10 @@
 %>
 <%= wikitoolbar_for 'notes' %>
 
+<% if User.current.allowed_to?(:add_issue_watchers, nil, global: true)%>
+  <%= update_data_sources_for_auto_complete({users: watchers_autocomplete_for_mention_path(q: '', object_type: 'issue', object_id: @issues.map(&:id) )}) %>
+<% end %>
+
 <% if @safe_attributes.include?('private_notes') %>
   <label class="inline">
   	<%= check_box_tag 'issue[private_notes]', 1, false %>
@@ -237,6 +242,7 @@
 
 <% if @values_by_custom_field.present? %>
 <div class="flash warning">
+  <%= notice_icon('warning') %>
   <%= l(:warning_fields_cleared_on_bulk_edit) %>:<br />
   <%= safe_join(@values_by_custom_field.map {|field, ids| content_tag "span", "#{field.name} (#{ids.size})"}, ', ') %>
 </div>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+  <title>விக்கி வடிவமைப்பு</title>
+  <%= stylesheet_link_tag "wiki_syntax.css" %>
+</head>
+<body>
+
+<h1>விக்கி தொடரியல் விரைவு குறிப்பு (CommonMark Markdown (GitHub Flavored))</h1>
+
+<table style="width:100%">
+  <tr><th colspan="3">எழுத்துரு பாங்குகள் <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "5") %>" target="_blank">மேலும்</a>)</span></th></tr>
+  <tr><th><%= image_tag("jstoolbar/bold.svg", { alt: "Strong" }) %><</th><td style="width:50%;">**வலுவான**</td><td style="width:50%;"><strong>வலுவான</strong></td></tr>
+  <tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "Italic" }) %></th><td>*சாய்வு*</td><td><em>சாய்வு</em></td></tr>
+  <tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "Deleted" }) %></th><td>~~நீக்கப்பட்டது~~</td><td><del>நீக்கப்பட்டது</del></td></tr>
+  <tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "Inline code" }) %></th><td>`இன்லைன் குறியீடு`</td><td><code>இன்லைன் குறியீட</code></td></tr>
+  <tr><th><span class="syntax-pre"/></th><td>```<br />&nbsp;lines<br />&nbsp;of code<br />```</td><td>
+<pre>
+ கோடுகள்
+ குறியீடு
+</pre>
+  </td></tr>
+
+  <tr><th colspan="3">முன்னிலைப்படுத்தப்பட்ட குறியீடு <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "13") %>" target="_blank">மேலும்</a>)</span></th></tr>
+  <tr><th><%= image_tag("jstoolbar/code.svg", { alt: "Highlighted code" }) %></th><td>```ruby<br />3.முறை do<br />&nbsp;&nbsp;puts 'வணக்கம்'<br />முடிவு<br />```</td><td>
+<pre><code class="ruby syntaxhl"><span class="mi">3</span><span class="p">.</span><span class="nf">முறை</span> <span class="k">do</span>
+  <span class="nb">வைக்கிறது</span> <span class="s1">'வணக்கம்'</span>
+<span class="k">முடிவு</span>
+</code></pre>
+  </td></tr>
+
+  <tr><th colspan="3">வரி முறிவுகள் மற்றும் பத்திகள்</th></tr>
+  <tr><th></th><td>ஒரு வெற்று வரி<br><br>உருவாக்குகிறது<br>ஒரு புதிய பத்தி.</td><td><p>ஒரு வெற்று வரி</p><p>ஒரு புதிய பத்தியை உருவாக்குகிறது.</p></td></tr>
+  <tr><th></th><td>backslash மூலம் ஒரு வரியை முடிக்கவும்\<br> அல்லது கையேடு வரி முறிவைச் செருக இரண்டு இடைவெளிகள்.</td><td><p>backslash மூலம் ஒரு வரியை முடிக்கவும்<br>அல்லது கையேடு வரி முறிவைச் செருக இரண்டு இடைவெளிகள்.</p></td></tr>
+
+  <tr><th colspan="3">பட்டியல்கள்</th></tr>
+  <tr><th><%= image_tag("jstoolbar/list.svg", { alt: "Unordered list" }) %></th><td>* பொருள் 1<br />&nbsp;&nbsp;* துணை<br />* பொருள் 2</td><td><ul><li>பொருள் 1<ul><li>துணை</li></ul></li><li>பொருள் 2</li></ul></td></tr>
+  <tr><th><%= image_tag("jstoolbar/list-numbers.svg", { alt: "Ordered list" }) %></th><td>1. பொருள் 1<br />&nbsp;&nbsp;&nbsp;1. துணை<br />2. பொருள் 2</td><td><ol><li>பொருள் 1<ol><li>துணை</li></ol></li><li>பொருள் 2</li></ol></td></tr>
+  <tr><th><%= image_tag("jstoolbar/list-check.svg", { alt: "Task list" }) %></th><td>* [ ] பொருள் 1<br />* [x] பொருள் 2</td><td><ul style="list-style-type: none; padding-left: 12px;"><li><input type="checkbox" disabled>பொருள் 1</li><li><input type="checkbox" disabled checked>பொருள் 2</li></ul></td></tr>
+
+  <tr><th colspan="3">தலைப்புகள் <span class="more_info">(<a href="wiki_syntax_detailed_common_mark.html#8" target="_blank">மேலும்</a>)</span></th></tr>
+  <tr><th><%= image_tag("jstoolbar/h1.svg", { alt: "Heading 1" }) %></th><td># தலைப்பு 1</td><td><h1>தலைப்பு 1</h1></td></tr>
+  <tr><th><%= image_tag("jstoolbar/h2.svg", { alt: "Heading 2" }) %></th><td>## தலைப்பு 2</td><td><h2>தலைப்பு 2</h2></td></tr>
+  <tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "Heading 3" }) %></th><td>### தலைப்பு 3</td><td><h3>தலைப்பு 3</h3></td></tr>
+
+  <tr><th colspan="3">இணைப்புகள் <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">மேலும்</a>)</span></th></tr>
+  <tr><th></th><td>www.foo.bar</td><td><a href="#">www.foo.bar</a></td></tr>
+  <tr><th></th><td>http://foo.bar</td><td><a href="#">http://foo.bar</a></td></tr>
+  <tr><th></th><td>[Foo](http://foo.bar)</td><td><a href="#">Foo</a></td></tr>
+
+  <tr><th colspan="3">Redmine இணைப்புகள்<span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">மேலும்</a>)</span></th></tr>
+  <tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "Link to a Wiki page" }) %></th><td>[[விக்கி பக்கம்]]</td><td><a href="#">விக்கி பக்கம்</a></td></tr>
+  <tr><th></th><td>பிரச்சினை #12</td><td>பிரச்சினை <a href="#">#12</a></td></tr>
+  <tr><th></th><td>##12</td><td><a href="#">பிழை #12</a>: பிரச்சினை பொருள்</td></tr>
+  <tr><th></th><td>திருத்தம் r43</td><td>திருத்தம் <a href="#">r43</a></td></tr>
+  <tr><th></th><td>உறுதி:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+  <tr><th></th><td>ஆதாரம்:some/file</td><td><a href="#">ஆதாரம்:some/file</a></td></tr>
+
+  <tr><th colspan="3">இன்லைன் படங்கள் <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">மேலும்</a>)</span></th></tr>
+  <tr><th><%= image_tag("jstoolbar/image.svg", { alt: "Image" }) %></th><td>![](<em>image_url</em>)</td><td></td></tr>
+  <tr><th></th><td>![](<em>attached_image</em>)</td><td></td></tr>
+
+  <tr><th colspan="3">அட்டவணைகள்</th></tr>
+  <tr>
+    <th></th>
+    <td>| A | B | C |<br />|---|---|---|<br />| A | B | C |<br />| D | E | F |</td>
+    <td>
+      <table class="sample">
+        <tbody>
+        <th>A</th><th>B</th><th>C</th>
+        <tr><td>A</td><td>B</td><td>C</td></tr>
+        <tr><td>D</td><td>E</td><td>F</td></tr>
+        </tbody>
+      </table>
+    </td>
+  </tr>
+
+  <tr><th colspan="3">மூல HTML <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "15") %>" target="_blank">மேலும்</a>)</span></th></tr>
+  <tr>
+    <th></th><td>HTML is &lt;del&gt;not&lt;/del&gt; &lt;u&gt;அனுமதிக்கப்பட்டது&lt;/u&gt;.</td><td>HTML is <del>இல்லை</del> <u>அனுமதிக்கப்பட்டது</u>.</td>
+  </tr>
+
+</table>
+
+<p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">மேலும் தகவல</a></p>
+</body>
+</html>

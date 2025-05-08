@@ -1,3 +1,4 @@
 <%= render :partial => 'custom_fields/formats/regexp', :locals => {:f => f, :custom_field => custom_field} %>
+<p><%= f.check_box :thousands_delimiter %></p>
 <p><%= f.text_field(:default_value) %></p>
 <p><%= f.text_field :url_pattern, :size => 50, :label => :label_link_values_to %></p>

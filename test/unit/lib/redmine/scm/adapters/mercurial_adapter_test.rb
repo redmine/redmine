@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../../../../test_helper', __FILE__)
+require_relative '../../../../../test_helper'
 
 class MercurialAdapterTest < ActiveSupport::TestCase
   HELPERS_DIR        = Redmine::Scm::Adapters::MercurialAdapter::HELPERS_DIR
@@ -30,12 +30,6 @@ class MercurialAdapterTest < ActiveSupport::TestCase
 
   if File.directory?(REPOSITORY_PATH)
     def setup
-      adapter_class = Redmine::Scm::Adapters::MercurialAdapter
-      assert adapter_class
-      assert adapter_class.client_command
-      assert_equal true, adapter_class.client_available
-      assert_equal true, adapter_class.client_version_above?([0, 9, 5])
-
       @adapter =
         Redmine::Scm::Adapters::MercurialAdapter.new(
           REPOSITORY_PATH,
@@ -44,6 +38,8 @@ class MercurialAdapterTest < ActiveSupport::TestCase
           nil,
           'ISO-8859-1'
         )
+      skip "SCM command is unavailable" unless @adapter.class.client_available
+
       @diff_c_support = true
       @char_1        = 'Ü'
       @tag_char_1    = 'tag-Ü-00'
@@ -87,8 +83,8 @@ class MercurialAdapterTest < ActiveSupport::TestCase
         adp = Redmine::Scm::Adapters::MercurialAdapter.new(repo)
         repo_path =  adp.info.root_url.tr('\\', "/")
         assert_equal REPOSITORY_PATH, repo_path
-        assert_equal '39', adp.info.lastrev.revision
-        assert_equal '04aed9840e9266e535f5f20f7e42c9f9f84f9cf4', adp.info.lastrev.scmid
+        assert_equal '42', adp.info.lastrev.revision
+        assert_equal 'ba20ebce08dbd2f0320b93faf7bba7c86186a1f7', adp.info.lastrev.scmid
       end
     end
 
@@ -111,6 +107,14 @@ class MercurialAdapterTest < ActiveSupport::TestCase
       assert_equal 1, revisions.size
       assert_equal "ctrl-s\u0013user", revisions[0].author
       assert_equal "ctrl-s\u0013message", revisions[0].message
+    end
+
+    def test_empty_message
+      revisions = @adapter.revisions(nil, '05b4c556a8a1', '05b4c556a8a1')
+      assert_equal 1, revisions.size
+      assert_equal '41', revisions[0].revision
+      assert_equal 'jsmith <jsmith@foo.bar>', revisions[0].author
+      assert_equal '', revisions[0].message
     end
 
     def test_parents
@@ -271,7 +275,7 @@ class MercurialAdapterTest < ActiveSupport::TestCase
     end
 
     def test_entry
-      entry = @adapter.entry()
+      entry = @adapter.entry
       assert_equal "", entry.path
       assert_equal "dir", entry.kind
       entry = @adapter.entry('')
@@ -345,11 +349,13 @@ class MercurialAdapterTest < ActiveSupport::TestCase
     end
 
     def test_branches
-      branches = []
-      @adapter.branches.each do |b|
-        branches << b
-      end
-      assert_equal 9, branches.length
+      branches = @adapter.branches
+      assert_equal 10, branches.length
+
+      branch = branches[-10]
+      assert_equal 'branch-empty-message', branch.to_s
+      assert_equal '42', branch.revision
+      assert_equal 'ba20ebce08dbd2f0320b93faf7bba7c86186a1f7', branch.scmid
 
       branch = branches[-9]
       assert_equal 'double"quote"branch', branch.to_s
@@ -400,6 +406,7 @@ class MercurialAdapterTest < ActiveSupport::TestCase
     def test_branchmap
       bm =
         {
+          'branch-empty-message'  => 'ba20ebce08dbd2f0320b93faf7bba7c86186a1f7',
           'double"quote"branch'   => '04aed9840e9266e535f5f20f7e42c9f9f84f9cf4',
           'issue-23055-ctrl-char' => '3e998343166a1b8273973bcd46dd2bad74344d74',
           'default'               => '31eeee7395c8c78e66dd54c50addd078d10b2355',

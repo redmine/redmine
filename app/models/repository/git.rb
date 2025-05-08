@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 # Copyright (C) 2007  Patrick Aljord patcito@ŋmail.com
 #
 # This program is free software; you can redistribute it and/or
@@ -25,12 +25,10 @@ class Repository::Git < Repository
 
   safe_attributes 'report_last_commit'
 
-  def self.human_attribute_name(attribute_key_name, *args)
+  def self.human_attribute_name(attribute_key_name, *)
     attr_name = attribute_key_name.to_s
-    if attr_name == "url"
-      attr_name = "path_to_repository"
-    end
-    super(attr_name, *args)
+    attr_name = 'path_to_repository' if attr_name == 'url'
+    super(attr_name, *)
   end
 
   def self.scm_adapter_class
@@ -92,10 +90,10 @@ class Repository::Git < Repository
   end
 
   def find_changeset_by_name(name)
-    if name.present?
-      changesets.find_by(:revision => name.to_s) ||
-        changesets.where('scmid LIKE ?', "#{name}%").first
-    end
+    return if name.blank?
+
+    changesets.find_by(:revision => name.to_s) ||
+      changesets.where('scmid LIKE ?', "#{name}%").first
   end
 
   def scm_entries(path=nil, identifier=nil)
@@ -133,16 +131,12 @@ class Repository::Git < Repository
   # before fetching changesets (eg. for offline resync)
   def fetch_changesets
     scm_brs = branches
-    return if scm_brs.nil? || scm_brs.empty?
+    return if scm_brs.blank?
 
-    h1 = extra_info || {}
-    h  = h1.dup
-    repo_heads = scm_brs.map{|br| br.scmid}
-    h["heads"] ||= []
-    prev_db_heads = h["heads"].dup
-    if prev_db_heads.empty?
-      prev_db_heads += heads_from_branches_hash
-    end
+    h = extra_info.dup || {}
+    repo_heads = scm_brs.map(&:scmid)
+    prev_db_heads = h["heads"].dup || []
+    prev_db_heads += heads_from_branches_hash if prev_db_heads.empty?
     return if prev_db_heads.sort == repo_heads.sort
 
     h["db_consistent"]  ||= {}
@@ -198,10 +192,10 @@ class Repository::Git < Repository
     offset = 0
     revisions_copy = revisions.clone # revisions will change
     while offset < revisions_copy.size
-      scmids = revisions_copy.slice(offset, limit).map{|x| x.scmid}
+      scmids = revisions_copy.slice(offset, limit).map(&:scmid)
       recent_changesets_slice = changesets.where(:scmid => scmids)
       # Subtract revisions that redmine already knows about
-      recent_revisions = recent_changesets_slice.map{|c| c.scmid}
+      recent_revisions = recent_changesets_slice.map(&:scmid)
       revisions.reject!{|r| recent_revisions.include?(r.scmid)}
       offset += limit
     end
@@ -219,36 +213,33 @@ class Repository::Git < Repository
   private :save_revisions
 
   def save_revision(rev)
-    parents = (rev.parents || []).collect{|rp| find_changeset_by_name(rp)}.compact
+    parents = (rev.parents || []).filter_map{|rp| find_changeset_by_name(rp)}
     changeset =
       Changeset.create(
         :repository   => self,
         :revision     => rev.identifier,
         :scmid        => rev.scmid,
-        :committer    => rev.author,
+        :committer    => rev.author.truncate(255),
         :committed_on => rev.time,
         :comments     => rev.message,
         :parents      => parents
       )
-    unless changeset.new_record?
-      rev.paths.each {|change| changeset.create_change(change)}
-    end
+    rev.paths.each {|change| changeset.create_change(change)} unless changeset.new_record?
     changeset
   end
   private :save_revision
 
   def heads_from_branches_hash
-    h1 = extra_info || {}
-    h  = h1.dup
+    h = extra_info.dup || {}
     h["branches"] ||= {}
     h['branches'].map{|br, hs| hs['last_scmid']}
   end
 
   def latest_changesets(path, rev, limit=10)
     revisions = scm.revisions(path, nil, rev, :limit => limit, :all => false)
-    return [] if revisions.nil? || revisions.empty?
+    return [] if revisions.blank?
 
-    changesets.where(:scmid => revisions.map {|c| c.scmid}).to_a
+    changesets.where(:scmid => revisions.map(&:scmid)).to_a
   end
 
   def clear_extra_info_of_changesets
@@ -256,9 +247,7 @@ class Repository::Git < Repository
 
     v = extra_info["extra_report_last_commit"]
     write_attribute(:extra_info, nil)
-    h = {}
-    h["extra_report_last_commit"] = v
-    merge_extra_info(h)
+    merge_extra_info({"extra_report_last_commit" => v})
     save(:validate => false)
   end
   private :clear_extra_info_of_changesets

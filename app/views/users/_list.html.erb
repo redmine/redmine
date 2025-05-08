@@ -1,0 +1,65 @@
+<%= form_tag({}, data: {cm_url: users_context_menu_path}) do -%>
+<%= hidden_field_tag 'back_url', url_for(params: request.query_parameters), id: nil %>
+<div class="autoscroll">
+<table class="list odd-even users">
+<thead>
+  <tr>
+    <th class="checkbox hide-when-print">
+      <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection',
+        :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}" %>
+    </th>
+    <% @query.inline_columns.each do |column| %>
+      <%= column_header(@query, column) %>
+    <% end %>
+    <th></th>
+  </tr>
+</thead>
+<tbody>
+<% grouped_query_results(users, @query) do |user, group_name, group_count, group_totals| -%>
+  <% if group_name %>
+    <% reset_cycle %>
+    <tr class="group open">
+      <td colspan="<%= @query.inline_columns.size + 2 %>">
+        <span class="expander" onclick="toggleRowGroup(this);"><%= sprite_icon("angle-down") %></span>
+        <span class="name"><%= group_name %></span>
+        <% if group_count %>
+        <span class="count"><%= group_count %></span>
+        <% end %>
+        <span class="totals"><%= group_totals %></span>
+        <%= link_to_function("#{l(:button_collapse_all)}/#{l(:button_expand_all)}",
+                             "toggleAllRowGroups(this)", :class => 'toggle-all') %>
+      </td>
+    </tr>
+  <% end %>
+  <tr id="user-<%= user.id %>" class="user <%= cycle("odd", "even") %> hascontextmenu">
+    <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", user.id, false, id: nil) %></td>
+    <% @query.inline_columns.each do |column| %>
+      <% if column.name == :login %>
+        <%= content_tag('td', link_to(user.login, edit_user_path(user)), class: column.css_classes) %>
+      <% else %>
+        <%= content_tag('td', column_content(column, user), class: column.css_classes) %>
+      <% end %>
+    <% end %>
+    <td class="buttons">
+      <%= link_to_context_menu %>
+    </td>
+  </tr>
+  <% @query.block_columns.each do |column|
+       if (text = column_content(column, issue)) && text.present? -%>
+  <tr class="<%= current_cycle %>">
+    <td colspan="<%= @query.inline_columns.size + 1 %>" class="<%= column.css_classes %>">
+    <% if query.block_columns.count > 1 %>
+      <span><%= column.caption %></span>
+    <% end %>
+    <%= text %>
+    </td>
+  </tr>
+  <% end -%>
+  <% end -%>
+<% end -%>
+</tbody>
+</table>
+</div>
+<% end -%>
+
+<%= context_menu %>

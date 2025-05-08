@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,16 +23,16 @@ class ProjectsController < ApplicationController
   menu_item :projects, :only => [:index, :new, :copy, :create]
 
   before_action :find_project,
-                :except => [:index, :autocomplete, :list, :new, :create, :copy]
+                :except => [:index, :autocomplete, :list, :new, :create, :copy, :bulk_destroy]
   before_action :authorize,
                 :except => [:index, :autocomplete, :list, :new, :create, :copy,
                             :archive, :unarchive,
-                            :destroy]
+                            :destroy, :bulk_destroy]
   before_action :authorize_global, :only => [:new, :create]
-  before_action :require_admin, :only => [:copy, :archive, :unarchive]
-  accept_rss_auth :index
+  before_action :require_admin, :only => [:copy, :archive, :unarchive, :bulk_destroy]
+  accept_atom_auth :index
   accept_api_auth :index, :show, :create, :update, :destroy, :archive, :unarchive, :close, :reopen
-  require_sudo_mode :destroy
+  require_sudo_mode :destroy, :bulk_destroy
 
   helper :custom_fields
   helper :issues
@@ -53,32 +53,31 @@ class ProjectsController < ApplicationController
 
     retrieve_default_query
     retrieve_project_query
-    scope = project_scope
 
     respond_to do |format|
       format.html do
         # TODO: see what to do with the board view and pagination
         if @query.display_type == 'board'
-          @entries = scope.to_a
+          @entries = project_scope.to_a
         else
-          @entry_count = scope.count
+          @entry_count = @query.result_count
           @entry_pages = Paginator.new @entry_count, per_page_option, params['page']
-          @entries = scope.offset(@entry_pages.offset).limit(@entry_pages.per_page).to_a
+          @entries = project_scope(:offset => @entry_pages.offset, :limit => @entry_pages.per_page).to_a
         end
       end
       format.api do
         @offset, @limit = api_offset_and_limit
-        @project_count = scope.count
-        @projects = scope.offset(@offset).limit(@limit).to_a
+        @project_count = @query.result_count
+        @projects = project_scope(:offset => @offset, :limit => @limit)
       end
       format.atom do
-        projects = scope.reorder(:created_on => :desc).limit(Setting.feeds_limit.to_i).to_a
+        projects = project_scope(:order => {:created_on => :desc}, :limit => Setting.feeds_limit.to_i).to_a
         render_feed(projects, :title => "#{Setting.app_title}: #{l(:label_project_latest)}")
       end
       format.csv do
         # Export all entries
-        @entries = scope.to_a
-        send_data(query_to_csv(@entries, @query, params), :type => 'text/csv; header=present', :filename => 'projects.csv')
+        entries = project_scope.to_a
+        send_data(query_to_csv(entries, @query, params), :type => 'text/csv; header=present', :filename => 'projects.csv')
       end
     end
   end
@@ -116,7 +115,7 @@ class ProjectsController < ApplicationController
         format.html do
           flash[:notice] = l(:notice_successful_create)
           if params[:continue]
-            attrs = {:parent_id => @project.parent_id}.reject {|k,v| v.nil?}
+            attrs = {:parent_id => @project.parent_id}.compact
             redirect_to new_project_path(attrs)
           else
             redirect_to settings_project_path(@project)
@@ -177,7 +176,7 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       format.html do
         @principals_by_role = @project.principals_by_role
-        @subprojects = @project.children.visible.to_a
+        @subprojects = @project.leaf? ? [] : @project.children.visible.to_a
         @news = @project.news.limit(5).includes(:author, :project).reorder("#{News.table_name}.created_on DESC").to_a
         with_subprojects = Setting.display_subprojects_issues?
         @trackers = @project.rolled_up_trackers(with_subprojects).visible
@@ -192,7 +191,7 @@ class ProjectsController < ApplicationController
           @total_estimated_hours = Issue.visible.where(cond).sum(:estimated_hours).to_f
         end
 
-        @key = User.current.rss_key
+        @key = User.current.atom_key
       end
       format.api
     end
@@ -300,7 +299,8 @@ class ProjectsController < ApplicationController
 
     @project_to_destroy = @project
     if api_request? || params[:confirm] == @project_to_destroy.identifier
-      @project_to_destroy.destroy
+      DestroyProjectJob.schedule(@project_to_destroy)
+      flash[:notice] = l(:notice_successful_delete)
       respond_to do |format|
         format.html do
           redirect_to(
@@ -312,6 +312,23 @@ class ProjectsController < ApplicationController
     end
     # hide project in layout
     @project = nil
+  end
+
+  # Delete selected projects
+  def bulk_destroy
+    @projects = Project.where(id: params[:ids]).
+      where.not(status: Project::STATUS_SCHEDULED_FOR_DELETION).to_a
+
+    if @projects.empty?
+      render_404
+      return
+    end
+
+    if params[:confirm] == I18n.t(:general_text_Yes)
+      DestroyProjectsJob.schedule @projects
+      flash[:notice] = l(:notice_successful_delete)
+      redirect_to admin_projects_path
+    end
   end
 
   private
@@ -328,7 +345,7 @@ class ProjectsController < ApplicationController
   def retrieve_default_query
     return if params[:query_id].present?
     return if api_request?
-    return if params[:set_filter] && (params.key?(:op) || params.key?(:f))
+    return if params[:set_filter]
 
     if params[:without_default].present?
       params[:set_filter] = 1

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,21 +17,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class MailerTest < ActiveSupport::TestCase
   include Redmine::I18n
   include Rails::Dom::Testing::Assertions
-  fixtures :projects, :enabled_modules, :issues, :users, :email_addresses, :user_preferences, :members,
-           :member_roles, :roles, :documents, :attachments, :news,
-           :tokens, :journals, :journal_details, :changesets,
-           :trackers, :projects_trackers,
-           :custom_fields, :custom_fields_trackers,
-           :issue_statuses, :enumerations, :messages, :boards, :repositories,
-           :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions,
-           :versions,
-           :comments,
-           :groups_users, :watchers
 
   def setup
     ActionMailer::Base.deliveries.clear
@@ -195,21 +185,30 @@ class MailerTest < ActiveSupport::TestCase
     issue = Issue.generate!(:description => '@jsmith')
     assert Mailer.deliver_issue_add(issue)
     assert_select_email do
-      assert_select "a[href=?]", "http://localhost:3000/users/2", :text => 'John Smith'
+      assert_select "a[href=?]", "http://localhost:3000/users/2", :text => '@John Smith'
+    end
+  end
+
+  def test_thumbnail_macro_in_email
+    set_tmp_attachments_directory
+    issue = Issue.generate!(:description => '{{thumbnail(image.png)}}')
+    issue.attachments << Attachment.new(:file => mock_file_with_options(:original_filename => 'image.png'), :author => User.find(1))
+    issue.save!
+
+    assert Mailer.deliver_issue_add(issue)
+    assert_select_email do
+      assert_select 'img[alt="image.png"]'
     end
   end
 
   def test_email_headers
-    with_settings :mail_from => 'Redmine <redmine@example.net>' do
-      issue = Issue.find(1)
-      Mailer.deliver_issue_add(issue)
-    end
+    issue = Issue.find(1)
+    Mailer.deliver_issue_add(issue)
     mail = last_email
     assert_equal 'All', mail.header['X-Auto-Response-Suppress'].to_s
     assert_equal 'auto-generated', mail.header['Auto-Submitted'].to_s
-    # List-Id should not include the display name "Redmine"
-    assert_equal '<redmine.example.net>', mail.header['List-Id'].to_s
     assert_equal 'Bug', mail.header['X-Redmine-Issue-Tracker'].to_s
+    assert_equal 'Low', mail.header['X-Redmine-Issue-Priority'].to_s
   end
 
   def test_email_headers_should_include_sender
@@ -311,6 +310,23 @@ class MailerTest < ActiveSupport::TestCase
       mail = last_email
       assert_equal 'redmine@example.net', mail.from_addrs.first
       assert_equal "Foo <redmine@example.net>", mail.header['From'].to_s
+    end
+  end
+
+  def test_list_id_header_should_include_project_identifier
+    with_settings :mail_from => 'Redmine <redmine@example.net>' do
+      content = WikiContent.find(1)
+      Mailer.deliver_wiki_content_added(content)
+      mail = last_email
+      assert_equal '<ecookbook.redmine.example.net>', mail.header['List-Id'].to_s
+    end
+  end
+
+  def test_list_id_header_excludes_project_identifier_for_non_project_emails
+    with_settings :mail_from => 'Redmine <redmine@example.net>' do
+      Mailer.deliver_test_email(User.find(1))
+      mail = last_email
+      assert_equal '<redmine.example.net>', mail.header['List-Id'].to_s
     end
   end
 
@@ -464,6 +480,19 @@ class MailerTest < ActiveSupport::TestCase
     assert_not_include user.mail, recipients
   end
 
+  def test_issue_add_should_notify_mentioned_users_in_issue_description
+    User.find(1).mail_notification = 'only_my_events'
+
+    issue = Issue.generate!(project_id: 1, description: 'Hello @dlopper and @admin.')
+
+    assert Mailer.deliver_issue_add(issue)
+    # @jsmith and @dlopper are members of the project
+    # admin is mentioned
+    # @dlopper won't receive duplicated notifications
+    assert_equal 3, ActionMailer::Base.deliveries.size
+    assert_include User.find(1).mail, recipients
+  end
+
   def test_issue_add_should_include_enabled_fields
     issue = Issue.find(2)
     assert Mailer.deliver_issue_add(issue)
@@ -608,11 +637,44 @@ class MailerTest < ActiveSupport::TestCase
     end
   end
 
+  def test_issue_edit_should_notify_mentioned_users_in_issue_updated_description
+    User.find(1).mail_notification = 'only_my_events'
+
+    issue = Issue.find(3)
+    issue.init_journal(User.current)
+    issue.update(description: "Hello @admin")
+    journal = issue.journals.last
+
+    ActionMailer::Base.deliveries.clear
+    Mailer.deliver_issue_edit(journal)
+
+    # @jsmith and @dlopper are members of the project
+    # admin is mentioned in the updated description
+    # @dlopper won't receive duplicated notifications
+    assert_equal 3, ActionMailer::Base.deliveries.size
+    assert_include User.find(1).mail, recipients
+  end
+
+  def test_issue_edit_should_notify_mentioned_users_in_notes
+    User.find(1).mail_notification = 'only_my_events'
+
+    journal = Journal.generate!(journalized: Issue.find(3), user: User.find(1), notes: 'Hello @admin.')
+
+    ActionMailer::Base.deliveries.clear
+    Mailer.deliver_issue_edit(journal)
+
+    # @jsmith and @dlopper are members of the project
+    # admin is mentioned in the notes
+    # @dlopper won't receive duplicated notifications
+    assert_equal 3, ActionMailer::Base.deliveries.size
+    assert_include User.find(1).mail, recipients
+  end
+
   def test_issue_should_send_email_notification_with_suppress_empty_fields
     ActionMailer::Base.deliveries.clear
     with_settings :notified_events => %w(issue_added) do
       cf = IssueCustomField.generate!
-      issue = Issue.generate!
+      issue = Issue.generate!(:parent => Issue.find(1))
       Mailer.deliver_issue_add(issue)
 
       assert_not_equal 0, ActionMailer::Base.deliveries.size
@@ -621,6 +683,7 @@ class MailerTest < ActiveSupport::TestCase
       assert_mail_body_match /^\* Author: /, mail
       assert_mail_body_match /^\* Status: /, mail
       assert_mail_body_match /^\* Priority: /, mail
+      assert_mail_body_match /^\* Parent task: /, mail
 
       assert_mail_body_no_match /^\* Assignee: /, mail
       assert_mail_body_no_match /^\* Category: /, mail
@@ -703,6 +766,20 @@ class MailerTest < ActiveSupport::TestCase
     end
   end
 
+  def test_wiki_content_added_should_notify_mentioned_users_in_content
+    content = WikiContent.new(text: 'Hello @admin.', author_id: 1, page_id: 1)
+    content.save!
+
+    ActionMailer::Base.deliveries.clear
+    Mailer.deliver_wiki_content_added(content)
+
+    # @jsmith and @dlopper are members of the project
+    # admin is mentioned in the notes
+    # @dlopper won't receive duplicated notifications
+    assert_equal 3, ActionMailer::Base.deliveries.size
+    assert_include User.find(1).mail, recipients
+  end
+
   def test_wiki_content_updated
     content = WikiContent.find(1)
     assert Mailer.deliver_wiki_content_updated(content)
@@ -711,6 +788,21 @@ class MailerTest < ActiveSupport::TestCase
                     'http://localhost:3000/projects/ecookbook/wiki/CookBook_documentation',
                     :text => 'CookBook documentation'
     end
+  end
+
+  def test_wiki_content_updated_should_notify_mentioned_users_in_updated_content
+    content = WikiContent.find(1)
+    content.update(text: 'Hello @admin.')
+    content.save!
+
+    ActionMailer::Base.deliveries.clear
+    Mailer.deliver_wiki_content_updated(content)
+
+    # @jsmith and @dlopper are members of the project
+    # admin is mentioned in the notes
+    # @dlopper won't receive duplicated notifications
+    assert_equal 3, ActionMailer::Base.deliveries.size
+    assert_include User.find(1).mail, recipients
   end
 
   def test_register
@@ -997,7 +1089,7 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_layout_should_include_the_emails_header
-    with_settings :emails_header => "*Header content*" do
+    with_settings :emails_header => '*Header content*', :text_formatting => 'textile' do
       with_settings :plain_text_mail => 0 do
         assert Mailer.test_email(User.find(1)).deliver_now
         assert_select_email do
@@ -1024,7 +1116,7 @@ class MailerTest < ActiveSupport::TestCase
   end
 
   def test_layout_should_include_the_emails_footer
-    with_settings :emails_footer => "*Footer content*" do
+    with_settings :emails_footer => '*Footer content*', :text_formatting => 'textile' do
       with_settings :plain_text_mail => 0 do
         assert Mailer.test_email(User.find(1)).deliver_now
         assert_select_email do

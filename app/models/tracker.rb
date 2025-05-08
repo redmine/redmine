@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,15 +17,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-class Tracker < ActiveRecord::Base
+class Tracker < ApplicationRecord
   include Redmine::SafeAttributes
 
-  CORE_FIELDS_UNDISABLABLE = %w(project_id tracker_id subject priority_id is_private).freeze
+  CORE_FIELDS_UNDISABLABLE = %w(project_id tracker_id subject is_private).freeze
   # Fields that can be disabled
   # Other (future) fields should be appended, not inserted!
   CORE_FIELDS =
     %w(assigned_to_id category_id fixed_version_id parent_issue_id
-       start_date due_date estimated_hours done_ratio description).freeze
+       start_date due_date estimated_hours done_ratio description priority_id).freeze
   CORE_FIELDS_ALL = (CORE_FIELDS_UNDISABLABLE + CORE_FIELDS).freeze
 
   before_destroy :check_integrity
@@ -93,6 +93,8 @@ class Tracker < ActiveRecord::Base
   def to_s; name end
 
   def <=>(tracker)
+    return nil unless tracker.is_a?(Tracker)
+
     position <=> tracker.position
   end
 
@@ -108,6 +110,7 @@ class Tracker < ActiveRecord::Base
     else
       @issue_status_ids ||=
         WorkflowTransition.where(:tracker_id => id).
+          where('old_status_id <> new_status_id').
           distinct.pluck(:old_status_id, :new_status_id).flatten.uniq
     end
   end

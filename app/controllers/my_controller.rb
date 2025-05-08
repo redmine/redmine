@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,14 +26,13 @@ class MyController < ApplicationController
   accept_api_auth :account
 
   require_sudo_mode :account, only: :put
-  require_sudo_mode :reset_rss_key, :reset_api_key, :show_api_key, :destroy
+  require_sudo_mode :reset_atom_key, :reset_api_key, :show_api_key, :destroy
 
   helper :issues
   helper :users
   helper :custom_fields
   helper :queries
   helper :activities
-  helper :calendars
 
   def index
     page
@@ -56,7 +55,6 @@ class MyController < ApplicationController
       @user.pref.safe_attributes = params[:pref]
       if @user.save
         @user.pref.save
-        set_language_if_valid @user.language
         respond_to do |format|
           format.html do
             flash[:notice] = l(:notice_account_updated)
@@ -120,13 +118,13 @@ class MyController < ApplicationController
   end
 
   # Create a new feeds key
-  def reset_rss_key
+  def reset_atom_key
     if request.post?
-      if User.current.rss_token
-        User.current.rss_token.destroy
+      if User.current.atom_token
+        User.current.atom_token.destroy
         User.current.reload
       end
-      User.current.rss_key
+      User.current.atom_key
       flash[:notice] = l(:notice_feeds_access_key_reseted)
     end
     redirect_to my_account_path
@@ -197,6 +195,6 @@ class MyController < ApplicationController
     @user = User.current
     @user.pref.order_blocks params[:group], params[:blocks]
     @user.pref.save
-    head 200
+    head :ok
   end
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,11 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../test_helper', __FILE__)
+require_relative '../../test_helper'
 
 class Redmine::ApiTest::ApiTest < Redmine::ApiTest::Base
-  fixtures :users, :email_addresses, :members, :member_roles, :roles, :projects
-
   def test_api_should_work_with_protect_from_forgery
     ActionController::Base.allow_forgery_protection = true
     assert_difference('User.count') do
@@ -35,7 +33,7 @@ class Redmine::ApiTest::ApiTest < Redmine::ApiTest::Base
         },
         :headers => credentials('admin')
       )
-      assert_response 201
+      assert_response :created
     end
   ensure
     ActionController::Base.allow_forgery_protection = false
@@ -56,5 +54,12 @@ class Redmine::ApiTest::ApiTest < Redmine::ApiTest::Base
 
     assert_response :no_content
     assert_equal '', response.body
+  end
+
+  def test_api_with_invalid_format_should_return_406
+    get '/users/1', :headers => credentials('admin').merge({'Accept' => 'application/xml', 'Content-type' => 'application/xml'})
+
+    assert_response :not_acceptable
+    assert_equal "We couldn't handle your request, sorry. If you were trying to access the API, make sure to append .json or .xml to your request URL.\n", response.body
   end
 end

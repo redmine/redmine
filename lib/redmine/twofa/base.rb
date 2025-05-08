@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -21,6 +21,7 @@ module Redmine
   module Twofa
     class Base
       def self.inherited(child)
+        super
         # require-ing a Base subclass will register it as a 2FA scheme
         Redmine::Twofa.register_scheme(scheme_name(child), child)
       end

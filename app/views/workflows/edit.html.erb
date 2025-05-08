@@ -15,12 +15,12 @@
 <p>
   <label><%=l(:label_role)%>:
   <%= options_for_workflow_select 'role_id[]', Role.sorted.select(&:consider_workflow?), @roles, :id => 'role_id', :class => 'expandable' %>
-  <span class="toggle-multiselect icon-only"></span>
+  <span class="toggle-multiselect icon-only"><%= sprite_icon('') %></span>
   </label>
 
   <label><%=l(:label_tracker)%>:
   <%= options_for_workflow_select 'tracker_id[]', Tracker.sorted, @trackers, :id => 'tracker_id', :class => 'expandable' %>
-  <span class="toggle-multiselect icon-only"></span>
+  <span class="toggle-multiselect icon-only"><%= sprite_icon('') %></span>
   </label>
 
   <%= submit_tag l(:button_edit), :name => nil %>
@@ -40,7 +40,10 @@
       <%= render :partial => 'form', :locals => {:name => 'always', :workflows => @workflows['always']} %>
 
       <fieldset class="collapsible" style="padding: 0; margin-top: 0.5em;">
-        <legend onclick="toggleFieldset(this);" class="icon icon-collapsed"><%= l(:label_additional_workflow_transitions_for_author) %></legend>
+        <legend onclick="toggleFieldset(this);" class="icon icon-<%= @workflows['author'].present? ? "expanded" : "collapsed" %>">
+          <%= sprite_icon(@workflows['author'].present? ? "angle-down" : "angle-right", rtl: !@workflows['author'].present?) %>
+          <%= l(:label_additional_workflow_transitions_for_author) %>
+        </legend>
         <div id="author_workflows" style="margin: 0.5em 0 0.5em 0;">
           <%= render :partial => 'form', :locals => {:name => 'author', :workflows => @workflows['author']} %>
         </div>
@@ -48,7 +51,10 @@
       <%= javascript_tag "hideFieldset($('#author_workflows'))" unless @workflows['author'].present? %>
 
       <fieldset class="collapsible" style="padding: 0;">
-        <legend onclick="toggleFieldset(this);" class="icon icon-collapsed"><%= l(:label_additional_workflow_transitions_for_assignee) %></legend>
+        <legend onclick="toggleFieldset(this);" class="icon icon-<%= @workflows['assignee'].present? ? "expanded" : "collapsed" %>">
+          <%= sprite_icon(@workflows['assignee'].present? ? "angle-down" : "angle-right", rtl: !@workflows['assignee'].present?) %>
+          <%= l(:label_additional_workflow_transitions_for_assignee) %>
+        </legend>
         <div id="assignee_workflows" style="margin: 0.5em 0 0.5em 0;">
       <%= render :partial => 'form', :locals => {:name => 'assignee', :workflows => @workflows['assignee']} %>
         </div>

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,12 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../../../../test_helper', __FILE__)
+require_relative '../../../../../test_helper'
 
 class IssuesPdfHelperTest < ActiveSupport::TestCase
-  fixtures :users, :projects, :roles, :members, :member_roles,
-           :enabled_modules, :issues, :trackers, :enumerations
-
   include Redmine::Export::PDF::IssuesPdfHelper
 
   def test_fetch_row_values_should_round_float_values
@@ -33,8 +30,13 @@ class IssuesPdfHelperTest < ActiveSupport::TestCase
     time_entry = TimeEntry.create!(:spent_on => Date.today, :hours => 4.3432, :user => user, :author => user,
                      :project_id => 1, :issue => issue, :activity => TimeEntryActivity.first)
 
-    results = fetch_row_values(issue, query, 0)
-    assert_equal ["2", "Add ingredients categories", "4.34"], results
+    to_test = {'en' => '4.34', 'de' => '4,34'}
+    to_test.each do |locale, expected|
+      with_locale locale do
+        results = fetch_row_values(issue, query, 0)
+        assert_equal ['2', 'Add ingredients categories', expected], results
+      end
+    end
   end
 
   def test_fetch_row_values_should_be_able_to_handle_parent_issue_subject

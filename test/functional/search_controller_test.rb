@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,17 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class SearchControllerTest < Redmine::ControllerTest
-  fixtures :projects, :projects_trackers,
-           :enabled_modules, :roles, :users, :members, :member_roles,
-           :issues, :trackers, :issue_statuses, :enumerations,
-           :workflows,
-           :custom_fields, :custom_values,
-           :custom_fields_projects, :custom_fields_trackers,
-           :repositories, :changesets
-
   def setup
     User.current = nil
   end
@@ -47,18 +39,18 @@ class SearchControllerTest < Redmine::ControllerTest
   def test_search_on_archived_project_should_return_403
     Project.find(3).archive
     get :index, :params => {:id => 3}
-    assert_response 403
+    assert_response :forbidden
   end
 
   def test_search_on_invisible_project_by_user_should_be_denied
     @request.session[:user_id] = 7
     get :index, :params => {:id => 2}
-    assert_response 403
+    assert_response :forbidden
   end
 
   def test_search_on_invisible_project_by_anonymous_user_should_redirect
     get :index, :params => {:id => 2}
-    assert_response 302
+    assert_response :found
   end
 
   def test_search_on_private_project_by_member_should_succeed
@@ -74,16 +66,18 @@ class SearchControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_select '#search-results' do
-      assert_select 'dt.issue a', :text => /Feature request #2/
+      assert_select 'dt.issue a', :text => /Bug #1/
       assert_select 'dt.issue a', :text => /Bug #5/
       assert_select 'dt.changeset a', :text => /Revision 1/
 
-      assert_select 'dt.issue a', :text => /Add ingredients categories/
-      assert_select 'dd', :text => /should be classified by categories/
+      assert_select 'dt.issue a', :text => /Cannot print recipes/
+      assert_select 'dd', :text => /Unable to print/
     end
 
     assert_select '#search-results-counts' do
-      assert_select 'a', :text => 'Changesets (5)'
+      assert_select 'a', :text => 'Changesets (6)'
+      assert_select 'a', :text => 'Issues (5)'
+      assert_select 'a', :text => 'Projects (4)'
     end
   end
 
@@ -94,6 +88,7 @@ class SearchControllerTest < Redmine::ControllerTest
     assert_select 'input[name=all_words][checked=checked]'
     assert_select 'input[name=titles_only]:not([checked])'
 
+    assert_select 'p.buttons a', :text => 'Apply issues filter'
     assert_select '#search-results' do
       assert_select 'dt.issue a', :text => /Bug #5/
       assert_select 'dt.issue-closed a', :text => /Bug #8 \(Closed\)/
@@ -168,6 +163,19 @@ class SearchControllerTest < Redmine::ControllerTest
 
     assert_select '#search-results' do
       assert_select 'dt', 0
+    end
+  end
+
+  def test_search_my_bookmarks
+    @request.session[:user_id] = 1
+    get :index, :params => {:q => 'project', :scope => 'bookmarks', :all_words => ''}
+    assert_response :success
+
+    assert_select '#search-results' do
+      assert_select 'dt.issue', :count => 1
+      assert_select 'dt.issue', :text => /Bug #6/
+      assert_select 'dt.changeset', :count => 1
+      assert_select 'dt.changeset', :text => /Revision 4/
     end
   end
 
@@ -337,7 +345,7 @@ class SearchControllerTest < Redmine::ControllerTest
 
   def test_search_with_invalid_project_id
     get :index, :params => {:id => 195, :q => 'recipe'}
-    assert_response 404
+    assert_response :not_found
   end
 
   def test_search_should_include_closed_projects
@@ -442,5 +450,16 @@ class SearchControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_select '#search-results dt.project', 0
+  end
+
+  def test_search_should_not_show_apply_issues_filter_button_if_no_issues_found
+    get :index, :params => {:q => 'commits'}
+    assert_response :success
+
+    assert_select 'p.buttons a', :text => 'Apply issues filter', :count => 0
+    assert_select '#search-results' do
+      assert_select 'dt.issue', :count => 0
+      assert_select 'dt.issue-closed', :count => 0
+    end
   end
 end

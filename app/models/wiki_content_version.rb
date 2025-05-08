@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,7 +19,7 @@
 
 require 'zlib'
 
-class WikiContentVersion < ActiveRecord::Base
+class WikiContentVersion < ApplicationRecord
   belongs_to :page, :class_name => 'WikiPage'
   belongs_to :author, :class_name => 'User'
 
@@ -83,8 +83,7 @@ class WikiContentVersion < ActiveRecord::Base
               # uncompressed data
               data
             end
-      str.force_encoding("UTF-8")
-      str
+      (+str).force_encoding('UTF-8')
     end
   end
 

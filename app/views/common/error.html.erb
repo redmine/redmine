@@ -1,11 +1,14 @@
 <h2><%= @status %></h2>
 
 <% if @message.present? %>
-  <p id="errorExplanation"><%= @message %></p>
+  <p id="errorExplanation">
+    <%= notice_icon('error') %>
+    <%= @message %>
+  </p>
 <% end %>
 
 <% if @archived_project && User.current.admin? %>
-  <p><%= link_to l(:button_unarchive), unarchive_project_path(@archived_project), :method => :post, :class => 'icon icon-unlock' %></p>
+  <p><%= link_to sprite_icon('unlock', l(:button_unarchive)), unarchive_project_path(@archived_project), :method => :post, :class => 'icon icon-unlock' %></p>
 <% end %>
 
 <p><a href="javascript:history.back()"><%= l(:button_back) %></a></p>

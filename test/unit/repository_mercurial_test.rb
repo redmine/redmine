@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,15 +17,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class RepositoryMercurialTest < ActiveSupport::TestCase
-  fixtures :projects
-
   include Redmine::I18n
 
   REPOSITORY_PATH = Rails.root.join('tmp/test/mercurial_repository').to_s
-  NUM_REV = 40
+  NUM_REV = 43
 
   def setup
     User.current = nil
@@ -37,6 +35,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
         :path_encoding => 'ISO-8859-1'
       )
     assert @repository
+    skip "SCM command is unavailable" unless @repository.class.scm_available
   end
 
   def test_blank_path_to_repository_error_message
@@ -170,7 +169,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      assert_equal 51, @repository.filechanges.count
+      assert_equal 47, @repository.filechanges.count
       rev0 = @repository.changesets.find_by_revision('0')
       assert_equal "Initial import.\nThe repository contains 3 files.",
                    rev0.comments
@@ -263,13 +262,13 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
         @repository.latest_changesets(
           '/sql_escape/percent%dir/percent%file1.txt', nil
         )
-      assert_equal %w|30 11 10 9|, changesets.collect(&:revision)
+      assert_equal %w|11 10 9|, changesets.collect(&:revision)
 
       changesets =
         @repository.latest_changesets(
           '/sql_escape/underscore_dir/understrike_file.txt', nil
         )
-      assert_equal %w|30 12 9|, changesets.collect(&:revision)
+      assert_equal %w|12 9|, changesets.collect(&:revision)
 
       changesets = @repository.latest_changesets('README', nil)
       assert_equal %w|31 30 28 17 8 6 1 0|, changesets.collect(&:revision)
@@ -286,7 +285,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
 
       path = 'sql_escape/percent%dir'
       changesets = @repository.latest_changesets(path, nil)
-      assert_equal %w|30 13 11 10 9|, changesets.collect(&:revision)
+      assert_equal %w|13 11 10 9|, changesets.collect(&:revision)
 
       changesets = @repository.latest_changesets(path, '11')
       assert_equal %w|11 10 9|, changesets.collect(&:revision)
@@ -296,7 +295,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
 
       path = 'sql_escape/underscore_dir'
       changesets = @repository.latest_changesets(path, nil)
-      assert_equal %w|30 13 12 9|, changesets.collect(&:revision)
+      assert_equal %w|13 12 9|, changesets.collect(&:revision)
 
       changesets = @repository.latest_changesets(path, '12')
       assert_equal %w|12 9|, changesets.collect(&:revision)
@@ -597,7 +596,7 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
       @repository.fetch_changesets
       @project.reload
       assert_equal NUM_REV, @repository.changesets.count
-      [(NUM_REV - 1).to_s, "04aed9840e92", "04aed"].each do |r1|
+      [(NUM_REV - 1).to_s, "ba20ebce08db", "ba20e"].each do |r1|
         changeset = @repository.find_changeset_by_name(r1)
         assert_nil changeset.next
       end

@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Format de la Wiki</title>
+<%= stylesheet_link_tag "wiki_syntax.css" %>
+</head>
+<body>
+
+<h1>Guia rapida de la Sintaxis de la Wiki</h1>
+
+<table style="width:100%">
+<tr><th colspan="3">Estil de font <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "5") %>" target="_blank">more</a>)</span></th></tr>
+<tr><th><%= image_tag("jstoolbar/bold.svg", { alt: "Negreta" }) %></th><td style="width:50%;">*Negreta*</td><td style="width:50%;"><strong>Negreta</strong></td></tr>
+<tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "Cursiva" }) %></th><td>_Cursiva_</td><td><em>Cursiva</em></td></tr>
+<tr><th><%= image_tag("jstoolbar/underline.svg", { alt: "Subratllat" }) %></th><td>+Subratllat+</td><td><ins>Subratllat</ins></td></tr>
+<tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "Eliminat" }) %></th><td>-Eliminat-</td><td><del>Eliminat</del></td></tr>
+<tr><th></th><td>??Cita??</td><td><cite>Cita</cite></td></tr>
+<tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "Codi en línia" }) %></th><td>@Codi en línia@</td><td><code>Codi en línia</code></td></tr>
+<tr><th><span class="syntax-pre"/></th><td>&lt;pre&gt;<br />&nbsp;linies<br />&nbsp;de codi<br />&lt;/pre&gt;</td><td>
+<pre>
+ linies
+ de codi
+</pre>
+</td></tr>
+
+<tr><th colspan="3">Highlighted code <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "13") %>" target="_blank">more</a> | <a href="<%= help_code_highlighting_path %>" target="_blank">supported languages</a>)</span></th></tr>
+<tr><th><%= image_tag("jstoolbar/code.svg", { alt: "Highlighted code" }) %></th><td>&lt;pre&gt;&lt;code class="ruby"&gt;<br />3.times do<br />&nbsp;&nbsp;puts 'Hello'<br />end<br />&lt;/code&gt;&lt;/pre&gt;</td><td>
+<pre><code class="ruby syntaxhl"><span class="mi">3</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span>
+  <span class="nb">puts</span> <span class="s1">'Hello'</span>
+<span class="k">end</span>
+</code></pre>
+</td></tr>
+
+<tr><th colspan="3">Llistes</th></tr>
+<tr><th><%= image_tag("jstoolbar/list.svg", { alt: "Llista desordenada" }) %></th><td>* Article 1<br />** Sub<br />* Article 2</td><td><ul><li>Article 1<ul><li>Sub</li></ul></li><li>Article 2</li></ul></td></tr>
+<tr><th><%= image_tag("jstoolbar/list-numbers.svg", { alt: "Llista ordenada" }) %></th><td># Article 1<br />## Sub<br /># Article 2</td><td><ol><li>Article 1<ol><li>Sub</li></ol></li><li>Article 2</li></ol></td></tr>
+
+<tr><th colspan="3">Capçaleres <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "8") %>" target="_blank">more</a>)</span></th></tr>
+<tr><th><%= image_tag("jstoolbar/h1.svg", { alt: "Encapçament 1" }) %></th><td>h1. Títol 1</td><td><h1>Títol 1</h1></td></tr>
+<tr><th><%= image_tag("jstoolbar/h2.svg", { alt: "Encapçament 2" }) %></th><td>h2. Títol 2</td><td><h2>Títol 2</h2></td></tr>
+<tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "Encapçament 3" }) %></th><td>h3. Títol 3</td><td><h3>Títol 3</h3></td></tr>
+
+<tr><th colspan="3">Links <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">more</a>)</span></th></tr>
+<tr><th></th><td>http://foo.bar</td><td><a href="#">http://foo.bar</a></td></tr>
+<tr><th></th><td>"Foo":http://foo.bar</td><td><a href="#">Foo</a></td></tr>
+
+<tr><th colspan="3">Links del Redmine <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">more</a>)</span></th></tr>
+<tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "Link a la pagina Wiki" }) %></th><td>[[Pagina Wiki]]</td><td><a href="#">Pagina Wiki</a></td></tr>
+<tr><th></th><td>Assumpte #12</td><td>Assumpte <a href="#">#12</a></td></tr>
+<tr><th></th><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
+<tr><th></th><td>Revisió r43</td><td>Revisió <a href="#">r43</a></td></tr>
+<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+
+<tr><th colspan="3">Imatges <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">more</a>)</span></th></tr>
+<tr><th><%= image_tag("jstoolbar/image.svg", { alt: "Imatge" }) %></th><td>!<em>imatge_url</em>!</td><td></td></tr>
+<tr><th></th><td>!<em>imatge_adjunta</em>!</td><td></td></tr>
+
+<tr><th colspan="3">Taules</th></tr>
+<tr>
+  <th></th>
+  <td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. row span | B | C |<br />|\2. col span |</td>
+  <td>
+    <table class="sample">
+      <tbody>
+        <th>A</th><th>B</th><th>C</th>
+        <tr><td>A</td><td>B</td><td>C</td></tr>
+        <tr><td rowspan="2">row span</td><td>B</td><td>C</td></tr>
+        <tr><td colspan="2">col span</td></tr>
+      </tbody>
+    </table>
+  </td>
+</tr>
+
+</table>
+
+<p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">Més informació</a></p>
+
+</body>
+</html>

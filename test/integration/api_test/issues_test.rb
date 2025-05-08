@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,36 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../test_helper', __FILE__)
+require_relative '../../test_helper'
 
 class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
-  fixtures(
-    :projects,
-    :users,
-    :roles,
-    :members,
-    :member_roles,
-    :issues,
-    :issue_statuses,
-    :issue_relations,
-    :versions,
-    :trackers,
-    :projects_trackers,
-    :issue_categories,
-    :enabled_modules,
-    :enumerations,
-    :attachments,
-    :workflows,
-    :custom_fields,
-    :custom_values,
-    :custom_fields_projects,
-    :custom_fields_trackers,
-    :time_entries,
-    :journals,
-    :journal_details,
-    :queries,
-    :attachments)
-
   test "GET /issues.xml should contain metadata" do
     get '/issues.xml'
     assert_select 'issues[type=array][total_count][limit="25"][offset="0"]'
@@ -104,7 +77,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
   test "GET /issues.xml with invalid query params" do
     get '/issues.xml', :params => {:f => ['start_date'], :op => {:start_date => '='}}
 
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
     assert_equal 'application/xml', @response.media_type
     assert_select 'errors error', :text => "Start date cannot be blank"
   end
@@ -231,7 +204,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     json = ActiveSupport::JSON.decode(response.body)
     status_ids_used = json['issues'].collect {|j| j['status']['id']}
     assert_equal 3, status_ids_used.length
-    assert status_ids_used.all? {|id| id == 5}
+    assert status_ids_used.all?(5)
   end
 
   test "GET /issues/:id.xml with journals" do
@@ -241,6 +214,8 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
 
     assert_select 'issue journals[type=array]' do
       assert_select 'journal[id="1"]' do
+        assert_select 'updated_on', :text => Issue.find(1).journals.order(:id)[0].updated_on.iso8601
+        assert_select 'updated_by[id="1"][name="Redmine Admin"]'
         assert_select 'private_notes', :text => 'false'
         assert_select 'details[type=array]' do
           assert_select 'detail[name=status_id]' do
@@ -437,7 +412,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     issue = Issue.find(1)
     assert_equal 1, issue.tracker_id  # Bug
     issue.update(:status_id => 2)     # Assigned
-    member = Member.find_or_new(issue.project, User.find_by_login('dlopper'))
+    member = Member.find_by(:project => issue.project, :user => User.find_by(:login => 'dlopper'))
     assert_equal [2], member.role_ids # Developer
 
     get '/issues/1.xml?include=allowed_statuses', :headers => credentials('dlopper', 'foo')
@@ -722,7 +697,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
       '/issues.json',
       :params => {:issue => {:project_id => 999, :subject => "API"}},
       :headers => credentials('jsmith'))
-    assert_response 422
+    assert_response :unprocessable_content
   end
 
   test "POST /issues.json with invalid project_id and any assigned_to_id should respond with 422" do
@@ -736,7 +711,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
         }
       },
       :headers => credentials('jsmith'))
-    assert_response 422
+    assert_response :unprocessable_content
   end
 
   test "POST /issues.json with invalid project_id and any fixed_version_id should respond with 422" do
@@ -750,7 +725,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
         }
       },
       :headers => credentials('jsmith'))
-    assert_response 422
+    assert_response :unprocessable_content
   end
 
   test "PUT /issues/:id.xml" do
@@ -882,7 +857,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
       '/issues/6.xml',
       :params => {:issue => {:subject => ''}},
       :headers => credentials('jsmith'))
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
     assert_select 'errors error', :text => "Subject cannot be blank"
   end
 
@@ -892,7 +867,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
       '/issues/6.xml',
       :params => {:issue => {:assigned_to_id => user.id}},
       :headers => credentials('jsmith'))
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
     assert_select 'errors error', :text => "Assignee is invalid"
   end
 
@@ -917,7 +892,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
       '/issues/6.json',
       :params => {:issue => {:subject => ''}},
       :headers => credentials('jsmith'))
-    assert_response :unprocessable_entity
+    assert_response :unprocessable_content
     json = ActiveSupport::JSON.decode(response.body)
     assert json['errors'].include?("Subject cannot be blank")
   end
@@ -969,7 +944,8 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
   end
 
   def test_create_issue_with_uploaded_file
-    token = xml_upload('test_create_with_upload', credentials('jsmith'))
+    file_content = 'test_create_with_upload'
+    token = xml_upload(file_content, credentials('jsmith'))
     attachment = Attachment.find_by_token(token)
 
     # create the issue with the upload's token
@@ -991,7 +967,7 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     attachment.reload
     assert_equal 'test.txt', attachment.filename
     assert_equal 'text/plain', attachment.content_type
-    assert_equal 'test_create_with_upload'.size, attachment.filesize
+    assert_equal file_content.size, attachment.filesize
     assert_equal 2, attachment.author_id
 
     # get the issue with its attachments

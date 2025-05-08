@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -103,7 +103,9 @@ class AccountController < ApplicationController
         user = User.find_by_mail(email)
         # user not found
         unless user
-          flash.now[:error] = l(:notice_account_unknown_email)
+          # Don't show an error indicating a non-existent email address
+          # to prevent email harvesting
+          flash[:notice] = l(:notice_account_lost_email_sent)
           return
         end
         unless user.active?
@@ -378,7 +380,7 @@ class AccountController < ApplicationController
       flash[:notice] = l(:notice_account_register_done, :email => ERB::Util.h(user.mail))
       redirect_to signin_path
     else
-      yield if block_given?
+      yield if block
     end
   end
 
@@ -394,7 +396,7 @@ class AccountController < ApplicationController
       flash[:notice] = l(:notice_account_activated)
       redirect_to my_account_path
     else
-      yield if block_given?
+      yield if block
     end
   end
 
@@ -407,7 +409,7 @@ class AccountController < ApplicationController
       Mailer.deliver_account_activation_request(user)
       account_pending(user)
     else
-      yield if block_given?
+      yield if block
     end
   end
 

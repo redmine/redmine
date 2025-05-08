@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Wiki formátování</title>
+<%= stylesheet_link_tag "wiki_syntax.css" %>
+</head>
+<body>
+
+<h1>Syntaxe Wiki - rychlý náhled</h1>
+
+<table style="width:100%">
+<tr><th colspan="3">Styly písma <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "5") %>" target="_blank">více</a>)</span></th></tr>
+<tr><th><%= image_tag("jstoolbar/bold.svg", { alt: "tučný" }) %></th><td style="width:50%;">*tučný*</td><td style="width:50%;"><strong>tučný</strong></td></tr>
+<tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "kurzíva" }) %></th><td>_kurzíva_</td><td><em>kurzíva</em></td></tr>
+<tr><th><%= image_tag("jstoolbar/underline.svg", { alt: "podtržený" }) %></th><td>+podtržený+</td><td><ins>podtržený</ins></td></tr>
+<tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "přeškrtnutý" }) %></th><td>-přeškrtnutý-</td><td><del>přeškrtnutý</del></td></tr>
+<tr><th></th><td>??Citace??</td><td><cite>Citace</cite></td></tr>
+<tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "vnořený kód" }) %></th><td>@vnořený kód@</td><td><code>vnořený kód</code></td></tr>
+<tr><th><span class="syntax-pre"/></th><td>&lt;pre&gt;<br />&nbsp;řádky<br />&nbsp;kódu<br />&lt;/pre&gt;</td><td>
+<pre>
+ řádky
+ kódu
+</pre>
+</td></tr>
+
+<tr><th colspan="3">Zvýrazněný kód  <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "13") %>" target="_blank">více</a> | <a href="<%= help_code_highlighting_path %>" target="_blank">podporované jazyky</a>)</span></th></tr>
+<tr><th><%= image_tag("jstoolbar/code.svg", { alt: "Zvýrazněný kód" }) %></th><td>&lt;pre&gt;&lt;code class="ruby"&gt;<br />3.times do<br />&nbsp;&nbsp;puts 'Ahoj'<br />end<br />&lt;/code&gt;&lt;/pre&gt;</td><td>
+<pre><code class="ruby syntaxhl"><span class="mi">3</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span>
+  <span class="nb">puts</span> <span class="s1">'Ahoj'</span>
+<span class="k">end</span>
+</code></pre>
+</td></tr>
+
+<tr><th colspan="3">Seznamy</th></tr>
+<tr><th><%= image_tag("jstoolbar/list.svg", { alt: "Nesetříděný seznam" }) %></th><td>* Položka 1<br />** Pod<br />* Položka 2</td><td><ul><li>Položka 1<ul><li>Pod</li></ul></li><li>Položka 2</li></ul></td></tr>
+<tr><th><%= image_tag("jstoolbar/list-numbers.svg", { alt: "Setříděný seznam" }) %></th><td># Položka 1<br />## Pod<br /># Položka 2</td><td><ol><li>Položka 1<ol><li>Pod</li></ol></li><li>Položka 2</li></ol></td></tr>
+
+<tr><th colspan="3">Nadpisy <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "8") %>" target="_blank">more</a>)</span></th></tr>
+<tr><th><%= image_tag("jstoolbar/h1.svg", { alt: "Nadpis 1" }) %></th><td>h1. Nadpis 1</td><td><h1>Nadpis 1</h1></td></tr>
+<tr><th><%= image_tag("jstoolbar/h2.svg", { alt: "Nadpis 2" }) %></th><td>h2. Nadpis 2</td><td><h2>Nadpis 2</h2></td></tr>
+<tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "Nadpis 3" }) %></th><td>h3. Nadpis 3</td><td><h3>Nadpis 3</h3></td></tr>
+
+<tr><th colspan="3">Odkazy <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">více</a>)</span></th></tr>
+<tr><th></th><td>http://foo.bar</td><td><a href="#">http://foo.bar</a></td></tr>
+<tr><th></th><td>"Odkaz":http://foo.bar</td><td><a href="#">Odkaz</a></td></tr>
+
+<tr><th colspan="3">Redmine odkazy <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">více</a>)</span></th></tr>
+<tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "Odkaz na Wiki stránku" }) %></th><td>[[Wiki stránka]]</td><td><a href="#">Wiki stránka</a></td></tr>
+<tr><th></th><td>Úkol #12</td><td>Úkol <a href="#">#12</a></td></tr>
+<tr><th></th><td>##12</td><td><a href="#">Úkol #12</a>: Předmět úkolu</td></tr>
+<tr><th></th><td>Revize r43</td><td>Revize <a href="#">r43</a></td></tr>
+<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+
+<tr><th colspan="3">Vnořené obrázky <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">více</a>)</span></th></tr>
+<tr><th><%= image_tag("jstoolbar/image.svg", { alt: "Obrázek" }) %></th><td>!<em>url_obrázku</em>!</td><td></td></tr>
+<tr><th></th><td>!<em>vnořený_obrázek</em>!</td><td></td></tr>
+
+<tr><th colspan="3">Tabulky</th></tr>
+<tr>
+  <th></th>
+  <td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. row span | B | C |<br />|\2. col span |</td>
+  <td>
+    <table class="sample">
+      <tbody>
+        <th>A</th><th>B</th><th>C</th>
+        <tr><td>A</td><td>B</td><td>C</td></tr>
+        <tr><td rowspan="2">row span</td><td>B</td><td>C</td></tr>
+        <tr><td colspan="2">col span</td></tr>
+      </tbody>
+    </table>
+  </td>
+</tr>
+
+</table>
+
+<p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">Více informací</a></p>
+
+</body>
+</html>

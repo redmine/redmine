@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -22,7 +22,7 @@
 class AuthSourceException < StandardError; end
 class AuthSourceTimeoutException < AuthSourceException; end
 
-class AuthSource < ActiveRecord::Base
+class AuthSource < ApplicationRecord
   include Redmine::SafeAttributes
   include Redmine::SubclassFactory
   include Redmine::Ciphering
@@ -70,6 +70,10 @@ class AuthSource < ActiveRecord::Base
 
   def searchable?
     false
+  end
+
+  def visible?(user=User.current)
+    user.admin?
   end
 
   def self.search(q)

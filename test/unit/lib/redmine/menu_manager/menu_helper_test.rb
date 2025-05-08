@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,14 +17,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../../../test_helper', __FILE__)
+require_relative '../../../../test_helper'
 
 class Redmine::MenuManager::MenuHelperTest < Redmine::HelperTest
   include Redmine::MenuManager::MenuHelper
   include ERB::Util
-  include Rails.application.routes.url_helpers
-
-  fixtures :users, :members, :projects, :enabled_modules, :roles, :member_roles
 
   def setup
     setup_with_controller
@@ -41,6 +38,17 @@ class Redmine::MenuManager::MenuHelperTest < Redmine::HelperTest
     @output_buffer = render_single_menu_node(node, 'This is a test', node.url, false)
 
     assert_select("a.testing", "This is a test")
+  end
+
+  def test_render_single_menu_node_with_plugin_icon
+    node = Redmine::MenuManager::MenuItem.new(:testing, '/test', { :icon => 'plugin_icon_name', :plugin => 'test_plugin_name' })
+    @output_buffer = render_single_menu_node(node, 'This is a test', node.url, false)
+
+    assert_select("a.testing", "This is a test") do
+      assert_select("svg.icon-svg") do
+        assert_select("use[href=?]", "/assets/plugin_assets/test_plugin_name/icons.svg#icon--plugin_icon_name")
+      end
+    end
   end
 
   def test_render_menu_node

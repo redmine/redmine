@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -48,11 +48,11 @@ module Redmine
     def self.block_options(blocks_in_use=[])
       options = []
       blocks.each do |block, block_options|
-        indexes = blocks_in_use.map do |n|
+        indexes = blocks_in_use.filter_map do |n|
           if n =~ /\A#{block}(__(\d+))?\z/
             $2.to_i
           end
-        end.compact
+        end
 
         occurs = indexes.size
         block_id = indexes.any? ? "#{block}__#{indexes.max + 1}" : block
@@ -81,7 +81,7 @@ module Redmine
         Dir.glob(
           "#{Redmine::Plugin.directory}/*/app/views/my/blocks/_*.{rhtml,erb}"
         ).inject({}) do |h, file|
-          name = File.basename(file).split('.').first.gsub(/^_/, '')
+          name = File.basename(file).split('.').first.delete_prefix('_')
           h[name] = {:label => name.to_sym, :partial => "my/blocks/#{name}"}
           h
         end

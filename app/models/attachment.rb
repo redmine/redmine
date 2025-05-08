@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -21,7 +21,7 @@ require "digest"
 require "fileutils"
 require "zip"
 
-class Attachment < ActiveRecord::Base
+class Attachment < ApplicationRecord
   include Redmine::SafeAttributes
   belongs_to :container, :polymorphic => true
   belongs_to :author, :class_name => "User"
@@ -48,6 +48,7 @@ class Attachment < ActiveRecord::Base
     :scope =>
       proc do
         select("#{Attachment.table_name}.*").
+          where(container_type: ['Version', 'Project']).
           joins(
             "LEFT JOIN #{Version.table_name} " \
               "ON #{Attachment.table_name}.container_type='Version' " \
@@ -83,9 +84,9 @@ class Attachment < ActiveRecord::Base
   @@thumbnails_storage_path = File.join(Rails.root, "tmp", "thumbnails")
 
   before_create :files_to_final_location
-  after_rollback :delete_from_disk, :on => :create
   after_commit :delete_from_disk, :on => :destroy
   after_commit :reuse_existing_file_if_possible, :on => :create
+  after_rollback :delete_from_disk, :on => :create
 
   safe_attributes 'filename', 'content_type', 'description'
 
@@ -134,7 +135,7 @@ class Attachment < ActiveRecord::Base
   end
 
   # Copies the temporary file to its final location
-  # and computes its MD5 hash
+  # and computes its hash
   def files_to_final_location
     if @temp_file
       self.disk_directory = target_directory
@@ -219,7 +220,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def image?
-    !!(self.filename =~ /\.(bmp|gif|jpg|jpe|jpeg|png)$/i)
+    !!(self.filename =~ /\.(bmp|gif|jpg|jpe|jpeg|png|webp)$/i)
   end
 
   def thumbnailable?
@@ -344,14 +345,14 @@ class Attachment < ActiveRecord::Base
   #   })
   #
   def self.update_attachments(attachments, params)
-    params = params.transform_keys {|key| key.to_i}
-
+    converted = {}
+    params.each {|key, val| converted[key.to_i] = val}
     saved = true
     transaction do
       attachments.each do |attachment|
-        if p = params[attachment.id]
-          attachment.filename = p[:filename] if p.key?(:filename)
-          attachment.description = p[:description] if p.key?(:description)
+        if file = converted[attachment.id]
+          attachment.filename = file[:filename] if file.key?(:filename)
+          attachment.description = file[:description] if file.key?(:description)
           saved &&= attachment.save
         end
       end
@@ -411,12 +412,12 @@ class Attachment < ActiveRecord::Base
 
     return if src == dest
 
-    if !FileUtils.mkdir_p(File.dirname(dest))
+    unless FileUtils.mkdir_p(File.dirname(dest))
       logger.error "Could not create directory #{File.dirname(dest)}" if logger
       return
     end
 
-    if !FileUtils.mv(src, dest)
+    unless FileUtils.mv(src, dest)
       logger.error "Could not move attachment from #{src} to #{dest}" if logger
       return
     end
@@ -524,9 +525,7 @@ class Attachment < ActiveRecord::Base
 
   # Physically deletes the file from the file system
   def delete_from_disk!
-    if disk_filename.present? && File.exist?(diskfile)
-      File.delete(diskfile)
-    end
+    FileUtils.rm_f(diskfile) if disk_filename.present?
     Dir[thumbnail_path("*")].each do |thumb|
       File.delete(thumb)
     end
@@ -554,13 +553,13 @@ class Attachment < ActiveRecord::Base
   # Singleton class method is public
   class << self
     # Claims a unique ASCII or hashed filename, yields the open file handle
-    def create_diskfile(filename, directory=nil, &block)
+    def create_diskfile(filename, directory=nil, &)
       timestamp = DateTime.now.strftime("%y%m%d%H%M%S")
       ascii = ''
       if %r{^[a-zA-Z0-9_\.\-]*$}.match?(filename) && filename.length <= 50
         ascii = filename
       else
-        ascii = Digest::MD5.hexdigest(filename)
+        ascii = ActiveSupport::Digest.hexdigest(filename)
         # keep the extension if any
         ascii << $1 if filename =~ %r{(\.[a-zA-Z0-9]+)$}
       end
@@ -573,7 +572,7 @@ class Attachment < ActiveRecord::Base
           File.join(path, name),
           flags: File::CREAT | File::EXCL | File::WRONLY,
           binmode: true,
-          &block
+          &
         )
       rescue Errno::EEXIST
         timestamp.succ!

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,21 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class ChangesetTest < ActiveSupport::TestCase
-  fixtures :projects, :repositories,
-           :issues, :issue_statuses, :issue_categories,
-           :journals, :journal_details,
-           :workflows,
-           :changesets, :changes,
-           :enumerations,
-           :custom_fields, :custom_values,
-           :users, :members, :member_roles,
-           :email_addresses,
-           :trackers, :projects_trackers,
-           :enabled_modules, :roles
-
   def setup
     User.current = nil
   end
@@ -491,7 +479,7 @@ class ChangesetTest < ActiveSupport::TestCase
   end
 
   def test_next_nil
-    changeset = Changeset.find_by_revision('10')
+    changeset = Changeset.find_by_revision('11')
     assert_nil changeset.next
   end
 
@@ -510,7 +498,7 @@ class ChangesetTest < ActiveSupport::TestCase
                       :revision     => '123',
                       :scmid        => '12345',
                       :comments     => str)
-    assert( c.save )
+    assert(c.save)
     assert_equal 'Texte encodé en ISO-8859-1.', c.comments
   end
 
@@ -530,7 +518,7 @@ class ChangesetTest < ActiveSupport::TestCase
                       :scmid        => '12345',
                       :comments     => "Texte encod\xE9 en ISO-8859-1.",
                       :committer    => str2)
-    assert( c.save )
+    assert(c.save)
     assert_equal "Texte encod? en ISO-8859-1.", c.comments
     assert_equal "?a?b?c?d?e test", c.committer
   end
@@ -550,7 +538,7 @@ class ChangesetTest < ActiveSupport::TestCase
                       :revision     => '123',
                       :scmid        => '12345',
                       :comments     => str)
-    assert( c.save )
+    assert(c.save)
     assert_equal "test??test??", c.comments
   end
 
@@ -577,7 +565,7 @@ class ChangesetTest < ActiveSupport::TestCase
                       :revision     => '123',
                       :scmid        => '12345',
                       :comments     => s1)
-    assert( c.save )
+    assert(c.save)
     assert_equal s4, c.comments
   end
 
@@ -628,7 +616,7 @@ class ChangesetTest < ActiveSupport::TestCase
                       :scmid        => '12345',
                       :comments     => nil,
                       :committer    => nil)
-    assert( c.save )
+    assert(c.save)
     assert_equal "", c.comments
     assert_nil c.committer
     assert_equal "UTF-8", c.comments.encoding.to_s
@@ -649,7 +637,7 @@ class ChangesetTest < ActiveSupport::TestCase
                       :scmid        => '12345',
                       :comments     => "",
                       :committer    => "")
-    assert( c.save )
+    assert(c.save)
     assert_equal "", c.comments
     assert_equal "", c.committer
     assert_equal "UTF-8", c.comments.encoding.to_s
@@ -661,10 +649,10 @@ class ChangesetTest < ActiveSupport::TestCase
                       :committed_on => Time.now,
                       :revision     => '123',
                       :scmid        => '12345',
-                      :comments     => "a" * 500.kilobyte)
+                      :comments     => "a" * 500.kilobytes)
     assert c.save
     c.reload
-    assert_equal 500.kilobyte, c.comments.size
+    assert_equal 500.kilobytes, c.comments.size
   end
 
   def test_identifier

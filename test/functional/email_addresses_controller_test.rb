@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,11 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class EmailAddressesControllerTest < Redmine::ControllerTest
-  fixtures :users, :email_addresses
-
   def setup
     User.current = nil
   end
@@ -59,7 +57,7 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
   def test_index_by_another_user_should_be_denied
     @request.session[:user_id] = 3
     get(:index, :params => {:user_id => 2})
-    assert_response 403
+    assert_response :forbidden
   end
 
   def test_create
@@ -74,7 +72,7 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
           }
         }
       )
-      assert_response 302
+      assert_response :found
       assert_redirected_to '/users/2/email_addresses'
     end
     email = EmailAddress.order('id DESC').first
@@ -95,7 +93,7 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
         },
         :xhr => true
       )
-      assert_response 200
+      assert_response :ok
     end
   end
 
@@ -131,7 +129,7 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
           }
         )
         assert_response :success
-        assert_select_error 'Email is invalid'
+        assert_select_error 'Email contains a domain not allowed (black.example)'
       end
     end
 
@@ -147,7 +145,7 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
           }
         )
         assert_response :success
-        assert_select_error 'Email is invalid'
+        assert_select_error 'Email contains a domain not allowed (example.fr)'
       end
     end
   end
@@ -188,7 +186,7 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
         :notify => '0'
       }
     )
-    assert_response 302
+    assert_response :found
 
     assert_equal false, email.reload.notify
   end
@@ -206,7 +204,7 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
       },
       :xhr => true
     )
-    assert_response 200
+    assert_response :ok
 
     assert_equal false, email.reload.notify
   end
@@ -245,7 +243,7 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
           :id => email.id
         }
       )
-      assert_response 302
+      assert_response :found
       assert_redirected_to '/users/2/email_addresses'
     end
   end
@@ -263,7 +261,7 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
         },
         :xhr => true
       )
-      assert_response 200
+      assert_response :ok
     end
   end
 
@@ -278,7 +276,7 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
           :id => User.find(2).email_address.id
         }
       )
-      assert_response 404
+      assert_response :not_found
     end
   end
 

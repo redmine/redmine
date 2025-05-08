@@ -1,5 +1,22 @@
 # frozen_string_literal: true
 
+# Redmine - project management software
+# Copyright (C) 2006-  Jean-Philippe Lang
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
 require 'active_support/core_ext/object/to_query'
 require 'rack/utils'
 
@@ -30,7 +47,7 @@ module Redmine
       #
       # taken from https://github.com/brianhempel/hash_to_hidden_fields
       def hash_to_hidden_fields(hash)
-        cleaned_hash = hash.to_unsafe_h.reject {|k, v| v.nil?}
+        cleaned_hash = hash.to_unsafe_h.compact
         pairs = cleaned_hash.to_query.split(Rack::Utils::DEFAULT_SEP)
         tags = pairs.map do |pair|
           key, value = pair.split('=', 2).map {|str| Rack::Utils.unescape(str)}
@@ -104,7 +121,7 @@ module Redmine
       # display the sudo password form
       def render_sudo_form(param_names)
         @sudo_form ||= SudoMode::Form.new
-        @sudo_form.original_fields = params.slice( *param_names )
+        @sudo_form.original_fields = params.slice(*param_names)
         # a simple 'render "sudo_mode/new"' works when used directly inside an
         # action, but not when called from a before_action:
         respond_to do |format|
@@ -136,11 +153,11 @@ module Redmine
       # Before Filter which is used by the require_sudo_mode class method.
       class SudoRequestFilter < Struct.new(:parameters, :request_methods)
         def before(controller)
-          method_matches = request_methods.blank? || request_methods.include?(controller.request.method_symbol)
+          method_matches = request_methods.blank? || request_methods.include?(controller.request.request_method_symbol)
           if controller.api_request?
             true
           elsif SudoMode.possible? && method_matches
-            controller.require_sudo_mode( *parameters )
+            controller.require_sudo_mode(*parameters)
           else
             true
           end
@@ -170,9 +187,13 @@ module Redmine
       end
     end
 
+    class CurrentSudoMode < ActiveSupport::CurrentAttributes
+      attribute :was_used, :active, :disabled
+    end
+
     # true if the sudo mode state was queried during this request
     def self.was_used?
-      !!RequestStore.store[:sudo_mode_was_used]
+      !!CurrentSudoMode.was_used
     end
 
     # true if sudo mode is currently active.
@@ -184,13 +205,13 @@ module Redmine
     # If you do it wrong, timeout of the sudo mode will happen too late or not at
     # all.
     def self.active?
-      if !!RequestStore.store[:sudo_mode]
-        RequestStore.store[:sudo_mode_was_used] = true
+      if !!CurrentSudoMode.active
+        CurrentSudoMode.was_used = true
       end
     end
 
     def self.active!
-      RequestStore.store[:sudo_mode] = true
+      CurrentSudoMode.active = true
     end
 
     def self.possible?
@@ -199,16 +220,16 @@ module Redmine
 
     # Turn off sudo mode (never require password entry).
     def self.disable!
-      RequestStore.store[:sudo_mode_disabled] = true
+      CurrentSudoMode.disabled = true
     end
 
     # Turn sudo mode back on
     def self.enable!
-      RequestStore.store[:sudo_mode_disabled] = nil
+      CurrentSudoMode.disabled = nil
     end
 
     def self.enabled?
-      Redmine::Configuration['sudo_mode'] && !RequestStore.store[:sudo_mode_disabled]
+      Redmine::Configuration['sudo_mode'] && !CurrentSudoMode.disabled
     end
 
     # Timespan after which sudo mode expires when unused.

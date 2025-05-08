@@ -5,7 +5,7 @@
 
 <% enumerations = klass.shared %>
 
-<p><%= link_to l(:label_enumeration_new), new_enumeration_path(:type => klass.name), :class => 'icon icon-add' %></p>
+<p><%= link_to sprite_icon('add', l(:label_enumeration_new)), new_enumeration_path(:type => klass.name), :class => 'icon icon-add' %></p>
 
 <% if enumerations.any? %>
 <table class="list enumerations"><thead>

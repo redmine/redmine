@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,17 +17,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
   tests RepositoriesController
 
-  fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
-           :repositories, :enabled_modules
-
   REPOSITORY_PATH = Rails.root.join('tmp/test/mercurial_repository').to_s
   PRJ_ID     = 3
-  NUM_REV    = 40
+  NUM_REV    = 43
 
   def setup
     super
@@ -40,6 +37,8 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
         :path_encoding => 'ISO-8859-1'
       )
     assert @repository
+    skip "SCM command is unavailable" unless @repository.class.scm_available
+
     @diff_c_support = true
   end
 
@@ -396,7 +395,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
           assert_response :success
           if @diff_c_support
             # Line 22 removed
-            assert_select 'th.line-num:contains(22) ~ td.diff_out', :text => /def remove/
+            assert_select 'th.line-num[data-txt=22] ~ td.diff_out', :text => /def remove/
             assert_select 'h2', :text => /4:def6d2f1254a/
           end
         end
@@ -492,7 +491,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
 
       # Line 22, revision 4:def6d2f1254a
       assert_select 'tr' do
-        assert_select 'th.line-num', :text => '22'
+        assert_select 'th.line-num a[data-txt=?]', '22'
         assert_select 'td.revision', :text => '4:def6d2f1254a'
         assert_select 'td.author', :text => 'jsmith'
         assert_select 'td', :text => /remove_watcher/
@@ -512,7 +511,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
           :path => repository_path_hash(['sources', 'welcome_controller.rb'])[:param]
         }
       )
-      assert_response 404
+      assert_response :not_found
       assert_select_error /was not found/
     end
 
@@ -548,7 +547,8 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
           }
         )
         assert_response :success
-        assert_select "th.line-num", :text => '1' do
+        assert_select "th.line-num" do
+          assert_select "a[data-txt=?]", '1'
           assert_select "+ td.revision" do
             assert_select "a", :text => '20:709858aafd1b'
             assert_select "+ td.author", :text => "jsmith" do
@@ -613,7 +613,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
             :rev => r
           }
         )
-        assert_response 404
+        assert_response :not_found
         assert_select_error /was not found/
       end
     end
@@ -632,7 +632,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
           }
         )
       end
-      assert_response 302
+      assert_response :found
       @project.reload
       assert_nil @project.repository
     end
@@ -657,7 +657,7 @@ class RepositoriesMercurialControllerTest < Redmine::RepositoryControllerTest
           }
         )
       end
-      assert_response 302
+      assert_response :found
       @project.reload
       assert_nil @project.repository
     end

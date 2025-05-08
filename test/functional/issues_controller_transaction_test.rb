@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,35 +17,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 require 'issues_controller'
 
 class IssuesControllerTransactionTest < Redmine::ControllerTest
   tests IssuesController
-  fixtures :projects,
-           :users,
-           :roles,
-           :members,
-           :member_roles,
-           :issues,
-           :issue_statuses,
-           :versions,
-           :trackers,
-           :projects_trackers,
-           :issue_categories,
-           :enabled_modules,
-           :enumerations,
-           :attachments,
-           :workflows,
-           :custom_fields,
-           :custom_values,
-           :custom_fields_projects,
-           :custom_fields_trackers,
-           :time_entries,
-           :journals,
-           :journal_details,
-           :queries
-
   self.use_transactional_tests = false
 
   def setup
@@ -246,7 +222,7 @@ class IssuesControllerTransactionTest < Redmine::ControllerTest
       )
     end
 
-    assert_response 302
+    assert_response :found
     issue = Issue.find(1)
     assert_equal 4, issue.fixed_version_id
     journal = Journal.order('id DESC').first
@@ -272,7 +248,7 @@ class IssuesControllerTransactionTest < Redmine::ControllerTest
       )
     end
 
-    assert_response 302
+    assert_response :found
     issue = Issue.find(1)
     assert_nil issue.fixed_version_id
     journal = Journal.order('id DESC').first
@@ -300,7 +276,7 @@ class IssuesControllerTransactionTest < Redmine::ControllerTest
       )
     end
 
-    assert_response 302
+    assert_response :found
     assert_equal 'add_privates_notes_conflict_resolution', journal.notes
     assert_equal true, journal.private_notes
     assert journal.details.empty?
@@ -361,7 +337,7 @@ class IssuesControllerTransactionTest < Redmine::ControllerTest
     IssueQuery.any_instance.stubs(:statement).returns("INVALID STATEMENT")
 
     get :index
-    assert_response 500
+    assert_response :internal_server_error
     assert_select 'p', :text => /An error occurred/
     assert_nil session[:query]
     assert_nil session[:issues_index_sort]

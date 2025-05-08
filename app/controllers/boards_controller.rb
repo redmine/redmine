@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -20,7 +20,7 @@
 class BoardsController < ApplicationController
   default_search_scope :messages
   before_action :find_project_by_project_id, :find_board_if_available, :authorize
-  accept_rss_auth :index, :show
+  accept_atom_auth :index, :show
 
   helper :sort
   include SortHelper
@@ -56,12 +56,12 @@ class BoardsController < ApplicationController
         render :action => 'show', :layout => !request.xhr?
       end
       format.atom do
-        @messages = @board.messages.
+        messages = @board.messages.
           reorder(:id => :desc).
           includes(:author, :board).
           limit(Setting.feeds_limit.to_i).
           to_a
-        render_feed(@messages, :title => "#{@project}: #{@board}")
+        render_feed(messages, :title => "#{@project}: #{@board}")
       end
     end
   end
@@ -93,12 +93,12 @@ class BoardsController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_to_settings_in_projects
         end
-        format.js {head 200}
+        format.js {head :ok}
       end
     else
       respond_to do |format|
         format.html {render :action => 'edit'}
-        format.js {head 422}
+        format.js {head :unprocessable_content}
       end
     end
   end

@@ -2,7 +2,7 @@
 
 #
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -18,8 +18,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../../../../test_helper', __FILE__)
-require 'digest/md5'
+require_relative '../../../../test_helper'
 
 class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
   def setup
@@ -491,13 +490,13 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
     assert_equal(
       [STR_WITHOUT_PRE[0], replacement, STR_WITHOUT_PRE[2..4]].flatten.join("\n\n"),
       @formatter.new(TEXT_WITHOUT_PRE).
-        update_section(2, replacement, Digest::MD5.hexdigest(STR_WITHOUT_PRE[1]))
+        update_section(2, replacement, ActiveSupport::Digest.hexdigest(STR_WITHOUT_PRE[1]))
     )
   end
 
   def test_update_section_with_wrong_hash_should_raise_an_error
     assert_raise Redmine::WikiFormatting::StaleSectionError do
-      @formatter.new(TEXT_WITHOUT_PRE).update_section(2, "New text", Digest::MD5.hexdigest("Old text"))
+      @formatter.new(TEXT_WITHOUT_PRE).update_section(2, "New text", ActiveSupport::Digest.hexdigest("Old text"))
     end
   end
 
@@ -512,12 +511,12 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
     <<~STR.chomp,
       h2. Heading 2
 
-      <pre><code class=\"ruby\">
+      <pre><code class="ruby">
         def foo
         end
       </code></pre>
 
-      <pre><code><pre><code class=\"ruby\">
+      <pre><code><pre><code class="ruby">
         Place your code here.
       </code></pre>
       </code></pre>
@@ -693,7 +692,7 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
       fn1. This is the foot note
     STR
     expected = <<~EXPECTED
-      <p>This is some text<sup><a href=\"#fn1\">1</a></sup>.</p>
+      <p>This is some text<sup><a href="#fn1">1</a></sup>.</p>
       <p id="fn1" class="footnote"><sup>1</sup> This is the foot note</p>
     EXPECTED
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), to_html(text).gsub(%r{[\r\n\t]}, '')
@@ -715,6 +714,74 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
       <p>&lt;pree&gt;<br />
         This is some text<br />
       &lt;/pree&gt;</p>
+    EXPECTED
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), to_html(text).gsub(%r{[\r\n\t]}, '')
+  end
+
+  def test_should_escape_tags_that_start_with_pre
+    text = <<~STR
+      <preä demo>Text
+    STR
+
+    expected = <<~EXPECTED
+      <p>&lt;preä demo&gt;Text</p>
+    EXPECTED
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), to_html(text).gsub(%r{[\r\n\t]}, '')
+  end
+
+  def test_should_remove_html_comments
+    text = <<~STR
+      <!-- begin -->
+      Hello <!-- comment between words -->world.
+
+      <!--
+        multi-line
+      comment -->Foo
+
+      <pre>
+      This is a code block.
+      <p>
+      <!-- comments in a code block should be preserved -->
+      </p>
+      </pre>
+    STR
+    expected = <<~EXPECTED
+      <p>Hello world.</p>
+
+      <p>Foo</p>
+
+      <pre>
+      This is a code block.
+      &lt;p&gt;
+      &lt;!-- comments in a code block should be preserved --&gt;
+      &lt;/p&gt;
+      </pre>
+
+    EXPECTED
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), to_html(text).gsub(%r{[\r\n\t]}, '')
+  end
+
+  def test_should_escape_bq_citations
+    assert_html_output(
+      {
+        %{bq.:http://x/"onmouseover="alert(document.domain) Hover me} =>
+          %{<blockquote cite="http://x/&quot;onmouseover=&quot;alert(document.domain)">\n\t\t<p>Hover me</p>\n\t</blockquote>}
+      }, false)
+  end
+
+  def test_should_allow_multiple_footnotes
+    text = <<~STR
+      Some demo[1][2] And a sentence.[1]
+
+      fn1. One
+
+      fn2. Two
+    STR
+
+    expected = <<~EXPECTED
+      <p>Some demo<sup><a href="#fn1">1</a></sup><sup><a href="#fn2">2</a></sup> And a sentence.[1]</p>
+      <p id="fn1" class="footnote"><sup>1</sup> One</p>
+      <p id="fn2" class="footnote"><sup>2</sup> Two</p>
     EXPECTED
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), to_html(text).gsub(%r{[\r\n\t]}, '')
   end
@@ -741,6 +808,6 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
     assert_kind_of Array, result
     assert_equal 2, result.size
     assert_equal expected, result.first, "section content did not match"
-    assert_equal Digest::MD5.hexdigest(expected), result.last, "section hash did not match"
+    assert_equal ActiveSupport::Digest.hexdigest(expected), result.last, "section hash did not match"
   end
 end

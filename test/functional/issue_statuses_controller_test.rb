@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,11 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class IssueStatusesControllerTest < Redmine::ControllerTest
-  fixtures :issue_statuses, :issues, :users, :trackers, :workflows
-
   def setup
     User.current = nil
     @request.session[:user_id] = 1 # admin
@@ -42,7 +40,7 @@ class IssueStatusesControllerTest < Redmine::ControllerTest
   def test_index_by_user_should_respond_with_406
     @request.session[:user_id] = 2
     get :index
-    assert_response 406
+    assert_response :not_acceptable
   end
 
   def test_index_should_show_warning_when_no_workflow_is_defined
@@ -64,6 +62,7 @@ class IssueStatusesControllerTest < Redmine::ControllerTest
     get :new
     assert_response :success
     assert_select 'input[name=?]', 'issue_status[name]'
+    assert_select 'textarea[name=?]', 'issue_status[description]'
   end
 
   def test_create
@@ -72,7 +71,8 @@ class IssueStatusesControllerTest < Redmine::ControllerTest
         :create,
         :params => {
           :issue_status => {
-            :name => 'New status'
+            :name => 'New status',
+            :description => 'New status description'
           }
         }
       )
@@ -80,6 +80,7 @@ class IssueStatusesControllerTest < Redmine::ControllerTest
     assert_redirected_to :action => 'index'
     status = IssueStatus.order('id DESC').first
     assert_equal 'New status', status.name
+    assert_equal 'New status description', status.description
   end
 
   def test_create_with_failure
@@ -99,6 +100,7 @@ class IssueStatusesControllerTest < Redmine::ControllerTest
     get(:edit, :params => {:id => '3'})
     assert_response :success
     assert_select 'input[name=?][value=?]', 'issue_status[name]', 'Resolved'
+    assert_select 'textarea[name=?]', 'issue_status[description]', 'Description for Resolved issue status'
   end
 
   def test_update
@@ -107,13 +109,15 @@ class IssueStatusesControllerTest < Redmine::ControllerTest
       :params => {
         :id => '3',
         :issue_status => {
-          :name => 'Renamed status'
+          :name => 'Renamed status',
+          :description => 'Renamed status description'
         }
       }
     )
     assert_redirected_to :action => 'index'
     status = IssueStatus.find(3)
     assert_equal 'Renamed status', status.name
+    assert_equal 'Renamed status description', status.description
   end
 
   def test_update_with_failure

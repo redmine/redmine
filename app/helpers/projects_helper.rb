@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -63,10 +63,10 @@ module ProjectsHelper
   def render_project_action_links
     links = (+"").html_safe
     if User.current.allowed_to?(:add_project, nil, :global => true)
-      links << link_to(l(:label_project_new), new_project_path, :class => 'icon icon-add')
+      links << link_to(sprite_icon('add', l(:label_project_new)), new_project_path, :class => 'icon icon-add')
     end
     if User.current.admin?
-      links << link_to(l(:label_administration), admin_projects_path, :class => 'icon icon-settings')
+      links << link_to(sprite_icon('settings', l(:label_administration)), admin_projects_path, :class => 'icon icon-settings')
     end
     links
   end
@@ -78,7 +78,10 @@ module ProjectsHelper
       classes = project.css_classes.split
       classes += %w(icon icon-user my-project) if User.current.member_of?(project)
       classes += %w(icon icon-bookmarked-project) if bookmarked_project_ids.include?(project.id)
+
       s = link_to_project(project, {}, :class => classes.uniq.join(' '))
+      s << sprite_icon('user', l(:label_my_projects), icon_only: true) if User.current.member_of?(project)
+      s << sprite_icon('bookmarked', l(:label_my_bookmarks), icon_only: true) if bookmarked_project_ids.include?(project.id)
       if project.description.present?
         s << content_tag('div', textilizable(project.short_description, :project => project), :class => 'wiki description')
       end
@@ -93,7 +96,7 @@ module ProjectsHelper
       grouped[version.project.name] << [version.name, version.id]
     end
 
-    selected = selected.is_a?(Version) ? selected.id : selected
+    selected = selected.id if selected.is_a?(Version)
     if grouped.keys.size > 1
       grouped_options_for_select(grouped, selected)
     else
@@ -167,7 +170,7 @@ module ProjectsHelper
     end if include_in_api_response?('enabled_modules')
 
     api.array :issue_custom_fields do
-      project.issue_custom_fields.each do |custom_field|
+      project.all_issue_custom_fields.each do |custom_field|
         api.custom_field(:id => custom_field.id, :name => custom_field.name)
       end
     end if include_in_api_response?('issue_custom_fields')
@@ -182,19 +185,21 @@ module ProjectsHelper
 
     if bookmarked
       css << "icon-bookmark"
+      icon = "bookmark-delete"
       method = "delete"
-      text = l(:button_project_bookmark_delete)
+      text = sprite_icon(icon, l(:button_project_bookmark_delete))
     else
       css << "icon-bookmark-off"
+      icon = "bookmark-add"
       method = "post"
-      text = l(:button_project_bookmark)
+      text = sprite_icon(icon, l(:button_project_bookmark))
     end
 
     url = bookmark_project_path(project)
     link_to text, url, remote: true, method: method, class: css
   end
 
-  def grouped_project_list(projects, query, &block)
+  def grouped_project_list(projects, query, &)
     ancestors = []
     grouped_query_results(projects, query) do |project, group_name, group_count, group_totals|
       ancestors.pop while ancestors.any? && !project.is_descendant_of?(ancestors.last)

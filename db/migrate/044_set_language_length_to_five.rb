@@ -4,6 +4,6 @@ class SetLanguageLengthToFive < ActiveRecord::Migration[4.2]
   end
 
   def self.down
-    raise IrreversibleMigration
+    raise ActiveRecord::IrreversibleMigration
   end
 end

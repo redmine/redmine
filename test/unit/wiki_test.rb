@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,11 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require File.expand_path('../../test_helper', __FILE__)
+require_relative '../test_helper'
 
 class WikiTest < ActiveSupport::TestCase
-  fixtures :projects, :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions
-
   def setup
     User.current = nil
   end
@@ -33,6 +31,12 @@ class WikiTest < ActiveSupport::TestCase
 
     wiki.start_page = "Start page"
     assert wiki.save
+  end
+
+  def test_create_default
+    wiki = Wiki.create_default(Project.find(1))
+    assert wiki.save
+    assert_equal "Wiki", wiki.start_page
   end
 
   def test_update

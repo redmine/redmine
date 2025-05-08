@@ -1,9 +1,9 @@
 <% members = @project.memberships.preload(:project).sorted.to_a %>
 
 <% if User.current.admin? %>
-  <div class="contextual"><%= link_to l(:label_administration), users_path, :class => "icon icon-settings" %></div>
+  <div class="contextual"><%= link_to sprite_icon('settings', l(:label_administration)), users_path, :class => "icon icon-settings" %></div>
 <% end %>
-<p><%= link_to l(:label_member_new), new_project_membership_path(@project), :remote => true, :class => "icon icon-add" %></p>
+<p><%= link_to sprite_icon('add', l(:label_member_new)), new_project_membership_path(@project), :remote => true, :class => "icon icon-add" %></p>
 
 <% if members.any? %>
 <table class="list members">
@@ -11,7 +11,7 @@
     <tr>
       <th><%= l(:label_user) %> / <%= l(:label_group) %></th>
       <th><%= l(:label_role_plural) %></th>
-      <th style="width:15%"></th>
+      <th></th>
       <%= call_hook(:view_projects_settings_members_table_header, :project => @project) %>
     </tr>
   </thead>
@@ -19,13 +19,20 @@
   <% members.each do |member| %>
   <% next if member.new_record? %>
   <tr id="member-<%= member.id %>" class="member">
-  <td class="name icon icon-<%= member.principal.class.name.downcase %>"><%= link_to_user member.principal %></td>
+  <td class="name">
+    <span class="icon">
+      <% if member.principal %>
+        <%= principal_icon(member.principal) %>
+        <%= link_to_user member.principal %>
+      <% end %>
+    </span>
+  </td>
   <td class="roles">
     <span id="member-<%= member.id %>-roles"><%= member.roles.sort.collect(&:to_s).join(', ') %></span>
     <div id="member-<%= member.id %>-form"></div>
   </td>
   <td class="buttons">
-      <%= link_to l(:button_edit),
+      <%= link_to sprite_icon('edit', l(:button_edit)),
                   edit_membership_path(member),
                   :remote => true,
                   :class => 'icon icon-edit' %>

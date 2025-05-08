@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,17 +23,16 @@ module Redmine
       module Helper
         def wikitoolbar_for(field_id, preview_url = preview_text_path)
           heads_for_wiki_formatter
-          # Is there a simple way to link to a public resource?
-          url = "#{Redmine::Utils.relative_url_root}/help/#{current_language.to_s.downcase}/wiki_syntax_textile.html"
+
           javascript_tag(
             "var wikiToolbar = new jsToolBar(document.getElementById('#{field_id}')); " \
-              "wikiToolbar.setHelpLink('#{escape_javascript url}'); " \
+              "wikiToolbar.setHelpLink('#{escape_javascript help_wiki_syntax_path}'); " \
               "wikiToolbar.setPreviewUrl('#{escape_javascript preview_url}'); wikiToolbar.draw();"
           )
         end
 
         def initial_page_content(page)
-          "h1. #{@page.pretty_title}"
+          "h1. #{page.pretty_title}"
         end
 
         def heads_for_wiki_formatter

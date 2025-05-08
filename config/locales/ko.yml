@@ -140,8 +140,6 @@ ko:
       words_connector: ", "
       two_words_connector: "과 "
       last_word_connector: ", "
-      sentence_connector: "그리고"
-      skip_last_comma: false
 
   activerecord:
     errors:
@@ -177,12 +175,12 @@ ko:
         circular_dependency: "이 관계는 순환 의존관계를 만들 수 있습니다"
         cant_link_an_issue_with_a_descendant: "일감은 하위 일감과 연결할 수 없습니다."
         earlier_than_minimum_start_date: "시작날짜 %{date}보다 앞선 시간으로 설정할 수 없습니다."
-        not_a_regexp: "is not a valid regular expression"
-        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
-        must_contain_uppercase: "must contain uppercase letters (A-Z)"
-        must_contain_lowercase: "must contain lowercase letters (a-z)"
-        must_contain_digits: "must contain digits (0-9)"
-        must_contain_special_chars: "must contain special characters (!, $, %, ...)"
+        not_a_regexp: "은 올바른 정규식이 아닙니다."
+        open_issue_with_closed_parent: "완료된 일감에 하위일감을 추가할 수 없습니다."
+        must_contain_uppercase: "은 대문자(A-Z)을 포함해야 합니다."
+        must_contain_lowercase: "은 소문자(a-z)을 포함해야 합니다."
+        must_contain_digits: "은 숫자(0-9)를 포함해야 합니다."
+        must_contain_special_chars: "은 특수문자(!, $, %, ...)를 포함해야 합니다."
 
   actionview_instancetag_blank_option: 선택하세요
 
@@ -203,7 +201,6 @@ ko:
   notice_account_password_updated: 비밀번호가 잘 변경되었습니다.
   notice_account_wrong_password: 잘못된 비밀번호
   notice_account_register_done: 계정이 잘 만들어졌습니다. 계정을 활성화하시려면 받은 메일의 링크를 클릭해주세요.
-  notice_account_unknown_email: 알려지지 않은 사용자.
   notice_can_t_change_password: 이 계정은 외부 인증을 이용합니다. 비밀번호를 변경할 수 없습니다.
   notice_account_lost_email_sent: 새로운 비밀번호를 위한 메일이 발송되었습니다.
   notice_account_activated: 계정이 활성화되었습니다. 이제 로그인 하실수 있습니다.
@@ -238,13 +235,12 @@ ko:
   mail_body_account_information: 계정 정보
   mail_subject_account_activation_request: "%{value} 계정 활성화 요청"
   mail_body_account_activation_request: "새 사용자(%{value})가 등록되었습니다. 관리자님의 승인을 기다리고 있습니다.:"
-  mail_body_reminder: "당신이 맡고 있는 일감 %{count}개의 완료기한이 %{days}일 후 입니다."
-  mail_subject_reminder: "내일이 만기인 일감 %{count}개 (%{days})"
+  mail_body_reminder: "당신이 맡고 있는 일감 %{count}개가 지연되었거나 %{days}일 이내에 완료되어야 합니다."
+  mail_subject_reminder: "내가 맡고 있는 만기인 일감 %{count}개 (%{days})"
   mail_subject_wiki_content_added: "위키페이지 '%{id}'이(가) 추가되었습니다."
   mail_subject_wiki_content_updated: "'위키페이지 %{id}'이(가) 수정되었습니다."
   mail_body_wiki_content_added: "%{author}이(가) 위키페이지 '%{id}'을(를) 추가하였습니다."
   mail_body_wiki_content_updated: "%{author}이(가) 위키페이지 '%{id}'을(를) 수정하였습니다."
-
 
   field_name: 이름
   field_description: 설명
@@ -271,12 +267,12 @@ ko:
   field_project: 프로젝트
   field_issue: 일감
   field_status: 상태
-  field_notes: 덧글
+  field_notes: 댓글
   field_is_closed: 완료 상태
   field_is_default: 기본값
   field_tracker: 유형
   field_subject: 제목
-  field_due_date: 완료기한
+  field_due_date: 완료일
   field_assigned_to: 담당자
   field_priority: 우선순위
   field_fixed_version: 목표버전
@@ -306,7 +302,7 @@ ko:
   field_attr_lastname: 성 속성
   field_attr_mail: 메일 속성
   field_onthefly: 동적 사용자 생성
-  field_start_date: 시작시간
+  field_start_date: 시작일
   field_done_ratio: 진척도
   field_auth_source: 인증 공급자
   field_hide_mail: 메일 주소 숨기기
@@ -383,25 +379,25 @@ ko:
   permission_add_issues: 일감 추가
   permission_edit_issues: 일감 편집
   permission_manage_issue_relations: 일감 관계 관리
-  permission_add_issue_notes: 덧글 추가
-  permission_edit_issue_notes: 덧글 편집
-  permission_edit_own_issue_notes: 내 덧글 편집
+  permission_add_issue_notes: 댓글 추가
+  permission_edit_issue_notes: 댓글 편집
+  permission_edit_own_issue_notes: 나의 댓글 편집
   permission_delete_issues: 일감 삭제
   permission_manage_public_queries: 공용 검색양식 관리
   permission_save_queries: 검색양식 저장
-  permission_view_gantt: Gantt차트 보기
+  permission_view_gantt: Gantt 차트 보기
   permission_view_calendar: 달력 보기
   permission_view_issue_watchers: 일감관람자 보기
   permission_add_issue_watchers: 일감관람자 추가
   permission_log_time: 작업시간 기록
   permission_view_time_entries: 시간입력 보기
   permission_edit_time_entries: 시간입력 편집
-  permission_edit_own_time_entries: 내 시간입력 편집
+  permission_edit_own_time_entries: 나의 시간입력 편집
   permission_manage_news: 뉴스 관리
   permission_comment_news: 뉴스에 댓글달기
   permission_view_documents: 문서 보기
-  permission_manage_files: 파일관리
-  permission_view_files: 파일보기
+  permission_manage_files: 파일 관리
+  permission_view_files: 파일 보기
   permission_manage_wiki: 위키 관리
   permission_rename_wiki_pages: 위키 페이지 이름변경
   permission_delete_wiki_pages: 위치 페이지 삭제
@@ -411,16 +407,16 @@ ko:
   permission_delete_wiki_pages_attachments: 첨부파일 삭제
   permission_protect_wiki_pages: 프로젝트 위키 페이지
   permission_manage_repository: 저장소 관리
-  permission_browse_repository: 저장소 둘러보기
+  permission_browse_repository: 저장소 보기
   permission_view_changesets: 변경묶음 보기
   permission_commit_access: 변경로그 보기
   permission_manage_boards: 게시판 관리
   permission_view_messages: 메시지 보기
   permission_add_messages: 메시지 추가
   permission_edit_messages: 메시지 편집
-  permission_edit_own_messages: 자기 메시지 편집
+  permission_edit_own_messages: 나의 메시지 편집
   permission_delete_messages: 메시지 삭제
-  permission_delete_own_messages: 자기 메시지 삭제
+  permission_delete_own_messages: 나의 메시지 삭제
 
   project_module_issue_tracking: 일감관리
   project_module_time_tracking: 시간추적
@@ -489,8 +485,7 @@ ko:
   label_logout: 로그아웃
   label_help: 도움말
   label_reported_issues: 보고한 일감
-  label_assigned_to_me_issues: 내가 맡은 일감 
-  label_last_login: 마지막 접속
+  label_assigned_to_me_issues: 내가 맡은 일감
   label_registered_on: 등록시각
   label_activity: 작업내역
   label_user_activity: "%{value}의 작업내역"
@@ -561,10 +556,10 @@ ko:
   label_previous: 뒤로
   label_used_by: 사용됨
   label_details: 자세히
-  label_add_note: 일감덧글 추가
+  label_add_note: 일감댓글 추가
   label_calendar: 달력
   label_months_from: 개월 동안 | 다음부터
-  label_gantt: Gantt 챠트
+  label_gantt: Gantt 차트
   label_internal: 내부
   label_last_changes: "최근 %{count}개의 변경사항"
   label_change_view_all: 모든 변경 내역 보기
@@ -606,7 +601,6 @@ ko:
   label_day_plural: 일
   label_repository: 저장소
   label_repository_plural: 저장소
-  label_browse: 저장소 둘러보기
   label_revision: 개정판
   label_revision_plural: 개정판
   label_associated_revisions: 관련된 개정판들
@@ -619,10 +613,6 @@ ko:
   label_latest_revision_plural: 최근 개정판
   label_view_revisions: 개정판 보기
   label_max_size: 최대 크기
-  label_sort_highest: 맨 위로
-  label_sort_higher: 위로
-  label_sort_lower: 아래로
-  label_sort_lowest: 맨 아래로
   label_roadmap: 로드맵
   label_roadmap_due_in: "기한  %{value}"
   label_roadmap_overdue: "%{value} 지연"
@@ -642,7 +632,7 @@ ko:
   label_feed_plural: 피드(Feeds)
   label_changes_details: 모든 상세 변경 내역
   label_issue_tracking: 일감 추적
-  label_spent_time: 소요 시간
+  label_spent_time: 소요시간
   label_f_hour: "%{value} 시간"
   label_f_hour_plural: "%{value} 시간"
   label_time_tracking: 시간추적
@@ -656,7 +646,7 @@ ko:
   label_options: 옵션
   label_copy_workflow_from: 업무흐름 복사하기
   label_permissions_report: 권한 보고서
-  label_watched_issues: 지켜보고 있는 일감 
+  label_watched_issues: 지켜보고 있는 일감
   label_related_issues: 연결된 일감
   label_applied_status: 적용된 상태
   label_loading: 읽는 중...
@@ -742,8 +732,8 @@ ko:
   button_check_all: 모두선택
   button_uncheck_all: 선택해제
   button_delete: 삭제
-  button_create: 만들기
-  button_create_and_continue: 만들고 계속하기
+  button_create: 저장
+  button_create_and_continue: 저장 후 계속하기
   button_test: 테스트
   button_edit: 편집
   button_add: 추가
@@ -816,8 +806,8 @@ ko:
   text_destroy_time_entries: 보고된 시간을 삭제하기
   text_assign_time_entries_to_project: 보고된 시간을 프로젝트에 할당하기
   text_reassign_time_entries: '이 알림에 보고된 시간을 재할당하기:'
-  text_user_wrote: "%{value}의 덧글:"
-  text_user_wrote_in: "%{value}의 덧글 (%{link}):"
+  text_user_wrote: "%{value}의 댓글:"
+  text_user_wrote_in: "%{value}의 댓글 (%{link}):"
   text_enumeration_category_reassign_to: '새로운 값을 설정:'
   text_enumeration_destroy_question: "%{count} 개의 일감이 이 값을 사용하고 있습니다."
   text_email_delivery_not_configured: "이메일 전달이 설정되지 않았습니다. 그래서 알림이 비활성화되었습니다.\n SMTP서버를 config/configuration.yml에서 설정하고 어플리케이션을 다시 시작하십시오. 그러면 동작합니다."
@@ -855,7 +845,7 @@ ko:
   enumeration_doc_categories: 문서 범주
   enumeration_activities: 작업분류(시간추적)
 
-  field_issue_to: 관련 일감 
+  field_issue_to: 관련 일감
   label_view_all_revisions: 모든 개정판 표시
   label_tag: 태그(Tag)
   label_branch: 브랜치(Branch)
@@ -913,7 +903,7 @@ ko:
   button_show: 보기
   text_line_separated: 여러 값이 허용됨(값 마다 한 줄씩)
   setting_mail_handler_body_delimiters: 메일 본문 구분자
-  permission_add_subprojects: 하위 프로젝트 만들기
+  permission_add_subprojects: 하위 프로젝트 생성
   label_subproject_new: 새 하위 프로젝트
   text_own_membership_delete_confirmation: |-
     권한들 일부 또는 전부를 막 삭제하려고 하고 있습니다. 그렇게 되면 이 프로젝트를 더이상 수정할 수 없게 됩니다.
@@ -933,19 +923,19 @@ ko:
   error_can_not_delete_custom_field: 사용자 정의 필드를 삭제할 수 없습니다.
   error_unable_to_connect: 연결할 수 없습니다((%{value})
   error_can_not_remove_role: 이 역할은 현재 사용 중이이서 삭제할 수 없습니다.
-  error_can_not_delete_tracker: 이 유형의 일감들이 있어서 삭제할 수 없습니다.
+  error_can_not_delete_tracker_html: 이 유형의 일감들이 있어서 삭제할 수 없습니다.<p>The following projects have issues with this tracker:<br>%{projects}</p>
   field_principal: 신원
   notice_failed_to_save_members: "%{errors}:구성원을 저장 중 실패하였습니다"
   text_zoom_out: 더 작게
   text_zoom_in: 더 크게
   notice_unable_delete_time_entry: 시간 기록 항목을 삭제할 수 없습니다.
   field_time_entries: 기록된 시간
-  project_module_gantt: Gantt 챠트
+  project_module_gantt: Gantt 차트
   project_module_calendar: 달력
   button_edit_associated_wikipage: "연관된 위키 페이지 %{page_title} 수정"
   field_text: 텍스트 영역
   setting_default_notification_option: 기본 알림 옵션
-  label_user_mail_option_only_my_events: 내가 지켜보거나 속해있는 사항만
+  label_user_mail_option_only_my_events: 내가 지켜보거나 관계있는 사항만
   label_user_mail_option_none: 알림 없음
   field_member_of_group: 할당된 사람의 그룹
   field_assigned_to_role: 할당된 사람의 역할
@@ -968,18 +958,18 @@ ko:
   button_collapse_all: "모두 축소"
   label_additional_workflow_transitions_for_assignee: "사용자가 작업자일 때 허용되는 추가 상태"
   label_additional_workflow_transitions_for_author: "사용자가 저자일 때 허용되는 추가 상태"
-  label_bulk_edit_selected_time_entries: "선택된 소요 시간 대량 편집"
-  text_time_entries_destroy_confirmation: "선택한 소요 시간 항목을 삭제하시겠습니까?"
+  label_bulk_edit_selected_time_entries: "선택된 소요시간 대량 편집"
+  text_time_entries_destroy_confirmation: "선택한 소요시간 항목을 삭제하시겠습니까?"
   label_role_anonymous: 익명
   label_role_non_member: 비회원
 
-  label_issue_note_added: "덧글이 추가되었습니다."
+  label_issue_note_added: "댓글이 추가되었습니다."
   label_issue_status_updated: "상태가 변경되었습니다."
   label_issue_priority_updated: "우선 순위가 변경되었습니다."
   label_issues_visibility_own: "일감을 생성하거나 맡은 사용자"
   field_issues_visibility: "일감 보임"
   label_issues_visibility_all: "모든 일감"
-  permission_set_own_issues_private: "자신의 일감을 공개나 비공개로 설정"
+  permission_set_own_issues_private: "나의 일감을 공개나 비공개로 설정"
   field_is_private: "비공개"
   permission_set_issues_private: "일감을 공개나 비공개로 설정"
   label_issues_visibility_public: "비공개 일감 제외"
@@ -1010,7 +1000,7 @@ ko:
   description_available_columns: "가능한 컬럼"
   description_issue_category_reassign: "일감 범주를 선택하십시오."
   description_search: "검색항목"
-  description_notes: "덧글"
+  description_notes: "댓글"
   description_choose_project: "프로젝트"
   description_query_sort_criteria_attribute: "정렬 속성"
   description_wiki_subpages_reassign: "새로운 상위 페이지를 선택하십시오."
@@ -1029,7 +1019,7 @@ ko:
   notice_failed_to_save_time_entries: "%{total} 개의 시간입력중 다음 %{count} 개의 저장에 실패했습니다:: %{ids}."
   label_x_issues:
     zero:  0 일감
-    one:   1 일감 
+    one:   1 일감
     other: "%{count} 일감"
   label_repository_new: 저장소 추가
   field_repository_is_default: 주 저장소
@@ -1039,8 +1029,8 @@ ko:
   text_project_identifier_info: "소문자(a-z),숫자,대쉬(-)와 밑줄(_)만 가능합니다.<br />식별자는 저장후에는 수정할 수 없습니다."
   field_multiple: 복수선택가능
   setting_commit_cross_project_ref: 다른 프로젝트의 일감 참조 및 수정 허용
-  text_issue_conflict_resolution_add_notes: 변경내용은 취소하고 덧글만 추가
-  text_issue_conflict_resolution_overwrite: 변경내용 강제적용 (이전 덧글을 제외하고 덮어 씁니다)
+  text_issue_conflict_resolution_add_notes: 변경내용은 취소하고 댓글만 추가
+  text_issue_conflict_resolution_overwrite: 변경내용 강제적용 (이전 댓글을 제외하고 덮어 씁니다)
   notice_issue_update_conflict: 일감이 수정되는 동안 다른 사용자에 의해서 변경되었습니다.
   text_issue_conflict_resolution_cancel: "변경내용을 되돌리고 다시 표시 %{link}"
   permission_manage_related_issues: 연결된 일감 관리
@@ -1084,9 +1074,9 @@ ko:
   label_copied_from: "다음 일감으로부터 복사됨:"
   label_any_issues_in_project: 다음 프로젝트에 속한 아무 일감
   label_any_issues_not_in_project: 다음 프로젝트에 속하지 않은 아무 일감
-  field_private_notes: 비공개 덧글
-  permission_view_private_notes: 비공개 덧글 보기
-  permission_set_notes_private: 덧글을 비공개로 설정
+  field_private_notes: 비공개 댓글
+  permission_view_private_notes: 비공개 댓글 보기
+  permission_set_notes_private: 댓글을 비공개로 설정
   label_no_issues_in_project: 다음 프로젝트의 일감 제외
   label_any: 모두
   label_last_n_weeks: 최근 %{count} 주
@@ -1118,7 +1108,7 @@ ko:
   label_visibility_private: 자신 만
   label_visibility_roles: 다음 역할 만
   label_visibility_public: 모든 사용자
-  field_must_change_passwd: 다음 로그온 시 암호 변경
+  field_must_change_passwd: 다음 로그인 시 암호 변경
   notice_new_password_must_be_different: 새 암호는 현재 암호와 달라야 합니다.
   setting_mail_handler_excluded_filenames: 제외할 첨부 파일명
   text_convert_available: ImageMagick 변환 사용 가능 (옵션)
@@ -1176,7 +1166,7 @@ ko:
   notice_import_finished: "총 %{count} 건을 가져왔습니다"
   notice_import_finished_with_errors: "총 %{total} 건 중 %{count} 건을 가져오지 못했습니다"
   error_invalid_file_encoding: 이 파일은 정상적인 %{encoding} 파일이 아닙니다.
-  error_invalid_csv_file_or_settings: 이 파일은 CSV 파일이 아니거나 아래 조건에 맞지 않습니다. (%{value})
+  error_invalid_csv_file_or_settings: 이 파일은 CSV 파일이 아니거나 아래 조건에 맞지 않습니다.
   error_can_not_read_import_file: 가져오기 파일을 읽을 수 없습니다.
   permission_import_issues: 일감 가져오기
   label_import_issues: 일감 가져오기
@@ -1197,13 +1187,13 @@ ko:
   label_total_plural: 합계
   label_assigned_issues: 할당된 일감
   label_field_format_enumeration: 키/값 목록
-  label_f_hour_short: '%{value} h'
+  label_f_hour_short: '%{value} 시간'
   field_default_version: 기본 버전
   error_attachment_extension_not_allowed: 첨부의 확장자 %{extension}은(는) 허용되지 않습니다.
   setting_attachment_extensions_allowed: 허용되는 확장자
   setting_attachment_extensions_denied: 허용되지 않는 확장자
-  label_any_open_issues: any open issues
-  label_no_open_issues: no open issues
+  label_any_open_issues: 진행중 일감
+  label_no_open_issues: 없음 또는 완료일감
   label_default_values_for_new_users: 새 사용자 기본값
   error_ldap_bind_credentials: 잘못된 LDAP 계정/암호
   setting_sys_api_key: API 키
@@ -1227,122 +1217,106 @@ ko:
   label_new_project_issue_tab_enabled: '"새 일감" 탭 표시'
   setting_new_item_menu_tab: 프로젝트 메뉴의 새로 만들기 탭
   label_new_object_tab_enabled: 메뉴에 "+" 탭 표시
-  error_no_projects_with_tracker_allowed_for_new_issue: There are no projects with trackers
-    for which you can create an issue
-  field_textarea_font: Font used for text areas
-  label_font_default: Default font
-  label_font_monospace: Monospaced font
-  label_font_proportional: Proportional font
-  setting_timespan_format: Time span format
-  label_table_of_contents: Table of contents
-  setting_commit_logs_formatting: Apply text formatting to commit messages
-  setting_mail_handler_enable_regex: Enable regular expressions
-  error_move_of_child_not_possible: 'Subtask %{child} could not be moved to the new
-    project: %{errors}'
-  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spent time cannot
-    be reassigned to an issue that is about to be deleted
-  setting_timelog_required_fields: Required fields for time logs
+  error_no_projects_with_tracker_allowed_for_new_issue: 일감을 등록할 수 있는 프로젝트가 아닙니다.
+  field_textarea_font: 텍스트박스 폰트
+  label_font_default: 기본 폰트
+  label_font_monospace: Monospaced 폰트
+  label_font_proportional: Proportional 폰트
+  setting_timespan_format: 소요시간 포멧
+  label_table_of_contents: 목차
+  setting_commit_logs_formatting: 커밋 메시지에 텍스트 형식 적용
+  setting_mail_handler_enable_regex: 정규식 활성화
+  error_move_of_child_not_possible: '하위 일감 %{child} 을(를) 지정한 프로젝트로 이동할 수 없습니다.: %{errors}'
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: 삭제대상의 일감의 소요시간을 재할당할 수 없습니다.
+  setting_timelog_required_fields: 소요시간 필수항목
   label_attribute_of_object: '%{object_name}''s %{name}'
-  label_user_mail_option_only_assigned: Only for things I watch or I am assigned to
-  label_user_mail_option_only_owner: Only for things I watch or I am the owner of
-  warning_fields_cleared_on_bulk_edit: Changes will result in the automatic deletion
-    of values from one or more fields on the selected objects
-  field_updated_by: Updated by
-  field_last_updated_by: Last updated by
-  field_full_width_layout: Full width layout
-  label_last_notes: Last notes
+  label_user_mail_option_only_assigned: 내가 지켜보거나 담당인 사항만
+  label_user_mail_option_only_owner: 내가 지켜보거나 작성한 사항만
+  warning_fields_cleared_on_bulk_edit: 이 편집에 의해 다음의 항목의 값이 일감에서 삭제됩니다.
+  field_updated_by: 수정자
+  field_last_updated_by: 최근 수정자
+  field_full_width_layout: 최대 표시
+  label_last_notes: 마지막 댓글
   field_digest: Checksum
-  field_default_assigned_to: Default assignee
-  setting_show_custom_fields_on_registration: Show custom fields on registration
-  permission_view_news: View news
-  label_no_preview_alternative_html: No preview available. %{link} the file instead.
-  label_no_preview_download: Download
-  setting_close_duplicate_issues: Close duplicate issues automatically
-  error_exceeds_maximum_hours_per_day: Cannot log more than %{max_hours} hours on the
-    same day (%{logged_hours} hours have already been logged)
-  setting_time_entry_list_defaults: Timelog list defaults
-  setting_timelog_accept_0_hours: Accept time logs with 0 hours
-  setting_timelog_max_hours_per_day: Maximum hours that can be logged per day and user
-  label_x_revisions: "%{count} revisions"
-  error_can_not_delete_auth_source: This authentication mode is in use and cannot be
-    deleted.
+  field_default_assigned_to: 기본 담당자
+  setting_show_custom_fields_on_registration: 등록 시 사용자 정의 항목 표시
+  permission_view_news: 뉴스 보기
+  label_no_preview_alternative_html: 해당 파일은 미리 보기가 안됩니다. %{link} 해 주세요.
+  label_no_preview_download: 다운로드
+  setting_close_duplicate_issues: 중복된 일감 자동 완료
+  error_exceeds_maximum_hours_per_day: 작업시간은 1일 1인당 %{max_hours} 시간을 초과할 수 없습니다. (이미 {logged_hours}시간 기록됨)
+  setting_time_entry_list_defaults: 소요시간 기본 목록
+  setting_timelog_accept_0_hours: 소요시간으로 0시간 입력 허용
+  setting_timelog_max_hours_per_day: 1일/1인의 작업시간 최대값
+  label_x_revisions: "%{count} 리비전"
+  error_can_not_delete_auth_source: 해당 인증방식은 사용중인 관계로 삭제할 수 없습니다.
   button_actions: Actions
-  mail_body_lost_password_validity: Please be aware that you may change the password
-    only once using this link.
-  text_login_required_html: When not requiring authentication, public projects and their
-    contents are openly available on the network. You can <a href="%{anonymous_role_path}">edit
-    the applicable permissions</a>.
-  label_login_required_yes: 'Yes'
-  label_login_required_no: No, allow anonymous access to public projects
-  text_project_is_public_non_member: Public projects and their contents are available
-    to all logged-in users.
-  text_project_is_public_anonymous: Public projects and their contents are openly available
-    on the network.
-  label_version_and_files: Versions (%{count}) and Files
+  mail_body_lost_password_validity: 해당 링크로 암호 설정은 1회만 됩니다. 주의해 주시기 바랍니다.
+  text_login_required_html: 인증이 필수가 아닌 경우, 공개 프로젝트의 경우는 모든 사용자가 접속할 수 있습니다. <a href="%{anonymous_role_path}">익명 권한 편집</a>에서 수정할 수 있습니다.
+  label_login_required_yes: '예'
+  label_login_required_no: 아니오(공개 프로젝트에 익명의 사용자가 접속 허용)
+  text_project_is_public_non_member: 공개 프로젝트는 모든 로그인한 사용자가 접속할 수 있습니다.
+  text_project_is_public_anonymous: 공개 프로젝트는 네트워크의 모든 사용자가 접속할 수 있습니다.
+  label_version_and_files: 버전 (%{count}) 과 파일
   label_ldap: LDAP
-  label_ldaps_verify_none: LDAPS (without certificate check)
+  label_ldaps_verify_none: LDAPS (증명서 체크없음)
   label_ldaps_verify_peer: LDAPS
-  label_ldaps_warning: It is recommended to use an encrypted LDAPS connection with certificate
-    check to prevent any manipulation during the authentication process.
-  label_nothing_to_preview: Nothing to preview
-  error_token_expired: This password recovery link has expired, please try again.
-  error_spent_on_future_date: Cannot log time on a future date
-  setting_timelog_accept_future_dates: Accept time logs on future dates
+  label_ldaps_warning: 인증처리 중 공격을 방지하기 위해 암호화된 LDAPS을 사용할 것을 추천합니다.
+  label_nothing_to_preview: 미리보기 내용이 없습니다.
+  error_token_expired: 암호 재발행용 링크는 무효합니다. 다시 시도해 주시기 바랍니다.
+  error_spent_on_future_date: 미래일자에 소요시간을 입력할 수 없습니다.
+  setting_timelog_accept_future_dates: 미래일자 소요시간 입력 허용
   label_delete_link_to_subtask: 관계 지우기
-  error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
-    for other users
-  permission_log_time_for_other_users: Log spent time for other users
-  label_tomorrow: tomorrow
-  label_next_week: next week
-  label_next_month: next month
-  text_role_no_workflow: No workflow defined for this role
-  text_status_no_workflow: No tracker uses this status in the workflows
-  setting_mail_handler_preferred_body_part: Preferred part of multipart (HTML) emails
-  setting_show_status_changes_in_mail_subject: Show status changes in issue mail notifications
-    subject
-  label_inherited_from_parent_project: Inherited from parent project
-  label_inherited_from_group: Inherited from group %{name}
-  label_trackers_description: Trackers description
-  label_open_trackers_description: View all trackers description
+  error_not_allowed_to_log_time_for_other_users: 다른 사용자의 소요시간을 입력할 수 없습니다.
+  permission_log_time_for_other_users: 다른 사용자 소요시간 입력
+  label_tomorrow: 내일
+  label_next_week: 다음 주
+  label_next_month: 다음 달
+  text_role_no_workflow: 해당 역할에는 업무흐름이 설정되지 않았습니다.
+  text_status_no_workflow: 해당 상태를 사용한 일감 유형의 업무흐름이 없습니다.
+  setting_mail_handler_preferred_body_part: multipart(HTML) 이메일의 기본 형식
+  setting_show_status_changes_in_mail_subject: 알림의 일감제목에 상태표시
+  label_inherited_from_parent_project: 상위 프로젝트로부터 상속
+  label_inherited_from_group: 그룹 %{name}로부터 상속
+  label_trackers_description: 일감유형 설명
+  label_open_trackers_description: 모든 일감유형의 설명 보기
   label_preferred_body_part_text: Text
-  label_preferred_body_part_html: HTML (experimental)
-  field_parent_issue_subject: Parent task subject
-  permission_edit_own_issues: Edit own issues
-  text_select_apply_tracker: Select tracker
-  label_updated_issues: Updated issues
-  text_avatar_server_config_html: The current avatar server is <a href="%{url}">%{url}</a>.
-    You can configure it in config/configuration.yml.
-  setting_gantt_months_limit: Maximum number of months displayed on the gantt chart
-  permission_import_time_entries: Import time entries
-  label_import_notifications: Send email notifications during the import
-  text_gs_available: ImageMagick PDF support available (optional)
-  field_recently_used_projects: Number of recently used projects in jump box
-  label_optgroup_bookmarks: Bookmarks
-  label_optgroup_others: Other projects
-  label_optgroup_recents: Recently used
-  button_project_bookmark: Add bookmark
-  button_project_bookmark_delete: Remove bookmark
-  field_history_default_tab: Issue's history default tab
-  label_issue_history_properties: Property changes
-  label_issue_history_notes: Notes
-  label_last_tab_visited: Last visited tab
-  field_unique_id: Unique ID
-  text_no_subject: no subject
-  setting_password_required_char_classes: Required character classes for passwords
-  label_password_char_class_uppercase: uppercase letters
-  label_password_char_class_lowercase: lowercase letters
-  label_password_char_class_digits: digits
-  label_password_char_class_special_chars: special characters
-  text_characters_must_contain: Must contain %{character_classes}.
-  label_starts_with: starts with
-  label_ends_with: ends with
-  label_issue_fixed_version_updated: Target version updated
-  setting_project_list_defaults: Projects list defaults
-  label_display_type: Display results as
-  label_display_type_list: List
-  label_display_type_board: Board
-  label_my_bookmarks: My bookmarks
-  label_import_time_entries: Import time entries
+  label_preferred_body_part_html: HTML
+  field_parent_issue_subject: 상위 일감 제목
+  permission_edit_own_issues: 나의 일감 편집
+  text_select_apply_tracker: 일감유형 선택
+  label_updated_issues: 수정한 일감
+  text_avatar_server_config_html: 현재 아바타 서버는 <a href="%{url}">%{url}</a> 입니다. 서버 설정은 config/configuration.yml 에서 변경할 수 있습니다.
+  setting_gantt_months_limit: Gantt 차트의 표시할 월의 최대값
+  permission_import_time_entries: 소요시간 가져오기
+  label_import_notifications: 가져오기 중 이메일 알림
+  text_gs_available: ImageMagick의 PDF 서포트 이용가능 (옵션)
+  field_recently_used_projects: 점프박스의 최근 사용한 프로젝트 수
+  label_optgroup_bookmarks: 북마크
+  label_optgroup_recents: 최근 사용
+  button_project_bookmark: 북마크 추가
+  button_project_bookmark_delete: 북마크 이동
+  field_history_default_tab: 일감이력 기본탭
+  label_issue_history_properties: 항목 변경이력
+  label_issue_history_notes: 댓글
+  label_last_tab_visited: 최근 조회한 탭
+  field_unique_id: 고유 ID
+  text_no_subject: 제목 없음
+  setting_password_required_char_classes: 암호설정시 포함되어야 종류
+  label_password_char_class_uppercase: 대문자
+  label_password_char_class_lowercase: 소문자
+  label_password_char_class_digits: 숫자
+  label_password_char_class_special_chars: 특수문자
+  text_characters_must_contain: "%{character_classes}가 포함되어야 합니다."
+  label_starts_with: 앞문자 일치
+  label_ends_with: 뒷문자 일치
+  label_issue_fixed_version_updated: 버전 변경
+  setting_project_list_defaults: 프로젝트 기본표시 목록
+  label_display_type: 결과 표시
+  label_display_type_list: 목록
+  label_display_type_board: 보드
+  label_my_bookmarks: 내 북마크
+  label_import_time_entries: 소요시간 가져오기
   field_toolbar_language_options: Code highlighting toolbar languages
   label_user_mail_notify_about_high_priority_issues_html: Also notify me about issues
     with a priority of <em>%{prio}</em> or higher
@@ -1436,7 +1410,7 @@ ko:
     (%{identifier}) below.
   button_add_subtask: Add subtask
   notice_invalid_watcher: 'Invalid watcher: User will not receive any notifications
-    because it does not have access to view this object.'
+    because they do not have access to view this object.'
   button_fetch_changesets: Fetch commits
   permission_view_message_watchers: View message watchers list
   permission_add_message_watchers: Add message watchers
@@ -1466,6 +1440,7 @@ ko:
     for_all_projects: For all projects
     for_current_project: For current project
     for_all_users: For all users
+    for_this_user: For this user
   text_allowed_queries_to_select: Public (to any users) queries only selectable
   text_all_migrations_have_been_run: All database migrations have been run
   button_save_object: Save %{object_name}
@@ -1478,3 +1453,74 @@ ko:
   label_subtask: Subtask
   label_default_query: Default query
   field_default_project_query: Default project query
+  label_required_administrators: required for administrators
+  twofa_hint_required_administrators_html: Setting <strong>%{label}</strong> behaves
+    like optional, but will require all users with administration rights to set up two-factor
+    authentication at their next login.
+  label_auto_watch_on: Auto watch
+  label_auto_watch_on_issue_contributed_to: Issues I contributed to
+  text_project_close_confirmation: Are you sure you want to close the '%{value}' project
+    to make it read-only?
+  text_project_reopen_confirmation: Are you sure you want to reopen the '%{value}' project?
+  text_project_archive_confirmation: Are you sure you want to archive the '%{value}'
+    project?
+  mail_destroy_project_failed: Project %{value} could not be deleted.
+  mail_destroy_project_successful: Project %{value} was deleted successfully.
+  mail_destroy_project_with_subprojects_successful: Project %{value} and its subprojects
+    were deleted successfully.
+  project_status_scheduled_for_deletion: scheduled for deletion
+  text_projects_bulk_destroy_confirmation: Are you sure you want to delete the selected
+    projects and related data?
+  text_projects_bulk_destroy_head: |
+    You are about to permanently delete the following projects, including possible subprojects and any related data.
+    Please review the information below and confirm that this is indeed what you want to do.
+    This action cannot be undone.
+  text_projects_bulk_destroy_confirm: To confirm, please enter "%{yes}" in the box below.
+  text_subprojects_bulk_destroy: 'including its subproject(s): %{value}'
+  field_current_password: Current password
+  sudo_mode_new_info_html: "<strong>What's happening?</strong> You need to reconfirm
+    your password before taking any administrative actions, this ensures your account
+    stays protected."
+  label_edited: Edited
+  label_time_by_author: "%{time} by %{author}"
+  field_default_time_entry_activity: Default spent time activity
+  field_is_member_of_group: Member of group
+  text_users_bulk_destroy_head: You are about to delete the following users and remove
+    all references to them. This cannot be undone. Often, locking users instead of deleting
+    them is the better solution.
+  text_users_bulk_destroy_confirm: To confirm, please enter "%{yes}" below.
+  permission_select_project_publicity: Set project public or private
+  label_auto_watch_on_issue_created: Issues I created
+  field_any_searchable: Any searchable text
+  label_contains_any_of: contains any of
+  button_apply_issues_filter: Apply issues filter
+  label_view_previous_annotation: View annotation prior to this change
+  label_has_been: has been
+  label_has_never_been: has never been
+  label_changed_from: changed from
+  label_issue_statuses_description: Issue statuses description
+  label_open_issue_statuses_description: View all issue statuses description
+  text_select_apply_issue_status: Select issue status
+  field_name_or_email_or_login: Name, email or login
+  text_default_active_job_queue_changed: Default queue adapter which is well suited
+    only for dev/test changed
+  label_option_auto_lang: auto
+  label_issue_attachment_added: Attachment added
+  field_estimated_remaining_hours: Estimated remaining time
+  field_last_activity_date: Last activity
+  setting_issue_done_ratio_interval: Done ratio options interval
+  setting_copy_attachments_on_issue_copy: Copy attachments on copy
+  field_thousands_delimiter: Thousands delimiter
+  label_involved_principals: Author / Previous assignee
+  label_attachment_summary:
+    zero: "%{filename}"
+    one: "%{filename} and 1 file"
+    other: "%{filename} and %{count} files"
+  setting_wiki_tablesort_enabled: Javascript based table sorting in wiki content
+  label_progressbar: Progress bar
+  error_spent_on_closed_issue: Cannot log time on a closed issue
+  setting_timelog_accept_closed_issues: Accept time logs on closed issues
+  setting_related_issues_default_columns: Related and sub issues list defaults
+  setting_display_related_issues_table_headers: Show table headers
+  error_can_not_remove_role_reason_members_html: "<p>The following projects have members
+    with this role:<br>%{projects}</p>"
