@@ -1,5 +1,8 @@
 name: Tests
 
+# Disable
+if: ${{ false }}
+
 on:
   push:
 

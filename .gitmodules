@@ -1,0 +1,7 @@
+[submodule "plugins/redmine_base_deface"]
+	path = plugins/redmine_base_deface
+	url = https://github.com/jbbarth/redmine_base_deface
+
+[submodule "plugins/redmine_datetime_custom_field"]
+	path = plugins/redmine_datetime_custom_field
+	url = https://github.com/ataraxis/redmine_datetime_custom_field

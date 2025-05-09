@@ -16,6 +16,7 @@ gem 'addressable'
 gem 'rubyzip', '~> 2.3.0'
 gem 'propshaft', '~> 1.1.0'
 gem 'rack', '>= 3.1.3'
+gem 'puma'
 
 #  Ruby Standard Gems
 gem 'csv', '~> 3.2.8'
@@ -86,6 +87,10 @@ if File.exist?(database_file)
   else
     warn("No adapter found in config/database.yml, please configure it first")
   end
+
+  # Force sqlserver even though it's not in database.yml
+  gem 'tiny_tds', '~> 3.2.0'
+  gem 'activerecord-sqlserver-adapter', '~> 7.2.5'
 else
   warn("Please configure your config/database.yml first")
 end
@@ -106,7 +111,6 @@ group :test do
   gem 'simplecov', '~> 0.22.0', :require => false
   gem "ffi", platforms: [:mingw, :x64_mingw, :mswin]
   # For running system tests
-  gem 'puma'
   gem "capybara", ">= 3.39"
   gem 'selenium-webdriver', '>= 4.11.0'
   # RuboCop

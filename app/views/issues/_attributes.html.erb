@@ -100,3 +100,1067 @@
 <% end %>
 
 <% include_calendar_headers_tags %>
+
+<script>
+
+var cascades = {
+  "Error Code":[{
+    "errorName":"Error Name",
+    "details":["Detail"],
+  }],
+  "InitSystem -899":[{
+    "errorName":"Pivot switch mis fire",
+    "details":["Pivot in flickers","Pivot out flickers","works fine"],
+  }],
+  "-1000":[{
+    "errorName":"Two calls made at the same time",
+    "details":["Caused by FSR","Watchdog made a call during another call"],
+  }],
+  "GetAndCutKey_Plus -2":[{
+    "errorName":"Key Alignment Low Force Timeout",
+    "details":["Connectivity Issues","Main Board not communicating with PC"],
+  },{
+    "errorName":"Key Alignment Retract Timeout",
+    "details":["Connectivity Issues","Main Board not communicating with PC"],
+  },{
+    "errorName":"Pivot In Timeout",
+    "details":["Connectivity Issues","Main Board not communicating with PC"],
+  },{
+    "errorName":"Pivot Level Timeout",
+    "details":["Connectivity Issues","Main Board not communicating with PC"],
+  },{
+    "errorName":"Pivot Out Timeout",
+    "details":["Connectivity Issues","Main Board not communicating with PC"],
+  },{
+    "errorName":"Push Finger Extend Timeout",
+    "details":["Connectivity Issues","Main Board not communicating with PC"],
+  },{
+    "errorName":"Push Finger Retract Timeout",
+    "details":["Connectivity Issues","Main Board not communicating with PC"],
+  },{
+    "errorName":"X Axis Not Homing",
+    "details":["Connectivity Issues","Main Board not communicating with PC"],
+  },{
+    "errorName":"Y Axis Not Homing",
+    "details":["Connectivity Issues","Main Board not communicating with PC"],
+  }],
+  "GetAndCutKey_Plus -186":[{
+    "errorName":"Master Key Not Detected",
+    "details":["Non-sunlight related","Sunlight issues"],
+  }],
+  "ReleaseMasterPlus -12":[{
+    "errorName":"Key ID Disengage Time Out",
+    "details":["ID arms did not disengage"],
+  },{
+    "errorName":"Retract Time Out",
+    "details":["Retract Never Fires","Sunlight issues","Works every time"],
+  },{
+    "errorName":"Unclamp Master Clamp Time Out",
+    "details":["Master Clamp did not unclamp"],
+  }],
+  "GetAndCutKey -787":[{
+    "errorName":"Y Latch, Never Crossed the Latch",
+    "details":["Key Jammed Up Against Magazine","Loss of Y Counts","Works fine"],
+  }],
+  "GetAndCutKey_Plus -812":[{
+    "errorName":"Y Home sensor tripped during a key cut",
+    "details":["Loss of Y Counts","Works fine"],
+  }],
+  "GetAndCutKey -607":[{
+    "errorName":"Blank key sensor error both limit switch's unblocked and no key blocking through beam",
+    "details":["Blank Clamp Clamped never fires","Blank Clamp Unclamped never fires","Neither Clamped or Unclamped fires","Works fine"],
+  }],
+  "ReceiveMasterPlus -12":[{
+    "errorName":"High Force Time Out",
+    "details":["High Force Never Fires","High Force is Always Fired","Sunlight issues","Works every time"],
+  },{
+    "errorName":"Low Force Time Out",
+    "details":["Low Force Never Fires","Low Force is Always Fired","Sunlight issues","Works every time"],
+  },{
+    "errorName":"Master Clamp Time Out",
+    "details":["Master Clamp did not clamp"],
+  }],
+  "IDFingersDisengage -12":[{
+    "errorName":"ID Fingers Disengage Timeout",
+    "details":["ID Disengage Never Fires","Intermittent ID DisEngage"],
+  }],
+  "ReleaseMaster -12":[{
+    "errorName":"Key ID Disengage Time Out",
+    "details":["ID arms did not disengage"],
+  },{
+    "errorName":"Retract Time Out",
+    "details":["Retract Never Fires","Sunlight issues","Works every time"],
+  },{
+    "errorName":"Unclamp Master Clamp Time Out",
+    "details":["Master Clamp did not unclamp"],
+  }],
+  "GetAndCutKey -603":[{
+    "errorName":"Blank key Clamped and no key blocking through beam",
+    "details":["Blank Clamp Clamped always fired","Works fine"],
+  }],
+  "Key Door Close":[{
+    "errorName":"Key Door Will Not Close",
+    "details":["Key Stuck","Vend Door Arm in Closed Position is not firing","Vend Door cam sensor not firing"],
+  }],
+  "GetAndCutKey_Plus -607":[{
+    "errorName":"Blank key sensor error both limit switch's unblocked and no key blocking through beam",
+    "details":["Blank Clamp Clamped never fires","Blank Clamp Unclamped never fires","Neither Clamped or Unclamped fires","Works fine"],
+  }],
+  "GetAndCutKey -77":[{
+    "errorName":"Push Finger Extended, No Key Detected",
+    "details":["Chute Empty","Key In Clamp, Sunlight Seems to be affecting sensor","Push Finger Went Under Stack of Keys"],
+  }],
+  "GetAndCutKey -78":[{
+    "errorName":"Push Finger Extended, No Key Detected",
+    "details":["Push Finger Went Under stack"],
+  }],
+  "OuterDoorClose -12":[{
+    "errorName":"Vend Door Failing To Close",
+    "details":["Vend Door Close Not Firing"],
+  }],
+  "GetAndCutKey -2":[{
+    "errorName":"Key Alignment Low Force Timeout",
+    "details":["Connectivity Issues","Main Board not communicating with PC"],
+  },{
+    "errorName":"Key Alignment Retract Timeout",
+    "details":["Connectivity Issues","Main Board not communicating with PC"],
+  },{
+    "errorName":"Pivot In Timeout",
+    "details":["Connectivity Issues","Main Board not communicating with PC"],
+  },{
+    "errorName":"Pivot Level Timeout",
+    "details":["Connectivity Issues","Main Board not communicating with PC"],
+  },{
+    "errorName":"Pivot Out Timeout",
+    "details":["Connectivity Issues","Main Board not communicating with PC"],
+  },{
+    "errorName":"Push Finger Extend Timeout",
+    "details":["Connectivity Issues","Main Board not communicating with PC"],
+  },{
+    "errorName":"Push Finger Retract Timeout",
+    "details":["Connectivity Issues","Main Board not communicating with PC"],
+  },{
+    "errorName":"X Axis Not Homing",
+    "details":["Connectivity Issues","Main Board not communicating with PC"],
+  },{
+    "errorName":"Y Axis Not Homing",
+    "details":["Connectivity Issues","Main Board not communicating with PC"],
+  }],
+  "GetAndCutKey -277":[{
+    "errorName":"Blank key detect not fired at check position",
+    "details":["Blank clamp failed","Keys loaded incorrectly"],
+  },{
+    "errorName":"Key Left In Carousel",
+    "details":["Unable to Clamp Blank","Unable to Clamp Blank"],
+  }],
+  "GetAndCutKey -605":[{
+    "errorName":"Blank key sensor error both limit switchs blocked and no key blocking through beam",
+    "details":["Blank Clamp Clamped always fired","Blank Clamp Unclamped always fired","Both Clamped and Unclamped always fired","Works fine"],
+  }],
+  "GetAndCutKey_Plus -79":[{
+    "errorName":"Push Finger Extended, No Key Detected",
+    "details":["Chute Empty","Key In Clamp, Sunlight Seems to be affecting sensor","Push Finger Went Under Stack of Keys"],
+  }],
+  "GetAndCutKey -899":[{
+    "errorName":"Blank Clamp Misfires",
+    "details":["Works fine"],
+  },{
+    "errorName":"Pivot  Switch Misfires",
+    "details":["Pivot in Flickers","Pivot out Flickers","Works fine"],
+  }],
+  "GetAndCutKey_Plus -606":[{
+    "errorName":"Blank key sensor error both limit switch's blocked and key blocking through beam",
+    "details":["Blank Clamp Clamped always fired","Blank Clamp Unclamped always fired","Both Clamped and Unclamped always fired","Works fine"],
+  }],
+  "No Activity":[{
+    "errorName":"No Activity Detected",
+    "details":["Bad CC Reader","OOO Sign Posted on Machine","Touch Screen Blackout","Touch Screen Freeze"],
+  }],
+  "GetAndCutKey -1":[{
+    "errorName":"General Error",
+    "details":["Software related issues"],
+  }],
+  "Kiosk Offline":[{
+    "errorName":"Kiosk is Offline",
+    "details":["Caused By FSR","Caused by store","Connection Lost with Director","Online now","PC Freeze","PC not booting up","Poor connectivity","Power Loss","Router Freeze","Unknown"],
+  }],
+  "InitSystem -12":[{
+    "errorName":"Key Alignment Low Force Timeout",
+    "details":["Intermittent Low Force","Low Force Never Fires","Low Force is Always Fired","Sunlight issues","Works every time"],
+  },{
+    "errorName":"Key Alignment Retract Timeout",
+    "details":["Intermittent Retract","Retract Never Fires","Retract is Always Fired","Sunlight issues","Works every time"],
+  },{
+    "errorName":"Pivot In Timeout",
+    "details":["Intermittent Pivot In","Pivot In Never Fires","Works fine every time"],
+  },{
+    "errorName":"Pivot Level Timeout",
+    "details":["Intermittent Pivot Level","Pivot Level Never Fires","Works fine every time"],
+  },{
+    "errorName":"Pivot Out Timeout",
+    "details":["Intermittent Pivot Out","Pivot Out Never Fires","Works fine every time"],
+  },{
+    "errorName":"X Axis Not Homing",
+    "details":["Works fine","X and Y limit switches on/flashing","X not moving"],
+  },{
+    "errorName":"Y Axis Not Homing",
+    "details":["Works fine","X and Y limit switches on/flashing","Y not moving"],
+  }],
+  "GetAndCutKey -812":[{
+    "errorName":"Y Home sensor tripped during a key cut",
+    "details":["Loss of Y Counts","Works fine"],
+  }],
+  "PositionAlignSmall -12":[{
+    "errorName":"Low Force 2 Time Out",
+    "details":["Low force never fires","Works fine","Y lost counts"],
+  },{
+    "errorName":"Retract Timeout",
+    "details":["Retract Never Fires"],
+  }],
+  "Self-Test Failure":[{
+    "errorName":"Blank Clamp",
+    "details":["Never clamps","Never unclamps","Took too long"],
+  },{
+    "errorName":"Blank Clamp Took Too Long",
+    "details":["Known Issue"],
+  },{
+    "errorName":"High Force",
+    "details":["Always Fired","Misfire","Never Fires","Took Too Long"],
+  },{
+    "errorName":"KeyAlignLowClamp Took Too Long",
+    "details":["Low Force Never Fires","Low Force is Flickering"],
+  },{
+    "errorName":"KeyAlignRetract Took Too Long",
+    "details":["Retract is Flickering","Retract never fires"],
+  },{
+    "errorName":"Low Force",
+    "details":["Always Fired","Misfire","Never Fires","Took Too Long"],
+  },{
+    "errorName":"Pivot In",
+    "details":["Timeout","Took Too Long"],
+  },{
+    "errorName":"Pivot Level",
+    "details":["Timeout","Took Too Long"],
+  },{
+    "errorName":"Pivot Out",
+    "details":["Timeout","Took Too Long"],
+  },{
+    "errorName":"Retract",
+    "details":["Always Fired","Misfire","Never Fires","Took too long"],
+  },{
+    "errorName":"Vend Door Failing To Close",
+    "details":["Sticky Door"],
+  },{
+    "errorName":"Vend Door Failing To Open",
+    "details":["Caused By FSR","Vend Door Open Not Firing"],
+  }],
+  "GetAndCutKey -608":[{
+    "errorName":"Blank key sensor error both limit switch's unblocked and key blocking through beam",
+    "details":["Blank Clamp Clamped never fires","Blank Clamp Unclamped never fires","Neither Clamped or Unclamped fires","Works fine"],
+  }],
+  "KeyAlignRetract -12":[{
+    "errorName":"Key Alignment Retract Timeout",
+    "details":["Intermittent Retract","Retract Never Fires","Retract is Always Fired","Sunlight issues","Works every time"],
+  }],
+  "Customer Call":[{
+    "errorName":"CC Reader Not Working",
+    "details":["CC Reader Damaged","CC Reader Malfunction","FSR Caused","Software related issues","Theft Detection Devices causing issues"],
+  },{
+    "errorName":"Key Did Not Dispense",
+    "details":["Dispatched FSR","Dispensed Blank Key","Key stuck in chute","Key wedged up against plastic door"],
+  },{
+    "errorName":"Key Inserted Inside Kiosk",
+    "details":["Key Inserted into CC Reader","Key Inserted into foam on the door"],
+  },{
+    "errorName":"Key Inserted in CC Slot",
+    "details":["Dispatched FSR"],
+  },{
+    "errorName":"Key Stuck",
+    "details":["Kiosk Not Releasing Key"],
+  },{
+    "errorName":"Kiosk Dark",
+    "details":["Circuit Breaker Tripped"],
+  },{
+    "errorName":"Kiosk keeps rebooting",
+    "details":["WatchDog related issue"],
+  },{
+    "errorName":"Low Inventory",
+    "details":["Inventory is low"],
+  },{
+    "errorName":"Miscut/key doesnt work",
+    "details":["Dispensed Blank Key","Does not fit in lock","Fits in lock, does not turn","Key Cut Backwards"],
+  },{
+    "errorName":"PC Froze During Key Cut",
+    "details":["Dispatched FSR"],
+  },{
+    "errorName":"PC is Frozen",
+    "details":["Dispatched FSR"],
+  },{
+    "errorName":"Touch Screen is Frozen",
+    "details":["Reset Touch Screen"],
+  }],
+  "GetAndCutKey -12":[{
+    "errorName":"Blank Clamp Time out",
+    "details":["Blank Clamp did not clamp","Blank Clamp did not unclamp","Works fine every time"],
+  },{
+    "errorName":"Key Alignment Low Force Timeout",
+    "details":["Intermittent Low Force","Low Force Never Fires","Low Force is Always Fired","Sunlight issues","Works every time"],
+  },{
+    "errorName":"Key Alignment Retract Timeout",
+    "details":["Intermittent Retract","Retract Never Fires","Retract is Always Fired","Sunlight issues","Works every time"],
+  },{
+    "errorName":"Pivot In Timeout",
+    "details":["Intermittent Pivot In","Pivot In Never Fires","Works every time"],
+  },{
+    "errorName":"Pivot Level Timeout",
+    "details":["Intermittent Pivot Level","Pivot Level Never Fires","Works every time"],
+  },{
+    "errorName":"Pivot Out Timeout",
+    "details":["Intermittent Pivot Out","Pivot Out Never Fires","Works every time"],
+  },{
+    "errorName":"Push Finger Extend Timeout",
+    "details":["1/2 way","1/4 way","3/4 way","Full Move","No move","Tip stuck on edge of blank clamp"],
+  },{
+    "errorName":"Push Finger Retract Timeout",
+    "details":["Push Finger Stuck Under Stack of Keys"],
+  },{
+    "errorName":"X Axis Not Homing",
+    "details":["X and Y limit switches on/flashing","X not moving"],
+  },{
+    "errorName":"Y Axis Not Homing",
+    "details":["X and Y limit switches on/flashing","Y not moving"],
+  }],
+  "GetAndCutKey -602":[{
+    "errorName":"Blank key UnClamped and key blocking through beam",
+    "details":["Blank Clamp Unclamped always fired","No Key in Clamp, Blank key Detected fired","Works fine"],
+  }],
+  "GetAndCutKey_Plus -605":[{
+    "errorName":"Blank key sensor error both limit switchs blocked and no key blocking through beam",
+    "details":["Blank Clamp Clamped always fired","Blank Clamp Unclamped always fired","Both Clamped and Unclamped always fired","Works fine"],
+  }],
+  "Power Loss During a Critical Operation":[{
+    "errorName":"Power Loss During a Key Cut",
+    "details":["Power loss at cut position"],
+  }],
+  "Sensor Validation Failed":[{
+    "errorName":"BlankKeyClamped is true and should be false",
+    "details":["Blank Clamp Not Clamping","Blank Clamp Stuck in Clamped","Loose Connector"],
+  },{
+    "errorName":"High Force",
+    "details":["Always Fired","Misfire","Never Fires"],
+  },{
+    "errorName":"Key ID engage",
+    "details":["Always Fired","Misfire","Never Fires"],
+  },{
+    "errorName":"KeyIDSwitch1 is true and should be false",
+    "details":["Cannot Reproduce","Key ID 1 Fired when disengaged"],
+  },{
+    "errorName":"KeyIDSwitch2 is true and should be false",
+    "details":["Cannot Reproduce","Key ID 2 Fired when disengaged"],
+  },{
+    "errorName":"KeyIDSwitch3 is true and should be false",
+    "details":["Cannot Reproduce","Key ID 3 Fired when disengaged"],
+  },{
+    "errorName":"KeyIDSwitch4 is true and should be false",
+    "details":["Cannot Reproduce","Key ID 4 Fired when disengaged"],
+  },{
+    "errorName":"KeyTooShort is true and should be false",
+    "details":["Cannot Reproduce","Key length stuck in range"],
+  },{
+    "errorName":"Low Force",
+    "details":["Always Fired","Misfire","Never Fires"],
+  },{
+    "errorName":"MasterKeyDetected is true and should be false",
+    "details":["Cannot Reproduce","Master Key Detected is fired"],
+  },{
+    "errorName":"Pivot In",
+    "details":["Always Fired","Misfire","Never Fires"],
+  },{
+    "errorName":"Pivot Level",
+    "details":["Always Fired","Misfire","Never Fires"],
+  },{
+    "errorName":"Pivot Out",
+    "details":["Always Fired","Misfire","Never Fires"],
+  },{
+    "errorName":"Retract",
+    "details":["Always Fired","Misfire","Never Fires"],
+  },{
+    "errorName":"Shoulder Sensor",
+    "details":["True and Should be False"],
+  },{
+    "errorName":"Vend Door Open",
+    "details":["Caused by FSR","Stuck in open"],
+  },{
+    "errorName":"VendDoorArm in Closed position is false and should be true",
+    "details":["Cannot Reproduce","Vend Door will not close"],
+  },{
+    "errorName":"VendDoorArm in Closed position is true and should be false",
+    "details":["Cannot reproduce","Vend Door will not open"],
+  }],
+  "GetAndCutKey_Plus -77":[{
+    "errorName":"Push Finger Extended, No Key Detected",
+    "details":["Chute Empty","Key In Clamp, Sunlight Seems to be affecting sensor","Push Finger Went Under Stack of Keys"],
+  }],
+  "KeyAlignLowClamp -12":[{
+    "errorName":"Key Alignment Low Force Timeout",
+    "details":["Intermittent Low Force","Low Force Never Fires","Low Force is Always Fired","Normal Keyalignlowclamp","Sunlight issues","Works every time"],
+  }],
+  "FSR Call":[{
+    "errorName":"CC Reader Not Working",
+    "details":["CC Reader Damaged","CC Reader Malfunction","Software related issues","Theft Detection Devices causing issues"],
+  },{
+    "errorName":"Giant Key Dim/Out",
+    "details":["Add a new power supply","Replace Giant Key"],
+  },{
+    "errorName":"Inventory Issues",
+    "details":["Inventory Not Updating, incorrect"],
+  },{
+    "errorName":"Keys Found on Cut Plate",
+    "details":["Found blank keys, removed the keys","Found cut keys, removed the keys"],
+  },{
+    "errorName":"Machine Vandalized",
+    "details":["Decals pulled off","Giant Key bracket bent","Giant Key vandalized","Sidewing vandalized","Viewing glass vandalized/broken"],
+  }],
+  "GetAndCutKey -79":[{
+    "errorName":"Push Finger Extended, No Key Detected",
+    "details":["Chute Empty","Key In Clamp, Sunlight Seems to be affecting sensor","Push Finger Went Under Stack of Keys"],
+  }],
+  "No Self-Test Since":[{
+    "errorName":"No Self-Test Since",
+    "details":["Customer Acitivty","Kiosk Offline"],
+  }],
+  "Forgotten Key":[{
+    "errorName":"Key Left Behind Or Stuck",
+    "details":["Key Stuck","Vend Door Stuck Open"],
+  }],
+  "VendDoorOpen -12":[{
+    "errorName":"Vend Door Failing To Open",
+    "details":["Caused By FSR","Vend Door Open Not Firing","Cannot Close Door"],
+  }],
+  "VendDoorClose -12":[{
+    "errorName":"Door Close Failure",
+    "details":["Cannot Close Door"],
+  }],
+  "GetAndCutKey -604":[{
+    "errorName":"Blank key Clamped and key blocking through beam",
+    "details":["No Key in Clamp, Blank Key Detected Fired","Works fine"],
+  }],
+  "GUI Hang":[{
+    "errorName":"GUI stuck in screen: Start Up",
+    "details":["Black screen","GUI stuck","White screen"],
+  }],
+  "GetAndCutKey_Plus -604":[{
+    "errorName":"Blank key Clamped and key blocking through beam",
+    "details":["No Key in Clamp, Blank Key Detected Fired","Works fine"],
+  }],
+  "OuterDoorOpen -12":[{
+    "errorName":"Vend Door Failing To Open",
+    "details":["Vend Door Open Not Firing"],
+  }],
+  "IDFingersEngage -12":[{
+    "errorName":"ID Fingers Engage Timeout",
+    "details":["ID Engage Never Fires","Intermittent ID Engage"],
+  }],
+  "Blank Clamp -12":[{
+    "errorName":"Blank Clamp Timeout",
+    "details":["Blank Clamp did not clamp","Blank Clamp did not unclamp","Works fine every time"],
+  }],
+  "ReceiveMaster -12":[{
+    "errorName":"High Force Time Out",
+    "details":["High Force Never Fires","High Force is Always Fired","Sunlight issues","Works every time"],
+  },{
+    "errorName":"Low Force Time Out",
+    "details":["Low Force Never Fires","Low Force is Always Fired","Sunlight issues","Works every time"],
+  },{
+    "errorName":"Master Clamp Time Out",
+    "details":["Master Clamp did not clamp"],
+  },{
+    "errorName":"KIS Clamp Won't Close",
+    "details":["Intermittent","KIS Clamp Stuck in Open"],
+  }],
+  "Key Could Not be Released From the Machine":[{
+    "errorName":"Key Could Not be Released From the Machine",
+    "details":["Caused by FSR","Caused by Remote Tech","Kiosk Barfed"],
+  }],
+  "GetAndCutKey -788":[{
+    "errorName":"Y Latch, Too Large to Correct",
+    "details":["Key Jammed Up Against Magazine","Loss of Y Counts","Works fine"],
+  }],
+  "No Revenue":[{
+    "errorName":"No Purchases Detected",
+    "details":["Bad CC Reader","ID Arm A Not Firing","ID Arm B Not Firing","ID Arm C Not Firing","ID Arm D Not Firing","OOO Sign Posted on Machine","Touch Screen Blackout","Touch Screen Freeze"],
+  }],
+  "Machine Health Report":[{
+    "errorName":"High Percentage Invalid ID",
+    "details":["Arm A Suspect","Arm B Suspect","Arm C Suspect","Arm D Suspect","Multiple Arms not reading"],
+  }],
+  "Install Issue":[{
+    "errorName":"Kiosk Failure",
+    "details":["Main Board Failure","PC Failure"],
+  },{
+    "errorName":"Shipping/Operations/Inventory",
+    "details":["Broken Antenna","Missing Hardware","Missing Inventory","Missing Marketing Material"],
+  }],
+  "GetAndCutKey -186":[{
+    "errorName":"Master Key Not Detected",
+    "details":["Non-sunlight related","Sunlight issues"],
+  }],
+  "Kiosk Offline (Power Loss)":[{
+    "errorName":"Kiosk is Offline (Power Loss)",
+    "details":["Caused By FSR","Caused by store","Connection Lost with Director","Online now","PC Freeze","PC not booting up","Poor connectivity","Power Loss","Router Freeze","Unknown"],
+  }],
+  "GetAndCutKey_Plus -787":[{
+    "errorName":"Y Latch, Never Crossed the Latch",
+    "details":["Key Jammed Up Against Magazine","Loss of Y Counts","Works fine"],
+  }],
+  "GetAndCutKey_Plus -602":[{
+    "errorName":"Blank key UnClamped and key blocking through beam",
+    "details":["Blank Clamp Unclamped always fired","No Key in Clamp, Blank key Detected fired","Works fine"],
+  }],
+  "GetAndCutKey_Plus -603":[{
+    "errorName":"Blank key Clamped and no key blocking through beam",
+    "details":["Blank Clamp Clamped always fired","Works fine"],
+  }],
+  "GetAndCutKey -606":[{
+    "errorName":"Blank key sensor error both limit switch's blocked and key blocking through beam",
+    "details":["Blank Clamp Clamped always fired","Blank Clamp Unclamped always fired","Both Clamped and Unclamped always fired","Works fine"],
+  }],
+  "GetAndCutKey_Plus -12":[{
+    "errorName":"Blank Clamp Time out",
+    "details":["Blank Clamp did not clamp","Blank Clamp did not unclamp","Works fine every time"],
+  },{
+    "errorName":"Key Alignment Low Force Timeout",
+    "details":["Intermittent Low Force","Low Force Never Fires","Low Force is Always Fired","Sunlight issues","Works every time"],
+  },{
+    "errorName":"Key Alignment Retract Timeout",
+    "details":["Intermittent Retract","Retract Never Fires","Retract is Always Fired","Sunlight issues","Works every time"],
+  },{
+    "errorName":"Pivot In Timeout",
+    "details":["Intermittent Pivot In","Pivot In Never Fires","Works every time"],
+  },{
+    "errorName":"Pivot Level Timeout",
+    "details":["Intermittent Pivot Level","Pivot Level Never Fires","Works every time"],
+  },{
+    "errorName":"Pivot Out Timeout",
+    "details":["Intermittent Pivot Out","Pivot Out Never Fires","Works every time"],
+  },{
+    "errorName":"Push Finger Extend Timeout",
+    "details":["1/2 way","1/4 way","3/4 way","Full Move","No Key in pass thru chute","No move","Tip stuck on edge of blank clamp"],
+  },{
+    "errorName":"Push Finger Retract Timeout",
+    "details":["Push Finger Stuck Under Stack of Keys"],
+  },{
+    "errorName":"X Axis Not Homing",
+    "details":["X and Y limit switches on/flashing","X not moving"],
+  },{
+    "errorName":"Y Axis Not Homing",
+    "details":["X and Y limit switches on/flashing","Y not moving"],
+  }],
+  "GetAndCutKeyPlus -277":[{
+    "errorName":"Blank key detect not fired at check position",
+    "details":["Blank clamp failed","Keys loaded incorrectly"],
+  }],
+  "GetAndCutKey_Plus -608":[{
+    "errorName":"Blank key sensor error both limit switch's unblocked and key blocking through beam",
+    "details":["Blank Clamp Clamped never fires","Blank Clamp Unclamped never fires","Neither Clamped or Unclamped fires","Works fine"],
+  }],
+  "GetAndCutKey_Plus -899":[{
+    "errorName":"Blank Clamp Misfires",
+    "details":["Works fine"],
+  },{
+    "errorName":"Pivot  Switch Misfires",
+    "details":["Pivot in Flickers","Pivot out Flickers","Works fine"],
+  }],
+  "GetAndCutKey_Plus -788":[{
+    "errorName":"Y Latch, Too Large to Correct",
+    "details":["Key Jammed Up Against Magazine","Loss of Y Counts","Works fine"],
+  }],
+  "Chromium Hang":[{
+    "errorName":"Chromium process not respoding",
+    "details":["Black screen","GUI stuck","White screen"],
+  }],
+  "ReadBitting -800":[{
+    "errorName":"Laser Calibration Issue",
+    "details":["Unable to Reproduce","Cannot Calibrate Laser Range"],
+  }],
+  "ReadBitting -801":[{
+    "errorName":"Channel Calibration Issue",
+    "details":["Unable to Reproduce","Cannot Calibrate Channel Range"],
+  }],
+  "SelfTest -600":[{
+    "errorName":"Plunger Home Sensor Not Fired",
+    "details":["Unable to Reproduce"],
+  }],
+  "Initialize -12":[{
+    "errorName":"Door Close Failure",
+    "details":["Cannot Close Door"],
+  },{
+    "errorName":"Door Open Failure",
+    "details":["Cannot Open Door"],
+  }],
+  "PrepareReceive -12":[{
+    "errorName":"Door Open Failure",
+    "details":["Cannot Open Door"],
+  }],
+  "GetAndCutKey -14":[{
+    "errorName":"Cutter Stall",
+    "details":["Cutter Stalled During Key Cut"],
+  },{
+    "errorName":"Deburr Stall",
+    "details":["Deburr stalled while Deburring"],
+  }],
+  "Park -15":[{
+    "errorName":"Encoder Error Too High",
+    "details":["Kiosk is Cold","Key on Tabletopd"],
+  }],
+  "Initialize -15":[{
+    "errorName":"Encoder Error Too High",
+    "details":["Kiosk is Cold","Key on Tabletopd"],
+  }],
+  "GetAndCutKey -15":[{
+    "errorName":"Encoder Error Too High",
+    "details":["Kiosk is Cold","Key on Tabletopd"],
+  }],
+  "ReceiveMaster -15":[{
+    "errorName":"Plunger Encoder Error Too High",
+    "details":["Unable to Reproduce"],
+  }],
+  "InitializeCamera -26":[{
+    "errorName":"Only connected camera not dark enough to be the KIS",
+    "details":["KIS Cam Disconnected"],
+  }],
+  "Initialize -26":[{
+    "errorName":"Only connected camera not dark enough to be the KIS",
+    "details":["KIS Cam Disconnected"],
+  }],
+  "GetAndCutKey -300":[{
+    "errorName":"Vacuum Sensor Not Firing",
+    "details":["Vacuum Sensor Not Firing"],
+  }]
+}
+
+function findInput(label, tag = "input") {
+  const $label = $(`label:contains(${label})`).filter(function() {
+    return $(this).text().trim().indexOf(label) === 0;
+  }).first();
+  return $label.length ? $label.siblings(tag).first() : $();
+}
+
+function findAllInputs(label, tag = "input") {
+  return $(`label:contains(${label})`)
+    .filter(function() {
+      return $(this).text().trim().indexOf(label) === 0
+    })
+    .map(function() {
+      return $(this).siblings(tag).first();
+    })
+    .get();
+}
+
+function selectedOption(select) {
+  return $(select).find('option:selected');
+}
+
+function selectedValue(select) {
+  return $(select).find('option:selected').text();
+}
+
+function setOptions($selectElement, values) {
+  const oldOption = selectedOption($selectElement);
+  $selectElement.empty();
+  values.push("Other");
+  values.forEach(function(value) {
+    $selectElement.append(new Option(value, value, false, false))
+  })
+  if (oldOption.length)
+    $selectElement.val(oldOption.text());
+  else
+    $selectElement.find('option:last').prop('selected', true);
+}
+
+function makeSelect(label) {
+  const $input = findInput(label);
+  if (!$input.length)
+    throw new Exception(`Could not find input with label: ${label}`);
+
+  const $select = $('<select/>', {
+    'id': $input.attr('id'),
+    'name': $input.attr('name')
+  });
+  setOptions($select, [$input.val()]);
+  $select.val($input.val());
+  $input.replaceWith($select);
+  return $select;
+}
+
+function hideItems() {
+  const elementsToHide = [
+    findInput('PK Last processed Audit Time').parent(),
+  ];
+
+  elementsToHide.forEach(el => el && el.hide());
+}
+
+function formatDate(date, format) {
+  const pad = (num) => num < 10 ? '0' + num : num;
+  const hours12 = date.getHours() % 12 || 12;
+  const ampm = date.getHours() >= 12 ? 'PM' : 'AM';
+
+  return format
+    .replace('%m', pad(date.getMonth() + 1))
+    .replace('%d', pad(date.getDate()))
+    .replace('%Y', date.getFullYear())
+    .replace('%l', hours12)
+    .replace('%H', pad(date.getHours()))
+    .replace('%M', pad(date.getMinutes()))
+    .replace('%p', ampm);
+}
+
+function parseDate(dateStr, format) {
+  if (!dateStr) return null;
+
+  const matchers = {
+    '%m': '(\\d{1,2})',
+    '%d': '(\\d{1,2})',
+    '%Y': '(\\d{4})',
+    '%H': '(\\d{1,2})',
+    '%M': '(\\d{1,2})',
+    '%l': '(\\d{1,2})',
+    '%p': '(AM|PM)',
+  };
+
+  let pattern = format;
+  Object.keys(matchers).forEach(key => {
+    pattern = pattern.replace(key, matchers[key]);
+  });
+
+  const regex = new RegExp(`^${pattern}$`);
+  const match = dateStr.match(regex);
+  if (!match) return null;
+
+  const formatParts = format.match(/%./g);
+  const values = match.slice(1);
+
+  const date = new Date(0, 0, 15);
+  formatParts.forEach((part, i) => {
+    const value = parseInt(values[i], 10);
+    switch(part) {
+      case '%Y': date.setFullYear(value); break;
+      case '%m': date.setMonth(value - 1); break;
+      case '%d': date.setDate(value); break;
+      case '%H': date.setHours(value); break;
+      case '%l':
+        let hours = value;
+        if (values[values.length-1] === 'PM' && hours !== 12) hours += 12;
+        if (values[values.length-1] === 'AM' && hours === 12) hours = 0;
+        date.setHours(hours);
+        break;
+      case '%M': date.setMinutes(value); break;
+    }
+  });
+
+  return date;
+}
+
+function getTrackingUrls(values) {
+  const regexObjList = [
+    {
+      regex: [
+        /^1\s*Z\s*(?:[A-Z0-9]\s*){6,6}(?:[A-Z0-9]\s*){2,2}(?:[A-Z0-9]\s*){7,7}[0-9]/g
+      ],
+      trackingUrl: "https://wwwapps.ups.com/WebTracking/track?track=yes&trackNums=%"
+    },
+    {
+      regex: [
+        /^([0-9]\s*){11}[0-9]/g,
+        /^([0-9]\s*){14}[0-9]/g
+      ],
+      trackingUrl: "https://www.fedex.com/fedextrack/?tracknumbers=%"
+    },
+    {
+      regex: [
+        /^([0-9]\s*){2}([0-9]\s*){9}([0-9]\s*){8}[0-9]/g,
+        /^((?:4\s*2\s*0\s*([0-9]\s*){5})?9\s*[12345]\s*?([0-9]\s*){2}([0-9]\s*){2}([0-9]\s*){8}([0-9]\s*){11}|([0-9]\s*){7}[0-9])/g
+      ],
+      trackingUrl: "https://tools.usps.com/go/TrackConfirmAction.action?tLabels=%"
+    }
+  ];
+
+  return values.map(v => {
+    const vUpperCase = v.toUpperCase();
+    const foundRegex = regexObjList.find(regexObj =>
+      regexObj.regex.some(regex => vUpperCase.match(regex))
+    ) || {};
+
+    const trackingUrl = foundRegex.trackingUrl;
+    return [
+      v,
+      trackingUrl ? trackingUrl.replace("%", vUpperCase) :
+                   `https://www.google.com/search?q=${vUpperCase}+tracking+number`
+    ];
+  }).filter(([v]) => v.length > 0);
+}
+
+function setTrackingUrls() {
+  const $trackingCell = $("div.label span:contains('Tracking Number')").parent().next();
+  const numbers = $trackingCell.text().replace(/\s+/g, '').split(/[,/|;:]/);
+  const $links = getTrackingUrls(numbers).map(([number, url]) =>
+    $('<a>', {
+      href: url,
+      text: number,
+      target: '_blank'
+    })
+  );
+
+  $trackingCell.empty().append(
+    $links.map(($link) => $('<div>').append($link))
+  );
+}
+
+$(document).ready(function() {
+  hideItems();
+
+  const isTrackingNumberPresent = !!$("div.label span:contains('Tracking Number')").length;
+  if (isTrackingNumberPresent)
+    setTrackingUrls();
+
+  const trackerName = $('h2').text().split(/\s#/)[0];
+  const project = $('#project-jump > span').text();
+
+  if (project && ["EcoATM", "Pokemon"].includes(project))
+    findInput("Field visits").prop("disabled", true);
+
+  findInput('Grade').prop('disabled', true);
+
+  if (['Error name', 'Error detail'].every(label => findInput(label).length)) {
+    const $categorySelect = findInput('Category', 'select');
+    const $nameSelect = makeSelect('Error name');
+    const $detailSelect = makeSelect('Error detail');
+
+    function cascadeCategory() {
+      const category = selectedValue($categorySelect);
+      const names = cascades[category];
+
+      if (names) {
+        var values = names.map(name => name.errorName);
+        setOptions($nameSelect, values);
+        cascadeName();
+      }
+      else {
+        setOptions($nameSelect, []);
+        setOptions($detailSelect, []);
+      }
+    }
+
+    function cascadeName() {
+      const name = selectedValue($nameSelect);
+      const names = cascades[selectedValue($categorySelect)];
+
+      if (names && name && name != 'Other') {
+        const error = names.find(n => n.errorName == name);
+        setOptions($detailSelect, error.details);
+      }
+      else {
+        setOptions($detailSelect, []);
+      }
+    }
+
+    cascadeCategory();
+
+    $categorySelect.on('change', cascadeCategory);
+    $nameSelect.on('change', cascadeName);
+  }
+
+
+  const $dueDateInput = findInput('Due Date');
+  const dueDateFormat = "%Y-%m-%d %H:%M";
+
+  function getDueDate() {
+    parseDate($dueDateInput.val(), dueDateFormat)
+      || parseDate($dueDateInput.val(), "%Y-%m-%d %l:%M %p");
+  }
+
+  function setDueDate(date) {
+    if (!date)
+      $dueDateInput.val('');
+    else
+      $dueDateInput.val(formatDate(date, dueDateFormat));
+  }
+
+  const $ktEtaInput = findInput('KT ETA');
+  const ktEtaDateFormat = '%Y-%m-%d';
+
+  function getKtEta() {
+    return parseDate($ktEtaInput.val(), ktEtaDateFormat);
+  }
+
+  function setKtEta(date) {
+    if (!date)
+      $ktEtaInput.val('');
+    else
+      $ktEtaInput.val(formatDate(date, ktEtaDateFormat));
+  }
+
+  const $statusSelect = findInput('Status', 'select');
+  const statusNameToId = $statusSelect.find('option').get().reduce((optionMap, cv) => ({
+    ...optionMap, [cv.textContent]: cv.value
+  }), {});
+
+  function setImmutableStatus(name) {
+    const statusId = statusNameToId[name];
+    $statusSelect.empty();
+    $statusSelect.append(new Option(name, statusId, false, false));
+  }
+
+  function setImmutablePendingReason(name) {
+    const $pendingReasonSelect = findInput('Pending Reason', 'select');
+    $pendingReasonSelect.empty();
+    $pendingReasonSelect.append(new Option(name, name, false, false));
+  }
+
+  const $partsStatusInput = findInput('Parts Status', 'select');
+
+  $partsStatusInput.on('change', function() {
+    const partsStatus = $(this).find('option:selected').text();
+
+    switch (trackerName) {
+      case 'Support':
+        switch (partsStatus) {
+          case 'Pending':
+            setImmutableStatus("Send Parts");
+            setDueDate(null);
+            updateReturnVisitAndWaitingParts();
+            break;
+
+          default:
+            setImmutableStatus("Feedback");
+            adjustDueDate();
+        }
+        break;
+      case 'PokemonSupport':
+        switch (partsStatus) {
+          case 'Processed':
+            setImmutableStatus("Dispatched");
+            setImmutablePendingReason("");
+            addDaysToDueDate(4);
+            addDaysToKTEta(4);
+            break;
+
+          case 'Back Order':
+            setImmutableStatus("Feedback");
+            setImmutablePendingReason("Parts Back - Ordered");
+            break;
+
+          case 'Pending':
+            setImmutableStatus("Send Parts");
+            setImmutablePendingReason("Awaiting Parts");
+            break;
+
+          case 'Special Order':
+            setImmutableStatus("Feedback");
+            setImmutablePendingReason("Awaiting Parts");
+            break;
+        }
+        break;
+    }
+  });
+
+  function updateReturnVisitAndWaitingParts(value = "YES") {
+    if (project && ["EcoATM"].includes(project)) {
+      findInput("Return Visit Needed", "select").val(value);
+      findInput("Waiting on Parts", "select").val(value);
+    }
+  }
+
+  const $fieldVisits = findInput("Field visits")
+
+  findAllInputs("Dispatch Arrival").forEach($da =>
+    $da.on('change', updateFieldVisits)
+  );
+
+  function updateFieldVisits() {
+    if (project && ["EcoATM", "Pokemon"].includes(project)) {
+      const visits = findAllInputs("Dispatch Arrival")
+        .filter($e => $e.val())
+        .length;
+
+      $fieldVisits.val(visits);
+    }
+  }
+
+  function removeSendParts() {
+    if ($partsStatusInput.val() != "Pending") {
+      const $select = findInput('Status', 'select');
+      $select.find('option').each(function() {
+        if ($(this).text() == 'Send Parts') {
+          $(this).remove();
+          return false;
+        }
+      });
+    }
+  }
+  removeSendParts();
+
+
+  $('#issue-form').on('submit', function(event) {
+    const $statusInput = findInput('Status', 'select');
+    const partsStatus = $partsStatusInput.val();
+    const selectedStatus = $statusInput.find('option:selected').text();
+    const closedStatuses = ['Closed', 'Canceled', 'Closed and Flagged'];
+
+    if (closedStatuses.includes(selectedStatus) && !partsStatus) {
+      updateReturnVisitAndWaitingParts("NO");
+    }
+
+    updateFieldVisits(); // recalculating if there was an error
+    $fieldVisits.prop('disabled', false); // this allows the value to be saved
+  });
+
+  function addDaysToDueDate(days) {
+    const now = new Date();
+    const oneDayMs = 24*60*60*1000;
+    const currentDueDate = getDueDate() || now;
+    const msToAdd = oneDayMs * days;
+    if (currentDueDate.getTime() < now.getTime() + msToAdd)
+      setDueDate(new Date(now.getTime() + msToAdd));
+  }
+
+  function addDaysToKTEta(days) {
+    const now = new Date();
+    const oneDayMs = 24*60*60*1000;
+    const currentKtEta = getKtEta() || now;
+    const msToAdd = oneDayMs * days;
+    if (currentKtEta.getTime() < now.getTime() + msToAdd)
+      setKtEta(new Date(now.getTime() + msToAdd));
+  }
+
+  function adjustDueDate() {
+    const now = new Date();
+    const fortyFiveMins = 45*60*1000;
+    const currentDueDate = getDueDate() || now;
+    if (currentDueDate.getTime() < now.getTime() + fortyFiveMins)
+      setDueDate(new Date(now.getTime() + fortyFiveMins));
+  }
+
+  findInput('Assignee', 'select').on('change', function() {
+    if ($(this).find('option:selected').text())
+      adjustDueDate();
+    else {
+      setDueDate(null);
+      findInput('Status', 'select').val('1');
+    }
+  });
+
+  findInput('Status', 'select').on('change', function() {
+    const label = $(this).find('option:selected').text();
+    if (label == 'In Progress')
+      adjustDueDate();
+    else if (label == 'New')
+      setDueDate(null);
+    else if (label == 'Dispatched') {
+      findInput("Dispatched", "input[type=checkbox]").prop('checked', true);
+    }
+  });
+})
+
+</script>

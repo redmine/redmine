@@ -64,7 +64,7 @@ class Issue < ApplicationRecord
   attr_writer :deleted_attachment_ids
   delegate :notes, :notes=, :private_notes, :private_notes=, :to => :current_journal, :allow_nil => true
 
-  validates_presence_of :subject, :project, :tracker
+  validates_presence_of :subject, :project, :tracker, :category
   validates_presence_of :priority, :if => Proc.new {|issue| issue.new_record? || issue.priority_id_changed?}
   validates_presence_of :status, :if => Proc.new {|issue| issue.new_record? || issue.status_id_changed?}
   validates_presence_of :author, :if => Proc.new {|issue| issue.new_record? || issue.author_id_changed?}
@@ -75,6 +75,8 @@ class Issue < ApplicationRecord
   validates :start_date, :date => true
   validates :due_date, :date => true
   validate :validate_issue, :validate_required_fields, :validate_permissions
+  validate :validate_assignee_present_on_status_change
+  validate :validate_pokemon_support_fields
 
   scope :visible, (lambda do |*args|
     joins(:project).
@@ -2114,5 +2116,39 @@ class Issue < ApplicationRecord
   def roles_for_workflow(user)
     roles = user.admin ? Role.all.to_a : user.roles_for_project(project)
     roles.select(&:consider_workflow?)
+  end
+
+  def validate_assignee_present_on_status_change
+    if status_id_changed? && !status.is_closed? && status_id != 1 && assigned_to_id.blank?
+      errors.add(:assigned_to_id, :blank, message: "must be specified when changing status")
+    end
+  end
+
+  def validate_pokemon_support_fields
+    return unless tracker&.name == 'PokemonSupport'
+
+    if status&.name == 'Feedback'
+      validate_custom_field_presence('Pending Reason', "required when Status is Feedback")
+    end
+
+    if status&.name == 'Dispatched'
+      validate_custom_field_presence('Field tech', "required when Status is Dispatched")
+    end
+
+    closed_statuses = ['Closed', 'Canceled', 'Closed and Flagged']
+    if status && closed_statuses.include?(status.name)
+      validate_custom_field_presence('Root Cause', "required when Status is #{status.name}")
+    end
+  end
+
+  private
+
+  def validate_custom_field_presence(field_name, message)
+    field = CustomField.find_by_name(field_name)
+    return unless field
+    field_value = custom_field_values.detect {|v| v.custom_field_id == field.id}&.value
+    if field_value.blank?
+      errors.add(field_name, message)
+    end
   end
 end
