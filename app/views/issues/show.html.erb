@@ -37,9 +37,16 @@
     <%= assignee_avatar(@issue.assigned_to, :size => "22", :class => "gravatar-child") if @issue.assigned_to %>
   </div>
 
-<div class="subject">
-<%= render_issue_subject_with_tree(@issue) %>
+<div data-controller="sticky-issue-header">
+  <div class="subject" data-sticky-issue-header-target="original">
+    <%= render_issue_subject_with_tree(@issue) %>
+  </div>
+  <div id="sticky-issue-header" data-sticky-issue-header-target="stickyHeader" class="issue">
+    <span class="issue-heading"><%= issue_heading(@issue) %>:</span>
+    <span class="subject"><%= @issue.subject %></span>
+  </div>
 </div>
+
         <p class="author">
         <%= authoring @issue.created_on, @issue.author %>.
         <% if @issue.created_on != @issue.updated_on %>

@@ -848,6 +848,12 @@
     font-size: 1.1em;
     text-align: left;
   }
+
+  /* Sticky issue header */
+  /* When project-jump.drdn is visible in mobile layout, offset the sticky header by its height to prevent it from being hidden. */
+  div#sticky-issue-header {
+    top: 64px;
+  }
 }
 
 @media all and (max-width: 599px) {

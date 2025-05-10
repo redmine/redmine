@@ -680,6 +680,36 @@ div.issue .attribute.string_cf .value .wiki p {margin-top: 0; margin-bottom: 0;}
 div.issue .attribute.text_cf .value .wiki p:first-of-type {margin-top: 0;}
 div.issue.overdue .due-date .value { color: #c22; }
 body.controller-issues h2.inline-flex {padding-right: 0}
+div#sticky-issue-header {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  border-bottom: 1px solid #d0d7de;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  font-size: 0.8125rem;
+  align-items: center;
+  z-index: 1000;
+  padding: 10px 6px;
+  border-radius: 0px;
+}
+div#sticky-issue-header.is-visible {
+  display: flex;
+}
+div#sticky-issue-header .issue-heading {
+  flex-shrink: 0;
+  white-space: nowrap;
+  margin-right: 6px;
+}
+div#sticky-issue-header .subject {
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-grow: 1;
+}
 
 #issue_tree table.issues, #relations table.issues {border: 0;}
 #issue_tree table.issues td, #relations table.issues td {border: 0;}
