@@ -58,7 +58,7 @@ module Redmine
 
       # Returns true if the database is MySQL
       def mysql?
-        /mysql/i.match?(ActiveRecord::Base.connection.adapter_name)
+        /mysql|trilogy/i.match?(ActiveRecord::Base.connection.adapter_name)
       end
 
       def mysql_version

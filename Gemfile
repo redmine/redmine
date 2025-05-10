@@ -69,6 +69,9 @@ if File.exist?(database_file)
       when /mysql2/
         gem 'mysql2', '~> 0.5.0'
         gem "with_advisory_lock"
+      when /trilogy/
+        gem 'trilogy', '~> 2.9.0'
+        gem "with_advisory_lock"
       when /postgresql/
         gem 'pg', '~> 1.5.3'
       when /sqlite3/
