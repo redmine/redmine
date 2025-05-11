@@ -1471,3 +1471,7 @@ de:
   setting_timelog_accept_closed_issues: Accept time logs on closed issues
   error_can_not_remove_role_reason_members_html: "<p>The following projects have members
     with this role:<br>%{projects}</p>"
+  setting_reactions_enabled: Enable reactions
+  reaction_text_x_other_users:
+    one: 1 other
+    other: "%{count} others"

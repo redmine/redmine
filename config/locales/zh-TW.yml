@@ -1521,3 +1521,7 @@
   setting_display_related_issues_table_headers: 顯示表格標題欄位
   error_can_not_remove_role_reason_members_html: "<p>下列專案中有成員
     屬於此角色:<br>%{projects}</p>"
+  setting_reactions_enabled: Enable reactions
+  reaction_text_x_other_users:
+    one: 1 other
+    other: "%{count} others"
