@@ -51,6 +51,8 @@ class MessagesController < ApplicationController
       offset(@reply_pages.offset).
       to_a
 
+    Message.preload_reaction_details(@replies)
+
     @reply = Message.new(:subject => "RE: #{@message.subject}")
     render :action => "show", :layout => false if request.xhr?
   end

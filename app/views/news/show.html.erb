@@ -22,12 +22,17 @@
 </div>
 <% end %>
 
-<p><% unless @news.summary.blank? %><em><%= @news.summary %></em><br /><% end %>
-<span class="author"><%= authoring @news.created_on, @news.author %></span></p>
-<div class="wiki">
-<%= textilizable(@news, :description) %>
+<div class="news">
+  <div class="reaction">
+    <%= reaction_button @news %>
+  </div>
+  <p><% unless @news.summary.blank? %><em><%= @news.summary %></em><br /><% end %>
+  <span class="author"><%= authoring @news.created_on, @news.author %></span></p>
+  <div class="wiki">
+  <%= textilizable(@news, :description) %>
+  </div>
+  <%= link_to_attachments @news %>
 </div>
-<%= link_to_attachments @news %>
 <br />
 
 <div id="comments" style="margin-bottom:16px;">
@@ -38,6 +43,7 @@
 <% @comments.each do |comment| %>
     <% next if comment.new_record? %>
     <div class="contextual">
+    <%= reaction_button comment %>
     <%= link_to_if_authorized sprite_icon('del', l(:button_delete)), { :controller => 'comments', :action => 'destroy', :id => @news, :comment_id => comment},
                               :data => {:confirm => l(:text_are_you_sure)}, :method => :delete,
                               :title => l(:button_delete),

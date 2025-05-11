@@ -19,6 +19,8 @@
 
 class Comment < ApplicationRecord
   include Redmine::SafeAttributes
+  include Redmine::Reaction::Reactable
+
   belongs_to :commented, :polymorphic => true, :counter_cache => true
   belongs_to :author, :class_name => 'User'
 
@@ -28,12 +30,18 @@ class Comment < ApplicationRecord
 
   safe_attributes 'comments'
 
+  delegate :visible?, to: :commented
+
   def comments=(arg)
     self.content = arg
   end
 
   def comments
     content
+  end
+
+  def project
+    commented.respond_to?(:project) ? commented.project : nil
   end
 
   private

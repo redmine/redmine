@@ -19,6 +19,8 @@
 
 class Message < ApplicationRecord
   include Redmine::SafeAttributes
+  include Redmine::Reaction::Reactable
+
   belongs_to :board
   belongs_to :author, :class_name => 'User'
   acts_as_tree :counter_cache => :replies_count, :order => "#{Message.table_name}.created_on ASC"

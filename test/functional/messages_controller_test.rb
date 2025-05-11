@@ -123,6 +123,27 @@ class MessagesControllerTest < Redmine::ControllerTest
     assert_select 'h3', {text: /Watchers \(\d*\)/, count: 0}
   end
 
+  def test_show_should_display_reactions
+    @request.session[:user_id] = 2
+
+    get :show, params: { board_id: 1, id: 4 }
+
+    assert_response :success
+    assert_select 'span[data-reaction-button-id=reaction_message_4] a.reaction-button' do
+      assert_select 'svg use[href*=thumb-up]'
+    end
+    assert_select 'span[data-reaction-button-id=reaction_message_5] a.reaction-button'
+    assert_select 'span[data-reaction-button-id=reaction_message_6] a.reaction-button'
+
+    # Should not display reactions when reactions feature is disabled.
+    with_settings reactions_enabled: '0' do
+      get :show, params: { board_id: 1, id: 4 }
+
+      assert_response :success
+      assert_select 'span[data-reaction-button-id]', false
+    end
+  end
+
   def test_get_new
     @request.session[:user_id] = 2
     get(:new, :params => {:board_id => 1})

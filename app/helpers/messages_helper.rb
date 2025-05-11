@@ -19,4 +19,5 @@
 
 module MessagesHelper
   include Redmine::QuoteReply::Helper
+  include ReactionsHelper
 end

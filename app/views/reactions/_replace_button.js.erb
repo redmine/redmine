@@ -1,0 +1,7 @@
+(() => {
+  const button = $('[data-reaction-button-id=<%= reaction_id_for @object %>]');
+
+  removeHoverTooltips(button);
+  button.html($('<%=j reaction_button @object %>').children());
+  setupHoverTooltips(button);
+})();

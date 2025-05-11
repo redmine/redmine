@@ -2113,6 +2113,45 @@ color: #555; text-shadow: 1px 1px 0 #fff;
 
 img.filecontent.image {background-image: url(/transparent.png);}
 
+/* Reaction styles */
+.reaction-button.reacted .icon-svg {
+  fill: #126fa7;
+  stroke: none;
+}
+.reaction-button.reacted:hover .icon-svg {
+  fill: #c61a1a;
+}
+.reaction-button .icon-label {
+  margin-left: 3px;
+  margin-bottom: -1px;
+}
+.reaction-button.readonly {
+  cursor: default;
+}
+.reaction-button.readonly .icon-svg {
+  stroke: #999;
+}
+.reaction-button.readonly .icon-label {
+  color: #999;
+}
+div.issue.details .reaction {
+  float: right;
+  font-size: 0.9em;
+  margin-top: 0.5em;
+  margin-left: 10px;
+  clear: right;
+}
+div.message .reaction {
+  float: right;
+  font-size: 0.9em;
+  margin-left: 10px;
+}
+div.news .reaction {
+  float: right;
+  font-size: 0.9em;
+  margin-left: 10px;
+}
+
 /* Custom JQuery styles */
 .ui-autocomplete, .ui-menu {
   border-radius: 2px;

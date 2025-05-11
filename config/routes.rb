@@ -61,6 +61,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :reactions, only: [:create, :destroy]
+
   get '/projects/:project_id/issues/gantt', :to => 'gantts#show', :as => 'project_gantt'
   get '/issues/gantt', :to => 'gantts#show'
 

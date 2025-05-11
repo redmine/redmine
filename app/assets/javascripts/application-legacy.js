@@ -1222,8 +1222,8 @@ function setupWikiTableSortableHeader() {
   });
 }
 
-function setupHoverTooltips() {
-  $("[title]:not(.no-tooltip)").tooltip({
+function setupHoverTooltips(container) {
+  $(container || 'body').find("[title]:not(.no-tooltip)").tooltip({
     show: {
       delay: 400
     },
@@ -1233,7 +1233,9 @@ function setupHoverTooltips() {
     }
   });
 }
-
+function removeHoverTooltips(container) {
+  $(container || 'body').find("[title]:not(.no-tooltip)").tooltip('destroy')
+}
 $(function() { setupHoverTooltips(); });
 
 function inlineAutoComplete(element) {

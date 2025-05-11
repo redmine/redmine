@@ -67,8 +67,10 @@ class NewsController < ApplicationController
   end
 
   def show
-    @comments = @news.comments.to_a
+    @comments = @news.comments.preload(:commented).to_a
     @comments.reverse! if User.current.wants_comments_in_reverse_order?
+
+    Comment.preload_reaction_details(@comments)
   end
 
   def new

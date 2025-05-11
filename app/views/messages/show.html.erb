@@ -27,6 +27,9 @@
 <h2><%= avatar(@topic.author) %><%= @topic.subject %></h2>
 
 <div class="message">
+<div class="reaction">
+  <%= reaction_button @topic %>
+</div>
 <p><span class="author"><%= authoring @topic.created_on, @topic.author %></span></p>
 <div id="message_topic_wiki" class="wiki">
 <%= textilizable(@topic, :content) %>
@@ -44,6 +47,7 @@
 <% @replies.each do |message| %>
   <div class="message reply" id="<%= "message-#{message.id}" %>">
     <div class="contextual">
+      <%= reaction_button message %>
       <%= quote_reply(
             url_for(:action => 'quote', :id => message, :format => 'js'),
             "#message-#{message.id} .wiki",

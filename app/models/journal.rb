@@ -19,6 +19,7 @@
 
 class Journal < ApplicationRecord
   include Redmine::SafeAttributes
+  include Redmine::Reaction::Reactable
 
   belongs_to :journalized, :polymorphic => true
   # added as a quick fix to allow eager loading of the polymorphic association

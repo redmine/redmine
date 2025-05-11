@@ -1,0 +1,51 @@
+---
+reaction_001:
+  id: 1
+  reactable_type: Issue
+  reactable_id: 1
+  user_id: 1
+reaction_002:
+  id: 2
+  reactable_type: Issue
+  reactable_id: 1
+  user_id: 2
+reaction_003:
+  id: 3
+  reactable_type: Issue
+  reactable_id: 1
+  user_id: 3
+reaction_004:
+  id: 4
+  reactable_type: Journal
+  reactable_id: 1
+  user_id: 2
+reaction_005:
+  id: 5
+  reactable_type: Issue
+  reactable_id: 6
+  user_id: 2
+reaction_006:
+  id: 6
+  reactable_type: Journal
+  reactable_id: 4
+  user_id: 2
+reaction_007:
+  id: 7
+  reactable_type: News
+  reactable_id: 1
+  user_id: 1
+reaction_008:
+  id: 8
+  reactable_type: Comment
+  reactable_id: 1
+  user_id: 2
+reaction_009:
+  id: 9
+  reactable_type: Message
+  reactable_id: 7
+  user_id: 2
+reaction_010:
+  id: 10
+  reactable_type: News
+  reactable_id: 3
+  user_id: 2

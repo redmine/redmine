@@ -19,6 +19,8 @@
 
 class News < ApplicationRecord
   include Redmine::SafeAttributes
+  include Redmine::Reaction::Reactable
+
   belongs_to :project
   belongs_to :author, :class_name => 'User'
   has_many :comments, lambda {order("created_on")}, :as => :commented, :dependent => :delete_all

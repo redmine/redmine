@@ -222,3 +222,8 @@
   svg: eye-off
 - name: copy-pre-content
   svg: clipboard
+- name: thumb-up
+  svg: thumb-up
+- name: thumb-up-filled
+  svg: thumb-up
+  style: filled

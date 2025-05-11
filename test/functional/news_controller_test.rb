@@ -106,6 +106,23 @@ class NewsControllerTest < Redmine::ControllerTest
     assert_response :not_found
   end
 
+  def test_show_should_display_reactions
+    @request.session[:user_id] = 1
+
+    get :show, params: { id: 1 }
+    assert_response :success
+    assert_select 'span[data-reaction-button-id=reaction_news_1] a.reaction-button.reacted'
+    assert_select 'span[data-reaction-button-id=reaction_comment_1] a.reaction-button'
+
+    # Should not display reactions when reactions feature is disabled.
+    with_settings reactions_enabled: '0' do
+      get :show, params: { id: 1 }
+
+      assert_response :success
+      assert_select 'span[data-reaction-button-id]', false
+    end
+  end
+
   def test_get_new_with_project_id
     @request.session[:user_id] = 2
     get(:new, :params => {:project_id => 1})

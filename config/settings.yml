@@ -363,3 +363,5 @@ show_status_changes_in_mail_subject:
   default: 1
 wiki_tablesort_enabled:
   default: 1
+reactions_enabled:
+  default: 1

@@ -1457,3 +1457,7 @@ ja:
   setting_related_issues_default_columns: 関連するチケットと子チケットの一覧で表示する項目
   setting_display_related_issues_table_headers: テーブルヘッダを表示
   error_can_not_remove_role_reason_members_html: "<p>以下のプロジェクトにこのロールのメンバーがいます:<br>%{projects}</p>"
+  setting_reactions_enabled: リアクション機能を有効にする
+  reaction_text_x_other_users:
+    one: 他1人
+    other: "他%{count}人"
