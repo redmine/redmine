@@ -49,6 +49,8 @@ class TimelogTest < ApplicationSystemTestCase
     select 'QA', :from => 'Activity'
     page.first(:button, 'Submit').click
 
+    assert_text 'Successful update.'
+
     entries = TimeEntry.where(:id => [1, 2, 3]).to_a
     assert entries.all? {|entry| entry.hours == 8.5}
     assert entries.all? {|entry| entry.activity.name == 'QA'}
@@ -89,6 +91,7 @@ class TimelogTest < ApplicationSystemTestCase
     select 'Tracker', :from => 'Available Columns'
     page.first('input[type=button].move-right').click
     click_on 'Save'
+    assert_text 'Successful update.'
 
     # Display the list with updated settings
     visit '/time_entries'
