@@ -1293,17 +1293,12 @@ div.flash.warning svg.icon-svg, .conflict svg.icon-svg {
 /***** CommonMark Alerts *****/
 .markdown-alert {
   border-left: 4px solid;
-  padding: 10px 10px 1px 10px;
-  margin: 10px 0;
-}
-
-.markdown-alert-title + p {
-  margin-top: 2px;
+  padding-left: 0.6em;
+  margin: 1em 0;
 }
 
 .markdown-alert-title {
   font-weight: bold;
-  margin: 0 0 0.5em 0;
 }
 
 .markdown-alert-tip { border-color: #5db651; }
