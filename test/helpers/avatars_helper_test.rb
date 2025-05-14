@@ -68,6 +68,18 @@ class AvatarsHelperTest < Redmine::HelperTest
     assert_include 'class="gravatar picture"', avatar('jsmith <jsmith@somenet.foo>', :class => 'picture')
   end
 
+  def test_avatar_with_initials
+    with_settings :gravatar_default => 'initials' do
+      assert_include 'initials="RA"', avatar(User.find(1))
+    end
+  end
+
+  def test_avatar_should_reject_initials_if_default_is_not_initials
+    with_settings :gravatar_default => 'identicon' do
+      assert_not_include 'initials="RA"', avatar(User.find(1))
+    end
+  end
+
   def test_avatar_disabled
     with_settings :gravatar_enabled => '0' do
       assert_equal '', avatar(User.find_by_mail('jsmith@somenet.foo'))

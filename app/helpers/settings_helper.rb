@@ -244,6 +244,7 @@ module SettingsHelper
      ['Mystery man', 'mm'],
      ['Retro', 'retro'],
      ['Robohash', 'robohash'],
-     ['Wavatars', 'wavatar']]
+     ['Wavatars', 'wavatar'],
+     ['Initials', 'initials']]
   end
 end

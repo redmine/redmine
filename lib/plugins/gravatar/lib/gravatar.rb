@@ -69,7 +69,7 @@ module GravatarHelper
       options[:default] = CGI::escape(options[:default]) unless options[:default].nil?
       gravatar_api_url(email_hash).tap do |url|
         opts = []
-        [:rating, :size, :default].each do |opt|
+        [:rating, :size, :default, :initials].each do |opt|
           unless options[opt].nil?
             value = h(options[opt])
             opts << [opt, value].join('=')

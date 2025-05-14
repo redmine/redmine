@@ -44,6 +44,7 @@ module AvatarsHelper
       if user.respond_to?(:mail)
         email = user.mail
         options[:title] = user.name unless options[:title]
+        options[:initials] = user.initials if options[:default] == "initials"
       elsif user.to_s =~ %r{<(.+?)>}
         email = $1
       end

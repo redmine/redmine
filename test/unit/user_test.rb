@@ -589,6 +589,27 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  def test_initials_format
+    assert_equal 'JS', @jsmith.initials(:firstname_lastinitial)
+    assert_equal 'SJ', @jsmith.initials(:lastname_comma_firstname)
+    assert_equal 'SJ', @jsmith.initials(:lastname_firstname)
+    assert_equal 'JS', @jsmith.initials(:firstinitial_lastname)
+    assert_equal 'JL', User.new(:firstname => 'Jean-Philippe', :lastname => 'Lang').initials(:firstinitial_lastname)
+    assert_equal 'JS', @jsmith.initials(:undefined_format)
+  end
+
+  def test_initials_should_use_setting_as_default_format
+    with_settings :user_format => :firstname_lastname do
+      assert_equal 'JS', @jsmith.reload.initials
+    end
+    with_settings :user_format => :username do
+      assert_equal 'JS', @jsmith.reload.initials
+    end
+    with_settings :user_format => :lastname do
+      assert_equal 'SM', @jsmith.reload.initials
+    end
+  end
+
   def test_lastname_should_accept_255_characters
     u = User.first
     u.lastname = 'a' * 255

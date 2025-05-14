@@ -1342,6 +1342,7 @@ en:
   text_no_subject: no subject
   text_allowed_queries_to_select: Public (to any users) queries only selectable
   text_setting_config_change: You can configure the behaviour in config/configuration.yml. Please restart the application after editing it.
+  text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a> to generate their avatars.
 
   default_role_manager: Manager
   default_role_developer: Developer

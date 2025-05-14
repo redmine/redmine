@@ -28,46 +28,55 @@ class User < Principal
   USER_FORMATS = {
     :firstname_lastname => {
       :string => '#{firstname} #{lastname}',
+      :initials => '#{firstname.to_s.first}#{lastname.to_s.first}',
       :order => %w(firstname lastname id),
       :setting_order => 1
     },
     :firstname_lastinitial => {
       :string => '#{firstname} #{lastname.to_s.chars.first}.',
+      :initials => '#{firstname.to_s.first}#{lastname.to_s.first}',
       :order => %w(firstname lastname id),
       :setting_order => 2
     },
     :firstinitial_lastname => {
       :string => '#{firstname.to_s.gsub(/(([[:alpha:]])[[:alpha:]]*\.?)/, \'\2.\')} #{lastname}',
+      :initials => '#{firstname.to_s.gsub(/(([[:alpha:]])[[:alpha:]]*\.?)/, \'\2.\').first}#{lastname.to_s.first}',
       :order => %w(firstname lastname id),
       :setting_order => 2
     },
     :firstname => {
       :string => '#{firstname}',
+      :initials => '#{firstname.to_s.first(2)}',
       :order => %w(firstname id),
       :setting_order => 3
     },
     :lastname_firstname => {
       :string => '#{lastname} #{firstname}',
+      :initials => '#{lastname.to_s.first}#{firstname.to_s.first}',
       :order => %w(lastname firstname id),
       :setting_order => 4
     },
     :lastnamefirstname => {
       :string => '#{lastname}#{firstname}',
+      :initials => '#{lastname.to_s.first}#{firstname.to_s.first}',
       :order => %w(lastname firstname id),
       :setting_order => 5
     },
     :lastname_comma_firstname => {
       :string => '#{lastname}, #{firstname}',
+      :initials => '#{lastname.to_s.first}#{firstname.to_s.first}',
       :order => %w(lastname firstname id),
       :setting_order => 6
     },
     :lastname => {
       :string => '#{lastname}',
+      :initials => '#{lastname.to_s.first(2)}',
       :order => %w(lastname id),
       :setting_order => 7
     },
     :username => {
       :string => '#{login}',
+      :initials => '#{login.to_s.first(2)}',
       :order => %w(login id),
       :setting_order => 8
     },
@@ -273,6 +282,14 @@ class User < Principal
     else
       @name ||= eval('"' + f[:string] + '"')
     end
+  end
+
+  # Return user's initials based on name format
+  def initials(formatter = nil)
+    f = self.class.name_formatter(formatter)
+    format = f[:initials] || USER_FORMATS[:firstname_lastname][:initials]
+    initials = eval('"' + format + '"')
+    initials.upcase
   end
 
   def registered?
