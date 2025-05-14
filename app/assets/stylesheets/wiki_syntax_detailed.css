@@ -63,3 +63,23 @@ table.list td { background-color: #f5f5f5; vertical-align: middle; padding: 0.3e
 .syntaxhl .o { color: #333333 }
 .syntaxhl .s2 { background-color: #fff0f0 }
 .syntaxhl .si { background-color: #eeeeee }
+
+
+.markdown-alert {
+  border-left: 4px solid;
+  padding-left: 10px;
+  margin-left: 20px;
+}
+.markdown-alert-title {
+  font-weight: bold;
+}
+.markdown-alert-tip { border-color: #5db651; }
+.markdown-alert-tip .markdown-alert-title { color: #005f00; }
+.markdown-alert-important { border-color: #800080; }
+.markdown-alert-important .markdown-alert-title { color: #4b006e; }
+.markdown-alert-caution { border-color: #c22; }
+.markdown-alert-caution .markdown-alert-title { color: #880000; }
+.markdown-alert-warning { border-color: #e4bc4b; }
+.markdown-alert-warning .markdown-alert-title { color: #a7760c; }
+.markdown-alert-note { border-color: #169; }
+.markdown-alert-note .markdown-alert-title { color: #1e40af; }
