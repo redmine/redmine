@@ -211,6 +211,7 @@ bg:
   error_can_not_delete_custom_field: Невъзможност за изтриване на потребителско поле
   error_can_not_delete_tracker_html: Този тракер съдържа задачи и не може да бъде изтрит.<p>The following projects have issues with this tracker:<br>%{projects}</p>
   error_can_not_remove_role: Тази роля се използва и не може да бъде изтрита.
+  error_can_not_remove_role_reason_members_html: "<p>Следващите проекти имат членове с тази роля:<br>%{projects}</p>"
   error_can_not_reopen_issue_on_closed_version: Задача, асоциирана със затворена версия не може да бъде отворена отново
   error_can_not_archive_project: Този проект не може да бъде архивиран
   error_issue_done_ratios_not_updated: Процентът на завършените задачи не е обновен.
@@ -239,6 +240,7 @@ bg:
   error_exceeds_maximum_hours_per_day: Не можете да запишете повече от %{max_hours} часа на един ден (%{logged_hours} часове вече са записани)
   error_can_not_delete_auth_source: Този режим за идентификация се използва и не може да бъде премахнат.
   error_spent_on_future_date: Не е възможно да се отчете изразходвано време на дата в бъдещето
+  error_spent_on_closed_issue: Не е възможно да се отчете изразходвано време за затворена задача
   error_not_allowed_to_log_time_for_other_users: Вие нямате разрешение да записвате изразходвано време за други потребители
   error_can_not_execute_macro_html: Грешка при изпълнение на <strong>%{name}</strong> макрос
     (%{error})
@@ -523,9 +525,13 @@ bg:
   setting_timelog_accept_0_hours: Приемане на записи с 0 часа
   setting_timelog_max_hours_per_day: Максимум часове, които могат да бъдат записани за ден и за потребител
   setting_timelog_accept_future_dates: Разрешено отчитане на изразходвано време на дата в бъдещето
+  setting_timelog_accept_closed_issues: Разрешено отчитане на изразходвано време за затворени задачи
   setting_show_status_changes_in_mail_subject: Показване на промените на състоянието на задачите в поле Относно на имейлите
   setting_project_list_defaults: Проектен списък
   setting_twofa: Двуфакторна автентикация
+  setting_related_issues_default_columns: Колони по подразбиране за свързани и подзадачи
+  setting_display_related_issues_table_headers: Показване на заглавия на таблиците
+  setting_reactions_enabled: Разрешаване на реакциите
 
   permission_add_project: Създаване на проект
   permission_add_subprojects: Създаване на подпроекти
@@ -1390,6 +1396,7 @@ bg:
   label_import_time_entries: Импортиране на записи за използвано време
   label_import_users: Импортиране на потребители
   sudo_mode_new_info_html: "<strong>Какво се случва?</strong> Трябва да потвърдите вашата парола преди да предприемете административни действия. Това осигурява вашият акаунт."
+  label_progressbar: Прогрес бар
 
   twofa__totp__name: Authenticator app
   twofa__totp__text_pairing_info_html: Сканирайте този QR код или въведете текстовия ключ
@@ -1444,15 +1451,7 @@ bg:
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
   field_name_or_email_or_login: Име, e-mail или login име
-  setting_wiki_tablesort_enabled: Javascript based table sorting in wiki content
-  label_progressbar: Progress bar
-  error_spent_on_closed_issue: Cannot log time on a closed issue
-  setting_timelog_accept_closed_issues: Accept time logs on closed issues
-  setting_related_issues_default_columns: Related and sub issues list defaults
-  setting_display_related_issues_table_headers: Show table headers
-  error_can_not_remove_role_reason_members_html: "<p>The following projects have members
-    with this role:<br>%{projects}</p>"
-  setting_reactions_enabled: Enable reactions
+  setting_wiki_tablesort_enabled: Сортиране на таблици чрез Javascript във wiki страници
   reaction_text_x_other_users:
-    one: 1 other
-    other: "%{count} others"
+    one: 1 друг
+    other: "%{count} други"
