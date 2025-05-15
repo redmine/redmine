@@ -106,3 +106,23 @@ jobs:
           LC_ALL: en_US.ISO8859-1
         run: |
           bin/rails test test/unit/repository_bazaar_test.rb
+
+      # System tests use Chrome and ChromeDriver installed on the GitHub Actions Ubuntu image.
+      # They are generally updated to the latest stable versions.
+      - name: Run system tests
+        run: |
+          google-chrome --version
+          bin/rails test:system
+        env:
+          GOOGLE_CHROME_OPTS_ARGS: headless,disable-gpu,no-sandbox,disable-dev-shm-usage
+        # System tests might still be a bit unstable, so for now, even if a system test fails,
+        # output the results and consider the overall test as successful.
+        continue-on-error: true
+
+      - name: Upload system test screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: system-test-screenshots-ruby${{ matrix.ruby }}-${{ matrix.db }}
+          path: tmp/screenshots
+          if-no-files-found: ignore
