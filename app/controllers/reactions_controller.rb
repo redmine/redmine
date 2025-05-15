@@ -60,6 +60,6 @@ class ReactionsController < ApplicationController
   end
 
   def authorize_reactable
-    render_403 unless Redmine::Reaction.writable?(@object, User.current)
+    render_403 unless Redmine::Reaction.editable?(@object, User.current)
   end
 end

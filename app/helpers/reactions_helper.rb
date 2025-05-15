@@ -26,15 +26,15 @@ module ReactionsHelper
 
     detail = object.reaction_detail
 
-    reaction = detail.user_reaction
+    user_reaction = detail.user_reaction
     count = detail.reaction_count
     visible_user_names = detail.visible_users.take(DISPLAY_REACTION_USERS_LIMIT).map(&:name)
 
     tooltip = build_reaction_tooltip(visible_user_names, count)
 
-    if Redmine::Reaction.writable?(object, User.current)
-      if reaction&.persisted?
-        reaction_button_reacted(object, reaction, count, tooltip)
+    if Redmine::Reaction.editable?(object, User.current)
+      if user_reaction.present?
+        reaction_button_reacted(object, user_reaction, count, tooltip)
       else
         reaction_button_not_reacted(object, count, tooltip)
       end
