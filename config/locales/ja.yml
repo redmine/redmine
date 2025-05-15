@@ -1461,3 +1461,5 @@ ja:
   reaction_text_x_other_users:
     one: 他1人
     other: "他%{count}人"
+  text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
+    to generate their avatars.

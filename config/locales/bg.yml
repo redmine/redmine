@@ -1455,3 +1455,5 @@ bg:
   reaction_text_x_other_users:
     one: 1 друг
     other: "%{count} други"
+  text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
+    to generate their avatars.
