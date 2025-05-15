@@ -42,7 +42,6 @@ class Redmine::ReactionTest < ActiveSupport::TestCase
     Issue.preload_reaction_details([issue1, issue2])
 
     expected_issue1_reaction_detail = Reaction::Detail.new(
-      reaction_count: 3,
       visible_users: [users(:users_003), users(:users_002), users(:users_001)],
       user_reaction: reactions(:reaction_002)
     )
@@ -53,7 +52,6 @@ class Redmine::ReactionTest < ActiveSupport::TestCase
 
       # Even when an object has no reactions, an empty ReactionDetail is set.
       assert_equal Reaction::Detail.new(
-        reaction_count: 0,
         visible_users: [],
         user_reaction: nil
       ), issue2.reaction_detail
@@ -107,7 +105,6 @@ class Redmine::ReactionTest < ActiveSupport::TestCase
     assert_nil message7.instance_variable_get(:@reaction_detail)
 
     assert_equal Reaction::Detail.new(
-      reaction_count: 1,
       visible_users: [users(:users_002)],
       user_reaction: reactions(:reaction_009)
     ), message7.reaction_detail
@@ -122,7 +119,6 @@ class Redmine::ReactionTest < ActiveSupport::TestCase
     comment1.load_reaction_detail
 
     assert_equal Reaction::Detail.new(
-      reaction_count: 1,
       visible_users: [users(:users_002)],
       user_reaction: nil
     ), comment1.reaction_detail

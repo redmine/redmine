@@ -75,12 +75,10 @@ class ReactionTest < ActiveSupport::TestCase
 
     expected = {
       1 => Reaction::Detail.new(
-        reaction_count: 3,
         visible_users: [users(:users_003), users(:users_002), users(:users_001)],
         user_reaction: reactions(:reaction_003)
       ),
       6 => Reaction::Detail.new(
-        reaction_count: 1,
         visible_users: [users(:users_002)],
         user_reaction: nil
       )

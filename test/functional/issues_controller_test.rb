@@ -3347,8 +3347,8 @@ class IssuesControllerTest < Redmine::ControllerTest
       # The current_user can only see members who belong to projects that the current_user has access to.
       # Since the Redmine Admin user does not belong to any projects visible to the current_user,
       # the Redmine Admin user's name is not displayed in the reaction user list. Instead, "1 other" is shown.
-      assert_select 'a.reaction-button[title=?]', 'Dave Lopper, John Smith, and 1 other' do
-        assert_select 'span.icon-label', '3'
+      assert_select 'a.reaction-button[title=?]', 'Dave Lopper and John Smith' do
+        assert_select 'span.icon-label', '2'
       end
     end
 

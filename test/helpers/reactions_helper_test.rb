@@ -106,12 +106,10 @@ class ReactionsHelperTest < ActionView::TestCase
     assert_select_in result, 'a.reaction-button[title=?]', expected_tooltip
   end
 
-  test 'reaction_button displays non-visible users as "X other" in the tooltip' do
+  test 'reaction_button should not count and display non-visible users' do
     issue2 = issues(:issues_002)
 
     issue2.reaction_detail = Reaction::Detail.new(
-      # The remaining 3 users are non-visible users
-      reaction_count: 5,
       visible_users: users(:users_002, :users_003)
     )
 
@@ -119,11 +117,10 @@ class ReactionsHelperTest < ActionView::TestCase
       reaction_button(issue2)
     end
 
-    assert_select_in result, 'a.reaction-button[title=?]', 'John Smith, Dave Lopper, and 3 others'
+    assert_select_in result, 'a.reaction-button[title=?]', 'John Smith and Dave Lopper'
 
     # When all users are non-visible users
     issue2.reaction_detail = Reaction::Detail.new(
-      reaction_count: 2,
       visible_users: []
     )
 
@@ -131,7 +128,10 @@ class ReactionsHelperTest < ActionView::TestCase
       reaction_button(issue2)
     end
 
-    assert_select_in result, 'a.reaction-button[title=?]', '2 others'
+    assert_select_in result, 'a.reaction-button[title]', false
+    assert_select_in result, 'a.reaction-button' do
+      assert_select 'span.icon-label', '0'
+    end
   end
 
   test 'reaction_button formats the tooltip content based on the support.array settings of each locale' do

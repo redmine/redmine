@@ -25,39 +25,34 @@ class Reaction < ApplicationRecord
 
   scope :by, ->(user) { where(user: user) }
   scope :for_reactable, ->(reactable) { where(reactable: reactable) }
+  scope :visible, ->(user) { where(user: User.visible(user)) }
 
   # Represents reaction details for a reactable object
   Detail = Struct.new(
-    # Total number of reactions
-    :reaction_count,
     # Users who reacted and are visible to the target user
     :visible_users,
     # Reaction of the target user
     :user_reaction
   ) do
-    def initialize(reaction_count: 0, visible_users: [], user_reaction: nil)
+    def initialize(visible_users: [], user_reaction: nil)
       super
     end
+
+    def reaction_count = visible_users.size
   end
 
   def self.build_detail_map_for(reactables, user)
-    reactions = preload(:user)
+    reactions = visible(user)
                   .for_reactable(reactables)
+                  .preload(:user)
                   .select(:id, :reactable_id, :user_id)
                   .order(id: :desc)
-
-    # Prepare IDs of users who reacted and are visible to the user
-    visible_user_ids = User.visible(user)
-                         .joins(:reactions)
-                         .where(reactions: for_reactable(reactables))
-                         .pluck(:id).to_set
 
     reactions.each_with_object({}) do |reaction, m|
       m[reaction.reactable_id] ||= Detail.new
 
       m[reaction.reactable_id].then do |detail|
-        detail.reaction_count += 1
-        detail.visible_users << reaction.user if visible_user_ids.include?(reaction.user.id)
+        detail.visible_users << reaction.user
         detail.user_reaction = reaction if reaction.user == user
       end
     end
