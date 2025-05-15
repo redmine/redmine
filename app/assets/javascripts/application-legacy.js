@@ -679,7 +679,7 @@ function copyDataClipboardTextToClipboard(target) {
 }
 
 function setupCopyButtonsToPreElements() {
-  document.querySelectorAll('pre:not(.pre-wrapper pre)').forEach((pre) => {
+  document.querySelectorAll('.wiki pre:not(.pre-wrapper pre)').forEach((pre) => {
     // Wrap the <pre> element with a container and add a copy button
     const wrapper = document.createElement("div");
     wrapper.classList.add("pre-wrapper");
