@@ -52,7 +52,7 @@ module ReactionsHelper
   def reaction_button_reacted(object, reaction, count, tooltip)
     reaction_button_wrapper object do
       link_to(
-        sprite_icon('thumb-up-filled', count),
+        sprite_icon('thumb-up-filled', count.nonzero?),
         reaction_path(reaction, object_type: object.class.name, object_id: object),
         remote: true, method: :delete,
         class: ['icon', 'reaction-button', 'reacted'],
@@ -64,7 +64,7 @@ module ReactionsHelper
   def reaction_button_not_reacted(object, count, tooltip)
     reaction_button_wrapper object do
       link_to(
-        sprite_icon('thumb-up', count),
+        sprite_icon('thumb-up', count.nonzero?),
         reactions_path(object_type: object.class.name, object_id: object),
         remote: true, method: :post,
         class: 'icon reaction-button',
@@ -76,7 +76,7 @@ module ReactionsHelper
   def reaction_button_readonly(object, count, tooltip)
     reaction_button_wrapper object do
       tag.span(class: 'icon reaction-button readonly', title: tooltip) do
-        sprite_icon('thumb-up', count)
+        sprite_icon('thumb-up', count.nonzero?)
       end
     end
   end

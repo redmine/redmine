@@ -106,6 +106,26 @@ class ReactionsHelperTest < ActionView::TestCase
     assert_select_in result, 'a.reaction-button[title=?]', expected_tooltip
   end
 
+  test 'reaction_button should be label less when no reactions' do
+    issue = issues(:issues_002)
+
+    result = with_locale('en') do
+      reaction_button(issue)
+    end
+    assert_select_in result, 'a.reaction-button' do
+      assert_select 'span.icon-label', false
+    end
+
+    # readonly
+    User.current = nil
+    result = with_locale('en') do
+      reaction_button(issue)
+    end
+    assert_select_in result, 'span.reaction-button.readonly' do
+      assert_select 'span.icon-label', false
+    end
+  end
+
   test 'reaction_button should not count and display non-visible users' do
     issue2 = issues(:issues_002)
 
@@ -130,7 +150,7 @@ class ReactionsHelperTest < ActionView::TestCase
 
     assert_select_in result, 'a.reaction-button[title]', false
     assert_select_in result, 'a.reaction-button' do
-      assert_select 'span.icon-label', '0'
+      assert_select 'span.icon-label', false
     end
   end
 

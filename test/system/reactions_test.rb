@@ -126,7 +126,7 @@ class ReactionsSystemTest < ApplicationSystemTestCase
     # Remove the reaction
     within(reaction_button) { find('a.reacted').click }
     within(reaction_button) { assert_selector('a.reaction-button:not(.reacted)') }
-    assert_equal "0", reaction_button.text
+    assert_equal "", reaction_button.text
     assert_equal 0, expected_subject.reactions.count
   end
 end

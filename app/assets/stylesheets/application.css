@@ -2116,9 +2116,13 @@ img.filecontent.image {background-image: url(/transparent.png);}
 .reaction-button.reacted:hover .icon-svg {
   fill: #c61a1a;
 }
+.reaction-button:hover, .reaction-button:active {
+  text-decoration: none;
+}
 .reaction-button .icon-label {
   margin-left: 3px;
   margin-bottom: -1px;
+  font-weight: bold;
 }
 .reaction-button.readonly {
   cursor: default;
