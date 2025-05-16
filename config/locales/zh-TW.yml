@@ -369,7 +369,7 @@
   field_priority: 優先權
   field_fixed_version: 版本
   field_user: 用戶
-  field_principal: User or Group
+  field_principal: 用戶或群組
   field_role: 角色
   field_homepage: 網站首頁
   field_is_public: 公開
@@ -1521,9 +1521,9 @@
   setting_display_related_issues_table_headers: 顯示表格標題欄位
   error_can_not_remove_role_reason_members_html: "<p>下列專案中有成員
     屬於此角色:<br>%{projects}</p>"
-  setting_reactions_enabled: Enable reactions
+  setting_reactions_enabled: 啟用表情回應功能
   reaction_text_x_other_users:
-    one: 1 other
-    other: "%{count} others"
-  text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
-    to generate their avatars.
+    one: 1 位其他用戶
+    other: "%{count} 位其他用戶"
+  text_setting_gravatar_default_initials_html: 用戶姓名的首字母縮寫將被送往 <a href="https://www.gravatar.com">https://www.gravatar.com</a>
+    用以產生其大頭貼.
