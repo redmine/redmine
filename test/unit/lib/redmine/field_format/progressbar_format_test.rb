@@ -116,5 +116,17 @@ module Redmine::FieldFormat
         end
       end
     end
+
+    def test_formatted_value_with_html_true
+      expected = progress_bar(50)
+      formatted = @format.formatted_value(self, @field, 50, Issue.new, true)
+      assert_equal expected, formatted
+      assert formatted.html_safe?
+    end
+
+    def test_formatted_value_with_html_false
+      formatted = @format.formatted_value(self, @field, 50, Issue.new, false)
+      assert_equal '50', formatted
+    end
   end
 end
