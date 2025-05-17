@@ -41,9 +41,9 @@ module JournalsHelper
                                )
     end
 
-    if journal.notes.present?
-      links << reaction_button(journal)
+    links << reaction_button(journal)
 
+    if journal.notes.present?
       if options[:reply_links]
         url = quoted_issue_path(issue, :journal_id => journal, :journal_indice => indice)
         links << quote_reply(url, "#journal-#{journal.id}-notes", icon_only: true)

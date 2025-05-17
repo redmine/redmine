@@ -51,6 +51,23 @@ class JournalsHelperTest < Redmine::HelperTest
     assert_select_in journal_actions, 'a[title=?][class="icon-only icon-edit"]', 'Edit'
     assert_select_in journal_actions, 'div[class="drdn-items"] a[class="icon icon-del"]'
     assert_select_in journal_actions, 'div[class="drdn-items"] a[class="icon icon-copy-link"]'
+    assert_select_in journal_actions, 'span.reaction-button-wrapper'
+  end
+
+  def test_render_journal_actions_with_journal_without_notes
+    User.current = User.find(1)
+    issue = Issue.find(1)
+    issue.journals.first.update!(notes: '')
+
+    journals = issue.visible_journals_with_index
+
+    journal_actions = render_journal_actions(issue, journals.first, reply_links: true)
+
+    assert_select_in journal_actions, 'span.reaction-button-wrapper'
+    assert_select_in journal_actions, 'span.drdn'
+
+    assert_select_in journal_actions, 'a[class="icon-comment"]', false
+    assert_select_in journal_actions, 'a[class="icon-edit"]', false
   end
 
   def test_journal_thumbnail_attachments_should_be_in_the_same_order_as_the_journal_details

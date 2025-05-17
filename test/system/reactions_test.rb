@@ -113,6 +113,47 @@ class ReactionsSystemTest < ApplicationSystemTestCase
     end
   end
 
+  def test_reaction_button_is_visible_on_property_changes_tab
+    # Create a journal with no notes
+    journal_without_notes = Journal.generate!(journalized: issues(:issues_001), notes: '', details: [JournalDetail.new])
+
+    log_user('jsmith', 'jsmith')
+
+    visit '/issues/1?tab=properties'
+
+    # Scroll to the history content
+    click_link '#1'
+
+    assert_selector '#tab-properties.selected'
+
+    within('#change-1') do
+      assert_selector 'a.reaction-button'
+
+      assert_no_selector 'a.icon-comment'
+      assert_no_selector 'span.drdn'
+    end
+    within("#change-#{journal_without_notes.id}") do
+      assert_selector 'a.reaction-button'
+
+      assert_no_selector '.drdn'
+    end
+
+    click_link 'History'
+
+    within('#change-1') do
+      assert_selector 'a.reaction-button'
+
+      assert_selector 'a.icon-comment'
+      assert_selector 'span.drdn'
+    end
+    within("#change-#{journal_without_notes.id}") do
+      assert_selector 'a.reaction-button'
+      assert_selector 'span.drdn'
+
+      assert_no_selector 'a.icon-comment'
+    end
+  end
+
   private
 
   def assert_reaction_add_and_remove(reaction_button, expected_subject)

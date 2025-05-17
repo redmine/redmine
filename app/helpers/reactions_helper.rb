@@ -82,7 +82,7 @@ module ReactionsHelper
   end
 
   def reaction_button_wrapper(object, &)
-    tag.span(data: { 'reaction-button-id': reaction_id_for(object) }, &)
+    tag.span(class: 'reaction-button-wrapper', data: { 'reaction-button-id': reaction_id_for(object) }, &)
   end
 
   def build_reaction_tooltip(visible_user_names, count)

@@ -172,7 +172,7 @@ class ReactionsHelperTest < ActionView::TestCase
     end
     tooltip = 'Dave Lopper, John Smith, and Redmine Admin'
 
-    assert_select_in result, 'span[data-reaction-button-id=?]', 'reaction_issue_1' do
+    assert_select_in result, 'span.reaction-button-wrapper[data-reaction-button-id=?]', 'reaction_issue_1' do
       href = reaction_path(issue.reaction_detail.user_reaction, object_type: 'Issue', object_id: 1)
 
       assert_select 'a.icon.reaction-button.reacted[href=?]', href do
@@ -194,7 +194,7 @@ class ReactionsHelperTest < ActionView::TestCase
     end
     tooltip = 'Dave Lopper, John Smith, and Redmine Admin'
 
-    assert_select_in result, 'span[data-reaction-button-id=?]', 'reaction_issue_1' do
+    assert_select_in result, 'span.reaction-button-wrapper[data-reaction-button-id=?]', 'reaction_issue_1' do
       href = reactions_path(object_type: 'Issue', object_id: 1)
 
       assert_select 'a.icon.reaction-button[href=?]', href do
