@@ -141,7 +141,7 @@ fa:
         must_contain_digits: "باید شامل عدد باشد (0-9)"
         must_contain_special_chars: "باید شامل نویسه‌های خاص باشد (!, $, %, ...)"
         domain_not_allowed: "شامل دامنه‌ی غیرمجازست (%{domain})"
-        too_simple: "is too simple"
+        too_simple: "خیلی ساده است"
 
   actionview_instancetag_blank_option: انتخاب کنید
 
@@ -275,10 +275,9 @@ fa:
   mail_body_security_notification_notify_disabled: "نشانی رایانامه %{value} دیگر آگاه‌سازی دریافت نخواهد کرد."
   mail_body_settings_updated: "تنظیمات زیر تغییر کردند:"
   mail_body_password_updated: "گذرواژه شما تغییر کرد."
-  mail_destroy_project_failed: Project %{value} could not be deleted.
-  mail_destroy_project_successful: Project %{value} was deleted successfully.
-  mail_destroy_project_with_subprojects_successful: Project %{value} and its subprojects
-    were deleted successfully.
+  mail_destroy_project_failed: پروژه %{value} نمی‌تواند حذف شود.
+  mail_destroy_project_successful: پروژه %{value} با موفقیت حذف شد.
+  mail_destroy_project_with_subprojects_successful: پروژه %{value} و زیرپروژه‌های آن با موفقیت حذف شدند.
 
   field_name: نام
   field_description: توضیح
@@ -422,6 +421,10 @@ fa:
   field_default_issue_query: جستار پیش‌فرض مسئله‌ها
   field_default_project_query: جستار پیش‌فرض پروژه
   field_default_time_entry_activity: دسته‌بندی پیش‌فرض زمان صرف شده
+  field_any_searchable: هر متن قابل جستجویی
+  field_estimated_remaining_hours: باقی‌مانده زمان برآورد شده
+  field_last_activity_date: آخرین فعالیت
+  field_thousands_delimiter: جداکننده هزارگان
 
   setting_app_title: عنوان برنامه
   setting_welcome_text: متن خوش‌آمد گویی
@@ -479,6 +482,7 @@ fa:
   setting_default_projects_modules: ابزارهای پیش‌فرض فعال برای پروژه‌های جدید
   setting_issue_done_ratio: برآورد اندازه انجام شده مسئله با
   setting_issue_done_ratio_issue_field: محاسبه بر اساس درصد پیش‌رفت مسئله
+  setting_issue_done_ratio_interval: فاصله گزینه‌های درصد انجام
   setting_issue_done_ratio_issue_status: محاسبه بر اساس وضعیت مسئله
   setting_start_of_week: آغاز تقویم از
   setting_rest_api_enabled: فعال‌سازی وب سرویس‌های REST
@@ -503,6 +507,7 @@ fa:
   setting_force_default_language_for_anonymous: الزام زبان پیش فرض برای کاربران ناشناس
   setting_force_default_language_for_loggedin: الزام زبان پیش‌فرض برای کاربران واردشده
   setting_link_copied_issue: ارتباط مسائل در هنگام رونوشت
+  setting_copy_attachments_on_issue_copy: رونوشت پیوست‌ها در زمان رونوشت
   setting_max_additional_emails: بیشینه تعداد نشانی‌های رایانامه
   setting_email_domains_allowed: دامنه‌های مجاز برای نشانی رایانامه
   setting_email_domains_denied: دامنه‌های غیرمجاز برای نشانی رایانامه
@@ -526,6 +531,7 @@ fa:
   permission_edit_project: ویرایش پروژه
   permission_close_project: بستن / بازگشایی پروژه
   permission_delete_project: حذف پروژه
+  permission_select_project_publicity: تنظیم پروژه به عمومی یا محرمانه
   permission_select_project_modules: انتخاب ابزارهای پروژه
   permission_manage_members: مدیریت اعضا
   permission_manage_project_activities: مدیریت دسته‌بندی زمان‌های پروژه
@@ -632,6 +638,7 @@ fa:
   label_issue_assigned_to_updated: مسئول به‌روز شد
   label_issue_priority_updated: اولویت به‌روز شد
   label_issue_fixed_version_updated: نسخه هدف به‌روز شد
+  label_issue_attachment_added: پیوست اضافه شد
   label_document: سند
   label_document_new: سند جدید
   label_document_plural: اسناد
@@ -713,6 +720,10 @@ fa:
   label_attachment_plural: پیوست‌ها
   label_file_added: پرونده افزوده شد
   label_attachment_description: توضیحات پیوست
+  label_attachment_summary:
+    zero: "%{filename}"
+    one: "%{filename} و 1 پرونده"
+    other: "%{filename} و %{count} پرونده"
   label_report: گزارش
   label_report_plural: گزارش‌ها
   label_news: مطلب
@@ -812,6 +823,7 @@ fa:
   label_more_than_ago: بعد از چند روز پیش
   label_ago: روز قبل
   label_contains: شامل
+  label_contains_any_of: شامل یکی از
   label_not_contains: فاقد
   label_starts_with: شروع با
   label_ends_with: پایان با
@@ -820,6 +832,9 @@ fa:
   label_no_issues_in_project: مسئله‌ای در پروژه وجود ندارد
   label_any_open_issues: هر مسئله‌ی باز
   label_no_open_issues: بدون هیچ مسئله باز
+  label_has_been: بوده است
+  label_has_never_been: هرگز نبوده است
+  label_changed_from: تغییر کرده از
   label_day_plural: روز
   label_repository: مخزن
   label_repository_new: مخزن جدید
@@ -839,6 +854,7 @@ fa:
   label_latest_revision_plural: آخرین بازبینی‌ها
   label_view_revisions: مشاهده بازبینی‌ها
   label_view_all_revisions: مشاهده همه بازبینی‌ها
+  label_view_previous_annotation: مشاهده حاشیه‌نویسی قبل از این تغییر
   label_x_revisions: "%{count} بازبینی"
   label_max_size: بیشترین اندازه
   label_roadmap: نقشه راه
@@ -964,6 +980,7 @@ fa:
   label_optional_description: توضیح اختیاری
   label_add_another_file: افزودن پرونده دیگر
   label_auto_watch_on: ناظر خودکار
+  label_auto_watch_on_issue_created: مسئله‌هایی که من ساخته‌ام
   label_auto_watch_on_issue_contributed_to: مسئله‌هایی که در آن‌ها مشارکت داشته‌ام
   label_preferences: ترجیح‌ها
   label_chronological_order: به ترتیب تاریخ
@@ -1116,6 +1133,8 @@ fa:
   label_inherited_from_group: "ارث‌بری از گروه %{name}"
   label_trackers_description: توضیحات انواع مسئله
   label_open_trackers_description: نمایش توضیحات تمامی انواع مسئله
+  label_issue_statuses_description: توضیحات وضعیت‌های مسئله
+  label_open_issue_statuses_description: دیدن توضیحات همه وضعیت‌های مسئله‌ها
   label_preferred_body_part_text: متن
   label_preferred_body_part_html: HTML
   label_issue_history_properties: تغییرات بخش‌ها
@@ -1133,6 +1152,7 @@ fa:
   label_default_query: جستار پیش‌فرض
   label_edited: ویرایش شده
   label_time_by_author: "%{time} توسط %{author}"
+  label_involved_principals: نویسنده / مسئول قبلی
 
   button_login: ورود
   button_submit: ثبت
@@ -1198,6 +1218,7 @@ fa:
   button_edit_object: ویرایش %{object_name}
   button_delete_object: حذف %{object_name}
   button_create_and_follow: ساخت و برگشت
+  button_apply_issues_filter: اعمال غربال مسئله‌ها
 
   status_active: فعال
   status_registered: ثبت‌نام‌شده
@@ -1274,6 +1295,7 @@ fa:
   text_minimagick_available: MiniMagick در دست‌رس است (اختیاری)
   text_convert_available: تبدیل ImageMagick در دست‌رس است (اختیاری)
   text_gs_available: پشتیبانی ImageMagick PDF موجود است (اختیاری)
+  text_default_active_job_queue_changed: آداپتور پیش‌فرض صف که به شکل مناسبی کار می‌کند تنها برای توسعه/آزمون تغییر کرد
   text_destroy_time_entries_question: "روی مسئله‌هایی که می‌خواهید حذف کنید، %{hours} ساعت زمان ثبت شده است. می‌خواهید چه‌کار کنید؟"
   text_destroy_time_entries: ساعت‌های ثبت شده حذف شوند
   text_assign_time_entries_to_project: ساعت‌های ثبت شده به پروژه واگذار شوند
@@ -1310,11 +1332,11 @@ fa:
   text_project_closed: این پروژه بسته و فقط‌خواندنی است.
   text_turning_multiple_off: "اگر این گزینه را غیرفعال کنید، در بخش‌های سفارشیِ ذخیره‌شده، فقط یک مقدار باقی خواهد ماند و بقیه موارد حذف خواهند شد."
   text_select_apply_tracker: "انتخاب نوع مسئله"
+  text_select_apply_issue_status: "وضعیت مسئله را انتخا کنید"
   text_avatar_server_config_html: خادم فعلی آواتار <a href="%{url}">%{url}</a> می‌باشد. شما می‌توانید آن را در config/configuration.yml تغییر دهید.
   text_no_subject: بدون موضوع
   text_allowed_queries_to_select: تنها جستارهای عمومی (برای همه کاربران) قابل انتخاب است
-  text_setting_config_change: می‌توانید رفتار را در config/configuration.yml ویرایش کنید.
-    لطفا پس از تغییر، برنامه را دوباره اجرا کنید.
+  text_setting_config_change: می‌توانید رفتار را در config/configuration.yml ویرایش کنید. لطفا پس از تغییر، برنامه را دوباره اجرا کنید.
 
   default_role_manager: مدیر
   default_role_developer: برنامه‌نویس
@@ -1365,22 +1387,18 @@ fa:
   label_import_time_entries: ورود زمان‌ها
   label_import_users: وارد کردن فهرست کاربران
   sudo_mode_new_info_html: "<strong>چه اتفاقی می‌افتد؟</strong> قبل از انجام هرگونه اقداماتِ راه‌بری باید گذرواژه خود را دوباره وارد کنید، این کار تضمین می‌کند که حساب شما محافظت شود."
+
   twofa__totp__name: برنامک احراز هویت
-  twofa__totp__text_pairing_info_html: لطفا کد QR را را در یک برنامه TOTP اسکن کنید یا کلید متنی  را در آن وارد کنید (به عنوان مثال <a href="https://support.google.com/accounts/answer/1066447"> Google
-    Authenticator </a>، <a href="https://authy.com/download/"> Authy </a>، <a href = "https://guide.duo.com/third-party-accounts" > Duo
-    Mobile </a>) سپس کدی که برنامه در اختیار شما می‌گذارد را در قسمت زیر وارد نمایید تا احراز هویت دو مرحله ای فعال شود.
+  twofa__totp__text_pairing_info_html: لطفا کد QR را را در یک برنامه TOTP اسکن کنید یا کلید متنی  را در آن وارد کنید (به عنوان مثال <a href="https://support.google.com/accounts/answer/1066447"> Google Authenticator </a>، <a href="https://authy.com/download/"> Authy </a>، <a href = "https://guide.duo.com/third-party-accounts" > Duo Mobile </a>) سپس کدی که برنامه در اختیار شما می‌گذارد را در قسمت زیر وارد نمایید تا احراز هویت دو مرحله ای فعال شود.
   twofa__totp__label_plain_text_key: کلید متنی
   twofa__totp__label_activate: فعال‌سازی برنامک احراز هویت
   twofa_currently_active: 'فعال: %{twofa_scheme_name}'
   twofa_not_active: فعال نشده است
   twofa_label_code: کد
   twofa_hint_disabled_html: تنظیم <strong>%{label}</strong> احراز هویت دو عاملی را غیرفعال کرده و اتصال همه دستگاه‌های تمامی کاربران را قطع می‌کند.
-  twofa_hint_optional_html: تنظیم <strong>%{label}</strong> به کاربران اجازه می‌دهد
-    احراز هویت دوعاملی را در صورت تمایل فعال کنند، مگر این‌که توسط یکی از گروه‌های کاربری الزامی شده باشد.
+  twofa_hint_optional_html: تنظیم <strong>%{label}</strong> به کاربران اجازه می‌دهد احراز هویت دوعاملی را در صورت تمایل فعال کنند، مگر این‌که توسط یکی از گروه‌های کاربری الزامی شده باشد.
   twofa_hint_required_html: تنظیم <strong>%{label}</strong> تمامی کاربران را ملزم می‌کند تا احراز هویت دو عاملی را در اولین ورود بعدی فعال کنند.
-  twofa_hint_required_administrators_html: تنظیم <strong>%{label}</strong> شبیه
-   احراز هویت دوعاملی اختیاری عمل می‌کند, اما برای راه‌برها احراز هویت دوعاملی را
-    در اولین ورود بعدی الزامی می‌کند.
+  twofa_hint_required_administrators_html: تنظیم <strong>%{label}</strong> شبیه احراز هویت دوعاملی اختیاری عمل می‌کند, اما برای راه‌برها احراز هویت دوعاملی را در اولین ورود بعدی الزامی می‌کند.
   twofa_label_setup: فعال‌سازی احراز هویت دو عاملی
   twofa_label_deactivation_confirmation: غیرفعال‌سازی احراز هویت دو عاملی
   twofa_notice_select: 'لطفاً طرح دو عاملی را که می خواهید استفاده کنید انتخاب کنید:'
@@ -1408,31 +1426,7 @@ fa:
   twofa_text_group_disabled: "این تنظیم تنها زمانی مؤثر است که احراز هویت دوعاملی روی «اختیاری» تنظیم شده باشد. در حال حاضر، احراز هویت دوعاملی غیرفعال است."
   text_user_destroy_confirmation: مطمئنید که می خواهید این کاربر و همه ارجاع‌های مربوط به او را حذف کنید؟ این کار قابل بازگشت نیست. غالبا، قفل کردن کاربر به جای حذف، راه حل به‌تری است. برای تأیید، لطفاً شناسه ورود کاربر (%{login}) را در زیر وارد کنید.
   text_project_destroy_enter_identifier: برای تایید، لطفا شناسه پروژه (%{identifier}) را وارد کنید.
-  permission_select_project_publicity: تنظیم عمومی یا خصوصی بودن پروژه
-  label_auto_watch_on_issue_created: مسئله‌هایی که من ساخته‌ام
-  field_any_searchable: هر متن قابل جستجویی
-  label_contains_any_of: شامل یکی از
-  button_apply_issues_filter: اعمال غربال مسئله‌ها
-  label_view_previous_annotation: مشاهده حاشیه‌نویسی قبل از این تغییر
-  label_has_been: بوده است
-  label_has_never_been: نبوده است
-  label_changed_from: تغییر یافته از
-  label_issue_statuses_description: توضیحات وضعیت‌های مسئله
-  label_open_issue_statuses_description: مشاهده توضیحات همه وضعیت‌های مسئله‌ها
-  text_select_apply_issue_status: وضعیت مسئله را انتخاب کنید
   field_name_or_email_or_login: نام، رایانامه یا شناسه کاربری
-  text_default_active_job_queue_changed: آداپتور پیش‌فرض صف که به شکل مناسبی کار می‌کند تنها برای توسعه/آزمون تغییر کرد
-  label_issue_attachment_added: Attachment added
-  field_estimated_remaining_hours: Estimated remaining time
-  field_last_activity_date: Last activity
-  setting_issue_done_ratio_interval: Done ratio options interval
-  setting_copy_attachments_on_issue_copy: Copy attachments on copy
-  field_thousands_delimiter: Thousands delimiter
-  label_involved_principals: Author / Previous assignee
-  label_attachment_summary:
-    zero: "%{filename}"
-    one: "%{filename} and 1 file"
-    other: "%{filename} and %{count} files"
   setting_wiki_tablesort_enabled: Javascript based table sorting in wiki content
   label_progressbar: Progress bar
   error_spent_on_closed_issue: Cannot log time on a closed issue
