@@ -2,6 +2,7 @@
 # by Johan Lundström (johanlunds@gmail.com),
 # with parts taken from http://github.com/daniel/swe_rails
 # Update based on Redmine 2.6.0 by Khedron Wilk (khedron.wilk@gmail.com) 6th Dec 2014
+# Update based on Redmine 6.0.1 by Jimmy 'Grovkillen' Westberg (jimmy@grovkillen.com) 5th Dec 2024
 sv:
   number:
     # Used in number_with_delimiter()
@@ -135,14 +136,14 @@ sv:
         circular_dependency: "Denna relation skulle skapa ett cirkulärt beroende"
         cant_link_an_issue_with_a_descendant: "Ett ärende kan inte länkas till ett av dess underärenden"
         earlier_than_minimum_start_date: "kan inte vara tidigare än %{date} på grund av föregående ärenden"
-        not_a_regexp: "is not a valid regular expression"
-        open_issue_with_closed_parent: "An open issue cannot be attached to a closed parent task"
-        must_contain_uppercase: "must contain uppercase letters (A-Z)"
-        must_contain_lowercase: "must contain lowercase letters (a-z)"
-        must_contain_digits: "must contain digits (0-9)"
-        must_contain_special_chars: "must contain special characters (!, $, %, ...)"
-        domain_not_allowed: "contains a domain not allowed (%{domain})"
-        too_simple: "is too simple"
+        not_a_regexp: "är inte korrekt formaterad RegEx"
+        open_issue_with_closed_parent: "Ett öppet ärende kan inte kopplas till ett stängt föräldraärende"
+        must_contain_uppercase: "måste innehålla versaler (A-Z)"
+        must_contain_lowercase: "måste innehålla gemener (a-z)"
+        must_contain_digits: "måste innehålla siffror (0-9)"
+        must_contain_special_chars: "måste innehålla specialtecken (!, $, %, ...)"
+        domain_not_allowed: "består av en ej godkänd domän (%{domain})"
+        too_simple: "är för simpel"
 
   direction: ltr
   date:
@@ -178,9 +179,8 @@ sv:
 # Used in array.to_sentence.
   support:
     array:
-      last_word_connector: " och "
-      two_words_connector: " och "
-      words_connector: ", "
+      sentence_connector: "och"
+      skip_last_comma: true
 
   actionview_instancetag_blank_option: Var god välj
 
@@ -217,16 +217,16 @@ sv:
   notice_feeds_access_key_reseted: Din Atom-nyckel återställdes.
   notice_api_access_key_reseted: Din API-nyckel återställdes.
   notice_failed_to_save_issues: "Misslyckades med att spara %{count} ärende(n) på %{total} valda: %{ids}."
-  notice_failed_to_save_time_entries: "Misslyckades med att spara %{count} tidloggning(ar) på %{total} valda: %{ids}."
+  notice_failed_to_save_time_entries: "Misslyckades med att spara %{count} tidsstämpling(ar) på %{total} valda: %{ids}."
   notice_failed_to_save_members: "Misslyckades med att spara medlem(mar): %{errors}."
   notice_account_pending: "Ditt konto skapades och avvaktar nu administratörens godkännande."
   notice_default_data_loaded: Standardkonfiguration inläst.
   notice_unable_delete_version: Denna version var inte möjlig att ta bort.
-  notice_unable_delete_time_entry: Tidloggning kunde inte tas bort.
+  notice_unable_delete_time_entry: Tidsstämplingen kunde inte tas bort.
   notice_issue_done_ratios_updated: "% klart uppdaterade."
   notice_gantt_chart_truncated: "Schemat förminskades eftersom det överskrider det maximala antalet aktiviteter som kan visas (%{max})"
   notice_issue_successful_create: "Ärende %{id} skapades."
-  notice_issue_update_conflict: "Detta ärende har uppdaterats av en annan användare samtidigt som du redigerade det."
+  notice_issue_update_conflict: "Detta ärende har uppdaterats av en annan användare under tiden du redigerade det."
   notice_account_deleted: "Ditt konto har avslutats permanent."
   notice_user_successful_create: "Användare %{id} skapad."
 
@@ -237,9 +237,9 @@ sv:
   error_scm_annotate_big_text_file: Inlägget kan  inte annoteras eftersom det överskrider maximal storlek för textfiler.
   error_issue_not_found_in_project: 'Ärendet hittades inte eller så tillhör det inte detta projekt'
   error_no_tracker_in_project: 'Ingen ärendetyp är associerad med projektet. Vänligen kontrollera projektinställningarna.'
-  error_no_default_issue_status: 'Ingen status är definierad som standard för nya ärenden. Vänligen kontrollera din konfiguration (Gå till "Administration -> Ärendestatus").'
-  error_can_not_delete_custom_field: Kan inte ta bort användardefinerat fält
-  error_can_not_delete_tracker_html: "Det finns ärenden av denna typ och den är därför inte möjlig att ta bort.<p>The following projects have issues with this tracker:<br>%{projects}</p>"
+  error_no_default_issue_status: 'Ingen status är definierad som standard för nya ärenden. Vänligen kontrollera din konfiguration (gå till "Administration -> Ärendestatus").'
+  error_can_not_delete_custom_field: Kan inte ta bort anpassat fält
+  error_can_not_delete_tracker_html: "Det finns ärenden av denna typ och den är därför inte möjlig att ta bort.<p>Följande projekt har ärenden kopplad till denna ärendetyp:<br>%{projects}</p>"
   error_can_not_remove_role: "Denna roll används och den är därför inte möjlig att ta bort."
   error_can_not_reopen_issue_on_closed_version: 'Ett ärende tilldelat en stängd version kan inte öppnas på nytt'
   error_can_not_archive_project: Detta projekt kan inte arkiveras
@@ -267,7 +267,6 @@ sv:
   mail_subject_wiki_content_updated: "'%{id}' wikisida har uppdaterats"
   mail_body_wiki_content_updated: "The '%{id}' wikisida har uppdaterats av %{author}."
 
-
   field_name: Namn
   field_description: Beskrivning
   field_summary: Sammanfattning
@@ -278,14 +277,14 @@ sv:
   field_filename: Fil
   field_filesize: Storlek
   field_downloads: Nerladdningar
-  field_author: Författare
+  field_author: Skapare
   field_created_on: Skapad
   field_updated_on: Uppdaterad
   field_closed_on: Stängd
   field_field_format: Format
   field_is_for_all: För alla projekt
   field_possible_values: Möjliga värden
-  field_regexp: Reguljärt uttryck
+  field_regexp: Reguljärt uttryck (RegEx)
   field_min_length: Minimilängd
   field_max_length: Maxlängd
   field_value: Värde
@@ -300,18 +299,18 @@ sv:
   field_tracker: Ärendetyp
   field_subject: Ämne
   field_due_date: Deadline
-  field_assigned_to: Tilldelad till
+  field_assigned_to: Tilldelad
   field_priority: Prioritet
   field_fixed_version: Versionsmål
   field_user: Användare
-  field_principal: User or Group
+  field_principal: Användare eller grupp
   field_role: Roll
   field_homepage: Hemsida
   field_is_public: Publik
   field_parent: Underprojekt till
   field_is_in_roadmap: Visa ärenden i roadmap
   field_login: Användarnamn
-  field_mail_notification: Mailnotifieringar
+  field_mail_notification: E-postaviseringar
   field_admin: Administratör
   field_last_login_on: Senaste inloggning
   field_language: Språk
@@ -334,7 +333,7 @@ sv:
   field_done_ratio: "% Klart"
   field_auth_source: Autentiseringsläge
   field_hide_mail: Dölj min mailadress
-  field_comments: Kommentar
+  field_comments: Kommentarer
   field_url: URL
   field_start_page: Startsida
   field_subproject: Underprojekt
@@ -347,7 +346,7 @@ sv:
   field_delay: Fördröjning
   field_assignable: Ärenden kan tilldelas denna roll
   field_redirect_existing_links: Omdirigera existerande länkar
-  field_estimated_hours: Estimerad tid
+  field_estimated_hours: Beräknad tid
   field_column_names: Kolumner
   field_time_entries: Spenderad tid
   field_time_zone: Tidszon
@@ -399,7 +398,7 @@ sv:
   setting_feeds_limit: Innehållsgräns för Feed
   setting_default_projects_public: Nya projekt är publika
   setting_autofetch_changesets: Automatisk hämtning av commits
-  setting_sys_api_enabled: Aktivera WS för versionsarkivhantering
+  setting_sys_api_enabled: Aktivera API för versionsarkivhantering
   setting_commit_ref_keywords: Referens-nyckelord
   setting_commit_fix_keywords: Fix-nyckelord
   setting_autologin: Automatisk inloggning
@@ -409,7 +408,7 @@ sv:
   setting_cross_project_issue_relations: Tillåt ärenderelationer mellan projekt
   setting_issue_list_default_columns: Standardkolumner i ärendelistan
   setting_repositories_encodings: Encoding för bilagor och versionsarkiv
-  setting_emails_header: Mail-header
+  setting_emails_header: Inledning
   setting_emails_footer: Signatur
   setting_protocol: Protokoll
   setting_per_page_options: Alternativ, objekt per sida
@@ -418,7 +417,7 @@ sv:
   setting_display_subprojects_issues: Visa ärenden från underprojekt i huvudprojekt
   setting_enabled_scm: Aktivera SCM
   setting_mail_handler_body_delimiters: "Trunkera mail efter en av följande rader"
-  setting_mail_handler_api_enabled: Aktivera WS för inkommande mail
+  setting_mail_handler_api_enabled: Aktivera API för inkommande mail
   setting_mail_handler_api_key: API-nyckel
   setting_sequential_project_identifiers: Generera projektidentifierare sekventiellt
   setting_gravatar_enabled: Använd Gravatar-avatarer
@@ -429,21 +428,21 @@ sv:
   setting_password_min_length: Minsta tillåtna lösenordslängd
   setting_new_project_user_role_id: Tilldelad roll för en icke-administratör som skapar ett projekt
   setting_default_projects_modules: Aktiverade moduler för nya projekt
-  setting_issue_done_ratio: Beräkna % klart med
+  setting_issue_done_ratio: Beräkna "% Klart" med
   setting_issue_done_ratio_issue_field: Använd ärendefältet
   setting_issue_done_ratio_issue_status: Använd ärendestatus
   setting_start_of_week: Första dagen i veckan
-  setting_rest_api_enabled: Aktivera REST webbtjänst
-  setting_cache_formatted_text: Cacha formaterad text
-  setting_default_notification_option: Standard notifieringsalternativ
-  setting_commit_logtime_enabled: Aktivera tidloggning
-  setting_commit_logtime_activity_id: Aktivitet för loggad tid
-  setting_gantt_items_limit: Maximalt antal aktiviteter som visas i gantt-schemat
-  setting_issue_group_assignment: Tillåt att ärenden tilldelas till grupper
+  setting_rest_api_enabled: Aktivera REST-API
+  setting_cache_formatted_text: Förladda formaterad text
+  setting_default_notification_option: Standardaviseringsalternativ
+  setting_commit_logtime_enabled: Aktivera tidsstämpling
+  setting_commit_logtime_activity_id: Aktivitet för stämplad tid
+  setting_gantt_items_limit: Maximalt antal aktiviteter som visas i Gantt-schemat
+  setting_issue_group_assignment: Tillåt att ärenden tilldelas grupper
   setting_default_issue_start_date_to_creation_date: Använd dagens datum som startdatum för nya ärenden
-  setting_commit_cross_project_ref: Tillåt ärende i alla de andra projekten att bli refererade och fixade
+  setting_commit_cross_project_ref: Tillåt ärenden i alla projekt att refereras och åtgärdas
   setting_unsubscribe: Tillåt användare att avsluta prenumereration
-  setting_session_lifetime: Maximal sessionslivslängd
+  setting_session_lifetime: Maximal sessionslängd
   setting_session_timeout: Tidsgräns för sessionsinaktivitet
   setting_thumbnails_enabled: Visa miniatyrbilder av bilagor
   setting_thumbnails_size: Storlek på miniatyrbilder (i pixlar)
@@ -472,17 +471,17 @@ sv:
   permission_view_private_notes: Visa privata anteckningar
   permission_set_notes_private: Ställa in anteckningar som privata
   permission_delete_issues: Ta bort ärenden
-  permission_manage_public_queries: Hantera publika frågor
-  permission_save_queries: Spara frågor
+  permission_manage_public_queries: Hantera publika filtreringar
+  permission_save_queries: Spara filtreringar
   permission_view_gantt: Visa Gantt-schema
   permission_view_calendar: Visa kalender
   permission_view_issue_watchers: Visa bevakarlista
   permission_add_issue_watchers: Lägga till bevakare
   permission_delete_issue_watchers: Ta bort bevakare
-  permission_log_time: Logga spenderad tid
+  permission_log_time: Stämpla spenderad tid
   permission_view_time_entries: Visa spenderad tid
-  permission_edit_time_entries: Ändra tidloggningar
-  permission_edit_own_time_entries: Ändra egna tidloggningar
+  permission_edit_time_entries: Ändra tidsstämplingar
+  permission_edit_own_time_entries: Ändra egna tidsstämplingar
   permission_manage_news: Hantera nyheter
   permission_comment_news: Kommentera nyheter
   permission_view_documents: Visa dokument
@@ -501,7 +500,7 @@ sv:
   permission_protect_wiki_pages: Skydda wikisidor
   permission_manage_repository: Hantera versionsarkiv
   permission_browse_repository: Bläddra i versionsarkiv
-  permission_view_changesets: Visa changesets
+  permission_view_changesets: Visa kodändringar
   permission_commit_access: Commit-åtkomst
   permission_manage_boards: Hantera forum
   permission_view_messages: Visa meddelanden
@@ -571,10 +570,10 @@ sv:
   label_issue_category: Ärendekategori
   label_issue_category_plural: Ärendekategorier
   label_issue_category_new: Ny kategori
-  label_custom_field: Användardefinerat fält
-  label_custom_field_plural: Användardefinerade fält
-  label_custom_field_new: Nytt användardefinerat fält
-  label_enumerations: Uppräkningar
+  label_custom_field: Anpassat fält
+  label_custom_field_plural: Anpassade fält
+  label_custom_field_new: Nytt anpassat fält
+  label_enumerations: Värdelistor
   label_enumeration_new: Nytt värde
   label_information: Information
   label_information_plural: Information
@@ -588,8 +587,8 @@ sv:
   label_login: Logga in
   label_logout: Logga ut
   label_help: Hjälp
-  label_reported_issues: Rapporterade ärenden
-  label_assigned_to_me_issues: Ärenden tilldelade till mig
+  label_reported_issues: Skapade ärenden
+  label_assigned_to_me_issues: Ärenden tilldelade mig
   label_registered_on: Registrerad
   label_activity: Aktivitet
   label_user_activity: "Aktiviteter för %{value}"
@@ -668,7 +667,7 @@ sv:
   label_next: Nästa
   label_previous: Föregående
   label_used_by: Använd av
-  label_details: Detaljer
+  label_details: Sammanfattning
   label_add_note: Lägg till anteckning
   label_calendar: Kalender
   label_months_from: månader från
@@ -685,12 +684,12 @@ sv:
   label_comment_add: Lägg till kommentar
   label_comment_added: Kommentar tillagd
   label_comment_delete: Ta bort kommentar
-  label_query: Användardefinerad fråga
-  label_query_plural: Användardefinerade frågor
-  label_query_new: Ny fråga
-  label_my_queries: Mina egna frågor
-  label_filter_add: Lägg till filter
-  label_filter_plural: Filter
+  label_query: Anpassad filtrering
+  label_query_plural: Anpassade filtreringar
+  label_query_new: Ny filtrering
+  label_my_queries: Mina egna filtreringar
+  label_filter_add: Lägg till filtreringsrad
+  label_filter_plural: Filtrering
   label_equals: är
   label_not_equals: är inte
   label_in_less_than: om mindre än
@@ -739,7 +738,7 @@ sv:
   label_view_revisions: Visa revisioner
   label_view_all_revisions: Visa alla revisioner
   label_max_size: Maxstorlek
-  label_roadmap: Vägkarta
+  label_roadmap: Utvecklingsplan
   label_roadmap_due_in: "Färdig om %{value}"
   label_roadmap_overdue: "%{value} sen"
   label_roadmap_no_issues: Inga ärenden för denna version
@@ -765,7 +764,7 @@ sv:
   label_change_plural: Ändringar
   label_statistics: Statistik
   label_commits_per_month: Commits per månad
-  label_commits_per_author: Commits per författare
+  label_commits_per_author: Commits per användare
   label_diff: skillnader
   label_view_diff: Visa skillnader
   label_diff_inline: i texten
@@ -796,7 +795,7 @@ sv:
   label_board_new: Nytt forum
   label_board_plural: Forum
   label_board_locked: Låst
-  label_board_sticky: Klibbig
+  label_board_sticky: Fäst
   label_topic_plural: Ämnen
   label_message_plural: Meddelanden
   label_message_last: Senaste meddelande
@@ -811,7 +810,7 @@ sv:
   label_date_to: Till
   label_language_based: Språkbaserad
   label_sort_by: "Sortera på %{value}"
-  label_send_test_email: Skicka testmail
+  label_send_test_email: Skicka ett testmejl
   label_feeds_access_key: Atom-nyckel
   label_missing_feeds_access_key: Saknar en Atom-nyckel
   label_feeds_access_key_created_on: "Atom-nyckel skapad för %{value} sedan"
@@ -833,8 +832,8 @@ sv:
   label_user_mail_option_selected: "För alla händelser i markerade projekt..."
   label_user_mail_option_none: "Inga händelser"
   label_user_mail_option_only_my_events: "Endast för saker jag bevakar eller är inblandad i"
-  label_user_mail_no_self_notified: "Jag vill inte bli underrättad om ändringar som jag har gjort"
-  label_registration_activation_by_email: kontoaktivering med mail
+  label_user_mail_no_self_notified: "Jag vill inte bli underrättad om ändringar som jag själv gjort"
+  label_registration_activation_by_email: kontoaktivering med e-post
   label_registration_manual_activation: manuell kontoaktivering
   label_registration_automatic_activation: automatisk kontoaktivering
   label_display_per_page: "Per sida: %{value}"
@@ -844,13 +843,13 @@ sv:
   label_scm: SCM
   label_plugins: Tillägg
   label_ldap_authentication: LDAP-autentisering
-  label_downloads_abbr: Nerl.
+  label_downloads_abbr: Nedl.
   label_optional_description: Valfri beskrivning
   label_add_another_file: Lägg till ytterligare en fil
   label_preferences: Användarinställningar
   label_chronological_order: I kronologisk ordning
   label_reverse_chronological_order: I omvänd kronologisk ordning
-  label_incoming_emails: Inkommande mail
+  label_incoming_emails: Inkommande e-post
   label_generate_key: Generera en nyckel
   label_issue_watchers: Bevakare
   label_example: Exempel
@@ -880,14 +879,14 @@ sv:
   label_api_access_key_created_on: "API-nyckel skapad för %{value} sedan"
   label_profile: Profil
   label_subtask_plural: Underaktiviteter
-  label_project_copy_notifications: Skicka mailnotifieringar när projektet kopieras
+  label_project_copy_notifications: Skicka e-postaviseringar när projektet kopieras
   label_principal_search: "Sök efter användare eller grupp:"
   label_user_search: "Sök efter användare:"
   label_additional_workflow_transitions_for_author: Ytterligare övergångar tillåtna när användaren är den som skapat ärendet
   label_additional_workflow_transitions_for_assignee: Ytterligare övergångar tillåtna när användaren är den som tilldelats ärendet
   label_issues_visibility_all: Alla ärenden
   label_issues_visibility_public: Alla icke-privata ärenden
-  label_issues_visibility_own: Ärenden skapade av eller tilldelade till användaren
+  label_issues_visibility_own: Ärenden skapade av eller tilldelade användaren
   label_git_report_last_commit: Rapportera senaste commit av filer och mappar
   label_parent_revision: Förälder
   label_child_revision: Barn
@@ -904,7 +903,7 @@ sv:
   label_required: Nödvändig
   label_attribute_of_project: Projektets %{name}
   label_attribute_of_issue: Ärendets %{name}
-  label_attribute_of_author: Författarens %{name}
+  label_attribute_of_author: Skaparens %{name}
   label_attribute_of_assigned_to: Tilldelad användares %{name}
   label_attribute_of_user: Användarens %{name}
   label_attribute_of_fixed_version: Målversionens %{name}
@@ -923,7 +922,7 @@ sv:
   button_expand_all: Expandera alla
   button_delete: Ta bort
   button_create: Skapa
-  button_create_and_continue: Skapa och fortsätt
+  button_create_and_continue: Skapa och ny
   button_test: Testa
   button_edit: Ändra
   button_edit_associated_wikipage: "Ändra associerad Wikisida: %{page_title}"
@@ -937,15 +936,15 @@ sv:
   button_list: Lista
   button_view: Visa
   button_move: Flytta
-  button_move_and_follow: Flytta och följ efter
+  button_move_and_follow: Flytta och följ
   button_back: Tillbaka
   button_cancel: Avbryt
   button_activate: Aktivera
   button_sort: Sortera
-  button_log_time: Logga tid
+  button_log_time: Stämpla tid
   button_rollback: Återställ till denna version
   button_watch: Bevaka
-  button_unwatch: Stoppa bevakning
+  button_unwatch: Ta bort bevakning
   button_reply: Svara
   button_archive: Arkivera
   button_unarchive: Ta bort från arkiv
@@ -953,7 +952,7 @@ sv:
   button_rename: Byt namn
   button_change_password: Ändra lösenord
   button_copy: Kopiera
-  button_copy_and_follow: Kopiera och följ efter
+  button_copy_and_follow: Kopiera och följ
   button_annotate: Kommentera
   button_update: Uppdatera
   button_configure: Konfigurera
@@ -980,12 +979,12 @@ sv:
 
   field_active: Aktiv
 
-  text_select_mail_notifications: Välj för vilka händelser mail ska skickas.
-  text_regexp_info: eg. ^[A-Z0-9]+$
+  text_select_mail_notifications: Välj för vilka händelser e-post ska skickas.
+  text_regexp_info: t.ex. ^[A-Z0-9]+$
   text_project_destroy_confirmation: Är du säker på att du vill ta bort detta projekt och all relaterad data?
   text_subprojects_destroy_warning: "Alla underprojekt: %{value} kommer också tas bort."
   text_workflow_edit: Välj en roll och en ärendetyp för att ändra arbetsflöde
-  text_are_you_sure: Är du säker ?
+  text_are_you_sure: Är du säker?
   text_journal_changed: "%{label} ändrad från %{old} till %{new}"
   text_journal_changed_no_detail: "%{label} uppdaterad"
   text_journal_set_to: "%{label} satt till %{value}"
@@ -1005,8 +1004,8 @@ sv:
   text_issues_ref_in_commit_messages: Referera och fixa ärenden i commit-meddelanden
   text_issue_added: "Ärende %{id} har rapporterats (av %{author})."
   text_issue_updated: "Ärende %{id} har uppdaterats (av %{author})."
-  text_wiki_destroy_confirmation: Är du säker på att du vill ta bort denna wiki och allt dess innehåll ?
-  text_issue_category_destroy_question: "Några ärenden (%{count}) är tilldelade till denna kategori. Vad vill du göra ?"
+  text_wiki_destroy_confirmation: Är du säker på att du vill ta bort denna wiki och allt dess innehåll?
+  text_issue_category_destroy_question: "Några ärenden (%{count}) är tilldelade denna kategori. Vad vill du göra?"
   text_issue_category_destroy_assignments: Ta bort kategoritilldelningar
   text_issue_category_reassign_to: Återtilldela ärenden till denna kategori
   text_user_mail_option: "För omarkerade projekt kommer du bara bli underrättad om saker du bevakar eller är inblandad i (T.ex. ärenden du skapat eller tilldelats)."
@@ -1014,25 +1013,25 @@ sv:
   text_load_default_configuration: Läs in standardkonfiguration
   text_status_changed_by_changeset: "Tilldelad i changeset %{value}."
   text_time_logged_by_changeset: "Tilldelad i changeset %{value}."
-  text_issues_destroy_confirmation: 'Är du säker på att du vill radera markerade ärende(n) ?'
+  text_issues_destroy_confirmation: 'Är du säker på att du vill radera markerade ärende(n)?'
   text_issues_destroy_descendants_confirmation: Detta kommer även ta bort %{count} underaktivitet(er).
   text_time_entries_destroy_confirmation: Är du säker på att du vill ta bort valda tidloggningar?
   text_select_project_modules: 'Välj vilka moduler som ska vara aktiva för projektet:'
   text_default_administrator_account_changed: Standardadministratörens konto ändrat
   text_file_repository_writable: Arkivet för bifogade filer är skrivbart
-  text_plugin_assets_writable: Arkivet för plug-ins är skrivbart
+  text_plugin_assets_writable: Arkivet för tillägg är skrivbart
   text_minimagick_available: MiniMagick tillgängligt (ej obligatoriskt)
-  text_destroy_time_entries_question: "%{hours} timmar har rapporterats på ärendena du är på väg att ta bort. Vad vill du göra ?"
+  text_destroy_time_entries_question: "%{hours} timmar har rapporterats på ärendena du är på väg att ta bort. Vad vill du göra?"
   text_destroy_time_entries: Ta bort rapporterade timmar
   text_assign_time_entries_to_project: Tilldela rapporterade timmar till projektet
   text_reassign_time_entries: 'Återtilldela rapporterade timmar till detta ärende:'
   text_user_wrote: "%{value} skrev:"
   text_user_wrote_in: "%{value} skrev (%{link}):"
-  text_enumeration_destroy_question: "%{count} objekt är tilldelade till detta värde."
+  text_enumeration_destroy_question: "%{count} objekt är tilldelade detta värde."
   text_enumeration_category_reassign_to: 'Återtilldela till detta värde:'
-  text_email_delivery_not_configured: "Mailfunktionen har inte konfigurerats, och notifieringar via mail kan därför inte skickas.\nKonfigurera din SMTP-server i config/configuration.yml och starta om applikationen för att aktivera dem."
-  text_repository_usernames_mapping: "Välj eller uppdatera den Redmine-användare som är mappad till varje användarnamn i versionarkivloggen.\nAnvändare med samma användarnamn eller mailadress i både Redmine och versionsarkivet mappas automatiskt."
-  text_diff_truncated: '... Denna diff har förminskats eftersom den överskrider den maximala storlek som kan visas.'
+  text_email_delivery_not_configured: "E-postfunktionen har inte konfigurerats, och aviseringar via e-post kan därför inte skickas.\nKonfigurera din SMTP-server i <strong>config/configuration.yml</strong> och starta om applikationen för att aktivera dem."
+  text_repository_usernames_mapping: "Välj eller uppdatera den Redmine-användare som är mappad till varje användarnamn i versionarkivloggen.\nAnvändare med samma användarnamn eller e-postadress i både Redmine och versionsarkivet mappas automatiskt."
+  text_diff_truncated: '... Denna diff har kortats ner eftersom den överskrider den maximala storlek som kan visas.'
   text_custom_field_possible_values_info: 'Ett värde per rad'
   text_wiki_page_destroy_question: "Denna sida har %{descendants} underliggande sidor. Vad vill du göra?"
   text_wiki_page_nullify_children: "Behåll undersidor som rotsidor"
@@ -1047,13 +1046,13 @@ sv:
   text_mercurial_repository_note: Lokalt versionsarkiv (t.ex. /hgrepo, c:\hgrepo)
   text_scm_command: Kommando
   text_scm_command_version: Version
-  text_scm_config: Du kan konfigurera dina scm-kommando i config/configuration.yml. Vänligen starta om applikationen när ändringar gjorts.
+  text_scm_config: Du kan konfigurera dina scm-kommando i <strong>config/configuration.yml</strong>. Vänligen starta om applikationen när ändringar gjorts.
   text_scm_command_not_available: Scm-kommando är inte tillgängligt. Vänligen kontrollera inställningarna i administratörspanelen.
   text_issue_conflict_resolution_overwrite: "Använd mina ändringar i alla fall (tidigare anteckningar kommer behållas men några ändringar kan bli överskrivna)"
   text_issue_conflict_resolution_add_notes: "Lägg till mina anteckningar och kasta mina andra ändringar"
   text_issue_conflict_resolution_cancel: "Kasta alla mina ändringar och visa igen %{link}"
   text_account_destroy_confirmation: "Är du säker på att du vill fortsätta?\nDitt konto kommer tas bort permanent, utan möjlighet att återaktivera det."
-  text_session_expiration_settings: "Varning: ändring av dessa inställningar kan få alla nuvarande sessioner, inklusive din egen, att gå ut."
+  text_session_expiration_settings: "Varning: ändring av dessa inställningar kan få alla nuvarande sessioner, inklusive din egen, att avslutas."
   text_project_closed: Detta projekt är stängt och skrivskyddat.
   text_turning_multiple_off: "Om du inaktiverar möjligheten till flera värden kommer endast ett värde per objekt behållas."
 
@@ -1091,14 +1090,14 @@ sv:
   description_message_content: Meddelandeinnehåll
   description_query_sort_criteria_attribute: Sorteringsattribut
   description_query_sort_criteria_direction: Sorteringsriktning
-  description_user_mail_notification: Mailnotifieringsinställningar
-  description_available_columns: Tillgängliga Kolumner
-  description_selected_columns: Valda Kolumner
+  description_user_mail_notification: Inställningar för e-postaviseringar
+  description_available_columns: Tillgängliga kolumner
+  description_selected_columns: Valda kolumner
   description_all_columns: Alla kolumner
   description_issue_category_reassign: Välj ärendekategori
   description_wiki_subpages_reassign: Välj ny föräldersida
   text_repository_identifier_info: 'Endast gemener (a-z), siffror, streck och understreck är tillåtna.<br />När identifieraren sparats kan den inte ändras.'
-  notice_account_not_activated_yet: Du har inte aktiverat ditt konto än. Om du vill få ett nytt aktiveringsbrev, <a href="%{url}"> klicka på denna länk </a>.
+  notice_account_not_activated_yet: Du har inte aktiverat ditt konto än. Om du vill få ett nytt aktiveringsbrev, <a href="%{url}">klicka på denna länk</a>.
   notice_account_locked: Ditt konto är låst.
   label_hidden: Dold
   label_visibility_private: endast för mig
@@ -1110,21 +1109,21 @@ sv:
   text_convert_available: ImageMagick-konvertering tillgänglig (valbart)
   label_link: Länk
   label_only: endast
-  label_drop_down_list: droppmeny
+  label_drop_down_list: rullgardinsmeny
   label_checkboxes: kryssrutor
   label_link_values_to: Länka värden till URL
   setting_force_default_language_for_anonymous: Lås till förvalt språk för anonyma användare
   setting_force_default_language_for_loggedin: Lås till förvalt språk för inloggade användare
   label_custom_field_select_type: Välj den typ av objekt som det anpassade fältet skall användas för
-  label_issue_assigned_to_updated: Tilldelad har uppdaterats
+  label_issue_assigned_to_updated: Tilldelning har uppdaterats
   label_check_for_updates: Leta efter uppdateringar
   label_latest_compatible_version: Senaste kompatibla version
   label_unknown_plugin: Okänt tillägg
   label_radio_buttons: alternativknappar
   label_group_anonymous: Anonyma användare
   label_group_non_member: Icke-medlemsanvändare
-  label_add_projects: Addera projekt
-  field_default_status: Default-status
+  label_add_projects: Lägg till projekt
+  field_default_status: Standardstatus
   text_subversion_repository_note: 'Exempel: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
   field_users_visibility: Användares synlighet
   label_users_visibility_all: Alla aktiva användare
@@ -1138,17 +1137,16 @@ sv:
   label_search_attachments_only: Sök endast bilagor
   label_search_open_issues_only: Endast öppna ärenden
   field_address: Epost
-  setting_max_additional_emails: Max antal ytterligare epost-adresser
-  label_email_address_plural: Epost
-  label_email_address_add: Addera epostadress
-  label_enable_notifications: Aktivera underrättelser
-  label_disable_notifications: Avaktivera underrättelser
+  setting_max_additional_emails: Maximalt antal extra e-postadresser
+  label_email_address_plural: E-post
+  label_email_address_add: Addera e-postadress
+  label_enable_notifications: Aktivera aviseringar
+  label_disable_notifications: Avaktivera aviseringar
   setting_search_results_per_page: Sökresultat per sida
   label_blank_value: blank
   permission_copy_issues: Kopiera ärenden
-  error_password_expired: Ditt lösenord har gått ut eller administratören kräver att
-    du ändrar det.
-  field_time_entries_visibility: Synlighet för tidsloggar
+  error_password_expired: Ditt lösenord har gått ut eller administratören kräver att du ändrar det.
+  field_time_entries_visibility: Synlighet för tidsstämplingar
   setting_password_max_age: Kräv lösenordsändring efter
   label_parent_task_attributes: Attribut för föräldraaktiviteter
   label_parent_task_attributes_derived: Kalkylerad från underaktiviteter
@@ -1163,8 +1161,7 @@ sv:
   notice_import_finished: "%{count} artiklar har importerats"
   notice_import_finished_with_errors: "%{count} av %{total} artiklar kunde inte importeras"
   error_invalid_file_encoding: Filen är inte en %{encoding}-kodad fil
-  error_invalid_csv_file_or_settings: Filen är inte en CSV-fil eller stämmer inte med
-    inställningarna nedan (%{value})
+  error_invalid_csv_file_or_settings: Filen är inte en CSV-fil eller stämmer inte med inställningarna nedan (%{value})
   error_can_not_read_import_file: Fel vid läsning av fil att importera
   permission_import_issues: Importera ärenden
   label_import_issues: Importera ärenden
@@ -1173,26 +1170,26 @@ sv:
   label_fields_wrapper: Fältomslag
   label_encoding: Kodning
   label_comma_char: Komma
-  label_semi_colon_char: Semicolon
-  label_quote_char: Citationstecken
-  label_double_quote_char: Dubbla citationstecken
-  label_fields_mapping: Kartläggning av fält
+  label_semi_colon_char: Semikolon
+  label_quote_char: Citattecken
+  label_double_quote_char: Dubbla citattecken
+  label_fields_mapping: Mappning av fält
   label_file_content_preview: Förhandsvisning av filinnehåll
   label_create_missing_values: Skapa saknade värden
   button_import: Importera
-  field_total_estimated_hours: Totalt uppskattad tid
+  field_total_estimated_hours: Totalt beräknad tid
   label_api: API
   label_total_plural: Totaler
   label_assigned_issues: Tilldelade ärenden
   label_field_format_enumeration: Nyckel/värde-lista
   label_f_hour_short: '%{value} h'
-  field_default_version: Defaultversion
-  error_attachment_extension_not_allowed: Otillåten utökning av bilaga %{extension}
-  setting_attachment_extensions_allowed: Tillåtna utökningar
-  setting_attachment_extensions_denied: Otillåtna utökningar
+  field_default_version: Standardversion
+  error_attachment_extension_not_allowed: Otillåten filtyp av bilaga %{extension}
+  setting_attachment_extensions_allowed: Tillåtna filtyper
+  setting_attachment_extensions_denied: Otillåtna filtyper
   label_any_open_issues: några öppna ärenden
   label_no_open_issues: inga öppna ärenden
-  label_default_values_for_new_users: Defaultvärden för nya användare
+  label_default_values_for_new_users: Standardvärden för nya användare
   error_ldap_bind_credentials: Ogiltigt LDAP konto/lösenord
   setting_sys_api_key: API-nyckel
   setting_lost_password: Glömt lösenord
@@ -1201,25 +1198,21 @@ sv:
   mail_body_security_notification_change_to: ! '%{field} ändrades till %{value}.'
   mail_body_security_notification_add: ! '%{field} %{value} las till.'
   mail_body_security_notification_remove: ! '%{field} %{value} togs bort.'
-  mail_body_security_notification_notify_enabled: Epostadress %{value} kommer att få
-    underrättelser.
-  mail_body_security_notification_notify_disabled: Epostadress %{value} får inga fler
-    underrättelser.
+  mail_body_security_notification_notify_enabled: E-postadress %{value} kommer att få aviseringar.
+  mail_body_security_notification_notify_disabled: E-postadress %{value} får inga fler aviseringar.
   mail_body_settings_updated: ! 'Följande inställningar ändrades:'
   field_remote_ip: IP-adress
   label_wiki_page_new: Ny wiki-sida
   label_relations: Relationer
-  button_filter: Filter
+  button_filter: Filtrering
   mail_body_password_updated: Ditt lösenord är ändrat.
   label_no_preview: Ingen förhandsvisning tillgänglig
-  error_no_tracker_allowed_for_new_issue_in_project: Projektet har ingen spårare
-    som du kan skapa ett ärende för
-  label_tracker_all: All spårare
+  error_no_tracker_allowed_for_new_issue_in_project: Projektet har ingen ärendetyp som du kan skapa ett ärende för
+  label_tracker_all: All ärendetyper
   label_new_project_issue_tab_enabled: Visa fliken "Nya ärenden"
   setting_new_item_menu_tab: Projektmenyflik för att skapa nya objekt
-  label_new_object_tab_enabled: Visa "+" droppmeny
-  error_no_projects_with_tracker_allowed_for_new_issue: Inga projekt med spårare
-    tillåtna för nya ärenden
+  label_new_object_tab_enabled: Visa "+" rullgardinsmenyn
+  error_no_projects_with_tracker_allowed_for_new_issue: Inga projekt med ärendetyper tillåtna för nya ärenden
   field_textarea_font: Font som används för textytor
   label_font_default: Default font
   label_font_monospace: Monospaced font
@@ -1227,94 +1220,81 @@ sv:
   setting_timespan_format: Format för tidsintervall
   label_table_of_contents: Innehållsförteckning
   setting_commit_logs_formatting: Använd textformatering för meddelanden
-  setting_mail_handler_enable_regex: Aktivera reguljära uttryck
+  setting_mail_handler_enable_regex: Aktivera reguljära uttryck (RegEx)
   error_move_of_child_not_possible: 'Underaktivitet %{child} kunde inte flyttas till det nya
     projektet: %{errors}'
-  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spenderad tid kan inte
-    flyttas till ett ärende som är på väg att tas bort
-  setting_timelog_required_fields: Nödvändiga fält för tidsangivelser
-  label_attribute_of_object: '%{object_name}''s %{name}'
+  error_cannot_reassign_time_entries_to_an_issue_about_to_be_deleted: Spenderad tid kan inte flyttas till ett ärende som är på väg att tas bort
+  setting_timelog_required_fields: Nödvändiga fält för tidsstämplingar
+  label_attribute_of_object: '%{object_name}s %{name}'
   label_user_mail_option_only_assigned: Bara för saker som jag följer eller är tilldelad
   label_user_mail_option_only_owner: Bara för saker som jag följer eller äger
-  warning_fields_cleared_on_bulk_edit: Ändringar kommer att orsaka automatiskt borttagande
-    av värden från ett eller flera fält för de valda objekten
+  warning_fields_cleared_on_bulk_edit: Ändringar kommer att orsaka automatiskt borttagande av värden från ett eller flera fält för de valda objekten
   field_updated_by: Uppdaterad av
   field_last_updated_by: Senast uppdaterad av
   field_full_width_layout: Layout med full bredd
   label_last_notes: Senaste noteringar
   field_digest: Checksumma
-  field_default_assigned_to: Defaultmottagare
+  field_default_assigned_to: Standardmottagare
   setting_show_custom_fields_on_registration: Visa anpassade fält vid registrering
   permission_view_news: Visa nyheter
   label_no_preview_alternative_html: Ingen förhandsvisning tillgänglig. %{link} filen istället.
-  label_no_preview_download: Nerladdning
+  label_no_preview_download: Nedladdning
   setting_close_duplicate_issues: Stäng duplicerade ärenden automatiskt
-  error_exceeds_maximum_hours_per_day: Kan inte logga mer än %{max_hours} timmar
-    samma dag (%{logged_hours} timmar har redan loggats)
-  setting_time_entry_list_defaults: Defaults för tidsloggning
-  setting_timelog_accept_0_hours: Acceptera tidsloggar med 0 timmar
-  setting_timelog_max_hours_per_day: Max timmar som kan loggas per dag och användare
+  error_exceeds_maximum_hours_per_day: Kan inte stämpla mer än %{max_hours} timmar samma dag (%{logged_hours} timmar har redan stämplats)
+  setting_time_entry_list_defaults: Standard för tidsstämplingar
+  setting_timelog_accept_0_hours: Acceptera tidsstämplingar på 0 timmar
+  setting_timelog_max_hours_per_day: Max timmar som kan stämplas per dag och användare
   label_x_revisions: "%{count} revisioner"
-  error_can_not_delete_auth_source: Denna autenticeringsmetod är i bruk och kan inte
-    tas bort.
+  error_can_not_delete_auth_source: Denna autentiseringsmetod är i bruk och kan inte tas bort.
   button_actions: Handlingar
-  mail_body_lost_password_validity: OBS att du endast kan ändra lösenordet en gång
-    via denna länk.
-  text_login_required_html: När autenticering inte krävs, är publika projekt och deras
-    innehåll tillgängliga på nätverket. Du kan <a href="%{anonymous_role_path}"> ändra
-    tillämpliga behörigheter</a>.
+  mail_body_lost_password_validity: Observera att du endast kan ändra lösenordet en gång via denna länk.
+  text_login_required_html: 'När autentisering inte krävs, är publika projekt och deras innehåll tillgängliga på nätverket. Du kan <a href="%{anonymous_role_path}"> ändra tillämpliga behörigheter</a>.'
   label_login_required_yes: 'Ja'
   label_login_required_no: Nej, tillåt anonym access till publika projekt
-  text_project_is_public_non_member: Publika projekt och deras innehåll är tillgängliga
-    för alla inloggade användare.
-  text_project_is_public_anonymous: Publika projekt och deras innehåll är tillgängliga
-    på nätverket.
+  text_project_is_public_non_member: Publika projekt och deras innehåll är tillgängliga för alla inloggade användare.
+  text_project_is_public_anonymous: Publika projekt och deras innehåll är tillgängliga på nätverket.
   label_version_and_files: Versioner (%{count}) och filer
   label_ldap: LDAP
   label_ldaps_verify_none: LDAPS (utan certifikatkontroll)
   label_ldaps_verify_peer: LDAPS
-  label_ldaps_warning: Det rekommenderas att använda krypterad LDAPS-förbindelse med
-     certifikatkontroll för att hindra manipulation av autenticeringsprocessen.
+  label_ldaps_warning: Det rekommenderas att använda krypterad LDAPS-koppling med certifikatkontroll för att hindra manipulation av autentiseringsprocessen.
   label_nothing_to_preview: Ingenting att visa
   error_token_expired: Lösenordslänken gäller inte längre, var god försök igen.
-  error_spent_on_future_date: Kan inte logga tid på framtida datum
-  setting_timelog_accept_future_dates: Acceptera tidsloggningar på framtida datum
+  error_spent_on_future_date: Kan inte stämpla tid på framtida datum
+  setting_timelog_accept_future_dates: Acceptera tidsstämplingar på framtida datum
   label_delete_link_to_subtask: Ta bort relation
-  error_not_allowed_to_log_time_for_other_users: Du får inte logga tid
-    för andra användare
-  permission_log_time_for_other_users: Logga spenderad tid för andra användare
+  error_not_allowed_to_log_time_for_other_users: Du får inte stämpla tid för andra användare
+  permission_log_time_for_other_users: Stämpla spenderad tid för andra användare
   label_tomorrow: imorgon
   label_next_week: nästa vecka
   label_next_month: nästa månad
   text_role_no_workflow: Inget arbetsflöde definierat för denna roll
-  text_status_no_workflow: Ingen spårare använder denna status i arbetsflödet
-  setting_mail_handler_preferred_body_part: Föredragen del av epost i flera delar(HTML)
-  setting_show_status_changes_in_mail_subject: Visa statusändringar i ärendemailunderrättelsers
-    ämne
+  text_status_no_workflow: Ingen arbetstyp använder denna status i arbetsflödet
+  setting_mail_handler_preferred_body_part: Föredragen del av epost i flera delar (HTML)
+  setting_show_status_changes_in_mail_subject: Visa statusändringar för ärenden i ämnet för e-postaviseringar
   label_inherited_from_parent_project: Ärvd från föräldraprojekt
   label_inherited_from_group: Ärvd från grupp%{name}
-  label_trackers_description: Beskrivning för spårare
-  label_open_trackers_description: Visa beskrivning för alla spårare
+  label_trackers_description: Beskrivning för ärendetyp
+  label_open_trackers_description: Visa beskrivning för alla ärendetyper
   label_preferred_body_part_text: Text
   label_preferred_body_part_html: HTML
   field_parent_issue_subject: Ämne för föräldraärende
   permission_edit_own_issues: Ändra egna ärenden
-  text_select_apply_tracker: Välj spårare
-  label_updated_issues: Updaterade ärenden
-  text_avatar_server_config_html: Nuvarande avatar-server <a href="%{url}">%{url}</a>.
-    Du kan konfigurera det i config/configuration.yml.
-  setting_gantt_months_limit: Max antal månader på gantt-schemat
-  permission_import_time_entries: Importera tidsangivelser
-  label_import_notifications: Skicka underrättelser med epost under importen
-  text_gs_available: ImageMagick PDF support tillgänglig (frivillig)
+  text_select_apply_tracker: Välj ärendetyp
+  label_updated_issues: Uppdaterade ärenden
+  text_avatar_server_config_html: 'Nuvarande avatar-server <a href="%{url}">%{url}</a>. Du kan konfigurera det i <strong>config/configuration.yml</strong>.'
+  setting_gantt_months_limit: Max antal månader på Gantt-schemat
+  permission_import_time_entries: Importera tidsstämplingar
+  label_import_notifications: Skicka aviseringar med e-post under importen
+  text_gs_available: ImageMagick PDF-support tillgänglig (frivillig)
   field_recently_used_projects: Antal nyligen använda projekt
   label_optgroup_bookmarks: Bokmärken
   label_optgroup_recents: Nyligen använda
   button_project_bookmark: Lägg till bokmärke
   button_project_bookmark_delete: Ta bort bokmärke
-  field_history_default_tab: Ärendes defaultflik för historik
+  field_history_default_tab: Ärendens standardflik för historik
   label_issue_history_properties: Ändrade egenskaper
-  label_issue_history_notes: Noter
+  label_issue_history_notes: Anteckningar
   label_last_tab_visited: Senast besökta flik
   field_unique_id: Unikt ID
   text_no_subject: inget ämne
@@ -1324,214 +1304,165 @@ sv:
   label_password_char_class_digits: siffror
   label_password_char_class_special_chars: specialtecken
   text_characters_must_contain: Måste innehålla %{character_classes}.
-  label_starts_with: startar med
-  label_ends_with: slutar med
+  label_starts_with: börjar på
+  label_ends_with: slutar på
   label_issue_fixed_version_updated: Målversion uppdaterad
-  setting_project_list_defaults: Projektlista defaults
+  setting_project_list_defaults: Projektlista standardinställningar
   label_display_type: Visa resultat som
   label_display_type_list: Lista
   label_display_type_board: Anslagstavla
   label_my_bookmarks: Mina bokmärken
-  label_import_time_entries: Importera tidsangivelser
-  notice_issue_not_closable_by_open_tasks: This issue cannot be closed because it has
-    at least one open subtask.
-  notice_issue_not_closable_by_blocking_issue: This issue cannot be closed because it
-    is blocked by at least one open issue.
-  notice_issue_not_reopenable_by_closed_parent_issue: This issue cannot be reopened
-    because its parent issue is closed.
-  error_attachments_too_many: This file cannot be uploaded because it exceeds the maximum
-    number of files that can be attached simultaneously (%{max_number_of_files})
-  error_bulk_download_size_too_big: These attachments cannot be bulk downloaded because
-    the total file size exceeds the maximum allowed size (%{max_size})
-  error_can_not_execute_macro_html: Error executing the <strong>%{name}</strong> macro
-    (%{error})
-  error_macro_does_not_accept_block: This macro does not accept a block of text
-  error_childpages_macro_no_argument: With no argument, this macro can be called from
-    wiki pages only
-  error_circular_inclusion: Circular inclusion detected
-  error_page_not_found: Page not found
-  error_filename_required: Filename required
-  error_invalid_size_parameter: Invalid size parameter
-  error_attachment_not_found: Attachment %{name} not found
-  field_passwd_changed_on: Password last changed
-  field_toolbar_language_options: Code highlighting toolbar languages
-  setting_bulk_download_max_size: Maximum total size for bulk download
-  setting_email_domains_allowed: Allowed email domains
-  setting_email_domains_denied: Disallowed email domains
-  setting_twofa: Two-factor authentication
-  permission_delete_project: Delete the project
-  label_optional: optional
-  label_user_mail_notify_about_high_priority_issues_html: Also notify me about issues
-    with a priority of <em>%{prio}</em> or higher
-  label_days_to_html: "%{days} days up to %{date}"
-  label_required_lower: required
-  label_download_all_attachments: Download all files
-  label_relations_mapping: Relations mapping
-  label_assign_to_me: Assign to me
-  button_disable: Disable
-  label_import_users: Import users
-  twofa__totp__name: Authenticator app
-  twofa__totp__text_pairing_info_html: Scan this QR code or enter the plain text key
-    into a TOTP app (e.g. <a href="https://support.google.com/accounts/answer/1066447">Google
-    Authenticator</a>, <a href="https://authy.com/download/">Authy</a>, <a href="https://guide.duo.com/third-party-accounts">Duo
-    Mobile</a>) and enter the code in the field below to activate two-factor authentication.
-  twofa__totp__label_plain_text_key: Plain text key
-  twofa__totp__label_activate: Enable authenticator app
-  twofa_currently_active: 'Currently active: %{twofa_scheme_name}'
-  twofa_not_active: Not activated
-  twofa_label_code: Code
-  twofa_hint_disabled_html: Setting <strong>%{label}</strong> will deactivate and unpair
-    two-factor authentication devices for all users.
-  twofa_hint_required_html: Setting <strong>%{label}</strong> will require all users
-    to set up two-factor authentication at their next login.
-  twofa_label_setup: Enable two-factor authentication
-  twofa_label_deactivation_confirmation: Disable two-factor authentication
-  twofa_notice_select: 'Please select the two-factor scheme you would like to use:'
-  twofa_warning_require: The administrator requires you to enable two-factor authentication.
-  twofa_activated: Two-factor authentication successfully enabled. It is recommended
-    to <a data-method="post" href="%{bc_path}">generate backup codes</a> for your account.
-  twofa_deactivated: Two-factor authentication disabled.
-  twofa_mail_body_security_notification_paired: Two-factor authentication successfully
-    enabled using %{field}.
-  twofa_mail_body_security_notification_unpaired: Two-factor authentication disabled
-    for your account.
-  twofa_mail_body_backup_codes_generated: New two-factor authentication backup codes
-    generated.
-  twofa_mail_body_backup_code_used: A two-factor authentication backup code has been
-    used.
-  twofa_invalid_code: Code is invalid or outdated.
-  twofa_label_enter_otp: Please enter your two-factor authentication code.
-  twofa_too_many_tries: Too many tries.
-  twofa_resend_code: Resend code
-  twofa_code_sent: An authentication code has been sent to you.
-  twofa_generate_backup_codes: Generate backup codes
-  twofa_text_generate_backup_codes_confirmation: This will invalidate all existing backup
-    codes and generate new ones. Would you like to continue?
-  twofa_notice_backup_codes_generated: Your backup codes have been generated.
-  twofa_warning_backup_codes_generated_invalidated: New backup codes have been generated.
-    Your existing codes from %{time} are now invalid.
-  twofa_label_backup_codes: Two-factor authentication backup codes
-  twofa_text_backup_codes_hint: Use these codes instead of a one-time password should
-    you not have access to your second factor. Each code can only be used once. It is
-    recommended to print and store them in a safe place.
-  twofa_text_backup_codes_created_at: Backup codes generated %{datetime}.
-  twofa_backup_codes_already_shown: Backup codes cannot be shown again, please <a data-method="post"
-    href="%{bc_path}">generate new backup codes</a> if required.
-  field_twofa_scheme: Two-factor authentication scheme
-  text_user_destroy_confirmation: Are you sure you want to delete this user and remove
-    all references to them? This cannot be undone. Often, locking a user instead of
-    deleting them is the better solution. To confirm, please enter their login (%{login})
-    below.
-  text_project_destroy_enter_identifier: To confirm, please enter the project's identifier
-    (%{identifier}) below.
-  button_add_subtask: Add subtask
-  notice_invalid_watcher: 'Invalid watcher: User will not receive any notifications
-    because they do not have access to view this object.'
-  button_fetch_changesets: Fetch commits
-  permission_view_message_watchers: View message watchers list
-  permission_add_message_watchers: Add message watchers
-  permission_delete_message_watchers: Delete message watchers
-  label_message_watchers: Watchers
-  button_copy_link: Copy link
-  error_invalid_authenticity_token: Invalid form authenticity token.
-  error_query_statement_invalid: An error occurred while executing the query and has
-    been logged. Please report this error to your Redmine administrator.
-  permission_view_wiki_page_watchers: View wiki page watchers list
-  permission_add_wiki_page_watchers: Add wiki page watchers
-  permission_delete_wiki_page_watchers: Delete wiki page watchers
-  label_wiki_page_watchers: Watchers
-  label_attachment_description: File description
-  error_no_data_in_file: The file does not contain any data
-  field_twofa_required: Require two factor authentication
-  twofa_hint_optional_html: Setting <strong>%{label}</strong> will let users set up
-    two-factor authentication at will, unless it is required by one of their groups.
-  twofa_text_group_required: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is required for all users.
-  twofa_text_group_disabled: This setting is only effective when the global two factor
-    authentication setting is set to 'optional'. Currently, two factor authentication
-    is disabled.
-  field_default_issue_query: Default issue query
+  label_import_time_entries: Importera tidsstämplingar
+  notice_issue_not_closable_by_open_tasks: Det här ärendet kan inte stängas eftersom det har minst en öppen underaktivitet.
+  notice_issue_not_closable_by_blocking_issue: Det här ärendet kan inte stängas eftersom det blockeras av minst ett öppet ärende.
+  notice_issue_not_reopenable_by_closed_parent_issue: Det här ärendet kan inte återöppnas eftersom dess överordnade ärende är stängt.
+  error_attachments_too_many: 'Den här filen kan inte laddas upp eftersom den överskriderdet maximala antalet filer som kan bifogas samtidigt (%{max_number_of_files}).'
+  error_bulk_download_size_too_big: 'Dessa bilagor kan inte laddas ner samtidigt eftersom den totala filstorleken överskrider den maximalt tillåtna storleken (%{max_size}).'
+  error_can_not_execute_macro_html: 'Fel vid körning av makrot <strong>%{name}</strong> (%{error}).'
+  error_macro_does_not_accept_block: Det här makrot accepterar inte ett textblock
+  error_childpages_macro_no_argument: Utan argument kan det här makrot endast anropas från wikisidor
+  error_circular_inclusion: Cirkulär inbäddning upptäckt
+  error_page_not_found: Sidan kunde inte hittas
+  error_filename_required: Filnamn krävs
+  error_invalid_size_parameter: Ogiltig storleksparameter
+  error_attachment_not_found: Bilagan %{name} kunde inte hittas
+  field_passwd_changed_on: Lösenordet ändrades
+  field_toolbar_language_options: Språk för verktygsfält för kodmarkering
+  setting_bulk_download_max_size: Maximal totalstorlek för samtidig nedladdning
+  setting_email_domains_allowed: Tillåtna e-postdomäner
+  setting_email_domains_denied: Otillåtna e-postdomäner
+  setting_twofa: Tvåfaktorsautentisering
+  permission_delete_project: Ta bort projektet
+  label_optional: valfritt
+  label_user_mail_notify_about_high_priority_issues_html: 'Avisera mig också om ärenden med en prioritet på <em>%{prio}</em> eller högre'
+  label_days_to_html: "%{days} dagar fram till %{date}"
+  label_required_lower: obligatorisk
+  label_download_all_attachments: Ladda ner samtliga filer
+  label_relations_mapping: Relationsmappning
+  label_assign_to_me: Tilldela mig
+  button_disable: Inaktivera
+  label_import_users: Importera användare
+  twofa__totp__name: Autentiseringsapp
+  twofa__totp__text_pairing_info_html: 'Skanna den här QR-koden eller ange nyckeln i en autentiseringsapp (t.ex. <a href="https://support.google.com/accounts/answer/1066447">Google Authenticator</a>, <a href="https://authy.com/download/">Authy</a>, <a href="https://guide.duo.com/third-party-accounts"> Duo Mobile</a>) och ange sedan koden i fältet nedan för att aktivera tvåfaktorsautentisering.'
+  twofa__totp__label_plain_text_key: Nyckel i klartext
+  twofa__totp__label_activate: Aktivera autentiseringsapp
+  twofa_currently_active: 'För närvarande aktiv: %{twofa_scheme_name}'
+  twofa_not_active: Inte aktiverad
+  twofa_label_code: Kod
+  twofa_hint_disabled_html: Inställningen <strong>%{label}</strong> kommer att inaktivera och koppla bort tvåfaktorsautentiseringsenheter för alla användare.
+  twofa_hint_required_html: Inställningen <strong>%{label}</strong> kommer att kräva att alla användare konfigurerar tvåfaktorsautentisering vid sin nästa inloggning.
+  twofa_label_setup: Aktivera tvåfaktorsautentisering
+  twofa_label_deactivation_confirmation: Inaktivera tvåfaktorsautentisering
+  twofa_notice_select: 'Välj det tvåfaktorsalternativ du vill använda:'
+  twofa_warning_require: Administratören kräver att du aktiverar tvåfaktorsautentisering.
+  twofa_activated: 'Tvåfaktorsautentisering har aktiverats framgångsrikt. Det rekommenderas att du <a data-method="post" href="%{bc_path}">genererar reservkoder</a> för ditt konto.'
+  twofa_deactivated: Tvåfaktorsautentisering inaktiverad.
+  twofa_mail_body_security_notification_paired: 'Tvåfaktorsautentisering har framgångsrikt aktiverats med hjälp av %{field}.'
+  twofa_mail_body_security_notification_unpaired: Tvåfaktorsautentisering har inaktiverats för ditt konto.
+  twofa_mail_body_backup_codes_generated: Nya reservkoder för tvåfaktorsautentisering har genererats.
+  twofa_mail_body_backup_code_used: En reservkod för tvåfaktorsautentisering har använts.
+  twofa_invalid_code: Koden är ogiltig eller föråldrad.
+  twofa_label_enter_otp: Ange din kod för tvåfaktorsautentisering.
+  twofa_too_many_tries: För många försök.
+  twofa_resend_code: Skicka kod på nytt
+  twofa_code_sent: En autentiseringskod har skickats till dig.
+  twofa_generate_backup_codes: Generera reservkoder
+  twofa_text_generate_backup_codes_confirmation: Detta kommer att göra alla befintliga reservkoder obrukbara och generera nya. Vill du fortsätta?
+  twofa_notice_backup_codes_generated: Dina reservkoder har genererats
+  twofa_warning_backup_codes_generated_invalidated: 'Nya reservkoder har genererats. Dina befintliga koder från %{time} är nu obrukbara.'
+  twofa_label_backup_codes: Reservkoder för tvåfaktorsautentisering.
+  twofa_text_backup_codes_hint: Använd dessa koder istället för en engångslösenkod om du inte har tillgång till din tvåfaktorsautentiseringsapp. Varje kod kan endast användas en gång. Det rekommenderas att skriva ut dem och förvara dem på en säker plats.
+  twofa_text_backup_codes_created_at: Reservkoder genererades %{datetime}.
+  twofa_backup_codes_already_shown: 'Reservkoder kan inte visas igen, men du kan <a data-method="post" href="%{bc_path}">generera nya reservkoder</a> om så behövs.'
+  field_twofa_scheme: Tvåfaktorsautentiseringssystem
+  text_user_destroy_confirmation: 'Är du säker på att du vill ta bort den här användaren och ta bort alla referenser till denne? Detta kan inte ångras. Ofta är det bättre att låsa en användare istället för att ta bort den. För att bekräfta, vänligen ange deras inloggning (%{login}) nedan.'
+  text_project_destroy_enter_identifier: 'För att bekräfta, vänligen ange projektets identifierare (%{identifier}) nedan.'
+  button_add_subtask: Lägg till underaktivitet
+  notice_invalid_watcher: 'Ogiltig bevakare: Användaren kommer inte att ta emot några aviseringar eftersom de inte har åtkomst att visa detta objekt.'
+  button_fetch_changesets: Hämta commits
+  permission_view_message_watchers: Visa lista över meddelandebevakare
+  permission_add_message_watchers: Lägg till meddelandebevakare
+  permission_delete_message_watchers: Ta bort meddelandebevakare
+  label_message_watchers: Bevakare
+  button_copy_link: Kopiera länk
+  error_invalid_authenticity_token: Ogiltig autentiseringstoken för formuläret.
+  error_query_statement_invalid: Ett fel inträffade vid körning av frågan och har loggats. Vänligen rapportera detta fel till din Redmine-administratör.
+  permission_view_wiki_page_watchers: Visa lista över bevakare för wikisida
+  permission_add_wiki_page_watchers: Lägg till bevakare för wikisida
+  permission_delete_wiki_page_watchers: Ta bort bevakare för wikisida
+  label_wiki_page_watchers: Bevakare
+  label_attachment_description: Filbeskrivning
+  error_no_data_in_file: Filen innehåller inga data
+  field_twofa_required: Kräv tvåfaktorsautentisering
+  twofa_hint_optional_html: Inställningen <strong>%{label}</strong> kommer att låta användare konfigurera tvåfaktorsautentisering efter eget önskemål, om det inte krävs av någon av deras grupper.
+  twofa_text_group_required: Den här inställningen är endast giltig när den globala inställningen för tvåfaktorsautentisering är inställd på "valfritt". För närvarande krävs tvåfaktorsautentisering för alla användare.
+  twofa_text_group_disabled: Den här inställningen är endast giltig när den globala inställningen för tvåfaktorsautentisering är inställd på "valfritt". För närvarande är tvåfaktorsautentisering inaktiverad.
+  field_default_issue_query: Standardfiltrering för ärenden
   label_default_queries:
-    for_all_projects: For all projects
-    for_current_project: For current project
-    for_all_users: For all users
-    for_this_user: For this user
-  text_allowed_queries_to_select: Public (to any users) queries only selectable
-  text_all_migrations_have_been_run: All database migrations have been run
-  button_save_object: Save %{object_name}
-  button_edit_object: Edit %{object_name}
-  button_delete_object: Delete %{object_name}
-  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
-    Please restart the application after editing it.
-  label_bulk_edit: Bulk edit
-  button_create_and_follow: Create and follow
-  label_subtask: Subtask
-  label_default_query: Default query
-  field_default_project_query: Default project query
-  label_required_administrators: required for administrators
-  twofa_hint_required_administrators_html: Setting <strong>%{label}</strong> behaves
-    like optional, but will require all users with administration rights to set up two-factor
-    authentication at their next login.
-  label_auto_watch_on: Auto watch
-  label_auto_watch_on_issue_contributed_to: Issues I contributed to
-  text_project_close_confirmation: Are you sure you want to close the '%{value}' project
-    to make it read-only?
-  text_project_reopen_confirmation: Are you sure you want to reopen the '%{value}' project?
-  text_project_archive_confirmation: Are you sure you want to archive the '%{value}'
-    project?
-  mail_destroy_project_failed: Project %{value} could not be deleted.
-  mail_destroy_project_successful: Project %{value} was deleted successfully.
-  mail_destroy_project_with_subprojects_successful: Project %{value} and its subprojects
-    were deleted successfully.
-  project_status_scheduled_for_deletion: scheduled for deletion
-  text_projects_bulk_destroy_confirmation: Are you sure you want to delete the selected
-    projects and related data?
-  text_projects_bulk_destroy_head: |
-    You are about to permanently delete the following projects, including possible subprojects and any related data.
-    Please review the information below and confirm that this is indeed what you want to do.
-    This action cannot be undone.
-  text_projects_bulk_destroy_confirm: To confirm, please enter "%{yes}" in the box below.
-  text_subprojects_bulk_destroy: 'including its subproject(s): %{value}'
-  field_current_password: Current password
-  sudo_mode_new_info_html: "<strong>What's happening?</strong> You need to reconfirm
-    your password before taking any administrative actions, this ensures your account
-    stays protected."
-  label_edited: Edited
-  label_time_by_author: "%{time} by %{author}"
-  field_default_time_entry_activity: Default spent time activity
-  field_is_member_of_group: Member of group
-  text_users_bulk_destroy_head: You are about to delete the following users and remove
-    all references to them. This cannot be undone. Often, locking users instead of deleting
-    them is the better solution.
-  text_users_bulk_destroy_confirm: To confirm, please enter "%{yes}" below.
-  permission_select_project_publicity: Set project public or private
-  label_auto_watch_on_issue_created: Issues I created
-  field_any_searchable: Any searchable text
-  label_contains_any_of: contains any of
-  button_apply_issues_filter: Apply issues filter
-  label_view_previous_annotation: View annotation prior to this change
-  label_has_been: has been
-  label_has_never_been: has never been
-  label_changed_from: changed from
-  label_issue_statuses_description: Issue statuses description
-  label_open_issue_statuses_description: View all issue statuses description
-  text_select_apply_issue_status: Select issue status
-  field_name_or_email_or_login: Name, email or login
-  text_default_active_job_queue_changed: Default queue adapter which is well suited
-    only for dev/test changed
-  label_option_auto_lang: auto
-  label_issue_attachment_added: Attachment added
-  field_estimated_remaining_hours: Estimated remaining time
-  field_last_activity_date: Last activity
-  setting_issue_done_ratio_interval: Done ratio options interval
-  setting_copy_attachments_on_issue_copy: Copy attachments on copy
-  field_thousands_delimiter: Thousands delimiter
-  label_involved_principals: Author / Previous assignee
+    for_all_projects: För alla projekt
+    for_current_project: För aktivt projekt
+    for_all_users: För alla användare
+    for_this_user: För den här användaren
+  text_allowed_queries_to_select: Endast publika (för alla användare) filtreringar kan väljas
+  text_all_migrations_have_been_run: Alla databas-migrationer har körts
+  button_save_object: 'Spara %{object_name}'
+  button_edit_object: 'Redigera %{object_name}'
+  button_delete_object: 'Ta bort %{object_name}'
+  text_setting_config_change: 'Du kan konfigurera beteendet i <strong>config/configuration.yml</strong>. Vänligen starta om applikationen efter att du har redigerat den.'
+  label_bulk_edit: Massredigera
+  button_create_and_follow: Skapa och öppna
+  label_subtask: Underaktivitet
+  label_default_query: Standardfiltrering
+  field_default_project_query: Standardfiltrering för projekt
+  label_required_administrators: obligatoriskt för administratörer
+  twofa_hint_required_administrators_html: 'Inställningen <strong>%{label}</strong> fungerar som valfri, men kommer att kräva att alla användare med administratörsrättigheter konfigurerar tvåfaktorsautentisering vid sin nästa inloggning.'
+  label_auto_watch_on: Automatisk bevakning
+  label_auto_watch_on_issue_contributed_to: Ärenden jag varit delaktig i
+  text_project_close_confirmation: 'Är du säker på att du vill stänga projektet "%{value}" för att göra det skrivskyddat?'
+  text_project_reopen_confirmation: 'Är du säker på att du vill återöppna projektet "%{value}"?'
+  text_project_archive_confirmation: 'Är du säker på att du vill arkivera projektet "%{value}"?'
+  mail_destroy_project_failed: 'Projektet %{value} kunde inte raderas.'
+  mail_destroy_project_successful: 'Projektet %{value} raderades framgångsrikt.'
+  mail_destroy_project_with_subprojects_successful: 'Projektet %{value} och dess underprojekt raderades framgångsrikt.'
+  project_status_scheduled_for_deletion: schemalagd för radering
+  text_projects_bulk_destroy_confirmation: Är du säker på att du vill radera de valda projekten och relaterad data?
+  text_projects_bulk_destroy_head: Du är på väg att permanent radera följande projekt, inklusive eventuella underprojekt och relaterad data. Vänligen granska informationen nedan och bekräfta att detta verkligen är vad du vill göra. Denna åtgärd kan inte ångras.
+  text_projects_bulk_destroy_confirm: 'För att bekräfta, vänligen ange "%{yes}" i rutan nedan.'
+  text_subprojects_bulk_destroy: 'inklusive dess underprojekt: %{value}'
+  field_current_password: Nuvarande lösenord
+  sudo_mode_new_info_html: '<strong>Vad händer?</strong> Du måste bekräfta ditt lösenord igen innan du vidtar några administrativa åtgärder, detta säkerställer att ditt konto förblir skyddat.'
+  label_edited: Redigerad
+  label_time_by_author: '%{time} av %{author}'
+  field_default_time_entry_activity: Standardaktivitet för spenderad tid
+  field_is_member_of_group: Medlem i grupp
+  text_users_bulk_destroy_head: Du är på väg att ta bort följande användare och ta bort alla referenser till dem. Detta kan inte ångras. Ofta är det bättre att låsa användare istället för att ta bort dem.
+  text_users_bulk_destroy_confirm: 'För att bekräfta, vänligen ange "%{yes}" nedan.'
+  permission_select_project_publicity: Ställ in projektet som publikt eller privat
+  label_auto_watch_on_issue_created: Ärenden jag har skapat
+  field_any_searchable: All sökbart text
+  label_contains_any_of: innehåller någon av
+  button_apply_issues_filter: Tillämpa filter för ärenden
+  label_view_previous_annotation: Visa kommentar före denna ändring
+  label_has_been: har varit
+  label_has_never_been: har aldrig varit
+  label_changed_from: ändrad från
+  label_issue_statuses_description: Beskrivning av ärendestatusar
+  label_open_issue_statuses_description: Visa alla beskrivningar av ärendestatusar
+  text_select_apply_issue_status: Välj ärendestatus
+  field_name_or_email_or_login: Namn, e-post eller inloggning
+  text_default_active_job_queue_changed: Standardköadapter som är lämpad endast för utveckling/test har ändrats
+  label_option_auto_lang: automatisk
+  label_issue_attachment_added: Bilaga tillagd
+  field_estimated_remaining_hours: Beräknad återstående tid
+  field_last_activity_date: Senaste aktivitet
+  setting_issue_done_ratio_interval: 'Alternativ för intervall för "% Klar"'
+  setting_copy_attachments_on_issue_copy: Kopiera bilagor vid kopiering
+  field_thousands_delimiter: Tusenavgränsare
+  label_involved_principals: 'Skapare / Tidigare tilldelad'
   label_attachment_summary:
-    zero: "%{filename}"
-    one: "%{filename} and 1 file"
-    other: "%{filename} and %{count} files"
+    zero: '%{filename}'
+    one: '%{filename} och 1 fil'
+    other: '%{filename} och %{count} filer'
   setting_wiki_tablesort_enabled: Javascript based table sorting in wiki content
   label_progressbar: Progress bar
   error_spent_on_closed_issue: Cannot log time on a closed issue
