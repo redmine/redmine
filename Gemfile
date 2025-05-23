@@ -102,7 +102,7 @@ group :development do
 end
 
 group :test do
-  gem "rails-dom-testing"
+  gem "rails-dom-testing", '>= 2.3.0'
   gem 'mocha', '>= 2.0.1'
   gem 'simplecov', '~> 0.21.2', :require => false
   gem "ffi", platforms: [:mingw, :x64_mingw, :mswin]

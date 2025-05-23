@@ -1738,7 +1738,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       assert_select 'td.last_notes[colspan="4"]', :text => 'Some notes with Redmine links: #2, r2.'
       assert_select(
         'td.last_notes[colspan="4"]',
-        :text => 'A comment with inline image:  and a reference to #1 and r2.'
+        :text => 'A comment with inline image: and a reference to #1 and r2.'
       )
       get(
         :index,

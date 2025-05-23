@@ -73,7 +73,7 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
       assert_select "author[id=2][name=\"John Smith\"]"
       assert_select 'title', 'eCookbook first release !'
       assert_select 'summary', 'First version was released...'
-      assert_select 'description', "eCookbook 1.0 has been released.\n\nVisit http://ecookbook.somenet.foo/"
+      assert_select 'description', 'eCookbook 1.0 has been released. Visit http://ecookbook.somenet.foo/'
       assert_select 'created_on', News.find(1).created_on.iso8601
     end
   end
