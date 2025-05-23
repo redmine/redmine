@@ -42,7 +42,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
       assert_response :success
 
       assert_equal 'text/html', @response.media_type
-      assert_select 'th.filename', :text => /issues_controller.rb\t\(révision 1484\)/
+      assert_select 'th.filename', :text => /issues_controller\.rb \(révision 1484\)/
       assert_select 'td.line-code', :text => /Demande créée avec succès/
     end
   end
@@ -61,7 +61,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
         assert_response :success
 
         assert_equal 'text/html', @response.media_type
-        assert_select 'th.filename', :text => /issues_controller.rb\t\(r\?vision 1484\)/
+        assert_select 'th.filename', :text => /issues_controller\.rb \(r\?vision 1484\)/
         assert_select 'td.line-code', :text => /Demande cr\?\?e avec succ\?s/
       end
     end
@@ -81,7 +81,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
         assert_response :success
 
         assert_equal 'text/html', @response.media_type
-        assert_select 'th.filename', :text => /issues_controller.rb\t\(révision 1484\)/
+        assert_select 'th.filename', :text => /issues_controller\.rb \(révision 1484\)/
         assert_select 'td.line-code', :text => /Demande créée avec succès/
       end
     end
