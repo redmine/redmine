@@ -98,6 +98,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: system-test-screenshots-ruby3.4-sqlite3
+          name: system-test-screenshots
           path: tmp/screenshots
           if-no-files-found: ignore
