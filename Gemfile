@@ -30,7 +30,7 @@ gem 'rbpdf', '~> 1.21.3'
 gem 'addressable'
 gem 'rubyzip', '~> 2.3.0'
 gem 'net-smtp', '~> 0.3.0'
-gem 'net-imap', '~> 0.2.2'
+gem 'net-imap', (Gem.ruby_version < Gem::Version.new('2.6.0') ? '0.2.2' : '~> 0.2.5')
 gem 'net-pop', '~> 0.1.1'
 # Rails 6.1.6.1 does not work with Pysch 3.0.2, which is installed by default with Ruby 2.5. See https://github.com/rails/rails/issues/45590
 gem 'psych', '>= 3.1.0' if Gem.ruby_version < Gem::Version.new('2.6.0')
