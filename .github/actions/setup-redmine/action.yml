@@ -1,0 +1,68 @@
+name: Setup Redmine Test Environment
+description: Composite action for setting up Redmine test environment
+
+inputs:
+  db-type:
+    description: 'Database type: postgresql, mysql2, or sqlite3. Note: postgresql and mysql2 require service containers to be defined in the workflow.'
+    required: true
+  ruby-version:
+    description: 'Ruby version to use'
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Install dependencies and configure environment
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install --yes --quiet ghostscript gsfonts locales bzr cvs
+        sudo locale-gen en_US # for bazaar non ascii test
+
+    - name: Allow imagemagick to read PDF files
+      shell: bash
+      run: |
+        echo '<policymap>' > policy.xml
+        echo '<policy domain="coder" rights="read | write" pattern="PDF" />' >> policy.xml
+        echo '</policymap>' >> policy.xml
+        sudo rm /etc/ImageMagick-6/policy.xml
+        sudo mv policy.xml /etc/ImageMagick-6/policy.xml
+
+    - if: ${{ inputs.db-type == 'sqlite3' }}
+      name: Prepare test database for sqlite3
+      shell: bash
+      run: |
+        cat > config/database.yml <<EOF
+        test:
+          adapter: sqlite3
+          database: db/test.sqlite3
+        EOF
+
+    - if: ${{ inputs.db-type == 'mysql2' || inputs.db-type == 'postgresql' }}
+      name: Prepare test database for mysql2 and postgresql
+      shell: bash
+      run: |
+        cat > config/database.yml <<EOF
+        test:
+          adapter: ${{ inputs.db-type }}
+          database: redmine_test
+          username: root
+          password: root
+          host: 127.0.0.1
+        EOF
+
+    - name: Install Ruby and gems
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ inputs.ruby-version }}
+        bundler-cache: true
+
+    - name: Run prepare test environment
+      shell: bash
+      env:
+        RAILS_ENV: test
+        SCMS: subversion,git,git_utf8,filesystem,bazaar,cvs
+      run: |
+        bundle exec rake ci:about
+        bundle exec rake ci:setup
+        bundle exec rake db:environment:set
