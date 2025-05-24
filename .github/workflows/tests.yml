@@ -46,55 +46,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install dependencies and configure environment
-        run: |
-          sudo apt-get update
-          sudo apt-get install --yes --quiet ghostscript gsfonts locales bzr cvs
-          sudo locale-gen en_US # for bazaar non ascii test
-
-      - name: Allow imagemagick to read PDF files
-        run: |
-          echo '<policymap>' > policy.xml
-          echo '<policy domain="coder" rights="read | write" pattern="PDF" />' >> policy.xml
-          echo '</policymap>' >> policy.xml
-          sudo rm /etc/ImageMagick-6/policy.xml
-          sudo mv policy.xml /etc/ImageMagick-6/policy.xml
-
-      - if: ${{ matrix.db == 'sqlite3' }}
-        name: Prepare test database for sqlite3
-        run: |
-          cat > config/database.yml <<EOF
-          test:
-            adapter: sqlite3
-            database: db/test.sqlite3
-          EOF
-
-      - if: ${{ matrix.db == 'mysql2' || matrix.db == 'postgresql' }}
-        name: Prepare test database for mysql2 and postgresql
-        run: |
-          cat > config/database.yml <<EOF
-          test:
-            adapter: ${{ matrix.db }}
-            database: redmine_test
-            username: root
-            password: root
-            host: 127.0.0.1
-          EOF
-
-      - name: Install Ruby and gems
-        uses: ruby/setup-ruby@v1
+      - name: Setup Redmine test environment
+        uses: ./.github/actions/setup-redmine
         with:
+          db-type: ${{ matrix.db }}
           ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true
-
-      - name: Run prepare test environment
-        env:
-          RAILS_ENV: test
-          SCMS: subversion,git,git_utf8,filesystem,bazaar,cvs
-        run: |
-          bundle exec rake ci:about
-          bundle exec rake ci:setup
-          bundle exec rake db:environment:set
 
       - name: Run tests
         run: |
@@ -111,12 +67,27 @@ jobs:
         run: |
           bin/rails test:autoload
 
+  system-tests:
+    name: system test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Redmine test environment
+        uses: ./.github/actions/setup-redmine
+        with:
+          db-type: sqlite3
+          ruby-version: '3.4'
+
       # System tests use Chrome and ChromeDriver installed on the GitHub Actions Ubuntu image.
       # They are generally updated to the latest stable versions.
+      - name: Display Chrome version
+        run: google-chrome --version
+
       - name: Run system tests
-        run: |
-          google-chrome --version
-          bin/rails test:system
+        run: bin/rails test:system
         env:
           GOOGLE_CHROME_OPTS_ARGS: headless,disable-gpu,no-sandbox,disable-dev-shm-usage
         # System tests might still be a bit unstable, so for now, even if a system test fails,
@@ -127,6 +98,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: system-test-screenshots-ruby${{ matrix.ruby }}-${{ matrix.db }}
+          name: system-test-screenshots
           path: tmp/screenshots
           if-no-files-found: ignore
