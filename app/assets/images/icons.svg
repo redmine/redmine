@@ -11,6 +11,11 @@
       <path d="M9 12h6"/>
       <path d="M12 9v6"/>
     </symbol>
+    <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--alert-circle">
+      <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/>
+      <path d="M12 8v4"/>
+      <path d="M12 16h.01"/>
+    </symbol>
     <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--angle-down">
       <path d="M6 9l6 6l6 -6"/>
     </symbol>
@@ -71,6 +76,11 @@
     </symbol>
     <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--bookmarked">
       <path d="M18 7v14l-6 -4l-6 4v-14a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4z"/>
+    </symbol>
+    <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--bulb">
+      <path d="M3 12h1m8 -9v1m8 8h1m-15.4 -6.4l.7 .7m12.1 -.7l-.7 .7"/>
+      <path d="M9 16a5 5 0 1 1 6 0a3.5 3.5 0 0 0 -1 3a2 2 0 0 1 -4 0a3.5 3.5 0 0 0 -1 -3"/>
+      <path d="M9.7 17l4.6 0"/>
     </symbol>
     <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--bullet-end">
       <path d="M12 21a9 9 0 1 0 0 -18a9 9 0 0 0 0 18"/>
@@ -293,6 +303,11 @@
       <path d="M8 9h8"/>
       <path d="M8 13h6"/>
       <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z"/>
+    </symbol>
+    <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--message-report">
+      <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z"/>
+      <path d="M12 8v3"/>
+      <path d="M12 14v.01"/>
     </symbol>
     <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--move">
       <path d="M15 14l4 -4l-4 -4"/>

@@ -319,7 +319,11 @@ class Redmine::WikiFormatting::CommonMark::FormatterTest < ActionView::TestCase
 
       html = to_html(text)
       %w[note tip warning caution important].each do |alert|
-        assert_include "<div class=\"markdown-alert markdown-alert-note\">\n<p class=\"markdown-alert-title\">Note</p>\n<p>This is a note.</p>\n</div>", html
+        icon = Redmine::WikiFormatting::CommonMark::ALERT_TYPE_TO_ICON_NAME[alert]
+        # rubocop:disable Layout/LineLength
+        expected = %r{<div class="markdown-alert markdown-alert-#{alert}">\n<p class="markdown-alert-title"><svg class="s18 icon-svg" aria-hidden="true"><use href="/assets/icons-\w+.svg\#icon--#{icon}"></use></svg><span class="icon-label">#{alert.capitalize}</span></p>\n<p>This is a #{alert}.</p>\n</div>}
+        # rubocop:enable Layout/LineLength
+        assert_match expected, html
       end
     end
 

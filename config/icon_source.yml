@@ -227,3 +227,9 @@
 - name: thumb-up-filled
   svg: thumb-up
   style: filled
+- name: alert-circle
+  svg: alert-circle
+- name: bulb
+  svg: bulb
+- name: message-report
+  svg: message-report

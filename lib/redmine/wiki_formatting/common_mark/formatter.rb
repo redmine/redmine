@@ -58,7 +58,8 @@ module Redmine
         SanitizationFilter,
         SyntaxHighlightFilter,
         FixupAutoLinksFilter,
-        ExternalLinksFilter
+        ExternalLinksFilter,
+        AlertsIconsFilter
       ], PIPELINE_CONFIG
 
       class Formatter
