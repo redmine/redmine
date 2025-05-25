@@ -75,7 +75,7 @@ jobs:
         uses: ./.github/actions/setup-redmine
         with:
           db-type: sqlite3
-          ruby-version: '3.4'
+          ruby-version: '3.2'
 
       # System tests use Chrome and ChromeDriver installed on the GitHub Actions Ubuntu image.
       # They are generally updated to the latest stable versions.
