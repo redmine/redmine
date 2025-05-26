@@ -1097,17 +1097,14 @@ input#months { width: 46px; }
 
 .jstBlock .jstTabs { padding-right: 6px; }
 .jstBlock .wiki-preview { padding: 2px; }
-.jstBlock .wiki-preview p:first-child { padding-top: 0 !important; margin-top: 0 !important;}
-.jstBlock .wiki-preview p:last-child { padding-bottom: 0 !important; margin-bottom: 0 !important;}
+.jstBlock .wiki-preview > p:first-child { padding-top: 0 !important; margin-top: 0 !important;}
+.jstBlock .wiki-preview > p:last-child { padding-bottom: 0 !important; margin-bottom: 0 !important;}
 
 .tabular .wiki-preview, .tabular .jstTabs {width: 95%;}
 .tabular.settings .wiki-preview, .tabular.settings .jstTabs { width: 99%; }
 .tabular.settings .wiki-preview p {padding-left: 0 !important}
 .tabular .wiki-preview p {
   min-height: initial;
-  padding: 0;
-  padding-top: 1em !important;
-  padding-bottom: 1em !important;
   overflow: initial;
 }
 
@@ -1601,7 +1598,12 @@ div.wiki .external {
 div.wiki a {word-wrap: break-word;}
 div.wiki a.new {color: #b73535;}
 
-div.wiki p {line-height: 1.6;}
+div.wiki p {
+  line-height: 1.6;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding: 0;
+}
 div.wiki ul, div.wiki ol {margin-bottom:1em;}
 div.wiki li {line-height: 1.6; margin-bottom: 0.125rem;}
 div.wiki li>ul, div.wiki li>ol {margin-bottom: 0;}
