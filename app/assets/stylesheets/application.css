@@ -795,6 +795,12 @@ div.journal span.update-info {color: #666; font-size: 0.9em;}
 
 #history div:target h4.note-header {background-color:#DDEEFF;}
 #history p.nodata {display: none;}
+/* Prevent content from being hidden behind a #sticky-issue-header when scrolling via anchor links. */
+.controller-issues.action-show div.wiki a[name],
+.controller-issues.action-show #history div[id^="note-"],
+.controller-issues.action-show #history div[id^="change-"] {
+  scroll-margin-top: 50px;
+}
 
 div#activity dl, #search-results { margin-left: 2em; }
 div#activity dd, #search-results dd { margin-bottom: 1em; padding-left: 22px; font-size: 0.8125rem;}
