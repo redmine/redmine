@@ -1386,7 +1386,7 @@ module ApplicationHelper
               <|
               $)
     }x
-  HEADING_RE = /(<h(\d)( [^>]+)?>(.+?)<\/h(\d)>)/i unless const_defined?(:HEADING_RE)
+  HEADING_RE = /(<h(\d)( [^>]+)?>(.+?)<\/h(\d)>)/im unless const_defined?(:HEADING_RE)
 
   def parse_sections(text, project, obj, attr, only_path, options)
     return unless options[:edit_section_links]
