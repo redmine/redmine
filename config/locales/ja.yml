@@ -1450,7 +1450,7 @@ ja:
   label_attachment_summary:
     zero: "%{filename}"
     other: "%{filename} ほか%{count}件"
-  setting_wiki_tablesort_enabled: Javascript based table sorting in wiki content
+  setting_wiki_tablesort_enabled: コンテンツ内テーブルの Tablesort (JavaScript) による並べ替え
   label_progressbar: 進捗バー
   error_spent_on_closed_issue: 完了したチケットに作業時間を記録することはできません
   setting_timelog_accept_closed_issues: 完了したチケットへの作業時間の記録を許可
