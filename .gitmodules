@@ -5,3 +5,7 @@
 [submodule "plugins/redmine_datetime_custom_field"]
 	path = plugins/redmine_datetime_custom_field
 	url = https://github.com/ataraxis/redmine_datetime_custom_field
+
+[submodule "plugins/redmica_s3"]
+	path = plugins/redmica_s3
+	url = https://github.com/redmica/redmica_s3

@@ -34,4 +34,11 @@ RUN apt-get clean
 RUN rm config/database.yml && \
     rm -rf db/
 
+# Copy and set up the custom entrypoint
+COPY scripts/entrypoint-wrapper.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/entrypoint-wrapper.sh
+
 USER redmine
+
+ENTRYPOINT ["/usr/local/bin/entrypoint-wrapper.sh"]
+CMD ["rails", "server", "-b", "0.0.0.0"]
