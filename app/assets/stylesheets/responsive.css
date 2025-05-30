@@ -854,6 +854,13 @@
   div#sticky-issue-header {
     top: 64px;
   }
+
+  /* Prevent content from being hidden behind #sticky-issue-header and project-jump when scrolling via anchor links. */
+  .controller-issues.action-show div.wiki a[name],
+  .controller-issues.action-show #history div[id^="note-"],
+  .controller-issues.action-show #history div[id^="change-"] {
+    scroll-margin-top: 114px;
+  }
 }
 
 @media all and (max-width: 599px) {
