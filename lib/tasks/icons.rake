@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 unless Rails.env.production?
-  ICON_RELEASE_VERSION = "v3.19.0"
+  ICON_RELEASE_VERSION = "v3.33.0"
   ICON_DEFAULT_STYLE = "outline"
   SOURCE = URI.parse("https://raw.githubusercontent.com/tabler/tabler-icons/#{ICON_RELEASE_VERSION}/icons")
 

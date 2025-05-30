@@ -71,6 +71,13 @@ class IconsHelperTest < Redmine::HelperTest
     assert_match expected, icon
   end
 
+  def test_sprite_icon_should_return_svg_with_filled_class_when_style_is_filled
+    expected = %r{<svg class="s18 icon-svg icon-svg-filled" aria-hidden="true"><use href="/assets/icons-\w+.svg#icon--edit"></use></svg>$}
+    icon = sprite_icon('edit', style: :filled)
+
+    assert_match expected, icon
+  end
+
   def test_file_icon_should_return_folder_icon_for_directory
     entry = stub(:is_dir? => true)
     expected = %r{<svg class="s18 icon-svg" aria-hidden="true"><use href="/assets/icons-\w+.svg#icon--folder"></use></svg><span class="icon-label">folder_name</span>}

@@ -233,3 +233,6 @@
   svg: bulb
 - name: message-report
   svg: message-report
+- name: quote-filled
+  svg: quote
+  style: filled

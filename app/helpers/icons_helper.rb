@@ -21,10 +21,10 @@ module IconsHelper
   DEFAULT_ICON_SIZE = "18"
   DEFAULT_SPRITE = "icons"
 
-  def sprite_icon(icon_name, label = nil, icon_only: false, size: DEFAULT_ICON_SIZE, css_class: nil, sprite: DEFAULT_SPRITE, plugin: nil, rtl: false)
+  def sprite_icon(icon_name, label = nil, icon_only: false, size: DEFAULT_ICON_SIZE, style: :outline, css_class: nil, sprite: DEFAULT_SPRITE, plugin: nil, rtl: false)
     sprite = plugin ? "plugin_assets/#{plugin}/#{sprite}.svg" : "#{sprite}.svg"
 
-    svg_icon = svg_sprite_icon(icon_name, size: size, css_class: css_class, sprite: sprite, rtl: rtl)
+    svg_icon = svg_sprite_icon(icon_name, size: size, style: style, css_class: css_class, sprite: sprite, rtl: rtl)
 
     if label
       label_classes = ["icon-label"]
@@ -92,8 +92,9 @@ module IconsHelper
 
   private
 
-  def svg_sprite_icon(icon_name, size: DEFAULT_ICON_SIZE, sprite: DEFAULT_SPRITE, css_class: nil, rtl: false)
+  def svg_sprite_icon(icon_name, size: DEFAULT_ICON_SIZE, style: :outline, sprite: DEFAULT_SPRITE, css_class: nil, rtl: false)
     css_classes = "s#{size} icon-svg"
+    css_classes += " icon-svg-filled" if style == :filled
     css_classes += " #{css_class}" unless css_class.nil?
     css_classes += " icon-rtl" if rtl
 

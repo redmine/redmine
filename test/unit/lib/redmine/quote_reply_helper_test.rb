@@ -29,7 +29,7 @@ class QuoteReplyHelperTest < ActionView::TestCase
 
       a_tag = quote_reply(url, '#issue_description_wiki')
       assert_includes a_tag, %|onclick="#{h "quoteReply('/issues/1/quoted', '#issue_description_wiki', 'common_mark'); return false;"}"|
-      assert_includes a_tag, %|class="icon icon-comment"|
+      assert_includes a_tag, %|class="icon icon-quote"|
       assert_not_includes a_tag, 'title='
 
       # When icon_only is true
