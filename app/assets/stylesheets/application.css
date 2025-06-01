@@ -2135,13 +2135,6 @@ color: #555; text-shadow: 1px 1px 0 #fff;
 img.filecontent.image {background-image: url(/transparent.png);}
 
 /* Reaction styles */
-.reaction-button.reacted .icon-svg {
-  fill: #126fa7;
-  stroke: none;
-}
-.reaction-button.reacted:hover .icon-svg {
-  fill: #c61a1a;
-}
 .reaction-button:hover, .reaction-button:active {
   text-decoration: none;
 }

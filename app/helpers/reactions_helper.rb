@@ -52,7 +52,7 @@ module ReactionsHelper
   def reaction_button_reacted(object, reaction, count, tooltip)
     reaction_button_wrapper object do
       link_to(
-        sprite_icon('thumb-up-filled', count.nonzero?),
+        sprite_icon('thumb-up-filled', count.nonzero?, style: :filled),
         reaction_path(reaction, object_type: object.class.name, object_id: object),
         remote: true, method: :delete,
         class: ['icon', 'reaction-button', 'reacted'],
