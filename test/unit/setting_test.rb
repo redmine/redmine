@@ -147,4 +147,8 @@ class SettingTest < ActiveSupport::TestCase
   def test_default_text_formatting_for_new_installations_is_common_mark
     assert_equal 'common_mark', Setting.text_formatting
   end
+
+  def test_default_wiki_tablesort_enabled_for_new_installations_is_disabled
+    assert_equal "0", Setting.wiki_tablesort_enabled
+  end
 end

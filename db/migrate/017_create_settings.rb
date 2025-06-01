@@ -8,6 +8,7 @@ class CreateSettings < ActiveRecord::Migration[4.2]
     # Persist default settings for new installations
     Setting.create!(name: 'default_notification_option', value: Setting.default_notification_option)
     Setting.create!(name: 'text_formatting', value: Setting.text_formatting)
+    Setting.create!(name: 'wiki_tablesort_enabled', value: Setting.wiki_tablesort_enabled)
   end
 
   def self.down
