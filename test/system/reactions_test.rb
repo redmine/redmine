@@ -129,7 +129,7 @@ class ReactionsSystemTest < ApplicationSystemTestCase
     within('#change-1') do
       assert_selector 'a.reaction-button'
 
-      assert_no_selector 'a.icon-comment'
+      assert_no_selector 'a.icon-quote'
       assert_no_selector 'span.drdn'
     end
     within("#change-#{journal_without_notes.id}") do
@@ -143,14 +143,14 @@ class ReactionsSystemTest < ApplicationSystemTestCase
     within('#change-1') do
       assert_selector 'a.reaction-button'
 
-      assert_selector 'a.icon-comment'
+      assert_selector 'a.icon-quote'
       assert_selector 'span.drdn'
     end
     within("#change-#{journal_without_notes.id}") do
       assert_selector 'a.reaction-button'
       assert_selector 'span.drdn'
 
-      assert_no_selector 'a.icon-comment'
+      assert_no_selector 'a.icon-quote'
     end
   end
 
