@@ -17,17 +17,19 @@ if [ $? -ne 0 ]; then
 fi
 
 DEV_ACCOUNT="604847260959"
-DEVOPS_ACCOUNT="644712362674"
+DEVOPS_ACCOUNT="663905530921"
 
 taskName=redmine
 workspace=${1}
 version=latest
 
-if [ "$account_id" = "$DEV_ACCOUNT" ]; then
-    target_account=$DEV_ACCOUNT
-else
-    target_account=$DEVOPS_ACCOUNT
-fi
+# TODO: make work like rds-ecr
+#if [ "$account_id" = "$DEV_ACCOUNT" ]; then
+#    target_account=$DEV_ACCOUNT
+#else
+#    target_account=$DEVOPS_ACCOUNT
+#fi
+target_account=$account_id
 
 gitHash=$(git log -n 1 --format=%h --abbrev=7)
 gitBranch=$(git rev-parse --abbrev-ref HEAD)
