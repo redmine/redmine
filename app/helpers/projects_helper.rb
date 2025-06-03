@@ -80,8 +80,8 @@ module ProjectsHelper
       classes += %w(icon icon-bookmarked-project) if bookmarked_project_ids.include?(project.id)
 
       s = link_to_project(project, {}, :class => classes.uniq.join(' '))
-      s << sprite_icon('user', l(:label_my_projects), icon_only: true) if User.current.member_of?(project)
-      s << sprite_icon('bookmarked', l(:label_my_bookmarks), icon_only: true) if bookmarked_project_ids.include?(project.id)
+      s << tag.span(sprite_icon('user', l(:label_my_projects), icon_only: true), class: 'icon-only icon-user my-project') if User.current.member_of?(project)
+      s << tag.span(sprite_icon('bookmarked', l(:label_my_bookmarks), icon_only: true), class: 'icon-only icon-bookmarked-project') if bookmarked_project_ids.include?(project.id)
       if project.description.present?
         s << content_tag('div', textilizable(project.short_description, :project => project), :class => 'wiki description')
       end

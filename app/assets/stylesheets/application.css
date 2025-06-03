@@ -922,7 +922,7 @@ ul.projects div.description ul li {list-style-type:initial;}
   background-image: none;
   padding-left: 0;
 }
-#projects-index ul.projects div.root svg {
+#projects-index ul.projects div.root .icon-bookmarked-project svg, #projects-index ul.projects div.root .my-project svg {
   stroke-width: 2;
   margin-bottom: 10px;
 }
