@@ -363,6 +363,9 @@ table.list table.progress td {padding-right:0px;}
 table.list caption { text-align: left; padding: 0.5em 0.5em 0.5em 0; }
 table.list tr.overdue td.due_date  { color: #c22; }
 #role-permissions-trackers table.list th {white-space:normal;}
+table.list div.wiki p {
+  margin: 0;
+}
 
 .table-list-cell {display: table-cell; vertical-align: top; padding:2px; }
 .table-list div.buttons {width: 15%;}
@@ -896,7 +899,7 @@ ul.projects div.description ul li {list-style-type:initial;}
 #projects-index a.project ~ svg, table.projects tr.project td.name svg {
   margin-left: 4px;
 }
-#projects-index li p {
+#projects-index div.wiki p {
   margin-top: 0px;
 }
 
