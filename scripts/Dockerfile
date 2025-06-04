@@ -32,7 +32,8 @@ RUN apt-get clean
 
 # Clean up temporary files
 RUN rm config/database.yml && \
-    rm -rf db/
+    find db/ -name "*.sqlite3*" -delete && \
+    rm -f db/schema.rb
 
 # Copy and set up the custom entrypoint
 COPY scripts/entrypoint-wrapper.sh /usr/local/bin/
