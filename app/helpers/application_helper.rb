@@ -518,6 +518,8 @@ module ApplicationHelper
   def render_flash_messages
     s = +''
     flash.each do |k, v|
+      next unless v.is_a?(String)
+
       s << content_tag('div', notice_icon(k) + v.html_safe, :class => "flash #{k}", :id => "flash_#{k}")
     end
     s.html_safe

@@ -2403,6 +2403,14 @@ class ApplicationHelperTest < Redmine::HelperTest
     assert_equal expected, format_activity_description(text)
   end
 
+  def test_render_flash_messages_should_ignore_non_string_values
+    flash[:array_value] = ['1', '2']
+    flash[:hash_value] = { foo: 'bar' }
+
+    result = render_flash_messages
+    assert_equal '', result
+  end
+
   private
 
   def wiki_links_with_special_characters
