@@ -1175,7 +1175,7 @@ class Issue < ApplicationRecord
       if leaf?
         spent_hours
       else
-        self_and_descendants.joins(:time_entries).sum("#{TimeEntry.table_name}.hours").to_f || 0.0
+        self_and_descendants.joins(:time_entries).sum("#{TimeEntry.table_name}.hours").to_f
       end
   end
 
