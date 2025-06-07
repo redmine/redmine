@@ -108,7 +108,7 @@ class MemberTest < ActiveSupport::TestCase
     assert !member.save
     assert_include I18n.translate('activerecord.errors.messages.empty'), member.errors[:role]
     assert_equal 'Rôle doit être renseigné(e)',
-                 [member.errors.full_messages].flatten.join
+                 [member.errors.full_messages].join
   end
 
   def test_validate_member_role

@@ -226,7 +226,7 @@ class Redmine::WikiFormatting::CommonMark::FormatterTest < ActionView::TestCase
       text = STR_WITH_PRE.join("\n\n")
       replacement = "New text"
 
-      assert_equal [STR_WITH_PRE[0..1], "New text"].flatten.join("\n\n"),
+      assert_equal [STR_WITH_PRE[0..1], "New text"].join("\n\n"),
         @formatter.new(text).update_section(3, replacement)
     end
 

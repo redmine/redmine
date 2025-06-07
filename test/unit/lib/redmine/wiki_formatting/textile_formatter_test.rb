@@ -466,19 +466,19 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
     replacement = "New text"
 
     assert_equal(
-      [STR_WITHOUT_PRE[0], replacement, STR_WITHOUT_PRE[2..4]].flatten.join("\n\n"),
+      [STR_WITHOUT_PRE[0], replacement, STR_WITHOUT_PRE[2..4]].join("\n\n"),
       @formatter.new(TEXT_WITHOUT_PRE).update_section(2, replacement)
     )
     assert_equal(
-      [STR_WITHOUT_PRE[0..1], replacement, STR_WITHOUT_PRE[4]].flatten.join("\n\n"),
+      [STR_WITHOUT_PRE[0..1], replacement, STR_WITHOUT_PRE[4]].join("\n\n"),
       @formatter.new(TEXT_WITHOUT_PRE).update_section(3, replacement)
     )
     assert_equal(
-      [STR_WITHOUT_PRE[0..2], replacement, STR_WITHOUT_PRE[4]].flatten.join("\n\n"),
+      [STR_WITHOUT_PRE[0..2], replacement, STR_WITHOUT_PRE[4]].join("\n\n"),
       @formatter.new(TEXT_WITHOUT_PRE).update_section(5, replacement)
     )
     assert_equal(
-      [STR_WITHOUT_PRE[0..3], replacement].flatten.join("\n\n"),
+      [STR_WITHOUT_PRE[0..3], replacement].join("\n\n"),
       @formatter.new(TEXT_WITHOUT_PRE).update_section(6, replacement)
     )
     assert_equal TEXT_WITHOUT_PRE, @formatter.new(TEXT_WITHOUT_PRE).update_section(0, replacement)
@@ -488,7 +488,7 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
   def test_update_section_with_hash_should_update_the_requested_section
     replacement = "New text"
     assert_equal(
-      [STR_WITHOUT_PRE[0], replacement, STR_WITHOUT_PRE[2..4]].flatten.join("\n\n"),
+      [STR_WITHOUT_PRE[0], replacement, STR_WITHOUT_PRE[2..4]].join("\n\n"),
       @formatter.new(TEXT_WITHOUT_PRE).
         update_section(2, replacement, ActiveSupport::Digest.hexdigest(STR_WITHOUT_PRE[1]))
     )
@@ -552,7 +552,7 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
     text = STR_WITH_PRE.join("\n\n")
     replacement = "New text"
     assert_equal(
-      [STR_WITH_PRE[0..1], "New text"].flatten.join("\n\n"),
+      [STR_WITH_PRE[0..1], "New text"].join("\n\n"),
       @formatter.new(text).update_section(3, replacement)
     )
   end
