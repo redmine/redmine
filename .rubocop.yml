@@ -169,6 +169,13 @@ Rails/FindEach:
 Rails/HelperInstanceVariable:
   Enabled: false
 
+Rails/Output:
+  Exclude:
+    - 'config/routes.rb'
+    - 'lib/redmine/diff.rb'
+    - 'lib/redmine/diff_table.rb'
+    - 'test/unit/lib/redmine/scm/adapters/*.rb'
+
 Rails/Pluck:
   Exclude:
   # `pluck` is not available in Gemfile
