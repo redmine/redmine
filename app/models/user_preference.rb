@@ -73,7 +73,7 @@ class UserPreference < ApplicationRecord
     if has_attribute? attr_name
       super
     else
-      others ? others[attr_name] : nil
+      others&.[](attr_name)
     end
   end
 

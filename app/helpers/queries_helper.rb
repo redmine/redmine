@@ -169,7 +169,7 @@ module QueriesHelper
             group_name = format_object(group)
           end
           group_name ||= ""
-          group_count = result_count_by_group ? result_count_by_group[group] : nil
+          group_count = result_count_by_group&.[](group)
           group_totals = totals_by_group.map {|column, t| total_tag(column, t[group] || 0)}.join(" ").html_safe
         end
       end
