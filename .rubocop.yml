@@ -114,7 +114,10 @@ Naming/VariableNumber:
 Naming/BinaryOperatorParameterName:
   Enabled: false
 
-Naming/PredicateName:
+Naming/PredicateMethod:
+  Enabled: false
+
+Naming/PredicatePrefix:
   Enabled: false
 
 Performance/CollectionLiteralInLoop:
@@ -213,6 +216,9 @@ Style/BlockDelimiters:
     - 'db/migrate/007_create_journals.rb'
     - 'lib/redmine/string_array_diff/diff.rb'
     - 'lib/redmine/string_array_diff/diffable.rb'
+
+Style/EmptyStringInsideInterpolation:
+  Enabled: false
 
 Style/FetchEnvVar:
   Enabled: false
