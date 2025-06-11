@@ -1398,6 +1398,67 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  def test_should_recognize_authorized_by_oauth
+    u = User.find 2
+    assert_not u.authorized_by_oauth?
+    u.oauth_scope = [:add_issues, :view_issues]
+    assert u.authorized_by_oauth?
+  end
+
+  def test_admin_should_be_limited_by_oauth_scope
+    u = User.find_by_admin(true)
+    assert u.admin?
+
+    u.oauth_scope = [:add_issues, :view_issues]
+    assert_not u.admin?
+
+    u.oauth_scope = [:add_issues, :view_issues, :admin]
+    assert u.admin?
+
+    u = User.find_by_admin(false)
+    assert_not u.admin?
+    u.oauth_scope = [:add_issues, :view_issues, :admin]
+    assert_not u.admin?
+  end
+
+  def test_oauth_scope_should_limit_global_user_permissions
+    admin = User.find 1
+    user = User.find 2
+    [admin, user].each do |u|
+      assert u.allowed_to?(:add_issues, nil, global: true)
+      assert u.allowed_to?(:view_issues, nil, global: true)
+      u.oauth_scope = [:view_issues]
+      assert_not u.allowed_to?(:add_issues, nil, global: true)
+      assert u.allowed_to?(:view_issues, nil, global: true)
+    end
+  end
+
+  def test_oauth_scope_should_limit_project_user_permissions
+    admin = User.find 1
+    project = Project.find 5
+    assert admin.allowed_to?(:add_issues, project)
+    assert admin.allowed_to?(:view_issues, project)
+    admin.oauth_scope = [:view_issues]
+    assert_not admin.allowed_to?(:add_issues, project)
+    assert admin.allowed_to?(:view_issues, project)
+
+    admin.oauth_scope = [:view_issues, :admin]
+    assert admin.allowed_to?(:add_issues, project)
+    assert admin.allowed_to?(:view_issues, project)
+
+    user = User.find 2
+    project = Project.find 1
+    assert user.allowed_to?(:add_issues, project)
+    assert user.allowed_to?(:view_issues, project)
+    user.oauth_scope = [:view_issues]
+    assert_not user.allowed_to?(:add_issues, project)
+    assert user.allowed_to?(:view_issues, project)
+
+    user.oauth_scope = [:view_issues, :admin]
+    assert_not user.allowed_to?(:add_issues, project)
+    assert user.allowed_to?(:view_issues, project)
+  end
+
   def test_destroy_should_delete_associated_reactions
     users(:users_004).reactions.create!(
       [

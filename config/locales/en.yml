@@ -139,6 +139,9 @@ en:
         must_contain_special_chars: "must contain special characters (!, $, %, ...)"
         domain_not_allowed: "contains a domain not allowed (%{domain})"
         too_simple: "is too simple"
+    attributes:
+      doorkeeper/application:
+        scopes: Scopes
 
   actionview_instancetag_blank_option: Please select
 
@@ -605,6 +608,10 @@ en:
   permission_manage_related_issues: Manage related issues
   permission_import_issues: Import issues
   permission_log_time_for_other_users: Log spent time for other users
+  permission_view_project: View projects
+  permission_search_project: Search projects
+  permission_view_members: View project members
+
 
   project_module_issue_tracking: Issue tracking
   project_module_time_tracking: Time tracking
@@ -1158,6 +1165,10 @@ en:
   label_time_by_author: "%{time} by %{author}"
   label_involved_principals: Author / Previous assignee
   label_progressbar: Progress bar
+  label_oauth_permission_admin: Administrate this Redmine
+  label_oauth_admin_access: Administration
+  label_oauth_application_plural: Applications
+  label_oauth_authorized_application_plural: Authorized applications
 
   button_login: Login
   button_submit: Submit
@@ -1343,6 +1354,11 @@ en:
   text_allowed_queries_to_select: Public (to any users) queries only selectable
   text_setting_config_change: You can configure the behaviour in config/configuration.yml. Please restart the application after editing it.
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a> to generate their avatars.
+  text_oauth_admin_permission: Full administrative access. When authorized by an Administrator, this application will be able to read and write all data and impersonate other users.
+  text_oauth_admin_permission_info: This application requests full administrative access. If you are an Administrator (or become one in the future), it will be able to read and write all data and impersonate other users on your behalf. If you want to avoid this, authorize it as a user without Administrator privileges instead.
+  text_oauth_copy_secret_now: Copy the secret to a safe place now, it will not be shown again.
+  text_oauth_implicit_permissions: View your name, login and primary email address
+  text_oauth_info_scopes: Select the scopes this application may request. The application will not be allowed to do more than what is selected here. It will also always be limited by the roles and project memberships of the user who authorized it.
 
   default_role_manager: Manager
   default_role_developer: Developer

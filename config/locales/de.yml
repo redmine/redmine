@@ -971,6 +971,9 @@ de:
   permission_view_time_entries: Gebuchte Aufwände ansehen
   permission_view_wiki_edits: Wiki-Versionsgeschichte ansehen
   permission_view_wiki_pages: Wiki ansehen
+  permission_view_project: Projekte ansehen
+  permission_search_project: Projekte suchen
+  permission_view_members: Projektmitglieder anzeigen
 
   project_module_boards: Foren
   project_module_calendar: Kalender
@@ -1477,3 +1480,12 @@ de:
     other: "%{count} others"
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     to generate their avatars.
+  label_oauth_permission_admin: Administrator-Zugriff
+  label_oauth_admin_access: Administration
+  label_oauth_application_plural: Applikationen
+  label_oauth_authorized_application_plural: Autorisierte Applikationen
+  text_oauth_admin_permission: Voller Admin-Zugriff. Wenn diese Applikation durch einen Administrator autorisiert wird, kann sie alle Daten lesen und schreiben, auch im Namen anderer Benutzer.
+  text_oauth_admin_permission_info: Diese Applikation verlangt vollen Administrator-Zugriff. Wenn Sie ein Administrator sind (oder in Zukunft Administrator werden), wird sie in der Lage sein, alle Daten zu lesen und zu schreiben, auch im Namen anderer Benutzer. Dies kann vermieden werden, indem die Applikation mit einem anderen Benutzerkonto ohne Administrator-Privileg autorisiert wird.
+  text_oauth_copy_secret_now: Das Geheimnis bitte jetzt an einen sicheren Ort kopieren, es kann nicht erneut angezeigt werden.
+  text_oauth_implicit_permissions: Zugriff auf Benutzername, Login sowie auf die primäre Email-Adresse
+  text_oauth_info_scopes: Scopes für die Applikation auswählen. Die Applikation wird niemals mehr Rechte haben als hier ausgewählt. Sie wird außerdem auf die Rollen und Projektmitgliedschaften des Benutzers, der sie autorisiert hat, beschränkt sein.

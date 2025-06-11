@@ -112,6 +112,7 @@ class User < Principal
   attr_accessor :password, :password_confirmation, :generate_password
   attr_accessor :last_before_login_on
   attr_accessor :remote_ip
+  attr_writer   :oauth_scope
 
   LOGIN_LENGTH_LIMIT = 60
   MAIL_LENGTH_LIMIT = 254
@@ -732,6 +733,20 @@ class User < Principal
     end
   end
 
+  def admin?
+    if authorized_by_oauth?
+      # when signed in via oauth, the user only acts as admin when the admin scope is set
+      super and @oauth_scope.include?(:admin)
+    else
+      super
+    end
+  end
+
+  # true if the user has signed in via oauth
+  def authorized_by_oauth?
+    !@oauth_scope.nil?
+  end
+
   # Return true if the user is allowed to do the specified action on a specific context
   # Action can be:
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
@@ -752,7 +767,7 @@ class User < Principal
 
       roles.any? do |role|
         (context.is_public? || role.member?) &&
-        role.allowed_to?(action) &&
+        role.allowed_to?(action, @oauth_scope) &&
         (block ? yield(role, self) : true)
       end
     elsif context && context.is_a?(Array)
@@ -771,7 +786,7 @@ class User < Principal
       # authorize if user has at least one role that has this permission
       roles = self.roles.to_a | [builtin_role]
       roles.any? do |role|
-        role.allowed_to?(action) &&
+        role.allowed_to?(action, @oauth_scope) &&
         (block ? yield(role, self) : true)
       end
     else

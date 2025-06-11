@@ -1,0 +1,33 @@
+<div class="contextual">
+<%= link_to sprite_icon('add', t('.new')), new_oauth_application_path, :class => 'icon icon-add' %>
+</div>
+
+<%= title l 'label_oauth_application_plural' %>
+
+<% if @applications.any? %>
+<div class="autoscroll">
+<table class="list">
+  <thead><tr>
+    <th><%= t('.name') %></th>
+    <th><%= t('.callback_url') %></th>
+    <th><%= t('.scopes') %></th>
+    <th></th>
+  </tr></thead>
+  <tbody>
+  <% @applications.each do |application| %>
+    <tr id="application_<%= application.id %>" class="<%= cycle("odd", "even") %>">
+      <td class="name"><span><%= link_to application.name, oauth_application_path(application) %></span></td>
+      <td class="description"><%= truncate application.redirect_uri.split.join(', '), length: 50 %></td>
+      <td class="description"><%= safe_join application.scopes.map{|scope| h l_or_humanize(scope, prefix: 'permission_')}, ", " %></td>
+      <td class="buttons">
+        <%= link_to sprite_icon('edit', t('doorkeeper.applications.buttons.edit')), edit_oauth_application_path(application), class: 'icon icon-edit' %>
+        <%= link_to sprite_icon('del', t('doorkeeper.applications.buttons.destroy')), oauth_application_path(application), :data => {:confirm => t('doorkeeper.applications.confirmations.destroy')}, :method => :delete, :class => 'icon icon-del' %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+</div>
+<% else %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>

@@ -1,0 +1,6 @@
+<%= title [l('label_oauth_application_plural'), oauth_applications_path], @application.name %>
+
+<%= labelled_form_for @application, url: doorkeeper_submit_path(@application) do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+  <%= submit_tag l(:button_save) %>
+<% end %>

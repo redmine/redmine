@@ -18,6 +18,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 Rails.application.routes.draw do
+  use_doorkeeper do
+    controllers :applications => 'oauth2_applications'
+  end
+
+  root :to => 'welcome#index'
   root :to => 'welcome#index', :as => 'home'
 
   match 'login', :to => 'account#login', :as => 'signin', :via => [:get, :post]
