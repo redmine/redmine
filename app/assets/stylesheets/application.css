@@ -359,7 +359,7 @@ table.list td.buttons a, div.buttons a, table.list td.buttons span.icon-only { m
 table.list td.buttons a:last-child, div.buttons a:last-child { margin-right: 0; }
 table.list td.buttons img, div.buttons img {vertical-align:middle;}
 table.list td.reorder {width:15%; white-space:nowrap; text-align:center; }
-table.list table.progress td {padding-right:0px;}
+table.list table.progress td {padding-right:0; border-top: none;}
 table.list caption { text-align: left; padding: 0.5em 0.5em 0.5em 0; }
 table.list tr.overdue td.due_date  { color: #c22; }
 #role-permissions-trackers table.list th {white-space:normal;}
