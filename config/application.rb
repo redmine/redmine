@@ -59,6 +59,7 @@ module RedmineApp
     config.i18n.enforce_available_locales = true
     config.i18n.fallbacks = true
     config.i18n.default_locale = 'en'
+    config.i18n.available_locales = Dir[Rails.root / 'config' / 'locales' / '*.yml'].map { |f| File.basename(f, '.yml').to_sym }
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"

@@ -4,9 +4,7 @@ require 'redmine/configuration'
 require 'redmine/plugin_loader'
 
 Rails.application.config.to_prepare do
-  I18n.backend = Redmine::I18n::Backend.new
-  # Forces I18n to load available locales from the backend
-  I18n.config.available_locales = nil
+  I18n::Backend::Simple.include(I18n::Backend::Pluralization)
 
   # Use Nokogiri as XML backend instead of Rexml
   ActiveSupport::XmlMini.backend = 'Nokogiri'
