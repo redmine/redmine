@@ -1114,10 +1114,26 @@ span.required {color: #bb0000;}
 .attachments_fields .icon-attachment, #existing-attachments .icon-attachment {background-image: none; padding-left: 0}
 .attachments_fields input.filename, #existing-attachments .filename {border:0; width:250px; color:#555; background-color:inherit; }
 .tabular input.filename {max-width:75% !important;}
-.attachments_fields input.filename {height:1.8em;padding-right: 0;}
-.attachments_fields .ajax-waiting input.filename {background:url(/hourglass.png) no-repeat 0px 50%;}
-.attachments_fields .ajax-loading input.filename {background:url(/loading.gif) no-repeat 0px 50%;}
 .attachments_fields div.ui-progressbar { width: 100px; height:14px; margin: 2px 0 -5px 8px; display: inline-block; }
+.attachments_fields input.filename {
+  height:1.8em;
+  padding-left: 3px;
+  padding-right: 0;
+}
+.attachments_fields .ajax-waiting {
+  padding-left: 16px;
+  background:url(/hourglass.png) no-repeat 0px 50%;
+}
+.attachments_fields .ajax-waiting .svg-attachment {
+  display: none;
+}
+.attachments_fields .ajax-loading {
+  padding-left: 16px;
+  background: url(/loading.gif) no-repeat 0px 50%;
+}
+.attachments_fields .ajax-loading .svg-attachment {
+  display: none;
+}
 
 a.remove-upload:hover {text-decoration:none !important;}
 .existing-attachment.deleted .filename {text-decoration:line-through; color:#999 !important;}
