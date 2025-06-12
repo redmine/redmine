@@ -280,11 +280,6 @@ module Redmine
                   {:controller => 'auth_sources', :action => 'index'},
                   :icon => 'server-authentication',
                   :html => {:class => 'icon icon-server-authentication'}
-        menu.push :applications, {:controller => 'oauth2_applications', :action => 'index'},
-                  :if => Proc.new { Setting.rest_api_enabled? },
-                  :caption => :'doorkeeper.layouts.admin.nav.applications',
-                  :icon => 'apps',
-                  :html => {:class => 'icon icon-applications'}
         menu.push :plugins, {:controller => 'admin', :action => 'plugins'},
                   :last => true,
                   :icon => 'plugins',

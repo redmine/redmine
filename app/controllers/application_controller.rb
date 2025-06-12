@@ -131,14 +131,6 @@ class ApplicationController < ActionController::Base
       if (key = api_key_from_request)
         # Use API key
         user = User.find_by_api_key(key)
-      elsif access_token = Doorkeeper.authenticate(request)
-        # Oauth
-        if access_token.accessible?
-          user = User.active.find_by_id(access_token.resource_owner_id)
-          user.oauth_scope = access_token.scopes.all.map(&:to_sym)
-        else
-          doorkeeper_render_error
-        end
       elsif /\ABasic /i.match?(request.authorization.to_s)
         # HTTP Basic, either username/password or API key/random
         authenticate_with_http_basic do |username, password|

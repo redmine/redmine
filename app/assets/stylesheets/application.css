@@ -1316,9 +1316,6 @@ div.flash.warning svg.icon-svg, .conflict svg.icon-svg {
   color: #A6750C;
 }
 
-.warning .oauth-permissions { display:inline-block;text-align:left; }
-.warning .oauth-permissions p { margin-top:0;-webkit-margin-before:0;}
-
 #errorExplanation ul { font-size: 0.9em;}
 #errorExplanation h2, #errorExplanation p { display: none; }
 

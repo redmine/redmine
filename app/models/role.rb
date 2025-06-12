@@ -198,14 +198,11 @@ class Role < ApplicationRecord
   # action can be:
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
-  # scope can be:
-  # * an array of permissions which will be used as filter (logical AND)
-
-  def allowed_to?(action, scope=nil)
+  def allowed_to?(action)
     if action.is_a? Hash
-      allowed_actions(scope).include? "#{action[:controller]}/#{action[:action]}"
+      allowed_actions.include? "#{action[:controller]}/#{action[:action]}"
     else
-      allowed_permissions(scope).include? action
+      allowed_permissions.include? action
     end
   end
 
@@ -301,20 +298,13 @@ class Role < ApplicationRecord
 
   private
 
-  def allowed_permissions(scope = nil)
-    scope = scope.sort if scope.present? # to maintain stable cache keys
-    @allowed_permissions ||= {}
-    @allowed_permissions[scope] ||= begin
-      unscoped = permissions + Redmine::AccessControl.public_permissions.collect {|p| p.name}
-      scope.present? ? unscoped & scope : unscoped
-    end
+  def allowed_permissions
+    @allowed_permissions ||= permissions + Redmine::AccessControl.public_permissions.collect {|p| p.name}
   end
 
-  def allowed_actions(scope = nil)
-    scope = scope.sort if scope.present? # to maintain stable cache keys
-    @actions_allowed ||= {}
-    @actions_allowed[scope] ||=
-      allowed_permissions(scope).inject([]) do |actions, permission|
+  def allowed_actions
+    @actions_allowed ||=
+      allowed_permissions.inject([]) do |actions, permission|
         actions += Redmine::AccessControl.allowed_actions(permission)
       end.flatten
   end
