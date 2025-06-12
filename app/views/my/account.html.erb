@@ -1,6 +1,7 @@
 <div class="contextual">
 <%= additional_emails_link(@user) %>
 <%= link_to(sprite_icon('key', l(:button_change_password)), { :action => 'password'}, :class => 'icon icon-passwd') if @user.change_password_allowed? %>
+<%= link_to(sprite_icon('apps', l('label_oauth_authorized_application_plural')), oauth_authorized_applications_path, :class => 'icon icon-applications') if Setting.rest_api_enabled? %>
 <%= call_hook(:view_my_account_contextual, :user => @user)%>
 </div>
 

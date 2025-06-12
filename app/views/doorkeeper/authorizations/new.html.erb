@@ -1,0 +1,48 @@
+<%= title t('.title') %>
+
+<div class="warning">
+<p><strong><%=h @pre_auth.client.name %></strong></p>
+
+<p><%= raw t('.prompt', client_name: content_tag(:strong, class: "text-info") { @pre_auth.client.name }) %></p>
+
+<div class="oauth-permissions">
+  <p><%= t('.able_to') %>:</p>
+  <ul>
+    <li><%= l :text_oauth_implicit_permissions %></li>
+    <% @pre_auth.scopes.each do |scope| %>
+      <% if scope == 'admin' %>
+        <li><%= l :label_oauth_permission_admin %></li>
+      <% else %>
+        <li><%= l_or_humanize(scope, prefix: 'permission_') %></li>
+      <% end %>
+    <% end %>
+  </ul>
+</div>
+
+<% if @pre_auth.scopes.include?('admin') %>
+  <p><%= l :text_oauth_admin_permission_info %></p>
+<% end %>
+</div>
+
+<p>
+  <%= form_tag oauth_authorization_path, method: :post do %>
+    <%= hidden_field_tag :client_id, @pre_auth.client.uid %>
+    <%= hidden_field_tag :redirect_uri, @pre_auth.redirect_uri %>
+    <%= hidden_field_tag :state, @pre_auth.state %>
+    <%= hidden_field_tag :response_type, @pre_auth.response_type %>
+    <%= hidden_field_tag :scope, @pre_auth.scope %>
+    <%= hidden_field_tag :code_challenge, @pre_auth.code_challenge %>
+    <%= hidden_field_tag :code_challenge_method, @pre_auth.code_challenge_method %>
+    <%= submit_tag t('doorkeeper.authorizations.buttons.authorize') %>
+  <% end %>
+  <%= form_tag oauth_authorization_path, method: :delete do %>
+    <%= hidden_field_tag :client_id, @pre_auth.client.uid %>
+    <%= hidden_field_tag :redirect_uri, @pre_auth.redirect_uri %>
+    <%= hidden_field_tag :state, @pre_auth.state %>
+    <%= hidden_field_tag :response_type, @pre_auth.response_type %>
+    <%= hidden_field_tag :scope, @pre_auth.scope %>
+    <%= hidden_field_tag :code_challenge, @pre_auth.code_challenge %>
+    <%= hidden_field_tag :code_challenge_method, @pre_auth.code_challenge_method %>
+    <%= submit_tag t('doorkeeper.authorizations.buttons.deny') %>
+  <% end %>
+</p>

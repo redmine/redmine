@@ -19,6 +19,9 @@ gem 'rack', '>= 3.1.3'
 gem "stimulus-rails", "~> 1.3"
 gem "importmap-rails", "~> 2.0"
 gem 'commonmarker', '~> 2.3.0'
+gem "doorkeeper", "~> 5.8.2"
+gem "bcrypt", require: false
+gem "doorkeeper-i18n", "~> 5.2"
 
 #  Ruby Standard Gems
 gem 'csv', '~> 3.3.2'
@@ -115,6 +118,10 @@ group :test do
   gem 'rubocop-performance', '~> 1.25.0', require: false
   gem 'rubocop-rails', '~> 2.32.0', require: false
   gem 'bundle-audit', require: false
+  # for testing oauth provider capabilities
+  gem 'oauth2'
+  gem 'rest-client'
+  gem 'webrick'
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), "Gemfile.local")

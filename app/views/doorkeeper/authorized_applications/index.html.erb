@@ -1,0 +1,31 @@
+<%= title [t(:label_my_account), my_account_path], l('label_oauth_authorized_application_plural') %>
+
+<% if @applications.any? %>
+<div class="autoscroll">
+<table class="list">
+  <thead><tr>
+    <th><%= t('doorkeeper.authorized_applications.index.application') %></th>
+    <th><%= t('doorkeeper.authorized_applications.index.created_at') %></th>
+    <th></th>
+  </tr></thead>
+  <tbody>
+  <% @applications.each do |application| %>
+    <tr id="application_<%= application.id %>" class="<%= cycle("odd", "even") %>">
+      <td class="name"><span><%= application.name %></span></td>
+      <td ><%= format_date application.created_at %></td>
+      <td class="buttons">
+        <%= link_to sprite_icon('del', t('doorkeeper.authorized_applications.buttons.revoke')), oauth_authorized_application_path(application), :data => {:confirm => t('doorkeeper.authorized_applications.confirmations.revoke')}, :method => :delete, :class => 'icon icon-del' %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+</div>
+<% else %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
+<% content_for :sidebar do %>
+<% @user = User.current %>
+<%= render :partial => 'my/sidebar' %>
+<% end %>

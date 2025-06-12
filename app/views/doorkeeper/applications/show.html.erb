@@ -1,0 +1,54 @@
+<div class="contextual">
+<%= link_to sprite_icon('edit', t('doorkeeper.applications.buttons.edit')), edit_oauth_application_path(@application), :accesskey => accesskey(:edit), class: 'icon icon-edit' %>
+<%= link_to sprite_icon('del', t('doorkeeper.applications.buttons.destroy')), oauth_application_path(@application), :data => {:confirm => t('doorkeeper.applications.confirmations.destroy')}, :method => :delete, :class => 'icon icon-del' %>
+</div>
+
+<%= title [l('label_oauth_application_plural'), oauth_applications_path], @application.name %>
+
+<div class="box">
+  <h3 class="icon icon-passwd"><%= sprite_icon('key', l(:label_information_plural)) %></h3>
+  <p>
+    <span class="label"><%= t('.application_id') %>:</span>
+    <code><%= h @application.uid %></code>
+  </p>
+  <p>
+    <span class="label"><%= t('.secret') %>:</span>
+    <code>
+      <% secret = flash[:application_secret].presence || @application.plaintext_secret %>
+      <% flash.delete :application_secret %>
+      <% if secret.blank? && Doorkeeper.config.application_secret_hashed? %>
+        <%= t('.secret_hashed') %>
+      <% else %>
+        <%= secret %>
+      <% end %>
+    </code>
+    <% if secret.present? && Doorkeeper.config.application_secret_hashed? %>
+       <strong><%= t "text_oauth_copy_secret_now" %></strong>
+    <% end %>
+  </p>
+  <p>
+    <span class="label"><%= t('.scopes') %>:</span>
+    <code><%= safe_join @application.scopes.map{|scope| h l_or_humanize(scope, prefix: 'permission_')}, ", " %></code>
+  </p>
+</div>
+
+<h3><%= t('.callback_urls') %></h3>
+
+<div class="autoscroll">
+<table class="list">
+  <thead><tr>
+    <th><%= t('.callback_url') %></th>
+    <th></th>
+  </tr></thead>
+  <tbody>
+  <% @application.redirect_uri.split.each do |uri| %>
+    <tr class="<%= cycle("odd", "even") %>">
+      <td class="name"><span><%= uri %></span></td>
+      <td class="buttons">
+        <%= link_to sprite_icon('shield-check', t('doorkeeper.applications.buttons.authorize')), oauth_authorization_path(client_id: @application.uid, redirect_uri: uri, response_type: 'code', scope: @application.scopes), class: 'icon icon-authorize', target: '_blank' %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+</div>

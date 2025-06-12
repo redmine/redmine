@@ -1,0 +1,6 @@
+<h2><%= t('doorkeeper.authorizations.error.title') %></h2>
+
+<p id="errorExplanation"><%= @pre_auth.error_response.body[:error_description] %></p>
+<p><a href="javascript:history.back()"><%= l(:button_back) %></a></p>
+
+<% html_title t('doorkeeper.authorizations.error.title') %>

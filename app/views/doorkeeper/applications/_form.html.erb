@@ -1,0 +1,39 @@
+<%= error_messages_for 'application' %>
+<div class="box tabular">
+  <p><%= f.text_field :name, :required => true %></p>
+
+  <p>
+    <%= f.text_area :redirect_uri, :required => true, :size => 60, :label => :'activerecord.attributes.doorkeeper/application.redirect_uri' %>
+    <em class="info">
+      <%= t('doorkeeper.applications.help.redirect_uri') %>
+    </em>
+  </p>
+</div>
+
+<h3><%= l(:'activerecord.attributes.doorkeeper/application.scopes') %></h3>
+<p><em class="info"><%= l :text_oauth_info_scopes %></em></p>
+<div class="box tabular" id="scopes">
+<fieldset><legend><%= l :label_oauth_admin_access %></legend>
+  <label class="floating" style="width: auto;">
+    <%= check_box_tag 'doorkeeper_application[scopes][]', 'admin', @application.scopes.include?('admin'),
+      :id => "doorkeeper_application_scopes_admin"
+    %>
+    <%= l :text_oauth_admin_permission %>
+  </label>
+</fieldset>
+<% perms_by_module = Redmine::AccessControl.permissions.group_by {|p| p.project_module.to_s} %>
+<% perms_by_module.keys.sort.each do |mod| %>
+    <fieldset><legend><%= mod.blank? ? l(:label_project) : l_or_humanize(mod, :prefix => 'project_module_') %></legend>
+    <% perms_by_module[mod].each do |permission| %>
+        <label class="floating">
+        <%= check_box_tag 'doorkeeper_application[scopes][]', permission.name.to_s, (permission.public? || @application.scopes.include?( permission.name.to_s)),
+              :id => "doorkeeper_application_scopes_#{permission.name}",
+              :disabled => permission.public? %>
+        <%= l_or_humanize(permission.name, :prefix => 'permission_') %>
+        </label>
+    <% end %>
+    </fieldset>
+<% end %>
+<br /><%= check_all_links 'scopes' %>
+<%= hidden_field_tag 'doorkeeper_application[scopes][]', '' %>
+</div>
