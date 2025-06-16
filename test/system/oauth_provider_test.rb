@@ -2,7 +2,8 @@
 
 require_relative '../application_system_test_case'
 require 'oauth2'
-require 'webrick'
+require 'rack'
+require 'puma'
 
 class OauthProviderSystemTest < ApplicationSystemTestCase
   fixtures :projects, :users, :email_addresses, :roles, :members, :member_roles,
@@ -61,10 +62,10 @@ class OauthProviderSystemTest < ApplicationSystemTestCase
     # launches webrick, listening for the redirect with the auth code.
     launch_client_app(port: port) do |req, res|
       # get access code from code url param
-      if code = req.query['code'].presence
+      if code = req.params['code'].presence
         # exchange it for token
         token = client.auth_code.get_token(code, redirect_uri: redirect_uri)
-        res.body = "<html><body><p>Authorization succeeded, you may close this window now.</p></body></html>"
+        res.body = ["<html><body><p>Authorization succeeded, you may close this window now.</p></body></html>"]
       end
     end
 
@@ -118,11 +119,16 @@ class OauthProviderSystemTest < ApplicationSystemTestCase
   private
 
   def launch_client_app(port: 12345, path: '/', &block)
-    server = WEBrick::HTTPServer.new Port: port
-    trap('INT') { server.shutdown }
-    server.mount_proc(path, block)
-    Thread.new { server.start }
-    port
+    app = ->(env) do
+      req = Rack::Request.new(env)
+      res = Rack::Response.new
+      yield(req, res)
+      res.finish
+    end
+
+    server = Puma::Server.new app
+    server.add_tcp_listener '127.0.0.1', port
+    Thread.new { server.run }
   end
 
   def test_port

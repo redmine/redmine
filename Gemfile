@@ -121,7 +121,6 @@ group :test do
   # for testing oauth provider capabilities
   gem 'oauth2'
   gem 'rest-client'
-  gem 'webrick'
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), "Gemfile.local")
