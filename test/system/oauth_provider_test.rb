@@ -31,9 +31,9 @@ class OauthProviderSystemTest < ApplicationSystemTestCase
 
       check 'View Issues'
       click_button 'Create'
-    end
 
-    assert_text "Application created"
+      assert_text "Application created."
+    end
 
     assert app = Doorkeeper::Application.find_by_name('Oauth Test')
 
