@@ -76,13 +76,9 @@ module Redmine
     def line_to_html_raw(line, offsets)
       if offsets
         s = +''
-        unless offsets.first == 0
-          s << CGI.escapeHTML(line[0..offsets.first-1])
-        end
+        s << CGI.escapeHTML(line[0..(offsets.first - 1)]) unless offsets.first == 0
         s << '<span>' + CGI.escapeHTML(line[offsets.first..offsets.last]) + '</span>'
-        unless offsets.last == -1
-          s << CGI.escapeHTML(line[offsets.last+1..-1])
-        end
+        s << CGI.escapeHTML(line[(offsets.last + 1)..-1]) unless offsets.last == -1
         s
       else
         CGI.escapeHTML(line)
