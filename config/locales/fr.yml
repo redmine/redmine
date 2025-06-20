@@ -3,4 +3,4 @@ fr:
   label_plugin_example: Exemple de module d'extension
   label_meeting_plural: Réunions
   text_say_hello: Le module d'extension dit « Bonjour »
-  text_say_goodbye: Le module d'extension dit « Au revoir »
+  text_say_goodbye: Le plugin dit « Au revoir » Et nous ne savons pas pourquoi
