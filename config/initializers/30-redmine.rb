@@ -10,7 +10,17 @@ Rails.application.config.to_prepare do
   ActiveSupport::XmlMini.backend = 'Nokogiri'
 
   Redmine::Preparation.prepare
+end
 
+# Load the secret token from the Redmine configuration file
+secret = Redmine::Configuration['secret_token']
+if secret.present?
+  RedmineApp::Application.config.secret_token = secret
+end
+
+Redmine::PluginLoader.load
+
+Rails.application.config.to_prepare do
   Doorkeeper.configure do
     orm :active_record
 
@@ -76,17 +86,7 @@ Rails.application.config.to_prepare do
   Doorkeeper::AuthorizationsController.layout "base"
   Doorkeeper::AuthorizedApplicationsController.layout "base"
   Doorkeeper::AuthorizedApplicationsController.main_menu = false
-end
 
-# Load the secret token from the Redmine configuration file
-secret = Redmine::Configuration['secret_token']
-if secret.present?
-  RedmineApp::Application.config.secret_token = secret
-end
-
-Redmine::PluginLoader.load
-
-Rails.application.config.to_prepare do
   default_paths = []
   default_paths << Rails.root.join("app/assets/javascripts")
   default_paths << Rails.root.join("app/assets/images")
