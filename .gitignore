@@ -23,12 +23,14 @@
 /log/mongrel_debug
 /plugins/*
 !/plugins/README
+!/plugins/redmine_agile
 /public/dispatch.*
 /public/plugin_assets/*
 /public/themes/*
 !/public/themes/alternate
 !/public/themes/classic
 !/public/themes/README
+!/public/themes/fluentmine
 /tmp/*
 /tmp/cache/*
 /tmp/pdf/*
@@ -40,8 +42,9 @@
 *.rbc
 
 /.bundle
-/Gemfile.lock
 /Gemfile.local
 
 /node_modules
 yarn-error.log
+
+/config/credentials/production.key
