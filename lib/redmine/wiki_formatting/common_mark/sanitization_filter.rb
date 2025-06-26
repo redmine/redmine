@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -29,8 +29,8 @@ module Redmine
 
         ALLOWED_CSS_PROPERTIES = %w[
           color background-color
-          width
-          height
+          width min-width max-width
+          height min-height max-height
           padding padding-left padding-right padding-top padding-bottom
           margin margin-left margin-right margin-top margin-bottom
           border border-left border-right border-top border-bottom border-radius border-style border-collapse border-spacing

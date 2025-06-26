@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,11 +26,24 @@ module Redmine
         include ActionView::Helpers::TagHelper
         include Redmine::Helpers::URL
 
+        def autolink(link, link_type)
+          if link_type == :email
+            link("mailto:#{link}", nil, link) || CGI.escapeHTML(link)
+          else
+            content = link
+            # Pretty printing: if we get an email address as an actual URI, e.g.
+            # `mailto:foo@bar.com`, we don't want to print the `mailto:` prefix
+            content = link[7..-1] if link.start_with?('mailto:')
+
+            link(link, nil, content) || CGI.escapeHTML(link)
+          end
+        end
+
         def link(link, title, content)
-          return nil unless uri_with_safe_scheme?(link)
+          return nil unless uri_with_link_safe_scheme?(link)
 
           css = nil
-          unless link && link.starts_with?('/')
+          unless link&.starts_with?('/') || link&.starts_with?('mailto:')
             css = 'external'
           end
           content_tag('a', content.to_s.html_safe, :href => link, :title => title, :class => css)

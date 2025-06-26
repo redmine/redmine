@@ -1345,7 +1345,7 @@ ru:
   label_next_week: следующая неделя
   label_next_month: следующий месяц
   text_role_no_workflow: Эта роль не имеет заданных последовательностей действий
-  text_status_no_workflow: Ни один трекер не использует этот стутус в последовательностях действий
+  text_status_no_workflow: Ни один трекер не использует этот статус в последовательностях действий
   setting_mail_handler_preferred_body_part: Предпочитаемая часть multipart (HTML) писем
   setting_show_status_changes_in_mail_subject: Включать изменения статуса задачи в уведомления по email
   label_inherited_from_parent_project: Наследуется из родительского проекта

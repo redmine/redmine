@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -190,8 +190,16 @@ class IssuesController < ApplicationController
   def update
     return unless update_issue_from_params
 
-    @issue.save_attachments(params[:attachments] ||
-                             (params[:issue] && params[:issue][:uploads]))
+    attachments = params[:attachments] || params.dig(:issue, :uploads)
+    if @issue.attachments_addable?
+      @issue.save_attachments(attachments)
+    else
+      attachments = attachments.to_unsafe_hash if attachments.respond_to?(:to_unsafe_hash)
+      if [Hash, Array].any? { |klass| attachments.is_a?(klass) } && attachments.any?
+        flash[:warning] = l(:warning_attachments_not_saved, attachments.size)
+      end
+    end
+
     saved = false
     begin
       saved = save_issue_with_child_records

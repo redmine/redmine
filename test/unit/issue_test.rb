@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -697,9 +697,6 @@ class IssueTest < ActiveSupport::TestCase
     issue.expects(:project_id=).in_sequence(seq)
     issue.expects(:tracker_id=).in_sequence(seq)
     issue.expects(:subject=).in_sequence(seq)
-    assert_raise Exception do
-      issue.attributes = {:subject => 'Test'}
-    end
     assert_nothing_raised do
       issue.attributes = {:tracker_id => 2, :project_id => 1, :subject => 'Test'}
     end
@@ -1459,11 +1456,31 @@ class IssueTest < ActiveSupport::TestCase
     user2 = User.find(3)
     issue = Issue.find(8)
 
+    User.current = user
+
     Watcher.create!(:user => user, :watchable => issue)
     Watcher.create!(:user => user2, :watchable => issue)
 
     user2.status = User::STATUS_LOCKED
     user2.save!
+
+    issue = Issue.new.copy_from(8)
+
+    assert issue.save
+    assert issue.watched_by?(user)
+    assert !issue.watched_by?(user2)
+  end
+
+  def test_copy_should_not_copy_watchers_without_permission
+    user = User.find(2)
+    user2 = User.find(3)
+    issue = Issue.find(8)
+
+    Role.find(1).remove_permission! :view_issue_watchers
+    User.current = user
+
+    Watcher.create!(:user => user, :watchable => issue)
+    Watcher.create!(:user => user2, :watchable => issue)
 
     issue = Issue.new.copy_from(8)
 
@@ -2161,6 +2178,16 @@ class IssueTest < ActiveSupport::TestCase
 
     assert blocked_issue.blocked?
     assert !blocking_issue.blocked?
+  end
+
+  def test_blocked_should_not_raise_exception_when_blocking_issue_id_is_invalid
+    ir = IssueRelation.find_by(issue_from_id: 10, issue_to_id: 9, relation_type: 'blocks')
+    issue = Issue.find(9)
+    assert issue.blocked?
+
+    ir.update_column :issue_from_id, 0  # invalid issue id
+    issue.reload
+    assert_nothing_raised {assert_not issue.blocked?}
   end
 
   def test_blocked_issues_dont_allow_closed_statuses
@@ -3361,7 +3388,7 @@ class IssueTest < ActiveSupport::TestCase
     user_in_europe.pref.update! :time_zone => 'UTC'
 
     user_in_asia = users(:users_002)
-    user_in_asia.pref.update! :time_zone => 'Hongkong'
+    user_in_asia.pref.update! :time_zone => 'Asia/Hong_Kong'
 
     issue = Issue.generate! :due_date => Date.parse('2016-03-20')
 

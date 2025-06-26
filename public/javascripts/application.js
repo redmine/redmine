@@ -1,5 +1,5 @@
 /* Redmine - project management software
-   Copyright (C) 2006-2022  Jean-Philippe Lang */
+   Copyright (C) 2006-2023  Jean-Philippe Lang */
 
 function sanitizeHTML(string) {
   var temp = document.createElement('span');
@@ -1161,7 +1161,13 @@ function inlineAutoComplete(element) {
             if (event.target.type === 'text' && $(element).attr('autocomplete') != 'off') {
               $(element).attr('autocomplete', 'off');
             }
-            remoteSearch(getDataSource('issues') + text, function (issues) {
+            // When triggered with text starting with "##", like "##a", the search term will become "#a",
+            // causing the SQL query to fail in finding issues with "a" in the subject.
+            // To avoid this, remove the first "#" from the search term.
+            if (text) {
+              text = text.replace(/^#/, '');
+            }
+            remoteSearch(getDataSource('issues') + encodeURIComponent(text), function (issues) {
               return cb(issues);
             });
           },
@@ -1169,7 +1175,12 @@ function inlineAutoComplete(element) {
           fillAttr: 'label',
           requireLeadingSpace: true,
           selectTemplate: function (issue) {
-            return '#' + issue.original.id;
+            let leadingHash = "#"
+            // keep ## syntax which is a valid issue syntax to show issue with title.
+            if (this.currentMentionTextSnapshot.charAt(0) === "#") {
+              leadingHash = "##"
+            }
+            return leadingHash + issue.original.id;
           },
           menuItemTemplate: function (issue) {
             return sanitizeHTML(issue.original.label);
@@ -1178,7 +1189,7 @@ function inlineAutoComplete(element) {
         {
           trigger: '[[',
           values: function (text, cb) {
-            remoteSearch(getDataSource('wiki_pages') + text, function (wikiPages) {
+            remoteSearch(getDataSource('wiki_pages') + encodeURIComponent(text), function (wikiPages) {
               return cb(wikiPages);
             });
           },
@@ -1200,7 +1211,7 @@ function inlineAutoComplete(element) {
           values: function (text, cb) {
             const url = getDataSource('users');
             if (url) {
-              remoteSearch(url + text, function (users) {
+              remoteSearch(url + encodeURIComponent(text), function (users) {
                 return cb(users);
               });
             }

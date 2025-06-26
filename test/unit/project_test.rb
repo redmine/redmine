@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -236,6 +236,7 @@ class ProjectTest < ActiveSupport::TestCase
     # generate some dependent objects
     overridden_activity = TimeEntryActivity.new({:name => "Project", :project => @ecookbook})
     assert overridden_activity.save!
+    TimeEntry.generate!(:project => @ecookbook, :activity_id => overridden_activity.id)
 
     query = IssueQuery.generate!(:project => @ecookbook, :visibility => Query::VISIBILITY_ROLES, :roles => Role.where(:id => [1, 3]).to_a)
 

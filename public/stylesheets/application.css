@@ -554,7 +554,7 @@ div.issue span.private, div.journal span.private {font-size: 60%;}
 div.issue .next-prev-links {color:#999;}
 div.issue .attributes {margin-top: 2em;}
 div.issue .attributes .attribute {padding-left:180px; clear:left; min-height: 1.8em;}
-div.issue .attributes .attribute .label {width: 170px; margin-left:-180px; font-weight:bold; float:left;  overflow:hidden; text-overflow: ellipsis;}
+div.issue .attributes .attribute .label {width: 170px; margin-left:-180px; font-weight:bold; float:left;  overflow: clip visible; text-overflow: ellipsis;}
 div.issue .attribute .value {overflow:auto; text-overflow: ellipsis;}
 div.issue .attribute.string_cf .value .wiki p {margin-top: 0; margin-bottom: 0;}
 div.issue .attribute.text_cf .value .wiki p:first-of-type {margin-top: 0;}
@@ -618,6 +618,8 @@ div.journal ul.details a:hover, ul.revision-info a:hover {color:#D14848;}
 body.avatars-on div.journal {padding-left:32px;}
 div.journal h4 img.gravatar {margin-left:-32px;}
 
+#update {margin-bottom: 1.4em;}
+
 #history .tab-content {
   padding: 0 6px;
   margin-bottom: 10px;
@@ -650,6 +652,10 @@ div#activity dt {
 }
 div#activity dl dt:first-child {
   border: 0px;
+}
+
+#activity_scope_form select#user_id {
+  max-width: 100%;
 }
 
 #search-results dd { margin-bottom: 1em; padding-left: 20px; margin-left:0px; }
@@ -1343,9 +1349,11 @@ a.wiki-anchor:hover { color: #aaa !important; text-decoration: none; }
 h1:hover a.wiki-anchor, h2:hover a.wiki-anchor, h3:hover a.wiki-anchor, h4:hover a.wiki-anchor, h5:hover a.wiki-anchor, h6:hover a.wiki-anchor { display: inline; color: #ddd; }
 
 div.wiki img {vertical-align:middle; max-width:100%;}
+div.wiki>.task-list {
+  padding-left: 0px;
+}
 div.wiki .task-list {
   list-style-type: none;
-  padding-left: 0px;
 }
 div.wiki .task-list input.task-list-item-checkbox {
   height: initial;
@@ -1533,6 +1541,7 @@ td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
   border: 0;
   box-shadow: none;
   white-space: pre-wrap;
+  pointer-events: none;
 }
 
 /***** Icons *****/

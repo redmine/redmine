@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -1064,7 +1064,7 @@ class Query < ActiveRecord::Base
   end
 
   def display_type=(type)
-    unless type || self.available_display_types.include?(type)
+    unless type && self.available_display_types.include?(type)
       type = self.available_display_types.first
     end
     options[:display_type] = type
@@ -1265,7 +1265,7 @@ class Query < ActiveRecord::Base
       sql += " OR #{db_table}.#{db_field} = ''" if is_custom_filter || [:text, :string].include?(type_for(field))
     when "*"
       sql = "#{db_table}.#{db_field} IS NOT NULL"
-      sql += " AND #{db_table}.#{db_field} <> ''" if is_custom_filter
+      sql += " AND #{db_table}.#{db_field} <> ''" if is_custom_filter || [:text, :string].include?(type_for(field))
     when ">="
       if [:date, :date_past].include?(type_for(field))
         sql = date_clause(db_table, db_field, parse_date(value.first), nil, is_custom_filter)

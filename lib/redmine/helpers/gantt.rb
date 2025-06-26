@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -420,7 +420,7 @@ module Redmine
             gc.stroke('transparent')
             gc.strokewidth(1)
             gc.draw('text %d,%d %s' % [
-              left.round + 8, 14, Redmine::Utils::Shell.shell_quote("#{month_f.year}-#{month_f.month}")
+              left.round + 8, 14, magick_text("#{month_f.year}-#{month_f.month}")
             ])
             left = left + width
             month_f = month_f >> 1
@@ -456,7 +456,7 @@ module Redmine
               gc.stroke('transparent')
               gc.strokewidth(1)
               gc.draw('text %d,%d %s' % [
-                left.round + 2, header_height + 14, Redmine::Utils::Shell.shell_quote(week_f.cweek.to_s)
+                left.round + 2, header_height + 14, magick_text(week_f.cweek.to_s)
               ])
               left = left + width
               week_f = week_f + 7
@@ -723,7 +723,7 @@ module Redmine
             progress_date = calc_progress_date(issue.start_date,
                                                issue.due_before, issue.done_ratio)
             css_classes << ' behind-start-date' if progress_date < self.date_from
-            css_classes << ' over-end-date' if progress_date > self.date_to
+            css_classes << ' over-end-date' if progress_date > self.date_to && issue.done_ratio > 0
           end
           s = (+"").html_safe
           s << view.assignee_avatar(issue.assigned_to, :size => 13, :class => 'icon-gravatar')
@@ -743,7 +743,7 @@ module Redmine
             progress_date = calc_progress_date(version.start_date,
                                                version.due_date, version.visible_fixed_issues.completed_percent)
             html_class << ' behind-start-date' if progress_date < self.date_from
-            html_class << ' over-end-date' if progress_date > self.date_to
+            html_class << ' over-end-date' if progress_date > self.date_to && version.visible_fixed_issues.completed_percent > 0
           end
           s = view.link_to_version(version).html_safe
           view.content_tag(:span, s, :class => html_class).html_safe
@@ -822,7 +822,7 @@ module Redmine
         params[:image].stroke('transparent')
         params[:image].strokewidth(1)
         params[:image].draw('text %d,%d %s' % [
-          params[:indent], params[:top] + 2, Redmine::Utils::Shell.shell_quote(subject)
+          params[:indent], params[:top] + 2, magick_text(subject)
         ])
       end
 
@@ -1072,9 +1072,15 @@ module Redmine
           params[:image].draw('text %d,%d %s' % [
             params[:subject_width] + (coords[:bar_end] || 0) + 5,
             params[:top] + 1,
-            Redmine::Utils::Shell.shell_quote(label)
+            magick_text(label)
           ])
         end
+      end
+
+      # Escape the passed string as a text argument in a draw rule for
+      # mini_magick. Note that the returned string is not shell-safe on its own.
+      def magick_text(str)
+        "'#{str.to_s.gsub(/['\\]/, '\\\\\0')}'"
       end
     end
   end

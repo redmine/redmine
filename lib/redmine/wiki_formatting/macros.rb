@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -279,8 +279,9 @@ module Redmine
         size = size.to_i
         size = 200 unless size > 0
 
-        attachments = obj.attachments if obj.respond_to?(:attachments)
-        if (controller_name == 'previews' || action_name == 'preview') && @attachments.present?
+        container = obj.is_a?(Journal) ? obj.journalized : obj
+        attachments = container.attachments if container.respond_to?(:attachments)
+        if (controller_path == 'previews' || action_name == 'preview') && @attachments.present?
           attachments = (attachments.to_a + @attachments).compact
         end
         if attachments.present? && (attachment = Attachment.latest_attach(attachments, filename))

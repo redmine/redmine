@@ -6,3 +6,13 @@ if ($("form#journal-<%= @journal.id %>-form").length > 0) {
 } else {
   $("#journal-<%= @journal.id %>-notes").after('<%= escape_javascript(render :partial => 'notes_form') %>');
 }
+
+// Focus on the textarea
+(() => {
+  const textarea = $("#journal-<%= @journal.id %>-form .wiki-edit");
+  if (textarea.length > 0) {
+    textarea.focus();
+    const textareaLength = textarea.val().length;
+    textarea.get(0).setSelectionRange(textareaLength, textareaLength);
+  }
+})();

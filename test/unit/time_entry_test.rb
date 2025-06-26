@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -153,6 +153,16 @@ class TimeEntryTest < ActiveSupport::TestCase
 
       assert !entry.save
       assert entry.errors[:base].present?
+    end
+  end
+
+  def test_should_require_spent_on
+    with_settings :timelog_accept_future_dates => '0' do
+      entry = TimeEntry.find(1)
+      entry.spent_on = ''
+
+      assert !entry.save
+      assert entry.errors[:spent_on].present?
     end
   end
 

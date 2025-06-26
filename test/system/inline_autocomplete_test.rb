@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -40,6 +40,23 @@ class InlineAutocompleteSystemTest < ApplicationSystemTestCase
     end
 
     assert_equal '#12 ', find('#issue_description').value
+  end
+
+  def test_inline_autocomplete_for_issues_with_double_hash_keep_syntax
+    log_user('admin', 'admin')
+    visit 'projects/ecookbook/issues/new'
+
+    fill_in 'Description', :with => '##Closed'
+
+    within('.tribute-container') do
+      assert page.has_text? 'Bug #12: Closed issue on a locked version'
+      assert page.has_text? 'Bug #11: Closed issue on a closed version'
+      assert page.has_text? 'Bug #8: Closed issue'
+
+      first('li').click
+    end
+
+    assert_equal '##12 ', find('#issue_description').value
   end
 
   def test_inline_autocomplete_filters_autocomplete_items
@@ -184,7 +201,6 @@ class InlineAutocompleteSystemTest < ApplicationSystemTestCase
     within('.tribute-container') do
       assert page.has_text? "Dave Lopper"
     end
-
   end
 
   def test_inline_autocomplete_for_users_on_issues_bulk_edit_show_autocomplete
@@ -200,5 +216,24 @@ class InlineAutocompleteSystemTest < ApplicationSystemTestCase
     end
 
     assert_equal '@dlopper ', find('#notes').value
+  end
+
+  def test_inline_autocomplete_for_users_on_issues_without_edit_issue_permission
+    role_developer = Role.find(2)
+    role_developer.remove_permission!(:edit_issues)
+    role_developer.add_permission!(:add_issue_watchers)
+
+    log_user('jsmith', 'jsmith')
+    visit '/issues/4/edit'
+
+    find('#issue_notes').click
+    fill_in 'issue[notes]', :with => '@'
+
+    within('.tribute-container') do
+      assert page.has_text? 'John Smith'
+      first('li').click
+    end
+
+    assert_equal '@jsmith ', find('#issue_notes').value
   end
 end

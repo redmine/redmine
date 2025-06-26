@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -195,6 +195,10 @@ class Issue < ActiveRecord::Base
     )
   end
 
+  def attachments_addable?(user=User.current)
+    attributes_editable?(user) || notes_addable?(user)
+  end
+
   # Overrides Redmine::Acts::Attachable::InstanceMethods#attachments_editable?
   def attachments_editable?(user=User.current)
     attributes_editable?(user)
@@ -305,9 +309,9 @@ class Issue < ActiveRecord::Base
         attachement.copy(:container => self)
       end
     end
+
     unless options[:watchers] == false
-      self.watcher_user_ids =
-        issue.watcher_users.select{|u| u.status == User::STATUS_ACTIVE}.map(&:id)
+      self.watcher_user_ids = issue.visible_watcher_users.select{|u| u.status == User::STATUS_ACTIVE}.map(&:id)
     end
     @copied_from = issue
     @copy_options = options
@@ -1011,7 +1015,7 @@ class Issue < ActiveRecord::Base
 
   # Returns true if this issue is blocked by another issue that is still open
   def blocked?
-    !relations_to.detect {|ir| ir.relation_type == 'blocks' && !ir.issue_from.closed?}.nil?
+    relations_to.any? {|ir| ir.relation_type == 'blocks' && ir.issue_from&.closed? == false}
   end
 
   # Returns true if this issue can be closed and if not, returns false and populates the reason

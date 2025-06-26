@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -88,6 +88,14 @@ class Redmine::FieldFormatTest < ActionView::TestCase
 
     assert_equal "foo bar", field.format.formatted_custom_value(self, custom_value, false)
     assert_equal '<a class="external" href="http://foo/foo%20bar">foo bar</a>', field.format.formatted_custom_value(self, custom_value, true)
+  end
+
+  def test_text_field_with_url_pattern_and_value_containing_a_colon_preceded_by_a_space_should_format_as_link
+    field = IssueCustomField.new(:field_format => 'string', :url_pattern => 'http://foo/%value%')
+    custom_value = CustomValue.new(:custom_field => field, :customized => Issue.new, :value => 'foo :bar')
+
+    assert_equal 'foo :bar', field.format.formatted_custom_value(self, custom_value, false)
+    assert_equal '<a class="external" href="http://foo/foo%20:bar">foo :bar</a>', field.format.formatted_custom_value(self, custom_value, true)
   end
 
   def test_text_field_with_url_pattern_should_not_encode_url_pattern

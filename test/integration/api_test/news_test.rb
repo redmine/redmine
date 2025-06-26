@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -73,7 +73,7 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
       assert_select "author[id=2][name=\"John Smith\"]"
       assert_select 'title', 'eCookbook first release !'
       assert_select 'summary', 'First version was released...'
-      assert_select 'description', "eCookbook 1.0 has been released.\n\nVisit http://ecookbook.somenet.foo/"
+      assert_select 'description', 'eCookbook 1.0 has been released. Visit http://ecookbook.somenet.foo/'
       assert_select 'created_on', News.find(1).created_on.iso8601
     end
   end

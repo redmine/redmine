@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -224,5 +224,15 @@ class MemberTest < ActiveSupport::TestCase
         "Unsaved members were returned: #{members.select(&:new_record?).map{|m| m.errors.full_messages}*","}"
       )
     end
+  end
+
+  def test_destroy_member_when_member_role_is_empty
+    member = Member.find(1)
+
+    assert_difference 'Member.count', -1 do
+      member.role_ids = [] # Destroy roles associated with member
+    end
+    assert member.destroyed?
+    assert_raise(ActiveRecord::RecordNotFound) { Member.find(1) }
   end
 end

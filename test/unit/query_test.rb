@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -214,7 +214,7 @@ class QueryTest < ActiveSupport::TestCase
     assert issues.all? {|i| i.custom_field_value(2).blank?}
   end
 
-  def test_operator_none_for_text
+  def test_operator_none_for_blank_text
     query = IssueQuery.new(:name => '_')
     query.add_filter('status_id', '*', [''])
     query.add_filter('description', '!*', [''])
@@ -224,6 +224,19 @@ class QueryTest < ActiveSupport::TestCase
     assert issues.any?
     assert issues.all? {|i| i.description.blank?}
     assert_equal [11, 12], issues.map(&:id).sort
+  end
+
+  def test_operator_any_for_blank_text
+    Issue.where(id: [1, 2]).update_all(description: '')
+    query = IssueQuery.new(:name => '_')
+    query.add_filter('status_id', '*', [''])
+    query.add_filter('description', '*', [''])
+    assert query.has_filter?('description')
+    issues = find_issues_with_query(query)
+
+    assert issues.any?
+    assert issues.all? {|i| i.description.present?}
+    assert_empty issues.map(&:id) & [1, 2]
   end
 
   def test_operator_all
@@ -1054,7 +1067,7 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal Project.where(parent_id: bookmarks).ids, result.map(&:id).sort
   end
 
-  def test_filter_watched_issues
+  def test_filter_watched_issues_by_user
     User.current = User.find(1)
     query =
       IssueQuery.new(
@@ -1062,7 +1075,7 @@ class QueryTest < ActiveSupport::TestCase
         :filters => {
           'watcher_id' => {
             :operator => '=',
-            :values => ['me']
+            :values => [User.current.id]
           }
         }
       )
@@ -1072,13 +1085,17 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal Issue.visible.watched_by(User.current).sort_by(&:id), result.sort_by(&:id)
   end
 
-  def test_filter_watched_issues_with_groups_also
+  def test_filter_watched_issues_by_me_should_include_user_groups
     user = User.find(2)
     group = Group.find(10)
     group.users << user
     Issue.find(3).add_watcher(user)
     Issue.find(7).add_watcher(group)
+    manager = Role.find(1)
+    # view_issue_watchers permission is not required to see watched issues by current user or user groups
+    manager.remove_permission! :view_issue_watchers
     User.current = user
+
     query =
       IssueQuery.new(
         :name => '_',
@@ -1090,9 +1107,40 @@ class QueryTest < ActiveSupport::TestCase
         }
       )
     result = find_issues_with_query(query)
+
     assert_not_nil result
     assert !result.empty?
     assert_equal [3, 7], result.sort_by(&:id).pluck(:id)
+  end
+
+  def test_filter_watched_issues_by_group_should_include_only_projects_with_permission
+    user = User.find(2)
+    group = Group.find(10)
+
+    Issue.find(4).add_watcher(group)
+    Issue.find(2).add_watcher(group)
+
+    developer = Role.find(2)
+    developer.remove_permission! :view_issue_watchers
+
+    User.current = user
+
+    query =
+      IssueQuery.new(
+        :name => '_',
+        :filters => {
+          'watcher_id' => {
+            :operator => '=',
+            :values => [group.id]
+          }
+        }
+      )
+    result = find_issues_with_query(query)
+
+    assert_not_nil result
+
+    # "Developer" role doesn't have the view_issue_watchers permission of issue's #4 project (OnlineStore).
+    assert_equal [2], result.pluck(:id)
   end
 
   def test_filter_unwatched_issues
@@ -2879,5 +2927,19 @@ class QueryTest < ActiveSupport::TestCase
     query.add_filter('subject', '~', ['issue today'])
 
     assert_equal 1, query.issue_count
+  end
+
+  def test_display_type_should_accept_known_types
+    query = ProjectQuery.new(:name => '_')
+    query.display_type = 'list'
+
+    assert_equal 'list', query.display_type
+  end
+
+  def test_display_type_should_not_accept_unknown_types
+    query = ProjectQuery.new(:name => '_')
+    query.display_type = 'invalid'
+
+    assert_equal 'board', query.display_type
   end
 end

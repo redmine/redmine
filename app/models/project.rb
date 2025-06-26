@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -29,8 +29,6 @@ class Project < ActiveRecord::Base
   # Maximum length for project identifiers
   IDENTIFIER_MAX_LENGTH = 100
 
-  # Specific overridden Activities
-  has_many :time_entry_activities, :dependent => :destroy
   has_many :memberships, :class_name => 'Member', :inverse_of => :project
   # Memberships of active users only
   has_many :members,
@@ -43,6 +41,8 @@ class Project < ActiveRecord::Base
   belongs_to :default_version, :class_name => 'Version'
   belongs_to :default_assigned_to, :class_name => 'Principal'
   has_many :time_entries, :dependent => :destroy
+  # Specific overridden Activities
+  has_many :time_entry_activities, :dependent => :destroy
   has_many :queries, :dependent => :destroy
   has_many :documents, :dependent => :destroy
   has_many :news, lambda {includes(:author)}, :dependent => :destroy
@@ -837,7 +837,7 @@ class Project < ActiveRecord::Base
           if user.admin?
             true
           else
-            default_member_role.has_permission?(:select_project_modules)
+            default_member_role&.has_permission?(:select_project_modules)
           end
         else
           user.allowed_to?(:select_project_modules, project)

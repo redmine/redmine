@@ -841,7 +841,7 @@ class RedCloth3 < String
             end
 
             url = htmlesc(url.dup)
-            next all if url.downcase.start_with?('javascript:')
+            next all unless uri_with_link_safe_scheme?(url)
 
             atts = pba(atts)
             atts = +" href=\"#{url}#{slash}\"#{atts}"
@@ -965,7 +965,7 @@ class RedCloth3 < String
             next m unless uri_with_safe_scheme?(url.partition('?').first)
             if href
               href = htmlesc(href.dup)
-              next m if href.downcase.start_with?('javascript:')
+              next m unless uri_with_link_safe_scheme?(href)
             end
 
             out = +''
@@ -1042,7 +1042,7 @@ class RedCloth3 < String
     end
 
     def footnote_ref( text )
-        text.gsub!(/\b\[([0-9]+?)\](\s)?/,
+        text.gsub!(/(?<=[\p{Word}\]])\[([0-9]+?)\](\s)?/,
                    '<sup><a href="#fn\1">\1</a></sup>\2')
     end
 
@@ -1214,9 +1214,9 @@ class RedCloth3 < String
             all, tag, close = $1, $2, $3
 
             if close.present? && (ALLOWED_TAGS.include?(tag) || (tag =~ /\Aredpre#\d+\z/))
-                "<#{all}#{close}"
+                "<#{htmlesc all}#{close}"
             else
-                "&lt;#{all}#{'&gt;' unless close.blank?}"
+                "&lt;#{htmlesc all}#{'&gt;' unless close.blank?}"
             end
         end
     end

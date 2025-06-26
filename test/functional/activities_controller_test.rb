@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -43,6 +43,33 @@ class ActivitiesControllerTest < Redmine::ControllerTest
 
     assert_select 'h3', :text => /#{2.days.ago.to_date.day}/
     assert_select 'dl dt.issue-edit a', :text => /(#{IssueStatus.find(2).name})/
+  end
+
+  def test_index_subproject_checkbox_should_check_descendants_visibility
+    @request.session[:user_id] = 2
+    get(
+      :index,
+      :params => {
+        :id => 5,
+      }
+    )
+    assert_response :success
+
+    assert_select '#sidebar input#with_subprojects'
+
+    project = Project.find(6)
+    project.is_public = false
+    project.save
+
+    get(
+      :index,
+      :params => {
+        :id => 5,
+      }
+    )
+    assert_response :success
+
+    assert_select '#sidebar input#with_subprojects', :count => 0
   end
 
   def test_project_index_with_invalid_project_id_should_respond_404

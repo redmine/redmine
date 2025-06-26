@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -196,6 +196,18 @@ class MailerTest < ActiveSupport::TestCase
     assert Mailer.deliver_issue_add(issue)
     assert_select_email do
       assert_select "a[href=?]", "http://localhost:3000/users/2", :text => '@John Smith'
+    end
+  end
+
+  def test_thumbnail_macro_in_email
+    set_tmp_attachments_directory
+    issue = Issue.generate!(:description => '{{thumbnail(image.png)}}')
+    issue.attachments << Attachment.new(:file => mock_file_with_options(:original_filename => 'image.png'), :author => User.find(1))
+    issue.save!
+
+    assert Mailer.deliver_issue_add(issue)
+    assert_select_email do
+      assert_select 'img[alt="image.png"]'
     end
   end
 

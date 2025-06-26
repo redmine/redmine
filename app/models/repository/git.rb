@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 # Copyright (C) 2007  Patrick Aljord patcito@ŋmail.com
 #
 # This program is free software; you can redistribute it and/or
@@ -225,7 +225,7 @@ class Repository::Git < Repository
         :repository   => self,
         :revision     => rev.identifier,
         :scmid        => rev.scmid,
-        :committer    => rev.author,
+        :committer    => rev.author.truncate(255),
         :committed_on => rev.time,
         :comments     => rev.message,
         :parents      => parents

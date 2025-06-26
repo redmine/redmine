@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -519,7 +519,9 @@ class IssueQuery < Query
 
   def sql_for_watcher_id_field(field, operator, value)
     db_table = Watcher.table_name
-    me, others = value.partition {|id| ['0', User.current.id.to_s].include?(id)}
+    me_ids = [0, User.current.id]
+    me_ids = me_ids.concat(User.current.groups.pluck(:id))
+    me, others = value.partition {|id| me_ids.include?(id.to_i)}
     sql =
       if others.any?
         "SELECT #{Issue.table_name}.id FROM #{Issue.table_name} " +

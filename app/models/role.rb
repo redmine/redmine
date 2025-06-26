@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -228,6 +228,8 @@ class Role < ActiveRecord::Base
   # Returns true if tracker_id belongs to the list of
   # trackers for which permission is given
   def permissions_tracker_ids?(permission, tracker_id)
+    return false unless has_permission?(permission)
+
     permissions_tracker_ids(permission).include?(tracker_id)
   end
 
@@ -241,6 +243,8 @@ class Role < ActiveRecord::Base
 
   # Returns true if permission is given for all trackers
   def permissions_all_trackers?(permission)
+    return false unless has_permission?(permission)
+
     permissions_all_trackers[permission.to_s].to_s != '0'
   end
 

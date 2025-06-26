@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,12 +17,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require 'blankslate'
-
 module Redmine
   module Views
     module Builders
-      class Structure < BlankSlate
+      class Structure < BasicObject
         def initialize(request, response)
           @struct = [{}]
           @request = request
@@ -38,7 +36,7 @@ module Redmine
         end
 
         def encode_value(value)
-          if value.is_a?(Time)
+          if value.is_a?(::Time)
             # Rails uses a global setting to format JSON times
             # Don't rely on it for the API as it could have been changed
             value.xmlschema(0)
@@ -49,16 +47,16 @@ module Redmine
 
         def method_missing(sym, *args, &block)
           if args.count > 0
-            if args.first.is_a?(Hash)
-              if @struct.last.is_a?(Array)
+            if args.first.is_a?(::Hash)
+              if @struct.last.is_a?(::Array)
                 @struct.last << args.first unless block
               else
                 @struct.last[sym] = args.first
               end
             else
               value = encode_value(args.first)
-              if @struct.last.is_a?(Array)
-                if args.size == 1 && !block_given?
+              if @struct.last.is_a?(::Array)
+                if args.size == 1 && !block
                   @struct.last << value
                 else
                   @struct.last << (args.last || {}).merge(:value => value)
@@ -68,14 +66,14 @@ module Redmine
               end
             end
           end
-          if block_given?
-            @struct << (args.first.is_a?(Hash) ? args.first : {})
+          if block
+            @struct << (args.first.is_a?(::Hash) ? args.first : {})
             yield(self)
             ret = @struct.pop
-            if @struct.last.is_a?(Array)
+            if @struct.last.is_a?(::Array)
               @struct.last << ret
             else
-              if @struct.last.has_key?(sym) && @struct.last[sym].is_a?(Hash)
+              if @struct.last.has_key?(sym) && @struct.last[sym].is_a?(::Hash)
                 @struct.last[sym].merge! ret
               else
                 @struct.last[sym] = ret

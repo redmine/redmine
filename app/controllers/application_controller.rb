@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -354,9 +354,12 @@ class ApplicationController < ActionController::Base
   # and authorize the user for the requested action
   def find_optional_project
     if params[:project_id].present?
-      find_project(params[:project_id])
+      @project = Project.find(params[:project_id])
     end
     authorize_global
+  rescue ActiveRecord::RecordNotFound
+    User.current.logged? ? render_404 : require_login
+    false
   end
 
   # Finds and sets @project based on @object.project

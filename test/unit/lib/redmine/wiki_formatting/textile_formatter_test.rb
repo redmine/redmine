@@ -2,7 +2,7 @@
 
 #
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -763,10 +763,28 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
   end
 
   def test_should_escape_bq_citations
-    assert_html_output({
-      %{bq.:http://x/"onmouseover="alert(document.domain) Hover me} =>
-        %{<blockquote cite="http://x/&quot;onmouseover=&quot;alert(document.domain)">\n\t\t<p>Hover me</p>\n\t</blockquote>}
-    }, false)
+    assert_html_output(
+      {
+        %{bq.:http://x/"onmouseover="alert(document.domain) Hover me} =>
+          %{<blockquote cite="http://x/&quot;onmouseover=&quot;alert(document.domain)">\n\t\t<p>Hover me</p>\n\t</blockquote>}
+      }, false)
+  end
+
+  def test_should_allow_multiple_footnotes
+    text = <<~STR
+      Some demo[1][2] And a sentence.[1]
+
+      fn1. One
+
+      fn2. Two
+    STR
+
+    expected = <<~EXPECTED
+      <p>Some demo<sup><a href="#fn1">1</a></sup><sup><a href="#fn2">2</a></sup> And a sentence.[1]</p>
+      <p id="fn1" class="footnote"><sup>1</sup> One</p>
+      <p id="fn2" class="footnote"><sup>2</sup> Two</p>
+    EXPECTED
+    assert_equal expected.gsub(%r{[\r\n\t]}, ''), to_html(text).gsub(%r{[\r\n\t]}, '')
   end
 
   private

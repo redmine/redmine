@@ -42,7 +42,12 @@
 
       <%= call_hook(:view_issues_edit_notes_bottom, { :issue => @issue, :notes => @notes, :form => f }) %>
       </fieldset>
-
+    <% end %>
+    <% if !@issue.attributes_editable? && User.current.allowed_to?(:add_issue_watchers, @issue.project) %>
+      <%= update_data_sources_for_auto_complete({users: watchers_autocomplete_for_mention_path(project_id: @issue.project, q: '', object_type: 'issue',
+                                                                                               object_id: @issue.id)}) %>
+    <% end %>
+    <% if @issue.attachments_addable? %>
       <fieldset id="add_attachments"><legend><%= l(:label_attachment_plural) %></legend>
         <% if @issue.attachments.any? && @issue.safe_attribute?('deleted_attachment_ids') %>
         <div class="contextual"><%= link_to l(:label_edit_attachments), '#', :onclick => "$('#existing-attachments').toggle(); return false;" %></div>

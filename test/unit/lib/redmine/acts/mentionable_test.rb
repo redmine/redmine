@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -29,9 +29,12 @@ class Redmine::Acts::MentionableTest < ActiveSupport::TestCase
          :issues
 
   def test_mentioned_users_with_user_mention
-    issue = Issue.generate!(project_id: 1, description: '@dlopper')
+    to_test = %w(@dlopper @dlopper! @dlopper? @dlopper. @dlopper)
 
-    assert_equal [User.find(3)], issue.mentioned_users
+    to_test.each do |item|
+      issue = Issue.generate!(project_id: 1, description: item)
+      assert_equal [User.find(3)], issue.mentioned_users
+    end
   end
 
   def test_mentioned_users_with_user_mention_having_mail_as_login

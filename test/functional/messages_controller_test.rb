@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -112,6 +112,17 @@ class MessagesControllerTest < Redmine::ControllerTest
         end
       end
     end
+  end
+
+  def test_show_should_not_display_watchers_without_permission
+    @request.session[:user_id] = 2
+    Role.find(1).remove_permission! :view_message_watchers
+    message = Message.find(1)
+    message.add_watcher User.find(2)
+    message.add_watcher Group.find(10)
+    get(:show, :params => {:board_id => 1, :id => 1})
+    assert_select 'div#watchers ul', 0
+    assert_select 'h3', {text: /Watchers \(\d*\)/, count: 0}
   end
 
   def test_get_new
@@ -309,6 +320,19 @@ class MessagesControllerTest < Redmine::ControllerTest
     assert_include 'RE: First post', response.body
     assert_include 'John Smith wrote in message#3:', response.body
     assert_include '> An other reply', response.body
+  end
+
+  def test_quote_as_html_should_respond_with_404
+    @request.session[:user_id] = 2
+    get(
+      :quote,
+      :params => {
+        :board_id => 1,
+        :id => 3
+      }
+    )
+
+    assert_response 404
   end
 
   def test_preview_new

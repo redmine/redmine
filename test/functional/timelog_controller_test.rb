@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -458,7 +458,7 @@ class TimelogControllerTest < Redmine::ControllerTest
         },
         :continue => '1'
       }
-      assert_redirected_to '/projects/ecookbook/time_entries/new?time_entry%5Bactivity_id%5D=11&time_entry%5Bissue_id%5D=&time_entry%5Bproject_id%5D=&time_entry%5Bspent_on%5D=2008-03-14'
+      assert_redirected_to '/projects/ecookbook/time_entries/new?time_entry%5Bactivity_id%5D=11&time_entry%5Bissue_id%5D=&time_entry%5Bproject_id%5D=1&time_entry%5Bspent_on%5D=2008-03-14'
     end
   end
 
@@ -714,12 +714,14 @@ class TimelogControllerTest < Redmine::ControllerTest
   def test_get_bulk_edit
     @request.session[:user_id] = 2
 
-    get :bulk_edit, :params => {:ids => [1, 2]}
+    with_settings :timespan_format => 'minutes' do
+      get :bulk_edit, :params => {:ids => [1, 2]}
+    end
     assert_response :success
 
     assert_select 'ul#bulk-selection' do
       assert_select 'li', 2
-      assert_select 'li a', :text => '03/23/2007 - eCookbook: 4.25 hours (John Smith)'
+      assert_select 'li a', :text => '03/23/2007 - eCookbook: 4:15 hours (John Smith)'
     end
 
     assert_select 'form#bulk_edit_form[action=?]', '/time_entries/bulk_update' do
@@ -755,7 +757,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_select 'select[id=?]', 'time_entry_activity_id' do
       assert_select 'option', 3
-      assert_select 'option[value=?]', '11', 0, :text => 'QA'
+      assert_select 'option[value=?]', '11', 0
     end
   end
 

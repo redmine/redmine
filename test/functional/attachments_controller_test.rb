@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -46,7 +46,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
       assert_response :success
 
       assert_equal 'text/html', @response.media_type
-      assert_select 'th.filename', :text => /issues_controller.rb\t\(révision 1484\)/
+      assert_select 'th.filename', :text => /issues_controller\.rb \(révision 1484\)/
       assert_select 'td.line-code', :text => /Demande créée avec succès/
     end
   end
@@ -65,7 +65,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
         assert_response :success
 
         assert_equal 'text/html', @response.media_type
-        assert_select 'th.filename', :text => /issues_controller.rb\t\(r\?vision 1484\)/
+        assert_select 'th.filename', :text => /issues_controller\.rb \(r\?vision 1484\)/
         assert_select 'td.line-code', :text => /Demande cr\?\?e avec succ\?s/
       end
     end
@@ -85,7 +85,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
         assert_response :success
 
         assert_equal 'text/html', @response.media_type
-        assert_select 'th.filename', :text => /issues_controller.rb\t\(révision 1484\)/
+        assert_select 'th.filename', :text => /issues_controller\.rb \(révision 1484\)/
         assert_select 'td.line-code', :text => /Demande créée avec succès/
       end
     end
@@ -621,6 +621,22 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     )
     assert_equal Issue.find(1).attachments, []
     assert_response 404
+  end
+
+  def test_download_all_with_invisible_journal
+    Project.find(1).update_column :is_public, false
+    Member.delete_all
+    @request.session[:user_id] = 2
+    User.current = User.find(2)
+    assert_not Journal.find(3).journalized.visible?
+    get(
+      :download_all,
+      :params => {
+        :object_type => 'journals',
+        :object_id => '3'
+      }
+    )
+    assert_response 403
   end
 
   def test_download_all_with_maximum_bulk_download_size_larger_than_attachments

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -50,6 +50,18 @@ class ImportsControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_select 'input[name=?]', 'file'
     assert_select 'input[name=?][type=?][value=?]', 'project_id', 'hidden', 'subproject1'
+  end
+
+  def test_new_issue_import_without_add_issues_permission
+    Role.all.map { |role| role.remove_permission! :add_issues }
+    get(:new, :params => {:type => 'IssueImport', :project_id => 'subproject1'})
+    assert_response :forbidden
+  end
+
+  def test_new_time_entry_import_without_log_time_permission
+    Role.all.map { |role| role.remove_permission! :log_time }
+    get(:new, :params => {:type => 'TimeEntryImport', :project_id => 'subproject1'})
+    assert_response :forbidden
   end
 
   def test_create_should_save_the_file

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Redmine - project management software
-# Copyright (C) 2006-2022  Jean-Philippe Lang
+# Copyright (C) 2006-  Jean-Philippe Lang
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -150,6 +150,17 @@ class WikiControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_show_should_not_display_watchers_without_permission
+    @request.session[:user_id] = 2
+    Role.find(1).remove_permission! :view_wiki_page_watchers
+    page = Project.find(1).wiki.find_page('Another_page')
+    page.add_watcher User.find(2)
+    page.add_watcher Group.find(10)
+    get(:show, :params => {:project_id => 1, :id => 'Another_page'})
+    assert_select 'div#watchers ul', 0
+    assert_select 'h3', {text: /Watchers \(\d*\)/, count: 0}
+  end
+
   def test_show_should_display_section_edit_links
     with_settings :text_formatting => 'textile' do
       @request.session[:user_id] = 2
@@ -231,6 +242,20 @@ class WikiControllerTest < Redmine::ControllerTest
     assert_select 'p.wiki-update-info' do
       assert_select 'span.badge.badge-status-locked'
     end
+  end
+
+  def test_show_should_display_revisions_count
+    # To ensure that the number of versions is correctly displayed instead of
+    # the last version number of the wiki page, make a situation where the
+    # those two numbers are different.
+    content_versions = WikiContentVersion.where(page_id: 1)
+    content_versions.first.destroy
+    assert 3, content_versions.last.version
+    assert 2, content_versions.size
+
+    get :show, :params => {:project_id => 1, :id => 'CookBook_documentation'}
+    assert_response :success
+    assert_select 'a[href=?]', '/projects/1/wiki/CookBook_documentation/history', :text => /2 revisions/
   end
 
   def test_get_new
