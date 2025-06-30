@@ -240,6 +240,7 @@ class WikiController < ApplicationController
     # don't load text
     @versions = @page.content.versions.
       select("id, author_id, comments, updated_on, version").
+      preload(:author).
       reorder('version DESC').
       limit(@version_pages.per_page + 1).
       offset(@version_pages.offset).
