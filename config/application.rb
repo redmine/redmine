@@ -85,7 +85,13 @@ module RedmineApp
 
     # Configure log level here so that additional environment file
     # can change it (environments/ENV.rb would take precedence over it)
-    config.log_level = Rails.env.production? ? :info : :debug
+
+    # https://redmine.wisemonks.com/issues/14970
+    # we should only log warnings and errors
+    config.log_level = Rails.env.production? ? :warn : :debug
+    # infinite log rotation with 10mb file size limit
+    config.logger = Logger.new("#{Rails.root}/log/#{Rails.env}.log", 0, 50.megabytes)
+
 
     config.session_store(
       :cookie_store,
