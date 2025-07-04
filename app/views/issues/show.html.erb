@@ -1,7 +1,3 @@
-<% content_for :header_tags do %>
-  <%= javascripts_for_quote_reply_include_tag %>
-<% end %>
-
 <%= render :partial => 'action_menu' %>
 
 <h2 class="inline-block"><%= issue_heading(@issue) %></h2><%= issue_status_type_badge(@issue.status) %>
@@ -96,13 +92,13 @@ end %>
 
 <% if @issue.description? %>
 <hr />
-<div class="description">
+<div class="description" data-controller="quote-reply">
   <div class="contextual">
-  <%= quote_reply(quoted_issue_path(@issue), '#issue_description_wiki') if @issue.notes_addable? %>
+  <%= quote_reply_button(url: quoted_issue_path(@issue)) if @issue.notes_addable? %>
   </div>
 
   <p><strong><%=l(:field_description)%></strong></p>
-  <div id="issue_description_wiki" class="wiki">
+  <div id="issue_description_wiki" class="wiki" data-quote-reply-target="content">
   <%= textilizable @issue, :description, :attachments => @issue.attachments %>
   </div>
 </div>

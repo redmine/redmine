@@ -1,21 +1,6 @@
-function quoteReply(path, selectorForContentElement, textFormatting) {
-  const contentElement = $(selectorForContentElement).get(0);
-  const selectedRange = QuoteExtractor.extract(contentElement);
-
-  let formatter;
-
-  if (textFormatting === 'common_mark') {
-    formatter = new QuoteCommonMarkFormatter();
-  } else {
-    formatter = new QuoteTextFormatter();
-  }
-
-  $.ajax({
-    url: path,
-    type: 'post',
-    data: { quote: formatter.format(selectedRange) }
-  });
-}
+import { Controller } from '@hotwired/stimulus'
+import TurndownService from 'turndown'
+import { post } from '@rails/request.js'
 
 class QuoteExtractor {
   static extract(targetElement) {
@@ -212,5 +197,28 @@ class QuoteCommonMarkFormatter {
     });
 
     return htmlFragment.innerHTML;
+  }
+}
+
+export default class extends Controller {
+  static targets = [ 'content' ];
+
+  quote(event) {
+    const { url, textFormatting } = event.params;
+    const selectedRange = QuoteExtractor.extract(this.contentTarget);
+
+    let formatter;
+
+    if (textFormatting === 'common_mark') {
+      formatter = new QuoteCommonMarkFormatter();
+    } else {
+      formatter = new QuoteTextFormatter();
+    }
+
+    post(url, {
+      body: JSON.stringify({ quote: formatter.format(selectedRange) }),
+      contentType: 'application/json',
+      responseKind: 'script'
+    });
   }
 }

@@ -22,7 +22,7 @@ require_relative '../application_system_test_case'
 class MessagesTest < ApplicationSystemTestCase
   def test_reply_to_topic_message
     with_text_formatting 'common_mark' do
-      within '#content > .contextual' do
+      within '#content > [data-controller="quote-reply"]' do
         click_link 'Quote'
       end
 
@@ -64,7 +64,7 @@ class MessagesTest < ApplicationSystemTestCase
         window.getSelection().addRange(range);
       JS
 
-      within '#content > .contextual' do
+      within '#content > [data-controller="quote-reply"]' do
         click_link 'Quote'
       end
 

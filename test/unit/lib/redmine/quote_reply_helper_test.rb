@@ -23,18 +23,18 @@ class QuoteReplyHelperTest < ActionView::TestCase
   include ERB::Util
   include Redmine::QuoteReply::Helper
 
-  def test_quote_reply
+  def test_quote_reply_button
     with_locale 'en' do
       url = quoted_issue_path(issues(:issues_001))
 
-      a_tag = quote_reply(url, '#issue_description_wiki')
-      assert_includes a_tag, %|onclick="#{h "quoteReply('/issues/1/quoted', '#issue_description_wiki', 'common_mark'); return false;"}"|
-      assert_includes a_tag, %|class="icon icon-quote"|
-      assert_not_includes a_tag, 'title='
+      html = quote_reply_button(url: url)
+      assert_select_in html,
+        'a[data-quote-reply-url-param=?][data-quote-reply-text-formatting-param=?]:not([title])',
+        url, Setting.text_formatting
 
       # When icon_only is true
-      a_tag = quote_reply(url, '#issue_description_wiki', icon_only: true)
-      assert_includes a_tag, %|title="Quote"|
+      html = quote_reply_button(url: url, icon_only: true)
+      assert_select_in html, 'a.icon-only.icon-quote[title=?]', 'Quote'
     end
   end
 end

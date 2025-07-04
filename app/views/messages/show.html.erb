@@ -1,14 +1,10 @@
-<% content_for :header_tags do %>
-  <%= javascripts_for_quote_reply_include_tag %>
-<% end %>
-
 <%= board_breadcrumb(@message) %>
 
-<div class="contextual">
+<div data-controller="quote-reply">
+  <div class="contextual">
     <%= watcher_link(@topic, User.current) %>
-    <%= quote_reply(
-          url_for(:action => 'quote', :id => @topic, :format => 'js'),
-          '#message_topic_wiki'
+    <%= quote_reply_button(
+          url: url_for(action: 'quote', id: @topic, format: 'js')
         ) if !@topic.locked? && authorize_for('messages', 'reply') %>
     <%= link_to(
           sprite_icon('edit', l(:button_edit)),
@@ -21,20 +17,21 @@
           :method => :post,
           :data => {:confirm => l(:text_are_you_sure)},
           :class => 'icon icon-del'
-         ) if @message.destroyable_by?(User.current) %>
-</div>
+        ) if @message.destroyable_by?(User.current) %>
+  </div>
 
-<h2><%= avatar(@topic.author) %><%= @topic.subject %></h2>
+  <h2><%= avatar(@topic.author) %><%= @topic.subject %></h2>
 
-<div class="message">
-<div class="reaction">
-  <%= reaction_button @topic %>
-</div>
-<p><span class="author"><%= authoring @topic.created_on, @topic.author %></span></p>
-<div id="message_topic_wiki" class="wiki">
-<%= textilizable(@topic, :content) %>
-</div>
-<%= link_to_attachments @topic, :author => false, :thumbnails => true %>
+  <div class="message">
+    <div class="reaction">
+      <%= reaction_button @topic %>
+    </div>
+    <p><span class="author"><%= authoring @topic.created_on, @topic.author %></span></p>
+    <div id="message_topic_wiki" class="wiki" data-quote-reply-target="content">
+      <%= textilizable(@topic, :content) %>
+    </div>
+    <%= link_to_attachments @topic, :author => false, :thumbnails => true %>
+  </div>
 </div>
 <br />
 
@@ -45,12 +42,11 @@
   <p><%= toggle_link l(:button_reply), "reply", :focus => 'message_content', :scroll => "message_content" %></p>
 <% end %>
 <% @replies.each do |message| %>
-  <div class="message reply" id="<%= "message-#{message.id}" %>">
+  <div class="message reply" id="<%= "message-#{message.id}" %>" data-controller="quote-reply">
     <div class="contextual">
       <%= reaction_button message %>
-      <%= quote_reply(
-            url_for(:action => 'quote', :id => message, :format => 'js'),
-            "#message-#{message.id} .wiki",
+      <%= quote_reply_button(
+            url: url_for(action: 'quote', id: message, format: 'js'),
             icon_only: true
           ) if !@topic.locked? && authorize_for('messages', 'reply') %>
       <%= link_to(
@@ -74,7 +70,9 @@
     -
     <%= authoring message.created_on, message.author %>
   </h4>
-  <div class="wiki"><%= textilizable message, :content, :attachments => message.attachments %></div>
+  <div class="wiki" data-quote-reply-target="content">
+    <%= textilizable message, :content, :attachments => message.attachments %>
+  </div>
   <%= link_to_attachments message, :author => false, :thumbnails => true %>
   </div>
 <% end %>
