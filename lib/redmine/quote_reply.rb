@@ -27,7 +27,7 @@ module Redmine
       def quote_reply(url, selector_for_content, icon_only: false)
         quote_reply_function = "quoteReply('#{j url}', '#{j selector_for_content}', '#{j Setting.text_formatting}')"
 
-        html_options = { class: 'icon icon-quote' }
+        html_options = { class: "#{icon_only ? "icon-only" : "icon"} icon-quote" }
         html_options[:title] = l(:button_quote) if icon_only
 
         link_to_function(

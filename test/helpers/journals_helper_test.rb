@@ -47,7 +47,7 @@ class JournalsHelperTest < Redmine::HelperTest
     journals = issue.visible_journals_with_index # add indice
     journal_actions = render_journal_actions(issue, journals.first, {reply_links: true})
 
-    assert_select_in journal_actions, 'a[title=?][class="icon icon-quote"]', 'Quote'
+    assert_select_in journal_actions, 'a[title=?][class="icon-only icon-quote"]', 'Quote'
     assert_select_in journal_actions, 'a[title=?][class="icon-only icon-edit"]', 'Edit'
     assert_select_in journal_actions, 'div[class="drdn-items"] a[class="icon icon-del"]'
     assert_select_in journal_actions, 'div[class="drdn-items"] a[class="icon icon-copy-link"]'
@@ -66,8 +66,8 @@ class JournalsHelperTest < Redmine::HelperTest
     assert_select_in journal_actions, 'span.reaction-button-wrapper'
     assert_select_in journal_actions, 'span.drdn'
 
-    assert_select_in journal_actions, 'a[class="icon-comment"]', false
-    assert_select_in journal_actions, 'a[class="icon-edit"]', false
+    assert_select_in journal_actions, 'a[class="icon-only icon-quote"]', false
+    assert_select_in journal_actions, 'a[class="icon-only icon-edit"]', false
   end
 
   def test_journal_thumbnail_attachments_should_be_in_the_same_order_as_the_journal_details
