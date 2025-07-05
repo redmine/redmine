@@ -1122,7 +1122,7 @@ span.required {color: #bb0000;}
 }
 .attachments_fields .ajax-waiting {
   padding-left: 16px;
-  background:url(/hourglass.png) no-repeat 0px 50%;
+  background:url(/hourglass-empty.svg) no-repeat 0px 50%;
 }
 .attachments_fields .ajax-waiting .svg-attachment {
   display: none;
