@@ -15,7 +15,7 @@
       <% query.inline_columns.each do |column| %>
         <%= column_header(query, column, query_options) %>
       <% end %>
-      <th class="buttons"></th>
+      <th class="buttons hide-when-print"></th>
     </tr>
   </thead>
   <tbody>
@@ -36,7 +36,7 @@
     <% query.inline_columns.each do |column| %>
     <%= content_tag('td', column_content(column, issue), :class => column.css_classes) %>
     <% end %>
-    <td class="buttons"><%= link_to_context_menu %></td>
+    <td class="buttons hide-when-print"><%= link_to_context_menu %></td>
   </tr>
   <% query.block_columns.each do |column|
        if (text = column_content(column, issue)) && text.present? -%>

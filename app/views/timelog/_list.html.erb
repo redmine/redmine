@@ -11,7 +11,7 @@
     <% @query.inline_columns.each do |column| %>
       <%= column_header(@query, column) %>
     <% end %>
-    <th></th>
+    <th class="hide-when-print"></th>
   </tr>
 </thead>
 <tbody>
@@ -36,7 +36,7 @@
     <% @query.inline_columns.each do |column| %>
     <%= content_tag('td', column_content(column, entry), :class => column.css_classes) %>
     <% end %>
-    <td class="buttons">
+    <td class="buttons hide-when-print">
     <% if entry.editable_by?(User.current) -%>
         <%= link_to sprite_icon('edit', l(:button_edit)), edit_time_entry_path(entry),
                     :title => l(:button_edit),
