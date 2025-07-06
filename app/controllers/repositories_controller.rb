@@ -156,7 +156,15 @@ class RepositoriesController < ApplicationController
       # Force the download
       send_opt = {:filename => filename_for_content_disposition(@path.split('/').last)}
       send_type = Redmine::MimeType.of(@path)
-      send_opt[:type] = send_type.to_s if send_type
+      case send_type
+      when nil
+        # No MIME type detected. Let Rails use the default type.
+      when 'application/javascript'
+        # Avoid ActionController::InvalidCrossOriginRequest exception by setting non-JS content type
+        send_opt[:type] = 'text/plain'
+      else
+        send_opt[:type] = send_type
+      end
       send_opt[:disposition] = disposition(@path)
       send_data @repository.cat(@path, @rev), send_opt
     else
