@@ -128,7 +128,7 @@ module ApplicationHelper
   # * :download - Force download (default: false)
   def link_to_attachment(attachment, options={})
     text = options.delete(:text) || attachment.filename
-    icon = options.fetch(:icon, false)
+    icon = options.delete(:icon)
 
     if options.delete(:download)
       route_method = :download_named_attachment_url
