@@ -61,6 +61,7 @@ https://www.redmine.org/
 * Patch #42597: Skip some Mercurial tests when using Mercurial 5.1 or later in Redmine 6.0 or 5.1
 
 === [Security]
+
 * Patch #42662: Require net-imap gem 0.2.5, 0.3.9, 0.4.20, 0.5.7, or later to address CVE-2025-43857
 
 === [Text formatting]
