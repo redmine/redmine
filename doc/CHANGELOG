@@ -4,6 +4,90 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2025-07-07 v6.0.6
+
+=== [Attachments]
+
+* Defect #42920: Missing icon in attachments upload form
+
+=== [Code cleanup/refactoring]
+
+* Defect #42687: Fix random failures in several system tests with Chrome 133 and later
+* Patch #42422: Use Capybara's assert_current_path in "log_user" steps to wait for page in ApplicationSystemTestCase
+* Patch #42600: Suppress "Change your password" popup for stable system tests
+* Patch #42756: Update tests for rails-dom-testing 2.3.0 whitespace collapsing
+
+=== [Database]
+
+* Defect #42622: Joining both atom_token and api_token on the User model causes an error due to the ambiguous column name "action"
+
+=== [Documentation]
+
+* Defect #42644: Noto Sans fonts are not applied on Wiki syntax help pages
+* Defect #42657: Update documentation links and fix config flag typo
+* Patch #42618: Add missing allowed CSS properties to the CommonMark Markdown help
+
+=== [Email receiving]
+
+* Defect #42962: Mail handler fails to create issues from emails over 4MB on Rack >= 3.1.14
+
+=== [Gems support]
+
+* Defect #42606: RuboCop warning about deprecated `EnsureNode#body` with rubocop-ast >= 1.41
+
+=== [I18n]
+
+* Defect #42815: Limit available locales to those defined by Redmine itself no longer works
+
+=== [Issues list]
+
+* Defect #42807: Progress Bar in issues list has a border above it
+
+=== [Issues workflow]
+
+* Defect #42875: "Page not found" error when saving workflows with many statuses on Rack >= 3.1.14
+
+=== [No category]
+
+* Patch #42688: Run system tests on GitHub CI
+
+=== [Performance]
+
+* Defect #42933: Fix N+1 query issue in Wiki history page when loading authors of  Wiki content versions
+
+=== [SCM]
+
+* Defect #42839: Downloading .js files from the repository browser fails with a 422 error due to ActionController::InvalidCrossOriginRequest
+* Patch #42597: Skip some Mercurial tests when using Mercurial 5.1 or later in Redmine 6.0 or 5.1
+
+=== [Security]
+* Patch #42662: Require net-imap gem 0.2.5, 0.3.9, 0.4.20, 0.5.7, or later to address CVE-2025-43857
+
+=== [Text formatting]
+
+* Defect #42332: "Edit this section" button is missing for headings rendered as multiline HTML
+* Defect #42648: Wiki/CommonMark: Broken references for multiple footnote usage
+
+=== [Translations]
+
+* Patch #42739: Persian translate update for 6.0-stable
+* Patch #42754: Swedish translation update for 6.0-stable
+
+=== [UI]
+
+* Defect #42640: Query totals overlaps query buttons when an RTL language is used
+* Defect #42654: Text in project jump box is vertically misaligned
+* Defect #42773: Padding in the Preview tab is larger than in the actual rendered content
+* Defect #42786: "Clear" button for custom queries has incorrect styling inside the flyout menu
+* Defect #42797: Loading and waiting icons use legacy icons and overlap filename when attaching files
+* Defect #42953: Replace legacy other download icon with SVG icon
+* Patch #42641: Improve SVG contrast when an item is selected in administration sidebar
+* Patch #42794: Hide irrelevant information when printing
+
+=== [Wiki]
+
+* Defect #42558: JPEG images are not shown in exported PDF files
+
 == 2025-04-20 v6.0.5
 
 === [Administration]
