@@ -4,6 +4,24 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2025-07-07 v5.0.13
+
+=== [Code cleanup/refactoring]
+
+* Patch #42756: Update tests for rails-dom-testing 2.3.0 whitespace collapsing
+
+=== [Email receiving]
+
+* Defect #42962: Mail handler fails to create issues from emails over 4MB on Rack >= 3.1.14
+
+=== [Issues workflow]
+
+* Defect #42875: "Page not found" error when saving workflows with many statuses on Rack >= 3.1.14
+
+=== [Security]
+
+* Patch #42662: Require net-imap gem 0.2.5, 0.3.9, 0.4.20, 0.5.7, or later to address CVE-2025-43857
+
 == 2025-03-10 v5.0.12
 
 === [Security]
