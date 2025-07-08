@@ -380,7 +380,7 @@ cs:
   permission_manage_project_activities: Spravovat aktivity projektu
   permission_manage_versions: Spravování verzí
   permission_manage_categories: Spravování kategorií úkolů
-  permission_view_issues: Zobrazit úkoly
+  permission_view_issues: Zobrazení úkolů
   permission_add_issues: Přidávání úkolů
   permission_edit_issues: Upravování úkolů
   permission_manage_issue_relations: Spravování vazeb mezi úkoly
@@ -391,7 +391,7 @@ cs:
   permission_manage_public_queries: Správa veřejných dotazů
   permission_save_queries: Ukládání dotazů
   permission_view_gantt: Zobrazení ganttova diagramu
-  permission_view_calendar: Prohlížení kalendáře
+  permission_view_calendar: Zobrazení kalendáře
   permission_view_issue_watchers: Zobrazení seznamu sledujících uživatelů
   permission_add_issue_watchers: Přidání sledujících uživatelů
   permission_delete_issue_watchers: Smazat sledující uživatele
@@ -401,23 +401,23 @@ cs:
   permission_edit_own_time_entries: Upravování vlastních zázamů o stráveném čase
   permission_manage_news: Spravování novinek
   permission_comment_news: Komentování novinek
-  permission_view_documents: Prohlížení dokumentů
+  permission_view_documents: Zobrazení dokumentů
   permission_manage_files: Spravování souborů
-  permission_view_files: Prohlížení souborů
+  permission_view_files: Zobrazení souborů
   permission_manage_wiki: Spravování Wiki
   permission_rename_wiki_pages: Přejmenovávání Wiki stránek
   permission_delete_wiki_pages: Mazání stránek na Wiki
-  permission_view_wiki_pages: Prohlížení Wiki
-  permission_view_wiki_edits: Prohlížení historie Wiki
+  permission_view_wiki_pages: Zobrazení Wiki
+  permission_view_wiki_edits: Zobrazení historie Wiki
   permission_edit_wiki_pages: Upravování stránek Wiki
   permission_delete_wiki_pages_attachments: Mazání příloh
   permission_protect_wiki_pages: Zabezpečení Wiki stránek
   permission_manage_repository: Spravování repozitáře
   permission_browse_repository: Procházení repozitáře
-  permission_view_changesets: Zobrazování revizí
+  permission_view_changesets: Zobrazení revizí
   permission_commit_access: Commit přístup
   permission_manage_boards: Správa diskusních fór
-  permission_view_messages: Prohlížení příspěvků
+  permission_view_messages: Zobrazení příspěvků
   permission_add_messages: Posílání příspěvků
   permission_edit_messages: Upravování příspěvků
   permission_edit_own_messages: Upravit vlastní příspěvky
@@ -1034,7 +1034,7 @@ cs:
   label_any_issues_in_project: jakékoli úkoly v projektu
   label_any_issues_not_in_project: jakékoli úkoly mimo projekt
   field_private_notes: Soukromé poznámky
-  permission_view_private_notes: Zobrazit soukromé poznámky
+  permission_view_private_notes: Zobrazení soukromých poznámek
   permission_set_notes_private: Nastavit poznámky jako soukromé
   label_no_issues_in_project: žádné úkoly v projektu
   label_any: vše
@@ -1206,7 +1206,7 @@ cs:
   field_digest: Kontrolní součet
   field_default_assigned_to: Výchozí přiřazený uživatel
   setting_show_custom_fields_on_registration: Zobraz uživatelská pole při registraci
-  permission_view_news: Zobraz novinky
+  permission_view_news: Zobrazení novinek
   label_no_preview_alternative_html: "Náhled není k dispozici. Soubor: %{link}."
   label_no_preview_download: Stažení
   setting_close_duplicate_issues: Automaticky uzavři duplicitní úkoly
@@ -1257,7 +1257,7 @@ cs:
   permission_edit_own_issues: Upravování vlastních úkolů
   text_select_apply_tracker: Použít frontu
   label_updated_issues: Aktualizované úkoly
-  text_avatar_server_config_html: Aktuální avatar server je <a href="%{url}">%{url}</a>.
+  text_avatar_server_config_html: Aktuální Gravatar server je <a href="%{url}">%{url}</a>.
     Nastavení lze změnit v config/configuration.yml.
   setting_gantt_months_limit: Maximální počet měsíců zobrazených v ganttově diagramu
   permission_import_time_entries: Import stráveného času
@@ -1481,36 +1481,35 @@ cs:
     zero: "%{filename}"
     one: "%{filename} a 1 soubor"
     other: "%{filename} a %{count} soubory(ů)"
-  setting_wiki_tablesort_enabled: Javascript based table sorting in wiki content
-  label_progressbar: Progress bar
-  error_spent_on_closed_issue: Cannot log time on a closed issue
-  setting_timelog_accept_closed_issues: Accept time logs on closed issues
-  setting_related_issues_default_columns: Related and sub issues list defaults
-  setting_display_related_issues_table_headers: Show table headers
-  error_can_not_remove_role_reason_members_html: "<p>The following projects have members
-    with this role:<br>%{projects}</p>"
-  setting_reactions_enabled: Enable reactions
+  setting_wiki_tablesort_enabled: Třídení tabulek na Wiki založené na JavaScriptu
+  label_progressbar: Indikátor průběhu
+  error_spent_on_closed_issue: Nelze zaznamenat čas na uzavřený úkol
+  setting_timelog_accept_closed_issues: Povolit zaznamenání časů na uzavřených úkolech
+  setting_related_issues_default_columns: Výchozí sloupce zobrazené v seznamu souvisejících úkolů
+  setting_display_related_issues_table_headers: Zobrazit záhlaví tabulky
+  error_can_not_remove_role_reason_members_html: "<p>Následující projekty mají členy
+    s touto rolí:<br>%{projects}</p>"
+  setting_reactions_enabled: Povolit reakce
   reaction_text_x_other_users:
-    one: 1 other
-    other: "%{count} others"
-  text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
-    to generate their avatars.
-  permission_view_project: View projects
-  permission_search_project: Search projects
-  permission_view_members: View project members
-  label_oauth_permission_admin: Administrate this Redmine
-  label_oauth_admin_access: Administration
-  label_oauth_application_plural: Applications
-  label_oauth_authorized_application_plural: Authorized applications
-  text_oauth_admin_permission: Full administrative access. When authorized by an Administrator,
-    this application will be able to read and write all data and impersonate other users.
-  text_oauth_admin_permission_info: This application requests full administrative access.
-    If you are an Administrator (or become one in the future), it will be able to read
-    and write all data and impersonate other users on your behalf. If you want to avoid
-    this, authorize it as a user without Administrator privileges instead.
-  text_oauth_copy_secret_now: Copy the secret to a safe place now, it will not be shown
-    again.
-  text_oauth_implicit_permissions: View your name, login and primary email address
-  text_oauth_info_scopes: Select the scopes this application may request. The application
-    will not be allowed to do more than what is selected here. It will also always be
-    limited by the roles and project memberships of the user who authorized it.
+    one: 1 jiný
+    other: "%{count} jiných"
+  text_setting_gravatar_default_initials_html: Uživatelovy iniciály jsou poslány do <a href="https://www.gravatar.com">https://www.gravatar.com</a>
+    k vygenerování avataru.
+  permission_view_project: Zobrazení projektů
+  permission_search_project: Vyhledání projektů
+  permission_view_members: Zobrazení členů projektu
+  label_oauth_permission_admin: Spravovat Redmine
+  label_oauth_admin_access: Administrace
+  label_oauth_application_plural: Aplikace
+  label_oauth_authorized_application_plural: Autorizované aplikace
+  text_oauth_admin_permission: Plný administrátorský přítup. Po potvrzení administrátorem
+    bude aplikace oprávněná číst a zapisovat všechna data a vydávat se za jiné uživatele.
+  text_oauth_admin_permission_info: Tato aplikace vyžaduje plný administrátorský přístup.
+    Jestliže jste administrátorem, nebo se jím stanete, bude moct číst
+    a zapisovat všechna data a vydávat se za jiné uživatele vaším jménem. Jestliže tomu chcete zabránit,
+    autorizujte ji jako uživatel bez práv administrátora.
+  text_oauth_copy_secret_now: Zkopírujte si kód na bezpečné místo, příště už nebude zobrazen.
+  text_oauth_implicit_permissions: Zobrazení Vašeho jména, přihlašovacího jména a hlavního e-mailu
+  text_oauth_info_scopes: Vyberte rozsah, který může aplikace požadovat. Aplikace
+    nebude oprávněna dělat více než je zde vybráno. Vždy to bude také
+    omezeno rolí a členstvím v projektu uživatele, který to povolil.
