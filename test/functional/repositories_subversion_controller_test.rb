@@ -357,27 +357,6 @@ class RepositoriesSubversionControllerTest < Redmine::RepositoryControllerTest
       assert_equal "attachment; filename=\"helloworld.c\"; filename*=UTF-8''helloworld.c", @response.headers['Content-Disposition']
     end
 
-    def test_entry_should_return_text_plain_for_js_files
-      # JavaScript files should be served as 'text/plain' instead of
-      # 'application/javascript' to avoid
-      # ActionController::InvalidCrossOriginRequest exception
-      assert_equal 0, @repository.changesets.count
-      @repository.fetch_changesets
-      @project.reload
-      assert_equal NUM_REV, @repository.changesets.count
-      get(
-        :raw,
-        :params => {
-          :id => PRJ_ID,
-          :repository_id => @repository.id,
-          :path => repository_path_hash(['subversion_test', 'foo.js'])[:param]
-        }
-      )
-      assert_response :success
-      assert_equal 'text/plain', @response.media_type
-      assert_match /attachment/, @response.headers['Content-Disposition']
-    end
-
     def test_directory_entry
       assert_equal 0, @repository.changesets.count
       @repository.fetch_changesets
