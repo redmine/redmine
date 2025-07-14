@@ -306,11 +306,31 @@ div + .drdn-items {border-top:1px solid #ccc;}
 }
 .drdn-items>span {color:#999;}
 
-.contextual .drdn-content {top:18px;}
-.contextual .drdn-items {padding:2px; min-width: 160px;}
-.contextual .drdn-items>a {display: flex; padding: 5px 8px;}
-.contextual .drdn-items>a.icon:not(:has(svg)) {padding-left: 24px; background-position-x: 4px;}
-.contextual .drdn-items>a:hover {color:#2A5685; border:1px solid #628db6; background-color:#eef5fd; border-radius:3px;}
+.contextual .drdn-content, .journal-actions .drdn-content {
+  top: 18px;
+}
+
+.contextual .drdn-items, .journal-actions .drdn-items {
+  padding: 2px;
+  min-width: 160px;
+}
+
+.contextual .drdn-items > a, .journal-actions .drdn-items > a {
+  display: flex;
+  padding: 5px 8px;
+}
+
+.contextual .drdn-items > a.icon:not(:has(svg)), .journal-actions .drdn-items > a.icon:not(:has(svg)) {
+  padding-left: 24px;
+  background-position-x: 4px;
+}
+
+.contextual .drdn-items > a:hover, .journal-actions .drdn-items > a:hover {
+  color: #2A5685;
+  border: 1px solid #628db6;
+  background-color: #eef5fd;
+  border-radius: 3px;
+}
 
 #project-jump.drdn {width:200px;display:inline-block;}
 #project-jump .drdn-trigger {
@@ -435,10 +455,6 @@ tr.message td.created_on { white-space: nowrap; }
 tr.message td.last_message { font-size: 93%; white-space: nowrap; }
 tr.message.sticky td.subject { font-weight: bold; }
 tr.message td.subject:not(:has(.icon)) { padding-left: 20px; }
-
-body.avatars-on #replies .message.reply {padding-left: 32px;}
-#replies .reply:target h4.reply-header {background-color:#DDEEFF;}
-#replies h4 img.gravatar {margin-left:-32px;}
 
 tr.version.closed, tr.version.closed a { color: #999; }
 tr.version:not(.shared) td.name { padding-left: 20px; }
@@ -593,7 +609,6 @@ div.square {
 }
 .contextual {float:right; white-space: nowrap; line-height:1.4em;margin:5px 0px; padding-left: 10px; font-size:0.9em;}
 .contextual input, .contextual select {font-size:0.9em;}
-.message .contextual, #comments .contextual { margin-top: 0; }
 
 .splitcontent {overflow: auto; display: flex; flex-wrap: wrap;}
 .splitcontentleft {flex: 1; margin-right: 5px;}
@@ -775,28 +790,8 @@ div#issue-changesets div.changeset {border-bottom: 1px solid #ddd; padding: 4px;
 div#issue-changesets p { margin-top: 0; margin-bottom: 1em;}
 .changeset-comments {margin-bottom:1em;}
 
-div.journal .contextual {margin-top: 0;}
-div.journal.private-notes .wiki {border-left:2px solid #d22; padding-left:4px; margin-left:-6px;}
-div.journal ul.details, ul.revision-info {color:#959595; margin-bottom: 1.5em;}
-div.journal ul.details a, ul.revision-info a {color:#70A7CD;}
-div.journal ul.details a:hover, ul.revision-info a:hover {color:#D14848;}
-body.avatars-on div.journal {padding-left:32px;}
-div.journal h4 img.gravatar {margin-left:-32px;}
-div.journal span.update-info {color: #666; font-size: 0.9em;}
-
 #update {margin-bottom: 1.4em;}
 
-#history .tab-content {
-  padding: 0 8px;
-  margin-bottom: 10px;
-  border-right: 1px solid #d0d7de;
-  border-bottom: 1px solid #d0d7de;
-  border-left: 1px solid #d0d7de;
-  border-radius: 0 0 3px 3px / 0 0 3px 3px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-}
-
-#history div:target h4.note-header {background-color:#DDEEFF;}
 #history p.nodata {display: none;}
 /* Prevent content from being hidden behind a #sticky-issue-header when scrolling via anchor links. */
 .controller-issues.action-show div.wiki a[name],
@@ -1193,7 +1188,6 @@ div.attachments span.author { font-size: 0.9em; color: #888; }
 div.thumbnails {margin:0.6em;}
 div.thumbnail {background:#fff;border:2px solid #ddd;display:inline-block;margin-right:2px;}
 div.thumbnail img {margin: 3px; vertical-align: middle;}
-#history div.thumbnails {margin-left: 2em;}
 
 p.other-formats { text-align: right; font-size:0.9em; color: #666; }
 .other-formats span + span:before { content: "| "; }
@@ -1745,6 +1739,7 @@ div.wiki .task-list input.task-list-item-checkbox {
 .handle {cursor: move;}
 
 #my-page .list th.checkbox, #my-page .list td.checkbox {display:none;}
+
 /***** Gantt chart *****/
 table.gantt-table {
   width: 100%;
@@ -1857,6 +1852,68 @@ td.gantt_selected_column .gantt_hdr,.gantt_selected_column_container {
 
 .version-behind-schedule a, .issue-behind-schedule a {color: #f66914;}
 .version-overdue a, .issue-overdue a, .project-overdue a {color: #f00;}
+
+/***** User events (ex: journal, notes, replies, comments) *****/
+.journals h4.journal-header {
+  background-color: #f6f7f8;
+  border-bottom: 0;
+  padding: 8px;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.journals h4.journal-header .update-info {
+  color: #666;
+  font-size: 0.9em;
+}
+
+.journals h4.journal-header .badge {
+  position: static;
+}
+
+.journals div:target h4.journal-header {
+  background-color:#DDEEFF;
+}
+
+.journals .journal-content {
+  padding-left: 8px;
+  margin-bottom: 1.2em;
+}
+
+.journals .journal .journal-content .wiki {
+  margin-left: 0.6em;
+}
+
+.journals .private-notes  {
+  border-left: 2px solid #d22;
+}
+
+.journals .journal-meta, .journals .journal-actions  {
+  display: inline-flex;
+  gap: 10px;
+}
+
+.journals .journal-meta .journal-link {
+  color: #555;
+}
+
+.journals .journal-actions .reaction-button-wrapper {
+  display: inline-flex;
+}
+
+.journals .journal-details, ul.revision-info {
+  color: #959595;
+  margin-bottom: 1.5em;
+}
+
+.journals .journal-details a, ul.revision-info a {
+  color: #70A7CD;
+}
+
+.journals .journal-details a:hover, ul.revision-info a:hover {
+  color: #D14848;
+}
 
 /***** Badges *****/
 .badge {
@@ -2135,7 +2192,6 @@ div.gravatar-with-child > img.gravatar:nth-child(2) {
 }
 
 h2 img.gravatar, h3 img.gravatar {margin-right: 4px;}
-h4 img.gravatar {margin: -2px 4px -4px 0;}
 td.username img.gravatar {margin: 0 0.5em 0 0; vertical-align: top;}
 #activity dt img.gravatar {margin: 0 1em 0 0;}
 /* Used on 12px Gravatar img tags without the icon background */

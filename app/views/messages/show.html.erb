@@ -8,14 +8,14 @@
         ) if !@topic.locked? && authorize_for('messages', 'reply') %>
     <%= link_to(
           sprite_icon('edit', l(:button_edit)),
-          {:action => 'edit', :id => @topic},
+          { :action => 'edit', :id => @topic },
           :class => 'icon icon-edit'
         ) if @message.editable_by?(User.current) %>
     <%= link_to(
           sprite_icon('del', l(:button_delete)),
-          {:action => 'destroy', :id => @topic},
+          { :action => 'destroy', :id => @topic },
           :method => :post,
-          :data => {:confirm => l(:text_are_you_sure)},
+          :data => { :confirm => l(:text_are_you_sure) },
           :class => 'icon icon-del'
         ) if @message.destroyable_by?(User.current) %>
   </div>
@@ -33,69 +33,72 @@
     <%= link_to_attachments @topic, :author => false, :thumbnails => true %>
   </div>
 </div>
-<br />
+<br/>
 
 <% unless @replies.empty? %>
-<div id="replies">
-<h3 class="comments icon icon-comments"><%= sprite_icon('comments', l(:label_reply_plural)) %> (<%= @reply_count %>)</h3>
-<% if !@topic.locked? && authorize_for('messages', 'reply') && @replies.size >= 3 %>
-  <p><%= toggle_link l(:button_reply), "reply", :focus => 'message_content', :scroll => "message_content" %></p>
-<% end %>
-<% @replies.each do |message| %>
-  <div class="message reply" id="<%= "message-#{message.id}" %>" data-controller="quote-reply">
-    <div class="contextual">
-      <%= reaction_button message %>
-      <%= quote_reply_button(
-            url: url_for(action: 'quote', id: message, format: 'js'),
-            icon_only: true
-          ) if !@topic.locked? && authorize_for('messages', 'reply') %>
-      <%= link_to(
-            sprite_icon('edit', l(:button_edit), icon_only: true),
-            {:action => 'edit', :id => message},
-            :title => l(:button_edit),
-            :class => 'icon icon-edit'
-          ) if message.editable_by?(User.current) %>
-      <%= link_to(
-            sprite_icon('del', l(:button_delete), icon_only: true),
-            {:action => 'destroy', :id => message},
-            :method => :post,
-            :data => {:confirm => l(:text_are_you_sure)},
-            :title => l(:button_delete),
-            :class => 'icon icon-del'
-          ) if message.destroyable_by?(User.current) %>
-    </div>
-  <h4 class='reply-header'>
-    <%= avatar(message.author) %>
-    <%= link_to message.subject, { :controller => 'messages', :action => 'show', :board_id => @board, :id => @topic, :r => message, :anchor => "message-#{message.id}" } %>
-    -
-    <%= authoring message.created_on, message.author %>
-  </h4>
-  <div class="wiki" data-quote-reply-target="content">
-    <%= textilizable message, :content, :attachments => message.attachments %>
+  <div id="replies" class="journals">
+    <h3 class="comments icon icon-comments"><%= sprite_icon('comments', l(:label_reply_plural)) %>
+      (<%= @reply_count %>)</h3>
+    <% if !@topic.locked? && authorize_for('messages', 'reply') && @replies.size >= 3 %>
+      <p><%= toggle_link l(:button_reply), "reply", :focus => 'message_content', :scroll => "message_content" %></p>
+    <% end %>
+    <% @replies.each do |message| %>
+      <div class="message reply journal" id="<%= "message-#{message.id}" %>" data-controller="quote-reply">
+        <h4 class='reply-header journal-header'>
+    <span class="journal-info">
+      <%= avatar(message.author) %>
+      <%= link_to message.subject, { :controller => 'messages', :action => 'show', :board_id => @board, :id => @topic, :r => message, :anchor => "message-#{message.id}" } %>
+      -
+      <%= authoring message.created_on, message.author %>
+    </span>
+          <span class="journal-meta">
+            <%= reaction_button message %>
+            <%= quote_reply_button(
+                  url: url_for(action: 'quote', id: message, format: 'js'),
+                  icon_only: true
+                ) if !@topic.locked? && authorize_for('messages', 'reply') %>
+            <%= link_to(
+                  sprite_icon('edit', l(:button_edit), icon_only: true),
+                  { :action => 'edit', :id => message },
+                  :title => l(:button_edit),
+                  :class => 'icon icon-edit'
+                ) if message.editable_by?(User.current) %>
+            <%= link_to(
+                  sprite_icon('del', l(:button_delete), icon_only: true),
+                  { :action => 'destroy', :id => message },
+                  :method => :post,
+                  :data => { :confirm => l(:text_are_you_sure) },
+                  :title => l(:button_delete),
+                  :class => 'icon icon-del'
+                ) if message.destroyable_by?(User.current) %>
+          </span>
+        </h4>
+        <div class="wiki journal-content" data-quote-reply-target="content">
+          <%= textilizable message, :content, :attachments => message.attachments %>
+        </div>
+        <%= link_to_attachments message, :author => false, :thumbnails => true %>
+      </div>
+    <% end %>
   </div>
-  <%= link_to_attachments message, :author => false, :thumbnails => true %>
-  </div>
-<% end %>
-</div>
-<span class="pagination"><%= pagination_links_full @reply_pages, @reply_count, :per_page_links => false %></span>
+  <span class="pagination"><%= pagination_links_full @reply_pages, @reply_count, :per_page_links => false %></span>
 <% end %>
 
 <% if !@topic.locked? && authorize_for('messages', 'reply') %>
-<p><%= toggle_link l(:button_reply), "reply", :focus => 'message_content' %></p>
-<div id="reply" style="display:none;">
-<%= form_for @reply, :as => :reply, :url => {:action => 'reply', :id => @topic}, :html => {:multipart => true, :id => 'message-form'} do |f| %>
-  <%= render :partial => 'form', :locals => {:f => f, :replying => true} %>
-  <%= submit_tag l(:button_submit) %>
-<% end %>
-</div>
+  <p><%= toggle_link l(:button_reply), "reply", :focus => 'message_content' %></p>
+  <div id="reply" style="display:none;">
+    <%= form_for @reply, :as => :reply, :url => { :action => 'reply', :id => @topic }, :html => { :multipart => true, :id => 'message-form' } do |f| %>
+      <%= render :partial => 'form', :locals => { :f => f, :replying => true } %>
+      <%= submit_tag l(:button_submit) %>
+    <% end %>
+  </div>
 <% end %>
 
 <% html_title @topic.subject %>
 <% content_for :sidebar do %>
   <% if User.current.allowed_to?(:add_message_watchers, @project) ||
-    (@topic.watchers.present? && User.current.allowed_to?(:view_message_watchers, @project)) %>
+        (@topic.watchers.present? && User.current.allowed_to?(:view_message_watchers, @project)) %>
     <div id="watchers">
-      <%= render :partial => 'watchers/watchers', :locals => {:watched => @topic} %>
+      <%= render :partial => 'watchers/watchers', :locals => { :watched => @topic } %>
     </div>
   <% end %>
 <% end %>

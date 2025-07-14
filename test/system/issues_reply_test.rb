@@ -93,7 +93,7 @@ class IssuesReplyTest < ApplicationSystemTestCase
       # Select the entire details of the note#1 and the part of the note#1's text.
       page.execute_script <<-JS
         const range = document.createRange();
-        range.setStartBefore(document.querySelector('#change-1 .details'));
+        range.setStartBefore(document.querySelector('#change-1 .journal-details'));
         // Select only the text "Journal" from the text "Journal notes" in the note-1.
         range.setEnd(document.querySelector('#change-1 .wiki > p').childNodes[0], 7);
 

@@ -101,9 +101,9 @@ class IssuesCustomFieldsVisibilityTest < Redmine::ControllerTest
       get(:show, :params => {:id => @issue.id})
       @fields.each_with_index do |field, i|
         if fields.include?(field)
-          assert_select 'ul.details i', {:text => "Value#{i}", :count => 1}, "User #{user.id} was not able to view #{field.name} change"
+          assert_select 'ul.journal-details i', {:text => "Value#{i}", :count => 1}, "User #{user.id} was not able to view #{field.name} change"
         else
-          assert_select 'ul.details i', {:text => "Value#{i}", :count => 0}, "User #{user.id} was able to view #{field.name} change"
+          assert_select 'ul.journal-details i', {:text => "Value#{i}", :count => 0}, "User #{user.id} was able to view #{field.name} change"
         end
       end
     end

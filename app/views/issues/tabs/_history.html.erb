@@ -7,32 +7,37 @@
 <% for journal in journals %>
   <div id="change-<%= journal.id %>" class="<%= journal.css_classes %>" data-controller="quote-reply">
     <div id="note-<%= journal.indice %>" class="note">
-    <div class="contextual">
-      <span class="journal-actions"><%= render_journal_actions(issue, journal, :reply_links => reply_links) %></span>
-      <a href="#note-<%= journal.indice %>" class="journal-link">#<%= journal.indice %></a>
-    </div>
-    <h4 class='note-header'>
-      <%= avatar(journal.user) %>
-      <%= authoring journal.created_on, journal.user, :label => :label_updated_time_by %>
-      <%= render_private_notes_indicator(journal) %>
-      <%= render_journal_update_info(journal) %>
-    </h4>
-
-    <% if journal.details.any? %>
-    <ul class="details">
-      <% details_to_strings(journal.visible_details).each do |string| %>
-       <li><%= string %></li>
-      <% end %>
-    </ul>
-    <% if Setting.thumbnails_enabled? && (thumbnail_attachments = journal_thumbnail_attachments(journal)).any? %>
-      <div class="thumbnails">
-        <% thumbnail_attachments.each do |attachment| %>
-          <%= thumbnail_tag(attachment) %>
+      <h4 class="journal-header">
+        <span class="journal-info">
+          <%= avatar(journal.user) %>
+          <%= authoring journal.created_on, journal.user, :label => :label_updated_time_by %>
+          <%= render_private_notes_indicator(journal) %>
+          <%= render_journal_update_info(journal) %>
+        </span>
+        <span class="journal-meta">
+          <span class="journal-actions">
+            <%= render_journal_actions(issue, journal, :reply_links => reply_links) %>
+          </span>
+          <a href="#note-<%= journal.indice %>" class="journal-link">#<%= journal.indice %></a>
+        </span>
+      </h4>
+      <div class="journal-content">
+        <% if journal.details.any? %>
+          <ul class="journal-details">
+            <% details_to_strings(journal.visible_details).each do |string| %>
+              <li><%= string %></li>
+            <% end %>
+          </ul>
+          <% if Setting.thumbnails_enabled? && (thumbnail_attachments = journal_thumbnail_attachments(journal)).any? %>
+            <div class="thumbnails">
+              <% thumbnail_attachments.each do |attachment| %>
+                <%= thumbnail_tag(attachment) %>
+              <% end %>
+            </div>
+          <% end %>
         <% end %>
+        <%= render_notes(issue, journal, :reply_links => reply_links) unless journal.notes.blank? %>
       </div>
-    <% end %>
-    <% end %>
-    <%= render_notes(issue, journal, :reply_links => reply_links) unless journal.notes.blank? %>
     </div>
   </div>
   <%= call_hook(:view_issues_history_journal_bottom, { :journal => journal }) %>

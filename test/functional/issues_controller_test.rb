@@ -2485,7 +2485,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
     assert_select 'div#tab-content-history' do
       assert_select 'div[id=?]', "change-#{Issue.find(1).journals.last.id}" do
-        assert_select 'ul.details', :text => "Subtask ##{issue.id} added"
+        assert_select 'ul.journal-details', :text => "Subtask ##{issue.id} added"
       end
     end
   end
@@ -3305,7 +3305,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       assert_select 'a[title=?][href=?]', 'Edit', '/time_entries/3/edit'
       assert_select 'a[title=?][href=?]', 'Delete', '/time_entries/3'
 
-      assert_select 'ul[class=?]', 'details', :text => /1.00 h/
+      assert_select 'ul[class=?]', 'journal-details', :text => /1.00 h/
     end
   end
 
@@ -8697,7 +8697,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 
     assert_select 'div#tab-content-history' do
       assert_select 'div[id=?]', "change-#{parent.journals.last.id}" do
-        assert_select 'ul.details', :text => "Subtask deleted (##{child.id})"
+        assert_select 'ul.journal-details', :text => "Subtask deleted (##{child.id})"
       end
     end
   end

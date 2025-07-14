@@ -70,7 +70,7 @@ module JournalsHelper
 
   def render_notes(issue, journal, options={})
     content_tag('div', textilizable(journal, :notes),
-      id: "journal-#{journal.id}-notes", class: "wiki", data: { quote_reply_target: 'content' })
+      id: "journal-#{journal.id}-notes", class: "wiki journal-note", data: { quote_reply_target: 'content' })
   end
 
   def render_private_notes_indicator(journal)

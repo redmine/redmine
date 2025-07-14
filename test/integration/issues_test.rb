@@ -355,7 +355,7 @@ class IssuesTest < Redmine::IntegrationTest
       end
       # Issue view
       follow_redirect!
-      assert_select 'ul.details li', :text => "Tester changed from #{tester} to #{new_tester}"
+      assert_select 'ul.journal-details li', :text => "Tester changed from #{tester} to #{new_tester}"
     end
   end
 
