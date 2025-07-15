@@ -166,4 +166,8 @@ class PrincipalTest < ActiveSupport::TestCase
     r = Principal.like('vi_ci')
     assert_include user, r
   end
+
+  def test_initials_should_return_nil
+    assert_nil Group.first.initials
+  end
 end

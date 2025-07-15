@@ -130,6 +130,11 @@ class Principal < ApplicationRecord
     to_s
   end
 
+  # Returns nil by default, subclasses should implement this method
+  def initials(formatter = nil)
+    nil
+  end
+
   def mail=(*args)
     nil
   end
