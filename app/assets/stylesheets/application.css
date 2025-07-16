@@ -1793,7 +1793,7 @@ table.gantt-table td {
   width: 100%;
 }
 .gantt_subjects div.issue-subject:hover { background-color:#ffffdd; }
-.gantt_selected_column_content { padding-left: 3px; padding-right: 3px;}
+.gantt_selected_column_content > div { padding-left: 3px; box-sizing: border-box; }
 .gantt_subjects .issue-subject img.icon-gravatar {
   margin: 2px 5px 0px 2px;
 }
