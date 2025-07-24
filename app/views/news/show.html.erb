@@ -41,7 +41,7 @@
   <p><%= toggle_link l(:label_comment_add), "add_comment_form", :focus => "comment_comments", :scroll => "comment_comments" %></p>
 <% end %>
 <% @comments.each do |comment| %>
-    <div class="message reply journal-entry" id="<%= "message-#{comment.id}" %>">
+    <div class="message reply journal" id="<%= "message-#{comment.id}" %>">
       <% next if comment.new_record? %>
       <h4 class="reply-header journal-header">
         <span class="journal-info">
