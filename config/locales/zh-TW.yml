@@ -1527,22 +1527,20 @@
     other: "%{count} 位其他用戶"
   text_setting_gravatar_default_initials_html: 用戶姓名的首字母縮寫將被送往 <a href="https://www.gravatar.com">https://www.gravatar.com</a>
     用以產生其大頭貼.
-  permission_view_project: View projects
-  permission_search_project: Search projects
-  permission_view_members: View project members
-  label_oauth_permission_admin: Administrate this Redmine
-  label_oauth_admin_access: Administration
-  label_oauth_application_plural: Applications
-  label_oauth_authorized_application_plural: Authorized applications
-  text_oauth_admin_permission: Full administrative access. When authorized by an Administrator,
-    this application will be able to read and write all data and impersonate other users.
-  text_oauth_admin_permission_info: This application requests full administrative access.
-    If you are an Administrator (or become one in the future), it will be able to read
-    and write all data and impersonate other users on your behalf. If you want to avoid
-    this, authorize it as a user without Administrator privileges instead.
-  text_oauth_copy_secret_now: Copy the secret to a safe place now, it will not be shown
-    again.
-  text_oauth_implicit_permissions: View your name, login and primary email address
-  text_oauth_info_scopes: Select the scopes this application may request. The application
-    will not be allowed to do more than what is selected here. It will also always be
-    limited by the roles and project memberships of the user who authorized it.
+  permission_view_project: 檢視專案
+  permission_search_project: 搜尋專案
+  permission_view_members: 檢視專案成員
+  label_oauth_permission_admin: 管理此 Redmine
+  label_oauth_admin_access: 管理權限
+  label_oauth_application_plural: 應用程式
+  label_oauth_authorized_application_plural: 已授權之應用程式
+  text_oauth_admin_permission: 完整的系統管理存取權限。經由管理者授權後，
+    本應用程式將可讀取與寫入所有資料，並能模擬其他使用者操作。
+  text_oauth_admin_permission_info: 此應用程式要求取得完整的系統管理存取權限。
+    若您目前（或未來具備）管理者身分，它將可代表您讀取及寫入所有資料，並能模擬其他使用者操作。
+    如欲避免此情況，請改以「一般使用者」（無管理者權限）身分進行授權。
+  text_oauth_copy_secret_now: 請立即將密鑰複製到安全的地方保存，之後將無法再次顯示。
+  text_oauth_implicit_permissions: 檢視您的姓名、登入帳號及主要電子郵件地址
+  text_oauth_info_scopes: 請選擇此應用程式可要求存取的權限範圍。
+    應用程式僅能執行您在此選擇的權限，無法超越此範圍。
+    此外，其存取權限也將始終受限於授權使用者的角色與所屬專案成員資格。
