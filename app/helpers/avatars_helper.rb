@@ -38,30 +38,9 @@ module AvatarsHelper
   # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
   def avatar(user, options = {})
     if Setting.gravatar_enabled?
-      options[:default] = Setting.gravatar_default
-      options[:class] = GravatarHelper::DEFAULT_OPTIONS[:class] + " " + options[:class] if options[:class]
-      email = nil
-      if user.respond_to?(:mail)
-        email = user.mail
-        options[:title] = user.name unless options[:title]
-        options[:initials] = user.initials if options[:default] == "initials" && user.initials.present?
-      elsif user.to_s =~ %r{<(.+?)>}
-        email = $1
-      end
-      if email.present?
-        gravatar(email.to_s.downcase, options) rescue nil
-      elsif user.is_a?(AnonymousUser)
-        anonymous_avatar(options)
-      elsif user.is_a?(Group)
-        group_avatar(options)
-      else
-        nil
-      end
+      gravatar_avatar_tag(user, options)
     elsif user.respond_to?(:initials)
-      size = options.delete(:size) || GravatarHelper::DEFAULT_OPTIONS[:size]
-      css_class = "avatar-color-#{user.id % 8} avatar s#{size}"
-      css_class += " #{options[:class]}" if options[:class]
-      content_tag('span', user.initials, role: 'img', class: css_class)
+      initials_avatar_tag(user, options)
     else
       ''
     end
@@ -75,13 +54,49 @@ module AvatarsHelper
     end
   end
 
-  private
-
   def anonymous_avatar(options={})
     image_tag 'anonymous.png', GravatarHelper::DEFAULT_OPTIONS.except(:default, :rating, :ssl).merge(options)
   end
 
   def group_avatar(options={})
     image_tag 'group.png', GravatarHelper::DEFAULT_OPTIONS.except(:default, :rating, :ssl).merge(options)
+  end
+
+  private
+
+  def gravatar_avatar_tag(user, options)
+    options[:default] = Setting.gravatar_default
+    options[:class] = [GravatarHelper::DEFAULT_OPTIONS[:class], options[:class]].compact.join(' ')
+
+    email = extract_email_from_user(user)
+
+    if user.respond_to?(:mail)
+      options[:title] ||= user.name
+      options[:initials] = user.initials if options[:default] == "initials" && user.initials.present?
+    end
+
+    if email.present?
+      gravatar(email.to_s.downcase, options) rescue nil
+    elsif user.is_a?(AnonymousUser)
+      anonymous_avatar(options)
+    elsif user.is_a?(Group)
+      group_avatar(options)
+    end
+  end
+
+  def initials_avatar_tag(user, options)
+    size = (options.delete(:size) || GravatarHelper::DEFAULT_OPTIONS[:size]).to_i
+
+    css_class = ["avatar-color-#{user.id % 8}", 'avatar', "s#{size}", options[:class]].compact.join(' ')
+
+    content_tag('span', user.initials, role: 'img', class: css_class, title: options[:title])
+  end
+
+  def extract_email_from_user(user)
+    if user.respond_to?(:mail)
+      user.mail
+    elsif user.to_s =~ %r{<(.+?)>}
+      $1
+    end
   end
 end
