@@ -2816,7 +2816,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'h3', {text: /Watchers \(\d*\)/, count: 0}
   end
 
-  def test_show_should_display_watchers_with_gravatars
+  def test_show_should_display_watchers_with_avatars
     @request.session[:user_id] = 2
     issue = Issue.find(1)
     issue.add_watcher User.find(2)
@@ -2824,9 +2824,10 @@ class IssuesControllerTest < Redmine::ControllerTest
     with_settings :gravatar_enabled => '1' do
       get(:show, :params => {:id => 1})
     end
+
     assert_select 'div#watchers ul' do
       assert_select 'li.user-2' do
-        assert_select 'img.gravatar[title=?]', 'John Smith'
+        assert_select '.avatar[title=?]', 'John Smith'
         assert_select 'a[href="/users/2"]'
         assert_select 'a[class*=delete]'
       end
@@ -8786,31 +8787,27 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'a[href=?][onclick=?]', "/issues/1", "", :text => 'Cancel'
   end
 
-  def test_show_should_display_author_gravatar_only_when_not_assigned
+  def test_show_should_display_author_avatar_only_when_not_assigned
     issue = Issue.find(1)
     assert_nil issue.assigned_to_id
     @request.session[:user_id] = 1
 
-    with_settings :gravatar_enabled => '1' do
-      get :show, :params => {:id => issue.id}
-      assert_select 'div.gravatar-with-child' do
-        assert_select 'img.gravatar', 1
-      end
+    get :show, :params => {:id => issue.id}
+    assert_select 'div.avatar-with-child' do
+      assert_select '.avatar', 1
     end
   end
 
-  def test_show_should_display_author_and_assignee_gravatars_when_assigned
+  def test_show_should_display_author_and_assignee_avatars_when_assigned
     issue = Issue.find(1)
     issue.assigned_to_id = 2
     issue.save!
     @request.session[:user_id] = 1
 
-    with_settings :gravatar_enabled => '1' do
-      get :show, :params => {:id => issue.id}
-      assert_select 'div.gravatar-with-child' do
-        assert_select 'img.gravatar', 2
-        assert_select 'img.gravatar-child', 1
-      end
+    get :show, :params => {:id => issue.id}
+    assert_select 'div.avatar-with-child' do
+      assert_select '.avatar', 2
+      assert_select '.avatar-child', 1
     end
   end
 

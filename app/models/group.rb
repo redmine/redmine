@@ -53,6 +53,10 @@ class Group < Principal
     name.to_s
   end
 
+  def initials
+    name[0, 1]
+  end
+
   def builtin_type
     nil
   end

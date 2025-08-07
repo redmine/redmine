@@ -28,9 +28,9 @@
     </div>
   <% end %>
 
-  <div class="gravatar-with-child">
+  <div class="avatar-with-child">
     <%= author_avatar(@issue.author, :size => "50") %>
-    <%= assignee_avatar(@issue.assigned_to, :size => "22", :class => "gravatar-child") if @issue.assigned_to %>
+    <%= assignee_avatar(@issue.assigned_to, :size => "22", :class => "avatar-child") if @issue.assigned_to %>
   </div>
 
 <div data-controller="sticky-issue-header">

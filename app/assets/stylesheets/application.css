@@ -433,7 +433,7 @@ tr.entry.file td.filename a { margin-left: 26px; }
 tr.entry.file td.filename_no_report a { margin-left: 16px; }
 
 tr span.expander, .gantt_subjects div > span.expander {margin-left: 0; cursor: pointer;}
-.gantt_subjects div > span .icon-gravatar {float: none;}
+.gantt_subjects .avatar {margin-right: 4px;}
 .gantt_subjects div.project-name a, .gantt_subjects div.version-name a {margin-left: 4px;}
 
 tr.changeset { height: 20px }
@@ -461,7 +461,7 @@ tr.version:not(.shared) td.name { padding-left: 20px; }
 tr.version td.date, tr.version td.status, tr.version td.sharing { text-align: center; white-space:nowrap; }
 
 #principals_for_new_member .icon-user, #users_for_watcher .icon-user {background:transparent;}
-#principals_for_new_member svg, #principals_for_new_member img {margin-right: 4px;}
+#principals_for_new_member svg, #principals_for_new_member .avatar  {margin-right: 4px;}
 
 tr.user td {width:13%;white-space: nowrap;}
 td.username, td.firstname, td.lastname, td.email {text-align:left !important;}
@@ -565,9 +565,9 @@ body.controller-gantts fieldset#options > div > div {
 td.center {text-align:center;}
 
 #watchers select {width: 95%; display: block;}
-#watchers img.gravatar {margin: 0 4px 2px 0;}
+#watchers .avatar {margin: 0 4px 2px 0;}
 #watchers svg.icon-svg {margin: 0 2px 2px 0;}
-#users_for_watcher img.gravatar {padding-bottom: 2px; margin-right: 4px;}
+#users_for_watcher .avatar {padding-bottom: 2px; margin-right: 4px;}
 #users_for_watcher svg {margin-right: 4px;}
 #users_for_watcher span.icon-user {display: inline;}
 
@@ -1439,7 +1439,7 @@ p.cal.legend span {display:flex;}
 .tooltip span.tip{display: none; text-align:left;}
 .tooltip span.tip a { color: #169 !important; }
 
-.tooltip span.tip img.gravatar {
+.tooltip span.tip .avatar {
   float: none;
   margin: 0;
 }
@@ -1794,9 +1794,6 @@ table.gantt-table td {
 }
 .gantt_subjects div.issue-subject:hover { background-color:#ffffdd; }
 .gantt_selected_column_content > div { padding-left: 3px; box-sizing: border-box; }
-.gantt_subjects .issue-subject img.icon-gravatar {
-  margin: 2px 5px 0px 2px;
-}
 
 .gantt_hdr_selected_column_name {
   position: absolute;
@@ -2184,21 +2181,16 @@ tr.ui-sortable-helper { border:1px solid #e4e4e4; }
 
 .contextual>*:not(:first-child), .buttons>.icon:not(:first-child), .contextual .journal-actions>*:not(:first-child) { margin-left: 5px; }
 
-img.gravatar {
-  vertical-align: middle;
-  border-radius: 20%;
-}
-
-div.issue img.gravatar {
+div.issue .avatar {
   float: left;
   margin: 0 12px 6px 0;
 }
 
-div.gravatar-with-child {
+div.avatar-with-child {
   position: relative;
 }
 
-div.gravatar-with-child > img.gravatar:nth-child(2) {
+div.avatar-with-child > .avatar:nth-child(2) {
   position: absolute;
   top: 30px;
   left: 30px;
@@ -2206,11 +2198,11 @@ div.gravatar-with-child > img.gravatar:nth-child(2) {
   border: 2px solid rgba(255, 255, 255, 0.9);
 }
 
-h2 img.gravatar, h3 img.gravatar {margin-right: 4px;}
+h2 .avatar, h3 .avatar {margin-right: 4px;}
+h4 img.gravatar {margin: -2px 4px -4px 0;}
+/*# TODO: check where this rule is still used*/
 td.username img.gravatar {margin: 0 0.5em 0 0; vertical-align: top;}
-#activity dt img.gravatar {margin: 0 1em 0 0;}
-/* Used on 12px Gravatar img tags without the icon background */
-.icon-gravatar {float: left; margin-right: 4px;}
+#activity dt .avatar {margin: 0 1em 0 0;}
 
 #activity dt, .journal {clear: left;}
 
@@ -2232,6 +2224,98 @@ color: #555; text-shadow: 1px 1px 0 #fff;
 .repository-graph {width:75%; margin-bottom:2em;}
 
 img.filecontent.image {background-image: url(/transparent.png);}
+
+/* Avatar styles */
+.avatar {
+  border-radius: 20%;
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+span[role="img"].avatar {
+  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  align-items: center;
+  display: inline-flex;
+  font-size: calc(24px * .4);
+  justify-content: center;
+  user-select: none;
+  font-weight: 700;
+}
+.avatar.s13 {
+  block-size: 13px;
+  inline-size: 13px;
+}
+span[role="img"].avatar.s13 {
+  font-size: calc(16px * .3);
+}
+.avatar.s16 {
+  block-size: 16px;
+  inline-size: 16px;
+}
+span[role="img"].avatar.s16 {
+  font-size: calc(16px * .4);
+}
+.avatar.s22 {
+  block-size: 22px;
+  inline-size: 22px;
+}
+span[role="img"].avatar.s22 {
+  font-size: calc(22px * .4);
+}
+.avatar.s24 {
+  block-size: 24px;
+  inline-size: 24px;
+}
+span[role="img"].avatar.s24  {
+  font-size: calc(24px * .4);
+}
+.avatar.s40 {
+  block-size: 40px;
+  inline-size: 40px;
+}
+span[role="img"].avatar.s40  {
+  font-size: calc(40px * .4);
+}
+.avatar.s50 {
+  block-size: 50px;
+  inline-size: 50px;
+}
+span[role="img"].avatar.s50  {
+  font-size: calc(50px * .4);
+}
+
+.avatar-color-0 {
+  background-color: #880000;
+  color: #FFFFFF;
+}
+.avatar-color-1 {
+  background-color: #ff0000;
+  color: #000000;
+}
+.avatar-color-2 {
+  background-color: #00ff00;
+  color: #000000;
+}
+.avatar-color-3 {
+  background-color: #008800;
+  color: #FFFFFF;
+}
+.avatar-color-4 {
+  background-color: #0000ff;
+  color: #FFFFFF;
+}
+.avatar-color-5 {
+  background-color: #000088;
+  color: #FFFFFF;
+}
+.avatar-color-6 {
+  background-color: #ff8800;
+  color: #000000;
+}
+.avatar-color-7 {
+  background-color: #ff0088;
+  color: #000000;
+}
 
 /* Reaction styles */
 .reaction-button:hover, .reaction-button:active {

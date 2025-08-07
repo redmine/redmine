@@ -127,20 +127,23 @@ class Redmine::ApiTest::AuthenticationTest < Redmine::ApiTest::Base
     assert_response :unauthorized
   end
 
+  # TODO: check why this test does not use the API endpoint
   def test_api_should_accept_switch_user_header_for_admin_user
     user = User.find(1)
     su = User.find(4)
 
     get '/users/current', :headers => {'X-Redmine-API-Key' => user.api_key, 'X-Redmine-Switch-User' => su.login}
     assert_response :success
-    assert_select 'h2', :text => su.name
+    assert_select 'h2', :text => "#{su.initials} #{su.name}"
   end
 
+  # TODO: check why this test does not use the API endpoint
   def test_api_should_respond_with_412_when_trying_to_switch_to_a_invalid_user
     get '/users/current', :headers => {'X-Redmine-API-Key' => User.find(1).api_key, 'X-Redmine-Switch-User' => 'foobar'}
     assert_response :precondition_failed
   end
 
+  # TODO: check why this test does not use the API endpoint
   def test_api_should_respond_with_412_when_trying_to_switch_to_a_locked_user
     user = User.find(5)
     assert user.locked?
@@ -149,12 +152,13 @@ class Redmine::ApiTest::AuthenticationTest < Redmine::ApiTest::Base
     assert_response :precondition_failed
   end
 
+  # TODO: check why this test does not use the API endpoint
   def test_api_should_not_accept_switch_user_header_for_non_admin_user
     user = User.find(2)
     su = User.find(4)
 
     get '/users/current', :headers => {'X-Redmine-API-Key' => user.api_key, 'X-Redmine-Switch-User' => su.login}
     assert_response :success
-    assert_select 'h2', :text => user.name
+    assert_select 'h2', :text => "#{user.initials} #{user.name}"
   end
 end

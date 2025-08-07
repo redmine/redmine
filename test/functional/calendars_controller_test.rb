@@ -57,7 +57,7 @@ class CalendarsControllerTest < Redmine::ControllerTest
         ) do
           assert_select 'a.issue[href=?]', '/issues/2', :text => 'Feature request #2'
           assert_select 'span.tip' do
-            assert_select 'img[class="gravatar"]'
+            assert_select 'img[class="gravatar avatar"]'
           end
           assert_select 'input[name=?][type=?][value=?]', 'ids[]', 'checkbox', '2'
         end

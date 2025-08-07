@@ -28,7 +28,7 @@ class MessagesControllerTest < Redmine::ControllerTest
     get(:show, :params => {:board_id => 1, :id => 1})
     assert_response :success
 
-    assert_select 'h2', :text => 'First post'
+    assert_select 'h2', :text => "RAFirst post"
   end
 
   def test_show_should_contain_reply_field_tags_for_quoting

@@ -36,11 +36,9 @@
     <% end %>
 
     <% if User.current.logged? %>
-        <div class="flyout-menu__avatar <% if !Setting.gravatar_enabled? %>flyout-menu__avatar--no-avatar<% end %>">
-            <% if Setting.gravatar_enabled? %>
-                <%= link_to(avatar(User.current, :size => "80"), user_path(User.current)) %>
-            <% end %>
-            <%= link_to_user(User.current, :format => :username) %>
+        <div class="flyout-menu__avatar">
+          <%= link_to(avatar(User.current, :size => "40"), user_path(User.current)) %>
+          <%= link_to_user(User.current, :format => :username) %>
         </div>
     <% end %>
 

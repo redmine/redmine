@@ -731,7 +731,7 @@ module Redmine
           css_classes = +''
           css_classes << ' issue-overdue' if issue.overdue?
           css_classes << ' issue-behind-schedule' if issue.behind_schedule?
-          css_classes << ' icon icon-issue' unless Setting.gravatar_enabled? && issue.assigned_to
+          css_classes << ' icon icon-issue' unless issue.assigned_to
           css_classes << ' issue-closed' if issue.closed?
           if issue.start_date && issue.due_before && issue.done_ratio
             progress_date = calc_progress_date(issue.start_date,
@@ -740,8 +740,8 @@ module Redmine
             css_classes << ' over-end-date' if progress_date > self.date_to && issue.done_ratio > 0
           end
           s = (+"").html_safe
-          s << view.sprite_icon('issue').html_safe unless Setting.gravatar_enabled? && issue.assigned_to
-          s << view.assignee_avatar(issue.assigned_to, :size => 13, :class => 'icon-gravatar')
+          s << view.sprite_icon('issue').html_safe unless issue.assigned_to
+          s << view.assignee_avatar(issue.assigned_to, :size => 13, :class => 'icon-avatar')
           s << view.link_to_issue(issue).html_safe
           s << view.content_tag(:input, nil, :type => 'checkbox', :name => 'ids[]',
                                 :value => issue.id, :style => 'display:none;',

@@ -63,9 +63,9 @@ class AvatarsHelperTest < Redmine::HelperTest
   end
 
   def test_avatar_css_class
-    # The default class of the img tag should be gravatar
-    assert_include 'class="gravatar"', avatar('jsmith <jsmith@somenet.foo>')
-    assert_include 'class="gravatar picture"', avatar('jsmith <jsmith@somenet.foo>', :class => 'picture')
+    # The default classes of the img tag should be gravatar and avatar
+    assert_include 'class="gravatar avatar"', avatar('jsmith <jsmith@somenet.foo>')
+    assert_include 'class="gravatar avatar picture"', avatar('jsmith <jsmith@somenet.foo>', :class => 'picture')
   end
 
   def test_avatar_with_initials
@@ -80,9 +80,9 @@ class AvatarsHelperTest < Redmine::HelperTest
     end
   end
 
-  def test_avatar_disabled
+  def test_avatar_disabled_should_display_user_initials
     with_settings :gravatar_enabled => '0' do
-      assert_equal '', avatar(User.find_by_mail('jsmith@somenet.foo'))
+      assert_equal "<span role=\"img\" class=\"avatar-color-2 avatar s24\">JS</span>", avatar(User.find_by_mail('jsmith@somenet.foo'))
     end
   end
 

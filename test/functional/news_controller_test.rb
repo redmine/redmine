@@ -75,7 +75,7 @@ class NewsControllerTest < Redmine::ControllerTest
     get(:show, :params => {:id => 1})
     assert_response :success
     assert_select 'p.breadcrumb a[href=?]', '/projects/ecookbook/news', :text => 'News'
-    assert_select 'h2', :text => 'eCookbook first release !'
+    assert_select 'h2', :text => 'JS eCookbook first release !'
   end
 
   def test_show_should_show_attachments

@@ -57,6 +57,11 @@ module AvatarsHelper
       else
         nil
       end
+    elsif user.respond_to?(:initials)
+      size = options.delete(:size) || GravatarHelper::DEFAULT_OPTIONS[:size]
+      css_class = "avatar-color-#{user.id % 8} avatar s#{size}"
+      css_class += " #{options[:class]}" if options[:class]
+      content_tag('span', user.initials, role: 'img', class: css_class)
     else
       ''
     end
