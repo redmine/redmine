@@ -1121,6 +1121,8 @@ en:
   label_relations_mapping: Relations mapping
   label_file_content_preview: File content preview
   label_create_missing_values: Create missing values
+  label_position: Position
+  label_message: Message
   label_api: API
   label_field_format_enumeration: Key/value list
   label_default_values_for_new_users: Default values for new users

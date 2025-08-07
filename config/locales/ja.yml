@@ -1173,6 +1173,8 @@ ja:
   label_fields_mapping: フィールドの対応関係
   label_file_content_preview: ファイル内容のプレビュー
   label_create_missing_values: 存在しない値は新規作成
+  label_position: 位置
+  label_message: メッセージ
   button_import: インポート
   field_total_estimated_hours: 合計予定工数
   label_api: API
