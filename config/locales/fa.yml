@@ -1460,3 +1460,5 @@ fa:
   text_oauth_info_scopes: Select the scopes this application may request. The application
     will not be allowed to do more than what is selected here. It will also always be
     limited by the roles and project memberships of the user who authorized it.
+  label_position: Position
+  label_message: Message

@@ -1513,3 +1513,5 @@ cs:
   text_oauth_info_scopes: Vyberte rozsah, který může aplikace požadovat. Aplikace
     nebude oprávněna dělat více než je zde vybráno. Vždy to bude také
     omezeno rolí a členstvím v projektu uživatele, který to povolil.
+  label_position: Position
+  label_message: Message
