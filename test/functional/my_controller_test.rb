@@ -607,6 +607,7 @@ class MyControllerTest < Redmine::ControllerTest
   def test_change_password
     get :password
     assert_response :success
+    assert_includes @response.headers['Cache-Control'], 'no-store'
     assert_select 'input[type=password][name=password]'
     assert_select 'input[type=password][name=new_password]'
     assert_select 'input[type=password][name=new_password_confirmation]'

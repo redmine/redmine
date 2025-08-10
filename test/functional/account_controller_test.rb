@@ -29,6 +29,7 @@ class AccountControllerTest < Redmine::ControllerTest
   def test_get_login
     get :login
     assert_response :success
+    assert_includes @response.headers['Cache-Control'], 'no-store'
 
     assert_select 'input[name=username]'
     assert_select 'input[name=password]'
@@ -522,6 +523,7 @@ class AccountControllerTest < Redmine::ControllerTest
 
     get :lost_password
     assert_response :success
+    assert_includes @response.headers['Cache-Control'], 'no-store'
 
     assert_select 'input[type=hidden][name=token][value=?]', token.value
   end
