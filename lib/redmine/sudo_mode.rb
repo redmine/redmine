@@ -107,6 +107,7 @@ module Redmine
         @sudo_form.original_fields = params.slice( *param_names )
         # a simple 'render "sudo_mode/new"' works when used directly inside an
         # action, but not when called from a before_action:
+        no_store
         respond_to do |format|
           format.html {render 'sudo_mode/new'}
           format.js   {render 'sudo_mode/new'}

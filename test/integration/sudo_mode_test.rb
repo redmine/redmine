@@ -259,6 +259,14 @@ class SudoModeTest < Redmine::IntegrationTest
     end
   end
 
+  def test_sudo_mode_should_include_cache_control_no_store
+    log_user("admin", "admin")
+    expire_sudo_mode!
+    get '/settings'
+    assert_response :success
+    assert_includes @response.headers['Cache-Control'], 'no-store'
+  end
+
   private
 
   # sudo mode is active after sign, let it expire by advancing the time
