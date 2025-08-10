@@ -115,6 +115,7 @@ class MyController < ApplicationController
         end
       end
     end
+    no_store
   end
 
   # Create a new feeds key
