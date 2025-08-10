@@ -156,6 +156,14 @@ module ActionController
   end
 end
 
+module ActionController
+  module ConditionalGet
+    def no_store
+      response.cache_control.replace(no_store: true)
+    end
+  end
+end
+
 # Adds asset_id parameters to assets like Rails 3 to invalidate caches in browser
 module ActionView
   module Helpers
