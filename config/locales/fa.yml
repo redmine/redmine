@@ -1426,3 +1426,4 @@ fa:
   text_user_destroy_confirmation: مطمئنید که می خواهید این کاربر و همه ارجاع‌های مربوط به او را حذف کنید؟ این کار قابل بازگشت نیست. غالبا، قفل کردن کاربر به جای حذف، راه حل به‌تری است. برای تأیید، لطفاً شناسه ورود کاربر (%{login}) را در زیر وارد کنید.
   text_project_destroy_enter_identifier: برای تایید، لطفا شناسه پروژه (%{identifier}) را وارد کنید.
   field_name_or_email_or_login: نام، رایانامه یا شناسه کاربری
+  twofa_already_setup: Two-factor authentication already set up

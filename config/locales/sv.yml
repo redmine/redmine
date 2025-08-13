@@ -1463,3 +1463,4 @@ sv:
     zero: '%{filename}'
     one: '%{filename} och 1 fil'
     other: '%{filename} och %{count} filer'
+  twofa_already_setup: Two-factor authentication already set up

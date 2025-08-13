@@ -1449,3 +1449,4 @@ ja:
   label_attachment_summary:
     zero: "%{filename}"
     other: "%{filename} ほか%{count}件"
+  twofa_already_setup: Two-factor authentication already set up

@@ -1518,3 +1518,4 @@ ko:
     zero: "%{filename}"
     one: "%{filename} and 1 file"
     other: "%{filename} and %{count} files"
+  twofa_already_setup: Two-factor authentication already set up

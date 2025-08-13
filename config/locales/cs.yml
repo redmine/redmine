@@ -1480,3 +1480,4 @@ cs:
     zero: "%{filename}"
     one: "%{filename} a 1 soubor"
     other: "%{filename} a %{count} soubory(ů)"
+  twofa_already_setup: Two-factor authentication already set up
