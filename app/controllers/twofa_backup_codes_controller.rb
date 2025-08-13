@@ -26,7 +26,7 @@ class TwofaBackupCodesController < ApplicationController
 
   before_action :twofa_setup
 
-  require_sudo_mode :init
+  require_sudo_mode :init, :confirm, :create, :show
 
   def init
     if @twofa.send_code(controller: 'twofa_backup_codes', action: 'create')

@@ -27,7 +27,9 @@ class TwofaController < ApplicationController
 
   before_action :require_active_twofa
 
-  require_sudo_mode :activate_init, :deactivate_init
+  require_sudo_mode :select_scheme,
+                    :activate_init, :activate_confirm, :activate,
+                    :deactivate_init, :deactivate_confirm, :deactivate
 
   skip_before_action :check_twofa_activation, only: [:select_scheme, :activate_init, :activate_confirm, :activate]
 
