@@ -1491,3 +1491,4 @@ de:
   text_oauth_info_scopes: Scopes für die Applikation auswählen. Die Applikation wird niemals mehr Rechte haben als hier ausgewählt. Sie wird außerdem auf die Rollen und Projektmitgliedschaften des Benutzers, der sie autorisiert hat, beschränkt sein.
   label_position: Position
   label_message: Message
+  twofa_already_setup: Two-factor authentication already set up
