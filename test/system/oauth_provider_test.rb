@@ -6,7 +6,6 @@ require 'rack'
 require 'puma'
 
 class OauthProviderSystemTest < ApplicationSystemTestCase
-
   test 'application creation and authorization' do
     #
     # admin creates the application, granting permissions and generating a uuid
