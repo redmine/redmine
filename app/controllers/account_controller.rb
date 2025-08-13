@@ -218,6 +218,7 @@ class AccountController < ApplicationController
 
   def twofa_confirm
     @twofa_view = @twofa.otp_confirm_view_variables
+    no_store
   end
 
   def twofa
