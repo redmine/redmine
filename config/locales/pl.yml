@@ -1478,4 +1478,3 @@ pl:
     limited by the roles and project memberships of the user who authorized it.
   label_position: Position
   label_message: Message
-  twofa_already_setup: Two-factor authentication already set up

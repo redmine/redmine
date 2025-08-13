@@ -1546,4 +1546,3 @@
     此外，其存取權限也將始終受限於授權使用者的角色與所屬專案成員資格。
   label_position: Position
   label_message: Message
-  twofa_already_setup: Two-factor authentication already set up

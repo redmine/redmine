@@ -1,4 +1,4 @@
-showAndScrollTo("add_notes");
+showAndScrollTo("update");
 
 var notes = $('#issue_notes').val();
 if (notes > "") { notes = notes + "\n\n"}
@@ -6,7 +6,7 @@ if (notes > "") { notes = notes + "\n\n"}
 $('#issue_notes').blur().focus().val(notes + "<%= raw escape_javascript(@content) %>");
 <%
   # when quoting a private journal, check the private checkbox
-  if @journal && @journal.private_notes?
+  if @journal && @journal.private_notes? 
 %>
 $('#issue_private_notes').prop('checked', true);
 <% end %>
