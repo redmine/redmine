@@ -27,10 +27,6 @@ class ReactionsHelperTest < ActionView::TestCase
     Setting.reactions_enabled = '1'
   end
 
-  teardown do
-    Setting.clear_cache
-  end
-
   test 'reaction_id_for generates a DOM id' do
     assert_equal "reaction_issue_1", reaction_id_for(issues(:issues_001))
   end

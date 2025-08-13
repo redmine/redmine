@@ -26,10 +26,6 @@ class Redmine::ReactionTest < ActiveSupport::TestCase
     Setting.reactions_enabled = '1'
   end
 
-  teardown do
-    Setting.clear_cache
-  end
-
   test 'preload_reaction_details preloads ReactionDetail for all objects in the collection' do
     User.current = users(:users_002)
 

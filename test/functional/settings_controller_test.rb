@@ -25,11 +25,6 @@ class SettingsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 1 # admin
   end
 
-  def teardown
-    Setting.delete_all
-    Setting.clear_cache
-  end
-
   def test_index
     get :index
     assert_response :success

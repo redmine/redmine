@@ -26,10 +26,6 @@ class ReactionsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = users(:users_002).id
   end
 
-  teardown do
-    Setting.clear_cache
-  end
-
   test 'create for issue' do
     issue = issues(:issues_002)
 

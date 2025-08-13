@@ -61,6 +61,11 @@ class ActiveSupport::TestCase
   self.use_transactional_tests = true
   self.use_instantiated_fixtures  = false
 
+  # Clear Settings cache after each test to prevent test interference
+  teardown do
+    Setting.clear_cache
+  end
+
   def uploaded_test_file(name, mime)
     fixture_file_upload(name.to_s, mime, true)
   end

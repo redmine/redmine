@@ -28,10 +28,6 @@ class MailHandlerTest < ActiveSupport::TestCase
     User.current = nil
   end
 
-  def teardown
-    Setting.clear_cache
-  end
-
   def test_add_issue_with_specific_overrides
     issue =
       submit_email(
