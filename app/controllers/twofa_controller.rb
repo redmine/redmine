@@ -31,6 +31,8 @@ class TwofaController < ApplicationController
 
   skip_before_action :check_twofa_activation, only: [:select_scheme, :activate_init, :activate_confirm, :activate]
 
+  before_action :ensure_user_has_no_twofa, only: [:select_scheme, :activate_init, :activate_confirm, :activate]
+
   def select_scheme
     @user = User.current
   end
@@ -113,5 +115,14 @@ class TwofaController < ApplicationController
     if params[:scheme].to_s != @twofa.scheme_name
       redirect_to my_account_path
     end
+  end
+
+  def ensure_user_has_no_twofa
+    # Allow activating a new 2FA scheme / showing twofa secret only if no other
+    # is already configured
+    return true if User.current.twofa_scheme.blank?
+
+    flash[:warning] = l('twofa_already_setup')
+    redirect_to controller: 'my', action: 'account'
   end
 end

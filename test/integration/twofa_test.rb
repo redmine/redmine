@@ -213,6 +213,26 @@ class TwofaTest < Redmine::IntegrationTest
     end
   end
 
+  test "should deny showing twofa information again" do
+    log_user('jsmith', 'jsmith')
+    get "/my/account"
+    assert_response :success
+    post "/my/twofa/totp/activate/init"
+    assert_redirected_to "/my/twofa/totp/activate/confirm"
+    follow_redirect!
+    assert_response :success
+
+    totp = ROTP::TOTP.new User.find_by_login('jsmith').twofa_totp_key
+    post "/my/twofa/totp/activate", params: {twofa_code: totp.now}
+    assert_redirected_to "/my/account"
+    follow_redirect!
+    assert_response :success
+    assert_select '.flash', /Two-factor authentication successfully enabled/i
+
+    get "/my/twofa/totp/activate/confirm"
+    assert_redirected_to "/my/account"
+  end
+
   def test_enable_twofa_should_destroy_tokens
     recovery_token = Token.create!(:user_id => 2, :action => 'recovery')
     autologin_token = Token.create!(:user_id => 2, :action => 'autologin')
