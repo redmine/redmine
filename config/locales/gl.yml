@@ -1540,3 +1540,4 @@ gl:
     limitado polos roles e permisos no proxecto do usuario que o autorizou.
   label_position: Posición
   label_message: Mensaxe
+  twofa_already_setup: Two-factor authentication already set up
