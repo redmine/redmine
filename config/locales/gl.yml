@@ -1491,3 +1491,4 @@ gl:
   text_select_apply_issue_status: Seleccionar estado da tarefa
   field_name_or_email_or_login: Nome, correo electrónico ou usuario
   text_default_active_job_queue_changed: Cambiado o adaptador do sistema de colas por defecto dado que só está pensado para desenvolvemento/probas
+  twofa_already_setup: Two-factor authentication already set up

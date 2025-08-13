@@ -1474,3 +1474,4 @@ ca:
      proves ha canviat
   text_select_apply_issue_status: Marca l'estat de la incidència
   field_name_or_email_or_login: Nom, correu o login
+  twofa_already_setup: Two-factor authentication already set up

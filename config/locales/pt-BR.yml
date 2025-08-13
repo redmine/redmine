@@ -1491,3 +1491,4 @@ pt-BR:
   field_name_or_email_or_login: Nome, e-mail ou login
   text_default_active_job_queue_changed: Adaptador de fila padrão que é bem adequado
     apenas para dev/test foi alterado
+  twofa_already_setup: Two-factor authentication already set up
