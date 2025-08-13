@@ -37,6 +37,7 @@ class TwofaBackupCodesController < ApplicationController
 
   def confirm
     @twofa_view = @twofa.otp_confirm_view_variables
+    no_store
   end
 
   def create
@@ -64,6 +65,7 @@ class TwofaBackupCodesController < ApplicationController
 
     if tokens.present? && (@created_at = tokens.collect(&:created_on).max) > 5.minutes.ago
       @backup_codes = tokens.collect(&:value)
+      no_store
     else
       flash[:warning] = l('twofa_backup_codes_already_shown', bc_path: my_twofa_backup_codes_init_path)
       redirect_to controller: 'my', action: 'account'

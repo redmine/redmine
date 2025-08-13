@@ -45,6 +45,7 @@ class TwofaController < ApplicationController
 
   def activate_confirm
     @twofa_view = @twofa.init_pairing_view_variables
+    no_store
   end
 
   def activate
