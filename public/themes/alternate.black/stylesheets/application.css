@@ -1,0 +1,123 @@
+
+/* source : https://github.com/toiiggww/BlackAlternate/ */ 
+@import url(../../../stylesheets/application.css);
+
+body, #wrapper { background-color:#333; color: #ddd;}
+#header, #top-menu { background: #333;margin: 0px 10px 0px 11px;}
+#main { background: #333; margin: 8px 10px 0px 10px;}
+#content, #main.nosidebar #content { background: #333; color: #ddd; border-right: 1px solid #333; border-bottom: 1px solid #bbb; border-left: 1px solid #ddd; border-top: 1px solid #ddd;}
+#footer { background-color:#333; color: #ddd; border: 0px;}
+
+/* Headers */
+h2, h3, h4, .wiki h1, .wiki h2, .wiki h3 {border-bottom: 0px;}
+div#activity h3, .box h3, .subject h3, #content h3, #content h2 { color: #fcc;}
+
+/* Menu */
+#main-menu li a { background-color: #333; font-weight: bold;}
+#main-menu li a.new-object { background-color:#fcc; text-decoration: none; color: #900;}
+#main-menu .menu-children { background-color: #333;
+  border-right: 1px solid #333;
+  border-bottom: 1px solid #333;
+  border-left: 1px solid #333;
+}
+#main-menu .menu-children li a:hover { background-color: #333;}
+
+#sidebar { background-color: #333;}
+#sidebar hr { background-color: #333;}
+
+#project-jump .drdn-trigger { background:#333;}
+
+#replies .reply:target h4.reply-header { background-color:#333;}
+
+a, a:link, a:visited { color: #999;}
+td a, td a:link, td a:visited { color: #333;}
+
+div.flash { background: #777;}
+div.modal { background:#333;}
+div.issue { background: transparent;}
+
+/* Tables */
+table.list tbody td, table.list tbody tr:hover td { border: solid 1px #ddd;}
+table.list thead th {
+    border-width: 1px;
+    border-style: solid;
+    border-top-color: #ddd;
+    border-right-color: #ddd;
+    border-left-color: #ddd;
+    border-bottom-color: #999;
+}
+
+/* Issues grid styles by priorities (provided by Wynn Netherland) */
+table.list tr.issue a { background: #555; color: #ddd;}
+table.list th { background: #555; color: #ddd;}
+table.list td { background: #777;}
+table.progress td.closed { background-color: #333; border: 1px inset #eee;}
+table.progress td.todo { border: 1px inset #eee;}
+
+tr.odd.priority-highest, table.list tbody tr.odd.priority-highest:hover { color: #900; font-weight: bold;}
+tr.odd.priority-highest { background: #555;}
+tr.even.priority-highest, table.list tbody tr.even.priority-highest:hover { color: #900; font-weight: bold;}
+tr.even.priority-highest { background: #555;}
+tr.priority-highest a, tr.priority-5:hover a { color: #900;}
+tr.odd.priority-highest td, tr.even.priority-highest td { border-color: #fcc;}
+
+tr.odd.priority-high2, table.list tbody tr.odd.priority-high4:hover { color: #900;}
+tr.odd.priority-high2 { background: #555;}
+tr.even.priority-high2, table.list tbody tr.even.priority-high4:hover { color: #900;}
+tr.even.priority-high2 { background: #555;}
+tr.priority-high2 a { color: #900;}
+tr.odd.priority-high2 td, tr.even.priority-high4 td { border-color: #fcc;}
+
+tr.odd.priority-high3, table.list tbody tr.odd.priority-high3:hover { color: #900;}
+tr.odd.priority-high3 { background: #555;}
+tr.even.priority-high3, table.list tbody tr.even.priority-high3:hover { color: #900;}
+tr.even.priority-high3 { background: #555;}
+tr.priority-high3 a { color: #900;}
+tr.odd.priority-high3 td, tr.even.priority-high3 td { border-color: #fcc;}
+
+tr.odd.priority-lowest, table.list tbody tr.odd.priority-lowest:hover { color: #ddd;}
+tr.odd.priority-lowest { background: #555;}
+tr.even.priority-lowest, table.list tbody tr.even.priority-lowest:hover { color: #ddd;}
+tr.even.priority-lowest { background: #555;}
+tr.priority-lowest a { color: #ddd;}
+tr.odd.priority-lowest td, tr.even.priority-lowest td { border-color: #bdf;}
+
+tr.group td { background: #555;}
+
+input { background: #777;}
+.box legend { background-color: #ffc; color: #900;}
+fieldset.collapsible legend { background-color: #ffc; color: #900;}
+
+/* Buttons */
+input[type="button"], input[type="submit"], input[type="reset"] { background-color: #333; color: #ddd; border: 1px outset #ccc;}
+input[type="button"]:hover, input[type="submit"]:hover, input[type="reset"]:hover { background-color: #555;}
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:focus, #quick-search:focus #q:focus { border: 2px dashed #900;}
+input[type="text"], input[type="password"], textarea, select { background-color: #777;border: 1px solid #777;}
+
+/* Fields */
+option { border-bottom: 1px dotted #555; color: #ddd; background-color: #333;}
+input.autocomplete { background-color: #777;}
+
+select { background-color: #555;color: #ddd;}
+select[multiple=multiple] { background-color: #333;}
+/* Misc */
+.box { background-color: #555; color: #ddd;}
+.drdn-content { background:#333;}
+
+table.cal td.even { background-color: #777;}
+table.cal thead th { background-color: #555;}
+table.cal td.nwday:not(.odd) { background-color: #555;}
+.odd { background-color: #333;}
+table.cal td.nwday { background-color: #555;}
+table.cal td.week-number { background-color: #333;}
+
+#gantt_area .gantt_hdr, .gantt_hdr { background: #222; color: #ddd;}
+table.list td.buttons a:last-child , div.buttons a:last-child { background-color: #900;}
+table.list tr.issue a.icon-only { background-color: #900;}
+table.list tr.issue a.icon-actions { background-color: #009;}
+
+div.wiki pre { background: transparent;}
+.syntaxhl { background-color: #fdb;}
+.syntaxhl .n, .syntaxhl .p{ color: #333;}
+.wiki-preview { background-color: #333;}
+.syntaxhl .s, .syntaxhl .s2 { background-color: #333; color: #bbb;}
