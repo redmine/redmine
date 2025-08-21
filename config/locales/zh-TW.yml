@@ -1544,6 +1544,6 @@
   text_oauth_info_scopes: 請選擇此應用程式可要求存取的權限範圍。
     應用程式僅能執行您在此選擇的權限，無法超越此範圍。
     此外，其存取權限也將始終受限於授權使用者的角色與所屬專案成員資格。
-  label_position: Position
-  label_message: Message
-  twofa_already_setup: Two-factor authentication already set up
+  label_position: 位置
+  label_message: 訊息
+  twofa_already_setup: 雙因素驗證已啟用
