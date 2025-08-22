@@ -55,6 +55,14 @@
   </p>
   <% end -%>
 </fieldset>
+<p class="mobile-hide">
+  <% if @user.new_record? %>
+    <%= submit_tag l(:button_create) %>
+    <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
+  <% else %>
+    <%= submit_tag l(:button_save) %>
+  <% end %>
+</p>
 </div>
 
 <div class="splitcontentright">

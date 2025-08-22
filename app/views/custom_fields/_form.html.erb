@@ -20,7 +20,7 @@
 
 <%= call_hook(:view_custom_fields_form_upper_box, :custom_field => @custom_field, :form => f) %>
 </div>
-<p>
+<p class="mobile-hide">
   <% if @custom_field.new_record? %>
     <%= submit_tag l(:button_create) %>
     <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
@@ -64,5 +64,14 @@
   <% end %>
 </div>
 </div>
+
+<p class="mobile-show">
+  <% if @custom_field.new_record? %>
+    <%= submit_tag l(:button_create) %>
+    <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
+  <% else %>
+    <%= submit_tag l(:button_save) %>
+  <% end %>
+</p>
 
 <% include_calendar_headers_tags %>

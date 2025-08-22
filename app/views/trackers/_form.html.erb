@@ -43,7 +43,7 @@
 <% end %>
 <!--[eoform:tracker]-->
 </div>
-<%= submit_tag l(@tracker.new_record? ? :button_create : :button_save) %>
+<%= submit_tag l(@tracker.new_record? ? :button_create : :button_save), class: "mobile-hide" %>
 </div>
 
 <div class="splitcontentright">
@@ -58,3 +58,4 @@ end %>
 <% end %>
 </div>
 </div>
+<%= submit_tag l(@tracker.new_record? ? :button_create : :button_save), class: "mobile-show" %>
