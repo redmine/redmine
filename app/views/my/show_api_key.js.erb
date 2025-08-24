@@ -1,1 +1,7 @@
 $('#api-access-key').html('<%= escape_javascript @user.api_key %>').toggle();
+
+if ($('#api-access-key').is(':visible')) {
+  $('.api-key-actions .copy-api-key-link').show();
+} else {
+  $('.api-key-actions .copy-api-key-link').hide();
+}

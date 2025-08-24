@@ -2529,3 +2529,18 @@ th[role=columnheader]:not(.no-sort):hover:after {
 	display: inline;
 	opacity: 1;
 }
+
+.api-key-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.api-key-actions .copy-api-key-link {
+  padding: 4px 6px;
+  cursor: pointer;
+}
+
+#sidebar .api-key-actions .copy-api-key-link svg {
+  opacity: 1;
+}
