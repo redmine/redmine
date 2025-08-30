@@ -107,3 +107,12 @@ Install Stylelint:
 
 You can run Stylelint with:
 `npx stylelint "app/assets/stylesheets/**/*.css"`
+
+Viewing SVG icons list in development mode
+=======================================
+
+When running Redmine in development mode, you can view a list of all available SVG icons and their names at:
+
+    http://localhost:3000/rails/info/svg_icons
+
+This page is useful for checking icon appearance and names during view development.
