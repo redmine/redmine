@@ -96,20 +96,20 @@ class RolesController < ApplicationController
   end
 
   def destroy
-    begin
-      @role.destroy
-    rescue
-      flash[:error] = l(:error_can_not_remove_role)
-
-      if @role.members.present?
-        projects = Project.joins(members: :member_roles).where(member_roles: { role_id: @role.id }).distinct.sorted
-        links = projects.map do |p|
-          view_context.link_to(p, settings_project_path(p, tab: 'members'))
-        end.join(', ')
-        flash[:error] += l(:error_can_not_remove_role_reason_members_html, projects: links)
-      end
-    end
+    @role.destroy
     redirect_to roles_path
+  rescue
+    flash.now[:error] = l(:error_can_not_remove_role)
+
+    if @role.members.present?
+      projects = Project.joins(members: :member_roles).where(member_roles: { role_id: @role.id }).distinct.sorted
+      links = projects.map do |p|
+        view_context.link_to(p, settings_project_path(p, tab: 'members'))
+      end.join(', ')
+      flash.now[:error] += l(:error_can_not_remove_role_reason_members_html, projects: links)
+    end
+    @roles = Role.sorted.to_a
+    render :index
   end
 
   def permissions
