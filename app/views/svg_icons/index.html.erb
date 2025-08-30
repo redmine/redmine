@@ -1,0 +1,5 @@
+<ul class="svg-icon-sample">
+  <% @icons_mapping.sort{|a,b| a['name'] <=> b['name']}.each do |icon| %>
+    <li><%= sprite_icon icon['name'], icon['name'] %></li>
+  <% end %>
+</ul>

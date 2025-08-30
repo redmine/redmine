@@ -2529,3 +2529,15 @@ th[role=columnheader]:not(.no-sort):hover:after {
 	display: inline;
 	opacity: 1;
 }
+
+.svg-icon-sample {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  max-width: 1000px
+}
+
+.svg-icon-sample li {
+  padding: 0.5rem;
+  width: calc(200px - 0.5rem * 2);
+}

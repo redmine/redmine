@@ -20,6 +20,8 @@
 #   - name: destination icon name
 #     svg: source icon name from Github repository
 #     style: outline (default) or filled
+#
+# To see the appearance of all icons, visit /rails/info/svg_icons
 
 - name: edit
   svg: pencil

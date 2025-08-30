@@ -416,6 +416,10 @@ Rails.application.routes.draw do
 
   get 'robots.:format', :to => 'welcome#robots', :constraints => {:format => 'txt'}
 
+  if Rails.env.development?
+    get 'rails/info/svg_icons', :to => 'svg_icons#index'
+  end
+
   get 'help/wiki_syntax/(:type)', :controller => 'help', :action => 'show_wiki_syntax', :constraints => { :type => /detailed/ }, :as => 'help_wiki_syntax'
   get 'help/code_highlighting', :controller => 'help', :action => 'show_code_highlighting',  :as => 'help_code_highlighting'
 
