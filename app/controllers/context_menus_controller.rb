@@ -46,6 +46,19 @@ class ContextMenusController < ApplicationController
 
     @priorities = IssuePriority.active.reverse
     @back = back_url
+    begin
+      # Recognize the controller and action from the back_url to determine
+      # which view triggered the context menu.
+      route = Rails.application.routes.recognize_path(@back)
+      @include_delete =
+        [
+          {controller: 'issues', action: 'index'},
+          {controller: 'gantts', action: 'show'},
+          {controller: 'calendars', action: 'show'}
+        ].any?(route.slice(:controller, :action))
+    rescue ActionController::RoutingError
+      @include_delete = false
+    end
 
     @columns = params[:c]
 

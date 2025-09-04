@@ -459,4 +459,30 @@ class ContextMenusControllerTest < Redmine::ControllerTest
 
     assert_select 'a.disabled', :text => 'Bulk edit'
   end
+
+  def test_context_menu_should_include_delete_for_allowed_back_urls
+    @request.session[:user_id] = 2
+    %w[
+      /issues
+      /projects/ecookbook/issues/gantt
+      /projects/ecookbook/issues/calendar
+    ].each do |back_url|
+      get :issues, :params => { :ids => [1], :back_url => back_url }
+      assert_response :success
+      assert_select 'a.icon-del', :text => /Delete/
+    end
+  end
+
+  def test_context_menu_should_not_include_delete_for_disallowed_back_urls
+    @request.session[:user_id] = 2
+    %w[
+      /issues/1
+      /projects/ecookbook/roadmap
+      /not/a/real/path
+    ].each do |back_url|
+      get :issues, :params => { :ids => [1], :back_url => back_url }
+      assert_response :success
+      assert_select 'a.icon-del', :count => 0
+    end
+  end
 end
