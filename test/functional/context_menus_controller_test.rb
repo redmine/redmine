@@ -25,7 +25,8 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     get(
       :issues,
       :params => {
-        :ids => [1]
+        :ids => [1],
+        :back_url => '/issues'
       }
     )
     assert_response :success
@@ -33,41 +34,42 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     assert_select 'a.icon-edit[href=?]', '/issues/1/edit', :text => 'Edit'
     assert_select 'a.icon-copy-link[data-clipboard-text=?]', 'http://test.host/issues/1', :text => 'Copy link'
     assert_select 'a.icon-copy[href=?]', '/projects/ecookbook/issues/1/copy', :text => 'Copy'
-    assert_select 'a.icon-del[href=?]', '/issues?ids%5B%5D=1', :text => 'Delete issue'
+    assert_select 'a.icon-del[href*=?]', 'ids%5B%5D=1', :text => 'Delete issue'
 
     # Statuses
-    assert_select 'a[href=?][data-method="patch"]', '/issues/1?ids%5B%5D=1&issue%5Bstatus_id%5D=5', :text => 'Closed'
-    assert_select 'a[href=?][data-method="patch"]', '/issues/1?ids%5B%5D=1&issue%5Bpriority_id%5D=8', :text => 'Immediate'
+    assert_select 'a[href*=?][data-method="patch"]', 'issue%5Bstatus_id%5D=5', :text => 'Closed'
+    assert_select 'a[href*=?][data-method="patch"]', 'issue%5Bpriority_id%5D=8', :text => 'Immediate'
     # No inactive priorities
     assert_select 'a', :text => /Inactive Priority/, :count => 0
     # Versions
-    assert_select 'a[href=?][data-method="patch"]', '/issues/1?ids%5B%5D=1&issue%5Bfixed_version_id%5D=3', :text => '2.0'
-    assert_select 'a[href=?][data-method="patch"]', '/issues/1?ids%5B%5D=1&issue%5Bfixed_version_id%5D=4', :text => 'eCookbook Subproject 1 - 2.0'
+    assert_select 'a[href*=?][data-method="patch"]', 'issue%5Bfixed_version_id%5D=3', :text => '2.0'
+    assert_select 'a[href*=?][data-method="patch"]', 'issue%5Bfixed_version_id%5D=4', :text => 'eCookbook Subproject 1 - 2.0'
     # Assignees
-    assert_select 'a[href=?][data-method="patch"]', '/issues/1?ids%5B%5D=1&issue%5Bassigned_to_id%5D=3', :text => 'Dave Lopper'
+    assert_select 'a[href*=?][data-method="patch"]', 'issue%5Bassigned_to_id%5D=3', :text => 'Dave Lopper'
   end
 
   def test_context_menu_multiple_issues_should_link_to_bulk_update_issues_path
     @request.session[:user_id] = 2
     get :issues, :params => {
-      :ids => [1, 2]
+      :ids => [1, 2],
+      :back_url => '/projects/ecookbook/issues'
     }
     assert_response :success
 
     assert_select 'a.icon-edit[href=?]', '/issues/bulk_edit?ids%5B%5D=1&ids%5B%5D=2', :text => 'Bulk edit'
     assert_select 'a.icon-copy[href=?]', '/issues/bulk_edit?copy=1&ids%5B%5D=1&ids%5B%5D=2', :text => 'Copy'
-    assert_select 'a.icon-del[href=?]', '/issues?ids%5B%5D=1&ids%5B%5D=2', :text => 'Delete issues'
+    assert_select 'a.icon-del[href*=?]', 'ids%5B%5D=1&ids%5B%5D=2', :text => 'Delete issues'
 
     # Statuses
-    assert_select 'a[href=?][data-method="patch"]', '/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bstatus_id%5D=5', :text => 'Closed'
-    assert_select 'a[href=?][data-method="patch"]', '/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bpriority_id%5D=8', :text => 'Immediate'
+    assert_select 'a[href*=?][data-method="patch"]', 'issue%5Bstatus_id%5D=5', :text => 'Closed'
+    assert_select 'a[href*=?][data-method="patch"]', 'issue%5Bpriority_id%5D=8', :text => 'Immediate'
     # No inactive priorities
     assert_select 'a', :text => /Inactive Priority/, :count => 0
     # Versions
-    assert_select 'a[href=?][data-method="patch"]', '/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bfixed_version_id%5D=3', :text => '2.0'
-    assert_select 'a[href=?][data-method="patch"]', '/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bfixed_version_id%5D=4', :text => 'eCookbook Subproject 1 - 2.0'
+    assert_select 'a[href*=?][data-method="patch"]', 'issue%5Bfixed_version_id%5D=3', :text => '2.0'
+    assert_select 'a[href*=?][data-method="patch"]', 'issue%5Bfixed_version_id%5D=4', :text => 'eCookbook Subproject 1 - 2.0'
     # Assignees
-    assert_select 'a[href=?][data-method="patch"]', '/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bassigned_to_id%5D=3', :text => 'Dave Lopper'
+    assert_select 'a[href*=?][data-method="patch"]', 'issue%5Bassigned_to_id%5D=3', :text => 'Dave Lopper'
   end
 
   def test_context_menu_one_issue_by_anonymous
@@ -75,7 +77,8 @@ class ContextMenusControllerTest < Redmine::ControllerTest
       get(
         :issues,
         :params => {
-          :ids => [1]
+          :ids => [1],
+          :back_url => '/issues'
         }
       )
       assert_response :success
@@ -89,7 +92,8 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     get(
       :issues,
       :params => {
-        :ids => [1, 2]
+        :ids => [1, 2],
+        :back_url => '/issues'
       }
     )
     assert_response :success
@@ -100,11 +104,11 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     # issue_id: '1,2', set_filter: 1, status_id: '*'
     assert_select 'a.icon-copy-link[data-clipboard-text=?]', "http://test.host/projects/ecookbook/issues?issue_id=1%2C2&set_filter=1&status_id=%2A", :text => 'Copy link'
     assert_select 'a.icon-copy[href=?]', "/issues/bulk_edit?copy=1&#{ids}", :text => 'Copy'
-    assert_select 'a.icon-del[href=?]', "/issues?#{ids}", :text => 'Delete issues'
+    assert_select 'a.icon-del[href*=?]', ids, :text => 'Delete issues'
 
-    assert_select 'a[href=?]', "/issues/bulk_update?#{ids}&issue%5Bstatus_id%5D=5", :text => 'Closed'
-    assert_select 'a[href=?]', "/issues/bulk_update?#{ids}&issue%5Bpriority_id%5D=8", :text => 'Immediate'
-    assert_select 'a[href=?]', "/issues/bulk_update?#{ids}&issue%5Bassigned_to_id%5D=3", :text => 'Dave Lopper'
+    assert_select 'a[href*=?]', 'issue%5Bstatus_id%5D=5', :text => 'Closed'
+    assert_select 'a[href*=?]', 'issue%5Bpriority_id%5D=8', :text => 'Immediate'
+    assert_select 'a[href*=?]', 'issue%5Bassigned_to_id%5D=3', :text => 'Dave Lopper'
   end
 
   def test_context_menu_multiple_issues_of_different_projects
@@ -112,7 +116,8 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     get(
       :issues,
       :params => {
-        :ids => [1, 2, 6]
+        :ids => [1, 2, 6],
+        :back_url => '/issues'
       }
     )
     assert_response :success
@@ -122,11 +127,11 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     assert_select 'a.icon-edit[href=?]', "/issues/bulk_edit?#{ids}", :text => 'Bulk edit'
     # issue_id: '1,2,6', set_filter: 1, status_id: '*'
     assert_select 'a.icon-copy-link[data-clipboard-text=?]', "http://test.host/issues?issue_id=1%2C2%2C6&set_filter=1&status_id=%2A", :text => 'Copy link'
-    assert_select 'a.icon-del[href=?]', "/issues?#{ids}", :text => 'Delete issues'
+    assert_select 'a.icon-del[href*=?]', ids, :text => 'Delete issues'
 
-    assert_select 'a[href=?]', "/issues/bulk_update?#{ids}&issue%5Bstatus_id%5D=5", :text => 'Closed'
-    assert_select 'a[href=?]', "/issues/bulk_update?#{ids}&issue%5Bpriority_id%5D=8", :text => 'Immediate'
-    assert_select 'a[href=?]', "/issues/bulk_update?#{ids}&issue%5Bassigned_to_id%5D=2", :text => 'John Smith'
+    assert_select 'a[href*=?]', 'issue%5Bstatus_id%5D=5', :text => 'Closed'
+    assert_select 'a[href*=?]', 'issue%5Bpriority_id%5D=8', :text => 'Immediate'
+    assert_select 'a[href*=?]', 'issue%5Bassigned_to_id%5D=2', :text => 'John Smith'
   end
 
   def test_context_menu_should_include_list_custom_fields
