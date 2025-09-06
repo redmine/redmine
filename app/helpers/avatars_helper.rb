@@ -37,7 +37,14 @@ module AvatarsHelper
   # Returns the avatar image tag for the given +user+ if avatars are enabled
   # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
   def avatar(user, options = {})
-    if Setting.gravatar_enabled?
+    # "avatar" class should be added to all avatars
+    options[:class] = ['avatar', options[:class]].compact.join(' ')
+
+    if user.is_a?(AnonymousUser)
+      anonymous_avatar(options)
+    elsif user.is_a?(Group)
+      group_avatar(options)
+    elsif Setting.gravatar_enabled?
       gravatar_avatar_tag(user, options)
     elsif user.respond_to?(:initials)
       initials_avatar_tag(user, options)
@@ -77,17 +84,13 @@ module AvatarsHelper
 
     if email.present?
       gravatar(email.to_s.downcase, options) rescue nil
-    elsif user.is_a?(AnonymousUser)
-      anonymous_avatar(options)
-    elsif user.is_a?(Group)
-      group_avatar(options)
     end
   end
 
   def initials_avatar_tag(user, options)
     size = (options.delete(:size) || GravatarHelper::DEFAULT_OPTIONS[:size]).to_i
 
-    css_class = ["avatar-color-#{user.id % 8}", 'avatar', "s#{size}", options[:class]].compact.join(' ')
+    css_class = ["avatar-color-#{user.id % 8}", "s#{size}", options[:class]].compact.join(' ')
 
     content_tag('span', user.initials, role: 'img', class: css_class, title: options[:title])
   end

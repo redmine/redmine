@@ -32,7 +32,7 @@ module GravatarHelper
     :title => '',
 
     # The class to assign to the img tag for the gravatar.
-    :class => 'gravatar avatar',
+    :class => 'gravatar',
   }
 
   # The methods that will be made available to your views.

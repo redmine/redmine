@@ -82,7 +82,7 @@ class AvatarsHelperTest < Redmine::HelperTest
 
   def test_avatar_disabled_should_display_user_initials
     with_settings :gravatar_enabled => '0' do
-      assert_equal "<span role=\"img\" class=\"avatar-color-2 avatar s24\">JS</span>", avatar(User.find_by_mail('jsmith@somenet.foo'))
+      assert_equal "<span role=\"img\" class=\"avatar-color-2 s24 avatar\">JS</span>", avatar(User.find_by_mail('jsmith@somenet.foo'))
     end
   end
 
