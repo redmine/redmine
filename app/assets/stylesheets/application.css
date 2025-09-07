@@ -2198,6 +2198,10 @@ div.avatar-with-child > .avatar:nth-child(2) {
   border: 2px solid rgba(255, 255, 255, 0.9);
 }
 
+div.avatar-with-child > .avatar:nth-child(2).group-avatar {
+    background-color: #ffffff;
+}
+
 h2 .avatar, h3 .avatar {margin-right: 4px;}
 h4 img.gravatar {margin: -2px 4px -4px 0;}
 /*# TODO: check where this rule is still used*/
