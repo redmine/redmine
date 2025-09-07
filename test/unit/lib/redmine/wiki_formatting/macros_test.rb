@@ -499,4 +499,71 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
       )
     end
   end
+
+  def test_recent_pages_macro
+    @project = Project.find(1)
+    freeze_time do
+      WikiContent.update_all(updated_on: Time.current)
+      @project.wiki.pages.each_with_index do |page, i|
+        page.content.update_attribute(:updated_on, (i + 1).days.ago)
+      end
+
+      with_settings :text_formatting => 'textile' do
+        result = textilizable('{{recent_pages}}')
+        assert_select_in result, 'ul>li', :count => 7
+        assert_select_in result, 'ul>li:first-of-type', :text => 'Another page'
+        assert_select_in result, 'ul>li:last-of-type', :text => 'Page with sections'
+      end
+    end
+  end
+
+  def test_recent_pages_macro_with_limit_option
+    @project = Project.find(1)
+    freeze_time do
+      WikiContent.update_all(updated_on: Time.current)
+      @project.wiki.pages.each_with_index do |page, i|
+        page.content.update_attribute(:updated_on, (i + 1).days.ago)
+      end
+
+      with_settings :text_formatting => 'textile' do
+        result = textilizable('{{recent_pages(limit=5)}}')
+        assert_select_in result, 'ul>li', :count => 5
+        assert_select_in result, 'ul>li:first-of-type', :text => 'Another page'
+        assert_select_in result, 'ul>li:last-of-type', :text => 'CookBook documentation'
+      end
+    end
+  end
+
+  def test_recent_pages_macro_with_time_option
+    @project = Project.find(1)
+    WikiContent.update_all(updated_on: Time.current)
+    freeze_time do
+      @project.wiki.pages.each_with_index do |page, i|
+        page.content.update_attribute(:updated_on, (i + 1).days.ago)
+      end
+
+      with_settings :text_formatting => 'textile' do
+        result = textilizable('{{recent_pages(time=true)}}')
+        assert_select_in result, 'ul>li:first-of-type', :text => 'Another page (1 day)'
+        assert_select_in result, 'ul>li:last-of-type', :text => 'Page with sections (7 days)'
+      end
+    end
+  end
+
+  def test_recent_pages_macro_with_days_option
+    @project = Project.find(1)
+    freeze_time do
+      WikiContent.update_all(updated_on: Time.current)
+      @project.wiki.pages.each_with_index do |page, i|
+        page.content.update_attribute(:updated_on, (i + 1).days.ago)
+      end
+
+      with_settings :text_formatting => 'textile' do
+        result = textilizable('{{recent_pages(time=true, days=3)}}')
+        assert_select_in result, 'ul>li', :count => 3
+        assert_select_in result, 'ul>li:first-of-type', :text => 'Another page (1 day)'
+        assert_select_in result, 'ul>li:last-of-type', :text => 'Child 1 1 (3 days)'
+      end
+    end
+  end
 end

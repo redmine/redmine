@@ -216,6 +216,40 @@ module Redmine
         render_page_hierarchy(pages, options[:parent] ? page.parent_id : page.id)
       end
 
+      desc "Displays a list of recently updated Wiki pages. With no argument, it displays pages that have been updated within the past 7 days. Examples:\n\n" +
+             "{{recent_pages}} -- displays pages updated within the past 7 days\n" +
+             "{{recent_pages(days=3)}} -- displays pages updated within the past 3 days\n" +
+             "{{recent_pages(limit=5)}} -- limits the maximum number of pages to display to 5\n" +
+             "{{recent_pages(time=true)}} -- displays pages updated within the past 5 days with updated time"
+
+      macro :recent_pages do |obj, args|
+        return '' if @project.nil?
+        return '' unless User.current.allowed_to?(:view_wiki_pages, @project)
+
+        args, options = extract_macro_options(args, :days, :limit, :time)
+        days_to_list = (options[:days].presence || 7).to_i
+        limit = options[:limit].to_i if options[:limit].present?
+        is_show_time = options[:time].to_s == 'true'
+
+        pages = WikiPage.
+          joins(:content, :wiki).
+          where(["#{Wiki.table_name}.project_id = ? AND #{WikiContent.table_name}.updated_on >= ?", @project.id, days_to_list.days.ago]).
+          order("#{WikiContent.table_name}.updated_on desc, id").
+          limit(limit)
+
+        tag.ul do
+          pages.each do |page|
+            concat(
+              tag.li do
+                html = link_to(h(page.pretty_title), project_wiki_page_path(@project, page.title))
+                html << " (#{time_ago_in_words(page.content.updated_on)})" if is_show_time
+                html
+              end
+            )
+          end
+        end
+      end
+
       desc "Includes a wiki page. Examples:\n\n" +
              "{{include(Foo)}}\n" +
              "{{include(projectname:Foo)}} -- to include a page of a specific project wiki"
