@@ -289,6 +289,7 @@ class AccountControllerTest < Redmine::ControllerTest
     with_settings :self_registration => '3' do
       get :register
       assert_response :success
+      assert_includes @response.headers['Cache-Control'], 'no-store'
 
       assert_select 'input[name=?]', 'user[password]'
       assert_select 'input[name=?]', 'user[password_confirmation]'
@@ -353,6 +354,27 @@ class AccountControllerTest < Redmine::ControllerTest
       assert user.check_password?('secret123')
       assert user.active?
     end
+  end
+
+  def test_post_register_with_failure
+    post(
+      :register,
+      :params => {
+        :user => {
+          :login => 'register',
+          :password => 'secret123',
+          :password_confirmation => 'secret1234567890',
+          :firstname => 'John',
+          :lastname => 'Doe',
+          :mail => 'register@example.com'
+        }
+      }
+    )
+
+    assert_response :success
+    assert_includes @response.headers['Cache-Control'], 'no-store'
+
+    assert_select_error /Password doesn't match confirmation/i
   end
 
   def test_post_register_with_registration_off_should_redirect
