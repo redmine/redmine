@@ -108,6 +108,7 @@ class Issue < ActiveRecord::Base
   end)
 
   before_validation :default_assign, on: :create
+  before_validation :force_default_value_on_noneditable_custom_fields, on: :create
   before_validation :clear_disabled_fields
   before_save :close_duplicates, :update_done_ratio_from_issue_status,
               :force_updated_on_change, :update_closed_on
@@ -2038,6 +2039,20 @@ class Issue < ActiveRecord::Base
         send "#{attribute}=", nil
       end
       self.done_ratio ||= 0
+    end
+  end
+
+  # Forcefully set the default value to any custom field values which are not
+  # editable by the current user when creating a new issue. This may overwrite
+  # existing custom values of a copied issue which are not editable by the
+  # current user.
+  def force_default_value_on_noneditable_custom_fields
+    return unless custom_field_values_changed?
+    editable_custom_field_ids = editable_custom_fields(author).map(&:id)
+    custom_field_values.each do |field_value|
+      unless editable_custom_field_ids.include?(field_value.custom_field_id)
+        field_value.value = field_value.custom_field.default_value
+      end
     end
   end
 
