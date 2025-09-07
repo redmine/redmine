@@ -32,6 +32,7 @@ class AuthSourcesController < ApplicationController
   end
 
   def new
+    no_store
   end
 
   def create
@@ -39,11 +40,13 @@ class AuthSourcesController < ApplicationController
       flash[:notice] = l(:notice_successful_create)
       redirect_to auth_sources_path
     else
+      no_store
       render :action => 'new'
     end
   end
 
   def edit
+    no_store
   end
 
   def update
@@ -52,6 +55,7 @@ class AuthSourcesController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
       redirect_to auth_sources_path
     else
+      no_store
       render :action => 'edit'
     end
   end

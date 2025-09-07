@@ -41,17 +41,20 @@ class RepositoriesController < ApplicationController
 
   def new
     @repository.is_default = @project.repository.nil?
+    no_store
   end
 
   def create
     if @repository.save
       redirect_to settings_project_path(@project, :tab => 'repositories')
     else
+      no_store
       render :action => 'new'
     end
   end
 
   def edit
+    no_store
   end
 
   def update
@@ -59,6 +62,7 @@ class RepositoriesController < ApplicationController
     if @repository.save
       redirect_to settings_project_path(@project, :tab => 'repositories')
     else
+      no_store
       render :action => 'edit'
     end
   end

@@ -32,6 +32,7 @@ class AuthSourcesControllerTest < Redmine::ControllerTest
   def test_new
     get :new
     assert_response :success
+    assert_includes @response.headers['Cache-Control'], 'no-store'
 
     assert_select 'form#auth_source_form' do
       assert_select 'input[name=type][value=AuthSourceLdap]'
@@ -88,6 +89,7 @@ class AuthSourcesControllerTest < Redmine::ControllerTest
         }
       )
       assert_response :success
+      assert_includes @response.headers['Cache-Control'], 'no-store'
     end
     assert_select_error /host cannot be blank/i
   end
@@ -100,6 +102,7 @@ class AuthSourcesControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
+    assert_includes @response.headers['Cache-Control'], 'no-store'
 
     assert_select 'form#auth_source_form' do
       assert_select 'input[name=?]', 'auth_source[host]'
@@ -163,6 +166,8 @@ class AuthSourcesControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
+    assert_includes @response.headers['Cache-Control'], 'no-store'
+
     assert_select_error /host cannot be blank/i
   end
 
