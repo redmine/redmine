@@ -36,11 +36,17 @@ class AvatarsHelperTest < Redmine::HelperTest
   end
 
   def test_avatar_with_anonymous_user
-    assert_match %r{src="/assets/anonymous(-\w+)?.png"}, avatar(User.anonymous)
+    avatar_tag = avatar(User.anonymous)
+
+    assert_match %r{src="/assets/anonymous(-\w+)?.png"}, avatar_tag
+    assert_match 'class="anonymous-avatar avatar"', avatar_tag
   end
 
   def test_avatar_with_group
-    assert_match %r{src="/assets/group(-\w+)?.png"}, avatar(Group.first)
+    avatar_tag = avatar(Group.first)
+
+    assert_match %r{src="/assets/group(-\w+)?.png"}, avatar_tag
+    assert_match 'class="group-avatar avatar"', avatar_tag
   end
 
   def test_avatar_with_invalid_arg_should_return_nil

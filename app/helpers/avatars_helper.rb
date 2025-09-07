@@ -62,10 +62,12 @@ module AvatarsHelper
   end
 
   def anonymous_avatar(options={})
+    options[:class] = ['anonymous-avatar', options[:class]].compact.join(' ')
     image_tag 'anonymous.png', GravatarHelper::DEFAULT_OPTIONS.except(:default, :rating, :ssl).merge(options)
   end
 
   def group_avatar(options={})
+    options[:class] = ['group-avatar', options[:class]].compact.join(' ')
     image_tag 'group.png', GravatarHelper::DEFAULT_OPTIONS.except(:default, :rating, :ssl).merge(options)
   end
 
