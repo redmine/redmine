@@ -1575,6 +1575,17 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal 'relation', j.details[0].property
   end
 
+  def test_copy_should_only_copy_editable_custom_fields
+    cf = CustomField.find 1
+    cf.roles << Role.find(1)
+    cf.visible = false
+    cf.save!
+    User.current = User.find(3)
+    issue = Issue.new.copy_from(Issue.find(3))
+    assert issue.save
+    assert_equal '', issue.custom_field_value(1)
+  end
+
   def test_should_not_call_after_project_change_on_creation
     issue = Issue.new(:project_id => 1, :tracker_id => 1, :status_id => 1,
                       :subject => 'Test', :author_id => 1)
