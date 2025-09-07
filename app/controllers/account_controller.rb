@@ -169,6 +169,8 @@ class AccountController < ApplicationController
         end
       end
     end
+
+    no_store
   end
 
   # Token based account activation

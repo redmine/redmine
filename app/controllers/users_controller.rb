@@ -114,6 +114,8 @@ class UsersController < ApplicationController
                      :mail_notification => Setting.default_notification_option)
     @user.safe_attributes = params[:user]
     @auth_sources = AuthSource.all
+
+    no_store
   end
 
   def create
@@ -150,8 +152,14 @@ class UsersController < ApplicationController
       @user.password = @user.password_confirmation = nil
 
       respond_to do |format|
-        format.html {render :action => 'new'}
-        format.api  {render_validation_errors(@user)}
+        format.html do
+          no_store
+          render :action => 'new'
+        end
+
+        format.api do
+          render_validation_errors(@user)
+        end
       end
     end
   end
@@ -159,6 +167,8 @@ class UsersController < ApplicationController
   def edit
     @auth_sources = AuthSource.all
     @membership ||= Member.new
+
+    no_store
   end
 
   def update
@@ -196,8 +206,13 @@ class UsersController < ApplicationController
       @user.password = @user.password_confirmation = nil
 
       respond_to do |format|
-        format.html {render :action => :edit}
-        format.api  {render_validation_errors(@user)}
+        format.html do
+          no_store
+          render :action => :edit
+        end
+        format.api do
+          render_validation_errors(@user)
+        end
       end
     end
   end
