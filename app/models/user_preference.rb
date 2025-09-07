@@ -59,7 +59,8 @@ class UserPreference < ApplicationRecord
         self.no_self_notified = Setting.default_users_no_self_notified
       end
       unless attributes && attributes.key?(:auto_watch_on)
-        self.auto_watch_on = AUTO_WATCH_ON_OPTIONS
+        value = Setting.default_users_auto_watch_on
+        self.auto_watch_on = value.nil? ? AUTO_WATCH_ON_OPTIONS : value
       end
     end
     self.others ||= {}
