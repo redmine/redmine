@@ -34,6 +34,8 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
       }
     )
     assert_response :success
+    assert_includes @response.headers['Cache-Control'], 'no-store'
+
     assert_select 'select[name=?]', 'repository_scm' do
       assert_select 'option[value=?][selected=selected]', 'Subversion'
     end
@@ -110,6 +112,8 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
       )
     end
     assert_response :success
+    assert_includes @response.headers['Cache-Control'], 'no-store'
+
     assert_select_error /URL is invalid/
     assert_select 'select[name=?]', 'repository_scm' do
       assert_select 'option[value=?][selected=selected]', 'Subversion'
@@ -120,6 +124,8 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
     @request.session[:user_id] = 1
     get(:edit, :params => {:id => 11})
     assert_response :success
+    assert_includes @response.headers['Cache-Control'], 'no-store'
+
     assert_select 'input[name=?][value=?][disabled=disabled]', 'repository[url]', 'svn://localhost/test'
   end
 
@@ -150,6 +156,8 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
       }
     )
     assert_response :success
+    assert_includes @response.headers['Cache-Control'], 'no-store'
+
     assert_select_error /Password is too long/
   end
 
