@@ -4442,7 +4442,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_equal Date.parse('2012-07-14'), issue.start_date
     assert_nil issue.due_date
     assert_equal 'value1', issue.custom_field_value(cf1)
-    assert_nil issue.custom_field_value(cf2)
+    assert_equal '', issue.custom_field_value(cf2)
   end
 
   def test_create_should_ignore_unallowed_trackers
