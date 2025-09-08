@@ -56,19 +56,26 @@ class UserPreferenceTest < ActiveSupport::TestCase
   end
 
   def test_auto_watch_on_should_default_to_setting
+    # Default settings
+    preference = UserPreference.new
+    assert_equal %w[issue_created issue_contributed_to], preference.auto_watch_on
+
     with_settings :default_users_auto_watch_on => ['issue_created'] do
       preference = UserPreference.new
       assert_equal ['issue_created'], preference.auto_watch_on
     end
+
     with_settings :default_users_auto_watch_on => [] do
       preference = UserPreference.new
       assert_equal [], preference.auto_watch_on
     end
   end
 
-  def test_auto_watch_on_should_default_to_options
+  def test_auto_watch_on_should_default_to_user_options
     preference = UserPreference.new
-    assert_equal %w[issue_created issue_contributed_to], preference.auto_watch_on
+    preference.auto_watch_on = ['issue_created']
+
+    assert_equal ['issue_created'], preference.auto_watch_on
   end
 
   def test_create
