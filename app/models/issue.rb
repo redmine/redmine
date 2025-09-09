@@ -2081,6 +2081,7 @@ class Issue < ActiveRecord::Base
   # current user.
   def force_default_value_on_noneditable_custom_fields
     return unless custom_field_values_changed?
+
     editable_custom_field_ids = editable_custom_fields(author).map(&:id)
     custom_field_values.each do |field_value|
       unless editable_custom_field_ids.include?(field_value.custom_field_id)
