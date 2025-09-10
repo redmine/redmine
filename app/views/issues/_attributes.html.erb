@@ -1078,6 +1078,29 @@ $(document).ready(function() {
     $da.on('change', updateFieldVisits)
   );
 
+  function convertTo24HourFormat(dateTimeString) {
+    if (!dateTimeString || !/AM|PM/i.test(dateTimeString)) return dateTimeString;
+
+    try {
+      const date = new Date(dateTimeString);
+      if (isNaN(date.getTime())) return dateTimeString;
+
+      // use 'en-CA' because it formats dates as YYYY-MM-DD by default
+      const formatter = new Intl.DateTimeFormat('en-CA', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      });
+
+      return formatter.format(date).replace(',', '');
+    } catch (error) {
+      return dateTimeString;
+    }
+  }
+
   function updateFieldVisits() {
     if (project && ["EcoATM", "Pokemon"].includes(project)) {
       const visits = findAllInputs("Dispatch Arrival")
@@ -1111,6 +1134,15 @@ $(document).ready(function() {
     if (closedStatuses.includes(selectedStatus) && !partsStatus) {
       updateReturnVisitAndWaitingParts("NO");
     }
+
+    // convert all dispatch arrival times to 24-hour format before saving
+    findAllInputs("Dispatch Arrival").forEach($da => {
+      const currentValue = $da.val();
+      const converted = convertTo24HourFormat(currentValue);
+      if (converted !== currentValue) {
+        $da.val(converted);
+      }
+    });
 
     updateFieldVisits(); // recalculating if there was an error
     $fieldVisits.prop('disabled', false); // this allows the value to be saved
