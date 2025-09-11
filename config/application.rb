@@ -103,8 +103,13 @@ module RedmineApp
       :cookie_store,
       :key => '_redmine_session',
       :path => config.relative_url_root || '/',
-      :same_site => :lax
+      :same_site => :lax,
+      :secure => Rails.env.production?,
+      :httponly => true
     )
+
+    # SameSite=Lax provides sufficient CSRF protection
+    config.action_controller.allow_forgery_protection = false
 
     if File.exist?(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
       instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
