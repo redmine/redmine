@@ -796,7 +796,8 @@ div#issue-changesets p { margin-top: 0; margin-bottom: 1em;}
 /* Prevent content from being hidden behind a #sticky-issue-header when scrolling via anchor links. */
 .controller-issues.action-show div.wiki a[name],
 .controller-issues.action-show #history div[id^="note-"],
-.controller-issues.action-show #history div[id^="change-"] {
+.controller-issues.action-show #history div[id^="change-"],
+.controller-issues.action-show #update {
   scroll-margin-top: 50px;
 }
 

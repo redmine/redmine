@@ -23,11 +23,12 @@ function toggleCheckboxesBySelector(selector) {
 }
 
 function showAndScrollTo(id, focus) {
-  $('#'+id).show();
-  if (focus !== null) {
-    $('#'+focus).focus();
+  const el = document.getElementById(id);
+  if (el) {
+    el.style.display = ''; // show()
+    if (focus) document.getElementById(focus)?.focus({ preventScroll: true });
+    el.scrollIntoView({ behavior: 'instant' });
   }
-  $('html, body').animate({scrollTop: $('#'+id).offset().top}, 100);
 }
 
 function toggleRowGroup(el) {
