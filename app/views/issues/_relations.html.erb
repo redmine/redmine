@@ -11,7 +11,9 @@
 
 <% if @relations.present? %>
 <%= form_tag({}, :data => {:cm_url => issues_context_menu_path}) do %>
-  <%= render_issue_relations(@issue, @relations) %>
+  <div class="relation-issues-wrapper">
+    <%= render_issue_relations(@issue, @relations) %>
+  </div>
 <% end %>
 <% end %>
 

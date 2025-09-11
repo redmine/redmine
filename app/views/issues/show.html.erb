@@ -115,16 +115,16 @@ end %>
 
 <% if !@issue.leaf? || User.current.allowed_to?(:manage_subtasks, @project) %>
 <hr />
-<div id="issue_tree">
-<%= render :partial => 'subtasks' %>
-</div>
+<%= tag.div id: 'issue_tree', class: { 'with-related-issues-table-headers': Setting.display_related_issues_table_headers? } do %>
+  <%= render :partial => 'subtasks' %>
+<% end %>
 <% end %>
 
 <% if @relations.present? || User.current.allowed_to?(:manage_issue_relations, @project) %>
 <hr />
-<div id="relations">
-<%= render :partial => 'relations' %>
-</div>
+<%= tag.div id: 'relations', class: { 'with-related-issues-table-headers': Setting.display_related_issues_table_headers? } do %>
+  <%= render :partial => 'relations' %>
+<% end %>
 <% end %>
 
 </div>

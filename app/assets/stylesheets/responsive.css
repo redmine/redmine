@@ -764,39 +764,44 @@
     text-align: left;
   }
 
-  /* subtasks and related issues list on issue show */
-  #issue_tree .issues, #relations .issues {
+  /* subtasks and related issues list on issue show (without headers) */
+  #issue_tree:not(.with-related-issues-table-headers) table.issues,
+  #relations:not(.with-related-issues-table-headers) table.issues {
     border-collapse: separate;
     border-spacing: 0 1em; /* vertical space between tasks */
   }
 
-  #issue_tree .issue > td:not(.checkbox), #relations .issue > td:not(.checkbox) {
+  #issue_tree:not(.with-related-issues-table-headers) .issue > td:not(.checkbox),
+  #relations:not(.with-related-issues-table-headers) .issue > td:not(.checkbox) {
     display: block;
     float: left;
     text-align: left;
     padding-right: 5px;
   }
 
-  #issue_tree .issue > td.subject, #relations .issue > td.subject {
+  #issue_tree:not(.with-related-issues-table-headers) .issue > td.subject,
+  #relations:not(.with-related-issues-table-headers) .issue > td.subject {
     width: 100%; /* let subject have one full width column */
   }
 
-  #issue_tree .issue:has(.buttons a) > td.subject, #relations .issue:has(.buttons a) > td.subject {
+  #issue_tree:not(.with-related-issues-table-headers) .issue:has(.buttons a) > td.subject,
+  #relations:not(.with-related-issues-table-headers) .issue:has(.buttons a) > td.subject {
     padding-right: 40px;
   }
 
-  #issue_tree .issue > td:not(.subject), #relations .issue > td:not(.subject) {
+  #issue_tree:not(.with-related-issues-table-headers) .issue > td:not(.subject),
+  #relations:not(.with-related-issues-table-headers) .issue > td:not(.subject) {
     width: 20%; /* three columns for all cells that are not subject */
   }
 
-  #issue_tree .issues, #issue_tree .issue,
-  #relations .issues, #relations .issue {
+  #issue_tree:not(.with-related-issues-table-headers) table.issues, #issue_tree:not(.with-related-issues-table-headers) .issue,
+  #relations:not(.with-related-issues-table-headers) table.issues, #relations:not(.with-related-issues-table-headers) .issue {
     position: relative; /* needed for .buttons positioning */
   }
 
   /* positioniong of unline button */
-  #issue_tree .issue > td.buttons,
-  #relations .issue > td.buttons {
+  #issue_tree:not(.with-related-issues-table-headers) .issue > td.buttons,
+  #relations:not(.with-related-issues-table-headers) .issue > td.buttons {
     text-align: right;
     position: absolute;
     right: 0;
@@ -804,9 +809,20 @@
     padding-right: 0;
   }
 
-  #issue_tree .issue .buttons a,
-  #relations .issue .buttons a {
+  #issue_tree:not(.with-related-issues-table-headers) .issue .buttons a,
+  #relations:not(.with-related-issues-table-headers) .issue .buttons a {
     vertical-align: middle;
+  }
+
+  /* subtasks and related issues list on issue show (with headers) */
+  #issue_tree.with-related-issues-table-headers .subtasks-wrapper,
+  #relations.with-related-issues-table-headers .relation-issues-wrapper {
+    overflow-x: scroll;
+  }
+
+  #issue_tree.with-related-issues-table-headers .issue > td.subject,
+  #relations.with-related-issues-table-headers .issue > td.subject {
+    min-width: 15rem;
   }
 
   /* attachment upload form */
