@@ -17,7 +17,7 @@
     <td><%= user.lastname %></td>
     <td><%= mail_to(user.mail) %></td>
     <td><%= checked_image user.admin? %></td>
-    <td><%= l(("status_#{User::LABEL_BY_STATUS[user.status]}")) %>
+    <td><%= l(("status_#{User::LABEL_BY_STATUS[user.status]}")) %></td>
   </tr>
   <% end %>
   </tbody>

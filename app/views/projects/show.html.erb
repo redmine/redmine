@@ -102,10 +102,10 @@
     <h3 class="icon icon-time"><%= l(:label_time_tracking) %></h3>
     <ul>
       <% if @total_estimated_hours.present? %>
-        <li><%= l(:field_estimated_hours) %>: <%= l_hours(@total_estimated_hours) %>
+        <li><%= l(:field_estimated_hours) %>: <%= l_hours(@total_estimated_hours) %></li>
       <% end %>
       <% if @total_hours.present? %>
-          <li><%= l(:label_spent_time) %>: <%= l_hours(@total_hours) %>
+        <li><%= l(:label_spent_time) %>: <%= l_hours(@total_hours) %></li>
       <% end %>
     </ul>
     <p>
