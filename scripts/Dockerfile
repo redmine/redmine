@@ -1,5 +1,7 @@
 FROM redmine:latest
 
+ENV WEB_CONCURRENCY=2
+
 # Remove default Redmine installation but keep the mounted files directory
 RUN find /usr/src/redmine -mindepth 1 ! -regex '^/usr/src/redmine/files\(/.*\)?' -delete
 
