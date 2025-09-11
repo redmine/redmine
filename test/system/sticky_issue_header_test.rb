@@ -35,4 +35,26 @@ class StickyIssueHeaderSystemTest < ApplicationSystemTestCase
     page.execute_script("window.scrollTo(0, 0)")
     assert_no_selector "#sticky-issue-header", text: issue.subject
   end
+
+  test "edit heading is not hidden behind sticky header when edit link is clicked" do
+    log_user('jsmith', 'jsmith')
+    issue = Issue.find(1)
+    visit issue_path(issue)
+
+    click_link 'Edit', match: :first
+
+    sleep 0.5 # Wait for scrolling to complete
+    assert_selector "#sticky-issue-header.is-visible", visible: true
+    assert_selector 'h3', text: 'Edit', visible: true
+
+    # More strictly check whether the Edit heading is visually accessible using JavaScript
+    is_edit_heading_visible_to_user = page.evaluate_script(<<~JS)
+      (function() {
+        const stickyIssueHeader = document.querySelector('#sticky-issue-header');
+        const editHeading = document.querySelector("#update > h3");
+        return stickyIssueHeader.getBoundingClientRect().bottom < editHeading.getBoundingClientRect().top;
+      })();
+    JS
+    assert is_edit_heading_visible_to_user, "Edit heading is visually covered by the sticky header"
+  end
 end
