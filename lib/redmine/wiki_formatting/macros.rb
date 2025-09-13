@@ -216,11 +216,11 @@ module Redmine
         render_page_hierarchy(pages, options[:parent] ? page.parent_id : page.id)
       end
 
-      desc "Displays a list of recently updated Wiki pages. With no argument, it displays pages that have been updated within the past 7 days. Examples:\n\n" +
-             "{{recent_pages}} -- displays pages updated within the past 7 days\n" +
-             "{{recent_pages(days=3)}} -- displays pages updated within the past 3 days\n" +
+      desc "Displays a list of recently updated wiki pages. With no argument, it displays pages that have been updated within the last 7 days. Examples:\n\n" +
+             "{{recent_pages}} -- displays pages updated within the last 7 days\n" +
+             "{{recent_pages(days=3)}} -- displays pages updated within the last 3 days\n" +
              "{{recent_pages(limit=5)}} -- limits the maximum number of pages to display to 5\n" +
-             "{{recent_pages(time=true)}} -- displays pages updated within the past 5 days with updated time"
+             "{{recent_pages(time=true)}} -- displays pages updated within the last 7 days with updated time"
 
       macro :recent_pages do |obj, args|
         return '' if @project.nil?

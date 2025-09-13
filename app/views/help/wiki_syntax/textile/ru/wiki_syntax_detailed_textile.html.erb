@@ -339,6 +339,13 @@ bq. Rails - это полноценный, многоуровневый фрей
       <dd><p>Отображет кликабельный эскиз приложенной картинки. Пример:</p>
       <pre>{{thumbnail(image.png)}}
 {{thumbnail(image.png, size=300, title=Эскиз)}}</pre></dd>
+
+      <dt><code>recent_pages</code></dt>
+      <dd><p>Displays a list of recently updated wiki pages. With no argument, it displays pages that have been updated within the last 7 days. Examples:</p>
+        <pre>{{recent_pages}}            -- displays pages updated within the last 7 days
+{{recent_pages(days=3)}}    -- displays pages updated within the last 3 days
+{{recent_pages(limit=5)}}   -- limits the maximum number of pages to display to 5
+{{recent_pages(time=true)}} -- displays pages updated within the last 7 days with updated time</pre></dd>
     </dl>
     </p>
 
