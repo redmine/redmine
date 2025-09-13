@@ -308,6 +308,13 @@ Il peut être déroulé en cliquant sur le lien.
       <pre>{{thumbnail(image.png)}}
 {{thumbnail(image.png, size=300, title=Miniature)}}</pre></dd>
 
+      <dt><code>issue</code></dt>
+      <dd><p>Inserts a link to an issue with flexible text. Examples:</p>
+        <pre>{{issue(123)}}                              -- Issue #123: Enhance macro capabilities
+{{issue(123, project=true)}}                -- Andromeda - Issue #123:Enhance macro capabilities
+{{issue(123, tracker=false)}}               -- #123: Enhance macro capabilities
+{{issue(123, subject=false, project=true)}} -- Andromeda - Issue #123</pre></dd>
+
       <dt><code>recent_pages</code></dt>
       <dd><p>Displays a list of recently updated wiki pages. With no argument, it displays pages that have been updated within the last 7 days. Examples:</p>
         <pre>{{recent_pages}}            -- displays pages updated within the last 7 days
