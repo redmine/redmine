@@ -322,6 +322,25 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     assert_select 'a', :text => 'eCookbook - Shared'
   end
 
+  def test_context_menu_should_respect_five_percent_increments
+    with_settings :issue_done_ratio => 'issue_field', :issue_done_ratio_interval => 5 do
+      @request.session[:user_id] = 2
+      get(
+        :issues,
+        :params => {
+          :ids => [1, 2]
+        }
+      )
+      assert_response :success
+
+      assert_select 'a[href*=?]', '/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bdone_ratio%5D=0', :text => '0%'
+      assert_select 'a[href*=?]', '/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bdone_ratio%5D=5', :text => '5%'
+      assert_select 'a[href*=?]', '/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bdone_ratio%5D=10', :text => '10%'
+      assert_select 'a[href*=?]', '/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bdone_ratio%5D=55', :text => '55%'
+      assert_select 'a[href*=?]', '/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bdone_ratio%5D=100', :text => '100%'
+    end
+  end
+
   def test_context_menu_should_include_add_subtask_link
     @request.session[:user_id] = 2
     get(

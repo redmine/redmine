@@ -111,7 +111,7 @@
     <a href="#" class="submenu"><%= l(:field_done_ratio) %></a>
     <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
     <ul>
-    <% (0..10).map{|x|x*10}.each do |p| -%>
+    <% (0..100).step(Setting.issue_done_ratio_interval.to_i).each do |p| -%>
         <li><%= context_menu_link "#{p}%", _bulk_update_issues_path(@issue, :ids => @issue_ids, :issue => {'done_ratio' => p}, :back_url => @back), :method => :patch,
                                       :selected => (@issue && p == @issue.done_ratio), :disabled => (!@can[:edit] || @issues.any?(&:done_ratio_derived?)) %></li>
     <% end -%>
