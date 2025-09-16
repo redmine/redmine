@@ -1257,7 +1257,17 @@ function inlineAutoComplete(element) {
       }
     }
 
-    const remoteSearch = function(url, cb) {
+    const debounce = function(func, delay) {
+      let timeout;
+
+      return function(...args) {
+        const context = this;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), delay);
+      };
+    }
+
+    const remoteSearch = debounce((url, cb) => {
       const xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function ()
       {
@@ -1272,7 +1282,7 @@ function inlineAutoComplete(element) {
       };
       xhr.open("GET", url, true);
       xhr.send();
-    };
+    }, 200);
 
     const tribute = new Tribute({
       collection: [
