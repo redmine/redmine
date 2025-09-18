@@ -238,3 +238,7 @@
 - name: quote-filled
   svg: quote
   style: filled
+- name: loader
+  svg: loader-2
+- name: hourglass
+  svg: hourglass

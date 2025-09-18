@@ -45,10 +45,13 @@ function addFile(inputEl, file, eagerUpload) {
 addFile.nextAttachmentId = 1;
 
 function ajaxUpload(file, attachmentId, fileSpan, inputEl) {
+  let attachmentIcon = $(fileSpan).find('svg.svg-attachment');
 
   function onLoadstart(e) {
     fileSpan.removeClass('ajax-waiting');
     fileSpan.addClass('ajax-loading');
+    attachmentIcon.addClass('svg-loader');
+    updateSVGIcon(attachmentIcon[0], 'loader')
     $('input:submit', $(this).parents('form')).attr('disabled', 'disabled');
   }
 
@@ -76,6 +79,8 @@ function ajaxUpload(file, attachmentId, fileSpan, inputEl) {
       }).always(function() {
         ajaxUpload.uploading--;
         fileSpan.removeClass('ajax-loading');
+        attachmentIcon.removeClass('svg-loader');
+        updateSVGIcon(attachmentIcon[0], 'attachment');
         var form = fileSpan.parents('form');
         if (form.queue('upload').length == 0 && ajaxUpload.uploading == 0) {
           $('input:submit', form).removeAttr('disabled');
@@ -87,6 +92,7 @@ function ajaxUpload(file, attachmentId, fileSpan, inputEl) {
   var progressSpan = $('<div>').insertAfter(fileSpan.find('input.filename'));
   progressSpan.progressbar();
   fileSpan.addClass('ajax-waiting');
+  updateSVGIcon(attachmentIcon[0], 'hourglass');
 
   var maxSyncUpload = $(inputEl).data('max-concurrent-uploads');
 
