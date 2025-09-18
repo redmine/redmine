@@ -1352,14 +1352,13 @@ opacity: 0.5;
 
 html>body #ajax-indicator { position: fixed; }
 
-#ajax-indicator span {
-background-position: 0% 40%;
-background-repeat: no-repeat;
-background-image: url(/loading.gif);
-padding-left: 26px;
-vertical-align: bottom;
+#ajax-indicator:not(:has(svg)) span {
+  background-position: 0% 40%;
+  background-repeat: no-repeat;
+  background-image: url(/loading.gif);
+  padding-left: 26px;
+  vertical-align: bottom;
 }
-
 /***** Calendar *****/
 ul.cal {
   list-style: none;

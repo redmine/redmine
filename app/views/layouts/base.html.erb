@@ -127,7 +127,11 @@
     Powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url, :target => '_blank', :rel => 'noopener' %> &copy; 2006-2025 Jean-Philippe Lang
 </div>
 
-<div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
+<div id="ajax-indicator" style="display:none;">
+  <span class="icon">
+    <%= sprite_icon 'loader', l(:label_loading), css_class: 'svg-loader' %>
+  </span>
+</div>
 <div id="ajax-modal" style="display:none;"></div>
 <div id="icon-copy-source" style="display: none;"><%= sprite_icon('') %></div>
 
