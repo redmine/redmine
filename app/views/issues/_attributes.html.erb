@@ -743,7 +743,14 @@ function findInput(label, tag = "input") {
   const $label = $(`label:contains(${label})`).filter(function() {
     return $(this).text().trim().indexOf(label) === 0;
   }).first();
-  return $label.length ? $label.siblings(tag).first() : $();
+  if (!$label.length) return $();
+
+  const $siblings = $label.siblings();
+  const $direct = $siblings.filter(tag).first();
+  if ($direct.length) return $direct;
+
+  const $descendant = $siblings.find(tag).first();
+  return $descendant.length ? $descendant : $();
 }
 
 function findAllInputs(label, tag = "input") {

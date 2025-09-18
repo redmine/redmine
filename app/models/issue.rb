@@ -123,6 +123,10 @@ class Issue < ApplicationRecord
              :update_parent_attributes, :delete_selected_attachments, :create_journal
   # Should be after_create but would be called before previous after_save callbacks
   after_save :after_create_from_copy
+  # Copy parent fields to children when specific fields change
+  after_save :copy_fields_to_children, if: :should_copy_fields?
+  # Copy parent fields to child when child is assigned to a new parent
+  after_save :copy_parent_fields_to_self, if: :should_copy_from_parent?
   # add_auto_watcher needs to run before sending notifications, thus it needs
   # to be added after send_notification (after_ callbacks are run in inverse order)
   # https://api.rubyonrails.org/v5.2.3/classes/ActiveSupport/Callbacks/ClassMethods.html#method-i-set_callback
@@ -1037,10 +1041,6 @@ class Issue < ApplicationRecord
 
   # Returns true if this issue can be closed and if not, returns false and populates the reason
   def closable?
-    if descendants.open.any?
-      @transition_warning = l(:notice_issue_not_closable_by_open_tasks)
-      return false
-    end
     if blocked?
       @transition_warning = l(:notice_issue_not_closable_by_blocking_issue)
       return false
@@ -2149,6 +2149,189 @@ class Issue < ApplicationRecord
     field_value = custom_field_values.detect {|v| v.custom_field_id == field.id}&.value
     if field_value.blank?
       errors.add(field_name, message)
+    end
+  end
+
+  ##############################
+  # Pokemon Subtask Automation #
+  ##############################
+
+  def copy_fields_to_children
+    return unless children?
+    
+    zendesk_field = CustomField.find_by(name: 'Zendesk Ticket Number')
+    zendesk_number = nil
+    if zendesk_field
+      zendesk_cfv = custom_field_values.detect { |cfv| cfv.custom_field_id == zendesk_field.id }
+      zendesk_number = zendesk_cfv&.value.presence || id.to_s
+    else
+      zendesk_number = id.to_s
+    end
+    
+    children.each do |child|
+      journal_notes = []
+      child_updated = false
+      
+      child.init_journal(User.current)
+      
+      if custom_root_cause_changed?
+        root_cause_value = get_current_root_cause_value
+        if root_cause_value.present?
+          copy_root_cause_to_child(child)
+          journal_notes << "Root cause set to #{root_cause_value} by parent ticket (##{zendesk_number})"
+          child_updated = true
+        end
+      end
+      
+      if saved_change_to_assigned_to_id?
+        assignee_name = if assigned_to_id.present?
+          assignee = assigned_to
+          assignee ? "#{assignee.firstname} #{assignee.lastname}".strip : "unassigned"
+        else
+          "unassigned"
+        end
+        
+        child.assigned_to_id = assigned_to_id
+        journal_notes << "Set assignee to #{assignee_name} by parent ticket (##{zendesk_number})"
+        child_updated = true
+      end
+      
+      if saved_change_to_status_id? && status_id.present? && status&.is_closed?
+        child.status_id = status_id
+        journal_notes << "Closed by parent ticket (##{zendesk_number})"
+        child_updated = true
+      end
+      
+      if child_updated
+        child.current_journal.notes = journal_notes.join('. ') if child.current_journal
+        child.save!
+      else
+        child.clear_journal
+      end
+    end
+  end
+  
+  def get_current_root_cause_value
+    root_cause_field = CustomField.find_by(name: 'Root Cause')
+    return nil unless root_cause_field
+    
+    root_cause_cfv = custom_field_values.detect { |cfv| cfv.custom_field_id == root_cause_field.id }
+    root_cause_cfv&.value
+  end
+  
+  def custom_root_cause_changed?
+    root_cause_field = CustomField.find_by(name: 'Root Cause')
+    return false unless root_cause_field
+    
+    if current_journal&.details&.any?
+      custom_field_change = current_journal.details.find do |detail|
+        detail.property == 'cf' && detail.prop_key == root_cause_field.id.to_s
+      end
+      if custom_field_change
+        return true
+      end
+    end
+    
+    false
+  end
+  
+  def copy_root_cause_to_child(child)
+    root_cause_field = CustomField.find_by(name: 'Root Cause')
+    return unless root_cause_field
+    
+    our_root_cause = custom_field_values.detect { |cfv| cfv.custom_field_id == root_cause_field.id }
+    return unless our_root_cause&.value.present?
+        
+    custom_field_hash = {}
+    custom_field_hash[root_cause_field.id.to_s] = our_root_cause.value
+    child.custom_field_values = custom_field_hash
+  end
+
+  def should_copy_fields?
+    return false unless project&.name == 'Pokemon'
+    
+    return false unless children?
+
+    status_changed = saved_change_to_status_id?
+    assignee_changed = saved_change_to_assigned_to_id?
+    root_cause_changed = custom_root_cause_changed?
+    
+    has_changes = status_changed || assignee_changed || root_cause_changed
+    
+    has_changes
+  end
+
+  def should_copy_from_parent?    
+    return false unless project&.name == 'Pokemon'
+
+    return false unless saved_change_to_parent_id?
+    
+    return false unless parent_id.present?
+    
+    true
+  end
+
+  def copy_parent_fields_to_self
+    
+    old_parent_id, new_parent_id = saved_change_to_parent_id
+    
+    init_journal(User.current)
+    journal_notes = []
+    
+    if old_parent_id.present? && new_parent_id.blank?
+      journal_notes << "Unlinked from parent ticket"
+    end
+    
+    if new_parent_id.present?
+      parent_issue = parent
+      if parent_issue
+        zendesk_field = CustomField.find_by(name: 'Zendesk Ticket Number')
+        zendesk_number = nil
+        if zendesk_field
+          zendesk_cfv = parent_issue.custom_field_values.detect { |cfv| cfv.custom_field_id == zendesk_field.id }
+          zendesk_number = zendesk_cfv&.value.presence || parent_issue.id.to_s
+        else
+          zendesk_number = parent_issue.id.to_s
+        end
+        
+        if parent_issue.assigned_to_id.present?
+          assignee_name = if parent_issue.assigned_to
+            "#{parent_issue.assigned_to.firstname} #{parent_issue.assigned_to.lastname}".strip
+          else
+            "unassigned"
+          end
+          
+          self.assigned_to_id = parent_issue.assigned_to_id
+          journal_notes << "Set assignee to #{assignee_name} by parent ticket (##{zendesk_number})"
+        end
+        
+        if parent_issue.status_id.present? && parent_issue.status&.is_closed?
+          self.status_id = parent_issue.status_id
+          journal_notes << "Closed by parent ticket (##{zendesk_number})"
+        end
+        
+        root_cause_field = CustomField.find_by(name: 'Root Cause')
+        if root_cause_field
+          parent_root_cause = parent_issue.custom_field_values.detect { |cfv| cfv.custom_field_id == root_cause_field.id }
+          if parent_root_cause&.value.present?
+            custom_field_hash = {}
+            custom_field_hash[root_cause_field.id.to_s] = parent_root_cause.value
+            self.custom_field_values = custom_field_hash
+            journal_notes << "Root cause set to #{parent_root_cause.value} by parent ticket (##{zendesk_number})"
+          end
+        end
+        
+        journal_notes << "Linked to parent ticket (##{zendesk_number})"
+      else
+        journal_notes << "Linked to parent ticket"
+      end
+    end
+    
+    if journal_notes.any?
+      current_journal.notes = journal_notes.join('. ')
+      save!
+    else
+      clear_journal
     end
   end
 end

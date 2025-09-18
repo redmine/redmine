@@ -5,6 +5,19 @@ ENV WEB_CONCURRENCY=2
 # Remove default Redmine installation but keep the mounted files directory
 RUN find /usr/src/redmine -mindepth 1 ! -regex '^/usr/src/redmine/files\(/.*\)?' -delete
 
+# Copy any zscaler cert files (both real cert and placeholder)
+COPY zscaler.crt* /tmp/
+
+# Conditionally install Zscaler certificate if it exists and has content
+RUN if [ -f "/tmp/zscaler.crt" ] && [ -s "/tmp/zscaler.crt" ]; then \
+        echo "Installing Zscaler certificate..." && \
+        cp /tmp/zscaler.crt /usr/local/share/ca-certificates/zscaler.crt && \
+        update-ca-certificates; \
+    else \
+        echo "No Zscaler certificate found, skipping certificate installation."; \
+    fi && \
+    rm -f /tmp/zscaler.crt*
+
 # Copy local git checkout
 COPY .. /usr/src/redmine/
 RUN chown -R redmine:redmine /usr/src/redmine

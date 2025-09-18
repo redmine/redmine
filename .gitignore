@@ -38,6 +38,7 @@
 /tmp/thumbnails/*
 /vendor/cache
 *.rbc
+*.crt
 
 /.bundle
 /Gemfile.lock
