@@ -202,6 +202,12 @@ class ReactionsHelperTest < ActionView::TestCase
     end
   end
 
+  test 'reaction_button with reactions should have .has-reactions class' do
+    assert_select_in reaction_button(issues(:issues_001)), 'a.reaction-button.has-reactions'
+    # issues_002 has no reactions
+    assert_select_in reaction_button(issues(:issues_002)), 'a.reaction-button:not(.has-reactions)'
+  end
+
   private
 
   def build_reactions(count)

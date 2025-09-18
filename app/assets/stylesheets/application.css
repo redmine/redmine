@@ -2330,6 +2330,9 @@ span[role="img"].avatar.s50  {
   margin-bottom: -1px;
   font-weight: bold;
 }
+.reaction-button.has-reactions .icon-svg {
+  stroke-width: 2.0;
+}
 .reaction-button.readonly {
   cursor: default;
 }
