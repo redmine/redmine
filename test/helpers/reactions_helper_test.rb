@@ -166,7 +166,6 @@ class ReactionsHelperTest < ActionView::TestCase
     result = with_locale('en') do
       reaction_button(issue)
     end
-    tooltip = 'Dave Lopper, John Smith, and Redmine Admin'
 
     assert_select_in result, 'span.reaction-button-wrapper[data-reaction-button-id=?]', 'reaction_issue_1' do
       href = reaction_path(issue.reaction_detail.user_reaction, object_type: 'Issue', object_id: 1)
@@ -188,7 +187,6 @@ class ReactionsHelperTest < ActionView::TestCase
     result = with_locale('en') do
       reaction_button(issue)
     end
-    tooltip = 'Dave Lopper, John Smith, and Redmine Admin'
 
     assert_select_in result, 'span.reaction-button-wrapper[data-reaction-button-id=?]', 'reaction_issue_1' do
       href = reactions_path(object_type: 'Issue', object_id: 1)
