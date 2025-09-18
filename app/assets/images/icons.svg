@@ -228,12 +228,6 @@
       <path d="M12 8l0 4l2 2"/>
       <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"/>
     </symbol>
-    <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--hourglass">
-      <path d="M6.5 7h11"/>
-      <path d="M6.5 17h11"/>
-      <path d="M6 20v-2a6 6 0 1 1 12 0v2a1 1 0 0 1 -1 1h-10a1 1 0 0 1 -1 -1z"/>
-      <path d="M6 4v2a6 6 0 1 0 12 0v-2a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1z"/>
-    </symbol>
     <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--image-gif">
       <path d="M14 3v4a1 1 0 0 0 1 1h4"/>
       <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"/>
@@ -306,9 +300,6 @@
       <path d="M5 6l0 .01"/>
       <path d="M5 12l0 .01"/>
       <path d="M5 18l0 .01"/>
-    </symbol>
-    <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--loader">
-      <path d="M12 3a9 9 0 1 0 9 9"/>
     </symbol>
     <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--lock">
       <path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z"/>

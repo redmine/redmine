@@ -1161,6 +1161,20 @@ span.required {color: #bb0000;}
   padding-left: 3px;
   padding-right: 0;
 }
+.attachments_fields .ajax-waiting {
+  padding-left: 16px;
+  background:url(/hourglass-empty.svg) no-repeat 0px 50%;
+}
+.attachments_fields .ajax-waiting .svg-attachment {
+  display: none;
+}
+.attachments_fields .ajax-loading {
+  padding-left: 16px;
+  background: url(/loading.gif) no-repeat 0px 50%;
+}
+.attachments_fields .ajax-loading .svg-attachment {
+  display: none;
+}
 
 a.remove-upload:hover {text-decoration:none !important;}
 .existing-attachment.deleted .filename {text-decoration:line-through; color:#999 !important;}
@@ -1352,13 +1366,14 @@ opacity: 0.5;
 
 html>body #ajax-indicator { position: fixed; }
 
-#ajax-indicator:not(:has(svg)) span {
-  background-position: 0% 40%;
-  background-repeat: no-repeat;
-  background-image: url(/loading.gif);
-  padding-left: 26px;
-  vertical-align: bottom;
+#ajax-indicator span {
+background-position: 0% 40%;
+background-repeat: no-repeat;
+background-image: url(/loading.gif);
+padding-left: 26px;
+vertical-align: bottom;
 }
+
 /***** Calendar *****/
 ul.cal {
   list-style: none;
@@ -2163,19 +2178,6 @@ span.icon-label {
 
 .sort-handle.ajax-loading { background-image: url(/loading.gif); }
 tr.ui-sortable-helper { border:1px solid #e4e4e4; }
-svg.svg-loader {
-  animation: spin 1s linear infinite;
-  transform-origin: center;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
 
 .contextual>*:not(:first-child), .buttons>.icon:not(:first-child), .contextual .journal-actions>*:not(:first-child) { margin-left: 5px; }
 
