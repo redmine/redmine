@@ -1452,7 +1452,7 @@ bg:
     За да потвърдите, въведете името (%{login}) по-долу.
   text_project_destroy_enter_identifier: За да потвърдите действието, въведете идентификатора на проекта (%{identifier}) по-долу.
   field_name_or_email_or_login: Име, e-mail или login име
-  setting_wiki_tablesort_enabled: Сортиране на таблици чрез Javascript във wiki страници
+  setting_wiki_tablesort_enabled: Сортиране на таблици чрез JavaScript във wiki страници
   reaction_text_x_other_users:
     one: 1 друг
     other: "%{count} други"

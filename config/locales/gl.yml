@@ -1505,7 +1505,7 @@ gl:
     zero: "%{filename}"
     one: "%{filename} e 1 ficheiro"
     other: "%{filename} e %{count} ficheiros"
-  setting_wiki_tablesort_enabled: Ordenación de táboas empregando Javascript no contido de wiki
+  setting_wiki_tablesort_enabled: Ordenación de táboas empregando JavaScript no contido de wiki
   label_progressbar: Barra de progreso
   error_spent_on_closed_issue: Non se pode imputar tempo nunha tarefa pechada
   setting_timelog_accept_closed_issues: Permitir imputar tempo en tarefas pechadas
