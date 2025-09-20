@@ -2547,3 +2547,18 @@ th[role=columnheader]:not(.no-sort):hover:after {
   padding: 0.5rem;
   width: calc(200px - 0.5rem * 2);
 }
+
+.api-key-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.api-key-actions .copy-api-key-link {
+  padding: 4px 6px;
+  cursor: pointer;
+}
+
+#sidebar .api-key-actions .copy-api-key-link svg {
+  opacity: 1;
+}

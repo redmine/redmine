@@ -20,17 +20,29 @@
 
 <% if Setting.rest_api_enabled? %>
 <h4><%= l(:label_api_access_key) %></h4>
-<div>
-  <%= link_to l(:button_show), my_api_key_path, :remote => true %>
-  <pre id='api-access-key' class='autoscroll'></pre>
+<div data-controller="api-key-copy">
+  <div class="api-key-actions">
+    <%= link_to l(:button_show), my_api_key_path, :remote => true %>
+    <a class="copy-api-key-link icon icon-only"
+       title="<%= l(:button_copy) %>"
+       aria-label="<%= l(:button_copy) %>"
+       href="#"
+       role="button"
+       tabindex="0"
+       style="display: none;"
+       data-action="click->api-key-copy#copy">
+      <%= sprite_icon('copy') %>
+    </a>
+  </div>
+  <pre id='api-access-key' class='autoscroll' data-api-key-copy-target="apiKey"></pre>
+  <%= javascript_tag("$('#api-access-key').hide();") %>
+  <p>
+  <% if @user.api_token %>
+  <%= l(:label_api_access_key_created_on, distance_of_time_in_words(Time.now, @user.api_token.created_on)) %>
+  <% else %>
+  <%= l(:label_missing_api_access_key) %>
+  <% end %>
+  (<%= link_to l(:button_reset), my_api_key_path, :method => :post %>)
+  </p>
 </div>
-<%= javascript_tag("$('#api-access-key').hide();") %>
-<p>
-<% if @user.api_token %>
-<%= l(:label_api_access_key_created_on, distance_of_time_in_words(Time.now, @user.api_token.created_on)) %>
-<% else %>
-<%= l(:label_missing_api_access_key) %>
-<% end %>
-(<%= link_to l(:button_reset), my_api_key_path, :method => :post %>)
-</p>
 <% end %>
