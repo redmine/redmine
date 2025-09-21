@@ -36,14 +36,14 @@ function toggleRowGroup(el) {
   var n = tr.next();
   tr.toggleClass('open');
   $(el).toggleClass('icon-expanded icon-collapsed');
-  toggleExpendCollapseIcon(el)
+  toggleExpandCollapseIcon(el)
   while (n.length && !n.hasClass('group')) {
     n.toggle();
     n = n.next('tr');
   }
 }
 
-function toggleExpendCollapseIcon(el) {
+function toggleExpandCollapseIcon(el) {
   const svg = el.getElementsByTagName('svg').item(0)
 
   if (svg === null) {
@@ -83,7 +83,7 @@ function collapseAllRowGroups(el) {
       $(this).removeClass('open');
       var expander = $(this).find('.expander');
       expander.switchClass('icon-expanded', 'icon-collapsed');
-      toggleExpendCollapseIcon(expander[0]);
+      toggleExpandCollapseIcon(expander[0]);
     } else {
       $(this).hide();
     }
@@ -97,7 +97,7 @@ function expandAllRowGroups(el) {
       $(this).addClass('open');
       var expander = $(this).find('.expander');
       expander.switchClass('icon-collapsed', 'icon-expanded');
-      toggleExpendCollapseIcon(expander[0]);
+      toggleExpandCollapseIcon(expander[0]);
     } else {
       $(this).show();
     }
@@ -117,7 +117,7 @@ function toggleFieldset(el) {
   var fieldset = $(el).parents('fieldset').first();
   fieldset.toggleClass('collapsed');
   fieldset.children('legend').toggleClass('icon-expanded icon-collapsed');
-  toggleExpendCollapseIcon(fieldset.children('legend')[0])
+  toggleExpandCollapseIcon(fieldset.children('legend')[0])
   fieldset.children('div').toggle();
 }
 
@@ -612,7 +612,7 @@ function scmEntryClick(id, url) {
         el.find('.expander').switchClass('icon-expanded', 'icon-collapsed');
         el.addClass('collapsed');
         updateSVGIcon(folder[0], 'folder')
-        toggleExpendCollapseIcon(expander[0]);
+        toggleExpandCollapseIcon(expander[0]);
 
         return false;
     } else if (el.hasClass('loaded')) {
@@ -620,7 +620,7 @@ function scmEntryClick(id, url) {
         el.find('.expander').switchClass('icon-collapsed', 'icon-expanded');
         el.removeClass('collapsed');
         updateSVGIcon(folder[0], 'folder-open')
-        toggleExpendCollapseIcon(expander[0]);
+        toggleExpandCollapseIcon(expander[0]);
 
         return false;
     }
@@ -635,7 +635,7 @@ function scmEntryClick(id, url) {
         el.addClass('open').addClass('loaded').removeClass('loading');
         el.find('.expander').switchClass('icon-collapsed', 'icon-expanded');
         updateSVGIcon(folder[0], 'folder-open')
-        toggleExpendCollapseIcon(expander[0]);
+        toggleExpandCollapseIcon(expander[0]);
       }
     });
     return true;
