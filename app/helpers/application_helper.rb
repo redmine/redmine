@@ -1438,6 +1438,16 @@ module ApplicationHelper
     end
   end
 
+  def list_autofill_data_attributes
+    return {} if Setting.text_formatting.blank?
+
+    {
+      controller: 'list-autofill',
+      action: 'beforeinput->list-autofill#handleBeforeInput',
+      list_autofill_text_formatting_param: Setting.text_formatting
+    }
+  end
+
   unless const_defined?(:MACROS_RE)
     MACROS_RE = /(
                   (!)?                        # escaping

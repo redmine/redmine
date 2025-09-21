@@ -36,8 +36,8 @@
     <%= f.text_area :description, :cols => 60, :accesskey => accesskey(:edit), :class => 'wiki-edit',
                    :rows => [[10, @issue.description.to_s.length / 50].max, 20].min,
                    :data => {
-                       :auto_complete => true,
-                   },
+                       :auto_complete => true
+                   }.merge(list_autofill_data_attributes),
                    :no_label => true %>
   <% end %>
   <%= link_to_function content_tag(:span, sprite_icon('edit', l(:button_edit)), :class => 'icon icon-edit'), '$(this).hide(); $("#issue_description_and_toolbar").show()' unless @issue.new_record? %>

@@ -7,7 +7,7 @@
           :rows => (@journal.notes.blank? ? 10 : [[10, @journal.notes.length / 50].max, 100].min),
           :data => {
               :auto_complete => true
-          }
+          }.merge(list_autofill_data_attributes)
     %>
     <% if @journal.safe_attribute? 'private_notes' %>
       <%= hidden_field_tag 'journal[private_notes]', '0' %>

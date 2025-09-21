@@ -6,7 +6,7 @@
 <p><%= text_field_tag 'q', @question, :size => 60, :id => 'search-input',
                       :data => {
                           :auto_complete => true
-                      } %>
+                      }.merge(list_autofill_data_attributes) %>
 <%= project_select_tag %>
 <%= hidden_field_tag 'all_words', '', :id => nil %>
 <label><%= check_box_tag 'all_words', 1, @all_words %> <%= l(:label_all_words) %></label>

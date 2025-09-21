@@ -223,7 +223,7 @@
 <%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit',
                   :data => {
                       :auto_complete => true
-                  }
+                  }.merge(list_autofill_data_attributes)
 %>
 <%= wikitoolbar_for 'notes' %>
 
