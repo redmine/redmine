@@ -4,6 +4,26 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2025-09-21 v5.1.10
+
+=== [Importers]
+
+* Defect #42957: Incorrect "for" attribute in labels of issue relations import
+
+=== [Security]
+
+* Defect #42998: Username and password stored in login form
+* Defect #43083: Information disclosure in Two-Factor Authentication
+* Defect #43161: When copying issues, all existing custom values are set to the new issue without sufficient validation
+
+=== [SCM]
+
+* Defect #43002: RepositoriesSubversionControllerTest fails in 5.1-stable due to missing foo.js in test repository
+
+=== [UI]
+
+* Defect #43175: Fix some issues with missing or misplaced html tags
+
 == 2025-07-07 v5.1.9
 
 === [Code cleanup/refactoring]
