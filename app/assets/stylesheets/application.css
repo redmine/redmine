@@ -2288,36 +2288,36 @@ span[role="img"].avatar.s50  {
 }
 
 .avatar-color-0 {
-  background-color: #880000;
-  color: #FFFFFF;
+  background-color: #f03e3e; /* oc-red-7 */
+  color: #ffffff;
 }
 .avatar-color-1 {
-  background-color: #ff0000;
-  color: #000000;
+  background-color: #fd7e14; /* oc-orange-6 */
+  color: #ffffff;
 }
 .avatar-color-2 {
-  background-color: #00ff00;
+  background-color: #ffd43b; /* oc-yellow-4 */
   color: #000000;
 }
 .avatar-color-3 {
-  background-color: #008800;
-  color: #FFFFFF;
+  background-color: #37b24d; /* oc-green-7 */
+  color: #ffffff;
 }
 .avatar-color-4 {
-  background-color: #0000ff;
-  color: #FFFFFF;
+  background-color: #15aabf; /* oc-cyan-6 */
+  color: #ffffff;
 }
 .avatar-color-5 {
-  background-color: #000088;
-  color: #FFFFFF;
+  background-color: #1c7ed6; /* oc-blue-7 */
+  color: #ffffff;
 }
 .avatar-color-6 {
-  background-color: #ff8800;
-  color: #000000;
+  background-color: #ae3ec9; /* oc-grape-7 */
+  color: #ffffff;
 }
 .avatar-color-7 {
-  background-color: #ff0088;
-  color: #000000;
+  background-color: #e64980; /* oc-pink-6 */
+  color: #ffffff;
 }
 
 /* Reaction styles */
