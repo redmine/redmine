@@ -4,6 +4,150 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2025-09-21 v6.1.0
+
+=== [Accounts / authentication]
+
+* Feature #42880: Make 'auto watch issues' default user settings configurable
+
+=== [Activity view]
+
+* Feature #42041: Increase the maximum description length to 240 characters in the Activity view
+* Feature #42043: Abbreviate quoted text in descriptions in Activity view
+* Feature #43221: Unify Activity date header color with the issue journal header
+
+=== [Administration]
+
+* Feature #42441: Improve error message on role deletion by listing projects using the role
+* Patch #41560: Improve clarity of translations in Self-registration settings
+
+=== [Attachments]
+
+* Feature #42133: Refactor thumbnail markup for improved structure and semantics
+
+=== [Code cleanup/refactoring]
+
+* Patch #35648: Changelog generator should allow merging two or more versions
+* Patch #42124: Refactor `Member#role_ids=` method for improved clarity and efficiency in removing obsolete member roles
+* Patch #42515: Reimplement partial quote feature using Stimulus
+* Patch #42602: Replaces deckar01-task_list with commonmarks tasklist extension
+* Patch #42859: Remove custom Redmine::I18n::Backend
+* Patch #42934: Add model/controller generators tests
+* Patch #43130: Fix random test failures by calling Setting.clear_cache after all tests
+
+=== [Custom fields]
+
+* Feature #42335: "Progress bar" custom field format
+
+=== [Database]
+
+* Feature #42675: Add support for Trilogy adapter, a MySQL-compatible database adapter
+
+=== [Documentation]
+
+* Patch #43215: Add Japanese CommonMark Markdown help
+
+=== [Email receiving]
+
+* Feature #41738: Allow IMAP4 email receiving to skip SSL certificate verification with `ssl=force` option
+
+=== [Gems support]
+
+* Defect #37394: commonmarker gem is marked optional but required at runtime
+* Feature #42510: Add Stimulus as a JavaScript framework
+* Patch #40197: Update commonmarker to 2.3.0
+* Patch #41723: Update roadie-rails to 3.3
+* Patch #41761: Update Rubocop Performance to 1.25
+* Patch #41865: Update SQLite3 gem to 2.5
+* Patch #41884: Update RuboCop to 1.76
+* Patch #41964: Update Nokogiri to 1.18
+* Patch #42044: Update Rubocop Rails to 2.32
+* Patch #42071: Update rubyzip to 2.4
+* Patch #42104: Update MiniMagick to 5.2
+
+=== [Issues]
+
+* Feature #42073: Remove navigation parameters from issue detail URLs after updates
+* Feature #42477: Configurable columns for the lists of child and related issues
+
+=== [No category]
+
+* Patch #43229: Update database versions on Github CI
+
+=== [Performance]
+
+* Defect #35927: Slow loading of /time_entries/new
+* Feature #42077: Optimize activity view performance through association preloading for journals
+* Feature #42121: Optimize Version#wiki_page method
+* Feature #42144: Optimize IssuesController#show by skipping time tracking queries when disabled
+* Feature #42150: Optimize TimeEntryActivity#default_activity_id method by introducing early returns to reduce SQL queries
+* Feature #42555: Adds the Bullet gem to detect query problems such as N+1 and improve performance
+* Feature #42589: Optimize watchers list rendering by eager loading email addresses
+* Feature #42663: Optimize Gantt chart rendering by reducing version-related queries
+* Feature #42671: Avoid unnecessary SQL query for subprojects in ProjectsController#show when project has no children
+* Feature #42673: Optimize `Version::FixedIssuesExtension#issues_progress` by avoiding repeated `Issue#closed?` calls
+* Feature #42681: Avoid unnecessary SQL queries by reordering conditions in Gantt version subject rendering
+* Feature #42682: Optimize the rendering of versions on the roadmap by preloading the email addresses of issue assignees
+* Patch #43208: Reduce requests sent for issue numbers, usernames, and Wiki page name autocompletion
+* Patch #43214: Optimize Project.allowed_to_condition by replacing `projects.status <> ...` with `projects.status IN (...)`
+
+=== [Projects]
+
+* Defect #41975: Uniqueness of Project model fields is not checked sufficiently
+
+=== [REST API]
+
+* Feature #24808: OAuth2 support for Redmine API Apps (OAuth2 Provider)
+
+=== [Ruby support]
+
+* Feature #41976: Ruby 3.4 support
+* Patch #42496: Drop support for Ruby 3.1
+
+=== [SCM]
+
+* Feature #33784: Update Mercurial repository support to be compatible with Python 3 and remove support for Mercurial < 5.1
+
+=== [Text formatting]
+
+* Feature #38501: recent_pages macro that displays a list of recently updated Wiki pages
+* Feature #38504: Display pasted images in appropriate size on HiDPI displays
+* Feature #42603: Enable commonmark alert extension
+
+=== [Time tracking]
+
+* Feature #13596: Add setting to allow/deny time logging on closed issues
+
+=== [Translations]
+
+* Defect #42580: Array#to_sentence produces incorrect output due to missing translation keys
+* Patch #43106: Add translation to imports/show
+
+=== [UI]
+
+* Defect #42818: Unnecessary margin below icons on the board-style projects page
+* Feature #5953: Copy RSS/REST API keys to clipboard
+* Feature #29214: Button to copy `pre` code block content to the clipboard
+* Feature #29824: Add user initials when Gravatar is disabled
+* Feature #31531: Change quote note icon to quotation mark icon
+* Feature #35616: Remove "Delete" from the context menu for related issues and subtasks
+* Feature #40588: Add new setting "JavaScript based table sorting in wiki content " to disable table sort
+* Feature #40744: Refresh history tabs look and feel
+* Feature #41725: Add SVG icons sample view
+* Feature #41910: Bold current user's name in Assignee and Author columns on issues list
+* Feature #42305: Changes watch button icon to eye image to align icon with function and improve visual clarity
+* Feature #42598: Drop Atom icon in "Also available in" links
+* Feature #42623: Adds initials to the list of default Gravatar options
+* Feature #42630: Introduce reaction feature to issues, notes, news, and forums
+* Feature #42684: Add a sticky header to keep the issue subject visible on scroll
+* Feature #43095: Support automatic list marker insertion in textareas
+* Patch #42966: Replace legacy loader.gif with SVG icon in attachment upload form and in ajax indicator
+* Patch #42972: Refactor and unify the structure of journals, replies and comments
+
+=== [UI - Responsive]
+
+* Defect #38795: Submit button incorrectly displayed in the middle of the form on mobile view
+
 == 2025-09-21 v6.0.7
 
 === [Administration]
