@@ -27,7 +27,7 @@
                 :accesskey => accesskey(:edit),
                 :data => {
                     :auto_complete => true
-                }
+                }.merge(list_autofill_data_attributes)
 %></p>
 <%= wikitoolbar_for 'message_content', preview_board_message_path(:board_id => @board, :id => @message) %>
 <!--[eoform:message]-->

@@ -32,7 +32,7 @@
       <%= f.text_area :notes, :cols => 60, :rows => 10, :class => 'wiki-edit',
             :data => {
                 :auto_complete => true
-            },
+            }.merge(list_autofill_data_attributes),
             :no_label => true %>
       <%= wikitoolbar_for 'issue_notes', preview_issue_path(:project_id => @project, :issue_id => @issue) %>
 

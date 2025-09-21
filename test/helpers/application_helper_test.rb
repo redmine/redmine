@@ -2427,4 +2427,23 @@ class ApplicationHelperTest < Redmine::HelperTest
                   :class => "wiki-page new"),
     }
   end
+
+  def test_list_autofill_data_attributes
+    with_settings :text_formatting => 'textile' do
+      expected = {
+        controller: "list-autofill",
+        action: "keydown->list-autofill#handleEnter",
+        list_autofill_target: "input",
+        list_autofill_text_formatting_param: "textile"
+      }
+
+      assert_equal expected, list_autofill_data_attributes
+    end
+  end
+
+  def test_list_autofill_data_attributes_with_blank_text_formatting
+    with_settings :text_formatting => '' do
+      assert_equal({}, list_autofill_data_attributes)
+    end
+  end
 end

@@ -87,7 +87,7 @@ module CustomFieldsHelper
       css += ' wiki-edit'
       data = {
         :auto_complete => true
-      }
+      }.merge(list_autofill_data_attributes)
     end
     cf.format.edit_tag(
       self,
@@ -137,7 +137,7 @@ module CustomFieldsHelper
       css += ' wiki-edit'
       data = {
         :auto_complete => true
-      }
+      }.merge(list_autofill_data_attributes)
     end
     custom_field.format.bulk_edit_tag(
       self,

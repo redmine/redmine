@@ -17,7 +17,7 @@
                   :class => 'wiki-edit',
                   :data => {
                       :auto_complete => true
-                  }
+                  }.merge(list_autofill_data_attributes)
 %>
 
 <% if @page.safe_attribute_names.include?('parent_id') && @wiki.pages.any? %>
