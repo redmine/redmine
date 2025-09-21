@@ -4,6 +4,57 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2025-09-21 v6.0.7
+
+=== [Administration]
+
+* Defect #43174: CookieOverflow error when deleting a tracker used by many projects
+
+=== [Code cleanup/refactoring]
+
+* Patch #43035: Remove empty rubyonrails.yml on 6.0-stable branch
+
+=== [Documentation]
+
+* Defect #43204: Adds missing documentation for issue macro to fr and ru languages
+
+=== [Gantt]
+
+* Defect #43014: Content in selected columns overflows to the right in Gantt chart
+
+=== [Importers]
+
+* Defect #42957: Incorrect "for" attribute in labels of issue relations import
+
+=== [Issues]
+
+* Defect #43192: Done ratio interval in issue context menu does not respect Done Ratio Interval setting
+
+=== [Rails support]
+
+* Patch #43141: Update Rails to 7.2.2.2
+
+=== [Security]
+
+* Defect #42998: Username and password stored in login form
+* Defect #43083: Information disclosure in Two-Factor Authentication
+* Defect #43161: When copying issues, all existing custom values are set to the new issue without sufficient validation
+
+=== [SCM]
+
+* Defect #43002: RepositoriesSubversionControllerTest fails in 5.1-stable due to missing foo.js in test repository
+
+=== [Translations]
+
+* Patch #42971: Italian translation update for 6.0-stable
+
+=== [UI]
+
+* Defect #43004: Watchers list is not properly displayed in Gantt table
+* Defect #43175: Fix some issues with missing or misplaced html tags
+* Patch #43008: Display icon-actions on hover with the same color as links
+* Patch #43196: Improve spacing of checkboxes in CSV export options dialog
+
 == 2025-07-07 v6.0.6
 
 === [Attachments]
