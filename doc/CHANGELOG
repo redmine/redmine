@@ -4,6 +4,14 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2025-09-21 v5.0.14
+
+=== [Security]
+
+* Defect #42998: Username and password stored in login form
+* Defect #43083: Information disclosure in Two-Factor Authentication
+* Defect #43161: When copying issues, all existing custom values are set to the new issue without sufficient validation
+
 == 2025-07-07 v5.0.13
 
 === [Code cleanup/refactoring]
