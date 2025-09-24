@@ -501,10 +501,10 @@ table.list tbody tr.group:hover { background-color:inherit; }
 table td {padding:2px;}
 table p {margin:0;}
 
-table.list:not(.odd-even) tbody tr:nth-child(odd), .odd, #issue-changesets div.changeset:nth-child(odd) { background-color: #fff; }
-table.list:not(.odd-even) tbody tr:nth-child(even), .even, #issue-changesets div.changeset:nth-child(even) { background-color: #f6f7f8; }
-table.list:not(.odd-even) tbody tr:nth-child(odd):hover, .odd:hover, #issue-changesets div.changeset:nth-child(odd):hover,
-table.list:not(.odd-even) tbody tr:nth-child(even):hover, .even:hover, #issue-changesets div.changeset:nth-child(even):hover { background-color:#ffffdd; }
+table.list:not(.odd-even) tbody tr:nth-child(odd), .odd { background-color: #fff; }
+table.list:not(.odd-even) tbody tr:nth-child(even), .even { background-color: #f6f7f8; }
+table.list:not(.odd-even) tbody tr:nth-child(odd):hover, .odd:hover,
+table.list:not(.odd-even) tbody tr:nth-child(even):hover, .even:hover { background-color:#ffffdd; }
 
 tr.builtin td.name {font-style:italic;}
 
@@ -784,9 +784,6 @@ fieldset#date-range p { margin: 2px 0 2px 0; }
 .toggle-multiselect { margin-right:5px; cursor:pointer;}
 .buttons { font-size: 0.9em; margin-bottom: 1.4em; margin-top: 1em; }
 
-div#issue-changesets {float:right; width:45%; margin-left: 1em; margin-bottom: 1em; background: #fff; padding-left: 1em; font-size: 90%;}
-div#issue-changesets div.changeset {border-bottom: 1px solid #ddd; padding: 4px;}
-div#issue-changesets p { margin-top: 0; margin-bottom: 1em;}
 .changeset-comments {margin-bottom:1em;}
 
 #update {margin-bottom: 1.4em;}
