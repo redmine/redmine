@@ -35,6 +35,7 @@ module Redmine
           tasklist: true,
           shortcodes: false,
           alerts: true,
+          cjk_friendly_emphasis: true,
         }.freeze,
 
         # https://github.com/gjtorikian/commonmarker#parse-options

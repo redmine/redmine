@@ -342,6 +342,13 @@ class Redmine::WikiFormatting::CommonMark::FormatterTest < ActionView::TestCase
       assert_not_include 'markdown-alert', html
     end
 
+    def test_should_enable_cjk_friendly_emphasis_extension
+      assert_equal(
+        "<p><strong>この文は重要です。</strong>而且，<strong>这句话也非常重要。</strong>이 문장은 중요하지 않습니다.</p>",
+        to_html("**この文は重要です。**而且，**这句话也非常重要。**이 문장은 중요하지 않습니다.")
+      )
+    end
+
     private
 
     def assert_section_with_hash(expected, text, index)
