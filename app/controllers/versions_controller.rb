@@ -18,8 +18,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class VersionsController < ApplicationController
+  self.model_object = Version
+
   menu_item :roadmap
-  model_object Version
   before_action :find_model_object, :except => [:index, :new, :create, :close_completed]
   before_action :find_project_from_association, :except => [:index, :new, :create, :close_completed]
   before_action :find_project_by_project_id, :only => [:index, :new, :create, :close_completed]

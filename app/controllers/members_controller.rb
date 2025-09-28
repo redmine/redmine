@@ -18,7 +18,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class MembersController < ApplicationController
-  model_object Member
+  self.model_object = Member
+
   before_action :find_model_object, :except => [:index, :new, :create, :autocomplete]
   before_action :find_project_from_association, :except => [:index, :new, :create, :autocomplete]
   before_action :find_project_by_project_id, :only => [:index, :new, :create, :autocomplete]

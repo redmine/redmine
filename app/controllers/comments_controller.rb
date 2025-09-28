@@ -18,8 +18,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class CommentsController < ApplicationController
+  self.model_object = News
+
   default_search_scope :news
-  model_object News
   before_action :find_model_object
   before_action :find_project_from_association
   before_action :authorize

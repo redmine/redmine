@@ -389,10 +389,6 @@ class ApplicationController < ActionController::Base
     render_404
   end
 
-  def self.model_object(model)
-    self.model_object = model
-  end
-
   # Find the issue whose id is the :id parameter
   # Raises a Unauthorized exception if the issue is not visible
   def find_issue
