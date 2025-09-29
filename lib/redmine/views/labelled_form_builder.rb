@@ -23,7 +23,7 @@ class Redmine::Views::LabelledFormBuilder < ActionView::Helpers::FormBuilder
   include Redmine::I18n
 
   (field_helpers.map(&:to_s) - %w(radio_button hidden_field fields_for check_box label) +
-        %w(date_select)).each do |selector|
+        %w(date_select text_area)).each do |selector|
     src = <<-END_SRC
     def #{selector}(field, options = {})
       label_for_field(field, options) + super(field, options.except(:label)).html_safe
