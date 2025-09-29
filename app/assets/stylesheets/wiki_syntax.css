@@ -1,3 +1,5 @@
+@import url('/open-color.css');
+
 @font-face {
   font-family: "Noto Sans";
   src: url("/NotoSans-Regular.woff2") format("woff2");
@@ -34,36 +36,36 @@
   --fonts-main: "Noto Sans", sans-serif;
 }
 
-h1 { font-family: var(--fonts-main); font-size: 0.875rem; text-align: center; color: #444; }
-body { font-family: var(--fonts-main); font-size: 0.75rem; color: #444; }
+h1 { font-family: var(--fonts-main); font-size: 0.875rem; text-align: center; color: var(--oc-gray-8); }
+body { font-family: var(--fonts-main); font-size: 0.75rem; color: var(--oc-gray-8); }
 pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace; }
 table th { padding-top: 1em; }
 table th img {
-  border: 1px solid #bbb;
+  border: 1px solid var(--oc-gray-5);
   opacity: 0.7;
 }
 table th .syntax-pre {
   display: inline-block;
-  border: 1px solid #bbb;
+  border: 1px solid var(--oc-gray-5);
   width: 18px;
   height: 18px;
 }
 table th .syntax-pre:before {
   content: "pre";
   font-size: 0.625rem;
-  color: #666;
+  color: var(--oc-gray-7);
 }
-table td { background-color: #f5f5f5; height: 2em; vertical-align: middle;}
+table td { background-color: var(--oc-gray-0); height: 2em; vertical-align: middle;}
 table td code { font-size: 1.2em; }
 table td h1 { font-size: 1.8em; text-align: left; }
 table td h2 { font-size: 1.4em; text-align: left; }
 table td h3 { font-size: 1.2em; text-align: left; }
 
 table.sample { border-collapse: collapse; border-spacing: 0; margin: 4px; }
-table.sample th, table.sample td { border: solid 1px #bbb; padding: 4px; height: 1em; }
+table.sample th, table.sample td { border: solid 1px var(--oc-gray-5); padding: 4px; height: 1em; }
 
-a, a:link, a:visited{ color: #169; text-decoration: none; }
-a:hover, a:active{ color: #c61a1a; text-decoration: underline;}
+a, a:link, a:visited{ color: var(--oc-blue-9); text-decoration: none; }
+a:hover, a:active{ color: var(--oc-red-9); text-decoration: underline;}
 
 .syntaxhl .mi { color: #0000DD; font-weight: bold }
 .syntaxhl .nf { color: #0066BB; font-weight: bold }
@@ -81,5 +83,5 @@ span.more_info { font-weight: normal; }
 .markdown-alert-title {
   font-weight: bold;
 }
-.markdown-alert-note { border-color: #169; }
-.markdown-alert-note .markdown-alert-title { color: #1e40af; }
+.markdown-alert-note { border-color: var(--oc-indigo-7); }
+.markdown-alert-note .markdown-alert-title { color: var(--oc-indigo-9); }
