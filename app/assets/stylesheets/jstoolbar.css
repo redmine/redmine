@@ -46,10 +46,11 @@
     height: 26px;
 }
 .wiki-preview {
-    background-color: #ffffff;
-    border: 1px solid #bbbbbb;
+    color: var(--oc-gray-9);
+    background-color: var(--oc-white);
+    border: 1px solid var(--oc-gray-4);
 }
-.wiki-preview p.empty-preview {color:#999; font-style:italic; margin-top:1em; text-align:center;}
+.wiki-preview p.empty-preview {color:var(--oc-gray-6); font-style:italic; margin-top:1em; text-align:center;}
 
 .jstElements button {
     margin-right: 2px;
@@ -58,16 +59,16 @@
     padding: 4px;
     border-style: solid;
     border-width: 1px;
-    border-color: #ddd;
-    background-color : #f7f7f7;
+    border-color: var(--oc-gray-4);
+    background-color : var(--oc-gray-0);
     background-position : 50% 50%;
     background-repeat: no-repeat;
     cursor:pointer;
     opacity:0.7;
 }
 .jstElements button:hover {
-    border-color: #bbb;
-    background-color: #e5e5e5;
+    border-color: var(--oc-gray-5);
+    background-color: var(--oc-gray-3);
     opacity:1;
 }
 .jstElements button span {
@@ -87,14 +88,14 @@
 .jstElements .help a {padding: 2px 0 2px 20px; background: url(./help.png) no-repeat 0 50%;}
 
 .table-generator td {
-    border: 2px solid #ccc;
+    border: 2px solid var(--oc-gray-5);
     background-color: white;
     padding: 10px;
     cursor: pointer;
 }
 
 .table-generator td.selected-cell, .table-generator td:hover {
-    background-color: #759FCF;
+    background-color: var(--oc-blue-1);
 }
 
 .table-generator {
@@ -146,7 +147,7 @@
 .jstb_pre::before {
     content: "pre";
     font-size: 10px;
-    color: #333;
+    color: var(--oc-gray-9);
     font-weight: 700
 }
 .jstb_precode {

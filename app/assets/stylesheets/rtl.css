@@ -23,7 +23,7 @@ h1, h2, h3, h4 {padding:2px 00px 1px 10px;}
 
 #admin-menu a:not(:has(svg)) {padding-left:0;padding-right:20px;}
 
-#sidebar {float:left; padding-right: 20px; padding-left: 8px; border-left: 0; border-right: 1px solid #d0d7de;}
+#sidebar {float:left; padding-right: 20px; padding-left: 8px; border-left: 0; border-right: 1px solid var(--oc-gray-4);}
 * html #sidebar hr {left: auto; right: -6px;}
 
 #main.collapsedsidebar #sidebar {
@@ -45,7 +45,7 @@ h1, h2, h3, h4 {padding:2px 00px 1px 10px;}
   padding-left: 28px;
 }
 
-#content {border-right:0 solid #ddd; border-left:1px solid #ddd;}
+#content {border-right:0 solid var(--oc-gray-4); border-left:1px solid var(--oc-gray-4);}
 * html #content{padding-right:0;}
 #main.nosidebar #content{border-left:0;}
 
@@ -147,7 +147,7 @@ div.square {float:right;}
 .splitcontentleft{float:right;}
 .splitcontentright{float:left;}
 
-blockquote {border-left:0px solid #e0e0e0; padding-left:0em; margin-left:2em;  border-right:3px solid #e0e0e0; padding-right:0.6em; margin-right:0;}
+blockquote {border-left:0px solid var(--oc-gray-3); padding-left:0em; margin-left:2em;  border-right:3px solid var(--oc-gray-3); padding-right:0.6em; margin-right:0;}
 blockquote blockquote { margin-right:0;}
 
 div.issue div.subject div div {padding-left:0px; padding-right:16px;}
@@ -163,7 +163,7 @@ div#issue-changesets {float:left;  margin-left:0em; margin-right:1em; padding-le
 
 .journal ul.details img {margin:0 4px -3px 0;}
 
-div.journal.private-notes {border-left:0px solid #d22; padding-left:0px; margin-left:0px; border-right:2px solid #d22; padding-right:4px; margin-right:-6px;}
+div.journal.private-notes {border-left:0px solid var(--oc-red-8); padding-left:0px; margin-left:0px; border-right:2px solid var(--oc-red-8); padding-right:4px; margin-right:-6px;}
 
 div#activity dl, #search-results {margin-left:0em; margin-right:2em;}
 div#activity dd, #search-results dd {padding-left:0px; padding-right:18px;}
@@ -185,7 +185,7 @@ table#time-report td.hours, table#time-report th.period, table#time-report th.to
 ul.projects {padding-left:0em; padding-right:1em;}
 ul.projects ul {padding-left:0em; padding-right:1.6em;}
 
-#projects-index ul.projects ul.projects {border-left:0px solid #e0e0e0; padding-left:0em; border-right:3px solid #e0e0e0; padding-right:1em;}
+#projects-index ul.projects ul.projects {border-left:0px solid (--oc-gray-3); padding-left:0em; border-right:3px solid (--oc-gray-3); padding-right:1em;}
 .my-project { padding-left:0px;  padding-right:18px; background: url(/fav.png) no-repeat right 50%; }
 
 /***** Tabular forms ******/
@@ -248,7 +248,7 @@ table.members td.name {padding-right: 20px; padding-left:0; }
 table.members td.group, table.members td.groupnonmember, table.members td.groupanonymous {background: url(/group.png) no-repeat right 50%;}
 
 input.autocomplete {
-  background: #fff url(/search.svg) no-repeat right 2px top 50%; padding-left:0px !important; padding-right:20px !important;
+  background: var(--oc-white) url(/search.svg) no-repeat right 2px top 50%; padding-left:0px !important; padding-right:20px !important;
 }
 
 .role-visibility {padding-right:2em; padding-left:0;}
@@ -264,15 +264,15 @@ div.flash svg.icon-svg, #errorExplanation svg.icon-svg {
 }
 
 div.flash.error:not(:has(svg)), #errorExplanation:not(:has(svg)) {
-  background: url(/exclamation.png) right 8px top 50% no-repeat #ffe3e3;
+  background: url(/exclamation.png) right 8px top 50% no-repeat var(--oc-red-1);
 }
 
 div.flash.notice:not(:has(svg)) {
-  background: url(/true.png) right 8px top 5px no-repeat #dfffdf;
+  background: url(/true.png) right 8px top 5px no-repeat var(--oc-green-1);
 }
 
 div.flash.warning:not(:has(svg)), .conflict {
-  background: url(/warning.png) right 8px top 5px no-repeat #F3EDD1;
+  background: url(/warning.png) right 8px top 5px no-repeat var(--oc-yellow-1);
   text-align:right;
 }
 
@@ -356,7 +356,7 @@ a.wiki-anchor {margin-left:0px; margin-right:6px;}
 
 /***** Gantt chart *****/
 .gantt_hdr {
-  border-right:0px solid #c0c0c0; border-left:1px solid #c0c0c0;
+  border-right:0px solid var(--oc-gray-4); border-left:1px solid var(--oc-gray-4);
 }
 
 .task.parent.marker.starting{margin-left:0px; margin-right:-4px; left:auto; right:0;}

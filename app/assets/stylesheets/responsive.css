@@ -108,7 +108,7 @@
 
   /* reset #header a color for mobile toggle button */
   #header a.mobile-toggle-button {
-    color: #f8f8f8;
+    color: var(--oc-gray-0);
   }
 
 
@@ -146,7 +146,7 @@
     font-weight:bold;
     display:block;
     width:100%;
-    color:#fff;
+    color:var(--oc-white);
     padding-left:24px;
     background:transparent;
     height:50px;
@@ -249,7 +249,7 @@
 
     text-align: center;
 
-    border-left: 1px solid #ddd;
+    border-left: 1px solid var(--oc-gray-3);
   }
 
   .mobile-toggle-button:hover,
@@ -483,7 +483,7 @@
     border: none;
     -webkit-border-radius: 3px;
     border-radius: 3px;
-    background-color: #fff;
+    background-color: var(--oc-white);
   }
 
   .flyout-menu__avatar {
@@ -607,7 +607,7 @@
     margin-right: 2px;
     padding: 9px 9px 9px 9px;
 
-    border: 1px solid #ddd;
+    border: 1px solid var(--oc-gray-4);
     -webkit-border-radius: 3px;
     border-radius: 3px;
   }
@@ -698,7 +698,7 @@
   .gantt_subjects_column .gantt_hdr {
     width: 100% !important;
     right: 0 !important; /* [2] */
-    border-right: solid 1px #c0c0c0;
+    border-right: solid 1px var(--oc-gray-4);
   }
 
   #gantt_area {
@@ -860,10 +860,10 @@
   }
 
   .cal .week-number {
-    border: 1px solid #c0c0c0;
+    border: 1px solid var(--oc-gray-4);
     text-align: left;
     font-weight: bold;
-    background-color: #def;
+    background-color: var(--oc-blue-0);
   }
 
   .cal .week-number .label-week {
