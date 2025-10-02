@@ -715,7 +715,7 @@ div#sticky-issue-header {
   right: 0;
   background-color: white;
   border-bottom: 1px solid var(--oc-gray-4);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 6px rgba(var(--oc-black-rgb), 0.15);
   font-size: 0.8125rem;
   align-items: center;
   z-index: 1000;
@@ -1522,7 +1522,7 @@ p.progress-info {clear: left; font-size: 86%; margin-top:-4px; color:var(--oc-gr
   border: 1px solid var(--oc-gray-4);
   border-bottom: 1px solid var(--oc-white);
   color: var(--oc-gray-8);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 2px rgba(var(--oc-black-rgb), 0.1);
 }
 
 #content .tabs ul li a.selected:hover {background-color: var(--oc-white);}
@@ -1644,7 +1644,7 @@ div.wiki pre {
 div.wiki pre .syntaxhl  { background: var(--oc-gray-0); } /* Override Rouge style */
 
 div.wiki *:not(pre)>code, div.wiki>code {
-  background: rgba(62, 91, 118, 0.08);
+  background: rgba(var(--oc-gray-9-rgb), 0.08);
   padding: 0.1em 0.1em;
   border-radius: 0.1em;
 }
@@ -2204,7 +2204,7 @@ div.avatar-with-child > .avatar:nth-child(2) {
   top: 30px;
   left: 30px;
   border-radius: 20%;
-  border: 2px solid rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(var(--oc-white-rgb), 0.9);
 }
 
 div.avatar-with-child > .avatar:nth-child(2).group-avatar {
