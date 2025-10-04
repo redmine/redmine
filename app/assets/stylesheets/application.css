@@ -1974,8 +1974,20 @@ td.gantt_watcher_users_column div.issue_watcher_users ul li:not(:last-child)::af
   flex-shrink: 0;
 }
 
+a.icon:link .icon-svg, a.icon-only:link .icon-svg, span.icon-actions:link .icon-svg,
+a.icon:visited .icon-svg, a.icon-only:visited .icon-svg, span.icon-actions:visited .icon-svg {
+  stroke: #169;
+  fill: none;
+}
+
 a.icon:hover .icon-svg, a.icon-only:hover .icon-svg, span.icon-actions:hover .icon-svg {
   stroke: #c61a1a;
+}
+
+a.icon:link .icon-svg-filled, a.icon-only:link .icon-svg-filled,
+a.icon:visited .icon-svg-filled, a.icon-only:visited .icon-svg-filled {
+  stroke: none;
+  fill: #169;
 }
 
 a.icon:hover .icon-svg-filled, a.icon-only:hover .icon-svg-filled {
@@ -2000,14 +2012,14 @@ svg.icon-ok {
 }
 
 svg.icon-svg {
-  stroke: #169;
+  stroke: #343a40; /* oc-gray-8 */
   fill: none;
   stroke-width: 1.5;
   vertical-align: middle;
 }
 
 svg.icon-svg-filled {
-  fill: #169;
+  fill: #343a40; /* oc-gray-8 */
   stroke: none;
 }
 
