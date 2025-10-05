@@ -27,10 +27,11 @@ class CommentTest < ActiveSupport::TestCase
   end
 
   def test_create
-    comment = Comment.new(:commented => @news, :author => @jsmith, :comments => "my comment")
-    assert comment.save
-    @news.reload
-    assert_equal 2, @news.comments_count
+    assert_difference '@news.comments_count', 1 do
+      comment = Comment.new(:commented => @news, :author => @jsmith, :comments => "my comment")
+      assert comment.save
+      @news.reload
+    end
   end
 
   def test_create_should_send_notification
@@ -50,9 +51,10 @@ class CommentTest < ActiveSupport::TestCase
   end
 
   def test_destroy
-    comment = Comment.find(1)
-    assert comment.destroy
-    @news.reload
-    assert_equal 0, @news.comments_count
+    assert_difference '@news.comments_count', -1 do
+      comment = Comment.find(1)
+      assert comment.destroy
+      @news.reload
+    end
   end
 end
