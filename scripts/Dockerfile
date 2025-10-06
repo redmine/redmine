@@ -2,6 +2,9 @@ FROM redmine:latest
 
 ENV WEB_CONCURRENCY=2
 
+# verify ruby version
+RUN ruby -v 
+
 # Remove default Redmine installation but keep the mounted files directory
 RUN find /usr/src/redmine -mindepth 1 ! -regex '^/usr/src/redmine/files\(/.*\)?' -delete
 
@@ -25,7 +28,7 @@ RUN chown -R redmine:redmine /usr/src/redmine
 # Temporarily install development packages for rake/gem installation
 USER root
 RUN apt-get update
-RUN apt-get install -y sqlite3 libsqlite3-dev build-essential libffi-dev libgmp-dev libyaml-dev ruby-dev
+RUN apt-get install -y sqlite3 libsqlite3-dev build-essential libffi-dev libgmp-dev libyaml-dev ruby-dev pkg-config
 
 USER redmine
 WORKDIR /usr/src/redmine
