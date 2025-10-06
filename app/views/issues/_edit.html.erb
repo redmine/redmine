@@ -29,7 +29,7 @@
     <% end %>
     <% if @issue.notes_addable? %>
       <fieldset id="add_notes"><legend><%= l(:field_notes) %></legend>
-      <%= f.text_area :notes, :cols => 60, :rows => 10, :class => 'wiki-edit',
+      <%= f.textarea :notes, :cols => 60, :rows => 10, :class => 'wiki-edit',
             :data => {
                 :auto_complete => true
             }.merge(list_autofill_data_attributes),

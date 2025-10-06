@@ -99,9 +99,9 @@ module SettingsHelper
       text_field_tag("settings[#{setting}]", setting_value(setting), options).html_safe
   end
 
-  def setting_text_area(setting, options={})
+  def setting_textarea(setting, options={})
     setting_label(setting, options).html_safe +
-      text_area_tag("settings[#{setting}]", setting_value(setting), options).html_safe
+      textarea_tag("settings[#{setting}]", setting_value(setting), options).html_safe
   end
 
   def setting_check_box(setting, options={})

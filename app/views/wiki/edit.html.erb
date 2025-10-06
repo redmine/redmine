@@ -13,7 +13,7 @@
 <%= error_messages_for 'content' %>
 
 <div class="box tabular">
-<%= text_area_tag 'content[text]', @text, :cols => 100, :rows => 25, :accesskey => accesskey(:edit),
+<%= textarea_tag 'content[text]', @text, :cols => 100, :rows => 25, :accesskey => accesskey(:edit),
                   :class => 'wiki-edit',
                   :data => {
                       :auto_complete => true

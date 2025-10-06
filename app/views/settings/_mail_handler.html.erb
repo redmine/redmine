@@ -2,7 +2,7 @@
 
 <div class="box tabular settings">
   <p>
-    <%= setting_text_area :mail_handler_body_delimiters, :rows => 5 %>
+    <%= setting_textarea :mail_handler_body_delimiters, :rows => 5 %>
     <label class="block">
       <%= setting_check_box :mail_handler_enable_regex_delimiters, :label => false %>
       <%= l(:setting_mail_handler_enable_regex) %>
@@ -10,7 +10,7 @@
     <em class="info"><%= l(:text_line_separated) %></em>
   </p>
   <p>
-    <%= setting_text_area :mail_handler_excluded_filenames %>
+    <%= setting_textarea :mail_handler_excluded_filenames %>
     <label class="block">
       <%= setting_check_box :mail_handler_enable_regex_excluded_filenames, :label => false %>
       <%= l(:setting_mail_handler_enable_regex) %>

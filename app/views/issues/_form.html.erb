@@ -33,7 +33,7 @@
 <p>
   <%= f.label_for_field :description, :required => @issue.required_attribute?('description') %>
   <%= content_tag 'span', :id => "issue_description_and_toolbar", :style => (@issue.new_record? ? nil : 'display:none') do %>
-    <%= f.text_area :description, :cols => 60, :accesskey => accesskey(:edit), :class => 'wiki-edit',
+    <%= f.textarea :description, :cols => 60, :accesskey => accesskey(:edit), :class => 'wiki-edit',
                    :rows => [[10, @issue.description.to_s.length / 50].max, 20].min,
                    :data => {
                        :auto_complete => true

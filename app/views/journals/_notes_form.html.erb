@@ -3,7 +3,7 @@
              :method => 'put',
              :id => "journal-#{@journal.id}-form") do %>
     <%= label_tag "notes", l(:description_notes), :class => "hidden-for-sighted", :for => "journal_#{@journal.id}_notes" %>
-    <%= text_area_tag 'journal[notes]', @journal.notes, :id => "journal_#{@journal.id}_notes", :class => 'wiki-edit',
+    <%= textarea_tag 'journal[notes]', @journal.notes, :id => "journal_#{@journal.id}_notes", :class => 'wiki-edit',
           :rows => (@journal.notes.blank? ? 10 : [[10, @journal.notes.length / 50].max, 100].min),
           :data => {
               :auto_complete => true

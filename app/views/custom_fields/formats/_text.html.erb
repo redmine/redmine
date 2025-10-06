@@ -3,4 +3,4 @@
 <% if @custom_field.class.name == "IssueCustomField" %>
 <p><%= f.check_box :full_width_layout %></p>
 <% end %>
-<p><%= f.text_area(:default_value, :rows => 5) %></p>
+<p><%= f.textarea(:default_value, :rows => 5) %></p>

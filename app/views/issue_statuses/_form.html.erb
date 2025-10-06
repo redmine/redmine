@@ -2,7 +2,7 @@
 
 <div class="box tabular">
 <p><%= f.text_field :name, :required => true %></p>
-<p><%= f.text_area :description, :rows => 4 %></p>
+<p><%= f.textarea :description, :rows => 4 %></p>
 <% if Issue.use_status_for_done_ratio? %>
   <p><%= f.select :default_done_ratio, ((0..100).step(Setting.issue_done_ratio_interval.to_i).to_a.collect {|r| ["#{r} %", r]}), :include_blank => true, :label => :field_done_ratio %></p>
 <% end %>

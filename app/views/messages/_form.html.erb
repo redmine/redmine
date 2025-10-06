@@ -23,7 +23,7 @@
 
 <p>
 <%= label_tag "message_content", l(:description_message_content), :class => "hidden-for-sighted" %>
-<%= f.text_area :content, :cols => 80, :rows => 15, :class => 'wiki-edit', :id => 'message_content',
+<%= f.textarea :content, :cols => 80, :rows => 15, :class => 'wiki-edit', :id => 'message_content',
                 :accesskey => accesskey(:edit),
                 :data => {
                     :auto_complete => true

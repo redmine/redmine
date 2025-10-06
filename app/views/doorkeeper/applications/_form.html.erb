@@ -3,7 +3,7 @@
   <p><%= f.text_field :name, :required => true %></p>
 
   <p>
-    <%= f.text_area :redirect_uri, :required => true, :size => 60, :label => :'activerecord.attributes.doorkeeper/application.redirect_uri' %>
+    <%= f.textarea :redirect_uri, :required => true, :size => 60, :label => :'activerecord.attributes.doorkeeper/application.redirect_uri' %>
     <em class="info">
       <%= t('doorkeeper.applications.help.redirect_uri') %>
     </em>
