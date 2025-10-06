@@ -21,8 +21,6 @@ h1, h2, h3, h4 {padding:2px 00px 1px 10px;}
 #main-menu {left:auto;right:6px;margin-right:0;margin-left:-500px;}
 #main-menu li {float:right;margin:0px 0px 0px 2px;}
 
-#admin-menu a:not(:has(svg)) {padding-left:0;padding-right:20px;}
-
 #sidebar {float:left; padding-right: 20px; padding-left: 8px; border-left: 0; border-right: 1px solid var(--oc-gray-4);}
 * html #sidebar hr {left: auto; right: -6px;}
 
@@ -55,10 +53,6 @@ div.modal p.buttons {text-align:left;}
 /***** Links *****/
 
 #sidebar a.selected {padding:1px 2px 2px 3px; margin-left:0px; margin-right:-2px;}
-#admin-menu a.selected:not(:has(svg)) {padding-left:0!important; padding-right:20px!important; background-position:right 2px 40%;}
-
-a.collapsible:not(:has(svg)) {padding-left:0px; padding-right:12px; background: url(/arrow_down.png) no-repeat right 0px top 50%;}
-a.collapsible.collapsed:not(:has(svg)) {background-image: url(/arrow_left.png);}
 
 /***** Tables *****/
 table.list td {padding-left:0px; padding-right:10px;}
@@ -139,8 +133,6 @@ div.projects h3 {padding-left:0px; padding-right:20px;}
 #watchers li {margin: 0px 0px 0px 2px; padding: 0px 0px 0px 0px;}
 #watchers img.gravatar {margin: 0 0 2px 4px;}
 
-span.search_for_watchers a:not(:has(svg)), span.add_attachment a:not(:has(svg)) {padding-left:0px; padding-right:16px; background: url(/bullet_add.png) no-repeat right 50%; }
-
 div.square {float:right;}
 .contextual {float:left; padding-left:0px; padding-right:10px;}
 
@@ -153,9 +145,6 @@ blockquote blockquote { margin-right:0;}
 div.issue div.subject div div {padding-left:0px; padding-right:16px;}
 
 div.issue span.private, div.journal span.private {margin-right:0px; margin-left:2px;}
-
-fieldset.collapsible>legend:not(:has(svg)) {padding-left:0px; padding-right:18px; background: url(/arrow_down.png) no-repeat right 50%;}
-fieldset.collapsible.collapsed>legend:not(:has(svg)) { background-image: url(/arrow_left.png); }
 
 fieldset#filters td.add-filter {text-align:left; }
 
@@ -263,19 +252,6 @@ div.flash svg.icon-svg, #errorExplanation svg.icon-svg {
   margin-left: 4px;
 }
 
-div.flash.error:not(:has(svg)), #errorExplanation:not(:has(svg)) {
-  background: url(/exclamation.png) right 8px top 50% no-repeat var(--oc-red-1);
-}
-
-div.flash.notice:not(:has(svg)) {
-  background: url(/true.png) right 8px top 5px no-repeat var(--oc-green-1);
-}
-
-div.flash.warning:not(:has(svg)), .conflict {
-  background: url(/warning.png) right 8px top 5px no-repeat var(--oc-yellow-1);
-  text-align:right;
-}
-
 /***** Ajax indicator ******/
 #ajax-indicator {
   left:auto; right:40%;
@@ -367,11 +343,6 @@ a.wiki-anchor {margin-left:0px; margin-right:6px;}
 .project.marker {margin-left:0; margin-right:-4px;}
 
 /***** Icons *****/
-.icon:not(:has(svg)) {
-  background-position: right 50%;
-  padding-left:0; padding-right:20px;
-}
-
 svg.icon-svg.icon-rtl {
   transform: scaleX(-1);
 }

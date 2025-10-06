@@ -576,10 +576,6 @@
     padding: 0;
   }
 
-  #admin-menu a.icon:not(:has(svg)) {
-    padding-left: 20px !important;
-  }
-
   /*----------------------------------------*\
     E) UX ELEMENTS
   \*----------------------------------------*/
@@ -619,12 +615,6 @@
   #content>.contextual .drdn .drdn-content a {
     padding-top: 9px;
     padding-bottom: 9px;
-  }
-
-  #content>.contextual a.icon:not(:has(svg)),
-  p.buttons a.icon:not(:has(svg)) {
-    background-position-x: 4px;
-    padding-left: 25px;
   }
 
   .flyout-menu .contextual {
