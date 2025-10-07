@@ -242,3 +242,5 @@
   svg: loader-2
 - name: hourglass
   svg: hourglass
+- name: webhook
+  svg: webhook  

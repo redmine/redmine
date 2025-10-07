@@ -1,0 +1,6 @@
+<h2><%= l :label_webhook_edit %></h2>
+
+<%= labelled_form_for @webhook, html: { method: :patch } do |f| %>
+  <%= render :partial => 'form', :locals => { :f => f } %>
+  <%= submit_tag l(:button_save) %>
+<% end %>

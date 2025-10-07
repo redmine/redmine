@@ -547,6 +547,11 @@
       <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/>
       <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"/>
     </symbol>
+    <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--webhook">
+      <path d="M4.876 13.61a4 4 0 1 0 6.124 3.39h6"/>
+      <path d="M15.066 20.502a4 4 0 1 0 1.934 -7.502c-.706 0 -1.424 .179 -2 .5l-3 -5.5"/>
+      <path d="M16 8a4 4 0 1 0 -8 0c0 1.506 .77 2.818 2 3.5l-3 5.5"/>
+    </symbol>
     <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--wiki-page">
       <path d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-11a1 1 0 0 1 -1 -1v-14a1 1 0 0 1 1 -1m3 0v18"/>
       <path d="M13 8l2 0"/>

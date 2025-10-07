@@ -224,6 +224,19 @@ default:
   # false: switches to default common mark where two or more spaces are required
   # common_mark_enable_hardbreaks: true
 
+  # Webhooks
+  #
+  # An optional list of hosts and/or IP addresses and/or IP networks which
+  # should NOT be valid as webhook targets. You can add your internal IPs and
+  # hostnames here to avoid possible SSRF attacks.
+  # webhook_blocklist:
+  #   - 10.0.0.0/8
+  #   - 172.16.0.0/12
+  #   - 192.168.0.0/16
+  #   - fc00::/7
+  #   - example.org
+  #   - "*.example.com"
+
 # specific configuration options for production environment
 # that overrides the default ones
 production:

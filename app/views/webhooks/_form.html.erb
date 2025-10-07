@@ -1,0 +1,44 @@
+<%= error_messages_for @webhook %>
+
+<div class="splitcontent">
+  <div class="splitcontentleft">
+    <div class="box tabular">
+      <p><%= f.text_field :url, required: true, size: 60 %>
+        <em class="info"><%= l :webhook_url_info %></em>
+      </p>
+      <p>
+        <%= f.text_field :secret %>
+        <em class="info"><%= raw l :webhook_secret_info_html %></em>
+      </p>
+      <p><%= f.check_box :active %></p>
+    </div>
+
+    <h3><%= l :label_webhook_events %></h3>
+    <div class="box tabular" id="events">
+    <% @webhook.setable_events.keys.sort.each do |type| %>
+      <fieldset id="<%= type %>_events"><legend><%= toggle_checkboxes_link("##{type}_events\ input") %><%= l_or_humanize(type, prefix: 'webhook_events_') %></legend>
+        <% @webhook.setable_events[type].each do |action| %>
+          <% name = "#{type}.#{action}" %>
+          <label class="floating">
+            <%= check_box_tag 'webhook[events][]', name, @webhook.events.include?(name), id: "webhook_events_#{name}" %>
+            <%= l_or_humanize(name.tr('.', '_'), :prefix => 'webhook_events_') %>
+          </label>
+        <% end %>
+        </fieldset>
+    <% end %>
+    <br /><%= check_all_links 'events' %>
+    <%= hidden_field_tag 'webhook[events][]', '' %>
+    </div>
+  </div>
+
+  <div class="splitcontentright">
+    <fieldset class="box" id="webhook_project_ids"><legend><%= toggle_checkboxes_link("#webhook_project_ids input[type=checkbox]") %><%= l(:label_project_plural) %></legend>
+      <% project_ids = @webhook.project_ids.to_a %>
+      <%= render_project_nested_lists(@webhook.setable_projects) do |p|
+        content_tag('label', check_box_tag('webhook[project_ids][]', p.id, project_ids.include?(p.id), :id => nil) + ' ' + h(p))
+      end %>
+      <%= hidden_field_tag('webhook[project_ids][]', '', :id => nil) %>
+    </fieldset>
+
+  </div>
+</div>

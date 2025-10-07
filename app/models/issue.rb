@@ -130,6 +130,10 @@ class Issue < ApplicationRecord
   after_create_commit :add_auto_watcher
   after_commit :create_parent_issue_journal
 
+  after_create_commit  ->{ Webhook.trigger('issue.created', self) }
+  after_update_commit  ->{ Webhook.trigger('issue.updated', self) }
+  after_destroy_commit ->{ Webhook.trigger('issue.deleted', self) }
+
   # Returns a SQL conditions string used to find all issues visible by the specified user
   def self.visible_condition(user, options={})
     Project.allowed_to_condition(user, :view_issues, options) do |role, user|

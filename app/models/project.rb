@@ -60,6 +60,8 @@ class Project < ApplicationRecord
                           :class_name => 'IssueCustomField',
                           :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
                           :association_foreign_key => 'custom_field_id'
+  has_and_belongs_to_many :webhooks
+
   # Default Custom Query
   belongs_to :default_issue_query, :class_name => 'IssueQuery'
 

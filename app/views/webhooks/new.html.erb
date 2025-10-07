@@ -1,0 +1,7 @@
+<h2><%= l :label_webhook_new %></h2>
+
+<%= labelled_form_for @webhook, url: webhooks_path do |f| %>
+  <%= render :partial => 'webhooks/form', locals: { f: f } %>
+  <%= submit_tag l(:button_create) %>
+  <%= link_to l(:button_cancel), webhooks_path %>
+<% end %>

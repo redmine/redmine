@@ -35,6 +35,8 @@ Rails.application.routes.draw do
   match 'account/activate', :to => 'account#activate', :via => :get
   get 'account/activation_email', :to => 'account#activation_email', :as => 'activation_email'
 
+  resources :webhooks, only: [:index, :new, :create, :edit, :update, :destroy]
+
   match '/news/preview', :controller => 'previews', :action => 'news', :as => 'preview_news', :via => [:get, :post, :put, :patch]
   match '/issues/preview', :to => 'previews#issue', :as => 'preview_issue', :via => [:get, :post, :put, :patch]
   match '/preview/text', :to => 'previews#text', :as => 'preview_text', :via => [:get, :post, :put, :patch]

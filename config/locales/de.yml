@@ -845,6 +845,17 @@ de:
   label_yesterday: gestern
   label_default_query: Standardabfrage
   label_progressbar: Fortschrittsbalken
+  label_webhook_plural: Webhooks
+  label_webhook_new: Neuer Webhook
+  label_webhook_edit: Webhook bearbeiten
+  label_webhook_events: Ereignisse
+
+  webhook_events_issue: Aufgaben
+  webhook_events_issue_created: Aufgabe angelegt
+  webhook_events_issue_updated: Aufgabe bearbeitet
+  webhook_events_issue_deleted: Aufgabe gelöscht
+  webhook_url_info: Redmine sendet einen POST-Request an diese URL, wenn eines der gewählten Ereignisse in einem der ausgewählten Projekte eintritt.
+  webhook_secret_info_html: Wenn gesetzt, wird Redmine mit jedem Request eine Hash-Signatur im X-Redmine-Signature-256 header übermitteln, die zur Authentifizierung des Requests herangezogen werden kann.
 
   mail_body_account_activation_request: "Ein neuer Benutzer (%{value}) hat sich registriert. Sein Konto wartet auf Ihre Genehmigung:"
   mail_body_account_information: Ihre Konto-Informationen

@@ -1,0 +1,35 @@
+<div class="contextual">
+  <%= link_to sprite_icon('add', l(:label_webhook_new)), new_webhook_path, class: 'icon icon-add' %>
+</div>
+
+<%= title l :label_webhook_plural %>
+
+<% if @webhooks.any? %>
+<div class="autoscroll">
+<table class="list">
+  <thead><tr>
+    <th><%= l :field_active %></th>
+    <th><%= l :label_url %></th>
+    <th><%= l :label_webhook_events %></th>
+    <th><%= l :label_project_plural %></th>
+    <th></th>
+  </tr></thead>
+  <tbody>
+  <% @webhooks.each do |webhook| %>
+    <tr id="webhook_<%= webhook.id %>" class="<%= cycle("odd", "even") %>">
+      <td><%= webhook.active ? l(:general_text_Yes) : l(:general_text_No) %></td>
+      <td><%= truncate webhook.url, length: 40 %></td>
+      <td><%= safe_join webhook.events.map{|e| content_tag :code, e }, ', ' %></td>
+      <td><%= safe_join webhook.projects.visible.map{|p| link_to_project(p) }, ', ' %></td>
+      <td class="buttons">
+        <%= link_to sprite_icon('edit', l(:button_edit)), edit_webhook_path(webhook), class: 'icon icon-edit' %>
+        <%= link_to sprite_icon('del', l(:button_delete)), webhook_path(webhook), :data => {:confirm => l(:text_are_you_sure)}, :method => :delete, :class => 'icon icon-del' %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+</div>
+<% else %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
