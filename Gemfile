@@ -116,7 +116,7 @@ group :test do
   gem 'selenium-webdriver', '>= 4.11.0'
   # RuboCop
   gem 'rubocop', '~> 1.76.0', require: false
-  gem 'rubocop-performance', '~> 1.25.0', require: false
+  gem 'rubocop-performance', '~> 1.26.0', require: false
   gem 'rubocop-rails', '~> 2.32.0', require: false
   gem 'bundle-audit', require: false
   # for testing oauth provider capabilities
