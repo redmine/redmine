@@ -161,7 +161,7 @@
       style  = ""
       style += "width: #{subject_width + 1}px;"
       style += "height: #{headers_height}px;"
-      style += 'background: #eee;'
+      style += 'background: #f1f3f5;' # oc-gray-1
     %>
     <%= content_tag(:div, "", :style => style, :class => "gantt_hdr") %>
     <%
@@ -198,7 +198,7 @@
       <%= content_tag(:div, '', :style => style, :class => "gantt_hdr") %>
       <%
         style = "height: #{headers_height}px;"
-        style += 'background: #eee;'
+        style += 'background: #f1f3f5;' # oc-gray-1
       %>
       <%= content_tag(:div, content_tag(:p, column.caption, :class => 'gantt_hdr_selected_column_name'), :style => style, :class => "gantt_hdr") %>
       <%= content_tag(:div, :class => "gantt_#{column_name} gantt_selected_column_content") do %>
@@ -213,7 +213,7 @@
   style  = ""
   style += "width: #{g_width - 1}px;"
   style += "height: #{headers_height}px;"
-  style += 'background: #eee;'
+  style += 'background: #f1f3f5;' # oc-gray-1
 %>
 <%= content_tag(:div, '&nbsp;'.html_safe, :style => style, :class => "gantt_hdr") %>
 

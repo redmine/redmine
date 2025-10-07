@@ -30,8 +30,14 @@ module Redmine
 
       # Relation types that are rendered
       DRAW_TYPES = {
-        IssueRelation::TYPE_BLOCKS   => {:landscape_margin => 16, :color => '#F34F4F'},
-        IssueRelation::TYPE_PRECEDES => {:landscape_margin => 20, :color => '#628FEA'}
+        IssueRelation::TYPE_BLOCKS   => {
+          :landscape_margin => 16,
+          :color => '#fa5252' # oc-red-6
+        },
+        IssueRelation::TYPE_PRECEDES => {
+          :landscape_margin => 20,
+          :color => '#228be6' # oc-blue-6
+        }
       }.freeze
 
       UNAVAILABLE_COLUMNS = [:tracker, :id, :subject]
