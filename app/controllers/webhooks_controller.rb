@@ -4,6 +4,8 @@ class WebhooksController < ApplicationController
   self.main_menu = false
 
   before_action :require_login
+  before_action :authorize
+
   before_action :find_webhook, only: [:edit, :update, :destroy]
 
   require_sudo_mode :create, :update, :destroy
@@ -55,5 +57,9 @@ class WebhooksController < ApplicationController
 
   def webhooks
     User.current.webhooks
+  end
+
+  def authorize
+    deny_access unless User.current.allowed_to?(:use_webhooks, nil, global: true)
   end
 end

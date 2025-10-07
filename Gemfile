@@ -124,7 +124,6 @@ group :test do
   gem 'bundle-audit', require: false
   # for testing oauth provider capabilities
   gem 'oauth2'
-  gem 'rest-client'
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), "Gemfile.local")

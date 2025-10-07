@@ -611,6 +611,7 @@ en:
   permission_view_project: View projects
   permission_search_project: Search projects
   permission_view_members: View project members
+  permission_use_webhooks: Use webhooks
 
 
   project_module_issue_tracking: Issue tracking

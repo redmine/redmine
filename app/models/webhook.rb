@@ -39,7 +39,7 @@ class Webhook < ApplicationRecord
 
   scope :active, -> { where(active: true) }
 
-  before_validation ->(hook){ hook.projects = hook.projects.to_a.select{|p| p.visible?(hook.user) } }
+  before_validation ->(hook){ hook.projects = hook.projects.to_a & hook.setable_projects }
 
   # Triggers the given event for the given object, scheduling qualifying hooks
   # to be called.
@@ -61,12 +61,13 @@ class Webhook < ApplicationRecord
       .eager_load(:user)
       .where(users: { status: User::STATUS_ACTIVE }, projects_webhooks: { project_id: object.project_id })
       .to_a.select do |hook|
-      hook.events.include?(event) && object.visible?(hook.user)
+      hook.events.include?(event) && object.visible?(hook.user) && hook.user.allowed_to?(:use_webhooks, object.project)
     end
   end
 
   def setable_projects
-    Project.visible
+    user = self.user || User.current
+    Project.visible(user).to_a.select{|p| user.allowed_to?(:use_webhooks, p)}
   end
 
   def setable_events

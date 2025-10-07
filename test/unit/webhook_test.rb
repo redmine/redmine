@@ -22,6 +22,8 @@ class WebhookTest < ActiveSupport::TestCase
 
     @project = Project.find 'ecookbook'
     @dlopper = User.find_by_login 'dlopper'
+    @role = Role.find_by_name 'Developer'
+    @role.permissions << :use_webhooks; @role.save!
     @issue = @project.issues.first
     WebhookEndpointValidator.class_eval do
       @blocked_hosts = nil
@@ -68,7 +70,19 @@ class WebhookTest < ActiveSupport::TestCase
     assert_raise(ActiveRecord::SerializationTypeMismatch){ Webhook.new(events: 'issue.created') }
   end
 
-  test "should clean up project list on save" do
+  test "should clean up project list based on permissions on save" do
+    h = create_hook
+    assert_equal [@project], h.projects
+    @role.permissions.delete :use_webhooks
+    @role.save!
+
+    h.reload
+    h.save
+    h.reload
+    assert_equal [], h.projects
+  end
+
+  test "should clean up project list based on project visibility on save" do
     h = create_hook
     assert_equal [@project], h.projects
     @project.memberships.destroy_all
@@ -78,6 +92,15 @@ class WebhookTest < ActiveSupport::TestCase
     h.save
     h.reload
     assert_equal [], h.projects
+  end
+
+  test "should filter setable projects" do
+    assert_equal [@project], Webhook.new(user: @dlopper).setable_projects
+
+    @role.permissions.delete :use_webhooks
+    @role.save!
+    @dlopper.reload
+    assert_equal [], Webhook.new(user: @dlopper).setable_projects
   end
 
   test "should check ip address at run time" do
@@ -106,6 +129,15 @@ class WebhookTest < ActiveSupport::TestCase
     assert_equal [hook], Webhook.hooks_for('issue.created', @issue)
     assert_equal [], Webhook.hooks_for('issue.deleted', @issue)
     @issue.update_column :project_id, 99
+    assert_equal [], Webhook.hooks_for('issue.created', @issue)
+  end
+
+  test "should check permission when looking for hooks" do
+    hook = create_hook
+    assert @issue.visible?(hook.user)
+    assert_equal [hook], Webhook.hooks_for('issue.created', @issue)
+    @role.permissions.delete :use_webhooks
+    @role.save!
     assert_equal [], Webhook.hooks_for('issue.created', @issue)
   end
 

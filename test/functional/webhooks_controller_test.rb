@@ -16,6 +16,8 @@ class WebhooksControllerTest < Redmine::ControllerTest
     @project = Project.find 'ecookbook'
     @dlopper = User.find_by_login 'dlopper'
     @issue = @project.issues.first
+    @role = Role.find_by_name 'Developer'
+    @role.permissions << :use_webhooks; @role.save!
     @hook = create_hook
     @other_hook = create_hook user: User.find_by_login('admin'), url: 'https://example.com/other/hook'
     @request.session[:user_id] = @dlopper.id

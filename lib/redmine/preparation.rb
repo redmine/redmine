@@ -49,6 +49,9 @@ module Redmine
         map.permission :manage_public_queries, {:queries => [:new, :create, :edit, :update, :destroy]}, :require => :member
         map.permission :save_queries, {:queries => [:new, :create, :edit, :update, :destroy]}, :require => :loggedin
 
+        # Webhooks
+        map.permission :use_webhooks, {}, :require => :member
+
         map.project_module :issue_tracking do |map|
           # Issues
           map.permission :view_issues, {:issues => [:index, :show, :issue_tab],

@@ -970,6 +970,7 @@ de:
   permission_set_issues_private: Tickets als privat oder öffentlich markieren
   permission_set_notes_private: Kommentar als privat markieren
   permission_set_own_issues_private: Eigene Tickets als privat oder öffentlich markieren
+  permission_use_webhooks: Webhooks verwenden
   permission_view_calendar: Kalender ansehen
   permission_view_changesets: Changesets ansehen
   permission_view_documents: Dokumente ansehen
