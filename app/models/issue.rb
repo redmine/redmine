@@ -124,9 +124,9 @@ class Issue < ApplicationRecord
   # Should be after_create but would be called before previous after_save callbacks
   after_save :after_create_from_copy
   # Copy parent fields to children when specific fields change
-  after_save :copy_fields_to_children, if: :should_copy_fields?
+  after_commit :copy_fields_to_children, if: :should_copy_fields?
   # Copy parent fields to child when child is assigned to a new parent
-  after_save :copy_parent_fields_to_self, if: :should_copy_from_parent?
+  after_commit :copy_parent_fields_to_self, if: :should_copy_from_parent?
   # add_auto_watcher needs to run before sending notifications, thus it needs
   # to be added after send_notification (after_ callbacks are run in inverse order)
   # https://api.rubyonrails.org/v5.2.3/classes/ActiveSupport/Callbacks/ClassMethods.html#method-i-set_callback
