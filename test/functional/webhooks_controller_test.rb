@@ -3,15 +3,6 @@
 require 'test_helper'
 
 class WebhooksControllerTest < Redmine::ControllerTest
-  fixtures :projects, :users, :email_addresses, :user_preferences, :members, :member_roles, :roles,
-           :groups_users,
-           :trackers, :projects_trackers,
-           :enabled_modules,
-           :versions,
-           :issue_statuses, :issue_categories, :issue_relations, :workflows,
-           :enumerations,
-           :issues, :journals, :journal_details
-
   setup do
     @project = Project.find 'ecookbook'
     @dlopper = User.find_by_login 'dlopper'

@@ -6,15 +6,6 @@ require 'pp'
 class WebhookTest < ActiveSupport::TestCase
   include ActiveJob::TestHelper
 
-  fixtures :projects, :users, :email_addresses, :user_preferences, :members, :member_roles, :roles,
-           :groups_users,
-           :trackers, :projects_trackers,
-           :enabled_modules,
-           :versions,
-           :issue_statuses, :issue_categories, :issue_relations, :workflows,
-           :enumerations,
-           :issues, :journals, :journal_details
-
   setup do
     # Set ActiveJob to use the test adapter
     @original_adapter = ActiveJob::Base.queue_adapter

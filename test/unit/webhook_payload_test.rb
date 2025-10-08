@@ -5,10 +5,6 @@ require 'test_helper'
 class WebhookPayloadTest < ActiveSupport::TestCase
   include ActiveJob::TestHelper
 
-  fixtures :projects, :users, :trackers, :projects_trackers, :versions,
-           :issue_statuses, :issue_categories, :issue_relations,
-           :enumerations, :issues, :journals, :journal_details
-
   setup do
     @dlopper = User.find_by_login 'dlopper'
     @project = Project.find 'ecookbook'
