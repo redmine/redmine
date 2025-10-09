@@ -90,9 +90,6 @@ jobs:
         run: bin/rails test:system
         env:
           GOOGLE_CHROME_OPTS_ARGS: headless,disable-gpu,no-sandbox,disable-dev-shm-usage
-        # System tests might still be a bit unstable, so for now, even if a system test fails,
-        # output the results and consider the overall test as successful.
-        continue-on-error: true
 
       - name: Upload system test screenshots
         if: always()
