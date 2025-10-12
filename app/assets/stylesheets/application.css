@@ -1690,12 +1690,10 @@ h1:hover a.wiki-anchor, h2:hover a.wiki-anchor, h3:hover a.wiki-anchor, h4:hover
 
 div.wiki img {vertical-align:middle; max-width:100%;}
 
-div.wiki>.contains-task-list {
-  padding-left: 0;
-}
-div.wiki .contains-task-list {
+div.wiki .contains-task-list .task-list-item {
   list-style-type: none;
 }
+div.wiki .contains-task-list .task-list-item-checkbox { margin-left: -1.4em; }
 div.wiki .task-list input.task-list-item-checkbox {
   height: initial;
 }
