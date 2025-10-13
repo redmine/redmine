@@ -11,15 +11,20 @@ module ZendeskUpdater
       return if payload.nil?
 
       begin
+        Rails.logger.info "Invoking Lambda function #{function_name} for issue #{issue.id}, journal #{journal&.id}"
+        Rails.logger.debug "Lambda payload: #{payload.to_json}"
+        
         client = Aws::Lambda::Client.new()
-        client.invoke(
+        response = client.invoke(
           function_name: function_name,
           payload: payload.to_json
         )
+        
+        Rails.logger.info "Lambda invocation successful, status: #{response.status_code}"
       rescue => e
-        puts "ERROR in lambda invocation: #{e.message}"
-        puts e.backtrace.first(5)
-        STDOUT.flush
+        Rails.logger.error "ERROR in lambda invocation: #{e.message}"
+        Rails.logger.error e.backtrace.first(10)
+        raise
       end
     end
 
@@ -41,8 +46,8 @@ module ZendeskUpdater
             if custom_field
               changed_custom_fields[custom_field.id] = {
                 'name' => custom_field.name,
-                'value' => detail.value,
-                'oldValue' => detail.old_value
+                'value' => detail.value&.to_s || '',
+                'oldValue' => detail.old_value&.to_s || ''
               }
             end
           end
@@ -80,7 +85,7 @@ module ZendeskUpdater
 
           payload['issue']['customFields'] << {
             'name' => custom_field.name,
-            'value' => cfv.value
+            'value' => cfv.value&.to_s || ''
           }
         end
       end

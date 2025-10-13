@@ -15,10 +15,12 @@ require_relative 'lib/zendesk_updater/issue_callbacks'
 require_relative 'lib/zendesk_updater/journal_callbacks'
 require_relative 'lib/zendesk_updater/lambda_client'
 
+# Issue callbacks handle creation (when no journal is created automatically)
 unless Issue.included_modules.include?(ZendeskUpdater::IssueCallbacks)
   Issue.include(ZendeskUpdater::IssueCallbacks)
 end
 
+# Journal callbacks handle updates (when journals are created)
 unless Journal.included_modules.include?(ZendeskUpdater::JournalCallbacks)
   Journal.include(ZendeskUpdater::JournalCallbacks)
 end
