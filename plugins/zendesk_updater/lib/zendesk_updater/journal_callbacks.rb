@@ -15,11 +15,15 @@ module ZendeskUpdater
           return unless journalized.project.identifier == 'pokemon'
           return unless ENV['WORKSPACE']
           
-          Rails.logger.info "Journal creation callback for issue #{journalized.id} journal #{id}"
+          # Prevent duplicate processing - Rails sometimes fires after_commit twice
+          # Use a short cache window to catch duplicates within ~100ms
+          cache_key = "zendesk_journal_processed_#{self.id}"
+          if Rails.cache.exist?(cache_key)
+            Rails.logger.info "[#{self.id}] Duplicate callback detected - skipping"
+            return
+          end
           
-          # This handles both issue updates and issue creations that create journals
-          # The deduplication in LambdaClient will prevent double-calls if both 
-          # issue and journal callbacks fire for the same creation event
+          Rails.cache.write(cache_key, true, expires_in: 10.seconds)
           
           Rails.logger.info "Scheduling Zendesk update for issue #{journalized.id} journal #{id}"
           
