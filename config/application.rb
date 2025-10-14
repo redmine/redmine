@@ -32,6 +32,7 @@ module RedmineApp
 
     config.active_support.remove_deprecated_time_with_zone_name = true
     config.active_support.cache_format_version = 7.0
+    config.active_support.to_time_preserves_timezone = :zone
 
     config.active_record.store_full_sti_class = true
     config.active_record.default_timezone = :local
