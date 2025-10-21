@@ -7,7 +7,10 @@
 <% end %>
 
 <% if @import.unsaved_items.count > 0 %>
-  <p><%= l(:notice_import_finished_with_errors, :count => @import.unsaved_items.count, :total => @import.total_items) %>:</p>
+  <div class="flash error">
+    <%= notice_icon('error') %>
+    <%= l(:notice_import_finished_with_errors, :count => @import.unsaved_items.count, :total => @import.total_items) %>
+  </div>
 
   <table id="unsaved-items" class="list">
     <thead>
