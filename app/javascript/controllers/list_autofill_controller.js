@@ -50,67 +50,85 @@ class ListAutofillHandler {
 }
 
 class CommonMarkListFormatter {
+  // Example: '  * text'  → indent='  ', bullet='*', content='text' (or '+' or '-')
+  #bulletItemPattern  = /^(?<indent>\s*)(?<bullet>[*+\-]) (?<content>.*)$/;
+  // Example: '  1. text' → indent='  ', num='1', delimiter='.', content='text' (or ')')
+  #orderedItemPattern = /^(?<indent>\s*)(?<num>\d+)(?<delimiter>[.)]) (?<content>.*)$/;
+  // Example: '[ ] Task'  → taskContent='Task'
+  //          '[x] Task'  → taskContent='Task'
+  #taskAtStartPattern = /^\[[ x]\] (?<taskContent>.*)$/;
+
   format(line) {
-    // Match list items in CommonMark syntax.
-    // Captures either an ordered list (e.g., '1. ' or '2) ') or an unordered list (e.g., '* ', '- ', '+ ').
-    // The regex structure:
-    // ^(\s*)               → leading whitespace
-    // (?:(\d+)([.)])       → an ordered list marker: number followed by '.' or ')'
-    // |([*+\-])            → OR an unordered list marker: '*', '+', or '-'
-    // (.*)$                → the actual list item content
-    //
-    // Examples:
-    // '2. ordered text'           → indent='',  number='2', delimiter='.', bullet=undefined, content='ordered text'
-    // '  3) nested ordered text'  → indent='  ', number='3', delimiter=')', bullet=undefined, content='nested ordered text'
-    // '* unordered text'          → indent='', number=undefined, delimiter=undefined, bullet='*', content='unordered text'
-    // '+ unordered text'          → indent='', number=undefined, delimiter=undefined, bullet='+', content='unordered text'
-    // '  - nested unordered text' → indent='  ', number=undefined, delimiter=undefined, bullet='-', content='nested unordered text'
-    const match = line.match(/^(\s*)(?:(\d+)([.)])|([*+\-])) (.*)$/)
-    if (!match) return null
-
-    const indent = match[1]
-    const number = match[2]
-    const delimiter = match[3]
-    const bullet = match[4]
-    const content = match[5]
-
-    if (content === '') {
-      return { action: 'remove' }
+    const bulletMatch = line.match(this.#bulletItemPattern);
+    if (bulletMatch) {
+      return (
+        this.#formatBulletTask(bulletMatch.groups) ||
+        this.#formatBulletList(bulletMatch.groups)
+      );
     }
 
-    if (number) {
-      const nextNumber = parseInt(number, 10) + 1
-      return { action: 'insert', text: `${indent}${nextNumber}${delimiter} ` }
-    } else {
-      return { action: 'insert', text: `${indent}${bullet} ` }
+    const orderedMatch = line.match(this.#orderedItemPattern);
+    if (orderedMatch) {
+      return (
+        this.#formatOrderedTask(orderedMatch.groups) ||
+        this.#formatOrderedList(orderedMatch.groups)
+      );
     }
+  }
+
+  // '- [ ] Task' or '* [ ] Task' or '+ [ ] Task'
+  #formatBulletTask({ indent, bullet, content }) {
+    const m = content.match(this.#taskAtStartPattern);
+    if (!m) return null;
+    const taskContent = m.groups.taskContent;
+
+    return taskContent === ''
+      ? { action: 'remove' }
+      : { action: 'insert', text: `${indent}${bullet} [ ] ` };
+  }
+
+  // '- Item' or '* Item' or '+ Item'
+  #formatBulletList({ indent, bullet, content }) {
+    return content === ''
+      ? { action: 'remove' }
+      : { action: 'insert', text: `${indent}${bullet} ` };
+  }
+
+  // '1. [ ] Task' or '1) [ ] Task'
+  #formatOrderedTask({ indent, num, delimiter, content }) {
+    const m = content.match(this.#taskAtStartPattern);
+    if (!m) return null;
+    const taskContent = m.groups.taskContent;
+
+    const next = `${Number(num) + 1}${delimiter}`;
+    return taskContent === ''
+      ? { action: 'remove' }
+      : { action: 'insert', text: `${indent}${next} [ ] ` };
+  }
+
+  // '1. Item' or '1) Item'
+  #formatOrderedList({ indent, num, delimiter, content }) {
+    const next = `${Number(num) + 1}${delimiter}`;
+    return content === ''
+      ? { action: 'remove' }
+      : { action: 'insert', text: `${indent}${next} ` };
   }
 }
 
 class TextileListFormatter {
   format(line) {
-    // Match list items in Textile syntax.
-    // Captures either an ordered list (using '#') or an unordered list (using '*').
-    // The regex structure:
-    // ^([*#]+)            → one or more list markers: '*' for unordered, '#' for ordered
-    // (.*)$               → the actual list item content
-    //
     // Examples:
     // '# ordered text'            → marker='#',  content='ordered text'
     // '## nested ordered text'    → marker='##', content='nested ordered text'
     // '* unordered text'          → marker='*',  content='unordered text'
     // '** nested unordered text'  → marker='**', content='nested unordered text'
-    const match = line.match(/^([*#]+) (.*)$/)
+    const match = line.match(/^(?<marker>[*#]+) (?<content>.*)$/);
     if (!match) return null
 
-    const marker = match[1]
-    const content = match[2]
-
-    if (content === '') {
-      return { action: 'remove' }
-    }
-
-    return { action: 'insert', text: `${marker} ` }
+    const { marker, content } = match.groups;
+    return content === ''
+      ? { action: 'remove' }
+      : { action: 'insert', text: `${marker} ` };
   }
 }
 
