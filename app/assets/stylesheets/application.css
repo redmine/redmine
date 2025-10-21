@@ -755,6 +755,7 @@ div#sticky-issue-header .subject {
 #trackers_description dd, #issue_statuses_description dd {margin: 0; padding: 0 0 1em 0;}
 
 #issue-form .assign-to-me-link { padding-left: 5px; }
+#issue-form fieldset { border-right: none; border-bottom: none; border-left: none; }
 
 fieldset.collapsible {border-width: 1px 0 0 0;}
 fieldset.collapsible>legend { cursor:pointer;}
