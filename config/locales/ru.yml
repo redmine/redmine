@@ -1562,45 +1562,43 @@ ru:
   field_last_activity_date: Last activity
   setting_issue_done_ratio_interval: Done ratio options interval
   setting_copy_attachments_on_issue_copy: Copy attachments on copy
-  field_thousands_delimiter: Thousands delimiter
-  label_involved_principals: Author / Previous assignee
+  field_thousands_delimiter: Разделитель тысяч
+  label_involved_principals: Автор / Предыдущий исполнитель
   label_attachment_summary:
     zero: "%{filename}"
-    one: "%{filename} and 1 file"
-    other: "%{filename} and %{count} files"
-  setting_wiki_tablesort_enabled: JavaScript based table sorting in wiki content
-  label_progressbar: Progress bar
-  error_spent_on_closed_issue: Cannot log time on a closed issue
-  setting_timelog_accept_closed_issues: Accept time logs on closed issues
-  setting_related_issues_default_columns: Related and sub issues list defaults
-  setting_display_related_issues_table_headers: Show table headers
-  error_can_not_remove_role_reason_members_html: "<p>The following projects have members
-    with this role:<br>%{projects}</p>"
-  setting_reactions_enabled: Enable reactions
+    one: "%{filename} и 1 файл"
+    other: "%{filename} и %{count} файлов"
+  setting_wiki_tablesort_enabled: JavaScript сортировка таблиц на страницах wiki
+  label_progressbar: Индикатор выполнения
+  error_spent_on_closed_issue: Невозможно списать время на закрытые задачи
+  setting_timelog_accept_closed_issues: Разрешить списывать время на закрытые задачи
+  setting_related_issues_default_columns: Список колонок в представлении связанные задачи по умолчанию
+  setting_display_related_issues_table_headers: Отображать заголовки таблиц
+  error_can_not_remove_role_reason_members_html: "<p>Следующие проекты использую данную роль в настройках участников:<br>%{projects}</p>"
+  setting_reactions_enabled: Включить реакции
   reaction_text_x_other_users:
-    one: 1 other
-    other: "%{count} others"
-  text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
-    to generate their avatars.
-  permission_view_project: View projects
-  permission_search_project: Search projects
-  permission_view_members: View project members
-  label_oauth_permission_admin: Administrate this Redmine
-  label_oauth_admin_access: Administration
-  label_oauth_application_plural: Applications
-  label_oauth_authorized_application_plural: Authorized applications
-  text_oauth_admin_permission: Full administrative access. When authorized by an Administrator,
-    this application will be able to read and write all data and impersonate other users.
-  text_oauth_admin_permission_info: This application requests full administrative access.
-    If you are an Administrator (or become one in the future), it will be able to read
-    and write all data and impersonate other users on your behalf. If you want to avoid
-    this, authorize it as a user without Administrator privileges instead.
-  text_oauth_copy_secret_now: Copy the secret to a safe place now, it will not be shown
-    again.
-  text_oauth_implicit_permissions: View your name, login and primary email address
-  text_oauth_info_scopes: Select the scopes this application may request. The application
-    will not be allowed to do more than what is selected here. It will also always be
-    limited by the roles and project memberships of the user who authorized it.
-  label_position: Position
-  label_message: Message
-  twofa_already_setup: Two-factor authentication already set up
+    one: еще один.
+    other: "еще %{count}"
+  text_setting_gravatar_default_initials_html: Для генерации аватаров на сервис <a href="https://www.gravatar.com">Gravatar</a>
+    передаются инициалы пользователей.
+  permission_view_project: Просмотр проектов
+  permission_search_project: Поиск проектов
+  permission_view_members: Просмотр участников проекта
+  label_oauth_permission_admin: Администрирование
+  label_oauth_admin_access: Администрирование
+  label_oauth_application_plural: Приложения
+  label_oauth_authorized_application_plural: Приложения авторизации
+  text_oauth_admin_permission: Полный административный доступ. При предоставлении прав администратором это приложение
+    сможет читать и записывать все данные, а также выступать от имени других пользователей.
+  text_oauth_admin_permission_info: Данное приложение запрашивает полный административный доступ.
+    Если вы являетесь администратором (или станете им в будущем), оно сможет читать и записывать все данные,
+    а также действовать от имени других пользователей.
+    Если вы хотите избежать этого, предоставьте ему права пользователя без привилегий администратора.
+  text_oauth_copy_secret_now: Скопируйте секретный код в безопасное место сейчас — он больше не будет отображаться.
+  text_oauth_implicit_permissions: Просмотр Вашего имени, логина и основного e-mail адреса
+  text_oauth_info_scopes: Выберите области доступа, которые это приложение может запрашивать.
+    Приложению не будет разрешено делать больше того, что выбрано здесь.
+    Кроме того, его права всегда будут ограничены ролями и членством в проектах пользователя, который его авторизовал.
+  label_position: Позиция
+  label_message: Сообщение
+  twofa_already_setup: Двухфакторная аутентификация уже включена
