@@ -608,6 +608,9 @@ bg:
   permission_manage_related_issues: Управление на връзките между задачи и ревизии
   permission_import_issues: Импорт на задачи
   permission_log_time_for_other_users: Записване на изразходвано време за други потребители
+  permission_view_project: Разглеждане на проекти
+  permission_search_project: Търсене на проекти
+  permission_view_members: Рззглеждане на членовете на проекти
 
   project_module_issue_tracking: Тракинг
   project_module_time_tracking: Отделяне на време
@@ -1117,6 +1120,8 @@ bg:
   label_relations_mapping: Съответствие между релациите
   label_file_content_preview: Предварителен преглед на съдържанието на файла
   label_create_missing_values: Създаване на липсващи стойности
+  label_position: Позиция
+  label_message: Съобщение
   label_api: API
   label_field_format_enumeration: Списък ключ/стойност
   label_default_values_for_new_users: Стойности по подразбиране за нови потребители
@@ -1160,6 +1165,11 @@ bg:
   label_edited: Редактирано
   label_time_by_author: "%{time} от %{author}"
   label_involved_principals: Автор / Предишен назначен
+  label_progressbar: Прогрес бар
+  label_oauth_permission_admin: Администриране на тази инсталация на Redmine
+  label_oauth_admin_access: Администриране
+  label_oauth_application_plural: Приложения
+  label_oauth_authorized_application_plural: Оторизирани приложения
 
   button_login: Вход
   button_submit: Изпращане
@@ -1346,6 +1356,17 @@ bg:
   text_allowed_queries_to_select: Само публичните (за всички потребители) заявки са достъпни за избор
   text_setting_config_change: Вие можете да конфигурирате поведението в config/configuration.yml. Моля, рестартирайте Redmine след редактиране на файла.
   text_setting_gravatar_default_initials_html: Инициалите на потребителите са изпратени на <a href="https://www.gravatar.com">https://www.gravatar.com</a> за генериране на техните аватари.
+  text_oauth_admin_permission: Пълен административен достъп. След оторизиране от администратор,
+    това приложение ще има възможност да чете и записва всички данни и да имитира други потребители.
+  text_oauth_admin_permission_info: Това приложение иска пълен административен достъп.
+    Ако вие сте Администратор (или станете такъв след време), то ще бъде способно да чете
+    и записва всички данни и да имитира други потребители за ваша сметка. Ако вие не желаете
+    такова поведение, оторизирайте го като потребител без административни привилегии.
+  text_oauth_copy_secret_now: Копирайте секретната фраза на сигурно място сега. Тя няма да бъде показана отново.
+  text_oauth_implicit_permissions: Разглеждане на вашето име, потребителско име (login) и главен email адрес
+  text_oauth_info_scopes: Изберете какво може да заявява приложението. На приложението няма да бъде позволено
+    повече от това, което е избрано тук. То също така ще бъде ограничено от ролите и членството в проекти на
+    на потребителя, който го е оторизирал.
 
   default_role_manager: Мениджър
   default_role_developer: Разработчик
@@ -1397,7 +1418,6 @@ bg:
   label_import_time_entries: Импортиране на записи за използвано време
   label_import_users: Импортиране на потребители
   sudo_mode_new_info_html: "<strong>Какво се случва?</strong> Трябва да потвърдите вашата парола преди да предприемете административни действия. Това осигурява вашият акаунт."
-  label_progressbar: Прогрес бар
 
   twofa__totp__name: Authenticator app
   twofa__totp__text_pairing_info_html: Сканирайте този QR код или въведете текстовия ключ
@@ -1443,6 +1463,7 @@ bg:
   twofa_text_backup_codes_created_at: Резервни кодове генерирани на %{datetime}.
   twofa_backup_codes_already_shown: Резервните кодове не могат да бъдат показани отново, моля <a data-method="post"
     href="%{bc_path}">генерирайте нови резервни кодове</a>, ако е необходимо.
+  twofa_already_setup: Двуфактораната автентикация вече е направена.
   twofa_text_group_required: Този избор е ефективен само, когато глобалната двуфакторна автентикация е установена на 'по избор'.
     Понастоящем, двуфакторната автентикация се изисква за всички потребители.
   twofa_text_group_disabled: Този избор е ефективен само, когато глобалната двуфакторна автентикация е установена на 'по избор'.
@@ -1456,25 +1477,3 @@ bg:
   reaction_text_x_other_users:
     one: 1 друг
     other: "%{count} други"
-  permission_view_project: View projects
-  permission_search_project: Search projects
-  permission_view_members: View project members
-  label_oauth_permission_admin: Administrate this Redmine
-  label_oauth_admin_access: Administration
-  label_oauth_application_plural: Applications
-  label_oauth_authorized_application_plural: Authorized applications
-  text_oauth_admin_permission: Full administrative access. When authorized by an Administrator,
-    this application will be able to read and write all data and impersonate other users.
-  text_oauth_admin_permission_info: This application requests full administrative access.
-    If you are an Administrator (or become one in the future), it will be able to read
-    and write all data and impersonate other users on your behalf. If you want to avoid
-    this, authorize it as a user without Administrator privileges instead.
-  text_oauth_copy_secret_now: Copy the secret to a safe place now, it will not be shown
-    again.
-  text_oauth_implicit_permissions: View your name, login and primary email address
-  text_oauth_info_scopes: Select the scopes this application may request. The application
-    will not be allowed to do more than what is selected here. It will also always be
-    limited by the roles and project memberships of the user who authorized it.
-  label_position: Position
-  label_message: Message
-  twofa_already_setup: Two-factor authentication already set up
