@@ -127,6 +127,60 @@ class ListAutofillSystemTest < ApplicationSystemTestCase
     end
   end
 
+  def test_autofill_with_markdown_unchecked_task_list
+    with_settings :text_formatting => 'common_mark' do
+      visit '/projects/ecookbook/issues/new'
+
+      within('form#issue-form') do
+        find('#issue_description').send_keys('- [ ] First item')
+        find('#issue_description').send_keys(:enter)
+
+        assert_equal(
+          "- [ ] First item\n" \
+          "- [ ] ",
+          find('#issue_description').value
+        )
+
+        fill_in 'Description', with: ''
+        find('#issue_description').send_keys('1. [ ] First item')
+        find('#issue_description').send_keys(:enter)
+
+        assert_equal(
+          "1. [ ] First item\n" \
+          "2. [ ] ",
+          find('#issue_description').value
+        )
+      end
+    end
+  end
+
+  def test_autofill_with_markdown_checked_task_list
+    with_settings :text_formatting => 'common_mark' do
+      visit '/projects/ecookbook/issues/new'
+
+      within('form#issue-form') do
+        find('#issue_description').send_keys('- [x] First item')
+        find('#issue_description').send_keys(:enter)
+
+        assert_equal(
+          "- [x] First item\n" \
+          "- [ ] ",
+          find('#issue_description').value
+        )
+
+        fill_in 'Description', with: ''
+        find('#issue_description').send_keys('1. [x] First item')
+        find('#issue_description').send_keys(:enter)
+
+        assert_equal(
+          "1. [x] First item\n" \
+          "2. [ ] ",
+          find('#issue_description').value
+        )
+      end
+    end
+  end
+
   def test_textile_nested_list_autofill
     with_settings :text_formatting => 'textile' do
       visit '/projects/ecookbook/issues/new'
