@@ -1242,6 +1242,12 @@ class IssuesControllerTest < Redmine::ControllerTest
       issues_in_list
     )
     assert_select 'table.issues.sort-by-tracker.sort-asc'
+
+    # Ensure that only the primary sort key column has a sort order icon
+    assert_select 'table.issues th.tracker svg', 1
+    css_select('table.issues th:not(.tracker)').each do |th|
+      assert_select th, 'svg', 0
+    end
   end
 
   def test_index_sort_by_field_not_included_in_columns
