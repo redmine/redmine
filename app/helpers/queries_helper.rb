@@ -227,7 +227,7 @@ module QueriesHelper
       end
       content =
         link_to(
-          sprite_icon(icon, column.caption),
+          icon ? sprite_icon(icon, column.caption) : column.caption,
           {:params => request.query_parameters.deep_merge(sort_param)},
           link_options
         )
