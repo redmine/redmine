@@ -1329,7 +1329,7 @@ div.flash.warning svg.icon-svg, .conflict svg.icon-svg {
 
 /***** Ajax indicator ******/
 #ajax-indicator {
-position: absolute; /* fixed not supported by IE */
+position: fixed;
 background-color:var(--oc-gray-2);
 border: 1px solid var(--oc-gray-5);
 top:35%;
@@ -1341,8 +1341,6 @@ padding:0.6em;
 z-index:100;
 opacity: 0.5;
 }
-
-html>body #ajax-indicator { position: fixed; }
 
 /***** Calendar *****/
 ul.cal {
@@ -1647,7 +1645,6 @@ div.wiki ul.toc {
   margin-left: 0;
   display: table
 }
-* html div.wiki ul.toc { width: 50%; } /* IE6 doesn't autosize div */
 
 div.wiki ul.toc.right { float: right; margin-left: 12px; margin-right: 0; width: auto; clear: right
 ;}

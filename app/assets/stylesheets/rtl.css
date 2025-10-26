@@ -22,7 +22,6 @@ h1, h2, h3, h4 {padding:2px 00px 1px 10px;}
 #main-menu li {float:right;margin:0px 0px 0px 2px;}
 
 #sidebar {float:left; padding-right: 20px; padding-left: 8px; border-left: 0; border-right: 1px solid var(--oc-gray-4);}
-* html #sidebar hr {left: auto; right: -6px;}
 
 #main.collapsedsidebar #sidebar {
   padding-left: 0;
@@ -44,7 +43,6 @@ h1, h2, h3, h4 {padding:2px 00px 1px 10px;}
 }
 
 #content {border-right:0 solid var(--oc-gray-4); border-left:1px solid var(--oc-gray-4);}
-* html #content{padding-right:0;}
 #main.nosidebar #content{border-left:0;}
 
 #login-form table {margin-left:auto; margin-right:auto;}
