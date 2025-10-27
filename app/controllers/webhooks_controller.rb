@@ -4,6 +4,7 @@ class WebhooksController < ApplicationController
   self.main_menu = false
 
   before_action :require_login
+  before_action :check_enabled
   before_action :authorize
 
   before_action :find_webhook, only: [:edit, :update, :destroy]
@@ -61,5 +62,9 @@ class WebhooksController < ApplicationController
 
   def authorize
     deny_access unless User.current.allowed_to?(:use_webhooks, nil, global: true)
+  end
+
+  def check_enabled
+    render_403 unless Webhook.enabled?
   end
 end

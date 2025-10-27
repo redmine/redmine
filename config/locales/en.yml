@@ -505,6 +505,7 @@ en:
   setting_thumbnails_size: Thumbnails size (in pixels)
   setting_non_working_week_days: Non-working days
   setting_jsonp_enabled: Enable JSONP support
+  setting_webhooks_enabled: Enable webhooks
   setting_default_projects_tracker_ids: Default trackers for new projects
   setting_mail_handler_excluded_filenames: Exclude attachments by name
   setting_force_default_language_for_anonymous: Force default language for anonymous users
@@ -1176,6 +1177,7 @@ en:
   label_webhook_new: New webhook
   label_webhook_edit: Edit webhook
   label_webhook_events: Events
+  label_integrations: Integrations
 
   webhook_events_issue: Issues
   webhook_events_issue_created: Issue created

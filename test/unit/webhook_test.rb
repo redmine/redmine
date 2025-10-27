@@ -168,6 +168,28 @@ class WebhookTest < ActiveSupport::TestCase
     end
   end
 
+  test "enabled? should follow setting flag" do
+    assert Webhook.enabled?
+
+    with_settings webhooks_enabled: '0' do
+      assert_not Webhook.enabled?
+    end
+
+    with_settings webhooks_enabled: '1' do
+      assert Webhook.enabled?
+    end
+  end
+
+  test "trigger should not enqueue jobs when disabled" do
+    create_hook
+
+    with_settings webhooks_enabled: '0' do
+      assert_no_enqueued_jobs do
+        Webhook.trigger('issue.created', @issue)
+      end
+    end
+  end
+
   test "should compute payload" do
     hook = create_hook
     payload = hook.payload('issue.created', @issue)

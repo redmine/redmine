@@ -25,7 +25,7 @@ module SettingsHelper
         {:name => 'display', :partial => 'settings/display', :label => :label_display},
         {:name => 'authentication', :partial => 'settings/authentication',
          :label => :label_authentication},
-        {:name => 'api', :partial => 'settings/api', :label => :label_api},
+        {:name => 'integrations', :partial => 'settings/api', :label => :label_integrations},
         {:name => 'projects', :partial => 'settings/projects', :label => :label_project_plural},
         {:name => 'users', :partial => 'settings/users', :label => :label_user_plural},
         {:name => 'issues', :partial => 'settings/issues', :label => :label_issue_tracking},

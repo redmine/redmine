@@ -27,6 +27,16 @@ class WebhooksControllerTest < Redmine::ControllerTest
     assert_select 'td', text: @other_hook.url, count: 0
   end
 
+  test "should return not found when disabled" do
+    with_settings webhooks_enabled: '0' do
+      get :index
+      assert_response :forbidden
+
+      get :new
+      assert_response :forbidden
+    end
+  end
+
   test "should get new" do
     get :new
     assert_response :success

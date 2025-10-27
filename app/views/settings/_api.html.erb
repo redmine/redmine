@@ -1,9 +1,11 @@
-<%= form_tag({:action => 'edit', :tab => 'api'}) do %>
+<%= form_tag({:action => 'edit', :tab => 'integrations'}) do %>
 
 <div class="box tabular settings">
 <p><%= setting_check_box :rest_api_enabled %></p>
 
 <p><%= setting_check_box :jsonp_enabled %></p>
+
+<p><%= setting_check_box :webhooks_enabled %></p>
 </div>
 
 <%= submit_tag l(:button_save) %>

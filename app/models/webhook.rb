@@ -42,9 +42,15 @@ class Webhook < ApplicationRecord
 
   before_validation ->(hook){ hook.projects = hook.projects.to_a & hook.setable_projects }
 
+  def self.enabled?
+    Setting.webhooks_enabled?
+  end
+
   # Triggers the given event for the given object, scheduling qualifying hooks
   # to be called.
   def self.trigger(event, object)
+    return unless enabled?
+
     hooks_for(event, object).each do |hook|
       payload = hook.payload(event, object)
       WebhookJob.perform_later(hook.id, payload.to_json)

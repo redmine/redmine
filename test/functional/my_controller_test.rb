@@ -398,6 +398,20 @@ class MyControllerTest < Redmine::ControllerTest
     assert_select 'select[name=?]', 'user[language]'
   end
 
+  def test_my_account_should_toggle_webhook_link_with_setting
+    User.find(2).roles.first.add_permission!(:use_webhooks)
+
+    get :account
+    assert_response :success
+    assert_select 'a.icon-webhook', 1
+
+    with_settings webhooks_enabled: '0' do
+      get :account
+      assert_response :success
+      assert_select 'a.icon-webhook', 0
+    end
+  end
+
   def test_my_account_with_avatar_enabled_should_link_to_edit_avatar
     with_settings :gravatar_enabled => '1' do
       Redmine::Configuration.with 'avatar_server_url' => 'https://gravatar.com' do
