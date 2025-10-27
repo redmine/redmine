@@ -29,7 +29,6 @@ class Webhook < ApplicationRecord
   end
 
   belongs_to :user
-  # TODO: Confirm if we should keep this as it is or we should move to has_many :through
   has_and_belongs_to_many :projects # rubocop:disable Rails/HasAndBelongsToMany
 
   validates :url, presence: true, webhook_endpoint: true, length: { maximum: 2000 }
