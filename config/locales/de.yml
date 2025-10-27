@@ -1506,3 +1506,8 @@ de:
   twofa_already_setup: Two-factor authentication already set up
   setting_webhooks_enabled: Enable webhooks
   label_integrations: Integrations
+  label_alert_note: Hinweis
+  label_alert_tip: Tipp
+  label_alert_warning: Warnung
+  label_alert_caution: Achtung
+  label_alert_important: Wichtig
