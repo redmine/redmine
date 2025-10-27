@@ -1464,23 +1464,17 @@ ja:
     one: 他1人
     other: "他%{count}人"
   text_setting_gravatar_default_initials_html: ユーザーの姓と名それぞれの先頭文字がアイコン生成のために <a href="https://www.gravatar.com">https://www.gravatar.com</a> に送信されます。
-  permission_view_project: View projects
-  permission_search_project: Search projects
-  permission_view_members: View project members
-  label_oauth_permission_admin: Administrate this Redmine
-  label_oauth_admin_access: Administration
-  label_oauth_application_plural: Applications
-  label_oauth_authorized_application_plural: Authorized applications
-  text_oauth_admin_permission: Full administrative access. When authorized by an Administrator,
-    this application will be able to read and write all data and impersonate other users.
-  text_oauth_admin_permission_info: This application requests full administrative access.
-    If you are an Administrator (or become one in the future), it will be able to read
-    and write all data and impersonate other users on your behalf. If you want to avoid
-    this, authorize it as a user without Administrator privileges instead.
-  text_oauth_copy_secret_now: Copy the secret to a safe place now, it will not be shown
-    again.
-  text_oauth_implicit_permissions: View your name, login and primary email address
-  text_oauth_info_scopes: Select the scopes this application may request. The application
-    will not be allowed to do more than what is selected here. It will also always be
-    limited by the roles and project memberships of the user who authorized it.
-  twofa_already_setup: Two-factor authentication already set up
+  permission_view_project: プロジェクトの閲覧
+  permission_search_project: プロジェクトの検索
+  permission_view_members: プロジェクトのメンバーの閲覧
+  label_oauth_permission_admin: このRedmineの管理
+  label_oauth_admin_access: システム管理
+  label_oauth_application_plural: アプリケーション
+  label_oauth_authorized_application_plural: 認可済みアプリケーション
+  text_oauth_admin_permission: システム管理者権限。システム管理者によって認可された場合、このアプリケーションはすべてのデータを読み書きでき、また他のユーザーになりすますことができます。
+  text_oauth_admin_permission_info: このアプリケーションはシステム管理者権限を要求しています。
+    もしあなたがシステム管理者である場合（または将来的にシステム管理者になる場合）、このアプリケーションはすべてのデータを読み書きでき、あなたの代理で他のユーザーになりすますことができます。これを避けたい場合は、システム管理者権限のないユーザーとして認可してください。
+  text_oauth_copy_secret_now: シークレットは今すぐ安全な場所にコピーしてください。今後は再表示できません。
+  text_oauth_implicit_permissions: あなたの名前・ログインID・メインのメールアドレスの閲覧
+  text_oauth_info_scopes: このアプリケーションが要求できるスコープを選択してください。アプリケーションは、ここで選択された範囲を超えることはできません。また、認可したユーザーのロールおよび参加しているプロジェクトによる制限も常に適用されます。
+  twofa_already_setup: 二要素認証はすでに設定済みです。
