@@ -1178,6 +1178,11 @@ en:
   label_webhook_edit: Edit webhook
   label_webhook_events: Events
   label_integrations: Integrations
+  label_alert_note: Note
+  label_alert_tip: Tip
+  label_alert_warning: Warning
+  label_alert_caution: Caution
+  label_alert_important: Important
 
   webhook_events_issue: Issues
   webhook_events_issue_created: Issue created
