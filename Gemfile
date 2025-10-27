@@ -14,7 +14,7 @@ gem 'i18n', '~> 1.14.1'
 gem 'rbpdf', '~> 1.21.4'
 gem 'addressable'
 gem 'rubyzip', '~> 3.1.1'
-gem 'propshaft', '~> 1.1.0'
+gem 'propshaft', '~> 1.3.0'
 gem 'rack', '>= 3.1.3'
 gem "stimulus-rails", "~> 1.3"
 gem "importmap-rails", "~> 2.0"

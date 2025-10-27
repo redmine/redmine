@@ -1744,7 +1744,8 @@ module ApplicationHelper
   #   stylesheet_link_tag('styles', :plugin => 'foo) # => picks styles.css from plugin's assets
   #
   def stylesheet_link_tag(*sources)
-    options = sources.last.is_a?(Hash) ? sources.pop : {}
+    # option keys is converted to a string in Propshaft::Helper.
+    options = sources.last.is_a?(Hash) ? sources.pop.symbolize_keys : {}
     plugin = options.delete(:plugin)
     sources = sources.map do |source|
       if plugin
@@ -1778,7 +1779,8 @@ module ApplicationHelper
   #   javascript_include_tag('scripts', :plugin => 'foo) # => picks scripts.js from plugin's assets
   #
   def javascript_include_tag(*sources)
-    options = sources.last.is_a?(Hash) ? sources.pop : {}
+    # option keys is converted to a string in Propshaft::Helper.
+    options = sources.last.is_a?(Hash) ? sources.pop.symbolize_keys : {}
     if plugin = options.delete(:plugin)
       sources = sources.map do |source|
         if plugin
