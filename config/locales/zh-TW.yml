@@ -1560,3 +1560,5 @@
     selected events occurs in one of the selected projects.
   webhook_secret_info_html: If provided, Redmine will use this to create a hash signature
     that is sent with each delivery as the value of the X-Redmine-Signature-256 header.
+  setting_webhooks_enabled: Enable webhooks
+  label_integrations: Integrations
