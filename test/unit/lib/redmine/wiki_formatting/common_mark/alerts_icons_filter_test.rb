@@ -21,14 +21,14 @@ require_relative '../../../../../test_helper'
 
 if Object.const_defined?(:Commonmarker)
   require 'redmine/wiki_formatting/common_mark/alerts_icons_filter'
-  include Redmine::I18n
 
   class Redmine::WikiFormatting::CommonMark::AlertsIconsFilterTest < ActiveSupport::TestCase
+    include Redmine::I18n
 
     def format(markdown)
       Redmine::WikiFormatting::CommonMark::MarkdownFilter.to_html(markdown, Redmine::WikiFormatting::CommonMark::PIPELINE_CONFIG)
     end
-    
+
     def filter(html)
       Redmine::WikiFormatting::CommonMark::AlertsIconsFilter.to_html(html, @options)
     end
@@ -39,7 +39,7 @@ if Object.const_defined?(:Commonmarker)
 
     def teardown
       set_language_if_valid 'en'
-    end    
+    end
 
     def test_should_render_alert_blocks_with_localized_labels
       set_language_if_valid 'de'
@@ -49,9 +49,7 @@ if Object.const_defined?(:Commonmarker)
       MD
 
       html = filter(format(text))
-      puts html.inspect
-
-      expected = %r{<span class="icon-label">#{I18n.translate('label_alert_note')}</span>}
+      expected = %r{<span class="icon-label">#{I18n.t('label_alert_note')}</span>}
       assert_match expected, html
     end
   end
