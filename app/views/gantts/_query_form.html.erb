@@ -1,0 +1,126 @@
+<%= form_tag(
+      {controller: 'gantts', action: 'show', project_id: project, month: params[:month], year: params[:year], months: params[:months]},
+      method: :get,
+      id: 'query_form',
+      data: {gantt_target: 'form'}
+    ) do %>
+  <%= hidden_field_tag 'set_filter', '1' %>
+  <%= hidden_field_tag 'gantt', '1' %>
+
+  <div id="query_form_with_buttons" class="hide-when-print">
+    <div id="query_form_content">
+      <fieldset id="filters" class="collapsible <%= query.new_record? ? '' : 'collapsed' %>">
+        <legend onclick="toggleFieldset(this);" class="icon icon-<%= query.new_record? ? 'expanded' : 'collapsed' %>">
+          <%= sprite_icon(query.new_record? ? 'angle-down' : 'angle-right', rtl: !query.new_record?) %>
+          <%= l(:label_filter_plural) %>
+        </legend>
+        <div style="<%= query.new_record? ? '' : 'display: none;' %>">
+          <%= render partial: 'queries/filters', locals: {query: query} %>
+        </div>
+      </fieldset>
+
+      <fieldset id="options" class="collapsible collapsed"
+                data-controller="gantt--options"
+                data-gantt--options-unavailable-columns-value="<%= Redmine::Helpers::Gantt::UNAVAILABLE_COLUMNS.map(&:to_s).to_json %>">
+
+        <legend onclick="toggleFieldset(this);" class="icon icon-collapsed">
+          <%= sprite_icon('angle-right', rtl: true) %>
+          <%= l(:label_options) %>
+        </legend>
+
+        <div style="display: none;">
+          <div>
+            <fieldset>
+              <legend><%= l(:field_column_names) %></legend>
+              <div id="list-definition">
+                <div>
+                  <label for="draw_selected_columns">
+                    <%= check_box 'query',
+                      'draw_selected_columns',
+                      id: 'draw_selected_columns',
+                      data: {
+                        enables: '#list-definition .query-columns select, #list-definition .query-columns input',
+                        action: 'change->gantt--options#toggleDisplay',
+                        'gantt--options-target': 'display'
+                      } %>
+                    <%= l(:label_display) %>
+                  </label>
+                </div>
+                <div>
+                  <%= render_query_columns_selection(query) %>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend><%= l(:label_related_issues) %></legend>
+              <label for="draw_relations">
+                <%= check_box 'query',
+                  'draw_relations',
+                  id: 'draw_relations',
+                  data: {
+                    action: 'change->gantt--options#toggleRelations',
+                    'gantt--options-target': 'relations'
+                  } %>
+                <% [IssueRelation::TYPE_BLOCKS, IssueRelation::TYPE_PRECEDES].each do |rel| %>
+                  <% color = Redmine::Helpers::Gantt::DRAW_TYPES[rel][:color] %>
+                  <%= content_tag(:span, '&nbsp;&nbsp;&nbsp;'.html_safe, style: "background-color: #{color}") %>
+                  <%= l(IssueRelation::TYPES[rel][:name]) %>
+                <% end %>
+              </label>
+            </fieldset>
+
+            <fieldset>
+              <legend><%= l(:label_gantt_progress_line) %></legend>
+              <label for="draw_progress_line">
+                <%= check_box 'query',
+                  'draw_progress_line',
+                  id: 'draw_progress_line',
+                  data: {
+                    action: 'change->gantt--options#toggleProgress',
+                    'gantt--options-target': 'progress'
+                  } %>
+                <%= l(:label_display) %>
+              </label>
+            </fieldset>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+
+    <p class="contextual">
+      <span>
+        <%= gantt_zoom_link(gantt, :in) %>
+        <%= gantt_zoom_link(gantt, :out) %>
+      </span>
+      <span>
+        <%= link_to_previous_month(gantt.year_from, gantt.month_from, accesskey: accesskey(:previous)) %> |
+        <%= link_to_next_month(gantt.year_from, gantt.month_from, accesskey: accesskey(:next)) %>
+      </span>
+    </p>
+
+    <p class="buttons">
+      <%= number_field_tag 'months', gantt.months, min: 1, max: Setting.gantt_months_limit.to_i, autocomplete: false %>
+      <%= l(:label_months_from) %>
+      <%= select_month(gantt.month_from, prefix: 'month', discard_type: true) %>
+      <%= select_year(gantt.year_from, prefix: 'year', discard_type: true) %>
+      <%= hidden_field_tag 'zoom', gantt.zoom %>
+
+      <%= link_to_function sprite_icon('checked', l(:button_apply)), '$("#query_form").submit()',
+                           class: 'icon icon-checked' %>
+      <%= link_to sprite_icon('reload', l(:button_clear)), {project_id: project, set_filter: 1},
+                  class: 'icon icon-reload' %>
+      <% if query.new_record? && User.current.allowed_to?(:save_queries, project, global: true) %>
+        <%= link_to_function sprite_icon('save', l(:button_save_object, object_name: l(:label_query)).capitalize),
+                             "$('#query_form').attr('action', '#{ project ? new_project_query_path(project) : new_query_path }').submit();",
+                             class: 'icon icon-save' %>
+      <% end %>
+      <% if !query.new_record? && query.editable_by?(User.current) %>
+        <%= link_to sprite_icon('edit', l(:button_edit_object, object_name: l(:label_query)).capitalize),
+                    edit_query_path(query, gantt: 1),
+                    class: 'icon icon-edit' %>
+        <%= delete_link query_path(query, gantt: 1), {}, l(:button_delete_object, object_name: l(:label_query)).capitalize %>
+      <% end %>
+    </p>
+  </div>
+<% end %>

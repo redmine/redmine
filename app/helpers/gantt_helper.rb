@@ -41,4 +41,47 @@ module GanttHelper
       end
     end
   end
+
+  def gantt_chart_tag(query, &)
+    data_attributes = {
+      controller: 'gantt--chart',
+      # Events emitted by child controllers the chart listens to.
+      # - `gantt--options` toggles checkboxes under Options.
+      # - `gantt--subjects` reports tree expand/collapse.
+      # - Window resize triggers a redraw of progress lines and relations.
+      action: %w(
+        gantt--options:toggle-display@document->gantt--chart#handleOptionsDisplay
+        gantt--options:toggle-relations@document->gantt--chart#handleOptionsRelations
+        gantt--options:toggle-progress@document->gantt--chart#handleOptionsProgress
+        gantt--subjects:toggle-tree->gantt--chart#handleSubjectTreeChanged
+        resize@window->gantt--chart#handleWindowResize
+      ).join(' '),
+      'gantt--chart-issue-relation-types-value': Redmine::Helpers::Gantt::DRAW_TYPES.to_json,
+      'gantt--chart-show-selected-columns-value': query.draw_selected_columns ? 'true' : 'false',
+      'gantt--chart-show-relations-value': query.draw_relations ? 'true' : 'false',
+      'gantt--chart-show-progress-value': query.draw_progress_line ? 'true' : 'false'
+    }
+
+    tag.table(class: 'gantt-table', data: data_attributes, &)
+  end
+
+  def gantt_column_tag(column_name, min_width: nil, **options, &)
+    options[:data] = {
+      controller: 'gantt--column',
+      action: 'resize@window->gantt--column#handleWindowResize',
+      'gantt--column-min-width-value': min_width,
+      'gantt--column-column-value': column_name
+    }
+    options[:class] = ["gantt_#{column_name}_column", options[:class]]
+
+    tag.td(**options, &)
+  end
+
+  def gantt_subjects_tag(&)
+    data_attributes = {
+      controller: 'gantt--subjects',
+      action: 'gantt--column:resize-column-subjects@document->gantt--subjects#handleResizeColumn'
+    }
+    tag.div(class: "gantt_subjects", data: data_attributes, &)
+  end
 end

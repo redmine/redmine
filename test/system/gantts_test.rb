@@ -2,7 +2,7 @@
 
 require_relative '../application_system_test_case'
 
-class GanttSystemTest < ApplicationSystemTestCase
+class GanttsTest < ApplicationSystemTestCase
   setup do
     log_user('jsmith', 'jsmith')
   end
@@ -11,33 +11,33 @@ class GanttSystemTest < ApplicationSystemTestCase
     visit_gantt
     expand_options
 
-    assert_no_selector('td#status', visible: :visible)
-    assert_no_selector('td#priority', visible: :visible)
-    assert_no_selector('td#assigned_to', visible: :visible)
-    assert_no_selector('td#updated_on', visible: :visible)
+    assert_no_selector 'td#status'
+    assert_no_selector 'td#priority'
+    assert_no_selector 'td#assigned_to'
+    assert_no_selector 'td#updated_on'
 
     find('#draw_selected_columns').check
 
-    assert_selector('div.gantt_subjects_container.draw_selected_columns')
-    assert_selector('td#status', visible: :visible)
-    assert_selector('td#priority', visible: :visible)
-    assert_selector('td#assigned_to', visible: :visible)
-    assert_selector('td#updated_on', visible: :visible)
+    assert_selector 'div.gantt_subjects_container.draw_selected_columns'
+    assert_selector 'td#status'
+    assert_selector 'td#priority'
+    assert_selector 'td#assigned_to'
+    assert_selector 'td#updated_on'
   end
 
   test 'related issues toggle displays and hides relation arrows' do
     visit_gantt
     expand_options
 
-    assert_selector('#gantt_draw_area path', minimum: 1)
+    assert_selector '#gantt_draw_area path', minimum: 1
 
     find('#draw_relations').uncheck
 
-    assert_no_selector('#gantt_draw_area path')
+    assert_no_selector '#gantt_draw_area path'
 
     find('#draw_relations').check
 
-    assert_selector('#gantt_draw_area path', minimum: 1)
+    assert_selector '#gantt_draw_area path', minimum: 1
   end
 
   test 'progress line toggle draws zigzag line' do
@@ -45,11 +45,11 @@ class GanttSystemTest < ApplicationSystemTestCase
     expand_options
 
     find('#draw_relations').uncheck
-    assert_no_selector('#gantt_draw_area path')
+    assert_no_selector '#gantt_draw_area path'
 
     find('#draw_progress_line').check
 
-    assert_selector('#gantt_draw_area path', minimum: 1)
+    assert_selector '#gantt_draw_area path', minimum: 1
   end
 
   test 'selected columns can be resized by dragging' do
@@ -73,20 +73,20 @@ class GanttSystemTest < ApplicationSystemTestCase
     task_area = find('div.tooltip.hascontextmenu', match: :first, visible: :all)
 
     task_area.hover
-    assert_selector('div.tooltip span.tip', text: issue_reference, visible: :visible)
+    assert_selector 'div.tooltip span.tip', text: issue_reference
 
     issue_subject.right_click
 
-    assert_selector('#context-menu', visible: :visible)
-    assert_selector('#context-menu a.icon-edit', visible: :visible)
+    assert_selector '#context-menu'
+    assert_selector '#context-menu a.icon-edit'
 
     page.send_keys(:escape)
 
     task_area = find('div.tooltip.hascontextmenu', match: :first, visible: :all)
     task_area.right_click
 
-    assert_selector('#context-menu', visible: :visible)
-    assert_selector('#context-menu a.icon-edit', visible: :visible)
+    assert_selector '#context-menu'
+    assert_selector '#context-menu a.icon-edit'
 
     page.send_keys(:escape)
   end
@@ -107,7 +107,7 @@ class GanttSystemTest < ApplicationSystemTestCase
   end
 
   def drag_column_resizer(column_id, distance)
-    handle = find("td##{column_id} .ui-resizable-e", visible: :visible)
+    handle = find("td##{column_id} .ui-resizable-e")
     page.driver.browser.action.click_and_hold(handle.native).move_by(distance, 0).release.perform
   end
 end
