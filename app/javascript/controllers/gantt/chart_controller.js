@@ -89,10 +89,6 @@ export default class extends Controller {
       this.#drawRelations()
     }
 
-    const content = document.getElementById("content")
-    if (content) {
-      content.classList.add("gantt_content")
-    }
   }
 
   #setupDrawArea() {
