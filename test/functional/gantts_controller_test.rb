@@ -215,4 +215,175 @@ class GanttsControllerTest < Redmine::ControllerTest
       assert_select 'div.gantt_hdr>a', :text => /^[\d-]+$/, :count => 6
     end
   end
+
+  test 'renders project tree with child issues and bars' do
+    prepare_stable_gantt_data
+
+    @request.session[:user_id] = 2
+
+    project = projects(:projects_001)
+
+    get(:show, params: { project_id: project.id })
+    assert_response :success
+
+    # eCookbook
+    assert_subject_row('div.project-name', row: '0', text: project.name)
+    assert_chart_row('div.task.project.task_todo', row: '0', style_substring: 'left:0px;width:138px')
+
+    assert_issue_row(3, 'Bug #3', row: '1')
+    assert_chart_row('div.task.leaf.task_todo', row: '1', style_substring: 'left:0px;width:38px')
+
+    assert_issue_row(7, 'Bug #7', row: '2')
+    assert_chart_row('div.task.leaf.task_todo', row: '2', style_substring: 'left:16px;width:42px')
+
+    assert_issue_row(1, 'Bug #1', row: '3')
+    assert_chart_row('div.task.leaf.task_todo', row: '3', style_substring: 'left:52px;width:46px')
+
+    # Version 1.0
+    assert_subject_row('div#version-2', row: '4', text: '1.0')
+    assert_chart_row('div.task.version', row: '4', style_substring: 'left:48px;width:90px')
+
+    assert_issue_row(2, 'Feature request #2', row: '5')
+    assert_chart_row('div.task.leaf.task_todo', row: '5', style_substring: 'left:48px;width:90px')
+
+    # Private child of eCookbook
+    assert_subject_row(
+      'div.project-name[data-collapse-expand*="project-5"]',
+      row: '6',
+      text: projects(:projects_005).name
+    )
+    assert_chart_row('div.task.project.task_todo', row: '6', style_substring: 'left:56px;width:6px')
+
+    assert_issue_row(6, 'Bug #6', row: '7')
+    assert_chart_row('div.task.leaf.task_todo', row: '7', style_substring: 'left:56px;width:6px')
+
+    assert_issue_row(9, 'Bug #9', row: '8')
+    assert_chart_row('div.task.leaf.task_todo', row: '8', style_substring: 'left:56px;width:6px')
+
+    assert_issue_row(10, 'Bug #10', row: '9')
+    assert_chart_row('div.task.leaf.task_todo', row: '9', style_substring: 'left:56px;width:6px')
+    assert_select 'div.task[id=?][data-rels*=9]', 'task-todo-issue-10'
+
+    # eCookbook Subproject1
+    assert_subject_row(
+      'div.project-name[data-collapse-expand*="project-3"]',
+      row: '10',
+      text: projects(:projects_003).name
+    )
+    assert_issue_row(5, 'Bug #5', row: '11')
+    assert_issue_row(13, 'Bug #13', row: '12')
+    assert_issue_row(14, 'Bug #14', row: '13')
+  end
+
+  test 'renders chart with selected start month and year' do
+    prepare_stable_gantt_data
+
+    @request.session[:user_id] = 2
+
+    project = projects(:projects_005)
+
+    selected_start = User.current.today.prev_month.beginning_of_month
+    get(
+      :show,
+      params: {
+        project_id: project.id,
+        month: selected_start.month,
+        year: selected_start.year
+      }
+    )
+    assert_response :success
+
+    assert_select 'select#month option[selected=selected][value=?]', selected_start.month.to_s
+    assert_select 'select#year option[selected=selected][value=?]', selected_start.year.to_s
+
+    6.times do |offset|
+      m = selected_start.since(offset.month)
+      assert_select 'div.gantt_hdr > a', text: "#{m.year}-#{m.month}"
+    end
+
+    # eCookbook
+    assert_subject_row('div.project-name', row: '0', text: projects(:projects_001).name)
+    assert_chart_row('div.task.project.task_todo', row: '0', style_substring: 'left:0px;width:258px')
+
+    # Private child of eCookbook
+    assert_subject_row(
+      'div.project-name[data-collapse-expand*="project-5"]',
+      row: '1',
+      text: project.name
+    )
+    assert_chart_row('div.task.project.task_todo', row: '1', style_substring: 'left:176px;width:6px')
+
+    # Bug #6
+    assert_issue_row(6, 'Bug #6', row: '2')
+    assert_chart_row('div.task.leaf.task_todo', row: '2', style_substring: 'left:176px;width:6px')
+
+    # Bug #9
+    assert_issue_row(9, 'Bug #9', row: '3')
+    assert_chart_row('div.task.leaf.task_todo', row: '3', style_substring: 'left:176px;width:6px')
+
+    # Bug #10
+    assert_issue_row(10, 'Bug #10', row: '4')
+    assert_chart_row('div.task.leaf.task_todo', row: '4', style_substring: 'left:176px;width:6px')
+
+    assert_select 'div.task[id=?][data-rels*=9]', 'task-todo-issue-10'
+  end
+
+  test 'shows six months starting from current month' do
+    prepare_stable_gantt_data
+
+    @request.session[:user_id] = 2
+
+    project = projects(:projects_001)
+
+    get :show, params: { project_id: project.id }
+    assert_response :success
+
+    start_of_month = User.current.today.beginning_of_month
+    6.times do |offset|
+      m = start_of_month.since(offset.months)
+
+      assert_select 'div.gantt_hdr > a', text: "#{m.year}-#{m.month}"
+    end
+
+    assert_select 'input#months[value=?]', '6'
+    assert_select 'select#month option[selected=selected][value=?]', User.current.today.month.to_s
+    assert_select 'select#year option[selected=selected][value=?]', User.current.today.year.to_s
+    assert_select 'input#zoom[value=?]', '2'
+  end
+
+  private
+
+  def assert_subject_row(selector, row:, text:)
+    assert_select "div.gantt_subjects form #{selector}[data-number-of-rows=?]", row do
+      assert_select 'a', text: text
+    end
+  end
+
+  def assert_issue_row(issue_id, link_text, row:)
+    selector = "div.gantt_subjects form div#issue-#{issue_id}[data-number-of-rows=\"#{row}\"]"
+    assert_select selector do
+      assert_select 'a.issue', text: link_text
+    end
+  end
+
+  def assert_chart_row(selector, row:, style_substring:)
+    matcher = "#gantt_area #{selector}[data-number-of-rows=?][style*=?]"
+    assert_select matcher, row, style_substring, minimum: 1
+  end
+
+  # Freezes today and resets the start and due dates of issues and versions in the eCookbook project and its descendants to fixed values
+  # so the Gantt layout uses deterministic dates, bar positions stay stable across runs, and the tests remain easy to execute.
+  def prepare_stable_gantt_data
+    issues(:issues_003).update!(start_date: Date.new(2025, 9, 30), due_date: Date.new(2025, 10, 10))
+    issues(:issues_007).update!(start_date: Date.new(2025, 10, 5), due_date: Date.new(2025, 10, 15))
+    issues(:issues_001).update!(start_date: Date.new(2025, 10, 14), due_date: Date.new(2025, 10, 25))
+    issues(:issues_002).update!(start_date: Date.new(2025, 10, 13), due_date: nil)
+    issues(:issues_006).update!(start_date: Date.new(2025, 10, 15), due_date: Date.new(2025, 10, 16))
+    issues(:issues_009).update!(start_date: Date.new(2025, 10, 15), due_date: Date.new(2025, 10, 16))
+    issues(:issues_010).update!(start_date: Date.new(2025, 10, 15), due_date: Date.new(2025, 10, 16))
+
+    Version.find(2).update!(effective_date: Date.new(2025, 11, 4))
+
+    travel_to Date.new(2025, 10, 15)
+  end
 end
