@@ -12,6 +12,11 @@ class WebhooksControllerTest < Redmine::ControllerTest
     @hook = create_hook
     @other_hook = create_hook user: User.find_by_login('admin'), url: 'https://example.com/other/hook'
     @request.session[:user_id] = @dlopper.id
+    @original_webhooks_setting = Setting.webhooks_enabled = '1'
+  end
+
+  teardown do
+    Setting.webhooks_enabled = @original_webhooks_setting
   end
 
   test "should require login" do

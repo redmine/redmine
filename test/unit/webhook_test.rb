@@ -153,23 +153,28 @@ class WebhookTest < ActiveSupport::TestCase
   end
 
   test "schedule should enqueue jobs for hooks" do
-    hook = create_hook
-    assert_enqueued_jobs 1 do
-      assert_enqueued_with(job: WebhookJob) do
-        Webhook.trigger('issue.created', @issue)
+    with_settings webhooks_enabled: '1' do
+      hook = create_hook
+      assert_enqueued_jobs 1 do
+        assert_enqueued_with(job: WebhookJob) do
+          Webhook.trigger('issue.created', @issue)
+        end
       end
     end
   end
 
   test "should not enqueue job for inactive hook" do
-    hook = create_hook active: false
-    assert_no_enqueued_jobs do
-      Webhook.trigger('issue.created', @issue)
+    with_settings webhooks_enabled: '1' do
+      hook = create_hook active: false
+      assert_no_enqueued_jobs do
+        Webhook.trigger('issue.created', @issue)
+      end
     end
   end
 
   test "enabled? should follow setting flag" do
-    assert Webhook.enabled?
+    # Disabled by default
+    assert_not Webhook.enabled?
 
     with_settings webhooks_enabled: '0' do
       assert_not Webhook.enabled?

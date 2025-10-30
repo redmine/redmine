@@ -401,9 +401,11 @@ class MyControllerTest < Redmine::ControllerTest
   def test_my_account_should_toggle_webhook_link_with_setting
     User.find(2).roles.first.add_permission!(:use_webhooks)
 
-    get :account
-    assert_response :success
-    assert_select 'a.icon-webhook', 1
+    with_settings webhooks_enabled: '1' do
+      get :account
+      assert_response :success
+      assert_select 'a.icon-webhook', 1
+    end
 
     with_settings webhooks_enabled: '0' do
       get :account
