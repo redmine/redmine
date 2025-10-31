@@ -20,15 +20,13 @@
 require_relative '../../../../../test_helper'
 
 if Object.const_defined?(:Commonmarker)
-  require 'redmine/wiki_formatting/common_mark/external_links_filter'
 
-  class Redmine::WikiFormatting::CommonMark::ExternalLinksFilterTest < ActiveSupport::TestCase
+  class Redmine::WikiFormatting::CommonMark::ExternalFilterTest < ActiveSupport::TestCase
     def filter(html)
-      Redmine::WikiFormatting::CommonMark::ExternalLinksFilter.to_html(html, @options)
-    end
-
-    def setup
-      @options = { }
+      fragment = Redmine::WikiFormatting::HtmlParser.parse(html)
+      scrubber = Redmine::WikiFormatting::CommonMark::ExternalLinksScrubber.new
+      fragment.scrub!(scrubber)
+      fragment.to_s
     end
 
     def test_external_links_should_have_external_css_class

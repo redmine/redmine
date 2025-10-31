@@ -20,15 +20,13 @@
 require_relative '../../../../../test_helper'
 
 if Object.const_defined?(:Commonmarker)
-  require 'redmine/wiki_formatting/common_mark/sanitization_filter'
 
   class Redmine::WikiFormatting::CommonMark::SanitizationFilterTest < ActiveSupport::TestCase
     def filter(html)
-      Redmine::WikiFormatting::CommonMark::SanitizationFilter.to_html(html, @options)
-    end
-
-    def setup
-      @options = { }
+      fragment = Redmine::WikiFormatting::HtmlParser.parse(html)
+      sanitizer = Redmine::WikiFormatting::CommonMark::SanitizationFilter.new
+      sanitizer.call(fragment)
+      fragment.to_s
     end
 
     def test_should_filter_tags
@@ -137,7 +135,7 @@ if Object.const_defined?(:Commonmarker)
       ],
       [
         'Lo<!-- comment -->rem</b> <a href=pants title="foo>ipsum <a href="http://foo.com/"><strong>dolor</a></strong> sit<br/>amet <script>alert("hello world");',
-        'Lorem <a href="pants" title="foo&gt;ipsum &lt;a href="><strong>dolor</strong></a> sit<br>amet '
+        'Lorem <a href="pants" title="foo>ipsum <a href="><strong>dolor</strong></a> sit<br>amet '
       ],
       [
         '<p>a</p><blockquote>b',
@@ -217,8 +215,7 @@ if Object.const_defined?(:Commonmarker)
 
       'protocol-based JS injection: null char' => [
         "<img src=java\0script:alert(\"XSS\")>",
-        '<img src="java">'
-        # '<img>'
+        '<img>'
       ],
 
       'protocol-based JS injection: invalid URL char' => [
@@ -228,8 +225,7 @@ if Object.const_defined?(:Commonmarker)
 
       'protocol-based JS injection: spaces and entities' => [
         '<img src=" &#14;  javascript:alert(\'XSS\');">',
-        '<img src="">'
-        # '<img>'
+        '<img>'
       ],
 
       'protocol whitespace' => [

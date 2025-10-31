@@ -24,19 +24,19 @@ module Redmine
     module CommonMark
       # adds class="external" to external links, and class="email" to mailto
       # links
-      class ExternalLinksFilter < HTML::Pipeline::Filter
-        def call
-          doc.search("a").each do |node|
+      class ExternalLinksScrubber < Loofah::Scrubber
+        def scrub(node)
+          if node.name == 'a'
             url = node["href"]
-            next unless url
-            next if url.starts_with?("/") || url.starts_with?("#") || !url.include?(':')
+            return unless url
+            return if url.starts_with?("/") || url.starts_with?("#") || !url.include?(':')
 
             scheme = begin
               URI.parse(url).scheme
             rescue
               nil
             end
-            next if scheme.blank?
+            return if scheme.blank?
 
             klass = node["class"].presence
             node["class"] = [
@@ -50,7 +50,6 @@ module Redmine
               node["rel"] = rel.join(" ")
             end
           end
-          doc
         end
       end
     end

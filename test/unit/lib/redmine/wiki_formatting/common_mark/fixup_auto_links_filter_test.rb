@@ -20,19 +20,17 @@
 require_relative '../../../../../test_helper'
 
 if Object.const_defined?(:Commonmarker)
-  require 'redmine/wiki_formatting/common_mark/fixup_auto_links_filter'
 
-  class Redmine::WikiFormatting::CommonMark::FixupAutoLinksFilterTest < ActiveSupport::TestCase
+  class Redmine::WikiFormatting::CommonMark::FixupAutoLinksScrubberTest < ActiveSupport::TestCase
     def filter(html)
-      Redmine::WikiFormatting::CommonMark::FixupAutoLinksFilter.to_html(html, @options)
+      fragment = Redmine::WikiFormatting::HtmlParser.parse(html)
+      scrubber = Redmine::WikiFormatting::CommonMark::FixupAutoLinksScrubber.new
+      fragment.scrub!(scrubber)
+      fragment.to_s
     end
 
     def format(markdown)
-      Redmine::WikiFormatting::CommonMark::MarkdownFilter.to_html(markdown, Redmine::WikiFormatting::CommonMark::PIPELINE_CONFIG)
-    end
-
-    def setup
-      @options = { }
+      Redmine::WikiFormatting::CommonMark::MarkdownFilter.new(markdown, Redmine::WikiFormatting::CommonMark::PIPELINE_CONFIG).call
     end
 
     def test_should_fixup_autolinked_user_references

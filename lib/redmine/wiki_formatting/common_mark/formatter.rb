@@ -17,8 +17,6 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require 'html/pipeline'
-
 module Redmine
   module WikiFormatting
     module CommonMark
@@ -54,14 +52,13 @@ module Redmine
         }.freeze,
       }.freeze
 
-      MarkdownPipeline = HTML::Pipeline.new [
-        MarkdownFilter,
-        SanitizationFilter,
-        SyntaxHighlightFilter,
-        FixupAutoLinksFilter,
-        ExternalLinksFilter,
-        AlertsIconsFilter
-      ], PIPELINE_CONFIG
+      SANITIZER = SanitizationFilter.new
+      SCRUBBERS = [
+        SyntaxHighlightScrubber.new,
+        FixupAutoLinksScrubber.new,
+        ExternalLinksScrubber.new,
+        AlertsIconsScrubber.new
+      ]
 
       class Formatter
         include Redmine::WikiFormatting::SectionHelper
@@ -71,8 +68,13 @@ module Redmine
         end
 
         def to_html(*args)
-          result = MarkdownPipeline.call @text
-          result[:output].to_s
+          html = MarkdownFilter.new(@text, PIPELINE_CONFIG).call
+          fragment = Redmine::WikiFormatting::HtmlParser.parse(html)
+          SANITIZER.call(fragment)
+          SCRUBBERS.each do |scrubber|
+            fragment.scrub!(scrubber)
+          end
+          fragment.to_s
         end
       end
     end

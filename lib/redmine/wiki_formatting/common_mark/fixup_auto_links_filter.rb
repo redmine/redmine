@@ -26,15 +26,13 @@ module Redmine
       #   @<a href="mailto:user@example.org">user@example.org</a>
       # - autolinked hi res image names that look like email addresses:
       #   <a href="mailto:printscreen@2x.png">printscreen@2x.png</a>
-      class FixupAutoLinksFilter < HTML::Pipeline::Filter
+      class FixupAutoLinksScrubber < Loofah::Scrubber
         USER_LINK_PREFIX = /(@|user:)\z/
         HIRES_IMAGE = /.+@\dx\.(bmp|gif|jpg|jpe|jpeg|png)\z/
 
-        def call
-          doc.search("a").each do |node|
-            unless (url = node['href']) && url.starts_with?('mailto:')
-              next
-            end
+        def scrub(node)
+          if node.name == 'a'
+            return unless (url = node['href']) && url.starts_with?('mailto:')
 
             if ((p = node.previous) && p.text? &&
                 p.text =~(USER_LINK_PREFIX)) ||
@@ -43,7 +41,6 @@ module Redmine
               node.replace node.text
             end
           end
-          doc
         end
       end
     end

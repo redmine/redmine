@@ -25,10 +25,12 @@ module Redmine
       # We do not use the stock HTML::Pipeline::MarkdownFilter because this
       # does not allow for straightforward configuration of render and parsing
       # options
-      class MarkdownFilter < HTML::Pipeline::TextFilter
-        def initialize(text, context = nil, result = nil)
-          super
-          @text = @text.delete "\r"
+      class MarkdownFilter
+        attr_reader :context
+
+        def initialize(text, context = nil)
+          @text = text.delete "\r"
+          @context = context
         end
 
         def call

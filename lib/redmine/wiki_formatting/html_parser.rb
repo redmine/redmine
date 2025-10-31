@@ -28,6 +28,10 @@ module Redmine
         'style' => ''
       }
 
+      def self.parse(html)
+        Loofah.html5_fragment(html)
+      end
+
       def self.to_text(html)
         html = html.gsub(/[\n\r]/, ' ')
 

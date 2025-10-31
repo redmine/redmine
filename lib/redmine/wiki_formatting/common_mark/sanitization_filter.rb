@@ -21,44 +21,132 @@ module Redmine
   module WikiFormatting
     module CommonMark
       # sanitizes rendered HTML using the Sanitize gem
-      class SanitizationFilter < HTML::Pipeline::SanitizationFilter
+      class SanitizationFilter
         include Redmine::Helpers::URL
+
+        attr_accessor :allowlist
+
+        LISTS     = Set.new(%w[ul ol].freeze)
+        LIST_ITEM = 'li'
+
+        # List of table child elements. These must be contained by a <table> element
+        # or they are not allowed through. Otherwise they can be used to break out
+        # of places we're using tables to contain formatted user content (like pull
+        # request review comments).
+        TABLE_ITEMS = Set.new(%w[tr td th].freeze)
+        TABLE = 'table'
+        TABLE_SECTIONS = Set.new(%w[thead tbody tfoot].freeze)
+
+        # The main sanitization allowlist. Only these elements and attributes are
+        # allowed through by default.
+        ALLOWLIST = {
+          :elements => %w[
+            h1 h2 h3 h4 h5 h6 br b i strong em a pre code img input tt u
+            div ins del sup sub p ol ul table thead tbody tfoot blockquote
+            dl dt dd kbd q samp var hr ruby rt rp li tr td th s strike summary
+            details caption figure figcaption
+            abbr bdo cite dfn mark small span time wbr
+          ].freeze,
+            :remove_contents => ['script'].freeze,
+            :attributes => {
+              'a'          => %w[href id name].freeze,
+              'img'        => %w[src longdesc].freeze,
+              'code'       => ['class'].freeze,
+              'div'        => %w[class itemscope itemtype].freeze,
+              'li'         => %w[id class].freeze,
+              'input'      => %w[class type].freeze,
+              'p'          => ['class'].freeze,
+              'ul'         => ['class'].freeze,
+              'blockquote' => ['cite'].freeze,
+              'del'        => ['cite'].freeze,
+              'ins'        => ['cite'].freeze,
+              'q'          => ['cite'].freeze,
+              :all => %w[
+                abbr accept accept-charset
+                accesskey action align alt
+                aria-describedby aria-hidden aria-label aria-labelledby
+                axis border cellpadding cellspacing char
+                charoff charset checked
+                clear cols colspan color
+                compact coords datetime dir
+                disabled enctype for frame
+                headers height hreflang
+                hspace ismap label lang
+                maxlength media method
+                multiple nohref noshade
+                nowrap open progress prompt readonly rel rev
+                role rows rowspan rules scope
+                selected shape size span
+                start style summary tabindex target
+                title type usemap valign value
+                vspace width itemprop
+              ].freeze
+            }.freeze,
+            :protocols => {
+              'blockquote' => { 'cite' => ['http', 'https', :relative].freeze },
+              'del'        => { 'cite' => ['http', 'https', :relative].freeze },
+              'ins'        => { 'cite' => ['http', 'https', :relative].freeze },
+              'q'          => { 'cite' => ['http', 'https', :relative].freeze },
+              'img'        => {
+                'src'      => ['http', 'https', :relative].freeze,
+                'longdesc' => ['http', 'https', :relative].freeze
+              }.freeze
+            },
+            :transformers => [
+              # Top-level <li> elements are removed because they can break out of
+              # containing markup.
+              lambda { |env|
+                name = env[:node_name]
+                node = env[:node]
+                if name == LIST_ITEM && node.ancestors.none? { |n| LISTS.include?(n.name) }
+                  node.replace(node.children)
+                end
+              },
+
+              # Table child elements that are not contained by a <table> are removed.
+              lambda { |env|
+                name = env[:node_name]
+                node = env[:node]
+                if (TABLE_SECTIONS.include?(name) || TABLE_ITEMS.include?(name)) && node.ancestors.none? { |n| n.name == TABLE }
+                  node.replace(node.children)
+                end
+              }
+            ].freeze,
+            :css => {
+              :properties => %w[
+                color background-color
+                width min-width max-width
+                height min-height max-height
+                padding padding-left padding-right padding-top padding-bottom
+                margin margin-left margin-right margin-top margin-bottom
+                border border-left border-right border-top border-bottom border-radius border-style border-collapse border-spacing
+                font font-style font-variant font-weight font-stretch font-size line-height font-family
+                text-align
+                float
+              ].freeze
+            }
+        }.freeze
+
         RELAXED_PROTOCOL_ATTRS = {
           "a" => %w(href).freeze,
         }.freeze
 
-        ALLOWED_CSS_PROPERTIES = %w[
-          color background-color
-          width min-width max-width
-          height min-height max-height
-          padding padding-left padding-right padding-top padding-bottom
-          margin margin-left margin-right margin-top margin-bottom
-          border border-left border-right border-top border-bottom border-radius border-style border-collapse border-spacing
-          font font-style font-variant font-weight font-stretch font-size line-height font-family
-          text-align
-          float
-        ].freeze
+        def initialize
+          @allowlist = default_allowlist
+          add_transformers
+        end
 
-        def allowlist
-          @allowlist ||= customize_allowlist(super.deep_dup)
+        def call(doc)
+          # Sanitize is applied to the whole document, so the API is different from loofeh's scrubber.
+          Sanitize.clean_node!(doc, allowlist)
         end
 
         private
 
-        # customizes the allowlist defined in
-        # https://github.com/jch/html-pipeline/blob/master/lib/html/pipeline/sanitization_filter.rb
-        def customize_allowlist(allowlist)
-          # Disallow `name` attribute globally, allow on `a`
-          allowlist[:attributes][:all].delete("name")
-          allowlist[:attributes]["a"].push("name")
-
-          allowlist[:attributes][:all].push("style")
-          allowlist[:css] = { properties: ALLOWED_CSS_PROPERTIES }
-
+        def add_transformers
           # allow class on code tags (this holds the language info from fenced
           # code bocks and has the format language-foo)
-          allowlist[:attributes]["code"] = %w(class)
-          allowlist[:transformers].push lambda{|env|
+          allowlist[:transformers].push lambda {|env|
             node = env[:node]
             return unless node.name == "code"
             return unless node.has_attribute?("class")
@@ -70,9 +158,7 @@ module Redmine
 
           # Allow class on div and p tags only for alert blocks
           # (must be exactly: "markdown-alert markdown-alert-*" for div, and "markdown-alert-title" for p)
-          (allowlist[:attributes]["div"] ||= []) << "class"
-          (allowlist[:attributes]["p"] ||= []) << "class"
-          allowlist[:transformers].push lambda{|env|
+          allowlist[:transformers].push lambda {|env|
             node = env[:node]
             return unless node.element?
 
@@ -98,10 +184,8 @@ module Redmine
           # allowlist[:attributes]["td"] = %w(style)
           # allowlist[:css] = { properties: ["text-align"] }
 
-          # Allow `id` in a elements for footnotes
-          allowlist[:attributes]["a"].push "id"
           # Remove any `id` property not matching for footnotes
-          allowlist[:transformers].push lambda{|env|
+          allowlist[:transformers].push lambda {|env|
             node = env[:node]
             return unless node.name == "a"
             return unless node.has_attribute?("id")
@@ -112,8 +196,7 @@ module Redmine
 
           # allow `id` in li element for footnotes
           # allow `class` in li element for task list items
-          allowlist[:attributes]["li"] = %w(id class)
-          allowlist[:transformers].push lambda{|env|
+          allowlist[:transformers].push lambda {|env|
             node = env[:node]
             return unless node.name == "li"
 
@@ -128,11 +211,8 @@ module Redmine
 
           # allow input type = "checkbox" with class "task-list-item-checkbox"
           # for task list items
-          allowlist[:elements].push('input')
-          allowlist[:attributes]["input"] = %w(class type)
-          allowlist[:transformers].push lambda{|env|
+          allowlist[:transformers].push lambda {|env|
             node = env[:node]
-
             return unless node.name == "input"
             return if node['type'] == "checkbox" && node['class'] == "task-list-item-checkbox"
 
@@ -140,10 +220,8 @@ module Redmine
           }
 
           # allow class "contains-task-list" on ul for task list items
-          allowlist[:attributes]["ul"] = %w(class)
-          allowlist[:transformers].push lambda{|env|
+          allowlist[:transformers].push lambda {|env|
             node = env[:node]
-
             return unless node.name == "ul"
             return if node["class"] == "contains-task-list"
 
@@ -151,8 +229,7 @@ module Redmine
           }
 
           # https://github.com/rgrove/sanitize/issues/209
-          allowlist[:protocols].delete("a")
-          allowlist[:transformers].push lambda{|env|
+          allowlist[:transformers].push lambda {|env|
             node = env[:node]
             return if node.type != Nokogiri::XML::Node::ELEMENT_NODE
 
@@ -168,11 +245,12 @@ module Redmine
               end
             end
           }
+        end
 
-          # Allow `u` element to enable underline
-          allowlist[:elements].push('u')
-
-          allowlist
+        # The allowlist to use when sanitizing. This can be passed in the context
+        # hash to the filter but defaults to ALLOWLIST constant value above.
+        def default_allowlist
+          ALLOWLIST.deep_dup
         end
       end
     end

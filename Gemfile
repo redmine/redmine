@@ -37,9 +37,8 @@ gem 'tzinfo-data', platforms: [:mingw, :x64_mingw, :mswin]
 gem 'rotp', '>= 5.0.0'
 gem 'rqrcode'
 
-# HTML pipeline and sanitization
-gem "html-pipeline", "~> 2.13.2"
-gem "sanitize", "~> 6.0"
+# HTML sanitization
+gem "sanitize", "~> 7.0"
 
 # Triggering of Webhooks
 gem "rest-client", "~> 2.1"

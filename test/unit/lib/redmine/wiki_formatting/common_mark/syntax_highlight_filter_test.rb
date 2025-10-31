@@ -19,15 +19,13 @@
 
 require_relative '../../../../../test_helper'
 if Object.const_defined?(:Commonmarker)
-  require 'redmine/wiki_formatting/common_mark/syntax_highlight_filter'
 
-  class Redmine::WikiFormatting::CommonMark::SyntaxHighlightFilterTest < ActiveSupport::TestCase
+  class Redmine::WikiFormatting::CommonMark::SyntaxHighlightScrubberTest < ActiveSupport::TestCase
     def filter(html)
-      Redmine::WikiFormatting::CommonMark::SyntaxHighlightFilter.to_html(html, @options)
-    end
-
-    def setup
-      @options = { }
+      fragment = Redmine::WikiFormatting::HtmlParser.parse(html)
+      scrubber = Redmine::WikiFormatting::CommonMark::SyntaxHighlightScrubber.new
+      fragment.scrub!(scrubber)
+      fragment.to_s
     end
 
     def test_should_highlight_supported_language

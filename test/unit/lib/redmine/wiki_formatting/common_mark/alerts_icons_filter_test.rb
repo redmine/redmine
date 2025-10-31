@@ -20,17 +20,20 @@
 require_relative '../../../../../test_helper'
 
 if Object.const_defined?(:Commonmarker)
-  require 'redmine/wiki_formatting/common_mark/alerts_icons_filter'
+  require 'redmine/wiki_formatting/common_mark/alerts_icons_scrubber'
 
   class Redmine::WikiFormatting::CommonMark::AlertsIconsFilterTest < ActiveSupport::TestCase
     include Redmine::I18n
 
     def format(markdown)
-      Redmine::WikiFormatting::CommonMark::MarkdownFilter.to_html(markdown, Redmine::WikiFormatting::CommonMark::PIPELINE_CONFIG)
+      Redmine::WikiFormatting::CommonMark::MarkdownFilter.new(markdown, Redmine::WikiFormatting::CommonMark::PIPELINE_CONFIG).call
     end
 
     def filter(html)
-      Redmine::WikiFormatting::CommonMark::AlertsIconsFilter.to_html(html, @options)
+      fragment = Redmine::WikiFormatting::HtmlParser.parse(html)
+      scrubber = Redmine::WikiFormatting::CommonMark::AlertsIconsScrubber.new
+      fragment.scrub!(scrubber)
+      fragment.to_s
     end
 
     def setup

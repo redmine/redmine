@@ -30,8 +30,8 @@ module Redmine
         'important' => 'message-report',
       }.freeze
 
-      class AlertsIconsFilter < HTML::Pipeline::Filter
-        def call
+      class AlertsIconsScrubber < Loofah::Scrubber
+        def scrub(doc)
           doc.search("p.markdown-alert-title").each do |node|
             parent_node = node.parent
             parent_class_attr = parent_node['class'] # e.g., "markdown-alert markdown-alert-note"
