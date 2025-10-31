@@ -1491,8 +1491,8 @@ ja:
   webhook_secret_info_html: Redmineはこの値を使用してハッシュ署名を作成し、各リクエストの X-Redmine-Signature-256 ヘッダーの値として送信します。
   setting_webhooks_enabled: Webhookを有効にする
   label_integrations: 連携
-  label_alert_note: Note
-  label_alert_tip: Tip
-  label_alert_warning: Warning
-  label_alert_caution: Caution
-  label_alert_important: Important
+  label_alert_note: 注記
+  label_alert_tip: ヒント
+  label_alert_warning: 警告
+  label_alert_caution: 注意
+  label_alert_important: 重要
