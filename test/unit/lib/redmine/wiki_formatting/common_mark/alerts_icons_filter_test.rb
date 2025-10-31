@@ -52,5 +52,16 @@ if Object.const_defined?(:Commonmarker)
       expected = %r{<span class="icon-label">#{I18n.t('label_alert_note')}</span>}
       assert_match expected, html
     end
+
+    def test_should_not_translate_title_if_overridden
+      set_language_if_valid 'de'
+      text = <<~MD
+        > [!note] Custom Note Title
+        > This is a note.
+      MD
+      html = filter(format(text))
+      assert_match %r{<span class="icon-label">Custom Note Title</span>}, html
+    end
+
   end
 end
