@@ -313,6 +313,7 @@ module ApplicationHelper
           link_to_attachment(
             object,
             :class => ['icon-only', 'icon-download'],
+            :icon => 'download',
             :title => l(:button_download),
             :download => true
           )
