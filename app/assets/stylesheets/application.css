@@ -2053,6 +2053,10 @@ span.icon-label {
   margin-left: 4px;
 }
 
+span.icon-checked:has(:not(a svg.icon-svg)) svg.icon-svg {
+  stroke: #2f9e44; /* oc-green-8 */
+}
+
 /***** Legacy icons *****/
 .icon:not(:has(svg)) {
   background-position: 0% 50%;
