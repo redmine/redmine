@@ -1905,6 +1905,10 @@ span.icon-label {
   margin-left: 4px;
 }
 
+span.icon-checked:has(:not(a svg.icon-svg)) svg.icon-svg {
+  stroke: var(--oc-green-8);
+}
+
 .sort-handle.ajax-loading { background-image: url(/loading.gif); }
 tr.ui-sortable-helper { border:1px solid var(--oc-gray-4); }
 svg.svg-loader {
