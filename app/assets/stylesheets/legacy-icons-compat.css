@@ -1,0 +1,144 @@
+/**
+ * Redmine - project management software
+ * Copyright (C) 2006-  Jean-Philippe Lang
+ * This code is released under the GNU General Public License.
+ */
+
+/*
+   legacy-icons-compat.css - Legacy Icons Compatibility Stylesheet
+
+   This file provides compatibility styles for legacy raster icons that
+   were removed in Redmine 7.0. It is intended for third-party plugins
+   that have not yet migrated to SVG icons.
+
+   To restore the appearance of legacy icons, import this CSS file in
+   your plugin's stylesheet:
+
+   ```
+   @import url('/legacy-icons-compat.css');
+   ```
+
+   Please note that this compatibility file will be removed in a future
+   version of Redmine.
+*/
+
+.icon:not(:has(svg)) {
+  background-position: 0% 50%;
+  background-repeat: no-repeat;
+  padding-left: 20px;
+}
+.icon-only:not(:has(svg)) {
+  background-position: 0% 50%;
+  background-repeat: no-repeat;
+  padding-left: 16px;
+  display: inline-block;
+  width: 0;
+  height: 16px;
+  overflow: hidden;
+  padding-top: 0;
+  padding-bottom: 0;
+  font-size: 0.5rem;
+  vertical-align: middle;
+}
+.icon-only:not(:has(svg))::after {
+  content: "\a0";
+}
+
+.icon-add:not(:has(svg)) { background-image: url(/add.png); }
+.icon-edit:not(:has(svg)) { background-image: url(/edit.png); }
+.icon-copy:not(:has(svg)) { background-image: url(/copy.png); }
+.icon-duplicate { background-image: url(/duplicate.png); }
+.icon-del:not(:has(svg)) { background-image: url(/delete.png); }
+.icon-move:not(:has(svg)) { background-image: url(/move.png); }
+.icon-save:not(:has(svg)) { background-image: url(/save.png); }
+.icon-download:not(:has(svg)) { background-image: url(/download.png); }
+.icon-cancel:not(:has(svg)) { background-image: url(/cancel.png); }
+.icon-multiple:not(:has(svg)) { background-image: url(/table_multiple.png); }
+.icon-folder:not(:has(svg)) { background-image: url(/folder.png); }
+.open .icon-folder:not(:has(svg)) { background-image: url(/folder_open.png); }
+.icon-package:not(:has(svg)) { background-image: url(/package.png); }
+.icon-user:not(:has(svg)) { background-image: url(/user.png); }
+.icon-project:not(:has(svg)), .icon-projects:not(:has(svg)) { background-image: url(/projects.png); }
+.icon-help:not(:has(svg)) { background-image: url(/help.png); }
+.icon-attachment:not(:has(svg)) { background-image: url(/attachment.png); }
+.icon-history:not(:has(svg)) { background-image: url(/history.png); }
+.icon-time-entry:not(:has(svg)), .icon-time:not(:has(svg))  { background-image: url(/time.png); }
+.icon-time-add:not(:has(svg)) { background-image: url(/time_add.png); }
+.icon-stats:not(:has(svg)) { background-image: url(/stats.png); }
+.icon-warning:not(:has(svg)) { background-image: url(/warning.png); }
+.icon-error:not(:has(svg)) { background-image: url(/exclamation.png); }
+.icon-fav:not(:has(svg))  { background-image: url(/fav.png); }
+.icon-fav-off:not(:has(svg))  { background-image: url(/fav_off.png); }
+.icon-reload:not(:has(svg)) { background-image: url(/reload.png); }
+.icon-lock:not(:has(svg)), .icon-locked:not(:has(svg))  { background-image: url(/locked.png); }
+.icon-unlock:not(:has(svg)) { background-image: url(/unlock.png); }
+.icon-checked:not(:has(svg)) { background-image: url(/toggle_check.png); }
+.icon-report { background-image: url(/report.png); }
+.icon-comment:not(:has(svg)), .icon-comments:not(:has(svg)) { background-image: url(/comment.png); }
+.icon-summary:not(:has(svg)) { background-image: url(/lightning.png); }
+.icon-server-authentication:not(:has(svg)) { background-image: url(/server_key.png); }
+.icon-issue:not(:has(svg)) { background-image: url(/ticket.png); }
+.icon-zoom-in:not(:has(svg)) { background-image: url(/zoom_in.png); }
+.icon-zoom-out:not(:has(svg)) { background-image: url(/zoom_out.png); }
+.icon-magnifier { background-image: url(/magnifier.png); }
+.icon-passwd:not(:has(svg)) { background-image: url(/textfield_key.png); }
+.icon-arrow-right, .icon-test:not(:has(svg)), .icon-sticky:not(:has(svg)) { background-image: url(/bullet_go.png); }
+.icon-email:not(:has(svg)) { background-image: url(/email.png); }
+.icon-email-disabled:not(:has(svg)) { background-image: url(/email_disabled.png); }
+.icon-email-add:not(:has(svg)) { background-image: url(/email_add.png); }
+.icon-ok:not(:has(svg)) { background-image: url(/true.png); }
+.icon-not-ok:not(svg) { background-image: url(/false.png); }
+.icon-link-break:not(:has(svg)) { background-image: url(/link_break.png); }
+.icon-list:not(:has(svg)) { background-image: url(/text_list_bullets.png); }
+.icon-close:not(:has(svg)) { background-image: url(/close.png); }
+.icon-close:hover:not(:has(svg)) { background-image: url(/close_hl.png); }
+.icon-settings:not(:has(svg)) { background-image: url(/changeset.png); }
+.icon-group:not(:has(svg)),.icon-groupnonmember:not(:has(svg)), .icon-groupanonymous:not(:has(svg)) { background-image: url(/group.png); }
+.icon-roles:not(:has(svg)) { background-image: url(/database_key.png); }
+.icon-issue-edit:not(:has(svg)) { background-image: url(/ticket_edit.png); }
+.icon-workflows:not(:has(svg)) { background-image: url(/ticket_go.png); }
+.icon-custom-fields:not(:has(svg)) { background-image: url(/textfield.png); }
+.icon-plugins:not(:has(svg)) { background-image: url(/plugin.png); }
+.icon-news:not(:has(svg)) { background-image: url(/news.png); }
+.icon-issue-closed:not(:has(svg)) { background-image: url(/ticket_checked.png); }
+.icon-issue-note:not(:has(svg)) { background-image: url(/ticket_note.png); }
+.icon-changeset:not(:has(svg)) { background-image: url(/changeset.png); }
+.icon-message:not(:has(svg)) { background-image: url(/message.png); }
+.icon-reply:not(:has(svg)) { background-image: url(/comments.png); }
+.icon-wiki-page:not(:has(svg)) { background-image: url(/wiki_edit.png); }
+.icon-document:not(:has(svg)) { background-image: url(/document.png); }
+.icon-add-bullet:not(:has(svg)) { background-image: url(/bullet_add.png); }
+.icon-shared:not(:has(svg)) { background-image: url(/link.png); }
+.icon-actions:not(:has(svg)) { background-image: url(/3_bullets.png); }
+.icon-sort-handle:not(:has(svg)) { background-image: url(/reorder.png); }
+.icon-expanded:not(:has(svg)) { background-image: url(/arrow_down.png); }
+.icon-collapsed:not(:has(svg)) { background-image: url(/arrow_right.png); }
+.icon-bookmark:not(:has(svg)) { background-image: url(/tag_blue_delete.png); }
+.icon-bookmark-off:not(:has(svg)) { background-image: url(/tag_blue_add.png); }
+.icon-bookmarked-project:not(:has(svg)) { background-image: url(/tag_blue.png); }
+.icon-sorted-asc:not(:has(svg)) { background-image: url(/arrow_down.png); }
+.icon-sorted-desc:not(:has(svg)) { background-image: url(/arrow_up.png); }
+.icon-toggle-plus:not(:has(svg)) { background-image: url(/bullet_toggle_plus.png) }
+.icon-toggle-minus:not(:has(svg)) { background-image: url(/bullet_toggle_minus.png) }
+.icon-clear-query:not(:has(svg)) { background-image: url(/close_hl.png); }
+.icon-import:not(:has(svg)) { background-image: url(/database_go.png); }
+
+.icon-file:not(:has(svg)) { background-image: url(/files/default.png); }
+.icon-file.text-plain:not(:has(svg)) { background-image: url(/files/text.png); }
+.icon-file.text-x-c:not(:has(svg)) { background-image: url(/files/c.png); }
+.icon-file.text-x-csharp:not(:has(svg)) { background-image: url(/files/csharp.png); }
+.icon-file.text-x-java:not(:has(svg)) { background-image: url(/files/java.png); }
+.icon-file.application-javascript:not(:has(svg)) { background-image: url(/files/js.png); }
+.icon-file.text-x-php:not(:has(svg)) { background-image: url(/files/php.png); }
+.icon-file.text-x-ruby:not(:has(svg)) { background-image: url(/files/ruby.png); }
+.icon-file.text-xml:not(:has(svg)) { background-image: url(/files/xml.png); }
+.icon-file.text-css:not(:has(svg)) { background-image: url(/files/css.png); }
+.icon-file.text-html:not(:has(svg)) { background-image: url(/files/html.png); }
+.icon-file.image-gif:not(:has(svg)) { background-image: url(/files/image.png); }
+.icon-file.image-jpeg:not(:has(svg)) { background-image: url(/files/image.png); }
+.icon-file.image-png:not(:has(svg)) { background-image: url(/files/image.png); }
+.icon-file.image-tiff:not(:has(svg)) { background-image: url(/files/image.png); }
+.icon-file.application-pdf:not(:has(svg)) { background-image: url(/files/pdf.png); }
+.icon-file.application-zip:not(:has(svg)) { background-image: url(/files/zip.png); }
+.icon-file.application-gzip:not(:has(svg)) { background-image: url(/files/zip.png); }
+.icon-copy-link:not(:has(svg)) { background-image: url(/copy_link.png); }
