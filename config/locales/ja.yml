@@ -1478,3 +1478,8 @@ ja:
   text_oauth_implicit_permissions: あなたの名前・ログインID・メインのメールアドレスの閲覧
   text_oauth_info_scopes: このアプリケーションが要求できるスコープを選択してください。アプリケーションは、ここで選択された範囲を超えることはできません。また、認可したユーザーのロールおよび参加しているプロジェクトによる制限も常に適用されます。
   twofa_already_setup: 二要素認証はすでに設定済みです。
+  label_alert_note: 注記
+  label_alert_tip: ヒント
+  label_alert_warning: 警告
+  label_alert_caution: 注意
+  label_alert_important: 重要

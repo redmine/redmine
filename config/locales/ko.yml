@@ -1552,3 +1552,8 @@ ko:
   label_position: Position
   label_message: Message
   twofa_already_setup: Two-factor authentication already set up
+  label_alert_note: Note
+  label_alert_tip: Tip
+  label_alert_warning: Warning
+  label_alert_caution: Caution
+  label_alert_important: Important

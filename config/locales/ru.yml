@@ -1602,3 +1602,8 @@ ru:
   label_position: Позиция
   label_message: Сообщение
   twofa_already_setup: Двухфакторная аутентификация уже включена
+  label_alert_note: Note
+  label_alert_tip: Tip
+  label_alert_warning: Warning
+  label_alert_caution: Caution
+  label_alert_important: Important
