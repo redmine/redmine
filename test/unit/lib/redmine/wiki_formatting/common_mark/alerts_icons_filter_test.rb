@@ -62,6 +62,5 @@ if Object.const_defined?(:Commonmarker)
       html = filter(format(text))
       assert_match %r{<span class="icon-label">Custom Note Title</span>}, html
     end
-
   end
 end
