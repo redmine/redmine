@@ -48,6 +48,12 @@ module Redmine
             icon_name = ALERT_TYPE_TO_ICON_NAME[alert_type]
             next unless icon_name # Skip if no specific icon is defined for this alert type
 
+            # Translate the alert title only if it matches a known alert type
+            # (i.e., the title has not been overridden)
+            if ALERT_TYPE_TO_ICON_NAME.key?(node.content.downcase)
+              node.content = ::I18n.t("label_alert_#{alert_type}", default: node.content)
+            end
+
             icon_html = ApplicationController.helpers.sprite_icon(icon_name, node.text)
 
             if icon_html

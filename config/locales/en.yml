@@ -1171,6 +1171,11 @@ en:
   label_oauth_admin_access: Administration
   label_oauth_application_plural: Applications
   label_oauth_authorized_application_plural: Authorized applications
+  label_alert_note: Note
+  label_alert_tip: Tip
+  label_alert_warning: Warning
+  label_alert_caution: Caution
+  label_alert_important: Important
 
   button_login: Login
   button_submit: Submit
