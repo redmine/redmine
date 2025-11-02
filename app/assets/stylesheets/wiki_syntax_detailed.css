@@ -80,9 +80,9 @@ table.list td { background-color: var(--oc-gray-0); vertical-align: middle; padd
 .markdown-alert-tip .markdown-alert-title { color: var(--oc-green-9); }
 .markdown-alert-important { border-color: var(--oc-grape-7); }
 .markdown-alert-important .markdown-alert-title { color: var(--oc-grape-9); }
-.markdown-alert-caution { border-color: var(--oc-red-7); }
-.markdown-alert-caution .markdown-alert-title { color: var(--oc-red-9); }
-.markdown-alert-warning { border-color: var(--oc-yellow-7); }
-.markdown-alert-warning .markdown-alert-title { color: var(--oc-yellow-9); }
+.markdown-alert-caution { border-color: var(--oc-yellow-7); }
+.markdown-alert-caution .markdown-alert-title { color: var(--oc-yellow-9); }
+.markdown-alert-warning { border-color: var(--oc-orange-7); }
+.markdown-alert-warning .markdown-alert-title { color: var(--oc-orange-9); }
 .markdown-alert-note { border-color: var(--oc-indigo-7); }
 .markdown-alert-note .markdown-alert-title { color: var(--oc-indigo-9); }
