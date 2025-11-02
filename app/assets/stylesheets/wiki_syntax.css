@@ -81,5 +81,5 @@ span.more_info { font-weight: normal; }
 .markdown-alert-title {
   font-weight: bold;
 }
-.markdown-alert-note { border-color: #169; }
-.markdown-alert-note .markdown-alert-title { color: #1e40af; }
+.markdown-alert-note { border-color: #4263eb; /* oc-indigo-7 */ }
+.markdown-alert-note .markdown-alert-title { color: #364fc7; /* oc-indigo-9 */ }
