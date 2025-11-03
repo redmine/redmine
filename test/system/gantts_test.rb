@@ -68,22 +68,26 @@ class GanttsTest < ApplicationSystemTestCase
   test 'context menu and tooltip interactions' do
     visit_gantt
 
-    issue_subject = find('div.issue-subject.hascontextmenu', match: :first)
-    issue_reference = issue_subject.find('a.issue', match: :first).text
-    task_area = find('div.tooltip.hascontextmenu', match: :first, visible: :all)
+    issue1_subject_row = find('#issue-1')
+    issue1_task_bar = find('div.tooltip[data-collapse-expand="issue-1"]')
 
-    task_area.hover
-    assert_selector 'div.tooltip span.tip', text: issue_reference
+    # Tooltip for issue task bar
+    issue1_task_bar.hover
 
-    issue_subject.right_click
+    within issue1_task_bar do
+      assert_selector 'span.tip', text: issue1_subject_row.first('a.issue').text
+    end
+
+    # Context menu for issue subject
+    issue1_subject_row.right_click
 
     assert_selector '#context-menu'
     assert_selector '#context-menu a.icon-edit'
 
     page.send_keys(:escape)
 
-    task_area = find('div.tooltip.hascontextmenu', match: :first, visible: :all)
-    task_area.right_click
+    # Context menu for issue task bar
+    issue1_task_bar.right_click
 
     assert_selector '#context-menu'
     assert_selector '#context-menu a.icon-edit'
