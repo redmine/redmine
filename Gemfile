@@ -18,6 +18,10 @@ gem 'propshaft', '~> 1.1.0'
 gem 'rack', '>= 3.1.3'
 gem 'puma'
 
+# JWT authentication for Meru integration
+gem 'jwt', '~> 2.7'
+gem 'aws-sdk-ssm', '~> 1'
+
 #  Ruby Standard Gems
 gem 'csv', '~> 3.2.8'
 gem 'net-imap', '~> 0.4.8'

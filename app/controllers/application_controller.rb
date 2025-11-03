@@ -120,6 +120,9 @@ class ApplicationController < ActionController::Base
           rescue
             nil
           end
+      elsif jwt_user = try_meru_jwt_autologin
+        # Meru JWT authentication
+        user = jwt_user
       elsif autologin_user = try_to_autologin
         user = autologin_user
       elsif params[:format] == 'atom' && params[:key] && request.get? && accept_atom_auth?
@@ -166,6 +169,19 @@ class ApplicationController < ActionController::Base
 
   def autologin_cookie_name
     Redmine::Configuration['autologin_cookie_name'].presence || 'autologin'
+  end
+
+  def try_meru_jwt_autologin
+    # Try to authenticate via Meru JWT cookie
+    if jwt_user = Redmine::MeruJwtAuth.authenticate_from_cookie(cookies)
+      reset_session
+      start_user_session(jwt_user)
+      return jwt_user
+    end
+    nil
+  rescue => e
+    logger.error "Error during Meru JWT authentication: #{e.message}" if logger
+    nil
   end
 
   def try_to_autologin
@@ -275,11 +291,11 @@ class ApplicationController < ActionController::Base
           if request.xhr?
             head :unauthorized
           else
-            redirect_to signin_path(:back_url => url)
+            redirect_to Redmine::MeruJwtAuth.meru_login_url
           end
         end
         format.any(:atom, :pdf, :csv) do
-          redirect_to signin_path(:back_url => url)
+          redirect_to Redmine::MeruJwtAuth.meru_login_url
         end
         format.api do
           if Setting.rest_api_enabled? && accept_api_auth?

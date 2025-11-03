@@ -28,17 +28,9 @@ class AccountController < ApplicationController
   skip_before_action :check_twofa_activation, :only => :logout
 
   # Login request and validation
+  # Redirect to Meru for GUI-based login
   def login
-#    if request.post?
-      authenticate_user
-#    else
-#      if User.current.logged?
-#        redirect_back_or_default home_url, :referer => true
-#      end
-#    end
-  rescue AuthSourceException => e
-    logger.error "An error occurred when authenticating #{params[:username]}: #{e.message}"
-    render_error :message => e.message
+    redirect_to Redmine::MeruJwtAuth.meru_login_url
   end
 
   # Log out current user and redirect to welcome page
