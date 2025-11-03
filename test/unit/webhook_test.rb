@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'test_helper'
+require_relative '../test_helper'
 require 'pp'
 
 class WebhookTest < ActiveSupport::TestCase
