@@ -100,7 +100,9 @@ class Import < ApplicationRecord
       begin
         project = Project.find(options[:project_id])
         self.settings.merge!('mapping' => {'project_id' => project.id})
-      rescue; end
+      rescue
+        ;
+      end
     end
   end
 
