@@ -331,7 +331,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     c.reload
 
     assert_equal 5, c.issues.count
-    ic1, ic2, ic3, ic4, ic5 = c.issues.order('subject').to_a
+    ic1, ic2, ic3, ic4, ic5 = c.issues.order(:subject).to_a
     assert ic1.root?
     assert_equal ic1, ic2.parent
     assert_equal ic1, ic3.parent

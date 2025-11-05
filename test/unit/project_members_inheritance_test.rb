@@ -51,7 +51,7 @@ class ProjectMembersInheritanceTest < ActiveSupport::TestCase
     Project.generate_with_parent!(@parent, :inherit_members => false)
 
     assert_difference 'Member.count', 1 do
-      project = Project.order('id desc').first
+      project = Project.order(id: :desc).first
       project.inherit_members = true
       project.save!
       project.reload
@@ -67,7 +67,7 @@ class ProjectMembersInheritanceTest < ActiveSupport::TestCase
     Project.generate_with_parent!(@parent, :inherit_members => true)
 
     assert_difference 'Member.count', -1 do
-      project = Project.order('id desc').first
+      project = Project.order(id: :desc).first
       project.inherit_members = false
       project.save!
       project.reload
@@ -78,7 +78,7 @@ class ProjectMembersInheritanceTest < ActiveSupport::TestCase
 
   def test_moving_a_root_project_under_a_parent_should_inherit_members
     Project.generate!(:inherit_members => true)
-    project = Project.order('id desc').first
+    project = Project.order(id: :desc).first
 
     assert_difference 'Member.count', 1 do
       project.set_parent!(@parent)
@@ -93,7 +93,7 @@ class ProjectMembersInheritanceTest < ActiveSupport::TestCase
 
   def test_moving_a_subproject_as_root_should_loose_inherited_members
     Project.generate_with_parent!(@parent, :inherit_members => true)
-    project = Project.order('id desc').first
+    project = Project.order(id: :desc).first
 
     assert_difference 'Member.count', -1 do
       project.set_parent!(nil)
@@ -109,7 +109,7 @@ class ProjectMembersInheritanceTest < ActiveSupport::TestCase
     other_member.reload
 
     Project.generate_with_parent!(@parent, :inherit_members => true)
-    project = Project.order('id desc').first
+    project = Project.order(id: :desc).first
     project.set_parent!(other_parent.reload)
     project.reload
 
@@ -161,7 +161,7 @@ class ProjectMembersInheritanceTest < ActiveSupport::TestCase
       member = Member.create!(:principal => User.find(4), :project => @parent, :role_ids => [1, 3])
       member.reload
 
-      inherited_member = project.memberships.order('id desc').first
+      inherited_member = project.memberships.order(id: :desc).first
       assert_equal member.principal, inherited_member.principal
       assert_equal member.roles.sort, inherited_member.roles.sort
     end

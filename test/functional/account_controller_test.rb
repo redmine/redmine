@@ -346,7 +346,7 @@ class AccountControllerTest < Redmine::ControllerTest
         )
         assert_redirected_to '/my/account'
       end
-      user = User.order('id DESC').first
+      user = User.order(id: :desc).first
       assert_equal 'register', user.login
       assert_equal 'John', user.firstname
       assert_equal 'Doe', user.lastname
@@ -442,7 +442,7 @@ class AccountControllerTest < Redmine::ControllerTest
         assert_redirected_to '/login'
       end
     end
-    token = Token.order('id DESC').first
+    token = Token.order(id: :desc).first
     assert_equal User.find(2), token.user
     assert_equal 'recovery', token.action
 

@@ -462,7 +462,7 @@ class UsersControllerTest < Redmine::ControllerTest
       end
     end
 
-    user = User.order('id DESC').first
+    user = User.order(id: :desc).first
     assert_redirected_to :controller => 'users', :action => 'edit', :id => user.id
 
     assert_equal 'John', user.firstname
@@ -500,7 +500,7 @@ class UsersControllerTest < Redmine::ControllerTest
         }
       }
     end
-    user = User.order('id DESC').first
+    user = User.order(id: :desc).first
     assert_equal 'jdoe', user.login
     assert_equal true, user.pref.hide_mail
     assert_equal 'Paris', user.pref.time_zone
@@ -526,7 +526,7 @@ class UsersControllerTest < Redmine::ControllerTest
         :send_information => 1
       }
     end
-    user = User.order('id DESC').first
+    user = User.order(id: :desc).first
     assert_equal 'randompass', user.login
 
     mail = ActionMailer::Base.deliveries.last

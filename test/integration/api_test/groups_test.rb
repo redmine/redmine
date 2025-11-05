@@ -131,7 +131,7 @@ class Redmine::ApiTest::GroupsTest < Redmine::ApiTest::Base
       assert_equal 'application/xml', response.media_type
     end
 
-    group = Group.order('id DESC').first
+    group = Group.order(id: :desc).first
     assert_equal 'Test', group.name
     assert_equal [2, 3], group.users.map(&:id).sort
 

@@ -475,7 +475,7 @@ class MailHandlerTest < ActiveSupport::TestCase
         :default_group => "#{group1.name},#{group2.name}"
       )
     end
-    user = User.order('id DESC').first
+    user = User.order(id: :desc).first
     assert_equal [group1, group2].sort, user.groups.sort
   end
 
@@ -505,7 +505,7 @@ class MailHandlerTest < ActiveSupport::TestCase
         :no_notification => '1'
       )
     end
-    user = User.order('id DESC').first
+    user = User.order(id: :desc).first
     assert_equal 'none', user.mail_notification
   end
 
@@ -984,7 +984,7 @@ class MailHandlerTest < ActiveSupport::TestCase
         end
       end
     end
-    journal = Journal.order('id DESC').first
+    journal = Journal.order(id: :desc).first
     assert_equal Issue.find(2), journal.journalized
     assert_equal 1, journal.details.size
 
@@ -1390,7 +1390,7 @@ class MailHandlerTest < ActiveSupport::TestCase
           :unknown_user => 'create'
         )
     end
-    user = User.order('id DESC').first
+    user = User.order(id: :desc).first
     assert_equal "foo@example.org", user.mail
     assert_equal 'Ää', user.firstname
     assert_equal 'Öö', user.lastname
@@ -1405,7 +1405,7 @@ class MailHandlerTest < ActiveSupport::TestCase
           :unknown_user => 'create'
         )
     end
-    user = User.order('id DESC').first
+    user = User.order(id: :desc).first
     assert_equal "jdoe@example.net", user.mail
     assert_equal 'John', user.firstname
     assert_equal 'Doe', user.lastname

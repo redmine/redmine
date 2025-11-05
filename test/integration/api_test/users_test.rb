@@ -21,7 +21,7 @@ require_relative '../../test_helper'
 
 class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
   test "GET /users.xml should return users" do
-    users = User.active.order('login')
+    users = User.active.order(:login)
     users.last.update(twofa_scheme: 'totp')
     Redmine::Configuration.with 'avatar_server_url' => 'https://gravatar.com' do
       with_settings :gravatar_enabled => '1', :gravatar_default => 'mm' do
@@ -53,7 +53,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
   end
 
   test "GET /users.json should return users" do
-    users = User.active.order('login')
+    users = User.active.order(:login)
     users.last.update(twofa_scheme: 'totp')
     get '/users.json', :headers => credentials('admin')
 
@@ -62,7 +62,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     json = ActiveSupport::JSON.decode(response.body)
     assert json.key?('users')
 
-    users = User.active.order('login')
+    users = User.active.order(:login)
     assert_equal users.size, json['users'].size
 
     json['users'].zip(users) do |user_json, user|
@@ -343,7 +343,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
         :headers => credentials('admin'))
     end
 
-    user = User.order('id DESC').first
+    user = User.order(id: :desc).first
     assert_equal 'foo', user.login
     assert_equal 'Firstname', user.firstname
     assert_equal 'Lastname', user.lastname
@@ -370,7 +370,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
         :headers => credentials('admin'))
     end
 
-    user = User.order('id DESC').first
+    user = User.order(id: :desc).first
     assert user.hashed_password.present?
   end
 
@@ -388,7 +388,7 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
         :headers => credentials('admin'))
     end
 
-    user = User.order('id DESC').first
+    user = User.order(id: :desc).first
     assert_equal 'foo', user.login
     assert_equal 'Firstname', user.firstname
     assert_equal 'Lastname', user.lastname

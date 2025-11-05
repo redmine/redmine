@@ -67,7 +67,7 @@ class AuthSourcesControllerTest < Redmine::ControllerTest
       assert_redirected_to '/auth_sources'
     end
 
-    source = AuthSourceLdap.order('id DESC').first
+    source = AuthSourceLdap.order(id: :desc).first
     assert_equal 'Test', source.name
     assert_equal '127.0.0.1', source.host
     assert_equal 389, source.port

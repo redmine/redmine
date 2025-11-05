@@ -34,7 +34,7 @@ class Redmine::ListFieldFormatTest < ActionView::TestCase
     group.custom_field_values = {field.id => 'Baz'}
     assert group.save(:validate => false)
 
-    group = Group.order('id DESC').first
+    group = Group.order(id: :desc).first
     assert_equal ['Foo', 'Bar', 'Baz'], field.possible_custom_value_options(group.custom_value_for(field))
     assert group.valid?
   end

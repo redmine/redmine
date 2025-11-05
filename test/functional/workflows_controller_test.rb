@@ -505,7 +505,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
   def status_transitions(conditions)
     WorkflowTransition.
       where(conditions).
-      order('tracker_id, role_id, old_status_id, new_status_id').
+      order(:tracker_id, :role_id, :old_status_id, :new_status_id).
       collect {|w| [w.old_status, w.new_status_id]}
   end
 end

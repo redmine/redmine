@@ -120,6 +120,6 @@ class BoardTest < ActiveSupport::TestCase
     board = Board.find(1)
     assert_equal board.topics.count, board.topics_count
     assert_equal board.messages.count, board.messages_count
-    assert_equal board.messages.order("id DESC").first.id, board.last_message_id
+    assert_equal board.messages.order(id: :desc).first.id, board.last_message_id
   end
 end

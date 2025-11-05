@@ -94,7 +94,7 @@ class JournalTest < ActiveSupport::TestCase
         assert_equal 'Notes', journal.notes
         assert_equal 0, journal.details.size
 
-        journal_with_changes = Journal.order('id DESC').offset(1).first
+        journal_with_changes = Journal.order(id: :desc).offset(1).first
         assert_equal false, journal_with_changes.private_notes
         assert_nil journal_with_changes.notes
         assert_equal 1, journal_with_changes.details.size

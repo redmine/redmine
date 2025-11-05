@@ -99,7 +99,7 @@ class IssuesControllerTransactionTest < Redmine::ControllerTest
 
     assert_response :success
 
-    attachment = Attachment.order('id DESC').first
+    attachment = Attachment.order(id: :desc).first
     assert_select 'input[name=?][value=?]', 'attachments[p0][token]', attachment.token
     assert_select 'input[name=?][value=?]', 'attachments[p0][filename]', 'testfile.txt'
   end
@@ -225,7 +225,7 @@ class IssuesControllerTransactionTest < Redmine::ControllerTest
     assert_response :found
     issue = Issue.find(1)
     assert_equal 4, issue.fixed_version_id
-    journal = Journal.order('id DESC').first
+    journal = Journal.order(id: :desc).first
     assert_equal 'overwrite_conflict_resolution', journal.notes
     assert journal.details.any?
   end
@@ -251,7 +251,7 @@ class IssuesControllerTransactionTest < Redmine::ControllerTest
     assert_response :found
     issue = Issue.find(1)
     assert_nil issue.fixed_version_id
-    journal = Journal.order('id DESC').first
+    journal = Journal.order(id: :desc).first
     assert_equal 'add_notes_conflict_resolution', journal.notes
     assert_equal false, journal.private_notes
     assert journal.details.empty?

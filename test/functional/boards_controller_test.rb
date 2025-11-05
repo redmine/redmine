@@ -100,7 +100,7 @@ class BoardsControllerTest < Redmine::ControllerTest
     Message.update_all(:sticky => 0)
 
     # Reply to an old topic
-    old_topic = Message.where(:board_id => 1, :parent_id => nil).order('created_on ASC').first
+    old_topic = Message.where(:board_id => 1, :parent_id => nil).order(:created_on).first
     reply = Message.new(:board_id => 1, :subject => 'New reply', :content => 'New reply', :author_id => 2)
     old_topic.children << reply
 
@@ -206,7 +206,7 @@ class BoardsControllerTest < Redmine::ControllerTest
       )
     end
     assert_redirected_to '/projects/ecookbook/settings/boards'
-    board = Board.order('id DESC').first
+    board = Board.order(id: :desc).first
     assert_equal 'Testing', board.name
     assert_equal 'Testing board creation', board.description
   end
@@ -227,7 +227,7 @@ class BoardsControllerTest < Redmine::ControllerTest
       )
     end
     assert_redirected_to '/projects/ecookbook/settings/boards'
-    board = Board.order('id DESC').first
+    board = Board.order(id: :desc).first
     assert_equal Board.find(2), board.parent
   end
 

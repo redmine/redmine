@@ -75,7 +75,7 @@ class EmailAddressesControllerTest < Redmine::ControllerTest
       assert_response :found
       assert_redirected_to '/users/2/email_addresses'
     end
-    email = EmailAddress.order('id DESC').first
+    email = EmailAddress.order(id: :desc).first
     assert_equal 2, email.user_id
     assert_equal 'another@somenet.foo', email.address
   end

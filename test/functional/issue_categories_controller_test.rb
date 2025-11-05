@@ -93,7 +93,7 @@ class IssueCategoriesControllerTest < Redmine::ControllerTest
         :xhr => true
       )
     end
-    category = IssueCategory.order('id DESC').first
+    category = IssueCategory.order(id: :desc).first
     assert_equal 'New category', category.name
 
     assert_response :success

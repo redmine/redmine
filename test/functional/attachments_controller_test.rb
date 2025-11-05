@@ -683,7 +683,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
       end
     end
     assert_nil Attachment.find_by_id(1)
-    j = Journal.order('id DESC').first
+    j = Journal.order(id: :desc).first
     assert_equal issue, j.journalized
     assert_equal 'attachment', j.details.first.property
     assert_equal '1', j.details.first.prop_key

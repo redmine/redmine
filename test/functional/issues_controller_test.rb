@@ -4344,7 +4344,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         }
       )
     end
-    issue = Issue.order('id DESC').first
+    issue = Issue.order(id: :desc).first
     assert_redirected_to :controller => 'issues',
                          :action => 'new', :project_id => 'ecookbook',
                          :issue => {:tracker_id => 3}
@@ -4395,7 +4395,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       )
     end
     assert_response :found
-    issue = Issue.order('id DESC').first
+    issue = Issue.order(id: :desc).first
     assert_equal ['MySQL', 'Oracle'], issue.custom_field_value(1).sort
   end
 
@@ -4421,7 +4421,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       )
     end
     assert_response :found
-    issue = Issue.order('id DESC').first
+    issue = Issue.order(id: :desc).first
     assert_equal [''], issue.custom_field_value(1).sort
   end
 
@@ -4449,7 +4449,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       )
     end
     assert_response :found
-    issue = Issue.order('id DESC').first
+    issue = Issue.order(id: :desc).first
     assert_equal ['2', '3'], issue.custom_field_value(field).sort
   end
 
@@ -4582,7 +4582,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       )
       assert_response :found
     end
-    issue = Issue.order('id DESC').first
+    issue = Issue.order(id: :desc).first
     assert_equal Date.parse('2012-07-14'), issue.start_date
     assert_nil issue.due_date
     assert_equal 'value1', issue.custom_field_value(cf1)
@@ -4665,7 +4665,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       )
       assert_response :found
     end
-    issue = Issue.order('id DESC').first
+    issue = Issue.order(id: :desc).first
     assert_equal Issue.find(2), issue.parent
   end
 
@@ -4685,7 +4685,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       )
       assert_response :found
     end
-    issue = Issue.order('id DESC').first
+    issue = Issue.order(id: :desc).first
     assert_equal Issue.find(2), issue.parent
   end
 
@@ -4744,7 +4744,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         }
       )
     end
-    issue = Issue.order('id DESC').first
+    issue = Issue.order(id: :desc).first
     assert issue.is_private?
   end
 
@@ -4766,7 +4766,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         }
       )
     end
-    issue = Issue.order('id DESC').first
+    issue = Issue.order(id: :desc).first
     assert issue.is_private?
   end
 
@@ -4785,7 +4785,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       )
       assert_response :found
     end
-    issue = Issue.order('id DESC').first
+    issue = Issue.order(id: :desc).first
     assert_equal 3, issue.project_id
     assert_equal 2, issue.tracker_id
   end
@@ -4981,8 +4981,8 @@ class IssuesControllerTest < Redmine::ControllerTest
       end
     end
 
-    issue = Issue.order('id DESC').first
-    attachment = Attachment.order('id DESC').first
+    issue = Issue.order(id: :desc).first
+    attachment = Attachment.order(id: :desc).first
 
     assert_equal issue, attachment.container
     assert_equal 2, attachment.author_id
@@ -5052,7 +5052,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       end
     end
 
-    attachment = Attachment.order('id DESC').first
+    attachment = Attachment.order(id: :desc).first
     assert_equal 'testfile.txt', attachment.filename
     assert File.exist?(attachment.diskfile)
     assert_nil attachment.container
@@ -5121,7 +5121,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       end
     end
 
-    issue = Issue.order('id DESC').first
+    issue = Issue.order(id: :desc).first
     assert_equal 1, issue.attachments.count
 
     attachment.reload
@@ -5160,7 +5160,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         }
       )
     end
-    issue = Issue.order('id').last
+    issue = Issue.order(:id).last
     assert_not_nil issue.default_status
     assert_equal issue.default_status, issue.status
   end
@@ -5180,7 +5180,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         }
       )
     end
-    issue = Issue.order('id').last
+    issue = Issue.order(:id).last
     assert_not_nil issue.default_status
     assert_equal issue.default_status, issue.status
   end
@@ -5461,7 +5461,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         }
       )
     end
-    issue = Issue.order('id DESC').first
+    issue = Issue.order(id: :desc).first
     assert_redirected_to "/issues/#{issue.id}"
 
     assert_equal 2, issue.project_id
@@ -5489,7 +5489,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         }
       )
     end
-    issue = Issue.order('id DESC').first
+    issue = Issue.order(id: :desc).first
     assert_equal 1, issue.status_id
   end
 
@@ -5540,7 +5540,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         )
       end
     end
-    copy = Issue.order('id DESC').first
+    copy = Issue.order(id: :desc).first
     assert_equal count, copy.attachments.count
     assert_equal issue.attachments.map(&:filename).sort, copy.attachments.map(&:filename).sort
   end
@@ -5567,7 +5567,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         )
       end
     end
-    copy = Issue.order('id DESC').first
+    copy = Issue.order(id: :desc).first
     assert_equal 0, copy.attachments.count
   end
 
@@ -5601,7 +5601,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         )
       end
     end
-    copy = Issue.order('id DESC').first
+    copy = Issue.order(id: :desc).first
     assert_equal count + 1, copy.attachments.count
   end
 
@@ -5625,7 +5625,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         )
       end
     end
-    copy = Issue.order('id DESC').first
+    copy = Issue.order(id: :desc).first
     assert_equal 1, copy.relations.size
   end
 
@@ -5749,7 +5749,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         }
       )
     end
-    copy = Issue.where(:parent_id => nil).order('id DESC').first
+    copy = Issue.where(:parent_id => nil).order(id: :desc).first
     assert_equal count, copy.descendants.count
     assert_equal issue.descendants.map(&:subject).sort, copy.descendants.map(&:subject).sort
   end
@@ -5802,7 +5802,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         }
       )
     end
-    copy = Issue.where(:parent_id => nil).order('id DESC').first
+    copy = Issue.where(:parent_id => nil).order(id: :desc).first
     assert_equal 0, copy.descendants.count
   end
 
@@ -5851,7 +5851,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         }
       )
     end
-    issue = Issue.order('id DESC').first
+    issue = Issue.order(id: :desc).first
     assert_equal 1, issue.project_id
   end
 
@@ -5873,7 +5873,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         }
       )
     end
-    issue = Issue.order('id DESC').first
+    issue = Issue.order(id: :desc).first
     assert_equal [3, 10], issue.watcher_user_ids.sort
   end
 
@@ -5895,7 +5895,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         }
       )
     end
-    issue = Issue.order('id DESC').first
+    issue = Issue.order(id: :desc).first
     assert_equal [], issue.watcher_user_ids
   end
 
@@ -6442,7 +6442,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_redirected_to :action => 'show', :id => '1'
     issue.reload
     assert_equal 2, issue.status_id
-    j = Journal.order('id DESC').first
+    j = Journal.order(id: :desc).first
     assert_equal 'Assigned to dlopper', j.notes
     assert_equal 2, j.details.size
 
@@ -6519,7 +6519,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       )
     end
     assert_redirected_to :action => 'show', :id => '1'
-    j = Journal.order('id DESC').first
+    j = Journal.order(id: :desc).first
     assert_equal notes, j.notes
     assert_equal 0, j.details.size
     assert_equal User.anonymous, j.user
@@ -6546,7 +6546,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       assert_redirected_to :action => 'show', :id => '1'
     end
 
-    j = Journal.order('id DESC').first
+    j = Journal.order(id: :desc).first
     assert_equal notes, j.notes
     assert_equal true, j.private_notes
   end
@@ -6570,12 +6570,12 @@ class IssuesControllerTest < Redmine::ControllerTest
       assert_redirected_to :action => 'show', :id => '1'
     end
 
-    j = Journal.order('id DESC').first
+    j = Journal.order(id: :desc).first
     assert_equal notes, j.notes
     assert_equal true, j.private_notes
     assert_equal 0, j.details.count
 
-    j = Journal.order('id DESC').offset(1).first
+    j = Journal.order(id: :desc).offset(1).first
     assert_nil j.notes
     assert_equal false, j.private_notes
     assert_equal 1, j.details.count
@@ -6604,7 +6604,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 
     issue = Issue.find(1)
 
-    j = Journal.order('id DESC').first
+    j = Journal.order(id: :desc).first
     assert_equal '2.5 hours added', j.notes
     assert_equal 0, j.details.size
 
@@ -6691,7 +6691,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_equal 'testfile.txt', j.details.first.value
     assert_equal User.anonymous, j.user
 
-    attachment = Attachment.order('id DESC').first
+    attachment = Attachment.order(id: :desc).first
     assert_equal Issue.find(1), attachment.container
     assert_equal User.anonymous, attachment.author
     assert_equal 'testfile.txt', attachment.filename
@@ -6730,7 +6730,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       end
     end
 
-    attachment = Attachment.order('id DESC').first
+    attachment = Attachment.order(id: :desc).first
     assert_equal 'testfile.txt', attachment.filename
     assert File.exist?(attachment.diskfile)
     assert_nil attachment.container
@@ -6798,7 +6798,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     attachment.reload
     assert_equal Issue.find(1), attachment.container
 
-    journal = Journal.order('id DESC').first
+    journal = Journal.order(id: :desc).first
     assert_equal 1, journal.details.size
     assert_equal 'testfile.txt', journal.details.first.value
   end
@@ -8064,7 +8064,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
     assert_redirected_to '/projects/ecookbook/issues'
 
-    copies = Issue.order('id DESC').limit(issue_ids.size)
+    copies = Issue.order(id: :desc).limit(issue_ids.size)
     copies.each do |copy|
       assert_equal 2, copy.project_id
     end
@@ -8147,7 +8147,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         }
       )
     end
-    copies = Issue.order('id DESC').limit(issues.size)
+    copies = Issue.order(id: :desc).limit(issues.size)
     issues.each do |orig|
       copy = copies.detect {|c| c.subject == orig.subject}
       assert_not_nil copy
@@ -8190,7 +8190,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       end
     end
 
-    copied_issues = Issue.where(:project_id => 2).limit(2).order('id desc').to_a
+    copied_issues = Issue.where(:project_id => 2).limit(2).order(id: :desc).to_a
     assert_equal 2, copied_issues.size
     copied_issues.each do |issue|
       assert_equal 2, issue.project_id, "Project is incorrect"
@@ -8220,7 +8220,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         }
       )
     end
-    issue = Issue.order('id DESC').first
+    issue = Issue.order(id: :desc).first
     assert_equal 1, issue.journals.size
     journal = issue.journals.first
     assert_equal 'Copying one issue', journal.notes
@@ -8363,7 +8363,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         }
       )
     end
-    copy = Issue.where(:parent_id => nil).order("id DESC").first
+    copy = Issue.where(:parent_id => nil).order(id: :desc).first
     assert_equal count, copy.descendants.count
   end
 
@@ -8408,7 +8408,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         }
       )
     end
-    copy = Issue.where(:parent_id => nil).order("id DESC").first
+    copy = Issue.where(:parent_id => nil).order(id: :desc).first
     assert_equal count, copy.descendants.count
   end
 
@@ -8425,7 +8425,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         :follow => '1'
       }
     )
-    issue = Issue.order('id DESC').first
+    issue = Issue.order(id: :desc).first
     assert_redirected_to :controller => 'issues', :action => 'show', :id => issue
   end
 

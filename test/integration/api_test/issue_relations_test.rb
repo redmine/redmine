@@ -38,7 +38,7 @@ class Redmine::ApiTest::IssueRelationsTest < Redmine::ApiTest::Base
       )
     end
 
-    relation = IssueRelation.order('id DESC').first
+    relation = IssueRelation.order(id: :desc).first
     assert_equal 2, relation.issue_from_id
     assert_equal 7, relation.issue_to_id
     assert_equal 'relates', relation.relation_type
@@ -58,7 +58,7 @@ class Redmine::ApiTest::IssueRelationsTest < Redmine::ApiTest::Base
       )
     end
 
-    relation = IssueRelation.order('id DESC').first
+    relation = IssueRelation.order(id: :desc).first
     assert_equal 2, relation.issue_from_id
     assert_equal 7, relation.issue_to_id
     assert_equal 'relates', relation.relation_type

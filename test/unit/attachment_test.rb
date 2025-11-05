@@ -84,7 +84,7 @@ class AttachmentTest < ActiveSupport::TestCase
     copy = a.copy
 
     assert_save copy
-    copy = Attachment.order('id DESC').first
+    copy = Attachment.order(id: :desc).first
     %w(filename filesize content_type author_id created_on description digest disk_filename disk_directory diskfile).each do |attribute|
       assert_equal a.send(attribute), copy.send(attribute), "#{attribute} was different"
     end
@@ -377,7 +377,7 @@ class AttachmentTest < ActiveSupport::TestCase
           'description' => 'test'
         })
     end
-    attachment = Attachment.order('id DESC').first
+    attachment = Attachment.order(id: :desc).first
     assert_equal issue, attachment.container
     assert_equal 'testfile.txt', attachment.filename
     assert_equal 59, attachment.filesize

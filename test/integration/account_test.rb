@@ -427,7 +427,7 @@ class AccountTest < Redmine::IntegrationTest
           )
         end
       end
-      user = User.order('id desc').first
+      user = User.order(id: :desc).first
       assert_equal User::STATUS_REGISTERED, user.status
       reset!
 
@@ -451,7 +451,7 @@ class AccountTest < Redmine::IntegrationTest
         get '/account/activation_email'
       end
       assert_redirected_to '/login'
-      token = Token.order('id desc').first
+      token = Token.order(id: :desc).first
       activation_path = "/account/activate?token=#{token.value}"
       assert_include activation_path, mail_body(ActionMailer::Base.deliveries.last)
 

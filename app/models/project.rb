@@ -911,7 +911,7 @@ class Project < ApplicationRecord
 
   # Returns an auto-generated project identifier based on the last identifier used
   def self.next_identifier
-    p = Project.order('id DESC').first
+    p = Project.order(id: :desc).first
     p.nil? ? nil : p.identifier.to_s.succ
   end
 

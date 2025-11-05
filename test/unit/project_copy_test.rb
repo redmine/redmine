@@ -421,7 +421,7 @@ class ProjectCopyTest < ActiveSupport::TestCase
         assert project.copy(source.reload)
       end
     end
-    copy = Issue.where(:parent_id => nil).order("id DESC").first
+    copy = Issue.where(:parent_id => nil).order(id: :desc).first
     assert_equal project, copy.project
     assert_equal issue.descendants.count, copy.descendants.count
     child_copy = copy.children.detect {|c| c.subject == 'Child1'}

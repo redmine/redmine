@@ -88,7 +88,7 @@ class FilesControllerTest < Redmine::ControllerTest
       end
     end
     assert_redirected_to '/projects/ecookbook/files'
-    a = Attachment.order('created_on DESC').first
+    a = Attachment.order(created_on: :desc).first
     assert_equal 'testfile.txt', a.filename
     assert_equal Project.find(1), a.container
 
@@ -117,7 +117,7 @@ class FilesControllerTest < Redmine::ControllerTest
       assert_response :redirect
     end
     assert_redirected_to '/projects/ecookbook/files'
-    a = Attachment.order('created_on DESC').first
+    a = Attachment.order(created_on: :desc).first
     assert_equal 'testfile.txt', a.filename
     assert_equal Version.find(2), a.container
   end

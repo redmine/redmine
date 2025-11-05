@@ -44,7 +44,7 @@ class Redmine::VersionFieldFormatTest < ActionView::TestCase
     field.version_status = ["open"]
     field.save!
 
-    issue = Issue.order('id DESC').first
+    issue = Issue.order(id: :desc).first
     assert_include(
       [version.name, version.id.to_s],
       field.possible_custom_value_options(issue.custom_value_for(field))

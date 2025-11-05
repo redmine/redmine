@@ -92,7 +92,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
       )
     end
     assert_response :found
-    repository = Repository.order('id DESC').first
+    repository = Repository.order(id: :desc).first
     assert_kind_of Repository::Subversion, repository
     assert_equal 'file:///test', repository.url
   end

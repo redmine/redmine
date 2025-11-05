@@ -39,7 +39,7 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
         }
       )
     end
-    relation = IssueRelation.order('id DESC').first
+    relation = IssueRelation.order(id: :desc).first
     assert_equal 1, relation.issue_from_id
     assert_equal 2, relation.issue_to_id
     assert_equal 'relates', relation.relation_type
@@ -79,7 +79,7 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
       assert_response :success
       assert_equal 'text/javascript', response.media_type
     end
-    relation = IssueRelation.order('id DESC').first
+    relation = IssueRelation.order(id: :desc).first
     assert_equal 1, relation.issue_from_id
     assert_equal 3, relation.issue_to_id
 
@@ -100,7 +100,7 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
         }
       )
     end
-    relation = IssueRelation.order('id DESC').first
+    relation = IssueRelation.order(id: :desc).first
     assert_equal 2, relation.issue_to_id
   end
 
@@ -118,7 +118,7 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
         }
       )
     end
-    relation = IssueRelation.order('id DESC').first
+    relation = IssueRelation.order(id: :desc).first
     assert_equal 2, relation.issue_to_id
   end
 

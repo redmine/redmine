@@ -29,7 +29,7 @@ class Redmine::ApiTest::CustomFieldsAttributeTest < Redmine::ApiTest::Base
         'CONTENT_TYPE' => 'application/json'
       }.merge(credentials('admin')))
     assert_response :created
-    group = Group.order('id DESC').first
+    group = Group.order(id: :desc).first
     assert_equal "52", group.custom_field_value(field)
   end
 
@@ -42,7 +42,7 @@ class Redmine::ApiTest::CustomFieldsAttributeTest < Redmine::ApiTest::Base
         'CONTENT_TYPE' => 'application/json'
       }.merge(credentials('admin')))
     assert_response :created
-    group = Group.order('id DESC').first
+    group = Group.order(id: :desc).first
     assert_equal "52", group.custom_field_value(field)
   end
 
@@ -55,7 +55,7 @@ class Redmine::ApiTest::CustomFieldsAttributeTest < Redmine::ApiTest::Base
         'CONTENT_TYPE' => 'application/json'
       }.merge(credentials('admin')))
     assert_response :created
-    group = Group.order('id DESC').first
+    group = Group.order(id: :desc).first
     assert_equal "1", group.custom_field_value(field)
   end
 
@@ -68,7 +68,7 @@ class Redmine::ApiTest::CustomFieldsAttributeTest < Redmine::ApiTest::Base
         'CONTENT_TYPE' => 'application/json'
       }.merge(credentials('admin')))
     assert_response :created
-    group = Group.order('id DESC').first
+    group = Group.order(id: :desc).first
     assert_equal "1", group.custom_field_value(field)
   end
 
@@ -92,7 +92,7 @@ class Redmine::ApiTest::CustomFieldsAttributeTest < Redmine::ApiTest::Base
         'CONTENT_TYPE' => 'application/json'
       }.merge(credentials('admin')))
     assert_response :created
-    group = Group.order('id DESC').first
+    group = Group.order(id: :desc).first
     assert_equal ["V1", "V3"], group.custom_field_value(field).sort
   end
 end

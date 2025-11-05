@@ -407,7 +407,7 @@ class QueriesControllerTest < Redmine::ControllerTest
       )
       assert_response :found
     end
-    query = IssueQuery.order('id DESC').first
+    query = IssueQuery.order(id: :desc).first
     assert_redirected_to "/issues/gantt?query_id=#{query.id}"
     assert_equal true, query.draw_relations
     assert_equal true, query.draw_progress_line
@@ -438,7 +438,7 @@ class QueriesControllerTest < Redmine::ControllerTest
       )
       assert_response :found
     end
-    query = IssueQuery.order('id DESC').first
+    query = IssueQuery.order(id: :desc).first
     assert_redirected_to "/projects/ecookbook/issues/gantt?query_id=#{query.id}"
     assert_equal false, query.draw_relations
     assert_equal false, query.draw_progress_line

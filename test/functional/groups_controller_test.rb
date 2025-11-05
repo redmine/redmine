@@ -112,7 +112,7 @@ class GroupsControllerTest < Redmine::ControllerTest
       )
     end
     assert_redirected_to '/groups'
-    group = Group.order('id DESC').first
+    group = Group.order(id: :desc).first
     assert_equal 'New group', group.name
     assert_equal [], group.users
   end
@@ -130,7 +130,7 @@ class GroupsControllerTest < Redmine::ControllerTest
       )
     end
     assert_redirected_to '/groups/new'
-    group = Group.order('id DESC').first
+    group = Group.order(id: :desc).first
     assert_equal 'New group', group.name
   end
 

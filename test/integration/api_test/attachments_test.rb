@@ -136,7 +136,7 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
     attachment_id = xml['upload']['id']
     assert_not_nil attachment_id
 
-    attachment = Attachment.order('id DESC').first
+    attachment = Attachment.order(id: :desc).first
     assert_equal token, attachment.token
     assert_equal attachment_id, attachment.id.to_s
     assert_nil attachment.container
@@ -168,7 +168,7 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
     token = json['upload']['token']
     assert_not_nil token
 
-    attachment = Attachment.order('id DESC').first
+    attachment = Attachment.order(id: :desc).first
     assert_equal token, attachment.token
   end
 
@@ -185,7 +185,7 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
       assert_response :created
     end
 
-    attachment = Attachment.order('id DESC').first
+    attachment = Attachment.order(id: :desc).first
     assert_equal 'test.txt', attachment.filename
     assert_match /_test\.txt$/, attachment.diskfile
   end

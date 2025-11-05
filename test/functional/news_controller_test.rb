@@ -229,8 +229,8 @@ class NewsControllerTest < Redmine::ControllerTest
         end
       end
     end
-    attachment = Attachment.order('id DESC').first
-    news = News.order('id DESC').first
+    attachment = Attachment.order(id: :desc).first
+    news = News.order(id: :desc).first
     assert_equal news, attachment.container
     assert_select_email do
       # link to the attachments download
@@ -303,7 +303,7 @@ class NewsControllerTest < Redmine::ControllerTest
         )
       end
     end
-    attachment = Attachment.order('id DESC').first
+    attachment = Attachment.order(id: :desc).first
     assert_equal News.find(1), attachment.container
   end
 

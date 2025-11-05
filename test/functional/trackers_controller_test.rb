@@ -127,7 +127,7 @@ class TrackersControllerTest < Redmine::ControllerTest
       }
     end
     assert_redirected_to :action => 'index'
-    tracker = Tracker.order('id DESC').first
+    tracker = Tracker.order(id: :desc).first
     assert_equal 'New tracker', tracker.name
     assert_equal [1], tracker.project_ids.sort
     assert_equal Tracker::CORE_FIELDS, tracker.core_fields
@@ -146,7 +146,7 @@ class TrackersControllerTest < Redmine::ControllerTest
       }
     end
     assert_redirected_to :action => 'index'
-    tracker = Tracker.order('id DESC').first
+    tracker = Tracker.order(id: :desc).first
     assert_equal 'New tracker', tracker.name
     assert_equal %w(assigned_to_id fixed_version_id), tracker.core_fields
   end

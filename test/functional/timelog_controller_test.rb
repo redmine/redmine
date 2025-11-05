@@ -256,7 +256,7 @@ class TimelogControllerTest < Redmine::ControllerTest
       assert_redirected_to '/projects/ecookbook/time_entries'
     end
 
-    t = TimeEntry.order('id DESC').first
+    t = TimeEntry.order(id: :desc).first
     assert_not_nil t
     assert_equal 'Some work on TimelogControllerTest', t.comments
     assert_equal 1, t.project_id
@@ -283,7 +283,7 @@ class TimelogControllerTest < Redmine::ControllerTest
       assert_redirected_to '/projects/ecookbook/time_entries'
     end
 
-    t = TimeEntry.order('id DESC').first
+    t = TimeEntry.order(id: :desc).first
     assert_not_nil t
     assert_equal 'Some work on TimelogControllerTest', t.comments
     assert_equal 1, t.project_id
@@ -537,7 +537,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     end
 
     assert_redirected_to '/projects/ecookbook/time_entries'
-    time_entry = TimeEntry.order('id DESC').first
+    time_entry = TimeEntry.order(id: :desc).first
     assert_equal 1, time_entry.project_id
   end
 

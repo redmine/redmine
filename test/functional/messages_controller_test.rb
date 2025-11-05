@@ -278,7 +278,7 @@ class MessagesControllerTest < Redmine::ControllerTest
         }
       }
     )
-    reply = Message.order('id DESC').first
+    reply = Message.order(id: :desc).first
     assert_redirected_to "/boards/1/topics/1?r=#{reply.id}"
     assert_equal I18n.t(:notice_successful_update), flash[:notice]
     assert Message.find_by_subject('Test reply')

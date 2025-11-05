@@ -317,7 +317,7 @@ class UserTest < ActiveSupport::TestCase
     assert_difference 'JournalDetail.count' do
       issue.save!
     end
-    journal_detail = JournalDetail.order('id DESC').first
+    journal_detail = JournalDetail.order(id: :desc).first
     assert_equal '2', journal_detail.old_value
 
     User.find(2).destroy
@@ -333,7 +333,7 @@ class UserTest < ActiveSupport::TestCase
     assert_difference 'JournalDetail.count' do
       issue.save!
     end
-    journal_detail = JournalDetail.order('id DESC').first
+    journal_detail = JournalDetail.order(id: :desc).first
     assert_equal '2', journal_detail.value
 
     User.find(2).destroy

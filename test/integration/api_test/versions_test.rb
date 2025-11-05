@@ -38,7 +38,7 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
         :params => {:version => {:name => 'API test'}},
         :headers => credentials('jsmith'))
     end
-    version = Version.order('id DESC').first
+    version = Version.order(id: :desc).first
     assert_equal 'API test', version.name
 
     assert_response :created
@@ -53,7 +53,7 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
         :params => {:version => {:name => 'API test', :due_date => '2012-01-24'}},
         :headers => credentials('jsmith'))
     end
-    version = Version.order('id DESC').first
+    version = Version.order(id: :desc).first
     assert_equal 'API test', version.name
     assert_equal Date.parse('2012-01-24'), version.due_date
 
@@ -69,7 +69,7 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
         :params => {:version => {:name => 'API test', :wiki_page_title => WikiPage.first.title}},
         :headers => credentials('jsmith'))
     end
-    version = Version.order('id DESC').first
+    version = Version.order(id: :desc).first
     assert_equal 'API test', version.name
     assert_equal WikiPage.first, version.wiki_page
 
@@ -93,7 +93,7 @@ class Redmine::ApiTest::VersionsTest < Redmine::ApiTest::Base
         },
         :headers => credentials('jsmith'))
     end
-    version = Version.order('id DESC').first
+    version = Version.order(id: :desc).first
     assert_equal 'API test', version.name
     assert_equal 'Some value', version.custom_field_value(field)
 

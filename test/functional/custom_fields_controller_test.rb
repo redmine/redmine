@@ -451,7 +451,7 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
       )
       assert_response :found
     end
-    field = IssueCustomField.order("id desc").first
+    field = IssueCustomField.order(id: :desc).first
     assert_equal [1, 3], field.projects.map(&:id).sort
   end
 
@@ -520,7 +520,7 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
       )
       assert_response :found
     end
-    field = IssueCustomField.order('id desc').first
+    field = IssueCustomField.order(id: :desc).first
     assert_equal 'Copy', field.name
     assert_equal ['enumeration1', 'enumeration2'], field.enumerations.pluck(:name).sort
     assert_equal [1, 2], field.enumerations.pluck(:position).sort

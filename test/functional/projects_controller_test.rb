@@ -750,7 +750,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
       )
       assert_response :found
     end
-    project = Project.order('id desc').first
+    project = Project.order(id: :desc).first
     assert_equal 'inherited', project.name
     assert_equal parent, project.parent
     assert project.memberships.count > 0

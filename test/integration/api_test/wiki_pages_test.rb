@@ -194,7 +194,7 @@ class Redmine::ApiTest::WikiPagesTest < Redmine::ApiTest::Base
       end
     end
 
-    page = WikiPage.order('id DESC').first
+    page = WikiPage.order(id: :desc).first
     assert_equal 'New_page_from_API', page.title
     assert_equal 'New content from API', page.content.text
     assert_equal 1, page.content.version
@@ -227,7 +227,7 @@ class Redmine::ApiTest::WikiPagesTest < Redmine::ApiTest::Base
       end
     end
 
-    page = WikiPage.order('id DESC').first
+    page = WikiPage.order(id: :desc).first
     assert_equal 'New_page_from_API', page.title
     assert_include attachment, page.attachments
     assert_equal attachment.filename, page.attachments.first.filename
@@ -251,7 +251,7 @@ class Redmine::ApiTest::WikiPagesTest < Redmine::ApiTest::Base
       end
     end
 
-    page = WikiPage.order('id DESC').first
+    page = WikiPage.order(id: :desc).first
     assert_equal 'New_subpage_from_API', page.title
     assert_equal WikiPage.find(1), page.parent
   end

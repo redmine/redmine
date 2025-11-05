@@ -40,7 +40,7 @@ class GroupBuiltin < Group
     def load_instance
       return nil if self == GroupBuiltin
 
-      instance = unscoped.order('id').first || create_instance
+      instance = unscoped.order(:id).first || create_instance
     end
 
     def create_instance

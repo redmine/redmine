@@ -1284,7 +1284,7 @@ class WikiControllerTest < Redmine::ControllerTest
         }
       }
     end
-    attachment = Attachment.order('id DESC').first
+    attachment = Attachment.order(id: :desc).first
     assert_equal Wiki.find(1).find_page('CookBook_documentation'), attachment.container
   end
 

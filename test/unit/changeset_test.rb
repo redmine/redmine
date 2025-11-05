@@ -87,7 +87,7 @@ class ChangesetTest < ActiveSupport::TestCase
       c.scan_comment_for_issue_ids
     end
 
-    time = TimeEntry.order('id desc').first
+    time = TimeEntry.order(id: :desc).first
     assert_equal project_specific_activity, time.activity
   end
 
@@ -121,7 +121,7 @@ class ChangesetTest < ActiveSupport::TestCase
       end
       assert_equal [1], c.issue_ids.sort
 
-      time = TimeEntry.order('id desc').first
+      time = TimeEntry.order(id: :desc).first
       assert_equal 1, time.issue_id
       assert_equal 1, time.project_id
       assert_equal 2, time.user_id
@@ -156,7 +156,7 @@ class ChangesetTest < ActiveSupport::TestCase
     assert Issue.find(1).closed?
     assert Issue.find(2).closed?
 
-    times = TimeEntry.order('id desc').limit(2)
+    times = TimeEntry.order(id: :desc).limit(2)
     assert_equal [1, 2], times.collect(&:issue_id).sort
   end
 
@@ -213,7 +213,7 @@ class ChangesetTest < ActiveSupport::TestCase
                 :comments => "Fixes ##{issue.id}"
               )
         assert_include c.id, issue.reload.changeset_ids
-        journal = Journal.order('id DESC').first
+        journal = Journal.order(id: :desc).first
         assert_equal 1, journal.details.count
       end
     end
@@ -312,7 +312,7 @@ class ChangesetTest < ActiveSupport::TestCase
         assert c.save
       end
       assert issue.reload.closed?
-      journal = Journal.order('id DESC').first
+      journal = Journal.order(id: :desc).first
       assert_equal issue, journal.issue
       assert_include "Applied in changeset ecookbook:r12345.", journal.notes
     end

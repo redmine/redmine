@@ -282,7 +282,7 @@ class DocumentsControllerTest < Redmine::ControllerTest
         }
       )
     end
-    attachment = Attachment.order('id DESC').first
+    attachment = Attachment.order(id: :desc).first
     assert_equal Document.find(1), attachment.container
   end
 end

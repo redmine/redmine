@@ -69,7 +69,7 @@ class AttachmentsTest < Redmine::IntegrationTest
       assert_response :found
     end
 
-    issue = Issue.order('id DESC').first
+    issue = Issue.order(id: :desc).first
     assert_equal 'Issue with upload', issue.subject
     assert_equal 1, issue.attachments.count
 
@@ -153,7 +153,7 @@ class AttachmentsTest < Redmine::IntegrationTest
       assert_response :found
     end
 
-    issue = Issue.order('id DESC').first
+    issue = Issue.order(id: :desc).first
     assert_equal 'Issue with upload', issue.subject
     assert_equal 1, issue.attachments.count
 
@@ -178,7 +178,7 @@ class AttachmentsTest < Redmine::IntegrationTest
       )
       assert_response :found
     end
-    issue = Issue.order('id DESC').first
+    issue = Issue.order(id: :desc).first
     assert_equal 'Issue with upload', issue.subject
     assert_equal 1, issue.attachments.count
 
@@ -193,7 +193,7 @@ class AttachmentsTest < Redmine::IntegrationTest
 
     token = ajax_upload('myupload.txt', 'File content')
 
-    attachment = Attachment.order('id DESC').first
+    attachment = Attachment.order(id: :desc).first
     attachment_path = "/attachments/#{attachment.id}.js?attachment_id=1"
     assert_include(
       "href: '#{attachment_path}'",

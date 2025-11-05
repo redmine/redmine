@@ -41,7 +41,7 @@ class Redmine::UserFieldFormatTest < ActionView::TestCase
     field.user_role = [Role.find_by_name('Developer').id]
     field.save!
 
-    issue = Issue.order('id DESC').first
+    issue = Issue.order(id: :desc).first
     assert_include [user.name, user.id.to_s], field.possible_custom_value_options(issue.custom_value_for(field))
     assert issue.valid?
   end
