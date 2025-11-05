@@ -228,7 +228,7 @@ class WorkflowsControllerTest < Redmine::ControllerTest
     end
 
     # Status transitions between statuses
-    (1..num_statuses).each do |status_id_from| # rubocop:disable RuboCopStyle/CombinableLoops
+    (1..num_statuses).each do |status_id_from| # rubocop:disable Style/CombinableLoops
       transitions_data[status_id_from.to_s] = {}
       (1..num_statuses).each do |status_id_to|
         # skip self-transitions
