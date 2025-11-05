@@ -1453,7 +1453,7 @@ module ApplicationHelper
                   (!)?                        # escaping
                   (
                   \{\{                        # opening tag
-                  ([\w]+)                     # macro name
+                  (\w+)                       # macro name
                   (\(([^\n\r]*?)\))?          # optional arguments
                   ([\n\r].*?[\n\r])?          # optional block of text
                   \}\}                        # closing tag
