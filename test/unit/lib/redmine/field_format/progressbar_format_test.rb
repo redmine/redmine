@@ -124,6 +124,14 @@ module Redmine::FieldFormat
       assert formatted.html_safe?
     end
 
+    def test_formatted_value_with_html_true_and_nil_value_as_zero
+      controller.action_name = 'show'
+      expected = progress_bar(0, legend: '0%')
+      formatted = @format.formatted_value(self, @field, nil, Issue.new, true)
+      assert_equal expected, formatted
+      assert formatted.html_safe?
+    end
+
     def test_formatted_value_with_html_false
       formatted = @format.formatted_value(self, @field, 50, Issue.new, false)
       assert_equal '50', formatted

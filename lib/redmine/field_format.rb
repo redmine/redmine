@@ -1146,8 +1146,9 @@ module Redmine
 
       def formatted_value(view, custom_field, value, customized=nil, html=false)
         if html
-          text = "#{value}%"
-          view.progress_bar(value.to_i, legend: (text if view.action_name == 'show'))
+          value_i = value.to_i
+          text = "#{value_i}%"
+          view.progress_bar(value_i, legend: (text if view.action_name == 'show'))
         else
           value.to_s
         end
