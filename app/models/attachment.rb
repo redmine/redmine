@@ -541,7 +541,7 @@ class Attachment < ApplicationRecord
     just_filename = value.gsub(/\A.*(\\|\/)/m, '')
 
     # Finally, replace invalid characters with underscore
-    just_filename.gsub(/[\/\?\%\*\:\|\"\'<>\n\r]+/, '_')
+    just_filename.gsub(/[\/?%*:|"'<>\n\r]+/, '_')
   end
 
   # Returns the subdirectory in which the attachment will be saved
@@ -556,7 +556,7 @@ class Attachment < ApplicationRecord
     def create_diskfile(filename, directory=nil, &)
       timestamp = DateTime.now.strftime("%y%m%d%H%M%S")
       ascii = ''
-      if %r{^[a-zA-Z0-9_\.\-]*$}.match?(filename) && filename.length <= 50
+      if %r{^[a-zA-Z0-9_.-]*$}.match?(filename) && filename.length <= 50
         ascii = filename
       else
         ascii = ActiveSupport::Digest.hexdigest(filename)

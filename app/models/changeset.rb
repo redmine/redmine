@@ -117,7 +117,7 @@ class Changeset < ApplicationRecord
     |
     (\d+):(\d+)
     |
-    (\d+([\.,]\d+)?)h?
+    (\d+([.,]\d+)?)h?
     )
     /x
 
@@ -135,7 +135,7 @@ class Changeset < ApplicationRecord
     referenced_issues = []
     regexp =
       %r{
-        ([\s\(\[,-]|^)((#{kw_regexp})[\s:]+)?
+        ([\s(\[,-]|^)((#{kw_regexp})[\s:]+)?
         (\#\d+(\s+@#{TIMELOG_RE})?([\s,;&]+\#\d+(\s+@#{TIMELOG_RE})?)*)
         (?=[[:punct:]]|\s|<|$)
       }xi

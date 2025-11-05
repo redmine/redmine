@@ -317,7 +317,7 @@ module Redmine
           blame = Annotate.new
           scm_cmd(*cmd_args) do |io|
             io.each_line do |line|
-              next unless line =~ %r{^([\d\.]+)\s+\(([^\)]+)\s+[^\)]+\):\s(.*)$}
+              next unless line =~ %r{^([\d.]+)\s+\(([^)]+)\s+[^)]+\):\s(.*)$}
 
               blame.add_line(
                 $3.rstrip,

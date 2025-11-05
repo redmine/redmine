@@ -302,7 +302,7 @@ module Redmine
           base = path.start_with?('/') ? root_url : url
           uri = "#{base}/#{path}"
           uri = Addressable::URI.encode(uri)
-          shell_quote(uri.gsub(/[?<>\*]/, ''))
+          shell_quote(uri.gsub(/[?<>*]/, ''))
         end
       end
     end

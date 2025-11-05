@@ -122,7 +122,7 @@ class User < Principal
   validates_presence_of :login, :firstname, :lastname, :if => Proc.new {|user| !user.is_a?(AnonymousUser)}
   validates_uniqueness_of :login, :if => Proc.new {|user| user.login_changed? && user.login.present?}, :case_sensitive => false
   # Login must contain letters, numbers, underscores only
-  validates_format_of :login, :with => /\A[a-z0-9_\-@\.]*\z/i
+  validates_format_of :login, :with => /\A[a-z0-9_\-@.]*\z/i
   validates_length_of :login, :maximum => LOGIN_LENGTH_LIMIT
   validates_length_of :firstname, :maximum => 30
   validates_length_of :lastname, :maximum => 255

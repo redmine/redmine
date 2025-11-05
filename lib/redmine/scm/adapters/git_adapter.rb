@@ -118,7 +118,7 @@ module Redmine
         end
 
         def entry(path=nil, identifier=nil)
-          parts = path.to_s.split(%r{[\/\\]}).select {|n| !n.blank?}
+          parts = path.to_s.split(%r{[/\\]}).select {|n| !n.blank?}
           search_path = parts[0..-2].join('/')
           search_name = parts[-1]
           if search_path.blank? && search_name.blank?
