@@ -555,6 +555,15 @@ Rails/ShortI18n:
     - 'test/unit/wiki_page_test.rb'
 
 # This cop supports unsafe autocorrection (--autocorrect-all).
+Rails/StrongParametersExpect:
+  Exclude:
+    - 'app/controllers/attachments_controller.rb'
+    - 'app/controllers/custom_field_enumerations_controller.rb'
+    - 'app/controllers/principal_memberships_controller.rb'
+    - 'app/controllers/project_enumerations_controller.rb'
+    - 'app/controllers/webhooks_controller.rb'
+
+# This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: strict, flexible
 Rails/TimeZone:
