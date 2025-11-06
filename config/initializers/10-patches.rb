@@ -120,11 +120,8 @@ Mime::SET << 'api'
 
 module Propshaft
   Assembly.prepend(Module.new do
-    def initialize(config)
-      super
-      if Rails.application.config.assets.redmine_detect_update && (!config.manifest_path.exist? || manifest_outdated?)
-        processor.process
-      end
+    def needs_precompile?
+      !config.manifest_path.exist? || manifest_outdated?
     end
 
     def manifest_outdated?

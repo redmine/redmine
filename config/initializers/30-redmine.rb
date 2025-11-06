@@ -116,4 +116,11 @@ Rails.application.config.to_prepare do
   end
 end
 
+# Automatically execute asset precompilation on startup in case of changes have been detected in assets
+Rails.application.config.after_initialize do |app|
+  if app.config.assets.redmine_detect_update && app.assets.needs_precompile?
+    app.assets.processor.process
+  end
+end
+
 Rails.application.deprecators[:redmine] = ActiveSupport::Deprecation.new('7.0', 'Redmine')
