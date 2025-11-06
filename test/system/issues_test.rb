@@ -288,6 +288,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
       first('#content span.icon-actions').click
       first('#content a.icon-del').click
     end
+    assert_selector 'h2', text: 'Confirmation'
   end
 
   def test_remove_issue_watcher_from_sidebar
