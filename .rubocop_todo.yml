@@ -29,11 +29,6 @@ Layout/EmptyLineAfterGuardClause:
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
-Layout/EmptyLines:
-  Exclude:
-    - 'config/routes.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AllowAliasSyntax, AllowedMethods.
 # AllowedMethods: alias_method, public, protected, private
 Layout/EmptyLinesAroundAttributeAccessor:

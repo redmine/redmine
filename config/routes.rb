@@ -373,7 +373,6 @@ Rails.application.routes.draw do
 
   get '(projects/:id)/search', :controller => 'search', :action => 'index', :as => 'search'
 
-
   get  'mail_handler', :to => 'mail_handler#new'
   post 'mail_handler', :to => 'mail_handler#index'
 
