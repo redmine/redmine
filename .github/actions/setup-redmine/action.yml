@@ -16,7 +16,7 @@ runs:
       shell: bash
       run: |
         sudo apt-get update
-        sudo apt-get install --yes --quiet ghostscript gsfonts locales bzr cvs
+        sudo apt-get install --yes --quiet ghostscript gsfonts locales bzr cvs imagemagick
         sudo locale-gen en_US # for bazaar non ascii test
 
     - name: Allow imagemagick to read PDF files
