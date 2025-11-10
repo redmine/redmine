@@ -31,22 +31,22 @@ module Redmine
       }.freeze
 
       class AlertsIconsScrubber < Loofah::Scrubber
-        def scrub(doc)
-          doc.search("p.markdown-alert-title").each do |node|
+        def scrub(node)
+          if node.name == 'p' && node['class'] == 'markdown-alert-title'
             parent_node = node.parent
             parent_class_attr = parent_node['class'] # e.g., "markdown-alert markdown-alert-note"
-            next unless parent_class_attr
+            return unless parent_class_attr
 
             # Extract the specific alert type (e.g., "note", "tip", "warning")
             # from the parent div's classes.
             match_data = parent_class_attr.match(/markdown-alert-(\w+)/)
-            next unless match_data && match_data[1] # Ensure a type is found
+            return unless match_data && match_data[1] # Ensure a type is found
 
             alert_type = match_data[1]
 
             # Get the corresponding icon name from our map.
             icon_name = ALERT_TYPE_TO_ICON_NAME[alert_type]
-            next unless icon_name # Skip if no specific icon is defined for this alert type
+            return unless icon_name # Skip if no specific icon is defined for this alert type
 
             # Translate the alert title only if it matches a known alert type
             # (i.e., the title has not been overridden)
@@ -61,7 +61,6 @@ module Redmine
               node.children.first.replace(icon_html)
             end
           end
-          doc
         end
       end
     end
