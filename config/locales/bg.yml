@@ -505,6 +505,7 @@ bg:
   setting_thumbnails_size: Размер на миниатюрите (в пиксели)
   setting_non_working_week_days: Не работни дни
   setting_jsonp_enabled: Разрешаване на поддръжка на JSONP
+  setting_webhooks_enabled: Разрешаване на webhooks
   setting_default_projects_tracker_ids: Тракери по подразбиране за нови проекти
   setting_mail_handler_excluded_filenames: Имена на прикачени файлове, които да се пропускат при приемане на e-mail-и (например *.vcf, companylogo.gif).
   setting_force_default_language_for_anonymous: Задължително език по подразбиране за анонимните потребители
@@ -610,7 +611,8 @@ bg:
   permission_log_time_for_other_users: Записване на изразходвано време за други потребители
   permission_view_project: Разглеждане на проекти
   permission_search_project: Търсене на проекти
-  permission_view_members: Рззглеждане на членовете на проекти
+  permission_view_members: Разглеждане на членовете на проекти
+  permission_use_webhooks: Използване на webhooks
 
   project_module_issue_tracking: Тракинг
   project_module_time_tracking: Отделяне на време
@@ -1170,6 +1172,22 @@ bg:
   label_oauth_admin_access: Администриране
   label_oauth_application_plural: Приложения
   label_oauth_authorized_application_plural: Оторизирани приложения
+  label_webhook_plural: Webhooks
+  label_webhook_new: Нов webhook
+  label_webhook_edit: Редактиране на webhook
+  label_webhook_events: Събития
+  label_integrations: Интеграции
+  label_alert_note: Бележка
+  label_alert_tip: Съвет
+  label_alert_warning: Предупреждение
+  label_alert_caution: Внимание
+  label_alert_important: Важно
+  webhook_events_issue: Задачи
+  webhook_events_issue_created: Създадена задача
+  webhook_events_issue_updated: Обновена задача
+  webhook_events_issue_deleted: Изтрита задача
+  webhook_url_info: Redmine ще изпрати POST заявка на този адрес, когато някое от избраните събития се появи в някой от избраните проекти.
+  webhook_secret_info_html: Ако е зададено,  Redmine ще използва това, за да създаде хеш сигнатура, която ще бъде изпращана с всяко съобщение като стойност на X-Redmine-Signature-256 хедър.
 
   button_login: Вход
   button_submit: Изпращане
@@ -1477,23 +1495,3 @@ bg:
   reaction_text_x_other_users:
     one: 1 друг
     other: "%{count} други"
-  permission_use_webhooks: Use webhooks
-  label_webhook_plural: Webhooks
-  label_webhook_new: New webhook
-  label_webhook_edit: Edit webhook
-  label_webhook_events: Events
-  webhook_events_issue: Issues
-  webhook_events_issue_created: Issue created
-  webhook_events_issue_updated: Issue updated
-  webhook_events_issue_deleted: Issue deleted
-  webhook_url_info: Redmine will send a POST request to this URL whenever one of the
-    selected events occurs in one of the selected projects.
-  webhook_secret_info_html: If provided, Redmine will use this to create a hash signature
-    that is sent with each delivery as the value of the X-Redmine-Signature-256 header.
-  setting_webhooks_enabled: Enable webhooks
-  label_integrations: Integrations
-  label_alert_note: Note
-  label_alert_tip: Tip
-  label_alert_warning: Warning
-  label_alert_caution: Caution
-  label_alert_important: Important
