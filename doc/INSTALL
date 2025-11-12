@@ -106,6 +106,13 @@ The current version of Firefox, Safari, Chrome, Chromium and Microsoft Edge.
    Go to "Administration" to load the default configuration data (roles,
    trackers, statuses, workflow) and to adjust the application settings
 
+== Additional environment configuration
+
+Copy config/additional_environment.rb.example to config/additional_environment.rb
+if you need to override Rails environment settings such as log level,
+SSL enforcement, or custom Active Job adapters. Restart the application
+after editing this file.
+
 == Database server configuration
 
 When using MySQL with Redmine 5.1.1 or later, it is necessary to change
