@@ -1170,6 +1170,11 @@ bg:
   label_oauth_admin_access: Администриране
   label_oauth_application_plural: Приложения
   label_oauth_authorized_application_plural: Оторизирани приложения
+  label_alert_note: Бележка
+  label_alert_tip: Съвет
+  label_alert_warning: Предупреждение
+  label_alert_caution: Внимание
+  label_alert_important: Важно
 
   button_login: Вход
   button_submit: Изпращане
@@ -1477,8 +1482,3 @@ bg:
   reaction_text_x_other_users:
     one: 1 друг
     other: "%{count} други"
-  label_alert_note: Note
-  label_alert_tip: Tip
-  label_alert_warning: Warning
-  label_alert_caution: Caution
-  label_alert_important: Important
