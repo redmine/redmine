@@ -291,11 +291,11 @@ class ApplicationController < ActionController::Base
           if request.xhr?
             head :unauthorized
           else
-            redirect_to Redmine::MeruJwtAuth.meru_login_url
+            redirect_to Redmine::MeruJwtAuth.meru_login_url(url)
           end
         end
         format.any(:atom, :pdf, :csv) do
-          redirect_to Redmine::MeruJwtAuth.meru_login_url
+          redirect_to Redmine::MeruJwtAuth.meru_login_url(url)
         end
         format.api do
           if Setting.rest_api_enabled? && accept_api_auth?

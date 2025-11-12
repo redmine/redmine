@@ -21,9 +21,16 @@ module Redmine
       end
 
       # Get the Meru login URL from configuration
-      def meru_login_url
+      def meru_login_url(redirect_url)
         host = ENV['MERU_HOST'] || "#{ENV['WORKSPACE']}.meru.dev.minutekey.com"
-        "https://#{host}/#/"
+        url = "https://#{host}/#/"
+
+        # Append the redirectUrl query parameter
+        require 'uri'
+        encoded_redirect_url = URI.encode_www_form_component(redirect_url)
+        url += "?redirectUrl=#{encoded_redirect_url}"
+
+        url
       end
 
       # Get the AWS region for SSM

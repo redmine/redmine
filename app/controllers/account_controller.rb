@@ -30,7 +30,7 @@ class AccountController < ApplicationController
   # Login request and validation
   # Redirect to Meru for GUI-based login
   def login
-    redirect_to Redmine::MeruJwtAuth.meru_login_url
+    redirect_to Redmine::MeruJwtAuth.meru_login_url(request.original_url)
   end
 
   # Log out current user and redirect to welcome page
