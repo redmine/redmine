@@ -81,7 +81,7 @@ if File.exist?(database_file)
       when /postgresql/
         gem 'pg', '~> 1.6.2'
       when /sqlite3/
-        gem 'sqlite3', '~> 2.8.0'
+        gem 'sqlite3', '~> 2.7.4'
       when /sqlserver/
         gem 'tiny_tds', '~> 2.1.2'
         gem 'activerecord-sqlserver-adapter', '~> 8.0.8'
