@@ -1547,8 +1547,8 @@
   label_position: 位置
   label_message: 訊息
   twofa_already_setup: 雙因素驗證已啟用
-  label_alert_note: Note
-  label_alert_tip: Tip
-  label_alert_warning: Warning
-  label_alert_caution: Caution
-  label_alert_important: Important
+  label_alert_note: 提醒
+  label_alert_tip: 提示
+  label_alert_warning: 警告
+  label_alert_caution: 注意
+  label_alert_important: 重要
