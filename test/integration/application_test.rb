@@ -31,6 +31,7 @@ class ApplicationTest < Redmine::IntegrationTest
     assert_select 'h2', :text => 'Projets'
     assert_equal :fr, current_language
     assert_select "html[lang=?]", "fr"
+    assert_select "html[dir=?]", "ltr"
 
     # then an italien user
     get '/projects', :headers => {'HTTP_ACCEPT_LANGUAGE' => 'it;q=0.8,en-us;q=0.5,en;q=0.3'}
@@ -38,12 +39,19 @@ class ApplicationTest < Redmine::IntegrationTest
     assert_select 'h2', :text => 'Progetti'
     assert_equal :it, current_language
     assert_select "html[lang=?]", "it"
+    assert_select "html[dir=?]", "ltr"
+
+    # html[dir] should be "rtl" for right-to-left scripts
+    get '/projects', :headers => {'HTTP_ACCEPT_LANGUAGE' => 'ar'}
+    assert_response :success
+    assert_select "html[dir=?]", "rtl"
 
     # not a supported language: default language should be used
     get '/projects', :headers => {'HTTP_ACCEPT_LANGUAGE' => 'zz'}
     assert_response :success
     assert_select 'h2', :text => 'Projects'
     assert_select "html[lang=?]", "en"
+    assert_select "html[dir=?]", "ltr"
   end
 
   def test_token_based_access_should_not_start_session
