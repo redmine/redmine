@@ -212,7 +212,7 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 #login-form input {height: 29px;}
 #login-form input[type=text], #login-form input[type=password], #login-form input[type=submit] {display: block; width: 100%;}
 #login-form input[type=text], #login-form input[type=password] {margin-bottom: 15px;}
-#login-form a.lost_password {float:right; font-weight:normal;}
+#login-form a.lost_password {float:inline-end; font-weight:normal;}
 #login-form h3 {text-align: center;}
 
 div.modal { border-radius:5px; background:var(--oc-white); z-index:50; padding:4px;}
