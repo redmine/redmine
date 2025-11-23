@@ -76,9 +76,9 @@ a:hover, a:active{ color: var(--oc-red-9); text-decoration: underline;}
 span.more_info { font-weight: normal; }
 
 .markdown-alert {
-  border-left: 4px solid;
-  padding-left: 10px;
-  margin-left: 10px;
+  border-inline-start: 4px solid;
+  padding-inline-start: 10px;
+  margin-inline-start: 10px;
 }
 .markdown-alert-title {
   font-weight: bold;

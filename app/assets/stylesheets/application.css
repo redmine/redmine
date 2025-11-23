@@ -1295,8 +1295,8 @@ div.flash.warning svg.icon-svg, .conflict svg.icon-svg {
 
 /***** CommonMark Alerts *****/
 .markdown-alert {
-  border-left: 4px solid;
-  padding-left: 0.6em;
+  border-inline-start: 4px solid;
+  padding-inline-start: 0.6em;
   margin: 1em 0;
 }
 

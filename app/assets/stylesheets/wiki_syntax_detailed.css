@@ -69,9 +69,9 @@ table.list td { background-color: var(--oc-gray-0); vertical-align: middle; padd
 
 
 .markdown-alert {
-  border-left: 4px solid;
-  padding-left: 10px;
-  margin-left: 20px;
+  border-inline-start: 4px solid;
+  padding-inline-start: 10px;
+  margin-inline-start: 20px;
 }
 .markdown-alert-title {
   font-weight: bold;
