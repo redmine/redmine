@@ -2072,7 +2072,7 @@ span[role="img"].avatar.s50  {
   text-decoration: none;
 }
 .reaction-button .icon-label {
-  margin-left: 3px;
+  margin-inline-start: 3px;
   margin-bottom: -1px;
   font-weight: bold;
 }
@@ -2089,21 +2089,21 @@ span[role="img"].avatar.s50  {
   color: var(--oc-gray-6);
 }
 div.issue.details .reaction {
-  float: right;
+  float: inline-end;
   font-size: 0.9em;
   margin-top: 0.5em;
-  margin-left: 10px;
-  clear: right;
+  margin-inline-start: 10px;
+  clear: inline-end;
 }
 div.message .reaction {
-  float: right;
+  float: inline-end;
   font-size: 0.9em;
-  margin-left: 10px;
+  margin-inline-start: 10px;
 }
 div.news .reaction {
-  float: right;
+  float: inline-end;
   font-size: 0.9em;
-  margin-left: 10px;
+  margin-inline-start: 10px;
 }
 
 /* Custom JQuery styles */
