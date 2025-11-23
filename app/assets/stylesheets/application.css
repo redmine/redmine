@@ -1928,8 +1928,11 @@ svg.svg-loader {
 .contextual>*:not(:first-child), .buttons>.icon:not(:first-child), .contextual .journal-actions>*:not(:first-child) { margin-left: 5px; }
 
 div.issue .avatar {
-  float: left;
-  margin: 0 12px 6px 0;
+  float: inline-start;
+  margin-top: 0;
+  margin-bottom: 6px;
+  margin-inline-start: 0;
+  margin-inline-end: 12px;
 }
 
 div.avatar-with-child {
@@ -1939,7 +1942,7 @@ div.avatar-with-child {
 div.avatar-with-child > .avatar:nth-child(2) {
   position: absolute;
   top: 30px;
-  left: 30px;
+  inset-inline-start: 30px;
   border-radius: 20%;
   border: 2px solid rgba(var(--oc-white-rgb), 0.9);
 }
