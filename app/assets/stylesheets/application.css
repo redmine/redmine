@@ -1619,13 +1619,14 @@ div.wiki *:not(pre)>code, div.wiki>code {
 div.pre-wrapper a.copy-pre-content-link {
   position: absolute;
   top: 3px;
-  right: calc(1em + 3px);
+  inset-inline-end: calc(1em + 3px);
   cursor: pointer;
   display: none;
   border-radius: 3px;
   background: var(--oc-white);
   border: 1px solid var(--oc-gray-4);
-  padding: 0px 3px 3px 3px;
+  padding-block: 0 3px;
+  padding-inline: 3px;
 }
 
 div.pre-wrapper:hover a.copy-pre-content-link {
