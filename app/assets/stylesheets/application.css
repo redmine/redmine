@@ -612,8 +612,8 @@ div.square {
 .contextual input, .contextual select {font-size:0.9em;}
 
 .splitcontent {overflow: auto; display: flex; flex-wrap: wrap;}
-.splitcontentleft {flex: 1; margin-right: 5px;}
-.splitcontentright {flex: 1; margin-left: 5px;}
+.splitcontentleft {flex: 1; margin-inline-end: 5px;}
+.splitcontentright {flex: 1; margin-inline-start: 5px;}
 .splitcontenttop {flex: 2; flex-basis: 100%;}
 
 form {display: inline;}
@@ -946,7 +946,7 @@ table.projects td.name .my-project svg {
 #notified-projects>ul, #tracker_project_ids>ul, #custom_field_project_ids>ul {max-height:250px; overflow-y:auto;}
 
 ul.subprojects {list-style: none; display: inline-block; padding: 0; margin: 0;}
-ul.subprojects li {float: left;}
+ul.subprojects li {float: inline-start;}
 ul.subprojects li:not(:last-child)::after {content: ', '; white-space: pre;}
 
 #related-issues li img {vertical-align:middle;}

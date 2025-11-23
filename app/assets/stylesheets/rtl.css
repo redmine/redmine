@@ -123,19 +123,11 @@ table.messages td.last_message {text-align:right;}
 
 h3.version {padding-left:0px; padding-right:20px;}
 
-div.issues h3 {padding-left:0px; padding-right:20px;}
-div.members h3 {padding-left:0px; padding-right:20px;}
-div.news h3 {padding-left:0px; padding-right:20px;}
-div.projects h3 {padding-left:0px; padding-right:20px;}
-
 #watchers li {margin: 0px 0px 0px 2px; padding: 0px 0px 0px 0px;}
 #watchers img.gravatar {margin: 0 0 2px 4px;}
 
 div.square {float:right;}
 .contextual {float:left; padding-left:0px; padding-right:10px;}
-
-.splitcontentleft{float:right;}
-.splitcontentright{float:left;}
 
 blockquote {border-left:0px solid var(--oc-gray-3); padding-left:0em; margin-left:2em;  border-right:3px solid var(--oc-gray-3); padding-right:0.6em; margin-right:0;}
 blockquote blockquote { margin-right:0;}
