@@ -165,7 +165,6 @@ ul.projects {padding-left:0em; padding-right:1em;}
 ul.projects ul {padding-left:0em; padding-right:1.6em;}
 
 #projects-index ul.projects ul.projects {border-left:0px solid (--oc-gray-3); padding-left:0em; border-right:3px solid (--oc-gray-3); padding-right:1em;}
-.my-project { padding-left:0px;  padding-right:18px; background: url(/fav.png) no-repeat right 50%; }
 
 /***** Tabular forms ******/
 .tabular p{
@@ -208,23 +207,17 @@ fieldset#notified_events .parent {padding-left:0px; padding-right:20px; }
 .check_box_group label {margin-right: 0px !important; text-align: right;}
 .attachments_fields input.description {margin-left:0px; margin-right:4px;}
 
-.attachments_fields input.filename {background:url(/attachment.png) no-repeat right 1px top 50%; padding-left:0px; padding-right:18px;}
 .attachments_fields .ajax-waiting input.filename {background:url(/hourglass-empty.svg) no-repeat right top 50%;}
 .attachments_fields .ajax-loading input.filename {background:url(/loading.gif) no-repeat right top 50%;}
 .attachments_fields div.ui-progressbar {margin: 2px 8px -5px 0;}
-
-a.remove-upload {background: url(/delete.png) no-repeat right 1px top 50%; padding-left:0px; padding-right:16px;}
 
 div.thumbnails div {margin-right:0px; margin-left:2px;}
 
 p.other-formats, p.query-totals { text-align:left; }
 
-a.atom { background: url(/feed.png) no-repeat right 1px top 50%; padding: 2px 16px 3px 0; }
-
 em.info.error {padding-left:0; padding-right:20px; background:url(/exclamation.png) no-repeat right 50%;}
 
 table.members td.name {padding-right: 20px; padding-left:0; }
-table.members td.group, table.members td.groupnonmember, table.members td.groupanonymous {background: url(/group.png) no-repeat right 50%;}
 
 input.autocomplete {
   background: var(--oc-white) url(/search.svg) no-repeat right 2px top 50%; padding-left:0px !important; padding-right:20px !important;
@@ -255,9 +248,6 @@ div.flash svg.icon-svg, #errorExplanation svg.icon-svg {
 
 /***** Calendar *****/
 table.cal td p.day-num {text-align:left;}
-table.cal .starting a, p.cal.legend .starting {background: url(/bullet_go.png) no-repeat right -1px top -2px; padding-left:0px; padding-right:16px;}
-table.cal .ending a, p.cal.legend .ending {background: url(/bullet_end.png) no-repeat right -1px top -2px; padding-left:0px; padding-right:16px;}
-table.cal .starting.ending a, p.cal.legend .starting.ending {background: url(/bullet_diamond.png) no-repeat right -1px top -2px; padding-left:0px; padding-right:16px;}
 
 /***** Tooltips ******/
 .tooltip span.tip{text-align:right;}
