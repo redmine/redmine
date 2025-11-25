@@ -1984,6 +1984,7 @@ img.filecontent.image {background-image: url(/transparent.png);}
   border-radius: 20%;
   display: inline-flex;
   vertical-align: middle;
+  flex-shrink: 0;
 }
 
 span[role="img"].avatar {
