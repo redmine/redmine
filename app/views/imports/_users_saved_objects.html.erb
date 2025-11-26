@@ -12,7 +12,7 @@
   <tbody>
   <% saved_objects.each do |user| %>
   <tr>
-    <td><%= avatar(user, :size => "14") %><%= link_to user.login, edit_user_path(user) %></td>
+    <td><%= avatar(user, :size => "13") %> <%= link_to user.login, edit_user_path(user) %></td>
     <td><%= user.firstname %></td>
     <td><%= user.lastname %></td>
     <td><%= mail_to(user.mail) %></td>
