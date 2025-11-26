@@ -1495,3 +1495,4 @@ bg:
   reaction_text_x_other_users:
     one: 1 друг
     other: "%{count} други"
+  field_ratio_interval: Ratio interval

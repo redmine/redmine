@@ -1573,3 +1573,4 @@ fi:
   label_alert_warning: Warning
   label_alert_caution: Caution
   label_alert_important: Important
+  field_ratio_interval: Ratio interval
