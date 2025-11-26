@@ -1445,7 +1445,7 @@ ja:
   label_issue_attachment_added: 添付ファイルの追加
   field_estimated_remaining_hours: 残工数
   field_last_activity_date: 最終活動日
-  setting_issue_done_ratio_interval: 進捗率の選択肢の間隔
+  setting_issue_done_ratio_interval: 進捗率の間隔
   setting_copy_attachments_on_issue_copy: チケットをコピーするとき添付ファイルもコピー
   field_thousands_delimiter: 3桁区切り表示
   label_involved_principals: 作成者 / 直前担当者
@@ -1496,4 +1496,4 @@ ja:
   label_alert_warning: 警告
   label_alert_caution: 注意
   label_alert_important: 重要
-  field_ratio_interval: Ratio interval
+  field_ratio_interval: 進捗率の間隔
