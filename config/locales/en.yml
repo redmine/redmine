@@ -428,6 +428,7 @@ en:
   field_estimated_remaining_hours: Estimated remaining time
   field_last_activity_date: Last activity
   field_thousands_delimiter: Thousands delimiter
+  field_ratio_interval: Ratio interval
 
   setting_app_title: Application title
   setting_welcome_text: Welcome text
