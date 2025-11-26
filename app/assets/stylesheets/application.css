@@ -462,9 +462,8 @@ tr.version td.date, tr.version td.status, tr.version td.sharing { text-align: ce
 #principals_for_new_member .icon-user, #users_for_watcher .icon-user {background:transparent;}
 #principals_for_new_member svg, #principals_for_new_member .avatar  {margin-right: 4px;}
 
-tr.user td {width:13%;white-space: nowrap;}
-td.username, td.firstname, td.lastname, td.email {text-align:left !important;}
-tr.user td.email { width:18%; }
+tr.user td {white-space: nowrap;}
+td.login, td.firstname, td.lastname, td.mail {text-align:start !important;}
 tr.user.locked, tr.user.registered { color: var(--oc-gray-5); }
 tr.user.locked a, tr.user.registered a { color: var(--oc-gray-5); }
 
