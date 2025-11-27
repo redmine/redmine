@@ -1484,9 +1484,4 @@ fa:
     that is sent with each delivery as the value of the X-Redmine-Signature-256 header.
   setting_webhooks_enabled: Enable webhooks
   label_integrations: Integrations
-  label_alert_note: Note
-  label_alert_tip: Tip
-  label_alert_warning: Warning
-  label_alert_caution: Caution
-  label_alert_important: Important
   field_ratio_interval: Ratio interval
