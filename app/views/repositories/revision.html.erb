@@ -30,7 +30,7 @@
 
 <% if User.current.allowed_to?(:browse_repository, @project) %>
 <ul id="changes-legend">
-<li class="change change-A"><%= scm_change_icon("A", (:label_added)) %></li>
+<li class="change change-A"><%= scm_change_icon("A", l(:label_added)) %></li>
 <li class="change change-M"><%= scm_change_icon("M", l(:label_modified)) %></li>
 <li class="change change-C"><%= scm_change_icon("C", l(:label_copied)) %></li>
 <li class="change change-R"><%= scm_change_icon("R", l(:label_renamed)) %></li>
