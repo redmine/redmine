@@ -1153,6 +1153,16 @@ fa:
   label_edited: ویرایش شده
   label_time_by_author: "%{time} توسط %{author}"
   label_involved_principals: نویسنده / مسئول قبلی
+  label_progressbar: نوار پیشرفت
+  label_oauth_permission_admin: راه‌بری این ردماین
+  label_oauth_admin_access: راه‌بری
+  label_oauth_application_plural: برنامه‌ها
+  label_oauth_authorized_application_plural: برنامه‌های مجاز
+  label_alert_note: یادداشت
+  label_alert_tip: نکته
+  label_alert_warning: هشدار
+  label_alert_caution: احتیاط
+  label_alert_important: مهم
 
   button_login: ورود
   button_submit: ثبت
@@ -1427,42 +1437,38 @@ fa:
   text_user_destroy_confirmation: مطمئنید که می خواهید این کاربر و همه ارجاع‌های مربوط به او را حذف کنید؟ این کار قابل بازگشت نیست. غالبا، قفل کردن کاربر به جای حذف، راه حل به‌تری است. برای تأیید، لطفاً شناسه ورود کاربر (%{login}) را در زیر وارد کنید.
   text_project_destroy_enter_identifier: برای تایید، لطفا شناسه پروژه (%{identifier}) را وارد کنید.
   field_name_or_email_or_login: نام، رایانامه یا شناسه کاربری
-  setting_wiki_tablesort_enabled: JavaScript based table sorting in wiki content
-  label_progressbar: Progress bar
-  error_spent_on_closed_issue: Cannot log time on a closed issue
-  setting_timelog_accept_closed_issues: Accept time logs on closed issues
-  setting_related_issues_default_columns: Related and sub issues list defaults
-  setting_display_related_issues_table_headers: Show table headers
-  error_can_not_remove_role_reason_members_html: "<p>The following projects have members
-    with this role:<br>%{projects}</p>"
-  setting_reactions_enabled: Enable reactions
+  setting_wiki_tablesort_enabled: مرتب‌سازی جدول بر پایه جاوااسکریپت در محتوای دانش‌نامه
+  error_spent_on_closed_issue: امکان ثبت زمان روی مسئله بسته شده وجود ندارد
+  setting_timelog_accept_closed_issues: پذیرش ثبت زمان روی مسائل بسته شده
+  setting_related_issues_default_columns: پیش‌فرض‌های فهرست مسائل مرتبط و زیرکارها
+  setting_display_related_issues_table_headers: نمایش سرآیندهای جدول
+  error_can_not_remove_role_reason_members_html: "<p>پروژه‌های زیر اعضایی با این نقش دارند:<br>%{projects}</p>"
+
+  setting_reactions_enabled: فعال‌سازی واکنش‌ها
   reaction_text_x_other_users:
-    one: 1 other
-    other: "%{count} others"
-  text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
-    to generate their avatars.
-  permission_view_project: View projects
-  permission_search_project: Search projects
-  permission_view_members: View project members
-  label_oauth_permission_admin: Administrate this Redmine
-  label_oauth_admin_access: Administration
-  label_oauth_application_plural: Applications
-  label_oauth_authorized_application_plural: Authorized applications
-  text_oauth_admin_permission: Full administrative access. When authorized by an Administrator,
-    this application will be able to read and write all data and impersonate other users.
-  text_oauth_admin_permission_info: This application requests full administrative access.
-    If you are an Administrator (or become one in the future), it will be able to read
-    and write all data and impersonate other users on your behalf. If you want to avoid
-    this, authorize it as a user without Administrator privileges instead.
-  text_oauth_copy_secret_now: Copy the secret to a safe place now, it will not be shown
-    again.
-  text_oauth_implicit_permissions: View your name, login and primary email address
-  text_oauth_info_scopes: Select the scopes this application may request. The application
-    will not be allowed to do more than what is selected here. It will also always be
-    limited by the roles and project memberships of the user who authorized it.
-  label_position: Position
-  label_message: Message
-  twofa_already_setup: Two-factor authentication already set up
+    one: 1 کاربر دیگر
+    other: "%{count} کاربر دیگر"
+  text_setting_gravatar_default_initials_html: حروف اول اسامی کاربران به <a href="https://www.gravatar.com">https://www.gravatar.com</a> ارسال می‌شود
+    تا تصاویر پروفایل آن‌ها تولید شود.
+  permission_view_project: مشاهده پروژه‌ها
+  permission_search_project: جستجوی پروژه‌ها
+  permission_view_members: مشاهده اعضای پروژه
+  text_oauth_admin_permission: دسترسی راه‌بری کامل. در صورت مجوزدهی توسط یک راه‌بر،
+    این برنامه قادر خواهد بود تمام داده‌ها را خوانده و نوشته و هویت سایر کاربران را جعل کند.
+  text_oauth_admin_permission_info: این برنامه درخواست دسترسی کامل راه‌بری دارد.
+    اگر شما راه‌بر باشید (یا در آینده بشوید)، این برنامه قادر خواهد بود
+    تمام داده‌ها را بخواند و بنویسد
+    و به جای شما هویت دیگر کاربران را جعل کند.
+    اگر می‌خواهید از این وضعیت جلوگیری کنید، برنامه را به عنوان یک کاربر عادی (بدون دسترسی‌های راه‌بری) مجاز کنید.
+
+  text_oauth_copy_secret_now: رمز را در جای امنی نگهداری کنید، چرا که دوباره نمایش داده نخواهد شد.
+  text_oauth_implicit_permissions: مشاهده نام، شناسه کاربری و نشانی رایانامه اصلی شما
+  text_oauth_info_scopes: محدوده‌های دسترسی که این برنامه می‌تواند درخواست کند را انتخاب کنید.
+    به برنامه اجازه انجام عملیاتی فراتر از موارد انتخاب شده در اینجا داده نخواهد شد.
+    همچنین دسترسی برنامه همواره توسط نقش‌ها و عضویت‌های پروژه کاربری که آن را مجوز داده، محدود می‌شود.
+  label_position: موقعیت
+  label_message: پیام
+  twofa_already_setup: ورود دوعاملی قبلا راه‌اندازی شده است
   permission_use_webhooks: Use webhooks
   label_webhook_plural: Webhooks
   label_webhook_new: New webhook
