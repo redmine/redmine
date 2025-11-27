@@ -316,7 +316,8 @@ module ApplicationHelper
             :icon => 'download',
             :title => l(:button_download),
             :download => true
-          )
+          ),
+          class: 'attachment-filename'
         )
       else
         object.filename
