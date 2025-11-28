@@ -33,14 +33,14 @@ class UsersControllerTest < Redmine::ControllerTest
     active = User.active.first
     locked = User.where(status: User::STATUS_LOCKED).first
     assert_select 'table.users'
-    assert_select "tr#user-#{active.id}"
+    assert_select "tr.user.active#user-#{active.id}"
     assert_select "tr#user-#{locked.id}", 0
   end
 
   def test_index_with_status_filter
     get :index, params: { set_filter: 1, f: ['status'], op: {status: '='}, v: {status: [3]} }
     assert_response :success
-    assert_select "tr.user", User.where(status: 3).count
+    assert_select "tr.user.locked", User.where(status: 3).count
   end
 
   def test_index_with_firstname_filter
