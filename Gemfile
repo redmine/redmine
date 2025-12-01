@@ -81,7 +81,7 @@ if File.exist?(database_file)
       when /trilogy/
         gem 'trilogy', '~> 2.9.0'
         gem "with_advisory_lock"
-      when /postgresql/
+      when /postgresql/, /postgres/
         gem 'pg', '~> 1.6.2'
       when /sqlite3/
         gem 'sqlite3', '~> 2.7.4'
@@ -93,10 +93,20 @@ if File.exist?(database_file)
       end
     end
   else
-    warn("No adapter found in config/database.yml, please configure it first")
+    # Default to PostgreSQL for production (Heroku)
+    if ENV['RAILS_ENV'] == 'production' || ENV['HEROKU_APP_NAME']
+      gem 'pg', '~> 1.6.2'
+    else
+      warn("No adapter found in config/database.yml, please configure it first")
+    end
   end
 else
-  warn("Please configure your config/database.yml first")
+  # Default to PostgreSQL for production (Heroku)
+  if ENV['RAILS_ENV'] == 'production' || ENV['HEROKU_APP_NAME']
+    gem 'pg', '~> 1.6.2'
+  else
+    warn("Please configure your config/database.yml first")
+  end
 end
 
 group :development, :test do
