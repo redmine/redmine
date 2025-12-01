@@ -41,7 +41,8 @@
 *.rbc
 
 /.bundle
-/Gemfile.lock
+# Gemfile.lock is required for Heroku deployments
+# /Gemfile.lock
 /Gemfile.local
 
 /node_modules
