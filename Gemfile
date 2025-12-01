@@ -24,6 +24,9 @@ gem "bcrypt", require: false
 gem "doorkeeper-i18n", "~> 5.2"
 gem "requestjs-rails", "~> 0.0.13"
 
+# Web server for production (Heroku)
+gem 'puma', '~> 6.4'
+
 #  Ruby Standard Gems
 gem 'csv', '~> 3.3.2'
 gem 'net-imap', '~> 0.5.7'
@@ -113,7 +116,6 @@ group :test do
   gem 'simplecov', '~> 0.22.0', :require => false
   gem "ffi", platforms: [:mingw, :x64_mingw, :mswin]
   # For running system tests
-  gem 'puma'
   gem "capybara", ">= 3.39"
   gem 'selenium-webdriver', '>= 4.11.0'
   # RuboCop
