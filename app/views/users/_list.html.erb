@@ -31,7 +31,7 @@
       </td>
     </tr>
   <% end %>
-  <tr id="user-<%= user.id %>" class="user <%= cycle("odd", "even") %> hascontextmenu">
+  <tr id="user-<%= user.id %>" class="hascontextmenu <%= cycle("odd", "even") %> <%= user.css_classes %>">
     <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", user.id, false, id: nil) %></td>
     <% @query.inline_columns.each do |column| %>
       <% if column.name == :login %>
