@@ -62,6 +62,10 @@ class WikiPage < ApplicationRecord
   before_destroy :delete_redirects
   after_save :handle_children_move, :delete_selected_attachments
 
+  after_create_commit  ->{ Webhook.trigger('wiki_page.created', self) }
+  after_update_commit  ->{ Webhook.trigger('wiki_page.updated', self) }
+  after_destroy_commit ->{ Webhook.trigger('wiki_page.deleted', self) }
+
   # eager load information about last updates, without loading text
   scope :with_updated_on, lambda {preload(:content_without_text)}
 
@@ -190,6 +194,10 @@ class WikiPage < ApplicationRecord
 
   def project
     wiki.try(:project)
+  end
+
+  def project_id
+    wiki&.project_id
   end
 
   def text

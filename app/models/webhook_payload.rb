@@ -28,7 +28,8 @@ class WebhookPayload
   end
 
   EVENTS = {
-    issue: %w[created updated deleted]
+    issue: %w[created updated deleted],
+    wiki_page: %w[created updated deleted]
   }
 
   def to_h
@@ -85,6 +86,27 @@ class WebhookPayload
           value: d.value,
         }
       end
+    }
+  end
+
+  def wiki_page_payload(action)
+    wiki_page = object
+
+    ts = case action
+         when 'created'
+           wiki_page.created_on
+         when 'deleted'
+           Time.now
+         else
+           wiki_page.updated_on
+         end
+
+    {
+      type: event,
+      timestamp: ts.iso8601,
+      data: {
+        wiki_page: ApiRenderer.new("app/views/wiki/show.api.rsb", user).to_h(page: wiki_page, content: wiki_page.content)
+      }
     }
   end
 
