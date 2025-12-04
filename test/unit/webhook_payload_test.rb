@@ -81,7 +81,7 @@ class WebhookPayloadTest < ActiveSupport::TestCase
     assert_equal 'Updated content', h.dig(:data, :wiki_page, :text)
   end
 
-  test "Test" do
+  test "wiki page deleted payload should contain basic info" do
     wiki = @project.wiki
     page = WikiPage.new(wiki: wiki, title: 'Test Page')
     page.content = WikiContent.new(text: 'Test content', author: @dlopper)
