@@ -7,6 +7,7 @@ api.wiki_page do
   api.version @content.version
   api.author(:id => @content.author_id, :name => @content.author.name) unless @content.author_id.nil?
   api.comments @content.comments
+  api.project(:id => @page.project_id, :name => @page.project.name) unless @page.project.nil?
   api.created_on @page.created_on
   api.updated_on @content.updated_on
 

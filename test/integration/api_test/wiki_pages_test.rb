@@ -49,6 +49,7 @@ class Redmine::ApiTest::WikiPagesTest < Redmine::ApiTest::Base
       assert_select 'text'
       assert_select 'author'
       assert_select 'comments'
+      assert_select 'project[id=1][name="eCookbook"]'
       assert_select 'created_on'
       assert_select 'updated_on'
     end
