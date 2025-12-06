@@ -125,4 +125,35 @@ class WebhookPayloadTest < ActiveSupport::TestCase
     assert_equal 'time_entry.deleted', h[:type]
     assert_equal 4.25, h.dig(:data, :time_entry, :hours)
   end
+
+  test "news created payload should contain news details" do
+    news = News.generate!
+
+    p = WebhookPayload.new('news.created', news, @dlopper)
+    assert h = p.to_h
+    assert_equal 'news.created', h[:type]
+    assert_equal news.title, h.dig(:data, :news, :title)
+  end
+
+  test "news updated payload should contain updated timestamp" do
+    news = News.first
+
+    news.title = 'Updated title'
+    news.save!
+
+    p = WebhookPayload.new('news.updated', news, @dlopper)
+    h = p.to_h
+    assert_equal 'news.updated', h[:type]
+    assert_equal 'Updated title', h.dig(:data, :news, :title)
+  end
+
+  test "news deleted payload should contain basic info" do
+    news = News.first
+    news.destroy
+
+    p = WebhookPayload.new('news.deleted', news, @dlopper)
+    h = p.to_h
+    assert_equal 'news.deleted', h[:type]
+    assert_equal 'Updated title', h.dig(:data, :news, :title)
+  end
 end

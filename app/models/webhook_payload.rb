@@ -31,6 +31,7 @@ class WebhookPayload
     issue: %w[created updated deleted],
     wiki_page: %w[created updated deleted],
     time_entry: %w[created updated deleted],
+    news: %w[created updated deleted],
   }
 
   def to_h
@@ -126,6 +127,25 @@ class WebhookPayload
       timestamp: ts.iso8601,
       data: {
         time_entry: ApiRenderer.new("app/views/timelog/show.api.rsb", user).to_h(time_entry: time_entry)
+      }
+    }
+  end
+
+  def news_payload(action)
+    news = object
+    ts = case action
+         when 'created'
+           news.created_on
+         when 'deleted'
+           Time.now
+         else
+           news.updated_on
+         end
+    {
+      type: event,
+      timestamp: ts.iso8601,
+      data: {
+        news: ApiRenderer.new("app/views/news/show.api.rsb", user).to_h(news: news)
       }
     }
   end

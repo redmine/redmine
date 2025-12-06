@@ -41,6 +41,10 @@ class News < ApplicationRecord
   after_create :add_author_as_watcher
   after_create_commit :send_notification
 
+  after_create_commit ->{ Webhook.trigger('news.created', self) }
+  after_update_commit ->{ Webhook.trigger('news.updated', self) }
+  after_destroy_commit ->{ Webhook.trigger('news.deleted', self) }
+
   scope :visible, (lambda do |*args|
     joins(:project).
     where(Project.allowed_to_condition(args.shift || User.current, :view_news, *args))
