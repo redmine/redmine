@@ -58,6 +58,10 @@ class TimeEntry < ApplicationRecord
   before_validation :set_author_if_nil
   validate :validate_time_entry
 
+  after_create_commit  ->{ Webhook.trigger('time_entry.created', self) }
+  after_update_commit  ->{ Webhook.trigger('time_entry.updated', self) }
+  after_destroy_commit ->{ Webhook.trigger('time_entry.deleted', self) }
+
   scope :visible, (lambda do |*args|
     joins(:project).
     where(TimeEntry.visible_condition(args.shift || User.current, *args))

@@ -94,4 +94,35 @@ class WebhookPayloadTest < ActiveSupport::TestCase
     assert_equal 'wiki_page.deleted', h[:type]
     assert_equal 'Test_Page', h.dig(:data, :wiki_page, :title)
   end
+
+  test "time entry created payload should contain time entry details" do
+    time_entry = TimeEntry.generate!
+
+    p = WebhookPayload.new('time_entry.created', time_entry, @dlopper)
+    assert h = p.to_h
+    assert_equal 'time_entry.created', h[:type]
+    assert_equal time_entry.hours, h.dig(:data, :time_entry, :hours)
+  end
+
+  test "time entry updated payload should contain updated timestamp" do
+    time_entry = TimeEntry.first
+
+    time_entry.hours = 2.5
+    time_entry.save!
+
+    p = WebhookPayload.new('time_entry.updated', time_entry, @dlopper)
+    h = p.to_h
+    assert_equal 'time_entry.updated', h[:type]
+    assert_equal 2.5, h.dig(:data, :time_entry, :hours)
+  end
+
+  test "time entry deleted payload should contain basic info" do
+    time_entry = TimeEntry.first
+    time_entry.destroy
+
+    p = WebhookPayload.new('time_entry.deleted', time_entry, @dlopper)
+    h = p.to_h
+    assert_equal 'time_entry.deleted', h[:type]
+    assert_equal 4.25, h.dig(:data, :time_entry, :hours)
+  end
 end

@@ -1193,8 +1193,12 @@ en:
   webhook_events_wiki_page_created: Wiki page created
   webhook_events_wiki_page_updated: Wiki page updated
   webhook_events_wiki_page_deleted: Wiki page deleted
+  webhook_events_time_entry: Time entries
+  webhook_events_time_entry_created: Time entry created
+  webhook_events_time_entry_updated: Time entry updated
+  webhook_events_time_entry_deleted: Time entry deleted
   webhook_url_info: Redmine will send a POST request to this URL whenever one of the selected events occurs in one of the selected projects.
-  webhook_secret_info_html: If provided, Redmine will use this to create a hash signature that is sent with each delivery as the value of the X-Redmine-Signature-256 header.  
+  webhook_secret_info_html: If provided, Redmine will use this to create a hash signature that is sent with each delivery as the value of the X-Redmine-Signature-256 header.
 
   button_login: Login
   button_submit: Submit
