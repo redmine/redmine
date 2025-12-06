@@ -32,6 +32,7 @@ class WebhookPayload
     wiki_page: %w[created updated deleted],
     time_entry: %w[created updated deleted],
     news: %w[created updated deleted],
+    version: %w[created updated deleted],
   }
 
   def to_h
@@ -146,6 +147,25 @@ class WebhookPayload
       timestamp: ts.iso8601,
       data: {
         news: ApiRenderer.new("app/views/news/show.api.rsb", user).to_h(news: news)
+      }
+    }
+  end
+
+  def version_payload(action)
+    version = object
+    ts = case action
+         when 'created'
+           version.created_on
+         when 'deleted'
+           Time.now
+         else
+           version.updated_on
+         end
+    {
+      type: event,
+      timestamp: ts.iso8601,
+      data: {
+        version: ApiRenderer.new("app/views/versions/show.api.rsb", user).to_h(version: version)
       }
     }
   end

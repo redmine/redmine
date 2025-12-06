@@ -156,4 +156,35 @@ class WebhookPayloadTest < ActiveSupport::TestCase
     assert_equal 'news.deleted', h[:type]
     assert_equal 'Updated title', h.dig(:data, :news, :title)
   end
+
+  test "version created payload should contain version details" do
+    version = Version.generate!
+
+    p = WebhookPayload.new('version.created', version, @dlopper)
+    assert h = p.to_h
+    assert_equal 'version.created', h[:type]
+    assert_equal version.name, h.dig(:data, :version, :name)
+  end
+
+  test "version updated payload should contain updated timestamp" do
+    version = Version.first
+
+    version.name = 'Updated name'
+    version.save!
+
+    p = WebhookPayload.new('version.updated', version, @dlopper)
+    h = p.to_h
+    assert_equal 'version.updated', h[:type]
+    assert_equal 'Updated name', h.dig(:data, :version, :name)
+  end
+
+  test "version deleted payload should contain basic info" do
+    version = Version.first
+    version.destroy
+
+    p = WebhookPayload.new('version.deleted', version, @dlopper)
+    h = p.to_h
+    assert_equal 'version.deleted', h[:type]
+    assert_equal 'Updated name', h.dig(:data, :version, :name)
+  end
 end
