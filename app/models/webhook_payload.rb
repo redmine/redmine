@@ -139,7 +139,7 @@ class WebhookPayload
            news.created_on
          when 'deleted'
            Time.now
-         else
+         else # rubocop:disable Lint/DuplicateBranch
            # TODO: fix this by adding a update_on column for news.
            Time.now
          end
