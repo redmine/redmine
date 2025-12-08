@@ -127,7 +127,8 @@ class WebhookPayloadTest < ActiveSupport::TestCase
   end
 
   test "news created payload should contain news details" do
-    news = News.generate!
+    news = News.new(project: Project.first, author: @dlopper, title: "Webhook title", description: "Webhook description")
+    news.save!
 
     p = WebhookPayload.new('news.created', news, @dlopper)
     assert h = p.to_h
@@ -154,7 +155,7 @@ class WebhookPayloadTest < ActiveSupport::TestCase
     p = WebhookPayload.new('news.deleted', news, @dlopper)
     h = p.to_h
     assert_equal 'news.deleted', h[:type]
-    assert_equal 'Updated title', h.dig(:data, :news, :title)
+    assert_equal 'eCookbook first release !', h.dig(:data, :news, :title)
   end
 
   test "version created payload should contain version details" do
@@ -185,6 +186,6 @@ class WebhookPayloadTest < ActiveSupport::TestCase
     p = WebhookPayload.new('version.deleted', version, @dlopper)
     h = p.to_h
     assert_equal 'version.deleted', h[:type]
-    assert_equal 'Updated name', h.dig(:data, :version, :name)
+    assert_equal '0.1', h.dig(:data, :version, :name)
   end
 end
