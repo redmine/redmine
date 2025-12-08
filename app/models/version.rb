@@ -416,14 +416,6 @@ class Version < ApplicationRecord
     @default_project_version = (arg == '1' || arg == true)
   end
 
-  def created_on
-    created_at
-  end
-
-  def updated_on
-    updated_at
-  end
-
   private
 
   # Update the issue's fixed versions. Used if a version's sharing changes.
