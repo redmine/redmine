@@ -140,7 +140,8 @@ class WebhookPayload
          when 'deleted'
            Time.now
          else
-           news.updated_on
+           # TODO: fix this by adding a update_on column for news.
+           Time.now
          end
     {
       type: event,
