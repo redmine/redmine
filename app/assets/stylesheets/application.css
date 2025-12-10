@@ -198,7 +198,7 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
   background-color: var(--oc-gray-2);
 }
 
-#content { flex-grow: 1; background-color: var(--oc-white); margin: 0px; padding: 10px 16px 10px 16px; overflow-x: auto;}
+#content { flex-grow: 1; background-color: var(--oc-white); margin: 0px; padding: 18px 16px 10px 16px; overflow-x: auto;}
 
 #main.nosidebar #sidebar { display: none; }
 #main.collapsedsidebar #sidebar { width: 0; padding-right: 0 }
