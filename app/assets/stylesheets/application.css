@@ -206,7 +206,7 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 
 #footer {clear: both; border-top: 1px solid var(--oc-gray-4); font-size: 0.9em; color: var(--oc-gray-5); padding: 5px; text-align:center; background:var(--oc-white);}
 
-#login-form {margin:5em auto 2em auto; padding:20px; width:340px; border:1px solid var(--oc-yellow-5); background-color: var(--oc-orange-1); border-radius:4px; box-sizing: border-box;}
+#login-form {margin:5em auto 2em auto; padding:20px; width:340px; background-color: var(--oc-orange-1); border-radius:4px; box-sizing: border-box;}
 #login-form label {display:block; margin-bottom:5px; font-weight:bold;}
 #login-form label[for=autologin] {font-weight:normal;}
 #login-form input {height: 29px;}
@@ -589,15 +589,14 @@ input:disabled, select:disabled, textarea:disabled {
 .highlight.token-3 { background-color: var(--oc-violet-1);}
 
 .box{
-  padding: 8px;
+  padding: 10px;
   margin-bottom: 12px;
   background-color: var(--oc-gray-0);
   color: var(--oc-gray-7);
   line-height: 1.5em;
-  border: 1px solid var(--oc-gray-4);
+  border: 1px solid var(--oc-gray-2);
   word-wrap: break-word;
   border-radius: 3px;
-  box-shadow: 0 1px 2px rgba(var(--oc-gray-9-rgb), 0.05);
 }
 
 div.square {
@@ -671,11 +670,9 @@ body.textarea-proportional textarea.wiki-edit {font-family: var(--fonts-main);}
 li p {margin-top: 0;}
 div.issue {
   background: var(--oc-yellow-0);
-  padding: 8px;
+  padding: 16px;
   margin-bottom: 6px;
-  border: 1px solid var(--oc-gray-4);
   border-radius: 3px;
-  box-shadow: 0 1px 2px rgba(var(--oc-gray-9-rgb), 0.05);
 }
 p.breadcrumb { font-size: 0.8125rem; margin: 4px 0 4px 0;}
 p.subtitle { font-size: 0.8125rem; margin: -6px 0 12px 0; font-style: italic; }
@@ -1224,7 +1221,7 @@ input.autocomplete.ajax-loading {
 
 /***** Flash & error messages ****/
 #errorExplanation, div.flash, .nodata, .warning, .conflict {
-  padding: 6px 4px 6px 30px;
+  padding: 12px 4px 12px 30px;
   margin-bottom: 12px;
   font-size: 1.1em;
   border: 1px solid;
