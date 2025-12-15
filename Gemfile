@@ -18,7 +18,7 @@ gem 'propshaft', '~> 1.3.0'
 gem 'rack', '>= 3.1.3'
 gem "stimulus-rails", "~> 1.3"
 gem "importmap-rails", "~> 2.0"
-gem 'commonmarker', '~> 2.5.0'
+gem 'commonmarker', '~> 2.6.0'
 gem "doorkeeper", "~> 5.8.2"
 gem "bcrypt", require: false
 gem "doorkeeper-i18n", "~> 5.2"
