@@ -51,15 +51,6 @@ module Redmine
           base.extend ClassMethods
         end
 
-        # Returns an array of users that are proposed as watchers
-        def addable_watcher_users
-          users = self.project.principals.assignable_watchers.sort - self.watcher_users
-          if respond_to?(:visible?)
-            users.reject! {|user| user.is_a?(User) && !visible?(user)}
-          end
-          users
-        end
-
         # array of watchers that the given user is allowed to see
         def visible_watcher_users(user = User.current)
           if user.allowed_to?(:"view_#{self.class.name.underscore}_watchers", project)
