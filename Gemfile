@@ -123,6 +123,8 @@ group :test do
   gem 'bundle-audit', require: false
   # for testing oauth provider capabilities
   gem 'oauth2'
+  # Lock minitest to 5.x until a Rails release includes support for minitest 6.0
+  gem 'minitest', '~> 5.27'
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), "Gemfile.local")
