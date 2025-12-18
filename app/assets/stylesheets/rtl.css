@@ -235,17 +235,6 @@ div.flash svg.icon-svg, #errorExplanation svg.icon-svg {
   margin-left: 4px;
 }
 
-/***** Ajax indicator ******/
-#ajax-indicator {
-  left:auto; right:40%;
-}
-
-#ajax-indicator span {
-  background-position: right 40%;
-  background-image: url(/loading.gif);
-  padding-left:0px; padding-right:26px;
-}
-
 /***** Calendar *****/
 table.cal td p.day-num {text-align:left;}
 

@@ -1328,8 +1328,9 @@ div.flash.warning svg.icon-svg, .conflict svg.icon-svg {
 position: fixed;
 background-color:var(--oc-gray-2);
 border: 1px solid var(--oc-gray-5);
-top:35%;
-left:40%;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
 width:20%;
 font-weight:bold;
 text-align:center;
