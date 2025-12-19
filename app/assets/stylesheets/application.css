@@ -1339,8 +1339,9 @@ div.flash.warning svg.icon-svg, .conflict svg.icon-svg {
 position: absolute; /* fixed not supported by IE */
 background-color:#eee;
 border: 1px solid #bbb;
-top:35%;
-left:40%;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
 width:20%;
 font-weight:bold;
 text-align:center;
