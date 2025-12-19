@@ -1613,6 +1613,7 @@ div.wiki *:not(pre)>code, div.wiki>code {
   background: rgba(var(--oc-gray-9-rgb), 0.08);
   padding: 0.1em 0.1em;
   border-radius: 0.1em;
+  white-space: pre-wrap;
 }
 
 div.pre-wrapper a.copy-pre-content-link {
