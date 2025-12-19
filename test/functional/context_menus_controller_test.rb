@@ -492,6 +492,24 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_context_menu_with_suburi_should_include_delete_for_allowed_back_urls
+    @relative_url_root = Redmine::Utils.relative_url_root
+    Redmine::Utils.relative_url_root = '/redmine'
+
+    @request.session[:user_id] = 2
+    %w[
+      /redmine/issues
+      /redmine/projects/ecookbook/issues/gantt
+      /redmine/projects/ecookbook/issues/calendar
+    ].each do |back_url|
+      get :issues, :params => { :ids => [1], :back_url => back_url }
+      assert_response :success
+      assert_select 'a.icon-del', :text => /Delete/
+    end
+  ensure
+    Redmine::Utils.relative_url_root = @relative_url_root
+  end
+
   def test_context_menu_should_not_include_delete_for_disallowed_back_urls
     @request.session[:user_id] = 2
     %w[

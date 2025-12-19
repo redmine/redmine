@@ -49,7 +49,12 @@ class ContextMenusController < ApplicationController
     begin
       # Recognize the controller and action from the back_url to determine
       # which view triggered the context menu.
-      route = Rails.application.routes.recognize_path(@back)
+      if relative_url_root.present? && back_url&.starts_with?(relative_url_root)
+        normalized_back_url = back_url.delete_prefix(relative_url_root)
+      else
+        normalized_back_url = back_url
+      end
+      route = Rails.application.routes.recognize_path(normalized_back_url)
       @include_delete =
         [
           {controller: 'issues', action: 'index'},
