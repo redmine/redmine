@@ -115,6 +115,8 @@ group :test do
   gem 'rubocop-performance', '~> 1.22.0', require: false
   gem 'rubocop-rails', '~> 2.27.0', require: false
   gem 'bundle-audit', require: false
+  # `bin/rails test` fails at startup with minitest >= 6.0
+  gem 'minitest', '< 6.0'
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), "Gemfile.local")
