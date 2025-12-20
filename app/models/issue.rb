@@ -1904,7 +1904,7 @@ class Issue < ApplicationRecord
       end
 
       # ancestors will be recursively updated
-      p.save(:validate => false)
+      p.save(:validate => false) if p.has_changes_to_save?
     end
   end
 
