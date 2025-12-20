@@ -347,7 +347,7 @@ module IssuesHelper
       # rubocop:disable Performance/Sum
       content =
         content_tag('div', @left.reduce(&:+), :class => 'splitcontentleft') +
-        content_tag('div', @right.reduce(&:+), :class => 'splitcontentleft')
+        content_tag('div', @right.reduce(&:+), :class => 'splitcontentright')
       # rubocop:enable Performance/Sum
 
       content_tag('div', content, :class => 'splitcontent')
