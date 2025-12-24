@@ -152,6 +152,9 @@ it:
         must_contain_special_chars: "deve contenere caratteri speciali (!, $, %, ...)"
         domain_not_allowed: "contiene un dominio non consentito (%{domain})"
         too_simple: "è troppo semplice"
+    attributes:
+      doorkeeper/application:
+        scopes: Ambiti
 
   actionview_instancetag_blank_option: Scegli
 
@@ -221,6 +224,7 @@ it:
   error_can_not_delete_custom_field: Impossibile eliminare il campo personalizzato
   error_can_not_delete_tracker_html: "Questo tracker contiene segnalazioni e non può essere eliminato.<p>I seguenti progetti presentano problemi con questo tracker:<br>%{projects}</p>"
   error_can_not_remove_role: "Questo ruolo è in uso e non può essere eliminato."
+  error_can_not_remove_role_reason_members_html: "<p>I seguenti progetti hanno membri con questo ruolo:<br>%{projects}</p>"
   error_can_not_reopen_issue_on_closed_version: Una segnalazione assegnata ad una versione chiusa non può essere riaperta
   error_can_not_archive_project: Questo progetto non può essere archiviato
   error_issue_done_ratios_not_updated: La percentuale delle segnalazioni completate non è aggiornata.
@@ -249,6 +253,7 @@ it:
   error_exceeds_maximum_hours_per_day: "Impossibile registrare più di %{max_hours} ore nello stesso giorno (sono già state registrate %{logged_hours} ore)"
   error_can_not_delete_auth_source: "Questa modalità di autenticazione è in uso e non può essere eliminata."
   error_spent_on_future_date: "Impossibile registrare il tempo in una data futura"
+  error_spent_on_closed_issue: Impossibile registrare il tempo su una segnalazione chiusa
   error_not_allowed_to_log_time_for_other_users: "Non ti è consentito registrare il tempo speso di altri utenti"
   error_can_not_execute_macro_html: "Errore durante l'esecuzione della macro <strong>%{name}</strong> (%{error})"
   error_macro_does_not_accept_block: "Questa macro non accetta un blocco di testo"
@@ -436,6 +441,7 @@ it:
   field_estimated_remaining_hours: Tempo rimanente stimato
   field_last_activity_date: Ultima attività
   field_thousands_delimiter: Delimitatore delle migliaia
+  field_ratio_interval: Intervallo del rapporto
 
   setting_app_title: Titolo applicazione
   setting_welcome_text: Testo di benvenuto
@@ -533,9 +539,13 @@ it:
   setting_timelog_accept_0_hours: Accetta registrazioni di tempo impiegato con 0 ore
   setting_timelog_max_hours_per_day: Numero massimo di ore che possono essere registrate al giorno per utente
   setting_timelog_accept_future_dates: Accetta registrazioni di tempo impiegato in date future
+  setting_timelog_accept_closed_issues: Accetta registrazioni di tempo su segnalazioni chiuse
   setting_show_status_changes_in_mail_subject: Mostra i cambiamenti di stato nell'oggetto delle emails di notifica
   setting_project_list_defaults: Colonne predefinite mostrate nell'elenco progetti
   setting_twofa: Autenticazione a due fattori
+  setting_related_issues_default_columns: Elenco predefinito delle segnalazioni correlate e secondarie
+  setting_display_related_issues_table_headers: Visualizza intestazioni tabella
+  setting_reactions_enabled: Abilita reazioni
 
   permission_add_project: Crea progetto
   permission_add_subprojects: Crea sottoprogetti
@@ -612,6 +622,9 @@ it:
   permission_manage_related_issues: Gestisci relative segnalazioni
   permission_import_issues: Importa segnalazioni
   permission_log_time_for_other_users: Registra il tempo speso dagli altri utenti
+  permission_view_project: Visualizza progetti
+  permission_search_project: Cerca progetti
+  permission_view_members: Visualizza membri del progetto
 
   project_module_issue_tracking: Tracking delle segnalazioni
   project_module_time_tracking: Time tracking
@@ -973,9 +986,9 @@ it:
   label_user_mail_option_only_owner: Solo se sono un osservatore o sono autore
   label_user_mail_no_self_notified: "Non voglio notifiche riguardanti modifiche da me apportate"
   label_user_mail_notify_about_high_priority_issues_html: "Notificami anche delle segnalazioni con priorità <em>%{prio}</em> o superiore"
-  label_registration_activation_by_email: attivazione account via email
-  label_registration_manual_activation: attivazione account manuale
-  label_registration_automatic_activation: attivazione account automatica
+  label_registration_activation_by_email: Attivazione autonoma dell'account tramite verifica via email
+  label_registration_manual_activation: Attivazione dell'account previa approvazione dell'Amministratore
+  label_registration_automatic_activation: Attivazione account automatica
   label_display_per_page: "Per pagina: %{value}"
   label_age: Età
   label_change_properties: Modifica le proprietà
@@ -1121,6 +1134,8 @@ it:
   label_relations_mapping: Mappatura delle relazioni
   label_file_content_preview: Anteprima del contenuto del file
   label_create_missing_values: Crea valori mancanti
+  label_position: Posizione
+  label_message: Messaggio
   label_api: API
   label_field_format_enumeration: Elenco chiave/valore
   label_default_values_for_new_users: Valori predefiniti per i nuovi utenti
@@ -1164,6 +1179,16 @@ it:
   label_edited: Modificato
   label_time_by_author: "%{time} da %{author}"
   label_involved_principals: Autore / Assegnatario precedente
+  label_progressbar: Barra di avanzamento
+  label_oauth_permission_admin: Amministra questo Redmine
+  label_oauth_admin_access: Amministrazione
+  label_oauth_application_plural: Applicazioni
+  label_oauth_authorized_application_plural: Applicazioni autorizzate
+  label_alert_note: Nota
+  label_alert_tip: Suggerimento
+  label_alert_warning: Avvertimento
+  label_alert_caution: Attenzione
+  label_alert_important: Importante
 
   button_login: Entra
   button_submit: Invia
@@ -1348,6 +1373,12 @@ it:
   text_no_subject: nessun soggetto
   text_allowed_queries_to_select: Solo query pubbliche (per tutti gli utenti) selezionabili
   text_setting_config_change: Puoi configurare il comportamento in config/configuration.yml. Riavvia l'applicazione dopo averla modificata.
+  text_setting_gravatar_default_initials_html: Le iniziali degli utenti vengono inviate a <a href="https://www.gravatar.com">https://www.gravatar.com</a> per generare i loro avatar.
+  text_oauth_admin_permission: Accesso amministrativo completo. Se autorizzata da un Amministratore, questa applicazione potrà leggere e scrivere tutti i dati e impersonare altri utenti.
+  text_oauth_admin_permission_info: "Questa applicazione richiede l'accesso amministrativo completo. Se sei un Amministratore (o lo diventerai in futuro), l'applicazione potrà leggere e scrivere tutti i dati e impersonare altri utenti per tuo conto. Se vuoi evitare questo problema, autorizzala come utente senza privilegi di Amministratore."
+  text_oauth_copy_secret_now: "Salva subito il segreto in un luogo sicuro: non verrà mostrato di nuovo."
+  text_oauth_implicit_permissions: Visualizza il tuo nome, login e indirizzo email principale
+  text_oauth_info_scopes: Seleziona gli ambiti a cui questa applicazione potrà accedere. L'applicazione non potrà fare più di quanto indicato qui e sarà sempre limitata dai ruoli e dalle appartenenze ai progetti dell'utente che l'ha autorizzata.
 
   default_role_manager: Gestore
   default_role_developer: Sviluppatore
@@ -1433,47 +1464,16 @@ it:
   twofa_text_backup_codes_hint: Utilizza questi codici al posto di una password monouso se non hai accesso al tuo secondo fattore. Ogni codice può essere utilizzato solo una volta. Si consiglia di stamparli e conservarli in un luogo sicuro.
   twofa_text_backup_codes_created_at: Codici di backup generati %{datetime}.
   twofa_backup_codes_already_shown: I codici di backup non possono essere visualizzati di nuovo, se necessario <a data-method="post" href="%{bc_path}">genera nuovi codici di backup</a>.
+  twofa_already_setup: Autenticazione a due fattori già configurata
   twofa_text_group_required: "Questa impostazione è efficace solo quando l'impostazione globale di autenticazione a due fattori è impostata su 'opzionale'. Attualmente, l'autenticazione a due fattori è richiesta per tutti gli utenti."
   twofa_text_group_disabled: "Questa impostazione è efficace solo quando l'impostazione globale di autenticazione a due fattori è impostata su 'opzionale'. Attualmente, l'autenticazione a due fattori è disabilitata."
   text_user_destroy_confirmation: "Vuoi davvero eliminare questo utente e rimuovere tutti i riferimenti ad esso associati? Questa operazione non può essere annullata. Spesso, bloccare un utente anziché eliminarlo è la soluzione migliore. Per confermare, inserisci il suo login (%{login}) qui sotto."
   text_project_destroy_enter_identifier: "Per confermare, inserisci l'identificativo del progetto (%{identifier}) qui sotto."
   field_name_or_email_or_login: Nome, email o login
-  setting_wiki_tablesort_enabled: JavaScript based table sorting in wiki content
-  label_progressbar: Progress bar
-  error_spent_on_closed_issue: Cannot log time on a closed issue
-  setting_timelog_accept_closed_issues: Accept time logs on closed issues
-  setting_related_issues_default_columns: Related and sub issues list defaults
-  setting_display_related_issues_table_headers: Show table headers
-  error_can_not_remove_role_reason_members_html: "<p>The following projects have members
-    with this role:<br>%{projects}</p>"
-  setting_reactions_enabled: Enable reactions
+  setting_wiki_tablesort_enabled: Ordinamento tabelle con JavaScript nei contenuti wiki
   reaction_text_x_other_users:
-    one: 1 other
-    other: "%{count} others"
-  text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
-    to generate their avatars.
-  permission_view_project: View projects
-  permission_search_project: Search projects
-  permission_view_members: View project members
-  label_oauth_permission_admin: Administrate this Redmine
-  label_oauth_admin_access: Administration
-  label_oauth_application_plural: Applications
-  label_oauth_authorized_application_plural: Authorized applications
-  text_oauth_admin_permission: Full administrative access. When authorized by an Administrator,
-    this application will be able to read and write all data and impersonate other users.
-  text_oauth_admin_permission_info: This application requests full administrative access.
-    If you are an Administrator (or become one in the future), it will be able to read
-    and write all data and impersonate other users on your behalf. If you want to avoid
-    this, authorize it as a user without Administrator privileges instead.
-  text_oauth_copy_secret_now: Copy the secret to a safe place now, it will not be shown
-    again.
-  text_oauth_implicit_permissions: View your name, login and primary email address
-  text_oauth_info_scopes: Select the scopes this application may request. The application
-    will not be allowed to do more than what is selected here. It will also always be
-    limited by the roles and project memberships of the user who authorized it.
-  label_position: Position
-  label_message: Message
-  twofa_already_setup: Two-factor authentication already set up
+    one: "1 altro"
+    other: "%{count} altri"
   permission_use_webhooks: Use webhooks
   label_webhook_plural: Webhooks
   label_webhook_new: New webhook
