@@ -1870,7 +1870,8 @@ class Issue < ApplicationRecord
 
       if p.dates_derived?
         # start/due dates = lowest/highest dates of children
-        p.start_date, p.due_date = p.children.pick('MIN(start_date)', 'MAX(due_date)')
+        p.start_date = p.children.minimum(:start_date)
+        p.due_date = p.children.maximum(:due_date)
         if p.start_date && p.due_date && p.due_date < p.start_date
           p.start_date, p.due_date = p.due_date, p.start_date
         end
