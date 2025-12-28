@@ -224,14 +224,21 @@ module Redmine
              "{{recent_pages}} -- displays pages updated within the last 7 days\n" +
              "{{recent_pages(days=3)}} -- displays pages updated within the last 3 days\n" +
              "{{recent_pages(limit=5)}} -- limits the maximum number of pages to display to 5\n" +
-             "{{recent_pages(time=true)}} -- displays pages updated within the last 7 days with updated time"
+             "{{recent_pages(time=true)}} -- displays pages updated within the last 7 days with updated time\n" +
+             "{{recent_pages(project=identifier)}} -- displays pages updated within the last 7 days from a specific project"
 
       macro :recent_pages do |obj, args|
-        project = current_project(obj)
+        args, options = extract_macro_options(args, :days, :limit, :time, :project)
+
+        if options[:project].presence
+          project = Project.find_by_identifier(options[:project].to_s) if options[:project].present?
+        else
+          project = current_project(obj)
+        end
+
         return '' if project.nil?
         return '' unless User.current.allowed_to?(:view_wiki_pages, project)
 
-        args, options = extract_macro_options(args, :days, :limit, :time)
         days_to_list = (options[:days].presence || 7).to_i
         limit = options[:limit].to_i if options[:limit].present?
         is_show_time = options[:time].to_s == 'true'
