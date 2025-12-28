@@ -68,4 +68,43 @@ class ProjectsTest < Redmine::IntegrationTest
       assert_select 'td.buttons', text: ''
     end
   end
+
+  def test_index_should_render_include_macro_in_short_description
+    project = Project.find(1)
+    project.update!(:description => '{{include(Another page)}}')
+
+    log_user('admin', 'admin')
+
+    get '/projects', :params => {:display_type => 'list'}
+    assert_response :success
+    assert_select 'td.short_description div.wiki', :text => /This is a link to a ticket/
+
+    get '/projects', :params => {:display_type => ''}
+    assert_response :success
+    assert_select 'div.wiki.description', :text => /This is a link to a ticket/
+  end
+
+  def test_index_should_render_recent_pages_macro_in_short_description
+    freeze_time do
+      project = Project.find(1)
+      project.update!(:description => '{{recent_pages}}')
+
+      WikiContent.update_all(updated_on: Time.current)
+      project.wiki.pages.each_with_index do |page, i|
+        page.content.update_attribute(:updated_on, (i + 1).days.ago)
+      end
+
+      log_user('admin', 'admin')
+
+      get '/projects', :params => {:display_type => 'list'}
+      assert_response :success
+      assert_select 'td.short_description div.wiki ul li a', :count => 7
+      assert_select 'td.short_description div.wiki ul li:first a', :text => 'Another page'
+
+      get '/projects', :params => {:display_type => ''}
+      assert_response :success
+      assert_select 'div.wiki.description ul li a', :count => 7
+      assert_select 'div.wiki.description ul li:first a', :text => 'Another page'
+    end
+  end
 end
