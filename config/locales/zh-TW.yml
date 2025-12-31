@@ -264,7 +264,7 @@
   notice_default_data_loaded: 預設組態已載入成功。
   notice_unable_delete_version: 無法刪除版本。
   notice_unable_delete_time_entry: 無法刪除工時記錄項目。
-  notice_issue_done_ratios_updated: 議題完成百分比已更新。
+  notice_issue_done_ratios_updated: 議題完成比例已更新。
   notice_gantt_chart_truncated: "由於項目數量超過可顯示數量的最大值 (%{max})，故此甘特圖尾部已被截斷"
   notice_issue_successful_create: "議題 %{id} 已建立。"
   notice_issue_update_conflict: "當您正在編輯這個議題的時候，它已經被其他人搶先一步更新過。"
@@ -396,7 +396,7 @@
   field_attr_mail: 電子郵件信箱屬性
   field_onthefly: 即時建立使用者
   field_start_date: 開始日期
-  field_done_ratio: 完成百分比
+  field_done_ratio: 完成比例
   field_auth_source: 驗證模式
   field_hide_mail: 隱藏我的電子郵件
   field_comments: 回應
@@ -513,8 +513,8 @@
   setting_lost_password: 允許使用電子郵件重新設定密碼
   setting_new_project_user_role_id: 管理者以外之用戶建立新專案時，將被分派的角色
   setting_default_projects_modules: 新專案預設啟用的模組
-  setting_issue_done_ratio: 計算議題完成百分比之方式
-  setting_issue_done_ratio_issue_field: 依據議題完成百分比欄位
+  setting_issue_done_ratio: 計算議題完成比例之方式
+  setting_issue_done_ratio_issue_field: 依據議題完成比例欄位
   setting_issue_done_ratio_issue_status: 依據議題狀態
   setting_start_of_week: 週的第一天
   setting_rest_api_enabled: 啟用 REST 網路服務技術（Web Service）
@@ -990,7 +990,7 @@
   label_version_sharing_hierarchy: 與專案階層架構共用
   label_version_sharing_tree: 與專案樹共用
   label_version_sharing_system: 與全部的專案共用
-  label_update_issue_done_ratios: 更新議題完成百分比
+  label_update_issue_done_ratios: 更新議題完成比例
   label_copy_source: 來源
   label_copy_target: 目的地
   label_copy_same_as_target: 與目的地相同
@@ -1505,7 +1505,7 @@
   label_issue_attachment_added: 附加檔案已新增
   field_estimated_remaining_hours: 預估剩餘工時
   field_last_activity_date: 最近一次活動
-  setting_issue_done_ratio_interval: 完成百分比選項的間隔值
+  setting_issue_done_ratio_interval: 完成比例選項的間隔值
   setting_copy_attachments_on_issue_copy: 連同附件檔案一起複製
   field_thousands_delimiter: 千分位分隔符號
   label_involved_principals: 作者 / 歷任被分派者
@@ -1566,4 +1566,4 @@
   label_alert_warning: 警告
   label_alert_caution: 注意
   label_alert_important: 重要
-  field_ratio_interval: Ratio interval
+  field_ratio_interval: 完成比例間隔
