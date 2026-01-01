@@ -6984,7 +6984,7 @@ class IssuesControllerTest < Redmine::ControllerTest
         :update,
         params: {
           id: private_issue.id,
-          issue: { assigned_to_id: nil },
+          issue: { assigned_to_id: '' },
           time_entry: {
             comments: "add spent time", activity_id: TimeEntryActivity.first.id, hours: 1
           }

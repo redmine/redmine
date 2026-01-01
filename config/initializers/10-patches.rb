@@ -102,6 +102,25 @@ module ActionView
       super
     end
   end)
+  module Helpers
+    # Set a randomized name attribute on all form fields by default
+    # as a workaround to https://bugzilla.mozilla.org/show_bug.cgi?id=1279253
+    FormHelper.prepend(Module.new do
+      def form_tag_html(html_options)
+        randomized_name_attribute(html_options)
+        super
+      end
+
+      def form_tag_with_body(html_options, output)
+        randomized_name_attribute(html_options)
+        super
+      end
+
+      def randomized_name_attribute(html_options)
+        html_options['name'] ||= "#{html_options['id'] || 'form'}-#{SecureRandom.hex(4)}"
+      end
+    end)
+  end
 end
 
 module ActionController
