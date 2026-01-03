@@ -72,39 +72,41 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
   background: #3E5B76; /* no match in Open Color, using hex code */
   color: var(--oc-white);
   font-size: 0.8em;
-  padding: 2px 10px 2px 12px;
+  padding-block: 2px;
+  padding-inline: 12px 10px;
 }
 #top-menu ul {margin: 0;  padding: 0;}
 #top-menu li {
-  float:left;
+  float:inline-start;
   list-style-type:none;
   margin: 0px 0px 0px 0px;
   padding: 0px 0px 0px 0px;
   white-space:nowrap;
 }
-#top-menu a {color: var(--oc-white); margin-right: 8px; font-weight: bold;}
-#top-menu #loggedas { float: right; margin-right: 0.5em; color: var(--oc-white); }
+#top-menu a {color: var(--oc-white); margin-inline-end: 8px; font-weight: bold;}
+#top-menu #loggedas { float: inline-end; margin-inline-end: 0.5em; color: var(--oc-white); }
 
-#account {float:right;}
+#account {float:inline-end;}
 
 #header {
   min-height: 8.7ex;
   margin: 0;
   background: linear-gradient(180deg, #628DB6 30%, #356D92); /* no match in Open Color, using hex code */
   color: var(--oc-gray-0);
-  padding: 4px 16px 20px 16px;
+  padding-block: 4px 20px;
+  padding-inline: 16px;
   position: relative;
 }
 #header a {color: var(--oc-gray-0);}
 #header h1 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 1.4375rem; font-weight: normal;}
 #header h1 .breadcrumbs { display:block; font-size: 0.8rem; font-weight: normal; line-height: 100%;}
 
-#quick-search {float:right;}
+#quick-search {float:inline-end;}
 #quick-search #q {width:130px; height:24px; box-sizing:border-box; vertical-align:middle; border:1px solid var(--oc-gray-4); border-radius:3px;}
-#quick-search form {float:left; margin-right:3px;}
+#quick-search form {float:inline-start; margin-inline-end:3px;}
 #quick-search form input {margin-top:0; margin-bottom:0;}
 #quick-search form label {vertical-align:middle;}
-#quick-search #project-jump {float:left;}
+#quick-search #project-jump {float:inline-start;}
 
 #main-menu {position: absolute;  bottom: 0px;  left: 10px; margin-right: -500px; width: 100%;}
 #main-menu ul {margin: 0;  padding: 0; width: 100%; white-space: nowrap;}

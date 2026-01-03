@@ -6,17 +6,6 @@
 
 h1, h2, h3, h4 {padding:2px 00px 1px 10px;}
 /***** Layout *****/
-#top-menu {padding:2px 6px 0px 2px;}
-#top-menu li {float:right;}
-#top-menu a {margin-right:0;margin-left:8px;}
-#top-menu #loggedas {float:left;margin-right:0;margin-left:0.5em;}
-
-#account {float:left;}
-
-#header {padding:4px 6px 20px 8px;}
-
-#quick-search {float:left;}
-
 #main-menu {left:auto;right:6px;margin-right:0;margin-left:-500px;}
 #main-menu li {float:right;margin:0px 0px 0px 2px;}
 
