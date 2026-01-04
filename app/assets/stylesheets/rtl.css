@@ -30,9 +30,6 @@ h1, h2, h3, h4 {padding:2px 00px 1px 10px;}
   padding-left: 28px;
 }
 
-#content {border-right:0 solid var(--oc-gray-4); border-left:1px solid var(--oc-gray-4);}
-#main.nosidebar #content{border-left:0;}
-
 #login-form table {margin-left:auto; margin-right:auto;}
 div.modal p.buttons {text-align:left;}
 
