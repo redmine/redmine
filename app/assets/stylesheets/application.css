@@ -684,8 +684,8 @@ select[multiple=multiple] {background: var(--oc-white); padding-right: initial; 
 fieldset {border: 1px solid var(--oc-gray-4); margin:0; min-width: inherit;}
 legend {color: var(--oc-gray-9);}
 hr { width: 100%; height: 1px; background: var(--oc-gray-4); border: 0;}
-blockquote { font-style: italic; border-left: 3px solid var(--oc-gray-3); padding-left: 0.6em; margin-left: 0;}
-blockquote blockquote { margin-left: 0;}
+blockquote { font-style: italic; border-inline-start: 3px solid var(--oc-gray-3); padding-inline-start: 0.6em; margin-inline-start: 0;}
+blockquote blockquote { margin-inline-start: 0;}
 abbr, span.field-description[title] { border-bottom: 1px dotted var(--oc-gray-5); cursor: help; }
 textarea.wiki-edit {width:99%; resize:vertical; box-sizing: border-box;}
 body.textarea-monospace textarea.wiki-edit {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}

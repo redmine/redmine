@@ -89,9 +89,6 @@ h3.version {padding-left:0px; padding-right:20px;}
 div.square {float:right;}
 .contextual {float:left; padding-left:0px; padding-right:10px;}
 
-blockquote {border-left:0px solid var(--oc-gray-3); padding-left:0em; margin-left:2em;  border-right:3px solid var(--oc-gray-3); padding-right:0.6em; margin-right:0;}
-blockquote blockquote { margin-right:0;}
-
 div.issue div.subject div div {padding-left:0px; padding-right:16px;}
 
 div.issue span.private, div.journal span.private {margin-right:0px; margin-left:2px;}
