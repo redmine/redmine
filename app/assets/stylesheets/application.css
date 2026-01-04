@@ -622,13 +622,6 @@ input:disabled, select:disabled, textarea:disabled {
   border-radius: 3px;
 }
 
-div.square {
-  border: 1px solid var(--oc-gray-6);
-  float: left;
-  margin: .3em .4em 0 .4em;
-  overflow: hidden;
-  width: .6em; height: .6em;
-}
 .contextual {float:right; white-space: nowrap; line-height:1.4em;margin:5px 0px; padding-left: 10px; font-size:0.9em;}
 .contextual input, .contextual select {font-size:0.9em;}
 
