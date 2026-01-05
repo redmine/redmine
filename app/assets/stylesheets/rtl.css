@@ -201,10 +201,6 @@ div.tooltip:hover span.tip{
   left:auto; right:24px;
 }
 
-img.ui-datepicker-trigger {
-  margin-left:0px; margin-right:4px;
-}
-
 /***** Progress bar *****/
 table.progress {
   float:right;

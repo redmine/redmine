@@ -1445,7 +1445,7 @@ table.cal div.tooltip:hover span.tip {
 img.ui-datepicker-trigger {
   cursor: pointer;
   vertical-align: middle;
-  margin-left: 4px;
+  margin-inline-start: 4px;
 }
 
 /***** Documents *****/
