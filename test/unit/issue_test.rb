@@ -3628,4 +3628,26 @@ class IssueTest < ActiveSupport::TestCase
     r = Issue.like('issue today')
     assert_include Issue.find(7), r
   end
+
+  def test_attachments_editable_should_check_issue_visibility
+    # private issue
+    i = Issue.find(14)
+
+    # user jsmith has permission to view issue
+    assert i.attachments_editable?(User.find(2))
+
+    # user dlopper does not have permission to view issue
+    assert_not i.attachments_editable?(User.find(3))
+  end
+
+  def test_attachments_deletable_should_check_issue_visibility
+    # private issue
+    i = Issue.find(14)
+
+    # user jsmith has permission to view issue
+    assert i.attachments_deletable?(User.find(2))
+
+    # user dlopper does not have permission to view issue
+    assert_not i.attachments_deletable?(User.find(3))
+  end
 end
