@@ -33,21 +33,21 @@ module Redmine
     ALLOWED_TYPES = %w(image/bmp image/gif image/jpeg image/png image/webp application/pdf)
 
     # Generates a thumbnail for the source image to target
-    def self.generate(source, target, size, is_pdf = false)
+    # TODO: Remove the deprecated _is_pdf parameter in Redmine 7.0
+    def self.generate(source, target, size, _is_pdf = nil)
       return nil unless convert_available?
-      return nil if is_pdf && !gs_available?
 
       unless File.exist?(target)
         # Make sure we only invoke Imagemagick if the file type is allowed
         mime_type = File.open(source) {|f| Marcel::MimeType.for(f)}
         return nil unless ALLOWED_TYPES.include? mime_type
-        return nil if is_pdf && mime_type != "application/pdf"
+        return nil if mime_type == 'application/pdf' && !gs_available?
 
         directory = File.dirname(target)
         FileUtils.mkdir_p directory
         size_option = "#{size}x#{size}>"
 
-        if is_pdf
+        if mime_type == 'application/pdf'
           cmd = "#{shell_quote CONVERT_BIN} #{shell_quote "#{source}[0]"} -thumbnail #{shell_quote size_option} #{shell_quote "png:#{target}"}"
         else
           cmd = "#{shell_quote CONVERT_BIN} #{shell_quote source} -auto-orient -thumbnail #{shell_quote size_option} #{shell_quote target}"

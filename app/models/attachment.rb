@@ -246,6 +246,7 @@ class Attachment < ApplicationRecord
       target = thumbnail_path(size)
 
       begin
+        # TODO: Stop passing the deprecated is_pdf flag in Redmine 7.0
         Redmine::Thumbnail.generate(self.diskfile, target, size, is_pdf?)
       rescue => e
         if logger
