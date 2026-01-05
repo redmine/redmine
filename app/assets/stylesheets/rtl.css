@@ -194,13 +194,6 @@ div.flash svg.icon-svg, #errorExplanation svg.icon-svg {
 /***** Calendar *****/
 table.cal td p.day-num {text-align:left;}
 
-/***** Tooltips ******/
-.tooltip span.tip{text-align:right;}
-
-div.tooltip:hover span.tip{
-  left:auto; right:24px;
-}
-
 /***** Progress bar *****/
 table.progress {
   float:right;

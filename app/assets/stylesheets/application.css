@@ -1417,7 +1417,7 @@ p.cal.legend span {display:flex;}
 /***** Tooltips ******/
 .tooltip{position:relative;z-index:24;}
 .tooltip:hover{z-index:25;color:var(--oc-black);}
-.tooltip span.tip{display: none; text-align:left;}
+.tooltip span.tip{display: none; text-align: start;}
 .tooltip span.tip a { color: var(--oc-blue-9) !important; }
 
 .tooltip span.tip .avatar {
