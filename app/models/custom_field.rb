@@ -158,7 +158,7 @@ class CustomField < ApplicationRecord
       end
     end
 
-    if default_value.present?
+    if default_value.present? && errors[:regexp].blank?
       validate_field_value(default_value).each do |message|
         errors.add :default_value, message
       end
