@@ -217,7 +217,7 @@ class Issue < ApplicationRecord
 
   # Overrides Redmine::Acts::Attachable::InstanceMethods#attachments_editable?
   def attachments_editable?(user=User.current)
-    attributes_editable?(user)
+    visible?(user) && attributes_editable?(user)
   end
 
   # Returns true if user or current user is allowed to add notes to the issue
@@ -232,7 +232,7 @@ class Issue < ApplicationRecord
 
   # Overrides Redmine::Acts::Attachable::InstanceMethods#attachments_deletable?
   def attachments_deletable?(user=User.current)
-    attributes_editable?(user)
+    visible?(user) && attributes_editable?(user)
   end
 
   def initialize(attributes=nil, *args)
