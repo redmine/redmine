@@ -41,13 +41,15 @@ module Redmine
         # Make sure we only invoke Imagemagick if the file type is allowed
         mime_type = File.open(source) {|f| Marcel::MimeType.for(f)}
         return nil unless ALLOWED_TYPES.include? mime_type
-        return nil if mime_type == 'application/pdf' && !gs_available?
 
         directory = File.dirname(target)
         FileUtils.mkdir_p directory
         size_option = "#{size}x#{size}>"
 
         if mime_type == 'application/pdf'
+          return nil unless gs_available?
+          return nil unless valid_pdf_magic?(source)
+
           cmd = "#{shell_quote CONVERT_BIN} #{shell_quote "#{source}[0]"} -thumbnail #{shell_quote size_option} #{shell_quote "png:#{target}"}"
         else
           cmd = "#{shell_quote CONVERT_BIN} #{shell_quote source} -auto-orient -thumbnail #{shell_quote size_option} #{shell_quote target}"
@@ -96,6 +98,21 @@ module Redmine
       end
       logger.warn("gs binary (#{GS_BIN}) not available") unless @gs_available
       @gs_available
+    end
+
+    # Check PDF magic bytes to make sure the file looks like a PDF, not
+    # PostScript.
+    #
+    # This method treats the file as PostScript instead of PDF and returns
+    # false if PostScript magic bytes appear before the PDF magic bytes.
+    # This behavior is based on the detection logic used by Ghostscript in
+    # the redefined `run` operator in pdf_main.ps.
+    def self.valid_pdf_magic?(filename)
+      head_data = File.binread(filename, 1024)
+      pdf_magic_pos = head_data.index('%PDF-')
+      ps_magic_pos = head_data.index('%!PS')
+
+      !pdf_magic_pos.nil? && (ps_magic_pos.nil? || pdf_magic_pos < ps_magic_pos)
     end
 
     def self.logger
