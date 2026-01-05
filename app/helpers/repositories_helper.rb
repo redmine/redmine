@@ -310,6 +310,15 @@ module RepositoriesHelper
     while (commit = commits.find { |commit| commits_by_scmid[commit.scmid][:space].nil? })
       space = index_head(space + 1, commit, commits_by_scmid)
     end
+    # Set vertical_children flag for commits that have children in the same column
+    # for S-style connections between commits
+    commits_by_scmid.each_value do |commit|
+      commit[:parent_scmids].each do |scmid|
+        if (parent = commits_by_scmid[scmid]) && parent[:space] == commit[:space]
+          parent[:vertical_children] = true
+        end
+      end
+    end
     return commits_by_scmid, space
   end
 

@@ -63,26 +63,52 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
                 fill: colors[commit.space],
                 stroke: 'none'
             }).toFront();
-        // paths to parents
-        $.each(commit.parent_scmids, function(index, parent_scmid) {
-            parent_commit = commits_by_scmid[parent_scmid];
+
+        // check for parents in the same column
+        let noVerticalParents = true;
+        $.each(commit.parent_scmids, function (index, parentScmid) {
+            parent_commit = commits_by_scmid[parentScmid];
             if (parent_commit) {
                 if (!parent_commit.hasOwnProperty("space"))
                     parent_commit.space = 0;
 
+                // has parent in the same column on this page
+                if (parent_commit.space === commit.space)
+                    noVerticalParents = false;
+            } else {
+                // has parent in the same column on the other page
+                noVerticalParents = false;
+            }
+        });
+
+        // paths to parents
+        $.each(commit.parent_scmids, function(index, parent_scmid) {
+            parent_commit = commits_by_scmid[parent_scmid];
+            if (parent_commit) {
                 parent_y = yForRow(max_rdmid - parent_commit.rdmid);
                 parent_x = graph_x_offset + XSTEP / 2 + XSTEP * parent_commit.space;
-                if (parent_commit.space == commit.space) {
+                const controlPointDelta = (parent_y - y) / 8;
+
+                if (parent_commit.space === commit.space) {
                     // vertical path
                     path = revisionGraph.path([
                         'M', x, y,
                         'V', parent_y]);
+                } else if (noVerticalParents) {
+                    // branch start (Bezier curve)
+                    path = revisionGraph.path([
+                        'M', x, y,
+                        'C', x, y + controlPointDelta, x, parent_y - controlPointDelta, parent_x, parent_y]);
+                } else if (!parent_commit.hasOwnProperty('vertical_children')) {
+                    // branch end (Bezier curve)
+                    path = revisionGraph.path([
+                        'M', x, y,
+                        'C', parent_x, y + controlPointDelta, parent_x, parent_y, parent_x, parent_y]);
                 } else {
                     // path to a commit in a different branch (Bezier curve)
                     path = revisionGraph.path([
                         'M', x, y,
-                        'C', x, y, x, y + (parent_y - y) / 2, x + (parent_x - x) / 2, y + (parent_y - y) / 2,
-                        'C', x + (parent_x - x) / 2, y + (parent_y - y) / 2, parent_x, parent_y-(parent_y-y)/2, parent_x, parent_y]);
+                        'C', parent_x, y, x, parent_y, parent_x, parent_y]);
                 }
             } else {
                 // vertical path ending at the bottom of the revisionGraph
