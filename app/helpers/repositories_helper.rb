@@ -300,7 +300,7 @@ module RepositoriesHelper
     heads.sort_by!(&:to_s)
     space = nil
     heads.each do |head|
-      if commits_by_scmid.include? head.scmid
+      if commits_by_scmid.include?(head.scmid) && commits_by_scmid[head.scmid][:space].nil?
         space = index_head((space || -1) + 1, head, commits_by_scmid)
       end
     end
