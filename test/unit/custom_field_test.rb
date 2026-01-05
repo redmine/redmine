@@ -48,6 +48,15 @@ class CustomFieldTest < ActiveSupport::TestCase
     assert field.save
   end
 
+  def test_regexp_validation_with_invalid_regex_and_default_value
+    field = IssueCustomField.new(:name => 'regexp', :field_format => 'text', :regexp => '[', :default_value => 'abc')
+    assert !field.save
+    assert_include I18n.t('activerecord.errors.messages.invalid'),
+                   field.errors[:regexp]
+    field.regexp = '[a-z0-9]'
+    assert field.save
+  end
+
   def test_default_value_should_be_validated
     field = CustomField.new(:name => 'Test', :field_format => 'int')
     field.default_value = 'abc'
