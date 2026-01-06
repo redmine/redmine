@@ -4,6 +4,23 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2026-01-05 v5.1.11
+
+=== [Code cleanup/refactoring]
+
+* Defect #43441: Fix failures in test/system/issues_test.rb
+* Patch #43638: Update copyright year to 2026
+
+=== [Gems support]
+
+* Defect #43609: Tests fail with minitest 6.0
+
+=== [Security]
+
+* Defect #43451: PostScript disguised as PDF can lead to arbitrary file operations via thumbnail generation
+* Defect #43634: Authorization bypass in Redmine allows modification of attachment metadata on invisible issues
+* Defect #43635: Authorization bypass in Redmine allows deletion of attachment on invisible issues external
+
 == 2025-09-21 v5.1.10
 
 === [Importers]
