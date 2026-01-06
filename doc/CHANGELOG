@@ -4,6 +4,107 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2026-01-05 v6.1.1
+
+=== [Administration]
+
+* Defect #43282: Locked users are not shown in gray in the user list
+
+=== [Code cleanup/refactoring]
+
+* Defect #43441: Fix failures in test/system/issues_test.rb
+* Patch #43257: Remove unused files related to the quote reply feature
+* Patch #43638: Update copyright year to 2026
+
+=== [Custom fields]
+
+* Defect #43409: Progress bar custom field shows only "%" instead of "0%" when value is nil
+* Defect #43521: Saving a custom field fails with 500 when regular expression is invalid
+
+=== [Documentation]
+
+* Defect #43491: Fix incorrect link for the Japanese CommonMark Quick Reference
+
+=== [Email notifications]
+
+* Defect #43420: Markdown alerts are missing styling in email notifications
+
+=== [Gems support]
+
+* Defect #43609: Tests fail with minitest 6.0
+
+=== [I18n]
+
+* Defect #43522: "Ratio interval" custom field label is not localized
+* Patch #43379: Localize default commonmark alert titles (note, tip, warning, caution and important)
+
+=== [Issues list]
+
+* Defect #43283: Overdue due date text does not turn light gray when issue is selected
+* Defect #43603: Delete link is missing from the context menu when using a relative URL root
+
+=== [No category]
+
+* Patch #43275: Remove continue-on-error: true from the system test job in GitHub CI
+
+=== [Rails support]
+
+* Patch #43633: Update Rails to 7.2.3
+
+=== [Security]
+
+* Defect #43451: PostScript disguised as PDF can lead to arbitrary file operations via thumbnail generation
+* Defect #43634: Authorization bypass in Redmine allows modification of attachment metadata on invisible issues
+* Defect #43635: Authorization bypass in Redmine allows deletion of attachment on invisible issues external
+
+=== [SCM]
+
+* Defect #43525: "label_added" is not translated in the repository revision view legend
+
+=== [Text formatting]
+
+* Defect #43526: When using the include macro in the project description, an execution error occurs in the project list (list view)
+* Defect #43612: Inline code rendering does not preserve multiple spaces
+* Feature #43234: Enable CJK-friendly emphasis extension for CommonMark
+* Feature #43425: Update colors of Markdown "Warning" and "Caution" alerts to be consistent with standards
+* Patch #43328: List marker missing when regular items and task list items are mixed
+
+=== [Translations]
+
+* Patch #43326: Bulgarian translation update for 6.1-stable
+* Patch #43370: Russian translation update for 6.1-stable
+* Patch #43400: Japanese translation update for 6.1-stable
+* Patch #43433: Persian translation update for 6.1-stable
+* Patch #43490: Japanese translation update (jstoolbar-ja.js) for 6.0-stable
+* Patch #43493: Japanese translation update (field_ratio_interval and setting_issue_done_ratio_interval)
+* Patch #43620: Italian translation update for 6.1-stable
+* Patch #43630: Traditional Chinese translation update for 6.1-stable
+
+=== [UI]
+
+* Defect #41680: Incorrect label/value order on the issue view in RTL layout
+* Defect #43265: Automatic list marker does not work for task list items
+* Defect #43378: Column headers are slightly shifted to the right in tables in list views
+* Defect #43422: File format custom fields use legacy download icon instead of SVG icon
+* Defect #43492: Initials avatar shrink in the Activity view when event titles are long
+* Defect #43504: Unexpected file name shown when hovering over a link in the Files column
+* Defect #43507: Markdown alerts do not respect RTL text direction
+* Defect #43509: Avatar in issue view is positioned incorrectly in RTL layout
+* Defect #43510: Reaction buttons are positioned incorrectly in RTL layout
+* Defect #43511: "Lost password" link in login form is positioned incorrectly in RTL layout
+* Defect #43512: Copy button on code blocks is positioned incorrectly in RTL layout
+* Defect #43514: Legacy icons still displayed alongside new SVG icons on some RTL pages
+* Defect #43520: Repository browser does not indent directory hierarchy in RTL layout
+* Defect #43523: Avatar layout breaks for initials icon in user import completion page
+* Defect #43527: Login and Email columns are unexpectedly center-aligned on the Users page since Redmine 5.1
+* Defect #43591: Context menu is hidden behind sidebar in RTL layout
+* Defect #43592: Ajax indicator is broken in RTL layouts
+* Feature #43280: Improve visual distinction of link presence in SVG icons
+
+=== [Wiki]
+
+* Patch #43372: Allow macro recent_pages to display pages from a specific  project
+
 == 2025-09-21 v6.1.0
 
 === [Accounts / authentication]
