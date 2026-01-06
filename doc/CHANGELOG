@@ -4,6 +4,56 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2026-01-05 v6.0.8
+
+=== [Code cleanup/refactoring]
+
+* Defect #43441: Fix failures in test/system/issues_test.rb
+* Patch #43638: Update copyright year to 2026
+
+=== [Custom fields]
+
+* Defect #43521: Saving a custom field fails with 500 when regular expression is invalid
+
+=== [Gems support]
+
+* Defect #43609: Tests fail with minitest 6.0
+
+=== [Issues list]
+
+* Defect #43283: Overdue due date text does not turn light gray when issue is selected
+
+=== [No category]
+
+* Patch #43275: Remove continue-on-error: true from the system test job in GitHub CI
+
+=== [Rails support]
+
+* Patch #43633: Update Rails to 7.2.3
+
+=== [Security]
+
+* Defect #43451: PostScript disguised as PDF can lead to arbitrary file operations via thumbnail generation
+* Defect #43634: Authorization bypass in Redmine allows modification of attachment metadata on invisible issues
+* Defect #43635: Authorization bypass in Redmine allows deletion of attachment on invisible issues external
+
+=== [SCM]
+
+* Defect #43525: "label_added" is not translated in the repository revision view legend
+
+=== [Text formatting]
+
+* Defect #43612: Inline code rendering does not preserve multiple spaces
+
+=== [Translations]
+
+* Patch #43490: Japanese translation update (jstoolbar-ja.js) for 6.0-stable
+
+=== [UI]
+
+* Defect #43378: Column headers are slightly shifted to the right in tables in list views
+* Defect #43527: Login and Email columns are unexpectedly center-aligned on the Users page since Redmine 5.1
+
 == 2025-09-21 v6.0.7
 
 === [Administration]
