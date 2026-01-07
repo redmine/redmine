@@ -84,7 +84,6 @@ table.messages td.last_message {text-align:right;}
 h3.version {padding-left:0px; padding-right:20px;}
 
 #watchers li {margin: 0px 0px 0px 2px; padding: 0px 0px 0px 0px;}
-#watchers img.gravatar {margin: 0 0 2px 4px;}
 
 .contextual {float:left; padding-left:0px; padding-right:10px;}
 
@@ -249,21 +248,9 @@ svg.icon-svg.icon-rtl {
   transform: scaleX(-1);
 }
 
-div.issue table img.gravatar {
-  float: right;
-  margin: 0 0em 0 0.5em;
-}
-
 span.icon-label {
   margin-right: 4px;
 }
-
-h2 img.gravatar {margin: -2px 0 -4px 4px;}
-h3 img.gravatar {margin: -4px 0 -4px 4px;}
-h4 img.gravatar {margin: -6px 0 -4px 4px;}
-td.username img.gravatar {margin:0 0 0 0.5em; }
-/* Used on 12px Gravatar img tags without the icon background */
-.icon-gravatar {float:right; margin-right:px; margin-left:4px;}
 
 .journal-link {float:left;}
 
