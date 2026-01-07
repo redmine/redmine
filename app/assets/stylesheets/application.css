@@ -1986,8 +1986,6 @@ div.avatar-with-child > .avatar:nth-child(2).group-avatar {
 
 h2 .avatar, h3 .avatar {margin-right: 4px;}
 h4 img.gravatar {margin: -2px 4px -4px 0;}
-/*# TODO: check where this rule is still used*/
-td.username img.gravatar {margin: 0 0.5em 0 0; vertical-align: top;}
 #activity dt .avatar {
   margin-block: 0;
   margin-inline: 0 1em;
