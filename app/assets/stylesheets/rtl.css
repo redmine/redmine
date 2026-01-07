@@ -100,18 +100,6 @@ div#issue-changesets {float:left;  margin-left:0em; margin-right:1em; padding-le
 
 div.journal.private-notes {border-left:0px solid var(--oc-red-8); padding-left:0px; margin-left:0px; border-right:2px solid var(--oc-red-8); padding-right:4px; margin-right:-6px;}
 
-div#activity dl, #search-results {margin-left:0em; margin-right:2em;}
-div#activity dd, #search-results dd {padding-left:0px; padding-right:18px;}
-div#activity dt, #search-results dt {padding-left:0px; padding-right:20px; background-position:right 50%;}
-
-div#activity dt.grouped {margin-left:0em; margin-right:5em;}
-div#activity dd.grouped {margin-left:0em; margin-right:9em;}
-
-#search-results dd {padding-left:0px; margin-left:0px; padding-right:20px; margin-right:0px; }
-
-div#search-results-counts {float:left;}
-div#search-results-counts  li {float:right; margin-left:0em; margin-right:1em; }
-
 div#version-summary { float:left; margin-left:0px; margin-right:16px;}
 div#version-summary th, div#version-summary td.total-hours { text-align:left;}
 
@@ -274,11 +262,8 @@ h2 img.gravatar {margin: -2px 0 -4px 4px;}
 h3 img.gravatar {margin: -4px 0 -4px 4px;}
 h4 img.gravatar {margin: -6px 0 -4px 4px;}
 td.username img.gravatar {margin:0 0 0 0.5em; }
-#activity dt img.gravatar {float:right; margin:0 0 1em 1em;}
 /* Used on 12px Gravatar img tags without the icon background */
 .icon-gravatar {float:right; margin-right:px; margin-left:4px;}
-
-#activity dt, .journal {clear:right;}
 
 .journal-link {float:left;}
 
