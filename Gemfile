@@ -83,8 +83,8 @@ if File.exist?(database_file)
       when /sqlite3/
         gem 'sqlite3', '~> 2.7.4'
       when /sqlserver/
-        gem 'tiny_tds', '~> 2.1.2'
-        gem 'activerecord-sqlserver-adapter', '~> 8.0.8'
+        gem 'tiny_tds', '~> 3.4'
+        gem 'activerecord-sqlserver-adapter', '~> 8.1.2'
       else
         warn("Unknown database adapter `#{adapter}` found in config/database.yml, use Gemfile.local to load your own database gems")
       end
