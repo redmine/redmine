@@ -1758,16 +1758,16 @@ div.wiki .task-list input.task-list-item-checkbox {
 }
 
 .journals .journal-content {
-  padding-left: 8px;
+  padding-inline-start: 8px;
   margin-bottom: 1.2em;
 }
 
 .journals .journal .journal-content .wiki {
-  margin-left: 0.6em;
+  margin-inline-start: 0.6em;
 }
 
 .journals .private-notes  {
-  border-left: 2px solid var(--oc-red-8);
+  border-inline-start: 2px solid var(--oc-red-8);
 }
 
 .journals .journal-meta, .journals .journal-actions  {
@@ -1958,7 +1958,7 @@ svg.svg-loader {
   }
 }
 
-.contextual>*:not(:first-child), .buttons>.icon:not(:first-child), .contextual .journal-actions>*:not(:first-child) { margin-left: 5px; }
+.contextual>*:not(:first-child), .buttons>.icon:not(:first-child), .contextual .journal-actions>*:not(:first-child) { margin-inline-start: 5px; }
 
 div.issue .avatar {
   float: inline-start;

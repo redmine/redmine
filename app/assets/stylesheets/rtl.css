@@ -89,15 +89,9 @@ h3.version {padding-left:0px; padding-right:20px;}
 
 div.issue div.subject div div {padding-left:0px; padding-right:16px;}
 
-div.issue span.private, div.journal span.private {margin-right:0px; margin-left:2px;}
-
 fieldset#filters td.add-filter {text-align:left; }
 
 div#issue-changesets {float:left;  margin-left:0em; margin-right:1em; padding-left:0em; padding-right:1em;}
-
-.journal ul.details img {margin:0 4px -3px 0;}
-
-div.journal.private-notes {border-left:0px solid var(--oc-red-8); padding-left:0px; margin-left:0px; border-right:2px solid var(--oc-red-8); padding-right:4px; margin-right:-6px;}
 
 div#version-summary { float:left; margin-left:0px; margin-right:16px;}
 div#version-summary th, div#version-summary td.total-hours { text-align:left;}
@@ -251,8 +245,6 @@ svg.icon-svg.icon-rtl {
 span.icon-label {
   margin-right: 4px;
 }
-
-.journal-link {float:left;}
 
 /* Custom JQuery styles */
 .ui-datepicker-title select {margin-left:4px !important; margin-right:0 !important;}
