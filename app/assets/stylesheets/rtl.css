@@ -237,15 +237,6 @@ a.wiki-anchor {margin-left:0px; margin-right:6px;}
 
 .project.marker {margin-left:0; margin-right:-4px;}
 
-/***** Icons *****/
-svg.icon-svg.icon-rtl {
-  transform: scaleX(-1);
-}
-
-span.icon-label {
-  margin-right: 4px;
-}
-
 /* Custom JQuery styles */
 .ui-datepicker-title select {margin-left:4px !important; margin-right:0 !important;}
 

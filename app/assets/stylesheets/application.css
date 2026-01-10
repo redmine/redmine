@@ -271,7 +271,7 @@ a.user.user-mention {
 #admin-menu a {line-height:1.7em;}
 
 a#toggle-completed-versions {color:var(--oc-gray-6);}
-a#toggle-completed-versions span.icon-label {margin-left: 0}
+a#toggle-completed-versions span.icon-label {margin-inline-start: 0}
 a#toggle-completed-versions svg, a#toggle-completed-versions:hover svg {stroke:var(--oc-gray-6)}
 
 /***** Dropdown *****/
@@ -1909,6 +1909,11 @@ svg.icon-svg-filled {
   stroke: none;
 }
 
+html[dir="rtl"] svg.icon-svg.icon-rtl {
+  transform: scaleX(-1);
+}
+
+
 svg.s20 {
   width: 1.25rem;
   height: 1.25rem;
@@ -1935,7 +1940,7 @@ svg.s12 {
 }
 
 span.icon-label {
-  margin-left: 4px;
+  margin-inline-start: 4px;
 }
 
 span.icon-checked:has(:not(a svg.icon-svg)) svg.icon-svg {
