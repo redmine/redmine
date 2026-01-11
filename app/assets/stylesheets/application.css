@@ -491,6 +491,7 @@ tr.user.locked, tr.user.registered { color: var(--oc-gray-5); }
 tr.user.locked a, tr.user.registered a { color: var(--oc-gray-5); }
 
 table.permissions td.role {color:var(--oc-gray-6);font-size:90%;font-weight:normal !important;text-align:center;vertical-align:bottom;}
+table.permissions td.name {min-width: 10rem;}
 table.permissions tr.group>td:nth-of-type(1),
 table.tracker-summary tr.group>td:nth-of-type(1) {font-weight: bold;}
 
