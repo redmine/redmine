@@ -1208,7 +1208,8 @@ p.other-formats { text-align: right; font-size:0.9em; color: var(--oc-gray-6); }
 .other-formats span + span:before { content: "| "; }
 
 em.info {font-style:normal;display:block;font-size:90%;color:var(--oc-gray-6);}
-em.info.error {padding-left:20px; background:url(/exclamation.png) no-repeat 0 50%;}
+em.info.error {padding-inline-start: 20px; background: url(/exclamation.png) no-repeat left 50%;}
+[dir="rtl"] em.info.error {background-position: right 50%;}
 
 textarea.text_cf {width:95%; resize:vertical;}
 input.string_cf, input.link_cf {width:95%;}
@@ -1256,7 +1257,8 @@ input.autocomplete.ajax-loading {
 
 /***** Flash & error messages ****/
 #errorExplanation, div.flash, .nodata, .warning, .conflict {
-  padding: 12px 4px 12px 30px;
+  padding-block: 12px;
+  padding-inline: 30px 4px;
   margin-bottom: 12px;
   font-size: 1.1em;
   border: 1px solid;
@@ -1265,8 +1267,7 @@ input.autocomplete.ajax-loading {
 
 div.flash {margin-top: 8px;}
 div.flash svg.icon-svg, #errorExplanation svg.icon-svg, .conflict svg.icon-svg {
-  margin-right: 4px;
-  margin-left: -26px;
+  margin-inline: -26px 4px;
 }
 
 div.flash.error, #errorExplanation {
@@ -1286,8 +1287,8 @@ div.flash.error svg.icon-svg, #errorExplanation svg.icon-svg {
   position: absolute;
   top: 50%;
   bottom: 50%;
-  margin-left: -24px;
-  margin-top: -9px;
+  margin-inline-start: -24px;
+  margin-block-start: -9px;
 }
 
 div.flash.notice {
@@ -1303,7 +1304,7 @@ div.flash.warning, .conflict {
   background-color: var(--oc-yellow-1);
   border-color: var(--oc-yellow-3);
   color: var(--oc-pink-9);
-  text-align: left;
+  text-align: start;
 }
 div.flash.warning svg.icon-svg, .conflict svg.icon-svg {
   stroke: var(--oc-pink-9);
@@ -1316,7 +1317,7 @@ div.flash.warning svg.icon-svg, .conflict svg.icon-svg {
   color: var(--oc-pink-9);
 }
 
-.warning .oauth-permissions { display:inline-block;text-align:left; }
+.warning .oauth-permissions { display:inline-block;text-align:start; }
 .warning .oauth-permissions p { margin-top:0;-webkit-margin-before:0;}
 
 #errorExplanation ul { font-size: 0.9em;}

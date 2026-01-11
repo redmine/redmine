@@ -152,8 +152,6 @@ div.thumbnails div {margin-right:0px; margin-left:2px;}
 
 p.other-formats, p.query-totals { text-align:left; }
 
-em.info.error {padding-left:0; padding-right:20px; background:url(/exclamation.png) no-repeat right 50%;}
-
 table.members td.name {padding-right: 20px; padding-left:0; }
 
 input.autocomplete {
@@ -161,16 +159,6 @@ input.autocomplete {
 }
 
 .role-visibility {padding-right:2em; padding-left:0;}
-
-/***** Flash & error messages ****/
-#errorExplanation, div.flash, .nodata, .warning, .conflict {
-  padding: 4px 30px 4px 4px;
-}
-
-div.flash svg.icon-svg, #errorExplanation svg.icon-svg {
-  margin-right: -26px;
-  margin-left: 4px;
-}
 
 /***** Calendar *****/
 table.cal td p.day-num {text-align:left;}
