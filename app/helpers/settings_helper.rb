@@ -239,12 +239,12 @@ module SettingsHelper
   end
 
   def gravatar_default_setting_options
-    [['Identicons', 'identicon'],
-     ['Monster ids', 'monsterid'],
+    [['Initials', 'initials'],
      ['Mystery man', 'mm'],
-     ['Retro', 'retro'],
-     ['Robohash', 'robohash'],
+     ['Identicons', 'identicon'],
+     ['Monster ids', 'monsterid'],
      ['Wavatars', 'wavatar'],
-     ['Initials', 'initials']]
+     ['Retro', 'retro'],
+     ['Robohash', 'robohash']]
   end
 end
