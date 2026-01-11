@@ -896,7 +896,7 @@ div.wiki a:target + h1, div.wiki a:target + h2, div.wiki a:target + h3, div.wiki
   background-color:var(--oc-blue-0);
 }
 
-.wiki-update-info {text-align:right; color:var(--oc-gray-6); font-size:90%;}
+.wiki-update-info {text-align: end; color: var(--oc-gray-6); font-size: 90%;}
 
 form .attributes select { width: 60%; }
 form .attributes select + a.icon-only { vertical-align: middle; margin-left: 4px; }
@@ -1606,10 +1606,14 @@ div.wiki table td[align=right], div.wiki table th[align=right] { text-align: rig
 div.wiki .wiki-class-noborder, div.wiki .wiki-class-noborder td, div.wiki .wiki-class-noborder th {border:0;}
 
 div.wiki .external {
-  background-position: 0% 60%;
+  background-position: left 60%;
   background-repeat: no-repeat;
-  padding-left: 12px;
+  padding-inline-start: 12px;
   background-image: url(/external.png);
+}
+
+html[dir="rtl"] div.wiki .external {
+  background-position: right 60%;
 }
 
 div.wiki a {word-wrap: break-word;}
@@ -1630,7 +1634,8 @@ div.wiki div.pre-wrapper {
 }
 
 div.wiki pre {
-  margin: 1em 1em 1em 1.6em;
+  margin-block: 1em;
+  margin-inline: 1.6em 1em;
   padding: 8px;
   background-color: var(--oc-gray-0);
   border: 1px solid var(--oc-gray-4);
@@ -1672,19 +1677,26 @@ div.wiki ul.toc {
   padding: 8px;
   line-height: 1.4em;
   margin-bottom: 12px;
-  margin-right: 12px;
-  margin-left: 0;
+  margin-inline: 0 12px;
   display: table
 }
 
-div.wiki ul.toc.right { float: right; margin-left: 12px; margin-right: 0; width: auto; clear: right
-;}
-div.wiki ul.toc.left  { float: left; margin-right: 12px; margin-left: 0; width: auto; clear: left
-  ; }
+div.wiki ul.toc.right {
+  float: inline-end;
+  margin-inline: 12px 0;
+  width: auto;
+  clear: inline-end;
+}
+div.wiki ul.toc.left  {
+  float: inline-start;
+  margin-inline: 0 12px;
+  width: auto;
+  clear: inline-start;
+}
 div.wiki ul.toc ul { margin: 0; padding: 0; }
 div.wiki ul.toc li {list-style-type:none; margin: 0;}
 div.wiki ul.toc>li:first-child {margin-bottom: .5em; color: var(--oc-gray-7);}
-div.wiki ul.toc li li {margin-left: 1.5em;}
+div.wiki ul.toc li li {margin-inline-start: 1.5em;}
 div.wiki ul.toc a {
   font-size: 93%;
   font-weight: normal;
@@ -1693,7 +1705,7 @@ div.wiki ul.toc a {
 }
 div.wiki ul.toc a:hover { color: var(--oc-red-9); text-decoration: underline;}
 
-a.wiki-anchor { display: none; margin-left: 6px; text-decoration: none; }
+a.wiki-anchor { display: none; margin-inline-start: 6px; text-decoration: none; }
 a.wiki-anchor:hover { color: var(--oc-gray-5) !important; text-decoration: none; }
 h1:hover a.wiki-anchor, h2:hover a.wiki-anchor, h3:hover a.wiki-anchor, h4:hover a.wiki-anchor, h5:hover a.wiki-anchor, h6:hover a.wiki-anchor { display: inline; color: var(--oc-gray-4); }
 
@@ -1702,7 +1714,7 @@ div.wiki img {vertical-align:middle; max-width:100%;}
 div.wiki .contains-task-list .task-list-item {
   list-style-type: none;
 }
-div.wiki .contains-task-list .task-list-item-checkbox { margin-left: -1.4em; }
+div.wiki .contains-task-list .task-list-item-checkbox { margin-inline-start: -1.4em; }
 div.wiki .task-list input.task-list-item-checkbox {
   height: initial;
 }

@@ -201,28 +201,6 @@ button.tab-right {
 
 /***** Diff *****/
 
-/***** Wiki *****/
-
-div.wiki .external {
-  background-position:right 60%;
-  padding-left:0px; padding-right:12px;
-}
-
-div.wiki pre {
-  margin: 1em 1.6em 1em 1em;
-}
-
-div.wiki ul.toc {
-  margin-left:0;
-  margin-right:0;
-}
-
-div.wiki ul.toc.right { float: left; margin-left:0; margin-right:12px;}
-div.wiki ul.toc.left  { float:right; margin-right:0; margin-left:12px;}
-div.wiki ul.toc li li {margin-left:0em; margin-right:1.5em;}
-
-a.wiki-anchor {margin-left:0px; margin-right:6px;}
-
 /***** My page layout *****/
 
 /***** Gantt chart *****/
