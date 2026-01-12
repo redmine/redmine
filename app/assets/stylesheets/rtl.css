@@ -83,9 +83,6 @@ fieldset#filters td.add-filter {text-align:left; }
 
 div#issue-changesets {float:left;  margin-left:0em; margin-right:1em; padding-left:0em; padding-right:1em;}
 
-div#version-summary { float:left; margin-left:0px; margin-right:16px;}
-div#version-summary th, div#version-summary td.total-hours { text-align:left;}
-
 table#time-report td.hours, table#time-report th.period, table#time-report th.total { text-align:left; padding-right:0em; padding-left: 0.5em; }
 
 /***** Tabular forms ******/

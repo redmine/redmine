@@ -891,10 +891,10 @@ body.controller-versions.action-show div#roadmap .related-issues {width:70%;}
 
 div#roadmap .version-article {padding-bottom: 12px;}
 
-div#version-summary { float:right; width:28%; margin-left: 16px; margin-bottom: 16px; background-color: var(--oc-white); }
+div#version-summary { float: inline-end; width: 28%; margin-inline-start: 16px; margin-block-end: 16px; background-color: var(--oc-white); }
 div#version-summary fieldset { margin-bottom: 1em; }
 div#version-summary fieldset.time-tracking table { width:100%; }
-div#version-summary th, div#version-summary td.total-hours { text-align: right; }
+div#version-summary th, div#version-summary td.total-hours { text-align: end; }
 
 table#time-report td.hours, table#time-report th.period, table#time-report th.total { text-align: right; padding-right: 0.5em; }
 table#time-report tbody tr.subtotal { font-style: italic; color:var(--oc-gray-6);}
