@@ -1410,15 +1410,15 @@ ul.cal {
   border: 1px solid var(--oc-gray-4);
   vertical-align: top;
   font-size: 0.9em;
-  border-bottom: 0;
-  border-right: 0;
+  border-block-end: 0;
+  border-inline-end: 0;
   line-height: 1.2;
   min-height: calc(1.2em * 6);
   padding: 2px;
   box-shadow: 0 1px 2px rgba(var(--oc-gray-9-rgb), 0.05);
 }
 
-.cal .calbody p.day-num {font-size: 1.1em; text-align:right;}
+.cal .calbody p.day-num {font-size: 1.1em; text-align: end;}
 .cal .calbody .abbr-day {display:none}
 .cal .calbody.this-month {background-color:var(--oc-white);}
 .cal .calbody.other-month {background-color:var(--oc-gray-1);}
