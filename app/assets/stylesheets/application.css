@@ -916,8 +916,8 @@ form .attributes select + a.icon-only { vertical-align: middle; margin-left: 4px
 input#issue_subject, input#document_title { width: 99%; }
 select#issue_done_ratio { width: 95px; }
 
-ul.projects {margin:0; padding-left:1em;}
-ul.projects ul.projects {padding-left:1.6em;}
+ul.projects {margin: 0; padding-inline-start: 1em;}
+ul.projects ul.projects {padding-inline-start: 1.6em;}
 ul.projects.root {margin:0; padding:0;}
 ul.projects li.root, ul.projects li.child {list-style-type:none;}
 ul.projects li.root div.archived, ul.projects li.child div.archived {color: var(--oc-gray-5);}
@@ -934,7 +934,7 @@ ul.projects div.description ul li {list-style-type:initial;}
   -moz-column-gap : 0.5rem;
   margin-bottom: 1.2em;
 }
-#projects-index li.root ul.projects { border-left: 3px solid var(--oc-gray-3); padding-left:1em;}
+#projects-index li.root ul.projects { border-inline-start: 3px solid var(--oc-gray-3); padding-inline-start: 1em;}
 #projects-index ul.projects li.root {
   margin-bottom: 1em;
   padding: 15px 20px;
@@ -960,11 +960,11 @@ ul.projects div.description ul li {list-style-type:initial;}
   margin: 0 0 10px 0;
   /* @ToDo: Remove below lines when legacy icon styles are removed */
   background-image: none;
-  padding-left: 0;
+  padding-inline-start: 0;
 }
 #projects-index ul.projects .icon-bookmarked-project svg,
 #projects-index ul.projects .my-project svg {
-  margin-left: 4px;
+  margin-inline-start: 4px;
 }
 #projects-index ul.projects div.root .icon-bookmarked-project svg, #projects-index ul.projects div.root .my-project svg {
   stroke-width: 2;
@@ -975,7 +975,7 @@ ul.projects div.description ul li {list-style-type:initial;}
 }
 #projects-index a.icon-user, #projects-index a.icon-bookmarked-project {
   background-image: none;
-  padding-left: 0;
+  padding-inline-start: 0;
 }
 #projects-index div.wiki p {
   margin-top: 0px;
@@ -983,7 +983,7 @@ ul.projects div.description ul li {list-style-type:initial;}
 
 table.projects td.name .icon-bookmarked-project svg,
 table.projects td.name .my-project svg {
-  margin-left: 4px;
+  margin-inline-start: 4px;
 }
 
 #notified-projects>ul, #tracker_project_ids>ul, #custom_field_project_ids>ul {max-height:250px; overflow-y:auto;}
