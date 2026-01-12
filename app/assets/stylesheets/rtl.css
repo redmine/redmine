@@ -4,7 +4,6 @@
  * This code is released under the GNU General Public License.
  */
 
-h1, h2, h3, h4 {padding:2px 00px 1px 10px;}
 /***** Layout *****/
 #main-menu {left:auto;right:6px;margin-right:0;margin-left:-500px;}
 #main-menu li {float:right;margin:0px 0px 0px 2px;}
@@ -76,12 +75,10 @@ a.sort {padding-right:0; padding-left:16px;}
 
 table.attributes th {text-align:right;}
 
-table.boards a.board, h3.comments {padding-left:0px; padding-right:20px; }
+table.boards a.board {padding-left:0px; padding-right:20px; }
 table.boards td.last-message {text-align:right;}
 
 table.messages td.last_message {text-align:right;}
-
-h3.version {padding-left:0px; padding-right:20px;}
 
 #watchers li {margin: 0px 0px 0px 2px; padding: 0px 0px 0px 0px;}
 
