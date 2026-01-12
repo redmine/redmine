@@ -170,13 +170,6 @@ table.progress {
 }
 p.progress-info {clear:right;}
 
-/***** Tabs *****/
-#content .tabs ul {padding-left:0em; padding-right:0.5em;}
-#content .tabs ul li {
-  float:right;
-  margin-right:0px; margin-left:4px;
-}
-
 /***** Diff *****/
 
 /***** My page layout *****/

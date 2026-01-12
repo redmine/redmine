@@ -1495,12 +1495,20 @@ p.progress-info {clear: left; font-size: 86%; margin-top:-4px; color:var(--oc-gr
 
 /***** Tabs *****/
 #content .tabs {height: 2.6em; margin-bottom:1.2em; position:relative; overflow:hidden;}
-#content .tabs ul {margin:0; position:absolute; bottom:0; padding-left:0.5em; min-width: 2000px; width: 100%;  border-bottom: 1px solid var(--oc-gray-4);}
+#content .tabs ul {
+  margin: 0;
+  position: absolute;
+  bottom:0;
+  padding-inline-start: 0.5em;
+  min-width: 2000px;
+  width: 100%;
+  border-bottom: 1px solid var(--oc-gray-4);
+}
 #content .tabs ul li {
-  float:left;
+  float:inline-start;
   list-style-type:none;
   white-space:nowrap;
-  margin-right:4px;
+  margin-inline-end:4px;
   position:relative;
   margin-bottom:-1px;
 }
@@ -1514,8 +1522,8 @@ p.progress-info {clear: left; font-size: 86%; margin-top:-4px; color:var(--oc-gr
   border-bottom: 1px solid var(--oc-gray-4);
   color:var(--oc-gray-6);
   font-weight:bold;
-  border-top-left-radius:3px;
-  border-top-right-radius:3px;
+  border-start-start-radius:3px;
+  border-start-end-radius:3px;
 }
 
 #content .tabs ul li a:hover {
