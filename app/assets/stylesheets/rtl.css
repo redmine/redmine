@@ -163,13 +163,6 @@ input.autocomplete {
 /***** Calendar *****/
 table.cal td p.day-num {text-align:left;}
 
-/***** Progress bar *****/
-table.progress {
-  float:right;
-  margin: 1px 0px 1px 6px;
-}
-p.progress-info {clear:right;}
-
 /***** Diff *****/
 
 /***** My page layout *****/
