@@ -114,13 +114,19 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 #quick-search form label {vertical-align:middle;}
 #quick-search #project-jump {float:inline-start;}
 
-#main-menu {position: absolute;  bottom: 0px;  left: 10px; margin-right: -500px; width: 100%;}
+#main-menu {
+  position: absolute;
+  bottom: 0px;
+  inset-inline-start: 10px;
+  margin-inline-end: -500px;
+  width: 100%;
+}
 #main-menu ul {margin: 0;  padding: 0; width: 100%; white-space: nowrap;}
 #main-menu li {
   float:none;
   list-style-type:none;
-  margin: 0px 2px 0px 0px;
-  padding: 0px 0px 0px 0px;
+  margin-block: 0px;
+  margin-inline: 0px 2px;
   white-space:nowrap;
   display:inline-block;
 }
@@ -131,8 +137,8 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
   font-size: 93%;
   margin: 0;
   padding: 4px 10px 4px 10px;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
+  border-start-start-radius: 3px;
+  border-start-end-radius: 3px;
 }
 #main-menu li a:hover {background: rgba(var(--oc-white-rgb), 0.4); color: var(--oc-white); }
 #main-menu li:hover ul.menu-children, #main-menu li ul.menu-children.visible {display: block;}
@@ -145,12 +151,12 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
   width: inherit;
   z-index:45;
   background-color:var(--oc-white);
-  border-right: 1px solid var(--oc-blue-7);
-  border-bottom: 1px solid var(--oc-blue-7);
-  border-left: 1px solid var(--oc-blue-7);
+  border-block-end: 1px solid var(--oc-blue-7);
+  border-inline-start: 1px solid var(--oc-blue-7);
+  border-inline-end: 1px solid var(--oc-blue-7);
   box-shadow: 0 2px 4px rgba(var(--oc-gray-9-rgb), 0.1);
 }
-#main-menu .menu-children li {float:left; clear:both; width:100%;}
+#main-menu .menu-children li {float: inline-start; clear: both; width: 100%;}
 #main-menu .menu-children li a {color: var(--oc-gray-7); background-color:var(--oc-white); font-weight:normal; border-radius: 0;}
 #main-menu .menu-children li a:hover {color: var(--oc-white); background-color: var(--oc-blue-7);}
 

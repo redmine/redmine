@@ -4,13 +4,6 @@
  * This code is released under the GNU General Public License.
  */
 
-/***** Layout *****/
-#main-menu {left:auto;right:6px;margin-right:0;margin-left:-500px;}
-#main-menu li {float:right;margin:0px 0px 0px 2px;}
-
-#login-form table {margin-left:auto; margin-right:auto;}
-div.modal p.buttons {text-align:left;}
-
 /***** Tables *****/
 table.list td {padding-left:0px; padding-right:10px;}
 table.list td.name, table.list td.description, table.list td.subject, table.list td.comments, table.list td.roles {text-align:right;}
