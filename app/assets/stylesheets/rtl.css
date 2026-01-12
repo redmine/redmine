@@ -177,16 +177,6 @@ p.progress-info {clear:right;}
   margin-right:0px; margin-left:4px;
 }
 
-div.tabs-buttons {right:auto; left:0;}
-
-button.tab-left {
-  right:auto; left:20px;
-}
-
-button.tab-right {
-  right:auto; left:20px;
-}
-
 /***** Diff *****/
 
 /***** My page layout *****/
