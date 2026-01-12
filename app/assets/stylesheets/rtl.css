@@ -181,7 +181,3 @@ input.autocomplete {
 
 /***** Media print specific styles *****/
 
-/* Accessibility specific styles */
-.hidden-for-sighted {
-  left:auto; right:-10000px;
-}
