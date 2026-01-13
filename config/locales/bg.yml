@@ -1182,7 +1182,6 @@ bg:
   label_alert_warning: Предупреждение
   label_alert_caution: Внимание
   label_alert_important: Важно
-  webhook_events_issue: Задачи
   webhook_events_issue_created: Създадена задача
   webhook_events_issue_updated: Обновена задача
   webhook_events_issue_deleted: Изтрита задача

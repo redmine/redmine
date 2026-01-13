@@ -1552,7 +1552,6 @@
   label_webhook_new: 新增 webhook
   label_webhook_edit: 編輯 webhook
   label_webhook_events: 事件
-  webhook_events_issue: 議題
   webhook_events_issue_created: 議題已建立
   webhook_events_issue_updated: 議題已更新
   webhook_events_issue_deleted: 議題已刪除

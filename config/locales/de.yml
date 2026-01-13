@@ -850,7 +850,6 @@ de:
   label_webhook_edit: Webhook bearbeiten
   label_webhook_events: Ereignisse
 
-  webhook_events_issue: Aufgaben
   webhook_events_issue_created: Aufgabe angelegt
   webhook_events_issue_updated: Aufgabe bearbeitet
   webhook_events_issue_deleted: Aufgabe gelöscht

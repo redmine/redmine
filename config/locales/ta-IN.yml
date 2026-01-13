@@ -1495,7 +1495,6 @@ ta-IN:
   label_webhook_new: New webhook
   label_webhook_edit: Edit webhook
   label_webhook_events: Events
-  webhook_events_issue: Issues
   webhook_events_issue_created: Issue created
   webhook_events_issue_updated: Issue updated
   webhook_events_issue_deleted: Issue deleted

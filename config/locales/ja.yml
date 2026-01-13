@@ -1483,7 +1483,6 @@ ja:
   label_webhook_new: 新しいwebhook
   label_webhook_edit: webhookの編集
   label_webhook_events: イベント
-  webhook_events_issue: チケット
   webhook_events_issue_created: チケットの作成
   webhook_events_issue_updated: チケットの更新
   webhook_events_issue_deleted: チケットの削除
