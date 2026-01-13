@@ -1185,19 +1185,15 @@ en:
   label_alert_caution: Caution
   label_alert_important: Important
 
-  webhook_events_issue: Issues
   webhook_events_issue_created: Issue created
   webhook_events_issue_updated: Issue updated
   webhook_events_issue_deleted: Issue deleted
-  webhook_events_wiki_page: Wiki pages
   webhook_events_wiki_page_created: Wiki page created
   webhook_events_wiki_page_updated: Wiki page updated
   webhook_events_wiki_page_deleted: Wiki page deleted
-  webhook_events_time_entry: Time entries
   webhook_events_time_entry_created: Time entry created
   webhook_events_time_entry_updated: Time entry updated
   webhook_events_time_entry_deleted: Time entry deleted
-  webhook_events_news: News
   webhook_events_news_created: News created
   webhook_events_news_updated: News updated
   webhook_events_news_deleted: News deleted

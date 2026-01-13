@@ -16,7 +16,7 @@
     <h3><%= l :label_webhook_events %></h3>
     <div class="box tabular" id="events">
     <% @webhook.setable_events.keys.sort.each do |type| %>
-      <fieldset id="<%= type %>_events"><legend><%= toggle_checkboxes_link("##{type}_events\ input") %><%= l_or_humanize(type, prefix: 'webhook_events_') %></legend>
+      <fieldset id="<%= type %>_events"><legend><%= toggle_checkboxes_link("##{type}_events\ input") %><%= l(:"label_#{type}_plural", :default => type.to_s.humanize.pluralize) %></legend>
         <% @webhook.setable_events[type].each do |action| %>
           <% name = "#{type}.#{action}" %>
           <label class="floating">
