@@ -139,7 +139,7 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 #main-menu .menu-children li a:hover {color: #fff; background-color: #759FCF;}
 
 #main-menu .tabs-buttons {
-  right: 6px;
+  inset-inline-end: 6px;
   background-color: transparent;
   border-bottom-color: transparent;
 }
@@ -1521,7 +1521,15 @@ p.progress-info {clear: left; font-size: 86%; margin-top:-4px; color:#777;}
 
 #content .tabs ul li a.selected:hover {background-color: #fff;}
 
-div.tabs-buttons { position:absolute; right: 0; width: 54px; height: 24px; background: white; bottom: 0; border-bottom: 1px solid #bbbbbb; }
+div.tabs-buttons {
+  position: absolute;
+  inset-inline-end: 0;
+  width: 54px;
+  height: 24px;
+  background: white;
+  bottom: 0;
+  border-bottom: 1px solid #bbbbbb;
+}
 
 button.tab-left, button.tab-right {
   font-size: 0.9em;
@@ -1546,7 +1554,7 @@ button.tab-left svg.icon-svg, button.tab-right svg.icon-svg {
 }
 
 button.tab-left {
-  right: 28px;
+  inset-inline-end: 28px;
   border-top-left-radius:3px;
 }
 button.tab-left:not(:has(svg)) {
@@ -1554,7 +1562,7 @@ button.tab-left:not(:has(svg)) {
 }
 
 button.tab-right {
-  right: 4px;
+  inset-inline-end: 4px;
   border-top-right-radius:3px;
 }
 button.tab-right:not(:has(svg)) {

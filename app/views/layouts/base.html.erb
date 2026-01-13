@@ -93,8 +93,12 @@
     <div id="main-menu" class="tabs">
         <%= render_main_menu(@project) %>
         <div class="tabs-buttons" style="display:none;">
-            <button class="tab-left" onclick="moveTabLeft(this); return false;"></button>
-            <button class="tab-right" onclick="moveTabRight(this); return false;"></button>
+            <button class="tab-left icon-only" onclick="moveTabLeft(this); return false;">
+              <%= sprite_icon("angle-left", rtl: true) %>
+            </button>
+            <button class="tab-right icon-only" onclick="moveTabRight(this); return false;">
+              <%= sprite_icon("angle-right", rtl: true) %>
+            </button>
         </div>
     </div>
     <% end %>
