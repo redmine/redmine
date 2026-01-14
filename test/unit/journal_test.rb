@@ -113,7 +113,7 @@ class JournalTest < ActiveSupport::TestCase
     end
   end
 
-  def test_create_should_add_wacher
+  def test_create_should_add_watcher
     user = User.first
     user.pref.auto_watch_on=['issue_contributed_to']
     user.save
@@ -122,6 +122,24 @@ class JournalTest < ActiveSupport::TestCase
     assert_difference 'Watcher.count', 1 do
       assert_equal true, journal.save
     end
+  end
+
+  def test_create_should_add_assignee_as_watcher
+    user = User.find(2)
+    user.pref.auto_watch_on = ['issue_assigned_to_me']
+    user.pref.save!
+
+    issue = Issue.find(1)
+    # Ensure user is not already a watcher
+    issue.set_watcher(user, false)
+
+    journal = issue.init_journal(User.find(1))
+    issue.assigned_to = user
+
+    assert_difference 'Watcher.count', 1 do
+      assert journal.save
+    end
+    assert issue.watched_by?(user)
   end
 
   def test_create_should_not_add_watcher
