@@ -354,6 +354,14 @@ class Journal < ApplicationRecord
         !Watcher.any_watched?(Array.wrap(journalized), user)
       journalized.set_watcher(user, true)
     end
+
+    assignee = journalized.assigned_to
+    if assignee.is_a?(User) && assignee&.active? &&
+       assignee.allowed_to?(:add_issue_watchers, project) &&
+       assignee.pref.auto_watch_on?('issue_assigned_to_me') &&
+        !Watcher.any_watched?(Array.wrap(journalized), assignee)
+      journalized.set_watcher(assignee, true)
+    end
   end
 
   def send_notification
