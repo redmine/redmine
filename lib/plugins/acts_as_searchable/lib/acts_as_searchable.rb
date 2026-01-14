@@ -109,13 +109,20 @@ module Redmine
                     clauses << "(#{CustomValue.table_name}.custom_field_id IN (#{fields.map(&:id).join(',')}) AND (#{visibility}))"
                   end
                   visibility = clauses.join(' OR ')
-                  r |= fetch_ranks_and_ids(
-                    search_scope(user, projects, options).
-                    joins(:custom_values).
-                    where(visibility).
-                    where(search_tokens_condition(["#{CustomValue.table_name}.value"], tokens, options[:all_words])),
-                    options[:limit]
-                  )
+                  scope =
+                    search_scope(user, projects, options)
+                    .joins(:custom_values)
+                    .where(visibility)
+                    .where(search_tokens_condition(["#{CustomValue.table_name}.value"], tokens, options[:all_words]))
+
+                  if self == Issue && Redmine::Database.mysql? && ActiveRecord::Base.connection.supports_optimizer_hints?
+                    # Force the join order to evaluate issues before custom_values.
+                    # This avoids inefficient query plans where custom_values are scanned
+                    # without an issue_id filter, which can be extremely slow on large datasets.
+                    scope = scope.optimizer_hints("JOIN_ORDER(#{Issue.table_name}, #{CustomValue.table_name})")
+                  end
+
+                  r |= fetch_ranks_and_ids(scope, options[:limit])
                   queries += 1
                 end
               end
