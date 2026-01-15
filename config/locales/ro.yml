@@ -1550,3 +1550,4 @@ ro:
   webhook_event_created: "%{object_name} created"
   webhook_event_updated: "%{object_name} updated"
   webhook_event_deleted: "%{object_name} deleted"
+  label_auto_watch_on_issue_assigned_to_me: Issues assigned to me
