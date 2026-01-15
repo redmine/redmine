@@ -1186,18 +1186,9 @@ en:
   label_alert_caution: Caution
   label_alert_important: Important
 
-  webhook_events_issue_created: Issue created
-  webhook_events_issue_updated: Issue updated
-  webhook_events_issue_deleted: Issue deleted
-  webhook_events_wiki_page_created: Wiki page created
-  webhook_events_wiki_page_updated: Wiki page updated
-  webhook_events_wiki_page_deleted: Wiki page deleted
-  webhook_events_time_entry_created: Time entry created
-  webhook_events_time_entry_updated: Time entry updated
-  webhook_events_time_entry_deleted: Time entry deleted
-  webhook_events_news_created: News created
-  webhook_events_news_updated: News updated
-  webhook_events_news_deleted: News deleted
+  webhook_event_created: "%{object_name} created"
+  webhook_event_updated: "%{object_name} updated"
+  webhook_event_deleted: "%{object_name} deleted"
   webhook_url_info: Redmine will send a POST request to this URL whenever one of the selected events occurs in one of the selected projects.
   webhook_secret_info_html: If provided, Redmine will use this to create a hash signature that is sent with each delivery as the value of the X-Redmine-Signature-256 header.
 

@@ -21,7 +21,7 @@
           <% name = "#{type}.#{action}" %>
           <label class="floating">
             <%= check_box_tag 'webhook[events][]', name, @webhook.events.include?(name), id: "webhook_events_#{name}" %>
-            <%= l_or_humanize(name.tr('.', '_'), :prefix => 'webhook_events_') %>
+            <%= l(:"webhook_event_#{name.split('.').last}", :object_name => type.to_s.humanize, :default => name.gsub('.', ' ').humanize).capitalize %>
           </label>
         <% end %>
         </fieldset>
