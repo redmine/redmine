@@ -348,20 +348,25 @@ class Journal < ApplicationRecord
   end
 
   def add_watcher
-    if user&.active? &&
-        user.allowed_to?(:add_issue_watchers, project) &&
-        user.pref.auto_watch_on?('issue_contributed_to') &&
-        !Watcher.any_watched?(Array.wrap(journalized), user)
+    if user.is_a?(User) &&
+       user.pref.auto_watch_on?('issue_contributed_to') &&
+       valid_watcher?(user)
       journalized.set_watcher(user, true)
     end
 
     assignee = journalized.assigned_to
-    if assignee.is_a?(User) && assignee&.active? &&
-       assignee.allowed_to?(:add_issue_watchers, project) &&
+    if assignee.is_a?(User) &&
        assignee.pref.auto_watch_on?('issue_assigned_to_me') &&
-        !Watcher.any_watched?(Array.wrap(journalized), assignee)
+       valid_watcher?(assignee)
       journalized.set_watcher(assignee, true)
     end
+  end
+
+  def valid_watcher?(user)
+    user.active? &&
+      user.allowed_to?(:add_issue_watchers, journalized.project) &&
+      journalized.valid_watcher?(user) &&
+      !journalized.watched_by?(user)
   end
 
   def send_notification

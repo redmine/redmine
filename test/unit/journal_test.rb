@@ -292,4 +292,22 @@ class JournalTest < ActiveSupport::TestCase
     # Role "Developer" does not have the "View private notes" permission
     assert_equal [1, 2], journal.notified_mentions.map(&:id).sort
   end
+
+  def test_create_should_not_add_watcher_if_user_cannot_view_issue
+    user = User.generate!
+    project = Project.generate!(:is_public => false)
+    issue = Issue.generate!(:project => project)
+
+    assert !user.allowed_to?(:view_issues, project)
+
+    user.pref.auto_watch_on = ['issue_contributed_to']
+    user.save
+
+    journal = Journal.new(:journalized => issue, :notes => 'notes', :user => user)
+
+    assert_no_difference 'Watcher.count' do
+      assert journal.save
+    end
+    assert !journal.journalized.watched_by?(user)
+  end
 end
