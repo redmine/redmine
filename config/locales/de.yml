@@ -850,9 +850,6 @@ de:
   label_webhook_edit: Webhook bearbeiten
   label_webhook_events: Ereignisse
 
-  webhook_events_issue_created: Aufgabe angelegt
-  webhook_events_issue_updated: Aufgabe bearbeitet
-  webhook_events_issue_deleted: Aufgabe gelöscht
   webhook_url_info: Redmine sendet einen POST-Request an diese URL, wenn eines der gewählten Ereignisse in einem der ausgewählten Projekte eintritt.
   webhook_secret_info_html: Wenn gesetzt, wird Redmine mit jedem Request eine Hash-Signatur im X-Redmine-Signature-256 header übermitteln, die zur Authentifizierung des Requests herangezogen werden kann.
 

@@ -1182,9 +1182,6 @@ bg:
   label_alert_warning: Предупреждение
   label_alert_caution: Внимание
   label_alert_important: Важно
-  webhook_events_issue_created: Създадена задача
-  webhook_events_issue_updated: Обновена задача
-  webhook_events_issue_deleted: Изтрита задача
   webhook_url_info: Redmine ще изпрати POST заявка на този адрес, когато някое от избраните събития се появи в някой от избраните проекти.
   webhook_secret_info_html: Ако е зададено,  Redmine ще използва това, за да създаде хеш сигнатура, която ще бъде изпращана с всяко съобщение като стойност на X-Redmine-Signature-256 хедър.
 

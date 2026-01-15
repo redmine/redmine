@@ -1483,9 +1483,6 @@ ja:
   label_webhook_new: 新しいwebhook
   label_webhook_edit: webhookの編集
   label_webhook_events: イベント
-  webhook_events_issue_created: チケットの作成
-  webhook_events_issue_updated: チケットの更新
-  webhook_events_issue_deleted: チケットの削除
   webhook_url_info: 選択されたイベントが発生するとRedmineはこのURLにPOSTリクエストを送信します。
   webhook_secret_info_html: Redmineはこの値を使用してハッシュ署名を作成し、各リクエストの X-Redmine-Signature-256 ヘッダーの値として送信します。
   setting_webhooks_enabled: Webhookを有効にする

@@ -1552,9 +1552,6 @@
   label_webhook_new: 新增 webhook
   label_webhook_edit: 編輯 webhook
   label_webhook_events: 事件
-  webhook_events_issue_created: 議題已建立
-  webhook_events_issue_updated: 議題已更新
-  webhook_events_issue_deleted: 議題已刪除
   webhook_url_info: 當所選專案中任一已勾選的事件發生時，Redmine 會向此 URL 送出 POST 請求。
   webhook_secret_info_html: 若提供此欄位，Redmine 會使用它產生雜湊簽章，並在每次傳送時以
     X-Redmine-Signature-256 標頭的值一併送出。

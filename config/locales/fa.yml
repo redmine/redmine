@@ -1474,9 +1474,6 @@ fa:
   label_webhook_new: New webhook
   label_webhook_edit: Edit webhook
   label_webhook_events: Events
-  webhook_events_issue_created: Issue created
-  webhook_events_issue_updated: Issue updated
-  webhook_events_issue_deleted: Issue deleted
   webhook_url_info: Redmine will send a POST request to this URL whenever one of the
     selected events occurs in one of the selected projects.
   webhook_secret_info_html: If provided, Redmine will use this to create a hash signature
