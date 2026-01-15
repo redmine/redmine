@@ -1563,3 +1563,6 @@
   label_alert_caution: 注意
   label_alert_important: 重要
   field_ratio_interval: 完成比例間隔
+  webhook_event_created: "%{object_name} created"
+  webhook_event_updated: "%{object_name} updated"
+  webhook_event_deleted: "%{object_name} deleted"

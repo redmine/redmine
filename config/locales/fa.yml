@@ -1481,3 +1481,6 @@ fa:
   setting_webhooks_enabled: Enable webhooks
   label_integrations: Integrations
   field_ratio_interval: Ratio interval
+  webhook_event_created: "%{object_name} created"
+  webhook_event_updated: "%{object_name} updated"
+  webhook_event_deleted: "%{object_name} deleted"
