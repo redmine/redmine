@@ -545,7 +545,7 @@ table.list:not(.odd-even) tbody tr:nth-child(even):hover, .even:hover { backgrou
 
 tr.builtin td.name {font-style:italic;}
 
-a.sort { padding-right: 16px; background-position: 100% 50%; background-repeat: no-repeat; }
+a.sort { padding-right: 16px; }
 
 table.boards td.last-message {text-align:left;font-size:93%;}
 
