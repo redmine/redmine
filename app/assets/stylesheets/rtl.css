@@ -57,8 +57,6 @@ table.messages td.last_message {text-align:right;}
 
 div.issue div.subject div div {padding-left:0px; padding-right:16px;}
 
-fieldset#filters td.add-filter {text-align:left; }
-
 div#issue-changesets {float:left;  margin-left:0em; margin-right:1em; padding-left:0em; padding-right:1em;}
 
 table#time-report td.hours, table#time-report th.period, table#time-report th.total { text-align:left; padding-right:0em; padding-left: 0.5em; }

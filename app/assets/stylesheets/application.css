@@ -801,14 +801,15 @@ fieldset#date-range p { margin: 2px 0 2px 0; }
   max-width: 100%;
 }
 #filters-table {
-  float:left;
+  float: inline-start;
   width: auto;
 }
 #filters-table .field {
   width: 230px;
 }
 #filters-table .filter {
-  margin: 5px 0 0 0;
+  margin-block: 5px 0;
+  margin-inline: 0;
   display: flex;
   flex-wrap: wrap;
   gap: 0 10px;
@@ -817,10 +818,10 @@ fieldset#date-range p { margin: 2px 0 2px 0; }
   width: 120px;
 }
 
-.add-filter {width:35%; float:right; text-align: right; vertical-align: top;}
+.add-filter {width: 35%; float: inline-end; text-align: end; vertical-align: top;}
 
 #issue_is_private_wrap {float:right; margin-right:1em;}
-.toggle-multiselect { margin-right:5px; cursor:pointer;}
+.toggle-multiselect { margin-inline-end:5px; cursor:pointer;}
 .buttons { font-size: 0.9em; margin-bottom: 1.4em; margin-top: 1em; }
 
 .changeset-comments {margin-bottom:1em;}
