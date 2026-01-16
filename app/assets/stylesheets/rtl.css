@@ -4,52 +4,7 @@
  * This code is released under the GNU General Public License.
  */
 
-/***** Tables *****/
-table.list td {padding-left:0px; padding-right:10px;}
-table.list td.name, table.list td.description, table.list td.subject, table.list td.comments, table.list td.roles {text-align:right;}
-table.list td.buttons {text-align:left; }
-table.list td.buttons a {padding-right: 0em; padding-left: 0.6em;}
-table.list caption {text-align:right; padding: 0.5em 0 0.5em 0.5em;}
-
-tr.issue td.subject, tr.issue td.relations, tr.issue td.watcher_users { text-align:right; }
-tr.issue td.done_ratio table.progress { margin-left:auto; margin-right: auto;}
-
-table.issues td.description {padding:4px 24px 4px 4px; text-align:right;}
-
-tr.entry td.filename {text-align:right;}
-tr.entry td.filename_no_report {text-align:right;}
-tr.entry td.size {text-align:left;}
-tr.entry td.age {text-align:left;}
-tr.entry.file td.filename a {margin-left:0px; margin-right:16px;}
-tr.entry.file td.filename_no_report a {margin-left:0px; margin-right:16px;}
-
-tr span.expander {padding-left:0; padding-right:8px; margin-right:0;}
-
-table.files tbody th {text-align:right;}
-table.files tr.file td.filename {text-align:right; padding-left:0; padding-right:24px;}
-
-tr.message td.subject { padding-left:0px; padding-right:20px; }
-
-tr.version td.name { padding-left:0px; padding-right:20px; }
-
-tr.user td.username, tr.user td.firstname, tr.user td.lastname, tr.user td.email {text-align:right;}
-
-tr.time-entry td.issue, tr.time-entry td.comments {text-align:right; }
-td.hours {text-align:left; padding-right: 0em ;padding-left: 0.5em; }
-
-table.plugins td.configure { text-align:left; padding-right:0em; padding-left: 1em; }
-
-table.list tbody tr.group td { padding: 0.8em 0.3em 0.5em 0; text-align:right;}
-table.list tbody tr.group span.count {margin-left:0px; margin-right:4px;}
-
 a.sort {padding-right:0; padding-left:16px;}
-
-table.attributes th {text-align:right;}
-
-table.boards a.board {padding-left:0px; padding-right:20px; }
-table.boards td.last-message {text-align:right;}
-
-table.messages td.last_message {text-align:right;}
 
 #watchers li {margin: 0px 0px 0px 2px; padding: 0px 0px 0px 0px;}
 
@@ -58,8 +13,6 @@ table.messages td.last_message {text-align:right;}
 div.issue div.subject div div {padding-left:0px; padding-right:16px;}
 
 div#issue-changesets {float:left;  margin-left:0em; margin-right:1em; padding-left:0em; padding-right:1em;}
-
-table#time-report td.hours, table#time-report th.period, table#time-report th.total { text-align:left; padding-right:0em; padding-left: 0.5em; }
 
 /***** Tabular forms ******/
 .tabular p{

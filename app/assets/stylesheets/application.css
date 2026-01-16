@@ -399,10 +399,10 @@ table.list, .table-list {
 }
 table.list th, .table-list-header { background-color:var(--oc-gray-2); padding: 4px; white-space:nowrap; font-weight:bold; border-bottom: 2px solid var(--oc-gray-4); }
 table.list th.whitespace-normal {white-space: normal;}
-table.list td {text-align:center; vertical-align:middle; padding-top: 3px; padding-right: 10px; padding-bottom: 3px; border-top: 1px solid var(--oc-gray-4);}
+table.list td {text-align:center; vertical-align:middle; padding-block: 3px; padding-inline-end: 10px; border-top: 1px solid var(--oc-gray-4);}
 table.list td.icon {width: 100%;} /* Prevents border from disappearing due to inline-flex shrinking */
 table.list td.id { width: 2%; text-align: center;}
-table.list td.name, table.list td.description, table.list td.subject, table.list td.parent-subject, table.list td.comments, table.list td.roles, table.list td.attachments, table.list td.text,  table.list td.short_description {text-align: left;}
+table.list td.name, table.list td.description, table.list td.subject, table.list td.parent-subject, table.list td.comments, table.list td.roles, table.list td.attachments, table.list td.text,  table.list td.short_description {text-align: start;}
 table.list td.estimated_hours, table.list td.total_estimated_hours, table.list td.estimated_remaining_hours, table.list td.spent_hours, table.list td.total_spent_hours {text-align: right;}
 
 table.list td.attachments span.attachment-filename {display: block; height: 16px;}
@@ -411,13 +411,13 @@ table.list td.attachments span.attachment-filename:hover a.icon-download {visibi
 table.list td.tick {width:15%}
 table.list td.checkbox { width: 15px; padding: 2px 0 0 0; }
 table.list .checkbox input {padding:0px; height: initial;}
-table.list td.buttons, div.buttons { white-space:nowrap; text-align: right; }
-table.list td.buttons a, div.buttons a, table.list td.buttons span.icon-only { margin-right: 0.6em; }
-table.list td.buttons a:last-child, div.buttons a:last-child { margin-right: 0; }
+table.list td.buttons, div.buttons { white-space:nowrap; text-align: end; }
+table.list td.buttons a, div.buttons a, table.list td.buttons span.icon-only { margin-inline-end: 0.6em; }
+table.list td.buttons a:last-child, div.buttons a:last-child { margin-inline-end: 0; }
 table.list td.buttons img, div.buttons img {vertical-align:middle;}
 table.list td.reorder {width:15%; white-space:nowrap; text-align:center; }
 table.list table.progress td {padding-inline-end: 0; border-top: none;}
-table.list caption { text-align: left; padding: 0.5em 0.5em 0.5em 0; }
+table.list caption {text-align: start; padding-block: 0.5em; padding-inline: 0 0.5em;}
 table.list tr.overdue:not(.context-menu-selection) td.due_date  { color: var(--oc-red-9); }
 table.list thead.related-issues th { background-color: inherit; font-size: 11px; border: none; }
 #role-permissions-trackers table.list th {white-space:normal;}
@@ -435,13 +435,20 @@ tr.project.closed a, tr.project.archived a { color: var(--oc-gray-5); }
 tr.issue { text-align: center; white-space: nowrap; }
 tr.issue td.subject, tr.issue td.parent-subject, tr.issue td.category, td.assigned_to, td.last_updated_by, tr.issue td.string, tr.issue td.text, tr.issue td.list, tr.issue td.relations, tr.issue td.parent, tr.issue td.watcher_users { white-space: normal; }
 tr.issue td.relations { text-align: left; }
-tr.issue td.done_ratio table.progress { margin-left:auto; margin-right: auto;}
+tr.issue td.done_ratio table.progress { margin-inline-start:auto; margin-inline-end: auto;}
 tr.issue td.relations span, tr.issue td.watcher_users a {white-space: nowrap;}
 tr.issue td.watcher_users ul {list-style: none; padding: 0; margin: 0}
 tr.issue.created-by-me td.author {font-weight: bold;}
 tr.issue.assigned-to-me td.assigned_to {font-weight: bold;}
 tr.issue.assigned-to-my-group td.assigned_to {font-weight: bold;}
-table.issues td.block_column {color:var(--oc-gray-6); font-size:90%; padding:4px 4px 4px 24px; text-align:left; white-space:normal;}
+table.issues td.block_column {
+  color:var(--oc-gray-6);
+  font-size:90%;
+  padding-block: 4px;
+  padding-inline: 24px 4px;
+  text-align:start;
+  white-space:normal;
+}
 table.issues td.block_column>span {font-weight: bold; display: block; margin-bottom: 4px;}
 table.issues td.block_column>pre {white-space:normal;}
 
@@ -471,37 +478,37 @@ table.issue-report tr.total, table.issue-report-detailed tr.total { font-weight:
 .issue-report-graph {width: 75%; margin: 2em 0;}
 
 tr.entry td { white-space: nowrap; }
-tr.entry td.filename {width:30%; text-align:left;}
-tr.entry td.filename_no_report {width:70%; text-align:left;}
-tr.entry td.size { text-align: right; font-size: 90%; }
+tr.entry td.filename {width: 30%; text-align: start;}
+tr.entry td.filename_no_report {width: 70%; text-align: start;}
+tr.entry td.size { text-align: right; font-size: 90%; } /* Numbers should be right aligned even in RTL */
 tr.entry td.revision, tr.entry td.author { text-align: center; }
-tr.entry td.age { text-align: right; }
-tr.entry.file td.filename a { margin-left: 26px; }
-tr.entry.file td.filename_no_report a { margin-left: 16px; }
+tr.entry td.age { text-align: end; }
+tr.entry.file td.filename a { margin-inline-start: 26px; }
+tr.entry.file td.filename_no_report a { margin-inline-start: 16px; }
 
-tr span.expander {margin-left: 0; cursor: pointer;}
+tr span.expander {margin-inline-start: 0; cursor: pointer;}
 
 tr.changeset { height: 20px }
 tr.changeset :is(ul, ol) { margin-top: 0px; margin-bottom: 0px; }
 tr.changeset td.author { text-align: center; width: 15%; white-space:nowrap;}
 tr.changeset td.committed_on { text-align: center; width: 15%; white-space:nowrap;}
 
-table.files tbody th {text-align:left;}
-table.files tr.file td.filename { text-align: left; }
+table.files tbody th {text-align:start;}
+table.files tr.file td.filename { text-align: start; }
 table.files tr.file td.digest { font-size: 86%; }
 
 table.members td.roles, table.memberships td.roles { width: 45%; }
-table.members td.buttons { text-align: left; width: 1px; white-space: nowrap;}
+table.members td.buttons { text-align: start; width: 1px; white-space: nowrap;}
 
-table.messages td.last_message {text-align:left;}
+table.messages td.last_message {text-align: start;}
 tr.message { height: 2.6em; }
 tr.message td.created_on { white-space: nowrap; }
 tr.message td.last_message { font-size: 93%; white-space: nowrap; }
 tr.message.sticky td.subject { font-weight: bold; }
-tr.message td.subject:not(:has(.icon)) { padding-left: 20px; }
+tr.message td.subject:not(:has(.icon)) { padding-inline-start: 20px; }
 
 tr.version.closed, tr.version.closed a { color: var(--oc-gray-6); }
-tr.version:not(.shared) td.name { padding-left: 20px; }
+tr.version:not(.shared) td.name { padding-inline-start: 20px; }
 tr.version td.date, tr.version td.status, tr.version td.sharing { text-align: center; white-space:nowrap; }
 
 #principals_for_new_member .icon-user, #users_for_watcher .icon-user {background:transparent;}
@@ -520,19 +527,25 @@ table.tracker-summary tr.group>td:nth-of-type(1) {font-weight: bold;}
 tr.wiki-page-version td.updated_on, tr.wiki-page-version td.author {text-align:center;}
 
 tr.time-entry { text-align: center; white-space: nowrap; }
-tr.time-entry td.issue, tr.time-entry td.comments, tr.time-entry td.subject, tr.time-entry td.activity, tr.time-entry td.project { text-align: left; white-space: normal; }
-table.time-entries td.hours { text-align: right; font-weight: bold; padding-right: 0.5em; }
+tr.time-entry td.issue, tr.time-entry td.comments, tr.time-entry td.subject, tr.time-entry td.activity, tr.time-entry td.project { text-align: start; white-space: normal; }
+table.time-entries td.hours { text-align: right; font-weight: bold; padding-right: 0.5em; } /* Numbers should be right aligned even in RTL */
 table.time-entries td.hours .hours-dec { font-size: 0.9em; }
 
 table.plugins td { vertical-align: middle; }
-table.plugins td.configure { text-align: right; padding-right: 1em; }
+table.plugins td.configure { text-align: end; padding-inline-end: 1em; }
 table.plugins span.name { font-weight: bold; display: block; margin-bottom: 6px; }
 table.plugins span.description { display: block; font-size: 0.9em; }
 table.plugins span.url { display: block; font-size: 0.9em; }
 
 table.list.enumerations {table-layout: fixed; margin-bottom: 2em;}
 
-tr.group td { padding: 0.8em 0 0.5em 0.3em; border-bottom: 2px solid var(--oc-gray-4); text-align:left; background-color: var(--oc-white);}
+tr.group td {
+  padding-block: 0.8em 0.5em;
+  padding-inline: 0.3em 0;
+  border-bottom: 2px solid var(--oc-gray-4);
+  text-align: start;
+  background-color: var(--oc-white);
+}
 tr.group span.count {top:-1px;}
 tr.group span.name {font-weight:bold;}
 tr.group span.totals {color: var(--oc-gray-5); font-size: 93%;}
@@ -557,7 +570,7 @@ tr.builtin td.name {font-style:italic;}
 
 a.sort { padding-right: 16px; }
 
-table.boards td.last-message {text-align:left;font-size:93%;}
+table.boards td.last-message {text-align:start;font-size:93%;}
 
 div.table-list.boards .table-list-cell.name {width: 30%;}
 #message_subject { max-width: 99%; }
@@ -907,7 +920,7 @@ div#version-summary fieldset { margin-bottom: 1em; }
 div#version-summary fieldset.time-tracking table { width:100%; }
 div#version-summary th, div#version-summary td.total-hours { text-align: end; }
 
-table#time-report td.hours, table#time-report th.period, table#time-report th.total { text-align: right; padding-right: 0.5em; }
+table#time-report td.hours, table#time-report th.period, table#time-report th.total { text-align: right; padding-right: 0.5em; } /* Numbers should be right aligned even in RTL */
 table#time-report tbody tr.subtotal { font-style: italic; color:var(--oc-gray-6);}
 table#time-report tbody tr.subtotal td.hours { color:var(--oc-gray-6); }
 table#time-report tbody tr.total { font-weight: bold; background-color:var(--oc-gray-2); border-top:2px solid var(--oc-gray-4);}
