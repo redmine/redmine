@@ -75,18 +75,6 @@ input.autocomplete {
 
 /***** My page layout *****/
 
-/***** Gantt chart *****/
-.gantt_hdr {
-  border-right:0px solid var(--oc-gray-4); border-left:1px solid var(--oc-gray-4);
-}
-
-.task.parent.marker.starting{margin-left:0px; margin-right:-4px; left:auto; right:0;}
-.task.parent.marker.ending {margin-left:0px; margin-right:-4px; right:auto; left:0px;}
-
-.version.marker {margin-left:0; margin-right:-4px;}
-
-.project.marker {margin-left:0; margin-right:-4px;}
-
 /* Custom JQuery styles */
 .ui-datepicker-title select {margin-left:4px !important; margin-right:0 !important;}
 
