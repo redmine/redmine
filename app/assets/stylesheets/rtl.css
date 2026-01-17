@@ -4,32 +4,9 @@
  * This code is released under the GNU General Public License.
  */
 
-a.sort {padding-right:0; padding-left:16px;}
-
-#watchers li {margin: 0px 0px 0px 2px; padding: 0px 0px 0px 0px;}
-
-.contextual {float:left; padding-left:0px; padding-right:10px;}
-
-div.issue div.subject div div {padding-left:0px; padding-right:16px;}
-
-div#issue-changesets {float:left;  margin-left:0em; margin-right:1em; padding-left:0em; padding-right:1em;}
-
-div.thumbnails div {margin-right:0px; margin-left:2px;}
-
-p.other-formats, p.query-totals { text-align:left; }
-
-table.members td.name {padding-right: 20px; padding-left:0; }
-
-input.autocomplete {
-  background: var(--oc-white) url(/search.svg) no-repeat right 2px top 50%; padding-left:0px !important; padding-right:20px !important;
-}
-
 /***** Diff *****/
 
 /***** My page layout *****/
-
-/* Custom JQuery styles */
-.ui-datepicker-title select {margin-left:4px !important; margin-right:0 !important;}
 
 /***** Media print specific styles *****/
 

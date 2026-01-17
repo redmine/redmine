@@ -568,7 +568,7 @@ table.list:not(.odd-even) tbody tr:nth-child(even):hover, .even:hover { backgrou
 
 tr.builtin td.name {font-style:italic;}
 
-a.sort { padding-right: 16px; }
+a.sort { padding-inline-end: 16px; }
 
 table.boards td.last-message {text-align:start;font-size:93%;}
 
@@ -609,10 +609,10 @@ div.table-list.boards .table-list-cell.name {width: 30%;}
   min-width:150px;
 }
 
-.query-totals {text-align:right; margin-top:-2.3em; font-size: 93%;}
-.query-totals>span:not(:first-child) {margin-left:0.6em;}
+.query-totals {text-align: end; margin-block-start: -2.3em; font-size: 93%;}
+.query-totals>span:not(:first-child) {margin-inline-start: 0.6em;}
 .query-totals .value {font-weight:bold;}
-body.controller-timelog .query-totals {margin-top:initial;}
+body.controller-timelog .query-totals {margin-block-start: initial;}
 
 body.controller-gantts fieldset#options > div > div {
   display: flex;
@@ -658,7 +658,16 @@ input:disabled, select:disabled, textarea:disabled {
   border-radius: 3px;
 }
 
-.contextual {float:right; white-space: nowrap; line-height:1.4em;margin:5px 0px; padding-left: 10px; font-size:0.9em;}
+.contextual {
+  float: inline-end;
+  white-space: nowrap;
+  line-height: 1.4em;
+  margin: 5px 0px;
+  margin-block: 5px;
+  margin-inline: 0;
+  padding-inline-start: 10px;
+  font-size:0.9em;
+}
 .contextual input, .contextual select {font-size:0.9em;}
 
 .splitcontent {overflow: auto; display: flex; flex-wrap: wrap;}
@@ -732,7 +741,7 @@ p.footnote { font-size: 0.9em; margin-top: 0px; margin-bottom: 0px; }
 .wiki-class-ltr {direction:ltr !important;}
 .wiki-class-rtl {direction:rtl !important;}
 
-div.issue div.subject div div { padding-left: 16px; word-break: break-word; }
+div.issue div.subject div div { padding-inline-start: 16px; word-break: break-word; }
 div.issue div.subject p {margin: 0; margin-bottom: 0.1em; font-size: 90%; color: var(--oc-gray-6);}
 div.issue div.subject>div>p { margin-top: 0.5em; }
 div.issue div.subject h3 {margin: 0; margin-bottom: 0.1em;}
@@ -1246,7 +1255,7 @@ div.thumbnails {margin:0.6em;}
 div.thumbnail {background:var(--oc-white);border:2px solid var(--oc-gray-3);display:inline-block;margin-right:2px;}
 div.thumbnail img {margin: 3px; vertical-align: middle;}
 
-p.other-formats { text-align: right; font-size:0.9em; color: var(--oc-gray-6); }
+p.other-formats { text-align: end; font-size:0.9em; color: var(--oc-gray-6); }
 .other-formats span + span:before { content: "| "; }
 
 em.info {font-style:normal;display:block;font-size:90%;color:var(--oc-gray-6);}
@@ -1266,7 +1275,10 @@ input#principal_search, input#user_search {width:90%}
 .roles-selection label {display:inline-block; width:210px;}
 
 input.autocomplete {
-  background: var(--oc-white) url(/search.svg) no-repeat 2px 50%; padding-left:20px !important;
+  background: var(--oc-white) url(/search.svg) no-repeat 2px 50%; padding-inline-start: 20px !important;
+}
+[dir="rtl"] input.autocomplete {
+  background-position: right 2px top 50%;
 }
 input.autocomplete.ajax-loading {
   background-image: url(/loading.gif);
@@ -2228,7 +2240,8 @@ div.news .reaction {
   border: 1px solid var(--oc-gray-4);
 }
 .ui-autocomplete .ui-menu-item > div, .ui-menu .ui-menu-item > div {
-  padding: 4px 8px;
+  padding-block: 4px;
+  padding-inline: 8px;
   max-width: 500px;
 }
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
