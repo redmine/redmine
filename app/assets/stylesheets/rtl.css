@@ -14,51 +14,6 @@ div.issue div.subject div div {padding-left:0px; padding-right:16px;}
 
 div#issue-changesets {float:left;  margin-left:0em; margin-right:1em; padding-left:0em; padding-right:1em;}
 
-/***** Tabular forms ******/
-.tabular p{
-  padding-left:0px; padding-right:180px; /* width of left column containing the label elements */
-  clear:right;
-}
-
-.tabular label{
-  float:right;
-  text-align:left;
-  /* width of left column */
-  margin-left:0px; margin-right:-180px;
-}
-
-.tabular label.floating{
-  margin-left: 0px; margin-right:0px;
-  text-align:right;
-}
-
-.tabular label.block{
-  margin-left:0px !important; margin-right:0px !important;
-  text-align:right;
-}
-
-.tabular label.inline{
-  margin-left:0px !important; margin-right:5px !important;
-}
-
-label.no-css {
-  text-align:right;
-  margin-left:0px; margin-right:0px;
-}
-
-.tabular.settings p{padding-left:0px; padding-right:300px; }
-.tabular.settings label{margin-left:0px; margin-right:-300px;}
-
-fieldset#notified_events .parent {padding-left:0px; padding-right:20px; }
-
-.check_box_group {padding:2px 2px 4px 4px;}
-.check_box_group label {margin-right: 0px !important; text-align: right;}
-.attachments_fields input.description {margin-left:0px; margin-right:4px;}
-
-.attachments_fields .ajax-waiting input.filename {background:url(/hourglass-empty.svg) no-repeat right top 50%;}
-.attachments_fields .ajax-loading input.filename {background:url(/loading.gif) no-repeat right top 50%;}
-.attachments_fields div.ui-progressbar {margin: 2px 8px -5px 0;}
-
 div.thumbnails div {margin-right:0px; margin-left:2px;}
 
 p.other-formats, p.query-totals { text-align:left; }
@@ -68,8 +23,6 @@ table.members td.name {padding-right: 20px; padding-left:0; }
 input.autocomplete {
   background: var(--oc-white) url(/search.svg) no-repeat right 2px top 50%; padding-left:0px !important; padding-right:20px !important;
 }
-
-.role-visibility {padding-right:2em; padding-left:0;}
 
 /***** Diff *****/
 

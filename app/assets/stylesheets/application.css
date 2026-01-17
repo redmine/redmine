@@ -1097,10 +1097,10 @@ span.pagination>span {white-space:nowrap;}
 /***** Tabular forms ******/
 .tabular p{
   margin: 0;
-  padding: 3px 0 3px 0;
-  padding-left: 180px; /* width of left column containing the label elements */
+  padding-block: 3px;
+  padding-inline: 180px 0; /* width of left column containing the label elements */
   min-height: 2em;
-  clear:left;
+  clear: inline-start;
 }
 html>body .tabular p {overflow:hidden;}
 
@@ -1112,10 +1112,10 @@ ul.twofa_backup_codes code { font-size: 1rem; line-height: 2em }
 
 .tabular label{
   font-weight: bold;
-  float: left;
-  text-align: right;
+  float: inline-start;
+  text-align: end;
   /* width of left column */
-  margin-left: -180px;
+  margin-inline-start: -180px;
   /* width of labels. Should be smaller than left column to create some right margin */
   width: 175px;
   line-height: 24px;
@@ -1123,8 +1123,8 @@ ul.twofa_backup_codes code { font-size: 1rem; line-height: 2em }
 
 .tabular label.floating{
   font-weight: normal;
-  margin-left: 0px;
-  text-align: left;
+  margin-inline-start: 0px;
+  text-align: start;
   width: 270px;
 }
 
@@ -1135,15 +1135,15 @@ label.block {
 
 .tabular label.block{
   font-weight: normal;
-  margin-left: 0px !important;
-  text-align: left;
+  margin-inline-start: 0px !important;
+  text-align: start;
   float: none;
 }
 
 .tabular label.inline{
   font-weight: normal;
   float:none;
-  margin-left: 5px !important;
+  margin-inline-start: 5px !important;
   width: auto;
 }
 
@@ -1158,8 +1158,8 @@ label.block {
 label.no-css {
   font-weight: inherit;
   float:none;
-  text-align:left;
-  margin-left:0px;
+  text-align:start;
+  margin-inline-start:0px;
   width:auto;
 }
 input#time_entry_comments { width: 90%;}
@@ -1174,21 +1174,21 @@ input#months { width: 46px; }
 
 .tabular .wiki-preview, .tabular .jstTabs {width: 95%;}
 .tabular.settings .wiki-preview, .tabular.settings .jstTabs { width: 99%; }
-.tabular.settings .wiki-preview p {padding-left: 0 !important}
+.tabular.settings .wiki-preview p {padding-inline-start: 0 !important}
 .tabular .wiki-preview p {
   min-height: initial;
   overflow: initial;
 }
 
-.tabular.settings p { padding-left: 300px; font-size: 93%; }
-.tabular.settings label{ margin-left: -300px; width: 295px; }
+.tabular.settings p { padding-inline-start: 300px; font-size: 93%; }
+.tabular.settings label{ margin-inline-start: -300px; width: 295px; }
 .tabular.settings textarea, .tabular.settings .wiki-preview, .tabular.settings .jstTabs { width: 99%; }
 
 .settings.enabled_scm table {width:100%}
 .settings.enabled_scm td.scm_name{ font-weight: bold; }
 
 fieldset.settings label { display: block; }
-fieldset#notified_events .parent { padding-left: 20px; }
+fieldset#notified_events .parent { padding-inline-start: 20px; }
 
 span.required {color: var(--oc-red-9);}
 .summary {font-style: italic;}
@@ -1198,15 +1198,16 @@ span.required {color: var(--oc-red-9);}
   width:95%;
   max-height:120px;
   overflow-y:auto;
-  padding:2px 4px 4px 2px;
+  padding-block: 2px 4px;
+  padding-inline: 2px 4px;
   background:var(--oc-white);
   border:1px solid var(--oc-gray-4);
   border-radius:3px
 }
 .check_box_group label {
   font-weight: normal;
-  margin-left: 0px !important;
-  text-align: left;
+  margin-inline-start: 0px !important;
+  text-align: start;
   float: none;
   display: block;
   width: auto;
@@ -1214,17 +1215,22 @@ span.required {color: var(--oc-red-9);}
 .check_box_group.bool_cf {border:0; background:inherit;}
 .check_box_group.bool_cf label {display: inline;}
 
-.attachments_fields input.description, #existing-attachments input.description {margin-left:4px; width:340px;}
+.attachments_fields input.description, #existing-attachments input.description {margin-inline-start: 4px; width: 340px;}
 .attachments_fields>span, #existing-attachments>span {display:block; white-space:nowrap;}
 /* ToDo: delete this line when legacy icons are deleted */
-.attachments_fields .icon-attachment, #existing-attachments .icon-attachment {background-image: none; padding-left: 0}
+.attachments_fields .icon-attachment, #existing-attachments .icon-attachment {background-image: none; padding-inline-start: 0}
 .attachments_fields input.filename, #existing-attachments .filename {border:0; width:250px; color:var(--oc-gray-7); background-color:inherit; }
 .tabular input.filename {max-width:75% !important;}
-.attachments_fields div.ui-progressbar { width: 100px; height:14px; margin: 2px 0 -5px 8px; display: inline-block; }
+.attachments_fields div.ui-progressbar {
+  width: 100px;
+  height: 14px;
+  margin-block: 2px -5px;
+  margin-inline: 8px 0;
+  display: inline-block;
+}
 .attachments_fields input.filename {
-  height:1.8em;
-  padding-left: 3px;
-  padding-right: 0;
+  height: 1.8em;
+  padding-inline: 3px 0;
 }
 
 a.remove-upload:hover {text-decoration:none !important;}
@@ -1266,7 +1272,7 @@ input.autocomplete.ajax-loading {
   background-image: url(/loading.gif);
 }
 
-.role-visibility {padding-left:2em;}
+.role-visibility {padding-inline-start: 2em;}
 
 .objects-selection {
   height: 300px;
