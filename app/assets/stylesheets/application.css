@@ -1246,7 +1246,6 @@ a.remove-upload:hover {text-decoration:none !important;}
 
 div.fileover, p.custom-field-filedroplistner.fileover { background-color: var(--oc-violet-0); }
 
-div.attachments p { margin:4px 0 2px 0; }
 div.attachments img { vertical-align: middle; }
 div.attachments span.author { font-size: 0.9em; color: var(--oc-gray-6); }
 
