@@ -1264,8 +1264,6 @@ textarea.text_cf {width:95%; resize:vertical;}
 input.string_cf, input.link_cf {width:95%;}
 select.bool_cf {width:auto !important;}
 
-#tab-content-modules fieldset p {margin:3px 0 4px 0;}
-
 #users_for_watcher {height: 200px; overflow:auto;}
 #users_for_watcher label {display: block;}
 
