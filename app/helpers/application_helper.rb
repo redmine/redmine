@@ -1683,11 +1683,6 @@ module ApplicationHelper
         javascript_include_tag('context_menu') +
           stylesheet_link_tag('context_menu')
       end
-      if l(:direction) == 'rtl'
-        content_for :header_tags do
-          stylesheet_link_tag('context_menu_rtl')
-        end
-      end
       @context_menu_included = true
     end
     nil

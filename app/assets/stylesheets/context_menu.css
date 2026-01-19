@@ -13,7 +13,7 @@
 }
 
 #context-menu ul {
-  width:150px;
+  inline-size:150px;
   border: 1px solid var(--oc-gray-4);
   background:white;
   list-style:none;
@@ -29,28 +29,29 @@
   border:1px solid white;
   display: flex;
 }
-#context-menu li.folder ul { position:absolute; top:-2px; max-height:300px; overflow:hidden; overflow-y: auto; }
-#context-menu li.folder>ul { left:148px; }
+#context-menu li.folder ul { position: absolute; inset-block-start: -2px; max-block-size: 300px; overflow: hidden; overflow-y: auto; }
+#context-menu li.folder>ul { inset-inline-start: 148px; }
 
-#context-menu.reverse-y li.folder>ul, #context-menu li.folder.up>ul { top:auto; bottom:0; }
-#context-menu.reverse-x li.folder ul { left:auto; }
-#context-menu.reverse-x li.folder>ul { right:148px; }
+#context-menu.reverse-y li.folder>ul, #context-menu li.folder.up>ul { inset-block: auto 0; }
+#context-menu.reverse-x li.folder ul { inset-inline-start:auto; }
+#context-menu.reverse-x li.folder>ul { inset-inline-end:148px; }
 
 #context-menu.reverse-y li.folder.down>ul {
-  position:absolute; top:-2px; bottom: auto; max-height:300px; overflow:hidden; overflow-y: auto;
+  position: absolute; inset-block: -2px auto; max-block-size: 300px; overflow: hidden; overflow-y: auto;
 }
 
 #context-menu a {
   text-decoration:none !important;
-  padding: 2px 8px;
+  padding-block: 2px;
+  padding-inline: 8px;
 }
 #context-menu li>a { flex-grow: 1; }
 #context-menu a.disabled, #context-menu a.disabled:hover {color: var(--oc-gray-5);}
-#context-menu li a.submenu { padding-left: 28px;}
+#context-menu li a.submenu { padding-inline-start: 28px;}
 #context-menu li:hover { border:1px solid var(--oc-blue-8); background-color:var(--oc-blue-0); border-radius:3px; }
 #context-menu a:hover {color:var(--oc-blue-9);}
 #context-menu li.folder ul li a:not(.icon) {
-  padding-left: 28px;
+  padding-inline-start: 28px;
 }
 #context-menu li.folder:hover { z-index:40; }
 #context-menu ul ul, #context-menu  li:hover ul ul { display:none; }
