@@ -205,3 +205,8 @@ body.controller-repositories li.change.change-M:not(:has(svg)) { background-imag
 body.controller-repositories li.change.change-C:not(:has(svg)) { background-image: url(/bullet_blue.png); }
 body.controller-repositories li.change.change-R:not(:has(svg)) { background-image: url(/bullet_purple.png); }
 body.controller-repositories li.change.change-D:not(:has(svg)) { background-image: url(/bullet_delete.png); }
+
+/* For context_menu.css and context_menu_rtl.css */
+
+#context-menu li a.submenu:not(:has(+ span)) { padding-right:16px; background:url("/arrow_right.png") right no-repeat;}
+html[dir="rtl"]  #context-menu li a.submenu:not(:has(+ span)) { background:url("/arrow_left.png") left no-repeat; }
