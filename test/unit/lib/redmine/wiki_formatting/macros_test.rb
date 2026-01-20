@@ -633,4 +633,75 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
       end
     end
   end
+
+  def test_recent_pages_macro_with_include_subprojects_option
+    project = Project.find(1)
+    subproject = Project.find(3)
+    @project = project
+
+    # Ensure subproject has a wiki
+    subproject.create_wiki(start_page: 'Wiki')
+
+    # Add a wiki page to the subproject and update its content
+    page = WikiPage.create!(wiki: subproject.wiki, title: 'Subproject Page')
+    WikiContent.create!(page: page, text: 'content', author_id: 1, updated_on: 1.day.ago)
+
+    # Without include_subprojects=true
+    result = textilizable('{{recent_pages}}')
+    assert_select_in result, 'ul>li', :text => /Subproject Page/, :count => 0
+
+    # With include_subprojects=true
+    result = textilizable('{{recent_pages(include_subprojects=true)}}')
+    assert_select_in result, 'ul>li', :text => /Subproject Page/, :count => 1
+  end
+
+  def test_recent_pages_macro_should_not_include_projects_with_wiki_module_disabled
+    project = Project.find(1)
+    subproject = Project.find(3)
+    @project = project
+
+    # Ensure subproject has a wiki
+    subproject.create_wiki(start_page: 'Wiki')
+    # Ensure wiki module is not enabled
+    subproject.enabled_module_names = ["issue_tracking", "calendar", "gantt"]
+
+    # Add a wiki page to the subproject and update its content
+    page = WikiPage.create!(wiki: subproject.wiki, title: 'Subproject Page')
+    WikiContent.create!(page: page, text: 'content', author_id: 1, updated_on: 1.day.ago)
+
+    # With include_subprojects=true
+    result = textilizable('{{recent_pages(include_subprojects=true)}}')
+    assert_select_in result, 'ul>li', :text => /Subproject Page/, :count => 0
+  end
+
+  def test_recent_pages_macro_should_not_disclose_private_projects
+    project = Project.find(1)
+    private_subproject = Project.find(5) # Private child of project 1 in fixtures
+    @project = project
+
+    # Ensure project 5 is private
+    private_subproject.update_attribute(:is_public, false)
+    private_subproject.enabled_module_names = ["issue_tracking", "calendar", "gantt", "wiki"]
+
+    # Add a wiki page to the private subproject
+    page = WikiPage.create!(wiki: private_subproject.wiki, title: 'Private Page')
+    WikiContent.create!(page: page, text: 'content', author_id: 1, updated_on: 1.day.ago)
+
+    # Anonymous user should not see the private page even with include_subprojects=true
+    User.current = User.anonymous
+    result = textilizable('{{recent_pages(include_subprojects=true)}}')
+    assert_select_in result, 'ul>li', :text => /Private Page/, :count => 0
+
+    role = Role.find(1)
+    role.remove_permission! :view_wiki_pages
+    # User without view wiki page permissions
+    User.current = User.find(2) # Member of eCookbook
+    result = textilizable('{{recent_pages(include_subprojects=true)}}')
+    assert_select_in result, 'ul>li', :text => /Private Page/, :count => 0
+
+    # User with access should see it
+    User.current = User.find(8) # Member of eCookbook
+    result = textilizable('{{recent_pages(include_subprojects=true)}}')
+    assert_select_in result, 'ul>li', :text => /Private Page/, :count => 1
+  end
 end
