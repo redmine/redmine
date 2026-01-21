@@ -634,6 +634,22 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
     end
   end
 
+  def test_recent_pages_macro_with_project_option_should_not_disclose_private_project
+    project = Project.find(5) # Private project
+
+    # Ensure project 5 is private and has the wiki module enabled
+    project.update_attribute(:is_public, false)
+    project.enabled_module_names = ["issue_tracking", "calendar", "gantt", "wiki"]
+
+    # Add a wiki page to the private project
+    page = WikiPage.create!(wiki: project.wiki, title: 'Private Page')
+    WikiContent.create!(page: page, text: 'content', author_id: 1, updated_on: 1.day.ago)
+
+    User.current = User.anonymous
+    result = textilizable("{{recent_pages(project=#{project.identifier})}}")
+    assert_select_in result, 'ul>li', :text => /Private Page/, :count => 0
+  end
+
   def test_recent_pages_macro_with_include_subprojects_option
     project = Project.find(1)
     subproject = Project.find(3)
