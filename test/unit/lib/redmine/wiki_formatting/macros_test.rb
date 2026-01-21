@@ -525,12 +525,10 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
         page.content.update_attribute(:updated_on, (i + 1).days.ago)
       end
 
-      with_settings :text_formatting => 'textile' do
-        result = textilizable('{{recent_pages}}')
-        assert_select_in result, 'ul>li', :count => 7
-        assert_select_in result, 'ul>li:first-of-type', :text => 'Another page'
-        assert_select_in result, 'ul>li:last-of-type', :text => 'Page with sections'
-      end
+      result = textilizable('{{recent_pages}}')
+      assert_select_in result, 'ul>li', :count => 7
+      assert_select_in result, 'ul>li:first-of-type', :text => 'Another page'
+      assert_select_in result, 'ul>li:last-of-type', :text => 'Page with sections'
     end
   end
 
@@ -542,28 +540,26 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
         page.content.update_attribute(:updated_on, (i + 1).days.ago)
       end
 
-      with_settings :text_formatting => 'textile' do
-        results = {}
+      results = {}
 
-        # Resolve using the @project
-        @project = project
-        results[:project_instance_variable] = textilizable('{{recent_pages}}')
-        @project = nil
+      # Resolve using the @project
+      @project = project
+      results[:project_instance_variable] = textilizable('{{recent_pages}}')
+      @project = nil
 
-        # Resolve using object: project
-        results[:object_project] = textilizable('{{recent_pages}}', {object: project})
+      # Resolve using object: project
+      results[:object_project] = textilizable('{{recent_pages}}', {object: project})
 
-        # Resolve using issue.project
-        issue = Issue.first
-        issue.update(description: '{{recent_pages}}')
-        results[:issue_argument] = textilizable(issue, :description)
+      # Resolve using issue.project
+      issue = Issue.first
+      issue.update(description: '{{recent_pages}}')
+      results[:issue_argument] = textilizable(issue, :description)
 
-        # Assertions
-        results.each do |key, result|
-          assert_select_in result, 'ul>li', {:count => 7}, "[#{key}] unexpected number of list items"
-          assert_select_in result, 'ul>li:first-of-type', {:text => 'Another page'}, "[#{key}] first list item text mismatch"
-          assert_select_in result, 'ul>li:last-of-type', {:text => 'Page with sections'}, "[#{key}] last list item text mismatch"
-        end
+      # Assertions
+      results.each do |key, result|
+        assert_select_in result, 'ul>li', {:count => 7}, "[#{key}] unexpected number of list items"
+        assert_select_in result, 'ul>li:first-of-type', {:text => 'Another page'}, "[#{key}] first list item text mismatch"
+        assert_select_in result, 'ul>li:last-of-type', {:text => 'Page with sections'}, "[#{key}] last list item text mismatch"
       end
     end
   end
@@ -576,12 +572,10 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
         page.content.update_attribute(:updated_on, (i + 1).days.ago)
       end
 
-      with_settings :text_formatting => 'textile' do
-        result = textilizable('{{recent_pages(limit=5)}}')
-        assert_select_in result, 'ul>li', :count => 5
-        assert_select_in result, 'ul>li:first-of-type', :text => 'Another page'
-        assert_select_in result, 'ul>li:last-of-type', :text => 'CookBook documentation'
-      end
+      result = textilizable('{{recent_pages(limit=5)}}')
+      assert_select_in result, 'ul>li', :count => 5
+      assert_select_in result, 'ul>li:first-of-type', :text => 'Another page'
+      assert_select_in result, 'ul>li:last-of-type', :text => 'CookBook documentation'
     end
   end
 
@@ -593,11 +587,9 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
         page.content.update_attribute(:updated_on, (i + 1).days.ago)
       end
 
-      with_settings :text_formatting => 'textile' do
-        result = textilizable('{{recent_pages(time=true)}}')
-        assert_select_in result, 'ul>li:first-of-type', :text => 'Another page (1 day)'
-        assert_select_in result, 'ul>li:last-of-type', :text => 'Page with sections (7 days)'
-      end
+      result = textilizable('{{recent_pages(time=true)}}')
+      assert_select_in result, 'ul>li:first-of-type', :text => 'Another page (1 day)'
+      assert_select_in result, 'ul>li:last-of-type', :text => 'Page with sections (7 days)'
     end
   end
 
@@ -609,12 +601,10 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
         page.content.update_attribute(:updated_on, (i + 1).days.ago)
       end
 
-      with_settings :text_formatting => 'textile' do
-        result = textilizable('{{recent_pages(time=true, days=3)}}')
-        assert_select_in result, 'ul>li', :count => 3
-        assert_select_in result, 'ul>li:first-of-type', :text => 'Another page (1 day)'
-        assert_select_in result, 'ul>li:last-of-type', :text => 'Child 1 1 (3 days)'
-      end
+      result = textilizable('{{recent_pages(time=true, days=3)}}')
+      assert_select_in result, 'ul>li', :count => 3
+      assert_select_in result, 'ul>li:first-of-type', :text => 'Another page (1 day)'
+      assert_select_in result, 'ul>li:last-of-type', :text => 'Child 1 1 (3 days)'
     end
   end
 
@@ -625,12 +615,11 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
       @project.wiki.pages.each_with_index do |page, i|
         page.content.update_attribute(:updated_on, (i + 1).days.ago)
       end
-      with_settings :text_formatting => 'textile' do
-        result = textilizable('{{recent_pages(time=true, days=3, project=' + @project.identifier + ')}}')
-        assert_select_in result, 'ul>li', :count => 3
-        assert_select_in result, 'ul>li:first-of-type', :text => 'Another page (1 day)'
-        assert_select_in result, 'ul>li:last-of-type', :text => 'Child 1 1 (3 days)'
-      end
+
+      result = textilizable('{{recent_pages(time=true, days=3, project=' + @project.identifier + ')}}')
+      assert_select_in result, 'ul>li', :count => 3
+      assert_select_in result, 'ul>li:first-of-type', :text => 'Another page (1 day)'
+      assert_select_in result, 'ul>li:last-of-type', :text => 'Child 1 1 (3 days)'
     end
   end
 
