@@ -261,7 +261,7 @@ module Redmine
           pages.each do |page|
             concat(
               tag.li do
-                html = link_to(h(page.pretty_title), project_wiki_page_path(project, page.title))
+                html = link_to(h(page.pretty_title), project_wiki_page_path(page.project, page.title))
                 html << " (#{time_ago_in_words(page.content.updated_on)})" if is_show_time
                 html
               end

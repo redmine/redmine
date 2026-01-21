@@ -668,7 +668,9 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
 
     # With include_subprojects=true
     result = textilizable('{{recent_pages(include_subprojects=true)}}')
+
     assert_select_in result, 'ul>li', :text => /Subproject Page/, :count => 1
+    assert_select_in result, 'a[href=?]', wiki_page_path(page)
   end
 
   def test_recent_pages_macro_should_not_include_projects_with_wiki_module_disabled
