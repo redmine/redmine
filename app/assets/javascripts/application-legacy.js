@@ -1348,7 +1348,7 @@ function inlineAutoComplete(element) {
             }
           },
           menuItemTemplate: function (user) {
-            return user.original.name;
+            return sanitizeHTML(user.original.name);
           },
           selectTemplate: function (user) {
             return '@' + user.original.login;
