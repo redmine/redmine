@@ -225,10 +225,11 @@ module Redmine
              "{{recent_pages(days=3)}} -- displays pages updated within the last 3 days\n" +
              "{{recent_pages(limit=5)}} -- limits the maximum number of pages to display to 5\n" +
              "{{recent_pages(time=true)}} -- displays pages updated within the last 7 days with updated time\n" +
-             "{{recent_pages(project=identifier)}} -- displays pages updated within the last 7 days from a specific project"
+             "{{recent_pages(project=identifier)}} -- displays pages updated within the last 7 days from a specific project\n" +
+             "{{recent_pages(include_subprojects=true)}} -- includes pages from subprojects"
 
       macro :recent_pages do |obj, args|
-        args, options = extract_macro_options(args, :days, :limit, :time, :project)
+        args, options = extract_macro_options(args, :days, :limit, :time, :project, :include_subprojects)
 
         if options[:project].presence
           project = Project.find_by_identifier(options[:project].to_s) if options[:project].present?
@@ -237,23 +238,30 @@ module Redmine
         end
 
         return '' if project.nil?
-        return '' unless User.current.allowed_to?(:view_wiki_pages, project)
 
         days_to_list = (options[:days].presence || 7).to_i
         limit = options[:limit].to_i if options[:limit].present?
         is_show_time = options[:time].to_s == 'true'
+        if options[:include_subprojects].to_s == 'true'
+          project_ids = project.self_and_descendants.allowed_to(User.current, :view_wiki_pages).pluck(:id)
+        elsif User.current.allowed_to?(:view_wiki_pages, project)
+          project_ids = [project.id]
+        end
+
+        return '' if project_ids.blank?
 
         pages = WikiPage.
-          joins(:content, :wiki).
-          where(["#{Wiki.table_name}.project_id = ? AND #{WikiContent.table_name}.updated_on >= ?", project.id, days_to_list.days.ago]).
-          order("#{WikiContent.table_name}.updated_on desc, id").
+          joins(:wiki, :content).
+          where(:wikis => {:project_id => project_ids}).
+          where("#{WikiContent.table_name}.updated_on >= ?", days_to_list.days.ago).
+          order("#{WikiContent.table_name}.updated_on DESC, #{WikiPage.table_name}.id DESC").
           limit(limit)
 
         tag.ul do
           pages.each do |page|
             concat(
               tag.li do
-                html = link_to(h(page.pretty_title), project_wiki_page_path(project, page.title))
+                html = link_to(h(page.pretty_title), project_wiki_page_path(page.project, page.title))
                 html << " (#{time_ago_in_words(page.content.updated_on)})" if is_show_time
                 html
               end
