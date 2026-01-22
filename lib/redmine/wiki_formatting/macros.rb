@@ -226,7 +226,7 @@ module Redmine
              "{{recent_pages(limit=5)}} -- limits the maximum number of pages to display to 5\n" +
              "{{recent_pages(time=true)}} -- displays pages updated within the last 7 days with updated time\n" +
              "{{recent_pages(project=identifier)}} -- displays pages updated within the last 7 days from a specific project\n" +
-             "{{recent_pages(include_subprojects=true)}} -- displays pages updated within the last 7 days from a specific project and all subprojects"
+             "{{recent_pages(include_subprojects=true)}} -- includes pages from subprojects"
 
       macro :recent_pages do |obj, args|
         args, options = extract_macro_options(args, :days, :limit, :time, :project, :include_subprojects)
