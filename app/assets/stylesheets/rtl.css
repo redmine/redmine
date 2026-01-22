@@ -159,8 +159,6 @@ div.issue span.private, div.journal span.private {margin-right:0px; margin-left:
 fieldset.collapsible>legend:not(:has(svg)) {padding-left:0px; padding-right:18px; background: url(/arrow_down.png) no-repeat right 50%;}
 fieldset.collapsible.collapsed>legend:not(:has(svg)) { background-image: url(/arrow_left.png); }
 
-fieldset#filters td.add-filter {text-align:left; }
-
 div#issue-changesets {float:left;  margin-left:0em; margin-right:1em; padding-left:0em; padding-right:1em;}
 
 .journal ul.details img {margin:0 4px -3px 0;}
