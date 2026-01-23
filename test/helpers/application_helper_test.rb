@@ -2431,7 +2431,7 @@ class ApplicationHelperTest < Redmine::HelperTest
   end
 
   def pre_wrapper(text)
-    '<div class="pre-wrapper" data-controller="clipboard"><a class="copy-pre-content-link icon-only" data-action="clipboard#copyPre">' +
+    '<div class="pre-wrapper" data-controller="clipboard"><a class="copy-pre-content-link icon-only" title=\"Copy\" data-action="clipboard#copyPre">' +
     '<svg class="s18 icon-svg" aria-hidden="true"><use href="/assets/icons-34cfafab.svg#icon--copy-pre-content"></use></svg></a>' +
     text +
     '</div>'
