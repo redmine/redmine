@@ -39,7 +39,7 @@
 h1 { font-family: var(--fonts-main); font-size: 0.875rem; text-align: center; color: var(--oc-gray-8); }
 body { font-family: var(--fonts-main); font-size: 0.75rem; color: var(--oc-gray-8); }
 pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace; }
-table th { padding-top: 1em; }
+table th { padding-block-start: 1em; }
 table th img {
   border: 1px solid var(--oc-gray-5);
   opacity: 0.7;
@@ -47,22 +47,22 @@ table th img {
 table th .syntax-pre {
   display: inline-block;
   border: 1px solid var(--oc-gray-5);
-  width: 18px;
-  height: 18px;
+  inline-size: 18px;
+  block-size: 18px;
 }
 table th .syntax-pre:before {
   content: "pre";
   font-size: 0.625rem;
   color: var(--oc-gray-7);
 }
-table td { background-color: var(--oc-gray-0); height: 2em; vertical-align: middle;}
+table td { background-color: var(--oc-gray-0); block-size: 2em; vertical-align: middle;}
 table td code { font-size: 1.2em; }
-table td h1 { font-size: 1.8em; text-align: left; }
-table td h2 { font-size: 1.4em; text-align: left; }
-table td h3 { font-size: 1.2em; text-align: left; }
+table td h1 { font-size: 1.8em; text-align: start; }
+table td h2 { font-size: 1.4em; text-align: start; }
+table td h3 { font-size: 1.2em; text-align: start; }
 
 table.sample { border-collapse: collapse; border-spacing: 0; margin: 4px; }
-table.sample th, table.sample td { border: solid 1px var(--oc-gray-5); padding: 4px; height: 1em; }
+table.sample th, table.sample td { border: solid 1px var(--oc-gray-5); padding: 4px; block-size: 1em; }
 
 a, a:link, a:visited{ color: var(--oc-blue-9); text-decoration: none; }
 a:hover, a:active{ color: var(--oc-red-9); text-decoration: underline;}
