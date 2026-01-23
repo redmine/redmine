@@ -1923,11 +1923,10 @@ module ApplicationHelper
   end
 
   def copy_object_url_link(url)
-    link_to_function(
-      sprite_icon('copy-link', l(:button_copy_link)), 'copyDataClipboardTextToClipboard(this);',
-      class: 'icon icon-copy-link',
-      data: {'clipboard-text' => url}
-    )
+    link_to sprite_icon('copy-link', l(:button_copy_link)),
+            '#',
+            class: 'icon icon-copy-link',
+            data: {clipboard_text: url, controller: 'clipboard', action: 'clipboard#copyText'}
   end
 
   private

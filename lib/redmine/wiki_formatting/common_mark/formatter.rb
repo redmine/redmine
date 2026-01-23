@@ -56,6 +56,7 @@ module Redmine
       SCRUBBERS = [
         SyntaxHighlightScrubber.new,
         Redmine::WikiFormatting::TablesortScrubber.new,
+        Redmine::WikiFormatting::CopypreScrubber.new,
         FixupAutoLinksScrubber.new,
         ExternalLinksScrubber.new,
         AlertsIconsScrubber.new

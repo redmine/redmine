@@ -1441,4 +1441,3 @@ $(document).ready(setupFilePreviewNavigation);
 $(document).on('focus', '[data-auto-complete=true]', function(event) {
   inlineAutoComplete(event.target);
 });
-document.addEventListener("DOMContentLoaded", () => { setupCopyButtonsToPreElements(); });

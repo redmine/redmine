@@ -613,7 +613,7 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
       "class=\"ruby \"foo\" bar\"" => "data-language=\"ruby \"",
     }.each do |classattr, codeattr|
       assert_html_output({"<code #{classattr}>test</code>" => "<code #{codeattr}>test</code>"}, false)
-      assert_html_output({"<pre #{classattr}>test</pre>" => "<pre>test</pre>"}, false)
+      assert_html_output({"<pre #{classattr}>test</pre>" => pre_wrapper('<pre data-clipboard-target="pre">test</pre>')}, false)
       assert_html_output({"<kbd #{classattr}>test</kbd>" => "<kbd>test</kbd>"}, false)
     end
 
@@ -652,9 +652,8 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
   end
 
   def test_should_not_allow_valid_language_class_attribute_on_non_code_offtags
-    %w(pre kbd).each do |tag|
-      assert_html_output({"<#{tag} class=\"ruby\">test</#{tag}>" => "<#{tag}>test</#{tag}>"}, false)
-    end
+    assert_html_output({"<pre class=\"ruby\">test</pre>" => pre_wrapper('<pre data-clipboard-target="pre">test</pre>')}, false)
+    assert_html_output({"<kbd class=\"ruby\">test</kbd>" => "<kbd>test</kbd>"}, false)
 
     assert_html_output({"<notextile class=\"ruby\">test</notextile>" => "test"}, false)
   end
@@ -755,17 +754,20 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
       </p>
       </pre>
     STR
-    expected = <<~EXPECTED
-      <p>Hello world.</p>
-
-      <p>Foo</p>
-
-      <pre>
+    pre = <<~PRE
+      <pre data-clipboard-target="pre">
       This is a code block.
       &lt;p&gt;
       &lt;!-- comments in a code block should be preserved --&gt;
       &lt;/p&gt;
       </pre>
+    PRE
+    expected = <<~EXPECTED
+      <p>Hello world.</p>
+
+      <p>Foo</p>
+
+      #{pre_wrapper(pre)}
 
     EXPECTED
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), to_html(text).gsub(%r{[\r\n\t]}, '')
@@ -819,5 +821,12 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
     assert_equal 2, result.size
     assert_equal expected, result.first, "section content did not match"
     assert_equal ActiveSupport::Digest.hexdigest(expected), result.last, "section hash did not match"
+  end
+
+  def pre_wrapper(text)
+    '<div class="pre-wrapper" data-controller="clipboard"><a class="copy-pre-content-link icon-only" data-action="clipboard#copyPre">' +
+    '<svg class="s18 icon-svg" aria-hidden="true"><use href="/assets/icons-34cfafab.svg#icon--copy-pre-content"></use></svg></a>' +
+    text +
+    '</div>'
   end
 end

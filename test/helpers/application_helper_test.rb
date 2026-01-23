@@ -1320,20 +1320,20 @@ class ApplicationHelperTest < Redmine::HelperTest
       "<div class=\"bold\">content</div>" => "<p>&lt;div class=\"bold\"&gt;content&lt;/div&gt;</p>",
       "<script>some script;</script>" => "<p>&lt;script&gt;some script;&lt;/script&gt;</p>",
       # do not escape pre/code tags
-      "<pre>\nline 1\nline2</pre>" => "<pre>line 1\nline2</pre>",
-      "<pre><code>\nline 1\nline2</code></pre>" => "<pre><code>\nline 1\nline2</code></pre>",
-      "<pre><div class=\"foo\">content</div></pre>" => "<pre>&lt;div class=\"foo\"&gt;content&lt;/div&gt;</pre>",
-      "<pre><div class=\"<foo\">content</div></pre>" => "<pre>&lt;div class=\"&lt;foo\"&gt;content&lt;/div&gt;</pre>",
+      "<pre>\nline 1\nline2</pre>" => pre_wrapper("<pre data-clipboard-target=\"pre\">line 1\nline2</pre>"),
+      "<pre><code>\nline 1\nline2</code></pre>" => pre_wrapper("<pre data-clipboard-target=\"pre\"><code>\nline 1\nline2</code></pre>"),
+      "<pre><div class=\"foo\">content</div></pre>" => pre_wrapper("<pre data-clipboard-target=\"pre\">&lt;div class=\"foo\"&gt;content&lt;/div&gt;</pre>"),
+      "<pre><div class=\"<foo\">content</div></pre>" => pre_wrapper("<pre data-clipboard-target=\"pre\">&lt;div class=\"&lt;foo\"&gt;content&lt;/div&gt;</pre>"),
       "<!-- opening comment" => "<p>&lt;!-- opening comment</p>",
       # remove attributes including class
-      "<pre class='foo'>some text</pre>" => "<pre>some text</pre>",
-      '<pre class="foo">some text</pre>' => '<pre>some text</pre>',
-      "<pre class='foo bar'>some text</pre>" => "<pre>some text</pre>",
-      '<pre class="foo bar">some text</pre>' => '<pre>some text</pre>',
-      "<pre onmouseover='alert(1)'>some text</pre>" => "<pre>some text</pre>",
+      "<pre class='foo'>some text</pre>" => pre_wrapper('<pre data-clipboard-target="pre">some text</pre>'),
+      '<pre class="foo">some text</pre>' => pre_wrapper('<pre data-clipboard-target="pre">some text</pre>'),
+      "<pre class='foo bar'>some text</pre>" => pre_wrapper('<pre data-clipboard-target="pre">some text</pre>'),
+      '<pre class="foo bar">some text</pre>' => pre_wrapper('<pre data-clipboard-target="pre">some text</pre>'),
+      "<pre onmouseover='alert(1)'>some text</pre>" => pre_wrapper('<pre data-clipboard-target="pre">some text</pre>'),
       # xss
-      '<pre><code class=""onmouseover="alert(1)">text</code></pre>' => '<pre><code>text</code></pre>',
-      '<pre class=""onmouseover="alert(1)">text</pre>' => '<pre>text</pre>',
+      '<pre><code class=""onmouseover="alert(1)">text</code></pre>' => pre_wrapper('<pre data-clipboard-target="pre"><code>text</code></pre>'),
+      '<pre class=""onmouseover="alert(1)">text</pre>' => pre_wrapper('<pre data-clipboard-target="pre">text</pre>'),
     }
     with_settings :text_formatting => 'textile' do
       to_test.each {|text, result| assert_equal result, textilizable(text)}
@@ -1342,7 +1342,7 @@ class ApplicationHelperTest < Redmine::HelperTest
 
   def test_allowed_html_tags
     to_test = {
-      "<pre>preformatted text</pre>" => "<pre>preformatted text</pre>",
+      "<pre>preformatted text</pre>" => pre_wrapper('<pre data-clipboard-target="pre">preformatted text</pre>'),
       "<notextile>no *textile* formatting</notextile>" => "no *textile* formatting",
       "<notextile>this is <tag>a tag</tag></notextile>" => "this is &lt;tag&gt;a tag&lt;/tag&gt;"
     }
@@ -1363,9 +1363,7 @@ class ApplicationHelperTest < Redmine::HelperTest
     RAW
     expected = <<~EXPECTED
       <p>Before</p>
-      <pre>
-      &lt;prepared-statement-cache-size&gt;32&lt;/prepared-statement-cache-size&gt;
-      </pre>
+      #{pre_wrapper('<pre data-clipboard-target="pre">&lt;prepared-statement-cache-size&gt;32&lt;/prepared-statement-cache-size&gt;</pre>')}
       <p>After</p>
     EXPECTED
     with_settings :text_formatting => 'textile' do
@@ -1392,14 +1390,17 @@ class ApplicationHelperTest < Redmine::HelperTest
                       "/issues/1",
                       :class => Issue.find(1).css_classes,
                       :title => "Bug: Cannot print recipes (New)")
-    expected = <<~EXPECTED
-      <p>#{result1}</p>
-      <p>#{result2}</p>
-      <pre>
+    pre = <<~PRE
+      <pre data-clipboard-target="pre">
       [[CookBook documentation]]
 
       #1
       </pre>
+    PRE
+    expected = <<~EXPECTED
+      <p>#{result1}</p>
+      <p>#{result2}</p>
+      #{pre_wrapper(pre)}
     EXPECTED
     @project = Project.find(1)
     with_settings :text_formatting => 'textile' do
@@ -1411,9 +1412,13 @@ class ApplicationHelperTest < Redmine::HelperTest
     raw = <<~RAW
       <pre><code>
     RAW
+    pre = <<~PRE
+      <pre data-clipboard-target="pre">
+      <code></code>
+      </pre>
+    PRE
     expected = <<~EXPECTED
-      <pre><code>
-      </code></pre>
+      #{pre_wrapper(pre)}
     EXPECTED
     @project = Project.find(1)
     with_settings :text_formatting => 'textile' do
@@ -1435,7 +1440,7 @@ class ApplicationHelperTest < Redmine::HelperTest
       </code></pre>
     RAW
     expected = <<~EXPECTED
-      <pre><code class="ECMA_script syntaxhl" data-language="ECMA_script"><span class="cm">/* Hello */</span><span class="nb">document</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="dl">"</span><span class="s2">Hello World!</span><span class="dl">"</span><span class="p">);</span></code></pre>
+      #{pre_wrapper('<pre data-clipboard-target="pre"><code class="ECMA_script syntaxhl" data-language="ECMA_script"><span class="cm">/* Hello */</span><span class="nb">document</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="dl">"</span><span class="s2">Hello World!</span><span class="dl">"</span><span class="p">);</span></code></pre>')}
     EXPECTED
     with_settings :text_formatting => 'textile' do
       assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
@@ -1449,7 +1454,7 @@ class ApplicationHelperTest < Redmine::HelperTest
       </code></pre>
     RAW
     expected = <<~EXPECTED
-      <pre><code class="ruby syntaxhl" data-language="ruby"><span class="n">x</span> <span class="o">=</span> <span class="n">a</span> <span class="o">&amp;</span> <span class="n">b</span></code></pre>
+      #{pre_wrapper('<pre data-clipboard-target="pre"><code class="ruby syntaxhl" data-language="ruby"><span class="n">x</span> <span class="o">=</span> <span class="n">a</span> <span class="o">&amp;</span> <span class="n">b</span></code></pre>')}
     EXPECTED
     with_settings :text_formatting => 'textile' do
       assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
@@ -2423,5 +2428,12 @@ class ApplicationHelperTest < Redmine::HelperTest
     with_settings :text_formatting => '' do
       assert_equal({}, list_autofill_data_attributes)
     end
+  end
+
+  def pre_wrapper(text)
+    '<div class="pre-wrapper" data-controller="clipboard"><a class="copy-pre-content-link icon-only" data-action="clipboard#copyPre">' +
+    '<svg class="s18 icon-svg" aria-hidden="true"><use href="/assets/icons-34cfafab.svg#icon--copy-pre-content"></use></svg></a>' +
+    text +
+    '</div>'
   end
 end

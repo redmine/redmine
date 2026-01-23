@@ -22,7 +22,8 @@ module Redmine
     module Textile
       SCRUBBERS = [
         SyntaxHighlightScrubber.new,
-        Redmine::WikiFormatting::TablesortScrubber.new
+        Redmine::WikiFormatting::TablesortScrubber.new,
+        Redmine::WikiFormatting::CopypreScrubber.new
       ]
 
       class Formatter
