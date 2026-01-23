@@ -21,6 +21,7 @@ module Redmine
   module WikiFormatting
     module Textile
       SCRUBBERS = [
+        SyntaxHighlightScrubber.new,
         Redmine::WikiFormatting::TablesortScrubber.new
       ]
 
@@ -109,7 +110,7 @@ module Redmine
             end
           end
           sections = [before.strip, s.strip, after.strip]
-          sections.each {|section| smooth_offtags_without_code_highlighting section}
+          sections.each {|section| smooth_offtags section}
           sections
         end
 
@@ -119,32 +120,6 @@ module Redmine
         # <a href="http://code.whytheluckystiff.net/redcloth/changeset/128">http://code.whytheluckystiff.net/redcloth/changeset/128</a>
         def hard_break(text)
           text.gsub!(/(.)\n(?!\n|\Z| *([#*=]+(\s|$)|[{|]))/, "\\1<br />") if hard_breaks
-        end
-
-        alias :smooth_offtags_without_code_highlighting :smooth_offtags
-        # Patch to add code highlighting support to RedCloth
-        def smooth_offtags(text)
-          unless @pre_list.empty?
-            ## replace <pre> content
-            text.gsub!(/<redpre#(\d+)>/) do
-              content = @pre_list[$1.to_i]
-              # This regex must match any data produced by RedCloth3#rip_offtags
-              if content =~ /<code\s+class=(?:"([^"]+)"|'([^']+)')>\s?(.*)/m
-                language = $1 || $2
-                text = $3
-                # original language for extension development
-                langattr = " data-language=\"#{CGI.escapeHTML language}\"" if language.present?
-                if Redmine::SyntaxHighlighting.language_supported?(language)
-                  text.gsub!("x%x%", '&')
-                  content = "<code class=\"#{CGI.escapeHTML language} syntaxhl\"#{langattr}>" +
-                    Redmine::SyntaxHighlighting.highlight_by_language(text, language)
-                else
-                  content = "<code#{langattr}>#{ERB::Util.h(text)}"
-                end
-              end
-              content
-            end
-          end
         end
       end
     end
