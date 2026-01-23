@@ -51,7 +51,7 @@
 
   body,
   html {
-    height: 100%;
+    block-size: 100%;
     margin: 0;
     padding: 0;
   }
@@ -62,7 +62,7 @@
   }
 
   body {
-    min-width: 0; /* reset the min-width of 900px */
+    min-inline-size: 0; /* reset the min-width of 900px */
     -webkit-overflow-scrolling: touch;
   }
 
@@ -75,13 +75,13 @@
   }
 
   select {
-    max-width: 100%;  /* prevent long names within select menues from breaking content */
+    max-inline-size: 100%;  /* prevent long names within select menues from breaking content */
   }
 
   #wrapper {
     position: relative;
     overflow-x: hidden; /* hide horizontal overflow */
-    max-width: 100%;
+    max-inline-size: 100%;
     margin: 0;
   }
 
@@ -90,9 +90,9 @@
   \*----------------------------------------*/
 
   #header {
-    width: 100%;
-    height: 64px; /* the height of our header on mobile */
-    min-height: 0;
+    inline-size: 100%;
+    block-size: 64px; /* the height of our header on mobile */
+    min-block-size: 0;
     margin: 0;
     padding: 0;
     border: none;
@@ -122,7 +122,7 @@
   #header #quick-search {
     float: none;
     clear: none; /* there are themes which set clear property, this resets it */
-    max-width: 100%; /* reset max-width */
+    max-inline-size: 100%; /* reset max-width */
     margin: 0;
     background: inherit;
   }
@@ -130,26 +130,24 @@
   /* styles for combobox within quick-search (#project_quick_jump_box) */
   #project-jump.drdn {
     position: absolute;
-    top: 0px;
-    left: 0;
-
-    width: 100%;
-    max-width: 100%;
-    height: 2em;
-    height: 64px;
-    padding: 5px;
-    padding-right: 72px;
-    padding-left: 20px;
+    inset-block-start: 0px;
+    inset-inline-start: 0;
+    inline-size: 100%;
+    max-inline-size: 100%;
+    block-size: 2em;
+    block-size: 64px;
+    padding-block: 5px;
+    padding-inline: 20px 72px;
   }
   #project-jump .drdn-trigger {
     font-size:1.5em;
     font-weight:bold;
     display:block;
-    width:100%;
+    inline-size:100%;
     color:var(--oc-white);
-    padding-left:24px;
+    padding-inline-start: 24px;
     background:transparent;
-    height:50px;
+    block-size:50px;
     line-height:40px;
     border:0;
   }
@@ -159,13 +157,14 @@
     font-size: 1.5em;
 
     position: absolute;
-    left: 0;
-    padding: 0 8px;
+    inset-inline-start: 0;
+    padding-block: 0;
+    padding-inline: 8px;
     /* achieve dropdwon arrow by scaling a caret character */
     content: '^';
     -webkit-transform: scale(1,-.8);
             transform: scale(1,-.8);
-    text-align: right;
+    text-align: end;
     pointer-events: none;
 
     opacity: .6;
@@ -173,25 +172,25 @@
   #project-jump.expanded .drdn-trigger:before {
     -webkit-transform: scale(1,.8);
             transform: scale(1,.8);
-    padding-top:8px;
+    padding-block-start: 8px;
   }
 
   #project-jump .drdn-content {
     position:absolute;
-    left:0px;
-    top:64px;
-    width:100%;
+    inset-inline-start:0;
+    inset-block-start:64px;
+    inline-size:100%;
     font-size:0.9375rem;
     font-weight:normal;
   }
   #project-jump .drdn-content svg {
-    width: 1.25rem;
-    height: 1.25rem;
+    inline-size: 1.25rem;
+    block-size: 1.25rem;
   }
   #project-jump .drdn-content .autocomplete {
-    height:40px;
+    block-size:40px;
     font-size:1.25rem;
-    padding-left: 28px !important;
+    padding-inline-start: 28px !important;
   }
   #project-jump .drdn-content a {
     padding:8px;
@@ -206,13 +205,14 @@
   \*----------------------------------------*/
 
   #main {
-    padding: 64px 0 0; /* padding-top equals header height */
+    padding-block: 64px 0; /* padding-top equals header height */
+    padding-inline: 0;
   }
 
   #main.nosidebar #content,
   div#content {
-    width: 100%;
-    min-height: 0; /* reset min-height of #content */
+    inline-size: 100%;
+    min-block-size: 0; /* reset min-height of #content */
     margin: 0;
   }
 
@@ -223,10 +223,9 @@
   }
 
   .splitcontentleft, .splitcontentright, .splitcontenttop {
-    width: 100%;
+    inline-size: 100%;
     flex: auto;
-    margin-right: 0;
-    margin-left: 0;
+    margin-inline: 0;
   }
 
   /*----------------------------------------*\
@@ -241,15 +240,15 @@
     z-index: 10;
 
     display: block; /* remove display: none; of non-mobile version */
-    float: right;
+    float: inline-end;
 
-    width: 60px;
-    height: 64px;
-    margin-top: 0;
+    inline-size: 60px;
+    block-size: 64px;
+    margin-block-start: 0;
 
     text-align: center;
 
-    border-left: 1px solid var(--oc-gray-3);
+    border-inline-start: 1px solid var(--oc-gray-3);
   }
 
   .mobile-toggle-button:hover,
@@ -260,27 +259,27 @@
   .mobile-toggle-button:after {
     font-family: var(--fonts-main);
     display: block;
-    margin-top: -3px;
+    margin-block-start: -3px;
     content: '\2261';
   }
 
   .search-magnifier--flyout {
     position: absolute;
     z-index: 1;
-    left: 12px;
+    inset-inline-start: 12px;
   }
 
   /* Flyout Menu */
 
   .flyout-menu {
     position: absolute;
-    right: -250px;
+    inset-inline-end: -250px;
 
     display: block; /* remove display: none; of non-mobile version */
     overflow-x: hidden;
 
-    width: 250px;
-    height: 100%;
+    inline-size: 250px;
+    block-size: 100%;
     margin: 0; /* reset margin for themes that define it */
     padding: 0; /* reset padding for themes that define it */
 
@@ -297,7 +296,7 @@
     font-size: 0.6875rem;
     line-height: 19px;
 
-    height: 20px;
+    block-size: 20px;
     margin: 0;
     padding: 0;
 
@@ -305,8 +304,7 @@
     text-transform: uppercase;
 
     color: white;
-    border-top: 1px solid #506a83;
-    border-bottom: 1px solid #506a83;
+    border-block: 1px solid #506a83;
     background-color: #628db6;
   }
 
@@ -326,12 +324,12 @@
   .flyout-menu__sidebar > form,
   .flyout-menu > div,
   .flyout-menu > form {
-    padding-left: 8px;
+    padding-inline-start: 8px;
   }
 
   .flyout-menu .flyout-menu__avatar {
-    margin-top: -1px; /* move avatar up 1px */
-    padding-left: 0;
+    margin-block-start: -1px; /* move avatar up 1px */
+    padding-inline-start: 0;
   }
 
   .flyout-menu__sidebar > form {
@@ -339,12 +337,13 @@
   }
 
   .flyout-menu__sidebar > form h3 {
-    margin-left: -8px;
+    margin-inline-start: -8px;
   }
 
   .flyout-menu__sidebar > form label {
     display: inline-block;
-    margin: 8px 0;
+    margin-block: 8px;
+    margin-inline: 0;
   }
 
   .flyout-menu__sidebar > form br  br {
@@ -353,19 +352,19 @@
 
   /* Targets list containing checkboxes (e.g. activities sidebar) in flyout menu */
   .flyout-menu__sidebar form > ul {
-    margin-left: -8px;
-    padding-left: 0;
+    margin-inline-start: -8px;
+    padding-inline-start: 0;
   }
 
   .flyout-menu__sidebar form > ul li {
     line-height: 39px;
     display: block;
-    padding-left: 8px;
-    border-top: 1px solid rgba(255,255,255,.1);
+    padding-inline-start: 8px;
+    border-block-start: 1px solid rgba(255,255,255,.1);
   }
 
   .flyout-menu__sidebar form > ul li:first-child {
-    border-top: none;
+    border-block-start: none;
   }
 
   .flyout-menu__sidebar form > ul li label {
@@ -375,7 +374,7 @@
   .flyout-menu__sidebar form > ul li label a {
     line-height: 1;
     display: inline;
-    padding-left: 0;
+    padding-inline-start: 0;
     border: none;
   }
 
@@ -403,7 +402,7 @@
   }
 
   #sidebar-wrapper {
-    margin-left: -8px;
+    margin-inline-start: -8px;
   }
 
   .flyout-menu #watchers ul li, .flyout-menu ul.queries li {
@@ -418,32 +417,32 @@
     -webkit-align-items: center;
     -webkit-box-align: center;
     align-items: center;
-    border-top: 1px solid rgba(255,255,255,.1);
+    border-block-start: 1px solid rgba(255,255,255,.1);
   }
 
   .flyout-menu #watchers ul li a, .flyout-menu ul.queries li a {
-    border-top: none;
+    border-block-start: none;
   }
 
   .flyout-menu ul.queries li a.icon-clear-query {
     flex-shrink: 0;
-    padding-right: 8px;
+    padding-inline-end: 8px;
   }
 
   .flyout-menu ul li a {
     line-height: 40px;
     display: block;
     overflow: hidden;
-    height: 40px;
+    block-size: 40px;
     white-space: nowrap;
     text-overflow: ellipsis;
-    border-top: 1px solid rgba(255,255,255,.1);
+    border-block-start: 1px solid rgba(255,255,255,.1);
   }
 
   .flyout-menu ul li:first-child a {
     line-height: 39px;
-    height: 39px;
-    border-top: none;
+    block-size: 39px;
+    border-block-start: none;
   }
 
   .flyout-menu a {
@@ -466,17 +465,17 @@
   /* Left flyout search container */
   .flyout-menu__search {
     line-height: 54px;
-    height: 64px;
-    padding-top: 3px;
-    padding-right: 8px;
+    block-size: 64px;
+    padding-block-start: 3px;
+    padding-inline-end: 8px;
   }
 
   .flyout-menu__search input[type='text'] {
     line-height: 2;
 
-    width: 100%;
-    height: 38px;
-    padding-left: 27px;
+    inline-size: 100%;
+    block-size: 38px;
+    padding-inline-start: 27px;
 
     vertical-align: middle;
 
@@ -490,13 +489,13 @@
     display: -webkit-box;
     display: -webkit-flex;
     display: flex;
-    width: 100%;
-    border-top: 1px solid rgba(255,255,255,.1);
+    inline-size: 100%;
+    border-block-start: 1px solid rgba(255,255,255,.1);
   }
 
   .flyout-menu__avatar img.gravatar {
-    width: 40px;
-    height: 40px;
+    inline-size: 40px;
+    block-size: 40px;
     padding: 0;
     vertical-align: top;
     border-width: 0;
@@ -504,8 +503,7 @@
 
   .flyout-menu__avatar a {
     line-height: 40px;
-    height: auto;
-    height: 40px;
+    block-size: 40px;
     text-decoration: none;
     color: white;
   }
@@ -513,13 +511,12 @@
   /* avatar */
   .flyout-menu__avatar a:first-child {
     line-height: 0;
-    width: 40px;
+    inline-size: 40px;
     padding: 0;
   }
 
   .flyout-menu__avatar .user {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-inline: 15px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -530,7 +527,7 @@
   /* user link when no avatar is present */
   .flyout-menu__avatar--no-avatar a.user {
     line-height: 40px;
-    padding-left: 8px;
+    padding-inline-start: 8px;
   }
 
   .flyout-is-active body {
@@ -542,12 +539,12 @@
   }
 
   .flyout-is-active #wrapper, .flyout-is-active #header {
-    right: 250px; /* when left flyout is active, move body and header to the right (same amount like flyout-menu's width) */
+    inset-inline-end: 250px; /* when left flyout is active, move body and header to the right (same amount like flyout-menu's width) */
   }
 
   .flyout-is-active #wrapper {
     overflow: visible;
-    height: 100%;
+    block-size: 100%;
   }
 
   .flyout-is-active .mobile-toggle-button:after {
@@ -563,11 +560,11 @@
   }
 
   #admin-menu {
-    padding-left: 0;
+    padding-inline-start: 0;
   }
 
   #admin-menu li {
-    padding-bottom: 0;
+    padding-block-end: 0;
   }
 
   #admin-menu a,
@@ -586,9 +583,9 @@
   /* Contextual Buttons */
 
   #content>.contextual {
-    width: 100%;
-    margin-bottom: .5em;
-    padding-left: 0; /* reset left padding in order to use whole space */
+    inline-size: 100%;
+    margin-block-end: .5em;
+    padding-inline-start: 0; /* reset left padding in order to use whole space */
     white-space: normal;
   }
 
@@ -600,7 +597,7 @@
     display: inline-flex;
 
     margin: 5px 0;
-    margin-right: 2px;
+    margin-inline-end: 2px;
     padding: 9px 9px 9px 9px;
 
     border: 1px solid var(--oc-gray-4);
@@ -608,13 +605,12 @@
     border-radius: 3px;
   }
   #content>.contextual .drdn-content {
-	right:initial;
-    left:0px;
-	top:40px;
+    inset-inline-start: 0px;
+    inset-inline-end: initial;
+    inset-block-start: 40px;
   }
   #content>.contextual .drdn .drdn-content a {
-    padding-top: 9px;
-    padding-bottom: 9px;
+    padding-block: 9px;
   }
 
   .flyout-menu .contextual {
@@ -623,23 +619,22 @@
 
   /* loading indicator */
   #ajax-indicator {
-    width: 60%;
-    left: 20%;
+    inline-size: 60%;
+    inset-inline-start: 20%;
   }
 
   /* jquery ui dialogs */
   .ui-dialog {
-    max-width: 98%;
+    max-inline-size: 98%;
     margin: 1%;
   }
 
   .ui-dialog .ui-dialog-content {
-    padding-left: 0;
-    padding-right: 0;
+    padding-inline: 0;
   }
 
-  #filters-table {width:100%; float:none;}
-  .add-filter {width:100%; float:none; text-align: left; margin-top: 8px;}
+  #filters-table {inline-size: 100%; float: none;}
+  .add-filter {inline-size: 100%; float: none; text-align: start; margin-block-start: 8px;}
 
   /*----------------------------------------*\
     F) PAGE SPECIFIC STYLES
@@ -650,23 +645,23 @@
     margin: 0;
   }
 
-  div#activity dl, #search-results {margin-left: 0;}
+  div#activity dl, #search-results {margin-inline-start: 0;}
 
-  .version-overview table.progress {width:75%;}
-  div#version-summary {float:none; width:100%; margin-left:0;}
-  body.controller-versions.action-show div#roadmap .related-issues {width:100%;}
+  .version-overview table.progress {inline-size: 75%;}
+  div#version-summary {float: none; inline-size: 100%; margin-inline-start: 0;}
+  body.controller-versions.action-show div#roadmap .related-issues {inline-size :100%;}
 
   /* History and Changeset */
   div#issue-changesets {
     float: none;
-    width: auto;
-    margin-left: 0;
-    padding-left: 0;
-    margin-bottom: 2em;
+    inline-size: auto;
+    margin-inline-start: 0;
+    padding-inline-start: 0;
+    margin-block-end: 2em;
   }
 
   div#issue-changesets div.changeset {
-    padding-top: 1em;
+    padding-block-start: 1em;
   }
 
   /* Gantt charts */
@@ -677,23 +672,23 @@
    * [4] maintain width due to [3]
    */
   .gantt_subjects_column {
-    width: 60% !important; /* [1] */
+    inline-size: 60% !important; /* [1] */
   }
 
   .gantt_subjects_container {
-    width: 100% !important;
+    inline-size: 100% !important;
     overflow: hidden;
   }
 
   .gantt_subjects_column .gantt_hdr {
-    width: 100% !important;
-    right: 0 !important; /* [2] */
-    border-right: solid 1px var(--oc-gray-4);
+    inline-size: 100% !important;
+    inset-inline-end: 0 !important; /* [2] */
+    border-inline-end: solid 1px var(--oc-gray-4);
   }
 
   #gantt_area {
-    left: -2px; /* [3] */
-    margin-right: -2px; /* [4] */
+    inset-inline-start: -2px; /* [3] */
+    margin-inline-end: -2px; /* [4] */
   }
 
   /*----------------------------------------*\
@@ -701,29 +696,29 @@
   \*----------------------------------------*/
 
   input, select, textarea {
-    max-width: 100%;
+    max-inline-size: 100%;
   }
 
   /* tabular forms resets for mobile */
   .tabular p, .tabular.settings p {
-    padding-left: 0;
+    padding-inline-start: 0;
   }
 
   .tabular label, .tabular.settings label {
     display: block;
-    width: 100%;
-    margin-left: 0;
-    text-align: left;
+    inline-size: 100%;
+    margin-inline-start: 0;
+    text-align: start;
   }
 
   .tabular input, .tabular select, .tabular textarea {
-    width: 100%;
-    max-width: 100%;
+    inline-size: 100%;
+    max-inline-size: 100%;
   }
 
   .tabular input[type="checkbox"], .tabular input.date {
-    width: auto;
-    max-width: 95%;
+    inline-size: auto;
+    max-inline-size: 95%;
   }
 
   /* new issue form */
@@ -732,7 +727,7 @@
   }
 
   #all_attributes #issue_tracker_id {
-    width: 90%;
+    inline-size: 90%;
   }
 
   #issue_is_private_label {
@@ -740,7 +735,7 @@
   }
 
   span#watchers_inputs {
-    width: 100%;
+    inline-size: 100%;
   }
 
   /* issue edit form */
@@ -750,8 +745,8 @@
 
   /* issues page */
   body.controller-issues p.query-totals {
-    margin-top: 0px;
-    text-align: left;
+    margin-block-start: 0;
+    text-align: start;
   }
 
   /* subtasks and related issues list on issue show (without headers) */
@@ -764,24 +759,24 @@
   #issue_tree:not(.with-related-issues-table-headers) .issue > td:not(.checkbox),
   #relations:not(.with-related-issues-table-headers) .issue > td:not(.checkbox) {
     display: block;
-    float: left;
-    text-align: left;
-    padding-right: 5px;
+    float: inline-start;
+    text-align: start;
+    padding-inline-end: 5px;
   }
 
   #issue_tree:not(.with-related-issues-table-headers) .issue > td.subject,
   #relations:not(.with-related-issues-table-headers) .issue > td.subject {
-    width: 100%; /* let subject have one full width column */
+    inline-size: 100%; /* let subject have one full width column */
   }
 
   #issue_tree:not(.with-related-issues-table-headers) .issue:has(.buttons a) > td.subject,
   #relations:not(.with-related-issues-table-headers) .issue:has(.buttons a) > td.subject {
-    padding-right: 40px;
+    padding-inline-end: 40px;
   }
 
   #issue_tree:not(.with-related-issues-table-headers) .issue > td:not(.subject),
   #relations:not(.with-related-issues-table-headers) .issue > td:not(.subject) {
-    width: 20%; /* three columns for all cells that are not subject */
+    inline-size: 20%; /* three columns for all cells that are not subject */
   }
 
   #issue_tree:not(.with-related-issues-table-headers) table.issues, #issue_tree:not(.with-related-issues-table-headers) .issue,
@@ -792,11 +787,11 @@
   /* positioniong of unline button */
   #issue_tree:not(.with-related-issues-table-headers) .issue > td.buttons,
   #relations:not(.with-related-issues-table-headers) .issue > td.buttons {
-    text-align: right;
+    text-align: end;
     position: absolute;
-    right: 0;
+    inset-inline-end: 0;
     margin: 0;
-    padding-right: 0;
+    padding-inline-end: 0;
   }
 
   #issue_tree:not(.with-related-issues-table-headers) .issue .buttons a,
@@ -812,25 +807,25 @@
 
   #issue_tree.with-related-issues-table-headers .issue > td.subject,
   #relations.with-related-issues-table-headers .issue > td.subject {
-    min-width: 15rem;
+    min-inline-size: 15rem;
   }
 
   /* attachment upload form */
   .attachments_fields span {
     position: relative;
     clear: both;
-    margin-bottom: 1em;
+    margin-block-end: 1em;
     white-space: normal;
   }
   .attachments_fields span a.remove-upload {
     position: absolute;
-    top: 0;
-    right: 0;
+    inset-block-start: 0;
+    inset-inline-end: 0;
   }
 
   .attachments_fields input.description {
-    margin-left: 0;
-    width: 100%;
+    margin-inline-start: 0;
+    inline-size: 100%;
   }
 
   /* Calendar */
@@ -842,7 +837,7 @@
   }
 
   .cal .calbody {
-    min-height: calc(1.2em * 3);
+    min-block-size: calc(1.2em * 3);
   }
 
   .cal .calbody .abbr-day {
@@ -851,7 +846,7 @@
 
   .cal .week-number {
     border: 1px solid var(--oc-gray-4);
-    text-align: left;
+    text-align: start;
     font-weight: bold;
     background-color: var(--oc-blue-0);
   }
@@ -862,13 +857,13 @@
 
   .cal .calbody p.day-num {
     font-size: 1.1em;
-    text-align: left;
+    text-align: start;
   }
 
   /* Sticky issue header */
   /* When project-jump.drdn is visible in mobile layout, offset the sticky header by its height to prevent it from being hidden. */
   div#sticky-issue-header {
-    top: 64px;
+    inset-block-start: 64px;
   }
 
   /* Prevent content from being hidden behind #sticky-issue-header and project-jump when scrolling via anchor links. */
@@ -876,7 +871,7 @@
   .controller-issues.action-show #history div[id^="note-"],
   .controller-issues.action-show #history div[id^="change-"],
   .controller-issues.action-show #update {
-    scroll-margin-top: 114px;
+    scroll-margin-block-start: 114px;
   }
 }
 
@@ -885,10 +880,10 @@
   .pagination ul.pages li {display:none;}
   .pagination ul.pages li.current,
   .pagination ul.pages li.previous,
-  .pagination ul.pages li.next {display:inline-block; width:32%; overflow:hidden;}
+  .pagination ul.pages li.next {display: inline-block; inline-size: 32%; overflow: hidden;}
 
-  #login-form {width:100%; margin-top:2em;}
+  #login-form {inline-size: 100%; margin-block-start: 2em;}
 
-  #filters-table .filter .field, #list-definition > div .field { width: 100%; }
-  #filters-table .values { width: auto; max-width: 100%; }
+  #filters-table .filter .field, #list-definition > div .field { inline-size: 100%; }
+  #filters-table .values { inline-size: auto; max-inline-size: 100%; }
 }
