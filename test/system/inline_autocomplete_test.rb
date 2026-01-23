@@ -237,4 +237,20 @@ class InlineAutocompleteSystemTest < ApplicationSystemTestCase
 
     assert_equal '@jsmith ', find('#issue_notes').value
   end
+
+  def test_inline_autocomplete_for_users_should_escape_html_elements
+    user = User.find(2)
+    user.update!(firstname: 'My <select>')
+
+    log_user(user.login, 'jsmith')
+    visit '/issues/1/edit'
+
+    find('#issue_notes').click
+    fill_in 'issue[notes]', :with => '@My'
+
+    assert_selector '.tribute-container li', count: 1
+    within('.tribute-container') do
+      assert page.has_text? 'My <select> Smith'
+    end
+  end
 end
