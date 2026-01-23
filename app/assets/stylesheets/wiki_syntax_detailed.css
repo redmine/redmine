@@ -39,12 +39,13 @@
 body { font-family: var(--fonts-main); font-size: 0.875rem; color: var(--oc-gray-9); line-height: 1.6;}
 pre, code { font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace; }
 pre {
-    margin: 1em 1em 1em 1.6em;
+    margin-block: 1em;
+    margin-inline: 1.6em 1em;
     padding: 8px;
     background-color: var(--oc-gray-0);
     border: 1px solid var(--oc-gray-4);
     border-radius: 3px;
-    width: auto;
+    inline-size: auto;
     overflow-x: auto;
     overflow-y: hidden;
     line-height: normal;
@@ -53,8 +54,8 @@ a, a:link, a:visited{ color: var(--oc-blue-9); text-decoration: none; }
 a:hover, a:active{ color: var(--oc-red-9); text-decoration: underline;}
 a.new { color: var(--oc-red-9); }
 
-table.sample { border-collapse: collapse; border-spacing: 0; margin: 4px; margin-left: 30px;}
-table.sample th, table.sample td { border: solid 1px var(--oc-gray-5); padding: 4px; height: 1em; }
+table.sample { border-collapse: collapse; border-spacing: 0; margin: 4px; margin-inline-start: 30px;}
+table.sample th, table.sample td { border: solid 1px var(--oc-gray-5); padding: 4px; block-size: 1em; }
 table.list td { background-color: var(--oc-gray-0); vertical-align: middle; padding: 0.3em;}
 
 .syntaxhl .c1 { color: #888888 }
