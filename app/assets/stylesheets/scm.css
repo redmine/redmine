@@ -5,8 +5,8 @@
  */
 
 table.entries a {
-  padding-top: 2px;
-  padding-bottom: 2px;
+    padding-block-start: 2px;
+    padding-block-end: 2px;
 }
 
 table.revision-info td {
@@ -14,17 +14,16 @@ table.revision-info td {
     padding: 0px;
 }
 
-div.revision-graph { position: absolute; min-width: 1px; }
+div.revision-graph { position: absolute; min-inline-size: 1px; }
 
 div.changeset-changes ul { margin: 0; padding: 0; }
-div.changeset-changes ul > ul { margin-left: 18px; padding: 0; }
+div.changeset-changes ul > ul { margin-inline-start: 18px; padding: 0; }
 
-div.changeset-changes ul:first-child > li {padding-left: 0}
+div.changeset-changes ul:first-child > li {padding-inline-start: 0}
 li.change {
     list-style-type:none;
-    padding-top: 1px;
-    padding-bottom: 1px;
-    padding-left: 20px;
+    padding-block: 1px;
+    padding-inline-start: 20px;
     margin: 0;
 }
 li.change.folder.change-A { background-image: url(/folder_open_add.png); }
@@ -54,20 +53,22 @@ li.change.change-D svg.icon-svg {
 li.change .copied-from { font-style: italic; color: var(--oc-gray-6); font-size: 0.9em; }
 li.change .copied-from:before { content: " - "}
 
-#changes-legend { float: right; font-size: 0.75rem; margin: 0; }
-#changes-legend li { float: left; background-position: 5px 1px; }
+#changes-legend { float: inline-end; font-size: 0.75rem; margin: 0; }
+#changes-legend li { float: inline-start; background-position: 5px 1px; }
+[dir="rtl"] #changes-legend li { background-position: right 5px top 1px; }
 
-table.filecontent { border: 1px solid var(--oc-gray-4);  border-collapse: collapse; width:98%; background-color: var(--oc-gray-0); }
+table.filecontent { border: 1px solid var(--oc-gray-4);  border-collapse: collapse; inline-size: 98%; background-color: var(--oc-gray-0); }
 table.filecontent tbody {font-family:Consolas, Menlo, "Liberation Mono", Courier, monospace; font-size:0.75rem;}
 table.filecontent th { border: 1px solid var(--oc-gray-4); background-color: var(--oc-gray-1); }
-table.filecontent th.filename { background-color: var(--oc-gray-2); text-align: left; padding:5px;}
+table.filecontent th.filename { background-color: var(--oc-gray-2); text-align: start; padding: 5px;}
 table.filecontent tr.spacing th { text-align:center; }
-table.filecontent tr.spacing td { height: 0.4em; background: rgba(var(--oc-blue-1-rgb), 0.3);}
+table.filecontent tr.spacing td { block-size: 0.4em; background: rgba(var(--oc-blue-1-rgb), 0.3);}
 table.filecontent th.line-num {
     border: 1px solid var(--oc-gray-4);
-    text-align: right;
-    width: 2%;
-    padding: 0 3px 0 0;
+    text-align: end;
+    inline-size: 2%;
+    padding-block: 0;
+    padding-inline: 0 3px;
     color: var(--oc-gray-6);
     user-select: none;
     -moz-user-select: none;
@@ -86,7 +87,10 @@ table.filecontent th.line-num a:after {
 table.diffcontent th.line-num:after {
     content:  attr(data-txt);
 }
-table.filecontent td.line-code {padding: 0 0 0 4px;}
+table.filecontent td.line-code {
+    padding-block: 0;
+    padding-inline: 4px 0;
+}
 table.filecontent td.line-code pre, table.filecontent td.line-code div {
     margin: 0px;
     white-space: pre-wrap;
@@ -96,32 +100,32 @@ table.filecontent td.line-code pre, table.filecontent td.line-code div {
 table.filecontent tr:target th.line-num { background-color:var(--oc-gray-3); color: var(--oc-gray-6); }
 table.filecontent tr:target td.line-code { background-color:var(--oc-blue-0); }
 
-img.filecontent, video.filecontent { max-width: 100%; }
+img.filecontent, video.filecontent { max-inline-size: 100%; }
 
 .previous-filename {
   font-weight: normal;
 }
 
 /* 12 different colors for the annonate view */
-table.annotate tr.bloc-0 td.line-code {border-left-color: var(--oc-yellow-1);}
-table.annotate tr.bloc-1 td.line-code {border-left-color: var(--oc-grape-2);}
-table.annotate tr.bloc-2 td.line-code {border-left-color: var(--oc-cyan-1);}
-table.annotate tr.bloc-3 td.line-code {border-left-color: var(--oc-orange-2);}
-table.annotate tr.bloc-4 td.line-code {border-left-color: var(--oc-lime-2);}
-table.annotate tr.bloc-5 td.line-code {border-left-color: var(--oc-indigo-2);}
-table.annotate tr.bloc-6 td.line-code {border-left-color: var(--oc-pink-2);}
-table.annotate tr.bloc-7 td.line-code {border-left-color: var(--oc-violet-1);}
-table.annotate tr.bloc-8 td.line-code {border-left-color: var(--oc-green-2);}
-table.annotate tr.bloc-9 td.line-code {border-left-color: var(--oc-violet-3);}
-table.annotate tr.bloc-10 td.line-code {border-left-color: var(--oc-red-3);}
-table.annotate tr.bloc-11 td.line-code {border-left-color: var(--oc-blue-2);}
-table.annotate tr.bloc-change {border-top:1px solid var(--oc-gray-3);}
+table.annotate tr.bloc-0 td.line-code {border-inline-start-color: var(--oc-yellow-1);}
+table.annotate tr.bloc-1 td.line-code {border-inline-start-color: var(--oc-grape-2);}
+table.annotate tr.bloc-2 td.line-code {border-inline-start-color: var(--oc-cyan-1);}
+table.annotate tr.bloc-3 td.line-code {border-inline-start-color: var(--oc-orange-2);}
+table.annotate tr.bloc-4 td.line-code {border-inline-start-color: var(--oc-lime-2);}
+table.annotate tr.bloc-5 td.line-code {border-inline-start-color: var(--oc-indigo-2);}
+table.annotate tr.bloc-6 td.line-code {border-inline-start-color: var(--oc-pink-2);}
+table.annotate tr.bloc-7 td.line-code {border-inline-start-color: var(--oc-violet-1);}
+table.annotate tr.bloc-8 td.line-code {border-inline-start-color: var(--oc-green-2);}
+table.annotate tr.bloc-9 td.line-code {border-inline-start-color: var(--oc-violet-3);}
+table.annotate tr.bloc-10 td.line-code {border-inline-start-color: var(--oc-red-3);}
+table.annotate tr.bloc-11 td.line-code {border-inline-start-color: var(--oc-blue-2);}
+table.annotate tr.bloc-change {border-block-start: 1px solid var(--oc-gray-3);} 
 
 table.annotate td.revision {
     padding:0;
     text-align: center;
-    width: 2%;
-    padding-left: 1em;
+    inline-size: 2%;
+    padding-inline-start: 1em;
     background: inherit;
 }
 
@@ -129,22 +133,21 @@ table.annotate td.author {
     padding:0;
     text-align: center;
     white-space: nowrap;
-    padding-left: 1em;
-    padding-right: 1em;
-    width: 3%;
+    padding-inline: 1em;
+    inline-size: 3%;
     background: inherit;
 }
 
 table.annotate td.previous {
     padding: 0;
     text-align: center;
-    width: 1%;
+    inline-size: 1%;
     background: inherit;
 }
 
 table.annotate td.line-code {
     background-color: var(--oc-gray-0);
-    border-left: 6px solid var(--oc-gray-3);
+    border-inline-start: 6px solid var(--oc-gray-3);
 }
 
 .breadcrumbs>.separator::before, .breadcrumbs>.separator::after {
