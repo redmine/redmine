@@ -55,6 +55,7 @@ module Redmine
       SANITIZER = SanitizationFilter.new
       SCRUBBERS = [
         SyntaxHighlightScrubber.new,
+        Redmine::WikiFormatting::TablesortScrubber.new,
         FixupAutoLinksScrubber.new,
         ExternalLinksScrubber.new,
         AlertsIconsScrubber.new

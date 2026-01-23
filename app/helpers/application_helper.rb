@@ -1801,9 +1801,6 @@ module ApplicationHelper
       'rails-ujs',
       'tribute-5.1.3.min'
     )
-    if Setting.wiki_tablesort_enabled?
-      tags << javascript_include_tag('tablesort-5.2.1.min.js', 'tablesort-5.2.1.number.min.js')
-    end
     tags << javascript_include_tag('application-legacy', 'responsive')
     unless User.current.pref.warn_on_leaving_unsaved == '0'
       warn_text = escape_javascript(l(:text_warn_on_leaving_unsaved))

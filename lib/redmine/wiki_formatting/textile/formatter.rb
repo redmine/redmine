@@ -20,10 +20,32 @@
 module Redmine
   module WikiFormatting
     module Textile
-      class Formatter < RedCloth3
-        include ActionView::Helpers::TagHelper
-        include Redmine::WikiFormatting::LinksHelper
+      SCRUBBERS = [
+        Redmine::WikiFormatting::TablesortScrubber.new
+      ]
+
+      class Formatter
         include Redmine::WikiFormatting::SectionHelper
+
+        extend Forwardable
+        def_delegators :@filter, :extract_sections, :rip_offtags
+
+        def initialize(args)
+          @filter = Filter.new(args)
+        end
+
+        def to_html(*rules)
+          html = @filter.to_html(rules)
+          fragment = Loofah.html5_fragment(html)
+          SCRUBBERS.each do |scrubber|
+            fragment.scrub!(scrubber)
+          end
+          fragment.to_s
+        end
+      end
+
+      class Filter < RedCloth3
+        include Redmine::WikiFormatting::LinksHelper
 
         alias :inline_auto_link :auto_link!
         alias :inline_auto_mailto :auto_mailto!
@@ -41,7 +63,7 @@ module Redmine
 
         def to_html(*rules)
           @toc = []
-          super(*RULES).to_s
+          super(*RULES)
         end
 
         def extract_sections(index)

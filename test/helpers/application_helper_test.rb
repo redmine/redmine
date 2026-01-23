@@ -80,7 +80,7 @@ class ApplicationHelperTest < Redmine::HelperTest
         '(see <a href="http://www.foo.bar/Test" class="external">inline link</a>).',
       'www.foo.bar' => '<a class="external" href="http://www.foo.bar">www.foo.bar</a>',
       'http://foo.bar/page?p=1&t=z&s=' =>
-        '<a class="external" href="http://foo.bar/page?p=1&#38;t=z&#38;s=">http://foo.bar/page?p=1&#38;t=z&#38;s=</a>',
+        '<a class="external" href="http://foo.bar/page?p=1&amp;t=z&amp;s=">http://foo.bar/page?p=1&amp;t=z&amp;s=</a>',
       'http://foo.bar/page#125' => '<a class="external" href="http://foo.bar/page#125">http://foo.bar/page#125</a>',
       'http://foo@www.bar.com' => '<a class="external" href="http://foo@www.bar.com">http://foo@www.bar.com</a>',
       'http://foo:bar@www.bar.com' => '<a class="external" href="http://foo:bar@www.bar.com">http://foo:bar@www.bar.com</a>',
@@ -92,7 +92,7 @@ class ApplicationHelperTest < Redmine::HelperTest
          '<a class="external" href="http://example.net/path!602815048C7B5C20!302.html">' \
            'http://example.net/path!602815048C7B5C20!302.html</a>',
       # escaping
-      'http://foo"bar' => '<a class="external" href="http://foo&quot;bar">http://foo&quot;bar</a>',
+      'http://foo"bar' => '<a class="external" href="http://foo&quot;bar">http://foo"bar</a>',
       # wrap in angle brackets
       '<http://foo.bar>' => '&lt;<a class="external" href="http://foo.bar">http://foo.bar</a>&gt;',
       # invalid urls
@@ -130,22 +130,22 @@ class ApplicationHelperTest < Redmine::HelperTest
 
   def test_inline_images
     to_test = {
-      '!http://foo.bar/image.jpg!' => '<img src="http://foo.bar/image.jpg" alt="" />',
+      '!http://foo.bar/image.jpg!' => '<img src="http://foo.bar/image.jpg" alt="">',
       'floating !>http://foo.bar/image.jpg!' =>
-         'floating <span style="float:right"><img src="http://foo.bar/image.jpg" alt="" /></span>',
+         'floating <span style="float:right"><img src="http://foo.bar/image.jpg" alt=""></span>',
       'with class !(some-class)http://foo.bar/image.jpg!' =>
-         'with class <img src="http://foo.bar/image.jpg" class="wiki-class-some-class" alt="" />',
+         'with class <img src="http://foo.bar/image.jpg" class="wiki-class-some-class" alt="">',
       'with class !(wiki-class-foo)http://foo.bar/image.jpg!' =>
-         'with class <img src="http://foo.bar/image.jpg" class="wiki-class-foo" alt="" />',
+         'with class <img src="http://foo.bar/image.jpg" class="wiki-class-foo" alt="">',
       'with style !{width:100px;height:100px}http://foo.bar/image.jpg!' =>
-         'with style <img src="http://foo.bar/image.jpg" style="width:100px;height:100px;" alt="" />',
+         'with style <img src="http://foo.bar/image.jpg" style="width:100px;height:100px;" alt="">',
       'with title !http://foo.bar/image.jpg(This is a title)!' =>
-         'with title <img src="http://foo.bar/image.jpg" title="This is a title" alt="This is a title" />',
+         'with title <img src="http://foo.bar/image.jpg" title="This is a title" alt="This is a title">',
       'with title !http://foo.bar/image.jpg(This is a double-quoted "title")!' =>
         'with title <img src="http://foo.bar/image.jpg" title="This is a double-quoted &quot;title&quot;" ' \
-          'alt="This is a double-quoted &quot;title&quot;" />',
+          'alt="This is a double-quoted &quot;title&quot;">',
       'with query string !http://foo.bar/image.cgi?a=1&b=2!' =>
-        'with query string <img src="http://foo.bar/image.cgi?a=1&#38;b=2" alt="" />'
+        'with query string <img src="http://foo.bar/image.cgi?a=1&amp;b=2" alt="">'
     }
     with_settings :text_formatting => 'textile' do
       to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text)}
@@ -161,24 +161,24 @@ class ApplicationHelperTest < Redmine::HelperTest
       p=. !bar.gif!
     RAW
     with_settings :text_formatting => 'textile' do
-      assert textilizable(raw).include?('<img src="foo.png" alt="" />')
-      assert textilizable(raw).include?('<img src="bar.gif" alt="" />')
+      assert textilizable(raw).include?('<img src="foo.png" alt="">')
+      assert textilizable(raw).include?('<img src="bar.gif" alt="">')
     end
   end
 
   def test_attached_images
     to_test = {
       'Inline image: !logo.gif!' =>
-         'Inline image: <img src="/attachments/download/3/logo.gif" title="This is a logo" alt="This is a logo" loading="lazy" />',
+         'Inline image: <img src="/attachments/download/3/logo.gif" title="This is a logo" alt="This is a logo" loading="lazy">',
       'Inline image: !logo.GIF!' =>
-         'Inline image: <img src="/attachments/download/3/logo.gif" title="This is a logo" alt="This is a logo" loading="lazy" />',
+         'Inline image: <img src="/attachments/download/3/logo.gif" title="This is a logo" alt="This is a logo" loading="lazy">',
       'Inline WebP image: !logo.webp!' =>
-         'Inline WebP image: <img src="/attachments/download/24/logo.webp" title="WebP image" alt="WebP image" loading="lazy" />',
-      'No match: !ogo.gif!' => 'No match: <img src="ogo.gif" alt="" />',
-      'No match: !ogo.GIF!' => 'No match: <img src="ogo.GIF" alt="" />',
+         'Inline WebP image: <img src="/attachments/download/24/logo.webp" title="WebP image" alt="WebP image" loading="lazy">',
+      'No match: !ogo.gif!' => 'No match: <img src="ogo.gif" alt="">',
+      'No match: !ogo.GIF!' => 'No match: <img src="ogo.GIF" alt="">',
       # link image
       '!logo.gif!:http://foo.bar/' =>
-         '<a href="http://foo.bar/"><img src="/attachments/download/3/logo.gif" title="This is a logo" alt="This is a logo" loading="lazy" /></a>',
+         '<a href="http://foo.bar/"><img src="/attachments/download/3/logo.gif" title="This is a logo" alt="This is a logo" loading="lazy"></a>',
     }
     attachments = Attachment.all
     with_settings :text_formatting => 'textile' do
@@ -190,31 +190,31 @@ class ApplicationHelperTest < Redmine::HelperTest
     attachments = Attachment.all
     with_settings text_formatting: 'textile' do
       # When alt text is set
-      assert_match %r[<img src=".+?" title="alt text" alt="alt text" loading=".+?" />],
+      assert_match %r[<img src=".+?" title="alt text" alt="alt text" loading=".+?">],
         textilizable('!logo.gif(alt text)!', attachments: attachments)
 
       # When alt text and style are set
-      assert_match %r[<img src=".+?" title="alt text" alt="alt text" loading=".+?" style="width:100px;" />],
+      assert_match %r[<img src=".+?" title="alt text" alt="alt text" loading=".+?" style="width:100px;">],
         textilizable('!{width:100px}logo.gif(alt text)!', attachments: attachments)
 
       # When alt text is not set
-      assert_match %r[<img src=".+?" title="This is a logo" alt="This is a logo" loading=".+?" />],
+      assert_match %r[<img src=".+?" title="This is a logo" alt="This is a logo" loading=".+?">],
         textilizable('!logo.gif!', attachments: attachments)
 
       # When alt text is not set and the attachment has no description
-      assert_match %r[<img src=".+?" alt="" loading=".+?" />],
+      assert_match %r[<img src=".+?" alt="" loading=".+?">],
         textilizable('!testfile.PNG!', attachments: attachments)
 
       # When no matching attachments are found
-      assert_match %r[<img src=".+?" alt="" />],
+      assert_match %r[<img src=".+?" alt="">],
         textilizable('!no-match.jpg!', attachments: attachments)
-      assert_match %r[<img src=".+?" alt="alt text" />],
+      assert_match %r[<img src=".+?" alt="alt text">],
         textilizable('!no-match.jpg(alt text)!', attachments: attachments)
 
       # When no attachment is registered
-      assert_match %r[<img src=".+?" alt="" />],
+      assert_match %r[<img src=".+?" alt="">],
         textilizable('!logo.gif!', attachments: [])
-      assert_match %r[<img src=".+?" alt="alt text" />],
+      assert_match %r[<img src=".+?" alt="alt text">],
         textilizable('!logo.gif(alt text)!', attachments: [])
     end
   end
@@ -232,8 +232,8 @@ class ApplicationHelperTest < Redmine::HelperTest
     RAW
 
     with_settings :text_formatting => 'textile' do
-      assert textilizable(raw, :object => journal).include?("<img src=\"/attachments/download/#{attachment_1.id}/attached_on_issue.png\" alt=\"\" loading=\"lazy\" />")
-      assert textilizable(raw, :object => journal).include?("<img src=\"/attachments/download/#{attachment_2.id}/attached_on_journal.png\" alt=\"\" loading=\"lazy\" />")
+      assert textilizable(raw, :object => journal).include?("<img src=\"/attachments/download/#{attachment_1.id}/attached_on_issue.png\" alt=\"\" loading=\"lazy\">")
+      assert textilizable(raw, :object => journal).include?("<img src=\"/attachments/download/#{attachment_2.id}/attached_on_journal.png\" alt=\"\" loading=\"lazy\">")
     end
   end
 
@@ -245,7 +245,7 @@ class ApplicationHelperTest < Redmine::HelperTest
     with_settings :text_formatting => 'textile' do
       to_test.each do |filename, result|
         attachment = Attachment.generate!(:filename => filename)
-        assert_include %(<img src="/attachments/download/#{attachment.id}/#{result}" alt="" loading="lazy" />),
+        assert_include %(<img src="/attachments/download/#{attachment.id}/#{result}" alt="" loading="lazy">),
                        textilizable("!#{filename}!", :attachments => [attachment])
       end
     end
@@ -272,7 +272,7 @@ class ApplicationHelperTest < Redmine::HelperTest
     with_settings :text_formatting => 'textile' do
       assert_equal(
         %(<p><img src="/attachments/download/#{attachment.id}/image@2x.png" ) +
-          %(srcset="/attachments/download/#{attachment.id}/image@2x.png 2x" alt="" loading="lazy" /></p>),
+          %(srcset="/attachments/download/#{attachment.id}/image@2x.png 2x" alt="" loading="lazy"></p>),
         textilizable("!image@2x.png!", :attachments => [attachment])
       )
     end
@@ -325,13 +325,13 @@ class ApplicationHelperTest < Redmine::HelperTest
 
     to_test = {
       'Inline image: !testtest.jpg!' =>
-        'Inline image: <img src="/attachments/download/' + a1.id.to_s + '/testtest.JPG" alt="" loading="lazy" />',
+        'Inline image: <img src="/attachments/download/' + a1.id.to_s + '/testtest.JPG" alt="" loading="lazy">',
       'Inline image: !testtest.jpeg!' =>
-        'Inline image: <img src="/attachments/download/' + a2.id.to_s + '/testtest.jpeg" alt="" loading="lazy" />',
+        'Inline image: <img src="/attachments/download/' + a2.id.to_s + '/testtest.jpeg" alt="" loading="lazy">',
       'Inline image: !testtest.jpe!' =>
-        'Inline image: <img src="/attachments/download/' + a3.id.to_s + '/testtest.JPE" alt="" loading="lazy" />',
+        'Inline image: <img src="/attachments/download/' + a3.id.to_s + '/testtest.JPE" alt="" loading="lazy">',
       'Inline image: !testtest.bmp!' =>
-        'Inline image: <img src="/attachments/download/' + a4.id.to_s + '/Testtest.BMP" alt="" loading="lazy" />',
+        'Inline image: <img src="/attachments/download/' + a4.id.to_s + '/Testtest.BMP" alt="" loading="lazy">',
     }
 
     attachments = [a1, a2, a3, a4]
@@ -356,9 +356,9 @@ class ApplicationHelperTest < Redmine::HelperTest
 
     to_test = {
       'Inline image: !testfile.png!' =>
-        'Inline image: <img src="/attachments/download/' + a2.id.to_s + '/testfile.PNG" alt="" loading="lazy" />',
+        'Inline image: <img src="/attachments/download/' + a2.id.to_s + '/testfile.PNG" alt="" loading="lazy">',
       'Inline image: !Testfile.PNG!' =>
-        'Inline image: <img src="/attachments/download/' + a2.id.to_s + '/testfile.PNG" alt="" loading="lazy" />',
+        'Inline image: <img src="/attachments/download/' + a2.id.to_s + '/testfile.PNG" alt="" loading="lazy">',
     }
     attachments = [a1, a2]
     with_settings :text_formatting => 'textile' do
@@ -378,7 +378,7 @@ class ApplicationHelperTest < Redmine::HelperTest
       "This is not a \"Link\":\n\nAnother paragraph" => "This is not a \"Link\":</p>\n\n\n\t<p>Another paragraph",
       # no multiline link text
       "This is a double quote \"on the first line\nand another on a second line\":test" =>
-        "This is a double quote \"on the first line<br />and another on a second line\":test",
+        "This is a double quote \"on the first line<br>and another on a second line\":test",
       # mailto link
       "\"system administrator\":mailto:sysadmin@example.com?subject=redmine%20permissions" =>
         "<a href=\"mailto:sysadmin@example.com?subject=redmine%20permissions\">system administrator</a>",
@@ -391,7 +391,7 @@ class ApplicationHelperTest < Redmine::HelperTest
       '(see "inline link":http://www.foo.bar/Test-)' =>
         '(see <a href="http://www.foo.bar/Test-" class="external">inline link</a>)',
       'http://foo.bar/page?p=1&t=z&s=-' =>
-        '<a class="external" href="http://foo.bar/page?p=1&#38;t=z&#38;s=-">http://foo.bar/page?p=1&#38;t=z&#38;s=-</a>',
+        '<a class="external" href="http://foo.bar/page?p=1&amp;t=z&amp;s=-">http://foo.bar/page?p=1&amp;t=z&amp;s=-</a>',
       'This is an intern "link":/foo/bar-' => 'This is an intern <a href="/foo/bar-">link</a>'
     }
     with_settings :text_formatting => 'textile' do
@@ -1317,10 +1317,10 @@ class ApplicationHelperTest < Redmine::HelperTest
   def test_html_tags
     to_test = {
       "<div>content</div>" => "<p>&lt;div&gt;content&lt;/div&gt;</p>",
-      "<div class=\"bold\">content</div>" => "<p>&lt;div class=&quot;bold&quot;&gt;content&lt;/div&gt;</p>",
+      "<div class=\"bold\">content</div>" => "<p>&lt;div class=\"bold\"&gt;content&lt;/div&gt;</p>",
       "<script>some script;</script>" => "<p>&lt;script&gt;some script;&lt;/script&gt;</p>",
       # do not escape pre/code tags
-      "<pre>\nline 1\nline2</pre>" => "<pre>\nline 1\nline2</pre>",
+      "<pre>\nline 1\nline2</pre>" => "<pre>line 1\nline2</pre>",
       "<pre><code>\nline 1\nline2</code></pre>" => "<pre><code>\nline 1\nline2</code></pre>",
       "<pre><div class=\"foo\">content</div></pre>" => "<pre>&lt;div class=\"foo\"&gt;content&lt;/div&gt;</pre>",
       "<pre><div class=\"<foo\">content</div></pre>" => "<pre>&lt;div class=\"&lt;foo\"&gt;content&lt;/div&gt;</pre>",
@@ -1477,7 +1477,7 @@ class ApplicationHelperTest < Redmine::HelperTest
                "</tr><tr><td>Cell 21</td><td>#{link3}</td></tr>"
     @project = Project.find(1)
     with_settings :text_formatting => 'textile' do
-      assert_equal "<table>#{result}</table>", textilizable(text).gsub(/[\t\n]/, '')
+      assert_equal "<table><tbody>#{result}</tbody></table>", textilizable(text).gsub(/[\t\n]/, '')
     end
   end
 
@@ -1498,7 +1498,7 @@ class ApplicationHelperTest < Redmine::HelperTest
 
   def test_wiki_horizontal_rule
     with_settings :text_formatting => 'textile' do
-      assert_equal '<hr />', textilizable('---')
+      assert_equal '<hr>', textilizable('---')
       assert_equal '<p>Dashes: ---</p>', textilizable('Dashes: ---')
     end
   end

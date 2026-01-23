@@ -1170,7 +1170,6 @@ $(document).ready(function(){
       data: "text=" + element + '&' + attachments,
       success: function(data){
         jstBlock.find('.wiki-preview').html(data);
-        setupWikiTableSortableHeader();
       }
     });
   });
@@ -1439,7 +1438,6 @@ $(document).ready(defaultFocus);
 $(document).ready(setupAttachmentDetail);
 $(document).ready(setupTabs);
 $(document).ready(setupFilePreviewNavigation);
-$(document).ready(setupWikiTableSortableHeader);
 $(document).on('focus', '[data-auto-complete=true]', function(event) {
   inlineAutoComplete(event.target);
 });
