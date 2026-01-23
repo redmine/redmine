@@ -313,14 +313,14 @@ function addInlineAttachmentMarkup(file) {
           + (newLineAfter ? '\n' : '')
           + description.substring(cursorPosition, description.length)
         );
-      })
 
-    // move cursor into next line
-    cursorPosition = $textarea.prop('selectionStart');
-    $textarea.prop({
-      'selectionStart': cursorPosition + 1,
-      'selectionEnd': cursorPosition + 1
-    });
+        // Move cursor after the inserted markup
+        var newCursorPosition = cursorPosition + (newLineBefore ? 1 : 0) + imageMarkup.length;
+        $textarea.prop({
+          'selectionStart': newCursorPosition + 1,
+          'selectionEnd': newCursorPosition + 1
+        });
+      });
 
   }
 }
