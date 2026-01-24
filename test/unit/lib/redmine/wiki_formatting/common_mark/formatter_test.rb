@@ -19,10 +19,11 @@
 
 require_relative '../../../../../test_helper'
 
-class Redmine::WikiFormatting::CommonMark::FormatterTest < ActionView::TestCase
+class Redmine::WikiFormatting::CommonMark::FormatterTest < Redmine::HelperTest
   if Object.const_defined?(:Commonmarker)
 
     def setup
+      super
       @formatter = Redmine::WikiFormatting::CommonMark::Formatter
     end
 

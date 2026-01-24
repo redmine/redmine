@@ -20,8 +20,11 @@
 
 require_relative '../../../../test_helper'
 
-class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
+class Redmine::WikiFormatting::TextileFormatterTest < Redmine::HelperTest
+  include IconsHelper
+
   def setup
+    super
     @formatter = Redmine::WikiFormatting::Textile::Formatter
   end
 
@@ -824,8 +827,10 @@ class Redmine::WikiFormatting::TextileFormatterTest < ActionView::TestCase
   end
 
   def pre_wrapper(text)
-    '<div class="pre-wrapper" data-controller="clipboard"><a class="copy-pre-content-link icon-only" data-action="clipboard#copyPre">' +
-    '<svg class="s18 icon-svg" aria-hidden="true"><use href="/assets/icons-34cfafab.svg#icon--copy-pre-content"></use></svg></a>' +
+    icon = sprite_icon('copy-pre-content', size: 18)
+    button_copy = l(:button_copy)
+    '<div class="pre-wrapper" data-controller="clipboard"><a class="copy-pre-content-link icon-only" title="' + button_copy + '" data-action="clipboard#copyPre">' +
+    icon + '</a>' +
     text +
     '</div>'
   end
