@@ -22,7 +22,6 @@ require_relative '../test_helper'
 class ApplicationHelperTest < Redmine::HelperTest
   include ERB::Util
   include AvatarsHelper
-  include IconsHelper
 
   def setup
     super
@@ -2429,14 +2428,5 @@ class ApplicationHelperTest < Redmine::HelperTest
     with_settings :text_formatting => '' do
       assert_equal({}, list_autofill_data_attributes)
     end
-  end
-
-  def pre_wrapper(text)
-    icon = sprite_icon('copy-pre-content', size: 18)
-    button_copy = l(:button_copy)
-    '<div class="pre-wrapper" data-controller="clipboard"><a class="copy-pre-content-link icon-only" title="' + button_copy + '" data-action="clipboard#copyPre">' +
-    icon + '</a>' +
-    text +
-    '</div>'
   end
 end

@@ -23,7 +23,6 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::SanitizeHelper
   include ERB::Util
-  include IconsHelper
   extend ActionView::Helpers::SanitizeHelper::ClassMethods
 
   def setup
@@ -625,15 +624,6 @@ class Redmine::WikiFormatting::MacrosTest < Redmine::HelperTest
       assert_select_in result, 'ul>li:first-of-type', :text => 'Another page (1 day)'
       assert_select_in result, 'ul>li:last-of-type', :text => 'Child 1 1 (3 days)'
     end
-  end
-
-  def pre_wrapper(text)
-    icon = sprite_icon('copy-pre-content', size: 18)
-    button_copy = l(:button_copy)
-    '<div class="pre-wrapper" data-controller="clipboard"><a class="copy-pre-content-link icon-only" title="' + button_copy + '" data-action="clipboard#copyPre">' +
-    icon + '</a>' +
-    text +
-    '</div>'
   end
 
   def test_recent_pages_macro_with_project_option_should_not_disclose_private_project

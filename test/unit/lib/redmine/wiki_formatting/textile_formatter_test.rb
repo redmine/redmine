@@ -21,8 +21,6 @@
 require_relative '../../../../test_helper'
 
 class Redmine::WikiFormatting::TextileFormatterTest < Redmine::HelperTest
-  include IconsHelper
-
   def setup
     super
     @formatter = Redmine::WikiFormatting::Textile::Formatter
@@ -824,14 +822,5 @@ class Redmine::WikiFormatting::TextileFormatterTest < Redmine::HelperTest
     assert_equal 2, result.size
     assert_equal expected, result.first, "section content did not match"
     assert_equal ActiveSupport::Digest.hexdigest(expected), result.last, "section hash did not match"
-  end
-
-  def pre_wrapper(text)
-    icon = sprite_icon('copy-pre-content', size: 18)
-    button_copy = l(:button_copy)
-    '<div class="pre-wrapper" data-controller="clipboard"><a class="copy-pre-content-link icon-only" title="' + button_copy + '" data-action="clipboard#copyPre">' +
-    icon + '</a>' +
-    text +
-    '</div>'
   end
 end

@@ -342,11 +342,20 @@ module Redmine
   class HelperTest < ActionView::TestCase
     include Redmine::I18n
     include Propshaft::Helper
+    include IconsHelper
 
     def setup
       super
       User.current = nil
       ::I18n.locale = 'en'
+    end
+
+    def pre_wrapper(text)
+      icon = sprite_icon('copy-pre-content', size: 18)
+      '<div class="pre-wrapper" data-controller="clipboard"><a class="copy-pre-content-link icon-only" title="Copy" data-action="clipboard#copyPre">' +
+      icon + '</a>' +
+      text +
+      '</div>'
     end
   end
 
