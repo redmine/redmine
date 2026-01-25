@@ -243,4 +243,8 @@
 - name: hourglass
   svg: hourglass
 - name: webhook
-  svg: webhook  
+  svg: webhook
+- name: apps
+  svg: apps
+- name: shield-check
+  svg: shield-check
