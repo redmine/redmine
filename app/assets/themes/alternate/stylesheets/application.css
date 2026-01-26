@@ -18,13 +18,19 @@
 @import url(/application.css);
 
 body, #wrapper { background-color:#EEEEEE; }
-#header, #top-menu { margin: 0px 10px 0px 11px; }
-#main { background: #EEEEEE; margin: 8px 10px 0px 10px; }
-#content, #main.nosidebar #content { background: #fff; border-right: 1px solid #bbb; border-bottom: 1px solid #bbb; border-left: 1px solid #d7d7d7; border-top: 1px solid #d7d7d7; }
+#header, #top-menu { margin-block: 0px 0px; margin-inline: 11px 10px; }
+#main { background: #EEEEEE; margin-block: 8px 0px; margin-inline: 10px 10px; }
+#content, #main.nosidebar #content {
+  background: #fff;
+  border-block-start: 1px solid #d7d7d7;
+  border-block-end: 1px solid #bbb;
+  border-inline-start: 1px solid #d7d7d7;
+  border-inline-end: 1px solid #bbb;
+}
 #footer { background-color:#EEEEEE; border: 0px; }
 
 /* Headers */
-h2, h3, h4, .wiki h1, .wiki h2, .wiki h3 {border-bottom: 0px;}
+h2, h3, h4, .wiki h1, .wiki h2, .wiki h3 {border-block-end: 0px;}
 
 /* Menu */
 #main-menu li a { background-color: #507AAA; font-weight: bold;}
@@ -33,9 +39,9 @@ h2, h3, h4, .wiki h1, .wiki h2, .wiki h3 {border-bottom: 0px;}
 #main-menu li a.new-object { background-color:#507AAA; text-decoration: none; }
 
 #main-menu .menu-children {
-  border-right: 1px solid #507AAA;
-  border-bottom: 1px solid #507AAA;
-  border-left: 1px solid #507AAA;
+  border-block-end: 1px solid #507AAA;
+  border-inline-start: 1px solid #507AAA;
+  border-inline-end: 1px solid #507AAA;
 }
 #main-menu .menu-children li a:hover { background-color: #507AAA;}
 
@@ -43,12 +49,12 @@ h2, h3, h4, .wiki h1, .wiki h2, .wiki h3 {border-bottom: 0px;}
 /* Tables */
 table.list tbody td, table.list tbody tr:hover td { border: solid 1px #d7d7d7; }
 table.list thead th {
-    border-width: 1px;
-    border-style: solid;
-    border-top-color: #d7d7d7;
-    border-right-color: #d7d7d7;
-    border-left-color: #d7d7d7;
-    border-bottom-color: #999999;
+  border-width: 1px;
+  border-style: solid;
+  border-block-start-color: #d7d7d7;
+  border-block-end-color: #999999;
+  border-inline-start-color: #d7d7d7;
+  border-inline-end-color: #d7d7d7;
 }
 
 /* Issues grid styles by priorities (provided by Wynn Netherland) */
@@ -89,7 +95,7 @@ input[type="button"]:hover, input[type="submit"]:hover, input[type="reset"]:hove
 /* Fields */
 input[type="text"], input[type="password"], textarea, select { border: 1px solid #d7d7d7; }
 input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:focus { border: 1px solid #888866; }
-option { border-bottom: 1px dotted #d7d7d7; }
+option { border-block-end: 1px dotted #d7d7d7; }
 
 /* Misc */
 .box { background-color: #fcfcfc; }
