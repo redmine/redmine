@@ -19,24 +19,24 @@
 
 body{ color:#303030; background:#e8eaec; }
 
-#top-menu { font-size: 80%; height: 2em; padding-top: 0.5em; background-color: #578bb8; }
+#top-menu { font-size: 80%; block-size: 2em; padding-block-start: 0.5em; background-color: #578bb8; }
 #top-menu a { font-weight: bold; }
-#header { background: #467aa7; height:5.8em; padding: 10px 0 0 0; }
-#header h1 { margin-left: 6px; }
-#quick-search { margin-right: 6px; }
-#main-menu { background-color: #578bb8; left: 0; border-top: 1px solid #fff; width: 100%; }
+#header { background: #467aa7; block-size:5.8em; padding-block: 10px 0; padding-inline: 0; }
+#header h1 { margin-inline-start: 6px; }
+#quick-search { margin-inline-end: 6px; }
+#main-menu { background-color: #578bb8; inset-inline-start: 0; border-block-start: 1px solid #fff; inline-size: 100%; }
 #main-menu li { margin: 0; padding: 0; }
-#main-menu li a { background-color: #578bb8; border-right: 1px solid #fff; font-size: 90%; padding: 4px 8px 4px 8px; font-weight: bold; }
+#main-menu li a { background-color: #578bb8; border-inline-end: 1px solid #fff; font-size: 90%; padding-block: 4px; padding-inline: 8px; font-weight: bold; }
 #main-menu li a:hover { background-color: #80b0da; color: #ffffff; }
 #main-menu li a.selected, #main-menu li a.selected:hover { background-color: #80b0da; color: #ffffff; }
 #main-menu li a.new-object { background-color:#80b0da; }
 
 #main-menu .menu-children {
-  border-right: 1px solid #80b0da;
-  border-bottom: 1px solid #80b0da;
-  border-left: 1px solid #80b0da;
+  border-inline-end: 1px solid #80b0da;
+  border-block-end: 1px solid #80b0da;
+  border-inline-start: 1px solid #80b0da;
 }
-#main-menu .menu-children li a { border-right: none; }
+#main-menu .menu-children li a { border-inline-end: none; }
 #main-menu .menu-children li a:hover { background-color: #80b0da }
 
 #footer { background-color: #578bb8; border: 0; color: #fff;}
@@ -47,17 +47,17 @@ body{ color:#303030; background:#e8eaec; }
 #main a:hover { color: #2a5a8a; text-decoration: underline; }
 #content { background: #fff; }
 
-h2, h3, h4, .wiki h1, .wiki h2, .wiki h3 { border-bottom: 0px; color:#606060; font-family: Trebuchet MS,Georgia,"Times New Roman",serif; }
+h2, h3, h4, .wiki h1, .wiki h2, .wiki h3 { border-block-end: 0; color:#606060; font-family: Trebuchet MS,Georgia,"Times New Roman",serif; }
 h2, .wiki h1 { letter-spacing:-1px; }
-h4 { border-bottom: dotted 1px #c0c0c0; }
+h4 { border-block-end: dotted 1px #c0c0c0; }
 
 #top-menu a.home, #top-menu a.my-page, #top-menu a.projects, #top-menu a.administration, #top-menu a.help {
     background-position: 0% 40%;
     background-repeat: no-repeat;
-    padding-left: 20px;
-    padding-top: 2px;
-    padding-bottom: 3px;
+    padding-inline-start: 20px;
+    padding-block: 2px 3px;
 }
+[dir="rtl"] :is(#top-menu a.home, #top-menu a.my-page, #top-menu a.projects, #top-menu a.administration, #top-menu a.help) {background-position: right 0% top 40%;}
 
 #top-menu a.home { background-image: url(/themes/classic/home.png); }
 #top-menu a.my-page { background-image: url(/user.png); }
