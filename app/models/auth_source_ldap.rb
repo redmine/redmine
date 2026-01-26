@@ -228,7 +228,7 @@ class AuthSourceLdap < AuthSource
       ldap_con = initialize_ldap_con(self.account, self.account_password)
     end
     attrs = {}
-    search_filter = base_filter & Net::LDAP::Filter.eq(self.attr_login, login)
+    search_filter = base_filter & Net::LDAP::Filter.equals(self.attr_login, login)
     ldap_con.search(:base => self.base_dn,
                      :filter => search_filter,
                      :attributes=> search_attributes) do |entry|
