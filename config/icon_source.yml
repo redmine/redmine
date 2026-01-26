@@ -242,3 +242,7 @@
   svg: loader-2
 - name: hourglass
   svg: hourglass
+- name: apps
+  svg: apps
+- name: shield-check
+  svg: shield-check
