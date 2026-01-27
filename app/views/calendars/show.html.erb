@@ -57,8 +57,8 @@
 <%= call_hook(:view_calendars_show_bottom, :year => @year, :month => @month, :project => @project, :query => @query) %>
 
 <p class="legend cal">
-  <span class="starting"><%= sprite_icon('bullet-go', l(:text_tip_issue_begin_day)) %></span>
-  <span class="ending"><%= sprite_icon('bullet-end', l(:text_tip_issue_end_day)) %></span>
+  <span class="starting"><%= sprite_icon('bullet-go', l(:text_tip_issue_begin_day), rtl: true) %></span>
+  <span class="ending"><%= sprite_icon('bullet-end', l(:text_tip_issue_end_day), rtl: true) %></span>
   <span class="starting ending"><%= sprite_icon('bullet-go-end', l(:text_tip_issue_begin_end_day)) %></span>
 </p>
 <% end %>
