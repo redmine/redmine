@@ -11,10 +11,8 @@
               :ondblclick => "moveOptions(this.form.#{available_tag_id}, this.form.#{selected_tag_id});" %>
 </div>
 <div class="buttons">
-      <input type="button" value="&#8594;" class="move-right"
-       onclick="moveOptions(this.form.<%= available_tag_id %>, this.form.<%= selected_tag_id %>);" />
-      <input type="button" value="&#8592;" class="move-left"
-       onclick="moveOptions(this.form.<%= selected_tag_id %>, this.form.<%= available_tag_id %>);" />
+      <button type="button" class="move-right" onclick="moveOptions(this.form.<%= available_tag_id %>, this.form.<%= selected_tag_id %>);"><%= sprite_icon("arrow-narrow-right", rtl: true) %></button>
+      <button type="button" class="move-left" onclick="moveOptions(this.form.<%= selected_tag_id %>, this.form.<%= available_tag_id %>);"><%= sprite_icon("arrow-narrow-left", rtl: true) %></button>
 </div>
 <div class="query-columns">
       <%= label_tag selected_tag_id, l(:description_selected_columns) %>
@@ -25,10 +23,10 @@
               :ondblclick => "moveOptions(this.form.#{selected_tag_id}, this.form.#{available_tag_id});" %>
 </div>
 <div class="buttons">
-      <input type="button" value="&#8648;" onclick="moveOptionTop(this.form.<%= selected_tag_id %>);" />
-      <input type="button" value="&#8593;" onclick="moveOptionUp(this.form.<%= selected_tag_id %>);" />
-      <input type="button" value="&#8595;" onclick="moveOptionDown(this.form.<%= selected_tag_id %>);" />
-      <input type="button" value="&#8650;" onclick="moveOptionBottom(this.form.<%= selected_tag_id %>);" />
+      <button type="button" onclick="moveOptionTop(this.form.<%= selected_tag_id %>);">&#8648;</button>
+      <button type="button" onclick="moveOptionUp(this.form.<%= selected_tag_id %>);">&#8593;</button>
+      <button type="button" onclick="moveOptionDown(this.form.<%= selected_tag_id %>);">&#8595;</button>
+      <button type="button" onclick="moveOptionBottom(this.form.<%= selected_tag_id %>);">&#8650;</button>
 </div>
 
 <%= javascript_tag do %>

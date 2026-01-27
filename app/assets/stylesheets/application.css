@@ -621,7 +621,7 @@ div.table-list.boards .table-list-cell.name {inline-size: 30%;}
 .query-columns label {
   display:block;
 }
-#list-definition .buttons input[type=button] {
+#list-definition .buttons button {
   inline-size:35px;
   display:block;
 }

@@ -66,6 +66,16 @@
       <path d="M14 7l6 0"/>
       <path d="M17 4l0 6"/>
     </symbol>
+    <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--arrow-narrow-left">
+      <path d="M5 12l14 0"/>
+      <path d="M5 12l4 4"/>
+      <path d="M5 12l4 -4"/>
+    </symbol>
+    <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--arrow-narrow-right">
+      <path d="M5 12l14 0"/>
+      <path d="M15 16l4 -4"/>
+      <path d="M15 8l4 4"/>
+    </symbol>
     <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--arrow-right">
       <path d="M4 9h8v-3.586a1 1 0 0 1 1.707 -.707l6.586 6.586a1 1 0 0 1 0 1.414l-6.586 6.586a1 1 0 0 1 -1.707 -.707v-3.586h-8a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1z"/>
     </symbol>

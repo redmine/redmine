@@ -248,3 +248,7 @@
   svg: apps
 - name: shield-check
   svg: shield-check
+- name: arrow-narrow-left
+  svg: arrow-narrow-left
+- name: arrow-narrow-right
+  svg: arrow-narrow-right
