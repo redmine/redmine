@@ -119,7 +119,7 @@
         <% months_height = (show_weeks ? header_height : header_height + g_height) %>
         <% gantt.months.times do %>
           <% width = (((month_f >> 1) - month_f) * zoom - 1).to_i %>
-          <% month_style = +"left: #{left}px;" %>
+          <% month_style = +"inset-inline-start: #{left}px;" %>
           <% month_style << "width: #{width}px;" %>
           <% month_style << "height: #{months_height}px;" %>
           <%= content_tag(:div, style: month_style, class: "gantt_hdr") do %>
@@ -139,8 +139,8 @@
           <% else %>
             <% week_f = gantt.date_from + (7 - gantt.date_from.cwday + 1) %>
             <% width = (7 - gantt.date_from.cwday + 1) * zoom - 1 %>
-            <% gap_style = +"left: #{left}px;" %>
-            <% gap_style << "top: 19px;" %>
+            <% gap_style = +"inset-inline-start: #{left}px;" %>
+            <% gap_style << "inset-block-start: 19px;" %>
             <% gap_style << "width: #{width}px;" %>
             <% gap_style << "height: #{weeks_height}px;" %>
             <%= content_tag(:div, '&nbsp;'.html_safe, style: gap_style, class: "gantt_hdr") %>
@@ -148,8 +148,8 @@
           <% end %>
           <% while week_f <= gantt.date_to %>
             <% width = ((week_f + 6 <= gantt.date_to) ? 7 * zoom - 1 : (gantt.date_to - week_f + 1) * zoom - 1).to_i %>
-            <% week_style = +"left: #{left}px;" %>
-            <% week_style << "top: 19px;" %>
+            <% week_style = +"inset-inline-start: #{left}px;" %>
+            <% week_style << "inset-block-start: 19px;" %>
             <% week_style << "width: #{width}px;" %>
             <% week_style << "height: #{weeks_height}px;" %>
             <%= content_tag(:div, style: week_style, class: "gantt_hdr") do %>
@@ -169,8 +169,8 @@
           <% day_num = gantt.date_from %>
           <% (gantt.date_to - gantt.date_from + 1).to_i.times do %>
             <% width = zoom - 1 %>
-            <% day_style = +"left:#{left}px;" %>
-            <% day_style << "top:37px;" %>
+            <% day_style = +"inset-inline-start:#{left}px;" %>
+            <% day_style << "inset-block-start:37px;" %>
             <% day_style << "width:#{width}px;" %>
             <% day_style << "height:#{days_height}px;" %>
             <% day_style << "font-size:0.7em;" %>
@@ -192,8 +192,8 @@
           <% days_top = (show_day_num ? 55 : 37) %>
           <% (gantt.date_from..gantt.date_to).each do |g_date| %>
             <% width = zoom - 1 %>
-            <% day_style = +"left: #{left}px;" %>
-            <% day_style << "top: #{days_top}px;" %>
+            <% day_style = +"inset-inline-start: #{left}px;" %>
+            <% day_style << "inset-block-start: #{days_top}px;" %>
             <% day_style << "width: #{width}px;" %>
             <% day_style << "height: #{days_height}px;" %>
             <% day_style << "font-size:0.7em;" %>
@@ -215,18 +215,18 @@
           <% today_left = (((User.current.today - gantt.date_from + 1) * zoom).floor - 1).to_i %>
           <% today_style = +"position: absolute;" %>
           <% today_style << "height: #{g_height}px;" %>
-          <% today_style << "top: #{headers_height + 1}px;" %>
-          <% today_style << "left: #{today_left}px;" %>
+          <% today_style << "inset-block-start: #{headers_height + 1}px;" %>
+          <% today_style << "inset-inline-start: #{today_left}px;" %>
           <% today_style << "width:10px;" %>
-          <% today_style << "border-left: 1px dashed red;" %>
+          <% today_style << "border-inline-start: 1px dashed red;" %>
           <%= content_tag(:div, '&nbsp;'.html_safe, style: today_style, id: 'today_line') %>
         <% end %>
 
         <%
           draw_area_style = +"position: absolute;"
           draw_area_style << "height: #{g_height}px;"
-          draw_area_style << "top: #{headers_height + 1}px;"
-          draw_area_style << 'left: 0px;'
+          draw_area_style << "inset-block-start: #{headers_height + 1}px;"
+          draw_area_style << 'inset-inline-start: 0px;'
           draw_area_style << "width: #{g_width - 1}px;"
         %>
         <%= content_tag(:div, '', style: draw_area_style, id: "gantt_draw_area", data: {'gantt--chart-target': 'drawArea'}) %>

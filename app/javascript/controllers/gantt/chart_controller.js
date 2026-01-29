@@ -328,7 +328,7 @@ export default class extends Controller {
     if (this.$("#today_line").length === 0) return
 
     const progressLines = this.#progressLinesArray
-    const color = this.$("#today_line").css("border-left-color") || "#ff0000"
+    const color = this.$("#today_line").css("border-inline-start-color") || "#ff0000"
 
     for (let index = 1; index < progressLines.length; index += 1) {
       const current = progressLines[index]
