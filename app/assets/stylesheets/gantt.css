@@ -22,6 +22,8 @@
 table.gantt-table {
   inline-size: 100%;
   border-collapse: collapse;
+  /* Force LTR for Gantt even in RTL locales because column resizing, relation lines, and the progress line don't work in RTL yet. */
+  direction: ltr;
 }
 
 table.gantt-table td {
@@ -248,9 +250,11 @@ td.gantt_watcher_users_column div.issue_watcher_users ul li:not(:last-child)::af
   margin-block-start: 1px;
 }
 
+/* RTL adjustment (disabled while Gantt is forced LTR).  Enable when RTL is supported.
 [dir="rtl"] :is(.marker, .task.parent.marker) {
   background-position: right;
 }
+*/
 
 .version-behind-schedule a,
 .issue-behind-schedule a {
