@@ -192,8 +192,8 @@ td.gantt_watcher_users_column div.issue_watcher_users ul li:not(:last-child)::af
 }
 
 .version.task_late {
-  background: var(oc-red-5) url(/milestone_late.png);
-  border: 1px solid var(oc-red-5);
+  background: var(--oc-red-5) url(/milestone_late.png);
+  border: 1px solid var(--oc-red-5);
   height: 2px;
   margin-top: 3px;
 }
@@ -221,8 +221,8 @@ td.gantt_watcher_users_column div.issue_watcher_users ul li:not(:last-child)::af
 }
 
 .project.task_late {
-  background: var(oc-red-5) url(/milestone_late.png);
-  border: 1px solid var(oc-red-5);
+  background: var(--oc-red-5) url(/milestone_late.png);
+  border: 1px solid var(--oc-red-5);
   height: 2px;
   margin-top: 3px;
 }
