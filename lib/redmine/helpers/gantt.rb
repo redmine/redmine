@@ -817,7 +817,7 @@ module Redmine
         end
         if has_children
           content = view.content_tag(:span,
-                                     view.sprite_icon('angle-down').html_safe,
+                                     view.sprite_icon('angle-down', rtl: true).html_safe,
                                      :class => 'icon icon-expanded expander',
                                      :data => {:action => 'click->gantt--subjects#handleEntryClick'}) + content
           tag_options[:class] += ' open'

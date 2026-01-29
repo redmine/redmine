@@ -17,8 +17,8 @@ export default class extends Controller {
   handleEntryClick(event) {
     const iconExpander = event.currentTarget
     const $subject = this.$(iconExpander.parentElement)
-    const subjectLeft =
-      parseInt($subject.css("left"), 10) + parseInt(iconExpander.offsetWidth, 10)
+    const subjectInlineStart =
+      this.#readInlineStart($subject) + parseInt(iconExpander.offsetWidth, 10)
 
     let targetShown = null
     let targetTop = 0
@@ -36,16 +36,16 @@ export default class extends Controller {
       const barsSelector = `#gantt_area form > div[data-collapse-expand='${json.obj_id}'][data-number-of-rows='${numberOfRows}']`
       const selectedColumnsSelector = `td.gantt_selected_column div[data-collapse-expand='${json.obj_id}'][data-number-of-rows='${numberOfRows}']`
 
-      if (outOfHierarchy || parseInt($element.css("left"), 10) <= subjectLeft) {
+      if (outOfHierarchy || this.#readInlineStart($element) <= subjectInlineStart) {
         outOfHierarchy = true
 
         if (targetShown === null) return false
 
-        const newTopVal = parseInt($element.css("top"), 10) + totalHeight * (targetShown ? -1 : 1)
+        const newTopVal = this.#readBlockStart($element) + totalHeight * (targetShown ? -1 : 1)
 
-        $element.css("top", newTopVal)
+        this.#setBlockStart($element, newTopVal)
         this.$([barsSelector, selectedColumnsSelector].join()).each((__, el) => {
-          this.$(el).css("top", newTopVal)
+          this.#setBlockStart(this.$(el), newTopVal)
         })
 
         return true
@@ -55,7 +55,7 @@ export default class extends Controller {
 
       if (targetShown === null) {
         targetShown = isShown
-        targetTop = parseInt($element.css("top"), 10)
+        targetTop = this.#readBlockStart($element)
         totalHeight = 0
       }
 
@@ -64,7 +64,7 @@ export default class extends Controller {
           const $task = this.$(task)
 
           if (!isShown && willOpen) {
-            $task.css("top", targetTop + totalHeight)
+            this.#setBlockStart($task, targetTop + totalHeight)
           }
           if (!$task.hasClass("tooltip")) {
             $task.toggle(willOpen)
@@ -75,13 +75,13 @@ export default class extends Controller {
           const $attr = this.$(attr)
 
           if (!isShown && willOpen) {
-            $attr.css("top", targetTop + totalHeight)
+            this.#setBlockStart($attr, targetTop + totalHeight)
           }
           $attr.toggle(willOpen)
         })
 
         if (!isShown && willOpen) {
-          $element.css("top", targetTop + totalHeight)
+          this.#setBlockStart($element, targetTop + totalHeight)
         }
 
         this.#setIconState($element, willOpen)
@@ -91,6 +91,22 @@ export default class extends Controller {
     })
 
     this.dispatch("toggle-tree", { bubbles: true })
+  }
+
+  #readInlineStart(el) {
+    const node = el.jquery ? el[0] : el
+    return parseFloat(window.getComputedStyle(node).getPropertyValue("inset-inline-start"))
+  }
+
+  #readBlockStart(el) {
+    const node = el.jquery ? el[0] : el
+    return parseFloat(window.getComputedStyle(node).getPropertyValue("inset-block-start"))
+  }
+
+  #setBlockStart(el, value) {
+    const node = el.jquery ? el[0] : el
+    const px = typeof value === "number" ? `${value}px` : value
+    node.style.setProperty("inset-block-start", px)
   }
 
   #setIconState(element, open) {
