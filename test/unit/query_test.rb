@@ -3042,14 +3042,18 @@ class QueryTest < ActiveSupport::TestCase
     issues = Array.new(3) { Issue.generate!(:project => project, :author => author) }
 
     query = IssueQuery.new(:name => '_', :project => project)
-    query.add_filter('author_group', '=', [author_group.id.to_s])
+    query.add_filter('author.group', '=', [author_group.id.to_s])
     assert_equal 3, query.issues.count
     assert_query_result issues, query
+    query.add_filter('author.group', '!', [author_group.id.to_s])
+    assert_equal 0, query.issues.count
 
     query = IssueQuery.new(:name => '_', :project => project)
-    query.add_filter('author_group', '!', [not_author_group.id.to_s])
+    query.add_filter('author.group', '!', [not_author_group.id.to_s])
     assert_equal 3, query.issues.count
     assert_query_result issues, query
+    query.add_filter('author.group', '=', [not_author_group.id.to_s])
+    assert_equal 0, query.issues.count
   end
 
   def test_author_role_filter_should_return_issues_with_or_without_author_in_role
