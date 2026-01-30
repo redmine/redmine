@@ -30,10 +30,13 @@ class EmailAddressesController < ApplicationController
 
   def create
     saved = false
-    if @user.email_addresses.count <= Setting.max_additional_emails.to_i
-      @address = EmailAddress.new(:user => @user, :is_default => false)
-      @address.safe_attributes = params[:email_address]
-      saved = @address.save
+    User.transaction do
+      @user.reload(lock: true)
+      if @user.email_addresses.count <= Setting.max_additional_emails.to_i
+        @address = EmailAddress.new(:user => @user, :is_default => false)
+        @address.safe_attributes = params[:email_address]
+        saved = @address.save
+      end
     end
 
     respond_to do |format|
