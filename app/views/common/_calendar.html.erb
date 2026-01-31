@@ -11,7 +11,8 @@
     </li>
     <% week.each do |day| %>
     <li class="<%= calendar.day_css_classes day %> calbody">
-      <p class="day-num"><%= day.day %>
+      <p class="day-num">
+        <span class="day-value"><%= day.day %></span>
         <span class="abbr-day">(<%= abbr_day_name(day.cwday) %>)</span>
       </p>
       <% calendar.events_on(day).each do |i| %>
