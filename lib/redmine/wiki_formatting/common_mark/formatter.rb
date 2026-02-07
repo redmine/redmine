@@ -73,9 +73,13 @@ module Redmine
           html = MarkdownFilter.new(@text, PIPELINE_CONFIG).call
           fragment = Redmine::WikiFormatting::HtmlParser.parse(html)
           SANITIZER.call(fragment)
-          SCRUBBERS.each do |scrubber|
-            fragment.scrub!(scrubber)
+          scrubber = Loofah::Scrubber.new do |node|
+            SCRUBBERS.each do |s|
+              s.scrub(node)
+              break if node.parent.nil?
+            end
           end
+          fragment.scrub!(scrubber)
           fragment.to_s
         end
       end

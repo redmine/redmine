@@ -39,9 +39,13 @@ module Redmine
         def to_html(*rules)
           html = @filter.to_html(rules)
           fragment = Loofah.html5_fragment(html)
-          SCRUBBERS.each do |scrubber|
-            fragment.scrub!(scrubber)
+          scrubber = Loofah::Scrubber.new do |node|
+            SCRUBBERS.each do |s|
+              s.scrub(node)
+              break if node.parent.nil?
+            end
           end
+          fragment.scrub!(scrubber)
           fragment.to_s
         end
       end
