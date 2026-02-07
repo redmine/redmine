@@ -21,9 +21,9 @@ module Redmine
   module WikiFormatting
     module Textile
       SCRUBBERS = [
+        Redmine::WikiFormatting::CopypreScrubber.new,
         SyntaxHighlightScrubber.new,
-        Redmine::WikiFormatting::TablesortScrubber.new,
-        Redmine::WikiFormatting::CopypreScrubber.new
+        Redmine::WikiFormatting::TablesortScrubber.new
       ]
 
       class Formatter
@@ -39,12 +39,15 @@ module Redmine
         def to_html(*rules)
           html = @filter.to_html(rules)
           fragment = Loofah.html5_fragment(html)
+
           scrubber = Loofah::Scrubber.new do |node|
             SCRUBBERS.each do |s|
-              s.scrub(node)
+              result = s.scrub(node)
+              break result if result == Loofah::Scrubber::STOP
               break if node.parent.nil?
             end
           end
+
           fragment.scrub!(scrubber)
           fragment.to_s
         end

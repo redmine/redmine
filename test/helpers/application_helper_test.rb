@@ -1447,6 +1447,21 @@ class ApplicationHelperTest < Redmine::HelperTest
     end
   end
 
+  def test_syntax_highlight_common_mark
+    raw = <<~RAW
+      ```ECMA_script
+      /* Hello */
+      document.write("Hello World!");
+      ```
+    RAW
+    expected = <<~EXPECTED
+      #{pre_wrapper('<pre data-clipboard-target="pre"><code class="ECMA_script syntaxhl" data-language="ECMA_script"><span class="cm">/* Hello */</span><span class="nb">document</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="dl">"</span><span class="s2">Hello World!</span><span class="dl">"</span><span class="p">);</span></code></pre>')}
+    EXPECTED
+    with_settings :text_formatting => 'common_mark' do
+      assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
+    end
+  end
+
   def test_syntax_highlight_ampersand_in_textile
     raw = <<~RAW
       <pre><code class="ruby">

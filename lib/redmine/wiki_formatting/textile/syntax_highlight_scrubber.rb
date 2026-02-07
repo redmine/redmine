@@ -34,6 +34,7 @@ module Redmine
           end
 
           process node, text, lang
+          Loofah::Scrubber::STOP
         end
       end
     end

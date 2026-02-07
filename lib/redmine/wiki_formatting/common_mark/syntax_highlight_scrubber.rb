@@ -35,6 +35,7 @@ module Redmine
           lang = $1
           text = node.inner_text
           process node, text, lang
+          Loofah::Scrubber::STOP
         end
       end
     end

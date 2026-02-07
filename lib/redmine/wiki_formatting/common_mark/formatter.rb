@@ -54,9 +54,9 @@ module Redmine
 
       SANITIZER = SanitizationFilter.new
       SCRUBBERS = [
+        Redmine::WikiFormatting::CopypreScrubber.new,
         SyntaxHighlightScrubber.new,
         Redmine::WikiFormatting::TablesortScrubber.new,
-        Redmine::WikiFormatting::CopypreScrubber.new,
         FixupAutoLinksScrubber.new,
         ExternalLinksScrubber.new,
         AlertsIconsScrubber.new
@@ -73,12 +73,15 @@ module Redmine
           html = MarkdownFilter.new(@text, PIPELINE_CONFIG).call
           fragment = Redmine::WikiFormatting::HtmlParser.parse(html)
           SANITIZER.call(fragment)
+
           scrubber = Loofah::Scrubber.new do |node|
             SCRUBBERS.each do |s|
-              s.scrub(node)
+              result = s.scrub(node)
+              break result if result == Loofah::Scrubber::STOP
               break if node.parent.nil?
             end
           end
+
           fragment.scrub!(scrubber)
           fragment.to_s
         end
