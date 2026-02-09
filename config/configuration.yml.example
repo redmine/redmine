@@ -22,7 +22,7 @@ default:
   #      address: "localhost"
   #      port: 25
   #
-  # ==== SMTP server at example.com using LOGIN authentication and checking HELO for foo.com
+  # ==== SMTP server at example.com using LOGIN authentication and checking HELO for example.com
   #
   #  email_delivery:
   #    delivery_method: :smtp
@@ -30,7 +30,7 @@ default:
   #      address: "example.com"
   #      port: 25
   #      authentication: :login
-  #      domain: 'foo.com'
+  #      domain: 'example.com'
   #      user_name: 'myaccount'
   #      password: 'password'
   #

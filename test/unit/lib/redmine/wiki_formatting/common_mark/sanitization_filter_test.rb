@@ -130,11 +130,11 @@ if Object.const_defined?(:Commonmarker)
         '<img src="photo.jpg" style="min-width: 100px; max-width: 200px; min-height: 100px; max-height: 200px;">'
       ],
       [
-        '<b>Lo<!-- comment -->rem</b> <a href="pants" title="foo" style="text-decoration: underline;">ipsum</a> <a href="http://foo.com/"><strong>dolor</strong></a> sit<br/>amet <style>.foo { color: #fff; }</style> <script>alert("hello world");</script>',
-        '<b>Lorem</b> <a href="pants" title="foo">ipsum</a> <a href="http://foo.com/"><strong>dolor</strong></a> sit<br>amet .foo { color: #fff; } '
+        '<b>Lo<!-- comment -->rem</b> <a href="pants" title="foo" style="text-decoration: underline;">ipsum</a> <a href="http://example.com/"><strong>dolor</strong></a> sit<br/>amet <style>.foo { color: #fff; }</style> <script>alert("hello world");</script>',
+        '<b>Lorem</b> <a href="pants" title="foo">ipsum</a> <a href="http://example.com/"><strong>dolor</strong></a> sit<br>amet .foo { color: #fff; } '
       ],
       [
-        'Lo<!-- comment -->rem</b> <a href=pants title="foo>ipsum <a href="http://foo.com/"><strong>dolor</a></strong> sit<br/>amet <script>alert("hello world");',
+        'Lo<!-- comment -->rem</b> <a href=pants title="foo>ipsum <a href="http://example.com/"><strong>dolor</a></strong> sit<br/>amet <script>alert("hello world");',
         'Lorem <a href="pants" title="foo>ipsum <a href="><strong>dolor</strong></a> sit<br>amet '
       ],
       [
@@ -142,8 +142,8 @@ if Object.const_defined?(:Commonmarker)
         '<p>a</p><blockquote>b</blockquote>'
       ],
       [
-        '<b>Lo<!-- comment -->rem</b> <a href="javascript:pants" title="foo">ipsum</a> <a href="http://foo.com/"><strong>dolor</strong></a> sit<br/>amet <<foo>script>alert("hello world");</script>',
-        '<b>Lorem</b> <a title="foo">ipsum</a> <a href="http://foo.com/"><strong>dolor</strong></a> sit<br>amet &lt;script&gt;alert("hello world");'
+        '<b>Lo<!-- comment -->rem</b> <a href="javascript:pants" title="foo">ipsum</a> <a href="http://example.com/"><strong>dolor</strong></a> sit<br/>amet <<foo>script>alert("hello world");</script>',
+        '<b>Lorem</b> <a title="foo">ipsum</a> <a href="http://example.com/"><strong>dolor</strong></a> sit<br>amet &lt;script&gt;alert("hello world");'
       ]
     ]
     # rubocop:enable Layout/LineLength
