@@ -90,6 +90,11 @@ module IconsHelper
     sprite_icon(icon_name, **)
   end
 
+  def mime_type_icon(mime_type, ...)
+    icon_name = icon_for_mime_type(mime_type)
+    sprite_icon(icon_name, ...)
+  end
+
   private
 
   def svg_sprite_icon(icon_name, size: DEFAULT_ICON_SIZE, style: :outline, sprite: DEFAULT_SPRITE, css_class: nil, rtl: false)

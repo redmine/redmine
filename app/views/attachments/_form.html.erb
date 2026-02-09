@@ -9,7 +9,7 @@
 <span class="attachments_form">
   <span class="attachments_icons hidden">
     <%= sprite_icon('del', icon_only: true, css_class: 'svg-del') %>
-    <%= sprite_icon('attachment', icon_only: true, size: 16, css_class: 'svg-attachment') %>
+    <%= sprite_icon('file', icon_only: true, size: 16, css_class: 'svg-attachment') %>
     <%= sprite_icon('loader', icon_only: true, size: 16, css_class: 'svg-loader') %>
     <%= sprite_icon('hourglass', icon_only: true, size: 16, css_class: 'svg-hourglass') %>
   </span>
@@ -17,7 +17,7 @@
   <% if saved_attachments.present? %>
     <% saved_attachments.each_with_index do |attachment, i| %>
       <span id="attachments_p<%= i %>">
-        <%= sprite_icon('attachment', icon_only: true, size: 16, css_class: 'svg-attachment') %>
+        <%= sprite_icon('file', icon_only: true, size: 16, css_class: 'svg-attachment') %>
         <%= text_field_tag("#{attachment_param}[p#{i}][filename]", attachment.filename, :class => 'filename') %>
         <% if attachment.container_id.present? %>
           <%= link_to sprite_icon('del', l(:button_delete), icon_only: true), "#", :onclick => "$(this).closest('.attachments_form').find('.add_attachment').show(); $(this).parent().remove(); return false;", :class => 'icon-only icon-del' %>

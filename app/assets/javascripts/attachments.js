@@ -80,7 +80,7 @@ function ajaxUpload(file, attachmentId, fileSpan, inputEl) {
         ajaxUpload.uploading--;
         fileSpan.removeClass('ajax-loading');
         attachmentIcon.removeClass('svg-loader');
-        updateSVGIcon(attachmentIcon[0], 'attachment');
+        updateSVGIcon(attachmentIcon[0], 'file');
         var form = fileSpan.parents('form');
         if (form.queue('upload').length == 0 && ajaxUpload.uploading == 0) {
           $('input:submit', form).removeAttr('disabled');

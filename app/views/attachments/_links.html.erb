@@ -15,7 +15,7 @@
 <% for attachment in attachments %>
 <tr>
   <td>
-    <%= link_to_attachment attachment, class: 'icon icon-attachment ', icon: 'attachment' -%>
+    <%= link_to_attachment attachment, class: 'icon icon-attachment ', icon: icon_for_mime_type(attachment.content_type) -%>
     <span class="size">(<%= number_to_human_size attachment.filesize %>)</span>
     <%= link_to_attachment attachment, class: 'icon-only icon-download ', title: l(:button_download), download: true, icon: 'download' -%>
   </td>

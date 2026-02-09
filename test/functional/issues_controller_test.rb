@@ -2253,6 +2253,21 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_show_should_display_attachment_icons_by_mime_type
+    @request.session[:user_id] = 2
+    get(:show, :params => {:id => 3})
+
+    assert_response :success
+    assert_select 'div.attachments' do
+      assert_select 'a.icon-attachment[href=?]', '/attachments/1' do
+        assert_select "svg.icon-svg use:match('href', ?)", /assets\/icons-\w+.svg#icon--text-plain/
+      end
+      assert_select 'a.icon-attachment[href=?]', '/attachments/6' do
+        assert_select "svg.icon-svg use:match('href', ?)", /assets\/icons-\w+.svg#icon--application-zip/
+      end
+    end
+  end
+
   def test_show_should_display_update_form
     @request.session[:user_id] = 2
     get(:show, :params => {:id => 1})

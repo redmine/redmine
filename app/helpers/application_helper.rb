@@ -126,6 +126,7 @@ module ApplicationHelper
   # Options:
   # * :text - Link text (default to attachment filename)
   # * :download - Force download (default: false)
+  # * :icon - Sprite icon name
   def link_to_attachment(attachment, options={})
     text = options.delete(:text) || attachment.filename
     icon = options.delete(:icon)
