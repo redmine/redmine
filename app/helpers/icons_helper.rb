@@ -90,7 +90,7 @@ module IconsHelper
     sprite_icon(icon_name, **)
   end
 
-  def mime_type_icon(mime_type, ...)
+  def file_type_icon(mime_type, ...)
     icon_name = icon_for_mime_type(mime_type)
     sprite_icon(icon_name, ...)
   end

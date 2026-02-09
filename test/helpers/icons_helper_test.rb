@@ -124,14 +124,14 @@ class IconsHelperTest < Redmine::HelperTest
     assert_match expected, activity_event_type_icon('time-entry')
   end
 
-  def test_mime_type_icon_should_return_specific_icon_for_known_mime_types
+  def test_file_type_icon_should_return_specific_icon_for_known_mime_types
     expected = %r{<svg class="s18 icon-svg" aria-hidden="true"><use href="/assets/icons-\w+.svg#icon--text-plain"></use></svg>}
-    assert_match expected, mime_type_icon('text/plain')
+    assert_match expected, file_type_icon('text/plain')
   end
 
-  def test_mime_type_icon_should_return_generic_file_icon_for_unknown_mime_types
+  def test_file_type_icon_should_return_generic_file_icon_for_unknown_mime_types
     expected = %r{<svg class="s18 icon-svg" aria-hidden="true"><use href="/assets/icons-\w+.svg#icon--file"></use></svg>}
-    assert_match expected, mime_type_icon('unknown-type/unknown-subtype')
+    assert_match expected, file_type_icon('unknown-type/unknown-subtype')
   end
 
   def test_icon_for_mime_type_should_return_specific_icon_for_known_mime_types
