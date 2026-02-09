@@ -40,7 +40,7 @@ module IconsHelper
     if entry.is_dir?
       sprite_icon("folder", name, **)
     else
-      icon_name = icon_for_mime_type(Redmine::MimeType.css_class_of(name))
+      icon_name = icon_for_mime_type(Redmine::MimeType.of(name))
       sprite_icon(icon_name, name, **)
     end
   end
@@ -109,11 +109,11 @@ module IconsHelper
   end
 
   def icon_for_mime_type(mime)
-    if %w(text-plain text-x-c text-x-csharp text-x-java text-x-php
-          text-x-ruby text-xml text-css text-html text-css text-html
-          image-gif image-jpeg image-png image-tiff
-          application-pdf application-zip application-gzip application-javascript).include?(mime)
-      mime
+    if %w(text/plain text/x-c text/x-csharp text/x-java text/x-php
+          text/x-ruby text/xml text/css text/html text/css text/html
+          image/gif image/jpeg image/png image/tiff
+          application/pdf application/zip application/gzip application/javascript).include?(mime)
+      mime.tr('/', '-')
     else
       "file"
     end
