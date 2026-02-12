@@ -899,7 +899,7 @@ module ApplicationHelper
   # * with a String: textilizable(text, options)
   # * with an object and one of its attribute: textilizable(issue, :description, options)
   def textilizable(*args)
-    options = args.last.is_a?(Hash) ? args.pop : {}
+    options = args.extract_options!
     case args.size
     when 1
       obj = options[:object]
@@ -913,7 +913,7 @@ module ApplicationHelper
     end
     return '' if text.blank?
 
-    project = options[:project] || @project || (obj && obj.respond_to?(:project) ? obj.project : nil)
+    project = options[:project] || @project || obj.try(:project)
     @only_path = only_path = options[:only_path] = (options[:only_path] != false)
 
     text = text.dup
