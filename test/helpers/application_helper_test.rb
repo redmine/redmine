@@ -169,16 +169,16 @@ class ApplicationHelperTest < Redmine::HelperTest
   def test_attached_images
     to_test = {
       'Inline image: !logo.gif!' =>
-         'Inline image: <img src="/attachments/download/3/logo.gif" title="This is a logo" alt="This is a logo" loading="lazy">',
+         'Inline image: <img src="/attachments/download/3/logo.gif" alt="This is a logo" title="This is a logo" loading="lazy">',
       'Inline image: !logo.GIF!' =>
-         'Inline image: <img src="/attachments/download/3/logo.gif" title="This is a logo" alt="This is a logo" loading="lazy">',
+         'Inline image: <img src="/attachments/download/3/logo.gif" alt="This is a logo" title="This is a logo" loading="lazy">',
       'Inline WebP image: !logo.webp!' =>
-         'Inline WebP image: <img src="/attachments/download/24/logo.webp" title="WebP image" alt="WebP image" loading="lazy">',
+         'Inline WebP image: <img src="/attachments/download/24/logo.webp" alt="WebP image" title="WebP image" loading="lazy">',
       'No match: !ogo.gif!' => 'No match: <img src="ogo.gif" alt="">',
       'No match: !ogo.GIF!' => 'No match: <img src="ogo.GIF" alt="">',
       # link image
       '!logo.gif!:http://foo.bar/' =>
-         '<a href="http://foo.bar/"><img src="/attachments/download/3/logo.gif" title="This is a logo" alt="This is a logo" loading="lazy"></a>',
+         '<a href="http://foo.bar/"><img src="/attachments/download/3/logo.gif" alt="This is a logo" title="This is a logo" loading="lazy"></a>',
     }
     attachments = Attachment.all
     with_settings :text_formatting => 'textile' do
@@ -194,11 +194,11 @@ class ApplicationHelperTest < Redmine::HelperTest
         textilizable('!logo.gif(alt text)!', attachments: attachments)
 
       # When alt text and style are set
-      assert_match %r[<img src=".+?" title="alt text" alt="alt text" loading=".+?" style="width:100px;">],
+      assert_match %r[<img src=".+?" style="width:100px;" title="alt text" alt="alt text" loading=".+?">],
         textilizable('!{width:100px}logo.gif(alt text)!', attachments: attachments)
 
       # When alt text is not set
-      assert_match %r[<img src=".+?" title="This is a logo" alt="This is a logo" loading=".+?">],
+      assert_match %r[<img src=".+?" alt="This is a logo" title="This is a logo" loading=".+?">],
         textilizable('!logo.gif!', attachments: attachments)
 
       # When alt text is not set and the attachment has no description
@@ -272,7 +272,7 @@ class ApplicationHelperTest < Redmine::HelperTest
     with_settings :text_formatting => 'textile' do
       assert_equal(
         %(<p><img src="/attachments/download/#{attachment.id}/image@2x.png" ) +
-          %(srcset="/attachments/download/#{attachment.id}/image@2x.png 2x" alt="" loading="lazy"></p>),
+          %(alt="" loading="lazy" srcset="/attachments/download/#{attachment.id}/image@2x.png 2x"></p>),
         textilizable("!image@2x.png!", :attachments => [attachment])
       )
     end

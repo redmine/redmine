@@ -32,8 +32,9 @@ module Redmine
         extend Forwardable
         def_delegators :@filter, :extract_sections, :rip_offtags
 
-        def initialize(args)
-          @filter = Filter.new(args)
+        def initialize(text, options = {})
+          @filter = Filter.new(text)
+          @options = options
         end
 
         def to_html(*rules)
@@ -41,7 +42,7 @@ module Redmine
           fragment = Loofah.html5_fragment(html)
 
           scrubber = Loofah::Scrubber.new do |node|
-            SCRUBBERS.each do |s|
+            (SCRUBBERS + post_processor_scrubbers).each do |s|
               result = s.scrub(node)
               break result if result == Loofah::Scrubber::STOP
               break if node.parent.nil?
@@ -50,6 +51,15 @@ module Redmine
 
           fragment.scrub!(scrubber)
           fragment.to_s
+        end
+
+        private
+
+        def post_processor_scrubbers
+          [
+            Redmine::WikiFormatting::InlineAttachmentsScrubber.new(@options),
+            Redmine::WikiFormatting::HiresImagesScrubber.new
+          ]
         end
       end
 

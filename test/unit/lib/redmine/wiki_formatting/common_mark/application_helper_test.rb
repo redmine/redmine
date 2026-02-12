@@ -58,7 +58,7 @@ class Redmine::WikiFormatting::CommonMark::ApplicationHelperTest < Redmine::Help
           textilizable('![alt text](logo.gif)', attachments: attachments)
 
         # When alt text is not set
-        assert_match %r[<img src=".+?" title="This is a logo" alt="This is a logo" loading=".+?">],
+        assert_match %r[<img src=".+?" alt="This is a logo" title="This is a logo" loading=".+?">],
           textilizable('![](logo.gif)', attachments: attachments)
 
         # When alt text is not set and the attachment has no description

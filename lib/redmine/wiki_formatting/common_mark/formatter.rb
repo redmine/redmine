@@ -65,8 +65,9 @@ module Redmine
       class Formatter
         include Redmine::WikiFormatting::SectionHelper
 
-        def initialize(text)
+        def initialize(text, options = {})
           @text = text
+          @options = options
         end
 
         def to_html(*args)
@@ -75,7 +76,7 @@ module Redmine
           SANITIZER.call(fragment)
 
           scrubber = Loofah::Scrubber.new do |node|
-            SCRUBBERS.each do |s|
+            (SCRUBBERS + post_processor_scrubbers).each do |s|
               result = s.scrub(node)
               break result if result == Loofah::Scrubber::STOP
               break if node.parent.nil?
@@ -84,6 +85,15 @@ module Redmine
 
           fragment.scrub!(scrubber)
           fragment.to_s
+        end
+
+        private
+
+        def post_processor_scrubbers
+          [
+            Redmine::WikiFormatting::InlineAttachmentsScrubber.new(@options),
+            Redmine::WikiFormatting::HiresImagesScrubber.new
+          ]
         end
       end
     end
