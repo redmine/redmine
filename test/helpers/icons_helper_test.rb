@@ -139,6 +139,15 @@ class IconsHelperTest < Redmine::HelperTest
     assert_equal 'application-pdf', icon_for_mime_type('application/pdf')
   end
 
+  def test_icon_for_mime_type_should_return_icon_for_top_level_types
+    assert_equal 'file-music', icon_for_mime_type('audio/aac')
+    assert_equal 'file-music', icon_for_mime_type('audio/mpeg')
+    assert_equal 'photo', icon_for_mime_type('image/jpeg')
+    assert_equal 'photo', icon_for_mime_type('image/png')
+    assert_equal 'movie', icon_for_mime_type('video/raw')
+    assert_equal 'movie', icon_for_mime_type('video/mp4')
+  end
+
   def test_icon_for_mime_type_should_return_generic_file_icon_for_unknown_mime_types
     assert_equal 'file', icon_for_mime_type('unknown-type')
   end

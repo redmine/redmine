@@ -185,14 +185,6 @@
   svg: file-type-css
 - name: text-html
   svg: file-type-html
-- name: image-gif
-  svg: file
-- name: image-jpeg
-  svg: file-type-jpg
-- name: image-png
-  svg: file-type-png
-- name: image-tiff
-  svg: file
 - name: application-javascript
   svg: file-type-js
 - name: application-pdf
@@ -252,3 +244,9 @@
   svg: arrow-narrow-left
 - name: arrow-narrow-right
   svg: arrow-narrow-right
+- name: photo
+  svg: photo
+- name: movie
+  svg: movie
+- name: file-music
+  svg: file-music

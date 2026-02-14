@@ -116,11 +116,17 @@ module IconsHelper
   def icon_for_mime_type(mime)
     if %w(text/plain text/x-c text/x-csharp text/x-java text/x-php
           text/x-ruby text/xml text/css text/html text/css text/html
-          image/gif image/jpeg image/png image/tiff
           application/pdf application/zip application/gzip application/javascript).include?(mime)
-      mime.tr('/', '-')
+      icon_name = mime.tr('/', '-')
     else
-      "file"
+      top_level_type, subtype = mime.to_s.split('/')
+      icon_name =
+        case top_level_type # rubocop:disable Style/HashLikeCase
+        when 'audio' then 'file-music'
+        when 'image' then 'photo'
+        when 'video' then 'movie'
+        end
     end
+    icon_name || 'file'
   end
 end
