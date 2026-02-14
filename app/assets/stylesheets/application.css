@@ -79,7 +79,7 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
   color: var(--oc-white);
   font-size: 0.8em;
   padding-block: 2px;
-  padding-inline: 12px 10px;
+  padding-inline: 16px 14px;
 }
 #top-menu ul {margin: 0;  padding: 0;}
 #top-menu li {
@@ -100,7 +100,7 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
   background: linear-gradient(180deg, #628DB6 30%, #356D92); /* no match in Open Color, using hex code */
   color: var(--oc-gray-0);
   padding-block: 4px 20px;
-  padding-inline: 16px;
+  padding-inline: 20px;
   position: relative;
 }
 #header a {color: var(--oc-gray-0);}
@@ -123,7 +123,7 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 #main-menu {
   position: absolute;
   inset-block-end: 0px;
-  inset-inline-start: 10px;
+  inset-inline-start: 14px;
   margin-inline-end: -500px;
   inline-size: 100%;
 }
@@ -229,7 +229,7 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
   background-color: var(--oc-white);
   margin: 0;
   padding-block: 18px 10px;
-  padding-inline: 16px;
+  padding-inline: 20px;
   overflow-x: auto;
 }
 

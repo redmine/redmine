@@ -214,6 +214,7 @@
     inline-size: 100%;
     min-block-size: 0; /* reset min-height of #content */
     margin: 0;
+    padding-inline: 16px;
   }
 
   /* hide sidebar and sidebar switch panel, since it's placed in mobile flyout menu */
