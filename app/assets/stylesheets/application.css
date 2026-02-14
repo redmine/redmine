@@ -780,7 +780,6 @@ div.issue .attribute .value {overflow:auto; text-overflow: ellipsis;}
 div.issue .attribute.string_cf .value .wiki p {margin-block: 0;}
 div.issue .attribute.text_cf .value .wiki p:first-of-type {margin-block-start: 0;}
 div.issue.overdue .due-date .value { color: var(--oc-red-9); }
-body.controller-issues h2.inline-flex {padding-inline-end: 0}
 div#sticky-issue-header {
   display: none;
   position: fixed;
