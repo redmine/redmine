@@ -26,7 +26,7 @@ module Redmine
         icon = ApplicationController.helpers.sprite_icon('copy-pre-content', size: 18)
         button_copy = ApplicationController.helpers.l(:button_copy)
         html = '<a class="copy-pre-content-link icon-only" title="' + button_copy + '" data-action="clipboard#copyPre">' + icon + '</a>'
-        @button ||= Nokogiri::HTML5.fragment(html).children.first
+        Nokogiri::HTML5.fragment(html).children.first
       end
     end
   end
