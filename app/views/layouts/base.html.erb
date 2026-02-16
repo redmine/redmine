@@ -121,6 +121,9 @@
 
     <div id="content">
         <%= render_flash_messages %>
+        <% if @project && !@project.active? %>
+          <p class="warning"><span class="icon icon-lock"><%= sprite_icon('lock', l(:text_project_closed)) %></span></p>
+        <% end %>
         <%= yield %>
         <%= call_hook :view_layouts_base_content %>
         <div style="clear:both;"></div>
