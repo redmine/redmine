@@ -288,7 +288,7 @@ class Setup < ActiveRecord::Migration[4.2]
     # create default administrator account
     user = User.new :firstname => "Redmine",
                     :lastname => "Admin",
-                    :mail => "admin@example.net",
+                    :mail => "admin@dummy.invalid",
                     :mail_notification => true,
                     :status => 1
     user.login = 'admin'

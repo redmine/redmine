@@ -443,7 +443,7 @@ class Mailer < ActionMailer::Base
     # Don't send a notification to the dummy email address when changing the password
     # of the default admin account which is required after the first login
     # TODO: maybe not the best way to handle this
-    return if user.admin? && user.login == 'admin' && user.mail == 'admin@example.net'
+    return if user.admin? && user.login == 'admin' && user.mail == 'admin@dummy.invalid'
 
     deliver_security_notification(
       user,
