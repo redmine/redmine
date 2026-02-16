@@ -2020,7 +2020,7 @@ class Issue < ApplicationRecord
   # Make sure updated_on is updated when adding a note and set updated_on now
   # so we can set closed_on with the same value on closing
   def force_updated_on_change
-    if @current_journal || changed?
+    if changed? || (@current_journal && !@current_journal.notes_and_details_empty?)
       self.updated_on = current_time_from_proper_timezone
       if new_record?
         self.created_on = updated_on
