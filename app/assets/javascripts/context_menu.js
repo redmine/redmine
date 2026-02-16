@@ -91,7 +91,7 @@ function contextMenuCreate() {
     var menu = document.createElement("div");
     menu.setAttribute("id", "context-menu");
     menu.setAttribute("style", "display:none;");
-    document.getElementById("content").appendChild(menu);
+    document.getElementsByTagName("body")[0].appendChild(menu);
   }
 }
 
