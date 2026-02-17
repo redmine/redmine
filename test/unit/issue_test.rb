@@ -1623,6 +1623,19 @@ class IssueTest < ActiveSupport::TestCase
     assert_not_equal updated_on_was, issue.updated_on
   end
 
+  def test_adding_journal_with_notes_and_details_empty_should_not_update_timestamp
+    issue = Issue.find(1)
+    updated_on_was = issue.updated_on
+
+    issue.init_journal(User.first)
+    assert_no_difference 'Journal.count' do
+      assert issue.save
+    end
+    issue.reload
+
+    assert_equal updated_on_was, issue.updated_on
+  end
+
   def test_should_close_duplicates
     # Create 3 issues
     issue1 = Issue.generate!
