@@ -187,6 +187,35 @@ class ImportsControllerTest < Redmine::ControllerTest
     assert_select 'div#flash_error', /The file is not a CSV file or does not match the settings below \([[:print:]]+\)/
   end
 
+  def test_post_settings_with_crlf_and_newline_in_quoted_header_should_not_fail
+    import = new_record(Import) do
+      post(
+        :create,
+        :params => {
+          :type => 'IssueImport',
+          :file => uploaded_test_file('import_crlf_with_newline_in_quoted_header.csv', 'text/csv')
+        }
+      )
+      assert_response :found
+    end
+    assert_equal "\r\n", import.settings['newline']
+
+    post(
+      :settings,
+      :params => {
+        :id => import.to_param,
+        :import_settings => {
+          :separator => ',',
+          :wrapper => '"',
+          :encoding => 'UTF-8'
+        }
+      }
+    )
+    assert_response :found
+    import.reload
+    assert_equal 1, import.total_items
+  end
+
   def test_post_settings_with_no_data_row_should_display_error
     import = generate_import('import_issues_no_data_row.csv')
 
