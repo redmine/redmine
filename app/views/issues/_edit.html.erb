@@ -1,4 +1,5 @@
 <%= labelled_form_for @issue, :html => {:id => 'issue-form', :multipart => true} do |f| %>
+    <%= call_hook(:view_issues_edit_top, { :issue => @issue, :form => f }) %>
     <%= error_messages_for 'issue', 'time_entry' %>
     <%= render :partial => 'conflict' if @conflict %>
     <div class="box">
