@@ -296,6 +296,15 @@ class AccountControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_get_register_should_show_lastname_before_firstname_when_user_format_requires_it
+    with_settings :self_registration => '3', :user_format => 'lastname_firstname' do
+      get :register
+      assert_response :success
+
+      assert_operator @response.body.index('id="user_lastname"'), :<, @response.body.index('id="user_firstname"')
+    end
+  end
+
   def test_get_register_should_detect_user_language
     with_settings :self_registration => '3' do
       @request.env['HTTP_ACCEPT_LANGUAGE'] = 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'

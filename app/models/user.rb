@@ -266,6 +266,14 @@ class User < Principal
     USER_FORMATS[formatter || Setting.user_format] || USER_FORMATS[:firstname_lastname]
   end
 
+  # Returns true if the selected user format puts lastname before firstname.
+  def self.lastname_before_firstname?(formatter = nil)
+    order = name_formatter(formatter)[:order]
+    return false unless order.include?('firstname') && order.include?('lastname')
+
+    order.index('lastname') < order.index('firstname')
+  end
+
   # Returns an array of fields names than can be used to make an order statement for users
   # according to how user names are displayed
   # Examples:

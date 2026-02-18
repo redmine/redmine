@@ -113,7 +113,12 @@ class UserQuery < Query
   end
 
   def default_columns_names
-    @default_columns_names ||= [:login, :firstname, :lastname, :mail, :admin, :created_on, :last_login_on]
+    @default_columns_names ||=
+      if !User.lastname_before_firstname?
+        [:login, :firstname, :lastname, :mail, :admin, :created_on, :last_login_on]
+      else
+        [:login, :lastname, :firstname, :mail, :admin, :created_on, :last_login_on]
+      end
   end
 
   def default_sort_criteria

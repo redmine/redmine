@@ -398,6 +398,15 @@ class MyControllerTest < Redmine::ControllerTest
     assert_select 'select[name=?]', 'user[language]'
   end
 
+  def test_my_account_should_show_lastname_before_firstname_when_user_format_requires_it
+    with_settings :user_format => 'lastname_firstname' do
+      get :account
+      assert_response :success
+
+      assert_operator @response.body.index('id="user_lastname"'), :<, @response.body.index('id="user_firstname"')
+    end
+  end
+
   def test_my_account_should_toggle_webhook_link_with_setting
     User.find(2).roles.first.add_permission!(:use_webhooks)
 

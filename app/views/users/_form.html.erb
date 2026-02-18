@@ -7,8 +7,13 @@
 <fieldset class="box tabular">
   <legend><%=l(:label_information_plural)%></legend>
   <p><%= f.text_field :login, :required => true, :size => 25  %></p>
-  <p><%= f.text_field :firstname, :required => true %></p>
-  <p><%= f.text_field :lastname, :required => true %></p>
+  <% if User.lastname_before_firstname? %>
+    <p><%= f.text_field :lastname, :required => true %></p>
+    <p><%= f.text_field :firstname, :required => true %></p>
+  <% else %>
+    <p><%= f.text_field :firstname, :required => true %></p>
+    <p><%= f.text_field :lastname, :required => true %></p>
+  <% end %>
   <p><%= f.text_field :mail, :required => true %></p>
   <% unless @user.force_default_language? %>
   <p><%= f.select :language, lang_options_for_select %></p>

@@ -19,6 +19,20 @@
 require_relative '../test_helper'
 
 class UserQueryTest < ActiveSupport::TestCase
+  def test_default_columns_names_should_show_lastname_before_firstname_when_user_format_requires_it
+    with_settings user_format: 'lastname_firstname' do
+      assert_equal [:login, :lastname, :firstname, :mail, :admin, :created_on, :last_login_on],
+                   UserQuery.new.default_columns_names
+    end
+  end
+
+  def test_default_columns_names_should_show_firstname_before_lastname_when_user_format_is_default
+    with_settings user_format: 'firstname_lastname' do
+      assert_equal [:login, :firstname, :lastname, :mail, :admin, :created_on, :last_login_on],
+                   UserQuery.new.default_columns_names
+    end
+  end
+
   def test_available_columns_should_include_user_custom_fields
     query = UserQuery.new
     assert_include :cf_4, query.available_columns.map(&:name)

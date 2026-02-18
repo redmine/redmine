@@ -37,6 +37,20 @@ class UsersControllerTest < Redmine::ControllerTest
     assert_select "tr#user-#{locked.id}", 0
   end
 
+  def test_index_default_columns_should_show_lastname_before_firstname_when_user_format_requires_it
+    with_settings user_format: 'lastname_firstname' do
+      get :index
+      assert_response :success
+
+      lastname_header = @response.body.match(/<th[^>]*class="[^"]*\blastname\b[^"]*"[^>]*>/)
+      firstname_header = @response.body.match(/<th[^>]*class="[^"]*\bfirstname\b[^"]*"[^>]*>/)
+
+      assert_not_nil lastname_header
+      assert_not_nil firstname_header
+      assert_operator lastname_header.begin(0), :<, firstname_header.begin(0)
+    end
+  end
+
   def test_index_with_status_filter
     get :index, params: { set_filter: 1, f: ['status'], op: {status: '='}, v: {status: [3]} }
     assert_response :success
@@ -442,6 +456,15 @@ class UsersControllerTest < Redmine::ControllerTest
 
     assert_select 'input[name=?]', 'user[login]'
     assert_select 'label[for=?]>span.required', 'user_password', 1
+  end
+
+  def test_new_should_show_lastname_before_firstname_when_user_format_requires_it
+    with_settings :user_format => 'lastname_firstname' do
+      get :new
+      assert_response :success
+
+      assert_operator @response.body.index('id="user_lastname"'), :<, @response.body.index('id="user_firstname"')
+    end
   end
 
   def test_create

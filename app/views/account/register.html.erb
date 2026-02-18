@@ -16,8 +16,13 @@
   <p><%= f.password_field :password_confirmation, :size => 25, :required => true %></p>
 <% end %>
 
+<% if User.lastname_before_firstname? %>
+<p><%= f.text_field :lastname, :required => true %></p>
+<p><%= f.text_field :firstname, :required => true %></p>
+<% else %>
 <p><%= f.text_field :firstname, :required => true %></p>
 <p><%= f.text_field :lastname, :required => true %></p>
+<% end %>
 <p><%= f.text_field :mail, :required => true %></p>
 <%= labelled_fields_for :pref, @user.pref do |pref_fields| %>
 <p><%= pref_fields.check_box :hide_mail %></p>

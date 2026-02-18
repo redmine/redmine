@@ -691,6 +691,19 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  def test_lastname_before_firstname_should_return_true_with_lastname_firstname_format
+    assert User.lastname_before_firstname?(:lastname_firstname)
+  end
+
+  def test_lastname_before_firstname_should_return_false_with_firstname_lastname_format
+    assert_not User.lastname_before_firstname?(:firstname_lastname)
+  end
+
+  def test_lastname_before_firstname_should_return_false_with_format_without_both_name_parts
+    assert_not User.lastname_before_firstname?(:username)
+    assert_not User.lastname_before_firstname?(:lastname)
+  end
+
   test ".try_to_login with good credentials should return the user" do
     user = User.try_to_login("admin", "admin")
     assert_kind_of User, user
