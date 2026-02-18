@@ -72,6 +72,7 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 #top-menu {
