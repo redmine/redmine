@@ -428,6 +428,7 @@ bg:
   field_any_searchable: Всички обекти с текст (заглавие, описание, коментари на задачи, потребителски полета)
   field_last_activity_date: Последна активност
   field_thousands_delimiter: Раделител на хилядите
+  field_ratio_interval: Ratio интервал
 
   setting_app_title: Заглавие
   setting_welcome_text: Допълнителен текст
@@ -994,6 +995,7 @@ bg:
   label_auto_watch_on: Автоматично включване в наблюдателите
   label_auto_watch_on_issue_created: Задачи, които съм създал
   label_auto_watch_on_issue_contributed_to: Задачи, в които имам участие
+  label_auto_watch_on_issue_assigned_to_me: Задачи, назначени на мен
   label_preferences: Предпочитания
   label_chronological_order: Хронологичен ред
   label_reverse_chronological_order: Обратен хронологичен ред
@@ -1182,6 +1184,10 @@ bg:
   label_alert_warning: Предупреждение
   label_alert_caution: Внимание
   label_alert_important: Важно
+
+  webhook_event_created: "%{object_name} създаден"
+  webhook_event_updated: "%{object_name} променен"
+  webhook_event_deleted: "%{object_name} изтрит"
   webhook_url_info: Redmine ще изпрати POST заявка на този адрес, когато някое от избраните събития се появи в някой от избраните проекти.
   webhook_secret_info_html: Ако е зададено,  Redmine ще използва това, за да създаде хеш сигнатура, която ще бъде изпращана с всяко съобщение като стойност на X-Redmine-Signature-256 хедър.
 
@@ -1491,8 +1497,3 @@ bg:
   reaction_text_x_other_users:
     one: 1 друг
     other: "%{count} други"
-  field_ratio_interval: Ratio interval
-  webhook_event_created: "%{object_name} created"
-  webhook_event_updated: "%{object_name} updated"
-  webhook_event_deleted: "%{object_name} deleted"
-  label_auto_watch_on_issue_assigned_to_me: Issues assigned to me
