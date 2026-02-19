@@ -739,6 +739,15 @@ class QueryTest < ActiveSupport::TestCase
     assert_not_include issue, result
   end
 
+  def test_operator_does_not_contain_on_text_custom_field
+    query = IssueQuery.new(:name => '_')
+    query.filters = {"cf_2" => {:operator => '!~', :values => ['125']}}
+    result = find_issues_with_query(query)
+    # "cf_2" (Searchable field) custom field's available trackers are only 1:Bug and 3:Support request.
+    # 8(Issue.visible.where(tracker: [1,3])) - 2(contain "125") = 6(not contain "125")
+    assert_equal 6, result.size
+  end
+
   def test_operator_contains_any_of
     User.current = User.find(1)
     query = IssueQuery.new(
