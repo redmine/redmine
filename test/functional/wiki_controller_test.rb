@@ -403,6 +403,39 @@ class WikiControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_edit_section_with_common_mark_should_correctly_extract_setext_heading
+    text = <<~STR
+      A new MarkDown page
+      ===================
+      This text is the first section.
+
+      First subsection
+      ----------------
+      Here would be a first subsection
+
+      Second subsection
+      -----------------
+      Here would be a second subsection
+    STR
+
+    page = WikiPage.find_by_title('Page_with_sections')
+    page.content.text = text
+    page.content.save!
+
+    with_settings :text_formatting => 'common_mark' do
+      @request.session[:user_id] = 2
+      get :edit, :params => {:project_id => 'ecookbook', :id => 'Page_with_sections', :section => 2}
+
+      assert_response :success
+
+      section, hash = Redmine::WikiFormatting::CommonMark::Formatter.new(page.content.text).get_section(2)
+
+      assert_select 'textarea[name=?]', 'content[text]', :text => section
+      assert_select 'input[name=section][type=hidden][value="2"]'
+      assert_select 'input[name=section_hash][type=hidden][value=?]', hash
+    end
+  end
+
   def test_edit_invalid_section_should_respond_with_404
     @request.session[:user_id] = 2
     get :edit, :params => {:project_id => 'ecookbook', :id => 'Page_with_sections', :section => 10}
