@@ -100,4 +100,11 @@ class TimelogTest < ApplicationSystemTestCase
       assert page.has_no_text?('Comment')
     end
   end
+
+  def test_report_should_hide_options
+    log_user 'jsmith', 'jsmith'
+    visit '/projects/ecookbook/time_entries/report'
+
+    assert_selector 'fieldset#options', visible: :hidden
+  end
 end

@@ -634,6 +634,8 @@ div.table-list.boards .table-list-cell.name {inline-size: 30%;}
 .query-totals>span:not(:first-child) {margin-inline-start: 0.6em;}
 .query-totals .value {font-weight:bold;}
 body.controller-timelog .query-totals {margin-block-start: initial;}
+/* Spent time report does not use options, hide the options section */
+body.controller-timelog.action-report fieldset#options {display: none;}
 
 body.controller-gantts fieldset#options > div > div {
   display: flex;

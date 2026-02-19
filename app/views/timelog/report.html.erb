@@ -13,6 +13,7 @@
   <% @report.criteria.each do |criterion| %>
     <%= hidden_field_tag 'criteria[]', criterion, :id => nil %>
   <% end %>
+  <%# Report view does not use query options for results, so the options section is hidden by CSS. %>
   <%= render :partial => 'timelog/date_range' %>
 
   <p><label for='columns'><%= l(:label_details) %></label>: <%= select_tag 'columns', options_for_select([[l(:label_year), 'year'],
