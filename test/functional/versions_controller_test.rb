@@ -43,7 +43,7 @@ class VersionsControllerTest < Redmine::ControllerTest
       assert_select 'input[type=hidden][name=?]', 'tracker_ids[]'
       assert_select 'input[type=checkbox][name=?]', 'tracker_ids[]', 3
       # Links to versions anchors
-      assert_select 'a[href=?]', '#2.0'
+      assert_select 'a[href=?]', '#version-3'
       # Links to completed versions in the sidebar
       assert_select 'a[href=?]', '/versions/1'
     end
@@ -89,8 +89,8 @@ class VersionsControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_select '#sidebar' do
-      assert_select 'a[href=?]', '#2.0', :text => '2.0'
-      assert_select 'a[href=?]', '#subproject1-2.0', :text => 'eCookbook Subproject 1 - 2.0'
+      assert_select 'a[href=?]', '#version-3', :text => '2.0'
+      assert_select 'a[href=?]', '#version-4', :text => 'eCookbook Subproject 1 - 2.0'
     end
     assert_select '#content' do
       assert_select 'a[name=?]', '2.0', :text => '2.0'

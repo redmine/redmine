@@ -948,6 +948,11 @@ div#roadmap .wiki h1:first-child { display: none; }
 div#roadmap .wiki h1 { font-size: 120%; }
 div#roadmap .wiki h2 { font-size: 110%; }
 div#roadmap h2, div#roadmap h3 {padding-inline-end: 0;}
+div#roadmap .version-article > header {padding-block: 4px;}
+div#roadmap .version-article > header h3 {margin-block: 0;}
+div#roadmap .version-article > header .badge {inset-block-end: 0;}
+div#roadmap .version-article > header .contextual {margin-block: 0;}
+div#roadmap header:target {background-color: var(--oc-blue-0);}
 div#roadmap h3 svg {margin-inline-end: 4px;}
 body.controller-versions.action-show div#roadmap .related-issues {inline-size: 70%;}
 
