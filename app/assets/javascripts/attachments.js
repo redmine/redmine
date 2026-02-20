@@ -73,14 +73,16 @@ function ajaxUpload(file, attachmentId, fileSpan, inputEl) {
         addInlineAttachmentMarkup(file);
         progressSpan.progressbar( 'value', 100 ).remove();
         fileSpan.find('input.description, a').css('display', 'inline-flex');
+        updateSVGIcon(attachmentIcon[0], 'file');
       })
       .fail(function(result) {
-        progressSpan.text(result.statusText);
+        $('<span>').insertAfter(progressSpan).text(result.statusText);
+        progressSpan.remove();
+        updateSVGIcon(attachmentIcon[0], 'warning');
       }).always(function() {
         ajaxUpload.uploading--;
         fileSpan.removeClass('ajax-loading');
         attachmentIcon.removeClass('svg-loader');
-        updateSVGIcon(attachmentIcon[0], 'file');
         var form = fileSpan.parents('form');
         if (form.queue('upload').length == 0 && ajaxUpload.uploading == 0) {
           $('input:submit', form).removeAttr('disabled');
