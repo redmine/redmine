@@ -79,6 +79,10 @@ module ApplicationHelper
     url ? link_to(principal_icon(principal).to_s + name, url, :class => css_classes) : h(name)
   end
 
+  def link_to_mention(user, object, options={})
+    link_to_user(user, only_path: options[:only_path], class: 'user-mention', mention: true)
+  end
+
   # Displays a link to edit group page if current user is admin
   # Otherwise display only the group name
   def link_to_group(group, options={})
@@ -1291,7 +1295,7 @@ module ApplicationHelper
           elsif sep == "@"
             name = remove_double_quotes(identifier)
             u = User.visible.find_by("LOWER(login) = :s AND type = 'User'", :s => name.downcase)
-            link = link_to_user(u, :only_path => only_path, :class => 'user-mention', :mention => true) if u
+            link = link_to_mention(u, obj, only_path: only_path) if u
           end
         end
         (leading + (link || "#{project_prefix}#{prefix}#{repo_prefix}#{sep}#{identifier}#{comment_suffix}"))
