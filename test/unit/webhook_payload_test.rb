@@ -28,6 +28,20 @@ class WebhookPayloadTest < ActiveSupport::TestCase
     @issue = @project.issues.first
   end
 
+  WebhookPayload.events.each do |type, actions|
+    actions.each do |action|
+      test "#{type} #{action} payload should be correct" do
+        model_class = type.to_s.classify.constantize
+        obj = model_class.first || model_class.generate!
+        p = WebhookPayload.new("#{type}.#{action}", obj, @dlopper)
+        assert h = p.to_h
+        assert_equal "#{type}.#{action}", h[:type]
+        assert Time.iso8601(h[:timestamp])
+        assert h.dig(:data, type)
+      end
+    end
+  end
+
   test "issue update payload should contain journal" do
     @issue.init_journal(@dlopper)
     @issue.subject = "new subject"
@@ -35,6 +49,7 @@ class WebhookPayloadTest < ActiveSupport::TestCase
     p = WebhookPayload.new('issue.updated', @issue, @dlopper)
     assert h = p.to_h
     assert_equal 'issue.updated', h[:type]
+    assert Time.iso8601(h[:timestamp])
     assert j = h.dig(:data, :journal)
     assert_equal 'Dave Lopper', j[:user][:name]
     assert i = h.dig(:data, :issue)
@@ -46,6 +61,7 @@ class WebhookPayloadTest < ActiveSupport::TestCase
     p = WebhookPayload.new('issue.deleted', @issue, @dlopper)
     assert h = p.to_h
     assert_equal 'issue.deleted', h[:type]
+    assert Time.iso8601(h[:timestamp])
     assert_nil h.dig(:data, :journal)
     assert i = h.dig(:data, :issue)
     assert_equal @issue.subject, i[:subject], i.inspect
@@ -60,6 +76,7 @@ class WebhookPayloadTest < ActiveSupport::TestCase
     p = WebhookPayload.new('wiki_page.created', page, @dlopper)
     assert h = p.to_h
     assert_equal 'wiki_page.created', h[:type]
+    assert Time.iso8601(h[:timestamp])
     assert_equal 'Test_Page', h.dig(:data, :wiki_page, :title)
     assert_equal 'Test content', h.dig(:data, :wiki_page, :text)
     assert_equal @dlopper.name, h.dig(:data, :wiki_page, :author, :name)
@@ -78,6 +95,7 @@ class WebhookPayloadTest < ActiveSupport::TestCase
     p = WebhookPayload.new('wiki_page.updated', page, @dlopper)
     h = p.to_h
     assert_equal 'wiki_page.updated', h[:type]
+    assert Time.iso8601(h[:timestamp])
     assert_equal 'Updated content', h.dig(:data, :wiki_page, :text)
   end
 
@@ -92,6 +110,7 @@ class WebhookPayloadTest < ActiveSupport::TestCase
     p = WebhookPayload.new('wiki_page.deleted', page, @dlopper)
     h = p.to_h
     assert_equal 'wiki_page.deleted', h[:type]
+    assert Time.iso8601(h[:timestamp])
     assert_equal 'Test_Page', h.dig(:data, :wiki_page, :title)
   end
 
@@ -101,6 +120,7 @@ class WebhookPayloadTest < ActiveSupport::TestCase
     p = WebhookPayload.new('time_entry.created', time_entry, @dlopper)
     assert h = p.to_h
     assert_equal 'time_entry.created', h[:type]
+    assert Time.iso8601(h[:timestamp])
     assert_equal time_entry.hours, h.dig(:data, :time_entry, :hours)
   end
 
@@ -113,6 +133,7 @@ class WebhookPayloadTest < ActiveSupport::TestCase
     p = WebhookPayload.new('time_entry.updated', time_entry, @dlopper)
     h = p.to_h
     assert_equal 'time_entry.updated', h[:type]
+    assert Time.iso8601(h[:timestamp])
     assert_equal 2.5, h.dig(:data, :time_entry, :hours)
   end
 
@@ -123,6 +144,7 @@ class WebhookPayloadTest < ActiveSupport::TestCase
     p = WebhookPayload.new('time_entry.deleted', time_entry, @dlopper)
     h = p.to_h
     assert_equal 'time_entry.deleted', h[:type]
+    assert Time.iso8601(h[:timestamp])
     assert_equal 4.25, h.dig(:data, :time_entry, :hours)
   end
 
@@ -133,6 +155,7 @@ class WebhookPayloadTest < ActiveSupport::TestCase
     p = WebhookPayload.new('news.created', news, @dlopper)
     assert h = p.to_h
     assert_equal 'news.created', h[:type]
+    assert_equal news.created_on.iso8601, h[:timestamp]
     assert_equal news.title, h.dig(:data, :news, :title)
   end
 
@@ -145,6 +168,7 @@ class WebhookPayloadTest < ActiveSupport::TestCase
     p = WebhookPayload.new('news.updated', news, @dlopper)
     h = p.to_h
     assert_equal 'news.updated', h[:type]
+    assert Time.iso8601(h[:timestamp])
     assert_equal 'Updated title', h.dig(:data, :news, :title)
   end
 
@@ -155,6 +179,7 @@ class WebhookPayloadTest < ActiveSupport::TestCase
     p = WebhookPayload.new('news.deleted', news, @dlopper)
     h = p.to_h
     assert_equal 'news.deleted', h[:type]
+    assert Time.iso8601(h[:timestamp])
     assert_equal 'eCookbook first release !', h.dig(:data, :news, :title)
   end
 
@@ -164,6 +189,7 @@ class WebhookPayloadTest < ActiveSupport::TestCase
     p = WebhookPayload.new('version.created', version, @dlopper)
     assert h = p.to_h
     assert_equal 'version.created', h[:type]
+    assert Time.iso8601(h[:timestamp])
     assert_equal version.name, h.dig(:data, :version, :name)
   end
 
@@ -176,6 +202,7 @@ class WebhookPayloadTest < ActiveSupport::TestCase
     p = WebhookPayload.new('version.updated', version, @dlopper)
     h = p.to_h
     assert_equal 'version.updated', h[:type]
+    assert Time.iso8601(h[:timestamp])
     assert_equal 'Updated name', h.dig(:data, :version, :name)
   end
 
@@ -186,6 +213,18 @@ class WebhookPayloadTest < ActiveSupport::TestCase
     p = WebhookPayload.new('version.deleted', version, @dlopper)
     h = p.to_h
     assert_equal 'version.deleted', h[:type]
+    assert Time.iso8601(h[:timestamp])
     assert_equal '0.1', h.dig(:data, :version, :name)
+  end
+
+  test "should generate payload for custom event" do
+    # Register a custom event for News
+    News.acts_as_webhookable %w(created updated deleted commented)
+
+    news = News.first
+    p = WebhookPayload.new('news.commented', news, @dlopper)
+    assert h = p.to_h
+    assert_equal 'news.commented', h[:type]
+    assert Time.iso8601(h[:timestamp])
   end
 end

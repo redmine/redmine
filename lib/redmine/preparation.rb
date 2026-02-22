@@ -22,6 +22,7 @@ module Redmine
     def self.prepare
       ApplicationRecord.include Redmine::Acts::Positioned
       ApplicationRecord.include Redmine::Acts::Mentionable
+      ApplicationRecord.include Redmine::Acts::Webhookable
       ApplicationRecord.include Redmine::I18n
 
       Scm::Base.add "Subversion"
