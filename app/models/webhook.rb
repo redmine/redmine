@@ -94,7 +94,7 @@ class Webhook < ApplicationRecord
   end
 
   def setable_events
-    WebhookPayload::EVENTS
+    WebhookPayload.events
   end
 
   def setable_event_names
