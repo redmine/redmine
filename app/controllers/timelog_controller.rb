@@ -261,6 +261,8 @@ class TimelogController < ApplicationController
 
   def find_time_entry
     @time_entry = TimeEntry.find(params[:id])
+    raise Unauthorized unless @time_entry.visible?
+
     @project = @time_entry.project
   rescue ActiveRecord::RecordNotFound
     render_404
