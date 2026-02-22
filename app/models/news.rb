@@ -37,11 +37,13 @@ class News < ApplicationRecord
   acts_as_activity_provider :scope => proc {preload(:project, :author)},
                             :author_key => :author_id
   acts_as_watchable
-  acts_as_webhookable
-  include News::Webhookable
 
   after_create :add_author_as_watcher
   after_create_commit :send_notification
+
+  after_create_commit ->{ Webhook.trigger('news.created', self) }
+  after_update_commit ->{ Webhook.trigger('news.updated', self) }
+  after_destroy_commit ->{ Webhook.trigger('news.deleted', self) }
 
   scope :visible, (lambda do |*args|
     joins(:project).

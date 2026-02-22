@@ -27,24 +27,148 @@ class WebhookPayload
     self.user = user
   end
 
-  def self.register_model(model, model_events)
-    raise ArgumentError, "model_events must be Array" unless model_events.is_a?(Array)
-
-    @events ||= {}
-    @events[model.model_name.singular.to_sym] = model_events
-  end
-
-  def self.events
-    @events ||= {}
-  end
+  EVENTS = {
+    issue: %w[created updated deleted],
+    wiki_page: %w[created updated deleted],
+    time_entry: %w[created updated deleted],
+    news: %w[created updated deleted],
+    version: %w[created updated deleted],
+  }
 
   def to_h
     type, action = event.split('.')
-    if self.class.events[type.to_sym]&.include?(action)
-      object.webhook_payload(user, action)
+    if EVENTS[type.to_sym].include?(action)
+      send("#{type}_payload", action)
     else
       raise ArgumentError, "invalid event: #{event}"
     end
+  end
+
+  private
+
+  def issue_payload(action)
+    issue = object
+    if issue.current_journal.present?
+      journal = issue.journals.visible(user).find_by_id(issue.current_journal.id)
+    end
+    ts = case action
+         when 'created'
+           issue.created_on
+         when 'deleted'
+           Time.now
+         else
+           journal&.created_on || issue.updated_on
+         end
+    h = {
+      type: event,
+      timestamp: ts.iso8601,
+      data: {
+        issue: ApiRenderer.new("app/views/issues/show.api.rsb", user).to_h(issue: issue)
+      }
+    }
+    if action == 'updated' && journal.present?
+      h[:data][:journal] = journal_payload(journal)
+    end
+    h
+  end
+
+  def journal_payload(journal)
+    {
+      id: journal.id,
+      created_on: journal.created_on.iso8601,
+      notes: journal.notes,
+      user: {
+        id: journal.user.id,
+        name: journal.user.name,
+      },
+      details: journal.visible_details(user).map do |d|
+        {
+          property: d.property,
+          prop_key: d.prop_key,
+          old_value: d.old_value,
+          value: d.value,
+        }
+      end
+    }
+  end
+
+  def wiki_page_payload(action)
+    wiki_page = object
+
+    ts = case action
+         when 'created'
+           wiki_page.created_on
+         when 'deleted'
+           Time.now
+         else
+           wiki_page.updated_on
+         end
+
+    {
+      type: event,
+      timestamp: ts.iso8601,
+      data: {
+        wiki_page: ApiRenderer.new("app/views/wiki/show.api.rsb", user).to_h(page: wiki_page, content: wiki_page.content)
+      }
+    }
+  end
+
+  def time_entry_payload(action)
+    time_entry = object
+    ts = case action
+         when 'created'
+           time_entry.created_on
+         when 'deleted'
+           Time.now
+         else
+           time_entry.updated_on
+         end
+    {
+      type: event,
+      timestamp: ts.iso8601,
+      data: {
+        time_entry: ApiRenderer.new("app/views/timelog/show.api.rsb", user).to_h(time_entry: time_entry)
+      }
+    }
+  end
+
+  def news_payload(action)
+    news = object
+    ts = case action
+         when 'created'
+           news.created_on
+         when 'deleted'
+           Time.now
+         else # rubocop:disable Lint/DuplicateBranch
+           # TODO: fix this by adding a update_on column for news.
+           Time.now
+         end
+    {
+      type: event,
+      timestamp: ts.iso8601,
+      data: {
+        news: ApiRenderer.new("app/views/news/show.api.rsb", user).to_h(news: news)
+      }
+    }
+  end
+
+  def version_payload(action)
+    version = object
+    ts = case action
+         when 'created'
+           version.created_on
+         when 'deleted'
+           Time.now
+         else
+           version.updated_on
+         end
+    {
+      type: event,
+      timestamp: ts.iso8601,
+      data: {
+        version: ApiRenderer.new("app/views/versions/show.api.rsb", user).to_h(version: version)
+      }
+    }
   end
 
   # given a path to an API template (relative to RAILS_ROOT), renders it and returns the resulting hash

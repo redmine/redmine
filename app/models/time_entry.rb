@@ -46,7 +46,6 @@ class TimeEntry < ApplicationRecord
   acts_as_activity_provider :timestamp => "#{table_name}.created_on",
                             :author_key => :user_id,
                             :scope => proc {joins(:project).preload(:project)}
-  acts_as_webhookable
 
   validates_presence_of :author_id, :user_id, :activity_id, :project_id, :hours, :spent_on
   validates_presence_of :issue_id, :if => lambda {Setting.timelog_required_fields.include?('issue_id')}
@@ -58,6 +57,10 @@ class TimeEntry < ApplicationRecord
   # TODO: remove this, author should be always explicitly set
   before_validation :set_author_if_nil
   validate :validate_time_entry
+
+  after_create_commit  ->{ Webhook.trigger('time_entry.created', self) }
+  after_update_commit  ->{ Webhook.trigger('time_entry.updated', self) }
+  after_destroy_commit ->{ Webhook.trigger('time_entry.deleted', self) }
 
   scope :visible, (lambda do |*args|
     joins(:project).
@@ -78,10 +81,6 @@ class TimeEntry < ApplicationRecord
   safe_attributes 'user_id', 'hours', 'comments', 'project_id',
                   'issue_id', 'activity_id', 'spent_on',
                   'custom_field_values', 'custom_fields'
-
-  def webhook_payload_api_template
-    "app/views/timelog/show.api.rsb"
-  end
 
   # Returns a SQL conditions string used to find all time entries visible by the specified user
   def self.visible_condition(user, options={})

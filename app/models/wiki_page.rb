@@ -47,8 +47,6 @@ class WikiPage < ApplicationRecord
                      :preload => [:content, {:wiki => :project}],
                      :permission => :view_wiki_pages,
                      :project_key => "#{Wiki.table_name}.project_id"
-  acts_as_webhookable
-  include WikiPage::Webhookable
 
   attr_accessor :redirect_existing_links
   attr_writer   :deleted_attachment_ids
@@ -63,6 +61,10 @@ class WikiPage < ApplicationRecord
   before_save :handle_rename_or_move, :update_wiki_start_page
   before_destroy :delete_redirects
   after_save :handle_children_move, :delete_selected_attachments
+
+  after_create_commit  ->{ Webhook.trigger('wiki_page.created', self) }
+  after_update_commit  ->{ Webhook.trigger('wiki_page.updated', self) }
+  after_destroy_commit ->{ Webhook.trigger('wiki_page.deleted', self) }
 
   # eager load information about last updates, without loading text
   scope :with_updated_on, lambda {preload(:content_without_text)}

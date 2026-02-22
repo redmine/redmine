@@ -21,7 +21,6 @@ class Issue < ApplicationRecord
   include Redmine::SafeAttributes
   include Redmine::Utils::DateCalculation
   include Redmine::I18n
-
   before_validation :default_assign, on: :create
   before_validation :force_default_value_on_noneditable_custom_fields, on: :create
   before_validation :clear_disabled_fields
@@ -60,8 +59,6 @@ class Issue < ApplicationRecord
                             :author_key => :author_id
 
   acts_as_mentionable :attributes => ['description']
-  acts_as_webhookable
-  include Issue::Webhookable
 
   DONE_RATIO_OPTIONS = %w(issue_field issue_status)
 
@@ -132,6 +129,10 @@ class Issue < ApplicationRecord
   after_create_commit :send_notification
   after_create_commit :add_auto_watcher
   after_commit :create_parent_issue_journal
+
+  after_create_commit  ->{ Webhook.trigger('issue.created', self) }
+  after_update_commit  ->{ Webhook.trigger('issue.updated', self) }
+  after_destroy_commit ->{ Webhook.trigger('issue.deleted', self) }
 
   # Returns a SQL conditions string used to find all issues visible by the specified user
   def self.visible_condition(user, options={})

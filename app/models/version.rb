@@ -123,6 +123,10 @@ class Version < ApplicationRecord
   before_destroy :nullify_projects_default_version
   after_save :update_default_project_version
 
+  after_create_commit  ->{ Webhook.trigger('version.created', self) }
+  after_update_commit  ->{ Webhook.trigger('version.updated', self) }
+  after_destroy_commit ->{ Webhook.trigger('version.deleted', self) }
+
   belongs_to :project
   has_many :fixed_issues, :class_name => 'Issue', :foreign_key => 'fixed_version_id', :dependent => :nullify, :extend => FixedIssuesExtension
 
@@ -130,7 +134,6 @@ class Version < ApplicationRecord
   acts_as_attachable :view_permission => :view_files,
                      :edit_permission => :manage_files,
                      :delete_permission => :manage_files
-  acts_as_webhookable
 
   VERSION_STATUSES = %w(open locked closed)
   VERSION_SHARINGS = %w(none descendants hierarchy tree system)
