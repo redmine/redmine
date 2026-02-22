@@ -60,6 +60,12 @@ class Redmine::ApiTest::TimeEntriesTest < Redmine::ApiTest::Base
     assert_response :not_found
   end
 
+  test "GET /time_entries/:id.xml with non visible time entry should 403 " do
+    Role.non_member.update(:time_entries_visibility => 'own')
+    get '/time_entries/4.xml', :headers => credentials('jsmith')
+    assert_response :forbidden
+  end
+
   test "POST /time_entries.xml with issue_id should create time entry" do
     assert_difference 'TimeEntry.count' do
       post(
