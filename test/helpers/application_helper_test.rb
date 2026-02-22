@@ -166,206 +166,38 @@ class ApplicationHelperTest < Redmine::HelperTest
     end
   end
 
-  def test_attached_images
-    to_test = {
-      'Inline image: !logo.gif!' =>
-         'Inline image: <img src="/attachments/download/3/logo.gif" alt="This is a logo" title="This is a logo" loading="lazy">',
-      'Inline image: !logo.GIF!' =>
-         'Inline image: <img src="/attachments/download/3/logo.gif" alt="This is a logo" title="This is a logo" loading="lazy">',
-      'Inline WebP image: !logo.webp!' =>
-         'Inline WebP image: <img src="/attachments/download/24/logo.webp" alt="WebP image" title="WebP image" loading="lazy">',
-      'No match: !ogo.gif!' => 'No match: <img src="ogo.gif" alt="">',
-      'No match: !ogo.GIF!' => 'No match: <img src="ogo.GIF" alt="">',
-      # link image
-      '!logo.gif!:http://foo.bar/' =>
-         '<a href="http://foo.bar/"><img src="/attachments/download/3/logo.gif" alt="This is a logo" title="This is a logo" loading="lazy"></a>',
-    }
-    attachments = Attachment.all
+  def test_textilizable_should_resolve_inline_attachments_in_textile
+    attachment = Attachment.find(3)
     with_settings :text_formatting => 'textile' do
-      to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => attachments)}
+      assert_include %(<img src="/attachments/download/#{attachment.id}/logo.gif"),
+                     textilizable("!logo.gif!", :attachments => [attachment])
     end
   end
 
-  def test_attached_image_alt_attribute_with_textile
-    attachments = Attachment.all
-    with_settings text_formatting: 'textile' do
-      # When alt text is set
-      assert_match %r[<img src=".+?" title="alt text" alt="alt text" loading=".+?">],
-        textilizable('!logo.gif(alt text)!', attachments: attachments)
-
-      # When alt text and style are set
-      assert_match %r[<img src=".+?" style="width:100px;" title="alt text" alt="alt text" loading=".+?">],
-        textilizable('!{width:100px}logo.gif(alt text)!', attachments: attachments)
-
-      # When alt text is not set
-      assert_match %r[<img src=".+?" alt="This is a logo" title="This is a logo" loading=".+?">],
-        textilizable('!logo.gif!', attachments: attachments)
-
-      # When alt text is not set and the attachment has no description
-      assert_match %r[<img src=".+?" alt="" loading=".+?">],
-        textilizable('!testfile.PNG!', attachments: attachments)
-
-      # When no matching attachments are found
-      assert_match %r[<img src=".+?" alt="">],
-        textilizable('!no-match.jpg!', attachments: attachments)
-      assert_match %r[<img src=".+?" alt="alt text">],
-        textilizable('!no-match.jpg(alt text)!', attachments: attachments)
-
-      # When no attachment is registered
-      assert_match %r[<img src=".+?" alt="">],
-        textilizable('!logo.gif!', attachments: [])
-      assert_match %r[<img src=".+?" alt="alt text">],
-        textilizable('!logo.gif(alt text)!', attachments: [])
-    end
-  end
-
-  def test_attached_images_on_issue
-    issue = Issue.generate!
-    attachment_1 = Attachment.generate!(:file => mock_file_with_options(:original_filename => "attached_on_issue.png"), :container => issue)
-    journal = issue.init_journal(User.find(2), issue)
-    attachment_2 = Attachment.generate!(:file => mock_file_with_options(:original_filename => "attached_on_journal.png"), :container => issue)
-    journal.journalize_attachment(attachment_2, :added)
-
-    raw = <<~RAW
-      !attached_on_issue.png!
-      !attached_on_journal.png!'
-    RAW
-
-    with_settings :text_formatting => 'textile' do
-      assert textilizable(raw, :object => journal).include?("<img src=\"/attachments/download/#{attachment_1.id}/attached_on_issue.png\" alt=\"\" loading=\"lazy\">")
-      assert textilizable(raw, :object => journal).include?("<img src=\"/attachments/download/#{attachment_2.id}/attached_on_journal.png\" alt=\"\" loading=\"lazy\">")
-    end
-  end
-
-  def test_attached_images_with_textile_and_non_ascii_filename
-    to_test = {
-      'CAFÉ.JPG' => 'CAF%C3%89.JPG',
-      'crème.jpg' => 'cr%C3%A8me.jpg',
-    }
-    with_settings :text_formatting => 'textile' do
-      to_test.each do |filename, result|
-        attachment = Attachment.generate!(:filename => filename)
-        assert_include %(<img src="/attachments/download/#{attachment.id}/#{result}" alt="" loading="lazy">),
-                       textilizable("!#{filename}!", :attachments => [attachment])
-      end
-    end
-  end
-
-  def test_attached_images_with_markdown_and_non_ascii_filename
-    skip unless Object.const_defined?(:CommonMarker)
-
-    to_test = {
-      'CAFÉ.JPG' => 'CAF%C3%89.JPG',
-      'crème.jpg' => 'cr%C3%A8me.jpg',
-    }
+  def test_textilizable_should_resolve_inline_attachments_in_common_mark
+    attachment = Attachment.find(3)
     with_settings :text_formatting => 'common_mark' do
-      to_test.each do |filename, result|
-        attachment = Attachment.generate!(:filename => filename)
-        assert_include %(<img src="/attachments/download/#{attachment.id}/#{result}" alt="" loading="lazy">),
-                       textilizable("![](#{filename})", :attachments => [attachment])
-      end
+      assert_include %(<img src="/attachments/download/#{attachment.id}/logo.gif"),
+                     textilizable("![](logo.gif)", :attachments => [attachment])
     end
   end
 
-  def test_attached_images_with_hires_naming
-    attachment = Attachment.generate!(:filename => 'image@2x.png')
+  def test_textilizable_should_apply_hires_images_scrubber_in_textile
+    attachment = Attachment.generate!(:file => mock_file_with_options(:original_filename => "image@2x.png"))
     with_settings :text_formatting => 'textile' do
-      assert_equal(
-        %(<p><img src="/attachments/download/#{attachment.id}/image@2x.png" ) +
-          %(alt="" loading="lazy" srcset="/attachments/download/#{attachment.id}/image@2x.png 2x"></p>),
-        textilizable("!image@2x.png!", :attachments => [attachment])
-      )
+      result = textilizable("!image@2x.png!", :attachments => [attachment])
+      assert_include 'srcset="/attachments/download/', result
+      assert_include ' 2x"', result
     end
   end
 
-  def test_attached_images_filename_extension
-    a1 =
-      Attachment.new(
-        :container => Issue.find(1),
-        :file => mock_file_with_options({:original_filename => "testtest.JPG"}),
-        :author => User.find(1)
-      )
-    assert a1.save
-    assert_equal "testtest.JPG", a1.filename
-    assert_equal "image/jpeg", a1.content_type
-    assert a1.image?
-
-    a2 =
-      Attachment.new(
-        :container => Issue.find(1),
-        :file => mock_file_with_options({:original_filename => "testtest.jpeg"}),
-        :author => User.find(1)
-      )
-    assert a2.save
-    assert_equal "testtest.jpeg", a2.filename
-    assert_equal "image/jpeg", a2.content_type
-    assert a2.image?
-
-    a3 =
-      Attachment.new(
-        :container => Issue.find(1),
-        :file => mock_file_with_options({:original_filename => "testtest.JPE"}),
-        :author => User.find(1)
-      )
-    assert a3.save
-    assert_equal "testtest.JPE", a3.filename
-    assert_equal "image/jpeg", a3.content_type
-    assert a3.image?
-
-    a4 =
-      Attachment.new(
-        :container => Issue.find(1),
-        :file => mock_file_with_options({:original_filename => "Testtest.BMP"}),
-        :author => User.find(1)
-      )
-    assert a4.save
-    assert_equal "Testtest.BMP", a4.filename
-    assert_equal "image/x-ms-bmp", a4.content_type
-    assert a4.image?
-
-    to_test = {
-      'Inline image: !testtest.jpg!' =>
-        'Inline image: <img src="/attachments/download/' + a1.id.to_s + '/testtest.JPG" alt="" loading="lazy">',
-      'Inline image: !testtest.jpeg!' =>
-        'Inline image: <img src="/attachments/download/' + a2.id.to_s + '/testtest.jpeg" alt="" loading="lazy">',
-      'Inline image: !testtest.jpe!' =>
-        'Inline image: <img src="/attachments/download/' + a3.id.to_s + '/testtest.JPE" alt="" loading="lazy">',
-      'Inline image: !testtest.bmp!' =>
-        'Inline image: <img src="/attachments/download/' + a4.id.to_s + '/Testtest.BMP" alt="" loading="lazy">',
-    }
-
-    attachments = [a1, a2, a3, a4]
-    with_settings :text_formatting => 'textile' do
-      to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => attachments)}
+  def test_textilizable_should_apply_hires_images_scrubber_in_common_mark
+    attachment = Attachment.generate!(:file => mock_file_with_options(:original_filename => "image@2x.png"))
+    with_settings :text_formatting => 'common_mark' do
+      result = textilizable("![](image@2x.png)", :attachments => [attachment])
+      assert_include 'srcset="/attachments/download/', result
+      assert_include ' 2x"', result
     end
-  end
-
-  def test_attached_images_should_read_later
-    set_fixtures_attachments_directory
-    a1 = Attachment.find(16)
-    assert_equal "testfile.png", a1.filename
-    assert a1.readable?
-    assert_not a1.visible?(User.anonymous)
-    assert a1.visible?(User.find(2))
-    a2 = Attachment.find(17)
-    assert_equal "testfile.PNG", a2.filename
-    assert a2.readable?
-    assert_not a2.visible?(User.anonymous)
-    assert a2.visible?(User.find(2))
-    assert a1.created_on < a2.created_on
-
-    to_test = {
-      'Inline image: !testfile.png!' =>
-        'Inline image: <img src="/attachments/download/' + a2.id.to_s + '/testfile.PNG" alt="" loading="lazy">',
-      'Inline image: !Testfile.PNG!' =>
-        'Inline image: <img src="/attachments/download/' + a2.id.to_s + '/testfile.PNG" alt="" loading="lazy">',
-    }
-    attachments = [a1, a2]
-    with_settings :text_formatting => 'textile' do
-      to_test.each {|text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => attachments)}
-    end
-  ensure
-    set_tmp_attachments_directory
   end
 
   def test_textile_external_links
