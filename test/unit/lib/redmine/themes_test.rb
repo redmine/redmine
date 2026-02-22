@@ -59,4 +59,54 @@ class Redmine::ThemesTest < ActiveSupport::TestCase
   ensure
     Redmine::Themes.rescan
   end
+
+  def test_icons_should_return_available_icons
+    theme = Redmine::Themes::Theme.new('/tmp/test')
+    theme.stubs(:image_path).with('icons.svg').returns('themes/test/icons.svg')
+
+    asset = mock('asset')
+    asset.stubs(:content).returns('<svg><symbol id="icon--edit"></symbol><symbol id=\'icon--delete\'></symbol></svg>')
+    asset.stubs(:digest).returns('123456')
+
+    Rails.application.assets.load_path.stubs(:find).with('themes/test/icons.svg').returns(asset)
+
+    assert_equal ['edit', 'delete'], theme.icons('icons')
+  end
+
+  def test_icons_should_return_empty_array_if_asset_missing
+    theme = Redmine::Themes::Theme.new('/tmp/test')
+    theme.stubs(:image_path).with('icons.svg').returns('themes/test/icons.svg')
+
+    Rails.application.assets.load_path.stubs(:find).with('themes/test/icons.svg').returns(nil)
+
+    assert_equal [], theme.icons('icons')
+  end
+
+  def test_icons_should_be_cached
+    theme = Redmine::Themes::Theme.new('/tmp/test')
+    theme.stubs(:id).returns('test')
+    theme.stubs(:image_path).with('icons.svg').returns('themes/test/icons.svg')
+
+    asset = mock('asset')
+    asset.stubs(:content).returns('<symbol id="icon--edit"></symbol>')
+    asset.stubs(:digest).returns('123456')
+
+    Rails.application.assets.load_path.stubs(:find).with('themes/test/icons.svg').returns(asset)
+
+    # Use a memory store for this test since the test environment uses null_store
+    memory_store = ActiveSupport::Cache.lookup_store(:memory_store)
+    ActionController::Base.stubs(:cache_store).returns(memory_store)
+
+    # First call - cache miss
+    assert_equal ['edit'], theme.icons('icons')
+
+    # Second call - verify it's in the cache
+    cache_key = "theme-icons/test/icons/123456"
+    assert_equal ['edit'], memory_store.read(cache_key)
+
+    # If digest changes, it should miss cache
+    asset.stubs(:digest).returns('789')
+    asset.stubs(:content).returns('<symbol id="icon--new"></symbol>')
+    assert_equal ['new'], theme.icons('icons')
+  end
 end

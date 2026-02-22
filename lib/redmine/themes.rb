@@ -110,6 +110,17 @@ module Redmine
         "themes/#{dir}/"
       end
 
+      # Returns an array of icon names available in the given sprite
+      def icons(sprite)
+        asset = Rails.application.assets.load_path.find(image_path("#{sprite}.svg"))
+
+        return [] unless asset
+
+        ActionController::Base.cache_store.fetch("theme-icons/#{id}/#{sprite}/#{asset.digest}") do
+          asset.content.scan(/id=['"]icon--([^'"]+)['"]/).flatten
+        end
+      end
+
       def asset_paths
         base_dir = Pathname.new(path)
         paths = base_dir.children.select do |child|
