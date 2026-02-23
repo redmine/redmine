@@ -107,14 +107,14 @@ class Redmine::WikiFormatting::InlineAttachmentsScrubberTest < Redmine::HelperTe
 
   def test_should_resolve_attachments_from_journal
     issue = Issue.generate!
-    attachment_1 = Attachment.generate!(:file => mock_file_with_options(:original_filename => "attached_on_issue.png"), :container => issue)
+    attachment1 = Attachment.generate!(:file => mock_file_with_options(:original_filename => "attached_on_issue.png"), :container => issue)
     journal = issue.init_journal(User.find(2), issue)
-    attachment_2 = Attachment.generate!(:file => mock_file_with_options(:original_filename => "attached_on_journal.png"), :container => issue)
-    journal.journalize_attachment(attachment_2, :added)
+    attachment2 = Attachment.generate!(:file => mock_file_with_options(:original_filename => "attached_on_journal.png"), :container => issue)
+    journal.journalize_attachment(attachment2, :added)
 
     html = '<img src="attached_on_issue.png" alt=""><img src="attached_on_journal.png" alt="">'
-    expected = %(<img src="/attachments/download/#{attachment_1.id}/attached_on_issue.png" alt="" loading="lazy">) +
-               %(<img src="/attachments/download/#{attachment_2.id}/attached_on_journal.png" alt="" loading="lazy">)
+    expected = %(<img src="/attachments/download/#{attachment1.id}/attached_on_issue.png" alt="" loading="lazy">) +
+               %(<img src="/attachments/download/#{attachment2.id}/attached_on_journal.png" alt="" loading="lazy">)
     assert_equal expected, filter(html, :object => journal)
   end
 
