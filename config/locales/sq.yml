@@ -859,9 +859,7 @@ sq:
   label_applied_status: Gjendje e aplikuar
   label_loading: Po ngarkohet…
   label_relation_new: Marrëdhënie e re
-  label_relation_delete: Fshije marrëdhënien
   label_relates_to: E lidhur me
-  label_delete_link_to_subtask: Fshije lidhjen te nënpunë
   label_duplicates: Është përsëdytje e
   label_duplicated_by: Ka përsëdytje
   label_blocks: Bllokon

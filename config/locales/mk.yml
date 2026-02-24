@@ -654,7 +654,6 @@ mk:
   label_applied_status: Applied status
   label_loading: Loading...
   label_relation_new: Нова релација
-  label_relation_delete: Избриши релација
   label_relates_to: related to
   label_duplicates: дупликати
   label_duplicated_by: duplicated by
@@ -1246,7 +1245,6 @@ mk:
   error_token_expired: This password recovery link has expired, please try again.
   error_spent_on_future_date: Cannot log time on a future date
   setting_timelog_accept_future_dates: Accept time logs on future dates
-  label_delete_link_to_subtask: Избриши релација
   error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
     for other users
   permission_log_time_for_other_users: Log spent time for other users

@@ -924,9 +924,7 @@ it:
   label_applied_status: Stato applicato
   label_loading: Caricamento...
   label_relation_new: Nuova relazione
-  label_relation_delete: Elimina relazione
   label_relates_to: Correlata a
-  label_delete_link_to_subtask: Elimina relazione
   label_duplicates: Duplica
   label_duplicated_by: duplicata da
   label_blocks: Blocca

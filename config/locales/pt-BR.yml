@@ -567,7 +567,6 @@ pt-BR:
   label_applied_status: Situação alterada
   label_loading: Carregando...
   label_relation_new: Nova relação
-  label_relation_delete: Excluir relação
   label_relates_to: relacionado a
   label_duplicates: duplica
   label_duplicated_by: duplicado por
@@ -1252,7 +1251,6 @@ pt-BR:
   error_token_expired: Este link de recuperação de senha expirou. Por favor, tente novamente.
   error_spent_on_future_date: Não é possível registrar o tempo em uma data futura
   setting_timelog_accept_future_dates: Permitir registros de tempo em datas futuras
-  label_delete_link_to_subtask: Excluir relação
   error_not_allowed_to_log_time_for_other_users: Você não possuí permissão para registrar o tempo
     para outros usuários
   permission_log_time_for_other_users: Tempo de registro gasto para outros usuários

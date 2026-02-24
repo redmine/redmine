@@ -668,7 +668,6 @@ cs:
   label_applied_status: Použitý stav
   label_loading: Nahrávám...
   label_relation_new: Nová vazba
-  label_relation_delete: Odstranit vazbu
   label_relates_to: související s
   label_duplicates: duplikuje
   label_duplicated_by: duplikován
@@ -1235,7 +1234,6 @@ cs:
   error_token_expired: Tento odkaz na obnovu hesla vypršel, prosím zkuste to znovu.
   error_spent_on_future_date: Nelze zapsat čas do budoucna
   setting_timelog_accept_future_dates: Akceptovat zápis času do budoucna
-  label_delete_link_to_subtask: Odstranit souvislost
   error_not_allowed_to_log_time_for_other_users: Nejste oprávněni k zápisu času
     ostatních uživatelů
   permission_log_time_for_other_users: Záznam stráveného času ostatních uživatelů

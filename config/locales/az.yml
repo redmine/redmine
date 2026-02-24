@@ -618,7 +618,6 @@ az:
   label_registration_manual_activation: uçot qeydlərini əl ilə aktivləşdirmək
   label_related_issues: Əlaqəli tapşırıqlar
   label_relates_to: əlaqəlidir
-  label_relation_delete: Əlaqəni silmək
   label_relation_new: Yeni münasibət
   label_renamed: adını dəyişmək
   label_reply_plural: Cavablar
@@ -1337,7 +1336,6 @@ az:
   error_token_expired: This password recovery link has expired, please try again.
   error_spent_on_future_date: Cannot log time on a future date
   setting_timelog_accept_future_dates: Accept time logs on future dates
-  label_delete_link_to_subtask: Əlaqəni silmək
   error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
     for other users
   permission_log_time_for_other_users: Log spent time for other users

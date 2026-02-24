@@ -715,7 +715,6 @@ de:
   label_registration_manual_activation: Manuelle Kontoaktivierung
   label_related_issues: Zugehörige Tickets
   label_relates_to: Beziehung mit
-  label_relation_delete: Beziehung löschen
   label_relation_new: Neue Beziehung
   label_renamed: umbenannt
   label_reply_plural: Antworten
@@ -1272,7 +1271,6 @@ de:
   label_nothing_to_preview: Keine Vorschau vorhanden
   error_spent_on_future_date: Zeitbuchung nicht möglich. Das Datum liegt in der Zukunft
   setting_timelog_accept_future_dates: Akzeptiere Zeitbuchungen in der Zukunft
-  label_delete_link_to_subtask: Beziehung löschen
   error_not_allowed_to_log_time_for_other_users: Sie sind nicht berechtigt, Aufwände für andere Benutzer zu buchen.
   permission_log_time_for_other_users: Aufwände für andere Benutzer buchen
   label_tomorrow: morgen

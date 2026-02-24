@@ -594,7 +594,6 @@ vi:
   label_applied_status: Trạng thái áp dụng
   label_loading: Đang xử lý...
   label_relation_new: Quan hệ mới
-  label_relation_delete: Xóa quan hệ
   label_relates_to: liên quan
   label_duplicates: trùng với
   label_duplicated_by: bị trùng bởi
@@ -1276,7 +1275,6 @@ vi:
   error_token_expired: Liên kết khôi phục mật khẩu này đã hết hạn, vui lòng thử lại.
   error_spent_on_future_date: Không thể ghi lại thời gian vào một ngày trong tương lai
   setting_timelog_accept_future_dates: Chấp nhận nhật ký thời gian vào các ngày trong tương lai
-  label_delete_link_to_subtask: Xóa quan hệ
   error_not_allowed_to_log_time_for_other_users: Bạn không được phép ghi lại thời gian cho những người dùng khác
   permission_log_time_for_other_users: Ghi nhật ký dành thời gian cho những người dùng khác
   label_tomorrow: Ngày mai

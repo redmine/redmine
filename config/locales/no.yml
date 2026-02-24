@@ -527,7 +527,6 @@
   label_applied_status: Gitt status
   label_loading: Laster...
   label_relation_new: Ny relasjon
-  label_relation_delete: Slett relasjon
   label_relates_to: relatert til
   label_duplicates: dupliserer
   label_duplicated_by: duplisert av
@@ -1237,7 +1236,6 @@
   error_token_expired: This password recovery link has expired, please try again.
   error_spent_on_future_date: Cannot log time on a future date
   setting_timelog_accept_future_dates: Accept time logs on future dates
-  label_delete_link_to_subtask: Slett relasjon
   error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
     for other users
   permission_log_time_for_other_users: Log spent time for other users

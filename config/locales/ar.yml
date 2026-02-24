@@ -691,7 +691,6 @@ ar:
   label_applied_status: الحالة المطبقة
   label_loading: تحميل...
   label_relation_new: علاقة جديدة
-  label_relation_delete: حذف العلاقة
   label_relates_to: ذات علاقة بـ
   label_duplicates: مكرر من
   label_duplicated_by: مكرر بواسطة
@@ -1246,7 +1245,6 @@ ar:
   error_token_expired: This password recovery link has expired, please try again.
   error_spent_on_future_date: Cannot log time on a future date
   setting_timelog_accept_future_dates: Accept time logs on future dates
-  label_delete_link_to_subtask: حذف العلاقة
   error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
     for other users
   permission_log_time_for_other_users: Log spent time for other users

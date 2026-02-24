@@ -617,7 +617,6 @@ el:
   label_applied_status: Εφαρμογή κατάστασης
   label_loading: Φορτώνεται...
   label_relation_new: Νέα συσχέτιση
-  label_relation_delete: Διαγραφή συσχέτισης
   label_relates_to: σχετικό με
   label_duplicates: αντίγραφα
   label_duplicated_by: αντιγράφηκε από
@@ -1246,7 +1245,6 @@ el:
   error_token_expired: This password recovery link has expired, please try again.
   error_spent_on_future_date: Cannot log time on a future date
   setting_timelog_accept_future_dates: Accept time logs on future dates
-  label_delete_link_to_subtask: Διαγραφή συσχέτισης
   error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
     for other users
   permission_log_time_for_other_users: Log spent time for other users

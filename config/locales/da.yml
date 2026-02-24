@@ -542,7 +542,6 @@ da:
   label_applied_status: Anvendte statusser
   label_loading: Indlæser...
   label_relation_new: Ny relation
-  label_relation_delete: Slet relation
   label_relates_to: relaterer til
   label_duplicates: duplikater
   label_blocks: blokerer
@@ -1263,7 +1262,6 @@ da:
   error_token_expired: This password recovery link has expired, please try again.
   error_spent_on_future_date: Cannot log time on a future date
   setting_timelog_accept_future_dates: Accept time logs on future dates
-  label_delete_link_to_subtask: Slet relation
   error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
     for other users
   permission_log_time_for_other_users: Log spent time for other users

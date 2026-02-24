@@ -913,9 +913,7 @@ bg:
   label_applied_status: Установено състояние
   label_loading: Зареждане...
   label_relation_new: Нова релация
-  label_relation_delete: Изтриване на релация
   label_relates_to: свързана със
-  label_delete_link_to_subtask: Изтриване на релация
   label_duplicates: дублира
   label_duplicated_by: дублирана от
   label_blocks: блокира

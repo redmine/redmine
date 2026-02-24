@@ -509,7 +509,6 @@ uk:
   label_applied_status: Застосовний статус
   label_loading: Завантаження...
   label_relation_new: Новий зв'язок
-  label_relation_delete: Видалити зв'язок
   label_relates_to: пов'язане з
   label_duplicates: дублює
   label_blocks: блокує
@@ -1235,7 +1234,6 @@ uk:
   error_token_expired: Це посилання відновлення паролю застаріло, буль ласка спробуйте заново.
   error_spent_on_future_date: Неможна внести час на дату у майбутньому
   setting_timelog_accept_future_dates: Приймати внесення часу на дати у майбутньому
-  label_delete_link_to_subtask: Видалити зв'язок
   error_not_allowed_to_log_time_for_other_users: Не дозволено вносити час за інших користувачів.
   permission_log_time_for_other_users: Дозволяти вносити час за інших користувачів.
   label_tomorrow: tomorrow

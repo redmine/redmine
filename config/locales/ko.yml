@@ -651,7 +651,6 @@ ko:
   label_applied_status: 적용된 상태
   label_loading: 읽는 중...
   label_relation_new: 새 관계
-  label_relation_delete: 관계 지우기
   label_relates_to: "다음 일감과 관련됨:"
   label_duplicates: "다음 일감에 중복됨:"
   label_duplicated_by: "중복된 일감:"
@@ -1266,7 +1265,6 @@ ko:
   error_token_expired: 암호 재발행용 링크는 무효합니다. 다시 시도해 주시기 바랍니다.
   error_spent_on_future_date: 미래일자에 소요시간을 입력할 수 없습니다.
   setting_timelog_accept_future_dates: 미래일자 소요시간 입력 허용
-  label_delete_link_to_subtask: 관계 지우기
   error_not_allowed_to_log_time_for_other_users: 다른 사용자의 소요시간을 입력할 수 없습니다.
   permission_log_time_for_other_users: 다른 사용자 소요시간 입력
   label_tomorrow: 내일

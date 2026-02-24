@@ -596,7 +596,6 @@ ro:
   label_applied_status: Stare aplicată
   label_loading: Încarcă...
   label_relation_new: Asociere nouă
-  label_relation_delete: Șterge asocierea
   label_relates_to: asociat cu
   label_duplicates: duplicate
   label_duplicated_by: la fel ca
@@ -1241,7 +1240,6 @@ ro:
   error_token_expired: This password recovery link has expired, please try again.
   error_spent_on_future_date: Cannot log time on a future date
   setting_timelog_accept_future_dates: Accept time logs on future dates
-  label_delete_link_to_subtask: Șterge asocierea
   error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
     for other users
   permission_log_time_for_other_users: Log spent time for other users

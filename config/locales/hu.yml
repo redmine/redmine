@@ -552,7 +552,6 @@
   label_applied_status: Alkalmazandó státusz
   label_loading: Betöltés...
   label_relation_new: Új kapcsolat
-  label_relation_delete: Kapcsolat törlése
   label_relates_to: kapcsolódik
   label_duplicates: duplikálja
   label_blocks: zárolja
@@ -1237,7 +1236,6 @@
   error_token_expired: "Ez a jelszóvál/error_spent_on_future_datetoztatási link elévült."
   error_spent_on_future_date: "Nem lehet jövőbeli dátumra rögzíteni"
   setting_timelog_accept_future_dates: Jövőbeli időráfordítás elfogadása
-  label_delete_link_to_subtask: Alfeladat kapcsolatának törlése
   error_not_allowed_to_log_time_for_other_users: "Nem rögzítheti más felhasználó időráfordítását"
   permission_log_time_for_other_users: Más felhasználók időráfordításának rögzítése
   label_tomorrow: holnap

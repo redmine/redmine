@@ -662,7 +662,6 @@ he:
   label_applied_status: מצב מוחל
   label_loading: טוען...
   label_relation_new: קשר חדש
-  label_relation_delete: מחק קשר
   label_relates_to: קשור ל
   label_duplicates: מכפיל את
   label_duplicated_by: שוכפל ע"י
@@ -1251,7 +1250,6 @@ he:
   error_token_expired: This password recovery link has expired, please try again.
   error_spent_on_future_date: Cannot log time on a future date
   setting_timelog_accept_future_dates: Accept time logs on future dates
-  label_delete_link_to_subtask: מחק קשר
   error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
     for other users
   permission_log_time_for_other_users: Log spent time for other users

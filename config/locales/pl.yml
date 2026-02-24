@@ -901,9 +901,7 @@ pl:
   label_applied_status: Zastosowany status
   label_loading: Ładowanie...
   label_relation_new: Nowe powiązanie
-  label_relation_delete: Usuń powiązanie
   label_relates_to: powiązane z
-  label_delete_link_to_subtask: Usuń powiązanie
   label_duplicates: duplikuje
   label_duplicated_by: zduplikowane przez
   label_blocks: blokuje

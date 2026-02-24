@@ -679,7 +679,6 @@ en-GB:
   label_applied_status: Applied status
   label_loading: Loading...
   label_relation_new: New relation
-  label_relation_delete: Delete relation
   label_relates_to: related to
   label_duplicates: is duplicate of
   label_duplicated_by: has duplicate
@@ -1249,7 +1248,6 @@ en-GB:
   error_token_expired: This password recovery link has expired, please try again.
   error_spent_on_future_date: Cannot log time on a future date
   setting_timelog_accept_future_dates: Accept time logs on future dates
-  label_delete_link_to_subtask: Delete relation
   error_not_allowed_to_log_time_for_other_users: You are not allowed to log time for other users
   permission_log_time_for_other_users: Log spent time for other users
   label_tomorrow: tomorrow

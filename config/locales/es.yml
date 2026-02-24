@@ -577,7 +577,6 @@ es:
   label_registration_manual_activation: activación manual de cuenta
   label_related_issues: Peticiones relacionadas
   label_relates_to: relacionada con
-  label_relation_delete: Eliminar relación
   label_relation_new: Nueva relación
   label_renamed: renombrado
   label_reply_plural: Respuestas
@@ -1276,7 +1275,6 @@ es:
   error_token_expired: Este enlace de recuperación de contraseña ha expirado, por favor, inténtelo de nuevo.
   error_spent_on_future_date: No se puede registrar tiempo en una fecha futura
   setting_timelog_accept_future_dates: Aceptar registros de tiempo en fechas futuras
-  label_delete_link_to_subtask: Eliminar relación
   error_not_allowed_to_log_time_for_other_users: No está autorizado a registrar tiempo para
     otros usuarios
   permission_log_time_for_other_users: Registrar tiempo para otros usuarios

@@ -551,7 +551,6 @@ pt:
   label_applied_status: Estado aplicado
   label_loading: A carregar...
   label_relation_new: Nova relação
-  label_relation_delete: Apagar relação
   label_relates_to: Relacionado a
   label_duplicates: Duplica
   label_duplicated_by: Duplicado por
@@ -1239,7 +1238,6 @@ pt:
   error_token_expired: This password recovery link has expired, please try again.
   error_spent_on_future_date: Cannot log time on a future date
   setting_timelog_accept_future_dates: Accept time logs on future dates
-  label_delete_link_to_subtask: Apagar relação
   error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
     for other users
   permission_log_time_for_other_users: Log spent time for other users

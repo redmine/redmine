@@ -677,7 +677,6 @@ ta-IN:
   label_applied_status: பயன்பாட்டு நிலை
   label_loading: ஏற்றுகிறது...
   label_relation_new: புதிய உறவு
-  label_relation_delete: உறவை நீக்கு
   label_relates_to: தொடர்புடைய
   label_duplicates: என்பது நகல்
   label_duplicated_by: நகல் உள்ளது
@@ -1247,7 +1246,6 @@ ta-IN:
   error_token_expired: இந்த கடவுச்சொல் மீட்பு இணைப்பு காலாவதியானது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்.
   error_spent_on_future_date: எதிர்கால தேதியில் நேரத்தை பதிவு செய்ய முடியாது
   setting_timelog_accept_future_dates: எதிர்கால தேதிகளில் நேர பதிவுகளை ஏற்றுக்கொள்ளுங்கள்
-  label_delete_link_to_subtask: உறவை நீக்கு
   error_not_allowed_to_log_time_for_other_users: பிற பயனர்களுக்கான நேரத்தை பதிவு செய்ய உங்களுக்கு அனுமதி இல்லை
   permission_log_time_for_other_users: பதிவு மற்ற பயனர்களுக்காக நேரத்தை செலவிட்டது
   label_tomorrow:  நாளை

@@ -593,7 +593,6 @@ sl:
   label_applied_status: Uveljavljeno stanje
   label_loading: Nalaganje...
   label_relation_new: Nova povezava
-  label_relation_delete: Izbriši povezavo
   label_relates_to: povezan z
   label_duplicates: duplikati
   label_duplicated_by: dupliciral
@@ -1246,7 +1245,6 @@ sl:
   error_token_expired: This password recovery link has expired, please try again.
   error_spent_on_future_date: Cannot log time on a future date
   setting_timelog_accept_future_dates: Accept time logs on future dates
-  label_delete_link_to_subtask: Izbriši povezavo
   error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
     for other users
   permission_log_time_for_other_users: Log spent time for other users

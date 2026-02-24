@@ -579,7 +579,6 @@ es-PA:
   label_registration_manual_activation: activación manual de cuenta
   label_related_issues: Incidencias relacionadas
   label_relates_to: relacionada con
-  label_relation_delete: Eliminar relación
   label_relation_new: Nueva relación
   label_renamed: renombrado
   label_reply_plural: Respuestas
@@ -1277,7 +1276,6 @@ es-PA:
   error_token_expired: This password recovery link has expired, please try again.
   error_spent_on_future_date: Cannot log time on a future date
   setting_timelog_accept_future_dates: Accept time logs on future dates
-  label_delete_link_to_subtask: Eliminar relación
   error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
     for other users
   permission_log_time_for_other_users: Log spent time for other users

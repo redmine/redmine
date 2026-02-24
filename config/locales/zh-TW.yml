@@ -894,7 +894,6 @@
   label_applied_status: 已套用狀態
   label_loading: 載入中...
   label_relation_new: 建立新關聯
-  label_relation_delete: 刪除關聯
   label_relates_to: 關聯至
   label_duplicates: 已重複
   label_duplicated_by: 與後面所列議題重複
@@ -1302,7 +1301,6 @@
   error_token_expired: 此密碼復原連結已經過期, 請再試一次.
   error_spent_on_future_date: 無法輸入未來日期的工時紀錄
   setting_timelog_accept_future_dates: 接受輸入未來日期的工時紀錄
-  label_delete_link_to_subtask: 刪除連結至子任務的關聯
   error_not_allowed_to_log_time_for_other_users: 您未被允許可替他人輸入工時紀錄
   permission_log_time_for_other_users: 輸入他人的工時紀錄
   label_tomorrow: 明天

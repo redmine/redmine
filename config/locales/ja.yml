@@ -706,7 +706,6 @@ ja:
   label_applied_status: 適用されるステータス
   label_loading: ロード中...
   label_relation_new: 新しい関連
-  label_relation_delete: 関連の削除
   label_relates_to: 関連している
   label_duplicates: 次のチケットと重複
   label_duplicated_by: 次のチケットが重複
@@ -1256,7 +1255,6 @@ ja:
   error_token_expired: パスワード再発行用のリンクはすでに失効しています。もう一度やり直してください。
   error_spent_on_future_date: 未来日付の作業時間は入力できません
   setting_timelog_accept_future_dates: 未来日付の作業時間の入力を許可
-  label_delete_link_to_subtask: 関連の削除
   error_not_allowed_to_log_time_for_other_users: 他のユーザーの作業時間を入力する権限がありません
   permission_log_time_for_other_users: 他のユーザーの作業時間の入力
   text_role_no_workflow: このロールにワークフローが定義されていません

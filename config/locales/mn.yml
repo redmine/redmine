@@ -642,7 +642,6 @@ mn:
   label_applied_status: Олгосон төлөв
   label_loading: Ачаалж байна...
   label_relation_new: Шинэ хамаарал
-  label_relation_delete: Хамаарлыг устгах
   label_relates_to: энгийн хамааралтай
   label_duplicates: хос хамааралтай
   label_duplicated_by: давхардуулсан эзэн
@@ -1246,7 +1245,6 @@ mn:
   error_token_expired: This password recovery link has expired, please try again.
   error_spent_on_future_date: Cannot log time on a future date
   setting_timelog_accept_future_dates: Accept time logs on future dates
-  label_delete_link_to_subtask: Хамаарлыг устгах
   error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
     for other users
   permission_log_time_for_other_users: Log spent time for other users

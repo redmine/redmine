@@ -546,7 +546,6 @@ tr:
   label_applied_status: uygulanmış işler
   label_loading: Yükleniyor...
   label_relation_new: Yeni ilişki
-  label_relation_delete: İlişkiyi sil
   label_relates_to: ilişkili
   label_duplicates: yinelenmiş
   label_blocks: Engeller
@@ -1253,7 +1252,6 @@ tr:
   error_token_expired: Bu şifre kurtarma bağlantısı süresi doldu, lütfen tekrar deneyin.
   error_spent_on_future_date: İleri tarihli bir zaman kaydedilemez.
   setting_timelog_accept_future_dates: İleri tarihli zaman kayıtlarını kabul et
-  label_delete_link_to_subtask: İlişkiyi sil
   error_not_allowed_to_log_time_for_other_users: Diğer kullanıcılar için zaman girişi yapma yetkiniz yok
   permission_log_time_for_other_users: Diğer kullanıcılar için zaman girişi
   label_tomorrow: yarın

@@ -658,7 +658,6 @@ ca:
   label_applied_status: "Estat aplicat"
   label_loading: "S'està carregant..."
   label_relation_new: "Nova Relació"
-  label_relation_delete: "Suprimir relació"
   label_relates_to: "relacionat amb"
   label_duplicates: "duplicats"
   label_duplicated_by: "duplicat per"
@@ -1235,7 +1234,6 @@ ca:
   error_token_expired: Aquests enllaç de recuperació de contrasenya ha caducat, proveu-ho de nou.
   error_spent_on_future_date: No es pot registrar temps en dates futures
   setting_timelog_accept_future_dates: Accceptar registres de temps en dates futures
-  label_delete_link_to_subtask: "Suprimir relació"
   error_not_allowed_to_log_time_for_other_users: No podeu registrar temps dedicat
     per altres usuaris
   permission_log_time_for_other_users: Registrar el temps dedicat per altres usuaris

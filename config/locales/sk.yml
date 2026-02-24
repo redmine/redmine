@@ -530,7 +530,6 @@ sk:
   label_applied_status: Použitý stav
   label_loading: Nahráva sa...
   label_relation_new: Nové prepojenie
-  label_relation_delete: Odstrániť prepojenie
   label_relates_to: Súvisiace s
   label_duplicates: Duplikáty
   label_blocks: Blokované
@@ -1235,7 +1234,6 @@ sk:
   error_token_expired: This password recovery link has expired, please try again.
   error_spent_on_future_date: Cannot log time on a future date
   setting_timelog_accept_future_dates: Accept time logs on future dates
-  label_delete_link_to_subtask: Odstrániť prepojenie
   error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
     for other users
   permission_log_time_for_other_users: Log spent time for other users

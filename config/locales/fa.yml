@@ -900,9 +900,7 @@ fa:
   label_applied_status: وضعیت اعمال‌شده
   label_loading: بارگذاری...
   label_relation_new: ارتباط جدید
-  label_relation_delete: حذف ارتباط
   label_relates_to: مرتبط با
-  label_delete_link_to_subtask: حذف پیوند به زیرکار
   label_duplicates: تکرارکننده
   label_duplicated_by: تکرارشونده
   label_blocks: سدکننده

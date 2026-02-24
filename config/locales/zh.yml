@@ -669,7 +669,6 @@ zh:
   label_applied_status: 应用后的状态
   label_loading: 载入中...
   label_relation_new: 新建关联
-  label_relation_delete: 删除关联
   label_relates_to: 关联到
   label_duplicates: 重复
   label_duplicated_by: 与其重复
@@ -1227,7 +1226,6 @@ zh:
   error_token_expired: 此密码恢复链接已过期，请再试一次。
   error_spent_on_future_date: 无法记录为将来的工时。
   setting_timelog_accept_future_dates: 接受将来工时。
-  label_delete_link_to_subtask: 删除关联
   error_not_allowed_to_log_time_for_other_users: 不允许为其他用户记录时间
   permission_log_time_for_other_users: 记录其他用户的工时
   label_tomorrow: 明天

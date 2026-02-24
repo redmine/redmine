@@ -787,7 +787,6 @@ lt:
   label_applied_status: Taikomoji būsena
   label_loading: Kraunama...
   label_relation_new: Naujas ryšys
-  label_relation_delete: Pašalinti ryšį
   label_relates_to: Susietas su
   label_duplicates: Dubliuoja
   label_duplicated_by: Dubliuojasi su
@@ -1231,7 +1230,6 @@ lt:
   error_token_expired: Slaptažodio atstatymo nuoroda nebegalioja. Pakartokite procesą iš naujo..
   error_spent_on_future_date: Negalima registruoti laiko pasirenkant ateities datas
   setting_timelog_accept_future_dates: Leisti registruoti laiką pasirenkant ateities datas
-  label_delete_link_to_subtask: Pašalinti ryšį
   error_not_allowed_to_log_time_for_other_users: Jūs negalite nurodyti kitų naudotojų darbo trukmes
   permission_log_time_for_other_users: Galima nurodyti kitų naudotojų darbo trukmes
   label_tomorrow: rytoj

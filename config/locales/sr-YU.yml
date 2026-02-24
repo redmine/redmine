@@ -654,7 +654,6 @@ sr-YU:
   label_applied_status: Primenjeni statusi
   label_loading: Učitavanje...
   label_relation_new: Nova relacija
-  label_relation_delete: Brisanje relacije
   label_relates_to: srodnih sa
   label_duplicates: dupliranih
   label_duplicated_by: dupliranih od
@@ -1248,7 +1247,6 @@ sr-YU:
   error_token_expired: This password recovery link has expired, please try again.
   error_spent_on_future_date: Cannot log time on a future date
   setting_timelog_accept_future_dates: Accept time logs on future dates
-  label_delete_link_to_subtask: Brisanje relacije
   error_not_allowed_to_log_time_for_other_users: You are not allowed to log time
     for other users
   permission_log_time_for_other_users: Log spent time for other users
