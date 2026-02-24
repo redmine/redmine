@@ -914,9 +914,9 @@ en:
   label_applied_status: Applied status
   label_loading: Loading...
   label_relation_new: New relation
-  label_relation_delete: Delete relation
+  label_relation_remove: Remove relation
   label_relates_to: Related to
-  label_delete_link_to_subtask: Delete link to subtask
+  label_subtask_remove: Remove subtask
   label_duplicates: Is duplicate of
   label_duplicated_by: Has duplicate
   label_blocks: Blocks
@@ -1200,6 +1200,7 @@ en:
   button_collapse_all: Collapse all
   button_expand_all: Expand all
   button_delete: Delete
+  button_remove: Remove
   button_create: Create
   button_create_and_continue: Create and add another
   button_test: Test

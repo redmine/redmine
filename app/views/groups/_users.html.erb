@@ -11,7 +11,7 @@
       <tr id="user-<%= user.id %>">
         <td class="name"><%= link_to_user user %></td>
         <td class="buttons">
-          <%= delete_link group_user_path(@group, :user_id => user), :remote => true %>
+          <%= remove_link group_user_path(@group, :user_id => user), :remote => true %>
         </td>
       </tr>
     <% end %>

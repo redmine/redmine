@@ -122,14 +122,14 @@ module IssuesHelper
       buttons =
         if manage_relations
           link_to(
-            sprite_icon('link-break', l(:label_delete_link_to_subtask)),
+            sprite_icon('link-break', l(:label_subtask_remove)),
             issue_path(
               {:id => child.id, :issue => {:parent_issue_id => ''},
                :back_url => issue_path(issue.id), :no_flash => '1'}
             ),
             :method => :put,
             :data => {:confirm => l(:text_are_you_sure)},
-            :title => l(:label_delete_link_to_subtask),
+            :title => l(:label_subtask_remove),
             :class => 'icon-only icon-link-break'
           )
         else
@@ -225,12 +225,12 @@ module IssuesHelper
       buttons =
         if manage_relations
           link_to(
-            sprite_icon('link-break', l(:label_relation_delete)),
+            sprite_icon('link-break', l(:label_relation_remove)),
             relation_path(relation, issue_id: issue.id),
             :remote => true,
             :method => :delete,
             :data => {:confirm => l(:text_are_you_sure)},
-            :title => l(:label_relation_delete),
+            :title => l(:label_relation_remove),
             :class => 'icon-only icon-link-break'
           )
         else

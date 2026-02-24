@@ -64,10 +64,10 @@ module WatchersHelper
                :object_id => object.id,
                :user_id => user}
         s << ' '
-        s << link_to(sprite_icon('del', l(:button_delete)), url,
+        s << link_to(sprite_icon('link-break', l(:button_remove)), url,
                      :remote => true, :method => 'delete',
-                     :class => "delete icon-only icon-del",
-                     :title => l(:button_delete))
+                     :class => "delete icon-only icon-link-break",
+                     :title => l(:button_remove))
       end
       content << content_tag('li', s, :class => "user-#{user.id}")
     end

@@ -1010,6 +1010,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
     )
     assert_response :success
     assert_select "tr#member-#{member.id}"
+    assert_select 'div#tab-content-members a.icon-link-break', :text => 'Remove'
   end
 
   def test_settings_should_show_tabs_depending_on_permission

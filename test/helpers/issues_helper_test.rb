@@ -395,6 +395,7 @@ class IssuesHelperTest < Redmine::HelperTest
   end
 
   def test_render_issue_relations
+    User.current = User.find(1)
     issue = Issue.generate!(:status_id => 1)
     closed_issue = Issue.generate!(:status_id => 5)
     relation = IssueRelation.create!(:issue_from => closed_issue,
@@ -411,6 +412,7 @@ class IssuesHelperTest < Redmine::HelperTest
       " closed rel-follows\">",
       html
     )
+    assert_include 'title="Remove relation"', html
 
     html = render_issue_relations(closed_issue, [relation])
     assert_include(
@@ -422,6 +424,7 @@ class IssuesHelperTest < Redmine::HelperTest
       " rel-precedes\">",
       html
     )
+    assert_include 'title="Remove relation"', html
   end
 
   def test_render_descendants_stats

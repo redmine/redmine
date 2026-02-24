@@ -1556,6 +1556,16 @@ module ApplicationHelper
     link_to sprite_icon('del', button_name), url, options
   end
 
+  def remove_link(url, options={})
+    options = {
+      :method => :delete,
+      :data => {:confirm => l(:text_are_you_sure)},
+      :class => 'icon icon-link-break'
+    }.merge(options)
+
+    link_to sprite_icon('link-break', l(:button_remove)), url, options
+  end
+
   def link_to_function(name, function, html_options={})
     content_tag(:a, name, {:href => '#', :onclick => "#{function}; return false;"}.merge(html_options))
   end

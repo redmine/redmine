@@ -27,7 +27,7 @@
                   :remote => true,
                   :class => 'icon icon-edit'
           %>
-      <%= delete_link principal_membership_path(principal, membership), :remote => true if membership.deletable? %>
+      <%= remove_link principal_membership_path(principal, membership), :remote => true if membership.deletable? %>
   </td>
       <%= call_table_row_hook principal, membership %>
   </tr>

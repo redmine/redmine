@@ -162,6 +162,8 @@ class GroupsControllerTest < Redmine::ControllerTest
     assert_select 'div#tab-content-memberships' do
       assert_select 'a', :text => 'Private child of eCookbook'
     end
+    assert_select 'div#tab-content-users a.icon-link-break', :text => 'Remove'
+    assert_select 'div#tab-content-memberships a.icon-link-break', :text => 'Remove'
   end
 
   def test_update

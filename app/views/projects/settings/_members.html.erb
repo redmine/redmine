@@ -36,7 +36,7 @@
                   edit_membership_path(member),
                   :remote => true,
                   :class => 'icon icon-edit' %>
-      <%= delete_link membership_path(member),
+      <%= remove_link membership_path(member),
                       :remote => true,
                       :data => (!User.current.admin? && member.include?(User.current) ? {:confirm => l(:text_own_membership_delete_confirmation)} : {}) if member.deletable? %>
   </td>
