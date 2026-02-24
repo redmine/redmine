@@ -1495,3 +1495,6 @@ bg:
   reaction_text_x_other_users:
     one: 1 друг
     other: "%{count} други"
+  label_relation_remove: Remove relation
+  label_subtask_remove: Remove subtask
+  button_remove: Remove
