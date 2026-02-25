@@ -1561,11 +1561,11 @@
   label_alert_caution: 注意
   label_alert_important: 重要
   field_ratio_interval: 完成比例間隔
-  webhook_event_created: "%{object_name} created"
-  webhook_event_updated: "%{object_name} updated"
-  webhook_event_deleted: "%{object_name} deleted"
-  label_auto_watch_on_issue_assigned_to_me: Issues assigned to me
-  label_relation_remove: Remove relation
-  label_subtask_remove: Remove subtask
-  button_remove: Remove
-  label_open_in_full_view: Open in full view
+  webhook_event_created: "%{object_name} 已建立"
+  webhook_event_updated: "%{object_name} 已更新"
+  webhook_event_deleted: "%{object_name} 已刪除"
+  label_auto_watch_on_issue_assigned_to_me: 分派給我的議題
+  label_relation_remove: 移除關聯
+  label_subtask_remove: 移除子任務
+  button_remove: 移除
+  label_open_in_full_view: 以全頁模式開啟
