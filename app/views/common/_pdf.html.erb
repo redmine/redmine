@@ -1,0 +1,8 @@
+<p class="pdf-full-view-link">
+  <%= link_to l(:label_open_in_full_view, :default => l(:button_download)), path %>
+</p>
+<div class="filecontent pdf">
+  <object data="<%= path %>" type="application/pdf">
+    <%= render :partial => 'common/other' %>
+  </object>
+</div>

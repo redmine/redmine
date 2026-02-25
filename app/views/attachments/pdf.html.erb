@@ -1,0 +1,4 @@
+<%= render :layout => 'layouts/file' do %>
+  <%= render :partial => 'common/pdf',
+             :locals => {:path => download_named_attachment_path(@attachment, @attachment.filename)} %>
+<% end %>
