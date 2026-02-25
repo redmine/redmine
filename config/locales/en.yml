@@ -726,6 +726,7 @@ en:
   label_no_preview: No preview available
   label_no_preview_alternative_html: No preview available. %{link} the file instead.
   label_no_preview_download: Download
+  label_open_in_full_view: Open in full view
   label_change_status: Change status
   label_history: History
   label_attachment: File

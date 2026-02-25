@@ -102,6 +102,34 @@ table.filecontent tr:target td.line-code { background-color:var(--oc-blue-0); }
 
 img.filecontent, video.filecontent { max-inline-size: 100%; }
 
+.filecontent.pdf {
+    inline-size: 100%;
+    max-block-size: 80vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.filecontent.pdf::before {
+    content: " ";
+    display: block;
+    inline-size: 100%;
+    padding-block-end: 100%;
+}
+
+.filecontent.pdf object,
+.filecontent.pdf p {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
+}
+
+.filecontent.pdf object {
+    border: none;
+    inline-size: 100%;
+    block-size: 100%;
+}
+
 .previous-filename {
   font-weight: normal;
 }

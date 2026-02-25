@@ -10,6 +10,8 @@
 
 <% if Redmine::MimeType.is_type?('image', @path) %>
   <%= render :partial => 'common/image', :locals => {:path => @raw_url, :alt => @path} %>
+<% elsif Redmine::MimeType.of(@path) == 'application/pdf' %>
+  <%= render :partial => 'common/pdf', :locals => {:path => @raw_url} %>
 <% elsif Redmine::MimeType.of(@path) == 'text/x-textile' %>
   <%= render :partial => 'common/markup', :locals => {:markup_text_formatting => 'textile', :markup_text => @content} %>
 <% elsif Redmine::MimeType.of(@path) == 'text/markdown' %>

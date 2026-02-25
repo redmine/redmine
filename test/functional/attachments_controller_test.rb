@@ -239,6 +239,17 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_select 'img.filecontent', :src => attachments(:attachments_010).filename
   end
 
+  def test_show_pdf
+    @request.session[:user_id] = 2
+    get(:show, :params => {:id => 23})
+    assert_response :success
+    assert_equal 'text/html', @response.media_type
+
+    path = download_named_attachment_path(attachments(:attachments_023), attachments(:attachments_023).filename)
+    assert_select ".filecontent.pdf object[data='#{path}']"
+    assert_select '.nodata', :text => 'No preview available'
+  end
+
   def test_show_other_with_no_preview
     @request.session[:user_id] = 2
     get(:show, :params => {:id => 6})
