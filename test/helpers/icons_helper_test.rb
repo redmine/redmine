@@ -43,6 +43,93 @@ class IconsHelperTest < Redmine::HelperTest
     assert_match expected, icon
   end
 
+  def test_sprite_source_without_theme_should_return_default_sprite
+    stubs(:current_theme).returns(nil)
+
+    assert_equal "icons.svg", sprite_source('edit')
+  end
+
+  def test_sprite_source_with_theme_and_sprite_image_should_return_theme_path_if_icon_exists
+    theme = Redmine::Themes::Theme.new('/tmp/test')
+    theme.stubs(:id).returns('test')
+    theme.stubs(:image_path).with('icons.svg').returns('themes/test/icons.svg')
+
+    asset = mock('asset')
+    asset.stubs(:digest).returns('123456')
+    asset.stubs(:content).returns('<symbol id="icon--edit"></symbol>')
+    asset.stubs(:digested_path).returns('themes/test/icons-123456.svg')
+
+    Rails.application.assets.load_path.stubs(:find).with('themes/test/icons.svg').returns(asset)
+    stubs(:current_theme).returns(theme)
+
+    assert_equal "themes/test/icons.svg", sprite_source('edit')
+  end
+
+  def test_sprite_source_with_theme_without_sprite_image_should_return_default_sprite
+    theme = Redmine::Themes::Theme.new('/tmp/test')
+    theme.stubs(:image_path).with('icons.svg').returns('themes/test/icons.svg')
+
+    Rails.application.assets.load_path.stubs(:find).with('themes/test/icons.svg').returns(nil)
+    stubs(:current_theme).returns(theme)
+
+    assert_equal "icons.svg", sprite_source('edit')
+  end
+
+  def test_sprite_source_with_theme_and_sprite_image_but_missing_icon_should_fallback_to_default_sprite
+    theme = Redmine::Themes::Theme.new('/tmp/test')
+    theme.stubs(:id).returns('test')
+    theme.stubs(:image_path).with('icons.svg').returns('themes/test/icons.svg')
+
+    asset = mock('asset')
+    asset.stubs(:digest).returns('123456')
+    asset.stubs(:content).returns('<symbol id="icon--other"></symbol>')
+    asset.stubs(:digested_path).returns('themes/test/icons-123456.svg')
+
+    Rails.application.assets.load_path.stubs(:find).with('themes/test/icons.svg').returns(asset)
+    stubs(:current_theme).returns(theme)
+
+    assert_equal "icons.svg", sprite_source('edit')
+  end
+
+  def test_sprite_icon_with_theme_override_should_use_theme_sprite
+    theme = Redmine::Themes::Theme.new('/tmp/test')
+    theme.stubs(:id).returns('test')
+    theme.stubs(:image_path).with('icons.svg').returns('themes/test/icons.svg')
+
+    asset = mock('asset')
+    asset.stubs(:digest).returns('123456')
+    asset.stubs(:content).returns('<symbol id="icon--edit"></symbol>')
+    asset.stubs(:digested_path).returns('themes/test/icons-123456.svg')
+
+    Rails.application.assets.load_path.stubs(:find).with('themes/test/icons.svg').returns(asset)
+    stubs(:current_theme).returns(theme)
+
+    expected = %r{<svg class="s18 icon-svg" aria-hidden="true"><use href="/assets/themes/test/icons(-123456)?\.svg#icon--edit"></use></svg>$}
+    assert_match expected, sprite_icon('edit')
+  end
+
+  def test_sprite_icon_with_theme_missing_icon_should_fallback_to_default_sprite
+    theme = Redmine::Themes::Theme.new('/tmp/test')
+    theme.stubs(:id).returns('test')
+    theme.stubs(:image_path).with('icons.svg').returns('themes/test/icons.svg')
+
+    asset = mock('asset')
+    asset.stubs(:digest).returns('123456')
+    asset.stubs(:content).returns('<symbol id="icon--other"></symbol>')
+    asset.stubs(:digested_path).returns('themes/test/icons-123456.svg')
+
+    Rails.application.assets.load_path.stubs(:find).with('themes/test/icons.svg').returns(asset)
+
+    default_asset = mock('asset')
+    default_asset.stubs(:digested_path).returns('icons-default.svg')
+    Rails.application.assets.load_path.stubs(:find).with('icons.svg').returns(default_asset)
+
+    stubs(:current_theme).returns(theme)
+
+    expected = %r{<svg class="s18 icon-svg" aria-hidden="true"><use href="/assets/icons(-\w+)?\.svg#icon--edit"></use></svg>$}
+    assert_match expected, sprite_icon('edit')
+  end
+
   def test_sprite_icon_should_return_svg_with_custom_size
     expected = %r{<svg class="s24 icon-svg" aria-hidden="true"><use href="/assets/icons-\w+.svg#icon--edit"></use></svg>$}
     icon = sprite_icon('edit', size: '24')
