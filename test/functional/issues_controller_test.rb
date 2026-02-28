@@ -2512,6 +2512,8 @@ class IssuesControllerTest < Redmine::ControllerTest
       assert_select 'div#relations' do
         assert_select 'a', :text => /#2$/
         assert_select 'a', :text => /#4$/, :count => 0
+        assert_select 'form#new-relation-form input#relation_issue_to_id'
+        assert_select 'form#new-relation-form em.info', :text => l(:text_comma_separated)
       end
     end
   end
