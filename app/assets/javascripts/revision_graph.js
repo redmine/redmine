@@ -5,6 +5,88 @@
  */
 
 var revisionGraph = null;
+const SVG_NS = 'http://www.w3.org/2000/svg';
+const XLINK_NS = 'http://www.w3.org/1999/xlink';
+
+function createSvgElement(name) {
+    return document.createElementNS(SVG_NS, name);
+}
+
+function buildRevisionGraph(holder) {
+    const svg = createSvgElement('svg');
+    const pathsLayer = createSvgElement('g');
+    const nodesLayer = createSvgElement('g');
+    const overlaysLayer = createSvgElement('g');
+
+    svg.setAttribute('aria-hidden', 'true');
+    svg.style.display = 'block';
+    svg.style.overflow = 'visible';
+
+    svg.appendChild(pathsLayer);
+    svg.appendChild(nodesLayer);
+    svg.appendChild(overlaysLayer);
+
+    while (holder.firstChild) {
+        holder.removeChild(holder.firstChild);
+    }
+    holder.appendChild(svg);
+
+    return {
+        holder: holder,
+        svg: svg,
+        pathsLayer: pathsLayer,
+        nodesLayer: nodesLayer,
+        overlaysLayer: overlaysLayer
+    };
+}
+
+function clearRevisionGraph(graph) {
+    [graph.pathsLayer, graph.nodesLayer, graph.overlaysLayer].forEach(layer => layer.replaceChildren());
+}
+
+function setRevisionGraphSize(graph, width, height) {
+    const graphWidth = Math.max(1, Math.ceil(width));
+    const graphHeight = Math.max(1, Math.ceil(height));
+
+    graph.svg.setAttribute('width', graphWidth);
+    graph.svg.setAttribute('height', graphHeight);
+    graph.svg.setAttribute('viewBox', '0 0 ' + graphWidth + ' ' + graphHeight);
+}
+
+function drawPath(graph, pathData, attrs) {
+    const path = createSvgElement('path');
+    const d = pathData.map(function(item) { return String(item); }).join(' ');
+
+    path.setAttribute('d', d);
+    Object.keys(attrs).forEach(function(name) {
+        path.setAttribute(name, String(attrs[name]));
+    });
+    graph.pathsLayer.appendChild(path);
+}
+
+function drawCircle(layer, x, y, r, attrs) {
+    const circle = createSvgElement('circle');
+
+    circle.setAttribute('cx', String(x));
+    circle.setAttribute('cy', String(y));
+    circle.setAttribute('r', String(r));
+    Object.keys(attrs).forEach(function(name) {
+        circle.setAttribute(name, String(attrs[name]));
+    });
+    layer.appendChild(circle);
+
+    return circle;
+}
+
+// Generates a distinct, consistent HSL color for each index.
+function colorBySpace(index) {
+    const hue = (index * 27) % 360;
+    const band = Math.floor(index / 14);
+    const saturation = Math.max(40, 72 - (band % 3) * 12);
+    const lightness = Math.min(56, 42 + (band % 2) * 6);
+
+    return 'hsl(' + hue + ', ' + saturation + '%, ' + lightness + '%)';
+}
 
 function drawRevisionGraph(holder, commits_hash, graph_space) {
     var XSTEP = 20,
@@ -13,14 +95,17 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
         commits = $.map(commits_by_scmid, function(val,i){return val;});
     var max_rdmid = commits.length - 1;
     var commit_table_rows = $('table.changesets tr.changeset');
+    if (!revisionGraph || revisionGraph.holder !== holder) {
+        revisionGraph = buildRevisionGraph(holder);
+    }
+    const graph = revisionGraph;
+    clearRevisionGraph(graph);
 
-    // create graph
-    if(revisionGraph != null)
-        revisionGraph.clear();
-    else
-        revisionGraph = Raphael(holder);
+    if (commit_table_rows.length === 0) {
+        setRevisionGraphSize(graph, 1, 1);
+        return;
+    }
 
-    var top = revisionGraph.set();
     // init dimensions
     var graph_x_offset = commit_table_rows.first().find('td').first().position().left - $(holder).position().left,
         graph_y_offset = $(holder).position().top,
@@ -35,17 +120,16 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
         case "middle":
           return row.position().top + (row.height() / 2) - graph_y_offset;
         default:
-          return row.position().top + - graph_y_offset + CIRCLE_INROW_OFFSET;
-      }
+          return row.position().top - graph_y_offset + CIRCLE_INROW_OFFSET;
+        }
     };
 
-    revisionGraph.setSize(graph_right_side, graph_bottom);
+    setRevisionGraphSize(graph, graph_right_side, graph_bottom);
 
     // init colors
     var colors = [];
-    Raphael.getColor.reset();
-    for (var k = 0; k <= graph_space; k++) {
-        colors.push(Raphael.getColor());
+    for (let k = 0; k <= graph_space; k++) {
+        colors.push(colorBySpace(k));
     }
 
     var parent_commit;
@@ -58,11 +142,10 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
 
         y = yForRow(max_rdmid - commit.rdmid);
         x = graph_x_offset + XSTEP / 2 + XSTEP * commit.space;
-        revisionGraph.circle(x, y, 3)
-            .attr({
-                fill: colors[commit.space],
-                stroke: 'none'
-            }).toFront();
+        drawCircle(graph.nodesLayer, x, y, 3, {
+            fill: colors[commit.space],
+            stroke: 'none'
+        });
 
         // check for parents in the same column
         let noVerticalParents = true;
@@ -91,48 +174,52 @@ function drawRevisionGraph(holder, commits_hash, graph_space) {
 
                 if (parent_commit.space === commit.space) {
                     // vertical path
-                    path = revisionGraph.path([
+                    path = [
                         'M', x, y,
-                        'V', parent_y]);
+                        'V', parent_y];
                 } else if (noVerticalParents) {
                     // branch start (Bezier curve)
-                    path = revisionGraph.path([
+                    path = [
                         'M', x, y,
-                        'C', x, y + controlPointDelta, x, parent_y - controlPointDelta, parent_x, parent_y]);
+                        'C', x, y + controlPointDelta, x, parent_y - controlPointDelta, parent_x, parent_y];
                 } else if (!parent_commit.hasOwnProperty('vertical_children')) {
                     // branch end (Bezier curve)
-                    path = revisionGraph.path([
+                    path = [
                         'M', x, y,
-                        'C', parent_x, y + controlPointDelta, parent_x, parent_y, parent_x, parent_y]);
+                        'C', parent_x, y + controlPointDelta, parent_x, parent_y, parent_x, parent_y];
                 } else {
                     // path to a commit in a different branch (Bezier curve)
-                    path = revisionGraph.path([
+                    path = [
                         'M', x, y,
-                        'C', parent_x, y, x, parent_y, parent_x, parent_y]);
+                        'C', parent_x, y, x, parent_y, parent_x, parent_y];
                 }
             } else {
                 // vertical path ending at the bottom of the revisionGraph
-                path = revisionGraph.path([
+                path = [
                     'M', x, y,
-                    'V', graph_bottom]);
+                    'V', graph_bottom];
             }
-            path.attr({stroke: colors[commit.space], "stroke-width": 1.5}).toBack();
+            drawPath(graph, path, {stroke: colors[commit.space], 'stroke-width': 1.5, fill: 'none'});
         });
-        revision_dot_overlay = revisionGraph.circle(x, y, 10);
-        revision_dot_overlay
-            .attr({
-                fill: '#000',
-                opacity: 0,
-                cursor: 'pointer',
-                href: commit.href
-            });
+
+        let overlayLayer = graph.overlaysLayer;
+        if (commit.href) {
+            overlayLayer = createSvgElement('a');
+            overlayLayer.setAttribute('href', commit.href);
+            overlayLayer.setAttributeNS(XLINK_NS, 'href', commit.href);
+            graph.overlaysLayer.appendChild(overlayLayer);
+        }
+
+        revision_dot_overlay = drawCircle(overlayLayer, x, y, 10, {
+            fill: '#000',
+            opacity: 0,
+            cursor: commit.href ? 'pointer' : 'default'
+        });
 
         if(commit.refs != null && commit.refs.length > 0) {
-            title = document.createElementNS(revisionGraph.canvas.namespaceURI, 'title');
+            title = createSvgElement('title');
             title.appendChild(document.createTextNode(commit.refs));
-            revision_dot_overlay.node.appendChild(title);
+            revision_dot_overlay.appendChild(title);
         }
-        top.push(revision_dot_overlay);
     });
-    top.toFront();
 };

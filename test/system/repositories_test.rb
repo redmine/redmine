@@ -20,6 +20,9 @@
 require_relative '../application_system_test_case'
 
 class RepositoriesTest < ApplicationSystemTestCase
+  REPOSITORY_PATH = Rails.root.join('tmp/test/git_repository').to_s
+  REPOSITORY_PATH.tr!('/', "\\") if Redmine::Platform.mswin?
+
   def setup
     @project = Project.find(1)
     @repository = Repository::Subversion.create(:project => @project,
@@ -40,6 +43,38 @@ class RepositoriesTest < ApplicationSystemTestCase
       assert page.has_text?("eCookbook")
       assert page.has_css?("div[id=main-menu]")
       assert page.has_css?("a.administration")
+    end
+  end
+
+  if repository_configured?('git')
+    def test_revisions_page_renders_revision_graph_as_svg
+      skip "SCM command is unavailable" unless Repository::Git.scm_available
+
+      git_repository =
+        Repository::Git.create(
+          :project => @project,
+          :identifier => 'graph-test',
+          :url => REPOSITORY_PATH,
+          :path_encoding => 'ISO-8859-1'
+        )
+      assert git_repository
+      git_repository.fetch_changesets
+      revision = git_repository.changesets.order(committed_on: :desc, id: :desc).first&.revision
+      assert revision.present?
+
+      log_user('admin', 'admin')
+
+      visit("/projects/#{@project.identifier}/repository/graph-test/revisions")
+
+      assert_selector 'div.revision-graph svg'
+      assert_selector 'div.revision-graph svg path'
+      assert_selector 'div.revision-graph svg circle'
+      assert_selector "div.revision-graph svg a[href*='/revisions/#{revision}']"
+
+      assert_selector(
+        :xpath,
+        "//div[contains(@class,'revision-graph')]/*[local-name()='svg' and namespace-uri()='http://www.w3.org/2000/svg']"
+      )
     end
   end
 end

@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 const RELATION_STROKE_WIDTH = 2
+const SVG_NS = "http://www.w3.org/2000/svg"
 
 export default class extends Controller {
   static targets = ["ganttArea", "drawArea", "subjectsContainer"]
@@ -16,10 +17,10 @@ export default class extends Controller {
   #drawRight = 0
   #drawLeft = 0
   #drawPaper = null
+  #drawPaperGroup = null
 
   initialize() {
     this.$ = window.jQuery
-    this.Raphael = window.Raphael
   }
 
   connect() {
@@ -35,6 +36,7 @@ export default class extends Controller {
     if (this.#drawPaper) {
       this.#drawPaper.remove()
       this.#drawPaper = null
+      this.#drawPaperGroup = null
     }
   }
 
@@ -73,13 +75,9 @@ export default class extends Controller {
   }
 
   #drawProgressLineAndRelations() {
-    if (this.#drawPaper) {
-      this.#drawPaper.clear()
-    } else {
-      this.#drawPaper = this.Raphael(this.drawAreaTarget)
-    }
-
     this.#setupDrawArea()
+    this.#setupDrawPaper()
+    this.#drawPaperGroup?.replaceChildren(); // Clear previous drawings
 
     if (this.showProgressValue) {
       this.#drawGanttProgressLines()
@@ -89,6 +87,42 @@ export default class extends Controller {
       this.#drawRelations()
     }
 
+  }
+
+  #setupDrawPaper() {
+    const width = Math.ceil(this.$(this.drawAreaTarget).width() || 0)
+    const height = Math.ceil(this.$(this.drawAreaTarget).height() || 0)
+
+    if (!this.#drawPaper) {
+      this.#drawPaper = document.createElementNS(SVG_NS, "svg")
+      this.#drawPaper.setAttribute("aria-hidden", "true")
+      this.#drawPaper.style.position = "absolute"
+      this.#drawPaper.style.inset = "0"
+      this.#drawPaper.style.pointerEvents = "none"
+
+      this.#drawPaperGroup = document.createElementNS(SVG_NS, "g")
+      this.#drawPaper.appendChild(this.#drawPaperGroup)
+      this.drawAreaTarget.appendChild(this.#drawPaper)
+    }
+
+    const safeWidth = Math.max(width, 1)
+    const safeHeight = Math.max(height, 1)
+    this.#drawPaper.setAttribute("width", String(safeWidth))
+    this.#drawPaper.setAttribute("height", String(safeHeight))
+    this.#drawPaper.setAttribute("viewBox", `0 0 ${safeWidth} ${safeHeight}`)
+  }
+
+  #drawPath(pathData, attributes = {}) {
+    if (!this.#drawPaperGroup) return
+
+    const path = document.createElementNS(SVG_NS, "path")
+    path.setAttribute("d", pathData.map((item) => String(item)).join(" "))
+
+    Object.entries(attributes).forEach(([name, value]) => {
+      path.setAttribute(name, String(value))
+    })
+
+    this.#drawPaperGroup.appendChild(path)
   }
 
   #setupDrawArea() {
@@ -168,83 +202,90 @@ export default class extends Controller {
       const issueFromRightRel = issueFromRight + landscapeMargin
       const issueToLeftRel = issueToLeft - landscapeMargin
 
-      this.#drawPaper
-        .path([
+      this.#drawPath(
+        [
           "M",
           issueFromRight + this.#drawLeft,
           issueFromTop,
           "L",
           issueFromRightRel + this.#drawLeft,
           issueFromTop
-        ])
-        .attr({ stroke: color, "stroke-width": RELATION_STROKE_WIDTH })
+        ],
+        { stroke: color, "stroke-width": RELATION_STROKE_WIDTH, fill: "none" }
+      )
 
       if (issueFromRightRel < issueToLeftRel) {
-        this.#drawPaper
-          .path([
+        this.#drawPath(
+          [
             "M",
             issueFromRightRel + this.#drawLeft,
             issueFromTop,
             "L",
             issueFromRightRel + this.#drawLeft,
             issueToTop
-          ])
-          .attr({ stroke: color, "stroke-width": RELATION_STROKE_WIDTH })
-        this.#drawPaper
-          .path([
+          ],
+          { stroke: color, "stroke-width": RELATION_STROKE_WIDTH, fill: "none" }
+        )
+        this.#drawPath(
+          [
             "M",
             issueFromRightRel + this.#drawLeft,
             issueToTop,
             "L",
             issueToLeft + this.#drawLeft,
             issueToTop
-          ])
-          .attr({ stroke: color, "stroke-width": RELATION_STROKE_WIDTH })
+          ],
+          { stroke: color, "stroke-width": RELATION_STROKE_WIDTH, fill: "none" }
+        )
       } else {
         const issueMiddleTop = issueToTop + issueHeight * (issueFromTop > issueToTop ? 1 : -1)
-        this.#drawPaper
-          .path([
+        this.#drawPath(
+          [
             "M",
             issueFromRightRel + this.#drawLeft,
             issueFromTop,
             "L",
             issueFromRightRel + this.#drawLeft,
             issueMiddleTop
-          ])
-          .attr({ stroke: color, "stroke-width": RELATION_STROKE_WIDTH })
-        this.#drawPaper
-          .path([
+          ],
+          { stroke: color, "stroke-width": RELATION_STROKE_WIDTH, fill: "none" }
+        )
+        this.#drawPath(
+          [
             "M",
             issueFromRightRel + this.#drawLeft,
             issueMiddleTop,
             "L",
             issueToLeftRel + this.#drawLeft,
             issueMiddleTop
-          ])
-          .attr({ stroke: color, "stroke-width": RELATION_STROKE_WIDTH })
-        this.#drawPaper
-          .path([
+          ],
+          { stroke: color, "stroke-width": RELATION_STROKE_WIDTH, fill: "none" }
+        )
+        this.#drawPath(
+          [
             "M",
             issueToLeftRel + this.#drawLeft,
             issueMiddleTop,
             "L",
             issueToLeftRel + this.#drawLeft,
             issueToTop
-          ])
-          .attr({ stroke: color, "stroke-width": RELATION_STROKE_WIDTH })
-        this.#drawPaper
-          .path([
+          ],
+          { stroke: color, "stroke-width": RELATION_STROKE_WIDTH, fill: "none" }
+        )
+        this.#drawPath(
+          [
             "M",
             issueToLeftRel + this.#drawLeft,
             issueToTop,
             "L",
             issueToLeft + this.#drawLeft,
             issueToTop
-          ])
-          .attr({ stroke: color, "stroke-width": RELATION_STROKE_WIDTH })
+          ],
+          { stroke: color, "stroke-width": RELATION_STROKE_WIDTH, fill: "none" }
+        )
       }
-      this.#drawPaper
-        .path([
+      this.#drawPath(
+        [
           "M",
           issueToLeft + this.#drawLeft,
           issueToTop,
@@ -255,13 +296,12 @@ export default class extends Controller {
           0,
           4 * RELATION_STROKE_WIDTH,
           "z"
-        ])
-        .attr({
+        ],
+        {
           stroke: "none",
-          fill: color,
-          "stroke-linecap": "butt",
-          "stroke-linejoin": "miter"
-        })
+          fill: color
+        }
+      )
     })
   }
 
@@ -344,9 +384,11 @@ export default class extends Controller {
         const x1 = previous.left === 0 ? 0 : previous.left + this.#drawLeft
         const x2 = current.left === 0 ? 0 : current.left + this.#drawLeft
 
-        this.#drawPaper
-          .path(["M", x1, previous.top, "L", x2, current.top])
-          .attr({ stroke: color, "stroke-width": 2 })
+        this.#drawPath(["M", x1, previous.top, "L", x2, current.top], {
+          stroke: color,
+          "stroke-width": 2,
+          fill: "none"
+        })
       }
     }
   }
