@@ -1511,31 +1511,31 @@ cs:
   text_oauth_info_scopes: Vyberte rozsah, který může aplikace požadovat. Aplikace
     nebude oprávněna dělat více než je zde vybráno. Vždy to bude také
     omezeno rolí a členstvím v projektu uživatele, který to povolil.
-  label_position: Position
-  label_message: Message
-  twofa_already_setup: Two-factor authentication already set up
-  permission_use_webhooks: Use webhooks
-  label_webhook_plural: Webhooks
-  label_webhook_new: New webhook
-  label_webhook_edit: Edit webhook
-  label_webhook_events: Events
-  webhook_url_info: Redmine will send a POST request to this URL whenever one of the
-    selected events occurs in one of the selected projects.
-  webhook_secret_info_html: If provided, Redmine will use this to create a hash signature
-    that is sent with each delivery as the value of the X-Redmine-Signature-256 header.
-  setting_webhooks_enabled: Enable webhooks
-  label_integrations: Integrations
-  label_alert_note: Note
+  label_position: Pozice
+  label_message: Zpráva
+  twofa_already_setup: Dvoufázové ověření je již nastaveno
+  permission_use_webhooks: Použití webhooků
+  label_webhook_plural: Webhooky
+  label_webhook_new: Nový webhook
+  label_webhook_edit: Uprav webhook
+  label_webhook_events: Události
+  webhook_url_info: Redmine pošle POST požadavek na tuto URL, jakmile nastane kterákoli z vybraných událostí 
+    ve vybraných projektech.
+  webhook_secret_info_html: Pokud je nastaven, Redmine ho použije pro vytvoření zahešovaného podpisu, který je připojen
+    jako hlavička 'X-Redmine-Signature-256'.
+  setting_webhooks_enabled: Povolit webhooky
+  label_integrations: Integrace
+  label_alert_note: Poznámka
   label_alert_tip: Tip
-  label_alert_warning: Warning
-  label_alert_caution: Caution
-  label_alert_important: Important
-  field_ratio_interval: Ratio interval
-  webhook_event_created: "%{object_name} created"
-  webhook_event_updated: "%{object_name} updated"
-  webhook_event_deleted: "%{object_name} deleted"
-  label_auto_watch_on_issue_assigned_to_me: Issues assigned to me
-  label_relation_remove: Remove relation
-  label_subtask_remove: Remove subtask
-  button_remove: Remove
-  label_open_in_full_view: Open in full view
+  label_alert_warning: Varování
+  label_alert_caution: Upozornění
+  label_alert_important: Důležité
+  field_ratio_interval: Interval koeficientu
+  webhook_event_created: "%{object_name} vytvořen"
+  webhook_event_updated: "%{object_name} aktualizován"
+  webhook_event_deleted: "%{object_name} smazán"
+  label_auto_watch_on_issue_assigned_to_me: Úkoly ke mně přiřazené
+  label_relation_remove: Odstranit vazbu
+  label_subtask_remove: Odstranit dílčí úkol
+  button_remove: Odstranit
+  label_open_in_full_view: Úplné zobrazení
