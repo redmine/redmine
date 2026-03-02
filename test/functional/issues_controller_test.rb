@@ -2008,15 +2008,18 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_index_with_group_by_and_nil_group_count_should_not_render_empty_badge
-    Issue.generate!(:created_on => '2019-08-29 10:00:00')
+    @request.session[:user_id] = 1 # Admin
+    Issue.generate!
 
+    # Mock IssueQuery#result_count_by_group to return nil
+    # to simulate cases where group count is not available
     IssueQuery.any_instance.stubs(:result_count_by_group).returns(nil)
 
     get(
       :index,
       :params => {
         :set_filter => 1,
-        :group_by => 'created_on'
+        :group_by => 'tracker'
       }
     )
     assert_response :success
