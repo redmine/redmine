@@ -67,10 +67,9 @@ module AttachmentsHelper
     end if @paginator
   end
 
-  def render_api_attachment(attachment, api, options={})
+  def render_api_attachment(attachment, api, _options={})
     api.attachment do
       render_api_attachment_attributes(attachment, api)
-      options.each {|key, value| eval("api.#{key} value")}
     end
   end
 
