@@ -31,4 +31,3 @@ class QuerySystemTest < ApplicationSystemTestCase
     assert_selector "div#tr_cf_#{cf.id} label", text: 'My <select>'
   end
 end
-
