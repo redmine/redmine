@@ -161,6 +161,13 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
       assert_nil auth.authenticate('edavis', '123456')
     end
 
+    test '#authenticate with special characters in login should not allow filter manipulation' do
+      auth = AuthSourceLdap.find(1)
+
+      result = auth.authenticate("*", "123456")
+      assert_nil result
+    end
+
     def test_authenticate_should_timeout
       auth_source = AuthSourceLdap.find(1)
       auth_source.timeout = 1
