@@ -164,7 +164,7 @@ function buildFilterRow(field, operator, values) {
   var i, select;
 
   var tr = $('<tr class="filter">').attr('id', 'tr_'+fieldId).html(
-    '<td class="field"><input checked="checked" id="cb_'+fieldId+'" name="f[]" value="'+field+'" type="checkbox"><label for="cb_'+fieldId+'"> '+filterOptions['name']+'</label></td>' +
+    '<td class="field"><input checked="checked" id="cb_'+fieldId+'" name="f[]" value="'+field+'" type="checkbox"><label for="cb_'+fieldId+'"> '+sanitizeHTML(filterOptions['name'])+'</label></td>' +
     '<td class="operator"><select id="operators_'+fieldId+'" name="op['+field+']"></td>' +
     '<td class="values"></td>'
   );
