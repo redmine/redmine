@@ -237,6 +237,12 @@ default:
   #   - example.org
   #   - "*.example.com"
 
+  # Preview for Office documents (Microsoft Office / LibreOffice)
+  #
+  # Absolute path (e.g. /usr/local/bin/pandoc) to the Pandoc command
+  # used to convert supported attachments to Markdown for preview.
+  #pandoc_command:
+
 # specific configuration options for production environment
 # that overrides the default ones
 production:

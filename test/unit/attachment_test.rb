@@ -23,6 +23,11 @@ class AttachmentTest < ActiveSupport::TestCase
   def setup
     User.current = nil
     set_tmp_attachments_directory
+    Attachment.clear_markdownized_previews
+  end
+
+  def teardown
+    Attachment.clear_markdownized_previews
   end
 
   def test_container_for_new_attachment_should_be_nil
@@ -526,6 +531,66 @@ class AttachmentTest < ActiveSupport::TestCase
 
   def test_thumbnailable_should_be_false_for_non_images
     assert_equal false, Attachment.new(:filename => 'test.txt').thumbnailable?
+  end
+
+  def test_markdownized_previewable_should_be_true_for_supported_extensions
+    skip unless Redmine::Markdownizer.available?
+
+    attachment = Attachment.new(
+      :container => Issue.find(1),
+      :file => uploaded_test_file(
+        "msword.docx",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      ),
+      :author => User.find(1)
+    )
+    assert attachment.save
+    assert_equal true, attachment.markdownized_previewable?
+  end
+
+  def test_markdownized_previewable_should_be_true_for_supported_libreoffice_extensions
+    skip unless Redmine::Markdownizer.available?
+
+    attachment = Attachment.new(
+      :container => Issue.find(1),
+      :file => uploaded_test_file(
+        "libreoffice-writer.odt",
+        "application/vnd.oasis.opendocument.text"
+      ),
+      :author => User.find(1)
+    )
+    assert attachment.save
+    assert_equal true, attachment.markdownized_previewable?
+  end
+
+  def test_markdownized_previewable_should_be_false_for_non_supported_extensions
+    skip unless Redmine::Markdownizer.available?
+
+    attachment = Attachment.new(
+      :container => Issue.find(1),
+      :file => uploaded_test_file("testfile.txt", "text/plain"),
+      :author => User.find(1)
+    )
+    assert attachment.save
+    assert_equal false, attachment.markdownized_previewable?
+  end
+
+  def test_delete_from_disk_should_delete_markdownized_preview_cache
+    attachment = Attachment.create!(
+      :container => Issue.find(1),
+      :file => uploaded_test_file(
+        "msword.docx",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      ),
+      :author => User.find(1)
+    )
+    preview = attachment.markdownized_preview_cache_path
+    FileUtils.mkdir_p(File.dirname(preview))
+    File.write(preview, "preview")
+    assert File.exist?(preview)
+
+    attachment.send(:delete_from_disk!)
+    assert_not File.exist?(preview)
   end
 
   if convert_installed?

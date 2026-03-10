@@ -79,7 +79,8 @@ class AdminController < ApplicationController
       [:text_all_migrations_have_been_run, !ActiveRecord::Base.connection.pool.migration_context.needs_migration?],
       [:text_minimagick_available,     Object.const_defined?(:MiniMagick)],
       [:text_convert_available,        Redmine::Thumbnail.convert_available?],
-      [:text_gs_available,             Redmine::Thumbnail.gs_available?]
+      [:text_gs_available,             Redmine::Thumbnail.gs_available?],
+      [:text_pandoc_available, Redmine::Markdownizer.available?]
     ]
     @checklist << [:text_default_active_job_queue_changed, Rails.application.config.active_job.queue_adapter != :async] if Rails.env.production?
   end

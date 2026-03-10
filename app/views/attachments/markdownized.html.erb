@@ -1,0 +1,4 @@
+<%= render :layout => 'layouts/file' do %>
+  <%= render :partial => 'common/markup',
+             :locals => {:markup_text_formatting => 'common_mark', :markup_text => @content} %>
+<% end %>

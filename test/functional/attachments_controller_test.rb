@@ -23,9 +23,11 @@ class AttachmentsControllerTest < Redmine::ControllerTest
   def setup
     User.current = nil
     set_fixtures_attachments_directory
+    Attachment.clear_markdownized_previews
   end
 
   def teardown
+    Attachment.clear_markdownized_previews
     set_tmp_attachments_directory
   end
 
@@ -248,6 +250,50 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     path = download_named_attachment_path(attachments(:attachments_023), attachments(:attachments_023).filename)
     assert_select ".filecontent.pdf object[data='#{path}']"
     assert_select '.nodata', :text => 'No preview available'
+  end
+
+  def test_show_msword
+    skip unless Redmine::Markdownizer.available?
+
+    set_tmp_attachments_directory
+    a = Attachment.new(
+      :container => Issue.find(1),
+      :file => uploaded_test_file(
+        'msword.docx',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      ),
+      :author => User.find(1)
+    )
+    assert a.save
+
+    get(:show, :params => {:id => a.id})
+
+    assert_response :success
+    assert_equal 'text/html', @response.media_type
+    assert_select 'div.filecontent.wiki', :text => /Redmine is a flexible project management web application/
+    assert_select '.nodata', :count => 0
+  end
+
+  def test_show_libreoffice_writer
+    skip unless Redmine::Markdownizer.available?
+
+    set_tmp_attachments_directory
+    a = Attachment.new(
+      :container => Issue.find(1),
+      :file => uploaded_test_file(
+        'libreoffice-writer.odt',
+        'application/vnd.oasis.opendocument.text'
+      ),
+      :author => User.find(1)
+    )
+    assert a.save
+
+    get(:show, :params => {:id => a.id})
+
+    assert_response :success
+    assert_equal 'text/html', @response.media_type
+    assert_select 'div.filecontent.wiki', :text => /Redmine is a flexible project management web application/
+    assert_select '.nodata', :count => 0
   end
 
   def test_show_other_with_no_preview

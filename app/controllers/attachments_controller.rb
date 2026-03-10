@@ -63,6 +63,8 @@ class AttachmentsController < ApplicationController
           render :action => 'image'
         elsif @attachment.is_pdf?
           render :action => 'pdf'
+        elsif @content = @attachment.markdownized_preview_content
+          render :action => 'markdownized'
         else
           render :action => 'other'
         end
