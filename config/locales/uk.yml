@@ -1546,3 +1546,4 @@ uk:
   label_subtask_remove: Remove subtask
   button_remove: Remove
   label_open_in_full_view: Open in full view
+  text_pandoc_available: Pandoc available (optional)

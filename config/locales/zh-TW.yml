@@ -1569,3 +1569,4 @@
   label_subtask_remove: 移除子任務
   button_remove: 移除
   label_open_in_full_view: 以全頁模式開啟
+  text_pandoc_available: Pandoc available (optional)

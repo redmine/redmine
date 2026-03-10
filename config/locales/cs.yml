@@ -1539,3 +1539,4 @@ cs:
   label_subtask_remove: Odstranit dílčí úkol
   button_remove: Odstranit
   label_open_in_full_view: Úplné zobrazení
+  text_pandoc_available: Pandoc available (optional)
