@@ -28,17 +28,24 @@ class MembersController < ApplicationController
 
   require_sudo_mode :create, :update, :destroy
 
+  include MembersHelper
+
   def index
     scope = @project.memberships
-    @offset, @limit = api_offset_and_limit
-    @member_count = scope.count
-    @member_pages = Paginator.new @member_count, @limit, params['page']
-    @offset ||= @member_pages.offset
-    @members = scope.includes(:principal, :roles).order(:id).limit(@limit).offset(@offset).to_a
+    @members = scope.includes(:principal, :roles).order(:id)
 
     respond_to do |format|
       format.html {head :not_acceptable}
-      format.api
+      format.api do
+        @offset, @limit = api_offset_and_limit
+        @member_count = scope.count
+        @member_pages = Paginator.new @member_count, @limit, params['page']
+        @offset ||= @member_pages.offset
+        @members = @members.limit(@limit).offset(@offset).to_a
+      end
+      format.csv do
+        send_data(members_to_csv(@members), type: 'text/csv; header=present', filename: "#{@project.identifier}-members.csv")
+      end
     end
   end
 

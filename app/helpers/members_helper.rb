@@ -62,4 +62,23 @@ module MembersHelper
       content_tag('em', content.join(", "), :class => "info")
     end
   end
+
+  def members_to_csv(members)
+    Redmine::Export::CSV.generate(encoding: params[:encoding]) do |csv|
+      # csv headers
+      csv << [l(:label_name), l(:label_role), l(:field_principal), l(:label_project)]
+
+      # csv lines
+      members.each do |member|
+        member.roles.each do |role|
+          csv << [
+            member.principal.name,
+            role.name,
+            member.principal.is_a?(Group) ? l(:label_group) : l(:label_user),
+            member.project.name
+          ]
+        end
+      end
+    end
+  end
 end
