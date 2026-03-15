@@ -41,15 +41,15 @@ class MembersControllerTest < Redmine::ControllerTest
     # Number of lines
     assert_equal project.memberships.sum{|m| m.roles.count } + 1, lines.size
     # Header
-    assert_equal "Name,Role,User or Group,Project", lines.first
+    assert_equal "User or Group,Type,Role,Project", lines.first
     # Details
     to_test = [
-      'John Smith,Manager,User,Private child of eCookbook',
-      'A Team,Manager,Group,Private child of eCookbook',
-      'A Team,Developer,Group,Private child of eCookbook',
-      'User Misc,Manager,User,Private child of eCookbook',
-      'User Misc,Developer,User,Private child of eCookbook',
-      'Redmine Admin,Manager,User,Private child of eCookbook'
+      'John Smith,User,Manager,Private child of eCookbook',
+      'A Team,Group,Manager,Private child of eCookbook',
+      'A Team,Group,Developer,Private child of eCookbook',
+      'User Misc,User,Manager,Private child of eCookbook',
+      'User Misc,User,Developer,Private child of eCookbook',
+      'Redmine Admin,User,Manager,Private child of eCookbook'
     ]
     to_test.each do |expected|
       assert_includes lines, expected
