@@ -725,6 +725,7 @@ bg:
   label_no_preview: Няма наличен преглед (preview)
   label_no_preview_alternative_html: Няма наличен преглед (preview). %{link} файл вместо това.
   label_no_preview_download: Изтегляне
+  label_open_in_full_view: Отвори за пълно разглеждане
   label_change_status: Промяна на състоянието
   label_history: История
   label_attachment: Файл
@@ -913,7 +914,9 @@ bg:
   label_applied_status: Установено състояние
   label_loading: Зареждане...
   label_relation_new: Нова релация
+  label_relation_remove: Премахване на релация
   label_relates_to: свързана със
+  label_subtask_remove: Премахване на подзадача
   label_duplicates: дублира
   label_duplicated_by: дублирана от
   label_blocks: блокира
@@ -1197,6 +1200,7 @@ bg:
   button_collapse_all: Скриване всички
   button_expand_all: Разгъване всички
   button_delete: Изтриване
+  button_remove: Премахване
   button_create: Създаване
   button_create_and_continue: Създаване и продължаване
   button_test: Тест
@@ -1330,6 +1334,7 @@ bg:
   text_minimagick_available: Наличен MiniMagick (по избор)
   text_convert_available: Наличен ImageMagick convert (по избор)
   text_gs_available: Налична поддръжка за ImageMagick PDF (по избор)
+  text_pandoc_available: Pandoc е наличен (опция)
   text_default_active_job_queue_changed: Default queue adapter which is well suited only for dev/test changed
   text_destroy_time_entries_question: "%{hours} часа са отделени на задачите, които искате да изтриете. Какво избирате?"
   text_destroy_time_entries: Изтриване на отделеното време
@@ -1495,8 +1500,3 @@ bg:
   reaction_text_x_other_users:
     one: 1 друг
     other: "%{count} други"
-  label_relation_remove: Remove relation
-  label_subtask_remove: Remove subtask
-  button_remove: Remove
-  label_open_in_full_view: Open in full view
-  text_pandoc_available: Pandoc available (optional)
