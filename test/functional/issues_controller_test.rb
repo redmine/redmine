@@ -4227,6 +4227,25 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_update_form_for_new_issue_should_show_category_default_assignee_when_changing_category
+    @request.session[:user_id] = 2
+    post(
+      :new,
+      :params => {
+        :project_id => 1,
+        :issue => {
+          :category_id => 1
+        },
+        :form_update_triggered_by => 'issue_category_id'
+      },
+      :xhr => true
+    )
+    assert_response :success
+    # Browsers prefer option[label] over inner text, so the blank label must be removed.
+    assert_includes @response.body, ".removeAttr('label')"
+    assert_includes @response.body, "John Smith"
+  end
+
   def test_post_create
     @request.session[:user_id] = 2
     assert_difference 'Issue.count' do
@@ -9021,4 +9040,6 @@ class IssuesControllerTest < Redmine::ControllerTest
       assert_select 'thead.related-issues th', text: 'Total estimated time'
     end
   end
+
+
 end
