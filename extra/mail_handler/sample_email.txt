@@ -1,0 +1,5 @@
+From: user@example.com
+To: redmine@example.com
+Subject: Test Issue
+
+This is a test issue submitted via rdm-mailhandler.rb.

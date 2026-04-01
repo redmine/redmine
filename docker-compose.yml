@@ -1,0 +1,27 @@
+services:
+  redmine:
+    image: redmine:latest
+    ports:
+      - "8080:3000"
+    environment:
+      REDMINE_DB_POSTGRES: db
+      REDMINE_DB_USERNAME: redmine
+      REDMINE_DB_PASSWORD: password
+      REDMINE_SECRET_KEY_BASE: supersecretkey
+    depends_on:
+      - db
+    volumes:
+      - redmine-files:/usr/src/redmine/files
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: redmine
+      POSTGRES_USER: redmine
+      POSTGRES_PASSWORD: password
+    volumes:
+      - redmine-postgres-data:/var/lib/postgresql/data
+
+volumes:
+  redmine-postgres-data:
+  redmine-files:
