@@ -385,7 +385,7 @@ ko:
   permission_delete_issues: 일감 삭제
   permission_manage_public_queries: 공용 검색양식 관리
   permission_save_queries: 검색양식 저장
-  permission_view_gantt: Gantt 차트 보기
+  permission_view_gantt: 간트 차트 보기
   permission_view_calendar: 달력 보기
   permission_view_issue_watchers: 일감관람자 보기
   permission_add_issue_watchers: 일감관람자 추가
@@ -559,7 +559,7 @@ ko:
   label_add_note: 일감댓글 추가
   label_calendar: 달력
   label_months_from: 개월 동안 | 다음부터
-  label_gantt: Gantt 차트
+  label_gantt: 간트 차트
   label_internal: 내부
   label_last_changes: "최근 %{count}개의 변경사항"
   label_change_view_all: 모든 변경 내역 보기
@@ -922,14 +922,14 @@ ko:
   error_can_not_delete_custom_field: 사용자 정의 필드를 삭제할 수 없습니다.
   error_unable_to_connect: 연결할 수 없습니다((%{value})
   error_can_not_remove_role: 이 역할은 현재 사용 중이이서 삭제할 수 없습니다.
-  error_can_not_delete_tracker_html: 이 유형의 일감들이 있어서 삭제할 수 없습니다.<p>The following projects have issues with this tracker:<br>%{projects}</p>
+  error_can_not_delete_tracker_html: 이 유형의 일감들이 있어서 삭제할 수 없습니다.<p>다음 프로젝트들은 이 문제가 있습니다:<br>%{projects}</p>
   field_principal: 신원
   notice_failed_to_save_members: "%{errors}:구성원을 저장 중 실패하였습니다"
   text_zoom_out: 더 작게
   text_zoom_in: 더 크게
   notice_unable_delete_time_entry: 시간 기록 항목을 삭제할 수 없습니다.
   field_time_entries: 기록된 시간
-  project_module_gantt: Gantt 차트
+  project_module_gantt: 간트 차트
   project_module_calendar: 달력
   button_edit_associated_wikipage: "연관된 위키 페이지 %{page_title} 수정"
   field_text: 텍스트 영역
@@ -947,7 +947,7 @@ ko:
   text_time_logged_by_changeset: "변경묶음 %{value}에서 적용되었습니다."
   setting_commit_logtime_enabled: 커밋 시점에 작업 시간 기록 활성화
   notice_gantt_chart_truncated: "표시할 수 있는 최대 항목수(%{max})를 초과하여 차트가 잘렸습니다."
-  setting_gantt_items_limit: "Gantt 차트에 표시되는 최대 항목수"
+  setting_gantt_items_limit: "간트 차트에 표시되는 최대 항목수"
   field_warn_on_leaving_unsaved: "저장하지 않은 페이지를 빠져나갈 때 나에게 알림"
   text_warn_on_leaving_unsaved: "현재 페이지는 저장되지 않은 문자가 있습니다. 이 페이지를 빠져나가면 내용을 잃을 것입니다."
   label_my_queries: "내 검색 양식"
@@ -1285,7 +1285,7 @@ ko:
   text_select_apply_tracker: 일감유형 선택
   label_updated_issues: 수정한 일감
   text_avatar_server_config_html: 현재 아바타 서버는 <a href="%{url}">%{url}</a> 입니다. 서버 설정은 config/configuration.yml 에서 변경할 수 있습니다.
-  setting_gantt_months_limit: Gantt 차트의 표시할 월의 최대값
+  setting_gantt_months_limit: 간트 차트의 표시할 월의 최대값
   permission_import_time_entries: 소요시간 가져오기
   label_import_notifications: 가져오기 중 이메일 알림
   text_gs_available: ImageMagick의 PDF 서포트 이용가능 (옵션)
@@ -1315,31 +1315,31 @@ ko:
   label_display_type_board: 보드
   label_my_bookmarks: 내 북마크
   label_import_time_entries: 소요시간 가져오기
-  field_toolbar_language_options: Code highlighting toolbar languages
-  label_user_mail_notify_about_high_priority_issues_html: Also notify me about issues
-    with a priority of <em>%{prio}</em> or higher
-  label_assign_to_me: Assign to me
-  notice_issue_not_closable_by_open_tasks: This issue cannot be closed because it has
-    at least one open subtask.
-  notice_issue_not_closable_by_blocking_issue: This issue cannot be closed because it
-    is blocked by at least one open issue.
-  notice_issue_not_reopenable_by_closed_parent_issue: This issue cannot be reopened
-    because its parent issue is closed.
+  field_toolbar_language_options: 도구 모음 언어를 강조하는 코드
+  label_user_mail_notify_about_high_priority_issues_html: 일감에 대해서도 알려주세요.
+    우선순위가 <em>%{prio}/<em> 이상인 경우
+  label_assign_to_me: 나에게 할당
+  notice_issue_not_closable_by_open_tasks: 이 일감은 적어도
+    하나의 열린 하위 작업이 있기 때문에 닫을 수 없습니다.
+  notice_issue_not_closable_by_blocking_issue: 이 일감은 다음과 같은 이유로 종결할 수 없습니다.
+    적어도 하나의 미해결 일감으로 차단되었습니다.
+  notice_issue_not_reopenable_by_closed_parent_issue: 이 일감은 다음과 같은 이유로 종결할 수 없습니다.
+    상위 일감이 종료되었습니다.
   error_bulk_download_size_too_big: These attachments cannot be bulk downloaded because
     the total file size exceeds the maximum allowed size (%{max_size})
   setting_bulk_download_max_size: Maximum total size for bulk download
   label_download_all_attachments: Download all files
   error_attachments_too_many: This file cannot be uploaded because it exceeds the maximum
     number of files that can be attached simultaneously (%{max_number_of_files})
-  setting_email_domains_allowed: Allowed email domains
-  setting_email_domains_denied: Disallowed email domains
-  field_passwd_changed_on: Password last changed
+  setting_email_domains_allowed: 허용 이메일 도메인
+  setting_email_domains_denied: 차단 이메일 도메인
+  field_passwd_changed_on: 마지막 비밀번호 변경
   label_relations_mapping: Relations mapping
-  label_import_users: Import users
-  label_days_to_html: "%{days} days up to %{date}"
+  label_import_users: 사용자 가져오기
+  label_days_to_html: "%{date}까지의 최근 %{days}일간 "
   setting_twofa: Two-factor authentication
-  label_optional: optional
-  label_required_lower: required
+  label_optional: 선택
+  label_required_lower: 필수
   button_disable: Disable
   twofa__totp__name: Authenticator app
   twofa__totp__text_pairing_info_html: Scan this QR code or enter the plain text key
@@ -1370,12 +1370,12 @@ ko:
     generated.
   twofa_mail_body_backup_code_used: A two-factor authentication backup code has been
     used.
-  twofa_invalid_code: Code is invalid or outdated.
+  twofa_invalid_code: 유효하지 않은 코드입니다.
   twofa_label_enter_otp: Please enter your two-factor authentication code.
-  twofa_too_many_tries: Too many tries.
-  twofa_resend_code: Resend code
-  twofa_code_sent: An authentication code has been sent to you.
-  twofa_generate_backup_codes: Generate backup codes
+  twofa_too_many_tries: 너무 많은 시도
+  twofa_resend_code: 코드 다시보내기
+  twofa_code_sent: 인증코드가 정상적으로 발송되었습니다.
+  twofa_generate_backup_codes: 백업코드 생성
   twofa_text_generate_backup_codes_confirmation: This will invalidate all existing backup
     codes and generate new ones. Would you like to continue?
   twofa_notice_backup_codes_generated: Your backup codes have been generated.
@@ -1414,7 +1414,7 @@ ko:
   permission_add_message_watchers: Add message watchers
   permission_delete_message_watchers: Delete message watchers
   label_message_watchers: Watchers
-  button_copy_link: Copy link
+  button_copy_link: 링크 복사
   error_invalid_authenticity_token: Invalid form authenticity token.
   error_query_statement_invalid: An error occurred while executing the query and has
     been logged. Please report this error to your Redmine administrator.
@@ -1440,12 +1440,12 @@ ko:
     for_all_users: For all users
     for_this_user: For this user
   text_allowed_queries_to_select: Public (to any users) queries only selectable
-  text_all_migrations_have_been_run: All database migrations have been run
+  text_all_migrations_have_been_run: 모든 데이터베이스 마이그레이션이 실행되었습니다.
   button_save_object: Save %{object_name}
   button_edit_object: Edit %{object_name}
   button_delete_object: Delete %{object_name}
-  text_setting_config_change: You can configure the behaviour in config/configuration.yml.
-    Please restart the application after editing it.
+  text_setting_config_change: configuration/configuration.yml로 구성할 수 있습니다.
+    레드마인들 재시작해야 적용됩니다.
   label_bulk_edit: Bulk edit
   button_create_and_follow: Create and follow
   label_subtask: Subtask
@@ -1459,13 +1459,13 @@ ko:
   label_auto_watch_on_issue_contributed_to: Issues I contributed to
   text_project_close_confirmation: Are you sure you want to close the '%{value}' project
     to make it read-only?
-  text_project_reopen_confirmation: Are you sure you want to reopen the '%{value}' project?
+  text_project_reopen_confirmation: '%{value}' 프로젝트를 다시 여시겠습니까?
   text_project_archive_confirmation: Are you sure you want to archive the '%{value}'
     project?
-  mail_destroy_project_failed: Project %{value} could not be deleted.
-  mail_destroy_project_successful: Project %{value} was deleted successfully.
-  mail_destroy_project_with_subprojects_successful: Project %{value} and its subprojects
-    were deleted successfully.
+  mail_destroy_project_failed: 프로젝트 %{value}을(를) 삭제할 수 없습니다.
+  mail_destroy_project_successful: 프로젝트 %{value}을(를) 정상적으로 삭제하였습니다.
+  mail_destroy_project_with_subprojects_successful: 프로젝트 %{value}와(과) 하위 프로젝트들이
+    정상적으로 삭제되었습니다.
   project_status_scheduled_for_deletion: scheduled for deletion
   text_projects_bulk_destroy_confirmation: Are you sure you want to delete the selected
     projects and related data?
@@ -1503,13 +1503,13 @@ ko:
   text_default_active_job_queue_changed: Default queue adapter which is well suited
     only for dev/test changed
   label_option_auto_lang: auto
-  label_issue_attachment_added: Attachment added
-  field_estimated_remaining_hours: Estimated remaining time
-  field_last_activity_date: Last activity
+  label_issue_attachment_added: 첨부파일 추가
+  field_estimated_remaining_hours: 남은 시간
+  field_last_activity_date: 마지막 활동
   setting_issue_done_ratio_interval: Done ratio options interval
-  setting_copy_attachments_on_issue_copy: Copy attachments on copy
+  setting_copy_attachments_on_issue_copy: 첨부파일도 복사본에 복사
   field_thousands_delimiter: Thousands delimiter
-  label_involved_principals: Author / Previous assignee
+  label_involved_principals: 저자 / 이전 할당자
   label_attachment_summary:
     zero: "%{filename}"
     one: "%{filename} and 1 file"
