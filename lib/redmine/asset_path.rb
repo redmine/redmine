@@ -140,7 +140,7 @@ module Redmine
 
     def asset_files
       Enumerator.new do |y|
-        Rails.logger.info all_paths
+        Rails.logger.debug { all_paths.inspect }
         all_paths.each do |path|
           next unless path.exist?
 
