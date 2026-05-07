@@ -1508,4 +1508,4 @@ ja:
   label_assignee_dropdown_display_format_groups_then_users: グループ → ユーザー
   label_enable_default_issue_due_date_offset: 新規チケットの期日のデフォルト値を有効にする
   label_days_relative_to_today: 日 (現在の日付からの相対値)
-  label_assignee_dropdown_display_format_users_by_group: Users by group
+  label_assignee_dropdown_display_format_users_by_group: グループ別
