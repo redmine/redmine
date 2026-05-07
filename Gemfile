@@ -77,7 +77,7 @@ if File.exist?(database_file)
         gem 'mysql2', '~> 0.5.0'
         gem "with_advisory_lock"
       when /trilogy/
-        gem 'trilogy', '~> 2.9.0'
+        gem 'trilogy', '~> 2.12.4'
         gem "with_advisory_lock"
       when /postgresql/
         gem 'pg', '~> 1.6.2'
