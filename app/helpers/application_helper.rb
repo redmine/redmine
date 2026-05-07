@@ -811,7 +811,7 @@ module ApplicationHelper
 
   def to_path_param(path)
     str = path.to_s.split(%r{[/\\]}).select{|p| !p.blank?}.join("/")
-    str.blank? ? nil : str
+    (str.presence)
   end
 
   def reorder_handle(object, options={})

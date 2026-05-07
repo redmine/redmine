@@ -93,7 +93,7 @@ module Redmine
         if options.has_key?(:max_rows)
           @max_rows = options[:max_rows]
         else
-          @max_rows = Setting.gantt_items_limit.blank? ? nil : Setting.gantt_items_limit.to_i
+          @max_rows = (Setting.gantt_items_limit.presence&.to_i)
         end
       end
 

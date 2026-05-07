@@ -39,7 +39,7 @@ module Redmine
         str.force_encoding("UTF-8")
         return str
       end
-      enc = encoding.blank? ? "UTF-8" : encoding
+      enc = (encoding.presence || "UTF-8")
       if enc.casecmp("UTF-8") != 0
         str.force_encoding(enc)
         str = str.encode("UTF-8", :invalid => :replace,

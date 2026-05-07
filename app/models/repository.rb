@@ -133,11 +133,7 @@ class Repository < ApplicationRecord
   end
 
   def identifier_param
-    if identifier.present?
-      identifier
-    else
-      id.to_s
-    end
+    (identifier.presence || id.to_s)
   end
 
   def <=>(repository)
@@ -366,7 +362,7 @@ class Repository < ApplicationRecord
 
   def repo_log_encoding
     encoding = log_encoding.to_s.strip
-    encoding.blank? ? 'UTF-8' : encoding
+    (encoding.presence || 'UTF-8')
   end
 
   # Fetches new changesets for all repositories of active projects

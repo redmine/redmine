@@ -83,7 +83,7 @@ module Redmine
           s.collect {|c| append_order(c, o)}
         end
       end.flatten.compact
-      sql.blank? ? nil : sql
+      (sql.presence)
     end
 
     private

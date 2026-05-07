@@ -122,7 +122,7 @@ class Role < ApplicationRecord
   end
 
   def permissions=(perms)
-    perms = perms.filter_map {|p| p.to_sym unless p.blank?}.uniq if perms
+    perms = perms.filter_map {|p| (p.presence&.to_sym)}.uniq if perms
     write_attribute(:permissions, perms)
   end
 

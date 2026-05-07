@@ -486,16 +486,6 @@ Rails/PluralizationGrammar:
     - 'test/unit/query_test.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
-Rails/Presence:
-  Exclude:
-    - 'app/controllers/activities_controller.rb'
-    - 'app/helpers/application_helper.rb'
-    - 'app/models/repository.rb'
-    - 'lib/redmine/codeset_util.rb'
-    - 'lib/redmine/i18n.rb'
-    - 'lib/redmine/sort_criteria.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: NotNilAndNotEmpty, NotBlank, UnlessBlank.
 Rails/Present:
   Enabled: false

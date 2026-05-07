@@ -49,7 +49,7 @@ class ActivitiesController < ApplicationController
     else
       if @author.nil?
         scope = pref.activity_scope & @activity.event_types
-        @activity.scope = scope.present? ? scope : :default
+        @activity.scope = (scope.presence || :default)
       else
         @activity.scope = :all
       end

@@ -823,7 +823,7 @@ class Project < ApplicationRecord
   #   project.disable_module!(project.enabled_modules.first)
   def disable_module!(target)
     target = enabled_modules.detect{|mod| target.to_s == mod.name} unless enabled_modules.include?(target)
-    target.destroy unless target.blank?
+    (target.presence&.destroy)
   end
 
   safe_attributes(

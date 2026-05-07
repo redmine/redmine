@@ -83,7 +83,7 @@ module Redmine
 
       user ||= User.current
       options = {}
-      options[:format] = (Setting.time_format.blank? ? :time : Setting.time_format)
+      options[:format] = (Setting.time_format.presence || :time)
       time = time.to_time if time.is_a?(String)
       local = user.convert_time_to_user_timezone(time)
       (include_date ? "#{format_date(local)} " : "") + ::I18n.l(local, **options)
