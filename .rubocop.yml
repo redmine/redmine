@@ -163,6 +163,14 @@ Rails/Delegate:
 Rails/EnvironmentVariableAccess:
   Enabled: false
 
+Rails/Exit:
+  Enabled: true
+  Exclude:
+    - config/environment.rb
+    - config/initializers/10-patches.rb
+    - config/routes.rb
+    - lib/redmine/configuration.rb
+
 Rails/FilePath:
   Enabled: false
 
