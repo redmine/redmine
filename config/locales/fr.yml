@@ -1452,7 +1452,7 @@ fr:
     verrouiller les comptes utilisateurs est une meiilleur solution que les supprimer.
   text_users_bulk_destroy_confirm: Pour confirmer, taper "%{yes}" dans le champ suivant.
   permission_select_project_publicity: Configurer les projets publique ou privé
-  label_auto_watch_on_issue_created: Demandes que j'ai créée
+  label_auto_watch_on_issue_created: Demandes que j'ai créées
   field_any_searchable: Tout texte indexable
   label_contains_any_of: contenant un des
   button_apply_issues_filter: Appliquer le filtre des demandes
