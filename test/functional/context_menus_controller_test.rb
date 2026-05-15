@@ -522,4 +522,63 @@ class ContextMenusControllerTest < Redmine::ControllerTest
       assert_select 'a.icon-del', :count => 0
     end
   end
+
+  def test_users_context_menu
+    @request.session[:user_id] = 1 # admin
+    get :users, :params => {:ids => [8]}
+    assert_response :success
+
+    assert_select 'li.folder' do
+      assert_select 'a', :text => 'Add to group'
+      assert_select 'ul' do
+        assert_select 'a', :text => 'A Team'
+      end
+    end
+    # User 8 is in Group 10
+    assert_select 'li.folder' do
+      assert_select 'a', :text => 'Remove from group'
+      assert_select 'a', :text => 'A Team'
+    end
+  end
+
+  def test_users_context_menu_bulk
+    @request.session[:user_id] = 1 # admin
+    # Add user 2 to group 10 (user 8 is already there)
+    Group.find(10).users << User.find(2)
+
+    get :users, :params => {:ids => [2, 8]}
+    assert_response :success
+
+    assert_select 'li.folder' do
+      assert_select 'a', :text => 'Add to group'
+      assert_select 'ul' do
+        assert_select 'a', :text => 'A Team'
+        assert_select 'a', :text => 'B Team'
+      end
+    end
+    # Both users are in Group 10
+    assert_select 'li.folder' do
+      assert_select 'a', :text => 'Remove from group'
+      assert_select 'a', :text => 'A Team'
+    end
+  end
+
+  def test_users_context_menu_bulk_with_different_groups
+    @request.session[:user_id] = 1 # admin
+    # User 8 is in Group 10
+    # Add User 2 to Group 11
+    Group.find(11).users << User.find(2)
+
+    get :users, :params => {:ids => [2, 8]}
+    assert_response :success
+
+    # Both Group 10 and Group 11 should be in the Remove submenu
+    assert_select 'li.folder' do
+      assert_select 'a', :text => 'Remove from group'
+      assert_select 'ul' do
+        assert_select 'a', :text => 'A Team'
+        assert_select 'a', :text => 'B Team'
+      end
+    end
+  end
 end

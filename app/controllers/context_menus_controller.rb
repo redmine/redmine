@@ -134,6 +134,11 @@ class ContextMenusController < ApplicationController
     if @users.size == 1
       @user = @users.first
     end
+
+    @groups = Group.givable.sorted.to_a
+    @common_group_ids = Group.givable.joins(:groups_users).where(groups_users: { user_id: @users.map(&:id) }).distinct.pluck(:id).to_set
+    @back = back_url
+
     render layout: false
   end
 end

@@ -36,4 +36,29 @@
                             method: :delete, class: 'icon icon-del' %>
     </li>
   <% end %>
+
+  <% if @groups.present? %>
+    <li class="folder">
+      <a href="#" class="submenu"><%= l(:button_add_to_group) %></a>
+      <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
+      <ul>
+        <% @groups.each do |group| %>
+          <li><%= context_menu_link group.name, group_users_path(group, :user_ids => @users.map(&:id), :back_url => @back), :method => :post %></li>
+        <% end %>
+      </ul>
+    </li>
+    <% if @common_group_ids.present? %>
+      <li class="folder">
+        <a href="#" class="submenu"><%= l(:button_remove_from_group) %></a>
+        <span class="icon-only"><%= sprite_icon('angle-right', rtl: true) %></span>
+        <ul>
+          <% @groups.each do |group| %>
+            <% if @common_group_ids.include?(group.id) %>
+              <li><%= context_menu_link group.name, group_users_path(group, :user_ids => @users.map(&:id), :back_url => @back), :method => :delete %></li>
+            <% end %>
+          <% end %>
+        </ul>
+      </li>
+    <% end %>
+  <% end %>
 </ul>

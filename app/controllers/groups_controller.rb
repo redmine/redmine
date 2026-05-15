@@ -117,7 +117,10 @@ class GroupsController < ApplicationController
     @users = User.not_in_group(@group).where(:id => (params[:user_id] || params[:user_ids])).to_a
     @group.users << @users
     respond_to do |format|
-      format.html {redirect_to edit_group_path(@group, :tab => 'users')}
+      format.html do
+        flash[:notice] = l(:notice_successful_update)
+        redirect_back_or_default edit_group_path(@group, :tab => 'users')
+      end
       format.js
       format.api do
         if @users.any?
@@ -133,7 +136,7 @@ class GroupsController < ApplicationController
     @users = User.where(:id => (params[:user_id] || params[:user_ids])).to_a
     @group.users.delete(@users) if request.delete?
     respond_to do |format|
-      format.html {redirect_to edit_group_path(@group, :tab => 'users')}
+      format.html {redirect_back_or_default edit_group_path(@group, :tab => 'users')}
       format.js
       format.api {render_api_ok}
     end

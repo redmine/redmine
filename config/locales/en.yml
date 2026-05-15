@@ -1211,12 +1211,14 @@ en:
   button_expand_all: Expand all
   button_delete: Delete
   button_remove: Remove
+  button_remove_from_group: Remove from group
   button_create: Create
   button_create_and_continue: Create and add another
   button_test: Test
   button_edit: Edit
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   button_add: Add
+  button_add_to_group: Add to group
   button_change: Change
   button_apply: Apply
   button_clear: Clear
