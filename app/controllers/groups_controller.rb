@@ -23,9 +23,9 @@ class GroupsController < ApplicationController
 
   before_action :require_admin, :except => [:show]
   before_action :find_group, :except => [:index, :new, :create]
-  accept_api_auth :index, :show, :create, :update, :destroy, :add_users, :remove_user
+  accept_api_auth :index, :show, :create, :update, :destroy, :add_users, :remove_users, :remove_user
 
-  require_sudo_mode :add_users, :remove_user, :create, :update, :destroy, :edit_membership, :destroy_membership
+  require_sudo_mode :add_users, :remove_users, :remove_user, :create, :update, :destroy, :edit_membership, :destroy_membership
 
   helper :custom_fields
   helper :principal_memberships
@@ -129,13 +129,19 @@ class GroupsController < ApplicationController
     end
   end
 
-  def remove_user
-    @group.users.delete(User.find(params[:user_id])) if request.delete?
+  def remove_users
+    @users = User.where(:id => (params[:user_id] || params[:user_ids])).to_a
+    @group.users.delete(@users) if request.delete?
     respond_to do |format|
       format.html {redirect_to edit_group_path(@group, :tab => 'users')}
       format.js
       format.api {render_api_ok}
     end
+  end
+
+  def remove_user
+    Rails.application.deprecators[:redmine].warn "GroupsController#remove_user is deprecated and will be removed in Redmine 8.0. Please use #remove_users instead."
+    remove_users
   end
 
   def autocomplete_for_user

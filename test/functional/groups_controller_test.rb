@@ -249,10 +249,10 @@ class GroupsControllerTest < Redmine::ControllerTest
     assert_match /John Smith/, response.body
   end
 
-  def test_remove_user
+  def test_remove_users
     assert_difference 'Group.find(10).users.count', -1 do
       delete(
-        :remove_user,
+        :remove_users,
         :params => {
           :id => 10,
           :user_id => '8'
@@ -261,10 +261,24 @@ class GroupsControllerTest < Redmine::ControllerTest
     end
   end
 
-  def test_xhr_remove_user
+  def test_remove_users_plural
+    group = Group.find(10)
+    group.users << User.find(2)
+    assert_difference 'group.users.count', -2 do
+      delete(
+        :remove_users,
+        :params => {
+          :id => 10,
+          :user_ids => ['2', '8']
+        }
+      )
+    end
+  end
+
+  def test_xhr_remove_users
     assert_difference 'Group.find(10).users.count', -1 do
       delete(
-        :remove_user,
+        :remove_users,
         :params => {
           :id => 10,
           :user_id => '8'
@@ -274,6 +288,17 @@ class GroupsControllerTest < Redmine::ControllerTest
       assert_response :success
       assert_equal 'text/javascript', response.media_type
     end
+  end
+
+  def test_remove_user_should_be_deprecated
+    Rails.application.deprecators[:redmine].expects(:warn).with(regexp_matches(/GroupsController#remove_user is deprecated/))
+    delete(
+      :remove_user,
+      :params => {
+        :id => 10,
+        :user_id => '8'
+      }
+    )
   end
 
   def test_autocomplete_for_user
