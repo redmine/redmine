@@ -256,10 +256,25 @@ class GroupsControllerTest < Redmine::ControllerTest
         :remove_users,
         :params => {
           :id => 10,
+          :user_id => '8',
+          :confirm => I18n.t(:general_text_Yes)
+        }
+      )
+    end
+  end
+
+  def test_remove_users_without_confirmation
+    assert_no_difference 'Group.find(10).users.count' do
+      delete(
+        :remove_users,
+        :params => {
+          :id => 10,
           :user_id => '8'
         }
       )
     end
+    assert_response :success
+    assert_select 'input[name=confirm]'
   end
 
   def test_remove_users_plural
@@ -270,25 +285,28 @@ class GroupsControllerTest < Redmine::ControllerTest
         :remove_users,
         :params => {
           :id => 10,
-          :user_ids => ['2', '8']
+          :user_ids => ['2', '8'],
+          :confirm => I18n.t(:general_text_Yes)
         }
       )
     end
   end
 
-  def test_xhr_remove_users
-    assert_difference 'Group.find(10).users.count', -1 do
-      delete(
-        :remove_users,
-        :params => {
-          :id => 10,
-          :user_id => '8'
-        },
-        :xhr => true
-      )
-      assert_response :success
-      assert_equal 'text/javascript', response.media_type
-    end
+  def test_remove_users_should_only_include_group_members
+    assert !Group.find(10).users.include?(User.find(3))
+
+    get(
+      :remove_users,
+      :params => {
+        :id => 10,
+        :user_ids => ['3', '8']
+      }
+    )
+    assert_response :success
+    assert_select 'input[name=confirm]'
+    # Should show user 8 but not user 3
+    assert_select 'p strong', :text => 'User Misc'
+    assert_select 'p strong', :text => 'Dave Lopper', :count => 0
   end
 
   def test_remove_user_should_be_deprecated
