@@ -3,7 +3,7 @@
 <%= form_tag(group_users_path(@group, :user_ids => @users.map(&:id)), method: :delete) do %>
   <%= back_url_hidden_field_tag %>
   <div class="warning">
-    <p><%= simple_format l :text_users_remove_from_group_confirmation, group: content_tag('strong', @group.name %></p>
+    <p><%= simple_format l :text_users_remove_from_group_confirmation, group: content_tag('strong', @group.name) %></p>
 
     <% @users.each do |user| %>
       <p><strong><%= user.name %></strong> (<%= user.login %>)</p>
