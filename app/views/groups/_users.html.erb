@@ -11,7 +11,7 @@
       <tr id="user-<%= user.id %>">
         <td class="name"><%= link_to_user user %></td>
         <td class="buttons">
-          <%= remove_link group_users_path(@group, :user_id => user), :remote => true %>
+          <%= link_to sprite_icon('link-break', l(:button_remove)), group_users_path(@group, :user_id => user), :method => :delete, :class => 'icon icon-link-break' %>
         </td>
       </tr>
     <% end %>

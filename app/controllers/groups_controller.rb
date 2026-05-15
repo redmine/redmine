@@ -133,12 +133,22 @@ class GroupsController < ApplicationController
   end
 
   def remove_users
-    @users = User.where(:id => (params[:user_id] || params[:user_ids])).to_a
-    @group.users.delete(@users) if request.delete?
-    respond_to do |format|
-      format.html {redirect_back_or_default edit_group_path(@group, :tab => 'users')}
-      format.js
-      format.api {render_api_ok}
+    @users = @group.users.where(:id => (params[:user_id] || params[:user_ids])).to_a
+
+    if @users.empty?
+      render_404
+      return
+    end
+
+    if request.delete? && (api_request? || params[:confirm] == I18n.t(:general_text_Yes))
+      @group.users.delete(@users)
+      respond_to do |format|
+        format.html do
+          flash[:notice] = l(:notice_successful_delete)
+          redirect_back_or_default edit_group_path(@group, :tab => 'users')
+        end
+        format.api {render_api_ok}
+      end
     end
   end
 

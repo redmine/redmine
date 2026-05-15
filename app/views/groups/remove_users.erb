@@ -1,0 +1,20 @@
+<%= title l(:label_confirmation) %>
+
+<%= form_tag(group_users_path(@group, :user_ids => @users.map(&:id)), method: :delete) do %>
+  <div class="warning">
+    <p><%= simple_format l :text_users_remove_from_group_confirmation, group: content_tag('strong', @group.name %></p>
+
+    <% @users.each do |user| %>
+      <p><strong><%= user.name %></strong> (<%= user.login %>)</p>
+    <% end %>
+
+    <p><%= l :text_users_bulk_destroy_confirm, yes: l(:general_text_Yes) %></p>
+    <p><%= text_field_tag 'confirm' %></p>
+
+  </div>
+
+  <p>
+    <%= submit_tag l(:button_delete) %>
+    <%= link_to l(:button_cancel), @back_url || users_path %>
+  </p>
+<% end %>
