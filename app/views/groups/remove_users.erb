@@ -1,6 +1,7 @@
 <%= title l(:label_confirmation) %>
 
 <%= form_tag(group_users_path(@group, :user_ids => @users.map(&:id)), method: :delete) do %>
+  <%= back_url_hidden_field_tag %>
   <div class="warning">
     <p><%= simple_format l :text_users_remove_from_group_confirmation, group: content_tag('strong', @group.name %></p>
 
@@ -15,6 +16,6 @@
 
   <p>
     <%= submit_tag l(:button_delete) %>
-    <%= link_to l(:button_cancel), @back_url || users_path %>
+    <%= cancel_button_tag(users_path) %>
   </p>
 <% end %>
