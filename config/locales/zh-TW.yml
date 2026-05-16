@@ -1571,11 +1571,11 @@
   label_open_in_full_view: 以全頁模式開啟
   text_pandoc_available: 可使用 Pandoc (選配)
   label_user_mail_option_only_my_watches: 只提醒我監看中的事物
-  label_last_used_on: 'Last used: %{value} ago'
-  label_never_used: Never used
-  setting_assignee_dropdown_display_format: Assignee drop-down display format
-  label_assignee_dropdown_display_format_users_then_groups: Users then groups
-  label_assignee_dropdown_display_format_groups_then_users: Groups then users
-  label_enable_default_issue_due_date_offset: Enable default due date for new issues
-  label_days_relative_to_today: days relative to today
-  label_assignee_dropdown_display_format_users_by_group: Users by group
+  label_last_used_on: '最後使用於 %{value} 之前'
+  label_never_used: 從未使用
+  setting_assignee_dropdown_display_format: 被分派者下拉選單顯示格式
+  label_assignee_dropdown_display_format_users_then_groups: 使用者在前、群組在後
+  label_assignee_dropdown_display_format_groups_then_users: 群組在前、使用者在後
+  label_enable_default_issue_due_date_offset: 啟用新議題的預設截止日期
+  label_days_relative_to_today: 相對於今天的天數
+  label_assignee_dropdown_display_format_users_by_group: 依群組顯示使用者
