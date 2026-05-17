@@ -350,7 +350,7 @@ class GroupsControllerTest < Redmine::ControllerTest
         :params => {
           :id => 10,
           :user_id => '8',
-          :back_url => 'http://external.com/evil'
+          :back_url => 'http://example.com/issues'
         }
       )
     end
@@ -368,7 +368,7 @@ class GroupsControllerTest < Redmine::ControllerTest
           :id => 10,
           :user_id => '8',
           :confirm => I18n.t(:general_text_Yes),
-          :back_url => 'http://external.com/evil'
+          :back_url => 'http://example.com/issues'
         }
       )
     end
