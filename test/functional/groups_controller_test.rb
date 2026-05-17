@@ -232,6 +232,9 @@ class GroupsControllerTest < Redmine::ControllerTest
       )
     end
     assert_equal 'Successful update.', flash[:notice]
+
+    # assert add users redirects to group members page
+    assert_redirected_to '/groups/10/edit?tab=users'
   end
 
   def test_xhr_add_users
@@ -261,6 +264,8 @@ class GroupsControllerTest < Redmine::ControllerTest
         }
       )
     end
+    # remove users should redirect to group members page when no back url is provided
+    assert_redirected_to '/groups/10/edit?tab=users'
   end
 
   def test_remove_users_without_confirmation
@@ -307,6 +312,68 @@ class GroupsControllerTest < Redmine::ControllerTest
     # Should show user 8 but not user 3
     assert_select 'p strong', :text => 'User Misc'
     assert_select 'p strong', :text => 'Dave Lopper', :count => 0
+  end
+
+  def test_remove_users_should_preserve_back_url_through_confirmation
+    delete(
+      :remove_users,
+      :params => {
+        :id => 10,
+        :user_id => '8',
+        :back_url => '/users'
+      }
+    )
+    assert_response :success
+    assert_select 'form[action=?]', '/groups/10/users?user_ids%5B%5D=8' do
+      assert_select 'input[name=back_url][value=?]', '/users'
+    end
+
+    # 2. Submit confirmation with back_url
+    assert_difference 'Group.find(10).users.count', -1 do
+      delete(
+        :remove_users,
+        :params => {
+          :id => 10,
+          :user_ids => ['8'],
+          :confirm => I18n.t(:general_text_Yes),
+          :back_url => '/users'
+        }
+      )
+    end
+    assert_redirected_to '/users'
+  end
+
+  def test_remove_users_without_confirmation_with_unsafe_back_url_should_ignore_back_url
+    assert_no_difference 'Group.find(10).users.count' do
+      delete(
+        :remove_users,
+        :params => {
+          :id => 10,
+          :user_id => '8',
+          :back_url => 'http://external.com/evil'
+        }
+      )
+    end
+    assert_response :success
+    assert_select 'form[action=?]', '/groups/10/users?user_ids%5B%5D=8' do
+      assert_select 'input[name=back_url]', 0
+    end
+  end
+
+  def test_remove_users_with_unsafe_back_url_should_redirect_to_default_url
+    assert_difference 'Group.find(10).users.count', -1 do
+      delete(
+        :remove_users,
+        :params => {
+          :id => 10,
+          :user_id => '8',
+          :confirm => I18n.t(:general_text_Yes),
+          :back_url => 'http://external.com/evil'
+        }
+      )
+    end
+    # Should redirect to the default group page, not the external URL
+    assert_redirected_to '/groups/10/edit?tab=users'
   end
 
   def test_remove_user_should_be_deprecated
