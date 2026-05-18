@@ -1194,6 +1194,7 @@ en:
   label_last_used_on: "Last used: %{value} ago"
   label_never_used: Never used
   label_enable_default_issue_due_date_offset: Enable default due date for new issues
+  setting_default_issue_due_date_offset: Default due date for new issues
   label_days_relative_to_today: days relative to today
 
   webhook_event_created: "%{object_name} created"

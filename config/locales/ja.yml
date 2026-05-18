@@ -1507,6 +1507,7 @@ ja:
   label_assignee_dropdown_display_format_users_then_groups: ユーザー → グループ
   label_assignee_dropdown_display_format_groups_then_users: グループ → ユーザー
   label_enable_default_issue_due_date_offset: 新規チケットの期日のデフォルト値を有効にする
+  setting_default_issue_due_date_offset: 新規チケットの期日のデフォルト値
   label_days_relative_to_today: 日 (現在の日付からの相対値)
   label_assignee_dropdown_display_format_users_by_group: グループ別
   button_remove_from_group: Remove from group
