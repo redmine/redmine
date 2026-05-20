@@ -1510,6 +1510,6 @@ ja:
   setting_default_issue_due_date_offset: 新規チケットの期日のデフォルト値
   label_days_relative_to_today: 日 (現在の日付からの相対値)
   label_assignee_dropdown_display_format_users_by_group: グループ別
-  button_remove_from_group: Remove from group
-  button_add_to_group: Add to group
-  field_private_by_default: Private by default
+  button_remove_from_group: グループから解除
+  button_add_to_group: グループに追加
+  field_private_by_default: デフォルトでプライベート
