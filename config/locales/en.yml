@@ -326,6 +326,7 @@ en:
   field_is_public: Public
   field_parent: Subproject of
   field_is_in_roadmap: Issues displayed in roadmap
+  field_private_by_default: Private by default
   field_login: Login
   field_mail_notification: Email notifications
   field_admin: Administrator

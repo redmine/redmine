@@ -10,6 +10,7 @@
         :include_blank => @tracker.default_status.nil?,
         :required => true %>
 </p>
+<p><%= f.check_box :private_by_default %></p>
 <p><%= f.check_box :is_in_roadmap %></p>
 <p><%= f.textarea :description, :rows => 4 %></p>
 <p>

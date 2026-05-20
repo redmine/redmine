@@ -728,6 +728,18 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     assert_response :unprocessable_content
   end
 
+  test "POST /issues.json should use the tracker private_by_default setting" do
+    Tracker.find(1).update! :private_by_default => true
+
+    issue = new_record(Issue) do
+      post(
+        '/issues.json',
+        :params => {:issue => {:project_id => 1, :tracker_id => 1, :subject => 'API'}},
+        :headers => credentials('jsmith'))
+    end
+    assert issue.is_private?
+  end
+
   test "PUT /issues/:id.xml" do
     assert_difference('Journal.count') do
       put(

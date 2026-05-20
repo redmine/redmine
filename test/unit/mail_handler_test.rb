@@ -168,6 +168,18 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal true, issue.reload.is_private
   end
 
+  def test_add_issue_should_use_tracker_private_by_default_setting
+    Member.find_by(:project_id => 2, :user_id => 2).roles.each do |role|
+      role.add_permission! :set_own_issues_private
+    end
+    Project.find(2).trackers.first.update! :private_by_default => true
+
+    issue = submit_email('ticket_on_given_project.eml')
+    assert issue.is_a?(Issue)
+    assert !issue.new_record?
+    assert_equal true, issue.reload.is_private
+  end
+
   def test_add_issue_with_group_assignment
     with_settings :issue_group_assignment => '1' do
       issue = submit_email('ticket_on_given_project.eml', :allow_override => ['assigned_to']) do |email|

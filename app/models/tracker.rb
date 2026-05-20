@@ -74,6 +74,7 @@ class Tracker < ApplicationRecord
     'name',
     'default_status_id',
     'is_in_roadmap',
+    'private_by_default',
     'core_fields',
     'position',
     'custom_field_ids',

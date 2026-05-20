@@ -616,6 +616,11 @@ class Issue < ApplicationRecord
     if new_record? && !statuses_allowed.include?(status)
       self.status = statuses_allowed.first || default_status
     end
+    # Use the selected tracker's private default when the form has no explicit value.
+    if new_record? && tracker&.private_by_default? &&
+         !attrs.key?('is_private') && safe_attribute?('is_private', user)
+      attrs['is_private'] = '1'
+    end
     if (u = attrs.delete('assigned_to_id')) && safe_attribute?('assigned_to_id')
       self.assigned_to_id = u
     end

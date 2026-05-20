@@ -4241,6 +4241,60 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_new_should_check_private_if_tracker_is_private_by_default
+    Tracker.find(1).update! :private_by_default => true
+    @request.session[:user_id] = 2
+    get(:new, :params => {:project_id => 1})
+    assert_response :success
+
+    assert_select 'input[name=?][checked=checked]', 'issue[is_private]'
+  end
+
+  def test_update_form_for_new_issue_should_apply_private_by_default_when_submitted_private_is_unchecked
+    Tracker.find(2).update! :private_by_default => true
+    @request.session[:user_id] = 2
+    # Simulates switching from an unchecked tracker to a tracker that is private by default.
+    post(
+      :new,
+      :params => {
+        :project_id => 1,
+        :issue => {
+          :tracker_id => 2,
+          :is_private => '0'
+        },
+        :form_update_triggered_by => 'issue_tracker_id'
+      }
+    )
+    assert_response :success
+
+    assert_select 'select[name=?]', 'issue[tracker_id]' do
+      assert_select 'option[value=?][selected=selected]', '2'
+    end
+    assert_select 'input[name=?][checked=checked]', 'issue[is_private]'
+  end
+
+  def test_update_form_for_new_issue_should_keep_submitted_private_when_checked
+    @request.session[:user_id] = 2
+    # Simulates keeping the user's checked private value when switching trackers.
+    post(
+      :new,
+      :params => {
+        :project_id => 1,
+        :issue => {
+          :tracker_id => 2,
+          :is_private => '1'
+        },
+        :form_update_triggered_by => 'issue_tracker_id'
+      }
+    )
+    assert_response :success
+
+    assert_select 'select[name=?]', 'issue[tracker_id]' do
+      assert_select 'option[value=?][selected=selected]', '2'
+    end
+    assert_select 'input[name=?][checked=checked]', 'issue[is_private]'
+  end
+
   def test_update_form_for_new_issue_should_ignore_version_when_changing_project
     version = Version.generate!(:project_id => 1)
     Project.find(1).update_attribute :default_version_id, version.id
@@ -4900,6 +4954,66 @@ class IssuesControllerTest < Redmine::ControllerTest
     end
     issue = Issue.order(id: :desc).first
     assert issue.is_private?
+  end
+
+  def test_post_create_should_respect_private_by_default_per_tracker_setting
+    @request.session[:user_id] = 2
+    tracker = Tracker.find(1)
+    tracker.update! :private_by_default => true
+
+    assert_difference 'Issue.count' do
+      post(
+        :create,
+        :params => {
+          :project_id => 1,
+          :issue => {
+            :tracker_id => tracker.id,
+            :subject => 'This is a private issue by default'
+          }
+        }
+      )
+    end
+    issue = Issue.order(id: :desc).first
+    assert issue.is_private?
+
+    assert_difference 'Issue.count' do
+      post(
+        :create,
+        :params => {
+          :project_id => 1,
+          :issue => {
+            :tracker_id => tracker.id,
+            :subject => 'This is a public issue',
+            :is_private => '0'
+          }
+        }
+      )
+    end
+    issue = Issue.order(id: :desc).first
+    assert_not issue.is_private?
+  end
+
+  def test_post_create_should_not_apply_private_by_default_without_permission
+    role = Role.find(1)
+    role.remove_permission! :set_issues_private
+    role.remove_permission! :set_own_issues_private
+    Tracker.find(1).update! :private_by_default => true
+    @request.session[:user_id] = 2
+
+    assert_difference 'Issue.count' do
+      post(
+        :create,
+        :params => {
+          :project_id => 1,
+          :issue => {
+            :tracker_id => 1,
+            :subject => 'This is a public issue'
+          }
+        }
+      )
+    end
+    issue = Issue.order(id: :desc).first
+    assert_not issue.is_private?
   end
 
   def test_create_without_project_id

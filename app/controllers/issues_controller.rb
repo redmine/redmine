@@ -630,6 +630,12 @@ class IssuesController < ApplicationController
       # so we can use the default version for the new project
       attrs.delete(:fixed_version_id)
     end
+    if action_name == 'new' &&
+         %w[issue_project_id issue_tracker_id].include?(params[:form_update_triggered_by]) &&
+         attrs[:is_private] != '1'
+      # Drop the unchecked value so the selected tracker's private default can be applied.
+      attrs.delete(:is_private)
+    end
     attrs[:assigned_to_id] = User.current.id if attrs[:assigned_to_id] == 'me'
     @issue.safe_attributes = attrs
 
