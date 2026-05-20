@@ -279,7 +279,7 @@ class Import < ApplicationRecord
     wrapper = settings['wrapper'].to_s
     csv_options[:quote_char] = wrapper if wrapper.size == 1
 
-    CSV.foreach(filepath, **csv_options) do |row|
+    CSV.foreach(filepath, 'rb', **csv_options) do |row|
       yield row if block_given?
     end
   end
