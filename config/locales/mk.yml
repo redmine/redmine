@@ -1571,3 +1571,4 @@ mk:
   button_remove_from_group: Remove from group
   button_add_to_group: Add to group
   setting_default_issue_due_date_offset: Default due date for new issues
+  field_private_by_default: Private by default
