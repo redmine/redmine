@@ -13,7 +13,8 @@
 }
 
 #context-menu ul {
-  inline-size:150px;
+  min-inline-size: 150px;
+  max-inline-size: 300px;
   border: 1px solid var(--oc-gray-4);
   background:white;
   list-style:none;
@@ -30,11 +31,11 @@
   display: flex;
 }
 #context-menu li.folder ul { position: absolute; inset-block-start: -2px; max-block-size: 300px; overflow: hidden; overflow-y: auto; }
-#context-menu li.folder>ul { inset-inline-start: 148px; }
+#context-menu li.folder>ul { inset-inline-start: 100%; }
 
 #context-menu.reverse-y li.folder>ul, #context-menu li.folder.up>ul { inset-block: auto 0; }
 #context-menu.reverse-x li.folder ul { inset-inline-start:auto; }
-#context-menu.reverse-x li.folder>ul { inset-inline-end:148px; }
+#context-menu.reverse-x li.folder>ul { inset-inline-end: 100%; }
 
 #context-menu.reverse-y li.folder.down>ul {
   position: absolute; inset-block: -2px auto; max-block-size: 300px; overflow: hidden; overflow-y: auto;
