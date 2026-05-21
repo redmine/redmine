@@ -653,6 +653,26 @@ class Redmine::WikiFormatting::TextileFormatterTest < Redmine::HelperTest
     )
   end
 
+  def test_should_not_allow_xss_in_code_class_attribute
+    payloads = [
+      %{<code class="x"><script>alert('XSS-1')</script></code>},
+      %{<code class="foo"><img src=x onerror=alert('XSS-2')></code>},
+      %{<pre><code class="unknownlang"><script>alert('XSS-3')</script></code></pre>},
+      %{<code class="x"><a href="javascript:alert(1)">click</a></code>},
+    ]
+    payloads.each do |payload|
+      output = to_html(payload)
+      doc = Nokogiri::HTML5.fragment(output)
+      doc.css('code').each do |code|
+        live_children = code.children.select(&:element?)
+        assert_empty(
+          live_children.map(&:name),
+          "payload #{payload.inspect} produced live HTML inside <code>: #{output}"
+        )
+      end
+    end
+  end
+
   def test_should_not_allow_valid_language_class_attribute_on_non_code_offtags
     assert_html_output({"<pre class=\"ruby\">test</pre>" => pre_wrapper('<pre data-clipboard-target="pre">test</pre>')}, false)
     assert_html_output({"<kbd class=\"ruby\">test</kbd>" => "<kbd>test</kbd>"}, false)

@@ -34,6 +34,12 @@ module Redmine
           end
 
           process node, text, lang
+          # Defense-in-depth: if the language is unsupported, process leaves
+          # the original children in place. Replace them with the escaped text
+          # so that any HTML that slipped through earlier escaping cannot run.
+          unless Redmine::SyntaxHighlighting.language_supported?(lang)
+            node.inner_html = ERB::Util.h(text)
+          end
           Loofah::Scrubber::STOP
         end
       end
