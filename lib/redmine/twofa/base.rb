@@ -112,7 +112,7 @@ module Redmine
         code = code.to_s.remove(/[[:space:]]/).downcase
         user_from_code = Token.find_active_user('twofa_backup_code', code)
         # invalidate backup code after usage
-        Token.where(user_id: @user.id).find_token('twofa_backup_code', code).try(:delete)
+        Token.find_token('twofa_backup_code', code).try(:delete)
         # make sure the user using the backup code is the same it's been issued to
         return false unless @user.present? && @user == user_from_code
 
