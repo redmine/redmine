@@ -176,6 +176,7 @@ class TimeEntryTest < ActiveSupport::TestCase
   end
 
   def test_should_not_accept_closed_issue
+    set_language_if_valid 'en'
     with_settings :timelog_accept_closed_issues => '0' do
       project = Project.find(1)
       entry = TimeEntry.generate project: project
