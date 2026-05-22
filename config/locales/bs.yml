@@ -743,7 +743,6 @@ bs:
   text_load_default_configuration: Učitaj uobičajenu konfiguraciju
   text_status_changed_by_changeset: "Primjenjeno u setu promjena %{value}."
   text_issues_destroy_confirmation: 'Sigurno želite izbrisati odabranu/e aktivnost/i ?'
-  text_select_project_modules: 'Odaberi module koje želite u ovom projektu:'
   text_default_administrator_account_changed: Uobičajeni administratorski račun je promjenjen
   text_file_repository_writable: U folder sa fajlovima koji su prilozi se može zapisivati
   text_minimagick_available: MiniMagick available (optional)

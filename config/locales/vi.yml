@@ -722,7 +722,6 @@ vi:
   text_load_default_configuration: Nạp lại cấu hình mặc định
   text_status_changed_by_changeset: "Áp dụng trong changeset : %{value}."
   text_issues_destroy_confirmation: 'Bạn có chắc chắn muốn xóa các vấn đề đã chọn ?'
-  text_select_project_modules: 'Chọn các module cho dự án:'
   text_default_administrator_account_changed: Thay đổi tài khoản quản trị mặc định
   text_file_repository_writable: Cho phép ghi thư mục đính kèm
   text_minimagick_available: Trạng thái MiniMagick

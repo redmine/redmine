@@ -669,7 +669,6 @@ tr:
   text_load_default_configuration: Varsayılan yapılandırmayı yükle
   text_status_changed_by_changeset: "Değişiklik listesi %{value} içinde uygulandı."
   text_issues_destroy_confirmation: 'Seçili işleri silmek istediğinizden emin misiniz ?'
-  text_select_project_modules: 'Bu proje için etkinleştirmek istediğiniz modülleri seçin:'
   text_default_administrator_account_changed: Varsayılan yönetici hesabı değişti
   text_file_repository_writable: Dosya deposu yazılabilir
   text_minimagick_available: MiniMagick Kullanılabilir (isteğe bağlı)

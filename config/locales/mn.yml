@@ -815,7 +815,6 @@ mn:
   text_load_default_configuration: Стандарт өгөгдлийг ачаалах
   text_status_changed_by_changeset: "%{value} өөрчлөлтөд хийгдсэн."
   text_issues_destroy_confirmation: 'Та сонгогдсон асуудлуудыг үнэхээр устгамаар байна уу ?'
-  text_select_project_modules:  'Энэ төслийн хувьд идэвхжүүлэх модулуудаа сонгоно уу:'
   text_default_administrator_account_changed: Стандарт администраторын бүртгэл өөрчлөгдлөө
   text_file_repository_writable: Хавсралт файл хадгалах хавтас руу бичих эрхтэй
   text_minimagick_available: MiniMagick суулгагдсан (заавал биш)

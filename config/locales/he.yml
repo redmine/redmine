@@ -840,7 +840,6 @@ he:
   text_load_default_configuration: טען את אפשרויות ברירת המחדל
   text_status_changed_by_changeset: "הוחל בסדרת השינויים %{value}."
   text_issues_destroy_confirmation: 'האם אתה בטוח שברצונך למחוק את הנושאים?'
-  text_select_project_modules: 'בחר מודולים להחיל על פרויקט זה:'
   text_default_administrator_account_changed: מנהל המערכת ברירת המחדל שונה
   text_file_repository_writable: מאגר הקבצים ניתן לכתיבה
   text_minimagick_available: MiniMagick זמין (רשות)

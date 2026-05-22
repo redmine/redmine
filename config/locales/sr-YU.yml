@@ -830,7 +830,6 @@ sr-YU:
   text_load_default_configuration: Učitaj podrazumevano konfigurisanje
   text_status_changed_by_changeset: "Primenjeno u skupu sa promenama %{value}."
   text_issues_destroy_confirmation: 'Jeste li sigurni da želite da izbrišete odabrane probleme?'
-  text_select_project_modules: 'Odaberite module koje želite omogućiti za ovaj projekat:'
   text_default_administrator_account_changed: Podrazumevani administratorski nalog je promenjen
   text_file_repository_writable: Fascikla priloženih datoteka je upisiva
   text_minimagick_available: MiniMagick je dostupan (opciono)

@@ -736,7 +736,6 @@ nl:
   text_repository_usernames_mapping: "Koppel de Redmine-gebruikers aan gebruikers in de repository log.\nGebruikers met dezelfde Redmine en repository gebruikersnaam of e-mail worden automatisch gekoppeld."
   text_minimagick_available: MiniMagick beschikbaar (optioneel)
   text_select_mail_notifications: Selecteer acties waarvoor mededelingen via e-mail moeten worden verstuurd.
-  text_select_project_modules: 'Selecteer de modules die u wilt gebruiken voor dit project:'
   text_status_changed_by_changeset: "Toegepast in changeset %{value}."
   text_subprojects_destroy_warning: "De subprojecten: %{value} zullen ook verwijderd worden."
   text_tip_issue_begin_day: issue begint op deze dag

@@ -1313,7 +1313,6 @@ it:
   text_issues_destroy_confirmation: 'Sei sicuro di voler eliminare le segnalazioni selezionate?'
   text_issues_destroy_descendants_confirmation: Questo eliminerà anche %{count} sottoattività.
   text_time_entries_destroy_confirmation: Sei sicuro di voler eliminare l'ora\e selezionata\e?
-  text_select_project_modules: 'Seleziona i moduli abilitati per questo progetto:'
   text_default_administrator_account_changed: L'account amministrativo predefinito è stato modificato
   text_file_repository_writable: Repository dei file scrivibile
   text_all_migrations_have_been_run: Sono state eseguite tutte le migrazioni del database

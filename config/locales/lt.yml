@@ -1073,7 +1073,6 @@ lt:
   text_issues_destroy_confirmation: 'Ar jūs tikrai norite ištrinti pažymėtą(-us) darbą(-us)?'
   text_issues_destroy_descendants_confirmation: "Taip pat bus ištrinta(-os) %{count} darbo dalis(ys)."
   text_time_entries_destroy_confirmation: 'Ar jūs tikrai norite ištrinti pasirinktą(-us) laiko įrašą(-us)?'
-  text_select_project_modules: 'Parinkite modulius, kuriuos norite naudoti šiame projekte:'
   text_default_administrator_account_changed: Administratoriaus numatytoji paskyra pakeista
   text_file_repository_writable: Į failų saugyklą saugoti galima (RW)
   text_minimagick_available: MiniMagick pasiekiamas (pasirinktinai)

@@ -890,7 +890,6 @@ ar:
   text_issues_destroy_confirmation: هل انت متأكد من حذف البنود المظللة؟'
   text_issues_destroy_descendants_confirmation: "سوف يؤدي هذا الى حذف  %{count} المهام الفرعية ايضا."
   text_time_entries_destroy_confirmation: "هل انت متأكد من رغبتك في حذف الادخالات الزمنية المحددة؟"
-  text_select_project_modules: قم بتحديد الوضع المناسب لهذا المشروع:'
   text_default_administrator_account_changed: تم تعديل الاعدادات الافتراضية لحساب المدير
   text_file_repository_writable: المرفقات قابلة للكتابة
   text_destroy_time_entries_question: " ساعة على بند العمل التي تود حذفها، ماذا تريد ان تفعل؟ %{hours} تم تثبيت"

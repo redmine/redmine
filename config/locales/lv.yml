@@ -809,7 +809,6 @@ lv:
   text_load_default_configuration: Ielādēt noklusēto konfigurāciju
   text_status_changed_by_changeset: "Apstiprināts izmaiņu kopumā %{value}."
   text_issues_destroy_confirmation: 'Vai tiešām vēlaties dzēst izvēlēto uzdevumu(us)?'
-  text_select_project_modules: 'Izvēlieties moduļus šim projektam:'
   text_default_administrator_account_changed: Noklusētais administratora konts mainīts
   text_file_repository_writable: Pielikumu direktorijā atļauts rakstīt
   text_minimagick_available: "MiniMagick pieejams (neobligāts)"

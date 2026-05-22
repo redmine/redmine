@@ -863,7 +863,6 @@ ta-IN:
   text_status_changed_by_changeset: "மாற்றங்கள் பயன்படுத்தப்பட்டது %{value}."
   text_time_logged_by_changeset: "மாற்றங்கள்பயன்படுத்தப்பட்டது %{value}."
   text_issues_destroy_confirmation: 'தேர்ந்தெடுக்கப்பட்ட சிக்கலை (s) நீக்க விரும்புகிறீர்களா?'
-  text_select_project_modules: 'இந்த திட்டத்தை இயக்க தொகுதிகள் தேர்ந்தெடுக்கவும்:'
   text_default_administrator_account_changed: இயல்புநிலை நிர்வாகி கணக்கு மாற்றப்பட்டது
   text_file_repository_writable: இணைப்புகள் அடைவு எழுதக்கூடியது
   text_minimagick_available: மினிமேஜிக் கிடைக்கிறது (optional)

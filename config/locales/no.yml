@@ -651,7 +651,6 @@
   text_load_default_configuration: Last inn standardkonfigurasjonen
   text_status_changed_by_changeset: "Brukt i endringssett %{value}."
   text_issues_destroy_confirmation: 'Er du sikker på at du vil slette valgte sak(er) ?'
-  text_select_project_modules: 'Velg moduler du vil aktivere for dette prosjektet:'
   text_default_administrator_account_changed: Standard administrator-konto er endret
   text_file_repository_writable: Fil-arkivet er skrivbart
   text_minimagick_available: MiniMagick er tilgjengelig (valgfritt)

@@ -834,7 +834,6 @@ ca:
   text_load_default_configuration: "Carregar la configuració predeterminada"
   text_status_changed_by_changeset: "Aplicat en el conjunt de canvis %{value}."
   text_issues_destroy_confirmation: "Segur que voleu suprimir les incidències seleccionades?"
-  text_select_project_modules: "Seleccionar els mòduls a habilitar per a aquest projecte:"
   text_default_administrator_account_changed: "S'ha canviat el compte d'administrador predeterminat"
   text_file_repository_writable: "Es pot escriure en el repositori de fitxers"
   text_minimagick_available: "MiniMagick disponible (opcional)"

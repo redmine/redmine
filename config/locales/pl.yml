@@ -1275,7 +1275,6 @@ pl:
   text_issues_destroy_confirmation: "Czy jesteś pewien, że chcesz usunąć wybrane zagadnienia?"
   text_issues_destroy_descendants_confirmation: "To spowoduje usunięcie również %{count} podzagadnień."
   text_time_entries_destroy_confirmation: "Czy jesteś pewien, że chcesz usunąć wybrane wpisy dziennika?"
-  text_select_project_modules: 'Wybierz moduły do aktywacji w tym projekcie:'
   text_default_administrator_account_changed: Zmieniono domyślne hasło administratora
   text_file_repository_writable: Zapisywalny katalog plików
   text_all_migrations_have_been_run: Wszystkie migracje bazy danych zostały wykonane

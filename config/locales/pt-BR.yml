@@ -695,7 +695,6 @@ pt-BR:
   text_load_default_configuration: Carregar a configuração padrão
   text_status_changed_by_changeset: "Aplicado no conjunto de alterações %{value}."
   text_issues_destroy_confirmation: 'Você tem certeza que deseja excluir a(s) tarefa(s) selecionada(s)?'
-  text_select_project_modules: 'Selecione módulos para habilitar para este projeto:'
   text_default_administrator_account_changed: Conta padrão do administrador alterada
   text_file_repository_writable: Repositório com permissão de escrita
   text_minimagick_available: MiniMagick disponível (opcional)

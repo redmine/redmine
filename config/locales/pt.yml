@@ -679,7 +679,6 @@ pt:
   text_load_default_configuration: Carregar as configurações padrão
   text_status_changed_by_changeset: "Aplicado no changeset %{value}."
   text_issues_destroy_confirmation: 'Tem a certeza que deseja apagar a(s) tarefa(s) selecionada(s)?'
-  text_select_project_modules: 'Selecione os módulos a ativar para este projeto:'
   text_default_administrator_account_changed: Conta por omissão de administrador alterada.
   text_file_repository_writable: Repositório de ficheiros com permissões de escrita
   text_minimagick_available: MiniMagick disponível (opcional)

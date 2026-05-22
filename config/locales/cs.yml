@@ -850,7 +850,6 @@ cs:
   text_status_changed_by_changeset: "Použito v sadě změn %{value}."
   text_time_logged_by_changeset: Aplikováno v sadě změn %{value}.
   text_issues_destroy_confirmation: 'Opravdu si přejete odstranit všechny zvolené úkoly?'
-  text_select_project_modules: 'Aktivní moduly v tomto projektu:'
   text_default_administrator_account_changed: Výchozí nastavení administrátorského účtu změněno
   text_file_repository_writable: Povolen zápis do adresáře ukládání souborů
   text_minimagick_available: MiniMagick k dispozici (volitelné)

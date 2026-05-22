@@ -733,7 +733,6 @@ ro:
   text_load_default_configuration: Încarcă configurația implicită
   text_status_changed_by_changeset: "Aplicat în setul %{value}."
   text_issues_destroy_confirmation: 'Sigur doriți să ștergeți tichetele selectate?'
-  text_select_project_modules: 'Selectați modulele active pentru acest proiect:'
   text_default_administrator_account_changed: S-a schimbat contul administratorului implicit
   text_file_repository_writable: Se poate scrie în directorul de atașamente
   text_minimagick_available: Este disponibil MiniMagick (opțional)

@@ -903,7 +903,6 @@ ja:
   text_status_changed_by_changeset: "更新履歴 %{value} で適用されました。"
   text_time_logged_by_changeset: "更新履歴 %{value} で適用されました。"
   text_issues_destroy_confirmation: '本当に選択したチケットを削除しますか？'
-  text_select_project_modules: 'このプロジェクトで使用するモジュールを選択してください:'
   text_default_administrator_account_changed: デフォルト管理アカウントが変更済
   text_file_repository_writable: 添付ファイルディレクトリに書き込み可能
   text_minimagick_available: MiniMagickが利用可能 (オプション)

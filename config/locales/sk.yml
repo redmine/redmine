@@ -652,7 +652,6 @@ sk:
   text_load_default_configuration: Nahrať predvolenú konfiguráciu
   text_status_changed_by_changeset: "Aplikované v súbore zmien %{value}."
   text_issues_destroy_confirmation: 'Naozaj si želáte odstrániť všetky vybrané úlohy?'
-  text_select_project_modules: 'Vybrať moduly povolené v tomto projekte:'
   text_default_administrator_account_changed: Predvolené nastavenie administrátorského účtu bolo zmenené
   text_file_repository_writable: Povolený zápis do priečinka s prílohami
   text_minimagick_available: MiniMagick k dispozícii (voliteľné)

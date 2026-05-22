@@ -1124,7 +1124,6 @@ fr:
   text_issues_destroy_confirmation: 'Êtes-vous sûr de vouloir supprimer la ou les demande(s) selectionnée(s) ?'
   text_issues_destroy_descendants_confirmation: "Cela entrainera également la suppression de %{count} sous-tâche(s)."
   text_time_entries_destroy_confirmation: "Etes-vous sûr de vouloir supprimer les temps passés sélectionnés ?"
-  text_select_project_modules: 'Sélectionner les modules à activer pour ce projet :'
   text_default_administrator_account_changed: Compte administrateur par défaut changé
   text_file_repository_writable: Répertoire de stockage des fichiers accessible en écriture
   text_minimagick_available: Bibliothèque MiniMagick présente (optionnelle)

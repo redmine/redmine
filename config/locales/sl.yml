@@ -723,7 +723,6 @@ sl:
   text_load_default_configuration: Naloži privzeto konfiguracijo
   text_status_changed_by_changeset: "Dodano v zapis sprememb %{value}."
   text_issues_destroy_confirmation: 'Ali ste prepričani, da želite izbrisati izbrani(e) zahtevek(ke)?'
-  text_select_project_modules: 'Izberite module, ki jih želite omogočiti za ta projekt:'
   text_default_administrator_account_changed: Spremenjen privzeti administratorski račun
   text_file_repository_writable: Omogočeno pisanje v shrambo datotek
   text_minimagick_available: MiniMagick je na voljo(neobvezno)

@@ -830,7 +830,6 @@ mk:
   text_load_default_configuration: Load the default configuration
   text_status_changed_by_changeset: "Applied in changeset %{value}."
   text_issues_destroy_confirmation: 'Дали сте сигурни дека сакате да ги избришете избраните задачи?'
-  text_select_project_modules: 'Изберете модули за овој проект:'
   text_default_administrator_account_changed: Default administrator account changed
   text_file_repository_writable: Во папката за прилози може да се запишува
   text_minimagick_available: MiniMagick available (незадолжително)

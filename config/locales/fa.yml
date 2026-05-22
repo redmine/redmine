@@ -1287,7 +1287,6 @@ fa:
   text_issues_destroy_confirmation: 'آیا مطمئن هستید که می‌خواهید مسئله(‌های) انتخاب‌شده را حذف کنید؟'
   text_issues_destroy_descendants_confirmation: این همچنین %{count} زیرکار را حذف خواهد کرد.
   text_time_entries_destroy_confirmation: آیا مطمئنید که می‌خواهید ورودی(های) زمان انتخاب‌شده را حذف کنید؟
-  text_select_project_modules: 'ابزارهایی که باید برای این پروژه فعال شوند را انتخاب کنید:'
   text_default_administrator_account_changed: حساب راه‌بری پیش‌فرض تغییر کرده است
   text_file_repository_writable: پوشه پیوست‌ها نوشتنی است
   text_all_migrations_have_been_run: همه تغییرات پایگاه داده اعمال شده اند

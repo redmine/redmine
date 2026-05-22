@@ -654,7 +654,6 @@ th:
   text_load_default_configuration: โหลดค่าเริ่มต้น
   text_status_changed_by_changeset: "ประยุกต์ใช้ในกลุ่มการเปลี่ยนแปลง %{value}."
   text_issues_destroy_confirmation: 'คุณแน่ใจไหมว่าต้องการลบปัญหา(ทั้งหลาย)ที่เลือกไว้?'
-  text_select_project_modules: 'เลือกส่วนประกอบที่ต้องการใช้งานสำหรับโครงการนี้:'
   text_default_administrator_account_changed: ค่าเริ่มต้นของบัญชีผู้บริหารจัดการถูกเปลี่ยนแปลง
   text_file_repository_writable: ที่เก็บต้นฉบับสามารถเขียนได้
   text_minimagick_available: MiniMagick มีให้ใช้ (เป็นตัวเลือก)

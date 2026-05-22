@@ -812,7 +812,6 @@ eu:
   text_load_default_configuration: Lehenetsitako konfigurazioa kargatu
   text_status_changed_by_changeset: "%{value} aldaketan aplikatuta."
   text_issues_destroy_confirmation: 'Ziur zaude hautatutako zeregina(k) ezabatu nahi dituzula?'
-  text_select_project_modules: 'Hautatu proiektu honetan gaitu behar diren moduluak:'
   text_default_administrator_account_changed: Lehenetsitako kudeatzaile kontua aldatuta
   text_file_repository_writable: Eranskinen direktorioan idatz daiteke
   text_minimagick_available: MiniMagick eskuragarri (aukerazkoa)

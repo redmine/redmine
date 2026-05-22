@@ -803,7 +803,6 @@ hr:
   text_load_default_configuration: Učitaj početnu konfiguraciju
   text_status_changed_by_changeset: "Applied in changeset %{value}."
   text_issues_destroy_confirmation: 'Jeste li sigurni da želite obrisati izabrani/e predmet(e)?'
-  text_select_project_modules: 'Odaberite module koji će biti omogućeni za ovaj projekt:'
   text_default_administrator_account_changed: Default administrator account changed
   text_file_repository_writable: Dozvoljeno pisanje u direktorij za privitke
   text_minimagick_available: MiniMagick dostupan (nije obavezno)

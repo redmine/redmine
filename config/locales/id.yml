@@ -783,7 +783,6 @@ id:
   text_load_default_configuration: Muat konfigurasi default
   text_status_changed_by_changeset: "Diterapkan di set perubahan %{value}."
   text_issues_destroy_confirmation: 'Apakah anda yakin untuk menghapus masalah terpilih ?'
-  text_select_project_modules: 'Pilih modul untuk diaktifkan pada proyek ini:'
   text_default_administrator_account_changed: Akun administrator default sudah berubah
   text_file_repository_writable: Direktori yang bisa ditulisi untuk lampiran
   text_minimagick_available: MiniMagick tersedia (optional)

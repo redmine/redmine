@@ -789,7 +789,6 @@ ko:
   text_load_default_configuration: 기본 설정을 읽어들이기
   text_status_changed_by_changeset: "변경묶음 %{value}에 의하여 변경됨"
   text_issues_destroy_confirmation: '선택한 일감를 정말로 삭제하시겠습니까?'
-  text_select_project_modules: '이 프로젝트에서 활성화시킬 모듈을 선택하세요:'
   text_default_administrator_account_changed: 기본 관리자 계정이 변경
   text_file_repository_writable: 파일 저장소 쓰기 가능
   text_minimagick_available: MiniMagick 사용 가능 (선택적)

@@ -1197,7 +1197,6 @@ sq:
   text_issues_destroy_confirmation: 'Jeni i sigurt se doni të fshihet çështja(et) e përzgjedhura?'
   text_issues_destroy_descendants_confirmation: "Kjo do të fshijë edhe %{count} nënpunë."
   text_time_entries_destroy_confirmation: 'Jeni i sigurt se doni të fshihet zëri(at) kohor(ë) i përzgjedhur?'
-  text_select_project_modules: 'Përzgjidhni module që të aktivizohen për këtë projekt:'
   text_default_administrator_account_changed: U ndryshua llogaria parazgjedhje e përgjegjësit
   text_file_repository_writable: Drejtori bashkëngjitjes e shkrueshme
   text_minimagick_available: MiniMagick gati (opsionale)

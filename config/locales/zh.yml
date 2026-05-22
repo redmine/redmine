@@ -851,7 +851,6 @@ zh:
   text_status_changed_by_changeset: "已应用到变更列表 %{value}."
   text_time_logged_by_changeset: "已应用到修订版本 %{value}."
   text_issues_destroy_confirmation: '您确定要删除选中的问题吗？'
-  text_select_project_modules: '请选择此项目可以使用的模块：'
   text_default_administrator_account_changed: 默认的管理员帐号已改变
   text_file_repository_writable: 附件路径可写
   text_minimagick_available: MiniMagick 可用（可选的）

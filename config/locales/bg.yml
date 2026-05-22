@@ -1319,7 +1319,6 @@ bg:
   text_issues_destroy_confirmation: 'Сигурни ли сте, че искате да изтриете избраните задачи?'
   text_issues_destroy_descendants_confirmation: Тази операция ще премахне и %{count} подзадача(и).
   text_time_entries_destroy_confirmation: Сигурен ли сте, че изтриете избраните записи за изразходвано време?
-  text_select_project_modules: 'Изберете активните модули за този проект:'
   text_default_administrator_account_changed: Сменен фабричния администраторски профил
   text_file_repository_writable: Възможност за писане в хранилището с файлове
   text_all_migrations_have_been_run: Всички миграции на базата данни са изпълнени

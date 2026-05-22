@@ -793,7 +793,6 @@ es:
   text_repository_usernames_mapping: "Establezca la correspondencia entre los usuarios de Redmine y los presentes en el log del repositorio.\nLos usuarios con el mismo nombre o correo en Redmine y en el repositorio serán asociados automáticamente."
   text_minimagick_available: MiniMagick disponible (opcional)
   text_select_mail_notifications: Seleccionar los eventos a notificar
-  text_select_project_modules: 'Seleccione los módulos a activar para este proyecto:'
   text_status_changed_by_changeset: "Aplicado en los cambios %{value}"
   text_subprojects_destroy_warning: "Los proyectos secundarios: %{value} también se eliminarán"
   text_tip_issue_begin_day: tarea que comienza este día

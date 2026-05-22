@@ -670,7 +670,6 @@ fi:
   label_message_posted: Viesti lisätty
   label_file_added: Tiedosto lisätty
   label_scm: SCM
-  text_select_project_modules: 'Valitse modulit jotka haluat käyttöön tähän projektiin:'
   label_news_added: Uutinen lisätty
   project_module_boards: Keskustelupalsta
   project_module_issue_tracking: Tapahtuman seuranta

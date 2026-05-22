@@ -892,7 +892,6 @@ ru:
   text_repository_usernames_mapping: "Выберите или обновите пользователя Redmine, связанного с найденными именами в журнале хранилища.\nПользователи с одинаковыми именами или email в Redmine и хранилище связываются автоматически."
   text_minimagick_available: Доступно использование MiniMagick (опционально)
   text_select_mail_notifications: Выберите действия, при которых будет отсылаться уведомление на электронную почту.
-  text_select_project_modules: 'Выберите модули, которые будут использованы в проекте:'
   text_status_changed_by_changeset: "Реализовано в %{value} редакции."
   text_subprojects_destroy_warning: "Подпроекты: %{value} также будут удалены."
   text_tip_issue_begin_day: дата начала задачи

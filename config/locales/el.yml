@@ -755,7 +755,6 @@ el:
   text_load_default_configuration: Φόρτωση προεπιλεγμένων ρυθμίσεων
   text_status_changed_by_changeset: "Εφαρμόστηκε στο changeset %{value}."
   text_issues_destroy_confirmation: 'Είστε σίγουρος ότι θέλετε να διαγράψετε το επιλεγμένο θέμα(τα);'
-  text_select_project_modules: 'Επιλέξτε ποιες μονάδες θα ενεργοποιήσετε για αυτό το έργο:'
   text_default_administrator_account_changed: Ο προκαθορισμένος λογαριασμός του διαχειριστή άλλαξε
   text_file_repository_writable: Εγγράψιμος κατάλογος συνημμένων
   text_minimagick_available: Διαθέσιμο MiniMagick (προαιρετικό)

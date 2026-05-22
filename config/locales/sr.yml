@@ -828,7 +828,6 @@ sr:
   text_load_default_configuration: Учитај подразумевано конфигурисање
   text_status_changed_by_changeset: "Примењено у скупу са променама %{value}."
   text_issues_destroy_confirmation: 'Јесте ли сигурни да желите да избришете одабране проблеме?'
-  text_select_project_modules: 'Одаберите модуле које желите омогућити за овај пројекат:'
   text_default_administrator_account_changed: Подразумевани администраторски налог је промењен
   text_file_repository_writable: Фасцикла приложених датотека је уписива
   text_minimagick_available: MiniMagick је доступан (опционо)

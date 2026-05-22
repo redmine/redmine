@@ -1192,7 +1192,6 @@
   text_issues_destroy_confirmation: '確定刪除已選擇的議題？'
   text_issues_destroy_descendants_confirmation: "這麼做將會一併刪除 %{count} 子任務。"
   text_time_entries_destroy_confirmation: 您確定要刪除所選擇的工時紀錄？
-  text_select_project_modules: '選擇此專案可使用之模組：'
   text_default_administrator_account_changed: 已變更預設管理員帳號內容
   text_file_repository_writable: 可寫入附加檔案目錄
   text_minimagick_available: 可使用 MiniMagick (選配)

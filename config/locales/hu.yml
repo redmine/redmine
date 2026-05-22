@@ -676,7 +676,6 @@
   text_load_default_configuration: Alapértelmezett konfiguráció betöltése
   text_status_changed_by_changeset: "A változáskészletben alkalmazva %{value}."
   text_issues_destroy_confirmation: 'Biztos benne, hogy törölni szeretné a kijelölt feladatokat?'
-  text_select_project_modules: 'Válassza ki az engedélyezett modulokat ehhez a projekthez:'
   text_default_administrator_account_changed: Alapértelmezett adminisztrátor fiók megváltoztatva
   text_file_repository_writable: Fájl tároló írható
   text_minimagick_available: MiniMagick elérhető (nem kötelező)
