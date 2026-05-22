@@ -742,7 +742,6 @@ fa:
   label_confirmation: تأیید
   label_export_to: 'قالب‌های دیگر:'
   label_read: خواندن...
-  label_public_projects: پروژه‌های عمومی
   label_open_issues: باز
   label_open_issues_plural: باز‌ها
   label_closed_issues: بسته
@@ -1291,7 +1290,6 @@ fa:
   text_select_project_modules: 'ابزارهایی که باید برای این پروژه فعال شوند را انتخاب کنید:'
   text_default_administrator_account_changed: حساب راه‌بری پیش‌فرض تغییر کرده است
   text_file_repository_writable: پوشه پیوست‌ها نوشتنی است
-  text_plugin_assets_writable: پوشه دارایی‌های افزونه‌ها نوشتنی است
   text_all_migrations_have_been_run: همه تغییرات پایگاه داده اعمال شده اند
   text_minimagick_available: MiniMagick در دست‌رس است (اختیاری)
   text_convert_available: تبدیل ImageMagick در دست‌رس است (اختیاری)

@@ -743,7 +743,6 @@ pl:
   label_confirmation: Potwierdzenie
   label_export_to: "Eksportuj do:"
   label_read: Czytanie...
-  label_public_projects: Projekty publiczne
   label_open_issues: otwarte
   label_open_issues_plural: otwarte
   label_closed_issues: zamknięte
@@ -1279,7 +1278,6 @@ pl:
   text_select_project_modules: 'Wybierz moduły do aktywacji w tym projekcie:'
   text_default_administrator_account_changed: Zmieniono domyślne hasło administratora
   text_file_repository_writable: Zapisywalny katalog plików
-  text_plugin_assets_writable: Zapisywalny katalog zasobów wtyczek
   text_all_migrations_have_been_run: Wszystkie migracje bazy danych zostały wykonane
   text_minimagick_available: MiniMagick dostępne (opcjonalne)
   text_convert_available: Konwersja przez ImageMagick dostępna (opcjonalne)

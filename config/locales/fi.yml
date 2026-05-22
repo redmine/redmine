@@ -418,7 +418,6 @@ fi:
   label_confirmation: Vahvistus
   label_export_to: Vie
   label_read: Lukee...
-  label_public_projects: Julkiset projektit
   label_open_issues: avoin, yhteensä
   label_open_issues_plural: avointa, yhteensä
   label_closed_issues: suljettu
@@ -786,7 +785,6 @@ fi:
   label_updated_time_by: "Updated by %{author} %{age} ago"
   text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
   setting_diff_max_lines_displayed: Max number of diff lines displayed
-  text_plugin_assets_writable: Plugin assets directory writable
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
   button_create_and_continue: Create and add another
   text_custom_field_possible_values_info: 'One line for each value'

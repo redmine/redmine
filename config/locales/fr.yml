@@ -674,7 +674,6 @@ fr:
   label_confirmation: Confirmation
   label_export_to: 'Formats disponibles :'
   label_read: Lire...
-  label_public_projects: Projets publics
   label_open_issues: ouvert
   label_open_issues_plural: ouverts
   label_closed_issues: fermé
@@ -1128,7 +1127,6 @@ fr:
   text_select_project_modules: 'Sélectionner les modules à activer pour ce projet :'
   text_default_administrator_account_changed: Compte administrateur par défaut changé
   text_file_repository_writable: Répertoire de stockage des fichiers accessible en écriture
-  text_plugin_assets_writable: Répertoire public des plugins accessible en écriture
   text_minimagick_available: Bibliothèque MiniMagick présente (optionnelle)
   text_convert_available: Binaire convert de ImageMagick présent (optionel)
   text_destroy_time_entries_question: "%{hours} heures ont été enregistrées sur les demandes à supprimer. Que voulez-vous faire ?"

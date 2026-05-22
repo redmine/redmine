@@ -476,7 +476,6 @@ sl:
   label_confirmation: Potrditev
   label_export_to: 'Na razpolago tudi v:'
   label_read: Preberi...
-  label_public_projects: Javni projekti
   label_open_issues: odprt zahtevek
   label_open_issues_plural: odprti zahtevki
   label_closed_issues: zaprt zahtevek
@@ -767,7 +766,6 @@ sl:
   enumeration_activities: Aktivnosti (sledenje časa)
   warning_attachments_not_saved: "%{count} datotek(e) ni bilo mogoče shraniti."
   field_editable: Uredljivo
-  text_plugin_assets_writable: Zapisljiva mapa za vtičnike
   label_display: Prikaz
   button_create_and_continue: Ustvari in nadaljuj
   text_custom_field_possible_values_info: 'Ena vrstica za vsako vrednost'

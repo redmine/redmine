@@ -565,7 +565,6 @@ ar:
   label_confirmation: تأكيد
   label_export_to: 'متوفرة أيضا في:'
   label_read: القراءة...
-  label_public_projects: المشاريع العامة
   label_open_issues: مفتوح
   label_open_issues_plural: بنود عمل مفتوحة
   label_closed_issues: مغلق
@@ -894,7 +893,6 @@ ar:
   text_select_project_modules: قم بتحديد الوضع المناسب لهذا المشروع:'
   text_default_administrator_account_changed: تم تعديل الاعدادات الافتراضية لحساب المدير
   text_file_repository_writable: المرفقات قابلة للكتابة
-  text_plugin_assets_writable: الدليل المساعد قابل للكتابة
   text_destroy_time_entries_question: " ساعة على بند العمل التي تود حذفها، ماذا تريد ان تفعل؟ %{hours} تم تثبيت"
   text_destroy_time_entries: قم بحذف الساعات المسجلة
   text_assign_time_entries_to_project: ثبت الساعات المسجلة على التقرير

@@ -412,7 +412,6 @@
   label_confirmation: Bekreftelse
   label_export_to: Eksporter til
   label_read: Leser...
-  label_public_projects: Offentlige prosjekt
   label_open_issues: åpen
   label_open_issues_plural: åpne
   label_closed_issues: lukket
@@ -756,7 +755,6 @@
   label_updated_time_by: "Oppdatert av %{author} for %{age} siden"
   text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
   setting_diff_max_lines_displayed: Max number of diff lines displayed
-  text_plugin_assets_writable: Plugin assets directory writable
   warning_attachments_not_saved: "%{count} fil(er) kunne ikke lagres."
   button_create_and_continue: Opprett og fortsett
   text_custom_field_possible_values_info: 'En linje for hver verdi'

@@ -531,7 +531,6 @@ sr-YU:
   label_confirmation: Potvrda
   label_export_to: 'Takođe dostupno i u varijanti:'
   label_read: Čitanje...
-  label_public_projects: Javni projekti
   label_open_issues: otvoren
   label_open_issues_plural: otvorenih
   label_closed_issues: zatvoren
@@ -834,7 +833,6 @@ sr-YU:
   text_select_project_modules: 'Odaberite module koje želite omogućiti za ovaj projekat:'
   text_default_administrator_account_changed: Podrazumevani administratorski nalog je promenjen
   text_file_repository_writable: Fascikla priloženih datoteka je upisiva
-  text_plugin_assets_writable: Fascikla elemenata dodatnih komponenti je upisiva
   text_minimagick_available: MiniMagick je dostupan (opciono)
   text_destroy_time_entries_question: "%{hours} sati je prijavljeno za ovaj problem koji želite izbrisati. Šta želite da uradite?"
   text_destroy_time_entries: Izbriši prijavljene sate

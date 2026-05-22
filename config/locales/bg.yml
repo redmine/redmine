@@ -756,7 +756,6 @@ bg:
   label_confirmation: Одобрение
   label_export_to: Експорт към
   label_read: Read...
-  label_public_projects: Публични проекти
   label_open_issues: отворена
   label_open_issues_plural: отворени
   label_closed_issues: затворена
@@ -1323,7 +1322,6 @@ bg:
   text_select_project_modules: 'Изберете активните модули за този проект:'
   text_default_administrator_account_changed: Сменен фабричния администраторски профил
   text_file_repository_writable: Възможност за писане в хранилището с файлове
-  text_plugin_assets_writable: Папката на приставките е разрешена за запис
   text_all_migrations_have_been_run: Всички миграции на базата данни са изпълнени
   text_minimagick_available: Наличен MiniMagick (по избор)
   text_convert_available: Наличен ImageMagick convert (по избор)

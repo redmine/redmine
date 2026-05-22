@@ -693,7 +693,6 @@ de:
   label_project_latest: Neueste Projekte
   label_project_new: Neues Projekt
   label_project_plural: Projekte
-  label_public_projects: Öffentliche Projekte
   label_query: Abfrage
   label_query_new: Neue Abfrage
   label_query_plural: Abfragen
@@ -1113,7 +1112,6 @@ de:
   text_mercurial_repository_note: Lokales Repository (z. B. /hgrepo, C:\hgrepo)
   text_no_configuration_data: "Rollen, Tracker, Ticket-Status und Workflows wurden noch nicht konfiguriert.\nEs ist sehr zu empfehlen, die Standard-Konfiguration zu laden. Sobald sie geladen ist, können Sie diese abändern."
   text_own_membership_delete_confirmation: "Sie sind dabei, einige oder alle Ihre Berechtigungen zu entfernen. Es ist möglich, dass Sie danach das Projekt nicht mehr ansehen oder bearbeiten dürfen.\nSind Sie sicher, dass Sie dies tun möchten?"
-  text_plugin_assets_writable: Verzeichnis für Plugin-Assets beschreibbar
   text_project_closed: Dieses Projekt ist geschlossen und kann nicht bearbeitet werden.
   text_project_destroy_confirmation: Sind Sie sicher, dass Sie das Projekt löschen wollen?
   text_project_close_confirmation: Sind Sie sicher, dass Sie das Projekt '%{value}' schließen wollen?

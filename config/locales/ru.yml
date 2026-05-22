@@ -610,7 +610,6 @@ ru:
   label_project_plural: Проекты
   label_project_plural2: проекта
   label_project_plural5: проектов
-  label_public_projects: Общие проекты
   label_query: Сохранённый запрос
   label_query_new: Новый запрос
   label_query_plural: Сохранённые запросы
@@ -887,7 +886,6 @@ ru:
   text_length_between: "Длина между %{min} и %{max} символов."
   text_load_default_configuration: Загрузить конфигурацию по умолчанию
   text_no_configuration_data: "Роли, трекеры, статусы задач и оперативный план не были сконфигурированы.\nНастоятельно рекомендуется загрузить конфигурацию по-умолчанию. Вы сможете её изменить потом."
-  text_plugin_assets_writable: Каталог ресурсов модулей доступен для записи
   text_project_destroy_confirmation: Вы настаиваете на удалении данного проекта и всей относящейся к нему информации?
   text_reassign_time_entries: 'Перенести зарегистрированное время на следующую задачу:'
   text_regexp_info: "например: ^[A-Z0-9]+$"

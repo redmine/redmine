@@ -766,7 +766,6 @@ it:
   label_confirmation: Conferma
   label_export_to: Esporta su
   label_read: Leggi...
-  label_public_projects: Progetti pubblici
   label_open_issues: aperta
   label_open_issues_plural: aperte
   label_closed_issues: chiusa
@@ -1317,7 +1316,6 @@ it:
   text_select_project_modules: 'Seleziona i moduli abilitati per questo progetto:'
   text_default_administrator_account_changed: L'account amministrativo predefinito è stato modificato
   text_file_repository_writable: Repository dei file scrivibile
-  text_plugin_assets_writable: Directory attività dei plugins scrivibile
   text_all_migrations_have_been_run: Sono state eseguite tutte le migrazioni del database
   text_minimagick_available: MiniMagick disponibile (opzionale)
   text_convert_available: ImageMagick convert disponibile (opzionale)

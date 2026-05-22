@@ -555,7 +555,6 @@ en-GB:
   label_confirmation: Confirmation
   label_export_to: 'Also available in:'
   label_read: Read...
-  label_public_projects: Public projects
   label_open_issues: open
   label_open_issues_plural: open
   label_closed_issues: closed
@@ -869,7 +868,6 @@ en-GB:
   text_select_project_modules: 'Select modules to enable for this project:'
   text_default_administrator_account_changed: Default administrator account changed
   text_file_repository_writable: Attachments directory writable
-  text_plugin_assets_writable: Plugin assets directory writable
   text_minimagick_available: MiniMagick available (optional)
   text_destroy_time_entries_question: "%{hours} hours were reported on the issues you are about to delete. What do you want to do?"
   text_destroy_time_entries: Delete reported hours

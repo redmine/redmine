@@ -434,7 +434,6 @@ pt:
   label_confirmation: Confirmação
   label_export_to: 'Também disponível em:'
   label_read: Ler...
-  label_public_projects: Projetos públicos
   label_open_issues: aberto
   label_open_issues_plural: abertos
   label_closed_issues: fechado
@@ -773,7 +772,6 @@ pt:
   label_updated_time_by: "Atualizado por %{author} há %{age}"
   text_diff_truncated: '... Este diff foi truncado porque excede o tamanho máximo que pode ser mostrado.'
   setting_diff_max_lines_displayed: Número máximo de linhas de diff mostradas
-  text_plugin_assets_writable: Escrita na pasta de ativos dos módulos de extensão possível
   warning_attachments_not_saved: "Não foi possível gravar %{count} ficheiro(s) ."
   button_create_and_continue: Criar e continuar
   text_custom_field_possible_values_info: 'Uma linha para cada valor'

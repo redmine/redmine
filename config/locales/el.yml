@@ -495,7 +495,6 @@ el:
   label_confirmation: Επιβεβαίωση
   label_export_to: 'Επίσης διαθέσιμο σε:'
   label_read: Διάβασε...
-  label_public_projects: Δημόσια έργα
   label_open_issues: Ανοικτό
   label_open_issues_plural: Ανοικτά
   label_closed_issues: Κλειστό
@@ -759,7 +758,6 @@ el:
   text_select_project_modules: 'Επιλέξτε ποιες μονάδες θα ενεργοποιήσετε για αυτό το έργο:'
   text_default_administrator_account_changed: Ο προκαθορισμένος λογαριασμός του διαχειριστή άλλαξε
   text_file_repository_writable: Εγγράψιμος κατάλογος συνημμένων
-  text_plugin_assets_writable: Εγγράψιμος κατάλογος plugin assets
   text_minimagick_available: Διαθέσιμο MiniMagick (προαιρετικό)
   text_destroy_time_entries_question: "%{hours} δαπανήθηκαν σχετικά με τα θέματα που πρόκειται να διαγράψετε. Τι θέλετε να κάνετε ;"
   text_destroy_time_entries: Διαγραφή αναφερόμενων ωρών

@@ -539,7 +539,6 @@ he:
   label_confirmation: אישור
   label_export_to: יצא ל
   label_read: קרא...
-  label_public_projects: פרויקטים פומביים
   label_open_issues: פתוח
   label_open_issues_plural: פתוחים
   label_closed_issues: סגור
@@ -844,7 +843,6 @@ he:
   text_select_project_modules: 'בחר מודולים להחיל על פרויקט זה:'
   text_default_administrator_account_changed: מנהל המערכת ברירת המחדל שונה
   text_file_repository_writable: מאגר הקבצים ניתן לכתיבה
-  text_plugin_assets_writable: ספרית נכסי תוספים ניתנת לכתיבה
   text_minimagick_available: MiniMagick זמין (רשות)
   text_destroy_time_entries_question: "%{hours} שעות דווחו על הנושאים שאתה עומד למחוק. מה ברצונך לעשות?"
   text_destroy_time_entries: מחק שעות שדווחו

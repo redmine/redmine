@@ -553,7 +553,6 @@ ta-IN:
   label_confirmation: உறுதிப்படுத்தல்
   label_export_to: 'இல் கிடைக்கிறது:'
   label_read: படி...
-  label_public_projects: பொது திட்டங்கள்
   label_open_issues: திறந்த
   label_open_issues_plural: திறந்த
   label_closed_issues: மூடப்பட்டது
@@ -867,7 +866,6 @@ ta-IN:
   text_select_project_modules: 'இந்த திட்டத்தை இயக்க தொகுதிகள் தேர்ந்தெடுக்கவும்:'
   text_default_administrator_account_changed: இயல்புநிலை நிர்வாகி கணக்கு மாற்றப்பட்டது
   text_file_repository_writable: இணைப்புகள் அடைவு எழுதக்கூடியது
-  text_plugin_assets_writable: செருகுநிரல் சொத்து அடைவு எழுதக்கூடியது
   text_minimagick_available: மினிமேஜிக் கிடைக்கிறது (optional)
   text_destroy_time_entries_question: "%{hours} நீங்கள் நீக்கவிருக்கும் சிக்கல்களில் மணிநேரம் அறிவிக்கப்பட்டது. நீங்கள் என்ன செய்ய விரும்புகிறீர்கள்?"
   text_destroy_time_entries: அறிவிக்கப்பட்ட நேரங்களை நீக்கு

@@ -534,7 +534,6 @@ gl:
     zero:  "ningún proxecto"
     one:   "un proxecto"
     other: "%{count} proxectos"
-  label_public_projects: Proxectos públicos
   label_query: Consulta personalizada
   label_query_new: Nova consulta
   label_query_plural: Consultas personalizadas
@@ -784,7 +783,6 @@ gl:
   text_workflow_edit: Seleccionar un fluxo de traballo para actualizar
   warning_attachments_not_saved: "Non foi posíbel gardar %{count} ficheiros."
   field_editable: "Editábel"
-  text_plugin_assets_writable: "Ten permisos de escritura no cartafol de recursos do complemento."
   label_display: "Mostrar"
   button_create_and_continue: "Crear en continuar"
   text_custom_field_possible_values_info: "Cada valor nunha liña."

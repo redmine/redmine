@@ -529,7 +529,6 @@ sr:
   label_confirmation: Потврда
   label_export_to: 'Такође доступно и у варијанти:'
   label_read: Читање...
-  label_public_projects: Јавни пројекти
   label_open_issues: отворен
   label_open_issues_plural: отворених
   label_closed_issues: затворен
@@ -832,7 +831,6 @@ sr:
   text_select_project_modules: 'Одаберите модуле које желите омогућити за овај пројекат:'
   text_default_administrator_account_changed: Подразумевани администраторски налог је промењен
   text_file_repository_writable: Фасцикла приложених датотека је уписива
-  text_plugin_assets_writable: Фасцикла елемената додатних компоненти је уписива
   text_minimagick_available: MiniMagick је доступан (опционо)
   text_destroy_time_entries_question: "%{hours} сати је пријављено за овај проблем који желите избрисати. Шта желите да урадите?"
   text_destroy_time_entries: Избриши пријављене сате

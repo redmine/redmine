@@ -759,7 +759,6 @@ en:
   label_confirmation: Confirmation
   label_export_to: 'Also available in:'
   label_read: Read...
-  label_public_projects: Public projects
   label_open_issues: open
   label_open_issues_plural: open
   label_closed_issues: closed
@@ -1336,7 +1335,6 @@ en:
   text_select_project_modules: 'Select modules to enable for this project:'
   text_default_administrator_account_changed: Default administrator account changed
   text_file_repository_writable: Attachments directory writable
-  text_plugin_assets_writable: Plugin assets directory writable
   text_all_migrations_have_been_run: All database migrations have been run
   text_minimagick_available: MiniMagick available (optional)
   text_convert_available: ImageMagick convert available (optional)

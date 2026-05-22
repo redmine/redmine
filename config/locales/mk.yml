@@ -531,7 +531,6 @@ mk:
   label_confirmation: Потврда
   label_export_to: 'Достапно и во:'
   label_read: Прочитај...
-  label_public_projects: Јавни проекти
   label_open_issues: отворена
   label_open_issues_plural: отворени
   label_closed_issues: затворена
@@ -834,7 +833,6 @@ mk:
   text_select_project_modules: 'Изберете модули за овој проект:'
   text_default_administrator_account_changed: Default administrator account changed
   text_file_repository_writable: Во папката за прилози може да се запишува
-  text_plugin_assets_writable: Во папката за додатоци може да се запишува
   text_minimagick_available: MiniMagick available (незадолжително)
   text_destroy_time_entries_question: "%{hours} hours were reported on the issues you are about to delete. What do you want to do ?"
   text_destroy_time_entries: Delete reported hours

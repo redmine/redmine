@@ -431,7 +431,6 @@ tr:
   label_confirmation: Doğrulamama
   label_export_to: "Diğer uygun kaynaklar:"
   label_read: "Oku..."
-  label_public_projects: Genel Projeler
   label_open_issues: açık
   label_open_issues_plural: açık
   label_closed_issues: kapalı
@@ -780,7 +779,6 @@ tr:
   label_updated_time_by: "%{author} tarafından %{age} önce güncellendi"
   text_diff_truncated: '... Bu fark tam olarak gösterilemiyor çünkü gösterim için ayarlanmış üst sınırı aşıyor.'
   setting_diff_max_lines_displayed: Gösterilebilecek maksimumu fark satırı
-  text_plugin_assets_writable: Eklenti yardımcı dosya dizini yazılabilir
   warning_attachments_not_saved: "%{count} adet dosya kaydedilemedi."
   button_create_and_continue: Oluştur ve devam et
   text_custom_field_possible_values_info: 'Her değer için bir satır'

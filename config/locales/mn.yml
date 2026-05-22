@@ -519,7 +519,6 @@ mn:
   label_confirmation: Баталгаажуулах
   label_export_to: 'Өөр авч болох формат:'
   label_read: Унших...
-  label_public_projects: Олон нийтийн төслүүд
   label_open_issues: нээлттэй
   label_open_issues_plural: нээлттэй
   label_closed_issues: хаалттай
@@ -819,7 +818,6 @@ mn:
   text_select_project_modules:  'Энэ төслийн хувьд идэвхжүүлэх модулуудаа сонгоно уу:'
   text_default_administrator_account_changed: Стандарт администраторын бүртгэл өөрчлөгдлөө
   text_file_repository_writable: Хавсралт файл хадгалах хавтас руу бичих эрхтэй
-  text_plugin_assets_writable: Плагин модулийн ассет хавтас руу бичих эрхтэй
   text_minimagick_available: MiniMagick суулгагдсан (заавал биш)
   text_destroy_time_entries_question: "Таны устгах гэж байгаа асуудлууд дээр нийт %{hours} цаг зарцуулсан юм байна, та яах вэ ?"
   text_destroy_time_entries: Мэдэгдсэн цагуудыг устгах

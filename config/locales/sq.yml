@@ -707,7 +707,6 @@ sq:
   label_confirmation: Ripohim
   label_export_to: 'I gatshëm edhe në:'
   label_read: Lexoni…
-  label_public_projects: Projekte publike
   label_open_issues: e hapur
   label_open_issues_plural: të hapura
   label_closed_issues: e mbyllur
@@ -1201,7 +1200,6 @@ sq:
   text_select_project_modules: 'Përzgjidhni module që të aktivizohen për këtë projekt:'
   text_default_administrator_account_changed: U ndryshua llogaria parazgjedhje e përgjegjësit
   text_file_repository_writable: Drejtori bashkëngjitjes e shkrueshme
-  text_plugin_assets_writable: Drejtori mjetesh shtojcash e shkrueshme
   text_minimagick_available: MiniMagick gati (opsionale)
   text_convert_available: Ka mbulim për shndërrime ImageMagick (opsionale)
   text_gs_available: Ka mbulim për ImageMagick PDF (opsionale)

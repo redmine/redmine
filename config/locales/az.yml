@@ -600,7 +600,6 @@ az:
   label_project_plural: Layihələr
   label_project_plural2: layihəni
   label_project_plural5: layihələri
-  label_public_projects: Ümumi layihələr
   label_query: Yadda saxlanılmış sorğu
   label_query_new: Yeni sorğu
   label_query_plural: Yadda saxlanılmış sorğular
@@ -877,7 +876,6 @@ az:
   text_length_between: "%{min} və %{max} simvollar arasındakı uzunluq."
   text_load_default_configuration: Susmaya görə konfiqurasiyanı yükləmək
   text_no_configuration_data: "Rollar, trekerlər, tapşırıqların statusları və operativ plan konfiqurasiya olunmayıblar.\nSusmaya görə konfiqurasiyanın yüklənməsi təkidlə xahiş olunur. Siz onu sonradan dəyişə bilərsiniz."
-  text_plugin_assets_writable: Modullar kataloqu qeyd üçün açıqdır
   text_project_destroy_confirmation: Siz bu layihə və ona aid olan bütün informasiyanı silmək istədiyinizə əminsinizmi?
   text_reassign_time_entries: 'Qeydiyyata alınmış vaxtı aşağıdakı tapşırığa keçir:'
   text_regexp_info: "məsələn: ^[A-Z0-9]+$"

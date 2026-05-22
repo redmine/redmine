@@ -403,7 +403,6 @@ uk:
   label_confirmation: Підтвердження
   label_export_to: Експортувати в
   label_read: Читання...
-  label_public_projects: Публічні проекти
   label_open_issues: відкрите
   label_open_issues_plural: відкриті
   label_closed_issues: закрите
@@ -779,7 +778,6 @@ uk:
   label_updated_time_by: "Оновлено %{author} %{age} тому"
   text_diff_truncated: '... Цей diff обмежений, так як перевищує максимальний розмір, що може бути відображений.'
   setting_diff_max_lines_displayed: Максимальна кількість рядків для diff
-  text_plugin_assets_writable: Каталог ресурсів модулів доступний для запису
   warning_attachments_not_saved: "%{count} файл(ів) неможливо зберегти."
   button_create_and_continue: Створити та продовжити
   text_custom_field_possible_values_info: 'По одному значенню в кожному рядку'

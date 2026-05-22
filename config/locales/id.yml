@@ -501,7 +501,6 @@ id:
   label_confirmation: Konfirmasi
   label_export_to: 'Juga tersedia dalam:'
   label_read: Baca...
-  label_public_projects: Proyek publik
   label_open_issues: belum selesai
   label_open_issues_plural: belum selesai
   label_closed_issues: selesai
@@ -787,7 +786,6 @@ id:
   text_select_project_modules: 'Pilih modul untuk diaktifkan pada proyek ini:'
   text_default_administrator_account_changed: Akun administrator default sudah berubah
   text_file_repository_writable: Direktori yang bisa ditulisi untuk lampiran
-  text_plugin_assets_writable: Direktori yang bisa ditulisi untuk plugin asset
   text_minimagick_available: MiniMagick tersedia (optional)
   text_destroy_time_entries_question: "%{hours} jam sudah dilaporkan pada masalah yang akan anda hapus. Apa yang akan anda lakukan ?"
   text_destroy_time_entries: Hapus jam yang terlapor

@@ -546,7 +546,6 @@ zh:
   label_confirmation: 确认
   label_export_to: 导出
   label_read: 读取...
-  label_public_projects: 公开的项目
   label_open_issues: 打开
   label_open_issues_plural: 打开
   label_closed_issues: 已关闭
@@ -855,7 +854,6 @@ zh:
   text_select_project_modules: '请选择此项目可以使用的模块：'
   text_default_administrator_account_changed: 默认的管理员帐号已改变
   text_file_repository_writable: 附件路径可写
-  text_plugin_assets_writable: 插件的附件路径可写
   text_minimagick_available: MiniMagick 可用（可选的）
   text_destroy_time_entries_question: 您要删除的问题已经上报了 %{hours} 小时的工作量。您想进行那种操作？
   text_destroy_time_entries: 删除上报的工作量

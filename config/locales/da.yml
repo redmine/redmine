@@ -427,7 +427,6 @@ da:
   label_confirmation: Bekræftelser
   label_export_to: Eksporter til
   label_read: Læs...
-  label_public_projects: Offentlige projekter
   label_open_issues: åben
   label_open_issues_plural: åbne
   label_closed_issues: lukket
@@ -755,7 +754,6 @@ da:
   permission_add_messages: Opret beskeder
   permission_edit_issue_notes: Redigér noter
   permission_manage_news: Administrér nyheder
-  text_plugin_assets_writable: Der er skriverettigheder til plugin assets folderen
   label_display: Vis
   label_and_its_subprojects: "%{value} og dets underprojekter"
   permission_view_calendar: Se kalender

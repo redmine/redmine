@@ -578,7 +578,6 @@ ja:
   label_close_versions: 完了したバージョンを終了にする
   label_export_to: '他の形式にエクスポート:'
   label_read: 読む...
-  label_public_projects: 公開プロジェクト
   label_open_issues: 未完了
   label_open_issues_plural: 未完了
   label_closed_issues: 完了
@@ -907,7 +906,6 @@ ja:
   text_select_project_modules: 'このプロジェクトで使用するモジュールを選択してください:'
   text_default_administrator_account_changed: デフォルト管理アカウントが変更済
   text_file_repository_writable: 添付ファイルディレクトリに書き込み可能
-  text_plugin_assets_writable: Plugin assetsディレクトリに書き込み可能
   text_minimagick_available: MiniMagickが利用可能 (オプション)
   text_destroy_time_entries_question: このチケットの%{hours}時間分の作業記録の扱いを選択してください。
   text_destroy_time_entries: 記録された作業時間を含めて削除

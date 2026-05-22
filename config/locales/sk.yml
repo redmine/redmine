@@ -415,7 +415,6 @@ sk:
   label_confirmation: Potvrdenie
   label_export_to: 'K dispozícii tiež ako:'
   label_read: Načítava sa...
-  label_public_projects: Verejné projekty
   label_open_issues: otvorená
   label_open_issues_plural: otvorené
   label_closed_issues: uzavretá
@@ -764,7 +763,6 @@ sk:
   label_updated_time_by: "Aktualizované používateľom %{author} pred %{age}"
   text_diff_truncated: '...Tento výpis rozdielov bol skrátený, pretože prekračuje maximálny počet riadkov, ktorý môže byť zobrazený.'
   setting_diff_max_lines_displayed: Maximálny počet zobrazených riadkov výpisu rozdielov
-  text_plugin_assets_writable: Povolený zápis do priečinka pre pluginy
   warning_attachments_not_saved: "%{count} súborov nemohlo byť uložených."
   field_editable: Editovateľné
   label_display: Zobrazenie

@@ -502,7 +502,6 @@ nl:
     zero:  geen projecten
     one:   1 project
     other: "%{count} projecten"
-  label_public_projects: Publieke projecten
   label_query: Eigen zoekopdracht
   label_query_new: Nieuwe zoekopdracht
   label_query_plural: Eigen zoekopdrachten
@@ -730,7 +729,6 @@ nl:
   text_length_between: "Lengte tussen %{min} en %{max} tekens."
   text_load_default_configuration: Standaardconfiguratie laden
   text_no_configuration_data: "Rollen, trackers, issuestatussen en workflows zijn nog niet geconfigureerd.\nHet is ten zeerste aangeraden om de standaardconfiguratie in te laden. U kunt deze aanpassen nadat deze is ingeladen."
-  text_plugin_assets_writable: Plugin assets map schrijfbaar
   text_project_destroy_confirmation: Weet u zeker dat u dit project en alle gerelateerde gegevens wilt verwijderen?
   text_project_identifier_info: 'Alleen kleine letters (a-z), cijfers, streepjes en liggende streepjes zijn toegestaan.<br />Eenmaal opgeslagen kan de identifier niet worden gewijzigd.'
   text_reassign_time_entries: 'Gerapporteerde uren opnieuw toewijzen:'

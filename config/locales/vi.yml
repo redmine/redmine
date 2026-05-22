@@ -477,7 +477,6 @@ vi:
   label_confirmation: Khẳng định
   label_export_to: 'Định dạng khác của trang này:'
   label_read: Đọc...
-  label_public_projects: Các dự án công cộng
   label_open_issues: mở
   label_open_issues_plural: mở
   label_closed_issues: đóng
@@ -818,7 +817,6 @@ vi:
   label_updated_time_by: "Cập nhật bởi %{author} cách đây %{age}"
   text_diff_truncated: '... Thay đổi này đã được cắt bớt do nó vượt qua giới hạn kích thước có thể hiển thị.'
   setting_diff_max_lines_displayed: Số dòng thay đổi tối đa được hiển thị
-  text_plugin_assets_writable: Cho phép ghi thư mục Plugin
   warning_attachments_not_saved: "%{count} file không được lưu."
   button_create_and_continue: Tạo và tiếp tục
   text_custom_field_possible_values_info: 'Một dòng cho mỗi giá trị'

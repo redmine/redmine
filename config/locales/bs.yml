@@ -497,7 +497,6 @@ bs:
   label_confirmation: Potvrda
   label_export_to: 'Također dostupno kao'
   label_read: Čitaj...
-  label_public_projects: Javni projekti
   label_open_issues: Otvoren
   label_open_issues_plural: Otvoreni
   label_closed_issues: Zatvoren
@@ -747,7 +746,6 @@ bs:
   text_select_project_modules: 'Odaberi module koje želite u ovom projektu:'
   text_default_administrator_account_changed: Uobičajeni administratorski račun je promjenjen
   text_file_repository_writable: U folder sa fajlovima koji su prilozi se može zapisivati
-  text_plugin_assets_writable: U folder sa pluginima se može zapisivati
   text_minimagick_available: MiniMagick available (optional)
   text_destroy_time_entries_question: "%{hours} sati je prijavljeno na aktivnostima koje želite brisati. Želite li to učiniti ?"
   text_destroy_time_entries: Izbriši prijavljeno vrijeme

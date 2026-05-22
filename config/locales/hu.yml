@@ -438,7 +438,6 @@
   label_confirmation: Jóváhagyás
   label_export_to: Exportálás
   label_read: Olvas...
-  label_public_projects: Nyilvános projektek
   label_open_issues: nyitott
   label_open_issues_plural: nyitott
   label_closed_issues: lezárt
@@ -785,7 +784,6 @@
   label_updated_time_by: "Módosította %{author} %{age}"
   text_diff_truncated: '... A diff fájl vége nem jelenik meg, mert hosszabb, mint a megjeleníthető sorok száma.'
   setting_diff_max_lines_displayed: A megjelenítendő sorok száma (maximum) a diff fájloknál
-  text_plugin_assets_writable: Plugin eszközök könyvtár írható
   warning_attachments_not_saved: "%{count} fájl mentése nem sikerült."
   button_create_and_continue: Létrehozás és folytatás
   text_custom_field_possible_values_info: 'Értékenként egy sor'
