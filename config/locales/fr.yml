@@ -1245,7 +1245,6 @@ fr:
   error_token_expired: "Ce lien de récupération de votre mot de passe a expiré, veuillez recommencer."
   error_spent_on_future_date: "Impossible d'enregistrer un temps passé sur une date future"
   setting_timelog_accept_future_dates: "Autoriser la saisie de temps sur une date future"
-  error_not_allowed_to_log_time_for_other_users: "Vous n'êtes pas autorisé à saisir le temps passé pour d'autres utilisateurs"
   permission_log_time_for_other_users: "Saisir le temps passé pour d'autres utilisateurs"
   label_inherited_from_parent_project: "Hérité du projet parent"
   label_inherited_from_group: "Hérité du groupe %{name}"

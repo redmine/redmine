@@ -1299,7 +1299,6 @@
   error_token_expired: 此密碼復原連結已經過期, 請再試一次.
   error_spent_on_future_date: 無法輸入未來日期的工時紀錄
   setting_timelog_accept_future_dates: 接受輸入未來日期的工時紀錄
-  error_not_allowed_to_log_time_for_other_users: 您未被允許可替他人輸入工時紀錄
   permission_log_time_for_other_users: 輸入他人的工時紀錄
   label_tomorrow: 明天
   label_next_week: 下一週

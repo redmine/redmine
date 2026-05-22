@@ -1235,7 +1235,6 @@
   error_token_expired: "Ez a jelszóváltoztatási link elévült."
   error_spent_on_future_date: "Nem lehet jövőbeli dátumra rögzíteni"
   setting_timelog_accept_future_dates: Jövőbeli időráfordítás elfogadása
-  error_not_allowed_to_log_time_for_other_users: "Nem rögzítheti más felhasználó időráfordítását"
   permission_log_time_for_other_users: Más felhasználók időráfordításának rögzítése
   label_tomorrow: holnap
   label_next_week: jövő hét

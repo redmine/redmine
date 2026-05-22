@@ -1228,7 +1228,6 @@ lt:
   error_token_expired: Slaptažodio atstatymo nuoroda nebegalioja. Pakartokite procesą iš naujo..
   error_spent_on_future_date: Negalima registruoti laiko pasirenkant ateities datas
   setting_timelog_accept_future_dates: Leisti registruoti laiką pasirenkant ateities datas
-  error_not_allowed_to_log_time_for_other_users: Jūs negalite nurodyti kitų naudotojų darbo trukmes
   permission_log_time_for_other_users: Galima nurodyti kitų naudotojų darbo trukmes
   label_tomorrow: rytoj
   label_next_week: kita savaitė

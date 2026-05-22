@@ -1232,7 +1232,6 @@ cs:
   error_token_expired: Tento odkaz na obnovu hesla vypršel, prosím zkuste to znovu.
   error_spent_on_future_date: Nelze zapsat čas do budoucna
   setting_timelog_accept_future_dates: Akceptovat zápis času do budoucna
-  error_not_allowed_to_log_time_for_other_users: Nejste oprávněni k zápisu času
     ostatních uživatelů
   permission_log_time_for_other_users: Záznam stráveného času ostatních uživatelů
   label_tomorrow: zítra

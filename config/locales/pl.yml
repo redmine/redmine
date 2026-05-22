@@ -248,7 +248,6 @@ pl:
   error_exceeds_maximum_hours_per_day: "Nie można zapisać więcej niż %{max_hours} godzin dla tego samego dnia (%{logged_hours} godzin już zostało zapisanych)"
   error_can_not_delete_auth_source: Ten tryb uwierzytelniania jest w użyciu i nie może zostać usunięty.
   error_spent_on_future_date: Nie można zapisać czasu dla daty z przyszłości
-  error_not_allowed_to_log_time_for_other_users: Nie jesteś upoważniony do zapisywania czasu dla innych użytkowników
   error_can_not_execute_macro_html: "Wystąpił błąd podczas wykonywania makra <strong>%{name}</strong> (%{error})"
   error_macro_does_not_accept_block: "To makro nie akceptuje bloku tekstu"
   error_childpages_macro_no_argument: "Bez argumentu to makro może być wywołane tylko na stronach wiki"

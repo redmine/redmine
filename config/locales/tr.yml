@@ -1250,7 +1250,6 @@ tr:
   error_token_expired: Bu şifre kurtarma bağlantısı süresi doldu, lütfen tekrar deneyin.
   error_spent_on_future_date: İleri tarihli bir zaman kaydedilemez.
   setting_timelog_accept_future_dates: İleri tarihli zaman kayıtlarını kabul et
-  error_not_allowed_to_log_time_for_other_users: Diğer kullanıcılar için zaman girişi yapma yetkiniz yok
   permission_log_time_for_other_users: Diğer kullanıcılar için zaman girişi
   label_tomorrow: yarın
   label_next_week: sonraki hafta

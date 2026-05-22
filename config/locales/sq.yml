@@ -234,7 +234,6 @@ sq:
   error_exceeds_maximum_hours_per_day: "S’mund të regjistrohen më shumë se %{max_hours} orë në të njëjtën ditë (janë regjistruar tashmë %{logged_hours} orë)"
   error_can_not_delete_auth_source: "Kjo mënyrë mirëfilltësimesh është në përdorim dhe s’mund të fshihet."
   error_spent_on_future_date: "S’mund të regjistrohet kohë në një datë të ardhshme"
-  error_not_allowed_to_log_time_for_other_users: "S’keni leje të regjistroni kohë për përdorues të tjerë"
   error_can_not_execute_macro_html: "Gabim në ekzekutimin e makros <strong>%{name}</strong> (%{error})"
   error_macro_does_not_accept_block: "Kjo makro nuk pranon bllok teksti"
   error_childpages_macro_no_argument: "Pa argument, kjo makro mund të thirret vetëm që prej faqesh wiki"

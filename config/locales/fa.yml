@@ -239,7 +239,6 @@ fa:
   error_exceeds_maximum_hours_per_day: "نمی‌توان بیش از %{max_hours} ساعت در یک روز زمان ثبت کرد. (%{logged_hours} ساعت تا کنون زمان ثبت شده است)"
   error_can_not_delete_auth_source: "این شیوه احراز هویت در حال استفاده است و حذف آن امکان‌‌پذیر نیست."
   error_spent_on_future_date: "ثبت زمان برای روزهای آینده امکان‌پذیر نیست"
-  error_not_allowed_to_log_time_for_other_users: "شما اجازه ثبت زمان برای سایر کاربران را ندارید"
   error_can_not_execute_macro_html: خطا در اجرای ماکروی <strong>%{name}</strong> (%{error})
   error_macro_does_not_accept_block: این ماکرو یک بلوک متنی را قبول نمی‌کند
   error_childpages_macro_no_argument: این ماکرو فقط در صفحات دانش‌نامه می‌تواند بدون ورودی، فراخوانی شود

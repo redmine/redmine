@@ -1273,7 +1273,6 @@ es:
   error_token_expired: Este enlace de recuperación de contraseña ha expirado, por favor, inténtelo de nuevo.
   error_spent_on_future_date: No se puede registrar tiempo en una fecha futura
   setting_timelog_accept_future_dates: Aceptar registros de tiempo en fechas futuras
-  error_not_allowed_to_log_time_for_other_users: No está autorizado a registrar tiempo para
     otros usuarios
   permission_log_time_for_other_users: Registrar tiempo para otros usuarios
   label_tomorrow: mañana

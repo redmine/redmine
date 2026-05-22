@@ -1263,7 +1263,6 @@ ko:
   error_token_expired: 암호 재발행용 링크는 무효합니다. 다시 시도해 주시기 바랍니다.
   error_spent_on_future_date: 미래일자에 소요시간을 입력할 수 없습니다.
   setting_timelog_accept_future_dates: 미래일자 소요시간 입력 허용
-  error_not_allowed_to_log_time_for_other_users: 다른 사용자의 소요시간을 입력할 수 없습니다.
   permission_log_time_for_other_users: 다른 사용자 소요시간 입력
   label_tomorrow: 내일
   label_next_week: 다음 주

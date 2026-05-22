@@ -1273,7 +1273,6 @@ vi:
   error_token_expired: Liên kết khôi phục mật khẩu này đã hết hạn, vui lòng thử lại.
   error_spent_on_future_date: Không thể ghi lại thời gian vào một ngày trong tương lai
   setting_timelog_accept_future_dates: Chấp nhận nhật ký thời gian vào các ngày trong tương lai
-  error_not_allowed_to_log_time_for_other_users: Bạn không được phép ghi lại thời gian cho những người dùng khác
   permission_log_time_for_other_users: Ghi nhật ký dành thời gian cho những người dùng khác
   label_tomorrow: Ngày mai
   label_next_week: tuần tới

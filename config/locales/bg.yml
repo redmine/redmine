@@ -241,7 +241,6 @@ bg:
   error_can_not_delete_auth_source: Този режим за идентификация се използва и не може да бъде премахнат.
   error_spent_on_future_date: Не е възможно да се отчете изразходвано време на дата в бъдещето
   error_spent_on_closed_issue: Не е възможно да се отчете изразходвано време за затворена задача
-  error_not_allowed_to_log_time_for_other_users: Вие нямате разрешение да записвате изразходвано време за други потребители
   error_can_not_execute_macro_html: Грешка при изпълнение на <strong>%{name}</strong> макрос
     (%{error})
   error_macro_does_not_accept_block: Този макрос не приема текстов блок
