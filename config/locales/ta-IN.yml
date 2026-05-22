@@ -583,7 +583,6 @@ ta-IN:
   label_gantt: காண்ட்
   label_internal: உள்
   label_last_changes: "கடைசி %{count} மாற்றங்கள்"
-  label_change_view_all: எல்லா மாற்றங்களையும் காண்க
   label_comment: கருத்து
   label_comment_plural: கருத்துரைகள்
   label_x_comments:

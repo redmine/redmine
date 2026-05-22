@@ -543,7 +543,6 @@ lv:
   label_gantt: Ganta diagramma
   label_internal: Iekšējais
   label_last_changes: "pēdējās %{count} izmaiņas"
-  label_change_view_all: Skatīt visas izmaiņas
   label_comment: Komentārs
   label_comment_plural: Komentāri
   label_x_comments:

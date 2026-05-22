@@ -507,7 +507,6 @@ vi:
   label_gantt: Biểu đồ sự kiện
   label_internal: Nội bộ
   label_last_changes: "%{count} thay đổi cuối"
-  label_change_view_all: Xem mọi thay đổi
   label_comment: Bình luận
   label_comment_plural: Bình luận
   label_x_comments:

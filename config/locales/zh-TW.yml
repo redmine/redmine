@@ -785,7 +785,6 @@
   label_gantt: 甘特圖
   label_internal: 內部
   label_last_changes: "最近 %{count} 個變更"
-  label_change_view_all: 檢視全部的變更
   label_comment: 回應
   label_comment_plural: 回應
   label_x_comments:

@@ -446,7 +446,6 @@ th:
   label_gantt: Gantt
   label_internal: ภายใน
   label_last_changes: "last %{count} เปลี่ยนแปลง"
-  label_change_view_all: ดูการเปลี่ยนแปลงทั้งหมด
   label_comment: ความเห็น
   label_comment_plural: ความเห็น
   label_x_comments:

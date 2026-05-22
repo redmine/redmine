@@ -445,7 +445,6 @@ sk:
   label_gantt: Ganttov graf
   label_internal: Interný
   label_last_changes: "posledných %{count} zmien"
-  label_change_view_all: Zobraziť všetky zmeny
   label_comment: Komentár
   label_comment_plural: Komentáre
   label_x_comments:

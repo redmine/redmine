@@ -565,7 +565,6 @@ ca:
   label_gantt: "Gantt"
   label_internal: "Intern"
   label_last_changes: "últims %{count} canvis"
-  label_change_view_all: "Visualitza tots els canvis"
   label_comment: "Comentari"
   label_comment_plural: "Comentaris"
   label_x_comments:

@@ -680,7 +680,6 @@ lt:
   label_gantt: Gantt
   label_internal: Vidinis
   label_last_changes: "paskutiniai %{count} pokyčiai(-ių)"
-  label_change_view_all: Peržiūrėti visus pakeitimus
   label_comment: Komentaras
   label_comment_plural: Komentarai
   label_x_comments:

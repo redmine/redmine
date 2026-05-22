@@ -562,7 +562,6 @@ ko:
   label_gantt: Gantt 차트
   label_internal: 내부
   label_last_changes: "최근 %{count}개의 변경사항"
-  label_change_view_all: 모든 변경 내역 보기
   label_comment: 댓글
   label_comment_plural: 댓글
   label_x_comments:

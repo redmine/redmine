@@ -468,7 +468,6 @@
   label_gantt: Gantt
   label_internal: Belső
   label_last_changes: "utolsó %{count} változás"
-  label_change_view_all: Minden változás megtekintése
   label_comment: Megjegyzés
   label_comment_plural: Megjegyzés
   label_x_comments:

@@ -585,7 +585,6 @@ en-GB:
   label_gantt: Gantt
   label_internal: Internal
   label_last_changes: "last %{count} changes"
-  label_change_view_all: View all changes
   label_comment: Comment
   label_comment_plural: Comments
   label_x_comments:

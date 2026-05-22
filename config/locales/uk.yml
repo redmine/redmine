@@ -433,7 +433,6 @@ uk:
   label_gantt: Діаграма Ганта
   label_internal: Внутрішній
   label_last_changes: "останні %{count} змін"
-  label_change_view_all: Проглянути всі зміни
   label_comment: Коментувати
   label_comment_plural: Коментарі
   label_x_comments:

@@ -531,7 +531,6 @@ id:
   label_gantt: Gantt
   label_internal: Internal
   label_last_changes: "%{count} perubahan terakhir"
-  label_change_view_all: Tampilkan semua perubahan
   label_comment: Komentar
   label_comment_plural: Komentar
   label_x_comments:

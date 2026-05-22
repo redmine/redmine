@@ -559,7 +559,6 @@ sr:
   label_gantt: Гантов дијаграм
   label_internal: Унутрашњи
   label_last_changes: "последњих %{count} промена"
-  label_change_view_all: Прикажи све промене
   label_comment: Коментар
   label_comment_plural: Коментари
   label_x_comments:

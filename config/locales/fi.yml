@@ -448,7 +448,6 @@ fi:
   label_gantt: Gantt
   label_internal: Sisäinen
   label_last_changes: "viimeiset %{count} muutokset"
-  label_change_view_all: Näytä kaikki muutokset
   label_comment: Kommentti
   label_comment_plural: Kommentit
   label_x_comments:

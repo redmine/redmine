@@ -793,7 +793,6 @@ bg:
   label_gantt: Мрежов график
   label_internal: Вътрешен
   label_last_changes: "последни %{count} промени"
-  label_change_view_all: Виж всички промени
   label_comment: Коментар
   label_comment_plural: Коментари
   label_x_comments:

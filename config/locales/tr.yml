@@ -461,7 +461,6 @@ tr:
   label_gantt: İş-Zaman Çizelgesi
   label_internal: Dahili
   label_last_changes: "Son %{count} değişiklik"
-  label_change_view_all: Tüm Değişiklikleri göster
   label_comment: Yorum
   label_comment_plural: Yorumlar
   label_x_comments:

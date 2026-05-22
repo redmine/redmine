@@ -336,7 +336,6 @@ nl:
   label_change_plural: Wijzigingen
   label_change_properties: Eigenschappen wijzigen
   label_change_status: Status wijzigen
-  label_change_view_all: Alle wijzigingen weergeven
   label_changes_details: Details van alle wijzigingen
   label_changeset_plural: Changesets
   label_chronological_order: In chronologische volgorde

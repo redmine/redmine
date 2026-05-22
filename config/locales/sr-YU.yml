@@ -561,7 +561,6 @@ sr-YU:
   label_gantt: Gantov dijagram
   label_internal: Unutrašnji
   label_last_changes: "poslednjih %{count} promena"
-  label_change_view_all: Prikaži sve promene
   label_comment: Komentar
   label_comment_plural: Komentari
   label_x_comments:

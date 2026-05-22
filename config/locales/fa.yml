@@ -779,7 +779,6 @@ fa:
   label_gantt: گانت
   label_internal: درونی
   label_last_changes: "%{count} تغییر آخر"
-  label_change_view_all: مشاهده همه تغییرات
   label_comment: نظر
   label_comment_plural: نظرات
   label_x_comments:

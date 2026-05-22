@@ -527,7 +527,6 @@ bs:
   label_gantt: Gantogram
   label_internal: Interno
   label_last_changes: "posljednjih %{count} promjena"
-  label_change_view_all: Pregledaj sve promjene
   label_comment: Komentar
   label_comment_plural: Komentari
   label_x_comments:

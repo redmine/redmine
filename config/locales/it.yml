@@ -803,7 +803,6 @@ it:
   label_gantt: Gantt
   label_internal: Interno
   label_last_changes: "ultime %{count} modifiche"
-  label_change_view_all: Tutte le modifiche
   label_comment: Commento
   label_comment_plural: Commenti
   label_x_comments:

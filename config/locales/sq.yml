@@ -744,7 +744,6 @@ sq:
   label_gantt: Gantt
   label_internal: I brendshëm
   label_last_changes: "%{count} ndryshimet e fundit"
-  label_change_view_all: Shihni krejt ndryshimet
   label_comment: Koment
   label_comment_plural: Komente
   label_x_comments:

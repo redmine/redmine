@@ -538,7 +538,6 @@ hr:
   label_gantt: Gantt
   label_internal: Interno
   label_last_changes: "Posljednjih %{count} promjena"
-  label_change_view_all: Prikaz svih promjena
   label_comment: Komentar
   label_comment_plural: Komentari
   label_x_comments:

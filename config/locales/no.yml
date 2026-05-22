@@ -442,7 +442,6 @@
   label_gantt: Gantt
   label_internal: Intern
   label_last_changes: "siste %{count} endringer"
-  label_change_view_all: Vis alle endringer
   label_comment: Kommentar
   label_comment_plural: Kommentarer
   label_x_comments:

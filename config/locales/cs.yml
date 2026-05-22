@@ -575,7 +575,6 @@ cs:
   label_gantt: Ganttův diagram
   label_internal: Interní
   label_last_changes: "posledních %{count} změn"
-  label_change_view_all: Zobrazit všechny změny
   label_comment: Komentář
   label_comment_plural: Komentáře
   label_x_comments:

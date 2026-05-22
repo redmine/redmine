@@ -569,7 +569,6 @@ he:
   label_gantt: גאנט
   label_internal: פנימי
   label_last_changes: "%{count} שינוים אחרונים"
-  label_change_view_all: צפה בכל השינוים
   label_comment: תגובה
   label_comment_plural: תגובות
   label_x_comments:

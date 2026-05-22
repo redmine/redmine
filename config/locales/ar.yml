@@ -595,7 +595,6 @@ ar:
   label_gantt: جانت
   label_internal: الداخلية
   label_last_changes: "آخر التغييرات %{count}"
-  label_change_view_all: عرض كافة التغييرات
   label_comment: تعليق
   label_comment_plural: تعليقات
   label_x_comments:

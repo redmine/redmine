@@ -576,7 +576,6 @@ zh:
   label_gantt: 甘特图
   label_internal: 内部
   label_last_changes: "最近的 %{count} 次变更"
-  label_change_view_all: 查看所有变更
   label_comment: 评论
   label_comment_plural: 评论
   label_x_comments:

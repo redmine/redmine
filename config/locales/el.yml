@@ -525,7 +525,6 @@ el:
   label_gantt: Gantt
   label_internal: Εσωτερικό
   label_last_changes: "Τελευταίες %{count} αλλαγές"
-  label_change_view_all: Προβολή όλων των αλλαγών
   label_comment: Σχόλιο
   label_comment_plural: Σχόλια
   label_x_comments:

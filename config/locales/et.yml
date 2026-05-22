@@ -625,7 +625,6 @@ et:
   label_gantt: "Gantt"
   label_internal: "Sisemine"
   label_last_changes: "viimased %{count} muudatust"
-  label_change_view_all: "Kõik muudatused"
   label_comment: "Kommentaar"
   label_comment_plural: "Kommentaarid"
   label_x_comments:

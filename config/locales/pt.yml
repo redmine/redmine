@@ -464,7 +464,6 @@ pt:
   label_gantt: Gantt
   label_internal: Interno
   label_last_changes: "últimas %{count} alterações"
-  label_change_view_all: Ver todas as alterações
   label_comment: Comentário
   label_comment_plural: Comentários
   label_x_comments:

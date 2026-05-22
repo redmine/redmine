@@ -561,7 +561,6 @@ mk:
   label_gantt: Gantt
   label_internal: Internal
   label_last_changes: "последни %{count} промени"
-  label_change_view_all: Прегледај ги сите промени
   label_comment: Коментар
   label_comment_plural: Коментари
   label_x_comments:

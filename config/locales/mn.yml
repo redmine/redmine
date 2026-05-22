@@ -549,7 +549,6 @@ mn:
   label_gantt: Гант диаграм
   label_internal: Дотоод
   label_last_changes: "сүүлийн %{count} өөрчлөлтүүд"
-  label_change_view_all: Бүх өөрчлөлтүүдийг харах
   label_comment: Тайлбар
   label_comment_plural: Тайлбарууд
   label_x_comments:
