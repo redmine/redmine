@@ -956,7 +956,6 @@ ta-IN:
   text_git_repository_note: களஞ்சியம் வெற்று மற்றும் உள்ளூர் (e.g. /gitrepo, c:\gitrepo)
   description_query_sort_criteria_direction: வரிசை திசை
   description_project_scope: தேடல் நோக்கம்
-  description_filter: வடிகட்டி
   description_user_mail_notification: அஞ்சல் அறிவிப்பு அமைப்புகள்
   description_message_content: செய்தி உள்ளடக்கம்
   description_available_columns: கிடைக்கும் நெடுவரிசைகள்

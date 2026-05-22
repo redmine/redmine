@@ -1002,7 +1002,6 @@ vi:
   text_git_repository_note: Kho chứa cục bộ và công cộng (vd. /gitrepo, c:\gitrepo)
   description_query_sort_criteria_direction: Chiều sắp xếp
   description_project_scope: Phạm vi tìm kiếm
-  description_filter: Lọc
   description_user_mail_notification: Thiết lập email thông báo
   description_message_content: Nội dung thông điệp
   description_available_columns: Các cột có sẵn

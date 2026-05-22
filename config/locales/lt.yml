@@ -1148,7 +1148,6 @@ lt:
   enumeration_doc_categories: Dokumento kategorijos
   enumeration_activities: Veiklos (laiko) sekimas
   enumeration_system_activity: Sistemos veikla
-  description_filter: Filtras
   description_search: Paieškos laukas
   description_project_scope: Paieškos sritis
   description_notes: Pastabos

@@ -942,7 +942,6 @@ sk:
   text_git_repository_note: Repozitár je iba jeden a je lokálny (e.g. /gitrepo, c:\gitrepo)
   description_query_sort_criteria_direction: Smer triedenia
   description_project_scope: Rozsah vyhľadávania
-  description_filter: Filter
   description_user_mail_notification: Nastavenia upozornení emailom
   description_message_content: Obsah správy
   description_available_columns: Dostupné stĺpce

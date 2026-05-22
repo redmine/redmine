@@ -1081,7 +1081,6 @@ sv:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsuppföljning)
   enumeration_system_activity: Systemaktivitet
-  description_filter: Filter
   description_search: Sökfält
   description_project_scope: Sökomfång
   description_notes: Anteckningar

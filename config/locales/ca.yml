@@ -951,7 +951,6 @@ ca:
   text_git_repository_note: Directori repositori local (p.e. /hgrepo, c:\hgrepo)
   description_query_sort_criteria_direction: "Ordre d'ordenació"
   description_project_scope: "Àmbit de la cerca"
-  description_filter: "Filtre"
   description_user_mail_notification: "Configuració de les notificacions per correu"
   description_message_content: "Contingut del missatge"
   description_available_columns: "Columnes disponibles"

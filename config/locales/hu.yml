@@ -966,7 +966,6 @@
   text_git_repository_note: 'Csupasz és helyi tároló (pl. /gitrepo, c:\gitrepo)'
   description_query_sort_criteria_direction: Rendezés iránya
   description_project_scope: Keresés hatóköre
-  description_filter: Szűrő
   description_user_mail_notification: E-mail-értesítések beállításai
   description_message_content: Hozzászólás tartalma
   description_available_columns: Kiválasztható oszlopok

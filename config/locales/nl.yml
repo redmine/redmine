@@ -932,7 +932,6 @@ nl:
   text_git_repository_note: "Lokaal versieoverzicht is leeg (Voorbeeld: /gitrepo, c:\\gitrepo)"
   description_query_sort_criteria_direction: Sortering
   description_project_scope: Zoekbereik
-  description_filter: Filteren
   description_user_mail_notification: Instellingen voor e-mailnotificaties
   description_message_content: Berichtinhoud
   description_available_columns: Beschikbare kolommen

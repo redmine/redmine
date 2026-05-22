@@ -959,7 +959,6 @@ bs:
   text_git_repository_note: Repozitorij je prazan i lokalni (npr. /gitrepo, c:\gitrepo)
   description_query_sort_criteria_direction: Smjer sortiranja
   description_project_scope: Opseg pretrage
-  description_filter: Filter
   description_user_mail_notification: Postavke email notifikacija
   description_message_content: Sadržaj poruke
   description_available_columns: Dostupne kolone

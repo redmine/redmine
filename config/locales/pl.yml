@@ -1358,7 +1358,6 @@ pl:
   enumeration_doc_categories: Kategorie dokumentów
   enumeration_activities: Działania (śledzenie czasu)
   enumeration_system_activity: Aktywność systemowa
-  description_filter: Filtr
   description_search: Pole wyszukiwania
   description_project_scope: Zakres wyszukiwania
   description_notes: Notatki

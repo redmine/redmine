@@ -994,7 +994,6 @@ es-PA:
   text_git_repository_note: El repositorio es básico y local (p.e. /gitrepo, c:\gitrepo)
   description_query_sort_criteria_direction: Dirección de ordenación
   description_project_scope: Ámbito de búsqueda
-  description_filter: Filtro
   description_user_mail_notification: Configuración de notificaciones por correo
   description_message_content: Contenido del mensaje
   description_available_columns: Columnas disponibles

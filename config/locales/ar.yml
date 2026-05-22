@@ -953,7 +953,6 @@ ar:
   enumeration_doc_categories: تصنيف المستندات
   enumeration_activities: الانشطة
   enumeration_system_activity: نشاط النظام
-  description_filter: فلترة
   description_search: حقل البحث
   description_project_scope: مجال البحث
   description_notes: ملاحظات

@@ -997,7 +997,6 @@ et:
   enumeration_doc_categories: "Dokumentide kategooriad"
   enumeration_activities: "Tegevused (ajakulu)"
   enumeration_system_activity: "Süsteemi aktiivsus"
-  description_filter: "Filter"
   description_search: "Otsinguväli"
   description_project_scope: "Otsingu ulatus"
   description_notes: "Märkused"

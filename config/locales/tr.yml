@@ -959,7 +959,6 @@ tr:
   text_git_repository_note: Depo yalın halde (bare) ve yerel sistemde bulunuyor. (örn. /gitrepo, c:\gitrepo)
   description_query_sort_criteria_direction: Sıralama yönü
   description_project_scope: Arama kapsamı
-  description_filter: Süzgeç
   description_user_mail_notification: E-posta bildirim ayarları
   description_message_content: Mesaj içeriği
   description_available_columns: Kullanılabilir Sütunlar

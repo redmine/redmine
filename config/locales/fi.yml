@@ -966,7 +966,6 @@ fi:
   text_git_repository_note: Repository is bare and local (e.g. /gitrepo, c:\gitrepo)
   description_query_sort_criteria_direction: Sort direction
   description_project_scope: Search scope
-  description_filter: Filter
   description_user_mail_notification: Mail notification settings
   description_message_content: Message content
   description_available_columns: Available Columns

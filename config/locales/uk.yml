@@ -959,7 +959,6 @@ uk:
   text_git_repository_note: Сховище пусте та локальнеl (тобто. /gitrepo, c:\gitrepo)
   description_query_sort_criteria_direction: Порядок сортування
   description_project_scope: Область пошуку
-  description_filter: Фільтр
   description_user_mail_notification: Налаштування поштових сповіщень
   description_message_content: Зміст повідомлення
   description_available_columns: Доступні колонки

@@ -953,7 +953,6 @@ cs:
   text_git_repository_note: Repositář je "bare and local" (např. /gitrepo, c:\gitrepo)
   description_query_sort_criteria_direction: Směr třídění
   description_project_scope: Rozsah vyhledávání
-  description_filter: Filtr
   description_user_mail_notification: Nastavení emailových notifikací
   description_message_content: Obsah zprávy
   description_available_columns: Dostupné sloupce

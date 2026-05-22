@@ -942,7 +942,6 @@
 
   description_query_sort_criteria_direction: Sorteringsretning
   description_project_scope: Search scope
-  description_filter: Filter
   description_user_mail_notification: Mail notification settings
   description_message_content: Meldingsinnhold
   description_available_columns: Tilgjengelige kolonner

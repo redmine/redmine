@@ -963,7 +963,6 @@ gl:
   text_git_repository_note: "O repositorio está baleiro e é local (por exemplo, «/gitrepo» ou «C:\\gitrepo»)"
   description_query_sort_criteria_direction: "Dirección da orde"
   description_project_scope: "Ámbito da busca"
-  description_filter: "Filtro"
   description_user_mail_notification: "Configuración das notificacións por correo electrónico"
   description_message_content: "Contido da mensaxe"
   description_available_columns: "Columnas dispoñíbeis"

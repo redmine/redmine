@@ -1404,7 +1404,6 @@ it:
   enumeration_doc_categories: Categorie di documenti
   enumeration_activities: Attività (time tracking)
   enumeration_system_activity: Attività di sistema
-  description_filter: Filtro
   description_search: Campo di ricerca
   description_project_scope: Ambito della ricerca
   description_notes: Note

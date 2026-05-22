@@ -1419,7 +1419,6 @@ bg:
   enumeration_doc_categories: Категории документи
   enumeration_activities: Дейности (time tracking)
   enumeration_system_activity: Системна активност
-  description_filter: Филтър
   description_search: Търсене
   description_project_scope: Обхват на търсенето
   description_notes: Бележки

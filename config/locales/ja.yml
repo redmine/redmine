@@ -993,7 +993,6 @@ ja:
   setting_issue_group_assignment: グループへのチケット割り当てを許可
   description_query_sort_criteria_direction: 順序
   description_project_scope: 検索範囲
-  description_filter: Filter
   description_user_mail_notification: メール通知の設定
   description_message_content: 内容
   description_available_columns: 利用できる項目

@@ -1053,7 +1053,6 @@ ru:
   text_git_repository_note: Хранилище пустое и локальное (т.е. /gitrepo, c:\gitrepo)
   description_query_sort_criteria_direction: Порядок сортировки
   description_project_scope: Область поиска
-  description_filter: Фильтр
   description_user_mail_notification: Настройки почтовых оповещений
   description_message_content: Содержание сообщения
   description_available_columns: Доступные столбцы

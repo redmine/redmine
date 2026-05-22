@@ -955,7 +955,6 @@ zh:
   label_diff: 差异
   description_query_sort_criteria_direction: 排序方式
   description_project_scope: 搜索范围
-  description_filter: 过滤器
   description_user_mail_notification: 邮件通知设置
   description_message_content: 信息内容
   description_available_columns: 备选列

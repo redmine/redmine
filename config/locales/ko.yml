@@ -993,7 +993,6 @@ ko:
   text_git_repository_note: "로컬의 bare 저장소 (예: /gitrepo, c:\\gitrepo)"
   description_query_sort_criteria_direction: "정렬 방향"
   description_project_scope: "검색 범위"
-  description_filter: "검색 조건"
   description_user_mail_notification: "메일 알림 설정"
   description_message_content: "메세지 내용"
   description_available_columns: "가능한 컬럼"

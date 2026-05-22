@@ -1199,7 +1199,6 @@ fr:
   enumeration_doc_categories: Catégories des documents
   enumeration_activities: Activités (suivi du temps)
   enumeration_system_activity: Activité système
-  description_filter: Filtre
   description_search: Champ de recherche
   description_project_scope: Périmètre de recherche
   description_notes: Notes
