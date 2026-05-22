@@ -692,7 +692,6 @@ cs:
   label_month: Měsíc
   label_week: Týden
   label_date_from: Od
-  label_date_to: Do
   label_language_based: Podle výchozího jazyka
   label_sort_by: "Seřadit podle %{value}"
   label_send_test_email: Poslat testovací email

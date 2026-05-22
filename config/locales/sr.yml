@@ -676,7 +676,6 @@ sr:
   label_month: Месец
   label_week: Седмица
   label_date_from: Шаље
-  label_date_to: Прима
   label_language_based: Базирано на језику корисника
   label_sort_by: "Сортирано по %{value}"
   label_send_test_email: Слање пробне е-поруке

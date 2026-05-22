@@ -701,7 +701,6 @@ ta-IN:
   label_month: மாதம்
   label_week: வாரம்
   label_date_from: இருந்து
-  label_date_to: வரை
   label_language_based: பயனரின் மொழியின் அடிப்படையில்
   label_sort_by: "மூலம் வரிசைப்படுத்து %{value}"
   label_send_test_email: சோதனை மின்னஞ்சலை அனுப்பவும்

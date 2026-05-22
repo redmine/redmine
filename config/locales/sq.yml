@@ -885,7 +885,6 @@ sq:
   label_month: Muaj
   label_week: Javë
   label_date_from: Nga
-  label_date_to: Për
   label_language_based: Bazuar në gjuhën e përdoruesit
   label_sort_by: "Renditi sipas %{value}"
   label_send_test_email: Dërgo një email provë

@@ -636,7 +636,6 @@ bs:
   label_month: Mjesec
   label_week: Sedmica
   label_date_from: Od
-  label_date_to: Do
   label_language_based: Bazirano na korisnikovom jeziku
   label_sort_by: "Sortiraj po %{value}"
   label_send_test_email: Pošalji testni email

@@ -678,7 +678,6 @@ sr-YU:
   label_month: Mesec
   label_week: Sedmica
   label_date_from: Šalje
-  label_date_to: Prima
   label_language_based: Bazirano na jeziku korisnika
   label_sort_by: "Sortirano po %{value}"
   label_send_test_email: Slanje probne e-poruke

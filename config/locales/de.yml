@@ -508,7 +508,6 @@ de:
   label_date: Datum
   label_date_from: Von
   label_date_from_to: von %{start} bis %{end}
-  label_date_to: Bis
   label_day_plural: Tage
   label_default: Standard
   label_default_columns: Standard-Spalten

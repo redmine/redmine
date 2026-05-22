@@ -686,7 +686,6 @@ he:
   label_month: חודש
   label_week: שבוע
   label_date_from: מתאריך
-  label_date_to: עד
   label_language_based: מבוסס שפה
   label_sort_by: "מיין לפי %{value}"
   label_send_test_email: שלח דוא"ל בדיקה

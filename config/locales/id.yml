@@ -645,7 +645,6 @@ id:
   label_month: Bulan
   label_week: Minggu
   label_date_from: Dari
-  label_date_to: Sampai
   label_language_based: Berdasarkan bahasa pengguna
   label_sort_by: "Urut berdasarkan %{value}"
   label_send_test_email: Kirim email percobaan

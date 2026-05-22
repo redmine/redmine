@@ -666,7 +666,6 @@ mn:
   label_month: Сар
   label_week: Долоо хоног
   label_date_from: Хэзээнээс
-  label_date_to: Хэдий хүртэл
   label_language_based: Хэрэглэгчийн хэлнас шалтгаалан
   label_sort_by: "%{value} талбараар нь эрэмбэлэх"
   label_send_test_email: Турших мэйл илгээх

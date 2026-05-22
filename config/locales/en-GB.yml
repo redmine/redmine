@@ -703,7 +703,6 @@ en-GB:
   label_month: Month
   label_week: Week
   label_date_from: From
-  label_date_to: To
   label_language_based: Based on user's language
   label_sort_by: "Sort by %{value}"
   label_send_test_email: Send a test email

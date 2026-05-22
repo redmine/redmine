@@ -616,7 +616,6 @@ vi:
   label_month: Tháng
   label_week: Tuần
   label_date_from: Từ
-  label_date_to: Đến
   label_language_based: Theo ngôn ngữ người dùng
   label_sort_by: "Sắp xếp theo %{value}"
   label_send_test_email: Gửi một email kiểm tra

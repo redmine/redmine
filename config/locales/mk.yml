@@ -678,7 +678,6 @@ mk:
   label_month: Месец
   label_week: Недела
   label_date_from: Од
-  label_date_to: До
   label_language_based: Според јазикот на корисникот
   label_sort_by: "Подреди според %{value}"
   label_send_test_email: Испрати тест е-порака

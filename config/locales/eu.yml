@@ -663,7 +663,6 @@ eu:
   label_month: Hilabetea
   label_week: Astea
   label_date_from: Nork
-  label_date_to: Nori
   label_language_based: Erabiltzailearen hizkuntzaren arabera
   label_sort_by: "Ordenazioa: %{value}"
   label_send_test_email: Frogako mezua bidali

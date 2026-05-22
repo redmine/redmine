@@ -429,7 +429,6 @@ es-PA:
   label_custom_field_plural: Campos personalizados
   label_date: Fecha
   label_date_from: Desde
-  label_date_to: Hasta
   label_day_plural: días
   label_default: Por defecto
   label_default_columns: Columnas por defecto

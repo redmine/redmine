@@ -552,7 +552,6 @@ th:
   label_month: เดือน
   label_week: สัปดาห์
   label_date_from: จาก
-  label_date_to: ถึง
   label_language_based: ขึ้นอยู่กับภาษาของผู้ใช้
   label_sort_by: "เรียงโดย %{value}"
   label_send_test_email: ส่งจดหมายทดสอบ

@@ -471,7 +471,6 @@ ru:
   label_custom_field_plural: Настраиваемые поля
   label_date_from: С
   label_date_from_to: С %{start} по %{end}
-  label_date_to: по
   label_date: Дата
   label_day_plural: дней(я)
   label_default: По умолчанию

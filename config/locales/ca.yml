@@ -682,7 +682,6 @@ ca:
   label_month: "Mes"
   label_week: "Setmana"
   label_date_from: "Des de"
-  label_date_to: "A"
   label_language_based: "Basat en l'idioma de l'usuari"
   label_sort_by: "Ordenar per %{value}"
   label_send_test_email: "Enviar correu electrònic de prova"

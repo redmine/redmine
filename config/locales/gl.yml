@@ -402,7 +402,6 @@ gl:
   label_custom_field_plural: Campos personalizados
   label_date: Data
   label_date_from: Dende
-  label_date_to: Ata
   label_day_plural: días
   label_default: Predeterminada
   label_default_columns: Columnas predeterminadas

@@ -715,7 +715,6 @@ ar:
   label_month: شهر
   label_week: أسبوع
   label_date_from: من
-  label_date_to: إلى
   label_language_based: استناداً إلى لغة المستخدم
   label_sort_by: " %{value}الترتيب حسب "
   label_send_test_email: ارسل رسالة الكترونية كاختبار

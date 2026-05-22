@@ -702,7 +702,6 @@ fi:
   text_destroy_time_entries: Poista raportoidut tunnit
   text_reassign_time_entries: 'Siirrä raportoidut tunnit tälle tapahtumalle:'
   label_chronological_order: Aikajärjestyksessä
-  label_date_to: ''
   setting_activity_days_default: Päivien esittäminen projektien historiassa
   label_date_from: ''
   label_in: ''

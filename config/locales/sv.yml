@@ -803,7 +803,6 @@ sv:
   label_month: Månad
   label_week: Vecka
   label_date_from: Från
-  label_date_to: Till
   label_language_based: Språkbaserad
   label_sort_by: "Sortera på %{value}"
   label_send_test_email: Skicka ett testmejl

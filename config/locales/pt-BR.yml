@@ -589,7 +589,6 @@ pt-BR:
   label_month: Mês
   label_week: Semana
   label_date_from: De
-  label_date_to: Para
   label_language_based: Com base no idioma do usuário
   label_sort_by: "Ordenar por %{value}"
   label_send_test_email: Enviar um e-mail de teste

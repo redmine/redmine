@@ -530,7 +530,6 @@ uk:
   label_month: Місяць
   label_week: Неділя
   label_date_from: З
-  label_date_to: Кому
   label_language_based: На основі мови користувача
   label_sort_by: "Сортувати за %{value}"
   label_send_test_email: Послати email для перевірки

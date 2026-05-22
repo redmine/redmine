@@ -660,7 +660,6 @@ lv:
   label_month: Mēnesis
   label_week: Nedēļa
   label_date_from: No
-  label_date_to: Kam
   label_language_based: Izmantot lietotāja valodu
   label_sort_by: "Kārtot pēc %{value}"
   label_send_test_email: "Sūtīt testa e-pastu"

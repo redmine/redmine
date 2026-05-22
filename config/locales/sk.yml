@@ -551,7 +551,6 @@ sk:
   label_month: Mesiac
   label_week: Týždeň
   label_date_from: Od
-  label_date_to: Do
   label_language_based: Podľa jazyka používateľa
   label_sort_by: "Zoradenie podľa %{value}"
   label_send_test_email: Poslať testovací email

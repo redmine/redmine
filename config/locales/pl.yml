@@ -927,7 +927,6 @@ pl:
   label_month: Miesiąc
   label_week: Tydzień
   label_date_from: Od
-  label_date_to: Do
   label_language_based: Na podstawie języka użytkownika
   label_sort_by: "Sortuj po %{value}"
   label_send_test_email: Wyślij próbny e-mail

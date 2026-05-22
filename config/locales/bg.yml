@@ -942,7 +942,6 @@ bg:
   label_month: Месец
   label_week: Седмица
   label_date_from: От
-  label_date_to: До
   label_language_based: В зависимост от езика
   label_sort_by: "Сортиране по %{value}"
   label_send_test_email: Изпращане на тестов e-mail

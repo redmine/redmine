@@ -639,7 +639,6 @@ el:
   label_month: Μήνας
   label_week: Εβδομάδα
   label_date_from: Από
-  label_date_to:  Έως
   label_language_based: Με βάση τη γλώσσα του χρήστη
   label_sort_by: "Ταξινόμηση ανά %{value}"
   label_send_test_email: Αποστολή δοκιμαστικού email

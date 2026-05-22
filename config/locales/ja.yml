@@ -730,7 +730,6 @@ ja:
   label_month: 月
   label_week: 週
   label_date_from: "日付指定: "
-  label_date_to: から
   label_language_based: ユーザーの言語の設定に従う
   label_sort_by: "並べ替え %{value}"
   label_send_test_email: テストメールを送信
