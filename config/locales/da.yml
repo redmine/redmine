@@ -484,7 +484,6 @@ da:
   label_this_month: denne måned
   label_last_month: sidste måned
   label_this_year: dette år
-  label_date_range: Dato interval
   label_less_than_ago: mindre end dage siden
   label_more_than_ago: mere end dage siden
   label_ago: dage siden

@@ -488,7 +488,6 @@ tr:
   label_this_month: Bu ay
   label_last_month: Geçen ay
   label_this_year: Bu yıl
-  label_date_range: Tarih aralığı
   label_less_than_ago: günler öncesinden az
   label_more_than_ago: günler öncesinden fazla
   label_ago: gün önce

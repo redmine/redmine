@@ -615,7 +615,6 @@ en-GB:
   label_this_month: this month
   label_last_month: last month
   label_this_year: this year
-  label_date_range: Date range
   label_less_than_ago: less than days ago
   label_more_than_ago: more than days ago
   label_ago: days ago

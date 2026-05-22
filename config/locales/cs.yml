@@ -604,7 +604,6 @@ cs:
   label_this_month: tento měsíc
   label_last_month: minulý měsíc
   label_this_year: tento rok
-  label_date_range: Časový rozsah
   label_less_than_ago: před méně jak (dny)
   label_more_than_ago: před více jak (dny)
   label_ago: před (dny)

@@ -605,7 +605,6 @@ zh:
   label_this_month: 本月
   label_last_month: 上月
   label_this_year: 今年
-  label_date_range: 日期范围
   label_less_than_ago: 之前天数少于
   label_more_than_ago: 之前天数大于
   label_ago: 之前天数

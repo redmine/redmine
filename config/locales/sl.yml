@@ -533,7 +533,6 @@ sl:
   label_this_month: ta mesec
   label_last_month: zadnji mesec
   label_this_year: to leto
-  label_date_range: Razpon datumov
   label_less_than_ago: manj kot dni nazaj
   label_more_than_ago: več kot dni nazaj
   label_ago: dni nazaj

@@ -536,7 +536,6 @@ ro:
   label_this_month: luna aceasta
   label_last_month: luna trecută
   label_this_year: anul acesta
-  label_date_range: Perioada
   label_less_than_ago: mai puțin de ... zile
   label_more_than_ago: mai mult de ... zile
   label_ago: în urma

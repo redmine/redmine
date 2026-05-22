@@ -588,7 +588,6 @@ sr:
   label_this_month: овог месеца
   label_last_month: последњег месеца
   label_this_year: ове године
-  label_date_range: Временски период
   label_less_than_ago: пре мање од неколико дана
   label_more_than_ago: пре више од неколико дана
   label_ago: пре неколико дана

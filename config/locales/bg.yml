@@ -830,7 +830,6 @@ bg:
   label_last_month: последния месец
   label_next_month: следващият месец
   label_this_year: текущата година
-  label_date_range: Период
   label_less_than_ago: преди по-малко от
   label_more_than_ago: преди повече от
   label_ago: преди

@@ -461,7 +461,6 @@ az:
   label_custom_field_plural: Sazlanan sahələr
   label_date_from: С
   label_date_from_to: С %{start} по %{end}
-  label_date_range: vaxt intervalı
   label_date_to: üzrə
   label_date: Tarix
   label_day_plural: gün

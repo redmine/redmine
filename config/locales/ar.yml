@@ -626,7 +626,6 @@ ar:
   label_this_month: هذا الشهر
   label_last_month: الشهر الماضي
   label_this_year: هذا العام
-  label_date_range: نطاق التاريخ
   label_less_than_ago: أقل من عدد أيام
   label_more_than_ago: أكثر من عدد أيام
   label_ago: منذ أيام

@@ -594,7 +594,6 @@ ca:
   label_this_month: "aquest més"
   label_last_month: "l'últim més"
   label_this_year: "aquest any"
-  label_date_range: "Rang de dates"
   label_less_than_ago: "fa menys de"
   label_more_than_ago: "fa més de"
   label_ago: "fa"

@@ -708,7 +708,6 @@ sv:
   label_this_month: denna månad
   label_last_month: senaste månaden
   label_this_year: detta året
-  label_date_range: Datumintervall
   label_less_than_ago: mindre än dagar sedan
   label_more_than_ago: mer än dagar sedan
   label_ago: dagar sedan

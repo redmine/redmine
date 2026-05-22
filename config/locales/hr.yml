@@ -567,7 +567,6 @@ hr:
   label_this_month: ovog mjeseca
   label_last_month: prošlog mjeseca
   label_this_year: ove godine
-  label_date_range: vremenski raspon
   label_less_than_ago: manje od
   label_more_than_ago: više od
   label_ago: prije

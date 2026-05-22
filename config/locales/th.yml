@@ -473,7 +473,6 @@ th:
   label_this_month: เดือนนี้
   label_last_month: เดือนที่แล้ว
   label_this_year: ปีนี้
-  label_date_range: ช่วงวันที่
   label_less_than_ago: น้อยกว่าหนึ่งวัน
   label_more_than_ago: มากกว่าหนึ่งวัน
   label_ago: วันผ่านมาแล้ว

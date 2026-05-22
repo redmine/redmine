@@ -554,7 +554,6 @@ bs:
   label_this_month: ovaj mjesec
   label_last_month: posljednji mjesec
   label_this_year: ova godina
-  label_date_range: Datumski opseg
   label_less_than_ago: ranije nego (dani)
   label_more_than_ago: starije nego (dani)
   label_ago: prije (dani)

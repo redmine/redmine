@@ -472,7 +472,6 @@ sk:
   label_this_month: tento mesiac
   label_last_month: minulý mesiac
   label_this_year: tento rok
-  label_date_range: Časový rozsah
   label_less_than_ago: pred menej ako (dňami)
   label_more_than_ago: pred viac ako (dňami)
   label_ago: pred (dňami)

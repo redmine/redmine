@@ -591,7 +591,6 @@ ko:
   label_this_month: 이번 달
   label_last_month: 지난 달
   label_this_year: 올해
-  label_date_range: 날짜 범위
   label_less_than_ago: 이전
   label_more_than_ago: 이후
   label_ago: 일 전

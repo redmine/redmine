@@ -688,7 +688,6 @@ uk:
   label_this_month: цей місяць
   label_last_n_days: "останні %{count} днів"
   label_this_year: цей рік
-  label_date_range: інтервал часу
   label_last_week: попередній тиждень
   label_yesterday: вчора
   label_last_month: попередній місяць

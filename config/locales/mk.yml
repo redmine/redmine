@@ -590,7 +590,6 @@ mk:
   label_this_month: овој месец
   label_last_month: минатиот месец
   label_this_year: оваа година
-  label_date_range: Date range
   label_less_than_ago: пред помалку од денови
   label_more_than_ago: пред повеќе од денови
   label_ago: пред денови

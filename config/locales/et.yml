@@ -656,7 +656,6 @@ et:
   label_this_month: "sel kuul"
   label_last_month: "eelmisel kuul"
   label_this_year: "sel aastal"
-  label_date_range: "Kuupäevavahemik"
   label_less_than_ago: "uuem kui"
   label_more_than_ago: "vanem kui"
   label_ago: "vanus"

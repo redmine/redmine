@@ -821,7 +821,6 @@ pl:
   label_last_month: ostatni miesiąc
   label_next_month: następny miesiąc
   label_this_year: ten rok
-  label_date_range: Zakres dat
   label_less_than_ago: mniej niż dni temu
   label_more_than_ago: więcej niż dni temu
   label_ago: dni temu
