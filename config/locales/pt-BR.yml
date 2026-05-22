@@ -481,7 +481,6 @@ pt-BR:
   label_months_from: meses a partir de
   label_gantt: Gantt
   label_internal: Interno
-  label_last_changes: "últimas %{count} alterações"
   label_comment: Comentário
   label_comment_plural: Comentários
   label_x_comments:

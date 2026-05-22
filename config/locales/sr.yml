@@ -558,7 +558,6 @@ sr:
   label_months_from: месеци од
   label_gantt: Гантов дијаграм
   label_internal: Унутрашњи
-  label_last_changes: "последњих %{count} промена"
   label_comment: Коментар
   label_comment_plural: Коментари
   label_x_comments:

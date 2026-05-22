@@ -710,7 +710,6 @@ fr:
   label_months_from: mois depuis
   label_gantt: Gantt
   label_internal: Interne
-  label_last_changes: "%{count} derniers changements"
   label_comment: Commentaire
   label_comment_plural: Commentaires
   label_x_comments:

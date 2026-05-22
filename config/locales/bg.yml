@@ -792,7 +792,6 @@ bg:
   label_months_from: месеца от
   label_gantt: Мрежов график
   label_internal: Вътрешен
-  label_last_changes: "последни %{count} промени"
   label_comment: Коментар
   label_comment_plural: Коментари
   label_x_comments:

@@ -584,7 +584,6 @@ en-GB:
   label_months_from: months from
   label_gantt: Gantt
   label_internal: Internal
-  label_last_changes: "last %{count} changes"
   label_comment: Comment
   label_comment_plural: Comments
   label_x_comments:

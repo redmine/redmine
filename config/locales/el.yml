@@ -524,7 +524,6 @@ el:
   label_months_from: μηνών από
   label_gantt: Gantt
   label_internal: Εσωτερικό
-  label_last_changes: "Τελευταίες %{count} αλλαγές"
   label_comment: Σχόλιο
   label_comment_plural: Σχόλια
   label_x_comments:

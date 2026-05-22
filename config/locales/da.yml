@@ -456,7 +456,6 @@ da:
   label_months_from: måneder frem
   label_gantt: Gantt
   label_internal: Intern
-  label_last_changes: "sidste %{count} ændringer"
   label_comment: Kommentar
   label_comment_plural: Kommentarer
   label_x_comments:

@@ -564,7 +564,6 @@ ca:
   label_months_from: "mesos des de"
   label_gantt: "Gantt"
   label_internal: "Intern"
-  label_last_changes: "últims %{count} canvis"
   label_comment: "Comentari"
   label_comment_plural: "Comentaris"
   label_x_comments:

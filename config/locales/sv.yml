@@ -673,7 +673,6 @@ sv:
   label_months_from: månader från
   label_gantt: Gantt
   label_internal: Intern
-  label_last_changes: "senaste %{count} ändringar"
   label_comment: Kommentar
   label_comment_plural: Kommentarer
   label_x_comments:

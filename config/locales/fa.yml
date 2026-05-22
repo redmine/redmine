@@ -778,7 +778,6 @@ fa:
   label_months_from: ماه از
   label_gantt: گانت
   label_internal: درونی
-  label_last_changes: "%{count} تغییر آخر"
   label_comment: نظر
   label_comment_plural: نظرات
   label_x_comments:

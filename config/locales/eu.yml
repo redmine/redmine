@@ -547,7 +547,6 @@ eu:
   label_months_from: hilabete noiztik
   label_gantt: Gantt
   label_internal: Barnekoa
-  label_last_changes: "azken %{count} aldaketak"
   label_comment: Iruzkin
   label_comment_plural: Iruzkinak
   label_x_comments:

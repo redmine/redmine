@@ -606,7 +606,6 @@ de:
   label_item_position: "%{position}/%{count}"
   label_jump_to_a_project: Zu einem Projekt springen...
   label_language_based: Sprachabhängig
-  label_last_changes: "%{count} letzte Änderungen"
   label_last_month: voriger Monat
   label_last_n_days: "die letzten %{count} Tage"
   label_last_n_weeks: letzte %{count} Wochen

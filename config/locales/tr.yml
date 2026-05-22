@@ -460,7 +460,6 @@ tr:
   label_months_from: ay öncesinden itibaren
   label_gantt: İş-Zaman Çizelgesi
   label_internal: Dahili
-  label_last_changes: "Son %{count} değişiklik"
   label_comment: Yorum
   label_comment_plural: Yorumlar
   label_x_comments:

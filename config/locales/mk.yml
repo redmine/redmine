@@ -560,7 +560,6 @@ mk:
   label_months_from: месеци од
   label_gantt: Gantt
   label_internal: Internal
-  label_last_changes: "последни %{count} промени"
   label_comment: Коментар
   label_comment_plural: Коментари
   label_x_comments:

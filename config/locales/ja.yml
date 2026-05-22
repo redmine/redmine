@@ -607,7 +607,6 @@ ja:
   label_months_from: ヶ月分
   label_gantt: ガントチャート
   label_internal: 内部
-  label_last_changes: "最新の変更 %{count}件"
   label_comment: コメント
   label_comment_plural: コメント
   label_x_comments:

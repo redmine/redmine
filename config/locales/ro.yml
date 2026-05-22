@@ -508,7 +508,6 @@ ro:
   label_months_from: luni de la
   label_gantt: Gantt
   label_internal: Intern
-  label_last_changes: "ultimele %{count} schimbări"
   label_comment: Comentariu
   label_comment_plural: Comentarii
   label_x_comments:

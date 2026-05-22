@@ -537,7 +537,6 @@ hr:
   label_months_from: Mjeseci od
   label_gantt: Gantt
   label_internal: Interno
-  label_last_changes: "Posljednjih %{count} promjena"
   label_comment: Komentar
   label_comment_plural: Komentari
   label_x_comments:
