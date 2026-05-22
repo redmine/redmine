@@ -654,7 +654,6 @@ ro:
   label_ldap_authentication: autentificare LDAP
   label_downloads_abbr: D/L
   label_optional_description: Descriere (opțională)
-  label_add_another_file: Adaugă alt fișier
   label_preferences: Preferințe
   label_chronological_order: în ordine cronologică
   label_reverse_chronological_order: În ordine invers cronologică

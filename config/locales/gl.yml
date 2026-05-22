@@ -335,7 +335,6 @@ gl:
   general_text_no: 'non'
   general_text_yes: 'si'
   label_activity: Actividade
-  label_add_another_file: Engadir outro ficheiro
   label_add_note: Engadir unha nota
   label_added: engadido
   label_added_time_by: "Engadido por %{author} hai %{age}"

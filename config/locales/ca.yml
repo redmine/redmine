@@ -720,7 +720,6 @@ ca:
   label_ldap_authentication: "Autenticació LDAP"
   label_downloads_abbr: "Baixades"
   label_optional_description: "Descripció opcional"
-  label_add_another_file: "Afegir un altre fitxer"
   label_preferences: "Preferències"
   label_chronological_order: "En ordre cronològic"
   label_reverse_chronological_order: "En ordre cronològic invers"

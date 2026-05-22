@@ -976,7 +976,6 @@ pl:
   label_ldaps_warning: Rekomendowane jest korzystanie z szyfrowanego połączenia LDAPS z włączonym sprawdzaniem certyfikatu, aby zapobiec manipulacjom podczas procesu uwierzytelniania.
   label_downloads_abbr: Pobieranie
   label_optional_description: Opcjonalny opis
-  label_add_another_file: Dodaj kolejny plik
   label_auto_watch_on: Automatyczne obserwowanie
   label_auto_watch_on_issue_created: Zagadnienia, które utworzyłem
   label_auto_watch_on_issue_contributed_to: Zagadnienia, w których brałem udział

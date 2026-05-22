@@ -975,7 +975,6 @@ fa:
   label_ldaps_warning: پیش‌نهاد می‌شود که از یک ارتباط رمزنگاری‌شده LDAPS با بررسی گواهی‌نامه استفاده کنید تا از هر گونه دستکاری اطلاعات در زمان احراز هویت جلوگیری کنید.
   label_downloads_abbr: دریافت
   label_optional_description: توضیح اختیاری
-  label_add_another_file: افزودن پرونده دیگر
   label_auto_watch_on: ناظر خودکار
   label_auto_watch_on_issue_created: مسئله‌هایی که من ساخته‌ام
   label_auto_watch_on_issue_contributed_to: مسئله‌هایی که در آن‌ها مشارکت داشته‌ام

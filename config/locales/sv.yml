@@ -844,7 +844,6 @@ sv:
   label_ldap_authentication: LDAP-autentisering
   label_downloads_abbr: Nedl.
   label_optional_description: Valfri beskrivning
-  label_add_another_file: Lägg till ytterligare en fil
   label_preferences: Användarinställningar
   label_chronological_order: I kronologisk ordning
   label_reverse_chronological_order: I omvänd kronologisk ordning

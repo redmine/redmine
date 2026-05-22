@@ -963,7 +963,6 @@
   label_ldap_authentication: LDAP 驗證
   label_downloads_abbr: 下載
   label_optional_description: 額外的說明
-  label_add_another_file: 增加其他檔案
   label_preferences: 偏好選項
   label_chronological_order: 以時間由遠至近排序
   label_reverse_chronological_order: 以時間由近至遠排序

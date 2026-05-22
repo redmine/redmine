@@ -709,7 +709,6 @@ ko:
   label_ldap_authentication: LDAP 인증
   label_downloads_abbr: D/L
   label_optional_description: 부가적인 설명
-  label_add_another_file: 다른 파일 추가
   label_preferences: 설정
   label_chronological_order: 시간 순으로 정렬
   label_reverse_chronological_order: 시간 역순으로 정렬

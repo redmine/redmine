@@ -732,7 +732,6 @@ cs:
   label_ldap_authentication: Autentifikace LDAP
   label_downloads_abbr: Staž.
   label_optional_description: Volitelný popis
-  label_add_another_file: Přidat další soubor
   label_preferences: Nastavení
   label_chronological_order: V chronologickém pořadí
   label_reverse_chronological_order: V obrácaném chronologickém pořadí

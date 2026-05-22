@@ -999,7 +999,6 @@ it:
   label_ldaps_warning: Si consiglia di utilizzare una connessione LDAPS crittografata con controllo del certificato per evitare qualsiasi manipolazione durante il processo di autenticazione.
   label_downloads_abbr: D/L
   label_optional_description: Descrizione opzionale
-  label_add_another_file: Aggiungi un altro file
   label_auto_watch_on: Osserva automaticamente
   label_auto_watch_on_issue_created: Segnalazioni create da me
   label_auto_watch_on_issue_contributed_to: Segnalazioni a cui ho contribuito

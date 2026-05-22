@@ -362,7 +362,6 @@ es-PA:
   general_text_no: 'no'
   general_text_yes: 'sí'
   label_activity: Actividad
-  label_add_another_file: Añadir otro archivo
   label_add_note: Añadir una nota
   label_added: añadido
   label_added_time_by: "Añadido por %{author} hace %{age}"

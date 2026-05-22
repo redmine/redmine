@@ -691,7 +691,6 @@ hr:
   label_ldap_authentication: LDAP autentikacija
   label_downloads_abbr: D/L
   label_optional_description: Opcije
-  label_add_another_file: Dodaj još jednu datoteku
   label_preferences: Preferences
   label_chronological_order: U kronološkom redoslijedu
   label_reverse_chronological_order: U obrnutom kronološkom redoslijedu

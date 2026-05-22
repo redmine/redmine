@@ -608,7 +608,6 @@ pt:
   label_ldap_authentication: Autenticação LDAP
   label_downloads_abbr: D/L
   label_optional_description: Descrição opcional
-  label_add_another_file: Adicionar outro ficheiro
   label_preferences: Preferências
   label_chronological_order: Em ordem cronológica
   label_reverse_chronological_order: Em ordem cronológica inversa

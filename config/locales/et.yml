@@ -787,7 +787,6 @@ et:
   label_ldap_authentication: "LDAP autentimine"
   label_downloads_abbr: "A/L"
   label_optional_description: "Teave"
-  label_add_another_file: "Lisa veel üks fail"
   label_preferences: "Eelistused"
   label_chronological_order: "kronoloogiline"
   label_reverse_chronological_order: "tagurpidi kronoloogiline"

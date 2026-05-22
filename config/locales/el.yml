@@ -675,7 +675,6 @@ el:
   label_ldap_authentication: Πιστοποίηση LDAP
   label_downloads_abbr: Μ/Φ
   label_optional_description: Προαιρετική περιγραφή
-  label_add_another_file: Προσθήκη άλλου αρχείου
   label_preferences: Προτιμήσεις
   label_chronological_order: Κατά χρονολογική σειρά
   label_reverse_chronological_order: Κατά αντίστροφη χρονολογική σειρά

@@ -651,7 +651,6 @@ vi:
   label_ldap_authentication: Chứng thực LDAP
   label_downloads_abbr: Số lượng Download
   label_optional_description: Mô tả bổ sung
-  label_add_another_file: Thêm tập tin khác
   label_preferences: Cấu hình
   label_chronological_order: Bài cũ xếp trước
   label_reverse_chronological_order: Bài mới xếp trước

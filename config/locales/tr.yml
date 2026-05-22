@@ -602,7 +602,6 @@ tr:
   label_ldap_authentication: LDAP Denetimi
   label_downloads_abbr: D/L
   label_optional_description: İsteğe bağlı açıklama
-  label_add_another_file: Bir dosya daha ekle
   label_preferences: Tercihler
   label_chronological_order: Tarih sırasına göre
   label_reverse_chronological_order: Ters tarih sırasına göre

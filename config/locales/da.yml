@@ -697,7 +697,6 @@ da:
   enumeration_doc_categories: Dokumentkategorier
   enumeration_activities: Aktiviteter (tidsstyring)
 
-  label_add_another_file: Tilføj endnu en fil
   label_chronological_order: I kronologisk rækkefølge
   setting_activity_days_default: Antal dage der vises under projektaktivitet
   text_destroy_time_entries_question: "%{hours} timer er registreret på denne sag som du er ved at slette. Hvad vil du gøre?"

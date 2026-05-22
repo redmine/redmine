@@ -303,7 +303,6 @@ nl:
   general_text_no: 'nee'
   general_text_yes: 'ja'
   label_activity: Activiteit
-  label_add_another_file: Ander bestand toevoegen
   label_add_note: Notitie toevoegen
   label_added: toegevoegd
   label_added_time_by: "Toegevoegd door %{author} %{age} geleden"

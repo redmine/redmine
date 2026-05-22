@@ -694,7 +694,6 @@ uk:
   label_last_week: попередній тиждень
   label_yesterday: вчора
   label_last_month: попередній місяць
-  label_add_another_file: Додати ще один файл
   label_optional_description: Опис (не обов'язково)
   text_destroy_time_entries_question: "На дану задачу зареєстровано %{hours} години(ин) трудовитрат. Що Ви хочете зробити?"
   error_issue_not_found_in_project: 'Задача не була знайдена або не стосується даного проекту'

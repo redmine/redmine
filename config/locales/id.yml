@@ -681,7 +681,6 @@ id:
   label_ldap_authentication: Otentikasi LDAP
   label_downloads_abbr: Unduh
   label_optional_description: Deskripsi optional
-  label_add_another_file: Tambahkan berkas lain
   label_preferences: Preferensi
   label_chronological_order: Urut sesuai kronologis
   label_reverse_chronological_order: Urut dari yang terbaru

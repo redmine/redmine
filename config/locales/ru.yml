@@ -411,7 +411,6 @@ ru:
   general_text_Yes: 'Да'
 
   label_activity: Действия
-  label_add_another_file: Добавить ещё один файл
   label_added_time_by: "Добавил(а) %{author} %{age} назад"
   label_added: добавлено
   label_add_note: Добавить замечание

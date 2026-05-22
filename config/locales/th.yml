@@ -587,7 +587,6 @@ th:
   label_ldap_authentication: การยืนยันตัวตนโดยใช้ LDAP
   label_downloads_abbr: D/L
   label_optional_description: รายละเอียดเพิ่มเติม
-  label_add_another_file: เพิ่มแฟ้มอื่นๆ
   label_preferences: ค่าที่ชอบใจ
   label_chronological_order: เรียงจากเก่าไปใหม่
   label_reverse_chronological_order: เรียงจากใหม่ไปเก่า

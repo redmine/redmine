@@ -933,7 +933,6 @@ sq:
   label_ldaps_warning: Këshillohet të përdoret një lidhje e fshehtëzuar LDAPS me kontroll dëshmish, për të penguar çfarëdo manipulimi gjatë procesit të mirëfilltësimit.
   label_downloads_abbr: D/L
   label_optional_description: Përshkrim opsional
-  label_add_another_file: Shtoni kartelë tjetër
   label_preferences: Parapëlqime
   label_chronological_order: Në rend kohor
   label_reverse_chronological_order: Në rend kohor së prapthi

@@ -586,7 +586,6 @@ sk:
   label_ldap_authentication: Autentifikácia LDAP
   label_downloads_abbr: D/L
   label_optional_description: Voliteľný popis
-  label_add_another_file: Pridať ďalší súbor
   label_preferences: Nastavenia
   label_chronological_order: V chronologickom poradí
   label_reverse_chronological_order: V obrátenom chronologickom poradí

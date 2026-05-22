@@ -716,7 +716,6 @@ mk:
   label_ldap_authentication: LDAP автентикација
   label_downloads_abbr: Превземања
   label_optional_description: Опис (незадолжително)
-  label_add_another_file: Додади уште една датотека
   label_preferences: Preferences
   label_chronological_order: Во хронолошки ред
   label_reverse_chronological_order: In reverse chronological order

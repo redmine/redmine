@@ -698,7 +698,6 @@ lv:
   label_ldap_authentication: LDAP pilnvarošana
   label_downloads_abbr: L-lād.
   label_optional_description: "Apraksts (neobligāts)"
-  label_add_another_file: Pievienot citu failu
   label_preferences: Priekšrocības
   label_chronological_order: Hronoloģiskā kārtībā
   label_reverse_chronological_order: Apgriezti hronoloģiskā kārtībā

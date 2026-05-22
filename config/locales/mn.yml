@@ -704,7 +704,6 @@ mn:
   label_ldap_authentication: LDAP нэвтрэх горим
   label_downloads_abbr: D/L
   label_optional_description: Дурын тайлбар
-  label_add_another_file: Дахин файл нэмэх
   label_preferences: Тохиргоо
   label_chronological_order: Цагаан толгойн үсгийн дарааллаар
   label_reverse_chronological_order: Урвуу цагаан толгойн үсгийн дарааллаар

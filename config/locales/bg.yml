@@ -992,7 +992,6 @@ bg:
   label_ldaps_warning: Препоръчително е да се използва криптирана LDAPS връзка със сертификат за предотвратяване на намеса по време на процеса на удостоверяване.
   label_downloads_abbr: D/L
   label_optional_description: Незадължително описание
-  label_add_another_file: Добавяне на друг файл
   label_auto_watch_on: Автоматично включване в наблюдателите
   label_auto_watch_on_issue_created: Задачи, които съм създал
   label_auto_watch_on_issue_contributed_to: Задачи, в които имам участие

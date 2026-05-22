@@ -401,7 +401,6 @@ az:
   general_text_Yes: 'Bəli'
 
   label_activity: Görülən işlər
-  label_add_another_file: Bir fayl daha əlavə etmək
   label_added_time_by: "Əlavə etdi %{author} %{age} əvvəl"
   label_added: əlavə edilib
   label_add_note: Qeydi əlavə etmək

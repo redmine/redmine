@@ -773,7 +773,6 @@ ja:
   label_ldap_authentication: LDAP認証
   label_downloads_abbr: DL
   label_optional_description: 説明 (任意)
-  label_add_another_file: 別のファイルを追加
   label_preferences: 設定
   label_chronological_order: 古い順
   label_reverse_chronological_order: 新しい順

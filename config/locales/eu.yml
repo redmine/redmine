@@ -701,7 +701,6 @@ eu:
   label_ldap_authentication: LDAP autentikazioa
   label_downloads_abbr: Desk.
   label_optional_description: Aukerako deskribapena
-  label_add_another_file: Beste fitxategia gehitu
   label_preferences: Hobespenak
   label_chronological_order: Orden kronologikoan
   label_reverse_chronological_order: Alderantzizko orden kronologikoan

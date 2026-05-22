@@ -609,7 +609,6 @@
   label_ldap_authentication: LDAP azonosítás
   label_downloads_abbr: D/L
   label_optional_description: Opcionális leírás
-  label_add_another_file: Újabb fájl hozzáadása
   label_preferences: Tulajdonságok
   label_chronological_order: Időrendben
   label_reverse_chronological_order: Fordított időrendben

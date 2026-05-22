@@ -854,7 +854,6 @@ lt:
   label_ldap_authentication: LDAP autentifikacija
   label_downloads_abbr: Siunt.
   label_optional_description: Laisvai pasirenkamas apibūdinimas
-  label_add_another_file: Pridėti kitą failą
   label_preferences: Savybės
   label_chronological_order: Chronologine tvarka
   label_reverse_chronological_order: Atbuline chronologine tvarka

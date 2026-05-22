@@ -756,7 +756,6 @@ ar:
   label_ldap_authentication: مصادقة LDAP
   label_downloads_abbr: تنزيل
   label_optional_description: وصف اختياري
-  label_add_another_file: إضافة ملف آخر
   label_preferences: تفضيلات
   label_chronological_order: في ترتيب زمني
   label_reverse_chronological_order: في ترتيب زمني عكسي

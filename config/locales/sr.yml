@@ -714,7 +714,6 @@ sr:
   label_ldap_authentication: LDAP потврда идентитета
   label_downloads_abbr: D/L
   label_optional_description: Опционо опис
-  label_add_another_file: Додај још једну датотеку
   label_preferences: Подешавања
   label_chronological_order: по хронолошком редоследу
   label_reverse_chronological_order: по обрнутом хронолошком редоследу
