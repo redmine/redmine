@@ -696,7 +696,6 @@ et:
   label_wiki_page_plural: "Vikilehed"
   label_index_by_title: "Järjesta pealkirja järgi"
   label_index_by_date: "Järjesta kuupäeva järgi"
-  label_current_version: "Praegune versioon"
   label_preview: "Eelvaade"
   label_feed_plural: "Vood"
   label_changes_details: "Kõigi muudatuste üksikasjad"

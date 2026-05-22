@@ -633,7 +633,6 @@ ca:
   label_wiki_page_plural: "Pàgines wiki"
   label_index_by_title: "Índex per títol"
   label_index_by_date: "Índex per data"
-  label_current_version: "Versió actual"
   label_preview: "Previsualitzar"
   label_feed_plural: "Canals"
   label_changes_details: "Detalls de tots els canvis"

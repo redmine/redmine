@@ -397,7 +397,6 @@ gl:
   label_copied: copiado
   label_copy_workflow_from: Copiar fluxo de traballo dende
   label_current_status: Estado actual
-  label_current_version: Versión actual
   label_custom_field: Campo personalizado
   label_custom_field_new: Novo campo personalizado
   label_custom_field_plural: Campos personalizados

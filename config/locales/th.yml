@@ -506,7 +506,6 @@ th:
   label_wiki_page_plural: หน้า Wiki
   label_index_by_title: เรียงตามชื่อเรื่อง
   label_index_by_date: เรียงตามวัน
-  label_current_version: รุ่นปัจจุบัน
   label_preview: ตัวอย่างก่อนจัดเก็บ
   label_feed_plural: Feeds
   label_changes_details: รายละเอียดการเปลี่ยนแปลงทั้งหมด
