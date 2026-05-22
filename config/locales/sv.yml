@@ -1083,7 +1083,6 @@ sv:
   enumeration_system_activity: Systemaktivitet
   description_filter: Filter
   description_search: Sökfält
-  description_choose_project: Projekt
   description_project_scope: Sökomfång
   description_notes: Anteckningar
   description_message_content: Meddelandeinnehåll

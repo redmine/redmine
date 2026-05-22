@@ -1000,7 +1000,6 @@ ko:
   description_issue_category_reassign: "일감 범주를 선택하십시오."
   description_search: "검색항목"
   description_notes: "댓글"
-  description_choose_project: "프로젝트"
   description_query_sort_criteria_attribute: "정렬 속성"
   description_wiki_subpages_reassign: "새로운 상위 페이지를 선택하십시오."
   description_selected_columns: "선택된 컬럼"

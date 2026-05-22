@@ -963,7 +963,6 @@ pt:
   description_issue_category_reassign: Escolha a categoria da tarefa
   description_search: Campo de pesquisa
   description_notes: Notas
-  description_choose_project: Projeto
   description_query_sort_criteria_attribute: Ordenar atributos
   description_wiki_subpages_reassign: Escolha nova página pai
   description_selected_columns: Colunas selecionadas

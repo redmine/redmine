@@ -955,7 +955,6 @@ ar:
   enumeration_system_activity: نشاط النظام
   description_filter: فلترة
   description_search: حقل البحث
-  description_choose_project: المشاريع
   description_project_scope: مجال البحث
   description_notes: ملاحظات
   description_message_content: محتويات الرسالة

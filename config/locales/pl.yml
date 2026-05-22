@@ -1360,7 +1360,6 @@ pl:
   enumeration_system_activity: Aktywność systemowa
   description_filter: Filtr
   description_search: Pole wyszukiwania
-  description_choose_project: Projekty
   description_project_scope: Zakres wyszukiwania
   description_notes: Notatki
   description_message_content: Treść wiadomości

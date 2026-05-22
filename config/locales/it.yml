@@ -1406,7 +1406,6 @@ it:
   enumeration_system_activity: Attività di sistema
   description_filter: Filtro
   description_search: Campo di ricerca
-  description_choose_project: Progetti
   description_project_scope: Ambito della ricerca
   description_notes: Note
   description_message_content: Contenuto del messaggio

@@ -958,7 +958,6 @@ ca:
   description_issue_category_reassign: "Escollir una categoria de la incidència"
   description_search: "Camp de cerca"
   description_notes: "Notes"
-  description_choose_project: "Projectes"
   description_query_sort_criteria_attribute: "Atribut d'ordenació"
   description_wiki_subpages_reassign: "Esculli la nova pàgina pare"
   description_selected_columns: "Columnes seleccionades"

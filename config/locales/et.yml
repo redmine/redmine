@@ -999,7 +999,6 @@ et:
   enumeration_system_activity: "Süsteemi aktiivsus"
   description_filter: "Filter"
   description_search: "Otsinguväli"
-  description_choose_project: "Projektid"
   description_project_scope: "Otsingu ulatus"
   description_notes: "Märkused"
   description_message_content: "Postituse sisu"

@@ -1421,7 +1421,6 @@ bg:
   enumeration_system_activity: Системна активност
   description_filter: Филтър
   description_search: Търсене
-  description_choose_project: Проекти
   description_project_scope: Обхват на търсенето
   description_notes: Бележки
   description_message_content: Съдържание на съобщението

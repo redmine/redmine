@@ -970,7 +970,6 @@ gl:
   description_issue_category_reassign: "Escolla a categoría da petición."
   description_search: "Campo de busca"
   description_notes: "Notas"
-  description_choose_project: "Proxectos"
   description_query_sort_criteria_attribute: "Ordenar polo atributo"
   description_wiki_subpages_reassign: "Escoller unha nova páxina superior"
   description_selected_columns: "Columnas seleccionadas"

@@ -962,7 +962,6 @@ zh:
   description_issue_category_reassign: 选择问题类别
   description_search: 搜索字段
   description_notes: 批注
-  description_choose_project: 项目
   description_query_sort_criteria_attribute: 排序方式
   description_wiki_subpages_reassign: 选择父页面
   description_selected_columns: 已选列
