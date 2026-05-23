@@ -144,6 +144,10 @@ Do not forget to restart the application after any change to this file.
 
 Please do not enter your SMTP settings in environment.rb.
 
+== Known Issues
+
+* Redmine running on Ruby versions 4.0.0 through 4.0.2 has a known performance issue when rendering wiki syntax. For more details, see https://www.redmine.org/issues/43650.
+
 == References
 
 * https://www.redmine.org/projects/redmine/wiki/RedmineInstall
