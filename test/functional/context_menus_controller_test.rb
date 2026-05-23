@@ -449,6 +449,49 @@ class ContextMenusControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_projects_context_menu_admin_user
+    @request.session[:user_id] = 1
+
+    get(
+      :projects,
+      :params => {
+        :ids => [1, 2]
+      }
+    )
+
+    assert_response :success
+  end
+
+  def test_projects_context_menu_not_admin_user
+    @request.session[:user_id] = 2
+
+    get(
+      :projects,
+      :params => {
+        :ids => [1, 2]
+      }
+    )
+
+    assert_response :forbidden
+  end
+
+  def test_time_entries_context_menu_with_time_entry_that_is_not_visible_should_fail
+    project = Project.find(2)
+    project.enable_module!(:time_tracking)
+    time_entry = TimeEntry.generate!(project: project)
+
+    @request.session[:user_id] = 2
+
+    get(
+      :time_entries,
+      :params => {
+        :ids => [1, 5, time_entry.id]
+      }
+    )
+
+    assert_response :not_found
+  end
+
   def test_time_entries_context_menu_with_edit_own_time_entries_permission
     @request.session[:user_id] = 2
     Role.find_by_name('Manager').remove_permission! :edit_time_entries
@@ -580,5 +623,12 @@ class ContextMenusControllerTest < Redmine::ControllerTest
         assert_select 'a', :text => 'B Team'
       end
     end
+  end
+
+  def test_users_context_menu_without_permission
+    @request.session[:user_id] = 2
+
+    get :users, :params => {:ids => [8]}
+    assert_response :forbidden
   end
 end

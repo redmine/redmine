@@ -22,6 +22,7 @@ class ContextMenusController < ApplicationController
   helper :issues
 
   before_action :find_issues, :only => :issues
+  before_action :require_admin, :only => [:projects, :users]
 
   def issues
     if @issues.size == 1
@@ -87,7 +88,11 @@ class ContextMenusController < ApplicationController
       preload(:project => :time_entry_activities).
       preload(:user).to_a
 
-    (render_404; return) unless @time_entries.present?
+    if @time_entries.blank? || !@time_entries.all?(&:visible?)
+      render_404;
+      return
+    end
+
     if @time_entries.size == 1
       @time_entry = @time_entries.first
     end
