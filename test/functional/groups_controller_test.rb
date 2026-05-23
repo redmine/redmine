@@ -20,8 +20,11 @@
 require_relative '../test_helper'
 
 class GroupsControllerTest < Redmine::ControllerTest
+  include Redmine::I18n
+
   def setup
     @request.session[:user_id] = 1
+    set_language_if_valid User.find(1).language
   end
 
   def test_index
