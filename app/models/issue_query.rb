@@ -225,10 +225,10 @@ class IssueQuery < Query
     add_available_filter "closed_on", :type => :date_past
     add_available_filter "start_date", :type => :date
     add_available_filter "due_date", :type => :date
-    add_available_filter "estimated_hours", :type => :float
+    add_available_filter "estimated_hours", :type => :hour
 
     if User.current.allowed_to?(:view_time_entries, project, :global => true)
-      add_available_filter "spent_time", :type => :float, :label => :label_spent_time
+      add_available_filter "spent_time", :type => :hour, :label => :label_spent_time
     end
 
     add_available_filter "done_ratio", :type => :integer
@@ -531,8 +531,12 @@ class IssueQuery < Query
     "#{neg} EXISTS (#{subquery})"
   end
 
+  def sql_for_estimated_hours_field(field, operator, value)
+    sql_for_field("estimated_hours", operator, value.map(&:to_hours), Issue.table_name, "estimated_hours")
+  end
+
   def sql_for_spent_time_field(field, operator, value)
-    first, second = value.first.to_f, value.second.to_f
+    first, second = value.first.to_s.to_hours, value.second.to_s.to_hours
     sql_op =
       case operator
       when "=", ">=", "<=" then  "#{operator} #{first}"

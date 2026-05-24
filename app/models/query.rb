@@ -506,8 +506,15 @@ class Query < ApplicationRecord
             add_filter_error(field, :invalid)
           end
         when :hour
-          if values_for(field).detect {|v| v.present? && v.to_s.to_hours.nil? }
-            add_filter_error(field, :invalid)
+          case operator_for(field)
+          when "><"
+            unless values_for(field).all? {|v| v.present? && !v.to_s.to_hours.nil? }
+              add_filter_error(field, :invalid)
+            end
+          when "=", ">=", "<="
+            if values_for(field).detect {|v| v.present? && v.to_s.to_hours.nil? }
+              add_filter_error(field, :invalid)
+            end
           end
         when :date, :date_past
           case operator_for(field)

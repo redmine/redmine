@@ -272,6 +272,31 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal 2, issues.first.id
   end
 
+  def test_operator_is_on_hour
+    Issue.where(:id => 2).update_all("estimated_hours = 171.2")
+    query = IssueQuery.new(:name => '_')
+    query.add_filter('estimated_hours', '=', ['171:12'])
+    issues = find_issues_with_query(query)
+    assert_equal 1, issues.size
+    assert_equal 2, issues.first.id
+  end
+
+  def test_hour_filter_should_not_accept_non_hour_values
+    query = IssueQuery.new(:name => '_')
+    query.add_filter('estimated_hours', '=', ['invalid'])
+
+    assert query.has_filter?('estimated_hours')
+    assert !query.valid?
+  end
+
+  def test_hour_filter_should_not_accept_partially_invalid_hour_values
+    query = IssueQuery.new(:name => '_')
+    query.add_filter('estimated_hours', '><', ['1:00', ''])
+
+    assert query.has_filter?('estimated_hours')
+    assert !query.valid?
+  end
+
   def test_operator_is_on_issue_id_should_accept_comma_separated_values
     query = IssueQuery.new(:name => '_')
     query.add_filter("issue_id", '=', ['1,3'])
@@ -446,6 +471,13 @@ class QueryTest < ActiveSupport::TestCase
   def test_operator_greater_than_a_float
     query = IssueQuery.new(:project => Project.find(1), :name => '_')
     query.add_filter('estimated_hours', '>=', ['40.5'])
+    assert query.statement.include?("#{Issue.table_name}.estimated_hours >= 40.5")
+    find_issues_with_query(query)
+  end
+
+  def test_operator_greater_than_a_hour
+    query = IssueQuery.new(:project => Project.find(1), :name => '_')
+    query.add_filter('estimated_hours', '>=', ['40:30'])
     assert query.statement.include?("#{Issue.table_name}.estimated_hours >= 40.5")
     find_issues_with_query(query)
   end
@@ -3261,10 +3293,19 @@ class QueryTest < ActiveSupport::TestCase
     query.filters = {'spent_time' => {:operator => '>=', :values => ['10']}}
     assert_equal [1], query.issues.pluck(:id)
 
+    query.filters = {'spent_time' => {:operator => '>=', :values => ['10:00']}}
+    assert_equal [1], query.issues.pluck(:id)
+
     query.filters = {'spent_time' => {:operator => '<=', :values => ['10']}}
     assert_equal [13, 12, 11, 8, 7, 5, 3, 2], query.issues.pluck(:id)
 
+    query.filters = {'spent_time' => {:operator => '<=', :values => ['10:00']}}
+    assert_equal [13, 12, 11, 8, 7, 5, 3, 2], query.issues.pluck(:id)
+
     query.filters = {'spent_time' => {:operator => '><', :values => ['1', '2']}}
+    assert_equal [3], query.issues.pluck(:id)
+
+    query.filters = {'spent_time' => {:operator => '><', :values => ['1:00', '2:00']}}
     assert_equal [3], query.issues.pluck(:id)
   end
 
