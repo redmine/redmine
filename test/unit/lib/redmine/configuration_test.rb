@@ -26,6 +26,7 @@ class Redmine::ConfigurationTest < ActiveSupport::TestCase
 
   def test_empty
     assert_kind_of Hash, load_conf('empty.yml', 'test')
+    assert_equal true, @conf['sudo_mode']
   end
 
   def test_default
