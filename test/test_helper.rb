@@ -37,8 +37,6 @@ require 'net/ldap'
 require 'mocha/minitest'
 require 'fileutils'
 
-Redmine::SudoMode.disable!
-
 $redmine_tmp_attachments_directory = "#{Rails.root}/tmp/test/attachments"
 FileUtils.mkdir_p $redmine_tmp_attachments_directory
 
@@ -60,6 +58,10 @@ class ActiveSupport::TestCase
 
   self.use_transactional_tests = true
   self.use_instantiated_fixtures  = false
+
+  setup do
+    Redmine::SudoMode.stubs(:enabled?).returns(false)
+  end
 
   # Clear Settings cache after each test to prevent test interference
   teardown do
