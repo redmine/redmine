@@ -861,7 +861,7 @@ legend {color: var(--oc-gray-9);}
 hr { inline-size: 100%; block-size: 1px; background: var(--oc-gray-4); border: 0;}
 blockquote { font-style: italic; border-inline-start: 3px solid var(--oc-gray-3); padding-inline-start: 0.6em; margin-inline-start: 0;}
 blockquote blockquote { margin-inline-start: 0;}
-abbr, span.field-description[title] { border-block-end: 1px dotted var(--oc-gray-5); cursor: help; }
+abbr[title], span.field-description[title] { text-decoration: none; border-block-end: 1px dotted var(--oc-gray-5); cursor: help; }
 textarea.wiki-edit {inline-size: 99%; resize: vertical; box-sizing: border-box;}
 body.textarea-monospace textarea.wiki-edit {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 body.textarea-proportional textarea.wiki-edit {font-family: var(--fonts-main);}
