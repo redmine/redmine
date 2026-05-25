@@ -40,10 +40,6 @@ if Object.const_defined?(:Commonmarker)
       @options = { }
     end
 
-    def teardown
-      set_language_if_valid 'en'
-    end
-
     def test_should_render_alert_blocks_with_localized_labels
       set_language_if_valid 'de'
       text = <<~MD

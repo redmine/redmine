@@ -27,10 +27,6 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     User.current = nil
   end
 
-  def teardown
-    set_language_if_valid 'en'
-  end
-
   def test_date_format_default
     set_language_if_valid 'en'
     today = Date.today
