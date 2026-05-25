@@ -20,6 +20,8 @@
 require_relative 'test_helper'
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
+  parallelize(workers: 1)
+
   DOWNLOADS_PATH = File.expand_path(File.join(Rails.root, 'tmp', 'downloads'))
 
   # Allow running Capybara default server on custom IP address and/or port

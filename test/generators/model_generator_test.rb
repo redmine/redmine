@@ -21,7 +21,7 @@ require_relative '../test_helper'
 require_relative '../../lib/generators/redmine_plugin_model/redmine_plugin_model_generator'
 
 class ModelGeneratorTest < Rails::Generators::TestCase
-  TMP_DIR = Rails.root / 'tmp/test/generators'
+  TMP_DIR = Rails.root / 'tmp/test/generators/model'
 
   tests RedminePluginModelGenerator
   destination TMP_DIR

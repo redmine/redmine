@@ -14,8 +14,9 @@ Apache perl module Redmine.pm and Capybara tests, see below).
 You can run `ruby test/unit/issue_test.rb` for running a single test case and
 `ruby test/unit/issue_test.rb -n test_create` for running a single test.
 
-You can run tests in parallel by setting the PARALLEL_WORKERS environment
-variable:
+Tests run in parallel by default, using the number of processors as the worker
+count. You can change the worker count by setting the PARALLEL_WORKERS
+environment variable:
 `PARALLEL_WORKERS=8 bin/rails test`
 
 Before running tests, you need to configure both development
