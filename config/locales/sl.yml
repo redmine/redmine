@@ -612,7 +612,6 @@ sl:
   label_year: Leto
   label_month: Mesec
   label_week: Teden
-  label_date_from: Do
   label_language_based: Glede na uporabnikov jezik
   label_sort_by: "Razporedi po %{value}"
   label_send_test_email: Pošlji testno e-pismo

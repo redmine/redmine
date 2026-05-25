@@ -882,7 +882,6 @@ sq:
   label_year: Vit
   label_month: Muaj
   label_week: Javë
-  label_date_from: Nga
   label_language_based: Bazuar në gjuhën e përdoruesit
   label_sort_by: "Renditi sipas %{value}"
   label_send_test_email: Dërgo një email provë

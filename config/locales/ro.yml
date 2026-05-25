@@ -615,7 +615,6 @@ ro:
   label_year: An
   label_month: Lună
   label_week: Săptămână
-  label_date_from: De la
   label_language_based: Un funcție de limba de afișare a utilizatorului
   label_sort_by: "Sortează după %{value}"
   label_send_test_email: Trimite email de test

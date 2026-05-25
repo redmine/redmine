@@ -506,7 +506,6 @@ de:
   label_custom_field_plural: Benutzerdefinierte Felder
   label_custom_field_select_type: Bitte wählen Sie den Objekttyp, zu dem das benutzerdefinierte Feld hinzugefügt werden soll
   label_date: Datum
-  label_date_from: Von
   label_date_from_to: von %{start} bis %{end}
   label_day_plural: Tage
   label_default: Standard

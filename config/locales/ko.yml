@@ -670,7 +670,6 @@ ko:
   label_year: 년
   label_month: 월
   label_week: 주
-  label_date_from: '기간:'
   label_language_based: 언어설정에 따름
   label_sort_by: "%{value}(으)로 정렬"
   label_send_test_email: 테스트 메일 보내기

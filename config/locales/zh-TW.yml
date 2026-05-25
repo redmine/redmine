@@ -917,7 +917,6 @@
   label_year: 年
   label_month: 月
   label_week: 週
-  label_date_from: 開始
   label_language_based: 依用戶之語言決定
   label_sort_by: "按 %{value} 排序"
   label_send_test_email: 寄送測試郵件

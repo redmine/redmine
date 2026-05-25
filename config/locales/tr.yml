@@ -564,7 +564,6 @@ tr:
   label_year: Yıl
   label_month: Ay
   label_week: Hafta
-  label_date_from: Başlangıç
   label_language_based: Kullanıcı dili bazlı
   label_sort_by: "%{value} göre sırala"
   label_send_test_email: Test e-postası gönder

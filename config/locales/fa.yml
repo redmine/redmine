@@ -923,7 +923,6 @@ fa:
   label_year: سال
   label_month: ماه
   label_week: هفته
-  label_date_from: از
   label_language_based: بر اساس زبان کاربر
   label_sort_by: "مرتب‌سازی با %{value}"
   label_send_test_email: ارسال رایانامه آزمایشی

@@ -570,7 +570,6 @@ pt:
   label_year: Ano
   label_month: Mês
   label_week: Semana
-  label_date_from: De
   label_language_based: Baseado na língua do utilizador
   label_sort_by: "Ordenar por %{value}"
   label_send_test_email: Enviar um e-mail de teste

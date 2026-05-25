@@ -546,7 +546,6 @@
   label_year: År
   label_month: Måned
   label_week: Uke
-  label_date_from: Fra
   label_language_based: Basert på brukerens språk
   label_sort_by: "Sorter etter %{value}"
   label_send_test_email: Send en epost-test

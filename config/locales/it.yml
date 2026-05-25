@@ -947,7 +947,6 @@ it:
   label_year: Anno
   label_month: Mese
   label_week: Settimana
-  label_date_from: Da
   label_language_based: Basato sul linguaggio
   label_sort_by: "Ordina per %{value}"
   label_send_test_email: Invia una email di prova

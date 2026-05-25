@@ -650,7 +650,6 @@ hr:
   label_year: Godina
   label_month: Mjesec
   label_week: Tjedan
-  label_date_from: Od
   label_language_based: Zasnovano na jeziku
   label_sort_by: "Uredi po %{value}"
   label_send_test_email: Pošalji testno E-pismo

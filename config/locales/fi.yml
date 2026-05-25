@@ -700,7 +700,6 @@ fi:
   text_reassign_time_entries: 'Siirrä raportoidut tunnit tälle tapahtumalle:'
   label_chronological_order: Aikajärjestyksessä
   setting_activity_days_default: Päivien esittäminen projektien historiassa
-  label_date_from: ''
   label_in: ''
   setting_display_subprojects_issues: Näytä aliprojektien tapahtumat pääprojektissa oletusarvoisesti
   field_comments_sorting: Näytä kommentit

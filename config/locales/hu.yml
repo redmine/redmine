@@ -571,7 +571,6 @@
   label_year: Év
   label_month: Hónap
   label_week: Hét
-  label_date_from: 'Kezdet:'
   label_language_based: A felhasználó nyelve alapján
   label_sort_by: "%{value} szerint rendezve"
   label_send_test_email: Teszt e-mail küldése

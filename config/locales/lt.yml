@@ -810,7 +810,6 @@ lt:
   label_year: Metai
   label_month: Mėnuo
   label_week: Savaitė
-  label_date_from: Nuo
   label_language_based: Pagrįsta vartotojo kalba
   label_sort_by: "Rūšiuoti pagal %{value}"
   label_send_test_email: Nusiųsti bandomąjį laišką

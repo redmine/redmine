@@ -743,7 +743,6 @@ et:
   label_year: "Aasta"
   label_month: "Kuu"
   label_week: "Nädal"
-  label_date_from: "Alates"
   label_language_based: "Kasutaja keele põhjal"
   label_sort_by: "Sorteeri %{value} järgi"
   label_send_test_email: "Saada kontrollkiri"

@@ -843,7 +843,6 @@ fr:
   label_year: Année
   label_month: Mois
   label_week: Semaine
-  label_date_from: Du
   label_language_based: Basé sur la langue de l'utilisateur
   label_sort_by: "Trier par %{value}"
   label_send_test_email: Envoyer un email de test
