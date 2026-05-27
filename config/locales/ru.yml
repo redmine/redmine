@@ -450,15 +450,11 @@ ru:
   label_chronological_order: В хронологическом порядке
   label_closed_issues: закрыто
   label_closed_issues_plural: закрыто
-  label_closed_issues_plural2: закрыто
-  label_closed_issues_plural5: закрыто
   label_comment: комментарий
   label_comment_add: Оставить комментарий
   label_comment_added: Добавленный комментарий
   label_comment_delete: Удалить комментарии
   label_comment_plural: Комментарии
-  label_comment_plural2: комментария
-  label_comment_plural5: комментариев
   label_commits_per_author: Изменений на пользователя
   label_commits_per_month: Изменений в месяц
   label_confirmation: Подтверждение
@@ -587,8 +583,6 @@ ru:
   label_not_equals: не соответствует
   label_open_issues: открыто
   label_open_issues_plural: открыто
-  label_open_issues_plural2: открыто
-  label_open_issues_plural5: открыто
   label_optional_description: Описание (необязательно)
   label_options: Опции
   label_overview: Обзор
@@ -607,8 +601,6 @@ ru:
   label_project_latest: Последние проекты
   label_project_new: Новый проект
   label_project_plural: Проекты
-  label_project_plural2: проекта
-  label_project_plural5: проектов
   label_query: Сохранённый запрос
   label_query_new: Новый запрос
   label_query_plural: Сохранённые запросы

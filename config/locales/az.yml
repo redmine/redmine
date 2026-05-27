@@ -440,15 +440,11 @@ az:
   label_chronological_order: Xronoloji ardıcıllıq ilə
   label_closed_issues: Bağlıdır
   label_closed_issues_plural: bağlıdır
-  label_closed_issues_plural2: bağlıdır
-  label_closed_issues_plural5: bağlıdır
   label_comment: şərhlər
   label_comment_add: Şərhləri qeyd etmək
   label_comment_added: Əlavə olunmuş şərhlər
   label_comment_delete: Şərhi silmək
   label_comment_plural: Şərhlər
-  label_comment_plural2: Şərhlər
-  label_comment_plural5: şərhlərin
   label_commits_per_author: İstifadəçi üzərində dəyişikliklər
   label_commits_per_month: Ay üzərində dəyişikliklər
   label_confirmation: Təsdiq 
@@ -577,8 +573,6 @@ az:
   label_not_equals: sayılmır
   label_open_issues: açıqdır
   label_open_issues_plural: açıqdır
-  label_open_issues_plural2: açıqdır
-  label_open_issues_plural5: açıqdır
   label_optional_description: Təsvir (vacib deyil)
   label_options: Opsiyalar
   label_overview: Baxış
@@ -597,8 +591,6 @@ az:
   label_project_latest: Son layihələr
   label_project_new: Yeni layihə
   label_project_plural: Layihələr
-  label_project_plural2: layihəni
-  label_project_plural5: layihələri
   label_query: Yadda saxlanılmış sorğu
   label_query_new: Yeni sorğu
   label_query_plural: Yadda saxlanılmış sorğular
