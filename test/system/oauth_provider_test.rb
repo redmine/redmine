@@ -81,12 +81,12 @@ class OauthProviderSystemTest < ApplicationSystemTestCase
 
       click_button 'Authorize'
 
-      assert grant = app.access_grants.last
-      assert_equal 'view_issues view_project', grant.scopes.to_s
-
-      # check for output defined above in the request handler
+      # wait for redirect to complete before checking the database
       find 'p', visible: true, text: /Authorization succeeded/
       assert token.present?
+
+      assert grant = app.access_grants.last
+      assert_equal 'view_issues view_project', grant.scopes.to_s
 
       visit '/my/account'
       click_link 'Authorized applications'
