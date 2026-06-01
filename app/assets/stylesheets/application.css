@@ -1068,7 +1068,23 @@ div#roadmap header:target {background-color: var(--oc-blue-0);}
 div#roadmap h3 svg {margin-inline-end: 4px;}
 body.controller-versions.action-show div#roadmap .related-issues {inline-size: 70%;}
 
-div#roadmap .version-article {padding-block-end: 12px;}
+div#roadmap article.version-article {
+  padding-block-start: 16px;
+}
+div#roadmap article.version-article .version-overview > p:first-child {
+  margin-block-start: 0;
+}
+div#roadmap article.version-article .version-overview > p:last-child {
+  margin-block-end: 6px;
+}
+div#roadmap article.version-article .version-overview,
+div#roadmap article.version-article .wiki {
+  padding-inline-start: 1.5rem;
+}
+div#roadmap article.version-article form {
+  display: block;
+  padding-inline-start: 1.5rem;
+}
 
 div#version-summary { float: inline-end; inline-size: 28%; margin-inline-start: 16px; margin-block-end: 16px; background-color: var(--oc-white); }
 div#version-summary fieldset { margin-block-end: 1em; }
