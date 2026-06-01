@@ -2465,6 +2465,24 @@ div.news .reaction {
   font-size: 0.9em;
   margin-inline-start: 10px;
 }
+#news-list article.news-article {
+  padding-block-start: 10px;
+}
+#news-list article.news-article header p.author,
+#news-list article.news-article .wiki {
+  margin-inline-start: 2rem;
+}
+#news-list article.news-article header h3 {
+  margin-block-end: 2px;
+}
+#news-list article.news-article header p.author {
+  margin-block-start: 2px;
+  margin-block-end: 2px;
+  color: var(--oc-gray-6);
+}
+#news-list article.news-article .wiki > p:first-child {
+  margin-block-start: 2px;
+}
 
 /* Custom JQuery styles */
 .ui-autocomplete, .ui-menu {
