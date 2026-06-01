@@ -1,5 +1,5 @@
 <div class="document-item document-<%= document.id %>">
-  <h4 class="title"><%= link_to document.title, document_path(document) %></h4>
+  <h4 class="title"><%= sprite_icon 'document' %><%= link_to document.title, document_path(document) %></h4>
   <div class="updated_on"><em><%= format_time(document.updated_on) %></em></div>
 
   <div class="wiki description">

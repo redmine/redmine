@@ -1712,6 +1712,45 @@ img.ui-datepicker-trigger {
 #document-list .document-group {
   margin-block-end: 15px;
 }
+#document-list .document-group h3 {
+  padding: 5px;
+  background-color: var(--oc-gray-1);
+  margin: 0;
+}
+#document-list .document-group h3 + .document-item {
+  padding-block-start: 8px;
+}
+#document-list .document-item {
+  padding-block-start: 24px;
+}
+#document-list .document-item svg.icon-svg {
+  margin-inline-end: 4px;
+}
+#document-list .document-item h4.title {
+  font-size: 1rem;
+  font-weight: normal;
+  margin: 0;
+  border-block-end: none;
+}
+#document-list .document-item .updated_on {
+  color: var(--oc-gray-6);
+  font-size: 0.8125rem;
+  padding-inline-start: 1.5rem;
+}
+#document-list .document-item .updated_on em {
+  font-style: normal;
+}
+#document-list .document-item .wiki.description {
+  margin-block-start: 2px;
+  padding-inline-start: 1.5rem;
+  font-size: 0.8125rem;
+}
+#document-list .document-item .wiki.description > p:first-child {
+  margin-block-start: 0;
+}
+#document-list .document-item .wiki.description > p:last-child {
+  margin-block-end: 0;
+}
 
 /***** Progress bar *****/
 table.progress {

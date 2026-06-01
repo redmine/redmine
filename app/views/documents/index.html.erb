@@ -21,7 +21,7 @@
 
 <% @grouped.keys.sort.__send__(@sort_by == 'date' ? :reverse_each : :each) do |group| %>
   <div class="document-group document-group-<%= @sort_by %>">
-    <h3 class="group-name"><%= group %></h3>
+    <h3 class="group-name"><%= @sort_by == 'date' ? format_activity_day(group) : group %></h3>
     <%= render :partial => 'documents/document', :collection => @grouped[group] %>
   </div>
 <% end %>

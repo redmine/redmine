@@ -59,18 +59,20 @@ class DocumentsControllerTest < Redmine::ControllerTest
   end
 
   def test_index_grouped_by_date
-    get(
-      :index,
-      :params => {
-        :project_id => 'ecookbook',
-        :sort_by => 'date'
-      }
-    )
-    assert_response :success
-    assert_select '#content' do
-      # descending order of date.
-      ['2007-03-05', '2007-02-12'].each_with_index do |text, idx|
-        assert_select ".document-group:nth-of-type(#{idx + 1}) h3.group-name", :text => text
+    with_locale 'en' do
+      get(
+        :index,
+        :params => {
+          :project_id => 'ecookbook',
+          :sort_by => 'date'
+        }
+      )
+      assert_response :success
+      assert_select '#content' do
+        # descending order of date.
+        ['03/05/2007', '02/12/2007'].each_with_index do |text, idx|
+          assert_select ".document-group:nth-of-type(#{idx + 1}) h3.group-name", :text => text
+        end
       end
     end
   end
