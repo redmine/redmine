@@ -45,7 +45,7 @@ class AvatarsHelperTest < Redmine::HelperTest
   def test_avatar_with_group
     avatar_tag = avatar(Group.first)
 
-    assert_match %r{src="/assets/group(-\w+)?.png"}, avatar_tag
+    assert_match %r{src="/assets/group(-\w+)?.svg"}, avatar_tag
     assert_match 'class="group-avatar avatar"', avatar_tag
   end
 
