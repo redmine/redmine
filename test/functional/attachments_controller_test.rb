@@ -241,6 +241,21 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_select 'img.filecontent', :src => attachments(:attachments_010).filename
   end
 
+  def test_show_svg_file_as_image
+    set_tmp_attachments_directory
+    attachment = Attachment.create!(
+      :container => Issue.find(1),
+      :file => uploaded_test_file('testfile.svg', 'image/svg+xml'),
+      :author => User.find(1)
+    )
+
+    get(:show, :params => {:id => attachment.id})
+
+    assert_response :success
+    assert_equal 'text/html', @response.media_type
+    assert_select 'img.filecontent', :src => attachment.filename
+  end
+
   def test_show_pdf
     @request.session[:user_id] = 2
     get(:show, :params => {:id => 23})
