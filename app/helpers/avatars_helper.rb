@@ -68,7 +68,7 @@ module AvatarsHelper
 
   def group_avatar(options={})
     options[:class] = ['group-avatar', options[:class]].compact.join(' ')
-    image_tag 'group.png', GravatarHelper::DEFAULT_OPTIONS.except(:default, :rating, :ssl).merge(options)
+    image_tag 'group.svg', GravatarHelper::DEFAULT_OPTIONS.except(:default, :rating, :ssl).merge(options)
   end
 
   private
