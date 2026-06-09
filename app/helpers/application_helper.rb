@@ -1433,9 +1433,10 @@ module ApplicationHelper
     return {} if Setting.text_formatting.blank?
 
     {
-      controller: 'list-autofill table-paste',
-      action: 'beforeinput->list-autofill#handleBeforeInput paste->table-paste#handlePaste',
+      controller: 'list-autofill selection-indent table-paste',
+      action: 'beforeinput->list-autofill#handleBeforeInput keydown.tab->selection-indent#run keydown.shift+tab->selection-indent#run paste->table-paste#handlePaste',
       list_autofill_text_formatting_param: Setting.text_formatting,
+      selection_indent_text_formatting_param: Setting.text_formatting,
       table_paste_text_formatting_param: Setting.text_formatting
     }
   end
