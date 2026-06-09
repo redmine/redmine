@@ -56,4 +56,23 @@ class Redmine::ApiTest::CustomFieldsTest < Redmine::ApiTest::Base
       assert_select "value:contains(?) + label:contains(?)", bar.id.to_s, 'Bar'
     end
   end
+
+  test "GET /custom_fields.xml should include date offset default value mode" do
+    field =
+      IssueCustomField.generate!(
+        :field_format => 'date',
+        :default_value_mode => 'date_offset',
+        :default_value => '-3'
+      )
+
+    get '/custom_fields.xml', :headers => credentials('admin')
+    assert_response :success
+
+    assert_select 'custom_field' do |elements|
+      element = elements.detect {|e| e.at('id')&.text == field.id.to_s}
+      assert_not_nil element
+      assert_equal 'date_offset', element.at('default_value_mode').text
+      assert_equal '-3', element.at('default_value').text
+    end
+  end
 end

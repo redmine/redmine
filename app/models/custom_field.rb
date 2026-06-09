@@ -89,6 +89,7 @@ class CustomField < ApplicationRecord
     'position',
     'searchable',
     'default_value',
+    'default_value_mode',
     'editable',
     'visible',
     'multiple',
@@ -129,6 +130,16 @@ class CustomField < ApplicationRecord
     @format ||= Redmine::FieldFormat.find(field_format)
   end
 
+  def default_value
+    if field_format == 'date' && default_value_mode == 'date_offset' && self[:default_value].present?
+      (User.current.today + Integer(self[:default_value], 10)).to_s
+    else
+      self[:default_value]
+    end
+  rescue ArgumentError
+    self[:default_value]
+  end
+
   def field_format=(arg)
     # cannot change format of a saved custom field
     if new_record?
@@ -158,11 +169,22 @@ class CustomField < ApplicationRecord
       end
     end
 
-    if default_value.present? && errors[:regexp].blank?
-      validate_field_value(default_value).each do |message|
+    if field_format == 'date' && default_value_mode == 'date_offset'
+      validate_date_default_value_offset
+    elsif self[:default_value].present? && errors[:regexp].blank?
+      validate_field_value(self[:default_value]).each do |message|
         errors.add :default_value, message
       end
     end
+  end
+
+  def validate_date_default_value_offset
+    value = self[:default_value].to_s.strip
+    return if value.blank?
+
+    Integer(value, 10)
+  rescue ArgumentError
+    errors.add :default_value, :not_a_number
   end
 
   def possible_custom_value_options(custom_value)

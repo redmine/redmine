@@ -326,6 +326,7 @@ ja:
   field_time_zone: タイムゾーン
   field_searchable: 検索対象
   field_default_value: デフォルト値
+  field_default_value_mode: デフォルト値の指定方法
   field_comments_sorting: コメントの表示順
   field_parent_title: 親ページ
   field_editable: 編集可能
@@ -596,6 +597,8 @@ ja:
   label_new_statuses_allowed: 遷移できるステータス
   label_all: すべて
   label_none: なし
+  label_absolute: 絶対値
+  label_relative: 相対値
   label_nobody: 無記名
   label_next: 次
   label_previous: 前

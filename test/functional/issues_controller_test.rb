@@ -3802,18 +3802,41 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
   def test_get_new_with_date_custom_field
-    field = IssueCustomField.create!(:name => 'Date', :field_format => 'date',
-                                     :tracker_ids => [1], :is_for_all => true)
-    @request.session[:user_id] = 2
-    get(
-      :new,
-      :params => {
-        :project_id => 1,
-        :tracker_id => 1
-      }
-    )
-    assert_response :success
-    assert_select 'input[name=?]', "issue[custom_field_values][#{field.id}]"
+    travel_to Time.zone.parse('2026-05-24T23:00:00Z') do
+      # 2026-05-24 23:00 UTC is 2026-05-25 08:00 in Tokyo
+      User.find(2).pref.update!(:time_zone => 'Tokyo')
+      fixed_date_field =
+        IssueCustomField.create!(
+          :name => 'Fixed date default value',
+          :field_format => 'date',
+          :default_value_mode => 'fixed_date',
+          :default_value => '2026-03-21',
+          :tracker_ids => [1],
+          :is_for_all => true
+        )
+      date_offset_field =
+        IssueCustomField.create!(
+          :name => 'Date offset default value',
+          :field_format => 'date',
+          :default_value_mode => 'date_offset',
+          :default_value => '5',
+          :tracker_ids => [1],
+          :is_for_all => true
+        )
+      @request.session[:user_id] = 2
+      get(
+        :new,
+        :params => {
+          :project_id => 1,
+          :tracker_id => 1
+        }
+      )
+      assert_response :success
+      assert_select 'input[name=?][value=?]', "issue[custom_field_values][#{fixed_date_field.id}]", '2026-03-21'
+      assert_select 'input[name=?][value=?]',
+                    "issue[custom_field_values][#{date_offset_field.id}]",
+                    '2026-05-30' # 5 days after in user's time zone
+    end
   end
 
   def test_get_new_with_text_custom_field

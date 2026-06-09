@@ -555,6 +555,7 @@ module Redmine
     class DateFormat < Unbounded
       add 'date'
       self.form_partial = 'custom_fields/formats/date'
+      field_attributes :default_value_mode
 
       def cast_single_value(custom_field, value, customized=nil)
         value.to_date rescue nil
@@ -581,6 +582,14 @@ module Redmine
 
       def query_filter_options(custom_field, query)
         {:type => :date}
+      end
+
+      def before_custom_field_save(custom_field)
+        super
+
+        custom_field.default_value_mode =
+          custom_field.default_value_mode == 'date_offset' ? 'date_offset' : 'fixed_date'
+        custom_field.default_value = custom_field[:default_value].to_s.strip if custom_field.default_value_mode == 'date_offset'
       end
 
       def group_statement(custom_field)

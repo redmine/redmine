@@ -372,6 +372,7 @@ en:
   field_time_zone: Time zone
   field_searchable: Searchable
   field_default_value: Default value
+  field_default_value_mode: Default value mode
   field_comments_sorting: Display comments
   field_parent_title: Parent page
   field_editable: Editable
@@ -784,6 +785,8 @@ en:
   label_all: all
   label_any: any
   label_none: none
+  label_absolute: Absolute
+  label_relative: Relative
   label_nobody: nobody
   label_next: Next
   label_previous: Previous

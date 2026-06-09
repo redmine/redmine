@@ -13,7 +13,8 @@ api.array :custom_fields do
       api.is_filter         field.is_filter?
       api.searchable        field.searchable
       api.multiple          field.multiple?
-      api.default_value     field.default_value
+      api.default_value     field[:default_value]
+      api.default_value_mode(field.default_value_mode.presence || 'fixed_date') if field.field_format == 'date'
       api.visible           field.visible?
       api.editable          field.editable?
 

@@ -1,3 +1,35 @@
-<p><%= f.date_field(:default_value, :value => @custom_field.default_value, :size => 10) %></p>
-<%= calendar_for('custom_field_default_value') %>
+<% default_value_mode = @custom_field.default_value_mode.presence || 'fixed_date' %>
+<% fixed_date_default_value = default_value_mode == 'fixed_date' ? @custom_field[:default_value] : nil %>
+<% date_offset_default_value = default_value_mode == 'date_offset' ? @custom_field[:default_value] : nil %>
+<div data-controller="custom-field-default-value">
+  <p>
+    <%= f.select(:default_value_mode,
+                 [
+                   [l(:label_absolute), 'fixed_date'],
+                   [l(:label_relative), 'date_offset']
+                 ],
+                 {:selected => default_value_mode},
+                 :data => {
+                   :custom_field_default_value_target => 'mode',
+                   :action => 'custom-field-default-value#update'
+                 }) %>
+  </p>
+  <p class="indent" data-custom-field-default-value-target="fixedDate" <%= 'hidden' if default_value_mode != 'fixed_date' %>>
+    <%= f.date_field(:default_value,
+                     :value => fixed_date_default_value,
+                     :size => 10,
+                     :disabled => default_value_mode != 'fixed_date',
+                     :data => {:custom_field_default_value_target => 'fixedDateInput'}) %>
+    <%= calendar_for('custom_field_default_value') %>
+  </p>
+  <p class="indent" data-custom-field-default-value-target="dateOffset" <%= 'hidden' if default_value_mode != 'date_offset' %>>
+    <%= f.text_field(:default_value,
+                     :id => 'custom_field_default_value_offset',
+                     :value => date_offset_default_value,
+                     :size => 6,
+                     :disabled => default_value_mode != 'date_offset',
+                     :data => {:custom_field_default_value_target => 'dateOffsetInput'}) %>
+    <%= l(:label_days_relative_to_today) %>
+  </p>
+</div>
 <p><%= f.text_field :url_pattern, :size => 50, :label => :label_link_values_to %></p>

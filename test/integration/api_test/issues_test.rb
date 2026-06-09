@@ -681,6 +681,59 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     assert_equal "", issue.custom_field_value(field)
   end
 
+  test "POST /issues.json with omitted date custom field should set date offset default" do
+    User.current = User.find_by_login('jsmith')
+    field =
+      IssueCustomField.generate!(
+        :field_format => 'date',
+        :default_value_mode => 'date_offset',
+        :default_value => '5',
+        :trackers => Tracker.all,
+        :is_for_all => true
+      )
+    issue = new_record(Issue) do
+      post(
+        '/issues.json',
+        :params => {
+          :issue => {
+            :project_id => 1,
+            :tracker_id => 1,
+            :subject => 'API date default',
+            :custom_field_values => {}
+          }
+        },
+        :headers => credentials('jsmith'))
+    end
+
+    assert_equal (User.current.today + 5).to_s, issue.custom_field_value(field)
+  end
+
+  test "POST /issues.json with date custom field set to blank should not set date offset default" do
+    field =
+      IssueCustomField.generate!(
+        :field_format => 'date',
+        :default_value_mode => 'date_offset',
+        :default_value => '5',
+        :trackers => Tracker.all,
+        :is_for_all => true
+      )
+    issue = new_record(Issue) do
+      post(
+        '/issues.json',
+        :params => {
+          :issue => {
+            :project_id => 1,
+            :tracker_id => 1,
+            :subject => 'API blank date default',
+            :custom_field_values => {field.id.to_s => ''}
+          }
+        },
+        :headers => credentials('jsmith'))
+    end
+
+    assert_equal "", issue.custom_field_value(field)
+  end
+
   test "POST /issues.json with failure should return errors" do
     assert_no_difference('Issue.count') do
       post(
