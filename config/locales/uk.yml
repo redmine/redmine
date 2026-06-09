@@ -1547,3 +1547,6 @@ uk:
   button_add_to_group: Add to group
   setting_default_issue_due_date_offset: Default due date for new issues
   field_private_by_default: Private by default
+  field_default_value_mode: Default value mode
+  label_absolute: Absolute
+  label_relative: Relative
