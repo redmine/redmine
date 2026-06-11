@@ -820,6 +820,43 @@ class Redmine::WikiFormatting::TextileFormatterTest < Redmine::HelperTest
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), to_html(text).gsub(%r{[\r\n\t]}, '')
   end
 
+  def test_restore_redmine_links_should_not_break_out_of_attribute_values
+    # An auto-linked URL whose text mimics the version:"..." wiki-link syntax.
+    # restore_redmine_links must not un-escape the &quot; entities that
+    # auto_link! placed inside the href attribute, otherwise they close the
+    # attribute and inject event handlers (stored XSS).
+    payload = %{https://example.com/?a:"onmouseover=alert(document.domain)//"}
+    html = to_html(payload)
+
+    assert_includes html, '&quot;', 'quotes inside the href must stay escaped'
+    assert_empty(
+      Nokogiri::HTML.fragment(html).css('[onmouseover]'),
+      "restore_redmine_links injected an attribute into the rendered HTML: #{html}"
+    )
+  end
+
+  def test_restore_redmine_links_should_not_bridge_across_tags
+    # Two auto-linked URLs: the first link's text carries an escaped quote that
+    # must not be paired with a quote inside the second link's href attribute,
+    # which would otherwise un-escape the attribute quote and inject markup.
+    payload = %{https://a.com/?p:"X https://b.com/?q:"onmouseover=alert(document.domain)//"}
+    html = to_html(payload)
+
+    assert_empty(
+      Nokogiri::HTML.fragment(html).css('[onmouseover]'),
+      "restore_redmine_links bridged across a tag boundary: #{html}"
+    )
+  end
+
+  def test_restore_redmine_links_restores_quoted_links_in_text
+    # The legitimate behaviour restore_redmine_links exists for: un-escape the
+    # quotes around values like version:"1.0" so the link parser can match them.
+    assert_includes to_html(%{version:"1.0"}), %{version:"1.0"}
+
+    # make sure handling of legitimate <> in version names etc stays the same
+    assert_includes to_html(%{version:"foo <bar>"}), %{version:"foo &lt;bar&gt;"}
+  end
+
   private
 
   def assert_html_output(to_test, expect_paragraph = true)
