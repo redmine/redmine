@@ -36,6 +36,9 @@ api.array :custom_fields do
             api.tracker :id => tracker.id, :name => tracker.name
           end
         end
+      end
+
+      if %w(IssueCustomField TimeEntryCustomField ProjectCustomField VersionCustomField).include?(field.class.name)
         api.array :roles do
           field.roles.each do |role|
             api.role :id => role.id, :name => role.name

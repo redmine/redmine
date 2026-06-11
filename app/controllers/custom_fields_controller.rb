@@ -34,7 +34,7 @@ class CustomFieldsController < ApplicationController
           IssueCustomField.where(is_for_all: false).joins(:projects).group(:custom_field_id).count
       end
       format.api do
-        @custom_fields = CustomField.all
+        @custom_fields = CustomField.includes(:roles).all
       end
     end
   end

@@ -57,6 +57,41 @@ class Redmine::ApiTest::CustomFieldsTest < Redmine::ApiTest::Base
     end
   end
 
+  test "GET /custom_fields.xml should include roles for custom fields visible by role" do
+    custom_fields = [
+      IssueCustomField.generate!(:visible => false, :role_ids => [1, 2]),
+      TimeEntryCustomField.generate!(:visible => false, :role_ids => [1, 2]),
+      ProjectCustomField.generate!(:visible => false, :role_ids => [1, 2]),
+      VersionCustomField.generate!(:visible => false, :role_ids => [1, 2])
+    ]
+
+    get '/custom_fields.xml', :headers => credentials('admin')
+    assert_response :success
+
+    xml = Hash.from_xml(response.body)
+    fields = xml['custom_fields']
+    custom_fields.each do |custom_field|
+      field = fields.detect {|f| f['id'] == custom_field.id.to_s}
+      assert_kind_of Hash, field
+      assert_kind_of Array, field['roles']
+      roles = field['roles'].sort_by {|role| role['id'].to_i}
+      assert_equal({'id' => '1', 'name' => 'Manager'}, roles[0])
+      assert_equal({'id' => '2', 'name' => 'Developer'}, roles[1])
+    end
+  end
+
+  test "GET /custom_fields.json should not include roles for custom fields that do not support role visibility" do
+    custom_field = UserCustomField.generate!(:visible => false, :role_ids => [1, 2])
+
+    get '/custom_fields.json', :headers => credentials('admin')
+    assert_response :success
+
+    json = ActiveSupport::JSON.decode(response.body)
+    field = json['custom_fields'].detect {|f| f['id'] == custom_field.id}
+    assert_kind_of Hash, field
+    assert_not field.has_key?('roles')
+  end
+
   test "GET /custom_fields.xml should include date offset default value mode" do
     field =
       IssueCustomField.generate!(
