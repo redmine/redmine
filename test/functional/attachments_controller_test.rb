@@ -707,6 +707,38 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_response :forbidden
   end
 
+  def test_download_all_should_require_attachment_visibility
+    set_tmp_attachments_directory
+    Role.non_member.remove_permission! :view_files
+
+    a = Attachment.new(
+      :container => Project.find(1),
+      :file => uploaded_test_file("testfile.txt", "text/plain"),
+      :author => User.find(1)
+    )
+    assert a.save
+
+    @request.session[:user_id] = 7
+    User.current = User.find(7)
+
+    get(
+      :download,
+      :params => {
+        :id => a.id
+      }
+    )
+    assert_response :forbidden
+
+    get(
+      :download_all,
+      :params => {
+        :object_type => 'projects',
+        :object_id => '1'
+      }
+    )
+    assert_response :forbidden
+  end
+
   def test_download_all_with_maximum_bulk_download_size_larger_than_attachments
     with_settings :bulk_download_max_size => 0 do
       @request.session[:user_id] = 2

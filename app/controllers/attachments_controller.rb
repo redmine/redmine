@@ -238,6 +238,11 @@ class AttachmentsController < ApplicationController
   end
 
   def find_downloadable_attachments
+    unless @container.attachments_visible?
+      deny_access
+      return
+    end
+
     @attachments = @container.attachments.select(&:readable?)
     bulk_download_max_size = Setting.bulk_download_max_size.to_i.kilobytes
     if @attachments.sum(&:filesize) > bulk_download_max_size
