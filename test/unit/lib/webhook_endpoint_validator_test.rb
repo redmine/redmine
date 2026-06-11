@@ -61,7 +61,7 @@ class WebhookEndpointValidatorTest < ActiveSupport::TestCase
   end
 
   test "should validate IPs" do
-    refute_empty WebhookEndpointValidator.ips_for_uri("https://example.com")
+    assert_not_empty WebhookEndpointValidator.ips_for_uri("https://example.com")
 
     %w[
       127.0.0.1

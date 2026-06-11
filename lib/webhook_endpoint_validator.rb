@@ -100,6 +100,7 @@ class WebhookEndpointValidator < ActiveModel::EachValidator
     ips = []
     Addrinfo.foreach(host, nil, nil, :STREAM) do |addrinfo|
       return false unless addrinfo.ip?
+
       ipaddr = IPAddr.new(addrinfo.ip_address).native
       return nil if ipaddr.to_i.zero? # 0.0.0.0 and ::
       return nil if ipaddr.link_local? || ipaddr.loopback?

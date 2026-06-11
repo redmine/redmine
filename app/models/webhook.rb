@@ -46,7 +46,11 @@ class Webhook < ApplicationRecord
           )
         rescue
           # We could not create a HTTP(S) connection to the IP.
-          http&.finish rescue nil
+          begin
+            http&.finish
+          rescue
+            nil
+          end
 
           # Since we have not sent any actual request data, we continue with the
           # next IP (if any).
@@ -61,7 +65,11 @@ class Webhook < ApplicationRecord
         # timeout, or non-successful HTTP response code
         return http.request(request).tap(&:value)
       ensure
-        http&.finish rescue nil
+        begin
+          http&.finish
+        rescue
+          nil
+        end
       end
 
       raise SocketError, "Could not connect to any IP"
