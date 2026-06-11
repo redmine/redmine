@@ -1107,6 +1107,26 @@ class MailHandlerTest < ActiveSupport::TestCase
     end
   end
 
+  def test_reply_to_a_non_visible_issue
+    role = Role.find_by_name('Developer')
+    role.remove_permission! :view_issues
+
+    issue = Issue.find(4)
+    user = User.find_by_login('jsmith')
+
+    assert_not issue.visible?(user)
+
+    assert_no_difference 'Issue.count' do
+      assert_no_difference 'Journal.count' do
+        journal = submit_email('ticket_reply.eml') do |email|
+          email.sub! %r{^From:.*$}, "From: <#{user.mail}>"
+          email.sub! %r{^In-Reply-To:.*$}, "In-Reply-To: <redmine.issue-#{issue.id}.20060719210421@osiris>"
+        end
+        assert_not journal
+      end
+    end
+  end
+
   def test_reply_to_a_nonexitent_journal
     journal_id = Issue.find(2).journals.last.id
     Journal.destroy(journal_id)
