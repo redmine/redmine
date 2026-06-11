@@ -238,7 +238,7 @@ class AttachmentsController < ApplicationController
   end
 
   def find_downloadable_attachments
-    unless @container.attachments_visible?
+    if @container.respond_to?(:attachments_visible?) && !@container.attachments_visible?
       deny_access
       return
     end
