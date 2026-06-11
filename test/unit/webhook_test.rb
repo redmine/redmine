@@ -19,6 +19,7 @@
 
 require_relative '../test_helper'
 require 'pp'
+require 'webrick'
 
 class WebhookTest < ActiveSupport::TestCase
   include ActiveJob::TestHelper
@@ -240,9 +241,135 @@ class WebhookTest < ActiveSupport::TestCase
     assert_equal "sha256=757107ea0eb2509fc211221cce984b8a37570b6d7586c22c46f4379c8b043e17", e.compute_signature
   end
 
+  test "executor posts the payload and returns the response on success" do
+    with_webhook_server do |port, received|
+      executor = Webhook::Executor.new("http://127.0.0.1:#{port}/hook", '{"a":1}', nil)
+      executor.stubs(:valid_ips).returns(['127.0.0.1'])
+
+      response = executor.call
+
+      assert_kind_of Net::HTTPResponse, response
+      assert_equal '200', response.code
+      assert_equal 'POST', received[:method]
+      assert_equal '/hook', received[:path]
+      assert_equal '{"a":1}', received[:body]
+      assert_equal ['application/json'], received[:headers]['content-type']
+      assert_equal ['Redmine'], received[:headers]['user-agent']
+      assert_empty received[:headers]['x-redmine-signature-256']
+    end
+  end
+
+  test "executor sends the signature header when a secret is present" do
+    with_webhook_server do |port, received|
+      executor = Webhook::Executor.new("http://127.0.0.1:#{port}/hook", 'payload', 'topsecret')
+      executor.stubs(:valid_ips).returns(['127.0.0.1'])
+
+      executor.call
+
+      assert_equal [executor.compute_signature], received[:headers]['x-redmine-signature-256']
+    end
+  end
+
+  test "executor passes URL credentials as Basic Auth" do
+    with_webhook_server do |port, received|
+      executor = Webhook::Executor.new("http://user:pass@127.0.0.1:#{port}/hook", 'payload', 'topsecret')
+      executor.stubs(:valid_ips).returns(['127.0.0.1'])
+
+      executor.call
+
+      assert_equal ["Basic #{["user:pass"].pack("m0")}"], received[:headers]['authorization']
+    end
+  end
+
+  test "executor tries the next IP when a connection fails" do
+    with_webhook_server do |port, received|
+      executor = Webhook::Executor.new("http://127.0.0.1:#{port}/hook", 'payload', nil)
+      # nothing listens on 127.0.0.2:<port>, so the first connection is refused
+      executor.stubs(:valid_ips).returns(['127.0.0.2', '127.0.0.1'])
+
+      response = executor.call
+
+      assert_equal '200', response.code
+      assert_equal 'POST', received[:method]
+    end
+  end
+
+  test "executor raises a SocketError when no IP can be connected to" do
+    with_webhook_server do |port, received|
+      executor = Webhook::Executor.new("http://127.0.0.1:#{port}/hook", 'payload', nil)
+      executor.stubs(:valid_ips).returns(['127.0.0.2'])
+
+      error = assert_raises(SocketError) { executor.call }
+      assert_equal 'Could not connect to any IP', error.message
+      assert_nil received[:method], "server should not have received a request"
+    end
+  end
+
+  test "executor raises a SocketError when there are no valid IPs" do
+    executor = Webhook::Executor.new('http://127.0.0.1/hook', 'payload', nil)
+    executor.stubs(:valid_ips).returns([])
+
+    error = assert_raises(SocketError) { executor.call }
+    assert_equal 'Could not connect to any IP', error.message
+  end
+
+  test "executor raises on a non-success response without trying other IPs" do
+    with_webhook_server(status: 500) do |port, received|
+      executor = Webhook::Executor.new("http://127.0.0.1:#{port}/hook", 'payload', nil)
+      executor.stubs(:valid_ips).returns(['127.0.0.1', '127.0.0.2'])
+
+      assert_raises(Net::HTTPFatalError) { executor.call }
+      assert_equal 'POST', received[:method]
+    end
+  end
+
+  test "call returns true on a successful delivery" do
+    with_webhook_server do |port, received|
+      hook = Webhook.new url: "http://127.0.0.1:#{port}/hook"
+      Webhook::Executor.any_instance.stubs(:valid_ips).returns(['127.0.0.1'])
+
+      assert_equal true, hook.call('{"x":1}')
+      assert_equal '{"x":1}', received[:body]
+    end
+  end
+
+  test "call returns false on a failed delivery" do
+    hook = Webhook.new url: 'http://127.0.0.1/hook'
+    Webhook::Executor.any_instance.stubs(:valid_ips).returns([])
+
+    assert_equal false, hook.call('{"x":1}')
+  end
+
   private
 
   def create_hook(url: 'https://example.com/some/hook', user: User.find_by_login('dlopper'), projects: [Project.find('ecookbook')], events: ['issue.created'], active: true)
     Webhook.create!(url: url, user: user, projects: projects, events: events, active: active)
+  end
+
+  # Starts a real HTTP server on 127.0.0.1 on an ephemeral port, recording the
+  # request it receives into the yielded +received+ hash and answering with the
+  # given +status+. The server is shut down when the block returns.
+  def with_webhook_server(status: 200, body: 'OK')
+    received = {}
+    server = WEBrick::HTTPServer.new(
+      BindAddress: '127.0.0.1',
+      Port: 0,
+      Logger: WEBrick::Log.new(File::NULL),
+      AccessLog: []
+    )
+    server.mount_proc '/' do |req, res|
+      received[:method] = req.request_method
+      received[:path] = req.path
+      received[:body] = req.body
+      received[:headers] = req.header
+      res.status = status
+      res.body = body
+    end
+    port = server.listeners.first.addr[1]
+    thread = Thread.new { server.start }
+    yield port, received
+  ensure
+    server&.shutdown
+    thread&.join
   end
 end

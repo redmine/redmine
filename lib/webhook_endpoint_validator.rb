@@ -28,6 +28,16 @@ class WebhookEndpointValidator < ActiveModel::EachValidator
     end
   end
 
+  def self.ips_for_uri(value)
+    uri = value.is_a?(URI) ? value : URI.parse(value)
+    return [] if uri.nil?
+
+    valid_ips(uri.hostname) || []
+  rescue
+    Rails.logger.warn { "Could not find IPs for URI #{uri}" }
+    []
+  end
+
   def self.safe_webhook_uri?(value)
     uri = value.is_a?(URI) ? value : URI.parse(value)
     return false if uri.nil?
@@ -80,20 +90,26 @@ class WebhookEndpointValidator < ActiveModel::EachValidator
   end
 
   def self.valid_host?(host)
-    return false if host.blank?
+    !valid_ips(host).nil?
+  end
 
-    return false if blocked_hosts[:host]&.match?(host)
+  def self.valid_ips(host)
+    return nil if host.blank?
+    return nil if blocked_hosts[:host]&.match?(host)
 
+    ips = []
     Addrinfo.foreach(host, nil, nil, :STREAM) do |addrinfo|
       return false unless addrinfo.ip?
       ipaddr = IPAddr.new(addrinfo.ip_address).native
-      return false if ipaddr.to_i.zero? # 0.0.0.0 and ::
-      return false if ipaddr.link_local? || ipaddr.loopback?
-      return false if IPAddr.new('224.0.0.0/24').include?(ipaddr) # multicast
-      return false if blocked_hosts[:ips].any? { |net| net.include?(ipaddr) }
+      return nil if ipaddr.to_i.zero? # 0.0.0.0 and ::
+      return nil if ipaddr.link_local? || ipaddr.loopback?
+      return nil if IPAddr.new('224.0.0.0/24').include?(ipaddr) # multicast
+      return nil if blocked_hosts[:ips].any? { |net| net.include?(ipaddr) }
+
+      ips << addrinfo.ip_address
     end
 
-    true
+    ips
   end
 
   # A general port blacklist.  Connections to these ports will not be allowed

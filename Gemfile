@@ -41,9 +41,6 @@ gem 'rqrcode'
 # HTML sanitization
 gem "sanitize", "~> 7.0"
 
-# Triggering of Webhooks
-gem "rest-client", "~> 2.1"
-
 # Optional gem for LDAP authentication
 group :ldap do
   gem 'net-ldap', '~> 0.20.0'
@@ -124,6 +121,7 @@ group :test do
   gem 'bundle-audit', require: false
   # for testing oauth provider capabilities
   gem 'oauth2'
+  gem 'webrick'
 end
 
 local_gemfile = File.join(File.dirname(__FILE__), "Gemfile.local")

@@ -17,31 +17,60 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-require 'rest-client'
-
 class Webhook < ApplicationRecord
   Executor = Struct.new(:url, :payload, :secret) do
-    # @return [RestClient::Response] if the POST request was successful
-    # @raise [RestClient::Exception, Exception] a `RestClient::Exception` if an
-    #   unexpected (i.e. non-successful) response status was set; it may contain
-    #   the server response. For connection errors, we may raise any other
-    #   exception.
+    # @return [Net::HTTP::Response] if the POST request was successful
+    # @raise [Exception] one of a lot of possible exceptions if the webhook was
+    #   not successfully send, e.g. if we could not find valid IPs or could not
+    #   connect to any of them or if an unexpected (i.e. non-successful)
+    #   response status was set; it may contain the server response.
     def call
-      # DNS and therefore destination IPs might have changed since the record was saved, so check the URL, again.
-      raise URI::BadURIError unless WebhookEndpointValidator.safe_webhook_uri?(url)
-
-      headers = { accept: '*/*', content_type: :json, user_agent: 'Redmine' }
+      headers = { accept: '*/*', 'content-type': 'application/json', 'user-agent': 'Redmine' }
       if secret.present?
         headers['X-Redmine-Signature-256'] = compute_signature
       end
       Rails.logger.debug { "Webhook: POST #{url}" }
-      RestClient::Request.execute(
-        method: :post,
-        url: url,
-        payload: payload,
-        headers: headers,
-        max_redirects: 0
-      )
+
+      url = URI.parse(self.url)
+      valid_ips.each do |ip|
+        begin
+          Rails.logger.debug { "Trying #{ip}" }
+          http = ::Net::HTTP.start(
+            url.host,
+            url.port,
+            open_timeout: 60,
+            read_timeout: 60,
+            write_timeout: 60,
+            use_ssl: (url.scheme == 'https'),
+            ipaddr: ip
+          )
+        rescue
+          # We could not create a HTTP(S) connection to the IP.
+          http&.finish rescue nil
+
+          # Since we have not sent any actual request data, we continue with the
+          # next IP (if any).
+          next
+        end
+
+        request = ::Net::HTTP::Post.new(url, headers)
+        request.basic_auth url.user, url.password if url.user
+        request.body = payload
+
+        # Return the response or raise if there was any transport error,
+        # timeout, or non-successful HTTP response code
+        return http.request(request).tap(&:value)
+      ensure
+        http&.finish rescue nil
+      end
+
+      raise SocketError, "Could not connect to any IP"
+    end
+
+    # Returns a list of IP addresses for the hostname of the URI, or an empty
+    # array if no IPs were found or any of them were invalid
+    def valid_ips
+      WebhookEndpointValidator.ips_for_uri(url)
     end
 
     # Computes the HMAC signature for the given payload and secret.
