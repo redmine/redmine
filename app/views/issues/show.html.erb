@@ -166,7 +166,7 @@ end %>
 
   <% if User.current.allowed_to?(:add_issue_watchers, @project) ||
     (@issue.watchers.present? && User.current.allowed_to?(:view_issue_watchers, @project)) %>
-    <div id="watchers">
+    <div id="watchers" data-watchable-id="<%= @issue.id %>">
       <%= render :partial => 'watchers/watchers', :locals => {:watched => @issue} %>
     </div>
   <% end %>
