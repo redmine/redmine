@@ -102,17 +102,19 @@ module Redmine
 
     # Check PDF magic bytes to make sure the file looks like a PDF, not
     # PostScript.
-    #
-    # This method treats the file as PostScript instead of PDF and returns
-    # false if PostScript magic bytes appear before the PDF magic bytes.
-    # This behavior is based on the detection logic used by Ghostscript in
-    # the redefined `run` operator in pdf_main.ps.
     def self.valid_pdf_magic?(filename)
-      head_data = File.binread(filename, 1024)
-      pdf_magic_pos = head_data.index('%PDF-')
-      ps_magic_pos = head_data.index('%!PS')
+      begin
+        magic = File.binread(filename, 8)
+        if magic.start_with?("%PDF-".b) || magic == "\xEF\xBB\xBF%PDF-".b
+          return true
+        end
 
-      !pdf_magic_pos.nil? && (ps_magic_pos.nil? || pdf_magic_pos < ps_magic_pos)
+        logger.error "Source file does not appear be an actual PDF file!"
+      rescue => e
+        logger.error "Could not validate magic file header - #{e.class.name}: #{e.message}"
+      end
+
+      false
     end
 
     def self.logger
