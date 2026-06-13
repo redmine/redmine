@@ -166,6 +166,10 @@ class Journal < ApplicationRecord
     journalized.visible?(*)
   end
 
+  def attachments_visible?
+    journalized&.attachments_visible?
+  end
+
   # Returns a string of css classes
   def css_classes
     s = +'journal'
