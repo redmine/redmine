@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../application_system_test_case'
+require 'net/http'
 require 'oauth2'
 require 'rack'
 require 'puma'
@@ -94,19 +95,23 @@ class OauthProviderSystemTest < ApplicationSystemTestCase
       click_link 'Sign out'
 
       # Now, use the token for some API requests
-      assert_raise(RestClient::Unauthorized) do
-        RestClient.get "http://localhost:#{test_port}/projects/onlinestore/issues.json"
-      end
+      uri = URI("http://localhost:#{test_port}/projects/onlinestore/issues.json")
+      response = Net::HTTP.get_response(uri)
+      assert_equal "401", response.code
 
-      headers = { 'Authorization' => "Bearer #{token.token}" }
-      r = RestClient.get "http://localhost:#{test_port}/projects/onlinestore/issues.json", headers
-      issues = JSON.parse(r.body)['issues']
+      req = Net::HTTP::Get.new(uri)
+      req['Authorization'] = "Bearer #{token.token}"
+      response = Net::HTTP.start(uri.hostname, uri.port) {|http| http.request(req) }
+      assert_equal "200", response.code
+      issues = JSON.parse(response.body)['issues']
       assert issues.any?
 
       # time entries access is not part of the granted scopes
-      assert_raise(RestClient::Forbidden) do
-        RestClient.get "http://localhost:#{test_port}/projects/onlinestore/time_entries.json", headers
-      end
+      uri = URI("http://localhost:#{test_port}/projects/onlinestore/time_entries.json")
+      req = Net::HTTP::Get.new(uri)
+      req['Authorization'] = "Bearer #{token.token}"
+      response = Net::HTTP.start(uri.hostname, uri.port) {|http| http.request(req) }
+      assert_equal "403", response.code
     end
 
     def test_oauth_authorize_with_rest_api_disabled_should_render_403
