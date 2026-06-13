@@ -18,6 +18,8 @@ a.new { color: #b73535; }
 table.sample { border-collapse: collapse; border-spacing: 0; margin: 4px; margin-left: 30px;}
 table.sample th, table.sample td { border: solid 1px #bbb; padding: 4px; height: 1em; }
 
+blockquote { font-style: italic; border-inline-start: 3px solid var(--oc-gray-3); padding-inline-start: 0.6em; margin-inline-start: 0;}
+
 .syntaxhl .c1 { color: #888888 }
 .syntaxhl .k { color: #008800; font-weight: bold }
 .syntaxhl .nc { color: #BB0066; font-weight: bold }
