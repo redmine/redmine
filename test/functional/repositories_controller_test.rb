@@ -471,6 +471,19 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
     assert_include 'related-issue-2', response.body
   end
 
+  def test_stats
+    get(
+      :stats,
+      :params => {
+        :id => 1,
+        :repository_id => ''
+      }
+    )
+    assert_response :success
+    assert_equal 2, response.parsed_body.css('[data-controller="repositories--stats"]').size
+    assert_equal 2, response.parsed_body.css('[data-repositories--stats-url-value]').size
+  end
+
   def test_graph_commits_per_month
     # Make sure there's some data to display
     latest = Project.find(1).repository.changesets.maximum(:commit_date)
