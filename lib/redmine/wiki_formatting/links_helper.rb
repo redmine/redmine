@@ -84,8 +84,12 @@ module Redmine
           "[[#{$2}]]"
         end
         # restore Redmine links with double-quotes, eg. version:"1.0"
-        html.gsub!(/(\w):&quot;(.+?)&quot;/) do
-          "#{$1}:\"#{$2}\""
+        # Match whole HTML tags first and leave them untouched, and forbid the
+        # quoted value from spanning a tag boundary. Otherwise un-escaping the
+        # quotes could break out of an attribute value (eg. an auto-linked
+        # href) and inject markup
+        html.gsub!(/<[^>]*>|(\w):&quot;([^<>]+?)&quot;/) do |match|
+          match.start_with?("<") ? match : "#{$1}:\"#{$2}\""
         end
         # restore user links with @ in login name eg. [@jsmith@somenet.foo]
         html.gsub!(%r{[@\A]<a(\sclass="email")? href="mailto:(.*?)">(.*?)</a>}) do
