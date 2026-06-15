@@ -168,5 +168,4 @@ class Redmine::ApiTest::MyTest < Redmine::ApiTest::Base
     assert_response :no_content
     assert_equal 'Renamed', User.find(2).firstname
   end
-
 end
