@@ -25,6 +25,8 @@ class MyController < ApplicationController
 
   accept_api_auth :account
 
+  before_action :deny_account_modification_via_oauth, only: :account
+
   require_sudo_mode :account, only: :put
   require_sudo_mode :reset_atom_key, :reset_api_key, :show_api_key, :destroy
 
@@ -197,5 +199,15 @@ class MyController < ApplicationController
     @user.pref.order_blocks params[:group], params[:blocks]
     @user.pref.save
     head :ok
+  end
+
+  private
+
+  # Account writes are gated only by login, not by any permission, so an OAuth
+  # token's scope cannot restrict them. Allowing them would let a narrowly
+  # scoped token take over the account (e.g. change the email, then request a
+  # password reset), so account changes are denied for OAuth clients.
+  def deny_account_modification_via_oauth
+    render_403 if request.put? && User.current.authorized_by_oauth?
   end
 end

@@ -135,4 +135,38 @@ class Redmine::ApiTest::MyTest < Redmine::ApiTest::Base
     assert_equal 'jsmith', json['user']['login']
     assert_equal key, json['user']['api_key']
   end
+
+  test "PUT /my/account.json authenticated via OAuth should be forbidden" do
+    application = Doorkeeper::Application.create!(
+      :name => 'Test App',
+      :redirect_uri => 'http://localhost/callback',
+      :scopes => 'view_issues'
+    )
+    token = Doorkeeper::AccessToken.create!(
+      :application_id => application.id,
+      :resource_owner_id => 2,
+      :scopes => 'view_issues',
+      :expires_in => 7200
+    )
+    original_mail = User.find(2).mail
+
+    put '/my/account.json',
+        :params => {:user => {:mail => 'attacker@evil.example', :terms => '1'}},
+        :headers => {'Authorization' => "Bearer #{token.plaintext_token}"}
+
+    assert_response :forbidden
+    assert_equal original_mail, User.find(2).mail
+  end
+
+  test "PUT /my/account.json authenticated via API key should still update the account" do
+    key = User.find(2).api_key
+
+    put '/my/account.json',
+        :params => {:user => {:firstname => 'Renamed', :terms => '1'}},
+        :headers => {'X-Redmine-API-Key' => key}
+
+    assert_response :no_content
+    assert_equal 'Renamed', User.find(2).firstname
+  end
+
 end
