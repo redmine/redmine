@@ -65,6 +65,14 @@ class WatchersControllerTest < Redmine::ControllerTest
     assert Issue.find(3).watched_by?(User.find(3))
   end
 
+  def test_watch_issue_xhr_should_target_watched_issue_sidebar_watchers_section
+    @request.session[:user_id] = 2
+    post :watch, :params => {:object_type => 'issue', :object_id => '1'}, :xhr => true
+    assert_response :success
+    assert_include "$('#watchers[data-watchable-id=\"1\"]')", response.body
+    assert_not_include "$('#watchers').html(", response.body
+  end
+
   def test_watch_a_news_module_should_add_watcher
     @request.session[:user_id] = 7
     assert_not_nil m = Project.find(1).enabled_module('news')
