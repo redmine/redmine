@@ -4,6 +4,70 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2026-06-15 v6.1.3
+
+=== [Code cleanup/refactoring]
+
+* Defect #43985: Flaky IssuesSystemTest caused by `!page.has_css?`
+* Defect #44010: Too much INFO log of asset paths when starting Rails
+* Defect #44072: OauthProviderSystemTest#test_application_creation_and_authorization fails randomly
+* Patch #44073: TimeEntryTest#test_should_not_accept_closed_issue fails randomly depending on locale
+
+=== [Documentation]
+
+* Defect #43906: Wiki help does not display localized content for locales with a region subtag
+* Defect #43920: German and Tamil CommonMark wiki help pages lack the Alerts section
+* Patch #43447: Update INSTALL document to mention additional_environment.rb
+* Patch #43896: Remove obsolete db:migrate:upgrade_plugin_migrations step from doc/UPGRADING
+* Patch #43897: Use `bin/rails` instead of `rake` in documentation
+* Patch #43929: German translation for Alerts section on CommonMark wiki help page
+* Patch #43930: Add blockquote formatting in CommonMark wiki help pages
+
+=== [Issues]
+
+* Defect #44042: Watchers section in the sidebar is incorrectly updated when watching a subtasks or related issue via context menu
+
+=== [Projects]
+
+* Defect #43910: Projects with the identifiers "autocomplete" or "bulk_destroy" cannot perform some operations
+
+=== [REST API]
+
+* Defect #43698: ArgumentError occurs on /oauth/authorize when REST API is disabled
+
+=== [Rails support]
+
+* Patch #43909: Update Rails to 7.2.3.1
+
+=== [SCM]
+
+* Defect #43964: `IconsHelper#scm_change_icon` ignores passed options
+* Patch #43966: Tighten SVN repository URL validation
+
+=== [Security]
+
+* Patch #43986: Improve the `config.filter_parameters` setting
+* Defect #43951: Bulk attachment download bypasses View files permission for project/version attachments
+* Defect #44109: PreAuth leak name of private Projects
+* Defect #44118: Any project member with add_issue_notes permission can add notes to private issues they cannot view, via the MailHandler reply dispatch
+* Defect #44138: Stored XSS in Textile formatter due to restore_redmine_links
+* Defect #44145: PostScript execution in Redmine::Thumbnail.generate via %% DSC-comment prefix
+* Defect #44146: Time-entry API hidden custom-field leak
+* Defect #44174: OAuth scope enforcement bypass in user account
+
+=== [Translations]
+
+* Defect #43921: Tamil CommonMark help page incorrectly translates CSS property names
+* Patch #43922: Japanese translation update for `recent_pages` macro help on `project` and `include_subprojects` options
+* Patch #44005: Fix French translation of label_auto_watch_on_issue_created
+
+=== [UI]
+
+* Defect #43984: Current page background in pagination overflows its border
+* Defect #44069: Remove redundant underline from abbr elements
+* Defect #44127: Replace legacy group avatar icon with SVG
+* Defect #44170: Toggling between board and list in projects query do not work properly
+
 == 2026-03-16 v6.1.2
 
 === [Calendar]
