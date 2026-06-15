@@ -4,6 +4,21 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2026-06-15 v5.1.13
+
+=== [Documentation]
+
+* Patch #43930: Add blockquote formatting in CommonMark wiki help pages
+
+=== [Security]
+
+* Defect #43951: Bulk attachment download bypasses View files permission for project/version attachments
+* Defect #44109: PreAuth leak name of private Projects
+* Defect #44118: Any project member with add_issue_notes permission can add notes to private issues they cannot view, via the MailHandler reply dispatch
+* Defect #44138: Stored XSS in Textile formatter due to restore_redmine_links
+* Defect #44145: PostScript execution in Redmine::Thumbnail.generate via %% DSC-comment prefix
+* Defect #44146: Time-entry API hidden custom-field leak
+
 == 2026-03-16 v5.1.12
 
 === [Security]
