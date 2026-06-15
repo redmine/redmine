@@ -100,4 +100,39 @@ class Redmine::ApiTest::MyTest < Redmine::ApiTest::Base
     assert json.has_key?('errors')
     assert_kind_of Array, json['errors']
   end
+
+  test "GET /my/account.json authenticated via OAuth should not disclose the api_key" do
+    application = Doorkeeper::Application.create!(
+      :name => 'Test App',
+      :redirect_uri => 'http://localhost/callback',
+      :scopes => 'view_issues'
+    )
+    token = Doorkeeper::AccessToken.create!(
+      :application_id => application.id,
+      :resource_owner_id => 2,
+      :scopes => 'view_issues',
+      :expires_in => 7200
+    )
+
+    get '/my/account.json', :headers => {'Authorization' => "Bearer #{token.plaintext_token}"}
+
+    assert_response :success
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_equal 'jsmith', json['user']['login']
+    assert_not(
+      json['user'].key?('api_key'),
+      "OAuth-authenticated request must not disclose the permanent api_key"
+    )
+  end
+
+  test "GET /my/account.json authenticated via API key should disclose the api_key" do
+    key = User.find(2).api_key
+
+    get '/my/account.json', :headers => {'X-Redmine-API-Key' => key}
+
+    assert_response :success
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_equal 'jsmith', json['user']['login']
+    assert_equal key, json['user']['api_key']
+  end
 end
