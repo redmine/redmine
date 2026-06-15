@@ -4,6 +4,49 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2026-06-15 v6.0.10
+
+=== [Code cleanup/refactoring]
+
+* Defect #43985: Flaky IssuesSystemTest caused by `!page.has_css?`
+* Defect #44010: Too much INFO log of asset paths when starting Rails
+
+=== [Documentation]
+
+* Defect #43906: Wiki help does not display localized content for locales with a region subtag
+* Patch #43896: Remove obsolete db:migrate:upgrade_plugin_migrations step from doc/UPGRADING
+* Patch #43930: Add blockquote formatting in CommonMark wiki help pages
+
+=== [Projects]
+
+* Defect #43910: Projects with the identifiers "autocomplete" or "bulk_destroy" cannot perform some operations
+
+=== [Rails support]
+
+* Patch #43909: Update Rails to 7.2.3.1
+
+=== [SCM]
+
+* Patch #43966: Tighten SVN repository URL validation
+
+=== [Security]
+
+* Patch #43986: Improve the `config.filter_parameters` setting
+* Defect #43951: Bulk attachment download bypasses View files permission for project/version attachments
+* Defect #44109: PreAuth leak name of private Projects
+* Defect #44118: Any project member with add_issue_notes permission can add notes to private issues they cannot view, via the MailHandler reply dispatch
+* Defect #44138: Stored XSS in Textile formatter due to restore_redmine_links
+* Defect #44145: PostScript execution in Redmine::Thumbnail.generate via %% DSC-comment prefix
+* Defect #44146: Time-entry API hidden custom-field leak
+
+=== [Translations]
+
+* Patch #44005: Fix French translation of label_auto_watch_on_issue_created
+
+=== [UI]
+
+* Defect #44170: Toggling between board and list in projects query do not work properly
+
 == 2026-03-16 v6.0.9
 
 === [Code cleanup/refactoring]
