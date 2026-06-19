@@ -36,7 +36,7 @@ module Redmine
           class_attribute :positioned_options
           self.positioned_options = {:scope => Array(options[:scope])}
 
-          send :include, Redmine::Acts::Positioned::InstanceMethods
+          include Redmine::Acts::Positioned::InstanceMethods
 
           before_save :set_default_position
           after_save :update_position

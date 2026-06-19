@@ -31,7 +31,7 @@ module Redmine
 
           attr_accessor :mentioned_users
 
-          send :include, Redmine::Acts::Mentionable::InstanceMethods
+          include Redmine::Acts::Mentionable::InstanceMethods
 
           after_save :parse_mentions
         end
