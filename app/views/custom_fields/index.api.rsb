@@ -10,6 +10,7 @@ api.array :custom_fields do
       api.min_length        field.min_length
       api.max_length        field.max_length
       api.is_required       field.is_required?
+      api.is_for_all        field.is_for_all?
       api.is_filter         field.is_filter?
       api.searchable        field.searchable
       api.multiple          field.multiple?
@@ -31,6 +32,12 @@ api.array :custom_fields do
       end
 
       if field.is_a?(IssueCustomField)
+        api.array :projects do
+          field.projects.each do |project|
+            api.project :id => project.id, :name => project.name
+          end
+        end
+
         api.array :trackers do
           field.trackers.each do |tracker|
             api.tracker :id => tracker.id, :name => tracker.name

@@ -31,10 +31,12 @@ class Redmine::ApiTest::CustomFieldsTest < Redmine::ApiTest::Base
         assert_select 'description', :text => 'Select one of the databases'
         assert_select 'id', :text => '2'
         assert_select 'customized_type', :text => 'issue'
+        assert_select 'is_for_all', :text => 'true'
         assert_select 'possible_values[type=array]' do
           assert_select 'possible_value>value', :text => 'PostgreSQL'
           assert_select 'possible_value>label', :text => 'PostgreSQL'
         end
+        assert_select 'projects[type=array]'
         assert_select 'trackers[type=array]'
         assert_select 'roles[type=array]'
         assert_select 'visible', :text => 'true'
@@ -55,6 +57,39 @@ class Redmine::ApiTest::CustomFieldsTest < Redmine::ApiTest::Base
       assert_select "value:contains(?) + label:contains(?)", foo.id.to_s, 'Foo'
       assert_select "value:contains(?) + label:contains(?)", bar.id.to_s, 'Bar'
     end
+  end
+
+  test "GET /custom_fields.xml should include projects for issue custom fields limited to projects" do
+    get '/custom_fields.xml', :headers => credentials('admin')
+    assert_response :success
+
+    xml = Hash.from_xml(response.body)
+    field = xml['custom_fields'].detect {|f| f['id'] == '9'}
+    assert_kind_of Hash, field
+    assert_equal 'false', field['is_for_all']
+    assert_kind_of Array, field['projects']
+    assert_equal [{'id' => '1', 'name' => 'eCookbook'}], field['projects']
+  end
+
+  test "GET /custom_fields.xml should include empty projects for issue custom fields for all projects" do
+    get '/custom_fields.xml', :headers => credentials('admin')
+    assert_response :success
+
+    xml = Hash.from_xml(response.body)
+    field = xml['custom_fields'].detect {|f| f['id'] == '1'}
+    assert_kind_of Hash, field
+    assert_equal 'true', field['is_for_all']
+    assert_equal [], field['projects']
+  end
+
+  test "GET /custom_fields.xml should not include projects for custom fields that are not issue custom fields" do
+    get '/custom_fields.xml', :headers => credentials('admin')
+    assert_response :success
+
+    xml = Hash.from_xml(response.body)
+    field = xml['custom_fields'].detect {|f| f['id'] == '3'}
+    assert_kind_of Hash, field
+    assert_not field.has_key?('projects')
   end
 
   test "GET /custom_fields.xml should include roles for custom fields visible by role" do

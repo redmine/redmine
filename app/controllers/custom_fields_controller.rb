@@ -34,7 +34,12 @@ class CustomFieldsController < ApplicationController
           IssueCustomField.where(is_for_all: false).joins(:projects).group(:custom_field_id).count
       end
       format.api do
-        @custom_fields = CustomField.includes(:roles).all
+        @custom_fields = CustomField.includes(:roles).all.to_a
+        issue_custom_fields = @custom_fields.grep(IssueCustomField)
+        ActiveRecord::Associations::Preloader.new(
+          records: issue_custom_fields,
+          associations: [:projects, :trackers]
+        ).call
       end
     end
   end
