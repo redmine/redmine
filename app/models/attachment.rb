@@ -596,12 +596,15 @@ class Attachment < ApplicationRecord
     def create_diskfile(filename, directory=nil, &)
       timestamp = DateTime.now.strftime("%y%m%d%H%M%S")
       ascii = ''
-      if %r{^[a-zA-Z0-9_.-]*$}.match?(filename) && filename.length <= 50
+      max_filename_length = 50
+      if %r{^[a-zA-Z0-9_.-]*$}.match?(filename) && filename.length <= max_filename_length
         ascii = filename
       else
         ascii = ActiveSupport::Digest.hexdigest(filename)
         # keep the extension if any
-        ascii << $1 if filename =~ %r{(\.[a-zA-Z0-9]+)$}
+        if filename =~ %r{(\.[a-zA-Z0-9]+)$} && (ascii.length + $1.length) <= max_filename_length
+          ascii << $1
+        end
       end
 
       path = File.join storage_path, directory.to_s

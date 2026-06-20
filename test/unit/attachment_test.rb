@@ -81,6 +81,22 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 255, a.filename.length
   end
 
+  def test_shortened_filename_if_extension_too_long
+    file = mock_file_with_options(:original_filename => "file.#{'a'*250}")
+
+    a = Attachment.new(:container => Issue.find(1),
+                       :file => file,
+                       :author => User.find(1))
+    assert a.save
+    a.reload
+    # Long extensions are omitted from disk filenames.
+    assert_equal '', File.extname(a.disk_filename)
+    # 12 + 1 + 32 = a 12-digit timestamp, an underscore, and
+    # a 32-character MD5 hex digest.
+    assert_equal 12 + 1 + 32, a.disk_filename.length
+    assert_equal 255, a.filename.length
+  end
+
   def test_copy_should_preserve_attributes
     # prevent re-use of data from other attachments with equal contents
     Attachment.where('id <> 1').destroy_all
