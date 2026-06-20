@@ -420,7 +420,6 @@ class ApplicationController < ActionController::Base
     @project = @projects.first if @projects.size == 1
   end
 
-
   def find_attachments
     if (attachments = params[:attachments]).present?
       att = attachments.values.collect do |attachment|

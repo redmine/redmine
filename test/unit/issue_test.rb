@@ -49,7 +49,6 @@ class IssueTest < ActiveSupport::TestCase
     end
   end
 
-
   def test_initialize
     issue = Issue.new
 

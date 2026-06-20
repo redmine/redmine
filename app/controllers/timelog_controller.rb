@@ -286,7 +286,6 @@ class TimelogController < ApplicationController
     render_404
   end
 
-
   def find_optional_issue
     if params[:issue_id].present?
       @issue = Issue.find(params[:issue_id])

@@ -58,6 +58,5 @@ module ContextMenus
 
       find_project_from_items(@time_entries)
     end
-
   end
 end
