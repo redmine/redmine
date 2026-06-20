@@ -58,7 +58,7 @@ Rails.application.routes.draw do
   match '/wiki_pages/auto_complete', :to => 'auto_completes#wiki_pages', :via => :get, :as => 'auto_complete_wiki_pages'
 
   # Misc issue routes. TODO: move into resources
-  match '/issues/context_menu', :to => 'context_menus#issues', :as => 'issues_context_menu', :via => [:get, :post]
+  match '/issues/context_menu', :to => 'context_menus/issues#index', :as => 'issues_context_menu', :via => [:get, :post]
   match '/issues/changes', :to => 'journals#index', :as => 'issue_changes', :via => :get
   match '/issues/:id/quoted', :to => 'journals#new', :id => /\d+/, :via => :post, :as => 'quoted_issue'
 
@@ -117,7 +117,7 @@ Rails.application.routes.draw do
   match 'my/twofa/backup_codes', :controller => 'twofa_backup_codes', :action => 'show', :via => [:get]
   match 'users/:user_id/twofa/deactivate', :controller => 'twofa', :action => 'admin_deactivate', :via => :post
 
-  match '/users/context_menu', to: 'context_menus#users', as: :users_context_menu, via: [:get, :post]
+  match '/users/context_menu', to: 'context_menus/users#index', as: :users_context_menu, via: [:get, :post]
   resources :users do
     collection do
       delete 'bulk_destroy'
@@ -258,7 +258,7 @@ Rails.application.routes.draw do
     post 'add_attachment', :on => :member
   end
 
-  match '/time_entries/context_menu', :to => 'context_menus#time_entries', :as => :time_entries_context_menu, :via => [:get, :post]
+  match '/time_entries/context_menu', :to => 'context_menus/time_entries#index', :as => :time_entries_context_menu, :via => [:get, :post]
 
   resources :time_entries, :controller => 'timelog', :except => :destroy do
     member do
@@ -384,7 +384,7 @@ Rails.application.routes.draw do
   post 'admin/test_email', :to => 'admin#test_email', :as => 'test_email'
   post 'admin/default_configuration', :to => 'admin#default_configuration'
 
-  match '/admin/projects_context_menu', :to => 'context_menus#projects', :as => 'projects_context_menu', :via => [:get, :post]
+  match '/admin/projects_context_menu', :to => 'context_menus/projects#index', :as => 'projects_context_menu', :via => [:get, :post]
 
   resources :auth_sources do
     member do

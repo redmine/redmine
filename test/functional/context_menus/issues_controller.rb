@@ -1,0 +1,448 @@
+# frozen_string_literal: true
+
+# Redmine - project management software
+# Copyright (C) 2006-  Jean-Philippe Lang
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+require_relative '../../test_helper'
+
+module ContextMenus
+  class IssuesControllerTest < Redmine::ControllerTest
+    def test_context_menu_one_issue_should_link_to_issue_path
+      @request.session[:user_id] = 2
+      get(
+        :index,
+        :params => {
+          :ids => [1],
+          :back_url => '/issues'
+        }
+      )
+      assert_response :success
+
+      assert_select 'a.icon-edit[href=?]', '/issues/1/edit', :text => 'Edit'
+      assert_select 'a.icon-copy-link[data-clipboard-text=?]', 'http://test.host/issues/1', :text => 'Copy link'
+      assert_select 'a.icon-copy[href=?]', '/projects/ecookbook/issues/1/copy', :text => 'Copy'
+      assert_select 'a.icon-del[href*=?]', 'ids%5B%5D=1', :text => 'Delete issue'
+
+      # Statuses
+      assert_select 'a[href*=?][data-method="patch"]', 'issue%5Bstatus_id%5D=5', :text => 'Closed'
+      assert_select 'a[href*=?][data-method="patch"]', 'issue%5Bpriority_id%5D=8', :text => 'Immediate'
+      # No inactive priorities
+      assert_select 'a', :text => /Inactive Priority/, :count => 0
+      # Versions
+      assert_select 'a[href*=?][data-method="patch"]', 'issue%5Bfixed_version_id%5D=3', :text => '2.0'
+      assert_select 'a[href*=?][data-method="patch"]', 'issue%5Bfixed_version_id%5D=4', :text => 'eCookbook Subproject 1 - 2.0'
+      # Assignees
+      assert_select 'a[href*=?][data-method="patch"]', 'issue%5Bassigned_to_id%5D=3', :text => 'Dave Lopper'
+    end
+
+    def test_context_menu_multiple_issues_should_link_to_bulk_update_issues_path
+      @request.session[:user_id] = 2
+      get :index, :params => {
+        :ids => [1, 2],
+        :back_url => '/projects/ecookbook/issues'
+      }
+      assert_response :success
+
+      assert_select 'a.icon-edit[href=?]', '/issues/bulk_edit?ids%5B%5D=1&ids%5B%5D=2', :text => 'Bulk edit'
+      assert_select 'a.icon-copy[href=?]', '/issues/bulk_edit?copy=1&ids%5B%5D=1&ids%5B%5D=2', :text => 'Copy'
+      assert_select 'a.icon-del[href*=?]', 'ids%5B%5D=1&ids%5B%5D=2', :text => 'Delete issues'
+
+      # Statuses
+      assert_select 'a[href*=?][data-method="patch"]', 'issue%5Bstatus_id%5D=5', :text => 'Closed'
+      assert_select 'a[href*=?][data-method="patch"]', 'issue%5Bpriority_id%5D=8', :text => 'Immediate'
+      # No inactive priorities
+      assert_select 'a', :text => /Inactive Priority/, :count => 0
+      # Versions
+      assert_select 'a[href*=?][data-method="patch"]', 'issue%5Bfixed_version_id%5D=3', :text => '2.0'
+      assert_select 'a[href*=?][data-method="patch"]', 'issue%5Bfixed_version_id%5D=4', :text => 'eCookbook Subproject 1 - 2.0'
+      # Assignees
+      assert_select 'a[href*=?][data-method="patch"]', 'issue%5Bassigned_to_id%5D=3', :text => 'Dave Lopper'
+    end
+
+    def test_context_menu_one_issue_by_anonymous
+      with_settings :default_language => 'en' do
+        get(
+          :index,
+          :params => {
+            :ids => [1],
+            :back_url => '/issues'
+          }
+        )
+        assert_response :success
+
+        assert_select 'a.icon-del.disabled[href="#"]', :text => 'Delete issue'
+      end
+    end
+
+    def test_context_menu_multiple_issues_of_same_project
+      @request.session[:user_id] = 2
+      get(
+        :index,
+        :params => {
+          :ids => [1, 2],
+          :back_url => '/issues'
+        }
+      )
+      assert_response :success
+
+      ids = [1, 2].map {|i| "ids%5B%5D=#{i}"}.join('&')
+
+      assert_select 'a.icon-edit[href=?]', "/issues/bulk_edit?#{ids}", :text => 'Bulk edit'
+      # issue_id: '1,2', set_filter: 1, status_id: '*'
+      assert_select 'a.icon-copy-link[data-clipboard-text=?]', "http://test.host/projects/ecookbook/issues?issue_id=1%2C2&set_filter=1&status_id=%2A", :text => 'Copy link'
+      assert_select 'a.icon-copy[href=?]', "/issues/bulk_edit?copy=1&#{ids}", :text => 'Copy'
+      assert_select 'a.icon-del[href*=?]', ids, :text => 'Delete issues'
+
+      assert_select 'a[href*=?]', 'issue%5Bstatus_id%5D=5', :text => 'Closed'
+      assert_select 'a[href*=?]', 'issue%5Bpriority_id%5D=8', :text => 'Immediate'
+      assert_select 'a[href*=?]', 'issue%5Bassigned_to_id%5D=3', :text => 'Dave Lopper'
+    end
+
+    def test_context_menu_multiple_issues_of_different_projects
+      @request.session[:user_id] = 2
+      get(
+        :index,
+        :params => {
+          :ids => [1, 2, 6],
+          :back_url => '/issues'
+        }
+      )
+      assert_response :success
+
+      ids = [1, 2, 6].map {|i| "ids%5B%5D=#{i}"}.join('&')
+
+      assert_select 'a.icon-edit[href=?]', "/issues/bulk_edit?#{ids}", :text => 'Bulk edit'
+      # issue_id: '1,2,6', set_filter: 1, status_id: '*'
+      assert_select 'a.icon-copy-link[data-clipboard-text=?]', "http://test.host/issues?issue_id=1%2C2%2C6&set_filter=1&status_id=%2A", :text => 'Copy link'
+      assert_select 'a.icon-del[href*=?]', ids, :text => 'Delete issues'
+
+      assert_select 'a[href*=?]', 'issue%5Bstatus_id%5D=5', :text => 'Closed'
+      assert_select 'a[href*=?]', 'issue%5Bpriority_id%5D=8', :text => 'Immediate'
+      assert_select 'a[href*=?]', 'issue%5Bassigned_to_id%5D=2', :text => 'John Smith'
+    end
+
+    def test_context_menu_should_include_list_custom_fields
+      field = IssueCustomField.create!(:name => 'List', :field_format => 'list',
+        :possible_values => ['Foo', 'Bar'], :is_for_all => true, :tracker_ids => [1, 2, 3])
+      @request.session[:user_id] = 2
+      get(
+        :index,
+        :params => {
+          :ids => [1]
+        }
+      )
+      assert_select "li.cf_#{field.id}" do
+        assert_select 'a[href="#"]', :text => 'List'
+        assert_select 'ul' do
+          assert_select 'a', 3
+          assert_select 'a[href=?]', "/issues/1?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=Foo", :text => 'Foo'
+          assert_select 'a[href=?]', "/issues/1?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
+        end
+      end
+    end
+
+    def test_context_menu_multiple_issues_should_include_list_custom_fields
+      field = IssueCustomField.create!(:name => 'List', :field_format => 'list',
+        :possible_values => ['Foo', 'Bar'], :is_for_all => true, :tracker_ids => [1, 2, 3])
+      @request.session[:user_id] = 2
+      get(
+        :index,
+        :params => {
+          :ids => [1, 2]
+        }
+      )
+      assert_select "li.cf_#{field.id}" do
+        assert_select 'a[href="#"]', :text => 'List'
+        assert_select 'ul' do
+          assert_select 'a', 3
+          assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=Foo", :text => 'Foo'
+          assert_select 'a[href=?]', "/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
+        end
+      end
+    end
+
+    def test_context_menu_should_not_include_null_value_for_required_custom_fields
+      field = IssueCustomField.create!(:name => 'List', :is_required => true, :field_format => 'list',
+        :possible_values => ['Foo', 'Bar'], :is_for_all => true, :tracker_ids => [1, 2, 3])
+      @request.session[:user_id] = 2
+      get(
+        :index,
+        :params => {
+          :ids => [1, 2]
+        }
+      )
+      assert_select "li.cf_#{field.id}" do
+        assert_select 'a[href="#"]', :text => 'List'
+        assert_select 'ul' do
+          assert_select 'a', 2
+          assert_select 'a', :text => 'none', :count => 0
+        end
+      end
+    end
+
+    def test_context_menu_on_single_issue_should_select_current_custom_field_value
+      field = IssueCustomField.create!(:name => 'List', :field_format => 'list',
+        :possible_values => ['Foo', 'Bar'], :is_for_all => true, :tracker_ids => [1, 2, 3])
+      issue = Issue.find(1)
+      issue.custom_field_values = {field.id => 'Bar'}
+      issue.save!
+      @request.session[:user_id] = 2
+      get(
+        :index,
+        :params => {
+          :ids => [1]
+        }
+      )
+      assert_select "li.cf_#{field.id}" do
+        assert_select 'a[href="#"]', :text => 'List'
+        assert_select 'ul' do
+          assert_select 'a', 3
+          assert_select 'a.icon', :text => 'Bar'
+        end
+      end
+    end
+
+    def test_context_menu_should_include_bool_custom_fields
+      field = IssueCustomField.create!(:name => 'Bool', :field_format => 'bool',
+        :is_for_all => true, :tracker_ids => [1, 2, 3])
+      @request.session[:user_id] = 2
+      get(
+        :index,
+        :params => {
+          :ids => [1]
+        }
+      )
+      assert_select "li.cf_#{field.id}" do
+        assert_select 'a[href="#"]', :text => 'Bool'
+        assert_select 'ul' do
+          assert_select 'a', 3
+          assert_select 'a[href=?]', "/issues/1?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=0", :text => 'No'
+          assert_select 'a[href=?]', "/issues/1?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=1", :text => 'Yes'
+          assert_select 'a[href=?]', "/issues/1?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
+        end
+      end
+    end
+
+    def test_context_menu_should_include_user_custom_fields
+      field = IssueCustomField.create!(:name => 'User', :field_format => 'user',
+        :is_for_all => true, :tracker_ids => [1, 2, 3])
+      @request.session[:user_id] = 2
+      get(
+        :index,
+        :params => {
+          :ids => [1]
+        }
+      )
+      assert_select "li.cf_#{field.id}" do
+        assert_select 'a[href="#"]', :text => 'User'
+        assert_select 'ul' do
+          assert_select 'a', Project.find(1).members.count + 2 # users + 'none' + 'me'
+          assert_select 'a[href=?]', "/issues/1?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=2", :text => 'John Smith'
+          assert_select 'a[href=?]', "/issues/1?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
+        end
+      end
+    end
+
+    def test_context_menu_should_include_version_custom_fields
+      field = IssueCustomField.create!(:name => 'Version', :field_format => 'version', :is_for_all => true, :tracker_ids => [1, 2, 3])
+      @request.session[:user_id] = 2
+      get(
+        :index,
+        :params => {
+          :ids => [1]
+        }
+      )
+      assert_select "li.cf_#{field.id}" do
+        assert_select 'a[href="#"]', :text => 'Version'
+        assert_select 'ul' do
+          assert_select 'a', Project.find(1).shared_versions.count + 1
+          assert_select 'a[href=?]', "/issues/1?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=3", :text => '2.0'
+          assert_select 'a[href=?]', "/issues/1?ids%5B%5D=1&issue%5Bcustom_field_values%5D%5B#{field.id}%5D=__none__", :text => 'none'
+        end
+      end
+    end
+
+    def test_context_menu_should_show_enabled_custom_fields_for_the_role_only
+      enabled_cf =
+        IssueCustomField.generate!(
+          :field_format => 'bool', :is_for_all => true,
+          :tracker_ids => [1], :visible => false, :role_ids => [1, 2]
+        )
+      disabled_cf =
+        IssueCustomField.generate!(
+          :field_format => 'bool', :is_for_all => true,
+          :tracker_ids => [1], :visible => false, :role_ids => [2]
+        )
+      issue = Issue.generate!(:project_id => 1, :tracker_id => 1)
+
+      @request.session[:user_id] = 2
+      get(
+        :index,
+        :params => {
+          :ids => [issue.id]
+        }
+      )
+      assert_select "li.cf_#{enabled_cf.id}"
+      assert_select "li.cf_#{disabled_cf.id}", 0
+    end
+
+    def test_context_menu_by_assignable_user_should_include_assigned_to_me_link
+      @request.session[:user_id] = 2
+      get(
+        :index,
+        :params => {
+          :ids => [1, 2]
+        }
+      )
+      assert_response :success
+
+      assert_select 'a[href=?]', '/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bassigned_to_id%5D=2', :text => / me /
+    end
+
+    def test_context_menu_should_propose_shared_versions_for_issues_from_different_projects
+      @request.session[:user_id] = 2
+      version = Version.create!(:name => 'Shared', :sharing => 'system', :project_id => 1)
+
+      get(
+        :index,
+        :params => {
+          :ids => [1, 4]
+        }
+      )
+      assert_response :success
+
+      assert_select 'a', :text => 'eCookbook - Shared'
+    end
+
+    def test_context_menu_should_respect_five_percent_increments
+      with_settings :issue_done_ratio => 'issue_field', :issue_done_ratio_interval => 5 do
+        @request.session[:user_id] = 2
+        get(
+          :index,
+          :params => {
+            :ids => [1, 2]
+          }
+        )
+        assert_response :success
+
+        assert_select 'a[href*=?]', '/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bdone_ratio%5D=0', :text => '0%'
+        assert_select 'a[href*=?]', '/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bdone_ratio%5D=5', :text => '5%'
+        assert_select 'a[href*=?]', '/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bdone_ratio%5D=10', :text => '10%'
+        assert_select 'a[href*=?]', '/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bdone_ratio%5D=55', :text => '55%'
+        assert_select 'a[href*=?]', '/issues/bulk_update?ids%5B%5D=1&ids%5B%5D=2&issue%5Bdone_ratio%5D=100', :text => '100%'
+      end
+    end
+
+    def test_context_menu_should_include_add_subtask_link
+      @request.session[:user_id] = 2
+      get(
+        :index,
+        :params => {
+          :ids => [1]
+        }
+      )
+      assert_response :success
+
+      assert_select 'a.icon-add[href=?]', '/projects/ecookbook/issues/new?issue%5Bparent_issue_id%5D=1&issue%5Btracker_id%5D=1', :text => 'Add subtask'
+    end
+
+    def test_context_menu_with_closed_issue_should_not_include_add_subtask_link
+      @request.session[:user_id] = 2
+      get(
+        :index,
+        :params => {
+          :ids => [8]
+        }
+      )
+      assert_response :success
+
+      assert_select 'a.icon-add', :text => 'Add subtask', :count => 0
+    end
+
+    def test_context_menu_multiple_issues_should_not_include_add_subtask_link
+      @request.session[:user_id] = 2
+      get(
+        :index,
+        :params => {
+          :ids => [1, 2]
+        }
+      )
+      assert_response :success
+
+      assert_select 'a.icon-add', :text => 'Add subtask', :count => 0
+    end
+
+    def test_context_menu_with_issue_that_is_not_visible_should_fail
+      get(
+        :index,
+        :params => {
+          :ids => [1, 4] # issue 4 is not visible
+        }
+      )
+      assert_response :found
+    end
+
+    def test_should_respond_with_404_without_ids
+      get :index
+      assert_response :not_found
+    end
+
+    def test_context_menu_should_include_delete_for_allowed_back_urls
+      @request.session[:user_id] = 2
+      %w[
+        /issues
+        /projects/ecookbook/issues/gantt
+        /projects/ecookbook/issues/calendar
+      ].each do |back_url|
+        get :index, :params => { :ids => [1], :back_url => back_url }
+        assert_response :success
+        assert_select 'a.icon-del', :text => /Delete/
+      end
+    end
+
+    def test_context_menu_with_suburi_should_include_delete_for_allowed_back_urls
+      @relative_url_root = Redmine::Utils.relative_url_root
+      Redmine::Utils.relative_url_root = '/redmine'
+
+      @request.session[:user_id] = 2
+      %w[
+        /redmine/issues
+        /redmine/projects/ecookbook/issues/gantt
+        /redmine/projects/ecookbook/issues/calendar
+      ].each do |back_url|
+        get :index, :params => { :ids => [1], :back_url => back_url }
+        assert_response :success
+        assert_select 'a.icon-del', :text => /Delete/
+      end
+    ensure
+      Redmine::Utils.relative_url_root = @relative_url_root
+    end
+
+    def test_context_menu_should_not_include_delete_for_disallowed_back_urls
+      @request.session[:user_id] = 2
+      %w[
+        /issues/1
+        /projects/ecookbook/roadmap
+        /not/a/real/path
+      ].each do |back_url|
+        get :index, :params => { :ids => [1], :back_url => back_url }
+        assert_response :success
+        assert_select 'a.icon-del', :count => 0
+      end
+    end
+  end
+end
