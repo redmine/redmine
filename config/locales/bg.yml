@@ -325,6 +325,7 @@ bg:
   field_is_public: Публичен
   field_parent: Подпроект на
   field_is_in_roadmap: Да се вижда ли в Пътна карта
+  field_private_by_default: По подразбиране личен(а)
   field_login: Потребител
   field_mail_notification: Известия по пощата
   field_admin: Администратор
@@ -371,6 +372,7 @@ bg:
   field_time_zone: Часова зона
   field_searchable: С възможност за търсене
   field_default_value: Стойност по подразбиране
+  field_default_value_mode: Default value mode
   field_comments_sorting: Сортиране на коментарите
   field_parent_title: Родителска страница
   field_editable: Editable
@@ -496,6 +498,7 @@ bg:
   setting_gantt_items_limit: Максимален брой обекти, които да се показват в мрежов график
   setting_gantt_months_limit: Максимален брой месеци, които да се показват в мрежов график
   setting_issue_group_assignment: Разрешено назначаването на задачи на групи
+  setting_assignee_dropdown_display_format: Формат за показване на списъка с потребители за назначаване на изпълнители на задачи  
   setting_default_issue_start_date_to_creation_date: Начална дата на новите задачи по подразбиране да бъде днешната дата
   setting_commit_cross_project_ref: Отбелязване и приключване на задачи от други проекти, несвързани с конкретното хранилище
   setting_unsubscribe: Потребителите могат да премахват профилите си
@@ -781,6 +784,8 @@ bg:
   label_all: всички
   label_any: без значение
   label_none: никакви
+  label_absolute: Абсолютно 
+  label_relative: Относително
   label_nobody: никой
   label_next: Следващ
   label_previous: Предишен
@@ -1162,6 +1167,9 @@ bg:
   label_edited: Редактирано
   label_time_by_author: "%{time} от %{author}"
   label_involved_principals: Автор / Предишен назначен
+  label_assignee_dropdown_display_format_users_then_groups: Потребители после групи
+  label_assignee_dropdown_display_format_groups_then_users: Групи после потребители
+  label_assignee_dropdown_display_format_users_by_group: Потребители по групи
   label_progressbar: Прогрес бар
   label_oauth_permission_admin: Администриране на тази инсталация на Redmine
   label_oauth_admin_access: Администриране
@@ -1177,6 +1185,11 @@ bg:
   label_alert_warning: Предупреждение
   label_alert_caution: Внимание
   label_alert_important: Важно
+  label_last_used_on: 'Последно използван(о): преди %{value}'
+  label_never_used: не е използван(о) никога
+  label_enable_default_issue_due_date_offset: Разрешаване на дата по подразбиране за завършване на задачи
+  setting_default_issue_due_date_offset: Дата по подразбиране за приключване на задачите
+  label_days_relative_to_today: дена спрямо днес
 
   webhook_event_created: "%{object_name} създаден"
   webhook_event_updated: "%{object_name} променен"
@@ -1193,12 +1206,14 @@ bg:
   button_expand_all: Разгъване всички
   button_delete: Изтриване
   button_remove: Премахване
+  button_remove_from_group: Премахване от група
   button_create: Създаване
   button_create_and_continue: Създаване и продължаване
   button_test: Тест
   button_edit: Редакция
   button_edit_associated_wikipage: "Редактиране на асоциираната Wiki страница: %{page_title}"
   button_add: Добавяне
+  button_add_to_group: Добавяне към група
   button_change: Промяна
   button_apply: Приложи
   button_clear: Изчисти
@@ -1488,18 +1503,3 @@ bg:
   reaction_text_x_other_users:
     one: 1 друг
     other: "%{count} други"
-  label_last_used_on: 'Last used: %{value} ago'
-  label_never_used: Never used
-  setting_assignee_dropdown_display_format: Assignee drop-down display format
-  label_assignee_dropdown_display_format_users_then_groups: Users then groups
-  label_assignee_dropdown_display_format_groups_then_users: Groups then users
-  label_enable_default_issue_due_date_offset: Enable default due date for new issues
-  label_days_relative_to_today: days relative to today
-  label_assignee_dropdown_display_format_users_by_group: Users by group
-  button_remove_from_group: Remove from group
-  button_add_to_group: Add to group
-  setting_default_issue_due_date_offset: Default due date for new issues
-  field_private_by_default: Private by default
-  field_default_value_mode: Default value mode
-  label_absolute: Absolute
-  label_relative: Relative
