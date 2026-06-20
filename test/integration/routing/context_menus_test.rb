@@ -21,12 +21,12 @@ require_relative '../../test_helper'
 
 class RoutingContextMenusTest < Redmine::RoutingTest
   def test_context_menus_time_entries
-    should_route 'GET /time_entries/context_menu' => 'context_menus#time_entries'
-    should_route 'POST /time_entries/context_menu' => 'context_menus#time_entries'
+    should_route 'GET /time_entries/context_menu' => 'context_menus/time_entries#index'
+    should_route 'POST /time_entries/context_menu' => 'context_menus/time_entries#index'
   end
 
   def test_context_menus_issues
-    should_route 'GET /issues/context_menu' => 'context_menus#issues'
-    should_route 'POST /issues/context_menu' => 'context_menus#issues'
+    should_route 'GET /issues/context_menu' => 'context_menus/issues#index'
+    should_route 'POST /issues/context_menu' => 'context_menus/issues#index'
   end
 end
