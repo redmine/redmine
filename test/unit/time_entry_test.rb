@@ -26,6 +26,17 @@ class TimeEntryTest < ActiveSupport::TestCase
     User.current = nil
   end
 
+  def test_find_with_preloads
+    time_entries = TimeEntry.find_with_preloads([1, 2])
+    assert_equal 2, time_entries.size
+    time_entries.each do |entry|
+      assert entry.association(:project).loaded?
+      assert entry.project.association(:time_entry_activities).loaded?
+      assert entry.association(:user).loaded?
+    end
+  end
+
+
   def test_visibility_with_permission_to_view_all_time_entries
     user = User.generate!
     role = Role.generate!(:permissions => [:view_time_entries], :time_entries_visibility => 'all')

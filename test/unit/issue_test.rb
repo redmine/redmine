@@ -31,6 +31,25 @@ class IssueTest < ActiveSupport::TestCase
     User.current = nil
   end
 
+  def test_find_with_preloads
+    issues = Issue.find_with_preloads([1, 2])
+    assert_equal 2, issues.size
+    issues.each do |issue|
+      assert issue.association(:project).loaded?
+      assert issue.association(:status).loaded?
+      assert issue.association(:tracker).loaded?
+      assert issue.association(:priority).loaded?
+      assert issue.association(:author).loaded?
+      assert issue.association(:assigned_to).loaded?
+      assert issue.association(:relations_to).loaded?
+      assert issue.association(:custom_values).loaded?
+      issue.custom_values.each do |cv|
+        assert cv.association(:custom_field).loaded?
+      end
+    end
+  end
+
+
   def test_initialize
     issue = Issue.new
 
