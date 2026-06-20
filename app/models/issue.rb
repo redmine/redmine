@@ -168,6 +168,15 @@ class Issue < ApplicationRecord
     end
   end
 
+  # Returns issues found by IDs with preloaded associations
+  def self.find_with_preloads(ids)
+    where(:id => ids).
+      preload(:project, :status, :tracker, :priority,
+              :author, :assigned_to, :relations_to,
+              {:custom_values => :custom_field}).
+      to_a
+  end
+
   # Returns true if usr or current user is allowed to view the issue
   def visible?(usr=nil)
     (usr || User.current).allowed_to?(:view_issues, self.project) do |role, user|

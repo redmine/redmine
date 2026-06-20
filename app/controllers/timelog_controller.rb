@@ -276,18 +276,16 @@ class TimelogController < ApplicationController
   end
 
   def find_time_entries
-    @time_entries = TimeEntry.where(:id => params[:id] || params[:ids]).
-      preload(:project => :time_entry_activities).
-      preload(:user).to_a
+    @time_entries = TimeEntry.find_with_preloads(params[:id] || params[:ids])
 
     raise ActiveRecord::RecordNotFound if @time_entries.empty?
     raise Unauthorized unless @time_entries.all? {|t| t.editable_by?(User.current)}
 
-    @projects = @time_entries.filter_map(&:project).uniq
-    @project = @projects.first if @projects.size == 1
+    find_project_from_items(@time_entries)
   rescue ActiveRecord::RecordNotFound
     render_404
   end
+
 
   def find_optional_issue
     if params[:issue_id].present?

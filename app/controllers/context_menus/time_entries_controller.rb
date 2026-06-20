@@ -45,12 +45,10 @@ module ContextMenus
     private
 
     def find_time_entries
-      @time_entries = TimeEntry.where(:id => params[:ids]).
-        preload(:project => :time_entry_activities).
-        preload(:user).to_a
+      @time_entries = TimeEntry.find_with_preloads(params[:ids])
 
       if @time_entries.blank? || !@time_entries.all?(&:visible?)
-        render_404;
+        render_404
         return
       end
 
@@ -58,8 +56,8 @@ module ContextMenus
         @time_entry = @time_entries.first
       end
 
-      @projects = @time_entries.filter_map(&:project).uniq
-      @project = @projects.first if @projects.size == 1
+      find_project_from_items(@time_entries)
     end
+
   end
 end

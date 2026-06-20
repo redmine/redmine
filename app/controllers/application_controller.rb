@@ -405,20 +405,21 @@ class ApplicationController < ActionController::Base
   # Find issues with a single :id param or :ids array param
   # Raises a Unauthorized exception if one of the issues is not visible
   def find_issues
-    @issues = Issue.
-      where(:id => (params[:id] || params[:ids])).
-      preload(:project, :status, :tracker, :priority,
-              :author, :assigned_to, :relations_to,
-              {:custom_values => :custom_field}).
-      to_a
+    @issues = Issue.find_with_preloads(params[:id] || params[:ids])
     raise ActiveRecord::RecordNotFound if @issues.empty?
     raise Unauthorized unless @issues.all?(&:visible?)
 
-    @projects = @issues.filter_map(&:project).uniq
-    @project = @projects.first if @projects.size == 1
+    find_project_from_items(@issues)
   rescue ActiveRecord::RecordNotFound
     render_404
   end
+
+  # Helper method to find unique projects and single project from items list
+  def find_project_from_items(items)
+    @projects = items.filter_map(&:project).uniq
+    @project = @projects.first if @projects.size == 1
+  end
+
 
   def find_attachments
     if (attachments = params[:attachments]).present?

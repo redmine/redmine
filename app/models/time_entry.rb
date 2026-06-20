@@ -96,6 +96,13 @@ class TimeEntry < ApplicationRecord
     end
   end
 
+  # Returns time entries found by IDs with preloaded associations
+  def self.find_with_preloads(ids)
+    where(:id => ids).
+      preload(:project => :time_entry_activities).
+      preload(:user).to_a
+  end
+
   # Returns true if user or current user is allowed to view the time entry
   def visible?(user=nil)
     (user || User.current).allowed_to?(:view_time_entries, self.project) do |role, user|
