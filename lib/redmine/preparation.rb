@@ -180,6 +180,10 @@ module Redmine
         menu.push :login, :signin_path, :if => Proc.new {!User.current.logged?}
         menu.push :register, :register_path,
                   :if => Proc.new {!User.current.logged? && Setting.self_registration?}
+        menu.push :my_profile, {:controller => 'users', :action => 'show', :id => 'current'},
+                  :if => Proc.new {User.current.logged?},
+                  :caption => :label_profile,
+                  :first => true
         menu.push :my_account, {:controller => 'my', :action => 'account'},
                   :if => Proc.new {User.current.logged?}
         menu.push :logout, :signout_path, :html => {:method => 'post'},

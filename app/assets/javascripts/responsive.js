@@ -55,7 +55,7 @@ function setupFlyout() {
         $('#main-menu > ul').detach().appendTo('.js-project-menu');
         $('#top-menu > ul').detach().appendTo('.js-general-menu');
         $('#sidebar > *').detach().appendTo('.js-sidebar');
-        $('#account > ul').detach().appendTo('.js-profile-menu');
+        $('#account ul').detach().appendTo('.js-profile-menu');
 
         mobileInit = true;
         desktopInit = false;
@@ -65,10 +65,15 @@ function setupFlyout() {
     var _initDesktopMenu = function() {
       if(!desktopInit) {
 
-        $('.js-project-menu > ul').detach().appendTo('#main-menu');
-        $('.js-general-menu > ul').detach().appendTo('#top-menu');
+        $('.js-project-menu > ul').detach().prependTo('#main-menu');
+        $('.js-general-menu > ul').detach().prependTo('#top-menu');
         $('.js-sidebar > *').detach().appendTo('#sidebar');
-        $('.js-profile-menu > ul').detach().appendTo('#account');
+
+        var accountMenuParent = $('#account .dropdown-content');
+        if (accountMenuParent.length === 0) {
+          accountMenuParent = $('#account');
+        }
+        $('.js-profile-menu > ul').detach().appendTo(accountMenuParent);
 
         desktopInit = true;
         mobileInit = false;

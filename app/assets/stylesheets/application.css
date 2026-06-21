@@ -76,46 +76,60 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
   position: relative;
 }
 
-#top-menu {
+nav.top-menu {
   background: #234761; /* no match in Open Color, using hex code */
   color: var(--oc-gray-2);
   font-size: 0.75rem;
-  padding-block: 3px;
   padding-inline: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-#top-menu ul {margin: 0;  padding: 0;}
-#top-menu li {
-  float:inline-start;
-  list-style-type:none;
-  margin-block: 0;
-  margin-inline: 0 12px;
+
+.general-menu, .profile-menu {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.top-menu__links ul {
+  margin: 0;
   padding: 0;
-  white-space:nowrap;
+  display: flex;
+  list-style-type: none;
 }
-#top-menu a {
+
+.top-menu__links a, .top-menu__links a:link, .top-menu__links a:visited {
   color: var(--oc-gray-1);
-  margin-inline-end: 0;
   text-decoration: none;
-  transition: color 0.18s ease, opacity 0.18s ease;
-}
-#top-menu a:hover {
-  color: var(--oc-white);
-  text-decoration: underline;
-  text-underline-offset: 0.18em;
-}
-#top-menu #loggedas {
-  float: inline-end;
-  margin-inline-end: 20px;
-  color: var(--oc-gray-5);
-}
-#top-menu #loggedas a {
-  color: var(--oc-white);
-  font-weight: bold;
+  transition: background-color 0.18s ease, color 0.18s ease;
+  transform-origin: center;
+  padding: 4px;
 }
 
-#account {float:inline-end;}
-#account li:last-of-type {margin-inline-end: 0;}
+.top-menu__links a:hover {
+    color: var(--oc-white);
+    background-color: rgba(255, 255, 255, 0.12);
+    text-decoration: none;
+}
 
+.top-menu__links svg.icon-svg {
+  stroke: var(--oc-white);
+}
+
+#account .dropdown-content .user-info {
+  padding-block: 10px;
+  padding-inline: 16px;
+  color: var(--oc-gray-9);
+}
+
+#account .dropdown-content .user-info .user-name {
+    font-weight: bold;
+}
+
+#account .dropdown-content .logout {
+  border-block-start: 1px solid var(--oc-gray-2);
+}
 
 #header {
   margin: 0;
