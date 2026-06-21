@@ -455,6 +455,32 @@ class WatchersControllerTest < Redmine::ControllerTest
     assert_not_include hidden.name, response.body
   end
 
+  def test_autocomplete_for_mention
+    @request.session[:user_id] = 1
+    get :autocomplete_for_mention, params: {
+      project_id: 'ecookbook',
+      object_type: 'issue',
+      object_id: '1',
+      q: 'john'
+    }, xhr: true
+
+    assert_response :success
+    assert_equal ['jsmith'], response.parsed_body.pluck('login')
+  end
+
+  def test_autocomplete_for_mention_without_query
+    @request.session[:user_id] = 1
+    get :autocomplete_for_mention, params: {
+      project_id: 'ecookbook',
+      object_type: 'issue',
+      object_id: '1',
+      q: ''
+    }, xhr: true
+
+    assert_response :success
+    assert_equal ['dlopper', 'jsmith'], response.parsed_body.pluck('login')
+  end
+
   def test_autocomplete_for_user_should_not_return_users_without_object_visibility
     @request.session[:user_id] = 1
     get :autocomplete_for_user, :params => {
