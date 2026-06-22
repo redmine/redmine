@@ -48,7 +48,7 @@ class LayoutTest < Redmine::IntegrationTest
   def test_top_menu_and_search_visible_when_login_not_required
     with_settings :login_required => '0' do
       get '/'
-      assert_select "#top-menu > ul"
+      assert_select "#top-menu .top-menu__links > ul"
       assert_select "#quick-search"
     end
   end
