@@ -36,7 +36,7 @@
 }
 
 .dropdown-content li a, .dropdown-content .dropdown-items a {
-  display: block;
+  display: flex;
   padding-block: 8px;
   padding-inline: 16px;
   font-weight: normal;
