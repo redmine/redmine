@@ -53,7 +53,7 @@ function setupFlyout() {
       if(!mobileInit) {
 
         $('#main-menu > ul').detach().appendTo('.js-project-menu');
-        $('#top-menu > ul').detach().appendTo('.js-general-menu');
+        $('#top-menu .general-menu .top-menu__links > ul').detach().appendTo('.js-general-menu');
         $('#sidebar > *').detach().appendTo('.js-sidebar');
         $('#account ul').detach().appendTo('.js-profile-menu');
 
@@ -66,7 +66,7 @@ function setupFlyout() {
       if(!desktopInit) {
 
         $('.js-project-menu > ul').detach().prependTo('#main-menu');
-        $('.js-general-menu > ul').detach().prependTo('#top-menu');
+        $('.js-general-menu > ul').detach().prependTo('#top-menu .general-menu .top-menu__links');
         $('.js-sidebar > *').detach().appendTo('#sidebar');
 
         var accountMenuParent = $('#account .dropdown-content');
