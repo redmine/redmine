@@ -41,7 +41,7 @@ class OauthProviderSystemTest < ApplicationSystemTestCase
     # scrape the clear text secret from the page
     app_secret = all(:css, 'p code')[1].text
 
-    click_link 'Sign out'
+    sign_out_user
 
     #
     # regular user authorizes the application
@@ -92,7 +92,8 @@ class OauthProviderSystemTest < ApplicationSystemTestCase
       visit '/my/account'
       click_link 'Authorized applications'
       find 'td', visible: true, text: /Oauth Test/
-      click_link 'Sign out'
+
+      sign_out_user
 
       # Now, use the token for some API requests
       uri = URI("http://localhost:#{test_port}/projects/onlinestore/issues.json")
