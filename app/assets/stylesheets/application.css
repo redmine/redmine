@@ -86,17 +86,12 @@ nav.top-menu {
   align-items: center;
 }
 
-.general-menu, .profile-menu {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
 .top-menu__links ul {
   margin: 0;
   padding: 0;
   display: flex;
   list-style-type: none;
+  gap: 12px;
 }
 
 .top-menu__links a, .top-menu__links a:link, .top-menu__links a:visited {
@@ -104,7 +99,6 @@ nav.top-menu {
   text-decoration: none;
   transition: background-color 0.18s ease, color 0.18s ease;
   transform-origin: center;
-  padding: 4px;
 }
 
 .top-menu__links a:hover {
@@ -117,6 +111,10 @@ nav.top-menu {
   stroke: var(--oc-white);
 }
 
+#account.top-menu__links {
+  padding-block: 3px;
+}
+
 #account .dropdown-content .user-info {
   padding-block: 10px;
   padding-inline: 16px;
@@ -124,7 +122,7 @@ nav.top-menu {
 }
 
 #account .dropdown-content .user-info .user-name {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 #account .dropdown-content .logout {
