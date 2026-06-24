@@ -291,7 +291,11 @@ class ApplicationController < ActionController::Base
         end
         format.api do
           if Setting.rest_api_enabled? && accept_api_auth?
-            head(:unauthorized, 'WWW-Authenticate' => 'Basic realm="Redmine API"')
+            if api_key_from_request
+              head(:unauthorized)
+            else
+              head(:unauthorized, 'WWW-Authenticate' => 'Basic realm="Redmine API"')
+            end
           else
             head(:forbidden)
           end
