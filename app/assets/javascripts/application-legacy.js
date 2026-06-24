@@ -1347,6 +1347,27 @@ function inlineAutoComplete(element) {
       xhr.send();
     }, 200);
 
+    const autocompleteSearchCache = {};
+    const latestAutocompleteSearchQuery = {};
+
+    const cachedAutocompleteResults = function(url, text) {
+      const cache = autocompleteSearchCache[url];
+
+      if (!cache) {
+        return null;
+      }
+
+      if (text === cache.query) {
+        return cache.results;
+      }
+
+      if (cache.query && text.startsWith(cache.query) && cache.results.length === 0) {
+        return [];
+      }
+
+      return null;
+    }
+
     const tribute = new Tribute({
       collection: [
         {
@@ -1404,11 +1425,29 @@ function inlineAutoComplete(element) {
           },
           values: function (text, cb) {
             const url = getDataSource('users');
-            if (url) {
-              remoteSearch(url + encodeURIComponent(text), function (users) {
-                return cb(users);
-              });
+            if (!url) {
+              return cb([]);
             }
+
+            latestAutocompleteSearchQuery[url] = text;
+
+            const cachedUsers = cachedAutocompleteResults(url, text);
+            if (cachedUsers !== null) {
+              return cb(cachedUsers);
+            }
+
+            remoteSearch(url + encodeURIComponent(text), function (users) {
+              // Ignore stale responses for queries that are no longer current.
+              if (latestAutocompleteSearchQuery[url] !== text) {
+                return;
+              }
+
+              autocompleteSearchCache[url] = {
+                query: text,
+                results: users
+              };
+              return cb(users);
+            });
           },
           menuItemTemplate: function (user) {
             return sanitizeHTML(user.original.name);
