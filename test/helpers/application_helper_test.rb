@@ -1624,6 +1624,60 @@ class ApplicationHelperTest < Redmine::HelperTest
     end
   end
 
+  def test_section_edit_links_with_collapse_macro
+    raw = <<~RAW
+      # Wiki
+      ## Section A
+
+      collapsed section
+      {{collapse(View details...)
+      ## Section B
+      }}
+
+      ## Section C
+    RAW
+    @project = Project.find(1)
+    set_language_if_valid 'en'
+    with_settings :text_formatting => 'common_mark' do
+      result =
+        textilizable(
+          raw,
+          :edit_section_links =>
+            {:controller => 'wiki', :action => 'edit',
+            :project_id => '1', :id => 'Test'}
+        ).delete("\n")
+
+      # Section B inside collapse macro should have section=3 edit link
+      assert_match(
+        Regexp.new(
+          '<div class="contextual heading-2" title="Edit this section" id="section-3">' \
+          '<a class="icon-only icon-edit" href="/projects/1/wiki/Test/edit\\?section=3">' \
+          '<svg class="s18 icon-svg" aria-hidden="true"><use href="/assets/icons-.*\\.svg#icon--edit"></use></svg>' \
+          '<span class="icon-label">Edit this section</span>' \
+          '</a></div>' \
+          '<a name="Section-B"></a>' \
+          '<h2 >Section B<a href="#Section-B" class="wiki-anchor">&para;</a></h2>'
+        ),
+        result
+      )
+
+      # Section C after collapse macro should have section=4 edit link
+      assert_match(
+        Regexp.new(
+          '<div class="contextual heading-2" title="Edit this section" id="section-4">' \
+          '<a class="icon-only icon-edit" href="/projects/1/wiki/Test/edit\\?section=4">' \
+          '<svg class="s18 icon-svg" aria-hidden="true"><use href="/assets/icons-.*\\.svg#icon--edit"></use></svg>' \
+          '<span class="icon-label">Edit this section</span>' \
+          '</a></div>' \
+          '<a name="Section-C"></a>' \
+          '<h2 >Section C<a href="#Section-C" class="wiki-anchor">&para;</a></h2>'
+        ),
+        result
+      )
+    end
+  end
+
+
   def test_default_formatter
     with_settings :text_formatting => 'unknown' do
       text = 'a *link*: http://www.example.net/'

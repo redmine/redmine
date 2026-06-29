@@ -971,12 +971,12 @@ module ApplicationHelper
     @heading_anchors = {}
     @current_section = 0 if options[:edit_section_links]
 
-    parse_sections(text, project, obj, attr, only_path, options)
     text = parse_non_pre_blocks(text, obj, macros, options) do |txt|
       [:parse_wiki_links, :parse_redmine_links].each do |method_name|
         send method_name, txt, project, obj, attr, only_path, options
       end
     end
+    parse_sections(text, project, obj, attr, only_path, options)
     parse_headings(text, project, obj, attr, only_path, options)
 
     if @parsed_headings.any?
