@@ -1677,7 +1677,6 @@ class ApplicationHelperTest < Redmine::HelperTest
     end
   end
 
-
   def test_default_formatter
     with_settings :text_formatting => 'unknown' do
       text = 'a *link*: http://www.example.net/'
