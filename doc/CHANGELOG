@@ -4,6 +4,226 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2026-06-30 v7.0.0
+
+=== [Accounts / authentication]
+
+* Feature #43808: Change default admin email to admin@dummy.invalid for clarity
+* Feature #44052: Enable sudo mode by default
+
+=== [Administration]
+
+* Feature #44062: Add an Environment heading to the admin information page
+
+=== [Attachments]
+
+* Defect #44029: Wide tables in attachment preview overflow the container border
+* Defect #44126: SVG attachments are displayed as XML source instead of image previews
+* Defect #44186: Uploading files with excessively long extensions may fail
+* Feature #8959: Preview support for Microsoft Office and LibreOffice Writer files
+* Feature #22483: Show PDF attachments and repo entries instead of downloading them
+* Feature #43943: AVIF images support
+
+=== [Calendar]
+
+* Feature #43728: Change calendar today indicator from yellow background to blue date circle
+
+=== [Code cleanup/refactoring]
+
+* Defect #42408: Typo in Javascript function name 'toggleExpendCollapseIcon': s//Expend/Expand
+* Patch #42737: Replacing html-pipeline with Loofah for HTML Filtering
+* Patch #43206: Remove deprecated icon-* classes from stylesheets
+* Patch #43276: Replace the use of form.text_area with form.textarea
+* Patch #43289: Incorrect comments_count value in News fixture for news_001
+* Patch #43321: Remove deprecated method ApplicationHelper#render_if_exist
+* Patch #43388: Remove CSS hacks for Internet Explorer
+* Patch #43429: Remove unused method addable_watcher_users from acts_as_watchable.rb
+* Patch #43643: Align the Textile processing approach with CommonMark by using Loofah
+* Patch #43702: Remove unused CSS rules
+* Patch #43745: Move parse_hires_images and parse_inline_attachments to scrubbers
+* Patch #43802: Avoid using non-reserved domain names in examples and tests
+* Patch #44074: ignored and unnecessary scope in twofa token lookup
+* Patch #44117: Remove obsolete .hgignore file
+* Patch #44169: Refactor context menus controller to namespaced sub-controllers
+* Patch #44195: Add `__pycache__` directory to .gitignore
+
+=== [Custom fields]
+
+* Feature #44129: Allow relative default values for date format custom fields
+
+=== [Documentation]
+
+* Patch #43800: Add local license files under doc/licenses for bundled third-party components
+* Patch #43822: Use logical CSS property in CommonMark help examples for RTL support
+* Patch #43931: Remove .github/PULL_REQUEST_TEMPLATE.md as pull requests are disabled
+
+=== [Email notifications]
+
+* Defect #38513: Incorrect case of MIME-Version email header field name
+* Defect #44173: Password reset security notification does not include IP address
+* Feature #2716: User option to automatically add assignee to watchers
+* Feature #37978: Add a mail notification option for watched objects only
+
+=== [Filters]
+
+* Defect #38055: Filter operator "doesn't contain" on custom fields ignores issues with no value
+
+=== [Gantt]
+
+* Feature #43397: Organize Gantt chart code by separating it into views and Stimulus controllers
+* Feature #43678: Improve Gantt chart behavior in RTL environments
+
+=== [Gems support]
+
+* Patch #43323: Update RuboCop Performance to 1.26
+* Patch #43324: Update Rubyzip to 3.4
+* Patch #43395: Update roadie-rails to 3.4
+* Patch #43396: Update propshaft to 1.3
+* Patch #43408: Update Commonmark gem to 2.5
+* Patch #43437: Update RuboCop to 1.88
+* Patch #43438: Update RuboCop Rails to 2.34
+* Patch #43465: Update pg gem to 1.6
+* Patch #43466: Update sqlite3 gem to 2.9
+* Patch #43472: Update Mail gem to 2.9
+* Patch #43594: Update Commonmarker gem to 2.8
+* Patch #43981: Update net-ldap to 0.20
+* Patch #44032: Update Trilogy gem to 2.12
+* Patch #44139: Update Rouge to 5.0
+* Patch #44200: Update I18n gem to 1.15
+
+=== [Groups]
+
+* Patch #43640: Improve Group Controller – Enable Adding/Removing Multiple Users from Users View
+
+=== [Hook requests]
+
+* Patch #43084: Add view_issues_edit_top hook to customize the issue editing form
+
+=== [I18n]
+
+* Feature #4507: Make first and last name field order follow Users display format setting
+* Patch #44065: Remove unused i18n keys
+
+=== [Importers]
+
+* Defect #41434: CSV import fails on CRLF files when first row has quoted field with newline
+* Feature #43363: Improve error message display in imports view
+* Feature #43918: Deprecate broken Mantis and Trac migration rake tasks
+
+=== [Issues]
+
+* Feature #9432: Default value for the private issue flag
+* Feature #31518: Default due date for new issues with configurable offset from today
+* Feature #43085: Scroll to notes section instead of top of edit form when quoting issue content
+* Feature #43885: Align issue previous/next link styling with pagination buttons
+* Feature #43895: Disable "Use current date as start date for new issues" by default for new installations
+* Feature #43969: Add icons to Add links in Subtasks and Related issues sections of the issue view
+* Feature #43996: Add setting to choose users/groups order in assignee dropdown
+* Feature #44015: "Users by group" display option for assignee drop-down
+
+=== [Issues filter]
+
+* Feature #43968: Allow 0:45h time span format input in the estimated_hours and spent_time filter of IssueQuery
+
+=== [Issues list]
+
+* Feature #43615: Right-align all time-tracking columns in Issues list
+
+=== [Performance]
+
+* Defect #43742: Missing #wrapper positioning may increase reflow cost
+* Defect #43838: User mentions using the @login syntax cause performance issues when rendering content on instances with a large number of users.
+* Feature #43957: Improve workflow update performance
+* Feature #44194: Cache user mention autocomplete responses to reduce redundant requests
+* Patch #43934: Optimize `Issue#visible_journals_with_index` preload to skip user email_address when Gravatar is disabled
+* Patch #44190: Improve @mention performance by limiting initial suggestions
+
+=== [Project settings]
+
+* Feature #44013: Add links to groups in the project Settings > Members tab
+
+=== [Projects]
+
+* Feature #37480: CSV export of project memberships
+* Feature #43818: Show warning for closed projects on all project pages not only on Overview
+
+=== [REST API]
+
+* Defect #44152: Custom Fields API does not return visible roles for custom fields other than issue custom fields
+* Defect #44165: Basic authentication challenge is sent for API key authentication failures
+* Feature #43569: Adds project to wiki page API response
+* Feature #43938: Track last usage of API and Atom access keys
+* Feature #44153: Include associated projects in issue custom fields API response
+
+=== [Rails support]
+
+* Feature #43205: Update to Rails 8
+
+=== [Roadmap]
+
+* Feature #39882: Highlight selected version on the Roadmap view
+
+=== [Ruby support]
+
+* Feature #43650: Ruby 4.0 support
+
+=== [SCM]
+
+* Defect #43965: "Previous" and "Next" links in changeset view do not match the changeset list order
+* Patch #42762: Improve Git/Mercurial revision graph on the repository page
+
+=== [Text formatting]
+
+* Feature #42444: Allow use of the CSS text-decoration property in text formatting
+* Feature #43950: Add support for pasting spreadsheet tables as CommonMark/Textile tables in wiki textareas
+* Feature #44061: Support Tab/Shift+Tab indentation of selected textarea lines in CommonMark Markdown
+
+=== [Third-party libraries]
+
+* Patch #43845: Remove the Raphael.js dependency by switching to SVG API
+* Patch #44018: Update Chart.js to 4.5.1 and migrate to ES Modules
+* Patch #44038: Update Tabler Icons to v3.43.0
+
+=== [Time tracking]
+
+* Feature #15167: Hide unused Options section in spent time report
+* Feature #43948: Allow 0:45h time span format input in the hours filter of TimeEntryQuery
+
+=== [UI]
+
+* Defect #25114: Context menu is mispositioned when `#content` is relatively positioned by themes
+* Defect #43588: Right column in issue view uses splitcontentleft CSS class instead of splitcontentright
+* Defect #43876: Text in select, input, and button is clipped due to fixed height when font size is increased
+* Feature #31353: Replace user related links in the top menu bar with a proper user menu.
+* Feature #34917: Use "Remove" instead of "Delete" for non-destructive unlink/removal action labels
+* Feature #43256: Introduce Open Color to unify and standardize CSS colors
+* Feature #43279: Simplify fieldset borders in issue edit form
+* Feature #43381: Improve visibility of error message during file upload
+* Feature #43390: Remove avatars-on / avatars-off classes from body element
+* Feature #43506: Declare text direction on HTML element for better RTL/LTR styling support
+* Feature #43515: Improve RTL layouts by removing rtl.css and integrating its overrides into application.css using CSS logical properties
+* Feature #43563: Increase top padding of div#content to improve visual spacing and readability
+* Feature #43575: Clean up box-like UI elements by adjusting borders and padding
+* Feature #43658: Add "Color" to the list of default gravatar options
+* Feature #43700: Improve RTL layout support by replacing physical CSS properties with logical ones in core CSS files
+* Feature #43797: Show file-type icons instead of paperclip icons in attachment lists
+* Feature #43805: Update file-type icons for additional MIME types
+* Feature #43824: Improve usability and visual appearance by increasing page-side spacing
+* Feature #43825: Preserve checkbox selection in user search dialogs
+* Feature #43836: Unify spacing around section separators on issue details page
+* Feature #43937: Redesign the header with a navigation bar and lighter visual weight
+* Feature #43988: Align sidebar selected link color with the main menu indicator
+* Feature #44071: Make context menu width flexible to avoid wrapping labels
+* Patch #44111: Improve layout consistency of roadmap, news, and documents index pages
+
+=== [Webhooks]
+
+* Feature #29664: Webhook triggers in Redmine
+
+=== [Wiki]
+
+* Feature #43978: Export all Wiki pages as ZIP archive
+
 == 2026-06-15 v6.1.3
 
 === [Code cleanup/refactoring]
