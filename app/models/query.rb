@@ -1424,12 +1424,12 @@ class Query < ApplicationRecord
       day_of_week = User.current.today.cwday
       from =
         -(
-            if day_of_week >= first_day_of_week
-              day_of_week - first_day_of_week
-            else
-              day_of_week + 7 - first_day_of_week
-            end
-          ) + 7
+          if day_of_week >= first_day_of_week
+            day_of_week - first_day_of_week
+          else
+            day_of_week + 7 - first_day_of_week
+          end
+        ) + 7
       sql = relative_date_clause(db_table, db_field, from, from + 6, is_custom_filter)
     when "m"
       # = this month

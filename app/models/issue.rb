@@ -815,14 +815,14 @@ class Issue < ApplicationRecord
       if !valid_parent_project?(@parent_issue)
         errors.add :parent_issue_id, :invalid
       elsif (@parent_issue != parent) && (
-          self.would_reschedule?(@parent_issue) ||
-          @parent_issue.self_and_ancestors.any? do |a|
-            a.relations_from.any? do |r|
-              r.relation_type == IssueRelation::TYPE_PRECEDES &&
-                 r.issue_to.would_reschedule?(self)
-            end
+        self.would_reschedule?(@parent_issue) ||
+        @parent_issue.self_and_ancestors.any? do |a|
+          a.relations_from.any? do |r|
+            r.relation_type == IssueRelation::TYPE_PRECEDES &&
+               r.issue_to.would_reschedule?(self)
           end
-        )
+        end
+      )
         errors.add :parent_issue_id, :invalid
       elsif !closed? && @parent_issue.closed?
         # cannot attach an open issue to a closed parent
