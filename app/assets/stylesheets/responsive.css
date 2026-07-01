@@ -592,6 +592,7 @@
 
   #content>.contextual>a,
   #content>.contextual .drdn,
+  #content>.contextual .dropdown,
   p.buttons a {
     font-weight: bold;
 

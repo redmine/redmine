@@ -810,6 +810,7 @@ input:disabled, select:disabled, textarea:disabled {
   margin-inline: 0;
   padding-inline-start: 10px;
   font-size:0.9em;
+  display: inline-flex;
 }
 .contextual input, .contextual select {font-size:0.9em;}
 

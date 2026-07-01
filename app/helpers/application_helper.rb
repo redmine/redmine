@@ -899,12 +899,13 @@ module ApplicationHelper
     content = capture(&)
     if content.present?
       trigger =
-        content_tag('span', sprite_icon('3-bullets', l(:button_actions)), :class => 'icon-only icon-actions',
-                    :title => l(:button_actions))
-      trigger = content_tag('span', trigger, :class => 'drdn-trigger')
-      content = content_tag('div', content, :class => 'drdn-items')
-      content = content_tag('div', content, :class => 'drdn-content')
-      content_tag('span', trigger + content, :class => 'drdn')
+        content_tag('span', sprite_icon('3-bullets', l(:button_actions)),
+                    :class => 'icon-only icon-actions dropdown-trigger',
+                    :title => l(:button_actions),
+                    :data => {:action => "click->dropdown#toggle"})
+      items = content_tag('ul', content_tag('li', content), :class => 'dropdown-items')
+      content = content_tag('span', items, :class => 'dropdown-content hidden', :data => {:dropdown_target => "content"})
+      content_tag('span', trigger + content, :class => 'dropdown', :data => {:controller => "dropdown"})
     end
   end
 

@@ -26,7 +26,7 @@ class CopyToClipboardSystemTest < ApplicationSystemTestCase
 
     # Copy issue url to Clipboard
     first('.contextual span.icon-actions').click
-    find('.contextual div.drdn-items a.icon-copy-link').click
+    find('.contextual .dropdown-items a.icon-copy-link').click
 
     # Paste the value copied to the clipboard into the textarea to get and test
     first('.icon-edit').click
@@ -40,7 +40,7 @@ class CopyToClipboardSystemTest < ApplicationSystemTestCase
 
     # Copy issue journal url to Clipboard
     first('#note-2 .icon-actions').click
-    first('#note-2 div.drdn-items a.icon-copy-link').click
+    first('#note-2 .dropdown-items a.icon-copy-link').click
 
     # Paste the value copied to the clipboard into the textarea to get and test
     first('.icon-edit').click

@@ -49,6 +49,10 @@
   text-decoration: none;
 }
 
+.dropdown-content li a:hover .icon-svg, .dropdown-content .dropdown-items a:hover .icon-svg {
+  stroke: var(--oc-blue-9);
+}
+
 .dropdown-divider {
   border-block-start: 1px solid var(--oc-gray-2);
 }

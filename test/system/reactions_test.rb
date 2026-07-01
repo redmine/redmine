@@ -130,12 +130,12 @@ class ReactionsSystemTest < ApplicationSystemTestCase
       assert_selector 'a.reaction-button'
 
       assert_no_selector 'a.icon-quote'
-      assert_no_selector 'span.drdn'
+      assert_no_selector 'span.dropdown'
     end
     within("#change-#{journal_without_notes.id}") do
       assert_selector 'a.reaction-button'
 
-      assert_no_selector '.drdn'
+      assert_no_selector '.dropdown'
     end
 
     click_link 'History'
@@ -144,11 +144,11 @@ class ReactionsSystemTest < ApplicationSystemTestCase
       assert_selector 'a.reaction-button'
 
       assert_selector 'a.icon-quote'
-      assert_selector 'span.drdn'
+      assert_selector 'span.dropdown'
     end
     within("#change-#{journal_without_notes.id}") do
       assert_selector 'a.reaction-button'
-      assert_selector 'span.drdn'
+      assert_selector 'span.dropdown'
 
       assert_no_selector 'a.icon-quote'
     end
