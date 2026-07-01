@@ -388,6 +388,30 @@ class AttachmentTest < ActiveSupport::TestCase
     assert a.readable?
   end
 
+  def test_move_to_target_directory_should_move_readable_file_to_target_directory
+    a = Attachment.find(20)
+    assert a.disk_directory.blank?
+    # Create a real file at the root of the files directory for this fixture
+    File.write(a.diskfile, 'test file at the root of files directory')
+    src = a.diskfile
+    assert a.readable?
+
+    a.move_to_target_directory!
+
+    a.reload
+    assert_equal '2012/05', a.disk_directory
+    assert a.readable?
+    assert File.exist?(a.diskfile)
+    assert_not_equal src, a.diskfile
+    assert_not File.exist?(src)
+  end
+
+  def test_move_to_target_directory_should_do_nothing_for_new_record
+    a = Attachment.new
+    assert a.new_record?
+    assert_nil a.move_to_target_directory!
+  end
+
   test "Attachmnet.attach_files should attach the file" do
     issue = Issue.first
     assert_difference 'Attachment.count' do

@@ -443,7 +443,7 @@ class Attachment < ApplicationRecord
 
   # Moves an existing attachment to its target directory
   def move_to_target_directory!
-    return unless !new_record? & readable?
+    return unless !new_record? && readable?
 
     src = diskfile
     self.disk_directory = target_directory
