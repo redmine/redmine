@@ -114,9 +114,9 @@ class IssueStatus < ApplicationRecord
 
   def check_integrity
     if Issue.where(:status_id => id).any?
-      raise "This status is used by some issues"
+      raise l(:error_issue_status_in_use_by_issues)
     elsif Tracker.where(:default_status_id => id).any?
-      raise "This status is used as the default status by some trackers"
+      raise l(:error_issue_status_default_for_trackers)
     end
   end
 

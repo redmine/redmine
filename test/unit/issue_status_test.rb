@@ -46,7 +46,18 @@ class IssueStatusTest < ActiveSupport::TestCase
   def test_destroy_status_in_use
     # Status assigned to an Issue
     status = Issue.find(1).status
-    assert_raise(RuntimeError, "Cannot delete status") {status.destroy}
+    e = assert_raise(RuntimeError) {status.destroy}
+    assert_equal I18n.t(:error_issue_status_in_use_by_issues), e.message
+  end
+
+  def test_destroy_status_used_as_default_by_tracker
+    # Status that is not used by any issue but is the default status of a tracker
+    status = IssueStatus.find(3)
+    assert_not Issue.where(:status_id => status.id).exists?
+    Tracker.find(1).update_column(:default_status_id, status.id)
+
+    e = assert_raise(RuntimeError) {status.destroy}
+    assert_equal I18n.t(:error_issue_status_default_for_trackers), e.message
   end
 
   def test_new_statuses_allowed_to
