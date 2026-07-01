@@ -1503,3 +1503,5 @@ bg:
   reaction_text_x_other_users:
     one: 1 друг
     other: "%{count} други"
+  error_issue_status_in_use_by_issues: This status is used by some issues
+  error_issue_status_default_for_trackers: This status is used as the default status by some trackers
