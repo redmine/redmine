@@ -370,6 +370,11 @@ class WebhookTest < ActiveSupport::TestCase
     yield port, received
   ensure
     server&.shutdown
-    thread&.join
+    # Kill the thread if it does not exit, preventing `join` from waiting
+    # forever when `shutdown` is called before `server.start`.
+    if thread && !thread.join(5)
+      thread.kill
+      thread.join
+    end
   end
 end
