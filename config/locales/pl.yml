@@ -1508,3 +1508,4 @@ pl:
   label_relative: Relative
   error_issue_status_in_use_by_issues: This status is used by some issues
   error_issue_status_default_for_trackers: This status is used as the default status by some trackers
+  text_users_remove_from_group_confirmation: Are you sure you want to remove the selected user(s) from the group %{group}?

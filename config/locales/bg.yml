@@ -1505,3 +1505,4 @@ bg:
   reaction_text_x_other_users:
     one: 1 друг
     other: "%{count} други"
+  text_users_remove_from_group_confirmation: Are you sure you want to remove the selected user(s) from the group %{group}?
