@@ -1300,6 +1300,7 @@ en:
   text_project_archive_confirmation: Are you sure you want to archive the '%{value}' project?
   text_users_bulk_destroy_head: 'You are about to delete the following users and remove all references to them. This cannot be undone. Often, locking users instead of deleting them is the better solution.'
   text_users_bulk_destroy_confirm: 'To confirm, please enter "%{yes}" below.'
+  text_users_remove_from_group_confirmation: Are you sure you want to remove the selected user(s) from the group %{group}?
   text_workflow_edit: Select a role and a tracker to edit the workflow
   text_are_you_sure: Are you sure?
   text_journal_changed: "%{label} changed from %{old} to %{new}"

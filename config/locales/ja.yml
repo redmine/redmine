@@ -1418,6 +1418,7 @@ ja:
   field_is_member_of_group: グループ
   text_users_bulk_destroy_head: 以下のユーザーとこれらのユーザーへのすべての参照を削除しようとしています。削除後は元に戻せません。通常は削除よりロックのほうが適切です。
   text_users_bulk_destroy_confirm: 削除する場合は確認のため "%{yes}" と入力してください。
+  text_users_remove_from_group_confirmation: グループ「%{group}」から選択したユーザーを削除してもよろしいですか？
   permission_select_project_publicity: プロジェクトの公開/非公開
   label_auto_watch_on_issue_created: 自分が作成したチケット
   field_any_searchable: 全検索対象テキスト
