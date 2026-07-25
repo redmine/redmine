@@ -1523,3 +1523,4 @@ lt:
   field_default_value_mode: Default value mode
   label_absolute: Absolute
   label_relative: Relative
+  text_users_remove_from_group_confirmation: Are you sure you want to remove the selected user(s) from the group %{group}?

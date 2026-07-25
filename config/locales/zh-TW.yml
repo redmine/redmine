@@ -1573,3 +1573,4 @@
   field_default_value_mode: 預設值模式
   label_absolute: 絕對
   label_relative: 相對
+  text_users_remove_from_group_confirmation: Are you sure you want to remove the selected user(s) from the group %{group}?
