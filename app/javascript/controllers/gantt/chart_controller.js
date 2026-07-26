@@ -190,6 +190,7 @@ export default class extends Controller {
       const issueTo = this.$(`#task-todo-issue-${relation.issue_to}`)
 
       if (issueFrom.length === 0 || issueTo.length === 0) return
+      if (!issueTo.is(":visible")) return
 
       const issueHeight = issueFrom.height()
       const issueFromTop = issueFrom.position().top + issueHeight / 2 - this.#drawTop
