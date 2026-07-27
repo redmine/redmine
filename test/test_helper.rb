@@ -69,6 +69,13 @@ class ActiveSupport::TestCase
     ::I18n.locale = ::I18n.default_locale
   end
 
+  setup do
+    Redmine::Scm::Base.all.each do |scm_name|
+      config = "scm_#{scm_name.to_s.downcase}_path_regexp"
+      Redmine::Configuration.instance_variable_get('@config')[config] ||= '.*'
+    end
+  end
+
   parallelize_setup do |worker|
     # Use a separate attachment directory for each worker.
     $redmine_tmp_attachments_directory =

@@ -1,4 +1,4 @@
-<% if User.current.allowed_to?(:manage_repository, @project) %>
+<% if User.current.allowed_to?(:manage_repository, @project) && Setting.enabled_scm.any? %>
   <p><%= link_to sprite_icon('add', l(:label_repository_new)), new_project_repository_path(@project), :class => 'icon icon-add' %></p>
 <% end %>
 

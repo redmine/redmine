@@ -33,6 +33,21 @@ class RepositorySubversionTest < ActiveSupport::TestCase
     skip "SCM command is unavailable" unless @repository.class.scm_available
   end
 
+  def test_scm_available
+    klass = Repository::Subversion
+    assert_equal "Subversion", klass.scm_name
+    assert klass.scm_adapter_class
+    assert_not_equal "", klass.scm_command
+
+    Redmine::Configuration.with 'scm_subversion_path_regexp' => '' do
+      assert_equal false, klass.scm_available
+    end
+
+    Redmine::Configuration.with 'scm_subversion_path_regexp' => '.*' do
+      assert_equal true, klass.scm_available
+    end
+  end
+
   def test_invalid_url
     set_language_if_valid 'en'
     invalid_urls = [
@@ -48,7 +63,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
           :url => url
         )
       assert !repo.save, "expected #{url.inspect} to be rejected"
-      assert_equal ["is invalid"], repo.errors[:url]
+      assert_equal ["is invalid"], repo.errors[:url]&.uniq
     end
   end
 

@@ -8,27 +8,29 @@
     <th></th>
     <th><%= l(:text_scm_command)         %></th>
     <th><%= l(:text_scm_command_version) %></th>
+    <th><%= l(:field_path_to_repository) %></th>
   </tr>
   <% Redmine::Scm::Base.all.collect do |choice| %>
-    <% scm_class = "Repository::#{choice}".constantize %>
+    <% scm_class = Repository.repository_class(choice) %>
     <% text, value = (choice.is_a?(Array) ? choice : [choice, choice]) %>
     <% setting = :enabled_scm %>
     <% enabled = Setting.send(setting).include?(value) %>
+    <% path_regexp = Redmine::Configuration["scm_#{choice.to_s.downcase}_path_regexp"].presence %>
     <tr>
       <td class="scm_name">
         <label>
-          <%= check_box_tag("settings[#{setting}][]", value, enabled, :id => nil) %>
+          <%= check_box_tag("settings[#{setting}][]", value, enabled, id: nil, disabled: !scm_class.scm_available) %>
           <%= text.to_s %>
         </label>
       </td>
       <td>
-        <% if enabled %>
-          <span class="icon <%= (scm_class.scm_available ? 'icon-ok' : 'icon-error') %>"></span>
-          <%= scm_class.scm_command %>
-        <% end %>
+        <%= sprite_icon((scm_class.scm_client_available ? 'checked' : 'warning'), scm_class.scm_command) %>
       </td>
       <td>
-        <%= scm_class.scm_version_string if enabled %>
+        <%= scm_class.scm_version_string if scm_class.scm_client_available %>
+      </td>
+      <td>
+        <%= path_regexp ? content_tag('code', path_regexp) : l(:label_disabled) %>
       </td>
     </tr>
   <% end %>

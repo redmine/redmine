@@ -319,6 +319,8 @@ class ChangesetTest < ActiveSupport::TestCase
   end
 
   def test_commit_referencing_a_parent_project_issue
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+
     # repository of child project
     r = Repository::Subversion.
          create!(
@@ -335,6 +337,8 @@ class ChangesetTest < ActiveSupport::TestCase
   end
 
   def test_commit_referencing_a_project_with_commit_cross_project_ref_disabled
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+
     r = Repository::Subversion.
           create!(
             :project => Project.find(3),
@@ -351,6 +355,8 @@ class ChangesetTest < ActiveSupport::TestCase
   end
 
   def test_commit_referencing_a_project_with_commit_cross_project_ref_enabled
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+
     r = Repository::Subversion.
           create!(
             :project => Project.find(3),
@@ -389,6 +395,8 @@ class ChangesetTest < ActiveSupport::TestCase
   end
 
   def test_2_repositories_with_same_backend_should_not_link_issue_multiple_times
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+
     Setting.commit_ref_keywords = '*'
     r1 = Repository::Subversion.create!(:project_id => 1, :identifier => 'svn1', :url => 'file:///svn1')
     r2 = Repository::Subversion.create!(:project_id => 1, :identifier => 'svn2', :url => 'file:///svn1')
@@ -415,6 +423,8 @@ class ChangesetTest < ActiveSupport::TestCase
   end
 
   def test_text_tag_revision_with_repository_identifier
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+
     r = Repository::Subversion.
          create!(
            :project_id => 1,
@@ -451,6 +461,8 @@ class ChangesetTest < ActiveSupport::TestCase
   end
 
   def test_text_tag_hash_with_repository_identifier
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+
     r =
       Repository::Subversion.
         new(
@@ -469,6 +481,8 @@ class ChangesetTest < ActiveSupport::TestCase
   end
 
   def test_previous_uses_same_order_as_changeset_list
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+
     repository =
       Repository::Subversion.create!(
         :project => Project.find(3),
@@ -503,6 +517,8 @@ class ChangesetTest < ActiveSupport::TestCase
   end
 
   def test_next_uses_same_order_as_changeset_list
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+
     repository =
       Repository::Subversion.create!(
         :project => Project.find(3),
@@ -532,6 +548,8 @@ class ChangesetTest < ActiveSupport::TestCase
   end
 
   def test_comments_should_be_converted_to_utf8
+    skip "Bazaar is unavailable" unless Repository::Bazaar.scm_available
+
     proj = Project.find(3)
     str = "Texte encod\xe9 en ISO-8859-1.".b
     r = Repository::Bazaar.
@@ -551,6 +569,8 @@ class ChangesetTest < ActiveSupport::TestCase
   end
 
   def test_invalid_utf8_sequences_in_comments_should_be_replaced_latin1
+    skip "Bazaar is unavailable" unless Repository::Bazaar.scm_available
+
     proj = Project.find(3)
     str2 = "\xe9a\xe9b\xe9c\xe9d\xe9e test".b
     r = Repository::Bazaar.
@@ -572,6 +592,8 @@ class ChangesetTest < ActiveSupport::TestCase
   end
 
   def test_invalid_utf8_sequences_in_comments_should_be_replaced_ja_jis
+    skip "Bazaar is unavailable" unless Repository::Bazaar.scm_available
+
     proj = Project.find(3)
     str = "test\xb5\xfetest\xb5\xfe".b
     r = Repository::Bazaar.
@@ -591,6 +613,8 @@ class ChangesetTest < ActiveSupport::TestCase
   end
 
   def test_comments_should_be_converted_all_latin1_to_utf8
+    skip "Bazaar is unavailable" unless Repository::Bazaar.scm_available
+
     s1 = +"\xC2\x80"
     s2 = +"\xc3\x82\xc2\x80"
     s4 = s2.dup
@@ -618,6 +642,8 @@ class ChangesetTest < ActiveSupport::TestCase
   end
 
   def test_invalid_utf8_sequences_in_paths_should_be_replaced
+    skip "Bazaar is unavailable" unless Repository::Bazaar.scm_available
+
     proj = Project.find(3)
     str2 = "\xe9a\xe9b\xe9c\xe9d\xe9e test".b
     r = Repository::Bazaar.
@@ -650,6 +676,8 @@ class ChangesetTest < ActiveSupport::TestCase
   end
 
   def test_comments_nil
+    skip "Bazaar is unavailable" unless Repository::Bazaar.scm_available
+
     proj = Project.find(3)
     r = Repository::Bazaar.
           create!(
@@ -671,6 +699,8 @@ class ChangesetTest < ActiveSupport::TestCase
   end
 
   def test_comments_empty
+    skip "Bazaar is unavailable" unless Repository::Bazaar.scm_available
+
     proj = Project.find(3)
     r = Repository::Bazaar.
           create!(

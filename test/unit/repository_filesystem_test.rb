@@ -27,11 +27,26 @@ class RepositoryFilesystemTest < ActiveSupport::TestCase
   def setup
     User.current = nil
     @project = Project.find(3)
-    Setting.enabled_scm << 'Filesystem' unless Setting.enabled_scm.include?('Filesystem')
+    Setting.enabled_scm |= ['Filesystem']
     @repository =
       Repository::Filesystem.
         create(:project => @project, :url => REPOSITORY_PATH)
     assert @repository
+  end
+
+  def test_scm_available
+    klass = Repository::Filesystem
+    assert_equal "Filesystem", klass.scm_name
+    assert klass.scm_adapter_class
+    assert_equal "", klass.scm_command
+
+    Redmine::Configuration.with 'scm_filesystem_path_regexp' => '' do
+      assert_equal false, klass.scm_available
+    end
+
+    Redmine::Configuration.with 'scm_filesystem_path_regexp' => Regexp.escape(REPOSITORY_PATH) do
+      assert_equal true, klass.scm_available
+    end
   end
 
   def test_blank_root_directory_error_message

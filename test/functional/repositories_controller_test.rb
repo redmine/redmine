@@ -43,8 +43,10 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
   end
 
   def test_new_should_propose_enabled_scm_only
+    skip "Git is unavailable" unless Repository::Git.scm_available
+
     @request.session[:user_id] = 1
-    with_settings :enabled_scm => ['Mercurial', 'Git'] do
+    with_settings :enabled_scm => ['Filesystem', 'Git'] do
       get(
         :new,
         :params => {
@@ -55,12 +57,14 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
     assert_response :success
     assert_select 'select[name=repository_scm]' do
       assert_select 'option', 3
-      assert_select 'option[value=Mercurial][selected=selected]'
+      assert_select 'option[value=Filesystem][selected=selected]'
       assert_select 'option[value=Git]:not([selected])'
     end
   end
 
   def test_get_new_with_type
+    skip "Git is unavailable" unless Repository::Git.scm_available
+
     @request.session[:user_id] = 1
     get(
       :new,
@@ -76,6 +80,8 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
   end
 
   def test_create
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+
     @request.session[:user_id] = 1
     assert_difference 'Repository.count' do
       post(
@@ -98,6 +104,8 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
   end
 
   def test_create_with_failure
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+
     @request.session[:user_id] = 1
     assert_no_difference 'Repository.count' do
       post(
@@ -121,6 +129,8 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
   end
 
   def test_create_should_reject_subversion_url_with_newline_injection
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+
     @request.session[:user_id] = 1
     [
       "file:///test\nfoo",
@@ -196,6 +206,8 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
   end
 
   def test_show_with_autofetch_changesets_enabled_should_fetch_changesets
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+
     Repository::Subversion.any_instance.expects(:fetch_changesets).once
     with_settings :autofetch_changesets => '1' do
       get(:show, :params => {:id => 1})
@@ -203,6 +215,8 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
   end
 
   def test_show_with_autofetch_changesets_disabled_should_not_fetch_changesets
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+
     Repository::Subversion.any_instance.expects(:fetch_changesets).never
     with_settings :autofetch_changesets => '0' do
       get(:show, :params => {:id => 1})
@@ -210,6 +224,8 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
   end
 
   def test_show_with_closed_project_should_not_fetch_changesets
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+
     Repository::Subversion.any_instance.expects(:fetch_changesets).never
     Project.find(1).close
     with_settings :autofetch_changesets => '1' do
@@ -242,7 +258,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
 
   def test_show_should_show_diff_button_depending_on_browse_repository_permission
     skip unless repository_configured?('subversion')
-    skip unless Repository::Subversion.scm_available
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
 
     @request.session[:user_id] = 2
     role = Role.find(1)
@@ -260,6 +276,7 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
 
   def test_fetch_changesets
     skip unless repository_configured?('subversion')
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
 
     @request.session[:user_id] = 2
     role = Role.find(1)
@@ -290,6 +307,8 @@ class RepositoriesControllerTest < Redmine::RepositoryControllerTest
   end
 
   def test_revisions_for_other_repository
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+
     repository = Repository::Subversion.create!(:project_id => 1, :identifier => 'foo', :url => 'file:///foo')
     get(
       :revisions,

@@ -25,9 +25,12 @@ class RepositoryTest < ActiveSupport::TestCase
   def setup
     User.current = nil
     @repository = Project.find(1).repository
+    Setting.enabled_scm = Redmine::Scm::Base.all
   end
 
   def test_blank_log_encoding_error_message
+    skip "Bazaar is unavailable" unless Repository::Bazaar.scm_available
+
     set_language_if_valid 'en'
     repo =
       Repository::Bazaar.
@@ -42,6 +45,8 @@ class RepositoryTest < ActiveSupport::TestCase
   end
 
   def test_blank_log_encoding_error_message_fr
+    skip "Bazaar is unavailable" unless Repository::Bazaar.scm_available
+
     set_language_if_valid 'fr'
     repo =
       Repository::Bazaar.
@@ -54,6 +59,8 @@ class RepositoryTest < ActiveSupport::TestCase
   end
 
   def test_create
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+
     repository = Repository::Subversion.new(:project => Project.find(3))
     assert !repository.save
 
@@ -66,36 +73,48 @@ class RepositoryTest < ActiveSupport::TestCase
   end
 
   def test_2_repositories_with_same_identifier_in_different_projects_should_be_valid
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+
     Repository::Subversion.create!(:project_id => 2, :identifier => 'foo', :url => 'file:///foo')
     r = Repository::Subversion.new(:project_id => 3, :identifier => 'foo', :url => 'file:///bar')
     assert r.save
   end
 
   def test_2_repositories_with_same_identifier_should_not_be_valid
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+
     Repository::Subversion.create!(:project_id => 3, :identifier => 'foo', :url => 'file:///foo')
     r = Repository::Subversion.new(:project_id => 3, :identifier => 'foo', :url => 'file:///bar')
     assert !r.save
   end
 
   def test_2_repositories_with_blank_identifier_should_not_be_valid
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+
     Repository::Subversion.create!(:project_id => 3, :identifier => '', :url => 'file:///foo')
     r = Repository::Subversion.new(:project_id => 3, :identifier => '', :url => 'file:///bar')
     assert !r.save
   end
 
   def test_2_repositories_with_blank_identifier_and_one_as_default_should_not_be_valid
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+
     Repository::Subversion.create!(:project_id => 3, :identifier => '', :url => 'file:///foo', :is_default => true)
     r = Repository::Subversion.new(:project_id => 3, :identifier => '', :url => 'file:///bar')
     assert !r.save
   end
 
   def test_2_repositories_with_blank_and_nil_identifier_should_not_be_valid
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+
     Repository::Subversion.create!(:project_id => 3, :identifier => nil, :url => 'file:///foo')
     r = Repository::Subversion.new(:project_id => 3, :identifier => '', :url => 'file:///bar')
     assert !r.save
   end
 
   def test_first_repository_should_be_set_as_default
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+
     repository1 =
       Repository::Subversion.
         new(
@@ -123,21 +142,21 @@ class RepositoryTest < ActiveSupport::TestCase
   def test_default_repository_should_be_one
     assert_equal 0, Project.find(3).repositories.count
     repository1 =
-      Repository::Subversion.
+      Repository::Filesystem.
         new(
           :project => Project.find(3),
-          :identifier => 'svn1',
-          :url => 'file:///svn1'
+          :identifier => 'file1',
+          :url => 'file:///file1'
         )
     assert repository1.save
     assert repository1.is_default?
 
     repository2 =
-      Repository::Subversion.
+      Repository::Filesystem.
         new(
           :project => Project.find(3),
-          :identifier => 'svn2',
-          :url => 'file:///svn2',
+          :identifier => 'file2',
+          :url => 'file:///file2',
           :is_default => true
         )
     assert repository2.save
@@ -151,11 +170,11 @@ class RepositoryTest < ActiveSupport::TestCase
 
   def test_identifier_should_accept_letters_digits_dashes_and_underscores
     r =
-      Repository::Subversion.
+      Repository::Filesystem.
         new(
           :project_id => 3,
           :identifier => 'svn-123_45',
-          :url => 'file:///svn'
+          :url => 'file:///files'
         )
     assert r.save
   end
@@ -219,13 +238,13 @@ class RepositoryTest < ActiveSupport::TestCase
   end
 
   def test_should_not_create_with_disabled_scm
-    # disable Subversion
+    # disable Filesystem
     with_settings :enabled_scm => ['Mercurial', 'Git'] do
       repository =
-        Repository::Subversion.
+        Repository::Filesystem.
           new(
             :project => Project.find(3),
-            :url => "svn://localhost"
+            :url => "file:///files"
           )
       assert !repository.save
       assert_include I18n.translate('activerecord.errors.messages.invalid'),
@@ -282,6 +301,8 @@ class RepositoryTest < ActiveSupport::TestCase
   end
 
   def test_for_changeset_comments_strip
+    skip "Mercurial is unavailable" unless Repository::Mercurial.scm_available
+
     repository =
       Repository::Mercurial.
         create(
@@ -305,6 +326,8 @@ class RepositoryTest < ActiveSupport::TestCase
   end
 
   def test_for_urls_strip_cvs
+    skip "CVS is unavailable" unless Repository::Cvs.scm_available
+
     repository =
       Repository::Cvs.
         create(
@@ -321,6 +344,8 @@ class RepositoryTest < ActiveSupport::TestCase
   end
 
   def test_for_urls_strip_subversion
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+
     repository =
       Repository::Subversion.
         create(
@@ -333,6 +358,8 @@ class RepositoryTest < ActiveSupport::TestCase
   end
 
   def test_for_urls_strip_git
+    skip "Git is unavailable" unless Repository::Git.scm_available
+
     repository =
       Repository::Git.
         create(
@@ -394,12 +421,6 @@ class RepositoryTest < ActiveSupport::TestCase
     assert_equal User.find(2), c.user
   end
 
-  def test_filesystem_avaialbe
-    klass = Repository::Filesystem
-    assert klass.scm_adapter_class
-    assert_equal true, klass.scm_available
-  end
-
   def test_extra_info_should_not_return_non_hash_value
     repo = Repository.new
     repo.extra_info = "foo"
@@ -407,6 +428,8 @@ class RepositoryTest < ActiveSupport::TestCase
   end
 
   def test_merge_extra_info
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+
     repo = Repository::Subversion.new(:project => Project.find(3))
     assert !repo.save
     repo.url = "svn://localhost"
@@ -518,6 +541,8 @@ class RepositoryTest < ActiveSupport::TestCase
   end
 
   def test_fetch_changesets
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+
     # 2 repositories in fixtures
     Repository::Subversion.any_instance.expects(:fetch_changesets).twice.returns(true)
     Repository.fetch_changesets

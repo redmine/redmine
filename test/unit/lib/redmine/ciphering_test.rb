@@ -20,6 +20,10 @@
 require_relative '../../../test_helper'
 
 class Redmine::CipheringTest < ActiveSupport::TestCase
+  setup do
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+  end
+
   def test_password_should_be_encrypted
     Redmine::Configuration.with 'database_cipher_key' => 'secret' do
       plaintext_password = "THIS_IS_A_32_BYTES_LONG_PASSWORD"

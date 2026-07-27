@@ -38,6 +38,22 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
     skip "SCM command is unavailable" unless @repository.class.scm_available
   end
 
+  def test_scm_available
+    klass = Repository::Mercurial
+    assert_equal "Mercurial", klass.scm_name
+    assert klass.scm_adapter_class
+    assert_not_equal "", klass.scm_command
+
+    Redmine::Configuration.with 'scm_mercurial_path_regexp' => '' do
+      assert_equal false, klass.scm_available
+    end
+
+    Redmine::Configuration.with 'scm_mercurial_path_regexp' => Regexp.escape(REPOSITORY_PATH) do
+      assert_equal true, klass.scm_available
+    end
+  end
+
+
   def test_blank_path_to_repository_error_message
     set_language_if_valid 'en'
     repo =
@@ -64,14 +80,6 @@ class RepositoryMercurialTest < ActiveSupport::TestCase
   end
 
   if File.directory?(REPOSITORY_PATH)
-    def test_scm_available
-      klass = Repository::Mercurial
-      assert_equal "Mercurial", klass.scm_name
-      assert klass.scm_adapter_class
-      assert_not_equal "", klass.scm_command
-      assert_equal true, klass.scm_available
-    end
-
     def test_entries_on_tip
       entries = @repository.entries
       assert_kind_of Redmine::Scm::Adapters::Entries, entries

@@ -609,6 +609,8 @@ class ApplicationHelperTest < Redmine::HelperTest
   end
 
   def test_multiple_repositories_redmine_links
+    skip "Subversion or Mercurial is unavailable" unless Repository::Subversion.scm_available && Repository::Mercurial.scm_available
+
     svn = Repository::Subversion.create!(:project_id => 1, :identifier => 'svn_repo-1', :url => 'file:///foo/hg')
     Changeset.create!(:repository => svn, :committed_on => Time.now, :revision => '123')
     hg = Repository::Mercurial.create!(:project_id => 1, :identifier => 'hg1', :url => '/foo/hg')
@@ -666,6 +668,8 @@ class ApplicationHelperTest < Redmine::HelperTest
   end
 
   def test_cross_project_multiple_repositories_redmine_links
+    skip "Subversion or Mercurial is unavailable" unless Repository::Subversion.scm_available && Repository::Mercurial.scm_available
+
     svn = Repository::Subversion.create!(:project_id => 1, :identifier => 'svn1', :url => 'file:///foo/hg')
     Changeset.create!(:repository => svn, :committed_on => Time.now, :revision => '123')
     hg = Repository::Mercurial.create!(:project_id => 1, :identifier => 'hg1', :url => '/foo/hg')
@@ -725,6 +729,8 @@ class ApplicationHelperTest < Redmine::HelperTest
   end
 
   def test_redmine_links_git_commit
+    skip "Git is unavailable" unless Repository::Git.scm_available
+
     @project = Project.find(3)
     r = Repository::Git.create!(:project => @project, :url => '/tmp/test/git')
     c =
@@ -757,6 +763,8 @@ class ApplicationHelperTest < Redmine::HelperTest
 
   # TODO: Bazaar commit id contains mail address, so it contains '@' and '_'.
   def test_redmine_links_mercurial_commit
+    skip "Mercurial is unavailable" unless Repository::Mercurial.scm_available
+
     @project = Project.find(3)
     r = Repository::Mercurial.create!(:project => @project, :url => '/tmp/test')
     c =

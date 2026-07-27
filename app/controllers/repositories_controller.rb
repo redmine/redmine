@@ -326,7 +326,12 @@ class RepositoriesController < ApplicationController
   private
 
   def build_new_repository_from_params
-    scm = params[:repository_scm] || (Redmine::Scm::Base.all & Setting.enabled_scm).first
+    scm = if params[:repository_scm].present?
+      params[:repository_scm] if Setting.enabled_scm.include?(params[:repository_scm])
+    else
+      Setting.enabled_scm.first
+    end
+
     unless @repository = Repository.factory(scm)
       render_404
       return
@@ -353,7 +358,7 @@ class RepositoriesController < ApplicationController
     else
       @repository = @project.repository || @project.repositories.first
     end
-    (render_404; return false) unless @repository
+    (render_404; return false) unless @repository&.adapter_enabled?
     @path = params[:path].is_a?(Array) ? params[:path].join('/') : params[:path].to_s
 
     @rev = params[:rev].to_s.strip.presence || @repository.default_branch

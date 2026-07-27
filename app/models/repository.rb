@@ -64,9 +64,7 @@ class Repository < ApplicationRecord
     :if => lambda {|repository, user| repository.new_record?})
 
   def repo_create_validation
-    unless Setting.enabled_scm.include?(self.class.name.demodulize)
-      errors.add(:type, :invalid)
-    end
+    errors.add(:type, :invalid) unless adapter_enabled?
   end
 
   def self.human_attribute_name(attribute_key_name, *)
@@ -372,7 +370,7 @@ class Repository < ApplicationRecord
     Project.active.has_module(:repository).all.each do |project|
       project.repositories.each do |repository|
         begin
-          repository.fetch_changesets
+          repository.fetch_changesets if repository.adapter_enabled?
         rescue Redmine::Scm::Adapters::CommandFailed => e
           logger.error "scm: error during fetching changesets: #{e.message}"
         end
@@ -387,10 +385,6 @@ class Repository < ApplicationRecord
 
   def self.scm_name
     'Abstract'
-  end
-
-  def self.available_scm
-    subclasses.collect {|klass| [klass.scm_name, klass.name]}
   end
 
   def self.factory(klass_name, *)
@@ -428,14 +422,18 @@ class Repository < ApplicationRecord
     ret
   end
 
-  def self.scm_available
+  def self.scm_client_available
     ret = false
     begin
       ret = self.scm_adapter_class.client_available if self.scm_adapter_class
     rescue => e
-      logger.error "scm: error during get scm available: #{e.message}"
+      logger.error "scm: error during get scm client available: #{e.message}"
     end
     ret
+  end
+
+  def self.scm_available
+    scm_client_available && Redmine::Configuration["scm_#{scm_name.to_s.downcase}_path_regexp"].present?
   end
 
   def set_as_default?
@@ -490,6 +488,10 @@ class Repository < ApplicationRecord
 
   def valid_name?(name)
     scm.valid_name?(name)
+  end
+
+  def adapter_enabled?
+    Setting.enabled_scm.include?(self.class.name.demodulize)
   end
 
   protected

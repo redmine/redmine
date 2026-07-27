@@ -364,6 +364,17 @@ class Setting < ApplicationRecord
   load_available_settings
   load_plugin_settings
 
+  # Returns an array containing the names of enabled and available scm adapters
+  #
+  # This must be defined after running load_available_settings since it
+  # overrides the default enabled_scm setting reader.
+  def self.enabled_scm
+    enabled_scm = self[:enabled_scm] & Redmine::Scm::Base.all
+    enabled_scm.keep_if do |scm_name|
+      Repository.repository_class(scm_name)&.scm_available
+    end.freeze
+  end
+
   private
 
   def force_utf8_strings(arg)

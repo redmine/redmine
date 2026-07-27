@@ -158,4 +158,14 @@ class SettingTest < ActiveSupport::TestCase
   def test_default_wiki_tablesort_enabled_for_new_installations_is_disabled
     assert_equal "0", Setting.wiki_tablesort_enabled
   end
+
+  def test_enabled_scm
+    with_settings :enabled_scm => ['Filesystem', 'Invalid'] do
+      assert_equal ['Filesystem'], Setting.enabled_scm
+
+      Redmine::Configuration.with 'scm_filesystem_path_regexp' => '' do
+        assert_equal [], Setting.enabled_scm
+      end
+    end
+  end
 end

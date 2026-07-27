@@ -39,6 +39,21 @@ class RepositoryCvsTest < ActiveSupport::TestCase
     skip "SCM command is unavailable" unless @repository.class.scm_available
   end
 
+  def test_scm_available
+    klass = Repository::Cvs
+    assert_equal "CVS", klass.scm_name
+    assert klass.scm_adapter_class
+    assert_not_equal "", klass.scm_command
+
+    Redmine::Configuration.with 'scm_cvs_path_regexp' => '' do
+      assert_equal false, klass.scm_available
+    end
+
+    Redmine::Configuration.with 'scm_cvs_path_regexp' => Regexp.escape(REPOSITORY_PATH) do
+      assert_equal true, klass.scm_available
+    end
+  end
+
   def test_blank_module_error_message
     set_language_if_valid 'en'
     repo = Repository::Cvs.new(

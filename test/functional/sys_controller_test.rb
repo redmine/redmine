@@ -92,6 +92,20 @@ class SysControllerTest < Redmine::ControllerTest
     assert_response :unprocessable_content
   end
 
+  def test_create_disabled_adapter
+    with_settings(enabled_scm: []) do
+      post(
+        :create_project_repository,
+        :params => {
+          :id => 4,
+          :vendor => 'Subversion',
+          :repository => {:url => 'file:///create/project/repository/subproject2'}
+        }
+      )
+      assert_response :unprocessable_content
+    end
+  end
+
   def test_fetch_changesets
     Repository::Subversion.any_instance.expects(:fetch_changesets).twice.returns(true)
     get :fetch_changesets

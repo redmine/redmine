@@ -41,6 +41,7 @@ class SysController < ActionController::Base
     else
       logger.info "Repository for #{project.name} was reported to be created by #{request.remote_ip}."
       repository = Repository.factory(params[:vendor])
+      return head :unprocessable_content unless repository&.adapter_enabled?
       repository.safe_attributes = params[:repository]
       repository.project = project
       if repository.save
@@ -69,7 +70,7 @@ class SysController < ActionController::Base
     end
     projects.each do |project|
       project.repositories.each do |repository|
-        repository.fetch_changesets
+        repository.fetch_changesets if repository.adapter_enabled?
       end
     end
     head :ok

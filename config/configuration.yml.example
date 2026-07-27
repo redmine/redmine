@@ -111,9 +111,12 @@ default:
   # You can configure a regular expression for each SCM that will be used to
   # validate the path of new repositories (eg. path entered by users with the
   # "Manage repositories" permission and path returned by reposman.rb).
-  # The regexp will be wrapped with \A \z, so it must match the whole path.
-  # And the regexp is case sensitive.
   #
+  # Only repository types with a configured regular expression can be created
+  # or used in Redmine.
+  #
+  # The regexp will be wrapped with \A \z, so it must match the whole path.
+  # The regexp is case sensitive.
   # You can match the project identifier by using %project% in the regexp.
   #
   # You can also set a custom hint message for each SCM that will be displayed
