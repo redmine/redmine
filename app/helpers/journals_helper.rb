@@ -30,7 +30,7 @@ module JournalsHelper
   def render_journal_actions(issue, journal, options={})
     links = []
     dropbown_links = []
-    indice = journal.indice || @journal.issue.visible_journals_with_index.find{|j| j.id == @journal.id}.indice
+    indice = journal.indice || journal.issue.visible_journals_with_index.find{|j| j.id == journal.id}&.indice
 
     dropbown_links << copy_object_url_link(issue_url(issue, anchor: "note-#{indice}", only_path: false))
     if journal.attachments.size > 1

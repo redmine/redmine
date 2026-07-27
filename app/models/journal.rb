@@ -102,7 +102,7 @@ class Journal < ApplicationRecord
   def save(*args)
     journalize_changes
     # Do not save an empty journal
-    notes_and_details_empty? ? false : super()
+    (new_record? && notes_and_details_empty?) ? false : super()
   end
 
   def notes_and_details_empty?

@@ -1,4 +1,4 @@
-<% if @journal.frozen? %>
+<% if @journal.frozen? || @journal.notes_and_details_empty? %>
   $("#change-<%= @journal.id %>").remove();
 <% else %>
   $("#change-<%= @journal.id %>").attr('class', '<%= @journal.css_classes %>');
