@@ -4,33 +4,20 @@
  * This code is released under the GNU General Public License.
  */
 
-#context-menu { position: absolute; z-index: 40; font-size: 0.9em;}
-
-#context-menu ul, #context-menu li, #context-menu a {
-  margin:0;
-  padding:0;
-  border:0;
-}
+#context-menu { position: absolute; z-index: 1000; font-size: 0.9em;}
+#context-menu.dropdown-content { inset-block-start: auto; inset-inline-end: auto; margin-block-start: 0; }
 
 #context-menu ul {
-  min-inline-size: 150px;
+  min-inline-size: 160px;
   max-inline-size: 300px;
-  border: 1px solid var(--oc-gray-4);
-  background:white;
   list-style:none;
-  padding:2px;
-  border-radius:2px;
-  box-shadow: 0 2px 4px rgba(var(--oc-gray-9-rgb), 0.1);
 }
 
 #context-menu li {
   position:relative;
-  padding:1px;
   z-index:39;
-  border:1px solid white;
-  display: flex;
 }
-#context-menu li.folder ul { position: absolute; inset-block-start: -2px; max-block-size: 300px; overflow: hidden; overflow-y: auto; }
+#context-menu li.folder ul { position: absolute; inset-block-start: -4px; max-block-size: 300px; overflow: hidden; overflow-y: auto; }
 #context-menu li.folder>ul { inset-inline-start: 100%; }
 
 #context-menu.reverse-y li.folder>ul, #context-menu li.folder.up>ul { inset-block: auto 0; }
@@ -38,22 +25,18 @@
 #context-menu.reverse-x li.folder>ul { inset-inline-end: 100%; }
 
 #context-menu.reverse-y li.folder.down>ul {
-  position: absolute; inset-block: -2px auto; max-block-size: 300px; overflow: hidden; overflow-y: auto;
+  position: absolute; inset-block: -4px auto; max-block-size: 300px; overflow: hidden; overflow-y: auto;
 }
 
 #context-menu a {
   text-decoration:none !important;
-  padding-block: 2px;
-  padding-inline: 8px;
+  padding-block: 6px;
+  display: flex;
+  align-items: center;
 }
 #context-menu li>a { flex-grow: 1; }
 #context-menu a.disabled, #context-menu a.disabled:hover {color: var(--oc-gray-5);}
-#context-menu li a.submenu { padding-inline-start: 28px;}
-#context-menu li:hover { border:1px solid var(--oc-blue-8); background-color:var(--oc-blue-0); border-radius:3px; }
 #context-menu a:hover {color:var(--oc-blue-9);}
-#context-menu li.folder ul li a:not(.icon) {
-  padding-inline-start: 28px;
-}
 #context-menu li.folder:hover { z-index:40; }
 #context-menu ul ul, #context-menu  li:hover ul ul { display:none; }
 #context-menu li:hover ul, #context-menu li:hover li:hover ul { display:block; }

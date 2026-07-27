@@ -116,7 +116,7 @@ nav.top-menu {
 }
 
 #account .dropdown-content .user-info {
-  padding-block: 10px;
+  padding-block: 6px;
   padding-inline: 16px;
   color: var(--oc-gray-9);
 }

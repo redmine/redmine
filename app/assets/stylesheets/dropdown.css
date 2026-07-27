@@ -17,40 +17,97 @@
 }
 
 .dropdown-content {
+  /* Configuration Variables */
+  --dropdown-bg: var(--oc-white);
+  --dropdown-border: var(--oc-gray-4);
+  --dropdown-shadow: rgba(var(--oc-black-rgb), 0.1);
+  --dropdown-item-padding-block: 6px;
+  --dropdown-item-padding-inline: 16px;
+  --dropdown-hover-bg: var(--oc-gray-1);
+  --dropdown-active-color: var(--oc-blue-9);
+
   position: absolute;
   inset-block-start: 100%;
   inset-inline-end: 0;
-  background-color: var(--oc-white);
-  border: 1px solid var(--oc-gray-4);
+  background-color: var(--dropdown-bg);
+  border: 1px solid var(--dropdown-border);
   border-radius: 4px;
-  box-shadow: 0 4px 6px rgba(var(--oc-black-rgb), 0.1);
+  box-shadow: 0 4px 6px var(--dropdown-shadow);
   z-index: 1000;
   min-inline-size: 160px;
   margin-block-start: 4px;
+  padding-block: 4px;
 }
 
 .dropdown-content ul {
   list-style: none;
   margin: 0;
   padding: 0;
+  border: 0;
+}
+
+.dropdown-content li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 
 .dropdown-content li a, .dropdown-content .dropdown-items a {
   display: flex;
-  padding-block: 8px;
-  padding-inline: 16px;
+  align-items: center;
+  flex-grow: 1;
+  padding-block: var(--dropdown-item-padding-block);
+  padding-inline: var(--dropdown-item-padding-inline);
   font-weight: normal;
   margin: 0;
-}
-
-.dropdown-content li a:hover, .dropdown-content .dropdown-items a:hover {
-  background-color: var(--oc-gray-1);
-  color: var(--oc-blue-9);
+  border: 0;
   text-decoration: none;
 }
 
-.dropdown-content li a:hover .icon-svg, .dropdown-content .dropdown-items a:hover .icon-svg {
-  stroke: var(--oc-blue-9);
+.dropdown-content li a.disabled {
+  color: var(--oc-gray-5) !important;
+  cursor: not-allowed;
+}
+
+.dropdown-content li:hover:not(:has(> a.disabled)),
+.dropdown-content .dropdown-items a:hover {
+  background-color: var(--dropdown-hover-bg);
+}
+
+.dropdown-content li:hover:not(:has(> a.disabled)) > a,
+.dropdown-content .dropdown-items a:hover {
+  color: var(--dropdown-active-color);
+  text-decoration: none;
+}
+
+.dropdown-content li:hover:not(:has(> a.disabled)) .icon-svg,
+.dropdown-content .dropdown-items a:hover .icon-svg {
+  stroke: var(--dropdown-active-color);
+}
+
+/* Align text of all items identically if any item inside the dropdown contains an icon */
+.dropdown-content:has(.icon-svg) li a,
+.dropdown-content:has(.icon-svg) .dropdown-items a {
+  padding-inline-start: 36px;
+}
+
+.dropdown-content li a .icon-svg,
+.dropdown-content .dropdown-items a .icon-svg {
+  position: absolute;
+  inset-inline-start: 12px;
+}
+
+/* Submenu / Nested List support */
+.dropdown-content li ul {
+  background-color: var(--dropdown-bg);
+  border: 1px solid var(--dropdown-border);
+  border-radius: 4px;
+  box-shadow: 0 4px 6px var(--dropdown-shadow);
+  padding-block: 4px;
 }
 
 .dropdown-divider {

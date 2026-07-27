@@ -90,6 +90,7 @@ function contextMenuCreate() {
   if ($('#context-menu').length < 1) {
     var menu = document.createElement("div");
     menu.setAttribute("id", "context-menu");
+    menu.setAttribute("class", "dropdown-content");
     menu.setAttribute("style", "display:none;");
     document.getElementsByTagName("body")[0].appendChild(menu);
   }
