@@ -89,7 +89,6 @@ class JournalsController < ApplicationController
     journal_attributes[:updated_by] = User.current
     @journal.safe_attributes = journal_attributes
     @journal.save
-    @journal.destroy if @journal.details.empty? && @journal.notes.blank?
     call_hook(:controller_journals_edit_post, {:journal => @journal, :params => params})
     respond_to do |format|
       format.html {redirect_to issue_path(@journal.journalized)}

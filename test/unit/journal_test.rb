@@ -56,6 +56,15 @@ class JournalTest < ActiveSupport::TestCase
     end
   end
 
+  def test_should_save_existing_journal_with_blank_notes_and_no_details
+    journal = Journal.find(2)
+    journal.notes = ''
+    assert_no_difference 'Journal.count' do
+      assert_equal true, journal.save
+    end
+    assert_equal '', journal.reload.notes
+  end
+
   def test_create_should_not_split_non_private_notes
     assert_difference 'Journal.count' do
       assert_no_difference 'JournalDetail.count' do

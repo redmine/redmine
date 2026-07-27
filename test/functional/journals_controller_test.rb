@@ -349,9 +349,9 @@ class JournalsControllerTest < Redmine::ControllerTest
     assert_equal false, Journal.find(2).private_notes
   end
 
-  def test_update_xhr_with_empty_notes_should_delete_the_journal
+  def test_update_xhr_with_empty_notes_should_not_delete_the_journal
     @request.session[:user_id] = 1
-    assert_difference 'Journal.count', -1 do
+    assert_no_difference 'Journal.count' do
       post(
         :update,
         :params => {
@@ -365,7 +365,7 @@ class JournalsControllerTest < Redmine::ControllerTest
       assert_response :success
       assert_equal 'text/javascript', response.media_type
     end
-    assert_nil Journal.find_by_id(2)
+    assert_equal '', Journal.find(2).notes
     assert_include 'change-2', response.body
   end
 end
