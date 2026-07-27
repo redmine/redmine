@@ -72,7 +72,9 @@ class MenuManagerTest < Redmine::IntegrationTest
     end
   end
 
-  def test_project_menu_should_display_repository_tab_when_exists_repository
+  def test_project_menu_should_display_repository_tab_when_enabled_repository
+    skip "Subversion is unavailable" unless Repository::Subversion.scm_available
+
     project = Project.find('ecookbook')
     repos = project.repositories
     assert_equal true, repos.exists?
@@ -83,6 +85,13 @@ class MenuManagerTest < Redmine::IntegrationTest
     get '/projects/ecookbook'
     assert_select '#main-menu' do
       assert_select 'a.repository', :count => 1
+    end
+
+    with_settings :enabled_scm => ['Filesystem'] do
+      get '/projects/ecookbook'
+      assert_select '#main-menu' do
+        assert_select 'a.repository', :count => 0
+      end
     end
 
     repos.update_all(:is_default => false)
