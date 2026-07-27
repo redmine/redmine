@@ -327,10 +327,10 @@ class RepositoriesController < ApplicationController
 
   def build_new_repository_from_params
     scm = if params[:repository_scm].present?
-      params[:repository_scm] if Setting.enabled_scm.include?(params[:repository_scm])
-    else
-      Setting.enabled_scm.first
-    end
+            params[:repository_scm] if Setting.enabled_scm.include?(params[:repository_scm])
+          else
+            Setting.enabled_scm.first
+          end
 
     unless @repository = Repository.factory(scm)
       render_404

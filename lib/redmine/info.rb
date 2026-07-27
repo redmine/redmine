@@ -56,10 +56,10 @@ module Redmine
           config = "scm_#{scm.to_s.downcase}_path_regexp"
           if scm_class.scm_client_available
             paths = if Redmine::Configuration[config].present?
-              "Allowed Paths: #{Redmine::Configuration[config]}"
-            else
-              "DISABLED: scm_#{scm.to_s.downcase}_path_regexp missing in configuration.yml"
-            end
+                      "Allowed Paths: #{Redmine::Configuration[config]}"
+                    else
+                      "DISABLED: scm_#{scm.to_s.downcase}_path_regexp missing in configuration.yml"
+                    end
 
             s << "  %-30s %-20s %s\n" % [scm, scm_class.scm_version_string, paths]
           end

@@ -396,7 +396,7 @@ module Redmine
                   :if => Proc.new { |p|
                     repository_types = p.repositories.pluck(:type)
                     enabled_types = Setting.enabled_scm.map { |name| "Repository::#{name}" }
-                    (repository_types & enabled_types).any?
+                    repository_types.intersect?(enabled_types)
                   }
         menu.push :settings, {:controller => 'projects', :action => 'settings'},
                   :last => true
