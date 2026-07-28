@@ -72,7 +72,7 @@ class ActiveSupport::TestCase
   setup do
     Redmine::Scm::Base.all.each do |scm_name|
       config = "scm_#{scm_name.to_s.downcase}_path_regexp"
-      Redmine::Configuration.instance_variable_get('@config')[config] ||= '.*'
+      Redmine::Configuration.instance_variable_get(:@config)[config] ||= '.*'
     end
   end
 

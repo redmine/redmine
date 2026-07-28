@@ -42,6 +42,7 @@ class SysController < ActionController::Base
       logger.info "Repository for #{project.name} was reported to be created by #{request.remote_ip}."
       repository = Repository.factory(params[:vendor])
       return head :unprocessable_content unless repository&.adapter_enabled?
+
       repository.safe_attributes = params[:repository]
       repository.project = project
       if repository.save
