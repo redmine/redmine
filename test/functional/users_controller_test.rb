@@ -672,6 +672,8 @@ class UsersControllerTest < Redmine::ControllerTest
     assert_select 'h2>a+img.gravatar'
     assert_select 'input[name=?][value=?]', 'user[login]', 'jsmith'
     assert_select 'label[for=?]>span.required', 'user_password', 0
+    assert_select 'input[type=password][name=?][autocomplete=new-password]', 'user[password]'
+    assert_select 'input[type=password][name=?][autocomplete=new-password]', 'user[password_confirmation]'
   end
 
   def test_edit_registered_user
