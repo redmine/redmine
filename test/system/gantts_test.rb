@@ -85,7 +85,7 @@ class GanttsTest < ApplicationSystemTestCase
     assert_selector '#context-menu a.icon-edit'
 
     # Click outside the context menu to close it
-    issue1_subject_row.click
+    issue1_subject_row.click(x: -1, y: 0)
     assert_no_selector '#context-menu'
 
     # Context menu for issue task bar
