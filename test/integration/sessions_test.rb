@@ -99,4 +99,24 @@ class SessionsTest < Redmine::IntegrationTest
     other.get '/my/account'
     assert_equal 200, other.response.response_code
   end
+
+  def test_api_request_should_not_change_session
+    jsmith = User.find(2)
+    jsmith.must_change_passwd = true
+    jsmith.save
+
+    log_user('jsmith', 'jsmith')
+    assert_not_nil session[:pwd]
+
+    follow_redirect!
+    assert_redirected_to '/my/password'
+
+    get '/issues.json'
+    assert_response :ok
+    assert_nil session[:pwd]
+
+    get '/issues'
+    assert_not_nil session[:pwd]
+    assert_redirected_to '/my/password'
+  end
 end
