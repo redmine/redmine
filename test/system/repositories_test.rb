@@ -44,6 +44,16 @@ class RepositoriesTest < ApplicationSystemTestCase
       assert page.has_css?("div[id=main-menu]")
       assert page.has_css?("a.administration")
     end
+
+    def test_statistics_should_render_commits_charts
+      log_user('admin', 'admin')
+
+      visit('projects/ecookbook/repository')
+      click_link('Statistics')
+
+      assert_selector 'canvas#commits_per_month[style*="display: block"]'
+      assert_selector 'canvas#commits_per_author[style*="display: block"]'
+    end
   end
 
   if repository_configured?('git')
