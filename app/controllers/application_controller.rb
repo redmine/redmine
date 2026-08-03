@@ -61,7 +61,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  before_action :session_expiration, :user_setup, :check_if_login_required, :set_localization, :check_password_change, :check_twofa_activation
+  before_action :api_session, :session_expiration, :user_setup, :check_if_login_required, :set_localization, :check_password_change, :check_twofa_activation
   after_action :record_project_usage
 
   rescue_from ::Unauthorized, :with => :deny_access
@@ -72,6 +72,19 @@ class ApplicationController < ActionController::Base
   helper Redmine::MenuManager::MenuHelper
 
   include Redmine::SudoMode::Controller
+
+  def api_session
+    return unless api_request?
+
+    # For an API request, we don't want to use the existing session of a user
+    # (if present). Thus, we setup a "null session", i.e. an empty transient
+    # session which is not persisted anywhere and is not tied to the "real" user
+    # session.
+    #
+    # We also setup an empty cookie store for the request duration which does
+    # not persist any new cookies.
+    ActionController::RequestForgeryProtection::ProtectionMethods::NullSession.new(self).handle_unverified_request
+  end
 
   def session_expiration
     if session[:user_id] && Rails.application.config.redmine_verify_sessions != false
