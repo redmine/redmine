@@ -75,6 +75,17 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
     assert_equal 1, json['news']['id']
   end
 
+  test "GET /news/:id.xml?include=reactions should include reactions" do
+    get "/news/1.xml?include=reactions", :headers => credentials('admin')
+
+    assert_response :success
+    assert_equal 'application/xml', response.media_type
+    assert_select 'news>reactions[type=array]' do
+      assert_select 'reaction', 1
+      assert_select 'reaction>user[id="1"][name="Redmine Admin"]'
+    end
+  end
+
   test "GET /news/:id.xml with attachments" do
     news = News.find(1)
     attachment = Attachment.first
@@ -101,6 +112,19 @@ class Redmine::ApiTest::NewsTest < Redmine::ApiTest::Base
       assert_select 'comment[id=2]' do
         assert_select 'author[id=2][name="John Smith"]'
         assert_select 'content', :text => 'This is an other comment'
+      end
+    end
+  end
+
+  test "GET /news/:id.xml?include=comments,reactions should include comment reactions" do
+    get "/news/1.xml?include=comments,reactions", :headers => credentials('admin')
+
+    assert_response :success
+    assert_equal 'application/xml', response.media_type
+    assert_select 'news comments[type=array]' do
+      assert_select 'comment[id="1"]>reactions[type=array]' do
+        assert_select 'reaction', 1
+        assert_select 'reaction>user[id="2"][name="John Smith"]'
       end
     end
   end

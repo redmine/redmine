@@ -379,6 +379,96 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     assert_select 'issue>status[is_closed=false]'
   end
 
+  test "GET /issues/:id.xml should not include reactions by default" do
+    get '/issues/1.xml', :headers => credentials('admin')
+
+    assert_response :ok
+    assert_select 'issue>reactions', 0
+  end
+
+  test "GET /issues/:id.xml?include=reactions should include reactions" do
+    get '/issues/1.xml?include=reactions', :headers => credentials('admin')
+
+    assert_response :ok
+    assert_equal 'application/xml', response.media_type
+    assert_select 'issue>reactions[type=array]' do
+      assert_select 'reaction', 3
+      assert_select 'reaction>user[id="1"][name="Redmine Admin"]'
+      assert_select 'reaction>user[id="2"][name="John Smith"]'
+      assert_select 'reaction>user[id="3"][name="Dave Lopper"]'
+    end
+  end
+
+  test "GET /issues/:id.json?include=reactions should include reactions" do
+    get '/issues/1.json?include=reactions', :headers => credentials('admin')
+
+    assert_response :ok
+    assert_equal 'application/json', response.media_type
+    json = ActiveSupport::JSON.decode(response.body)
+    reactions = json['issue']['reactions'].sort_by {|reaction| reaction['user']['id']}
+
+    assert_equal(
+      [
+        {'user' => {'id' => 1, 'name' => 'Redmine Admin'}},
+        {'user' => {'id' => 2, 'name' => 'John Smith'}},
+        {'user' => {'id' => 3, 'name' => 'Dave Lopper'}}
+      ],
+      reactions
+    )
+  end
+
+  test "GET /issues/:id.json?include=reactions should return an empty array when there are no reactions" do
+    get '/issues/2.json?include=reactions', :headers => credentials('admin')
+
+    assert_response :ok
+    json = ActiveSupport::JSON.decode(response.body)
+
+    assert_equal [], json['issue']['reactions']
+  end
+
+  test "GET /issues/:id.xml?include=journals,reactions should include journal reactions" do
+    get '/issues/1.xml?include=journals,reactions', :headers => credentials('admin')
+
+    assert_response :ok
+    assert_select 'issue journals[type=array]' do
+      assert_select 'journal[id="1"]>reactions[type=array]' do
+        assert_select 'reaction', 1
+        assert_select 'reaction>user[id="2"][name="John Smith"]'
+      end
+    end
+  end
+
+  test "GET /issues/:id.xml?include=reactions should not include reactions when reactions are disabled" do
+    with_settings :reactions_enabled => '0' do
+      get '/issues/1.xml?include=reactions', :headers => credentials('admin')
+    end
+
+    assert_response :ok
+    assert_select 'issue>reactions', 0
+  end
+
+  test "GET /issues/:id.xml?include=reactions should not disclose hidden reaction users" do
+    user = User.generate! do |u|
+      u.password = 'secret123'
+      u.password_confirmation = 'secret123'
+    end
+    role = Role.generate!(
+      :users_visibility => 'members_of_visible_projects',
+      :permissions => [:view_issues]
+    )
+    User.add_to_project(user, projects(:projects_001), role)
+
+    get '/issues/1.xml?include=reactions', :headers => credentials(user.login, 'secret123')
+
+    assert_response :ok
+    assert_select 'issue>reactions[type=array]' do
+      assert_select 'reaction', 2
+      assert_select 'user[id="1"]', 0
+      assert_select 'reaction>user[id="2"][name="John Smith"]'
+      assert_select 'reaction>user[id="3"][name="Dave Lopper"]'
+    end
+  end
+
   test "GET /issues/:id.xml?include=watchers should include watchers" do
     Watcher.create!(:user_id => 3, :watchable => Issue.find(1))
 

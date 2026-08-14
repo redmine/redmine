@@ -29,6 +29,8 @@ api.issue do
   api.updated_on @issue.updated_on
   api.closed_on @issue.closed_on
 
+  render_api_reactions(@issue, api) if include_in_api_response?('reactions')
+
   render_api_issue_children(@issue, api) if include_in_api_response?('children')
 
   api.array :attachments do
@@ -62,6 +64,7 @@ api.issue do
         api.updated_on journal.updated_on
         api.updated_by(:id => journal.updated_by.id, :name => journal.updated_by.name) unless journal.updated_by.nil?
         api.private_notes journal.private_notes
+        render_api_reactions(journal, api) if include_in_api_response?('reactions')
         api.array :details do
           journal.visible_details.each do |detail|
             api.detail :property => detail.property, :name => detail.prop_key do

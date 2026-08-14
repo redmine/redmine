@@ -47,6 +47,18 @@ module ReactionsHelper
     dom_id(object, :reaction)
   end
 
+  def render_api_reactions(object, api)
+    return unless Redmine::Reaction.visible?(object, User.current)
+
+    api.array :reactions do
+      object.reaction_detail.visible_users.each do |user|
+        api.reaction do
+          api.user :id => user.id, :name => user.name
+        end
+      end
+    end
+  end
+
   private
 
   def reaction_button_reacted(object, reaction, count, tooltip)

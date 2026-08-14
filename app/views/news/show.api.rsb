@@ -7,6 +7,8 @@ api.news do
   api.description @news.description
   api.created_on @news.created_on
 
+  render_api_reactions(@news, api) if include_in_api_response?('reactions')
+
   api.array :attachments do
     @news.attachments.each do |attachment|
       render_api_attachment(attachment, api)
@@ -18,6 +20,7 @@ api.news do
       api.comment :id => comment.id do
         api.author(:id => comment.author_id, :name => comment.author.name) unless comment.author.nil?
         api.content comment.content
+        render_api_reactions(comment, api) if include_in_api_response?('reactions')
       end
     end
   end if include_in_api_response?('comments')
