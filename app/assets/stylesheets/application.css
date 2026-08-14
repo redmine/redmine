@@ -1794,8 +1794,8 @@ p.progress-info {clear: inline-start; font-size: 86%; margin-block-start: -4px; 
   position: absolute;
   inset-block-end:0;
   padding-inline-start: 0.5em;
-  min-inline-size: 2000px;
-  inline-size: 100%;
+  min-inline-size: 100%;
+  inline-size: max-content;
   border-block-end: 1px solid var(--oc-gray-4);
 }
 #content .tabs ul li {
