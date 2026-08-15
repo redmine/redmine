@@ -1299,6 +1299,7 @@ bg:
   text_project_archive_confirmation: Сигурни ли сте, че желаете да архивирате проект '%{value}'?
   text_users_bulk_destroy_head: Вие сте на път да изтриете следните потребители и всички връзки към тях. Това не може да бъде върнато назад. Често заключването на потребителите вместо изтриването им е по-добро решение.
   text_users_bulk_destroy_confirm: За да потвърдите, моля въведете "%{yes}" по-долу.
+  text_users_remove_from_group_confirmation: Наистина ли желаете да премахнете избраните потребители от група %{group}?
   text_workflow_edit: Изберете роля и тракер за да редактирате работния процес
   text_are_you_sure: Сигурни ли сте?
   text_journal_changed: "%{label} променен от %{old} на %{new}"
@@ -1505,4 +1506,3 @@ bg:
   reaction_text_x_other_users:
     one: 1 друг
     other: "%{count} други"
-  text_users_remove_from_group_confirmation: Are you sure you want to remove the selected user(s) from the group %{group}?
