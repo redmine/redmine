@@ -108,7 +108,7 @@ end
 group :test do
   gem "rails-dom-testing", '>= 2.3.0'
   gem 'mocha', '>= 2.0.1'
-  gem 'simplecov', '~> 1.0.1', :require => false
+  gem 'simplecov', '~> 1.1.1', :require => false
   gem "ffi", platforms: [:mingw, :x64_mingw, :mswin]
   # For running system tests
   gem 'puma'
