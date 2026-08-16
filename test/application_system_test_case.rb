@@ -85,6 +85,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   def sign_out_user
     find('#account .dropdown-trigger').click
     click_link 'Sign out'
+    # Make sure the redirection after the sign out has completed
+    assert_current_path '/', :ignore_query => true
   end
 
   def wait_for_ajax
