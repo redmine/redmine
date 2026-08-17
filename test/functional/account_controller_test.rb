@@ -505,7 +505,7 @@ class AccountControllerTest < Redmine::ControllerTest
           :mail => 'invalid@somenet.foo'
         }
       )
-      assert_response :success
+      assert_redirected_to '/login'
       assert_equal I18n.t(:notice_account_lost_email_sent), flash[:notice]
     end
   end
