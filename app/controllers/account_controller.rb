@@ -109,6 +109,7 @@ class AccountController < ApplicationController
           # Don't show an error indicating a non-existent email address
           # to prevent email harvesting
           flash[:notice] = l(:notice_account_lost_email_sent)
+          redirect_to signin_path
           return
         end
         unless user.active?
