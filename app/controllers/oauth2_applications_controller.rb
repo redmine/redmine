@@ -19,6 +19,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 class Oauth2ApplicationsController < Doorkeeper::ApplicationsController
+  menu_item :applications
+
   private
 
   def application_params
