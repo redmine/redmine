@@ -101,6 +101,8 @@ class IssueRelationsController < ApplicationController
 
   def find_issue
     @issue = Issue.find(params[:issue_id])
+    raise Unauthorized unless @issue.visible?
+
     @project = @issue.project
   rescue ActiveRecord::RecordNotFound
     render_404
