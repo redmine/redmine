@@ -920,6 +920,17 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert_select 'input[type=checkbox][name=?]', 'project[inherit_members]'
   end
 
+  def test_settings_of_subproject_should_not_show_inherit_members_checkbox
+    user = User.generate!
+    child = Project.find('private-child')
+    User.add_to_project(user, child, Role.generate!(:permissions => [:edit_project]))
+    @request.session[:user_id] = user.id
+
+    get(:settings, :params => {:id => 'private-child'})
+    assert_response :success
+    assert_select 'input[type=checkbox][name=?]', 'project[inherit_members]', :count => 0
+  end
+
   def test_settings_should_be_denied_for_member_on_closed_project
     Project.find(1).close
     @request.session[:user_id] = 2 # manager
