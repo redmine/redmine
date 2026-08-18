@@ -1150,4 +1150,64 @@ class ProjectTest < ActiveSupport::TestCase
     # Project without activity should return nil
     assert_nil Project.find(4).last_activity_date
   end
+
+  def test_safe_attributes_inherit_members_for_new_record
+    role_with_manage_members = Role.generate!(:permissions => [:manage_members])
+    role_without_manage_members = Role.generate!(:permissions => [:view_issues])
+    user = User.generate!
+    parent = Project.generate!
+
+    with_settings :new_project_user_role_id => role_without_manage_members.id.to_s do
+      project = Project.new(:parent => parent)
+      assert_not project.safe_attribute?('inherit_members', user)
+      project.send(:safe_attributes=, {'inherit_members' => '1'}, user)
+      assert_not project.inherit_members?
+    end
+
+    with_settings :new_project_user_role_id => role_with_manage_members.id.to_s do
+      project = Project.new(:parent => parent)
+      assert project.safe_attribute?('inherit_members', user)
+      project.send(:safe_attributes=, {'inherit_members' => '1'}, user)
+      assert project.inherit_members?
+    end
+
+    project = Project.new(:parent => parent)
+    assert project.safe_attribute?('inherit_members', User.find(1)) # Admin
+  end
+
+  def test_safe_attributes_inherit_members_for_existing_record
+    parent = Project.generate!
+    child = Project.generate_with_parent!(parent, :inherit_members => false)
+    user = User.generate!
+
+    # User with only edit_project permission (no manage_members)
+    User.add_to_project(user, child, Role.generate!(:permissions => [:edit_project]))
+
+    assert_not child.safe_attribute?('inherit_members', user)
+    child.send(:safe_attributes=, {'inherit_members' => '1'}, user)
+    assert_not child.inherit_members?
+
+    # User with manage_members permission
+    User.add_to_project(user, child, Role.generate!(:permissions => [:manage_members]))
+
+    assert child.safe_attribute?('inherit_members', user)
+    child.send(:safe_attributes=, {'inherit_members' => '1'}, user)
+    assert child.inherit_members?
+  end
+
+  def test_safe_attributes_inherit_members_should_require_parent_visibility
+    parent = Project.generate!(:is_public => false)
+    child = Project.generate_with_parent!(parent, :inherit_members => false)
+    user = User.generate!
+    User.add_to_project(user, child, Role.generate!(:permissions => [:manage_members]))
+
+    # Parent is not visible to user
+    assert_not parent.visible?(user)
+    assert_not child.safe_attribute?('inherit_members', user)
+
+    # Parent becomes visible to user
+    User.add_to_project(user, parent, Role.generate!(:permissions => [:view_project]))
+    assert parent.visible?(user)
+    assert child.safe_attribute?('inherit_members', user)
+  end
 end
