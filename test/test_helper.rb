@@ -19,8 +19,6 @@
 
 if ENV["COVERAGE"]
   require 'simplecov'
-  require_relative 'coverage/html_formatter'
-  SimpleCov.formatter = Redmine::Coverage::HtmlFormatter
   SimpleCov.start 'rails'
 end
 
