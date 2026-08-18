@@ -29,6 +29,25 @@ class Redmine::ApiTest::IssueRelationsTest < Redmine::ApiTest::Base
     assert_select 'relations[type=array] relation id', :text => '1'
   end
 
+  test "GET /issues/:issue_id/relations.json should not return relations to invisible issues" do
+    issue = Issue.find(1)
+    hidden_issue = Issue.generate!(:project_id => 1, :is_private => true)
+
+    visible_relation = IssueRelation.create!(:issue_from => issue, :issue_to => Issue.find(2), :relation_type => 'relates')
+    hidden_relation1 = IssueRelation.create!(:issue_from => issue, :issue_to => hidden_issue, :relation_type => 'relates')
+    hidden_relation2 = IssueRelation.create!(:issue_from => hidden_issue, :issue_to => issue, :relation_type => 'duplicates')
+
+    get "/issues/#{issue.id}/relations.json", :headers => credentials('dlopper', 'foo')
+
+    assert_response :success
+    assert_equal 'application/json', @response.media_type
+
+    json = ActiveSupport::JSON.decode(response.body)
+    assert_includes json['relations'].pluck('id'), visible_relation.id
+    assert_not_includes json['relations'].pluck('id'), hidden_relation1.id
+    assert_not_includes json['relations'].pluck('id'), hidden_relation2.id
+  end
+
   test "POST /issues/:issue_id/relations.xml should create the relation" do
     assert_difference('IssueRelation.count') do
       post(
