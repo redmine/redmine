@@ -104,6 +104,10 @@ class User < Principal
   has_many :email_addresses, :dependent => :delete_all
   has_many :reactions, dependent: :delete_all
   has_many :webhooks, dependent: :destroy
+  has_many :oauth_access_grants, :class_name => 'Doorkeeper::AccessGrant',
+           :foreign_key => :resource_owner_id, :dependent => :delete_all
+  has_many :oauth_access_tokens, :class_name => 'Doorkeeper::AccessToken',
+           :foreign_key => :resource_owner_id, :dependent => :delete_all
 
   belongs_to :auth_source
 
