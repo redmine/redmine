@@ -312,7 +312,10 @@ class RedCloth3 < String
 
         retrieve text
 
-        text.gsub!(/<\/?notextile>/, '')
+        # Pattern 1: Matches standalone tags to remove: <notextile> or </notextile>
+        # Pattern 2: Matches a leading '<' immediately preceding <notextile>
+        #   or </notextile>
+        text.gsub!(/<\/?notextile>|<(?=<\/?notextile>)/, { '<' => '&lt;' })
         text.gsub!("x%x%", '&#38;')
         clean_html text if filter_html
         text.strip!

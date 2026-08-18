@@ -857,6 +857,18 @@ class Redmine::WikiFormatting::TextileFormatterTest < Redmine::HelperTest
     assert_includes to_html(%{version:"foo <bar>"}), %{version:"foo &lt;bar&gt;"}
   end
 
+  def test_nested_notextile_tag_boundaries
+    ["<<notextile>div class=foo >",
+     "<</notextile>div class=foo >"].each do |payload|
+      html = to_html(payload)
+      assert_empty(
+        Nokogiri::HTML.fragment(html).css('.foo'),
+        "Attributes should not be restored as HTML tag attributes for payload '#{payload}': #{html}"
+      )
+      assert_not_includes html, "<div"
+    end
+  end
+
   private
 
   def assert_html_output(to_test, expect_paragraph = true)
