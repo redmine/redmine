@@ -170,7 +170,7 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
       author: User.find(1),
       is_private: true
     )
-    refute issue.visible?(User.find(3))
+    assert_not issue.visible?(User.find(3))
 
     assert_no_difference 'IssueRelation.count' do
       post(
