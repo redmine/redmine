@@ -34,6 +34,34 @@ class Redmine::ApiTest::IssueCategoriesTest < Redmine::ApiTest::Base
     assert_select 'issue_category id', :text => '2'
   end
 
+  test "GET /projects/:project_id/issue_categories.xml should be allowed with view_issues permission" do
+    Role.find(1).remove_permission! :manage_categories
+
+    get '/projects/1/issue_categories.xml', :headers => credentials('jsmith')
+    assert_response :success
+    assert_select 'issue_categories issue_category id', :text => '2'
+  end
+
+  test "GET /issue_categories/:id.xml should be allowed with view_issues permission" do
+    Role.find(1).remove_permission! :manage_categories
+
+    get '/issue_categories/2.xml', :headers => credentials('jsmith')
+    assert_response :success
+    assert_select 'issue_category id', :text => '2'
+  end
+
+  test "POST /projects/:project_id/issue_categories.xml should be denied without manage_categories permission" do
+    Role.find(1).remove_permission! :manage_categories
+
+    assert_no_difference 'IssueCategory.count' do
+      post(
+        '/projects/1/issue_categories.xml',
+        :params => {:issue_category => {:name => 'API'}},
+        :headers => credentials('jsmith'))
+    end
+    assert_response :forbidden
+  end
+
   test "POST /projects/:project_id/issue_categories.xml should return create issue category" do
     assert_difference 'IssueCategory.count' do
       post(
