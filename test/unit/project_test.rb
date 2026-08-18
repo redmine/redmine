@@ -1179,16 +1179,16 @@ class ProjectTest < ActiveSupport::TestCase
     parent = Project.generate!
     child = Project.generate_with_parent!(parent, :inherit_members => false)
     user = User.generate!
-
-    # User with only edit_project permission (no manage_members)
-    User.add_to_project(user, child, Role.generate!(:permissions => [:edit_project]))
+    role = Role.generate!(:permissions => [:edit_project])
+    User.add_to_project(user, child, role)
 
     assert_not child.safe_attribute?('inherit_members', user)
     child.send(:safe_attributes=, {'inherit_members' => '1'}, user)
     assert_not child.inherit_members?
 
-    # User with manage_members permission
-    User.add_to_project(user, child, Role.generate!(:permissions => [:manage_members]))
+    # Add manage_members permission
+    role.add_permission!(:manage_members)
+    user.reload
 
     assert child.safe_attribute?('inherit_members', user)
     child.send(:safe_attributes=, {'inherit_members' => '1'}, user)
@@ -1207,6 +1207,8 @@ class ProjectTest < ActiveSupport::TestCase
 
     # Parent becomes visible to user
     User.add_to_project(user, parent, Role.generate!(:permissions => [:view_project]))
+    parent.reload
+    user.reload
     assert parent.visible?(user)
     assert child.safe_attribute?('inherit_members', user)
   end
