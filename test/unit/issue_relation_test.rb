@@ -252,4 +252,32 @@ class IssueRelationTest < ActiveSupport::TestCase
     relation = IssueRelation.find(1)
     assert_equal "Blocks Bug #9", relation.to_s {|issue| "#{issue.tracker} ##{issue.id}"}
   end
+
+  def test_visible
+    issue1 = Issue.find(1)
+    issue2 = Issue.find(2)
+    hidden_issue = Issue.generate!(:project_id => 1, :is_private => true)
+    user = User.find(3)
+
+    relation_visible = IssueRelation.create!(:issue_from => issue1, :issue_to => issue2, :relation_type => 'relates')
+    relation_hidden_to = IssueRelation.create!(:issue_from => issue1, :issue_to => hidden_issue, :relation_type => 'relates')
+    relation_hidden_from = IssueRelation.create!(:issue_from => hidden_issue, :issue_to => issue1, :relation_type => 'duplicates')
+
+    assert relation_visible.visible?(user)
+    assert_not relation_hidden_to.visible?(user)
+    assert_not relation_hidden_from.visible?(user)
+  end
+
+  def test_deletable
+    issue1 = Issue.find(1)
+    issue2 = Issue.find(2)
+    hidden_issue = Issue.generate!(:project_id => 1, :is_private => true)
+    user = User.find(3)
+
+    relation_visible = IssueRelation.create!(:issue_from => issue1, :issue_to => issue2, :relation_type => 'relates')
+    relation_hidden = IssueRelation.create!(:issue_from => issue1, :issue_to => hidden_issue, :relation_type => 'relates')
+
+    assert relation_visible.deletable?(user)
+    assert_not relation_hidden.deletable?(user)
+  end
 end
