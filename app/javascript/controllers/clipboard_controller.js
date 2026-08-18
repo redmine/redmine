@@ -23,12 +23,9 @@ export default class extends Controller {
 
   copyText(e) {
     e.preventDefault();
-    this.copy(e.currentTarget.dataset.clipboardText);
-
-    const element = e.currentTarget.closest('.drdn.expanded');
-    if (element !== null) {
-      element.classList.remove('expanded');
-    }
+    this.copy(e.currentTarget.dataset.clipboardText).then(() => {
+      this.dispatch('copied', { bubbles: true });
+    });
   }
 
   copy(text) {

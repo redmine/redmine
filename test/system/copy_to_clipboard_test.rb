@@ -28,6 +28,9 @@ class CopyToClipboardSystemTest < ApplicationSystemTestCase
     first('.contextual span.icon-actions').click
     find('.contextual .dropdown-items a.icon-copy-link').click
 
+    # The dropdown should be closed after copying
+    assert_no_selector '.contextual .dropdown-items'
+
     # Paste the value copied to the clipboard into the textarea to get and test
     first('.icon-edit').click
     find('textarea#issue_notes').send_keys([modifier_key, 'v'])
@@ -41,6 +44,9 @@ class CopyToClipboardSystemTest < ApplicationSystemTestCase
     # Copy issue journal url to Clipboard
     first('#note-2 .icon-actions').click
     first('#note-2 .dropdown-items a.icon-copy-link').click
+
+    # The dropdown should be closed after copying
+    assert_no_selector '#note-2 .dropdown-items'
 
     # Paste the value copied to the clipboard into the textarea to get and test
     first('.icon-edit').click

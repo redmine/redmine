@@ -905,7 +905,8 @@ module ApplicationHelper
                     :data => {:action => "click->dropdown#toggle"})
       items = content_tag('span', content, :class => 'dropdown-items')
       content = content_tag('span', items, :class => 'dropdown-content hidden', :data => {:dropdown_target => "content"})
-      content_tag('span', trigger + content, :class => 'dropdown', :data => {:controller => "dropdown"})
+      content_tag('span', trigger + content, :class => 'dropdown',
+                  :data => {:controller => "dropdown", :action => "clipboard:copied->dropdown#hide"})
     end
   end
 

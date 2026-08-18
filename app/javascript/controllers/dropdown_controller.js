@@ -30,6 +30,10 @@ export default class extends Controller {
       return
     }
 
+    this.hide()
+  }
+
+  hide() {
     this.contentTarget.classList.add("hidden")
     document.removeEventListener("click", this.closeBinding)
     document.removeEventListener("keydown", this.closeBinding)
