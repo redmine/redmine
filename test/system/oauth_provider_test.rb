@@ -18,6 +18,8 @@ class OauthProviderSystemTest < ApplicationSystemTestCase
       within 'div#admin-menu ul' do
         click_link 'Applications'
       end
+      assert_selector 'div#admin-menu a.applications.selected'
+
       click_link 'New Application'
       fill_in 'Name', with: 'Oauth Test'
 
