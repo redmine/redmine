@@ -328,4 +328,12 @@ class IssueRelationsControllerTest < Redmine::ControllerTest
       assert_include 'relation-2', response.body
     end
   end
+
+  def test_show_invisible_relation_should_deny_access
+    hidden_issue = Issue.generate!(:project_id => 1, :is_private => true)
+    relation = IssueRelation.create!(:issue_from => Issue.find(1), :issue_to => hidden_issue, :relation_type => 'relates')
+
+    get :show, :params => {:id => relation.id}
+    assert_response :forbidden
+  end
 end
