@@ -18,7 +18,7 @@
 namespace :test do
   desc 'Measures test coverage'
   task :coverage do
-    rm_f "coverage"
+    rm_rf "coverage"
     ENV["COVERAGE"] = "1"
     Rake::Task["test"].invoke
   end
