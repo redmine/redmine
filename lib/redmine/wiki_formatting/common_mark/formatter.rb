@@ -75,8 +75,9 @@ module Redmine
           fragment = Redmine::WikiFormatting::HtmlParser.parse(html)
           SANITIZER.call(fragment)
 
+          scrubbers = SCRUBBERS + post_processor_scrubbers
           scrubber = Loofah::Scrubber.new do |node|
-            (SCRUBBERS + post_processor_scrubbers).each do |s|
+            scrubbers.each do |s|
               result = s.scrub(node)
               break result if result == Loofah::Scrubber::STOP
               break if node.parent.nil?
