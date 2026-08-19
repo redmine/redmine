@@ -874,7 +874,21 @@ class Project < ApplicationRecord
 
   safe_attributes(
     'inherit_members',
-    :if => lambda {|project, user| project.parent.nil? || project.parent.visible?(user)})
+    :if =>
+      lambda do |project, user|
+        next false unless project.parent.nil? || project.parent.visible?(user)
+
+        if project.new_record?
+          if user.admin?
+            true
+          else
+            default_member_role&.has_permission?(:manage_members)
+          end
+        else
+          user.allowed_to?(:manage_members, project)
+        end
+      end
+  )
 
   def safe_attributes=(attrs, user=User.current)
     if attrs.respond_to?(:to_unsafe_hash)
