@@ -59,6 +59,7 @@ module Redmine
                                         :auto_complete => [:issues],
                                         :context_menus => [:issues],
                                         :versions => [:index, :show, :status_by],
+                                        :issue_categories => [:index, :show],
                                         :journals => [:index, :diff],
                                         :queries => :index,
                                         :reports => [:issue_report, :issue_report_details]},
