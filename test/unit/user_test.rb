@@ -400,6 +400,43 @@ class UserTest < ActiveSupport::TestCase
     assert_nil Token.find_by_id(token.id)
   end
 
+  def test_destroy_should_delete_oauth_access_grants
+    application = Doorkeeper::Application.create!(
+      :name => 'Test App',
+      :redirect_uri => 'http://localhost/callback',
+      :scopes => 'view_issues'
+    )
+    grant = Doorkeeper::AccessGrant.create!(
+      :application_id => application.id,
+      :resource_owner_id => 2,
+      :redirect_uri => application.redirect_uri,
+      :scopes => 'view_issues',
+      :expires_in => 600
+    )
+
+    User.find(2).destroy
+    assert_nil User.find_by_id(2)
+    assert_nil Doorkeeper::AccessGrant.find_by_id(grant.id)
+  end
+
+  def test_destroy_should_delete_oauth_access_tokens
+    application = Doorkeeper::Application.create!(
+      :name => 'Test App',
+      :redirect_uri => 'http://localhost/callback',
+      :scopes => 'view_issues'
+    )
+    token = Doorkeeper::AccessToken.create!(
+      :application_id => application.id,
+      :resource_owner_id => 2,
+      :scopes => 'view_issues',
+      :expires_in => 7200
+    )
+
+    User.find(2).destroy
+    assert_nil User.find_by_id(2)
+    assert_nil Doorkeeper::AccessToken.find_by_id(token.id)
+  end
+
   def test_destroy_should_delete_watchers
     issue = Issue.create!(:project_id => 1, :author_id => 1,
                           :tracker_id => 1, :subject => 'foo')
