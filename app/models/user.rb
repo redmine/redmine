@@ -102,6 +102,11 @@ class User < Principal
   has_one :api_token, lambda {where "#{table.name}.action='api'"}, :class_name => 'Token'
   has_many :email_addresses, :dependent => :delete_all
   has_many :reactions, dependent: :delete_all
+  has_many :oauth_access_grants, :class_name => 'Doorkeeper::AccessGrant',
+           :foreign_key => :resource_owner_id, :dependent => :delete_all
+  has_many :oauth_access_tokens, :class_name => 'Doorkeeper::AccessToken',
+           :foreign_key => :resource_owner_id, :dependent => :delete_all
+
   belongs_to :auth_source
 
   scope :logged, lambda {where("#{User.table_name}.status <> #{STATUS_ANONYMOUS}")}
