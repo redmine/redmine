@@ -149,19 +149,19 @@ module ProjectsHelper
       project.rolled_up_trackers(false).visible.each do |tracker|
         api.tracker(:id => tracker.id, :name => tracker.name)
       end
-    end if include_in_api_response?('trackers')
+    end if include_in_api_response?('trackers') && User.current.allowed_to?(:view_issues, project)
 
     api.array :issue_categories do
       project.issue_categories.each do |category|
         api.issue_category(:id => category.id, :name => category.name)
       end
-    end if include_in_api_response?('issue_categories')
+    end if include_in_api_response?('issue_categories') && User.current.allowed_to?(:view_issues, project)
 
     api.array :time_entry_activities do
       project.activities.each do |activity|
         api.time_entry_activity(:id => activity.id, :name => activity.name)
       end
-    end if include_in_api_response?('time_entry_activities')
+    end if include_in_api_response?('time_entry_activities') && User.current.allowed_to?(:view_time_entries, project)
 
     api.array :enabled_modules do
       project.enabled_modules.each do |enabled_module|
@@ -173,7 +173,7 @@ module ProjectsHelper
       project.all_issue_custom_fields.each do |custom_field|
         api.custom_field(:id => custom_field.id, :name => custom_field.name)
       end
-    end if include_in_api_response?('issue_custom_fields')
+    end if include_in_api_response?('issue_custom_fields') && User.current.allowed_to?(:view_issues, project)
   end
 
   def bookmark_link(project, user = User.current)
