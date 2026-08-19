@@ -56,12 +56,12 @@ h2, .wiki h1 { letter-spacing:-1px; }
 h4 { border-block-end: dotted 1px #c0c0c0; }
 
 #top-menu a.home, #top-menu a.my-page, #top-menu a.projects, #top-menu a.administration, #top-menu a.help {
-    background-position: 0% 40%;
+    background-position: 6px 40%;
     background-repeat: no-repeat;
-    padding-inline-start: 20px;
+    padding-inline-start: 26px;
     padding-block: 2px 3px;
 }
-[dir="rtl"] :is(#top-menu a.home, #top-menu a.my-page, #top-menu a.projects, #top-menu a.administration, #top-menu a.help) {background-position: right 0% top 40%;}
+[dir="rtl"] :is(#top-menu a.home, #top-menu a.my-page, #top-menu a.projects, #top-menu a.administration, #top-menu a.help) {background-position: right 6px top 40%;}
 
 #top-menu a.home { background-image: url(/themes/classic/home.png); }
 #top-menu a.my-page { background-image: url(/user.png); }
