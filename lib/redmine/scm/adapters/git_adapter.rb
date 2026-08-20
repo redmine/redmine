@@ -357,6 +357,11 @@ module Redmine
               diff << line
             end
           end
+          # "git show" of Git 2.55.0 prints the commit header even when the
+          # given path is not modified by the commit. Discard such output so
+          # that an empty diff is returned as with the other versions.
+          return [] if !path.empty? && diff.none? {|line| line.start_with?('diff --')}
+
           diff
         rescue ScmCommandAborted
           nil
