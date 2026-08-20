@@ -1487,7 +1487,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'smime.sh.txt', issue.attachments[0].filename
     assert_equal 'text/plain', issue.attachments[0].content_type
     assert_equal 'smime.p7s', issue.attachments[1].filename
-    assert_equal 'application/x-pkcs7-signature', issue.attachments[1].content_type
+    assert_equal 'application/pkcs7-signature', issue.attachments[1].content_type
   end
 
   private

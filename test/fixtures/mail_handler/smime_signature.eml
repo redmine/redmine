@@ -5,7 +5,7 @@ From: JSmith <JSmith@somenet.foo>
 To: <redmine@somenet.foo>
 Date: Wed, 03 Jun 2020 22:29:36 +0900
 Content-Type: multipart/signed; micalg="sha-256";
-	protocol="application/x-pkcs7-signature";
+	protocol="application/pkcs7-signature";
 	boundary="=-a6R2ultRPmAp8zmxN9qV"
 X-Mailer: Evolution 3.28.5 (3.28.5-8.el7) 
 Mime-Version: 1.0
@@ -41,7 +41,7 @@ ZXkgLW91dCBzbWltZS5wMTIK
 --=-WFkuWLE/majN4BpDwkgg--
 
 --=-a6R2ultRPmAp8zmxN9qV
-Content-Type: application/x-pkcs7-signature; name="smime.p7s"
+Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Disposition: attachment; filename="smime.p7s"
 Content-Transfer-Encoding: base64
 
