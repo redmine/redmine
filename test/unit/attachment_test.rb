@@ -47,16 +47,16 @@ class AttachmentTest < ActiveSupport::TestCase
                        :author => User.find(1))
     assert a.save
     assert_equal 'testfile.txt', a.filename
-    assert_equal 59, a.filesize
+    assert_equal 57, a.filesize
     assert_equal 'text/plain', a.content_type
     assert_equal 0, a.downloads
-    assert_equal '6bc2eb7e87cfbf9145065689aaa8b5f513089ca0af68e2dc41f9cc025473d106', a.digest
+    assert_equal 'a34a5bf3644efc1b29f2f30a5b338a11da9b42c84a65a0b32501e75c08620111', a.digest
 
     assert a.disk_directory
     assert_match %r{\A\d{4}/\d{2}\z}, a.disk_directory
 
     assert File.exist?(a.diskfile)
-    assert_equal 59, File.size(a.diskfile)
+    assert_equal 57, File.size(a.diskfile)
   end
 
   def test_create_should_clear_content_type_if_too_long
@@ -205,13 +205,13 @@ class AttachmentTest < ActiveSupport::TestCase
                        :author => User.find(1))
     assert a.save
     assert_equal 'testfile.txt', a.filename
-    assert_equal 59, a.filesize
+    assert_equal 57, a.filesize
     assert_equal 'text/plain', a.content_type
     assert_equal 0, a.downloads
-    assert_equal '6bc2eb7e87cfbf9145065689aaa8b5f513089ca0af68e2dc41f9cc025473d106', a.digest
+    assert_equal 'a34a5bf3644efc1b29f2f30a5b338a11da9b42c84a65a0b32501e75c08620111', a.digest
     diskfile = a.diskfile
     assert File.exist?(diskfile)
-    assert_equal 59, File.size(a.diskfile)
+    assert_equal 57, File.size(a.diskfile)
     assert a.destroy
     assert !File.exist?(diskfile)
   end
@@ -425,11 +425,11 @@ class AttachmentTest < ActiveSupport::TestCase
     attachment = Attachment.order(id: :desc).first
     assert_equal issue, attachment.container
     assert_equal 'testfile.txt', attachment.filename
-    assert_equal 59, attachment.filesize
+    assert_equal 57, attachment.filesize
     assert_equal 'test', attachment.description
     assert_equal 'text/plain', attachment.content_type
     assert File.exist?(attachment.diskfile)
-    assert_equal 59, File.size(attachment.diskfile)
+    assert_equal 57, File.size(attachment.diskfile)
   end
 
   test "Attachmnet.attach_files should add unsaved files to the object as unsaved attachments" do
