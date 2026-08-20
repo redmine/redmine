@@ -391,6 +391,21 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_equal 'text/javascript', @response.media_type
   end
 
+  def test_download_should_not_send_a_non_pdf_file_inline_even_with_a_pdf_extension
+    set_tmp_attachments_directory
+    attachment = Attachment.create!(
+      :file => mock_file_with_options(:original_filename => 'fake.pdf',
+                                      :content => '<html><body>Hello</body></html>'),
+      :author_id => 2,
+      :container => Issue.find(1)
+    )
+
+    get(:download, :params => {:id => attachment.id})
+    assert_response :success
+    assert_equal 'text/html', @response.media_type
+    assert_match %r{\Aattachment}, @response.headers['Content-Disposition']
+  end
+
   def test_download_version_file_with_issue_tracking_disabled
     Project.find(1).disable_module! :issue_tracking
     get(:download, :params => {:id => 9})

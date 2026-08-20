@@ -79,7 +79,7 @@ class AttachmentsController < ApplicationController
     end
 
     if stale?(:etag => @attachment.digest, :template => false)
-      # images are sent inline
+      # PDFs are sent inline
       send_file @attachment.diskfile, :filename => filename_for_content_disposition(@attachment.filename),
                                       :type => detect_content_type(@attachment),
                                       :disposition => disposition(@attachment)
@@ -310,7 +310,7 @@ class AttachmentsController < ApplicationController
   end
 
   def disposition(attachment)
-    if attachment.is_pdf?
+    if detect_content_type(attachment) == 'application/pdf'
       'inline'
     else
       'attachment'
