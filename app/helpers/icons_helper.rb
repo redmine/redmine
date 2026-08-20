@@ -23,6 +23,40 @@ module IconsHelper
   DEFAULT_ICON_SIZE = "18"
   DEFAULT_SPRITE = "icons"
 
+  # Content types covered by each icon. The same kind of file can be denoted by
+  # several types, depending on whether the type was detected from the file
+  # contents or taken from Redmine::MimeType, so list them all rather than
+  # deriving the icon name from the type. An entry with no subtype (eg. audio)
+  # covers every type of that top level type that is not listed elsewhere.
+  ICON_MIME_TYPES = {
+    'application-gzip' => %w(application/gzip),
+    'application-javascript' => %w(application/javascript text/javascript),
+    'application-pdf' => %w(application/pdf),
+    'application-zip' => %w(application/zip),
+    'file-music' => %w(audio),
+    'movie' => %w(video),
+    'photo' => %w(image),
+    'text-css' => %w(text/css),
+    'text-html' => %w(text/html),
+    'text-plain' => %w(text application/sql application/x-csh application/x-sh),
+    'text-x-c' => %w(text/x-c text/x-c++hdr text/x-c++src),
+    'text-x-csharp' => %w(text/x-csharp),
+    'text-x-java' => %w(text/x-java text/x-java-source),
+    'text-x-php' => %w(text/x-php),
+    'text-x-ruby' => %w(text/x-ruby),
+    'text-xml' => %w(text/xml application/xml),
+    # Microsoft Office Open XML documents
+    # Do not add legacy Office formats (.doc, .xls, .ppt) here because
+    # Redmine does not provide attachment preview for these formats.
+    'file-type-docx' => %w(application/vnd.openxmlformats-officedocument.wordprocessingml.document),
+    'file-type-ppt' => %w(application/vnd.openxmlformats-officedocument.presentationml.presentation),
+    'file-type-xls' => %w(application/vnd.openxmlformats-officedocument.spreadsheetml.sheet)
+  }.freeze
+
+  MIME_TYPE_ICONS = ICON_MIME_TYPES.each_with_object({}) do |(icon, types), map|
+    types.each {|type| map[type] = icon}
+  end.freeze
+
   def sprite_source(icon_name, sprite: DEFAULT_SPRITE, plugin: nil)
     if plugin
       "plugin_assets/#{plugin}/#{sprite}.svg"
@@ -102,9 +136,9 @@ module IconsHelper
     sprite_icon(icon_name, **)
   end
 
-  def file_type_icon(mime_type, ...)
-    icon_name = icon_for_mime_type(mime_type)
-    sprite_icon(icon_name, ...)
+  def file_type_icon(mime_type, label = nil, filename: nil, **)
+    icon_name = icon_for_mime_type(mime_type, filename)
+    sprite_icon(icon_name, label, **)
   end
 
   private
@@ -125,32 +159,17 @@ module IconsHelper
     )
   end
 
-  def icon_for_mime_type(mime)
-    if %w(text/x-c text/x-csharp text/x-java text/x-php
-          text/x-ruby text/xml text/css text/html text/css text/html
-          application/pdf application/zip application/gzip application/javascript).include?(mime)
-      icon_name = mime.tr('/', '-')
-    else
-      top_level_type, subtype = mime.to_s.split('/')
-      icon_name =
-        case top_level_type
-        when 'audio' then 'file-music'
-        when 'image' then 'photo'
-        when 'text'
-          %w(markdown plain x-textile).include?(subtype) ? 'text-plain' : nil
-        when 'video' then 'movie'
-        else
-          # MIME type mapping
-          {
-            # Microsoft Office Open XML documents
-            # Do not add legacy Office formats (.doc, .xls, .ppt) here because
-            # Redmine does not provide attachment preview for these formats.
-            'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'file-type-ppt',
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'file-type-xls',
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'file-type-docx'
-          }[mime.to_s]
-        end
+  def icon_for_mime_type(mime, filename = nil)
+    # Content type detection falls back to application/octet-stream when it
+    # cannot tell the type from the file contents. In that case only, guess
+    # the type from the filename, as AttachmentsController#detect_content_type
+    # does.
+    if filename.present? && (mime.blank? || mime == 'application/octet-stream')
+      mime = Redmine::MimeType.of(filename)
     end
-    icon_name || 'file'
+
+    MIME_TYPE_ICONS[mime] ||
+      MIME_TYPE_ICONS[mime.to_s.split('/').first] ||
+      'file'
   end
 end

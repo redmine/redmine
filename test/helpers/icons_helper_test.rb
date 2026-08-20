@@ -242,6 +242,28 @@ class IconsHelperTest < Redmine::HelperTest
     assert_equal 'movie', icon_for_mime_type('video/mp4')
   end
 
+  def test_icon_for_mime_type_should_return_the_same_icon_for_equivalent_mime_types
+    # Types detected from the file contents and their Redmine::MimeType counterparts
+    {
+      'text/javascript' => 'application/javascript',
+      'application/xml' => 'text/xml',
+      'text/x-c++src' => 'text/x-c',
+      'text/x-java-source' => 'text/x-java',
+      'text/x-diff' => 'text/plain',
+      'application/sql' => 'text/plain'
+    }.each do |detected, counterpart|
+      assert_equal icon_for_mime_type(counterpart), icon_for_mime_type(detected),
+                   "#{detected} should get the same icon as #{counterpart}"
+    end
+  end
+
+  def test_icon_for_mime_type_should_fall_back_to_filename_only_when_type_is_undetermined
+    assert_equal 'text-plain', icon_for_mime_type('application/octet-stream', 'readme.textile')
+    assert_equal 'application-pdf', icon_for_mime_type(nil, 'document.pdf')
+    # A type detected from the file contents takes precedence over the filename
+    assert_equal 'text-html', icon_for_mime_type('text/html', 'not-really-an-image.png')
+  end
+
   def test_icon_for_mime_type_should_return_generic_file_icon_for_unknown_mime_types
     assert_equal 'file', icon_for_mime_type('unknown-type')
   end
