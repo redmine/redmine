@@ -232,7 +232,10 @@ class Attachment < ApplicationRecord
 
   def thumbnailable?
     Redmine::Thumbnail.convert_available? && (
-      image? || (is_pdf? && Redmine::Thumbnail.gs_available?)
+      image? ||
+        (Redmine::Thumbnail.gs_available? &&
+         # Illustrator files are often PDF compatible
+         ['application/pdf', 'application/illustrator'].include?(Redmine::MimeType.of(filename)))
     )
   end
 

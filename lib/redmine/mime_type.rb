@@ -46,6 +46,8 @@ module Redmine
       'image/tiff' => 'tiff,tif',
       'image/webp' => 'webp',
       'image/x-ms-bmp' => 'bmp',
+      # Not registered with IANA, but matches Marcel's type for .ai
+      'application/illustrator' => 'ai',
       'application/javascript' => 'js',
       'application/pdf' => 'pdf',
       'video/mp4' => 'mp4',

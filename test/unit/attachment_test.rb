@@ -574,6 +574,12 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal false, Attachment.new(:filename => 'test.txt').thumbnailable?
   end
 
+  def test_thumbnailable_should_be_true_for_illustrator_files
+    Redmine::Thumbnail.stubs(:convert_available?).returns(true)
+    Redmine::Thumbnail.stubs(:gs_available?).returns(true)
+    assert_equal true, Attachment.new(:filename => 'test.ai').thumbnailable?
+  end
+
   def test_markdownized_previewable_should_be_true_for_supported_extensions
     skip unless Redmine::Markdownizer.available?
 
@@ -766,6 +772,18 @@ class AttachmentTest < ActiveSupport::TestCase
     }
     to_test.each do |attachment, expected|
       assert_equal expected, attachment.is_text?, attachment.inspect
+    end
+  end
+
+  def test_is_pdf
+    to_test = {
+      'report.pdf' => true,
+      # Illustrator files are not PDF files, even though some of them are
+      # PDF compatible
+      'logo.ai' => false,
+    }
+    to_test.each do |filename, expected|
+      assert_equal expected, Attachment.new(:filename => filename).is_pdf?, filename
     end
   end
 end
