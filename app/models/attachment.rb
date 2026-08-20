@@ -584,7 +584,7 @@ class Attachment < ApplicationRecord
     just_filename = value.gsub(/\A.*(\\|\/)/m, '')
 
     # Finally, replace invalid characters with underscore
-    just_filename.gsub(/[\/?%*:|"'<>\n\r]+/, '_')
+    just_filename.gsub(/[\/?%*:|"'<>\n\r\x00]+/, '_')
   end
 
   # Returns the subdirectory in which the attachment will be saved

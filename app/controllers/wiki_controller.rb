@@ -441,7 +441,7 @@ class WikiController < ApplicationController
     extension = '.txt'
     # Keep this character set aligned with Attachment#sanitize_filename.
     # Unlike attachments, do not drop path-like components from wiki titles.
-    sanitized_title = page.title.tr('\\', '_').gsub(/[\/?%*:|"'<>\n\r]+/, '_')
+    sanitized_title = page.title.tr('\\', '_').gsub(/[\/?%*:|"'<>\n\r\x00]+/, '_')
     filename = "#{sanitized_title}#{extension}"
     dup_count = 0
 

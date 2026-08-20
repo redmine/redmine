@@ -190,6 +190,23 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
     assert_match /_test\.txt$/, attachment.diskfile
   end
 
+  test "POST /uploads.json should sanitize NUL in :filename param" do
+    set_tmp_attachments_directory
+    assert_difference 'Attachment.count' do
+      post(
+        '/uploads.json?filename=hello%00world.txt',
+        :headers => {
+          "RAW_POST_DATA" => 'File content',
+          "CONTENT_TYPE" => 'application/octet-stream'
+        }.merge(credentials('jsmith'))
+      )
+      assert_response :created
+    end
+
+    attachment = Attachment.order(id: :desc).first
+    assert_equal 'hello_world.txt', attachment.filename
+  end
+
   test "POST /uploads.xml should not accept other content types" do
     set_tmp_attachments_directory
     assert_no_difference 'Attachment.count' do
