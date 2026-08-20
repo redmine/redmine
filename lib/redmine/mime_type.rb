@@ -40,12 +40,12 @@ module Redmine
       'text/csv' => 'csv',
       'text/x-po' => 'po',
       'image/avif' => 'avif',
+      'image/bmp' => 'bmp',
       'image/gif' => 'gif',
       'image/jpeg' => 'jpg,jpeg,jpe',
       'image/png' => 'png',
       'image/tiff' => 'tiff,tif',
       'image/webp' => 'webp',
-      'image/x-ms-bmp' => 'bmp',
       # Not registered with IANA, but matches Marcel's type for .ai
       'application/illustrator' => 'ai',
       'application/javascript' => 'js',
