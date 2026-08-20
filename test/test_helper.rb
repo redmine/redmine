@@ -322,23 +322,15 @@ class ActiveSupport::TestCase
 end
 
 module Redmine
-  class MockFile
-    attr_reader :size, :original_filename, :content_type
+  class MockFile < StringIO
+    attr_reader :original_filename, :content_type
 
     def initialize(options={})
-      @size = options[:size] || 32
       @original_filename = options[:original_filename] || options[:filename]
       @content_type = options[:content_type]
-      @content = options[:content] || 'x'*size
-    end
-
-    def read(*args)
-      if @eof
-        false
-      else
-        @eof = true
-        @content
-      end
+      size = options[:size] || 32
+      content = options[:content] || 'x' * size
+      super(content)
     end
   end
 
