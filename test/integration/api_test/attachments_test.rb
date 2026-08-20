@@ -142,7 +142,7 @@ class Redmine::ApiTest::AttachmentsTest < Redmine::ApiTest::Base
     assert_nil attachment.container
     assert_equal 2, attachment.author_id
     assert_equal 'File content'.size, attachment.filesize
-    assert attachment.content_type.blank?
+    assert_equal 'application/octet-stream', attachment.content_type
     assert attachment.filename.present?
     assert_match %r{\d+_[0-9a-z]+}, attachment.diskfile
     assert File.exist?(attachment.diskfile)

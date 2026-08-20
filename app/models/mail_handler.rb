@@ -352,8 +352,7 @@ class MailHandler < ActionMailer::Base
         obj.attachments << Attachment.create(:container => obj,
                           :file => attachment.body.decoded,
                           :filename => attachment.filename,
-                          :author => user,
-                          :content_type => attachment.mime_type)
+                          :author => user)
       end
     end
   end

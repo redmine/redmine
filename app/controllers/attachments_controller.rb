@@ -112,7 +112,8 @@ class AttachmentsController < ApplicationController
     @attachment = Attachment.new(:file => raw_request_body)
     @attachment.author = User.current
     @attachment.filename = params[:filename].presence || Redmine::Utils.random_hex(16)
-    @attachment.content_type = params[:content_type].presence
+    # The content type is detected from the file contents on save,
+    # so params[:content_type] is ignored
     saved = @attachment.save
 
     respond_to do |format|

@@ -83,7 +83,7 @@ class Redmine::ApiTest::FilesTest < Redmine::ApiTest::Base
     assert_response :bad_request
   end
 
-  test "POST /projects/:project_id/files.json should accept :filename, :description, :content_type as optional parameters" do
+  test "POST /projects/:project_id/files.json should accept :filename, :description as optional parameters" do
     set_tmp_attachments_directory
     post(
       '/uploads.xml',
@@ -94,7 +94,6 @@ class Redmine::ApiTest::FilesTest < Redmine::ApiTest::Base
       { "file": {
           "filename": "New filename",
           "description": "New description",
-          "content_type": "application/txt",
           "token": "#{token}"
         }
       }
@@ -106,7 +105,6 @@ class Redmine::ApiTest::FilesTest < Redmine::ApiTest::Base
     assert_response :success
     assert_equal "New filename", Attachment.last.filename
     assert_equal "New description", Attachment.last.description
-    assert_equal "application/txt", Attachment.last.content_type
   end
 
   test "POST /projects/:project_id/files.json should accept :version_id to attach the files to a version" do

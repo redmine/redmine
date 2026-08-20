@@ -122,7 +122,6 @@ function uploadBlob(blob, uploadUrl, attachmentId, options) {
   uploadUrl = uploadUrl + '?attachment_id=' + attachmentId;
   if (blob instanceof window.Blob) {
     uploadUrl += '&filename=' + encodeURIComponent(blob.name);
-    uploadUrl += '&content_type=' + encodeURIComponent(blob.type);
   }
 
   return $.ajax(uploadUrl, {

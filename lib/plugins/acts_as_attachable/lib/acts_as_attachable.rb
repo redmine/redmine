@@ -127,7 +127,6 @@ module Redmine
                   next
                 end
                 a.filename = attachment['filename'] unless attachment['filename'].blank?
-                a.content_type = attachment['content_type'] unless attachment['content_type'].blank?
               end
               next unless a
               a.description = attachment['description'].to_s.strip

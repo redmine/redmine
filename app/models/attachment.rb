@@ -90,12 +90,13 @@ class Attachment < ApplicationRecord
     File.join(storage_path, 'derived_cache', 'markdownized_previews')
   end
 
-  before_create :files_to_final_location
+  before_create :set_content_type, :files_to_final_location
+  before_update :reset_content_type, :if => :filename_changed?
   after_commit :delete_from_disk, :on => :destroy
   after_commit :reuse_existing_file_if_possible, :on => :create
   after_rollback :delete_from_disk, :on => :create
 
-  safe_attributes 'filename', 'content_type', 'description'
+  safe_attributes 'filename', 'description'
 
   # Returns an unsaved copy of the attachment
   def copy(attributes=nil)
@@ -125,9 +126,6 @@ class Attachment < ApplicationRecord
         self.filename = @temp_file.original_filename
         self.filename.force_encoding("UTF-8")
       end
-      if @temp_file.respond_to?(:content_type)
-        self.content_type = @temp_file.content_type.to_s.chomp
-      end
       self.filesize = @temp_file.size
     end
   end
@@ -139,6 +137,35 @@ class Attachment < ApplicationRecord
   def filename=(arg)
     write_attribute :filename, sanitize_filename(arg.to_s)
     filename
+  end
+
+  def set_content_type
+    return unless @temp_file
+
+    io = @temp_file.respond_to?(:read) ? @temp_file : StringIO.new(@temp_file)
+    if io.respond_to?(:rewind)
+      io.rewind
+    else
+      # Marcel rewinds the io while reading it, which a plain reader may not
+      # support; detect the type from the filename alone in that case
+      io = nil
+    end
+    # The filename is passed as a hint because many formats, plain text and
+    # Markdown among them, cannot be identified from their contents alone.
+    # Without it they would all be detected as application/octet-stream.
+    self.content_type = Marcel::MimeType.for(io, name: filename)
+    @temp_file.rewind if @temp_file.respond_to?(:rewind)
+  end
+
+  # Re-detects the content type from the file on disk. Needed after a rename
+  # because the filename is used as a hint for contents that cannot be
+  # identified on their own.
+  def reset_content_type
+    return unless readable?
+
+    File.open(diskfile, 'rb') do |io|
+      self.content_type = Marcel::MimeType.for(io, name: filename)
+    end
   end
 
   # Copies the temporary file to its final location
@@ -164,14 +191,6 @@ class Attachment < ApplicationRecord
       self.digest = sha.hexdigest
     end
     @temp_file = nil
-
-    if content_type.blank? && filename.present?
-      self.content_type = Redmine::MimeType.of(filename)
-    end
-    # Don't save the content type if it's longer than the authorized length
-    if self.content_type && self.content_type.length > 255
-      self.content_type = nil
-    end
   end
 
   # Deletes the file from the file system if it's not referenced by other attachments

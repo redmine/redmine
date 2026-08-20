@@ -59,14 +59,66 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 57, File.size(a.diskfile)
   end
 
-  def test_create_should_clear_content_type_if_too_long
+  def test_create_should_not_trust_client_declared_content_type
+    # PDF file uploaded with a wrong content type "text/plain"
+    # and a long bogus content_type attribute
     a = Attachment.new(:container => Issue.find(1),
-                       :file => uploaded_test_file("testfile.txt", "text/plain"),
+                       :file => uploaded_test_file("hello.pdf", "text/plain"),
                        :author => User.find(1),
                        :content_type => 'a'*300)
     assert a.save
     a.reload
-    assert_nil a.content_type
+    assert_equal 'application/pdf', a.content_type
+  end
+
+  def test_create_should_accept_a_file_that_cannot_be_rewound
+    # A minimal reader like the ones plugins may pass to Attachment#file=
+    reader = Class.new do
+      def initialize(content)
+        @content = content
+      end
+
+      def size
+        @content.bytesize
+      end
+
+      def read(*args)
+        if @eof
+          false
+        else
+          @eof = true
+          @content
+        end
+      end
+    end.new("hello world\n")
+
+    a = Attachment.new(:file => reader, :filename => 'note.txt', :author_id => 1)
+    assert a.save
+    # The contents cannot be inspected without consuming the reader,
+    # so the content type is detected from the filename
+    assert_equal 'text/plain', a.content_type
+    assert_equal "hello world\n", File.read(a.diskfile)
+  end
+
+  def test_rename_should_recalculate_the_content_type
+    a = Attachment.create!(
+      :file => mock_file_with_options(:original_filename => 'test.bin', :content => "\x00\x01\x02".b),
+      :author_id => 1
+    )
+    assert_equal 'application/octet-stream', a.content_type
+
+    assert a.update(:filename => 'renamed.txt')
+    assert_equal 'text/plain', a.reload.content_type
+  end
+
+  def test_rename_should_not_fail_when_the_file_is_missing
+    a = Attachment.create!(
+      :file => mock_file_with_options(:original_filename => 'test.bin', :content => "\x00\x01\x02".b),
+      :author_id => 1
+    )
+    File.delete(a.diskfile)
+
+    assert a.update(:filename => 'renamed.txt')
   end
 
   def test_shorted_filename_if_too_long
