@@ -300,8 +300,8 @@ class AttachmentsController < ApplicationController
         "application/octet-stream"
     end
 
-    if is_thumb && content_type == "application/pdf"
-      # PDF previews are stored in PNG format
+    if is_thumb && !content_type.start_with?("image/")
+      # Thumbnails of non-image files are stored in PNG format
       content_type = "image/png"
     end
 
