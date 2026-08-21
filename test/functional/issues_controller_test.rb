@@ -5258,9 +5258,9 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_equal 'testfile.txt', attachment.filename
     assert_equal 'text/plain', attachment.content_type
     assert_equal 'test file', attachment.description
-    assert_equal 59, attachment.filesize
+    assert_equal 57, attachment.filesize
     assert File.exist?(attachment.diskfile)
-    assert_equal 59, File.size(attachment.diskfile)
+    assert_equal 57, File.size(attachment.diskfile)
   end
 
   def test_post_create_with_attachment_should_notify_with_attachments
@@ -6966,9 +6966,9 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_equal 'testfile.txt', attachment.filename
     assert_equal 'text/plain', attachment.content_type
     assert_equal 'test file', attachment.description
-    assert_equal 59, attachment.filesize
+    assert_equal 57, attachment.filesize
     assert File.exist?(attachment.diskfile)
-    assert_equal 59, File.size(attachment.diskfile)
+    assert_equal 57, File.size(attachment.diskfile)
 
     mail = ActionMailer::Base.deliveries.last
     assert_mail_body_match 'testfile.txt', mail
