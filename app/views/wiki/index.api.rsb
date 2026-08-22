@@ -6,6 +6,7 @@ api.array :wiki_pages do
         api.parent :title => page.parent.title
       end
       api.version page.version
+      api.project(:id => page.project_id, :name => page.project.name) unless page.project.nil?
       api.created_on page.created_on
       api.updated_on page.updated_on
     end

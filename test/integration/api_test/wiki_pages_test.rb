@@ -29,6 +29,7 @@ class Redmine::ApiTest::WikiPagesTest < Redmine::ApiTest::Base
       assert_select 'wiki_page' do
         assert_select 'title', :text => 'CookBook_documentation'
         assert_select 'version', :text => '3'
+        assert_select 'project[id=1][name="eCookbook"]'
         assert_select 'created_on'
         assert_select 'updated_on'
       end
