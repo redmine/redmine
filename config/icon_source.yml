@@ -260,3 +260,5 @@
   svg: maximize
 - name: link-add
   svg: link-plus
+- name: unknown
+  svg: help-circle

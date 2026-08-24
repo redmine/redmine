@@ -679,6 +679,7 @@ table.plugins td.configure { text-align: end; padding-inline-end: 1em; }
 table.plugins span.name { font-weight: bold; display: block; margin-block-end: 6px; }
 table.plugins span.description { display: block; font-size: 0.9em; }
 table.plugins span.url { display: block; font-size: 0.9em; }
+table.plugins td.version span.icon svg.icon-svg { margin-inline-end: 4px; }
 
 table.list.enumerations {table-layout: fixed; margin-block-end: 2em;}
 

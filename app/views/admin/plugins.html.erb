@@ -43,10 +43,12 @@ $(document).ready(function(){
       },
       success: function(data){
         $('#ajax-indicator').hide();
-        $("table.plugins td.version span").addClass("unknown");
+        $("table.plugins td.version span")
+          .addClass("unknown").removeClass("icon-ok icon-warning icon-unknown").removeAttr("title")
+          .children("svg.icon-svg").remove();
         $.each(data, function(plugin_id, plugin_data){
           var s = $("tr#plugin-"+plugin_id+" td.version span");
-          s.removeClass("icon-ok icon-warning unknown");
+          s.removeClass("unknown");
           if (plugin_data.url) {
             if (s.parent("a").length>0) {
               s.unwrap();
@@ -55,13 +57,13 @@ $(document).ready(function(){
             s.wrap($("<a></a>").attr("href", plugin_data.url).attr("target", "_blank"));
           }
           if (plugin_data.c == s.text()) {
-            s.addClass("icon-ok");
+            s.addClass("icon-ok").prepend(createSVGIcon("checked"));
           } else if (plugin_data.c) {
-            s.addClass("icon-warning");
+            s.addClass("icon-warning").prepend(createSVGIcon("warning"));
             s.attr("title", "<%= escape_javascript l(:label_latest_compatible_version) %>: "+plugin_data.c);
           }
         });
-        $("table.plugins td.version span.unknown").addClass("icon-help").attr("title", "<%= escape_javascript l(:label_unknown_plugin) %>");
+        $("table.plugins td.version span.unknown").addClass("icon-unknown").attr("title", "<%= escape_javascript l(:label_unknown_plugin) %>").prepend(createSVGIcon("unknown"));
       },
       error: function(){
         $('#ajax-indicator').hide();
