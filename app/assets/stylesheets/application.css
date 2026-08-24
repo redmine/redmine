@@ -107,7 +107,12 @@ nav.top-menu {
     text-decoration: none;
 }
 
-.top-menu__links svg.icon-svg {
+.top-menu__links svg.icon-svg, #account .dropdown-trigger .icon-svg {
+  stroke: var(--oc-gray-1);
+  transition: stroke 0.18s ease;
+}
+
+.top-menu__links a:hover svg.icon-svg, #account .dropdown-trigger:hover .icon-svg {
   stroke: var(--oc-white);
 }
 
