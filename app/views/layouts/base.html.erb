@@ -68,6 +68,7 @@
     <div id="account" class="dropdown" data-controller="dropdown">
       <a href="#" class="dropdown-trigger" data-action="click->dropdown#toggle">
         <%= avatar(User.current, :size => "22") %>
+        <%= sprite_icon("angle-down", size: 14) %>
       </a>
       <div class="dropdown-content hidden" data-dropdown-target="content">
         <div class="user-info">
