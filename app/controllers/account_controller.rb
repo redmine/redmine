@@ -25,7 +25,7 @@ class AccountController < ApplicationController
 
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_action :check_if_login_required, :check_password_change
-  skip_before_action :check_twofa_activation, :only => :logout
+  skip_before_action :check_twofa_activation, :only => [:logout, :lost_password]
 
   # Login request and validation
   def login

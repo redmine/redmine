@@ -88,6 +88,37 @@ class TwofaTest < Redmine::IntegrationTest
     end
   end
 
+  test 'should allow lost password even if twofa setup is required' do
+    with_settings twofa: '2' do
+      log_user('jsmith', 'jsmith')
+      follow_redirect!
+      assert_redirected_to '/my/twofa/totp/activate/confirm'
+
+      get '/account/lost_password'
+      assert_response :success
+      assert_select 'input[name=mail]'
+
+      post('/account/lost_password', :params => {:mail => 'jSmith@somenet.foo'})
+      assert_redirected_to '/login'
+
+      token = Token.find_by(:action => 'recovery', :user_id => User.find_by_login('jsmith').id)
+      get('/account/lost_password', :params => {:token => token.value})
+      assert_redirected_to '/account/lost_password'
+      follow_redirect!
+      assert_response :success
+
+      post(
+        '/account/lost_password',
+        :params => {
+          :token => token.value, :new_password => 'newpass123',
+          :new_password_confirmation => 'newpass123'
+        }
+      )
+      assert_redirected_to '/login'
+      assert_equal 'Password was successfully updated.', flash[:notice]
+    end
+  end
+
   test 'should allow logout even if twofa setup is required' do
     with_settings twofa: '2' do
       log_user('jsmith', 'jsmith')
