@@ -80,7 +80,7 @@ nav.top-menu {
   background: #234761; /* no match in Open Color, using hex code */
   color: var(--oc-gray-2);
   font-size: 0.75rem;
-  padding-inline: 20px;
+  padding-inline: 14px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -91,17 +91,18 @@ nav.top-menu {
   padding: 0;
   display: flex;
   list-style-type: none;
-  gap: 12px;
 }
 
-.top-menu__links a, .top-menu__links a:link, .top-menu__links a:visited {
+.top-menu__links a, .top-menu__links a:link, .top-menu__links a:visited, #account .dropdown-trigger {
   color: var(--oc-gray-1);
   text-decoration: none;
   transition: background-color 0.18s ease, color 0.18s ease;
   transform-origin: center;
+  padding-block: 3px;
+  padding-inline: 6px;
 }
 
-.top-menu__links a:hover {
+.top-menu__links a:hover, #account .dropdown-trigger:hover  {
     color: var(--oc-white);
     background-color: rgba(255, 255, 255, 0.12);
     text-decoration: none;
@@ -114,10 +115,6 @@ nav.top-menu {
 
 .top-menu__links a:hover svg.icon-svg, #account .dropdown-trigger:hover .icon-svg {
   stroke: var(--oc-white);
-}
-
-#account.top-menu__links {
-  padding-block: 3px;
 }
 
 #account .dropdown-content .user-info {
