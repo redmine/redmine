@@ -63,8 +63,8 @@ h4 { border-block-end: dotted 1px #c0c0c0; }
 }
 [dir="rtl"] :is(#top-menu a.home, #top-menu a.my-page, #top-menu a.projects, #top-menu a.administration, #top-menu a.help) {background-position: right 6px top 40%;}
 
-#top-menu a.home { background-image: url(/themes/classic/home.svg); }
-#top-menu a.my-page { background-image: url(/themes/classic/user.svg); }
-#top-menu a.projects { background-image: url(/themes/classic/projects.svg); }
-#top-menu a.administration { background-image: url(/themes/classic/tool.svg); }
-#top-menu a.help { background-image: url(/themes/classic/help-circle.svg); }
+#top-menu a.home { background-image: url(/themes/classic/home.png); }
+#top-menu a.my-page { background-image: url(/user.png); }
+#top-menu a.projects { background-image: url(/projects.png); }
+#top-menu a.administration { background-image: url(/themes/classic/wrench.png); }
+#top-menu a.help { background-image: url(/help.png); }
