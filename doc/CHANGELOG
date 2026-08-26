@@ -4,6 +4,45 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2026-08-26 v6.0.11
+
+=== [Accounts / authentication]
+
+* Defect #44360: Lost password page is unreachable by admins when two-factor authentication setup is required
+* Defect #44245: Password reset page exposes whether an email address is registered through different redirect behavior
+
+=== [Code cleanup/refactoring]
+
+* Patch #44330: Convert CRLF line endings to LF in three test fixture files
+
+=== [Email notifications]
+
+* Defect #44220: Backport password reset security notification does not include IP address
+
+=== [Permissions and roles]
+
+* Patch #44328: Reading issue categories should be granted by view_issues, not manage_categories
+
+=== [Rails support]
+
+* Patch #44304: Update Rails to 7.2.3.2
+
+=== [SCM]
+
+* Defect #44354: GitAdapterTest#test_diff_path_invalid fails with Git 2.55.0
+
+=== [Security]
+
+* Patch #44371: Filter key parameter from logging
+* Defect #44249: API requests can affect a user's session and circumvent security policies
+* Defect #44308: Stored XSS in Redmine Textile Formatter via <notextile> Tag-Restoration ("Frankenstein tag")
+* Defect #44309: Nested issue-relations endpoints bypass source issue visibility
+* Defect #44310: Child project inherit_members updates bypass member-management authorization
+
+=== [Text formatting]
+
+* Defect #13723: Collapse doesn't work with section edit link
+
 == 2026-06-15 v6.0.10
 
 === [Code cleanup/refactoring]
