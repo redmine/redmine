@@ -30,4 +30,21 @@ class QuerySystemTest < ApplicationSystemTestCase
 
     assert_selector "div#tr_cf_#{cf.id} label", text: 'My <select>'
   end
+
+  def test_gantt_query_selected_columns_checkbox_should_enable_and_disable_column_lists
+    log_user('jsmith', 'jsmith')
+    visit '/projects/ecookbook/queries/new?gantt=1'
+
+    find('#query_default_columns').uncheck
+    assert find('#available_c').disabled?
+    assert find('#selected_c').disabled?
+
+    find('#query_draw_selected_columns').check
+    assert_not find('#available_c').disabled?
+    assert_not find('#selected_c').disabled?
+
+    find('#query_draw_selected_columns').uncheck
+    assert find('#available_c').disabled?
+    assert find('#selected_c').disabled?
+  end
 end
