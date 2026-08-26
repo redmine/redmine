@@ -4,6 +4,103 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2026-08-26 v7.0.1
+
+=== [Accounts / authentication]
+
+* Defect #44343: Deleting a user who has authorized an OAuth2 application fails with ActiveRecord::InvalidForeignKey
+* Defect #44360: Lost password page is unreachable by admins when two-factor authentication setup is required
+* Patch #44368: Revert removal of user scope in 2FA backup code lookup
+* Defect #44245: Password reset page exposes whether an email address is registered through different redirect behavior
+
+=== [Administration]
+
+* Defect #44273: Applications item is not highlighted in the administration menu
+* Defect #44289: No status icon is displayed after checking for plugin updates on the Plugins page
+* Feature #44268: Prevent browsers from autofilling the administrator's own password into the user account form
+
+=== [Attachments]
+
+* Defect #44216: Backport uploading files with excessively long extensions may fail
+* Defect #44225: Add and configure pandoc on GitHub Actions
+* Defect #44228: Uploading an attachment with a NUL byte in the filename causes an Internal Server Error
+* Defect #44335: PDF preview of .ai attachments triggers an automatic download
+
+=== [Code cleanup/refactoring]
+
+* Defect #44243: Fix RuboCop Style/ArrayIntersect offenses
+* Defect #44321: Random test failure in OauthProviderSystemTest due to incomplete sign out
+* Patch #44259: New context menu controller tests don't run with standard rake tasks
+* Patch #44265: WebhookTest occasionally hangs
+* Patch #44330: Convert CRLF line endings to LF in three test fixture files
+
+=== [Documentation]
+
+* Patch #44232: Document Ghostscript as an optional dependency in doc/INSTALL
+
+=== [Email notifications]
+
+* Defect #44220: Backport password reset security notification does not include IP address
+
+=== [Gantt]
+
+* Defect #44234: Gantt issue relation lines break when collapsing objects
+
+=== [Issues]
+
+* Defect #44258: Deleting an issue journal (note) shifts #note-N anchors of later journals, breaking existing links
+
+=== [Performance]
+
+* Defect #44348: Formatting a text is much slower in 7.0.0 when its container has many attachments
+
+=== [Permissions and roles]
+
+* Patch #44328: Reading issue categories should be granted by view_issues, not manage_categories
+
+=== [REST API]
+
+* Feature #44353: Add project to wiki page list API response
+
+=== [Rails support]
+
+* Patch #44303: Update Rails to 8.1.3.1
+
+=== [SCM]
+
+* Defect #44223: Setup Subversion and Mercurial on GitHub Actions
+* Defect #44354: GitAdapterTest#test_diff_path_invalid fails with Git 2.55.0
+
+=== [Security]
+
+* Patch #44371: Filter key parameter from logging
+* Defect #44249: API requests can affect a user's session and circumvent security policies
+* Defect #44308: Stored XSS in Redmine Textile Formatter via <notextile> Tag-Restoration ("Frankenstein tag")
+* Defect #44309: Nested issue-relations endpoints bypass source issue visibility
+* Defect #44310: Child project inherit_members updates bypass member-management authorization
+
+=== [Text formatting]
+
+* Defect #13723: Collapse doesn't work with section edit link
+
+=== [Third-party libraries]
+
+* Defect #44294: Charts are broken: empty app/assets/javascripts/chart.min.js shadows vendor/javascript/chart.min.js
+
+=== [Translations]
+
+* Defect #44277: Translation missing: text_users_remove_from_group_confirmation
+* Defect #44291: Fix typos and inconsistent "e-mail" spelling in Czech translation
+* Patch #44323: French translation update for 7.0-stable
+
+=== [UI]
+
+* Defect #44221: "Selected Columns" checkbox does not enable or disable the column lists on the new Gantt query form
+* Defect #44318: Tab bar wraps to a semi-visible second row when the tabs are wider than 2000px
+* Defect #44351: Fix top menu position in Classic theme
+* Patch #44293: Add a caret to the account menu to indicate it opens a dropdown
+* Patch #44341: Increase top menu hover highlight by increasing the padding of the elements
+
 == 2026-06-30 v7.0.0
 
 === [Accounts / authentication]
