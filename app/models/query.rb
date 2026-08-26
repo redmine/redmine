@@ -1514,7 +1514,7 @@ class Query < ApplicationRecord
     )
   end
 
-  # rubocop:disable Lint/IneffectiveAccessModifier
+  # rubocop:disable-next Lint/IneffectiveAccessModifier
   def self.tokenized_like_conditions(db_field, value, **options)
     tokens = Redmine::Search::Tokenizer.new(value).tokens
     tokens = [value] unless tokens.present?
@@ -1535,7 +1535,6 @@ class Query < ApplicationRecord
     end.transpose
     [sql.join(logical_opr), *values]
   end
-  # rubocop:enable Lint/IneffectiveAccessModifier
 
   # Adds a filter for the given custom field
   def add_custom_field_filter(field, assoc=nil)

@@ -119,7 +119,7 @@ if Object.const_defined?(:Commonmarker)
     end
 
     # samples taken from the Sanitize test suite
-    # rubocop:disable Layout/LineLength
+    # rubocop:disable-next Layout/LineLength
     STRINGS = [
       [
         '<span style="color: #333; background: url(\'https://example.com/evil.svg\')">hello</span>"',
@@ -146,7 +146,6 @@ if Object.const_defined?(:Commonmarker)
         '<b>Lorem</b> <a title="foo">ipsum</a> <a href="http://example.com/"><strong>dolor</strong></a> sit<br>amet &lt;script&gt;alert("hello world");'
       ]
     ]
-    # rubocop:enable Layout/LineLength
 
     def test_should_sanitize_html_strings
       STRINGS.each do |input, expected|
@@ -191,12 +190,11 @@ if Object.const_defined?(:Commonmarker)
         '<a>foo</a>'
       ],
 
-      # rubocop:disable Layout/LineLength
+      # rubocop:disable-next Layout/LineLength
       'protocol-based JS injection: long UTF-8 encoding without semicolons' => [
         '<a href=&#0000106&#0000097&#0000118&#0000097&#0000115&#0000099&#0000114&#0000105&#0000112&#0000116&#0000058&#0000097&#0000108&#0000101&#0000114&#0000116&#0000040&#0000039&#0000088&#0000083&#0000083&#0000039&#0000041>foo</a>',
         '<a>foo</a>'
       ],
-      # rubocop:enable Layout/LineLength
 
       'protocol-based JS injection: hex encoding' => [
         '<a href="javascript&#x3A;">foo</a>',
