@@ -402,7 +402,8 @@ class IssueQuery < Query
   end
 
   # Returns the issues
-  # Valid options are :order, :offset, :limit, :include, :conditions
+  # Valid options are :order, :offset, :limit, :conditions,
+  # :include, and :preload
   def issues(options={})
     order_option = [group_by_sort_order, (options[:order] || sort_clause)].flatten.reject(&:blank?)
     # The default order of IssueQuery is issues.id DESC(by IssueQuery#default_sort_criteria)
@@ -424,6 +425,9 @@ class IssueQuery < Query
         [:tracker, :author, :assigned_to, :fixed_version,
          :category, :attachments] & columns.map(&:name)
       )
+    if options[:preload]
+      scope = scope.preload(options[:preload])
+    end
     if has_custom_field_column?
       scope = scope.preload(:custom_values)
     end

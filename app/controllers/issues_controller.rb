@@ -58,8 +58,10 @@ class IssuesController < ApplicationController
         format.api do
           @offset, @limit = api_offset_and_limit
           @query.column_names = %w(author)
+          preload = [:tracker, :assigned_to, :category, :fixed_version, :custom_values]
+          preload << {:attachments => :author} if include_in_api_response?('attachments')
           @issue_count = @query.issue_count
-          @issues = @query.issues(:offset => @offset, :limit => @limit)
+          @issues = @query.issues(:offset => @offset, :limit => @limit, :preload => preload)
           Issue.load_visible_relations(@issues) if include_in_api_response?('relations')
           if User.current.allowed_to?(:view_time_entries, nil, :global => true)
             Issue.load_visible_spent_hours(@issues)
