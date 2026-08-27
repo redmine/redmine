@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        ruby: ['3.2', '3.3', '3.4', '4.0']
+        ruby: ['3.3', '3.4', '4.0']
         db: ['postgresql', 'mysql2', 'sqlite3']
       fail-fast: false
 
