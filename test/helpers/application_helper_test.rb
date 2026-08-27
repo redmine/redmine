@@ -2054,19 +2054,42 @@ class ApplicationHelperTest < Redmine::HelperTest
                    principals_options_for_select(users)
   end
 
-  def test_principals_options_for_select_should_include_author_and_previous_assignee
+  def test_principals_options_for_select_should_include_author_previous_assignee_and_last_notes_author
     set_language_if_valid 'en'
-    users = [User.find(2), User.find(3), User.find(1)]
+    users = [User.find(2), User.find(3), User.find(1), User.find(4)]
     @issue = Issue.generate!(author_id: 1, assigned_to_id: 2)
     @issue.init_journal(users.first, 'update')
     @issue.assigned_to_id = 3
     @issue.save
+    Journal.create!(:journalized => @issue, :user_id => 4, :notes => 'Last notes')
 
     result = principals_options_for_select(users)
-    assert_select_in result, 'optgroup[label="Author / Previous assignee"]' do
+    assert_select_in result, 'optgroup[label="Author / Recent participants"]' do
       assert_select 'option:nth-of-type(1)', text: 'Redmine Admin'  # Author
       assert_select 'option:nth-of-type(2)', text: 'John Smith'     # Prior assignee
+      assert_select 'option:nth-of-type(3)', text: 'Robert Hill'    # Last notes author
     end
+  end
+
+  def test_principals_options_for_select_should_not_include_private_last_notes_author_without_permission
+    set_language_if_valid 'en'
+    User.current = User.find(3)
+    users = [User.find(2), User.find(3), User.find(1), User.find(4)]
+    @issue = Issue.generate!(author_id: 1, assigned_to_id: 2)
+    @issue.init_journal(users.first, 'update')
+    @issue.assigned_to_id = 3
+    @issue.save
+    Journal.create!(:journalized => @issue, :user_id => 4, :notes => 'Public notes')
+    Journal.create!(:journalized => @issue, :user_id => 8, :notes => 'Private notes', :private_notes => true)
+
+    result = principals_options_for_select(users)
+    assert_select_in result, 'optgroup[label="Author / Recent participants"]' do
+      assert_select 'option:nth-of-type(1)', text: 'Redmine Admin'
+      assert_select 'option:nth-of-type(2)', text: 'John Smith'
+      assert_select 'option:nth-of-type(3)', text: 'Robert Hill'
+    end
+  ensure
+    User.current = nil
   end
 
   def test_stylesheet_link_tag_should_pick_the_default_stylesheet

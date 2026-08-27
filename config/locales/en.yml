@@ -1169,7 +1169,7 @@ en:
   label_default_query: Default query
   label_edited: Edited
   label_time_by_author: "%{time} by %{author}"
-  label_involved_principals: Author / Previous assignee
+  label_involved_principals: Author / Recent participants
   label_assignee_dropdown_display_format_users_then_groups: Users then groups
   label_assignee_dropdown_display_format_groups_then_users: Groups then users
   label_assignee_dropdown_display_format_users_by_group: Users by group

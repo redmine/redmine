@@ -690,8 +690,17 @@ module ApplicationHelper
     involved_principals = []
     # This optgroup is displayed only when editing a single issue
     if @issue.present? && !@issue.new_record?
+      last_notes_author =
+        @issue.journals.visible(User.current).
+          where.not(:notes => '').
+          reorder(:id => :desc).
+          first&.user
       involved_principals =
-        [@issue.author, @issue.prior_assigned_to].uniq.compact.map do |principal|
+        [
+          @issue.author,
+          @issue.prior_assigned_to,
+          last_notes_author
+        ].uniq.compact.map do |principal|
           [principal, {:disabled => !collection.include?(principal)}]
         end
     end
