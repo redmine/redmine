@@ -1168,7 +1168,7 @@ bg:
   label_default_query: Заявка по подразбиране
   label_edited: Редактирано
   label_time_by_author: "%{time} от %{author}"
-  label_involved_principals: Автор / Предишен назначен
+  label_involved_principals: Author / Recent participants
   label_assignee_dropdown_display_format_users_then_groups: Потребители после групи
   label_assignee_dropdown_display_format_groups_then_users: Групи после потребители
   label_assignee_dropdown_display_format_users_by_group: Потребители по групи

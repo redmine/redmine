@@ -1540,7 +1540,7 @@ ru:
   setting_issue_done_ratio_interval: Done ratio options interval
   setting_copy_attachments_on_issue_copy: Copy attachments on copy
   field_thousands_delimiter: Разделитель тысяч
-  label_involved_principals: Автор / Предыдущий исполнитель
+  label_involved_principals: Author / Recent participants
   label_attachment_summary:
     zero: "%{filename}"
     one: "%{filename} и 1 файл"

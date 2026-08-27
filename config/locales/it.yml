@@ -1167,7 +1167,7 @@ it:
   label_default_query: Query predefinita
   label_edited: Modificato
   label_time_by_author: "%{time} da %{author}"
-  label_involved_principals: Autore / Assegnatario precedente
+  label_involved_principals: Author / Recent participants
   label_progressbar: Barra di avanzamento
   label_oauth_permission_admin: Amministra questo Redmine
   label_oauth_admin_access: Amministrazione

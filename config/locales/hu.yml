@@ -1425,7 +1425,7 @@
   setting_issue_done_ratio_interval: Készültségi szint lépései
   setting_copy_attachments_on_issue_copy: Csatolmányok másolása feladat másolásakor
   field_thousands_delimiter: Ezres elválasztó
-  label_involved_principals: Szerző / Korábbi felelős
+  label_involved_principals: Author / Recent participants
   label_attachment_summary:
     zero: "%{filename}"
     one: "%{filename} és 1 fájl"

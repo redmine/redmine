@@ -1459,7 +1459,7 @@ fr:
   setting_issue_done_ratio_interval: Intervalle des valeurs d'avancement
   setting_copy_attachments_on_issue_copy: Copier les fichiers lors de la copie
   field_thousands_delimiter: Séparateur des milliers
-  label_involved_principals: Auteur / Ancien assigné
+  label_involved_principals: Author / Recent participants
   label_attachment_summary:
     zero: "%{filename}"
     one: "%{filename} et 1 fichier"

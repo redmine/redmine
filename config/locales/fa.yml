@@ -1141,7 +1141,7 @@ fa:
   label_default_query: جستار پیش‌فرض
   label_edited: ویرایش شده
   label_time_by_author: "%{time} توسط %{author}"
-  label_involved_principals: نویسنده / مسئول قبلی
+  label_involved_principals: Author / Recent participants
   label_progressbar: نوار پیشرفت
   label_oauth_permission_admin: راه‌بری این ردماین
   label_oauth_admin_access: راه‌بری
