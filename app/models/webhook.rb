@@ -133,7 +133,7 @@ class Webhook < ApplicationRecord
 
   def setable_projects
     user = self.user || User.current
-    Project.visible(user).to_a.select{|p| user.allowed_to?(:use_webhooks, p)}
+    Project.allowed_to(user, :use_webhooks).to_a
   end
 
   def setable_events
