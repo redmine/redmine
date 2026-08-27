@@ -99,7 +99,10 @@ class Webhook < ApplicationRecord
 
   scope :active, -> { where(active: true) }
 
-  before_validation ->(hook){ hook.projects = hook.projects.to_a & hook.setable_projects }
+  before_validation ->(hook){
+    ids = hook.setable_projects.pluck(:id)
+    hook.projects = hook.projects.select {|p| ids.include?(p.id)}
+  }
 
   def self.enabled?
     Setting.webhooks_enabled?
@@ -133,7 +136,7 @@ class Webhook < ApplicationRecord
 
   def setable_projects
     user = self.user || User.current
-    Project.allowed_to(user, :use_webhooks).to_a
+    Project.allowed_to(user, :use_webhooks)
   end
 
   def setable_events
