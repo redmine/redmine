@@ -201,6 +201,10 @@ Rails/SkipsModelValidations:
 Rails/SquishedSQLHeredocs:
   Enabled: false
 
+Rails/StrongParametersExpect:
+  # `params.expect` rejects the Hash and Array parameter values used in the controllers
+  Enabled: false
+
 Rails/ThreeStateBooleanColumn:
   Exclude:
     - 'db/migrate/009_add_hide_mail_pref.rb'
