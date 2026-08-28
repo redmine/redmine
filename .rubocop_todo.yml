@@ -570,13 +570,6 @@ Security/Eval:
     - 'app/models/user.rb'
     - 'config/initializers/00-core_plugins.rb'
 
-# This cop supports unsafe autocorrection (--autocorrect-all).
-Security/IoMethods:
-  Exclude:
-    - 'app/models/attachment.rb'
-    - 'test/functional/mail_handler_controller_test.rb'
-    - 'test/unit/mail_handler_test.rb'
-
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: separated, grouped

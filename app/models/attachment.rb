@@ -454,7 +454,7 @@ class Attachment < ApplicationRecord
           filename = "#{basename}(#{dup_count})#{extname}"
         end
         zos.put_next_entry(filename)
-        zos << IO.binread(attachment.diskfile)
+        zos << File.binread(attachment.diskfile)
         archived_file_names << filename
       end
     end

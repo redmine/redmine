@@ -38,7 +38,7 @@ class MailHandlerControllerTest < Redmine::ControllerTest
           :params => {
             :key => 'secret',
             :email =>
-               IO.read(
+               File.read(
                  File.join(FIXTURES_PATH, 'ticket_on_given_project.eml')
                )
           }
@@ -60,7 +60,7 @@ class MailHandlerControllerTest < Redmine::ControllerTest
           :params => {
             :key => 'secret',
             :email =>
-              IO.read(
+              File.read(
                 File.join(FIXTURES_PATH, 'ticket_on_given_project.eml')
               ),
             :issue => {
@@ -87,7 +87,7 @@ class MailHandlerControllerTest < Redmine::ControllerTest
             :index,
             :params => {
               :key => 'secret',
-              :email => IO.read(File.join(FIXTURES_PATH, 'ticket_reply.eml'))
+              :email => File.read(File.join(FIXTURES_PATH, 'ticket_reply.eml'))
             }
           )
         end
@@ -108,7 +108,7 @@ class MailHandlerControllerTest < Redmine::ControllerTest
           :params => {
             :key => 'secret',
             :email =>
-              IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
+              File.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
           }
         )
       end
@@ -128,7 +128,7 @@ class MailHandlerControllerTest < Redmine::ControllerTest
           :params => {
             :key => 'secret',
             :email =>
-              IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
+              File.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
           }
         )
       end
@@ -148,7 +148,7 @@ class MailHandlerControllerTest < Redmine::ControllerTest
           :params => {
             :key => 'wrong',
             :email =>
-              IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
+              File.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
           }
         )
       end
