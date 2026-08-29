@@ -46,8 +46,6 @@ module Redmine
       'image/png' => 'png',
       'image/tiff' => 'tiff,tif',
       'image/webp' => 'webp',
-      # Not registered with IANA, but matches Marcel's type for .ai
-      'application/illustrator' => 'ai',
       'application/javascript' => 'js',
       'application/pdf' => 'pdf',
       'video/mp4' => 'mp4',
@@ -66,10 +64,13 @@ module Redmine
 
     # returns mime type for name or nil if unknown
     def self.of(name)
-      ext = File.extname(name.to_s)[1..-1]
-      if ext
-        ext.downcase!
-        EXTENSIONS[ext] || MiniMime.lookup_by_extension(ext)&.content_type
+      ext = File.extname(name.to_s).delete_prefix('.').downcase
+      return if ext.empty?
+
+      EXTENSIONS.fetch(ext) do
+        type = Marcel::MimeType.for(extension: ext)
+        # Marcel falls back to application/octet-stream for unknown extensions
+        type unless type == Marcel::MimeType::BINARY
       end
     end
 
