@@ -764,8 +764,8 @@ class ApplicationController < ActionController::Base
   end
 
   def query_error(exception)
-    Rails.logger.debug "#{exception.class.name}: #{exception.message}"
-    Rails.logger.debug "    #{exception.backtrace.join("\n    ")}"
+    Rails.logger.debug { "#{exception.class.name}: #{exception.message}" }
+    Rails.logger.debug { "    #{exception.backtrace.join("\n    ")}" }
 
     render_404
   end

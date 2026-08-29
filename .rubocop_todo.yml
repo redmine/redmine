@@ -375,11 +375,6 @@ Rails/DuplicateScope:
 Rails/DynamicFindBy:
   Enabled: false
 
-# This cop supports safe autocorrection (--autocorrect).
-Rails/EagerEvaluationLogMessage:
-  Exclude:
-    - 'app/controllers/application_controller.rb'
-
 Rails/HasAndBelongsToMany:
   Exclude:
     - 'app/models/changeset.rb'
