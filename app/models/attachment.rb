@@ -280,7 +280,7 @@ class Attachment < ApplicationRecord
       rescue => e
         if logger
           logger.error(
-            "An error occured while generating thumbnail for #{disk_filename} " \
+            "An error occurred while generating thumbnail for #{disk_filename} " \
               "to #{target}\nException was: #{e.message}"
           )
         end
@@ -348,7 +348,7 @@ class Attachment < ApplicationRecord
   rescue => e
     if logger
       logger.error(
-        "An error occured while generating markdownized preview for #{disk_filename} " \
+        "An error occurred while generating markdownized preview for #{disk_filename} " \
           "to #{target}\nException was: #{e.message}"
       )
     end

@@ -222,7 +222,7 @@ class User < Principal
   def self.try_to_login(login, password, active_only=true)
     try_to_login!(login, password, active_only)
   rescue AuthSourceException => e
-    logger.error "An error occured when authenticating #{login}: #{e.message}"
+    logger.error "An error occurred when authenticating #{login}: #{e.message}"
     nil
   end
 
