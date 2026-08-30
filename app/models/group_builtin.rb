@@ -19,7 +19,7 @@
 
 class GroupBuiltin < Group
   class Current < ActiveSupport::CurrentAttributes
-    attribute :instances, default: {}
+    attribute :instances, default: -> { {} }
   end
 
   validate :validate_uniqueness, :on => :create
