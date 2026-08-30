@@ -150,6 +150,15 @@ class GroupTest < ActiveSupport::TestCase
     end
   end
 
+  def test_builtin_groups_should_be_cached_until_current_attributes_reset
+    assert_queries_count(1) { Group.anonymous }
+    assert_no_queries { Group.anonymous }
+
+    GroupBuiltin::Current.reset
+
+    assert_queries_count(1) { Group.anonymous }
+  end
+
   def test_builtin_in_group_should_be_uniq
     group = GroupAnonymous.new
     group.name = 'Foo'

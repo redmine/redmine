@@ -18,6 +18,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class GroupBuiltin < Group
+  class Current < ActiveSupport::CurrentAttributes
+    attribute :instances, default: {}
+  end
+
   validate :validate_uniqueness, :on => :create
 
   def validate_uniqueness
@@ -40,7 +44,7 @@ class GroupBuiltin < Group
     def load_instance
       return nil if self == GroupBuiltin
 
-      instance = unscoped.order(:id).first || create_instance
+      Current.instances[self] ||= unscoped.order(:id).first || create_instance
     end
 
     def create_instance
