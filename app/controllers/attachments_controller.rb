@@ -58,7 +58,7 @@ class AttachmentsController < ApplicationController
           render :action => 'diff'
         elsif @attachment.is_image?
           render :action => 'image'
-        elsif @attachment.is_pdf?
+        elsif @attachment.pdf_previewable?
           render :action => 'pdf'
         elsif @attachment.is_text? && @attachment.filesize <= Setting.file_max_size_displayed.to_i.kilobyte
           @content = File.read(@attachment.diskfile, :mode => "rb")
@@ -299,6 +299,10 @@ class AttachmentsController < ApplicationController
       content_type =
         Redmine::MimeType.of(attachment.filename).presence ||
         "application/octet-stream"
+    elsif Marcel::Magic.child?(content_type, "application/pdf")
+      # Send PDF compatible files, such as Illustrator files, as PDF so that
+      # browsers display them inline
+      content_type = "application/pdf"
     end
 
     if is_thumb && !content_type.start_with?("image/")

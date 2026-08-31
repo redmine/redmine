@@ -406,6 +406,41 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_match %r{\Aattachment}, @response.headers['Content-Disposition']
   end
 
+  def test_show_pdf_compatible_illustrator_file_should_be_previewed
+    set_tmp_attachments_directory
+    attachment = Attachment.create!(
+      :file => mock_file_with_options(
+        :original_filename => 'logo.ai',
+        :content => File.binread("#{Rails.root}/test/fixtures/files/hello.pdf")
+      ),
+      :author_id => 2,
+      :container => Issue.find(1)
+    )
+    assert_equal 'application/illustrator', attachment.content_type
+
+    get(:show, :params => {:id => attachment.id})
+    assert_response :success
+    assert_select 'div.filecontent.pdf object[type=?]', 'application/pdf'
+  end
+
+  def test_download_pdf_compatible_illustrator_file_should_be_sent_inline_as_pdf
+    set_tmp_attachments_directory
+    attachment = Attachment.create!(
+      :file => mock_file_with_options(
+        :original_filename => 'logo.ai',
+        :content => File.binread("#{Rails.root}/test/fixtures/files/hello.pdf")
+      ),
+      :author_id => 2,
+      :container => Issue.find(1)
+    )
+
+    get(:download, :params => {:id => attachment.id})
+    assert_response :success
+    # Sent as PDF so that browsers display it inline
+    assert_equal 'application/pdf', @response.media_type
+    assert_match %r{\Ainline}, @response.headers['Content-Disposition']
+  end
+
   def test_download_version_file_with_issue_tracking_disabled
     Project.find(1).disable_module! :issue_tracking
     get(:download, :params => {:id => 9})

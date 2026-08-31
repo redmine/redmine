@@ -838,4 +838,22 @@ class AttachmentTest < ActiveSupport::TestCase
       assert_equal expected, Attachment.new(:filename => filename).is_pdf?, filename
     end
   end
+
+  def test_pdf_previewable
+    to_test = {
+      ['application/pdf', 'report.pdf'] => true,
+      # PDF compatible Illustrator files are detected as application/illustrator
+      ['application/illustrator', 'logo.ai'] => true,
+      # Illustrator files saved in the PostScript format are not PDF files
+      ['application/postscript', 'logo.ai'] => false,
+      # The type of attachments created before Redmine started detecting the
+      # content type from the file contents can only be guessed from the name
+      ['application/octet-stream', 'report.pdf'] => true,
+      ['application/octet-stream', 'logo.ai'] => false,
+    }
+    to_test.each do |(content_type, filename), expected|
+      attachment = Attachment.new(:content_type => content_type, :filename => filename)
+      assert_equal expected, attachment.pdf_previewable?, "#{content_type} (#{filename})"
+    end
+  end
 end
