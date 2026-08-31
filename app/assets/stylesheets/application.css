@@ -400,9 +400,14 @@ a.issue.closed, a.issue.closed:link, a.issue.closed:visited { color: var(--oc-gr
 a.project.closed, a.project.closed:link, a.project.closed:visited { color: var(--oc-gray-6); }
 a.user.locked, a.user.locked:link, a.user.locked:visited {color: var(--oc-gray-6);}
 a.user.user-mention {
-  background-color: var(--oc-blue-0);
   padding: 0.1em;
   border-radius: 0.1em;
+}
+a.user.user-mention.user-mentionable {
+  background-color: var(--oc-blue-0);
+}
+a.user.user-mention.user-current {
+  background-color: var(--oc-orange-1);
 }
 
 #sidebar a.selected {

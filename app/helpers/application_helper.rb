@@ -80,7 +80,13 @@ module ApplicationHelper
   end
 
   def link_to_mention(user, object, options={})
-    link_to_user(user, only_path: options[:only_path], class: 'user-mention', mention: true)
+    css_classes = ['user-mention']
+    if user.is_a?(User)
+      css_classes << 'user-current' if user == User.current
+      css_classes << 'user-mentionable' if object.respond_to?(:visible?) && object.visible?(user)
+    end
+
+    link_to_user(user, only_path: options[:only_path], class: css_classes.join(' '), mention: true)
   end
 
   # Displays a link to edit group page if current user is admin

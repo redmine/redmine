@@ -1850,6 +1850,48 @@ class ApplicationHelperTest < Redmine::HelperTest
     assert_equal ::I18n.t(:label_user_anonymous), t
   end
 
+  def test_link_to_mention
+    set_language_if_valid 'en'
+    user = User.find(2)
+    User.current = User.find(1)
+    issue = Issue.find(1)
+
+    # Mentioning a user
+    result = link_to("@John Smith", "/users/2", :class => "user active user-mention")
+    assert_equal result, link_to_mention(user, nil)
+
+    # Mentioning current user
+    User.current = user
+    result = link_to("@John Smith", "/users/2", :class => "user active user-mention user-current")
+    assert_equal result, link_to_mention(user, nil)
+
+    # Mentioning a user that has visibility over the mentioned object
+    User.current = User.find(1)
+    # Issue 1 is visible to John Smith (user 2)
+    assert issue.visible?(user)
+    result = link_to("@John Smith", "/users/2", :class => "user active user-mention user-mentionable")
+    assert_equal result, link_to_mention(user, issue)
+
+    # Mentioning current user that has visibility over the mentioned object
+    User.current = user
+    result = link_to("@John Smith", "/users/2", :class => "user active user-mention user-current user-mentionable")
+    assert_equal result, link_to_mention(user, issue)
+
+    # Mentioning a user that does not have visibility over the object
+    User.current = User.find(1)
+    unauthorized_user = User.find(3)
+    issue4 = Issue.find(4)
+    assert_not issue4.visible?(unauthorized_user)
+    result = link_to("@Dave Lopper", "/users/3", :class => "user active user-mention")
+    assert_equal result, link_to_mention(unauthorized_user, issue4)
+
+    # Mentioning in a journal
+    journal = Journal.find(1)
+    assert journal.visible?(user)
+    result = link_to("@John Smith", "/users/2", :class => "user active user-mention user-mentionable")
+    assert_equal result, link_to_mention(user, journal)
+  end
+
   def test_link_to_attachment
     a = Attachment.find(3)
     assert_equal(
