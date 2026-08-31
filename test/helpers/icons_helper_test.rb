@@ -223,6 +223,7 @@ class IconsHelperTest < Redmine::HelperTest
 
   def test_icon_for_mime_type_should_return_specific_icon_for_known_mime_types
     assert_equal 'application-pdf', icon_for_mime_type('application/pdf')
+    assert_equal 'file-ai', icon_for_mime_type('application/illustrator')
     assert_equal 'text-plain', icon_for_mime_type('text/markdown')
     assert_equal 'text-plain', icon_for_mime_type('text/plain')
     assert_equal 'file-type-docx',

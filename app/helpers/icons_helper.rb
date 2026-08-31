@@ -33,6 +33,7 @@ module IconsHelper
     'application-javascript' => %w(application/javascript text/javascript),
     'application-pdf' => %w(application/pdf),
     'application-zip' => %w(application/zip),
+    'file-ai' => %w(application/illustrator),
     'file-music' => %w(audio),
     'movie' => %w(video),
     'photo' => %w(image),

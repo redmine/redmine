@@ -256,6 +256,8 @@
   svg: file-type-xls
 - name: file-type-ppt
   svg: file-type-ppt
+- name: file-ai
+  svg: file-ai
 - name: maximize
   svg: maximize
 - name: link-add
