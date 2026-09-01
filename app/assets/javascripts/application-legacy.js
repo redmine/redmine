@@ -990,6 +990,30 @@ function beforeShowDatePicker(input, inst) {
   $(input).datepickerFallback("option", "defaultDate", default_date);
 }
 
+// Workaround for a performance regression in jQuery UI 1.12+ that makes
+// sortable initialization quadratic in the number of items
+// (https://github.com/jquery/jquery-ui/issues/2062). In Redmine, this can
+// freeze Chromium-based browsers on long lists such as custom field
+// enumerations (https://www.redmine.org/issues/44372).
+//
+// Collects all handles first and calls _removeClass and _addClass once each,
+// avoiding the quadratic cost while keeping widget class tracking intact.
+// Remove this override once this is fixed upstream.
+if ($.ui && $.ui.sortable) {
+  $.ui.sortable.prototype._setHandleClassName = function() {
+    var handles = [];
+    this._removeClass(
+      this.element.find(".ui-sortable-handle"),
+      "ui-sortable-handle"
+    );
+    $.each(this.items, function() {
+      var handle = this.instance.options.handle;
+      $.merge(handles, (handle ? this.item.find(handle) : this.item).get());
+    });
+    this._addClass($(handles), "ui-sortable-handle");
+  };
+}
+
 (function($){
   $.fn.positionedItems = function(sortableOptions, options){
     var settings = $.extend({
