@@ -58,7 +58,12 @@ module Redmine
         pid = nil
         begin
           Timeout.timeout(Redmine::Configuration['thumbnails_generation_timeout'].to_i) do
-            pid = Process.spawn(cmd)
+            # Run the command in its own process group so that the whole
+            # process tree (eg. the gs process spawned by convert for PDF
+            # files) can be killed on timeout. Process groups are not
+            # available on Windows.
+            spawn_options = Redmine::Platform.mswin? ? {} : {:pgroup => true}
+            pid = Process.spawn(cmd, spawn_options)
             _, status = Process.wait2(pid)
             unless status.success?
               logger.error("Creating thumbnail failed (#{status.exitstatus}):\nCommand: #{cmd}")
@@ -67,7 +72,12 @@ module Redmine
           end
         rescue Timeout::Error
           if pid
-            Process.kill('KILL', pid)
+            begin
+              # A negative pid sends the signal to the whole process group
+              Process.kill('KILL', Redmine::Platform.mswin? ? pid : -pid)
+            rescue Errno::ESRCH
+              # The process is already gone
+            end
             Process.detach(pid)
           end
           logger.error("Creating thumbnail timed out:\nCommand: #{cmd}")

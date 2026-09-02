@@ -787,24 +787,39 @@ class AttachmentTest < ActiveSupport::TestCase
       set_tmp_attachments_directory
     end
 
-    def test_thumbnail_should_timeout
+    def test_thumbnail_should_kill_and_detach_process_group_on_timeout
       dummy_pid = 37530
-      Process.stubs(:spawn).returns(dummy_pid)
-      Process.stubs(:wait2).raises(Timeout::Error)
-      Process.stubs(:kill).returns(1)
-      Process.stubs(:wait).returns(dummy_pid)
+
+      Redmine::Platform.stubs(:mswin?).returns(false)
+      Redmine::Thumbnail.stubs(:gs_available?).returns(true)
+      Process.expects(:spawn).
+        with(anything, {:pgroup => true}).
+        returns(dummy_pid)
+      Process.expects(:wait2).
+        with(dummy_pid).
+        raises(Timeout::Error)
+      # A negative pid sends the signal to the whole process group so that
+      # child processes of convert (eg. gs) are killed as well
+      Process.expects(:kill).
+        with('KILL', -dummy_pid).
+        returns(1)
+      Process.expects(:detach).
+        with(dummy_pid)
       Rails.logger.expects(:error).with(regexp_matches(/Creating thumbnail timed out/))
 
       set_fixtures_attachments_directory
       Attachment.clear_thumbnails
 
-      attachment = Attachment.find(16)
+      # Use a PDF attachment because convert spawns a Ghostscript (gs)
+      # child process for PDFs, which must not survive the timeout
+      attachment = Attachment.find(23)
       thumbnail = attachment.thumbnail
 
       assert_nil thumbnail
     ensure
       set_tmp_attachments_directory
     end
+
   else
     puts '(ImageMagick convert not available)'
   end
