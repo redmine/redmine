@@ -1218,7 +1218,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal "This is a reply to a comment.", m.content
   end
 
-  def test_reply_to_a_nonexistant_news
+  def test_reply_to_a_nonexistent_news
     News.find(1).destroy
     assert_no_difference('Comment.count') do
       assert_not submit_email('news_reply.eml')

@@ -175,7 +175,7 @@ class MailHandler < ActionMailer::Base
     logger&.error "MailHandler: missing information from #{user}: #{e.message}"
     false
   rescue MissingContainer => e
-    logger&.error "MailHandler: reply to nonexistant object from #{user}: #{e.message}"
+    logger&.error "MailHandler: reply to nonexistent object from #{user}: #{e.message}"
     false
   rescue UnauthorizedAction => e
     logger&.error "MailHandler: unauthorized attempt from #{user}: #{e.message}"
@@ -232,7 +232,7 @@ class MailHandler < ActionMailer::Base
   def receive_issue_reply(issue_id, from_journal=nil)
     issue = Issue.find_by(:id => issue_id)
     if issue.nil?
-      raise MissingContainer, "reply to nonexistant issue [##{issue_id}]"
+      raise MissingContainer, "reply to nonexistent issue [##{issue_id}]"
     end
 
     # Never receive emails to projects where adding issue notes is not possible
@@ -273,10 +273,10 @@ class MailHandler < ActionMailer::Base
     if journal && journal.journalized_type == 'Issue'
       receive_issue_reply(journal.journalized_id, journal)
     elsif m = email.subject.to_s.match(ISSUE_REPLY_SUBJECT_RE)
-      logger&.info "MailHandler: reply to a nonexistant journal, calling receive_issue_reply with issue from subject"
+      logger&.info "MailHandler: reply to a nonexistent journal, calling receive_issue_reply with issue from subject"
       receive_issue_reply(m[1].to_i)
     else
-      raise MissingContainer, "reply to nonexistant journal [#{journal_id}]"
+      raise MissingContainer, "reply to nonexistent journal [#{journal_id}]"
     end
   end
 
@@ -284,7 +284,7 @@ class MailHandler < ActionMailer::Base
   def receive_message_reply(message_id)
     message = Message.find_by(:id => message_id)&.root
     if message.nil?
-      raise MissingContainer, "reply to nonexistant message [#{message_id}]"
+      raise MissingContainer, "reply to nonexistent message [#{message_id}]"
     end
 
     # Never receive emails to projects where adding messages is not possible
@@ -312,7 +312,7 @@ class MailHandler < ActionMailer::Base
   def receive_news_reply(news_id)
     news = News.find_by_id(news_id)
     if news.nil?
-      raise MissingContainer, "reply to nonexistant news [#{news_id}]"
+      raise MissingContainer, "reply to nonexistent news [#{news_id}]"
     end
 
     # Never receive emails to projects where adding news comments is not possible
@@ -339,7 +339,7 @@ class MailHandler < ActionMailer::Base
     if comment && comment.commented_type == 'News'
       receive_news_reply(comment.commented.id)
     else
-      raise MissingContainer, "reply to nonexistant comment [#{comment_id}]"
+      raise MissingContainer, "reply to nonexistent comment [#{comment_id}]"
     end
   end
 
