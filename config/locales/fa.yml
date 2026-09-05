@@ -151,7 +151,7 @@ fa:
   general_text_yes: 'آری'
   general_lang_name: 'Persian (فارسی)'
   general_csv_separator: ','
-  general_csv_decimal_separator: '.'
+  general_csv_decimal_separator: '٫'
   general_csv_encoding: UTF-8
   general_pdf_fontname: DejaVuSans
   general_pdf_monospaced_fontname: freemono

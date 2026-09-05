@@ -147,7 +147,7 @@ sq:
   general_text_no: 'jo'
   general_text_yes: 'po'
   general_lang_name: 'Albanian (Shqip)'
-  general_csv_separator: ','
+  general_csv_separator: ';'
   general_csv_decimal_separator: '.'
   general_csv_encoding: ISO-8859-1
   general_pdf_fontname: freesans

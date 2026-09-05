@@ -162,7 +162,7 @@ tr:
   general_text_no: 'hayır'
   general_text_yes: 'evet'
   general_lang_name: 'Turkish (Türkçe)'
-  general_csv_separator: ','
+  general_csv_separator: ';'
   general_csv_encoding: ISO-8859-9
   general_pdf_fontname: freesans
   general_pdf_monospaced_fontname: freemono
@@ -719,7 +719,7 @@ tr:
   label_and_its_subprojects: "%{value} ve alt projeleri"
   mail_subject_reminder: "%{count} iş bir kaç güne bitecek"
   setting_mail_handler_api_key: API anahtarı
-  general_csv_decimal_separator: '.'
+  general_csv_decimal_separator: ','
   notice_unable_delete_version: Sürüm silinemiyor
   label_renamed: yeniden adlandırılmış
   label_copied: kopyalanmış

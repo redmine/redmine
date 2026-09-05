@@ -152,8 +152,8 @@ lt:
   general_text_no: 'ne'
   general_text_yes: 'taip'
   general_lang_name: 'Lithuanian (lietuvių)'
-  general_csv_separator: ','
-  general_csv_decimal_separator: '.'
+  general_csv_separator: ';'
+  general_csv_decimal_separator: ','
   general_csv_encoding: UTF-8
   general_pdf_fontname: freesans
   general_pdf_monospaced_fontname: freemono
