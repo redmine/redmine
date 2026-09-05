@@ -88,7 +88,7 @@ uk:
 
   number:
     format:
-      separator: "."
+      separator: ","
       delimiter: " "
       precision: 3
     human:

@@ -69,8 +69,8 @@ hr:
 
   number:
     format:
-      separator: "."
-      delimiter: ""
+      separator: ","
+      delimiter: "."
       precision: 3
     human:
       format:

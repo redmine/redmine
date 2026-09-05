@@ -74,8 +74,8 @@ mk:
   number:
     # Default format for numbers
     format:
-      separator: "."
-      delimiter: ""
+      separator: ","
+      delimiter: "."
       precision: 3
     human:
       format:

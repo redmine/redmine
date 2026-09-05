@@ -69,8 +69,8 @@
   number:
     format:
       precision: 3
-      separator: "."
-      delimiter: ","
+      separator: ","
+      delimiter: " "
     currency:
       format:
         unit: "kr"

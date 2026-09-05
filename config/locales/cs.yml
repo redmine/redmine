@@ -78,8 +78,8 @@ cs:
   number:
     # Výchozí formát pro čísla
     format:
-      separator: "."
-      delimiter: ""
+      separator: ","
+      delimiter: "."
       precision: 3
     human:
       format:
