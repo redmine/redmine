@@ -747,7 +747,7 @@ class User < Principal
     if arg.is_a?(User)
       self == arg
     elsif arg.is_a?(Group)
-      arg.users.include?(self)
+      group_ids.include?(arg.id)
     else
       false
     end
