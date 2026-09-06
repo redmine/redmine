@@ -1258,14 +1258,24 @@ class Issue < ApplicationRecord
 
   # Preloads visible total spent time for a collection of issues
   def self.load_visible_total_spent_hours(issues, user=User.current)
-    if issues.any?
+    return if issues.empty?
+
+    if issues.all?(&:leaf?)
+      # None of the issues has subtasks, so the expensive nested set
+      # self-join can be skipped.
+      # Keep this query identical to the one in load_visible_spent_hours so
+      # that it is served from the query cache when both are called in the
+      # same request (e.g. IssuesController#show and #index).
+      hours_by_issue_id = TimeEntry.visible(user).
+        where(:issue_id => issues.map(&:id)).group(:issue_id).sum(:hours)
+    else
       hours_by_issue_id = TimeEntry.visible(user).joins(:issue).
         joins("JOIN #{Issue.table_name} parent ON parent.root_id = #{Issue.table_name}.root_id" +
           " AND parent.lft <= #{Issue.table_name}.lft AND parent.rgt >= #{Issue.table_name}.rgt").
         where("parent.id IN (?)", issues.map(&:id)).group("parent.id").sum(:hours)
-      issues.each do |issue|
-        issue.instance_variable_set :@total_spent_hours, (hours_by_issue_id[issue.id] || 0.0)
-      end
+    end
+    issues.each do |issue|
+      issue.instance_variable_set :@total_spent_hours, (hours_by_issue_id[issue.id] || 0.0)
     end
   end
 
