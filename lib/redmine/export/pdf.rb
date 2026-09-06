@@ -23,6 +23,8 @@ require 'rbpdf'
 module Redmine
   module Export
     module PDF
+      # The camel cased methods below follow the RBPDF API and cannot be renamed.
+      # rubocop:disable-next Naming/MethodName
       class ITCPDF < RBPDF
         include Redmine::I18n
         attr_accessor :footer_date
@@ -59,10 +61,10 @@ module Redmine
           style.delete!('I') if family.to_s.casecmp('dejavusansmono') == 0
           super
         end
-        alias_method :set_font, :SetFont
+        alias set_font SetFont
 
         def fix_text_encoding(txt)
-          RDMPdfEncoding::rdm_from_utf8(txt, "UTF-8")
+          RDMPdfEncoding.rdm_from_utf8(txt, "UTF-8")
         end
 
         def formatted_text(text)
@@ -105,14 +107,14 @@ module Redmine
           if atta
             return atta.diskfile
           # rubocop:disable Lint/DuplicateBranch
-          elsif %r{/attachments/download/(?<id>[^/]+)/} =~ attrname and
-                atta = @attachments.find{|a| a.id.to_s == id} and
-                atta.readable? and atta.visible?
+          elsif %r{/attachments/download/(?<id>[^/]+)/} =~ attrname &&
+                (atta = @attachments.find{|a| a.id.to_s == id}) &&
+                atta.readable? && atta.visible?
             return atta.diskfile
           # rubocop:enable Lint/DuplicateBranch
-          elsif %r{/attachments/thumbnail/(?<id>[^/]+)/(?<size>\d+)} =~ attrname and
-                atta = @attachments.find{|a| a.id.to_s == id} and
-                atta.readable? and atta.visible?
+          elsif %r{/attachments/thumbnail/(?<id>[^/]+)/(?<size>\d+)} =~ attrname &&
+                (atta = @attachments.find{|a| a.id.to_s == id}) &&
+                atta.readable? && atta.visible?
             return atta.thumbnail(size: size)
           else
             return nil
@@ -120,7 +122,7 @@ module Redmine
         end
 
         def get_sever_url(url)
-          if !empty_string(url) and url.start_with?('/')
+          if !empty_string(url) && url.start_with?('/')
             Setting.host_name.split('/')[0] + url
           else
             url

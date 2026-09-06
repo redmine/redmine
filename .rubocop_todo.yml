@@ -281,7 +281,6 @@ Naming/MemoizedInstanceVariableName:
 # ForbiddenIdentifiers: __id__, __send__
 Naming/MethodName:
   Exclude:
-    - 'lib/redmine/export/pdf.rb'
     - 'lib/redmine/scm/adapters/cvs_adapter.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
     - 'test/helpers/application_helper_test.rb'
@@ -591,7 +590,6 @@ Style/Alias:
     - 'app/models/user.rb'
     - 'app/models/version.rb'
     - 'config/initializers/10-patches.rb'
-    - 'lib/redmine/export/pdf.rb'
     - 'lib/redmine/menu_manager.rb'
     - 'lib/redmine/plugin.rb'
     - 'lib/redmine/wiki_formatting/textile/formatter.rb'
@@ -606,7 +604,6 @@ Style/AndOr:
     - 'app/helpers/repositories_helper.rb'
     - 'app/models/query.rb'
     - 'db/migrate/022_serialize_possibles_values.rb'
-    - 'lib/redmine/export/pdf.rb'
     - 'lib/redmine/field_format.rb'
     - 'lib/redmine/scm/adapters/abstract_adapter.rb'
     - 'lib/redmine/scm/adapters/bazaar_adapter.rb'
@@ -664,7 +661,6 @@ Style/ColonMethodCall:
   Exclude:
     - 'app/controllers/admin_controller.rb'
     - 'lib/redmine/configuration.rb'
-    - 'lib/redmine/export/pdf.rb'
     - 'lib/redmine/wiki_formatting.rb'
     - 'lib/redmine/wiki_formatting/textile/redcloth3.rb'
     - 'test/unit/default_data_test.rb'
