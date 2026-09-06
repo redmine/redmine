@@ -144,6 +144,17 @@ class IconsHelperTest < Redmine::HelperTest
     assert_match expected, icon
   end
 
+  def test_sprite_icon_should_resolve_each_sprite_path_once
+    expects(:asset_path).with('icons.svg').once.returns('/assets/icons-abc.svg')
+    expects(:asset_path).with('custom.svg').once.returns('/assets/custom.svg')
+
+    3.times { sprite_icon('edit') }
+    2.times { sprite_icon('edit', sprite: 'custom') }
+
+    assert_match %r{href="/assets/icons-abc.svg#icon--edit"}, sprite_icon('edit')
+    assert_match %r{href="/assets/custom.svg#icon--edit"}, sprite_icon('edit', sprite: 'custom')
+  end
+
   def test_sprite_icon_should_return_svg_with_custom_sprite
     expected = %r{<svg class="s18 icon-svg" aria-hidden="true"><use href="/assets/custom.svg#icon--edit"></use></svg>$}
     icon = sprite_icon('edit', sprite: 'custom')

@@ -150,9 +150,14 @@ module IconsHelper
     css_classes += " #{css_class}" unless css_class.nil?
     css_classes += " icon-rtl" if rtl
 
+    # Resolve each sprite path only once per request: asset_path is not
+    # cheap and this helper runs for every icon on a page
+    @sprite_asset_paths ||= {}
+    path = @sprite_asset_paths[sprite] ||= asset_path(sprite)
+
     content_tag(
       :svg,
-      content_tag(:use, '', { 'href' => "#{asset_path(sprite)}#icon--#{icon_name}" }),
+      content_tag(:use, '', { 'href' => "#{path}#icon--#{icon_name}" }),
       class: css_classes,
       aria: {
         hidden: true
