@@ -148,6 +148,7 @@ Please do not enter your SMTP settings in environment.rb.
 == Known Issues
 
 * Redmine running on Ruby versions 4.0.0 through 4.0.2 has a known performance issue when rendering wiki syntax. For more details, see https://www.redmine.org/issues/43650.
+* Redmine does not start on Ruby 3.3.0 due to an issue with Ruby's handling of anonymous arguments. It was fixed in Ruby 3.3.1. See https://bugs.ruby-lang.org/issues/20090 for details.
 
 == References
 
