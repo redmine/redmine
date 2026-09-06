@@ -21,9 +21,13 @@ Rails.autoloaders.each do |loader|
     'pdf' => 'PDF',
     'url' => 'URL',
     'pop3' => 'POP3',
-    'imap' => 'IMAP'
+    'imap' => 'IMAP',
+    'itcpdf' => 'ITCPDF'
   )
   IGNORE_LIST.each do |mod|
     loader.ignore lib.join(mod)
   end
+  # Keep ITCPDF out of eager loading so that rbpdf is only loaded when a PDF
+  # is generated.
+  loader.do_not_eager_load lib.join('export/pdf/itcpdf.rb')
 end
