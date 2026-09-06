@@ -142,6 +142,10 @@ Do not forget to restart the application after any change to this file.
 
 Please do not enter your SMTP settings in environment.rb.
 
+== Known Issues
+
+* Redmine does not start on Ruby 3.3.0 due to an issue with Ruby's handling of anonymous arguments. It was fixed in Ruby 3.3.1. See https://bugs.ruby-lang.org/issues/20090 for details.
+
 == References
 
 * https://www.redmine.org/projects/redmine/wiki/RedmineInstall
