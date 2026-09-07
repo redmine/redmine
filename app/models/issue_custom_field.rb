@@ -24,8 +24,15 @@ class IssueCustomField < CustomField
   safe_attributes 'project_ids',
                   'tracker_ids'
 
+  before_destroy :delete_workflow_rules
+
   def type_name
     :label_issue_plural
+  end
+
+  # Deletes workflow rules that refer to this custom field
+  def delete_workflow_rules
+    WorkflowPermission.where(:field_name => id.to_s).delete_all
   end
 
   def visible_by?(project, user=User.current)
