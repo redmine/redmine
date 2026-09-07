@@ -116,9 +116,16 @@ module Redmine
 
         return [] unless asset
 
-        ActionController::Base.cache_store.fetch("theme-icons/#{id}/#{sprite}/#{asset.digest}") do
-          asset.content.scan(/id=['"]icon--([^'"]+)['"]/).flatten
-        end
+        # This is called once per icon rendered, so it must not read and
+        # scan the sprite every time. Memoize the names per asset digest,
+        # so that changes to the sprite file are still picked up.
+        @icons ||= {}
+        digest, names = @icons[sprite]
+        return names if digest == asset.digest
+
+        names = asset.content.scan(/id=['"]icon--([^'"]+)['"]/).flatten
+        @icons[sprite] = [asset.digest, names]
+        names
       end
 
       def asset_paths
