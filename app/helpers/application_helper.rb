@@ -83,7 +83,11 @@ module ApplicationHelper
     css_classes = ['user-mention']
     if user.is_a?(User)
       css_classes << 'user-current' if user == User.current
-      css_classes << 'user-mentionable' if object.respond_to?(:visible?) && object.visible?(user)
+      if object.respond_to?(:visible?)
+        @mention_visible_cache ||= {}
+        is_visible = @mention_visible_cache[[object, user.id]] ||= object.visible?(user)
+        css_classes << 'user-mentionable' if is_visible
+      end
     end
 
     link_to_user(user, only_path: options[:only_path], class: css_classes.join(' '), mention: true)
