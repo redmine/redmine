@@ -13,7 +13,7 @@ gem 'i18n', '~> 1.15.2'
 # Loaded on demand by lib/redmine/export/pdf/itcpdf.rb, keep `require: false`
 gem 'rbpdf', '~> 1.21.4', require: false
 gem 'addressable'
-gem 'rubyzip', '~> 3.5.0'
+gem 'rubyzip', '~> 3.6.0'
 gem 'propshaft', '~> 1.3.0'
 gem 'rack', '>= 3.1.3'
 gem "stimulus-rails", "~> 1.3"
