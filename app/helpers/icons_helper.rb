@@ -26,7 +26,7 @@ module IconsHelper
   def sprite_source(icon_name, sprite: DEFAULT_SPRITE, plugin: nil)
     if plugin
       "plugin_assets/#{plugin}/#{sprite}.svg"
-    elsif current_theme && current_theme.icons(sprite).include?(icon_name)
+    elsif current_theme && theme_icon_set(sprite).include?(icon_name)
       current_theme.image_path("#{sprite}.svg")
     else
       "#{sprite}.svg"
@@ -157,5 +157,10 @@ module IconsHelper
         end
     end
     icon_name || 'file'
+  end
+
+  def theme_icon_set(sprite)
+    @theme_icon_sets ||= {}
+    @theme_icon_sets[sprite] ||= Set.new(current_theme&.icons(sprite))
   end
 end
