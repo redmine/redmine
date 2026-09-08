@@ -1352,7 +1352,8 @@ module ApplicationHelper
             end
           elsif sep == "@"
             name = remove_double_quotes(identifier)
-            u = User.visible.find_by_login(name.downcase)
+            @users_by_login ||= {}
+            u = @users_by_login.fetch(name.downcase) { |k| @users_by_login[k] = User.visible.find_by_login(k) }
             link = link_to_mention(u, obj, only_path: only_path) if u
           end
         end
