@@ -876,7 +876,9 @@ module Redmine
       def possible_values_options(custom_field, object=nil)
         users = possible_values_records(custom_field, object)
         options = users.map {|u| [u.name, u.id.to_s]}
-        options = [["<< #{l(:label_me)} >>", User.current.id]] + options if users.include?(User.current)
+        if !custom_field.multiple? && users.include?(User.current)
+          options = [["<< #{l(:label_me)} >>", User.current.id.to_s]] + options
+        end
         options
       end
 

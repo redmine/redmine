@@ -84,6 +84,14 @@ class Redmine::UserFieldFormatTest < ActionView::TestCase
     assert_equal ['<< me >>', 'Dave Lopper', 'John Smith'], field.possible_values_options(project).map(&:first)
   end
 
+  def test_possible_values_options_for_multiple_custom_field_should_not_include_me
+    User.current = User.find(2)
+    field = IssueCustomField.new(:field_format => 'user', :multiple => true)
+    project = Project.find(1)
+
+    assert_equal ['Dave Lopper', 'John Smith'], field.possible_values_options(project).map(&:first)
+  end
+
   def test_value_from_keyword_should_return_user_id
     field = IssueCustomField.new(:field_format => 'user')
     project = Project.find(1)

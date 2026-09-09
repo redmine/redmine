@@ -3795,7 +3795,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     )
     assert_response :success
     assert_select 'select[name=?][multiple=multiple]', "issue[custom_field_values][#{field.id}][]" do
-      assert_select 'option', Project.find(1).users.count + 1 # users + 'me'
+      assert_select 'option', Project.find(1).users.count
       assert_select 'option[value="2"]', :text => 'John Smith'
     end
     assert_select 'input[name=?][type=hidden][value=?]', "issue[custom_field_values][#{field.id}][]", ''
