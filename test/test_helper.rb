@@ -19,7 +19,10 @@
 
 if ENV["COVERAGE"]
   require 'simplecov'
-  SimpleCov.start 'rails'
+  SimpleCov.start 'rails' do
+    cover_views # Include app/views templates in the report
+    track_tests # Track which tests execute each line
+  end
 end
 
 $redmine_test_ldap_server = ENV['REDMINE_TEST_LDAP_SERVER'] || '127.0.0.1'
