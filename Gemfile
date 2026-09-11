@@ -118,7 +118,7 @@ group :test do
   gem "capybara", ">= 3.39"
   gem 'selenium-webdriver', '>= 4.11.0'
   # RuboCop
-  gem 'rubocop', '~> 1.90.0', require: false
+  gem 'rubocop', '~> 1.91.0', require: false
   gem 'rubocop-performance', '~> 1.27.0', require: false
   gem 'rubocop-rails', '~> 2.37.0', require: false
   gem 'bundle-audit', require: false
