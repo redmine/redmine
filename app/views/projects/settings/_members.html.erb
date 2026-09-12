@@ -1,11 +1,12 @@
-<% members = @project.memberships.preload(:project).sorted.to_a %>
+<% members, member_pages, member_count = paginate_members(@project) %>
 
 <% if User.current.admin? %>
   <div class="contextual"><%= link_to sprite_icon('settings', l(:label_administration)), users_path, :class => "icon icon-settings" %></div>
 <% end %>
-<p><%= link_to sprite_icon('add', l(:label_member_new)), new_project_membership_path(@project), :remote => true, :class => "icon icon-add" %></p>
+<p><%= link_to sprite_icon('add', l(:label_member_new)), new_project_membership_path(@project, :members_page => params[:members_page]), :remote => true, :class => "icon icon-add" %></p>
 
-<% if members.any? %>
+<% if member_count > 0 %>
+<div class="autoscroll">
 <table class="list members">
   <thead>
     <tr>
@@ -32,10 +33,10 @@
   </td>
   <td class="buttons">
       <%= link_to sprite_icon('edit', l(:button_edit)),
-                  edit_membership_path(member),
+                  edit_membership_path(member, :members_page => params[:members_page]),
                   :remote => true,
                   :class => 'icon icon-edit' %>
-      <%= remove_link membership_path(member),
+      <%= remove_link membership_path(member, :members_page => params[:members_page]),
                       :remote => true,
                       :data => (!User.current.admin? && member.include?(User.current) ? {:confirm => l(:text_own_membership_delete_confirmation)} : {}) if member.deletable? %>
   </td>
@@ -44,6 +45,12 @@
 <% end %>
   </tbody>
 </table>
+</div>
+<span class="pagination">
+  <%= pagination_links_full(member_pages, member_count) do |text, parameters, options|
+        link_to text, settings_project_path(@project, 'members', request.query_parameters.merge(parameters)), options
+      end %>
+</span>
 <% other_formats_links do |f| %>
   <%= f.link_to_with_query_parameters "CSV", {}, :onclick => "showModal('csv-export-options', '330px'); return false;" %>
 <% end %>

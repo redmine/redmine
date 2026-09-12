@@ -1,4 +1,4 @@
-<%= form_for(@member, :url => membership_path(@member),
+<%= form_for(@member, :url => membership_path(@member, :members_page => params[:members_page]),
                       :as => :membership,
                       :remote => request.xhr?,
                       :method => :put) do |f| %>

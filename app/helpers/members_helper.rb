@@ -48,6 +48,22 @@ module MembersHelper
     s + content_tag('span', links, :class => 'pagination')
   end
 
+  # limit/offset on Member.sorted would paginate role join rows, not members
+  def paginate_members(project)
+    ordered_ids =
+      project.memberships.
+        left_joins(:member_roles => :role).joins(:principal).
+        reorder("#{Role.table_name}.position").
+        order(Principal.fields_for_order_statement).
+        pluck("#{Member.table_name}.id").uniq
+    member_count = ordered_ids.size
+    member_pages = Redmine::Pagination::Paginator.new(member_count, per_page_option, params['members_page'], 'members_page')
+    page_ids = ordered_ids[member_pages.offset, member_pages.per_page] || []
+    members_by_id = project.memberships.where(:id => page_ids).preload(:project, :principal, :roles).index_by(&:id)
+    members = page_ids.filter_map {|id| members_by_id[id]}
+    [members, member_pages, member_count]
+  end
+
   # Returns inheritance information for an inherited member role
   def render_role_inheritance(member, role)
     content = member.role_inheritance(role).filter_map do |h|

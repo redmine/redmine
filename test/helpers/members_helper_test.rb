@@ -39,4 +39,31 @@ class MembersHelperTest < Redmine::HelperTest
     assert_select_in result, 'span.pagination li.current span', :text => '1'
     assert_select_in result, 'a[href=?]', "/projects/#{project.identifier}/memberships/autocomplete.js?page=2", :text => '2'
   end
+
+  def test_paginate_members_returns_only_the_requested_page
+    # per_page_option is provided by ApplicationController in the running app
+    stubs(:per_page_option).returns(3)
+    project = Project.generate!
+    5.times { User.add_to_project(User.generate!, project) }
+
+    members, member_pages, member_count = paginate_members(project)
+
+    assert_equal 3, members.size
+    assert_equal 3, member_pages.per_page
+    assert_equal project.memberships.count, member_count
+  end
+
+  def test_paginate_members_lists_a_member_with_several_roles_once
+    stubs(:per_page_option).returns(3)
+    project = Project.generate!
+    3.times { User.add_to_project(User.generate!, project) }
+    Member.where(:project_id => project.id).first.update!(:role_ids => [1, 2])
+
+    members, _member_pages, member_count = paginate_members(project)
+
+    member_ids = members.map(&:id)
+    assert_equal member_ids.uniq, member_ids
+    assert_equal member_count, members.size
+    assert_equal project.memberships.count, member_count
+  end
 end

@@ -138,6 +138,13 @@ class MembersController < ApplicationController
   private
 
   def redirect_to_settings_in_projects
-    redirect_to settings_project_path(@project, :tab => 'members')
+    redirect_to settings_project_path(@project, members_settings_url_params)
+  end
+
+  def members_settings_url_params
+    query = {:tab => 'members'}
+    query[:members_page] = params[:members_page] if params[:members_page].present?
+    query[:per_page] = params[:per_page] if params[:per_page].present?
+    query
   end
 end
