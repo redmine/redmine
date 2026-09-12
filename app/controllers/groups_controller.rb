@@ -119,7 +119,7 @@ class GroupsController < ApplicationController
     respond_to do |format|
       format.html do
         flash[:notice] = l(:notice_successful_update)
-        redirect_back_or_default edit_group_path(@group, :tab => 'users')
+        redirect_back_or_default edit_group_path(@group, group_users_url_params)
       end
       format.js
       format.api do
@@ -145,7 +145,7 @@ class GroupsController < ApplicationController
       respond_to do |format|
         format.html do
           flash[:notice] = l(:notice_successful_delete)
-          redirect_back_or_default edit_group_path(@group, :tab => 'users')
+          redirect_back_or_default edit_group_path(@group, group_users_url_params)
         end
         format.api {render_api_ok}
       end
@@ -173,5 +173,12 @@ class GroupsController < ApplicationController
 
   def user_count_by_group_id
     User.joins(:groups).group(:group_id).count.transform_keys(&:to_i)
+  end
+
+  def group_users_url_params
+    query = {:tab => 'users'}
+    query[:users_page] = params[:users_page] if params[:users_page].present?
+    query[:per_page] = params[:per_page] if params[:per_page].present?
+    query
   end
 end

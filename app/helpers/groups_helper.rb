@@ -50,4 +50,12 @@ module GroupsHelper
       end
     s + content_tag('span', links, :class => 'pagination')
   end
+
+  def paginate_group_users(group)
+    scope = group.users.sorted
+    user_count = scope.count
+    user_pages = Redmine::Pagination::Paginator.new(user_count, per_page_option, params['users_page'], 'users_page')
+    users = scope.limit(user_pages.per_page).offset(user_pages.offset).to_a
+    [users, user_pages, user_count]
+  end
 end

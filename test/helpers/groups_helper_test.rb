@@ -39,4 +39,17 @@ class GroupsHelperTest < Redmine::HelperTest
     assert_select_in result, 'span.pagination li.current span', :text => '1'
     assert_select_in result, 'a[href=?]', "/groups/#{group.id}/autocomplete_for_user.js?page=2", :text => '2'
   end
+
+  def test_paginate_group_users_returns_only_the_requested_page
+    # per_page_option is provided by ApplicationController in the running app
+    stubs(:per_page_option).returns(2)
+    group = Group.generate!
+    3.times { group.users << User.generate! }
+
+    users, user_pages, user_count = paginate_group_users(group)
+
+    assert_equal 2, users.size
+    assert_equal 2, user_pages.per_page
+    assert_equal group.users.count, user_count
+  end
 end

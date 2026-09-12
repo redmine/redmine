@@ -1,6 +1,6 @@
 <h3 class="title"><%= l(:label_user_new) %></h3>
 
-<%= form_for(@group, :url => group_users_path(@group), :remote => true, :method => :post) do |f| %>
+<%= form_for(@group, :url => group_users_path(@group, :users_page => params[:users_page]), :remote => true, :method => :post) do |f| %>
   <%= render :partial => 'new_users_form' %>
   <p class="buttons">
     <%= submit_tag l(:button_add) %>

@@ -1,22 +1,30 @@
-<p><%= link_to sprite_icon('add', l(:label_user_new)), new_group_users_path(@group), :remote => true, :class => "icon icon-add" %></p>
+<% users, user_pages, user_count = paginate_group_users(@group) %>
+<p><%= link_to sprite_icon('add', l(:label_user_new)), new_group_users_path(@group, :users_page => params[:users_page]), :remote => true, :class => "icon icon-add" %></p>
 
-<% if @group.users.any? %>
+<% if user_count > 0 %>
+  <div class="autoscroll">
   <table class="list users">
     <thead><tr>
       <th><%= l(:label_user) %></th>
       <th style="width:15%"></th>
     </tr></thead>
     <tbody>
-    <% @group.users.sort.each do |user| %>
+    <% users.each do |user| %>
       <tr id="user-<%= user.id %>">
         <td class="name"><%= link_to_user user %></td>
         <td class="buttons">
-          <%= link_to sprite_icon('link-break', l(:button_remove)), group_users_path(@group, :user_id => user), :method => :delete, :class => 'icon icon-link-break' %>
+          <%= link_to sprite_icon('link-break', l(:button_remove)), group_users_path(@group, :user_id => user, :users_page => params[:users_page]), :method => :delete, :class => 'icon icon-link-break' %>
         </td>
       </tr>
     <% end %>
     </tbody>
   </table>
+  </div>
+  <span class="pagination">
+    <%= pagination_links_full(user_pages, user_count) do |text, parameters, options|
+          link_to text, edit_group_path(@group, request.query_parameters.merge(parameters).merge(:tab => 'users')), options
+        end %>
+  </span>
 <% else %>
   <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>

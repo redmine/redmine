@@ -169,6 +169,50 @@ class GroupsControllerTest < Redmine::ControllerTest
     assert_select 'div#tab-content-memberships a.icon-link-break', :text => 'Remove'
   end
 
+  def test_edit_users_tab_should_be_paginated
+    group = Group.generate!
+    3.times { group.users << User.generate! }
+
+    with_settings :per_page_options => '2,25,50' do
+      get(:edit, :params => {:id => group.id, :tab => 'users'})
+      assert_response :success
+      assert_select 'div#tab-content-users table.users tbody tr', :count => 2
+      assert_select 'div#tab-content-users span.pagination'
+      assert_select 'div#tab-content-users span.pagination a[href*=?]', 'users_page='
+
+      get(:edit, :params => {:id => group.id, :tab => 'users', :users_page => 2})
+      assert_response :success
+      assert_select 'div#tab-content-users table.users tbody tr', :count => 1
+    end
+  end
+
+  def test_edit_users_tab_with_out_of_range_page_should_keep_pagination
+    group = Group.generate!
+    3.times { group.users << User.generate! }
+
+    with_settings :per_page_options => '2,25,50' do
+      get(:edit, :params => {:id => group.id, :tab => 'users', :users_page => 99})
+    end
+    assert_response :success
+    assert_select 'div#tab-content-users p.nodata', :count => 0
+    assert_select 'div#tab-content-users table.users'
+    assert_select 'div#tab-content-users span.pagination a[href*=?]', 'users_page='
+  end
+
+  def test_edit_users_tab_without_users_should_show_no_data
+    group = Group.generate!
+    get(:edit, :params => {:id => group.id, :tab => 'users'})
+    assert_response :success
+    assert_select 'div#tab-content-users p.nodata'
+    assert_select 'div#tab-content-users table.users', :count => 0
+  end
+
+  def test_new_users_xhr_should_keep_current_page_in_form_action
+    get(:new_users, :params => {:id => 10, :users_page => 2}, :xhr => true)
+    assert_response :success
+    assert_match %r{/groups/10/users\?users_page=2}, response.body
+  end
+
   def test_update
     new_name = 'New name'
     put(
