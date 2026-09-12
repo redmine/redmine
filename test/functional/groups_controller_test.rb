@@ -300,6 +300,24 @@ class GroupsControllerTest < Redmine::ControllerTest
     assert_match /John Smith/, response.body
   end
 
+  def test_xhr_add_users_should_keep_users_tab_in_pagination_links
+    group = Group.find(10)
+    26.times { group.users << User.generate! }
+    with_settings :per_page_options => '25,50,100' do
+      post(
+        :add_users,
+        :params => {
+          :id => 10,
+          :user_ids => ['2'],
+          :users_page => 2
+        },
+        :xhr => true
+      )
+    end
+    assert_response :success
+    assert_match %r{groups/10/edit\?.*users_page=}, response.body
+  end
+
   def test_remove_users
     assert_difference 'Group.find(10).users.count', -1 do
       delete(

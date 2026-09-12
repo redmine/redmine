@@ -256,6 +256,24 @@ class MembersControllerTest < Redmine::ControllerTest
     assert_match %r{/projects/ecookbook/memberships\?members_page=2}, response.body
   end
 
+  def test_destroy_xhr_should_keep_members_tab_in_pagination_links
+    project = Project.find(1)
+    26.times { User.add_to_project(User.generate!, project) }
+    @request.session[:user_id] = 2
+    with_settings :per_page_options => '25,50,100' do
+      delete(
+        :destroy,
+        :params => {
+          :id => 2,
+          :members_page => 2
+        },
+        :xhr => true
+      )
+    end
+    assert_response :success
+    assert_match %r{settings/members\?members_page=}, response.body
+  end
+
   def test_update_locked_member_should_be_allowed
     User.find(3).lock!
 
