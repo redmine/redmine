@@ -117,6 +117,29 @@ if you need to override Rails environment settings such as log level,
 SSL enforcement, or custom Active Job adapters. Restart the application
 after editing this file.
 
+== Boot cache
+
+Redmine uses bootsnap to speed up its startup. On the first start it writes
+a cache of compiled Ruby files and resolved load paths under tmp/cache, and
+later starts reuse it. The cache can be deleted at any time by running:
+  bin/rails tmp:cache:clear
+
+It is rebuilt on the next start.
+
+If tmp/cache is on slow storage, such as a network file system, reading the
+cache can take longer than the work it saves, and startup gets slower
+instead of faster. In that case, move the cache to local storage by setting
+the environment variable BOOTSNAP_CACHE_DIR to a directory that the user
+running Redmine can write to, for example:
+  BOOTSNAP_CACHE_DIR=/var/cache/redmine bin/rails server -e production
+
+The cache then lives in a "bootsnap" subdirectory there, which
+`bin/rails tmp:cache:clear` does not remove; delete it yourself when you
+want to clear the cache.
+
+Alternatively, start Redmine without the cache by setting DISABLE_BOOTSNAP=1:
+  DISABLE_BOOTSNAP=1 bin/rails server -e production
+
 == Database server configuration
 
 When using MySQL with Redmine 5.1.1 or later, it is necessary to change
