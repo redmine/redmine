@@ -731,7 +731,6 @@ Style/ExpandPathArguments:
     - 'Gemfile'
     - 'Rakefile'
     - 'config/application.rb'
-    - 'config/boot.rb'
     - 'config/environment.rb'
     - 'lib/generators/redmine_plugin/redmine_plugin_generator.rb'
     - 'lib/generators/redmine_plugin_controller/redmine_plugin_controller_generator.rb'

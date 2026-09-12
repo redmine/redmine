@@ -16,7 +16,6 @@
 ENV['RACK_QUERY_PARSER_BYTESIZE_LIMIT'] ||= '33554432'
 ENV['RACK_QUERY_PARSER_PARAMS_LIMIT'] ||= '65536'
 
-# Set up gems listed in the Gemfile.
-ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
+ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../Gemfile', __dir__)
 
-require 'bundler/setup' if File.exist?(ENV['BUNDLE_GEMFILE'])
+require 'bundler/setup' # Set up gems listed in the Gemfile.
