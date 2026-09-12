@@ -1056,6 +1056,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert_select 'div#tab-content-members table.list.members tbody tr.member', :count => per_page
     assert_select 'div#tab-content-members span.pagination'
     assert_select 'div#tab-content-members span.pagination a[href*=?]', 'settings/members?members_page='
+    assert_select 'div#tab-content-members span.pagination a[href*=?]', 'tab=members', :count => 0
   end
 
   def test_settings_members_with_multiple_roles_should_not_appear_on_two_pages

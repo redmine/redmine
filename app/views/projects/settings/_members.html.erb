@@ -48,7 +48,7 @@
 </div>
 <span class="pagination">
   <%= pagination_links_full(member_pages, member_count) do |text, parameters, options|
-        link_to text, settings_project_path(@project, 'members', request.query_parameters.merge(parameters)), options
+        link_to text, settings_project_path(@project, 'members', request.query_parameters.except('tab', :tab).merge(parameters)), options
       end %>
 </span>
 <% other_formats_links do |f| %>
