@@ -50,12 +50,7 @@ module MembersHelper
 
   # limit/offset on Member.sorted would paginate role join rows, not members
   def paginate_members(project)
-    ordered_ids =
-      project.memberships.
-        left_joins(:member_roles => :role).joins(:principal).
-        reorder("#{Role.table_name}.position").
-        order(Principal.fields_for_order_statement).
-        pluck("#{Member.table_name}.id").uniq
+    ordered_ids = project.memberships.sorted.pluck("#{Member.table_name}.id").uniq
     member_count = ordered_ids.size
     member_pages = Redmine::Pagination::Paginator.new(member_count, per_page_option, params['members_page'], 'members_page')
     page_ids = ordered_ids[member_pages.offset, member_pages.per_page] || []
