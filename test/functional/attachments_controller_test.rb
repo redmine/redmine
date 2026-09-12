@@ -311,6 +311,25 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_select '.nodata', :count => 0
   end
 
+  def test_show_rtf
+    skip unless Redmine::Markdownizer.available?
+
+    set_tmp_attachments_directory
+    a = Attachment.new(
+      :container => Issue.find(1),
+      :file => uploaded_test_file('richtext.rtf', 'application/rtf'),
+      :author => User.find(1)
+    )
+    assert a.save
+
+    get(:show, :params => {:id => a.id})
+
+    assert_response :success
+    assert_equal 'text/html', @response.media_type
+    assert_select 'div.filecontent.wiki', :text => /Redmine is a flexible project management web application/
+    assert_select '.nodata', :count => 0
+  end
+
   def test_show_other_with_no_preview
     @request.session[:user_id] = 2
     get(:show, :params => {:id => 6})

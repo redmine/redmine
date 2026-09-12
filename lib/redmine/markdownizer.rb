@@ -103,7 +103,8 @@ module Redmine
       else
         return (@markdownizable_extensions = [])
       end
-      # Pandoc >= 3.8.3 supports Microsoft Excel and PowerPoint files
+      # Formats that require a newer version of Pandoc
+      @markdownizable_extensions += %w[.rtf] if (@pandoc_version <=> [2, 14, 2]) >= 0
       @markdownizable_extensions += %w[.xlsx .pptx] if (@pandoc_version <=> [3, 8, 3]) >= 0
 
       @markdownizable_extensions

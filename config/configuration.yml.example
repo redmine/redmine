@@ -240,10 +240,10 @@ default:
   #   - example.org
   #   - "*.example.com"
 
-  # Preview for Office documents (Microsoft Office / LibreOffice)
+  # Preview for Office documents (Microsoft Office / LibreOffice / RTF)
   #
-  # Redmine uses Pandoc to convert supported Microsoft Office and LibreOffice
-  # attachments to Markdown for preview. The settings below named
+  # Redmine uses Pandoc to convert supported Microsoft Office, LibreOffice and
+  # Rich Text Format attachments to Markdown for preview. The settings below named
   # `markdownized_preview_*` control that Markdown-based preview generation.
   #
   # Absolute path (e.g. /usr/local/bin/pandoc) to the Pandoc command
