@@ -262,7 +262,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_equal 'text/html', @response.media_type
 
-    path = download_named_attachment_path(attachments(:attachments_023), attachments(:attachments_023).filename)
+    path = download_named_attachment_path(attachments(:attachments_023), attachments(:attachments_023).filename, :disposition => 'inline')
     assert_select ".filecontent.pdf object[data='#{path}']"
     assert_select '.nodata', :text => 'No preview available'
   end
@@ -442,7 +442,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_select 'div.filecontent.pdf object[type=?]', 'application/pdf'
   end
 
-  def test_download_pdf_compatible_illustrator_file_should_be_sent_inline_as_pdf
+  def test_download_pdf_compatible_illustrator_file_with_inline_disposition_param_should_be_sent_inline_as_pdf
     set_tmp_attachments_directory
     attachment = Attachment.create!(
       :file => mock_file_with_options(
@@ -453,11 +453,24 @@ class AttachmentsControllerTest < Redmine::ControllerTest
       :container => Issue.find(1)
     )
 
-    get(:download, :params => {:id => attachment.id})
+    get(:download, :params => {:id => attachment.id, :disposition => 'inline'})
     assert_response :success
-    # Sent as PDF so that browsers display it inline
     assert_equal 'application/pdf', @response.media_type
     assert_match %r{\Ainline}, @response.headers['Content-Disposition']
+  end
+
+  def test_download_pdf_file_with_inline_disposition_param_should_be_sent_inline
+    @request.session[:user_id] = 2
+    get(:download, :params => {:id => 23, :disposition => 'inline'})
+    assert_response :success
+    assert_equal 'application/pdf', @response.media_type
+    assert_match %r{\Ainline}, @response.headers['Content-Disposition']
+  end
+
+  def test_download_non_pdf_file_with_inline_disposition_param_should_be_sent_as_a_download
+    get(:download, :params => {:id => 4, :disposition => 'inline'})
+    assert_response :success
+    assert_match %r{\Aattachment}, @response.headers['Content-Disposition']
   end
 
   def test_download_version_file_with_issue_tracking_disabled

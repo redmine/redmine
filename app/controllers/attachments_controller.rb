@@ -79,7 +79,6 @@ class AttachmentsController < ApplicationController
     end
 
     if stale?(:etag => @attachment.digest, :template => false)
-      # PDFs are sent inline
       send_file @attachment.diskfile, :filename => filename_for_content_disposition(@attachment.filename),
                                       :type => detect_content_type(@attachment),
                                       :disposition => disposition(@attachment)
@@ -313,8 +312,10 @@ class AttachmentsController < ApplicationController
     content_type
   end
 
+  # Inline disposition can be requested only for PDF compatible files (used
+  # by the PDF preview), to prevent XSS with e.g. HTML or SVG files
   def disposition(attachment)
-    if detect_content_type(attachment) == 'application/pdf'
+    if params[:disposition] == 'inline' && detect_content_type(attachment) == 'application/pdf'
       'inline'
     else
       'attachment'
