@@ -97,6 +97,8 @@
   svg: chart-bar
 - name: reorder
   svg: menu-order
+- name: arrows-move
+  svg: arrows-move
 - name: close
   svg: square-x
 - name: checked
