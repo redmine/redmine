@@ -79,18 +79,13 @@ class WebhooksController < ApplicationController
   end
 
   def find_webhook
-    @webhook = editable_webhooks.find(params[:id])
+    @webhook = Webhook.editable.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render_404
   end
 
   def webhooks
     User.current.webhooks
-  end
-
-  # Administrators may edit any webhook, without ever becoming its owner
-  def editable_webhooks
-    User.current.admin? ? Webhook.all : webhooks
   end
 
   def authorize

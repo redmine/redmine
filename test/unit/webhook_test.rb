@@ -112,6 +112,27 @@ class WebhookTest < ActiveSupport::TestCase
     assert_equal [], Webhook.new(user: @dlopper).setable_projects
   end
 
+  test "editable scope should return all webhooks for admin and only own webhooks for regular user" do
+    admin = User.find_by_login('admin')
+    user_hook = create_hook(user: @dlopper)
+    admin_hook = create_hook(user: admin, url: 'https://example.com/admin/hook')
+
+    assert_includes Webhook.editable(admin), user_hook
+    assert_includes Webhook.editable(admin), admin_hook
+
+    assert_includes Webhook.editable(@dlopper), user_hook
+    assert_not_includes Webhook.editable(@dlopper), admin_hook
+  end
+
+  test "editable? should return true for admin and for owner" do
+    admin = User.find_by_login('admin')
+    user_hook = create_hook(user: @dlopper)
+
+    assert user_hook.editable?(admin)
+    assert user_hook.editable?(@dlopper)
+    assert_not user_hook.editable?(User.find(2))
+  end
+
   test "should check ip address at run time" do
     Redmine::Configuration.with('webhook_blocklist' => ['*.example.org', '10.0.0.0/8', '192.168.0.0/16']) do
       %w[

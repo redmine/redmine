@@ -98,6 +98,14 @@ class Webhook < ApplicationRecord
   serialize :events, coder: YAML, type: Array
 
   scope :active, -> { where(active: true) }
+  scope :editable, (lambda do |*args|
+    user = args.shift || User.current
+    if user.admin?
+      all
+    else
+      where(user: user)
+    end
+  end)
 
   before_validation ->(hook){
     ids = hook.setable_projects.pluck(:id)
@@ -132,6 +140,10 @@ class Webhook < ApplicationRecord
       .to_a.select do |hook|
       hook.events.include?(event) && object.visible?(hook.user) && hook.user.allowed_to?(:use_webhooks, object.project)
     end
+  end
+
+  def editable?(user=User.current)
+    user.admin? || (user.present? && self.user == user)
   end
 
   def setable_projects
