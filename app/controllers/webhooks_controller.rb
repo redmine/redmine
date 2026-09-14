@@ -20,10 +20,9 @@
 class WebhooksController < ApplicationController
   self.main_menu = false
 
-  ADMIN_CUSTODY_ACTIONS = %w(edit update destroy).freeze
-
   before_action :require_login
-  before_action :check_enabled
+  before_action :check_enabled_or_admin, only: [:edit, :update, :destroy]
+  before_action :check_enabled, except: [:edit, :update, :destroy]
   before_action :authorize
 
   before_action :find_webhook, only: [:edit, :update, :destroy]
@@ -83,9 +82,10 @@ class WebhooksController < ApplicationController
   end
 
   def check_enabled
-    return if Webhook.enabled?
-    return if User.current.admin? && ADMIN_CUSTODY_ACTIONS.include?(action_name)
+    render_403 unless Webhook.enabled?
+  end
 
-    render_403
+  def check_enabled_or_admin
+    render_403 unless Webhook.enabled? || User.current.admin?
   end
 end
