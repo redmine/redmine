@@ -161,7 +161,9 @@ class Webhook < ApplicationRecord
   end
 
   def editable?(user=User.current)
-    user.admin? || (user.present? && self.user == user)
+    return false unless user
+
+    user.admin? || self.user == user
   end
 
   def setable_projects

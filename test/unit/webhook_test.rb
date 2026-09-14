@@ -131,6 +131,7 @@ class WebhookTest < ActiveSupport::TestCase
     assert user_hook.editable?(admin)
     assert user_hook.editable?(@dlopper)
     assert_not user_hook.editable?(User.find(2))
+    assert_not user_hook.editable?(nil)
   end
 
   test "safe_attributes should allow setting webhook attributes" do
