@@ -45,6 +45,7 @@ class WebhooksController < ApplicationController
     @webhook = webhooks.build
     @webhook.safe_attributes = params[:webhook]
     if @webhook.save
+      flash[:notice] = l(:notice_successful_create)
       redirect_back_or_default webhooks_path
     else
       render :new
@@ -54,6 +55,7 @@ class WebhooksController < ApplicationController
   def update
     @webhook.safe_attributes = params[:webhook]
     if @webhook.save
+      flash[:notice] = l(:notice_successful_update)
       redirect_back_or_default webhooks_path
     else
       render :edit
@@ -62,6 +64,7 @@ class WebhooksController < ApplicationController
 
   def destroy
     @webhook.destroy
+    flash[:notice] = l(:notice_successful_delete)
     redirect_back_or_default webhooks_path
   end
 

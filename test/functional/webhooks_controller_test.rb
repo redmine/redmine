@@ -69,6 +69,7 @@ class WebhooksControllerTest < Redmine::ControllerTest
       post :create, params: { webhook: { url: 'https://example.com/new/hook', events: %w(issue.created), project_ids: [@project.id] } }
     end
     assert_redirected_to webhooks_path
+    assert_equal I18n.t(:notice_successful_create), flash[:notice]
   end
 
   test "should get edit" do
@@ -80,6 +81,7 @@ class WebhooksControllerTest < Redmine::ControllerTest
     patch :update, params: { id: @hook.id, webhook: { url: 'https://example.com/updated/hook' } }
     assert_redirected_to webhooks_path
     assert_equal 'https://example.com/updated/hook', @hook.reload.url
+    assert_equal I18n.t(:notice_successful_update), flash[:notice]
   end
 
   test 'edit should not find hook of other user' do
@@ -131,6 +133,7 @@ class WebhooksControllerTest < Redmine::ControllerTest
     assert_difference 'Webhook.count', -1 do
       delete :destroy, params: { id: @hook.id }
     end
+    assert_equal I18n.t(:notice_successful_delete), flash[:notice]
   end
 
   test 'create should redirect to back_url' do
