@@ -28,6 +28,7 @@ class AdminControllerTest < Redmine::ControllerTest
   def test_index
     get :index
     assert_select 'div.nodata', 0
+    assert_select 'div#admin-menu a.icon-webhook[href="/admin/webhooks"]'
   end
 
   def test_index_with_no_configuration_data
