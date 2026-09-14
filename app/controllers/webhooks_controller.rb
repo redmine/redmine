@@ -30,7 +30,7 @@ class WebhooksController < ApplicationController
   require_sudo_mode :create, :update, :destroy
 
   def index
-    @webhooks = webhooks.order(:url)
+    @webhooks = webhooks.preload(:projects).order(:url)
   end
 
   def new

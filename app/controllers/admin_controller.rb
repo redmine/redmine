@@ -50,7 +50,7 @@ class AdminController < ApplicationController
   end
 
   def webhooks
-    @webhooks = Webhook.eager_load(:user).order(*User.fields_for_order_statement, :url)
+    @webhooks = Webhook.eager_load(:user).preload(:projects).order(*User.fields_for_order_statement, :url)
   end
 
   # Loads the default configuration
