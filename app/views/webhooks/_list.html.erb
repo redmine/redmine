@@ -20,7 +20,7 @@
       <td><%= safe_join webhook.projects.to_a.select(&:visible?).map{|p| link_to_project(p) }, ', ' %></td>
       <td class="buttons">
         <%= link_to sprite_icon('edit', l(:button_edit)), edit_webhook_path(webhook, link_params), class: 'icon icon-edit' %>
-        <%= link_to sprite_icon('del', l(:button_delete)), webhook_path(webhook, link_params), :data => {:confirm => l(:text_are_you_sure)}, :method => :delete, :class => 'icon icon-del' %>
+        <%= delete_link webhook_path(webhook, link_params) %>
       </td>
     </tr>
   <% end %>
