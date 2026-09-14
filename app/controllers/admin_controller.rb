@@ -22,6 +22,7 @@ class AdminController < ApplicationController
   self.main_menu = false
   menu_item :projects, :only => :projects
   menu_item :plugins, :only => :plugins
+  menu_item :webhooks, :only => :webhooks
   menu_item :info, :only => :info
 
   before_action :require_admin
@@ -46,6 +47,10 @@ class AdminController < ApplicationController
 
   def plugins
     @plugins = Redmine::Plugin.all
+  end
+
+  def webhooks
+    @webhooks = Webhook.eager_load(:user).order(*User.fields_for_order_statement, :url)
   end
 
   # Loads the default configuration

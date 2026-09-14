@@ -1,0 +1,13 @@
+<% if Webhook.enabled? %>
+<div class="contextual">
+  <%= link_to sprite_icon('add', l(:label_webhook_new)), new_webhook_path(:back_url => admin_webhooks_path), class: 'icon icon-add' %>
+</div>
+<% end %>
+
+<%= title l(:label_webhook_plural) %>
+
+<% unless Webhook.enabled? %>
+  <p class="warning"><%= t(:webhook_disabled_info_html, :link => link_to(l(:label_integrations), settings_path(:tab => 'integrations'))) %></p>
+<% end %>
+
+<%= render :partial => 'webhooks/list', :locals => { :webhooks => @webhooks, :show_author => true, :back_url => admin_webhooks_path } %>

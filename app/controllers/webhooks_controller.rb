@@ -20,6 +20,8 @@
 class WebhooksController < ApplicationController
   self.main_menu = false
 
+  ADMIN_CUSTODY_ACTIONS = %w(edit update destroy).freeze
+
   before_action :require_login
   before_action :check_enabled
   before_action :authorize
@@ -27,6 +29,8 @@ class WebhooksController < ApplicationController
   before_action :find_webhook, only: [:edit, :update, :destroy]
 
   require_sudo_mode :create, :update, :destroy
+
+  helper_method :secret_hidden?
 
   def index
     @webhooks = webhooks.order(:url)
@@ -42,7 +46,7 @@ class WebhooksController < ApplicationController
   def create
     @webhook = webhooks.build(webhook_params)
     if @webhook.save
-      redirect_to webhooks_path
+      redirect_back_or_default webhooks_path
     else
       render :new
     end
@@ -50,7 +54,7 @@ class WebhooksController < ApplicationController
 
   def update
     if @webhook.update(webhook_params)
-      redirect_to webhooks_path
+      redirect_back_or_default webhooks_path
     else
       render :edit
     end
@@ -58,17 +62,24 @@ class WebhooksController < ApplicationController
 
   def destroy
     @webhook.destroy
-    redirect_to webhooks_path
+    redirect_back_or_default webhooks_path
   end
 
   private
 
+  # True when the stored secret must not be disclosed to the current user
+  def secret_hidden?
+    @webhook&.persisted? && @webhook.user != User.current
+  end
+
   def webhook_params
-    params.require(:webhook).permit(:url, :secret, :active, events: [], project_ids: [])
+    attrs = params.require(:webhook).permit(:url, :secret, :active, events: [], project_ids: [])
+    attrs.delete(:secret) if secret_hidden? && attrs[:secret].blank?
+    attrs
   end
 
   def find_webhook
-    @webhook = webhooks.find(params[:id])
+    @webhook = editable_webhooks.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render_404
   end
@@ -77,11 +88,19 @@ class WebhooksController < ApplicationController
     User.current.webhooks
   end
 
+  # Administrators may edit any webhook, without ever becoming its owner
+  def editable_webhooks
+    User.current.admin? ? Webhook.all : webhooks
+  end
+
   def authorize
     deny_access unless User.current.allowed_to?(:use_webhooks, nil, global: true)
   end
 
   def check_enabled
-    render_403 unless Webhook.enabled?
+    return if Webhook.enabled?
+    return if User.current.admin? && ADMIN_CUSTODY_ACTIONS.include?(action_name)
+
+    render_403
   end
 end

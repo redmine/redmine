@@ -87,7 +87,122 @@ class WebhooksControllerTest < Redmine::ControllerTest
     assert_response :not_found
   end
 
+  test 'index should not list hooks of other users to admins' do
+    admin_hook = @other_hook
+    dlopper_hook = @hook
+    login_as_admin
+    get :index
+    assert_response :success
+    assert_select 'td', text: admin_hook.url
+    assert_select 'td', text: dlopper_hook.url, count: 0
+  end
+
+  test 'admin should edit hook of other user' do
+    login_as_admin
+    get :edit, params: { id: @hook.id }
+    assert_response :success
+    assert_select 'input#webhook_user[disabled][value=?]', @dlopper.name
+  end
+
+  test 'edit should not show the owner of ones own hook' do
+    get :edit, params: { id: @hook.id }
+    assert_response :success
+    assert_select 'input#webhook_user', count: 0
+  end
+
+  test 'admin should update hook of other user without becoming its owner' do
+    login_as_admin
+    patch :update, params: { id: @hook.id, webhook: { url: 'https://example.com/fixed/hook' } }
+    assert_redirected_to webhooks_path
+    @hook.reload
+    assert_equal 'https://example.com/fixed/hook', @hook.url
+    assert_equal @dlopper, @hook.user
+  end
+
+  test 'admin should deactivate hook of other user' do
+    @hook.update_column :active, true
+    login_as_admin
+    patch :update, params: { id: @hook.id, webhook: { active: '0' } }
+    assert_not @hook.reload.active
+  end
+
+  test 'admin should destroy hook of other user' do
+    login_as_admin
+    assert_difference 'Webhook.count', -1 do
+      delete :destroy, params: { id: @hook.id }
+    end
+  end
+
+  test 'create should redirect to back_url' do
+    post :create, params: { webhook: { url: 'https://example.com/new/hook', events: %w(issue.created), project_ids: [@project.id] }, back_url: '/admin/webhooks' }
+    assert_redirected_to '/admin/webhooks'
+  end
+
+  test 'update should redirect to back_url' do
+    login_as_admin
+    patch :update, params: { id: @hook.id, webhook: { url: 'https://example.com/fixed/hook' }, back_url: '/admin/webhooks' }
+    assert_redirected_to '/admin/webhooks'
+  end
+
+  test 'edit should not disclose secret of other user' do
+    @hook.update_column :secret, 'v3rys3cret'
+    login_as_admin
+    get :edit, params: { id: @hook.id }
+    assert_response :success
+    assert_select 'input#webhook_secret'
+    assert_not_include 'v3rys3cret', response.body
+  end
+
+  test 'update should keep secret of other user when submitted blank' do
+    @hook.update_column :secret, 'v3rys3cret'
+    login_as_admin
+    patch :update, params: { id: @hook.id, webhook: { url: @hook.url, secret: '' } }
+    assert_equal 'v3rys3cret', @hook.reload.secret
+  end
+
+  test 'update should replace secret of other user when a new one is submitted' do
+    @hook.update_column :secret, 'v3rys3cret'
+    login_as_admin
+    patch :update, params: { id: @hook.id, webhook: { url: @hook.url, secret: 'newsecret' } }
+    assert_equal 'newsecret', @hook.reload.secret
+  end
+
+  test 'owner should see and be able to clear their own secret' do
+    @hook.update_column :secret, 'v3rys3cret'
+    get :edit, params: { id: @hook.id }
+    assert_select 'input#webhook_secret[value=?]', 'v3rys3cret'
+    patch :update, params: { id: @hook.id, webhook: { url: @hook.url, secret: '' } }
+    assert_equal '', @hook.reload.secret
+  end
+
+  test 'admin should keep access to existing hooks when disabled' do
+    login_as_admin
+    with_settings webhooks_enabled: '0' do
+      get :edit, params: { id: @hook.id }
+      assert_response :success
+      patch :update, params: { id: @hook.id, webhook: { url: 'https://example.com/fixed/hook' } }
+      assert_redirected_to webhooks_path
+      assert_difference 'Webhook.count', -1 do
+        delete :destroy, params: { id: @hook.id }
+      end
+    end
+  end
+
+  test 'admin should not create hooks when disabled' do
+    login_as_admin
+    with_settings webhooks_enabled: '0' do
+      get :index
+      assert_response :forbidden
+      get :new
+      assert_response :forbidden
+    end
+  end
+
   private
+
+  def login_as_admin
+    @request.session[:user_id] = User.find_by_login('admin').id
+  end
 
   def create_hook(url: 'https://example.com/some/hook',
                   user: User.find_by_login('dlopper'),

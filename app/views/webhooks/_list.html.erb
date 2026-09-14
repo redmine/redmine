@@ -1,0 +1,32 @@
+<% if webhooks.any? %>
+<div class="autoscroll">
+<table class="list webhooks">
+  <thead><tr>
+    <% if show_author %><th><%= l :field_user %></th><% end %>
+    <th><%= l :field_active %></th>
+    <th><%= l :field_url %></th>
+    <th><%= l :label_webhook_events %></th>
+    <th><%= l :label_project_plural %></th>
+    <th></th>
+  </tr></thead>
+  <tbody>
+  <% webhooks.each do |webhook| %>
+    <% link_params = back_url.present? ? {:back_url => back_url} : {} %>
+    <tr id="webhook_<%= webhook.id %>" class="<%= cycle("odd", "even") %>">
+      <% if show_author %><td><%= link_to_user webhook.user %></td><% end %>
+      <td><%= webhook.active ? l(:general_text_Yes) : l(:general_text_No) %></td>
+      <td title="<%= webhook.url %>"><%= truncate webhook.url, length: 40 %></td>
+      <td><%= safe_join webhook.events.map{|e| content_tag :code, e }, ', ' %></td>
+      <td><%= safe_join webhook.projects.visible.map{|p| link_to_project(p) }, ', ' %></td>
+      <td class="buttons">
+        <%= link_to sprite_icon('edit', l(:button_edit)), edit_webhook_path(webhook, link_params), class: 'icon icon-edit' %>
+        <%= link_to sprite_icon('del', l(:button_delete)), webhook_path(webhook, link_params), :data => {:confirm => l(:text_are_you_sure)}, :method => :delete, :class => 'icon icon-del' %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+</div>
+<% else %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>

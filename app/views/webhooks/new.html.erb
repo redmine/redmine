@@ -2,6 +2,7 @@
 
 <%= labelled_form_for @webhook, url: webhooks_path do |f| %>
   <%= render :partial => 'webhooks/form', locals: { f: f } %>
+  <%= back_url_hidden_field_tag %>
   <%= submit_tag l(:button_create) %>
-  <%= link_to l(:button_cancel), webhooks_path %>
+  <%= cancel_button_tag webhooks_path %>
 <% end %>

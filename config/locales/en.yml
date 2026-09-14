@@ -1199,6 +1199,8 @@ en:
   webhook_event_deleted: "%{object_name} deleted"
   webhook_url_info: Redmine will send a POST request to this URL whenever one of the selected events occurs in one of the selected projects.
   webhook_secret_info_html: If provided, Redmine will use this to create a hash signature that is sent with each delivery as the value of the X-Redmine-Signature-256 header.
+  webhook_secret_keep_info: The secret of another user is not displayed. Leave this field blank to keep it unchanged.
+  webhook_disabled_info_html: Webhooks are disabled, so none of the webhooks below is triggered. They are still listed here so that they can be reviewed or removed. Webhooks can be enabled in the %{link} settings.
 
   button_login: Login
   button_submit: Submit
