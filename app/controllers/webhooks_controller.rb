@@ -30,21 +30,21 @@ class WebhooksController < ApplicationController
 
   require_sudo_mode :create, :update, :destroy
 
-  helper_method :secret_hidden?
-
   def index
     @webhooks = webhooks.order(:url)
   end
 
   def new
     @webhook = Webhook.new
+    @webhook.safe_attributes = params[:webhook]
   end
 
   def edit
   end
 
   def create
-    @webhook = webhooks.build(webhook_params)
+    @webhook = webhooks.build
+    @webhook.safe_attributes = params[:webhook]
     if @webhook.save
       redirect_back_or_default webhooks_path
     else
@@ -53,7 +53,8 @@ class WebhooksController < ApplicationController
   end
 
   def update
-    if @webhook.update(webhook_params)
+    @webhook.safe_attributes = params[:webhook]
+    if @webhook.save
       redirect_back_or_default webhooks_path
     else
       render :edit
@@ -66,17 +67,6 @@ class WebhooksController < ApplicationController
   end
 
   private
-
-  # True when the stored secret must not be disclosed to the current user
-  def secret_hidden?
-    @webhook&.persisted? && @webhook.user != User.current
-  end
-
-  def webhook_params
-    attrs = params.require(:webhook).permit(:url, :secret, :active, events: [], project_ids: [])
-    attrs.delete(:secret) if secret_hidden? && attrs[:secret].blank?
-    attrs
-  end
 
   def find_webhook
     @webhook = Webhook.editable.find(params[:id])

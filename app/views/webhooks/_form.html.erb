@@ -3,16 +3,16 @@
 <div class="splitcontent">
   <div class="splitcontentleft">
     <div class="box tabular">
-      <% if secret_hidden? %>
+      <% if @webhook.persisted? && @webhook.user != User.current %>
         <p><label for="webhook_user"><%= l :field_user %></label><%= text_field_tag 'webhook_user', @webhook.user.name, disabled: true %></p>
       <% end %>
       <p><%= f.text_field :url, required: true, size: 60 %>
         <em class="info"><%= l :webhook_url_info %></em>
       </p>
       <p>
-        <%= f.text_field :secret, :value => (secret_hidden? ? '' : @webhook.secret) %>
+        <%= f.text_field :secret, :value => (@webhook.persisted? && @webhook.user != User.current ? '' : @webhook.secret) %>
         <em class="info"><%= raw l :webhook_secret_info_html %></em>
-        <% if secret_hidden? %><em class="info"><%= l :webhook_secret_keep_info %></em><% end %>
+        <% if @webhook.persisted? && @webhook.user != User.current %><em class="info"><%= l :webhook_secret_keep_info %></em><% end %>
       </p>
       <p><%= f.check_box :active %></p>
     </div>

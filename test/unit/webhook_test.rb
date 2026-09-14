@@ -133,6 +133,49 @@ class WebhookTest < ActiveSupport::TestCase
     assert_not user_hook.editable?(User.find(2))
   end
 
+  test "safe_attributes should allow setting webhook attributes" do
+    hook = Webhook.new
+    hook.safe_attributes = {
+      'url' => 'https://example.com/test',
+      'secret' => 'secret123',
+      'active' => true,
+      'events' => ['issue.created'],
+      'project_ids' => [@project.id]
+    }
+    assert_equal 'https://example.com/test', hook.url
+    assert_equal 'secret123', hook.secret
+    assert_equal true, hook.active
+    assert_equal ['issue.created'], hook.events
+    assert_equal [@project], hook.projects
+  end
+
+  test "safe_attributes should preserve secret of another user when submitted blank" do
+    admin = User.find_by_login('admin')
+    hook = create_hook(user: @dlopper)
+    hook.update_column :secret, 'original_secret'
+
+    hook.send(:safe_attributes=, { 'url' => 'https://example.com/new_url', 'secret' => '' }, admin)
+    assert_equal 'original_secret', hook.secret
+    assert_equal 'https://example.com/new_url', hook.url
+  end
+
+  test "safe_attributes should update secret of another user when a new secret is submitted" do
+    admin = User.find_by_login('admin')
+    hook = create_hook(user: @dlopper)
+    hook.update_column :secret, 'original_secret'
+
+    hook.send(:safe_attributes=, { 'secret' => 'new_secret' }, admin)
+    assert_equal 'new_secret', hook.secret
+  end
+
+  test "safe_attributes should allow owner to clear their own secret" do
+    hook = create_hook(user: @dlopper)
+    hook.update_column :secret, 'original_secret'
+
+    hook.send(:safe_attributes=, { 'secret' => '' }, @dlopper)
+    assert_equal '', hook.secret
+  end
+
   test "should check ip address at run time" do
     Redmine::Configuration.with('webhook_blocklist' => ['*.example.org', '10.0.0.0/8', '192.168.0.0/16']) do
       %w[
