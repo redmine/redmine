@@ -1506,3 +1506,8 @@ bg:
   reaction_text_x_other_users:
     one: 1 друг
     other: "%{count} други"
+  webhook_secret_keep_info: The secret of another user is not displayed. Leave this
+    field blank to keep it unchanged.
+  webhook_disabled_info_html: Webhooks are disabled, so none of the webhooks below is
+    triggered. They are still listed here so that they can be reviewed or removed. Webhooks
+    can be enabled in the %{link} settings.

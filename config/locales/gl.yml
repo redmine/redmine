@@ -1572,3 +1572,8 @@ gl:
   error_issue_status_default_for_trackers: Este estado está a ser usado como o estado por defecto por algúns tipos de tarefas
   text_users_remove_from_group_confirmation: Are you sure you want to remove the selected
     user(s) from the group %{group}?
+  webhook_secret_keep_info: The secret of another user is not displayed. Leave this
+    field blank to keep it unchanged.
+  webhook_disabled_info_html: Webhooks are disabled, so none of the webhooks below is
+    triggered. They are still listed here so that they can be reviewed or removed. Webhooks
+    can be enabled in the %{link} settings.

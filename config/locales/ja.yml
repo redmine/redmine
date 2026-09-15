@@ -1506,3 +1506,8 @@ ja:
   field_private_by_default: デフォルトでプライベート
   error_issue_status_in_use_by_issues: This status is used by some issues
   error_issue_status_default_for_trackers: This status is used as the default status by some trackers
+  webhook_secret_keep_info: The secret of another user is not displayed. Leave this
+    field blank to keep it unchanged.
+  webhook_disabled_info_html: Webhooks are disabled, so none of the webhooks below is
+    triggered. They are still listed here so that they can be reviewed or removed. Webhooks
+    can be enabled in the %{link} settings.
