@@ -261,6 +261,35 @@ class ReportsControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_issue_report_details_without_export_issues_permission_should_hide_csv_link_and_deny_csv_request
+    @request.session[:user_id] = 2
+    Role.find_by_name('Manager').remove_permission! :export_issues
+
+    get :issue_report_details, :params => {:id => 1, :detail => 'tracker'}
+    assert_response :success
+    assert_select 'p.other-formats', 0
+    assert_select '#csv-export-options', 0
+
+    get :issue_report_details, :params => {:id => 1, :detail => 'tracker', :format => 'csv'}
+    assert_response :forbidden
+  end
+
+  def test_issue_report_details_csv_should_require_export_issues_permission_on_subprojects
+    # User 2 is a non member of the public subproject 3 which has visible issues
+    @request.session[:user_id] = 2
+    Role.non_member.remove_permission! :export_issues
+
+    with_settings :display_subprojects_issues => '1' do
+      get :issue_report_details, :params => {:id => 1, :detail => 'tracker', :format => 'csv'}
+      assert_response :forbidden
+    end
+
+    with_settings :display_subprojects_issues => '0' do
+      get :issue_report_details, :params => {:id => 1, :detail => 'tracker', :format => 'csv'}
+      assert_response :success
+    end
+  end
+
   def test_issue_report_details_with_tracker_detail_should_csv_export
     project = Project.find(1)
     tracker = project.trackers.find_by(:name => 'Support request')

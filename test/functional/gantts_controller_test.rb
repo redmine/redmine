@@ -171,6 +171,21 @@ class GanttsControllerTest < Redmine::ControllerTest
     assert @response.body.starts_with?('%PDF')
   end
 
+  def test_gantt_without_export_issues_permission_should_hide_export_links_and_deny_export_requests
+    @request.session[:user_id] = 2
+    Role.find_by_name('Manager').remove_permission! :export_issues
+
+    get :show, :params => {:project_id => 1}
+    assert_response :success
+    assert_select 'p.other-formats', 0
+
+    get :show, :params => {:project_id => 1, :format => 'pdf'}
+    assert_response :forbidden
+
+    get :show, :params => {:project_id => 1, :format => 'png'}
+    assert_response :forbidden
+  end
+
   if Object.const_defined?(:MiniMagick) && convert_installed?
     def test_gantt_should_export_to_png
       get(

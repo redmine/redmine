@@ -37,6 +37,12 @@ class GanttsController < ApplicationController
     @query.group_by = nil
     @gantt.query = @query if @query.valid?
 
+    @export_allowed = export_allowed?(:export_issues, @query.valid? ? @query.base_scope : Issue.none)
+    if (request.format.pdf? || request.format.png?) && !@export_allowed
+      deny_access
+      return
+    end
+
     basename = (@project ? "#{@project.identifier}-" : '') + 'gantt'
 
     respond_to do |format|

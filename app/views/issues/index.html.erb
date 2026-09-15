@@ -34,12 +34,16 @@
 <span class="pagination"><%= pagination_links_full @issue_pages, @issue_count %></span>
 <% end %>
 
+<% export_allowed = export_allowed?(:export_issues, @query.base_scope) %>
 <% other_formats_links do |f| %>
+  <% if export_allowed %>
   <%= f.link_to_with_query_parameters 'CSV', {}, :onclick => "showModal('csv-export-options', '350px'); return false;" %>
   <%= f.link_to_with_query_parameters 'PDF' %>
+  <% end %>
   <%= f.link_to_with_query_parameters 'Atom', :key => User.current.atom_key %>
 <% end %>
 
+<% if export_allowed %>
 <div id="csv-export-options" style="display:none;">
   <h3 class="title"><%= l(:label_export_options, :export_format => 'CSV') %></h3>
   <%= form_tag(_project_issues_path(@project, :format => 'csv'), :method => :get, :id => 'csv-export-form') do %>
@@ -72,6 +76,7 @@
   </p>
   <% end %>
 </div>
+<% end %>
 
 <% end %>
 <%= call_hook(:view_issues_index_bottom, { :issues => @issues, :project => @project, :query => @query }) %>

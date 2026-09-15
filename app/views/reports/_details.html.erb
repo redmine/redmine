@@ -36,6 +36,7 @@
 </tr>
 </tfoot>
 </table>
+<% if @export_allowed %>
 <% other_formats_links do |f| %>
   <%= f.link_to_with_query_parameters 'CSV', {}, :onclick => "showModal('csv-export-options', '330px'); return false;" %>
 <% end %>
@@ -50,6 +51,7 @@
   </p>
   <% end %>
 </div>
+<% end %>
 
 <div class="issue-report-graph hide-when-print" data-controller="reports--details" data-reports--details-title-value="<%= l(:label_issues_by, @report_title) %>">
   <template data-reports--details-target="labels">

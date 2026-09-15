@@ -17,6 +17,7 @@ roles_001:
     - :manage_versions
     - :manage_categories
     - :view_issues
+    - :export_issues
     - :add_issues
     - :edit_issues
     - :copy_issues
@@ -91,6 +92,7 @@ roles_002:
     - :manage_versions
     - :manage_categories
     - :view_issues
+    - :export_issues
     - :add_issues
     - :edit_issues
     - :copy_issues
@@ -144,6 +146,7 @@ roles_003:
     - :manage_versions
     - :manage_categories
     - :view_issues
+    - :export_issues
     - :add_issues
     - :edit_issues
     - :manage_issue_relations
@@ -185,6 +188,7 @@ roles_004:
   permissions: |
     ---
     - :view_issues
+    - :export_issues
     - :add_issues
     - :edit_issues
     - :manage_issue_relations
@@ -217,6 +221,7 @@ roles_005:
   permissions: |
     ---
     - :view_issues
+    - :export_issues
     - :add_issue_notes
     - :view_gantt
     - :view_calendar

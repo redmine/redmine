@@ -155,7 +155,7 @@ end %>
 <%= render partial: 'action_menu_edit' unless User.current.wants_comments_in_reverse_order? %>
 
 <% other_formats_links do |f| %>
-  <%= f.link_to 'PDF' %>
+  <%= f.link_to 'PDF' if User.current.allowed_to?(:export_issues, @project) %>
   <%= f.link_to 'Atom', :url => {:key => User.current.atom_key} %>
 <% end %>
 

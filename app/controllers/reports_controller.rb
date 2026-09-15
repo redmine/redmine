@@ -44,6 +44,12 @@ class ReportsController < ApplicationController
 
   def issue_report_details
     with_subprojects = Setting.display_subprojects_issues?
+    @export_allowed = export_allowed?(:export_issues, Issue.visible(User.current, :project => @project, :with_subprojects => with_subprojects))
+    if request.format.csv? && !@export_allowed
+      deny_access
+      return
+    end
+
     case params[:detail]
     when "tracker"
       @field = "tracker_id"

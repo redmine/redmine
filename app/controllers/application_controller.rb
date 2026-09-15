@@ -565,6 +565,32 @@ class ApplicationController < ActionController::Base
   private :valid_back_url?
   helper_method :valid_back_url?
 
+  # Returns true if the current user has the given export permission on
+  # the projects of all the records in scope (issues or time entries)
+  #
+  # The export permissions control access to the expensive export
+  # endpoints, not the visibility of the fields included in the export
+  def export_allowed?(permission, scope)
+    user = User.current
+    return true if user.admin?
+
+    if @project
+      # Deny if the user does not have the permission on @project itself
+      return false unless user.allowed_to?(permission, @project)
+      # @project has no subprojects, so no further check is needed
+      return true if @project.leaf?
+    else
+      # Cross-project view: deny if none of the user's roles has the permission
+      return false unless user.allowed_to?(permission, nil, :global => true)
+    end
+
+    # Deny if the scope contains records of a project where
+    # the user does not have the permission
+    !scope.where.not(:project_id => Project.allowed_to(user, permission).select(:id)).exists?
+  end
+  private :export_allowed?
+  helper_method :export_allowed?
+
   # Redirects to the request referer if present, redirects to args or call block otherwise.
   def redirect_to_referer_or(*args, &block)
     if referer = request.headers["Referer"]

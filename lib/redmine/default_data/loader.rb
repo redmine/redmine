@@ -59,6 +59,7 @@ module Redmine
                   :manage_versions,
                   :manage_categories,
                   :view_issues,
+                  :export_issues,
                   :add_issues,
                   :edit_issues,
                   :view_private_notes,
@@ -95,6 +96,7 @@ module Redmine
                 :position => 3,
                 :permissions => [
                   :view_issues,
+                  :export_issues,
                   :add_issues,
                   :add_issue_notes,
                   :save_queries,
@@ -116,6 +118,7 @@ module Redmine
                 ]
               )
             Role.non_member.update_attribute :permissions, [:view_issues,
+                                                            :export_issues,
                                                             :add_issues,
                                                             :add_issue_notes,
                                                             :save_queries,

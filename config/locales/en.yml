@@ -612,6 +612,7 @@ en:
   permission_export_wiki_pages: Export wiki pages
   permission_manage_subtasks: Manage subtasks
   permission_manage_related_issues: Manage related issues
+  permission_export_issues: Export issues
   permission_import_issues: Import issues
   permission_log_time_for_other_users: Log spent time for other users
   permission_view_project: View projects
