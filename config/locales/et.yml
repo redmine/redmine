@@ -1575,3 +1575,5 @@ et:
   webhook_disabled_info_html: Webhooks are disabled, so none of the webhooks below is
     triggered. They are still listed here so that they can be reviewed or removed. Webhooks
     can be enabled in the %{link} settings.
+  permission_export_issues: Export issues
+  permission_export_time_entries: Export time entries
