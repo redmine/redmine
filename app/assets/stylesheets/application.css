@@ -129,6 +129,9 @@ nav.top-menu {
   stroke: var(--oc-white);
 }
 
+/* Reserve the height of the avatar in the account menu so the bar height is the same before/after login */
+.profile-menu {display: flex; align-items: center; min-block-size: 28px;}
+
 #account .dropdown-content .user-info {
   padding-block: 6px;
   padding-inline: 16px;
