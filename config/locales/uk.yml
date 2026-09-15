@@ -364,7 +364,6 @@ uk:
   label_registered_on: Зареєстрований(а)
   label_activity: Активність
   label_new: Новий
-  label_logged_as: Увійшов як
   label_environment: Оточення
   label_authentication: Аутентифікація
   label_auth_source: Режим аутентифікації

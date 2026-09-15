@@ -693,7 +693,6 @@ pl:
   label_activity: Aktywność
   label_user_activity: "Aktywność: %{value}"
   label_new: Nowy
-  label_logged_as: Zalogowany jako
   label_environment: Środowisko
   label_authentication: Uwierzytelnianie
   label_auth_source: Tryb uwierzytelniania

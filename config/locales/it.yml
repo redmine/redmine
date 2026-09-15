@@ -712,7 +712,6 @@ it:
   label_activity: Attività
   label_user_activity: "attività di %{value}"
   label_new: Nuovo
-  label_logged_as: Collegato come
   label_environment: Ambiente
   label_authentication: Autenticazione
   label_auth_source: Modalità di autenticazione

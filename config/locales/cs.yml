@@ -501,7 +501,6 @@ cs:
   label_activity: Aktivita
   label_user_activity: "Aktivita uživatele: %{value}"
   label_new: Nový
-  label_logged_as: Přihlášen jako
   label_environment: Prostředí
   label_authentication: Autentifikace
   label_auth_source: Mód autentifikace

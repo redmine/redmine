@@ -396,7 +396,6 @@
   label_registered_on: Regisztrált
   label_activity: Történések
   label_new: Új
-  label_logged_as: Bejelentkezve, mint
   label_environment: Környezet
   label_authentication: Azonosítás
   label_auth_source: Azonosítás módja

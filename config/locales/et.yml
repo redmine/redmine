@@ -546,7 +546,6 @@ et:
   label_activity: "Ajalugu"
   label_user_activity: "%{value} tegevuste ajalugu"
   label_new: "Uus"
-  label_logged_as: "Sisse logitud kasutajana"
   label_environment: "Keskkond"
   label_authentication: "Autentimine"
   label_auth_source: "Autentimisallikas"

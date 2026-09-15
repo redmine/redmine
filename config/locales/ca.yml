@@ -491,7 +491,6 @@ ca:
   label_activity: "Activitat"
   label_user_activity: "Activitat de %{value}"
   label_new: "Nou"
-  label_logged_as: "Heu entrat com a"
   label_environment: "Entorn"
   label_authentication: "Autenticació"
   label_auth_source: "Mode d'autenticació"

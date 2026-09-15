@@ -379,7 +379,6 @@ fi:
   label_registered_on: Rekisteröity
   label_activity: Historia
   label_new: Uusi
-  label_logged_as: Kirjauduttu nimellä
   label_environment: Ympäristö
   label_authentication: Varmennus
   label_auth_source: Varmennustapa

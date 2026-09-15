@@ -455,7 +455,6 @@ bs:
   label_activity: Aktivnost
   label_user_activity: "Promjene izvršene od: %{value}"
   label_new: Kreiraj
-  label_logged_as: Prijavljen kao
   label_environment: Sistemsko okruženje
   label_authentication: Authentifikacija
   label_auth_source: Mod authentifikacije

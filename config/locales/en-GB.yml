@@ -508,7 +508,6 @@ en-GB:
   label_activity: Activity
   label_user_activity: "%{value}'s activity"
   label_new: New
-  label_logged_as: Logged in as
   label_environment: Environment
   label_authentication: Authentication
   label_auth_source: Authentication mode

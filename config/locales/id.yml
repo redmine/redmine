@@ -459,7 +459,6 @@ id:
   label_activity: Kegiatan
   label_user_activity: "kegiatan %{value}"
   label_new: Baru
-  label_logged_as: Login sebagai
   label_environment: Lingkungan
   label_authentication: Otentikasi
   label_auth_source: Mode Otentikasi

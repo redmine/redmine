@@ -490,7 +490,6 @@ ko:
   label_activity: 작업내역
   label_user_activity: "%{value}의 작업내역"
   label_new: 새로 만들기
-  label_logged_as: '로그인계정:'
   label_environment: 환경
   label_authentication: 인증
   label_auth_source: 인증 공급자

@@ -410,7 +410,6 @@ pt-BR:
   label_registered_on: Registrado em
   label_activity: Atividade
   label_new: Novo
-  label_logged_as: "Acessando como:"
   label_environment: Ambiente
   label_authentication: Autenticação
   label_auth_source: Modo de autenticação

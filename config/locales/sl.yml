@@ -434,7 +434,6 @@ sl:
   label_activity: Aktivnosti
   label_user_activity: "Aktivnost %{value}"
   label_new: Nov
-  label_logged_as: Prijavljen(a) kot
   label_environment: Okolje
   label_authentication: Overovitev
   label_auth_source: Način overovitve

@@ -593,7 +593,6 @@ sv:
   label_activity: Aktivitet
   label_user_activity: "Aktiviteter för %{value}"
   label_new: Ny
-  label_logged_as: Inloggad som
   label_environment: Miljö
   label_authentication: Autentisering
   label_auth_source: Autentiseringsläge

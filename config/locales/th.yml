@@ -375,7 +375,6 @@ th:
   label_activity: กิจกรรม
   label_activity_plural: กิจกรรม
   label_new: ใหม่
-  label_logged_as: เข้าระบบในชื่อ
   label_environment: สภาพแวดล้อม
   label_authentication: การยืนยันตัวตน
   label_auth_source: วิธีการการยืนยันตัวตน

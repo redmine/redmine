@@ -534,7 +534,6 @@ ja:
   label_activity: 活動
   label_user_activity: "%{value} の活動"
   label_new: 新しく作成
-  label_logged_as: ログイン中：
   label_environment: 環境
   label_authentication: 認証
   label_auth_source: 認証方式

@@ -520,7 +520,6 @@ ar:
   label_activity: النشاط
   label_user_activity: "قيمة النشاط"
   label_new: جديدة
-  label_logged_as: تم تسجيل دخولك
   label_environment: البيئة
   label_authentication: المصادقة
   label_auth_source: وضع المصادقة

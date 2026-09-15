@@ -469,7 +469,6 @@ lv:
   label_activity: Aktivitāte
   label_user_activity: "Lietotāja %{value} aktivitātes"
   label_new: Jauns
-  label_logged_as: Pieslēdzies kā
   label_environment: Vide
   label_authentication: Pilnvarošana
   label_auth_source: Pilnvarošanas režīms

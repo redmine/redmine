@@ -374,7 +374,6 @@ sk:
   label_registered_on: Dátum registrácie
   label_activity: Aktivita
   label_new: Nový
-  label_logged_as: Prihlásený ako
   label_environment: Prostredie
   label_authentication: Autentifikácia
   label_auth_source: Autentifikačný mód

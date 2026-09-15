@@ -688,7 +688,6 @@ fa:
   label_activity: خط زمان
   label_user_activity: "خط زمان %{value}"
   label_new: جدید
-  label_logged_as: "وارد‌شده به نام "
   label_environment: محیط
   label_authentication: احراز هویت
   label_auth_source: روش احراز هویت

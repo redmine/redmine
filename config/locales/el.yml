@@ -453,7 +453,6 @@ el:
   label_activity: Δραστηριότητα
   label_user_activity: "δραστηριότητα του %{value}"
   label_new: Νέο
-  label_logged_as: Σύνδεδεμένος ως
   label_environment: Περιβάλλον
   label_authentication: Πιστοποίηση
   label_auth_source: Τρόπος πιστοποίησης

@@ -487,7 +487,6 @@ mk:
   label_activity: Активност
   label_user_activity: "Активност на %{value}"
   label_new: Нова
-  label_logged_as: Најавени сте како
   label_environment: Опкружување
   label_authentication: Автентикација
   label_auth_source: Режим на автентикација

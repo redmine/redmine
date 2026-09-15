@@ -386,7 +386,6 @@ da:
   label_registered_on: Registreret den
   label_activity: Aktivitet
   label_new: Ny
-  label_logged_as: Registreret som
   label_environment: Miljø
   label_authentication: Sikkerhed
   label_auth_source: Sikkerhedsmetode

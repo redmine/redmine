@@ -706,7 +706,6 @@ bg:
   label_activity: Дейност
   label_user_activity: "Активност на %{value}"
   label_new: Нов
-  label_logged_as: Здравейте,
   label_environment: Среда
   label_authentication: Удостоверяване
   label_auth_source: Начин на удостоверяване

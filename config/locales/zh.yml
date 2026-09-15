@@ -502,7 +502,6 @@ zh:
   label_activity: 活动
   label_user_activity: "%{value} 的活动"
   label_new: 新建
-  label_logged_as: 登录为
   label_environment: 环境
   label_authentication: 认证
   label_auth_source: 认证模式

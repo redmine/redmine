@@ -437,7 +437,6 @@ ro:
   label_activity: Activitate
   label_user_activity: "Activitate %{value}"
   label_new: Nou
-  label_logged_as: Autentificat ca
   label_environment: Mediu
   label_authentication: Autentificare
   label_auth_source: Mod de autentificare

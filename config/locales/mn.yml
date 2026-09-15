@@ -475,7 +475,6 @@ mn:
   label_activity: Үйл ажиллагаа
   label_user_activity: "%{value}-ийн үйл ажиллагаа"
   label_new: Шинэ
-  label_logged_as: Холбогдсон нэр
   label_environment: Орчин
   label_authentication: Нэвтрэх
   label_auth_source: Нэвтрэх арга

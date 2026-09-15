@@ -506,7 +506,6 @@ ta-IN:
   label_activity: செயல்பாடு
   label_user_activity: "%{value}'கள் செயல்பாடு"
   label_new: புதியது
-  label_logged_as: உள்நுழைந்துள்ளீர்
   label_environment: சுற்றுச்சூழல்
   label_authentication: அங்கீகார
   label_auth_source: அங்கீகார முறை

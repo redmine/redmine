@@ -390,7 +390,6 @@ tr:
   label_registered_on: Kayıt tarihi
   label_activity: Faaliyet
   label_new: Yeni
-  label_logged_as: "Kullanıcı :"
   label_environment: Çevre
   label_authentication: Kimlik Denetimi
   label_auth_source: Kimlik Denetim Modu

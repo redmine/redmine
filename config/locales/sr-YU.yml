@@ -487,7 +487,6 @@ sr-YU:
   label_activity: Aktivnost
   label_user_activity: "Aktivnost korisnika %{value}"
   label_new: Novo
-  label_logged_as: Prijavljeni ste kao
   label_environment: Okruženje
   label_authentication: Potvrda identiteta
   label_auth_source: Režim potvrde identiteta

@@ -598,7 +598,6 @@ lt:
   label_activity: Veikla
   label_user_activity: "%{value} veikla"
   label_new: Naujas
-  label_logged_as: Prisijungęs kaip
   label_environment: Aplinka
   label_authentication: Autentiškumo nustatymas
   label_auth_source: Autentiškumo nustatymo būdas
