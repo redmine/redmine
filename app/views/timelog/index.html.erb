@@ -28,11 +28,13 @@
 <%= render :partial => 'list', :locals => { :entries => @entries }%>
 <span class="pagination"><%= pagination_links_full @entry_pages, @entry_count %></span>
 
+<% export_allowed = export_allowed?(:export_time_entries, @query.base_scope) %>
 <% other_formats_links do |f| %>
-  <%= f.link_to_with_query_parameters 'CSV', {}, :onclick => "showModal('csv-export-options', '330px'); return false;" %>
+  <%= f.link_to_with_query_parameters('CSV', {}, :onclick => "showModal('csv-export-options', '330px'); return false;") if export_allowed %>
   <%= f.link_to_with_query_parameters 'Atom', :key => User.current.atom_key %>
 <% end %>
 
+<% if export_allowed %>
 <div id="csv-export-options" style="display:none;">
   <h3 class="title"><%= l(:label_export_options, :export_format => 'CSV') %></h3>
   <%= form_tag(_time_entries_path(@project, nil, :format => 'csv'), :method => :get, :id => 'csv-export-form') do %>
@@ -60,6 +62,7 @@
   </p>
   <% end %>
 </div>
+<% end %>
 <% end %>
 <% end %>
 

@@ -66,9 +66,9 @@
 </table>
 </div>
 
+<% if export_allowed?(:export_time_entries, @query.base_scope) %>
 <% other_formats_links do |f| %>
   <%= f.link_to_with_query_parameters 'CSV', {}, :onclick => "showModal('csv-export-options', '330px'); return false;" %>
-<% end %>
 <% end %>
 <div id="csv-export-options" style="display: none;">
   <h3 class="title"><%= l(:label_export_options, :export_format => 'CSV') %></h3>
@@ -79,6 +79,8 @@
     <%= submit_tag l(:button_cancel), :name => nil, :onclick => 'hideModal(this);', :type => 'button' %>
   </p>
 </div>
+<% end %>
+<% end %>
 <% end %>
 <% end %>
 

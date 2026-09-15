@@ -43,6 +43,11 @@ class TimelogController < ApplicationController
 
   def index
     retrieve_time_entry_query
+    if request.format.csv? && !export_allowed?(:export_time_entries, @query.base_scope)
+      deny_access
+      return
+    end
+
     scope = time_entry_scope.
       preload(:issue => [:project, :tracker, :status, :assigned_to, :priority]).
       preload(:project, :user)
@@ -74,6 +79,11 @@ class TimelogController < ApplicationController
 
   def report
     retrieve_time_entry_query
+    if request.format.csv? && !export_allowed?(:export_time_entries, @query.base_scope)
+      deny_access
+      return
+    end
+
     scope = time_entry_scope
 
     @report = Redmine::Helpers::TimeReport.new(@project, params[:criteria], params[:columns], scope)

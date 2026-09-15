@@ -1728,6 +1728,47 @@ class TimelogControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_index_without_export_time_entries_permission_should_hide_csv_link_and_deny_csv_request
+    @request.session[:user_id] = 2
+    Role.find_by_name('Manager').remove_permission! :export_time_entries
+
+    get :index, :params => {:project_id => 1}
+    assert_response :success
+    assert_select 'p.other-formats a.csv', 0
+    assert_select 'p.other-formats a.atom'
+    assert_select '#csv-export-options', 0
+
+    get :index, :params => {:project_id => 1, :format => 'csv'}
+    assert_response :forbidden
+  end
+
+  def test_index_csv_should_require_export_time_entries_permission_on_every_project_of_the_entries
+    # User 2 is a non member of the public subproject 3 which has visible time entries
+    @request.session[:user_id] = 2
+    Role.non_member.remove_permission! :export_time_entries
+
+    get :index, :params => {:format => 'csv'}
+    assert_response :forbidden
+
+    with_settings :display_subprojects_issues => '0' do
+      get :index, :params => {:project_id => 1, :format => 'csv'}
+      assert_response :success
+    end
+  end
+
+  def test_report_without_export_time_entries_permission_should_hide_csv_link_and_deny_csv_request
+    @request.session[:user_id] = 2
+    Role.find_by_name('Manager').remove_permission! :export_time_entries
+
+    get :report, :params => {:project_id => 1, :columns => 'month', :criteria => ['project']}
+    assert_response :success
+    assert_select 'p.other-formats', 0
+    assert_select '#csv-export-options', 0
+
+    get :report, :params => {:project_id => 1, :columns => 'month', :criteria => ['project'], :format => 'csv'}
+    assert_response :forbidden
+  end
+
   def test_index_csv_all_projects
     with_settings :date_format => '%m/%d/%Y' do
       get :index, :params => {:format => 'csv'}

@@ -101,6 +101,7 @@ module Redmine
                          {:projects => :settings, :project_enumerations => [:update, :destroy]},
                          :require => :member
           map.permission :log_time_for_other_users, :require => :member
+          map.permission :export_time_entries, {}, :read => true
           map.permission :import_time_entries, {}
         end
 
