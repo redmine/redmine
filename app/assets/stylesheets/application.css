@@ -41,6 +41,9 @@
 :root {
   --fonts-main: "Noto Sans", sans-serif;
   --color-current-marker: var(--oc-indigo-5);
+  /* no match in Open Color, using hex codes */
+  --color-top-menu-background: #234761;
+  --color-header-background: #3A78A3;
 }
 
 html, body { min-block-size: 100vh; }
@@ -86,7 +89,7 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 }
 
 nav.top-menu {
-  background: #234761; /* no match in Open Color, using hex code */
+  background: var(--color-top-menu-background);
   color: var(--oc-gray-2);
   font-size: 0.75rem;
   padding-inline: 14px;
@@ -142,7 +145,7 @@ nav.top-menu {
 
 #header {
   margin: 0;
-  background: #3A78A3; /* no match in Open Color, using hex code */
+  background: var(--color-header-background);
   color: var(--oc-white);
   padding-block: 0.25rem 0;
   padding-inline: 1.25rem;
