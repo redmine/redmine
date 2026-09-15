@@ -513,6 +513,13 @@ class MailerTest < ActiveSupport::TestCase
     # @dlopper won't receive duplicated notifications
     assert_equal 3, ActionMailer::Base.deliveries.size
     assert_include User.find(1).mail, recipients
+
+    # In the email sent to admin, the mention of admin is marked as the
+    # current user and both mentioned users are marked as mentionable
+    mail = ActionMailer::Base.deliveries.find {|m| m.to.include?(User.find(1).mail)}
+    html = mail.parts.detect {|part| part.content_type.include?('text/html')}.body.encoded
+    assert_select_in html, 'a.user-mention.user-current.user-mentionable[href$=?]', '/users/1', 1
+    assert_select_in html, 'a.user-mention.user-mentionable:not(.user-current)[href$=?]', '/users/3', 1
   end
 
   def test_issue_add_should_include_enabled_fields

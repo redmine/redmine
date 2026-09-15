@@ -13,6 +13,16 @@ h2, h3 { font-size: 1.1em; }
 a, a:link, a:visited { color: #1864ab; /* oc-blue-9 */ }
 a:hover, a:active { color: #c92a2a; /* oc-red-9 */ }
 a.wiki-anchor { display: none; }
+a.user.user-mention {
+  padding: 0.1em;
+  border-radius: 0.1em;
+}
+a.user.user-mention.user-mentionable {
+  background-color: #e7f5ff; /* oc-blue-0 */
+}
+a.user.user-mention.user-current {
+  background-color: #ffe8cc; /* oc-orange-1 */
+}
 /* Hide SVG sprite icons: mail clients cannot render them, and those
    that keep <svg> would lay them out as 300x150px blank boxes */
 svg { display: none; }
