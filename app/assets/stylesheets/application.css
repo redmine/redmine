@@ -118,6 +118,7 @@ nav.top-menu {
     color: var(--oc-white);
     background-color: rgba(255, 255, 255, 0.12);
     text-decoration: none;
+    border-radius: 3px;
 }
 
 .top-menu__links svg.icon-svg, #account .dropdown-trigger .icon-svg {
