@@ -53,7 +53,7 @@ end
 
 # Optional gem for exporting the gantt to a PNG file
 group :minimagick do
-  gem 'mini_magick', '~> 5.3.3'
+  gem 'mini_magick', '~> 5.4.0'
 end
 
 # Include database gems for the adapters found in the database
