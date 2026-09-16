@@ -15,7 +15,7 @@
     <% text, value = (choice.is_a?(Array) ? choice : [choice, choice]) %>
     <% setting = :enabled_scm %>
     <% enabled = Setting.send(setting).include?(value) %>
-    <% path_regexp = Redmine::Configuration["scm_#{choice.to_s.downcase}_path_regexp"].presence %>
+    <% path_regexp = scm_class.scm_path_regexp.presence %>
     <tr>
       <td class="scm_name">
         <label>

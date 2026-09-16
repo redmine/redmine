@@ -561,4 +561,18 @@ class RepositoryTest < ActiveSupport::TestCase
     assert_nil Repository.factory('Serializer')
     assert_nil Repository.factory('Query')
   end
+
+  def test_scm_path_regexp_should_use_registered_scm_name
+    Redmine::Configuration.with 'scm_subversion_path_regexp' => '/svn/.*' do
+      assert_equal '/svn/.*', Repository::Subversion.scm_path_regexp
+    end
+  end
+
+  def test_scm_path_regexp_should_use_registered_scm_name_even_if_scm_name_is_overridden
+    Repository::Subversion.stubs(:scm_name).returns('Custom SCM Label')
+
+    Redmine::Configuration.with 'scm_subversion_path_regexp' => '/svn/.*' do
+      assert_equal '/svn/.*', Repository::Subversion.scm_path_regexp
+    end
+  end
 end

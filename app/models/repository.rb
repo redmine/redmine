@@ -433,7 +433,12 @@ class Repository < ApplicationRecord
   end
 
   def self.scm_available
-    scm_client_available && Redmine::Configuration["scm_#{scm_name.to_s.downcase}_path_regexp"].present?
+    scm_client_available && scm_path_regexp.present?
+  end
+
+  def self.scm_path_regexp
+    # Uses name.demodulize, not scm_name, which each adapter overrides as its display label.
+    Redmine::Configuration["scm_#{name.demodulize.downcase}_path_regexp"]
   end
 
   def set_as_default?
@@ -499,7 +504,7 @@ class Repository < ApplicationRecord
   # Validates repository url based against an optional regular expression
   # that can be set in the Redmine configuration file.
   def validate_repository_path(attribute=:url)
-    regexp = Redmine::Configuration["scm_#{scm_name.to_s.downcase}_path_regexp"]
+    regexp = self.class.scm_path_regexp
     if changes[attribute] && regexp.present?
       regexp = regexp.to_s.strip.gsub('%project%') {Regexp.escape(project.try(:identifier).to_s)}
       unless Regexp.new("\\A#{regexp}\\z").match?(send(attribute).to_s)

@@ -53,10 +53,9 @@ module Redmine
         s << "SCM:\n"
         Redmine::Scm::Base.all.each do |scm|
           scm_class = "Repository::#{scm}".constantize
-          config = "scm_#{scm.to_s.downcase}_path_regexp"
           if scm_class.scm_client_available
-            paths = if Redmine::Configuration[config].present?
-                      "Allowed Paths: #{Redmine::Configuration[config]}"
+            paths = if scm_class.scm_path_regexp.present?
+                      "Allowed Paths: #{scm_class.scm_path_regexp}"
                     else
                       "DISABLED: scm_#{scm.to_s.downcase}_path_regexp missing in configuration.yml"
                     end
