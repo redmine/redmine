@@ -96,7 +96,7 @@
     margin: 0;
     padding: 0;
     border: none;
-    background-color: #628db6;
+    background-color: var(--color-header-background);
     position: fixed;
     z-index: 9999;
   }
@@ -285,7 +285,7 @@
     padding: 0; /* reset padding for themes that define it */
 
     color: white;
-    background-color: #3e5b76;
+    background-color: var(--color-top-menu-background);
   }
 
   /* avoid zoom on search input focus for ios devices */
@@ -305,8 +305,8 @@
     text-transform: uppercase;
 
     color: white;
-    border-block: 1px solid #506a83;
-    background-color: #628db6;
+    border-block: 1px solid var(--color-top-menu-background);
+    background-color: var(--color-header-background);
   }
 
   .flyout-menu h4 {
