@@ -237,6 +237,27 @@ class DocumentsControllerTest < Redmine::ControllerTest
     assert_equal 'test_update', document.title
   end
 
+  def test_update_should_not_add_attachments
+    @request.session[:user_id] = 2
+    set_tmp_attachments_directory
+
+    assert_no_difference 'Attachment.count' do
+      put(
+        :update,
+        :params => {
+          :id => 1,
+          :document => {:title => 'test_update'},
+          :attachments => {
+            '1' => {
+              'file' => uploaded_test_file('testfile.txt', 'text/plain')
+            }
+          }
+        }
+      )
+    end
+    assert_redirected_to '/documents/1'
+  end
+
   def test_update_with_failure
     @request.session[:user_id] = 2
     put(

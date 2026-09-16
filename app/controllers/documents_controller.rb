@@ -25,30 +25,50 @@ class DocumentsController < ApplicationController
   before_action :find_model_object, :except => [:index, :new, :create]
   before_action :find_project_from_association, :except => [:index, :new, :create]
   before_action :authorize
+  accept_api_auth :index, :show, :create, :update, :destroy
 
   helper :attachments
   helper :custom_fields
 
   def index
-    @sort_by = %w(category date title author).include?(params[:sort_by]) ? params[:sort_by] : 'category'
-    documents = @project.documents.includes(:attachments, :category).to_a
-    case @sort_by
-    when 'date'
-      documents.sort!{|a, b| b.updated_on <=> a.updated_on}
-      @grouped = documents.group_by {|d| d.updated_on.to_date}
-    when 'title'
-      @grouped = documents.group_by {|d| d.title.first.upcase}
-    when 'author'
-      @grouped = documents.select{|d| d.attachments.any?}.group_by {|d| d.attachments.last.author}
-    else
-      @grouped = documents.group_by(&:category)
+    respond_to do |format|
+      format.html do
+        @sort_by = %w(category date title author).include?(params[:sort_by]) ? params[:sort_by] : 'category'
+        documents = @project.documents.includes(:attachments, :category).to_a
+        case @sort_by
+        when 'date'
+          documents.sort!{|a, b| b.updated_on <=> a.updated_on}
+          @grouped = documents.group_by {|d| d.updated_on.to_date}
+        when 'title'
+          @grouped = documents.group_by {|d| d.title.first.upcase}
+        when 'author'
+          @grouped = documents.select{|d| d.attachments.any?}.group_by {|d| d.attachments.last.author}
+        else
+          @grouped = documents.group_by(&:category)
+        end
+        @document = @project.documents.build
+        render :layout => false if request.xhr?
+      end
+      format.api do
+        @offset, @limit = api_offset_and_limit
+        scope = @project.documents
+        @document_count = scope.count
+        @documents = scope.includes(:project, :category, :attachments).
+                        preload(:custom_values => :custom_field).
+                        order("#{Document.table_name}.created_on DESC, #{Document.table_name}.id DESC").
+                        limit(@limit).
+                        offset(@offset).
+                        to_a
+      end
     end
-    @document = @project.documents.build
-    render :layout => false if request.xhr?
   end
 
   def show
     @attachments = @document.attachments.to_a
+    respond_to do |format|
+      format.html
+      format.api
+    end
   end
 
   def new
@@ -59,13 +79,26 @@ class DocumentsController < ApplicationController
   def create
     @document = @project.documents.build
     @document.safe_attributes = params[:document]
-    @document.save_attachments(params[:attachments])
+    attachments = params[:attachments]
+    attachments ||= params[:document] && params[:document][:uploads] if api_request?
+    @document.save_attachments(attachments)
     if @document.save
-      render_attachment_warning_if_needed(@document)
-      flash[:notice] = l(:notice_successful_create)
-      redirect_to project_documents_path(@project)
+      respond_to do |format|
+        format.html do
+          render_attachment_warning_if_needed(@document)
+          flash[:notice] = l(:notice_successful_create)
+          redirect_to project_documents_path(@project)
+        end
+        format.api do
+          @attachments = @document.attachments.to_a
+          render :action => 'show', :status => :created, :location => document_url(@document)
+        end
+      end
     else
-      render :action => 'new'
+      respond_to do |format|
+        format.html {render :action => 'new'}
+        format.api  {render_validation_errors(@document)}
+      end
     end
   end
 
@@ -74,18 +107,34 @@ class DocumentsController < ApplicationController
 
   def update
     @document.safe_attributes = params[:document]
+    if api_request?
+      @document.save_attachments(params[:attachments] || (params[:document] && params[:document][:uploads]))
+    end
     if @document.save
-      flash[:notice] = l(:notice_successful_update)
-      redirect_to document_path(@document)
+      respond_to do |format|
+        format.html do
+          flash[:notice] = l(:notice_successful_update)
+          redirect_to document_path(@document)
+        end
+        format.api  {render_api_ok}
+      end
     else
-      render :action => 'edit'
+      respond_to do |format|
+        format.html {render :action => 'edit'}
+        format.api  {render_validation_errors(@document)}
+      end
     end
   end
 
   def destroy
     @document.destroy if request.delete?
-    flash[:notice] = l(:notice_successful_delete)
-    redirect_to project_documents_path(@project)
+    respond_to do |format|
+      format.html do
+        flash[:notice] = l(:notice_successful_delete)
+        redirect_to project_documents_path(@project)
+      end
+      format.api  {render_api_ok}
+    end
   end
 
   def add_attachment

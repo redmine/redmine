@@ -1,0 +1,15 @@
+api.array :documents, api_meta(:total_count => @document_count, :offset => @offset, :limit => @limit) do
+  @documents.each do |document|
+    api.document do
+      api.id document.id
+      api.project(:id => document.project_id, :name => document.project.name) unless document.project.nil?
+      api.category(:id => document.category_id, :name => document.category.name) unless document.category.nil?
+      api.title document.title
+      api.description document.description
+      api.created_on document.created_on
+      api.updated_on document.updated_on
+
+      render_api_custom_values document.visible_custom_field_values, api
+    end
+  end
+end
