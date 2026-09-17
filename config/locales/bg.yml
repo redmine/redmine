@@ -612,7 +612,10 @@ bg:
   permission_export_wiki_pages: Експорт на wiki страници
   permission_manage_subtasks: Управление на подзадачите
   permission_manage_related_issues: Управление на връзките между задачи и ревизии
+  permission_export_issues: Експорт на задачи
   permission_import_issues: Импорт на задачи
+  permission_export_time_entries: Експорт на записи за използвано време
+  permission_import_time_entries: Импортиране на записи за използвано време
   permission_log_time_for_other_users: Записване на изразходвано време за други потребители
   permission_view_project: Разглеждане на проекти
   permission_search_project: Търсене на проекти
@@ -1110,7 +1113,6 @@ bg:
   label_member_management_all_roles: Всички роли
   label_member_management_selected_roles_only: Само тези роли
   label_import_issues: Импорт на задачи
-  permission_import_time_entries: Импортиране на записи за използвано време
   label_select_file_to_import: Файл за импортиране
   label_fields_separator: Разделител между полетата
   label_fields_wrapper: Разделител в полетата (wrapper)
@@ -1197,6 +1199,8 @@ bg:
   webhook_event_deleted: "%{object_name} изтрит"
   webhook_url_info: Redmine ще изпрати POST заявка на този адрес, когато някое от избраните събития се появи в някой от избраните проекти.
   webhook_secret_info_html: Ако е зададено,  Redmine ще използва това, за да създаде хеш сигнатура, която ще бъде изпращана с всяко съобщение като стойност на X-Redmine-Signature-256 хедър.
+  webhook_secret_keep_info: Паролата на друг потребител не е показана. Оставете това поле празно, за да остане то непроменено.
+  webhook_disabled_info_html: Webhooks са забранени, следователно никое от webhooks не се тригерира. Те са показани тук, за да има възмоност да бъдат преглеждани или премахвани. Webhooks могат да бъдат разрешени в %{link}.
 
   button_login: Вход
   button_submit: Изпращане
@@ -1382,7 +1386,7 @@ bg:
   text_select_apply_tracker: Изберете тракер
   text_select_apply_issue_status: Изберете състояние
   text_avatar_server_config_html: Текущият сървър на аватари е <a href="%{url}">%{url}</a>.
-    Бие можете да го конфигурирате в config/configuration.yml.
+    Можете да го конфигурирате в config/configuration.yml.
   text_allowed_queries_to_select: Само публичните (за всички потребители) заявки са достъпни за избор
   text_setting_config_change: Вие можете да конфигурирате поведението в config/configuration.yml. Моля, рестартирайте Redmine след редактиране на файла.
   text_setting_gravatar_default_initials_html: Инициалите на потребителите са изпратени на <a href="https://www.gravatar.com">https://www.gravatar.com</a> за генериране на техните аватари.
@@ -1505,10 +1509,3 @@ bg:
   reaction_text_x_other_users:
     one: 1 друг
     other: "%{count} други"
-  webhook_secret_keep_info: The secret of another user is not displayed. Leave this
-    field blank to keep it unchanged.
-  webhook_disabled_info_html: Webhooks are disabled, so none of the webhooks below is
-    triggered. They are still listed here so that they can be reviewed or removed. Webhooks
-    can be enabled in the %{link} settings.
-  permission_export_issues: Export issues
-  permission_export_time_entries: Export time entries
