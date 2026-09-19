@@ -36,6 +36,33 @@ class DestroyProjectJobTest < ActiveJob::TestCase
     end
   end
 
+  test "schedule must not mark unrelated projects when the nested set is rebalanced between load and update_all" do
+    # Same race as the DestroyProjectsJob version, but on the
+    # single-project path: the window is just the gap between the
+    # controller load and the schedule call rather than spanning a loop.
+    target = @project                      # Project 1 (eCookbook)
+    victim = Project.find(2)               # onlinestore, unrelated root
+    cached_lft, cached_rgt = target.lft, target.rgt
+
+    assert_not_equal Project::STATUS_SCHEDULED_FOR_DELETION, victim.status
+
+    # trigger nested set rebalancing while target is loaded
+    victim.update!(name: 'AAA renamed earlier than ecookbook')
+    victim.reload
+    assert victim.lft >= cached_lft && victim.rgt <= cached_rgt,
+           "test setup: victim should now sit inside target's stale range"
+
+    # target is intentionally NOT reloaded
+    assert_equal cached_lft, target.lft
+    assert_equal cached_rgt, target.rgt
+
+    DestroyProjectJob.schedule target, user: @user
+
+    victim.reload
+    assert_not_equal Project::STATUS_SCHEDULED_FOR_DELETION, victim.status,
+                     "Project #{victim.id} (#{victim.name}) was marked for deletion even though it was not the project passed to schedule."
+  end
+
   test "schedule should enqueue job" do
     DestroyProjectJob.schedule @project, user: @user
     assert_enqueued_with(

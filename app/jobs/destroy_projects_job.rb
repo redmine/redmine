@@ -4,10 +4,7 @@ class DestroyProjectsJob < ApplicationJob
   include Redmine::I18n
 
   def self.schedule(projects_to_delete, user: User.current)
-    # make the projects disappear immediately
-    projects_to_delete.each do |project|
-      project.self_and_descendants.update_all status: Project::STATUS_SCHEDULED_FOR_DELETION
-    end
+    Project.mark_for_deletion(projects_to_delete)
     perform_later(projects_to_delete.map(&:id), user.id, user.remote_ip)
   end
 
