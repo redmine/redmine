@@ -57,7 +57,8 @@ class Attachment < ApplicationRecord
               "ON #{Version.table_name}.project_id = #{Project.table_name}.id " \
               "OR ( #{Attachment.table_name}.container_type='Project' " \
               "AND #{Attachment.table_name}.container_id = #{Project.table_name}.id )"
-          )
+          ).
+          preload(:author, :container)
       end
   )
   acts_as_activity_provider(
@@ -73,7 +74,8 @@ class Attachment < ApplicationRecord
             "AND #{Document.table_name}.id = #{Attachment.table_name}.container_id " \
             "LEFT JOIN #{Project.table_name} " \
             "ON #{Document.table_name}.project_id = #{Project.table_name}.id"
-          )
+          ).
+          preload(:author, :container)
       end
   )
 

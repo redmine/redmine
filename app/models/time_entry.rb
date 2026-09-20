@@ -45,7 +45,7 @@ class TimeEntry < ApplicationRecord
   )
   acts_as_activity_provider :timestamp => "#{table_name}.created_on",
                             :author_key => :user_id,
-                            :scope => proc {joins(:project).preload(:project)}
+                            :scope => proc {joins(:project).preload(:project, issue: [:tracker, :status])}
   acts_as_webhookable
 
   validates_presence_of :author_id, :user_id, :activity_id, :project_id, :hours, :spent_on

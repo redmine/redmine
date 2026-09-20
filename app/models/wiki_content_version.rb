@@ -52,7 +52,8 @@ class WikiContentVersion < ApplicationRecord
           "#{table_name}.id").
         joins("LEFT JOIN #{WikiPage.table_name} ON #{WikiPage.table_name}.id = #{table_name}.page_id " \
           "LEFT JOIN #{Wiki.table_name} ON #{Wiki.table_name}.id = #{WikiPage.table_name}.wiki_id " \
-          "LEFT JOIN #{Project.table_name} ON #{Project.table_name}.id = #{Wiki.table_name}.project_id")
+          "LEFT JOIN #{Project.table_name} ON #{Project.table_name}.id = #{Wiki.table_name}.project_id").
+        preload(:author, page: {wiki: :project})
       end
   )
   after_destroy :page_update_after_destroy
