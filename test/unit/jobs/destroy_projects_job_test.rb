@@ -37,6 +37,42 @@ class DestroyProjectsJobTest < ActiveJob::TestCase
     end
   end
 
+  test "schedule must not mark unrelated projects when the nested set is rebalanced between load and update_all" do
+    # Reproduces the race condition where projects[].self_and_descendants
+    # uses cached in-memory lft/rgt to build a range UPDATE. When the
+    # nested set is rebalanced (concurrent project create/rename/move/
+    # destroy) between the controller load and the update, the cached
+    # range can match unrelated projects, which then get status=10 even
+    # though their ids are never passed to perform_later -> the
+    # "vanished but not deleted" customer-visible symptom.
+    target = Project.find(1)               # eCookbook, root w/ descendants
+    victim = Project.find(2)               # onlinestore, unrelated root
+    cached_lft, cached_rgt = target.lft, target.rgt
+
+    assert_not_equal Project::STATUS_SCHEDULED_FOR_DELETION, victim.status
+
+    # Simulate a concurrent transaction renaming the unrelated root so it
+    # sorts before `target`. before_update :move_in_nested_set fires (see
+    # project_nested_set.rb:28-32) and rebalances the tree under
+    # lock_nested_set. After this, the database lft/rgt of every project
+    # has shifted, but our in-memory `target` still holds the values it
+    # had when it was loaded.
+    victim.update!(name: 'AAA renamed earlier than ecookbook')
+    victim.reload
+    assert victim.lft >= cached_lft && victim.rgt <= cached_rgt,
+           "test setup: victim should now sit inside target's stale range"
+
+    # in-memory target is intentionally NOT reloaded
+    assert_equal cached_lft, target.lft
+    assert_equal cached_rgt, target.rgt
+
+    DestroyProjectsJob.schedule [target], user: @user
+
+    victim.reload
+    assert_not_equal Project::STATUS_SCHEDULED_FOR_DELETION, victim.status,
+                     "Project #{victim.id} (#{victim.name}) was marked for deletion even though it was not in the deletion id list. "
+  end
+
   test "schedule should enqueue job" do
     assert_enqueued_with(
       job: DestroyProjectsJob,
