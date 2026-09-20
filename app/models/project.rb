@@ -410,6 +410,21 @@ class Project < ApplicationRecord
     self.status == STATUS_ARCHIVED
   end
 
+  # Atomically marks one or more projects (and all their descendants) as
+  # scheduled for deletion. Holds the nested-set lock and resolves the
+  # descendant set by id so a concurrent create/rename/move/destroy cannot
+  # shift lft/rgt out from under a stale cached range.
+  def self.mark_for_deletion(projects)
+    transaction do
+      order(:id).lock.ids
+      ids = Array(projects).flat_map do |p|
+        p.reload
+        p.self_and_descendants.pluck(:id)
+      end
+      where(id: ids).update_all(status: STATUS_SCHEDULED_FOR_DELETION)
+    end
+  end
+
   def scheduled_for_deletion?
     self.status == STATUS_SCHEDULED_FOR_DELETION
   end
