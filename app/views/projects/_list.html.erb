@@ -40,7 +40,7 @@
       <% end %>
     </tr>
   <% end %>
-  <tr id="project-<%= entry.id %>" class="<%= cycle('odd', 'even') %> hascontextmenu <%= entry.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+  <tr id="project-<%= entry.id %>" class="<%= cycle('odd', 'even') %> <%= 'hascontextmenu' if @admin_list %> <%= entry.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
     <% if @admin_list %>
       <% if !entry.scheduled_for_deletion? %>
         <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", entry.id, false, :id => nil) %></td>
