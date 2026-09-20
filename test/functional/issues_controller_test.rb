@@ -2857,6 +2857,16 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_select '.assigned-to' do
       assert_select 'a[href="/groups/10"]'
+      # The link already contains the group icon
+      assert_select '.avatar', 0
+    end
+  end
+
+  def test_show_should_display_avatar_of_the_assigned_user
+    get(:show, :params => {:id => 2})
+    assert_response :success
+    assert_select '.assigned-to .value' do
+      assert_select '.avatar.s16 + a[href="/users/3"]'
     end
   end
 
