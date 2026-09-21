@@ -1192,6 +1192,23 @@ class TimelogControllerTest < Redmine::ControllerTest
     )
   end
 
+  def test_index_should_sort_by_updated_on
+    TimeEntry.where(:id => 2).update_all(:updated_on => Time.current)
+
+    get(
+      :index,
+      :params => {
+        :project_id => 1,
+        :sort => 'updated_on:desc'
+      }
+    )
+    assert_response :success
+    assert_equal(
+      %w(2 4 3 1),
+      css_select('input[name="ids[]"]').map {|e| e.attr(:value)}
+    )
+  end
+
   def test_index_should_sort_by_tweek_and_spent_on
     t1 = TimeEntry.generate!(:spent_on => '2012-06-10') # tyear:2012, tweek:23
     t2 = TimeEntry.generate!(:spent_on => '2012-06-11') # tyear:2012, tweek:24
