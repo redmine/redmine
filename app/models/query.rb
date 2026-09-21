@@ -1172,7 +1172,9 @@ class Query < ApplicationRecord
 
     if filter[:field].format.target_class && filter[:field].format.target_class <= User
       if value.delete('me')
-        value.push User.current.id.to_s
+        types = filter[:field].format.try(:selectable_principal_types, filter[:field]) || ['User']
+        value.push User.current.id.to_s if types.include?('User')
+        value += User.current.group_ids.map(&:to_s) if types.include?('Group')
       end
     end
     not_in = nil

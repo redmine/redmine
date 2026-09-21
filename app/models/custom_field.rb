@@ -99,6 +99,7 @@ class CustomField < ApplicationRecord
     'text_formatting',
     'edit_tag_style',
     'user_role',
+    'possible_principals',
     'version_status',
     'extensions_allowed',
     'full_width_layout',

@@ -118,5 +118,6 @@ class Group < Principal
 
     Issue.where(['assigned_to_id = ?', id]).update_all('assigned_to_id = NULL')
     Watcher.where('user_id = ?', id).delete_all
+    remove_user_custom_field_references
   end
 end

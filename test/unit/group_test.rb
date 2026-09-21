@@ -121,7 +121,7 @@ class GroupTest < ActiveSupport::TestCase
     assert !User.find(8).member_of?(Project.find(5))
   end
 
-  def test_destroy_should_unassign_and_unwatch_issues
+  def test_destroy_should_remove_references_from_issues
     group = Group.find(10)
     Issue.where(:id => 1).update_all(["assigned_to_id = ?", group.id])
     issue = Issue.find(2)
@@ -129,6 +129,9 @@ class GroupTest < ActiveSupport::TestCase
     issue.save
     issue.reload
     assert issue.watcher_user_ids.include?(10)
+    cf = IssueCustomField.create!(:field_format => 'user', :possible_principals => 'user_group', :is_for_all => true, :name => 'User custom field', :tracker_ids => [1])
+    issue_with_cf = Issue.generate!(:project_id => 5, :tracker_id => 1, :custom_field_values => {cf.id.to_s => group.id.to_s})
+    assert_equal group.id.to_s, issue_with_cf.reload.custom_field_value(cf)
 
     assert group.destroy
     assert group.destroyed?
@@ -136,6 +139,7 @@ class GroupTest < ActiveSupport::TestCase
     assert_nil Issue.find(1).assigned_to_id
     issue.reload
     assert !issue.watcher_user_ids.include?(10)
+    assert_equal '', issue_with_cf.reload.custom_field_value(cf).to_s
   end
 
   def test_builtin_groups_should_be_created_if_missing

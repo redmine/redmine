@@ -69,10 +69,10 @@ class Redmine::UserFieldFormatTest < ActionView::TestCase
   end
 
   def test_possible_values_options_should_return_project_members_with_selected_role
-    field = IssueCustomField.new(:field_format => 'user', :user_role => ["2"])
-    project = Project.find(1)
+    field = IssueCustomField.new(:field_format => 'user', :possible_principals => 'user_group', :user_role => ["2"])
+    project = Project.find(5)
 
-    assert_equal ['Dave Lopper'], field.possible_values_options(project).map(&:first)
+    assert_equal ['User Misc', 'A Team'], field.possible_values_options(project).map(&:first)
   end
 
   def test_possible_values_options_should_return_project_members_and_me_if_logged_in
@@ -108,5 +108,63 @@ class Redmine::UserFieldFormatTest < ActionView::TestCase
     assert_equal [2, 3], field.value_from_keyword('jsmith, Dave Lopper', project)
     assert_equal [2], field.value_from_keyword('jsmith', project)
     assert_equal [], field.value_from_keyword('Unknown User', project)
+  end
+
+  def test_group_value_should_be_invalid_when_groups_are_not_allowed
+    field = IssueCustomField.create!(:name => 'Foo', :field_format => 'user', :is_for_all => true, :trackers => Tracker.all)
+    issue = Issue.new(:project_id => 5, :tracker_id => 1, :author_id => 2, :subject => 'Test',
+                      :custom_field_values => {field.id => '10'})
+
+    assert_equal false, issue.valid?
+    assert_include "Foo #{::I18n.t('activerecord.errors.messages.inclusion')}", issue.errors.full_messages.first
+  end
+
+  def test_existing_group_value_should_remain_valid_after_disallowing_groups
+    field = IssueCustomField.create!(:name => 'Foo', :field_format => 'user', :possible_principals => 'user_group',
+                                     :is_for_all => true, :trackers => Tracker.all)
+    issue = Issue.generate!(:project_id => 5, :tracker_id => 1, :custom_field_values => {field.id => '10'})
+
+    field.update!(:possible_principals => 'user')
+    issue.reload
+    assert issue.valid?
+    assert_equal 'A Team', field.format.formatted_value(self, field, issue.custom_field_value(field), issue).to_s
+  end
+
+  def test_edit_tag_with_groups_only_should_not_use_optgroups
+    field = IssueCustomField.new(:field_format => 'user', :possible_principals => 'group', :is_required => false)
+    value = CustomFieldValue.new(:custom_field => field, :customized => Issue.new(:project_id => 5))
+
+    tag = field.format.edit_tag(self, 'abc', 'xyz', value)
+    assert_select_in tag, 'select[id=abc][name=xyz]' do
+      assert_select 'optgroup', 0
+      assert_select 'select > option[value="10"]', :text => 'A Team'
+      assert_select 'option[value="2"]', 0
+    end
+  end
+
+  def test_edit_tag_with_groups_should_group_users_and_groups_in_optgroups
+    set_language_if_valid 'en'
+    User.current = User.find(2)
+    field = IssueCustomField.new(:field_format => 'user', :possible_principals => 'user_group', :is_required => false)
+    value = CustomFieldValue.new(:custom_field => field, :customized => Issue.new(:project_id => 5))
+
+    tag = field.format.edit_tag(self, 'abc', 'xyz', value)
+    assert_select_in tag, 'select[id=abc][name=xyz]' do
+      assert_select 'option', :text => '<< me >>', :count => 1
+      assert_select 'optgroup[label="Users"] option[value="2"]', :text => 'John Smith'
+      assert_select 'optgroup[label="Groups"] option[value="10"]', :text => 'A Team'
+    end
+  end
+
+  def test_bulk_edit_tag_with_groups_should_group_users_and_groups_in_optgroups
+    set_language_if_valid 'en'
+    field = IssueCustomField.new(:field_format => 'user', :possible_principals => 'user_group', :is_required => false)
+    issues = [Issue.new(:project_id => 5), Issue.new(:project_id => 5)]
+
+    tag = field.format.bulk_edit_tag(self, 'abc', 'xyz', field, issues, '')
+    assert_select_in tag, 'select[name=xyz]' do
+      assert_select 'optgroup[label="Users"] option[value="2"]', :text => 'John Smith'
+      assert_select 'optgroup[label="Groups"] option[value="10"]', :text => 'A Team'
+    end
   end
 end

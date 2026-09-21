@@ -613,10 +613,9 @@ module Redmine
         opts = []
         opts << [l(:label_no_change_option), ''] unless custom_field.multiple?
         opts << [l(:label_none), '__none__'] unless custom_field.is_required?
-        opts += possible_values_options(custom_field, objects)
         view.select_tag(
           tag_name,
-          view.options_for_select(opts, value),
+          view.options_for_select(opts, value) + bulk_edit_tag_options(view, custom_field, objects, value),
           options.merge(:multiple => custom_field.multiple?)
         )
       end
@@ -652,9 +651,7 @@ module Redmine
             blank_option = view.content_tag('option', '&nbsp;'.html_safe, :value => '')
           end
         end
-        options_tags =
-          blank_option +
-           view.options_for_select(possible_custom_value_options(custom_value), custom_value.value)
+        options_tags = blank_option + select_edit_tag_options(view, custom_value)
         s =
           view.select_tag(
             tag_name, options_tags,
@@ -664,6 +661,16 @@ module Redmine
           s << view.hidden_field_tag(tag_name, '')
         end
         s
+      end
+
+      # Returns the option tags of the select edit tag
+      def select_edit_tag_options(view, custom_value)
+        view.options_for_select(possible_custom_value_options(custom_value), custom_value.value)
+      end
+
+      # Returns the option tags of the bulk edit tag
+      def bulk_edit_tag_options(view, custom_field, objects, value)
+        view.options_for_select(possible_values_options(custom_field, objects), value)
       end
 
       # Renders the edit tag as check box or radio tags
@@ -871,15 +878,17 @@ module Redmine
     class UserFormat < RecordList
       add 'user'
       self.form_partial = 'custom_fields/formats/user'
-      field_attributes :user_role
+      field_attributes :user_role, :possible_principals
+
+      # Maps the possible_principals option to the principal types that can be selected
+      PRINCIPAL_TYPES = {
+        'user' => ['User'],
+        'user_group' => ['User', 'Group'],
+        'group' => ['Group']
+      }.freeze
 
       def possible_values_options(custom_field, object=nil)
-        users = possible_values_records(custom_field, object)
-        options = users.map {|u| [u.name, u.id.to_s]}
-        if !custom_field.multiple? && users.include?(User.current)
-          options = [["<< #{l(:label_me)} >>", User.current.id.to_s]] + options
-        end
-        options
+        principals_options(custom_field, possible_values_records(custom_field, object))
       end
 
       def possible_values_records(custom_field, object=nil)
@@ -887,7 +896,7 @@ module Redmine
           projects = object.filter_map {|o| o.respond_to?(:project) ? o.project : nil}.uniq
           projects.map {|project| possible_values_records(custom_field, project)}.reduce(:&) || []
         elsif object.respond_to?(:project) && object.project
-          scope = object.project.users
+          scope = object.project.principals.where(:type => selectable_principal_types(custom_field))
           if custom_field.user_role.is_a?(Array)
             role_ids = custom_field.user_role.map(&:to_s).reject(&:blank?).map(&:to_i)
             if role_ids.any?
@@ -902,10 +911,35 @@ module Redmine
         end
       end
 
+      # Returns the principal types (User and/or Group) that can be
+      # selected for the given custom field
+      def selectable_principal_types(custom_field)
+        PRINCIPAL_TYPES[custom_field.possible_principals.to_s] || PRINCIPAL_TYPES['user']
+      end
+
+      def cast_single_value(custom_field, value, customized=nil)
+        Principal.find_by_id(value.to_i) if value.present?
+      end
+
+      def possible_custom_value_options(custom_value)
+        principals_options(custom_value.custom_field, possible_custom_value_records(custom_value))
+      end
+
+      # Returns the principals that can be selected for the given custom value,
+      # including the principals that are currently set but no longer selectable
+      def possible_custom_value_records(custom_value)
+        principals = possible_values_records(custom_value.custom_field, custom_value.customized).to_a
+        missing = [custom_value.value_was].flatten.reject(&:blank?).map(&:to_i) - principals.map(&:id)
+        if missing.any?
+          principals += Principal.where(:id => missing).to_a
+        end
+        principals
+      end
+
       def value_from_keyword(custom_field, keyword, object)
-        users = possible_values_records(custom_field, object).to_a
+        principals = possible_values_records(custom_field, object).to_a
         parse_keyword(custom_field, keyword) do |k|
-          Principal.detect_by_keyword(users, k).try(:id)
+          Principal.detect_by_keyword(principals, k).try(:id)
         end
       end
 
@@ -916,8 +950,59 @@ module Redmine
         end
       end
 
+      protected
+
+      def select_edit_tag_options(view, custom_value)
+        principals_option_tags(view, custom_value.custom_field,
+                               possible_custom_value_records(custom_value), custom_value.value)
+      end
+
+      def bulk_edit_tag_options(view, custom_field, objects, value)
+        principals_option_tags(view, custom_field, possible_values_records(custom_field, objects), value)
+      end
+
+      # Returns the [name, id] options for the given principals,
+      # with the "me" option first when the current user is selectable
+      def principals_options(custom_field, principals)
+        me_options(custom_field, principals) + principals_to_options(principals)
+      end
+
+      # Renders the option tags for the given principals. When both users
+      # and groups are present, they are listed in separate optgroups
+      def principals_option_tags(view, custom_field, principals, selected)
+        users, groups = principals.partition {|principal| principal.is_a?(User)}
+        options = view.options_for_select(me_options(custom_field, principals), selected)
+        if users.any? && groups.any?
+          optgroups = [
+            [l(:label_user_plural), principals_to_options(users)],
+            [l(:label_group_plural), principals_to_options(groups)]
+          ]
+          options + view.grouped_options_for_select(optgroups, selected)
+        else
+          options + view.options_for_select(principals_to_options(principals), selected)
+        end
+      end
+
+      def me_options(custom_field, principals)
+        if !custom_field.multiple? && principals.include?(User.current)
+          [["<< #{l(:label_me)} >>", User.current.id.to_s]]
+        else
+          []
+        end
+      end
+
+      def principals_to_options(principals)
+        principals.map {|principal| [principal.name, principal.id.to_s]}
+      end
+
       def query_filter_values(custom_field, query)
-        query.author_values
+        types = selectable_principal_types(custom_field)
+        values =
+          query.principals.select {|p| types.include?(p.type)}.
+            sort_by {|p| [p.status, p]}.
+            collect {|p| [p.name, p.id.to_s, l("status_#{User::LABEL_BY_STATUS[p.status]}")]}
+        values.unshift(["<< #{l(:label_me)} >>", "me"]) if User.current.logged?
+        values
       end
     end
 

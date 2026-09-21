@@ -1016,10 +1016,7 @@ class User < Principal
     Watcher.where('user_id = ?', id).delete_all
     WikiContent.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
     WikiContentVersion.where(['author_id = ?', id]).update_all(['author_id = ?', substitute.id])
-    user_custom_field_ids = CustomField.where(field_format: 'user').ids
-    if user_custom_field_ids.any?
-      CustomValue.where(custom_field_id: user_custom_field_ids, value: self.id.to_s).delete_all
-    end
+    remove_user_custom_field_references
   end
 
   # Singleton class method is public

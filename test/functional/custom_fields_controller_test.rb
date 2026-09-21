@@ -455,6 +455,25 @@ class CustomFieldsControllerTest < Redmine::ControllerTest
     assert_equal [1, 3], field.projects.map(&:id).sort
   end
 
+  def test_create_user_custom_field
+    assert_difference 'CustomField.count' do
+      post(
+        :create,
+        :params => {
+          :type => "IssueCustomField",
+          :custom_field => {
+            :name => "foo",
+            :field_format => "user",
+            :possible_principals => "user_group"
+          }
+        }
+      )
+      assert_response :found
+    end
+    field = IssueCustomField.order(id: :desc).first
+    assert_equal 'user_group', field.possible_principals
+  end
+
   def test_create_with_continue_params
     assert_difference 'CustomField.count' do
       post(

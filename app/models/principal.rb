@@ -211,6 +211,14 @@ class Principal < ApplicationRecord
     Project.where(default_assigned_to: self).update_all(default_assigned_to_id: nil)
   end
 
+  # Removes the values of user custom fields that reference the principal
+  def remove_user_custom_field_references
+    user_custom_field_ids = CustomField.where(field_format: 'user').ids
+    if user_custom_field_ids.any?
+      CustomValue.where(custom_field_id: user_custom_field_ids, value: id.to_s).delete_all
+    end
+  end
+
   protected
 
   # Make sure we don't try to insert NULL values (see #4632)

@@ -1301,6 +1301,30 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal issue1, result.first
   end
 
+  def test_user_custom_field_with_groups_should_be_filterable_on_users_and_groups_and_me
+    User.current = User.find(8)
+    cf = IssueCustomField.create!(:field_format => 'user', :possible_principals => 'user_group', :is_for_all => true, :is_filter => true, :name => 'User custom field', :tracker_ids => [1])
+    issue1 = Issue.generate!(:project_id => 5, :tracker_id => 1, :custom_field_values => {cf.id.to_s => '10'})
+    issue2 = Issue.generate!(:project_id => 5, :tracker_id => 1, :custom_field_values => {cf.id.to_s => '8'})
+    issue3 = Issue.generate!(:project_id => 5, :tracker_id => 1, :custom_field_values => {cf.id.to_s => '2'})
+
+    query = IssueQuery.new(:name => '_', :project => Project.find(5))
+    values = query.available_filters["cf_#{cf.id}"][:values].pluck(1)
+    assert_include '2', values
+    assert_include '10', values
+
+    # "me" includes the groups of the current user
+    query.filters = {"cf_#{cf.id}" => {:operator => '=', :values => ['me']}}
+    assert_equal [issue1, issue2].map(&:id).sort, query.issues.map(&:id).sort
+
+    # "me" should not match the user value of issue2 that is kept
+    # when the field is restricted to groups
+    cf.update!(:possible_principals => 'group')
+    query = IssueQuery.new(:name => '_', :project => Project.find(5))
+    query.filters = {"cf_#{cf.id}" => {:operator => '=', :values => ['me']}}
+    assert_equal [issue1.id], query.issues.map(&:id)
+  end
+
   def test_filter_on_chained_user_custom_field
     user = User.find(2)
     User.current = user

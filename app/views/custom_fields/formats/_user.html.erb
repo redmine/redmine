@@ -1,3 +1,10 @@
+<p><%= f.select :possible_principals,
+      [
+        [l(:label_user_plural), 'user'],
+        [l(:label_users_and_groups), 'user_group'],
+        [l(:label_group_plural), 'group']
+      ],
+      :label => :field_possible_values %></p>
 <p>
   <label><%= l(:label_role) %></label>
   <label class="block">

@@ -634,6 +634,7 @@ en:
 
   label_user: User
   label_user_plural: Users
+  label_users_and_groups: Users and groups
   label_user_new: New user
   label_user_anonymous: Anonymous
   label_project: Project
