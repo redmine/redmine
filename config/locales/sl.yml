@@ -1571,3 +1571,4 @@ sl:
     can be enabled in the %{link} settings.
   permission_export_issues: Export issues
   permission_export_time_entries: Export time entries
+  label_users_and_groups: Users and groups
