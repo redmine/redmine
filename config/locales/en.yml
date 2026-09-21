@@ -278,6 +278,8 @@ en:
   mail_body_security_notification_notify_disabled: "Email address %{value} no longer receives notifications."
   mail_body_settings_updated: "The following settings were changed:"
   mail_body_password_updated: "Your password has been changed."
+  mail_subject_test_email: "Redmine test"
+  mail_body_test_email: "This is a test email sent by Redmine."
   mail_destroy_project_failed: Project %{value} could not be deleted.
   mail_destroy_project_successful: Project %{value} was deleted successfully.
   mail_destroy_project_with_subprojects_successful: Project %{value} and its subprojects were deleted successfully.
