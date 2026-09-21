@@ -1513,3 +1513,5 @@ ja:
     can be enabled in the %{link} settings.
   permission_export_issues: Export issues
   permission_export_time_entries: Export time entries
+  mail_subject_test_email: Redmine test
+  mail_body_test_email: This is a test email sent by Redmine.
