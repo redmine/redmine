@@ -7817,6 +7817,43 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_equal 1, journal.details.size
   end
 
+  def test_bulk_update_should_call_after_save_hook
+    @request.session[:user_id] = 2
+    contexts = []
+    @controller.stubs(:call_hook).with do |hook, context|
+      contexts << context if hook == :controller_issues_bulk_edit_after_save
+      true
+    end
+    post(
+      :bulk_update,
+      :params => {
+        :ids => [1, 2],
+        :notes => 'Bulk editing',
+        :issue => {
+          :priority_id => 7
+        }
+      }
+    )
+
+    assert_equal [1, 2], contexts.map {|c| c[:issue].id}.sort
+    assert_equal ['Bulk editing'], contexts.map {|c| c[:journal].notes}.uniq
+  end
+
+  def test_bulk_update_should_not_call_after_save_hook_when_save_fails
+    @request.session[:user_id] = 2
+    @controller.expects(:call_hook).with(:controller_issues_bulk_edit_after_save, anything).never
+    @controller.stubs(:call_hook).with(:controller_issues_bulk_edit_before_save, anything)
+    post(
+      :bulk_update,
+      :params => {
+        :ids => [1, 2],
+        :issue => {
+          :start_date => 'foo'
+        }
+      }
+    )
+  end
+
   def test_bulk_update_with_group_assignee
     group = Group.find(11)
     project = Project.find(1)

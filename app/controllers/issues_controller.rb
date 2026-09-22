@@ -415,6 +415,7 @@ class IssuesController < ApplicationController
       call_hook(:controller_issues_bulk_edit_before_save, {:params => params, :issue => issue})
       if issue.save
         saved_issues << issue
+        call_hook(:controller_issues_bulk_edit_after_save, { :params => params, :issue => issue, :journal => journal })
       else
         unsaved_issues << orig_issue
       end
