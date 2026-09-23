@@ -144,6 +144,19 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_equal 'text/html', @response.media_type
   end
 
+  def test_show_should_display_content_type
+    get(:show, :params => {:id => 4})
+    assert_response :success
+    assert_select 'div.attachments span.author span.content-type', :text => 'application/x-ruby'
+    assert_select 'div.attachments span.author', :text => /, application\/x-ruby\z/
+  end
+
+  def test_show_should_not_display_content_type_if_blank
+    get(:show, :params => {:id => 22})
+    assert_response :success
+    assert_select 'div.attachments span.content-type', 0
+  end
+
   def test_show_text_file_utf_8
     set_tmp_attachments_directory
     a = Attachment.new(:container => Issue.find(1),
