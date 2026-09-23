@@ -7,8 +7,12 @@
 </h2>
 
 <div class="attachments">
-<p><%= "#{@attachment.description} - " unless @attachment.description.blank? %>
-   <span class="author"><%= link_to_user(@attachment.author) %>, <%= format_time(@attachment.created_on) %></span></p>
+<p>
+  <% if @attachment.description.present? %><%= @attachment.description %><br><% end %>
+  <span class="author">
+    <%= link_to_user(@attachment.author) %>, <%= format_time(@attachment.created_on) %>
+  </span>
+</p>
 </div>
 <div class="filecontent-container">
   <%= yield %>
