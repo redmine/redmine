@@ -9,11 +9,10 @@
 <div class="attachments">
 <p>
   <% if @attachment.description.present? %><%= @attachment.description %><br><% end %>
-  <% content_type = content_tag(:span, @attachment.content_type, :class => 'content-type') if @attachment.content_type.present? %>
   <span class="author">
     <%= safe_join([link_to_user(@attachment.author),
                    format_time(@attachment.created_on),
-                   content_type].compact, ', ') %>
+                   attachment_content_type_tag(@attachment)].compact, ', ') %>
   </span>
 </p>
 </div>

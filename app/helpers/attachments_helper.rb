@@ -88,6 +88,24 @@ module AttachmentsHelper
     api.created_on attachment.created_on
   end
 
+  # Returns a span tag that contains the name of the content type of the
+  # attachment, or nil if the content type is blank.
+  #
+  # When a friendly name such as "OpenDocument Text" is displayed, the
+  # MIME type is set as the title attribute.
+  def attachment_content_type_tag(attachment)
+    content_type = attachment.content_type
+    return if content_type.blank?
+
+    friendly_name = Redmine::MimeType.friendly_name_for(content_type)
+    content_tag(
+      :span,
+      friendly_name || content_type,
+      :class => 'content-type',
+      :title => (content_type if friendly_name)
+    )
+  end
+
   def render_file_content(attachment, content)
     if attachment.is_markdown?
       render :partial => 'common/markup', :locals => {:markup_text_formatting => 'common_mark', :markup_text => content}

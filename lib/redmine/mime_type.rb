@@ -57,6 +57,39 @@ module Redmine
       map
     end
 
+    # Friendly names for MIME types that are frequently used but very long
+    # and do not convey the kind of file to most users. The names are not
+    # translated, so they should consist of the name of the application
+    # or format, followed by nouns. For example, "(+macro)" is appended for a
+    # macro-enabled type instead of "macro-enabled", which may look like
+    # untranslated English text.
+    #
+    # The keys must be in lowercase because the lookup is case-insensitive.
+    FRIENDLY_NAMES = {
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'Microsoft Word Document',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.template' => 'Microsoft Word Document Template',
+      'application/vnd.ms-word.document.macroenabled.12' => 'Microsoft Word Document (+macro)',
+      'application/vnd.ms-word.template.macroenabled.12' => 'Microsoft Word Document Template (+macro)',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'Microsoft Excel Workbook',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.template' => 'Microsoft Excel Workbook Template',
+      'application/vnd.ms-excel.sheet.macroenabled.12' => 'Microsoft Excel Workbook (+macro)',
+      'application/vnd.ms-excel.template.macroenabled.12' => 'Microsoft Excel Workbook Template (+macro)',
+      'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'Microsoft PowerPoint Presentation',
+      'application/vnd.openxmlformats-officedocument.presentationml.template' => 'Microsoft PowerPoint Presentation Template',
+      'application/vnd.openxmlformats-officedocument.presentationml.slideshow' => 'Microsoft PowerPoint Slide Show',
+      'application/vnd.ms-powerpoint.presentation.macroenabled.12' => 'Microsoft PowerPoint Presentation (+macro)',
+      'application/vnd.ms-powerpoint.template.macroenabled.12' => 'Microsoft PowerPoint Presentation Template (+macro)',
+      'application/vnd.ms-powerpoint.slideshow.macroenabled.12' => 'Microsoft PowerPoint Slide Show (+macro)',
+      'application/vnd.oasis.opendocument.text' => 'OpenDocument Text',
+      'application/vnd.oasis.opendocument.text-template' => 'OpenDocument Text Template',
+      'application/vnd.oasis.opendocument.spreadsheet' => 'OpenDocument Spreadsheet',
+      'application/vnd.oasis.opendocument.spreadsheet-template' => 'OpenDocument Spreadsheet Template',
+      'application/vnd.oasis.opendocument.presentation' => 'OpenDocument Presentation',
+      'application/vnd.oasis.opendocument.presentation-template' => 'OpenDocument Presentation Template',
+      'application/vnd.oasis.opendocument.graphics' => 'OpenDocument Graphics',
+      'application/vnd.oasis.opendocument.graphics-template' => 'OpenDocument Graphics Template'
+    }.freeze
+
     # returns all full mime types for a given (top level) type
     def self.by_type(type)
       MIME_TYPES.keys.select{|m| m.start_with? "#{type}/"}
@@ -91,6 +124,12 @@ module Redmine
     def self.is_type?(type, name)
       main_mimetype = main_mimetype_of(name)
       type.to_s == main_mimetype
+    end
+
+    # Returns the friendly name for the given mime type, or nil if none is
+    # defined in FRIENDLY_NAMES. The lookup is case-insensitive.
+    def self.friendly_name_for(type)
+      FRIENDLY_NAMES[type.to_s.downcase]
     end
   end
 end

@@ -149,6 +149,20 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_select 'div.attachments span.author span.content-type', :text => 'application/x-ruby'
     assert_select 'div.attachments span.author', :text => /, application\/x-ruby\z/
+    assert_select 'div.attachments span.content-type[title]', 0
+  end
+
+  def test_show_should_display_name_instead_of_long_content_type
+    {
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'Microsoft Word Document',
+      'application/vnd.oasis.opendocument.text' => 'OpenDocument Text'
+    }.each do |content_type, name|
+      Attachment.find(4).update_column(:content_type, content_type)
+
+      get(:show, :params => {:id => 4})
+      assert_response :success
+      assert_select 'div.attachments span.content-type[title=?]', content_type, :text => name
+    end
   end
 
   def test_show_should_not_display_content_type_if_blank
