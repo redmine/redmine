@@ -413,10 +413,6 @@ Rails/I18nLocaleAssignment:
     - 'test/unit/query_test.rb'
     - 'test/unit/role_test.rb'
 
-Rails/I18nLocaleTexts:
-  Exclude:
-    - 'app/models/mailer.rb'
-
 # Configuration parameters: IgnoreScopes.
 Rails/InverseOf:
   Exclude:
