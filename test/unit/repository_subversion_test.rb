@@ -112,6 +112,16 @@ class RepositorySubversionTest < ActiveSupport::TestCase
     end
   end
 
+  def test_relative_path_should_handle_percent_encoded_root_url
+    repository =
+      Repository::Subversion.new(
+        :project => @project,
+        :url => 'file:///svn/repo with spaces/trunk',
+        :root_url => 'file:///svn/repo%20with%20spaces'
+      )
+    assert_equal '/dir/file.txt', repository.relative_path('/trunk/dir/file.txt')
+  end
+
   if repository_configured?('subversion')
     def test_fetch_changesets_from_scratch
       assert_equal 0, @repository.changesets.count
