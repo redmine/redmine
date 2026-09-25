@@ -50,8 +50,10 @@ class Redmine::Views::LabelledFormBuilder < ActionView::Helpers::FormBuilder
   def hours_field(field, options={})
     # display the value before type cast when the entered value is not valid
     if @object.errors[field].blank?
+      # show the placeholder only when the time span format is "minutes"
+      placeholder = Setting.timespan_format == 'minutes' ? 'h:mm' : nil
       options = options.merge(:value => format_hours(@object.send field))
-                       .with_defaults(:placeholder => 'h:mm')
+                       .with_defaults(:placeholder => placeholder)
     end
     text_field field, options
   end

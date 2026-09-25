@@ -32,10 +32,25 @@ class Redmine::Views::LabelledFormBuilderTest < Redmine::HelperTest
     entry = TimeEntry.new(:hours => '2.5')
     entry.validate
 
-    labelled_form_for(entry) do |f|
-      field_html = f.hours_field(:hours)
-      assert_include 'value="2:30"', field_html
-      assert_include 'placeholder="h:mm"', field_html
+    with_settings :timespan_format => 'minutes' do
+      labelled_form_for(entry) do |f|
+        field_html = f.hours_field(:hours)
+        assert_include 'value="2:30"', field_html
+        assert_include 'placeholder="h:mm"', field_html
+      end
+    end
+  end
+
+  def test_hours_field_should_not_have_placeholder_if_timespan_format_is_decimal
+    entry = TimeEntry.new(:hours => '2.5')
+    entry.validate
+
+    with_settings :timespan_format => 'decimal' do
+      labelled_form_for(entry) do |f|
+        field_html = f.hours_field(:hours)
+        assert_include 'value="2.50"', field_html
+        assert_not_include 'placeholder', field_html
+      end
     end
   end
 
