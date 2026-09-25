@@ -544,6 +544,16 @@ module Redmine
         def current_version(plugin = current_plugin)
           get_all_versions(plugin).last || 0
         end
+
+        # Discards the cached versions of the given plugin, or of all plugins if
+        # no plugin is given, so that they are reloaded from the database
+        def clear_cached_versions(plugin = nil)
+          if plugin
+            @all_versions&.delete(plugin.id.to_s)
+          else
+            @all_versions = nil
+          end
+        end
       end
 
       def load_migrated
@@ -552,6 +562,7 @@ module Redmine
 
       def record_version_state_after_migrating(version)
         super(version.to_s + "-" + current_plugin.id.to_s)
+        self.class.clear_cached_versions(current_plugin)
       end
     end
   end
