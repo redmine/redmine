@@ -279,6 +279,8 @@ bg:
   mail_body_security_notification_notify_disabled: Имейл адрес %{value} вече не получава известия.
   mail_body_settings_updated: ! 'Изменения в конфигурацията:'
   mail_body_password_updated: Вашата парола е сменена.
+  mail_subject_test_email: Redmine тест
+  mail_body_test_email: Това е тестов имейл, изпратен от Redmine.
   mail_destroy_project_failed: Проект %{value} не беше изтрит.
   mail_destroy_project_successful: Проект %{value} беше изтрит успешно.
   mail_destroy_project_with_subprojects_successful: Проект %{value} и неговите подпроекти бяха изтрити успешно.
@@ -635,6 +637,7 @@ bg:
 
   label_user: Потребител
   label_user_plural: Потребители
+  label_users_and_groups: Потребители и групи
   label_user_new: Нов потребител
   label_user_anonymous: Анонимен
   label_project: Проект
@@ -1509,6 +1512,3 @@ bg:
   reaction_text_x_other_users:
     one: 1 друг
     other: "%{count} други"
-  label_users_and_groups: Users and groups
-  mail_subject_test_email: Redmine test
-  mail_body_test_email: This is a test email sent by Redmine.
