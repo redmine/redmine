@@ -8,7 +8,7 @@
     <li>
       <%= tag.span(sprite_icon('reorder', ''), :class => 'icon-only icon-sort-handle sort-handle', :title => l(:button_move)) %>
       <%= hidden_field_tag "custom_field_enumerations[#{value.id}][position]", position, :class => 'position' %>
-      <%= text_field_tag "custom_field_enumerations[#{value.id}][name]", value.name, :size => 40 %>
+      <%= text_field_tag "custom_field_enumerations[#{value.id}][name]", value.name, :size => 40, :maxlength => 255 %>
       <%= hidden_field_tag "custom_field_enumerations[#{value.id}][active]", 0 %>
       <label>
         <%= check_box_tag "custom_field_enumerations[#{value.id}][active]", 1, value.active? %>
@@ -29,7 +29,7 @@
 <%= form_tag custom_field_enumerations_path(@custom_field), :method => 'post', :remote => true, id: 'add-element' do %>
   <p><%= l(:label_enumeration_new) %></p>
 
-  <p><%= text_field_tag 'custom_field_enumeration[name]', '', :size => 40 %>
+  <p><%= text_field_tag 'custom_field_enumeration[name]', '', :size => 40, :maxlength => 255 %>
   <%= submit_tag(l(:button_add)) %></p>
 <% end %>
 

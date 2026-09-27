@@ -21,7 +21,7 @@ class CustomFieldEnumeration < ApplicationRecord
   belongs_to :custom_field
 
   validates_presence_of :name, :position, :custom_field_id
-  validates_length_of :name, :maximum => 60
+  validates_length_of :name, :maximum => 255
   validates_numericality_of :position, :only_integer => true
   before_create :set_position
 
