@@ -25,7 +25,7 @@ class AuthSourceLdap < AuthSource
   NETWORK_EXCEPTIONS = [
     Net::LDAP::Error,
     Errno::ECONNABORTED, Errno::ECONNREFUSED, Errno::ECONNRESET,
-    Errno::EHOSTDOWN, Errno::EHOSTUNREACH,
+    Errno::EHOSTDOWN, Errno::EHOSTUNREACH, Errno::EPIPE,
     SocketError
   ]
 
