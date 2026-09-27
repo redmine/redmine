@@ -79,14 +79,16 @@ module Redmine
           cmd_args = %w|branch --no-color --verbose --no-abbrev|
           git_cmd(cmd_args) do |io|
             io.each_line do |line|
-              branch_rev = line.match('\s*(\*?)\s*(.*?)\s+([0-9a-f]{40}).*$')
-              next unless branch_rev
+              # Each line looks like this ("*" marks the current branch):
+              #   * main  2a682156a3b6e77a8bf9cd4590e8db757f3c6c78 Add foo.txt
+              m = line.match(/\s*(?<current>\*?)\s*(?<name>.*?)\s+(?<rev>[0-9a-f]{40}).*$/)
+              next unless m
 
-              bran = GitBranch.new(scm_iconv('UTF-8', @path_encoding, branch_rev[2]))
-              bran.revision =  branch_rev[3]
-              bran.scmid    =  branch_rev[3]
-              bran.is_default = (branch_rev[1] == '*')
-              @branches << bran
+              branch = GitBranch.new(scm_iconv('UTF-8', @path_encoding, m[:name]))
+              branch.revision = m[:rev]
+              branch.scmid    = m[:rev]
+              branch.is_default = (m[:current] == '*')
+              @branches << branch
             end
           end
           @branches.sort!
