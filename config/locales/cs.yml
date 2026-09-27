@@ -1477,7 +1477,7 @@ cs:
   reaction_text_x_other_users:
     one: 1 jiný
     other: "%{count} jiných"
-  text_setting_gravatar_default_initials_html: Uživatelovy iniciály jsou poslány do <a href="https://www.gravatar.com">https://www.gravatar.com</a>
+  text_setting_gravatar_default_initials_html: Uživatelovy iniciály jsou poslány do <a href="%{url}">%{url}</a>
     k vygenerování avataru.
   permission_view_project: Zobrazení projektů
   permission_search_project: Vyhledání projektů

@@ -1433,7 +1433,7 @@ fa:
   reaction_text_x_other_users:
     one: 1 کاربر دیگر
     other: "%{count} کاربر دیگر"
-  text_setting_gravatar_default_initials_html: حروف اول اسامی کاربران به <a href="https://www.gravatar.com">https://www.gravatar.com</a> ارسال می‌شود
+  text_setting_gravatar_default_initials_html: حروف اول اسامی کاربران به <a href="%{url}">%{url}</a> ارسال می‌شود
     تا تصاویر پروفایل آن‌ها تولید شود.
   permission_view_project: مشاهده پروژه‌ها
   permission_search_project: جستجوی پروژه‌ها

@@ -25,7 +25,7 @@
 <p>
   <%= setting_select :gravatar_default, gravatar_default_setting_options, :blank => :label_none %>
   <em class="<%= Setting.gravatar_default == "initials" ? "info" : "hidden" %>">
-    <%= t(:text_setting_gravatar_default_initials_html) %>
+    <%= t(:text_setting_gravatar_default_initials_html, :url => Redmine::Configuration['avatar_server_url']) %>
   </em>
 </p>
 
