@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '>= 3.3.0', '< 4.1.0'
 
-gem 'rails', '8.1.3.1'
+gem 'rails', '8.1.4'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 gem 'rouge', '~> 5.0'
