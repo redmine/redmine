@@ -66,6 +66,19 @@ class SettingsControllerTest < Redmine::ControllerTest
     assert_response :success
   end
 
+  def test_get_edit_should_show_avatar_server_url_in_info_texts
+    url = 'https://seccdn.libravatar.org'
+    with_settings :gravatar_enabled => '1', :gravatar_default => 'initials' do
+      Redmine::Configuration.with 'avatar_server_url' => url do
+        get :edit
+        assert_response :success
+      end
+    end
+
+    assert_select '#settings_gravatar_enabled ~ em.info a[href=?]', url, :text => url
+    assert_select '#settings_gravatar_default ~ em.info a[href=?]', url, :text => url
+  end
+
   def test_post_edit_notifications
     post :edit, :params => {
       :settings => {

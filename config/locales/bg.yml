@@ -1392,7 +1392,7 @@ bg:
     Можете да го конфигурирате в config/configuration.yml.
   text_allowed_queries_to_select: Само публичните (за всички потребители) заявки са достъпни за избор
   text_setting_config_change: Вие можете да конфигурирате поведението в config/configuration.yml. Моля, рестартирайте Redmine след редактиране на файла.
-  text_setting_gravatar_default_initials_html: Инициалите на потребителите са изпратени на <a href="https://www.gravatar.com">https://www.gravatar.com</a> за генериране на техните аватари.
+  text_setting_gravatar_default_initials_html: Инициалите на потребителите са изпратени на <a href="%{url}">%{url}</a> за генериране на техните аватари.
   text_oauth_admin_permission: Пълен административен достъп. След оторизиране от администратор,
     това приложение ще има възможност да чете и записва всички данни и да имитира други потребители.
   text_oauth_admin_permission_info: Това приложение иска пълен административен достъп.

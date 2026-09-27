@@ -1509,7 +1509,7 @@
   reaction_text_x_other_users:
     one: 1 位其他用戶
     other: "%{count} 位其他用戶"
-  text_setting_gravatar_default_initials_html: 用戶姓名的首字母縮寫將被送往 <a href="https://www.gravatar.com">https://www.gravatar.com</a>
+  text_setting_gravatar_default_initials_html: 用戶姓名的首字母縮寫將被送往 <a href="%{url}">%{url}</a>
     用以產生其大頭貼.
   permission_view_project: 檢視專案
   permission_search_project: 搜尋專案

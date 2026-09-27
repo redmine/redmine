@@ -1455,7 +1455,7 @@ ja:
   reaction_text_x_other_users:
     one: 他1人
     other: "他%{count}人"
-  text_setting_gravatar_default_initials_html: ユーザーの姓と名それぞれの先頭文字がアイコン生成のために <a href="https://www.gravatar.com">https://www.gravatar.com</a> に送信されます。
+  text_setting_gravatar_default_initials_html: ユーザーの姓と名それぞれの先頭文字がアイコン生成のために <a href="%{url}">%{url}</a> に送信されます。
   permission_view_project: プロジェクトの閲覧
   permission_search_project: プロジェクトの検索
   permission_view_members: プロジェクトのメンバーの閲覧

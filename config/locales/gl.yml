@@ -1501,7 +1501,7 @@ gl:
   reaction_text_x_other_users:
     one: 1 outro
     other: "%{count} outros"
-  text_setting_gravatar_default_initials_html: As iniciais dos usuarios son enviadas a <a href="https://www.gravatar.com">https://www.gravatar.com</a>
+  text_setting_gravatar_default_initials_html: As iniciais dos usuarios son enviadas a <a href="%{url}">%{url}</a>
     para xerar os seus avatares.
   permission_view_project: Ver proxectos
   permission_search_project: Buscar proxectos

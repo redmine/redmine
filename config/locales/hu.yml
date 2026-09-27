@@ -1440,7 +1440,7 @@
   reaction_text_x_other_users:
     one: 1 másik
     other: "%{count} másik"
-  text_setting_gravatar_default_initials_html: A felhasználók monogramját <a href="https://www.gravatar.com">https://www.gravatar.com</a> részére küldjük el avatárjuk generálásához.
+  text_setting_gravatar_default_initials_html: A felhasználók monogramját <a href="%{url}">%{url}</a> részére küldjük el avatárjuk generálásához.
   permission_view_project: Projektek megtekintése
   permission_search_project: Projektek keresése
   permission_view_members: Projekt tagok megtekintése

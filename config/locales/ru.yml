@@ -1555,7 +1555,7 @@ ru:
   reaction_text_x_other_users:
     one: еще один.
     other: "еще %{count}"
-  text_setting_gravatar_default_initials_html: Для генерации аватаров на сервис <a href="https://www.gravatar.com">Gravatar</a>
+  text_setting_gravatar_default_initials_html: Для генерации аватаров на сервис <a href="%{url}">%{url}</a>
     передаются инициалы пользователей.
   permission_view_project: Просмотр проектов
   permission_search_project: Поиск проектов

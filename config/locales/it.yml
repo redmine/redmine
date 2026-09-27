@@ -1359,7 +1359,7 @@ it:
   text_no_subject: nessun soggetto
   text_allowed_queries_to_select: Solo query pubbliche (per tutti gli utenti) selezionabili
   text_setting_config_change: Puoi configurare il comportamento in config/configuration.yml. Riavvia l'applicazione dopo averla modificata.
-  text_setting_gravatar_default_initials_html: Le iniziali degli utenti vengono inviate a <a href="https://www.gravatar.com">https://www.gravatar.com</a> per generare i loro avatar.
+  text_setting_gravatar_default_initials_html: Le iniziali degli utenti vengono inviate a <a href="%{url}">%{url}</a> per generare i loro avatar.
   text_oauth_admin_permission: Accesso amministrativo completo. Se autorizzata da un Amministratore, questa applicazione potrà leggere e scrivere tutti i dati e impersonare altri utenti.
   text_oauth_admin_permission_info: "Questa applicazione richiede l'accesso amministrativo completo. Se sei un Amministratore (o lo diventerai in futuro), l'applicazione potrà leggere e scrivere tutti i dati e impersonare altri utenti per tuo conto. Se vuoi evitare questo problema, autorizzala come utente senza privilegi di Amministratore."
   text_oauth_copy_secret_now: "Salva subito il segreto in un luogo sicuro: non verrà mostrato di nuovo."
