@@ -114,6 +114,20 @@ class GitAdapterTest < ActiveSupport::TestCase
       assert_equal false, br_test.is_default
     end
 
+    def test_branches_with_branch_name_containing_hash
+      branch_name = 'feature-0123456789abcdef0123456789abcdef01234567'
+      output = <<~OUTPUT
+        * #{branch_name} 2a682156a3b6e77a8bf9cd4590e8db757f3c6c78 Add foo.txt
+      OUTPUT
+      @adapter.stubs(:git_cmd).yields(StringIO.new(output))
+
+      brs = @adapter.branches
+      assert_equal 1, brs.length
+      assert_equal branch_name, brs[0].to_s
+      assert_equal '2a682156a3b6e77a8bf9cd4590e8db757f3c6c78', brs[0].revision
+      assert_equal true, brs[0].is_default
+    end
+
     def test_default_branch
       assert_equal 'master-20120212', @adapter.default_branch
 
