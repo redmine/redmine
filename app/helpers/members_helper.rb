@@ -48,15 +48,32 @@ module MembersHelper
     s + content_tag('span', links, :class => 'pagination')
   end
 
+  # Returns the scope of the members of project matching the filters
+  # set in the request params
+  def members_scope(project)
+    project.memberships.like(params[:member_name]).with_role(params[:member_role_id])
+  end
+
   # limit/offset on Member.sorted would paginate role join rows, not members
-  def paginate_members(project)
-    ordered_ids = project.memberships.sorted.pluck("#{Member.table_name}.id").uniq
+  def paginate_members(scope)
+    ordered_ids = scope.sorted.pluck("#{Member.table_name}.id").uniq
     member_count = ordered_ids.size
     member_pages = Redmine::Pagination::Paginator.new(member_count, per_page_option, params['members_page'], 'members_page')
     page_ids = ordered_ids[member_pages.offset, member_pages.per_page] || []
-    members_by_id = project.memberships.where(:id => page_ids).preload(:project, :principal, :roles).index_by(&:id)
+    members_by_id = scope.where(:id => page_ids).preload(:project, :principal, :roles).index_by(&:id)
     members = page_ids.filter_map {|id| members_by_id[id]}
     [members, member_pages, member_count]
+  end
+
+  # Returns the params that define the members list currently displayed
+  # (pagination and filters), so that they can be preserved across the member
+  # creation, edition and deletion requests
+  def members_list_params
+    {
+      :members_page => params[:members_page],
+      :member_name => params[:member_name],
+      :member_role_id => params[:member_role_id]
+    }.select {|_, value| value.present?}
   end
 
   # Returns inheritance information for an inherited member role

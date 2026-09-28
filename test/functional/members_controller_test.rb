@@ -274,6 +274,56 @@ class MembersControllerTest < Redmine::ControllerTest
     assert_match %r{settings/members\?members_page=}, response.body
   end
 
+  def test_edit_xhr_should_keep_current_filters_in_form_action
+    @request.session[:user_id] = 2
+    get(:edit, :params => {:id => 2, :member_name => 'Smith', :member_role_id => 1}, :xhr => true)
+    assert_response :success
+    assert_match %r{/memberships/2\?member_name=Smith&amp;member_role_id=1}, response.body
+  end
+
+  def test_new_xhr_should_keep_current_filters_in_form_action
+    @request.session[:user_id] = 2
+    get(:new, :params => {:project_id => 1, :member_name => 'Smith', :member_role_id => 1}, :xhr => true)
+    assert_response :success
+    assert_match %r{/projects/ecookbook/memberships\?member_name=Smith&amp;member_role_id=1}, response.body
+  end
+
+  def test_update_xhr_should_keep_the_members_list_filtered
+    @request.session[:user_id] = 2
+    put(
+      :update,
+      :params => {
+        :id => 2,
+        :membership => {:role_ids => [2]},
+        :member_role_id => 1
+      },
+      :xhr => true
+    )
+    assert_response :success
+    # The updated member does not match the filter anymore, but the list
+    # must still be filtered by role 1
+    assert_match %r{/memberships/1\?member_role_id=1}, response.body
+    assert_no_match %r{member-4}, response.body
+  end
+
+  def test_destroy_xhr_should_keep_the_members_list_filtered
+    @request.session[:user_id] = 2
+    assert_difference 'Member.count', -1 do
+      delete(:destroy, :params => {:id => 2, :member_name => 'Smith'}, :xhr => true)
+    end
+    assert_response :success
+    assert_match %r{/memberships/1\?member_name=Smith}, response.body
+    assert_no_match %r{member-4}, response.body
+  end
+
+  def test_destroy_should_redirect_to_the_filtered_members_list
+    @request.session[:user_id] = 2
+    assert_difference 'Member.count', -1 do
+      delete(:destroy, :params => {:id => 2, :member_name => 'Smith', :member_role_id => 1})
+    end
+    assert_redirected_to '/projects/ecookbook/settings/members?member_name=Smith&member_role_id=1'
+  end
+
   def test_update_locked_member_should_be_allowed
     User.find(3).lock!
 

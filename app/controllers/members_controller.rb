@@ -143,8 +143,7 @@ class MembersController < ApplicationController
 
   def members_settings_url_params
     query = {:tab => 'members'}
-    query[:members_page] = params[:members_page] if params[:members_page].present?
     query[:per_page] = params[:per_page] if params[:per_page].present?
-    query
+    query.merge(members_list_params)
   end
 end

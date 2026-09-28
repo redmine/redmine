@@ -57,6 +57,30 @@ class MemberTest < ActiveSupport::TestCase
     assert_equal roles, roles.sort
   end
 
+  def test_like_scope_should_match_users_and_groups
+    assert_equal [1], Project.find(1).memberships.like('Smith').ids
+    assert_equal [9], Project.find(2).memberships.like('B Team').ids
+  end
+
+  def test_like_scope_with_blank_value_should_return_all_the_members
+    project = Project.find(1)
+    assert_equal project.memberships.ids.sort, project.memberships.like('').ids.sort
+  end
+
+  def test_with_role_scope_should_return_the_members_having_the_role
+    assert_equal [2, 4], Project.find(1).memberships.with_role(2).ids.sort
+  end
+
+  def test_with_role_scope_should_return_the_members_having_the_role_inherited
+    # Member 7 has the role 1 inherited from the member 6
+    assert_include 7, Project.find(5).memberships.with_role(1).ids
+  end
+
+  def test_with_role_scope_with_blank_value_should_return_all_the_members
+    project = Project.find(1)
+    assert_equal project.memberships.ids.sort, project.memberships.with_role(nil).ids.sort
+  end
+
   def test_create
     member = Member.new(:project_id => 1, :user_id => 4, :role_ids => [1, 2])
     assert member.save

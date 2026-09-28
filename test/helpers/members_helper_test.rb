@@ -46,7 +46,7 @@ class MembersHelperTest < Redmine::HelperTest
     project = Project.generate!
     5.times { User.add_to_project(User.generate!, project) }
 
-    members, member_pages, member_count = paginate_members(project)
+    members, member_pages, member_count = paginate_members(project.memberships)
 
     assert_equal 3, members.size
     assert_equal 3, member_pages.per_page
@@ -59,11 +59,21 @@ class MembersHelperTest < Redmine::HelperTest
     3.times { User.add_to_project(User.generate!, project) }
     Member.where(:project_id => project.id).first.update!(:role_ids => [1, 2])
 
-    members, _member_pages, member_count = paginate_members(project)
+    members, _member_pages, member_count = paginate_members(project.memberships)
 
     member_ids = members.map(&:id)
     assert_equal member_ids.uniq, member_ids
     assert_equal member_count, members.size
     assert_equal project.memberships.count, member_count
+  end
+
+  def test_paginate_members_should_paginate_the_given_scope
+    stubs(:per_page_option).returns(25)
+    project = Project.find(1)
+
+    members, _member_pages, member_count = paginate_members(project.memberships.with_role(2))
+
+    assert_equal [2, 4], members.map(&:id).sort
+    assert_equal 2, member_count
   end
 end

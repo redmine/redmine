@@ -37,6 +37,18 @@ class Member < ApplicationRecord
     joins(:project).
       where(Project.allowed_to_condition(args.shift || User.current, :view_members, *args))
   end)
+  # Members whose principal matches the given string
+  scope :like, (lambda do |arg|
+    if arg.present?
+      where(:user_id => Principal.like(arg).select(:id))
+    end
+  end)
+  # Members having the given role, inherited or not
+  scope :with_role, (lambda do |arg|
+    if arg.present?
+      where(:id => MemberRole.where(:role_id => arg.to_i).select(:member_id))
+    end
+  end)
   # Sort by first role and principal
   scope :sorted, (lambda do
     includes(:member_roles, :roles, :principal).

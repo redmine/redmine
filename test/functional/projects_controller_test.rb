@@ -1112,8 +1112,99 @@ class ProjectsControllerTest < Redmine::ControllerTest
     @request.session[:user_id] = 1
     get(:settings, :params => {:id => project.id, :tab => 'members'})
     assert_response :success
+    assert_select 'div#tab-content-members form#members-filter-form'
     assert_select 'div#tab-content-members p.nodata'
     assert_select 'div#tab-content-members table.list.members', :count => 0
+  end
+
+  def test_settings_members_should_display_filter_form
+    @request.session[:user_id] = 2
+    get(:settings, :params => {:id => 'ecookbook', :tab => 'members'})
+    assert_response :success
+    assert_select 'div#tab-content-members form#members-filter-form[action=?]', '/projects/ecookbook/settings/members' do
+      assert_select 'input[name=member_name]'
+      assert_select 'select[name=member_role_id][onchange=?]', 'this.form.submit(); return false;'
+      assert_select 'input[type=submit]'
+      assert_select 'a[href=?]', '/projects/ecookbook/settings/members'
+    end
+  end
+
+  def test_settings_members_should_filter_by_name
+    @request.session[:user_id] = 2
+    get(
+      :settings,
+      :params => {
+        :id => 'ecookbook',
+        :tab => 'members',
+        :member_name => 'John'
+      }
+    )
+    assert_response :success
+    assert_select 'div#tab-content-members form#members-filter-form' do
+      assert_select 'input[name=member_name][value=?]', 'John'
+    end
+    assert_select 'div#tab-content-members tr#member-1'
+    assert_select 'div#tab-content-members tr#member-2', :count => 0
+    assert_select 'a#tab-members[href*=?]', 'member_name=John'
+  end
+
+  def test_settings_members_should_filter_by_role
+    @request.session[:user_id] = 2
+    get(
+      :settings,
+      :params => {
+        :id => 'ecookbook',
+        :tab => 'members',
+        :member_role_id => '2'
+      }
+    )
+    assert_response :success
+    assert_select 'div#tab-content-members form#members-filter-form' do
+      assert_select 'select[name=member_role_id]' do
+        assert_select 'option[value="2"][selected=selected]'
+      end
+    end
+    assert_select 'div#tab-content-members tr#member-2'
+    assert_select 'div#tab-content-members tr#member-1', :count => 0
+    assert_select 'a#tab-members[href*=?]', 'member_role_id=2'
+  end
+
+  def test_settings_members_filter_with_no_matches_should_show_no_data
+    @request.session[:user_id] = 2
+    get(
+      :settings,
+      :params => {
+        :id => 'ecookbook',
+        :tab => 'members',
+        :member_name => 'NonexistentPrincipal'
+      }
+    )
+    assert_response :success
+    assert_select 'div#tab-content-members form#members-filter-form'
+    assert_select 'div#tab-content-members p.nodata'
+    assert_select 'div#tab-content-members table.list.members', :count => 0
+  end
+
+  def test_settings_members_pagination_should_preserve_filters
+    project = Project.find(1)
+    per_page = 25
+    (per_page + 5).times do
+      user = User.generate!
+      Member.create!(:project => project, :principal => user, :role_ids => [2])
+    end
+    @request.session[:user_id] = 2
+    with_settings :per_page_options => '25,50,100' do
+      get(
+        :settings,
+        :params => {
+          :id => 'ecookbook',
+          :tab => 'members',
+          :member_role_id => '2'
+        }
+      )
+    end
+    assert_response :success
+    assert_select 'div#tab-content-members span.pagination a[href*=?]', 'member_role_id=2'
   end
 
   def test_settings_should_show_tabs_depending_on_permission
