@@ -218,7 +218,7 @@ body.has-main-menu #header {
   inset-inline-start: 0;
   inset-inline-end: 0;
   margin-inline-end: 0;
-  padding-block: 2px;
+  padding-block: 0;
   padding-inline: 20px;
   inline-size: auto;
   background: var(--oc-indigo-0);
@@ -227,7 +227,7 @@ body.has-main-menu #header {
   margin: 0;
   padding: 0;
   inline-size: 100%;
-  min-block-size: 28px;
+  min-block-size: 32px;
   white-space: nowrap;
   display: flex;
   align-items: center;
@@ -247,11 +247,12 @@ body.has-main-menu #header {
   text-decoration: none;
   font-size: 0.8125rem;
   margin: 0;
-  padding-block: 7px 5px;
+  /* 9px + 16px line-height + 7px = 32px, the same as the `#main-menu ul` height, so the tab fills the bar and touches the content area */
+  padding-block: 9px 7px;
   padding-inline: 11px;
   background-color: transparent;
   font-weight: normal;
-  line-height: 1.2;
+  line-height: 16px;
   transition: background-color 0.18s ease, color 0.18s ease;
 }
 #main-menu li a:hover {
