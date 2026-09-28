@@ -12,7 +12,7 @@ api.group do
   end if include_in_api_response?('users') && !@group.builtin?
 
   api.array :memberships do
-    @group.memberships.preload(:roles, :project).each do |membership|
+    @group.memberships.visible.preload(:roles, :project).each do |membership|
       api.membership do
         api.id membership.id
         api.project :id => membership.project.id, :name => membership.project.name
