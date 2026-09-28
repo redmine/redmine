@@ -364,6 +364,42 @@ class Redmine::ApiTest::IssuesTest < Redmine::ApiTest::Base
     assert_equal 1, json['issue']['children'].count {|child| child.key?('children')}
   end
 
+  def generate_issue_with_invisible_descendants
+    issue = Issue.generate_with_descendants!(:project_id => 1)
+    child = issue.children.first
+    Issue.generate!(:project => issue.project, :subject => 'Private child', :parent_issue_id => issue.id, :is_private => true)
+    Issue.generate!(:project => issue.project, :subject => 'Private grandchild', :parent_issue_id => child.id, :is_private => true)
+    Issue.generate!(:project_id => 5, :subject => 'Child in private project', :parent_issue_id => issue.id)
+    issue.reload
+  end
+
+  test "GET /issues/:id.xml with subtasks should not include invisible descendants" do
+    issue = generate_issue_with_invisible_descendants
+    get "/issues/#{issue.id}.xml?include=children"
+
+    assert_select 'issue id', :text => issue.id.to_s do
+      assert_select '~ children[type=array] > issue', 2
+      assert_select '~ children[type=array] > issue > children > issue', 1
+    end
+    assert_select 'subject', :text => 'Child1'
+    assert_select 'subject', :text => 'Child2'
+    assert_select 'subject', :text => 'Child11'
+    assert_select 'subject', :text => 'Private child', :count => 0
+    assert_select 'subject', :text => 'Private grandchild', :count => 0
+    assert_select 'subject', :text => 'Child in private project', :count => 0
+  end
+
+  test "GET /issues/:id.json with subtasks should not include invisible descendants" do
+    issue = generate_issue_with_invisible_descendants
+    get "/issues/#{issue.id}.json?include=children"
+
+    json = ActiveSupport::JSON.decode(response.body)
+    children = json['issue']['children']
+    assert_equal ['Child1', 'Child2'], children.pluck('subject')
+    assert_equal ['Child11'], children.first['children'].pluck('subject')
+    assert_nil children.last['children']
+  end
+
   test "GET /issues/:id.json with no spent time should return floats" do
     issue = Issue.generate!
     get "/issues/#{issue.id}.json"
