@@ -682,7 +682,7 @@ module IssuesHelper
     return if issue.leaf?
 
     api.array :children do
-      issue.children.each do |child|
+      issue.children.visible.each do |child|
         api.issue(:id => child.id) do
           api.tracker(:id => child.tracker_id, :name => child.tracker.name) unless child.tracker.nil?
           api.subject child.subject
