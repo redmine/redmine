@@ -94,13 +94,13 @@ export default class extends Controller {
   }
 
   #extractTable(html) {
-    const temp = document.createElement('div')
-    temp.innerHTML = html.replace(/\r?\n/g, '')
+    const doc = new DOMParser().parseFromString(html.replace(/\r?\n/g, ''), 'text/html')
+    if (!doc.body) return null
 
-    const tables = temp.querySelectorAll('table')
+    const tables = doc.body.querySelectorAll('table')
     if (tables.length !== 1) return null
 
-    const clone = temp.cloneNode(true)
+    const clone = doc.body.cloneNode(true)
     // Ignore metadata elements and confirm that nothing remains outside the table.
     clone.querySelectorAll('meta, style, link, title, table').forEach(element => element.remove())
 

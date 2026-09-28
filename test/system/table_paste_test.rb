@@ -118,6 +118,38 @@ class TablePasteSystemTest < ApplicationSystemTestCase
     end
   end
 
+  def test_paste_html_table_strips_unsafe_markup
+    with_settings text_formatting: 'common_mark' do
+      log_user('jsmith', 'jsmith')
+      visit '/projects/ecookbook/issues/new'
+
+      html = <<~HTML
+        <table border="1">
+          <tr>
+            <td>
+              probe
+              <img
+                src="a"
+                onerror="window._dom_xss_executed = true">
+            </td>
+            <td>x</td>
+          </tr>
+          <tr>
+            <td>y</td>
+            <td>z</td>
+          </tr>
+        </table>
+      HTML
+
+      result = dispatch_paste(find('#issue_description'), html: html)
+      sleep 1
+
+      assert_nil page.evaluate_script('window._dom_xss_executed')
+      assert_includes result, '| probe | x |'
+      assert_includes result, '| y | z |'
+    end
+  end
+
   private
 
   def dispatch_paste(field, html:)
