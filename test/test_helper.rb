@@ -61,6 +61,15 @@ class ActiveSupport::TestCase
   self.use_transactional_tests = true
   self.use_instantiated_fixtures  = false
 
+  # Use the same time for fixtures and tests to prevent date-dependent
+  # failures when the date changes while running the test suite.
+  FROZEN_TIME = Time.now.freeze
+
+  def before_setup
+    travel_to FROZEN_TIME
+    super
+  end
+
   # Clear Settings cache after each test to prevent test interference
   teardown do
     Setting.clear_cache
