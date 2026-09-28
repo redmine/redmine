@@ -294,6 +294,10 @@ module Redmine
                   :caption => :'doorkeeper.layouts.admin.nav.applications',
                   :icon => 'apps',
                   :html => {:class => 'icon icon-applications'}
+        menu.push :webhooks, {:controller => 'admin', :action => 'webhooks'},
+                  :caption => :label_webhook_plural,
+                  :icon => 'webhook',
+                  :html => {:class => 'icon icon-webhook'}
         menu.push :plugins, {:controller => 'admin', :action => 'plugins'},
                   :last => true,
                   :icon => 'plugins',

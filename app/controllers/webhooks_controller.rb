@@ -21,7 +21,8 @@ class WebhooksController < ApplicationController
   self.main_menu = false
 
   before_action :require_login
-  before_action :check_enabled
+  before_action :check_enabled_or_admin, only: [:edit, :update, :destroy]
+  before_action :check_enabled, except: [:edit, :update, :destroy]
   before_action :authorize
 
   before_action :find_webhook, only: [:edit, :update, :destroy]
@@ -29,28 +30,33 @@ class WebhooksController < ApplicationController
   require_sudo_mode :create, :update, :destroy
 
   def index
-    @webhooks = webhooks.order(:url)
+    @webhooks = webhooks.preload(:projects).order(:url)
   end
 
   def new
     @webhook = Webhook.new
+    @webhook.safe_attributes = params[:webhook]
   end
 
   def edit
   end
 
   def create
-    @webhook = webhooks.build(webhook_params)
+    @webhook = webhooks.build
+    @webhook.safe_attributes = params[:webhook]
     if @webhook.save
-      redirect_to webhooks_path
+      flash[:notice] = l(:notice_successful_create)
+      redirect_back_or_default webhooks_path
     else
       render :new
     end
   end
 
   def update
-    if @webhook.update(webhook_params)
-      redirect_to webhooks_path
+    @webhook.safe_attributes = params[:webhook]
+    if @webhook.save
+      flash[:notice] = l(:notice_successful_update)
+      redirect_back_or_default webhooks_path
     else
       render :edit
     end
@@ -58,17 +64,14 @@ class WebhooksController < ApplicationController
 
   def destroy
     @webhook.destroy
-    redirect_to webhooks_path
+    flash[:notice] = l(:notice_successful_delete)
+    redirect_back_or_default webhooks_path
   end
 
   private
 
-  def webhook_params
-    params.require(:webhook).permit(:url, :secret, :active, events: [], project_ids: [])
-  end
-
   def find_webhook
-    @webhook = webhooks.find(params[:id])
+    @webhook = Webhook.editable.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render_404
   end
@@ -83,5 +86,9 @@ class WebhooksController < ApplicationController
 
   def check_enabled
     render_403 unless Webhook.enabled?
+  end
+
+  def check_enabled_or_admin
+    render_403 unless Webhook.enabled? || User.current.admin?
   end
 end

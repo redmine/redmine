@@ -18,6 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class Webhook < ApplicationRecord
+  include Redmine::SafeAttributes
   Executor = Struct.new(:url, :payload, :secret) do
     # @return [Net::HTTP::Response] if the POST request was successful
     # @raise [Exception] one of a lot of possible exceptions if the webhook was
@@ -98,6 +99,31 @@ class Webhook < ApplicationRecord
   serialize :events, coder: YAML, type: Array
 
   scope :active, -> { where(active: true) }
+  scope :editable, (lambda do |*args|
+    user = args.shift || User.current
+    if user.admin?
+      all
+    else
+      where(user: user)
+    end
+  end)
+
+  safe_attributes 'url', 'secret', 'active', 'events', 'project_ids'
+
+  def safe_attributes=(attrs, user=User.current)
+    if attrs.respond_to?(:to_unsafe_hash)
+      attrs = attrs.to_unsafe_hash
+    end
+    return unless attrs.is_a?(Hash)
+
+    attrs = attrs.deep_dup
+    if attrs['secret'].blank? && attrs[:secret].blank? && persisted? && self.user != user
+      attrs.delete('secret')
+      attrs.delete(:secret)
+    end
+
+    super
+  end
 
   before_validation ->(hook){
     ids = hook.setable_projects.pluck(:id)
@@ -132,6 +158,12 @@ class Webhook < ApplicationRecord
       .to_a.select do |hook|
       hook.events.include?(event) && object.visible?(hook.user) && hook.user.allowed_to?(:use_webhooks, object.project)
     end
+  end
+
+  def editable?(user=User.current)
+    return false unless user
+
+    user.admin? || self.user == user
   end
 
   def setable_projects

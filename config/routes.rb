@@ -380,6 +380,7 @@ Rails.application.routes.draw do
   get 'admin', :to => 'admin#index'
   get 'admin/projects', :to => 'admin#projects'
   get 'admin/plugins', :to => 'admin#plugins'
+  get 'admin/webhooks', :to => 'admin#webhooks'
   get 'admin/info', :to => 'admin#info'
   post 'admin/test_email', :to => 'admin#test_email', :as => 'test_email'
   post 'admin/default_configuration', :to => 'admin#default_configuration'
