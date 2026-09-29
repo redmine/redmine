@@ -67,11 +67,11 @@ table.sample th, table.sample td { border: solid 1px var(--oc-gray-5); padding: 
 a, a:link, a:visited{ color: var(--oc-blue-9); text-decoration: none; }
 a:hover, a:active{ color: var(--oc-red-9); text-decoration: underline;}
 
-.syntaxhl .mi { color: #0000DD; font-weight: bold }
-.syntaxhl .nf { color: #0066BB; font-weight: bold }
-.syntaxhl .k { color: #008800; font-weight: bold }
-.syntaxhl .nb { color: #007020 }
-.syntaxhl .s1 { background-color: #fff0f0 }
+.syntaxhl .mi { color: var(--oc-violet-9); font-weight: bold }
+.syntaxhl .nf { color: var(--oc-blue-9); font-weight: bold }
+.syntaxhl .k { color: var(--oc-green-9); font-weight: bold }
+.syntaxhl .nb { color: var(--oc-green-9) }
+.syntaxhl .s1 { background-color: var(--oc-red-0) }
 
 span.more_info { font-weight: normal; }
 
