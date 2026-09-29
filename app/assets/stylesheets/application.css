@@ -2567,6 +2567,7 @@ div.news .reaction {
 .syntaxhl .cs { color: #cc0000; font-weight: bold } /* Comment.Special */
 .syntaxhl .gd { color: #A00000 } /* Generic.Deleted */
 .syntaxhl .ge { font-style: italic } /* Generic.Emph */
+.syntaxhl .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
 .syntaxhl .gr { color: #FF0000 } /* Generic.Error */
 .syntaxhl .gh { color: #000080; font-weight: bold } /* Generic.Heading */
 .syntaxhl .gi { color: #00A000 } /* Generic.Inserted */
