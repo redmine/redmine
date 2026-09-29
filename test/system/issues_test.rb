@@ -174,6 +174,23 @@ class IssuesSystemTest < ApplicationSystemTestCase
     assert_equal 'Some description', issue.attachments.first.description
   end
 
+  def test_attachment_form_should_respect_max_attachments_at_once
+    set_tmp_attachments_directory
+    log_user('jsmith', 'jsmith')
+
+    Redmine::Configuration.with('max_attachments_at_once' => 3) do
+      visit '/projects/ecookbook/issues/new'
+    end
+    files = %w(testfile.txt hello.pdf japanese-utf-8.txt iso8859-1.txt).map do |name|
+      Rails.root.join('test/fixtures/files', name)
+    end
+    accept_alert(/maximum number of files that can be attached simultaneously \(3\)/) do
+      attach_file 'attachments[dummy][file]', files
+    end
+    assert_selector '.attachments_fields > span', :count => 3
+    assert_no_selector '.add_attachment', :visible => true
+  end
+
   def test_create_issue_with_new_target_version
     log_user('jsmith', 'jsmith')
 

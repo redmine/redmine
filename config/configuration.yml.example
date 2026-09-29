@@ -208,6 +208,10 @@ default:
   # Maximum number of simultaneous AJAX uploads
   #max_concurrent_ajax_uploads: 2
 
+  # Maximum number of files that can be attached at once with the
+  # attachment form
+  #max_attachments_at_once: 50
+
   # URL of the avatar server
   #
   # By default, Redmine uses Gravatar as the avatar server for displaying

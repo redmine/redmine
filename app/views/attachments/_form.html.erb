@@ -3,6 +3,9 @@
 <% saved_attachments ||= container.saved_attachments if defined?(container) && container %>
 <% multiple = true unless defined?(multiple) && multiple == false %>
 <% show_add = multiple || saved_attachments.blank? %>
+<% max_number_of_files = multiple ? Integer(Redmine::Configuration['max_attachments_at_once'], exception: false) : 1 %>
+<%# Fall back to the limit hard-coded in Redmine 7.0 and earlier if max_attachments_at_once is invalid %>
+<% max_number_of_files = 10 unless max_number_of_files&.positive? %>
 <% description = (defined?(description) && description == false ? false : true) %>
 <% css_class = (defined?(filedrop) && filedrop == false ? '' : (attachment_format_custom_field ? 'custom-field-filedrop' : 'filedrop')) %>
 
@@ -38,7 +41,8 @@
         :multiple => multiple,
         :onchange => 'addInputFiles(this);',
         :data => {
-          :max_number_of_files_message => l(:error_attachments_too_many, :max_number_of_files => (multiple ? 10 : 1)),
+          :max_number_of_files => max_number_of_files,
+          :max_number_of_files_message => l(:error_attachments_too_many, :max_number_of_files => max_number_of_files),
           :max_file_size => Setting.attachment_max_size.to_i.kilobytes,
           :max_file_size_message => l(:error_attachment_too_big, :max_size => number_to_human_size(Setting.attachment_max_size.to_i.kilobytes)),
           :max_concurrent_uploads => Redmine::Configuration['max_concurrent_ajax_uploads'].to_i,

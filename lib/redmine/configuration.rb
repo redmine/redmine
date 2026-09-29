@@ -26,6 +26,7 @@ module Redmine
       'avatar_server_url' => 'https://www.gravatar.com',
       'email_delivery' => nil,
       'max_concurrent_ajax_uploads' => 2,
+      'max_attachments_at_once' => 50,
       'sudo_mode' => true,
       'common_mark_enable_hardbreaks' => true,
       'thumbnails_generation_timeout' => 10,

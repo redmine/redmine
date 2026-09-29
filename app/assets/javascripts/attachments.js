@@ -4,12 +4,22 @@
  * This code is released under the GNU General Public License.
  */
 
+function getMaxAttachmentsAtOnce(inputEl) {
+  var max = $(inputEl).data('max-number-of-files');
+  // Fall back to the limit hard-coded in Redmine 7.0 and earlier, for file
+  // inputs that are not rendered by attachments/_form.html.erb (e.g. by plugins)
+  if (max == null) {
+    max = ($(inputEl).attr('multiple') == 'multiple' ? 10 : 1);
+  }
+  return max;
+}
+
 function addFile(inputEl, file, eagerUpload) {
   var attachmentsForm = $(inputEl).closest('.attachments_form')
   var attachmentsFields = attachmentsForm.find('.attachments_fields');
   var attachmentsIcons = attachmentsForm.find('.attachments_icons');
   var addAttachment = attachmentsForm.find('.add_attachment');
-  var maxFiles = ($(inputEl).attr('multiple') == 'multiple' ? 10 : 1);
+  var maxFiles = getMaxAttachmentsAtOnce(inputEl);
   var delIcon = attachmentsIcons.find('svg.svg-del').clone();
   var attachmentIcon = attachmentsIcons.find('svg.svg-attachment').clone();
 
@@ -185,7 +195,7 @@ function uploadAndAttachFiles(files, inputEl) {
     $.each(files, function() {addFile(inputEl, this, true);});
   }
 
-  if (filesLength > ($(inputEl).attr('multiple') == 'multiple' ? 10 : 1)) {
+  if (filesLength > getMaxAttachmentsAtOnce(inputEl)) {
     window.alert($(inputEl).data('max-number-of-files-message'));
   }
   return sizeExceeded;
