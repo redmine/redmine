@@ -665,6 +665,23 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal user, issue.assigned_to
   end
 
+  def test_default_assigned_to_based_on_category_should_skip_non_assignable_user
+    category = IssueCategory.create!(:project_id => 1, :name => 'With default assignee', :assigned_to_id => 3)
+    Project.find(1).update!(:default_assigned_to_id => 2)
+    User.find(3).lock!
+
+    issue = Issue.generate!(:project_id => 1, :category_id => category.id)
+    assert_equal User.find(2), issue.assigned_to
+  end
+
+  def test_default_assigned_to_based_on_project_should_skip_non_assignable_user
+    Project.find(1).update!(:default_assigned_to_id => 3)
+    Role.find(2).update!(:assignable => false)
+
+    issue = Issue.generate!(:project_id => 1)
+    assert_nil issue.assigned_to
+  end
+
   def test_default_assigned_to_with_required_assignee_should_validate
     category = IssueCategory.create!(:project_id => 1, :name => 'With default assignee', :assigned_to_id => 3)
     Issue.any_instance.stubs(:required_attribute_names).returns(['assigned_to_id'])
