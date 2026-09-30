@@ -4,6 +4,65 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2026-09-30 v6.1.5
+
+=== [Attachments]
+
+* Defect #44556: No error is shown when pasting an image after the limit of attachments at once is reached
+
+=== [Code cleanup/refactoring]
+
+* Defect #44438: DateCalculationTest is not run by `rails test`
+* Defect #44527: Stubs of initialize_ldap_con in UserTest have no effect
+* Patch #44392: Replace IO.read with File.read
+* Patch #44455: Fix tests that fail when the date changes during a test run
+
+=== [Database]
+
+* Defect #44375: Concurrency problem in project deletion / project marking for deletion
+
+=== [Documentation]
+
+* Patch #44413: Document that Redmine does not start on Ruby 3.3.0
+
+=== [Issues]
+
+* Defect #44560: Issue creation fails when the default assignee is no longer assignable
+
+=== [LDAP]
+
+* Defect #44526: 500 error when the LDAP server is unreachable on macOS 26.7
+
+=== [Performance]
+
+* Feature #44415: Reduce icon rendering time by caching sprite paths
+
+=== [Plugin API]
+
+* Defect #37686: Plugin migrations are skipped or fail due to stale cached versions when a plugin is migrated more than once in the same process
+
+=== [Projects]
+
+* Defect #44462: Project list rows show the context menu cursor although no context menu is available
+
+=== [Rails support]
+
+* Patch #44524: Update Rails to 7.2.4
+
+=== [Security]
+
+* Defect #44467: Private/invisible issue subjects leaked via REST API `include=children`
+* Defect #44468: Private project names + role assignments leaked via `GET /groups/<id>.json?include=memberships`
+
+=== [SCM]
+
+* Defect #27043: Subversion repositories with spaces in the root URL cause broken file and diff links on the revision page
+* Defect #44476: Fails to fetch revisions if a Git branch name contains a 40-character hexadecimal string
+
+=== [Translations]
+
+* Defect #44418: Fix typo in Japanese translation of mail_body_account_information_external
+
 == 2026-08-26 v6.1.4
 
 === [Accounts / authentication]
