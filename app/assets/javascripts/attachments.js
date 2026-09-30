@@ -350,7 +350,10 @@ function copyImageFromClipboard(e) {
       // get input file in the closest form
       var inputEl = $(this).closest("form").find('input:file.filedrop');
       handleFileDropEvent.target = e.target;
-      addFile(inputEl, new File([file], filename, { type: file.type }), true);
+      if (addFile(inputEl, new File([file], filename, { type: file.type }), true) == null) {
+        window.alert(inputEl.data('max-number-of-files-message'));
+        break;
+      }
     }
   }
 }
