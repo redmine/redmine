@@ -191,6 +191,32 @@ class IssuesSystemTest < ApplicationSystemTestCase
     assert_no_selector '.add_attachment', :visible => true
   end
 
+  def test_pasting_image_beyond_max_attachments_at_once_should_show_error
+    set_tmp_attachments_directory
+    log_user('jsmith', 'jsmith')
+
+    Redmine::Configuration.with('max_attachments_at_once' => 2) do
+      visit '/projects/ecookbook/issues/new'
+    end
+    paste_image = lambda do
+      page.execute_script(<<~JS)
+        // 1x1 1-bit grayscale PNG image
+        const png = Uint8Array.from(atob('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQAAAAA3bvkkAAAACklEQVR42mNgAAAAAgAB5Sfe/AAAAABJRU5ErkJggg=='), c => c.charCodeAt(0));
+        const clipboardData = new DataTransfer();
+        clipboardData.items.add(new File([png], 'image.png', { type: 'image/png' }));
+        const event = new Event('paste', { bubbles: true, cancelable: true });
+        Object.defineProperty(event, 'clipboardData', { value: clipboardData });
+        document.getElementById('issue_description').dispatchEvent(event);
+      JS
+    end
+    2.times { paste_image.call }
+    assert_selector '.attachments_fields > span', :count => 2
+    accept_alert(/maximum number of files that can be attached simultaneously \(2\)/) do
+      paste_image.call
+    end
+    assert_selector '.attachments_fields > span', :count => 2
+  end
+
   def test_create_issue_with_new_target_version
     log_user('jsmith', 'jsmith')
 
