@@ -1227,6 +1227,54 @@ class UsersControllerTest < Redmine::ControllerTest
     assert User.find_by_id(9).active?
   end
 
+  def test_bulk_lock_should_destroy_autologin_and_session_tokens
+    autologin_token = Token.create!(:user_id => 2, :action => 'autologin')
+    session_token = Token.create!(:user_id => 2, :action => 'session')
+
+    post :bulk_lock, :params => {:ids => [2]}
+    assert_nil Token.find_by_id(autologin_token.id)
+    assert_nil Token.find_by_id(session_token.id)
+  end
+
+  def test_bulk_lock_should_send_security_notification_for_admins
+    user = User.find(2)
+    user.admin = true
+    user.save!
+
+    ActionMailer::Base.deliveries.clear
+    post :bulk_lock, :params => {:ids => [2]}
+
+    assert_not_nil (mail = ActionMailer::Base.deliveries.last)
+    assert_mail_body_match(
+      I18n.t(
+        :mail_body_security_notification_remove,
+        field: I18n.t(:field_admin),
+        value: 'jsmith'
+      ),
+      mail
+    )
+  end
+
+  def test_bulk_unlock_should_send_security_notification_for_admins
+    user = User.find(2)
+    user.admin = true
+    user.status = User::STATUS_LOCKED
+    user.save!
+
+    ActionMailer::Base.deliveries.clear
+    post :bulk_unlock, :params => {:ids => [2]}
+
+    assert_not_nil (mail = ActionMailer::Base.deliveries.last)
+    assert_mail_body_match(
+      I18n.t(
+        :mail_body_security_notification_add,
+        field: I18n.t(:field_admin),
+        value: 'jsmith'
+      ),
+      mail
+    )
+  end
+
   def test_bulk_lock_should_not_lock_current_user
     assert_difference 'User.status(User::STATUS_LOCKED).count', 1 do
       delete :bulk_lock, :params => {:ids => [2, 1]}

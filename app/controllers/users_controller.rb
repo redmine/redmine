@@ -280,7 +280,7 @@ class UsersController < ApplicationController
     users = User.logged.where(id: user_ids).where.not(id: User.current)
     (render_404; return) unless users.any?
 
-    users.update_all status: status
+    users.each {|user| user.update_attribute(:status, status)}
     flash[:notice] = l(:notice_successful_update)
     redirect_to users_path
   end
