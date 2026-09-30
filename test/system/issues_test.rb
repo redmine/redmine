@@ -177,10 +177,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
   def test_pasting_image_beyond_max_attachments_at_once_should_show_error
     set_tmp_attachments_directory
     log_user('jsmith', 'jsmith')
-
-    Redmine::Configuration.with('max_attachments_at_once' => 2) do
-      visit '/projects/ecookbook/issues/new'
-    end
+    visit '/projects/ecookbook/issues/new'
     paste_image = lambda do
       page.execute_script(<<~JS)
         // 1x1 1-bit grayscale PNG image
@@ -192,12 +189,12 @@ class IssuesSystemTest < ApplicationSystemTestCase
         document.getElementById('issue_description').dispatchEvent(event);
       JS
     end
-    2.times { paste_image.call }
-    assert_selector '.attachments_fields > span', :count => 2
-    accept_alert(/maximum number of files that can be attached simultaneously \(2\)/) do
+    10.times { paste_image.call }
+    assert_selector '.attachments_fields > span', :count => 10
+    accept_alert(/maximum number of files that can be attached simultaneously \(10\)/) do
       paste_image.call
     end
-    assert_selector '.attachments_fields > span', :count => 2
+    assert_selector '.attachments_fields > span', :count => 10
   end
 
   def test_create_issue_with_new_target_version
