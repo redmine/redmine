@@ -1504,11 +1504,11 @@ ja:
   button_remove_from_group: グループから解除
   button_add_to_group: グループに追加
   field_private_by_default: デフォルトでプライベート
-  error_issue_status_in_use_by_issues: This status is used by some issues
-  error_issue_status_default_for_trackers: This status is used as the default status by some trackers
+  error_issue_status_in_use_by_issues: このステータスを使用しているチケットがあります
+  error_issue_status_default_for_trackers: このステータスをデフォルトのステータスとして使用しているトラッカーがあります
   webhook_secret_keep_info: 他のユーザーのシークレットは表示されません。変更しない場合は空欄のままにしてください。
   webhook_disabled_info_html: Webhookが無効になっているため以下のwebhookは実行されません。内容の確認や削除ができるよう一覧には引き続き表示しています。Webhookは設定の %{link} で有効にできます。
-  permission_export_issues: Export issues
-  permission_export_time_entries: Export time entries
-  mail_subject_test_email: Redmine test
-  mail_body_test_email: This is a test email sent by Redmine.
+  permission_export_issues: チケットのエクスポート
+  permission_export_time_entries: 作業時間のエクスポート
+  mail_subject_test_email: Redmine テストメール
+  mail_body_test_email: これはRedmineから送信されたテストメールです。
