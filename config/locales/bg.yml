@@ -1512,3 +1512,4 @@ bg:
   reaction_text_x_other_users:
     one: 1 друг
     other: "%{count} други"
+  text_mermaid_available: Mermaid.js available (optional)

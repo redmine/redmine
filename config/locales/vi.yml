@@ -1578,3 +1578,4 @@ vi:
   label_users_and_groups: Users and groups
   mail_subject_test_email: Redmine test
   mail_body_test_email: This is a test email sent by Redmine.
+  text_mermaid_available: Mermaid.js available (optional)

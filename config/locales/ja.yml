@@ -1512,3 +1512,4 @@ ja:
   permission_export_time_entries: 作業時間のエクスポート
   mail_subject_test_email: Redmine テストメール
   mail_body_test_email: これはRedmineから送信されたテストメールです。
+  text_mermaid_available: Mermaid.js available (optional)
