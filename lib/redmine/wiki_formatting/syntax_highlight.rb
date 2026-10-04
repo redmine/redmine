@@ -34,6 +34,16 @@ module Redmine
           # unsupported language, remove the class attribute
           node.remove_attribute('class')
         end
+
+        # Rouge has no mermaid lexer, so the branch above leaves the block as plain text.
+        # This attribute is what the mermaid Stimulus controller looks for to replace the block
+        # with a rendered diagram. Only block-level code is rendered; an inline <code class="mermaid">
+        # written in Textile is left as is.
+        # The attribute is added even when Mermaid.js is not installed: formatted text may be cached
+        # (see Setting.cache_formatted_text), and the controller does nothing unless Mermaid.js is available.
+        if lang.to_s.downcase == 'mermaid' && node.parent&.name == 'pre'
+          node['data-controller'] = 'mermaid'
+        end
       end
     end
   end

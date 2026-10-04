@@ -1830,6 +1830,16 @@ module ApplicationHelper
       'tribute-5.1.3.min'
     )
     tags << javascript_include_tag('application-legacy', 'responsive')
+    # Mermaid.js is installed by the redmine:mermaid:install task and is
+    # several MB, so it is not part of every page load. When it is available,
+    # its URL is exposed here and the mermaid Stimulus controller loads it
+    # only when a Mermaid code block is actually present on the page.
+    if Redmine::Mermaid.available?
+      tags <<
+        javascript_tag(
+          "window.MermaidAssetUrl = #{asset_path(Redmine::Mermaid::FILENAME).to_json};"
+        )
+    end
     unless User.current.pref.warn_on_leaving_unsaved == '0'
       warn_text = escape_javascript(l(:text_warn_on_leaving_unsaved))
       tags <<

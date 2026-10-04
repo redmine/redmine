@@ -2215,6 +2215,11 @@ class ApplicationHelperTest < Redmine::HelperTest
     assert_equal 'Bar - Foo - Redmine', html_title
   end
 
+  def test_javascript_heads_should_not_expose_mermaid_asset_url_when_mermaid_is_not_available
+    Redmine::Mermaid.stubs(:available?).returns(false)
+    assert_not_include 'MermaidAssetUrl', javascript_heads
+  end
+
   def test_favicon_path
     assert_match %r{^/assets/favicon-\w+\.ico}, favicon_path
   end

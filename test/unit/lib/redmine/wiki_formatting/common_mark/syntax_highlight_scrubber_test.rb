@@ -83,5 +83,45 @@ if Object.const_defined?(:Commonmarker)
       HTML
       assert_equal input, filter(input)
     end
+
+    def test_should_add_mermaid_controller_attribute_for_mermaid_language
+      input = <<~HTML
+        <pre><code class="language-mermaid">
+        graph TD;
+        A--&gt;B;
+        </code></pre>
+      HTML
+      expected = <<~HTML
+        <pre><code data-language="mermaid" data-controller="mermaid">
+        graph TD;
+        A--&gt;B;
+        </code></pre>
+      HTML
+      assert_equal expected, filter(input)
+    end
+
+    def test_should_add_mermaid_controller_attribute_regardless_of_language_case
+      input = <<~HTML
+        <pre><code class="language-Mermaid">
+        graph TD;
+        </code></pre>
+      HTML
+      expected = <<~HTML
+        <pre><code data-language="Mermaid" data-controller="mermaid">
+        graph TD;
+        </code></pre>
+      HTML
+      assert_equal expected, filter(input)
+    end
+
+    def test_should_not_add_mermaid_controller_attribute_for_other_languages
+      input = <<~HTML
+        <pre><code class="language-ruby">
+        def foo
+        end
+        </code></pre>
+      HTML
+      assert_no_match(/data-controller/, filter(input))
+    end
   end
 end
