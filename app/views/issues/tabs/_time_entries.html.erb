@@ -25,9 +25,11 @@
           <%= l_hours_short time_entry.hours %>
         </li>
       </ul>
-      <div class="journal-note">
-        <%= time_entry.comments %>
-      </div>
+      <% if time_entry.comments.present? %>
+        <div class="journal-note">
+          <%= time_entry.comments %>
+        </div>
+      <% end %>
     </div>
   </div>
   <%= call_hook(:view_issues_history_time_entry_bottom, { :time_entry => time_entry }) %>
