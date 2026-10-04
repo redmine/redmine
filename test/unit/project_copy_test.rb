@@ -46,6 +46,7 @@ class ProjectCopyTest < ActiveSupport::TestCase
   test "#copy should copy issues" do
     @source_project.issues << Issue.generate!(:status => IssueStatus.find_by_name('Closed'),
                                               :subject => "copy issue status",
+                                              :done_ratio => 80,
                                               :tracker_id => 1,
                                               :assigned_to_id => 2,
                                               :project_id => @source_project.id)
@@ -64,6 +65,7 @@ class ProjectCopyTest < ActiveSupport::TestCase
     assert copied_issue
     assert copied_issue.status
     assert_equal "Closed", copied_issue.status.name
+    assert_equal 80, copied_issue.done_ratio
   end
 
   test "#copy should copy issues custom values" do

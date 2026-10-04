@@ -1415,6 +1415,38 @@ class IssueTest < ActiveSupport::TestCase
     assert_equal orig.status, issue.status
   end
 
+  def test_copy_should_reset_done_ratio_to_default_value
+    with_settings :issue_done_ratio => 'issue_field' do
+      orig = Issue.generate!(:done_ratio => 80)
+
+      issue = Issue.new.copy_from(orig)
+      assert_equal 0, issue.done_ratio
+      assert issue.save
+      assert_equal 0, issue.reload.done_ratio
+    end
+  end
+
+  def test_copy_should_use_default_done_ratio_of_default_status_when_done_ratio_is_based_on_issue_status
+    IssueStatus.find(1).update!(:default_done_ratio => 20)
+    with_settings :issue_done_ratio => 'issue_status' do
+      orig = Issue.generate!(:status_id => 2, :done_ratio => 80)
+
+      issue = Issue.new.copy_from(orig)
+      assert_equal 1, issue.status_id
+      assert_equal 20, issue.done_ratio
+      assert issue.save
+      assert_equal 20, issue.reload.done_ratio
+    end
+  end
+
+  def test_copy_with_keep_status_should_copy_done_ratio
+    orig = Issue.generate!(:status_id => 2, :done_ratio => 80)
+
+    issue = Issue.new.copy_from(orig, :keep_status => true)
+    assert issue.save
+    assert_equal 80, issue.reload.done_ratio
+  end
+
   def test_copy_should_add_relation_with_copied_issue
     copied = Issue.find(1)
     issue = Issue.new.copy_from(copied)
