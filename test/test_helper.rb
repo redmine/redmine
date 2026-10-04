@@ -187,6 +187,14 @@ class ActiveSupport::TestCase
     self.class.gs_installed?
   end
 
+  def self.mermaid_installed?
+    Redmine::Mermaid.available?
+  end
+
+  def mermaid_installed?
+    self.class.mermaid_installed?
+  end
+
   # Returns the path to the test +vendor+ repository
   def self.repository_path(vendor)
     path = Rails.root.join("tmp/test/#{vendor.downcase}_repository").to_s

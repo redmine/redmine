@@ -38,6 +38,7 @@
 /tmp/test/*
 /tmp/thumbnails/*
 /vendor/cache
+/vendor/javascript/mermaid.min.js
 *.rbc
 
 /.bundle
