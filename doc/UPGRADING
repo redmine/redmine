@@ -56,7 +56,16 @@ https://www.redmine.org/
 
    DO NOT REPLACE OR EDIT ANY OTHER FILES.
 
-7. Compile assets (optional)
+7. Install or update Mermaid.js (optional)
+
+   If you use Mermaid.js diagram rendering, run the following command again,
+   as the version of Mermaid.js installed by default may change between
+   Redmine releases:
+     bin/rails redmine:mermaid:install RAILS_ENV="production"
+
+   See doc/INSTALL for details.
+
+8. Compile assets (optional)
 
    Compile the assets such as stylesheets, javascripts and images into the public/assets
    directory for web server delivery.
@@ -76,7 +85,7 @@ https://www.redmine.org/
    removing the public/assets directory before re-running the precompile:
      bin/rails assets:clobber RAILS_ENV="production"
 
-8. Migrate your database
+9. Migrate your database
 
    Please make a backup before doing this! Under the new application
    directory run:
@@ -86,12 +95,12 @@ https://www.redmine.org/
    migrations using:
      bin/rails redmine:plugins:migrate RAILS_ENV="production"
 
-9. Clear the cache and the existing sessions by running:
+10. Clear the cache and the existing sessions by running:
      bin/rails tmp:cache:clear tmp:sessions:clear
 
-10. Restart the application server (e.g. mongrel, thin, passenger)
+11. Restart the application server (e.g. mongrel, thin, passenger)
 
-11. Finally go to "Administration -> Roles & permissions" to check/set permissions
+12. Finally go to "Administration -> Roles & permissions" to check/set permissions
     for new features, if any
 
 == References

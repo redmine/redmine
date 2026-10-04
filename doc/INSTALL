@@ -60,7 +60,34 @@ The current version of Firefox, Safari, Chrome, Chromium and Microsoft Edge.
    Alternatively, you can store this secret in config/secrets.yml:
    https://guides.rubyonrails.org/upgrading_ruby_on_rails.html#config-secrets-yml
 
-6. Compile assets (optional)
+6. Install Mermaid.js (optional)
+
+   Redmine can render Mermaid code blocks in formatted text as diagrams
+   with Mermaid.js (https://mermaid.js.org/). Mermaid.js is not bundled with
+   Redmine. To install it, run:
+     bin/rails redmine:mermaid:install RAILS_ENV="production"
+
+   This downloads the mermaid package from registry.npmjs.org, verifies its
+   checksum and places mermaid.min.js into the vendor/javascript directory.
+   It installs the specific version that this Redmine release has been
+   tested with, which is not necessarily the latest version of Mermaid.js.
+
+   On a server without internet access, download the package on another
+   machine and point FILE to it. The version and the URL of the package are
+   shown by:
+     bin/rails redmine:mermaid:status RAILS_ENV="production"
+
+   Then install it from the downloaded file:
+     bin/rails redmine:mermaid:install FILE=/path/to/mermaid-X.Y.Z.tgz RAILS_ENV="production"
+
+   If you install Mermaid.js after Redmine has been set up, restart the
+   application. If automatic asset compilation is disabled, compile the
+   assets again as described in the next step. The availability of
+   Mermaid.js is shown in "Administration -> Information", and it can be
+   removed with:
+     bin/rails redmine:mermaid:uninstall RAILS_ENV="production"
+
+7. Compile assets (optional)
 
    Compile the assets such as stylesheets, javascripts and images into the public/assets
    directory for web server delivery.
@@ -80,14 +107,14 @@ The current version of Firefox, Safari, Chrome, Chromium and Microsoft Edge.
    removing the public/assets directory before re-running the precompile:
      bin/rails assets:clobber RAILS_ENV="production"
 
-7. Create the database structure
+8. Create the database structure
 
    Under the application main directory run:
      bin/rails db:migrate RAILS_ENV="production"
 
    It will create all the tables and an administrator account.
 
-8. Setting up permissions (Windows users have to skip this section)
+9. Setting up permissions (Windows users have to skip this section)
 
    The user who runs Redmine must have write permission on the following
    subdirectories: files, log, tmp & public/assets.
@@ -96,7 +123,7 @@ The current version of Firefox, Safari, Chrome, Chromium and Microsoft Edge.
      sudo chown -R redmine:redmine files log tmp public/assets
      sudo chmod -R 755 files log tmp public/assets
 
-9. Test the installation by running the Puma web server
+10. Test the installation by running the Puma web server
 
    Under the main application directory run:
      ruby bin/rails server -e production
@@ -104,7 +131,7 @@ The current version of Firefox, Safari, Chrome, Chromium and Microsoft Edge.
    Once Puma has started, point your browser to http://localhost:3000/
    You should now see the application welcome page.
 
-10. Use the default administrator account to log in:
+11. Use the default administrator account to log in:
    login: admin
    password: admin
 
