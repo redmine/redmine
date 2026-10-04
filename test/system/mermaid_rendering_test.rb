@@ -56,6 +56,22 @@ class MermaidRenderingTest < ApplicationSystemTestCase
     end
   end
 
+  def test_should_show_flash_message_for_invalid_mermaid_diagram
+    skip unless mermaid_installed?
+
+    issue = Issue.find(1)
+    issue.update_column(:description, "```mermaid\nthis is not a valid mermaid diagram(((\n```")
+
+    log_user('jsmith', 'jsmith')
+    visit "/issues/#{issue.id}"
+
+    within('div.description') do
+      assert_selector '.flash.error', text: 'Failed to render mermaid diagram'
+      assert_selector 'pre'
+      assert_no_selector 'div.mermaid svg'
+    end
+  end
+
   def test_should_render_mermaid_in_description_preview
     skip unless mermaid_installed?
 

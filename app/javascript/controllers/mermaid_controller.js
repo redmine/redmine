@@ -62,7 +62,8 @@ export default class extends Controller {
   disconnect() {
     // Undo everything render() added so that a reconnect starts clean.
     this.container?.remove();
-    this.container = null;
+    this.errorElement?.remove();
+    this.container = this.errorElement = null;
     const pre = this.element.closest('pre');
     if (pre) pre.style.display = '';
   }
@@ -82,10 +83,27 @@ export default class extends Controller {
     pre.insertAdjacentElement('afterend', container);
     this.container = container;
 
-    // Mermaid.js draws its own error diagram on failure, so the code block is
-    // replaced either way. The rejection is left for the browser to report.
-    mermaid.run({ nodes: [container], suppressErrors: false }).finally(() => {
+    // Mermaid.js draws its own error diagram on failure; replace it with a
+    // Redmine flash message while keeping the source block visible, so that
+    // the invalid diagram can be inspected and copied.
+    mermaid.run({ nodes: [container], suppressErrors: false }).then(() => {
       pre.style.display = 'none';
+    }).catch((error) => {
+      container.remove();
+      if (this.container === container) this.container = null;
+
+      const errorElement = document.createElement('div');
+      errorElement.className = 'flash error';
+      errorElement.innerHTML = '<p>Failed to render mermaid diagram:</p>';
+
+      const message = document.createElement('p');
+      message.textContent = error?.message || String(error);
+      errorElement.appendChild(message);
+
+      // CopypreScrubber wraps the <pre> in div.pre-wrapper; put the message above the whole block.
+      const anchor = pre.closest('.pre-wrapper') || pre;
+      anchor.insertAdjacentElement('beforebegin', errorElement);
+      this.errorElement = errorElement;
     });
   }
 }
