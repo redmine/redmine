@@ -87,7 +87,7 @@ jobs:
         run: google-chrome --version
 
       - name: Install Mermaid.js for the mermaid rendering tests
-        run: bin/rails redmine:mermaid:install
+        run: bin/rails redmine:mermaid:install RAILS_ENV=test
 
       - name: Run system tests
         run: bin/rails test:system
