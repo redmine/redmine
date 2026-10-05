@@ -456,4 +456,18 @@ class IssuesHelperTest < Redmine::HelperTest
     assert_include "<a href=\"/issues?issue_id=#{open_issue.id}%2C#{closed_issue.id}&amp;set_filter=true&amp;status_id=o\">1 open</a>", html
     assert_include "<a href=\"/issues?issue_id=#{open_issue.id}%2C#{closed_issue.id}&amp;set_filter=true&amp;status_id=c\">1 closed</a>", html
   end
+
+  def test_journals_by_attachment_id
+    issue = Issue.find(2)
+    # Detail of a removed attachment
+    JournalDetail.create!(:journal => issue.journals.last, :property => 'attachment',
+                          :prop_key => '99', :old_value => 'removed.txt')
+    journals = issue.visible_journals_with_index(User.find(2))
+
+    result = journals_by_attachment_id(journals)
+
+    assert_equal [4], result.keys
+    assert_equal 3, result[4].id
+    assert_equal 1, result[4].indice
+  end
 end

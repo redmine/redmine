@@ -123,7 +123,7 @@ end %>
 <% if @issue.attachments.any? %>
   <hr />
   <p><strong><%=l(:label_attachment_plural)%></strong></p>
-  <%= link_to_attachments @issue, :thumbnails => true %>
+  <%= link_to_attachments @issue, :thumbnails => true, :journals => journals_by_attachment_id(@journals) %>
 <% end %>
 
 <%= render_full_width_custom_fields_rows(@issue) %>

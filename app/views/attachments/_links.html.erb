@@ -21,6 +21,17 @@
   </td>
   <td><%= attachment.description unless attachment.description.blank? %></td>
   <td>
+    <% if options[:journals].present? %>
+      <span class="attachment-journal">
+        <% if journal = options[:journals][attachment.id] %>
+          <% anchor = "#note-#{journal.indice}" %>
+          <%= link_to sprite_icon('chevrons-down', anchor), anchor,
+                      :title => anchor,
+                      :class => 'icon-only icon-chevrons-down',
+                      :data => {:controller => 'issue-journal-link', :action => 'issue-journal-link#show'} %>
+        <% end %>
+      </span>
+    <% end %>
     <% if options[:author] %>
       <span class="author"><%= attachment.author %>, <%= format_time(attachment.created_on) %></span>
     <% end %>

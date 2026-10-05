@@ -718,6 +718,23 @@ class IssuesSystemTest < ApplicationSystemTestCase
     assert page.has_no_css?('#add_notes')
   end
 
+  def test_attachment_note_link_should_show_history_tab_if_note_is_hidden
+    # Journal 3 added attachment 4 to issue 2. Without notes, it is hidden in the notes tab
+    Journal.find(3).update_column(:notes, '')
+    Journal.create!(:journalized => Issue.find(2), :user_id => 2, :notes => 'A note')
+
+    log_user('jsmith', 'jsmith')
+    visit '/issues/2?tab=notes'
+
+    assert_selector '#tab-notes.selected'
+    assert_no_selector '#note-1'
+
+    find('div.attachments span.attachment-journal a').click
+
+    assert_selector '#tab-history.selected'
+    assert_selector '#note-1'
+  end
+
   def test_preview_custom_field_on_bulk_edit_across_projects
     field = IssueCustomField.create!(
       :field_format => 'text',

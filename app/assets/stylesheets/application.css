@@ -1455,6 +1455,7 @@ div.fileover, p.custom-field-filedroplistner.fileover { background-color: var(--
 
 div.attachments img { vertical-align: middle; }
 div.attachments span.author { font-size: 0.9em; color: var(--oc-gray-6); }
+div.attachments span.attachment-journal { display: inline-flex; inline-size: 18px; block-size: 18px; vertical-align: text-bottom; }
 
 div.thumbnails {margin:0.6em;}
 div.thumbnail {

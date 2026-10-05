@@ -2319,6 +2319,35 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select 'div#relations div.contextual a.icon.icon-link-add', :text => /Add/
   end
 
+  def test_show_should_link_attachments_to_the_journal_that_added_them
+    @request.session[:user_id] = 2
+    get(:show, :params => {:id => 2})
+
+    assert_response :success
+    # Attachment 4 was added by journal 3, which is the first journal of the issue
+    assert_select 'div.attachments a.icon-attachment[href=?]', '/attachments/4'
+    assert_select 'div.attachments span.attachment-journal a', 1
+    assert_select 'div.attachments span.attachment-journal a[href=?][title=?]', '#note-1', '#note-1' do
+      assert_select "svg.icon-svg use:match('href', ?)", /assets\/icons-\w+.svg#icon--chevrons-down/
+    end
+  end
+
+  def test_show_should_not_link_attachments_to_invisible_private_notes
+    journal = Journal.find(3)
+    journal.update_columns(:private_notes => true, :user_id => 1)
+    @request.session[:user_id] = 2
+
+    get(:show, :params => {:id => 2})
+    assert_response :success
+    assert_select 'div.attachments span.attachment-journal a[href=?]', '#note-1'
+
+    Role.find(1).remove_permission! :view_private_notes
+    get(:show, :params => {:id => 2})
+    assert_response :success
+    assert_select 'div.attachments a.icon-attachment[href=?]', '/attachments/4'
+    assert_select 'div.attachments span.attachment-journal', 0
+  end
+
   def test_show_should_display_attachment_icons_by_mime_type
     @request.session[:user_id] = 2
     get(:show, :params => {:id => 3})

@@ -691,6 +691,18 @@ module IssuesHelper
     end
   end
 
+  # Returns a hash of the journals that added an attachment,
+  # keyed by attachment id
+  def journals_by_attachment_id(journals)
+    journals.to_a.each_with_object({}) do |journal, h|
+      journal.details.each do |detail|
+        next unless detail.property == 'attachment' && detail.value.present?
+
+        h[detail.prop_key.to_i] = journal
+      end
+    end
+  end
+
   # Issue history tabs
   def issue_history_tabs
     tabs = []

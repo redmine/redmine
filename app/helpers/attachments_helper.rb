@@ -34,8 +34,10 @@ module AttachmentsHelper
   # Options:
   #   :author -- author names are not displayed if set to false
   #   :thumbails -- display thumbnails if enabled in settings
+  #   :journals -- hash of journals keyed by attachment id, used to display
+  #                a link to the journal that added each attachment
   def link_to_attachments(container, options = {})
-    options.assert_valid_keys(:author, :thumbnails)
+    options.assert_valid_keys(:author, :thumbnails, :journals)
     attachments =
       if container.attachments.loaded?
         container.attachments

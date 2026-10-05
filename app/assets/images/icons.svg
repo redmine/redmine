@@ -136,6 +136,10 @@
     <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--checked">
       <path d="M5 12l5 5l10 -10"/>
     </symbol>
+    <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--chevrons-down">
+      <path d="M7 7l5 5l5 -5"/>
+      <path d="M7 13l5 5l5 -5"/>
+    </symbol>
     <symbol viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" id="icon--chevrons-left">
       <path d="M11 7l-5 5l5 5"/>
       <path d="M17 7l-5 5l5 5"/>

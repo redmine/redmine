@@ -199,6 +199,8 @@
   svg: chevrons-right
 - name: chevrons-left
   svg: chevrons-left
+- name: chevrons-down
+  svg: chevrons-down
 - name: key
   svg: key
 - name: search
