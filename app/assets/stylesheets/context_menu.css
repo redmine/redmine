@@ -46,6 +46,6 @@
 .context-menu-selection a, .context-menu-selection a:hover { color:var(--oc-gray-0) !important; }
 .context-menu-selection:hover { background-color:var(--oc-blue-7) !important; color:var(--oc-gray-0)  !important; }
 .context-menu-selection svg.icon-svg { stroke: var(--oc-white) !important; }
-div#gantt_area .context-menu-selection { background-color: rgba(var(--oc-blue-7-rgb), 0.4) !important; }
-div#gantt_area .context-menu-selection:hover { background-color: rgba(var(--oc-blue-7-rgb), 0.4) !important; }
-div#gantt_area .context-menu-selection a { color: var(--oc-blue-9) !important; }
+.gantt-timeline .context-menu-selection { background-color: rgba(var(--oc-blue-7-rgb), 0.4) !important; }
+.gantt-timeline .context-menu-selection:hover { background-color: rgba(var(--oc-blue-7-rgb), 0.4) !important; }
+.gantt-timeline .context-menu-selection a { color: var(--oc-blue-9) !important; }

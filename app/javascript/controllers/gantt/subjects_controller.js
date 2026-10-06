@@ -1,138 +1,69 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  initialize() {
-    this.$ = window.jQuery
-  }
-
-  handleResizeColumn(event) {
-    const columnWidth = event.detail.width;
-
-    this.$(".issue-subject, .project-name, .version-name").each((_, element) => {
-      const $element = this.$(element)
-      $element.width(columnWidth - $element.position().left)
-    })
-  }
+  static targets = ["row"]
 
   handleEntryClick(event) {
-    const iconExpander = event.currentTarget
-    const $subject = this.$(iconExpander.parentElement)
-    const subjectInlineStart =
-      this.#readInlineStart($subject) + parseInt(iconExpander.offsetWidth, 10)
+    const subject = event.currentTarget.closest(".gantt-row")
+    if (!subject) return
 
-    let targetShown = null
-    let targetTop = 0
-    let totalHeight = 0
-    let outOfHierarchy = false
+    const chart = this.element.closest(".gantt-chart")
+    const subjectRows = this.rowTargets
+    const subjectKey = subject.dataset.ganttRowKey
+    const descendantKeys = new Set([subjectKey])
+    const descendants = []
+    const willOpen = !subject.classList.contains("is-expanded")
 
-    const willOpen = !$subject.hasClass("open")
+    subjectRows.forEach((row) => {
+      if (row === subject) return
+      if (!descendantKeys.has(row.dataset.ganttParentRowKey)) return
 
-    this.#setIconState($subject, willOpen)
-
-    $subject.nextAll("div").each((_, element) => {
-      const $element = this.$(element)
-      const json = $element.data("collapse-expand")
-      const numberOfRows = $element.data("number-of-rows")
-      const barsSelector = `#gantt_area .gantt-timeline-body form > div[data-collapse-expand='${json.obj_id}'][data-number-of-rows='${numberOfRows}']`
-      const selectedColumnsSelector = `.gantt_selected_column div[data-collapse-expand='${json.obj_id}'][data-number-of-rows='${numberOfRows}']`
-
-      if (outOfHierarchy || this.#readInlineStart($element) <= subjectInlineStart) {
-        outOfHierarchy = true
-
-        if (targetShown === null) return false
-
-        const newTopVal = this.#readBlockStart($element) + totalHeight * (targetShown ? -1 : 1)
-
-        this.#setBlockStart($element, newTopVal)
-        this.$([barsSelector, selectedColumnsSelector].join()).each((__, el) => {
-          this.#setBlockStart(this.$(el), newTopVal)
-        })
-
-        return true
-      }
-
-      const isShown = $element.is(":visible")
-
-      if (targetShown === null) {
-        targetShown = isShown
-        targetTop = this.#readBlockStart($element)
-        totalHeight = 0
-      }
-
-      if (isShown === targetShown) {
-        this.$(barsSelector).each((__, task) => {
-          const $task = this.$(task)
-
-          if (!isShown && willOpen) {
-            this.#setBlockStart($task, targetTop + totalHeight)
-          }
-          if (!$task.hasClass("tooltip")) {
-            $task.toggle(willOpen)
-          }
-        })
-
-        this.$(selectedColumnsSelector).each((__, attr) => {
-          const $attr = this.$(attr)
-
-          if (!isShown && willOpen) {
-            this.#setBlockStart($attr, targetTop + totalHeight)
-          }
-          $attr.toggle(willOpen)
-        })
-
-        if (!isShown && willOpen) {
-          this.#setBlockStart($element, targetTop + totalHeight)
-        }
-
-        this.#setIconState($element, willOpen)
-        $element.toggle(willOpen)
-        totalHeight += parseInt(json.top_increment, 10)
-      }
+      descendantKeys.add(row.dataset.ganttRowKey)
+      descendants.push(row)
     })
+
+    this.#setIconState(subject, willOpen)
+    descendants.forEach((row) => {
+      this.#setIconState(row, willOpen)
+      chart.querySelectorAll(this.#rowSelector(row.dataset.ganttRowKey)).forEach((matchingRow) => {
+        matchingRow.hidden = !willOpen
+      })
+    })
+
+    this.#positionVisibleRows(chart, subjectRows)
 
     this.dispatch("toggle-tree", { bubbles: true })
   }
 
-  #readInlineStart(el) {
-    const node = el.jquery ? el[0] : el
-    return parseFloat(window.getComputedStyle(node).getPropertyValue("inset-inline-start"))
+  #positionVisibleRows(chart, subjectRows) {
+    const chartStyle = window.getComputedStyle(chart)
+    const contentTop = parseFloat(chartStyle.getPropertyValue("--gantt-content-top")) || 0
+    const rowHeight = parseFloat(window.getComputedStyle(subjectRows[0]).blockSize) || 20
+    let top = contentTop
+
+    subjectRows.forEach((row) => {
+      if (row.hidden) return
+
+      chart.querySelectorAll(this.#rowSelector(row.dataset.ganttRowKey)).forEach((matchingRow) => {
+        matchingRow.style.setProperty("--gantt-row-top", `${top}px`)
+      })
+      top += rowHeight
+    })
   }
 
-  #readBlockStart(el) {
-    const node = el.jquery ? el[0] : el
-    return parseFloat(window.getComputedStyle(node).getPropertyValue("inset-block-start"))
-  }
-
-  #setBlockStart(el, value) {
-    const node = el.jquery ? el[0] : el
-    const px = typeof value === "number" ? `${value}px` : value
-    node.style.setProperty("--gantt-row-top", px)
+  #rowSelector(rowKey) {
+    return `.gantt-row[data-gantt-row-key="${CSS.escape(rowKey)}"]`
   }
 
   #setIconState(element, open) {
-    const $element = element.jquery ? element : this.$(element)
-    const expander = $element.find(".expander")
+    const expander = element.querySelector(".expander")
+    if (!expander) return
 
-    if (open) {
-      $element.addClass("open")
-
-      if (expander.length > 0) {
-        expander.removeClass("icon-collapsed").addClass("icon-expanded")
-
-        if (expander.find("svg").length === 1) {
-          window.updateSVGIcon(expander[0], "angle-down")
-        }
-      }
-    } else {
-      $element.removeClass("open")
-
-      if (expander.length > 0) {
-        expander.removeClass("icon-expanded").addClass("icon-collapsed")
-
-        if (expander.find("svg").length === 1) {
-          window.updateSVGIcon(expander[0], "angle-right")
-        }
-      }
+    element.classList.toggle("is-expanded", open)
+    expander.classList.toggle("icon-expanded", open)
+    expander.classList.toggle("icon-collapsed", !open)
+    if (expander.querySelectorAll("svg").length === 1) {
+      window.updateSVGIcon(expander, open ? "angle-down" : "angle-right")
     }
   }
 }

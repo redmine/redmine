@@ -56,7 +56,7 @@ class GanttsControllerTest < Redmine::ControllerTest
     end
 
     # Assert context menu on issues subject and gantt bar
-    assert_select 'div.issue-subject.hascontextmenu'
+    assert_select 'div.gantt-column[data-gantt-column=subjects] div.gantt-row[data-gantt-row-type=issue].hascontextmenu'
     assert_select 'div.tooltip.hascontextmenu' do
       assert_select 'img[class="gravatar avatar"]'
     end
@@ -155,8 +155,8 @@ class GanttsControllerTest < Redmine::ControllerTest
     get :show
     assert_response :success
 
-    assert_select 'div.task_todo[id=?][data-rels*=?]', "task-todo-issue-#{issue1.id}", issue2.id.to_s
-    assert_select 'div.task_todo[id=?]:not([data-rels])', "task-todo-issue-#{issue2.id}"
+    assert_select 'div.gantt-task-todo[data-gantt-issue-id=?][data-gantt-relations*=?]', issue1.id.to_s, issue2.id.to_s
+    assert_select 'div.gantt-task-todo[data-gantt-issue-id=?]:not([data-gantt-relations])', issue2.id.to_s
   end
 
   def test_gantt_should_export_to_pdf
@@ -223,7 +223,7 @@ class GanttsControllerTest < Redmine::ControllerTest
         }
       )
       assert_response :success
-      assert_select 'div.gantt-period-month>a', :text => /^[\d-]+$/, :count => 40
+      assert_select 'div.gantt-header-row[data-gantt-period=month] .gantt-period>a', :text => /^[\d-]+$/, :count => 40
 
       # Displays 6 months (the default value for `months`) if `months` exceeds
       # gant_months_limit
@@ -236,7 +236,7 @@ class GanttsControllerTest < Redmine::ControllerTest
         }
       )
       assert_response :success
-      assert_select 'div.gantt-period-month>a', :text => /^[\d-]+$/, :count => 6
+      assert_select 'div.gantt-header-row[data-gantt-period=month] .gantt-period>a', :text => /^[\d-]+$/, :count => 6
     end
   end
 
@@ -251,46 +251,46 @@ class GanttsControllerTest < Redmine::ControllerTest
     assert_response :success
 
     # eCookbook
-    assert_subject_row('div.project-name', row: '0', text: project.name)
-    assert_chart_row('div.task.project.task_todo', row: '0', style_substring: 'inset-inline-start:0px;width:138px')
+    assert_subject_row('project-1', row: '0', text: project.name)
+    assert_chart_row('div.gantt-task-todo', row: '0', style_substring: 'inset-inline-start:0px;width:138px')
 
     assert_issue_row(3, 'Bug #3', row: '1')
-    assert_chart_row('div.task.leaf.task_todo', row: '1', style_substring: 'inset-inline-start:0px;width:38px')
+    assert_chart_row('div.gantt-task-todo', row: '1', style_substring: 'inset-inline-start:0px;width:38px')
 
     assert_issue_row(7, 'Bug #7', row: '2')
-    assert_chart_row('div.task.leaf.task_todo', row: '2', style_substring: 'inset-inline-start:16px;width:42px')
+    assert_chart_row('div.gantt-task-todo', row: '2', style_substring: 'inset-inline-start:16px;width:42px')
 
     assert_issue_row(1, 'Bug #1', row: '3')
-    assert_chart_row('div.task.leaf.task_todo', row: '3', style_substring: 'inset-inline-start:52px;width:46px')
+    assert_chart_row('div.gantt-task-todo', row: '3', style_substring: 'inset-inline-start:52px;width:46px')
 
     # Version 1.0
-    assert_subject_row('div#version-2', row: '4', text: '1.0')
-    assert_chart_row('div.task.version', row: '4', style_substring: 'inset-inline-start:48px;width:90px')
+    assert_subject_row('version-2-project-1', row: '4', text: '1.0')
+    assert_chart_row('div.gantt-task-todo', row: '4', style_substring: 'inset-inline-start:48px;width:90px')
 
     assert_issue_row(2, 'Feature request #2', row: '5')
-    assert_chart_row('div.task.leaf.task_todo', row: '5', style_substring: 'inset-inline-start:48px;width:90px')
+    assert_chart_row('div.gantt-task-todo', row: '5', style_substring: 'inset-inline-start:48px;width:90px')
 
     # Private child of eCookbook
     assert_subject_row(
-      'div.project-name[data-collapse-expand*="project-5"]',
+      'project-5',
       row: '6',
       text: projects(:projects_005).name
     )
-    assert_chart_row('div.task.project.task_todo', row: '6', style_substring: 'inset-inline-start:56px;width:6px')
+    assert_chart_row('div.gantt-task-todo', row: '6', style_substring: 'inset-inline-start:56px;width:6px')
 
     assert_issue_row(6, 'Bug #6', row: '7')
-    assert_chart_row('div.task.leaf.task_todo', row: '7', style_substring: 'inset-inline-start:56px;width:6px')
+    assert_chart_row('div.gantt-task-todo', row: '7', style_substring: 'inset-inline-start:56px;width:6px')
 
     assert_issue_row(9, 'Bug #9', row: '8')
-    assert_chart_row('div.task.leaf.task_todo', row: '8', style_substring: 'inset-inline-start:56px;width:6px')
+    assert_chart_row('div.gantt-task-todo', row: '8', style_substring: 'inset-inline-start:56px;width:6px')
 
     assert_issue_row(10, 'Bug #10', row: '9')
-    assert_chart_row('div.task.leaf.task_todo', row: '9', style_substring: 'inset-inline-start:56px;width:6px')
-    assert_select 'div.task[id=?][data-rels*=9]', 'task-todo-issue-10'
+    assert_chart_row('div.gantt-task-todo', row: '9', style_substring: 'inset-inline-start:56px;width:6px')
+    assert_select 'div.gantt-task-todo[data-gantt-issue-id=?][data-gantt-relations*=?]', '10', '9'
 
     # eCookbook Subproject1
     assert_subject_row(
-      'div.project-name[data-collapse-expand*="project-3"]',
+      'project-3',
       row: '10',
       text: projects(:projects_003).name
     )
@@ -322,34 +322,34 @@ class GanttsControllerTest < Redmine::ControllerTest
 
     6.times do |offset|
       m = selected_start.since(offset.month)
-      assert_select 'div.gantt-period-month > a', text: "#{m.year}-#{m.month}"
+      assert_select 'div.gantt-header-row[data-gantt-period=month] .gantt-period > a', text: "#{m.year}-#{m.month}"
     end
 
     # eCookbook
-    assert_subject_row('div.project-name', row: '0', text: projects(:projects_001).name)
-    assert_chart_row('div.task.project.task_todo', row: '0', style_substring: 'inset-inline-start:0px;width:258px')
+    assert_subject_row('project-1', row: '0', text: projects(:projects_001).name)
+    assert_chart_row('div.gantt-task-todo', row: '0', style_substring: 'inset-inline-start:0px;width:258px')
 
     # Private child of eCookbook
     assert_subject_row(
-      'div.project-name[data-collapse-expand*="project-5"]',
+      'project-5',
       row: '1',
       text: project.name
     )
-    assert_chart_row('div.task.project.task_todo', row: '1', style_substring: 'inset-inline-start:176px;width:6px')
+    assert_chart_row('div.gantt-task-todo', row: '1', style_substring: 'inset-inline-start:176px;width:6px')
 
     # Bug #6
     assert_issue_row(6, 'Bug #6', row: '2')
-    assert_chart_row('div.task.leaf.task_todo', row: '2', style_substring: 'inset-inline-start:176px;width:6px')
+    assert_chart_row('div.gantt-task-todo', row: '2', style_substring: 'inset-inline-start:176px;width:6px')
 
     # Bug #9
     assert_issue_row(9, 'Bug #9', row: '3')
-    assert_chart_row('div.task.leaf.task_todo', row: '3', style_substring: 'inset-inline-start:176px;width:6px')
+    assert_chart_row('div.gantt-task-todo', row: '3', style_substring: 'inset-inline-start:176px;width:6px')
 
     # Bug #10
     assert_issue_row(10, 'Bug #10', row: '4')
-    assert_chart_row('div.task.leaf.task_todo', row: '4', style_substring: 'inset-inline-start:176px;width:6px')
+    assert_chart_row('div.gantt-task-todo', row: '4', style_substring: 'inset-inline-start:176px;width:6px')
 
-    assert_select 'div.task[id=?][data-rels*=9]', 'task-todo-issue-10'
+    assert_select 'div.gantt-task-todo[data-gantt-issue-id=?][data-gantt-relations*=?]', '10', '9'
   end
 
   test 'shows six months starting from current month' do
@@ -366,7 +366,7 @@ class GanttsControllerTest < Redmine::ControllerTest
     6.times do |offset|
       m = start_of_month.since(offset.months)
 
-      assert_select 'div.gantt-period-month > a', text: "#{m.year}-#{m.month}"
+      assert_select 'div.gantt-header-row[data-gantt-period=month] .gantt-period > a', text: "#{m.year}-#{m.month}"
     end
 
     assert_select 'input#months[value=?]', '6'
@@ -377,23 +377,24 @@ class GanttsControllerTest < Redmine::ControllerTest
 
   private
 
-  def assert_subject_row(selector, row:, text:)
-    assert_select "div.gantt_subjects form #{selector}[data-number-of-rows=?]", row do
+  def assert_subject_row(row_key, row:, text:)
+    selector = "div.gantt-column[data-gantt-column=subjects] form > div.gantt-row:nth-of-type(#{row.to_i + 1})[data-gantt-row-key=?]"
+    assert_select selector, row_key do
       assert_select 'a', text: text
     end
   end
 
   def assert_issue_row(issue_id, link_text, row:)
-    selector = "div.gantt_subjects form div#issue-#{issue_id}[data-number-of-rows=\"#{row}\"]"
-    assert_select selector do
+    selector = "div.gantt-column[data-gantt-column=subjects] form > div.gantt-row:nth-of-type(#{row.to_i + 1})[data-gantt-row-key=?]"
+    assert_select selector, "issue-#{issue_id}" do
       assert_select 'a.issue', text: link_text
     end
   end
 
   def assert_chart_row(selector, row:, style_substring:)
     style_substring = "--gantt-task-start:#{style_substring.delete_prefix('inset-inline-start:').sub(';width:', ';--gantt-task-width:')}"
-    matcher = "#gantt_area #{selector}[data-number-of-rows=?][style*=?]"
-    assert_select matcher, row, style_substring, minimum: 1
+    matcher = "div.gantt-timeline form > div.gantt-row:nth-of-type(#{row.to_i + 1}) #{selector}[style*=?]"
+    assert_select matcher, style_substring, minimum: 1
   end
 
   # Freezes today and resets the start and due dates of issues and versions in the eCookbook project and its descendants to fixed values

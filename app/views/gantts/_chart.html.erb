@@ -14,15 +14,12 @@
 
 <%= gantt_chart_tag(@query, layout) do %>
   <%= gantt_column_tag('subjects', min_width: 100, width: 'var(--gantt-subject-width)') do %>
-    <section class="gantt-pane gantt_subjects_container<%= ' draw_selected_columns' if query.draw_selected_columns %>"
-             data-gantt--chart-target="subjectsContainer">
-      <header class="gantt-pane-header" aria-hidden="true"></header>
-      <div class="gantt-pane-body">
-        <%= gantt_subjects_tag do %>
-          <%= form_tag({}, data: {cm_url: issues_context_menu_path}) do %>
-            <%= hidden_field_tag 'back_url', url_for(params: request.query_parameters), id: nil %>
-            <%= gantt.subjects.html_safe %>
-          <% end %>
+    <section class="gantt-pane">
+      <header aria-hidden="true"></header>
+      <div class="gantt-pane-body" data-controller="gantt--subjects">
+        <%= form_tag({}, data: {cm_url: issues_context_menu_path}) do %>
+          <%= hidden_field_tag 'back_url', url_for(params: request.query_parameters), id: nil %>
+          <%= gantt.subjects.html_safe %>
         <% end %>
       </div>
     </section>
@@ -33,23 +30,24 @@
       next if Redmine::Helpers::Gantt::UNAVAILABLE_COLUMNS.include?(column.name)
       column_name = column.name.to_s.tr('.', '_')
   %>
-    <%= gantt_column_tag(column_name, min_width: 20, width: '50px', id: column_name,
-                         class: 'gantt_selected_column', hidden: !query.draw_selected_columns) do %>
-      <section class="gantt-pane gantt_selected_column_container gantt_<%= column_name %>_container">
-        <header class="gantt-pane-header gantt-selected-column-header"><%= column.caption %></header>
-        <div class="gantt-pane-body gantt_selected_column_content gantt_<%= column_name %>">
+    <%= gantt_column_tag(column_name, min_width: 20, width: '50px', class: 'gantt-selected-column',
+                         hidden: !query.draw_selected_columns,
+                         data: {'gantt--chart-target': 'selectedColumn'}) do %>
+      <section class="gantt-pane">
+        <header><%= column.caption %></header>
+        <div class="gantt-pane-body">
           <%= gantt.selected_column_content(column: column, top: layout.content_top, zoom: layout.zoom, g_width: layout.chart_width).html_safe %>
         </div>
       </section>
     <% end %>
   <% end %>
 
-  <div id="gantt_area" class="gantt-timeline" data-gantt--chart-target="ganttArea">
+  <div class="gantt-timeline">
     <div class="gantt-timeline-canvas">
-      <header class="gantt-timeline-header">
-        <div class="gantt-header-row gantt-header-months">
+      <header>
+        <div class="gantt-header-row" data-gantt-period="month">
           <% layout.months.each do |period| %>
-            <div class="gantt-period gantt-period-month<%= ' gantt-period-spans-body' if period.spans_body %><%= ' gantt-period-last' if period.last %>"
+            <div class="gantt-period<%= ' gantt-period-spans-body' if period.spans_body %><%= ' gantt-period-last' if period.last %>"
                  style="<%= gantt_period_style(period) %>">
               <%= link_to "#{period.date.year}-#{period.date.month}",
                           gantt.params.merge(year: period.date.year, month: period.date.month),
@@ -59,9 +57,9 @@
         </div>
 
         <% if layout.show_weeks? %>
-          <div class="gantt-header-row gantt-header-weeks">
+          <div class="gantt-header-row" data-gantt-period="week">
             <% layout.weeks.each do |period| %>
-              <div class="gantt-period gantt-period-week<%= ' gantt-period-spans-body' if period.spans_body %><%= ' gantt-period-last' if period.last %>"
+              <div class="gantt-period<%= ' gantt-period-spans-body' if period.spans_body %><%= ' gantt-period-last' if period.last %>"
                    style="<%= gantt_period_style(period) %>">
                 <small><%= period.date.cweek if period.date && period.width >= 16 %></small>
               </div>
@@ -70,18 +68,18 @@
         <% end %>
 
         <% if layout.show_day_numbers? %>
-          <div class="gantt-header-row gantt-header-day-numbers">
+          <div class="gantt-header-row" data-gantt-period="day-number">
             <% layout.day_numbers.each do |period| %>
-              <div class="gantt-period gantt-period-day-number<%= ' gantt-period-non-working' if period.non_working %><%= ' gantt-period-last' if period.last %>"
+              <div class="gantt-period<%= ' gantt-period-non-working' if period.non_working %><%= ' gantt-period-last' if period.last %>"
                    style="<%= gantt_period_style(period) %>"><%= period.date.day %></div>
             <% end %>
           </div>
         <% end %>
 
         <% if layout.show_days? %>
-          <div class="gantt-header-row gantt-header-days">
+          <div class="gantt-header-row" data-gantt-period="day">
             <% layout.days.each do |period| %>
-              <div class="gantt-period gantt-period-day gantt-period-spans-body<%= ' gantt-period-non-working' if period.non_working %><%= ' gantt-period-last' if period.last %>"
+              <div class="gantt-period gantt-period-spans-body<%= ' gantt-period-non-working' if period.non_working %><%= ' gantt-period-last' if period.last %>"
                    style="<%= gantt_period_style(period) %>"><%= day_letter(period.date.cwday) %></div>
             <% end %>
           </div>
@@ -95,10 +93,10 @@
         <% end %>
 
         <% if layout.today_start %>
-          <div id="today_line" style="<%= gantt_css_variables('gantt-today-start': "#{layout.today_start}px") %>" aria-hidden="true"></div>
+          <div class="gantt-today" data-gantt--chart-target="today" style="<%= gantt_css_variables('gantt-today-start': "#{layout.today_start}px") %>" aria-hidden="true"></div>
         <% end %>
 
-        <div id="gantt_draw_area" data-gantt--chart-target="drawArea" aria-hidden="true"></div>
+        <div class="gantt-relations" data-gantt--chart-target="relations" aria-hidden="true"></div>
       </div>
     </div>
   </div>

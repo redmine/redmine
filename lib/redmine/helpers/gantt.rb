@@ -230,7 +230,11 @@ module Redmine
         begin
           Project.project_tree(projects) do |project, level|
             options[:indent] = indent + level * options[:indent_increment]
-            render_project(project, options)
+            parent_row_key =
+              if level > 0 && project.parent
+                gantt_project_row_key(project.parent)
+              end
+            render_project(project, options, parent_row_key: parent_row_key)
           end
         rescue MaxLinesLimitReached
           @truncated = true
@@ -240,12 +244,13 @@ module Redmine
         render_end(options)
       end
 
-      def render_project(project, options={})
-        render_object_row(project, options)
+      def render_project(project, options={}, parent_row_key: nil)
+        row = gantt_project_row(project, parent_row_key: parent_row_key)
+        render_object_row(project, options, row: row)
         increment_indent(options) do
           # render issue that are not assigned to a version
           issues = project_issues(project).select {|i| i.fixed_version_id.nil?}
-          render_issues(issues, options)
+          render_issues(issues, options, parent_row_key: row[:gantt_row_key])
           # then render project versions and their issues
           versions = project_versions(project)
           self.class.sort_versions!(versions)
@@ -256,14 +261,15 @@ module Redmine
       end
 
       def render_version(project, version, options={})
-        render_object_row(version, options)
+        row = gantt_version_row(version, project)
+        render_object_row(version, options, row: row)
         increment_indent(options) do
           issues = version_issues(project, version)
-          render_issues(issues, options)
+          render_issues(issues, options, parent_row_key: row[:gantt_row_key])
         end
       end
 
-      def render_issues(issues, options={})
+      def render_issues(issues, options={}, parent_row_key: nil)
         self.class.sort_issues!(issues)
         ancestors = []
         issues.each do |issue|
@@ -271,7 +277,10 @@ module Redmine
             ancestors.pop
             decrement_indent(options)
           end
-          render_object_row(issue, options)
+          issue_parent_row_key =
+            ancestors.any? ? gantt_issue_row_key(ancestors.last) : parent_row_key
+          row = gantt_issue_row(issue, parent_row_key: issue_parent_row_key)
+          render_object_row(issue, options, row: row)
           unless issue.leaf?
             ancestors << issue
             increment_indent(options)
@@ -280,14 +289,24 @@ module Redmine
         decrement_indent(options, ancestors.size)
       end
 
-      def render_object_row(object, options)
+      def render_object_row(object, options, row:)
         class_name = object.class.name.downcase
-        send(:"subject_for_#{class_name}", object, options) unless options[:only] == :lines || options[:only] == :selected_columns
+        subject_options =
+          if options[:format] == :html
+            options.merge(:gantt_row => row)
+          else
+            options
+          end
+        send(:"subject_for_#{class_name}", object, subject_options) unless options[:only] == :lines || options[:only] == :selected_columns
         unless options[:only] == :subjects || options[:only] == :selected_columns
           line = send(:"line_for_#{class_name}", object, options)
-          @lines << html_gantt_row(object, options, line) if options[:format] == :html
+          if options[:format] == :html
+            @lines << html_gantt_row(options, line, row: row)
+          end
         end
-        column_content_for_object(object, options) if options[:only] == :selected_columns && options[:column].present?
+        if options[:only] == :selected_columns && options[:column].present?
+          column_content_for_object(object, options, row: row)
+        end
         options[:top] += options[:top_increment]
         @number_of_rows += 1
         if @max_rows && @number_of_rows >= @max_rows
@@ -300,6 +319,44 @@ module Redmine
         when :pdf
           options[:pdf].Line(15, options[:top], PDF::TotalWidth, options[:top])
         end
+      end
+
+      def gantt_project_row_key(project)
+        "project-#{project.id}"
+      end
+
+      def gantt_version_row_key(version, project)
+        "version-#{version.id}-project-#{project.id}"
+      end
+
+      def gantt_issue_row_key(issue)
+        "issue-#{issue.id}"
+      end
+
+      def gantt_project_row(project, parent_row_key: nil)
+        row = {
+          :gantt_row_key => gantt_project_row_key(project),
+          :gantt_row_type => 'project'
+        }
+        row[:gantt_parent_row_key] = parent_row_key if parent_row_key
+        row
+      end
+
+      def gantt_version_row(version, project)
+        {
+          :gantt_row_key => gantt_version_row_key(version, project),
+          :gantt_row_type => 'version',
+          :gantt_parent_row_key => gantt_project_row_key(project)
+        }
+      end
+
+      def gantt_issue_row(issue, parent_row_key: nil)
+        row = {
+          :gantt_row_key => gantt_issue_row_key(issue),
+          :gantt_row_type => 'issue'
+        }
+        row[:gantt_parent_row_key] = parent_row_key if parent_row_key
+        row
       end
 
       def increment_indent(options, factor=1)
@@ -357,24 +414,15 @@ module Redmine
         end
       end
 
-      def column_content_for_object(object, options)
+      def column_content_for_object(object, options, row:)
         if options[:format] == :html
-          data_options = {
-            :collapse_expand => "#{object.class}-#{object.id}".downcase,
-            :number_of_rows => number_of_rows
-          }
           value = object.is_a?(Issue) ? view.column_content(options[:column], object) : nil
           content =
             view.content_tag(
               :div, value,
               :style => css_variables('gantt-row-top': "#{options[:top] || 0}px"),
-              :class => [
-                "gantt-row",
-                "gantt-column-row",
-                ("issue_#{options[:column].name}" if object.is_a?(Issue))
-              ],
-              :id => ("#{options[:column].name}_issue_#{object.id}" if object.is_a?(Issue)),
-              :data => data_options
+              :class => 'gantt-row',
+              :data => row
             )
           @columns[options[:column].name] << content if @columns.has_key?(options[:column].name)
           content
@@ -382,7 +430,7 @@ module Redmine
       end
 
       def column_content_for_issue(issue, options)
-        column_content_for_object(issue, options)
+        column_content_for_object(issue, options, row: gantt_issue_row(issue))
       end
 
       def subject(label, options, object=nil)
@@ -797,11 +845,10 @@ module Redmine
 
       def html_subject(params, subject, object)
         content = html_subject_content(object) || subject
-        tag_options = {}
+        tag_options = {:class => []}
         case object
         when Issue
-          tag_options[:id] = "issue-#{object.id}"
-          tag_options[:class] = "issue-subject hascontextmenu"
+          tag_options[:class] << 'hascontextmenu'
           tag_options[:title] = object.subject
           has_children =
             if object.leaf?
@@ -812,42 +859,33 @@ module Redmine
               children.any? {|child| child.fixed_version_id == fixed_version_id}
             end
         when Version
-          tag_options[:id] = "version-#{object.id}"
-          tag_options[:class] = "version-name"
           has_children = object.fixed_issues.exists?
         when Project
-          tag_options[:class] = "project-name"
           has_children = object.issues.exists? || object.versions.exists?
-        end
-        if object
-          tag_options[:data] = {
-            :collapse_expand => {
-              :top_increment => params[:top_increment],
-              :obj_id => "#{object.class}-#{object.id}".downcase,
-            },
-            :number_of_rows => number_of_rows,
-          }
         end
         if has_children
           content = view.content_tag(:span,
                                      view.sprite_icon('angle-down', rtl: true).html_safe,
                                      :class => 'icon icon-expanded expander',
                                      :data => {:action => 'click->gantt--subjects#handleEntryClick'}) + content
-          tag_options[:class] += ' open'
+          tag_options[:class] << 'is-expanded'
         else
           if params[:indent]
             params = params.dup
             params[:indent] += 18
           end
         end
-        tag_options[:class] = [tag_options[:class], 'gantt-row', 'gantt-subject-row'].compact.join(' ')
+        tag_options[:class] << 'gantt-row'
+        tag_options[:class] = tag_options[:class].join(' ')
+        if object
+          tag_options[:data] = params[:gantt_row].to_h.merge(
+            'gantt--subjects-target': 'row'
+          )
+        end
         row_variables = {
           'gantt-row-top': "#{params[:top] || 0}px",
           'gantt-row-indent': "#{params[:indent]}px"
         }
-        if params[:subject_width]
-          row_variables['gantt-row-width'] = "#{params[:subject_width] - params[:indent]}px"
-        end
         tag_options[:style] = css_variables(row_variables)
         output = view.content_tag(:div, content, tag_options)
         @subjects << output
@@ -889,58 +927,35 @@ module Redmine
 
       def html_task(params, coords, markers, label, object)
         output = +''
-        data_options = {}
-        if object
-          data_options[:collapse_expand] = "#{object.class}-#{object.id}".downcase
-          data_options[:number_of_rows] = number_of_rows
-        end
-        css = "task " +
-          case object
-          when Project
-            "project"
-          when Version
-            "version"
-          when Issue
-            object.leaf? ? 'leaf' : 'parent'
-          else
-            ""
-          end
+        task_classes = ['gantt-task']
+        task_classes << 'gantt-task-parent' if object.is_a?(Issue) && !object.leaf?
         # Renders the task bar, with progress and late
         if coords[:bar_start] && coords[:bar_end]
           width = coords[:bar_end] - coords[:bar_start] - 2
           style = task_style(coords[:bar_start], width)
-          html_id = "task-todo-issue-#{object.id}" if object.is_a?(Issue)
-          html_id = "task-todo-version-#{object.id}" if object.is_a?(Version)
-          content_opt = {:style => style,
-                         :class => "#{css} task_todo",
-                         :id => html_id,
-                         :data => {}}
+          todo_data = {}
           if object.is_a?(Issue)
+            todo_data['gantt-issue-id'] = object.id
             rels = issue_relations(object)
-            if rels.present?
-              content_opt[:data] = {"rels" => rels.to_json}
-            end
+            todo_data['gantt-relations'] = rels.to_json if rels.present?
           end
-          content_opt[:data].merge!(data_options)
+          content_opt = {:style => style,
+                         :class => (task_classes + ['gantt-task-todo']).join(' '),
+                         :data => todo_data}
           output << view.content_tag(:div, '&nbsp;'.html_safe, content_opt)
           if coords[:bar_late_end]
             width = coords[:bar_late_end] - coords[:bar_start] - 2
             style = task_style(coords[:bar_start], width)
             output << view.content_tag(:div, '&nbsp;'.html_safe,
                                        :style => style,
-                                       :class => "#{css} task_late",
-                                       :data => data_options)
+                                       :class => (task_classes + ['gantt-task-late']).join(' '))
           end
           if coords[:bar_progress_end]
             width = coords[:bar_progress_end] - coords[:bar_start] - 2
             style = task_style(coords[:bar_start], width)
-            html_id = "task-done-issue-#{object.id}" if object.is_a?(Issue)
-            html_id = "task-done-version-#{object.id}" if object.is_a?(Version)
             output << view.content_tag(:div, '&nbsp;'.html_safe,
                                        :style => style,
-                                       :class => "#{css} task_done",
-                                       :id => html_id,
-                                       :data => data_options)
+                                       :class => (task_classes + ['gantt-task-done']).join(' '))
           end
         end
         # Renders the markers
@@ -949,15 +964,13 @@ module Redmine
             style = task_style(coords[:start], 15)
             output << view.content_tag(:div, '&nbsp;'.html_safe,
                                        :style => style,
-                                       :class => "#{css} marker starting",
-                                       :data => data_options)
+                                       :class => (task_classes + ['gantt-task-marker', 'gantt-task-start']).join(' '))
           end
           if coords[:end]
             style = task_style(coords[:end], 15)
             output << view.content_tag(:div, '&nbsp;'.html_safe,
                                        :style => style,
-                                       :class => "#{css} marker ending",
-                                       :data => data_options)
+                                       :class => (task_classes + ['gantt-task-marker', 'gantt-task-end']).join(' '))
           end
         end
         # Renders the label on the right
@@ -965,38 +978,32 @@ module Redmine
           style = task_style((coords[:bar_end] || 0) + 8, 15)
           output << view.content_tag(:div, label,
                                      :style => style,
-                                     :class => "#{css} label",
-                                     :data => data_options)
+                                     :class => (task_classes + ['gantt-task-label']).join(' '))
         end
         # Renders the tooltip
         if object.is_a?(Issue) && coords[:bar_start] && coords[:bar_end]
           s = view.content_tag(:span,
                                view.render_issue_tooltip(object).html_safe,
-                               :class => "tip")
+                               :class => 'tip')
           s += view.content_tag(:input, nil, :type => 'checkbox', :name => 'ids[]',
                                 :value => object.id,
                                 :class => 'toggle-selection')
           style = task_style(coords[:bar_start], coords[:bar_end] - coords[:bar_start])
           output << view.content_tag(:div, s.html_safe,
                                      :style => style,
-                                     :class => "tooltip hascontextmenu",
-                                     :data => data_options)
+                                     :class => 'tooltip hascontextmenu')
         end
         output
       end
 
-      def html_gantt_row(object, params, content)
-        data_options = {
-          :collapse_expand => "#{object.class}-#{object.id}".downcase,
-          :number_of_rows => number_of_rows
-        }
+      def html_gantt_row(params, content, row:)
         style = css_variables('gantt-row-top': "#{params[:top] || 0}px")
         view.content_tag(
           :div,
           content.to_s.html_safe,
-          :class => 'gantt-row gantt-timeline-row',
+          :class => 'gantt-row',
           :style => style,
-          :data => data_options
+          :data => row
         )
       end
 

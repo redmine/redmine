@@ -667,11 +667,11 @@
   }
 
   /* Gantt charts */
-  .gantt_subjects_column {
+  .gantt-column[data-gantt-column="subjects"] {
     --gantt-column-width: 60% !important;
   }
 
-  .gantt_subjects_container {
+  [data-gantt-column="subjects"] .gantt-pane {
     inline-size: 100% !important;
     overflow: hidden;
   }

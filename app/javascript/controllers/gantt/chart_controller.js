@@ -4,7 +4,7 @@ const RELATION_STROKE_WIDTH = 2
 const SVG_NS = "http://www.w3.org/2000/svg"
 
 export default class extends Controller {
-  static targets = ["ganttArea", "drawArea", "subjectsContainer"]
+  static targets = ["relations", "selectedColumn", "today"]
 
   static values = {
     issueRelationTypes: Object,
@@ -88,8 +88,8 @@ export default class extends Controller {
   }
 
   #setupDrawPaper() {
-    const width = Math.ceil(this.$(this.drawAreaTarget).width() || 0)
-    const height = Math.ceil(this.$(this.drawAreaTarget).height() || 0)
+    const width = Math.ceil(this.$(this.relationsTarget).width() || 0)
+    const height = Math.ceil(this.$(this.relationsTarget).height() || 0)
 
     if (!this.#drawPaper) {
       this.#drawPaper = document.createElementNS(SVG_NS, "svg")
@@ -100,7 +100,7 @@ export default class extends Controller {
 
       this.#drawPaperGroup = document.createElementNS(SVG_NS, "g")
       this.#drawPaper.appendChild(this.#drawPaperGroup)
-      this.drawAreaTarget.appendChild(this.#drawPaper)
+      this.relationsTarget.appendChild(this.#drawPaper)
     }
 
     const safeWidth = Math.max(width, 1)
@@ -124,45 +124,36 @@ export default class extends Controller {
   }
 
   #setupDrawArea() {
-    const $drawArea = this.$(this.drawAreaTarget)
+    const $drawArea = this.$(this.relationsTarget)
 
     this.#drawTop = $drawArea.position().top
     this.#drawRight = $drawArea.width()
   }
 
   #drawSelectedColumns() {
-    const selectedColumns = this.element.querySelectorAll(".gantt_selected_column")
-    const $subjectsContainer = this.$(".gantt_subjects_container")
-
     const isMobileDevice = typeof window.isMobile === "function" && window.isMobile()
 
     if (this.showSelectedColumnsValue) {
       if (isMobileDevice) {
-        selectedColumns.forEach((element) => { element.hidden = true })
+        this.selectedColumnTargets.forEach((element) => { element.hidden = true })
       } else {
-        $subjectsContainer.addClass("draw_selected_columns")
-        selectedColumns.forEach((element) => { element.hidden = false })
+        this.selectedColumnTargets.forEach((element) => { element.hidden = false })
       }
     } else {
-      selectedColumns.forEach((element) => { element.hidden = true })
-      $subjectsContainer.removeClass("draw_selected_columns")
+      this.selectedColumnTargets.forEach((element) => { element.hidden = true })
     }
   }
 
   get #relationsArray() {
     const relations = []
 
-    this.$("div.task_todo[data-rels]").each((_, element) => {
+    this.$(".gantt-task-todo[data-gantt-relations]").each((_, element) => {
       const $element = this.$(element)
 
       if (!$element.is(":visible")) return
 
-      const elementId = $element.attr("id")
-
-      if (!elementId) return
-
-      const issueId = elementId.replace("task-todo-issue-", "")
-      const dataRels = $element.data("rels") || {}
+      const issueId = element.dataset.ganttIssueId
+      const dataRels = JSON.parse(element.dataset.ganttRelations || "{}")
 
       Object.keys(dataRels).forEach((relTypeKey) => {
         this.$.each(dataRels[relTypeKey], (_, relatedIssue) => {
@@ -178,8 +169,8 @@ export default class extends Controller {
     const relations = this.#relationsArray
 
     relations.forEach((relation) => {
-      const issueFrom = this.$(`#task-todo-issue-${relation.issue_from}`)
-      const issueTo = this.$(`#task-todo-issue-${relation.issue_to}`)
+      const issueFrom = this.$(`.gantt-task-todo[data-gantt-issue-id='${relation.issue_from}']`)
+      const issueTo = this.$(`.gantt-task-todo[data-gantt-issue-id='${relation.issue_to}']`)
 
       if (issueFrom.length === 0 || issueTo.length === 0) return
       if (!issueTo.is(":visible")) return
@@ -305,11 +296,11 @@ export default class extends Controller {
 
   get #progressLinesArray() {
     const lines = []
-    const todayLeft = this.$("#today_line").position().left
+    const todayLeft = this.$(this.todayTarget).position().left
 
     lines.push({ left: todayLeft, top: 0 })
 
-    this.$("div.issue-subject, div.version-name").each((_, element) => {
+    this.$("[data-gantt-column='subjects'] .gantt-row[data-gantt-row-type='issue'], [data-gantt-column='subjects'] .gantt-row[data-gantt-row-type='version']").each((_, element) => {
       const $element = this.$(element)
 
       if (!$element.is(":visible")) return true
@@ -325,7 +316,8 @@ export default class extends Controller {
       if (issueClosed || versionClosed) {
         lines.push({ left: todayLeft, top: elementTopCenter })
       } else {
-        const issueDone = this.$(`#task-done-${$element.attr("id")}`)
+        const rowKey = element.dataset.ganttRowKey
+        const issueDone = this.$(`.gantt-row[data-gantt-row-key='${rowKey}'] .gantt-task-done`)
         const isBehindStart = $element.children("span").hasClass("behind-start-date")
         const isOverEnd = $element.children("span").hasClass("over-end-date")
 
@@ -350,7 +342,7 @@ export default class extends Controller {
           })
         } else {
           let todoLeft = todayLeft
-          const issueTodo = this.$(`#task-todo-${$element.attr("id")}`)
+          const issueTodo = this.$(`.gantt-row[data-gantt-row-key='${rowKey}'] .gantt-task-todo`)
           if (issueTodo.length > 0) {
             todoLeft = issueTodo.first().position().left
           }
@@ -363,10 +355,10 @@ export default class extends Controller {
   }
 
   #drawGanttProgressLines() {
-    if (this.$("#today_line").length === 0) return
+    if (!this.hasTodayTarget) return
 
     const progressLines = this.#progressLinesArray
-    const color = this.$("#today_line").css("border-inline-start-color") || "#ff0000"
+    const color = this.$(this.todayTarget).css("border-inline-start-color") || "#ff0000"
 
     for (let index = 1; index < progressLines.length; index += 1) {
       const current = progressLines[index]
