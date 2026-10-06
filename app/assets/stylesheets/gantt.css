@@ -182,8 +182,9 @@
 }
 
 [data-gantt-column="subjects"] .gantt-row {
-  inset-inline-start: var(--gantt-row-indent);
-  inline-size: calc(100% - var(--gantt-row-indent));
+  inset-inline-start: 0;
+  inline-size: 100%;
+  padding-inline-start: var(--gantt-row-indent);
   line-height: 16px;
   overflow: hidden;
   white-space: nowrap;
@@ -198,8 +199,8 @@
   white-space: nowrap;
 }
 
-[data-gantt-column="subjects"] .gantt-row[data-gantt-row-type="issue"]:hover {
-  background-color: var(--oc-yellow-0);
+.gantt-row-hover {
+  background-color: rgba(var(--oc-yellow-1-rgb), 0.5);
 }
 
 .gantt-timeline-body .gantt-row {

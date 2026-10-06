@@ -221,12 +221,15 @@ module GanttHelper
       # Events emitted by child controllers the chart listens to.
       # - `gantt--options` toggles checkboxes under Options.
       # - `gantt--subjects` reports tree expand/collapse.
+      # - Mouse events synchronize the hovered row across the chart panes.
       # - Window resize triggers a redraw of progress lines and relations.
       action: %w(
         gantt--options:toggle-display@document->gantt--chart#handleOptionsDisplay
         gantt--options:toggle-relations@document->gantt--chart#handleOptionsRelations
         gantt--options:toggle-progress@document->gantt--chart#handleOptionsProgress
         gantt--subjects:toggle-tree->gantt--chart#handleSubjectTreeChanged
+        mouseover->gantt--chart#highlightRow
+        mouseout->gantt--chart#unhighlightRow
         resize@window->gantt--chart#handleWindowResize
       ).join(' '),
       'gantt--chart-issue-relation-types-value': Redmine::Helpers::Gantt::DRAW_TYPES.to_json,
