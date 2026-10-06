@@ -15,7 +15,6 @@ export default class extends Controller {
 
   #drawTop = 0
   #drawRight = 0
-  #drawLeft = 0
   #drawPaper = null
   #drawPaperGroup = null
 
@@ -26,7 +25,6 @@ export default class extends Controller {
   connect() {
     this.#drawTop = 0
     this.#drawRight = 0
-    this.#drawLeft = 0
 
     this.#drawProgressLineAndRelations()
     this.#drawSelectedColumns()
@@ -127,32 +125,26 @@ export default class extends Controller {
 
   #setupDrawArea() {
     const $drawArea = this.$(this.drawAreaTarget)
-    const $ganttArea = this.hasGanttAreaTarget ? this.$(this.ganttAreaTarget) : null
 
     this.#drawTop = $drawArea.position().top
     this.#drawRight = $drawArea.width()
-    this.#drawLeft = $ganttArea ? $ganttArea.scrollLeft() : 0
   }
 
   #drawSelectedColumns() {
-    const $selectedColumns = this.$("td.gantt_selected_column")
+    const selectedColumns = this.element.querySelectorAll(".gantt_selected_column")
     const $subjectsContainer = this.$(".gantt_subjects_container")
 
     const isMobileDevice = typeof window.isMobile === "function" && window.isMobile()
 
     if (this.showSelectedColumnsValue) {
       if (isMobileDevice) {
-        $selectedColumns.each((_, element) => {
-          this.$(element).hide()
-        })
+        selectedColumns.forEach((element) => { element.hidden = true })
       } else {
         $subjectsContainer.addClass("draw_selected_columns")
-        $selectedColumns.show()
+        selectedColumns.forEach((element) => { element.hidden = false })
       }
     } else {
-      $selectedColumns.each((_, element) => {
-        this.$(element).hide()
-      })
+      selectedColumns.forEach((element) => { element.hidden = true })
       $subjectsContainer.removeClass("draw_selected_columns")
     }
   }
@@ -193,9 +185,9 @@ export default class extends Controller {
       if (!issueTo.is(":visible")) return
 
       const issueHeight = issueFrom.height()
-      const issueFromTop = issueFrom.position().top + issueHeight / 2 - this.#drawTop
+      const issueFromTop = this.#taskTop(issueFrom) + issueHeight / 2 - this.#drawTop
       const issueFromRight = issueFrom.position().left + issueFrom.width()
-      const issueToTop = issueTo.position().top + issueHeight / 2 - this.#drawTop
+      const issueToTop = this.#taskTop(issueTo) + issueHeight / 2 - this.#drawTop
       const issueToLeft = issueTo.position().left
       const relationConfig = this.issueRelationTypesValue[relation.rel_type] || {}
       const color = relationConfig.color || "#000"
@@ -206,10 +198,10 @@ export default class extends Controller {
       this.#drawPath(
         [
           "M",
-          issueFromRight + this.#drawLeft,
+          issueFromRight,
           issueFromTop,
           "L",
-          issueFromRightRel + this.#drawLeft,
+          issueFromRightRel,
           issueFromTop
         ],
         { stroke: color, "stroke-width": RELATION_STROKE_WIDTH, fill: "none" }
@@ -219,10 +211,10 @@ export default class extends Controller {
         this.#drawPath(
           [
             "M",
-            issueFromRightRel + this.#drawLeft,
+            issueFromRightRel,
             issueFromTop,
             "L",
-            issueFromRightRel + this.#drawLeft,
+            issueFromRightRel,
             issueToTop
           ],
           { stroke: color, "stroke-width": RELATION_STROKE_WIDTH, fill: "none" }
@@ -230,10 +222,10 @@ export default class extends Controller {
         this.#drawPath(
           [
             "M",
-            issueFromRightRel + this.#drawLeft,
+            issueFromRightRel,
             issueToTop,
             "L",
-            issueToLeft + this.#drawLeft,
+            issueToLeft,
             issueToTop
           ],
           { stroke: color, "stroke-width": RELATION_STROKE_WIDTH, fill: "none" }
@@ -243,10 +235,10 @@ export default class extends Controller {
         this.#drawPath(
           [
             "M",
-            issueFromRightRel + this.#drawLeft,
+            issueFromRightRel,
             issueFromTop,
             "L",
-            issueFromRightRel + this.#drawLeft,
+            issueFromRightRel,
             issueMiddleTop
           ],
           { stroke: color, "stroke-width": RELATION_STROKE_WIDTH, fill: "none" }
@@ -254,10 +246,10 @@ export default class extends Controller {
         this.#drawPath(
           [
             "M",
-            issueFromRightRel + this.#drawLeft,
+            issueFromRightRel,
             issueMiddleTop,
             "L",
-            issueToLeftRel + this.#drawLeft,
+            issueToLeftRel,
             issueMiddleTop
           ],
           { stroke: color, "stroke-width": RELATION_STROKE_WIDTH, fill: "none" }
@@ -265,10 +257,10 @@ export default class extends Controller {
         this.#drawPath(
           [
             "M",
-            issueToLeftRel + this.#drawLeft,
+            issueToLeftRel,
             issueMiddleTop,
             "L",
-            issueToLeftRel + this.#drawLeft,
+            issueToLeftRel,
             issueToTop
           ],
           { stroke: color, "stroke-width": RELATION_STROKE_WIDTH, fill: "none" }
@@ -276,10 +268,10 @@ export default class extends Controller {
         this.#drawPath(
           [
             "M",
-            issueToLeftRel + this.#drawLeft,
+            issueToLeftRel,
             issueToTop,
             "L",
-            issueToLeft + this.#drawLeft,
+            issueToLeft,
             issueToTop
           ],
           { stroke: color, "stroke-width": RELATION_STROKE_WIDTH, fill: "none" }
@@ -288,7 +280,7 @@ export default class extends Controller {
       this.#drawPath(
         [
           "M",
-          issueToLeft + this.#drawLeft,
+          issueToLeft,
           issueToTop,
           "l",
           -4 * RELATION_STROKE_WIDTH,
@@ -304,6 +296,11 @@ export default class extends Controller {
         }
       )
     })
+  }
+
+  #taskTop($task) {
+    const row = $task.closest(".gantt-row")
+    return row.position().top + $task.position().top
   }
 
   get #progressLinesArray() {
@@ -382,8 +379,8 @@ export default class extends Controller {
           (previous.is_left_edge && current.is_left_edge)
         )
       ) {
-        const x1 = previous.left === 0 ? 0 : previous.left + this.#drawLeft
-        const x2 = current.left === 0 ? 0 : current.left + this.#drawLeft
+        const x1 = previous.left
+        const x2 = current.left
 
         this.#drawPath(["M", x1, previous.top, "L", x2, current.top], {
           stroke: color,
@@ -393,4 +390,5 @@ export default class extends Controller {
       }
     }
   }
+
 }

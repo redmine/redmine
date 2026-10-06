@@ -1,238 +1,107 @@
 <%
-  zoom = 1
-  gantt.zoom.times { zoom *= 2 }
-
-  subject_width = 330
-  header_height = 18
-
-  headers_height = header_height
-  show_weeks = false
-  show_days = false
-  show_day_num = false
-
-  if gantt.zoom > 1
-    show_weeks = true
-    headers_height = 2 * header_height
-    if gantt.zoom > 2
-      show_days = true
-      headers_height = 3 * header_height
-      if gantt.zoom > 3
-        show_day_num = true
-        headers_height = 4 * header_height
-      end
-    end
-  end
-
-  g_width = ((gantt.date_to - gantt.date_from + 1) * zoom).to_i
+  layout = GanttHelper::ChartLayout.new(gantt)
   gantt.render(
-    top: headers_height + 8,
-    zoom: zoom,
-    g_width: g_width,
-    subject_width: subject_width
+    top: layout.content_top,
+    zoom: layout.zoom,
+    g_width: layout.chart_width,
+    subject_width: layout.subject_width
   )
-  g_height = [(20 * (gantt.number_of_rows + 6)) + 150, 206].max
-  t_height = g_height + headers_height
 %>
 
 <% if gantt.truncated %>
   <p class="warning"><%= l(:notice_gantt_chart_truncated, max: gantt.max_rows) %></p>
 <% end %>
 
-<%= gantt_chart_tag(@query) do %>
-  <tr>
-    <%= gantt_column_tag('subjects', min_width: 100,
-                         style: "width:#{query.draw_selected_columns ? subject_width + 1 : subject_width + 2}px;") do %>
-      <%
-        subjects_container_classes = "gantt_subjects_container"
-        subjects_container_classes << " draw_selected_columns" if query.draw_selected_columns
-        subjects_container_style = +"position:relative;"
-        subjects_container_style << "height: #{t_height + 24}px;"
-        subjects_container_style << "width: #{subject_width + 1}px;"
-      %>
-      <%= content_tag(:div,
-                      style: subjects_container_style,
-                      class: subjects_container_classes,
-                      data: {'gantt--chart-target': 'subjectsContainer'}) do %>
-        <%
-          header_bg_style = +"width: #{subject_width + 1}px;"
-          header_bg_style << "height: #{headers_height}px;"
-          header_bg_style << 'background: #f1f3f5;' # oc-gray-1
-        %>
-        <%= content_tag(:div, "", style: header_bg_style, class: "gantt_hdr") %>
-        <%
-          header_overlay_style = +"z-index: 1;"
-          header_overlay_style << "width: #{subject_width + 1}px;"
-          header_overlay_style << "height: #{t_height}px;"
-          header_overlay_style << 'overflow: hidden;'
-        %>
-        <%= content_tag(:div, "", style: header_overlay_style, class: "gantt_hdr") %>
+<%= gantt_chart_tag(@query, layout) do %>
+  <%= gantt_column_tag('subjects', min_width: 100, width: 'var(--gantt-subject-width)') do %>
+    <section class="gantt-pane gantt_subjects_container<%= ' draw_selected_columns' if query.draw_selected_columns %>"
+             data-gantt--chart-target="subjectsContainer">
+      <header class="gantt-pane-header" aria-hidden="true"></header>
+      <div class="gantt-pane-body">
         <%= gantt_subjects_tag do %>
           <%= form_tag({}, data: {cm_url: issues_context_menu_path}) do %>
             <%= hidden_field_tag 'back_url', url_for(params: request.query_parameters), id: nil %>
             <%= gantt.subjects.html_safe %>
           <% end %>
         <% end %>
-      <% end %>
+      </div>
+    </section>
+  <% end %>
+
+  <%
+    query.columns.each do |column|
+      next if Redmine::Helpers::Gantt::UNAVAILABLE_COLUMNS.include?(column.name)
+      column_name = column.name.to_s.tr('.', '_')
+  %>
+    <%= gantt_column_tag(column_name, min_width: 20, width: '50px', id: column_name,
+                         class: 'gantt_selected_column', hidden: !query.draw_selected_columns) do %>
+      <section class="gantt-pane gantt_selected_column_container gantt_<%= column_name %>_container">
+        <header class="gantt-pane-header gantt-selected-column-header"><%= column.caption %></header>
+        <div class="gantt-pane-body gantt_selected_column_content gantt_<%= column_name %>">
+          <%= gantt.selected_column_content(column: column, top: layout.content_top, zoom: layout.zoom, g_width: layout.chart_width).html_safe %>
+        </div>
+      </section>
     <% end %>
-    <%
-      query.columns.each do |column|
-        next if Redmine::Helpers::Gantt::UNAVAILABLE_COLUMNS.include?(column.name)
-        column_name = column.name.to_s.tr('.', '_')
-    %>
-      <%= gantt_column_tag(column_name, min_width: 20, id: column_name,
-                           class: ['gantt_selected_column', { 'last_gantt_selected_column': query.columns.last == column }]) do %>
-        <%
-          column_container_style = +"position: relative;"
-          column_container_style << "height: #{t_height + 24}px;"
-        %>
-        <%= content_tag(:div, style: column_container_style, class: "gantt_#{column_name}_container gantt_selected_column_container") do %>
-          <%
-            column_header_overlay_style = +"height: #{t_height}px;"
-            column_header_overlay_style << 'overflow: hidden;'
-          %>
-          <%= content_tag(:div, '', style: column_header_overlay_style, class: "gantt_hdr") %>
-          <%
-            column_header_style = +"height: #{headers_height}px;"
-            column_header_style << 'background: #f1f3f5;' # oc-gray-1
-          %>
-          <%= content_tag(:div,
-                          content_tag(:p, column.caption, class: 'gantt_hdr_selected_column_name'),
-                          style: column_header_style,
-                          class: "gantt_hdr") %>
-          <%= content_tag(:div, class: "gantt_#{column_name} gantt_selected_column_content") do %>
-            <%= gantt.selected_column_content({column: column, top: headers_height + 8, zoom: zoom, g_width: g_width}).html_safe %>
-          <% end %>
-        <% end %>
-      <% end %>
-    <% end %>
-    <td>
-      <div style="position:relative;height:<%= t_height + 24 %>px;overflow:auto;" id="gantt_area" data-gantt--chart-target="ganttArea">
-        <%
-          months_header_style = +"width: #{g_width - 1}px;"
-          months_header_style << "height: #{headers_height}px;"
-          months_header_style << 'background: #f1f3f5;' # oc-gray-1
-        %>
-        <%= content_tag(:div, '&nbsp;'.html_safe, style: months_header_style, class: "gantt_hdr") %>
+  <% end %>
 
-        <% month_f = gantt.date_from %>
-        <% left = 0 %>
-        <% months_height = (show_weeks ? header_height : header_height + g_height) %>
-        <% gantt.months.times do %>
-          <% width = (((month_f >> 1) - month_f) * zoom - 1).to_i %>
-          <% month_style = +"inset-inline-start: #{left}px;" %>
-          <% month_style << "width: #{width}px;" %>
-          <% month_style << "height: #{months_height}px;" %>
-          <%= content_tag(:div, style: month_style, class: "gantt_hdr") do %>
-            <%= link_to "#{month_f.year}-#{month_f.month}",
-                        gantt.params.merge(year: month_f.year, month: month_f.month),
-                        title: "#{month_name(month_f.month)} #{month_f.year}" %>
+  <div id="gantt_area" class="gantt-timeline" data-gantt--chart-target="ganttArea">
+    <div class="gantt-timeline-canvas">
+      <header class="gantt-timeline-header">
+        <div class="gantt-header-row gantt-header-months">
+          <% layout.months.each do |period| %>
+            <div class="gantt-period gantt-period-month<%= ' gantt-period-spans-body' if period.spans_body %><%= ' gantt-period-last' if period.last %>"
+                 style="<%= gantt_period_style(period) %>">
+              <%= link_to "#{period.date.year}-#{period.date.month}",
+                          gantt.params.merge(year: period.date.year, month: period.date.month),
+                          title: "#{month_name(period.date.month)} #{period.date.year}" %>
+            </div>
           <% end %>
-          <% left += width + 1 %>
-          <% month_f = month_f >> 1 %>
-        <% end %>
+        </div>
 
-        <% if show_weeks %>
-          <% left = 0 %>
-          <% weeks_height = (show_days ? header_height - 1 : header_height - 1 + g_height) %>
-          <% if gantt.date_from.cwday == 1 %>
-            <% week_f = gantt.date_from %>
-          <% else %>
-            <% week_f = gantt.date_from + (7 - gantt.date_from.cwday + 1) %>
-            <% width = (7 - gantt.date_from.cwday + 1) * zoom - 1 %>
-            <% gap_style = +"inset-inline-start: #{left}px;" %>
-            <% gap_style << "inset-block-start: 19px;" %>
-            <% gap_style << "width: #{width}px;" %>
-            <% gap_style << "height: #{weeks_height}px;" %>
-            <%= content_tag(:div, '&nbsp;'.html_safe, style: gap_style, class: "gantt_hdr") %>
-            <% left += width + 1 %>
-          <% end %>
-          <% while week_f <= gantt.date_to %>
-            <% width = ((week_f + 6 <= gantt.date_to) ? 7 * zoom - 1 : (gantt.date_to - week_f + 1) * zoom - 1).to_i %>
-            <% week_style = +"inset-inline-start: #{left}px;" %>
-            <% week_style << "inset-block-start: 19px;" %>
-            <% week_style << "width: #{width}px;" %>
-            <% week_style << "height: #{weeks_height}px;" %>
-            <%= content_tag(:div, style: week_style, class: "gantt_hdr") do %>
-              <%= content_tag(:small) do %>
-                <%= week_f.cweek if width >= 16 %>
-              <% end %>
+        <% if layout.show_weeks? %>
+          <div class="gantt-header-row gantt-header-weeks">
+            <% layout.weeks.each do |period| %>
+              <div class="gantt-period gantt-period-week<%= ' gantt-period-spans-body' if period.spans_body %><%= ' gantt-period-last' if period.last %>"
+                   style="<%= gantt_period_style(period) %>">
+                <small><%= period.date.cweek if period.date && period.width >= 16 %></small>
+              </div>
             <% end %>
-            <% left += width + 1 %>
-            <% week_f += 7 %>
-          <% end %>
+          </div>
         <% end %>
 
-        <% if show_day_num %>
-          <% left = 0 %>
-          <% days_height = g_height + header_height * 2 - 1 %>
-          <% wday = gantt.date_from.cwday %>
-          <% day_num = gantt.date_from %>
-          <% (gantt.date_to - gantt.date_from + 1).to_i.times do %>
-            <% width = zoom - 1 %>
-            <% day_style = +"inset-inline-start:#{left}px;" %>
-            <% day_style << "inset-block-start:37px;" %>
-            <% day_style << "width:#{width}px;" %>
-            <% day_style << "height:#{days_height}px;" %>
-            <% day_style << "font-size:0.7em;" %>
-            <% day_classes = +"gantt_hdr" %>
-            <% day_classes << " nwday" if gantt.non_working_week_days.include?(wday) %>
-            <%= content_tag(:div, style: day_style, class: day_classes) do %>
-              <%= day_num.day %>
+        <% if layout.show_day_numbers? %>
+          <div class="gantt-header-row gantt-header-day-numbers">
+            <% layout.day_numbers.each do |period| %>
+              <div class="gantt-period gantt-period-day-number<%= ' gantt-period-non-working' if period.non_working %><%= ' gantt-period-last' if period.last %>"
+                   style="<%= gantt_period_style(period) %>"><%= period.date.day %></div>
             <% end %>
-            <% left += width + 1 %>
-            <% day_num += 1 %>
-            <% wday += 1 %>
-            <% wday = 1 if wday > 7 %>
-          <% end %>
+          </div>
         <% end %>
 
-        <% if show_days %>
-          <% left = 0 %>
-          <% days_height = g_height + header_height - 1 %>
-          <% days_top = (show_day_num ? 55 : 37) %>
-          <% (gantt.date_from..gantt.date_to).each do |g_date| %>
-            <% width = zoom - 1 %>
-            <% day_style = +"inset-inline-start: #{left}px;" %>
-            <% day_style << "inset-block-start: #{days_top}px;" %>
-            <% day_style << "width: #{width}px;" %>
-            <% day_style << "height: #{days_height}px;" %>
-            <% day_style << "font-size:0.7em;" %>
-            <% day_classes = +"gantt_hdr" %>
-            <% day_classes << " nwday" if gantt.non_working_week_days.include?(g_date.cwday) %>
-            <%= content_tag(:div, style: day_style, class: day_classes) do %>
-              <%= day_letter(g_date.cwday) %>
+        <% if layout.show_days? %>
+          <div class="gantt-header-row gantt-header-days">
+            <% layout.days.each do |period| %>
+              <div class="gantt-period gantt-period-day gantt-period-spans-body<%= ' gantt-period-non-working' if period.non_working %><%= ' gantt-period-last' if period.last %>"
+                   style="<%= gantt_period_style(period) %>"><%= day_letter(period.date.cwday) %></div>
             <% end %>
-            <% left += width + 1 %>
-          <% end %>
+          </div>
         <% end %>
+      </header>
 
+      <div class="gantt-timeline-body">
         <%= form_tag({}, data: {cm_url: issues_context_menu_path}) do %>
           <%= hidden_field_tag 'back_url', url_for(params: request.query_parameters), id: nil %>
           <%= gantt.lines.html_safe %>
         <% end %>
 
-        <% if User.current.today >= gantt.date_from && User.current.today <= gantt.date_to %>
-          <% today_left = (((User.current.today - gantt.date_from + 1) * zoom).floor - 1).to_i %>
-          <% today_style = +"position: absolute;" %>
-          <% today_style << "height: #{g_height}px;" %>
-          <% today_style << "inset-block-start: #{headers_height + 1}px;" %>
-          <% today_style << "inset-inline-start: #{today_left}px;" %>
-          <% today_style << "width:10px;" %>
-          <% today_style << "border-inline-start: 1px dashed red;" %>
-          <%= content_tag(:div, '&nbsp;'.html_safe, style: today_style, id: 'today_line') %>
+        <% if layout.today_start %>
+          <div id="today_line" style="<%= gantt_css_variables('gantt-today-start': "#{layout.today_start}px") %>" aria-hidden="true"></div>
         <% end %>
 
-        <%
-          draw_area_style = +"position: absolute;"
-          draw_area_style << "height: #{g_height}px;"
-          draw_area_style << "inset-block-start: #{headers_height + 1}px;"
-          draw_area_style << 'inset-inline-start: 0px;'
-          draw_area_style << "width: #{g_width - 1}px;"
-        %>
-        <%= content_tag(:div, '', style: draw_area_style, id: "gantt_draw_area", data: {'gantt--chart-target': 'drawArea'}) %>
+        <div id="gantt_draw_area" data-gantt--chart-target="drawArea" aria-hidden="true"></div>
       </div>
-    </td>
-  </tr>
+    </div>
+  </div>
 <% end %>
 
 <span class="pagination">

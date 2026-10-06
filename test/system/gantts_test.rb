@@ -11,18 +11,18 @@ class GanttsTest < ApplicationSystemTestCase
     visit_gantt
     expand_options
 
-    assert_no_selector 'td#status'
-    assert_no_selector 'td#priority'
-    assert_no_selector 'td#assigned_to'
-    assert_no_selector 'td#updated_on'
+    assert_no_selector 'div#status'
+    assert_no_selector 'div#priority'
+    assert_no_selector 'div#assigned_to'
+    assert_no_selector 'div#updated_on'
 
     find('#draw_selected_columns').check
 
-    assert_selector 'div.gantt_subjects_container.draw_selected_columns'
-    assert_selector 'td#status'
-    assert_selector 'td#priority'
-    assert_selector 'td#assigned_to'
-    assert_selector 'td#updated_on'
+    assert_selector '.gantt_subjects_container.draw_selected_columns'
+    assert_selector 'div#status'
+    assert_selector 'div#priority'
+    assert_selector 'div#assigned_to'
+    assert_selector 'div#updated_on'
   end
 
   test 'related issues toggle displays and hides relation arrows' do
@@ -38,9 +38,17 @@ class GanttsTest < ApplicationSystemTestCase
     find('#draw_relations').check
 
     assert_selector '#gantt_draw_area path', minimum: 1
+
+    # Relation arrows should keep the same position when redrawn after horizontal scrolling.
+    paths_before_scroll = all('#gantt_draw_area path').pluck(:d)
+    find('#draw_relations').uncheck
+    find('.gantt-timeline').scroll_to(200, 0)
+    find('#draw_relations').check
+
+    assert_equal paths_before_scroll, all('#gantt_draw_area path').pluck(:d)
   end
 
-  test 'progress line toggle draws zigzag line' do
+  test 'progress line option displays progress line' do
     visit_gantt
     expand_options
 
@@ -107,11 +115,11 @@ class GanttsTest < ApplicationSystemTestCase
   end
 
   def column_width(id)
-    page.evaluate_script("document.querySelector('td##{id}').offsetWidth")
+    page.evaluate_script("document.querySelector('div##{id}').offsetWidth")
   end
 
   def drag_column_resizer(column_id, distance)
-    handle = find("td##{column_id} .ui-resizable-e")
+    handle = find("div##{column_id} .ui-resizable-e")
     page.driver.browser.action.click_and_hold(handle.native).move_by(distance, 0).release.perform
   end
 end

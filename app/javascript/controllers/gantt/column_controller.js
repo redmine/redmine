@@ -42,17 +42,13 @@ export default class extends Controller {
   }
 
   #setupResizable() {
-    const alsoResize = [
-      `.gantt_${this.columnValue}_container`,
-      `.gantt_${this.columnValue}_container > .gantt_hdr`
-    ]
     const options = {
       handles: "e",
       minWidth: this.minWidthValue,
       zIndex: 30,
-      alsoResize: alsoResize.join(","),
-      create: () => {
-        this.$(".ui-resizable-e").css("cursor", "ew-resize")
+      resize: (_event, ui) => {
+        this.element.style.setProperty("--gantt-column-width", `${ui.size.width}px`)
+        this.element.style.removeProperty("width")
       }
     }
 

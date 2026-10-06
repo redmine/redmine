@@ -56,7 +56,7 @@ class GanttsControllerTest < Redmine::ControllerTest
     end
 
     # Assert context menu on issues subject and gantt bar
-    assert_select 'div[class=?]', 'issue-subject hascontextmenu'
+    assert_select 'div.issue-subject.hascontextmenu'
     assert_select 'div.tooltip.hascontextmenu' do
       assert_select 'img[class="gravatar avatar"]'
     end
@@ -106,6 +106,15 @@ class GanttsControllerTest < Redmine::ControllerTest
     Version.update_all("effective_date = NULL")
     get(:show, :params => {:project_id => 1})
     assert_response :success
+  end
+
+  def test_gantt_should_warn_when_truncated
+    with_settings :gantt_items_limit => '1' do
+      get(:show, :params => {:project_id => 1})
+    end
+
+    assert_response :success
+    assert_select 'p.warning', :text => I18n.t(:notice_gantt_chart_truncated, :max => 1)
   end
 
   def test_show_should_run_custom_query
@@ -214,7 +223,7 @@ class GanttsControllerTest < Redmine::ControllerTest
         }
       )
       assert_response :success
-      assert_select 'div.gantt_hdr>a', :text => /^[\d-]+$/, :count => 40
+      assert_select 'div.gantt-period-month>a', :text => /^[\d-]+$/, :count => 40
 
       # Displays 6 months (the default value for `months`) if `months` exceeds
       # gant_months_limit
@@ -227,7 +236,7 @@ class GanttsControllerTest < Redmine::ControllerTest
         }
       )
       assert_response :success
-      assert_select 'div.gantt_hdr>a', :text => /^[\d-]+$/, :count => 6
+      assert_select 'div.gantt-period-month>a', :text => /^[\d-]+$/, :count => 6
     end
   end
 
@@ -313,7 +322,7 @@ class GanttsControllerTest < Redmine::ControllerTest
 
     6.times do |offset|
       m = selected_start.since(offset.month)
-      assert_select 'div.gantt_hdr > a', text: "#{m.year}-#{m.month}"
+      assert_select 'div.gantt-period-month > a', text: "#{m.year}-#{m.month}"
     end
 
     # eCookbook
@@ -357,7 +366,7 @@ class GanttsControllerTest < Redmine::ControllerTest
     6.times do |offset|
       m = start_of_month.since(offset.months)
 
-      assert_select 'div.gantt_hdr > a', text: "#{m.year}-#{m.month}"
+      assert_select 'div.gantt-period-month > a', text: "#{m.year}-#{m.month}"
     end
 
     assert_select 'input#months[value=?]', '6'
@@ -382,6 +391,7 @@ class GanttsControllerTest < Redmine::ControllerTest
   end
 
   def assert_chart_row(selector, row:, style_substring:)
+    style_substring = "--gantt-task-start:#{style_substring.delete_prefix('inset-inline-start:').sub(';width:', ';--gantt-task-width:')}"
     matcher = "#gantt_area #{selector}[data-number-of-rows=?][style*=?]"
     assert_select matcher, row, style_substring, minimum: 1
   end

@@ -667,30 +667,13 @@
   }
 
   /* Gantt charts */
-  /*
-   * [1] override inline styles with important
-   * [2] keep border between subjects and gantt area
-   * [3] remove whitespace between subjects and gantt area
-   * [4] maintain width due to [3]
-   */
   .gantt_subjects_column {
-    inline-size: 60% !important; /* [1] */
+    --gantt-column-width: 60% !important;
   }
 
   .gantt_subjects_container {
     inline-size: 100% !important;
     overflow: hidden;
-  }
-
-  .gantt_subjects_column .gantt_hdr {
-    inline-size: 100% !important;
-    inset-inline-end: 0 !important; /* [2] */
-    border-inline-end: solid 1px var(--oc-gray-4);
-  }
-
-  #gantt_area {
-    inset-inline-start: -2px; /* [3] */
-    margin-inline-end: -2px; /* [4] */
   }
 
   /*----------------------------------------*\
