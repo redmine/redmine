@@ -62,7 +62,6 @@ class GanttsTest < ApplicationSystemTestCase
 
     assert_selector '.gantt-relations path', minimum: 1
 
-
     # Relation arrows should keep the same position when redrawn after horizontal scrolling.
     paths_before_scroll = all('.gantt-relations path').pluck(:d)
     find('#draw_relations').uncheck
