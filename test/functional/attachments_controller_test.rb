@@ -469,7 +469,7 @@ class AttachmentsControllerTest < Redmine::ControllerTest
     assert_select 'div.filecontent.pdf object[type=?]', 'application/pdf'
   end
 
-  def test_download_pdf_compatible_illustrator_file_with_inline_disposition_param_should_be_sent_inline_as_pdf
+  def test_download_pdf_compatible_illustrator_file_should_be_sent_as_pdf_only_with_inline_disposition_param
     set_tmp_attachments_directory
     attachment = Attachment.create!(
       :file => mock_file_with_options(
@@ -479,6 +479,11 @@ class AttachmentsControllerTest < Redmine::ControllerTest
       :author_id => 2,
       :container => Issue.find(1)
     )
+
+    get(:download, :params => {:id => attachment.id})
+    assert_response :success
+    assert_equal 'application/illustrator', @response.media_type
+    assert_match %r{\Aattachment}, @response.headers['Content-Disposition']
 
     get(:download, :params => {:id => attachment.id, :disposition => 'inline'})
     assert_response :success

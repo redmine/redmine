@@ -79,8 +79,11 @@ class AttachmentsController < ApplicationController
     end
 
     if stale?(:etag => @attachment.digest, :template => false)
+      # Send PDF compatible files, such as Illustrator files, as PDF so that
+      # browsers display them inline
+      is_inline_pdf = disposition(@attachment) == 'inline' && @attachment.pdf_previewable?
       send_file @attachment.diskfile, :filename => filename_for_content_disposition(@attachment.filename),
-                                      :type => detect_content_type(@attachment),
+                                      :type => is_inline_pdf ? 'application/pdf' : detect_content_type(@attachment),
                                       :disposition => disposition(@attachment)
     end
   end
@@ -298,10 +301,6 @@ class AttachmentsController < ApplicationController
       content_type =
         Redmine::MimeType.of(attachment.filename).presence ||
         "application/octet-stream"
-    elsif Marcel::Magic.child?(content_type, "application/pdf")
-      # Send PDF compatible files, such as Illustrator files, as PDF so that
-      # browsers display them inline
-      content_type = "application/pdf"
     end
 
     if is_thumb && !content_type.start_with?("image/")
@@ -315,7 +314,7 @@ class AttachmentsController < ApplicationController
   # Inline disposition can be requested only for PDF compatible files (used
   # by the PDF preview), to prevent XSS with e.g. HTML or SVG files
   def disposition(attachment)
-    if params[:disposition] == 'inline' && detect_content_type(attachment) == 'application/pdf'
+    if params[:disposition] == 'inline' && attachment.pdf_previewable?
       'inline'
     else
       'attachment'
