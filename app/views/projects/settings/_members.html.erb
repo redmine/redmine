@@ -13,6 +13,10 @@
 <%= select_tag 'member_role_id',
                options_for_select([[l(:label_all), '']] + Role.givable.pluck(:name, :id), params[:member_role_id]),
                :onchange => "this.form.submit(); return false;" %>
+ <label for='member_status'><%= l(:field_status) %>:</label>
+ <%= select_tag 'member_status',
+                options_for_select(member_status_options, params[:member_status]),
+                :onchange => "this.form.submit(); return false;" %>
 <%= submit_tag l(:button_apply), :class => "small", :name => nil %>
 <%= link_to sprite_icon('reload', l(:button_clear)), settings_project_path(@project, :tab => 'members'), :class => 'icon icon-reload' %>
 </fieldset>

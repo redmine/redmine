@@ -48,10 +48,21 @@ module MembersHelper
     s + content_tag('span', links, :class => 'pagination')
   end
 
+  def member_status_options
+    [
+      [l(:label_all), ''],
+      [l(:status_active), User::STATUS_ACTIVE.to_s],
+      [l(:status_locked), User::STATUS_LOCKED.to_s]
+    ]
+  end
+
   # Returns the scope of the members of project matching the filters
   # set in the request params
   def members_scope(project)
-    project.memberships.like(params[:member_name]).with_role(params[:member_role_id])
+    project.memberships.
+      like(params[:member_name]).
+      with_role(params[:member_role_id]).
+      status(params[:member_status])
   end
 
   # limit/offset on Member.sorted would paginate role join rows, not members
@@ -72,7 +83,8 @@ module MembersHelper
     {
       :members_page => params[:members_page],
       :member_name => params[:member_name],
-      :member_role_id => params[:member_role_id]
+      :member_role_id => params[:member_role_id],
+      :member_status => params[:member_status]
     }.select {|_, value| value.present?}
   end
 

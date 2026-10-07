@@ -76,4 +76,34 @@ class MembersHelperTest < Redmine::HelperTest
     assert_equal [2, 4], members.map(&:id).sort
     assert_equal 2, member_count
   end
+
+  def test_member_status_options
+    expected = [
+      [l(:label_all), ''],
+      [l(:status_active), '1'],
+      [l(:status_locked), '3']
+    ]
+    assert_equal expected, member_status_options
+  end
+
+  def test_members_scope_default_should_return_all_members
+    project = Project.find(1)
+    stubs(:params).returns({})
+
+    assert_equal [1, 2, 4], members_scope(project).ids.sort
+  end
+
+  def test_members_scope_with_status_active_should_filter_by_active_status
+    project = Project.find(1)
+    stubs(:params).returns({:member_status => '1'})
+
+    assert_equal [1, 2], members_scope(project).ids.sort
+  end
+
+  def test_members_scope_with_status_locked_should_return_locked_members
+    project = Project.find(1)
+    stubs(:params).returns({:member_status => '3'})
+
+    assert_equal [4], members_scope(project).ids.sort
+  end
 end

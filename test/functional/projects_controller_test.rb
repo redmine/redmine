@@ -1124,9 +1124,32 @@ class ProjectsControllerTest < Redmine::ControllerTest
     assert_select 'div#tab-content-members form#members-filter-form[action=?]', '/projects/ecookbook/settings/members' do
       assert_select 'input[name=member_name]'
       assert_select 'select[name=member_role_id][onchange=?]', 'this.form.submit(); return false;'
+      assert_select 'select[name=member_status][onchange=?]', 'this.form.submit(); return false;'
       assert_select 'input[type=submit]'
       assert_select 'a[href=?]', '/projects/ecookbook/settings/members'
     end
+  end
+
+  def test_settings_members_should_filter_by_status
+    @request.session[:user_id] = 2
+    get(
+      :settings,
+      :params => {
+        :id => 'ecookbook',
+        :tab => 'members',
+        :member_status => '3'
+      }
+    )
+    assert_response :success
+    assert_select 'div#tab-content-members form#members-filter-form' do
+      assert_select 'select[name=member_status]' do
+        assert_select 'option[value="3"][selected=selected]'
+      end
+    end
+    assert_select 'div#tab-content-members tr#member-4'
+    assert_select 'div#tab-content-members tr#member-1', :count => 0
+    assert_select 'div#tab-content-members tr#member-2', :count => 0
+    assert_select 'a#tab-members[href*=?]', 'member_status=3'
   end
 
   def test_settings_members_should_filter_by_name

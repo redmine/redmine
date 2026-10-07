@@ -81,6 +81,17 @@ class MemberTest < ActiveSupport::TestCase
     assert_equal project.memberships.ids.sort, project.memberships.with_role(nil).ids.sort
   end
 
+  def test_status_scope_should_filter_by_status
+    assert_equal [1, 2], Project.find(1).memberships.status(User::STATUS_ACTIVE).ids.sort
+    assert_equal [4], Project.find(1).memberships.status(User::STATUS_LOCKED).ids.sort
+  end
+
+  def test_status_scope_with_all_or_blank_should_return_all_the_members
+    project = Project.find(1)
+    assert_equal project.memberships.ids.sort, project.memberships.status('all').ids.sort
+    assert_equal project.memberships.ids.sort, project.memberships.status(nil).ids.sort
+  end
+
   def test_create
     member = Member.new(:project_id => 1, :user_id => 4, :role_ids => [1, 2])
     assert member.save

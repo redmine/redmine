@@ -49,6 +49,12 @@ class Member < ApplicationRecord
       where(:id => MemberRole.where(:role_id => arg.to_i).select(:member_id))
     end
   end)
+  # Members whose principal has the given status
+  scope :status, (lambda do |arg|
+    if arg.present? && arg != 'all'
+      joins(:principal).where(:users => {:status => arg.to_i})
+    end
+  end)
   # Sort by first role and principal
   scope :sorted, (lambda do
     includes(:member_roles, :roles, :principal).
