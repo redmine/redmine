@@ -39,6 +39,8 @@ module AvatarsHelper
   def avatar(user, options = {})
     # "avatar" class should be added to all avatars
     options[:class] = ['avatar', options[:class]].compact.join(' ')
+    # Add the status of the user as a class (e.g. "active", "locked")
+    options[:class] += " #{User::LABEL_BY_STATUS[user.status]}" if user.is_a?(User)
 
     if user.is_a?(AnonymousUser)
       anonymous_avatar(options)

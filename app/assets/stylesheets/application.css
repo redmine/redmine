@@ -2381,6 +2381,7 @@ img.filecontent.image {background-image: url(/transparent.png);}
   vertical-align: middle;
   flex-shrink: 0;
 }
+.avatar.locked, .avatar.registered {opacity: .6;}
 
 span[role="img"].avatar {
   font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;

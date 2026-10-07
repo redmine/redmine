@@ -58,7 +58,7 @@ class GanttsControllerTest < Redmine::ControllerTest
     # Assert context menu on issues subject and gantt bar
     assert_select 'div.gantt-column[data-gantt-column=subjects] div.gantt-row[data-gantt-row-type=issue].hascontextmenu'
     assert_select 'div.tooltip.hascontextmenu' do
-      assert_select 'img[class="gravatar avatar"]'
+      assert_select 'img.gravatar.avatar.active'
     end
     assert_select "form[data-cm-url=?]", '/issues/context_menu'
 
