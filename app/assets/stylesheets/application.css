@@ -2144,7 +2144,7 @@ div.wiki .task-list input.task-list-item-checkbox {
 }
 
 .journals .journal-details a, ul.revision-info a {
-  color: var(--oc-blue-6);
+  color: var(--oc-blue-8);
 }
 
 .journals .journal-details a:hover, ul.revision-info a:hover {
