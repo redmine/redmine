@@ -3,6 +3,7 @@
 # with parts taken from http://github.com/daniel/swe_rails
 # Update based on Redmine 2.6.0 by Khedron Wilk (khedron.wilk@gmail.com) 6th Dec 2014
 # Update based on Redmine 6.0.1 by Jimmy 'Grovkillen' Westberg (jimmy@grovkillen.com) 5th Dec 2024
+# Update based on Redmine 6.1.5 by Jimmy 'Grovkillen' Westberg (jimmy@grovkillen.com) 4th Oct 2026
 sv:
   number:
     # Used in number_with_delimiter()
@@ -124,6 +125,7 @@ sv:
         wrong_length: "har fel längd (ska vara %{count} tecken)"
         taken: "har redan tagits"
         not_a_number: "är inte ett nummer"
+        not_a_date: "är inte ett giltigt datum"
         greater_than: "måste vara större än %{count}"
         greater_than_or_equal_to: "måste vara större än eller lika med %{count}"
         equal_to: "måste vara samma som"
@@ -144,6 +146,9 @@ sv:
         must_contain_special_chars: "måste innehålla specialtecken (!, $, %, ...)"
         domain_not_allowed: "består av en ej godkänd domän (%{domain})"
         too_simple: "är för simpel"
+    attributes:
+      doorkeeper/application:
+        scopes: Omfång
 
   direction: ltr
   date:
@@ -181,6 +186,9 @@ sv:
     array:
       sentence_connector: "och"
       skip_last_comma: true
+      last_word_connector: " och "
+      two_words_connector: " och "
+      words_connector: ", "
 
   actionview_instancetag_blank_option: Var god välj
 
@@ -607,7 +615,7 @@ sv:
   label_date: Datum
   label_integer: Heltal
   label_float: Flyttal
-  label_boolean: Boolean
+  label_boolean: Booleansk
   label_string: Text
   label_text: Lång text
   label_attribute: Attribut
@@ -1143,7 +1151,7 @@ sv:
   label_enable_notifications: Aktivera aviseringar
   label_disable_notifications: Avaktivera aviseringar
   setting_search_results_per_page: Sökresultat per sida
-  label_blank_value: blank
+  label_blank_value: "tom"
   permission_copy_issues: Kopiera ärenden
   error_password_expired: Ditt lösenord har gått ut eller administratören kräver att du ändrar det.
   field_time_entries_visibility: Synlighet för tidsstämplingar
@@ -1214,8 +1222,8 @@ sv:
   label_new_object_tab_enabled: Visa "+" rullgardinsmenyn
   error_no_projects_with_tracker_allowed_for_new_issue: Inga projekt med ärendetyper tillåtna för nya ärenden
   field_textarea_font: Font som används för textytor
-  label_font_default: Default font
-  label_font_monospace: Monospaced font
+  label_font_default: Standardfont
+  label_font_monospace: Font med fast bredd
   label_font_proportional: Proportionell font
   setting_timespan_format: Format för tidsintervall
   label_table_of_contents: Innehållsförteckning
@@ -1463,45 +1471,36 @@ sv:
     zero: '%{filename}'
     one: '%{filename} och 1 fil'
     other: '%{filename} och %{count} filer'
-  setting_wiki_tablesort_enabled: JavaScript based table sorting in wiki content
-  label_progressbar: Progress bar
-  error_spent_on_closed_issue: Cannot log time on a closed issue
-  setting_timelog_accept_closed_issues: Accept time logs on closed issues
-  setting_related_issues_default_columns: Related and sub issues list defaults
-  setting_display_related_issues_table_headers: Show table headers
-  error_can_not_remove_role_reason_members_html: "<p>The following projects have members
-    with this role:<br>%{projects}</p>"
-  setting_reactions_enabled: Enable reactions
+  setting_wiki_tablesort_enabled: JavaScript-baserad tabellsortering i wikiinnehåll
+  label_progressbar: Framstegsindikator
+  error_spent_on_closed_issue: Kan inte stämpla tid på ett stängt ärende
+  setting_timelog_accept_closed_issues: Tillåt tidsstämplingar på stängda ärenden
+  setting_related_issues_default_columns: Standardkolumner för relaterade ärenden och underaktiviteter
+  setting_display_related_issues_table_headers: Visa tabellrubriker
+  error_can_not_remove_role_reason_members_html: "<p>Följande projekt har medlemmar med den här rollen:<br>%{projects}</p>"
+  setting_reactions_enabled: Aktivera reaktioner
   reaction_text_x_other_users:
-    one: 1 other
-    other: "%{count} others"
-  text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="https://www.gravatar.com">https://www.gravatar.com</a>
-    to generate their avatars.
-  permission_view_project: View projects
-  permission_search_project: Search projects
-  permission_view_members: View project members
-  label_oauth_permission_admin: Administrate this Redmine
+    one: 1 annan
+    other: "%{count} andra"
+  text_setting_gravatar_default_initials_html: "Användarnas initialer skickas till <a href=\"https://www.gravatar.com\">https://www.gravatar.com</a> för att skapa deras avatarer."
+  permission_view_project: Visa projekt
+  permission_search_project: Sök projekt
+  permission_view_members: Visa projektmedlemmar
+  label_oauth_permission_admin: Administrera denna Redmine
   label_oauth_admin_access: Administration
-  label_oauth_application_plural: Applications
-  label_oauth_authorized_application_plural: Authorized applications
-  text_oauth_admin_permission: Full administrative access. When authorized by an Administrator,
-    this application will be able to read and write all data and impersonate other users.
-  text_oauth_admin_permission_info: This application requests full administrative access.
-    If you are an Administrator (or become one in the future), it will be able to read
-    and write all data and impersonate other users on your behalf. If you want to avoid
-    this, authorize it as a user without Administrator privileges instead.
-  text_oauth_copy_secret_now: Copy the secret to a safe place now, it will not be shown
-    again.
-  text_oauth_implicit_permissions: View your name, login and primary email address
-  text_oauth_info_scopes: Select the scopes this application may request. The application
-    will not be allowed to do more than what is selected here. It will also always be
-    limited by the roles and project memberships of the user who authorized it.
+  label_oauth_application_plural: Applikationer
+  label_oauth_authorized_application_plural: Auktoriserade applikationer
+  text_oauth_admin_permission: Full administrativ åtkomst. När den auktoriseras av en administratör kan applikationen läsa och skriva all data och agera som andra användare.
+  text_oauth_admin_permission_info: "Applikationen begär full administrativ åtkomst. Om du är administratör (eller blir det senare) kan den läsa och skriva all data och agera som andra användare å dina vägnar. Vill du undvika det, auktorisera den i stället som en användare utan administratörsrättigheter."
+  text_oauth_copy_secret_now: "Kopiera hemligheten till en säker plats nu, den visas inte igen."
+  text_oauth_implicit_permissions: "Se ditt namn, ditt användarnamn och din primära e-postadress"
+  text_oauth_info_scopes: Välj vilka omfång applikationen får begära. Applikationen får inte göra mer än det som väljs här. Den begränsas dessutom alltid av rollerna och projektmedlemskapen hos den användare som auktoriserade den.
   label_position: Position
-  label_message: Message
-  twofa_already_setup: Two-factor authentication already set up
-  label_alert_note: Note
-  label_alert_tip: Tip
-  label_alert_warning: Warning
-  label_alert_caution: Caution
-  label_alert_important: Important
-  field_ratio_interval: Ratio interval
+  label_message: Meddelande
+  twofa_already_setup: Tvåfaktorsautentisering är redan aktiverad
+  label_alert_note: Anmärkning
+  label_alert_tip: Tips
+  label_alert_warning: Varning
+  label_alert_caution: Se upp
+  label_alert_important: Viktigt
+  field_ratio_interval: "Intervall för \"% Klar\""
