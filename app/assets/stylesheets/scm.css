@@ -50,7 +50,7 @@ li.change.change-D svg.icon-svg {
     stroke: var(--oc-white);
 }
 
-li.change .copied-from { font-style: italic; color: var(--oc-gray-6); font-size: 0.9em; }
+li.change .copied-from { font-style: italic; color: var(--color-text-muted); font-size: 0.9em; }
 li.change .copied-from:before { content: " - "}
 
 #changes-legend { float: inline-end; font-size: 0.75rem; margin: 0; }
@@ -69,7 +69,7 @@ table.filecontent th.line-num {
     inline-size: 2%;
     padding-block: 0;
     padding-inline: 0 3px;
-    color: var(--oc-gray-6);
+    color: var(--color-text-muted);
     user-select: none;
     -moz-user-select: none;
     -o-user-select: none;

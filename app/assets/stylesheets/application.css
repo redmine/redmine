@@ -44,6 +44,8 @@
   /* no match in Open Color, using hex codes */
   --color-top-menu-background: #234761;
   --color-header-background: #3A78A3;
+  /* between --oc-gray-6 and --oc-gray-7 with the same hue as Open Color grays */
+  --color-text-muted: #6b737b;
 }
 
 html, body { min-block-size: 100vh; }
@@ -76,7 +78,7 @@ pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
 .wiki h3 {font-size: 1.2em;}
 .wiki h4 {font-size: 1.1em; border: none; font-weight: bold;}
 .wiki h5 {font-size: 1em;}
-.wiki h6 {font-size: 1em; color: var(--oc-gray-6);}
+.wiki h6 {font-size: 1em; color: var(--color-text-muted);}
 
 /***** Layout *****/
 #wrapper {
@@ -444,9 +446,9 @@ a.user.user-mention.user-current {
 #sidebar .query.default {font-weight: bold;}
 #admin-menu a {line-height:1.7em;}
 
-a#toggle-completed-versions {color:var(--oc-gray-6);}
+a#toggle-completed-versions {color:var(--color-text-muted);}
 a#toggle-completed-versions span.icon-label {margin-inline-start: 0}
-a#toggle-completed-versions svg, a#toggle-completed-versions:hover svg {stroke:var(--oc-gray-6)}
+a#toggle-completed-versions svg, a#toggle-completed-versions:hover svg {stroke:var(--color-text-muted)}
 
 /***** Dropdown *****/
 .drdn {position:relative;}
@@ -508,7 +510,7 @@ div + .drdn-items {border-block-start: 1px solid var(--oc-gray-4);}
 .drdn-items.selection:empty {
   border: none;
 }
-.drdn-items>span {color:var(--oc-gray-6);}
+.drdn-items>span {color:var(--color-text-muted);}
 
 .contextual .drdn-content, .journal-actions .drdn-content {
   inset-block-start: 18px;
@@ -607,7 +609,7 @@ tr.issue.created-by-me td.author {font-weight: bold;}
 tr.issue.assigned-to-me td.assigned_to {font-weight: bold;}
 tr.issue.assigned-to-my-group td.assigned_to {font-weight: bold;}
 table.issues td.block_column {
-  color:var(--oc-gray-6);
+  color:var(--color-text-muted);
   font-size:90%;
   padding-block: 4px;
   padding-inline: 24px 4px;
@@ -684,7 +686,7 @@ td.login, td.firstname, td.lastname, td.mail {text-align:start !important;}
 tr.user.locked, tr.user.registered { color: var(--oc-gray-5); }
 tr.user.locked a, tr.user.registered a { color: var(--oc-gray-5); }
 
-table.permissions td.role {color:var(--oc-gray-6);font-size:90%;font-weight:normal !important;text-align:center;vertical-align:bottom;}
+table.permissions td.role {color:var(--color-text-muted);font-size:90%;font-weight:normal !important;text-align:center;vertical-align:bottom;}
 table.permissions td.name {min-inline-size: 10rem;}
 table.permissions tr.group>td:nth-of-type(1),
 table.tracker-summary tr.group>td:nth-of-type(1) {font-weight: bold;}
@@ -715,7 +717,7 @@ tr.group td {
 tr.group span.count {inset-block-start: -1px;}
 tr.group span.name {font-weight:bold;}
 tr.group span.totals {color: var(--oc-gray-5); font-size: 93%;}
-tr.group span.totals .value {font-weight:bold; color:var(--oc-gray-6);}
+tr.group span.totals .value {font-weight:bold; color:var(--color-text-muted);}
 tr.group a.toggle-all { color: var(--oc-gray-5); font-size: 93%; display: none; float: inline-end; margin-inline-end: 4px;}
 tr.group:hover a.toggle-all { display:inline;}
 a.toggle-all:hover {text-decoration:none;}
@@ -917,12 +919,12 @@ p.footnote { font-size: 0.9em; margin-block: 0; }
 .wiki-class-rtl {direction:rtl !important;}
 
 div.issue div.subject div div { padding-inline-start: 16px; word-break: break-word; }
-div.issue div.subject p {margin-block: 0 0.1em; margin-inline: 0; font-size: 90%; color: var(--oc-gray-6);}
+div.issue div.subject p {margin-block: 0 0.1em; margin-inline: 0; font-size: 90%; color: var(--color-text-muted);}
 div.issue div.subject>div>p { margin-block-start: 0.5em; }
 div.issue div.subject h3 {margin-block: 0 0.1em; margin-inline: 0;}
 div.issue p.author {margin-block-start: 0.5em; font-size: 93%}
 div.issue span.private, div.journal span.private {font-size: 60%;}
-div.issue .next-prev-links {color: var(--oc-gray-6); margin-block: 1px 0;}
+div.issue .next-prev-links {color: var(--color-text-muted); margin-block: 1px 0;}
 div.issue .next-prev-links .pagination ul.pages {margin-inline: 0; display: inline-flex;}
 div.issue .next-prev-links .pagination ul.pages li {margin-block-end: 0;}
 div.issue .attributes {margin-block-start: 2em;}
@@ -1055,7 +1057,7 @@ div#activity dt .time {
 }
 div#activity dd .description, #search-results dd .description { font-style: italic; margin-block: 2px; margin-inline: 0;}
 div#activity span.project:after, #search-results span.project:after { content: " - "; white-space: pre;}
-div#activity dd span.description, #search-results dd span.description { display:block; color: var(--oc-gray-6); }
+div#activity dd span.description, #search-results dd span.description { display:block; color: var(--color-text-muted); }
 div#activity dt.grouped {padding-inline-start:5em;}
 div#activity dd.grouped {margin-inline-start:9em;}
 div#activity h3 {
@@ -1132,8 +1134,8 @@ div#version-summary fieldset.time-tracking table { inline-size: 100%; }
 div#version-summary th, div#version-summary td.total-hours { text-align: end; }
 
 table#time-report td.hours, table#time-report th.period, table#time-report th.total { text-align: right; padding-right: 0.5em; } /* Numbers should be right aligned even in RTL */
-table#time-report tbody tr.subtotal { font-style: italic; color:var(--oc-gray-6);}
-table#time-report tbody tr.subtotal td.hours { color:var(--oc-gray-6); }
+table#time-report tbody tr.subtotal { font-style: italic; color:var(--color-text-muted);}
+table#time-report tbody tr.subtotal td.hours { color:var(--color-text-muted); }
 table#time-report tbody tr.total { font-weight: bold; background-color: var(--oc-gray-2); border-block-start: 2px solid var(--oc-gray-4);}
 table#time-report .hours-dec { font-size: 0.9em; }
 
@@ -1144,7 +1146,7 @@ div.wiki a:target + h1, div.wiki a:target + h2, div.wiki a:target + h3, div.wiki
   background-color:var(--oc-blue-0);
 }
 
-.wiki-update-info {text-align: end; color: var(--oc-gray-6); font-size: 90%;}
+.wiki-update-info {text-align: end; color: var(--color-text-muted); font-size: 90%;}
 
 form .attributes select { inline-size: 60%; }
 form .attributes select + a.icon-only { vertical-align: middle; margin-inline-start: 4px; }
@@ -1231,7 +1233,7 @@ ul.subprojects li:not(:last-child)::after {content: ', '; white-space: pre;}
 
 #related-issues li img {vertical-align:middle;}
 
-ul.properties {padding:0; font-size: 0.9em; color: var(--oc-gray-6);}
+ul.properties {padding:0; font-size: 0.9em; color: var(--color-text-muted);}
 ul.properties li {list-style-type:none;}
 ul.properties li span {font-style:italic;}
 
@@ -1255,7 +1257,7 @@ textarea#custom_field_default_value {inline-size: 95%; resize: vertical;}
 
 input#content_comments {inline-size: 99%}
 
-span.pagination {margin-inline-start: 3px; color: var(--oc-gray-6); display: block;}
+span.pagination {margin-inline-start: 3px; color: var(--color-text-muted); display: block;}
 .pagination ul.pages {
   margin-block: 0;
   margin-inline: 0 5px;
@@ -1454,7 +1456,7 @@ a.remove-upload:hover {text-decoration:none !important;}
 div.fileover, p.custom-field-filedroplistner.fileover { background-color: var(--oc-violet-0); }
 
 div.attachments img { vertical-align: middle; }
-div.attachments span.author { font-size: 0.9em; color: var(--oc-gray-6); }
+div.attachments span.author { font-size: 0.9em; color: var(--color-text-muted); }
 div.attachments span.attachment-journal { display: inline-flex; inline-size: 18px; block-size: 18px; vertical-align: text-bottom; }
 
 div.thumbnails {margin:0.6em;}
@@ -1466,10 +1468,10 @@ div.thumbnail {
 }
 div.thumbnail img {margin: 3px; vertical-align: middle;}
 
-p.other-formats { text-align: end; font-size:0.9em; color: var(--oc-gray-6); }
+p.other-formats { text-align: end; font-size:0.9em; color: var(--color-text-muted); }
 .other-formats span + span:before { content: "| "; }
 
-em.info {font-style:normal;display:block;font-size:90%;color:var(--oc-gray-6);}
+em.info {font-style:normal;display:block;font-size:90%;color:var(--color-text-muted);}
 em.info.error {padding-inline-start: 20px; background: url(/exclamation.png) no-repeat left 50%;}
 [dir="rtl"] em.info.error {background-position: right 50%;}
 
@@ -1774,7 +1776,7 @@ img.ui-datepicker-trigger {
   border-block-end: none;
 }
 #document-list .document-item .updated_on {
-  color: var(--oc-gray-6);
+  color: var(--color-text-muted);
   font-size: 0.8125rem;
   padding-inline-start: 1.5rem;
 }
@@ -1810,7 +1812,7 @@ table.progress td.closed { background: var(--oc-green-7) none repeat scroll 0%; 
 table.progress td.done { background: var(--oc-green-4) none repeat scroll 0%; }
 table.progress td.todo { background: var(--oc-gray-3) none repeat scroll 0%; }
 p.percent {font-size: 86%; margin:0;}
-p.progress-info {clear: inline-start; font-size: 86%; margin-block-start: -4px; color: var(--oc-gray-6);}
+p.progress-info {clear: inline-start; font-size: 86%; margin-block-start: -4px; color: var(--color-text-muted);}
 
 .version-overview table.progress {inline-size: 40em;}
 .version-overview table.progress td { block-size: 1.2em; }
@@ -2098,7 +2100,7 @@ div.wiki .task-list input.task-list-item-checkbox {
 }
 
 .journals h4.journal-header .update-info {
-  color: var(--oc-gray-6);
+  color: var(--color-text-muted);
   font-size: 0.9em;
 }
 
@@ -2137,7 +2139,7 @@ div.wiki .task-list input.task-list-item-checkbox {
 }
 
 .journals .journal-details, ul.revision-info {
-  color: var(--oc-gray-6);
+  color: var(--color-text-muted);
   margin-block-end: 1.5em;
 }
 
@@ -2484,10 +2486,10 @@ span[role="img"].avatar.s50  {
   cursor: default;
 }
 .reaction-button.readonly .icon-svg {
-  stroke: var(--oc-gray-6);
+  stroke: var(--color-text-muted);
 }
 .reaction-button.readonly .icon-label {
-  color: var(--oc-gray-6);
+  color: var(--color-text-muted);
 }
 div.issue.details .reaction {
   float: inline-end;
@@ -2519,7 +2521,7 @@ div.news .reaction {
 #news-list article.news-article header p.author {
   margin-block-start: 2px;
   margin-block-end: 2px;
-  color: var(--oc-gray-6);
+  color: var(--color-text-muted);
 }
 #news-list article.news-article .wiki > p:first-child {
   margin-block-start: 2px;

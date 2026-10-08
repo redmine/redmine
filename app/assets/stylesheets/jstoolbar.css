@@ -50,7 +50,7 @@
     background-color: var(--oc-white);
     border: 1px solid var(--oc-gray-4);
 }
-.wiki-preview p.empty-preview {color: var(--oc-gray-6); font-style: italic; margin-block-start: 1em; text-align: center;}
+.wiki-preview p.empty-preview {color: var(--color-text-muted); font-style: italic; margin-block-start: 1em; text-align: center;}
 
 .jstElements button {
     margin-inline-end: 2px;
