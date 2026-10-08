@@ -73,7 +73,7 @@ export default class extends Controller {
     if (!pre) return;
 
     if (!mermaidInitialized) {
-      mermaid.initialize({ startOnLoad: false, securityLevel: 'strict' });
+      mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', suppressErrorRendering: true });
       mermaidInitialized = true;
     }
 
@@ -83,9 +83,8 @@ export default class extends Controller {
     pre.insertAdjacentElement('afterend', container);
     this.container = container;
 
-    // Mermaid.js draws its own error diagram on failure; replace it with a
-    // Redmine flash message while keeping the source block visible, so that
-    // the invalid diagram can be inspected and copied.
+    // On failure, show a Redmine flash message while keeping the source block
+    // visible, so that the invalid diagram can be inspected and copied.
     mermaid.run({ nodes: [container], suppressErrors: false }).then(() => {
       pre.style.display = 'none';
     }).catch((error) => {
