@@ -716,9 +716,9 @@ tr.group td {
 }
 tr.group span.count {inset-block-start: -1px;}
 tr.group span.name {font-weight:bold;}
-tr.group span.totals {color: var(--oc-gray-5); font-size: 93%;}
+tr.group span.totals {color: var(--color-text-muted); font-size: 93%;}
 tr.group span.totals .value {font-weight:bold; color:var(--color-text-muted);}
-tr.group a.toggle-all { color: var(--oc-gray-5); font-size: 93%; display: none; float: inline-end; margin-inline-end: 4px;}
+tr.group a.toggle-all { color: var(--color-text-muted); font-size: 93%; display: none; float: inline-end; margin-inline-end: 4px;}
 tr.group:hover a.toggle-all { display:inline;}
 a.toggle-all:hover {text-decoration:none;}
 
@@ -1696,7 +1696,7 @@ ul.cal {
 .cal .calbody .abbr-day {display:none}
 .cal .calbody.this-month {background-color:var(--oc-white);}
 .cal .calbody.other-month {background-color:var(--oc-gray-1);}
-.cal .calbody.other-month p.day-num {color: var(--oc-gray-5);}
+.cal .calbody.other-month p.day-num {color: var(--color-text-muted);}
 .cal .calbody.today p.day-num {font-weight: bold;}
 .cal .calbody.today .day-value {
   color: var(--oc-white);
