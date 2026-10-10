@@ -22,7 +22,8 @@
   display: flex;
   align-items: flex-start;
   inline-size: 100%;
-  margin-block-end: 1em;
+  /* Reserve space for the horizontal scrollbar so navigation stays in place. */
+  min-block-size: calc(var(--gantt-pane-height) + 24px);
   overflow: hidden;
   /* Force LTR for Gantt even in RTL locales because column resizing, relation lines, and the progress line don't work in RTL yet. */
   direction: ltr;
@@ -393,6 +394,7 @@
 
   .gantt-chart {
     inline-size: max-content;
+    min-block-size: 0;
     overflow: visible;
   }
 
