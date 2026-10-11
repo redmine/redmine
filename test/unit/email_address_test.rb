@@ -24,6 +24,52 @@ class EmailAddressTest < ActiveSupport::TestCase
     User.current = nil
   end
 
+  def test_destroy_should_destroy_tokens
+    email = EmailAddress.create!(:user_id => 2, :address => 'another@somenet.foo')
+    recovery_token = Token.create!(:user_id => 2, :action => 'recovery')
+    autologin_token = Token.create!(:user_id => 2, :action => 'autologin')
+    session_token = Token.create!(:user_id => 2, :action => 'session')
+
+    assert email.destroy
+
+    assert_nil Token.find_by_id(recovery_token.id)
+    assert_nil Token.find_by_id(autologin_token.id)
+    assert_nil Token.find_by_id(session_token.id)
+  end
+
+  def test_create_should_not_destroy_tokens
+    autologin_token = Token.create!(:user_id => 2, :action => 'autologin')
+    session_token = Token.create!(:user_id => 2, :action => 'session')
+
+    EmailAddress.create!(:user_id => 2, :address => 'another@somenet.foo')
+
+    assert_equal autologin_token, Token.find_by_id(autologin_token.id)
+    assert_equal session_token, Token.find_by_id(session_token.id)
+  end
+
+  def test_notify_change_should_not_destroy_tokens
+    email = EmailAddress.create!(:user_id => 2, :address => 'another@somenet.foo')
+    recovery_token = Token.create!(:user_id => 2, :action => 'recovery')
+    autologin_token = Token.create!(:user_id => 2, :action => 'autologin')
+    session_token = Token.create!(:user_id => 2, :action => 'session')
+
+    email.notify = false
+    assert email.save
+
+    assert_equal recovery_token, Token.find_by_id(recovery_token.id)
+    assert_equal autologin_token, Token.find_by_id(autologin_token.id)
+    assert_equal session_token, Token.find_by_id(session_token.id)
+  end
+
+  def test_destroy_address_of_missing_user_should_succeed
+    email = EmailAddress.create!(:user_id => 2, :address => 'another@somenet.foo')
+    EmailAddress.where(:id => email.id).update_all(:user_id => 999)
+    email.reload
+
+    assert email.destroy
+    assert_nil EmailAddress.find_by_id(email.id)
+  end
+
   def test_address_with_punycode_tld_should_be_valid
     email = EmailAddress.new(address: 'jsmith@example.xn--80akhbyknj4f')
     assert email.valid?

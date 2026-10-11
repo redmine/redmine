@@ -186,11 +186,17 @@ class UsersController < ApplicationController
     @user.safe_attributes = params[:user]
     # Was the account actived ? (do it before User#save clears the change)
     was_activated = (@user.status_change == [User::STATUS_REGISTERED, User::STATUS_ACTIVE])
+    mail_changed = @user.mail_changed?
     # TODO: Similar to My#account
     @user.pref.safe_attributes = params[:pref]
 
     if @user.save
       @user.pref.save
+
+      if mail_changed && @user == User.current
+        # The session token was destroyed by the email address change, generate a new one
+        renew_session_token
+      end
 
       Mailer.deliver_password_updated(@user, User.current) if is_updating_password
       if was_activated

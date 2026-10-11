@@ -481,6 +481,11 @@ class User < Principal
     Token.where(:user_id => id, :action => 'autologin', :value => value).delete_all
   end
 
+  # Deletes all tokens that could be used to log in
+  def delete_login_tokens
+    Token.where(:user_id => id, :action => ['recovery', 'autologin', 'session']).delete_all
+  end
+
   def twofa_totp_key
     read_ciphered_attribute(:twofa_totp_key)
   end
@@ -983,8 +988,7 @@ class User < Principal
   # was compromised.
   def destroy_tokens
     if saved_change_to_hashed_password? || (saved_change_to_status? && !active?) || (saved_change_to_twofa_scheme? && twofa_scheme.present?)
-      tokens = ['recovery', 'autologin', 'session']
-      Token.where(:user_id => id, :action => tokens).delete_all
+      delete_login_tokens
     end
   end
 

@@ -488,6 +488,19 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     assert_equal '', @response.body
   end
 
+  test "PUT /users/:id.json by an admin changing their own mail should not generate a session token" do
+    Token.create!(:user_id => 1, :action => 'session')
+
+    put(
+      '/users/1.json',
+      :params => {:user => {:mail => 'newadmin@somenet.foo'}},
+      :headers => credentials('admin'))
+    assert_response :no_content
+
+    assert_equal 'newadmin@somenet.foo', User.find(1).mail
+    assert_empty Token.where(:user_id => 1, :action => 'session')
+  end
+
   test "PUT /users/:id.xml with invalid parameters" do
     assert_no_difference('User.count') do
       put(

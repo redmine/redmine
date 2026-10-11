@@ -101,6 +101,19 @@ class Redmine::ApiTest::MyTest < Redmine::ApiTest::Base
     assert_kind_of Array, json['errors']
   end
 
+  test "PUT /my/account.json with a changed mail should not generate a session token" do
+    Token.create!(:user_id => 3, :action => 'session')
+
+    put(
+      '/my/account.json',
+      :params => {:user => {:mail => 'dave@somenet.foo'}},
+      :headers => credentials('dlopper', 'foo'))
+    assert_response :no_content
+
+    assert_equal 'dave@somenet.foo', User.find(3).mail
+    assert_empty Token.where(:user_id => 3, :action => 'session')
+  end
+
   test "GET /my/account.json authenticated via OAuth should not disclose the api_key" do
     application = Doorkeeper::Application.create!(
       :name => 'Test App',

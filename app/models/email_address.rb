@@ -139,12 +139,12 @@ class EmailAddress < ApplicationRecord
   end
 
   # Delete all outstanding password reset tokens on email change.
+  # Delete the autologin and session tokens as well to prohibit session leakage.
   # This helps to keep the account secure in case the associated email account
   # was compromised.
   def destroy_tokens
     if saved_change_to_address? || destroyed?
-      tokens = ['recovery']
-      Token.where(:user_id => user_id, :action => tokens).delete_all
+      user&.delete_login_tokens
     end
   end
 
