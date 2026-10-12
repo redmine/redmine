@@ -16,6 +16,7 @@
     <% setting = :enabled_scm %>
     <% enabled = Setting.send(setting).include?(value) %>
     <% path_regexp = scm_class.scm_path_regexp.presence %>
+    <% client_available = scm_class.scm_client_available %>
     <tr>
       <td class="scm_name">
         <label>
@@ -24,10 +25,12 @@
         </label>
       </td>
       <td>
-        <%= sprite_icon((scm_class.scm_client_available ? 'checked' : 'warning'), scm_class.scm_command) %>
+        <span class="icon icon-<%= client_available ? 'ok' : 'warning' %>">
+          <%= sprite_icon((client_available ? 'checked' : 'warning'), scm_class.scm_command) %>
+        </span>
       </td>
       <td>
-        <%= scm_class.scm_version_string if scm_class.scm_client_available %>
+        <%= scm_class.scm_version_string if client_available %>
       </td>
       <td>
         <%= path_regexp ? content_tag('code', path_regexp) : l(:label_disabled) %>
