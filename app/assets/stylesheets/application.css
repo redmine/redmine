@@ -1559,7 +1559,7 @@ div.flash.error svg.icon-svg, #errorExplanation svg.icon-svg {
 div.flash.notice {
   background-color: var(--oc-green-1);
   border-color: var(--oc-green-3);
-  color: var(--oc-green-9);
+  color: var(--oc-gray-7);
 }
 div.flash.notice svg.icon-svg {
   stroke: var(--oc-green-9);
@@ -1568,18 +1568,18 @@ div.flash.notice svg.icon-svg {
 div.flash.warning, .conflict {
   background-color: var(--oc-yellow-1);
   border-color: var(--oc-yellow-3);
-  color: var(--oc-pink-9);
+  color: var(--oc-gray-7);
   text-align: start;
 }
 div.flash.warning svg.icon-svg, .conflict svg.icon-svg {
-  stroke: var(--oc-pink-9);
+  stroke: var(--oc-yellow-9);
 }
 
 .nodata, .warning {
   text-align: center;
   background-color: var(--oc-yellow-1);
   border-color: var(--oc-yellow-3);
-  color: var(--oc-pink-9);
+  color: var(--oc-gray-7);
 }
 
 .warning .oauth-permissions { display:inline-block;text-align:start; }
