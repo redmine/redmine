@@ -1250,12 +1250,12 @@ $(document).ready(function(){
     var jstBlock = tab.parents('.jstBlock');
 
     var element = encodeURIComponent(jstBlock.find('.wiki-edit').val());
-    var attachments = form.find('.attachments_fields input').serialize();
+    var params = form.find('.attachments_fields input, [data-preview-param]').serialize();
 
     $.ajax({
       url: url,
       type: 'post',
-      data: "text=" + element + '&' + attachments,
+      data: "text=" + element + '&' + params,
       success: function(data){
         jstBlock.find('.wiki-preview').html(data);
       }

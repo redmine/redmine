@@ -109,6 +109,55 @@ class PreviewsControllerTest < Redmine::ControllerTest
     assert_select 'p', :text => /News description/
   end
 
+  def test_preview_new_news_without_project_should_be_successful
+    @request.session[:user_id] = 2
+    post(
+      :news,
+      :params => {
+        :text => 'News description',
+      }
+    )
+    assert_response :success
+    assert_select 'p', :text => /News description/
+  end
+
+  def test_preview_news_with_invalid_project_should_return_404
+    @request.session[:user_id] = 2
+    post(
+      :news,
+      :params => {
+        :project_id => 'invalid',
+        :text => 'News description',
+      }
+    )
+    assert_response :not_found
+  end
+
+  def test_preview_new_news_should_render_project_scoped_syntax
+    @request.session[:user_id] = 2
+    post(
+      :news,
+      :params => {
+        :project_id => '1',
+        :text => '[[CookBook documentation]]'
+      }
+    )
+    assert_response :success
+    assert_select 'a.wiki-page[href=?]', '/projects/ecookbook/wiki/CookBook_documentation'
+  end
+
+  def test_preview_new_news_without_project_should_not_render_project_scoped_syntax
+    @request.session[:user_id] = 2
+    post(
+      :news,
+      :params => {
+        :text => '[[CookBook documentation]]'
+      }
+    )
+    assert_response :success
+    assert_select 'a.wiki-page', :count => 0
+  end
+
   def test_preview_existing_news
     get(
       :news,

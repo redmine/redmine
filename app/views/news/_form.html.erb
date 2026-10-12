@@ -4,7 +4,7 @@
 <% if @project.nil? %>
   <p>
     <label><%= l(:field_project) %> <span class="required">*</span></label>
-    <%= select_tag :project_id, options_for_select(project_tree_options_for_select(Project.allowed_to(:manage_news).to_a), Project.allowed_to(:manage_news).first), {:required => true} %>
+    <%= select_tag :project_id, options_for_select(project_tree_options_for_select(Project.allowed_to(:manage_news).to_a), Project.allowed_to(:manage_news).first), {:required => true, :data => {:preview_param => true}} %>
     <%= hidden_field_tag :cross_project, 1, id: nil %>
   </p>
 <% end %>
