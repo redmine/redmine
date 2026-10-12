@@ -275,9 +275,9 @@ module QueriesHelper
       when :hours, :estimated_hours, :total_estimated_hours, :estimated_remaining_hours
         format_hours(value)
       when :spent_hours
-        link_to_if(value > 0, format_hours(value), project_time_entries_path(item.project, :issue_id => "#{item.id}"))
+        value > 0 ? link_to(format_hours(value), project_time_entries_path(item.project, :issue_id => "#{item.id}")) : ''
       when :total_spent_hours
-        link_to_if(value > 0, format_hours(value), project_time_entries_path(item.project, :issue_id => "~#{item.id}"))
+        value > 0 ? link_to(format_hours(value), project_time_entries_path(item.project, :issue_id => "~#{item.id}")) : ''
       when :attachments
         value.to_a.map {|a| format_object(a)}.join(" ").html_safe
       when :watcher_users

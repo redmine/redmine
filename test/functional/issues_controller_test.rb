@@ -1390,7 +1390,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
-    assert_equal ['4:00', '3:00', '0:00'], columns_values_in_list('spent_hours').first(3)
+    assert_equal ['4:00', '3:00', ''], columns_values_in_list('spent_hours').first(3)
     Project.find(3).disable_module!(:time_tracking)
     get(
       :index,
@@ -1400,7 +1400,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
-    assert_equal ['3:00', '0:00', '0:00'], columns_values_in_list('spent_hours').first(3)
+    assert_equal ['3:00', '', ''], columns_values_in_list('spent_hours').first(3)
   end
 
   def test_index_sort_by_total_spent_hours
@@ -1624,6 +1624,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     )
     assert_select 'table.issues tr#issue-3 td.spent_hours', :text => '1:00'
+    assert_select 'table.issues tr#issue-2 td.spent_hours', :text => ''
   end
 
   def test_index_with_total_spent_hours_column
@@ -1636,6 +1637,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     )
     assert_select 'table.issues tr#issue-3 td.total_spent_hours', :text => '1:00'
+    assert_select 'table.issues tr#issue-2 td.total_spent_hours', :text => ''
   end
 
   def test_index_with_total_estimated_hours_column
