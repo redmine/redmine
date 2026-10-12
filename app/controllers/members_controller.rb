@@ -20,6 +20,8 @@
 class MembersController < ApplicationController
   self.model_object = Member
 
+  menu_item :overview
+
   before_action :find_model_object, :except => [:index, :new, :create, :autocomplete]
   before_action :find_project_from_association, :except => [:index, :new, :create, :autocomplete]
   before_action :find_project_by_project_id, :only => [:index, :new, :create, :autocomplete]
@@ -31,12 +33,11 @@ class MembersController < ApplicationController
   include MembersHelper
 
   def index
-    scope = @project.memberships
-    @members = scope.includes(:principal, :roles).order(:id)
-
     respond_to do |format|
-      format.html {head :not_acceptable}
+      format.html
       format.api do
+        scope = @project.memberships
+        @members = scope.includes(:principal, :roles).order(:id)
         @offset, @limit = api_offset_and_limit
         @member_count = scope.count
         @member_pages = Paginator.new @member_count, @limit, params['page']
@@ -44,7 +45,13 @@ class MembersController < ApplicationController
         @members = @members.limit(@limit).offset(@offset).to_a
       end
       format.csv do
-        send_data(members_to_csv(@members), type: 'text/csv; header=present', filename: "#{@project.identifier}-members.csv")
+        if User.current.allowed_to?(:manage_members, @project)
+          scope = @project.memberships
+          @members = scope.includes(:principal, :roles).order(:id)
+          send_data(members_to_csv(@members), type: 'text/csv; header=present', filename: "#{@project.identifier}-members.csv")
+        else
+          head :forbidden
+        end
       end
     end
   end

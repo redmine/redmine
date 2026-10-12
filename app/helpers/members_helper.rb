@@ -59,10 +59,15 @@ module MembersHelper
   # Returns the scope of the members of project matching the filters
   # set in the request params
   def members_scope(project)
-    project.memberships.
-      like(params[:member_name]).
-      with_role(params[:member_role_id]).
-      status(params[:member_status])
+    scope =
+      project.memberships.
+        like(params[:member_name]).
+        with_role(params[:member_role_id])
+    if User.current.allowed_to?(:manage_members, project)
+      scope.status(params[:member_status])
+    else
+      scope.active
+    end
   end
 
   # limit/offset on Member.sorted would paginate role join rows, not members

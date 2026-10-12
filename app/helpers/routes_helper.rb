@@ -99,4 +99,13 @@ module RoutesHelper
   def board_path(board, *)
     project_board_path(board.project, board, *)
   end
+
+  def _project_members_path(project, parameters = {})
+    params = parameters.is_a?(Hash) ? parameters.except('tab', :tab) : parameters
+    if controller_name == 'members' && action_name == 'index'
+      project_members_path(project, params)
+    else
+      settings_project_path(project, 'members', params)
+    end
+  end
 end

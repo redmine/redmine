@@ -87,6 +87,7 @@ class MembersHelperTest < Redmine::HelperTest
   end
 
   def test_members_scope_default_should_return_all_members
+    User.current = User.find(2)
     project = Project.find(1)
     stubs(:params).returns({})
 
@@ -94,6 +95,7 @@ class MembersHelperTest < Redmine::HelperTest
   end
 
   def test_members_scope_with_status_active_should_filter_by_active_status
+    User.current = User.find(2)
     project = Project.find(1)
     stubs(:params).returns({:member_status => '1'})
 
@@ -101,9 +103,18 @@ class MembersHelperTest < Redmine::HelperTest
   end
 
   def test_members_scope_with_status_locked_should_return_locked_members
+    User.current = User.find(2)
     project = Project.find(1)
     stubs(:params).returns({:member_status => '3'})
 
     assert_equal [4], members_scope(project).ids.sort
+  end
+
+  def test_members_scope_for_user_without_manage_members_permission_should_return_active_members_only
+    User.current = User.find(4)
+    project = Project.find(1)
+    stubs(:params).returns({:member_status => '3'})
+
+    assert_equal [1, 2], members_scope(project).ids.sort
   end
 end

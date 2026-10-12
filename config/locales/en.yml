@@ -674,6 +674,7 @@ en:
   label_member: Member
   label_member_new: New member
   label_member_plural: Members
+  label_member_view_all: View all members
   label_tracker: Tracker
   label_tracker_plural: Trackers
   label_tracker_all: All trackers

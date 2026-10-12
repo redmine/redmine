@@ -784,6 +784,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
     get(:show, :params => {:id => 1})
     assert_response :success
     assert_select '#header h1', :text => "eCookbook"
+    assert_select 'div.members.box a[href=?]', '/projects/ecookbook/members', :text => 'View all members'
   end
 
   def test_show_by_identifier
@@ -1037,6 +1038,7 @@ class ProjectsControllerTest < Redmine::ControllerTest
       }
     )
     assert_response :success
+    assert_select 'div#main-menu a.settings.selected'
     assert_select "tr#member-#{user_member.id} td.name a[href=?]", "/users/#{user.id}", :text => user.name
     assert_select "tr#member-#{group_member.id} td.name a[href=?]", '/groups/10', :text => 'A Team'
   end

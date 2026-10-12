@@ -4,5 +4,8 @@
     <% @principals_by_role.keys.sort.each do |role| %>
       <p><span class="label"><%= role %>:</span> <%= @principals_by_role[role].sort.collect{|p| link_to_principal(p, :class => p.is_a?(Group) ? 'icon icon-group' : nil)}.join(", ").html_safe %></p>
     <% end %>
+    <% if User.current.allowed_to?(:view_members, @project) %>
+      <p><%= link_to l(:label_member_view_all), project_members_path(@project) %></p>
+    <% end %>
   </div>
   <% end %>
