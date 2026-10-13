@@ -1533,3 +1533,4 @@ sv:
   mail_subject_test_email: Redmine-test
   mail_body_test_email: Det här är ett testmejl från Redmine.
   text_mermaid_available: Mermaid.js tillgängligt (valfritt)
+  label_member_view_all: View all members

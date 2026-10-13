@@ -1513,3 +1513,4 @@ ja:
   mail_subject_test_email: Redmine テストメール
   mail_body_test_email: これはRedmineから送信されたテストメールです。
   text_mermaid_available: Mermaid.js available (optional)
+  label_member_view_all: View all members
