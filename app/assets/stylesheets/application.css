@@ -1711,7 +1711,7 @@ ul.cal {
   white-space: nowrap;
 }
 .cal .calbody.this-month {background-color:var(--oc-white);}
-.cal .calbody.other-month {background-color:var(--oc-gray-1);}
+.cal .calbody.other-month {background-color:var(--oc-gray-0);}
 .cal .calbody.other-month p.day-num {color: var(--color-text-muted);}
 .cal .calbody.today p.day-num {font-weight: bold;}
 .cal .calbody.today .day-value {
@@ -1727,7 +1727,7 @@ ul.cal {
   z-index: -1;
 }
 .cal .calbody .icon {padding-block-start: 2px; padding-block-end: 3px;}
-.cal .calbody.nwday:not(.other-month) {background-color:var(--oc-gray-1);}
+.cal .calbody.nwday {background-color:var(--oc-gray-1);}
 
 p.cal.legend span {display:flex;}
 .controller-calendars p.buttons {margin-block-start: unset;}
