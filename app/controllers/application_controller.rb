@@ -112,6 +112,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Issues a new session token after the session tokens of the current user
+  # were deleted, so that the current session stays valid.
+  # API requests do not use the session and thus do not need a token.
+  def renew_session_token
+    session[:tk] = User.current.generate_session_token unless api_request?
+  end
+
   def user_setup
     # Check the settings cache for each request
     Setting.check_cache
