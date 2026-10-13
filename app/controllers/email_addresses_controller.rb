@@ -76,6 +76,10 @@ class EmailAddressesController < ApplicationController
 
   def destroy
     @address.destroy
+    if @user == User.current
+      # The session token was destroyed by the address deletion, generate a new one
+      renew_session_token
+    end
 
     respond_to do |format|
       format.html do
