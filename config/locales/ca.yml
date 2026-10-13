@@ -1563,3 +1563,10 @@ ca:
   mail_body_test_email: This is a test email sent by Redmine.
   text_mermaid_available: Mermaid.js available (optional)
   label_member_view_all: View all members
+  field_date: Date
+  label_non_working_date_plural: Non-working dates
+  label_non_working_date_new: New non-working date
+  text_non_working_dates_html: 'You can add non-working dates such as holidays: <a href="%{non_working_dates_path}">Manage
+    non-working dates</a>'
+  text_non_working_dates_export_all_years: Non-working dates of all years will be exported.
+  label_import_non_working_dates: Import non-working dates
