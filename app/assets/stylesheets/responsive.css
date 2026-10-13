@@ -829,6 +829,12 @@
     display: inline;
   }
 
+  .cal .calbody .non-working-date-name {
+    float: none;
+    margin-inline-start: 0.5em;
+    white-space: normal;
+  }
+
   .cal .week-number {
     border: 1px solid var(--oc-gray-4);
     text-align: start;

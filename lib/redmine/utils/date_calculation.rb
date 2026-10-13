@@ -64,7 +64,7 @@ module Redmine
 
       # Returns true if the given date is a non working day
       def non_working_day?(date)
-        non_working_week_days.include?(date.cwday) || NonWorkingDate.dates.include?(date)
+        non_working_week_days.include?(date.cwday) || NonWorkingDate.names_by_date.key?(date)
       end
 
       # Returns the index of non working week days (1=monday, 7=sunday)

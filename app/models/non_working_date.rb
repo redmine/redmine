@@ -21,7 +21,7 @@ class NonWorkingDate < ApplicationRecord
   include Redmine::SafeAttributes
 
   class Current < ActiveSupport::CurrentAttributes
-    attribute :sorted_dates, :dates
+    attribute :names_by_date, :sorted_dates
   end
 
   after_save {self.class.clear_dates_cache}
@@ -38,16 +38,21 @@ class NonWorkingDate < ApplicationRecord
 
   safe_attributes 'date', 'name'
 
+  # Returns a Hash of the registered dates and their names, ordered by date.
+  # The result is cached for the duration of the current request.
+  def self.names_by_date
+    Current.names_by_date ||= order(:date).pluck(:date, :name).to_h
+  end
+
+  # Returns the name registered for the given date
+  def self.name_for(date)
+    names_by_date[date].presence
+  end
+
   # Returns the registered dates as a sorted Array.
   # The result is cached for the duration of the current request.
   def self.sorted_dates
-    Current.sorted_dates ||= order(:date).pluck(:date)
-  end
-
-  # Returns the registered dates as a Set.
-  # The result is cached for the duration of the current request.
-  def self.dates
-    Current.dates ||= sorted_dates.to_set
+    Current.sorted_dates ||= names_by_date.keys
   end
 
   def self.clear_dates_cache

@@ -1697,6 +1697,19 @@ ul.cal {
   height: 1.5em;
 }
 .cal .calbody .abbr-day {display:none}
+.cal .calbody .non-working-date-name {
+  float: inline-start;
+  /* Take the space left by the day number without widening the column */
+  inline-size: 0;
+  min-inline-size: calc(100% - 2.5em);
+  overflow: hidden;
+  font-size: 0.8em;
+  line-height: 1.875;
+  color: var(--oc-gray-6);
+  text-align: start;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .cal .calbody.this-month {background-color:var(--oc-white);}
 .cal .calbody.other-month {background-color:var(--oc-gray-1);}
 .cal .calbody.other-month p.day-num {color: var(--color-text-muted);}

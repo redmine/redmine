@@ -14,6 +14,9 @@
       <p class="day-num">
         <span class="day-value"><%= day.day %></span>
         <span class="abbr-day">(<%= abbr_day_name(day.cwday) %>)</span>
+        <% if (name = NonWorkingDate.name_for(day)) %>
+          <span class="non-working-date-name" title="<%= name %>"><%= name %></span>
+        <% end %>
       </p>
       <% calendar.events_on(day).each do |i| %>
         <% if i.is_a? Issue %>

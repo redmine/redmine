@@ -279,7 +279,7 @@ class CalendarsControllerTest < Redmine::ControllerTest
   end
 
   def test_show_calendar_should_mark_non_working_dates
-    NonWorkingDate.create!(:date => '2016-12-29')
+    NonWorkingDate.create!(:date => '2016-12-29', :name => 'Year-end Shutdown')
     get(
       :show,
       :params => {
@@ -290,6 +290,9 @@ class CalendarsControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_select 'li.nwday', 11
-    assert_select 'li.nwday', :text => /^29/
+    assert_select 'li.nwday', :text => /^29/ do
+      assert_select 'span.non-working-date-name', :text => 'Year-end Shutdown'
+    end
+    assert_select 'span.non-working-date-name', 1
   end
 end
