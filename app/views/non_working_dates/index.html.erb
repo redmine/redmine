@@ -1,5 +1,6 @@
 <div class="contextual">
 <%= link_to(sprite_icon('add', l(:label_non_working_date_new)), new_non_working_date_path, :class => 'icon icon-add') %>
+<%= link_to(sprite_icon('import', l(:button_import)), new_non_working_dates_import_path, :class => 'icon icon-import') %>
 </div>
 
 <h2><%= l(:label_non_working_date_plural) %></h2>
@@ -49,6 +50,24 @@
 <%= context_menu %>
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
+<% if @non_working_date_count > 0 %>
+<% other_formats_links do |f| %>
+  <%= f.link_to_with_query_parameters 'CSV', {}, :onclick => "showModal('csv-export-options', '330px'); return false;" %>
+<% end %>
+<div id="csv-export-options" style="display: none;">
+  <h3 class="title"><%= l(:label_export_options, :export_format => 'CSV') %></h3>
+  <%= form_tag(non_working_dates_path(:format => 'csv'), :method => :get, :id => 'csv-export-form') do %>
+  <%= export_csv_encoding_select_tag %>
+  <%= export_csv_separator_select_tag %>
+  <p class="icon icon-info"><%= sprite_icon('help', l(:text_non_working_dates_export_all_years)) %></p>
+  <p class="buttons">
+    <%= submit_tag l(:button_export), :name => nil, :onclick => 'hideModal(this);', :data => {:disable_with => false} %>
+    <%= link_to_function l(:button_cancel), 'hideModal(this);' %>
+  </p>
+  <% end %>
+</div>
 <% end %>
 
 <% html_title(l(:label_non_working_date_plural)) -%>

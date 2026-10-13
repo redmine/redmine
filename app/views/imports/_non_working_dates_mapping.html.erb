@@ -1,0 +1,11 @@
+<fieldset class="box tabular">
+  <legend><%= l(:label_fields_mapping) %></legend>
+  <p>
+    <label for="import_mapping_date"><%= l(:field_date) %></label>
+    <%= mapping_select_tag @import, 'date', :required => true %>
+  </p>
+  <p>
+    <label for="import_mapping_name"><%= l(:field_name) %></label>
+    <%= mapping_select_tag @import, 'name' %>
+  </p>
+</fieldset>

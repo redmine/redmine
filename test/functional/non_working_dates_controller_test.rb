@@ -36,6 +36,7 @@ class NonWorkingDatesControllerTest < Redmine::ControllerTest
     assert_select 'table.non_working_dates td.name', :text => 'Company Foundation Day'
     assert_select 'form[data-cm-url=?] input[name=?]', '/non_working_dates/context_menu', 'ids[]', 1
     assert_select 'span.pagination span.items', :text => '(1/2)'
+    assert_select '#csv-export-options p', :text => 'Non-working dates of all years will be exported.'
     assert_select 'form.non-working-dates-year' do
       assert_select 'select[name=year] option', 2
       assert_select 'select[name=year] option[selected=selected]', :text => year.to_s
@@ -43,6 +44,18 @@ class NonWorkingDatesControllerTest < Redmine::ControllerTest
       assert_select 'li.next span', :text => /Next/
       assert_select 'li.next a', 0
     end
+  end
+
+  def test_index_csv_should_export_non_working_dates_of_all_years
+    NonWorkingDate.create!(:date => '2021-06-25', :name => 'Company Foundation Day')
+    NonWorkingDate.create!(:date => '2020-12-30')
+
+    with_settings :date_format => '%Y-%m-%d' do
+      get :index, :params => {:year => '2021', :format => 'csv'}
+    end
+    assert_response :success
+    assert_equal 'text/csv; header=present', @response.media_type
+    assert_equal ['Date,Name', '2020-12-30,', '2021-06-25,Company Foundation Day'], @response.body.lines.map(&:chomp)
   end
 
   def test_index_by_non_admin_should_respond_with_403

@@ -2251,6 +2251,10 @@ a.icon:hover .icon-svg-filled, a.icon-only:hover .icon-svg-filled {
   stroke: var(--oc-yellow-8);
 }
 
+.icon-info svg.icon-svg {
+  stroke: var(--oc-indigo-9);
+}
+
 .icon-only span {
   display: none;
 }

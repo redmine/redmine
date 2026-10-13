@@ -22,18 +22,27 @@ class NonWorkingDatesController < ApplicationController
   self.main_menu = false
   menu_item :settings
 
+  include NonWorkingDatesHelper
+
   before_action :require_admin
   before_action :find_non_working_date, :only => [:edit, :update, :destroy]
 
   def index
-    @year = params[:year].to_i if /\A\d{4}\z/.match?(params[:year].to_s)
-    @year ||= User.current.today.year
-    years = NonWorkingDate.years
-    @years = (years | [@year, User.current.today.year]).sort
-    @previous_year = @year - 1 if years.any? {|year| year < @year}
-    @next_year = @year + 1 if years.any? {|year| year > @year}
-    @non_working_dates = NonWorkingDate.in_year(@year).sorted.to_a
-    @non_working_date_count = NonWorkingDate.count
+    respond_to do |format|
+      format.html do
+        @year = params[:year].to_i if /\A\d{4}\z/.match?(params[:year].to_s)
+        @year ||= User.current.today.year
+        years = NonWorkingDate.years
+        @years = (years | [@year, User.current.today.year]).sort
+        @previous_year = @year - 1 if years.any? {|year| year < @year}
+        @next_year = @year + 1 if years.any? {|year| year > @year}
+        @non_working_dates = NonWorkingDate.in_year(@year).sorted.to_a
+        @non_working_date_count = NonWorkingDate.count
+      end
+      format.csv do
+        send_data(non_working_dates_to_csv(NonWorkingDate.sorted), :type => 'text/csv; header=present', :filename => 'non_working_dates.csv')
+      end
+    end
   end
 
   def new

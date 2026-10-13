@@ -85,6 +85,8 @@ Rails.application.routes.draw do
         :defaults => {:type => 'TimeEntryImport'}, :as => 'new_time_entries_import'
   get   '/users/imports/new', :to => 'imports#new',
         :defaults => {:type => 'UserImport'}, :as => 'new_users_import'
+  get   '/non_working_dates/imports/new', :to => 'imports#new',
+        :defaults => {:type => 'NonWorkingDateImport'}, :as => 'new_non_working_dates_import'
   post  '/imports', :to => 'imports#create', :as => 'imports'
   get   '/imports/:id', :to => 'imports#show', :as => 'import'
   match '/imports/:id/settings', :to => 'imports#settings', :via => [:get, :post], :as => 'import_settings'

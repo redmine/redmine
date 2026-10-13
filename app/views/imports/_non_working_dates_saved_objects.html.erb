@@ -1,0 +1,17 @@
+<table id="saved-items" class="list">
+  <thead>
+  <tr>
+    <th><%= t(:field_date) %></th>
+    <th><%= t(:field_name) %></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% saved_objects.each do |non_working_date| %>
+  <tr>
+    <td><%= link_to format_date(non_working_date.date), edit_non_working_date_path(non_working_date) %></td>
+    <td><%= non_working_date.name %></td>
+  </tr>
+  <% end %>
+  </tbody>
+</table>
+<p><%= link_to l(:label_non_working_date_plural), non_working_dates_path(:year => saved_objects.first&.date&.year) %></p>

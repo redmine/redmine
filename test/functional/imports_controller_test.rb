@@ -502,4 +502,31 @@ class ImportsControllerTest < Redmine::ControllerTest
     assert_select 'table#unsaved-items'
     assert_select 'table#unsaved-items tbody tr', import.unsaved_items.count
   end
+
+  def test_import_non_working_dates
+    @request.session[:user_id] = 1
+    import = NonWorkingDateImport.new
+    import.user_id = 1
+    import.file = uploaded_test_file('import_non_working_dates.csv', 'text/csv')
+    import.settings = {
+      'separator' => ',', 'wrapper' => '"', 'encoding' => 'UTF-8', 'date_format' => '%Y-%m-%d',
+      'mapping' => {'date' => '0', 'name' => '1'}
+    }
+    import.save!
+
+    get(:mapping, :params => {:id => import.to_param})
+    assert_response :success
+    assert_select 'select[name=?]', 'import_settings[mapping][date]'
+    assert_select 'select[name=?]', 'import_settings[mapping][name]'
+
+    assert_difference 'NonWorkingDate.count', 3 do
+      post(:run, :params => {:id => import.to_param})
+    end
+    assert_redirected_to "/imports/#{import.to_param}"
+
+    get(:show, :params => {:id => import.to_param})
+    assert_response :success
+    assert_select 'table#saved-items tbody tr', 3
+    assert_select 'a[href=?]', '/non_working_dates?year=2026', :text => 'Non-working dates'
+  end
 end
