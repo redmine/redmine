@@ -879,7 +879,9 @@
   }
   div.issue .next-prev-links .pagination ul.pages li.previous,
   div.issue .next-prev-links .pagination ul.pages li.position,
-  div.issue .next-prev-links .pagination ul.pages li.next {
+  div.issue .next-prev-links .pagination ul.pages li.next,
+  .non-working-dates-year .pagination ul.pages li.previous,
+  .non-working-dates-year .pagination ul.pages li.next {
     display: inline-block;
     inline-size: auto;
     overflow: visible;

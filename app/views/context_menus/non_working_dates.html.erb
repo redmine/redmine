@@ -1,0 +1,12 @@
+<ul>
+  <% if @non_working_date %>
+    <li>
+      <%= context_menu_link sprite_icon('edit', l(:button_edit)), edit_non_working_date_path(@non_working_date), class: 'icon icon-edit' %>
+    </li>
+  <% end %>
+  <li>
+    <%= context_menu_link sprite_icon('del', l(:button_delete)),
+                          {controller: 'non_working_dates', action: 'bulk_destroy', ids: @non_working_dates.map(&:id), back_url: @back},
+                          method: :delete, data: {confirm: l(:text_are_you_sure)}, class: 'icon icon-del' %>
+  </li>
+</ul>

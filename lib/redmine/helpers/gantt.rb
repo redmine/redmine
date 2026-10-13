@@ -549,7 +549,7 @@ module Redmine
             height = g_height + header_height - 1
             (@date_from..date_to).each do |g_date|
               width =  zoom
-              gc.fill(non_working_week_days.include?(g_date.cwday) ? '#eee' : 'white')
+              gc.fill(non_working_day?(g_date) ? '#eee' : 'white')
               gc.stroke('#ddd')
               gc.strokewidth(1)
               gc.draw('rectangle %d,%d %d,%d' % [
@@ -669,7 +669,7 @@ module Redmine
             width = zoom
             pdf.SetY(y_start + header_height * 2)
             pdf.SetX(left)
-            pdf.SetTextColor(non_working_week_days.include?(g_date.cwday) ? 150 : 0)
+            pdf.SetTextColor(non_working_day?(g_date) ? 150 : 0)
             pdf.RDMCell(width, height, day_num.day.to_s, "LTR", 0, "C")
             left = left + width
             day_num = day_num + 1
@@ -684,7 +684,7 @@ module Redmine
             width = zoom
             pdf.SetY(y_start + header_height * (show_day_num ? 3 : 2))
             pdf.SetX(left)
-            pdf.SetTextColor(non_working_week_days.include?(g_date.cwday) ? 150 : 0)
+            pdf.SetTextColor(non_working_day?(g_date) ? 150 : 0)
             pdf.RDMCell(width, height, day_name(g_date.cwday).first, "LTR", 0, "C")
             left = left + width
           end

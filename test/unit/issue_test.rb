@@ -2468,6 +2468,20 @@ class IssueTest < ActiveSupport::TestCase
     end
   end
 
+  def test_rescheduling_an_issue_should_skip_non_working_dates
+    NonWorkingDate.create!(:date => '2012-10-18')
+    NonWorkingDate.create!(:date => '2012-10-22')
+    with_settings :non_working_week_days => %w(6 7) do
+      issue1 = Issue.generate!(:start_date => '2012-10-15', :due_date => '2012-10-17')
+      issue2 = Issue.generate!(:start_date => '2012-10-15', :due_date => '2012-10-17')
+      IssueRelation.create!(:issue_from => issue1, :issue_to => issue2,
+                            :relation_type => IssueRelation::TYPE_PRECEDES)
+      issue2.reload
+      assert_equal Date.parse('2012-10-19'), issue2.start_date
+      assert_equal Date.parse('2012-10-24'), issue2.due_date
+    end
+  end
+
   def test_rescheduling_an_issue_to_an_earlier_due_date_should_reschedule_following_issue
     issue1 = Issue.generate!(:start_date => '2012-10-15', :due_date => '2012-10-17')
     issue2 = Issue.generate!(:start_date => '2012-10-15', :due_date => '2012-10-17')

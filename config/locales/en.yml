@@ -285,6 +285,7 @@ en:
   mail_destroy_project_with_subprojects_successful: Project %{value} and its subprojects were deleted successfully.
 
 
+  field_date: Date
   field_name: Name
   field_description: Description
   field_summary: Summary
@@ -691,6 +692,8 @@ en:
   label_custom_field_new: New custom field
   label_enumerations: Enumerations
   label_enumeration_new: New value
+  label_non_working_date_plural: Non-working dates
+  label_non_working_date_new: New non-working date
   label_information: Information
   label_information_plural: Information
   label_register: Register
@@ -1441,6 +1444,7 @@ en:
   description_wiki_subpages_reassign: Choose new parent page
   text_repository_identifier_info: 'Only lower case letters (a-z), numbers, dashes and underscores are allowed.<br />Once saved, the identifier cannot be changed.'
   text_login_required_html: When not requiring authentication, public projects and their contents are openly available on the network. You can <a href="%{anonymous_role_path}">edit the applicable permissions</a>.
+  text_non_working_dates_html: 'You can add non-working dates such as holidays: <a href="%{non_working_dates_path}">Manage non-working dates</a>'
   label_login_required_yes: "Yes"
   label_login_required_no: "No, allow anonymous access to public projects"
   text_project_is_public_non_member: Public projects and their contents are available to all logged-in users.

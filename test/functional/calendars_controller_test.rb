@@ -277,4 +277,19 @@ class CalendarsControllerTest < Redmine::ControllerTest
       assert_select 'li.nwday', :text => /^10/
     end
   end
+
+  def test_show_calendar_should_mark_non_working_dates
+    NonWorkingDate.create!(:date => '2016-12-29')
+    get(
+      :show,
+      :params => {
+        :month => '12',
+        :year => '2016'
+      }
+    )
+    assert_response :success
+
+    assert_select 'li.nwday', 11
+    assert_select 'li.nwday', :text => /^29/
+  end
 end

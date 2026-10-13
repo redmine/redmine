@@ -1,0 +1,6 @@
+<%= title [l(:label_non_working_date_plural), non_working_dates_path(:year => @non_working_date.date_was.year)], format_date(@non_working_date.date_was) %>
+
+<%= labelled_form_for @non_working_date do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+  <%= submit_tag l(:button_save) %>
+<% end %>

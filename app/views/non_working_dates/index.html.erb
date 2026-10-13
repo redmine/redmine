@@ -1,0 +1,54 @@
+<div class="contextual">
+<%= link_to(sprite_icon('add', l(:label_non_working_date_new)), new_non_working_date_path, :class => 'icon icon-add') %>
+</div>
+
+<h2><%= l(:label_non_working_date_plural) %></h2>
+
+<%= form_tag(non_working_dates_path, :method => :get, :class => 'non-working-dates-year') do %>
+  <%= label_tag 'year', l(:label_year) %>
+  <%= select_tag 'year', options_for_select(@years, @year), :onchange => 'this.form.submit();' %>
+  <span class="pagination">
+    <ul class="pages">
+      <li class="previous<%= ' page' if @previous_year %>">
+        <%= link_to_if(@previous_year, "\xc2\xab #{l(:label_previous)}", non_working_dates_path(:year => @previous_year), :title => @previous_year, :accesskey => accesskey(:previous)) {|text| content_tag('span', text)} %>
+      </li><li class="next<%= ' page' if @next_year %>">
+        <%= link_to_if(@next_year, "#{l(:label_next)} \xc2\xbb", non_working_dates_path(:year => @next_year), :title => @next_year, :accesskey => accesskey(:next)) {|text| content_tag('span', text)} %>
+      </li>
+    </ul>
+  </span>
+<% end %>
+
+<% if @non_working_dates.any? %>
+<%= form_tag({}, :data => {:cm_url => non_working_dates_context_menu_path}) do -%>
+<%= hidden_field_tag 'back_url', url_for(:params => request.query_parameters), :id => nil %>
+<table class="list odd-even non_working_dates">
+  <thead><tr>
+  <th class="checkbox hide-when-print">
+    <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection',
+          :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}" %>
+  </th>
+  <th><%= l(:field_date) %></th>
+  <th><%= l(:field_name) %></th>
+  <th></th>
+  </tr></thead>
+  <tbody>
+<% @non_working_dates.each do |non_working_date| %>
+  <tr id="non-working-date-<%= non_working_date.id %>" class="hascontextmenu <%= cycle("odd", "even") %>">
+  <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", non_working_date.id, false, :id => nil) %></td>
+  <td class="date"><%= link_to "#{format_date(non_working_date.date)} (#{abbr_day_name(non_working_date.date.cwday)})", edit_non_working_date_path(non_working_date) %></td>
+  <td class="name"><%= non_working_date.name %></td>
+  <td class="buttons">
+    <%= link_to_context_menu %>
+  </td>
+  </tr>
+<% end %>
+  </tbody>
+</table>
+<% end -%>
+<span class="pagination"><span class="items">(<%= @non_working_dates.size %>/<%= @non_working_date_count %>)</span></span>
+<%= context_menu %>
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
+<% html_title(l(:label_non_working_date_plural)) -%>

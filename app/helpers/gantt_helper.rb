@@ -173,7 +173,7 @@ module GanttHelper
         Period.new(
           date: date,
           width: zoom,
-          non_working: @gantt.non_working_week_days.include?(date.cwday),
+          non_working: @gantt.non_working_day?(date),
           spans_body: spans_body,
           last: date == @gantt.date_to
         )

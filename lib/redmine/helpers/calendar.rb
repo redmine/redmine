@@ -59,7 +59,7 @@ module Redmine
       def day_css_classes(day)
         css = day.month==month ? +'this-month' : +'other-month'
         css << " today" if User.current.today == day
-        css << " nwday" if non_working_week_days.include?(day.cwday)
+        css << " nwday" if non_working_day?(day)
         css
       end
 

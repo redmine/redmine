@@ -1258,6 +1258,9 @@ textarea#custom_field_default_value {inline-size: 95%; resize: vertical;}
 input#content_comments {inline-size: 99%}
 
 span.pagination {margin-inline-start: 3px; color: var(--color-text-muted); display: block;}
+.non-working-dates-year {display: block; margin-block-end: 1em;}
+.non-working-dates-year span.pagination {display: inline-block;}
+.non-working-dates-year .pagination ul.pages li {margin-block-end: 0;}
 .pagination ul.pages {
   margin-block: 0;
   margin-inline: 0 5px;

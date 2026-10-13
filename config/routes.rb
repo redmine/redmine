@@ -373,6 +373,12 @@ Rails.application.routes.draw do
   end
   resources :enumerations, :except => :show
   match 'enumerations/:type', :to => 'enumerations#index', :via => :get
+  match '/non_working_dates/context_menu', :to => 'context_menus/non_working_dates#index', :as => :non_working_dates_context_menu, :via => [:get, :post]
+  resources :non_working_dates, :except => :show do
+    collection do
+      delete 'bulk_destroy'
+    end
+  end
 
   get '(projects/:id)/search', :controller => 'search', :action => 'index', :as => 'search'
 

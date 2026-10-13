@@ -1,0 +1,6 @@
+<%= error_messages_for 'non_working_date' %>
+
+<div class="box tabular">
+<p><%= f.date_field :date, :size => 10, :required => true %><%= calendar_for('non_working_date_date') %></p>
+<p><%= f.text_field :name, :size => 40 %></p>
+</div>

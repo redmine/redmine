@@ -68,6 +68,31 @@ class Redmine::Utils::DateCalculationTest < ActiveSupport::TestCase
     end
   end
 
+  def test_working_days_with_non_working_dates
+    NonWorkingDate.create!(:date => '2012-10-10')
+    # Registered on a non-working week day, should not be counted twice
+    NonWorkingDate.create!(:date => '2012-10-13')
+    with_settings :non_working_week_days => %w(6 7) do
+      assert_working_days 13, '2012-10-09', '2012-10-27'
+      assert_working_days  1, '2012-10-09', '2012-10-11'
+      assert_working_days  0, '2012-10-10', '2012-10-11'
+      assert_working_days  3, '2012-10-11', '2012-10-16'
+    end
+  end
+
+  def test_add_working_days_with_non_working_dates
+    NonWorkingDate.create!(:date => '2012-10-11')
+    NonWorkingDate.create!(:date => '2012-10-15')
+    with_settings :non_working_week_days => %w(6 7) do
+      assert_add_working_days '2012-10-10', '2012-10-10', 0
+      assert_add_working_days '2012-10-12', '2012-10-10', 1
+      assert_add_working_days '2012-10-16', '2012-10-10', 2
+      assert_add_working_days '2012-10-17', '2012-10-10', 3
+      # From a non-working date
+      assert_add_working_days '2012-10-16', '2012-10-13', 1
+    end
+  end
+
   def assert_working_days(expected_days, from, to)
     assert_equal expected_days, working_days(from.to_date, to.to_date)
   end

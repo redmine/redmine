@@ -146,6 +146,17 @@ class GanttsControllerTest < Redmine::ControllerTest
     assert_select 'a', :text => /Private child of eCookbook/, :count => 0
   end
 
+  def test_gantt_should_mark_non_working_dates
+    NonWorkingDate.create!(:date => '2016-12-29')
+
+    get :show, :params => {:year => '2016', :month => '12', :months => '1', :zoom => '4'}
+    assert_response :success
+
+    # 9 week-end days and 1 non-working date, in both the day number and the day name rows
+    assert_select 'div.gantt-period-non-working', 20
+    assert_select 'div.gantt-period-non-working', :text => '29'
+  end
+
   def test_gantt_should_display_relations
     IssueRelation.delete_all
     issue1 = Issue.generate!(:start_date => 1.day.from_now.to_date, :due_date => 3.day.from_now.to_date)

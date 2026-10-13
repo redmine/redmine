@@ -171,8 +171,9 @@ class GanttHelperTest < Redmine::HelperTest
                    months: 1, zoom: 3, number_of_rows: 0, non_working_week_days: [6, 7])
     gantt = stub(
       date_from: date_from, date_to: date_to, months: months, zoom: zoom,
-      number_of_rows: number_of_rows, non_working_week_days: non_working_week_days
+      number_of_rows: number_of_rows
     )
+    gantt.define_singleton_method(:non_working_day?) {|date| non_working_week_days.include?(date.cwday)}
     GanttHelper::ChartLayout.new(gantt)
   end
 end
