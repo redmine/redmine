@@ -88,10 +88,12 @@ def _tags(ui, repo):
 def _branches(ui, repo):
     # see mercurial/commands.py:branches
     def iterbranches():
-        for tag, heads, tip, isclosed in repo.branchmap().iterbranches():
+        branchmap = repo.branchmap()
+        for tag in branchmap:
+            tip = branchmap.branchtip(tag)
             yield tag, tip, repo.changelog.rev(tip)
     def branchheads(branch):
-        return repo.branchheads(branch, closed=False)
+        return repo.branchmap().branchheads(branch, closed=False)
     def lookup(rev, n):
         try:
             return repo.lookup(str(rev).encode('utf-8'))
