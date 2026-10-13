@@ -128,14 +128,7 @@ module Propshaft
     end
 
     def manifest_outdated?
-      new_manifest = JSON.parse(load_path.manifest.to_json)
-      current_manifest =
-        begin
-          JSON.parse(config.manifest_path.read)
-        rescue JSON::ParserError
-          nil
-        end
-      current_manifest != new_manifest
+      !!load_path.asset_files.detect{|f| f.mtime > config.manifest_path.mtime}
     end
 
     def load_path
