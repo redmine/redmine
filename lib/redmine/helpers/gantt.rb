@@ -931,7 +931,7 @@ module Redmine
         task_classes << 'gantt-task-parent' if object.is_a?(Issue) && !object.leaf?
         # Renders the task bar, with progress and late
         if coords[:bar_start] && coords[:bar_end]
-          width = coords[:bar_end] - coords[:bar_start] - 2
+          width = coords[:bar_end] - coords[:bar_start]
           style = task_style(coords[:bar_start], width)
           todo_data = {}
           if object.is_a?(Issue)
@@ -944,14 +944,14 @@ module Redmine
                          :data => todo_data}
           output << view.content_tag(:div, '&nbsp;'.html_safe, content_opt)
           if coords[:bar_late_end]
-            width = coords[:bar_late_end] - coords[:bar_start] - 2
+            width = coords[:bar_late_end] - coords[:bar_start]
             style = task_style(coords[:bar_start], width)
             output << view.content_tag(:div, '&nbsp;'.html_safe,
                                        :style => style,
                                        :class => (task_classes + ['gantt-task-late']).join(' '))
           end
           if coords[:bar_progress_end]
-            width = coords[:bar_progress_end] - coords[:bar_start] - 2
+            width = coords[:bar_progress_end] - coords[:bar_start]
             style = task_style(coords[:bar_start], width)
             output << view.content_tag(:div, '&nbsp;'.html_safe,
                                        :style => style,

@@ -263,23 +263,23 @@ class GanttsControllerTest < Redmine::ControllerTest
 
     # eCookbook
     assert_subject_row('project-1', row: '0', text: project.name)
-    assert_chart_row('div.gantt-task-todo', row: '0', style_substring: 'inset-inline-start:0px;width:138px')
+    assert_chart_row('div.gantt-task-todo', row: '0', style_substring: 'inset-inline-start:0px;width:140px')
 
     assert_issue_row(3, 'Bug #3', row: '1')
-    assert_chart_row('div.gantt-task-todo', row: '1', style_substring: 'inset-inline-start:0px;width:38px')
+    assert_chart_row('div.gantt-task-todo', row: '1', style_substring: 'inset-inline-start:0px;width:40px')
 
     assert_issue_row(7, 'Bug #7', row: '2')
-    assert_chart_row('div.gantt-task-todo', row: '2', style_substring: 'inset-inline-start:16px;width:42px')
+    assert_chart_row('div.gantt-task-todo', row: '2', style_substring: 'inset-inline-start:16px;width:44px')
 
     assert_issue_row(1, 'Bug #1', row: '3')
-    assert_chart_row('div.gantt-task-todo', row: '3', style_substring: 'inset-inline-start:52px;width:46px')
+    assert_chart_row('div.gantt-task-todo', row: '3', style_substring: 'inset-inline-start:52px;width:48px')
 
     # Version 1.0
     assert_subject_row('version-2-project-1', row: '4', text: '1.0')
-    assert_chart_row('div.gantt-task-todo', row: '4', style_substring: 'inset-inline-start:48px;width:90px')
+    assert_chart_row('div.gantt-task-todo', row: '4', style_substring: 'inset-inline-start:48px;width:92px')
 
     assert_issue_row(2, 'Feature request #2', row: '5')
-    assert_chart_row('div.gantt-task-todo', row: '5', style_substring: 'inset-inline-start:48px;width:90px')
+    assert_chart_row('div.gantt-task-todo', row: '5', style_substring: 'inset-inline-start:48px;width:92px')
 
     # Private child of eCookbook
     assert_subject_row(
@@ -287,16 +287,16 @@ class GanttsControllerTest < Redmine::ControllerTest
       row: '6',
       text: projects(:projects_005).name
     )
-    assert_chart_row('div.gantt-task-todo', row: '6', style_substring: 'inset-inline-start:56px;width:6px')
+    assert_chart_row('div.gantt-task-todo', row: '6', style_substring: 'inset-inline-start:56px;width:8px')
 
     assert_issue_row(6, 'Bug #6', row: '7')
-    assert_chart_row('div.gantt-task-todo', row: '7', style_substring: 'inset-inline-start:56px;width:6px')
+    assert_chart_row('div.gantt-task-todo', row: '7', style_substring: 'inset-inline-start:56px;width:8px')
 
     assert_issue_row(9, 'Bug #9', row: '8')
-    assert_chart_row('div.gantt-task-todo', row: '8', style_substring: 'inset-inline-start:56px;width:6px')
+    assert_chart_row('div.gantt-task-todo', row: '8', style_substring: 'inset-inline-start:56px;width:8px')
 
     assert_issue_row(10, 'Bug #10', row: '9')
-    assert_chart_row('div.gantt-task-todo', row: '9', style_substring: 'inset-inline-start:56px;width:6px')
+    assert_chart_row('div.gantt-task-todo', row: '9', style_substring: 'inset-inline-start:56px;width:8px')
     assert_select 'div.gantt-task-todo[data-gantt-issue-id=?][data-gantt-relations*=?]', '10', '9'
 
     # eCookbook Subproject1
@@ -338,7 +338,7 @@ class GanttsControllerTest < Redmine::ControllerTest
 
     # eCookbook
     assert_subject_row('project-1', row: '0', text: projects(:projects_001).name)
-    assert_chart_row('div.gantt-task-todo', row: '0', style_substring: 'inset-inline-start:0px;width:258px')
+    assert_chart_row('div.gantt-task-todo', row: '0', style_substring: 'inset-inline-start:0px;width:260px')
 
     # Private child of eCookbook
     assert_subject_row(
@@ -346,19 +346,19 @@ class GanttsControllerTest < Redmine::ControllerTest
       row: '1',
       text: project.name
     )
-    assert_chart_row('div.gantt-task-todo', row: '1', style_substring: 'inset-inline-start:176px;width:6px')
+    assert_chart_row('div.gantt-task-todo', row: '1', style_substring: 'inset-inline-start:176px;width:8px')
 
     # Bug #6
     assert_issue_row(6, 'Bug #6', row: '2')
-    assert_chart_row('div.gantt-task-todo', row: '2', style_substring: 'inset-inline-start:176px;width:6px')
+    assert_chart_row('div.gantt-task-todo', row: '2', style_substring: 'inset-inline-start:176px;width:8px')
 
     # Bug #9
     assert_issue_row(9, 'Bug #9', row: '3')
-    assert_chart_row('div.gantt-task-todo', row: '3', style_substring: 'inset-inline-start:176px;width:6px')
+    assert_chart_row('div.gantt-task-todo', row: '3', style_substring: 'inset-inline-start:176px;width:8px')
 
     # Bug #10
     assert_issue_row(10, 'Bug #10', row: '4')
-    assert_chart_row('div.gantt-task-todo', row: '4', style_substring: 'inset-inline-start:176px;width:6px')
+    assert_chart_row('div.gantt-task-todo', row: '4', style_substring: 'inset-inline-start:176px;width:8px')
 
     assert_select 'div.gantt-task-todo[data-gantt-issue-id=?][data-gantt-relations*=?]', '10', '9'
   end

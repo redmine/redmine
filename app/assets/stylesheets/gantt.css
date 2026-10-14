@@ -249,6 +249,7 @@
   inset-inline-start: var(--gantt-task-start);
   inline-size: var(--gantt-task-width);
   block-size: 8px;
+  box-sizing: border-box;
   font-size: 0.8em;
   color: var(--color-text-muted);
   padding: 0;
@@ -278,16 +279,19 @@
 }
 
 .gantt-task-late {
+  block-size: 10px;
   background: var(--oc-red-5) url(/task_late.png);
   border: 1px solid var(--oc-red-5);
 }
 
 .gantt-task-done {
+  block-size: 10px;
   background: var(--oc-green-7) url(/task_done.png);
   border: 1px solid var(--oc-green-7);
 }
 
 .gantt-task-todo {
+  block-size: 10px;
   background: var(--oc-gray-5) url(/task_todo.png);
   border: 1px solid var(--oc-gray-5);
 }
@@ -295,12 +299,12 @@
 .gantt-task-todo.gantt-task-parent {
   background: var(--oc-gray-6);
   border: 1px solid var(--oc-gray-6);
-  block-size: 3px;
+  block-size: 5px;
 }
 
 .gantt-task-late.gantt-task-parent,
 .gantt-task-done.gantt-task-parent {
-  block-size: 3px;
+  block-size: 5px;
 }
 
 .gantt-task.gantt-task-parent.gantt-task-marker {
@@ -314,21 +318,21 @@
 .gantt-row[data-gantt-row-type="version"] .gantt-task-late {
   background: var(--oc-red-5) url(/milestone_late.png);
   border: 1px solid var(--oc-red-5);
-  block-size: 2px;
+  block-size: 4px;
   margin-block-start: 3px;
 }
 
 .gantt-row[data-gantt-row-type="version"] .gantt-task-done {
   background: var(--oc-green-7) url(/milestone_done.png);
   border: 1px solid var(--oc-green-7);
-  block-size: 2px;
+  block-size: 4px;
   margin-block-start: 3px;
 }
 
 .gantt-row[data-gantt-row-type="version"] .gantt-task-todo {
   background: var(--oc-white) url(/milestone_todo.png);
   border: 1px solid var(--oc-white);
-  block-size: 2px;
+  block-size: 4px;
   margin-block-start: 3px;
 }
 
@@ -343,21 +347,21 @@
 .gantt-row[data-gantt-row-type="project"] .gantt-task-late {
   background: var(--oc-red-5) url(/milestone_late.png);
   border: 1px solid var(--oc-red-5);
-  block-size: 2px;
+  block-size: 4px;
   margin-block-start: 3px;
 }
 
 .gantt-row[data-gantt-row-type="project"] .gantt-task-done {
   background: var(--oc-green-7) url(/milestone_done.png);
   border: 1px solid var(--oc-green-7);
-  block-size: 2px;
+  block-size: 4px;
   margin-block-start: 3px;
 }
 
 .gantt-row[data-gantt-row-type="project"] .gantt-task-todo {
   background: var(--oc-white) url(/milestone_todo.png);
   border: 1px solid var(--oc-white);
-  block-size: 2px;
+  block-size: 4px;
   margin-block-start: 3px;
 }
 

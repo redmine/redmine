@@ -392,7 +392,7 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
       @output_buffer = @gantt.line(start_date, gantt_start, 30, false, 'line', :format => :html, :zoom => 4)
       # the leftmost date (Date.today - 14 days)
       assert_select 'div.gantt-task-todo[style*="--gantt-task-start:0px"]', 1, @output_buffer
-      assert_select 'div.gantt-task-todo[style*="--gantt-task-width:2px"]', 1, @output_buffer
+      assert_select 'div.gantt-task-todo[style*="--gantt-task-width:4px"]', 1, @output_buffer
     end
   end
 
@@ -402,14 +402,14 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
       @output_buffer = @gantt.line(gantt_end, end_date, 30, false, 'line', :format => :html, :zoom => 4)
       # the rightmost date (Date.today + 14 days)
       assert_select 'div.gantt-task-todo[style*="--gantt-task-start:112px"]', 1, @output_buffer
-      assert_select 'div.gantt-task-todo[style*="--gantt-task-width:2px"]', 1, @output_buffer
+      assert_select 'div.gantt-task-todo[style*="--gantt-task-width:4px"]', 1, @output_buffer
     end
   end
 
   test "#line todo line should be the total width" do
     create_gantt
     @output_buffer = @gantt.line(today - 7, today + 7, 30, false, 'line', :format => :html, :zoom => 4)
-    assert_select 'div.gantt-task-todo[style*="--gantt-task-width:58px"]', 1
+    assert_select 'div.gantt-task-todo[style*="--gantt-task-width:60px"]', 1
   end
 
   test "#line late line should start from the starting point on the left" do
@@ -421,21 +421,21 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
   test "#line late line should be the total delayed width" do
     create_gantt
     @output_buffer = @gantt.line(today - 7, today + 7, 30, false, 'line', :format => :html, :zoom => 4)
-    assert_select 'div.gantt-task-late[style*="--gantt-task-width:30px"]', 1
+    assert_select 'div.gantt-task-late[style*="--gantt-task-width:32px"]', 1
   end
 
   test "#line late line should be the same width as task_todo if start date and end date are the same day" do
     create_gantt
     @output_buffer = @gantt.line(today - 7, today - 7, 0, false, 'line', :format => :html, :zoom => 4)
-    assert_select 'div.gantt-task-late[style*="--gantt-task-width:2px"]', 1
-    assert_select 'div.gantt-task-todo[style*="--gantt-task-width:2px"]', 1
+    assert_select 'div.gantt-task-late[style*="--gantt-task-width:4px"]', 1
+    assert_select 'div.gantt-task-todo[style*="--gantt-task-width:4px"]', 1
   end
 
   test "#line late line should be the same width as task_todo if start date and today are the same day" do
     create_gantt
     @output_buffer = @gantt.line(today, today, 0, false, 'line', :format => :html, :zoom => 4)
-    assert_select 'div.gantt-task-late[style*="--gantt-task-width:2px"]', 1
-    assert_select 'div.gantt-task-todo[style*="--gantt-task-width:2px"]', 1
+    assert_select 'div.gantt-task-late[style*="--gantt-task-width:4px"]', 1
+    assert_select 'div.gantt-task-todo[style*="--gantt-task-width:4px"]', 1
   end
 
   test "#line done line should start from the starting point on the left" do
@@ -447,28 +447,34 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
   test "#line done line should be the width for the done ratio" do
     create_gantt
     @output_buffer = @gantt.line(today - 7, today + 7, 30, false, 'line', :format => :html, :zoom => 4)
-    # 15 days * 4 px * 30% - 2 px for borders = 16 px
-    assert_select 'div.gantt-task-done[style*="--gantt-task-width:16px"]', 1
+    # 15 days * 4 px * 30% = 18 px
+    assert_select 'div.gantt-task-done[style*="--gantt-task-width:18px"]', 1
   end
 
   test "#line done line should be the total width for 100% done ratio" do
     create_gantt
     @output_buffer = @gantt.line(today - 7, today + 7, 100, false, 'line', :format => :html, :zoom => 4)
-    # 15 days * 4 px - 2 px for borders = 58 px
-    assert_select 'div.gantt-task-done[style*="--gantt-task-width:58px"]', 1
+    # 15 days * 4 px = 60 px
+    assert_select 'div.gantt-task-done[style*="--gantt-task-width:60px"]', 1
   end
 
   test "#line done line should be the total width for 100% done ratio with same start and end dates" do
     create_gantt
     @output_buffer = @gantt.line(today + 7, today + 7, 100, false, 'line', :format => :html, :zoom => 4)
-    assert_select 'div.gantt-task-done[style*="--gantt-task-width:2px"]', 1
+    assert_select 'div.gantt-task-done[style*="--gantt-task-width:4px"]', 1
   end
 
   test "#line done line should not be the total done width if the gantt starts after start date" do
     create_gantt
     @output_buffer = @gantt.line(today - 16, today - 2, 30, false, 'line', :format => :html, :zoom => 4)
     assert_select 'div.gantt-task-done[style*="--gantt-task-start:0px"]', 1
-    assert_select 'div.gantt-task-done[style*="--gantt-task-width:8px"]', 1
+    assert_select 'div.gantt-task-done[style*="--gantt-task-width:10px"]', 1
+  end
+
+  test "#line small done ratio should not produce a negative width" do
+    create_gantt
+    @output_buffer = @gantt.line(today - 7, today - 3, 1, false, 'line', :format => :html, :zoom => 2)
+    assert_select 'div.gantt-task-done[style*="--gantt-task-width:0px"]', 1
   end
 
   test "#line starting marker should appear at the start date" do
