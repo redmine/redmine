@@ -28,7 +28,7 @@ class Journal < ApplicationRecord
 
   belongs_to :user
   belongs_to :updated_by, :class_name => 'User'
-  has_many :details, :class_name => "JournalDetail", :dependent => :delete_all, :inverse_of => :journal
+  has_many :details, lambda {order(:id)}, :class_name => "JournalDetail", :dependent => :delete_all, :inverse_of => :journal
   attr_accessor :indice
 
   acts_as_event(
