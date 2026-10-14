@@ -49,10 +49,10 @@ Output example of rhmanifest::
     </rhmanifest>
 """
 import re, time, html, urllib
-from mercurial import cmdutil, commands, node, error, hg, registrar
+from mercurial import commands, node, error, hg, registrar
 
 cmdtable = {}
-command = registrar.command(cmdtable) if hasattr(registrar, 'command') else cmdutil.command(cmdtable)
+command = registrar.command(cmdtable)
 
 _x = lambda s: html.escape(s.decode('utf-8')).encode('utf-8')
 _u = lambda s: html.escape(urllib.parse.quote(s)).encode('utf-8')
@@ -63,19 +63,11 @@ def unquoteplus(*args, **kwargs):
 def _changectx(repo, rev):
     if isinstance(rev, bytes):
        rev = repo.lookup(rev)
-    if hasattr(repo, 'changectx'):
-        return repo.changectx(rev)
-    else:
-        return repo[rev]
+    return repo[rev]
 
 def _tip(ui, repo):
     # see mercurial/commands.py:tip
-    def tiprev():
-        try:
-            return len(repo) - 1
-        except TypeError:  # Mercurial < 1.1
-            return repo.changelog.count() - 1
-    tipctx = _changectx(repo, tiprev())
+    tipctx = _changectx(repo, len(repo) - 1)
     ui.write(b'<tip revision="%d" node="%s"/>\n'
              % (tipctx.rev(), _x(node.hex(tipctx.node()))))
 
@@ -96,18 +88,12 @@ def _tags(ui, repo):
 def _branches(ui, repo):
     # see mercurial/commands.py:branches
     def iterbranches():
-        if getattr(repo, 'branchtags', None) is not None:
-            # Mercurial < 2.9
-            for t, n in repo.branchtags().iteritems():
-                yield t, n, repo.changelog.rev(n)
-        else:
-            for tag, heads, tip, isclosed in repo.branchmap().iterbranches():
-                yield tag, tip, repo.changelog.rev(tip)
+        branchmap = repo.branchmap()
+        for tag in branchmap:
+            tip = branchmap.branchtip(tag)
+            yield tag, tip, repo.changelog.rev(tip)
     def branchheads(branch):
-        try:
-            return repo.branchheads(branch, closed=False)
-        except TypeError:  # Mercurial < 1.2
-            return repo.branchheads(branch)
+        return repo.branchmap().branchheads(branch, closed=False)
     def lookup(rev, n):
         try:
             return repo.lookup(str(rev).encode('utf-8'))
