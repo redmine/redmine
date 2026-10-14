@@ -31,11 +31,7 @@ module Redmine
       end
 
       def shell_quote_command(command)
-        if Redmine::Platform.mswin? && RUBY_PLATFORM == 'java'
-          command
-        else
-          shell_quote(command)
-        end
+        shell_quote(command)
       end
     end
   end

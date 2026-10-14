@@ -35,8 +35,7 @@ class RepositoryBazaarTest < ActiveSupport::TestCase
   # On Windows, because it is too hard to change system locale,
   # you cannot run Bazaar non ASCII path tests.
   #
-  RUN_LATIN1_OUTPUT_TEST = (RUBY_PLATFORM != 'java' &&
-                             Encoding.locale_charmap == "ISO-8859-1")
+  RUN_LATIN1_OUTPUT_TEST = (Encoding.locale_charmap == "ISO-8859-1")
 
   CHAR_1_UTF8_HEX   = 'Ü'
   CHAR_1_LATIN1_HEX = "\xdc".b

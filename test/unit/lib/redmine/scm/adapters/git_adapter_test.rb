@@ -22,14 +22,6 @@ require_relative '../../../../../test_helper'
 class GitAdapterTest < ActiveSupport::TestCase
   REPOSITORY_PATH = Rails.root.join('tmp/test/git_repository').to_s
 
-  ## Git, Mercurial and CVS path encodings are binary.
-  ## Subversion supports URL encoding for path.
-  ## Redmine Mercurial adapter and extension use URL encoding.
-  ## Git accepts only binary path in command line parameter.
-  ## So, there is no way to use binary command line parameter in JRuby.
-  JRUBY_SKIP     = (RUBY_PLATFORM == 'java')
-  JRUBY_SKIP_STR = "TODO: This test fails in JRuby"
-
   if File.directory?(REPOSITORY_PATH)
     ## Ruby uses ANSI api to fork a process on Windows.
     ## Japanese Shift_JIS and Traditional Chinese Big5 have 0x5c(backslash) problem
@@ -260,8 +252,6 @@ class GitAdapterTest < ActiveSupport::TestCase
     def test_revisions_latin_1_identifier
       if WINDOWS_PASS
         puts WINDOWS_SKIP_STR
-      elsif JRUBY_SKIP
-        puts JRUBY_SKIP_STR
       else
         revs1 = []
         @adapter.revisions(
@@ -452,8 +442,6 @@ class GitAdapterTest < ActiveSupport::TestCase
     def test_annotate_latin_1_identifier
       if WINDOWS_PASS
         puts WINDOWS_SKIP_STR
-      elsif JRUBY_SKIP
-        puts JRUBY_SKIP_STR
       else
         annotate = @adapter.annotate('sources/watchers_controller.rb',
                                      "latin-1-branch-#{@char_1}-02")
@@ -494,8 +482,6 @@ class GitAdapterTest < ActiveSupport::TestCase
     def test_latin_1_path
       if WINDOWS_PASS
         puts WINDOWS_SKIP_STR
-      elsif JRUBY_SKIP
-        puts JRUBY_SKIP_STR
       else
         p2 = "latin-1-dir/test-#{@char_1}-2.txt"
         ['4fc55c43bf3d3dc2efb66145365ddc17639ce81e', '4fc55c43bf3'].each do |r1|
@@ -588,8 +574,6 @@ class GitAdapterTest < ActiveSupport::TestCase
     def test_entries_latin_1_dir
       if WINDOWS_PASS
         puts WINDOWS_SKIP_STR
-      elsif JRUBY_SKIP
-        puts JRUBY_SKIP_STR
       else
         entries1 = @adapter.entries("latin-1-dir/test-#{@char_1}-subdir",
                                     '1ca7f5ed')
@@ -605,8 +589,6 @@ class GitAdapterTest < ActiveSupport::TestCase
     def test_entries_latin_1_identifier
       if WINDOWS_PASS
         puts WINDOWS_SKIP_STR
-      elsif JRUBY_SKIP
-        puts JRUBY_SKIP_STR
       else
         entries1 = @adapter.entries(nil,
                                     "latin-1-branch-#{@char_1}-02")
@@ -670,8 +652,6 @@ class GitAdapterTest < ActiveSupport::TestCase
     def test_cat_latin_1_identifier
       if WINDOWS_PASS
         puts WINDOWS_SKIP_STR
-      elsif JRUBY_SKIP
-        puts JRUBY_SKIP_STR
       else
         assert @adapter.cat('sources/watchers_controller.rb',
                             "latin-1-branch-#{@char_1}-02")

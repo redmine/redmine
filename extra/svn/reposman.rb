@@ -211,7 +211,7 @@ def owner_name(file)
 end
 
 def mswin?
-  (RUBY_PLATFORM =~ /(:?mswin|mingw)/) || (RUBY_PLATFORM == 'java' && (ENV['OS'] || ENV['os']) =~ /windows/i)
+  RUBY_PLATFORM =~ /(:?mswin|mingw)/
 end
 
 projects.each do |project|

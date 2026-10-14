@@ -96,8 +96,7 @@ file 'config/database.yml' do
     end
     test_conf = dev_conf.merge('database' => test_db_name)
   when /sqlite3/
-    dev_conf =  {'adapter' => (Object.const_defined?(:JRUBY_VERSION) ?
-                                 'jdbcsqlite3' : 'sqlite3'),
+    dev_conf =  {'adapter' => 'sqlite3',
                  'database' => "db/#{dev_db_name}.sqlite3"}
     test_conf = dev_conf.merge('database' => "db/#{test_db_name}.sqlite3")
   when 'sqlserver'
