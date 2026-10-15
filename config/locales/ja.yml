@@ -1443,6 +1443,7 @@ ja:
   label_involved_principals: 作成者 / 直近の関係者
   label_attachment_summary:
     zero: "%{filename}"
+    one: "%{filename} ほか%{count}件"
     other: "%{filename} ほか%{count}件"
   setting_wiki_tablesort_enabled: コンテンツ内テーブルの Tablesort (JavaScript) による並べ替え
   label_progressbar: 進捗バー
