@@ -1834,10 +1834,14 @@ module ApplicationHelper
     # several MB, so it is not part of every page load. When it is available,
     # its URL is exposed here and the mermaid Stimulus controller loads it
     # only when a Mermaid code block is actually present on the page.
+    # The mermaid-available class hides Mermaid code blocks from the first
+    # paint so that their source does not flash before the diagram replaces
+    # it. It is set by JavaScript so that the blocks stay visible without it.
     if Redmine::Mermaid.available?
       tags <<
         javascript_tag(
-          "window.MermaidAssetUrl = #{asset_path(Redmine::Mermaid::FILENAME).to_json};"
+          "window.MermaidAssetUrl = #{asset_path(Redmine::Mermaid::FILENAME).to_json};" \
+          "document.documentElement.classList.add('mermaid-available');"
         )
     end
     unless User.current.pref.warn_on_leaving_unsaved == '0'

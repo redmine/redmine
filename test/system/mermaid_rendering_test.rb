@@ -88,6 +88,26 @@ class MermaidRenderingTest < ApplicationSystemTestCase
     end
   end
 
+  def test_should_show_mermaid_source_when_mermaid_js_fails_to_load
+    skip unless mermaid_installed?
+
+    log_user('jsmith', 'jsmith')
+    visit '/projects/ecookbook/issues/new'
+    # The source of Mermaid code blocks is hidden until rendered; it must be
+    # shown again if Mermaid.js cannot be loaded.
+    page.execute_script("window.MermaidAssetUrl = '/nonexistent-mermaid.js';")
+    within('form#issue-form') do
+      fill_in 'Subject', :with => 'mermaid load failure test'
+      fill_in 'Description', :with => "```mermaid\ngraph TD;\nA-->B;\n```"
+      click_link 'Preview'
+
+      within('div.wiki-preview') do
+        assert_selector 'pre.mermaid-failed', text: 'graph TD;'
+        assert_no_selector 'div.mermaid'
+      end
+    end
+  end
+
   def test_should_not_execute_script_from_malicious_mermaid_syntax
     skip unless mermaid_installed?
 

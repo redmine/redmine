@@ -56,6 +56,8 @@ export default class extends Controller {
       if (this.element.isConnected) this.render(mermaid);
     }).catch((error) => {
       console.error('Failed to load Mermaid.js:', error);
+      // Show the source that the mermaid-available CSS rule hides.
+      this.element.closest('pre')?.classList.add('mermaid-failed');
     });
   }
 
@@ -65,7 +67,10 @@ export default class extends Controller {
     this.errorElement?.remove();
     this.container = this.errorElement = null;
     const pre = this.element.closest('pre');
-    if (pre) pre.style.display = '';
+    if (pre) {
+      pre.style.display = '';
+      pre.classList.remove('mermaid-failed');
+    }
   }
 
   render(mermaid) {
@@ -80,6 +85,13 @@ export default class extends Controller {
     const container = document.createElement('div');
     container.className = 'mermaid';
     container.textContent = this.element.textContent.trim();
+    // Keep the source text in the container from flashing until Mermaid.js
+    // replaces it with the diagram. Mermaid.js measures the diagram inside
+    // the container, so it is made invisible rather than display: none, and
+    // taken out of the flow so that only the hidden <pre> reserves space.
+    container.style.visibility = 'hidden';
+    container.style.position = 'absolute';
+    container.style.insetInline = '0';
     pre.insertAdjacentElement('afterend', container);
     this.container = container;
 
@@ -87,9 +99,11 @@ export default class extends Controller {
     // visible, so that the invalid diagram can be inspected and copied.
     mermaid.run({ nodes: [container], suppressErrors: false }).then(() => {
       pre.style.display = 'none';
+      container.style.visibility = container.style.position = container.style.insetInline = '';
     }).catch((error) => {
       container.remove();
       if (this.container === container) this.container = null;
+      pre.classList.add('mermaid-failed');
 
       const errorElement = document.createElement('div');
       errorElement.className = 'flash error';

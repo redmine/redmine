@@ -1991,6 +1991,13 @@ div.wiki div.pre-wrapper {
   position: relative;
 }
 
+/* Hide Mermaid code blocks until they are rendered so that their source does not flash.
+   visibility keeps their space so that the content below does not jump twice.
+   The mermaid Stimulus controller adds mermaid-failed to show the source again on failure. */
+html.mermaid-available pre:has(> code[data-controller="mermaid"]):not(.mermaid-failed) {
+  visibility: hidden;
+}
+
 div.wiki pre {
   margin-block: 1em;
   margin-inline: 1.6em 1em;

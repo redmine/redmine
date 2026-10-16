@@ -2220,6 +2220,11 @@ class ApplicationHelperTest < Redmine::HelperTest
     assert_not_include 'MermaidAssetUrl', javascript_heads
   end
 
+  def test_javascript_heads_should_add_mermaid_available_class_when_mermaid_is_available
+    Redmine::Mermaid.stubs(:available?).returns(true)
+    assert_include "document.documentElement.classList.add('mermaid-available');", javascript_heads
+  end
+
   def test_favicon_path
     assert_match %r{^/assets/favicon-\w+\.ico}, favicon_path
   end
