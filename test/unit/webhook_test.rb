@@ -349,8 +349,8 @@ class WebhookTest < ActiveSupport::TestCase
   test "executor tries the next IP when a connection fails" do
     with_webhook_server do |port, received|
       executor = Webhook::Executor.new("http://127.0.0.1:#{port}/hook", 'payload', nil)
-      # nothing listens on 127.0.0.2:<port>, so the first connection is refused
-      executor.stubs(:valid_ips).returns(['127.0.0.2', '127.0.0.1'])
+      # nothing listens on [::1]:<port>, so the first connection fails immediately
+      executor.stubs(:valid_ips).returns(['::1', '127.0.0.1'])
 
       response = executor.call
 
@@ -362,7 +362,7 @@ class WebhookTest < ActiveSupport::TestCase
   test "executor raises a SocketError when no IP can be connected to" do
     with_webhook_server do |port, received|
       executor = Webhook::Executor.new("http://127.0.0.1:#{port}/hook", 'payload', nil)
-      executor.stubs(:valid_ips).returns(['127.0.0.2'])
+      executor.stubs(:valid_ips).returns(['::1'])
 
       error = assert_raises(SocketError) { executor.call }
       assert_equal 'Could not connect to any IP', error.message
