@@ -15,6 +15,7 @@ export default class extends Controller {
 
   connect() {
     this.#$element = this.$(this.element)
+    this.mobileModeValue = this.#isMobile()
     this.#setupResizable()
   }
 
@@ -41,6 +42,7 @@ export default class extends Controller {
     const options = {
       handles: "e",
       minWidth: this.minWidthValue,
+      disabled: this.mobileModeValue,
       zIndex: 30,
       resize: (_event, ui) => {
         this.element.style.setProperty("--gantt-column-width", `${ui.size.width}px`)
