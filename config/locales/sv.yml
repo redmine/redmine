@@ -270,10 +270,10 @@ sv:
   mail_body_account_activation_request: "En ny användare (%{value}) har registrerat sig och avvaktar ditt godkännande:"
   mail_subject_reminder: "%{count} ärende(n) har deadline under de kommande %{days} dagarna"
   mail_body_reminder: "%{count} ärende(n) som är tilldelat dig har deadline under de %{days} dagarna:"
-  mail_subject_wiki_content_added: "'%{id}' wikisida has lagts till"
-  mail_body_wiki_content_added: "The '%{id}' wikisida has lagts till av %{author}."
+  mail_subject_wiki_content_added: "'%{id}' wikisida har lagts till"
+  mail_body_wiki_content_added: "'%{id}' wikisida har lagts till av %{author}."
   mail_subject_wiki_content_updated: "'%{id}' wikisida har uppdaterats"
-  mail_body_wiki_content_updated: "The '%{id}' wikisida har uppdaterats av %{author}."
+  mail_body_wiki_content_updated: "'%{id}' wikisida har uppdaterats av %{author}."
 
   field_name: Namn
   field_description: Beskrivning
@@ -1533,11 +1533,11 @@ sv:
   mail_subject_test_email: Redmine-test
   mail_body_test_email: Det här är ett testmejl från Redmine.
   text_mermaid_available: Mermaid.js tillgängligt (valfritt)
-  label_member_view_all: View all members
-  field_date: Date
-  label_non_working_date_plural: Non-working dates
-  label_non_working_date_new: New non-working date
-  text_non_working_dates_html: 'You can add non-working dates such as holidays: <a href="%{non_working_dates_path}">Manage
-    non-working dates</a>'
-  text_non_working_dates_export_all_years: Non-working dates of all years will be exported.
-  label_import_non_working_dates: Import non-working dates
+  label_member_view_all: Visa alla medlemmar
+  field_date: Datum
+  label_non_working_date_plural: Helgdagar och lediga dagar
+  label_non_working_date_new: Ny helgdag eller ledig dag
+  text_non_working_dates_html: 'Du kan lägga till helgdagar och lediga dagar: <a href="%{non_working_dates_path}">Hantera
+    helgdagar och lediga dagar</a>'
+  text_non_working_dates_export_all_years: Helgdagar och lediga dagar för alla år exporteras.
+  label_import_non_working_dates: Importera helgdagar och lediga dagar
