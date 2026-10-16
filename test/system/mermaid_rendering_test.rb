@@ -69,7 +69,26 @@ class MermaidRenderingTest < ApplicationSystemTestCase
       assert_selector '.flash.error', text: 'Failed to render mermaid diagram'
       assert_selector 'pre'
       assert_no_selector 'div.mermaid svg'
+      assert_no_selector 'a.mermaid-download-link', visible: :all
     end
+  end
+
+  def test_should_download_mermaid_diagram_as_png
+    skip unless mermaid_installed?
+
+    issue = Issue.find(1)
+    issue.update_column(:description, "```mermaid\ngraph TD;\nA-->B;\n```")
+
+    log_user('jsmith', 'jsmith')
+    visit "/issues/#{issue.id}"
+
+    within('div.description') do
+      find('div.mermaid svg').hover
+      find('a.mermaid-download-link').click
+    end
+
+    png_signature = "\x89PNG\r\n\x1A\n".b
+    assert_equal png_signature, File.binread(downloaded_file('mermaid-flowchart@2x.png'))[0, 8]
   end
 
   def test_should_render_mermaid_in_description_preview

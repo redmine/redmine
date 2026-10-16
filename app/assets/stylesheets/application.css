@@ -2017,7 +2017,8 @@ div.wiki *:not(pre)>code, div.wiki>code {
   white-space: pre-wrap;
 }
 
-div.pre-wrapper a.copy-pre-content-link {
+div.pre-wrapper a.copy-pre-content-link,
+div.pre-wrapper a.mermaid-download-link {
   position: absolute;
   inset-block-start: 3px;
   inset-inline-end: calc(1em + 3px);
@@ -2030,7 +2031,13 @@ div.pre-wrapper a.copy-pre-content-link {
   padding-inline: 3px;
 }
 
-div.pre-wrapper:hover a.copy-pre-content-link {
+div.pre-wrapper a.mermaid-download-link {
+  /* To the left of the copy button: its width (18px icon + padding + border) plus a 3px gap */
+  inset-inline-end: calc(1em + 3px + 26px + 3px);
+}
+
+div.pre-wrapper:hover a.copy-pre-content-link,
+div.pre-wrapper:hover a.mermaid-download-link {
   display: block;
 }
 
