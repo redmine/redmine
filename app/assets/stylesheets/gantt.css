@@ -24,9 +24,15 @@
   inline-size: 100%;
   /* Reserve space for the horizontal scrollbar so navigation stays in place. */
   min-block-size: calc(var(--gantt-pane-height) + 24px);
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
   /* Force LTR for Gantt even in RTL locales because column resizing, relation lines, and the progress line don't work in RTL yet. */
   direction: ltr;
+}
+
+/* Avoid flicker by hiding the chart until all column widths are restored. */
+.gantt-chart:has(.gantt-column:not([data-gantt--column-width-restored])) {
+  visibility: hidden;
 }
 
 .gantt-chart [hidden] {
@@ -38,6 +44,18 @@
   flex: 0 0 var(--gantt-column-width);
   inline-size: var(--gantt-column-width);
   min-inline-size: 0;
+}
+
+.gantt-column[data-gantt-column="subjects"] {
+  min-inline-size: 100px;
+  max-inline-size: max(100px, calc(100% - 100px));
+}
+
+/* On a narrow chart, dragging may make the subject column wider than the available space. */
+.gantt-chart.is-manually-resized [data-gantt-column="subjects"] {
+  flex: 0 0 var(--gantt-subject-display-width);
+  inline-size: var(--gantt-subject-display-width);
+  max-inline-size: none;
 }
 
 .gantt-chart .ui-resizable-e {
@@ -84,8 +102,8 @@
 
 .gantt-timeline {
   position: relative;
-  flex: 1 1 auto;
-  min-inline-size: 0;
+  flex: 1 0 0;
+  min-inline-size: 100px;
   /* Keep the canvas border inside the overflow clipping edge. */
   padding-block-end: 1px;
   overflow-x: auto;
@@ -406,5 +424,11 @@
     flex: 0 0 calc(var(--gantt-chart-width) + 1px);
     inline-size: calc(var(--gantt-chart-width) + 1px);
     overflow: visible;
+  }
+
+  .gantt-chart .gantt-column[data-gantt-column="subjects"] {
+    flex: 0 0 var(--gantt-column-width);
+    inline-size: var(--gantt-column-width);
+    max-inline-size: none;
   }
 }

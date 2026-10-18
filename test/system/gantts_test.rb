@@ -107,6 +107,54 @@ class GanttsTest < ApplicationSystemTestCase
     assert width_after > width_before
   end
 
+  test 'column widths are remembered globally' do
+    visit_gantt
+
+    # Wait for column resizing to initialize before reading the width.
+    assert_selector '.gantt-column[data-gantt-column="subjects"].ui-resizable'
+    default_subject_width = column_width('subjects')
+
+    drag_column_resizer('subjects', 60)
+    resized_subject_width = column_width('subjects')
+    assert resized_subject_width > default_subject_width
+
+    page.refresh
+    assert_selector '.gantt-column[data-gantt-column="subjects"].ui-resizable'
+    assert_equal resized_subject_width, column_width('subjects')
+
+    expand_options
+    find('#draw_selected_columns').check
+    drag_column_resizer('status', 80)
+    resized_status_width = column_width('status')
+
+    ['/projects/subproject1/issues/gantt', '/issues/gantt'].each do |path|
+      visit path
+      assert_selector '.gantt-column[data-gantt-column="subjects"].ui-resizable'
+      assert_equal resized_subject_width, column_width('subjects')
+
+      expand_options
+      find('#draw_selected_columns').check
+      assert_equal resized_status_width, column_width('status')
+    end
+  end
+
+  test 'subject width adapts when the sidebar is opened and closed after manual resizing' do
+    visit_gantt
+    subject_column = '.gantt-column[data-gantt-column="subjects"]'
+    assert_selector "#{subject_column}.ui-resizable"
+
+    find('#sidebar-switch-button').click
+    drag_column_resizer('subjects', 500)
+    wide_width = column_width('subjects')
+
+    find('#sidebar-switch-button').click
+    assert_selector(subject_column) { column_width('subjects') < wide_width }
+    narrow_width = column_width('subjects')
+
+    find('#sidebar-switch-button').click
+    assert_selector(subject_column) { column_width('subjects') > narrow_width }
+  end
+
   test 'context menu and tooltip interactions' do
     visit_gantt
 

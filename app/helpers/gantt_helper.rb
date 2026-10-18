@@ -232,6 +232,7 @@ module GanttHelper
         mouseout->gantt--chart#unhighlightRow
         resize@window->gantt--chart#handleWindowResize
       ).join(' '),
+      'gantt--chart-manually-resized-class': 'is-manually-resized',
       'gantt--chart-issue-relation-types-value': Redmine::Helpers::Gantt::DRAW_TYPES.to_json,
       'gantt--chart-show-selected-columns-value': query.draw_selected_columns ? 'true' : 'false',
       'gantt--chart-show-relations-value': query.draw_relations ? 'true' : 'false',
@@ -253,10 +254,27 @@ module GanttHelper
     end
   end
 
+  def gantt_subject_column_tag(&)
+    gantt_column_tag(
+      'subjects', min_width: 100, width: 'var(--gantt-subject-width)',
+      data: {
+        'gantt--chart-target': 'subjectColumn',
+        # When the subject column is dragged on a narrow chart,
+        # let the user's chosen width take precedence over automatic shrinking.
+        action: %w(
+          gantt--column:resize-start->gantt--chart#handleSubjectColumnResizeStart
+          gantt--column:resize->gantt--chart#handleSubjectColumnResize
+        ).join(' ')
+      }, &
+    )
+  end
+
   def gantt_column_tag(column_name, min_width: nil, **options, &)
-    options[:data] = options.fetch(:data, {}).merge(
+    data_attributes = options.fetch(:data, {})
+
+    options[:data] = data_attributes.merge(
       controller: 'gantt--column',
-      action: 'resize@window->gantt--column#handleWindowResize',
+      action: ['resize@window->gantt--column#handleWindowResize', data_attributes[:action]].compact.join(' '),
       'gantt--column-min-width-value': min_width,
       'gantt-column': column_name
     )

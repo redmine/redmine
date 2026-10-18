@@ -4,7 +4,8 @@ const RELATION_STROKE_WIDTH = 2
 const SVG_NS = "http://www.w3.org/2000/svg"
 
 export default class extends Controller {
-  static targets = ["relations", "selectedColumn", "today"]
+  static targets = ["relations", "selectedColumn", "subjectColumn", "today"]
+  static classes = ["manuallyResized"]
 
   static values = {
     issueRelationTypes: Object,
@@ -17,6 +18,8 @@ export default class extends Controller {
   #drawRight = 0
   #drawPaper = null
   #drawPaperGroup = null
+  #chartWidth = 0
+  #resizeObserver = null
 
   initialize() {
     this.$ = window.jQuery
@@ -25,13 +28,21 @@ export default class extends Controller {
   connect() {
     this.#drawTop = 0
     this.#drawRight = 0
+    this.#chartWidth = this.element.clientWidth
 
     this.#drawProgressLineAndRelations()
     this.#drawSelectedColumns()
+
+    // Opening or closing the sidebar changes the chart width without resizing the window.
+    this.#resizeObserver = new ResizeObserver(() => this.handleChartResize())
+    this.#resizeObserver.observe(this.element)
   }
 
   disconnect() {
+    this.#resizeObserver?.disconnect()
+    this.#resizeObserver = null
     this.clearRowHighlight()
+    this.#resetSubjectDisplayWidth()
 
     if (this.#drawPaper) {
       this.#drawPaper.remove()
@@ -75,8 +86,33 @@ export default class extends Controller {
   }
 
   handleWindowResize() {
+    this.handleChartResize()
     this.#drawProgressLineAndRelations()
     this.#drawSelectedColumns()
+  }
+
+  // After manual column sizing, narrowing the window or opening the sidebar
+  // should let the subject column shrink to fit again.
+  handleChartResize() {
+    const width = this.element.clientWidth
+    if (width === this.#chartWidth) return
+
+    this.#resetSubjectDisplayWidth()
+    this.#chartWidth = width
+  }
+
+  // When a subject column widened on a larger screen is dragged on a smaller screen,
+  // start from its displayed width so the handle stays under the pointer.
+  handleSubjectColumnResizeStart() {
+    if (this.element.classList.contains(this.manuallyResizedClass)) return
+
+    const width = this.subjectColumnTarget.getBoundingClientRect().width
+    this.element.style.setProperty("--gantt-subject-display-width", `${width}px`)
+    this.element.classList.add(this.manuallyResizedClass)
+  }
+
+  handleSubjectColumnResize(event) {
+    this.element.style.setProperty("--gantt-subject-display-width", `${event.detail.width}px`)
   }
 
   handleSubjectTreeChanged() {
@@ -94,6 +130,13 @@ export default class extends Controller {
 
   handleOptionsProgress(event) {
     this.showProgressValue = !!(event.detail && event.detail.enabled)
+  }
+
+  // After the chart is resized or reconnected, let the subject column fit again,
+  // keeping the user's chosen width for when more space is available.
+  #resetSubjectDisplayWidth() {
+    this.element.classList.remove(this.manuallyResizedClass)
+    this.element.style.removeProperty("--gantt-subject-display-width")
   }
 
   #setRowHighlight(row, highlighted) {
