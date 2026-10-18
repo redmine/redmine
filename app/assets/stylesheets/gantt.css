@@ -51,7 +51,7 @@
   max-inline-size: max(100px, calc(100% - 100px));
 }
 
-/* On a narrow chart, dragging may make the subject column wider than the available space. */
+/* On a narrow chart, dragging or auto-fit may make the subject column wider than the available space. */
 .gantt-chart.is-manually-resized [data-gantt-column="subjects"] {
   flex: 0 0 var(--gantt-subject-display-width);
   inline-size: var(--gantt-subject-display-width);
@@ -60,6 +60,7 @@
 
 .gantt-chart .ui-resizable-e {
   cursor: ew-resize;
+  z-index: 30;
 }
 
 .gantt-pane {
@@ -216,6 +217,12 @@
   line-height: 16px;
   overflow: hidden;
   white-space: nowrap;
+}
+
+/* Applied temporarily when auto-fitting a column to measure its header and row content widths. */
+.gantt-column-measuring .gantt-pane > header,
+.gantt-column-measuring .gantt-row {
+  inline-size: max-content;
 }
 
 .gantt-row-hover {

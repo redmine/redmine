@@ -259,7 +259,7 @@ module GanttHelper
       'subjects', min_width: 100, width: 'var(--gantt-subject-width)',
       data: {
         'gantt--chart-target': 'subjectColumn',
-        # When the subject column is dragged on a narrow chart,
+        # When the subject column is dragged or auto-fitted on a narrow chart,
         # let the user's chosen width take precedence over automatic shrinking.
         action: %w(
           gantt--column:resize-start->gantt--chart#handleSubjectColumnResizeStart
@@ -283,5 +283,16 @@ module GanttHelper
     options[:style] = gantt_css_variables('gantt-column-width': options.delete(:width)) if options[:width]
 
     tag.div(**options, &)
+  end
+
+  def gantt_column_resize_handle_tag
+    tag.div(
+      class: 'ui-resizable-handle ui-resizable-e',
+      data: {
+        'gantt--column-target': 'handle',
+        action: 'dblclick->gantt--column#fitWidth:prevent'
+      },
+      aria: {hidden: true}
+    )
   end
 end

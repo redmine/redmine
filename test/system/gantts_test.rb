@@ -155,6 +155,30 @@ class GanttsTest < ApplicationSystemTestCase
     assert_selector(subject_column) { column_width('subjects') > narrow_width }
   end
 
+  test 'automatic column width fitting' do
+    Issue.find(3).update!(
+      subject: 'Cannot save a recipe after changing the ingredients and selecting a different category'
+    )
+    visit_gantt
+    assert_selector '.gantt-column[data-gantt-column="subjects"].ui-resizable'
+
+    expected_width = page.evaluate_script(<<~JS)
+      (() => {
+        const row = document.querySelector('[data-gantt-column="subjects"] .gantt-row[data-gantt-row-key="issue-3"]');
+        const range = document.createRange();
+        range.selectNodeContents(row);
+        return Math.ceil(range.getBoundingClientRect().right - row.getBoundingClientRect().left) + 10;
+      })()
+    JS
+
+    find('.gantt-column[data-gantt-column="subjects"] .ui-resizable-e').double_click
+    assert_equal expected_width, column_width('subjects')
+
+    page.refresh
+    assert_selector '.gantt-column[data-gantt-column="subjects"].ui-resizable'
+    assert_equal expected_width, column_width('subjects')
+  end
+
   test 'context menu and tooltip interactions' do
     visit_gantt
 

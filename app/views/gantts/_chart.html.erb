@@ -23,6 +23,7 @@
         <% end %>
       </div>
     </section>
+    <%= gantt_column_resize_handle_tag %>
   <% end %>
 
   <%
@@ -39,6 +40,7 @@
           <%= gantt.selected_column_content(column: column, top: layout.content_top, zoom: layout.zoom, g_width: layout.chart_width).html_safe %>
         </div>
       </section>
+      <%= gantt_column_resize_handle_tag %>
     <% end %>
   <% end %>
 
