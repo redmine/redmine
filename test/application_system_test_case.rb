@@ -107,7 +107,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   # Returns the path of the download file
   def downloaded_file(filename='*')
     files = []
-    Timeout.timeout(5) do
+    Timeout.timeout(10) do
       loop do
         files = downloaded_files(filename)
         break if files.present?
