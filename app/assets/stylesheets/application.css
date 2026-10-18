@@ -1064,6 +1064,7 @@ div#activity h3 {
   padding: 5px;
   background-color: var(--oc-gray-1);
 }
+div#activity h3 .day-of-week { font-size: 0.875rem; font-weight: normal; color: var(--color-text-muted); }
 div#activity dt {
   padding-block-start: 10px;
   border-block-start: 1px solid var(--oc-gray-2);

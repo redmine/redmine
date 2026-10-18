@@ -61,6 +61,20 @@ class ActivitiesControllerTest < Redmine::ControllerTest
     assert_select '#sidebar input#with_subprojects', :count => 0
   end
 
+  def test_index_should_show_day_of_week_except_for_today
+    Journal.find(1).update_column(:created_on, Time.current)
+    Journal.find(2).update_column(:created_on, 1.day.ago)
+    with_locale 'en' do
+      get(:index, :params => {:id => 1, :with_subprojects => 0})
+    end
+    assert_response :success
+
+    assert_select 'h3', :text => 'Today' do
+      assert_select 'span.day-of-week', 0
+    end
+    assert_select 'h3 span.day-of-week', :text => "(#{1.day.ago.to_date.strftime('%a')})"
+  end
+
   def test_project_index_with_invalid_project_id_should_respond_404
     get(:index, :params => {:id => 299})
     assert_response :not_found
