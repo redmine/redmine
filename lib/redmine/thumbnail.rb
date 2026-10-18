@@ -66,7 +66,10 @@ module Redmine
             end
           end
         rescue Timeout::Error
-          Process.kill('KILL', pid)
+          if pid
+            Process.kill('KILL', pid)
+            Process.detach(pid)
+          end
           logger.error("Creating thumbnail timed out:\nCommand: #{cmd}")
           return nil
         end
