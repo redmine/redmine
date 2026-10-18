@@ -18,6 +18,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module ActivitiesHelper
+  include Redmine::Utils::DateCalculation
+
   def sort_activity_events(events)
     events_by_group = events.group_by(&:event_group)
     sorted_events = []

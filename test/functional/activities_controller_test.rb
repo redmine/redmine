@@ -75,6 +75,18 @@ class ActivitiesControllerTest < Redmine::ControllerTest
     assert_select 'h3 span.day-of-week', :text => "(#{1.day.ago.to_date.strftime('%a')})"
   end
 
+  def test_index_should_show_non_working_date_name
+    Journal.find(1).update_column(:created_on, Time.current)
+    NonWorkingDate.create!(:date => User.current.today, :name => 'Foo')
+    with_settings :non_working_week_days => [] do
+      get(:index, :params => {:id => 1, :with_subprojects => 0})
+    end
+    assert_response :success
+
+    assert_select 'h3.non-working-day', 1
+    assert_select 'h3.non-working-day span.non-working-date-name', :text => 'Foo'
+  end
+
   def test_project_index_with_invalid_project_id_should_respond_404
     get(:index, :params => {:id => 299})
     assert_response :not_found

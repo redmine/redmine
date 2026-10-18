@@ -1,9 +1,10 @@
 <div id="activity">
 <% events_by_day.keys.sort.reverse_each do |day| %>
-<h3>
+<%= tag.h3 class: ('non-working-day' if non_working_day?(day)) do %>
   <%= format_activity_day(day) %>
   <% unless day == User.current.today %><span class="day-of-week">(<%= abbr_day_name(day.cwday) %>)</span><% end %>
-</h3>
+  <% if (name = NonWorkingDate.name_for(day)) %><span class="non-working-date-name" title="<%= name %>"><%= name %></span><% end %>
+<% end %>
 <dl>
 <% sort_activity_events(events_by_day[day]).each do |e, in_group| -%>
   <dt class="<%= e.event_type %> icon icon-<%= e.event_type %> <%= "grouped" if in_group %> <%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>">
