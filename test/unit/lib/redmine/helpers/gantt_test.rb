@@ -158,6 +158,68 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
     assert_select 'div.gantt-row[data-gantt-row-type=version][style*="--gantt-row-indent:24px"]'
   end
 
+  test "project rows should reference their nearest displayed ancestor across every pane" do
+    # Project hierarchy (all projects are public unless marked private):
+    # root
+    # |-- hidden (private)
+    # |   `-- hidden_child (private)
+    # |       `-- descendant
+    # |           `-- child
+    # `-- sibling
+    # hidden_root (private)
+    # `-- other_root
+    #     `-- other_child
+    root = Project.generate!
+    hidden = Project.generate!(:parent_id => root.id, :is_public => false)
+    hidden_child = Project.generate!(:parent_id => hidden.id, :is_public => false)
+    descendant = Project.generate!(:parent_id => hidden_child.id)
+    child = Project.generate!(:parent_id => descendant.id)
+    sibling = Project.generate!(:parent_id => root.id)
+    hidden_root = Project.generate!(:is_public => false)
+    other_root = Project.generate!(:parent_id => hidden_root.id)
+    other_child = Project.generate!(:parent_id => other_root.id)
+
+    # Expected parents in the displayed tree; nil means a root row.
+    expected_parents = {
+      root => nil,
+      descendant => root,
+      child => descendant,
+      sibling => root,
+      other_root => nil,
+      other_child => other_root
+    }
+
+    # Give each expected project an issue so it is included in the Gantt chart.
+    expected_parents.each_key {|project| Issue.generate!(:project => project)}
+
+    # Use a non-admin user with no membership in the private projects.
+    # Render a cross-project Gantt chart with a status column.
+    User.current = User.find(2)
+    create_gantt(nil)
+    @gantt.query.column_names = [:status]
+
+    [
+      @gantt.subjects,
+      @gantt.lines,
+      @gantt.selected_column_content(:column => @gantt.query.columns.last)
+    ].each do |html|
+      # Private projects must not have rows in any pane.
+      [hidden, hidden_child, hidden_root].each do |project|
+        assert_select_in html, "[data-gantt-row-key=project-#{project.id}]", 0
+      end
+
+      expected_parents.each do |project, expected_parent|
+        assert_select_in html, "[data-gantt-row-key=project-#{project.id}]", 1 do |rows|
+          if expected_parent
+            assert_equal "project-#{expected_parent.id}", rows.first['data-gantt-parent-row-key']
+          else
+            assert_nil rows.first['data-gantt-parent-row-key']
+          end
+        end
+      end
+    end
+  end
+
   test "#subjects version without assigned issues should not be rendered" do
     setup_subjects
     @version = Version.generate!(:effective_date => (today + 14),

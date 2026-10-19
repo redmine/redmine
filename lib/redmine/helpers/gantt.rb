@@ -228,13 +228,17 @@ module Redmine
         @columns[options[:column].name] = +'' if options[:only] == :selected_columns && @columns.has_key?(options[:column]) == false
         @number_of_rows = 0
         begin
+          ancestors = []
           Project.project_tree(projects) do |project, level|
+            # Keep the first `level` ancestors to identify the displayed parent for collapse/expand.
+            ancestors.slice!(level..)
             options[:indent] = indent + level * options[:indent_increment]
             parent_row_key =
-              if level > 0 && project.parent
-                gantt_project_row_key(project.parent)
+              if ancestors.any?
+                gantt_project_row_key(ancestors.last)
               end
             render_project(project, options, parent_row_key: parent_row_key)
+            ancestors << project
           end
         rescue MaxLinesLimitReached
           @truncated = true
