@@ -65,6 +65,9 @@ class Redmine::Utils::DateCalculationTest < ActiveSupport::TestCase
       assert_add_working_days '2012-10-31', '2012-10-10', 15
       assert_add_working_days '2012-10-19', '2012-10-09', 8
       assert_add_working_days '2012-10-23', '2012-10-11', 8
+      # From Saturday and Sunday to the 5th working day, Friday 2012-10-26
+      assert_add_working_days '2012-10-26', '2012-10-20', 5
+      assert_add_working_days '2012-10-26', '2012-10-21', 5
     end
   end
 

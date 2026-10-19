@@ -84,8 +84,16 @@ module Redmine
       # Adds working days to the given date,
       # taking only non working week days into account
       def add_working_week_days(date, working_days)
-        weeks = working_days / (7 - non_working_week_days.size)
+        # Advance by whole weeks first. This lands on the same week day as
+        # date, so it is a non-working day if date is a non-working day.
+        # Subtracting 1 prevents days_left from being 0 when working_days is
+        # a multiple of the working days per week, so the remainder loop
+        # below always runs and the result ends on the last working day it
+        # counts.
+        weeks = (working_days - 1) / (7 - non_working_week_days.size)
         result = weeks * 7
+        # Remainder loop: advance day by day until the remaining working days
+        # are counted
         days_left = working_days - weeks * (7 - non_working_week_days.size)
         cwday = date.cwday
         while days_left > 0
