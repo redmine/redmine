@@ -1414,9 +1414,10 @@ class Issue < ApplicationRecord
     (start_date && due_date) ? due_date - start_date : 0
   end
 
-  # Returns the duration in working days
+  # Returns the duration in working days, counted from the first working day
+  # on or after start_date in the same way as #reschedule_on does
   def working_duration
-    (start_date && due_date) ? working_days(start_date, due_date) : 0
+    (start_date && due_date) ? working_days(next_working_date(start_date), due_date) : 0
   end
 
   def soonest_start(reload=false)

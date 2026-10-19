@@ -2438,6 +2438,12 @@ class IssueTest < ActiveSupport::TestCase
       issue.reschedule_on '2012-10-13'.to_date
       assert_equal '2012-10-15'.to_date, issue.start_date
       assert_equal '2012-10-25'.to_date, issue.due_date
+
+      # Starting on Saturday, from Monday 2012-10-15 to Friday 2012-10-19
+      issue = Issue.new(:start_date => '2012-10-13', :due_date => '2012-10-19')
+      issue.reschedule_on '2012-10-22'.to_date
+      assert_equal '2012-10-22'.to_date, issue.start_date
+      assert_equal '2012-10-26'.to_date, issue.due_date
     end
   end
 

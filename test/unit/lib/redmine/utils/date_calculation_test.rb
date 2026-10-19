@@ -35,14 +35,17 @@ class Redmine::Utils::DateCalculationTest < ActiveSupport::TestCase
 
   def test_working_days_with_non_working_week_days
     with_settings :non_working_week_days => %w(6 7) do
-      assert_working_days 14, '2012-10-09', '2012-10-27'
+      assert_working_days 13, '2012-10-09', '2012-10-27'
       assert_working_days  4, '2012-10-09', '2012-10-15'
-      assert_working_days  4, '2012-10-09', '2012-10-14'
+      assert_working_days  3, '2012-10-09', '2012-10-14'
       assert_working_days  3, '2012-10-09', '2012-10-12'
       assert_working_days  8, '2012-10-09', '2012-10-19'
       assert_working_days  8, '2012-10-11', '2012-10-23'
-      assert_working_days  2, '2012-10-14', '2012-10-17'
-      assert_working_days 11, '2012-10-14', '2012-10-30'
+      assert_working_days  3, '2012-10-14', '2012-10-17'
+      assert_working_days 12, '2012-10-14', '2012-10-30'
+      # From Saturday and Sunday to Friday 2012-10-26
+      assert_working_days  5, '2012-10-20', '2012-10-26'
+      assert_working_days  5, '2012-10-21', '2012-10-26'
     end
   end
 
@@ -76,9 +79,9 @@ class Redmine::Utils::DateCalculationTest < ActiveSupport::TestCase
     # Registered on a non-working week day, should not be counted twice
     NonWorkingDate.create!(:date => '2012-10-13')
     with_settings :non_working_week_days => %w(6 7) do
-      assert_working_days 13, '2012-10-09', '2012-10-27'
+      assert_working_days 12, '2012-10-09', '2012-10-27'
       assert_working_days  1, '2012-10-09', '2012-10-11'
-      assert_working_days  0, '2012-10-10', '2012-10-11'
+      assert_working_days  1, '2012-10-10', '2012-10-11'
       assert_working_days  3, '2012-10-11', '2012-10-16'
     end
   end

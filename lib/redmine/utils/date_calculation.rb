@@ -20,20 +20,31 @@
 module Redmine
   module Utils
     module DateCalculation
-      # Returns the number of working days between from and to
+      # Returns the number of working days after from up to and including to,
+      # so that add_working_days(from, working_days(from, to)) is the last
+      # working day on or before to
+      #
+      # Example: when Saturday and Sunday are non-working days,
+      # working_days(Sat 2012-10-20, Sun 2012-10-28) returns 5
+      # (Mon 2012-10-22 to Fri 2012-10-26), and
+      # add_working_days(Sat 2012-10-20, 5) returns Fri 2012-10-26
       def working_days(from, to)
         days = (to - from).to_i
         if days > 0
+          # Count by whole weeks first. Any 7 consecutive days contain the
+          # same number of working days, wherever the weeks start.
           weeks = days / 7
           result = weeks * (7 - non_working_week_days.size)
+          # Remainder loop: check day by day the remaining days, starting
+          # from the day after from
           days_left = days - weeks * 7
           start_cwday = from.cwday
           days_left.times do |i|
-            unless non_working_week_days.include?(((start_cwday + i - 1) % 7) + 1)
+            unless non_working_week_days.include?(((start_cwday + i) % 7) + 1)
               result += 1
             end
           end
-          result - non_working_dates_count(from, to)
+          result - non_working_dates_count(from + 1, to + 1)
         else
           0
         end
