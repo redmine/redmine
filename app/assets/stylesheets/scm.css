@@ -97,7 +97,7 @@ table.filecontent td.line-code pre, table.filecontent td.line-code div {
     font-family:Consolas, Menlo, "Liberation Mono", Courier, monospace; font-size:0.75rem;
 }
 
-table.filecontent tr:target th.line-num { background-color:var(--oc-gray-3); color: var(--oc-gray-6); }
+table.filecontent tr:target th.line-num { background-color:var(--oc-gray-3); color: var(--color-text-muted); }
 table.filecontent tr:target td.line-code { background-color:var(--oc-blue-0); }
 
 img.filecontent, video.filecontent { max-inline-size: 100%; }
