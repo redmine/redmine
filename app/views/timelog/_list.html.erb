@@ -41,11 +41,6 @@
         <%= link_to sprite_icon('edit', l(:button_edit)), edit_time_entry_path(entry),
                     :title => l(:button_edit),
                     :class => 'icon-only icon-edit' %>
-        <%= link_to sprite_icon('del', l(:button_delete)), time_entry_path(entry),
-                    :data => {:confirm => l(:text_are_you_sure)},
-                    :method => :delete,
-                    :title => l(:button_delete),
-                    :class => 'icon-only icon-del' %>
     <% end -%>
         <%= link_to_context_menu %>
     </td>

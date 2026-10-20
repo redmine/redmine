@@ -1011,6 +1011,7 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_select 'tr.time-entry', 4
+    assert_select 'tr.time-entry td.buttons a.icon-del', 0
 
     # project and subproject
     projects = css_select('table.time-entries tbody td.project').map(&:text).uniq.sort
