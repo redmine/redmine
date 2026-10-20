@@ -87,7 +87,6 @@ export default class extends Controller {
 
   handleWindowResize() {
     this.handleChartResize()
-    this.#drawProgressLineAndRelations()
     this.#drawSelectedColumns()
   }
 

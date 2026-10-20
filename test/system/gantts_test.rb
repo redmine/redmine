@@ -179,6 +179,26 @@ class GanttsTest < ApplicationSystemTestCase
     assert_equal expected_width, column_width('subjects')
   end
 
+  test 'window resizing preserves line positions and updates selected columns' do
+    visit_gantt
+    expand_options
+    find('#draw_selected_columns').check
+    find('#draw_progress_line').check
+
+    assert_selector '.gantt-relations path', minimum: 1
+    line_positions = -> { page.evaluate_script("Array.from(document.querySelectorAll('.gantt-relations path'), path => path.getAttribute('d'))") }
+    positions_before_resize = line_positions.call
+
+    [[899, :hidden], [900, :visible]].each do |width, visibility|
+      page.current_window.resize_to(width, 900)
+
+      assert_selector '.gantt-selected-column', visible: visibility
+      assert_equal positions_before_resize, line_positions.call
+    end
+  ensure
+    page.current_window.resize_to(1024, 900)
+  end
+
   test 'context menu and tooltip interactions' do
     visit_gantt
 

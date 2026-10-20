@@ -222,7 +222,7 @@ module GanttHelper
       # - `gantt--options` toggles checkboxes under Options.
       # - `gantt--subjects` reports tree expand/collapse.
       # - Mouse events synchronize the hovered row across the chart panes.
-      # - Window resize triggers a redraw of progress lines and relations.
+      # - Window resize updates selected column visibility for mobile layouts.
       action: %w(
         gantt--options:toggle-display@document->gantt--chart#handleOptionsDisplay
         gantt--options:toggle-relations@document->gantt--chart#handleOptionsRelations
