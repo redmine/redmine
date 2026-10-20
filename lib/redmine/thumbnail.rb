@@ -33,7 +33,8 @@ module Redmine
     ALLOWED_TYPES = %w(image/avif image/bmp image/gif image/jpeg image/png image/webp application/pdf)
 
     # Generates a thumbnail for the source image to target
-    def self.generate(source, target, size)
+    # If crop is true, the image is cropped to a square around its center
+    def self.generate(source, target, size, crop: false)
       return nil unless convert_available?
 
       unless File.exist?(target)
@@ -54,6 +55,9 @@ module Redmine
           return nil unless valid_pdf_magic?(source)
 
           cmd = "#{shell_quote CONVERT_BIN} #{shell_quote "#{source}[0]"} -thumbnail #{shell_quote size_option} #{shell_quote "png:#{output}"}"
+        elsif crop
+          cmd = "#{shell_quote CONVERT_BIN} #{shell_quote source} -auto-orient -thumbnail #{shell_quote "#{size}x#{size}^"} " \
+                "-gravity center -extent #{shell_quote "#{size}x#{size}"} #{shell_quote output}"
         else
           cmd = "#{shell_quote CONVERT_BIN} #{shell_quote source} -auto-orient -thumbnail #{shell_quote size_option} #{shell_quote output}"
         end

@@ -1568,4 +1568,89 @@ class UserTest < ActiveSupport::TestCase
       users(:users_004).destroy
     end
   end
+
+  def test_avatar_attachment_should_be_visible_only_to_user_and_administrators
+    set_tmp_attachments_directory
+    update_avatar(@jsmith, '2010/11/101123161450_testfile_1.png')
+
+    avatar = @jsmith.reload.avatar
+    assert avatar.visible?(@jsmith)
+    assert avatar.visible?(@admin)
+    assert_not avatar.visible?(@dlopper)
+  end
+
+  def test_avatar_available_should_require_setting_and_imagemagick
+    Redmine::Thumbnail.stubs(:convert_available?).returns(true)
+    assert User.avatar_available?
+    with_settings :avatar_enabled => '0' do
+      assert_not User.avatar_available?
+    end
+
+    Redmine::Thumbnail.stubs(:convert_available?).returns(false)
+    assert_not User.avatar_available?
+  end
+
+  def test_update_avatar_should_reject_images_without_imagemagick
+    Redmine::Thumbnail.stubs(:convert_available?).returns(false)
+    assert_no_difference 'Attachment.count' do
+      assert_not @jsmith.update_avatar(uploaded_test_file('2010/11/101123161450_testfile_1.png', 'image/png'))
+    end
+  end
+
+  def test_update_avatar_should_reject_non_raster_images
+    assert_no_difference 'Attachment.count' do
+      assert_not update_avatar(@jsmith, 'testfile.svg')
+    end
+    assert_include :avatar, @jsmith.errors.attribute_names
+  end
+
+  def test_update_avatar_should_keep_existing_avatar_if_image_cannot_be_converted
+    set_tmp_attachments_directory
+    update_avatar(@jsmith, '2010/11/101123161450_testfile_1.png')
+    avatar_id = @jsmith.avatar_id
+
+    broken_image = Rack::Test::UploadedFile.new(StringIO.new("\x89PNG\r\n\x1A\n".b + 'broken'), 'image/png', :original_filename => 'broken.png')
+    assert_no_difference 'Attachment.count' do
+      assert_not @jsmith.update_avatar(broken_image)
+    end
+    assert_include :avatar, @jsmith.errors.attribute_names
+    assert_equal avatar_id, @jsmith.reload.avatar_id
+  end
+
+  def test_update_avatar_should_replace_existing_avatar
+    set_tmp_attachments_directory
+    update_avatar(@jsmith, '2010/11/101123161450_testfile_1.png')
+    old_avatar_id = @jsmith.avatar_id
+
+    update_avatar(@jsmith, '2010/12/101223161450_testfile_2.png')
+    assert_not_equal old_avatar_id, @jsmith.reload.avatar_id
+    assert_not Attachment.exists?(old_avatar_id)
+  end
+
+  def test_delete_avatar_should_destroy_avatar
+    set_tmp_attachments_directory
+    update_avatar(@jsmith, '2010/11/101123161450_testfile_1.png')
+    avatar_id = @jsmith.avatar_id
+
+    @jsmith.delete_avatar
+    assert_nil @jsmith.reload.avatar_id
+    assert_not Attachment.exists?(avatar_id)
+  end
+
+  def test_destroy_should_destroy_avatar
+    set_tmp_attachments_directory
+    update_avatar(@jsmith, '2010/11/101123161450_testfile_1.png')
+
+    assert_difference 'Attachment.count', -1 do
+      @jsmith.destroy
+    end
+  end
+
+  private
+
+  def update_avatar(user, name)
+    skip unless convert_installed?
+
+    user.update_avatar(uploaded_test_file(name, Redmine::MimeType.of(name)))
+  end
 end

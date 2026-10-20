@@ -262,6 +262,7 @@ class Attachment < ApplicationRecord
 
   # Returns the full path the attachment thumbnail, or nil
   # if the thumbnail cannot be generated.
+  # Pass :crop => true to get a square thumbnail cropped around the center.
   def thumbnail(options={})
     if thumbnailable? && readable?
       size = options[:size].to_i
@@ -274,10 +275,11 @@ class Attachment < ApplicationRecord
         size = Setting.thumbnails_size.to_i
       end
       size = 100 unless size > 0
-      target = thumbnail_path(size)
+      crop = !!options[:crop]
+      target = thumbnail_path(crop ? "#{size}_crop" : size)
 
       begin
-        Redmine::Thumbnail.generate(self.diskfile, target, size)
+        Redmine::Thumbnail.generate(self.diskfile, target, size, :crop => crop)
       rescue => e
         if logger
           logger.error(

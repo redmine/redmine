@@ -2384,7 +2384,7 @@ div.avatar-with-child > .avatar:nth-child(2).group-avatar {
 }
 
 h2 .avatar, h3 .avatar {margin-inline-end: 4px;}
-h4 img.gravatar {margin-block: -2px -4px; margin-inline: 0 4px;}
+h4 img.avatar {margin-block: -2px -4px; margin-inline: 0 4px;}
 #activity dt .avatar {
   margin-block: 0;
   margin-inline: 0 1em;

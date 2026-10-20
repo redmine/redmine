@@ -19,6 +19,11 @@
 
 <p><%= setting_select :user_format, @options[:user_format] %></p>
 
+<p><%= setting_check_box :avatar_enabled %>
+<% unless Redmine::Thumbnail.convert_available? %>
+<em class="info"><span class="icon icon-warning"><%= sprite_icon('warning', l(:text_setting_avatar_enabled_imagemagick_unavailable)) %></span></em>
+<% end %></p>
+
 <p><%= setting_check_box :gravatar_enabled, :data => {:enables => '#settings_gravatar_default'} %>
 <em class="info"><%= t(:text_avatar_server_config_html, :url => Redmine::Configuration['avatar_server_url']) %></em></p>
 

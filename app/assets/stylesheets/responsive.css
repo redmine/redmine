@@ -494,7 +494,7 @@
     border-block-start: 1px solid rgba(255,255,255,.1);
   }
 
-  .flyout-menu__avatar img.gravatar {
+  .flyout-menu__avatar img.avatar {
     inline-size: 40px;
     block-size: 40px;
     padding: 0;

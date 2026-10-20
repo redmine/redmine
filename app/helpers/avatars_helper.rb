@@ -34,6 +34,15 @@ module AvatarsHelper
     avatar(user, options).to_s.html_safe
   end
 
+  # Returns the full URL of the avatar image of +user+ for the API, or nil
+  def avatar_image_url(user)
+    if local_avatar?(user)
+      user_avatar_url(user, user.avatar_key)
+    elsif user.mail && Setting.gravatar_enabled?
+      gravatar_url(user.mail, {rating: nil, size: nil, default: Setting.gravatar_default})
+    end
+  end
+
   # Returns the avatar image tag for the given +user+ if avatars are enabled
   # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
   def avatar(user, options = {})
@@ -46,6 +55,8 @@ module AvatarsHelper
       anonymous_avatar(options)
     elsif user.is_a?(Group)
       group_avatar(options)
+    elsif local_avatar?(user)
+      local_avatar_tag(user, options)
     elsif Setting.gravatar_enabled?
       gravatar_avatar_tag(user, options)
     elsif user.respond_to?(:initials)
@@ -74,6 +85,19 @@ module AvatarsHelper
   end
 
   private
+
+  def local_avatar?(user)
+    user.is_a?(User) && user.avatar_id && User.avatar_available?
+  end
+
+  def local_avatar_tag(user, options)
+    size = (options.delete(:size) || GravatarHelper::DEFAULT_OPTIONS[:size]).to_i
+    options[:title] ||= user.name
+    options[:srcset] = "#{user_avatar_path(user, user.avatar_key, :size => size * 2)} 2x"
+    image_tag(
+      user_avatar_path(user, user.avatar_key, :size => size),
+      GravatarHelper::DEFAULT_OPTIONS.slice(:alt).merge(options).merge(:width => size, :height => size))
+  end
 
   def gravatar_avatar_tag(user, options)
     options[:default] = Setting.gravatar_default

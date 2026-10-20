@@ -31,6 +31,25 @@ class AvatarsHelperTest < Redmine::HelperTest
     assert_include Digest::SHA256.hexdigest('jsmith@somenet.foo'), avatar(User.find_by_mail('jsmith@somenet.foo'))
   end
 
+  def test_avatar_with_user_having_local_avatar
+    Redmine::Thumbnail.stubs(:convert_available?).returns(true)
+    user = User.find(2)
+    user.avatar_id = 16
+
+    avatar_tag = avatar(user, :size => 24)
+    assert_include "src=\"/users/2/avatar/#{user.avatar_key}/24\"", avatar_tag
+    assert_include "srcset=\"/users/2/avatar/#{user.avatar_key}/48 2x\"", avatar_tag
+    assert_include 'width="24" height="24"', avatar_tag
+  end
+
+  def test_avatar_should_ignore_local_avatar_without_imagemagick
+    Redmine::Thumbnail.stubs(:convert_available?).returns(false)
+    user = User.find(2)
+    user.avatar_id = 16
+
+    assert_include Digest::SHA256.hexdigest('jsmith@somenet.foo'), avatar(user)
+  end
+
   def test_avatar_with_email_string
     assert_include Digest::SHA256.hexdigest('jsmith@somenet.foo'), avatar('jsmith <jsmith@somenet.foo>')
   end

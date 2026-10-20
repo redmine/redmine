@@ -68,4 +68,17 @@ class Redmine::ThumbnailTest < ActiveSupport::TestCase
   ensure
     FileUtils.rm_f(target) if target
   end
+
+  def test_thumbnail_with_crop_should_be_square
+    skip unless Redmine::Thumbnail.convert_available?
+
+    set_tmp_attachments_directory
+    file = file_fixture('2010/11/101123161450_testfile_1.png')
+    target = File.join(Attachment.storage_path, "#{SecureRandom.hex(8)}.thumb")
+    Redmine::Thumbnail.generate(file.to_s, target, 50, :crop => true)
+    # Width and height in the IHDR chunk of the PNG file
+    assert_equal [50, 50], File.binread(target, 8, 16).unpack('NN')
+  ensure
+    FileUtils.rm_f(target) if target
+  end
 end

@@ -34,5 +34,7 @@ class RoutingUsersTest < Redmine::RoutingTest
     should_route  'DELETE /users/bulk_destroy' => 'users#bulk_destroy'
     should_route  'POST /users/bulk_lock' => 'users#bulk_lock'
     should_route  'POST /users/bulk_unlock' => 'users#bulk_unlock'
+
+    should_route 'GET /users/44/avatar/0123456789abcdef/48' => 'avatars#show', :user_id => '44', :avatar_key => '0123456789abcdef', :size => '48'
   end
 end

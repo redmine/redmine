@@ -357,6 +357,7 @@ en:
   field_start_date: Start date
   field_done_ratio: "% Done"
   field_auth_source: Authentication mode
+  field_avatar: Avatar
   field_hide_mail: Hide my email address
   field_comments: Comment
   field_url: URL
@@ -479,6 +480,7 @@ en:
   setting_mail_handler_preferred_body_part: Preferred part of multipart (HTML) emails
   setting_sys_api_key: Repository management WS API key
   setting_sequential_project_identifiers: Generate sequential project identifiers
+  setting_avatar_enabled: Allow users to set their avatar
   setting_gravatar_enabled: Use Gravatar user icons
   setting_gravatar_default: Default Gravatar image
   setting_diff_max_lines_displayed: Maximum number of diff lines displayed
@@ -1398,6 +1400,7 @@ en:
   text_allowed_queries_to_select: Public (to any users) queries only selectable
   text_setting_config_change: You can configure the behaviour in config/configuration.yml. Please restart the application after editing it.
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="%{url}">%{url}</a> to generate their avatars.
+  text_setting_avatar_enabled_imagemagick_unavailable: ImageMagick is not available, so users cannot set their avatar.
   text_oauth_admin_permission: Full administrative access. When authorized by an Administrator, this application will be able to read and write all data and impersonate other users.
   text_oauth_admin_permission_info: This application requests full administrative access. If you are an Administrator (or become one in the future), it will be able to read and write all data and impersonate other users on your behalf. If you want to avoid this, authorize it as a user without Administrator privileges instead.
   text_oauth_copy_secret_now: Copy the secret to a safe place now, it will not be shown again.

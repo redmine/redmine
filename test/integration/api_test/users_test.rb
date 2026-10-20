@@ -168,6 +168,17 @@ class Redmine::ApiTest::UsersTest < Redmine::ApiTest::Base
     assert_select 'user avatar_url', :text => %r|\Ahttps://gravatar.com/avatar/\h{64}\?default=robohash|
   end
 
+  test "GET /users/:id.xml should return the URL of the uploaded avatar" do
+    Redmine::Thumbnail.stubs(:convert_available?).returns(true)
+    User.find(2).update_column(:avatar_id, 16)
+    with_settings :gravatar_enabled => '1' do
+      get '/users/2.xml'
+    end
+
+    assert_response :success
+    assert_select 'user avatar_url', :text => "http://www.example.com/users/2/avatar/#{User.find(2).avatar_key}"
+  end
+
   test "GET /users/:id.xml should not return avatar_url when not set email address" do
     user = User.find(2)
     user.email_addresses.delete_all

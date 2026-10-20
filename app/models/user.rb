@@ -109,6 +109,7 @@ class User < Principal
            :foreign_key => :resource_owner_id, :dependent => :delete_all
 
   belongs_to :auth_source
+  belongs_to :avatar, :class_name => 'Attachment', :dependent => :destroy
 
   scope :logged, lambda {where("#{User.table_name}.status <> #{STATUS_ANONYMOUS}")}
   scope :status, lambda {|arg| where(arg.blank? ? nil : {:status => arg.to_i})}
@@ -119,6 +120,8 @@ class User < Principal
   attr_accessor :last_before_login_on
   attr_accessor :remote_ip
   attr_writer   :oauth_scope
+
+  AVATAR_CONTENT_TYPES = %w(image/avif image/gif image/jpeg image/png image/webp).freeze
 
   LOGIN_LENGTH_LIMIT = 60
   MAIL_LENGTH_LIMIT = 254
@@ -423,6 +426,69 @@ class User < Principal
 
   def pref
     self.preference ||= UserPreference.new(:user => self)
+  end
+
+  # Avatars are served only as thumbnails, which require ImageMagick
+  def self.avatar_available?
+    Setting.avatar_enabled? && Redmine::Thumbnail.convert_available?
+  end
+
+  # Replaces the avatar with the uploaded +file+ and returns true, or returns
+  # false with errors if the file cannot be used as an avatar
+  def update_avatar(file)
+    attachment = Attachment.new(:file => file, :author => User.current, :container => self)
+    # Avatars are served only as thumbnails
+    unless User.avatar_available? && AVATAR_CONTENT_TYPES.include?(Marcel::MimeType.for(file)) && attachment.thumbnailable?
+      errors.add(:avatar, :invalid)
+      return false
+    end
+
+    unless attachment.valid?
+      attachment.errors.full_messages.each {|message| errors.add(:base, message)}
+      return false
+    end
+
+    replaced = transaction do
+      attachment.save!
+      # Reject files that ImageMagick cannot convert, e.g. broken images,
+      # before replacing the current avatar
+      unless attachment.thumbnail(:size => 100, :crop => true)
+        errors.add(:avatar, :invalid)
+        raise ActiveRecord::Rollback
+      end
+
+      replace_avatar(attachment)
+      true
+    end
+    replaced == true
+  end
+
+  # Used in the URL of the avatar instead of the attachment id so that
+  # avatars of users cannot be retrieved by trying sequential ids
+  def avatar_key
+    return unless avatar_id
+
+    secret = Rails.application.key_generator.generate_key('avatar')
+    OpenSSL::HMAC.hexdigest('SHA256', secret, avatar_id.to_s).first(16)
+  end
+
+  def delete_avatar
+    replace_avatar(nil)
+  end
+
+  # Unlike the thumbnails, the original image of the avatar may contain
+  # metadata such as the location where it was taken
+  def attachments_visible?(user=User.current)
+    user == self || user.admin?
+  end
+
+  # Avatars can only be changed through AvatarsController
+  def attachments_editable?(user=User.current)
+    false
+  end
+
+  def attachments_deletable?(user=User.current)
+    false
   end
 
   def time_zone
@@ -974,6 +1040,13 @@ class User < Principal
   end
 
   private
+
+  def replace_avatar(attachment)
+    old_avatar = avatar
+    self.avatar = attachment
+    update_column(:avatar_id, avatar_id)
+    old_avatar&.destroy
+  end
 
   def generate_password_if_needed
     if generate_password? && auth_source.nil?

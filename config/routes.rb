@@ -129,6 +129,7 @@ Rails.application.routes.draw do
     resources :memberships, :controller => 'principal_memberships'
     resources :email_addresses, :only => [:index, :create, :update, :destroy]
   end
+  get 'users/:user_id/avatar/:avatar_key(/:size)', :to => 'avatars#show', :user_id => /\d+/, :avatar_key => /\h{16}/, :size => /\d+/, :as => 'user_avatar'
 
   post 'watchers/watch', :to => 'watchers#watch', :as => 'watch'
   delete 'watchers/watch', :to => 'watchers#unwatch'
