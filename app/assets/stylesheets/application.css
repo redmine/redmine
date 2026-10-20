@@ -1711,7 +1711,7 @@ ul.cal {
   overflow: hidden;
   font-size: 0.8em;
   line-height: 1.875;
-  color: var(--oc-gray-6);
+  color: var(--color-text-muted);
   text-align: start;
   text-overflow: ellipsis;
   white-space: nowrap;
