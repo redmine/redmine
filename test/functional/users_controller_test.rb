@@ -402,6 +402,7 @@ class UsersControllerTest < Redmine::ControllerTest
     get :show, :params => {:id => 'current'}
     assert_response :success
     assert_select 'h2', :text => /John Smith/
+    assert_select 'h2 a[href="/my/avatar"] .avatar'
   end
 
   def test_show_issues_counts

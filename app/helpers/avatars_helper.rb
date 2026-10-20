@@ -66,12 +66,43 @@ module AvatarsHelper
     end
   end
 
-  # Returns a link to edit user's avatar if avatars are enabled
-  def avatar_edit_link(user, options={})
-    if Setting.gravatar_enabled?
-      url = Redmine::Configuration['avatar_server_url']
-      link_to avatar(user, {:title => l(:button_edit)}.merge(options)), url, :target => '_blank'
+  # Returns true if the avatar set in Redmine is displayed for +user+
+  def local_avatar?(user)
+    user.is_a?(User) && user.avatar_id && User.avatar_available?
+  end
+
+  # Returns the path to the page to change the avatar of +user+, or nil if
+  # the current user cannot change it
+  def avatar_edit_path(user)
+    if user == User.current
+      my_avatar_path
+    elsif User.current.admin? && user.logged?
+      edit_user_avatar_path(user)
     end
+  end
+
+  # Returns the avatar of +user+ linked to the page to change it if the
+  # current user can change it
+  def avatar_edit_link(user, options={})
+    if (path = avatar_edit_path(user))
+      link_to avatar(user, {:title => l(:button_change_avatar)}.merge(options)), path
+    else
+      avatar(user, options)
+    end
+  end
+
+  # Returns a text that explains where the avatar of +user+ comes from
+  def avatar_source_info(user)
+    return l(:text_avatar_uploaded) if local_avatar?(user)
+
+    source =
+      if Setting.gravatar_enabled?
+        t(:text_avatar_from_server_html, :url => Redmine::Configuration['avatar_server_url'])
+      else
+        l(:text_avatar_initials)
+      end
+    upload = User.avatar_available? ? l(:text_avatar_upload_instead) : l(:text_avatar_upload_disabled)
+    safe_join([source, upload], ' ')
   end
 
   def anonymous_avatar(options={})
@@ -85,10 +116,6 @@ module AvatarsHelper
   end
 
   private
-
-  def local_avatar?(user)
-    user.is_a?(User) && user.avatar_id && User.avatar_available?
-  end
 
   def local_avatar_tag(user, options)
     size = (options.delete(:size) || GravatarHelper::DEFAULT_OPTIONS[:size]).to_i

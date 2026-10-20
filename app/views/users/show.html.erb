@@ -2,7 +2,7 @@
 <%= link_to(sprite_icon('edit', l(:button_edit)), edit_user_path(@user), :class => 'icon icon-edit') if User.current.admin? && @user.logged? %>
 </div>
 
-<h2><%= avatar @user, :size => "50" %> <%= @user.name %></h2>
+<h2><%= avatar_edit_link(@user, :size => "50") %> <%= @user.name %></h2>
 
 <div class="splitcontent">
 <div class="splitcontentleft">

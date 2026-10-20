@@ -1,0 +1,42 @@
+<% if params[:user_id] %>
+  <%= title [l(:label_user_plural), users_path], [@user.login, edit_user_path(@user)], l(:field_avatar) %>
+<% else %>
+  <%= title l(:button_change_avatar) %>
+<% end %>
+
+<%= error_messages_for 'user' %>
+
+<div class="box tabular">
+  <p>
+    <label><%= l(:field_avatar) %></label>
+    <%= avatar_source_info(@user) %>
+    <span class="avatar-preview">
+      <%= avatar(@user, :size => 100) %>
+      <% if local_avatar?(@user) %>
+        <span class="buttons">
+          <%= link_to_attachment @user.avatar, :text => l(:button_download), :download => true,
+                                 :class => 'icon icon-download', :icon => 'download' %>
+          <%= link_to sprite_icon('del', l(:button_delete)), @avatar_path,
+                      :method => :delete, :data => {:confirm => l(:text_are_you_sure)}, :class => 'icon icon-del' %>
+        </span>
+      <% end %>
+    </span>
+  </p>
+  <% if User.avatar_available? %>
+  <hr>
+  <%= form_tag(@avatar_path, :method => :put, :multipart => true) do %>
+  <p>
+    <label for="avatar"><%= l(:label_attachment_new) %> <span class="required">*</span></label>
+    <%= file_field_tag 'avatar', :required => true, :accept => User::AVATAR_CONTENT_TYPES.join(',') %>
+    <%= submit_tag l(:button_update) %>
+    <em class="info"><%= l(:label_max_size) %>: <%= number_to_human_size(Setting.attachment_max_size.to_i.kilobytes) %></em>
+  </p>
+  <% end %>
+  <% end %>
+</div>
+
+<% unless params[:user_id] %>
+  <% content_for :sidebar do %>
+    <%= render :partial => 'my/sidebar' %>
+  <% end %>
+<% end %>

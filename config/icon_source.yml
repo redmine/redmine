@@ -69,6 +69,8 @@
   svg: news
 - name: user
   svg: user
+- name: avatar
+  svg: user-square-rounded
 - name: group
   svg: users-group
 - name: bookmarked

@@ -1254,6 +1254,7 @@ en:
   button_reset: Reset
   button_rename: Rename
   button_change_password: Change password
+  button_change_avatar: Change avatar
   button_copy: Copy
   button_copy_and_follow: Copy and follow
   button_copy_link: Copy link
@@ -1396,11 +1397,17 @@ en:
   text_select_apply_tracker: "Select tracker"
   text_select_apply_issue_status: "Select issue status"
   text_avatar_server_config_html: The current avatar server is <a href="%{url}">%{url}</a>. You can configure it in config/configuration.yml.
+  text_avatar_uploaded: The uploaded image is currently used as the avatar.
+  text_avatar_from_server_html: The image from <a href="%{url}">%{url}</a> associated with the user's email address is currently used as the avatar. It can be changed on that site.
+  text_avatar_initials: The image generated from the user's name is currently used as the avatar.
+  text_avatar_upload_instead: You can upload an image to use instead.
+  text_avatar_upload_disabled: Uploading an avatar image to Redmine has been disabled by the administrator.
   text_no_subject: no subject
   text_allowed_queries_to_select: Public (to any users) queries only selectable
   text_setting_config_change: You can configure the behaviour in config/configuration.yml. Please restart the application after editing it.
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="%{url}">%{url}</a> to generate their avatars.
   text_setting_avatar_enabled_imagemagick_unavailable: ImageMagick is not available, so users cannot set their avatar.
+  text_setting_gravatar_enabled_fallback: If enabled, Gravatar is used for users who have not set their avatar in Redmine.
   text_oauth_admin_permission: Full administrative access. When authorized by an Administrator, this application will be able to read and write all data and impersonate other users.
   text_oauth_admin_permission_info: This application requests full administrative access. If you are an Administrator (or become one in the future), it will be able to read and write all data and impersonate other users on your behalf. If you want to avoid this, authorize it as a user without Administrator privileges instead.
   text_oauth_copy_secret_now: Copy the secret to a safe place now, it will not be shown again.

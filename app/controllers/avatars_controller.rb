@@ -18,8 +18,13 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class AvatarsController < ApplicationController
-  before_action :find_avatar
-  before_action :check_avatar_available
+  layout :avatar_layout
+  self.main_menu = false
+  menu_item :users
+
+  before_action :find_avatar, :only => :show
+  before_action :find_user, :except => :show
+  before_action :check_avatar_available, :except => :edit
 
   accept_api_auth :show
 
@@ -42,6 +47,28 @@ class AvatarsController < ApplicationController
     end
   end
 
+  def edit
+  end
+
+  def update
+    file = params[:avatar]
+    if !file.respond_to?(:original_filename)
+      @user.errors.add(:avatar, :blank)
+    elsif @user.update_avatar(file)
+      flash[:notice] = l(:notice_successful_update)
+      redirect_to @avatar_path
+      return
+    end
+
+    render :edit, :status => :unprocessable_content
+  end
+
+  def destroy
+    @user.delete_avatar
+    flash[:notice] = l(:notice_successful_delete)
+    redirect_to @avatar_path
+  end
+
   private
 
   def find_avatar
@@ -51,7 +78,29 @@ class AvatarsController < ApplicationController
     render_404 unless @avatar&.readable?
   end
 
+  # /my/avatar is for the current user and /users/:user_id/avatar is for
+  # administrators
+  def find_user
+    if params[:user_id]
+      return unless require_admin
+
+      @user = User.find_by(:id => params[:user_id])
+      if @user
+        @avatar_path = edit_user_avatar_path(@user)
+      else
+        render_404
+      end
+    elsif require_login
+      @user = User.current
+      @avatar_path = my_avatar_path
+    end
+  end
+
   def check_avatar_available
     render_404 unless User.avatar_available?
+  end
+
+  def avatar_layout
+    params[:user_id] ? 'admin' : 'base'
   end
 end

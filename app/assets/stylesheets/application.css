@@ -2424,6 +2424,7 @@ img.filecontent.image {background-image: url(/transparent.png);}
   flex-shrink: 0;
 }
 .avatar.locked, .avatar.registered {opacity: .6;}
+.avatar-preview {display: block; margin-block-start: 8px;}
 
 span[role="img"].avatar {
   font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -2475,6 +2476,13 @@ span[role="img"].avatar.s40  {
 }
 span[role="img"].avatar.s50  {
   font-size: calc(50px * .4);
+}
+.avatar.s100 {
+  block-size: 100px;
+  inline-size: 100px;
+}
+span[role="img"].avatar.s100  {
+  font-size: calc(100px * .4);
 }
 
 .avatar-color-0 {

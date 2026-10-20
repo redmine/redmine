@@ -1,6 +1,7 @@
 <div class="contextual">
 <%= link_to sprite_icon('user', l(:label_profile)), user_path(@user), :class => 'icon icon-user' %>
 <%= additional_emails_link(@user) %>
+<%= link_to sprite_icon('avatar', l(:button_change_avatar)), edit_user_avatar_path(@user), :class => 'icon icon-avatar' %>
 <%= change_status_link(@user) %>
 <%= delete_link user_path(@user) if User.current != @user %>
 </div>

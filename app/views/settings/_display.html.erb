@@ -25,7 +25,8 @@
 <% end %></p>
 
 <p><%= setting_check_box :gravatar_enabled, :data => {:enables => '#settings_gravatar_default'} %>
-<em class="info"><%= t(:text_avatar_server_config_html, :url => Redmine::Configuration['avatar_server_url']) %></em></p>
+<em class="info"><%= l(:text_setting_gravatar_enabled_fallback) %>
+<%= t(:text_avatar_server_config_html, :url => Redmine::Configuration['avatar_server_url']) %></em></p>
 
 <p>
   <%= setting_select :gravatar_default, gravatar_default_setting_options, :blank => :label_none %>

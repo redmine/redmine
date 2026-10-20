@@ -102,6 +102,9 @@ Rails.application.routes.draw do
   post 'my/api_key', :to => 'my#reset_api_key'
   post 'my/atom_key', :to => 'my#reset_atom_key', :as => 'my_atom_key'
   match 'my/password', :controller => 'my', :action => 'password', :via => [:get, :post]
+  get 'my/avatar', :to => 'avatars#edit', :as => 'my_avatar', :format => false
+  put 'my/avatar', :to => 'avatars#update', :format => false
+  delete 'my/avatar', :to => 'avatars#destroy', :format => false
   match 'my/add_block', :controller => 'my', :action => 'add_block', :via => :post
   match 'my/remove_block', :controller => 'my', :action => 'remove_block', :via => :post
   match 'my/order_blocks', :controller => 'my', :action => 'order_blocks', :via => :post
@@ -130,6 +133,9 @@ Rails.application.routes.draw do
     resources :email_addresses, :only => [:index, :create, :update, :destroy]
   end
   get 'users/:user_id/avatar/:avatar_key(/:size)', :to => 'avatars#show', :user_id => /\d+/, :avatar_key => /\h{16}/, :size => /\d+/, :as => 'user_avatar'
+  get 'users/:user_id/avatar', :to => 'avatars#edit', :user_id => /\d+/, :as => 'edit_user_avatar', :format => false
+  put 'users/:user_id/avatar', :to => 'avatars#update', :user_id => /\d+/, :format => false
+  delete 'users/:user_id/avatar', :to => 'avatars#destroy', :user_id => /\d+/, :format => false
 
   post 'watchers/watch', :to => 'watchers#watch', :as => 'watch'
   delete 'watchers/watch', :to => 'watchers#unwatch'

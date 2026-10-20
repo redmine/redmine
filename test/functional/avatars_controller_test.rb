@@ -67,4 +67,67 @@ class AvatarsControllerTest < Redmine::ControllerTest
       assert_response :redirect
     end
   end
+
+  def test_edit
+    Redmine::Thumbnail.stubs(:convert_available?).returns(true)
+    @request.session[:user_id] = 2
+    get :edit
+    assert_response :success
+    assert_select 'img.avatar[src=?]', "/users/2/avatar/#{User.find(2).avatar_key}/100"
+    assert_select 'a.icon-download[href=?]', '/attachments/download/16/testfile.png'
+    assert_select 'a.icon-del[href="/my/avatar"][data-method="delete"]'
+    assert_select 'form[action="/my/avatar"][enctype="multipart/form-data"] p' do
+      assert_select 'input[type=file][name=avatar] + input[type=submit][value=Update]'
+    end
+  end
+
+  def test_edit_with_avatars_disabled
+    @request.session[:user_id] = 2
+    with_settings :avatar_enabled => '0' do
+      get :edit
+    end
+    assert_response :success
+    assert_select 'p', :text => /disabled by the administrator/
+    assert_select 'a.icon-del[href="/my/avatar"]', 0
+    assert_select 'input[type=file]', 0
+  end
+
+  def test_edit_with_user_id
+    Redmine::Thumbnail.stubs(:convert_available?).returns(true)
+    @request.session[:user_id] = 1
+    get :edit, :params => {:user_id => 2}
+    assert_response :success
+    assert_select 'h2 a[href="/users/2/edit"]'
+    assert_select 'form[action="/users/2/avatar"]'
+  end
+
+  def test_edit_with_user_id_should_require_admin
+    @request.session[:user_id] = 2
+    get :edit, :params => {:user_id => 2}
+    assert_response :forbidden
+  end
+
+  def test_update
+    skip unless convert_installed?
+
+    set_tmp_attachments_directory
+    @request.session[:user_id] = 2
+    put :update, :params => {:avatar => fixture_file_upload('2010/11/101123161450_testfile_1.png', 'image/png')}
+    assert_redirected_to '/my/avatar'
+    assert_equal 'Successful update.', flash[:notice]
+
+    avatar = User.find(2).avatar
+    assert_equal '101123161450_testfile_1.png', avatar.filename
+    assert_equal User.find(2), avatar.author
+  end
+
+  def test_destroy
+    Redmine::Thumbnail.stubs(:convert_available?).returns(true)
+    set_tmp_attachments_directory
+    @request.session[:user_id] = 1
+    delete :destroy, :params => {:user_id => 2}
+    assert_redirected_to '/users/2/avatar'
+    assert_equal 'Successful deletion.', flash[:notice]
+    assert_nil User.find(2).avatar_id
+  end
 end

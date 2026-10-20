@@ -38,6 +38,10 @@ class RoutingMyTest < Redmine::RoutingTest
     should_route 'GET /my/password' => 'my#password'
     should_route 'POST /my/password' => 'my#password'
 
+    should_route 'GET /my/avatar' => 'avatars#edit'
+    should_route 'PUT /my/avatar' => 'avatars#update'
+    should_route 'DELETE /my/avatar' => 'avatars#destroy'
+
     should_route 'POST /my/add_block' => 'my#add_block'
     should_route 'POST /my/remove_block' => 'my#remove_block'
     should_route 'POST /my/order_blocks' => 'my#order_blocks'
