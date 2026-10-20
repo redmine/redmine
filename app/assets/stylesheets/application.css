@@ -2414,7 +2414,11 @@ color: var(--oc-gray-7); text-shadow: 1px 1px 0 var(--oc-white);
 
 .repository-graph {inline-size: 75%; margin-block-end: 2em;}
 
-img.filecontent.image {background-image: url(/transparent.png);}
+img.filecontent.image {
+  background-color: var(--oc-white);
+  background-image: conic-gradient(transparent 0 25%, var(--oc-gray-3) 0 50%, transparent 0 75%, var(--oc-gray-3) 0);
+  background-size: 16px 16px;
+}
 
 /* Avatar styles */
 .avatar {
