@@ -1601,3 +1601,19 @@ fi:
     non-working dates</a>'
   text_non_working_dates_export_all_years: Non-working dates of all years will be exported.
   label_import_non_working_dates: Import non-working dates
+  field_avatar: Avatar
+  setting_avatar_enabled: Allow users to set their avatar
+  button_change_avatar: Change avatar
+  text_avatar_uploaded: The uploaded image is currently used as the avatar.
+  text_avatar_from_server_html: The image from <a href="%{url}">%{url}</a> associated
+    with the user's email address is currently used as the avatar. It can be changed
+    on that site.
+  text_avatar_initials: The image generated from the user's name is currently used as
+    the avatar.
+  text_avatar_upload_instead: You can upload an image to use instead.
+  text_avatar_upload_disabled: Uploading an avatar image to Redmine has been disabled
+    by the administrator.
+  text_setting_avatar_enabled_imagemagick_unavailable: ImageMagick is not available,
+    so users cannot set their avatar.
+  text_setting_gravatar_enabled_fallback: If enabled, Gravatar is used for users who
+    have not set their avatar in Redmine.
