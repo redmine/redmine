@@ -210,7 +210,7 @@ class WatchersControllerTest < Redmine::ControllerTest
     assert_response :success
 
     assert_match(
-      %r{/watchers/autocomplete_for_user\?object_id%5B%5D=7&object_id%5B%5D=9&object_type=issue},
+      %r{/watchers/autocomplete_for_user\?object_id%5B%5D=7&amp;object_id%5B%5D=9&amp;object_type=issue},
       response.body
     )
   end

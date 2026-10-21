@@ -201,7 +201,7 @@ class WatchersController < ApplicationController
         if @watchables.blank? || @watchables.all? {|w| w.valid_watcher?(user)}
           valid_users << user
           if valid_users.size == limit
-            has_more = has_more || (idx + 1 < batch.size)
+            has_more ||= (idx + 1 < batch.size)
             current_offset += (idx + 1)
             break
           end

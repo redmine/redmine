@@ -94,6 +94,8 @@ class WatchersSystemTest < ApplicationSystemTestCase
       click_on 'Add'
     end
 
+    user1 = user2 = nil
+
     within '#ajax-modal' do
       assert page.has_css?('p.watcher-more-users a', text: 'Show more')
 
