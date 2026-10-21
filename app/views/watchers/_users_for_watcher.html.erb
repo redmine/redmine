@@ -1,0 +1,19 @@
+<%= principals_check_box_tags 'watcher[user_ids][]', users %>
+
+<% if @more_users_for_watcher %>
+  <p class="watcher-more-users" data-role="load-more">
+    <%= link_to(
+          l(:label_show_more),
+          url_for(
+            :controller => 'watchers',
+            :action => 'autocomplete_for_user',
+            :object_type => (params[:object_type].presence || (@watchables.present? ? @watchables.first.class.name.underscore : nil)),
+            :object_id => (params[:object_id].presence || (@watchables.present? ? @watchables.map(&:id) : nil)),
+            :project_id => (params[:project_id].presence || (@project ? @project.to_param : nil)),
+            :q => params[:q].presence,
+            :offset => @watcher_users_next_offset
+          ),
+          :data => {:action => 'searchable-selection#loadMore'}
+        ) %>
+  </p>
+<% end %>

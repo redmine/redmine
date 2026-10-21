@@ -18,6 +18,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class WatchersController < ApplicationController
+  WATCHER_USERS_PER_PAGE = 100
+
   before_action :require_login, :find_watchables, :only => [:watch, :unwatch]
 
   def watch
@@ -148,26 +150,71 @@ class WatchersController < ApplicationController
     end
   end
 
+  # Returns a paginated array of users that can be added as watchers to the object(s).
   def users_for_new_watcher
-    scope = nil
-    if params[:q].blank?
-      if @project.present?
-        scope = @project.principals.assignable_watchers
-      elsif @projects.present? && @projects.size > 1
-        scope = Principal.joins(:members).where(:members => { :project_id => @projects }).assignable_watchers.distinct
+    limit = WATCHER_USERS_PER_PAGE
+    offset = params[:offset].to_i
+    offset = 0 if offset < 0
+    q = params[:q].to_s.strip
+
+    valid_users, next_offset, more = scan_watcher_candidates(watcher_candidate_scope(q), offset, limit)
+
+    @more_users_for_watcher = more
+    @watcher_users_next_offset = next_offset
+    valid_users
+  end
+
+  def watcher_candidate_scope(q)
+    scope =
+      if q.blank?
+        if @project.present?
+          @project.principals.assignable_watchers
+        elsif @projects.present? && @projects.size > 1
+          Principal.joins(:members).where(:members => {:project_id => @projects}).assignable_watchers.distinct
+        else
+          Principal.none
+        end
+      else
+        Principal.assignable_watchers
       end
-    else
-      scope = Principal.assignable_watchers.limit(100)
+
+    if @watchables&.size == 1
+      watcher_ids = @watchables.first.visible_watcher_users.map(&:id)
+      scope = scope.where.not(:id => watcher_ids) if watcher_ids.present?
     end
-    users = scope.sorted.like(params[:q]).to_a
-    if @watchables && @watchables.size == 1
-      watchable_object = @watchables.first
-      users -= watchable_object.visible_watcher_users
+
+    scope.sorted.like(q)
+  end
+
+  def scan_watcher_candidates(scope, offset, limit)
+    valid_users = []
+    current_offset = offset
+    has_more = false
+
+    while valid_users.size < limit
+      batch = scope.offset(current_offset).limit(limit + 1).to_a
+      has_more = batch.size > limit
+      batch = batch.first(limit)
+      break if batch.empty?
+
+      batch.each_with_index do |user, idx|
+        if @watchables.blank? || @watchables.all? {|w| w.valid_watcher?(user)}
+          valid_users << user
+          if valid_users.size == limit
+            has_more = has_more || (idx + 1 < batch.size)
+            current_offset += (idx + 1)
+            break
+          end
+        end
+      end
+
+      break if valid_users.size == limit
+
+      current_offset += batch.size
+      break unless has_more
     end
-    @watchables&.each do |watchable|
-      users.reject!{|user| !watchable.valid_watcher?(user)}
-    end
-    users
+
+    [valid_users, current_offset, has_more && (valid_users.size == limit)]
   end
 
   def users_for_mention

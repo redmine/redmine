@@ -1,1 +1,1 @@
-<%= principals_check_box_tags 'watcher[user_ids][]', @users %>
+<%= render :partial => 'watchers/users_for_watcher', :locals => {:users => @users} %>

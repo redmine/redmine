@@ -11,7 +11,17 @@ title =
 <%= form_tag(watchables.present? ? watchers_path : watchers_append_path,
              :remote => true,
              :method => :post,
-             :id => 'new-watcher-form') do %>
+             :id => 'new-watcher-form',
+             :data => {
+               :controller => 'searchable-selection',
+               :searchable_selection_url_value => url_for(
+                 :controller => 'watchers',
+                 :action => 'autocomplete_for_user',
+                 :object_type => (watchables.present? ? watchables.first.class.name.underscore : nil),
+                 :object_id => (watchables.present? ? watchables.map(&:id) : nil),
+                 :project_id => @project
+               )
+             }) do %>
 
   <% if watchables.present? %>
     <%= hidden_field_tag 'object_type', watchables.first.class.name.underscore %>
@@ -21,26 +31,24 @@ title =
   <% end %>
   <%= hidden_field_tag 'project_id', @project.id if @project %>
 
-  <p><%= label_tag 'user_search', l(:label_user_search) %><%= text_field_tag 'user_search', nil %></p>
-  <%= javascript_tag(
-        "observeSearchfield(
-          'user_search',
-          'users_for_watcher',
-          '#{escape_javascript(
-               url_for(
-                 :controller => 'watchers',
-                 :action => 'autocomplete_for_user',
-                 :object_type => (watchables.present? ? watchables.first.class.name.underscore : nil),
-                 :object_id => (watchables.present? ? watchables.map(&:id) : nil),
-                 :project_id => @project
-               )
-             )}',
-          {checkboxSelector: 'input[name=\"watcher[user_ids][]\"]'}
-         )"
-       ) %>
-  <div id="users_for_watcher">
-    <%= principals_check_box_tags('watcher[user_ids][]', users) %>
+  <p>
+    <%= label_tag 'user_search', l(:label_user_search) %>
+    <%= text_field_tag 'user_search', nil,
+                       :class => 'autocomplete',
+                       :autocomplete => 'off',
+                       :data => {
+                         :searchable_selection_target => 'input',
+                         :action => 'input->searchable-selection#search keydown->searchable-selection#keydown'
+                       } %>
+  </p>
+
+  <div id="users_for_watcher"
+       data-searchable-selection-target="list"
+       data-action="change->searchable-selection#toggle">
+    <%= render :partial => 'watchers/users_for_watcher', :locals => {:users => users} %>
   </div>
+
+  <div data-searchable-selection-target="hiddenContainer"></div>
 
   <p class="buttons">
     <%= submit_tag l(:button_add), :name => nil, :onclick => "hideModal(this);" %>

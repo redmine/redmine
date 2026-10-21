@@ -1490,6 +1490,7 @@ select.bool_cf {inline-size: auto !important;}
 
 #users_for_watcher {block-size: 200px; overflow: auto;}
 #users_for_watcher label {display: block;}
+#users_for_watcher .watcher-more-users.ajax-loading {background: url(/loading.gif) no-repeat left center; padding-inline-start: 20px;}
 
 input#principal_search, input#user_search {inline-size: 90%}
 .roles-selection label {display: inline-block; inline-size: 210px;}

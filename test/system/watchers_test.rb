@@ -73,4 +73,45 @@ class WatchersSystemTest < ApplicationSystemTestCase
     assert issue.watched_by?(dlopper),
       "Expected Dave Lopper to be added as watcher"
   end
+
+  def test_add_watcher_with_show_more
+    issue = Issue.find(1)
+    project = issue.project
+    role = Role.find(1)
+    issue.watcher_users = []
+
+    users = []
+    105.times do |i|
+      u = User.generate!(:firstname => sprintf("Watcher%03d", i), :lastname => "User")
+      Member.create!(:project => project, :principal => u, :roles => [role])
+      users << u
+    end
+
+    log_user('admin', 'admin')
+    visit "/issues/#{issue.id}"
+
+    within '#sidebar' do
+      click_on 'Add'
+    end
+
+    within '#ajax-modal' do
+      assert page.has_css?('p.watcher-more-users a', text: 'Show more')
+
+      user1 = users.first
+      find('label', text: "#{user1.firstname} #{user1.lastname}").click
+
+      click_on 'Show more'
+
+      user2 = users.last
+      assert page.has_css?('label', text: "#{user2.firstname} #{user2.lastname}")
+      find('label', text: "#{user2.firstname} #{user2.lastname}").click
+
+      click_on 'Add'
+    end
+
+    assert page.has_css?('#sidebar', text: "#{user1.firstname} #{user1.lastname}", wait: 5)
+    issue.reload
+    assert issue.watched_by?(user1)
+    assert issue.watched_by?(user2)
+  end
 end
