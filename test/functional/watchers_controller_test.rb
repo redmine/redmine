@@ -805,4 +805,3 @@ class WatchersControllerTest < Redmine::ControllerTest
     assert_select 'p.watcher-more-users', :count => 0
   end
 end
-
