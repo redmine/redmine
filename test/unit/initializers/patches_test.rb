@@ -48,4 +48,60 @@ class PatchesTest < ActiveSupport::TestCase
     assert_include 'max="9999-12-31"', date_field_tag('start_date')
     assert_include 'max="2099-12-31"', date_field_tag('issue', 'start_date', max: '2099-12-31')
   end
+
+  test 'Propshaft::Assembly#manifest_outdated? should return false when the on-disk manifest matches the current assets' do
+    with_manifest_content(Rails.application.assets.load_path.manifest.to_json) do
+      assert_not Rails.application.assets.manifest_outdated?
+    end
+  end
+
+  test 'Propshaft::Assembly#manifest_outdated? should return true when the on-disk manifest differs from the current assets' do
+    with_manifest_content('{}') do
+      assert Rails.application.assets.manifest_outdated?
+    end
+  end
+
+  test 'Propshaft::Assembly#manifest_outdated? should return true instead of raising when the manifest file contains invalid JSON' do
+    with_manifest_content('not valid json') do
+      assert Rails.application.assets.manifest_outdated?
+    end
+  end
+
+  test 'Propshaft::Assembly#needs_precompile? should return true when there is no manifest file' do
+    without_manifest_file do
+      assert Rails.application.assets.needs_precompile?
+    end
+  end
+
+  private
+
+  # Temporarily replaces the content of the real asset manifest file with
+  # +content+ for the duration of the block, restoring (or removing) it
+  # afterwards.
+  def with_manifest_content(content)
+    manifest_path = Rails.application.assets.config.manifest_path
+    manifest_path.dirname.mkpath
+    original = manifest_path.read if manifest_path.exist?
+
+    manifest_path.write(content)
+    yield
+  ensure
+    if original
+      manifest_path.write(original)
+    elsif manifest_path.exist?
+      manifest_path.delete
+    end
+  end
+
+  # Temporarily removes the real asset manifest file for the duration of the
+  # block, restoring it afterwards if it existed.
+  def without_manifest_file
+    manifest_path = Rails.application.assets.config.manifest_path
+    original = manifest_path.read if manifest_path.exist?
+    manifest_path.delete if manifest_path.exist?
+
+    yield
+  ensure
+    manifest_path.write(original) if original
+  end
 end
