@@ -121,7 +121,7 @@ class Tracker < ApplicationRecord
     @disabled_core_fields ||=
       CORE_FIELDS.select do
         i += 1
-        (fields_bits || 0) & (1 << i) != 0
+        (fields_bits || 0).anybits?(1 << i)
       end
   end
 
