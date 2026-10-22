@@ -1542,18 +1542,13 @@ sv:
   text_non_working_dates_export_all_years: Helgdagar och lediga dagar för alla år exporteras.
   label_import_non_working_dates: Importera helgdagar och lediga dagar
   field_avatar: Avatar
-  setting_avatar_enabled: Allow users to set their avatar
-  button_change_avatar: Change avatar
-  text_avatar_uploaded: The uploaded image is currently used as the avatar.
-  text_avatar_from_server_html: The image from <a href="%{url}">%{url}</a> associated
-    with the user's email address is currently used as the avatar. It can be changed
-    on that site.
-  text_avatar_initials: The image generated from the user's name is currently used as
-    the avatar.
-  text_avatar_upload_instead: You can upload an image to use instead.
-  text_avatar_upload_disabled: Uploading an avatar image to Redmine has been disabled
-    by the administrator.
-  text_setting_avatar_enabled_imagemagick_unavailable: ImageMagick is not available,
-    so users cannot set their avatar.
-  text_setting_gravatar_enabled_fallback: If enabled, Gravatar is used for users who
-    have not set their avatar in Redmine.
+  setting_avatar_enabled: Tillåt användare att välja sin avatar
+  button_change_avatar: Ändra avatar
+  text_avatar_uploaded: Den uppladdade bilden används just nu som avatar.
+  text_avatar_from_server_html: 'Bilden från <a href="%{url}">%{url}</a> som hör till användarens e-postadress används just nu som avatar. Den kan bara ändras på den webbplatsen.'
+  text_avatar_initials: Bilden som skapats av användarens namn används just nu som avatar.
+  text_avatar_upload_instead: Du kan ladda upp en bild att användas i stället.
+  text_avatar_upload_disabled: Administratören har stängt av uppladdning av avatarbilder till Redmine.
+  text_setting_avatar_enabled_imagemagick_unavailable: ImageMagick är inte tillgängligt, användarna kan inte välja sina enga avatarer.
+  text_setting_gravatar_enabled_fallback: Om aktiverat används Gravatar för användare som inte har valt någon egen avatar i Redmine.
+  label_show_more: Visa mer
