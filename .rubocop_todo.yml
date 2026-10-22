@@ -441,11 +441,6 @@ Rails/LexicallyScopedActionFilter:
     - 'app/controllers/projects_controller.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
-Rails/LinkToBlank:
-  Exclude:
-    - 'app/helpers/avatars_helper.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
 Rails/MatchRoute:
   Exclude:
     - 'config/routes.rb'
