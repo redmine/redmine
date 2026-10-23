@@ -112,6 +112,8 @@ class Mailer < ActionMailer::Base
   # Builds a mail for notifying user about an issue update
   def issue_edit(user, journal)
     issue = journal.journalized
+    return unless issue
+
     redmine_headers 'Project' => issue.project.identifier,
                     'Issue-Tracker' => issue.tracker.name,
                     'Issue-Id' => issue.id,
