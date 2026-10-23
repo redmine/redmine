@@ -93,6 +93,7 @@ class AvatarsHelperTest < Redmine::HelperTest
 
   def test_avatar_with_size_option
     assert_include 'size=24', avatar('jsmith <jsmith@somenet.foo>', :size => 24)
+    assert_include 'width="24" height="24"', avatar('jsmith <jsmith@somenet.foo>', :size => 24)
     assert_include 'width="24" height="24"', avatar(User.anonymous, :size => 24)
   end
 
