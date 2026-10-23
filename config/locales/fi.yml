@@ -1617,3 +1617,4 @@ fi:
     so users cannot set their avatar.
   text_setting_gravatar_enabled_fallback: If enabled, Gravatar is used for users who
     have not set their avatar in Redmine.
+  label_show_more: Show more
