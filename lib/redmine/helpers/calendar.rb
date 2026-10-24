@@ -67,7 +67,7 @@ module Redmine
       def events=(events)
         @events = events
         @ending_events_by_days = @events.group_by {|event| event.due_date}
-        @starting_events_by_days = @events.group_by {|event| event.start_date}
+        @starting_events_by_days = @events.grep_v(Version).group_by {|event| event.start_date}
       end
 
       # Returns events for the given day

@@ -61,4 +61,14 @@ class CalendarTest < ActiveSupport::TestCase
       end
     end
   end
+
+  def test_events_on_should_return_versions_only_on_their_due_date
+    version = versions(:versions_002)
+    assert_not_equal version.start_date, version.due_date
+
+    c = Redmine::Helpers::Calendar.new(version.due_date, :en, :month)
+    c.events = [version]
+    assert_equal [version], c.events_on(version.due_date)
+    assert_empty c.events_on(version.start_date)
+  end
 end
