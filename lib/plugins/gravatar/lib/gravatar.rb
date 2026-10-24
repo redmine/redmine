@@ -54,7 +54,7 @@ module GravatarHelper
       # double the size for hires displays
       options[:srcset] = "#{gravatar_url(email, options.merge(size: options[:size].to_i * 2))} 2x"
 
-      image_tag src, options.except(:rating, :size, :default, :ssl)
+      image_tag src, options.except(:rating, :default, :ssl)
     end
 
     # Returns the base Gravatar URL for the given email hash
