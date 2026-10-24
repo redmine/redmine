@@ -1836,7 +1836,7 @@ table.progress td.closed { background: var(--oc-green-7) none repeat scroll 0%; 
 table.progress td.done { background: var(--oc-green-4) none repeat scroll 0%; }
 table.progress td.todo { background: var(--oc-gray-3) none repeat scroll 0%; }
 p.percent {font-size: 86%; margin:0;}
-p.progress-info {clear: inline-start; font-size: 86%; margin-block-start: -4px; color: var(--color-text-muted);}
+p.progress-info {clear: inline-start; font-size: 0.8rem; margin-block-start: -4px; color: var(--color-text-muted);}
 
 .version-overview table.progress {inline-size: 40em;}
 .version-overview table.progress td { block-size: 1.2em; }
