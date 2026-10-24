@@ -1552,3 +1552,5 @@ sv:
   text_setting_avatar_enabled_imagemagick_unavailable: ImageMagick är inte tillgängligt, användarna kan inte välja sina enga avatarer.
   text_setting_gravatar_enabled_fallback: Om aktiverat används Gravatar för användare som inte har valt någon egen avatar i Redmine.
   label_show_more: Visa mer
+  setting_favicon: Custom favicon
+  text_setting_favicon_format: PNG or ICO, up to %{max_size}

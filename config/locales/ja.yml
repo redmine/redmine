@@ -1532,3 +1532,5 @@ ja:
   text_avatar_upload_disabled: アバター画像のアップロードは管理者によって無効にされています。
   text_setting_avatar_enabled_imagemagick_unavailable: ImageMagickが利用できないためユーザーはアバターを設定できません。
   text_setting_gravatar_enabled_fallback: 有効にするとRedmineでアバターを設定していないユーザーにはGravatarが使用されます。
+  setting_favicon: Custom favicon
+  text_setting_favicon_format: PNG or ICO, up to %{max_size}
