@@ -1481,7 +1481,7 @@ div.thumbnail img {margin: 3px; vertical-align: middle;}
 p.other-formats { text-align: end; font-size:0.9em; color: var(--color-text-muted); }
 .other-formats span + span:before { content: "| "; }
 
-em.info {font-style:normal;display:block;font-size:90%;color:var(--color-text-muted);}
+em.info {font-style:normal;display:block;font-size:0.8rem;color:var(--color-text-muted);}
 em.info.error {padding-inline-start: 20px; background: url(/exclamation.png) no-repeat left 50%;}
 [dir="rtl"] em.info.error {background-position: right 50%;}
 
