@@ -568,6 +568,20 @@ class MailerTest < ActiveSupport::TestCase
     end
   end
 
+  def test_issue_edit_should_not_send_notification_if_issue_was_deleted_after_journal_was_loaded
+    journal = Journal.find(1)
+    issue = Issue.find(journal.journalized_id)
+    assert_not journal.association(:journalized).loaded?
+
+    issue.destroy!
+    assert_not Issue.exists?(issue.id)
+    assert_not Journal.exists?(journal.id)
+
+    assert_no_difference 'ActionMailer::Base.deliveries.size' do
+      Mailer.issue_edit(User.find(1), journal).deliver_now
+    end
+  end
+
   def test_issue_edit_subject_should_include_status_changes_if_setting_is_enabled
     with_settings :show_status_changes_in_mail_subject => 1 do
       issue = Issue.find(2)
