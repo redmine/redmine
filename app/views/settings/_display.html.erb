@@ -1,7 +1,18 @@
-<%= form_tag({:action => 'edit', :tab => 'display'}) do %>
+<%= form_tag({:action => 'edit', :tab => 'display'}, :multipart => true) do %>
 
 <div class="box tabular settings">
 <p><%= setting_select :ui_theme, Redmine::Themes.themes.collect {|t| [t.name, t.id]}, :blank => :label_default, :label => :label_theme %></p>
+
+<p>
+  <%= setting_label :favicon %>
+  <% if Setting.favicon.present? %>
+    <%= image_tag custom_favicon_path(Setting.favicon['digest']), :size => 32, :alt => '' %>
+    <%= delete_link settings_favicon_path %>
+    <br>
+  <% end %>
+  <%= file_field_tag 'settings[favicon]', :accept => '.ico,.png' %>
+  <em class="info"><%= l(:text_setting_favicon_format, :max_size => number_to_human_size(Setting::FAVICON_MAX_SIZE)) %></em>
+</p>
 
 <p><%= setting_select :default_language, lang_options_for_select(false) %></p>
 

@@ -440,6 +440,7 @@ en:
   setting_app_title: Application title
   setting_welcome_text: Welcome text
   setting_default_language: Default language
+  setting_favicon: Custom favicon
   setting_login_required: Authentication required
   setting_self_registration: Self-registration
   setting_show_custom_fields_on_registration: Show custom fields on registration
@@ -1408,6 +1409,7 @@ en:
   text_setting_config_change: You can configure the behaviour in config/configuration.yml. Please restart the application after editing it.
   text_setting_gravatar_default_initials_html: Users' initials are sent to <a href="%{url}">%{url}</a> to generate their avatars.
   text_setting_avatar_enabled_imagemagick_unavailable: ImageMagick is not available, so users cannot set their avatar.
+  text_setting_favicon_format: "PNG or ICO, up to %{max_size}"
   text_setting_gravatar_enabled_fallback: If enabled, Gravatar is used for users who have not set their avatar in Redmine.
   text_oauth_admin_permission: Full administrative access. When authorized by an Administrator, this application will be able to read and write all data and impersonate other users.
   text_oauth_admin_permission_info: This application requests full administrative access. If you are an Administrator (or become one in the future), it will be able to read and write all data and impersonate other users on your behalf. If you want to avoid this, authorize it as a user without Administrator privileges instead.

@@ -82,6 +82,9 @@ class Setting < ApplicationRecord
                   Big5-HKSCS
                   TIS-620)
 
+  FAVICON_MAX_SIZE = 32.kilobytes
+  FAVICON_CONTENT_TYPES = %w(image/png image/vnd.microsoft.icon)
+
   cattr_accessor :available_settings
   self.available_settings ||= {}
 
@@ -208,6 +211,14 @@ class Setting < ApplicationRecord
         end
       end
     end
+    if settings.key?(:favicon)
+      file = settings[:favicon]
+      unless file.respond_to?(:original_filename) &&
+             file.size <= FAVICON_MAX_SIZE &&
+             FAVICON_CONTENT_TYPES.include?(Marcel::MimeType.for(file))
+        messages << [:favicon, l('activerecord.errors.messages.invalid')]
+      end
+    end
     messages
   end
 
@@ -252,6 +263,15 @@ class Setting < ApplicationRecord
     # unpair all current 2FA pairings when switching off 2FA
     Redmine::Twofa.unpair_all! if params == '0' && self.twofa?
     params
+  end
+
+  def self.favicon_from_params(file)
+    data = file.read
+    {
+      'content_type' => Marcel::MimeType.for(StringIO.new(data)),
+      'data' => Base64.strict_encode64(data),
+      'digest' => Digest::SHA256.hexdigest(data)[0, 8]
+    }
   end
 
   def self.default_issue_due_date_offset_from_params(params)

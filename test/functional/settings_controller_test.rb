@@ -299,6 +299,37 @@ class SettingsControllerTest < Redmine::ControllerTest
     Redmine::Plugin.unregister(:foo)
   end
 
+  def test_post_edit_should_store_favicon
+    with_settings :favicon => {} do
+      post :edit, :params => {
+        :settings => {:favicon => fixture_file_upload('2010/11/101123161450_testfile_1.png', 'image/png')}
+      }
+      assert_redirected_to '/settings'
+
+      data = File.binread(file_fixture('2010/11/101123161450_testfile_1.png'))
+      assert_equal 'image/png', Setting.favicon['content_type']
+      assert_equal data, Base64.decode64(Setting.favicon['data'])
+      assert_equal Digest::SHA256.hexdigest(data)[0, 8], Setting.favicon['digest']
+    end
+  end
+
+  def test_post_edit_should_not_store_favicon_that_is_not_an_icon_image
+    post :edit, :params => {:settings => {:favicon => fixture_file_upload('testfile.svg', 'image/svg+xml')}}
+    assert_response :success
+
+    assert_select_error /Custom favicon is invalid/
+    assert_equal({}, Setting.favicon)
+  end
+
+  def test_delete_favicon
+    with_settings :favicon => {'content_type' => 'image/png', 'data' => 'AA==', 'digest' => '0' * 8} do
+      delete :delete_favicon
+      assert_redirected_to '/settings?tab=display'
+
+      assert_equal({}, Setting.favicon)
+    end
+  end
+
   def test_post_mail_handler_delimiters_should_not_save_invalid_regex_delimiters
     post :edit, :params => {
       :settings => {

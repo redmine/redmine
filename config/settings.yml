@@ -324,6 +324,9 @@ repository_log_display_limit:
   default: 100
 ui_theme:
   default: ''
+favicon:
+  serialized: true
+  default: {}
 emails_footer:
   default: |-
     You have received this notification because you have either subscribed to it, or are involved in it.

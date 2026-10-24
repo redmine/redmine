@@ -424,8 +424,11 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'favicons/:digest', :to => 'favicons#show', :digest => /\h{8}/, :as => 'custom_favicon', :format => false
+
   match 'settings', :controller => 'settings', :action => 'index', :via => :get
   match 'settings/edit', :controller => 'settings', :action => 'edit', :via => [:get, :post]
+  delete 'settings/favicon', :controller => 'settings', :action => 'delete_favicon', :as => 'settings_favicon'
   match 'settings/plugin/:id', :controller => 'settings', :action => 'plugin', :via => [:get, :post], :as => 'plugin_settings'
 
   match 'sys/projects', :to => 'sys#projects', :via => :get

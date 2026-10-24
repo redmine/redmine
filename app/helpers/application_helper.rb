@@ -1856,11 +1856,15 @@ module ApplicationHelper
   end
 
   def favicon
-    favicon_link_tag(favicon_path, rel: "shortcut icon")
+    options = {rel: "shortcut icon"}
+    options[:type] = Setting.favicon['content_type'] if Setting.favicon.present?
+    favicon_link_tag(favicon_path, options)
   end
 
   # Returns the path to the favicon
   def favicon_path
+    return custom_favicon_path(Setting.favicon['digest']) if Setting.favicon.present?
+
     icon = (current_theme && current_theme.favicon?) ? current_theme.favicon_path : 'favicon.ico'
     image_path(icon)
   end

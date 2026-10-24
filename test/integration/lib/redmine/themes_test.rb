@@ -76,6 +76,19 @@ class ThemesTest < Redmine::IntegrationTest
     @theme.favicons.delete 'a.ico'
   end
 
+  def test_use_custom_favicon_over_theme_favicon
+    @theme.favicons.unshift('a.ico')
+    favicon = {'content_type' => 'image/png', 'data' => 'AA==', 'digest' => '0' * 8}
+    with_settings :favicon => favicon do
+      get '/'
+
+      assert_response :success
+      assert_select 'link[rel="shortcut icon"][type="image/png"][href=?]', "/favicons/#{'0' * 8}"
+    end
+  ensure
+    @theme.favicons.delete 'a.ico'
+  end
+
   def test_use_only_one_theme_favicon_if_theme_provides_many
     @theme.favicons.unshift('b.ico', 'a.png')
     get '/'
