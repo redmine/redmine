@@ -1609,9 +1609,9 @@ class UserTest < ActiveSupport::TestCase
     update_avatar(@jsmith, '2010/11/101123161450_testfile_1.png')
     avatar_id = @jsmith.avatar_id
 
-    broken_image = Rack::Test::UploadedFile.new(StringIO.new("\x89PNG\r\n\x1A\n".b + 'broken'), 'image/png', :original_filename => 'broken.png')
+    Redmine::Thumbnail.stubs(:generate).returns(nil)
     assert_no_difference 'Attachment.count' do
-      assert_not @jsmith.update_avatar(broken_image)
+      assert_not update_avatar(@jsmith, '2010/12/101223161450_testfile_2.png')
     end
     assert_include :avatar, @jsmith.errors.attribute_names
     assert_equal avatar_id, @jsmith.reload.avatar_id
