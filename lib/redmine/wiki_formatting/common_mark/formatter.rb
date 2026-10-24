@@ -26,7 +26,6 @@ module Redmine
         commonmarker_extensions: {
           table: true,
           strikethrough: true,
-          tagfilter: true,
           autolink: true,
           footnotes: true,
           header_ids: nil,

@@ -26,6 +26,10 @@ module Redmine
       # does not allow for straightforward configuration of render and parsing
       # options
       class MarkdownFilter
+        # Tags that the commonmarker tagfilter extension escaped before its
+        # removal
+        DISALLOWED_RAW_HTML_TAG = %r{<(?=/?(?:title|textarea|style|xmp|iframe|noembed|noframes|script|plaintext)(?:[\s/>]|\z))}i
+
         attr_reader :context
 
         def initialize(text, context = nil)
@@ -40,6 +44,10 @@ module Redmine
             parse: parse_options
                                       }, plugins: plugins)
 
+          # Escape these tags in raw HTML as the commonmarker tagfilter
+          # extension did, since the extension was removed in commonmarker
+          # 2.10.1.
+          html.gsub!(DISALLOWED_RAW_HTML_TAG, '&lt;')
           html.rstrip!
           html
         end

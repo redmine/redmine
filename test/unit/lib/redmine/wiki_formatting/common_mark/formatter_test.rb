@@ -273,6 +273,10 @@ class Redmine::WikiFormatting::CommonMark::FormatterTest < Redmine::HelperTest
         [
           %[<p>sit<br>amet &lt;style&gt;.foo { color: #fff; }&lt;/style&gt; &lt;script&gt;alert("hello world");&lt;/script&gt;</p>],
           %[sit<br/>amet <style>.foo { color: #fff; }</style> <script>alert("hello world");</script>]
+        ],
+        [
+          %[<p>Unclosed &lt;script&gt; tag</p>\n<p>Next paragraph</p>],
+          %[Unclosed <script> tag\n\nNext paragraph]
         ]
       ].each do |expected, input|
         assert_equal expected, to_html(input)
