@@ -40,6 +40,7 @@
 
 :root {
   --fonts-main: "Noto Sans", sans-serif;
+  --fonts-monospace: Consolas, Menlo, "Liberation Mono", monospace;
   --color-current-marker: var(--oc-indigo-5);
   /* no match in Open Color, using hex codes */
   --color-top-menu-background: #234761;
@@ -72,7 +73,7 @@ h1, h2, h3, h4, h5, h6 {
 h2 {font-size: 1.25rem;}
 h3 {font-size: 1.0625rem;}
 h4 {font-size: 0.875rem; border-block-end: 1px solid var(--oc-gray-4); font-weight: normal;}
-pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
+pre, code {font-family: var(--fonts-monospace);}
 .wiki h1 {font-size: 1.6em;}
 .wiki h2 {font-size: 1.4em;}
 .wiki h3 {font-size: 1.2em;}
@@ -903,7 +904,7 @@ blockquote { font-style: italic; border-inline-start: 3px solid var(--oc-gray-3)
 blockquote blockquote { margin-inline-start: 0;}
 abbr[title], span.field-description[title] { text-decoration: none; border-block-end: 1px dotted var(--oc-gray-5); cursor: help; }
 textarea.wiki-edit {inline-size: 99%; resize: vertical; box-sizing: border-box;}
-body.textarea-monospace textarea.wiki-edit {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;}
+body.textarea-monospace textarea.wiki-edit {font-family: var(--fonts-monospace);}
 body.textarea-proportional textarea.wiki-edit {font-family: var(--fonts-main);}
 li p {margin-block-start: 0;}
 div.issue {
@@ -2402,7 +2403,7 @@ h2 img { vertical-align:middle; }
   border:1px solid var(--oc-gray-4);
   padding-block: 2px;
   padding-inline: 4px;
-  font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;
+  font-family: var(--fonts-monospace);
 }
 .sample-data tr:first-child td {font-weight:bold; text-align:center;}
 

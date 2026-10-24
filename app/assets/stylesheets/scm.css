@@ -58,7 +58,7 @@ li.change .copied-from:before { content: " - "}
 [dir="rtl"] #changes-legend li { background-position: right 5px top 1px; }
 
 table.filecontent { border: 1px solid var(--oc-gray-4);  border-collapse: collapse; inline-size: 98%; background-color: var(--oc-gray-0); }
-table.filecontent tbody {font-family:Consolas, Menlo, "Liberation Mono", Courier, monospace; font-size:0.75rem;}
+table.filecontent tbody {font-family:var(--fonts-monospace); font-size:0.75rem;}
 table.filecontent th { border: 1px solid var(--oc-gray-4); background-color: var(--oc-gray-1); }
 table.filecontent th.filename { background-color: var(--oc-gray-2); text-align: start; padding: 5px;}
 table.filecontent tr.spacing th { text-align:center; }
@@ -94,7 +94,7 @@ table.filecontent td.line-code {
 table.filecontent td.line-code pre, table.filecontent td.line-code div {
     margin: 0px;
     white-space: pre-wrap;
-    font-family:Consolas, Menlo, "Liberation Mono", Courier, monospace; font-size:0.75rem;
+    font-family:var(--fonts-monospace); font-size:0.75rem;
 }
 
 table.filecontent tr:target th.line-num { background-color:var(--oc-gray-3); color: var(--color-text-muted); }

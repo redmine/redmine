@@ -34,10 +34,11 @@
 
 :root {
   --fonts-main: "Noto Sans", sans-serif;
+  --fonts-monospace: Consolas, Menlo, "Liberation Mono", monospace;
 }
 
 body { font-family: var(--fonts-main); font-size: 0.875rem; color: var(--oc-gray-9); line-height: 1.6;}
-pre, code { font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace; }
+pre, code { font-family: var(--fonts-monospace); }
 pre {
     margin-block: 1em;
     margin-inline: 1.6em 1em;

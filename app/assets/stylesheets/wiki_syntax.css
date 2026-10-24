@@ -34,11 +34,12 @@
 
 :root {
   --fonts-main: "Noto Sans", sans-serif;
+  --fonts-monospace: Consolas, Menlo, "Liberation Mono", monospace;
 }
 
 h1 { font-family: var(--fonts-main); font-size: 0.875rem; text-align: center; color: var(--oc-gray-8); }
 body { font-family: var(--fonts-main); font-size: 0.75rem; color: var(--oc-gray-8); }
-pre, code {font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace; }
+pre, code { font-family: var(--fonts-monospace); }
 table th { padding-block-start: 1em; }
 table th img {
   border: 1px solid var(--oc-gray-5);
