@@ -13,6 +13,7 @@ const MAX_PNG_TOTAL_PIXELS = 8_000_000;
 
 let mermaidInitialized = false;
 let mermaidLoadPromise = null;
+let renderCount = 0;
 
 // Mermaid.js is not bundled with Redmine; administrators install it with
 // `bin/rails redmine:mermaid:install`. When it is available, javascript_heads
@@ -47,6 +48,17 @@ function loadMermaid() {
   });
   mermaidLoadPromise = loading;
   return loading;
+}
+
+// Removes the indentation common to all lines, as mermaid.run() does but
+// mermaid.render() does not. Without it, a YAML front-matter in an indented
+// block is not recognized.
+function dedent(text) {
+  const indents = text.match(/^[ \t]*(?=\S)/gm);
+  if (!indents) return text;
+
+  const minIndentLength = Math.min(...indents.map((indent) => indent.length));
+  return text.replace(new RegExp(`^[ \\t]{0,${minIndentLength}}`, 'gm'), '');
 }
 
 // Connects to data-controller="mermaid"
@@ -91,7 +103,8 @@ export default class extends Controller {
 
     const container = document.createElement('div');
     container.className = 'mermaid';
-    container.textContent = this.element.textContent.trim();
+    const source = dedent(this.element.textContent).trim();
+    container.textContent = source;
     // Keep the source text in the container from flashing until Mermaid.js
     // replaces it with the diagram. Mermaid.js measures the diagram inside
     // the container, so it is made invisible rather than display: none, and
@@ -102,13 +115,18 @@ export default class extends Controller {
     pre.insertAdjacentElement('afterend', container);
     this.container = container;
 
-    // On failure, show a Redmine flash message while keeping the source block
-    // visible, so that the invalid diagram can be inspected and copied.
-    mermaid.run({ nodes: [container], suppressErrors: false }).then(() => {
+    // Not mermaid.run(), which generates the SVG id from Date.now(): when a
+    // page has several diagrams, those rendered in the same millisecond get
+    // the same id, and one of them is drawn into another.
+    mermaid.render(`redmine-mermaid-${++renderCount}`, source, container).then(({ svg, bindFunctions }) => {
+      container.innerHTML = svg;
+      bindFunctions?.(container);
       pre.style.display = 'none';
       container.style.visibility = container.style.position = container.style.insetInline = '';
       if (this.container === container) this.addDownloadLink(pre, container);
     }).catch((error) => {
+      // Show a Redmine flash message while keeping the source block visible,
+      // so that the invalid diagram can be inspected and copied.
       container.remove();
       if (this.container === container) this.container = null;
       pre.classList.add('mermaid-failed');

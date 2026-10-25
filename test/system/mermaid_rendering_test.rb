@@ -56,6 +56,43 @@ class MermaidRenderingTest < ApplicationSystemTestCase
     end
   end
 
+  def test_should_render_multiple_mermaid_diagrams_with_unique_ids
+    skip unless mermaid_installed?
+
+    issue = Issue.find(1)
+    issue.update_column(
+      :description,
+      [
+        "graph TD;\nA-->B;", "graph TD;\nC-->D;",
+        "sequenceDiagram\nAlice->>Bob: Hi", "sequenceDiagram\nBob->>Alice: Hello",
+        "pie\n\"X\" : 1\n\"Y\" : 2", "classDiagram\nclass Foo"
+      ].map {|source| "```mermaid\n#{source}\n```"}.join("\n\n")
+    )
+
+    log_user('jsmith', 'jsmith')
+    visit "/issues/#{issue.id}"
+
+    within('div.description') do
+      assert_selector 'div.mermaid svg', count: 6
+    end
+    ids = page.evaluate_script("Array.from(document.querySelectorAll('div.mermaid svg')).map(svg => svg.id)")
+    assert_equal ids.uniq, ids
+  end
+
+  def test_should_render_indented_mermaid_code_block_with_front_matter
+    skip unless mermaid_installed?
+
+    issue = Issue.find(1)
+    issue.update_column(:description, "```mermaid\n  ---\n  title: Foo\n  ---\n  graph TD;\n  A-->B;\n```")
+
+    log_user('jsmith', 'jsmith')
+    visit "/issues/#{issue.id}"
+
+    within('div.description') do
+      assert_selector 'div.mermaid svg', text: 'Foo'
+    end
+  end
+
   def test_should_show_flash_message_for_invalid_mermaid_diagram
     skip unless mermaid_installed?
 
