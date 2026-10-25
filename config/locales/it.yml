@@ -174,7 +174,7 @@ it:
   notice_account_invalid_credentials: Nome utente o password non validi.
   notice_account_password_updated: La password è stata aggiornata.
   notice_account_wrong_password: Password errata
-  notice_account_register_done: Account creato correttamente. E' stata inviata un'email contenente le istruzioni per attivare l'account a %{email}.
+  notice_account_register_done: "Account creato correttamente. È stata inviata un'email contenente le istruzioni per attivare l'account a %{email}."
   notice_account_not_activated_yet: Non hai ancora attivato il tuo account. Se vuoi ricevere una nuova email di attivazione <a href="%{url}">clicca qui</a>.
   notice_account_locked: Il tuo account è bloccato.
   notice_can_t_change_password: Questo utente utilizza un metodo di autenticazione esterno. Impossibile cambiare la password.
@@ -183,7 +183,7 @@ it:
   notice_successful_create: Creazione effettuata con successo.
   notice_successful_update: Modifica effettuata con successo.
   notice_successful_delete: Eliminazione effettuata con successo.
-  notice_successful_connection: Connessione con successo.
+  notice_successful_connection: "Connessione riuscita."
   notice_file_not_found: La pagina desiderata non esiste o è stata rimossa.
   notice_locking_conflict: Le informazioni sono state modificate da un altro utente.
   notice_not_authorized: Non sei autorizzato ad accedere a questa pagina.
@@ -193,43 +193,43 @@ it:
   notice_feeds_access_key_reseted: La tua chiave di accesso Atom è stata reimpostata.
   notice_api_access_key_reseted: La chiave di accesso API è stata reimpostata.
   notice_failed_to_save_issues: "Impossibile salvare %{count} segnalazioni su %{total} selezionate: %{ids}."
-  notice_failed_to_save_time_entries: "Non ho potuto salvare %{count} registrazioni di tempo impiegato su %{total} selezionate: %{ids}."
+  notice_failed_to_save_time_entries: "Impossibile salvare %{count} registrazioni di tempo impiegato su %{total} selezionate: %{ids}."
   notice_failed_to_save_members: "Impossibile salvare il membro(i): %{errors}."
   notice_account_pending: "Il tuo account è stato creato ed è in attesa di attivazione da parte dell'amministratore."
   notice_default_data_loaded: Configurazione predefinita caricata con successo.
   notice_unable_delete_version: Impossibile eliminare la versione
-  notice_unable_delete_time_entry: Impossibile eliminare il valore time log.
+  notice_unable_delete_time_entry: "Impossibile eliminare la registrazione di tempo."
   notice_issue_done_ratios_updated: La percentuale delle segnalazioni completate è aggiornata.
-  notice_gantt_chart_truncated: "Il grafico è stato troncato perchè eccede il numero di oggetti (%{max}) da visualizzare"
+  notice_gantt_chart_truncated: "Il grafico è stato troncato perché supera il numero massimo di oggetti visualizzabili (%{max})"
   notice_issue_successful_create: "Segnalazione %{id} creata."
   notice_issue_update_conflict: "La segnalazione è stata aggiornata da un altro utente mentre la stavi editando."
-  notice_account_deleted: "Il tuo account sarà definitivamente rimosso."
+  notice_account_deleted: "Il tuo account è stato eliminato definitivamente."
   notice_user_successful_create: "Creato utente %{id}."
   notice_new_password_must_be_different: La nuova password deve essere differente da quella attuale
-  notice_import_finished: "sono stati importati %{count} oggetti"
-  notice_import_finished_with_errors: "non è stato possibile importare %{count} di %{total} oggetti"
+  notice_import_finished: "Sono stati importati %{count} oggetti"
+  notice_import_finished_with_errors: "Non è stato possibile importare %{count} oggetti su %{total}"
   notice_issue_not_closable_by_open_tasks: "Questa segnalazione non può essere chiusa perché ha almeno una sottoattività aperta."
   notice_issue_not_closable_by_blocking_issue: "Questa segnalazione non può essere chiusa perché è bloccata da almeno una segnalazione aperta."
   notice_issue_not_reopenable_by_closed_parent_issue: "Questa segnalazione non può essere riaperta perché la segnalazione principale è chiusa."
   notice_invalid_watcher: "Osservatore non valido: l'utente non riceverà alcuna notifica perché non ha accesso per visualizzare questo oggetto."
 
-  error_can_t_load_default_data: "Non è stato possibile caricare la configurazione predefinita : %{value}"
+  error_can_t_load_default_data: "Non è stato possibile caricare la configurazione predefinita: %{value}"
   error_scm_not_found: "La risorsa e/o la versione non esistono nel repository."
   error_scm_command_failed: "Si è verificato un errore durante l'accesso al repository: %{value}"
   error_scm_annotate: "L'oggetto non esiste o non può essere annotato."
-  error_scm_annotate_big_text_file: "La nota non può essere salvata, supera la dimensiona massima del campo di testo."
+  error_scm_annotate_big_text_file: "L'elemento non può essere annotato perché supera la dimensione massima dei file di testo."
   error_issue_not_found_in_project: 'La segnalazione non è stata trovata o non appartiene al progetto'
   error_no_tracker_in_project: 'Nessun tracker è associato a questo progetto. Per favore verifica le impostazioni del Progetto.'
   error_no_default_issue_status: 'Nessuno stato predefinito delle segnalazioni è configurato. Per favore verifica le impostazioni (Vai in "Amministrazione -> Stati segnalazioni").'
   error_can_not_delete_custom_field: Impossibile eliminare il campo personalizzato
-  error_can_not_delete_tracker_html: "Questo tracker contiene segnalazioni e non può essere eliminato.<p>I seguenti progetti presentano problemi con questo tracker:<br>%{projects}</p>"
+  error_can_not_delete_tracker_html: "Questo tracker contiene segnalazioni e non può essere eliminato.<p>I seguenti progetti hanno segnalazioni con questo tracker:<br>%{projects}</p>"
   error_can_not_remove_role: "Questo ruolo è in uso e non può essere eliminato."
   error_can_not_remove_role_reason_members_html: "<p>I seguenti progetti hanno membri con questo ruolo:<br>%{projects}</p>"
   error_can_not_reopen_issue_on_closed_version: Una segnalazione assegnata ad una versione chiusa non può essere riaperta
   error_can_not_archive_project: Questo progetto non può essere archiviato
   error_issue_done_ratios_not_updated: La percentuale delle segnalazioni completate non è aggiornata.
   error_workflow_copy_source: Per favore seleziona un tracker sorgente o ruolo
-  error_workflow_copy_target: Per favore seleziona trackers finali e ruolo(i)
+  error_workflow_copy_target: "Seleziona i tracker e i ruoli di destinazione"
   error_unable_delete_issue_status: Impossibile eliminare lo stato segnalazioni (%{value})
   error_unable_to_connect: Impossibile connettersi (%{value})
   error_attachments_too_many: "Questo file non può essere caricato perché supera il numero massimo di file che possono essere allegati contemporaneamente (%{max_number_of_files})"
@@ -280,7 +280,7 @@ it:
   mail_subject_wiki_content_added: "La pagina '%{id}' è stata aggiunta al wiki"
   mail_body_wiki_content_added: La pagina '%{id}' è stata aggiunta al wiki da %{author}.
   mail_subject_wiki_content_updated: "La pagina wiki '%{id}' è stata aggiornata"
-  mail_body_wiki_content_updated: La pagina '%{id}' wiki è stata aggiornata da %{author}.
+  mail_body_wiki_content_updated: "La pagina wiki '%{id}' è stata aggiornata da %{author}."
   mail_subject_security_notification: "Notifica di sicurezza"
   mail_body_security_notification_change: "%{field} è stato modificato."
   mail_body_security_notification_change_to: "%{field} è stato modificato in %{value}."
@@ -324,8 +324,8 @@ it:
   field_is_member_of_group: Membro del gruppo
   field_status: Stato
   field_notes: Note
-  field_is_closed: Chiudi la segnalazione
-  field_is_default: Stato predefinito
+  field_is_closed: "Segnalazione chiusa"
+  field_is_default: "Valore predefinito"
   field_tracker: Tracker
   field_subject: Oggetto
   field_due_date: Scadenza
@@ -345,7 +345,7 @@ it:
   field_last_login_on: Ultima connessione
   field_passwd_changed_on: Ultima modifica della password
   field_language: Lingua
-  field_effective_date: Data
+  field_effective_date: "Scadenza"
   field_password: Password
   field_current_password: Password attuale
   field_new_password: Nuova password
@@ -375,18 +375,18 @@ it:
   field_spent_on: Data
   field_identifier: Identificativo
   field_is_filter: Usato come filtro
-  field_issue_to: Segnalazioni correlate
+  field_issue_to: "Segnalazione correlata"
   field_delay: Ritardo
-  field_assignable: E' possibile assegnare segnalazioni a questo ruolo
+  field_assignable: "È possibile assegnare segnalazioni a questo ruolo"
   field_redirect_existing_links: Redirige i collegamenti esistenti
   field_estimated_hours: Tempo stimato
   field_column_names: Colonne
-  field_time_entries: Tempo di collegamento
+  field_time_entries: "Registra tempo"
   field_time_zone: Fuso orario
   field_searchable: Ricercabile
-  field_default_value: Stato predefinito
+  field_default_value: "Valore predefinito"
   field_comments_sorting: Mostra commenti
-  field_parent_title: Pagina principale
+  field_parent_title: "Pagina padre"
   field_editable: Modificabile
   field_watcher: Osservatore
   field_content: Contenuto
@@ -416,10 +416,10 @@ it:
   field_private_notes: Note private
   field_inherit_members: Eredita membri
   field_generate_password: Genera password
-  field_must_change_passwd: Cambio password obbligatorio al prossimo logon
+  field_must_change_passwd: "Cambio password obbligatorio al prossimo accesso"
   field_default_status: Stato predefinito
   field_users_visibility: Visibilità degli utenti
-  field_time_entries_visibility: Visibilità Time logs
+  field_time_entries_visibility: "Visibilità del tempo impiegato"
   field_total_estimated_hours: Totale tempo stimato
   field_default_version: Versione predefinita
   field_remote_ip: Indirizzo IP
@@ -452,12 +452,12 @@ it:
   setting_attachment_max_size: Dimensione massima allegati
   setting_bulk_download_max_size: Dimensione totale massima per il download in blocco
   setting_issues_export_limit: Limite esportazione segnalazioni
-  setting_mail_from: Indirizzo sorgente email
+  setting_mail_from: "Indirizzo email mittente"
   setting_plain_text_mail: Solo testo (non HTML)
-  setting_host_name: Nome host
+  setting_host_name: "Nome host e percorso"
   setting_text_formatting: Formattazione testo
   setting_wiki_compression: Comprimi cronologia wiki
-  setting_feeds_limit: Limite contenuti del feed
+  setting_feeds_limit: "Numero massimo di elementi nei feed Atom"
   setting_default_projects_public: I nuovi progetti sono pubblici in modo predefinito
   setting_autofetch_changesets: Acquisisci automaticamente le commit
   setting_sys_api_enabled: Abilita WS per la gestione del repository
@@ -482,9 +482,9 @@ it:
   setting_mail_handler_body_delimiters: Tronca email dopo una di queste righe
   setting_mail_handler_enable_regex: Abilita espressioni regolari
   setting_mail_handler_api_enabled: Abilita WS per le email in arrivo
-  setting_mail_handler_api_key: Chiave API
+  setting_mail_handler_api_key: "Chiave API WS per le email in arrivo"
   setting_mail_handler_preferred_body_part: Parte preferita delle email multipart (HTML)
-  setting_sys_api_key: Chiave API
+  setting_sys_api_key: "Chiave API WS per la gestione dei repository"
   setting_sequential_project_identifiers: Genera progetti con identificativi in sequenza
   setting_gravatar_enabled: Usa icone utente Gravatar
   setting_gravatar_default: Immagine Gravatar predefinita
@@ -493,8 +493,8 @@ it:
   setting_repository_log_display_limit: Numero massimo di revisioni elencate nella cronologia file
   setting_password_max_age: Richiesta cambio password dopo
   setting_password_min_length: Lunghezza minima password
-  setting_password_required_char_classes : Caratteri richiesti per le passwords
-  setting_lost_password: Password dimenticata
+  setting_password_required_char_classes: "Classi di caratteri richieste per le password"
+  setting_lost_password: "Consenti il reset della password via email"
   setting_new_project_user_role_id: Ruolo assegnato agli utenti non amministratori che creano un progetto
   setting_default_projects_modules: Moduli predefiniti abilitati per i nuovi progetti
   setting_issue_done_ratio: Calcola la percentuale di segnalazioni completate con
@@ -505,8 +505,8 @@ it:
   setting_rest_api_enabled: Abilita il servizio web REST
   setting_cache_formatted_text: Cache testo formattato
   setting_default_notification_option: Opzione di notifica predefinita
-  setting_commit_logtime_enabled: Abilita registrazione del tempo di collegamento
-  setting_commit_logtime_activity_id: Attività per il tempo di collegamento
+  setting_commit_logtime_enabled: "Abilita la registrazione del tempo"
+  setting_commit_logtime_activity_id: "Attività per il tempo registrato"
   setting_gantt_items_limit: Massimo numero di oggetti da visualizzare sul diagramma di gantt
   setting_gantt_months_limit: Numero massimo di mesi visualizzati nel diagramma di Gantt
   setting_issue_group_assignment: Permetti di assegnare una segnalazione a gruppi
@@ -516,21 +516,21 @@ it:
   setting_session_lifetime: Massima durata di una sessione
   setting_session_timeout: Timeout di inattività di una sessione
   setting_thumbnails_enabled: Mostra miniature degli allegati
-  setting_thumbnails_size: Dimensioni delle miniature (in pixels)
+  setting_thumbnails_size: "Dimensioni delle miniature (in pixel)"
   setting_non_working_week_days: Giorni non lavorativi
   setting_jsonp_enabled: Abilita supporto a JSONP
-  setting_default_projects_tracker_ids: Trackers di default per nuovi progetti
+  setting_default_projects_tracker_ids: "Tracker predefiniti per i nuovi progetti"
   setting_mail_handler_excluded_filenames: Escludi allegati per nome
-  setting_force_default_language_for_anonymous: Forza la lingua di default per gli utenti anonimi
-  setting_force_default_language_for_loggedin: Forza la lingua di default per gli utenti loggati
+  setting_force_default_language_for_anonymous: "Forza la lingua predefinita per gli utenti anonimi"
+  setting_force_default_language_for_loggedin: "Forza la lingua predefinita per gli utenti autenticati"
   setting_link_copied_issue: Collega le segnalazioni dopo la copia
-  setting_copy_attachments_on_issue_copy: Copia allegati sulla copia
+  setting_copy_attachments_on_issue_copy: "Copia gli allegati durante la copia"
   setting_max_additional_emails: Numero massimo di email aggiuntive
   setting_email_domains_allowed: Domini di posta elettronica consentiti
   setting_email_domains_denied: Domini di posta elettronica non consentiti
   setting_search_results_per_page: Risultati per pagina
-  setting_attachment_extensions_allowed: Estensioni abilitate
-  setting_attachment_extensions_denied: Estensioni disabilitate
+  setting_attachment_extensions_allowed: "Estensioni consentite"
+  setting_attachment_extensions_denied: "Estensioni non consentite"
   setting_new_item_menu_tab: Scheda di creazione oggetti nel menu del progetto
   setting_commit_logs_formatting: Formatta il testo dei messaggi di commit
   setting_timelog_required_fields: Campi obbligatori per le registrazioni del tempo impiegato
@@ -540,7 +540,7 @@ it:
   setting_timelog_max_hours_per_day: Numero massimo di ore che possono essere registrate al giorno per utente
   setting_timelog_accept_future_dates: Accetta registrazioni di tempo impiegato in date future
   setting_timelog_accept_closed_issues: Accetta registrazioni di tempo su segnalazioni chiuse
-  setting_show_status_changes_in_mail_subject: Mostra i cambiamenti di stato nell'oggetto delle emails di notifica
+  setting_show_status_changes_in_mail_subject: "Mostra i cambiamenti di stato nell'oggetto delle email di notifica"
   setting_project_list_defaults: Colonne predefinite mostrate nell'elenco progetti
   setting_twofa: Autenticazione a due fattori
   setting_related_issues_default_columns: Elenco predefinito delle segnalazioni correlate e secondarie
@@ -549,7 +549,7 @@ it:
 
   permission_add_project: Crea progetto
   permission_add_subprojects: Crea sottoprogetti
-  permission_edit_project: Modifica progetti
+  permission_edit_project: "Modifica progetto"
   permission_close_project: Chiusura / riapertura progetto
   permission_delete_project: Elimina il progetto
   permission_select_project_publicity: Imposta il progetto come pubblico o privato
@@ -558,10 +558,10 @@ it:
   permission_manage_project_activities: Gestisci attività progetti
   permission_manage_versions: Gestisci versioni
   permission_manage_categories: Gestisci categorie segnalazioni
-  permission_view_issues: Mostra segnalazioni
+  permission_view_issues: "Visualizza segnalazioni"
   permission_add_issues: Aggiungi segnalazioni
   permission_edit_issues: Modifica segnalazioni
-  permission_edit_own_issues: Modifica le tue segnalazioni
+  permission_edit_own_issues: "Modifica le proprie segnalazioni"
   permission_copy_issues: Copia segnalazioni
   permission_manage_issue_relations: Gestisci relazioni tra segnalazioni
   permission_set_issues_private: Imposta le segnalazioni pubbliche o private
@@ -574,29 +574,29 @@ it:
   permission_delete_issues: Elimina segnalazioni
   permission_manage_public_queries: Gestisci query pubbliche
   permission_save_queries: Salva query
-  permission_view_gantt: Vedi diagrammi gantt
-  permission_view_calendar: Vedi calendario
-  permission_view_issue_watchers: Vedi lista osservatori
+  permission_view_gantt: "Visualizza diagramma di Gantt"
+  permission_view_calendar: "Visualizza calendario"
+  permission_view_issue_watchers: "Visualizza elenco osservatori"
   permission_add_issue_watchers: Aggiungi osservatori
   permission_delete_issue_watchers: Elimina osservatori
   permission_log_time: Segna tempo impiegato
-  permission_view_time_entries: Vedi tempi impiegati
-  permission_edit_time_entries: Modifica time logs
-  permission_edit_own_time_entries: Modifica propri time logs
+  permission_view_time_entries: "Visualizza tempo impiegato"
+  permission_edit_time_entries: "Modifica tempo impiegato"
+  permission_edit_own_time_entries: "Modifica il proprio tempo impiegato"
   permission_view_news: Visualizza le notizie
   permission_manage_news: Gestisci news
   permission_comment_news: Commenta news
-  permission_view_documents: Vedi documenti
+  permission_view_documents: "Visualizza documenti"
   permission_add_documents: Aggiungi documenti
-  permission_edit_documents: Edita documenti
-  permission_delete_documents: Cancella documenti
-  permission_manage_files: Gestisci files
-  permission_view_files: Vedi files
+  permission_edit_documents: "Modifica documenti"
+  permission_delete_documents: "Elimina documenti"
+  permission_manage_files: "Gestisci file"
+  permission_view_files: "Visualizza file"
   permission_manage_wiki: Gestisci wiki
   permission_rename_wiki_pages: Rinomina pagine wiki
   permission_delete_wiki_pages: Elimina pagine wiki
-  permission_view_wiki_pages: Vedi pagine wiki
-  permission_view_wiki_edits: Vedi cronologia wiki
+  permission_view_wiki_pages: "Visualizza wiki"
+  permission_view_wiki_edits: "Visualizza cronologia wiki"
   permission_edit_wiki_pages: Modifica pagine wiki
   permission_delete_wiki_pages_attachments: Elimina allegati
   permission_view_wiki_page_watchers: "Visualizza l'elenco degli osservatori della pagina wiki"
@@ -605,10 +605,10 @@ it:
   permission_protect_wiki_pages: Proteggi pagine wiki
   permission_manage_repository: Gestisci repository
   permission_browse_repository: Sfoglia repository
-  permission_view_changesets: Vedi changesets
+  permission_view_changesets: "Visualizza changeset"
   permission_commit_access: Permesso di commit
   permission_manage_boards: Gestisci forum
-  permission_view_messages: Vedi messaggi
+  permission_view_messages: "Visualizza messaggi"
   permission_add_messages: Aggiungi messaggi
   permission_edit_messages: Modifica messaggi
   permission_edit_own_messages: Modifica propri messaggi
@@ -619,15 +619,15 @@ it:
   permission_delete_message_watchers: Elimina gli osservatori dei messaggi
   permission_export_wiki_pages: Esporta pagine wiki
   permission_manage_subtasks: Gestisci sottoattività
-  permission_manage_related_issues: Gestisci relative segnalazioni
+  permission_manage_related_issues: "Gestisci segnalazioni correlate"
   permission_import_issues: Importa segnalazioni
-  permission_log_time_for_other_users: Registra il tempo speso dagli altri utenti
+  permission_log_time_for_other_users: "Registra il tempo impiegato per altri utenti"
   permission_view_project: Visualizza progetti
   permission_search_project: Cerca progetti
   permission_view_members: Visualizza membri del progetto
 
   project_module_issue_tracking: Tracking delle segnalazioni
-  project_module_time_tracking: Time tracking
+  project_module_time_tracking: "Tracciamento del tempo"
   project_module_news: News
   project_module_documents: Documenti
   project_module_files: File
@@ -655,8 +655,8 @@ it:
   label_issue_plural: Segnalazioni
   label_issue_view_all: Mostra tutte le segnalazioni
   label_issues_by: "Segnalazioni di %{value}"
-  label_issue_added: Segnalazioni aggiunte
-  label_issue_updated: Segnalazioni aggiornate
+  label_issue_added: "Segnalazione aggiunta"
+  label_issue_updated: "Segnalazione aggiornata"
   label_issue_note_added: Nota aggiunta
   label_issue_status_updated: Stato aggiornato
   label_issue_assigned_to_updated: Assegnatario aggiornato
@@ -666,7 +666,7 @@ it:
   label_document: Documento
   label_document_new: Nuovo documento
   label_document_plural: Documenti
-  label_document_added: Documenti aggiunti
+  label_document_added: "Documento aggiunto"
   label_role: Ruolo
   label_role_plural: Ruoli
   label_role_new: Nuovo ruolo
@@ -678,7 +678,7 @@ it:
   label_member_plural: Membri
   label_tracker: Tracker
   label_tracker_plural: Tracker
-  label_tracker_all: All trackers
+  label_tracker_all: "Tutti i tracker"
   label_tracker_new: Nuovo tracker
   label_workflow: Workflow
   label_issue_status: Stato segnalazione
@@ -699,19 +699,19 @@ it:
   label_password_required: Conferma la tua password per continuare
   label_home: Home
   label_my_page: Pagina personale
-  label_my_account: Il mio utente
+  label_my_account: "Il mio account"
   label_my_projects: I miei progetti
   label_administration: Amministrazione
   label_login: Entra
   label_logout: Esci
   label_help: Aiuto
-  label_reported_issues: Segnalazioni
+  label_reported_issues: "Segnalazioni create"
   label_assigned_issues: Segnalazioni assegnate
-  label_assigned_to_me_issues: Le mie segnalazioni
+  label_assigned_to_me_issues: "Segnalazioni assegnate a me"
   label_updated_issues: Segnalazioni aggiornate
   label_registered_on: Registrato il
   label_activity: Attività
-  label_user_activity: "attività di %{value}"
+  label_user_activity: "Attività di %{value}"
   label_new: Nuovo
   label_logged_as: Collegato come
   label_environment: Ambiente
@@ -742,7 +742,7 @@ it:
   label_attachment_new: Nuovo file
   label_attachment_delete: Elimina file
   label_attachment_plural: File
-  label_file_added: File aggiunti
+  label_file_added: "File aggiunto"
   label_attachment_description: Descrizione del file
   label_attachment_summary:
     zero: "%{filename}"
@@ -753,19 +753,19 @@ it:
   label_news: News
   label_news_new: Aggiungi news
   label_news_plural: News
-  label_news_latest: Utime news
+  label_news_latest: "Ultime news"
   label_news_view_all: Tutte le news
-  label_news_added: News aggiunte
+  label_news_added: "News aggiunta"
   label_news_comment_added: Commento aggiunto a una news
   label_settings: Impostazioni
   label_overview: Panoramica
   label_version: Versione
   label_version_new: Nuova versione
   label_version_plural: Versioni
-  label_version_and_files: Versioni (%{count}) e Files
-  label_close_versions: Versioni completate chiuse
+  label_version_and_files: "Versioni (%{count}) e file"
+  label_close_versions: "Chiudi versioni completate"
   label_confirmation: Conferma
-  label_export_to: Esporta su
+  label_export_to: "Disponibile anche in:"
   label_read: Leggi...
   label_public_projects: Progetti pubblici
   label_open_issues: aperta
@@ -781,17 +781,17 @@ it:
     one:   1 chiusa
     other: "%{count} chiuse"
   label_x_issues:
-    zero:  0 segnalazione
+    zero:  0 segnalazioni
     one:   1 segnalazione
     other: "%{count} segnalazioni"
   label_total: Totale
   label_total_plural: Totali
-  label_total_time: Totale
+  label_total_time: "Tempo totale"
   label_permissions: Permessi
   label_current_status: Stato attuale
   label_new_statuses_allowed: Nuovi stati possibili
   label_all: tutti
-  label_any: tutti
+  label_any: "qualsiasi"
   label_none: nessuno
   label_nobody: nessuno
   label_next: Successivo
@@ -817,15 +817,15 @@ it:
   label_query: Query personalizzata
   label_query_plural: Query personalizzate
   label_query_new: Nuova query
-  label_my_queries: Le mie queries personalizzate
+  label_my_queries: "Le mie query personalizzate"
   label_filter_add: Aggiungi filtro
   label_filter_plural: Filtri
   label_equals: è
   label_not_equals: non è
-  label_in_less_than: è minore di
-  label_in_more_than: è maggiore di
+  label_in_less_than: "tra meno di"
+  label_in_more_than: "tra più di"
   label_in_the_next_days: nei prossimi
-  label_in_the_past_days: nei passati
+  label_in_the_past_days: "negli ultimi"
   label_greater_or_equal: '>='
   label_less_or_equal: '<='
   label_between: tra
@@ -834,12 +834,12 @@ it:
   label_yesterday: ieri
   label_tomorrow: domani
   label_this_week: questa settimana
-  label_last_week: ultima settimana
+  label_last_week: "settimana scorsa"
   label_next_week: prossima settimana
   label_last_n_weeks: ultime %{count} settimane
   label_last_n_days: "ultimi %{count} giorni"
   label_this_month: questo mese
-  label_last_month: ultimo mese
+  label_last_month: "mese scorso"
   label_next_month: prossimo mese
   label_this_year: quest'anno
   label_date_range: Intervallo di date
@@ -865,8 +865,8 @@ it:
   label_repository_plural: Repository
   label_branch: Branch
   label_tag: Tag
-  label_revision: Versione
-  label_revision_plural: Versioni
+  label_revision: "Revisione"
+  label_revision_plural: "Revisioni"
   label_revision_id: Revisione %{value}
   label_associated_revisions: Revisioni associate
   label_added: aggiunto
@@ -874,15 +874,15 @@ it:
   label_copied: copiato
   label_renamed: rinominato
   label_deleted: eliminato
-  label_latest_revision: Ultima versione
-  label_latest_revision_plural: Ultime versioni
-  label_view_revisions: Mostra versioni
+  label_latest_revision: "Ultima revisione"
+  label_latest_revision_plural: "Ultime revisioni"
+  label_view_revisions: "Visualizza revisioni"
   label_view_all_revisions: Mostra tutte le revisioni
   label_view_previous_annotation: "Visualizza l'annotazione prima di questa modifica"
-  label_x_revisions: "%{count} versioni"
+  label_x_revisions: "%{count} revisioni"
   label_max_size: Dimensione massima
   label_roadmap: Roadmap
-  label_roadmap_due_in: "Da ultimare in %{value}"
+  label_roadmap_due_in: "Scadenza tra %{value}"
   label_roadmap_overdue: "%{value} di ritardo"
   label_roadmap_no_issues: Nessuna segnalazione per questa versione
   label_search: Ricerca
@@ -894,12 +894,12 @@ it:
   label_wiki_page: Pagina Wiki
   label_wiki_page_plural: Pagine wiki
   label_wiki_page_new: Nuova pagina wiki
-  label_index_by_title: Ordina per titolo
-  label_index_by_date: Ordina per data
+  label_index_by_title: "Indice per titolo"
+  label_index_by_date: "Indice per data"
   label_current_version: Versione corrente
   label_preview: Anteprima
   label_feed_plural: Feed
-  label_changes_details: Particolari di tutti i cambiamenti
+  label_changes_details: "Dettagli di tutte le modifiche"
   label_issue_tracking: Tracking delle segnalazioni
   label_spent_time: Tempo impiegato
   label_total_spent_time: Totale tempo impiegato
@@ -912,7 +912,7 @@ it:
   label_commits_per_month: Commit per mese
   label_commits_per_author: Commit per autore
   label_diff: diff
-  label_view_diff: mostra differenze
+  label_view_diff: "Mostra differenze"
   label_diff_inline: in linea
   label_diff_side_by_side: fianco a fianco
   label_options: Opzioni
@@ -926,15 +926,15 @@ it:
   label_relation_new: Nuova relazione
   label_relation_delete: Elimina relazione
   label_relates_to: Correlata a
-  label_delete_link_to_subtask: Elimina relazione
-  label_duplicates: Duplica
-  label_duplicated_by: duplicata da
+  label_delete_link_to_subtask: "Elimina collegamento alla sottoattività"
+  label_duplicates: "È un duplicato di"
+  label_duplicated_by: "Ha un duplicato"
   label_blocks: Blocca
   label_blocked_by: Bloccata da
   label_precedes: Precede
   label_follows: Segue
-  label_copied_to: copia
-  label_copied_from: copiata da
+  label_copied_to: "Copiata in"
+  label_copied_from: "Copiata da"
   label_stay_logged_in: Rimani collegato
   label_disabled: disabilitato
   label_optional: opzionale
@@ -944,25 +944,25 @@ it:
   label_board_new: Nuovo forum
   label_board_plural: Forum
   label_board_locked: Bloccato
-  label_board_sticky: Annunci
+  label_board_sticky: "In evidenza"
   label_topic_plural: Argomenti
   label_message_plural: Messaggi
   label_message_last: Ultimo messaggio
   label_message_new: Nuovo messaggio
-  label_message_posted: Messaggi aggiunti
+  label_message_posted: "Messaggio aggiunto"
   label_reply_plural: Risposte
   label_send_information: Invia all'utente le informazioni relative all'account
   label_year: Anno
   label_month: Mese
   label_week: Settimana
-  label_date_from: Da
-  label_date_to: A
-  label_language_based: Basato sul linguaggio
+  label_date_from: Dal
+  label_date_to: Al
+  label_language_based: "Basato sulla lingua dell'utente"
   label_sort_by: "Ordina per %{value}"
   label_send_test_email: Invia una email di prova
   label_feeds_access_key: Chiave di accesso Atom
   label_missing_feeds_access_key: Chiave di accesso Atom mancante
-  label_feeds_access_key_created_on: "chiave di accesso Atom creata %{value} fa"
+  label_feeds_access_key_created_on: "Chiave di accesso Atom creata %{value} fa"
   label_module_plural: Moduli
   label_added_time_by: "Aggiunto da %{author} %{age} fa"
   label_updated_time_by: "Aggiornato da %{author} %{age} fa"
@@ -974,7 +974,7 @@ it:
   label_no_change_option: (Nessuna modifica)
   label_bulk_edit: Modifica in blocco
   label_bulk_edit_selected_issues: Modifica massiva delle segnalazioni selezionate
-  label_bulk_edit_selected_time_entries: Modifica massiva delle ore segnalate selezionate
+  label_bulk_edit_selected_time_entries: "Modifica massiva delle registrazioni di tempo selezionate"
   label_theme: Tema
   label_default: Predefinito
   label_search_titles_only: Cerca solo nei titoli
@@ -1017,10 +1017,10 @@ it:
   label_example: Esempio
   label_display: Mostra
   label_sort: Ordina
-  label_ascending: Ascendente
-  label_descending: Discendente
-  label_date_from_to: Da %{start} a %{end}
-  label_days_to_html: "%{days} giorni fino a %{date}"
+  label_ascending: "Crescente"
+  label_descending: "Decrescente"
+  label_date_from_to: Dal %{start} al %{end}
+  label_days_to_html: "%{days} giorni fino al %{date}"
   label_wiki_content_added: Aggiunta pagina al wiki
   label_wiki_content_updated: Aggiornata pagina wiki
   label_group: Gruppo
@@ -1032,7 +1032,7 @@ it:
   label_version_sharing_none: Nessuna condivisione
   label_version_sharing_descendants: Con sottoprogetti
   label_version_sharing_hierarchy: Con gerarchia progetto
-  label_version_sharing_tree: Con progetto padre
+  label_version_sharing_tree: "Con l'albero del progetto"
   label_version_sharing_system: Con tutti i progetti
   label_update_issue_done_ratios: Aggiorna la percentuale delle segnalazioni completate
   label_copy_source: Sorgente
@@ -1043,7 +1043,7 @@ it:
   label_missing_api_access_key: Chiave di accesso API mancante
   label_api_access_key_created_on: Chiave di accesso API creata %{value} fa
   label_profile: Profilo
-  label_subtask: Subtask
+  label_subtask: "Sottoattività"
   label_subtask_plural: Sottoattività
   label_project_copy_notifications: Invia notifiche email durante la copia del progetto
   label_import_notifications: Invia notifiche email durante l'importazione
@@ -1054,10 +1054,10 @@ it:
   label_issues_visibility_all: Tutte le segnalazioni
   label_issues_visibility_public: Tutte le segnalazioni non private
   label_issues_visibility_own: Segnalazioni create o assegnate all'utente
-  label_git_report_last_commit: Riporta l'ultimo commit per files e directories
+  label_git_report_last_commit: "Riporta l'ultimo commit per file e directory"
   label_parent_revision: Padre
   label_child_revision: Figlio
-  label_export_options: "%{export_format} opzioni per l'export"
+  label_export_options: "Opzioni di esportazione %{export_format}"
   label_copy_attachments: Copia allegati
   label_copy_subtasks: Copia sottoattività
   label_item_position: "%{position}/%{count}"
@@ -1071,15 +1071,15 @@ it:
   label_required_lower: obbligatorio
   label_required_administrators: obbligatorio per gli amministratori
   label_hidden: Nascosto
-  label_attribute_of_project: del progetto %{name}
-  label_attribute_of_issue: Segnalazione %{name}
-  label_attribute_of_author: Author's %{name}
-  label_attribute_of_assigned_to: Assegnatari %{name}
-  label_attribute_of_user: Utente %{name}
-  label_attribute_of_fixed_version: "Versione target %{name}"
-  label_attribute_of_object: "%{object_name} di %{name}"
+  label_attribute_of_project: "%{name} del progetto"
+  label_attribute_of_issue: "%{name} della segnalazione"
+  label_attribute_of_author: "%{name} dell'autore"
+  label_attribute_of_assigned_to: "%{name} dell'assegnatario"
+  label_attribute_of_user: "%{name} dell'utente"
+  label_attribute_of_fixed_version: "%{name} della versione prevista"
+  label_attribute_of_object: "%{name} di %{object_name}"
   label_cross_project_descendants: Con sottoprogetti
-  label_cross_project_tree: Con progetto padre
+  label_cross_project_tree: "Con l'albero del progetto"
   label_cross_project_hierarchy: Con gerarchia progetto
   label_cross_project_system: Con tutti i progetti
   label_gantt_progress_line: Linea avanzamento
@@ -1172,7 +1172,7 @@ it:
   label_password_char_class_special_chars: caratteri speciali
   label_display_type: Mostra risultati come
   label_display_type_list: Lista
-  label_display_type_board: Board
+  label_display_type_board: "Bacheca"
   label_my_bookmarks: I miei segnalibri
   label_assign_to_me: Assegna a me
   label_default_query: Query predefinita
@@ -1222,7 +1222,7 @@ it:
   button_log_time: Registra tempo
   button_rollback: Ripristina questa versione
   button_watch: Osserva
-  button_unwatch: Dimentica
+  button_unwatch: "Non osservare più"
   button_reply: Rispondi
   button_archive: Archivia
   button_unarchive: Ripristina
@@ -1233,21 +1233,21 @@ it:
   button_copy_and_follow: Copia e segui
   button_copy_link: Copia link
   button_annotate: Annota
-  button_fetch_changesets: Fetch commits
+  button_fetch_changesets: "Acquisisci commit"
   button_update: Aggiorna
   button_configure: Configura
-  button_quote: Quota
+  button_quote: "Cita"
   button_show: Mostra
   button_hide: Nascondi
   button_edit_section: Modifica questa sezione
   button_export: Esporta
-  button_delete_my_account: Cancella il mio account
+  button_delete_my_account: "Elimina il mio account"
   button_close: Chiudi
   button_reopen: Riapri
   button_import: Importa
   button_project_bookmark: Aggiungi segnalibro
   button_project_bookmark_delete: Elimina segnalibro
-  button_filter: Filtro
+  button_filter: "Filtra"
   button_actions: Azioni
   button_add_subtask: Aggiungi sottoattività
   button_save_object: "Salva %{object_name}"
@@ -1271,7 +1271,7 @@ it:
 
   field_active: Attivo
 
-  text_select_mail_notifications: Seleziona le azioni per cui deve essere inviata una notifica.
+  text_select_mail_notifications: "Seleziona le azioni per cui deve essere inviata una notifica via email."
   text_regexp_info: es. ^[A-Z0-9]+$
   text_project_destroy_confirmation: Sei sicuro di voler eliminare il progetto e tutti i dati ad esso collegati?
   text_projects_bulk_destroy_confirmation: Vuoi davvero eliminare i progetti selezionati e i dati correlati?
@@ -1288,15 +1288,15 @@ it:
   text_users_bulk_destroy_head: 'Stai per eliminare i seguenti utenti e rimuovere tutti i riferimenti a loro. Questa operazione non può essere annullata. Spesso, bloccare gli utenti anziché eliminarli è la soluzione migliore.'
   text_users_bulk_destroy_confirm: 'Per confermare, inserisci "%{yes}" qui sotto.'
   text_workflow_edit: Seleziona un ruolo ed un tracker per modificare il workflow
-  text_are_you_sure: Sei sicuro ?
+  text_are_you_sure: "Sei sicuro?"
   text_journal_changed: "%{label} modificata da %{old} a %{new}"
   text_journal_changed_no_detail: "%{label} aggiornato"
   text_journal_set_to: "%{label} impostata a %{value}"
   text_journal_deleted: "%{label} eliminata (%{old})"
-  text_journal_added: "%{value} %{label} aggiunto"
-  text_tip_issue_begin_day: attività che iniziano in questa giornata
-  text_tip_issue_end_day: attività che terminano in questa giornata
-  text_tip_issue_begin_end_day: attività che iniziano e terminano in questa giornata
+  text_journal_added: "%{label} %{value} aggiunto"
+  text_tip_issue_begin_day: "segnalazioni che iniziano in questo giorno"
+  text_tip_issue_end_day: "segnalazioni che terminano in questo giorno"
+  text_tip_issue_begin_end_day: "segnalazioni che iniziano e terminano in questo giorno"
   text_project_identifier_info: Consentiti solo lettere minuscole (a-z), numeri, trattini e trattini bassi.<br />Una volta salvato, l'identificatore non può essere modificato.
   text_caracters_maximum: "massimo %{count} caratteri."
   text_caracters_minimum: "Deve essere lungo almeno %{count} caratteri."
@@ -1308,71 +1308,71 @@ it:
   text_unallowed_characters: Caratteri non permessi
   text_comma_separated: Valori multipli permessi (separati da virgole).
   text_line_separated: Valori multipli permessi (un valore per ogni riga).
-  text_issues_ref_in_commit_messages: Segnalazioni di riferimento e chiusura nei messaggi di commit
+  text_issues_ref_in_commit_messages: "Riferimento e chiusura delle segnalazioni nei messaggi di commit"
   text_issue_added: "%{author} ha aggiunto la segnalazione %{id}."
   text_issue_updated: "La segnalazione %{id} è stata aggiornata da %{author}."
   text_wiki_destroy_confirmation: Sicuro di voler eliminare questo wiki e tutti i suoi contenuti?
-  text_issue_category_destroy_question: "Alcune segnalazioni (%{count}) risultano assegnate a questa categoria. Cosa vuoi fare ?"
+  text_issue_category_destroy_question: "Alcune segnalazioni (%{count}) risultano assegnate a questa categoria. Cosa vuoi fare?"
   text_issue_category_destroy_assignments: Rimuovi le assegnazioni a questa categoria
   text_issue_category_reassign_to: Riassegna segnalazioni a questa categoria
   text_user_mail_option: "Per i progetti non selezionati, riceverai solo le notifiche riguardanti le cose che osservi o nelle quali sei coinvolto (per esempio segnalazioni che hai creato o che ti sono state assegnate)."
-  text_no_configuration_data: "Ruoli, tracker, stati delle segnalazioni e workflow non sono stati ancora configurati.\nE' vivamente consigliato caricare la configurazione predefinita. Potrai modificarla una volta caricata."
+  text_no_configuration_data: "Ruoli, tracker, stati delle segnalazioni e workflow non sono stati ancora configurati.\nÈ vivamente consigliato caricare la configurazione predefinita. Potrai modificarla una volta caricata."
   text_load_default_configuration: Carica la configurazione predefinita
   text_status_changed_by_changeset: "Applicata nel changeset %{value}."
   text_time_logged_by_changeset: Usato nel changeset %{value}.
   text_issues_destroy_confirmation: 'Sei sicuro di voler eliminare le segnalazioni selezionate?'
   text_issues_destroy_descendants_confirmation: Questo eliminerà anche %{count} sottoattività.
-  text_time_entries_destroy_confirmation: Sei sicuro di voler eliminare l'ora\e selezionata\e?
+  text_time_entries_destroy_confirmation: "Sei sicuro di voler eliminare le registrazioni di tempo selezionate?"
   text_select_project_modules: 'Seleziona i moduli abilitati per questo progetto:'
   text_default_administrator_account_changed: L'account amministrativo predefinito è stato modificato
-  text_file_repository_writable: Repository dei file scrivibile
-  text_plugin_assets_writable: Directory attività dei plugins scrivibile
+  text_file_repository_writable: "Directory degli allegati scrivibile"
+  text_plugin_assets_writable: "Directory delle risorse (assets) dei plugin scrivibile"
   text_all_migrations_have_been_run: Sono state eseguite tutte le migrazioni del database
   text_minimagick_available: MiniMagick disponibile (opzionale)
   text_convert_available: ImageMagick convert disponibile (opzionale)
-  text_gs_available: ImageMagick PDF support disponibile (opzionale)
+  text_gs_available: "Supporto PDF di ImageMagick disponibile (opzionale)"
   text_default_active_job_queue_changed: "Il Queue adapter predefinito, adatto solo per sviluppo/test, è stato modificato"
-  text_destroy_time_entries_question: "%{hours} ore risultano spese sulle segnalazioni che stai per eliminare. Cosa vuoi fare ?"
+  text_destroy_time_entries_question: "%{hours} ore risultano spese sulle segnalazioni che stai per eliminare. Cosa vuoi fare?"
   text_destroy_time_entries: Elimina le ore segnalate
   text_assign_time_entries_to_project: Assegna le ore segnalate al progetto
   text_reassign_time_entries: 'Riassegna le ore a questa segnalazione:'
   text_user_wrote: "%{value} ha scritto:"
   text_user_wrote_in: "%{value} ha scritto (%{link}):"
-  text_enumeration_destroy_question: "%{count} oggetti hanno un assegnamento su questo valore."
+  text_enumeration_destroy_question: "%{count} oggetti sono assegnati al valore “%{name}”."
   text_enumeration_category_reassign_to: 'Riassegnale a questo valore:'
   text_email_delivery_not_configured: "La consegna via email non è configurata e le notifiche sono disabilitate.\nConfigura il tuo server SMTP in config/configuration.yml e riavvia l'applicazione per abilitarle."
-  text_repository_usernames_mapping: "Seleziona per aggiornare la corrispondenza tra gli utenti Redmine e quelli presenti nel log del repository.\nGli utenti Redmine e repository con lo stesso note utente o email sono mappati automaticamente."
-  text_diff_truncated: '... Le differenze sono state troncate perchè superano il limite massimo visualizzabile.'
+  text_repository_usernames_mapping: "Seleziona o aggiorna l'utente Redmine associato a ciascun nome utente presente nel log del repository.\nGli utenti con lo stesso nome utente o email in Redmine e nel repository sono associati automaticamente."
+  text_diff_truncated: "... Le differenze sono state troncate perché superano il limite massimo visualizzabile."
   text_custom_field_possible_values_info: 'Un valore per ogni riga'
   text_wiki_page_destroy_question: Questa pagina ha %{descendants} pagine figlie. Cosa ne vuoi fare?
   text_wiki_page_nullify_children: Mantieni le pagine figlie come pagine radice
   text_wiki_page_destroy_children: Elimina le pagine figlie e tutta la discendenza
-  text_wiki_page_reassign_children: Riassegna le pagine figlie al padre di questa pagina
+  text_wiki_page_reassign_children: "Riassegna le pagine figlie a questa pagina padre"
   text_own_membership_delete_confirmation: "Stai per eliminare alcuni o tutti i permessi e non sarai più in grado di modificare questo progetto dopo tale azione.\nSei sicuro di voler continuare?"
   text_zoom_in: Aumenta ingrandimento
   text_zoom_out: Riduci ingrandimento
   text_warn_on_leaving_unsaved: La pagina corrente contiene del testo non salvato che verrà perso se lasci questa pagina.
   text_scm_path_encoding_note: "Predefinito: UTF-8"
   text_subversion_repository_note: 'Esempio: file:///, http://, https://, svn://, svn+[tunnelscheme]://'
-  text_git_repository_note: Il repository è vuoto e locale (e.g. /gitrepo, c:\gitrepo)
+  text_git_repository_note: "Il repository è bare e locale (es. /gitrepo, c:\\gitrepo)"
   text_mercurial_repository_note: Repository locale (es. /hgrepo, c:\hgrepo)
   text_scm_command: Comando
   text_scm_command_version: Versione
-  text_scm_config: Puoi configurare i comandi scm nel file config/configuration.yml. E' necessario riavviare l'applicazione dopo averlo modificato.
+  text_scm_config: "Puoi configurare i comandi SCM nel file config/configuration.yml. È necessario riavviare l'applicazione dopo averlo modificato."
   text_scm_command_not_available: Il comando scm non è disponibile. Controllare le impostazioni nel pannello di amministrazione.
   text_issue_conflict_resolution_overwrite: Applica comunque le mie modifiche (le note precedenti verranno mantenute ma alcuni cambiamenti potrebbero essere sovrascritti)
-  text_issue_conflict_resolution_add_notes: Aggiunge le mie note e non salvare le mie ulteriori modifiche
-  text_issue_conflict_resolution_cancel: Cancella ogni modifica e rivisualizza %{link}
+  text_issue_conflict_resolution_add_notes: "Aggiungi le mie note e scarta le altre modifiche"
+  text_issue_conflict_resolution_cancel: "Scarta tutte le mie modifiche e visualizza nuovamente %{link}"
   text_account_destroy_confirmation: "Sei sicuro di voler procedere?\nIl tuo account sarà definitivamente cancellato, senza alcuna possibilità di ripristino."
   text_session_expiration_settings: "Attenzione: la modifica di queste impostazioni può far scadere le sessioni correnti, compresa la tua."
   text_project_closed: Questo progetto è chiuso e in sola lettura.
-  text_turning_multiple_off: Disabilitando valori multipli, i valori multipli verranno rimossi, in modo da mantenere un solo valore per item.
+  text_turning_multiple_off: "Disabilitando i valori multipli, i valori in eccesso verranno rimossi in modo da mantenere un solo valore per elemento."
   text_select_apply_tracker: "Seleziona il tracker"
   text_select_apply_issue_status: "Seleziona lo stato della segnalazione"
-  text_avatar_server_config_html: Il server corrente degli avatars è <a href="%{url}">%{url}</a>. E' possibile configurarlo in config/configuration.yml.
-  text_no_subject: nessun soggetto
+  text_avatar_server_config_html: "Il server corrente degli avatar è <a href=\"%{url}\">%{url}</a>. È possibile configurarlo in config/configuration.yml."
+  text_no_subject: "nessun oggetto"
   text_allowed_queries_to_select: Solo query pubbliche (per tutti gli utenti) selezionabili
-  text_setting_config_change: Puoi configurare il comportamento in config/configuration.yml. Riavvia l'applicazione dopo averla modificata.
+  text_setting_config_change: "Puoi configurare il comportamento in config/configuration.yml. Riavvia l'applicazione dopo averlo modificato."
   text_setting_gravatar_default_initials_html: Le iniziali degli utenti vengono inviate a <a href="https://www.gravatar.com">https://www.gravatar.com</a> per generare i loro avatar.
   text_oauth_admin_permission: Accesso amministrativo completo. Se autorizzata da un Amministratore, questa applicazione potrà leggere e scrivere tutti i dati e impersonare altri utenti.
   text_oauth_admin_permission_info: "Questa applicazione richiede l'accesso amministrativo completo. Se sei un Amministratore (o lo diventerai in futuro), l'applicazione potrà leggere e scrivere tutti i dati e impersonare altri utenti per tuo conto. Se vuoi evitare questo problema, autorizzala come utente senza privilegi di Amministratore."
@@ -1383,13 +1383,13 @@ it:
   default_role_manager: Gestore
   default_role_developer: Sviluppatore
   default_role_reporter: Segnalatore
-  default_tracker_bug: Segnalazione
+  default_tracker_bug: "Bug"
   default_tracker_feature: Funzione
   default_tracker_support: Supporto
   default_issue_status_new: Nuovo
   default_issue_status_in_progress: In elaborazione
   default_issue_status_resolved: Risolto
-  default_issue_status_feedback: Commenti
+  default_issue_status_feedback: "In attesa di riscontro"
   default_issue_status_closed: Chiuso
   default_issue_status_rejected: Rifiutato
   default_doc_category_user: Documentazione utente
@@ -1413,16 +1413,16 @@ it:
   description_notes: Note
   description_message_content: Contenuto del messaggio
   description_query_sort_criteria_attribute: Attributo di ordinamento
-  description_query_sort_criteria_direction: Ordinamento
+  description_query_sort_criteria_direction: "Direzione ordinamento"
   description_user_mail_notification: Impostazioni notifica via mail
   description_available_columns: Colonne disponibili
   description_selected_columns: Colonne selezionate
   description_all_columns: Tutte le colonne
   description_issue_category_reassign: Scegli la categoria della segnalazione
   description_wiki_subpages_reassign: Scegli la nuova pagina padre
-  text_repository_identifier_info: Consentiti solo lettere minuscole (a-z), numeri, trattini e trattini bassi.<br />Una volta salvato, ll'identificatore non può essere modificato.
+  text_repository_identifier_info: "Consentiti solo lettere minuscole (a-z), numeri, trattini e trattini bassi.<br />Una volta salvato, l'identificatore non può essere modificato."
   text_login_required_html: Disattivando l'autenticazione obbligatoria, i progetti pubblici e il loro contenuto, saranno liberamente accessibili in rete. Si possono <a href="%{anonymous_role_path}">modificare i permessi applicabili</a>.
-  label_login_required_yes: "Si"
+  label_login_required_yes: "Sì"
   label_login_required_no: "No, consenti accesso anonimo ai progetti pubblici"
   text_project_is_public_non_member: I progetti pubblici e i loro contenuti sono accessibili a tutti gli utenti registrati.
   text_project_is_public_anonymous: I progetti pubblici e i loro contenuti sono liberamente accessibili in rete.
@@ -1437,7 +1437,7 @@ it:
   twofa_currently_active: "Attualmente attivo: %{twofa_scheme_name}"
   twofa_not_active: "Non attivato"
   twofa_label_code: Codice
-  twofa_hint_disabled_html: "Impostando <strong>%{label}</strong> verranno disattivati ​​e dissociati i dispositivi di autenticazione a due fattori per tutti gli utenti."
+  twofa_hint_disabled_html: "Impostando <strong>%{label}</strong> verranno disattivati e dissociati i dispositivi di autenticazione a due fattori per tutti gli utenti."
   twofa_hint_optional_html: "Impostando <strong>%{label}</strong> gli utenti potranno configurare l'autenticazione a due fattori a loro piacimento, a meno che non sia richiesta da uno dei loro gruppi."
   twofa_hint_required_html: "Impostando <strong>%{label}</strong> tutti gli utenti saranno tenuti a impostare l'autenticazione a due fattori al loro prossimo accesso."
   twofa_hint_required_administrators_html: "L'impostazione <strong>%{label}</strong> si comporta come la facoltativa, ma richiederà a tutti gli utenti con diritti di amministratore di impostare l'autenticazione a due fattori al loro prossimo accesso."
@@ -1459,7 +1459,7 @@ it:
   twofa_generate_backup_codes: Genera codici di backup
   twofa_text_generate_backup_codes_confirmation: Questo invaliderà tutti i codici di backup esistenti e ne genererà di nuovi. Vuoi continuare?
   twofa_notice_backup_codes_generated: I tuoi codici di backup sono stati generati.
-  twofa_warning_backup_codes_generated_invalidated: Sono stati generati nuovi codici di backup. I tuoi codici esistenti dal %{time} non sono più validi.
+  twofa_warning_backup_codes_generated_invalidated: "Sono stati generati nuovi codici di backup. I codici esistenti del %{time} non sono più validi."
   twofa_label_backup_codes: "Codici di backup per l'autenticazione a due fattori"
   twofa_text_backup_codes_hint: Utilizza questi codici al posto di una password monouso se non hai accesso al tuo secondo fattore. Ogni codice può essere utilizzato solo una volta. Si consiglia di stamparli e conservarli in un luogo sicuro.
   twofa_text_backup_codes_created_at: Codici di backup generati %{datetime}.
@@ -1474,9 +1474,3 @@ it:
   reaction_text_x_other_users:
     one: "1 altro"
     other: "%{count} altri"
-  label_alert_note: Note
-  label_alert_tip: Tip
-  label_alert_warning: Warning
-  label_alert_caution: Caution
-  label_alert_important: Important
-  field_ratio_interval: Ratio interval
