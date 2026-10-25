@@ -155,7 +155,7 @@ class ApplicationController < ActionController::Base
         # Oauth
         if access_token.accessible?
           user = User.active.find_by_id(access_token.resource_owner_id)
-          user.oauth_scope = access_token.scopes.all.map(&:to_sym)
+          user&.oauth_scope = access_token.scopes.all.map(&:to_sym)
         else
           doorkeeper_render_error
         end
