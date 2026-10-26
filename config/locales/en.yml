@@ -480,7 +480,7 @@ en:
   setting_repository_log_display_limit: Maximum number of revisions displayed on file log
   setting_password_max_age: Require password change after
   setting_password_min_length: Minimum password length
-  setting_password_required_char_classes : Required character classes for passwords
+  setting_password_required_char_classes: Required character classes for passwords
   setting_lost_password: Allow password reset via email
   setting_new_project_user_role_id: Role given to a non-admin user who creates a project
   setting_default_projects_modules: Default enabled modules for new projects
