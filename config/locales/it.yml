@@ -231,6 +231,8 @@ it:
   error_workflow_copy_source: Per favore seleziona un tracker sorgente o ruolo
   error_workflow_copy_target: "Seleziona i tracker e i ruoli di destinazione"
   error_unable_delete_issue_status: Impossibile eliminare lo stato segnalazioni (%{value})
+  error_issue_status_in_use_by_issues: Questo stato è usato da alcune segnalazioni
+  error_issue_status_default_for_trackers: Questo stato è usato come stato predefinito da alcuni tracker
   error_unable_to_connect: Impossibile connettersi (%{value})
   error_attachments_too_many: "Questo file non può essere caricato perché supera il numero massimo di file che possono essere allegati contemporaneamente (%{max_number_of_files})"
   error_attachment_too_big: Questo file non può essere caricato in quanto la sua dimensione supera la massima consentita (%{max_size})
@@ -289,11 +291,14 @@ it:
   mail_body_security_notification_notify_disabled: "L'indirizzo email %{value} non riceverà più notifiche."
   mail_body_settings_updated: "Sono state modificate le seguenti impostazioni:"
   mail_body_password_updated: "La tua password è stata cambiata."
+  mail_subject_test_email: Test Redmine
+  mail_body_test_email: Questa è un'email di prova inviata da Redmine.
   mail_destroy_project_failed: Impossibile eliminare il progetto %{value}.
   mail_destroy_project_successful: Il progetto %{value} è stato eliminato correttamente.
   mail_destroy_project_with_subprojects_successful: Il progetto %{value} e i suoi sottoprogetti sono stati eliminati correttamente.
 
 
+  field_date: Data
   field_name: Nome
   field_description: Descrizione
   field_summary: Sommario
@@ -365,6 +370,7 @@ it:
   field_start_date: Inizio
   field_done_ratio: "% Completato"
   field_auth_source: Modalità di autenticazione
+  field_avatar: Avatar
   field_hide_mail: Nascondi il mio indirizzo email
   field_comments: Commento
   field_url: URL
@@ -447,6 +453,7 @@ it:
   setting_app_title: Titolo applicazione
   setting_welcome_text: Testo di benvenuto
   setting_default_language: Lingua predefinita
+  setting_favicon: Favicon personalizzata
   setting_login_required: Autenticazione richiesta
   setting_self_registration: Auto-registrazione abilitata
   setting_show_custom_fields_on_registration: Alla registrazione mostra i campi personalizzati
@@ -487,6 +494,7 @@ it:
   setting_mail_handler_preferred_body_part: Parte preferita delle email multipart (HTML)
   setting_sys_api_key: "Chiave API WS per la gestione dei repository"
   setting_sequential_project_identifiers: Genera progetti con identificativi in sequenza
+  setting_avatar_enabled: Consenti agli utenti di impostare il proprio avatar
   setting_gravatar_enabled: Usa icone utente Gravatar
   setting_gravatar_default: Immagine Gravatar predefinita
   setting_diff_max_lines_displayed: Limite massimo di differenze (linee) mostrate
@@ -623,6 +631,7 @@ it:
   permission_export_wiki_pages: Esporta pagine wiki
   permission_manage_subtasks: Gestisci sottoattività
   permission_manage_related_issues: "Gestisci segnalazioni correlate"
+  permission_export_issues: Esporta segnalazioni
   permission_import_issues: Importa segnalazioni
   permission_log_time_for_other_users: "Registra il tempo impiegato per altri utenti"
   permission_view_project: Visualizza progetti
@@ -644,6 +653,7 @@ it:
 
   label_user: Utente
   label_user_plural: Utenti
+  label_users_and_groups: Utenti e gruppi
   label_user_new: Nuovo utente
   label_user_anonymous: Anonimo
   label_project: Progetto
@@ -681,6 +691,7 @@ it:
   label_member: Membro
   label_member_new: Nuovo membro
   label_member_plural: Membri
+  label_member_view_all: Mostra tutti i membri
   label_tracker: Tracker
   label_tracker_plural: Tracker
   label_tracker_all: "Tutti i tracker"
@@ -697,6 +708,8 @@ it:
   label_custom_field_new: Nuovo campo personalizzato
   label_enumerations: Enumerazioni
   label_enumeration_new: Nuovo valore
+  label_non_working_date_plural: Date non lavorative
+  label_non_working_date_new: Nuova data non lavorativa
   label_information: Informazione
   label_information_plural: Informazioni
   label_register: Registrati
@@ -802,6 +815,7 @@ it:
   label_nobody: nessuno
   label_next: Successivo
   label_previous: Precedente
+  label_show_more: Mostra altro
   label_used_by: Usato da
   label_details: Dettagli
   label_add_note: Aggiungi una nota
@@ -1122,6 +1136,7 @@ it:
   label_member_management_all_roles: Tutti i ruoli
   label_member_management_selected_roles_only: Solo questi ruoli
   label_import_issues: Importa segnalazioni
+  permission_export_time_entries: Esporta tempo impiegato
   permission_import_time_entries: Importa tempo impiegato
   label_select_file_to_import: Seleziona il file da importare
   label_fields_separator: Separatore di campo
@@ -1179,7 +1194,7 @@ it:
   label_default_query: Query predefinita
   label_edited: Modificato
   label_time_by_author: "%{time} da %{author}"
-  label_involved_principals: Author / Recent participants
+  label_involved_principals: Autore / Partecipanti recenti
   label_assignee_dropdown_display_format_users_then_groups: "Prima gli utenti, poi i gruppi"
   label_assignee_dropdown_display_format_groups_then_users: "Prima i gruppi, poi gli utenti"
   label_assignee_dropdown_display_format_users_by_group: "Utenti raggruppati per gruppo"
@@ -1254,6 +1269,7 @@ it:
   button_reset: Reimposta
   button_rename: Rinomina
   button_change_password: Modifica password
+  button_change_avatar: Cambia avatar
   button_copy: Copia
   button_copy_and_follow: Copia e segui
   button_copy_link: Copia link
@@ -1356,6 +1372,7 @@ it:
   text_convert_available: ImageMagick convert disponibile (opzionale)
   text_gs_available: "Supporto PDF di ImageMagick disponibile (opzionale)"
   text_pandoc_available: "Pandoc disponibile (opzionale)"
+  text_mermaid_available: Mermaid.js disponibile (opzionale)
   text_default_active_job_queue_changed: "Il Queue adapter predefinito, adatto solo per sviluppo/test, è stato modificato"
   text_destroy_time_entries_question: "%{hours} ore risultano spese sulle segnalazioni che stai per eliminare. Cosa vuoi fare?"
   text_destroy_time_entries: Elimina le ore segnalate
@@ -1395,10 +1412,18 @@ it:
   text_select_apply_tracker: "Seleziona il tracker"
   text_select_apply_issue_status: "Seleziona lo stato della segnalazione"
   text_avatar_server_config_html: "Il server corrente degli avatar è <a href=\"%{url}\">%{url}</a>. È possibile configurarlo in config/configuration.yml."
+  text_avatar_uploaded: L'immagine caricata è attualmente usata come avatar.
+  text_avatar_from_server_html: L'immagine di <a href="%{url}">%{url}</a> associata all'indirizzo email dell'utente è attualmente usata come avatar. Può essere modificata su quel sito.
+  text_avatar_initials: L'immagine generata dal nome dell'utente è attualmente usata come avatar.
+  text_avatar_upload_instead: Puoi invece caricare un'immagine da usare.
+  text_avatar_upload_disabled: Il caricamento di un'immagine avatar su Redmine è stato disabilitato dall'amministratore.
   text_no_subject: "nessun oggetto"
   text_allowed_queries_to_select: Solo query pubbliche (per tutti gli utenti) selezionabili
   text_setting_config_change: "Puoi configurare il comportamento in config/configuration.yml. Riavvia l'applicazione dopo averlo modificato."
   text_setting_gravatar_default_initials_html: Le iniziali degli utenti vengono inviate a <a href="%{url}">%{url}</a> per generare i loro avatar.
+  text_setting_avatar_enabled_imagemagick_unavailable: ImageMagick non è disponibile, quindi gli utenti non possono impostare il proprio avatar.
+  text_setting_favicon_format: PNG o ICO, fino a %{max_size}
+  text_setting_gravatar_enabled_fallback: Se abilitato, Gravatar viene usato per gli utenti che non hanno impostato il proprio avatar in Redmine.
   text_oauth_admin_permission: Accesso amministrativo completo. Se autorizzata da un Amministratore, questa applicazione potrà leggere e scrivere tutti i dati e impersonare altri utenti.
   text_oauth_admin_permission_info: "Questa applicazione richiede l'accesso amministrativo completo. Se sei un Amministratore (o lo diventerai in futuro), l'applicazione potrà leggere e scrivere tutti i dati e impersonare altri utenti per tuo conto. Se vuoi evitare questo problema, autorizzala come utente senza privilegi di Amministratore."
   text_oauth_copy_secret_now: "Salva subito il segreto in un luogo sicuro: non verrà mostrato di nuovo."
@@ -1445,12 +1470,15 @@ it:
   description_wiki_subpages_reassign: Scegli la nuova pagina padre
   text_repository_identifier_info: "Consentiti solo lettere minuscole (a-z), numeri, trattini e trattini bassi.<br />Una volta salvato, l'identificatore non può essere modificato."
   text_login_required_html: Disattivando l'autenticazione obbligatoria, i progetti pubblici e il loro contenuto, saranno liberamente accessibili in rete. Si possono <a href="%{anonymous_role_path}">modificare i permessi applicabili</a>.
+  text_non_working_dates_html: 'Puoi aggiungere date non lavorative come le festività: <a href="%{non_working_dates_path}">Gestisci date non lavorative</a>'
+  text_non_working_dates_export_all_years: Verranno esportate le date non lavorative di tutti gli anni.
   label_login_required_yes: "Sì"
   label_login_required_no: "No, consenti accesso anonimo ai progetti pubblici"
   text_project_is_public_non_member: I progetti pubblici e i loro contenuti sono accessibili a tutti gli utenti registrati.
   text_project_is_public_anonymous: I progetti pubblici e i loro contenuti sono liberamente accessibili in rete.
   label_import_time_entries: Importa tempo impiegato
   label_import_users: Importa utenti
+  label_import_non_working_dates: Importa date non lavorative
   sudo_mode_new_info_html: "<strong>Cosa sta succedendo?</strong> Devi riconfermare la tua password prima di intraprendere qualsiasi azione amministrativa, per garantire la protezione del tuo account."
 
   twofa__totp__name: App di autenticazione
@@ -1497,38 +1525,3 @@ it:
   reaction_text_x_other_users:
     one: "1 altro"
     other: "%{count} altri"
-  error_issue_status_in_use_by_issues: This status is used by some issues
-  error_issue_status_default_for_trackers: This status is used as the default status by some trackers
-  permission_export_issues: Export issues
-  permission_export_time_entries: Export time entries
-  label_users_and_groups: Users and groups
-  mail_subject_test_email: Redmine test
-  mail_body_test_email: This is a test email sent by Redmine.
-  text_mermaid_available: Mermaid.js available (optional)
-  label_member_view_all: View all members
-  field_date: Date
-  label_non_working_date_plural: Non-working dates
-  label_non_working_date_new: New non-working date
-  text_non_working_dates_html: 'You can add non-working dates such as holidays: <a href="%{non_working_dates_path}">Manage
-    non-working dates</a>'
-  text_non_working_dates_export_all_years: Non-working dates of all years will be exported.
-  label_import_non_working_dates: Import non-working dates
-  field_avatar: Avatar
-  setting_avatar_enabled: Allow users to set their avatar
-  button_change_avatar: Change avatar
-  text_avatar_uploaded: The uploaded image is currently used as the avatar.
-  text_avatar_from_server_html: The image from <a href="%{url}">%{url}</a> associated
-    with the user's email address is currently used as the avatar. It can be changed
-    on that site.
-  text_avatar_initials: The image generated from the user's name is currently used as
-    the avatar.
-  text_avatar_upload_instead: You can upload an image to use instead.
-  text_avatar_upload_disabled: Uploading an avatar image to Redmine has been disabled
-    by the administrator.
-  text_setting_avatar_enabled_imagemagick_unavailable: ImageMagick is not available,
-    so users cannot set their avatar.
-  text_setting_gravatar_enabled_fallback: If enabled, Gravatar is used for users who
-    have not set their avatar in Redmine.
-  label_show_more: Show more
-  setting_favicon: Custom favicon
-  text_setting_favicon_format: PNG or ICO, up to %{max_size}
