@@ -138,6 +138,25 @@ class Redmine::ApiTest::MyTest < Redmine::ApiTest::Base
     )
   end
 
+  test "GET /my/account.json authenticated via OAuth with a locked user should respond with 401" do
+    application = Doorkeeper::Application.create!(
+      :name => 'Test App',
+      :redirect_uri => 'http://localhost/callback',
+      :scopes => 'view_issues'
+    )
+    token = Doorkeeper::AccessToken.create!(
+      :application_id => application.id,
+      :resource_owner_id => 2,
+      :scopes => 'view_issues',
+      :expires_in => 7200
+    )
+    User.find(2).update_column(:status, User::STATUS_LOCKED)
+
+    get '/my/account.json', :headers => {'Authorization' => "Bearer #{token.plaintext_token}"}
+
+    assert_response :unauthorized
+  end
+
   test "GET /my/account.json authenticated via API key should disclose the api_key" do
     key = User.find(2).api_key
 
