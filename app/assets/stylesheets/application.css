@@ -2360,7 +2360,8 @@ svg.svg-loader {
   }
 }
 
-.contextual>*:not(:first-child), .buttons>.icon:not(:first-child), .contextual .journal-actions>*:not(:first-child) { margin-inline-start: 5px; }
+.contextual>*:not(:first-child), .contextual .journal-actions>*:not(:first-child) { margin-inline-start: 10px; }
+.buttons>.icon:not(:first-child) { margin-inline-start: 5px; }
 
 div.issue .avatar {
   float: inline-start;
