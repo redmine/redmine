@@ -3701,6 +3701,39 @@ class IssueTest < ActiveSupport::TestCase
     end
   end
 
+  def test_create_should_not_add_assignee_as_watcher_without_add_issue_watchers_permission
+    Role.find(1).remove_permission!(:add_issue_watchers)
+    user = User.first
+    user.pref.auto_watch_on = []
+    user.pref.save
+    assignee = User.find(2)
+    assignee.pref.auto_watch_on = ['issue_assigned_to_me']
+    assignee.pref.save
+
+    issue = Issue.new(:project_id => 1, :tracker_id => 1, :author_id => user.id, :assigned_to => assignee, :subject => 'test_create_should_not_add_assignee_as_watcher')
+
+    assert_no_difference 'Watcher.count' do
+      assert_equal true, issue.save
+    end
+  end
+
+  def test_create_should_keep_assignee_as_watcher_after_reassignment
+    user = User.first
+    user.pref.auto_watch_on = []
+    user.pref.save
+    assignee = User.find(2)
+    assignee.pref.auto_watch_on = ['issue_assigned_to_me']
+    assignee.pref.save
+
+    issue = Issue.create!(:project_id => 1, :tracker_id => 1, :author_id => user.id, :assigned_to => assignee, :subject => 'test_create_should_keep_assignee_as_watcher')
+    issue.reload
+    issue.init_journal(user)
+    issue.assigned_to = User.find(3)
+    issue.save!
+
+    assert issue.reload.watched_by?(assignee)
+  end
+
   def test_change_of_project_parent_should_update_shared_versions_with_derived_priorities
     with_settings('parent_issue_priority' => 'derived') do
       parent = Project.find 1
