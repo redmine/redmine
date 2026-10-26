@@ -2116,6 +2116,13 @@ class Issue < ApplicationRecord
         self.watcher_user_ids.exclude?(author.id)
       self.set_watcher(author, true)
     end
+
+    if assigned_to.is_a?(User) &&
+        assigned_to.active? &&
+        assigned_to.pref.auto_watch_on?('issue_assigned_to_me') &&
+        self.watcher_user_ids.exclude?(assigned_to.id)
+      self.set_watcher(assigned_to, true)
+    end
   end
 
   def send_notification
