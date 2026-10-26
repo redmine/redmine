@@ -58,7 +58,7 @@ Rails.application.config.to_prepare do
     allow_token_introspection false
 
     # allow http loopback redirect URIs but require https for all others
-    force_ssl_in_redirect_uri { |uri| !%w[localhost 127.0.0.1 web localohst:8080].include?(uri.host) }
+    force_ssl_in_redirect_uri { |uri| !%w[localhost 127.0.0.1 ::1].include?(uri.hostname) }
 
     # Specify what redirect URI's you want to block during Application creation.
     forbid_redirect_uri { |uri| %w[data vbscript javascript].include?(uri.scheme.to_s.downcase) }
