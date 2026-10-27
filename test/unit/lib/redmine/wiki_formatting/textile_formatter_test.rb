@@ -418,7 +418,7 @@ class Redmine::WikiFormatting::TextileFormatterTest < Redmine::HelperTest
     raw =
       '!/images/comment.png"onclick=&#x61;&#x6c;&#x65;&#x72;&#x74;&#x28;&#x27;&#x58;&#x53;&#x53;&#x27;&#x29;;&#x22;!'
     expected =
-      '<p><img src="/images/comment.png&quot;onclick=' \
+      '<p><img src="/images/comment.png%22onclick=' \
         '&amp;#x61;&amp;#x6c;&amp;#x65;&amp;#x72;&amp;#x74;&amp;#x28;' \
         '&amp;#x27;&amp;#x58;&amp;#x53;&amp;#x53;&amp;#x27;&amp;#x29;;&amp;#x22;" alt=""></p>'
     assert_equal expected.gsub(%r{\s+}, ''), to_html(raw).gsub(%r{\s+}, '')
@@ -828,7 +828,7 @@ class Redmine::WikiFormatting::TextileFormatterTest < Redmine::HelperTest
     payload = %{https://example.com/?a:"onmouseover=alert(document.domain)//"}
     html = to_html(payload)
 
-    assert_includes html, '&quot;', 'quotes inside the href must stay escaped'
+    assert_includes html, 'href="https://example.com/?a:%22onmouseover', 'quotes inside the href must stay escaped'
     assert_empty(
       Nokogiri::HTML.fragment(html).css('[onmouseover]'),
       "restore_redmine_links injected an attribute into the rendered HTML: #{html}"

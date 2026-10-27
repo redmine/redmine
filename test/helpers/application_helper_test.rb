@@ -92,7 +92,7 @@ class ApplicationHelperTest < Redmine::HelperTest
          '<a class="external" href="http://example.net/path!602815048C7B5C20!302.html">' \
            'http://example.net/path!602815048C7B5C20!302.html</a>',
       # escaping
-      'http://foo"bar' => '<a class="external" href="http://foo&quot;bar">http://foo"bar</a>',
+      'http://foo"bar' => '<a class="external" href="http://foo%22bar">http://foo"bar</a>',
       # wrap in angle brackets
       '<http://foo.bar>' => '&lt;<a class="external" href="http://foo.bar">http://foo.bar</a>&gt;',
       # invalid urls
@@ -218,7 +218,7 @@ class ApplicationHelperTest < Redmine::HelperTest
       '"a link":http://example.net/path!602815048C7B5C20!302.html' =>
         '<a href="http://example.net/path!602815048C7B5C20!302.html" class="external">a link</a>',
       # escaping
-      '"test":http://foo"bar' => '<a href="http://foo&quot;bar" class="external">test</a>',
+      '"test":http://foo"bar' => '<a href="http://foo%22bar" class="external">test</a>',
       # ends with a hyphen
       '(see "inline link":http://www.foo.bar/Test-)' =>
         '(see <a href="http://www.foo.bar/Test-" class="external">inline link</a>)',

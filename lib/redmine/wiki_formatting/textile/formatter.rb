@@ -26,6 +26,8 @@ module Redmine
         Redmine::WikiFormatting::TablesortScrubber.new
       ]
 
+      SANITIZER = SanitizationFilter.new
+
       class Formatter
         include Redmine::WikiFormatting::SectionHelper
 
@@ -40,6 +42,7 @@ module Redmine
         def to_html(*rules)
           html = @filter.to_html(rules)
           fragment = Loofah.html5_fragment(html)
+          SANITIZER.call(fragment)
 
           scrubbers = SCRUBBERS + post_processor_scrubbers
           scrubber = Loofah::Scrubber.new do |node|
