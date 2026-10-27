@@ -126,6 +126,7 @@ class TimeEntry < ApplicationRecord
 
   def safe_attributes=(attrs, user=User.current)
     if attrs
+      previous_custom_field_values = custom_field_values.map(&:dup)
       attrs = super(attrs)
       if issue_id_changed? && issue
         if issue.visible?(user) && user.allowed_to?(:log_time, issue.project)
@@ -150,10 +151,14 @@ class TimeEntry < ApplicationRecord
         @invalid_user_id = nil
       end
 
-      # Delete assigned custom fields not visible by the user
-      editable_custom_field_ids = editable_custom_field_values(user).map {|v| v.custom_field_id.to_s}
-      self.custom_field_values.delete_if do |c|
-        !editable_custom_field_ids.include?(c.custom_field.id.to_s)
+      # Restore custom field values not visible by the user
+      editable_custom_field_ids = editable_custom_field_values(user).map(&:custom_field_id)
+      custom_field_values.map!.with_index do |custom_field_value, i|
+        if editable_custom_field_ids.include?(custom_field_value.custom_field_id)
+          custom_field_value
+        else
+          previous_custom_field_values[i]
+        end
       end
     end
 
@@ -249,6 +254,17 @@ class TimeEntry < ApplicationRecord
     user ||= User.current
     custom_field_values.select do |value|
       value.custom_field.visible_by?(project, user)
+    end
+  end
+
+  # Overrides Redmine::Acts::Customizable::InstanceMethods#validate_custom_field_values
+  # so that custom values that are not editable are not validated (eg. a custom field that
+  # is marked as required should not trigger a validation error if the user is not allowed
+  # to edit this field).
+  def validate_custom_field_values
+    user = User.current
+    if new_record? || custom_field_values_changed?
+      editable_custom_field_values(user).each(&:validate_value)
     end
   end
 
