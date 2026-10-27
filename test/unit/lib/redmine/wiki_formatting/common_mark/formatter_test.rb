@@ -255,7 +255,7 @@ class Redmine::WikiFormatting::CommonMark::FormatterTest < Redmine::HelperTest
     end
 
     def test_should_support_html_tables
-      text = '<table style="background: red"><tr><td>Cell</td></tr></table>'
+      text = '<table style="position: fixed"><tr><td>Cell</td></tr></table>'
       assert_equal '<table><tbody><tr><td>Cell</td></tr></tbody></table>', to_html(text)
     end
 

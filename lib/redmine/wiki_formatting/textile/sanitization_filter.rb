@@ -25,17 +25,11 @@ module Redmine
         ALLOWED_CLASS_RE = /\A(wiki-class-\S+|external|email|footnote)\z/
         ALLOWED_ID_RE = /\A(wiki-id-\S+|fn\d+)\z/
 
-        # Same properties as the ones accepted by RedCloth3::STYLES_RE
-        STYLE_PROPERTY_RE = /\A(color|(min-|max-)?(width|height)|border|background|padding|margin|font|text|float)(-[a-z]+)*\z/
-        STYLE_PROPERTIES =
-          (Sanitize::Config::RELAXED[:css][:properties].grep(STYLE_PROPERTY_RE) + %w[vertical-align]).freeze
-
         private
 
         def default_allowlist
           allowlist = super
           allowlist[:attributes][:all] += %w[class id]
-          allowlist[:css][:properties] |= STYLE_PROPERTIES
           allowlist
         end
 

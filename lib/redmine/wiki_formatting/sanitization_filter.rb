@@ -38,6 +38,11 @@ module Redmine
       TABLE = 'table'
       TABLE_SECTIONS = Set.new(%w[thead tbody tfoot].freeze)
 
+      # Same properties as the ones accepted by RedCloth3::STYLES_RE
+      STYLE_PROPERTY_RE = /\A(color|(min-|max-)?(width|height)|border|background|padding|margin|font|text|float)(-[a-z]+)*\z/
+      STYLE_PROPERTIES =
+        (Sanitize::Config::RELAXED[:css][:properties].grep(STYLE_PROPERTY_RE) + %w[line-height vertical-align]).freeze
+
       # The main sanitization allowlist. Only these elements and attributes are
       # allowed through by default.
       ALLOWLIST = {
@@ -109,17 +114,7 @@ module Redmine
             }
           ].freeze,
           :css => {
-            :properties => %w[
-              color background-color
-              width min-width max-width
-              height min-height max-height
-              padding padding-left padding-right padding-top padding-bottom
-              margin margin-left margin-right margin-top margin-bottom
-              border border-left border-right border-top border-bottom border-radius border-style border-collapse border-spacing
-              font font-style font-variant font-weight font-stretch font-size line-height font-family
-              text-align text-decoration
-              float
-            ].freeze
+            :properties => STYLE_PROPERTIES
           }
       }.freeze
 

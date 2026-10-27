@@ -126,6 +126,10 @@ if Object.const_defined?(:Commonmarker)
         '<span style="color: #333; ">hello</span>"'
       ],
       [
+        '<span style="background: #fdd; vertical-align: top; border-top-left-radius: 4px;">hello</span>',
+        '<span style="background: #fdd; vertical-align: top; border-top-left-radius: 4px;">hello</span>'
+      ],
+      [
         '<img src="photo.jpg" style="min-width: 100px; max-width: 200px; min-height: 100px; max-height: 200px;">',
         '<img src="photo.jpg" style="min-width: 100px; max-width: 200px; min-height: 100px; max-height: 200px;">'
       ],
