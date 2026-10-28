@@ -70,4 +70,32 @@ class TimeEntryCustomFieldTest < ActiveSupport::TestCase
     assert_equal 'valuea', time_entry.custom_field_value(cf1)
     assert_nil time_entry.custom_field_value(cf2)
   end
+
+  def test_safe_attributes_should_keep_values_of_custom_fields_not_visible_to_user
+    field = TimeEntryCustomField.create!(:name => 'Non visible field',
+                                         :field_format => 'string',
+                                         :visible => false, :role_ids => [1])
+    time_entry = TimeEntry.generate!(:project_id => 1, :user_id => 3, :author_id => 3)
+    time_entry.custom_field_values = {field.id.to_s => 'Foo'}
+    time_entry.save!
+
+    time_entry.send :safe_attributes=, {
+      'comments' => 'Updated',
+      'custom_field_values' => {field.id.to_s => 'Bar'}
+    }, User.find(3)
+    time_entry.save!
+
+    assert_equal 'Foo', time_entry.reload.custom_field_value(field)
+  end
+
+  def test_required_custom_field_not_visible_to_user_should_not_be_validated
+    TimeEntryCustomField.create!(:name => 'Non visible field',
+                                 :field_format => 'string', :is_required => true,
+                                 :visible => false, :role_ids => [1])
+    User.current = User.find(3)
+    time_entry = TimeEntry.new(:project_id => 1, :user => User.current, :author => User.current)
+    time_entry.safe_attributes = {'hours' => '1', 'spent_on' => '2026-10-01', 'activity_id' => '9'}
+
+    assert time_entry.save
+  end
 end
