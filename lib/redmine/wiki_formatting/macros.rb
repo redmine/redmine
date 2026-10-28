@@ -100,6 +100,8 @@ module Redmine
         # * :desc - A description of the macro
         # * :parse_args => false - Disables arguments parsing (the whole arguments
         #   string is passed to the macro)
+        # * :sections => true - Headings in the macro output are sections of the
+        #   page and get section edit links (eg. the block of text is part of the page)
         #
         # Macro blocks accept 2 or 3 arguments:
         # * obj: the object that is rendered (eg. an Issue, a WikiContent...)
@@ -157,7 +159,7 @@ module Redmine
         #
         # If a block of text is given, the closing tag }} must be at the start of a new line.
         def macro(name, options={}, &block)
-          options.assert_valid_keys(:desc, :parse_args)
+          options.assert_valid_keys(:desc, :parse_args, :sections)
           unless /\A\w+\z/.match?(name.to_s)
             raise "Invalid macro name: #{name} (only 0-9, A-Z, a-z and _ characters are accepted)"
           end
@@ -297,7 +299,7 @@ module Redmine
       desc "Inserts of collapsed block of text. Examples:\n\n" +
              "{{collapse\nThis is a block of text that is collapsed by default.\nIt can be expanded by clicking a link.\n}}\n\n" +
              "{{collapse(View details...)\nWith custom link text.\n}}"
-      macro :collapse do |obj, args, text|
+      macro :collapse, :sections => true do |obj, args, text|
         html_id = "collapse-#{Redmine::Utils.random_hex(4)}"
         show_label = args[0] || l(:button_show)
         hide_label = args[1] || args[0] || l(:button_hide)

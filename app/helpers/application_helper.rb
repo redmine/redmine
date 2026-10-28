@@ -969,14 +969,24 @@ module ApplicationHelper
 
     @parsed_headings = []
     @heading_anchors = {}
-    @current_section = 0 if options[:edit_section_links]
-
-    text = parse_non_pre_blocks(text, obj, macros, options) do |txt|
-      [:parse_wiki_links, :parse_redmine_links].each do |method_name|
-        send method_name, txt, project, obj, attr, only_path, options
-      end
+    if options[:edit_section_links]
+      @current_section = 0
+      # Output of macros whose headings are not sections of the page (eg. include)
+      # is hidden while parsing sections so that it does not get edit links
+      hidden_macros = @hidden_macros = []
     end
-    parse_sections(text, project, obj, attr, only_path, options)
+
+    begin
+      text = parse_non_pre_blocks(text, obj, macros, options) do |txt|
+        [:parse_wiki_links, :parse_redmine_links].each do |method_name|
+          send method_name, txt, project, obj, attr, only_path, options
+        end
+      end
+      parse_sections(text, project, obj, attr, only_path, options)
+    ensure
+      @hidden_macros = nil if hidden_macros
+    end
+    text = restore_hidden_macros(text, hidden_macros) if hidden_macros
     parse_headings(text, project, obj, attr, only_path, options)
 
     if @parsed_headings.any?
@@ -1485,7 +1495,7 @@ module ApplicationHelper
       if execute && orig && orig =~ MACROS_RE
         esc, all, macro, args, block = $2, $3, $4.downcase, $6.to_s, $7.try(:strip)
         if esc.nil?
-          h(exec_macro(macro, obj, args, block, options) || all)
+          hide_macro_output(macro) {h(exec_macro(macro, obj, args, block, options) || all)}
         else
           h(all)
         end
@@ -1495,6 +1505,29 @@ module ApplicationHelper
         h(all)
       end
     end
+  end
+
+  HIDDEN_MACRO_RE = /\0(\d+)\0/ unless const_defined?(:HIDDEN_MACRO_RE)
+
+  # Replaces the output of a macro with a placeholder while sections are parsed,
+  # unless the headings it contains are sections of the page (eg. collapse)
+  def hide_macro_output(macro)
+    hidden_macros = @hidden_macros
+    if hidden_macros.nil? || Redmine::WikiFormatting::Macros.available_macros.dig(macro.to_sym, :sections)
+      return yield
+    end
+
+    # The whole output is hidden, macros nested in this one don't need to be
+    @hidden_macros = nil
+    hidden_macros << yield.to_str
+    "\0#{hidden_macros.size - 1}\0"
+  ensure
+    @hidden_macros = hidden_macros
+  end
+
+  # Puts back the output of the macros hidden by hide_macro_output
+  def restore_hidden_macros(text, outputs)
+    text.gsub(HIDDEN_MACRO_RE) {outputs[$1.to_i] || $&}
   end
 
   TOC_RE = /<p>\{\{((<|&lt;)|(>|&gt;))?toc\}\}<\/p>/i unless const_defined?(:TOC_RE)
