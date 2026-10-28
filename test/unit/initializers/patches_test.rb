@@ -75,33 +75,27 @@ class PatchesTest < ActiveSupport::TestCase
 
   private
 
-  # Temporarily replaces the content of the real asset manifest file with
-  # +content+ for the duration of the block, restoring (or removing) it
-  # afterwards.
   def with_manifest_content(content)
-    manifest_path = Rails.application.assets.config.manifest_path
-    manifest_path.dirname.mkpath
-    original = manifest_path.read if manifest_path.exist?
-
-    manifest_path.write(content)
-    yield
-  ensure
-    if original
-      manifest_path.write(original)
-    elsif manifest_path.exist?
-      manifest_path.delete
+    with_temporary_manifest_path do |manifest_path|
+      manifest_path.write(content)
+      yield
     end
   end
 
-  # Temporarily removes the real asset manifest file for the duration of the
-  # block, restoring it afterwards if it existed.
-  def without_manifest_file
-    manifest_path = Rails.application.assets.config.manifest_path
-    original = manifest_path.read if manifest_path.exist?
-    manifest_path.delete if manifest_path.exist?
+  def without_manifest_file(&)
+    with_temporary_manifest_path(&)
+  end
 
-    yield
+  # Points the asset manifest path to a temporary directory so that tests
+  # never touch public/assets, which is shared with parallel test workers.
+  def with_temporary_manifest_path
+    config = Rails.application.assets.config
+    original_manifest_path = config.manifest_path
+    Dir.mktmpdir do |dir|
+      config.manifest_path = Pathname(dir).join('.manifest.json')
+      yield config.manifest_path
+    end
   ensure
-    manifest_path.write(original) if original
+    config.manifest_path = original_manifest_path
   end
 end
