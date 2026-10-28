@@ -82,7 +82,7 @@ class AccountController < ApplicationController
         return
       end
       if request.post?
-        if @user.must_change_passwd? && @user.check_password?(params[:new_password])
+        if @user.must_change_password? && @user.check_password?(params[:new_password])
           flash.now[:error] = l(:notice_new_password_must_be_different)
         else
           @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]

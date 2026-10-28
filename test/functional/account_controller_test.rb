@@ -640,6 +640,30 @@ class AccountControllerTest < Redmine::ControllerTest
     assert_select 'input[type=hidden][name=token][value=?]', token.value
   end
 
+  def test_post_lost_password_with_token_should_not_accept_same_password_if_password_expired
+    user = User.find(2)
+    user.password = "originalpassword"
+    user.save!
+    user.update_column(:passwd_changed_on, 14.days.ago)
+    token = Token.create!(:action => 'recovery', :user => user)
+    with_settings :password_max_age => 7 do
+      post(
+        :lost_password,
+        :params => {
+          :token => token.value,
+          :new_password => 'originalpassword',
+          :new_password_confirmation => 'originalpassword'
+        }
+      )
+      assert user.reload.must_change_password?, "Password expiry was reset"
+    end
+    assert_response :success
+    assert_not_nil Token.find_by_id(token.id), "Token was deleted"
+
+    assert_select '.flash', :text => /The new password must be different/
+    assert_select 'input[type=hidden][name=token][value=?]', token.value
+  end
+
   def test_post_lost_password_with_token_should_reset_must_change_password
     user = User.find(2)
     user.password = "originalpassword"
