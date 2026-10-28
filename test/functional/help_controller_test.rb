@@ -54,6 +54,18 @@ class HelpControllerTest < Redmine::ControllerTest
     end
   end
 
+  def test_get_help_wiki_syntax_detailed_should_show_installed_mermaid_version
+    Redmine::Mermaid.stubs(:installed_version).returns('12.0.0')
+    get :show_wiki_syntax, :params => {:type => 'detailed'}
+    assert_response :success
+    assert_select 'p', :text => /not be supported by the installed version, 12\.0\.0\./
+
+    Redmine::Mermaid.stubs(:installed_version).returns(nil)
+    get :show_wiki_syntax, :params => {:type => 'detailed'}
+    assert_response :success
+    assert_select 'p', :text => /installed version/, :count => 0
+  end
+
   def test_get_help_wiki_syntax_should_return_lang_if_available
     user = User.find(2)
     user.language = 'de'

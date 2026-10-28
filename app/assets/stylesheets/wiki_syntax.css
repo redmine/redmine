@@ -58,6 +58,7 @@ table th .syntax-pre:before {
 }
 table td { background-color: var(--oc-gray-0); block-size: 2em; vertical-align: middle;}
 table td code { font-size: 1.2em; }
+table td img { max-width: 100%; }
 table td h1 { font-size: 1.8em; text-align: start; }
 table td h2 { font-size: 1.4em; text-align: start; }
 table td h3 { font-size: 1.2em; text-align: start; }
