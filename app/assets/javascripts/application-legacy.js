@@ -1241,28 +1241,6 @@ $(document).ready(function(){
   });
 });
 
-$(document).ready(function(){
-  $('#content').on('click', 'div.jstTabs a.tab-preview', function(event){
-    var tab = $(event.target);
-
-    var url = tab.data('url');
-    var form = tab.parents('form');
-    var jstBlock = tab.parents('.jstBlock');
-
-    var element = encodeURIComponent(jstBlock.find('.wiki-edit').val());
-    var params = form.find('.attachments_fields input, [data-preview-param]').serialize();
-
-    $.ajax({
-      url: url,
-      type: 'post',
-      data: "text=" + element + '&' + params,
-      success: function(data){
-        jstBlock.find('.wiki-preview').html(data);
-      }
-    });
-  });
-});
-
 function keepAnchorOnSignIn(form){
   var hash = decodeURIComponent(self.document.location.hash);
   if (hash) {

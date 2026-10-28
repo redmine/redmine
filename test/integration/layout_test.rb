@@ -57,8 +57,14 @@ class LayoutTest < Redmine::IntegrationTest
     Role.anonymous.add_permission! :add_issues
 
     get '/projects/ecookbook/issues/new'
-    assert_select "head script:match('src',?)", %r{/assets/jstoolbar/jstoolbar-\w+.js}
-    assert_include "var userHlLanguages = #{UserPreference::DEFAULT_TOOLBAR_LANGUAGE_OPTIONS.to_json};", response.body
+    assert_select "head script:match('src',?)", %r{/assets/jstoolbar/}, 0
+    assert_select "head link[rel=stylesheet]:match('href',?)", %r{/assets/jstoolbar-\w+.css}
+    assert_include "var wikiImageMimeTypes = #{Redmine::MimeType.by_type('image').to_json};", response.body
+    assert_select 'div.jstBlock[data-wiki-toolbar-field-id-value=issue_description]' do
+      UserPreference::DEFAULT_TOOLBAR_LANGUAGE_OPTIONS.each do |lang|
+        assert_select 'template[data-wiki-toolbar-target=precodeMenu]', :html => /data-wiki-toolbar-prefix-param="``` #{lang}/
+      end
+    end
   end
 
   def test_calendar_header_tags

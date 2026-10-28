@@ -87,10 +87,23 @@
 .jstElements .help { float: inline-end; margin-inline-end: 0.5em; padding-block-start: 8px; font-size: 0.9em; }
 .jstElements .help a {padding-block: 2px; padding-inline-start: 20px; padding-inline-end: 0; background: url(./help.png) no-repeat 0 50%;}
 
+.jstBlock {
+    position: relative;
+}
+
 .table-generator td {
     border: 2px solid var(--oc-gray-5);
     background-color: white;
-    padding: 10px;
+    padding: 0;
+}
+
+.table-generator td button {
+    display: block;
+    inline-size: 22px;
+    block-size: 22px;
+    padding: 0;
+    border: 0;
+    background: transparent;
     cursor: pointer;
 }
 
@@ -98,9 +111,43 @@
     background-color: var(--oc-blue-1);
 }
 
-.table-generator {
+.table-generator, .jstMenu {
     position: absolute;
+    z-index: 100;
+}
+
+.table-generator {
     border-collapse: collapse;
+}
+
+.jstMenu {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    inline-size: 150px;
+    max-block-size: 300px;
+    overflow-y: auto;
+    background-color: var(--oc-white);
+    border: 1px solid var(--oc-gray-4);
+    border-radius: 2px;
+}
+
+.jstMenu button {
+    display: block;
+    inline-size: 100%;
+    padding-block: 4px;
+    padding-inline: 8px;
+    border: 0;
+    background: transparent;
+    color: var(--oc-gray-9);
+    text-align: start;
+    cursor: pointer;
+}
+
+.jstMenu button:hover, .jstMenu button:focus {
+    color: var(--oc-white);
+    background-color: var(--oc-blue-7);
+    outline: none;
 }
 
 /* Buttons

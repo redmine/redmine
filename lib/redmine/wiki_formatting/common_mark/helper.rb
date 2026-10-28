@@ -21,42 +21,45 @@ module Redmine
   module WikiFormatting
     module CommonMark
       module Helper
-        def wikitoolbar_for(field_id, preview_url = preview_text_path)
-          heads_for_wiki_formatter
+        include Redmine::WikiToolbar::Helper
 
-          javascript_tag(
-            "var wikiToolbar = new jsToolBar(document.getElementById('#{field_id}')); " \
-            "wikiToolbar.setHelpLink('#{escape_javascript help_wiki_syntax_path}'); " \
-            "wikiToolbar.setPreviewUrl('#{escape_javascript preview_url}'); " \
-            "wikiToolbar.draw();"
-          )
+        def wiki_toolbar
+          @wiki_toolbar ||= WikiToolbar.new(self)
         end
 
         def initial_page_content(page)
           "# #{page.pretty_title}"
         end
+      end
 
-        def heads_for_wiki_formatter
-          unless @heads_for_wiki_formatter_included
-            toolbar_language_options = User.current && User.current.pref.toolbar_language_options
-            lang =
-              if toolbar_language_options.nil?
-                UserPreference::DEFAULT_TOOLBAR_LANGUAGE_OPTIONS
-              else
-                toolbar_language_options.split(',')
-              end
-            content_for :header_tags do
-              javascript_include_tag('jstoolbar/jstoolbar') +
-              javascript_include_tag('jstoolbar/common_mark') +
-              javascript_include_tag("jstoolbar/lang/jstoolbar-#{current_language.to_s.downcase}") +
-              javascript_tag(
-                "var wikiImageMimeTypes = #{Redmine::MimeType.by_type('image').to_json};" \
-                  "var userHlLanguages = #{lang.to_json};"
-              ) +
-              stylesheet_link_tag('jstoolbar')
-            end
-            @heads_for_wiki_formatter_included = true
-          end
+      class WikiToolbar < Redmine::WikiToolbar
+        def buttons
+          [
+            {name: 'strong', action: 'wrap', prefix: '**', shortcut: 'b'},
+            {name: 'em', action: 'wrap', prefix: '*', shortcut: 'i'},
+            {name: 'ins', action: 'wrap', prefix: '<u>', suffix: '</u>', shortcut: 'u'},
+            {name: 'del', action: 'wrap', prefix: '~~'},
+            {name: 'code', action: 'wrap', prefix: '`'},
+            SPACER,
+            {name: 'h1', action: 'wrapLines', prefix: '# ', strip: '^#+\s+'},
+            {name: 'h2', action: 'wrapLines', prefix: '## ', strip: '^#+\s+'},
+            {name: 'h3', action: 'wrapLines', prefix: '### ', strip: '^#+\s+'},
+            SPACER,
+            {name: 'ul', action: 'wrapLines', pattern: '[#-]?\s*', replacement: '* '},
+            {name: 'ol', action: 'wrapLines', pattern: '[*-]?\s*', replacement: '1. '},
+            {name: 'tl', action: 'wrapLines', pattern: '[*-]?\s*', replacement: '* [ ] '},
+            SPACER,
+            {name: 'bq', action: 'wrapLines', pattern: '( *)([^\n]*)', replacement: '> $2$3'},
+            {name: 'unbq', action: 'wrapLines', pattern: ' *(> ?)?( *)([^\n]*)', replacement: '$3$4'},
+            {name: 'table', menu: :table, header_cell: '%{name} ', separator_cell: '--'},
+            {name: 'pre', action: 'wrapLines', prefix: "```\n", suffix: "\n```"},
+            {name: 'precode', menu: :precode, prefix: "``` %{lang}\n", suffix: "\n```\n"},
+            SPACER,
+            {name: 'link', action: 'wrap', prefix: '[[', suffix: ']]'},
+            {name: 'img', action: 'wrap', prefix: '![](', suffix: ')'},
+            SPACER,
+            {name: 'help', action: 'help'}
+          ]
         end
       end
     end
