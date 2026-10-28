@@ -1196,6 +1196,25 @@ bg:
   label_enable_default_issue_due_date_offset: Разрешаване на дата по подразбиране за завършване на задачи
   setting_default_issue_due_date_offset: Дата по подразбиране за приключване на задачите
   label_days_relative_to_today: дена спрямо днес
+  label_wiki_toolbar_strong: Получер
+  label_wiki_toolbar_italic: Курсив
+  label_wiki_toolbar_underline: Подчертан
+  label_wiki_toolbar_deleted: Изтрит
+  label_wiki_toolbar_code: Вграден код
+  label_wiki_toolbar_heading_1: Заглавие 1
+  label_wiki_toolbar_heading_2: Заглавие 2
+  label_wiki_toolbar_heading_3: Заглавие 3
+  label_wiki_toolbar_unordered_list: Неподреден списък
+  label_wiki_toolbar_ordered_list: Подреден списък
+  label_wiki_toolbar_task_list: Task list
+  label_wiki_toolbar_quote: Цитат
+  label_wiki_toolbar_unquote: Премахване на цитат
+  label_wiki_toolbar_table: Table
+  label_wiki_toolbar_preformatted_text: Форматиран текст
+  label_wiki_toolbar_preformatted_code: Вграден код
+  label_wiki_toolbar_wiki_link: Връзка до Wiki страница
+  label_wiki_toolbar_image: Изображение
+  label_wiki_toolbar_help: Help
 
   webhook_event_created: "%{object_name} създаден"
   webhook_event_updated: "%{object_name} променен"

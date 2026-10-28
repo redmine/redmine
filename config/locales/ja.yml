@@ -1502,6 +1502,25 @@ ja:
   label_enable_default_issue_due_date_offset: 新規チケットの期日のデフォルト値を有効にする
   setting_default_issue_due_date_offset: 新規チケットの期日のデフォルト値
   label_days_relative_to_today: 日 (現在の日付からの相対値)
+  label_wiki_toolbar_strong: 強調
+  label_wiki_toolbar_italic: 斜体
+  label_wiki_toolbar_underline: 下線
+  label_wiki_toolbar_deleted: 取り消し線
+  label_wiki_toolbar_code: コード
+  label_wiki_toolbar_heading_1: 見出し 1
+  label_wiki_toolbar_heading_2: 見出し 2
+  label_wiki_toolbar_heading_3: 見出し 3
+  label_wiki_toolbar_unordered_list: 順不同リスト
+  label_wiki_toolbar_ordered_list: 番号つきリスト
+  label_wiki_toolbar_task_list: タスクリスト
+  label_wiki_toolbar_quote: 引用
+  label_wiki_toolbar_unquote: 引用解除
+  label_wiki_toolbar_table: テーブル
+  label_wiki_toolbar_preformatted_text: 整形済みテキスト
+  label_wiki_toolbar_preformatted_code: コードハイライト
+  label_wiki_toolbar_wiki_link: Wikiページへのリンク
+  label_wiki_toolbar_image: 画像
+  label_wiki_toolbar_help: ヘルプ
   label_assignee_dropdown_display_format_users_by_group: グループ別
   button_remove_from_group: グループから解除
   button_add_to_group: グループに追加

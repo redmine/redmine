@@ -1218,6 +1218,25 @@ it:
   label_enable_default_issue_due_date_offset: "Abilita la scadenza predefinita per le nuove segnalazioni"
   setting_default_issue_due_date_offset: "Scadenza predefinita per le nuove segnalazioni"
   label_days_relative_to_today: "giorni rispetto a oggi"
+  label_wiki_toolbar_strong: Grassetto
+  label_wiki_toolbar_italic: Corsivo
+  label_wiki_toolbar_underline: Sottolineato
+  label_wiki_toolbar_deleted: Barrato
+  label_wiki_toolbar_code: Codice sorgente
+  label_wiki_toolbar_heading_1: Titolo 1
+  label_wiki_toolbar_heading_2: Titolo 2
+  label_wiki_toolbar_heading_3: Titolo 3
+  label_wiki_toolbar_unordered_list: Elenco puntato
+  label_wiki_toolbar_ordered_list: Elenco numerato
+  label_wiki_toolbar_task_list: Task list
+  label_wiki_toolbar_quote: Aumenta rientro
+  label_wiki_toolbar_unquote: Riduci rientro
+  label_wiki_toolbar_table: Table
+  label_wiki_toolbar_preformatted_text: Testo preformattato
+  label_wiki_toolbar_preformatted_code: Highlighted code
+  label_wiki_toolbar_wiki_link: Collegamento a pagina Wiki
+  label_wiki_toolbar_image: Immagine
+  label_wiki_toolbar_help: Help
 
   webhook_event_created: "%{object_name} creato"
   webhook_event_updated: "%{object_name} aggiornato"

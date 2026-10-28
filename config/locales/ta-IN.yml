@@ -1508,6 +1508,25 @@ ta-IN:
   label_assignee_dropdown_display_format_groups_then_users: Groups then users
   label_enable_default_issue_due_date_offset: Enable default due date for new issues
   label_days_relative_to_today: days relative to today
+  label_wiki_toolbar_strong: வலுவான
+  label_wiki_toolbar_italic: சாய்வு
+  label_wiki_toolbar_underline: அடிக்கோடிட்டு
+  label_wiki_toolbar_deleted: நீக்கப்பட்டது
+  label_wiki_toolbar_code: இன்லைன் குறியீடு
+  label_wiki_toolbar_heading_1: தலைப்பு 1
+  label_wiki_toolbar_heading_2: தலைப்பு 2
+  label_wiki_toolbar_heading_3: தலைப்பு 3
+  label_wiki_toolbar_unordered_list: வரிசைப்படுத்தப்படாத பட்டியல்
+  label_wiki_toolbar_ordered_list: வரிசைப்படுத்தப்பட்ட பட்டியல்
+  label_wiki_toolbar_task_list: Task list
+  label_wiki_toolbar_quote: மேற்கோள்
+  label_wiki_toolbar_unquote: மேற்கோளை அகற்று
+  label_wiki_toolbar_table: அட்டவணை
+  label_wiki_toolbar_preformatted_text: முன்பே வடிவமைக்கப்பட்ட உரை
+  label_wiki_toolbar_preformatted_code: சிறப்பம்சமாக குறியீடு
+  label_wiki_toolbar_wiki_link: விக்கி பக்கத்துடன் இணைக்கவும்
+  label_wiki_toolbar_image: படம்
+  label_wiki_toolbar_help: Help
   label_assignee_dropdown_display_format_users_by_group: Users by group
   button_remove_from_group: Remove from group
   button_add_to_group: Add to group

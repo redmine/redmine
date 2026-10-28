@@ -1528,6 +1528,25 @@ nl:
   label_assignee_dropdown_display_format_groups_then_users: Groups then users
   label_enable_default_issue_due_date_offset: Enable default due date for new issues
   label_days_relative_to_today: days relative to today
+  label_wiki_toolbar_strong: Vetgedrukt
+  label_wiki_toolbar_italic: Cursief
+  label_wiki_toolbar_underline: Onderstreept
+  label_wiki_toolbar_deleted: Verwijderd
+  label_wiki_toolbar_code: Computercode
+  label_wiki_toolbar_heading_1: Hoofding 1
+  label_wiki_toolbar_heading_2: Hoofding 2
+  label_wiki_toolbar_heading_3: Hoofding 3
+  label_wiki_toolbar_unordered_list: Ongeordende lijst
+  label_wiki_toolbar_ordered_list: Geordende lijst
+  label_wiki_toolbar_task_list: Task list
+  label_wiki_toolbar_quote: Citaat
+  label_wiki_toolbar_unquote: Citaat verwijderen
+  label_wiki_toolbar_table: Table
+  label_wiki_toolbar_preformatted_text: Vooropgemaakte tekst
+  label_wiki_toolbar_preformatted_code: Gemarkeerde code
+  label_wiki_toolbar_wiki_link: Link naar een Wikipagina
+  label_wiki_toolbar_image: Afbeelding
+  label_wiki_toolbar_help: Help
   label_assignee_dropdown_display_format_users_by_group: Users by group
   button_remove_from_group: Remove from group
   button_add_to_group: Add to group
