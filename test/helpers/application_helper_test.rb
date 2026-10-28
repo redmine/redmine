@@ -1685,6 +1685,103 @@ class ApplicationHelperTest < Redmine::HelperTest
     end
   end
 
+  def test_section_edit_links_should_ignore_headings_from_include_macro
+    raw = <<~RAW
+      # Test Wiki
+
+      ## Some local heading
+
+      Local text
+
+      {{include(Included_page)}}
+
+      ## More local heading
+
+      More local text
+    RAW
+    @project = Project.find(1)
+    set_language_if_valid 'en'
+    with_settings :text_formatting => 'common_mark' do
+      page = WikiPage.new(:wiki => Wiki.find(1), :title => 'Included_page')
+      page.content = WikiContent.new(
+        :text => "# Included Heading 1\n\n## Included Heading 2\n\nIncluded text\n",
+        :author => User.find(1))
+      page.save!
+
+      result =
+        textilizable(
+          raw,
+          :edit_section_links =>
+            {:controller => 'wiki', :action => 'edit',
+            :project_id => '1', :id => 'Test'}
+        ).delete("\n")
+
+      # Headings of the included page are rendered...
+      assert_include 'Included Heading 2', result
+      # ...but they are not sections of this page, so they must not get edit links
+      assert_equal %w(2 3), result.scan(/edit\?section=(\d+)/).flatten
+
+      # More local heading should have section=3 edit link
+      assert_match(
+        Regexp.new(
+          '<div class="contextual heading-2" title="Edit this section" id="section-3">' \
+          '<a class="icon-only icon-edit" href="/projects/1/wiki/Test/edit\\?section=3">' \
+          '<svg class="s18 icon-svg" aria-hidden="true"><use href="/assets/icons-.*\\.svg#icon--edit"></use></svg>' \
+          '<span class="icon-label">Edit this section</span>' \
+          '</a></div>' \
+          '<a name="More-local-heading"></a>' \
+          '<h2 >More local heading<a href="#More-local-heading" class="wiki-anchor">&para;</a></h2>'
+        ),
+        result
+      )
+
+      # The section number must match the one used when editing the page
+      section, _hash = Redmine::WikiFormatting.formatter.new(raw).get_section(3)
+      assert section.start_with?('## More local heading')
+    end
+  end
+
+  def test_section_edit_links_should_ignore_headings_from_include_macro_inside_collapse_macro
+    raw = <<~RAW
+      # Test Wiki
+
+      ## Section A
+
+      {{collapse
+      ## Section B
+
+      {{include(Included_page)}}
+      }}
+
+      ## Section C
+    RAW
+    @project = Project.find(1)
+    set_language_if_valid 'en'
+    with_settings :text_formatting => 'common_mark' do
+      page = WikiPage.new(:wiki => Wiki.find(1), :title => 'Included_page')
+      page.content = WikiContent.new(:text => "## Included Heading\n", :author => User.find(1))
+      page.save!
+
+      result =
+        textilizable(
+          raw,
+          :edit_section_links =>
+            {:controller => 'wiki', :action => 'edit',
+            :project_id => '1', :id => 'Test'}
+        ).delete("\n")
+
+      assert_include 'Included Heading', result
+      assert_equal %w(2 3 4), result.scan(/edit\?section=(\d+)/).flatten
+      assert_match(
+        /id="section-4"><a class="icon-only icon-edit" href="[^"]*section=4">.*?<\/a><\/div><a name="Section-C"><\/a>/,
+        result
+      )
+
+      section, _hash = Redmine::WikiFormatting.formatter.new(raw).get_section(4)
+      assert section.start_with?('## Section C')
+    end
+  end
+
   def test_default_formatter
     with_settings :text_formatting => 'unknown' do
       text = 'a *link*: http://www.example.net/'
