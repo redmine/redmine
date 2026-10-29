@@ -240,7 +240,7 @@
   inset-inline-start: var(--gantt-today-start);
   inline-size: 10px;
   block-size: var(--gantt-content-height);
-  border-inline-start: 1px dashed red;
+  border-inline-start: 1px dashed var(--oc-red-7);
   pointer-events: none;
 }
 
@@ -305,104 +305,74 @@
 
 .gantt-task-late {
   block-size: 10px;
-  background: var(--oc-red-5) url(/task_late.png);
-  border: 1px solid var(--oc-red-5);
+  background-color: var(--oc-red-4);
+  border: 1px solid var(--oc-red-4);
 }
 
 .gantt-task-done {
   block-size: 10px;
-  background: var(--oc-green-7) url(/task_done.png);
-  border: 1px solid var(--oc-green-7);
+  background-color: var(--oc-green-6);
+  border: 1px solid var(--oc-green-6);
 }
 
 .gantt-task-todo {
   block-size: 10px;
-  background: var(--oc-gray-5) url(/task_todo.png);
+  background-color: var(--oc-gray-5);
   border: 1px solid var(--oc-gray-5);
 }
 
 .gantt-task-todo.gantt-task-parent {
-  background: var(--oc-gray-6);
-  border: 1px solid var(--oc-gray-6);
+  background-color: var(--oc-gray-6);
+  border-color: var(--oc-gray-6);
+}
+
+.gantt-task-parent:is(.gantt-task-todo, .gantt-task-late, .gantt-task-done) {
   block-size: 5px;
 }
 
-.gantt-task-late.gantt-task-parent,
-.gantt-task-done.gantt-task-parent {
-  block-size: 5px;
-}
-
-.gantt-task.gantt-task-parent.gantt-task-marker {
-  position: absolute;
-  background: url(/task_parent_end.png) no-repeat 0 0;
+.gantt-task-marker {
+  background-color: var(--oc-indigo-8);
   inline-size: 8px;
-  block-size: 16px;
+  block-size: 8px;
   margin-inline-start: -4px;
+  margin-block-start: 1px;
+  /* Match the filled area and flat tips of the original 8px marker. */
+  clip-path: polygon(3.5px 0, 4.5px 0, 8px 3.5px, 8px 4.5px, 4.5px 8px, 3.5px 8px, 0 4.5px, 0 3.5px);
 }
 
-.gantt-row[data-gantt-row-type="version"] .gantt-task-late {
-  background: var(--oc-red-5) url(/milestone_late.png);
-  border: 1px solid var(--oc-red-5);
-  block-size: 4px;
-  margin-block-start: 3px;
+.gantt-task-parent.gantt-task-marker {
+  background-color: var(--oc-gray-6);
+  block-size: 16px;
+  margin-block-start: 0;
+  /* Keep the original body's size and align its top with the bar. */
+  clip-path: polygon(0 0, 100% 0, 100% 6px, 50% 9px, 0 6px);
 }
 
-.gantt-row[data-gantt-row-type="version"] .gantt-task-done {
-  background: var(--oc-green-7) url(/milestone_done.png);
-  border: 1px solid var(--oc-green-7);
+.gantt-row[data-gantt-row-type="version"] .gantt-task:is(.gantt-task-todo, .gantt-task-late, .gantt-task-done) {
   block-size: 4px;
   margin-block-start: 3px;
 }
 
 .gantt-row[data-gantt-row-type="version"] .gantt-task-todo {
-  background: var(--oc-white) url(/milestone_todo.png);
-  border: 1px solid var(--oc-white);
-  block-size: 4px;
-  margin-block-start: 3px;
+  background-color: var(--oc-gray-5);
+  border-color: transparent;
+  background-clip: padding-box;
 }
 
 .gantt-row[data-gantt-row-type="version"] .gantt-task-marker {
-  background-image: url(/version_marker.png);
-  background-repeat: no-repeat;
-  border: 0;
-  margin-inline-start: -4px;
-  margin-block-start: 1px;
+  background-color: var(--oc-gray-9);
 }
 
-.gantt-row[data-gantt-row-type="project"] .gantt-task-late {
-  background: var(--oc-red-5) url(/milestone_late.png);
-  border: 1px solid var(--oc-red-5);
-  block-size: 4px;
-  margin-block-start: 3px;
-}
-
-.gantt-row[data-gantt-row-type="project"] .gantt-task-done {
-  background: var(--oc-green-7) url(/milestone_done.png);
-  border: 1px solid var(--oc-green-7);
+.gantt-row[data-gantt-row-type="project"] .gantt-task:is(.gantt-task-todo, .gantt-task-late, .gantt-task-done) {
   block-size: 4px;
   margin-block-start: 3px;
 }
 
 .gantt-row[data-gantt-row-type="project"] .gantt-task-todo {
-  background: var(--oc-white) url(/milestone_todo.png);
-  border: 1px solid var(--oc-white);
-  block-size: 4px;
-  margin-block-start: 3px;
+  background-color: var(--oc-gray-5);
+  border-color: transparent;
+  background-clip: padding-box;
 }
-
-.gantt-row[data-gantt-row-type="project"] .gantt-task-marker {
-  background-image: url(/project_marker.png);
-  background-repeat: no-repeat;
-  border: 0;
-  margin-inline-start: -4px;
-  margin-block-start: 1px;
-}
-
-/* RTL adjustment (disabled while Gantt is forced LTR).  Enable when RTL is supported.
-  [dir="rtl"] .gantt-task-marker {
-  background-position: right;
-}
-*/
 
 .version-behind-schedule a,
 .issue-behind-schedule a {
