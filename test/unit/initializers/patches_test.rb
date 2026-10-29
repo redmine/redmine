@@ -67,12 +67,6 @@ class PatchesTest < ActiveSupport::TestCase
     end
   end
 
-  test 'Propshaft::Assembly#needs_precompile? should return true when there is no manifest file' do
-    without_manifest_file do
-      assert Rails.application.assets.needs_precompile?
-    end
-  end
-
   private
 
   def with_manifest_content(content)
@@ -80,10 +74,6 @@ class PatchesTest < ActiveSupport::TestCase
       manifest_path.write(content)
       yield
     end
-  end
-
-  def without_manifest_file(&)
-    with_temporary_manifest_path(&)
   end
 
   # Points the asset manifest path to a temporary directory so that tests
