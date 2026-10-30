@@ -180,6 +180,28 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_query_filters [['tracker_id', '=', '1']]
   end
 
+  def test_index_with_too_many_tokens_in_filter_should_display_warning_and_results
+    get(
+      :index,
+      :params => {
+        :project_id => 1,
+        :set_filter => 1,
+        :f => ['subject'],
+        :op => {'subject' => '*~'},
+        :v => {'subject' => ['one two print <script>alert(1)</script> three four']}
+      }
+    )
+    assert_response :success
+
+    assert_select '#errorExplanation', 0
+    assert_select 'p.warning', :count => 1,
+                  :text => 'Subject: A maximum of 5 search terms can be used. Only the following terms were used: ' \
+                           '"one", "two", "print", "<script>alert(1)</script>", "three"'
+    assert_not_include '<script>alert(1)</script>', response.body
+    # Issues are still displayed using the first 5 tokens
+    assert_select 'table.issues tr.issue'
+  end
+
   def test_index_with_short_filters
     to_test = {
       'status_id' => {

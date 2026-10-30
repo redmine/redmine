@@ -66,6 +66,10 @@ module QueriesHelper
     s
   end
 
+  def render_query_filter_warnings(query)
+    safe_join(query.filter_warnings.map {|warning| content_tag('p', warning, :class => 'warning')})
+  end
+
   def query_filters_hidden_tags(query)
     tags = ''.html_safe
     query.filters.each do |field, options|

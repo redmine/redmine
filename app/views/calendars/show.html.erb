@@ -51,6 +51,7 @@
 <% end %>
 
 <%= error_messages_for 'query' %>
+<%= render_query_filter_warnings @query %>
 <% if @query.valid? %>
 <%= render :partial => 'common/calendar', :locals => {:calendar => @calendar} %>
 

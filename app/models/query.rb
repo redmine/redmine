@@ -547,6 +547,28 @@ class Query < ApplicationRecord
     errors.add(:base, m)
   end
 
+  # Filter types and operators whose value is split into tokens
+  # by Redmine::Search::Tokenizer
+  TOKENIZED_FILTER_TYPES = [:string, :text, :search].freeze
+  TOKENIZED_FILTER_OPERATORS = ["~", "*~", "!~", "^", "$"].freeze
+
+  # Unlike errors, warnings do not prevent the query from being run
+  def filter_warnings
+    return [] unless filters
+
+    filters.keys.filter_map do |field|
+      next unless TOKENIZED_FILTER_TYPES.include?(type_for(field)) &&
+                    TOKENIZED_FILTER_OPERATORS.include?(operator_for(field))
+
+      tokenizer = Redmine::Search::Tokenizer.new(values_for(field)&.first)
+      next unless tokenizer.truncated?
+
+      tokens = tokenizer.tokens.map {|token| %("#{token}")}.join(l(:'support.array.words_connector'))
+      message = l(:notice_search_tokens_truncated, :max => Redmine::Search::Tokenizer::MAX_TOKENS, :tokens => tokens)
+      "#{label_for(field)}: #{message}"
+    end
+  end
+
   def editable_by?(user)
     return false unless user
 

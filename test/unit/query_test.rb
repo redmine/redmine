@@ -796,6 +796,43 @@ class QueryTest < ActiveSupport::TestCase
     result.each {|issue| assert issue.subject =~ /(close|block)/i}
   end
 
+  def test_filter_warnings_should_include_used_tokens
+    query = IssueQuery.new(
+      :name => '_',
+      :filters => {
+        'subject' => {:operator => '*~', :values => ['one two three four five six seven']},
+        'description' => {:operator => '~', :values => ['one two three four five']},
+        'any_searchable' => {:operator => '!~', :values => ['a one "two three" one four five six seven']}
+      }
+    )
+    assert query.valid?
+    assert_equal(
+      [
+        'Subject: A maximum of 5 search terms can be used. Only the following terms were used: "one", "two", "three", "four", "five"',
+        'Any searchable text: A maximum of 5 search terms can be used. Only the following terms were used: "one", "two three", "four", "five", "six"'
+      ],
+      query.filter_warnings
+    )
+  end
+
+  def test_filter_warnings_should_ignore_operators_and_filters_that_do_not_tokenize_the_value
+    query = IssueQuery.new(
+      :name => '_',
+      :filters => {
+        'subject' => {:operator => '*', :values => ['']},
+        'status_id' => {:operator => 'o', :values => ['']},
+        'parent_id' => {:operator => '~', :values => ['1,2,3,4,5,6,7']}
+      }
+    )
+    assert_equal [], query.filter_warnings
+
+    user_query = UserQuery.new(
+      :name => '_',
+      :filters => {'login' => {:operator => '=', :values => ['one two three four five six']}}
+    )
+    assert_equal [], user_query.filter_warnings
+  end
+
   def test_operator_contains_any_of_with_any_searchable_text
     User.current = User.find(1)
     query = IssueQuery.new(

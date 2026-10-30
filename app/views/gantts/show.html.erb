@@ -10,6 +10,7 @@
 
 <%= render partial: 'query_form', locals: {project: @project, query: @query, gantt: @gantt} %>
 <%= error_messages_for 'query' %>
+<%= render_query_filter_warnings @query %>
 
 <% if @query.valid? %>
 <%= render partial: 'chart', locals: {gantt: @gantt, query: @query} %>
