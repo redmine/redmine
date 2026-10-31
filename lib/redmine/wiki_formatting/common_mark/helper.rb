@@ -33,32 +33,18 @@ module Redmine
       end
 
       class WikiToolbar < Redmine::WikiToolbar
-        def buttons
+        def format
+          'common_mark'
+        end
+
+        def button_groups
           [
-            {name: 'strong', action: 'wrap', prefix: '**', shortcut: 'b'},
-            {name: 'em', action: 'wrap', prefix: '*', shortcut: 'i'},
-            {name: 'ins', action: 'wrap', prefix: '<u>', suffix: '</u>', shortcut: 'u'},
-            {name: 'del', action: 'wrap', prefix: '~~'},
-            {name: 'code', action: 'wrap', prefix: '`'},
-            SPACER,
-            {name: 'h1', action: 'wrapLines', prefix: '# ', strip: '^#+\s+'},
-            {name: 'h2', action: 'wrapLines', prefix: '## ', strip: '^#+\s+'},
-            {name: 'h3', action: 'wrapLines', prefix: '### ', strip: '^#+\s+'},
-            SPACER,
-            {name: 'ul', action: 'wrapLines', pattern: '[#-]?\s*', replacement: '* '},
-            {name: 'ol', action: 'wrapLines', pattern: '[*-]?\s*', replacement: '1. '},
-            {name: 'tl', action: 'wrapLines', pattern: '[*-]?\s*', replacement: '* [ ] '},
-            SPACER,
-            {name: 'bq', action: 'wrapLines', pattern: '( *)([^\n]*)', replacement: '> $2$3'},
-            {name: 'unbq', action: 'wrapLines', pattern: ' *(> ?)?( *)([^\n]*)', replacement: '$3$4'},
-            {name: 'table', menu: :table, header_cell: '%{name} ', separator_cell: '--'},
-            {name: 'pre', action: 'wrapLines', prefix: "```\n", suffix: "\n```"},
-            {name: 'precode', menu: :precode, prefix: "``` %{lang}\n", suffix: "\n```\n"},
-            SPACER,
-            {name: 'link', action: 'wrap', prefix: '[[', suffix: ']]'},
-            {name: 'img', action: 'wrap', prefix: '![](', suffix: ')'},
-            SPACER,
-            {name: 'help', action: 'help'}
+            %w[strong em ins del code],
+            %w[h1 h2 h3],
+            %w[ul ol tl],
+            %w[bq unbq table pre precode],
+            %w[link img],
+            %w[help]
           ]
         end
       end

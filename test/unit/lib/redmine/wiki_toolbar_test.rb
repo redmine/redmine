@@ -50,18 +50,15 @@ class Redmine::WikiToolbarTest < Redmine::HelperTest
     with_settings :text_formatting => 'common_mark' do
       html = wikitoolbar_for('issue_description')
 
+      assert_select_in html, 'div.jstBlock[data-wiki-toolbar-format-value=common_mark]'
       assert_select_in html, 'div.jstElements' do
         assert_select 'button', 19
         assert_select 'span.jstSpacer', 5
-        assert_select 'button.jstb_strong[title=?][data-action=?][data-wiki-toolbar-prefix-param=?][data-wiki-toolbar-shortcut=b]',
-                      'Strong', 'wiki-toolbar#wrap', '**'
-        assert_select 'button.jstb_ins[data-wiki-toolbar-prefix-param=?][data-wiki-toolbar-suffix-param=?]', '<u>', '</u>'
-        assert_select 'button.jstb_h1[data-action=?][data-wiki-toolbar-prefix-param=?][data-wiki-toolbar-strip-param=?]',
-                      'wiki-toolbar#wrapLines', '# ', '^#+\s+'
-        assert_select 'button.jstb_tl[data-wiki-toolbar-replacement-param=?]', '* [ ] '
-        assert_select 'button.jstb_table[data-action=?][data-wiki-toolbar-menu-param=table][data-wiki-toolbar-separator-cell-param=?]',
-                      'wiki-toolbar#toggleMenu', '--'
-        assert_select 'button.jstb_precode[data-wiki-toolbar-menu-param=precode]:not([data-wiki-toolbar-prefix-param])'
+        assert_select 'button.jstb_strong[title=?][data-action=?][data-wiki-toolbar-button-param=strong][data-wiki-toolbar-shortcut=b]',
+                      'Strong', 'wiki-toolbar#apply'
+        assert_select 'button.jstb_tl[data-wiki-toolbar-button-param=tl]'
+        assert_select 'button.jstb_table[data-action=?][data-wiki-toolbar-menu-param=table]', 'wiki-toolbar#toggleMenu'
+        assert_select 'button.jstb_precode[data-action=?][data-wiki-toolbar-menu-param=precode]', 'wiki-toolbar#toggleMenu'
         assert_select 'button.jstb_help[data-action=?]', 'wiki-toolbar#help'
       end
     end
@@ -71,12 +68,10 @@ class Redmine::WikiToolbarTest < Redmine::HelperTest
     with_settings :text_formatting => 'textile' do
       html = wikitoolbar_for('issue_description')
 
+      assert_select_in html, 'div.jstBlock[data-wiki-toolbar-format-value=textile]'
       assert_select_in html, 'div.jstElements' do
         assert_select 'button', 18
         assert_select 'button.jstb_tl', 0
-        assert_select 'button.jstb_strong[data-wiki-toolbar-prefix-param=?]', '*'
-        assert_select 'button.jstb_ol[data-wiki-toolbar-replacement-param=?]', '# '
-        assert_select 'button.jstb_table[data-wiki-toolbar-header-cell-param=?]:not([data-wiki-toolbar-separator-cell-param])', '_.%{name}'
       end
     end
   end
@@ -96,12 +91,10 @@ class Redmine::WikiToolbarTest < Redmine::HelperTest
       html = wikitoolbar_for('issue_description')
       actions = Nokogiri::HTML.fragment(html).at_css('div.jstBlock')['data-action'].split
 
-      %w[b i u].each do |key|
-        assert_include "keydown.ctrl+#{key}->wiki-toolbar#shortcut", actions
-        assert_include "keydown.meta+#{key}->wiki-toolbar#shortcut", actions
-      end
-      assert_include 'keydown.ctrl+shift+p@window->wiki-toolbar#togglePreview', actions
-      assert_include 'keydown.meta+shift+p@window->wiki-toolbar#togglePreview', actions
+      assert_equal ['keydown->wiki-toolbar#shortcut',
+                    'keydown.ctrl+shift+p@window->wiki-toolbar#togglePreview',
+                    'keydown.meta+shift+p@window->wiki-toolbar#togglePreview'], actions
+      assert_select_in html, 'button[data-wiki-toolbar-shortcut]', 3
     end
   end
 
@@ -113,12 +106,9 @@ class Redmine::WikiToolbarTest < Redmine::HelperTest
       html = wikitoolbar_for('issue_description')
 
       assert_select_in html, 'template[data-wiki-toolbar-target=precodeMenu] ul.jstMenu[role=menu]' do
-        assert_select 'button[role=menuitem][data-action=?]', 'wiki-toolbar#wrapLines', :count => 2
+        assert_select 'button[role=menuitem]', 2
       end
-      item = Nokogiri::HTML.fragment(html).at_css('ul.jstMenu button')
-      assert_equal 'ruby', item.text
-      assert_equal %(<pre><code class="ruby">\n), item['data-wiki-toolbar-prefix-param']
-      assert_equal "\n</code></pre>\n", item['data-wiki-toolbar-suffix-param']
+      assert_select_in html, 'ul.jstMenu button[data-action=?][data-wiki-toolbar-lang-param=ruby]', 'wiki-toolbar#insertPrecode', :text => 'ruby'
     end
   end
 

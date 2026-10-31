@@ -20,18 +20,10 @@
 module Redmine
   # Renders the wiki toolbar handled by the wiki-toolbar Stimulus controller.
   #
-  # Text formatters subclass it and describe their buttons in #buttons. Each
-  # button is a Hash with:
-  # * :name - the button name, used for the "jstb_<name>" CSS class
-  # * :action - the controller action: wrap, wrapLines or help
-  # * :menu - :precode or :table, opens a menu instead of running an action
-  # * :shortcut - optional key used with Ctrl (Cmd on macOS)
-  # * any other key is passed to the action as a Stimulus action parameter
-  #
-  # Use SPACER to separate groups of buttons.
+  # The toolbar only describes the layout: which buttons are displayed and in
+  # which groups. What each button inserts in the text is defined for each text
+  # formatter in app/javascript/wiki_formatting/<format>.js.
   class WikiToolbar
-    SPACER = :spacer
-
     LABELS = {
       'strong' => :label_wiki_toolbar_strong,
       'em' => :label_wiki_toolbar_italic,
@@ -54,11 +46,13 @@ module Redmine
       'help' => :label_wiki_toolbar_help
     }.freeze
 
-    BUTTON_KEYS = [:name, :action, :menu, :shortcut, :label].freeze
-    # Button options used to render the menu instead of being action parameters
-    MENU_KEYS = {precode: [:prefix, :suffix]}.freeze
+    SHORTCUTS = {'strong' => 'b', 'em' => 'i', 'ins' => 'u'}.freeze
+    MENUS = %w[table precode].freeze
     TABLE_MENU_ROWS = 5
     TABLE_MENU_COLS = 10
+    KEYBOARD_ACTIONS = 'keydown->wiki-toolbar#shortcut ' \
+                       'keydown.ctrl+shift+p@window->wiki-toolbar#togglePreview ' \
+                       'keydown.meta+shift+p@window->wiki-toolbar#togglePreview'
 
     # Helper methods shared by the text formatters that use the toolbar
     module Helper
@@ -81,15 +75,22 @@ module Redmine
       @view = view
     end
 
-    def buttons
-      []
+    # Name of the text formatter, used to load its syntax in JavaScript
+    def format
+      raise NotImplementedError
+    end
+
+    # Groups of buttons, separated by spacers
+    def button_groups
+      raise NotImplementedError
     end
 
     def render(field_id, preview_url)
       tag.div(class: 'jstBlock', hidden: true,
               data: {
                 controller: 'wiki-toolbar',
-                action: keyboard_actions,
+                action: KEYBOARD_ACTIONS,
+                wiki_toolbar_format_value: format,
                 wiki_toolbar_field_id_value: field_id,
                 wiki_toolbar_preview_url_value: preview_url,
                 wiki_toolbar_help_url_value: @view.help_wiki_syntax_path
@@ -132,66 +133,50 @@ module Redmine
     end
 
     def rendered_buttons
-      @rendered_buttons ||= @view.safe_join(buttons.map {|button| render_button(button)})
+      @rendered_buttons ||= @view.safe_join(
+        button_groups.map {|names| @view.safe_join(names.map {|name| render_button(name)})},
+        tag.span("\u00a0", class: 'jstSpacer')
+      )
     end
 
-    def render_button(button)
-      return tag.span(" ", class: 'jstSpacer') if button == SPACER
-
-      name = button[:name]
-      title = l(button[:label] || LABELS.fetch(name))
-      data = button_params(button)
-      if button[:menu]
-        data[:action] = 'wiki-toolbar#toggleMenu'
-        data[:wiki_toolbar_menu_param] = button[:menu]
-      else
-        data[:action] = "wiki-toolbar##{button[:action]}"
-      end
-      data[:wiki_toolbar_shortcut] = button[:shortcut] if button[:shortcut]
+    def render_button(name)
+      title = l(LABELS.fetch(name))
+      data =
+        if MENUS.include?(name)
+          {action: 'wiki-toolbar#toggleMenu', wiki_toolbar_menu_param: name}
+        elsif name == 'help'
+          {action: 'wiki-toolbar#help'}
+        else
+          {action: 'wiki-toolbar#apply', wiki_toolbar_button_param: name}
+        end
+      data[:wiki_toolbar_shortcut] = SHORTCUTS[name] if SHORTCUTS[name]
 
       tag.button(tag.span(title), type: 'button', class: "jstb_#{name}", title: title, tabindex: 200, data: data)
     end
 
-    # Converts the button options to Stimulus action parameters
-    def button_params(button)
-      button.except(*BUTTON_KEYS, *MENU_KEYS[button[:menu]]).transform_keys {|key| :"wiki_toolbar_#{key}_param"}
-    end
-
     def menus
-      @menus ||= begin
-        templates = buttons.filter_map do |button|
-          next unless button.is_a?(Hash) && button[:menu]
-
-          tag.template(data: {wiki_toolbar_target: "#{button[:menu]}Menu"}) do
-            send(:"#{button[:menu]}_menu", button)
-          end
+      @menus ||= @view.safe_join(
+        MENUS.map do |name|
+          tag.template(data: {wiki_toolbar_target: "#{name}Menu"}) {send(:"#{name}_menu")}
         end
-        @view.safe_join(templates)
-      end
+      )
     end
 
-    # Lists the languages for code highlighting. Each item wraps the selected
-    # lines using the :prefix and :suffix of the button, where %{lang} is
-    # replaced by the language.
-    def precode_menu(button)
+    def precode_menu
       tag.ul(class: 'jstMenu', role: 'menu',
              data: {action: 'click->wiki-toolbar#closeMenu keydown.esc->wiki-toolbar#closeMenu'}) do
         @view.safe_join(
           code_languages.map do |lang|
             tag.li(role: 'none') do
               tag.button(lang, type: 'button', role: 'menuitem',
-                         data: {
-                           action: 'wiki-toolbar#wrapLines',
-                           wiki_toolbar_prefix_param: format(button[:prefix], lang: lang),
-                           wiki_toolbar_suffix_param: format(button[:suffix], lang: lang)
-                         })
+                         data: {action: 'wiki-toolbar#insertPrecode', wiki_toolbar_lang_param: lang})
             end
           end
         )
       end
     end
 
-    def table_menu(_button)
+    def table_menu
       tag.table(class: 'table-generator', role: 'grid',
                 data: {
                   action: 'click->wiki-toolbar#closeMenu keydown.esc->wiki-toolbar#closeMenu ' \
@@ -220,17 +205,6 @@ module Redmine
 
     def code_languages
       User.current.pref.toolbar_language_options.to_s.split(',')
-    end
-
-    def keyboard_actions
-      @keyboard_actions ||= begin
-        keys = buttons.filter_map {|button| button[:shortcut] if button.is_a?(Hash)}
-        actions = keys.flat_map do |key|
-          %w[ctrl meta].map {|modifier| "keydown.#{modifier}+#{key}->wiki-toolbar#shortcut"}
-        end
-        actions += %w[ctrl meta].map {|modifier| "keydown.#{modifier}+shift+p@window->wiki-toolbar#togglePreview"}
-        actions.join(' ')
-      end
     end
   end
 end

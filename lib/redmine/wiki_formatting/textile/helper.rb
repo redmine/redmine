@@ -33,31 +33,18 @@ module Redmine
       end
 
       class WikiToolbar < Redmine::WikiToolbar
-        def buttons
+        def format
+          'textile'
+        end
+
+        def button_groups
           [
-            {name: 'strong', action: 'wrap', prefix: '*', shortcut: 'b'},
-            {name: 'em', action: 'wrap', prefix: '_', shortcut: 'i'},
-            {name: 'ins', action: 'wrap', prefix: '+', shortcut: 'u'},
-            {name: 'del', action: 'wrap', prefix: '-'},
-            {name: 'code', action: 'wrap', prefix: '@'},
-            SPACER,
-            {name: 'h1', action: 'wrapLines', prefix: 'h1. ', strip: '^h\d+\.\s+'},
-            {name: 'h2', action: 'wrapLines', prefix: 'h2. ', strip: '^h\d+\.\s+'},
-            {name: 'h3', action: 'wrapLines', prefix: 'h3. ', strip: '^h\d+\.\s+'},
-            SPACER,
-            {name: 'ul', action: 'wrapLines', pattern: '[#-]?\s*', replacement: '* '},
-            {name: 'ol', action: 'wrapLines', pattern: '[*-]?\s*', replacement: '# '},
-            SPACER,
-            {name: 'bq', action: 'wrapLines', pattern: '( *)([^\n]*)', replacement: '> $2$3'},
-            {name: 'unbq', action: 'wrapLines', pattern: ' *(> ?)?( *)([^\n]*)', replacement: '$3$4'},
-            {name: 'table', menu: :table, header_cell: '_.%{name}'},
-            {name: 'pre', action: 'wrapLines', prefix: "<pre>\n", suffix: "\n</pre>"},
-            {name: 'precode', menu: :precode, prefix: "<pre><code class=\"%{lang}\">\n", suffix: "\n</code></pre>\n"},
-            SPACER,
-            {name: 'link', action: 'wrap', prefix: '[[', suffix: ']]'},
-            {name: 'img', action: 'wrap', prefix: '!', suffix: '!'},
-            SPACER,
-            {name: 'help', action: 'help'}
+            %w[strong em ins del code],
+            %w[h1 h2 h3],
+            %w[ul ol],
+            %w[bq unbq table pre precode],
+            %w[link img],
+            %w[help]
           ]
         end
       end
