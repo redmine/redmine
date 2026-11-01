@@ -143,12 +143,29 @@ class Redmine::Helpers::GanttHelperTest < Redmine::HelperTest
   end
   private :setup_subjects
 
-  # TODO: more of an integration test
-  test "#subjects project should be rendered" do
-    setup_subjects
-    @output_buffer = @gantt.subjects
-    assert_select "div.gantt-row[data-gantt-row-type=project] a", /#{@project.name}/
-    assert_select 'div.gantt-row[data-gantt-row-type=project][style*="--gantt-row-indent:4px"]'
+  test "#subjects should render project rows with expanders" do
+    create_gantt
+
+    # A parent with only subprojects and no issues or versions of its own.
+    parent_project = @project
+
+    # A project with an issue that is not assigned to a version.
+    issue_project = Project.generate_with_parent!(parent_project)
+    Issue.generate!(:project => issue_project, :fixed_version => nil)
+
+    # A project with an issue assigned to its own version.
+    version_project = Project.generate_with_parent!(parent_project)
+    version = Version.generate!(:project => version_project)
+    Issue.generate!(:project => version_project, :fixed_version => version)
+
+    subjects = @gantt.subjects
+    [issue_project, version_project, parent_project].each do |project|
+      assert_select_in subjects, "div.gantt-row[data-gantt-row-key='project-#{project.id}']" do
+        assert_select 'a[href=?]', "/projects/#{project.identifier}", :text => project.name
+        assert_select '.expander', 1
+      end
+    end
+    assert_select_in subjects, 'div.gantt-row[data-gantt-row-type=project][style*="--gantt-row-indent:4px"]'
   end
 
   test "#subjects version should be rendered" do

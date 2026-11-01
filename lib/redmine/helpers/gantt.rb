@@ -873,7 +873,9 @@ module Redmine
         when Version
           has_children = object.fixed_issues.exists?
         when Project
-          has_children = object.issues.exists? || object.versions.exists?
+          # Gantt#projects includes only projects with matching issues in their subtree,
+          # so every project row needs an expander.
+          has_children = true
         end
         if has_children
           content = view.content_tag(:span,
