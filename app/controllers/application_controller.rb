@@ -547,6 +547,12 @@ class ApplicationController < ActionController::Base
     end
 
     path = uri.to_s
+    # Browsers treat a backslash like a slash and remove ASCII tab and newline
+    # characters, so that a path like "/\example.com" points to another host
+    if /[\\\x00-\x1f]/.match?(path)
+      return false
+    end
+
     # Ensure that the remaining URL starts with a slash, followed by a
     # non-slash character or the end
     unless %r{\A/([^/]|\z)}.match?(path)

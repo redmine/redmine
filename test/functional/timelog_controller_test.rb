@@ -197,6 +197,10 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_response :success
     assert_select 'a[href=?]', 'invalid', {:text => 'Cancel', :count => 0}
     assert_select 'a[href=?]', '/projects/ecookbook/time_entries', {:text => 'Cancel'}
+
+    get :edit, :params => {:id => 2, :project_id => nil, :back_url => '/\\example.com/'}
+    assert_response :success
+    assert_select 'a[href=?]', '/projects/ecookbook/time_entries', {:text => 'Cancel'}
   end
 
   def test_get_edit_with_an_existing_time_entry_with_locked_user
