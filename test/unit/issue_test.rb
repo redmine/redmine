@@ -2129,6 +2129,34 @@ class IssueTest < ActiveSupport::TestCase
       parent.errors[:base])
   end
 
+  def test_move_to_another_project_should_update_time_entries_activity
+    override = TimeEntryActivity.create!(:name => 'Design', :parent_id => 9, :project_id => 2)
+    issue = Issue.find(1)
+    assert_equal [9, 9], issue.time_entries.order(:id).pluck(:activity_id)
+
+    issue.project = Project.find(2)
+    assert issue.save
+    assert_equal [[2, override.id]] * 2, issue.time_entries.order(:id).pluck(:project_id, :activity_id)
+
+    issue.project = Project.find(1)
+    assert issue.save
+    assert_equal [[1, 9]] * 2, issue.time_entries.order(:id).pluck(:project_id, :activity_id)
+  end
+
+  def test_move_to_another_project_should_update_subtasks_time_entries_activity
+    override = TimeEntryActivity.create!(:name => 'Design', :parent_id => 9, :project_id => 2)
+    parent = Issue.generate!(:project_id => 1)
+    child = Issue.generate!(:project_id => 1, :parent_issue_id => parent.id)
+    time_entry = TimeEntry.generate!(:issue => child, :activity_id => 9)
+
+    parent.reload
+    parent.project = Project.find(2)
+    assert parent.save
+    time_entry.reload
+    assert_equal 2, time_entry.project_id
+    assert_equal override.id, time_entry.activity_id
+  end
+
   def test_copy_to_the_same_project
     issue = Issue.find(1)
     copy = issue.copy

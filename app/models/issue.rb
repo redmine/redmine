@@ -1753,8 +1753,13 @@ class Issue < ApplicationRecord
   end
 
   def after_project_change
-    # Update project_id on related time entries
-    TimeEntry.where({:issue_id => id}).update_all(["project_id = ?", project_id])
+    # Update project_id and activity_id on related time entries
+    TimeEntry.where(:issue_id => id).distinct.pluck(:activity_id).each do |activity_id|
+      TimeEntry.where(:issue_id => id, :activity_id => activity_id).update_all(
+        :project_id => project_id,
+        :activity_id => TimeEntryActivity.activity_id_for_project(activity_id, project)
+      )
+    end
 
     # Delete issue relations
     unless Setting.cross_project_issue_relations?

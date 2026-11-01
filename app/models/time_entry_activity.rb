@@ -90,4 +90,16 @@ class TimeEntryActivity < Enumeration
 
     nil
   end
+
+  # Returns the id of the activity to use in the given project for the given
+  # activity: the project override of the shared activity if any, the shared
+  # activity otherwise
+  def self.activity_id_for_project(activity_id, project)
+    activity = find_by(:id => activity_id)
+    return activity_id if activity.nil?
+
+    shared_activity_id = activity.parent_id || activity.id
+    override_id = project.time_entry_activities.where(:parent_id => shared_activity_id).pick(:id) if project
+    override_id || shared_activity_id
+  end
 end

@@ -303,4 +303,33 @@ class TimeEntryActivityTest < ActiveSupport::TestCase
     [TimeEntryActivity.find(10), TimeEntryActivity.find(11)].each {|a| a.update(active: false)}
     assert_equal 9, TimeEntryActivity.default_activity_id(User.find(2), project)
   end
+
+  def test_activity_id_for_project_should_return_project_override_of_shared_activity
+    override = TimeEntryActivity.create!(:name => 'Design', :parent_id => 9, :project_id => 2)
+
+    assert_equal override.id, TimeEntryActivity.activity_id_for_project(9, Project.find(2))
+  end
+
+  def test_activity_id_for_project_should_return_shared_activity_without_project_override
+    assert_equal 9, TimeEntryActivity.activity_id_for_project(9, Project.find(2))
+  end
+
+  def test_activity_id_for_project_should_map_override_to_override_of_other_project
+    override1 = TimeEntryActivity.create!(:name => 'Design', :parent_id => 9, :project_id => 1)
+    override2 = TimeEntryActivity.create!(:name => 'Design', :parent_id => 9, :project_id => 2)
+
+    assert_equal override2.id, TimeEntryActivity.activity_id_for_project(override1.id, Project.find(2))
+  end
+
+  def test_activity_id_for_project_should_map_override_to_shared_activity_without_project_override
+    override = TimeEntryActivity.create!(:name => 'Design', :parent_id => 9, :project_id => 1)
+
+    assert_equal 9, TimeEntryActivity.activity_id_for_project(override.id, Project.find(2))
+    assert_equal 9, TimeEntryActivity.activity_id_for_project(override.id, nil)
+  end
+
+  def test_activity_id_for_project_should_return_given_id_for_unknown_activity
+    assert_nil TimeEntryActivity.activity_id_for_project(nil, Project.find(2))
+    assert_equal 999, TimeEntryActivity.activity_id_for_project(999, Project.find(2))
+  end
 end

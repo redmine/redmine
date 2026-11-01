@@ -57,6 +57,7 @@ class TimeEntry < ApplicationRecord
   before_validation :set_project_if_nil
   # TODO: remove this, author should be always explicitly set
   before_validation :set_author_if_nil
+  before_validation :set_activity_for_project, :if => lambda {persisted? && project_id_changed? && !activity_id_changed?}
   validate :validate_time_entry
 
   scope :visible, (lambda do |*args|
@@ -171,6 +172,12 @@ class TimeEntry < ApplicationRecord
 
   def set_author_if_nil
     self.author = User.current if author.nil?
+  end
+
+  # Replaces the activity with the matching one of the new project
+  # when the time entry is moved to another project
+  def set_activity_for_project
+    self.activity_id = TimeEntryActivity.activity_id_for_project(activity_id, project)
   end
 
   def validate_time_entry

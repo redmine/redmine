@@ -270,6 +270,29 @@ class TimeEntryTest < ActiveSupport::TestCase
     assert_include I18n.translate('activerecord.errors.messages.inclusion'), entry.errors[:activity_id]
   end
 
+  def test_move_to_another_project_should_update_activity
+    override = TimeEntryActivity.create!(:name => 'Design', :parent_id => 9, :project_id => 2)
+    entry = TimeEntry.generate!(:project_id => 1, :activity_id => 9)
+
+    entry.project_id = 2
+    assert entry.save
+    assert_equal override.id, entry.reload.activity_id
+
+    entry.project_id = 1
+    assert entry.save
+    assert_equal 9, entry.reload.activity_id
+  end
+
+  def test_move_to_another_project_should_keep_activity_explicitly_set
+    TimeEntryActivity.create!(:name => 'Design', :parent_id => 9, :project_id => 2)
+    entry = TimeEntry.generate!(:project_id => 1, :activity_id => 9)
+
+    entry.project_id = 2
+    entry.activity_id = 10
+    assert entry.save
+    assert_equal 10, entry.reload.activity_id
+  end
+
   def test_spent_on_with_2_digits_year_should_not_be_valid
     entry = TimeEntry.new(:project => Project.find(1), :user => User.find(1), :activity => TimeEntryActivity.first, :hours => 1)
     entry.spent_on = "09-02-04"

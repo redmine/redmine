@@ -831,6 +831,19 @@ class TimelogControllerTest < Redmine::ControllerTest
     assert_equal [9, 9, 9], TimeEntry.where(:id => [1, 2, 4]).collect {|i| i.activity_id}
   end
 
+  def test_bulk_update_to_another_project_should_update_activity
+    override = TimeEntryActivity.create!(:name => 'Design', :parent_id => 9, :project_id => 3)
+    entry = TimeEntry.generate!(:project_id => 1, :issue_id => nil, :activity_id => 9)
+    @request.session[:user_id] = 1
+
+    post :bulk_update, :params => {:ids => [entry.id], :time_entry => {:project_id => 3, :activity_id => ''}}
+
+    assert_response :found
+    entry.reload
+    assert_equal 3, entry.project_id
+    assert_equal override.id, entry.activity_id
+  end
+
   def test_bulk_update_on_different_projects_without_rights
     @request.session[:user_id] = 3
     user = User.find(3)
