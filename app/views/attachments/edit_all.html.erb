@@ -27,6 +27,8 @@
   </div>
   <p>
     <%= submit_tag l(:button_save) %>
-    <%= link_to l(:button_cancel), back_url if back_url.present? %>
+    <% if (url = validate_back_url(back_url)) %>
+      <%= link_to l(:button_cancel), url %>
+    <% end %>
   </p>
 <% end %>
