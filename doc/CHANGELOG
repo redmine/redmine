@@ -4,6 +4,90 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2026-11-01 v7.0.3
+
+=== [Accounts / authentication]
+
+* Defect #44654: OAuth API request returns 500 Internal Server Error for an inactive user
+* Defect #44673: "Lost password" function allows to set the same password again even if it was expired
+* Feature #44578: Invalidate sessions and autologin tokens when an email address is changed or deleted
+
+=== [Attachments]
+
+* Defect #44620: Partially written thumbnails may be served during generation or after a failure
+* Defect #44624: Ghostscript process is left running when PDF thumbnail generation times out (missing merge of #44378 in 7.0.2)
+
+=== [Calendar]
+
+* Defect #44643: Versions are shown twice (start and due date) without any visual distinction in the calendar
+
+=== [Code cleanup/refactoring]
+
+* Patch #44597: Avoid 60-second connection timeouts in webhook executor tests on macOS
+* Patch #44653: Remove leftover development hosts from the OAuth redirect URI HTTPS exemption
+* Patch #44690: Add public/assets to svn:ignore
+
+=== [Email notifications]
+
+* Defect #44619: "File added" notification fails for Japanese users when exactly two files are added
+* Defect #44650: NoMethodError in issue update notification when bulk deleting a parent issue and its subtask
+
+=== [Gantt]
+
+* Defect #44611: Gantt column resize handles are initially enabled in mobile view
+* Defect #44694: Missing expand/collapse icons for Gantt projects with only subprojects
+
+=== [Issues]
+
+* Defect #44579: Attachments added in a single update may be listed in the wrong order in the issue history on PostgreSQL
+* Defect #44680: Assignee is not added as a watcher when creating an issue with an assignee who has auto-watch for assigned issues enabled
+
+=== [News]
+
+* Defect #44361: Preview returns a 404 error on the cross-project news form
+
+=== [Performance]
+
+* Defect #44372: Chrome freezes for several minutes when opening pages with thousands of sortable items such as the custom fields list
+
+=== [Security]
+
+* Defect #44657: ReDoS in wiki macro argument parsing
+* Defect #44682: Reflected XSS in attachments#edit_all (unvalidated back_url)
+* Defect #44683: validate_back_url accepts URLs that browsers resolve to another host
+* Defect #44625: OAuth token scope is ignored in Project.allowed_to_condition
+* Defect #44644: OAuth token scopes are bypassed when creating projects
+
+=== [SCM]
+
+* Defect #44231: Mercurial repository support is broken with Mercurial 7.2 or later
+
+=== [Themes]
+
+* Defect #44240: Automatic asset precompilation (redmine_detect_update) fails to detect new assets whose files have older mtimes than the existing manifest
+
+=== [Time tracking]
+
+* Defect #44610: Spent time custom field value is deleted when a time entry is edited by a user who cannot see the field
+
+=== [Translations]
+
+* Patch #44563: Japanese translation update for webhook_secret_keep_info and webhook_disabled_info_html
+* Patch #44564: Bulgarian translation update for webhook_secret_keep_info and webhook_disabled_info_html
+* Patch #44573: Swedish translation update for 6.1-stable
+* Patch #44574: Swedish translation update for 7.0-stable
+* Patch #44606: Italian translation update for 6.1-stable
+* Patch #44607: Italian translation update for 7.0-stable
+* Patch #44677: Extra space before colon in en.yml key setting_password_required_char_classes
+
+=== [UI]
+
+* Defect #44645: Gravatar images are rendered without width and height attributes
+
+=== [Wiki]
+
+* Defect #44623: Wiki include() macro adds faulty "Edit this section"-links
+
 == 2026-09-30 v7.0.2
 
 === [Administration]
