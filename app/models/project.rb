@@ -864,7 +864,7 @@ class Project < ApplicationRecord
           if user.admin?
             true
           else
-            default_member_role&.has_permission?(:select_project_publicity)
+            default_member_role&.allowed_to?(:select_project_publicity, user.oauth_scope)
           end
         else
           user.allowed_to?(:select_project_publicity, project)
@@ -880,7 +880,7 @@ class Project < ApplicationRecord
           if user.admin?
             true
           else
-            default_member_role&.has_permission?(:select_project_modules)
+            default_member_role&.allowed_to?(:select_project_modules, user.oauth_scope)
           end
         else
           user.allowed_to?(:select_project_modules, project)
@@ -898,7 +898,7 @@ class Project < ApplicationRecord
           if user.admin?
             true
           else
-            default_member_role&.has_permission?(:manage_members)
+            default_member_role&.allowed_to?(:manage_members, user.oauth_scope)
           end
         else
           user.allowed_to?(:manage_members, project)
