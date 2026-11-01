@@ -208,7 +208,7 @@ class IssuesSystemTest < ApplicationSystemTestCase
       document.getElementById('issue_description').dispatchEvent(event);
     JS
     filename = find('.attachments_fields input.filename').value
-    assert_match /\Aclipboard-\d{12}-[a-z0-9]{5}\.png\z/, filename
+    assert_match /\Aclipboard-\d{14}-[a-z0-9]{5}\.png\z/, filename
     assert_field 'issue_description', :with => %(<img style="width: 1px;" src="#{filename}"><br>\n)
   end
 

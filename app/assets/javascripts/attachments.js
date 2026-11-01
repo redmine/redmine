@@ -277,7 +277,7 @@ async function getInlineAttachmentMarkup(file) {
   const inlineFilename = encodeURIComponent(sanitizedFilename)
     .replace(/[!()]/g, function(match) { return "%" + match.charCodeAt(0).toString(16) });
 
-  const isFromClipboard = /^clipboard-\d{12}-[a-z0-9]{5}\.\w+$/.test(file.name);
+  const isFromClipboard = /^clipboard-\d{14}-[a-z0-9]{5}\.\w+$/.test(file.name);
   let imageDisplayWidth;
   if (isFromClipboard) {
     const imageWidth = await getImageWidth(file).catch(() => 0);
@@ -353,6 +353,7 @@ function copyImageFromClipboard(e) {
         + ('0'+date.getDate()).slice(-2)
         + ('0'+date.getHours()).slice(-2)
         + ('0'+date.getMinutes()).slice(-2)
+        + ('0'+date.getSeconds()).slice(-2)
         + '-' + randomKey(5).toLocaleLowerCase()
         + '.' + file.name.split('.').pop();
 
