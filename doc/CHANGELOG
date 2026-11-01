@@ -4,6 +4,16 @@ Redmine - project management software
 Copyright (C) 2006-  Jean-Philippe Lang
 https://www.redmine.org/
 
+== 2026-11-01 v6.0.12
+
+=== [Security]
+
+* Defect #44657: ReDoS in wiki macro argument parsing
+* Defect #44682: Reflected XSS in attachments#edit_all (unvalidated back_url)
+* Defect #44683: validate_back_url accepts URLs that browsers resolve to another host
+* Defect #44467: Private/invisible issue subjects leaked via REST API `include=children`
+* Defect #44468: Private project names + role assignments leaked via `GET /groups/<id>.json?include=memberships`
+
 == 2026-08-26 v6.0.11
 
 === [Accounts / authentication]
