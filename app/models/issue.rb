@@ -1718,7 +1718,7 @@ class Issue < ApplicationRecord
     if project
       scope = project.trackers.sorted
       unless user.admin?
-        roles = user.roles_for_project(project).select {|r| r.allowed_to?(:add_issues, user.oauth_scope)}
+        roles = user.roles_for_project(project).select {|r| r.has_permission?(:add_issues)}
         unless roles.any? {|r| r.permissions_all_trackers?(:add_issues)}
           tracker_ids = roles.map {|r| r.permissions_tracker_ids(:add_issues)}.flatten.uniq
           if current_tracker
@@ -1744,7 +1744,7 @@ class Issue < ApplicationRecord
     if user.admin?
       true
     else
-      roles = user.roles_for_project(project).select {|r| r.allowed_to?(permission, user.oauth_scope)}
+      roles = user.roles_for_project(project).select {|r| r.has_permission?(permission)}
       roles.any? do |r|
         r.permissions_all_trackers?(permission) ||
           r.permissions_tracker_ids?(permission, tracker_id)
