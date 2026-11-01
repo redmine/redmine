@@ -191,6 +191,27 @@ class IssuesSystemTest < ApplicationSystemTestCase
     assert_no_selector '.add_attachment', :visible => true
   end
 
+  def test_paste_image_from_clipboard
+    set_tmp_attachments_directory
+    log_user('jsmith', 'jsmith')
+    visit '/projects/ecookbook/issues/new'
+
+    page.execute_script(<<~JS)
+      // The display width of a pasted image is its width divided by devicePixelRatio
+      Object.defineProperty(window, 'devicePixelRatio', { value: 1 });
+      // 1x1 1-bit grayscale PNG image
+      const png = Uint8Array.from(atob('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQAAAAA3bvkkAAAACklEQVR42mNgAAAAAgAB5Sfe/AAAAABJRU5ErkJggg=='), c => c.charCodeAt(0));
+      const clipboardData = new DataTransfer();
+      clipboardData.items.add(new File([png], 'image.png', { type: 'image/png' }));
+      const event = new Event('paste', { bubbles: true, cancelable: true });
+      Object.defineProperty(event, 'clipboardData', { value: clipboardData });
+      document.getElementById('issue_description').dispatchEvent(event);
+    JS
+    filename = find('.attachments_fields input.filename').value
+    assert_match /\Aclipboard-\d{12}-[a-z0-9]{5}\.png\z/, filename
+    assert_field 'issue_description', :with => %(<img style="width: 1px;" src="#{filename}"><br>\n)
+  end
+
   def test_pasting_image_beyond_max_attachments_at_once_should_show_error
     set_tmp_attachments_directory
     log_user('jsmith', 'jsmith')
